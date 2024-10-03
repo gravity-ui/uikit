@@ -1,11 +1,10 @@
 import React from 'react';
 
-import {Avatar} from '../Avatar';
 import {block} from '../utils/cn';
 
 import {AvatarStackItem} from './AvatarStackItem';
+import {AvatarStackMore} from './AvatarStackMore';
 import {AvatarStackMoreButton} from './AvatarStackMoreButton';
-import i18n from './i18n';
 import type {AvatarStackProps} from './types';
 
 import './AvatarStack.scss';
@@ -55,11 +54,7 @@ const AvatarStackComponent = ({
                     {renderMore ? (
                         renderMore({count: moreItems})
                     ) : (
-                        <Avatar
-                            text={`+${moreItems}`}
-                            aria-label={i18n('more', {count: moreItems})}
-                            size={size}
-                        />
+                        <AvatarStackMore count={moreItems} size={size} />
                     )}
                 </AvatarStackItem>
             ) : null}

@@ -1,20 +1,12 @@
 import React from 'react';
 
-import type {AvatarSize} from '../Avatar';
-import {Avatar, DEFAULT_AVATAR_SIZE} from '../Avatar';
+import {DEFAULT_AVATAR_SIZE} from '../Avatar';
 import {block} from '../utils/cn';
 
-import i18n from './i18n';
+import {AvatarStackMore} from './AvatarStackMore';
+import type {AvatarStackMoreButtonProps} from './types';
 
 const b = block('avatar-stack');
-
-export type AvatarStackMoreButtonProps = Pick<
-    React.HTMLProps<HTMLButtonElement>,
-    'className' | 'onClick' | 'aria-label'
-> & {
-    size?: AvatarSize;
-    count: number;
-};
 
 export const AvatarStackMoreButton = React.forwardRef<
     HTMLButtonElement,
@@ -27,11 +19,7 @@ export const AvatarStackMoreButton = React.forwardRef<
             className={b('more-button', {size}, className)}
             onClick={onClick}
         >
-            <Avatar
-                text={`+${count}`}
-                size={size}
-                aria-label={ariaLabel || i18n('more', {count})}
-            />
+            <AvatarStackMore size={size} count={count} aria-label={ariaLabel} />
         </button>
     );
 });

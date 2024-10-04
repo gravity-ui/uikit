@@ -43,52 +43,13 @@ export const RadioButton = React.forwardRef(function RadioButton<T extends strin
     if (!options) {
         options = (
             React.Children.toArray(children) as React.ReactElement<ControlGroupOption<T>>[]
-        ).map(({props}) => ({
-            value: props.value,
-            content: props.content || props.children,
-            disabled: props.disabled,
-            title: props.title,
+        ).map(({props: optionProps}) => ({
+            value: optionProps.value,
+            content: optionProps.content || optionProps.children,
+            disabled: optionProps.disabled,
+            title: optionProps.title,
         }));
     }
-
-    const plateRef = React.useRef<HTMLDivElement>(null);
-    const optionRef = React.useRef<HTMLLabelElement>();
-
-    const handleCheckedOptionMount: React.Ref<HTMLLabelElement> = React.useCallback(
-        (checkedOptionNode: HTMLLabelElement | null) => {
-            if (!checkedOptionNode) {
-                return;
-            }
-
-            const plateNode = plateRef.current;
-
-            if (!plateNode) {
-                return;
-            }
-
-            const uncheckedOptionNode = optionRef.current;
-
-            if (uncheckedOptionNode && uncheckedOptionNode !== checkedOptionNode) {
-                const setPlateStyle = (node: HTMLElement) => {
-                    plateNode.style.left = `${node.offsetLeft}px`;
-                    plateNode.style.width = `${node.offsetWidth}px`;
-                };
-
-                setPlateStyle(uncheckedOptionNode);
-
-                plateNode.hidden = false;
-
-                setPlateStyle(checkedOptionNode);
-            }
-
-            optionRef.current = checkedOptionNode;
-        },
-        [],
-    );
-
-    const handlePlateTransitionEnd: React.TransitionEventHandler<HTMLDivElement> = (event) => {
-        event.currentTarget.hidden = true;
-    };
 
     const {containerProps, optionsProps} = useRadioGroup({...props, options});
 
@@ -100,18 +61,8 @@ export const RadioButton = React.forwardRef(function RadioButton<T extends strin
             className={b({size, width}, className)}
             data-qa={qa}
         >
-            <div
-                ref={plateRef}
-                className={b('plate')}
-                onTransitionEnd={handlePlateTransitionEnd}
-                hidden
-            />
             {optionsProps.map((optionProps) => (
-                <Option
-                    {...optionProps}
-                    key={optionProps.value}
-                    ref={optionProps.checked ? handleCheckedOptionMount : undefined}
-                />
+                <Option {...optionProps} key={optionProps.value} />
             ))}
         </div>
     );

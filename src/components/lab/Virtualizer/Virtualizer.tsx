@@ -1,7 +1,9 @@
+'use client';
+
 import React from 'react';
 
-import type {Rect, VirtualItem} from '@tanstack/react-virtual';
-import {useVirtualizer} from '@tanstack/react-virtual';
+import type {Range, Rect, VirtualItem} from '@tanstack/react-virtual';
+import {defaultRangeExtractor, useVirtualizer} from '@tanstack/react-virtual';
 
 import {useForkRef} from '../../../hooks';
 import type {Key} from '../../types';
@@ -31,6 +33,7 @@ interface VirtualizerProps extends Loadable {
         parentKey: Key | undefined,
         renderChildren: ({size, height}: {size: number; height: number}) => React.ReactNode,
     ) => React.ReactNode;
+    persistedIndexes?: Array<number[]>;
 }
 
 export function Virtualizer({
@@ -43,15 +46,19 @@ export function Virtualizer({
     renderRow,
     loading,
     onLoadMore,
+    persistedIndexes,
 }: VirtualizerProps) {
     const scrollContainerRef = React.useRef<HTMLDivElement>(null);
     const ref = useForkRef(containerRef, scrollContainerRef);
 
+    const {rangeExtractor, persistedChildren} =
+        getRangeExtractorAndChildrenIndexes(persistedIndexes);
     const virtualizer = useVirtualizer({
         count: size,
         getScrollElement: () => scrollContainerRef.current,
         getItemKey,
         estimateSize: getItemSize,
+        rangeExtractor,
         overscan: disableVirtualization ? size : 0,
     });
 
@@ -95,6 +102,7 @@ export function Virtualizer({
                 getItemSize,
                 getItemKey,
                 disableVirtualization,
+                persistedChildren,
             })}
         </div>
     );
@@ -110,6 +118,7 @@ function renderChildren({
     items,
     scrollContainer,
     disableVirtualization,
+    persistedChildren,
 }: {
     height: number;
     start: number;
@@ -124,6 +133,7 @@ function renderChildren({
     items: VirtualItem[];
     scrollContainer: HTMLElement | null;
     disableVirtualization?: boolean;
+    persistedChildren?: Map<number, Array<number[]>>;
 }) {
     return (
         <div
@@ -166,6 +176,7 @@ function renderChildren({
                             renderRow={renderRow}
                             scrollContainer={scrollContainer}
                             disableVirtualization={disableVirtualization}
+                            persistedIndexes={persistedChildren?.get(virtualRow.index)}
                         />
                     ))}
                 </div>
@@ -187,6 +198,7 @@ function ChildrenVirtualizer(props: {
         renderChildren: ({size, height}: {size: number; height: number}) => React.ReactNode,
     ) => React.ReactNode;
     disableVirtualization?: boolean;
+    persistedIndexes?: Array<number[]>;
 }) {
     const {
         start,
@@ -197,7 +209,10 @@ function ChildrenVirtualizer(props: {
         renderRow,
         parentKey,
         disableVirtualization,
+        persistedIndexes,
     } = props;
+    const {rangeExtractor, persistedChildren} =
+        getRangeExtractorAndChildrenIndexes(persistedIndexes);
     const virtualizer = useVirtualizer({
         count: size,
         getScrollElement: () => scrollContainer,
@@ -205,6 +220,7 @@ function ChildrenVirtualizer(props: {
         getItemKey: (index) => getItemKey(index, parentKey),
         scrollToFn: () => {}, // parent element controls scroll, so disable it here
         paddingStart: start,
+        rangeExtractor,
         overscan: 0,
         enabled: !disableVirtualization,
     });
@@ -236,5 +252,35 @@ function ChildrenVirtualizer(props: {
         parentKey,
         renderRow,
         disableVirtualization,
+        persistedChildren,
     });
+}
+
+function getRangeExtractorAndChildrenIndexes(persistedIndexes?: Array<number[]>) {
+    if (!persistedIndexes) {
+        return {};
+    }
+    const persistedChildren = new Map<number, Array<number[]>>();
+    const persist: number[] = [];
+    for (const [index, ...childrenIndexes] of persistedIndexes) {
+        if (index >= 0) {
+            persist.push(index);
+            const children = persistedChildren.get(index) ?? [];
+            children.push(childrenIndexes);
+            persistedChildren.set(index, children);
+        }
+    }
+
+    if (persist.length === 0) {
+        return {};
+    }
+
+    const rangeExtractor = (range: Range) => {
+        const next = new Set(
+            persist.filter((i) => i < range.count).concat(defaultRangeExtractor(range)),
+        );
+        return Array.from(next).sort((a, b) => a - b);
+    };
+
+    return {rangeExtractor, persistedChildren};
 }

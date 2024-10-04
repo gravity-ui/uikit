@@ -24,7 +24,7 @@ const AvatarStackComponent = ({
     const visibleItems: React.ReactElement[] = [];
 
     /** All avatars amount */
-    const normalizedTotal = total ? total : React.Children.count(children);
+    const normalizedTotal = total ? Math.max(total, max) : React.Children.count(children);
 
     /** Amount avatars to be visible (doesn't include badge with remaining avatars) */
     let normalizedMax = max < 1 ? 1 : max;

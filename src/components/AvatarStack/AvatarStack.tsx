@@ -22,11 +22,18 @@ const AvatarStackComponent = ({
     renderMore,
 }: AvatarStackProps) => {
     const visibleItems: React.ReactElement[] = [];
+
+    /** All avatars amount */
     const normalizedTotal = total ? total : React.Children.count(children);
+
+    /** Amount avatars to be visible (doesn't include badge with remaining avatars) */
     let normalizedMax = max < 1 ? 1 : max;
     // Skip rendering badge with +1, just show avatar instead
     normalizedMax = normalizedTotal - normalizedMax > 1 ? normalizedMax : normalizedTotal;
+
+    /** Remaining avatars */
     const moreItems = normalizedTotal - normalizedMax;
+
     React.Children.forEach(children, (child) => {
         if (!React.isValidElement(child)) {
             return;

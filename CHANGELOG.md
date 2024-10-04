@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.30.1](https://github.com/gravity-ui/uikit/compare/v6.30.0...v6.30.1) (2024-10-04)
+
+
+### Bug Fixes
+
+* **AvatarStack:** remaining avatars calculation ([#1883](https://github.com/gravity-ui/uikit/issues/1883)) ([76943c9](https://github.com/gravity-ui/uikit/commit/76943c9174658be0da60d98ce50c290ef2ca45a1))
+
 ## [6.30.0](https://github.com/gravity-ui/uikit/compare/v6.29.0...v6.30.0) (2024-10-03)
 
 

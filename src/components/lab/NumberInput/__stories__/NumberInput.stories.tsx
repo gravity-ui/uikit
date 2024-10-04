@@ -49,7 +49,7 @@ function StoryWithState(args: NumberInputProps) {
 
 export const Default: Story = {
     args: {},
-    render: StoryWithState,
+    render: (args) => <NumberInput {...args} />,
 };
 
 export const Behaviour: Story = {

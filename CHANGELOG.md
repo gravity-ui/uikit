@@ -1,5 +1,18 @@
 # Changelog
 
+## [6.30.0](https://github.com/gravity-ui/uikit/compare/v6.29.0...v6.30.0) (2024-10-03)
+
+
+### Features
+
+* **ActionsPanel:** add component and showcases ([#1873](https://github.com/gravity-ui/uikit/issues/1873)) ([5ce703f](https://github.com/gravity-ui/uikit/commit/5ce703f9b0da81493262035e8259d0f0aedc3552))
+* **ClipboardButton:** delay tooltip's closing animation after copying ([#1735](https://github.com/gravity-ui/uikit/issues/1735)) ([20f19dd](https://github.com/gravity-ui/uikit/commit/20f19ddca63dca4d34b9fd62b4e0b4073fdcd2be))
+
+
+### Bug Fixes
+
+* **AvatarStack:** correctly display more than 9 remaining avatars ([#1882](https://github.com/gravity-ui/uikit/issues/1882)) ([0abd7f1](https://github.com/gravity-ui/uikit/commit/0abd7f1bc4f01a5616d4cce532e9f9a6cc4f5c53))
+
 ## [6.29.0](https://github.com/gravity-ui/uikit/compare/v6.28.0...v6.29.0) (2024-09-27)
 
 

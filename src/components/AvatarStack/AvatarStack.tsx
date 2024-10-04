@@ -5,6 +5,7 @@ import {block} from '../utils/cn';
 import {AvatarStackItem} from './AvatarStackItem';
 import {AvatarStackMore} from './AvatarStackMore';
 import {AvatarStackMoreButton} from './AvatarStackMoreButton';
+import {AVATAR_STACK_DEFAULT_MAX} from './constants';
 import type {AvatarStackProps} from './types';
 
 import './AvatarStack.scss';
@@ -12,7 +13,7 @@ import './AvatarStack.scss';
 const b = block('avatar-stack');
 
 const AvatarStackComponent = ({
-    max = 3,
+    max = AVATAR_STACK_DEFAULT_MAX,
     total,
     overlapSize = 's',
     size,

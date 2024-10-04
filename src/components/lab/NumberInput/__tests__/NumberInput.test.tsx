@@ -226,7 +226,7 @@ describe('NumberInput input', () => {
             );
 
             fireEvent.change(getInput(), {target: {value: ''}});
-            expect(handleUpdate).toHaveBeenLastCalledWith(undefined);
+            expect(handleUpdate).toHaveBeenLastCalledWith(null);
         });
     });
 
@@ -398,7 +398,7 @@ describe('NumberInput input', () => {
         it('rounds down step and shiftMultiplier before multiplication', async () => {
             const user = userEvent.setup();
             const handleUpdate = jest.fn();
-            render(
+            const {rerender} = render(
                 <NumberInput
                     min={1}
                     value={1}
@@ -410,11 +410,21 @@ describe('NumberInput input', () => {
             await user.click(getInput());
 
             await user.click(getUpButton());
+            expect(handleUpdate).toHaveBeenNthCalledWith(1, 3);
+
+            rerender(
+                <NumberInput
+                    min={1}
+                    value={3}
+                    step={2.2}
+                    shiftMultiplier={7.5}
+                    onUpdate={handleUpdate}
+                />,
+            );
             await user.keyboard(`{${KeyCode.SHIFT}>}`);
             await user.keyboard(`{${KeyCode.ARROW_UP}}`);
             await user.keyboard(`{/${KeyCode.SHIFT}}`);
-            expect(handleUpdate).toHaveBeenNthCalledWith(1, 3);
-            expect(handleUpdate).toHaveBeenNthCalledWith(2, 15);
+            expect(handleUpdate).toHaveBeenNthCalledWith(2, 17);
         });
 
         it('increments value with wheel', async () => {
@@ -451,6 +461,96 @@ describe('NumberInput input', () => {
 
             fireEvent.wheel(input, {deltaX: 4, shiftKey: true});
             expect(handleUpdate).toHaveBeenCalledWith(11);
+        });
+    });
+
+    describe('form', () => {
+        test('should submit empty value by default', async () => {
+            let value;
+            const onSubmit = jest.fn((e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                value = [...formData.entries()];
+            });
+            render(
+                <form data-qa="form" onSubmit={onSubmit}>
+                    <NumberInput name="numeric-field" />
+                    <button type="submit" data-qa="submit">
+                        submit
+                    </button>
+                </form>,
+            );
+            await userEvent.click(screen.getByTestId('submit'));
+            expect(onSubmit).toHaveBeenCalledTimes(1);
+            expect(value).toEqual([['numeric-field', '']]);
+        });
+
+        test('should submit default value', async () => {
+            let value;
+            const onSubmit = jest.fn((e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                value = [...formData.entries()];
+            });
+
+            render(
+                <form data-qa="form" onSubmit={onSubmit}>
+                    <NumberInput name="numeric-field" defaultValue={123} />
+                    <button type="submit" data-qa="submit">
+                        submit
+                    </button>
+                </form>,
+            );
+            await userEvent.click(screen.getByTestId('submit'));
+            expect(onSubmit).toHaveBeenCalledTimes(1);
+            expect(value).toEqual([['numeric-field', '123']]);
+        });
+
+        test('should submit controlled value', async () => {
+            let value;
+            const onSubmit = jest.fn((e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                value = [...formData.entries()];
+            });
+            render(
+                <form data-qa="form" onSubmit={onSubmit}>
+                    <NumberInput name="numeric-field" value={123} />
+                    <button type="submit" data-qa="submit">
+                        submit
+                    </button>
+                </form>,
+            );
+            await userEvent.click(screen.getByTestId('submit'));
+            expect(onSubmit).toHaveBeenCalledTimes(1);
+            expect(value).toEqual([['numeric-field', '123']]);
+        });
+
+        test('supports form reset', async () => {
+            function Test() {
+                const [value, setValue] = React.useState<number | null>(123);
+                return (
+                    <form>
+                        <NumberInput name="numeric-field" value={value} onUpdate={setValue} />
+                        <input type="reset" data-qa="reset" />
+                    </form>
+                );
+            }
+
+            render(<Test />);
+            // eslint-disable-next-line testing-library/no-node-access
+            const inputs = document.querySelectorAll('[name=numeric-field]');
+            expect(inputs.length).toBe(1);
+            expect(inputs[0]).toHaveValue('123');
+
+            await userEvent.tab();
+            await userEvent.keyboard('456');
+
+            expect(inputs[0]).toHaveValue('456');
+
+            const button = screen.getByTestId('reset');
+            await userEvent.click(button);
+            expect(inputs[0]).toHaveValue('123');
         });
     });
 });

@@ -3,7 +3,7 @@
 import React from 'react';
 
 import {KeyCode} from '../../../constants';
-import {useForkRef} from '../../../hooks';
+import {useControlledState, useForkRef} from '../../../hooks';
 import {useFormResetHandler} from '../../../hooks/private';
 import {TextInput} from '../../controls/TextInput';
 import type {BaseInputControlProps} from '../../controls/types';
@@ -12,6 +12,7 @@ import {block} from '../../utils/cn';
 
 import {NumericArrows} from './NumericArrows/NumericArrows';
 import {
+    areStringRepresentationOfNumbersEqual,
     clampToNearestStepValue,
     getInputPattern,
     getInternalState,
@@ -72,53 +73,25 @@ export interface NumberInputProps
      */
     allowDecimal?: boolean;
     /** The control's value */
-    value?: number;
+    value?: number | null;
     /** The control's default value. Use when the component is not controlled */
-    defaultValue?: number;
+    defaultValue?: number | null;
     /** Fires when the input’s value is changed by the user. Provides new value as an callback's argument */
-    onUpdate?: (value: number | undefined) => void;
+    onUpdate?: (value: number | null) => void;
 }
 
-const voidFunction = (..._props: any[]) => {};
-
-// Useful when in input string '-1.' is typed and value={-1} prop passed.
-// In this case we leave input string without replacing it by '-1'.
-// Means that where is no need for replacing current input value with external value
-function areStringRepresentationOfNumbersEqual(v1: string, v2: string) {
-    if (v1 === v2) {
-        return true;
-    }
-
-    const {valid: v1Valid, value: v1Value} = getParsedValue(v1);
-    const {valid: v2Valid, value: v2Value} = getParsedValue(v2);
-
-    if (v1Valid && v2Valid) {
-        return v1Value === v2Value;
-    }
-
-    const v1OnlyNumbers = v1.replace(/\D/g, '');
-    const v2OnlyNumbers = v2.replace(/\D/g, '');
-
-    if (v1OnlyNumbers.length === v2OnlyNumbers.length && v1OnlyNumbers.length === 0) {
-        // exmpl, when just '-' typed and '' (equivalent for undefined) value passed
-        return true;
-    }
-    return false;
-}
-
-function getStringValue(value: number | undefined) {
-    return value === undefined ? '' : String(value);
+function getStringValue(value: number | null) {
+    return value === null ? '' : String(value);
 }
 
 export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(function NumberInput(
-    {endContent, ...props},
+    {endContent, defaultValue: externalDefaultValue, ...props},
     ref,
 ) {
     const {
         value: externalValue,
-        defaultValue: externalDefaultValue,
         onChange: handleChange,
-        onUpdate,
+        onUpdate: externalOnUpdate,
         min: externalMin,
         max: externalMax,
         shiftMultiplier: externalShiftMultiplier = 10,
@@ -140,7 +113,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
         min,
         max,
         step: baseStep,
-        value,
+        value: internalValue,
         defaultValue,
         shiftMultiplier,
     } = getInternalState({
@@ -153,9 +126,13 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
         defaultValue: externalDefaultValue,
     });
 
-    const [inputValue, setInputValue] = React.useState(
-        getStringValue(value) ?? getStringValue(defaultValue),
+    const [value, setValue] = useControlledState(
+        internalValue,
+        defaultValue ?? null,
+        externalOnUpdate,
     );
+
+    const [inputValue, setInputValue] = React.useState(getStringValue(value));
 
     React.useEffect(() => {
         const stringPropsValue = getStringValue(value);
@@ -180,8 +157,8 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
 
     const innerControlRef = React.useRef<HTMLInputElement>(null);
     const fieldRef = useFormResetHandler({
-        initialValue: defaultValue,
-        onReset: onUpdate ?? voidFunction,
+        initialValue: value,
+        onReset: setValue,
     });
     const handleRef = useForkRef(props.controlRef, innerControlRef, fieldRef);
 
@@ -193,15 +170,15 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
     ) => {
         const step = e.shiftKey ? shiftMultiplier * baseStep : baseStep;
         if (canIncrementNumber) {
-            onUpdate?.(
-                clampToNearestStepValue({
-                    value: safeValue + step,
-                    step: baseStep,
-                    min,
-                    max,
-                    direction: 'up',
-                }),
-            );
+            const newValue = clampToNearestStepValue({
+                value: safeValue + step,
+                step: baseStep,
+                min,
+                max,
+                direction: 'up',
+            });
+            setValue?.(newValue);
+            setInputValue(newValue.toString());
         }
     };
 
@@ -213,15 +190,15 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
     ) => {
         const step = e.shiftKey ? shiftMultiplier * baseStep : baseStep;
         if (canDecrementNumber) {
-            onUpdate?.(
-                clampToNearestStepValue({
-                    value: safeValue - step,
-                    step: baseStep,
-                    min,
-                    max,
-                    direction: 'down',
-                }),
-            );
+            const newValue = clampToNearestStepValue({
+                value: safeValue - step,
+                step: baseStep,
+                min,
+                max,
+                direction: 'down',
+            });
+            setValue?.(newValue);
+            setInputValue(newValue.toString());
         }
     };
 
@@ -242,17 +219,24 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
         } else if (e.key === KeyCode.ARROW_UP) {
             e.preventDefault();
             handleIncrement(e);
-        } else if (e.key === KeyCode.HOME && min) {
-            onUpdate?.(min);
-        } else if (e.key === KeyCode.END && max) {
-            onUpdate?.(
-                clampToNearestStepValue({
+        } else if (e.key === KeyCode.HOME) {
+            e.preventDefault();
+            if (min !== undefined) {
+                setValue?.(min);
+                setInputValue(min.toString());
+            }
+        } else if (e.key === KeyCode.END) {
+            e.preventDefault();
+            if (max !== undefined) {
+                const newValue = clampToNearestStepValue({
                     value: max,
                     step: baseStep,
                     min,
                     max,
-                }),
-            );
+                });
+                setValue?.(newValue);
+                setInputValue(newValue.toString());
+            }
         }
         onKeyDown?.(e);
     };
@@ -272,7 +256,8 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
                 max,
             });
             if (value !== clampedValue) {
-                onUpdate?.(clampedValue);
+                setValue?.(clampedValue);
+                setInputValue(clampedValue.toString());
             }
         }
         onBlur?.(e);
@@ -284,7 +269,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
         updateCursorPosition(innerControlRef, v, preparedStringValue);
         const {valid, value: parsedNumberValue} = getParsedValue(preparedStringValue);
         if (valid && parsedNumberValue !== value) {
-            onUpdate?.(parsedNumberValue);
+            setValue?.(parsedNumberValue);
         }
     };
 
@@ -306,11 +291,10 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
                 pattern: props.controlProps?.pattern ?? getInputPattern(allowDecimal, false),
                 'aria-valuemin': props.min,
                 'aria-valuemax': props.max,
-                'aria-valuenow': value,
+                'aria-valuenow': value === null ? undefined : value,
             }}
             controlRef={handleRef}
             value={inputValue}
-            defaultValue={defaultValue === undefined ? undefined : String(defaultValue)}
             onChange={handleChange}
             onUpdate={handleUpdate}
             onKeyDown={handleKeyDown}

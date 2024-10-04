@@ -15,7 +15,7 @@ type ErrorCode =
     | 'NUMBER_LESS_THAN_MIN_ALLOWED' // we were able to cast value to number, but it is less than min allowed
     | 'NUMBER_GREATER_THAN_MAX_ALLOWED'; // we were able to cast value to number, but it is greater than max allowed
 
-type ValidatorFunction = (value: number | undefined) => undefined | ErrorCode; // undefined if value is correct
+type ValidatorFunction = (value: number | null) => undefined | ErrorCode; // undefined if value is correct
 
 interface GetNumericInputValidatorReturnValue {
     pattern: string; // pattern to be used as HTML attribute
@@ -34,8 +34,8 @@ export function getNumericInputValidator({
 }: GetNumericInputValidatorParams): GetNumericInputValidatorReturnValue {
     const pattern = getInputPattern(withoutFraction, positiveOnly);
 
-    function validator(value: number | undefined): undefined | ErrorCode {
-        if (value === undefined) {
+    function validator(value: number | null): undefined | ErrorCode {
+        if (value === null) {
             return undefined;
         }
 
@@ -98,14 +98,14 @@ export function getPossibleNumberSubstring(
     return possibleNumberString;
 }
 
-export function getParsedValue(value: string | undefined) {
+export function getParsedValue(value: string | undefined): {valid: boolean; value: number | null} {
     if (value === undefined || value === '') {
-        return {valid: true, value: undefined};
+        return {valid: true, value: null};
     }
     const parsedValueOrNaN = Number(value);
 
     const isValidValue = !Number.isNaN(parsedValueOrNaN);
-    const parsedValue = isValidValue ? parsedValueOrNaN : undefined;
+    const parsedValue = isValidValue ? parsedValueOrNaN : null;
 
     return {valid: isValidValue, value: parsedValue};
 }
@@ -119,8 +119,8 @@ interface VariablesProps {
     max: number | undefined;
     step: number;
     shiftMultiplier: number;
-    value: number | undefined;
-    defaultValue: number | undefined;
+    value: number | null | undefined;
+    defaultValue: number | null | undefined;
     allowDecimal: boolean;
 }
 export function getInternalState(props: VariablesProps): {
@@ -128,8 +128,8 @@ export function getInternalState(props: VariablesProps): {
     max: number | undefined;
     step: number;
     shiftMultiplier: number;
-    value: number | undefined;
-    defaultValue: number;
+    value: number | null | undefined;
+    defaultValue: number | null | undefined;
 } {
     const {
         min: externalMin,
@@ -138,7 +138,7 @@ export function getInternalState(props: VariablesProps): {
         shiftMultiplier: externalShiftMultiplier,
         value: externalValue,
         allowDecimal,
-        defaultValue: externalDefaultValue = 0,
+        defaultValue: externalDefaultValue,
     } = props;
 
     const {min: rangedMin, max: rangedMax} =
@@ -155,7 +155,9 @@ export function getInternalState(props: VariablesProps): {
     const step = roundIfNecessary(Math.abs(externalStep), allowDecimal) || 1;
     const shiftMultiplier = roundIfNecessary(externalShiftMultiplier, allowDecimal) || 10;
     const value = externalValue ? roundIfNecessary(externalValue, allowDecimal) : externalValue;
-    const defaultValue = roundIfNecessary(externalDefaultValue, allowDecimal);
+    const defaultValue = externalDefaultValue
+        ? roundIfNecessary(externalDefaultValue, allowDecimal)
+        : externalDefaultValue;
 
     return {min, max, step, shiftMultiplier, value, defaultValue};
 }
@@ -231,4 +233,29 @@ export function updateCursorPosition(
             'end',
         );
     }
+}
+
+// Useful when in input string '-1.' is typed and value={-1} prop passed.
+// In this case we leave input string without replacing it by '-1'.
+// Means that where is no need for replacing current input value with external value
+export function areStringRepresentationOfNumbersEqual(v1: string, v2: string) {
+    if (v1 === v2) {
+        return true;
+    }
+
+    const {valid: v1Valid, value: v1Value} = getParsedValue(v1);
+    const {valid: v2Valid, value: v2Value} = getParsedValue(v2);
+
+    if (v1Valid && v2Valid) {
+        return v1Value === v2Value;
+    }
+
+    const v1OnlyNumbers = v1.replace(/\D/g, '');
+    const v2OnlyNumbers = v2.replace(/\D/g, '');
+
+    if (v1OnlyNumbers.length === v2OnlyNumbers.length && v1OnlyNumbers.length === 0) {
+        // exmpl, when just '-' typed and '' (equivalent for undefined) value passed
+        return true;
+    }
+    return false;
 }

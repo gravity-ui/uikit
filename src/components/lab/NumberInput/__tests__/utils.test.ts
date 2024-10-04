@@ -85,7 +85,7 @@ describe('NumberInput utils', () => {
                 expect(validator(123.0)).toBe(undefined);
                 expect(validator(-123.0)).toBe('NEGATIVE_VALUE_IS_NOT_ALLOWED');
                 expect(validator(Number('abc.def'))).toBe('INCORRECT_NUMBER');
-                expect(validator(undefined)).toBe(undefined);
+                expect(validator(null)).toBe(undefined);
             });
             test('validates numbers positiveOnly=true withoutFraction=false', () => {
                 const {validator} = getNumericInputValidator({
@@ -240,16 +240,16 @@ describe('NumberInput utils', () => {
             expect(getParsedValue('-123.45')).toEqual({value: -123.45, valid: true});
         });
         it('returns undefined on sign-only value', () => {
-            expect(getParsedValue('-')).toEqual({value: undefined, valid: false});
+            expect(getParsedValue('-')).toEqual({value: null, valid: false});
         });
         it('returns integer value for uncompleted double value', () => {
             expect(getParsedValue('123.')).toEqual({value: 123, valid: true});
         });
         it('returns zero on empty string', () => {
-            expect(getParsedValue('')).toEqual({value: undefined, valid: true});
+            expect(getParsedValue('')).toEqual({value: null, valid: true});
         });
         it('returns undefined for NaN value', () => {
-            expect(getParsedValue('1ab2.5cdef')).toEqual({value: undefined, valid: false});
+            expect(getParsedValue('1ab2.5cdef')).toEqual({value: null, valid: false});
         });
     });
     describe('clampToNearestStepValue', () => {

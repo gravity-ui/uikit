@@ -43,13 +43,23 @@ export default {
 type Story = StoryObj<typeof NumberInput>;
 
 function StoryWithState(args: NumberInputProps) {
-    const [value, setValue] = React.useState(args.value ?? args.defaultValue ?? undefined);
+    const [value, setValue] = React.useState(args.value ?? args.defaultValue ?? null);
     return <NumberInput {...args} value={value} onUpdate={setValue} />;
 }
 
 export const Default: Story = {
     args: {},
     render: StoryWithState,
+};
+
+export const Behaviour: Story = {
+    args: {},
+    render: (args) => (
+        <Showcase>
+            <StoryWithState placeholder="controlled" {...args} />
+            <NumberInput placeholder="uncontrolled" {...args} />
+        </Showcase>
+    ),
 };
 
 export const Sizes: Story = {
@@ -190,7 +200,7 @@ export const WithValidators: Story = {
         ...Default.args,
     },
     render: function WithValidatorsStory(args) {
-        const [value, setValue] = React.useState(args.value ?? args.defaultValue ?? undefined);
+        const [value, setValue] = React.useState(args.value ?? args.defaultValue ?? null);
         const [positiveOnly, setPositiveOnly] = React.useState(false);
         const [withoutFraction, setWithoutFraction] = React.useState(true);
 

@@ -22,9 +22,11 @@ const AvatarStackComponent = ({
     renderMore,
 }: AvatarStackProps) => {
     const visibleItems: React.ReactElement[] = [];
-    let moreItems = 0;
-    const normalizedMax = max < 1 ? 1 : max;
-
+    const normalizedTotal = total ? total : React.Children.count(children);
+    let normalizedMax = max < 1 ? 1 : max;
+    // Skip rendering badge with +1, just show avatar instead
+    normalizedMax = normalizedTotal - normalizedMax > 1 ? normalizedMax : normalizedTotal;
+    const moreItems = normalizedTotal - normalizedMax;
     React.Children.forEach(children, (child) => {
         if (!React.isValidElement(child)) {
             return;
@@ -32,18 +34,12 @@ const AvatarStackComponent = ({
 
         const item = <AvatarStackItem key={visibleItems.length}>{child}</AvatarStackItem>;
 
-        if (visibleItems.length <= normalizedMax) {
+        if (visibleItems.length < normalizedMax) {
             visibleItems.unshift(item);
-        } else {
-            moreItems += 1;
         }
     });
 
-    moreItems = Math.max(moreItems, total ? total - normalizedMax : 0);
-
     const hasMoreButton = moreItems > 0;
-    /** Avatars + more button, or just avatars, when avatars count is equal to `max` or less */
-    const normalOverflow = moreItems >= 1;
 
     return (
         // Safari remove role=list with some styles, applied to li items, so we need
@@ -59,7 +55,7 @@ const AvatarStackComponent = ({
                     )}
                 </AvatarStackItem>
             ) : null}
-            {normalOverflow ? visibleItems.slice(0, normalizedMax) : visibleItems}
+            {visibleItems}
         </ul>
     );
 };

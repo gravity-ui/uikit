@@ -8,6 +8,8 @@ import {SelectControl} from '../Select/components';
 import {SelectPopup} from '../Select/components/SelectPopup/SelectPopup';
 import {TreeList} from '../TreeList';
 import type {TreeListRenderItem} from '../TreeList/types';
+import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
+import {errorPropsMapper} from '../controls/utils';
 import {useMobile} from '../mobile';
 import {ListItemView, getListItemClickHandler, useList} from '../useList';
 import type {ListOnItemClick} from '../useList';
@@ -51,6 +53,10 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T, P extends {} =
         disabled = false,
         withExpandedState = true,
         defaultExpandedState = 'expanded',
+        hasClear,
+        errorMessage: propsErrorMessage,
+        errorPlacement: propsErrorPlacement,
+        validationState: propsValidationState,
         onClose,
         onOpenChange,
         onUpdate,
@@ -74,6 +80,19 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T, P extends {} =
     const controlRef = React.useRef<HTMLElement>(null);
     const containerRefLocal = React.useRef<HTMLDivElement>(null);
     const containerRef = propsContainerRef ?? containerRefLocal;
+
+    const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
+        errorMessage: propsErrorMessage,
+        errorPlacement: propsErrorPlacement || 'outside',
+        validationState: propsValidationState,
+    });
+    const errorMessageId = useUniqId();
+
+    const isErrorStateVisible = validationState === 'invalid';
+    const isErrorMsgVisible =
+        isErrorStateVisible && Boolean(errorMessage) && errorPlacement === 'outside';
+    const isErrorIconVisible =
+        isErrorStateVisible && Boolean(errorMessage) && errorPlacement === 'inside';
 
     const handleControlRef = useForkRef(ref, controlRef);
 
@@ -165,6 +184,11 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T, P extends {} =
         id: treeSelectId,
         activeItemId: list.state.activeItemId,
         title,
+        errorMessage: isErrorIconVisible ? errorMessage : undefined,
+        errorPlacement,
+        validationState,
+        hasClear,
+        isErrorVisible: isErrorStateVisible,
     };
 
     const togglerNode = renderControl ? (
@@ -234,6 +258,10 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T, P extends {} =
 
                 {slotAfterListBody}
             </SelectPopup>
+            <OuterAdditionalContent
+                errorMessage={isErrorMsgVisible ? errorMessage : null}
+                errorMessageId={errorMessageId}
+            />
         </div>
     );
 }) as <T, P extends {} = {}>(

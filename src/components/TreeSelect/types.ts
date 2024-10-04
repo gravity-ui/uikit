@@ -26,6 +26,19 @@ export type TreeSelectRenderControlProps<T> = {
     activeItemId?: ListItemId;
     title?: string;
     hasClear?: boolean;
+    /**
+     * Determines content of the error message
+     */
+    errorMessage?: React.ReactNode;
+    /**
+     * Determines whether the error message will be placed under the input field as text or in the tooltip
+     */
+    errorPlacement?: 'outside' | 'inside';
+    /**
+     * Describes the validation state
+     */
+    validationState?: 'invalid';
+    isErrorVisible?: boolean;
 };
 
 export type TreeSelectRenderItem<T, P extends {} = {}> = TreeListRenderItem<T, P>;
@@ -39,15 +52,19 @@ interface TreeSelectBehavioralProps<T> extends UseListParsedStateProps<T> {
 
 export interface TreeSelectProps<T, P extends {} = {}>
     extends Omit<TreeListProps<T, P>, 'list' | 'renderContainer' | 'multiple'>,
+        Pick<
+            TreeSelectRenderControlProps<T>,
+            | 'title'
+            | 'placeholder'
+            | 'disabled'
+            | 'hasClear'
+            | 'errorPlacement'
+            | 'validationState'
+            | 'errorMessage'
+        >,
         UseOpenProps,
         TreeSelectBehavioralProps<T> {
-    /**
-     * Control's title attribute value
-     */
-    title?: string;
     value?: ListItemId[];
-    disabled?: boolean;
-    placeholder?: string;
     defaultValue?: ListItemId[] | undefined;
     popupClassName?: string;
     popupWidth?: SelectPopupProps['width'];

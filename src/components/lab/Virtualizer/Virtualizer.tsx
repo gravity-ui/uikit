@@ -15,31 +15,48 @@ type Item = {index: number; key: Key};
 
 export type ScrollAlignment = 'start' | 'center' | 'end' | 'auto';
 
-export interface VirtualizerRef {
+export interface VirtualizerApi {
     scrollToOffset: (offset: number, align?: ScrollAlignment) => void;
     scrollOffset: number | null;
     scrollRect: Rect | null;
 }
 
 interface VirtualizerProps extends Loadable {
-    listRef?: React.Ref<VirtualizerRef>;
+    /** The ref of the virtualizer api. */
+    apiRef?: React.Ref<VirtualizerApi>;
+    /** The ref of the scroll container element. */
     containerRef?: React.Ref<HTMLElement>;
-    size: number;
-    getItemSize: (index: number, key?: Key) => number;
-    getItemKey: (index: number, key?: Key) => Key;
+    /** The number of first level items in the list. */
+    count: number;
+    /** The size of the item in the list. Size should include all children. For children items parentKey is passed. */
+    getItemSize: (index: number, parentKey?: Key) => number;
+    /** The key of the item in the list. For children items parentKey is passed. */
+    getItemKey: (index: number, parentKey?: Key) => Key;
+    /** Disables virtualization of the list. This might be useful for small lists. */
     disableVirtualization?: boolean;
+    /** Renders the row of the list. */
     renderRow: (
+        /** The item of the row.
+         * @param item.index The index of the item in current level.
+         * @param item.key The key of the item in the list.
+         */
         item: Item,
+        /** The key of the parent item in the list. */
         parentKey: Key | undefined,
-        renderChildren: ({size, height}: {size: number; height: number}) => React.ReactNode,
+        /** Renders the children of the row.
+         * @param options.count The number of children items.
+         * @param options.height The self height of the row.
+         */
+        renderChildren: (options: {count: number; height: number}) => React.ReactNode,
     ) => React.ReactNode;
+    /** The indexes of the persisted items. Each item is an array of indexes in the hierarchy. */
     persistedIndexes?: Array<number[]>;
 }
 
 export function Virtualizer({
-    listRef,
+    apiRef,
     containerRef,
-    size,
+    count,
     getItemSize,
     getItemKey,
     disableVirtualization,
@@ -54,16 +71,16 @@ export function Virtualizer({
     const {rangeExtractor, persistedChildren} =
         getRangeExtractorAndChildrenIndexes(persistedIndexes);
     const virtualizer = useVirtualizer({
-        count: size,
+        count,
         getScrollElement: () => scrollContainerRef.current,
         getItemKey,
         estimateSize: getItemSize,
         rangeExtractor,
-        overscan: disableVirtualization ? size : 0,
+        overscan: disableVirtualization ? count : 0,
     });
 
     React.useImperativeHandle(
-        listRef,
+        apiRef,
         () => ({
             scrollToOffset: (offset: number, align: ScrollAlignment = 'auto') => {
                 virtualizer.scrollToOffset(virtualizer.getOffsetForAlignment(offset, align));
@@ -128,7 +145,7 @@ function renderChildren({
     renderRow: (
         item: Item,
         parentKey: Key | undefined,
-        renderChildren: ({size, height}: {size: number; height: number}) => React.ReactNode,
+        renderChildren: (options: {count: number; height: number}) => React.ReactNode,
     ) => React.ReactNode;
     items: VirtualItem[];
     scrollContainer: HTMLElement | null;
@@ -165,10 +182,10 @@ function renderChildren({
                               }
                     }
                 >
-                    {renderRow(virtualRow as Item, parentKey, ({height, size}) => (
+                    {renderRow(virtualRow as Item, parentKey, ({height, count}) => (
                         <ChildrenVirtualizer
                             key={virtualRow.key}
-                            size={size}
+                            count={count}
                             parentKey={virtualRow.key as Key}
                             start={virtualRow.start + height}
                             getItemSize={getItemSize}
@@ -188,14 +205,14 @@ function renderChildren({
 function ChildrenVirtualizer(props: {
     start: number;
     scrollContainer: HTMLElement | null;
-    size: number;
+    count: number;
     getItemSize: (index: number, key?: Key) => number;
     getItemKey: (index: number, key?: Key) => Key;
     parentKey: Key;
     renderRow: (
         item: Item,
         parentKey: Key | undefined,
-        renderChildren: ({size, height}: {size: number; height: number}) => React.ReactNode,
+        renderChildren: (options: {count: number; height: number}) => React.ReactNode,
     ) => React.ReactNode;
     disableVirtualization?: boolean;
     persistedIndexes?: Array<number[]>;
@@ -203,7 +220,7 @@ function ChildrenVirtualizer(props: {
     const {
         start,
         scrollContainer,
-        size,
+        count,
         getItemSize,
         getItemKey,
         renderRow,
@@ -214,7 +231,7 @@ function ChildrenVirtualizer(props: {
     const {rangeExtractor, persistedChildren} =
         getRangeExtractorAndChildrenIndexes(persistedIndexes);
     const virtualizer = useVirtualizer({
-        count: size,
+        count,
         getScrollElement: () => scrollContainer,
         estimateSize: (index) => getItemSize(index, parentKey),
         getItemKey: (index) => getItemKey(index, parentKey),
@@ -229,7 +246,7 @@ function ChildrenVirtualizer(props: {
     let height = virtualizer.getTotalSize() - start;
     if (disableVirtualization) {
         height = 0;
-        items = new Array(size).fill(0).map((_, index) => {
+        items = new Array(count).fill(0).map((_, index) => {
             height += getItemSize(index, parentKey);
             return {
                 index,

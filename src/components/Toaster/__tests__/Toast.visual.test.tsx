@@ -6,7 +6,7 @@ import {ToastStories} from './helpersPlaywright';
 
 test.describe('Toast', {tag: '@Toaster'}, () => {
     test('render story: <ToastSimpleNormal>', async ({mount, expectScreenshot}) => {
-        await mount(<ToastStories.ToastSimpleNormal />);
+        await mount(<ToastStories.ToastSimpleNormal />, {width: 312});
 
         await expectScreenshot();
     });

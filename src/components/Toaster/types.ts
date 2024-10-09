@@ -1,11 +1,13 @@
 import type {ButtonView} from '../Button';
 
+import type {TOAST_THEMES} from './constants';
+
 export type ToasterArgs = {
     className?: string;
     mobile?: boolean;
 };
 
-export type ToastTheme = 'normal' | 'info' | 'success' | 'warning' | 'danger' | 'utility';
+export type ToastTheme = (typeof TOAST_THEMES)[number];
 
 export type ToastAction = {
     onClick: VoidFunction;

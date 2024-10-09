@@ -8,6 +8,8 @@ export const mountFixture: PlaywrightFixture<MountFixture> = async ({mount: base
             <div
                 style={{
                     padding: 20,
+                    // When we set width we didn't expect that paddings for better screenshots would be included
+                    boxSizing: options?.width ? 'content-box' : undefined,
                     width: options?.width ? options.width : 'fit-content',
                     height: 'fit-content',
                 }}

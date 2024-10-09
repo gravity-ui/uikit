@@ -45,12 +45,16 @@ export type TreeSelectRenderItem<T, P extends {} = {}> = TreeListRenderItem<T, P
 export type TreeSelectRenderContainerProps<T> = TreeListContainerProps<T>;
 export type TreeSelectRenderContainer<T> = TreeListRenderContainer<T>;
 
-interface TreeSelectBehavioralProps<T> extends UseListParsedStateProps<T> {
+interface TreeSelectBehavioralProps<T, M extends boolean> extends UseListParsedStateProps<T> {
     withExpandedState?: boolean;
-    multiple?: boolean;
+    multiple?: M;
 }
 
-export interface TreeSelectProps<T, P extends {} = {}>
+export type TreeSelectGetValue<M extends boolean> = M extends true
+    ? ListItemId[]
+    : ListItemId | undefined;
+
+export interface TreeSelectProps<T = {}, P extends {} = {}, M extends boolean = false>
     extends Omit<TreeListProps<T, P>, 'list' | 'renderContainer' | 'multiple'>,
         Pick<
             TreeSelectRenderControlProps<T>,
@@ -63,8 +67,8 @@ export interface TreeSelectProps<T, P extends {} = {}>
             | 'errorMessage'
         >,
         UseOpenProps,
-        TreeSelectBehavioralProps<T> {
-    value?: ListItemId[];
+        TreeSelectBehavioralProps<T, M> {
+    value?: TreeSelectGetValue<M>;
     defaultValue?: ListItemId[] | undefined;
     popupClassName?: string;
     popupWidth?: SelectPopupProps['width'];
@@ -82,7 +86,7 @@ export interface TreeSelectProps<T, P extends {} = {}>
      * In other situations use `renderContainer` method
      */
     slotAfterListBody?: React.ReactNode;
-    onUpdate?(value: ListItemId[]): void;
+    onUpdate?(value: TreeSelectGetValue<M>): void;
     /**
      * Ability to override custom toggler button
      */

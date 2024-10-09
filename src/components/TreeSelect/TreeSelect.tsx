@@ -17,7 +17,7 @@ import {block} from '../utils/cn';
 import type {CnMods} from '../utils/cn';
 
 import {useControlledValue} from './hooks/useControlledValue';
-import type {TreeSelectProps, TreeSelectRenderControlProps} from './types';
+import type {TreeSelectGetValue, TreeSelectProps, TreeSelectRenderControlProps} from './types';
 
 import './TreeSelect.scss';
 
@@ -27,7 +27,11 @@ const defaultItemRenderer: TreeListRenderItem<unknown> = (renderState) => {
     return <ListItemView {...renderState.props} {...renderState.renderContainerProps} />;
 };
 
-export const TreeSelect = React.forwardRef(function TreeSelect<T, P extends {} = {}>(
+export const TreeSelect = React.forwardRef(function TreeSelect<
+    T,
+    P extends {} = {},
+    M extends boolean = false,
+>(
     {
         id,
         qa,
@@ -68,7 +72,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T, P extends {} =
         onBlur,
         getItemId,
         onItemClick,
-    }: TreeSelectProps<T, P>,
+    }: TreeSelectProps<T, P, M>,
     ref: React.Ref<HTMLButtonElement>,
 ) {
     const mobile = useMobile();
@@ -103,10 +107,37 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T, P extends {} =
         open: propsOpen,
     });
 
+    const handleUpdate = React.useCallback(
+        (nextValue: string[]) => {
+            if (onUpdate) {
+                if (multiple) {
+                    onUpdate(nextValue as TreeSelectGetValue<M>);
+                } else {
+                    const [vl] = nextValue;
+
+                    onUpdate(vl as TreeSelectGetValue<M>);
+                }
+            }
+        },
+        [multiple, onUpdate],
+    );
+
+    const computedValue = React.useMemo(() => {
+        let result: string[] = [];
+
+        if (Array.isArray(propsValue)) {
+            result = propsValue;
+        } else if (typeof propsValue !== 'undefined') {
+            result = [propsValue];
+        }
+
+        return result;
+    }, [propsValue]);
+
     const {value, selectedById, setSelected} = useControlledValue({
-        value: propsValue,
+        value: computedValue,
         defaultValue,
-        onUpdate,
+        onUpdate: handleUpdate,
     });
 
     const list = useList({
@@ -264,6 +295,6 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T, P extends {} =
             />
         </div>
     );
-}) as <T, P extends {} = {}>(
-    props: TreeSelectProps<T, P> & {ref?: React.Ref<HTMLDivElement>},
+}) as <T, P extends {} = {}, M extends boolean = false>(
+    props: TreeSelectProps<T, P, M> & {ref?: React.Ref<HTMLDivElement>},
 ) => React.ReactElement;

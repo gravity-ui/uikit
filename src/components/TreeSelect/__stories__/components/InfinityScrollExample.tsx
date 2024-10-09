@@ -32,7 +32,7 @@ export const InfinityScrollExample = ({
     itemsCount = 5,
     ...storyProps
 }: InfinityScrollExampleProps) => {
-    const [value, setValue] = React.useState<string[]>([]);
+    const [value, setValue] = React.useState<string | undefined>();
     const {
         data: items = [],
         onFetchMore,

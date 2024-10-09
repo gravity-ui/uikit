@@ -275,7 +275,7 @@ export interface TableColumnSetupProps {
     sortable?: boolean;
 
     onUpdate: (newSettings: TableSetting[]) => void;
-    popupWidth?: TreeSelectProps<unknown>['popupWidth'];
+    popupWidth?: TreeSelectProps['popupWidth'];
     popupPlacement?: PopperPlacement;
 
     /**
@@ -379,7 +379,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     const dndRenderItem = useDndRenderItem(sortingEnabled);
 
-    const renderControl: TreeSelectProps<unknown>['renderControl'] = ({toggleOpen}) => {
+    const renderControl: TreeSelectProps['renderControl'] = ({toggleOpen}) => {
         const onKeyDown = createOnKeyDownHandler(toggleOpen);
 
         return (

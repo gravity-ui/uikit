@@ -38,7 +38,7 @@ type CustomDataType = {someRandomKey: string; id: string};
 export interface WithDndListExampleProps
     extends Omit<
         TreeSelectProps<CustomDataType>,
-        'value' | 'onUpdate' | 'items' | 'mapItemDataToContentProps'
+        'value' | 'onUpdate' | 'items' | 'mapItemDataToContentProps' | 'multiple'
     > {}
 
 const randomItems: CustomDataType[] = createRandomizedData({

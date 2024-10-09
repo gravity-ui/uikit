@@ -1,6 +1,10 @@
 import {expect} from '@playwright/experimental-ct-react';
 
-import type {ExpectScreenshotFixture, PlaywrightFixture} from './types';
+import type {CaptureScreenshotParams, ExpectScreenshotFixture, PlaywrightFixture} from './types';
+
+const defaultParams: CaptureScreenshotParams = {
+    themes: ['light', 'dark'],
+};
 
 export const expectScreenshotFixture: PlaywrightFixture<ExpectScreenshotFixture> = async (
     {page},
@@ -10,8 +14,9 @@ export const expectScreenshotFixture: PlaywrightFixture<ExpectScreenshotFixture>
     const expectScreenshot: ExpectScreenshotFixture = async ({
         component,
         nameSuffix,
+        themes: paramsThemes,
         ...pageScreenshotOptions
-    } = {}) => {
+    } = defaultParams) => {
         const captureScreenshot = async () => {
             return (component || page.locator('.playwright-wrapper-test')).screenshot({
                 animations: 'disabled',
@@ -22,17 +27,23 @@ export const expectScreenshotFixture: PlaywrightFixture<ExpectScreenshotFixture>
         const nameScreenshot =
             testInfo.titlePath.slice(1).join(' ') + (nameSuffix ? ` ${nameSuffix}` : '');
 
-        await page.emulateMedia({colorScheme: 'light'});
+        const themes = paramsThemes || defaultParams.themes;
 
-        expect(await captureScreenshot()).toMatchSnapshot({
-            name: `${nameScreenshot} light.png`,
-        });
+        if (themes?.includes('light')) {
+            await page.emulateMedia({colorScheme: 'light'});
 
-        await page.emulateMedia({colorScheme: 'dark'});
+            expect(await captureScreenshot()).toMatchSnapshot({
+                name: `${nameScreenshot} light.png`,
+            });
+        }
 
-        expect(await captureScreenshot()).toMatchSnapshot({
-            name: `${nameScreenshot} dark.png`,
-        });
+        if (themes?.includes('dark')) {
+            await page.emulateMedia({colorScheme: 'dark'});
+
+            expect(await captureScreenshot()).toMatchSnapshot({
+                name: `${nameScreenshot} dark.png`,
+            });
+        }
     };
 
     await use(expectScreenshot);

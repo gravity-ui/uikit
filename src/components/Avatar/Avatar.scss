@@ -12,6 +12,7 @@ $block: '.#{variables.$ns}avatar';
     --_--line-height: var(--g-text-body-1-line-height);
     --_--font-weight: var(--g-text-body-font-weight);
 
+    box-sizing: initial;
     overflow: hidden;
     display: inline-flex;
     justify-content: center;

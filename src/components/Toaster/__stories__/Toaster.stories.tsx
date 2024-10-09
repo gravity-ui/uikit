@@ -1,10 +1,16 @@
 import React from 'react';
 
+import {faker} from '@faker-js/faker/locale/en';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import type {ButtonView} from '../../Button';
+import {BUTTON_VIEWS} from '../../Button/constants';
 import {ToasterProvider} from '../Provider/ToasterProvider';
 import {Toast} from '../Toast/Toast';
+import {ToasterComponent} from '../ToasterComponent/ToasterComponent';
+import {TOAST_THEMES} from '../constants';
+import {useToaster} from '../hooks/useToaster';
+import type {ToastAction} from '../types';
 
 import {ToasterDemo} from './ToasterShowcase';
 
@@ -27,7 +33,7 @@ const views: ButtonView[] = [
 function viewSelect(name: string) {
     return {
         name,
-        control: 'select',
+        control: 'select' as const,
         defaultValue: 'outlined',
         options: views,
         if: {arg: 'setActions'},
@@ -43,13 +49,34 @@ const disabledControl = {
 function booleanControl(label: string) {
     return {
         name: label,
-        control: 'boolean',
+        control: 'boolean' as const,
     };
 }
 
 export default {
     title: 'Components/Feedback/Toaster',
     component: Toast,
+    decorators: [
+        function withToasters(Story) {
+            return (
+                <ToasterProvider>
+                    <Story />
+                </ToasterProvider>
+            );
+        },
+    ],
+} as Meta<typeof Toast>;
+
+type Story = StoryObj<
+    React.ComponentProps<typeof Toast> & React.ComponentProps<typeof ToasterDemo>
+>;
+
+export const Default: Story = {
+    args: {
+        setTitle: true,
+        showCloseIcon: true,
+        allowAutoHiding: true,
+    },
     argTypes: {
         mobile: disabledControl,
         name: disabledControl,
@@ -57,7 +84,7 @@ export default {
         className: disabledControl,
         autoHiding: disabledControl,
         content: disabledControl,
-        type: disabledControl,
+        theme: disabledControl,
         isClosable: disabledControl,
         actions: disabledControl,
         removeCallback: disabledControl,
@@ -71,25 +98,51 @@ export default {
         action1View: viewSelect('Action 1 view'),
         action2View: viewSelect('Action 2 view'),
     },
-    args: {
-        setTitle: true,
-        showCloseIcon: true,
-        allowAutoHiding: true,
-    },
-    decorators: [
-        function withToasters(Story) {
-            return (
-                <ToasterProvider>
-                    <Story />
-                </ToasterProvider>
-            );
-        },
-    ],
-} as Meta<typeof Toast>;
-
-type Story = StoryObj<typeof Toast & typeof ToasterDemo>;
-
-export const Default: Story = {
-    args: {},
     render: (props) => <ToasterDemo {...props} />,
+};
+
+function getAction(): ToastAction {
+    return {
+        onClick: () => {},
+        label: faker.lorem.words(1),
+        view: faker.helpers.arrayElement(BUTTON_VIEWS),
+        removeAfterClick: false,
+    };
+}
+
+export const ToastPlayground: Story = {
+    name: 'Toast (Playground)',
+    args: {
+        mobile: false,
+        autoHiding: false,
+        isClosable: faker.datatype.boolean(),
+        title: faker.lorem.words(5),
+        content: faker.lorem.sentences(2),
+        theme: faker.helpers.arrayElement(TOAST_THEMES),
+        actions: faker.helpers.uniqueArray(getAction, faker.number.int({min: 1, max: 2})),
+    },
+    argTypes: {
+        name: disabledControl,
+        addedAt: disabledControl,
+        renderIcon: disabledControl,
+        removeCallback: disabledControl,
+    },
+    render: (args) => {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const toaster = useToaster();
+
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        React.useEffect(() => {
+            const toastId = 'demo-toast';
+
+            toaster.add({
+                ...args,
+                name: toastId,
+            });
+
+            return () => toaster.remove(toastId);
+        }, [args, toaster]);
+
+        return <ToasterComponent mobile={args.mobile} />;
+    },
 };

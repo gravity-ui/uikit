@@ -3,7 +3,6 @@ import React from 'react';
 import {faker} from '@faker-js/faker/locale/en';
 import type {Meta, StoryObj} from '@storybook/react';
 
-import type {ButtonView} from '../../Button';
 import {BUTTON_VIEWS} from '../../Button/constants';
 import {ToasterProvider} from '../Provider/ToasterProvider';
 import {Toast} from '../Toast/Toast';
@@ -14,28 +13,12 @@ import type {ToastAction} from '../types';
 
 import {ToasterDemo} from './ToasterShowcase';
 
-const views: ButtonView[] = [
-    'normal',
-    'action',
-    'outlined',
-    'outlined-info',
-    'outlined-danger',
-    'raised',
-    'flat',
-    'flat-info',
-    'flat-danger',
-    'flat-secondary',
-    'normal-contrast',
-    'outlined-contrast',
-    'flat-contrast',
-];
-
 function viewSelect(name: string) {
     return {
         name,
         control: 'select' as const,
         defaultValue: 'outlined',
-        options: views,
+        options: BUTTON_VIEWS,
         if: {arg: 'setActions'},
     };
 }

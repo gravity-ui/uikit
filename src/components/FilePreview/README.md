@@ -1,8 +1,93 @@
+<!--GITHUB_BLOCK-->
+
 ## FilePreview
+
+<!--/GITHUB_BLOCK-->
+
+```tsx
+import {FilePreview} from '@gravity-ui/uikit';
+```
 
 A component for displaying the file.
 
-### PropTypes
+<!--GITHUB_BLOCK-->
+
+<ExampleBlock
+code={`  <FilePreview
+    file={{name: fileType, type: fileType} as File}
+    imageSrc="assets/files/first"
+    actions={[
+      {
+        icon: linkIcon,
+        title: 'open on drive',
+        onClick: onFileOpen,
+      },
+      {
+        icon: xmarkIcon,
+        title: 'delete a file',
+        onClick: onFileDelete,
+      },
+    ]}
+  />`}
+
+>
+
+    <UIKit.FilePreview
+      file={{name: fileType, type: fileType} as File}
+      imageSrc="assets/files/first"
+      actions={[
+        {
+          icon: linkIcon,
+          title: 'open on drive',
+          onClick: onFileOpen,
+        },
+        {
+          icon: xmarkIcon,
+          title: 'delete a file',
+          onClick: onFileDelete,
+        },
+      ]}
+    />
+
+</ExampleBlock>
+
+<!--GITHUB_BLOCK-->
+
+<!--LANDING_BLOCK
+<ExampleBlock
+    code={`
+<UIKit.DropdownMenu
+  items={[
+    {
+      action: () => console.log('Rename'),
+      text: 'Rename',
+    },
+    {
+      action: () => console.log('Delete'),
+      text: 'Delete',
+      theme: 'danger',
+    },
+  ]}
+/>
+`}>
+    <UIKit.DropdownMenu
+      items={[
+        {
+          action: () => console.log('Rename'),
+          text: 'Rename',
+        },
+        {
+          action: () => console.log('Delete'),
+          text: 'Delete',
+          theme: 'danger',
+        },
+      ]}
+    />
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+### Properties
 
 | Property            | Type                       | Required | Default | Description                                                                                                      |
 | :------------------ | :------------------------- | :------: | :------ | :--------------------------------------------------------------------------------------------------------------- |
@@ -25,23 +110,3 @@ For a file, you can prescribe actions that will be visible when you hover over i
 | onClick    | `function`                                                                           |          |         | Action click handler           |
 | href       | `String`                                                                             |          |         | Action button href             |
 | extraProps | `ButtonHTMLAttributes<HTMLButtonElement> \| AnchorHTMLAttributes<HTMLAnchorElement>` |          |         | Additional action button props |
-
-```jsx
-
-<FilePreview
-  file={{name: fileType, type: fileType} as File}
-  imageSrc="assets/files/first"
-  actions={[
-    {
-      icon: linkIcon,
-      title: 'open on drive',
-      onClick: onFileOpen,
-    },
-    {
-      icon: xmarkIcon,
-      title: 'delete a file',
-      onClick: onFileDelete,
-    },
-  ]}
-/>
-```

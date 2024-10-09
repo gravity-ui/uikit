@@ -8,6 +8,8 @@ import {createRandomizedData} from '../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../TreeSelect';
 import type {TreeSelectProps} from '../types';
 
+import {ErrorStateExample} from './components/ErrorStateExample';
+import type {ErrorStateExampleProps} from './components/ErrorStateExample';
 import {InfinityScrollExample} from './components/InfinityScrollExample';
 import type {InfinityScrollExampleProps} from './components/InfinityScrollExample';
 import {WithDisabledElementsExample} from './components/WithDisabledElementsExample';
@@ -116,6 +118,15 @@ WithDndList.parameters = {
     // Strict mode ruins sortable list due to this react-beautiful-dnd issue
     // https://github.com/atlassian/react-beautiful-dnd/issues/2350
     disableStrictMode: true,
+};
+
+const ErrorStateTemplate: StoryFn<ErrorStateExampleProps> = (props) => {
+    return <ErrorStateExample {...props} />;
+};
+export const ErrorState = ErrorStateTemplate.bind({});
+
+ErrorState.args = {
+    size: 'l',
 };
 
 const WithDisabledElementsTemplate: StoryFn<WithDisabledElementsExampleProps> = (props) => {

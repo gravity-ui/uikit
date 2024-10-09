@@ -1,5 +1,37 @@
 # Changelog
 
+## [6.31.0](https://github.com/gravity-ui/uikit/compare/v6.30.1...v6.31.0) (2024-10-09)
+
+
+### Features
+
+* **TreeSelect:** added error state view and hasClear prop ([#1885](https://github.com/gravity-ui/uikit/issues/1885)) ([9849e4b](https://github.com/gravity-ui/uikit/commit/9849e4bacc6b11bdfef191e31dde28a75a5e723c))
+
+
+### Bug Fixes
+
+* **Select:** revert [#1694](https://github.com/gravity-ui/uikit/issues/1694) changes ([#1887](https://github.com/gravity-ui/uikit/issues/1887)) ([523caf8](https://github.com/gravity-ui/uikit/commit/523caf8915a5ee7cbb0652886f2ee247baeabb2e))
+
+## [6.30.1](https://github.com/gravity-ui/uikit/compare/v6.30.0...v6.30.1) (2024-10-04)
+
+
+### Bug Fixes
+
+* **AvatarStack:** remaining avatars calculation ([#1883](https://github.com/gravity-ui/uikit/issues/1883)) ([76943c9](https://github.com/gravity-ui/uikit/commit/76943c9174658be0da60d98ce50c290ef2ca45a1))
+
+## [6.30.0](https://github.com/gravity-ui/uikit/compare/v6.29.0...v6.30.0) (2024-10-03)
+
+
+### Features
+
+* **ActionsPanel:** add component and showcases ([#1873](https://github.com/gravity-ui/uikit/issues/1873)) ([5ce703f](https://github.com/gravity-ui/uikit/commit/5ce703f9b0da81493262035e8259d0f0aedc3552))
+* **ClipboardButton:** delay tooltip's closing animation after copying ([#1735](https://github.com/gravity-ui/uikit/issues/1735)) ([20f19dd](https://github.com/gravity-ui/uikit/commit/20f19ddca63dca4d34b9fd62b4e0b4073fdcd2be))
+
+
+### Bug Fixes
+
+* **AvatarStack:** correctly display more than 9 remaining avatars ([#1882](https://github.com/gravity-ui/uikit/issues/1882)) ([0abd7f1](https://github.com/gravity-ui/uikit/commit/0abd7f1bc4f01a5616d4cce532e9f9a6cc4f5c53))
+
 ## [6.29.0](https://github.com/gravity-ui/uikit/compare/v6.28.0...v6.29.0) (2024-09-27)
 
 

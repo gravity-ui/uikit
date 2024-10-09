@@ -2,6 +2,7 @@ export * from './types';
 export * from './mobile';
 export * from './theme';
 
+export * from './ActionsPanel';
 export * from './ActionTooltip';
 export * from './Alert';
 export * from './ArrowToggle';

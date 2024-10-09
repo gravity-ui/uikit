@@ -1,0 +1,35 @@
+import {
+    Meta,
+    Markdown,
+    Canvas,
+    AnchorMdx,
+    CodeOrSourceMdx,
+    HeadersMdx,
+} from '@storybook/addon-docs';
+import * as Stories from './ActionsPanel.stories';
+import Readme from '../README.md?raw';
+
+export const ActionsPanelExample = () => <Canvas of={Stories.Default} sourceState="none" />;
+export const ActionsPanelWithIcons = () => <Canvas of={Stories.WithIcons} sourceState="none" />;
+export const ActionsPanelWithNote = () => <Canvas of={Stories.WithNote} sourceState="none" />;
+export const ActionsPanelGroups = () => <Canvas of={Stories.Groups} sourceState="none" />;
+export const ActionsPanelSubmenu = () => <Canvas of={Stories.Submenu} sourceState="none" />;
+
+<Meta of={Stories} />
+
+<Markdown
+    options={{
+        overrides: {
+            code: CodeOrSourceMdx,
+            a: AnchorMdx,
+            ...HeadersMdx,
+            ActionsPanelExample,
+            ActionsPanelWithIcons,
+            ActionsPanelWithNote,
+            ActionsPanelGroups,
+            ActionsPanelSubmenu,
+        },
+    }}
+>
+    {Readme}
+</Markdown>

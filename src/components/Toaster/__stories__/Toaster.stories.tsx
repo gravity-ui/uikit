@@ -127,7 +127,7 @@ export const ToastPlayground: Story = {
         renderIcon: disabledControl,
         removeCallback: disabledControl,
     },
-    render: (args) => {
+    render: (args, context) => {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const toaster = useToaster();
 
@@ -143,7 +143,12 @@ export const ToastPlayground: Story = {
             return () => toaster.remove(toastId);
         }, [args, toaster]);
 
-        return <ToasterComponent mobile={args.mobile} />;
+        return (
+            <ToasterComponent
+                mobile={args.mobile}
+                hasPortal={context.globals.screenshotTests !== true}
+            />
+        );
     },
 };
 

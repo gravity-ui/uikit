@@ -6,7 +6,11 @@ export const mountFixture: PlaywrightFixture<MountFixture> = async ({mount: base
     const mount: MountFixture = async (component, options) => {
         return await baseMount(
             <div
-                style={{padding: 20, width: 'fit-content', height: 'fit-content'}}
+                style={{
+                    padding: 20,
+                    width: options?.width ? options.width : 'fit-content',
+                    height: 'fit-content',
+                }}
                 className="playwright-wrapper-test"
             >
                 {component}

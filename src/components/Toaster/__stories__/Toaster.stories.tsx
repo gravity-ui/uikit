@@ -146,3 +146,74 @@ export const ToastPlayground: Story = {
         return <ToasterComponent mobile={args.mobile} />;
     },
 };
+
+function getToastActions(contrastButton = true): React.ComponentProps<typeof Toast>['actions'] {
+    return [
+        {onClick() {}, label: 'Action', view: contrastButton ? 'normal-contrast' : 'normal'},
+        {onClick() {}, label: 'Something More', view: 'outlined'},
+    ];
+}
+
+const simpleToastProps: React.ComponentProps<typeof Toast> = {
+    actions: getToastActions(),
+    removeCallback: () => {},
+    name: 'simple-toast',
+    isClosable: true,
+    title: 'Do some actions',
+    content: 'We address you some concerns regarding your last actions in UI',
+};
+
+export const ToastSimpleNormal: Story = {
+    ...ToastPlayground,
+    args: {
+        ...ToastPlayground.args,
+        ...simpleToastProps,
+        theme: 'normal',
+        actions: getToastActions(false),
+    },
+};
+
+export const ToastSimpleInfo: Story = {
+    ...ToastPlayground,
+    args: {
+        ...ToastPlayground.args,
+        ...simpleToastProps,
+        theme: 'info',
+    },
+};
+
+export const ToastSimpleSuccess: Story = {
+    ...ToastPlayground,
+    args: {
+        ...ToastPlayground.args,
+        ...simpleToastProps,
+        theme: 'success',
+    },
+};
+
+export const ToastSimpleWarning: Story = {
+    ...ToastPlayground,
+    args: {
+        ...ToastPlayground.args,
+        ...simpleToastProps,
+        theme: 'warning',
+    },
+};
+
+export const ToastSimpleDanger: Story = {
+    ...ToastPlayground,
+    args: {
+        ...ToastPlayground.args,
+        ...simpleToastProps,
+        theme: 'danger',
+    },
+};
+
+export const ToastSimpleUtility: Story = {
+    ...ToastPlayground,
+    args: {
+        ...ToastPlayground.args,
+        ...simpleToastProps,
+        theme: 'utility',
+    },
+};

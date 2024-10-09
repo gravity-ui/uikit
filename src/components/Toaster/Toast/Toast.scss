@@ -62,13 +62,10 @@ $block: '.#{variables.$ns}toast';
 
     &__container {
         flex: 1 1 auto;
-        display: grid;
-        row-gap: 8px;
-        width: 100%;
-        height: 100%;
+        display: flex;
+        flex-flow: column nowrap;
         min-height: var(--g-text-body-2-line-height);
         min-width: 0;
-        grid-template-columns: 100%;
 
         &:before {
             content: '';
@@ -88,6 +85,7 @@ $block: '.#{variables.$ns}toast';
         padding-inline-end: 8px;
         padding-block-start: 2px;
         color: var(--_--icon-color);
+        min-width: 0;
     }
 
     &__title {
@@ -96,8 +94,17 @@ $block: '.#{variables.$ns}toast';
         padding-inline-end: $closeButtonTitleSpacing + $closeButtonSize;
     }
 
-    &__content_without-title {
-        padding-inline-end: $closeButtonTitleSpacing + $closeButtonSize;
+    &__content {
+        margin-block-start: var(--g-spacing-2);
+
+        &_without-title {
+            margin-block-start: 0;
+            padding-inline-end: $closeButtonTitleSpacing + $closeButtonSize;
+        }
+    }
+
+    &__actions {
+        margin-block-start: var(--g-spacing-3);
     }
 
     &__action {

@@ -12,28 +12,50 @@ A component for displaying the file.
 
 <!--GITHUB_BLOCK-->
 
+```tsx
+<FilePreview
+  file={file}
+  imageSrc="assets/files/first"
+  actions={[
+    {
+      icon: linkIcon,
+      title: 'open on drive',
+      onClick: onFileOpen,
+    },
+    {
+      icon: xmarkIcon,
+      title: 'delete a file',
+      onClick: onFileDelete,
+    },
+  ]}
+/>
+```
+
+<!--/GITHUB_BLOCK-->
+
+<!--LANDING_BLOCK
+
 <ExampleBlock
-code={`  <FilePreview
-    file={{name: fileType, type: fileType} as File}
-    imageSrc="assets/files/first"
-    actions={[
-      {
-        icon: linkIcon,
-        title: 'open on drive',
-        onClick: onFileOpen,
-      },
-      {
-        icon: xmarkIcon,
-        title: 'delete a file',
-        onClick: onFileDelete,
-      },
-    ]}
-  />`}
-
->
-
+    code={`
+<UIKit.FilePreview
+  file={file}
+  imageSrc="assets/files/first"
+  actions={[
+    {
+      icon: linkIcon,
+      title: 'open on drive',
+      onClick: onFileOpen,
+    },
+    {
+      icon: xmarkIcon,
+      title: 'delete a file',
+      onClick: onFileDelete,
+    },
+  ]}
+/>
+`}>
     <UIKit.FilePreview
-      file={{name: fileType, type: fileType} as File}
+      file={file}
       imageSrc="assets/files/first"
       actions={[
         {
@@ -48,44 +70,10 @@ code={`  <FilePreview
         },
       ]}
     />
-
 </ExampleBlock>
+LANDING_BLOCK-->
 
 <!--GITHUB_BLOCK-->
-
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<UIKit.DropdownMenu
-  items={[
-    {
-      action: () => console.log('Rename'),
-      text: 'Rename',
-    },
-    {
-      action: () => console.log('Delete'),
-      text: 'Delete',
-      theme: 'danger',
-    },
-  ]}
-/>
-`}>
-    <UIKit.DropdownMenu
-      items={[
-        {
-          action: () => console.log('Rename'),
-          text: 'Rename',
-        },
-        {
-          action: () => console.log('Delete'),
-          text: 'Delete',
-          theme: 'danger',
-        },
-      ]}
-    />
-</ExampleBlock>
-
-LANDING_BLOCK-->
 
 ### Properties
 

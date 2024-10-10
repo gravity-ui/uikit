@@ -1,5 +1,13 @@
 # Changelog
 
+## [6.31.1](https://github.com/gravity-ui/uikit/compare/v6.31.0...v6.31.1) (2024-10-10)
+
+
+### Bug Fixes
+
+* **ListItemView:** fix type ListItemViewProps ([#1897](https://github.com/gravity-ui/uikit/issues/1897)) ([e49779a](https://github.com/gravity-ui/uikit/commit/e49779a4e519a6e89db3cecfe12ea66e0c720d3f))
+* **Toaster:** change spacing before actions ([#1891](https://github.com/gravity-ui/uikit/issues/1891)) ([235ea21](https://github.com/gravity-ui/uikit/commit/235ea21a548d39b6ebf22e31d9037abc83eb9fcd))
+
 ## [6.31.0](https://github.com/gravity-ui/uikit/compare/v6.30.1...v6.31.0) (2024-10-09)
 
 

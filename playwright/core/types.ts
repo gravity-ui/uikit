@@ -3,6 +3,7 @@ import type React from 'react';
 import type {MountOptions, MountResult} from '@playwright/experimental-ct-react';
 import type {
     Locator,
+    Page,
     PageScreenshotOptions,
     PlaywrightTestArgs,
     PlaywrightTestOptions,
@@ -36,5 +37,5 @@ export interface ExpectScreenshotFixture {
 
 interface CaptureScreenshotParams extends PageScreenshotOptions {
     nameSuffix?: string;
-    component?: Locator;
+    component?: Locator | Page;
 }

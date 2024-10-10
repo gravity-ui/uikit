@@ -6,8 +6,14 @@ export interface UseBodyScrollLockProps {
 
 export type BodyScrollLockProps = UseBodyScrollLockProps;
 
+interface StoredBodyStyle {
+    overflow?: string;
+    paddingRight?: string;
+    paddingBottom?: string;
+}
+
 let locks = 0;
-let storedBodyStyle: string | undefined;
+let storedBodyStyle: StoredBodyStyle = {};
 
 export function useBodyScrollLock({enabled}: UseBodyScrollLockProps) {
     React.useLayoutEffect(() => {
@@ -35,7 +41,12 @@ function setBodyStyles() {
     const xScrollbarWidth = getXScrollbarWidth();
     const bodyPadding = getBodyComputedPadding();
 
-    storedBodyStyle = document.body.style.cssText;
+    storedBodyStyle = {
+        overflow: document.body.style.overflow,
+        paddingRight: document.body.style.paddingRight,
+        paddingBottom: document.body.style.paddingBottom,
+    };
+
     document.body.style.overflow = 'hidden';
 
     if (yScrollbarWidth) {
@@ -47,10 +58,13 @@ function setBodyStyles() {
 }
 
 function restoreBodyStyles() {
-    if (storedBodyStyle) {
-        document.body.style.cssText = storedBodyStyle;
-    } else {
-        document.body.removeAttribute('style');
+    for (const property of ['overflow', 'paddingRight', 'paddingBottom'] as const) {
+        const storedProperty = storedBodyStyle[property];
+        if (storedProperty) {
+            document.body.style[property] = storedProperty;
+        } else {
+            document.body.style.removeProperty(property);
+        }
     }
 }
 

@@ -18,6 +18,7 @@ export * from './Dialog';
 export * from './Disclosure';
 export * from './Divider';
 export * from './DropdownMenu';
+export * from './FilePreview';
 export * from './Hotkey';
 export * from './Icon';
 export * from './AvatarStack';

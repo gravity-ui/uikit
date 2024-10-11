@@ -39,6 +39,18 @@ export type ItemState = {
     indentation: number;
 };
 
+export interface ListItemExpandIconRenderProps {
+    /**
+     * The behavior of the component:
+     *
+     * - action - to indicate user actions. For example, for an icon inside a button;
+     * - state - to indicate the current state of the element;
+     */
+    behavior: 'state' | 'state-inverse' | 'action';
+    expanded?: boolean;
+    disabled?: boolean;
+}
+
 export type ListItemViewContentType = {
     title: React.ReactNode;
     subtitle?: React.ReactNode;
@@ -49,7 +61,18 @@ export type ListItemViewContentType = {
      */
     indentation?: number;
     isGroup?: boolean;
+    /**
+     * Required prop if `isGroup` - `true`
+     */
     expanded?: boolean;
+    /**
+     * @default - 'start'
+     */
+    expandIconPlacement?: 'start' | 'end';
+    /**
+     * Will be applied if `isGroup` props is `true`
+     */
+    renderExpandIcon?(props: ListItemExpandIconRenderProps): React.ReactNode;
 };
 
 export type ListItemListContextProps = ItemState &

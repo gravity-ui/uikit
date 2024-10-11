@@ -4,11 +4,10 @@ import {Button} from '../../../Button';
 import {Text} from '../../../Text';
 import {TextInput} from '../../../controls';
 import {Flex, spacing} from '../../../layout';
-import {useList, useListFilter} from '../../../useList';
+import {ListContainer, useList, useListFilter} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeList} from '../../TreeList';
 import type {TreeListContainerProps, TreeListProps} from '../../types';
-import {RenderVirtualizedContainer} from '../components/RenderVirtualizedContainer';
 
 interface Entity {
     title: string;
@@ -37,7 +36,7 @@ export const WithFiltrationAndControlsStory = ({
                 );
             }
 
-            return <RenderVirtualizedContainer {...props} />;
+            return <ListContainer {...props} />;
         };
 
         return {items: baseItems, renderContainer: containerRenderer};

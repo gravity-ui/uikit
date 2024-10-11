@@ -21,10 +21,10 @@ The component to display definition list with term and definition separated by d
 `}
 >
 <UIKit.DefinitionList nameMaxWidth={100} contentMaxWidth={100}>
-    <UIKit.DefinitionList.Item name="Node value with copy" copyText="value">
+    <UIKit.DefinitionListItem name="Node value with copy" copyText="value">
         <strong>value with copy</strong>
-    </UIKit.DefinitionList.Item>
-    <UIKit.DefinitionList.Item name="Empty value with copy" copyText="nothing to copy" />
+    </UIKit.DefinitionListItem>
+    <UIKit.DefinitionListItem name="Empty value with copy" copyText="nothing to copy" />
 </UIKit.DefinitionList>;
 </ExampleBlock>
 

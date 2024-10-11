@@ -1,9 +1,14 @@
 import React from 'react';
 
 import {HelpMark} from '../../HelpMark';
+import {b} from '../constants';
 import i18n from '../i18n';
-import type {DefinitionListDirection, DefinitionListItem, DefinitionListItemNote} from '../types';
-import {b, getTitle} from '../utils';
+import type {
+    DefinitionListDirection,
+    DefinitionListItemNote,
+    DefinitionListItemProps,
+} from '../types';
+import {getTitle} from '../utils';
 
 interface NoteElementsProps {
     note?: DefinitionListItemNote;
@@ -46,7 +51,7 @@ function NoteElement({note}: NoteElementsProps) {
     return null;
 }
 
-interface TermProps extends Pick<DefinitionListItem, 'note' | 'name'> {
+interface TermProps extends Pick<DefinitionListItemProps, 'note' | 'name'> {
     direction?: DefinitionListDirection;
 }
 

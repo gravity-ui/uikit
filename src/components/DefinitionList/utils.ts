@@ -1,9 +1,5 @@
 import type React from 'react';
 
-import {block} from '../utils/cn';
-
-export const b = block('definition-list');
-
 export function isUnbreakableOver(limit: number) {
     return function (value: string): boolean {
         const posibleLines = value.split(/\s+/);

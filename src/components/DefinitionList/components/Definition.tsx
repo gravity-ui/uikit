@@ -1,10 +1,10 @@
 import React from 'react';
 
 import {ClipboardButton} from '../../ClipboardButton';
-import type {DefinitionListItem} from '../types';
-import {b} from '../utils';
+import {b} from '../constants';
+import type {DefinitionListItemProps} from '../types';
 
-interface DefinitionProps extends Pick<DefinitionListItem, 'copyText' | 'children'> {}
+interface DefinitionProps extends Pick<DefinitionListItemProps, 'copyText' | 'children'> {}
 
 export function Definition({copyText, children}: DefinitionProps) {
     const definitionContent = children ?? '—';

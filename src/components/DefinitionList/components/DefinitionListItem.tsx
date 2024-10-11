@@ -1,7 +1,8 @@
 import React from 'react';
 
-import type {DefinitionListItem as DefinitionListItemProps} from '../types';
-import {b, getTitle, isUnbreakableOver} from '../utils';
+import {b} from '../constants';
+import type {DefinitionListItemProps} from '../types';
+import {getTitle, isUnbreakableOver} from '../utils';
 
 import {Definition} from './Definition';
 import {useDefinitionListAttributes} from './DefinitionListContext';
@@ -31,4 +32,4 @@ export function DefinitionListItem({name, children, copyText, note}: DefinitionL
     );
 }
 
-DefinitionListItem.displayName = 'DefinitionListItemin';
+DefinitionListItem.displayName = 'DefinitionListItem';

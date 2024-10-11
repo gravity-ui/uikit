@@ -1,9 +1,6 @@
-import React from 'react';
-
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react';
 
 import {HelpMark} from '../HelpMark';
-import type {HelpMarkProps} from '../HelpMark';
 
 export default {
     title: 'Components/Utils/HelpMark',
@@ -20,7 +17,7 @@ export default {
             config: {
                 rules: [
                     {
-                        id: 'button-name',
+                        id: 'help-mark',
                         enabled: false,
                         // aria-labelledby id is valid after tooltip content is rendered
                         selector: 'button[aria-labelledby="helpMarkWithoutActionsId"]',
@@ -29,10 +26,8 @@ export default {
             },
         },
     },
-} as Meta<typeof HelpMark>;
+} as Meta;
 
-const DefaultTemplate: StoryFn<HelpMarkProps> = (args) => <HelpMark {...args} />;
-export const Default = DefaultTemplate.bind({});
-Default.args = {
-    children: 'Some content',
-};
+type Story = StoryObj<typeof HelpMark>;
+
+export const Default: Story = {args: {children: 'Some content'}};

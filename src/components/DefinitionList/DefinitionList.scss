@@ -6,9 +6,7 @@ $block: '.#{variables.$ns}definition-list';
 #{$block} {
     --_--item-block-start: var(--g-spacing-4);
     --_--term-width: 300px;
-    &__list {
-        margin: 0;
-    }
+    margin: 0;
 
     &__item {
         display: flex;

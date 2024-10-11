@@ -2,18 +2,20 @@ import React from 'react';
 
 import {render, screen} from '../../../../test-utils/utils';
 import {DefinitionList} from '../DefinitionList';
-import type {DefinitionListItem, DefinitionListProps} from '../types';
-import {b} from '../utils';
+import {b} from '../constants';
+import type {DefinitionListItemProps, DefinitionListProps} from '../types';
 
 const qaAttribute = 'definition-list';
 
-const defaultItems: DefinitionListItem[] = [
+const defaultItems: DefinitionListItemProps[] = [
     {name: 'test1', children: 'value1'},
     {name: 'test2', children: 2},
     {name: 'test3', children: <div>node value</div>},
 ];
 
-const getComponent = (props?: Partial<DefinitionListProps> & {items?: DefinitionListItem[]}) => {
+const getComponent = (
+    props?: Partial<DefinitionListProps> & {items?: DefinitionListItemProps[]},
+) => {
     const {items = defaultItems} = props ?? {};
     return render(
         <DefinitionList qa={qaAttribute} {...props}>
@@ -24,7 +26,7 @@ const getComponent = (props?: Partial<DefinitionListProps> & {items?: Definition
     ).container;
 };
 
-describe('components: DefinitionList', () => {
+describe('DefinitionList', () => {
     it('should render', () => {
         getComponent();
         const component = screen.getByTestId(qaAttribute);

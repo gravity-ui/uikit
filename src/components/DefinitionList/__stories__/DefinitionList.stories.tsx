@@ -1,12 +1,12 @@
 import React from 'react';
 
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react';
 
 import {Label} from '../../Label';
 import {Link} from '../../Link';
 import {User} from '../../User';
 import {DefinitionList} from '../DefinitionList';
-import type {DefinitionListItem as DefinitionListItemProps, DefinitionListProps} from '../types';
+import type {DefinitionListItemProps} from '../types';
 
 const items: DefinitionListItemProps[] = [
     {
@@ -166,20 +166,10 @@ export default {
     },
 } as Meta;
 
-const DefaultTemplate: StoryFn<DefinitionListProps> = (args) => <DefinitionList {...args} />;
-export const Default = DefaultTemplate.bind({});
-Default.args = {contentMaxWidth: 480};
+type Story = StoryObj<typeof DefinitionList>;
 
-const TemplateResponsive: StoryFn<DefinitionListProps> = (args) => <DefinitionList {...args} />;
-export const ResponsiveList = TemplateResponsive.bind({});
-ResponsiveList.args = {
-    responsive: true,
-};
+export const Default: Story = {args: {contentMaxWidth: 480}};
 
-const TemplateVertical: StoryFn<DefinitionListProps> = (args) => {
-    return <DefinitionList {...args} />;
-};
-export const VerticalList = TemplateVertical.bind({});
-VerticalList.args = {
-    direction: 'vertical',
-};
+export const ResponsiveList: Story = {args: {responsive: true}};
+
+export const VerticalList: Story = {args: {direction: 'vertical'}};

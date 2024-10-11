@@ -37,24 +37,20 @@ export function CopyToClipboard(props: CopyToClipboardProps) {
         (event) => {
             textRef.current = text;
 
+            function copy(result: boolean) {
+                if (text === textRef.current) {
+                    handleCopy(text, result);
+
+                    content.props?.onClick?.(event);
+                }
+            }
+
             copyText(text).then(
                 () => {
-                    if (text === textRef.current) {
-                        handleCopy(text, true);
-
-                        if (typeof content.props?.onClick === 'function') {
-                            content.props.onClick(event);
-                        }
-                    }
+                    copy(true);
                 },
                 () => {
-                    if (text === textRef.current) {
-                        handleCopy(text, false);
-
-                        if (typeof content.props?.onClick === 'function') {
-                            content.props.onClick(event);
-                        }
-                    }
+                    copy(false);
                 },
             );
         },

@@ -71,7 +71,7 @@
                 "./build/esm/toaster-singleton-react-18.d.ts"
             ],
             "i18n": [
-                "./build/esm/components/utils/addComponentKeysets.d.ts"
+                "./build/esm/i18n/index.d.ts"
             ],
             "unstable": [
                 "./build/esm/unstable.d.ts"

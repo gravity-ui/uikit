@@ -82,7 +82,7 @@ export const PasswordInput = (props: PasswordInputProps) => {
             {showRevealButton ? (
                 <ActionTooltip
                     disabled={!hasRevealTooltip}
-                    title={revealValue ? i18n('label_show-password') : i18n('label_hide-password')}
+                    title={revealValue ? i18n('label_hide-password') : i18n('label_show-password')}
                 >
                     <Button
                         view="flat-secondary"
@@ -91,11 +91,11 @@ export const PasswordInput = (props: PasswordInputProps) => {
                         size={actionButtonSize}
                         extraProps={{
                             'aria-label': revealValue
-                                ? i18n('label_show-password')
-                                : i18n('label_hide-password'),
+                                ? i18n('label_hide-password')
+                                : i18n('label_show-password'),
                         }}
                     >
-                        <Icon data={revealValue ? Eye : EyeSlash} size={iconSize} />
+                        <Icon data={revealValue ? EyeSlash : Eye} size={iconSize} />
                     </Button>
                 </ActionTooltip>
             ) : null}
@@ -105,7 +105,7 @@ export const PasswordInput = (props: PasswordInputProps) => {
     return (
         <TextInput
             {...props}
-            type={revealValue ? 'password' : 'text'}
+            type={revealValue ? 'text' : 'password'}
             unstable_endContent={additionalEndContent}
             autoComplete={autoComplete ? autoComplete : 'new-password'}
             controlProps={{

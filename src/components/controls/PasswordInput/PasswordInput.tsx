@@ -29,6 +29,10 @@ export type PasswordInputProps = Omit<TextInputProps, 'type'> & {
     hasCopyTooltip?: boolean;
     /** Disable the tooltip for the reveal button. The tooltip will not be displayed */
     hasRevealTooltip?: boolean;
+    /** Determines the visibility state of the password input field */
+    revealValue?: boolean;
+    /** A callback function that is invoked whenever the revealValue state changes */
+    onRevealValueUpdate?: (value: boolean) => void;
 };
 
 export const PasswordInput = (props: PasswordInputProps) => {
@@ -50,18 +54,23 @@ export const PasswordInput = (props: PasswordInputProps) => {
         props.onUpdate,
     );
 
-    const [hideValue, setHideValue] = React.useState(true);
+    const [revealValue, setRevealValue] = useControlledState(
+        props.revealValue,
+        false,
+        props.onRevealValueUpdate,
+    );
 
     const {actionButtonSize, iconSize} = getActionButtonSizeAndIconSize(size);
 
-    const onClick = () => {
-        setHideValue((hideValue) => !hideValue);
+    const onClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+        event.preventDefault();
+        setRevealValue(!revealValue);
     };
 
     const additionalEndContent = (
         <React.Fragment>
             {endContent || rightContent}
-            {inputValue && showCopyButton ? (
+            {inputValue && showCopyButton && !props.disabled ? (
                 <ClipboardButton
                     view="flat-secondary"
                     text={inputValue}
@@ -73,19 +82,20 @@ export const PasswordInput = (props: PasswordInputProps) => {
             {showRevealButton ? (
                 <ActionTooltip
                     disabled={!hasRevealTooltip}
-                    title={hideValue ? i18n('label_show-password') : i18n('label_hide-password')}
+                    title={revealValue ? i18n('label_show-password') : i18n('label_hide-password')}
                 >
                     <Button
                         view="flat-secondary"
+                        disabled={props.disabled}
                         onClick={onClick}
                         size={actionButtonSize}
                         extraProps={{
-                            'aria-label': hideValue
+                            'aria-label': revealValue
                                 ? i18n('label_show-password')
                                 : i18n('label_hide-password'),
                         }}
                     >
-                        <Icon data={hideValue ? Eye : EyeSlash} size={iconSize} />
+                        <Icon data={revealValue ? Eye : EyeSlash} size={iconSize} />
                     </Button>
                 </ActionTooltip>
             ) : null}
@@ -95,7 +105,7 @@ export const PasswordInput = (props: PasswordInputProps) => {
     return (
         <TextInput
             {...props}
-            type={hideValue ? 'password' : 'text'}
+            type={revealValue ? 'password' : 'text'}
             unstable_endContent={additionalEndContent}
             autoComplete={autoComplete ? autoComplete : 'new-password'}
             controlProps={{

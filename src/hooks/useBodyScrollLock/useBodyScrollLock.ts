@@ -1,5 +1,21 @@
 import React from 'react';
 
+import get from 'lodash/get';
+
+const STORED_BODY_STYLE_KEYS = ['overflow', 'paddingRight', 'paddingBottom'] as const;
+type StoredBodyStyleKeys = (typeof STORED_BODY_STYLE_KEYS)[number];
+type StoredBodyStyle = Partial<Pick<CSSStyleDeclaration, StoredBodyStyleKeys>>;
+
+function getStoredStyles(): StoredBodyStyle {
+    const styles: StoredBodyStyle = {};
+
+    for (const property of STORED_BODY_STYLE_KEYS) {
+        styles[property] = get(document.body.style, property);
+    }
+
+    return styles;
+}
+
 export interface UseBodyScrollLockProps {
     enabled: boolean;
 }
@@ -7,7 +23,7 @@ export interface UseBodyScrollLockProps {
 export type BodyScrollLockProps = UseBodyScrollLockProps;
 
 let locks = 0;
-let storedBodyStyle: string | undefined;
+let storedBodyStyle: StoredBodyStyle = {};
 
 export function useBodyScrollLock({enabled}: UseBodyScrollLockProps) {
     React.useLayoutEffect(() => {
@@ -35,7 +51,8 @@ function setBodyStyles() {
     const xScrollbarWidth = getXScrollbarWidth();
     const bodyPadding = getBodyComputedPadding();
 
-    storedBodyStyle = document.body.style.cssText;
+    storedBodyStyle = getStoredStyles();
+
     document.body.style.overflow = 'hidden';
 
     if (yScrollbarWidth) {
@@ -47,10 +64,13 @@ function setBodyStyles() {
 }
 
 function restoreBodyStyles() {
-    if (storedBodyStyle) {
-        document.body.style.cssText = storedBodyStyle;
-    } else {
-        document.body.removeAttribute('style');
+    for (const property of STORED_BODY_STYLE_KEYS) {
+        const storedProperty = storedBodyStyle[property];
+        if (storedProperty) {
+            document.body.style[property] = storedProperty;
+        } else {
+            document.body.style.removeProperty(property);
+        }
     }
 }
 

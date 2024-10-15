@@ -1,0 +1,16 @@
+@use '../../../styles/mixins.scss';
+@use '../variables';
+
+$block: '.#{variables.$ns}help-mark';
+
+#{$block} {
+    &__button {
+        @include mixins.button-reset();
+        color: var(--g-color-text-hint);
+    }
+
+    &__button:focus-visible {
+        outline: 2px solid var(--g-color-line-focus);
+        border-radius: 50%;
+    }
+}

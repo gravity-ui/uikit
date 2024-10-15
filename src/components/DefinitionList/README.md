@@ -45,25 +45,25 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Property           | Type                           | Required | Default      | Description                                                                                         |
-| :----------------- | :----------------------------- | :------: | :----------- | :-------------------------------------------------------------------------------------------------- |
-| [children](#items) | `React.ReactNode`              |   yes    |              | Items of the list                                                                                   |
-| responsive         | `boolean`                      |          |              | If set to `true` list will take 100% width of its parent                                            |
-| direction          | `'horizontal'` \| `'vertical'` |          | 'horizontal' | If set to `vertical` content will be located under name and list will take 100% width of its parent |
-| nameMaxWidth       | `number`                       |          |              | Maximum width of term                                                                               |
-| contentMaxWidth    | `number`                       |          |              | Maximum width of definition                                                                         |
-| className          | `string`                       |          |              | Class name for the definition list                                                                  |
+| Name               | Description                                                                                         |              Type              |   Default    |
+| :----------------- | :-------------------------------------------------------------------------------------------------- | :----------------------------: | :----------: |
+| [children](#items) | Items of the list                                                                                   |       `React.ReactNode`        |              |
+| responsive         | If set to `true` list will take 100% width of its parent                                            |           `boolean`            |              |
+| direction          | If set to `vertical` content will be located under name and list will take 100% width of its parent | `'horizontal'` \| `'vertical'` | 'horizontal' |
+| nameMaxWidth       | Maximum width of term                                                                               |            `number`            |              |
+| contentMaxWidth    | Maximum width of definition                                                                         |            `number`            |              |
+| className          | Class name for the definition list                                                                  |            `string`            |              |
 
 ### Items
 
 DefinitionList children should be components of type `DefinitionList.Item` with following properties:
 
-| Property | Type                      | Required | Default | Description                                      |
-| -------- | ------------------------- | -------- | ------- | ------------------------------------------------ |
-| name     | `ReactNode`               | true     |         | Term                                             |
-| children | `ReactNode`               |          |         | Definition                                       |
-| copyText | `string`                  |          |         | If set, it will be shown icon for copy this text |
-| note     | `string \| HelpMarkProps` |          |         | If set, HelpMark will be shown next to term      |
+| Name     | Description                                      |           Type            | Default |
+| -------- | ------------------------------------------------ | :-----------------------: | :-----: |
+| name     | Term                                             |        `ReactNode`        |         |
+| children | Definition                                       |        `ReactNode`        |         |
+| copyText | If set, it will be shown icon for copy this text |         `string`          |         |
+| note     | If set, HelpMark will be shown next to term      | `string \| HelpMarkProps` |         |
 
 ## CSS API
 

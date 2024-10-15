@@ -47,7 +47,9 @@ function prepareChildren(children: React.ReactNode) {
         if (isItem) {
             normalizedItems.push(item);
         } else {
-            warnOnce('Only <DefinitionList.Item> components is allowed inside <DefinitionList>');
+            warnOnce(
+                '[DefinitionList] Only <DefinitionList.Item> components is allowed as children',
+            );
         }
     }
     return normalizedItems;

@@ -69,10 +69,10 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Property    | Type                                            | Required | Default             | Description                                     |
-| :---------- | :---------------------------------------------- | :------- | :------------------ | :---------------------------------------------- |
-| className   | `String`                                        |          |                     | Control class name                              |
-| placement   | `Array`                                         |          | [`right`, `bottom`] | Allowed popover positions                       |
-| children    | `ReactNode`                                     |          |                     | Popover content                                 |
-| buttonProps | `React.ButtonHTMLAttributes<HTMLButtonElement>` |          |                     | Set attributes to the underlying button element |
-| buttonRef   | `React.RefObject<HTMLButtonElement>`            |          |                     | Ref to the underlying button element            |
+| Name        | Description                                     |                      Type                       |       Default       |
+| :---------- | :---------------------------------------------- | :---------------------------------------------: | :-----------------: |
+| className   | Control class name                              |                    `String`                     |                     |
+| placement   | Allowed popover positions                       |                     `Array`                     | [`right`, `bottom`] |
+| children    | Popover content                                 |                   `ReactNode`                   |                     |
+| buttonProps | Set attributes to the underlying button element | `React.ButtonHTMLAttributes<HTMLButtonElement>` |                     |
+| buttonRef   | Ref to the underlying button element            |      `React.RefObject<HTMLButtonElement>`       |                     |

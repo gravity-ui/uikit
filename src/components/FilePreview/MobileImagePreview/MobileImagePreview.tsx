@@ -54,7 +54,7 @@ export function MobileImagePreview({
                 <div className={cn('action-buttons')}>
                     {actions?.map((action) => (
                         <Button size="xl" key={action.id} onClick={action.onClick} view="raised">
-                            <Icon data={action.icon} size={20} />
+                            action.icon
                         </Button>
                     ))}
                 </div>

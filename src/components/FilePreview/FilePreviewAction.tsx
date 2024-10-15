@@ -3,12 +3,10 @@ import React from 'react';
 import {ActionTooltip} from '../ActionTooltip';
 import type {ActionTooltipProps} from '../ActionTooltip';
 import {Button} from '../Button';
-import {Icon} from '../Icon';
-import type {IconData} from '../Icon';
 
 export interface FilePreviewActionProps {
     id?: string;
-    icon: IconData;
+    icon: React.ReactNode;
     title: string;
     href?: string;
     disabled?: boolean;
@@ -33,6 +31,7 @@ export function FilePreviewAction({
         <ActionTooltip id={id} title={title} {...tooltipExtraProps}>
             <Button
                 onClick={onClick}
+                aria-describedby={id}
                 view="raised"
                 pin="circle-circle"
                 href={href}
@@ -40,7 +39,7 @@ export function FilePreviewAction({
                 size="s"
                 extraProps={{'aria-label': title, 'aria-describedby': id, ...extraProps}}
             >
-                <Icon data={icon} size={14} />
+                {icon}
             </Button>
         </ActionTooltip>
     );

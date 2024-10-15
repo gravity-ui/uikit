@@ -44,8 +44,8 @@ describe('FilePreview', () => {
                 file={{name: fileName, type: fileType} as File}
                 onClick={clickHandler}
                 actions={[
-                    {icon: CircleExclamation, title: 'some hint'},
-                    {icon: CircleExclamation, title: 'second hint'},
+                    {icon: <CircleExclamation width={14} height={14} />, title: 'some hint'},
+                    {icon: <CircleExclamation width={14} height={14} />, title: 'second hint'},
                 ]}
             />,
         );
@@ -72,8 +72,8 @@ describe('FilePreview', () => {
                 file={{name: fileName, type: fileType} as File}
                 imageSrc={imageSrc}
                 actions={[
-                    {icon: CircleExclamation, title: firstActionText},
-                    {icon: CircleExclamation, title: secondActionText},
+                    {icon: <CircleExclamation width={14} height={14} />, title: firstActionText},
+                    {icon: <CircleExclamation width={14} height={14} />, title: secondActionText},
                 ]}
             />,
         );
@@ -97,12 +97,12 @@ describe('FilePreview', () => {
                 file={{name: fileName, type: fileType} as File}
                 actions={[
                     {
-                        icon: CircleExclamation,
+                        icon: <CircleExclamation width={14} height={14} />,
                         title: 'some hint',
                         onClick: firstActionsClickHandler,
                     },
                     {
-                        icon: CircleExclamation,
+                        icon: <CircleExclamation width={14} height={14} />,
                         title: 'second hint',
                         onClick: secondActionsClickHandler,
                     },
@@ -146,7 +146,7 @@ describe('FilePreview', () => {
                     actions={[
                         {
                             disabled,
-                            icon: CircleExclamation,
+                            icon: <CircleExclamation width={14} height={14} />,
                             title: 'some hint',
                             onClick: actionsClickHandler,
                         },

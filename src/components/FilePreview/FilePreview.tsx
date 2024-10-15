@@ -13,6 +13,7 @@ import {
 } from '@gravity-ui/icons';
 
 import {useActionHandlers, useUniqId} from '../../hooks';
+import {useBoolean} from '../../hooks/private';
 import {Icon} from '../Icon';
 import type {IconData} from '../Icon';
 import {Text} from '../Text';
@@ -65,7 +66,7 @@ export function FilePreview({
     const id = useUniqId();
 
     const [previewSrc, setPreviewSrc] = React.useState<string | undefined>(imageSrc);
-    const [showPreviewSheet, setShowPreviewSheet] = React.useState(false);
+    const [isPreviewSheetVisible, showPreviewSheet, closePreviewSheet] = useBoolean(false);
     const mobile = useMobile();
     const type = getFileType(file);
 
@@ -93,17 +94,19 @@ export function FilePreview({
     const isPreviewString = typeof previewSrc === 'string';
     const hideActions = isPreviewString && mobile;
 
-    const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
-        if (mobile && isPreviewString && !onClick) {
-            setShowPreviewSheet(true);
-        } else {
-            onClick?.(e);
-        }
-    };
+    const handleClick: React.MouseEventHandler<HTMLDivElement> = React.useCallback(
+        (e) => {
+            if (onClick) {
+                onClick(e);
+                return;
+            }
 
-    const handleSheetClose = () => {
-        setShowPreviewSheet(false);
-    };
+            if (mobile && isPreviewString) {
+                showPreviewSheet();
+            }
+        },
+        [isPreviewString, mobile, onClick, showPreviewSheet],
+    );
 
     return (
         <div className={cn(null, className)} data-qa={qa}>
@@ -112,11 +115,11 @@ export function FilePreview({
                 role={clickable ? 'button' : undefined}
                 onKeyDown={clickable ? onKeyDown : undefined}
                 tabIndex={clickable ? 0 : undefined}
-                onClick={handleClick}
+                onClick={clickable ? handleClick : undefined}
             >
                 {isPreviewString ? (
-                    <div className={cn('image')}>
-                        <img className={cn('image-img')} src={previewSrc} alt={file.name} />
+                    <div className={cn('image-container')}>
+                        <img className={cn('image')} src={previewSrc} alt={file.name} />
                     </div>
                 ) : (
                     <div className={cn('icon', {type})}>
@@ -150,8 +153,8 @@ export function FilePreview({
             ) : null}
 
             <MobileImagePreview
-                visible={showPreviewSheet}
-                onClose={handleSheetClose}
+                visible={isPreviewSheetVisible}
+                onClose={closePreviewSheet}
                 actions={actions}
                 previewSrc={previewSrc}
                 fileName={file.name}

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {CircleExclamation, Link, Xmark} from '@gravity-ui/icons';
+import {action} from '@storybook/addon-actions';
 import type {Meta, StoryFn} from '@storybook/react';
 
 import {Flex} from '../../layout';
@@ -26,6 +27,28 @@ export default {
     },
 } as Meta<typeof FilePreview>;
 
+const DefaultTemplate: StoryFn<FilePreviewProps> = (args) => {
+    return <FilePreview {...args} />;
+};
+
+export const Default = DefaultTemplate.bind({});
+Default.args = {
+    file: {name: 'my-file.docs', type: 'text/docs'} as File,
+    onClick: () => action('onClick'),
+    actions: [
+        {
+            icon: <Link width={14} height={14} />,
+            onClick: () => action('onLink'),
+            title: 'Link',
+        },
+        {
+            icon: <Xmark width={14} height={14} />,
+            onClick: () => action('onClose'),
+            title: 'Close',
+        },
+    ],
+};
+
 const CollageTemplate: StoryFn<FilePreviewProps> = () => {
     return (
         <div
@@ -42,17 +65,17 @@ const CollageTemplate: StoryFn<FilePreviewProps> = () => {
                 <FilePreview
                     key={fileType}
                     file={{name: fileType, type: fileType} as File}
-                    onClick={() => alert(`You clicked on the file: ${fileType}`)}
+                    onClick={() => action('onClick')}
                     actions={[
                         {
-                            icon: Link,
+                            icon: <Link width={14} height={14} />,
                             title: 'open on drive',
-                            onClick: () => window.open('https://disk.yandex.com', '_blank'),
+                            onClick: () => action('onLink'),
                         },
                         {
-                            icon: Xmark,
+                            icon: <Xmark width={14} height={14} />,
                             title: 'delete a file',
-                            onClick: () => alert('Are you sure you want to delete the file?'),
+                            onClick: () => action('onClose'),
                         },
                     ]}
                 />
@@ -62,13 +85,13 @@ const CollageTemplate: StoryFn<FilePreviewProps> = () => {
                 imageSrc="https://storage.yandexcloud.net/uikit-storybook-assets/changelog-dialog-picture-2.png"
                 actions={[
                     {
-                        icon: CircleExclamation,
+                        icon: <CircleExclamation width={14} height={14} />,
                         title: 'some hint',
-                        onClick: () => alert('Some info'),
+                        onClick: () => action('onHint'),
                     },
                     {
-                        icon: Xmark,
-                        onClick: () => alert('Are you sure you want to delete the file?'),
+                        icon: <Xmark width={14} height={14} />,
+                        onClick: () => action('onClose'),
                         title: 'Close',
                     },
                 ]}
@@ -79,25 +102,6 @@ const CollageTemplate: StoryFn<FilePreviewProps> = () => {
 
 export const Collage = CollageTemplate.bind({});
 
-const DefaultTemplate: StoryFn<FilePreviewProps> = (args) => {
-    return <FilePreview {...args} />;
-};
-
-export const Default = DefaultTemplate.bind({});
-Default.args = {
-    file: {name: 'my-file.docs', type: 'text/docs'} as File,
-    onClick: () => {
-        window.open('https://disk.yandex.com', '_blank');
-    },
-    actions: [
-        {
-            icon: Xmark,
-            onClick: () => alert('Are you sure you want to delete the file?'),
-            title: 'Close',
-        },
-    ],
-};
-
 const NoClickableTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> = (args) => {
     return (
         <Flex gap={4}>
@@ -107,8 +111,8 @@ const NoClickableTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> = (args) =
                 file={{name: 'No clickable with actions', type: 'text/docs'} as File}
                 actions={[
                     {
-                        icon: Xmark,
-                        onClick: () => alert('Are you sure you want to delete the file?'),
+                        icon: <Xmark width={14} height={14} />,
+                        onClick: () => action('Are you sure you want to delete the file?'),
                         title: 'Close',
                     },
                 ]}
@@ -116,13 +120,11 @@ const NoClickableTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> = (args) =
             <FilePreview
                 {...args}
                 file={{name: 'Clickable with actions', type: 'text/docs'} as File}
-                onClick={() => {
-                    window.open('https://disk.yandex.com', '_blank');
-                }}
+                onClick={() => action('onClick')}
                 actions={[
                     {
-                        icon: Xmark,
-                        onClick: () => alert('Are you sure you want to delete the file?'),
+                        icon: <Xmark width={14} height={14} />,
+                        onClick: () => action('Are you sure you want to delete the file?'),
                         title: 'Close',
                     },
                 ]}
@@ -139,13 +141,11 @@ const WithoutActionTooltipTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> =
             <FilePreview
                 {...args}
                 file={{name: 'Clicable without tooltip', type: 'text/docs'} as File}
-                onClick={() => {
-                    window.open('https://disk.yandex.com', '_blank');
-                }}
+                onClick={() => action('onClick')}
                 actions={[
                     {
-                        icon: Xmark,
-                        onClick: () => alert('Are you sure you want to delete the file?'),
+                        icon: <Xmark width={14} height={14} />,
+                        onClick: () => action('onClose'),
                         title: 'Close',
                         tooltipExtraProps: {
                             disabled: true,

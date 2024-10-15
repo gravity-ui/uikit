@@ -14,22 +14,26 @@ A component for displaying the file.
 
 ```tsx
 <FilePreview
-  file={file}
-  imageSrc="assets/files/first"
+  file={{name: 'my-file.docs', type: 'text/docs'} as File}
+  onClick={() => action('onClick')}
   actions={[
     {
-      icon: linkIcon,
-      title: 'open on drive',
-      onClick: onFileOpen,
+      icon: <Link width={14} height={14} />,
+      title: 'Link',
+      onClick: () => action('onLink'),
     },
     {
-      icon: xmarkIcon,
-      title: 'delete a file',
-      onClick: onFileDelete,
+      icon: <Xmark width={14} height={14} />,
+      title: 'Close',
+      onClick: () => action('onClose'),
     },
   ]}
 />
 ```
+
+<!-- Storybook example -->
+
+<FilePreviewExample />
 
 <!--/GITHUB_BLOCK-->
 
@@ -38,38 +42,38 @@ A component for displaying the file.
 <ExampleBlock
     code={`
 <UIKit.FilePreview
-  file={file}
-  imageSrc="assets/files/first"
+  file={{name: 'my-file.docs', type: 'text/docs'} as File}
+  onClick={() => action('onClick')}
   actions={[
     {
-      icon: linkIcon,
-      title: 'open on drive',
-      onClick: onFileOpen,
+      icon: <Link width={14} height={14} />,
+      title: 'Link',
+      onClick: () => action('onLink'),
     },
     {
-      icon: xmarkIcon,
-      title: 'delete a file',
-      onClick: onFileDelete,
+      icon: <Xmark width={14} height={14} />,
+      title: 'Close',
+      onClick: () => action('onClose'),
     },
   ]}
 />
 `}>
-    <UIKit.FilePreview
-      file={file}
-      imageSrc="assets/files/first"
-      actions={[
-        {
-          icon: linkIcon,
-          title: 'open on drive',
-          onClick: onFileOpen,
-        },
-        {
-          icon: xmarkIcon,
-          title: 'delete a file',
-          onClick: onFileDelete,
-        },
-      ]}
-    />
+  <UIKit.FilePreview
+    file={{name: 'my-file.docs', type: 'text/docs'} as File}
+    onClick={() => action('onClick')}
+    actions={[
+      {
+        icon: <Link width={14} height={14} />,
+        title: 'Link',
+        onClick: () => action('onLink'),
+      },
+      {
+        icon: <Xmark width={14} height={14} />,
+        title: 'Close',
+        onClick: () => action('onClose'),
+      },
+    ]}
+  />
 </ExampleBlock>
 LANDING_BLOCK-->
 
@@ -77,24 +81,24 @@ LANDING_BLOCK-->
 
 ### Properties
 
-| Property            | Type                       | Required | Default | Description                                                                                                      |
-| :------------------ | :------------------------- | :------: | :------ | :--------------------------------------------------------------------------------------------------------------- |
-| file                | `File`                     |   yes    |         | The File interface provides information about files and allows JavaScript in a web page to access their content. |
-| imageSrc            | `string`                   |          |         | source for image preview                                                                                         |
-| description         | `string`                   |          |         | Description displayed under the file name                                                                        |
-| className           | `string`                   |          |         | Class name for the file container                                                                                |
-| onClick             | `function`                 |          |         | Click handler for the file container                                                                             |
-| [actions](#actions) | `FilePreviewActionProps[]` |          | `[]`    | Click handler for the file container                                                                             |
+| Name                | Description                                                                                                      | Type                       | Required | Default |
+| :------------------ | :--------------------------------------------------------------------------------------------------------------- | :------------------------- | :------: | :------ |
+| file                | The File interface provides information about files and allows JavaScript in a web page to access their content. | `File`                     |   yes    |         |
+| imageSrc            | source for image preview                                                                                         | `string`                   |          |         |
+| description         | Description displayed under the file name                                                                        | `string`                   |          |         |
+| className           | Class name for the file container                                                                                | `string`                   |          |         |
+| onClick             | Click handler for the file container                                                                             | `function`                 |          |         |
+| [actions](#actions) | Аn array of interactive actions                                                                                  | `FilePreviewActionProps[]` |          | `[]`    |
 
 #### Actions
 
 For a file, you can prescribe actions that will be visible when you hover over it.
 
-| Property   | Type                                                                                 | Required | Default | Description                    |
-| ---------- | ------------------------------------------------------------------------------------ | -------- | ------- | ------------------------------ |
-| id         | `String`                                                                             |          |         | Action id                      |
-| icon       | `String`                                                                             | ✓        |         | Action icon                    |
-| title      | `String`                                                                             | ✓        |         | Action hint on hover           |
-| onClick    | `function`                                                                           |          |         | Action click handler           |
-| href       | `String`                                                                             |          |         | Action button href             |
-| extraProps | `ButtonHTMLAttributes<HTMLButtonElement> \| AnchorHTMLAttributes<HTMLAnchorElement>` |          |         | Additional action button props |
+| Name       | Description                    | Type                                                                                 | Required | Default |
+| ---------- | ------------------------------ | ------------------------------------------------------------------------------------ | -------- | ------- |
+| id         | Action id                      | `String`                                                                             |          |         |
+| icon       | Action icon                    | `String`                                                                             | ✓        |         |
+| title      | Action hint on hover           | `String`                                                                             | ✓        |         |
+| onClick    | Action click handler           | `function`                                                                           |          |         |
+| href       | Action button href             | `String`                                                                             |          |         |
+| extraProps | Additional action button props | `ButtonHTMLAttributes<HTMLButtonElement> \| AnchorHTMLAttributes<HTMLAnchorElement>` |          |         |

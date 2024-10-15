@@ -1,3 +1,5 @@
+import type React from 'react';
+
 import type {MountOptions, MountResult} from '@playwright/experimental-ct-react';
 import type {
     Locator,
@@ -11,8 +13,8 @@ import type {
 
 interface ComponentFixtures {
     mount<HooksConfig>(
-        component: JSX.Element,
-        options?: MountOptions<HooksConfig>,
+        component: React.JSX.Element,
+        options?: MountOptions<HooksConfig> & {width?: number},
     ): Promise<MountResult>;
 }
 

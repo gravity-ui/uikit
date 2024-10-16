@@ -13,8 +13,9 @@ export default meta;
 type Story = StoryObj<typeof UserLabel>;
 
 const person = 'Charles Darwin';
-const email = faker.internet.email(...person.split(' '));
-const personImg = faker.internet.avatar();
+const [firstName, lastName] = person.split(' ');
+const email = faker.internet.email({firstName, lastName});
+const personImg = faker.image.avatar();
 
 export const Default: Story = {
     args: {

@@ -5,7 +5,7 @@ import React from 'react';
 import {List} from '../../../List';
 import {SelectQa, selectListBlock} from '../../constants';
 import type {SelectOption, SelectProps} from '../../types';
-import {getOptionsHeight, getPopupItemHeight} from '../../utils';
+import {getOptionsHeight, getPopupItemHeight, scrollToItem} from '../../utils';
 import type {FlattenOption, GroupTitleItem} from '../../utils';
 
 import {GroupLabel} from './GroupLabel';
@@ -152,6 +152,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
             activeItemIndex={activeIndex}
             onChangeActive={onChangeActive}
             deactivateOnLeave={false}
+            onScrollToItem={scrollToItem}
         />
     );
 });

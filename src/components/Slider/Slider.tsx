@@ -8,8 +8,14 @@ import {useDirection} from '../theme';
 import {block} from '../utils/cn';
 
 import {BaseSlider} from './BaseSlider/BaseSlider';
-import {SliderTooltip} from './SliderTooltip/SliderTooltip';
-import type {RcSliderValueType, SliderProps, SliderValue, StateModifiers} from './types';
+import {HandleWithTooltip} from './HandleWithTooltip/HandleWithTooltip';
+import type {
+    HandleWithTooltipProps,
+    RcSliderValueType,
+    SliderProps,
+    SliderValue,
+    StateModifiers,
+} from './types';
 import {prepareSliderInnerState} from './utils';
 
 import './Slider.scss';
@@ -26,7 +32,11 @@ export const Slider = React.forwardRef(function Slider(
         step = 1,
         marksCount = 2,
         availableValues,
-        hasTooltip = false,
+        hasTooltip,
+        markFormat,
+        marks,
+        tooltipDisplay,
+        tooltipFormat = markFormat,
         errorMessage,
         validationState,
         disabled = false,
@@ -79,18 +89,49 @@ export const Slider = React.forwardRef(function Slider(
         min,
         step,
         value,
+        markFormat,
+        marks,
+        hasTooltip,
+        tooltipDisplay,
+        tooltipFormat,
     });
-    const stateModifiers: StateModifiers = {
-        size,
-        error: validationState === 'invalid' && !disabled,
-        disabled,
-        hasTooltip: Boolean(hasTooltip),
-        rtl: direction === 'rtl',
-    };
+
+    const stateModifiers: StateModifiers = React.useMemo<StateModifiers>(
+        () => ({
+            size,
+            error: validationState === 'invalid' && !disabled,
+            disabled,
+            'tooltip-display': innerState.tooltipDisplay,
+            rtl: direction === 'rtl',
+            'no-marks': Array.isArray(marks) ? marks.length === 0 : marks === 0,
+        }),
+        [direction, disabled, innerState.tooltipDisplay, size, validationState, marks],
+    );
+
+    const handleRender = React.useMemo(
+        () =>
+            innerState.tooltipDisplay === 'off'
+                ? undefined
+                : (
+                      originHandle: HandleWithTooltipProps['originHandle'],
+                      originHandleProps: HandleWithTooltipProps['originHandleProps'],
+                  ) => (
+                      <HandleWithTooltip
+                          originHandle={originHandle}
+                          originHandleProps={originHandleProps}
+                          stateModifiers={stateModifiers}
+                          className={b('tooltip')}
+                          tooltipFormat={innerState.tooltipFormat}
+                      />
+                  ),
+        [innerState.tooltipDisplay, innerState.tooltipFormat, stateModifiers],
+    );
 
     return (
         <div className={b(null, className)} ref={ref}>
-            <div className={b('top', {size, hasTooltip})}></div>
+            <div className={b('top', {size, 'tooltip-display': tooltipDisplay})}>
+                {/* use this block to reserve place for tooltip */}
+            </div>
             <BaseSlider
                 ref={apiRef}
                 value={innerState.value}
@@ -110,27 +151,7 @@ export const Slider = React.forwardRef(function Slider(
                 autoFocus={autoFocus}
                 tabIndex={tabIndex}
                 data-qa={qa}
-                handleRender={
-                    hasTooltip
-                        ? (originHandle, handleProps) => {
-                              const styleProp = stateModifiers.rtl ? 'right' : 'left';
-                              return (
-                                  <React.Fragment>
-                                      {originHandle}
-                                      <SliderTooltip
-                                          value={handleProps.value}
-                                          className={b('tooltip')}
-                                          style={{
-                                              insetInlineStart:
-                                                  originHandle.props.style?.[styleProp],
-                                          }}
-                                          stateModifiers={stateModifiers}
-                                      />
-                                  </React.Fragment>
-                              );
-                          }
-                        : undefined
-                }
+                handleRender={handleRender}
                 reverse={stateModifiers.rtl}
                 ariaLabelForHandle={ariaLabelForHandle}
                 ariaLabelledByForHandle={ariaLabelledByForHandle}

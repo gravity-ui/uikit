@@ -8,6 +8,8 @@ import {SelectControl} from '../Select/components';
 import {SelectPopup} from '../Select/components/SelectPopup/SelectPopup';
 import {TreeList} from '../TreeList';
 import type {TreeListRenderItem} from '../TreeList/types';
+import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
+import {errorPropsMapper} from '../controls/utils';
 import {useMobile} from '../mobile';
 import {ListItemView, getListItemClickHandler, useList} from '../useList';
 import type {ListOnItemClick} from '../useList';
@@ -25,7 +27,7 @@ const defaultItemRenderer: TreeListRenderItem<unknown> = (renderState) => {
     return <ListItemView {...renderState.props} {...renderState.renderContainerProps} />;
 };
 
-export const TreeSelect = React.forwardRef(function TreeSelect<T>(
+export const TreeSelect = React.forwardRef(function TreeSelect<T, P extends {} = {}>(
     {
         id,
         qa,
@@ -51,18 +53,22 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         disabled = false,
         withExpandedState = true,
         defaultExpandedState = 'expanded',
+        hasClear,
+        errorMessage: propsErrorMessage,
+        errorPlacement: propsErrorPlacement,
+        validationState: propsValidationState,
         onClose,
         onOpenChange,
         onUpdate,
         renderControl,
-        renderItem = defaultItemRenderer as TreeListRenderItem<T>,
+        renderItem = defaultItemRenderer as TreeListRenderItem<T, P>,
         renderContainer,
         mapItemDataToContentProps,
         onFocus,
         onBlur,
         getItemId,
         onItemClick,
-    }: TreeSelectProps<T>,
+    }: TreeSelectProps<T, P>,
     ref: React.Ref<HTMLButtonElement>,
 ) {
     const mobile = useMobile();
@@ -74,6 +80,19 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
     const controlRef = React.useRef<HTMLElement>(null);
     const containerRefLocal = React.useRef<HTMLDivElement>(null);
     const containerRef = propsContainerRef ?? containerRefLocal;
+
+    const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
+        errorMessage: propsErrorMessage,
+        errorPlacement: propsErrorPlacement || 'outside',
+        validationState: propsValidationState,
+    });
+    const errorMessageId = useUniqId();
+
+    const isErrorStateVisible = validationState === 'invalid';
+    const isErrorMsgVisible =
+        isErrorStateVisible && Boolean(errorMessage) && errorPlacement === 'outside';
+    const isErrorIconVisible =
+        isErrorStateVisible && Boolean(errorMessage) && errorPlacement === 'inside';
 
     const handleControlRef = useForkRef(ref, controlRef);
 
@@ -165,6 +184,11 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         id: treeSelectId,
         activeItemId: list.state.activeItemId,
         title,
+        errorMessage: isErrorIconVisible ? errorMessage : undefined,
+        errorPlacement,
+        validationState,
+        hasClear,
+        isErrorVisible: isErrorStateVisible,
     };
 
     const togglerNode = renderControl ? (
@@ -218,7 +242,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
             >
                 {slotBeforeListBody}
 
-                <TreeList<T>
+                <TreeList<T, P>
                     list={list}
                     size={size}
                     className={b('list', containerClassName)}
@@ -234,6 +258,10 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
 
                 {slotAfterListBody}
             </SelectPopup>
+            <OuterAdditionalContent
+                errorMessage={isErrorMsgVisible ? errorMessage : null}
+                errorMessageId={errorMessageId}
+            />
         </div>
     );
 }) as <T, P extends {} = {}>(

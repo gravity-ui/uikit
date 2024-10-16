@@ -2,6 +2,7 @@ export * from './types';
 export * from './mobile';
 export * from './theme';
 
+export * from './ActionsPanel';
 export * from './ActionTooltip';
 export * from './Alert';
 export * from './ArrowToggle';
@@ -13,6 +14,8 @@ export * from './Card';
 export * from './ClipboardButton';
 export * from './ClipboardIcon';
 export * from './CopyToClipboard';
+export * from './DefinitionList';
+export * from './HelpMark';
 export * from './Dialog';
 export * from './Disclosure';
 export * from './Divider';

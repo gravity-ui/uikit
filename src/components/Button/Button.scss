@@ -311,48 +311,6 @@ $block: '.#{variables.$ns}button';
         }
     }
 
-    &_disabled {
-        cursor: default;
-        pointer-events: none;
-
-        &:not(#{$block}_loading) {
-            --_--text-color: var(--g-color-text-hint);
-            --_--background-color: var(--g-color-base-generic-accent-disabled);
-            --_--background-color-hover: var(--g-color-base-generic-accent-disabled);
-            --_--border-width: 0;
-
-            &:is(#{$block}_view_normal-contrast, #{$block}_view_outlined-contrast) {
-                --_--text-color: var(--g-color-text-light-secondary);
-                --_--background-color: var(--g-color-base-light-disabled);
-                --_--background-color-hover: var(--g-color-base-light-disabled);
-            }
-
-            &:is(
-                    #{$block}_view_flat,
-                    #{$block}_view_flat-secondary,
-                    #{$block}_view_flat-info,
-                    #{$block}_view_flat-success,
-                    #{$block}_view_flat-warning,
-                    #{$block}_view_flat-danger,
-                    #{$block}_view_flat-utility,
-                    #{$block}_view_flat-action,
-                    #{$block}_view_flat-contrast
-                ) {
-                --_--text-color: var(--g-color-text-hint);
-                --_--background-color: transparent;
-                --_--background-color-hover: transparent;
-            }
-
-            &#{$block}_view_flat-contrast {
-                --_--text-color: var(--g-color-text-light-hint);
-            }
-        }
-
-        &:active {
-            transform: scale(1);
-        }
-    }
-
     &_selected {
         &:not(#{$block}_view_outlined-contrast) {
             --_--border-width: 0;
@@ -403,6 +361,48 @@ $block: '.#{variables.$ns}button';
                 --_--background-color: var(--g-color-base-utility-light);
                 --_--background-color-hover: var(--g-color-base-utility-light-hover);
             }
+        }
+    }
+
+    &_disabled {
+        cursor: default;
+        pointer-events: none;
+
+        &:not(#{$block}_loading) {
+            --_--text-color: var(--g-color-text-hint);
+            --_--background-color: var(--g-color-base-generic-accent-disabled);
+            --_--background-color-hover: var(--g-color-base-generic-accent-disabled);
+            --_--border-width: 0;
+
+            &:is(#{$block}_view_normal-contrast, #{$block}_view_outlined-contrast) {
+                --_--text-color: var(--g-color-text-light-secondary);
+                --_--background-color: var(--g-color-base-light-disabled);
+                --_--background-color-hover: var(--g-color-base-light-disabled);
+            }
+
+            &:is(
+                    #{$block}_view_flat,
+                    #{$block}_view_flat-secondary,
+                    #{$block}_view_flat-info,
+                    #{$block}_view_flat-success,
+                    #{$block}_view_flat-warning,
+                    #{$block}_view_flat-danger,
+                    #{$block}_view_flat-utility,
+                    #{$block}_view_flat-action,
+                    #{$block}_view_flat-contrast
+                ) {
+                --_--text-color: var(--g-color-text-hint);
+                --_--background-color: transparent;
+                --_--background-color-hover: transparent;
+            }
+
+            &#{$block}_view_flat-contrast {
+                --_--text-color: var(--g-color-text-light-hint);
+            }
+        }
+
+        &:active {
+            transform: scale(1);
         }
     }
 

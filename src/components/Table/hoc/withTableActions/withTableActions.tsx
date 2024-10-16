@@ -50,7 +50,7 @@ export interface TableAction<I> {
         index: number,
         event: React.MouseEvent<HTMLDivElement | HTMLAnchorElement, MouseEvent>,
     ) => void;
-    href?: string;
+    href?: ((item: I, index: number) => string) | string;
     target?: string;
     rel?: string;
     disabled?: boolean;
@@ -132,7 +132,7 @@ const DefaultRowActions = <I extends TableDataItem>({
             );
         }
 
-        const {text, icon, handler, ...restProps} = action;
+        const {text, icon, handler, href, ...restProps} = action;
 
         return (
             <Menu.Item
@@ -143,6 +143,7 @@ const DefaultRowActions = <I extends TableDataItem>({
 
                     closePopup();
                 }}
+                href={typeof href === 'function' ? href(item, index) : href}
                 iconStart={icon}
                 className={menuItemCn}
                 {...restProps}
@@ -273,6 +274,13 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
                 }
 
                 return (item: I, index: number, event: React.MouseEvent<HTMLTableRowElement>) => {
+                    if (
+                        // @ts-expect-error
+                        event.nativeEvent.target.closest(`.${menuCn}`)
+                    ) {
+                        return undefined;
+                    }
+
                     if (
                         // @ts-expect-error
                         event.nativeEvent.target.matches(

@@ -1,0 +1,93 @@
+@use '../../../styles/mixins.scss';
+@use '../variables';
+
+$block: '.#{variables.$ns}definition-list';
+
+#{$block} {
+    --_--item-block-start: var(--g-spacing-4);
+    --_--term-width: 300px;
+    margin: 0;
+
+    &__item {
+        display: flex;
+        align-items: baseline;
+        gap: var(--g-spacing-1);
+
+        & + & {
+            margin-block-start: var(--g-definition-list-item-gap, var(--_--item-block-start));
+        }
+    }
+
+    &__term-container {
+        display: flex;
+        flex: 0 0 auto;
+        width: var(--_--term-width);
+        max-width: var(--_--term-width);
+        align-items: baseline;
+
+        overflow: hidden;
+        position: relative;
+    }
+
+    &__term-wrapper {
+        color: var(--g-color-text-secondary);
+    }
+
+    &__dots {
+        box-sizing: border-box;
+        flex: 1 0 auto;
+        min-width: 25px;
+        margin: 0 2px;
+        border-block-end: 1px dotted var(--g-color-line-generic-active);
+    }
+
+    &__definition {
+        flex: 0 1 auto;
+        margin: 0;
+    }
+
+    &_responsive {
+        #{$block}__term-container {
+            --_--term-width: auto;
+            flex: 1 0 50%;
+        }
+    }
+    &_vertical {
+        --_--item-block-start: var(--g-spacing-3);
+        --_--term-width: auto;
+
+        #{$block}__term-container {
+            flex: 1 0 auto;
+        }
+        #{$block}__item {
+            flex-direction: column;
+            gap: var(--g-spacing-half);
+        }
+    }
+
+    &__copy-container {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        padding-inline-end: var(--g-spacing-7);
+
+        margin-inline-end: calc(-1 * var(--g-spacing-7));
+
+        &:hover {
+            #{$block}__copy-button {
+                opacity: 1;
+            }
+        }
+    }
+
+    &__copy-button {
+        position: absolute;
+        display: inline-block;
+        inset-inline-end: 0;
+        margin-inline-start: 10px;
+        opacity: 0;
+        &:focus-visible {
+            opacity: 1;
+        }
+    }
+}

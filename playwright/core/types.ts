@@ -1,4 +1,5 @@
-import type {JsonObject} from '@playwright/experimental-ct-core/types/component';
+import type React from 'react';
+
 import type {MountOptions, MountResult} from '@playwright/experimental-ct-react';
 import type {
     Locator,
@@ -11,9 +12,9 @@ import type {
 } from '@playwright/test';
 
 interface ComponentFixtures {
-    mount<HooksConfig extends JsonObject>(
-        component: JSX.Element,
-        options?: MountOptions<HooksConfig>,
+    mount<HooksConfig>(
+        component: React.JSX.Element,
+        options?: MountOptions<HooksConfig> & {width?: number},
     ): Promise<MountResult>;
 }
 

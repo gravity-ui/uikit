@@ -27,6 +27,7 @@ Component is not limit you to what components to render, basic usage is:
 | Name        | Description                                                                                                                                                        |                        Type                        | Default |
 | :---------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------: | :-----: |
 | max         | How much avatars should be visible before more button. If avatars count is only 1 short from `max`, than more button would be replaced with avatar.                |                      `number`                      |    3    |
+| total       | Total amount of items, used to calculate number of not rendered avatars                                                                                            |                      `number`                      |         |
 | overlapSize | How much each item should overlap next one. `s` recommended for `Avatar`'s of sizes `xs`-`m`, `m` recomended for `l` size avatars and `l` overlap for `xl` avatars |                   `s`, `m`, `l`                    |   `s`   |
 | size        | Size for control displaying extra avatars. Value same to `Avatar` size.                                                                                            |                    `AvatarSize`                    |         |
 | className   | Class name of root DOM node                                                                                                                                        |                      `string`                      |         |
@@ -50,3 +51,5 @@ Component for overriding more button
   <Avatar imgUrl={`https://i.pravatar.cc/150?u=login3`} />
 </AvatarStack>
 ```
+
+Alternatively, `<AvatarStack.More/>` could be used. This component doesn't have `<button/>` wrap, and could be used for integration with some different wrap, like router links component.

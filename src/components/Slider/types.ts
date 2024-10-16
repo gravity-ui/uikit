@@ -1,4 +1,5 @@
 import type {SliderProps as RcSliderProps, SliderRef as RcSliderRef} from 'rc-slider';
+import type {HandleProps} from 'rc-slider/lib/Handles/Handle';
 
 import type {DOMProps, QAProps} from '../types';
 
@@ -7,6 +8,10 @@ export type SliderSize = 's' | 'm' | 'l' | 'xl';
 export type SliderValue = number | [number, number];
 
 export type RcSliderValueType = number | number[];
+
+export type TooltipDisplayType = 'off' | 'on' | 'auto';
+
+type FormatterType = (value: number) => string;
 
 export type SliderProps<ValueType = number | [number, number]> = {
     /** The value of the control */
@@ -19,15 +24,28 @@ export type SliderProps<ValueType = number | [number, number]> = {
     min?: number;
     /** Max value of the component */
     max?: number;
-    /** Specifies the array of available values for the slider */
+    /** Marks on the slider. It can be either the number of marks on the slider or a list of them */
+    marks?: number | number[];
+    /** Formatter for marks text */
+    markFormat?: FormatterType;
+    /**  Specifies the array of available values for the slider. The `availableValues` property overrides `min`, `max`, `marksCount` and `step` properties if used in conjunction, as the slider directly uses the provided array values instead of a continuous range.
+     * @deprecated use `marks` and `step` === null instead.
+     */
     availableValues?: number[];
     /** Value to be added or subtracted on each step the slider makes. This prop will be ignored if available values is set.  */
-    step?: number;
-    /** Amount of text marks under the slider. Split whole range on equal parts. Could be set >=2. This prop will be ignored if available values is set. */
+    step?: number | null;
+    /** Amount of text marks under the slider. Split whole range on equal parts. Could be set >=2. This prop will be ignored if available values is set.
+     * @deprecated use `marks` instead.
+     */
     marksCount?: number;
-    /** Show tooltip with current value of component or not */
+    /**  Show tooltip with current value of component or not
+     * @deprecated use `tooltipDisplay` instead.
+     */
     hasTooltip?: boolean;
-
+    /** Specifies the tooltip behaviour */
+    tooltipDisplay?: TooltipDisplayType;
+    /** Format of the slider's value in the tooltip. Uses `markFormat` if not specified */
+    tooltipFormat?: FormatterType;
     /** Indicates that the user cannot interact with the control */
     disabled?: boolean;
     /** Text of an error to show */
@@ -35,7 +53,9 @@ export type SliderProps<ValueType = number | [number, number]> = {
     /** Describes the validation state */
     validationState?: 'invalid';
 
-    /** Specifies the delay (in milliseconds) before the processing function is called */
+    /** Specifies the delay (in milliseconds) before the processing function is called
+     * @deprecated use external debouncing.
+     */
     debounceDelay?: number;
     /** Fires when the control gets focus. Provides focus event as a callback's argument */
     onFocus?: (e: React.FocusEvent<HTMLDivElement>) => void;
@@ -60,14 +80,25 @@ export type SliderProps<ValueType = number | [number, number]> = {
 export type SliderInnerState = {
     max: number;
     min: number;
-} & Pick<RcSliderProps, 'value' | 'defaultValue' | 'step' | 'range' | 'marks'>;
+} & Pick<RcSliderProps, 'value' | 'defaultValue' | 'step' | 'range' | 'marks'> &
+    Pick<SliderProps, 'tooltipDisplay' | 'tooltipFormat'>;
 
 export type StateModifiers = {
+    'no-marks': boolean;
     size: SliderSize;
     error: boolean;
     disabled: boolean;
-    hasTooltip: boolean;
     rtl: boolean;
+    'tooltip-display': SliderProps['tooltipDisplay'];
 };
 
 export type BaseSliderRefType = RcSliderRef;
+
+type RenderParams = Parameters<Exclude<HandleProps['render'], undefined>>;
+
+export type HandleWithTooltipProps = {
+    originHandle: RenderParams[0];
+    originHandleProps: RenderParams[1];
+    stateModifiers: StateModifiers;
+} & Pick<SliderProps, 'tooltipFormat'> &
+    Pick<DOMProps, 'className'>;

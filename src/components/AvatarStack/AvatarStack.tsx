@@ -1,11 +1,11 @@
 import React from 'react';
 
-import {Avatar} from '../Avatar';
 import {block} from '../utils/cn';
 
 import {AvatarStackItem} from './AvatarStackItem';
+import {AvatarStackMore} from './AvatarStackMore';
 import {AvatarStackMoreButton} from './AvatarStackMoreButton';
-import i18n from './i18n';
+import {AVATAR_STACK_DEFAULT_MAX} from './constants';
 import type {AvatarStackProps} from './types';
 
 import './AvatarStack.scss';
@@ -13,7 +13,8 @@ import './AvatarStack.scss';
 const b = block('avatar-stack');
 
 const AvatarStackComponent = ({
-    max = 3,
+    max = AVATAR_STACK_DEFAULT_MAX,
+    total,
     overlapSize = 's',
     size,
     children,
@@ -21,7 +22,17 @@ const AvatarStackComponent = ({
     renderMore,
 }: AvatarStackProps) => {
     const visibleItems: React.ReactElement[] = [];
-    let moreItems = 0;
+
+    /** All avatars amount */
+    const normalizedTotal = total ? Math.max(total, max) : React.Children.count(children);
+
+    /** Amount avatars to be visible (doesn't include badge with remaining avatars) */
+    let normalizedMax = max < 1 ? 1 : max;
+    // Skip rendering badge with +1, just show avatar instead
+    normalizedMax = normalizedTotal - normalizedMax > 1 ? normalizedMax : normalizedTotal;
+
+    /** Remaining avatars */
+    const moreItems = normalizedTotal - normalizedMax;
 
     React.Children.forEach(children, (child) => {
         if (!React.isValidElement(child)) {
@@ -30,16 +41,12 @@ const AvatarStackComponent = ({
 
         const item = <AvatarStackItem key={visibleItems.length}>{child}</AvatarStackItem>;
 
-        if (visibleItems.length <= max) {
+        if (visibleItems.length < normalizedMax) {
             visibleItems.unshift(item);
-        } else {
-            moreItems += 1;
         }
     });
 
     const hasMoreButton = moreItems > 0;
-    /** Avatars + more button, or just avatars, when avatars count is equal to `max` or less */
-    const normalOverflow = moreItems >= 1;
 
     return (
         // Safari remove role=list with some styles, applied to li items, so we need
@@ -51,19 +58,18 @@ const AvatarStackComponent = ({
                     {renderMore ? (
                         renderMore({count: moreItems})
                     ) : (
-                        <Avatar
-                            text={`+${moreItems}`}
-                            aria-label={i18n('more', {count: moreItems})}
-                            size={size}
-                        />
+                        <AvatarStackMore count={moreItems} size={size} />
                     )}
                 </AvatarStackItem>
             ) : null}
-            {normalOverflow ? visibleItems.slice(0, max) : visibleItems}
+            {visibleItems}
         </ul>
     );
 };
 
 AvatarStackComponent.displayName = 'AvatarStack';
 
-export const AvatarStack = Object.assign(AvatarStackComponent, {MoreButton: AvatarStackMoreButton});
+export const AvatarStack = Object.assign(AvatarStackComponent, {
+    More: AvatarStackMore,
+    MoreButton: AvatarStackMoreButton,
+});

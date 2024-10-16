@@ -1,6 +1,6 @@
 {
     "name": "@gravity-ui/uikit",
-    "version": "6.24.0",
+    "version": "6.31.0",
     "description": "Gravity UI base styling and components",
     "keywords": [
         "component",
@@ -40,9 +40,9 @@
             "import": "./build/esm/toaster-singleton-react-18.js"
         },
         "./i18n": {
-            "types": "./build/esm/components/utils/addComponentKeysets.d.ts",
-            "require": "./build/cjs/components/utils/addComponentKeysets.js",
-            "import": "./build/esm/components/utils/addComponentKeysets.js"
+            "types": "./build/esm/i18n/index.d.ts",
+            "require": "./build/cjs/i18n/index.js",
+            "import": "./build/esm/i18n/index.js"
         },
         "./unstable": {
             "types": "./build/esm/unstable.d.ts",
@@ -71,7 +71,7 @@
                 "./build/esm/toaster-singleton-react-18.d.ts"
             ],
             "i18n": [
-                "./build/esm/components/utils/addComponentKeysets.d.ts"
+                "./build/esm/i18n/index.d.ts"
             ],
             "unstable": [
                 "./build/esm/unstable.d.ts"
@@ -111,19 +111,20 @@
         "playwright:install": "playwright install chromium webkit --with-deps",
         "playwright": "playwright test --config=playwright/playwright.config.ts",
         "playwright:update": "npm run playwright -- -u",
+        "playwright:clear-cache": "rm -rf ./playwright/.cache",
         "playwright:docker": "./scripts/playwright-docker.sh 'npm run playwright'",
         "playwright:docker:update": "./scripts/playwright-docker.sh 'npm run playwright:update'",
         "playwright:docker:clear-cache": "./scripts/playwright-docker.sh clear-cache"
     },
     "dependencies": {
         "@bem-react/classname": "^1.6.0",
-        "@gravity-ui/i18n": "^1.3.0",
+        "@gravity-ui/i18n": "^1.6.0",
         "@gravity-ui/icons": "^2.8.1",
         "@popperjs/core": "^2.11.8",
         "blueimp-md5": "^2.19.0",
         "focus-trap": "^7.5.4",
         "lodash": "^4.17.21",
-        "rc-slider": "^10.5.0",
+        "rc-slider": "^10.6.2",
         "react-beautiful-dnd": "^13.1.1",
         "react-copy-to-clipboard": "^5.1.0",
         "react-popper": "^2.3.0",
@@ -139,13 +140,13 @@
         "@babel/preset-typescript": "^7.23.3",
         "@commitlint/cli": "^18.6.0",
         "@commitlint/config-conventional": "^18.6.0",
-        "@faker-js/faker": "^8.4.0",
+        "@faker-js/faker": "^9.0.3",
         "@gravity-ui/eslint-config": "^3.1.1",
         "@gravity-ui/prettier-config": "^1.1.0",
         "@gravity-ui/stylelint-config": "^4.0.1",
         "@gravity-ui/tsconfig": "^1.0.0",
-        "@playwright/experimental-ct-react": "^1.42.1",
-        "@playwright/test": "^1.42.1",
+        "@playwright/experimental-ct-react": "^1.47.1",
+        "@playwright/test": "^1.47.1",
         "@storybook/addon-a11y": "^8.1.9",
         "@storybook/addon-essentials": "^8.1.9",
         "@storybook/addon-storysource": "^8.1.9",

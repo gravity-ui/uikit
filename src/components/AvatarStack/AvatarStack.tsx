@@ -12,60 +12,65 @@ import './AvatarStack.scss';
 
 const b = block('avatar-stack');
 
-const AvatarStackComponent = ({
-    max = AVATAR_STACK_DEFAULT_MAX,
-    total,
-    overlapSize = 's',
-    size,
-    children,
-    className,
-    renderMore,
-}: AvatarStackProps) => {
-    const visibleItems: React.ReactElement[] = [];
+const AvatarStackComponent = React.forwardRef<HTMLUListElement, AvatarStackProps>(
+    (
+        {
+            max = AVATAR_STACK_DEFAULT_MAX,
+            total,
+            overlapSize = 's',
+            size,
+            children,
+            className,
+            renderMore,
+        },
+        ref,
+    ) => {
+        const visibleItems: React.ReactElement[] = [];
 
-    /** All avatars amount */
-    const normalizedTotal = total ? Math.max(total, max) : React.Children.count(children);
+        /** All avatars amount */
+        const normalizedTotal = total ? Math.max(total, max) : React.Children.count(children);
 
-    /** Amount avatars to be visible (doesn't include badge with remaining avatars) */
-    let normalizedMax = max < 1 ? 1 : max;
-    // Skip rendering badge with +1, just show avatar instead
-    normalizedMax = normalizedTotal - normalizedMax > 1 ? normalizedMax : normalizedTotal;
+        /** Amount avatars to be visible (doesn't include badge with remaining avatars) */
+        let normalizedMax = max < 1 ? 1 : max;
+        // Skip rendering badge with +1, just show avatar instead
+        normalizedMax = normalizedTotal - normalizedMax > 1 ? normalizedMax : normalizedTotal;
 
-    /** Remaining avatars */
-    const moreItems = normalizedTotal - normalizedMax;
+        /** Remaining avatars */
+        const moreItems = normalizedTotal - normalizedMax;
 
-    React.Children.forEach(children, (child) => {
-        if (!React.isValidElement(child)) {
-            return;
-        }
+        React.Children.forEach(children, (child) => {
+            if (!React.isValidElement(child)) {
+                return;
+            }
 
-        const item = <AvatarStackItem key={visibleItems.length}>{child}</AvatarStackItem>;
+            const item = <AvatarStackItem key={visibleItems.length}>{child}</AvatarStackItem>;
 
-        if (visibleItems.length < normalizedMax) {
-            visibleItems.unshift(item);
-        }
-    });
+            if (visibleItems.length < normalizedMax) {
+                visibleItems.unshift(item);
+            }
+        });
 
-    const hasMoreButton = moreItems > 0;
+        const hasMoreButton = moreItems > 0;
 
-    return (
-        // Safari remove role=list with some styles, applied to li items, so we need
-        // to restore role manually
-        // eslint-disable-next-line jsx-a11y/no-redundant-roles
-        <ul className={b({'overlap-size': overlapSize}, className)} role={'list'}>
-            {hasMoreButton ? (
-                <AvatarStackItem key="more-button">
-                    {renderMore ? (
-                        renderMore({count: moreItems})
-                    ) : (
-                        <AvatarStackMore count={moreItems} size={size} />
-                    )}
-                </AvatarStackItem>
-            ) : null}
-            {visibleItems}
-        </ul>
-    );
-};
+        return (
+            // Safari remove role=list with some styles, applied to li items, so we need
+            // to restore role manually
+            // eslint-disable-next-line jsx-a11y/no-redundant-roles
+            <ul className={b({'overlap-size': overlapSize}, className)} role={'list'} ref={ref}>
+                {hasMoreButton ? (
+                    <AvatarStackItem key="more-button">
+                        {renderMore ? (
+                            renderMore({count: moreItems})
+                        ) : (
+                            <AvatarStackMore count={moreItems} size={size} />
+                        )}
+                    </AvatarStackItem>
+                ) : null}
+                {visibleItems}
+            </ul>
+        );
+    },
+);
 
 AvatarStackComponent.displayName = 'AvatarStack';
 

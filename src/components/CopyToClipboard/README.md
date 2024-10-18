@@ -72,9 +72,10 @@ const buttonText = {
 
 ## Properties
 
-| Name     | Description                                                             |    Type    | Default |
-| :------- | :---------------------------------------------------------------------- | :--------: | :-----: |
-| children | Render function `(status: CopyToClipboardStatus) => React.ReactElement` | `Function` |         |
-| onCopy   | `copy` event handler                                                    | `Function` |         |
-| text     | Text to copy                                                            |  `string`  |         |
-| timeout  | Time in ms to restore initial state                                     |  `number`  |         |
+| Name       | Description                                                             |    Type    | Default |
+| :--------- | :---------------------------------------------------------------------- | :--------: | :-----: |
+| children   | Render function `(status: CopyToClipboardStatus) => React.ReactElement` | `Function` |         |
+| onCopy     | `copy` event handler                                                    | `Function` |         |
+| text       | Text to copy                                                            |  `string`  |         |
+| timeout    | Time in ms to restore initial state                                     |  `number`  |         |
+| nativeCopy | Use native clipboard methods instead of `copy-to-clipboard` lib         |  `number`  |         |

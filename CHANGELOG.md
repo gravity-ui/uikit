@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.33.0](https://github.com/gravity-ui/uikit/compare/v6.32.0...v6.33.0) (2024-10-18)
+
+
+### Features
+
+* **Table:** add width property ([#1907](https://github.com/gravity-ui/uikit/issues/1907)) ([7eb5e1e](https://github.com/gravity-ui/uikit/commit/7eb5e1e38cb9e79afaf988480b1b2d5dc998ff04))
+
 ## [6.32.0](https://github.com/gravity-ui/uikit/compare/v6.31.0...v6.32.0) (2024-10-17)
 
 

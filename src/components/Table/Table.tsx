@@ -92,6 +92,8 @@ export interface DescriptorType {
     disabled?: boolean;
 }
 
+export type TableWidth = 'auto' | 'max';
+
 // TODO: Replace @default in props description with defaultProps in order to work with Storybook.
 export interface TableProps<I> extends QAProps {
     /** Data */
@@ -165,6 +167,7 @@ export interface TableProps<I> extends QAProps {
     className?: string;
     /** Adds horizontal padding for edge cells. */
     edgePadding?: boolean;
+    width?: TableWidth;
 }
 
 interface TableDefaultProps {
@@ -451,8 +454,9 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
     }
 
     private renderTable() {
+        const {width = 'auto'} = this.props;
         return (
-            <table ref={this.tableRef} className={b('table')}>
+            <table ref={this.tableRef} className={b('table', {width})}>
                 {this.renderHead()}
                 {this.renderBody()}
             </table>

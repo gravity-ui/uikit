@@ -47,6 +47,10 @@
         border-spacing: 0;
         // fix border disappear in Firefox:
         border-collapse: separate;
+
+        &_width_max {
+            width: 100%;
+        }
     }
 
     &__cell {

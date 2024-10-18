@@ -41,6 +41,7 @@ Additional functionality is enabled via HOCs:
 | edgePadding                      | Adds horizontal padding for edge cells                                                                                                                                          |                                     `boolean`                                      |             |
 | stickyHorizontalScroll           | A horizontal sticky scroll in a table. NB: A table cannot have a fixed height and a sticky scroll at the same time. A sticky scroll will not work if the table has an overflow. |                                     `boolean`                                      |   `false`   |
 | stickyHorizontalScrollBreakpoint | The threshold that the parent block should reach before making a scroll sticky. This is useful in the console, for example, when the groupActions bar closes the scroll.        |                                      `number`                                      |     `0`     |
+| `width`                          | Table width                                                                                                                                                                     |                                  `"auto"` `"max"`                                  |   "auto"    |
 
 ### DescriptorType
 

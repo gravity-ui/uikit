@@ -125,6 +125,7 @@ Accepts the argument `toastOptions` with ongoing notification details:
 | isClosable | `boolean`                               |          | `true`      | A configuration that manages the visibility of the X icon, which allows the user to close the notification                                                                                                                               |
 | actions    | `ToastAction[]`                         |          | `undefined` | An array of [actions](./types.ts#L9) that display after `content`                                                                                                                                                                        |
 | renderIcon | `(toastProps: ToastProps) => ReactNode` |          | `undefined` | Used to customize the toast icon. Type-based behavior is used by default                                                                                                                                                                 |
+| onClose    | `() => void`                            |          | `undefined` | Callback which calls when close button is clicked                                                                                                                                                                                        |
 
 Every `action` is an object with following parameters:
 

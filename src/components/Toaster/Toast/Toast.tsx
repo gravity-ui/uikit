@@ -94,12 +94,19 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
         autoHiding: timeoutProp = DEFAULT_TIMEOUT,
         isClosable = true,
         mobile = false,
+        onClose,
         removeCallback,
     } = props;
 
-    const onClose = React.useCallback(() => removeCallback(name), [removeCallback, name]);
+    const handleClose = React.useCallback(() => {
+        removeCallback(name);
+
+        if (onClose) {
+            onClose();
+        }
+    }, [removeCallback, onClose, name]);
     const timeout = typeof timeoutProp === 'number' ? timeoutProp : undefined;
-    const closeOnTimeoutProps = useCloseOnTimeout<HTMLDivElement>({onClose, timeout});
+    const closeOnTimeoutProps = useCloseOnTimeout<HTMLDivElement>({onClose: handleClose, timeout});
 
     const mods = {
         mobile,
@@ -120,7 +127,7 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
                         size="s"
                         view="flat"
                         className={b('btn-close')}
-                        onClick={onClose}
+                        onClick={handleClose}
                         extraProps={{'aria-label': i18n('label_close-button')}}
                     >
                         <Icon data={Xmark} />
@@ -129,7 +136,7 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
                 {hasContent && (
                     <div className={b('content', {'without-title': !hasTitle})}>{content}</div>
                 )}
-                {renderActions({actions, onClose})}
+                {renderActions({actions, onClose: handleClose})}
             </div>
         </div>
     );

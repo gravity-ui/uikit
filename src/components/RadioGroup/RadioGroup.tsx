@@ -50,6 +50,7 @@ export const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
                 value: props.value,
                 content: props.content || props.children,
                 disabled: props.disabled,
+                qa: props.qa,
             }));
         }
 

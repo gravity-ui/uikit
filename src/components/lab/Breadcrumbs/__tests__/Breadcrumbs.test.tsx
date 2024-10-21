@@ -2,8 +2,8 @@ import React from 'react';
 
 import {userEvent} from '@testing-library/user-event';
 
+import {Breadcrumbs} from '..';
 import {render, screen, within} from '../../../../../test-utils/utils';
-import {Breadcrumbs} from '../Breadcrumbs';
 
 beforeEach(() => {
     jest.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockImplementation(function (
@@ -18,11 +18,11 @@ beforeEach(() => {
 
 it('handles multiple items', () => {
     render(
-        <Breadcrumbs>
+        <Breadcrumbs.Root>
             <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
             <Breadcrumbs.Item>Folder 2</Breadcrumbs.Item>
             <Breadcrumbs.Item>Folder 3</Breadcrumbs.Item>
-        </Breadcrumbs>,
+        </Breadcrumbs.Root>,
     );
     const item1 = screen.getByText('Folder 1');
     expect(item1.tabIndex).toBe(0);
@@ -40,9 +40,9 @@ it('should handle forward ref', function () {
     const Component = () => {
         ref = React.useRef();
         return (
-            <Breadcrumbs ref={ref} aria-label="breadcrumbs-test">
+            <Breadcrumbs.Root ref={ref} aria-label="breadcrumbs-test">
                 <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
-            </Breadcrumbs>
+            </Breadcrumbs.Root>
         );
     };
     render(<Component />);
@@ -52,12 +52,12 @@ it('should handle forward ref', function () {
 
 it('shows four items with no menu', () => {
     render(
-        <Breadcrumbs maxItems={4}>
+        <Breadcrumbs.Root maxItems={4}>
             <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
             <Breadcrumbs.Item>Folder 2</Breadcrumbs.Item>
             <Breadcrumbs.Item>Folder 3</Breadcrumbs.Item>
             <Breadcrumbs.Item>Folder 4</Breadcrumbs.Item>
-        </Breadcrumbs>,
+        </Breadcrumbs.Root>,
     );
     const {children} = screen.getByRole('list');
     expect(within(children[0] as HTMLElement).queryByRole('button')).toBeNull();
@@ -69,12 +69,12 @@ it('shows four items with no menu', () => {
 
 it('shows a maximum of 3 items', () => {
     render(
-        <Breadcrumbs maxItems={3}>
+        <Breadcrumbs.Root maxItems={3}>
             <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
             <Breadcrumbs.Item>Folder 2</Breadcrumbs.Item>
             <Breadcrumbs.Item>Folder 3</Breadcrumbs.Item>
             <Breadcrumbs.Item>Folder 4</Breadcrumbs.Item>
-        </Breadcrumbs>,
+        </Breadcrumbs.Root>,
     );
     const {children} = screen.getByRole('list');
     expect(within(children[0] as HTMLElement).getByRole('button')).toBeTruthy();
@@ -86,12 +86,12 @@ it('shows a maximum of 3 items', () => {
 
 it('shows a maximum of 3 items with showRoot', () => {
     render(
-        <Breadcrumbs maxItems={3} showRoot>
+        <Breadcrumbs.Root maxItems={3} showRoot>
             <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
             <Breadcrumbs.Item>Folder 2</Breadcrumbs.Item>
             <Breadcrumbs.Item>Folder 3</Breadcrumbs.Item>
             <Breadcrumbs.Item>Folder 4</Breadcrumbs.Item>
-        </Breadcrumbs>,
+        </Breadcrumbs.Root>,
     );
     const {children} = screen.getByRole('list');
     expect(screen.getByText('Folder 1')).toBeTruthy();
@@ -113,13 +113,13 @@ it('shows less than 4 items if they do not fit', () => {
     });
 
     render(
-        <Breadcrumbs maxItems={4}>
+        <Breadcrumbs.Root maxItems={4}>
             <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
             <Breadcrumbs.Item>Folder 2</Breadcrumbs.Item>
             <Breadcrumbs.Item>Folder 3</Breadcrumbs.Item>
             <Breadcrumbs.Item>Folder 4</Breadcrumbs.Item>
             <Breadcrumbs.Item>Folder 5</Breadcrumbs.Item>
-        </Breadcrumbs>,
+        </Breadcrumbs.Root>,
     );
 
     const {children} = screen.getByRole('list');
@@ -143,13 +143,13 @@ it('collapses root item if it does not fit', () => {
     });
 
     render(
-        <Breadcrumbs showRoot>
+        <Breadcrumbs.Root showRoot>
             <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
             <Breadcrumbs.Item>Folder 2</Breadcrumbs.Item>
             <Breadcrumbs.Item>Folder 3</Breadcrumbs.Item>
             <Breadcrumbs.Item>Folder 4</Breadcrumbs.Item>
             <Breadcrumbs.Item>Folder 5</Breadcrumbs.Item>
-        </Breadcrumbs>,
+        </Breadcrumbs.Root>,
     );
 
     const {children} = screen.getByRole('list');
@@ -163,9 +163,9 @@ it('collapses root item if it does not fit', () => {
 
 it('supports aria-label', function () {
     render(
-        <Breadcrumbs aria-label="Test">
+        <Breadcrumbs.Root aria-label="Test">
             <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
-        </Breadcrumbs>,
+        </Breadcrumbs.Root>,
     );
     const breadcrumbs = screen.getByRole('list');
     expect(breadcrumbs).toHaveAttribute('aria-label', 'Test');
@@ -175,9 +175,9 @@ it('supports aria-labelledby', function () {
     render(
         <React.Fragment>
             <span id="test">Test</span>
-            <Breadcrumbs aria-labelledby="test">
+            <Breadcrumbs.Root aria-labelledby="test">
                 <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
-            </Breadcrumbs>
+            </Breadcrumbs.Root>
         </React.Fragment>,
     );
     const breadcrumbs = screen.getByRole('list');
@@ -188,9 +188,9 @@ it('supports aria-describedby', function () {
     render(
         <React.Fragment>
             <span id="test">Test</span>
-            <Breadcrumbs aria-describedby="test">
+            <Breadcrumbs.Root aria-describedby="test">
                 <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
-            </Breadcrumbs>
+            </Breadcrumbs.Root>
         </React.Fragment>,
     );
     const breadcrumbs = screen.getByRole('list');
@@ -199,23 +199,25 @@ it('supports aria-describedby', function () {
 
 it('supports custom props', function () {
     render(
-        <Breadcrumbs data-testid="test">
-            <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
-        </Breadcrumbs>,
+        <Breadcrumbs.Root data-testid="test">
+            <Breadcrumbs.Item data-qa="test">Folder 1</Breadcrumbs.Item>
+        </Breadcrumbs.Root>,
     );
     const breadcrumbs = screen.getByRole('list');
     expect(breadcrumbs).toHaveAttribute('data-testid', 'test');
+    const item = screen.getByTestId('test');
+    expect(item).toHaveAttribute('data-qa', 'test');
 });
 
 it('should support links', async function () {
     render(
-        <Breadcrumbs>
+        <Breadcrumbs.Root>
             <Breadcrumbs.Item href="https://example.com">Example.com</Breadcrumbs.Item>
             <Breadcrumbs.Item href="https://example.com/foo">Foo</Breadcrumbs.Item>
             <Breadcrumbs.Item href="https://example.com/foo/bar">Bar</Breadcrumbs.Item>
             <Breadcrumbs.Item href="https://example.com/foo/bar/baz">Baz</Breadcrumbs.Item>
             <Breadcrumbs.Item href="https://example.com/foo/bar/baz/qux">Qux</Breadcrumbs.Item>
-        </Breadcrumbs>,
+        </Breadcrumbs.Root>,
     );
 
     const links = screen.getAllByRole('link');
@@ -248,7 +250,7 @@ it('should support RouterProvider', async () => {
     */
     const navigate = jest.fn();
     render(
-        <Breadcrumbs navigate={navigate}>
+        <Breadcrumbs.Root navigate={navigate}>
             <Breadcrumbs.Item href="/" routerOptions={{foo: 'bar'} as any}>
                 Example.com
             </Breadcrumbs.Item>
@@ -264,7 +266,7 @@ it('should support RouterProvider', async () => {
             <Breadcrumbs.Item href="/foo/bar/baz/qux" routerOptions={{foo: 'bar'} as any}>
                 Qux
             </Breadcrumbs.Item>
-        </Breadcrumbs>,
+        </Breadcrumbs.Root>,
     );
 
     const links = screen.getAllByRole('link');

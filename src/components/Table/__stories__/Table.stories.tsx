@@ -201,7 +201,7 @@ const WithTableSelectionTemplate: StoryFn<TableProps<DataItem>> = (args) => {
 };
 export const HOCWithTableSelection = WithTableSelectionTemplate.bind({});
 
-const DEFAULT_SETTINGS = columns.map((x) => ({id: x.id, isSelected: true}));
+export const DEFAULT_SETTINGS = columns.map((x) => ({id: x.id, isSelected: true}));
 // ---------------------------------
 const WithTableSettingsTemplate: StoryFn<TableProps<DataItem>> = (args, context) => {
     const [settings, setSettings] = React.useState<TableSettingsData>(DEFAULT_SETTINGS);

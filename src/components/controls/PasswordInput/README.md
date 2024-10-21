@@ -40,14 +40,14 @@ LANDING_BLOCK-->
 
 - `type` is omitted;
 
-| Name                | Description                                                                  |    Type    | Default |
-| :------------------ | :--------------------------------------------------------------------------- | :--------: | :-----: |
-| showCopyButton      | Show copy button                                                             | `boolean`  | `false` |
-| showRevealButton    | Show reveal button                                                           | `boolean`  | `false` |
-| hasCopyTooltip      | Disable the tooltip for the copy button. The tooltip will not be displayed   | `boolean`  | `true`  |
-| hasRevealTooltip    | Disable the tooltip for the reveal button. The tooltip will not be displayed | `boolean`  | `true`  |
-| revealValue         | Determines the visibility state of the password input field                  | `boolean`  | `false` |
-| onRevealValueUpdate | A callback function that is invoked whenever the revealValue state changes   | `function` |         |
+| Name                | Description                                                                |    Type    | Default |
+| :------------------ | :------------------------------------------------------------------------- | :--------: | :-----: |
+| showCopyButton      | Show copy button                                                           | `boolean`  | `false` |
+| showRevealButton    | Show reveal button                                                         | `boolean`  | `false` |
+| showCopyTooltip     | Determines whether to display the tooltip for the copy button              | `boolean`  | `false` |
+| showRevealTooltip   | Determines whether to display the tooltip for the reveal button            | `boolean`  | `false` |
+| revealValue         | Determines the visibility state of the password input field                | `boolean`  | `false` |
+| onRevealValueUpdate | A callback function that is invoked whenever the revealValue state changes | `function` |         |
 
 <!--GITHUB_BLOCK-->
 

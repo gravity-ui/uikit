@@ -9,6 +9,9 @@ import {ClipboardButton} from '../ClipboardButton';
 export default {
     title: 'Components/Utils/ClipboardButton',
     component: ClipboardButton,
+    args: {
+        text: 'Clipboard text from `<ClipboardButton/>`',
+    },
 } as Meta;
 
 type Story = StoryObj<typeof ClipboardButton>;

@@ -1,5 +1,19 @@
 # Changelog
 
+## [6.33.0](https://github.com/gravity-ui/uikit/compare/v6.32.0...v6.33.0) (2024-10-22)
+
+
+### Features
+
+* **Dialog:** add className property to DialogFooter ([#1909](https://github.com/gravity-ui/uikit/issues/1909)) ([679c537](https://github.com/gravity-ui/uikit/commit/679c537a0a34add7e6dca4a3ba649934a68342e6))
+* **Table:** add width property ([#1907](https://github.com/gravity-ui/uikit/issues/1907)) ([7eb5e1e](https://github.com/gravity-ui/uikit/commit/7eb5e1e38cb9e79afaf988480b1b2d5dc998ff04))
+* **Toaster:** added onClose callback ([#1902](https://github.com/gravity-ui/uikit/issues/1902)) ([3069194](https://github.com/gravity-ui/uikit/commit/30691949ccce25e54614b5a0b49c7b11f7abf3e9))
+
+
+### Bug Fixes
+
+* **DefinitionList:** layout fixes ([#1910](https://github.com/gravity-ui/uikit/issues/1910)) ([e5cde3a](https://github.com/gravity-ui/uikit/commit/e5cde3ad58cfb1d8436c2a4ad75e074dfb94a741))
+
 ## [6.32.0](https://github.com/gravity-ui/uikit/compare/v6.31.0...v6.32.0) (2024-10-17)
 
 

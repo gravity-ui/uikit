@@ -49,7 +49,7 @@ $block: '.#{variables.$ns}definition-list';
     &_responsive {
         #{$block}__term-container {
             --_--term-width: auto;
-            flex: 1 0 50%;
+            flex: 1 0 min-content;
         }
     }
     &_vertical {

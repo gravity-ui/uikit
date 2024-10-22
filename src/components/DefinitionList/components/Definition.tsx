@@ -17,6 +17,8 @@ export function Definition({copyText, children}: DefinitionProps) {
                 text={copyText}
                 className={b('copy-button')}
                 view={'flat-secondary'}
+                //explicitely set empty string to prevent propogation of definitionContent's title
+                title=""
             />
         </div>
     ) : (

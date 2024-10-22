@@ -2,7 +2,12 @@
 
 import React from 'react';
 
-import type {Range, Rect, VirtualItem} from '@tanstack/react-virtual';
+import type {
+    Range,
+    Rect,
+    VirtualItem,
+    Virtualizer as VirtualizerInstance,
+} from '@tanstack/react-virtual';
 import {defaultRangeExtractor, useVirtualizer} from '@tanstack/react-virtual';
 
 import {useForkRef} from '../../../hooks';
@@ -17,6 +22,7 @@ export type ScrollAlignment = 'start' | 'center' | 'end' | 'auto';
 
 export interface VirtualizerApi {
     scrollToOffset: (offset: number, align?: ScrollAlignment) => void;
+    scrollToIndex: (index: number, align?: ScrollAlignment) => void;
     scrollOffset: number | null;
     scrollRect: Rect | null;
 }
@@ -85,6 +91,9 @@ export function Virtualizer({
             scrollToOffset: (offset: number, align: ScrollAlignment = 'auto') => {
                 virtualizer.scrollToOffset(virtualizer.getOffsetForAlignment(offset, align));
             },
+            scrollToIndex: (index: number, align: ScrollAlignment = 'auto') => {
+                virtualizer.scrollToIndex(index, {align});
+            },
             get scrollOffset() {
                 return virtualizer.scrollOffset;
             },
@@ -109,8 +118,8 @@ export function Virtualizer({
                 height: '100%',
             }}
         >
-            {renderChildren({
-                height: virtualizer.getTotalSize(),
+            {renderRows({
+                totalHeight: virtualizer.getTotalSize(),
                 start: 0,
                 items: visibleItems,
                 scrollContainer: virtualizer.scrollElement,
@@ -120,13 +129,14 @@ export function Virtualizer({
                 getItemKey,
                 disableVirtualization,
                 persistedChildren,
+                measureElement: virtualizer.measureElement,
             })}
         </div>
     );
 }
 
-function renderChildren({
-    height,
+function renderRows({
+    totalHeight,
     start,
     parentKey,
     getItemSize,
@@ -136,8 +146,9 @@ function renderChildren({
     scrollContainer,
     disableVirtualization,
     persistedChildren,
+    measureElement,
 }: {
-    height: number;
+    totalHeight: number;
     start: number;
     parentKey?: Key;
     getItemSize: (index: number, key?: Key) => number;
@@ -151,15 +162,16 @@ function renderChildren({
     scrollContainer: HTMLElement | null;
     disableVirtualization?: boolean;
     persistedChildren?: Map<number, Array<number[]>>;
+    measureElement?: VirtualizerInstance<HTMLElement, Element>['measureElement'];
 }) {
     return (
         <div
             role="presentation"
             style={
                 disableVirtualization
-                    ? {contentVisibility: 'auto', containIntrinsicBlockSize: height}
+                    ? {contentVisibility: 'auto', containIntrinsicBlockSize: totalHeight}
                     : {
-                          height,
+                          height: totalHeight,
                           width: '100%',
                           position: 'relative',
                       }
@@ -167,6 +179,7 @@ function renderChildren({
         >
             {items.map((virtualRow) => (
                 <div
+                    ref={measureElement}
                     data-key={virtualRow.key}
                     data-index={virtualRow.index}
                     key={virtualRow.key}
@@ -259,10 +272,10 @@ function ChildrenVirtualizer(props: {
         });
     }
 
-    return renderChildren({
+    return renderRows({
         getItemKey,
         getItemSize,
-        height,
+        totalHeight: height,
         start,
         items,
         scrollContainer,

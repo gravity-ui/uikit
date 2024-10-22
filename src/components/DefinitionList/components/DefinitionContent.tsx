@@ -10,9 +10,13 @@ interface DefinitionProps extends Pick<DefinitionListItemProps, 'copyText' | 'ch
 export function DefinitionContent({copyText, children}: DefinitionProps) {
     const definitionContent = children ?? '—';
 
+    const wrappedDefinitionContent = (
+        <span title={getTitle(definitionContent)}>{definitionContent}</span>
+    );
+
     return copyText ? (
         <div className={b('copy-container')}>
-            <span title={getTitle(definitionContent)}>{definitionContent}</span>
+            {wrappedDefinitionContent}
             <ClipboardButton
                 size="s"
                 text={copyText}
@@ -21,6 +25,6 @@ export function DefinitionContent({copyText, children}: DefinitionProps) {
             />
         </div>
     ) : (
-        definitionContent
+        {wrappedDefinitionContent}
     );
 }

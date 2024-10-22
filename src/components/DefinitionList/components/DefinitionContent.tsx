@@ -6,12 +6,12 @@ import type {DefinitionListItemProps} from '../types';
 
 interface DefinitionProps extends Pick<DefinitionListItemProps, 'copyText' | 'children'> {}
 
-export function Definition({copyText, children}: DefinitionProps) {
+export function DefinitionContent({copyText, children}: DefinitionProps) {
     const definitionContent = children ?? '—';
 
     return copyText ? (
         <div className={b('copy-container')}>
-            <span>{definitionContent}</span>
+            {definitionContent}
             <ClipboardButton
                 size="s"
                 text={copyText}

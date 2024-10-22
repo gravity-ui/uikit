@@ -8,7 +8,6 @@ import type {
     DefinitionListItemNote,
     DefinitionListItemProps,
 } from '../types';
-import {getTitle} from '../utils';
 
 interface NoteElementsProps {
     note?: DefinitionListItemNote;
@@ -55,7 +54,7 @@ interface TermProps extends Pick<DefinitionListItemProps, 'note' | 'name'> {
     direction?: DefinitionListDirection;
 }
 
-export function Term({note, name, direction}: TermProps) {
+export function TermContent({note, name, direction}: TermProps) {
     const noteElement = note ? (
         <React.Fragment>
             &nbsp;
@@ -65,7 +64,7 @@ export function Term({note, name, direction}: TermProps) {
     return (
         <React.Fragment>
             <div className={b('term-wrapper')}>
-                <span title={getTitle(name)}>{name}</span>
+                {name}
                 {noteElement}
             </div>
             {direction === 'horizontal' && <div className={b('dots')} />}

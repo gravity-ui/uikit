@@ -55,7 +55,7 @@ interface TermProps extends Pick<DefinitionListItemProps, 'note' | 'name'> {
     direction?: DefinitionListDirection;
 }
 
-export function Term({note, name, direction}: TermProps) {
+export function TermContent({note, name, direction}: TermProps) {
     const noteElement = note ? (
         <React.Fragment>
             &nbsp;

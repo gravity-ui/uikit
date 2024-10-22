@@ -3,22 +3,21 @@ import React from 'react';
 import {ClipboardButton} from '../../ClipboardButton';
 import {b} from '../constants';
 import type {DefinitionListItemProps} from '../types';
+import {getTitle} from '../utils';
 
 interface DefinitionProps extends Pick<DefinitionListItemProps, 'copyText' | 'children'> {}
 
-export function Definition({copyText, children}: DefinitionProps) {
+export function DefinitionContent({copyText, children}: DefinitionProps) {
     const definitionContent = children ?? '—';
 
     return copyText ? (
         <div className={b('copy-container')}>
-            <span>{definitionContent}</span>
+            <span title={getTitle(definitionContent)}>{definitionContent}</span>
             <ClipboardButton
                 size="s"
                 text={copyText}
                 className={b('copy-button')}
                 view={'flat-secondary'}
-                //explicitely set empty string to prevent propogation of definitionContent's title
-                title=""
             />
         </div>
     ) : (

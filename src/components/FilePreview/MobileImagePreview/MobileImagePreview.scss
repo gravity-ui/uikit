@@ -1,0 +1,45 @@
+@use '../../variables';
+@use '@gravity-ui/uikit/styles/mixins';
+
+$block: '.#{variables.$ns}mobile-image-preview';
+
+#{$block} {
+    $previewButtonsTop: 15px;
+
+    &__sheet-content {
+        padding: 0;
+    }
+
+    &__container {
+        height: 85vh;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__image {
+        width: auto;
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    &__back-button {
+        position: absolute;
+        inset-block-start: $previewButtonsTop;
+        inset-inline-start: 15px;
+    }
+
+    &__action-buttons {
+        position: absolute;
+        inset-block-start: $previewButtonsTop;
+        inset-inline-end: 15px;
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 12px;
+    }
+
+    &__error-label {
+        @include mixins.text-body-2;
+    }
+}

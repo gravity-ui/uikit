@@ -5,7 +5,8 @@ import React from 'react';
 import {TextInput} from '../../../controls';
 import {block} from '../../../utils/cn';
 import {SelectQa} from '../../constants';
-import type {SelectProps} from '../../types';
+import i18n from '../../i18n';
+import type {SelectFilterInputProps, SelectProps} from '../../types';
 import type {SelectFilterRef} from '../../types-misc';
 
 import './SelectFilter.scss';
@@ -40,18 +41,34 @@ export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>
         [],
     );
 
-    return renderFilter ? (
-        renderFilter({onChange, onKeyDown, value, ref: inputRef, style})
-    ) : (
+    const inputProps: SelectFilterInputProps = {
+        value,
+        placeholder,
+        size: 1,
+        onKeyDown,
+        onChange: (e) => {
+            onChange(e.target.value);
+        },
+        'aria-label': i18n('label_filter'),
+        'aria-controls': popupId,
+        'aria-activedescendant':
+            activeIndex === undefined ? undefined : `${popupId}-item-${activeIndex}`,
+    };
+
+    if (renderFilter) {
+        return renderFilter({onChange, onKeyDown, value, ref: inputRef, style, inputProps});
+    }
+
+    return (
         <div className={b()} style={style}>
             <TextInput
                 controlRef={inputRef}
                 controlProps={{
                     className: b('input'),
                     size: 1,
-                    'aria-controls': popupId,
-                    'aria-activedescendant':
-                        activeIndex === undefined ? undefined : `${popupId}-item-${activeIndex}`,
+                    'aria-label': inputProps['aria-label'],
+                    'aria-controls': inputProps['aria-controls'],
+                    'aria-activedescendant': inputProps['aria-activedescendant'],
                 }}
                 size={size}
                 value={value}

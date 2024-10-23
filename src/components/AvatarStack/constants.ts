@@ -1,0 +1,1 @@
+export const AVATAR_STACK_DEFAULT_MAX = 3;

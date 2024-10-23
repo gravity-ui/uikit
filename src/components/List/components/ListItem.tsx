@@ -34,6 +34,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
     render() {
         const {
             item,
+            height,
             style,
             sortable,
             sortHandleAlign,
@@ -49,6 +50,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
         react-window has a bug where in rtl it setting "right" to 0 instead of undefined.
          */
         const fixedStyle = {
+            height,
             ...style,
             right: undefined,
         };

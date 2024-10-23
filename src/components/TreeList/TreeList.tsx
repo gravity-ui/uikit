@@ -17,7 +17,7 @@ import type {TreeListContainerProps, TreeListProps} from './types';
 
 const b = block('tree-list');
 
-export const TreeList = <T,>({
+export const TreeList = <T, P extends {} = {}>({
     qa,
     id,
     size = 'm',
@@ -29,7 +29,7 @@ export const TreeList = <T,>({
     renderContainer = ListContainer,
     onItemClick: propsOnItemClick,
     mapItemDataToContentProps,
-}: TreeListProps<T>) => {
+}: TreeListProps<T, P>) => {
     const uniqId = useUniqId();
     const treeListId = id ?? uniqId;
     const containerRefLocal = React.useRef<HTMLDivElement>(null);
@@ -61,12 +61,12 @@ export const TreeList = <T,>({
         list,
     });
 
-    const renderItem: TreeListContainerProps<T>['renderItem'] = (
+    const renderItem: TreeListContainerProps<T, P>['renderItem'] = (
         itemId,
         index,
         renderContainerProps,
     ) => {
-        const renderState = getItemRenderState({
+        const renderState = getItemRenderState<T>({
             qa,
             id: itemId,
             size,

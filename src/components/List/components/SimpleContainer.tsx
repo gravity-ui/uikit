@@ -10,6 +10,7 @@ import type {ListItem} from './ListItem';
 export type SimpleContainerProps = React.PropsWithChildren<{
     itemCount: number;
     provided?: DroppableProvided;
+    onScrollToItem?: (node: HTMLElement) => boolean;
 }>;
 
 type RefsList = Record<number, React.RefObject<ListItem>>;
@@ -64,7 +65,9 @@ export class SimpleContainer extends React.Component<SimpleContainerProps, Simpl
             const node = listItem.getNode();
 
             if (node) {
-                node.scrollIntoView?.({block: 'nearest'});
+                if (!this.props.onScrollToItem?.(node)) {
+                    node.scrollIntoView?.({block: 'nearest'});
+                }
             }
         }
     }

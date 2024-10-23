@@ -4,7 +4,7 @@ import round from 'lodash/round';
 import throttle from 'lodash/throttle';
 
 const RESIZE_THROTTLE = 16;
-const ROUND_PRESICION = 2;
+const ROUND_PRECISION = 2;
 
 export interface UseElementSizeResult {
     width: number;
@@ -24,9 +24,15 @@ export function useElementSize<T extends HTMLElement = HTMLDivElement>(
     });
 
     React.useLayoutEffect(() => {
-        if (!ref?.current) {
+        const element = ref?.current;
+        if (!element) {
             return undefined;
         }
+
+        setSize({
+            width: round(element.offsetWidth, ROUND_PRECISION),
+            height: round(element.offsetHeight, ROUND_PRECISION),
+        });
 
         const handleResize: ResizeObserverCallback = (entries) => {
             if (!Array.isArray(entries)) {
@@ -42,20 +48,20 @@ export function useElementSize<T extends HTMLElement = HTMLDivElement>(
                 // https://github.com/mdn/dom-examples/blob/main/resize-observer/resize-observer-text.html#L88
 
                 setSize({
-                    width: round(borderBoxSize.inlineSize, ROUND_PRESICION),
-                    height: round(borderBoxSize.blockSize, ROUND_PRESICION),
+                    width: round(borderBoxSize.inlineSize, ROUND_PRECISION),
+                    height: round(borderBoxSize.blockSize, ROUND_PRECISION),
                 });
             } else {
                 const target = entry.target as HTMLElement;
                 setSize({
-                    width: round(target.offsetWidth, ROUND_PRESICION),
-                    height: round(target.offsetHeight, ROUND_PRESICION),
+                    width: round(target.offsetWidth, ROUND_PRECISION),
+                    height: round(target.offsetHeight, ROUND_PRECISION),
                 });
             }
         };
 
         const observer = new ResizeObserver(throttle(handleResize, RESIZE_THROTTLE));
-        observer.observe(ref.current);
+        observer.observe(element);
 
         return () => {
             observer.disconnect();

@@ -57,7 +57,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
 
     /* Clickable card — only with type 'action' or 'selection' and not selected or disabled */
     const hasAction = isTypeAction || isTypeSelection;
-    const isClickable = hasAction && Boolean(onClick) && !(disabled || selected);
+    const isClickable = hasAction && Boolean(onClick) && !disabled;
 
     /* Theme only with type 'container' */
     const defaultTheme = isTypeContainer ? 'normal' : undefined;

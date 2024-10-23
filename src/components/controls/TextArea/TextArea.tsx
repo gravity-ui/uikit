@@ -47,8 +47,8 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
             name,
             value,
             defaultValue,
-            disabled: disabledProp,
-            readOnly: readOnlyProp,
+            disabled,
+            readOnly,
             hasClear = false,
             error,
             errorMessage: errorMessageProp,
@@ -64,8 +64,6 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
             onUpdate,
             onChange,
         } = props;
-        const disabled = disabledProp ?? controlProps?.disabled;
-        const readOnly = readOnlyProp ?? controlProps?.readOnly;
 
         const {errorMessage, validationState} = errorPropsMapper({
             error,

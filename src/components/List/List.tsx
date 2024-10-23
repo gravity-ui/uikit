@@ -32,6 +32,7 @@ import './List.scss';
 
 const b = block('list');
 const DEFAULT_ITEM_HEIGHT = 28;
+const DEFAULT_PAGE_SIZE = 10;
 
 type ListState<T> = {
     items: ListProps<T>['items'];
@@ -224,11 +225,11 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                 break;
             }
             case 'PageDown': {
-                this.handleKeyMove(event, pageSize!);
+                this.handleKeyMove(event, pageSize ?? DEFAULT_PAGE_SIZE);
                 break;
             }
             case 'PageUp': {
-                this.handleKeyMove(event, -pageSize!);
+                this.handleKeyMove(event, -(pageSize ?? DEFAULT_PAGE_SIZE));
                 break;
             }
             case 'Home': {
@@ -280,6 +281,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     private renderItem = ({
         index,
         style,
+        height,
         provided,
         isDragging,
     }: {
@@ -287,6 +289,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         style?: React.CSSProperties;
         provided?: DraggableProvided;
         isDragging?: boolean;
+        height?: number;
     }) => {
         const {sortHandleAlign, role} = this.props;
         const {items, activeItem} = this.state;
@@ -301,6 +304,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
             <ListItem
                 key={index}
                 style={style}
+                height={height}
                 itemIndex={index}
                 item={item}
                 sortable={sortable}
@@ -388,6 +392,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                                 ref={this.refContainer}
                                 itemCount={items.length}
                                 provided={droppableProvided}
+                                onScrollToItem={this.props.onScrollToItem}
                             >
                                 {items.map((_item, index) => {
                                     return (
@@ -404,7 +409,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                                                     index,
                                                     isDragging: snapshot.isDragging,
                                                     provided,
-                                                    style: {height: this.getItemHeight(index)},
+                                                    height: this.getItemHeight(index),
                                                 });
                                             }}
                                         </Draggable>
@@ -418,9 +423,13 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         }
 
         return (
-            <SimpleContainer itemCount={items.length} ref={this.refContainer}>
+            <SimpleContainer
+                itemCount={items.length}
+                ref={this.refContainer}
+                onScrollToItem={this.props.onScrollToItem}
+            >
                 {items.map((_item, index) =>
-                    this.renderItem({index, style: {height: this.getItemHeight(index)}}),
+                    this.renderItem({index, height: this.getItemHeight(index)}),
                 )}
             </SimpleContainer>
         );
@@ -539,6 +548,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         if (!this.blurTimer) {
             return;
         }
+        this.blurTimer = null;
         if (this.props.deactivateOnLeave) {
             this.setState({activeItem: undefined});
         }
@@ -609,7 +619,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     };
 
     private onMouseLeave = () => {
-        this.deactivate();
+        this.handleBlur();
     };
 
     private onSortStart = () => {

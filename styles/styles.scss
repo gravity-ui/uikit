@@ -24,6 +24,9 @@
 }
 
 .g-root:not(.g-root_mobile):not(.g-root_native-scrollbar) {
+    scrollbar-width: var(--g-scrollbar-width);
+    scrollbar-color: var(--g-color-scroll-handle) var(--g-color-scroll-track);
+
     &::-webkit-scrollbar,
     *::-webkit-scrollbar {
         width: var(--g-scrollbar-width);
@@ -50,9 +53,6 @@
     *::-webkit-scrollbar-thumb:hover {
         background: var(--g-color-scroll-handle-hover);
     }
-
-    scrollbar-width: var(--g-scrollbar-width);
-    scrollbar-color: var(--g-color-scroll-handle) var(--g-color-scroll-track);
 }
 
 @keyframes g-loading-animation {

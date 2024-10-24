@@ -10,4 +10,9 @@ export const KeyCode = {
     ARROW_DOWN: 'ArrowDown',
     ARROW_LEFT: 'ArrowLeft',
     ARROW_RIGHT: 'ArrowRight',
+
+    SHIFT: 'Shift',
+
+    HOME: 'Home',
+    END: 'End',
 };

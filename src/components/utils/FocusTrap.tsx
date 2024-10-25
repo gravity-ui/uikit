@@ -7,6 +7,8 @@ import type {FocusTrap as FocusTrapInstance} from 'focus-trap';
 
 import {useForkRef, useUniqId} from '../../hooks';
 
+import {getElementRef} from './getElementRef';
+
 interface FocusTrapContext {
     addNode: (id: string, node: HTMLElement) => void;
     removeNode: (id: string) => void;
@@ -90,7 +92,7 @@ export function FocusTrap({
     if (!React.isValidElement<any>(child)) {
         throw new Error('Children must contain only one valid element');
     }
-    const childRef = (child as any).ref;
+    const childRef = getElementRef(child);
 
     const ref = useForkRef(handleNodeRef, childRef);
 

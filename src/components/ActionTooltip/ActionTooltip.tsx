@@ -11,6 +11,7 @@ import {Popup} from '../Popup';
 import type {PopupPlacement} from '../Popup';
 import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
+import {getElementRef} from '../utils/getElementRef';
 
 import './ActionTooltip.scss';
 
@@ -77,7 +78,7 @@ export function ActionTooltip(props: ActionTooltipProps) {
     };
 
     const child = React.Children.only(children);
-    const childRef = (child as any).ref;
+    const childRef = getElementRef(child);
 
     const ref = useForkRef(setAnchorElement, childRef);
 

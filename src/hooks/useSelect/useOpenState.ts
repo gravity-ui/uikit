@@ -2,13 +2,13 @@ import React from 'react';
 
 import {useControlledState} from '../useControlledState/useControlledState';
 
-import type {UseOpenProps} from './types';
+import type {OnOpenChangeOptions, UseOpenProps} from './types';
 
 export const useOpenState = (props: UseOpenProps) => {
     const {onOpenChange, onClose} = props;
     const handleOpenChange = React.useCallback(
-        (newOpen: boolean) => {
-            onOpenChange?.(newOpen);
+        (newOpen: boolean, options: OnOpenChangeOptions = {reason: 'outside-click'}) => {
+            onOpenChange?.(newOpen, options);
             if (newOpen === false && onClose) {
                 onClose();
             }
@@ -23,9 +23,9 @@ export const useOpenState = (props: UseOpenProps) => {
     );
 
     const toggleOpen = React.useCallback(
-        (val?: boolean) => {
+        (val?: boolean, options?: OnOpenChangeOptions) => {
             const newOpen = typeof val === 'boolean' ? val : !open;
-            setOpenState(newOpen);
+            setOpenState(newOpen, options);
         },
         [open, setOpenState],
     );

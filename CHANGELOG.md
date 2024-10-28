@@ -1,5 +1,18 @@
 # Changelog
 
+## [6.34.0](https://github.com/gravity-ui/uikit/compare/v6.33.0...v6.34.0) (2024-10-25)
+
+
+### Features
+
+* **ListItemExandIcon:** added new list component for expanded icon view ([#1762](https://github.com/gravity-ui/uikit/issues/1762)) ([b6516f4](https://github.com/gravity-ui/uikit/commit/b6516f46ce157a1297a5887e25487f621da07b43))
+
+
+### Bug Fixes
+
+* react 19 compatibility ([#1916](https://github.com/gravity-ui/uikit/issues/1916)) ([29f2558](https://github.com/gravity-ui/uikit/commit/29f255803582d9b6791f11b080b80d36626dd03b))
+* **styles:** rules order in block ([#1912](https://github.com/gravity-ui/uikit/issues/1912)) ([2d9c88e](https://github.com/gravity-ui/uikit/commit/2d9c88ee6a7040d33369c1a47d2022ec9f129d7c))
+
 ## [6.33.0](https://github.com/gravity-ui/uikit/compare/v6.32.0...v6.33.0) (2024-10-22)
 
 

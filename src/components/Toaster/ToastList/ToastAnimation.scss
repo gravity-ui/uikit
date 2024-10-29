@@ -59,6 +59,7 @@ $animation-duration: 0.6s;
             @include hidden-toast-move($platform);
         }
         100% {
+            @include visible-toast-height;
             @include visible-toast-move;
         }
     }

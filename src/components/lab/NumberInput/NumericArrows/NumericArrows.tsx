@@ -40,6 +40,9 @@ export function NumericArrows({
         disabled,
         tabIndex: -1,
         width: 'max',
+        extraProps: {
+            'aria-hidden': 'true',
+        },
     };
 
     return (

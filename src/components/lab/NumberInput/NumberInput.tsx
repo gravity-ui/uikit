@@ -42,8 +42,6 @@ export interface NumberInputProps
     endContent?: React.ReactNode;
     /** An optional element displayed under the lower right corner of the control and sharing the place with the error container */
     note?: React.ReactNode;
-    /**Describes the validation state */
-    validationState?: 'invalid' | undefined;
 
     /** Hides increment/decrement buttons at the end of control
      */
@@ -64,10 +62,6 @@ export interface NumberInputProps
      * @default 10
      */
     shiftMultiplier?: number;
-    /** Enables changing value by scrolling mousewheel on with cursor on the input
-     * @default  false
-     */
-    allowMouseWheel?: boolean;
     /** Enables ability to enter decimal numbers
      * @default false
      */
@@ -101,10 +95,8 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
         disabled,
         hiddenControls,
         validationState,
-        onFocus,
         onBlur,
         onKeyDown,
-        allowMouseWheel = false,
         allowDecimal = false,
         className,
     } = props;
@@ -146,7 +138,6 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
 
     const clamp = true;
 
-    const [active, setActive] = React.useState(false);
     const safeValue = value ?? 0;
 
     const state = getInputControlState(validationState);
@@ -162,63 +153,35 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
     });
     const handleRef = useForkRef(props.controlRef, innerControlRef, fieldRef);
 
-    const handleIncrement = (
+    const handleValueDelta = (
         e:
             | React.MouseEvent<HTMLButtonElement>
             | React.WheelEvent<HTMLInputElement>
             | React.KeyboardEvent<HTMLInputElement>,
+        direction: 'up' | 'down',
     ) => {
         const step = e.shiftKey ? shiftMultiplier * baseStep : baseStep;
-        if (canIncrementNumber) {
+        const deltaWithSign = direction === 'up' ? step : -step;
+        if (direction === 'up' ? canIncrementNumber : canDecrementNumber) {
             const newValue = clampToNearestStepValue({
-                value: safeValue + step,
+                value: safeValue + deltaWithSign,
                 step: baseStep,
                 min,
                 max,
-                direction: 'up',
+                direction,
             });
             setValue?.(newValue);
             setInputValue(newValue.toString());
-        }
-    };
-
-    const handleDecrement = (
-        e:
-            | React.MouseEvent<HTMLButtonElement>
-            | React.WheelEvent<HTMLInputElement>
-            | React.KeyboardEvent<HTMLInputElement>,
-    ) => {
-        const step = e.shiftKey ? shiftMultiplier * baseStep : baseStep;
-        if (canDecrementNumber) {
-            const newValue = clampToNearestStepValue({
-                value: safeValue - step,
-                step: baseStep,
-                min,
-                max,
-                direction: 'down',
-            });
-            setValue?.(newValue);
-            setInputValue(newValue.toString());
-        }
-    };
-
-    const handleWheel: React.WheelEventHandler<HTMLInputElement> = (e) => {
-        const delta = e.shiftKey ? e.deltaX : e.deltaY;
-        e.preventDefault();
-        if (delta > 0) {
-            handleIncrement(e);
-        } else if (delta < 0) {
-            handleDecrement(e);
         }
     };
 
     const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
         if (e.key === KeyCode.ARROW_DOWN) {
             e.preventDefault();
-            handleDecrement(e);
+            handleValueDelta(e, 'down');
         } else if (e.key === KeyCode.ARROW_UP) {
             e.preventDefault();
-            handleIncrement(e);
+            handleValueDelta(e, 'up');
         } else if (e.key === KeyCode.HOME) {
             e.preventDefault();
             if (min !== undefined) {
@@ -241,24 +204,19 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
         onKeyDown?.(e);
     };
 
-    const handleFocus: React.FocusEventHandler<HTMLInputElement> = (e) => {
-        setActive(true);
-        onFocus?.(e);
-    };
-
     const handleBlur: React.FocusEventHandler<HTMLInputElement> = (e) => {
-        setActive(false);
-        if (clamp && value) {
+        if (clamp && value !== null) {
             const clampedValue = clampToNearestStepValue({
                 value,
                 step: baseStep,
                 min,
                 max,
             });
+
             if (value !== clampedValue) {
                 setValue?.(clampedValue);
-                setInputValue(clampedValue.toString());
             }
+            setInputValue(clampedValue.toString());
         }
         onBlur?.(e);
     };
@@ -285,7 +243,6 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
             controlProps={{
                 onInput: handleInput,
                 ...props.controlProps,
-                onWheel: allowMouseWheel && active ? handleWheel : undefined,
                 role: 'spinbutton',
                 inputMode: 'numeric',
                 pattern: props.controlProps?.pattern ?? getInputPattern(allowDecimal, false),
@@ -298,7 +255,6 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
             onChange={handleChange}
             onUpdate={handleUpdate}
             onKeyDown={handleKeyDown}
-            onFocus={handleFocus}
             onBlur={handleBlur}
             ref={ref}
             unstable_endContent={
@@ -306,16 +262,16 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
                     {endContent}
                     {hiddenControls ? null : (
                         <NumericArrows
-                            className={b('numeric-arrows')}
+                            className={b('arrows')}
                             size={size}
                             disabled={disabled}
                             onUpClick={(e) => {
                                 innerControlRef.current?.focus();
-                                handleIncrement(e);
+                                handleValueDelta(e, 'up');
                             }}
                             onDownClick={(e) => {
                                 innerControlRef.current?.focus();
-                                handleDecrement(e);
+                                handleValueDelta(e, 'down');
                             }}
                         />
                     )}

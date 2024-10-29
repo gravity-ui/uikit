@@ -2,67 +2,8 @@ export const INCREMENT_BUTTON_QA = 'increment-button-qa';
 export const DECREMENT_BUTTON_QA = 'decrement-button-qa';
 export const CONTROL_BUTTONS_QA = 'control-buttons-qa';
 
-export interface GetNumericInputValidatorParams {
-    positiveOnly: boolean;
-    withoutFraction: boolean;
-    min?: number;
-    max?: number;
-}
-type ErrorCode =
-    | 'INCORRECT_NUMBER' // we weren't able to cast value to number
-    | 'NEGATIVE_VALUE_IS_NOT_ALLOWED' // we were able to cast value to number, but the number is negative
-    | 'FRACTION_IS_NOT_ALLOWED' // we were able to cast value to number, but the number has fraction
-    | 'NUMBER_LESS_THAN_MIN_ALLOWED' // we were able to cast value to number, but it is less than min allowed
-    | 'NUMBER_GREATER_THAN_MAX_ALLOWED'; // we were able to cast value to number, but it is greater than max allowed
-
-type ValidatorFunction = (value: number | null) => undefined | ErrorCode; // undefined if value is correct
-
-interface GetNumericInputValidatorReturnValue {
-    pattern: string; // pattern to be used as HTML attribute
-    validator: ValidatorFunction;
-}
-
 export function getInputPattern(withoutFraction: boolean, positiveOnly = false) {
     return `^([${positiveOnly ? '' : '\\-'}\\+]?\\d+${withoutFraction ? '' : '(?:(?:.|,)?\\d+)?'})+$`;
-}
-
-export function getNumericInputValidator({
-    positiveOnly,
-    withoutFraction,
-    min = Number.MIN_SAFE_INTEGER,
-    max = Number.MAX_SAFE_INTEGER,
-}: GetNumericInputValidatorParams): GetNumericInputValidatorReturnValue {
-    const pattern = getInputPattern(withoutFraction, positiveOnly);
-
-    function validator(value: number | null): undefined | ErrorCode {
-        if (value === null) {
-            return undefined;
-        }
-
-        if (Number.isNaN(value)) {
-            return 'INCORRECT_NUMBER';
-        }
-
-        if (positiveOnly && value < 0) {
-            return 'NEGATIVE_VALUE_IS_NOT_ALLOWED';
-        }
-
-        if (withoutFraction && !Number.isInteger(value)) {
-            return 'FRACTION_IS_NOT_ALLOWED';
-        }
-
-        if (value < min) {
-            return 'NUMBER_LESS_THAN_MIN_ALLOWED';
-        }
-
-        if (value > max) {
-            return 'NUMBER_GREATER_THAN_MAX_ALLOWED';
-        }
-
-        return undefined;
-    }
-
-    return {pattern, validator};
 }
 
 /* For parsing paste with units as "- $123.45k"
@@ -87,11 +28,12 @@ export function getPossibleNumberSubstring(
         return undefined;
     }
 
-    const possibleNumberString = [...match]
-        .slice(
-            1,
-            allowDecimal ? undefined : 3, // leave full number or only sign and integer part
-        )
+    const possibleNumberString = [
+        match[1], // sign
+        match[2], // integer part
+        allowDecimal ? match[3] : undefined, // dot
+        match[4], // fraction
+    ]
         .filter(Boolean)
         .join('');
 

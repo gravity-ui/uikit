@@ -373,7 +373,6 @@ LANDING_BLOCK-->
 | Name            | Description                                                                                                             |                     Type                      |      Default       |
 | :-------------- | :---------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------: | :----------------: |
 | allowDecimal    | Enables ability to enter decimal numbers                                                                                |                   `boolean`                   |      `false`       |
-| allowMouseWheel | Enables changing value by scrolling mousewheel on with cursor on the input                                              |                   `boolean`                   |      `false`       |
 | autoComplete    | The control's `autocomplete` attribute                                                                                  |              `boolean` `string`               |                    |
 | autoFocus       | The control's `autofocus` attribute                                                                                     |                   `boolean`                   |                    |
 | className       | The control's wrapper class name                                                                                        |                   `string`                    |                    |

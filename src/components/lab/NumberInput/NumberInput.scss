@@ -23,8 +23,6 @@ $block: '.#{variables.$ns}number-input';
 
     &_view_normal {
         --_--arrows-border-color: var(--g-color-line-generic);
-        --_--border-color-hover: var(--g-color-line-generic-hover);
-        --_--border-color-active: var(--g-color-line-generic-active);
 
         &#{$block}_state_error {
             --_--arrows-border-color: var(--g-color-line-danger);

@@ -5,13 +5,10 @@ import type {Meta, StoryObj} from '@storybook/react';
 
 import {Showcase} from '../../../../demo/Showcase';
 import {Button} from '../../../Button';
-import {Checkbox} from '../../../Checkbox';
 import {Icon} from '../../../Icon';
 import {Text} from '../../../Text';
-import {Flex} from '../../../layout';
 import {NumberInput} from '../NumberInput';
 import type {NumberInputProps} from '../NumberInput';
-import {getNumericInputValidator} from '../utils';
 
 export default {
     title: 'Lab/NumberInput',
@@ -193,65 +190,6 @@ export const MinMax: Story = {
             />
         </Showcase>
     ),
-};
-
-export const WithValidators: Story = {
-    args: {
-        ...Default.args,
-    },
-    render: function WithValidatorsStory(args) {
-        const [value, setValue] = React.useState(args.value ?? args.defaultValue ?? null);
-        const [positiveOnly, setPositiveOnly] = React.useState(false);
-        const [withoutFraction, setWithoutFraction] = React.useState(true);
-
-        const validatorProps = {
-            positiveOnly,
-            withoutFraction,
-            min: -10000,
-            max: 10000,
-        };
-
-        const {pattern, validator} = getNumericInputValidator(validatorProps);
-        const validationProps = {
-            validationState: validator(value) ? ('invalid' as const) : undefined,
-            errorMessage: validator(value),
-            controlProps: {pattern},
-        };
-
-        return (
-            <Flex gap={4}>
-                <Flex direction="column" gap={4}>
-                    <NumberInput
-                        {...args}
-                        {...validationProps}
-                        allowDecimal
-                        step={0.1}
-                        value={value}
-                        onUpdate={setValue}
-                        placeholder={`step=0.1 allowDecimal validator=${JSON.stringify(validatorProps)}`}
-                    />
-                    <NumberInput
-                        {...args}
-                        {...validationProps}
-                        allowDecimal
-                        step={0.1}
-                        value={value}
-                        onUpdate={setValue}
-                        controlProps={{pattern}}
-                        placeholder={`with pattern, step=0.1 allowDecimal validator=${JSON.stringify(validatorProps)}`}
-                    />
-                </Flex>
-                <Flex direction="column" gap={4}>
-                    <Checkbox checked={positiveOnly} onUpdate={setPositiveOnly}>
-                        positiveOnly
-                    </Checkbox>
-                    <Checkbox checked={withoutFraction} onUpdate={setWithoutFraction}>
-                        withoutFraction
-                    </Checkbox>
-                </Flex>
-            </Flex>
-        );
-    },
 };
 
 export const TextHints: Story = {

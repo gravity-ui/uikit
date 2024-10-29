@@ -40,11 +40,5 @@ export type {
     BreadcrumbsItemProps as unstable_BreadcrumbsItemProps,
 } from './components/lab/Breadcrumbs';
 
-export {
-    NumberInput as unstable_NumberInput,
-    getNumericInputValidator as unstable_getNumericInputValidator,
-} from './components/lab/NumberInput';
-export type {
-    NumberInputProps as unstable_NumberInputProps,
-    GetNumericInputValidatorParams as unstable_GetNumericInputValidatorParams,
-} from './components/lab/NumberInput';
+export {NumberInput as unstable_NumberInput} from './components/lab/NumberInput';
+export type {NumberInputProps as unstable_NumberInputProps} from './components/lab/NumberInput';

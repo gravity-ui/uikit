@@ -94,10 +94,32 @@ describe('NumberInput input', () => {
 
         it('ignores trailing dot when pasting uncomplete value', async () => {
             const handleUpdate = jest.fn();
-            render(<NumberInput onUpdate={handleUpdate} />);
+            render(<NumberInput allowDecimal onUpdate={handleUpdate} />);
             fireEvent.change(getInput(), {target: {value: '1.'}});
 
             expect(handleUpdate).toHaveBeenCalledWith(1);
+        });
+
+        it('removes trailling dot on blur', async () => {
+            const handleUpdate = jest.fn();
+            render(<NumberInput allowDecimal onUpdate={handleUpdate} />);
+            const input = getInput();
+            input.focus();
+            fireEvent.change(getInput(), {target: {value: '1.'}});
+            input.blur();
+
+            expect(handleUpdate).toHaveBeenLastCalledWith(1);
+        });
+
+        it('removes redundant zeros on blur', async () => {
+            const handleUpdate = jest.fn();
+            render(<NumberInput allowDecimal onUpdate={handleUpdate} />);
+            const input = getInput();
+            input.focus();
+            fireEvent.change(getInput(), {target: {value: '00001.10000'}});
+            input.blur();
+
+            expect(handleUpdate).toHaveBeenLastCalledWith(1.1);
         });
 
         it('sets min value on HOME button pressed when min defined', async () => {
@@ -425,42 +447,6 @@ describe('NumberInput input', () => {
             await user.keyboard(`{${KeyCode.ARROW_UP}}`);
             await user.keyboard(`{/${KeyCode.SHIFT}}`);
             expect(handleUpdate).toHaveBeenNthCalledWith(2, 17);
-        });
-
-        it('increments value with wheel', async () => {
-            const user = userEvent.setup();
-            const handleUpdate = jest.fn();
-            render(<NumberInput value={1} onUpdate={handleUpdate} allowMouseWheel />);
-
-            const input = getInput();
-            await user.click(input);
-
-            fireEvent.wheel(input, {deltaY: 4});
-            expect(handleUpdate).toHaveBeenCalledWith(2);
-        });
-
-        it('decrements value with wheel', async () => {
-            const user = userEvent.setup();
-            const handleUpdate = jest.fn();
-            render(<NumberInput value={2} onUpdate={handleUpdate} allowMouseWheel />);
-
-            const input = getInput();
-            await user.click(input);
-
-            fireEvent.wheel(input, {deltaY: -4});
-            expect(handleUpdate).toHaveBeenCalledWith(1);
-        });
-
-        it('uses shiftMultiplier as step value with wheel', async () => {
-            const user = userEvent.setup();
-            const handleUpdate = jest.fn();
-            render(<NumberInput value={1} onUpdate={handleUpdate} allowMouseWheel />);
-
-            const input = getInput();
-            await user.click(input);
-
-            fireEvent.wheel(input, {deltaX: 4, shiftKey: true});
-            expect(handleUpdate).toHaveBeenCalledWith(11);
         });
     });
 

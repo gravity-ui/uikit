@@ -38,6 +38,7 @@ export const PlaceholderContainer = ({
     image,
     content,
     actions,
+    qa,
 }: PlaceholderContainerProps) => {
     const renderTitle = () => {
         if (!title) {
@@ -97,7 +98,7 @@ export const PlaceholderContainer = ({
     };
 
     return (
-        <div className={b({direction, align, size}, className || '')}>
+        <div className={b({direction, align, size}, className || '')} data-qa={qa}>
             <div className={b('body')}>
                 <div className={b('image', {size})}>{renderImage()}</div>
                 {renderContent()}

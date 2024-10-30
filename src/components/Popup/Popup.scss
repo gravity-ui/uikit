@@ -5,6 +5,7 @@ $block: '.#{variables.$ns}popup';
 $arrow-size: 18px;
 $arrow-offset: 9px;
 $arrow-border: 5px;
+$arrow-substarte-offset: calc($arrow-offset + $arrow-border);
 $arrow-circle-width: 28px;
 $arrow-circle-height: 30px;
 $transition-distance: 10px;
@@ -64,6 +65,11 @@ $transition-distance: 10px;
     &[data-popper-placement*='bottom'] #{$block}__arrow {
         inset-block-start: -$arrow-offset;
     }
+    &[data-popper-placement*='bottom'] #{$block}__arrow-substrate {
+        inset-block-start: -$arrow-substarte-offset;
+        height: $arrow-substarte-offset;
+        width: 100%;
+    }
 
     &[data-popper-placement*='top'] #{$block}__arrow {
         inset-block-end: -$arrow-offset;
@@ -72,14 +78,25 @@ $transition-distance: 10px;
             transform: rotate(180deg);
         }
     }
+    &[data-popper-placement*='top'] #{$block}__arrow-substrate {
+        inset-block-end: -$arrow-substarte-offset;
+        height: $arrow-substarte-offset;
+        width: 100%;
+    }
 
     &[data-popper-placement*='left'] #{$block}__arrow {
         // stylelint-disable-next-line csstools/use-logical
-        right: -$arrow-offset;
+        inset-inline-end: -$arrow-offset;
 
         &-content {
             transform: rotate(90deg);
         }
+    }
+    &[data-popper-placement*='left'] #{$block}__arrow-substrate {
+        // stylelint-disable-next-line csstools/use-logical
+        inset-inline-end: -$arrow-substarte-offset;
+        width: $arrow-substarte-offset;
+        height: 100%;
     }
 
     &[data-popper-placement*='right'] #{$block}__arrow {
@@ -89,6 +106,12 @@ $transition-distance: 10px;
         &-content {
             transform: rotate(-90deg);
         }
+    }
+    &[data-popper-placement*='right'] #{$block}__arrow-substrate {
+        // stylelint-disable-next-line csstools/use-logical
+        left: -$arrow-substarte-offset;
+        width: $arrow-substarte-offset;
+        height: 100%;
     }
 
     &__content {

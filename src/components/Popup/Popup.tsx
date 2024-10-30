@@ -160,6 +160,8 @@ export function Popup({
         role = 'dialog';
     }
 
+    const {transform: _transform, ...rest} = styles.arrow ?? {};
+
     return (
         <CSSTransition
             nodeRef={containerRef}
@@ -210,11 +212,14 @@ export function Popup({
                             tabIndex={-1}
                         >
                             {hasArrow && (
-                                <PopupArrow
-                                    styles={styles.arrow}
-                                    attributes={attributes.arrow}
-                                    setArrowRef={setArrowRef}
-                                />
+                                <React.Fragment>
+                                    <PopupArrow
+                                        styles={styles.arrow}
+                                        attributes={attributes.arrow}
+                                        setArrowRef={setArrowRef}
+                                    />
+                                    <div className={b('arrow-substrate')} style={rest} />
+                                </React.Fragment>
                             )}
                             {children}
                         </div>

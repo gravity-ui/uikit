@@ -244,7 +244,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
                 onInput: handleInput,
                 ...props.controlProps,
                 role: 'spinbutton',
-                inputMode: 'numeric',
+                inputMode: allowDecimal ? 'decimal' : 'numeric',
                 pattern: props.controlProps?.pattern ?? getInputPattern(allowDecimal, false),
                 'aria-valuemin': props.min,
                 'aria-valuemax': props.max,

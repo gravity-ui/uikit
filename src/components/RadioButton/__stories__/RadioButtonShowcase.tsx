@@ -14,7 +14,16 @@ export function RadioButtonShowcase() {
     ];
 
     const iconOptions: RadioButtonOption[] = [
-        {value: 'Value 1', content: <Icon data={TriangleExclamationFill} />, title: 'Warning'},
+        {
+            value: 'Value 1',
+            content: (
+                <React.Fragment>
+                    <Icon data={TriangleExclamationFill} />
+                    <span>Warning</span>
+                </React.Fragment>
+            ),
+            title: 'Warning',
+        },
         {value: 'Value 2', content: <Icon data={CircleInfoFill} />, title: 'Info'},
     ];
 

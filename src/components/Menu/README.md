@@ -8,9 +8,9 @@
 import {Menu} from '@gravity-ui/uikit';
 ```
 
-The `Menu` component makes it easy to create views for actions lists.
+The `Menu` component enables easily creating views for action lists.
 
-`Menu` has dedicated components for items (`Menu.Item`) and a groups (`Menu.Group`). You can combine them to create more complex menus.
+It has dedicated components for items (`Menu.Item`) and groups (`Menu.Group`). You can combine them to create more complex menus.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -123,9 +123,9 @@ LANDING_BLOCK-->
 | :-------- | :----------------------------------------- | :----------------------: | :-----: |
 | size      | Menu size                                  | `"s"` `"m"` `"l"` `"xl"` |  `"m"`  |
 | children  | Child element                              |    `React.ReactNode`     |         |
-| className | HTML `class` attribute                     |         `string`         |         |
-| style     | HTML `style` attribute                     |  `React.CSSProperties`   |         |
-| qa        | HTML `data-qa` attribute, used for testing |         `string`         |         |
+| className | `class` HTML attribute                     |         `string`         |         |
+| style     | `style` HTML attribute                     |  `React.CSSProperties`   |         |
+| qa        | `data-qa` HTML attribute, used for testing |         `string`         |         |
 
 ## Menu.Item
 
@@ -133,7 +133,7 @@ This property is used to render menu items.
 
 ### Icon
 
-The `iconStart` or `iconEnd` properties is used to display an icon at the start or end of a menu item:
+Use the `iconStart` or `iconEnd` property to display an icon at the start or end of a menu item:
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -279,10 +279,10 @@ LANDING_BLOCK-->
 | onClick    | Handler for onclick event                  | `React.MouseEventHandler` |            |
 | theme      | Menu item theme                            |   `"normal"` `"danger"`   | `"normal"` |
 | children   | Child element                              |     `React.ReactNode`     |            |
-| className  | HTML `class` attribute                     |         `string`          |            |
-| style      | HTML `style` attribute                     |   `React.CSSProperties`   |            |
-| qa         | HTML `data-qa` attribute, used for testing |         `string`          |            |
-| extraProps | Additional html attributes                 |         `Record`          |            |
+| className  | `class` HTML attribute                     |         `string`          |            |
+| style      | `style` HTML attribute                     |   `React.CSSProperties`   |            |
+| qa         | `data-qa` HTML attribute, used for testing |         `string`          |            |
+| extraProps | Additional HTML attributes                 |         `Record`          |            |
 
 ## Menu.Group
 
@@ -356,10 +356,10 @@ LANDING_BLOCK-->
 
 ### Properties
 
-| Name      | Description                             |         Type          | Default |
-| :-------- | :-------------------------------------- | :-------------------: | :-----: |
-| label     | Menu group label                        |       `string`        |         |
-| children  | Child element                           |   `React.ReactNode`   |         |
-| className | HTML `class` attribute                  |       `string`        |         |
-| style     | HTML `style` attribute                  | `React.CSSProperties` |         |
-| qa        | HTML `data-qa` attribute, used in tests |       `string`        |         |
+| Name      | Description                                |         Type          | Default |
+| :-------- | :----------------------------------------- | :-------------------: | :-----: |
+| label     | Menu group label                           |       `string`        |         |
+| children  | Child element                              |   `React.ReactNode`   |         |
+| className | `class` HTML attribute                     |       `string`        |         |
+| style     | `style` HTML attribute                     | `React.CSSProperties` |         |
+| qa        | `data-qa` HTML attribute, used for testing |       `string`        |         |

@@ -16,7 +16,7 @@ The `Divider` component is used as a thin line for delimiting and grouping eleme
 
 ### Orientation
 
-To control the orientation of the `Divider`, use the `orientation` property. The default orientation is `horizontal`.
+Use the `direction` property to manage the `Divider` orientation. The default orientation is `horizontal`.
 
 #### Horizontal
 
@@ -222,14 +222,14 @@ import {Divider, Flex, Container} from '@gravity-ui/uikit';
 
 ### Properties
 
-| Name        | Description                             | Type                    | Default      |
-| :---------- | :-------------------------------------- | :---------------------- | :----------- |
-| className   | HTML `class` attribute                  | `string`                | -            |
-| orientation | Sets the direction of divider           | `horizontal - vertical` | `horizontal` |
-| children    | Custom content inside divider           | `React.ReactNode`       |              |
-| align       | Custom content position                 | `start - center - end`  | `start`      |
-| style       | HTML `style` attribute                  | `React.CSSProperties`   |              |
-| qa          | HTML `data-qa` attribute, used in tests | `string`                |              |
+| Name        | Description                                | Type                    | Default      |
+| :---------- | :----------------------------------------- | :---------------------- | :----------- |
+| className   | `class` HTML attribute                     | `string`                | -            |
+| orientation | Determines the divider direction           | `horizontal - vertical` | `horizontal` |
+| children    | Custom content inside the divider          | `React.ReactNode`       |              |
+| align       | Custom content position                    | `start - center - end`  | `start`      |
+| style       | `style` HTML attribute                     | `React.CSSProperties`   |              |
+| qa          | `data-qa` HTML attribute, used for testing | `string`                |              |
 
 ### CSS API
 

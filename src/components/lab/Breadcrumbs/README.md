@@ -8,7 +8,7 @@
 import {unstable_Breadcrumbs as Breadcrumbs} from '@gravity-ui/uikit/unstable';
 ```
 
-`Breadcrumbs` is a navigation element that shows the current location of a page within a website’s hierarchy. It provides links that allow users to return to higher levels in the hierarchy, making it easier to navigate a site with multiple layers. Breadcrumbs are especially useful for large websites and applications with a hierarchical organization of pages.
+`Breadcrumbs` is a navigation element that shows the current location of a page within a website’s hierarchy. It provides links that allow users to return to higher levels in the hierarchy, making it easier to navigate through a website with multiple layers. Breadcrumbs are especially useful for large websites and applications with hierarchy-based structure of pages.
 
 ## Example
 
@@ -56,7 +56,7 @@ LANDING_BLOCK-->
 
 ### Events
 
-Use the `onAction` prop as a callback to handle click events on items.
+Use the `onAction` property as a callback to handle click events on items.
 
 <!--LANDING_BLOCK
 
@@ -109,7 +109,7 @@ const items = [
 
 ### Links
 
-In Breadcrumbs, clicking an item normally triggers `onAction`. But you can also make them links to other pages or websites. To do that, add the href property to the `<Breadcrumbs.Item>` component.
+In `Breadcrumbs`, clicking an item normally triggers `onAction`. However, you can also use them as links to other pages or websites. To do that, add the `href` property to the `<Breadcrumbs.Item>` component:
 
 <!--LANDING_BLOCK
 
@@ -336,8 +336,8 @@ LANDING_BLOCK-->
 
 ### Integration with routers
 
-`Breadcrumbs` component accepts navigate function received from your router for performing a client side navigation programmatically.
-The following example shows the general pattern.
+The `Breadcrumbs` component accepts the navigation function received from your router for managing the client-side navigation in a software-based mode.
+The example below shows the general pattern:
 
 ```jsx
 function Header() {
@@ -425,7 +425,7 @@ function Header() {
 
 ### Landmarks
 
-When breadcrumbs are used as a main navigation element for a page, they can be placed in a [navigation landmark](https://www.w3.org/WAI/ARIA/apg/patterns/landmarks/examples/navigation.html). Landmarks help assistive technology users quickly find major sections of a page. Place breadcrumbs inside a `<nav>` element with an aria-label to create a navigation landmark.
+When breadcrumbs are used as a main navigation element for a page, they can be placed in a [navigation landmark](https://www.w3.org/WAI/ARIA/apg/patterns/landmarks/examples/navigation.html). Landmarks help the assistive technology users quickly find major sections of a page. To create a navigation landmark, place breadcrumbs inside a `<nav>` element with an `aria-label`:
 
 <!--LANDING_BLOCK
 
@@ -471,31 +471,31 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name             | Description                                                           | Type                                       | Default |
-| :--------------- | :-------------------------------------------------------------------- | :----------------------------------------- | :------ |
-| children         | Breadcrumb items.                                                     | `React.ReactElement<BreadcrumbsItemProps>` |         |
-| disabled         | Whether the Breadcrumbs are disabled.                                 | `boolean`                                  |         |
-| showRoot         | Whether to always show the root item if the items are collapsed.      | `boolean`                                  |         |
-| popupPlacement   | Style of collapsed item popup.                                        | `PopupPlacement`                           |         |
-| popupStyle       | Style of collapsed item popup.                                        | `"staircase"`                              |         |
-| qa               | HTML `data-qa` attribute, used in tests.                              | `string`                                   |         |
-| separator        | Custom separator node.                                                | `React.ReactNode`                          | "/"     |
-| action           | `click` event handler.                                                | `(id: Key) => void`                        |         |
-| navigate         | client side navigation.                                               | `(href: string) => void`                   |         |
-| id               | The element's unique identifier.                                      | `string`                                   |         |
-| className        | CSS class name for the element.                                       | `string`                                   |         |
-| style            | Sets inline style for the element.                                    | `CSSProperties`                            |         |
-| aria-label       | Defines a string value that labels the current element.               | `string`                                   |         |
-| aria-labelledby  | Identifies the element (or elements) that labels the current element. | `string`                                   |         |
-| aria-describedby | Identifies the element (or elements) that describes the object.       | `string`                                   |         |
+| Name             | Description                                                                  | Type                                       | Default |
+| :--------------- | :--------------------------------------------------------------------------- | :----------------------------------------- | :------ |
+| children         | Breadcrumb items                                                             | `React.ReactElement<BreadcrumbsItemProps>` |         |
+| disabled         | Determines whether `Breadcrumbs` are disabled.                               | `boolean`                                  |         |
+| showRoot         | Enables or disables always showing the root item if the items are collapsed. | `boolean`                                  |         |
+| popupPlacement   | Style of the collapsed item popup.                                           | `PopupPlacement`                           |         |
+| popupStyle       | Style of the collapsed item popup.                                           | `"staircase"`                              |         |
+| qa               | `data-qa` HTML attribute, used for testing                                   | `string`                                   |         |
+| separator        | Custom separator node.                                                       | `React.ReactNode`                          | "/"     |
+| action           | `click` event handler.                                                       | `(id: Key) => void`                        |         |
+| navigate         | Client-side navigation.                                                      | `(href: string) => void`                   |         |
+| id               | Element's unique ID.                                                         | `string`                                   |         |
+| className        | CSS class name for the element.                                              | `string`                                   |         |
+| style            | Sets the inline style for the element.                                       | `CSSProperties`                            |         |
+| aria-label       | Defines a string value that labels the current element.                      | `string`                                   |         |
+| aria-labelledby  | Identifies the element(s) that label the current element.                    | `string`                                   |         |
+| aria-describedby | Identifies the element(s) that describe the object.                          | `string`                                   |         |
 
 ### BreadcrumbsItemProps
 
-| Name       | Description                                                        | Type                              | Default |
-| :--------- | :----------------------------------------------------------------- | :-------------------------------- | :------ |
-| children   | Breadcrumb content.                                                | `string`                          |         |
-| title      | A string representation of the item's contents.                    | `string`                          |         |
-| aria-label | An accessibility label for this item.                              | `string`                          |         |
-| href       | A URL to link to.                                                  | `string`                          |         |
-| target     | The target window for the link.                                    | `React.HTMLAttributeAnchorTarget` |         |
-| rel        | The relationship between the linked resource and the current page. | `string`                          |         |
+| Name       | Description                                                    | Type                              | Default |
+| :--------- | :------------------------------------------------------------- | :-------------------------------- | :------ |
+| children   | Breadcrumbs content.                                           | `string`                          |         |
+| title      | String representation of the item contents.                    | `string`                          |         |
+| aria-label | Accessibility label for the item.                              | `string`                          |         |
+| href       | URL to use for the hyperlink.                                  | `string`                          |         |
+| target     | Target window for the link.                                    | `React.HTMLAttributeAnchorTarget` |         |
+| rel        | Relationship between the linked resource and the current page. | `string`                          |         |

@@ -8,13 +8,13 @@
 import {Avatar} from '@gravity-ui/uikit';
 ```
 
-The component intended to render avatars. It has three basic types of avatars: image, icon and text (initials). All of these types have special props to configure behaviour and appearance.
+This component is intended for rendering avatars. It has three basic avatar types: image, icon, and text (name initials). All these types have special properties to configure the behavior and appearance.
 
 ## Types
 
 ### Image
 
-This component can be used to render avatars using images. Provide the image via `imgUrl` property.
+This component can be used to render avatars using images. To provide an image, use the `imgUrl` property.
 
 <!--LANDING_BLOCK
 
@@ -28,7 +28,7 @@ This component can be used to render avatars using images. Provide the image via
 
 LANDING_BLOCK-->
 
-Also, you can provide `srcSet` property to load images of different sizes.
+You can also provide the `srcSet` property to load images of different sizes.
 
 <!--LANDING_BLOCK
 
@@ -42,7 +42,7 @@ Also, you can provide `srcSet` property to load images of different sizes.
 
 LANDING_BLOCK-->
 
-Avatar component has `fallbackImgUrl` property which allows you to provide the image that is shown when an image loading error occurs via the link `imgUrl` (CSP error or no original image).
+The `Avatar` component has the `fallbackImgUrl` property which allows you to provide the image that is shown when an image loading error occurs, through the `imgUrl` link (CSP error or no original image).
 
 <!--LANDING_BLOCK
 
@@ -58,7 +58,7 @@ LANDING_BLOCK-->
 
 ### Icon
 
-This component can be used to render avatars using icons. Provide the icon via `icon` property like in `Icon` component.
+This component can be used to render avatars using icons. Use the `icon` property to provide an icon, just like you would do in case of the `Icon` component.
 
 <!--LANDING_BLOCK
 
@@ -76,7 +76,7 @@ LANDING_BLOCK-->
 
 ### Text
 
-This component can be used to render avatars using text. Provide the text via `text` property. The text renders like initials (2 first letters of words) or just 2 first letters of a single word.
+This component can be used to render avatars using text. Use the `text` property for that. The text is rendered as initials (first letters of two words) or just two first letters of a single word.
 
 <!--LANDING_BLOCK
 
@@ -96,10 +96,9 @@ LANDING_BLOCK-->
 
 ### Theme and view
 
-The Avatar component has predefined themes (`normal`, `brand`) and views (`filled`, `outlined`)
+The `Avatar` component has predefined themes (`normal`, `brand`) and views (`filled`, `outlined`).
 
-Default theme: `normal`
-Default view: `filled`
+The default theme is `normal` and the default view is `filled`.
 
 <!--LANDING_BLOCK
 
@@ -123,7 +122,7 @@ LANDING_BLOCK-->
 
 ### Custom colors
 
-Also, you can provide custom colors via props `backgroundColor`, `borderColor` and `color` (works only for icon and text avatars). These colors have a higher priority than the colors from the theme.
+You can also provide custom colors through the `backgroundColor`, `borderColor`, and `color` properties (the latter works only for icon and text avatars). These colors have a higher priority than the theme colors.
 
 <!--LANDING_BLOCK
 
@@ -141,13 +140,12 @@ LANDING_BLOCK-->
 
 ### Size
 
-To control the size of the `Avatar` use the `size` property. The default size is `m`. Possible values: `2xs`, `xs`, `s`, `m`, `l`, `xl`.
+Use the `size` property to manage the `Avatar` size. The default size is `m`. The possible values are `xs`, `s`, `m`, `l`, and `xl`.
 
 <!--LANDING_BLOCK
 
 <ExampleBlock
     code={`
-<Avatar text="Charles Darwin" theme="brand" size="2xs" />
 <Avatar text="Charles Darwin" theme="brand" size="xs" />
 <Avatar text="Charles Darwin" theme="brand" size="s" />
 <Avatar text="Charles Darwin" theme="brand" size="m" />
@@ -155,7 +153,6 @@ To control the size of the `Avatar` use the `size` property. The default size is
 <Avatar text="Charles Darwin" theme="brand" size="xl" />
 `}
 >
-    <UIKit.Avatar text="Charles Darwin" theme="brand" size="2xs" />
     <UIKit.Avatar text="Charles Darwin" theme="brand" size="xs" />
     <UIKit.Avatar text="Charles Darwin" theme="brand" size="s" />
     <UIKit.Avatar text="Charles Darwin" theme="brand" size="m" />
@@ -169,30 +166,30 @@ LANDING_BLOCK-->
 
 ### Common
 
-| Name            | Description                             |                  Type                   | Default  |
-| :-------------- | :-------------------------------------- | :-------------------------------------: | :------: |
-| size            | Avatar size                             | `'2xs'` `'xs'` `'s'` `'m'` `'l'` `'xl'` |   `m`    |
-| theme           | Avatar theme                            |          `'normal'` `'brand'`           | `normal` |
-| view            | Avatar view                             |         `'filled'` `'outlined'`         | `filled` |
-| backgroundColor | Custom background color                 |                `string`                 |          |
-| borderColor     | Custom border color                     |                `string`                 |          |
-| title           | HTML `title` attributes                 |                `string`                 |          |
-| aria-label      | `aria-label` for avatar block           |                `string`                 |          |
-| aria-labelledby | `aria-labelledby` for avatar block      |                `string`                 |          |
-| className       | Custom CSS class for root element       |                `string`                 |          |
-| style           | HTML style attribute                    |          `React.CSSProperties`          |          |
-| qa              | HTML `data-qa` attribute, used in tests |                `string`                 |          |
+| Name            | Description                                |              Type               | Default  |
+| :-------------- | :----------------------------------------- | :-----------------------------: | :------: |
+| size            | Avatar size                                | `'xs'` `'s'` `'m'` `'l'` `'xl'` |   `m`    |
+| theme           | Avatar theme                               |      `'normal'` `'brand'`       | `normal` |
+| view            | Avatar filling and outlining options       |     `'filled'` `'outlined'`     | `filled` |
+| backgroundColor | Custom background color                    |            `string`             |          |
+| borderColor     | Custom border color                        |            `string`             |          |
+| title           | `title` HTML attribute                     |            `string`             |          |
+| aria-label      | `aria-label` for the avatar section        |            `string`             |          |
+| aria-labelledby | `aria-labelledby` for the avatar section   |            `string`             |          |
+| className       | Custom CSS class for the root element      |            `string`             |          |
+| style           | `style` HTML attribute                     |      `React.CSSProperties`      |          |
+| qa              | `data-qa` HTML attribute, used for testing |            `string`             |          |
 
 ### Image-specific
 
-| Name           | Description                             |        Type        |   Default   |
-| :------------- | :-------------------------------------- | :----------------: | :---------: |
-| imgUrl         | HTML img `src` attribute                |      `string`      |             |
-| fallbackImgUrl | Fallback image, shown if error happened |      `string`      |             |
-| sizes          | HTML img `sizes` attribute              |      `string`      |             |
-| srcSet         | HTML img `srcSet` attribute             |      `string`      |             |
-| alt            | HTML img `alt` attribute                |      `string`      | props.title |
-| loading        | HTML img `loading` attribute            | `'eager'` `'lazy'` |             |
+| Name           | Description                               |        Type        |   Default   |
+| :------------- | :---------------------------------------- | :----------------: | :---------: |
+| imgUrl         | `img` `src` HTML attribute                |      `string`      |             |
+| fallbackImgUrl | Fallback image shown if an error occurred |      `string`      |             |
+| sizes          | `img` `sizes` HTML attribute              |      `string`      |             |
+| srcSet         | `img` `srcSet` HTML attribute             |      `string`      |             |
+| alt            | `img` `alt` HTML attribute                |      `string`      | props.title |
+| loading        | `img` `loading` HTML attribute            | `'eager'` `'lazy'` |             |
 
 ### Icon-specific
 

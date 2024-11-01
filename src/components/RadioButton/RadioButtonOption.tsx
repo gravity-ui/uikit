@@ -17,7 +17,7 @@ export interface RadioButtonOptionProps<ValueType extends string> extends Contro
 }
 
 type RadioButtonOptionComponentType = <T extends string>(
-    props: RadioButtonOptionProps<T> & {ref?: React.ForwardedRef<HTMLLabelElement>},
+    props: RadioButtonOptionProps<T>,
 ) => React.JSX.Element;
 
 export const RadioButtonOption = React.forwardRef(function RadioButtonOption<T extends string>(
@@ -39,7 +39,6 @@ export const RadioButtonOption = React.forwardRef(function RadioButtonOption<T e
             title={title}
         >
             <input {...inputProps} className={b('option-control')} />
-            <span className={b('option-outline')} />
             {inner && <span className={b('option-text', {icon})}>{inner}</span>}
         </label>
     );

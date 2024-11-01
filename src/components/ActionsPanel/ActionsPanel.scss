@@ -1,0 +1,24 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}actions-panel';
+
+#{$block} {
+    box-sizing: border-box;
+    background-color: var(--g-color-base-brand);
+    min-width: 200px;
+    height: 52px;
+    padding: 4px 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+
+    &__note-wrapper {
+        min-width: 100px;
+        margin-inline-end: 40px;
+    }
+
+    &__button-close {
+        flex-shrink: 0;
+        margin-inline-start: auto;
+    }
+}

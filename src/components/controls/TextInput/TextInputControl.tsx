@@ -25,6 +25,7 @@ export function TextInputControl(props: Props) {
         defaultValue,
         autoFocus,
         disabled,
+        readOnly,
         onChange,
         onFocus,
         onBlur,
@@ -54,6 +55,7 @@ export function TextInputControl(props: Props) {
             onKeyUp={onKeyUp}
             onKeyPress={onKeyPress}
             disabled={disabled ?? controlProps.disabled}
+            readOnly={readOnly ?? controlProps.readOnly}
         />
     );
 }

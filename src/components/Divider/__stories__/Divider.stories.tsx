@@ -1,12 +1,15 @@
 import React from 'react';
 
+import {Check as CheckIcon} from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import {Showcase} from '../../../demo/Showcase';
 import {Card} from '../../Card';
+import {Icon} from '../../Icon';
 import {ListItem} from '../../List';
 import {Flex} from '../../layout';
 import {Divider} from '../Divider';
+import type {DividerProps} from '../Divider';
 
 const meta: Meta<typeof Divider> = {
     title: 'Components/Utils/Divider',
@@ -57,6 +60,7 @@ export const Horizontal: Story = {
         style: disabledControl,
         qa: disabledControl,
         className: disabledControl,
+        align: disabledControl,
     },
     render: (args) => {
         return (
@@ -93,6 +97,7 @@ export const Vertical: Story = {
         style: disabledControl,
         qa: disabledControl,
         className: disabledControl,
+        align: disabledControl,
     },
     render: (args) => (
         <Showcase>
@@ -124,6 +129,9 @@ export const Custom: Story = {
         className: 'custom-divider',
         style: {borderWidth: '2px'},
     },
+    argTypes: {
+        align: disabledControl,
+    },
     render: (args) => (
         <Showcase>
             <style>
@@ -152,3 +160,33 @@ export const Custom: Story = {
         </Showcase>
     ),
 };
+
+const alignCases: Array<NonNullable<DividerProps['align']>> = ['start', 'center', 'end'];
+
+export const WithContent: Story = {
+    args: {
+        orientation: 'horizontal',
+    },
+    render: (args) => (
+        <Showcase>
+            <Flex
+                direction={args.orientation === 'horizontal' ? 'column' : 'row'}
+                height={args.orientation === 'vertical' ? 200 : undefined}
+                width={400}
+                gap={5}
+            >
+                {alignCases.map((align, index) => (
+                    <Divider {...args} align={align} key={index}>
+                        {align}
+                    </Divider>
+                ))}
+
+                <Divider align="center" {...args}>
+                    <Icon data={CheckIcon} size={16} />
+                </Divider>
+            </Flex>
+        </Showcase>
+    ),
+};
+
+WithContent.storyName = 'With content';

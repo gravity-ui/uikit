@@ -47,13 +47,14 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
             name,
             value,
             defaultValue,
-            disabled = false,
+            disabled,
+            readOnly,
             hasClear = false,
             error,
             errorMessage: errorMessageProp,
             validationState: validationStateProp,
             autoComplete,
-            id: originalId,
+            id: idProp,
             tabIndex,
             style,
             className,
@@ -79,8 +80,8 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
         const innerId = useUniqId();
 
         const isErrorMsgVisible = validationState === 'invalid' && Boolean(errorMessage);
-        const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
-        const id = originalId || innerId;
+        const isClearControlVisible = Boolean(hasClear && !disabled && !readOnly && inputValue);
+        const id = idProp || innerId;
 
         const errorMessageId = useUniqId();
         const noteId = useUniqId();

@@ -22,4 +22,10 @@ test.describe('AvatarStack', () => {
 
         await expectScreenshot();
     });
+
+    test('render story <Total>', async ({mount, expectScreenshot}) => {
+        await mount(<AvatarStackStories.Total randomAvatar={false} />);
+
+        await expectScreenshot();
+    });
 });

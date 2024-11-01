@@ -242,4 +242,21 @@ describe('TextArea', () => {
             expect(inputs[0]).toHaveValue('value');
         });
     });
+
+    describe('control props', () => {
+        test('should set disabled only on underlying input', async () => {
+            render(<TextArea controlProps={{disabled: true}} value="abc" hasClear />);
+            const input = screen.getByRole('textbox');
+            expect(input.hasAttribute('disabled')).toBe(true);
+            const clearButton = screen.getByRole('button', {name: 'Clear'});
+            expect(clearButton).toBeInTheDocument();
+        });
+        test('should set readOnly only on underlying input', async () => {
+            render(<TextArea controlProps={{readOnly: true}} value="abc" hasClear />);
+            const input = screen.getByRole('textbox');
+            expect(input.hasAttribute('readonly')).toBe(true);
+            const clearButton = screen.getByRole('button', {name: 'Clear'});
+            expect(clearButton).toBeInTheDocument();
+        });
+    });
 });

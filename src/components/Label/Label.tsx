@@ -54,6 +54,8 @@ export interface LabelProps extends QAProps {
     type?: 'default' | 'copy' | 'close';
     /** Label size */
     size?: 'xs' | 's' | 'm';
+    /** Browser title for Label */
+    title?: string;
 }
 
 export const Label = React.forwardRef(function Label(
@@ -64,6 +66,7 @@ export const Label = React.forwardRef(function Label(
         type = 'default',
         theme = 'normal',
         size = 'xs',
+        title,
         icon,
         children,
         onCloseClick,
@@ -152,6 +155,7 @@ export const Label = React.forwardRef(function Label(
                     },
                     className,
                 )}
+                title={title}
                 data-qa={qa}
             >
                 {startIcon}

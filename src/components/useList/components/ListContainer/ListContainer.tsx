@@ -5,7 +5,7 @@ import {ListContainerView} from '../ListContainerView';
 import type {ListContainerViewProps} from '../ListContainerView/ListContainerView';
 import {ListItemRecursiveRenderer} from '../ListRecursiveRenderer/ListRecursiveRenderer';
 
-export type ListContainerProps<T> = Omit<ListContainerViewProps, 'children'> & {
+export type ListContainerProps<T, P extends {} = {}> = Omit<ListContainerViewProps, 'children'> & {
     list: UseListResult<T>;
     containerRef?: React.RefObject<HTMLDivElement>;
     renderItem(
@@ -14,16 +14,16 @@ export type ListContainerProps<T> = Omit<ListContainerViewProps, 'children'> & {
         /**
          * Ability to transfer props from an overridden container render
          */
-        renderContainerProps?: Object,
+        renderContainerProps?: P,
     ): React.JSX.Element;
 };
 
-export function ListContainer<T>({
+export function ListContainer<T, P extends {} = {}>({
     containerRef,
     renderItem,
     list,
     ...props
-}: ListContainerProps<T>) {
+}: ListContainerProps<T, P>) {
     return (
         <ListContainerView ref={containerRef} {...props}>
             {list.structure.items.map((item, index) => (

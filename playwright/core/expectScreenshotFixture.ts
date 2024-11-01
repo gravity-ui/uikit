@@ -1,6 +1,10 @@
 import {expect} from '@playwright/experimental-ct-react';
 
-import type {ExpectScreenshotFixture, PlaywrightFixture} from './types';
+import type {CaptureScreenshotParams, ExpectScreenshotFixture, PlaywrightFixture} from './types';
+
+const defaultParams: CaptureScreenshotParams = {
+    themes: ['light', 'dark'],
+};
 
 export const expectScreenshotFixture: PlaywrightFixture<ExpectScreenshotFixture> = async (
     {page},
@@ -9,31 +13,37 @@ export const expectScreenshotFixture: PlaywrightFixture<ExpectScreenshotFixture>
 ) => {
     const expectScreenshot: ExpectScreenshotFixture = async ({
         component,
-        screenshotName,
+        nameSuffix,
+        themes: paramsThemes,
         ...pageScreenshotOptions
-    } = {}) => {
-        const captureScreenshot = async (theme: string) => {
-            const body = page.locator('body');
-
-            await body.evaluate((el: HTMLElement | SVGElement, newTheme: string) => {
-                el.setAttribute('class', `g-root g-root_theme_${newTheme}`);
-            }, theme);
-
+    } = defaultParams) => {
+        const captureScreenshot = async () => {
             return (component || page.locator('.playwright-wrapper-test')).screenshot({
                 animations: 'disabled',
                 ...pageScreenshotOptions,
             });
         };
 
-        const nameScreenshot = testInfo.titlePath.slice(1).join(' ');
+        const nameScreenshot =
+            testInfo.titlePath.slice(1).join(' ') + (nameSuffix ? ` ${nameSuffix}` : '');
 
-        expect(await captureScreenshot('dark')).toMatchSnapshot({
-            name: `${screenshotName || nameScreenshot} dark.png`,
-        });
+        const themes = paramsThemes || defaultParams.themes;
 
-        expect(await captureScreenshot('light')).toMatchSnapshot({
-            name: `${screenshotName || nameScreenshot} light.png`,
-        });
+        if (themes?.includes('light')) {
+            await page.emulateMedia({colorScheme: 'light'});
+
+            expect(await captureScreenshot()).toMatchSnapshot({
+                name: `${nameScreenshot} light.png`,
+            });
+        }
+
+        if (themes?.includes('dark')) {
+            await page.emulateMedia({colorScheme: 'dark'});
+
+            expect(await captureScreenshot()).toMatchSnapshot({
+                name: `${nameScreenshot} dark.png`,
+            });
+        }
     };
 
     await use(expectScreenshot);

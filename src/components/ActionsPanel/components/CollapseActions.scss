@@ -1,0 +1,47 @@
+@use '../../variables';
+
+$block: '.#{variables.$ns}actions-panel-collapse';
+
+#{$block} {
+    $minSize: 32px;
+
+    flex-shrink: 2;
+    min-width: $minSize;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-inline-end: 8px;
+
+    &__container {
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        height: 100%;
+    }
+
+    &__button-action-wrapper {
+        margin: 0 4px;
+
+        &_invisible {
+            visibility: hidden;
+            pointer-events: none;
+        }
+    }
+
+    &__menu-placeholder {
+        flex-shrink: 0;
+        width: $minSize;
+        height: $minSize;
+    }
+
+    &__menu-wrapper {
+        position: absolute;
+        width: $minSize;
+        height: $minSize;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

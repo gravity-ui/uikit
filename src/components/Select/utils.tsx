@@ -1,8 +1,7 @@
 import React from 'react';
 
 import {KeyCode} from '../../constants';
-import {List} from '../List';
-import type {ListItemData} from '../List';
+import type {List, ListItemData} from '../List';
 
 import {
     FLATTEN_KEY,
@@ -238,11 +237,6 @@ export const getActiveItem = (listRef: React.RefObject<List<FlattenOption>>) => 
     return typeof activeItemIndex === 'number' ? items[activeItemIndex] : undefined;
 };
 
-export const activateFirstClickableItem = (listRef: React.RefObject<List<FlattenOption>>) => {
-    const items = getListItems(listRef);
-    listRef?.current?.activateItem(List.findNextIndex(items, 0, 1), false);
-};
-
 const isOptionMatchedByFilter = (option: SelectOption, filter: string) => {
     const lowerOptionText = getOptionText(option).toLocaleLowerCase();
     const lowerFilter = filter.toLocaleLowerCase();
@@ -282,3 +276,22 @@ export const getFilteredFlattenOptions = (args: {
         return acc;
     }, [] as FlattenOption[]);
 };
+
+export function scrollToItem(node: HTMLElement) {
+    const container = node.offsetParent;
+    if (container instanceof HTMLElement) {
+        const height = container.offsetHeight;
+        const scrollTop = container.scrollTop;
+
+        const top = node.offsetTop;
+        const bottom = top + node.offsetHeight;
+
+        if (bottom >= scrollTop + height) {
+            container.scrollTo({top: top - height + node.offsetHeight});
+        } else if (top <= scrollTop) {
+            container.scrollTo({top});
+        }
+    }
+
+    return true;
+}

@@ -41,6 +41,7 @@ Additional functionality is enabled via HOCs:
 | edgePadding                      | Adds horizontal padding for edge cells                                                                                                                                          |                                     `boolean`                                      |             |
 | stickyHorizontalScroll           | A horizontal sticky scroll in a table. NB: A table cannot have a fixed height and a sticky scroll at the same time. A sticky scroll will not work if the table has an overflow. |                                     `boolean`                                      |   `false`   |
 | stickyHorizontalScrollBreakpoint | The threshold that the parent block should reach before making a scroll sticky. This is useful in the console, for example, when the groupActions bar closes the scroll.        |                                      `number`                                      |     `0`     |
+| `width`                          | Table width                                                                                                                                                                     |                                  `"auto"` `"max"`                                  |   "auto"    |
 
 ### DescriptorType
 
@@ -238,11 +239,13 @@ const MyTable1 = withTableSettings({sortable: false})(Table);
 
 ### Options
 
-| Name       | Description                                         |       Type       | Default |
-| :--------- | :-------------------------------------------------- | :--------------: | :-----: |
-| width      | Settings' popup width                               | `number` `"fit"` |         |
-| sortable   | Whether or not add ability to sort settings items   |    `boolean`     | `true`  |
-| filterable | Whether or not add ability to filter settings items |    `boolean`     | `false` |
+| Name            | Description                                                                                                                                             |        Type         | Default |
+| :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------ | :-----------------: | :-----: |
+| width           | Settings' popup width                                                                                                                                   |  `number` `"fit"`   |         |
+| sortable        | Whether or not add ability to sort settings items                                                                                                       |      `boolean`      | `true`  |
+| filterable      | Whether or not add ability to filter settings items                                                                                                     |      `boolean`      | `false` |
+| defaultSettings | Settings to which you can reset the current settings                                                                                                    | `TableSettingsData` |         |
+| showResetButton | Display a reset button that resets the current settings changes. If the `defaultSettings` prop is set then the settings reset to the `defaultSettings`. |      `boolean`      |         |
 
 ### ColumnMeta
 
@@ -253,15 +256,15 @@ const MyTable1 = withTableSettings({sortable: false})(Table);
 
 ### Properties
 
-| Name                       | Description                                                  |                           Type                           |
-| :------------------------- | :----------------------------------------------------------- | :------------------------------------------------------: |
-| settingsPopupWidth         | TableColumnSetup pop-up width                                |                     `number` `"fit"`                     |
-| settings                   | Current settings                                             |                   `TableSettingsData`                    |
-| updateSettings             | Settings update handle                                       |       `(data: TableSettingsData) => Promise<void>`       |
-| renderControls             | Allows to render custom actions                              |                     `RenderControls`                     |
-| settingsFilterPlaceholder  | Text that appears in the control when no search value is set |                         `string`                         |
-| settingsFilterEmptyMessage | Text that appears when no one item is found                  |                         `string`                         |
-| filterSettings             | Function for filtering items                                 | `(value: string, item: TableColumnSetupItem) => boolean` |
+| Name                       | Description                                                                |                           Type                           |
+| :------------------------- | :------------------------------------------------------------------------- | :------------------------------------------------------: |
+| settingsPopupWidth         | TableColumnSetup pop-up width                                              |                     `number` `"fit"`                     |
+| settings                   | Current settings                                                           |                   `TableSettingsData`                    |
+| updateSettings             | Settings update handle                                                     |       `(data: TableSettingsData) => Promise<void>`       |
+| renderControls             | (deprecated) use `defaultSettings` and `showResetButton` to reset settings |                     `RenderControls`                     |
+| settingsFilterPlaceholder  | Text that appears in the control when no search value is set               |                         `string`                         |
+| settingsFilterEmptyMessage | Text that appears when no one item is found                                |                         `string`                         |
+| filterSettings             | Function for filtering items                                               | `(value: string, item: TableColumnSetupItem) => boolean` |
 
 ### TableSettingsData
 

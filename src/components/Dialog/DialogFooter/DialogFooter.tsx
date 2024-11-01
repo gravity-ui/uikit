@@ -27,6 +27,7 @@ interface DialogFooterOwnProps {
         buttonApply: React.ReactNode,
         buttonCancel: React.ReactNode,
     ) => React.ReactNode;
+    className?: string;
 }
 
 interface DialogFooterDefaultProps {
@@ -96,6 +97,7 @@ export class DialogFooter extends React.Component<DialogFooterInnerProps> {
             errorText,
             showError,
             renderButtons,
+            className,
         } = this.props;
 
         const buttonCancel = (
@@ -144,7 +146,7 @@ export class DialogFooter extends React.Component<DialogFooterInnerProps> {
         );
 
         return (
-            <div className={b()}>
+            <div className={b(null, className)}>
                 <div className={b('children')}>{children}</div>
                 <div className={b('bts-wrapper')}>
                     {renderButtons ? (

@@ -4,9 +4,5 @@ $block: '.#{variables.$ns}select-filter';
 
 #{$block} {
     // To prevent border blink when the focus is set frequently (in case of option click)
-    & &__input,
-    & &__input:hover,
-    & &__input:focus {
-        border-color: var(--g-color-line-generic-active);
-    }
+    --g-text-input-border-color: var(--g-color-line-generic-active);
 }

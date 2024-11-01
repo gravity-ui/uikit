@@ -19,6 +19,7 @@ $xl-right-padding: '12px';
 
     &:not(#{$block}_virtualized) {
         overflow: auto;
+        position: relative;
     }
 
     &_mobile {
@@ -190,7 +191,7 @@ $xl-right-padding: '12px';
         box-sizing: content-box;
         flex: 0 0 16px;
         visibility: hidden;
-        color: var(--g-color-text-info);
+        color: var(--g-color-text-brand);
         padding-inline-end: var(--_--select-tick-icon-padding-right);
 
         &_shown {

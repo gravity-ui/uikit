@@ -1,0 +1,10 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}clipboard-button';
+
+#{$block} {
+    &__icon {
+        // prevent button icon from firing onMouseEnter/onFocus through parent button's handler
+        pointer-events: none;
+    }
+}

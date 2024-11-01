@@ -1,4 +1,11 @@
-import {Meta, Markdown} from '@storybook/addon-docs';
+import {
+    Meta,
+    Markdown,
+    Canvas,
+    AnchorMdx,
+    CodeOrSourceMdx,
+    HeadersMdx,
+} from '@storybook/addon-docs';
 
 import UseListHook from './docs/use-list.md?raw';
 import UseListKeydownHook from './docs/use-list-keydown.md?raw';
@@ -12,6 +19,9 @@ import scrollToListItem from './docs/scroll-to-list-item.md?raw';
 import getItemRenderState from './docs/get-item-render-state.md?raw';
 import getListParsedState from './docs/get-list-parsed-state.md?raw';
 import getListItemQa from './docs/get-list-item-qa.md?raw';
+
+import ListItemExpandIcon from '../components/ListItemExpandIcon/__stories__/list-item-expand-icon.md?raw';
+import * as ListItemExpandIconStories from '../components/ListItemExpandIcon/__stories__/ListItemExpandIcon.stories';
 
 <Meta title="Lab/useList" />
 
@@ -32,6 +42,7 @@ The basic idea is that hooks take all the complex logic on themselves, and all y
 ### Components (View only):
 
 -   [ListItemView](#listitemview);
+-   [ListItemExpandIcon](#listitemexpandicon);
 -   [ListContainerView](#listcontainerview);
 -   [ListRecursiveRenderer](#listrecursiverenderer);
 
@@ -143,6 +154,24 @@ function List() {
 <Markdown>{ListContainerView}</Markdown>
 
 <Markdown>{ListRecursiveRenderer}</Markdown>
+
+<Markdown
+    options={{
+        overrides: {
+            code: CodeOrSourceMdx,
+            a: AnchorMdx,
+            ...HeadersMdx,
+            ListItemExpandIconDefault: () => (
+                <Canvas of={ListItemExpandIconStories.Default} sourceState="none" />
+            ),
+            ListItemExpandIconInsideButton: () => (
+                <Canvas of={ListItemExpandIconStories.InsideButton} sourceState="none" />
+            ),
+        },
+    }}
+>
+    {ListItemExpandIcon}
+</Markdown>
 
 ## Utilities
 

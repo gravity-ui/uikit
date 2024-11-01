@@ -3,6 +3,19 @@
 
 $block: '.#{variables.$ns}user';
 
+@mixin user-text() {
+    @include mixins.text-body-short();
+
+    font-size: var(--g-user-font-size, var(--g-text-body-short-font-size));
+    line-height: var(--g-user-line-height, var(--g-text-body-short-line-height));
+}
+
+@mixin user-text-small() {
+    font-size: var(--g-user-font-size, var(--g-text-code-inline-1-font-size));
+    line-height: var(--g-user-line-height, var(--g-text-code-inline-1-line-height));
+    font-weight: var(--g-text-body-font-weight);
+}
+
 #{$block} {
     display: flex;
     align-items: center;
@@ -18,7 +31,7 @@ $block: '.#{variables.$ns}user';
         flex-direction: column;
         min-width: 0;
 
-        @include mixins.text-body-short();
+        @include user-text();
 
         #{$block}__name {
             color: var(--g-color-text-primary);
@@ -36,9 +49,16 @@ $block: '.#{variables.$ns}user';
     }
 
     &_size {
-        &_xs {
+        &_xs,
+        &_2xs {
             #{$block}__avatar + #{$block}__info {
                 margin-inline-start: 6px;
+            }
+        }
+
+        &_2xs {
+            #{$block}__info {
+                @include user-text-small();
             }
         }
     }

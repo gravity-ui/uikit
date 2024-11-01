@@ -3,11 +3,19 @@
 $block: '.#{variables.$ns}pagination-input';
 
 #{$block} {
+    &#{$block}_size_s {
+        width: 70px;
+    }
+
     &#{$block}_size_m {
         width: 80px;
     }
 
     &#{$block}_size_l {
         width: 90px;
+    }
+
+    &#{$block}_size_xl {
+        width: 100px;
     }
 }

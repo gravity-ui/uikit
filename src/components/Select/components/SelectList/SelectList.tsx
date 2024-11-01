@@ -5,7 +5,7 @@ import React from 'react';
 import {List} from '../../../List';
 import {SelectQa, selectListBlock} from '../../constants';
 import type {SelectOption, SelectProps} from '../../types';
-import {getOptionsHeight, getPopupItemHeight} from '../../utils';
+import {getOptionsHeight, getPopupItemHeight, scrollToItem} from '../../utils';
 import type {FlattenOption, GroupTitleItem} from '../../utils';
 
 import {GroupLabel} from './GroupLabel';
@@ -29,6 +29,7 @@ type SelectListProps = {
     loading?: boolean;
     onLoadMore?: () => void;
     id: string;
+    activeIndex?: number;
     onChangeActive: (index?: number) => void;
 };
 
@@ -50,6 +51,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
         loading,
         onLoadMore,
         id,
+        activeIndex,
         onChangeActive,
     } = props;
     const items = React.useMemo(
@@ -147,7 +149,10 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
             selectedItemIndex={selectedIndexes}
             id={id}
             role="listbox"
+            activeItemIndex={activeIndex}
             onChangeActive={onChangeActive}
+            deactivateOnLeave={false}
+            onScrollToItem={scrollToItem}
         />
     );
 });

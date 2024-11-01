@@ -7,6 +7,8 @@ export type AvatarStackOverlapSize = 's' | 'm' | 'l';
 export interface AvatarStackProps {
     /** Amount of avatars to be shown before more button. Default 3. */
     max?: number;
+    /** Total amount of items, used to calculate number of not rendered avatars */
+    total?: number;
     /**
      * How much each avatar should overlap next one
      * | Avatar sizes | Recommended overlap |
@@ -39,3 +41,17 @@ export interface AvatarStackProps {
      */
     renderMore?: (options: {count: number}) => React.ReactElement;
 }
+
+export type AvatarStackMoreProps = Pick<
+    React.HTMLProps<HTMLDivElement>,
+    'className' | 'aria-label'
+> & {
+    count: number;
+    size?: AvatarSize;
+    borderColor?: string;
+};
+
+export type AvatarStackMoreButtonProps = Pick<React.HTMLProps<HTMLButtonElement>, 'onClick'> &
+    AvatarStackMoreProps & {
+        badgeClassName?: string;
+    };

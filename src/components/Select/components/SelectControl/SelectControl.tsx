@@ -15,8 +15,8 @@ import type {
     SelectProps,
     SelectRenderClearArgs,
     SelectRenderControl,
-    SelectRenderControlProps,
     SelectRenderCounter,
+    SelectRenderTriggerProps,
 } from '../../types';
 import {SelectClear} from '../SelectClear/SelectClear';
 import {SelectCounter} from '../SelectCounter/SelectCounter';
@@ -38,12 +38,17 @@ type ControlProps = {
     isErrorVisible?: boolean;
     errorMessage?: SelectProps['errorMessage'];
     disabled?: boolean;
-    value: SelectProps['value'];
+    value: NonNullable<SelectProps['value']>;
     clearValue: () => void;
     hasClear?: boolean;
     hasCounter?: boolean;
     title?: string;
-} & Omit<SelectRenderControlProps, 'onClick' | 'onClear' | 'renderCounter'>;
+    onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
+    open: boolean;
+    popupId: string;
+    selectId: string;
+    activeIndex?: number;
+};
 
 export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((props, ref) => {
     const {
@@ -104,7 +109,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
             // Fix for Safari
             // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#clicking_and_focus
             if (e && e.currentTarget !== document.activeElement && 'focus' in e.currentTarget) {
-                (e.currentTarget as HTMLButtonElement).focus();
+                e.currentTarget.focus();
             }
 
             toggleOpen();
@@ -128,7 +133,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         if (!hasCounter) {
             return null;
         }
-        const count = Number(value?.length) || 0;
+        const count = value.length;
         const counterComponent = <SelectCounter count={count} size={size} disabled={disabled} />;
         return renderCounter
             ? renderCounter(counterComponent, {count, size, disabled})
@@ -136,8 +141,8 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
     };
 
     const renderClearIcon = (args: SelectRenderClearArgs) => {
-        const hideOnEmpty = !value?.[0];
-        if (!hasClear || !clearValue || hideOnEmpty || disabled) {
+        const valueIsEmpty = value.length === 0;
+        if (!hasClear || valueIsEmpty || disabled) {
             return null;
         }
         return (
@@ -151,19 +156,34 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         );
     };
 
+    const triggerProps: SelectRenderTriggerProps = {
+        id: selectId,
+        role: 'combobox',
+        'aria-controls': open ? popupId : undefined,
+        'aria-haspopup': 'listbox',
+        'aria-expanded': open,
+        'aria-activedescendant':
+            activeIndex === undefined ? undefined : `${popupId}-item-${activeIndex}`,
+        onClick: handleControlClick,
+        onKeyDown,
+        disabled,
+    };
+
     if (renderControl) {
         return renderControl(
             {
                 onKeyDown,
                 onClear: clearValue,
                 onClick: handleControlClick,
-                renderClear: (arg) => renderClearIcon(arg),
+                renderClear: renderClearIcon,
                 renderCounter: renderCounterComponent,
                 ref,
-                open: Boolean(open),
+                open,
                 popupId,
                 selectId,
                 activeIndex,
+                disabled,
+                triggerProps,
             },
             {value},
         );
@@ -173,22 +193,13 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         <React.Fragment>
             <div className={selectControlBlock(controlMods)} role="group">
                 <button
-                    id={selectId}
                     ref={ref}
-                    role="combobox"
-                    aria-controls={popupId}
                     className={selectControlButtonBlock(buttonMods, className)}
-                    aria-haspopup="listbox"
-                    aria-expanded={open}
-                    aria-activedescendant={
-                        activeIndex === undefined ? undefined : `${popupId}-item-${activeIndex}`
-                    }
-                    disabled={disabled}
-                    onClick={handleControlClick}
-                    onKeyDown={onKeyDown}
                     type="button"
                     data-qa={qa}
                     title={title}
+                    tabIndex={0}
+                    {...triggerProps}
                 >
                     {label && <span className={selectControlBlock('label')}>{label}</span>}
                     {showPlaceholder && (

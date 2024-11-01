@@ -409,4 +409,23 @@ describe('modal remains open after toaster close', () => {
         expect(toast).not.toBeInTheDocument();
         expect(modal).toBeInTheDocument();
     });
+
+    it('Toaster calls onClose callback when close icon is clicked', async () => {
+        const {providerAPI} = setup();
+
+        const mockOnCloseFn = jest.fn();
+
+        act(() => {
+            providerAPI.add({...toastProps, isClosable: true, onClose: mockOnCloseFn});
+        });
+
+        const toast = getToast();
+
+        const closeToastButton = await within(toast).findByRole('button');
+
+        fireEvent.click(closeToastButton);
+        tick(toast, 0);
+
+        expect(mockOnCloseFn).toHaveBeenCalled();
+    });
 });

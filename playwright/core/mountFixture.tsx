@@ -1,18 +1,18 @@
 import React from 'react';
 
-import type {JsonObject} from '@playwright/experimental-ct-core/types/component';
-import type {MountOptions} from '@playwright/experimental-ct-react';
-
 import type {MountFixture, PlaywrightFixture} from './types';
 
 export const mountFixture: PlaywrightFixture<MountFixture> = async ({mount: baseMount}, use) => {
-    const mount = async (
-        component: JSX.Element,
-        options?: MountOptions<JsonObject> | undefined,
-    ) => {
+    const mount: MountFixture = async (component, options) => {
         return await baseMount(
             <div
-                style={{padding: 20, width: 'fit-content', height: 'fit-content'}}
+                style={{
+                    padding: 20,
+                    // When we set width we didn't expect that paddings for better screenshots would be included
+                    boxSizing: options?.width ? 'content-box' : undefined,
+                    width: options?.width ? options.width : 'fit-content',
+                    height: 'fit-content',
+                }}
                 className="playwright-wrapper-test"
             >
                 {component}

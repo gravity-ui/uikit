@@ -132,12 +132,102 @@ import {Flex, Label, Divider} from '@gravity-ui/uikit';
 
 <!--/GITHUB_BLOCK-->
 
+### Custom content
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+        <Container>
+            <Flex gap={3}>
+                <Divider>Custom content</Divider>
+                <Divider align="center">
+                    <Icon data={CheckIcon} size={16} />
+                </Divider>
+            </Flex>
+        </Container>
+    `}
+>
+    <UIKit.Container>
+        <UIKit.Flex gap={3}>
+            <UIKit.Divider>Custom content</UIKit.Divider>
+            <UIKit.Divider>
+                <Icon data={CheckIcon} size={16} />
+            </UIKit.Divider>
+        </UIKit.Flex>
+    </UIKit.Container>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+import {Divider, Flex, Container, Icon} from '@gravity-ui/uikit';
+import {CheckIcon} from '@gravity-ui/icons';
+
+<Container>
+  <Flex gap={3}>
+    <Divider>Custom content</Divider>
+    <Divider>
+      <Icon data={CheckIcon} size={16} />
+    </Divider>
+  </Flex>
+</Container>;
+```
+
+<!--/GITHUB_BLOCK-->
+
+### Alignment
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+        <Container>
+            <Flex gap={3}>
+                <Divider align="start">Start content</Divider>
+                <Divider align="center">Center content</Divider>
+                <Divider align="end">End content</Divider>
+            </Flex>
+        </Container>
+    `}
+>
+    <UIKit.Container>
+        <UIKit.Flex gap={3}>
+            <UIKit.Divider align="start">Start content</UIKit.Divider>
+            <UIKit.Divider align="center">Center content</UIKit.Divider>
+            <UIKit.Divider align="end">End content</UIKit.Divider>
+        </UIKit.Flex>
+    </Container>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+import {Divider, Flex, Container} from '@gravity-ui/uikit';
+
+<Container>
+  <Flex gap={3}>
+    <Divider align="start">Start content</Divider>
+    <Divider align="center">Center content</Divider>
+    <Divider align="end">End content</Divider>
+  </Flex>
+</Container>;
+```
+
+<!--/GITHUB_BLOCK-->
+
 ### Properties
 
 | Name        | Description                             | Type                    | Default      |
 | :---------- | :-------------------------------------- | :---------------------- | :----------- |
 | className   | HTML `class` attribute                  | `string`                | -            |
 | orientation | Sets the direction of divider           | `horizontal - vertical` | `horizontal` |
+| children    | Custom content inside divider           | `React.ReactNode`       |              |
+| align       | Custom content position                 | `start - center - end`  | `start`      |
 | style       | HTML `style` attribute                  | `React.CSSProperties`   |              |
 | qa          | HTML `data-qa` attribute, used in tests | `string`                |              |
 

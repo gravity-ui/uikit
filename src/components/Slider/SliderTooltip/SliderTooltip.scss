@@ -13,8 +13,11 @@ $block: '.#{variables.$ns}slider-tooltip';
     inset-block-start: -#{slider-variables.$slider-tooltip-offset};
     transform: translate(-50%, -100%);
     cursor: default;
-
     $base-background-color: var(--g-color-base-background);
+
+    //make tooltip non-interactive
+    pointer-events: none;
+    user-select: none;
 
     &__card {
         position: relative;

@@ -16,7 +16,10 @@ reporter.push(
         'html',
         {
             open: process.env.CI ? 'never' : 'on-failure',
-            outputFolder: resolve(process.cwd(), 'playwright-report'),
+            outputFolder: resolve(
+                process.cwd(),
+                process.env.IS_DOCKER ? 'playwright-report-docker' : 'playwright-report',
+            ),
         },
     ],
 );
@@ -52,6 +55,7 @@ const config: PlaywrightTestConfig = {
         /* Port to use for Playwright component endpoint. */
         screenshot: 'only-on-failure',
         timezoneId: 'UTC',
+        ctCacheDir: process.env.IS_DOCKER ? '.cache-docker' : '.cache',
         ctViteConfig: {
             plugins: [react()],
         },

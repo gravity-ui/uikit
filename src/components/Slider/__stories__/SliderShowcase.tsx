@@ -63,14 +63,41 @@ export const SliderShowcase = () => {
                 />
             </div>
             <div className={blockCn}>
-                <ShowcaseBlock title="tooltip" hasTooltip defaultValue={20} />
-                <ShowcaseBlock title="Range tooltip" hasTooltip defaultValue={[20, 40]} />
+                <ShowcaseBlock title="tooltip" tooltipDisplay="on" defaultValue={20} />
+                <ShowcaseBlock title="Range tooltip" tooltipDisplay="on" defaultValue={[20, 40]} />
             </div>
             <div className={blockCn}>
-                <ShowcaseBlock title="tooltip disabled" hasTooltip disabled defaultValue={20} />
+                <ShowcaseBlock title="tooltip auto" tooltipDisplay="auto" defaultValue={20} />
+                <ShowcaseBlock
+                    title="Range tooltip auto"
+                    tooltipDisplay="auto"
+                    defaultValue={[20, 40]}
+                />
+            </div>
+            <div className={blockCn}>
+                <ShowcaseBlock
+                    title="tooltip with formatted text"
+                    tooltipDisplay="on"
+                    tooltipFormat={(value) => `Value: ${value}%`}
+                    defaultValue={20}
+                />
+                <ShowcaseBlock
+                    title="Range tooltip with formatted text"
+                    tooltipDisplay="on"
+                    tooltipFormat={(value) => `Value: ${value}%`}
+                    defaultValue={[20, 40]}
+                />
+            </div>
+            <div className={blockCn}>
+                <ShowcaseBlock
+                    title="tooltip disabled"
+                    tooltipDisplay="on"
+                    disabled
+                    defaultValue={20}
+                />
                 <ShowcaseBlock
                     title="Range tooltip disabled"
-                    hasTooltip
+                    tooltipDisplay="on"
                     disabled
                     defaultValue={[20, 40]}
                 />
@@ -78,33 +105,39 @@ export const SliderShowcase = () => {
             <div className={blockCn}>
                 <ShowcaseBlock
                     title="tooltip error"
-                    hasTooltip
+                    tooltipDisplay="on"
                     errorMessage="Error description"
                     validationState="invalid"
                     defaultValue={20}
                 />
                 <ShowcaseBlock
                     title="Range tooltip error"
-                    hasTooltip
+                    tooltipDisplay="on"
                     errorMessage="Error description"
                     validationState="invalid"
                     defaultValue={[20, 40]}
                 />
             </div>
             <div className={blockCn}>
-                <ShowcaseBlock title="marksCount" marksCount={11} defaultValue={20} />
-                <ShowcaseBlock title="Range marksCount" marksCount={11} defaultValue={[20, 40]} />
+                <ShowcaseBlock title="marks" marks={11} defaultValue={20} />
+                <ShowcaseBlock title="Range marks" marks={11} defaultValue={[20, 40]} />
+            </div>
+            <div className={blockCn}>
+                <ShowcaseBlock title="no marks" marks={0} defaultValue={20} />
+                <ShowcaseBlock title="Range no marks" marks={0} defaultValue={[20, 40]} />
             </div>
             <div className={blockCn}>
                 <ShowcaseBlock
-                    title="availableValues"
-                    availableValues={[10, 20, 50, 55, 65, 80]}
+                    title="select only marks values"
+                    marks={[10, 20, 50, 55, 65, 80]}
                     defaultValue={20}
+                    step={null}
                 />
                 <ShowcaseBlock
-                    title="Range availableValues"
-                    availableValues={[10, 20, 50, 55, 65, 80]}
+                    title="Range select only marks values"
+                    marks={[10, 20, 50, 55, 65, 80]}
                     defaultValue={[20, 50]}
+                    step={null}
                 />
             </div>
         </Showcase>

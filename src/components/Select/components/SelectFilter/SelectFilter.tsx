@@ -5,7 +5,8 @@ import React from 'react';
 import {TextInput} from '../../../controls';
 import {block} from '../../../utils/cn';
 import {SelectQa} from '../../constants';
-import type {SelectProps} from '../../types';
+import i18n from '../../i18n';
+import type {SelectFilterInputProps, SelectProps} from '../../types';
 import type {SelectFilterRef} from '../../types-misc';
 
 import './SelectFilter.scss';
@@ -19,6 +20,8 @@ type SelectFilterProps = {
     size: NonNullable<SelectProps['size']>;
     value: string;
     placeholder?: string;
+    popupId: string;
+    activeIndex?: number;
 };
 
 const style = {
@@ -26,7 +29,8 @@ const style = {
 };
 
 export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>((props, ref) => {
-    const {onChange, onKeyDown, renderFilter, size, value, placeholder} = props;
+    const {onChange, onKeyDown, renderFilter, size, value, placeholder, popupId, activeIndex} =
+        props;
     const inputRef = React.useRef<HTMLInputElement>(null);
 
     React.useImperativeHandle(
@@ -37,13 +41,35 @@ export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>
         [],
     );
 
-    return renderFilter ? (
-        renderFilter({onChange, onKeyDown, value, ref: inputRef, style})
-    ) : (
+    const inputProps: SelectFilterInputProps = {
+        value,
+        placeholder,
+        size: 1,
+        onKeyDown,
+        onChange: (e) => {
+            onChange(e.target.value);
+        },
+        'aria-label': i18n('label_filter'),
+        'aria-controls': popupId,
+        'aria-activedescendant':
+            activeIndex === undefined ? undefined : `${popupId}-item-${activeIndex}`,
+    };
+
+    if (renderFilter) {
+        return renderFilter({onChange, onKeyDown, value, ref: inputRef, style, inputProps});
+    }
+
+    return (
         <div className={b()} style={style}>
             <TextInput
                 controlRef={inputRef}
-                controlProps={{className: b('input'), size: 1}}
+                controlProps={{
+                    className: b('input'),
+                    size: 1,
+                    'aria-label': inputProps['aria-label'],
+                    'aria-controls': inputProps['aria-controls'],
+                    'aria-activedescendant': inputProps['aria-activedescendant'],
+                }}
                 size={size}
                 value={value}
                 placeholder={placeholder}

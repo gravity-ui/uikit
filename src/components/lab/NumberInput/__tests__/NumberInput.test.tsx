@@ -113,7 +113,7 @@ describe('NumberInput input', () => {
 
         it('removes redundant zeros on blur', async () => {
             const handleUpdate = jest.fn();
-            render(<NumberInput allowDecimal onUpdate={handleUpdate} />);
+            render(<NumberInput allowDecimal step={0.1} onUpdate={handleUpdate} />);
             const input = getInput();
             input.focus();
             fireEvent.change(getInput(), {target: {value: '00001.10000'}});

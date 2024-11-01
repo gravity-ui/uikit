@@ -119,7 +119,8 @@ export function clampToNearestStepValue({
 }) {
     const base = originalMin || 0;
     const min = originalMin ?? Number.MIN_SAFE_INTEGER;
-    let clampedValue = value;
+    let clampedValue = toFixedNumber(value, step);
+
     if (clampedValue > max) {
         clampedValue = max;
     } else if (clampedValue < min) {
@@ -150,7 +151,8 @@ export function clampToNearestStepValue({
             return greaterPossibleValue;
         }
     }
-    return clampedValue;
+
+    return toFixedNumber(clampedValue, step);
 }
 
 export function updateCursorPosition(
@@ -200,4 +202,9 @@ export function areStringRepresentationOfNumbersEqual(v1: string, v2: string) {
         return true;
     }
     return false;
+}
+
+function toFixedNumber(value: number, baseStep: number): number {
+    const stepDecimalDigits = baseStep.toString().split('.')[1]?.length || 0;
+    return parseFloat(value.toFixed(stepDecimalDigits));
 }

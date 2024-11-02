@@ -4,7 +4,7 @@
 
 <!--/GITHUB_BLOCK-->
 
-`PlaceholderContainer` is a component for displaying content with images, text content, and action controls.
+`PlaceholderContainer` is a component for displaying content with an image, text content, and action controls.
 
 ## Direction
 
@@ -162,7 +162,7 @@ With `src` and `alt` settings:
 
 <!--/GITHUB_BLOCK-->
 
-The `PlaceholderContainer` content is borrowed from the title and description sections, which you can set with the appropriate properties. To render custom content, use the `content` property.
+The `PlaceholderContainer` content contains from the title and description sections, which you can set with the appropriate properties. To render custom content, use the `content` property.
 
 ```tsx
 <PlaceholderContainer

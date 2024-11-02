@@ -8,7 +8,7 @@
 import {Table} from '@gravity-ui/uikit';
 ```
 
-A `table` allows selecting and sorting rows, as well as performing actions on a row.
+A `Table` allows selecting and sorting rows, as well as performing actions on a row.
 
 <!--GITHUB_BLOCK-->
 

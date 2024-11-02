@@ -65,7 +65,7 @@ import {Table} from '@gravity-ui/uikit';
 | width       | Ширина содержимого столбца в пикселях.                                                                                  |                     `number` `string`                      |                                                                   |
 | meta        | Различные данные, включая настройки HOC.                                                                                |                   `Record<string, any>`                    |                                                                   |
 
-## Использование `table` с HOC `withTableActions`
+## Использование `Table` с HOC `withTableActions`
 
 Этот HOC добавляет к столбцам таблицы специальный столбец с действиями.
 
@@ -156,7 +156,7 @@ const table = (
 );
 ```
 
-## Использование `table` с HOC `withTableCopy`
+## Использование `Table` с HOC `withTableCopy`
 
 Этот HOC позволяет копировать содержимое ячейки или произвольный текст.
 
@@ -184,7 +184,7 @@ const columns = [
 const table = <MyTable data={data} columns={columns} />;
 ```
 
-## Использование `table` с HOC `withTableSelection`
+## Использование `Table` с HOC `withTableSelection`
 
 Этот HOC позволяет выбирать строки в таблице.
 
@@ -223,7 +223,7 @@ function SelectionTable() {
 }
 ```
 
-## Использование `table` с HOC `withTableSettings`
+## Использование `Table` с HOC `withTableSettings`
 
 Этот HOC активирует функции для настройки столбцов таблицы. Его можно использовать двумя способами:
 
@@ -328,7 +328,7 @@ function SelectionTable() {
 }
 ```
 
-## Использование `table` с HOC `withTableSorting`
+## Использование `Table` с HOC `withTableSorting`
 
 Этот HOC позволяет выполнить сортировку столбцов.
 

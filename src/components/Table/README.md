@@ -65,7 +65,7 @@ Additional features are enabled through HOCs:
 | width       | Column's content width in pixels                                                                                   |                     `number` `string`                      |                                                         |
 | meta        | Miscellaneous data including the HOC settings                                                                      |                   `Record<string, any>`                    |                                                         |
 
-## Using `table` with the `withTableActions` HOC
+## Using `Table` with the `withTableActions` HOC
 
 This HOC adds a special column with actions to table columns.
 
@@ -156,7 +156,7 @@ const table = (
 );
 ```
 
-## Using `table` with the `withTableCopy` HOC
+## Using `Table` with the `withTableCopy` HOC
 
 This HOC enables copying the contents of a cell or any other text.
 
@@ -184,7 +184,7 @@ const columns = [
 const table = <MyTable data={data} columns={columns} />;
 ```
 
-## Using `table` with the `withTableSelection` HOC
+## Using `Table` with the `withTableSelection` HOC
 
 This HOC enables selecting table rows.
 
@@ -223,7 +223,7 @@ function SelectionTable() {
 }
 ```
 
-## Using `table` with the `withTableSettings` HOC
+## Using `Table` with the `withTableSettings` HOC
 
 This HOC enables features for table column settings. You can use it in two ways:
 
@@ -328,7 +328,7 @@ function SelectionTable() {
 }
 ```
 
-## Using `table` with the `withTableSorting` HOC
+## Using `Table` with the `withTableSorting` HOC
 
 This HOC enables column sorting.
 

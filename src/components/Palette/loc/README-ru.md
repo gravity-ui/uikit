@@ -213,25 +213,25 @@ const options: PaletteOption[] = [
 
 `PaletteProps`:
 
-| Имя             | Описание                                                                                                  |                          Тип                           | Значение по умолчанию |
-| :-------------- | :-------------------------------------------------------------------------------------------------------- | :----------------------------------------------------: | :-------------------: |
-| aria-label      | HTML-атрибут `aria-label`.                                                                                |                        `string`                        |                       |
-| aria-labelledby | Идентификатор видимого элемента заголовка в `Palette`.                                                    |                        `string`                        |                       |
-| className       | HTML-атрибут `class`.                                                                                     |                        `string`                        |                       |
-| columns         | Количество элементов в одной строке.                                                                      |                        `number`                        |          `6`          |
-| defaultValue    | Задает начальное значение состояния компонента при его монтировании.                                      |                       `string[]`                       |                       |
-| disabled        | Отключает опции.                                                                                          |                       `boolean`                        |        `false`        |
-| multiple        | Включает возможность выбора нескольких опций.                                                             |                       `boolean`                        |        `true`         |
-| onBlur          | Обработчик события `onBlur`.                                                                              | `(event: React.FocusEvent<HTMLButtonElement>) => void` |                       |
-| onFocus         | Обработчик события `onFocus`.                                                                             | `(event: React.FocusEvent<HTMLButtonElement>) => void` |                       |
-| onUpdate        | Срабатывает при изменении состояния пользователем. Передает новое значение как аргумент обратного вызова. |              `(value: string[]) => void`               |                       |
-| optionClassName | HTML-атрибут `value` для кнопки палитры.                                                                  |                        `string`                        |                       |
-| options         | Список опций (элементов палитры).                                                                         |                   `PaletteOption[]`                    |         `[]`          |
-| qa              | HTML-атрибут `data-qa`, используется для тестирования.                                                    |                        `string`                        |                       |
-| rowClassName    | HTML-атрибут `class` для строки палитры.                                                                  |                        `string`                        |                       |
-| size            | Определяет размер элементов.                                                                              |                 `xs` `s` `m` `l` `xl`                  |          `m`          |
-| style           | HTML-атрибут `style`.                                                                                     |                 `React.CSSProperties`                  |                       |
-| value           | Текущее значение для контролируемого использования компонента.                                            |                       `string[]`                       |                       |
+| Имя             | Описание                                                                                 |                          Тип                           | Значение по умолчанию |
+| :-------------- | :--------------------------------------------------------------------------------------- | :----------------------------------------------------: | :-------------------: |
+| aria-label      | HTML-атрибут `aria-label`.                                                               |                        `string`                        |                       |
+| aria-labelledby | Идентификатор видимого элемента заголовка в `Palette`.                                   |                        `string`                        |                       |
+| className       | HTML-атрибут `class`.                                                                    |                        `string`                        |                       |
+| columns         | Количество элементов в одной строке.                                                     |                        `number`                        |          `6`          |
+| defaultValue    | Задает начальное значение состояния компонента при его монтировании.                     |                       `string[]`                       |                       |
+| disabled        | Отключает опции.                                                                         |                       `boolean`                        |        `false`        |
+| multiple        | Включает возможность выбора нескольких опций.                                            |                       `boolean`                        |        `true`         |
+| onBlur          | Обработчик события `onBlur`.                                                             | `(event: React.FocusEvent<HTMLButtonElement>) => void` |                       |
+| onFocus         | Обработчик события `onFocus`.                                                            | `(event: React.FocusEvent<HTMLButtonElement>) => void` |                       |
+| onUpdate        | Срабатывает при изменении состояния пользователем. Передает новое значение как аргумент. |              `(value: string[]) => void`               |                       |
+| optionClassName | HTML-атрибут `value` для кнопки палитры.                                                 |                        `string`                        |                       |
+| options         | Список опций (элементов палитры).                                                        |                   `PaletteOption[]`                    |         `[]`          |
+| qa              | HTML-атрибут `data-qa`, используется для тестирования.                                   |                        `string`                        |                       |
+| rowClassName    | HTML-атрибут `class` для строки палитры.                                                 |                        `string`                        |                       |
+| size            | Определяет размер элементов.                                                             |                 `xs` `s` `m` `l` `xl`                  |          `m`          |
+| style           | HTML-атрибут `style`.                                                                    |                 `React.CSSProperties`                  |                       |
+| value           | Текущее значение для контролируемого использования компонента.                           |                       `string[]`                       |                       |
 
 `PaletteOption`:
 

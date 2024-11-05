@@ -27,7 +27,7 @@ export interface VirtualizerApi {
     scrollRect: Rect | null;
 }
 
-interface VirtualizerProps extends Loadable {
+interface VirtualizerProps extends Loadable, React.HTMLAttributes<HTMLDivElement> {
     /** The ref of the virtualizer api. */
     apiRef?: React.Ref<VirtualizerApi>;
     /** The ref of the scroll container element. */
@@ -70,6 +70,7 @@ export function Virtualizer({
     loading,
     onLoadMore,
     persistedIndexes,
+    ...props
 }: VirtualizerProps) {
     const scrollContainerRef = React.useRef<HTMLDivElement>(null);
     const ref = useForkRef(containerRef, scrollContainerRef);
@@ -110,12 +111,12 @@ export function Virtualizer({
 
     return (
         <div
+            {...props}
             ref={ref}
-            role="presentation"
             style={{
+                ...props.style,
                 overflow: 'auto',
                 contain: disableVirtualization ? undefined : 'strict',
-                height: '100%',
             }}
         >
             {renderRows({

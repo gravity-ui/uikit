@@ -2,18 +2,17 @@
 
 import React from 'react';
 
-import type {Href, RouterOptions} from '../../types';
 import {filterDOMProps} from '../../utils/filterDOMProps';
+import {useLinkProps} from '../router/router';
 
 import type {BreadcrumbsItemProps} from './Breadcrumbs';
-import {b, shouldClientNavigate} from './utils';
+import {b} from './utils';
 
 interface BreadcrumbProps extends BreadcrumbsItemProps {
     onAction?: () => void;
     current?: boolean;
     itemType?: 'link' | 'menu';
     disabled?: boolean;
-    navigate?: (href: Href, routerOptions: RouterOptions | undefined) => void;
 }
 export function BreadcrumbItem(props: BreadcrumbProps) {
     const Element = props.href ? 'a' : 'span';
@@ -33,14 +32,6 @@ export function BreadcrumbItem(props: BreadcrumbProps) {
         if (typeof props.onAction === 'function') {
             props.onAction();
         }
-
-        const target = event.currentTarget;
-        if (typeof props.navigate === 'function' && target instanceof HTMLAnchorElement) {
-            if (props.href && !event.isDefaultPrevented() && shouldClientNavigate(target, event)) {
-                event.preventDefault();
-                props.navigate(props.href, props.routerOptions);
-            }
-        }
     };
 
     const isDisabled = props.disabled || props.current;
@@ -49,14 +40,10 @@ export function BreadcrumbItem(props: BreadcrumbProps) {
         onClick: handleAction,
         'aria-disabled': isDisabled ? true : undefined,
     };
+
+    const linkDomProps = useLinkProps({...props, onClick: handleAction});
     if (Element === 'a') {
-        linkProps.href = props.href;
-        linkProps.hrefLang = props.hrefLang;
-        linkProps.target = props.target;
-        linkProps.rel = props.target === '_blank' && !props.rel ? 'noopener noreferrer' : props.rel;
-        linkProps.download = props.download;
-        linkProps.ping = props.ping;
-        linkProps.referrerPolicy = props.referrerPolicy;
+        linkProps = {...linkProps, ...linkDomProps};
     } else {
         linkProps.role = 'link';
         linkProps.tabIndex = isDisabled ? undefined : 0;
@@ -68,7 +55,7 @@ export function BreadcrumbItem(props: BreadcrumbProps) {
     }
 
     if (props.current) {
-        linkProps['aria-current'] = 'page';
+        linkProps['aria-current'] = props['aria-current'] ?? 'page';
     }
 
     if (props.itemType === 'menu') {

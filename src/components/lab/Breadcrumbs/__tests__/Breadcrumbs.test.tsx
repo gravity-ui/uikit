@@ -3,6 +3,7 @@ import React from 'react';
 import {userEvent} from '@testing-library/user-event';
 
 import {render, screen, within} from '../../../../../test-utils/utils';
+import {RouterProvider} from '../../router/router';
 import {Breadcrumbs} from '../Breadcrumbs';
 
 beforeEach(() => {
@@ -248,23 +249,25 @@ it('should support RouterProvider', async () => {
     */
     const navigate = jest.fn();
     render(
-        <Breadcrumbs navigate={navigate}>
-            <Breadcrumbs.Item href="/" routerOptions={{foo: 'bar'} as any}>
-                Example.com
-            </Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/foo" routerOptions={{foo: 'foo'} as any}>
-                Foo
-            </Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/foo/bar" routerOptions={{foo: 'bar'} as any}>
-                Bar
-            </Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/foo/bar/baz" routerOptions={{foo: 'bar'} as any}>
-                Baz
-            </Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/foo/bar/baz/qux" routerOptions={{foo: 'bar'} as any}>
-                Qux
-            </Breadcrumbs.Item>
-        </Breadcrumbs>,
+        <RouterProvider navigate={navigate}>
+            <Breadcrumbs>
+                <Breadcrumbs.Item href="/" routerOptions={{foo: 'bar'} as any}>
+                    Example.com
+                </Breadcrumbs.Item>
+                <Breadcrumbs.Item href="/foo" routerOptions={{foo: 'foo'} as any}>
+                    Foo
+                </Breadcrumbs.Item>
+                <Breadcrumbs.Item href="/foo/bar" routerOptions={{foo: 'bar'} as any}>
+                    Bar
+                </Breadcrumbs.Item>
+                <Breadcrumbs.Item href="/foo/bar/baz" routerOptions={{foo: 'bar'} as any}>
+                    Baz
+                </Breadcrumbs.Item>
+                <Breadcrumbs.Item href="/foo/bar/baz/qux" routerOptions={{foo: 'bar'} as any}>
+                    Qux
+                </Breadcrumbs.Item>
+            </Breadcrumbs>
+        </RouterProvider>,
     );
 
     const links = screen.getAllByRole('link');

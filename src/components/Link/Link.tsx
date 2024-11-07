@@ -2,7 +2,8 @@
 
 import React from 'react';
 
-import type {DOMProps, QAProps} from '../types';
+import {useLinkProps} from '../lab/router/router';
+import type {DOMProps, Href, QAProps, RouterOptions} from '../types';
 import {block} from '../utils/cn';
 import {eventBroker} from '../utils/event-broker';
 
@@ -15,7 +16,7 @@ export interface LinkProps extends DOMProps, QAProps {
     visitable?: boolean;
     underline?: boolean;
     title?: string;
-    href: string;
+    href: Href;
     target?: string;
     rel?: string;
     id?: string;
@@ -24,6 +25,7 @@ export interface LinkProps extends DOMProps, QAProps {
     onFocus?: React.FocusEventHandler<HTMLAnchorElement>;
     onBlur?: React.FocusEventHandler<HTMLAnchorElement>;
     extraProps?: React.AnchorHTMLAttributes<HTMLAnchorElement>;
+    routerOptions?: RouterOptions;
 }
 
 const b = block('link');
@@ -46,18 +48,22 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
         style,
         className,
         qa,
+        routerOptions,
     },
     ref,
 ) {
-    const handleClickCapture = React.useCallback((event: React.SyntheticEvent) => {
+    const handleClickCapture = (event: React.SyntheticEvent) => {
         eventBroker.publish({
             componentId: 'Link',
             eventId: 'click',
             domEvent: event,
         });
-    }, []);
+    };
 
     const commonProps = {
+        href,
+        target,
+        rel,
         title,
         onClick,
         onClickCapture: handleClickCapture,
@@ -69,10 +75,13 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
         'data-qa': qa,
     };
 
-    const relProp = target === '_blank' && !rel ? 'noopener noreferrer' : rel;
-
     return (
-        <a {...extraProps} {...commonProps} ref={ref} href={href} target={target} rel={relProp}>
+        <a
+            {...extraProps}
+            {...commonProps}
+            {...useLinkProps({...extraProps, ...commonProps, routerOptions})}
+            ref={ref}
+        >
             {children}
         </a>
     );

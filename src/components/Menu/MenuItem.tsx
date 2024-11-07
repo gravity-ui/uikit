@@ -3,7 +3,8 @@
 import React from 'react';
 
 import {useActionHandlers} from '../../hooks';
-import type {DOMProps, QAProps} from '../types';
+import {useLinkProps} from '../lab/router/router';
+import type {DOMProps, Href, QAProps, RouterOptions} from '../types';
 import {block} from '../utils/cn';
 import {eventBroker} from '../utils/event-broker';
 
@@ -18,7 +19,7 @@ export interface MenuItemProps extends DOMProps, QAProps {
     disabled?: boolean;
     active?: boolean;
     selected?: boolean;
-    href?: string;
+    href?: Href;
     target?: string;
     rel?: string;
     onClick?: React.MouseEventHandler<HTMLDivElement | HTMLAnchorElement>;
@@ -27,6 +28,7 @@ export interface MenuItemProps extends DOMProps, QAProps {
         | React.HTMLAttributes<HTMLDivElement>
         | React.AnchorHTMLAttributes<HTMLAnchorElement>;
     children?: React.ReactNode;
+    routerOptions?: RouterOptions;
 }
 
 export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function MenuItem(
@@ -38,9 +40,6 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
         disabled,
         active,
         selected,
-        href,
-        target,
-        rel,
         onClick,
         style,
         className,
@@ -48,10 +47,24 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
         extraProps,
         children,
         qa,
+        ...props
     },
     ref,
 ) {
-    const {onKeyDown} = useActionHandlers(onClick);
+    const handleClick = (e: React.MouseEvent<HTMLDivElement | HTMLAnchorElement>) => {
+        if (disabled) {
+            e.preventDefault();
+            return;
+        }
+
+        if (typeof onClick === 'function') {
+            onClick(e);
+        }
+    };
+
+    const linkProps = useLinkProps({...extraProps, ...props, onClick: handleClick});
+
+    const {onKeyDown} = useActionHandlers(linkProps.onClick);
 
     const handleClickCapture = React.useCallback((event: React.SyntheticEvent) => {
         eventBroker.publish({
@@ -63,18 +76,24 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
 
     const defaultProps = {
         role: 'menuitem',
-        onKeyDown: onClick && !disabled ? onKeyDown : undefined,
+        onKeyDown,
     };
 
     const commonProps = {
+        ...linkProps,
         title,
-        onClick: disabled ? undefined : onClick,
         onClickCapture: disabled ? undefined : handleClickCapture,
         style,
         tabIndex: disabled ? -1 : 0,
         className: b(
             'item',
-            {disabled, active, selected, theme, interactive: Boolean(onClick) || Boolean(href)},
+            {
+                disabled,
+                active,
+                selected,
+                theme,
+                interactive: Boolean(onClick) || Boolean(props.href),
+            },
             className,
         ),
         'data-qa': qa,
@@ -96,15 +115,12 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
     ];
     let item;
 
-    if (href) {
+    if (props.href) {
         item = (
             <a
                 {...defaultProps}
                 {...(extraProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
                 {...commonProps}
-                href={href}
-                target={target}
-                rel={rel}
             >
                 {content}
             </a>

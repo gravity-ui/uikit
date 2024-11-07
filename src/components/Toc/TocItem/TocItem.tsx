@@ -3,6 +3,7 @@
 import React from 'react';
 
 import {useActionHandlers} from '../../../hooks';
+import {useLinkProps} from '../../lab/router/router';
 import {block} from '../../utils/cn';
 import type {TocItem as TocItemType} from '../types';
 
@@ -29,6 +30,8 @@ export const TocItem = (props: TocItemProps) => {
 
     const {onKeyDown} = useActionHandlers(handleClick);
 
+    const linkProps = useLinkProps({...props, onClick: handleClick});
+
     const item =
         href === undefined ? (
             <div
@@ -41,7 +44,7 @@ export const TocItem = (props: TocItemProps) => {
                 {content}
             </div>
         ) : (
-            <a href={href} onClick={handleClick} className={b('section-link')}>
+            <a {...linkProps} className={b('section-link')}>
                 {content}
             </a>
         );

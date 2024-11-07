@@ -52,13 +52,22 @@ describe('Toc', () => {
         const nextValue = defaultItems[0].value;
         const nextTitle = defaultItems[0].content;
         const onUpdateFn = jest.fn();
+        const onItemClickFn = jest.fn();
         const user = userEvent.setup();
 
-        render(<Toc value={defaultValue} items={defaultItems} onUpdate={onUpdateFn} />);
+        render(
+            <Toc
+                value={defaultValue}
+                items={defaultItems}
+                onUpdate={onUpdateFn}
+                onItemClick={onItemClickFn}
+            />,
+        );
         const nextItem = screen.getByText(nextTitle);
         await user.click(nextItem);
 
-        expect(onUpdateFn).toBeCalledWith(nextValue);
+        expect(onUpdateFn).toHaveBeenCalledWith(nextValue);
+        expect(onItemClickFn).toHaveBeenCalledWith(expect.objectContaining({}));
     });
 
     test('calls onUpdate with correct item with link', async () => {
@@ -71,13 +80,14 @@ describe('Toc', () => {
         const nextItem = screen.getByText(nextTitle);
         await user.click(nextItem);
 
-        expect(onUpdateFn).toBeCalledWith(nextValue);
+        expect(onUpdateFn).toHaveBeenCalledWith(nextValue);
     });
 
     test('accessible for keyboard', async () => {
         const firstTitle = defaultItems[0].content;
         const secondValue = defaultItems[1].value;
         const onUpdateFn = jest.fn();
+
         const user = userEvent.setup();
 
         render(<Toc value={defaultValue} items={defaultItems} onUpdate={onUpdateFn} />);
@@ -86,7 +96,7 @@ describe('Toc', () => {
         await user.tab();
         await user.keyboard('{Enter}');
 
-        expect(onUpdateFn).toBeCalledWith(secondValue);
+        expect(onUpdateFn).toHaveBeenCalledWith(secondValue);
     });
 
     test('accessible for keyboard with links', async () => {
@@ -101,7 +111,7 @@ describe('Toc', () => {
         await user.tab();
         await user.keyboard('{Enter}');
 
-        expect(onUpdateFn).toBeCalledWith(secondValue);
+        expect(onUpdateFn).toHaveBeenCalledWith(secondValue);
     });
 
     test('add className', () => {
@@ -148,6 +158,6 @@ describe('Toc', () => {
 
         const currentItem = screen.getByRole('listitem', {current: true});
 
-        expect(currentItem.textContent).toContain(content);
+        expect(currentItem.textContent).toBe(content);
     });
 });

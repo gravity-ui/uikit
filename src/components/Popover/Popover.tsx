@@ -4,7 +4,7 @@ import React from 'react';
 
 import {Xmark} from '@gravity-ui/icons';
 
-import {useUniqId} from '../../hooks/useUniqId'
+import {useUniqId} from '../../hooks/useUniqId';
 import {Button} from '../Button';
 import {Icon} from '../Icon';
 import type {PopupPlacement} from '../Popup';
@@ -150,7 +150,9 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
             aria-labelledby={title ? popoverTitleId : undefined}
         >
             <React.Fragment>
-                {title && <h3 id={popoverTitleId} className={cnPopover('tooltip-title')}>{title}</h3>}
+                {title && (
+                    <h3 id={popoverTitleId} className={cnPopover('tooltip-title')}>{title}</h3>
+                )}
                 <Content
                     secondary={hasTitle ? theme !== 'announcement' : false}
                     content={content}

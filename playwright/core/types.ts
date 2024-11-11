@@ -34,7 +34,8 @@ export interface ExpectScreenshotFixture {
     (props?: CaptureScreenshotParams): Promise<void>;
 }
 
-interface CaptureScreenshotParams extends PageScreenshotOptions {
+export interface CaptureScreenshotParams extends PageScreenshotOptions {
     nameSuffix?: string;
     component?: Locator;
+    themes?: Array<'light' | 'dark'>;
 }

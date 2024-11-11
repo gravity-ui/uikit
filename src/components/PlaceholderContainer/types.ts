@@ -1,6 +1,7 @@
 import type React from 'react';
 
 import type {ButtonProps} from '../Button';
+import type {QAProps} from '../types';
 
 type Size = 's' | 'm' | 'l' | 'promo';
 
@@ -18,7 +19,7 @@ export type PlaceholderContainerActionProps = Pick<
     text: string;
 };
 
-export interface PlaceholderContainerProps {
+export interface PlaceholderContainerProps extends QAProps {
     size?: Size;
     direction?: 'row' | 'column';
     align?: 'left' | 'center';

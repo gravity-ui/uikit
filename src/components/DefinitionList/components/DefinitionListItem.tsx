@@ -2,22 +2,21 @@ import React from 'react';
 
 import {b} from '../constants';
 import type {DefinitionListItemProps} from '../types';
-import {getTitle, isUnbreakableOver} from '../utils';
+import {isUnbreakableOver} from '../utils';
 
-import {Definition} from './Definition';
+import {DefinitionContent} from './DefinitionContent';
 import {useDefinitionListAttributes} from './DefinitionListContext';
-import {Term} from './Term';
+import {TermContent} from './TermContent';
 
 export function DefinitionListItem({name, children, copyText, note}: DefinitionListItemProps) {
     const {direction, keyStyle, valueStyle} = useDefinitionListAttributes();
     return (
         <div className={b('item')}>
             <dt className={b('term-container')} style={keyStyle}>
-                <Term direction={direction} name={name} note={note} />
+                <TermContent direction={direction} name={name} note={note} />
             </dt>
             <dd
                 className={b('definition')}
-                title={getTitle(children)}
                 style={{
                     ...valueStyle,
                     lineBreak:
@@ -26,7 +25,7 @@ export function DefinitionListItem({name, children, copyText, note}: DefinitionL
                             : undefined,
                 }}
             >
-                <Definition copyText={copyText}>{children}</Definition>
+                <DefinitionContent copyText={copyText}>{children}</DefinitionContent>
             </dd>
         </div>
     );

@@ -5,7 +5,9 @@ export {
     useListKeydown as unstable_useListKeydown,
     getListItemClickHandler as unstable_getListItemClickHandler,
     ListItemView as unstable_ListItemView,
+    ListItemExpandIcon as unstable_ListItemExpandIcon,
     type ListItemViewProps as unstable_ListItemViewProps,
+    type ListItemExpandIconProps as unstable_ListItemExpandIconProps,
     ListContainerView as unstable_ListContainerView,
     type ListContainerProps as unstable_ListContainerProps,
     ListContainer as unstable_ListContainer,
@@ -37,3 +39,6 @@ export type {
     BreadcrumbsProps as unstable_BreadcrumbsProps,
     BreadcrumbsItemProps as unstable_BreadcrumbsItemProps,
 } from './components/lab/Breadcrumbs';
+
+export {NumberInput as unstable_NumberInput} from './components/lab/NumberInput';
+export type {NumberInputProps as unstable_NumberInputProps} from './components/lab/NumberInput';

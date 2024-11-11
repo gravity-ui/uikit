@@ -1,6 +1,6 @@
 {
     "name": "@gravity-ui/uikit",
-    "version": "6.31.0",
+    "version": "6.34.0",
     "description": "Gravity UI base styling and components",
     "keywords": [
         "component",
@@ -204,8 +204,8 @@
         "typescript": "^5.3.3"
     },
     "peerDependencies": {
-        "react": "^16.0.0 || ^17.0.0 || ^18.0.0",
-        "react-dom": "^16.0.0 || ^17.0.0 || ^18.0.0"
+        "react": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+        "react-dom": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
     },
     "nano-staged": {
         "*.{scss}": [

@@ -1,5 +1,48 @@
 # Changelog
 
+## [6.34.0](https://github.com/gravity-ui/uikit/compare/v6.33.0...v6.34.0) (2024-10-25)
+
+
+### Features
+
+* **ListItemExandIcon:** added new list component for expanded icon view ([#1762](https://github.com/gravity-ui/uikit/issues/1762)) ([b6516f4](https://github.com/gravity-ui/uikit/commit/b6516f46ce157a1297a5887e25487f621da07b43))
+
+
+### Bug Fixes
+
+* react 19 compatibility ([#1916](https://github.com/gravity-ui/uikit/issues/1916)) ([29f2558](https://github.com/gravity-ui/uikit/commit/29f255803582d9b6791f11b080b80d36626dd03b))
+* **styles:** rules order in block ([#1912](https://github.com/gravity-ui/uikit/issues/1912)) ([2d9c88e](https://github.com/gravity-ui/uikit/commit/2d9c88ee6a7040d33369c1a47d2022ec9f129d7c))
+
+## [6.33.0](https://github.com/gravity-ui/uikit/compare/v6.32.0...v6.33.0) (2024-10-22)
+
+
+### Features
+
+* **Dialog:** add className property to DialogFooter ([#1909](https://github.com/gravity-ui/uikit/issues/1909)) ([679c537](https://github.com/gravity-ui/uikit/commit/679c537a0a34add7e6dca4a3ba649934a68342e6))
+* **Table:** add width property ([#1907](https://github.com/gravity-ui/uikit/issues/1907)) ([7eb5e1e](https://github.com/gravity-ui/uikit/commit/7eb5e1e38cb9e79afaf988480b1b2d5dc998ff04))
+* **Toaster:** added onClose callback ([#1902](https://github.com/gravity-ui/uikit/issues/1902)) ([3069194](https://github.com/gravity-ui/uikit/commit/30691949ccce25e54614b5a0b49c7b11f7abf3e9))
+
+
+### Bug Fixes
+
+* **DefinitionList:** layout fixes ([#1910](https://github.com/gravity-ui/uikit/issues/1910)) ([e5cde3a](https://github.com/gravity-ui/uikit/commit/e5cde3ad58cfb1d8436c2a4ad75e074dfb94a741))
+
+## [6.32.0](https://github.com/gravity-ui/uikit/compare/v6.31.0...v6.32.0) (2024-10-17)
+
+
+### Features
+
+* add DefinitionList and HelpMark ([#1731](https://github.com/gravity-ui/uikit/issues/1731)) ([c587116](https://github.com/gravity-ui/uikit/commit/c587116b40e79c1ad7a2427f73d031b6efa4109c))
+* **AvatarStack:** forward ref to root element of component ([#1904](https://github.com/gravity-ui/uikit/issues/1904)) ([469d935](https://github.com/gravity-ui/uikit/commit/469d93586d6bb82b93a865541d8a974caa67d3b1))
+
+
+### Bug Fixes
+
+* **ListItemView:** fix type ListItemViewProps ([#1897](https://github.com/gravity-ui/uikit/issues/1897)) ([e49779a](https://github.com/gravity-ui/uikit/commit/e49779a4e519a6e89db3cecfe12ea66e0c720d3f))
+* **Toaster:** change spacing before actions ([#1891](https://github.com/gravity-ui/uikit/issues/1891)) ([235ea21](https://github.com/gravity-ui/uikit/commit/235ea21a548d39b6ebf22e31d9037abc83eb9fcd))
+* **types:** fix i18n types ([#1898](https://github.com/gravity-ui/uikit/issues/1898)) ([21954db](https://github.com/gravity-ui/uikit/commit/21954db04c9edc5d5068007fd4f137e0732e2b47))
+* **useBodyScrollLock:** avoid settings unrelated styles ([#1832](https://github.com/gravity-ui/uikit/issues/1832)) ([9d7fd36](https://github.com/gravity-ui/uikit/commit/9d7fd3649c7c82a1c3d68af7d2f8ceffe7172eef))
+
 ## [6.31.0](https://github.com/gravity-ui/uikit/compare/v6.30.1...v6.31.0) (2024-10-09)
 
 

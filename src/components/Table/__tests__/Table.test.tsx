@@ -3,7 +3,7 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 
 import {render, screen, within} from '../../../../test-utils/utils';
-import type {TableColumnConfig, TableProps} from '../Table';
+import type {TableColumnConfig, TableProps, TableWidth} from '../Table';
 import {Table} from '../Table';
 
 import type {DataItem} from './utils';
@@ -34,6 +34,12 @@ describe('Table', () => {
             });
         },
     );
+    test.each(new Array<TableWidth>('max', 'auto'))('render with given "%s" width', (width) => {
+        render(<Table data={data} columns={columns} width={width} />);
+        const table = screen.getByRole('table');
+
+        expect(table).toHaveClass(`g-table__table_width_${width}`);
+    });
 
     test('render table with no data (default)', () => {
         const emptyText = 'No data';

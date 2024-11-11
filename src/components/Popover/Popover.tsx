@@ -151,7 +151,9 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
         >
             <React.Fragment>
                 {title && (
-                    <h3 id={popoverTitleId} className={cnPopover('tooltip-title')}>{title}</h3>
+                    <h3 id={popoverTitleId} className={cnPopover('tooltip-title')}>
+                        {title}
+                    </h3>
                 )}
                 <Content
                     secondary={hasTitle ? theme !== 'announcement' : false}

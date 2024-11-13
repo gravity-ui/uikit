@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.35.1](https://github.com/gravity-ui/uikit/compare/v6.35.0...v6.35.1) (2024-11-13)
+
+
+### Bug Fixes
+
+* fix incorrect scss "use" ([#1943](https://github.com/gravity-ui/uikit/issues/1943)) ([c9506dd](https://github.com/gravity-ui/uikit/commit/c9506dd5cfb78f155ea4e38f09e060233c4f691b))
+
 ## [6.35.0](https://github.com/gravity-ui/uikit/compare/v6.34.0...v6.35.0) (2024-11-11)
 
 

@@ -1,5 +1,5 @@
 @use '../../variables';
-@use '@gravity-ui/uikit/styles/mixins';
+@use '../../../../styles/mixins';
 
 $block: '.#{variables.$ns}mobile-image-preview';
 

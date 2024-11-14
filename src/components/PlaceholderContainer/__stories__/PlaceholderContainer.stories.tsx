@@ -88,6 +88,12 @@ const actionAdditionalBtnProps: PlaceholderContainerActionProps = {
     onClick: () => alert('Click by additional button'),
 };
 
+const actionLinkProps: PlaceholderContainerActionProps = {
+    text: 'Link button',
+    view: 'flat-info',
+    href: 'https://gravity-ui.com/',
+};
+
 export const Default: Story = {
     args: {
         title: 'Some title',
@@ -165,7 +171,7 @@ export const Actions: Story = {
                 <PlaceholderContainer
                     {...args}
                     title="Array of actions"
-                    actions={[actionMainProps, actionAdditionalBtnProps]}
+                    actions={[actionMainProps, actionAdditionalBtnProps, actionLinkProps]}
                 />
             </Showcase>
             <Showcase>

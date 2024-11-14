@@ -228,7 +228,7 @@ LANDING_BLOCK-->
 | layout    | Used to direct users to content if there is property `actions` with buttons |                    `"vertical"` `"horizontal"`                     | `"vertical"` |
 | corners   | Used for round/square corners of the alert window                           |                       `"rounded"` `"square"`                       | `"rounded"`  |
 | title     | Title of the alert                                                          |                              `string`                              |              |
-| message   | Message of the alert                                                        |                              `string`                              |              |
+| message   | Message of the alert                                                        |                         `React.ReactNode`                          |              |
 | onClose   | A callback function called when the user clicks the alert's close button    |                             `Function`                             |              |
 | actions   | Array of buttons or full custom components                                  |                 `React.ReactNode` `"AlertAction"`                  |              |
 | align     | Determines how content inside the Alert component is vertically aligned     |                      `"center"` `"baseline"`                       | `"baseline"` |

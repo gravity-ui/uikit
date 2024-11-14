@@ -2,11 +2,28 @@
 
 import React from 'react';
 
+import {
+    arrow,
+    autoPlacement,
+    autoUpdate,
+    flip,
+    offset as floatingOffset,
+    limitShift,
+    shift,
+    useFloating,
+} from '@floating-ui/react';
+import type {
+    Alignment,
+    FloatingRootContext,
+    Middleware,
+    Placement,
+    ReferenceType,
+    Strategy,
+} from '@floating-ui/react';
 import {CSSTransition} from 'react-transition-group';
 
 import {useForkRef} from '../../hooks';
-import {usePopper, useRestoreFocus} from '../../hooks/private';
-import type {PopperAnchorRef, PopperPlacement, PopperProps} from '../../hooks/private';
+import {useRestoreFocus} from '../../hooks/private';
 import {Portal} from '../Portal';
 import type {DOMProps, QAProps} from '../types';
 import {FocusTrap, useParentFocusTrap} from '../utils/FocusTrap';
@@ -16,13 +33,13 @@ import type {LayerExtendableProps} from '../utils/layer-manager/LayerManager';
 import {getCSSTransitionClassNames} from '../utils/transition';
 
 import {PopupArrow} from './PopupArrow';
+import {AUTO_PLACEMENTS} from './constants';
+import type {PopupAnchorEl, PopupAnchorRef, PopupOffset, PopupPlacement} from './types';
+import {getAnchorElementAndRef, getOffsetValue} from './utils';
 
 import './Popup.scss';
 
-export type PopupPlacement = PopperPlacement;
-export type PopupAnchorRef = PopperAnchorRef;
-
-export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps, QAProps {
+export interface PopupProps extends DOMProps, LayerExtendableProps, QAProps {
     children?: React.ReactNode;
     /** Manages `Popup` visibility */
     open?: boolean;
@@ -30,6 +47,22 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
     keepMounted?: boolean;
     /** Render an arrow pointing to the anchor */
     hasArrow?: boolean;
+    /** floating-ui strategy */
+    strategy?: Strategy;
+    /** floating element placement */
+    placement?: PopupPlacement;
+    /** floating element offset relative to anchor */
+    offset?: PopupOffset;
+    /** floating element anchor */
+    anchorEl?: PopupAnchorEl;
+    /** floating element anchor ref object */
+    anchorRef?: PopupAnchorRef;
+    /** floating-ui middlewares. If set, they will completely overwrite the default middlewares. */
+    middlewares?: Middleware[];
+    /** floating-ui root context to provide interactions */
+    rootContext?: FloatingRootContext<ReferenceType>;
+    /** Additional floating element props to provide interactions */
+    floatingProps?: Record<string, unknown>;
     /** Do not use `LayerManager` on stacking popups */
     disableLayer?: boolean;
     /** @deprecated Add onClick handler to children */
@@ -77,21 +110,25 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
 }
 
 const b = block('popup');
-const ARROW_SIZE = 8;
+
 export function Popup({
     keepMounted = false,
     hasArrow = false,
-    offset = [0, 4],
     open,
-    placement,
+    strategy,
+    placement = 'bottom-start',
+    offset = 4,
+    anchorEl,
     anchorRef,
+    rootContext,
+    floatingProps,
     disableEscapeKeyDown,
     disableOutsideClick,
     disableLayer,
     style,
     className,
     contentClassName,
-    modifiers = [],
+    middlewares,
     children,
     onEscapeKeyDown,
     onOutsideClick,
@@ -107,7 +144,6 @@ export function Popup({
     onTransitionExited,
     disablePortal,
     container,
-    strategy,
     qa,
     restoreFocus,
     restoreFocusRef,
@@ -120,6 +156,40 @@ export function Popup({
     'aria-modal': ariaModal = focusTrap,
 }: PopupProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
+    const [arrowElement, setArrowElement] = React.useState<HTMLElement | null>(null);
+
+    const anchor = getAnchorElementAndRef(anchorEl, anchorRef);
+
+    const offsetValue = getOffsetValue(offset, hasArrow);
+
+    let placementValue: Placement | undefined;
+    let preventOverflowMiddleware: Middleware;
+
+    if (placement instanceof Array) {
+        placementValue = placement[0];
+        preventOverflowMiddleware = flip({
+            altBoundary: disablePortal,
+            fallbackPlacements: placement.slice(1),
+        });
+    } else if ((AUTO_PLACEMENTS as readonly string[]).indexOf(placement) > -1) {
+        let alignment: Alignment | undefined;
+        if (placement === 'auto-start') {
+            alignment = 'start';
+        } else if (placement === 'auto-end') {
+            alignment = 'end';
+        }
+
+        placementValue = undefined;
+        preventOverflowMiddleware = autoPlacement({
+            altBoundary: disablePortal,
+            alignment,
+        });
+    } else {
+        placementValue = placement as Placement;
+        preventOverflowMiddleware = flip({
+            altBoundary: disablePortal,
+        });
+    }
 
     useLayer({
         open,
@@ -128,27 +198,49 @@ export function Popup({
         onEscapeKeyDown,
         onOutsideClick,
         onClose,
-        contentRefs: [anchorRef, containerRef],
+        contentRefs: [anchor.ref, containerRef],
         enabled: !disableLayer,
         type: 'popup',
     });
 
-    const {attributes, styles, setPopperRef, setArrowRef} = usePopper({
-        anchorRef,
-        placement,
-        // Take arrow size into offset account
-        offset: hasArrow ? [offset[0], offset[1] + ARROW_SIZE] : offset,
+    const {
+        refs,
+        floatingStyles,
+        placement: actualPlacement,
+        middlewareData,
+    } = useFloating({
+        rootContext,
         strategy,
-        altBoundary: disablePortal,
-        modifiers: [
-            // Properly display arrow within rounded container
-            {name: 'arrow', options: {enabled: hasArrow, padding: 4}},
-            // Prevent border hiding
-            {name: 'preventOverflow', options: {padding: 1, altBoundary: disablePortal}},
-            ...modifiers,
+        placement: placementValue,
+        open,
+        whileElementsMounted: open ? autoUpdate : undefined,
+        elements: {
+            // @ts-expect-error: Type 'Element | VirtualElement | undefined' is not assignable to type 'Element | null | undefined'.
+            reference: anchor.element,
+        },
+        middleware: middlewares ?? [
+            floatingOffset(offsetValue),
+            preventOverflowMiddleware,
+            shift({limiter: limitShift(), altBoundary: disablePortal}),
+            arrow({element: arrowElement, padding: 4}),
         ],
     });
-    const handleRef = useForkRef<HTMLDivElement>(setPopperRef, containerRef, useParentFocusTrap());
+
+    const arrowStyles: React.CSSProperties = {};
+
+    if (hasArrow && middlewareData.arrow) {
+        const {x, y} = middlewareData.arrow;
+        Object.assign(arrowStyles, {
+            left: x === undefined ? '' : `${x}px`,
+            top: y === undefined ? '' : `${y}px`,
+        });
+    }
+
+    const handleRef = useForkRef<HTMLDivElement>(
+        refs.setFloating,
+        containerRef,
+        useParentFocusTrap(),
+    );
 
     const containerProps = useRestoreFocus({
         enabled: Boolean(restoreFocus && open),
@@ -185,8 +277,8 @@ export function Popup({
             <Portal container={container} disablePortal={disablePortal}>
                 <div
                     ref={handleRef}
-                    style={styles.popper}
-                    {...attributes.popper}
+                    style={floatingStyles}
+                    data-floating-placement={actualPlacement}
                     {...containerProps}
                     className={b({open}, className)}
                     data-qa={qa}
@@ -195,6 +287,7 @@ export function Popup({
                     aria-label={ariaLabel}
                     aria-labelledby={ariaLabelledBy}
                     aria-modal={ariaModal && open ? ariaModal : undefined}
+                    {...floatingProps}
                 >
                     <FocusTrap enabled={focusTrap && open} autoFocus={autoFocus}>
                         {/* FIXME The onClick event handler is deprecated and should be removed */}
@@ -210,11 +303,7 @@ export function Popup({
                             tabIndex={-1}
                         >
                             {hasArrow && (
-                                <PopupArrow
-                                    styles={styles.arrow}
-                                    attributes={attributes.arrow}
-                                    setArrowRef={setArrowRef}
-                                />
+                                <PopupArrow setArrowRef={setArrowElement} styles={arrowStyles} />
                             )}
                             {children}
                         </div>

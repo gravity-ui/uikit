@@ -6,7 +6,7 @@ import {useVirtualElementRef} from '../../../hooks';
 import {Button} from '../../Button';
 import {Text} from '../../Text';
 import {Popup} from '../Popup';
-import type {PopupPlacement} from '../Popup';
+import type {PopupPlacement} from '../types';
 
 const meta: Meta<typeof Popup> = {
     title: 'Components/Overlays/Popup',

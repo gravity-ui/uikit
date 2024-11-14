@@ -1,5 +1,28 @@
 # Changelog
 
+## [6.35.1](https://github.com/gravity-ui/uikit/compare/v6.35.0...v6.35.1) (2024-11-13)
+
+
+### Bug Fixes
+
+* fix incorrect scss "use" ([#1943](https://github.com/gravity-ui/uikit/issues/1943)) ([c9506dd](https://github.com/gravity-ui/uikit/commit/c9506dd5cfb78f155ea4e38f09e060233c4f691b))
+
+## [6.35.0](https://github.com/gravity-ui/uikit/compare/v6.34.0...v6.35.0) (2024-11-11)
+
+
+### Features
+
+* **FilePreview:** add component ([#1880](https://github.com/gravity-ui/uikit/issues/1880)) ([b5de671](https://github.com/gravity-ui/uikit/commit/b5de67126a76467853957df6d8e5436cc460886e))
+* **NumberInput:** add new component ([#1826](https://github.com/gravity-ui/uikit/issues/1826)) ([75be05e](https://github.com/gravity-ui/uikit/commit/75be05e42c95226592cdd2139894e9ff791280af))
+* **PlaceholderContainer:** add qa prop ([#1925](https://github.com/gravity-ui/uikit/issues/1925)) ([77ad28d](https://github.com/gravity-ui/uikit/commit/77ad28d8aa0af910999e0ed54fce806767241946))
+
+
+### Bug Fixes
+
+* **PlaceholderContainer:** add component to index file ([#1924](https://github.com/gravity-ui/uikit/issues/1924)) ([cdce171](https://github.com/gravity-ui/uikit/commit/cdce1715a6fe5ceebff7b43c9146c3c1bef9f093))
+* **Popover:** use visible title for popup a11y label ([#1941](https://github.com/gravity-ui/uikit/issues/1941)) ([f9d75e8](https://github.com/gravity-ui/uikit/commit/f9d75e8b1d902fd526b4a089d7bf6675299f2584))
+* **Toaster:** reveal animation lag ([#1927](https://github.com/gravity-ui/uikit/issues/1927)) ([e16fa1c](https://github.com/gravity-ui/uikit/commit/e16fa1ccc7e1f053f4ff696d24ee6d4bbfd35a6a))
+
 ## [6.34.0](https://github.com/gravity-ui/uikit/compare/v6.33.0...v6.34.0) (2024-10-25)
 
 

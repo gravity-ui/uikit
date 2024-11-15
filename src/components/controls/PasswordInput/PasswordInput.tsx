@@ -38,14 +38,14 @@ export type PasswordInputProps = Omit<TextInputProps, 'type'> & {
 export const PasswordInput = (props: PasswordInputProps) => {
     const {
         autoComplete,
-        showCopyButton,
-        rightContent,
-        endContent,
-        showRevealButton,
-        size = 'm',
-        showCopyTooltip,
-        showRevealTooltip,
         controlProps,
+        endContent,
+        rightContent,
+        showCopyButton = false,
+        showCopyTooltip = false,
+        showRevealButton = false,
+        showRevealTooltip = false,
+        size = 'm',
     } = props;
 
     const [inputValue, setInputValue] = useControlledState(

@@ -11,8 +11,6 @@ export default {
     title: 'Components/Inputs/PasswordInput',
     component: PasswordInput,
     args: {
-        showCopyButton: true,
-        showRevealButton: true,
         controlProps: {
             'aria-label': 'Password',
         },

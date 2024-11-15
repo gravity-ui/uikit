@@ -12,25 +12,25 @@ import {PasswordInput} from '@gravity-ui/uikit';
 
 ### Copy button
 
-The `showCopyButton` prop displays a "Copy" button next to the input field when a value is entered. This button allows users to easily copy the input value to their clipboard.
+This button allows users to easily copy the input value to their clipboard. You can hide this button with `hideCopyButton` boolean prop.
 
 <!--LANDING_BLOCK
 <ExampleBlock
-    code={` <PasswordInput showCopyButton={true} /> `}
+    code={` <PasswordInput hideCopyButton={true} /> `}
 >
-  <UIKit.PasswordInput showRevealButton={true}  />
+  <UIKit.PasswordInput hideCopyButton={true}  />
 </ExampleBlock>
 LANDING_BLOCK-->
 
 ### Reveal button
 
-The `showRevealButton` prop allows users to toggle the visibility of the password.
+The `hideRevealButton` prop allows users to toggle the visibility of the password.
 
 <!--LANDING_BLOCK
 <ExampleBlock
-    code={` <PasswordInput showRevealButton={true} /> `}
+    code={` <PasswordInput hideRevealButton={true} /> `}
 >
-  <UIKit.PasswordInput showRevealButton={true}  />
+  <UIKit.PasswordInput hideRevealButton={true}  />
 </ExampleBlock>
 LANDING_BLOCK-->
 
@@ -42,8 +42,8 @@ LANDING_BLOCK-->
 
 | Name                | Description                                                                |    Type    | Default |
 | :------------------ | :------------------------------------------------------------------------- | :--------: | :-----: |
-| showCopyButton      | Show copy button                                                           | `boolean`  | `false` |
-| showRevealButton    | Show reveal button                                                         | `boolean`  | `false` |
+| hideCopyButton      | Show copy button                                                           | `boolean`  | `false` |
+| hideRevealButton    | Show reveal button                                                         | `boolean`  | `false` |
 | showCopyTooltip     | Determines whether to display the tooltip for the copy button              | `boolean`  | `false` |
 | showRevealTooltip   | Determines whether to display the tooltip for the reveal button            | `boolean`  | `false` |
 | revealValue         | Determines the visibility state of the password input field                | `boolean`  | `false` |
@@ -57,14 +57,7 @@ LANDING_BLOCK-->
 function MyComponent() {
   const [value, setValue] = React.useState('');
 
-  return (
-    <PasswordInput
-      showCopyButton={true}
-      showRevealButton={true}
-      onUpdate={setValue}
-      value={value}
-    />
-  );
+  return <PasswordInput onUpdate={setValue} value={value} />;
 }
 ```
 

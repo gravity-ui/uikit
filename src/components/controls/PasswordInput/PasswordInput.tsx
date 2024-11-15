@@ -21,10 +21,10 @@ import './PasswordInput.scss';
 const b = block('password-input');
 
 export type PasswordInputProps = Omit<TextInputProps, 'type'> & {
-    /** Show copy button */
-    showCopyButton?: boolean;
-    /** Show reveal button */
-    showRevealButton?: boolean;
+    /** Hide copy button */
+    hideCopyButton?: boolean;
+    /** Hide reveal button */
+    hideRevealButton?: boolean;
     /** Determines whether to display the tooltip for the copy button */
     showCopyTooltip?: boolean;
     /** Determines whether to display the tooltip for the reveal button */
@@ -41,9 +41,9 @@ export const PasswordInput = (props: PasswordInputProps) => {
         controlProps,
         endContent,
         rightContent,
-        showCopyButton = false,
+        hideCopyButton = false,
+        hideRevealButton = false,
         showCopyTooltip = false,
-        showRevealButton = false,
         showRevealTooltip = false,
         size = 'm',
     } = props;
@@ -65,7 +65,7 @@ export const PasswordInput = (props: PasswordInputProps) => {
     const additionalEndContent = (
         <React.Fragment>
             {endContent || rightContent}
-            {inputValue && showCopyButton && !props.disabled ? (
+            {inputValue && !hideCopyButton && !props.disabled ? (
                 <ClipboardButton
                     view="flat-secondary"
                     text={inputValue}
@@ -74,7 +74,7 @@ export const PasswordInput = (props: PasswordInputProps) => {
                     className={b('copy-button')}
                 />
             ) : null}
-            {showRevealButton ? (
+            {hideRevealButton ? null : (
                 <ActionTooltip
                     disabled={!showRevealTooltip}
                     title={revealValue ? i18n('label_hide-password') : i18n('label_show-password')}
@@ -94,7 +94,7 @@ export const PasswordInput = (props: PasswordInputProps) => {
                         <Icon data={revealValue ? EyeSlash : Eye} size={iconSize} />
                     </Button>
                 </ActionTooltip>
-            ) : null}
+            )}
         </React.Fragment>
     );
 

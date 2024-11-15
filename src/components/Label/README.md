@@ -270,3 +270,21 @@ LANDING_BLOCK-->
 | value            | Label value (displayed as "children : value") |            `string`            |             |
 | title            | HTML `title` attribute                        |            `string`            |             |
 | qa               | HTML `data-qa` attribute, used in tests       |            `string`            |             |
+
+## CSS API
+
+| Name                               | Description               |
+| :--------------------------------- | :------------------------ |
+| `--g-label-text-color`             | Text color                |
+| `--g-label-background-color`       | Background color          |
+| `--g-label-background-color-hover` | Background color on hover |
+| `--g-label-border-width`           | Border width              |
+| `--g-label-border-color`           | Border color              |
+| `--g-label-focus-outline-width`    | Focus outline color       |
+| `--g-label-focus-outline-color`    | Focus outline color       |
+| `--g-label-focus-outline-style`    | Focus outline style       |
+| `--g-label-focus-outline-offset`   | Focus outline offset      |
+| `--g-label-height`                 | Height, line-height       |
+| `--g-label-border-radius`          | Border radius             |
+| `--g-label-font-size`              | Text font size            |
+| `--g-label-margin-inline`          | Margin inline             |

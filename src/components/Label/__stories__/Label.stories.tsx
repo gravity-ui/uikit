@@ -159,3 +159,30 @@ export const ShowcaseStory: Story = {
     render: () => <LabelShowcase />,
     name: 'Showcase',
 };
+
+export const Custom: Story = {
+    args: {
+        children: 'Custom label',
+    },
+    render: (args) => (
+        <React.Fragment>
+            <style>
+                {`.g-root {
+                    --g-label-text-color: #fff;
+                    --g-label-text-color-hover: #fff;
+                    --g-label-background-color: #9a2eff;
+                    --g-label-background-color-hover: #8526de;
+                    --g-label-border-width: 5px;
+                    --g-label-border-color: #8526de;
+                    --g-label-height: 60px;
+                    --g-label-padding: 36px;
+                    --g-label-font-size: 20px;
+                    --g-label-border-radius: 40px 20px;
+                    --g-label-focus-outline-color: #9a2eff;
+                    --g-label-focus-outline-offset: 4px;
+                }`}
+            </style>
+            <Label interactive theme="clear" type="close" {...args} />
+        </React.Fragment>
+    ),
+};

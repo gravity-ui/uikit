@@ -1,5 +1,13 @@
 # Changelog
 
+## [6.35.2](https://github.com/gravity-ui/uikit/compare/v6.35.1...v6.35.2) (2024-11-14)
+
+
+### Bug Fixes
+
+* **PlaceholderContainer:** remove href attribute fallback in actions ([#1947](https://github.com/gravity-ui/uikit/issues/1947)) ([60a8b92](https://github.com/gravity-ui/uikit/commit/60a8b9240b51d78f0aa5e711a6bed8e30e049814))
+* **useBodyScrollLock:** correctly restore styles ([#1950](https://github.com/gravity-ui/uikit/issues/1950)) ([b41a53a](https://github.com/gravity-ui/uikit/commit/b41a53a477d479b925331bbc227862942da04d00))
+
 ## [6.35.1](https://github.com/gravity-ui/uikit/compare/v6.35.0...v6.35.1) (2024-11-13)
 
 

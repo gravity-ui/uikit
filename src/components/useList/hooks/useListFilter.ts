@@ -18,7 +18,7 @@ interface UseListFilterProps<T> {
      */
     filterItems?(value: string, items: ListItemType<T>[]): ListItemType<T>[];
     /**
-     * Override only logic with item affiliation
+     * Override only logic with item filtration
      */
     filterItem?(value: string, item: T): boolean;
     onFilterChange?(value: string): void;

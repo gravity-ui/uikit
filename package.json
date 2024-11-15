@@ -1,6 +1,6 @@
 {
     "name": "@gravity-ui/uikit",
-    "version": "6.28.0",
+    "version": "6.35.2",
     "description": "Gravity UI base styling and components",
     "keywords": [
         "component",
@@ -71,7 +71,7 @@
                 "./build/esm/toaster-singleton-react-18.d.ts"
             ],
             "i18n": [
-                "./build/esm/components/utils/addComponentKeysets.d.ts"
+                "./build/esm/i18n/index.d.ts"
             ],
             "unstable": [
                 "./build/esm/unstable.d.ts"
@@ -124,7 +124,7 @@
         "blueimp-md5": "^2.19.0",
         "focus-trap": "^7.5.4",
         "lodash": "^4.17.21",
-        "rc-slider": "^10.5.0",
+        "rc-slider": "^10.6.2",
         "react-beautiful-dnd": "^13.1.1",
         "react-copy-to-clipboard": "^5.1.0",
         "react-popper": "^2.3.0",
@@ -140,7 +140,7 @@
         "@babel/preset-typescript": "^7.23.3",
         "@commitlint/cli": "^18.6.0",
         "@commitlint/config-conventional": "^18.6.0",
-        "@faker-js/faker": "^8.4.0",
+        "@faker-js/faker": "^9.0.3",
         "@gravity-ui/eslint-config": "^3.1.1",
         "@gravity-ui/prettier-config": "^1.1.0",
         "@gravity-ui/stylelint-config": "^4.0.1",
@@ -204,8 +204,8 @@
         "typescript": "^5.3.3"
     },
     "peerDependencies": {
-        "react": "^16.0.0 || ^17.0.0 || ^18.0.0",
-        "react-dom": "^16.0.0 || ^17.0.0 || ^18.0.0"
+        "react": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+        "react-dom": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
     },
     "nano-staged": {
         "*.{scss}": [

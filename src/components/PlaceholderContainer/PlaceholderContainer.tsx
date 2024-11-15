@@ -19,7 +19,7 @@ const PlaceholderContainerAction = (props: PlaceholderContainerActionProps) => {
                 size={props.size || 'm'}
                 loading={Boolean(props.loading)}
                 disabled={Boolean(props.disabled)}
-                href={props.href || ''}
+                href={props.href}
                 {...(props.onClick ? {onClick: props.onClick} : {})}
             >
                 {props.text}
@@ -38,6 +38,7 @@ export const PlaceholderContainer = ({
     image,
     content,
     actions,
+    qa,
 }: PlaceholderContainerProps) => {
     const renderTitle = () => {
         if (!title) {
@@ -97,7 +98,7 @@ export const PlaceholderContainer = ({
     };
 
     return (
-        <div className={b({direction, align, size}, className || '')}>
+        <div className={b({direction, align, size}, className || '')} data-qa={qa}>
             <div className={b('body')}>
                 <div className={b('image', {size})}>{renderImage()}</div>
                 {renderContent()}

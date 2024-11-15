@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {ButtonProps} from '../Button';
@@ -91,32 +91,55 @@ test.describe('Button', {tag: '@Button'}, () => {
 
     const qa = 'test-button';
 
+    smokeTest('', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<ButtonProps>(
+            {
+                children: 'Text',
+                qa,
+            },
+            {
+                size: sizeCases,
+                selected: selectedCases,
+                disabled: disabledCases,
+                loading: loadingCases,
+                view: viewsCases,
+                pin: pinsCases,
+            },
+        );
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Button {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({});
+    });
+
     createSmokeScenarios<ButtonProps>(
         {
             children: 'Text',
             qa,
         },
         {
-            size: sizeCases,
-            selected: selectedCases,
-            disabled: disabledCases,
-            loading: loadingCases,
             view: viewsCases,
             pin: pinsCases,
         },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
+    ).forEach(([title, props]) => {
+        smokeTest(title, async ({mount, expectScreenshot}) => {
             const root = await mount(<Button {...props} />);
-
-            await expectScreenshot();
-
-            if (props.disabled || props.loading) {
-                return;
-            }
 
             await root.getByTestId(qa).hover();
 
             await expectScreenshot({
+                themes: ['light'],
                 nameSuffix: 'hovered',
             });
         });

@@ -10,6 +10,7 @@ import type {PopupPlacement} from '../Popup';
 import {Text} from '../Text';
 import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
+import {getElementRef} from '../utils/getElementRef';
 
 import './Tooltip.scss';
 
@@ -75,7 +76,7 @@ export const Tooltip = (props: TooltipProps) => {
     };
 
     const child = React.Children.only(children);
-    const childRef = (child as any).ref;
+    const childRef = getElementRef(child);
 
     const ref = useForkRef(setAnchorElement, childRef);
 

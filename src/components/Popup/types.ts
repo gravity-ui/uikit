@@ -4,9 +4,9 @@ import type {AUTO_PLACEMENTS} from './constants';
 
 export type PopupPlacement = (typeof AUTO_PLACEMENTS)[number] | Placement | Placement[];
 
-export type PopupAnchorEl = Element | VirtualElement;
+export type PopupAnchorElement = Element | VirtualElement;
 
-export type PopupAnchorRef = React.RefObject<PopupAnchorEl>;
+export type PopupAnchorRef = React.RefObject<PopupAnchorElement>;
 
 type RemoveFunction<T> = T extends Function ? never : T;
 

@@ -1,4 +1,4 @@
-import type {PopupAnchorEl, PopupAnchorRef, PopupOffset, PopupProps} from '../Popup';
+import type {PopupAnchorElement, PopupAnchorRef, PopupOffset, PopupProps} from '../Popup';
 
 import type {ButtonsProps} from './components/Buttons/Buttons';
 import type {ContentProps} from './components/Content/Content';
@@ -92,7 +92,7 @@ export type PopoverBehaviorProps = {
 
 export type PopoverTheme = 'info' | 'special' | 'announcement';
 export type PopoverAnchorRef = PopupAnchorRef;
-export type PopoverAnchorEl = PopupAnchorEl;
+export type PopoverAnchorElement = PopupAnchorElement;
 
 export type PopoverDefaultProps = {
     /** Whether the tooltip initially opened */

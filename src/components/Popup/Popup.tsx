@@ -34,8 +34,9 @@ import {getCSSTransitionClassNames} from '../utils/transition';
 
 import {PopupArrow} from './PopupArrow';
 import {AUTO_PLACEMENTS} from './constants';
-import type {PopupAnchorEl, PopupAnchorRef, PopupOffset, PopupPlacement} from './types';
-import {getAnchorElementAndRef, getOffsetValue} from './utils';
+import {useAnchor} from './hooks';
+import type {PopupAnchorElement, PopupAnchorRef, PopupOffset, PopupPlacement} from './types';
+import {getOffsetValue} from './utils';
 
 import './Popup.scss';
 
@@ -47,20 +48,20 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, QAProps {
     keepMounted?: boolean;
     /** Render an arrow pointing to the anchor */
     hasArrow?: boolean;
-    /** floating-ui strategy */
+    /** Floating UI strategy */
     strategy?: Strategy;
     /** floating element placement */
     placement?: PopupPlacement;
     /** floating element offset relative to anchor */
     offset?: PopupOffset;
     /** floating element anchor */
-    anchorEl?: PopupAnchorEl;
+    anchorEl?: PopupAnchorElement | null;
     /** floating element anchor ref object */
     anchorRef?: PopupAnchorRef;
-    /** floating-ui middlewares. If set, they will completely overwrite the default middlewares. */
+    /** Floating UI middlewares. If set, they will completely overwrite the default middlewares. */
     middlewares?: Middleware[];
-    /** floating-ui root context to provide interactions */
-    rootContext?: FloatingRootContext<ReferenceType>;
+    /** Floating UI context to provide interactions */
+    floatingContext?: FloatingRootContext<ReferenceType>;
     /** Additional floating element props to provide interactions */
     floatingProps?: Record<string, unknown>;
     /** Do not use `LayerManager` on stacking popups */
@@ -116,11 +117,11 @@ export function Popup({
     hasArrow = false,
     open,
     strategy,
-    placement = 'bottom-start',
+    placement = 'top',
     offset = 4,
     anchorEl,
     anchorRef,
-    rootContext,
+    floatingContext,
     floatingProps,
     disableEscapeKeyDown,
     disableOutsideClick,
@@ -158,8 +159,7 @@ export function Popup({
     const containerRef = React.useRef<HTMLDivElement>(null);
     const [arrowElement, setArrowElement] = React.useState<HTMLElement | null>(null);
 
-    const anchor = getAnchorElementAndRef(anchorEl, anchorRef);
-
+    const anchor = useAnchor(anchorEl, anchorRef);
     const offsetValue = getOffsetValue(offset, hasArrow);
 
     let placementValue: Placement | undefined;
@@ -209,7 +209,7 @@ export function Popup({
         placement: actualPlacement,
         middlewareData,
     } = useFloating({
-        rootContext,
+        floatingContext,
         strategy,
         placement: placementValue,
         open,

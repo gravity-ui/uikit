@@ -14,7 +14,7 @@ import {unstable_RouterProvider as RouterProvider} from '@gravity-ui/uikit/unsta
 The following example shows the general pattern.
 
 ```jsx
-import {useNavigation, useHref} from 'your-router';
+import {useNavigation, createHref} from 'your-router';
 import {Link} from '@gravity-ui/uikit';
 import {unstable_RouterProvider as RouterProvider} from '@gravity-ui/uikit/unstable';
 
@@ -31,7 +31,7 @@ function App() {
   const navigate = useNavigation();
 
   return (
-    <RouterProvider navigate={navigate} useHref={useHref}>
+    <RouterProvider navigate={navigate} createHref={createHref}>
       <Link
         href={{to:"/posts/$postId", params: {postId: '1'}}}
         routerOptions={{replace: true}}
@@ -68,23 +68,54 @@ function App() {
 ### React Router v6
 
 ```jsx
-import {useNavigate, useHref} from 'react-router-dom';
-import {unstable_RouterProvider as RouterProvider} from '@gravity-ui/uikit/unstable';
+import {useNavigate, useHref, createBrowserRouter, RouterProvider} from 'react-router-dom';
+import {unstable_RouterProvider as UIKitRouterProvider} from '@gravity-ui/uikit/unstable';
 
-import type {NavigateOptions} from 'react-router-dom';
+import type {NavigateOptions, To} from 'react-router-dom';
 
 declare module '@gravity-ui/uikit' {
   interface RouterConfig {
+    href: To
     routerOptions: NavigateOptions
   }
 }
 
-function App() {
-  const navigate = useNavigate();
+function withRouterProvider(Component: React.ComponentType) {
+  return function RouterProviderComponent() {
+    const navigate = useNavigate();
+    return (
+      <UIKitRouterProvider navigate={navigate} createHref={useHref}>
+        <Component />
+      </UIKitRouterProvider>
+    );
+  }
+}
 
-  return (
-    <RouterProvider navigate={navigate} useHref={useHref}>{/*...*/}</RouterProvider>
-  );
+const router = createBrowserRouter([
+  {
+    path: '/',
+    Component: withRouterProvider(Layout),
+    children: [
+      {
+        path: '/',
+        Component: withRouterProvider(Home),
+      }
+      {
+        path: 'posts',
+        Component: withRouterProvider(Posts),
+        children: [
+          {
+            path: ':postId',
+            Component: withRouterProvider(Post),
+          }
+        ]
+      },
+    ],
+  },
+]);
+
+function App() {
+  return <RouterProvider router={router} />;
 }
 ```
 
@@ -162,7 +193,7 @@ function App() {
   return (
     <RouterProvider
       router={(to, opts) => router.navigate({...to, ...opts})}
-      useHref={(to) => router.buildLocation(to).href}
+      createHref={(to) => router.buildLocation(to).href}
     >
       {/*...*/}
     </RouterProvider>

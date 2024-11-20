@@ -30,7 +30,7 @@ export const Default = {
         return (
             <RouterProvider
                 navigate={(href, opts) => console.log('Navigate to: ', {href, opts})}
-                useHref={(href: HrefType) =>
+                createHref={(href: HrefType) =>
                     typeof href === 'string' ? href : href.to.replace('$pastId', href.params.pastId)
                 }
             >

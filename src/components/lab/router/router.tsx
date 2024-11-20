@@ -9,21 +9,21 @@ interface RouterProps {
         href: Href,
         routerOptions: RouterOptions | undefined,
     ) => boolean;
-    useHref: (href: Href) => string;
+    useCreateHref: (href: Href, routerOptions?: RouterOptions) => string;
 }
 
 const routerContext = React.createContext<RouterProps>({
     openLink: () => false,
-    useHref: (href) => href,
+    useCreateHref: (href) => href,
 });
 
 export interface RouterProviderProps {
     navigate: (href: Href, routerOptions: RouterOptions | undefined) => void;
-    useHref?: (href: Href) => string;
+    createHref?: (href: Href, routerOptions?: RouterOptions) => string;
     children: React.ReactNode;
 }
 
-export function RouterProvider({navigate, useHref, children}: RouterProviderProps) {
+export function RouterProvider({navigate, createHref, children}: RouterProviderProps) {
     const value: RouterProps = React.useMemo(
         () => ({
             openLink: (link, modifiers, href, routerOptions) => {
@@ -33,9 +33,9 @@ export function RouterProvider({navigate, useHref, children}: RouterProviderProp
                 }
                 return false;
             },
-            useHref: useHref || ((href: Href) => href),
+            useCreateHref: createHref || ((href: Href) => href),
         }),
-        [navigate, useHref],
+        [navigate, createHref],
     );
 
     return <routerContext.Provider value={value}>{children}</routerContext.Provider>;
@@ -89,8 +89,8 @@ interface LinkProps {
 }
 
 export function useLinkProps(props: LinkProps) {
-    const {useHref, openLink} = useRouter();
-    const href = useHref(props.href ?? '');
+    const {useCreateHref, openLink} = useRouter();
+    const href = useCreateHref(props.href ?? '', props.routerOptions);
     return {
         href: props.href ? href : undefined,
         hrefLang: props.hrefLang,

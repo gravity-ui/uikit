@@ -13,6 +13,7 @@ interface BreadcrumbProps extends BreadcrumbsItemProps {
     current?: boolean;
     itemType?: 'link' | 'menu';
     disabled?: boolean;
+    disabledLink?: boolean;
     navigate?: (href: Href, routerOptions: RouterOptions | undefined) => void;
 }
 export function BreadcrumbItem(props: BreadcrumbProps) {
@@ -25,7 +26,7 @@ export function BreadcrumbItem(props: BreadcrumbProps) {
     }
 
     const handleAction = (event: React.MouseEvent | React.KeyboardEvent) => {
-        if (props.disabled || props.current) {
+        if (props.disabled) {
             event.preventDefault();
             return;
         }
@@ -43,11 +44,11 @@ export function BreadcrumbItem(props: BreadcrumbProps) {
         }
     };
 
-    const isDisabled = props.disabled || props.current;
     let linkProps: React.AnchorHTMLAttributes<HTMLElement> = {
         title,
         onClick: handleAction,
-        'aria-disabled': isDisabled ? true : undefined,
+        'aria-current': props.current ? 'page' : undefined,
+        'aria-disabled': props.disabled ? true : undefined,
     };
     if (Element === 'a') {
         linkProps.href = props.href;
@@ -59,16 +60,12 @@ export function BreadcrumbItem(props: BreadcrumbProps) {
         linkProps.referrerPolicy = props.referrerPolicy;
     } else {
         linkProps.role = 'link';
-        linkProps.tabIndex = isDisabled ? undefined : 0;
+        linkProps.tabIndex = props.disabled ? undefined : 0;
         linkProps.onKeyDown = (event: React.KeyboardEvent) => {
             if (event.key === 'Enter') {
                 handleAction(event);
             }
         };
-    }
-
-    if (props.current) {
-        linkProps['aria-current'] = 'page';
     }
 
     if (props.itemType === 'menu') {
@@ -84,7 +81,7 @@ export function BreadcrumbItem(props: BreadcrumbProps) {
                     ? b('menu')
                     : b('link', {
                           'is-current': props.current,
-                          'is-disabled': isDisabled && !props.current,
+                          'is-disabled': props.disabledLink,
                       })
             }
         >

@@ -282,3 +282,37 @@ it('should support RouterProvider', async () => {
     await userEvent.click(items[1]);
     expect(navigate).toHaveBeenCalledWith('/foo', {foo: 'foo'});
 });
+
+it('should disable all items', () => {
+    render(
+        <Breadcrumbs disabled>
+            <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 2</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 3</Breadcrumbs.Item>
+        </Breadcrumbs>,
+    );
+
+    const item1 = screen.getByText('Folder 1');
+    expect(item1.tabIndex).toBe(-1);
+    expect(item1).toHaveAttribute('aria-disabled', 'true');
+    const item2 = screen.getByText('Folder 2');
+    expect(item2.tabIndex).toBe(-1);
+    expect(item2).toHaveAttribute('aria-disabled', 'true');
+    const item3 = screen.getByText('Folder 3');
+    expect(item3.tabIndex).toBe(-1);
+    expect(item3).toHaveAttribute('aria-disabled', 'true');
+});
+
+it('should not disable current item', () => {
+    render(
+        <Breadcrumbs disabledCurrent={false}>
+            <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 2</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 3</Breadcrumbs.Item>
+        </Breadcrumbs>,
+    );
+
+    const item3 = screen.getByText('Folder 3');
+    expect(item3.tabIndex).toBe(0);
+    expect(item3).not.toHaveAttribute('aria-disabled');
+});

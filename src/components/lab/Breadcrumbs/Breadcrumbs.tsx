@@ -44,6 +44,7 @@ export interface BreadcrumbsProps extends DOMProps, AriaLabelingProps, QAProps {
     children: React.ReactElement<BreadcrumbsItemProps> | React.ReactElement<BreadcrumbsItemProps>[];
     navigate?: (href: Href, routerOptions: RouterOptions | undefined) => void;
     disabled?: boolean;
+    disabledCurrent?: boolean;
     onAction?: (key: Key) => void;
 }
 
@@ -222,6 +223,7 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
     }
 
     const lastIndex = contents.length - 1;
+    const disabledCurrent = props.disabledCurrent ?? true;
     const breadcrumbItems = contents.map((child, index) => {
         const isCurrent = index === lastIndex;
         const key = child.key ?? index;
@@ -237,7 +239,8 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
                     {...child.props}
                     key={key}
                     current={isCurrent}
-                    disabled={props.disabled}
+                    disabled={props.disabled || (isCurrent && disabledCurrent)}
+                    disabledLink={props.disabled}
                     onAction={handleAction}
                     navigate={navigate}
                 >

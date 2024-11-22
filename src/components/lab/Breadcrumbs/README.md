@@ -471,23 +471,24 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name             | Description                                                           | Type                                       | Default |
-| :--------------- | :-------------------------------------------------------------------- | :----------------------------------------- | :------ |
-| children         | Breadcrumb items.                                                     | `React.ReactElement<BreadcrumbsItemProps>` |         |
-| disabled         | Whether the Breadcrumbs are disabled.                                 | `boolean`                                  |         |
-| showRoot         | Whether to always show the root item if the items are collapsed.      | `boolean`                                  |         |
-| popupPlacement   | Style of collapsed item popup.                                        | `PopupPlacement`                           |         |
-| popupStyle       | Style of collapsed item popup.                                        | `"staircase"`                              |         |
-| qa               | HTML `data-qa` attribute, used in tests.                              | `string`                                   |         |
-| separator        | Custom separator node.                                                | `React.ReactNode`                          | "/"     |
-| action           | `click` event handler.                                                | `(id: Key) => void`                        |         |
-| navigate         | client side navigation.                                               | `(href: string) => void`                   |         |
-| id               | The element's unique identifier.                                      | `string`                                   |         |
-| className        | CSS class name for the element.                                       | `string`                                   |         |
-| style            | Sets inline style for the element.                                    | `CSSProperties`                            |         |
-| aria-label       | Defines a string value that labels the current element.               | `string`                                   |         |
-| aria-labelledby  | Identifies the element (or elements) that labels the current element. | `string`                                   |         |
-| aria-describedby | Identifies the element (or elements) that describes the object.       | `string`                                   |         |
+| Name             | Description                                                                      | Type                                       | Default |
+| :--------------- | :------------------------------------------------------------------------------- | :----------------------------------------- | :------ |
+| children         | Breadcrumb items.                                                                | `React.ReactElement<BreadcrumbsItemProps>` |         |
+| disabled         | Whether the Breadcrumbs are disabled.                                            | `boolean`                                  |         |
+| disabledCurrent  | Whether to disable the last item (only if the component itself is not disabled). | `boolean`                                  | `true`  |
+| showRoot         | Whether to always show the root item if the items are collapsed.                 | `boolean`                                  |         |
+| popupPlacement   | Style of collapsed item popup.                                                   | `PopupPlacement`                           |         |
+| popupStyle       | Style of collapsed item popup.                                                   | `"staircase"`                              |         |
+| qa               | HTML `data-qa` attribute, used in tests.                                         | `string`                                   |         |
+| separator        | Custom separator node.                                                           | `React.ReactNode`                          | "/"     |
+| action           | `click` event handler.                                                           | `(id: Key) => void`                        |         |
+| navigate         | client side navigation.                                                          | `(href: string) => void`                   |         |
+| id               | The element's unique identifier.                                                 | `string`                                   |         |
+| className        | CSS class name for the element.                                                  | `string`                                   |         |
+| style            | Sets inline style for the element.                                               | `CSSProperties`                            |         |
+| aria-label       | Defines a string value that labels the current element.                          | `string`                                   |         |
+| aria-labelledby  | Identifies the element (or elements) that labels the current element.            | `string`                                   |         |
+| aria-describedby | Identifies the element (or elements) that describes the object.                  | `string`                                   |         |
 
 ### BreadcrumbsItemProps
 

@@ -31,7 +31,8 @@
         "import/no-extraneous-dependencies": "off",
         "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
         "@typescript-eslint/prefer-ts-expect-error": "error",
-        "@typescript-eslint/consistent-type-imports": ["error", {"prefer":  "type-imports", "fixStyle": "separate-type-imports"}]
+        "@typescript-eslint/consistent-type-imports": ["error", {"prefer":  "type-imports", "fixStyle": "separate-type-imports"}],
+        "complexity": "off"
     },
     "overrides": [
         {

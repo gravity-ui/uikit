@@ -178,7 +178,6 @@ const isButtonIconComponent = isOfType(ButtonIcon);
 const isSpan = isOfType<{className?: string}>('span');
 const buttonIconClassRe = RegExp(`^${b('icon')}($|\\s+\\w)`);
 
-// eslint-disable-next-line complexity
 function prepareChildren(children: React.ReactNode) {
     const items = React.Children.toArray(children);
 

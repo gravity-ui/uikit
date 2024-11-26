@@ -469,6 +469,62 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
+### Disabled items
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Breadcrumbs>
+    <Breadcrumbs.Item href="#Region">Region</Breadcrumbs.Item>
+    <Breadcrumbs.Item href="#Country" disabled>
+        Country
+    </Breadcrumbs.Item>
+    <Breadcrumbs.Item href="#City">City</Breadcrumbs.Item>
+    <Breadcrumbs.Item href="#District">District</Breadcrumbs.Item>
+    <Breadcrumbs.Item href="#Street" disabled>
+        Street
+    </Breadcrumbs.Item>
+</Breadcrumbs>
+`}
+>
+    <UIKit.Breadcrumbs>
+        <UIKit.Breadcrumbs.Item href="#Region">Region</UIKit.Breadcrumbs.Item>
+        <UIKit.Breadcrumbs.Item href="#Country" disabled>
+            Country
+        </UIKit.Breadcrumbs.Item>
+        <UIKit.Breadcrumbs.Item href="#City">City</UIKit.Breadcrumbs.Item>
+        <UIKit.Breadcrumbs.Item href="#District">District</UIKit.Breadcrumbs.Item>
+        <UIKit.Breadcrumbs.Item href="#Street" disabled>
+            Street
+        </UIKit.Breadcrumbs.Item>
+    </UIKit.Breadcrumbs>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```jsx
+<Breadcrumbs>
+  <Breadcrumbs.Item href="#Region">Region</Breadcrumbs.Item>
+  <Breadcrumbs.Item href="#Country" disabled>
+    Country
+  </Breadcrumbs.Item>
+  <Breadcrumbs.Item href="#City">City</Breadcrumbs.Item>
+  <Breadcrumbs.Item href="#District">District</Breadcrumbs.Item>
+  <Breadcrumbs.Item href="#Street" disabled>
+    Street
+  </Breadcrumbs.Item>
+</Breadcrumbs>
+```
+
+<!-- Storybook example -->
+
+<BreadcrumbsDisabledItems />
+
+<!--/GITHUB_BLOCK-->
+
 ## Properties
 
 | Name             | Description                                                           | Type                                       | Default |
@@ -499,3 +555,4 @@ LANDING_BLOCK-->
 | href       | A URL to link to.                                                  | `string`                          |         |
 | target     | The target window for the link.                                    | `React.HTMLAttributeAnchorTarget` |         |
 | rel        | The relationship between the linked resource and the current page. | `string`                          |         |
+| disabled   | Whether the BreadcrumbsItem is disabled.                           | `boolean`                         |         |

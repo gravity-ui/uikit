@@ -14,7 +14,7 @@ The `Popup` child components are rendered inside the [`Portal`](../Portal) compo
 
 ## Anchor
 
-To specify the anchor of a floating element, you can use either the `anchorEl` property.
+To specify the anchor of a floating element, you can use either the `anchorElement` property.
 
 <!--LANDING_BLOCK
 
@@ -26,7 +26,7 @@ const [open, setOpen] = React.useState(false);
 <Button ref={buttonRef} onClick={() => setOpen((prevOpen) => !prevOpen)}>
   Toggle Popup
 </Button>
-<Popup anchorEl={buttonRef.current} open={open} placement="bottom">
+<Popup anchorElement={buttonRef.current} open={open} placement="bottom">
   Content
 </Popup>
 `}>
@@ -44,7 +44,7 @@ const [open, setOpen] = React.useState(false);
 <Button ref={buttonRef} onClick={() => setOpen((prevOpen) => !prevOpen)}>
   Toggle Popup
 </Button>
-<Popup anchorEl={buttonRef.current} open={open} placement="bottom">
+<Popup anchorElement={buttonRef.current} open={open} placement="bottom">
   Content
 </Popup>
 ```
@@ -65,18 +65,18 @@ It is also acceptable to use the values `auto`, `auto-start`, `auto-end` to use 
 const boxRef = React.useRef(null);
 
 <div ref={boxRef} />
-<Popup open anchorEl={boxRef.current} placement="top-start">Top Start</Popup>
-<Popup open anchorEl={boxRef.current} placement="top">Top</Popup>
-<Popup open anchorEl={boxRef.current} placement="top-end">Top End</Popup>
-<Popup open anchorEl={boxRef.current} placement="right-start">Right Start</Popup>
-<Popup open anchorEl={boxRef.current} placement="right">Right</Popup>
-<Popup open anchorEl={boxRef.current} placement="right-end">Right End</Popup>
-<Popup open anchorEl={boxRef.current} placement="bottom-end">Bottom End</Popup>
-<Popup open anchorEl={boxRef.current} placement="bottom">Bottom</Popup>
-<Popup open anchorEl={boxRef.current} placement="bottom-start">Bottom Start</Popup>
-<Popup open anchorEl={boxRef.current} placement="left-end">Left End</Popup>
-<Popup open anchorEl={boxRef.current} placement="left">Left</Popup>
-<Popup open anchorEl={boxRef.current} placement="left-start">Left Start</Popup>
+<Popup open anchorElement={boxRef.current} placement="top-start">Top Start</Popup>
+<Popup open anchorElement={boxRef.current} placement="top">Top</Popup>
+<Popup open anchorElement={boxRef.current} placement="top-end">Top End</Popup>
+<Popup open anchorElement={boxRef.current} placement="right-start">Right Start</Popup>
+<Popup open anchorElement={boxRef.current} placement="right">Right</Popup>
+<Popup open anchorElement={boxRef.current} placement="right-end">Right End</Popup>
+<Popup open anchorElement={boxRef.current} placement="bottom-end">Bottom End</Popup>
+<Popup open anchorElement={boxRef.current} placement="bottom">Bottom</Popup>
+<Popup open anchorElement={boxRef.current} placement="bottom-start">Bottom Start</Popup>
+<Popup open anchorElement={boxRef.current} placement="left-end">Left End</Popup>
+<Popup open anchorElement={boxRef.current} placement="left">Left</Popup>
+<Popup open anchorElement={boxRef.current} placement="left-start">Left Start</Popup>
 `}>
     <UIKitExamples.PopupPlacementExample/>
 </ExampleBlock>
@@ -87,7 +87,7 @@ LANDING_BLOCK-->
 
 | Name                 | Description                                                                                |                             Type                              |             Default              |
 | :------------------- | :----------------------------------------------------------------------------------------- | :-----------------------------------------------------------: | :------------------------------: |
-| anchorEl             | Anchor element. Can also be `VirtualElement`                                               |                     `PopupAnchorElement`                      |                                  |
+| anchorElement        | Anchor element. Can also be `VirtualElement`                                               |                     `PopupAnchorElement`                      |                                  |
 | autoFocus            | While open, the focus will be set to the first interactive element in the content          |                           `boolean`                           |             `false`              |
 | children             | Any React content                                                                          |                       `React.ReactNode`                       |                                  |
 | className            | HTML `class` attribute for root node                                                       |                           `string`                            |                                  |

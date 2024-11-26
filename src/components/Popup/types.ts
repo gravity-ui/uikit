@@ -2,7 +2,9 @@ import type {OffsetOptions, Placement, VirtualElement} from '@floating-ui/react'
 
 import type {AUTO_PLACEMENTS} from './constants';
 
-export type PopupPlacement = (typeof AUTO_PLACEMENTS)[number] | Placement | Placement[];
+export type AutoPlacement = (typeof AUTO_PLACEMENTS)[number];
+
+export type PopupPlacement = AutoPlacement | Placement | Placement[];
 
 export type PopupAnchorElement = Element | VirtualElement;
 

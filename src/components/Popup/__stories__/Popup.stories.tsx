@@ -27,7 +27,7 @@ export const Default: Story = {
                 <Popup
                     {...props}
                     open={open}
-                    anchorEl={anchorRef.current}
+                    anchorElement={anchorRef.current}
                     onClose={() => setOpen(false)}
                 >
                     <div style={{padding: 10}}>Popup content</div>

@@ -33,10 +33,9 @@ import type {LayerExtendableProps} from '../utils/layer-manager/LayerManager';
 import {getCSSTransitionClassNames} from '../utils/transition';
 
 import {PopupArrow} from './PopupArrow';
-import {AUTO_PLACEMENTS} from './constants';
 import {useAnchor} from './hooks';
 import type {PopupAnchorElement, PopupAnchorRef, PopupOffset, PopupPlacement} from './types';
-import {getOffsetValue} from './utils';
+import {getOffsetValue, isAutoPlacement} from './utils';
 
 import './Popup.scss';
 
@@ -55,7 +54,7 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, QAProps {
     /** floating element offset relative to anchor */
     offset?: PopupOffset;
     /** floating element anchor */
-    anchorEl?: PopupAnchorElement | null;
+    anchorElement?: PopupAnchorElement | null;
     /** floating element anchor ref object */
     anchorRef?: PopupAnchorRef;
     /** Floating UI middlewares. If set, they will completely overwrite the default middlewares. */
@@ -119,7 +118,7 @@ export function Popup({
     strategy,
     placement = 'top',
     offset = 4,
-    anchorEl,
+    anchorElement,
     anchorRef,
     floatingContext,
     floatingProps,
@@ -159,19 +158,19 @@ export function Popup({
     const containerRef = React.useRef<HTMLDivElement>(null);
     const [arrowElement, setArrowElement] = React.useState<HTMLElement | null>(null);
 
-    const anchor = useAnchor(anchorEl, anchorRef);
+    const anchor = useAnchor(anchorElement, anchorRef);
     const offsetValue = getOffsetValue(offset, hasArrow);
 
     let placementValue: Placement | undefined;
     let preventOverflowMiddleware: Middleware;
 
-    if (placement instanceof Array) {
+    if (Array.isArray(placement)) {
         placementValue = placement[0];
         preventOverflowMiddleware = flip({
             altBoundary: disablePortal,
             fallbackPlacements: placement.slice(1),
         });
-    } else if ((AUTO_PLACEMENTS as readonly string[]).indexOf(placement) > -1) {
+    } else if (isAutoPlacement(placement)) {
         let alignment: Alignment | undefined;
         if (placement === 'auto-start') {
             alignment = 'start';
@@ -185,7 +184,7 @@ export function Popup({
             alignment,
         });
     } else {
-        placementValue = placement as Placement;
+        placementValue = placement;
         preventOverflowMiddleware = flip({
             altBoundary: disablePortal,
         });
@@ -209,7 +208,7 @@ export function Popup({
         placement: actualPlacement,
         middlewareData,
     } = useFloating({
-        floatingContext,
+        rootContext: floatingContext,
         strategy,
         placement: placementValue,
         open,
@@ -230,10 +229,8 @@ export function Popup({
 
     if (hasArrow && middlewareData.arrow) {
         const {x, y} = middlewareData.arrow;
-        Object.assign(arrowStyles, {
-            left: x === undefined ? '' : `${x}px`,
-            top: y === undefined ? '' : `${y}px`,
-        });
+        arrowStyles.left = x;
+        arrowStyles.top = y;
     }
 
     const handleRef = useForkRef<HTMLDivElement>(

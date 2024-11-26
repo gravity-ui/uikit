@@ -59,7 +59,7 @@ export const Tooltip = (props: TooltipProps) => {
                 style={style}
                 open={tooltipVisible && !disabled}
                 placement={placement}
-                anchorEl={anchorElement}
+                anchorElement={anchorElement}
                 disablePortal={disablePortal}
                 disableEscapeKeyDown
                 disableOutsideClick

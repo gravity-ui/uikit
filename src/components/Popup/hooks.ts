@@ -3,19 +3,19 @@ import React from 'react';
 import type {PopupAnchorElement, PopupAnchorRef} from './types';
 
 export function useAnchor(
-    anchorEl: PopupAnchorElement | null | undefined,
+    anchorElement: PopupAnchorElement | null | undefined,
     anchorRef: PopupAnchorRef | undefined,
 ): {
     element: PopupAnchorElement | null | undefined;
     ref: PopupAnchorRef | undefined;
 } {
-    const anchorElementRef = React.useRef(anchorEl ?? null);
+    const anchorElementRef = React.useRef(anchorElement ?? null);
     React.useEffect(() => {
-        anchorElementRef.current = anchorEl ?? null;
-    }, [anchorEl]);
+        anchorElementRef.current = anchorElement ?? null;
+    }, [anchorElement]);
 
-    if (anchorEl !== undefined) {
-        return {element: anchorEl, ref: anchorElementRef};
+    if (anchorElement !== undefined) {
+        return {element: anchorElement, ref: anchorElementRef};
     } else if (anchorRef) {
         return {element: anchorRef.current, ref: anchorRef};
     }

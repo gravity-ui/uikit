@@ -124,7 +124,7 @@ export type PopoverDefaultProps = {
 
 export type PopoverProps = Pick<
     PopupProps,
-    'anchorEl' | 'anchorRef' | 'strategy' | 'placement' | 'middlewares'
+    'anchorElement' | 'anchorRef' | 'strategy' | 'placement' | 'middlewares'
 > &
     PopoverExternalProps &
     PopoverBehaviorProps &

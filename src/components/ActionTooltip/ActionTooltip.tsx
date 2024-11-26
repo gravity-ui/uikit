@@ -60,7 +60,7 @@ export function ActionTooltip(props: ActionTooltipProps) {
                 style={style}
                 open={tooltipVisible && !disabled}
                 placement={placement}
-                anchorEl={anchorElement}
+                anchorElement={anchorElement}
                 disableEscapeKeyDown
                 disableOutsideClick
                 disableLayer

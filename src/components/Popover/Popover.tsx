@@ -56,7 +56,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
         onCloseClick,
         onClick,
         anchorRef,
-        anchorEl,
+        anchorElement,
         strategy,
         qa,
         disablePortal = false,
@@ -117,7 +117,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
 
     const hasTitle = Boolean(title);
 
-    const hasAnchor = Boolean(anchorRef || anchorEl);
+    const hasAnchor = Boolean(anchorRef || anchorElement);
 
     const popoverTitleId = `popover-${tooltipId ?? ''}-title-${useUniqId()}`;
 
@@ -126,7 +126,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
             id={tooltipId}
             role={openOnHover ? 'tooltip' : 'dialog'}
             strategy={strategy}
-            anchorEl={anchorEl}
+            anchorElement={anchorElement}
             anchorRef={anchorRef || controlRef}
             className={cnPopover(
                 'tooltip',

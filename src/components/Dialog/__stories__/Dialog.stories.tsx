@@ -15,10 +15,17 @@ export default {
         showError: {
             type: 'boolean',
         },
+        headerCaption: {
+            type: 'string',
+        },
     },
 } as Meta<DialogProps>;
 
-const DefaultTemplate: StoryFn<DialogProps & {showError: boolean}> = ({showError, ...args}) => {
+const DefaultTemplate: StoryFn<DialogProps & {showError: boolean; headerCaption: string}> = ({
+    showError,
+    headerCaption = 'Caption',
+    ...args
+}) => {
     const dialogTitleId = 'app-confirmation-dialog-title';
     const [open, setOpen] = React.useState(false);
     return (
@@ -35,7 +42,7 @@ const DefaultTemplate: StoryFn<DialogProps & {showError: boolean}> = ({showError
                 }}
                 aria-labelledby={dialogTitleId}
             >
-                <Dialog.Header caption="Caption" id={dialogTitleId} />
+                <Dialog.Header caption={headerCaption} id={dialogTitleId} />
                 <Dialog.Body>Dialog.Body</Dialog.Body>
                 <Dialog.Footer
                     onClickButtonCancel={() => setOpen(false)}

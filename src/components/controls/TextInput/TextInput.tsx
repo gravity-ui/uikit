@@ -62,7 +62,6 @@ export type TextInputSize = InputControlSize;
 export type TextInputView = InputControlView;
 
 export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
-    // eslint-disable-next-line complexity
     function TextInput(props, ref) {
         const {
             view = 'normal',

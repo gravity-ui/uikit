@@ -4,9 +4,9 @@ import type * as React from 'react';
 
 import {Gear} from '@gravity-ui/icons';
 
-import type {PopperPlacement} from '../../hooks/private';
 import {Button} from '../Button';
 import {Icon} from '../Icon';
+import type {PopupPlacement} from '../Popup';
 import type {TableColumnConfig} from '../Table/Table';
 import type {TableColumnSetupItem as NewTableColumnSetupItem} from '../Table/hoc/withTableSettings/TableColumnSetup/TableColumnSetup';
 import {TableColumnSetup as NewTableColumnSetup} from '../Table/hoc/withTableSettings/TableColumnSetup/TableColumnSetup';
@@ -48,7 +48,7 @@ export interface TableColumnSetupProps {
 
     onUpdate: (updated: Item[]) => void;
     popupWidth?: number | 'fit' | undefined;
-    popupPlacement?: PopperPlacement;
+    popupPlacement?: PopupPlacement;
     getItemTitle?: (item: Item) => TableColumnSetupItem['title'];
     showStatus?: boolean;
     className?: string;

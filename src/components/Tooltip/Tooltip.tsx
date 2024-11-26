@@ -8,13 +8,14 @@ import type {TooltipDelayProps} from '../../hooks/private';
 import {Popup} from '../Popup';
 import type {PopupPlacement} from '../Popup';
 import {Text} from '../Text';
-import type {DOMProps, QAProps} from '../types';
+import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
+import {filterDOMProps} from '../utils/filterDOMProps';
 import {getElementRef} from '../utils/getElementRef';
 
 import './Tooltip.scss';
 
-export interface TooltipProps extends QAProps, DOMProps, TooltipDelayProps {
+export interface TooltipProps extends AriaLabelingProps, QAProps, DOMProps, TooltipDelayProps {
     id?: string;
     disabled?: boolean;
     content?: React.ReactNode;
@@ -41,6 +42,7 @@ export const Tooltip = (props: TooltipProps) => {
         contentClassName,
         openDelay = 1000,
         closeDelay,
+        ...otherProps
     } = props;
 
     const [anchorElement, setAnchorElement] = React.useState<HTMLElement | null>(null);
@@ -53,6 +55,7 @@ export const Tooltip = (props: TooltipProps) => {
     const renderPopup = () => {
         return (
             <Popup
+                {...filterDOMProps(otherProps, {labelable: true})}
                 id={id}
                 role="tooltip"
                 className={b(null, className)}

@@ -23,64 +23,81 @@
         "type": "git",
         "url": "https://github.com/gravity-ui/uikit"
     },
+    "type": "commonjs",
     "exports": {
         ".": {
-            "types": "./build/esm/index.d.ts",
-            "require": "./build/cjs/index.js",
-            "import": "./build/esm/index.js"
+            "import": {
+                "types": "./build/esm/index.d.ts",
+                "default": "./build/esm/index.js"
+            },
+            "require": {
+                "types": "./build/cjs/index.d.ts",
+                "default": "./build/cjs/index.js"
+            }
         },
         "./toaster-singleton": {
-            "types": "./build/esm/toaster-singleton.d.ts",
-            "require": "./build/cjs/toaster-singleton.js",
-            "import": "./build/esm/toaster-singleton.js"
+            "import": {
+                "types": "./build/esm/toaster-singleton.d.ts",
+                "default": "./build/esm/toaster-singleton.js"
+            },
+            "require": {
+                "types": "./build/cjs/toaster-singleton.d.ts",
+                "default": "./build/cjs/toaster-singleton.js"
+            }
         },
         "./toaster-singleton-react-18": {
-            "types": "./build/esm/toaster-singleton-react-18.d.ts",
-            "require": "./build/cjs/toaster-singleton-react-18.js",
-            "import": "./build/esm/toaster-singleton-react-18.js"
+            "import": {
+                "types": "./build/esm/toaster-singleton-react-18.d.ts",
+                "default": "./build/esm/toaster-singleton-react-18.js"
+            },
+            "require": {
+                "types": "./build/cjs/toaster-singleton-react-18.d.ts",
+                "default": "./build/cjs/toaster-singleton-react-18.js"
+            }
         },
         "./i18n": {
-            "types": "./build/esm/i18n/index.d.ts",
-            "require": "./build/cjs/i18n/index.js",
-            "import": "./build/esm/i18n/index.js"
+            "node": {
+                "types": "./build/cjs/server.d.ts",
+                "default": "./build/cjs/server.js"
+            },
+            "import": {
+                "types": "./build/esm/i18n/index.d.ts",
+                "default": "./build/esm/i18n/index.js"
+            },
+            "require": {
+                "types": "./build/cjs/i18n/index.d.ts",
+                "default": "./build/cjs/i18n/index.js"
+            }
         },
         "./unstable": {
-            "types": "./build/esm/unstable.d.ts",
-            "require": "./build/cjs/unstable.js",
-            "import": "./build/esm/unstable.js"
+            "import": {
+                "types": "./build/esm/unstable.d.ts",
+                "default": "./build/esm/unstable.js"
+            },
+            "require": {
+                "types": "./build/cjs/unstable.d.ts",
+                "default": "./build/cjs/unstable.js"
+            }
         },
         "./server": {
-            "types": "./build/esm/server.d.ts",
-            "require": "./build/cjs/server.js",
-            "import": "./build/esm/server.js"
+            "node": {
+                "types": "./build/cjs/server.d.ts",
+                "default": "./build/cjs/server.js"
+            },
+            "import": {
+                "types": "./build/esm/server.d.ts",
+                "default": "./build/esm/server.js"
+            },
+            "require": {
+                "types": "./build/cjs/server.d.ts",
+                "default": "./build/cjs/server.js"
+            }
         },
         "./styles/*": "./styles/*"
     },
     "main": "./build/cjs/index.js",
+    "types": "./build/cjs/index.d.ts",
     "module": "./build/esm/index.js",
-    "types": "./build/esm/index.d.ts",
-    "typesVersions": {
-        "*": {
-            "index.d.ts": [
-                "./build/esm/index.d.ts"
-            ],
-            "toaster-singleton": [
-                "./build/esm/toaster-singleton.d.ts"
-            ],
-            "toaster-singleton-react-18": [
-                "./build/esm/toaster-singleton-react-18.d.ts"
-            ],
-            "i18n": [
-                "./build/esm/i18n/index.d.ts"
-            ],
-            "unstable": [
-                "./build/esm/unstable.d.ts"
-            ],
-            "server": [
-                "./build/esm/server.d.ts"
-            ]
-        }
-    },
     "sideEffects": [
         "*.css",
         "*.scss"

@@ -14,13 +14,7 @@ interface PopupArrowProps {
 
 export function PopupArrow({styles, attributes, setArrowRef}: PopupArrowProps) {
     return (
-        <div
-            data-popper-arrow
-            ref={setArrowRef}
-            className={b('arrow')}
-            style={styles}
-            {...attributes}
-        >
+        <div ref={setArrowRef} className={b('arrow')} style={styles} {...attributes}>
             <div className={b('arrow-content')}>
                 <div className={b('arrow-circle-wrapper')}>
                     <div className={b('arrow-circle', {left: true})}></div>

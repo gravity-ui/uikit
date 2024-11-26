@@ -2,20 +2,20 @@
 
 import * as React from 'react';
 
-import type {PopperPlacement} from '../../../../hooks/private';
 import {Popup} from '../../../Popup';
+import type {PopupPlacement} from '../../../Popup';
 import {Sheet} from '../../../Sheet';
 import {block} from '../../../utils/cn';
-import {BORDER_WIDTH, SelectQa} from '../../constants';
+import {SelectQa} from '../../constants';
 
-import {getModifiers} from './modifiers';
+import {getMiddlewares} from './middlewares';
 import type {SelectPopupProps} from './types';
 
 import './SelectPopup.scss';
 
 const b = block('select-popup');
 
-const DEFAULT_PLACEMENT: PopperPlacement = ['bottom-start', 'bottom-end', 'top-start', 'top-end'];
+const DEFAULT_PLACEMENT: PopupPlacement = ['bottom-start', 'bottom-end', 'top-start', 'top-end'];
 
 export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
     (
@@ -50,13 +50,12 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
                 qa={SelectQa.POPUP}
                 anchorRef={ref as React.RefObject<HTMLDivElement>}
                 placement={placement}
-                offset={[BORDER_WIDTH, BORDER_WIDTH]}
                 open={open}
                 onClose={handleClose}
                 disablePortal={disablePortal}
                 restoreFocus
                 restoreFocusRef={controlRef}
-                modifiers={getModifiers({width, disablePortal, virtualized})}
+                middlewares={getMiddlewares({width, disablePortal, virtualized})}
                 id={id}
                 onTransitionExited={onAfterClose}
             >

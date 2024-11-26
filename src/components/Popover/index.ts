@@ -4,5 +4,6 @@ export type {
     PopoverProps,
     PopoverInstanceProps,
     PopoverAnchorRef,
+    PopoverAnchorElement,
 } from './types';
 export {PopoverBehavior} from './config';

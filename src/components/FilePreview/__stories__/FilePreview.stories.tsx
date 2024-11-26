@@ -100,6 +100,14 @@ const CollageTemplate: StoryFn<FilePreviewProps> = () => {
 
 export const Collage = CollageTemplate.bind({});
 
+const noClickableTemplateActions = [
+    {
+        icon: <Xmark width={14} height={14} />,
+        onClick: () => action('Are you sure you want to delete the file?'),
+        title: 'Close',
+    },
+];
+
 const NoClickableTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> = (args) => {
     return (
         <Flex gap={4}>
@@ -107,31 +115,30 @@ const NoClickableTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> = (args) =
             <FilePreview
                 {...args}
                 file={{name: 'No clickable with actions', type: 'text/docs'} as File}
-                actions={[
-                    {
-                        icon: <Xmark width={14} height={14} />,
-                        onClick: () => action('Are you sure you want to delete the file?'),
-                        title: 'Close',
-                    },
-                ]}
+                actions={noClickableTemplateActions}
             />
             <FilePreview
                 {...args}
                 file={{name: 'Clickable with actions', type: 'text/docs'} as File}
                 onClick={() => action('onClick')}
-                actions={[
-                    {
-                        icon: <Xmark width={14} height={14} />,
-                        onClick: () => action('Are you sure you want to delete the file?'),
-                        title: 'Close',
-                    },
-                ]}
+                actions={noClickableTemplateActions}
             />
         </Flex>
     );
 };
 
 export const NoClickable = NoClickableTemplate.bind({});
+
+const withoutActionTooltipTemplateActions = [
+    {
+        icon: <Xmark width={14} height={14} />,
+        onClick: () => action('onClose'),
+        title: 'Close',
+        tooltipExtraProps: {
+            disabled: true,
+        },
+    },
+];
 
 const WithoutActionTooltipTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> = (args) => {
     return (
@@ -140,16 +147,7 @@ const WithoutActionTooltipTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> =
                 {...args}
                 file={{name: 'Clicable without tooltip', type: 'text/docs'} as File}
                 onClick={() => action('onClick')}
-                actions={[
-                    {
-                        icon: <Xmark width={14} height={14} />,
-                        onClick: () => action('onClose'),
-                        title: 'Close',
-                        tooltipExtraProps: {
-                            disabled: true,
-                        },
-                    },
-                ]}
+                actions={withoutActionTooltipTemplateActions}
             />
         </Flex>
     );

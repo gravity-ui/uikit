@@ -142,6 +142,7 @@ export const DropdownMenuPopup = <T,>({
             open={open}
             anchorRef={anchorRef}
             onClose={onClose}
+            placement="bottom-start"
             {...popupProps}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}

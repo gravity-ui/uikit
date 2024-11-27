@@ -1,5 +1,13 @@
 # Changelog
 
+## [6.37.0](https://github.com/gravity-ui/uikit/compare/v6.36.0...v6.37.0) (2024-11-27)
+
+
+### Features
+
+* **Breadcrunbs:** allow items to be disabled independently ([#1962](https://github.com/gravity-ui/uikit/issues/1962)) ([301e4ab](https://github.com/gravity-ui/uikit/commit/301e4ab365639188e010390d5b19da1df13d75fa))
+* **Select:** new label and value resize behaviour ([#1896](https://github.com/gravity-ui/uikit/issues/1896)) ([2be5eb8](https://github.com/gravity-ui/uikit/commit/2be5eb8dc21679154bbb924af5e1e1eefa8a7a58))
+
 ## [6.36.0](https://github.com/gravity-ui/uikit/compare/v6.35.2...v6.36.0) (2024-11-25)
 
 

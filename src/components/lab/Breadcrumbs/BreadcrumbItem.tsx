@@ -25,7 +25,7 @@ export function BreadcrumbItem(props: BreadcrumbProps) {
     }
 
     const handleAction = (event: React.MouseEvent | React.KeyboardEvent) => {
-        if (props.disabled || props.current) {
+        if (props.disabled) {
             event.preventDefault();
             return;
         }
@@ -43,7 +43,7 @@ export function BreadcrumbItem(props: BreadcrumbProps) {
         }
     };
 
-    const isDisabled = props.disabled || props.current;
+    const isDisabled = props.disabled;
     let linkProps: React.AnchorHTMLAttributes<HTMLElement> = {
         title,
         onClick: handleAction,
@@ -68,7 +68,7 @@ export function BreadcrumbItem(props: BreadcrumbProps) {
     }
 
     if (props.current) {
-        linkProps['aria-current'] = 'page';
+        linkProps['aria-current'] = props['aria-current'] ?? 'page';
     }
 
     if (props.itemType === 'menu') {

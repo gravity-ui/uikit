@@ -42,3 +42,6 @@ export type {
 
 export {NumberInput as unstable_NumberInput} from './components/lab/NumberInput';
 export type {NumberInputProps as unstable_NumberInputProps} from './components/lab/NumberInput';
+
+export {RouterProvider as unstable_RouterProvider} from './components/lab/router/router';
+export type {RouterProviderProps as unstable_RouterProviderProps} from './components/lab/router/router';

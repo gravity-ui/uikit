@@ -1,5 +1,26 @@
 # Changelog
 
+## [6.37.0](https://github.com/gravity-ui/uikit/compare/v6.36.0...v6.37.0) (2024-11-27)
+
+
+### Features
+
+* **Breadcrunbs:** allow items to be disabled independently ([#1962](https://github.com/gravity-ui/uikit/issues/1962)) ([301e4ab](https://github.com/gravity-ui/uikit/commit/301e4ab365639188e010390d5b19da1df13d75fa))
+* **Select:** new label and value resize behaviour ([#1896](https://github.com/gravity-ui/uikit/issues/1896)) ([2be5eb8](https://github.com/gravity-ui/uikit/commit/2be5eb8dc21679154bbb924af5e1e1eefa8a7a58))
+
+## [6.36.0](https://github.com/gravity-ui/uikit/compare/v6.35.2...v6.36.0) (2024-11-25)
+
+
+### Features
+
+* **PasswordInput:** add component ([#1745](https://github.com/gravity-ui/uikit/issues/1745)) ([2e7f2c7](https://github.com/gravity-ui/uikit/commit/2e7f2c731c8cb2fd08993fc30ffed8b06a5f0ea2))
+
+
+### Bug Fixes
+
+* **Select:** do not reserve space for clear if empty ([#1956](https://github.com/gravity-ui/uikit/issues/1956)) ([11dd537](https://github.com/gravity-ui/uikit/commit/11dd537feaa230133f8051fd6c370e6e3ec7d54f))
+* **Toc:** correctly display content of no items.length and add event forward ([#1939](https://github.com/gravity-ui/uikit/issues/1939)) ([8d456c3](https://github.com/gravity-ui/uikit/commit/8d456c3d77d63674f20ebac82913d8a26c14f997))
+
 ## [6.35.2](https://github.com/gravity-ui/uikit/compare/v6.35.1...v6.35.2) (2024-11-14)
 
 

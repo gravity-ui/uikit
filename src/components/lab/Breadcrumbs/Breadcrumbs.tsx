@@ -27,7 +27,9 @@ export interface BreadcrumbsItemProps {
     ping?: string;
     referrerPolicy?: React.HTMLAttributeReferrerPolicy;
     'aria-label'?: string;
+    'aria-current'?: React.AriaAttributes['aria-current'];
     routerOptions?: RouterOptions;
+    disabled?: boolean;
 }
 
 function Item(_props: BreadcrumbsItemProps): React.ReactElement | null {
@@ -237,7 +239,7 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
                     {...child.props}
                     key={key}
                     current={isCurrent}
-                    disabled={props.disabled}
+                    disabled={props.disabled || child.props.disabled}
                     onAction={handleAction}
                     navigate={navigate}
                 >

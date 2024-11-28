@@ -1,25 +1,25 @@
-@import './themes';
+@use './themes';
 
 .g-root {
     background: var(--g-color-base-background);
     color: var(--g-color-text-primary);
 
-    @include g-theme-common;
+    @include themes.g-theme-common;
 
     &_theme_light {
-        @include g-theme-light;
+        @include themes.g-theme-light;
     }
 
     &_theme_dark {
-        @include g-theme-dark;
+        @include themes.g-theme-dark;
     }
 
     &_theme_light-hc {
-        @include g-theme-light-hc;
+        @include themes.g-theme-light-hc;
     }
 
     &_theme_dark-hc {
-        @include g-theme-dark-hc;
+        @include themes.g-theme-dark-hc;
     }
 }
 

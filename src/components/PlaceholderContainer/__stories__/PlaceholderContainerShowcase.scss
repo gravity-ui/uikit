@@ -1,7 +1,7 @@
-@import '../../variables';
+@use '../../variables';
 
-$block: '.#{$ns}placeholder-container-showcase';
-$body: '.#{$ns}placeholder-container__body';
+$block: '.#{variables.$ns}placeholder-container-showcase';
+$body: '.#{variables.$ns}placeholder-container__body';
 
 #{$block} {
     &__custom-action {

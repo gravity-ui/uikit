@@ -31,7 +31,7 @@ export function getPropsCombinations<ComponentType extends React.ElementType>({
 
     let cache: PropSequences<React.ComponentProps<ComponentType>> = propsCombinations[
         firstPropName
-    ].map(({name, value}) => {
+    ]!.map(({name, value}) => {
         return {
             names: {
                 [firstPropName]: name,
@@ -46,7 +46,7 @@ export function getPropsCombinations<ComponentType extends React.ElementType>({
     for (let i = 1; i < propNames.length; i++) {
         const newCombination = cache.reduce<PropSequences<React.ComponentProps<ComponentType>>>(
             (result, combination) => {
-                propsCombinations[propNames[i]].forEach((item) => {
+                propsCombinations[propNames[i]]!.forEach((item) => {
                     result.push({
                         names: {
                             ...combination.names,

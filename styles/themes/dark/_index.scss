@@ -1,15 +1,15 @@
-@import './private';
-@import './text';
-@import './base';
-@import './line';
-@import './sfx';
-@import './system';
+@use './private';
+@use './text';
+@use './base';
+@use './line';
+@use './sfx';
+@use './system';
 
 @mixin g-colors-dark {
-    @include g-colors-private-dark;
-    @include g-colors-text-dark;
-    @include g-colors-base-dark;
-    @include g-colors-line-dark;
-    @include g-colors-sfx-dark;
-    @include g-colors-system-dark;
+    @include private.g-colors-private-dark;
+    @include text.g-colors-text-dark;
+    @include base.g-colors-base-dark;
+    @include line.g-colors-line-dark;
+    @include sfx.g-colors-sfx-dark;
+    @include system.g-colors-system-dark;
 }

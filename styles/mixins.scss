@@ -1,3 +1,6 @@
+@use 'sass:list';
+@use 'sass:selector';
+
 @mixin overflow-ellipsis($type: ellipsis) {
     white-space: nowrap;
     overflow: hidden;
@@ -57,9 +60,9 @@
 
 @function get-pin-selector($mod, $selector, $append: true) {
     @if $append {
-        @return selector-append($mod, $selector);
+        @return selector.append($mod, $selector);
     } @else {
-        @return join($mod, $selector, $separator: space);
+        @return list.join($mod, $selector, $separator: space);
     }
 }
 

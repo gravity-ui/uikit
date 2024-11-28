@@ -272,7 +272,8 @@ $block: '.#{variables.$ns}button';
                                 --g-button-icon-size,
                                 var(--_--icon-size)
                             )
-                    ) / 2 * -1
+                    ) /
+                    2 * -1
             );
         width: var(--g-button-height, var(--_--height));
         height: var(--g-button-height, var(--_--height));

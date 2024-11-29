@@ -58,6 +58,8 @@ export function Popover({
     enableSafePolygon,
     className,
     contentClassName,
+    disableEscapeKeyDown,
+    disableOutsideClick,
     ...restProps
 }: PopoverProps) {
     const child = React.Children.only(children);
@@ -88,7 +90,10 @@ export function Popover({
         handleClose: enableSafePolygon ? safePolygon() : undefined,
     });
     const click = useClick(context, {enabled: !disabled && trigger !== 'hover'});
-    const dismiss = useDismiss(context);
+    const dismiss = useDismiss(context, {
+        escapeKey: !disableEscapeKeyDown,
+        outsidePress: !disableOutsideClick,
+    });
     const role = useRole(context, {role: 'dialog'});
 
     const {getReferenceProps, getFloatingProps} = useInteractions([hover, click, dismiss, role]);

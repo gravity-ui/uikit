@@ -40,6 +40,7 @@ import {getOffsetValue, isAutoPlacement} from './utils';
 import './Popup.scss';
 
 export interface PopupProps extends DOMProps, LayerExtendableProps, QAProps {
+    ref?: React.Ref<HTMLDivElement>;
     children?: React.ReactNode;
     /** Manages `Popup` visibility */
     open?: boolean;
@@ -112,6 +113,7 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, QAProps {
 const b = block('popup');
 
 export function Popup({
+    ref,
     keepMounted = false,
     hasArrow = false,
     open,
@@ -234,6 +236,7 @@ export function Popup({
     }
 
     const handleRef = useForkRef<HTMLDivElement>(
+        ref,
         refs.setFloating,
         containerRef,
         useParentFocusTrap(),

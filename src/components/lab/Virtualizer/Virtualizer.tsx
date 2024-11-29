@@ -12,9 +12,9 @@ import {defaultRangeExtractor, useVirtualizer} from '@tanstack/react-virtual';
 
 import {useForkRef} from '../../../hooks';
 import type {Key} from '../../types';
-import type {Loadable} from '../Collection/Collection';
 
 import {useLoadMore} from './useLoadMore';
+import type {Loadable} from './useLoadMore';
 
 type Item = {index: number; key: Key};
 

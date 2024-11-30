@@ -40,7 +40,8 @@ $block: '.#{variables.$ns}divider';
                 margin-block-start: var(--_--content-gap);
             }
 
-            border-inline-start: 1px solid var(--g-divider-color, var(--g-color-line-generic));
+            border-inline-start: var(--g-divider-size, var(--_--size)) solid
+                var(--g-divider-color, var(--g-color-line-generic));
         }
 
         &_horizontal {
@@ -57,7 +58,8 @@ $block: '.#{variables.$ns}divider';
                 margin-inline-start: var(--_--content-gap);
             }
 
-            border-block-start: 1px solid var(--g-divider-color, var(--g-color-line-generic));
+            border-block-start: var(--g-divider-size, var(--_--size)) solid
+                var(--g-divider-color, var(--g-color-line-generic));
         }
     }
 

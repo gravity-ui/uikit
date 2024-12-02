@@ -7,23 +7,23 @@ import type {ControlProps} from '../types';
 import {block} from '../utils/cn';
 import {isIcon, isSvg} from '../utils/common';
 
-const b = block('radio-button');
+const b = block('segmented-radio-group');
 
-export interface RadioButtonOptionProps<ValueType extends string> extends ControlProps {
+export interface SegmentedRadioGroupOptionProps<ValueType extends string = string>
+    extends ControlProps {
     value: ValueType;
     content?: React.ReactNode;
     children?: React.ReactNode;
     title?: string;
 }
 
-type RadioButtonOptionComponentType = <T extends string>(
-    props: RadioButtonOptionProps<T>,
+type SegmentedRadioGroupOptionComponentType = <T extends string = string>(
+    props: SegmentedRadioGroupOptionProps<T>,
 ) => React.JSX.Element;
 
-export const RadioButtonOption = React.forwardRef(function RadioButtonOption<T extends string>(
-    props: RadioButtonOptionProps<T>,
-    ref: React.ForwardedRef<HTMLLabelElement>,
-) {
+export const SegmentedRadioGroupOption = React.forwardRef(function SegmentedRadioGroupOption<
+    T extends string,
+>(props: SegmentedRadioGroupOptionProps<T>, ref: React.ForwardedRef<HTMLLabelElement>) {
     const {disabled = false, content, children, title} = props;
     const {checked, inputProps} = useRadio(props);
     const inner = content || children;
@@ -42,4 +42,4 @@ export const RadioButtonOption = React.forwardRef(function RadioButtonOption<T e
             {inner && <span className={b('option-text', {icon})}>{inner}</span>}
         </label>
     );
-}) as unknown as RadioButtonOptionComponentType;
+}) as unknown as SegmentedRadioGroupOptionComponentType;

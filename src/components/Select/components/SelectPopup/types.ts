@@ -16,4 +16,4 @@ export type SelectPopupProps = {
     virtualized?: boolean;
     id?: string;
     onAfterClose?: () => void;
-};
+} & Pick<SelectProps, 'title'>;

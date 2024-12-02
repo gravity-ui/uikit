@@ -362,6 +362,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                           }
                         : undefined
                 }
+                title={title}
             >
                 {renderPopup({renderFilter: _renderFilter, renderList: _renderList})}
             </SelectPopup>

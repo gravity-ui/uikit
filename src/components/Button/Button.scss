@@ -89,7 +89,7 @@ $block: '.#{variables.$ns}button';
             --_--height: 20px;
             --_--border-radius: var(--g-border-radius-xs);
             --_--padding: 6px;
-            --_--icon-size: 12px;
+            --_--icon-space: 12px;
             --_--icon-offset: 4px;
         }
 
@@ -97,7 +97,7 @@ $block: '.#{variables.$ns}button';
             --_--height: 24px;
             --_--border-radius: var(--g-border-radius-s);
             --_--padding: 8px;
-            --_--icon-size: 16px;
+            --_--icon-space: 16px;
             --_--icon-offset: 4px;
         }
 
@@ -105,7 +105,7 @@ $block: '.#{variables.$ns}button';
             --_--height: 28px;
             --_--border-radius: var(--g-border-radius-m);
             --_--padding: 12px;
-            --_--icon-size: 16px;
+            --_--icon-space: 16px;
             --_--icon-offset: 8px;
         }
 
@@ -113,7 +113,7 @@ $block: '.#{variables.$ns}button';
             --_--height: 36px;
             --_--border-radius: var(--g-border-radius-l);
             --_--padding: 16px;
-            --_--icon-size: 16px;
+            --_--icon-space: 16px;
             --_--icon-offset: 8px;
         }
 
@@ -121,7 +121,7 @@ $block: '.#{variables.$ns}button';
             --_--height: 44px;
             --_--border-radius: var(--g-border-radius-xl);
             --_--padding: 24px;
-            --_--icon-size: 20px;
+            --_--icon-space: 20px;
             --_--icon-offset: 12px;
             --_--font-size: var(--g-text-body-2-font-size);
         }
@@ -269,8 +269,8 @@ $block: '.#{variables.$ns}button';
             calc(
                 (
                         var(--g-button-height, var(--_--height)) - var(
-                                --g-button-icon-size,
-                                var(--_--icon-size)
+                                --g-button-icon-space,
+                                var(--_--icon-space)
                             )
                     ) /
                     2 * -1

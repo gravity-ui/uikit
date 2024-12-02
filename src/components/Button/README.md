@@ -495,5 +495,5 @@ LANDING_BLOCK-->
 | `--g-button-padding`                | Side paddings             |
 | `--g-button-border-radius`          | Border radius             |
 | `--g-button-font-size`              | Text font size            |
-| `--g-button-icon-size`              | Icon size                 |
+| `--g-button-icon-space`             | Icon available space      |
 | `--g-button-icon-offset`            | Icon offset               |

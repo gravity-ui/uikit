@@ -23,38 +23,6 @@
     }
 }
 
-.g-root:not(.g-root_mobile):not(.g-root_native-scrollbar) {
-    scrollbar-width: var(--g-scrollbar-width);
-    scrollbar-color: var(--g-color-scroll-handle) var(--g-color-scroll-track);
-
-    &::-webkit-scrollbar,
-    *::-webkit-scrollbar {
-        width: var(--g-scrollbar-width);
-        height: var(--g-scrollbar-width);
-        background: var(--g-color-scroll-track);
-    }
-
-    &::-webkit-scrollbar-track,
-    *::-webkit-scrollbar-track {
-        background: var(--g-color-scroll-track);
-    }
-
-    &::-webkit-scrollbar-corner,
-    *::-webkit-scrollbar-corner {
-        background: var(--g-color-scroll-corner);
-    }
-
-    &::-webkit-scrollbar-thumb,
-    *::-webkit-scrollbar-thumb {
-        background: var(--g-color-scroll-handle);
-    }
-
-    &::-webkit-scrollbar-thumb:hover,
-    *::-webkit-scrollbar-thumb:hover {
-        background: var(--g-color-scroll-handle-hover);
-    }
-}
-
 @keyframes g-loading-animation {
     from {
         background-position: -12px 0;

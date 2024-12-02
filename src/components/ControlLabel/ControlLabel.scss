@@ -33,7 +33,7 @@ $block: '.#{variables.$ns}control-label';
 
     &__text {
         flex-grow: 1;
-        margin-inline-start: 8px;
+        margin-inline-start: var(--g-spacing-2);
         white-space: normal;
 
         #{$block}_disabled & {

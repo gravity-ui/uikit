@@ -324,3 +324,32 @@
     // stylelint-disable-next-line no-unknown-animations
     animation: g-loading-animation 0.5s linear infinite;
 }
+
+@mixin scrollbar() {
+    &::-webkit-scrollbar,
+    *::-webkit-scrollbar {
+        width: var(--g-scrollbar-width);
+        height: var(--g-scrollbar-width);
+        background: var(--g-color-scroll-track);
+    }
+
+    &::-webkit-scrollbar-track,
+    *::-webkit-scrollbar-track {
+        background: var(--g-color-scroll-track);
+    }
+
+    &::-webkit-scrollbar-corner,
+    *::-webkit-scrollbar-corner {
+        background: var(--g-color-scroll-corner);
+    }
+
+    &::-webkit-scrollbar-thumb,
+    *::-webkit-scrollbar-thumb {
+        background: var(--g-color-scroll-handle);
+    }
+
+    &::-webkit-scrollbar-thumb:hover,
+    *::-webkit-scrollbar-thumb:hover {
+        background: var(--g-color-scroll-handle-hover);
+    }
+}

@@ -100,7 +100,7 @@ export function Popover({
 
     return (
         <React.Fragment>
-            {React.cloneElement(child, {ref: anchorRef, ...getReferenceProps()})}
+            {React.cloneElement(child, {ref: anchorRef, ...getReferenceProps(child.props)})}
             <Popup
                 {...restProps}
                 ref={setFloatingElement}

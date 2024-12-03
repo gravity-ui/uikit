@@ -336,8 +336,8 @@ LANDING_BLOCK-->
 
 ### Integration with routers
 
-The `Breadcrumbs` component accepts the navigation function received from your router for managing the client-side navigation in a software-based mode.
-The example below shows the general pattern:
+The `Breadcrumbs` component accepts navigate function received from your router for performing a client side navigation programmatically.
+The following example shows the general pattern.
 
 ```jsx
 function Header() {

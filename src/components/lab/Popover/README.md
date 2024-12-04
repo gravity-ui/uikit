@@ -51,4 +51,4 @@ import {Button, Popover} from '@gravity-ui/uikit';
 | qa                   | Test attribute (`data-qa`)                                                                                    |                              `string`                               |              |
 | strategy             | `Floating UI` positioning strategy                                                                            |                       `"absolute"` `"fixed"`                        | `"absolute"` |
 | style                | HTML `style` attribute for root node                                                                          |                              `string`                               |              |
-| trigger              | Which only event should open the `Popover`. By default, both `click` and `hover` do                           |                         `"click"` `"hover"`                         |              |
+| trigger              | Which event should open the `Popover`. By default, `click` and `hover` both do                                |                              `"click"`                              |              |

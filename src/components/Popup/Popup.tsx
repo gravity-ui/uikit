@@ -40,7 +40,6 @@ import {getOffsetValue, isAutoPlacement} from './utils';
 import './Popup.scss';
 
 export interface PopupProps extends DOMProps, LayerExtendableProps, QAProps {
-    ref?: React.Ref<HTMLDivElement>;
     children?: React.ReactNode;
     /** Manages `Popup` visibility */
     open?: boolean;
@@ -64,6 +63,8 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, QAProps {
     floatingContext?: FloatingRootContext<ReferenceType>;
     /** Additional floating element props to provide interactions */
     floatingProps?: Record<string, unknown>;
+    /** React ref floating element is attached to */
+    floatingRef?: React.Ref<HTMLDivElement>;
     /** Do not use `LayerManager` on stacking popups */
     disableLayer?: boolean;
     /** @deprecated Add onClick handler to children */
@@ -113,7 +114,7 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, QAProps {
 const b = block('popup');
 
 export function Popup({
-    ref,
+    floatingRef,
     keepMounted = false,
     hasArrow = false,
     open,
@@ -236,7 +237,7 @@ export function Popup({
     }
 
     const handleRef = useForkRef<HTMLDivElement>(
-        ref,
+        floatingRef,
         refs.setFloating,
         containerRef,
         useParentFocusTrap(),

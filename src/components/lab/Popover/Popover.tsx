@@ -39,7 +39,7 @@ export interface PopoverProps
     onOpenChange?: (open: boolean) => void;
     disabled?: boolean;
     content?: React.ReactNode;
-    trigger?: 'hover' | 'click';
+    trigger?: 'click';
     delay?: number | {open?: number; close?: number};
     enableSafePolygon?: boolean;
 }
@@ -89,7 +89,7 @@ export function Popover({
         move: false,
         handleClose: enableSafePolygon ? safePolygon() : undefined,
     });
-    const click = useClick(context, {enabled: !disabled && trigger !== 'hover'});
+    const click = useClick(context, {enabled: !disabled});
     const dismiss = useDismiss(context, {
         escapeKey: !disableEscapeKeyDown,
         outsidePress: !disableOutsideClick,
@@ -103,9 +103,9 @@ export function Popover({
             {React.cloneElement(child, {ref: anchorRef, ...getReferenceProps(child.props)})}
             <Popup
                 {...restProps}
-                ref={setFloatingElement}
                 open={isOpen}
                 floatingContext={context}
+                floatingRef={setFloatingElement}
                 floatingProps={getFloatingProps()}
                 className={b(null, className)}
                 contentClassName={b('content', contentClassName)}

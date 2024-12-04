@@ -47,14 +47,6 @@ export const Delay: Story = {
     },
 };
 
-export const OnlyHover: Story = {
-    ...Default,
-    args: {
-        ...Default.args,
-        trigger: 'hover',
-    },
-};
-
 export const OnlyClick: Story = {
     ...Default,
     args: {

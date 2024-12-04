@@ -63,6 +63,8 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, QAProps {
     floatingContext?: FloatingRootContext<ReferenceType>;
     /** Additional floating element props to provide interactions */
     floatingProps?: Record<string, unknown>;
+    /** React ref floating element is attached to */
+    floatingRef?: React.Ref<HTMLDivElement>;
     /** Do not use `LayerManager` on stacking popups */
     disableLayer?: boolean;
     /** @deprecated Add onClick handler to children */
@@ -112,6 +114,7 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, QAProps {
 const b = block('popup');
 
 export function Popup({
+    floatingRef,
     keepMounted = false,
     hasArrow = false,
     open,
@@ -234,6 +237,7 @@ export function Popup({
     }
 
     const handleRef = useForkRef<HTMLDivElement>(
+        floatingRef,
         refs.setFloating,
         containerRef,
         useParentFocusTrap(),

@@ -1,19 +1,74 @@
-import {ARROW_SIZE, AUTO_PLACEMENTS} from './constants';
-import type {AutoPlacement, PopupOffset} from './types';
+import {autoPlacement, flip} from '@floating-ui/react';
+import type {Alignment, Middleware, Placement} from '@floating-ui/react';
 
-export function getOffsetValue(offset: PopupOffset, hasArrow: boolean | undefined) {
-    let offsetValue = offset;
+import {ARROW_SIZE, AUTO_PLACEMENTS, OVERFLOW_PADDING} from './constants';
+import type {AutoPlacement, PopupOffset, PopupPlacement} from './types';
+
+export function getOffsetOptions(offsetProp: PopupOffset, hasArrow: boolean | undefined) {
+    let offset = offsetProp;
     if (hasArrow) {
-        if (typeof offsetValue === 'number') {
-            offsetValue += ARROW_SIZE;
+        if (typeof offset === 'number') {
+            offset += ARROW_SIZE;
         } else {
-            offsetValue = {...offsetValue, mainAxis: (offsetValue.mainAxis ?? 0) + ARROW_SIZE};
+            offset = {...offset, mainAxis: (offset.mainAxis ?? 0) + ARROW_SIZE};
         }
     }
 
-    return offsetValue;
+    return {offset};
 }
 
-export function isAutoPlacement(placement: string): placement is AutoPlacement {
+function isAutoPlacement(placement: string): placement is AutoPlacement {
     return AUTO_PLACEMENTS.includes(placement as AutoPlacement);
 }
+
+export function getPlacementOptions(placementProp: PopupPlacement, disablePortal?: boolean) {
+    let placement: Placement | undefined;
+    let middleware: Middleware;
+
+    if (Array.isArray(placementProp)) {
+        placement = placementProp[0];
+        middleware = flip({
+            padding: OVERFLOW_PADDING,
+            altBoundary: disablePortal,
+            fallbackPlacements: placementProp.slice(1),
+        });
+    } else if (isAutoPlacement(placementProp)) {
+        let alignment: Alignment | undefined;
+        if (placementProp === 'auto-start') {
+            alignment = 'start';
+        } else if (placementProp === 'auto-end') {
+            alignment = 'end';
+        }
+
+        placement = undefined;
+        middleware = autoPlacement({
+            padding: OVERFLOW_PADDING,
+            altBoundary: disablePortal,
+            alignment,
+        });
+    } else {
+        placement = placementProp;
+        middleware = flip({
+            padding: OVERFLOW_PADDING,
+            altBoundary: disablePortal,
+        });
+    }
+
+    return {placement, middleware};
+}
+
+export const arrowStylesMiddleware = (): Middleware => ({
+    name: 'arrowStyles',
+    fn({middlewareData}) {
+        if (!middlewareData.arrow) {
+            return {};
+        }
+
+        return {
+            data: {
+                left: middlewareData.arrow.x,
+                top: middlewareData.arrow.y,
+            },
+        };
+    },
+});

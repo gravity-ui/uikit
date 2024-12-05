@@ -20,7 +20,17 @@ import {getElementRef} from '../../utils/getElementRef';
 export interface PopoverProps
     extends QAProps,
         DOMProps,
-        Pick<PopupProps, 'strategy' | 'placement' | 'offset' | 'keepMounted' | 'hasArrow'> {
+        Pick<
+            PopupProps,
+            | 'strategy'
+            | 'placement'
+            | 'offset'
+            | 'keepMounted'
+            | 'hasArrow'
+            | 'initialFocus'
+            | 'returnFocus'
+            | 'disableFocusVisuallyHiddenDismiss'
+        > {
     children:
         | ((props: Record<string, unknown>, ref: React.Ref<HTMLElement>) => React.ReactElement)
         | React.ReactElement;
@@ -109,6 +119,8 @@ export function Popover({
                 floatingContext={context}
                 floatingRef={setFloatingElement}
                 floatingProps={getFloatingProps()}
+                autoFocus
+                modalFocus
                 className={b(null, className)}
             >
                 {content}

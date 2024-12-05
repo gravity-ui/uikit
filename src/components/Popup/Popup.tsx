@@ -3,6 +3,7 @@
 import React from 'react';
 
 import {
+    FloatingFocusManager,
     arrow,
     autoUpdate,
     offset as floatingOffset,
@@ -14,6 +15,7 @@ import {
     useTransitionStatus,
 } from '@floating-ui/react';
 import type {
+    FloatingFocusManagerProps,
     FloatingRootContext,
     Middleware,
     OpenChangeReason,
@@ -34,6 +36,7 @@ import type {LayerExtendableProps} from '../utils/layer-manager/LayerManager';
 import {PopupArrow} from './PopupArrow';
 import {OVERFLOW_PADDING, TRANSITION_DURATION} from './constants';
 import {useAnchor} from './hooks';
+import i18n from './i18n';
 import type {PopupAnchorElement, PopupAnchorRef, PopupOffset, PopupPlacement} from './types';
 import {arrowStylesMiddleware, getOffsetOptions, getPlacementOptions} from './utils';
 
@@ -69,6 +72,16 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
     floatingProps?: Record<string, unknown>;
     /** React ref floating element is attached to */
     floatingRef?: React.Ref<HTMLDivElement>;
+    /** Manage focus when opened */
+    autoFocus?: boolean;
+    /** If true focus is trapped inside the floating element */
+    modalFocus?: boolean;
+    /** The initial element to be focused */
+    initialFocus?: FloatingFocusManagerProps['initialFocus'];
+    /** Element which focus should be returned to */
+    returnFocus?: FloatingFocusManagerProps['returnFocus'];
+    /** Do not add a11y dismiss buttons when managing focus */
+    disableFocusVisuallyHiddenDismiss?: boolean;
     /**
      * This callback will be called when Escape key pressed on keyboard, or click outside was made
      * This behaviour could be disabled with `disableEscapeKeyDown`
@@ -110,7 +123,7 @@ const b = block('popup');
 export function Popup({
     keepMounted = false,
     hasArrow = false,
-    open,
+    open = false,
     onOpenChange,
     strategy,
     placement: placementProp = 'top',
@@ -122,15 +135,20 @@ export function Popup({
     floatingContext,
     floatingProps,
     floatingRef,
+    modalFocus = false,
+    autoFocus = false,
+    initialFocus,
+    returnFocus = true,
+    disableFocusVisuallyHiddenDismiss = false,
     onClose,
     onEscapeKeyDown,
     onOutsideClick,
-    disableEscapeKeyDown,
-    disableOutsideClick,
+    disableEscapeKeyDown = false,
+    disableOutsideClick = false,
     style,
     className,
     children,
-    disablePortal,
+    disablePortal = false,
     qa,
     id,
     role,
@@ -224,40 +242,55 @@ export function Popup({
         return;
     }, [isMounted, elements, update]);
 
-    const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
+    const initialFocusRef = React.useRef<HTMLDivElement>(null);
+    const handleFloatingRef = useForkRef<HTMLDivElement>(
+        refs.setFloating,
+        floatingRef,
+        initialFocusRef,
+    );
 
     return isMounted || keepMounted ? (
         <Portal disablePortal={disablePortal}>
-            <div
-                ref={handleFloatingRef}
-                style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    zIndex,
-                    width: 'max-content',
-                    pointerEvents: isMounted ? 'auto' : 'none',
-                    ...floatingStyles,
-                }}
-                data-floating-ui-placement={finalPlacement}
-                data-floating-ui-status={status}
-                {...getFloatingProps(floatingProps)}
+            <FloatingFocusManager
+                context={context}
+                disabled={!autoFocus}
+                modal={modalFocus}
+                initialFocus={initialFocus ?? initialFocusRef}
+                returnFocus={returnFocus}
+                visuallyHiddenDismiss={disableFocusVisuallyHiddenDismiss ? false : i18n('close')}
             >
                 <div
-                    ref={contentRef}
-                    className={b({mounted: isMounted}, className)}
-                    style={style}
-                    data-qa={qa}
-                    id={id}
-                    role={role}
-                    {...filterDOMProps(restProps)}
+                    ref={handleFloatingRef}
+                    style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        zIndex,
+                        width: 'max-content',
+                        pointerEvents: isMounted ? 'auto' : 'none',
+                        outline: 'none',
+                        ...floatingStyles,
+                    }}
+                    data-floating-ui-placement={finalPlacement}
+                    data-floating-ui-status={status}
+                    {...getFloatingProps(floatingProps)}
                 >
-                    {hasArrow && (
-                        <PopupArrow ref={setArrowElement} styles={middlewareData.arrowStyles} />
-                    )}
-                    {children}
+                    <div
+                        ref={contentRef}
+                        className={b({mounted: isMounted}, className)}
+                        style={style}
+                        data-qa={qa}
+                        id={id}
+                        role={role}
+                        {...filterDOMProps(restProps)}
+                    >
+                        {hasArrow && (
+                            <PopupArrow ref={setArrowElement} styles={middlewareData.arrowStyles} />
+                        )}
+                        {children}
+                    </div>
                 </div>
-            </div>
+            </FloatingFocusManager>
         </Portal>
     ) : null;
 }

@@ -6,7 +6,6 @@ import {
     useFloatingRootContext,
     useHover,
     useInteractions,
-    useRole,
 } from '@floating-ui/react';
 import type {UseInteractionsReturn} from '@floating-ui/react';
 
@@ -91,9 +90,8 @@ export function Popover({
         handleClose: enableSafePolygon ? safePolygon() : undefined,
     });
     const click = useClick(context, {enabled: !disabled});
-    const role = useRole(context, {role: 'dialog'});
 
-    const {getReferenceProps, getFloatingProps} = useInteractions([hover, click, role]);
+    const {getReferenceProps, getFloatingProps} = useInteractions([hover, click]);
 
     const anchorRef = useForkRef(
         setAnchorElement,
@@ -121,6 +119,7 @@ export function Popover({
                 floatingProps={getFloatingProps()}
                 autoFocus
                 modalFocus
+                role="dialog"
                 className={b(null, className)}
             >
                 {content}

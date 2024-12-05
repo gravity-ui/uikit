@@ -37,7 +37,6 @@ export type TextAreaPin = InputControlPin;
 export type TextAreaSize = InputControlSize;
 export type TextAreaView = InputControlView;
 
-// eslint-disable-next-line complexity
 export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
     function TextArea(props, ref) {
         const {

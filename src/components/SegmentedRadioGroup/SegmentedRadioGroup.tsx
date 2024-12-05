@@ -6,35 +6,35 @@ import {useRadioGroup} from '../../hooks/private';
 import type {ControlGroupOption, ControlGroupProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 
-import {RadioButtonOption as Option} from './RadioButtonOption';
+import {SegmentedRadioGroupOption as Option} from './SegmentedRadioGroupOption';
 
-import './RadioButton.scss';
+import './SegmentedRadioGroup.scss';
 
-const b = block('radio-button');
+const b = block('segmented-radio-group');
 
-export type RadioButtonOption<T extends string = string> = ControlGroupOption<T>;
-export type RadioButtonSize = 's' | 'm' | 'l' | 'xl';
-export type RadioButtonWidth = 'auto' | 'max';
+// export type SegmentedRadioGroupOption<T extends string = string> = ControlGroupOption<T>;
+export type SegmentedRadioGroupSize = 's' | 'm' | 'l' | 'xl';
+export type SegmentedRadioGroupWidth = 'auto' | 'max';
 
-export interface RadioButtonProps<T extends string = string>
+export interface SegmentedRadioGroupProps<T extends string = string>
     extends ControlGroupProps<T>,
         DOMProps,
         QAProps {
-    size?: RadioButtonSize;
-    width?: RadioButtonWidth;
+    size?: SegmentedRadioGroupSize;
+    width?: SegmentedRadioGroupWidth;
     children?:
         | React.ReactElement<ControlGroupOption<T>>
         | React.ReactElement<ControlGroupOption<T>>[];
 }
 
-type RadioButtonComponentType = (<T extends string>(
-    props: RadioButtonProps<T> & {ref?: React.ForwardedRef<HTMLDivElement>},
+type SegmentedRadioGroupComponentType = (<T extends string>(
+    props: SegmentedRadioGroupProps<T> & {ref?: React.ForwardedRef<HTMLDivElement>},
 ) => React.JSX.Element) & {
     Option: typeof Option;
 };
 
-export const RadioButton = React.forwardRef(function RadioButton<T extends string>(
-    props: RadioButtonProps<T>,
+export const SegmentedRadioGroup = React.forwardRef(function SegmentedRadioGroup<T extends string>(
+    props: SegmentedRadioGroupProps<T>,
     ref: React.ForwardedRef<HTMLDivElement>,
 ) {
     const {size = 'm', width, style, className, qa, children} = props;
@@ -66,6 +66,6 @@ export const RadioButton = React.forwardRef(function RadioButton<T extends strin
             ))}
         </div>
     );
-}) as unknown as RadioButtonComponentType;
+}) as unknown as SegmentedRadioGroupComponentType;
 
-RadioButton.Option = Option;
+SegmentedRadioGroup.Option = Option;

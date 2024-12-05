@@ -41,7 +41,7 @@ export * from './Popup';
 export * from './Portal';
 export * from './Progress';
 export * from './Radio';
-export * from './RadioButton';
+export * from './SegmentedRadioGroup';
 export * from './RadioGroup';
 export * from './Select';
 export * from './Sheet';

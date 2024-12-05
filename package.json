@@ -138,6 +138,7 @@
         "@floating-ui/react": "^0.26.28",
         "@gravity-ui/i18n": "^1.7.0",
         "@gravity-ui/icons": "^2.11.0",
+        "@tanstack/react-virtual": "^3.10.8",
         "blueimp-md5": "^2.19.0",
         "focus-trap": "^7.6.2",
         "lodash": "^4.17.21",

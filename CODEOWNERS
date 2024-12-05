@@ -38,8 +38,8 @@
 /src/components/Portal @amje
 /src/components/Progress @Lunory
 /src/components/Radio @zamkovskaya
-/src/components/RadioButton @zamkovskaya
 /src/components/RadioGroup @zamkovskaya
+/src/components/SegmentedRadioGroup @zamkovskaya
 /src/components/User @DakEnviy
 /src/components/UserLabel @DakEnviy
 /src/components/useList @IsaevAlexandr

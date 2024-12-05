@@ -4,6 +4,7 @@ import {action} from '@storybook/addon-actions';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import {Button} from '../../../Button';
+import {Link} from '../../../Link';
 import {Flex} from '../../../layout';
 import {Popover} from '../Popover';
 
@@ -33,7 +34,7 @@ export const Default: Story = {
 
 export const Delay: Story = {
     render: (args) => (
-        <Flex gap={3}>
+        <Flex gap={3} justifyContent="center" wrap>
             <Popover {...args} delay={{open: 1000}}>
                 <Button>Open Delay: 1000ms</Button>
             </Popover>
@@ -70,5 +71,29 @@ export const SafePolygon: Story = {
         delay: 0,
         offset: 50,
         enableSafePolygon: true,
+    },
+};
+
+export const FocusManagement: Story = {
+    render: (args) => (
+        <Flex gap={3} justifyContent="center" wrap>
+            <Popover {...args}>
+                <Button>Focus container (default)</Button>
+            </Popover>
+            <Popover {...args} initialFocus={0}>
+                <Button>Focus first tabbable</Button>
+            </Popover>
+            <Popover {...args} initialFocus={1}>
+                <Button>Focus second tabbable</Button>
+            </Popover>
+        </Flex>
+    ),
+    args: {
+        ...Default.args,
+        content: (
+            <div style={{padding: 10}}>
+                Content with <Link href="#">Link</Link> and <Button>Button</Button>
+            </div>
+        ),
     },
 };

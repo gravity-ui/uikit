@@ -2,43 +2,55 @@ import React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {RadioButton} from '../';
-import type {RadioButtonOption, RadioButtonProps, RadioButtonSize, RadioButtonWidth} from '../';
+import {SegmentedRadioGroup} from '../';
+import type {
+    SegmentedRadioGroupOptionProps,
+    SegmentedRadioGroupProps,
+    SegmentedRadioGroupSize,
+    SegmentedRadioGroupWidth,
+} from '../';
 import {render, screen, within} from '../../../../test-utils/utils';
 import {block} from '../../../components/utils/cn';
 
-const qaId = 'radio-button-component';
-const b = block('radio-button');
+const qaId = 'segmented-radio-group-component';
+const b = block('segmented-radio-group');
 
-const options: RadioButtonOption[] = [
+const options: SegmentedRadioGroupOptionProps[] = [
     {value: 'Value 1', content: 'Value 1'},
     {value: 'Value 2', content: 'Value 2'},
     {value: 'Value 3', content: 'Value 3'},
 ];
 
-const renderRadioButton = (props: RadioButtonProps = {}) => {
-    render(<RadioButton defaultValue={options[0].value} options={options} qa={qaId} {...props} />);
+const renderSegmentedRadioGroup = (props: SegmentedRadioGroupProps = {}) => {
+    render(
+        <SegmentedRadioGroup
+            defaultValue={options[0].value}
+            options={options}
+            qa={qaId}
+            {...props}
+        />,
+    );
 };
 
-describe('RadioButton', () => {
+describe('SegmentedRadioGroup', () => {
     test('use passed ref for component', () => {
         const ref = React.createRef<HTMLDivElement>();
-        render(<RadioButton ref={ref} qa={qaId} />);
+        render(<SegmentedRadioGroup ref={ref} qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
         expect(ref.current).toBe(component);
     });
 
     describe('visibility', () => {
-        test('render RadioButton by default', () => {
-            renderRadioButton();
+        test('render SegmentedRadioGroup by default', () => {
+            renderSegmentedRadioGroup();
             const component = screen.getByTestId(qaId);
 
             expect(component).toBeVisible();
         });
 
         test('show given children passed as prop', () => {
-            renderRadioButton();
+            renderSegmentedRadioGroup();
 
             const component = screen.getByTestId(qaId);
             const radios = within(component).getAllByRole('radio');
@@ -50,11 +62,11 @@ describe('RadioButton', () => {
 
         test('show given children passed as nested components', async () => {
             render(
-                <RadioButton qa={qaId} defaultValue={options[0].value}>
+                <SegmentedRadioGroup qa={qaId} defaultValue={options[0].value}>
                     {options.map((opt) => (
-                        <RadioButton.Option key={opt.value} {...opt} />
+                        <SegmentedRadioGroup.Option key={opt.value} {...opt} />
                     ))}
-                </RadioButton>,
+                </SegmentedRadioGroup>,
             );
 
             const component = screen.getByTestId(qaId);
@@ -68,7 +80,7 @@ describe('RadioButton', () => {
 
     describe('ControlGroupProps interface', () => {
         test('all children are disabled when disabled=true prop is given', () => {
-            renderRadioButton({disabled: true});
+            renderSegmentedRadioGroup({disabled: true});
             const component = screen.getByTestId(qaId);
             const radios = within(component).getAllByRole('radio');
 
@@ -78,7 +90,7 @@ describe('RadioButton', () => {
         });
 
         test('all children are not disabled when disabled=false prop is given', () => {
-            renderRadioButton({disabled: false});
+            renderSegmentedRadioGroup({disabled: false});
             const component = screen.getByTestId(qaId);
             const radios = within(component).getAllByRole('radio');
 
@@ -88,13 +100,13 @@ describe('RadioButton', () => {
         });
 
         test('a proper radio is disabled when disabled=false prop is given to one of the option', () => {
-            const customOptions: RadioButtonOption[] = [
+            const customOptions: SegmentedRadioGroupOptionProps[] = [
                 {value: 'Disabled', content: 'Disabled', disabled: true},
                 ...options,
             ];
 
             render(
-                <RadioButton
+                <SegmentedRadioGroup
                     defaultValue={customOptions[0].value}
                     options={customOptions}
                     qa={qaId}
@@ -116,7 +128,7 @@ describe('RadioButton', () => {
         test('only one child is checked', async () => {
             const user = userEvent.setup();
 
-            renderRadioButton();
+            renderSegmentedRadioGroup();
             const component = screen.getByTestId(qaId);
             const radios = within(component).getAllByRole('radio');
 
@@ -150,7 +162,7 @@ describe('RadioButton', () => {
         test('call onFocus/onBlur', async () => {
             const handleOnFocus = jest.fn();
             const handleOnBlur = jest.fn();
-            renderRadioButton({onBlur: handleOnBlur, onFocus: handleOnFocus});
+            renderSegmentedRadioGroup({onBlur: handleOnBlur, onFocus: handleOnFocus});
 
             const component = screen.getByTestId(qaId);
             const radios = within(component).getAllByRole('radio');
@@ -168,7 +180,7 @@ describe('RadioButton', () => {
 
             const handleOnChange = jest.fn();
             const handleOnUpdate = jest.fn();
-            renderRadioButton({onChange: handleOnChange, onUpdate: handleOnUpdate});
+            renderSegmentedRadioGroup({onChange: handleOnChange, onUpdate: handleOnUpdate});
 
             const component = screen.getByTestId(qaId);
             const radios = within(component).getAllByRole('radio');
@@ -184,7 +196,7 @@ describe('RadioButton', () => {
         test.each(new Array<string>('aria-label', 'aria-labelledby'))(
             'render with given "%s" attribute',
             (attr) => {
-                renderRadioButton({[attr]: 'custom-text'});
+                renderSegmentedRadioGroup({[attr]: 'custom-text'});
                 const component = screen.getByTestId(qaId);
 
                 expect(component).toHaveAttribute(attr);
@@ -196,7 +208,7 @@ describe('RadioButton', () => {
         test('add style attribute', () => {
             const style = {color: 'red'};
 
-            renderRadioButton({style});
+            renderSegmentedRadioGroup({style});
             const component = screen.getByTestId(qaId);
 
             expect(component).toHaveStyle(style);
@@ -205,26 +217,26 @@ describe('RadioButton', () => {
         test('add className attribute', () => {
             const className = 'my-class';
 
-            renderRadioButton({className});
+            renderSegmentedRadioGroup({className});
             const component = screen.getByTestId(qaId);
 
             expect(component).toHaveClass(className);
         });
 
-        test.each(new Array<RadioButtonWidth>('auto', 'max'))(
+        test.each(new Array<SegmentedRadioGroupWidth>('auto', 'max'))(
             'render with given "%s" width',
             (width) => {
-                renderRadioButton({width});
+                renderSegmentedRadioGroup({width});
                 const component = screen.getByTestId(qaId);
 
                 expect(component).toHaveClass(b({width}));
             },
         );
 
-        test.each(new Array<RadioButtonSize>('s', 'm', 'l', 'xl'))(
+        test.each(new Array<SegmentedRadioGroupSize>('s', 'm', 'l', 'xl'))(
             'render with given "%s" size',
             (size) => {
-                renderRadioButton({size});
+                renderSegmentedRadioGroup({size});
                 const component = screen.getByTestId(qaId);
 
                 expect(component).toHaveClass(b({size}));

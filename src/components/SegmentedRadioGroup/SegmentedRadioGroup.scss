@@ -1,6 +1,6 @@
 @use '../variables';
 
-$block: '.#{variables.$ns}radio-button';
+$block: '.#{variables.$ns}segmented-radio-group';
 
 #{$block} {
     --_--border-width: 1px;

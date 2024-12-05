@@ -4,23 +4,23 @@ import type {Meta, StoryObj} from '@storybook/react';
 
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
-import {RadioButton} from '../RadioButton';
+import {SegmentedRadioGroup} from '../SegmentedRadioGroup';
 
-import {RadioButtonShowcase} from './RadioButtonShowcase';
+import {SegmentedRadioGroupShowcase} from './SegmentedRadioGroupShowcase';
 
 export default {
-    title: 'Components/Inputs/RadioButton',
-    component: RadioButton,
+    title: 'Components/Inputs/SegmentedRadioGroup',
+    component: SegmentedRadioGroup,
 } as Meta;
 
-type Story = StoryObj<typeof RadioButton>;
+type Story = StoryObj<typeof SegmentedRadioGroup>;
 
 export const Default: Story = {
     args: {
-        options: [
-            {value: 'Value 1', content: 'Value 1'},
-            {value: 'Value 2', content: 'Value 2'},
-            {value: 'Value 3', content: 'Value 3'},
+        children: [
+            <SegmentedRadioGroup.Option key="Value 1" value="Value 1" content="Value 1" />,
+            <SegmentedRadioGroup.Option key="Value 2" value="Value 2" content="Value 2" />,
+            <SegmentedRadioGroup.Option key="Value 3" value="Value 3" content="Value 3" />,
         ],
     },
 };
@@ -29,16 +29,16 @@ export const Size: Story = {
     render: (args) => (
         <Showcase>
             <ShowcaseItem title="Size s">
-                <RadioButton {...args} size="s" />
+                <SegmentedRadioGroup {...args} size="s" />
             </ShowcaseItem>
             <ShowcaseItem title="Size m">
-                <RadioButton {...args} size="m" />
+                <SegmentedRadioGroup {...args} size="m" />
             </ShowcaseItem>
             <ShowcaseItem title="Size l">
-                <RadioButton {...args} size="l" />
+                <SegmentedRadioGroup {...args} size="l" />
             </ShowcaseItem>
             <ShowcaseItem title="Size xl">
-                <RadioButton {...args} size="xl" />
+                <SegmentedRadioGroup {...args} size="xl" />
             </ShowcaseItem>
         </Showcase>
     ),
@@ -55,6 +55,6 @@ export const Disabled: Story = {
 };
 
 export const ShowcaseStory: Story = {
-    render: () => <RadioButtonShowcase />,
+    render: () => <SegmentedRadioGroupShowcase />,
     name: 'Showcase',
 };

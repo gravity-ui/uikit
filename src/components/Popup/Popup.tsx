@@ -12,6 +12,7 @@ import {
     useDismiss,
     useFloating,
     useInteractions,
+    useRole,
     useTransitionStatus,
 } from '@floating-ui/react';
 import type {
@@ -23,6 +24,7 @@ import type {
     Strategy,
     UseFloatingOptions,
     UseInteractionsReturn,
+    UseRoleProps,
 } from '@floating-ui/react';
 
 import {useForkRef} from '../../hooks';
@@ -110,8 +112,8 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
     disableOutsideClick?: boolean;
     /** Do not use `Portal` for children */
     disablePortal?: boolean;
-    /** `aria-role` attribute */
-    role?: React.AriaRole;
+    /** ARIA role or special component role (select, combobox) */
+    role?: UseRoleProps['role'];
     /** HTML `id` attribute */
     id?: string;
     // CSS property `z-index`
@@ -151,7 +153,7 @@ export function Popup({
     disablePortal = false,
     qa,
     id,
-    role,
+    role: roleProp,
     zIndex = 1000,
     ...restProps
 }: PopupProps) {
@@ -221,13 +223,17 @@ export function Popup({
         ],
     });
 
+    const role = useRole(context, {
+        enabled: Boolean(roleProp),
+        role: roleProp,
+    });
     const dismiss = useDismiss(context, {
         enabled: !disableOutsideClick || !disableEscapeKeyDown,
         outsidePress: !disableOutsideClick,
         escapeKey: !disableEscapeKeyDown,
     });
 
-    const {getReferenceProps, getFloatingProps} = useInteractions([dismiss]);
+    const {getReferenceProps, getFloatingProps} = useInteractions([role, dismiss]);
 
     React.useLayoutEffect(() => {
         setGetAnchorProps?.(getReferenceProps);
@@ -281,7 +287,6 @@ export function Popup({
                         style={style}
                         data-qa={qa}
                         id={id}
-                        role={role}
                         {...filterDOMProps(restProps)}
                     >
                         {hasArrow && (

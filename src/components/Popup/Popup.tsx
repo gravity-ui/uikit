@@ -119,8 +119,12 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
     id?: string;
     /** CSS property `z-index` */
     zIndex?: number;
+    /** Callback called when `Popup` is opened and "in" transition is started */
+    onTransitionIn?: () => void;
     /** Callback called when `Popup` is opened and "in" transition is completed */
     onTransitionInComplete?: () => void;
+    /** Callback called when `Popup` is closed and "out" transition is started */
+    onTransitionOut?: () => void;
     /** Callback called when `Popup` is closed and "out" transition is completed */
     onTransitionOutComplete?: () => void;
 }
@@ -160,6 +164,8 @@ export function Popup({
     id,
     role: roleProp,
     zIndex = 1000,
+    onTransitionIn,
+    onTransitionOut,
     onTransitionInComplete,
     onTransitionOutComplete,
     ...restProps
@@ -231,8 +237,8 @@ export function Popup({
     });
 
     const role = useRole(context, {
-        enabled: Boolean(roleProp),
-        role: roleProp,
+        enabled: Boolean(roleProp || modalFocus),
+        role: roleProp ?? (modalFocus ? 'dialog' : undefined),
     });
     const dismiss = useDismiss(context, {
         enabled: !disableOutsideClick || !disableEscapeKeyDown,
@@ -274,19 +280,25 @@ export function Popup({
         [status, onTransitionInComplete],
     );
 
-    // Cannot use transitionend event for "out" transition due to unmounting from the DOM
+    // Cannot use transitionend event for these callbacks due to unmounting from the DOM
     React.useEffect(() => {
+        if (status === 'initial' && previousStatus === 'unmounted') {
+            onTransitionIn?.();
+        }
+        if (status === 'close' && previousStatus === 'open') {
+            onTransitionOut?.();
+        }
         if (status === 'unmounted' && previousStatus === 'close') {
             onTransitionOutComplete?.();
         }
-    }, [status, previousStatus, onTransitionOutComplete]);
+    }, [status, previousStatus, onTransitionIn, onTransitionOut, onTransitionOutComplete]);
 
     return isMounted || keepMounted ? (
         <Portal disablePortal={disablePortal}>
             <FloatingFocusManager
                 context={context}
-                disabled={!autoFocus}
-                modal={modalFocus}
+                disabled={!autoFocus || !isMounted}
+                modal={modalFocus && isMounted}
                 initialFocus={initialFocus ?? initialFocusRef}
                 returnFocus={returnFocus}
                 visuallyHiddenDismiss={disableFocusVisuallyHiddenDismiss ? false : i18n('close')}
@@ -305,11 +317,12 @@ export function Popup({
                     }}
                     data-floating-ui-placement={finalPlacement}
                     data-floating-ui-status={status}
+                    aria-modal={modalFocus && isMounted ? true : undefined}
                     {...getFloatingProps({...floatingProps, onTransitionEnd: handleTransitionEnd})}
                 >
                     <div
                         ref={contentRef}
-                        className={b({mounted: isMounted}, className)}
+                        className={b({open: isMounted}, className)}
                         style={style}
                         data-qa={qa}
                         id={id}

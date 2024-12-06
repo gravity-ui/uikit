@@ -8,9 +8,10 @@ import {useForkRef} from '../../hooks';
 import {usePopper, useRestoreFocus} from '../../hooks/private';
 import type {PopperAnchorRef, PopperPlacement, PopperProps} from '../../hooks/private';
 import {Portal} from '../Portal';
-import type {DOMProps, QAProps} from '../types';
+import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {FocusTrap, useParentFocusTrap} from '../utils/FocusTrap';
 import {block} from '../utils/cn';
+import {filterDOMProps} from '../utils/filterDOMProps';
 import {useLayer} from '../utils/layer-manager';
 import type {LayerExtendableProps} from '../utils/layer-manager/LayerManager';
 import {getCSSTransitionClassNames} from '../utils/transition';
@@ -22,7 +23,12 @@ import './Popup.scss';
 export type PopupPlacement = PopperPlacement;
 export type PopupAnchorRef = PopperAnchorRef;
 
-export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps, QAProps {
+export interface PopupProps
+    extends DOMProps,
+        AriaLabelingProps,
+        LayerExtendableProps,
+        PopperProps,
+        QAProps {
     children?: React.ReactNode;
     /** Manages `Popup` visibility */
     open?: boolean;
@@ -60,10 +66,6 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
     restoreFocus?: boolean;
     /** Element the focus will be restored to, depends on `restoreFocus` */
     restoreFocusRef?: React.RefObject<HTMLElement>;
-    /** `aria-label` attribute, use this attribute only if you didn't have visible caption */
-    'aria-label'?: React.AriaAttributes['aria-label'];
-    /** `aria-labelledby` attribute, prefer this attribute if you have visible caption */
-    'aria-labelledby'?: React.AriaAttributes['aria-labelledby'];
     /** `aria-modal` attribute, default value is equal to focusTrap */
     'aria-modal'?: React.AriaAttributes['aria-modal'];
     /** `aria-role` attribute */
@@ -111,13 +113,12 @@ export function Popup({
     qa,
     restoreFocus,
     restoreFocusRef,
-    'aria-label': ariaLabel,
-    'aria-labelledby': ariaLabelledBy,
     role: roleProp,
     id,
     focusTrap = false,
     autoFocus = false,
     'aria-modal': ariaModal = focusTrap,
+    ...otherProps
 }: PopupProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -184,6 +185,7 @@ export function Popup({
         >
             <Portal container={container} disablePortal={disablePortal}>
                 <div
+                    {...filterDOMProps(otherProps, {labelable: true})}
                     ref={handleRef}
                     style={styles.popper}
                     {...attributes.popper}
@@ -192,8 +194,6 @@ export function Popup({
                     data-qa={qa}
                     id={id}
                     role={role}
-                    aria-label={ariaLabel}
-                    aria-labelledby={ariaLabelledBy}
                     aria-modal={ariaModal && open ? ariaModal : undefined}
                 >
                     <FocusTrap enabled={focusTrap && open} autoFocus={autoFocus}>

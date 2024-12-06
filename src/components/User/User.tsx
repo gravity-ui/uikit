@@ -2,6 +2,7 @@ import React from 'react';
 
 import {Avatar} from '../Avatar';
 import {block} from '../utils/cn';
+import {filterDOMProps} from '../utils/filterDOMProps';
 
 import {COMPACT_SIZES, DEFAULT_SIZE} from './constants';
 import type {UserProps} from './types';
@@ -17,26 +18,15 @@ export const UserQa = {
 
 export const User = React.forwardRef<HTMLDivElement, UserProps>(
     (
-        {
-            avatar,
-            name,
-            description,
-            size = DEFAULT_SIZE,
-            'aria-label': ariaLabel,
-            'aria-labelledby': ariaLabelledby,
-            className,
-            style,
-            qa,
-        },
+        {avatar, name, description, size = DEFAULT_SIZE, className, style, qa, ...otherProps},
         ref,
     ) => {
         const showDescription = Boolean(description && !COMPACT_SIZES.includes(size));
 
         return (
             <div
+                {...filterDOMProps(otherProps, {labelable: true})}
                 className={b({size}, className)}
-                aria-label={ariaLabel}
-                aria-labelledby={ariaLabelledby}
                 style={style}
                 data-qa={qa}
                 ref={ref}

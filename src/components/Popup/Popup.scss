@@ -7,6 +7,7 @@ $arrow-offset: 9px;
 $arrow-border: 5px;
 $arrow-circle-width: 28px;
 $arrow-circle-height: 30px;
+$transition-duration: 100ms;
 $transition-distance: 10px;
 
 #{$block} {
@@ -42,7 +43,7 @@ $transition-distance: 10px;
 
     @at-root [data-floating-ui-status='open'] &,
         [data-floating-ui-status='close'] & {
-        transition-duration: 100ms;
+        transition-duration: $transition-duration;
     }
 
     @at-root [data-floating-ui-status='initial'] &,

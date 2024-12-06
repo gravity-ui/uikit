@@ -28,6 +28,7 @@ import type {
 } from '@floating-ui/react';
 
 import {useForkRef} from '../../hooks';
+import {usePrevious} from '../../hooks/private';
 import {Portal} from '../Portal';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
@@ -116,8 +117,12 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
     role?: UseRoleProps['role'];
     /** HTML `id` attribute */
     id?: string;
-    // CSS property `z-index`
+    /** CSS property `z-index` */
     zIndex?: number;
+    /** Callback called when `Popup` is opened and "in" transition is completed */
+    onTransitionInComplete?: () => void;
+    /** Callback called when `Popup` is closed and "out" transition is completed */
+    onTransitionOutComplete?: () => void;
 }
 
 const b = block('popup');
@@ -155,6 +160,8 @@ export function Popup({
     id,
     role: roleProp,
     zIndex = 1000,
+    onTransitionInComplete,
+    onTransitionOutComplete,
     ...restProps
 }: PopupProps) {
     const contentRef = React.useRef<HTMLDivElement>(null);
@@ -240,6 +247,7 @@ export function Popup({
     }, [setGetAnchorProps, getReferenceProps]);
 
     const {isMounted, status} = useTransitionStatus(context, {duration: TRANSITION_DURATION});
+    const previousStatus = usePrevious(status);
 
     React.useEffect(() => {
         if (isMounted && elements.reference && elements.floating) {
@@ -254,6 +262,24 @@ export function Popup({
         floatingRef,
         initialFocusRef,
     );
+
+    const handleTransitionEnd = React.useCallback(
+        (event: React.TransitionEvent) => {
+            // There are two simultaneous transitions running at the same time
+            // Use specific name to only notify once
+            if (status === 'open' && event.propertyName === 'transform') {
+                onTransitionInComplete?.();
+            }
+        },
+        [status, onTransitionInComplete],
+    );
+
+    // Cannot use transitionend event for "out" transition due to unmounting from the DOM
+    React.useEffect(() => {
+        if (status === 'unmounted' && previousStatus === 'close') {
+            onTransitionOutComplete?.();
+        }
+    }, [status, previousStatus, onTransitionOutComplete]);
 
     return isMounted || keepMounted ? (
         <Portal disablePortal={disablePortal}>
@@ -279,7 +305,7 @@ export function Popup({
                     }}
                     data-floating-ui-placement={finalPlacement}
                     data-floating-ui-status={status}
-                    {...getFloatingProps(floatingProps)}
+                    {...getFloatingProps({...floatingProps, onTransitionEnd: handleTransitionEnd})}
                 >
                     <div
                         ref={contentRef}

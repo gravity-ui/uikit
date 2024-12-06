@@ -36,15 +36,15 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
-S: Small size, used when the regular loader is too large.
+`S`: Small size, used when the regular loader is too large.
 
-M: Medium (basic) size, used in most cases.
+`M`: Medium (basic) size, used in most cases.
 
-L: Large size, used when the regular loader is too small.
+`L`: Large size, used when the regular loader is too small.
 
 ## Properties
 
-| Name      | Description                       |       Type        | Default |
-| :-------- | :-------------------------------- | :---------------: | :-----: |
-| size      | Loader size                       | `"s"` `"m"` `"l"` |  `"s"`  |
-| className | Custom CSS class for root element |     `string`      |         |
+| Name      | Description                           |       Type        | Default |
+| :-------- | :------------------------------------ | :---------------: | :-----: |
+| size      | Loader size                           | `"s"` `"m"` `"l"` |  `"s"`  |
+| className | Custom CSS class for the root element |     `string`      |         |

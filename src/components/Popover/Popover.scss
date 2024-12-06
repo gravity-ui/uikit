@@ -24,13 +24,11 @@ $block: '.#{variables.$ns}popover';
         --_--close-offset: 8px;
         --_--close-size: 24px;
 
-        &-popup-content {
-            box-sizing: border-box;
-            min-height: 40px;
-            max-width: var(--g-popover-max-width, 300px);
-            padding: var(--g-popover-padding, var(--_--padding));
-            cursor: default;
-        }
+        box-sizing: border-box;
+        min-height: 40px;
+        max-width: var(--g-popover-max-width, 300px);
+        padding: var(--g-popover-padding, var(--_--padding));
+        cursor: default;
 
         &-title {
             @include mixins.text-subheader-3();

@@ -26,7 +26,7 @@ $transition-distance: 10px;
     transition-property: opacity, transform;
     transition-timing-function: ease-out;
 
-    &_mounted {
+    &_open {
         visibility: visible;
     }
 

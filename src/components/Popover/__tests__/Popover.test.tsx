@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {setupTimersMock} from '../../../../test-utils/setupTimersMock';
-import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
+import {act, fireEvent, render, screen, waitFor} from '../../../../test-utils/utils';
 import {Popover} from '../Popover';
 import {PopoverBehavior, delayByBehavior} from '../config';
 import type {PopoverProps} from '../types';
@@ -29,14 +29,16 @@ const waitForTooltipOpenedStateChange = (shouldOpen?: boolean) =>
 const checkIfPopoverOpened = () => {
     const popover = screen.queryByTestId('popover-tooltip');
 
-    expect(popover).toHaveClass('g-popup_open');
+    expect(popover).toBeInTheDocument();
 };
 
-const checkIfPopoverClosed = () => {
+const checkIfPopoverClosed = async () => {
     const popover = screen.queryByTestId('popover-tooltip');
 
     if (popover) {
-        expect(popover).not.toHaveClass('g-popup_open');
+        await waitFor(() => {
+            expect(popover).not.toBeInTheDocument();
+        });
     } else {
         expect(true).toBe(true);
     }
@@ -62,21 +64,21 @@ test('Can be opened/closed on hover/unhover', async () => {
 
     const popoverTrigger = screen.getByText(defaultTriggerText);
     fireEvent.mouseEnter(popoverTrigger);
-    act(() => {
+    await act(async () => {
         waitForTooltipOpenedStateChange(true);
     });
 
     checkIfPopoverOpened();
 
     fireEvent.mouseLeave(popoverTrigger);
-    act(() => {
+    await act(async () => {
         waitForTooltipOpenedStateChange(false);
     });
 
-    checkIfPopoverClosed();
+    await checkIfPopoverClosed();
 });
 
-test("Doesn't close if the cursor is on the tooltip", () => {
+test("Doesn't close if the cursor is on the tooltip", async () => {
     render(
         renderPopover({
             openOnHover: true,
@@ -86,21 +88,21 @@ test("Doesn't close if the cursor is on the tooltip", () => {
 
     const popoverTrigger = screen.getByText(defaultTriggerText);
     fireEvent.mouseEnter(popoverTrigger);
-    act(() => {
+    await act(async () => {
         waitForTooltipOpenedStateChange(true);
     });
 
     const tooltip = screen.getByText(defaultTooltipContent);
     fireEvent.mouseLeave(popoverTrigger);
     fireEvent.mouseEnter(tooltip);
-    act(() => {
+    await act(async () => {
         waitForTooltipOpenedStateChange(false);
     });
 
     checkIfPopoverOpened();
 });
 
-test("Doesn't close on unhover if not autoclosable", () => {
+test("Doesn't close on unhover if not autoclosable", async () => {
     render(
         renderPopover({
             openOnHover: true,
@@ -110,18 +112,18 @@ test("Doesn't close on unhover if not autoclosable", () => {
 
     const popoverTrigger = screen.getByText(defaultTriggerText);
     fireEvent.mouseEnter(popoverTrigger);
-    act(() => {
+    await act(async () => {
         waitForTooltipOpenedStateChange(true);
     });
     fireEvent.mouseLeave(popoverTrigger);
-    act(() => {
+    await act(async () => {
         waitForTooltipOpenedStateChange(false);
     });
 
     checkIfPopoverOpened();
 });
 
-test('Can be opened/closed on click', () => {
+test('Can be opened/closed on click', async () => {
     render(
         renderPopover({
             openOnHover: false,
@@ -136,10 +138,10 @@ test('Can be opened/closed on click', () => {
 
     fireEvent.click(popoverTrigger);
 
-    checkIfPopoverClosed();
+    await checkIfPopoverClosed();
 });
 
-test("Can't be opened by click if onClick returns false", () => {
+test("Can't be opened by click if onClick returns false", async () => {
     render(
         renderPopover({
             openOnHover: false,
@@ -152,10 +154,10 @@ test("Can't be opened by click if onClick returns false", () => {
     const popoverTrigger = screen.getByText(defaultTriggerText);
     fireEvent.click(popoverTrigger);
 
-    checkIfPopoverClosed();
+    await checkIfPopoverClosed();
 });
 
-test("Can't be opened if disabled", () => {
+test("Can't be opened if disabled", async () => {
     render(
         renderPopover({
             disabled: true,
@@ -165,10 +167,10 @@ test("Can't be opened if disabled", () => {
     const popoverTrigger = screen.getByText(defaultTriggerText);
     fireEvent.click(popoverTrigger);
 
-    checkIfPopoverClosed();
+    await checkIfPopoverClosed();
 });
 
-test('Can be closed on click', () => {
+test('Can be closed on click', async () => {
     render(
         renderPopover({
             hasClose: true,
@@ -181,7 +183,7 @@ test('Can be closed on click', () => {
     const closeButton = screen.getByRole('button', {name: 'Close'});
     fireEvent.click(closeButton);
 
-    checkIfPopoverClosed();
+    await checkIfPopoverClosed();
 });
 
 test('Calls close button click handler on close button click', () => {

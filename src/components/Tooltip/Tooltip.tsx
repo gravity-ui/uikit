@@ -63,7 +63,6 @@ export const Tooltip = (props: TooltipProps) => {
                 disablePortal={disablePortal}
                 disableEscapeKeyDown
                 disableOutsideClick
-                disableLayer
                 qa={qa}
             >
                 <div className={b('content', contentClassName)}>

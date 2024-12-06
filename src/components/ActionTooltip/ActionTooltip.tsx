@@ -63,7 +63,6 @@ export function ActionTooltip(props: ActionTooltipProps) {
                 anchorElement={anchorElement}
                 disableEscapeKeyDown
                 disableOutsideClick
-                disableLayer
                 qa={qa}
             >
                 <div className={b('content', contentClassName)}>

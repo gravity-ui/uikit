@@ -2,7 +2,7 @@ import React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {createEvent, fireEvent, render, screen} from '../../../../test-utils/utils';
+import {createEvent, fireEvent, render, screen, waitFor} from '../../../../test-utils/utils';
 import {Tooltip} from '../Tooltip';
 
 export function fireAnimationEndEvent(el: Node | Window, animationName = 'animation') {
@@ -44,9 +44,9 @@ test('should show tooltip on hover and hide on un hover', async () => {
 
     await user.unhover(button);
 
-    fireAnimationEndEvent(tooltip);
-
-    expect(tooltip).not.toBeInTheDocument();
+    await waitFor(() => {
+        expect(tooltip).not.toBeInTheDocument();
+    });
 });
 
 test('should not show tooltip on focus', async () => {
@@ -89,5 +89,8 @@ test('should hide on press Escape', async () => {
     fireAnimationEndEvent(tooltip);
 
     expect(button).toHaveFocus();
-    expect(tooltip).not.toBeInTheDocument();
+
+    await waitFor(() => {
+        expect(tooltip).not.toBeInTheDocument();
+    });
 });

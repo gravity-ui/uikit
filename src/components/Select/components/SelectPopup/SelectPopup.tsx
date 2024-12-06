@@ -21,6 +21,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
     (
         {
             handleClose,
+            onAfterOpen,
             onAfterClose,
             width,
             open,
@@ -46,18 +47,20 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             </Sheet>
         ) : (
             <Popup
-                contentClassName={b(null, className)}
+                className={b(null, className)}
                 qa={SelectQa.POPUP}
                 anchorRef={ref as React.RefObject<HTMLDivElement>}
                 placement={placement}
                 open={open}
                 onClose={handleClose}
                 disablePortal={disablePortal}
-                restoreFocus
-                restoreFocusRef={controlRef}
-                middlewares={getMiddlewares({width, disablePortal, virtualized})}
+                autoFocus
+                initialFocus={-1}
+                returnFocus={controlRef}
+                floatingMiddlewares={getMiddlewares({width, disablePortal, virtualized})}
                 id={id}
-                onTransitionExited={onAfterClose}
+                onTransitionIn={onAfterOpen}
+                onTransitionOutComplete={onAfterClose}
             >
                 {children}
             </Popup>

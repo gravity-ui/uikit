@@ -9,14 +9,15 @@ $transition-timing-function: ease-in-out;
     --_--bg-color: none;
     --_--bg-color-hover: none;
     --_--text-color: none;
+    --_--font-size: var(--g-text-body-1-font-size);
 
     display: inline-flex;
     align-items: center;
     position: relative;
-    height: var(--_--height);
-    border-radius: var(--_--border-radius);
-    color: var(--_--text-color);
-    background-color: var(--_--bg-color);
+    height: var(--g-label-height, var(--_--height));
+    border-radius: var(--g-label-border-radius, var(--_--border-radius));
+    color: var(--g-label-text-color, var(--_--text-color));
+    background-color: var(--g-label-background-color, var(--_--bg-color));
     transition-property: opacity, color, background-color;
     transition-duration: $transition-duration;
     transition-timing-function: $transition-timing-function;
@@ -25,12 +26,14 @@ $transition-timing-function: ease-in-out;
     isolation: isolate;
 
     &__text {
-        @include mixins.text-body-1();
         display: flex;
         align-items: baseline;
-        margin: 0 var(--_--margin-inline);
+        margin: 0 var(--g-label-margin-inline, var(--_--margin-inline));
         width: 100%;
-        line-height: var(--_--height);
+        font-family: var(--g-text-body-font-family);
+        font-weight: var(--g-text-body-font-weight);
+        font-size: var(--g-label-font-size, var(--_--font-size));
+        line-height: var(--g-label-height, var(--_--height));
         text-align: center;
         white-space: nowrap;
         overflow: hidden;
@@ -67,9 +70,9 @@ $transition-timing-function: ease-in-out;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: var(--_--height);
-        height: var(--_--height);
-        border-radius: var(--_--border-radius);
+        width: var(--g-label-height, var(--_--height));
+        height: var(--g-label-height, var(--_--height));
+        border-radius: var(--g-label-border-radius, var(--_--border-radius));
 
         &_side_start,
         &_side_end {
@@ -93,7 +96,7 @@ $transition-timing-function: ease-in-out;
             @include mixins.button-reset();
             z-index: 2;
             cursor: pointer;
-            color: var(--_--text-color);
+            color: var(--g-label-text-color, var(--_--text-color));
             background-color: transparent;
             transition:
                 color $transition-duration $transition-timing-function,
@@ -189,7 +192,8 @@ $transition-timing-function: ease-in-out;
             --_--bg-color-hover: var(--g-color-base-simple-hover);
             --_--text-color: var(--g-color-text-complementary);
 
-            box-shadow: inset 0 0 0 1px var(--g-color-line-generic);
+            box-shadow: inset 0 0 0 var(--g-label-border-width, 1px)
+                var(--g-label-border-color, var(--g-color-line-generic));
         }
     }
 
@@ -204,12 +208,14 @@ $transition-timing-function: ease-in-out;
     // hover styles
     &_interactive:hover:not(:has(#{$block}__addon_type_button:hover)),
     &__addon_type_button:hover {
-        background-color: var(--_--bg-color-hover);
+        background-color: var(--g-label-background-color-hover, var(--_--bg-color-hover));
     }
 
     // focus styles
     &__main-button:focus-visible,
     &__addon_type_button:focus-visible {
-        outline: 2px solid var(--g-color-line-focus);
+        outline: var(--g-label-focus-outline-width, 2px) var(--g-label-focus-outline-style, solid)
+            var(--g-label-focus-outline-color, var(--g-color-line-focus));
+        outline-offset: var(--g-label-focus-outline-offset, 0);
     }
 }

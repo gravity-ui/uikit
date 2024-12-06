@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {setupTimersMock} from '../../../../test-utils/setupTimersMock';
-import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
+import {act, fireEvent, render, screen, waitFor} from '../../../../test-utils/utils';
 import {Popover} from '../Popover';
 import {PopoverBehavior, delayByBehavior} from '../config';
 import type {PopoverProps} from '../types';
@@ -32,11 +32,13 @@ const checkIfPopoverOpened = () => {
     expect(popover).toHaveClass('g-popup_open');
 };
 
-const checkIfPopoverClosed = () => {
+const checkIfPopoverClosed = async () => {
     const popover = screen.queryByTestId('popover-tooltip');
 
     if (popover) {
-        expect(popover).not.toHaveClass('g-popup_open');
+        await waitFor(() => {
+            expect(popover).not.toHaveClass('g-popup_open');
+        });
     } else {
         expect(true).toBe(true);
     }

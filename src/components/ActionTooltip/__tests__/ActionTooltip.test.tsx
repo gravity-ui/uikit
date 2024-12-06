@@ -2,7 +2,7 @@ import React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {createEvent, fireEvent, render, screen} from '../../../../test-utils/utils';
+import {createEvent, fireEvent, render, screen, waitFor} from '../../../../test-utils/utils';
 import {ActionTooltip} from '../ActionTooltip';
 
 export function fireAnimationEndEvent(el: Node | Window, animationName = 'animation') {
@@ -46,7 +46,9 @@ test('should show tooltip on hover and hide on un hover', async () => {
 
     fireAnimationEndEvent(tooltip);
 
-    expect(tooltip).not.toBeInTheDocument();
+    await waitFor(() => {
+        expect(tooltip).not.toBeInTheDocument();
+    });
 });
 
 test('should show tooltip on focus and hide on blur', async () => {
@@ -71,7 +73,9 @@ test('should show tooltip on focus and hide on blur', async () => {
     fireAnimationEndEvent(tooltip);
 
     expect(button).not.toHaveFocus();
-    expect(tooltip).not.toBeInTheDocument();
+    await waitFor(() => {
+        expect(tooltip).not.toBeInTheDocument();
+    });
 });
 
 test('should hide on press Escape', async () => {
@@ -96,7 +100,9 @@ test('should hide on press Escape', async () => {
     fireAnimationEndEvent(tooltip);
 
     expect(button).toHaveFocus();
-    expect(tooltip).not.toBeInTheDocument();
+    await waitFor(() => {
+        expect(tooltip).not.toBeInTheDocument();
+    });
 });
 
 test('should show on focus and hide on un hover', async () => {
@@ -124,5 +130,7 @@ test('should show on focus and hide on un hover', async () => {
     fireAnimationEndEvent(tooltip);
 
     expect(button).toHaveFocus();
-    expect(tooltip).not.toBeInTheDocument();
+    await waitFor(() => {
+        expect(tooltip).not.toBeInTheDocument();
+    });
 });

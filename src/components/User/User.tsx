@@ -3,17 +3,12 @@ import React from 'react';
 import {Avatar} from '../Avatar';
 import {block} from '../utils/cn';
 
-import {COMPACT_SIZES, DEFAULT_SIZE} from './constants';
+import {COMPACT_SIZES, DEFAULT_SIZE, UserQa} from './constants';
 import type {UserProps} from './types';
 
 import './User.scss';
 
 const b = block('user');
-
-export const UserQa = {
-    NAME: 'user-name',
-    DESCRIPTION: 'user-description',
-};
 
 export const User = React.forwardRef<HTMLDivElement, UserProps>(
     (
@@ -30,7 +25,10 @@ export const User = React.forwardRef<HTMLDivElement, UserProps>(
         },
         ref,
     ) => {
-        const showDescription = Boolean(description && !COMPACT_SIZES.includes(size));
+        const showDescription = Boolean(description && !COMPACT_SIZES.has(size));
+
+        const nameTitle = typeof name === 'string' ? name : undefined;
+        const descriptionTitle = typeof description === 'string' ? description : undefined;
 
         return (
             <div
@@ -43,18 +41,26 @@ export const User = React.forwardRef<HTMLDivElement, UserProps>(
             >
                 {avatar ? (
                     <div className={b('avatar')}>
-                        {React.isValidElement(avatar) ? avatar : <Avatar {...avatar} size={size} />}
+                        {React.isValidElement(avatar) ? (
+                            avatar
+                        ) : (
+                            <Avatar {...avatar} size={size} title={avatar.title || nameTitle} />
+                        )}
                     </div>
                 ) : null}
                 {name || showDescription ? (
                     <div className={b('info')}>
                         {name ? (
-                            <span className={b('name')} data-qa={UserQa.NAME}>
+                            <span className={b('name')} title={nameTitle} data-qa={UserQa.NAME}>
                                 {name}
                             </span>
                         ) : null}
                         {showDescription ? (
-                            <span className={b('description')} data-qa={UserQa.DESCRIPTION}>
+                            <span
+                                className={b('description')}
+                                title={descriptionTitle}
+                                data-qa={UserQa.DESCRIPTION}
+                            >
                                 {description}
                             </span>
                         ) : null}

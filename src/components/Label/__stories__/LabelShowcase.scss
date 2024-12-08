@@ -4,6 +4,7 @@
     .grid {
         display: grid;
         gap: 30px;
+        width: min-content;
     }
 
     .header {
@@ -14,9 +15,5 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 10px;
-        & > * {
-            width: min-content;
-            margin-inline-start: unset;
-        }
     }
 }

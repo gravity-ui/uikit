@@ -1,9 +1,8 @@
 import React from 'react';
 
 import {Ban} from '@gravity-ui/icons';
-import ReactCopyToClipboard from 'react-copy-to-clipboard';
 
-import {Icon} from '../../components';
+import {CopyToClipboard, Icon} from '../../components';
 import {cn} from '../../components/utils/cn';
 
 import './ColorTable.scss';
@@ -83,9 +82,9 @@ export function ColorTable({theme}: ColorTableProps) {
                                 );
 
                                 return varExist ? (
-                                    <ReactCopyToClipboard text={`var(${varName})`} key={step}>
-                                        {content}
-                                    </ReactCopyToClipboard>
+                                    <CopyToClipboard text={`var(${varName})`} key={step} nativeCopy>
+                                        {() => content}
+                                    </CopyToClipboard>
                                 ) : (
                                     content
                                 );

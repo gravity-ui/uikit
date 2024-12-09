@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {block} from '../utils/cn';
+import {filterDOMProps} from '../utils/filterDOMProps';
 
 import {AvatarIcon} from './AvatarIcon';
 import {AvatarImage} from './AvatarImage';
@@ -20,11 +21,10 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref)
         backgroundColor,
         borderColor,
         title,
-        'aria-label': ariaLabel,
-        'aria-labelledby': ariaLabelledby,
         className,
         style: styleProp,
         qa,
+        ...otherProps
     } = props;
 
     const style = {backgroundColor, color: borderColor, ...styleProp};
@@ -72,11 +72,10 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref)
 
     return (
         <div
+            {...filterDOMProps(otherProps, {labelable: true})}
             className={b({size, theme, view, 'with-border': Boolean(borderColor)}, className)}
             title={title}
             role="img"
-            aria-label={ariaLabel}
-            aria-labelledby={ariaLabelledby}
             style={style}
             data-qa={qa}
             ref={ref}

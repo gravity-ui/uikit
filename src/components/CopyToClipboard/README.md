@@ -8,20 +8,20 @@
 import {CopyToClipboard} from '@gravity-ui/uikit';
 ```
 
-CopyToClipboard is a wrapper component that copies given text to clipboard and can update its content depends on returned status.
+CopyToClipboard is a wrapper component that copies text to clipboard and can update its content depending on the returned status.
 
 ### Children (render function)
 
-The render function passed as children props and can update its content depends on status that is returned as first argument in render function.
-There are 3 available statuses: pending, success, error
+This is a render function provided as children properties. It can update its content depending on the status that is returned as the first argument in the render function.
+There are three available statuses: pending, success, and error.
 
-`pending` - the initial status returned in render function in neutral case
+`pending`: Initial status returned in the render function in the neutral case.
 
-`success` - the result status returned in render function in success case
+`success`: Result status returned in the render function in case of success.
 
-`error` - the result status returned in render function in error case
+`error`: Result status returned in the render function in case of error.
 
-Option `timeout` set the time in ms to restore initial (`pending`) status after one of the result statuses (`success` or `error`).
+The `timeout` option sets the time in ms to restore the initial (`pending`) status after one of the result statuses (`success` or `error`).
 
 <!--LANDING_BLOCK
 
@@ -74,7 +74,7 @@ const buttonText = {
 
 | Name     | Description                                                             |    Type    | Default |
 | :------- | :---------------------------------------------------------------------- | :--------: | :-----: |
-| children | Render function `(status: CopyToClipboardStatus) => React.ReactElement` | `Function` |         |
+| children | `(status: CopyToClipboardStatus) => React.ReactElement` render function | `Function` |         |
 | onCopy   | `copy` event handler                                                    | `Function` |         |
 | text     | Text to copy                                                            |  `string`  |         |
-| timeout  | Time in ms to restore initial state                                     |  `number`  |         |
+| timeout  | Time in ms to restore the initial status                                |  `number`  |         |

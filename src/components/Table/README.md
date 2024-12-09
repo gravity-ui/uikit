@@ -8,11 +8,11 @@
 import {Table} from '@gravity-ui/uikit';
 ```
 
-A table that allows the selecting and sorting of rows, and performing actions on a row.
+A `Table` allows selecting and sorting rows, as well as performing actions on a row.
 
 <!--GITHUB_BLOCK-->
 
-Additional functionality is enabled via HOCs:
+Additional features are enabled through HOCs:
 
 - [withTableActions](#usage-with-hoc-withtableactions)
 - [withTableCopy](#usage-with-hoc-withtablecopy)
@@ -24,59 +24,58 @@ Additional functionality is enabled via HOCs:
 
 ## Properties
 
-| Name                             | Description                                                                                                                                                                     |                                        Type                                        |   Default   |
-| :------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------------------------------------------------------------------------------: | :---------: |
-| data                             | Data                                                                                                                                                                            |                                      `any[]`                                       |             |
-| columns                          | Column parameters                                                                                                                                                               |                               `TableColumnConfig[]`                                |             |
-| verticalAlign                    | Vertical alignment of contents                                                                                                                                                  |                                 `"top"` `"middle"`                                 |             |
-| getRowDescriptor                 | Handler to get row descriptor                                                                                                                                                   |                   `(item: any, index: number) => DescriptorType`                   |             |
-| getRowId                         | The row ID, used when selecting and sorting rows. If you skip a row, its ID will be the value of the field in the row data with the same name as the column ID                  |                 `string` `((item: any, index: number) => string)`                  |             |
-| getRowClassNames                 | Row CSS classes                                                                                                                                                                 |                      `(item: any, index: number) => string[]`                      |             |
-| isRowDisabled                    | Condition for disabling columns                                                                                                                                                 |                      `(item: any, index: number) => boolean`                       |             |
-| onRowClick                       | Row click handler                                                                                                                                                               | `(item: any, index: number, event: React.MouseEvent<HTMLTableRowElement>) => void` |             |
-| onRowMouseEnter                  | Row mouseenter handler                                                                                                                                                          | `(item: any, index: number, event: React.MouseEvent<HTMLTableRowElement>) => void` |             |
-| onRowMouseLeave                  | Row mouseleave handler                                                                                                                                                          | `(item: any, index: number, event: React.MouseEvent<HTMLTableRowElement>) => void` |             |
-| emptyMessage                     | The message returned if data is missing.                                                                                                                                        |                                      `string`                                      | `"No data"` |
-| className                        | Table CSS class                                                                                                                                                                 |                                      `string`                                      |             |
-| edgePadding                      | Adds horizontal padding for edge cells                                                                                                                                          |                                     `boolean`                                      |             |
-| stickyHorizontalScroll           | A horizontal sticky scroll in a table. NB: A table cannot have a fixed height and a sticky scroll at the same time. A sticky scroll will not work if the table has an overflow. |                                     `boolean`                                      |   `false`   |
-| stickyHorizontalScrollBreakpoint | The threshold that the parent block should reach before making a scroll sticky. This is useful in the console, for example, when the groupActions bar closes the scroll.        |                                      `number`                                      |     `0`     |
-| `width`                          | Table width                                                                                                                                                                     |                                  `"auto"` `"max"`                                  |   "auto"    |
+| Name                             | Description                                                                                                                                                                            |                                        Type                                        |   Default   |
+| :------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------: | :---------: |
+| data                             | Data                                                                                                                                                                                   |                                      `any[]`                                       |             |
+| columns                          | Column settings                                                                                                                                                                        |                               `TableColumnConfig[]`                                |             |
+| verticalAlign                    | Vertical alignment of content                                                                                                                                                          |                                 `"top"` `"middle"`                                 |             |
+| getRowDescriptor                 | Handler to get the row descriptor                                                                                                                                                      |                   `(item: any, index: number) => DescriptorType`                   |             |
+| getRowId                         | Row ID used when selecting and sorting rows. If you skip a row, its ID will be the value of the field in the row data with the same name as the column ID.                             |                 `string` `((item: any, index: number) => string)`                  |             |
+| getRowClassNames                 | Row CSS classes                                                                                                                                                                        |                      `(item: any, index: number) => string[]`                      |             |
+| isRowDisabled                    | Condition for disabling columns                                                                                                                                                        |                      `(item: any, index: number) => boolean`                       |             |
+| onRowClick                       | Row click handler                                                                                                                                                                      | `(item: any, index: number, event: React.MouseEvent<HTMLTableRowElement>) => void` |             |
+| onRowMouseEnter                  | Row mouseenter handler                                                                                                                                                                 | `(item: any, index: number, event: React.MouseEvent<HTMLTableRowElement>) => void` |             |
+| onRowMouseLeave                  | Row mouseleave handler                                                                                                                                                                 | `(item: any, index: number, event: React.MouseEvent<HTMLTableRowElement>) => void` |             |
+| emptyMessage                     | Returning a message if the data is missing                                                                                                                                             |                                      `string`                                      | `"No data"` |
+| className                        | Table CSS class                                                                                                                                                                        |                                      `string`                                      |             |
+| edgePadding                      | Adds horizontal padding for edge cells                                                                                                                                                 |                                     `boolean`                                      |             |
+| stickyHorizontalScroll           | Adds a horizontal sticky scroll in a table. Note: A table cannot have a fixed height and a sticky scroll at the same time. A sticky scroll will not work if the table has an overflow. |                                     `boolean`                                      |   `false`   |
+| stickyHorizontalScrollBreakpoint | Threshold the parent block should reach before making a scroll sticky. This is useful in the console, such as when the `groupActions` bar overlaps the scroll.                         |                                      `number`                                      |     `0`     |
 
 ### DescriptorType
 
-| Name       | Description                                      |    Type     | Default |
-| :--------- | :----------------------------------------------- | :---------: | :-----: |
-| id         | The row ID, used when selecting and sorting rows |  `string`   |         |
-| disabled   | Condition for disabling columns                  |  `boolean`  |         |
-| classNames | Row CSS classes                                  | ` string[]` |         |
+| Name       | Description                                 |    Type     | Default |
+| :--------- | :------------------------------------------ | :---------: | :-----: |
+| id         | Row ID used when selecting and sorting rows |  `string`   |         |
+| disabled   | Condition for disabling columns             |  `boolean`  |         |
+| classNames | Row CSS classes                             | ` string[]` |         |
 
 ### TableColumnConfig
 
-| Name        | Description                                                                                                        |                            Type                            |                           Default                           |
-| :---------- | :----------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------: | :---------------------------------------------------------: |
-| id          | Column ID                                                                                                          |                          `string`                          |                                                             |
-| name        | Column name (header)                                                                                               |             `string` `(() => React.ReactNode)`             |                          column ID                          |
-| className   | CSS-class that will be added to all cells in the column                                                            |                          `string`                          |                                                             |
-| placeholder | The stub when there is no data in a cell                                                                           | `string` `((item: any, index: number) => React.ReactNode)` |                        `— (&mdash;)`                        |
-| template    | Cell contents. If you skip a row, the cell contents will be the value of the field with the same name as this row. | `string` `((item: any, index: number) => React.ReactNode)` | The value of the field with the name equal to the column ID |
-| align       | Content alignment                                                                                                  |                `"start"` `"center"` `"end"`                |                                                             |
-| sticky      | Sticky column                                                                                                      |                     `"start"` `"end"`                      |                                                             |
-| primary     | Distinguishes a column among other                                                                                 |                         `boolean`                          |                                                             |
-| width       | Column's content width in px                                                                                       |                     `number` `string`                      |                                                             |
-| meta        | Various data, HOC settings                                                                                         |                   `Record<string, any>`                    |                                                             |
+| Name        | Description                                                                                                        |                            Type                            |                         Default                         |
+| :---------- | :----------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------: | :-----------------------------------------------------: |
+| id          | Column ID                                                                                                          |                          `string`                          |                                                         |
+| name        | Column name (header)                                                                                               |             `string` `(() => React.ReactNode)`             |                        column ID                        |
+| className   | CSS class that will be added to all cells in the column                                                            |                          `string`                          |                                                         |
+| placeholder | Stub when there is no data in a cell                                                                               | `string` `((item: any, index: number) => React.ReactNode)` |                      `— (&mdash;)`                      |
+| template    | Cell contents. If you skip a row, the cell contents will be the value of the field with the same name as this row. | `string` `((item: any, index: number) => React.ReactNode)` | Value of the field with the name equal to the column ID |
+| align       | Content alignment                                                                                                  |                `"start"` `"center"` `"end"`                |                                                         |
+| sticky      | Sticky column                                                                                                      |                     `"start"` `"end"`                      |                                                         |
+| primary     | Identifies a column as primary as opposed to others                                                                |                         `boolean`                          |                                                         |
+| width       | Column's content width in pixels                                                                                   |                     `number` `string`                      |                                                         |
+| meta        | Miscellaneous data including the HOC settings                                                                      |                   `Record<string, any>`                    |                                                         |
 
-## Usage with HOC `withTableActions`
+## Using `Table` with the `withTableActions` HOC
 
-Adds a special column with actions to table columns.
+This HOC adds a special column with actions to table columns.
 
 ### Properties
 
-| Name             | Description                                 |                           Type                           |
-| :--------------- | :------------------------------------------ | :------------------------------------------------------: |
-| getRowActions    | Array of action configs for each row        |   `(item: any, index: number) => TableActionConfig[]`    |
-| renderRowActions | render function for Actions Cell            | `(props: {item: any; index: number}) => React.ReactNode` |
-| rowActionsSize   | Size of actions button and popup menu items |                 `"s"` `"m"` `"l"` `"xl"`                 |
+| Name             | Description                                    |                           Type                           |
+| :--------------- | :--------------------------------------------- | :------------------------------------------------------: |
+| getRowActions    | Array of action configs for each row           |   `(item: any, index: number) => TableActionConfig[]`    |
+| renderRowActions | Render function for Actions Cell               | `(props: {item: any; index: number}) => React.ReactNode` |
+| rowActionsSize   | Size of the action button and popup menu items |                 `"s"` `"m"` `"l"` `"xl"`                 |
 
 ### TableActionConfig
 
@@ -86,16 +85,16 @@ type TableActionConfig = TableAction | TableActionGroup;
 
 #### TableAction
 
-| Name     | Description                                                        |                 Type                 |  Default   |
-| :------- | :----------------------------------------------------------------- | :----------------------------------: | :--------: |
-| text     | Text                                                               |               `string`               |            |
-| handler  | Click handler                                                      | `(item: any, index: number) => void` |            |
-| disabled | Action disabled                                                    |              `boolean`               |            |
-| href     | Menu item with this prop becomes a link to the specified location. |               `string`               |            |
-| target   | Same as the `target` attribute of the `<a>` tag.                   |               `string`               |            |
-| rel      | Same as the `rel` attribute of the `<a>` tag.                      |               `string`               |            |
-| theme    | Theme                                                              |        `"normal"` `"danger"`         | `"normal"` |
-| icon     | Icon to display next to the text                                   |          `React.ReactNode`           |            |
+| Name     | Description                                                              |                 Type                 |  Default   |
+| :------- | :----------------------------------------------------------------------- | :----------------------------------: | :--------: |
+| text     | Text                                                                     |               `string`               |            |
+| handler  | Click handler                                                            | `(item: any, index: number) => void` |            |
+| disabled | Action disabled                                                          |              `boolean`               |            |
+| href     | A menu item with this property becomes a link to the specified location. |               `string`               |            |
+| target   | Same as the `target` attribute of the `<a>` tag.                         |               `string`               |            |
+| rel      | Same as the `rel` attribute of the `<a>` tag.                            |               `string`               |            |
+| theme    | Theme                                                                    |        `"normal"` `"danger"`         | `"normal"` |
+| icon     | Icon to display next to the text                                         |          `React.ReactNode`           |            |
 
 #### TableActionGroup
 
@@ -157,15 +156,15 @@ const table = (
 );
 ```
 
-## Usage with HOC `withTableCopy`
+## Using `Table` with the `withTableCopy` HOC
 
-Allows the contents of a cell or any text to be copied.
+This HOC enables copying the contents of a cell or any other text.
 
 ### ColumnMeta
 
-| Name | Description                                                             |                                            Type                                             |
-| :--- | :---------------------------------------------------------------------- | :-----------------------------------------------------------------------------------------: |
-| copy | The text to be copies. If true is passed, the cell contents are copied. | `boolean` `((item: any, index: number) => string)` `((item: any, index: number) => number)` |
+| Name | Description                                                           |                                            Type                                             |
+| :--- | :-------------------------------------------------------------------- | :-----------------------------------------------------------------------------------------: |
+| copy | Text to copy. If the value is true, copying cell contents is allowed. | `boolean` `((item: any, index: number) => string)` `((item: any, index: number) => number)` |
 
 ### Example
 
@@ -185,15 +184,15 @@ const columns = [
 const table = <MyTable data={data} columns={columns} />;
 ```
 
-## Usage with HOC `withTableSelection`
+## Using `Table` with the `withTableSelection` HOC
 
-Enables the selection of table rows.
+This HOC enables selecting table rows.
 
 ### Properties
 
 | Name              | Description                 |           Type            |
 | :---------------- | :-------------------------- | :-----------------------: |
-| selectedIds       | Rows selected               |        `string[]`         |
+| selectedIds       | Selected rows               |        `string[]`         |
 | onSelectionChange | Selected row change handler | `(ids: string[]) => void` |
 
 ### Example
@@ -224,9 +223,9 @@ function SelectionTable() {
 }
 ```
 
-## Usage with HOC `withTableSettings`
+## Using `Table` with the `withTableSettings` HOC
 
-Enables functionality for table column settings. You can use ut in two forms:
+This HOC enables features for table column settings. You can use it in two ways:
 
 ```jsx
 import {Table, withTableSettings} from './withTableSettings';
@@ -239,32 +238,30 @@ const MyTable1 = withTableSettings({sortable: false})(Table);
 
 ### Options
 
-| Name            | Description                                                                                                                                             |        Type         | Default |
-| :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------ | :-----------------: | :-----: |
-| width           | Settings' popup width                                                                                                                                   |  `number` `"fit"`   |         |
-| sortable        | Whether or not add ability to sort settings items                                                                                                       |      `boolean`      | `true`  |
-| filterable      | Whether or not add ability to filter settings items                                                                                                     |      `boolean`      | `false` |
-| defaultSettings | Settings to which you can reset the current settings                                                                                                    | `TableSettingsData` |         |
-| showResetButton | Display a reset button that resets the current settings changes. If the `defaultSettings` prop is set then the settings reset to the `defaultSettings`. |      `boolean`      |         |
+| Name       | Description                                  |       Type       | Default |
+| :--------- | :------------------------------------------- | :--------------: | :-----: |
+| width      | Settings popup width                         | `number` `"fit"` |         |
+| sortable   | Enables or disables sorting settings items   |    `boolean`     | `true`  |
+| filterable | Enables or disables filtering settings items |    `boolean`     | `false` |
 
 ### ColumnMeta
 
-| Name              | Description                                                                |   Type    | Default |
-| :---------------- | :------------------------------------------------------------------------- | :-------: | :-----: |
-| selectedByDefault | Specifies whether a column is selected if it is missing from the settings. | `boolean` | `true`  |
-| selectedAlways    | Makes the column always selected. You cannot change its visibility.        | `boolean` | `false` |
+| Name              | Description                                                               |   Type    | Default |
+| :---------------- | :------------------------------------------------------------------------ | :-------: | :-----: |
+| selectedByDefault | Enables or disables selecting a column if it is missing from the settings | `boolean` | `true`  |
+| selectedAlways    | Makes the column always selected. You cannot change its visibility.       | `boolean` | `false` |
 
 ### Properties
 
-| Name                       | Description                                                                |                           Type                           |
-| :------------------------- | :------------------------------------------------------------------------- | :------------------------------------------------------: |
-| settingsPopupWidth         | TableColumnSetup pop-up width                                              |                     `number` `"fit"`                     |
-| settings                   | Current settings                                                           |                   `TableSettingsData`                    |
-| updateSettings             | Settings update handle                                                     |       `(data: TableSettingsData) => Promise<void>`       |
-| renderControls             | (deprecated) use `defaultSettings` and `showResetButton` to reset settings |                     `RenderControls`                     |
-| settingsFilterPlaceholder  | Text that appears in the control when no search value is set               |                         `string`                         |
-| settingsFilterEmptyMessage | Text that appears when no one item is found                                |                         `string`                         |
-| filterSettings             | Function for filtering items                                               | `(value: string, item: TableColumnSetupItem) => boolean` |
+| Name                       | Description                                                  |                           Type                           |
+| :------------------------- | :----------------------------------------------------------- | :------------------------------------------------------: |
+| settingsPopupWidth         | `TableColumnSetup` pop-up width                              |                     `number` `"fit"`                     |
+| settings                   | Current settings                                             |                   `TableSettingsData`                    |
+| updateSettings             | Settings update handler                                      |       `(data: TableSettingsData) => Promise<void>`       |
+| renderControls             | Enables rendering custom actions                             |                     `RenderControls`                     |
+| settingsFilterPlaceholder  | Text that appears in the control when no search value is set |                         `string`                         |
+| settingsFilterEmptyMessage | Text that appears when no item is found                      |                         `string`                         |
+| filterSettings             | Function for filtering items                                 | `(value: string, item: TableColumnSetupItem) => boolean` |
 
 ### TableSettingsData
 
@@ -331,16 +328,16 @@ function SelectionTable() {
 }
 ```
 
-## Usage with HOC `withTableSorting`
+## Using `Table` with the `withTableSorting` HOC
 
-Enables column sorting.
+This HOC enables column sorting.
 
 ### ColumnMeta
 
-| Name             | Description                                                                                                                                               |                       Type                       | Default |
-| :--------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------: | :-----: |
-| defaultSortOrder | Sets the primary sorting order                                                                                                                            |                 `"asc"` `"desc"`                 |  `asc`  |
-| sort             | The sorting function. It should return a value for sorting in ascending order. If true is passed, cell values are compared and sorted in ascending order. | `boolean` `((itemA: any, itemB: any) => number)` |         |
+| Name             | Description                                                                                                                                                    |                       Type                       | Default |
+| :--------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------: | :-----: |
+| defaultSortOrder | Sets the primary sorting order                                                                                                                                 |                 `"asc"` `"desc"`                 |  `asc`  |
+| sort             | Sorting function. It should return a value for sorting in the ascending order. If set to true, the cell values are compared and sorted in the ascending order. | `boolean` `((itemA: any, itemB: any) => number)` |         |
 
 ### Properties
 
@@ -350,7 +347,7 @@ Enables column sorting.
 | sortState         | Sorting state                                       |           `TableSortState`            |
 | onSortStateChange | Sorting state change handle                         | `(sortState: TableSortState) => void` |
 
-If the `sortState` and `onSortStateChange` props are not passed, the sorting state is stored in the component itself.
+If the `sortState` and `onSortStateChange` properties are missing, the sorting state is stored in the component itself.
 
 ### TableSortState
 

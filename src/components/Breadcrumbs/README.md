@@ -8,7 +8,7 @@
 import {Breadcrumbs} from '@gravity-ui/uikit';
 ```
 
-`Breadcrumbs` is a navigation element that shows the current location of a page within a website’s hierarchy. It provides links that allow users to return to higher levels in the hierarchy, making it easier to navigate a site with multiple layers. Breadcrumbs are especially useful for large websites and applications with a hierarchical organization of pages.
+`Breadcrumbs` is a navigation element that shows the current location of a page within a website’s hierarchy. It provides links that allow users to return to higher levels in the hierarchy, making it easier to navigate through a website with multiple layers. Breadcrumbs are especially useful for large websites and applications with hierarchy-based structure of pages.
 
 ## Appearance
 
@@ -333,18 +333,18 @@ return (
 
 ## Properties
 
-| Name                     | Description                                             | Type                                                                                                    | Default |
-| :----------------------- | :------------------------------------------------------ | :------------------------------------------------------------------------------------------------------ | :------ |
-| items                    | Breadcrumb item array                                   | `BreadcrumbsItem[]`                                                                                     |         |
-| className                | CSS class name of root element                          | `string`                                                                                                |         |
-| renderRootContent        | Custom render function of first item                    | `((item: BreadcrumbsItem, isCurrent: boolean) => React.ReactNode) \| undefined`                         |         |
-| renderItemContent        | Custom render function of N+1 item                      | `((item: BreadcrumbsItem, isCurrent: boolean, isPrevCurrent: boolean) => React.ReactNode) \| undefined` |         |
-| renderItemDivider        | Custom render function of items separator               | `(() => React.ReactNode) \| undefined`                                                                  |         |
-| renderItem               | Custom render function of items                         | `(props: RenderBreadcrumbsItemProps<T>) => React.ReactNode) \| undefined`                               |         |
-| firstDisplayedItemsCount | Number of items to display before item collapse control | `FirstDisplayedItemsCount.Zero \| FirstDisplayedItemsCount.One`                                         |         |
-| lastDisplayedItemsCount  | Number of items to display after item collapse control  | `LastDisplayedItemsCount.One \| LastDisplayedItemsCount.Two`                                            |         |
-| popupStyle               | Style of collapsed item popup                           | `"staircase" \| undefined`                                                                              |         |
-| qa                       | HTML `data-qa` attribute, used in tests                 | `string`                                                                                                |         |
+| Name                     | Description                                                 | Type                                                                                                    | Default |
+| :----------------------- | :---------------------------------------------------------- | :------------------------------------------------------------------------------------------------------ | :------ |
+| items                    | Breadcrumbs item array                                      | `BreadcrumbsItem[]`                                                                                     |         |
+| className                | CSS class name of the root element                          | `string`                                                                                                |         |
+| renderRootContent        | Custom render function of item 1                            | `((item: BreadcrumbsItem, isCurrent: boolean) => React.ReactNode) \| undefined`                         |         |
+| renderItemContent        | Custom render function of item N+1                          | `((item: BreadcrumbsItem, isCurrent: boolean, isPrevCurrent: boolean) => React.ReactNode) \| undefined` |         |
+| renderItemDivider        | Custom render function of item separator                    | `(() => React.ReactNode) \| undefined`                                                                  |         |
+| renderItem               | Custom render function of items                             | `(props: RenderBreadcrumbsItemProps<T>) => React.ReactNode) \| undefined`                               |         |
+| firstDisplayedItemsCount | Number of items to display before the item collapse control | `FirstDisplayedItemsCount.Zero \| FirstDisplayedItemsCount.One`                                         |         |
+| lastDisplayedItemsCount  | Number of items to display after the item collapse control  | `LastDisplayedItemsCount.One \| LastDisplayedItemsCount.Two`                                            |         |
+| popupStyle               | Style of the collapsed item popup                           | `"staircase" \| undefined`                                                                              |         |
+| qa                       | `data-qa` HTML attribute, used for testing                  | `string`                                                                                                |         |
 
 ### RenderBreadcrumbsItemProps`<T>`
 
@@ -359,8 +359,8 @@ return (
 
 | Name   | Description            | Type                                                                              | Default |
 | :----- | :--------------------- | :-------------------------------------------------------------------------------- | :------ |
-| text   | Breadcrumb content     | `string`                                                                          |         |
+| text   | Breadcrumbs content    | `string`                                                                          |         |
 | action | `click` event handler  | `React.MouseEventHandler<HTMLElement> \| React.KeyboardEventHandler<HTMLElement>` |         |
-| href   | HTML `href` attribute  | `string \| undefined`                                                             |         |
-| items  | Breadcrumb item array  | `BreadcrumbsItem[] \| undefined`                                                  |         |
-| title  | HTML `title` attribute | `string \| undefined`                                                             |         |
+| href   | `href` HTML attribute  | `string \| undefined`                                                             |         |
+| items  | Breadcrumbs item array | `BreadcrumbsItem[] \| undefined`                                                  |         |
+| title  | `title` HTML attribute | `string \| undefined`                                                             |         |

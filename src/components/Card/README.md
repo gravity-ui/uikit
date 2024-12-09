@@ -10,28 +10,28 @@ import {Card} from '@gravity-ui/uikit';
 
 ## Description
 
-The `Card` UI component is a reusable React component that represents a card-like container with customizable styles and functionality. It is used to display information or content in a visually appealing and organized manner.
+`Card` is a reusable React component that basically is a card-like container with customizable styles and features. It is used to display information or content in a visually appealing and well-organized manner.
 
 ## Appearance
 
-`Card` can be displayed with multiple styled combination
+`Card` can be displayed with multiple style combinations:
 
-- theme (`normal`, `info`, `success`, `warning`, `danger`, `utility`)
-- type (`selection`, `action`, `container`)
-- view (`outlined`, `clear`) or (`outlined`, `filled`, `raised`) depends on `type` parameter
+- `theme`: `normal`, `info`, `success`, `warning`, `danger`, or `utility`.
+- `type`: `selection`, `action`, or `container`.
+- `view`:`outlined` or `clear`, or `outlined`, `filled`, or `raised` (depending on the `type` parameter).
 
 ## Theme
 
-This parameter is used to specify the theme style of the card. It determines the color scheme and visual appearance of the card.
+This parameter is used to specify the card's theme style. It determines the card's color scheme and appearance.
 
-By specifying different theme values, you can customize the visual appearance of the `Card` component to match the desired style and purpose.
+By specifying different theme values, you can customize the `Card` visual appearance to match your purpose and the style you need.
 
-- `normal`: represents the normal/default theme of the card.
-- `info`: represents the theme for displaying informational content.
-- `success`: represents the theme for displaying positive/affirmative content.
-- `warning`: represents the theme for displaying warning or cautionary content.
-- `danger`: represents the theme for displaying content related to danger or critical situations.
-- `utility`: represents the theme for displaying utility content.
+- `normal`: Normal/default theme of the card.
+- `info`: Theme for displaying neutral information.
+- `success`: Theme for displaying positive or affirmative content.
+- `warning`: Theme for displaying warnings.
+- `danger`: Theme for displaying the content related to critical issues or errors.
+- `utility`: Theme for displaying useful tips.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -68,9 +68,9 @@ LANDING_BLOCK-->
 
 This parameter is used to define the type of the `Card` component. It allows you to customize the appearance and behavior of the card.
 
-- `container`: represents a card that acts as a container for other elements. It provides a structured layout for content.
-- `action`: represents a card with an interactive element, such as a button, that triggers an action when clicked.
-- `selection`: represents a card that can be selected or clicked to perform a specific action.
+- `container`: Card that acts as a container for other elements. It provides a structured layout for content.
+- `action`: Card with an interactive element, such as a button, that triggers an action when clicked.
+- `selection`: Card that can be selected or clicked to perform a specific action.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -98,12 +98,12 @@ LANDING_BLOCK-->
 
 ## View
 
-This parameter is used to specify the view or layout style of the `Card`. It allows you to customize the appearance and arrangement of the card content.
+This parameter is used to specify the `Card` view or layout style. It allows you to customize the appearance and arrangement of the card content.
 
-- `clear`: no style will be applied.
-- `outlined`: applies thin border to highlight card content.
-- `filled`: fills in the card content.
-- `raised`: applies a shadow to slightly lift the container.
+- `clear`: No style.
+- `outlined`: Applies a thin border to highlight the card content.
+- `filled`: Fills in the card content.
+- `raised`: Applies a shadow to slightly lift the container.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -133,18 +133,18 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name      | Description                                                         |    Type     |    Default    |
-| :-------- | :------------------------------------------------------------------ | :---------: | :-----------: |
-| children  | Card's content                                                      | `ReactNode` |               |
-| type      | The Card type affects which properties are available                |  `string`   | `"container"` |
-| view      | Available for `type`: `"container"` and `"selection"`               |  `string`   | `"outlined"`  |
-| theme     | Card's base color. Available for `type`: `"container"`              |  `string`   |  `"normal"`   |
-| size      | The Card size affects which properties are available                |  `string`   |     `"m"`     |
-| className | CSS class                                                           |  `string`   |               |
-| onClick   | Card click handler. Available for `type`: `"selection"`, `"action"` | `Function`  |               |
-| selected  | Selected card. Available for type: `"selection"`                    |  `Boolean`  |               |
-| disabled  | Disabled card. Available for type: `"selection"`, `"action"`        |  `Boolean`  |               |
-| qa        | HTML `data-qa` attribute, used in tests                             |  `string`   |               |
+| Name      | Description                                                                                       |    Type     |    Default    |
+| :-------- | :------------------------------------------------------------------------------------------------ | :---------: | :-----------: |
+| children  | Card content                                                                                      | `ReactNode` |               |
+| type      | The `Card` type determines which properties are available.                                        |  `string`   | `"container"` |
+| view      | This property is only available for the `"container"` and `"selection"` `type`s.                  |  `string`   | `"outlined"`  |
+| theme     | Card's base color. This property is only available for the `"container"` `type`.                  |  `string`   |  `"normal"`   |
+| size      | The `Card` size determines which properties are available.                                        |  `string`   |     `"m"`     |
+| className | CSS class                                                                                         |  `string`   |               |
+| onClick   | Card click handler. This property is only available for the `"selection"` and `"action"` `type`s. | `Function`  |               |
+| selected  | Selected card. This property is only available for the `"selection"` `type`.                      |  `Boolean`  |               |
+| disabled  | Disabled card. This property is only available for the `"selection"` and `"action"` `type`s.      |  `Boolean`  |               |
+| qa        | `data-qa` HTML attribute, used for testing                                                        |  `string`   |               |
 
 ## CSS API
 

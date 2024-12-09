@@ -10,8 +10,7 @@ import {Text} from '@gravity-ui/uikit';
 
 ## Variant
 
-These are the default variants that can be overridden in the project. See a list of all the
-variants [here](https://preview.gravity-ui.com/uikit/?path=/story/typography--variants).
+These are the default fonts that can be overridden in the project. You can see a list of all available fonts [here](https://preview.gravity-ui.com/uikit/?path=/story/typography--variants).
 
 <!--LANDING_BLOCK
 
@@ -40,11 +39,11 @@ LANDING_BLOCK-->
 
 ### Ellipsis
 
-This property allows you to hide overflowing text
+This property allows you to hide the overflowing text:
 
-`false` - used by default.
+`false`: Used by default.
 
-`true` - hidden overflow content will be replaced with ellipsis `…`.
+`true`: Hidden overflow content will be replaced with an ellipsis (`…`).
 
 <!--LANDING_BLOCK
 
@@ -74,7 +73,7 @@ LANDING_BLOCK-->
 
 ### White Space
 
-The white-space css property. Can be `nowrap`, `break-spaces`.
+This stands for the `white-space` CSS property. It can be either `nowrap` or `break-spaces`.
 
 <!--LANDING_BLOCK
 
@@ -103,7 +102,7 @@ LANDING_BLOCK-->
 
 ### Word Break
 
-The word-break css property. Can be `break-all` | `break-word`.
+This stands for the `word-break` CSS property. The only available value is `break-all`. | `break-word`.
 
 <!--LANDING_BLOCK
 
@@ -133,8 +132,8 @@ LANDING_BLOCK-->
 
 ### Color
 
-Specifies the color of the text. The possible colors are:
-`primary`, `complementary`, `secondary`, `hint`, `info`, `info-heavy`, `positive`, `positive-heavy`, `warning`, `warning-heavy`, `danger`, `danger-heavy`, `utility`, `utility-heavy`, `misc`, `misc-heavy`, `brand`, `link`, `link-hover`, `link-visited`, `link-visited-hover`, `dark-primary`, `dark-complementary`, `dark-secondary`, `light-primary`, `light-complementary`, `light-secondary`, `light-hint`, `inverted-primary`, `inverted-complementary`, `inverted-secondary`, `inverted-hint`.
+Specifies the text color. The available colors are:
+`primary`, `complementary`, `secondary`, `hint`, `info`, `info-heavy`, `positive`, `positive-heavy`, `warning`, `warning-heavy`, `danger`, `danger-heavy`, `utility`, `utility-heavy`, `misc`, `misc-heavy`, `brand`, `link`, `link-hover`, `link-visited`, `link-visited-hover`, `dark-primary`, `dark-complementary`, `dark-secondary`, `light-primary`, `light-complementary`, `light-secondary`, `light-hint`, `inverted-primary`, `inverted-complementary`, `inverted-secondary`, and `inverted-hint`.
 
 <!--LANDING_BLOCK
 
@@ -163,17 +162,17 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name          | Description                                                               |                   Type                   |  Default   |
-| :------------ | :------------------------------------------------------------------------ | :--------------------------------------: | :--------: |
-| children      | Text content                                                              |            `React.ReactNode`             |            |
-| className     | HTML `class` attribute                                                    |                 `string`                 |            |
-| id            | HTML `id` attribute                                                       |                 `string`                 |            |
-| as            | Ability to override default html tag                                      |         `React.ElementType<any>`         |            |
-| style         | HTML `style` attribute                                                    |          `React.CSSProperties`           |            |
-| variant       | Font of the text                                                          |                 `string`                 | `"body-1"` |
-| ellipsis      | Hidden overflow content will be replaced by an ellipsis                   |                `boolean`                 |            |
-| ellipsisLines | The number of whole lines of text after which the content will be cut off |                 `number`                 |            |
-| whiteSpace    | The white-space css property                                              |       `"nowrap"` `"break-spaces"`        |            |
-| wordBreak     | The word-break css property                                               |       `"break-all"` `"break-word"`       |            |
-| color         | Color of the text                                                         | `string` (see values in "Color" section) |            |
-| qa            | HTML `data-qa` attribute, used in tests                                   |                 `string`                 |            |
+| Name          | Description                                                               |                        Type                        |  Default   |
+| :------------ | :------------------------------------------------------------------------ | :------------------------------------------------: | :--------: |
+| children      | Text content                                                              |                 `React.ReactNode`                  |            |
+| className     | `class` HTML attribute                                                    |                      `string`                      |            |
+| id            | `id` HTML attribute                                                       |                      `string`                      |            |
+| as            | Enables overriding default HTML tag                                       |              `React.ElementType<any>`              |            |
+| style         | `style` HTML attribute                                                    |               `React.CSSProperties`                |            |
+| variant       | Text font                                                                 |                      `string`                      | `"body-1"` |
+| ellipsis      | Hidden overflow content will be replaced with an ellipsis                 |                     `boolean`                      |            |
+| ellipsisLines | The number of whole lines of text after which the content will be cut off |                      `number`                      |            |
+| whiteSpace    | `white-space` CSS property                                                |            `"nowrap"` `"break-spaces"`             |            |
+| wordBreak     | `word-break` CSS property                                                 |            `"break-all"` `"break-word"`            |            |
+| color         | Text color                                                                | `string` (see the values in the **Color** section) |            |
+| qa            | `data-qa` HTML attribute, used for testing                                |                      `string`                      |            |

@@ -108,6 +108,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         }
 
         if ((prevProps.visible && !visible) || this.shouldClose(prevProps)) {
+            alert('component did update close');
             this.hide();
         }
 
@@ -353,6 +354,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         const accelerationY = this.velocityTracker.getYAcceleration();
 
         if (this.sheetHeight <= deltaY) {
+            alert('< delte hide sheet');
             this.props.hideSheet();
         } else if (
             (deltaY > HIDE_THRESHOLD &&
@@ -360,6 +362,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
                 accelerationY >= ACCELERATION_Y_MIN) ||
             accelerationY > ACCELERATION_Y_MAX
         ) {
+            alert('> delte hide');
             this.hide();
         } else if (deltaY !== 0) {
             this.show();
@@ -396,6 +399,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
 
     private onVeilClick = () => {
         this.setState({veilTouched: true});
+        alert('veil touched hide');
         this.hide();
     };
 
@@ -403,6 +407,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         this.setState({isAnimating: false});
 
         if (this.veilOpacity === '0') {
+            alert('veil opacity is 0 hide sheet');
             this.props.hideSheet();
         }
     };

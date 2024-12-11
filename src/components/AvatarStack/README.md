@@ -8,11 +8,11 @@
 import {AvatarStack} from '@gravity-ui/uikit';
 ```
 
-Stack of images with overlap over next image and optional control. This is usually users avatars.
+This component is used for a stack of images with overlap over one another and, optionally, a control. It usually refers to user avatars.
 
 ## Usage
 
-Component is not limit you to what components to render, basic usage is:
+Basically, `AvatarStack` does not have any limitations in terms of what components to render. See an example of its common usage below:
 
 ```tsx
 <AvatarStack>
@@ -24,19 +24,18 @@ Component is not limit you to what components to render, basic usage is:
 
 ## Properties
 
-| Name        | Description                                                                                                                                                        |                        Type                        | Default |
-| :---------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------: | :-----: |
-| max         | How much avatars should be visible before more button. If avatars count is only 1 short from `max`, than more button would be replaced with avatar.                |                      `number`                      |    3    |
-| total       | Total amount of items, used to calculate number of not rendered avatars                                                                                            |                      `number`                      |         |
-| overlapSize | How much each item should overlap next one. `s` recommended for `Avatar`'s of sizes `xs`-`m`, `m` recomended for `l` size avatars and `l` overlap for `xl` avatars |                   `s`, `m`, `l`                    |   `s`   |
-| size        | Size for control displaying extra avatars. Value same to `Avatar` size.                                                                                            |                    `AvatarSize`                    |         |
-| className   | Class name of root DOM node                                                                                                                                        |                      `string`                      |         |
-| children    | List of avatars, probably with some extra wrappers                                                                                                                 |                     `Object[]`                     |         |
-| renderMore  | Custom render for control displaying extra avatars                                                                                                                 | `function(options: {count: number}): ReactElement` |         |
+| Name        | Description                                                                                                                                                      |                        Type                        | Default |
+| :---------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------: | :-----: |
+| max         | Determines how many avatars are visible before the `More` button. If avatar count is only 1 short from `max`, the `More` button will be replaced with an avatar. |                      `number`                      |    3    |
+| overlapSize | Determines how much each item should overlap the next one. You may want to use `s` for `xs` to `m`-sized `Avatar`s , `m` for `l`-sized, and `l`, for `xl`-sized. |                   `s`, `m`, `l`                    |   `s`   |
+| size        | Size for the control displaying extra avatars. Its value is the same as the `Avatar` size.                                                                       |                    `AvatarSize`                    |         |
+| className   | Class name of the root DOM node                                                                                                                                  |                      `string`                      |         |
+| children    | List of avatars that may also have extra wrappers                                                                                                                |                     `Object[]`                     |         |
+| renderMore  | Custom render for the control displaying extra avatars                                                                                                           | `function(options: {count: number}): ReactElement` |         |
 
 ### AvatarStack.MoreButton
 
-Component for overriding more button
+Component for overriding the `More` button
 
 ```tsx
 <AvatarStack
@@ -51,5 +50,3 @@ Component for overriding more button
   <Avatar imgUrl={`https://i.pravatar.cc/150?u=login3`} />
 </AvatarStack>
 ```
-
-Alternatively, `<AvatarStack.More/>` could be used. This component doesn't have `<button/>` wrap, and could be used for integration with some different wrap, like router links component.

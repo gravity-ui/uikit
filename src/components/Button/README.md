@@ -8,23 +8,21 @@
 import {Button} from '@gravity-ui/uikit';
 ```
 
-Buttons act as a trigger for certain actions. While this is their main purpose, in very rare cases,
-they can be used as links to navigate to another pages.
+Buttons act as a trigger for certain actions. While this is their main purpose, in some very rare cases, they can be used as links to navigate to other pages.
 
 ## Appearance
 
-There are four `Button` view types: basic, outlined, flat and contrast.
-The `Button`'s appearance is determined by the `view` property.
+There are four `Button` types in terms of appearance: basic, outlined, flat, and contrast.
+The `Button` appearance is determined by the `view` property.
 
 ### Basic
 
-`action` - the most prominent button, used for the primary action on a screen which requires the most attention.
+`action`: The most distinctive type of `Button`. It is used for the primary action on a screen that requires the most attention.
 We recommend using only one such button per page.
 
-`normal` - default type of the `Button`, designed for secondary actions or to maintain the importance of an
-action without drawing too much attention to it.
+`normal`: Default type of `Button` designed for secondary actions or to maintain the importance of an action without drawing too much attention to it.
 
-`raised` - placed above the content as a "floating" element, usually with a fixed location.
+`raised`: Placed above the content as a floating element, usually with a fixed location.
 
 <!--LANDING_BLOCK
 
@@ -53,11 +51,11 @@ LANDING_BLOCK-->
 
 ### Outlined
 
-`outlined` - used for secondary actions that require less attention on a page. Can be used with or without a main button (only with an accented one).
+`outlined`: Used for secondary actions that require less attention. It can be used with or without a main button; in the former case, it must be an emphasized one.
 
-`outlined-action` - usually used as a link to another page or external resource.
+`outlined-action`: Usually used as a link to another page or external resource.
 
-There are also semantic variants of this type, which can be used when additional semantics are needed: `outlined-info`, `outlined-success`, `outlined-warning`, `outlined-danger`.
+This type also has semantic variations that can be used when additional semantics are needed: `outlined-info`, `outlined-success`, `outlined-warning`, and `outlined-danger`.
 
 <!--LANDING_BLOCK
 
@@ -98,13 +96,13 @@ LANDING_BLOCK-->
 
 ### Flat
 
-`flat` - used for auxiliary actions that require the least attention on a page. It is often used in a list of buttons or action icons (with no text) in an editor.
+`flat`: Used for auxiliary actions that require the least attention. It is often used in a list of buttons or action icons (without text) in an editor.
 
-`flat-secondary` - less accented than the `flat` button. It's often used as the secondary button in dialog boxes and modal windows.
+`flat-secondary`: Less emphasized than the `flat` button. It is often used as a secondary button in dialog boxes and modal windows.
 
-`flat-action` - usually used as link to another page or external resource.
+`flat-action`: Usually used as a link to another page or external resource.
 
-There are also semantic variants of this view, which can be used in places where additional semantic needed: `flat-info`, `flat-success`, `flat-warning`, `flat-danger`.
+It also has semantic variations that can be used where additional semantics are needed: `outlined-info`, `outlined-success`, `outlined-warning`, and `outlined-danger`.
 
 <!--LANDING_BLOCK
 
@@ -148,7 +146,7 @@ LANDING_BLOCK-->
 
 ### Contrast
 
-`normal-contrast`, `outline-contrast` and `flat-contrast` buttons highlight actions against complex background, e.g., in a banner or against an inverse background.
+The `normal-contrast`, `outline-contrast`, and `flat-contrast` buttons highlight actions against complex background, e.g., in a banner, or against an inverse background.
 
 <!--LANDING_BLOCK
 
@@ -179,7 +177,7 @@ LANDING_BLOCK-->
 
 ## Icons
 
-To add an icon to the `Button`, you should use the [`Icon`](../Icon) component, a special wrapper for SVGs.
+To add an icon to a `Button`, use the [`Icon`](../Icon) component, which is a special wrapper for SVGs.
 
 <!--LANDING_BLOCK
 
@@ -262,11 +260,13 @@ LANDING_BLOCK-->
 
 ## States
 
-The `Button` can be in different states.
+A `Button` can have different states:
 
-`disabled` - when the button is unavailable for some reason.
+`disabled`: When the button is unavailable for some reason.
 
-`loading` - when some asynchronous processes are happening in the background, `selected` - when the user can switch between "Enable" and "Disable".
+`loading`: When some asynchronous processes are running in the background.
+
+`selected`: When the user can **Enable** and **Disable** the button.
 
 <!--LANDING_BLOCK
 
@@ -296,7 +296,7 @@ LANDING_BLOCK-->
 
 ## Size
 
-To control the size of the `Button` use the `size` property. Default size is `m`.
+Use the `size` property to manage the `Button` size. The default size is `m`.
 
 <!--LANDING_BLOCK
 
@@ -332,11 +332,11 @@ LANDING_BLOCK-->
 
 ## Width
 
-The `width` property controls how the `Button` behaves inside the container.
+Use the `width` property to manage the way the `Button` behaves inside the container:
 
-`auto` - limits the maximum width of the component, hides overflowing content with an ellipsis.
+`auto`: Limits the maximum width of the `Button` by hiding the overflowing content with an ellipsis.
 
-`max` - matches the width to the width of the parent container, also hides overflowing content with an ellipsis.
+`max`: Matches the `Button` width to the width of the parent container, also hiding the overflowing content with an ellipsis.
 
 <!--LANDING_BLOCK
 
@@ -380,9 +380,9 @@ LANDING_BLOCK-->
 
 ## Pin
 
-The `pin` property allows you to control the shape of the "start" and "end" edges and is usually used for combining multiple buttons in a single unit.
-The value of the `pin` property consists of "start" and "end" style names divided by a dash, e.g. `"round-brick"`.
-The edge styles are: `round` (default), `circle`, `brick` and `clear`.
+The `pin` property allows you to manage the shape of the _start_ and _end_ edges and is usually used for combining multiple buttons in a single unit.
+The `pin` property value consists of the _start_ and _end_ style names separated by a hyphen, e.g., `round-brick`.
+The edge styles are: `round` (default), `circle`, `brick`, and `clear`.
 
 <!--LANDING_BLOCK
 
@@ -448,33 +448,33 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name         | Description                                               |              Type               |     Default     |
-| :----------- | :-------------------------------------------------------- | :-----------------------------: | :-------------: |
-| children     | Button content. You can mix text with `<Icon/>` component |           `ReactNode`           |                 |
-| className    | HTML `class` attribute                                    |            `string`             |                 |
-| component    | Overrides the root component                              |       `ElementType<any>`        |   `"button"`    |
-| disabled     | Toggles `disabled` state                                  |             `false`             |     `false`     |
-| extraProps   | Any additional props                                      |            `Record`             |                 |
-| href         | HTML `href` attribute                                     |            `string`             |                 |
-| id           | HTML `id` attribute                                       |            `string`             |                 |
-| loading      | Toggles `loading` state                                   |             `false`             |     `false`     |
-| onBlur       | `blur` event handler                                      |           `Function`            |                 |
-| onClick      | `click` event handler                                     |           `Function`            |                 |
-| onFocus      | `focus` event handler                                     |           `Function`            |                 |
-| onMouseEnter | `mouseenter` event handler                                |           `Function`            |                 |
-| onMouseLeave | `mouseleave` event handler                                |           `Function`            |                 |
-| pin          | Sets button edges style                                   |            `string`             | `"round-round"` |
-| qa           | HTML `data-qa` attribute, used in tests                   |            `string`             |                 |
-| rel          | HTML `rel` attribute                                      |            `string`             |                 |
-| selected     | Toggles `selected` state                                  |                                 |                 |
-| size         | Sets button size                                          |            `string`             |      `"m"`      |
-| style        | HTML `style` attribute                                    |      `React.CSSProperties`      |                 |
-| tabIndex     | HTML `tabIndex` attribute                                 |            `number`             |                 |
-| target       | HTML `target` attribute                                   |            `string`             |                 |
-| title        | HTML `title` attribute                                    |            `string`             |                 |
-| type         | HTML `type` attribute                                     | `"button"` `"submit"` `"reset"` |   `"button"`    |
-| view         | Sets button appearance                                    |            `string`             |   `"normal"`    |
-| width        | `"auto"` `"max"`                                          |        `"auto"` `"max"`         |                 |
+| Name         | Description                                                        |              Type               |     Default     |
+| :----------- | :----------------------------------------------------------------- | :-----------------------------: | :-------------: |
+| children     | Button content. You can use both text and the `<Icon/>` component. |           `ReactNode`           |                 |
+| className    | `class` HTML attribute                                             |            `string`             |                 |
+| component    | Overrides the root component                                       |       `ElementType<any>`        |   `"button"`    |
+| disabled     | Toggles the `disabled` state                                       |             `false`             |     `false`     |
+| extraProps   | Additional properties                                              |            `Record`             |                 |
+| href         | `href` HTML attribute                                              |            `string`             |                 |
+| id           | `id` HTML attribute                                                |            `string`             |                 |
+| loading      | Toggles the `loading` state                                        |             `false`             |     `false`     |
+| onBlur       | `blur` event handler                                               |           `Function`            |                 |
+| onClick      | `click` event handler                                              |           `Function`            |                 |
+| onFocus      | `focus` event handler                                              |           `Function`            |                 |
+| onMouseEnter | `mouseenter` event handler                                         |           `Function`            |                 |
+| onMouseLeave | `mouseleave` event handler                                         |           `Function`            |                 |
+| pin          | Sets the button edge style                                         |            `string`             | `"round-round"` |
+| qa           | `data-qa` HTML attribute, used for testing                         |            `string`             |                 |
+| rel          | `rel` HTML attribute                                               |            `string`             |                 |
+| selected     | Toggles the `selected` state                                       |                                 |                 |
+| size         | Sets the button size                                               |            `string`             |      `"m"`      |
+| style        | `style` HTML attribute                                             |      `React.CSSProperties`      |                 |
+| tabIndex     | `tabIndex` HTML attribute                                          |            `number`             |                 |
+| target       | `target` HTML attribute                                            |            `string`             |                 |
+| title        | `title` HTML attribute                                             |            `string`             |                 |
+| type         | `type` HTML attribute                                              | `"button"` `"submit"` `"reset"` |   `"button"`    |
+| view         | Sets the button appearance                                         |            `string`             |   `"normal"`    |
+| width        | `"auto"` `"max"`                                                   |        `"auto"` `"max"`         |                 |
 
 ## CSS API
 
@@ -487,11 +487,11 @@ LANDING_BLOCK-->
 | `--g-button-border-width`           | Border width              |
 | `--g-button-border-color`           | Border color              |
 | `--g-button-border-style`           | Border style              |
-| `--g-button-focus-outline-width`    | Focus outline color       |
+| `--g-button-focus-outline-width`    | Focus outline width       |
 | `--g-button-focus-outline-color`    | Focus outline color       |
 | `--g-button-focus-outline-style`    | Focus outline style       |
 | `--g-button-focus-outline-offset`   | Focus outline offset      |
-| `--g-button-height`                 | Height, line-height       |
+| `--g-button-height`                 | Height (line height)      |
 | `--g-button-padding`                | Side paddings             |
 | `--g-button-border-radius`          | Border radius             |
 | `--g-button-font-size`              | Text font size            |

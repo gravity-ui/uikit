@@ -10,17 +10,17 @@ import {Alert} from '@gravity-ui/uikit';
 
 ### Theme
 
-`normal` - main theme (used by default).
+`normal`: Main theme (used by default).
 
-`info` - used for any kind of regular information.
+`info`: Used for any kind of regular information.
 
-`success` - used for positive information.
+`success`: Used for positive information.
 
-`warning` - used for information which needs attention.
+`warning`: Used for information that needs attention.
 
-`danger` - used for hazard information.
+`danger`: Used for critical errors.
 
-`utility` - used for utility information.
+`utility`: Used for useful tips.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -56,9 +56,9 @@ LANDING_BLOCK-->
 
 ### View
 
-`filled` - used to adjust the background color of the alert (used by default).
+`filled`: Used to adjust the background color of the alert (used by default).
 
-`outlined` - used to adjust the border color of the alert.
+`outlined`: Used to adjust the border color of the alert.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -83,12 +83,9 @@ LANDING_BLOCK-->
 
 ### Layout
 
-`vertical` - used to direct users to content if there is property `actions` with buttons. For showing buttons below text (
-used
-by default).
+`vertical`: Used to direct users to content if there is an `actions` property with buttons. It enables showing buttons below the text (used by default).
 
-`horizontal` - used to direct users to content if there is property `actions` with buttons. For showing buttons to the right
-of text.
+`horizontal`: Used to direct users to content if there is an `actions` property with buttons. It enables showing buttons to the right of the text.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -112,9 +109,9 @@ LANDING_BLOCK-->
 
 ### Corners
 
-`rounded` - used for round corners of alert window (used by default).
+`rounded`: Enables rounded corners of the alert window (used by default).
 
-`square` - used for squared corners of alert window.
+`square`: Enables squared corners of the alert window.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -139,7 +136,7 @@ LANDING_BLOCK-->
 
 ## Alert title
 
-`title` - the title of the alert. It has a lower priority than Alert.Title.
+`title`: Alert title. It has a lower priority than `Alert.Title`.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -161,11 +158,11 @@ LANDING_BLOCK-->
 
 ## Alert message
 
-`message` - message of the alert. It should fully explain the content of the alert.
+`message`: Alert message. It should be meaningful enough to fully explain what the alert is about.
 
-## Alert onClose
+## `onClose`
 
-`onClose` - callback function called when a user clicks the alert's close button. When this property is defined, a close button is visible.
+`onClose`: Callback function called when a user clicks the alert's close button. When this property is defined, the close button will visible.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -191,13 +188,11 @@ LANDING_BLOCK-->
 
 ### Align
 
-Determines how content inside the Alert component is vertically aligned.
+Determines how the content inside the `Alert` component is vertically aligned.
 
-`baseline` - align used by default.
+`baseline`: Default alignment.
 
-`center` - content is vertically centered within the Alert component. Useful if actions take up
-more space than text,
-or if the icon must be in the middle of the card.
+`center`: Content is vertically centered within the `Alert` component. It may be useful if actions take up more space than text, or if the icon must be in the middle of the content.
 
 <!--LANDING_BLOCK
 <ExampleBlock

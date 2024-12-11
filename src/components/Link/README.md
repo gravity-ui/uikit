@@ -8,17 +8,17 @@
 import {Link} from '@gravity-ui/uikit';
 ```
 
-`Link` is a part of text that, when clicked, takes the user to another part of the page, another page inside the service, or an external website page.
+`Link` is a part of text that, when clicked, takes the user to another part of the page, another page within the service, or an external website page.
 
-The main difference from [Button](../Button) is the navigation function. Most often, a `Link` leads to other pages or opens new browser tabs.
+Its main difference from [Button](../Button) is the navigation function. Most often, a `Link` leads to another page or opens a new browser tab.
 
 ## Appearance
 
-There are three types available: `normal`(the usual brown), `primary`(black), and `secondary`(gray). You can manage it though the `view` property. You can also display whether the link has been clicked using the `visitable` property.
+There are three types of links available: `normal` (the usual brown), `primary` (black), and `secondary` (gray). You can manage it with the `view` property. You can also enable displaying that the link has already been clicked using the `visitable` property.
 
 ### Normal
 
-This is the most familiar and well-established 'link' pattern. It is used to visually highlight an element inside a text, table, and as part of navigation. You can use it to navigate both internal pages and external sources, including documentation. Additionally, this type is used for error pages and zero states.
+This is the most familiar and well-established `link` pattern. It is used to visually highlight an element inside a text or table, and as part of navigation. You can use it to navigate to both internal pages and external sources, including documentation. Additionally, this type is used for error pages and zero states.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -64,7 +64,7 @@ LANDING_BLOCK-->
 
 ### Secondary
 
-Just like primary `Link`, this type is used when it is natively clear to the user that an element is clickable, while navigating through it is not essential and affects a small number of scenarios. The main task is not to distract the user from the key points on the page. The 'Secondary' type is most often used in breadcrumbs or when displaying secondary attributes.
+Just like primary `Link`, this type is used when it is natively clear to the user that an element is clickable, while navigating through it is not essential and affects a small number of scenarios. Its main goal is not to distract the user from the key points on the page. The `Secondary` type is most often used in breadcrumbs or when displaying secondary attributes.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -108,7 +108,7 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
-## Href
+## `href`
 
 The `href` property is required.
 
@@ -131,7 +131,7 @@ LANDING_BLOCK-->
 
 ## Usage
 
-A `Link` can be used both as an independent text element and as part of the text:
+You can use a `Link` both as an independent text element and as part of the text:
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -170,18 +170,18 @@ LANDING_BLOCK-->
 | Name       | Description                                |                           Type                            |  Default   |
 | :--------- | :----------------------------------------- | :-------------------------------------------------------: | :--------: |
 | view       | Link appearance                            |          `"normal" \| "primary" \| "secondary"`           | `"normal"` |
-| visitable  | Display `:visitable` CSS state             |                  `boolean \| undefined`                   |
-| href       | HTML `href` attribute                      |                         `string`                          |
-| target     | HTML `target` attribute                    |                   `string \| undefined`                   |
-| rel        | HTML `rel` attribute                       |                   `string \| undefined`                   |
-| title      | HTML `title` attribute                     |                   `string \| undefined`                   |
+| visitable  | Displays the `:visitable` CSS state        |                  `boolean \| undefined`                   |
+| href       | `href` HTML attribute                      |                         `string`                          |
+| target     | `target` HTML attribute                    |                   `string \| undefined`                   |
+| rel        | `rel` HTML attribute                       |                   `string \| undefined`                   |
+| title      | `title` HTML attribute                     |                   `string \| undefined`                   |
 | children   | Link content                               |                     `React.ReactNode`                     |
-| extraProps | Any additional props                       |                   `Record \| undefined`                   |
+| extraProps | Additional properties                      |                   `Record \| undefined`                   |
 | onClick    | `click` event handler                      | `React.MouseEventHandler<HTMLAnchorElement> \| undefined` |
 | onFocus    | `focus` event handler                      | `React.FocusEventHandler<HTMLAnchorElement> \| undefined` |
 | onBlur     | `blur` event handler                       | `React.FocusEventHandler<HTMLAnchorElement> \| undefined` |
-| id         | HTML `id` attribute                        |                   `string \| undefined`                   |
-| style      | HTML `style` attribute                     |            `React.CSSProperties \| undefined`             |
-| className  | HTML `class` attribute                     |                   `string \| undefined`                   |
-| qa         | HTML `data-qa` attribute, used for testing |                   `string \| undefined`                   |
-| ref        | React ref to Link DOM node                 |   `React.ForwardedRef<HTMLAnchorElement> \| undefined`    |
+| id         | `id` HTML attribute                        |                   `string \| undefined`                   |
+| style      | `style` HTML attribute                     |            `React.CSSProperties \| undefined`             |
+| className  | `class` HTML attribute                     |                   `string \| undefined`                   |
+| qa         | `data-qa` HTML attribute, used for testing |                   `string \| undefined`                   |
+| ref        | React ref to the `Link` DOM node           |   `React.ForwardedRef<HTMLAnchorElement> \| undefined`    |

@@ -8,11 +8,11 @@
 import {ClipboardIcon} from '@gravity-ui/uikit';
 ```
 
-This component is mainly used together with `CopyToClipboard` as wrap component.
+This component is mainly used along with `CopyToClipboard` as a wrap component.
 
 ### Status
 
-Depends on `status` property icon is changed.
+Depending on the `status` property, the icon will be changing accordingly:
 
 <!--LANDING_BLOCK
 
@@ -41,8 +41,8 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name      | Description                                     | Type     | Default |
-| :-------- | :---------------------------------------------- | :------- | :------ |
-| className | HTML `class` attribute                          | `string` |         |
-| size      | Sets icon size                                  | `number` |         |
-| status    | Available values: `pending`, `success`, `error` | `string` |         |
+| Name      | Description                                                 | Type     | Default |
+| :-------- | :---------------------------------------------------------- | :------- | :------ |
+| className | `class` HTML attribute                                      | `string` |         |
+| size      | Determines the icon size                                    | `number` |         |
+| status    | The available values are `pending`, `success`, and `error`. | `string` |         |

@@ -8,17 +8,17 @@
 import {Label} from '@gravity-ui/uikit';
 ```
 
-`Label` can be used for displaying certain marking information. `Label` with the close or copy button may be useful for various simple actions.
+You can use `Label`s for highlighting certain information. A `Label` with the `Close` or `Copy` button may be useful for various simple actions.
 
-`Label` is most suitable for displaying one-line text information with different color codes indicating its importance.
+`Label`s are most suitable for displaying one-line text information with different color codes that show its importance.
 
 ## Appearance
 
-`Label` can be displayed in multiple styles.
+A `Label` can be displayed in multiple styles.
 
 ### Theme
 
-Apply different themes for various statuses with the `theme` property. You can use the following values: `normal`, `info`, `success`, `warning`, `danger`, `utility`, `unknown`, and `clear`.
+Use the `theme` property to apply different themes for various statuses. You can use the following values: `normal`, `info`, `success`, `warning`, `danger`, `utility`, `unknown`, and `clear`.
 The default theme is `normal`.
 
 <!--LANDING_BLOCK
@@ -64,7 +64,7 @@ LANDING_BLOCK-->
 
 ### Type
 
-Adds various options to the `Label` using the `type` property.
+The `type` property adds various options to a `Label`:
 
 `copy`: Adds a copy button; when clicked, it copies the value of the `copyText` property.
 
@@ -97,7 +97,7 @@ LANDING_BLOCK-->
 
 ### Icon
 
-You can add an icon with the `icon` property. To do so, use the [`Icon`](../Icon) component, a special wrapper for SVGs.
+You can add an icon with the `icon` property. To do so, use the [`Icon`](../Icon) component, which is a special wrapper for SVGs.
 
 <!--LANDING_BLOCK
 
@@ -145,7 +145,7 @@ LANDING_BLOCK-->
 
 ## Value
 
-`Label` can be used for displaying key-value information. Pass key to the `children` and value to the `value` property.
+You can use `Label`s for displaying key-value information. For that, you need to provide the key to the `children` poperty, and value, to `value`:
 
 <!--LANDING_BLOCK
 
@@ -251,22 +251,22 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name             | Description                                   |              Type              |   Default   |
-| :--------------- | :-------------------------------------------- | :----------------------------: | :---------: |
-| children         | Content                                       |       `React.ReactNode`        |             |
-| className        | HTML `class` attribute                        |            `string`            |             |
-| closeButtonLabel | `aria-label` of the close button              |            `string`            |             |
-| copyButtonLabel  | `aria-label` of the copy button               |            `string`            |             |
-| copyText         | Text to copy                                  |            `string`            |             |
-| disabled         | Disabled state                                |           `boolean`            |             |
-| icon             | Label icon (on the left)                      |       `React.ReactNode`        |             |
-| interactive      | Enable hover effect                           |           `boolean`            |             |
-| onClick          | `click` event handler                         |           `Function`           |             |
-| onCloseClick     | Close button `click` event handler            |           `Function`           |             |
-| onCopy           | `copy` event handler                          |           `Function`           |             |
-| size             | Label size                                    |       `"xs"` `"s"` `"m"`       |    `"s"`    |
-| theme            | Label theme                                   |            `string`            | `"normal"`  |
-| type             | Label type                                    | `"default"` `"copy"` `"close"` | `"default"` |
-| value            | Label value (displayed as "children : value") |            `string`            |             |
-| title            | HTML `title` attribute                        |            `string`            |             |
-| qa               | HTML `data-qa` attribute, used in tests       |            `string`            |             |
+| Name             | Description                                     |              Type              |   Default   |
+| :--------------- | :---------------------------------------------- | :----------------------------: | :---------: |
+| children         | Content                                         |       `React.ReactNode`        |             |
+| className        | `class` HTML attribute                          |            `string`            |             |
+| closeButtonLabel | `aria-label` of the close button                |            `string`            |             |
+| copyButtonLabel  | `aria-label` of the copy button                 |            `string`            |             |
+| copyText         | Text to copy                                    |            `string`            |             |
+| disabled         | Disabled state                                  |           `boolean`            |             |
+| icon             | Label icon (on the left)                        |       `React.ReactNode`        |             |
+| interactive      | Enables hover effect                            |           `boolean`            |             |
+| onClick          | `click` event handler                           |           `Function`           |             |
+| onCloseClick     | Close button `click` event handler              |           `Function`           |             |
+| onCopy           | `copy` event handler                            |           `Function`           |             |
+| size             | Label size                                      |       `"xs"` `"s"` `"m"`       |    `"s"`    |
+| theme            | Label theme                                     |            `string`            | `"normal"`  |
+| type             | Label type                                      | `"default"` `"copy"` `"close"` | `"default"` |
+| value            | Label value (displayed as `"children : value"`) |            `string`            |             |
+| title            | `title` HTML attribute                          |            `string`            |             |
+| qa               | `data-qa` HTML attribute, used for testing      |            `string`            |             |

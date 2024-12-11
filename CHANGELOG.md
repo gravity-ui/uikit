@@ -1,5 +1,18 @@
 # Changelog
 
+## [6.38.0](https://github.com/gravity-ui/uikit/compare/v6.37.0...v6.38.0) (2024-12-06)
+
+
+### Features
+
+* **User:** add html titles for elements ([#1982](https://github.com/gravity-ui/uikit/issues/1982)) ([105d43b](https://github.com/gravity-ui/uikit/commit/105d43b0d511e516675e66877fb31c94bf583f91))
+
+
+### Bug Fixes
+
+* **PinInput:** remove height glitch in Safari ([#1938](https://github.com/gravity-ui/uikit/issues/1938)) ([d6cb1cf](https://github.com/gravity-ui/uikit/commit/d6cb1cfaec89a806b6948f92aa2c12669c110fb8))
+* **TextInput:** share font styles between error and note blocks in OuterAdditionalContent ([#1970](https://github.com/gravity-ui/uikit/issues/1970)) ([55737b5](https://github.com/gravity-ui/uikit/commit/55737b5a66dbd975ecbbf84dac95592cd65e3b1a))
+
 ## [6.37.0](https://github.com/gravity-ui/uikit/compare/v6.36.0...v6.37.0) (2024-11-27)
 
 

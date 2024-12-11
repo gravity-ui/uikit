@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.38.1](https://github.com/gravity-ui/uikit/compare/v6.38.0...v6.38.1) (2024-12-11)
+
+
+### Bug Fixes
+
+* **Sheet:** remove animation lags when closing in some browsers ([#1984](https://github.com/gravity-ui/uikit/issues/1984)) ([555b186](https://github.com/gravity-ui/uikit/commit/555b18687ce431fe78102b0e98fac35464fe7957))
+
 ## [6.38.0](https://github.com/gravity-ui/uikit/compare/v6.37.0...v6.38.0) (2024-12-06)
 
 

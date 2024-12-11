@@ -8,6 +8,7 @@ import {BUTTON_VIEWS} from '../../Button/constants';
 import {ToasterProvider} from '../Provider/ToasterProvider';
 import {Toast} from '../Toast/Toast';
 import {ToasterComponent} from '../ToasterComponent/ToasterComponent';
+import {ToasterSingleton} from '../ToasterSingleton';
 import {TOAST_THEMES} from '../constants';
 import {useToaster} from '../hooks/useToaster';
 import type {ToastAction} from '../types';
@@ -53,13 +54,15 @@ function booleanControl(label: string) {
     };
 }
 
+const toasterInstance = new ToasterSingleton();
+
 export default {
     title: 'Components/Feedback/Toaster',
     component: Toast,
     decorators: [
         function withToasters(Story) {
             return (
-                <ToasterProvider>
+                <ToasterProvider toaster={toasterInstance}>
                     <Story />
                 </ToasterProvider>
             );

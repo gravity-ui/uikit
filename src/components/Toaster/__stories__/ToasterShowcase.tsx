@@ -3,7 +3,7 @@ import * as React from 'react';
 import {faker} from '@faker-js/faker/locale/en';
 import {CircleCheck, CircleInfo, Thunderbolt, TriangleExclamation} from '@gravity-ui/icons';
 
-import {ToasterComponent, useToaster} from '..';
+import {Toaster, ToasterComponent, useToaster} from '..';
 import type {ToastAction, ToastProps} from '..';
 import {Button} from '../../Button';
 import type {ButtonView} from '../../Button';
@@ -13,6 +13,8 @@ import {cn} from '../../utils/cn';
 import './ToasterShowcase.scss';
 
 const b = cn('toaster-showcase');
+
+export const toasterInstance = new Toaster();
 
 const CONTENT = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, atque!';
 
@@ -371,6 +373,22 @@ export const ToasterDemo = ({
         </Button>
     );
 
+    const singletonToasterBtn = (
+        <Button
+            size="l"
+            onClick={() => {
+                toasterInstance.add({
+                    title: 'Singleton Toast',
+                    content: 'I am separate toast, which can be added outside of react!',
+                    name: 'uniqueName' + Math.random().toString(),
+                });
+            }}
+            style={btnStyle}
+        >
+            Add toast via Toaster API
+        </Button>
+    );
+
     const component = React.useMemo(() => <ToasterComponent />, []);
 
     return (
@@ -385,6 +403,7 @@ export const ToasterDemo = ({
             <p>{toastWithLongContent}</p>
             <p>{dynamicallyUpdatingToast}</p>
             <p>{overrideToastBtn}</p>
+            <p>{singletonToasterBtn}</p>
             <p>{clearBtn}</p>
 
             {component}

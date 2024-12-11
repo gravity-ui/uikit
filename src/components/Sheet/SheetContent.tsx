@@ -16,7 +16,7 @@ const ACCELERATION_Y_MAX = 0.08;
 const ACCELERATION_Y_MIN = -0.02;
 // 90% from viewport
 const MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT = 0.9;
-const WINDOW_RESIZE_TIMEOUT = 25;
+const WINDOW_RESIZE_TIMEOUT = 50;
 
 let hashHistory: string[] = [];
 
@@ -108,7 +108,6 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         }
 
         if ((prevProps.visible && !visible) || this.shouldClose(prevProps)) {
-            alert('component did update close');
             this.hide();
         }
 
@@ -124,21 +123,14 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     render() {
         const {content, contentClassName, swipeAreaClassName, hideTopBar, title} = this.props;
 
-        const {
-            deltaY,
-            swipeAreaTouched,
-            contentTouched,
-            veilTouched,
-            isAnimating,
-            inWindowResizeScope,
-        } = this.state;
+        const {deltaY, swipeAreaTouched, contentTouched, veilTouched, isAnimating} = this.state;
 
         const veilTransitionMod = {
             'with-transition': !deltaY || veilTouched,
         };
 
         const sheetTransitionMod = {
-            'with-transition': !inWindowResizeScope && veilTransitionMod['with-transition'],
+            'with-transition': veilTransitionMod['with-transition'],
         };
 
         const contentMod = {
@@ -354,7 +346,6 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         const accelerationY = this.velocityTracker.getYAcceleration();
 
         if (this.sheetHeight <= deltaY) {
-            alert('< delte hide sheet');
             this.props.hideSheet();
         } else if (
             (deltaY > HIDE_THRESHOLD &&
@@ -362,7 +353,6 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
                 accelerationY >= ACCELERATION_Y_MIN) ||
             accelerationY > ACCELERATION_Y_MAX
         ) {
-            alert('> delte hide');
             this.hide();
         } else if (deltaY !== 0) {
             this.show();
@@ -399,7 +389,6 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
 
     private onVeilClick = () => {
         this.setState({veilTouched: true});
-        alert('veil touched hide');
         this.hide();
     };
 
@@ -407,7 +396,6 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         this.setState({isAnimating: false});
 
         if (this.veilOpacity === '0') {
-            alert('veil opacity is 0 hide sheet');
             this.props.hideSheet();
         }
     };
@@ -421,6 +409,10 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     };
 
     private onResizeWindow = () => {
+        if (this.state.isAnimating) {
+            return;
+        }
+
         this.setState({inWindowResizeScope: true});
 
         if (this.resizeWindowTimer) {

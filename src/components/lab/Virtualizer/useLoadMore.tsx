@@ -49,11 +49,11 @@ export function useLoadMore(
         };
     }, [scrollContainerRef, onLoadMore, scrollOffset]);
 
-    const loadingRef = React.useRef(loading);
+    const prevLoadingPropRef = React.useRef(loading);
     React.useLayoutEffect(() => {
-        if (loading !== loadingRef.current) {
+        if (loading !== prevLoadingPropRef.current) {
             isLoadingRef.current = loading;
-            loadingRef.current = loading;
+            prevLoadingPropRef.current = loading;
         }
 
         const element = scrollContainerRef.current;

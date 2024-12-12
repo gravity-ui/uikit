@@ -1,21 +1,23 @@
 import type React from 'react';
 
 import type {DistributiveOmit} from '../../types/utils';
-import type {AvatarProps, AvatarSize} from '../Avatar';
+import type {AvatarProps} from '../Avatar';
 import type {DOMProps, QAProps} from '../types';
 
 export type UserLabelType = 'person' | 'email' | 'empty';
 export type UserLabelView = 'outlined' | 'clear';
+export type UserLabelSize = '3xs' | '2xs' | 'xs' | 's' | 'm' | 'l' | 'xl';
 
 export interface UserLabelProps extends DOMProps, QAProps {
     type?: UserLabelType;
+    view?: UserLabelView;
+    size?: UserLabelSize;
     avatar?:
-        | DistributiveOmit<AvatarProps, 'size' | 'className'>
+        | Partial<DistributiveOmit<AvatarProps, 'size' | 'className'>>
         | string
         | React.ReactElement<unknown>;
-    children: React.ReactNode;
-    view?: UserLabelView;
+    text: React.ReactNode;
+    description?: React.ReactNode;
     onClick?: React.MouseEventHandler<HTMLElement>;
     onCloseClick?: React.MouseEventHandler<HTMLButtonElement>;
-    size?: AvatarSize;
 }

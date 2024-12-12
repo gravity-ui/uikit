@@ -25,14 +25,14 @@ type ExtraProps = Omit<
 export interface TabsItemProps {
     id: string;
     className?: string;
-    title: string | React.ReactNode;
+    title: React.ReactNode;
     meta?: string;
     hint?: string;
     active?: boolean;
     disabled?: boolean;
     hasOverflow?: boolean;
     icon?: React.ReactNode;
-    counter?: number;
+    counter?: number | string;
     label?: {
         content: React.ReactNode;
         theme?: LabelProps['theme'];
@@ -100,7 +100,7 @@ export function TabsItem({
             <div className={b('item-content')}>
                 {icon && <div className={b('item-icon')}>{icon}</div>}
                 <div className={b('item-title')}>{title || id}</div>
-                {typeof counter === 'number' && <div className={b('item-counter')}>{counter}</div>}
+                {counter !== undefined && <div className={b('item-counter')}>{counter}</div>}
                 {label && (
                     <Label className={b('item-label')} theme={label.theme}>
                         {label.content}

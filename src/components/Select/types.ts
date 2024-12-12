@@ -164,6 +164,7 @@ export type SelectProps<T = any> = QAProps &
         name?: string;
         form?: string;
         disabled?: boolean;
+        autoFocus?: boolean;
     };
 
 export type SelectOption<T = any> = QAProps &

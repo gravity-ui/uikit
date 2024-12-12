@@ -2,8 +2,7 @@
 
 import React from 'react';
 
-import {useForkRef} from 'src/hooks';
-
+import {useForkRef} from '../../hooks';
 import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {isIcon, isSvg} from '../utils/common';

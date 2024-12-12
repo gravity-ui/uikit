@@ -41,7 +41,7 @@ export const useSelect = <T extends unknown>({
                 setValue(nextValue);
             }
 
-            toggleOpen(false);
+            toggleOpen(false, {reason: 'selection'});
         },
         [value, setValue, toggleOpen],
     );

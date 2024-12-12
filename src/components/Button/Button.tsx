@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import {useForkRef} from 'src/hooks';
+
 import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {isIcon, isSvg} from '../utils/common';
@@ -62,6 +64,7 @@ export interface ButtonProps extends DOMProps, QAProps {
     onBlur?: React.FocusEventHandler<HTMLButtonElement | HTMLAnchorElement>;
     /** Button content. You can mix button text with `<Icon/>` component */
     children?: React.ReactNode;
+    autoFocus?: boolean;
 }
 
 const b = block('button');
@@ -93,9 +96,17 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
         style,
         className,
         qa,
+        autoFocus = false,
     },
-    ref,
+    propsRef,
 ) {
+    const innerRef = React.useRef<HTMLElement>(null);
+    const ref = useForkRef(propsRef, innerRef);
+
+    React.useEffect(() => {
+        if (autoFocus) innerRef.current?.focus();
+    }, [autoFocus]);
+
     const handleClickCapture = React.useCallback(
         (event: React.SyntheticEvent) => {
             eventBroker.publish({

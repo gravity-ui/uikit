@@ -475,6 +475,7 @@ LANDING_BLOCK-->
 | type         | HTML `type` attribute                                     | `"button"` `"submit"` `"reset"` |   `"button"`    |
 | view         | Sets button appearance                                    |            `string`             |   `"normal"`    |
 | width        | `"auto"` `"max"`                                          |        `"auto"` `"max"`         |                 |
+| autoFocus    | Sets focus on                                             |            `boolean`            |     `false`     |
 
 ## CSS API
 

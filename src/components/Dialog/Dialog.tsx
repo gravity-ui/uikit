@@ -4,8 +4,9 @@ import React from 'react';
 
 import {Modal} from '../Modal';
 import type {ModalCloseReason, ModalProps} from '../Modal';
-import type {QAProps} from '../types';
+import type {AriaLabelingProps, QAProps} from '../types';
 import {block} from '../utils/cn';
+import {filterDOMProps} from '../utils/filterDOMProps';
 
 import {ButtonClose} from './ButtonClose/ButtonClose';
 import {DialogBody} from './DialogBody/DialogBody';
@@ -17,7 +18,7 @@ import './Dialog.scss';
 
 const b = block('dialog');
 
-interface DialogOwnProps extends QAProps {
+interface DialogOwnProps extends AriaLabelingProps, QAProps {
     open: boolean;
     children: React.ReactNode;
     onEscapeKeyDown?: ModalProps['onEscapeKeyDown'];
@@ -34,8 +35,6 @@ interface DialogOwnProps extends QAProps {
     className?: string;
     modalClassName?: string;
     size?: 's' | 'm' | 'l';
-    'aria-label'?: string;
-    'aria-labelledby'?: string;
     container?: HTMLElement;
     disableFocusTrap?: boolean;
     disableAutoFocus?: boolean;
@@ -93,13 +92,13 @@ export class Dialog extends React.Component<DialogInnerProps> {
             onTransitionEntered,
             onTransitionExit,
             onTransitionExited,
-            'aria-label': ariaLabel,
-            'aria-labelledby': ariaLabelledBy,
             qa,
+            ...otherProps
         } = this.props;
 
         return (
             <Modal
+                {...filterDOMProps(otherProps, {labelable: true})}
                 open={open}
                 contentOverflow={contentOverflow}
                 disableBodyScrollLock={disableBodyScrollLock}
@@ -118,8 +117,6 @@ export class Dialog extends React.Component<DialogInnerProps> {
                 onTransitionExit={onTransitionExit}
                 onTransitionExited={onTransitionExited}
                 className={b('modal', modalClassName)}
-                aria-label={ariaLabel}
-                aria-labelledby={ariaLabelledBy}
                 container={container}
                 qa={qa}
             >

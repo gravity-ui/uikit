@@ -1,7 +1,15 @@
-export const getAvatarDisplayText = (text: string) => {
-    const words = text.split(/\s+/);
-    const result =
-        words.length > 1 ? [words[0][0], words[1][0]].filter(Boolean).join('') : text.slice(0, 2);
+import type {AvatarSize} from '../types/common';
 
-    return result.toUpperCase();
+export const getAvatarDisplayText = (text: string, size: AvatarSize) => {
+    if (size === '3xs') {
+        return text[0].toUpperCase();
+    }
+
+    const words = text.split(/[^a-zA-Z]+/);
+
+    if (words.length <= 1) {
+        return text.slice(0, 2).toUpperCase();
+    }
+
+    return [words[0][0], words[1][0]].filter(Boolean).join('').toUpperCase();
 };

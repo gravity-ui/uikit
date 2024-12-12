@@ -3,9 +3,11 @@ import React from 'react';
 import {Envelope, Xmark} from '@gravity-ui/icons';
 
 import {Avatar} from '../Avatar';
+import type {AvatarProps} from '../Avatar';
 import {Icon} from '../Icon';
 import {block} from '../utils/cn';
 
+import {BORDER_COLOR, COMPACT_SIZES, DEFAULT_USER_LABEL_SIZE, ICON_SIZES} from './constants';
 import i18n from './i18n';
 import type {UserLabelProps} from './types';
 
@@ -14,43 +16,50 @@ import './UserLabel.scss';
 const b = block('user-label');
 
 export const UserLabel = React.forwardRef<HTMLDivElement, UserLabelProps>(
+    // eslint-disable-next-line complexity
     (
         {
             type = 'person',
-            avatar,
-            children,
             view = 'outlined',
+            size = DEFAULT_USER_LABEL_SIZE,
+            avatar,
+            text,
+            description,
             onClick,
             onCloseClick,
             className,
             style,
             qa,
-            size = 's',
         },
         ref,
     ) => {
         const clickable = Boolean(onClick);
         const closeable = Boolean(onCloseClick);
+
         const MainComponent = clickable ? 'button' : 'div';
 
         let avatarView: React.ReactNode = null;
+        let avatarProps: AvatarProps | undefined;
 
-        let avatarProps;
         if (typeof avatar === 'string') {
-            avatarProps = {
-                imgUrl: avatar,
-            };
+            avatarProps = {imgUrl: avatar};
         } else if (avatar && !React.isValidElement(avatar)) {
-            avatarProps = avatar;
-        } else if (!avatar && typeof children === 'string') {
-            avatarProps = {
-                text: children,
-            };
+            if (
+                ('imgUrl' in avatar && avatar.imgUrl) ||
+                ('icon' in avatar && avatar.icon) ||
+                ('text' in avatar && avatar.text)
+            ) {
+                avatarProps = avatar as AvatarProps;
+            } else if (typeof text === 'string') {
+                avatarProps = {text, borderColor: BORDER_COLOR, ...avatar};
+            }
+        } else if (!avatar && typeof text === 'string') {
+            avatarProps = {text, borderColor: BORDER_COLOR};
         }
 
         switch (type) {
             case 'email':
-                avatarView = <Avatar icon={Envelope} {...(avatarProps || {})} size={size} />;
+                avatarView = <Avatar icon={Envelope} {...avatarProps} size={size} />;
                 break;
             case 'empty':
                 avatarView = null;
@@ -65,15 +74,17 @@ export const UserLabel = React.forwardRef<HTMLDivElement, UserLabelProps>(
                 break;
         }
 
+        const showDescription = Boolean(description && !COMPACT_SIZES.has(size));
+
         return (
             <div
                 className={b(
                     {
                         view,
+                        size,
                         empty: !avatarView,
                         clickable,
                         closeable,
-                        size,
                     },
                     className,
                 )}
@@ -87,7 +98,12 @@ export const UserLabel = React.forwardRef<HTMLDivElement, UserLabelProps>(
                     onClick={onClick}
                 >
                     {avatarView ? <div className={b('avatar')}>{avatarView}</div> : null}
-                    <div className={b('text')}>{children}</div>
+                    <div className={b('info')}>
+                        <span className={b('text')}>{text}</span>
+                        {showDescription ? (
+                            <span className={b('description')}>{description}</span>
+                        ) : null}
+                    </div>
                 </MainComponent>
                 {onCloseClick ? (
                     <button
@@ -96,7 +112,7 @@ export const UserLabel = React.forwardRef<HTMLDivElement, UserLabelProps>(
                         aria-label={i18n('label_remove-button')}
                         onClick={onCloseClick}
                     >
-                        <Icon className={b('close-icon')} data={Xmark} size={12} />
+                        <Icon className={b('close-icon')} data={Xmark} size={ICON_SIZES[size]} />
                     </button>
                 ) : null}
             </div>

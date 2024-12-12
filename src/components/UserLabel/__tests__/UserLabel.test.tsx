@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 import {queryByAttribute, render, screen} from '../../../../test-utils/utils';
 import {getAvatarDisplayText} from '../../Avatar';
 import {UserLabel} from '../UserLabel';
+import {DEFAULT_USER_LABEL_SIZE} from '../constants';
 import i18n from '../i18n';
 
 const MOCKED_TEXT = 'text';
@@ -16,9 +17,9 @@ describe('UserLabel', () => {
             'should return text value as onClick argument',
             async (text) => {
                 const onClick = jest.fn();
-                render(<UserLabel onClick={onClick}>{text}</UserLabel>);
+                render(<UserLabel text={text} onClick={onClick} />);
                 const user = userEvent.setup();
-                const displayText = getAvatarDisplayText(text);
+                const displayText = getAvatarDisplayText(text, DEFAULT_USER_LABEL_SIZE);
                 const personaNode = screen.getByText(displayText);
                 await user.click(personaNode);
                 expect(onClick).toHaveBeenCalled();
@@ -28,9 +29,7 @@ describe('UserLabel', () => {
             'should return text value as onClose argument',
             async (text) => {
                 const onCloseClick = jest.fn();
-                const {container} = render(
-                    <UserLabel onCloseClick={onCloseClick}>{text}</UserLabel>,
-                );
+                const {container} = render(<UserLabel text={text} onCloseClick={onCloseClick} />);
                 const user = userEvent.setup();
                 const ariaLabelValue = i18n('label_remove-button');
                 const closeButtonNode = queryByAttribute('aria-label', container, ariaLabelValue);
@@ -44,11 +43,11 @@ describe('UserLabel', () => {
             },
         );
         test('should render text as string', () => {
-            render(<UserLabel>{MOCKED_TEXT}</UserLabel>);
+            render(<UserLabel text={MOCKED_TEXT} />);
             screen.getByText(MOCKED_TEXT);
         });
         test('should render text as react node', () => {
-            render(<UserLabel>{MOCKED_TEXT_NODE}</UserLabel>);
+            render(<UserLabel text={MOCKED_TEXT_NODE} />);
             screen.getByText(MOCKED_TEXT);
         });
     });

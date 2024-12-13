@@ -25,7 +25,7 @@ type ExtraProps = Omit<
 export interface TabsItemProps {
     id: string;
     className?: string;
-    title: React.ReactNode;
+    title: string | React.ReactNode;
     meta?: string;
     hint?: string;
     active?: boolean;

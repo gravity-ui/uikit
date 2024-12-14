@@ -28,7 +28,7 @@ interface ProgressGeneralProps extends QAProps {
 
 export interface ProgressDefaultProps {
     /** Text inside progress bar */
-    text: string;
+    text: React.ReactNode;
     /** Theme */
     theme: ProgressTheme;
     /** Size. Text of progress bar is displayed in `m` size only. */

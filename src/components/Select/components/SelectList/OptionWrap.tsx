@@ -31,6 +31,7 @@ export const OptionWrap = (props: OptionWrapProps) => {
 
     return (
         <div
+            title={option.title}
             data-qa={option.qa}
             className={b('option', {colored: selected && !multiple, disabled: option.disabled})}
         >

@@ -20,8 +20,12 @@ type OptionWrapProps = {
 };
 
 const DefaultOption = ({option}: DefaultOptionProps) => {
-    const {content, children, disabled} = option;
-    return <span className={b('option-default-label', {disabled})}>{content || children}</span>;
+    const {content, children, disabled, title} = option;
+    return (
+        <span title={title} className={b('option-default-label', {disabled})}>
+            {content || children}
+        </span>
+    );
 };
 
 export const OptionWrap = (props: OptionWrapProps) => {
@@ -31,7 +35,6 @@ export const OptionWrap = (props: OptionWrapProps) => {
 
     return (
         <div
-            title={option.title}
             data-qa={option.qa}
             className={b('option', {colored: selected && !multiple, disabled: option.disabled})}
         >

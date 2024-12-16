@@ -33,8 +33,6 @@ import {Portal} from '../Portal';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
-import type {LayerCloseReason} from '../utils/layer-manager';
-import type {LayerExtendableProps} from '../utils/layer-manager/LayerManager';
 
 import {PopupArrow} from './PopupArrow';
 import {OVERFLOW_PADDING, TRANSITION_DURATION} from './constants';
@@ -44,6 +42,8 @@ import type {PopupAnchorElement, PopupAnchorRef, PopupOffset, PopupPlacement} fr
 import {arrowStylesMiddleware, getOffsetOptions, getPlacementOptions} from './utils';
 
 import './Popup.scss';
+
+export type PopupCloseReason = 'outsideClick' | 'escapeKeyDown';
 
 export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
     children?: React.ReactNode;
@@ -92,21 +92,21 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
      *
      * @deprecated Use `onOpenChange` instead
      */
-    onClose?: LayerExtendableProps['onClose'];
+    onClose?: (event: MouseEvent | KeyboardEvent, reason: PopupCloseReason) => void;
     /**
      * This callback will be called when Escape key pressed on keyboard
      * This behaviour could be disabled with `disableEscapeKeyDown` option
      *
      * @deprecated Use `onOpenChange` instead
      */
-    onEscapeKeyDown?: LayerExtendableProps['onEscapeKeyDown'];
+    onEscapeKeyDown?: (event: KeyboardEvent) => void;
     /**
      * This callback will be called when click is outside of elements of "top layer"
      * This behaviour could be disabled with `disableOutsideClick` option
      *
      * @deprecated Use `onOpenChange` instead
      */
-    onOutsideClick?: LayerExtendableProps['onOutsideClick'];
+    onOutsideClick?: (event: MouseEvent) => void;
     /** Do not dismiss on escape key press */
     disableEscapeKeyDown?: boolean;
     /** Do not dismiss on outside click */
@@ -188,8 +188,7 @@ export function Popup({
                 return;
             }
 
-            const closeReason: LayerCloseReason =
-                reason === 'escape-key' ? 'escapeKeyDown' : 'outsideClick';
+            const closeReason = reason === 'escape-key' ? 'escapeKeyDown' : 'outsideClick';
 
             if (closeReason === 'escapeKeyDown' && onEscapeKeyDown) {
                 onEscapeKeyDown(event as KeyboardEvent);
@@ -302,6 +301,7 @@ export function Popup({
                 initialFocus={initialFocus ?? initialFocusRef}
                 returnFocus={returnFocus}
                 visuallyHiddenDismiss={disableFocusVisuallyHiddenDismiss ? false : i18n('close')}
+                guards={modalFocus || !disablePortal}
             >
                 <div
                     ref={handleFloatingRef}
@@ -318,7 +318,10 @@ export function Popup({
                     data-floating-ui-placement={finalPlacement}
                     data-floating-ui-status={status}
                     aria-modal={modalFocus && isMounted ? true : undefined}
-                    {...getFloatingProps({...floatingProps, onTransitionEnd: handleTransitionEnd})}
+                    {...getFloatingProps({
+                        ...floatingProps,
+                        onTransitionEnd: handleTransitionEnd,
+                    })}
                 >
                     <div
                         ref={contentRef}

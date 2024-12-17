@@ -6,6 +6,7 @@ import type {AvatarSize} from '../types/common';
 import type {AvatarIconProps} from './types';
 
 const avatarSizeToIconSize: Record<AvatarSize, number> = {
+    '3xs': 10,
     '2xs': 12,
     xs: 14,
     s: 16,

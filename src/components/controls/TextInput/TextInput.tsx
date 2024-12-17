@@ -37,7 +37,7 @@ export type TextInputProps = BaseInputControlProps<HTMLInputElement> & {
     /** The control's html attributes */
     controlProps?: React.InputHTMLAttributes<HTMLInputElement>;
     /** Help text rendered to the left of the input node */
-    label?: string;
+    label?: React.ReactNode;
     /** User`s node rendered before label and input node
      * @deprecated use `startContent` instead
      */
@@ -238,10 +238,10 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
                                 maxWidth: `calc(50% - ${startContentSize.width}px)`,
                             }}
                             className={b('label')}
-                            title={label}
+                            title={typeof label === 'string' ? label : undefined}
                             htmlFor={id}
                         >
-                            {`${label}`}
+                            {label}
                         </label>
                     )}
                     <TextInputControl {...props} {...commonProps} controlRef={handleRef} />

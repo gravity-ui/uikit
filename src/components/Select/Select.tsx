@@ -99,6 +99,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         hasCounter,
         renderCounter,
         title,
+        autoFocus = false,
     } = props;
     const mobile = useMobile();
     const [filter, setFilter] = useControlledState(propsFilter, '', onFilterChange);
@@ -121,6 +122,10 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         onOpenChange,
         disabled,
     });
+
+    React.useEffect(() => {
+        if (autoFocus) controlRef.current?.focus();
+    }, [autoFocus]);
 
     React.useEffect(() => {
         if (!open && filterable && mobile) {

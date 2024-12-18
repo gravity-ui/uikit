@@ -287,4 +287,4 @@ LANDING_BLOCK-->
 | `--g-label-height`                 | Height, line-height       |
 | `--g-label-border-radius`          | Border radius             |
 | `--g-label-font-size`              | Text font size            |
-| `--g-label-margin-inline`          | Margin inline             |
+| `--g-label-padding`                | Side paddings             |

@@ -10,6 +10,9 @@ $transition-timing-function: ease-in-out;
     --_--bg-color-hover: none;
     --_--text-color: none;
     --_--font-size: var(--g-text-body-1-font-size);
+    --_--border-color: var(--g-color-line-generic);
+    --_--border-width: 0;
+    --_--border-color: currentColor;
 
     display: inline-flex;
     align-items: center;
@@ -18,6 +21,8 @@ $transition-timing-function: ease-in-out;
     border-radius: var(--g-label-border-radius, var(--_--border-radius));
     color: var(--g-label-text-color, var(--_--text-color));
     background-color: var(--g-label-background-color, var(--_--bg-color));
+    box-shadow: inset 0 0 0 var(--g-label-border-width, var(--_--border-width))
+        var(--g-label-border-color, var(--_--border-color));
     transition-property: opacity, color, background-color;
     transition-duration: $transition-duration;
     transition-timing-function: $transition-timing-function;
@@ -28,7 +33,7 @@ $transition-timing-function: ease-in-out;
     &__text {
         display: flex;
         align-items: baseline;
-        margin: 0 var(--g-label-margin-inline, var(--_--margin-inline));
+        padding: 0 var(--g-label-padding, var(--_--padding-inline));
         width: 100%;
         font-family: var(--g-text-body-font-family);
         font-weight: var(--g-text-body-font-weight);
@@ -113,7 +118,7 @@ $transition-timing-function: ease-in-out;
         &_xs {
             --_--height: 20px;
             --_--border-radius: var(--g-border-radius-xs);
-            --_--margin-inline: 8px;
+            --_--padding-inline: 8px;
             --_--margin-addon-start: 24px;
             --_--margin-addon-end: 22px;
         }
@@ -121,7 +126,7 @@ $transition-timing-function: ease-in-out;
         &_s {
             --_--height: 24px;
             --_--border-radius: var(--g-border-radius-s);
-            --_--margin-inline: 10px;
+            --_--padding-inline: 10px;
             --_--margin-addon-start: 28px;
             --_--margin-addon-end: 26px;
         }
@@ -129,7 +134,7 @@ $transition-timing-function: ease-in-out;
         &_m {
             --_--height: 28px;
             --_--border-radius: var(--g-border-radius-m);
-            --_--margin-inline: 12px;
+            --_--padding-inline: 12px;
             --_--margin-addon-start: 32px;
             --_--margin-addon-end: 32px;
         }
@@ -191,9 +196,8 @@ $transition-timing-function: ease-in-out;
             --_--bg-color: transparent;
             --_--bg-color-hover: var(--g-color-base-simple-hover);
             --_--text-color: var(--g-color-text-complementary);
-
-            box-shadow: inset 0 0 0 var(--g-label-border-width, 1px)
-                var(--g-label-border-color, var(--g-color-line-generic));
+            --_--border-width: 1px;
+            --_--border-color: var(--g-color-line-generic);
         }
     }
 

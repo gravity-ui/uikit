@@ -3,7 +3,7 @@ import React from 'react';
 import {progressBlock} from './constants';
 
 export interface ProgressInnerTextProps {
-    text?: string;
+    text?: React.ReactNode;
     offset?: number;
 }
 

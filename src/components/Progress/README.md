@@ -241,7 +241,7 @@ LANDING_BLOCK-->
 | size            | Sets the progress bar size. The progress bar text can only be displayed in `"m"` size.                                              |                `string`                 |    `"m"`    |
 | stack           | Configuration of composite progress bar. Not required if a `value` is provided.                                                     |             `Array<Stack>`              |             |
 | stackClassName  | HTML `class` attribute of stack                                                                                                     |                `string`                 |             |
-| text            | Text inside the progress bar                                                                                                        |                `string`                 |             |
+| text            | Text inside the progress bar                                                                                                        |               `ReactNode`               |             |
 | theme           | Sets progress color                                                                                                                 |                `string`                 | `"default"` |
 | value           | Current progress value. The available range is from 0 to 100. Using the `stack` property value is optional and is used as maxValue. |                `number`                 |             |
 

@@ -1,6 +1,9 @@
+import type {Href, RouterOptions} from '../types';
+
 export interface TocItem {
     value?: string;
     content?: React.ReactNode;
-    href?: string;
+    href?: Href;
     items?: TocItem[];
+    routerOptions?: RouterOptions;
 }

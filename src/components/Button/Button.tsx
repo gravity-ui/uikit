@@ -2,7 +2,8 @@
 
 import React from 'react';
 
-import type {DOMProps, QAProps} from '../types';
+import {useLinkProps} from '../lab/router/router';
+import type {DOMProps, Href, QAProps, RouterOptions} from '../types';
 import {block} from '../utils/cn';
 import {isIcon, isSvg} from '../utils/common';
 import {eventBroker} from '../utils/event-broker';
@@ -49,7 +50,7 @@ export interface ButtonProps extends DOMProps, QAProps {
     id?: string;
     type?: 'button' | 'submit' | 'reset';
     component?: React.ElementType;
-    href?: string;
+    href?: Href;
     target?: string;
     rel?: string;
     extraProps?:
@@ -62,6 +63,7 @@ export interface ButtonProps extends DOMProps, QAProps {
     onBlur?: React.FocusEventHandler<HTMLButtonElement | HTMLAnchorElement>;
     /** Button content. You can mix button text with `<Icon/>` component */
     children?: React.ReactNode;
+    routerOptions?: RouterOptions;
 }
 
 const b = block('button');
@@ -79,9 +81,6 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
         tabIndex,
         type = 'button',
         component,
-        href,
-        target,
-        rel,
         extraProps,
         onClick,
         onMouseEnter,
@@ -93,6 +92,7 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
         style,
         className,
         qa,
+        ...props
     },
     ref,
 ) {
@@ -137,37 +137,60 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
         'data-qa': qa,
     };
 
-    if (typeof href === 'string' || component) {
-        const linkProps = {
-            href,
-            target,
-            rel: target === '_blank' && !rel ? 'noopener noreferrer' : rel,
-        };
+    const linkProps = useLinkProps({
+        ...extraProps,
+        ...props,
+        onClick: (e) => {
+            if (disabled) {
+                e.preventDefault();
+                return;
+            }
+
+            if (typeof onClick === 'function') {
+                onClick(e);
+            }
+        },
+    });
+
+    if (component) {
         return React.createElement(
-            component || 'a',
+            component,
             {
                 ...extraProps,
                 ...commonProps,
-                ...(component ? {} : linkProps),
-                ref: ref as React.Ref<HTMLAnchorElement>,
+                ref,
                 'aria-disabled': disabled || loading,
             },
             prepareChildren(children),
         );
-    } else {
+    }
+
+    if (props.href) {
         return (
-            <button
-                {...(extraProps as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+            <a
+                {...(extraProps as React.ButtonHTMLAttributes<HTMLAnchorElement>)}
                 {...commonProps}
-                ref={ref as React.Ref<HTMLButtonElement>}
-                type={type}
-                disabled={disabled || loading}
-                aria-pressed={selected}
+                {...linkProps}
+                ref={ref as React.Ref<HTMLAnchorElement>}
+                aria-disabled={disabled || loading}
             >
                 {prepareChildren(children)}
-            </button>
+            </a>
         );
     }
+
+    return (
+        <button
+            {...(extraProps as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+            {...commonProps}
+            ref={ref as React.Ref<HTMLButtonElement>}
+            type={type}
+            disabled={disabled || loading}
+            aria-pressed={selected}
+        >
+            {prepareChildren(children)}
+        </button>
+    );
 });
 
 ButtonWithHandlers.displayName = 'Button';

@@ -8,11 +8,12 @@ import {DropdownMenu} from '../../DropdownMenu';
 import type {PopupPlacement} from '../../Popup';
 import type {AriaLabelingProps, DOMProps, Href, Key, QAProps, RouterOptions} from '../../types';
 import {filterDOMProps} from '../../utils/filterDOMProps';
+import {useRouter} from '../router/router';
 
 import {BreadcrumbItem} from './BreadcrumbItem';
 import {BreadcrumbsSeparator} from './BreadcrumbsSeparator';
 import i18n from './i18n';
-import {b, shouldClientNavigate} from './utils';
+import {b} from './utils';
 
 import './Breadcrumbs.scss';
 
@@ -44,7 +45,6 @@ export interface BreadcrumbsProps extends DOMProps, AriaLabelingProps, QAProps {
     popupStyle?: 'staircase';
     popupPlacement?: PopupPlacement;
     children: React.ReactElement<BreadcrumbsItemProps> | React.ReactElement<BreadcrumbsItemProps>[];
-    navigate?: (href: Href, routerOptions: RouterOptions | undefined) => void;
     disabled?: boolean;
     onAction?: (key: Key) => void;
 }
@@ -155,7 +155,7 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
         }
     });
 
-    const {navigate} = props;
+    const {openLink} = useRouter();
     let contents = items;
     if (items.length > visibleItemsCount) {
         contents = [];
@@ -185,13 +185,17 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
 
                                 // TODO: move this logic to DropdownMenu
                                 const target = event.currentTarget;
-                                if (
-                                    typeof navigate === 'function' &&
-                                    target instanceof HTMLAnchorElement
-                                ) {
-                                    if (el.props.href && shouldClientNavigate(target, event)) {
+                                if (target instanceof HTMLAnchorElement) {
+                                    if (
+                                        el.props.href &&
+                                        openLink(
+                                            target,
+                                            event,
+                                            el.props.href,
+                                            el.props.routerOptions,
+                                        )
+                                    ) {
                                         event.preventDefault();
-                                        navigate(el.props.href, el.props.routerOptions);
                                     }
                                 }
                             },
@@ -241,7 +245,6 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
                     current={isCurrent}
                     disabled={props.disabled || child.props.disabled}
                     onAction={handleAction}
-                    navigate={navigate}
                 >
                     {child.props.children}
                 </BreadcrumbItem>

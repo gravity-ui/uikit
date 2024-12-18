@@ -76,6 +76,12 @@ const config: PlaywrightTestConfig = {
                 deviceScaleFactor: 2,
             },
         },
+        {
+            name: 'Mobile Safari',
+            use: {
+                ...devices['iPhone 13'],
+            },
+        },
     ],
 };
 

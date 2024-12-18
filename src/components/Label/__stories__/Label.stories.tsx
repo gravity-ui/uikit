@@ -182,7 +182,7 @@ export const Custom: Story = {
                     --g-label-focus-outline-offset: 4px;
                 }`}
             </style>
-            <Label interactive theme="clear" type="close" {...args} />
+            <Label interactive type="close" {...args} />
         </React.Fragment>
     ),
 };

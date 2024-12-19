@@ -25,12 +25,8 @@ $mobileActionsGap: 2px;
         padding: 0;
 
         inset-block-start: file-preview-css-variables.$verticalCardPadding + $mobileActionsGap;
-        inset-inline-end: math.div(
-                file-preview-css-variables.$cardWidth -
-                    file-preview-css-variables.$imagePreviewWidth,
-                2
-            ) +
-            $mobileActionsGap;
+        inset-inline-end: math.div(file-preview-css-variables.$cardWidth - file-preview-css-variables.$imagePreviewWidth,
+                2) + $mobileActionsGap;
 
         &::before {
             box-shadow: none;
@@ -69,9 +65,5 @@ $mobileActionsGap: 2px;
     &__mobile-sheet {
         --_-mobile-icon-size: 18px;
         --g-sheet-content-padding: var(--g-spacing-1) 0;
-    }
-
-    &__mobile-button-icon {
-        vertical-align: sub;
     }
 }

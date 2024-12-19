@@ -1,5 +1,21 @@
 # Changelog
 
+## [6.39.0](https://github.com/gravity-ui/uikit/compare/v6.38.0...v6.39.0) (2024-12-19)
+
+
+### Features
+
+* **Progress:** change prop text ([#1993](https://github.com/gravity-ui/uikit/issues/1993)) ([92e53a0](https://github.com/gravity-ui/uikit/commit/92e53a088112d41a1fe96f091350f36d0caaa97c))
+* **Select:** add title for option ([#1994](https://github.com/gravity-ui/uikit/issues/1994)) ([03b5dbf](https://github.com/gravity-ui/uikit/commit/03b5dbfbe68abf98de3407643140ddb226379d51))
+* **styles:** manage animations by user settings ([#1996](https://github.com/gravity-ui/uikit/issues/1996)) ([19ca365](https://github.com/gravity-ui/uikit/commit/19ca365acde4fb5b467e9ac36a373a6ea5def728))
+* **Tabs:** allow string for TabItem counter value ([#1989](https://github.com/gravity-ui/uikit/issues/1989)) ([b628086](https://github.com/gravity-ui/uikit/commit/b6280863bb474f9d52fdc1f3f26dd5e0507254df))
+
+
+### Bug Fixes
+
+* **Icon:** remove redundant color:inherit style ([#1999](https://github.com/gravity-ui/uikit/issues/1999)) ([d6cda6e](https://github.com/gravity-ui/uikit/commit/d6cda6ebf38216da1eac56e3b87343603cf29c63))
+* **Sheet:** remove animation lags when closing in some browsers ([#1984](https://github.com/gravity-ui/uikit/issues/1984)) ([555b186](https://github.com/gravity-ui/uikit/commit/555b18687ce431fe78102b0e98fac35464fe7957))
+
 ## [6.38.0](https://github.com/gravity-ui/uikit/compare/v6.37.0...v6.38.0) (2024-12-06)
 
 

@@ -10,7 +10,7 @@ import {getTabsMock} from './getTabsMock';
 import type {StoryParams} from './types';
 
 const meta: Meta<typeof Tabs> = {
-    title: 'Components/Navigation/Tabs',
+    title: 'Deprecated/Tabs',
     component: Tabs,
     args: {
         direction: TabsDirection.Horizontal,

@@ -3,8 +3,6 @@
 
 $block: '.#{variables.$ns}file-preview';
 
-$smallRoundedButtonSize: 24px;
-
 #{$block} {
     --_-box-shadow: none;
     --_-border-radius: 4px;
@@ -16,29 +14,15 @@ $smallRoundedButtonSize: 24px;
     position: relative;
     width: 120px;
 
-    &:hover,
-    &:focus-within {
-        #{$block}__actions:not(#{$block}__actions_hide) {
-            opacity: 1;
-        }
-
-        --_-color-base-background: var(--g-color-base-simple-hover, rgba(0, 0, 0, 0.05));
-    }
-
-    &__actions {
-        position: absolute;
-        inset-block-start: -1 * math.div($smallRoundedButtonSize, 2);
-        inset-inline-end: -1 * math.div($smallRoundedButtonSize, 2);
-        z-index: 1;
-
-        display: flex;
-        gap: 4px;
-
-        opacity: 0;
+    &:not(#{$block}_mobile):focus-within,
+    &:not(#{$block}_mobile):hover {
+        --_--color-base-background: var(--g-color-base-simple-hover);
     }
 
     &:hover {
-        --_-color-base-background: var(--g-color-base-simple-hover);
+        #{$block}__actions-panel {
+            opacity: 1;
+        }
     }
 
     &__card {
@@ -50,7 +34,7 @@ $smallRoundedButtonSize: 24px;
         outline: none;
 
         box-shadow: var(--gc-card-box-shadow);
-        border-radius: var(--_-border-radius);
+        border-radius: var(--_--border-radius);
         padding: 4px 10px;
 
         &_clickable {
@@ -58,18 +42,18 @@ $smallRoundedButtonSize: 24px;
         }
 
         &_hoverable {
-            background-color: var(--_-color-base-background);
+            background-color: var(--_--color-base-background);
         }
 
         &::after {
             position: absolute;
             inset: 0;
-            border-radius: var(--_-border-radius);
+            border-radius: var(--_--border-radius);
             pointer-events: none;
         }
 
         &:hover {
-            --_-box-shadow: 0px 3px 10px var(--g-color-sfx-shadow);
+            --_--box-shadow: 0px 3px 10px var(--g-color-sfx-shadow);
         }
 
         &:focus::after {

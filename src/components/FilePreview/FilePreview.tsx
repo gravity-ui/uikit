@@ -12,17 +12,15 @@ import {
     Filmstrip as VideoIcon,
 } from '@gravity-ui/icons';
 
-import {useActionHandlers, useUniqId} from '../../hooks';
+import {useActionHandlers} from '../../hooks';
 import {Icon} from '../Icon';
 import type {IconData} from '../Icon';
 import {Text} from '../Text';
-import {useMobile} from '../mobile';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
-import {FilePreviewAction} from './FilePreviewAction';
-import type {FilePreviewActionProps} from './FilePreviewAction';
-import type {FileType} from './types';
+import {FilePreviewActions} from './FilePreviewActions/FilePreviewActions';
+import type {FilePreviewActionProps, FileType} from './types';
 import {getFileType} from './utils';
 
 import './FilePreview.scss';
@@ -62,10 +60,7 @@ export function FilePreview({
     onClick,
     actions,
 }: FilePreviewProps) {
-    const id = useUniqId();
-
     const [previewSrc, setPreviewSrc] = React.useState<string | undefined>(imageSrc);
-    const mobile = useMobile();
     const type = getFileType(file);
 
     const {onKeyDown} = useActionHandlers(onClick);
@@ -90,7 +85,6 @@ export function FilePreview({
     const withActions = Boolean(actions?.length);
 
     const isPreviewString = typeof previewSrc === 'string';
-    const hideActions = isPreviewString && mobile;
 
     return (
         <div className={cn(null, className)} data-qa={qa}>
@@ -126,17 +120,11 @@ export function FilePreview({
                     </Text>
                 )}
             </div>
-            {actions?.length ? (
-                <div className={cn('actions', {hide: hideActions})}>
-                    {actions.map((action, index) => (
-                        <FilePreviewAction
-                            key={`${id}-${index}`}
-                            id={`${id}-${index}`}
-                            {...action}
-                        />
-                    ))}
-                </div>
-            ) : null}
+            <FilePreviewActions
+                actions={actions}
+                hoverabelPanelClassName={cn('actions-panel')}
+                fileName={file.name}
+            />
         </div>
     );
 }

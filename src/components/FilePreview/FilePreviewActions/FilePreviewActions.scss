@@ -1,0 +1,61 @@
+@use 'sass:math';
+@use '../../variables';
+@use '../../../../styles/mixins';
+
+$block: '.#{variables.$ns}file-preview-actions';
+
+#{$block} {
+    --_--mobile-icon-size: 18px;
+    --_--mobile-actions-menu-size: 28px;
+    --_--small-rounded-button-size: 24px;
+
+    &__round-actions,
+    &__mobile-actions-menu {
+        position: absolute;
+        z-index: 1;
+        display: flex;
+        gap: var(--g-spacing-1);
+    }
+
+    &__mobile-actions-menu {
+        height: var(--_--mobile-actions-menu-size);
+        width: var(--_--mobile-actions-menu-size);
+    }
+
+    &__round-actions {
+        inset-block-start: -1 * math.div(var(--_--small-rounded-button-size), 2);
+        inset-inline-end: -1 * math.div(var(--_--small-rounded-button-size), 2);
+        opacity: 0;
+    }
+
+    &__round-button {
+        width: var(--_--small-rounded-button-size);
+        height: var(--_--small-rounded-button-size);
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__icon {
+        display: flex;
+    }
+
+    &__mobile-list-item {
+        display: flex;
+        gap: var(--g-spacing-2);
+        align-items: center;
+        padding: 0 var(--g-spacing-2);
+
+        & > svg {
+            width: var(--_--mobile-icon-size);
+            height: var(--_--mobile-icon-size);
+        }
+    }
+
+    &__mobile-sheet {
+        --g-sheet-content-padding: var(--g-spacing-1) var(--g-spacing-2);
+    }
+
+    &__mobile-button-icon {
+        vertical-align: sub;
+    }
+}

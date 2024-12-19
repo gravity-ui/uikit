@@ -2,12 +2,13 @@ import React from 'react';
 
 import {ArrowLeft as ArrowLeftIcon} from '@gravity-ui/icons';
 
+import {useUniqId} from '../../../hooks/useUniqId';
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
 import {Sheet} from '../../Sheet';
 import {block} from '../../utils/cn';
-import type {FilePreviewActionProps} from '../FilePreviewAction';
 import i18n from '../i18n';
+import type {FilePreviewActionProps} from '../types';
 
 import './MobileImagePreview.scss';
 
@@ -28,6 +29,8 @@ export function MobileImagePreview({
     actions,
     fileName,
 }: FilePreviewProps) {
+    const id = useUniqId();
+
     const [showError, setShowError] = React.useState(false);
     const showSheet = Boolean(previewSrc && visible);
 
@@ -52,8 +55,13 @@ export function MobileImagePreview({
                     <Icon data={ArrowLeftIcon} size={20} />
                 </Button>
                 <div className={cn('action-buttons')}>
-                    {actions?.map((action) => (
-                        <Button size="xl" key={action.id} onClick={action.onClick} view="raised">
+                    {actions?.map((action, index) => (
+                        <Button
+                            size="xl"
+                            key={`${id}-${index}`}
+                            onClick={action.onClick}
+                            view="raised"
+                        >
                             action.icon
                         </Button>
                     ))}

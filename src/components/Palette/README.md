@@ -8,11 +8,11 @@
 import {Palette} from '@gravity-ui/uikit';
 ```
 
-The `Palette` component is used display a grid of icons/emojis/reactions/symbols which you can select or unselect.
+The `Palette` component is used to display a grid of icons, emojis, reactions, and symbols which you can select or deselect.
 
 ### Disabled state
 
-You can disable every option with the `disabled` property. If you want to disable only a portion of options, you can change the `disabled` property of some of the `options` (`PaletteOption[]`).
+You can disable every option using the `disabled` property. If you want to disable only certain options, you can change the `disabled` property of those `options` (`PaletteOption[]`).
 
 <!--LANDING_BLOCK
 
@@ -61,7 +61,7 @@ const options: PaletteOption[] = [
 
 ### Size
 
-To control the size of the `Palette`, use the `size` property. The default size is `s`.
+Use the `size` property to manage the `Palette` size. The default size is `s`.
 
 <!--LANDING_BLOCK
 
@@ -135,7 +135,7 @@ const options: PaletteOption[] = [
 
 ### Columns
 
-You can change the number of columns in the grid by changing the `columns` property (default is `6`).
+You can change the number of columns in the grid by changing the `columns` property (the default value is `6`).
 
 <!--LANDING_BLOCK
 
@@ -173,7 +173,7 @@ const options: PaletteOption[] = [
 
 ### Multiple
 
-By default you can (un)select multiple options, but in case you want only one option to be selected, you can disable the `multiple` property.
+By default, you can select and deselect multiple options. In case you only want to make a single option selectable, you can disable the `multiple` property.
 
 <!--LANDING_BLOCK
 
@@ -213,31 +213,31 @@ const options: PaletteOption[] = [
 
 `PaletteProps`:
 
-| Name            | Description                                                                             |                          Type                          | Default |
-| :-------------- | :-------------------------------------------------------------------------------------- | :----------------------------------------------------: | :-----: |
-| aria-label      | HTML `aria-label` attribute.                                                            |                        `string`                        |         |
-| aria-labelledby | ID of the visible `Palette` caption element                                             |                        `string`                        |         |
-| className       | HTML `class` attribute.                                                                 |                        `string`                        |         |
-| columns         | Number of elements per row.                                                             |                        `number`                        |   `6`   |
-| defaultValue    | Sets the initial value state when the component is mounted.                             |                       `string[]`                       |         |
-| disabled        | Disables the options.                                                                   |                       `boolean`                        | `false` |
-| multiple        | Allows selecting multiple options.                                                      |                       `boolean`                        | `true`  |
-| onBlur          | `onBlur` event handler.                                                                 | `(event: React.FocusEvent<HTMLButtonElement>) => void` |         |
-| onFocus         | `onFocus` event handler.                                                                | `(event: React.FocusEvent<HTMLButtonElement>) => void` |         |
-| onUpdate        | Fires when the user changes the state. Provides the new value as a callback's argument. |              `(value: string[]) => void`               |         |
-| optionClassName | HTML `class` attribute for the palette button.                                          |                        `string`                        |         |
-| options         | List of options (palette elements).                                                     |                   `PaletteOption[]`                    |  `[]`   |
-| qa              | HTML `data-qa` attribute, used in tests.                                                |                        `string`                        |         |
-| rowClassName    | HTML `class` attribute for a palette row.                                               |                        `string`                        |         |
-| size            | Sets the size of the elements.                                                          |                 `xs` `s` `m` `l` `xl`                  |   `m`   |
-| style           | HTML `style` attribute.                                                                 |                 `React.CSSProperties`                  |         |
-| value           | Current value for controlled usage of the component.                                    |                       `string[]`                       |         |
+| Name            | Description                                                                           |                          Type                          | Default |
+| :-------------- | :------------------------------------------------------------------------------------ | :----------------------------------------------------: | :-----: |
+| aria-label      | `aria-label` HTML attribute                                                           |                        `string`                        |         |
+| aria-labelledby | ID of the visible `Palette` caption element                                           |                        `string`                        |         |
+| className       | `class` HTML attribute                                                                |                        `string`                        |         |
+| columns         | Number of elements per row                                                            |                        `number`                        |   `6`   |
+| defaultValue    | Sets the initial value state when the component is mounted                            |                       `string[]`                       |         |
+| disabled        | Disables the options                                                                  |                       `boolean`                        | `false` |
+| multiple        | Enables selecting multiple options                                                    |                       `boolean`                        | `true`  |
+| onBlur          | `onBlur` event handler                                                                | `(event: React.FocusEvent<HTMLButtonElement>) => void` |         |
+| onFocus         | `onFocus` event handler                                                               | `(event: React.FocusEvent<HTMLButtonElement>) => void` |         |
+| onUpdate        | Fires when the user changes the state Provides the new value as a callback's argument |              `(value: string[]) => void`               |         |
+| optionClassName | `class` HTML attribute for the palette button                                         |                        `string`                        |         |
+| options         | List of options (palette elements)                                                    |                   `PaletteOption[]`                    |  `[]`   |
+| qa              | `data-qa` HTML attribute, used for testing                                            |                        `string`                        |         |
+| rowClassName    | `class` HTML attribute for a palette row                                              |                        `string`                        |         |
+| size            | Sets the size of the elements                                                         |                 `xs` `s` `m` `l` `xl`                  |   `m`   |
+| style           | `style` HTML attribute                                                                |                 `React.CSSProperties`                  |         |
+| value           | Current value for the controlled usage of the component                               |                       `string[]`                       |         |
 
 `PaletteOption`:
 
-| Name     | Description             |    Type     | Default |
-| :------- | :---------------------- | :---------: | :-----: |
-| content  | HTML `class` attribute. | `ReactNode` |         |
-| disabled | Disables the button.    |  `boolean`  | `false` |
-| title    | HTML `title` attribute. |  `string`   |         |
-| value    | Control value.          |  `string`   |         |
+| Name     | Description            |    Type     | Default |
+| :------- | :--------------------- | :---------: | :-----: |
+| content  | `class` HTML attribute | `ReactNode` |         |
+| disabled | Disables the button    |  `boolean`  | `false` |
+| title    | `title` HTML attribute |  `string`   |         |
+| value    | Control value          |  `string`   |         |

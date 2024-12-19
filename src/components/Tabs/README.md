@@ -8,11 +8,11 @@
 import {Tabs} from '@gravity-ui/uikit';
 ```
 
-Tabs is used to explore, organize content and switch between different views.
+The `Tabs` component is used to explore and organize content, as well as to switch across various views.
 
 ## Items
 
-For render tabs items you can use `items` property.
+Use the `items` property to render `Tabs` items.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -58,7 +58,7 @@ return (
 
 <!--/GITHUB_BLOCK-->
 
-Also `Tabs` has dedicated component `Tabs.Item` for an item.
+`Tabs` also has the `Tabs.Item` dedicated component for an item.
 
 <!--GITHUB_BLOCK-->
 
@@ -77,7 +77,7 @@ return (
 
 ## Size
 
-To control the size of the `Tabs` use the `size` property. Default size is `m`.
+Use the `size` property to manage the `Tabs` size. The default size is `m`.
 
 <!--LANDING_BLOCK
 
@@ -174,11 +174,11 @@ LANDING_BLOCK-->
 
 ## Tabs.Item
 
-Used for render tabs item.
+Used to render a `Tabs` item.
 
 ### Icon
 
-Used if you need to display an icon for a tabs item.
+Used in case you need to display an icon for a `Tabs` item.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -228,7 +228,7 @@ LANDING_BLOCK-->
 
 ### States
 
-Tabs item has disabled flag.
+`Tabs` items have the `disabled` flag.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -259,7 +259,7 @@ LANDING_BLOCK-->
 
 ### Counter
 
-Used if you need to display a number for a tabs item.
+Used in case you need to display a number for a `Tabs` item.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -303,23 +303,23 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name             | Description                                                          |                                    Type                                    |   Default    |
-| :--------------- | :------------------------------------------------------------------- | :------------------------------------------------------------------------: | :----------: |
-| direction        | Tab direction (deprecated)                                           |                                  `string`                                  | `horizontal` |
-| activeTab        | Active tab ID                                                        |                                  `string`                                  |              |
-| allowNotSelected | Allows `activeTab` to be undefined                                   |                                 `boolean`                                  |              |
-| items            | Tabs array                                                           |                             `TabsItemProps[]`                              |     `[]`     |
-| onSelectTab      | Select tab handler                                                   |                    `onSelectTab?(tabId: string): void`                     |              |
-| wrapTo           | Allows to wrap `TabItem` into another component or render custom tab | `wrapTo?(item: TabsItemProps, node: React.ReactNode, index: number): void` |              |
-| className        | CSS-class of element                                                 |                                  `string`                                  |              |
+| Name             | Description                                                                 |                                    Type                                    |   Default    |
+| :--------------- | :-------------------------------------------------------------------------- | :------------------------------------------------------------------------: | :----------: |
+| direction        | Tab direction (deprecated)                                                  |                                  `string`                                  | `horizontal` |
+| activeTab        | Active tab ID                                                               |                                  `string`                                  |              |
+| allowNotSelected | Allows `activeTab` to be undefined                                          |                                 `boolean`                                  |              |
+| items            | Tabs array                                                                  |                             `TabsItemProps[]`                              |     `[]`     |
+| onSelectTab      | Select tab handler                                                          |                    `onSelectTab?(tabId: string): void`                     |              |
+| wrapTo           | Enables wrapping `TabItem` into another component or rendering a custom tab | `wrapTo?(item: TabsItemProps, node: React.ReactNode, index: number): void` |              |
+| className        | CSS class of the element                                                    |                                  `string`                                  |              |
 
 ## CSS API
 
-| Name                             | Description                |
-| :------------------------------- | :------------------------- |
-| `--g-tabs-border-width`          | Tabs border width          |
-| `--g-tabs-item-height`           | Tabs item height           |
-| `--g-tabs-item-border-width`     | Tabs item border width     |
-| `--g-tabs-item-gap`              | Distance between tabs      |
-| `--g-tabs-vertical-item-height`  | Tabs vertical item height  |
-| `--g-tabs-vertical-item-padding` | Tabs vertical item padding |
+| Name                             | Description                  |
+| :------------------------------- | :--------------------------- |
+| `--g-tabs-border-width`          | `Tabs` border width          |
+| `--g-tabs-item-height`           | `Tabs` item height           |
+| `--g-tabs-item-border-width`     | `Tabs` item border width     |
+| `--g-tabs-item-gap`              | Distance between tabs        |
+| `--g-tabs-vertical-item-height`  | `Tabs` vertical item height  |
+| `--g-tabs-vertical-item-padding` | `Tabs` vertical item padding |

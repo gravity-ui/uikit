@@ -4,7 +4,7 @@ The `UserLabel` component can be used to display users or user-related informati
 
 ### Type
 
-Used to manage avatar appearance. Use "person" for a personalized entity and "email" for an email adresses. Use "empty" for cases when you do not need any avatar.
+Used to manage avatar appearance. Use `"person"` for a personalized entity and `"email"`, for an email address. If you do not need any avatar, use `"empty"`.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -32,7 +32,7 @@ LANDING_BLOCK-->
 
 ### Avatar
 
-This component can be used with a custom avatar. It works only with `type: 'person'`. You are able to provide an image, a props of [Avatar](../Avatar/README.md) component or custom React node.
+This component can be used with a custom avatar. It only works with `type: 'person'`. You can provide an image, a property of the [Avatar](../Avatar/README.md) component, or a custom React node.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -61,7 +61,7 @@ import {GraduationCap} from '@gravity-ui/icons';
 
 ### Interactivity
 
-This component is also interactive. It can be clickable or closable.
+This component is also interactive: it can be clickable or closable.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -86,18 +86,18 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name         | Description                                 |                                    Type                                     |   Default    |
-| :----------- | :------------------------------------------ | :-------------------------------------------------------------------------: | :----------: |
-| type         | Avatar appearance                           |                       `'person'` `'email'` `'empty'`                        |  `'person'`  |
-| avatar       | User avatar                                 | [AvatarProps](../Avatar/README.md#properties) `string` `React.ReactElement` |              |
-| children     | Visible text                                |                              `React.ReactNode`                              |              |
-| view         | UserLabel view                              |                           `'outlined'` `'clear'`                            | `'outlined'` |
-| onClick      | `click` event handler for component itself  |                                 `Function`                                  |              |
-| onCloseClick | `click` event handler for button with cross |                                 `Function`                                  |              |
-| className    | Custom CSS class for root element           |                                  `string`                                   |              |
-| style        | HTML style attribute                        |                            `React.CSSProperties`                            |              |
-| qa           | HTML `data-qa` attribute, used in tests     |                                  `string`                                   |              |
-| size         | Avatar size                                 |                       `'xs'` `'s'` `'m'` `'l'` `'xl'`                       |    `'s'`     |
+| Name         | Description                                     |                                         Type                                          |   Default    |
+| :----------- | :---------------------------------------------- | :-----------------------------------------------------------------------------------: | :----------: |
+| type         | Avatar appearance                               |                            `'person'` `'email'` `'empty'`                             |  `'person'`  |
+| avatar       | User avatar                                     | `string` and `React.ReactElement` [avatar properties](../Avatar/README.md#properties) |              |
+| children     | Visible text                                    |                                   `React.ReactNode`                                   |              |
+| view         | `UserLabel` view                                |                                `'outlined'` `'clear'`                                 | `'outlined'` |
+| onClick      | `click` event handler for the component         |                                      `Function`                                       |              |
+| onCloseClick | `click` event handler for the cross-icon button |                                      `Function`                                       |              |
+| className    | Custom CSS class for the root element           |                                       `string`                                        |              |
+| style        | HTML style attribute                            |                                 `React.CSSProperties`                                 |              |
+| qa           | `data-qa` HTML attribute, used for testing      |                                       `string`                                        |              |
+| size         | Avatar size                                     |                            `'xs'` `'s'` `'m'` `'l'` `'xl'`                            |    `'s'`     |
 
 ## CSS API
 

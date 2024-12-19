@@ -8,13 +8,13 @@
 import {Slider} from '@gravity-ui/uikit';
 ```
 
-Slider is a customizable and responsive React component that allows users to select a single value or a range of values from a specified data set.
+The slider is a customizable and responsive React component that allows users to select a single value or a range of values from a specified data set.
 
-## Slider variants
+## Slider variations
 
 ### Single slider
 
-Slider with one handle to select single value. This Slider is used by default.
+This is a slider with one handle to select a single value. It is used by default.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -36,7 +36,7 @@ LANDING_BLOCK-->
 
 ### Range slider
 
-Slider with two handles to select range. To use this slider you should set `defaultValue` (for uncontrolled) or `value` (for controlled) to array.
+This is slider with two handles to select a range. To use it, set `defaultValue` (for an uncontrolled slider) or `value` (for a controlled one) for the array.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -60,7 +60,7 @@ LANDING_BLOCK-->
 
 ### Disabled
 
-The state of the `Slider` where you don't want the user to be able to interact with the component.
+This is a state of a `Slider` where you do not want to allow the user to work with this component.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -82,7 +82,7 @@ LANDING_BLOCK-->
 
 ### Error
 
-The state of the `Slider` in which you want to indicate incorrect user input. To change `Slider` appearance, use the `validationState` property with the `"invalid"` value. An optional message text can be added via the `errorMessage` property. Error message text will be rendered under the component.
+This `Slider` state is for incorrect user input. To change the `Slider` appearance, use the `validationState` property with the `"invalid"` value. Optionally, you can provide an error message through the `errorMessage` property. This message text will be rendered under the slider.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -107,7 +107,7 @@ LANDING_BLOCK-->
 
 ## Size
 
-To control the size of the `Slider` use the `size` property. Default size is `m`.
+Use the `size` property to manage the `Slider` size. The default size is `m`.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -138,9 +138,9 @@ LANDING_BLOCK-->
 
 ## Value
 
-### Min and max value
+### Minimum and maximum value
 
-The `min` and `max` properties define the limits of the range that the `Slider` component can handle. These properties are essential for setting the boundaries of the selectable values.
+The `min` and `max` properties define the limits of the range the `Slider` can handle. These properties are essential for setting the boundaries of the selectable values.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -168,7 +168,7 @@ LANDING_BLOCK-->
 
 ### Step
 
-The `step` property for `Slider` component determines the incremental steps between the min and max value range. It controls how much the value should increase or decrease as the slider is moved.
+The `step` property determines the increments within the minimum and maximum value range. This means how much the value changes with a single slider move.
 
 <!--LANDING_BLOCK
 <ExampleBlock

@@ -8,11 +8,11 @@
 import {Progress} from '@gravity-ui/uikit';
 ```
 
-`Progress` component indicates current operation progress. It can also be divided into sections.
+The `Progress` component shows current operation progress. It can also be divided into sections.
 
 ## Theme
 
-Use `theme` property to specify color of the whole progress or the composite part.
+Use the `theme` property to specify color of the whole progress or the composite part:
 
 <!--LANDING_BLOCK
 
@@ -114,7 +114,7 @@ LANDING_BLOCK-->
 
 ## Breakpoints
 
-To set breakpoints of the `Progress` component use the `colorStops` property.
+Use the `colorStops` property to set breakpoints of the `Progress` component.
 
 <!--LANDING_BLOCK
 
@@ -247,15 +247,15 @@ LANDING_BLOCK-->
 
 ### `Stack`
 
-| Name      | Description                                                                                                                         |    Type     |   Default   |
-| :-------- | :---------------------------------------------------------------------------------------------------------------------------------- | :---------: | :---------: |
-| className | HTML `class` attribute of the stack element                                                                                         |  `string`   |             |
-| color     | Sets background color for the HTML `style` attribute                                                                                |  `string`   |             |
-| content   | Stack element content                                                                                                               | `ReactNode` |             |
-| title     | HTML `title` attribute                                                                                                              |  `string`   |             |
-| theme     | Sets the stack element color                                                                                                        |  `string`   | `"default"` |
-| value     | Current progress value. The available range is from 0 to 100. Using the `stack` property value is optional and is used as maxValue. |  `number`   |             |
-| qa        | HTML `data-qa` attribute, used in tests                                                                                             |  `string`   |             |
+| Name      | Description                                                                                                                           |    Type     |   Default   |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------ | :---------: | :---------: |
+| className | `class` HTML attribute of the stack element                                                                                           |  `string`   |             |
+| color     | Sets the background color for the `style` HTML attribute                                                                              |  `string`   |             |
+| content   | Stack element content                                                                                                                 | `ReactNode` |             |
+| title     | `title` HTML attribute                                                                                                                |  `string`   |             |
+| theme     | Sets the stack element color                                                                                                          |  `string`   | `"default"` |
+| value     | Current progress value. The available range is from 0 to 100. Using the `stack` property value is optional and is used as `maxValue`. |  `number`   |             |
+| qa        | `data-qa` HTML attribute, used for testing                                                                                            |  `string`   |             |
 
 ## CSS API
 

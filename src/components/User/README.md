@@ -8,11 +8,11 @@
 import {User} from '@gravity-ui/uikit';
 ```
 
-General component for displaying a user avatar with a info block. It uses [Avatar](../Avatar/README.md) component to render the avatar. Also, it accepts custom react node as an avatar.
+This is a general component for displaying a user avatar with an info block. It uses the [Avatar](../Avatar/README.md) component to render the avatar. It can also accept a custom React node as an avatar.
 
 ## Name and description
 
-`User` component has properties `name` and `description` to display a info block.
+The `User` component has the `name` and `description` properties to display an info block.
 
 <!--LANDING_BLOCK
 
@@ -28,15 +28,14 @@ LANDING_BLOCK-->
 
 ## Size
 
-To control the size of the `User` use the `size` property. The default size is `m`. Possible values: `2xs`, `xs`, `s`, `m`, `l`, `xl`.
+Use the `size` property to manage the `User` size. The default size is `m`. The possible values are `xs`, `s`, `m`, `l`, and `xl`.
 
-This propeperty passes to the internal `Avatar` component too.
+This property is also provided to the internal `Avatar` component.
 
 <!--LANDING_BLOCK
 
 <ExampleBlock
     code={`
-<User avatar={{text: 'Charles Darwin', theme: 'brand'}} name="Charles Darwin" description="charles@mail.ai" size="2xs" />
 <User avatar={{text: 'Charles Darwin', theme: 'brand'}} name="Charles Darwin" description="charles@mail.ai" size="xs" />
 <User avatar={{text: 'Charles Darwin', theme: 'brand'}} name="Charles Darwin" description="charles@mail.ai" size="s" />
 <User avatar={{text: 'Charles Darwin', theme: 'brand'}} name="Charles Darwin" description="charles@mail.ai" size="m" />
@@ -44,7 +43,6 @@ This propeperty passes to the internal `Avatar` component too.
 <User avatar={{text: 'Charles Darwin', theme: 'brand'}} name="Charles Darwin" description="charles@mail.ai" size="xl" />
 `}
 >
-    <UIKit.User avatar={{text: 'Charles Darwin', theme: 'brand'}} name="Charles Darwin" description="charles@mail.ai" size="2xs" />
     <UIKit.User avatar={{text: 'Charles Darwin', theme: 'brand'}} name="Charles Darwin" description="charles@mail.ai" size="xs" />
     <UIKit.User avatar={{text: 'Charles Darwin', theme: 'brand'}} name="Charles Darwin" description="charles@mail.ai" size="s" />
     <UIKit.User avatar={{text: 'Charles Darwin', theme: 'brand'}} name="Charles Darwin" description="charles@mail.ai" size="m" />
@@ -56,21 +54,14 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name            | Description                             |                                Type                                | Default |
-| :-------------- | :-------------------------------------- | :----------------------------------------------------------------: | :-----: |
-| avatar          | User avatar                             | [AvatarProps](../Avatar/README.md#properties) `React.ReactElement` |         |
-| name            | User name                               |                         `React.ReactNode`                          |         |
-| description     | User description                        |                         `React.ReactNode`                          |         |
-| size            | User block size                         |              `'2xs'` `'xs'` `'s'` `'m'` `'l'` `'xl'`               |   `m`   |
-| aria-label      | `aria-label` for user block             |                              `string`                              |         |
-| aria-labelledby | `aria-labelledby` for user block        |                              `string`                              |         |
-| className       | Custom CSS class for root element       |                              `string`                              |         |
-| style           | HTML style attribute                    |                       `React.CSSProperties`                        |         |
-| qa              | HTML `data-qa` attribute, used in tests |                              `string`                              |         |
-
-## CSS API
-
-| Name                   | Description                      |
-| :--------------------- | :------------------------------- |
-| `--g-user-font-size`   | Name and description font size   |
-| `--g-user-line-height` | Name and description line height |
+| Name            | Description                                |                                  Type                                  | Default |
+| :-------------- | :----------------------------------------- | :--------------------------------------------------------------------: | :-----: |
+| avatar          | User avatar                                | `React.ReactElement` [avatar property](../Avatar/README.md#properties) |         |
+| name            | User name                                  |                           `React.ReactNode`                            |         |
+| description     | User description                           |                           `React.ReactNode`                            |         |
+| size            | User section size                          |                    `'xs'` `'s'` `'m'` `'l'` `'xl'`                     |   `m`   |
+| aria-label      | `aria-label` for the user section          |                                `string`                                |         |
+| aria-labelledby | `aria-labelledby` for the user section     |                                `string`                                |         |
+| className       | Custom CSS class for the root element      |                                `string`                                |         |
+| style           | HTML style attribute                       |                         `React.CSSProperties`                          |         |
+| qa              | `data-qa` HTML attribute, used for testing |                                `string`                                |         |

@@ -4,19 +4,19 @@
 
 <!--/GITHUB_BLOCK-->
 
-`PlaceholderContainer` is a component for displaying content with image, text content and action controls.
+`PlaceholderContainer` is a component for displaying content with an image, text content, and action controls.
 
 ## Direction
 
-The component has `row` and `column` directions of the content layout. To control it use the `direction` property. The default size is `row`.
+`PlaceholderContainer` has `row` and `column` directions for the content layout. To manage it, use the `direction` property. The default size is `row`.
 
 ## Size
 
-To control the size of the `PlaceholderContainer` use the `size` property. The default size is `l`. Possible values: `s`, `m`, `l`, `promo`. The `promo` value sets full width of the content block without minimal content height and a larger title size.
+Use the `size` property to manage the `PlaceholderContainer` size. The default size is `l`. The possible values are `s`, `m`, `l`, and `promo`. The `promo` value sets the full width of the content section without the minimum content height and a larger title size.
 
 ## Action controls
 
-The component can render button control or array of buttons. To display it use `actions` property.
+`PlaceholderContainer` can render button controls or an array of buttons. To display it, use the `actions` property.
 
 <!--GITHUB_BLOCK-->
 
@@ -58,7 +58,7 @@ The component can render button control or array of buttons. To display it use `
 
 <!--/GITHUB_BLOCK-->
 
-It is also possible to render custom controls:
+You can also render custom controls:
 
 <!--GITHUB_BLOCK-->
 
@@ -111,7 +111,7 @@ It is also possible to render custom controls:
 
 ## Image and content
 
-The property `image` allows to set up image `src` and `alt` settings or react node.
+The `image` property enables configuring the image `src` and `alt` settings or a React node.
 
 <!--GITHUB_BLOCK-->
 
@@ -144,7 +144,7 @@ The property `image` allows to set up image `src` and `alt` settings or react no
 />
 ```
 
-with src and alt settings
+With `src` and `alt` settings:
 
 ```tsx
 <PlaceholderContainer
@@ -162,7 +162,7 @@ with src and alt settings
 
 <!--/GITHUB_BLOCK-->
 
-The content of component contains from title and description blocks that can be set by the same properties names. To render custom content use `content` property.
+The `PlaceholderContainer` content contains from the title and description sections, which you can set with the appropriate properties. To render custom content, use the `content` property.
 
 ```tsx
 <PlaceholderContainer
@@ -204,18 +204,18 @@ The content of component contains from title and description blocks that can be 
 
 ## Align
 
-To control alignment of content inside parent container use `align` property. The default value is `center`.
+To manage the alignment of the content inside the parent container, use the `align` property. The default value is `center`.
 
 ## Properties
 
-| Name        | Description                                                                         |                                     Type                                      |  Default   |
-| :---------- | :---------------------------------------------------------------------------------- | :---------------------------------------------------------------------------: | :--------: |
-| className   | Optional HTML `class` attribute                                                     |                                   `string`                                    |            |
-| direction   | Used to set the direction of content layout, possible values: `"row"` or `"column"` |                                   `string`                                    |  `"row"`   |
-| size        | Size of component, possible values: `"s"`, `"m"`, `"l"` or `"promo"`                |                                   `string`                                    |   `"l"`    |
-| align       | Used to set content horizontal align, possible values: `"center"` or `"left"`       |                                   `string`                                    | `"center"` |
-| title       | Content title text                                                                  |                                   `string`                                    |            |
-| description | Content description text                                                            |                                   `string`                                    |            |
-| image       | Used to set image by src or passing react node                                      | `PlaceholderContainerImageNodeProps`<br/> `\| PlaceholderContainerImageProps` |            |
-| content     | Used to render node instead of content (title, description and actions)             |                               `React.ReactNode`                               |            |
-| actions     | Used to render array of button controls or custom node                              |     `PlaceholderContainerActionProps[]`<br/> `\|        React.ReactNode `     |            |
+| Name        | Description                                                                                |                                     Type                                      |  Default   |
+| :---------- | :----------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------: | :--------: |
+| className   | `class` HTML attribute (optional)                                                          |                                   `string`                                    |            |
+| direction   | Used to set the content layout direction. The possible values are `"row"` and `"column"`.  |                                   `string`                                    |  `"row"`   |
+| size        | Component size. The possible values are `"s"`, `"m"`, `"l"`, and `"promo"`.                |                                   `string`                                    |   `"l"`    |
+| align       | Used to set content horizontal alignment. The possible values are `"center"` and `"left"`. |                                   `string`                                    | `"center"` |
+| title       | Content title text                                                                         |                                   `string`                                    |            |
+| description | Content description text                                                                   |                                   `string`                                    |            |
+| image       | Used to set an image by `src` or provide a React node                                      | `PlaceholderContainerImageNodeProps`<br/> `\| PlaceholderContainerImageProps` |            |
+| content     | Used to render a node instead of content (title, description, and actions)                 |                               `React.ReactNode`                               |            |
+| actions     | Used to render an array of button controls or a custom node                                |     `PlaceholderContainerActionProps[]`<br/> `\|        React.ReactNode `     |            |

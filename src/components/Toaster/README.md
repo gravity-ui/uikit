@@ -11,11 +11,13 @@ Component for adjustable notifications.
 ```jsx
 import React from 'react';
 import ReactDOMClient from 'react-dom/client';
-import {ToasterComponent, ToasterProvider} from '@gravity-ui/uikit';
+import {Toaster, ToasterComponent, ToasterProvider} from '@gravity-ui/uikit';
+
+const toaster = new Toaster();
 
 const root = ReactDOMClient.createRoot(document.getElementById('root'));
 root.render(
-  <ToasterProvider>
+  <ToasterProvider toaster={toaster}>
     <App />
     <ToasterComponent className="optional additional classes" />
   </ToasterProvider>,
@@ -66,8 +68,6 @@ const FoobarWithToaster = withToaster()(FoobarComponent);
 Toaster has singleton, so when it is initialized in different parts of the application, the same instance will be returned.
 On initialization, it is possible to transmit a className that will be assigned to dom-element which wrap all toasts.
 
-### React < 18
-
 ```js
 import {Toaster} from '@gravity-ui/uikit';
 const toaster = new Toaster();
@@ -79,34 +79,13 @@ or
 import {toaster} from '@gravity-ui/uikit/toaster-singleton';
 ```
 
-### React 18
-
-```js
-import ReactDOMClient from 'react-dom/client';
-import {Toaster} from '@gravity-ui/uikit';
-Toaster.injectReactDOMClient(ReactDOMClient);
-const toaster = new Toaster();
-```
-
-or
-
-```js
-import {toaster} from '@gravity-ui/uikit/toaster-singleton-react-18';
-```
-
-## Constructor arguments
-
-| Parameter | Type      | Default     | Description                                         |
-| :-------- | :-------- | :---------- | :-------------------------------------------------- |
-| className | `string`  | `undefined` | Custom class name to add to the component container |
-| mobile    | `boolean` | `false`     | Configuration that manages mobile/desktop views     |
-
 ## Methods
 
 | Method name                   | Params             | Description                                                                                                                                   |
 | :---------------------------- | :----------------- | :-------------------------------------------------------------------------------------------------------------------------------------------- |
 | add(toastOptions)             | `Object`           | Creates a new notification                                                                                                                    |
 | remove(name)                  | `string`           | Manually deletes an existing notification                                                                                                     |
+| removeAll()                   |                    | Deletes all existing notifications                                                                                                            |
 | update(name, overrideOptions) | `string`, `Object` | Changes already rendered notification content. In `overrideOptions`, the following fields are optional: `title`, `type`, `content`, `actions` |
 | has(name)                     | `string`           | Checks fora toast with the given name in the list of displayed toasts                                                                         |
 

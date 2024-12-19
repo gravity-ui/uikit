@@ -31,6 +31,16 @@ const EXTRA_INNER_CONTENT_MORE_THAN_VIEWPORT = getRandomText(3000);
 export default {
     title: 'Components/Overlays/Sheet',
     component: Sheet,
+    parameters: {
+        layout: 'fullscreen',
+    },
+    decorators: [
+        (Story) => (
+            <div className={'sb-show-main sb-main-padded'}>
+                <Story />
+            </div>
+        ),
+    ],
 } as Meta;
 
 export const Default: StoryFn<SheetProps> = ({

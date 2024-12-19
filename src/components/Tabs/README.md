@@ -297,7 +297,7 @@ LANDING_BLOCK-->
 | meta     | Tab description                |          `string`          |         |
 | hint     | HTML title attribute           |          `string`          |         |
 | icon     | Icon displayed at the start    |     `React.ReactNode`      |         |
-| counter  | Number displayed at the end    |     `React.ReactNode`      |         |
+| counter  | Number displayed at the end    |     `number` `string`      |         |
 | label    | `<Label>` displayed at the end |     `React.ReactNode`      |         |
 | disabled | Inactive state                 |         `boolean`          |         |
 

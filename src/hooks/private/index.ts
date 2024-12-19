@@ -8,6 +8,5 @@ export * from './useHover';
 export * from './usePrevious';
 export * from './useRadio';
 export * from './useRadioGroup';
-export * from './useRestoreFocus';
 export * from './useTooltipVisible';
 export * from './useUpdateEffect';

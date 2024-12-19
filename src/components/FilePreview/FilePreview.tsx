@@ -12,7 +12,7 @@ import {
     Filmstrip as VideoIcon,
 } from '@gravity-ui/icons';
 
-import {useActionHandlers, useUniqId} from '../../hooks';
+import {useActionHandlers} from '../../hooks';
 import {useBoolean} from '../../hooks/private';
 import {Icon} from '../Icon';
 import type {IconData} from '../Icon';
@@ -21,10 +21,9 @@ import {useMobile} from '../mobile';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
-import {FilePreviewAction} from './FilePreviewAction';
-import type {FilePreviewActionProps} from './FilePreviewAction';
+import {FilePreviewActions} from './FilePreviewActions/FilePreviewActions';
 import {MobileImagePreview} from './MobileImagePreview/MobileImagePreview';
-import type {FileType} from './types';
+import type {FilePreviewActionProps, FileType} from './types';
 import {getFileType} from './utils';
 
 import './FilePreview.scss';
@@ -63,8 +62,6 @@ export function FilePreview({
     onClick,
     actions,
 }: FilePreviewProps) {
-    const id = useUniqId();
-
     const [previewSrc, setPreviewSrc] = React.useState<string | undefined>(imageSrc);
     const [isPreviewSheetVisible, showPreviewSheet, closePreviewSheet] = useBoolean(false);
     const mobile = useMobile();
@@ -92,7 +89,6 @@ export function FilePreview({
     const withActions = Boolean(actions?.length);
 
     const isPreviewString = typeof previewSrc === 'string';
-    const hideActions = isPreviewString && mobile;
 
     const handleClick: React.MouseEventHandler<HTMLDivElement> = React.useCallback(
         (e) => {
@@ -140,17 +136,12 @@ export function FilePreview({
                     </Text>
                 )}
             </div>
-            {actions?.length ? (
-                <div className={cn('actions', {hide: hideActions})}>
-                    {actions.map((action, index) => (
-                        <FilePreviewAction
-                            key={`${id}-${index}`}
-                            id={`${id}-${index}`}
-                            {...action}
-                        />
-                    ))}
-                </div>
-            ) : null}
+
+            <FilePreviewActions
+                actions={actions}
+                hoverabelPanelClassName={cn('actions-panel')}
+                fileName={file.name}
+            />
 
             <MobileImagePreview
                 visible={isPreviewSheetVisible}

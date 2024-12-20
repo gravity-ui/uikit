@@ -35,10 +35,10 @@ export const Default: Story = {
 export const Delay: Story = {
     render: (args) => (
         <Flex gap={3} justifyContent="center" wrap>
-            <Popover {...args} delay={{open: 1000}}>
+            <Popover {...args} openDelay={1000}>
                 <Button>Open Delay: 1000ms</Button>
             </Popover>
-            <Popover {...args} delay={{close: 2000}}>
+            <Popover {...args} closeDelay={2000}>
                 <Button>Close Delay: 2000ms</Button>
             </Popover>
         </Flex>
@@ -68,7 +68,8 @@ export const SafePolygon: Story = {
     ...Default,
     args: {
         ...Default.args,
-        delay: 0,
+        openDelay: 0,
+        closeDelay: 0,
         offset: 50,
         enableSafePolygon: true,
     },

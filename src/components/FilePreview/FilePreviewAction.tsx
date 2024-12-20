@@ -14,7 +14,7 @@ export interface FilePreviewActionProps {
     extraProps?:
         | React.ButtonHTMLAttributes<HTMLButtonElement>
         | React.AnchorHTMLAttributes<HTMLAnchorElement>;
-    tooltipExtraProps?: Omit<ActionTooltipProps, 'id' | 'title' | 'children'>;
+    tooltipExtraProps?: Omit<ActionTooltipProps, 'title' | 'children'>;
 }
 
 export function FilePreviewAction({
@@ -28,10 +28,9 @@ export function FilePreviewAction({
     tooltipExtraProps,
 }: FilePreviewActionProps) {
     return (
-        <ActionTooltip id={id} title={title} {...tooltipExtraProps}>
+        <ActionTooltip title={title} {...tooltipExtraProps}>
             <Button
                 onClick={onClick}
-                aria-describedby={id}
                 view="raised"
                 pin="circle-circle"
                 href={href}

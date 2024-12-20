@@ -38,12 +38,14 @@ export interface PopoverProps
     disabled?: boolean;
     content?: React.ReactNode;
     trigger?: 'click';
-    delay?: number | {open?: number; close?: number};
+    openDelay?: number;
+    closeDelay?: number;
     enableSafePolygon?: boolean;
 }
 
 const b = block('popover2');
-const DEFAULT_DELAY = 500;
+const DEFAULT_OPEN_DELAY = 500;
+const DEFAULT_CLOSE_DELAY = 250;
 
 export function Popover({
     children,
@@ -52,7 +54,8 @@ export function Popover({
     disabled,
     content,
     trigger,
-    delay = DEFAULT_DELAY,
+    openDelay = DEFAULT_OPEN_DELAY,
+    closeDelay = DEFAULT_CLOSE_DELAY,
     enableSafePolygon,
     className,
     ...restProps
@@ -82,10 +85,7 @@ export function Popover({
 
     const hover = useHover(context, {
         enabled: !disabled && trigger !== 'click',
-        delay:
-            typeof delay === 'number'
-                ? delay
-                : {open: delay.open ?? DEFAULT_DELAY, close: delay.close ?? DEFAULT_DELAY},
+        delay: {open: openDelay, close: closeDelay},
         move: false,
         handleClose: enableSafePolygon ? safePolygon() : undefined,
     });
@@ -112,7 +112,7 @@ export function Popover({
             {anchorNode}
             <Popup
                 {...restProps}
-                open={isOpen}
+                open={isOpen && !disabled}
                 setGetAnchorProps={handleSetGetAnchorProps}
                 floatingContext={context}
                 floatingRef={setFloatingElement}

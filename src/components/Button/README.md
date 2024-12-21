@@ -446,35 +446,67 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
+## Next.js  
+By default, the `<Button />` component renders an `<a>` tag for links.
+
+To use the Next.js `<Link />` component, pass it to the `hrefComponent` prop when rendering the `<Button />`. 
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    background='rgb(68, 38, 204)'
+    code={`
+import NextLink from 'next/link';
+
+<Button href="#" hrefComponent={NextLink}>NextJS Link</Button>
+`}
+>
+    <UIKit.Button view="normal-contrast" size="l">Normal Contrast</UIKit.Button>
+    <UIKit.Button view="outlined-contrast" size="l">Outlined Contrast</UIKit.Button>
+    <UIKit.Button view="flat-contrast" size="l">Flat Contrast</UIKit.Button>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+import NextLink from 'next/link';
+
+<Button href="#" hrefComponent={NextLink}>NextJS Link</Button>
+```
+
+<!--/GITHUB_BLOCK--> 
+
 ## Properties
 
-| Name         | Description                                                        |              Type               |     Default     |
-| :----------- | :----------------------------------------------------------------- | :-----------------------------: | :-------------: |
-| children     | Button content. You can use both text and the `<Icon/>` component. |           `ReactNode`           |                 |
-| className    | `class` HTML attribute                                             |            `string`             |                 |
-| component    | Overrides the root component                                       |       `ElementType<any>`        |   `"button"`    |
-| disabled     | Toggles the `disabled` state                                       |             `false`             |     `false`     |
-| extraProps   | Additional properties                                              |            `Record`             |                 |
-| href         | `href` HTML attribute                                              |            `string`             |                 |
-| id           | `id` HTML attribute                                                |            `string`             |                 |
-| loading      | Toggles the `loading` state                                        |             `false`             |     `false`     |
-| onBlur       | `blur` event handler                                               |           `Function`            |                 |
-| onClick      | `click` event handler                                              |           `Function`            |                 |
-| onFocus      | `focus` event handler                                              |           `Function`            |                 |
-| onMouseEnter | `mouseenter` event handler                                         |           `Function`            |                 |
-| onMouseLeave | `mouseleave` event handler                                         |           `Function`            |                 |
-| pin          | Sets the button edge style                                         |            `string`             | `"round-round"` |
-| qa           | `data-qa` HTML attribute, used for testing                         |            `string`             |                 |
-| rel          | `rel` HTML attribute                                               |            `string`             |                 |
-| selected     | Toggles the `selected` state                                       |                                 |                 |
-| size         | Sets the button size                                               |            `string`             |      `"m"`      |
-| style        | `style` HTML attribute                                             |      `React.CSSProperties`      |                 |
-| tabIndex     | `tabIndex` HTML attribute                                          |            `number`             |                 |
-| target       | `target` HTML attribute                                            |            `string`             |                 |
-| title        | `title` HTML attribute                                             |            `string`             |                 |
-| type         | `type` HTML attribute                                              | `"button"` `"submit"` `"reset"` |   `"button"`    |
-| view         | Sets the button appearance                                         |            `string`             |   `"normal"`    |
-| width        | `"auto"` `"max"`                                                   |        `"auto"` `"max"`         |                 |
+| Name          | Description                                                        |              Type               |     Default     |
+| :------------ | :----------------------------------------------------------------- | :-----------------------------: | :-------------: |
+| children      | Button content. You can use both text and the `<Icon/>` component. |           `ReactNode`           |                 |
+| className     | `class` HTML attribute                                             |            `string`             |                 |
+| component     | Overrides the root component                                       |       `ElementType<any>`        |   `"button"`    |
+| disabled      | Toggles the `disabled` state                                       |             `false`             |     `false`     |
+| extraProps    | Additional properties                                              |            `Record`             |                 |
+| href          | `href` HTML attribute                                              |            `string`             |                 |
+| hrefComponent | Sets the custom link component for the button                      |       `React.ElementType`       |     `"<a>"`     |
+| id            | `id` HTML attribute                                                |            `string`             |                 |
+| loading       | Toggles the `loading` state                                        |             `false`             |     `false`     |
+| onBlur        | `blur` event handler                                               |           `Function`            |                 |
+| onClick       | `click` event handler                                              |           `Function`            |                 |
+| onFocus       | `focus` event handler                                              |           `Function`            |                 |
+| onMouseEnter  | `mouseenter` event handler                                         |           `Function`            |                 |
+| onMouseLeave  | `mouseleave` event handler                                         |           `Function`            |                 |
+| pin           | Sets the button edge style                                         |            `string`             | `"round-round"` |
+| qa            | `data-qa` HTML attribute, used for testing                         |            `string`             |                 |
+| rel           | `rel` HTML attribute                                               |            `string`             |                 |
+| selected      | Toggles the `selected` state                                       |                                 |                 |
+| size          | Sets the button size                                               |            `string`             |      `"m"`      |
+| style         | `style` HTML attribute                                             |      `React.CSSProperties`      |                 |
+| tabIndex      | `tabIndex` HTML attribute                                          |            `number`             |                 |
+| target        | `target` HTML attribute                                            |            `string`             |                 |
+| title         | `title` HTML attribute                                             |            `string`             |                 |
+| type          | `type` HTML attribute                                              | `"button"` `"submit"` `"reset"` |   `"button"`    |
+| view          | Sets the button appearance                                         |            `string`             |   `"normal"`    |
+| width         | `"auto"` `"max"`                                                   |        `"auto"` `"max"`         |                 |
 
 ## CSS API
 

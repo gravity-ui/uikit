@@ -75,6 +75,26 @@ $modal-default-border-radius: 5px;
         animation-name: #{variables.$ns}modal;
         animation-duration: 200ms;
     }
+
+    &_full-page {
+        #{$block} {
+            &__content-aligner,
+            &__content-wrapper,
+            &__content {
+                width: 100%;
+                height: 100%;
+            }
+
+            &__content-wrapper {
+                margin: 0;
+            }
+
+            &__content-wrapper,
+            &__content {
+                border-radius: unset;
+            }
+        }
+    }
 }
 
 @keyframes #{variables.$ns}modal {

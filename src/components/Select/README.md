@@ -284,6 +284,8 @@ LANDING_BLOCK-->
 
 To enable filter section, use the `filterable` property. Its default value is `false`.
 
+To disable filter control autofocus, use the `autoFocus={false}` property.
+
 <!--LANDING_BLOCK
 
 <ExampleBlock
@@ -1125,6 +1127,7 @@ LANDING_BLOCK-->
 | defaultValue                                              | Default values that represent selected options in case of using an uncontrolled state                                            | `string[]`                               |                                                          |
 | disabled                                                  | Shows that the user cannot work with the control                                                                                 | `boolean`                                | `false`                                                  |
 | [filterable](#filtering-options)                          | Shows that select popup has a filter section                                                                                     | `boolean`                                | `false`                                                  |
+| [autoFocus](#filtering-options)                           | The filter control `autofocus`                                                                                                   | `boolean`                                | `true`                                                   |
 | filterOption                                              | Used to compare option with filter                                                                                               | `function`                               |                                                          |
 | filterPlaceholder                                         | Default filter input placeholder text                                                                                            | `string`                                 |                                                          |
 | [getOptionHeight](#render-options-with-different-heights) | Used to set height of customized user options                                                                                    | `function`                               |                                                          |

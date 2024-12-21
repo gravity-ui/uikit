@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {ProgressInnerText} from './ProgressInnerText';
 import {ProgressStackItem} from './ProgressStackItem';
 import {progressBlock} from './constants';

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {noop} from 'lodash';
 
 import {render, screen} from '../../../../test-utils/utils';

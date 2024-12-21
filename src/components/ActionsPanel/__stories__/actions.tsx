@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {ChevronDown, Files, PencilToSquare, TrashBin} from '@gravity-ui/icons';
 
 import type {ActionsPanelProps} from '../../ActionsPanel';

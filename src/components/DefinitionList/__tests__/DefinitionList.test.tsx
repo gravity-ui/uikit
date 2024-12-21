@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {render, screen} from '../../../../test-utils/utils';
 import {DefinitionList} from '../DefinitionList';
 import {b} from '../constants';

@@ -14,18 +14,32 @@ export interface TocItemProps extends TocItemType {
     childItem?: boolean;
     active?: boolean;
     onClick?: (value: string) => void;
+    depth: number;
+    onItemClick?: (event: React.MouseEvent) => void;
 }
 
 export const TocItem = (props: TocItemProps) => {
-    const {active = false, childItem = false, content, href, value, onClick} = props;
+    const {
+        active = false,
+        childItem = false,
+        content,
+        href,
+        value,
+        onClick,
+        onItemClick,
+        depth,
+    } = props;
 
-    const handleClick = React.useCallback(() => {
-        if (value === undefined || !onClick) {
-            return;
-        }
-
-        onClick(value);
-    }, [onClick, value]);
+    const handleClick = React.useCallback(
+        (event: React.MouseEvent) => {
+            onItemClick?.(event);
+            if (value === undefined || !onClick) {
+                return;
+            }
+            onClick(value);
+        },
+        [onClick, onItemClick, value],
+    );
 
     const {onKeyDown} = useActionHandlers(handleClick);
 
@@ -46,5 +60,5 @@ export const TocItem = (props: TocItemProps) => {
             </a>
         );
 
-    return <div className={b('section', {child: childItem, active})}>{item}</div>;
+    return <div className={b('section', {child: childItem, depth, active})}>{item}</div>;
 };

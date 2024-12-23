@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 
 import {Checkbox} from '../../../Checkbox';
 import {Text} from '../../../Text';
@@ -11,8 +11,8 @@ import './TextInputShowcase.scss';
 const b = cn('text-input-showcase');
 
 export const CustomThemeShowcase = () => {
-    const [value, setValue] = React.useState('');
-    const [isErrorMessageVisible, setErrorMessageVisibility] = React.useState(false);
+    const [value, setValue] = useState('');
+    const [isErrorMessageVisible, setErrorMessageVisibility] = useState(false);
 
     const textInputProps: TextInputProps = {
         className: b('input'),

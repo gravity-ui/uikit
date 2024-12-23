@@ -1,4 +1,4 @@
-import React from 'react';
+import {useCallback, useState} from 'react';
 
 import {ProgressButton} from './ProgressButton';
 import {cnUseAsyncActionHandlerDemo} from './UseAsyncActionHandlerDemo.classname';
@@ -6,9 +6,9 @@ import {cnUseAsyncActionHandlerDemo} from './UseAsyncActionHandlerDemo.classname
 import './UseAsyncActionHandlerDemo.scss';
 
 export const UseAsyncActionHandlerDemo = () => {
-    const [items, setItems] = React.useState<string[]>([]);
+    const [items, setItems] = useState<string[]>([]);
 
-    const handleLoadItems = React.useCallback(async () => {
+    const handleLoadItems = useCallback(async () => {
         const loadItems = () =>
             new Promise<string[]>((resolve) => {
                 setTimeout(() => {

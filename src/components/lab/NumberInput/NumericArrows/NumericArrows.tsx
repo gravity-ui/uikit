@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {ChevronDown, ChevronUp} from '@gravity-ui/icons';
 

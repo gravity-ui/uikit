@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {DocsContainer} from '@storybook/addon-docs';
 import type {DocsContainerProps} from '@storybook/addon-docs';

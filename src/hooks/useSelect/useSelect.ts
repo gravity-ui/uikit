@@ -1,4 +1,4 @@
-import React from 'react';
+import {useCallback, useState} from 'react';
 
 import {useControlledState} from '../useControlledState';
 
@@ -17,7 +17,7 @@ export const useSelect = <T extends unknown>({
     disabled,
 }: UseSelectProps): UseSelectResult<T> => {
     const [value, setValueInner] = useControlledState(valueProps, defaultValue, onUpdate);
-    const [activeIndex, setActiveIndex] = React.useState<number>();
+    const [activeIndex, setActiveIndex] = useState<number>();
     const {toggleOpen, ...openState} = useOpenState({
         defaultOpen,
         onClose,
@@ -25,7 +25,7 @@ export const useSelect = <T extends unknown>({
         open,
     });
 
-    const setValue = React.useCallback(
+    const setValue = useCallback(
         (v: string[]) => {
             if (!disabled) {
                 setValueInner(v);
@@ -34,7 +34,7 @@ export const useSelect = <T extends unknown>({
         [setValueInner, disabled],
     );
 
-    const handleSingleSelection = React.useCallback(
+    const handleSingleSelection = useCallback(
         (option: UseSelectOption<T>) => {
             if (!value.includes(option.value)) {
                 const nextValue = [option.value];
@@ -46,7 +46,7 @@ export const useSelect = <T extends unknown>({
         [value, setValue, toggleOpen],
     );
 
-    const handleMultipleSelection = React.useCallback(
+    const handleMultipleSelection = useCallback(
         (option: UseSelectOption<T>) => {
             const alreadySelected = value.includes(option.value);
             const nextValue = alreadySelected
@@ -58,7 +58,7 @@ export const useSelect = <T extends unknown>({
         [value, setValue],
     );
 
-    const handleSelection = React.useCallback(
+    const handleSelection = useCallback(
         (option: UseSelectOption<T>) => {
             if (multiple) {
                 handleMultipleSelection(option);
@@ -69,7 +69,7 @@ export const useSelect = <T extends unknown>({
         [multiple, handleSingleSelection, handleMultipleSelection],
     );
 
-    const handleClearValue = React.useCallback(() => {
+    const handleClearValue = useCallback(() => {
         setValue([]);
     }, [setValue]);
 

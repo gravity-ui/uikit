@@ -1,4 +1,4 @@
-import React from 'react';
+import {useCallback, useState} from 'react';
 
 type AnyAsyncAction = (...args: any[]) => PromiseLike<any>;
 
@@ -14,9 +14,9 @@ export interface UseAsyncActionHandlerResult<Action extends AnyAsyncAction> {
 export function useAsyncActionHandler<Action extends AnyAsyncAction>({
     handler,
 }: UseAsyncActionHandlerProps<Action>): UseAsyncActionHandlerResult<Action> {
-    const [isLoading, setLoading] = React.useState(false);
+    const [isLoading, setLoading] = useState(false);
 
-    const handleAction = React.useCallback<UseAsyncActionHandlerResult<Action>['handler']>(
+    const handleAction = useCallback<UseAsyncActionHandlerResult<Action>['handler']>(
         async (...args) => {
             setLoading(true);
 

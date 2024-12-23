@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import {memo} from 'react';
 
 import {Link} from '../Link';
 import {block} from '../utils/cn';
@@ -70,6 +70,6 @@ function Item<T extends IBreadcrumbsItem = IBreadcrumbsItem>({
     );
 }
 
-export const BreadcrumbsItem = React.memo(Item) as typeof Item & {displayName: string};
+export const BreadcrumbsItem = memo(Item) as typeof Item & {displayName: string};
 
 BreadcrumbsItem.displayName = 'Breadcrumbs.Item';

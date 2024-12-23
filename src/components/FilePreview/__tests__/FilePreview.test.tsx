@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 
 import {CircleExclamation} from '@gravity-ui/icons';
 import userEvent from '@testing-library/user-event';
@@ -128,8 +128,8 @@ describe('FilePreview', () => {
         const mockFn = jest.fn();
 
         const TestCase = () => {
-            const [disabled, setDisabled] = React.useState(false);
-            const [clicksCount, setClicksCount] = React.useState(0);
+            const [disabled, setDisabled] = useState(false);
+            const [clicksCount, setClicksCount] = useState(0);
 
             const actionsClickHandler = () => {
                 mockFn();

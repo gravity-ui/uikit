@@ -1,14 +1,14 @@
-import React from 'react';
+import {useContext, useMemo} from 'react';
 
 import {ToasterContext} from '../Provider/ToasterContext';
 import type {ToasterPublicMethods} from '../types';
 
 export function useToaster(): ToasterPublicMethods {
-    const toaster = React.useContext(ToasterContext);
+    const toaster = useContext(ToasterContext);
 
     if (toaster === null) {
         throw new Error('Toaster: `useToaster` hook is used out of context');
     }
 
-    return React.useMemo(() => toaster, [toaster]);
+    return useMemo(() => toaster, [toaster]);
 }

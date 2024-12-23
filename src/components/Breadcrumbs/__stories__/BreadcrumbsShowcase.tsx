@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 
 import {cn} from '../../utils/cn';
 import {Breadcrumbs} from '../Breadcrumbs';
@@ -31,7 +31,7 @@ interface BreadcrumbsWrapperProps extends Omit<BreadcrumbsProps, 'items'> {
     items: Array<{text: string}>;
 }
 
-class BreadcrumbsWrapper extends React.Component<BreadcrumbsWrapperProps> {
+class BreadcrumbsWrapper extends Component<BreadcrumbsWrapperProps> {
     state = {
         currentItemIndex: this.props.items.length - 1,
     };

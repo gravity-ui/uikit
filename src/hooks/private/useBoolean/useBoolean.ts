@@ -1,4 +1,4 @@
-import React from 'react';
+import {useCallback, useState} from 'react';
 
 type SetTrue = () => void;
 type SetFalse = () => void;
@@ -9,11 +9,11 @@ export type UseBooleanResult = [boolean, SetTrue, SetFalse, Toggle];
 export function useBoolean(
     initialState: boolean | (() => boolean),
 ): [boolean, SetTrue, SetFalse, Toggle] {
-    const [value, setValue] = React.useState<boolean>(initialState);
+    const [value, setValue] = useState<boolean>(initialState);
     return [
         value,
-        React.useCallback(() => setValue(true), []),
-        React.useCallback(() => setValue(false), []),
-        React.useCallback(() => setValue((val) => !val), []),
+        useCallback(() => setValue(true), []),
+        useCallback(() => setValue(false), []),
+        useCallback(() => setValue((val) => !val), []),
     ];
 }

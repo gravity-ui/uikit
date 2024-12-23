@@ -1,4 +1,4 @@
-import React from 'react';
+import {useMemo} from 'react';
 
 import {useLayoutContext} from '../hooks/useLayoutContext';
 import type {CommonProps, ContainerConfigProps} from '../types';
@@ -23,7 +23,7 @@ const pickContainerProps = ({
 export const useContainerThemeProps = () => {
     const {theme, getClosestMediaProps} = useLayoutContext();
 
-    const containerThemeProps = React.useMemo(
+    const containerThemeProps = useMemo(
         () => ({
             ...pickContainerProps(theme.components?.container),
             ...pickContainerProps(getClosestMediaProps(theme.components?.container?.media)),

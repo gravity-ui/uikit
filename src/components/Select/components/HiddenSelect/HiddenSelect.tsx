@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import {Fragment} from 'react';
 
 import {useFormResetHandler} from '../../../../hooks/private';
 
@@ -36,7 +36,7 @@ export function HiddenSelect(props: HiddenSelectProps) {
     }
 
     return (
-        <React.Fragment>
+        <Fragment>
             {value.map((v, i) => (
                 <input
                     key={v}
@@ -48,6 +48,6 @@ export function HiddenSelect(props: HiddenSelectProps) {
                     disabled={disabled}
                 />
             ))}
-        </React.Fragment>
+        </Fragment>
     );
 }

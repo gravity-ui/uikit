@@ -1,5 +1,5 @@
 /* eslint-disable valid-jsdoc */
-import React from 'react';
+import {useMemo} from 'react';
 
 import type {InitialListParsedState, ListState, UseListResult} from '../types';
 
@@ -33,7 +33,7 @@ export const useList = <T>({
         defaultExpandedState,
     });
 
-    const initValues: InitialListParsedState = React.useMemo(() => {
+    const initValues: InitialListParsedState = useMemo(() => {
         return {
             expandedById: {...initialState.expandedById, ...initialValues?.expandedById},
             selectedById: {...initialState.selectedById, ...initialValues?.selectedById},
@@ -55,7 +55,7 @@ export const useList = <T>({
         withExpandedState,
     });
 
-    const realState = React.useMemo(() => {
+    const realState = useMemo(() => {
         if (controlledState) {
             return {
                 ...innerState,

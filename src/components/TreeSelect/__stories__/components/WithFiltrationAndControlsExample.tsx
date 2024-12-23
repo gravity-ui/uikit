@@ -1,4 +1,4 @@
-import React from 'react';
+import {useMemo, useState} from 'react';
 
 import {Button} from '../../../Button';
 import {Text} from '../../../Text';
@@ -25,7 +25,7 @@ export const WithFiltrationAndControlsExample = ({
     itemsCount = 5,
     ...treeSelectProps
 }: WithFiltrationAndControlsExampleProps) => {
-    const {items, renderContainer} = React.useMemo(() => {
+    const {items, renderContainer} = useMemo(() => {
         const baseItems = createRandomizedData({num: itemsCount});
         const containerRenderer: TreeSelectRenderContainer<{title: string}> = (props) => {
             if (props.list.structure.items.length === 0 && baseItems.length > 0) {
@@ -42,8 +42,8 @@ export const WithFiltrationAndControlsExample = ({
         return {items: baseItems, renderContainer: containerRenderer};
     }, [itemsCount]);
 
-    const [open, onOpenChange] = React.useState(true);
-    const [value, setValue] = React.useState<string[]>([]);
+    const [open, onOpenChange] = useState(true);
+    const [value, setValue] = useState<string[]>([]);
     const filterState = useListFilter({items});
 
     return (

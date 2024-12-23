@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 
 import userEvent from '@testing-library/user-event';
 
@@ -514,7 +514,7 @@ describe('NumberInput input', () => {
 
         test('supports form reset', async () => {
             function Test() {
-                const [value, setValue] = React.useState<number | null>(123);
+                const [value, setValue] = useState<number | null>(123);
                 return (
                     <form>
                         <NumberInput name="numeric-field" value={value} onUpdate={setValue} />

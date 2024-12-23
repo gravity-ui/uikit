@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
@@ -17,7 +17,7 @@ export default {
 } as Meta;
 
 export const WithMenuShowcase: StoryFn<SheetProps> = (args: SheetProps) => {
-    const [visible, setVisible] = React.useState(false);
+    const [visible, setVisible] = useState(false);
 
     const generateMenuItems = () => {
         return Array.from({length: 50}, (_, index) => {

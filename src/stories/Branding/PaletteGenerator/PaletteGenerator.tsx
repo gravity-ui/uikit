@@ -1,4 +1,4 @@
-import React from 'react';
+import {Fragment, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
 import {ArrowUpArrowDown} from '@gravity-ui/icons';
 import chroma from 'chroma-js';
@@ -51,12 +51,12 @@ const highContrastBaseByTheme: Record<string, string> = {
 };
 
 export function PaletteGenerator({theme}: BrandingConfiguratorProps) {
-    const [name, setName] = React.useState('color');
-    const colorTextRef = React.useRef<HTMLInputElement>(null);
-    const [color, setColor] = React.useState(chroma.random().hex());
-    const [lowContrastBase, setLowContrastBase] = React.useState(lowContrastBaseByTheme[theme]);
-    const [highContrastBase, setHighContrastBase] = React.useState(highContrastBaseByTheme[theme]);
-    const palette = React.useMemo(() => {
+    const [name, setName] = useState('color');
+    const colorTextRef = useRef<HTMLInputElement>(null);
+    const [color, setColor] = useState(chroma.random().hex());
+    const [lowContrastBase, setLowContrastBase] = useState(lowContrastBaseByTheme[theme]);
+    const [highContrastBase, setHighContrastBase] = useState(highContrastBaseByTheme[theme]);
+    const palette = useMemo(() => {
         return Object.entries(colorsMap).reduce(
             (res, [key, {a, c}]) => {
                 const i = Number(key);
@@ -73,7 +73,7 @@ export function PaletteGenerator({theme}: BrandingConfiguratorProps) {
         );
     }, [color, lowContrastBase, highContrastBase]);
 
-    const resultText = React.useMemo(() => {
+    const resultText = useMemo(() => {
         return `
 @mixin g-colors-private-${name}-${theme} {
     ${Object.keys(palette)
@@ -88,23 +88,23 @@ export function PaletteGenerator({theme}: BrandingConfiguratorProps) {
         `.trim();
     }, [name, palette, theme]);
 
-    const handleSwapContrastClick = React.useCallback(() => {
+    const handleSwapContrastClick = useCallback(() => {
         setLowContrastBase(highContrastBase);
         setHighContrastBase(lowContrastBase);
     }, [lowContrastBase, highContrastBase]);
 
-    const handleColorTextUpdate = React.useCallback((value: string) => {
+    const handleColorTextUpdate = useCallback((value: string) => {
         if (chroma.valid(value)) {
             setColor(value);
         }
     }, []);
 
-    React.useEffect(() => {
+    useEffect(() => {
         setLowContrastBase(lowContrastBaseByTheme[theme]);
         setHighContrastBase(highContrastBaseByTheme[theme]);
     }, [theme]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (colorTextRef.current) {
             colorTextRef.current.value = color;
         }
@@ -194,7 +194,7 @@ export function PaletteGenerator({theme}: BrandingConfiguratorProps) {
                 <div className={b('palette-grid')}>
                     {Object.entries(palette).map(([i, colors]) => {
                         return (
-                            <React.Fragment key={i}>
+                            <Fragment key={i}>
                                 <div className={b('palette-item-number')}>{i}</div>
                                 <div
                                     className={b('palette-item-color')}
@@ -214,7 +214,7 @@ export function PaletteGenerator({theme}: BrandingConfiguratorProps) {
                                         style={{backgroundColor: colors[1] || highContrastBase}}
                                     />
                                 </div>
-                            </React.Fragment>
+                            </Fragment>
                         );
                     })}
                 </div>

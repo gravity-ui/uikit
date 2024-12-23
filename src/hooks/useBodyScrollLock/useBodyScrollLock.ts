@@ -1,4 +1,4 @@
-import React from 'react';
+import {useLayoutEffect} from 'react';
 
 const PROPERTY_PADDING_RIGHT = 'padding-right';
 const PROPERTY_PADDING_BOTTOM = 'padding-bottom';
@@ -33,7 +33,7 @@ let locks = 0;
 let storedBodyStyle: StoredBodyStyle = {};
 
 export function useBodyScrollLock({enabled}: UseBodyScrollLockProps) {
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         if (enabled) {
             locks++;
 

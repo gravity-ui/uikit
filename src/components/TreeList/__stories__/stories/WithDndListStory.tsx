@@ -1,4 +1,4 @@
-import React from 'react';
+import {useLayoutEffect, useRef, useState} from 'react';
 
 import {Grip} from '@gravity-ui/icons';
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
@@ -45,8 +45,8 @@ export interface WithDndListStoryProps
     extends Omit<TreeListProps<CustomDataType>, 'items' | 'mapItemDataToContentProps'> {}
 
 export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
-    const [items, setItems] = React.useState(randomItems);
-    const containerRef = React.useRef<HTMLDivElement>(null);
+    const [items, setItems] = useState(randomItems);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     const list = useList({
         items,
@@ -54,7 +54,7 @@ export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
         getItemId: ({id}) => id,
     });
 
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         containerRef?.current?.focus();
     }, []);
 

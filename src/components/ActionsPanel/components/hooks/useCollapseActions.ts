@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import {useMemo} from 'react';
 
 import type {ActionsPanelItem} from '../../types';
 
@@ -15,16 +15,16 @@ export const useCollapseActions = (actions: ActionsPanelItem[], maxRowActions?: 
         typeof maxRowActions === 'undefined' ? DEFAULT_MAX_BUTTON_ACTIONS : maxRowActions,
     );
 
-    const allActionsCollapsed = React.useMemo(() => {
+    const allActionsCollapsed = useMemo(() => {
         return actions.every((action) => action.collapsed);
     }, [actions]);
 
-    const updateObserveKey = React.useMemo(
+    const updateObserveKey = useMemo(
         () => actions.map(({id}) => id).join('/') + maxActions,
         [actions, maxActions],
     );
 
-    const [buttonActions, restActions] = React.useMemo(() => {
+    const [buttonActions, restActions] = useMemo(() => {
         const buttonItems: ActionsPanelItem[] = [];
         const restItems: ActionsPanelItem[] = [];
 

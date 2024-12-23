@@ -1,4 +1,4 @@
-import React from 'react';
+import {forwardRef} from 'react';
 
 import {block} from '../utils/cn';
 
@@ -12,7 +12,7 @@ import './Avatar.scss';
 
 const b = block('avatar');
 
-export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
+export const Avatar = forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
     const {
         size = DEFAULT_AVATAR_SIZE,
         theme = 'normal',

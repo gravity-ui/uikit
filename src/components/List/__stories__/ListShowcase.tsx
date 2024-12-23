@@ -1,4 +1,4 @@
-import React from 'react';
+import {useRef, useState} from 'react';
 
 import _random from 'lodash/random';
 import _range from 'lodash/range';
@@ -72,11 +72,11 @@ const GROUP_ITEMS = [
 ];
 
 export function ListShowcase() {
-    const firstListRef = React.useRef<List<string>>(null);
-    const [activeItemIndex, setActiveItemIndex] = React.useState<number>();
-    const [selectedItemIndex, setSelectedItemIndex] = React.useState<number>();
-    const [sortableListItems, setSortableListItems] = React.useState<string[]>(ITEMS);
-    const [virtualizedListItems, setVirtualizedListItems] = React.useState<
+    const firstListRef = useRef<List<string>>(null);
+    const [activeItemIndex, setActiveItemIndex] = useState<number>();
+    const [selectedItemIndex, setSelectedItemIndex] = useState<number>();
+    const [sortableListItems, setSortableListItems] = useState<string[]>(ITEMS);
+    const [virtualizedListItems, setVirtualizedListItems] = useState<
         {
             title: string;
             key: string;

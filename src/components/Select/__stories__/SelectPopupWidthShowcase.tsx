@@ -1,4 +1,4 @@
-import React from 'react';
+import {Fragment} from 'react';
 
 import {Text} from '../../Text/Text';
 import {Flex} from '../../layout/Flex/Flex';
@@ -20,7 +20,7 @@ const extralong = extralongVirtualized.slice(0, 4);
 
 export const SelectPopupWidthShowcase = (args: any) => {
     return (
-        <React.Fragment>
+        <Fragment>
             <h2>Static width (props.popupWidth)</h2>
             <Select
                 {...args}
@@ -190,6 +190,6 @@ export const SelectPopupWidthShowcase = (args: any) => {
                 <div>Keep popup width while picking</div>
                 <Select multiple {...args} options={short} title="Sample select" />
             </div>
-        </React.Fragment>
+        </Fragment>
     );
 };

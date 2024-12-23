@@ -1,4 +1,4 @@
-import React from 'react';
+import {useId, useRef} from 'react';
 
 import {NAMESPACE} from '../../components/utils/cn';
 import {getUniqId} from '../../components/utils/common';
@@ -6,7 +6,7 @@ import {getUniqId} from '../../components/utils/common';
 export type UseUniqIdResult = string;
 
 function useUniqIdFallback() {
-    const idRef = React.useRef<string>();
+    const idRef = useRef<string>();
     if (idRef.current === undefined) {
         idRef.current = getUniqId();
     }
@@ -14,8 +14,8 @@ function useUniqIdFallback() {
 }
 
 function useIdNative() {
-    return `${NAMESPACE}${React.useId()}`;
+    return `${NAMESPACE}${useId()}`;
 }
 
 export const useUniqId: () => UseUniqIdResult =
-    typeof React.useId === 'function' ? useIdNative : useUniqIdFallback;
+    typeof useId === 'function' ? useIdNative : useUniqIdFallback;

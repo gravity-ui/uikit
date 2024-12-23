@@ -1,4 +1,4 @@
-import React from 'react';
+import {Fragment, useState} from 'react';
 
 import {Button} from '../../Button';
 import {cn} from '../../utils/cn';
@@ -42,17 +42,17 @@ const persons = [
 ];
 
 function SkeletonListShowcase() {
-    const [listVisible, setListVisible] = React.useState(false);
+    const [listVisible, setListVisible] = useState(false);
     return (
         <div className={b()}>
             {listVisible ? (
                 persons.map((props, index) => <PersonCard {...props} key={index} />)
             ) : (
-                <React.Fragment>
+                <Fragment>
                     <PersonSkeleton />
                     <PersonSkeleton />
                     <PersonSkeleton />
-                </React.Fragment>
+                </Fragment>
             )}
 
             <Button view="action" onClick={() => setListVisible(!listVisible)}>
@@ -64,12 +64,12 @@ function SkeletonListShowcase() {
 
 export function SkeletonShowcase() {
     return (
-        <React.Fragment>
+        <Fragment>
             <h1>Skeleton</h1>
             <h2>List</h2>
             <SkeletonListShowcase />
             <h2>Styled with inline prop</h2>
             <Skeleton style={{height: 100, width: 200}} />
-        </React.Fragment>
+        </Fragment>
     );
 }

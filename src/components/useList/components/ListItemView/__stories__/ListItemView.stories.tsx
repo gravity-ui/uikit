@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
@@ -266,8 +266,8 @@ const stories: ListItemViewProps[] = [
 ];
 
 const ListItemViewTemplate: StoryFn<ListItemViewProps> = () => {
-    const [expandedById, setExpandedById] = React.useState<Record<ListItemId, boolean>>({});
-    const [selectedById, setSelectedById] = React.useState<Record<ListItemId, boolean>>({});
+    const [expandedById, setExpandedById] = useState<Record<ListItemId, boolean>>({});
+    const [selectedById, setSelectedById] = useState<Record<ListItemId, boolean>>({});
 
     return (
         <Flex direction="column" role="listbox" aria-label="Sample list" width={400}>

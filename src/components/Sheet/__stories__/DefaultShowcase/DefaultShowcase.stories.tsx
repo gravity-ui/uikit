@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
@@ -37,12 +37,12 @@ export const Default: StoryFn<SheetProps> = ({
     allowHideOnContentScroll = false,
     ...args
 }: SheetProps) => {
-    const [visible, setVisible] = React.useState(false);
-    const [withExtraOuterContent, setWithExtraOuterContent] = React.useState(false);
-    const [withExtraInnerContent, setWithExtraInnerContent] = React.useState(false);
+    const [visible, setVisible] = useState(false);
+    const [withExtraOuterContent, setWithExtraOuterContent] = useState(false);
+    const [withExtraInnerContent, setWithExtraInnerContent] = useState(false);
     const [withExtraInnerContentMoreThenViewport, setWithExtraInnerContentMoreThenViewport] =
-        React.useState(false);
-    const [withTitle, setWithTitle] = React.useState(false);
+        useState(false);
+    const [withTitle, setWithTitle] = useState(false);
 
     return (
         <div className={b()}>

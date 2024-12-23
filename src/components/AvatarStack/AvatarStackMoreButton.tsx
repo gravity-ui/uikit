@@ -1,4 +1,4 @@
-import React from 'react';
+import {forwardRef} from 'react';
 
 import {DEFAULT_AVATAR_SIZE} from '../Avatar';
 import {block} from '../utils/cn';
@@ -8,10 +8,7 @@ import type {AvatarStackMoreButtonProps} from './types';
 
 const b = block('avatar-stack');
 
-export const AvatarStackMoreButton = React.forwardRef<
-    HTMLButtonElement,
-    AvatarStackMoreButtonProps
->(
+export const AvatarStackMoreButton = forwardRef<HTMLButtonElement, AvatarStackMoreButtonProps>(
     (
         {
             className,

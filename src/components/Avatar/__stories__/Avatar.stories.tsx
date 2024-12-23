@@ -1,4 +1,4 @@
-import React from 'react';
+import {Fragment, useEffect} from 'react';
 
 import {faker} from '@faker-js/faker/locale/en';
 import {FaceRobot} from '@gravity-ui/icons';
@@ -81,7 +81,7 @@ export const Image: Story = {
 export const ImageSrcSet: StoryFunc = (args) => {
     const [, setArgs] = useArgs();
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (args.size) {
             setArgs({srcSet: getAvatarSrcSet(args.size, randomAvatars)});
         }
@@ -143,7 +143,7 @@ export const AvatarShowcase: Story = {
     name: 'Showcase',
     render: () => {
         return (
-            <React.Fragment>
+            <Fragment>
                 <Showcase title="Image">
                     <ShowcaseItem title="2xs">
                         <Avatar
@@ -460,7 +460,7 @@ export const AvatarShowcase: Story = {
                         />
                     </ShowcaseItem>
                 </Showcase>
-            </React.Fragment>
+            </Fragment>
         );
     },
 };

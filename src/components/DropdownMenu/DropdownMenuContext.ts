@@ -1,11 +1,11 @@
-import React from 'react';
+import {createContext} from 'react';
 
 interface Context<T> {
     toggle(open?: boolean): void;
     data: T | undefined;
 }
 
-export const DropdownMenuContext = React.createContext<Context<unknown>>({
+export const DropdownMenuContext = createContext<Context<unknown>>({
     toggle() {},
     data: undefined,
 });

@@ -1,4 +1,4 @@
-import React from 'react';
+import {Fragment} from 'react';
 
 import userEvent from '@testing-library/user-event';
 
@@ -34,10 +34,10 @@ const RENDER_CUSTOM_FILTER: SelectProps['renderFilter'] = (props) => {
 
 const RENDER_POPUP: SelectRenderPopup = ({renderList, renderFilter}) => {
     return (
-        <React.Fragment>
+        <Fragment>
             {renderFilter()}
             {renderList()}
-        </React.Fragment>
+        </Fragment>
     );
 };
 

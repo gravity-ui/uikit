@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 
 import {Label} from '../../../Label';
 import {Loader} from '../../../Loader';
@@ -32,7 +32,7 @@ export const InfinityScrollExample = ({
     itemsCount = 5,
     ...storyProps
 }: InfinityScrollExampleProps) => {
-    const [value, setValue] = React.useState<string[]>([]);
+    const [value, setValue] = useState<string[]>([]);
     const {
         data: items = [],
         onFetchMore,

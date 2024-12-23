@@ -1,11 +1,11 @@
-import React from 'react';
+import {useEffect} from 'react';
 
 export type UseTimeoutProps = Parameters<
     (callback: VoidFunction, ms: number | null | undefined) => void
 >;
 
 export function useTimeout(callback: VoidFunction, ms: number | null | undefined): void {
-    React.useEffect(() => {
+    useEffect(() => {
         if (typeof ms !== 'number') {
             return undefined;
         }

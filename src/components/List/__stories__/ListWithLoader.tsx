@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 
 import {cn} from '../../utils/cn';
 import {List} from '../List';
@@ -9,7 +9,7 @@ import './ListWithLoader.scss';
 const b = cn('list-with-loader');
 
 export const ListWithLoader = (args: ListProps<string>) => {
-    const [items, setItems] = React.useState(args.items);
+    const [items, setItems] = useState(args.items);
 
     const onLoadMore = () => {
         // delay for fetching new real items

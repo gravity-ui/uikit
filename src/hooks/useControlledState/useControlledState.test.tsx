@@ -1,4 +1,4 @@
-import React from 'react';
+import {Fragment, lazy, useEffect, useState, useTransition} from 'react';
 
 import userEvent from '@testing-library/user-event';
 
@@ -68,12 +68,12 @@ describe('useControlledState', function () {
                 props.defaultValue,
                 props.onChange,
             );
-            React.useEffect(() => renderSpy(), [state]);
+            useEffect(() => renderSpy(), [state]);
             return <button onClick={() => setState(state + 1)} data-qa={state} />;
         };
 
         const TestComponentWrapper = (props: any) => {
-            const [state, setState] = React.useState(props.defaultValue);
+            const [state, setState] = useState(props.defaultValue);
             return <TestComponent onChange={(value: any) => setState(value)} value={state} />;
         };
 
@@ -155,13 +155,13 @@ describe('useControlledState', function () {
     });
 
     it('should work with suspense when controlled', async () => {
-        const AsyncChild = React.lazy(() => new Promise(() => {}));
+        const AsyncChild = lazy(() => new Promise(() => {}));
         function Test(props: any) {
-            const [value, setValue] = React.useState(1);
-            const [showChild, setShowChild] = React.useState(false);
+            const [value, setValue] = useState(1);
+            const [showChild, setShowChild] = useState(false);
 
             return (
-                <React.Fragment>
+                <Fragment>
                     <TransitionButton
                         onClick={() => {
                             setValue(3);
@@ -176,7 +176,7 @@ describe('useControlledState', function () {
                         }}
                     />
                     {showChild && <AsyncChild />}
-                </React.Fragment>
+                </Fragment>
             );
         }
 
@@ -194,7 +194,7 @@ describe('useControlledState', function () {
         }
 
         function TransitionButton({onClick}: any) {
-            const [isPending, startTransition] = React.useTransition();
+            const [isPending, startTransition] = useTransition();
             return (
                 <button
                     data-qa="show"
@@ -239,7 +239,7 @@ describe('useControlledState', function () {
 
     it('should work with suspense when uncontrolled', async () => {
         let resolve: any;
-        const AsyncChild = React.lazy(
+        const AsyncChild = lazy(
             () =>
                 new Promise((r) => {
                     resolve = r;
@@ -247,11 +247,11 @@ describe('useControlledState', function () {
         );
         function Test(props: any) {
             const [value, setValue] = useControlledState<number>(undefined, 1, props.onChange);
-            const [showChild, setShowChild] = React.useState(false);
-            const [isPending, startTransition] = React.useTransition();
+            const [showChild, setShowChild] = useState(false);
+            const [isPending, startTransition] = useTransition();
 
             return (
-                <React.Fragment>
+                <Fragment>
                     <button
                         data-qa="value"
                         onClick={() => {
@@ -265,7 +265,7 @@ describe('useControlledState', function () {
                         {isPending ? ' (Loading)' : ''}
                     </button>
                     {showChild && <AsyncChild />}
-                </React.Fragment>
+                </Fragment>
             );
         }
 

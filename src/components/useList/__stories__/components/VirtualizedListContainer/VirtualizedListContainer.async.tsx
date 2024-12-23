@@ -1,11 +1,11 @@
-import React from 'react';
+import {Suspense, lazy} from 'react';
 
 import {Loader} from '../../../../Loader';
 import {Flex} from '../../../../layout';
 
 import type {ListContainerRenderProps} from './types';
 
-const VirtualizedListContainerOrigin = React.lazy(() =>
+const VirtualizedListContainerOrigin = lazy(() =>
     import('./VirtualizedListContainer').then(({VirtualizedListContainer}) => ({
         default: VirtualizedListContainer,
     })),
@@ -13,7 +13,7 @@ const VirtualizedListContainerOrigin = React.lazy(() =>
 
 export const VirtualizedListContainer = <T,>(props: ListContainerRenderProps<T>) => {
     return (
-        <React.Suspense
+        <Suspense
             fallback={
                 <Flex direction="column" centerContent grow>
                     <Loader size="l" />
@@ -21,6 +21,6 @@ export const VirtualizedListContainer = <T,>(props: ListContainerRenderProps<T>)
             }
         >
             <VirtualizedListContainerOrigin {...props} />
-        </React.Suspense>
+        </Suspense>
     );
 };

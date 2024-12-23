@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 import {useRadio} from '../../hooks/private';
 import type {ControlProps} from '../types';

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {block} from '../../../utils/cn';
 import type {ListItemId, ListItemType, UseListResult} from '../../types';

@@ -1,4 +1,4 @@
-import React from 'react';
+import {useEffect, useState} from 'react';
 
 export interface UseViewportSizeResult {
     width?: number;
@@ -16,9 +16,9 @@ const getViewportSize = (): UseViewportSizeResult => ({
  * @return - {width, height}
  */
 export const useViewportSize = (): UseViewportSizeResult => {
-    const [size, setSize] = React.useState<UseViewportSizeResult>(getViewportSize());
+    const [size, setSize] = useState<UseViewportSizeResult>(getViewportSize());
 
-    React.useEffect(() => {
+    useEffect(() => {
         const onResize = () => {
             let newSize = getViewportSize();
             if (newSize.width === size?.width && newSize.height === size?.height) {

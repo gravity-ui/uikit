@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 
 import userEvent from '@testing-library/user-event';
 
@@ -261,7 +261,7 @@ describe('RadioGroup', () => {
 
         test('should support form reset', async () => {
             function Test() {
-                const [value, setValue] = React.useState('Value 2');
+                const [value, setValue] = useState('Value 2');
                 return (
                     <form data-qa="form">
                         <RadioGroup

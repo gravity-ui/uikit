@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {ActionTooltip} from '../ActionTooltip';
 import type {ActionTooltipProps} from '../ActionTooltip';

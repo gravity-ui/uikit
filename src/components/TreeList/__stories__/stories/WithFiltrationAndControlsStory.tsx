@@ -1,4 +1,4 @@
-import React from 'react';
+import {useMemo} from 'react';
 
 import {Button} from '../../../Button';
 import {Text} from '../../../Text';
@@ -25,7 +25,7 @@ export const WithFiltrationAndControlsStory = ({
     itemsCount = 5,
     ...treeSelectProps
 }: WithFiltrationAndControlsStoryProps) => {
-    const {items, renderContainer} = React.useMemo(() => {
+    const {items, renderContainer} = useMemo(() => {
         const baseItems = createRandomizedData({num: itemsCount});
         const containerRenderer = (props: TreeListContainerProps<Entity>) => {
             if (props.list.structure.items.length === 0 && baseItems.length > 0) {

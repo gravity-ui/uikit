@@ -1,4 +1,4 @@
-import React from 'react';
+import {Fragment, createRef} from 'react';
 
 import userEvent from '@testing-library/user-event';
 
@@ -165,7 +165,7 @@ describe('Card', () => {
     });
 
     test('use passed ref for component', () => {
-        const ref = React.createRef<HTMLDivElement>();
+        const ref = createRef<HTMLDivElement>();
 
         render(
             <Card ref={ref} qa={qaId}>
@@ -328,12 +328,12 @@ describe('Card', () => {
             const noopButtonQaId = 'noop-button';
 
             render(
-                <React.Fragment>
+                <Fragment>
                     <Button qa={noopButtonQaId}>Some noop button</Button>
                     <Card type="action" onClick={handleOnClick} qa={qaId}>
                         {cardText}
                     </Card>
-                </React.Fragment>,
+                </Fragment>,
             );
 
             const noopButton = screen.getByTestId(noopButtonQaId);

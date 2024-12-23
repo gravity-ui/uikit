@@ -1,4 +1,4 @@
-import React from 'react';
+import {Fragment} from 'react';
 
 import {
     ArrowUpRightFromSquare,
@@ -205,7 +205,7 @@ export const Custom: Story = {
         children: 'Fancy Button',
     },
     render: (args) => (
-        <React.Fragment>
+        <Fragment>
             <style>
                 {`.g-root {
                     --g-button-text-color: #fff;
@@ -223,6 +223,6 @@ export const Custom: Story = {
                 }`}
             </style>
             <Button {...args} />
-        </React.Fragment>
+        </Fragment>
     ),
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import {useEffect, useRef} from 'react';
 
 import {layerManager} from './LayerManager';
 import type {LayerCloseReason, LayerConfig, LayerExtendableProps} from './LayerManager';
@@ -22,7 +22,7 @@ export function useLayer({
     enabled = true,
     type,
 }: LayerProps) {
-    const layerConfigRef = React.useRef<LayerConfig>({
+    const layerConfigRef = useRef<LayerConfig>({
         disableEscapeKeyDown,
         disableOutsideClick,
         onEscapeKeyDown,
@@ -33,7 +33,7 @@ export function useLayer({
         type,
     });
 
-    React.useEffect(() => {
+    useEffect(() => {
         Object.assign(layerConfigRef.current, {
             disableEscapeKeyDown,
             disableOutsideClick,
@@ -55,7 +55,7 @@ export function useLayer({
         enabled,
     ]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (open && enabled) {
             const layerConfig = layerConfigRef.current;
             layerManager.add(layerConfig);

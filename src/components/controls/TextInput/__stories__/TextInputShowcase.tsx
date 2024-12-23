@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 
 import {Eye, EyeSlash, Key} from '@gravity-ui/icons';
 
@@ -42,10 +42,10 @@ const EyeButton = (props: {
 };
 
 export function TextInputShowcase(args: TextInputProps) {
-    const [value, setValue] = React.useState('');
-    const [isErrorMessageVisible, setErrorMessageVisibility] = React.useState(false);
-    const [isUseUnstableEndContent, setUseUnstableEndContent] = React.useState(false);
-    const [hideValue, setHideValue] = React.useState(false);
+    const [value, setValue] = useState('');
+    const [isErrorMessageVisible, setErrorMessageVisibility] = useState(false);
+    const [isUseUnstableEndContent, setUseUnstableEndContent] = useState(false);
+    const [hideValue, setHideValue] = useState(false);
     const additionalContentExmpleInputType = hideValue ? 'password' : undefined;
 
     const textInputProps: TextInputProps = {

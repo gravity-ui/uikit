@@ -1,4 +1,4 @@
-import React from 'react';
+import {useRef} from 'react';
 
 import type {ListItemType} from '../../../useList';
 import {TreeSelect} from '../../TreeSelect';
@@ -34,7 +34,7 @@ const items: ListItemType<Entity>[] = [
 ];
 
 export const WithDisabledElementsExample = ({...props}: WithDisabledElementsExampleProps) => {
-    const containerRef = React.useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     return (
         <TreeSelect

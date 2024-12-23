@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {KeyCode} from '../../constants';
 import type {List, ListItemData} from '../List';

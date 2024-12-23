@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 
 import {Button} from '../../Button';
 import {TextInput} from '../../controls';
@@ -8,8 +8,8 @@ import type {SelectOption, SelectProps} from '../index';
 const title = 'Select example with useSelectOptions hook';
 
 export const UseSelectOptionsShowcase = () => {
-    const [value, setValue] = React.useState<string[]>([]);
-    const [filter, setFilter] = React.useState('');
+    const [value, setValue] = useState<string[]>([]);
+    const [filter, setFilter] = useState('');
     const filterable = true;
     const options = useSelectOptions({
         options: [

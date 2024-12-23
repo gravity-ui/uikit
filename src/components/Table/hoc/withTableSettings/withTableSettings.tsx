@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 import {Gear} from '@gravity-ui/icons';
 import _get from 'lodash/get';

@@ -1,4 +1,4 @@
-import React from 'react';
+import {Fragment, useState} from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
@@ -12,10 +12,10 @@ export default {
 } as Meta;
 
 export const Default: StoryFn<ModalProps> = (props) => {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     return (
-        <React.Fragment>
+        <Fragment>
             <Modal {...props} open={open} onClose={() => setOpen(false)}>
                 <div style={{padding: 10}}>Modal content</div>
             </Modal>
@@ -30,6 +30,6 @@ export const Default: StoryFn<ModalProps> = (props) => {
             >
                 <Button onClick={() => setOpen(true)}>Show</Button>
             </div>
-        </React.Fragment>
+        </Fragment>
     );
 };

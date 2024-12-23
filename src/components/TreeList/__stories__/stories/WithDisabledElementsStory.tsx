@@ -1,4 +1,4 @@
-import React from 'react';
+import {useRef} from 'react';
 
 import {Button} from '../../../Button';
 import {Flex} from '../../../layout';
@@ -32,7 +32,7 @@ const items: ListItemType<{text: string}>[] = [
 
 export const WithDisabledElementsStory = ({...storyProps}: WithDisabledElementsStoryProps) => {
     const list = useList({items});
-    const containerRef = React.useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     return (
         <Flex width="500" gap="5" direction="column" alignItems="flex-start">

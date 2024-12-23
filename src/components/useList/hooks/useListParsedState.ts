@@ -1,5 +1,5 @@
 /* eslint-disable valid-jsdoc */
-import React from 'react';
+import {useMemo, useRef} from 'react';
 
 import {getListParsedState} from '../utils/getListParsedState';
 import type {GetListParsedStateProps} from '../utils/getListParsedState';
@@ -15,9 +15,9 @@ export function useListParsedState<T>({
     getItemId: propsGetItemId,
     defaultExpandedState,
 }: UseListParsedStateProps<T>) {
-    const getItemId = React.useRef(propsGetItemId).current;
+    const getItemId = useRef(propsGetItemId).current;
 
-    const result = React.useMemo(() => {
+    const result = useMemo(() => {
         return getListParsedState<T>({items, getItemId, defaultExpandedState});
     }, [getItemId, defaultExpandedState, items]);
 

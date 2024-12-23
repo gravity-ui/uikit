@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 
 import {Checkbox} from '../../../Checkbox';
 import {Text} from '../../../Text';
@@ -11,8 +11,8 @@ import './TextAreaShowcase.scss';
 const b = cn('text-input-showcase');
 
 export function TextAreaShowcase() {
-    const [value, setValue] = React.useState('');
-    const [isErrorMessageVisible, setErrorMessageVisibility] = React.useState(false);
+    const [value, setValue] = useState('');
+    const [isErrorMessageVisible, setErrorMessageVisibility] = useState(false);
 
     const textAreaProps: TextAreaProps = {
         className: b('text-area'),
@@ -98,7 +98,7 @@ export function TextAreaShowcase() {
 }
 
 export function TextAreaCustomShowcase() {
-    const [value, setValue] = React.useState('');
+    const [value, setValue] = useState('');
 
     const textAreaProps: TextAreaProps = {
         className: b('text-area'),

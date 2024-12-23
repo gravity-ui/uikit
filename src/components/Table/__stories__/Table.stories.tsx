@@ -1,4 +1,4 @@
-import React from 'react';
+import {Fragment, useMemo, useState} from 'react';
 
 import {Pencil} from '@gravity-ui/icons';
 import {action} from '@storybook/addon-actions';
@@ -146,7 +146,7 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
         },
     ];
     return (
-        <React.Fragment>
+        <Fragment>
             <h3>{'with getRowActions property'}</h3>
             <TableWithAction {...args} getRowActions={getRowActions} />
             <br />
@@ -170,7 +170,7 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
                     );
                 }}
             />
-        </React.Fragment>
+        </Fragment>
     );
 };
 export const HOCWithTableActions = WithTableActionsTemplate.bind({});
@@ -189,7 +189,7 @@ HOCWithTableCopy.args = {
 
 // ---------------------------------
 const WithTableSelectionTemplate: StoryFn<TableProps<DataItem>> = (args) => {
-    const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
+    const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
     return (
         <TableWithSelection
@@ -204,7 +204,7 @@ export const HOCWithTableSelection = WithTableSelectionTemplate.bind({});
 const DEFAULT_SETTINGS = columns.map((x) => ({id: x.id, isSelected: true}));
 // ---------------------------------
 const WithTableSettingsTemplate: StoryFn<TableProps<DataItem>> = (args, context) => {
-    const [settings, setSettings] = React.useState<TableSettingsData>(DEFAULT_SETTINGS);
+    const [settings, setSettings] = useState<TableSettingsData>(DEFAULT_SETTINGS);
 
     if (context.parameters.isFactory) {
         return (
@@ -235,7 +235,7 @@ HOCWithTableSettings.args = {
 };
 
 const WithFilterableSettingsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
-    const [settings, setSettings] = React.useState<TableSettingsData>(DEFAULT_SETTINGS);
+    const [settings, setSettings] = useState<TableSettingsData>(DEFAULT_SETTINGS);
     return (
         <TableWithFilterableSettings
             {...args}
@@ -262,7 +262,7 @@ HOCWithTableSettingsFactory.parameters = {
 };
 
 const WithTableSettingsWithResetTemplate: StoryFn<TableProps<DataItem>> = (args) => {
-    const [settings, setSettings] = React.useState<TableSettingsData>(DEFAULT_SETTINGS);
+    const [settings, setSettings] = useState<TableSettingsData>(DEFAULT_SETTINGS);
 
     return (
         <TableWithSettings
@@ -283,7 +283,7 @@ HOCWithTableSettingsWithReset.parameters = {
 };
 
 const WithTableSettingsCustomActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
-    const settings = React.useMemo(() => {
+    const settings = useMemo(() => {
         const newSettings: TableSettingsData = columns.map((x) => ({
             id: x.id,
             isSelected: true,

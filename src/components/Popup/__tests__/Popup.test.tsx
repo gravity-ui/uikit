@@ -1,4 +1,4 @@
-import React from 'react';
+import {Fragment, useState} from 'react';
 
 import userEvent from '@testing-library/user-event';
 
@@ -34,12 +34,12 @@ describe('Popup', () => {
     test('should open on click', async () => {
         const btnText = 'Click me';
         function Test() {
-            const [open, setOpen] = React.useState(false);
+            const [open, setOpen] = useState(false);
             return (
-                <React.Fragment>
+                <Fragment>
                     <Button onClick={() => setOpen((prev) => !prev)}>{btnText}</Button>
                     <Popup open={open}>{sampleText}</Popup>
-                </React.Fragment>
+                </Fragment>
             );
         }
 

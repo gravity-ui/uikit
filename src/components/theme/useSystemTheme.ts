@@ -1,4 +1,4 @@
-import React from 'react';
+import {useEffect, useState} from 'react';
 
 import {getDarkMediaMatch, getSystemTheme, supportsMatchMedia} from './dom-helpers';
 import type {ThemeType} from './types';
@@ -25,9 +25,9 @@ function addListener(
 }
 
 export function useSystemTheme(): ThemeType {
-    const [theme, setTheme] = React.useState<ThemeType>(getSystemTheme());
+    const [theme, setTheme] = useState<ThemeType>(getSystemTheme());
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!supportsMatchMedia) {
             return undefined;
         }

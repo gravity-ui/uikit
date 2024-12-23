@@ -134,9 +134,9 @@ describe('Select base actions', () => {
             setup({onOpenChange});
 
             await toggleSelectPopup();
-            expect(onOpenChange).toHaveBeenCalledWith(true);
+            expect(onOpenChange).toHaveBeenCalledWith(true, {reason: 'outside-click'});
             await toggleSelectPopup();
-            expect(onOpenChange).toHaveBeenCalledWith(false);
+            expect(onOpenChange).toHaveBeenCalledWith(false, {reason: 'outside-click'});
             expect(onOpenChange).toHaveBeenCalledTimes(2);
         });
         test('should call onOpenChange whith controlled open', async () => {
@@ -145,7 +145,7 @@ describe('Select base actions', () => {
 
             await toggleSelectPopup();
 
-            expect(onOpenChange).toHaveBeenCalledWith(false);
+            expect(onOpenChange).toHaveBeenCalledWith(false, {reason: 'outside-click'});
             expect(onOpenChange).toHaveBeenCalledTimes(1);
         });
     });

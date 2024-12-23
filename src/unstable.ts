@@ -25,6 +25,8 @@ export {
 export {
     TreeSelect as unstable_TreeSelect,
     type TreeSelectProps as unstable_TreeSelectProps,
+    type TreeSelectRenderItem as unstable_TreeSelectRenderItem,
+    type TreeSelectGetValue as unstable_TreeSelectGetValue,
 } from './components/TreeSelect';
 export {
     TreeList as unstable_TreeList,

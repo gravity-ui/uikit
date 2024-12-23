@@ -1,14 +1,14 @@
 import type {ListOnItemClick, UseListResult} from '../types';
 
-interface GetListItemClickHandlerProps<T> {
-    multiple?: boolean;
+interface GetListItemClickHandlerProps<T, M> {
+    multiple?: M;
     list: UseListResult<T>;
 }
 
-export const getListItemClickHandler = <T = unknown>({
+export const getListItemClickHandler = <T = unknown, M extends boolean = false>({
     list,
     multiple,
-}: GetListItemClickHandlerProps<T>) => {
+}: GetListItemClickHandlerProps<T, M>) => {
     const onItemClick: ListOnItemClick = ({id}) => {
         if (list.state.disabledById[id]) return;
 

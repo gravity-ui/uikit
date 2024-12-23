@@ -37,7 +37,6 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
         offset = {},
         tooltipOffset,
         tooltipClassName,
-        tooltipContentClassName,
         theme = 'info',
         size = 's',
         hasArrow = true,
@@ -64,7 +63,6 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
         focusTrap,
         autoFocus,
         restoreFocusRef,
-        middlewares,
     },
     ref,
 ) {
@@ -138,7 +136,6 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
                 },
                 tooltipClassName,
             )}
-            contentClassName={cnPopover('tooltip-popup-content', tooltipContentClassName)}
             open={isOpen}
             placement={popupPlacement}
             hasArrow={hasArrow}
@@ -146,11 +143,9 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
             onClose={hasAnchor ? undefined : closeTooltip}
             qa={qa ? `${qa}-tooltip` : ''}
             disablePortal={disablePortal}
-            focusTrap={focusTrap}
             autoFocus={autoFocus}
-            restoreFocus={true}
-            restoreFocusRef={restoreFocusRef || controlRef}
-            middlewares={middlewares}
+            modalFocus={focusTrap}
+            returnFocus={restoreFocusRef}
             aria-labelledby={title ? popoverTitleId : undefined}
         >
             <React.Fragment>

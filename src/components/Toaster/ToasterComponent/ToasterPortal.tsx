@@ -31,15 +31,13 @@ export function ToasterPortal({children, className, mobile}: Props) {
         };
     }, []);
 
-    React.useEffect(() => {
-        if (!el.current) {
-            return;
-        }
-
-        el.current.className = b({mobile}, className);
-    }, [className, mobile]);
-
-    return <Portal container={el.current}>{children}</Portal>;
+    return (
+        <Portal container={el.current}>
+            <div className={b({mobile}, className)} aria-live="assertive">
+                {children}
+            </div>
+        </Portal>
+    );
 }
 
 ToasterPortal.displayName = 'ToasterPortal';

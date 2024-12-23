@@ -4,15 +4,9 @@
 $block: '.#{variables.$ns}action-tooltip';
 
 #{$block} {
-    --g-popup-border-width: 0;
-    --g-popup-background-color: var(--g-color-base-float-heavy);
-
-    &__content {
-        padding: 6px 12px;
-        color: var(--g-color-text-light-primary);
-        max-width: 300px;
-        box-sizing: border-box;
-    }
+    --g-tooltip-text-color: var(--g-color-text-light-primary);
+    --g-tooltip-background-color: var(--g-color-base-float-heavy);
+    --g-tooltip-padding: var(--g-spacing-2) var(--g-spacing-3);
 
     &__heading {
         display: flex;
@@ -25,11 +19,11 @@ $block: '.#{variables.$ns}action-tooltip';
     }
 
     &__hotkey {
-        margin-inline-start: 8px;
+        margin-inline-start: var(--g-spacing-2);
     }
 
     &__description {
-        margin-block-start: 4px;
+        margin-block-start: var(--g-spacing-1);
         color: var(--g-color-text-light-secondary);
     }
 }

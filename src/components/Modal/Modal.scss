@@ -4,18 +4,28 @@ $block: '.#{variables.$ns}modal';
 $modal-default-border-radius: 5px;
 
 #{$block} {
-    display: none;
+    display: block;
+    visibility: visible;
+    margin: 0;
     position: fixed;
     inset: 0;
     z-index: 1000;
-
-    visibility: hidden;
-    margin: -9999px 0 0 -9999px;
+    outline: none;
 
     background-color: var(--g-color-sfx-veil);
     overflow: auto;
     -webkit-overflow-scrolling: touch;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+    transition-property: opacity;
+    transition-timing-function: ease-out;
+    transition-duration: 150ms;
+
+    &[data-floating-ui-status='unmounted'] {
+        display: none;
+        visibility: hidden;
+        margin: -9999px 0 0 -9999px;
+    }
 
     &__content-aligner {
         min-width: 100%;
@@ -35,6 +45,11 @@ $modal-default-border-radius: 5px;
     &__content {
         background-color: var(--g-color-base-modal);
         border-radius: var(--g-modal-border-radius, #{$modal-default-border-radius});
+        outline: none;
+
+        transition-property: transform;
+        transition-timing-function: ease-out;
+        transition-duration: 150ms;
 
         &_has-scroll {
             overflow-y: auto;
@@ -44,62 +59,15 @@ $modal-default-border-radius: 5px;
         }
     }
 
-    &,
-    &__content {
-        animation-timing-function: ease-out;
-        animation-fill-mode: forwards;
-        outline: none;
-    }
-
-    &_open,
-    &_exit_active {
-        display: block;
-        visibility: visible;
-        margin: 0;
-    }
-
-    &_enter_active,
-    &_appear_active {
-        $animation-duration: 150ms;
-
-        animation-name: #{variables.$ns}modal-open;
-        animation-duration: $animation-duration;
-
-        #{$block}__content {
-            animation-name: #{variables.$ns}modal-content-open;
-            animation-duration: $animation-duration;
-        }
-    }
-
-    &_exit_active {
-        animation-name: #{variables.$ns}modal;
-        animation-duration: 200ms;
-    }
-}
-
-@keyframes #{variables.$ns}modal {
-    0% {
-        opacity: 1;
-    }
-    100% {
+    &[data-floating-ui-status='initial'],
+    &[data-floating-ui-status='close'] {
         opacity: 0;
     }
-}
-
-@keyframes #{variables.$ns}modal-open {
-    0% {
-        opacity: 0;
-    }
-    100% {
+    &[data-floating-ui-status='open'] {
         opacity: 1;
     }
-}
 
-@keyframes #{variables.$ns}modal-content-open {
-    0% {
+    &[data-floating-ui-status='initial'] #{$block}__content {
         transform: scale(0.75);
-    }
-    100% {
-        transform: scale(1);
     }
 }

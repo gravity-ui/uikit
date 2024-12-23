@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {beforeMount} from '@playwright/experimental-ct-react/hooks';
 
 import {ToasterProvider} from '../../src/components/Toaster';

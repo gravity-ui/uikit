@@ -18,6 +18,7 @@ export const Default: StoryFn<ModalProps> = (props) => {
     const [openSmall, setOpenSmall] = React.useState(false);
     const [openLarge, setOpenLarge] = React.useState(false);
     const [openWithPopups, setOpenWithPopups] = React.useState(false);
+    const [openWithModal, setOpenWithModal] = React.useState(false);
 
     const [textLines] = React.useState(() => range(50).map(() => faker.lorem.sentences()));
 
@@ -34,6 +35,7 @@ export const Default: StoryFn<ModalProps> = (props) => {
                 ))}
             </Modal>
             <ModalWithPopups {...props} open={openWithPopups} onOpenChange={setOpenWithPopups} />
+            <ModalWithModal {...props} open={openWithModal} onOpenChange={setOpenWithModal} />
             <div
                 style={{
                     width: '100%',
@@ -67,6 +69,17 @@ export const Default: StoryFn<ModalProps> = (props) => {
             >
                 <Button onClick={() => setOpenWithPopups(true)}>Show modal with popups</Button>
             </div>
+            <div
+                style={{
+                    width: '100%',
+                    height: 100,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <Button onClick={() => setOpenWithModal(true)}>Show modal with modal</Button>
+            </div>
         </React.Fragment>
     );
 };
@@ -80,7 +93,7 @@ function ModalWithPopups(props: ModalProps) {
         setBottomPopupOpen(!bottomPopupOpen);
     }, [topPopupOpen, bottomPopupOpen]);
 
-    const btnRef = React.useRef<HTMLElement>(null);
+    const [popupAnchor, setPopupAnchor] = React.useState<HTMLElement | null>(null);
 
     React.useEffect(() => {
         if (!props.open) {
@@ -92,14 +105,14 @@ function ModalWithPopups(props: ModalProps) {
     return (
         <Modal {...props}>
             <div style={{padding: 100}}>
-                <Button ref={btnRef} onClick={handleTogglePopups}>
+                <Button ref={setPopupAnchor} onClick={handleTogglePopups}>
                     Toggle popups
                 </Button>
                 <Popup
                     open={topPopupOpen}
                     onOpenChange={setTopPopupOpen}
                     placement="top"
-                    anchorElement={btnRef.current}
+                    anchorElement={popupAnchor}
                 >
                     <div style={{padding: 10}}>Top popup</div>
                 </Popup>
@@ -107,10 +120,25 @@ function ModalWithPopups(props: ModalProps) {
                     open={bottomPopupOpen}
                     onOpenChange={setBottomPopupOpen}
                     placement="bottom"
-                    anchorElement={btnRef.current}
+                    anchorElement={popupAnchor}
                 >
                     <div style={{padding: 10}}>Bottom popup</div>
                 </Popup>
+            </div>
+        </Modal>
+    );
+}
+
+function ModalWithModal(props: ModalProps) {
+    const [innerModalOpen, setInnerModalOpen] = React.useState(false);
+
+    return (
+        <Modal {...props}>
+            <div style={{padding: 100}}>
+                <Button onClick={() => setInnerModalOpen(true)}>Open modal</Button>
+                <Modal open={innerModalOpen} onOpenChange={setInnerModalOpen}>
+                    <div style={{padding: 10}}>Modal content</div>
+                </Modal>
             </div>
         </Modal>
     );

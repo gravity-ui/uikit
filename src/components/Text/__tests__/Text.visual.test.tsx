@@ -23,7 +23,7 @@ test.describe('Text', {tag: '@Text'}, () => {
         );
 
         await mount(
-            <div>
+            <div style={{backgroundColor: '#F5F5F5'}}>
                 {smokeScenarios.map(([title, props]) => (
                     <div key={title}>
                         <h4>{title}</h4>

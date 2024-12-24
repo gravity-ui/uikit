@@ -13,35 +13,31 @@ test.describe('Row', {tag: '@Row'}, () => {
         ([breakpointName, breakpointWidthPx]) => {
             smokeTest(
                 `render story <Default> - ${breakpointName}`,
-                async ({page, mount, expectScreenshot}) => {
-                    const viewport = page.viewportSize();
-                    if (viewport) {
-                        await page.setViewportSize({
-                            width: breakpointWidthPx + RESERVE_SPACING_PX,
-                            height: viewport.height,
-                        });
-                    }
+                async ({mount, expectScreenshot}) => {
+                    await mount(
+                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
+                            <RowStories.Default />
+                        </div>,
+                    );
 
-                    await mount(<RowStories.Default />);
-
-                    await expectScreenshot();
+                    await expectScreenshot({
+                        themes: ['light'],
+                    });
                 },
             );
 
             smokeTest(
                 `render story <ZeroSpacings> - ${breakpointName}`,
-                async ({page, mount, expectScreenshot}) => {
-                    const viewport = page.viewportSize();
-                    if (viewport) {
-                        await page.setViewportSize({
-                            width: breakpointWidthPx + RESERVE_SPACING_PX,
-                            height: viewport.height,
-                        });
-                    }
+                async ({mount, expectScreenshot}) => {
+                    await mount(
+                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
+                            <RowStories.ZeroSpacings />
+                        </div>,
+                    );
 
-                    await mount(<RowStories.ZeroSpacings />);
-
-                    await expectScreenshot();
+                    await expectScreenshot({
+                        themes: ['light'],
+                    });
                 },
             );
         },

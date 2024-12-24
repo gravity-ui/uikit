@@ -22,7 +22,7 @@ test.describe('Row', {tag: '@Row'}, () => {
                         });
                     }
 
-                    await mount(<RowStories.Default />);
+                    await mount(<RowStories.Default />, {width: 'auto'});
 
                     await expectScreenshot({
                         themes: ['light'],
@@ -41,7 +41,7 @@ test.describe('Row', {tag: '@Row'}, () => {
                         });
                     }
 
-                    await mount(<RowStories.ZeroSpacings />);
+                    await mount(<RowStories.ZeroSpacings />, {width: 'auto'});
 
                     await expectScreenshot({
                         themes: ['light'],

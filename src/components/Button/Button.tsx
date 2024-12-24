@@ -86,9 +86,9 @@ const b = block('button');
 
 const _Button = React.forwardRef(function Button(
     {
-        view,
-        size,
-        pin,
+        view = 'normal',
+        size = 'm',
+        pin = 'round-round',
         selected = false,
         disabled = false,
         loading = false,
@@ -144,7 +144,7 @@ const _Button = React.forwardRef(function Button(
                 ...extraProps,
                 ...commonProps,
                 ref: ref,
-                'aria-disabled': disabled,
+                'aria-disabled': disabled ?? undefined,
             },
             prepareChildren(children),
         );
@@ -158,7 +158,7 @@ const _Button = React.forwardRef(function Button(
                 {...commonProps}
                 ref={ref as React.Ref<HTMLAnchorElement>}
                 rel={props.target === '_blank' && !props.rel ? 'noopener noreferrer' : props.rel}
-                aria-disabled={disabled}
+                aria-disabled={disabled ?? undefined}
             >
                 {prepareChildren(children)}
             </a>
@@ -173,7 +173,7 @@ const _Button = React.forwardRef(function Button(
             ref={ref as React.Ref<HTMLButtonElement>}
             type={props.type || 'button'}
             disabled={disabled || loading}
-            aria-pressed={selected}
+            aria-pressed={selected ?? undefined}
         >
             {prepareChildren(children)}
         </button>

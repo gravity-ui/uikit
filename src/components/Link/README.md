@@ -167,21 +167,13 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name       | Description                                |                           Type                            |  Default   |
-| :--------- | :----------------------------------------- | :-------------------------------------------------------: | :--------: |
-| view       | Link appearance                            |          `"normal" \| "primary" \| "secondary"`           | `"normal"` |
-| visitable  | Display `:visitable` CSS state             |                  `boolean \| undefined`                   |
-| href       | HTML `href` attribute                      |                         `string`                          |
-| target     | HTML `target` attribute                    |                   `string \| undefined`                   |
-| rel        | HTML `rel` attribute                       |                   `string \| undefined`                   |
-| title      | HTML `title` attribute                     |                   `string \| undefined`                   |
-| children   | Link content                               |                     `React.ReactNode`                     |
-| extraProps | Any additional props                       |                   `Record \| undefined`                   |
-| onClick    | `click` event handler                      | `React.MouseEventHandler<HTMLAnchorElement> \| undefined` |
-| onFocus    | `focus` event handler                      | `React.FocusEventHandler<HTMLAnchorElement> \| undefined` |
-| onBlur     | `blur` event handler                       | `React.FocusEventHandler<HTMLAnchorElement> \| undefined` |
-| id         | HTML `id` attribute                        |                   `string \| undefined`                   |
-| style      | HTML `style` attribute                     |            `React.CSSProperties \| undefined`             |
-| className  | HTML `class` attribute                     |                   `string \| undefined`                   |
-| qa         | HTML `data-qa` attribute, used for testing |                   `string \| undefined`                   |
-| ref        | React ref to Link DOM node                 |   `React.ForwardedRef<HTMLAnchorElement> \| undefined`    |
+`Link` accepts any valid `a` element props in addition to these:
+
+| Name      | Description                                |                 Type                 |  Default   |
+| :-------- | :----------------------------------------- | :----------------------------------: | :--------: |
+| children  | `Link` content                             |          `React.ReactNode`           |            |
+| href      | HTML `href` attribute                      |               `string`               |            |
+| qa        | HTML `data-qa` attribute, used for testing |               `string`               |            |
+| underline | Show underline underneath the `Link`       |              `boolean`               |  `false`   |
+| view      | `Link` appearance                          | `"normal"` `"primary"` `"secondary"` | `"normal"` |
+| visitable | Display `:visitable` CSS state             |              `boolean`               |  `false`   |

@@ -1,4 +1,4 @@
-import React from 'react';
+import {useCallback, useState} from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
@@ -18,7 +18,7 @@ export default {
 } as Meta<typeof PasswordInput>;
 
 const DefaultTemplate: StoryFn<PasswordInputProps> = (args) => {
-    const [value, setValue] = React.useState('');
+    const [value, setValue] = useState('');
 
     return <PasswordInput {...args} onUpdate={setValue} value={value} />;
 };
@@ -26,9 +26,9 @@ const DefaultTemplate: StoryFn<PasswordInputProps> = (args) => {
 export const Default = DefaultTemplate.bind({});
 
 const WithGenerateRandomValueTemplate: StoryFn<PasswordInputProps> = (args) => {
-    const [value, setValue] = React.useState('');
+    const [value, setValue] = useState('');
 
-    const generateRandomValue = React.useCallback(() => {
+    const generateRandomValue = useCallback(() => {
         let randomValue = '';
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         const charactersLength = characters.length;

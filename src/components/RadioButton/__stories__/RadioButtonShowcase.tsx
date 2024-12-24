@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {CircleInfoFill, TriangleExclamationFill} from '@gravity-ui/icons';
 
 import {Showcase} from '../../../demo/Showcase';

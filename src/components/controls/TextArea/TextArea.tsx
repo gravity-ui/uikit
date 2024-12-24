@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 import {useControlledState, useForkRef, useUniqId} from '../../../hooks';
 import {useFormResetHandler} from '../../../hooks/private';

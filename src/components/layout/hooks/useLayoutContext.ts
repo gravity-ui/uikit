@@ -1,5 +1,5 @@
 /* eslint-disable valid-jsdoc */
-import React from 'react';
+import {useContext, useMemo} from 'react';
 
 import {LayoutContext} from '../contexts/LayoutContext';
 import type {LayoutTheme, MediaType} from '../types';
@@ -74,9 +74,9 @@ interface ComputedMediaContext {
  * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#uselayoutcontext
  */
 export const useLayoutContext = (): ComputedMediaContext => {
-    const {activeMediaQuery, theme} = React.useContext(LayoutContext);
+    const {activeMediaQuery, theme} = useContext(LayoutContext);
 
-    const {isMediaActive, getClosestMediaProps} = React.useMemo(
+    const {isMediaActive, getClosestMediaProps} = useMemo(
         () => ({
             isMediaActive: isMediaActiveFactory(activeMediaQuery),
             getClosestMediaProps: getClosestMediaPropsFactory(activeMediaQuery),

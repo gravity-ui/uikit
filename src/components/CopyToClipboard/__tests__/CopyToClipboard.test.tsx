@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {render} from '../../../../test-utils/utils';
 import {CopyToClipboard} from '../CopyToClipboard';
 import type {CopyToClipboardContent} from '../types';

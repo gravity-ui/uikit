@@ -1,4 +1,4 @@
-import React from 'react';
+import {useMemo, useState} from 'react';
 
 import type {ListItemId, ListState, ListStateHandler} from '../../useList/types';
 
@@ -21,13 +21,13 @@ export const useControlledValue = ({
     value: valueProps,
     onUpdate,
 }: UseControlledValueProps) => {
-    const [innerValue, setInnerValue] = React.useState<string[]>(defaultValue);
+    const [innerValue, setInnerValue] = useState<string[]>(defaultValue);
 
     const value: string[] = valueProps ?? innerValue;
 
     const uncontrolled = !valueProps;
 
-    const result = React.useMemo(() => {
+    const result = useMemo(() => {
         const selectedById = value.reduce<ListState['selectedById']>((acc, val) => {
             acc[val] = true;
 

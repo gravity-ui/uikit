@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import {useCallback, useEffect, useState} from 'react';
 
 import {AVATAR_SIZES} from '../constants';
 
@@ -16,14 +16,14 @@ export const AvatarImage = ({
     size,
     className,
 }: AvatarImageProps) => {
-    const [isErrored, setIsErrored] = React.useState(false);
+    const [isErrored, setIsErrored] = useState(false);
 
-    const handleError = React.useCallback(() => {
+    const handleError = useCallback(() => {
         setIsErrored(true);
     }, []);
 
     // Reset error if `imgUrl` was changed to check it again
-    React.useEffect(() => {
+    useEffect(() => {
         setIsErrored(false);
     }, [imgUrl]);
 

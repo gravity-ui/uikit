@@ -1,4 +1,4 @@
-import React from 'react';
+import {Fragment, useRef, useState} from 'react';
 
 import {Button} from '../../../components/Button';
 import {Dialog} from '../../../components/Dialog/Dialog';
@@ -32,11 +32,11 @@ const darthVader = String.raw`
 `;
 
 function OtherDialog() {
-    const [open, setOpen] = React.useState(false);
-    const [errorVisible, setErrorVisible] = React.useState(false);
-    const [loading, setLoading] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [errorVisible, setErrorVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    const [openSelect, setOpenSelect] = React.useState(false);
+    const [openSelect, setOpenSelect] = useState(false);
 
     const switchVisibility = () => {
         setOpen((prevOpen) => !prevOpen);
@@ -53,7 +53,7 @@ function OtherDialog() {
         }, 1000);
     };
 
-    const selectRef = React.useRef<HTMLButtonElement>(null);
+    const selectRef = useRef<HTMLButtonElement>(null);
 
     return (
         <div>
@@ -109,13 +109,13 @@ function OtherDialog() {
                     errorText="Ooops! You lose..."
                     showError={errorVisible}
                     renderButtons={(buttonApply, buttonCancel) => (
-                        <React.Fragment>
+                        <Fragment>
                             {buttonCancel}
                             <Button view="flat" size="l" width="max" onClick={switchVisibility}>
                                 use the force
                             </Button>
                             {buttonApply}
-                        </React.Fragment>
+                        </Fragment>
                     )}
                 />
             </Dialog>
@@ -124,10 +124,10 @@ function OtherDialog() {
 }
 
 export function DialogShowcase() {
-    const buttonRef = React.useRef<HTMLButtonElement>(null);
-    const [open, setOpen] = React.useState(false);
-    const [errorVisible, setErrorVisible] = React.useState(false);
-    const [loading, setLoading] = React.useState(false);
+    const buttonRef = useRef<HTMLButtonElement>(null);
+    const [open, setOpen] = useState(false);
+    const [errorVisible, setErrorVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const switchVisibility = () => {
         setOpen((prevOpen) => !prevOpen);
@@ -172,7 +172,7 @@ export function DialogShowcase() {
                     insertAfter={<span>🔥</span>}
                 />
                 <Dialog.Body>
-                    <React.Fragment>
+                    <Fragment>
                         <p>
                             Luke Skywalker has vanished. In his absence, the sinister FIRST ORDER
                             has risen from the ashes of the Empire and will not rest until
@@ -188,7 +188,7 @@ export function DialogShowcase() {
                             an old ally has discovered a clue to Luke’s whereabouts….
                         </p>
                         <pre>{darthVader}</pre>
-                    </React.Fragment>
+                    </Fragment>
                 </Dialog.Body>
                 <Dialog.Footer
                     preset="default"

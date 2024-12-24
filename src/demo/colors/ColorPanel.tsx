@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 
 import {Bulb} from '@gravity-ui/icons';
 import ReactCopyToClipboard from 'react-copy-to-clipboard';
@@ -25,7 +25,7 @@ const BACKGROUND_LIST = ['normal', 'brand', 'dark'];
 const switchBackgroundTitle = 'Switch background';
 
 export function ColorPanel(props: ColorPanelProps) {
-    const [currentBackgroundIndex, setCurrentBackgroundIndex] = React.useState(0);
+    const [currentBackgroundIndex, setCurrentBackgroundIndex] = useState(0);
     const tooltipId = useUniqId();
 
     function rotateBackground() {

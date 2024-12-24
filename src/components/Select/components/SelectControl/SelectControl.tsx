@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 import {ChevronDown, TriangleExclamation} from '@gravity-ui/icons';
 import isEmpty from 'lodash/isEmpty';

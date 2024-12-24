@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import type popper from '@popperjs/core';
 import {usePopper as useReactPopper} from 'react-popper';

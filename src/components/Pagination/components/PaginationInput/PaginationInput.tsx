@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import {useState} from 'react';
 
 import {KeyCode} from '../../../../constants';
 import {TextInput} from '../../../controls';
@@ -23,7 +23,7 @@ type Props = {
 };
 
 export const PaginationInput = ({numberOfPages, size, pageSize, onUpdate, className}: Props) => {
-    const [value, setValue] = React.useState('');
+    const [value, setValue] = useState('');
 
     const handleUpdateValue = (inputValue: string) => {
         if (inputValue === '' || /^[1-9][0-9]*$/.test(inputValue)) {

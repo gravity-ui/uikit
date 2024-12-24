@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';

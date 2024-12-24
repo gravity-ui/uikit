@@ -1,4 +1,4 @@
-import React from 'react';
+import {cloneElement, forwardRef} from 'react';
 
 import {block} from '../utils/cn';
 
@@ -11,7 +11,7 @@ const b = block('control-label');
 /**
  * Wrap with label for `<Checkbox/>`, `<Radio/>`, `<Switch/>`
  */
-export const ControlLabel = React.forwardRef<HTMLLabelElement, Props>(
+export const ControlLabel = forwardRef<HTMLLabelElement, Props>(
     (
         {
             children,
@@ -26,7 +26,7 @@ export const ControlLabel = React.forwardRef<HTMLLabelElement, Props>(
         },
         ref,
     ) => {
-        const clonedControl = React.cloneElement(control, {
+        const clonedControl = cloneElement(control, {
             className: b('indicator', control.props.className),
         });
 

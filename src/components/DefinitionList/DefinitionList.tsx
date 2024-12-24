@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {isOfType} from '../utils/isOfType';
 import {warnOnce} from '../utils/warn';

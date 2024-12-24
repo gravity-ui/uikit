@@ -1,4 +1,4 @@
-import React from 'react';
+import {useCallback} from 'react';
 
 import {useControlledState} from '../useControlledState/useControlledState';
 
@@ -6,7 +6,7 @@ import type {UseOpenProps} from './types';
 
 export const useOpenState = (props: UseOpenProps) => {
     const {onOpenChange, onClose} = props;
-    const handleOpenChange = React.useCallback(
+    const handleOpenChange = useCallback(
         (newOpen: boolean) => {
             onOpenChange?.(newOpen);
             if (newOpen === false && onClose) {
@@ -22,7 +22,7 @@ export const useOpenState = (props: UseOpenProps) => {
         handleOpenChange,
     );
 
-    const toggleOpen = React.useCallback(
+    const toggleOpen = useCallback(
         (val?: boolean) => {
             const newOpen = typeof val === 'boolean' ? val : !open;
             setOpenState(newOpen);

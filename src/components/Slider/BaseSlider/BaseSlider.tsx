@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 import Slider from 'rc-slider';
 import type {SliderProps, SliderRef} from 'rc-slider';

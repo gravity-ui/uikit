@@ -1,4 +1,4 @@
-import React from 'react';
+import {createElement} from 'react';
 
 import userEvent from '@testing-library/user-event';
 
@@ -43,8 +43,8 @@ describe('Table HOCs tests', () => {
             onSelectionChange: () => {},
             getRowActions: () => [],
         };
-        const {container: container1} = render(React.createElement<Props>(Table1, props));
-        const {container: container2} = render(React.createElement<Props>(Table2, props));
+        const {container: container1} = render(createElement<Props>(Table1, props));
+        const {container: container2} = render(createElement<Props>(Table2, props));
 
         expect(getTextContent(container1.outerHTML)).toEqual(getTextContent(container2.outerHTML));
     });
@@ -68,7 +68,7 @@ describe('Table HOCs tests', () => {
             ],
         };
 
-        render(React.createElement<Props>(TableWithActions, props));
+        render(createElement<Props>(TableWithActions, props));
 
         const table = screen.getByRole('table');
         const menuButton = within(table).getAllByRole('button');
@@ -92,8 +92,8 @@ describe('Table HOCs tests', () => {
             isRowDisabled: ({disabled}) => disabled,
             getRowActions: () => [],
         };
-        const {container: container1} = render(React.createElement<Props>(Table1, props));
-        const {container: container2} = render(React.createElement<Props>(Table2, props));
+        const {container: container1} = render(createElement<Props>(Table1, props));
+        const {container: container2} = render(createElement<Props>(Table2, props));
 
         expect(getTextContent(container1.outerHTML)).toEqual(getTextContent(container2.outerHTML));
     });
@@ -124,8 +124,8 @@ describe('Table HOCs tests', () => {
             updateSettings: () => Promise.resolve(),
             settings: [],
         };
-        const {container: container1} = render(React.createElement<Props>(Table1, props));
-        const {container: container2} = render(React.createElement<Props>(Table2, props));
+        const {container: container1} = render(createElement<Props>(Table1, props));
+        const {container: container2} = render(createElement<Props>(Table2, props));
 
         expect(getTextContent(container1.outerHTML)).toEqual(getTextContent(container2.outerHTML));
     });

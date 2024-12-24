@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {Gear} from '@gravity-ui/icons';
 import {action} from '@storybook/addon-actions';
 import type {Meta, StoryObj} from '@storybook/react';

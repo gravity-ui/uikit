@@ -1,4 +1,4 @@
-import React from 'react';
+import {useCallback, useMemo, useState} from 'react';
 
 import {ArrowRotateLeft} from '@gravity-ui/icons';
 import _isEqual from 'lodash/isEqual';
@@ -20,19 +20,19 @@ export const WithTableSettingsCustomActionsShowcase = ({
     defaultSettings,
     ...restTableProps
 }: WithTableSettingsCustomActionsShowcaseProps) => {
-    const [innerSettings, setInnerSettings] = React.useState<TableSettingsData>(defaultSettings);
+    const [innerSettings, setInnerSettings] = useState<TableSettingsData>(defaultSettings);
 
-    const updateSettings = React.useCallback(
+    const updateSettings = useCallback(
         (updatedSettings: TableSettingsData) => setInnerSettings(updatedSettings),
         [],
     );
 
-    const showSelectAllButton = React.useMemo(
+    const showSelectAllButton = useMemo(
         () => innerSettings.some(({isSelected}) => !isSelected),
         [innerSettings],
     );
 
-    const showResetButton = React.useMemo(
+    const showResetButton = useMemo(
         () => !_isEqual(innerSettings, defaultSettings),
         [defaultSettings, innerSettings],
     );

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {b} from '../constants';
 import type {DefinitionListItemProps} from '../types';
 import {isUnbreakableOver} from '../utils';

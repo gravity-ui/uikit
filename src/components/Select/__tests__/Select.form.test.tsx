@@ -1,5 +1,5 @@
 /* eslint-disable testing-library/no-node-access */
-import React from 'react';
+import {useState} from 'react';
 
 import userEvent from '@testing-library/user-event';
 
@@ -81,7 +81,7 @@ describe('Select form', () => {
 
     it('supports form reset', async () => {
         function Test() {
-            const [value, setValue] = React.useState(['one']);
+            const [value, setValue] = useState(['one']);
             return (
                 <form>
                     <Select name="select" value={value} onUpdate={setValue} qa="select">

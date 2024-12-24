@@ -1,4 +1,4 @@
-import React from 'react';
+import {StrictMode} from 'react';
 
 import type {Decorator} from '@storybook/react';
 
@@ -9,5 +9,5 @@ export const WithStrictMode: Decorator = (Story, context) => {
         return children;
     }
 
-    return <React.StrictMode>{children}</React.StrictMode>;
+    return <StrictMode>{children}</StrictMode>;
 };

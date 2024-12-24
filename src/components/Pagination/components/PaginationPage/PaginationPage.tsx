@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 import {Button} from '../../../Button';
 import {block} from '../../../utils/cn';
 import {getPaginationPageQa} from '../../constants';

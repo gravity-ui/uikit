@@ -1,4 +1,4 @@
-import React from 'react';
+import {Fragment, useCallback} from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
@@ -8,14 +8,14 @@ import {useFileInput} from '../useFileInput';
 export default {title: 'Hooks/useFileInput'} as Meta;
 
 const DefaultTemplate: StoryFn = () => {
-    const onUpdate = React.useCallback((files: File[]) => console.log(files), []);
+    const onUpdate = useCallback((files: File[]) => console.log(files), []);
     const {controlProps, triggerProps} = useFileInput({onUpdate});
 
     return (
-        <React.Fragment>
+        <Fragment>
             <input {...controlProps} />
             <Button {...triggerProps}>Upload</Button>
-        </React.Fragment>
+        </Fragment>
     );
 };
 

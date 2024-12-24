@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {Col} from '../../Col/Col';
 import type {ColProps} from '../../Col/Col';
 import {Box} from '../Box/Box';

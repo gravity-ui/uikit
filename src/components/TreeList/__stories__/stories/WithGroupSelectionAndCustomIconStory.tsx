@@ -1,4 +1,4 @@
-import React from 'react';
+import {useMemo} from 'react';
 
 import {Database, PlugConnection} from '@gravity-ui/icons';
 
@@ -39,7 +39,7 @@ export const WithGroupSelectionAndCustomIconStory = ({
     itemsCount = 5,
     ...props
 }: WithGroupSelectionAndCustomIconStoryProps) => {
-    const items = React.useMemo(
+    const items = useMemo(
         () => createRandomizedData({num: itemsCount, getData: (a) => ({a})}),
         [itemsCount],
     );

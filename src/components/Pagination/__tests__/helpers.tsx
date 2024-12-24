@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 
 import {Pagination} from '../Pagination';
 import type {PaginationProps} from '../types';
@@ -9,7 +9,7 @@ type PageOptions = {
 };
 
 const usePaginationState = (initPageOptions: PageOptions) => {
-    const [pageOptions, setPageOptions] = React.useState<PageOptions>(initPageOptions);
+    const [pageOptions, setPageOptions] = useState<PageOptions>(initPageOptions);
 
     const onUpdate: PaginationProps['onUpdate'] = (page, pageSize) => {
         setPageOptions({

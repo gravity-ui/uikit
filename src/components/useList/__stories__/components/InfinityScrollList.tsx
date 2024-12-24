@@ -1,4 +1,4 @@
-import React from 'react';
+import {Fragment, StrictMode, useRef} from 'react';
 
 import {Button} from '../../../Button';
 import {Loader} from '../../../Loader';
@@ -21,7 +21,7 @@ export interface InfinityScrollListProps {
 }
 
 export const InfinityScrollList = ({size}: InfinityScrollListProps) => {
-    const containerRef = React.useRef(null);
+    const containerRef = useRef(null);
     const {data, onFetchMore, canFetchMore, isLoading} = useInfinityFetch<{title: string}>();
     const filterState = useListFilter({items: data});
     const list = useList({items: filterState.items});
@@ -52,10 +52,10 @@ export const InfinityScrollList = ({size}: InfinityScrollListProps) => {
     };
 
     return (
-        <React.StrictMode>
+        <StrictMode>
             <Flex direction="column" gap="3" style={{height: 500}}>
                 {data.length > 0 && (
-                    <React.Fragment>
+                    <Fragment>
                         <TextInput
                             autoComplete="off"
                             value={filterState.filter}
@@ -94,7 +94,7 @@ export const InfinityScrollList = ({size}: InfinityScrollListProps) => {
                                 return node;
                             }}
                         />
-                    </React.Fragment>
+                    </Fragment>
                 )}
 
                 {isLoading && (
@@ -114,6 +114,6 @@ export const InfinityScrollList = ({size}: InfinityScrollListProps) => {
                     </Button>
                 </Flex>
             </Flex>
-        </React.StrictMode>
+        </StrictMode>
     );
 };

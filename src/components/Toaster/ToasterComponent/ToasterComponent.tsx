@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import {useContext} from 'react';
 
 import {useMobile} from '../../mobile';
 import {ToastsContext} from '../Provider/ToastsContext';
@@ -18,7 +18,7 @@ interface Props {
 export function ToasterComponent({className, mobile, hasPortal = true}: Props) {
     const defaultMobile = useMobile();
     const {remove} = useToaster();
-    const list = React.useContext(ToastsContext);
+    const list = useContext(ToastsContext);
 
     const toaster = (
         <ToastList toasts={list} removeCallback={remove} mobile={mobile ?? defaultMobile} />

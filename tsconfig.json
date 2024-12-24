@@ -4,7 +4,7 @@
         "allowJs": true,
         "outDir": "build/esm",
         "module": "esnext",
-        "jsx": "react",
+        "jsx": "react-jsx",
         "baseUrl": ".",
         "resolveJsonModule": true,
         "importHelpers": true,

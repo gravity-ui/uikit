@@ -1,4 +1,4 @@
-import React from 'react';
+import {Fragment} from 'react';
 
 import {HelpMark} from '../../HelpMark';
 import {b} from '../constants';
@@ -56,18 +56,18 @@ interface TermProps extends Pick<DefinitionListItemProps, 'note' | 'name'> {
 
 export function TermContent({note, name, direction}: TermProps) {
     const noteElement = note ? (
-        <React.Fragment>
+        <Fragment>
             &nbsp;
             <NoteElement note={note} />
-        </React.Fragment>
+        </Fragment>
     ) : null;
     return (
-        <React.Fragment>
+        <Fragment>
             <div className={b('term-wrapper')}>
                 {name}
                 {noteElement}
             </div>
             {direction === 'horizontal' && <div className={b('dots')} />}
-        </React.Fragment>
+        </Fragment>
     );
 }

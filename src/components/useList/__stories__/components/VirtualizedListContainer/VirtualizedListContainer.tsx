@@ -1,5 +1,3 @@
-import React from 'react';
-
 import AutoSizer from 'react-virtualized-auto-sizer';
 import type {Size} from 'react-virtualized-auto-sizer';
 import {VariableSizeList} from 'react-window';

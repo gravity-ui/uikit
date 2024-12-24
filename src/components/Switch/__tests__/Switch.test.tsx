@@ -1,4 +1,4 @@
-import React from 'react';
+import {createRef} from 'react';
 
 import userEvent from '@testing-library/user-event';
 
@@ -27,7 +27,7 @@ describe('Switch', () => {
     });
 
     test('use passed ref', () => {
-        const ref = React.createRef<HTMLLabelElement>();
+        const ref = createRef<HTMLLabelElement>();
 
         render(<Switch ref={ref} qa={qaId} />);
         const component = screen.getByTestId(qaId);

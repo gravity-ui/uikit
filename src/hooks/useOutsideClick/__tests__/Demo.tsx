@@ -1,10 +1,10 @@
-import React from 'react';
+import {useRef, useState} from 'react';
 
 import {useOutsideClick} from '../useOutsideClick';
 
 export const Demo = () => {
-    const observerRef = React.useRef(null);
-    const [status, setStatus] = React.useState<1 | 0>(0);
+    const observerRef = useRef(null);
+    const [status, setStatus] = useState<1 | 0>(0);
 
     const handleOutsideClick = () => {
         setStatus(0);

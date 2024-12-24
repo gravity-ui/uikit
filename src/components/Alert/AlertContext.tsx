@@ -1,5 +1,5 @@
-import React from 'react';
+import {createContext} from 'react';
 
 import type {AlertContextType} from './types';
 
-export const AlertContext = React.createContext<AlertContextType | null>(null);
+export const AlertContext = createContext<AlertContextType | null>(null);

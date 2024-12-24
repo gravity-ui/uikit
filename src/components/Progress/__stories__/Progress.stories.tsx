@@ -1,4 +1,4 @@
-import React from 'react';
+import {Fragment, useEffect, useState} from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
@@ -29,7 +29,7 @@ export const Default = Template.bind({value: 50});
 
 const ThemeTemplate: StoryFn<typeof Progress> = (args) => {
     return (
-        <React.Fragment>
+        <Fragment>
             <Progress {...args} value={50} theme="default" text="default" />
             <br />
             <Progress {...args} value={50} theme="success" text="success" />
@@ -41,7 +41,7 @@ const ThemeTemplate: StoryFn<typeof Progress> = (args) => {
             <Progress {...args} value={50} theme="info" text="info" />
             <br />
             <Progress {...args} value={50} theme="misc" text="misc" />
-        </React.Fragment>
+        </Fragment>
     );
 };
 
@@ -49,7 +49,7 @@ export const Theme = ThemeTemplate.bind({});
 
 export const Custom: StoryFn<typeof Progress> = (args) => {
     return (
-        <React.Fragment>
+        <Fragment>
             <style>
                 {`.g-root {
                     --g-progress-empty-text-color: var(--g-color-text-primary);
@@ -59,13 +59,13 @@ export const Custom: StoryFn<typeof Progress> = (args) => {
                 }`}
             </style>
             <Progress {...args} value={50} text="custom" />
-        </React.Fragment>
+        </Fragment>
     );
 };
 
 const StackTemplate: StoryFn<typeof Progress> = (args) => {
     return (
-        <React.Fragment>
+        <Fragment>
             <Progress
                 {...args}
                 stack={[
@@ -97,7 +97,7 @@ const StackTemplate: StoryFn<typeof Progress> = (args) => {
                 ]}
             />
             <br />
-        </React.Fragment>
+        </Fragment>
     );
 };
 
@@ -105,13 +105,13 @@ export const Stack = StackTemplate.bind({});
 
 const SizeTemplate: StoryFn<typeof Progress> = (args) => {
     return (
-        <React.Fragment>
+        <Fragment>
             <Progress {...args} value={80} theme="success" size="m" />
             <br />
             <Progress {...args} value={60} theme="warning" size="s" />
             <br />
             <Progress {...args} value={70} theme="danger" size="xs" />
-        </React.Fragment>
+        </Fragment>
     );
 };
 
@@ -120,9 +120,9 @@ export const Size = SizeTemplate.bind({});
 const defaultState: {value: number; theme: ProgressTheme} = {value: 40, theme: 'info'};
 
 const AnimationTemplate: StoryFn<typeof Progress> = (args) => {
-    const [progressState, setProgressState] = React.useState(defaultState);
+    const [progressState, setProgressState] = useState(defaultState);
 
-    React.useEffect(() => {
+    useEffect(() => {
         let timerId: number;
 
         function next(timeout = 2000) {

@@ -1,4 +1,4 @@
-import React from 'react';
+import {useEffect, useState} from 'react';
 
 import {act, fireEvent, render, screen, within} from '../../../../test-utils/utils';
 import {Modal} from '../../../components/Modal/Modal';
@@ -13,7 +13,7 @@ import type {ToasterPublicMethods} from '../types';
 function ToastAPI({onMount}: {onMount: (api: ToasterPublicMethods) => void}) {
     const toaster = useToaster();
 
-    React.useEffect(() => {
+    useEffect(() => {
         onMount(toaster);
     }, []);
 
@@ -307,10 +307,10 @@ describe('modal remains open after toaster close', () => {
     const MODAL_CONTENT = 'qwerty-modal';
 
     const ModalAPI = ({onMount}: {onMount: (openModalFun: () => void) => any}) => {
-        const [open, setOpenFlag] = React.useState(true);
+        const [open, setOpenFlag] = useState(true);
         const closeModal = () => setOpenFlag(false);
 
-        React.useEffect(() => {
+        useEffect(() => {
             onMount(() => setOpenFlag(true));
         }, []);
 

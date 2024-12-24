@@ -1,4 +1,4 @@
-import React from 'react';
+import {useRef, useState} from 'react';
 
 import {Grip} from '@gravity-ui/icons';
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
@@ -29,9 +29,9 @@ export interface ListWithDndProps {
 }
 
 export const ListWithDnd = ({size, itemsCount, 'aria-label': ariaLabel}: ListWithDndProps) => {
-    const containerRef = React.useRef(null);
+    const containerRef = useRef(null);
 
-    const [items, setItems] = React.useState(
+    const [items, setItems] = useState(
         createRandomizedData<{title: string}>({num: itemsCount, depth: 0}),
     );
 

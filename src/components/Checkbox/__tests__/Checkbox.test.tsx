@@ -1,4 +1,4 @@
-import React from 'react';
+import {createRef, useState} from 'react';
 
 import userEvent from '@testing-library/user-event';
 
@@ -130,7 +130,7 @@ describe('Checkbox', () => {
     });
 
     test('use passed ref for component', () => {
-        const ref = React.createRef<HTMLLabelElement>();
+        const ref = createRef<HTMLLabelElement>();
 
         render(<Checkbox ref={ref} qa={qaId} />);
         const component = screen.getByTestId(qaId);
@@ -256,7 +256,7 @@ describe('Checkbox', () => {
 
         test('supports form reset', async () => {
             function Test() {
-                const [value, setValue] = React.useState(true);
+                const [value, setValue] = useState(true);
                 return (
                     <form data-qa="form">
                         <Checkbox

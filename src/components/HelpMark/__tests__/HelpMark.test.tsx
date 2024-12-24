@@ -1,5 +1,3 @@
-import React from 'react';
-
 import userEvent from '@testing-library/user-event';
 
 import {setupTimersMock} from '../../../../test-utils/setupTimersMock';

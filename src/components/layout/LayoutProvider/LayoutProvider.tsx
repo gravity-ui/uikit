@@ -1,7 +1,7 @@
 'use client';
 
 /* eslint-disable valid-jsdoc */
-import React from 'react';
+import * as React from 'react';
 
 import {LayoutContext} from '../contexts/LayoutContext';
 import {useCurrentActiveMediaQuery} from '../hooks/useCurrentActiveMediaQuery';

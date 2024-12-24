@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 
 import {ArrowLeft as ArrowLeftIcon} from '@gravity-ui/icons';
 
@@ -28,7 +28,7 @@ export function MobileImagePreview({
     actions,
     fileName,
 }: FilePreviewProps) {
-    const [showError, setShowError] = React.useState(false);
+    const [showError, setShowError] = useState(false);
     const showSheet = Boolean(previewSrc && visible);
 
     const handleImagesError = () => {

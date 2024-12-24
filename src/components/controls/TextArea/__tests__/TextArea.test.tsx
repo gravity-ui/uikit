@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 
 import userEvent from '@testing-library/user-event';
 
@@ -217,7 +217,7 @@ describe('TextArea', () => {
 
         test('supports form reset', async () => {
             function Test() {
-                const [value, setValue] = React.useState('value');
+                const [value, setValue] = useState('value');
                 return (
                     <form>
                         <TextArea name="text-field" value={value} onUpdate={setValue} />

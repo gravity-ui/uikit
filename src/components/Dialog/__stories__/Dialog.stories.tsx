@@ -1,4 +1,4 @@
-import React from 'react';
+import {Fragment, useState} from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
@@ -20,9 +20,9 @@ export default {
 
 const DefaultTemplate: StoryFn<DialogProps & {showError: boolean}> = ({showError, ...args}) => {
     const dialogTitleId = 'app-confirmation-dialog-title';
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     return (
-        <React.Fragment>
+        <Fragment>
             <Button view="normal" onClick={() => setOpen(true)}>
                 Show dialog
             </Button>
@@ -46,7 +46,7 @@ const DefaultTemplate: StoryFn<DialogProps & {showError: boolean}> = ({showError
                     errorText="Error text"
                 />
             </Dialog>
-        </React.Fragment>
+        </Fragment>
     );
 };
 export const Default = DefaultTemplate.bind({});

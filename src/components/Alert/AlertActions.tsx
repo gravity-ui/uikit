@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 import {Flex} from '../layout';
 
 import {AlertAction} from './AlertAction';

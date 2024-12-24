@@ -1,4 +1,4 @@
-import React from 'react';
+import {useMemo} from 'react';
 
 import {FolderOpen} from '@gravity-ui/icons';
 
@@ -24,7 +24,7 @@ export interface WithItemLinksAndActionsStoryProps
     extends Omit<TreeListProps<{title: string}>, 'items' | 'size' | 'mapItemDataToContentProps'> {}
 
 export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStoryProps) => {
-    const items = React.useMemo(() => createRandomizedData({num: 10, depth: 1}), []);
+    const items = useMemo(() => createRandomizedData({num: 10, depth: 1}), []);
 
     const list = useList({items});
 

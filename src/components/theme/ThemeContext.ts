@@ -1,6 +1,6 @@
-import React from 'react';
+import {createContext} from 'react';
 
 import type {ThemeContextProps} from './types';
 
-export const ThemeContext = React.createContext<ThemeContextProps | undefined>(undefined);
+export const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
 ThemeContext.displayName = 'ThemeContext';

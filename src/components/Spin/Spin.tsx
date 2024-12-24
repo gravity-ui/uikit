@@ -1,4 +1,4 @@
-import React from 'react';
+import {forwardRef} from 'react';
 
 import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
@@ -13,7 +13,7 @@ export interface SpinProps extends DOMProps, QAProps {
     size?: SpinSize;
 }
 
-export const Spin = React.forwardRef<HTMLDivElement, SpinProps>(function Spin(props, ref) {
+export const Spin = forwardRef<HTMLDivElement, SpinProps>(function Spin(props, ref) {
     const {size = 'm', style, className, qa} = props;
 
     return (

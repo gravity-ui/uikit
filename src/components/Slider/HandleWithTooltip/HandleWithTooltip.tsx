@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {SliderTooltip} from '../SliderTooltip/SliderTooltip';
 import type {HandleWithTooltipProps} from '../types';

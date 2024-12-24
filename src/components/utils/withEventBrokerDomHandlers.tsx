@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 import type {EventBrokerData} from './event-broker';
 import {eventBroker} from './event-broker';

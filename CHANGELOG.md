@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.41.0](https://github.com/gravity-ui/uikit/compare/v6.40.0...v6.41.0) (2024-12-24)
+
+
+### Features
+
+* pass event to handler callback in useOutsideClick ([#1998](https://github.com/gravity-ui/uikit/issues/1998)) ([3097c80](https://github.com/gravity-ui/uikit/commit/3097c80137b5531cd9d0e3afa9e414dfbca2d424))
+
 ## [6.40.0](https://github.com/gravity-ui/uikit/compare/v6.39.0...v6.40.0) (2024-12-24)
 
 

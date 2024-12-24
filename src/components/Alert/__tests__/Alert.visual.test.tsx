@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import {Alert} from '../Alert';
@@ -67,27 +67,38 @@ test.describe('Alert', {tag: '@Alert'}, () => {
         await expectScreenshot();
     });
 
-    const defaultProps: AlertProps = {
-        title: 'Title',
-        message: 'Message',
-    };
+    smokeTest('smoke', async ({mount, expectScreenshot}) => {
+        const defaultProps: AlertProps = {
+            title: 'Title',
+            message: 'Message',
+        };
 
-    const smokeScenarios = createSmokeScenarios(defaultProps, {
-        theme: themeCases,
-        view: viewCases,
-        layout: layoutCases,
-        title: titleCases,
-        message: messageCases,
-        corners: cornersCases,
-        align: alignCases,
-        actions: actionCases,
-    });
+        const smokeScenarios = createSmokeScenarios(defaultProps, {
+            theme: themeCases,
+            view: viewCases,
+            layout: layoutCases,
+            title: titleCases,
+            message: messageCases,
+            corners: cornersCases,
+            align: alignCases,
+            actions: actionCases,
+        });
 
-    smokeScenarios.forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<Alert {...props} />);
+        await mount(
+            <div style={{width: 400}}>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Alert {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
 
-            await expectScreenshot();
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 });

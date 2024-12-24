@@ -9,13 +9,18 @@ import {Hotkey} from '../Hotkey';
 import type {HotkeyProps} from '../Hotkey';
 import {Popup} from '../Popup';
 import type {PopupPlacement} from '../Popup';
-import type {DOMProps, QAProps} from '../types';
+import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
+import {filterDOMProps} from '../utils/filterDOMProps';
 import {getElementRef} from '../utils/getElementRef';
 
 import './ActionTooltip.scss';
 
-export interface ActionTooltipProps extends QAProps, DOMProps, TooltipDelayProps {
+export interface ActionTooltipProps
+    extends AriaLabelingProps,
+        QAProps,
+        DOMProps,
+        TooltipDelayProps {
     id?: string;
     disablePortal?: boolean;
     contentClassName?: string;
@@ -44,15 +49,18 @@ export function ActionTooltip(props: ActionTooltipProps) {
         qa,
         id,
         disablePortal,
-        ...delayProps
+        openDelay,
+        closeDelay,
+        ...otherProps
     } = props;
 
     const [anchorElement, setAnchorElement] = React.useState<HTMLElement | null>(null);
-    const tooltipVisible = useTooltipVisible(anchorElement, delayProps);
+    const tooltipVisible = useTooltipVisible(anchorElement, {openDelay, closeDelay});
 
     const renderPopup = () => {
         return (
             <Popup
+                {...filterDOMProps(otherProps, {labelable: true})}
                 id={id}
                 disablePortal={disablePortal}
                 role="tooltip"

@@ -7,9 +7,10 @@ import {CSSTransition} from 'react-transition-group';
 import {useBodyScrollLock} from '../../hooks';
 import {useRestoreFocus} from '../../hooks/private';
 import {Portal} from '../Portal';
-import type {DOMProps, QAProps} from '../types';
+import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {FocusTrap} from '../utils/FocusTrap';
 import {block} from '../utils/cn';
+import {filterDOMProps} from '../utils/filterDOMProps';
 import type {LayerCloseReason} from '../utils/layer-manager';
 import {useLayer} from '../utils/layer-manager';
 import type {LayerExtendableProps} from '../utils/layer-manager/LayerManager';
@@ -17,7 +18,7 @@ import {getCSSTransitionClassNames} from '../utils/transition';
 
 import './Modal.scss';
 
-export interface ModalProps extends DOMProps, LayerExtendableProps, QAProps {
+export interface ModalProps extends DOMProps, AriaLabelingProps, LayerExtendableProps, QAProps {
     open?: boolean;
     keepMounted?: boolean;
     disableBodyScrollLock?: boolean;
@@ -29,15 +30,6 @@ export interface ModalProps extends DOMProps, LayerExtendableProps, QAProps {
     autoFocus?: boolean;
     restoreFocusRef?: React.RefObject<HTMLElement>;
     children?: React.ReactNode;
-    /**
-     * Id of visible `<Modal/>` caption element
-     */
-    'aria-labelledby'?: string;
-    /**
-     * A11y text
-     * Prefer `aria-labelledby` in case caption is visible to user
-     */
-    'aria-label'?: string;
     container?: HTMLElement;
     contentClassName?: string;
     onTransitionEnter?: VoidFunction;
@@ -75,10 +67,9 @@ export function Modal({
     contentOverflow = 'visible',
     className,
     contentClassName,
-    'aria-labelledby': ariaLabelledBy,
-    'aria-label': ariaLabel,
     container,
     qa,
+    ...otherProps
 }: ModalProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
     const contentRef = React.useRef<HTMLDivElement>(null);
@@ -138,12 +129,11 @@ export function Modal({
                                 autoFocus={!disableAutoFocus && autoFocus}
                             >
                                 <div
+                                    {...filterDOMProps(otherProps, {labelable: true})}
                                     ref={contentRef}
                                     tabIndex={-1}
                                     role="dialog"
                                     aria-modal={open}
-                                    aria-label={ariaLabel}
-                                    aria-labelledby={ariaLabelledBy}
                                     className={b(
                                         'content',
                                         {'has-scroll': contentOverflow === 'auto'},

@@ -10,25 +10,32 @@ import {Overlay} from '../Overlay';
 import {backgroundCases, visibleCases} from './cases';
 
 test.describe('Overlay', {tag: '@Overlay'}, () => {
-    const defaultProps: OverlayProps = {
-        visible: true,
-    };
+    test('smoke', async ({mount, expectScreenshot}) => {
+        const defaultProps: OverlayProps = {
+            visible: true,
+        };
 
-    createSmokeScenarios(defaultProps, {
-        visible: visibleCases,
-        background: backgroundCases,
-    }).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(
-                <Box position="relative">
-                    <div>Example of overlay</div>
-                    <Overlay {...props}>
-                        <div>Loader</div>
-                    </Overlay>
-                </Box>,
-            );
-
-            await expectScreenshot();
+        const smokeScenarios = createSmokeScenarios<OverlayProps>(defaultProps, {
+            visible: visibleCases,
+            background: backgroundCases,
         });
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <Box position="relative">
+                            <div>Example of overlay</div>
+                            <Overlay {...props}>
+                                <div>Loader</div>
+                            </Overlay>
+                        </Box>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot();
     });
 });

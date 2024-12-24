@@ -27,7 +27,7 @@ test.describe('Container', {tag: '@Container'}, () => {
                         });
                     }
 
-                    await mount(<ContainerStories.Default {...props} />);
+                    await mount(<ContainerStories.Default {...props} />, {width: 'auto'});
 
                     await expectScreenshot();
                 },

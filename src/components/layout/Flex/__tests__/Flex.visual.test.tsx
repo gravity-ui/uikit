@@ -13,17 +13,21 @@ test.describe('Flex', {tag: '@Flex'}, () => {
         ([breakpointName, breakpointWidthPx]) => {
             smokeTest(
                 `render story <Default> - ${breakpointName}`,
-                async ({mount, expectScreenshot}) => {
+                async ({mount, expectScreenshot, page}) => {
                     const props = {
                         alignItems: 'center',
                         justifyContent: 'center',
                     } as const;
 
-                    await mount(
-                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
-                            <FlexStories.Default {...props} />
-                        </div>,
-                    );
+                    const size = page.viewportSize();
+                    if (size) {
+                        await page.setViewportSize({
+                            width: breakpointWidthPx + RESERVE_SPACING_PX,
+                            height: size.height,
+                        });
+                    }
+
+                    await mount(<FlexStories.Default {...props} />);
 
                     await expectScreenshot({
                         themes: ['light'],
@@ -33,16 +37,20 @@ test.describe('Flex', {tag: '@Flex'}, () => {
 
             smokeTest(
                 `render story <FlexGap> - ${breakpointName}`,
-                async ({mount, expectScreenshot}) => {
+                async ({mount, expectScreenshot, page}) => {
                     const props = {
                         gap: {s: '1', m: '6'},
                     } as const;
 
-                    await mount(
-                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
-                            <FlexStories.FlexGap {...props} />
-                        </div>,
-                    );
+                    const size = page.viewportSize();
+                    if (size) {
+                        await page.setViewportSize({
+                            width: breakpointWidthPx + RESERVE_SPACING_PX,
+                            height: size.height,
+                        });
+                    }
+
+                    await mount(<FlexStories.FlexGap {...props} />);
 
                     await expectScreenshot({
                         themes: ['light'],
@@ -52,17 +60,21 @@ test.describe('Flex', {tag: '@Flex'}, () => {
 
             smokeTest(
                 `render story <GapAndRowGap> - ${breakpointName}`,
-                async ({mount, expectScreenshot}) => {
+                async ({mount, expectScreenshot, page}) => {
                     const props = {
                         gap: {s: '1', m: '6'},
                         gapRow: {s: '6', m: '1'},
                     } as const;
 
-                    await mount(
-                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
-                            <FlexStories.GapAndRowGap {...props} />
-                        </div>,
-                    );
+                    const size = page.viewportSize();
+                    if (size) {
+                        await page.setViewportSize({
+                            width: breakpointWidthPx + RESERVE_SPACING_PX,
+                            height: size.height,
+                        });
+                    }
+
+                    await mount(<FlexStories.GapAndRowGap {...props} />);
 
                     await expectScreenshot({
                         themes: ['light'],
@@ -72,12 +84,16 @@ test.describe('Flex', {tag: '@Flex'}, () => {
 
             smokeTest(
                 `render story <ChildrenWithBgColor>- ${breakpointName}`,
-                async ({mount, expectScreenshot}) => {
-                    await mount(
-                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
-                            <FlexStories.ChildrenWithBgColor />
-                        </div>,
-                    );
+                async ({mount, expectScreenshot, page}) => {
+                    const size = page.viewportSize();
+                    if (size) {
+                        await page.setViewportSize({
+                            width: breakpointWidthPx + RESERVE_SPACING_PX,
+                            height: size.height,
+                        });
+                    }
+
+                    await mount(<FlexStories.ChildrenWithBgColor />);
 
                     await expectScreenshot({
                         themes: ['light'],
@@ -87,12 +103,16 @@ test.describe('Flex', {tag: '@Flex'}, () => {
 
             smokeTest(
                 `render story <WithNullChildren>- ${breakpointName}`,
-                async ({mount, expectScreenshot}) => {
-                    await mount(
-                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
-                            <FlexStories.WithNullChildren />
-                        </div>,
-                    );
+                async ({mount, expectScreenshot, page}) => {
+                    const size = page.viewportSize();
+                    if (size) {
+                        await page.setViewportSize({
+                            width: breakpointWidthPx + RESERVE_SPACING_PX,
+                            height: size.height,
+                        });
+                    }
+
+                    await mount(<FlexStories.WithNullChildren />);
 
                     await expectScreenshot({
                         themes: ['light'],

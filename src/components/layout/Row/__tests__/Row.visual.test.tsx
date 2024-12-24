@@ -13,12 +13,16 @@ test.describe('Row', {tag: '@Row'}, () => {
         ([breakpointName, breakpointWidthPx]) => {
             smokeTest(
                 `render story <Default> - ${breakpointName}`,
-                async ({mount, expectScreenshot}) => {
-                    await mount(
-                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
-                            <RowStories.Default />
-                        </div>,
-                    );
+                async ({mount, expectScreenshot, page}) => {
+                    const size = page.viewportSize();
+                    if (size) {
+                        await page.setViewportSize({
+                            width: breakpointWidthPx + RESERVE_SPACING_PX,
+                            height: size.height,
+                        });
+                    }
+
+                    await mount(<RowStories.Default />);
 
                     await expectScreenshot({
                         themes: ['light'],
@@ -28,12 +32,16 @@ test.describe('Row', {tag: '@Row'}, () => {
 
             smokeTest(
                 `render story <ZeroSpacings> - ${breakpointName}`,
-                async ({mount, expectScreenshot}) => {
-                    await mount(
-                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
-                            <RowStories.ZeroSpacings />
-                        </div>,
-                    );
+                async ({mount, expectScreenshot, page}) => {
+                    const size = page.viewportSize();
+                    if (size) {
+                        await page.setViewportSize({
+                            width: breakpointWidthPx + RESERVE_SPACING_PX,
+                            height: size.height,
+                        });
+                    }
+
+                    await mount(<RowStories.ZeroSpacings />);
 
                     await expectScreenshot({
                         themes: ['light'],

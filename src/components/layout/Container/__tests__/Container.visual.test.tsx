@@ -13,17 +13,21 @@ test.describe('Container', {tag: '@Container'}, () => {
         ([breakpointName, breakpointWidthPx]) => {
             smokeTest(
                 `render story <Default> - ${breakpointName}`,
-                async ({mount, expectScreenshot}) => {
+                async ({mount, expectScreenshot, page}) => {
                     const props = {
                         spaceRow: {m: '1'},
                         maxWidth: 'l',
                     } as const;
 
-                    await mount(
-                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
-                            <ContainerStories.Default {...props} />
-                        </div>,
-                    );
+                    const size = page.viewportSize();
+                    if (size) {
+                        await page.setViewportSize({
+                            width: breakpointWidthPx + RESERVE_SPACING_PX,
+                            height: size.height,
+                        });
+                    }
+
+                    await mount(<ContainerStories.Default {...props} />);
 
                     await expectScreenshot();
                 },

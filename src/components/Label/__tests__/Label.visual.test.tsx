@@ -64,4 +64,10 @@ test.describe('Label', () => {
 
         await expectScreenshot();
     });
+
+    test('render story: <Multiline>', async ({mount, expectScreenshot}) => {
+        await mount(<LabelStories.Multiline />);
+
+        await expectScreenshot();
+    });
 });

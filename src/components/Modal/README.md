@@ -55,6 +55,7 @@ const [open, setOpen] = React.useState(false);
 | aria-label            | `aria-label` HTML attribute to describe `Modal`                                              |     `string`      |                 |
 | aria-labelledby       | ID of the visible `Modal` caption element                                                    |     `string`      |                 |
 | contentOverflow       | Determines whether the `Modal` has a scroll indicator inside or gets larger with the content | `visible` `auto`  |    `visible`    |
+| fullPage              | Open modal window for the whole page                                                         |     `boolean`     |     `false`     |
 
 ## CSS API
 

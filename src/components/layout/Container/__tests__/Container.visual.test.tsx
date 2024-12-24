@@ -1,18 +1,33 @@
 import React from 'react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
+
+import {DEFAULT_LAYOUT_THEME} from '../../constants';
 
 import {ContainerStories} from './stories';
 
 test.describe('Container', {tag: '@Container'}, () => {
-    test('render story <Default>', async ({mount, expectScreenshot}) => {
-        const props = {
-            spaceRow: {m: '1'},
-            maxWidth: 'l',
-        } as const;
+    const RESERVE_SPACING_PX = 5;
 
-        await mount(<ContainerStories.Default {...props} />);
+    Object.entries(DEFAULT_LAYOUT_THEME.breakpoints).forEach(
+        ([breakpointName, breakpointWidthPx]) => {
+            smokeTest(
+                `render story <Default> - ${breakpointName}`,
+                async ({mount, expectScreenshot}) => {
+                    const props = {
+                        spaceRow: {m: '1'},
+                        maxWidth: 'l',
+                    } as const;
 
-        await expectScreenshot();
-    });
+                    await mount(
+                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
+                            <ContainerStories.Default {...props} />
+                        </div>,
+                    );
+
+                    await expectScreenshot();
+                },
+            );
+        },
+    );
 });

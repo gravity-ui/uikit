@@ -19,7 +19,7 @@ import type {
 } from './types';
 
 // "disable" property needs to deactivate group title item in List
-export type GroupTitleItem<TData = any> = {label: string; disabled: true; data?: TData};
+export type GroupTitleItem<T = any> = {label: string; disabled: true; data?: T};
 
 export type FlattenOption = SelectOption | GroupTitleItem;
 

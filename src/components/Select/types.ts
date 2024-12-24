@@ -172,11 +172,11 @@ export type SelectOption<T = any> = QAProps &
         data?: T;
     };
 
-export type SelectOptionGroup<T = any, TData = any> = {
+export type SelectOptionGroup<T = any> = {
     /** Label is a string which displayed above the options group.
      * If label is empty string, group item height will be 0 and only border will be displayed */
     label: string;
-    data?: TData;
+    data?: T;
     options?: SelectOption<T>[];
     children?:
         | React.ReactElement<SelectOption, typeof Option>

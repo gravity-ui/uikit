@@ -1,51 +1,104 @@
 import React from 'react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
+
+import {DEFAULT_LAYOUT_THEME} from '../../constants';
 
 import {FlexStories} from './stories';
 
 test.describe('Flex', {tag: '@Flex'}, () => {
-    test('render story <Default>', async ({mount, expectScreenshot}) => {
-        const props = {
-            alignItems: 'center',
-            justifyContent: 'center',
-        } as const;
+    const RESERVE_SPACING_PX = 5;
 
-        await mount(<FlexStories.Default {...props} />);
+    Object.entries(DEFAULT_LAYOUT_THEME.breakpoints).forEach(
+        ([breakpointName, breakpointWidthPx]) => {
+            smokeTest(
+                `render story <Default> - ${breakpointName}`,
+                async ({mount, expectScreenshot}) => {
+                    const props = {
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    } as const;
 
-        await expectScreenshot();
-    });
+                    await mount(
+                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
+                            <FlexStories.Default {...props} />
+                        </div>,
+                    );
 
-    test('render story <FlexGap>', async ({mount, expectScreenshot}) => {
-        const props = {
-            gap: {s: '1', m: '6'},
-        } as const;
+                    await expectScreenshot({
+                        themes: ['light'],
+                    });
+                },
+            );
 
-        await mount(<FlexStories.FlexGap {...props} />);
+            smokeTest(
+                `render story <FlexGap> - ${breakpointName}`,
+                async ({mount, expectScreenshot}) => {
+                    const props = {
+                        gap: {s: '1', m: '6'},
+                    } as const;
 
-        await expectScreenshot();
-    });
+                    await mount(
+                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
+                            <FlexStories.FlexGap {...props} />
+                        </div>,
+                    );
 
-    test('render story <GapAndRowGap>', async ({mount, expectScreenshot}) => {
-        const props = {
-            gap: {s: '1', m: '6'},
-            gapRow: {s: '6', m: '1'},
-        } as const;
+                    await expectScreenshot({
+                        themes: ['light'],
+                    });
+                },
+            );
 
-        await mount(<FlexStories.GapAndRowGap {...props} />);
+            smokeTest(
+                `render story <GapAndRowGap> - ${breakpointName}`,
+                async ({mount, expectScreenshot}) => {
+                    const props = {
+                        gap: {s: '1', m: '6'},
+                        gapRow: {s: '6', m: '1'},
+                    } as const;
 
-        await expectScreenshot();
-    });
+                    await mount(
+                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
+                            <FlexStories.GapAndRowGap {...props} />
+                        </div>,
+                    );
 
-    test('render story <ChildrenWithBgColor>', async ({mount, expectScreenshot}) => {
-        await mount(<FlexStories.ChildrenWithBgColor />);
+                    await expectScreenshot({
+                        themes: ['light'],
+                    });
+                },
+            );
 
-        await expectScreenshot();
-    });
+            smokeTest(
+                `render story <ChildrenWithBgColor>- ${breakpointName}`,
+                async ({mount, expectScreenshot}) => {
+                    await mount(
+                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
+                            <FlexStories.ChildrenWithBgColor />
+                        </div>,
+                    );
 
-    test('render story <WithNullChildren>', async ({mount, expectScreenshot}) => {
-        await mount(<FlexStories.WithNullChildren />);
+                    await expectScreenshot({
+                        themes: ['light'],
+                    });
+                },
+            );
 
-        await expectScreenshot();
-    });
+            smokeTest(
+                `render story <WithNullChildren>- ${breakpointName}`,
+                async ({mount, expectScreenshot}) => {
+                    await mount(
+                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
+                            <FlexStories.WithNullChildren />
+                        </div>,
+                    );
+
+                    await expectScreenshot({
+                        themes: ['light'],
+                    });
+                },
+            );
+        },
+    );
 });

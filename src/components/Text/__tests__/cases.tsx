@@ -1,4 +1,4 @@
-import type {Cases, CasesWithName} from '../../../stories/tests-factory/models';
+import type {Cases} from '../../../stories/tests-factory/models';
 import type {TextProps} from '../Text';
 
 export const colorCases: Cases<TextProps['color']> = [
@@ -61,9 +61,3 @@ export const variantCases: Cases<TextProps['variant']> = [
 export const ellipsisCases: Cases<TextProps['ellipsis']> = [true];
 export const whiteSpaceCases: Cases<TextProps['whiteSpace']> = ['nowrap', 'break-spaces'];
 export const wordBreakCases: Cases<TextProps['wordBreak']> = ['break-all', 'break-word'];
-export const childrenCases: CasesWithName<string> = [
-    [
-        'long text',
-        'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates asperiores accusamus est, ab rerum harum hic delectus fuga veniam! Hic, atque, quia sunt consectetur eius corrupti, expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam! Debitis eos unde, blanditiis ipsam adipisci, soluta incidunt architecto quidem, repellat commodi tempore! Enim assumenda nam esse laudantium sequi quaerat maiores, voluptatum quibusdam temporibus nulla perspiciatis! Corrupti error aliquid iure asperiores voluptate. Nisi temporibus nesciunt quasi animi, accusamus officia debitis voluptatum ratione ullam delectus, adipisci, repellendus vitae in amet sit magni iste impedit? Exercitationem rerum impedit sed earum iusto modi et officia aspernatur quibusdam? Fugit.',
-    ],
-];

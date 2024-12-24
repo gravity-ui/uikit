@@ -384,7 +384,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
         return (
             renderSwitcher?.({onClick: toggleOpen, onKeyDown}) || (
-                <Button onClick={toggleOpen} extraProps={{onKeyDown}}>
+                <Button onClick={toggleOpen} onKeyDown={onKeyDown}>
                     <Icon data={Gear} />
                     {i18n('button_switcher')}
                 </Button>

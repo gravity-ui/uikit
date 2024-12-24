@@ -91,11 +91,11 @@ export const WithGroupSelectionAndCustomIconStory = ({
                                                 [id]: !prevExpandedState[id],
                                             }));
                                         }}
-                                        extraProps={{
-                                            'aria-label': itemProps.content.expanded
+                                        aria-label={
+                                            itemProps.content.expanded
                                                 ? closeButtonLabel
-                                                : expandButtonLabel,
-                                        }}
+                                                : expandButtonLabel
+                                        }
                                     >
                                         <Button.Icon>
                                             <ListItemExpandIcon

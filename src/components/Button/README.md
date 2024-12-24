@@ -448,33 +448,21 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name         | Description                                               |              Type               |     Default     |
-| :----------- | :-------------------------------------------------------- | :-----------------------------: | :-------------: |
-| children     | Button content. You can mix text with `<Icon/>` component |           `ReactNode`           |                 |
-| className    | HTML `class` attribute                                    |            `string`             |                 |
-| component    | Overrides the root component                              |       `ElementType<any>`        |   `"button"`    |
-| disabled     | Toggles `disabled` state                                  |             `false`             |     `false`     |
-| extraProps   | Any additional props                                      |            `Record`             |                 |
-| href         | HTML `href` attribute                                     |            `string`             |                 |
-| id           | HTML `id` attribute                                       |            `string`             |                 |
-| loading      | Toggles `loading` state                                   |             `false`             |     `false`     |
-| onBlur       | `blur` event handler                                      |           `Function`            |                 |
-| onClick      | `click` event handler                                     |           `Function`            |                 |
-| onFocus      | `focus` event handler                                     |           `Function`            |                 |
-| onMouseEnter | `mouseenter` event handler                                |           `Function`            |                 |
-| onMouseLeave | `mouseleave` event handler                                |           `Function`            |                 |
-| pin          | Sets button edges style                                   |            `string`             | `"round-round"` |
-| qa           | HTML `data-qa` attribute, used in tests                   |            `string`             |                 |
-| rel          | HTML `rel` attribute                                      |            `string`             |                 |
-| selected     | Toggles `selected` state                                  |                                 |                 |
-| size         | Sets button size                                          |            `string`             |      `"m"`      |
-| style        | HTML `style` attribute                                    |      `React.CSSProperties`      |                 |
-| tabIndex     | HTML `tabIndex` attribute                                 |            `number`             |                 |
-| target       | HTML `target` attribute                                   |            `string`             |                 |
-| title        | HTML `title` attribute                                    |            `string`             |                 |
-| type         | HTML `type` attribute                                     | `"button"` `"submit"` `"reset"` |   `"button"`    |
-| view         | Sets button appearance                                    |            `string`             |   `"normal"`    |
-| width        | `"auto"` `"max"`                                          |        `"auto"` `"max"`         |                 |
+`Buttont` accepts any valid `button` or `a` element props in addition to these:
+
+| Name      | Description                                                 |              Type               |     Default     |
+| :-------- | :---------------------------------------------------------- | :-----------------------------: | :-------------: |
+| children  | `Button` content. You can mix text with `<Icon/>` component |        `React.ReactNode`        |                 |
+| component | Overrides the root component                                |       `React.ElementType`       |                 |
+| disabled  | Toggles `disabled` state                                    |            `boolean`            |     `false`     |
+| href      | Pass this to make the root component a link                 |            `string`             |                 |
+| loading   | Toggles `loading` state                                     |            `boolean`            |     `false`     |
+| pin       | Sets `Button` edges style                                   |            `string`             | `"round-round"` |
+| qa        | HTML `data-qa` attribute, used in tests                     |            `string`             |                 |
+| selected  | Toggles `selected` state                                    |            `boolean`            |                 |
+| size      | `Button` appearance                                         | `"xs"` `"s"` `"m"` `"l"` `"xl"` |      `"m"`      |
+| view      | `Button` appearance                                         |          `ButtonView`           |   `"normal"`    |
+| width     | Controls how `Button` uses parent's space                   |        `"auto"` `"max"`         |                 |
 
 ## CSS API
 

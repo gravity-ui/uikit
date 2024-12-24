@@ -69,9 +69,7 @@ export const CollapseActions = ({actions, maxRowActions}: Props) => {
                                 <Button
                                     view="flat-contrast"
                                     size="m"
-                                    extraProps={{
-                                        'aria-label': i18n('label_more'),
-                                    }}
+                                    aria-label={i18n('label_more')}
                                     onClick={onClick}
                                 >
                                     <Icon data={Ellipsis} />

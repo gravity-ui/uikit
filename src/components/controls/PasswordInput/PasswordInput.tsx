@@ -84,12 +84,10 @@ export const PasswordInput = (props: PasswordInputProps) => {
                         disabled={props.disabled}
                         onClick={() => setRevealValue(!revealValue)}
                         size={actionButtonSize}
-                        extraProps={{
-                            'aria-label': revealValue
-                                ? i18n('label_hide-password')
-                                : i18n('label_show-password'),
-                            onMouseDown: (event: React.SyntheticEvent) => event.preventDefault(),
-                        }}
+                        onMouseDown={(event: React.SyntheticEvent) => event.preventDefault()}
+                        aria-label={
+                            revealValue ? i18n('label_hide-password') : i18n('label_show-password')
+                        }
                     >
                         <Icon data={revealValue ? EyeSlash : Eye} size={iconSize} />
                     </Button>

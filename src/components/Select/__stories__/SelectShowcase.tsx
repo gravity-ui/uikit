@@ -287,15 +287,13 @@ export const SelectShowcase = (props: SelectProps) => {
                         return (
                             <Button
                                 id={id}
-                                ref={ref}
+                                ref={ref as React.Ref<HTMLButtonElement>}
                                 view="action"
                                 onClick={onClick}
                                 disabled={disabled}
-                                extraProps={{
-                                    ...extraProps,
-                                    'aria-label': extraProps['aria-label'] || 'User control',
-                                }}
+                                aria-label={extraProps['aria-label'] || 'User control'}
                                 className={b({'has-clear': props.hasClear})}
+                                {...extraProps}
                             >
                                 <span className={b('text')}>User control</span>
                                 {renderClear({
@@ -321,21 +319,15 @@ export const SelectShowcase = (props: SelectProps) => {
                     ...props,
                     className: b('user-control-placement'),
                     popupPlacement: ['bottom'],
-                    renderControl: ({
-                        ref,
-                        triggerProps: {onClick, disabled, id, ...extraProps},
-                    }) => {
+                    renderControl: ({ref, triggerProps: {onClick, disabled, ...extraProps}}) => {
                         return (
                             <Button
-                                id={id}
-                                ref={ref}
+                                ref={ref as React.Ref<HTMLButtonElement>}
                                 view="action"
                                 onClick={onClick}
                                 disabled={disabled}
-                                extraProps={{
-                                    ...extraProps,
-                                    'aria-label': extraProps['aria-label'] || 'Add',
-                                }}
+                                aria-label={extraProps['aria-label'] || 'Add'}
+                                {...extraProps}
                             >
                                 <Icon data={Plus} />
                             </Button>

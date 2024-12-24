@@ -89,7 +89,7 @@ const _Button = React.forwardRef(function Button(
         view = 'normal',
         size = 'm',
         pin = 'round-round',
-        selected = false,
+        selected,
         disabled = false,
         loading = false,
         width,
@@ -173,7 +173,7 @@ const _Button = React.forwardRef(function Button(
             ref={ref as React.Ref<HTMLButtonElement>}
             type={props.type || 'button'}
             disabled={disabled || loading}
-            aria-pressed={selected ?? undefined}
+            aria-pressed={selected}
         >
             {prepareChildren(children)}
         </button>

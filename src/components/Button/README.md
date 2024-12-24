@@ -459,7 +459,7 @@ LANDING_BLOCK-->
 | loading   | Toggles `loading` state                                     |            `boolean`            |     `false`     |
 | pin       | Sets `Button` edges style                                   |            `string`             | `"round-round"` |
 | qa        | HTML `data-qa` attribute, used in tests                     |            `string`             |                 |
-| selected  | Toggles `selected` state                                    |            `boolean`            |     `false`     |
+| selected  | Toggles `selected` state                                    |            `boolean`            |                 |
 | size      | `Button` appearance                                         | `"xs"` `"s"` `"m"` `"l"` `"xl"` |      `"m"`      |
 | view      | `Button` appearance                                         |          `ButtonView`           |   `"normal"`    |
 | width     | Controls how `Button` uses parent's space                   |        `"auto"` `"max"`         |                 |

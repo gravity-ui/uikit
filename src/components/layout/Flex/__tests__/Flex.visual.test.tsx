@@ -27,7 +27,7 @@ test.describe('Flex', {tag: '@Flex'}, () => {
                         });
                     }
 
-                    await mount(<FlexStories.Default {...props} />);
+                    await mount(<FlexStories.Default {...props} />, {width: 'auto'});
 
                     await expectScreenshot({
                         themes: ['light'],
@@ -50,7 +50,7 @@ test.describe('Flex', {tag: '@Flex'}, () => {
                         });
                     }
 
-                    await mount(<FlexStories.FlexGap {...props} />);
+                    await mount(<FlexStories.FlexGap {...props} />, {width: 'auto'});
 
                     await expectScreenshot({
                         themes: ['light'],
@@ -74,7 +74,7 @@ test.describe('Flex', {tag: '@Flex'}, () => {
                         });
                     }
 
-                    await mount(<FlexStories.GapAndRowGap {...props} />);
+                    await mount(<FlexStories.GapAndRowGap {...props} />, {width: 'auto'});
 
                     await expectScreenshot({
                         themes: ['light'],
@@ -93,7 +93,7 @@ test.describe('Flex', {tag: '@Flex'}, () => {
                         });
                     }
 
-                    await mount(<FlexStories.ChildrenWithBgColor />);
+                    await mount(<FlexStories.ChildrenWithBgColor />, {width: 'auto'});
 
                     await expectScreenshot({
                         themes: ['light'],
@@ -112,7 +112,7 @@ test.describe('Flex', {tag: '@Flex'}, () => {
                         });
                     }
 
-                    await mount(<FlexStories.WithNullChildren />);
+                    await mount(<FlexStories.WithNullChildren />, {width: 'auto'});
 
                     await expectScreenshot({
                         themes: ['light'],

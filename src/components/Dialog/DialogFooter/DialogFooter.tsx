@@ -3,7 +3,7 @@
 import React from 'react';
 
 import {Button} from '../../Button';
-import type {ButtonProps, ButtonView} from '../../Button';
+import type {ButtonButtonProps, ButtonView} from '../../Button';
 import {Popup} from '../../Popup';
 import {block} from '../../utils/cn';
 
@@ -18,8 +18,8 @@ interface DialogFooterOwnProps {
     onClickButtonCancel?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
     textButtonCancel?: string;
     textButtonApply?: string;
-    propsButtonCancel?: Partial<ButtonProps>;
-    propsButtonApply?: Partial<ButtonProps>;
+    propsButtonCancel?: ButtonButtonProps;
+    propsButtonApply?: ButtonButtonProps;
     loading?: boolean;
     children?: React.ReactNode;
     errorText?: string;

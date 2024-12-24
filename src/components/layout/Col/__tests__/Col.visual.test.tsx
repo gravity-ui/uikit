@@ -22,7 +22,7 @@ test.describe('Col', {tag: '@Col'}, () => {
                         });
                     }
 
-                    await mount(<ColStories.Static space={3} />);
+                    await mount(<ColStories.Static space={3} />, {width: 'auto'});
 
                     await expectScreenshot({
                         themes: ['light'],
@@ -41,7 +41,7 @@ test.describe('Col', {tag: '@Col'}, () => {
                         });
                     }
 
-                    await mount(<ColStories.Dynamic space={2} />);
+                    await mount(<ColStories.Dynamic space={2} />, {width: 'auto'});
 
                     await expectScreenshot({
                         themes: ['light'],
@@ -64,6 +64,7 @@ test.describe('Col', {tag: '@Col'}, () => {
                         <div>
                             <ColStories.DynamicWithOverriddenBreakpoints space={2} />
                         </div>,
+                        {width: 'auto'},
                     );
 
                     await expectScreenshot({
@@ -96,6 +97,7 @@ test.describe('Col', {tag: '@Col'}, () => {
                         <div>
                             <ColStories.AllMods {...props} />
                         </div>,
+                        {width: 'auto'},
                     );
 
                     await expectScreenshot({

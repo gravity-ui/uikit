@@ -144,6 +144,7 @@ export type SelectProps<T = any> = QAProps &
         validationState?: 'invalid';
         multiple?: boolean;
         filterable?: boolean;
+        autoFocus?: boolean;
         filter?: string;
         onFilterChange?: (filter: string) => void;
         disablePortal?: boolean;

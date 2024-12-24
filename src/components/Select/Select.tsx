@@ -91,6 +91,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         multiple = false,
         disabled = false,
         filterable = false,
+        autoFocus = true,
         filter: propsFilter,
         disablePortal,
         hasClear = false,
@@ -222,12 +223,10 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     });
 
     React.useEffect(() => {
-        if (open) {
-            if (filterable) {
-                filterRef.current?.focus();
-            }
+        if (open && filterable && autoFocus) {
+            filterRef.current?.focus();
         }
-    }, [open, filterable]);
+    }, [open, filterable, autoFocus]);
 
     const mods: CnMods = {
         ...(width === 'max' && {width}),

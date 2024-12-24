@@ -1,40 +1,84 @@
 import React from 'react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
+
+import {DEFAULT_LAYOUT_THEME} from '../../constants';
 
 import {ColStories} from './stories';
 
 test.describe('Col', {tag: '@Col'}, () => {
-    test('render story <Static>', async ({mount, expectScreenshot}) => {
-        await mount(<ColStories.Static space={3} />);
+    const RESERVE_SPACING_PX = 5;
 
-        await expectScreenshot();
-    });
+    Object.entries(DEFAULT_LAYOUT_THEME.breakpoints).forEach(
+        ([breakpointName, breakpointWidthPx]) => {
+            smokeTest(
+                `render story <Static> - ${breakpointName}`,
+                async ({mount, expectScreenshot}) => {
+                    await mount(
+                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
+                            <ColStories.Static space={3} />
+                        </div>,
+                    );
 
-    test('render story <Dynamic>', async ({mount, expectScreenshot}) => {
-        await mount(<ColStories.Dynamic space={2} />);
+                    await expectScreenshot({
+                        themes: ['light'],
+                    });
+                },
+            );
 
-        await expectScreenshot();
-    });
+            smokeTest(
+                `render story <Dynamic> - ${breakpointName}`,
+                async ({mount, expectScreenshot}) => {
+                    await mount(
+                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
+                            <ColStories.Dynamic space={2} />
+                        </div>,
+                    );
 
-    test('render story <DynamicWithOverriddenBreakpoints>', async ({mount, expectScreenshot}) => {
-        await mount(<ColStories.DynamicWithOverriddenBreakpoints space={2} />);
+                    await expectScreenshot({
+                        themes: ['light'],
+                    });
+                },
+            );
 
-        await expectScreenshot();
-    });
+            smokeTest(
+                `render story <DynamicWithOverriddenBreakpoints> - ${breakpointName}`,
+                async ({mount, expectScreenshot}) => {
+                    await mount(
+                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
+                            <ColStories.DynamicWithOverriddenBreakpoints space={2} />
+                        </div>,
+                    );
 
-    test('render story <AllMods>', async ({mount, expectScreenshot}) => {
-        const props = {
-            xxl: '1',
-            xl: '2',
-            l: '4',
-            m: '6',
-            s: '12',
-            space: 3,
-        } as const;
+                    await expectScreenshot({
+                        themes: ['light'],
+                    });
+                },
+            );
 
-        await mount(<ColStories.AllMods {...props} />);
+            smokeTest(
+                `render story <AllMods> - ${breakpointName}`,
+                async ({mount, expectScreenshot}) => {
+                    const props = {
+                        xxl: '1',
+                        xl: '2',
+                        l: '4',
+                        m: '6',
+                        s: '12',
+                        space: 3,
+                    } as const;
 
-        await expectScreenshot();
-    });
+                    await mount(
+                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
+                            <ColStories.AllMods {...props} />
+                        </div>,
+                    );
+
+                    await expectScreenshot({
+                        themes: ['light'],
+                    });
+                },
+            );
+        },
+    );
 });

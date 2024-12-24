@@ -13,12 +13,16 @@ test.describe('Col', {tag: '@Col'}, () => {
         ([breakpointName, breakpointWidthPx]) => {
             smokeTest(
                 `render story <Static> - ${breakpointName}`,
-                async ({mount, expectScreenshot}) => {
-                    await mount(
-                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
-                            <ColStories.Static space={3} />
-                        </div>,
-                    );
+                async ({mount, expectScreenshot, page}) => {
+                    const size = page.viewportSize();
+                    if (size) {
+                        await page.setViewportSize({
+                            width: breakpointWidthPx + RESERVE_SPACING_PX,
+                            height: size.height,
+                        });
+                    }
+
+                    await mount(<ColStories.Static space={3} />);
 
                     await expectScreenshot({
                         themes: ['light'],
@@ -28,12 +32,16 @@ test.describe('Col', {tag: '@Col'}, () => {
 
             smokeTest(
                 `render story <Dynamic> - ${breakpointName}`,
-                async ({mount, expectScreenshot}) => {
-                    await mount(
-                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
-                            <ColStories.Dynamic space={2} />
-                        </div>,
-                    );
+                async ({mount, expectScreenshot, page}) => {
+                    const size = page.viewportSize();
+                    if (size) {
+                        await page.setViewportSize({
+                            width: breakpointWidthPx + RESERVE_SPACING_PX,
+                            height: size.height,
+                        });
+                    }
+
+                    await mount(<ColStories.Dynamic space={2} />);
 
                     await expectScreenshot({
                         themes: ['light'],
@@ -43,9 +51,17 @@ test.describe('Col', {tag: '@Col'}, () => {
 
             smokeTest(
                 `render story <DynamicWithOverriddenBreakpoints> - ${breakpointName}`,
-                async ({mount, expectScreenshot}) => {
+                async ({mount, expectScreenshot, page}) => {
+                    const size = page.viewportSize();
+                    if (size) {
+                        await page.setViewportSize({
+                            width: breakpointWidthPx + RESERVE_SPACING_PX,
+                            height: size.height,
+                        });
+                    }
+
                     await mount(
-                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
+                        <div>
                             <ColStories.DynamicWithOverriddenBreakpoints space={2} />
                         </div>,
                     );
@@ -58,7 +74,15 @@ test.describe('Col', {tag: '@Col'}, () => {
 
             smokeTest(
                 `render story <AllMods> - ${breakpointName}`,
-                async ({mount, expectScreenshot}) => {
+                async ({mount, expectScreenshot, page}) => {
+                    const size = page.viewportSize();
+                    if (size) {
+                        await page.setViewportSize({
+                            width: breakpointWidthPx + RESERVE_SPACING_PX,
+                            height: size.height,
+                        });
+                    }
+
                     const props = {
                         xxl: '1',
                         xl: '2',
@@ -69,7 +93,7 @@ test.describe('Col', {tag: '@Col'}, () => {
                     } as const;
 
                     await mount(
-                        <div style={{width: breakpointWidthPx + RESERVE_SPACING_PX}}>
+                        <div>
                             <ColStories.AllMods {...props} />
                         </div>,
                     );

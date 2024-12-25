@@ -66,12 +66,12 @@ const actionComponentTest = (
                 {text: 'text 2', action: () => {}},
             ]}
             onSwitcherClick={(e) => e?.stopPropagation()}
-            switcher={
+            renderSwitcher={() => (
                 <Button>
                     Text
                     <Icon data={ChevronDown} size={16} />
                 </Button>
-            }
+            )}
         />
     </div>
 );

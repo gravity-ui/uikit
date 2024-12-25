@@ -20,6 +20,7 @@ export function getTabsMock(args: StoryParams): TabsProps['items'] {
                     maxWidth: args.withOverflow ? '100px' : 'auto',
                 },
             },
+            qa: '1',
         },
         {
             id: 'active',
@@ -33,6 +34,7 @@ export function getTabsMock(args: StoryParams): TabsProps['items'] {
                     maxWidth: args.withOverflow ? '100px' : 'auto',
                 },
             },
+            qa: '2',
         },
         {
             id: 'disabled',
@@ -47,6 +49,7 @@ export function getTabsMock(args: StoryParams): TabsProps['items'] {
                     maxWidth: args.withOverflow ? '100px' : 'auto',
                 },
             },
+            qa: '3',
         },
     ];
 }

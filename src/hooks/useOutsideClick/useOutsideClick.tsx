@@ -2,7 +2,7 @@ import * as React from 'react';
 
 export interface UseOutsideClickProps<T> {
     ref: React.RefObject<T>;
-    handler?: () => void;
+    handler?: (e: MouseEvent | TouchEvent) => void;
 }
 
 type UseOutsideClickType = <K extends HTMLElement>(props: UseOutsideClickProps<K>) => void;
@@ -21,7 +21,7 @@ export const useOutsideClick: UseOutsideClickType = ({ref, handler}) => {
             const elem = ref?.current;
 
             if (elem && !elem.contains(e.target as Node) && handler) {
-                handler();
+                handler(e);
             }
         };
 

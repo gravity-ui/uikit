@@ -37,8 +37,8 @@ export const SelectPopupWidthShowcase = (args: any) => {
                 className="select-example"
                 title="Sample select"
             />
-            <h2>Short values. Adjust to Control width</h2>
 
+            <h2>Short values. Adjust to Control width</h2>
             <Select
                 {...args}
                 className="select-example select-width-300"

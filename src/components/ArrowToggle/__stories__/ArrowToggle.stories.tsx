@@ -16,14 +16,10 @@ export const Default = DefaultTemplate.bind({});
 const DirectionsTemplate: StoryFn<ArrowToggleProps> = (args) => {
     return (
         <React.Fragment>
-            <ArrowToggle {...args} direction="top" />
-            top
-            <ArrowToggle {...args} direction="right" />
-            right
-            <ArrowToggle {...args} direction="bottom" />
-            bottom
-            <ArrowToggle {...args} direction="left" />
-            left
+            <ArrowToggle {...args} direction="top" /> top
+            <ArrowToggle {...args} direction="right" /> right
+            <ArrowToggle {...args} direction="bottom" /> bottom
+            <ArrowToggle {...args} direction="left" /> left
         </React.Fragment>
     );
 };
@@ -33,18 +29,12 @@ export const Directions = DirectionsTemplate.bind({});
 const SizesTemplate: StoryFn<ArrowToggleProps> = (args) => {
     return (
         <React.Fragment>
-            <ArrowToggle {...args} size={10} />
-            10
-            <ArrowToggle {...args} size={20} />
-            20
-            <ArrowToggle {...args} size={30} />
-            30
-            <ArrowToggle {...args} size={40} />
-            40
-            <ArrowToggle {...args} size={50} />
-            50
-            <ArrowToggle {...args} size={100} />
-            100
+            <ArrowToggle {...args} size={10} /> 10
+            <ArrowToggle {...args} size={20} /> 20
+            <ArrowToggle {...args} size={30} /> 30
+            <ArrowToggle {...args} size={40} /> 40
+            <ArrowToggle {...args} size={50} /> 50
+            <ArrowToggle {...args} size={100} /> 100
         </React.Fragment>
     );
 };

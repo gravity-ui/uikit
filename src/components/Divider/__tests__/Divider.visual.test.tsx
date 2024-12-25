@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {DividerProps} from '../Divider';
@@ -9,15 +9,28 @@ import {orientationCases} from './cases';
 import {ListWithDivider} from './helpers';
 
 test.describe('Divider', {tag: '@Divider'}, () => {
-    const defaultProps: DividerProps = {};
+    smokeTest('smoke', async ({mount, expectScreenshot}) => {
+        const defaultProps: DividerProps = {};
 
-    createSmokeScenarios(defaultProps, {
-        orientation: orientationCases,
-    }).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<ListWithDivider {...props} />);
+        const smokeScenarios = createSmokeScenarios(defaultProps, {
+            orientation: orientationCases,
+        });
 
-            await expectScreenshot();
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <ListWithDivider {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 });

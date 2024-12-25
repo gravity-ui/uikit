@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import type {TocProps} from '../Toc';
 import {Toc} from '../Toc';
 

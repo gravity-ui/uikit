@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {IconProps} from '../Icon';
@@ -9,16 +9,29 @@ import {sizeCases} from './cases';
 import {TestIcon} from './helpersPlaywright';
 
 test.describe('Icon', {tag: '@Icon'}, () => {
-    createSmokeScenarios<Omit<IconProps, 'data'>>(
-        {},
-        {
-            size: sizeCases,
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<TestIcon {...props} />);
+    smokeTest('smoke', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<Omit<IconProps, 'data'>>(
+            {},
+            {
+                size: sizeCases,
+            },
+        );
 
-            await expectScreenshot();
+        await mount(
+            <div style={{width: 400}}>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestIcon {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 });

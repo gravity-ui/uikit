@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {Rocket} from '@gravity-ui/icons';
 
 import type {IconProps} from '../Icon';

@@ -1,4 +1,4 @@
-import type React from 'react';
+import type * as React from 'react';
 
 import type {DistributiveOmit} from '../../types/utils';
 import type {AvatarProps} from '../Avatar';

@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import * as React from 'react';
 
 import type {API} from '@storybook/manager-api';
 import {addons, types, useGlobals} from '@storybook/manager-api';
@@ -21,7 +21,7 @@ addons.register(ADDON_ID, (api) => {
 
 function Tool({api}: {api: API}) {
     const [{theme}] = useGlobals();
-    useEffect(() => {
+    React.useEffect(() => {
         api.setOptions({theme: themes[getThemeType(theme)]});
     }, [theme]);
     return null;

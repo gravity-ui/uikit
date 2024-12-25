@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {smokeTest, test} from '~playwright/core';
 
 import {DEFAULT_LAYOUT_THEME} from '../../constants';

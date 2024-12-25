@@ -15,6 +15,10 @@
         "no-restricted-syntax": [
             "error",
             {
+                "selector": "ImportDeclaration[source.value='react'] :matches(ImportDefaultSpecifier, ImportSpecifier)",
+                "message": "Please use `import * as React from 'react'` instead."
+            },
+            {
                 "selector": "TSTypeReference>TSQualifiedName[left.name='React'][right.name='FC']",
                 "message": "Don't use React.FC"
             },

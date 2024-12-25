@@ -198,7 +198,7 @@ describe('RadioGroup', () => {
     );
 
     describe('form', () => {
-        test('should submit first value by default', async () => {
+        test('should submit no value by default', async () => {
             let value;
             const onSubmit = jest.fn((e) => {
                 e.preventDefault();
@@ -215,7 +215,7 @@ describe('RadioGroup', () => {
             );
             await userEvent.click(screen.getByTestId('submit'));
             expect(onSubmit).toHaveBeenCalledTimes(1);
-            expect(value).toEqual([['radio-field', 'Value 1']]);
+            expect(value).toEqual([]);
         });
 
         test('should submit default value', async () => {

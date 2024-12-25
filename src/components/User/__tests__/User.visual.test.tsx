@@ -1,6 +1,6 @@
 import {expect} from '@playwright/experimental-ct-react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {UserProps} from '../types';
@@ -16,19 +16,32 @@ test.describe('User', {tag: '@User'}, () => {
         await expect(component).toHaveScreenshot();
     });
 
-    createSmokeScenarios<Partial<UserProps>>(
-        {},
-        {
-            avatar: avatarCases,
-            description: descriptionCases,
-            name: nameCases,
-            size: sizeCases,
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<TestUser {...props} />);
+    smokeTest('', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<Partial<UserProps>>(
+            {},
+            {
+                avatar: avatarCases,
+                description: descriptionCases,
+                name: nameCases,
+                size: sizeCases,
+            },
+        );
 
-            await expectScreenshot();
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestUser {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 });

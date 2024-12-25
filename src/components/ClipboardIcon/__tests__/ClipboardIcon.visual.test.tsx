@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {ClipboardIconProps} from '../ClipboardIcon';
@@ -9,18 +9,31 @@ import {ClipboardIcon} from '../ClipboardIcon';
 import {sizeCases, statusCases} from './cases';
 
 test.describe('ClipboardIcon', {tag: '@ClipboardIcon'}, () => {
-    const defaultProps: ClipboardIconProps = {
-        status: 'success',
-    };
+    smokeTest('smoke', async ({mount, expectScreenshot}) => {
+        const defaultProps: ClipboardIconProps = {
+            status: 'success',
+        };
 
-    createSmokeScenarios(defaultProps, {
-        size: sizeCases,
-        status: statusCases,
-    }).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<ClipboardIcon {...props} />);
+        const smokeScenarios = createSmokeScenarios(defaultProps, {
+            size: sizeCases,
+            status: statusCases,
+        });
 
-            await expectScreenshot();
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <ClipboardIcon {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 });

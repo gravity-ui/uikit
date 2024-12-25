@@ -167,21 +167,13 @@ LANDING_BLOCK-->
 
 ## Свойства
 
-| Имя        | Описание                                               |                            Тип                            | Значение по умолчанию |
-| :--------- | :----------------------------------------------------- | :-------------------------------------------------------: | :-------------------: |
-| view       | Внешний вид ссылки.                                    |          `"normal" \| "primary" \| "secondary"`           |      `"normal"`       |
-| visitable  | Отображает CSS-состояние `:visitable`.                 |                  `boolean \| undefined`                   |
-| href       | HTML-атрибут `href`.                                   |                         `string`                          |
-| target     | HTML-атрибут `target`.                                 |                   `string \| undefined`                   |
-| rel        | HTML-атрибут `rel`.                                    |                   `string \| undefined`                   |
-| title      | HTML-атрибут `title`.                                  |                   `string \| undefined`                   |
-| children   | Содержимое ссылки.                                     |                     `React.ReactNode`                     |
-| extraProps | Дополнительные свойства.                               |                   `Record \| undefined`                   |
-| onClick    | Обработчик события `click`.                            | `React.MouseEventHandler<HTMLAnchorElement> \| undefined` |
-| onFocus    | Обработчик события `focus`.                            | `React.FocusEventHandler<HTMLAnchorElement> \| undefined` |
-| onBlur     | Обработчик события `blur`.                             | `React.FocusEventHandler<HTMLAnchorElement> \| undefined` |
-| id         | HTML-атрибут `id`.                                     |                   `string \| undefined`                   |
-| style      | HTML-атрибут `style`.                                  |            `React.CSSProperties \| undefined`             |
-| className  | HTML-атрибут `class`.                                  |                   `string \| undefined`                   |
-| qa         | HTML-атрибут `data-qa`, используется для тестирования. |                   `string \| undefined`                   |
-| ref        | React-ссылка на DOM-узел `Link`.                       |   `React.ForwardedRef<HTMLAnchorElement> \| undefined`    |
+`Link` принимает все допустимые свойства элемента `a`, и следующие свойства:
+
+| Имя       | Описание                                              |                 Тип                  | Значение по умолчанию |
+| :-------- | :---------------------------------------------------- | :----------------------------------: | :-------------------: |
+| children  | Содержимое ссылки                                     |          `React.ReactNode`           |                       |
+| href      | HTML-атрибут `href`                                   |               `string`               |                       |
+| qa        | HTML-атрибут `data-qa`, используется для тестирования |               `string`               |                       |
+| underline | Отображает подчеркивание у ссылки                     |              `boolean`               |        `false`        |
+| view      | Внешний вид ссылки                                    | `"normal"` `"primary"` `"secondary"` |      `"normal"`       |
+| visitable | Отображает CSS-состояние `:visitable`                 |              `boolean`               |        `false`        |

@@ -13,26 +13,8 @@ type Props = React.PropsWithChildren<{
 const b = block('toaster');
 
 export function ToasterPortal({children, className, mobile}: Props) {
-    const el = React.useRef(
-        typeof document === 'undefined' ? undefined : document.createElement('div'),
-    );
-
-    React.useEffect(() => {
-        const container = el.current;
-
-        if (!container) {
-            return undefined;
-        }
-
-        document.body.appendChild(container);
-
-        return () => {
-            document.body.removeChild(container);
-        };
-    }, []);
-
     return (
-        <Portal container={el.current}>
+        <Portal>
             <div className={b({mobile}, className)} aria-live="assertive">
                 {children}
             </div>

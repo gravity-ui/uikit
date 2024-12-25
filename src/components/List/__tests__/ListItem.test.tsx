@@ -1,4 +1,4 @@
-import * as React from 'react';
+import type * as React from 'react';
 
 import {render, screen} from '../../../../test-utils/utils';
 import {ListItem} from '../components';

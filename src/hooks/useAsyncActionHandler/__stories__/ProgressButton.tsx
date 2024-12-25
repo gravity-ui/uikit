@@ -1,4 +1,4 @@
-import * as React from 'react';
+import type * as React from 'react';
 
 import {Button} from '../../../components';
 import type {ButtonProps} from '../../../components';

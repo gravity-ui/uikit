@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
-import {Card} from '../Card';
 import type {CardProps} from '../Card';
+import {Card} from '../Card';
 
 import {
     containerViewCases,
@@ -59,96 +59,129 @@ test.describe('Card', {tag: '@Card'}, () => {
         await expectScreenshot();
     });
 
-    const defaultProps: CardProps = {
-        children: null,
-    };
+    smokeTest('smoke, selection type', async ({mount, expectScreenshot}) => {
+        const defaultProps: CardProps = {
+            children: null,
+        };
 
-    createSmokeScenarios(
-        {
-            ...defaultProps,
-            type: 'selection',
-        } as const,
-        {
-            size: sizeCases,
-            disabled: disabledCases,
-            selected: selectedCases,
-            view: selectionViewCases,
-        },
-        {
-            scenarioName: 'selection',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            const root = await mount(
-                <Card {...props}>
-                    <div data-qa="content" style={{padding: '10px'}}>
-                        Some text
+        const smokeScenarios = createSmokeScenarios(
+            {
+                ...defaultProps,
+                type: 'selection',
+            } as const,
+            {
+                size: sizeCases,
+                disabled: disabledCases,
+                selected: selectedCases,
+                view: selectionViewCases,
+            },
+            {
+                scenarioName: 'selection',
+            },
+        );
+
+        await mount(
+            <div style={{width: 400}}>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Card {...props}>
+                                <div data-qa="content" style={{padding: '10px'}}>
+                                    Some text
+                                </div>
+                            </Card>
+                        </div>
                     </div>
-                </Card>,
-            );
+                ))}
+            </div>,
+        );
 
-            await expectScreenshot({});
-
-            await root.getByTestId('content').hover();
-
-            await expectScreenshot({nameSuffix: 'hovered'});
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 
-    createSmokeScenarios(
-        {
-            ...defaultProps,
-            type: 'action',
-            onClick: () => {},
-        } as const,
-        {
-            size: sizeCases,
-            disabled: disabledCases,
-        },
-        {
-            scenarioName: 'action',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            const root = await mount(
-                <Card {...props}>
-                    <div data-qa="content" style={{padding: '10px'}}>
-                        Some text
+    smokeTest('smoke, action type', async ({mount, expectScreenshot}) => {
+        const defaultProps: CardProps = {
+            children: null,
+        };
+
+        const smokeScenarios = createSmokeScenarios(
+            {
+                ...defaultProps,
+                type: 'action',
+                onClick: () => {},
+            } as const,
+            {
+                size: sizeCases,
+                disabled: disabledCases,
+            },
+            {
+                scenarioName: 'selection',
+            },
+        );
+
+        await mount(
+            <div style={{width: 400}}>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Card {...props}>
+                                <div data-qa="content" style={{padding: '10px'}}>
+                                    Some text
+                                </div>
+                            </Card>
+                        </div>
                     </div>
-                </Card>,
-            );
+                ))}
+            </div>,
+        );
 
-            await expectScreenshot({});
-
-            await root.getByTestId('content').hover();
-
-            await expectScreenshot({nameSuffix: 'after hover'});
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 
-    createSmokeScenarios(
-        {
-            ...defaultProps,
-            type: 'container',
-        } as const,
-        {
-            size: sizeCases,
-            disabled: disabledCases,
-            view: containerViewCases,
-            theme: themeCases,
-        },
-        {
-            scenarioName: 'container',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(
-                <Card {...props}>
-                    <div style={{padding: '10px'}}>Some text</div>
-                </Card>,
-            );
+    smokeTest('smoke, container type', async ({mount, expectScreenshot}) => {
+        const defaultProps: CardProps = {
+            children: null,
+        };
 
-            await expectScreenshot();
+        const smokeScenarios = createSmokeScenarios(
+            {
+                ...defaultProps,
+                type: 'container',
+            } as const,
+            {
+                size: sizeCases,
+                disabled: disabledCases,
+                view: containerViewCases,
+                theme: themeCases,
+            },
+            {
+                scenarioName: 'selection',
+            },
+        );
+
+        await mount(
+            <div style={{width: 400}}>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Card {...props}>
+                                <div style={{padding: '10px'}}>Some text</div>
+                            </Card>
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 });

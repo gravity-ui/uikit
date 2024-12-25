@@ -1,26 +1,67 @@
 import React from 'react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {HotkeyProps} from '../Hotkey';
 import {Hotkey} from '../Hotkey';
 
-import {platformCases, viewCases} from './cases';
+import {platformCases} from './cases';
 
 test.describe('Hotkey', {tag: '@Hotkey'}, () => {
-    const defaultProps: HotkeyProps = {
-        value: 'mod+a mod+c mod+v',
-    };
+    smokeTest('smoke, light view', async ({mount, expectScreenshot}) => {
+        const defaultProps: HotkeyProps = {
+            value: 'mod+a mod+c mod+v',
+            view: 'light',
+        };
 
-    createSmokeScenarios(defaultProps, {
-        view: viewCases,
-        platform: platformCases,
-    }).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<Hotkey {...props} />);
+        const smokeScenarios = createSmokeScenarios(defaultProps, {
+            platform: platformCases,
+        });
 
-            await expectScreenshot();
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Hotkey {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
+        });
+    });
+
+    smokeTest('smoke, dark view', async ({mount, expectScreenshot}) => {
+        const defaultProps: HotkeyProps = {
+            value: 'mod+a mod+c mod+v',
+            view: 'dark',
+        };
+
+        const smokeScenarios = createSmokeScenarios(defaultProps, {
+            platform: platformCases,
+        });
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Hotkey {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['dark'],
         });
     });
 });

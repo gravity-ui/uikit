@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import type {DOMProps, QAProps} from '../types';
+import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 import {eventBroker} from '../utils/event-broker';
 
@@ -10,19 +10,15 @@ import './Link.scss';
 
 export type LinkView = 'normal' | 'primary' | 'secondary';
 
-export interface LinkProps extends DOMProps, QAProps {
+export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement>, QAProps {
     view?: LinkView;
     visitable?: boolean;
     underline?: boolean;
-    title?: string;
     href: string;
-    target?: string;
-    rel?: string;
-    id?: string;
     children?: React.ReactNode;
-    onClick?: React.MouseEventHandler<HTMLAnchorElement>;
-    onFocus?: React.FocusEventHandler<HTMLAnchorElement>;
-    onBlur?: React.FocusEventHandler<HTMLAnchorElement>;
+    /**
+     * @deprecated Use additional props at the root
+     */
     extraProps?: React.AnchorHTMLAttributes<HTMLAnchorElement>;
 }
 
@@ -31,48 +27,42 @@ const b = block('link');
 export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(
     {
         view = 'normal',
-        visitable,
-        underline,
+        visitable = false,
+        underline = false,
         href,
-        target,
-        rel,
-        title,
         children,
         extraProps,
-        onClick,
-        onFocus,
-        onBlur,
-        id,
-        style,
-        className,
         qa,
+        ...props
     },
     ref,
 ) {
-    const handleClickCapture = React.useCallback((event: React.SyntheticEvent) => {
-        eventBroker.publish({
-            componentId: 'Link',
-            eventId: 'click',
-            domEvent: event,
-        });
-    }, []);
+    const handleClickCapture = React.useCallback(
+        (event: React.MouseEvent<HTMLAnchorElement>) => {
+            eventBroker.publish({
+                componentId: 'Link',
+                eventId: 'click',
+                domEvent: event,
+            });
 
-    const commonProps = {
-        title,
-        onClick,
-        onClickCapture: handleClickCapture,
-        onFocus,
-        onBlur,
-        id,
-        style,
-        className: b({view, visitable, underline}, className),
-        'data-qa': qa,
-    };
-
-    const relProp = target === '_blank' && !rel ? 'noopener noreferrer' : rel;
+            if (props.onClickCapture) {
+                props.onClickCapture(event);
+            }
+        },
+        [props.onClickCapture],
+    );
 
     return (
-        <a {...extraProps} {...commonProps} ref={ref} href={href} target={target} rel={relProp}>
+        <a
+            {...props}
+            {...extraProps}
+            ref={ref}
+            href={href}
+            rel={props.target === '_blank' && !props.rel ? 'noopener noreferrer' : props.rel}
+            onClickCapture={handleClickCapture}
+            className={b({view, visitable, underline}, props.className)}
+            data-qa={qa}
+        >
             {children}
         </a>
     );

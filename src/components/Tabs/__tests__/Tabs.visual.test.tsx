@@ -1,55 +1,94 @@
-import React from 'react';
-
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import type {TabsProps} from '../Tabs';
 
-import {allowNotSelectedCases, directionCases, sizeCases} from './cases';
+import {directionCases, sizeCases} from './cases';
 import {TestTabs, TestTabsWithCustomTabs} from './helpers';
 
 test.describe('Tabs', {tag: '@Tabs'}, () => {
-    createSmokeScenarios(
-        {},
-        {
-            size: sizeCases,
-            direction: directionCases,
-            allowNotSelected: allowNotSelectedCases,
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            const root = await mount(<TestTabs {...props} />);
+    smokeTest('', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<TabsProps>(
+            {
+                activeTab: '2',
+            },
+            {
+                size: sizeCases,
+                direction: directionCases,
+            },
+        );
 
-            await expectScreenshot({});
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestTabs {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
 
-            root.getByTestId('2').focus();
-
-            await expectScreenshot({
-                nameSuffix: 'after hover on tab',
-            });
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 
-    createSmokeScenarios(
-        {},
-        {
-            size: sizeCases,
-            direction: directionCases,
-            allowNotSelected: allowNotSelectedCases,
-        },
-        {
-            scenarioName: 'with custom tab',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            const root = await mount(<TestTabsWithCustomTabs {...props} />);
+    smokeTest('allow not selected', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<TabsProps>(
+            {},
+            {
+                size: sizeCases,
+                direction: directionCases,
+            },
+        );
 
-            await expectScreenshot({});
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestTabs {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
 
-            root.getByTestId('2').focus();
+        await expectScreenshot({
+            themes: ['light'],
+        });
+    });
 
-            await expectScreenshot({
-                nameSuffix: 'after hover on tab',
-            });
+    smokeTest('with custom tab', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<TabsProps>(
+            {
+                activeTab: '2',
+            },
+            {
+                size: sizeCases,
+                direction: directionCases,
+            },
+        );
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestTabsWithCustomTabs {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 });

@@ -7,4 +7,3 @@ export const directionCases: Cases<TabsProps['direction']> = [
     TabsDirection.Horizontal,
     TabsDirection.Vertical,
 ];
-export const allowNotSelectedCases: Cases<TabsProps['allowNotSelected']> = [true];

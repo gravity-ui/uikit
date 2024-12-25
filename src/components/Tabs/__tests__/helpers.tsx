@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type {TabsItemProps, TabsProps} from '../Tabs';
 import {Tabs} from '../Tabs';
 import {getTabsMock} from '../__stories__/getTabsMock';

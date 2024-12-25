@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {PersonaWrapProps} from '../PersonaWrap';
@@ -15,20 +15,33 @@ import {
 import {TestPersonaWrap} from './helpersPlaywright';
 
 test.describe('PersonaWrap', {tag: '@PersonaWrap'}, () => {
-    createSmokeScenarios<Partial<PersonaWrapProps>>(
-        {},
-        {
-            theme: themeCases,
-            size: sizeCases,
-            isEmpty: isEmptyCases,
-            onClose: closableCases,
-            onClick: clickableCases,
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<TestPersonaWrap {...props} />);
+    smokeTest('', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<Partial<PersonaWrapProps>>(
+            {},
+            {
+                theme: themeCases,
+                size: sizeCases,
+                isEmpty: isEmptyCases,
+                onClose: closableCases,
+                onClick: clickableCases,
+            },
+        );
 
-            await expectScreenshot();
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestPersonaWrap {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 });

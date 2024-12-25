@@ -38,8 +38,6 @@ export interface LabelProps extends QAProps {
     closeButtonLabel?: string;
     /** `aria-label` of copy button */
     copyButtonLabel?: string;
-    /** Use native clipboard methods */
-    nativeCopy?: boolean;
     /** Handler for copy event */
     onCopy?(text: string, result: boolean): void;
     /** Handler for click on label itself */
@@ -77,7 +75,6 @@ export const Label = React.forwardRef(function Label(
         className,
         disabled,
         copyText,
-        nativeCopy,
         closeButtonLabel,
         copyButtonLabel,
         interactive = false,
@@ -186,7 +183,7 @@ export const Label = React.forwardRef(function Label(
 
     if (hasCopy && copyText && !hasOnClick) {
         return (
-            <CopyToClipboard text={copyText} onCopy={onCopy} timeout={1000} nativeCopy={nativeCopy}>
+            <CopyToClipboard text={copyText} onCopy={onCopy} timeout={1000}>
                 {(status) => renderLabel(status)}
             </CopyToClipboard>
         );

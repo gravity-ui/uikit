@@ -36,7 +36,7 @@ export function ColorPanel(props: ColorPanelProps) {
             const copyText = `var(${varName})`;
             return (
                 <div className="color-panel__card" key={color.name}>
-                    <CopyToClipboard text={copyText} nativeCopy>
+                    <CopyToClipboard text={copyText}>
                         {() => (
                             <div
                                 className={`color-panel__card-box ${boxBorders}`}
@@ -47,7 +47,7 @@ export function ColorPanel(props: ColorPanelProps) {
                     <div className="color-panel__card-texts">
                         <div className="color-panel__card-headline">
                             <div className="color-panel__card-title">{color.title}</div>
-                            <CopyToClipboard text={copyText} nativeCopy>
+                            <CopyToClipboard text={copyText}>
                                 {() => <div className="color-panel__card-var">{varName}</div>}
                             </CopyToClipboard>
                         </div>

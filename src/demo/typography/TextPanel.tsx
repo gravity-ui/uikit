@@ -29,7 +29,7 @@ export function TextPanel(props: TextPanelProps) {
                     <div className={b('card-texts')}>
                         <div className={b('card-headline')}>
                             <div className={b('card-title')}>{item.title}</div>
-                            <CopyToClipboard text={copyText} nativeCopy>
+                            <CopyToClipboard text={copyText}>
                                 {() => <div className={b('card-var')}>{varName}</div>}
                             </CopyToClipboard>
                         </div>
@@ -37,7 +37,7 @@ export function TextPanel(props: TextPanelProps) {
                             <div className={b('card-description')}>{item.description}</div>
                         )}
                         {props.variant && (
-                            <CopyToClipboard text={copyText} nativeCopy>
+                            <CopyToClipboard text={copyText}>
                                 {() => (
                                     <div
                                         className={b('card-sample', {variant: varName})}

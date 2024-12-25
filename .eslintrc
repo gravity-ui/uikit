@@ -4,7 +4,8 @@
         "@gravity-ui/eslint-config/client",
         "@gravity-ui/eslint-config/prettier",
         "@gravity-ui/eslint-config/import-order",
-        "@gravity-ui/eslint-config/a11y"
+        "@gravity-ui/eslint-config/a11y",
+        "plugin:react/jsx-runtime"
     ],
     "root": true,
     "rules": {
@@ -32,9 +33,7 @@
         "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
         "@typescript-eslint/prefer-ts-expect-error": "error",
         "@typescript-eslint/consistent-type-imports": ["error", {"prefer":  "type-imports", "fixStyle": "separate-type-imports"}],
-        "complexity": "off",
-        "react/jsx-uses-react": "off",
-        "react/react-in-jsx-scope": "off"
+        "complexity": "off"
     },
     "overrides": [
         {

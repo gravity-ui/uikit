@@ -2,18 +2,20 @@
 
 import React from 'react';
 
+import {Portal} from '../../Portal';
 import {useMobile} from '../../mobile';
+import {block} from '../../utils/cn';
 import {ToastsContext} from '../Provider/ToastsContext';
 import {ToastList} from '../ToastList/ToastList';
 import {useToaster} from '../hooks/useToaster';
-
-import {ToasterPortal} from './ToasterPortal';
 
 interface Props {
     className?: string;
     mobile?: boolean;
     hasPortal?: boolean;
 }
+
+const b = block('toaster');
 
 export function ToasterComponent({className, mobile, hasPortal = true}: Props) {
     const defaultMobile = useMobile();
@@ -29,9 +31,11 @@ export function ToasterComponent({className, mobile, hasPortal = true}: Props) {
     }
 
     return (
-        <ToasterPortal className={className || ''} mobile={mobile ?? defaultMobile}>
-            {toaster}
-        </ToasterPortal>
+        <Portal>
+            <div className={b({mobile: mobile ?? defaultMobile}, className)} aria-live="assertive">
+                {toaster}
+            </div>
+        </Portal>
     );
 }
 

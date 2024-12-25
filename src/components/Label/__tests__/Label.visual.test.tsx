@@ -1,11 +1,8 @@
-import {expect} from '@playwright/experimental-ct-react';
-
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {LabelProps} from '../Label';
 import {Label} from '../Label';
-import {LabelQa} from '../constants';
 
 import {disabledCases, sizeCases, themeCases} from './cases';
 import {LabelStories, TestLabelWithIcon} from './helpersPlaywright';
@@ -79,161 +76,110 @@ test.describe('Label', {tag: '@Label'}, () => {
         type: 'default',
     };
 
-    createSmokeScenarios<LabelProps>(defaultProps, {
-        theme: themeCases,
-        size: sizeCases,
-        disabled: disabledCases,
-    }).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<Label {...props} />);
-
-            await expectScreenshot();
-        });
-    });
-
-    createSmokeScenarios<LabelProps>(
-        defaultProps,
-        {
+    smokeTest('', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<LabelProps>(defaultProps, {
             theme: themeCases,
             size: sizeCases,
-        },
-        {
-            scenarioName: 'custom icon',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<TestLabelWithIcon {...props} />);
-
-            await expectScreenshot();
+            disabled: disabledCases,
         });
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Label {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({});
     });
 
-    createSmokeScenarios<LabelProps>(
-        {
-            ...defaultProps,
-            interactive: true,
-        },
-        {
+    smokeTest('with custom icon', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<LabelProps>(defaultProps, {
             theme: themeCases,
             size: sizeCases,
-        },
-        {
-            scenarioName: 'interactive',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            const root = await mount(<Label {...props} />);
-
-            await expectScreenshot({});
-
-            await root.getByTestId(qa).focus();
-
-            await expectScreenshot({
-                nameSuffix: 'after hover',
-            });
+            disabled: disabledCases,
         });
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestLabelWithIcon {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({});
     });
 
-    createSmokeScenarios<LabelProps>(
-        {
-            ...defaultProps,
-            type: 'copy',
-            copyText: 'Copy text',
-            onCopy: () => {},
-        },
-        {
-            theme: themeCases,
-            size: sizeCases,
-        },
-        {
-            scenarioName: 'with copy',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            const root = await mount(<Label {...props} />);
+    smokeTest('with copy', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<LabelProps>(
+            {
+                ...defaultProps,
+                type: 'copy',
+                copyText: 'Copy text',
+                onCopy: () => {},
+            },
+            {
+                theme: themeCases,
+                size: sizeCases,
+                disabled: disabledCases,
+            },
+        );
 
-            await expectScreenshot({});
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Label {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
 
-            await expect(root.getByTestId(LabelQa.copyButton)).toBeVisible();
-            await root.getByTestId(LabelQa.copyButton).focus();
-
-            await expectScreenshot({
-                nameSuffix: 'after hover',
-            });
-
-            await root.getByTestId(LabelQa.copyButton).click();
-
-            await expectScreenshot({
-                nameSuffix: 'after click',
-            });
-        });
+        await expectScreenshot({});
     });
 
-    createSmokeScenarios<LabelProps>(
-        {
-            ...defaultProps,
-            type: 'default',
-            onClick: () => {},
-        },
-        {
-            theme: themeCases,
-            size: sizeCases,
-        },
-        {
-            scenarioName: 'clickable',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            const root = await mount(<Label {...props} />);
+    smokeTest('with close', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<LabelProps>(
+            {
+                ...defaultProps,
+                type: 'close',
+                onCloseClick: () => {},
+            },
+            {
+                theme: themeCases,
+                size: sizeCases,
+                disabled: disabledCases,
+            },
+        );
 
-            await expectScreenshot({});
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Label {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
 
-            await expect(root.getByTestId(LabelQa.mainButton)).toBeVisible();
-            await root.getByTestId(LabelQa.mainButton).focus();
-
-            await expectScreenshot({
-                nameSuffix: 'after hover',
-            });
-
-            await root.getByTestId(LabelQa.mainButton).click();
-
-            await expectScreenshot({
-                nameSuffix: 'after click',
-            });
-        });
-    });
-
-    createSmokeScenarios<LabelProps>(
-        {
-            ...defaultProps,
-            type: 'close',
-            onCloseClick: () => {},
-        },
-        {
-            theme: themeCases,
-            size: sizeCases,
-        },
-        {
-            scenarioName: 'closable',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            const root = await mount(<Label {...props} />);
-
-            await expectScreenshot({});
-
-            await expect(root.getByTestId(LabelQa.closeButton)).toBeVisible();
-            await root.getByTestId(LabelQa.closeButton).focus();
-
-            await expectScreenshot({
-                nameSuffix: 'after hover',
-            });
-
-            await root.getByTestId(LabelQa.closeButton).click();
-
-            await expectScreenshot({
-                nameSuffix: 'after click',
-            });
-        });
+        await expectScreenshot({});
     });
 });

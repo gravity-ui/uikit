@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.40.0](https://github.com/gravity-ui/uikit/compare/v6.39.0...v6.40.0) (2024-12-24)
+
+
+### Features
+
+* **Select:** add data for option group ([#2011](https://github.com/gravity-ui/uikit/issues/2011)) ([46c9d28](https://github.com/gravity-ui/uikit/commit/46c9d28b972ad63dd9ce334b1d052b76fa5720ec))
+
 ## [6.39.0](https://github.com/gravity-ui/uikit/compare/v6.38.0...v6.39.0) (2024-12-19)
 
 

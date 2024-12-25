@@ -54,6 +54,7 @@ function SkeletonListShowcase() {
                     <PersonSkeleton />
                 </React.Fragment>
             )}
+
             <Button view="action" onClick={() => setListVisible(!listVisible)}>
                 Toggle list
             </Button>

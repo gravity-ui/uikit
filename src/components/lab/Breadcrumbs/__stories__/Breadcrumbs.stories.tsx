@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import {ChevronRight, Flame, House, Rocket} from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react';
 

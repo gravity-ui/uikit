@@ -38,6 +38,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
                 title="Sample select"
             />
             <h2>Short values. Adjust to Control width</h2>
+
             <Select
                 {...args}
                 className="select-example select-width-300"
@@ -51,6 +52,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
                 width="max"
                 title="Sample select"
             />
+
             <h2>Modes default/fit</h2>
             <Flex gap={10}>
                 <div>
@@ -82,6 +84,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
                     <Select {...args} width="max" options={extralong} title="Sample select" />
                 </div>
             </div>
+
             <Flex justifyContent="center" style={{marginTop: '20px'}}>
                 Enclosed with 100px margin container
             </Flex>
@@ -124,7 +127,9 @@ export const SelectPopupWidthShowcase = (args: any) => {
                     />
                 </div>
             </div>
+
             <h2>Virtualized</h2>
+
             <Flex gap={10}>
                 <div>
                     Extra long values. DEFAULT.
@@ -150,6 +155,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
                     </div>
                 </div>
             </Flex>
+
             <Flex gap={10}>
                 <div>
                     Extra long values. FIT. Virtualized
@@ -177,7 +183,9 @@ export const SelectPopupWidthShowcase = (args: any) => {
                     </div>
                 </div>
             </Flex>
+
             <h2>Multi</h2>
+
             <div>
                 <div>Keep popup width while picking</div>
                 <Select multiple {...args} options={short} title="Sample select" />

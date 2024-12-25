@@ -32,15 +32,14 @@ LANDING_BLOCK-->
 
 `ClipboardButton` properties are inherited from `Button` [properties](../Button/README.md#properties) except `href`, `component`, `target`, `rel`, `loading`, `children`.
 
-| Name               | Description                                                              |                       Type                        |   Default   |
-| :----------------- | :----------------------------------------------------------------------- | :-----------------------------------------------: | :---------: |
-| hasTooltip         | Disable tooltip. Tooltip won't be shown                                  |                     `boolean`                     |   `true`    |
-| onCopy             | Callback after copy `(text: string, result: boolean) => void`            |                    `Function`                     |             |
-| options            | Copy to clipboard options                                                | [CopyToClipboardOptions](#copytoclipboardoptions) |             |
-| text               | Text to copy                                                             |                     `string`                      |             |
-| timeout            | Time before state bounces back to its normal after the button is clicked |                     `number`                      |   `1000`    |
-| tooltipInitialText | Text shown before copy                                                   |                     `string`                      |  `"Copy"`   |
-| tooltipSuccessText | Text shown after copy                                                    |                     `string`                      | `"Copied!"` |
+| Name               | Description                                                              |    Type    |   Default   |
+| :----------------- | :----------------------------------------------------------------------- | :--------: | :---------: |
+| hasTooltip         | Disable tooltip. Tooltip won't be shown                                  | `boolean`  |   `true`    |
+| onCopy             | Callback after copy `(text: string, result: boolean) => void`            | `Function` |             |
+| text               | Text to copy                                                             |  `string`  |             |
+| timeout            | Time before state bounces back to its normal after the button is clicked |  `number`  |   `1000`    |
+| tooltipInitialText | Text shown before copy                                                   |  `string`  |  `"Copy"`   |
+| tooltipSuccessText | Text shown after copy                                                    |  `string`  | `"Copied!"` |
 
 ### CopyToClipboardOptions
 

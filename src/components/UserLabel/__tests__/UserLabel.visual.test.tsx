@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {UserLabelProps} from '../types';
@@ -16,61 +16,94 @@ import {
 import {TestUserLabel, TestUserLabelWithEmail, TestUserLabelWithPerson} from './helpers';
 
 test.describe('UserLabel', {tag: '@UserLabel'}, () => {
-    createSmokeScenarios<Partial<UserLabelProps>>(
-        {},
-        {
-            size: sizeCases,
-            view: viewCases,
-            type: typeCases,
-            children: childrenCases,
-            onClick: onClickCases,
-            onCloseClick: onCloseClickCases,
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<TestUserLabel {...props} />);
+    smokeTest('user', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<Partial<UserLabelProps>>(
+            {},
+            {
+                size: sizeCases,
+                view: viewCases,
+                type: typeCases,
+                children: childrenCases,
+                onClick: onClickCases,
+                onCloseClick: onCloseClickCases,
+            },
+        );
 
-            await expectScreenshot();
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestUserLabel {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 
-    createSmokeScenarios<Partial<UserLabelProps>>(
-        {},
-        {
-            size: sizeCases,
-            view: viewCases,
-            children: childrenCases,
-            onClick: onClickCases,
-            onCloseClick: onCloseClickCases,
-        },
-        {
-            scenarioName: 'person',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<TestUserLabelWithPerson {...props} />);
+    smokeTest('person', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<Partial<UserLabelProps>>(
+            {},
+            {
+                size: sizeCases,
+                view: viewCases,
+                children: childrenCases,
+                onClick: onClickCases,
+                onCloseClick: onCloseClickCases,
+            },
+        );
 
-            await expectScreenshot();
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestUserLabelWithPerson {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 
-    createSmokeScenarios<Partial<UserLabelProps>>(
-        {},
-        {
-            size: sizeCases,
-            view: viewCases,
-            children: childrenCases,
-            onClick: onClickCases,
-            onCloseClick: onCloseClickCases,
-        },
-        {
-            scenarioName: 'email',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<TestUserLabelWithEmail {...props} />);
+    smokeTest('email', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<Partial<UserLabelProps>>(
+            {},
+            {
+                size: sizeCases,
+                view: viewCases,
+                children: childrenCases,
+                onClick: onClickCases,
+                onCloseClick: onCloseClickCases,
+            },
+        );
 
-            await expectScreenshot();
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestUserLabelWithEmail {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 });

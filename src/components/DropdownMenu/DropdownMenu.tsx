@@ -64,11 +64,6 @@ export type DropdownMenuProps<T> = {
     disabled?: boolean;
     /**
      * Menu toggle control.
-     * @deprecated Use renderSwitcher instead
-     */
-    switcher?: React.ReactNode;
-    /**
-     * Menu toggle control.
      */
     renderSwitcher?: (props: SwitcherProps) => React.ReactNode;
     switcherWrapperClassName?: string;
@@ -106,7 +101,6 @@ const DropdownMenu = <T,>({
     hideOnScroll = true,
     data,
     disabled,
-    switcher,
     renderSwitcher,
     switcherWrapperClassName,
     defaultSwitcherProps,
@@ -172,12 +166,11 @@ const DropdownMenu = <T,>({
                 className={cnDropdownMenu('switcher-wrapper', switcherWrapperClassName)}
                 {...(renderSwitcher ? {} : switcherProps)}
             >
-                {renderSwitcher?.(switcherProps) || switcher || (
+                {renderSwitcher?.(switcherProps) || (
                     <Button
                         view="flat"
                         size={size}
-                        // FIXME remove switcher prop and uncomment onClick handler
-                        // onClick={handleSwitcherClick}
+                        onClick={handleSwitcherClick}
                         {...defaultSwitcherProps}
                         className={cnDropdownMenu('switcher-button', defaultSwitcherClassName)}
                         disabled={disabled}

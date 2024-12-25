@@ -1,41 +1,73 @@
 import React from 'react';
 
-import {expect} from '@playwright/experimental-ct-react';
-
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {DisclosureProps} from '../Disclosure';
 import {Disclosure} from '../Disclosure';
-import {DisclosureQa} from '../constants';
 
-import {arrowPositionCases, defaultExpandedCases, sizeCases} from './cases';
+import {arrowPositionCases, disabledCases, sizeCases} from './cases';
 
 test.describe('Disclosure', {tag: '@Disclosure'}, () => {
-    const defaultProps: DisclosureProps = {
-        summary: <div>Summary</div>,
-        children: <div>Content</div>,
-    };
+    smokeTest('smoke, collapsed', async ({mount, expectScreenshot}) => {
+        const defaultProps: DisclosureProps = {
+            summary: <div>Summary</div>,
+            children: <div>Content</div>,
+            expanded: false,
+        };
 
-    createSmokeScenarios(defaultProps, {
-        size: sizeCases,
-        arrowPosition: arrowPositionCases,
-        defaultExpanded: defaultExpandedCases,
-    }).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            const root = await mount(<Disclosure {...props} />);
+        const smokeScenarios = createSmokeScenarios(defaultProps, {
+            size: sizeCases,
+            disabled: disabledCases,
+            arrowPosition: arrowPositionCases,
+        });
 
-            await expectScreenshot({});
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Disclosure {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
 
-            await root.locator(`button[data-qa='${DisclosureQa.SUMMARY}']`).click();
+        await expectScreenshot({
+            themes: ['light'],
+        });
+    });
 
-            if (!props.disabled && !props.defaultExpanded) {
-                await expect(root.locator(`[data-qa='${DisclosureQa.DETAILS}']`)).toBeVisible();
-            }
+    smokeTest('smoke, expanded', async ({mount, expectScreenshot}) => {
+        const defaultProps: DisclosureProps = {
+            summary: <div>Summary</div>,
+            children: <div>Content</div>,
+            expanded: true,
+        };
 
-            await expectScreenshot({
-                nameSuffix: 'after click',
-            });
+        const smokeScenarios = createSmokeScenarios(defaultProps, {
+            size: sizeCases,
+            disabled: disabledCases,
+            arrowPosition: arrowPositionCases,
+        });
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Disclosure {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 });

@@ -8,4 +8,4 @@ export const arrowPositionCases: Cases<DisclosureProps['arrowPosition']> = [
     'start',
     'end',
 ];
-export const defaultExpandedCases: Cases<DisclosureProps['defaultExpanded']> = [true];
+export const disabledCases: Cases<DisclosureProps['disabled']> = [true];

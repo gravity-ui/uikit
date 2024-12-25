@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useRef, useState} from 'react';
+import * as React from 'react';
 
 export function useControlledState<T, C = T, Args extends any[] = []>(
     value: Exclude<T, undefined>,
@@ -15,11 +15,11 @@ export function useControlledState<T, C extends T = T, Args extends any[] = []>(
     defaultValue: T,
     onUpdate?: (value: C, ...args: Args) => void,
 ) {
-    const [innerValue, setInnerValue] = useState(value ?? defaultValue);
+    const [innerValue, setInnerValue] = React.useState(value ?? defaultValue);
 
-    const isControlledRef = useRef(value !== undefined);
+    const isControlledRef = React.useRef(value !== undefined);
     const isControlled = value !== undefined;
-    useEffect(() => {
+    React.useEffect(() => {
         const wasControlled = isControlledRef.current;
         if (wasControlled !== isControlled) {
             console.error(
@@ -32,7 +32,7 @@ export function useControlledState<T, C extends T = T, Args extends any[] = []>(
     }, [isControlled]);
 
     let currentValue = isControlled ? value : innerValue;
-    const setState = useCallback(
+    const setState = React.useCallback(
         // We do not use setState callback syntax case because of a side effect
         // that we call `onUpdate` inside the callback function and onUpdate
         // in a controlling component frequently calls setState itself,

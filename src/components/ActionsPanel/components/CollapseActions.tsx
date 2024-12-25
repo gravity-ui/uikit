@@ -1,6 +1,6 @@
 'use client';
 
-import {Fragment} from 'react';
+import * as React from 'react';
 
 import {Ellipsis} from '@gravity-ui/icons';
 
@@ -59,7 +59,7 @@ export const CollapseActions = ({actions, maxRowActions}: Props) => {
                 })}
             </div>
             {showDropdown && (
-                <Fragment>
+                <React.Fragment>
                     <div className={b('menu-placeholder')} />
                     <div className={b('menu-wrapper')} style={{insetInlineStart: offset}}>
                         <DropdownMenu
@@ -79,7 +79,7 @@ export const CollapseActions = ({actions, maxRowActions}: Props) => {
                             )}
                         />
                     </div>
-                </Fragment>
+                </React.Fragment>
             )}
         </div>
     );

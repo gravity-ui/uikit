@@ -1,4 +1,4 @@
-import {Fragment} from 'react';
+import * as React from 'react';
 
 import {ChevronDown} from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react';
@@ -105,7 +105,7 @@ export const Default: Story = {
 
 export const Direction: Story = {
     render: (args) => (
-        <Fragment>
+        <React.Fragment>
             <Showcase>
                 <PlaceholderContainer {...args} direction="row" title={`${args.title}: row`} />
             </Showcase>
@@ -116,7 +116,7 @@ export const Direction: Story = {
                     title={`${args.title}: column`}
                 />
             </Showcase>
-        </Fragment>
+        </React.Fragment>
     ),
     args: {
         ...Default.args,
@@ -126,14 +126,14 @@ export const Direction: Story = {
 
 export const Align: Story = {
     render: (args) => (
-        <Fragment>
+        <React.Fragment>
             <Showcase className={b('full-width')}>
                 <PlaceholderContainer {...args} align="center" title={`${args.title}: center`} />
             </Showcase>
             <Showcase className={b('full-width')}>
                 <PlaceholderContainer {...args} align="left" title={`${args.title}: left`} />
             </Showcase>
-        </Fragment>
+        </React.Fragment>
     ),
     args: {
         ...Default.args,
@@ -143,7 +143,7 @@ export const Align: Story = {
 
 export const Size: Story = {
     render: (args) => (
-        <Fragment>
+        <React.Fragment>
             <Showcase className={b('container')}>
                 <PlaceholderContainer {...args} size="s" title="Size S" />
             </Showcase>
@@ -156,7 +156,7 @@ export const Size: Story = {
             <Showcase className={b('container')}>
                 <PlaceholderContainer {...args} size="promo" title="Size promo" />
             </Showcase>
-        </Fragment>
+        </React.Fragment>
     ),
     args: {
         ...Default.args,
@@ -166,7 +166,7 @@ export const Size: Story = {
 
 export const Actions: Story = {
     render: (args) => (
-        <Fragment>
+        <React.Fragment>
             <Showcase>
                 <PlaceholderContainer
                     {...args}
@@ -181,7 +181,7 @@ export const Actions: Story = {
                     actions={actionComponentTest}
                 />
             </Showcase>
-        </Fragment>
+        </React.Fragment>
     ),
     args: {
         ...Default.args,

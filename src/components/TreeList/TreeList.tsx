@@ -1,6 +1,6 @@
 'use client';
 
-import {useMemo, useRef} from 'react';
+import * as React from 'react';
 
 import {useUniqId} from '../../hooks';
 import {
@@ -32,10 +32,10 @@ export const TreeList = <T, P extends {} = {}>({
 }: TreeListProps<T, P>) => {
     const uniqId = useUniqId();
     const treeListId = id ?? uniqId;
-    const containerRefLocal = useRef<HTMLDivElement>(null);
+    const containerRefLocal = React.useRef<HTMLDivElement>(null);
     const containerRef = propsContainerRef ?? containerRefLocal;
 
-    const onItemClick = useMemo(() => {
+    const onItemClick = React.useMemo(() => {
         if (propsOnItemClick === null) {
             return undefined;
         }

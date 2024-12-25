@@ -1,4 +1,4 @@
-import {Fragment} from 'react';
+import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
@@ -15,11 +15,11 @@ describe('Select renderPopup', () => {
             filterable: true,
             renderPopup: ({renderFilter, renderList}) => {
                 return (
-                    <Fragment>
+                    <React.Fragment>
                         {renderFilter()}
                         <div data-qa={QA} />
                         {renderList()}
-                    </Fragment>
+                    </React.Fragment>
                 );
             },
         });

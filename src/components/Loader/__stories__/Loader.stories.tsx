@@ -1,4 +1,4 @@
-import {Fragment} from 'react';
+import * as React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
@@ -15,13 +15,13 @@ export const Default = DefaultTemplate.bind({});
 
 const SizeTemplate: StoryFn<LoaderProps> = (args) => {
     return (
-        <Fragment>
+        <React.Fragment>
             <Loader {...args} size="s" />
             <span style={{margin: '16px'}} />
             <Loader {...args} size="m" />
             <span style={{margin: '16px'}} />
             <Loader {...args} size="l" />
-        </Fragment>
+        </React.Fragment>
     );
 };
 

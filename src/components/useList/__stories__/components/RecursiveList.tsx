@@ -1,4 +1,4 @@
-import {useMemo, useRef} from 'react';
+import * as React from 'react';
 
 import {TextInput} from '../../../controls';
 import {Flex} from '../../../layout';
@@ -19,9 +19,9 @@ export interface RecursiveListProps {
 }
 
 export const RecursiveList = ({size, itemsCount, 'aria-label': ariaLabel}: RecursiveListProps) => {
-    const containerRef = useRef(null);
+    const containerRef = React.useRef(null);
 
-    const items = useMemo(
+    const items = React.useMemo(
         () => createRandomizedData<{title: string}>({num: itemsCount}),
         [itemsCount],
     );

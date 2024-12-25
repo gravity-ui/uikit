@@ -1,4 +1,4 @@
-import {useMemo, useRef} from 'react';
+import * as React from 'react';
 
 import get from 'lodash/get';
 
@@ -23,8 +23,8 @@ export interface FlattenListProps {
 }
 
 export const FlattenList = ({itemsCount, size}: FlattenListProps) => {
-    const containerRef = useRef(null);
-    const items = useMemo(
+    const containerRef = React.useRef(null);
+    const items = React.useMemo(
         () => createRandomizedData<{title: string}>({num: itemsCount}),
         [itemsCount],
     );

@@ -1,6 +1,6 @@
-import {createContext} from 'react';
+import * as React from 'react';
 
 import type {ToasterContextMethods} from '../types';
 
-export const ToasterContext = createContext<ToasterContextMethods | null>(null);
+export const ToasterContext = React.createContext<ToasterContextMethods | null>(null);
 ToasterContext.displayName = 'ToasterContext';

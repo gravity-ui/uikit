@@ -1,4 +1,4 @@
-import {useMemo} from 'react';
+import * as React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
@@ -49,7 +49,7 @@ const DefaultTemplate: StoryFn<
         itemsCount?: number;
     }
 > = ({itemsCount = 5, ...props}) => {
-    const items = useMemo(() => createRandomizedData({num: itemsCount}), [itemsCount]);
+    const items = React.useMemo(() => createRandomizedData({num: itemsCount}), [itemsCount]);
 
     return (
         <Flex>

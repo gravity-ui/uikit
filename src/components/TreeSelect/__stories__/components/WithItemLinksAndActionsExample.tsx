@@ -1,4 +1,4 @@
-import {useMemo, useState} from 'react';
+import * as React from 'react';
 
 import {FolderOpen} from '@gravity-ui/icons';
 
@@ -28,9 +28,9 @@ export interface WithItemLinksAndActionsExampleProps
     > {}
 
 export const WithItemLinksAndActionsExample = (storyProps: WithItemLinksAndActionsExampleProps) => {
-    const [value, setValue] = useState<string[]>([]);
-    const [open, setOpen] = useState(true);
-    const items = useMemo(() => createRandomizedData({num: 10, depth: 1}), []);
+    const [value, setValue] = React.useState<string[]>([]);
+    const [open, setOpen] = React.useState(true);
+    const items = React.useMemo(() => createRandomizedData({num: 10, depth: 1}), []);
 
     const onItemClick = (id: ListItemId, list: UseListResult<{title: string}>) => {
         if (list.state.disabledById[id]) return;

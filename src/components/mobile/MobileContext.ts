@@ -1,4 +1,4 @@
-import {createContext} from 'react';
+import * as React from 'react';
 
 import {Platform} from './constants';
 
@@ -28,4 +28,4 @@ const initialValue: MobileContextProps = {
     useLocation: () => ({pathname: '', search: '', hash: ''}),
 };
 
-export const MobileContext = createContext(initialValue);
+export const MobileContext = React.createContext(initialValue);

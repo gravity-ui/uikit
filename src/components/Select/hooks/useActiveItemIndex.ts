@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import * as React from 'react';
 
 import type {FlattenOption} from '../utils';
 
@@ -11,13 +11,13 @@ export function useActiveItemIndex({
     open: boolean;
     value: string[];
 }) {
-    const [activeIndex, setActiveIndex] = useState<number | undefined>(() => {
+    const [activeIndex, setActiveIndex] = React.useState<number | undefined>(() => {
         if (open) {
             return getInitialActiveItemIndex(options, value);
         }
         return undefined;
     });
-    const [prevOpen, setPrevOpen] = useState(open);
+    const [prevOpen, setPrevOpen] = React.useState(open);
     if (prevOpen !== open) {
         setPrevOpen(open);
         if (open) {

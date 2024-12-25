@@ -1,4 +1,4 @@
-import {useEffect, useRef} from 'react';
+import * as React from 'react';
 
 import {KeyCode} from '../../../constants';
 import {useBoolean} from '../useBoolean';
@@ -17,10 +17,10 @@ export const useTooltipVisible = (
     }: TooltipDelayProps & {preventTriggerOnFocus?: boolean},
 ) => {
     const [tooltipVisible, showTooltip, hideTooltip] = useBoolean(false);
-    const timeoutRef = useRef<number>();
-    const isFocusWithinRef = useRef(false);
+    const timeoutRef = React.useRef<number>();
+    const isFocusWithinRef = React.useRef(false);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (!anchor) {
             return undefined;
         }

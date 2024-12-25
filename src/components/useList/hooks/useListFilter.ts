@@ -1,4 +1,4 @@
-import {useCallback, useMemo, useRef, useState} from 'react';
+import * as React from 'react';
 
 import debounce from 'lodash/debounce';
 
@@ -44,12 +44,12 @@ export function useListFilter<T>({
     filterItems,
     debounceTimeout = 300,
 }: UseListFilterProps<T>) {
-    const filterRef = useRef<HTMLInputElement>(null);
-    const [filter, setFilter] = useState(initialFilterValue);
-    const [prevItems, setPrevItems] = useState(externalItems);
-    const [filteredItems, setFilteredItems] = useState(externalItems);
+    const filterRef = React.useRef<HTMLInputElement>(null);
+    const [filter, setFilter] = React.useState(initialFilterValue);
+    const [prevItems, setPrevItems] = React.useState(externalItems);
+    const [filteredItems, setFilteredItems] = React.useState(externalItems);
 
-    const filterItemsFn = useCallback(
+    const filterItemsFn = React.useCallback(
         (nextFilterValue: string, items: ListItemType<T>[]) => {
             if (filterItems) {
                 return () => filterItems(nextFilterValue, items);
@@ -72,12 +72,12 @@ export function useListFilter<T>({
         setPrevItems(externalItems);
     }
 
-    const debouncedFn = useCallback(
+    const debouncedFn = React.useCallback(
         debounce((value) => setFilteredItems(filterItemsFn(value, externalItems)), debounceTimeout),
         [setFilteredItems, filterItemsFn, externalItems, debounceTimeout],
     );
 
-    const {onFilterUpdate, reset} = useMemo(() => {
+    const {onFilterUpdate, reset} = React.useMemo(() => {
         return {
             reset: () => {
                 setFilter(initialFilterValue);

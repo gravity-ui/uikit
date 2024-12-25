@@ -1,4 +1,4 @@
-import {useRef} from 'react';
+import * as React from 'react';
 
 import type {Meta, StoryObj} from '@storybook/react';
 
@@ -105,7 +105,7 @@ export const WordBreak: Story = {
 };
 
 const LabelWithControlledFocusStory = () => {
-    const ref = useRef<HTMLLabelElement>(null); // don't delete this ref - needed to check correct react html type inshurance
+    const ref = React.useRef<HTMLLabelElement>(null); // don't delete this ref - needed to check correct react html type inshurance
     const id = 'some-id';
 
     return (

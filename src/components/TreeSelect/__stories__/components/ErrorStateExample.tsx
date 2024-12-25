@@ -1,4 +1,4 @@
-import {useRef} from 'react';
+import * as React from 'react';
 
 import {Flex} from '../../../layout';
 import type {ListItemType} from '../../../useList';
@@ -14,7 +14,7 @@ const items: ListItemType<Entity>[] = ['one', 'two', 'free'];
 const errorMessage = 'A validation error has occurred';
 
 export const ErrorStateExample = ({...props}: ErrorStateExampleProps) => {
-    const containerRef = useRef<HTMLDivElement>(null);
+    const containerRef = React.useRef<HTMLDivElement>(null);
 
     return (
         <Flex gap="5">

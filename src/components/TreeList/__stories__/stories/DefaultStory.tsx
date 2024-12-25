@@ -1,4 +1,4 @@
-import {useMemo} from 'react';
+import * as React from 'react';
 
 import {Text} from '../../../Text';
 import {Flex} from '../../../layout';
@@ -17,7 +17,7 @@ export interface DefaultStoryProps
 }
 
 export const DefaultStory = ({itemsCount = 5, ...props}: DefaultStoryProps) => {
-    const items = useMemo(() => createRandomizedData({num: itemsCount}), [itemsCount]);
+    const items = React.useMemo(() => createRandomizedData({num: itemsCount}), [itemsCount]);
 
     const listWithGroups = useList({items});
 

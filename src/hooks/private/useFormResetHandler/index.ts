@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useRef, useState} from 'react';
+import * as React from 'react';
 
 export function useFormResetHandler<T>({
     initialValue,
@@ -7,11 +7,11 @@ export function useFormResetHandler<T>({
     initialValue: T;
     onReset: (value: T) => void;
 }) {
-    const [formElement, setFormElement] = useState<HTMLFormElement | null>(null);
+    const [formElement, setFormElement] = React.useState<HTMLFormElement | null>(null);
 
-    const resetValue = useRef(initialValue);
+    const resetValue = React.useRef(initialValue);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (!formElement) {
             return undefined;
         }
@@ -26,7 +26,7 @@ export function useFormResetHandler<T>({
         };
     }, [formElement, onReset]);
 
-    const ref = useCallback(
+    const ref = React.useCallback(
         (node: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null) => {
             setFormElement(node?.form ?? null);
         },

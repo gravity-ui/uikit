@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import * as React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
@@ -30,7 +30,7 @@ export default {
 } as Meta;
 
 const DefaultTemplate: StoryFn<TocProps> = (args) => {
-    const [active, setActive] = useState('control');
+    const [active, setActive] = React.useState('control');
 
     return <Toc {...args} value={active} onUpdate={(value: string) => setActive(value)} />;
 };
@@ -69,7 +69,7 @@ Default.args = {
 };
 
 const WithLinksTemplate: StoryFn<TocProps> = (args) => {
-    const [active, setActive] = useState('control');
+    const [active, setActive] = React.useState('control');
 
     return <Toc {...args} value={active} onUpdate={(value: string) => setActive(value)} />;
 };

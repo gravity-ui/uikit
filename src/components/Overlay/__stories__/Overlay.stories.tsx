@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import * as React from 'react';
 
 import {ArrowsRotateRight} from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react';
@@ -91,8 +91,8 @@ export const Background: Story = {
 };
 
 const TableView = (args: OverlayProps) => {
-    const [loading, setLoading] = useState(false);
-    const [loadedData, setData] = useState<DataItem[]>([]);
+    const [loading, setLoading] = React.useState(false);
+    const [loadedData, setData] = React.useState<DataItem[]>([]);
 
     return (
         <div className={b()}>

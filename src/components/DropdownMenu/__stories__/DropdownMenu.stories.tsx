@@ -1,4 +1,4 @@
-import {useMemo, useState} from 'react';
+import * as React from 'react';
 
 import {Bars} from '@gravity-ui/icons';
 import type {Meta, StoryFn} from '@storybook/react';
@@ -132,11 +132,11 @@ TextSwitcher.storyName = 'Overwritten switcher';
 const LabelSwitcherTemplate: StoryFn<{statuses: {text: string; style: LabelProps['theme']}[]}> = (
     args,
 ) => {
-    const [status, setStatus] = useState<{text: string; style: LabelProps['theme']}>(
+    const [status, setStatus] = React.useState<{text: string; style: LabelProps['theme']}>(
         args.statuses[0],
     );
 
-    const items = useMemo<DropdownMenuItem<unknown>[]>(() => {
+    const items = React.useMemo<DropdownMenuItem<unknown>[]>(() => {
         return args.statuses.map((item) => ({
             action: () => setStatus(item),
             text: item.text,

@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import * as React from 'react';
 
 import {DocsExample} from '../../../../demo/DocsExample/DocsExample';
 import {Button} from '../../../Button';
@@ -44,7 +44,7 @@ ArrowToggleExampleViewSize.code = `
 `.trim();
 
 export function ArrowToggleExampleViewInteractive() {
-    const [directionIndex, setDirectionIndex] = useState(0);
+    const [directionIndex, setDirectionIndex] = React.useState(0);
     const directions = ['top', 'left', 'bottom', 'right'] as Array<ArrowToggleProps['direction']>;
     const direction = directions[directionIndex % directions.length];
 

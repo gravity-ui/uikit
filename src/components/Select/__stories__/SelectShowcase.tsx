@@ -1,4 +1,4 @@
-import {Fragment, useEffect, useId, useState} from 'react';
+import * as React from 'react';
 
 import {Plus, TrashBin} from '@gravity-ui/icons';
 import range from 'lodash/range';
@@ -61,10 +61,10 @@ const ExampleItem = (props: {
 }) => {
     const {title, selectProps, children, code = [], id} = props;
     const multiple = props.selectProps.multiple;
-    const [mode, setMode] = useState(Mode.VIEW);
-    const [value, setValue] = useState<string[]>([]);
+    const [mode, setMode] = React.useState(Mode.VIEW);
+    const [value, setValue] = React.useState<string[]>([]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (!multiple) {
             setValue([]);
         }
@@ -99,7 +99,7 @@ const ExampleItem = (props: {
             ) : (
                 code.map((codeItem, i) => {
                     return (
-                        <Fragment key={`${title}-${i}`}>
+                        <React.Fragment key={`${title}-${i}`}>
                             <pre dir="ltr">
                                 {codeItem}
                                 <ClipboardButton
@@ -108,7 +108,7 @@ const ExampleItem = (props: {
                                     text={codeItem}
                                 />
                             </pre>
-                        </Fragment>
+                        </React.Fragment>
                     );
                 })
             )}
@@ -117,8 +117,8 @@ const ExampleItem = (props: {
 };
 
 export const SelectShowcase = (props: SelectProps) => {
-    const [matchCase, setMatchCase] = useState(false);
-    const [matchWholeWord, setMatchWholeWord] = useState(false);
+    const [matchCase, setMatchCase] = React.useState(false);
+    const [matchWholeWord, setMatchWholeWord] = React.useState(false);
 
     const renderFilter: SelectProps['renderFilter'] = ({
         ref,
@@ -163,7 +163,7 @@ export const SelectShowcase = (props: SelectProps) => {
         return undefined;
     };
 
-    const idLocal = useId();
+    const idLocal = React.useId();
     const id = props.id || idLocal;
 
     return (
@@ -410,13 +410,13 @@ export const SelectShowcase = (props: SelectProps) => {
                     filterable: true,
                     renderPopup: ({renderFilter, renderList}) => {
                         return (
-                            <Fragment>
+                            <React.Fragment>
                                 <div>{'---- Before Filter ----'}</div>
                                 {renderFilter()}
                                 <div>{'---- After Filter, Before List ----'}</div>
                                 {renderList()}
                                 <div>{'---- After List ----'}</div>
-                            </Fragment>
+                            </React.Fragment>
                         );
                     },
                 }}
@@ -427,7 +427,6 @@ export const SelectShowcase = (props: SelectProps) => {
                 <Select.Option value="val3" content="Value3" />
                 <Select.Option value="val4" content="Value4" />
             </ExampleItem>
-
             <div>
                 <h2>Select (with text error)</h2>
 

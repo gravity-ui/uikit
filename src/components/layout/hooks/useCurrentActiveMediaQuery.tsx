@@ -1,5 +1,5 @@
 /* eslint-disable valid-jsdoc */
-import {useLayoutEffect, useState} from 'react';
+import * as React from 'react';
 
 import type {MediaProps, MediaType} from '../types';
 
@@ -78,9 +78,9 @@ export const useCurrentActiveMediaQuery = (
     breakpointsMap: MediaProps<number>,
     initialMediaQuery: MediaType = 's',
 ) => {
-    const [state, _setState] = useState<MediaType>(initialMediaQuery);
+    const [state, _setState] = React.useState<MediaType>(initialMediaQuery);
 
-    useLayoutEffect(() => {
+    React.useLayoutEffect(() => {
         const queries = new Queries(breakpointsMap);
 
         const setState = () => {

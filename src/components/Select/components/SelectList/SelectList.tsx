@@ -1,6 +1,6 @@
 'use client';
 
-import {forwardRef, useCallback, useMemo} from 'react';
+import * as React from 'react';
 
 import {List} from '../../../List';
 import {SelectQa, selectListBlock} from '../../constants';
@@ -35,7 +35,7 @@ type SelectListProps = {
 
 const loadingOption = {value: '__SELECT_LIST_ITEM_LOADING__', disabled: true};
 
-export const SelectList = forwardRef<List<FlattenOption>, SelectListProps>((props, ref) => {
+export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>((props, ref) => {
     const {
         onOptionClick,
         renderOption,
@@ -54,12 +54,12 @@ export const SelectList = forwardRef<List<FlattenOption>, SelectListProps>((prop
         activeIndex,
         onChangeActive,
     } = props;
-    const items = useMemo(
+    const items = React.useMemo(
         () => (loading ? [...flattenOptions, loadingOption] : flattenOptions),
         [flattenOptions, loading],
     );
 
-    const selectedIndexes = useMemo(
+    const selectedIndexes = React.useMemo(
         () =>
             flattenOptions.reduce<number[]>((acc, option, index) => {
                 if ('value' in option && value.includes(option.value)) {
@@ -78,7 +78,7 @@ export const SelectList = forwardRef<List<FlattenOption>, SelectListProps>((prop
         mobile,
     });
 
-    const getItemHeight = useCallback(
+    const getItemHeight = React.useCallback(
         (option: FlattenOption, index: number) => {
             return getPopupItemHeight({
                 getOptionHeight,
@@ -92,7 +92,7 @@ export const SelectList = forwardRef<List<FlattenOption>, SelectListProps>((prop
         [getOptionHeight, getOptionGroupHeight, mobile, size],
     );
 
-    const renderItem = useCallback(
+    const renderItem = React.useCallback(
         (option: FlattenOption, _isItemActive: boolean, itemIndex: number) => {
             if ('label' in option) {
                 const wrappedRenderOptionGroup = renderOptionGroup

@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import * as React from 'react';
 
 import {ArrowShapeUpToLine} from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react';
@@ -40,7 +40,7 @@ export default {
 type Story = StoryObj<typeof NumberInput>;
 
 function StoryWithState(args: NumberInputProps) {
-    const [value, setValue] = useState(args.value ?? args.defaultValue ?? null);
+    const [value, setValue] = React.useState(args.value ?? args.defaultValue ?? null);
     return <NumberInput {...args} value={value} onUpdate={setValue} />;
 }
 

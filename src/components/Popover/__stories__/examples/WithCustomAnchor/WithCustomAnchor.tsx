@@ -1,4 +1,4 @@
-import {useRef, useState} from 'react';
+import * as React from 'react';
 
 import {Popover} from '../../../';
 import {Button} from '../../../../Button';
@@ -7,10 +7,10 @@ import type {PopoverInstanceProps} from '../../../types';
 import {cnPopoverDemo} from '../../PopoverDemo.classname';
 
 export function WithCustomAnchor() {
-    const [isRefTooltipVisible, setIsRefTooltipVisible] = useState(false);
+    const [isRefTooltipVisible, setIsRefTooltipVisible] = React.useState(false);
 
-    const popoverRef = useRef<PopoverInstanceProps>(null);
-    const popoverAnchor = useRef<HTMLDivElement>(null);
+    const popoverRef = React.useRef<PopoverInstanceProps>(null);
+    const popoverAnchor = React.useRef<HTMLDivElement>(null);
 
     const toggleTooltip = () => {
         const instance = popoverRef.current;

@@ -1,4 +1,4 @@
-import {createContext} from 'react';
+import * as React from 'react';
 
 import {DEFAULT_LAYOUT_THEME} from '../constants';
 import type {LayoutTheme, MediaType} from '../types';
@@ -8,7 +8,7 @@ interface LayoutContextProps {
     activeMediaQuery: MediaType;
 }
 
-export const LayoutContext = createContext<LayoutContextProps>({
+export const LayoutContext = React.createContext<LayoutContextProps>({
     theme: DEFAULT_LAYOUT_THEME,
     activeMediaQuery: 's',
 });

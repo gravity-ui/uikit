@@ -1,4 +1,4 @@
-import {forwardRef} from 'react';
+import * as React from 'react';
 
 import {DEFAULT_AVATAR_SIZE} from '../Avatar';
 import {block} from '../utils/cn';
@@ -11,7 +11,7 @@ const b = block('avatar-stack');
 /**
  * Badge for displaying count of remaining avatars
  */
-export const AvatarStackMore = forwardRef<HTMLDivElement, AvatarStackMoreProps>(
+export const AvatarStackMore = React.forwardRef<HTMLDivElement, AvatarStackMoreProps>(
     (
         {
             className,

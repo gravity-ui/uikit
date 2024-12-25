@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from 'react';
+import * as React from 'react';
 
 import {QUICK_SEARCH_TIMEOUT} from '../constants';
 import {getNextQuickSearch} from '../utils';
@@ -11,10 +11,10 @@ type UseQuickSearchProps = {
 
 export const useQuickSearch = (props: UseQuickSearchProps) => {
     const {onChange, open, disabled} = props;
-    const [search, setSearch] = useState('');
-    const [timer, setTimer] = useState<number | undefined>();
+    const [search, setSearch] = React.useState('');
+    const [timer, setTimer] = React.useState<number | undefined>();
 
-    const handleTimer = useCallback(
+    const handleTimer = React.useCallback(
         (nextSearch: string) => {
             clearTimeout(timer);
 
@@ -26,7 +26,7 @@ export const useQuickSearch = (props: UseQuickSearchProps) => {
         [timer],
     );
 
-    const handleSearch = useCallback(
+    const handleSearch = React.useCallback(
         (e: KeyboardEvent) => {
             e.stopPropagation();
 
@@ -40,7 +40,7 @@ export const useQuickSearch = (props: UseQuickSearchProps) => {
         [handleTimer, search],
     );
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (open && !disabled) {
             document.addEventListener('keydown', handleSearch);
         } else if (!open && !disabled) {
@@ -54,7 +54,7 @@ export const useQuickSearch = (props: UseQuickSearchProps) => {
         };
     }, [handleSearch, open, disabled]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (!open) {
             clearTimeout(timer);
         }
@@ -62,7 +62,7 @@ export const useQuickSearch = (props: UseQuickSearchProps) => {
         return () => clearTimeout(timer);
     }, [open, timer]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         onChange(search);
     }, [onChange, search]);
 };

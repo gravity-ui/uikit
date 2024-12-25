@@ -1,13 +1,13 @@
 'use client';
 
-import {useRef} from 'react';
+import * as React from 'react';
 
 import {useIntersection} from '../../../../hooks';
 import {Loader} from '../../../Loader/Loader';
 import {selectListBlock} from '../../constants';
 
 export const SelectLoadingIndicator = (props: {onIntersect?: () => void}) => {
-    const ref = useRef<HTMLDivElement | null>(null);
+    const ref = React.useRef<HTMLDivElement | null>(null);
 
     useIntersection({element: ref.current, onIntersect: props?.onIntersect});
 

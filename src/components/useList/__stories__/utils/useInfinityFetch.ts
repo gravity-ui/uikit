@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from 'react';
+import * as React from 'react';
 
 import type {ListItemType} from '../../types';
 
@@ -22,11 +22,11 @@ function fetchData<T>({
 }
 
 export function useInfinityFetch<T>(itemsCount = 10, withChildren = false) {
-    const [data, setData] = useState<ListItemType<T>[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [canFetchMore, setCanFetchMore] = useState(true);
+    const [data, setData] = React.useState<ListItemType<T>[]>([]);
+    const [isLoading, setIsLoading] = React.useState(false);
+    const [canFetchMore, setCanFetchMore] = React.useState(true);
 
-    const onFetchMore = useCallback(async () => {
+    const onFetchMore = React.useCallback(async () => {
         setIsLoading(true);
         setCanFetchMore(false);
 
@@ -39,7 +39,7 @@ export function useInfinityFetch<T>(itemsCount = 10, withChildren = false) {
         }
     }, [itemsCount, withChildren]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         onFetchMore();
 
         // Just fetch on first render

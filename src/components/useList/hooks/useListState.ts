@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import {useRef, useState} from 'react';
+import * as React from 'react';
 
 import type {ListState} from '../types';
 
@@ -12,14 +12,14 @@ export interface UseListStateProps {
 }
 
 export const useListState = ({initialState, withExpandedState}: UseListStateProps): ListState => {
-    const initialStateRef = useRef(initialState);
+    const initialStateRef = React.useRef(initialState);
     const needToUpdateInitValues = initialStateRef.current !== initialState;
     initialStateRef.current = initialState;
 
-    const [disabledById, setDisabled] = useState(() => initialState?.disabledById ?? {});
-    const [selectedById, setSelected] = useState(() => initialState?.selectedById ?? {});
-    const [expandedById, setExpanded] = useState(() => initialState?.expandedById ?? {});
-    const [activeItemId, setActiveItemId] = useState(() => initialState?.activeItemId);
+    const [disabledById, setDisabled] = React.useState(() => initialState?.disabledById ?? {});
+    const [selectedById, setSelected] = React.useState(() => initialState?.selectedById ?? {});
+    const [expandedById, setExpanded] = React.useState(() => initialState?.expandedById ?? {});
+    const [activeItemId, setActiveItemId] = React.useState(() => initialState?.activeItemId);
 
     if (needToUpdateInitValues) {
         if (initialState?.disabledById) {

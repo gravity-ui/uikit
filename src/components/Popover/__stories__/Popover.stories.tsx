@@ -1,4 +1,4 @@
-import {useRef, useState} from 'react';
+import * as React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
@@ -207,8 +207,8 @@ const tooltipId = 'tooltipId';
 const popoverId = 'popoverId';
 
 const AccessibleTemplate: StoryFn<PopoverProps> = () => {
-    const [openPopover, setOpenPopover] = useState(false);
-    const ref = useRef<HTMLButtonElement>(null);
+    const [openPopover, setOpenPopover] = React.useState(false);
+    const ref = React.useRef<HTMLButtonElement>(null);
 
     return (
         <div className={cnPopoverDemo('variants')}>

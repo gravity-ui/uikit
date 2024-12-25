@@ -1,7 +1,7 @@
-import {useContext} from 'react';
+import * as React from 'react';
 
 import {ToasterContext} from '../Provider/ToasterContext';
 
 export function useInToasterContext() {
-    return useContext(ToasterContext) !== null;
+    return React.useContext(ToasterContext) !== null;
 }

@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import * as React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
@@ -17,8 +17,8 @@ export default {
 } as Meta;
 
 export const MultipleSheets: StoryFn<SheetProps> = (args: SheetProps) => {
-    const [visible, setVisible] = useState(false);
-    const [moreContentVisible, setMoreContentVisible] = useState(false);
+    const [visible, setVisible] = React.useState(false);
+    const [moreContentVisible, setMoreContentVisible] = React.useState(false);
 
     return (
         <div className={b()}>

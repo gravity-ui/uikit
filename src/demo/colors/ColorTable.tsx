@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import * as React from 'react';
 
 import {Ban} from '@gravity-ui/icons';
 import ReactCopyToClipboard from 'react-copy-to-clipboard';
@@ -44,9 +44,9 @@ function isVarExist(varName: string, style?: CSSStyleDeclaration) {
 }
 
 export function ColorTable({theme}: ColorTableProps) {
-    const [bodyStyle, setBodyStyle] = useState<CSSStyleDeclaration>();
+    const [bodyStyle, setBodyStyle] = React.useState<CSSStyleDeclaration>();
 
-    useEffect(() => {
+    React.useEffect(() => {
         setBodyStyle(window.getComputedStyle(document.body));
     }, [theme]);
 

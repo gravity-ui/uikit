@@ -1,6 +1,6 @@
 'use client';
 
-import {useCallback, useEffect, useRef, useState} from 'react';
+import * as React from 'react';
 
 import {useDirection} from '../../../theme';
 
@@ -11,11 +11,11 @@ const GAP = 4;
 
 export const useObserveIntersection = (updateObserveKey: string) => {
     const direction = useDirection();
-    const parentRef = useRef<HTMLDivElement>(null);
-    const [visibilityMap, setVisibilityMap] = useState<VisibilityMap>({});
-    const [offset, setOffset] = useState(0);
+    const parentRef = React.useRef<HTMLDivElement>(null);
+    const [visibilityMap, setVisibilityMap] = React.useState<VisibilityMap>({});
+    const [offset, setOffset] = React.useState(0);
 
-    const handleIntersection = useCallback(
+    const handleIntersection = React.useCallback(
         (entries: IntersectionObserverEntry[]) => {
             const updatedEntries: VisibilityMap = {};
             let newOffest = 0;
@@ -63,7 +63,7 @@ export const useObserveIntersection = (updateObserveKey: string) => {
         [direction],
     );
 
-    useEffect(() => {
+    React.useEffect(() => {
         setVisibilityMap({});
 
         const observer = new IntersectionObserver(handleIntersection, {

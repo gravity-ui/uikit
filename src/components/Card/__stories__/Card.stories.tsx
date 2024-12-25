@@ -1,4 +1,4 @@
-import {Fragment} from 'react';
+import * as React from 'react';
 
 import {action} from '@storybook/addon-actions';
 import type {Meta, StoryObj} from '@storybook/react';
@@ -152,7 +152,7 @@ export const Custom: Story = {
         ...Default.args,
     },
     render: (args) => (
-        <Fragment>
+        <React.Fragment>
             <style>
                 {`.g-root {
                     --g-card-background-color: #f08080;
@@ -163,6 +163,6 @@ export const Custom: Story = {
                 }`}
             </style>
             <Card {...args}>Custom styles</Card>
-        </Fragment>
+        </React.Fragment>
     ),
 };

@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import * as React from 'react';
 
 import {Grip} from '@gravity-ui/icons';
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
@@ -48,7 +48,7 @@ const randomItems: CustomDataType[] = createRandomizedData({
 }).map(({data}, idx) => ({someRandomKey: data, id: String(idx)}));
 
 export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
-    const [items, setItems] = useState(randomItems);
+    const [items, setItems] = React.useState(randomItems);
 
     const renderContainer: TreeSelectRenderContainer<CustomDataType> = ({
         renderItem,

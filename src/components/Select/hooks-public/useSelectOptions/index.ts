@@ -1,4 +1,4 @@
-import {useMemo} from 'react';
+import * as React from 'react';
 
 import get from 'lodash/get';
 
@@ -49,12 +49,12 @@ export function getSelectFilteredOptions<T>(options: SelectOptions<T>): SelectOp
 
 export function useSelectOptions<T extends any>(props: UseSelectOptionsProps<T>): SelectOptions<T> {
     const {filter = '', filterable, filterOption} = props;
-    const options = useMemo(() => {
+    const options = React.useMemo(() => {
         return isFlattenOptions(props.options)
             ? props.options
             : (getFlattenOptions(props.options) as FlattenOptions);
     }, [props.options]);
-    const filteredOptions = useMemo(() => {
+    const filteredOptions = React.useMemo(() => {
         return filterable ? getFilteredFlattenOptions({options, filter, filterOption}) : options;
     }, [filter, filterable, filterOption, options]);
     options[FLATTEN_KEY]['filteredOptions'] = filteredOptions;

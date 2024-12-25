@@ -1,4 +1,4 @@
-import {createRef} from 'react';
+import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
@@ -134,7 +134,7 @@ describe('Toc', () => {
 
     test('use passed ref for component', () => {
         const onUpdateFn = jest.fn();
-        const ref = createRef<HTMLDivElement>();
+        const ref = React.createRef<HTMLDivElement>();
 
         render(
             <Toc

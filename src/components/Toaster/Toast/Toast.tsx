@@ -1,6 +1,6 @@
 'use client';
 
-import {forwardRef, useCallback} from 'react';
+import * as React from 'react';
 
 import {CircleCheck, CircleInfo, Thunderbolt, TriangleExclamation, Xmark} from '@gravity-ui/icons';
 
@@ -82,7 +82,7 @@ function renderIconByType({theme}: RenderIconProps) {
     return <Icon data={TITLE_ICONS[theme]!} size={20} className={b('icon', {[theme]: true})} />;
 }
 
-export const Toast = forwardRef<HTMLDivElement, ToastUnitedProps>(function Toast(props, ref) {
+export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function Toast(props, ref) {
     const {
         name,
         content,
@@ -98,7 +98,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastUnitedProps>(function Toast
         removeCallback,
     } = props;
 
-    const handleClose = useCallback(() => {
+    const handleClose = React.useCallback(() => {
         removeCallback(name);
 
         if (onClose) {

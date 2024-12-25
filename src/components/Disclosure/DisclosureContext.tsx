@@ -1,6 +1,6 @@
 'use client';
 
-import {createContext, useContext, useState} from 'react';
+import * as React from 'react';
 
 import {useUniqId} from '../../hooks';
 
@@ -11,7 +11,7 @@ interface DisclosureProviderProps
     expanded: DisclosureProps['expanded'];
 }
 
-export const DisclosureAttributesContext = createContext<
+export const DisclosureAttributesContext = React.createContext<
     | (Required<
           Omit<DisclosureProps, 'defaultExpanded' | 'className' | 'children' | 'onUpdate' | 'qa'>
       > & {
@@ -21,7 +21,7 @@ export const DisclosureAttributesContext = createContext<
       })
     | undefined
 >(undefined);
-export const DisclosureToggleContext = createContext<
+export const DisclosureToggleContext = React.createContext<
     ((e: React.SyntheticEvent) => void) | undefined
 >(undefined);
 
@@ -36,7 +36,7 @@ export function DisclosureProvider(props: DisclosureProviderProps) {
         onUpdate,
         expanded: controlledExpanded,
     } = props;
-    const [expanded, setExpanded] = useState(() => Boolean(defaultExpanded));
+    const [expanded, setExpanded] = React.useState(() => Boolean(defaultExpanded));
     const controlledMode = controlledExpanded !== undefined;
 
     const handleToggle = () => {
@@ -69,7 +69,7 @@ export function DisclosureProvider(props: DisclosureProviderProps) {
 }
 
 export function useDisclosureAttributes() {
-    const state = useContext(DisclosureAttributesContext);
+    const state = React.useContext(DisclosureAttributesContext);
 
     if (state === undefined) {
         throw new Error('useDisclosureAttributes must be used within DisclosureProvider');
@@ -79,7 +79,7 @@ export function useDisclosureAttributes() {
 }
 
 export function useToggleDisclosure() {
-    const state = useContext(DisclosureToggleContext);
+    const state = React.useContext(DisclosureToggleContext);
 
     if (state === undefined) {
         throw new Error('useToggleDisclosure must be used within DisclosureProvider');

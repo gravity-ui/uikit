@@ -1,4 +1,4 @@
-import {Fragment, useState} from 'react';
+import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
@@ -63,10 +63,10 @@ describe('TextInput input', () => {
                 const onBlurFn = jest.fn();
 
                 render(
-                    <Fragment>
+                    <React.Fragment>
                         <TextInput hasClear onBlur={onBlurFn} />
                         <div>outer</div>
-                    </Fragment>,
+                    </React.Fragment>,
                 );
                 const user = userEvent.setup();
                 const input = screen.getByRole('textbox');
@@ -364,7 +364,7 @@ describe('TextInput input', () => {
 
         test('supports form reset', async () => {
             function Test() {
-                const [value, setValue] = useState('value');
+                const [value, setValue] = React.useState('value');
                 return (
                     <form>
                         <TextInput name="text-field" value={value} onUpdate={setValue} />

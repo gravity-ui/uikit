@@ -1,4 +1,4 @@
-import {useCallback, useContext} from 'react';
+import * as React from 'react';
 
 import {DropdownMenuNavigationContext} from '../DropdownMenuNavigationContext';
 import type {DropdownMenuListItem} from '../types';
@@ -10,11 +10,11 @@ export type UseSubmenuProps<T> = {
 };
 
 export function useSubmenu<T>({items, path}: UseSubmenuProps<T>) {
-    const {activeMenuPath, setActiveMenuPath} = useContext(DropdownMenuNavigationContext);
+    const {activeMenuPath, setActiveMenuPath} = React.useContext(DropdownMenuNavigationContext);
 
     const hasSubmenu = Boolean(path) && Boolean(items?.length);
 
-    const closeSubmenu = useCallback(() => {
+    const closeSubmenu = React.useCallback(() => {
         if (!path) {
             return;
         }
@@ -22,7 +22,7 @@ export function useSubmenu<T>({items, path}: UseSubmenuProps<T>) {
         setActiveMenuPath(path.slice(0, path.length - 1));
     }, [path, setActiveMenuPath]);
 
-    const openSubmenu = useCallback(() => {
+    const openSubmenu = React.useCallback(() => {
         if (!path) {
             return;
         }

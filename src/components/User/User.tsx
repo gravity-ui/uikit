@@ -1,4 +1,4 @@
-import {forwardRef, isValidElement} from 'react';
+import * as React from 'react';
 
 import {Avatar} from '../Avatar';
 import {block} from '../utils/cn';
@@ -10,7 +10,7 @@ import './User.scss';
 
 const b = block('user');
 
-export const User = forwardRef<HTMLDivElement, UserProps>(
+export const User = React.forwardRef<HTMLDivElement, UserProps>(
     (
         {
             avatar,
@@ -41,7 +41,7 @@ export const User = forwardRef<HTMLDivElement, UserProps>(
             >
                 {avatar ? (
                     <div className={b('avatar')}>
-                        {isValidElement(avatar) ? (
+                        {React.isValidElement(avatar) ? (
                             avatar
                         ) : (
                             <Avatar {...avatar} size={size} title={avatar.title || nameTitle} />

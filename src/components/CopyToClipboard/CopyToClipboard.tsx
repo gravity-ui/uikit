@@ -1,6 +1,6 @@
 'use client';
 
-import {isValidElement, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import * as React from 'react';
 
 import ReactCopyToClipboard from 'react-copy-to-clipboard';
 
@@ -11,13 +11,13 @@ const INITIAL_STATUS: CopyToClipboardStatus = 'pending';
 export function CopyToClipboard(props: CopyToClipboardProps) {
     const {children, text, options, timeout, onCopy} = props;
 
-    const [status, setStatus] = useState<CopyToClipboardStatus>(INITIAL_STATUS);
+    const [status, setStatus] = React.useState<CopyToClipboardStatus>(INITIAL_STATUS);
 
-    const timerIdRef = useRef<number>();
+    const timerIdRef = React.useRef<number>();
 
-    const content = useMemo(() => children(status), [children, status]);
+    const content = React.useMemo(() => children(status), [children, status]);
 
-    const handleCopy = useCallback<Required<ReactCopyToClipboard.Props>['onCopy']>(
+    const handleCopy = React.useCallback<Required<ReactCopyToClipboard.Props>['onCopy']>(
         (copyText, result) => {
             setStatus(result ? 'success' : 'error');
             window.clearTimeout(timerIdRef.current);
@@ -27,9 +27,9 @@ export function CopyToClipboard(props: CopyToClipboardProps) {
         [onCopy, timeout],
     );
 
-    useEffect(() => () => window.clearTimeout(timerIdRef.current), []);
+    React.useEffect(() => () => window.clearTimeout(timerIdRef.current), []);
 
-    if (!isValidElement(content)) {
+    if (!React.isValidElement(content)) {
         throw new Error('Content must be a valid react element');
     }
 

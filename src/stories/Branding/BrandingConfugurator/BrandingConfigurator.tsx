@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from 'react';
+import * as React from 'react';
 
 import {ArrowsRotateRight} from '@gravity-ui/icons';
 import chroma from 'chroma-js';
@@ -57,14 +57,14 @@ function getInitialValues() {
 }
 
 export function BrandingConfigurator({theme}: BrandingConfiguratorProps) {
-    const [brandColor, setBrandColor] = useState(getInitialBrandColor);
-    const [paletteColors, setPaletteColors] = useState<string[]>([]);
-    const [values, setValues] = useState(getInitialValues);
+    const [brandColor, setBrandColor] = React.useState(getInitialBrandColor);
+    const [paletteColors, setPaletteColors] = React.useState<string[]>([]);
+    const [values, setValues] = React.useState(getInitialValues);
 
-    const [activeTab, setActiveTab] = useState('overview');
-    const [selectedIds, setSelectedIds] = useState(['1']);
+    const [activeTab, setActiveTab] = React.useState('overview');
+    const [selectedIds, setSelectedIds] = React.useState(['1']);
 
-    const resultText = useMemo(() => {
+    const resultText = React.useMemo(() => {
         return `
 .g-root_theme_${theme} {
     ${Object.entries(values)
@@ -74,12 +74,12 @@ export function BrandingConfigurator({theme}: BrandingConfiguratorProps) {
         `.trim();
     }, [theme, values]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         setBrandColor(getInitialBrandColor());
         setValues(getInitialValues());
     }, [theme]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         const colors: string[] = chroma
             .scale(['#fff', brandColor, '#333'])
             .correctLightness()

@@ -1,4 +1,4 @@
-import {createContext} from 'react';
+import * as React from 'react';
 
 import type {RealTheme} from './types';
 
@@ -9,5 +9,5 @@ export type ThemeSettings = {
 
 export type ThemeSettingsContextProps = ThemeSettings | undefined;
 
-export const ThemeSettingsContext = createContext<ThemeSettingsContextProps>(undefined);
+export const ThemeSettingsContext = React.createContext<ThemeSettingsContextProps>(undefined);
 ThemeSettingsContext.displayName = 'ThemeSettingsContext';

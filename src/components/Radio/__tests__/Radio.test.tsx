@@ -1,4 +1,4 @@
-import {createRef} from 'react';
+import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
@@ -124,7 +124,7 @@ describe('Radio', () => {
     });
 
     test('use passed ref for component', () => {
-        const ref = createRef<HTMLLabelElement>();
+        const ref = React.createRef<HTMLLabelElement>();
 
         render(<Radio value={value} ref={ref} qa={qaId} />);
         const component = screen.getByTestId(qaId);

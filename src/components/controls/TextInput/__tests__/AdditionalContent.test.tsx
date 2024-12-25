@@ -1,4 +1,4 @@
-import {Fragment, useState} from 'react';
+import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
@@ -8,12 +8,12 @@ import {Sheet} from '../../../Sheet';
 import {TextInput} from '../TextInput';
 
 const TextInputWithButtonAndSheet = () => {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = React.useState(false);
     const startContent = (
-        <Fragment>
+        <React.Fragment>
             <Button onClick={() => setOpen(true)}>Open</Button>
             <Sheet visible={open}>Sheet content</Sheet>
-        </Fragment>
+        </React.Fragment>
     );
     return <TextInput startContent={startContent} />;
 };

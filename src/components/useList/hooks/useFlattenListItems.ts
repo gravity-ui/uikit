@@ -1,5 +1,5 @@
 /* eslint-disable valid-jsdoc */
-import {useMemo} from 'react';
+import * as React from 'react';
 
 import type {ListItemId, ListItemType} from '../types';
 import {flattenItems} from '../utils/flattenItems';
@@ -20,7 +20,7 @@ export function useFlattenListItems<T>({
     expandedById,
     getItemId,
 }: UseFlattenListItemsProps<T>) {
-    const order = useMemo(() => {
+    const order = React.useMemo(() => {
         return flattenItems({items, expandedById, getItemId});
     }, [items, expandedById, getItemId]);
 

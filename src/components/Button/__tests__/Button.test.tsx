@@ -1,4 +1,4 @@
-import {createRef} from 'react';
+import * as React from 'react';
 
 import {Gear} from '@gravity-ui/icons';
 import userEvent from '@testing-library/user-event';
@@ -259,7 +259,7 @@ describe('Button', () => {
     });
 
     test('use passed ref for component', () => {
-        const ref = createRef<HTMLLabelElement>();
+        const ref = React.createRef<HTMLLabelElement>();
 
         render(<Button ref={ref} qa={qaId} />);
         const button = screen.getByTestId(qaId);

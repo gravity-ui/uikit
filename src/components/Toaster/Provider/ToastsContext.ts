@@ -1,6 +1,6 @@
-import {createContext} from 'react';
+import * as React from 'react';
 
 import type {InternalToastProps} from '../types';
 
-export const ToastsContext = createContext<InternalToastProps[]>([]);
+export const ToastsContext = React.createContext<InternalToastProps[]>([]);
 ToastsContext.displayName = 'ToastsContext';

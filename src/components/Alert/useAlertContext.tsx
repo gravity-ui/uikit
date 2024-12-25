@@ -1,11 +1,11 @@
 'use client';
 
-import {useContext} from 'react';
+import * as React from 'react';
 
 import {AlertContext} from './AlertContext';
 
 export const useAlertContext = () => {
-    const context = useContext(AlertContext);
+    const context = React.useContext(AlertContext);
 
     if (!context) throw new Error('Alert: `useAlertContext` hook is used out of "AlertContext"');
 

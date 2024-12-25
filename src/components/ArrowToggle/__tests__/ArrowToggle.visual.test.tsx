@@ -1,26 +1,37 @@
 import React from 'react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
-import {ArrowToggle} from '../ArrowToggle';
 import type {ArrowToggleProps} from '../ArrowToggle';
+import {ArrowToggle} from '../ArrowToggle';
 
 import {directionCases, sizeCases} from './cases';
 
 test.describe('ArrowToggle', {tag: '@ArrowToggle'}, () => {
-    const defaultProps: ArrowToggleProps = {};
+    smokeTest('smoke', async ({mount, expectScreenshot}) => {
+        const defaultProps: ArrowToggleProps = {};
 
-    const smokeScenarios = createSmokeScenarios(defaultProps, {
-        size: sizeCases,
-        direction: directionCases,
-    });
+        const smokeScenarios = createSmokeScenarios(defaultProps, {
+            size: sizeCases,
+            direction: directionCases,
+        });
 
-    smokeScenarios.forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<ArrowToggle {...props} />);
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <ArrowToggle {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
 
-            await expectScreenshot();
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 });

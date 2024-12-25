@@ -10,7 +10,7 @@ test.describe('Tabs', {tag: '@Tabs'}, () => {
     smokeTest('', async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<TabsProps>(
             {
-                activeTab: '2',
+                activeTab: 'active',
             },
             {
                 size: sizeCases,
@@ -38,11 +38,10 @@ test.describe('Tabs', {tag: '@Tabs'}, () => {
 
     smokeTest('allow not selected', async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<TabsProps>(
-            {},
             {
-                size: sizeCases,
-                direction: directionCases,
+                allowNotSelected: true,
             },
+            {},
         );
 
         await mount(
@@ -66,7 +65,7 @@ test.describe('Tabs', {tag: '@Tabs'}, () => {
     smokeTest('with custom tab', async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<TabsProps>(
             {
-                activeTab: '2',
+                activeTab: 'active',
             },
             {
                 size: sizeCases,

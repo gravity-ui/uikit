@@ -20,5 +20,10 @@ export const TestAvatarStack = (props: AvatarStackProps & {avatarCount?: number}
 };
 
 export const TestAvatarStackWithCustomMore = (props: AvatarStackProps & {avatarCount?: number}) => {
-    return <TestAvatarStack renderMore={({count}) => <button>+{count}</button>} {...props} />;
+    return (
+        <TestAvatarStack
+            renderMore={({count}) => <div style={{border: '1px solid tomato'}}>+{count}</div>}
+            {...props}
+        />
+    );
 };

@@ -1,4 +1,4 @@
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import {sizeCases} from '../../Button/__tests__/cases';
@@ -35,32 +35,50 @@ test.describe('AvatarStack', () => {
 
     const defaultProps: AvatarStackProps & {avatarCount?: number} = {};
 
-    createSmokeScenarios(defaultProps, {
-        size: sizeCases,
-        overlapSize: overlapSizeCases,
-        max: maxCases,
-        avatarCount: [1],
-    }).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<TestAvatarStack {...props} />);
+    smokeTest('', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios(defaultProps, {
+            size: sizeCases,
+            overlapSize: overlapSizeCases,
+            max: maxCases,
+            avatarCount: [1],
+        });
 
-            await expectScreenshot();
+        await mount(
+            <div style={{width: 400}}>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestAvatarStack {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 
-    createSmokeScenarios(
-        defaultProps,
-        {
-            avatarCount: [1],
-        },
-        {
-            scenarioName: 'custom more',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<TestAvatarStackWithCustomMore {...props} />);
+    smokeTest('with custom more', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios(defaultProps, {});
 
-            await expectScreenshot();
+        await mount(
+            <div style={{width: 400}}>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestAvatarStackWithCustomMore {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 });

@@ -2,20 +2,15 @@
 
 import * as React from 'react';
 
-import debounce from 'lodash/debounce';
-
+import {useControlledState} from '../../hooks';
+import {useFormResetHandler} from '../../hooks/private';
 import {useDirection} from '../theme';
 import {block} from '../utils/cn';
+import {filterDOMProps} from '../utils/filterDOMProps';
 
 import {BaseSlider} from './BaseSlider/BaseSlider';
 import {HandleWithTooltip} from './HandleWithTooltip/HandleWithTooltip';
-import type {
-    HandleWithTooltipProps,
-    RcSliderValueType,
-    SliderProps,
-    SliderValue,
-    StateModifiers,
-} from './types';
+import type {HandleWithTooltipProps, SliderProps, StateModifiers} from './types';
 import {prepareSliderInnerState} from './utils';
 
 import './Slider.scss';
@@ -40,7 +35,6 @@ export const Slider = React.forwardRef(function Slider(
         errorMessage,
         validationState,
         disabled = false,
-        debounceDelay = 0,
         onBlur,
         onUpdate,
         onUpdateComplete,
@@ -48,38 +42,18 @@ export const Slider = React.forwardRef(function Slider(
         autoFocus = false,
         tabIndex,
         className,
+        style,
         qa,
         apiRef,
         'aria-label': ariaLabelForHandle,
         'aria-labelledby': ariaLabelledByForHandle,
+        name,
+        form,
+        ...otherProps
     }: SliderProps,
     ref: React.ForwardedRef<HTMLDivElement>,
 ) {
     const direction = useDirection();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const handleUpdate = React.useCallback(
-        debounce(
-            (changedValue: RcSliderValueType) => onUpdate?.(changedValue as SliderValue),
-            debounceDelay,
-        ),
-        [onUpdate, debounceDelay],
-    );
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const handleUpdateComplete = React.useCallback(
-        debounce(
-            (changedValue: RcSliderValueType) => onUpdateComplete?.(changedValue as SliderValue),
-            debounceDelay,
-        ),
-        [onUpdateComplete, debounceDelay],
-    );
-
-    React.useEffect(() => {
-        return () => {
-            handleUpdate.cancel();
-            handleUpdateComplete.cancel();
-        };
-    }, [handleUpdate, handleUpdateComplete]);
 
     const innerState = prepareSliderInnerState({
         availableValues,
@@ -95,47 +69,71 @@ export const Slider = React.forwardRef(function Slider(
         tooltipDisplay,
         tooltipFormat,
     });
-
-    const stateModifiers: StateModifiers = React.useMemo<StateModifiers>(
-        () => ({
-            size,
-            error: validationState === 'invalid' && !disabled,
-            disabled,
-            'tooltip-display': innerState.tooltipDisplay,
-            rtl: direction === 'rtl',
-            'no-marks': Array.isArray(marks) ? marks.length === 0 : marks === 0,
-        }),
-        [direction, disabled, innerState.tooltipDisplay, size, validationState, marks],
+    const [innerValue, setValue] = useControlledState(
+        innerState.value,
+        innerState.defaultValue ?? min,
+        onUpdate,
     );
 
-    const handleRender = React.useMemo(
-        () =>
-            innerState.tooltipDisplay === 'off'
-                ? undefined
-                : (
-                      originHandle: HandleWithTooltipProps['originHandle'],
-                      originHandleProps: HandleWithTooltipProps['originHandleProps'],
-                  ) => (
-                      <HandleWithTooltip
-                          originHandle={originHandle}
-                          originHandleProps={originHandleProps}
-                          stateModifiers={stateModifiers}
-                          className={b('tooltip')}
-                          tooltipFormat={innerState.tooltipFormat}
-                      />
-                  ),
-        [innerState.tooltipDisplay, innerState.tooltipFormat, stateModifiers],
+    const handleReset = React.useCallback(
+        (v: number | [number, number]) => {
+            setValue(v);
+            onUpdateComplete?.(v);
+        },
+        [onUpdateComplete, setValue],
     );
+
+    const inputRef = useFormResetHandler({initialValue: innerValue, onReset: handleReset});
+
+    const stateModifiers: StateModifiers = {
+        size,
+        error: validationState === 'invalid' && !disabled,
+        disabled,
+        'tooltip-display': innerState.tooltipDisplay,
+        rtl: direction === 'rtl',
+        'no-marks': Array.isArray(marks) ? marks.length === 0 : marks === 0,
+    };
+
+    const handleRender = (
+        originHandle: HandleWithTooltipProps['originHandle'],
+        originHandleProps: HandleWithTooltipProps['originHandleProps'],
+    ) => {
+        const handle =
+            innerState.tooltipDisplay === 'off' ? (
+                originHandle
+            ) : (
+                <HandleWithTooltip
+                    originHandle={originHandle}
+                    originHandleProps={originHandleProps}
+                    stateModifiers={stateModifiers}
+                    className={b('tooltip')}
+                    tooltipFormat={innerState.tooltipFormat}
+                />
+            );
+
+        return (
+            <React.Fragment>
+                {handle}
+                <input
+                    ref={inputRef}
+                    type="hidden"
+                    name={name}
+                    form={form}
+                    value={originHandleProps.value}
+                    disabled={disabled}
+                />
+            </React.Fragment>
+        );
+    };
 
     return (
-        <div className={b(null, className)} ref={ref}>
+        <div {...filterDOMProps(otherProps)} className={b(null, className)} style={style} ref={ref}>
             <div className={b('top', {size, 'tooltip-display': tooltipDisplay})}>
                 {/* use this block to reserve place for tooltip */}
             </div>
             <BaseSlider
                 ref={apiRef}
-                value={innerState.value}
-                defaultValue={innerState.defaultValue}
+                value={innerValue}
                 min={innerState.min}
                 max={innerState.max}
                 step={innerState.step}
@@ -144,10 +142,9 @@ export const Slider = React.forwardRef(function Slider(
                 marks={innerState.marks}
                 onBlur={onBlur}
                 onFocus={onFocus}
-                onChange={handleUpdate}
-                onChangeComplete={handleUpdateComplete}
+                onChange={setValue}
+                onChangeComplete={onUpdateComplete}
                 stateModifiers={stateModifiers}
-                // eslint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus={autoFocus}
                 tabIndex={tabIndex}
                 data-qa={qa}
@@ -155,10 +152,12 @@ export const Slider = React.forwardRef(function Slider(
                 reverse={stateModifiers.rtl}
                 ariaLabelForHandle={ariaLabelForHandle}
                 ariaLabelledByForHandle={ariaLabelledByForHandle}
-            ></BaseSlider>
+            />
             {stateModifiers.error && errorMessage && (
                 <div className={b('error', {size})}>{errorMessage}</div>
             )}
         </div>
     );
-});
+}) as <T extends number | [number, number]>(
+    p: SliderProps<T> & {ref?: React.Ref<HTMLDivElement>},
+) => React.ReactElement;

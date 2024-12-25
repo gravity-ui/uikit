@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type {PaletteOption, PaletteProps} from '../Palette';
 import {Palette} from '../Palette';
 

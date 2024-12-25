@@ -1,4 +1,4 @@
-import React from 'react';
+import type * as React from 'react';
 
 import {block} from '../utils/cn';
 import {warnOnce} from '../utils/warn';

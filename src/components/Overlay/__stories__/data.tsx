@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type {TableColumnConfig} from '../../Table';
 
 export interface DataItem {

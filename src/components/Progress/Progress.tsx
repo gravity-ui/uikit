@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {ProgressWithStack} from './ProgressWithStack';
 import {ProgressWithValue} from './ProgressWithValue';

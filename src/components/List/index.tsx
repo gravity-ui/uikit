@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {List, listDefaultProps} from './List';
 import type {ListProps} from './types';
 

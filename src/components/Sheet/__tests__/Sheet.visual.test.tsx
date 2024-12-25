@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {expect} from '@playwright/test';
 
 import {test} from '~playwright/core';

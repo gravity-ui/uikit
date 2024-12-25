@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {Text} from '../../../Text';
 import {block} from '../../../utils/cn';
 import type {SelectCounterProps} from '../../types';

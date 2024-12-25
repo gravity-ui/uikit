@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {test} from '~playwright/core';
 
 import {TableStories} from './helpersPlaywright';

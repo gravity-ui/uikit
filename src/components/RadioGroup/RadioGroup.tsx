@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 import {useRadioGroup} from '../../hooks/private';
 import {Radio} from '../Radio';

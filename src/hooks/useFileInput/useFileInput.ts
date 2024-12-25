@@ -1,5 +1,5 @@
 /* eslint-disable valid-jsdoc */
-import React from 'react';
+import * as React from 'react';
 
 export type UseFileInputProps = {
     onUpdate?: (files: File[]) => void;

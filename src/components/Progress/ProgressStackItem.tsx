@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type {CnMods} from '../utils/cn';
 
 import {progressBlock} from './constants';

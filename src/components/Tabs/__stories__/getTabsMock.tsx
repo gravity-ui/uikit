@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {Flame} from '@gravity-ui/icons';
 
 import type {TabsProps} from '../Tabs';

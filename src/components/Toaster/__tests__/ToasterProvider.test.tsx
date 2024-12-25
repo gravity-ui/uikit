@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {act, fireEvent, render, screen, within} from '../../../../test-utils/utils';
 import {Modal} from '../../../components/Modal/Modal';

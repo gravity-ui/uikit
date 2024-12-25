@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type {TextProps} from '../Text';
 import {Text} from '../Text';
 

@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const SliderTooltipPin = ({className}: {className?: string}) => (
     <span className={className}>
         <svg

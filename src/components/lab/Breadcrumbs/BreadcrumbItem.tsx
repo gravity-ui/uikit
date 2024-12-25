@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import type * as React from 'react';
 
 import type {Href, RouterOptions} from '../../types';
 import {filterDOMProps} from '../../utils/filterDOMProps';

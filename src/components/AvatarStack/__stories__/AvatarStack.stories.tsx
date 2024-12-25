@@ -1,4 +1,4 @@
-import React from 'react';
+import type * as React from 'react';
 
 import {faker} from '@faker-js/faker/locale/en';
 import type {Meta, StoryObj} from '@storybook/react';

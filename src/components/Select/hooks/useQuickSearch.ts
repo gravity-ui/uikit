@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {QUICK_SEARCH_TIMEOUT} from '../constants';
 import {getNextQuickSearch} from '../utils';

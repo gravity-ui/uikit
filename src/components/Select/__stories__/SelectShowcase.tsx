@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {Plus, TrashBin} from '@gravity-ui/icons';
 import range from 'lodash/range';

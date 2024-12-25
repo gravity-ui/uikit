@@ -1,4 +1,4 @@
-import type React from 'react';
+import type * as React from 'react';
 
 import type {MountOptions, MountResult} from '@playwright/experimental-ct-react';
 import type {

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type {Cases, CasesWithName} from '../../../stories/tests-factory/models';
 import {Alert} from '../Alert';
 import type {AlertProps} from '../types';

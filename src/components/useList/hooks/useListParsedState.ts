@@ -1,5 +1,5 @@
 /* eslint-disable valid-jsdoc */
-import React from 'react';
+import * as React from 'react';
 
 import {getListParsedState} from '../utils/getListParsedState';
 import type {GetListParsedStateProps} from '../utils/getListParsedState';

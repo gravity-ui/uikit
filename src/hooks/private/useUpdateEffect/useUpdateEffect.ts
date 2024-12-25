@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 export const useUpdateEffect: typeof React.useEffect = (effect, deps) => {
     const isInitial = React.useRef(true);

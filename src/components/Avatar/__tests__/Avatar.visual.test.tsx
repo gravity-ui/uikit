@@ -1,7 +1,7 @@
 import {FaceRobot} from '@gravity-ui/icons';
 import {expect} from '@playwright/experimental-ct-react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import {Avatar} from '../Avatar';
@@ -74,55 +74,94 @@ test.describe('Avatar', {tag: '@Avatar'}, () => {
         title: titleCases,
     } as const;
 
-    createSmokeScenarios(
-        defaultProps,
-        {
-            ...commonCases,
-        },
-        {
-            scenarioName: 'image specific',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<TestAvatarWithImage {...props} />);
+    smokeTest('smoke, with image', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios(
+            defaultProps,
+            {
+                ...commonCases,
+            },
+            {
+                scenarioName: 'image specific',
+            },
+        );
 
-            await expectScreenshot();
+        await mount(
+            <div style={{width: 400}}>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestAvatarWithImage {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 
-    createSmokeScenarios(
-        defaultProps,
-        {
-            ...commonCases,
-        },
-        {
-            scenarioName: 'icon specific',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<TestAvatarWithIcon {...props} />);
+    smokeTest('smoke, with icon', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios(
+            defaultProps,
+            {
+                ...commonCases,
+            },
+            {
+                scenarioName: 'icon specific',
+            },
+        );
 
-            await expectScreenshot();
+        await mount(
+            <div style={{width: 400}}>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestAvatarWithIcon {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 
-    createSmokeScenarios(
-        {
-            ...defaultProps,
-            text: 'Text',
-            color: 'black',
-        },
-        {
-            ...commonCases,
-        },
-        {
-            scenarioName: 'text specific',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<Avatar {...props} />);
+    smokeTest('smoke', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios(
+            {
+                ...defaultProps,
+                text: 'Text',
+                color: 'black',
+            },
+            {
+                ...commonCases,
+            },
+            {
+                scenarioName: 'text specific',
+            },
+        );
 
-            await expectScreenshot();
+        await mount(
+            <div style={{width: 400}}>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Avatar {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 });

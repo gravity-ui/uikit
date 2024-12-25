@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import {ControlLabel} from '../ControlLabel';
@@ -9,19 +9,32 @@ import type {Props} from '../types';
 import {disabledCases, sizeCases, titleCases} from './cases';
 
 test.describe('ControlLabel', {tag: '@ControlLabel'}, () => {
-    const defaultProps: Props = {
-        control: <div>control</div>,
-    };
+    smokeTest('smoke', async ({mount, expectScreenshot}) => {
+        const defaultProps: Props = {
+            control: <div>control</div>,
+        };
 
-    createSmokeScenarios(defaultProps, {
-        size: sizeCases,
-        title: titleCases,
-        disabled: disabledCases,
-    }).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<ControlLabel {...props} />);
+        const smokeScenarios = createSmokeScenarios(defaultProps, {
+            size: sizeCases,
+            title: titleCases,
+            disabled: disabledCases,
+        });
 
-            await expectScreenshot();
+        await mount(
+            <div style={{width: 400}}>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <ControlLabel {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 });

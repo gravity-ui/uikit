@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type {TocProps} from '../Toc';
 import {Toc} from '../Toc';
 
@@ -33,7 +31,7 @@ const testItems: TocProps['items'] = [
 ] as const;
 
 export const TestToc = (props: Partial<TocProps>) => {
-    const [active, setActive] = React.useState<string | undefined>(undefined);
+    const [active, setActive] = React.useState<string | undefined>(props.value);
 
     return (
         <Toc

@@ -1,25 +1,34 @@
-import React from 'react';
-
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {SkeletonProps} from '../Skeleton';
 import {Skeleton} from '../Skeleton';
 
 test.describe('Skeleton', {tag: '@Skeleton'}, () => {
-    const defaultProps: SkeletonProps = {
-        className: '',
-        style: {
-            width: '30px',
-            height: '30px',
-        },
-    };
+    smokeTest('', async ({mount, expectScreenshot}) => {
+        const defaultProps: SkeletonProps = {
+            className: '',
+            style: {
+                width: '30px',
+                height: '30px',
+            },
+        };
 
-    createSmokeScenarios(defaultProps, {}).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<Skeleton {...props} />);
+        const smokeScenarios = createSmokeScenarios(defaultProps, {});
 
-            await expectScreenshot();
-        });
+        await mount(
+            <div style={{width: 400}}>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Skeleton {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({});
     });
 });

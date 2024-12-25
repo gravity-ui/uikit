@@ -1,3 +1,4 @@
+import {action} from '@storybook/addon-actions';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import {Showcase} from '../../../demo/Showcase';
@@ -20,6 +21,10 @@ export const Default: Story = {
             <SegmentedRadioGroup.Option key="Value 2" value="Value 2" content="Value 2" />,
             <SegmentedRadioGroup.Option key="Value 3" value="Value 3" content="Value 3" />,
         ],
+        defaultValue: 'Value 1',
+        onUpdate: action('onUpdate'),
+        onFocus: action('onFocus'),
+        onBlur: action('onBlur'),
     },
 };
 

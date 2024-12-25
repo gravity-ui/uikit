@@ -1,5 +1,5 @@
 export function copyText(text: string) {
-    if (navigator.clipboard.writeText) {
+    if (navigator?.clipboard?.writeText) {
         return navigator.clipboard.writeText(text);
     }
 

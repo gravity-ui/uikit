@@ -30,10 +30,6 @@ export const verticalAlignCases: Cases<TableProps<DataItem>['verticalAlign']> = 
 
 export const wordWrapCases: Cases<TableProps<DataItem>['wordWrap']> = [true];
 
-export const emptyMessageCases: Cases<TableProps<DataItem>['emptyMessage']> = [
-    'Custom empty message',
-];
-
 export const rowDescriptorCases: CasesWithName<TableProps<DataItem>['getRowDescriptor']> = [
     [
         'disabled',

@@ -140,12 +140,14 @@ LANDING_BLOCK-->
 
 ### Size
 
-Use the `size` property to manage the `Avatar` size. The default size is `m`. The possible values are `xs`, `s`, `m`, `l`, and `xl`.
+Use the `size` property to manage the `Avatar` size. The default size is `m`. The possible values are `3xs`, `2xs`, `xs`, `s`, `m`, `l`, and `xl`.
 
 <!--LANDING_BLOCK
 
 <ExampleBlock
     code={`
+<Avatar text="Charles Darwin" theme="brand" size="3xs" />
+<Avatar text="Charles Darwin" theme="brand" size="2xs" />
 <Avatar text="Charles Darwin" theme="brand" size="xs" />
 <Avatar text="Charles Darwin" theme="brand" size="s" />
 <Avatar text="Charles Darwin" theme="brand" size="m" />
@@ -153,6 +155,8 @@ Use the `size` property to manage the `Avatar` size. The default size is `m`. Th
 <Avatar text="Charles Darwin" theme="brand" size="xl" />
 `}
 >
+    <UIKit.Avatar text="Charles Darwin" theme="brand" size="3xs" />
+    <UIKit.Avatar text="Charles Darwin" theme="brand" size="2xs" />
     <UIKit.Avatar text="Charles Darwin" theme="brand" size="xs" />
     <UIKit.Avatar text="Charles Darwin" theme="brand" size="s" />
     <UIKit.Avatar text="Charles Darwin" theme="brand" size="m" />
@@ -166,19 +170,21 @@ LANDING_BLOCK-->
 
 ### Common
 
-| Name            | Description                                |              Type               | Default  |
-| :-------------- | :----------------------------------------- | :-----------------------------: | :------: |
-| size            | Avatar size                                | `'xs'` `'s'` `'m'` `'l'` `'xl'` |   `m`    |
-| theme           | Avatar theme                               |      `'normal'` `'brand'`       | `normal` |
-| view            | Avatar filling and outlining options       |     `'filled'` `'outlined'`     | `filled` |
-| backgroundColor | Custom background color                    |            `string`             |          |
-| borderColor     | Custom border color                        |            `string`             |          |
-| title           | `title` HTML attribute                     |            `string`             |          |
-| aria-label      | `aria-label` for the avatar section        |            `string`             |          |
-| aria-labelledby | `aria-labelledby` for the avatar section   |            `string`             |          |
-| className       | Custom CSS class for the root element      |            `string`             |          |
-| style           | `style` HTML attribute                     |      `React.CSSProperties`      |          |
-| qa              | `data-qa` HTML attribute, used for testing |            `string`             |          |
+| Name             | Description                                |                      Type                       | Default  |
+| :--------------- | :----------------------------------------- | :---------------------------------------------: | :------: |
+| size             | Avatar size                                | `'3xs'` `'2xs'` `'xs'` `'s'` `'m'` `'l'` `'xl'` |   `m`    |
+| theme            | Avatar theme                               |              `'normal'` `'brand'`               | `normal` |
+| view             | Avatar filling and outlining options       |             `'filled'` `'outlined'`             | `filled` |
+| backgroundColor  | Custom background color                    |                    `string`                     |          |
+| borderColor      | Custom border color                        |                    `string`                     |          |
+| title            | `title` HTML attribute                     |                    `string`                     |          |
+| aria-label       | `aria-label` for the avatar section        |                    `string`                     |          |
+| aria-labelledby  | `aria-labelledby` for the avatar section   |                    `string`                     |          |
+| aria-describedby | `aria-describedby` for avatar block        |                    `string`                     |          |
+| aria-details     | `aria-details` for avatar block            |                    `string`                     |          |
+| className        | Custom CSS class for the root element      |                    `string`                     |          |
+| style            | `style` HTML attribute                     |              `React.CSSProperties`              |          |
+| qa               | `data-qa` HTML attribute, used for testing |                    `string`                     |          |
 
 ### Image-specific
 
@@ -207,11 +213,14 @@ LANDING_BLOCK-->
 
 ## CSS API
 
-| Name                          | Description             |
-| :---------------------------- | :---------------------- |
-| `--g-avatar-size`             | Size (width and height) |
-| `--g-avatar-background-color` | Background color        |
-| `--g-avatar-border-color`     | Border color            |
-| `--g-avatar-color`            | Icon and text color     |
-| `--g-avatar-font-size`        | Text font size          |
-| `--g-avatar-line-height`      | Text line height        |
+| Name                            | Description             |
+| :------------------------------ | :---------------------- |
+| `--g-avatar-size`               | Size (width and height) |
+| `--g-avatar-border-width`       | Border width            |
+| `--g-avatar-inner-border-width` | Inner border width      |
+| `--g-avatar-border-color`       | Border color            |
+| `--g-avatar-background-color`   | Background color        |
+| `--g-avatar-text-color`         | Icon and text color     |
+| `--g-avatar-font-weight`        | Text font weight        |
+| `--g-avatar-font-size`          | Text font size          |
+| `--g-avatar-line-height`        | Text line height        |

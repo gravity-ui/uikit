@@ -1,87 +1,65 @@
-import React from 'react';
-
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {SwitchProps} from '../Switch';
 import {Switch} from '../Switch';
 
-import {sizeCases} from './cases';
+import {disabledCases, indeterminateCases, sizeCases} from './cases';
 
 test.describe('Switch', {tag: '@Switch'}, () => {
     const defaultProps: SwitchProps = {
         content: 'label',
     };
 
-    createSmokeScenarios(defaultProps, {
-        size: sizeCases,
-    }).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            const root = await mount(<Switch {...props} />);
-
-            await expectScreenshot({});
-
-            await root.locator('label').focus();
-
-            await expectScreenshot({
-                nameSuffix: 'after hover',
-            });
-
-            await root.locator('label').click();
-
-            await expectScreenshot({
-                nameSuffix: 'after click',
-            });
+    smokeTest('', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios(defaultProps, {
+            size: sizeCases,
+            disabled: disabledCases,
+            indeterminate: indeterminateCases,
         });
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Switch {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({});
     });
 
-    createSmokeScenarios(
-        {
-            ...defaultProps,
-            indeterminate: true,
-        },
-        {
-            size: sizeCases,
-        },
-        {
-            scenarioName: 'indeterminate',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            const root = await mount(<Switch {...props} />);
+    smokeTest('checked', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios(
+            {
+                ...defaultProps,
+                checked: true,
+            },
+            {
+                size: sizeCases,
+                disabled: disabledCases,
+                indeterminate: indeterminateCases,
+            },
+        );
 
-            await expectScreenshot({});
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Switch {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
 
-            await root.locator('label').focus();
-
-            await expectScreenshot({
-                nameSuffix: 'after hover',
-            });
-
-            await root.locator('label').click();
-
-            await expectScreenshot({
-                nameSuffix: 'after click',
-            });
-        });
-    });
-
-    createSmokeScenarios(
-        {
-            ...defaultProps,
-            defaultChecked: true,
-        },
-        {
-            size: sizeCases,
-        },
-        {
-            scenarioName: 'default checked',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<Switch {...props} />);
-
-            await expectScreenshot({});
-        });
+        await expectScreenshot({});
     });
 });

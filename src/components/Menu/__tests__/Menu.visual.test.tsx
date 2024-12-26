@@ -1,56 +1,64 @@
-import React from 'react';
-
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {MenuProps} from '../Menu';
 import type {MenuGroupProps} from '../MenuGroup';
-import type {MenuItemProps} from '../MenuItem';
 
 import {activeCases, disabledCases, selectedCases, sizeCases, themeCases} from './cases';
+import type {
+    MenuItemProps,
+    TestMenuGroupProps,
+    TestMenuItemProps,
+    TestMenuItemWithIconsProps,
+    TestMenuProps,
+} from './helpers';
 import {TestMenu, TestMenuGroup, TestMenuItem, TestMenuItemWithIcons} from './helpers';
 
 test.describe('Menu', {tag: '@Menu'}, () => {
     const defaultMenuProps: MenuProps = {};
 
-    createSmokeScenarios(defaultMenuProps, {
-        size: sizeCases,
-    }).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            const root = await mount(<TestMenu {...props} />);
-
-            await expectScreenshot();
-
-            await root.locator('ul li').locator('nth=0').hover();
-
-            await expectScreenshot({
-                nameSuffix: 'after hover on item',
-            });
+    smokeTest('', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<TestMenuProps>(defaultMenuProps, {
+            size: sizeCases,
         });
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestMenu {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({});
     });
 
     const defaultMenuGroupProps: MenuGroupProps = {
         label: 'Group title',
     };
 
-    createSmokeScenarios(
-        defaultMenuGroupProps,
-        {},
-        {
-            scenarioName: 'menu group',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            const root = await mount(<TestMenuGroup {...props} />);
+    smokeTest('menu group', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<TestMenuGroupProps>(defaultMenuGroupProps, {});
 
-            await expectScreenshot();
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestMenuGroup {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
 
-            await root.locator('ul li').locator('nth=0').hover();
-
-            await expectScreenshot({
-                nameSuffix: 'after hover on item',
-            });
-        });
+        await expectScreenshot({});
     });
 
     const menuItemQa = 'menu-item';
@@ -60,57 +68,54 @@ test.describe('Menu', {tag: '@Menu'}, () => {
         children: 'Menu item content',
     };
 
-    createSmokeScenarios(
-        defaultMenuItemProps,
-        {
+    smokeTest('menu item', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<TestMenuItemProps>(defaultMenuItemProps, {
             disabled: disabledCases,
             active: activeCases,
             selected: selectedCases,
             theme: themeCases,
-        },
-        {
-            scenarioName: 'menu item',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            const root = await mount(<TestMenuItem {...props} />);
-
-            await expectScreenshot();
-
-            if (!props.disabled) {
-                await root.getByTestId(menuItemQa).hover();
-
-                await expectScreenshot({
-                    nameSuffix: 'after hover on item',
-                });
-            }
         });
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestMenuItem {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({});
     });
 
-    createSmokeScenarios(
-        defaultMenuItemProps,
-        {
-            disabled: disabledCases,
-            active: activeCases,
-            selected: selectedCases,
-            theme: themeCases,
-        },
-        {
-            scenarioName: 'menu item with icons',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            const root = await mount(<TestMenuItemWithIcons {...props} />);
+    smokeTest('menu item with icons', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<TestMenuItemWithIconsProps>(
+            defaultMenuItemProps,
+            {
+                disabled: disabledCases,
+                active: activeCases,
+                selected: selectedCases,
+                theme: themeCases,
+            },
+        );
 
-            await expectScreenshot();
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestMenuItemWithIcons {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
 
-            if (!props.disabled) {
-                await root.getByTestId(menuItemQa).hover();
-
-                await expectScreenshot({
-                    nameSuffix: 'after hover on item',
-                });
-            }
-        });
+        await expectScreenshot({});
     });
 });

@@ -1,12 +1,12 @@
-import React from 'react';
-
 import {CircleExclamationFill, Gear} from '@gravity-ui/icons';
 
 import {Icon} from '../../Icon';
 import {Menu} from '../Menu';
 import type {MenuGroupProps, MenuItemProps, MenuProps} from '../Menu';
 
-export const TestMenu = (props: Partial<MenuProps>) => {
+export type TestMenuProps = Partial<MenuProps>;
+
+export const TestMenu = (props: TestMenuProps) => {
     return (
         <Menu {...props}>
             <Menu.Item onClick={() => {}}>First</Menu.Item>
@@ -17,7 +17,9 @@ export const TestMenu = (props: Partial<MenuProps>) => {
     );
 };
 
-export const TestMenuGroup = (props: Partial<MenuGroupProps>) => {
+export type TestMenuGroupProps = Partial<MenuGroupProps>;
+
+export const TestMenuGroup = (props: TestMenuGroupProps) => {
     return (
         <Menu>
             <Menu.Item onClick={() => {}}>Test item before group</Menu.Item>
@@ -32,7 +34,9 @@ export const TestMenuGroup = (props: Partial<MenuGroupProps>) => {
     );
 };
 
-export const TestMenuItem = (props: Partial<MenuItemProps>) => {
+export type TestMenuItemProps = Partial<MenuItemProps>;
+
+export const TestMenuItem = (props: TestMenuItemProps) => {
     return (
         <Menu>
             <Menu.Item onClick={() => {}}>...</Menu.Item>
@@ -42,7 +46,9 @@ export const TestMenuItem = (props: Partial<MenuItemProps>) => {
     );
 };
 
-export const TestMenuItemWithIcons = (props: Partial<MenuItemProps>) => {
+export type TestMenuItemWithIconsProps = Partial<MenuItemProps>;
+
+export const TestMenuItemWithIcons = (props: TestMenuItemWithIconsProps) => {
     return (
         <Menu>
             <Menu.Item onClick={() => {}}>...</Menu.Item>

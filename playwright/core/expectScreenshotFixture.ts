@@ -29,6 +29,18 @@ export const expectScreenshotFixture: PlaywrightFixture<ExpectScreenshotFixture>
 
         const themes = paramsThemes || defaultParams.themes;
 
+        // Wait for loading of all the images
+        const locators = await page.locator('//img').all();
+        await Promise.all(
+            locators.map((locator) =>
+                locator.evaluate(
+                    (image: HTMLImageElement) =>
+                        image.complete ||
+                        new Promise<unknown>((resolve) => image.addEventListener('load', resolve)),
+                ),
+            ),
+        );
+
         if (themes?.includes('light')) {
             await page.emulateMedia({colorScheme: 'light'});
 

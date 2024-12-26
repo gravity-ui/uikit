@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {UserLabel} from '../UserLabel';
 import type {UserLabelProps} from '../types';
 

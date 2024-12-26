@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {Card} from '../../Card';
 import {ListItem} from '../../List';

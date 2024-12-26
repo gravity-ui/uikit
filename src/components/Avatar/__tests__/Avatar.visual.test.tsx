@@ -74,7 +74,7 @@ test.describe('Avatar', {tag: '@Avatar'}, () => {
         title: titleCases,
     } as const;
 
-    smokeTest('smoke, with image', async ({mount, expectScreenshot}) => {
+    smokeTest('with image', async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(
             defaultProps,
             {
@@ -103,7 +103,7 @@ test.describe('Avatar', {tag: '@Avatar'}, () => {
         });
     });
 
-    smokeTest('smoke, with icon', async ({mount, expectScreenshot}) => {
+    smokeTest('with icon', async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(
             defaultProps,
             {
@@ -132,7 +132,7 @@ test.describe('Avatar', {tag: '@Avatar'}, () => {
         });
     });
 
-    smokeTest('smoke', async ({mount, expectScreenshot}) => {
+    smokeTest('with text', async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(
             {
                 ...defaultProps,

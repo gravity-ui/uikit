@@ -56,6 +56,8 @@ export interface LabelProps extends QAProps {
     size?: 'xs' | 's' | 'm';
     /** Browser title for Label */
     title?: string;
+    /** Multiline available */
+    multiline?: boolean;
 }
 
 export const Label = React.forwardRef(function Label(
@@ -80,6 +82,7 @@ export const Label = React.forwardRef(function Label(
         onCopy,
         onClick,
         qa,
+        multiline,
     } = props;
     const hasContent = Boolean(children !== '' && React.Children.count(children) > 0);
 
@@ -92,7 +95,12 @@ export const Label = React.forwardRef(function Label(
     const {copyIconSize, closeIconSize} = sizeMap[size];
 
     const startIcon = icon && (
-        <div className={b('addon', {side: hasContent ? 'start' : undefined, type: 'icon'})}>
+        <div
+            className={b('addon', {
+                side: hasContent ? 'start' : undefined,
+                type: 'icon',
+            })}
+        >
             {icon}
         </div>
     );
@@ -152,6 +160,7 @@ export const Label = React.forwardRef(function Label(
                         size,
                         interactive: isInteractive,
                         disabled,
+                        multiline,
                     },
                     className,
                 )}

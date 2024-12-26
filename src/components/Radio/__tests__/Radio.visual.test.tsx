@@ -34,9 +34,7 @@ test.describe('Radio', {tag: '@Radio'}, () => {
             </div>,
         );
 
-        await expectScreenshot({
-            themes: ['light'],
-        });
+        await expectScreenshot({});
     });
 
     smokeTest('disabled', async ({mount, expectScreenshot}) => {
@@ -63,9 +61,7 @@ test.describe('Radio', {tag: '@Radio'}, () => {
             </div>,
         );
 
-        await expectScreenshot({
-            themes: ['light'],
-        });
+        await expectScreenshot({});
     });
 
     smokeTest('default checked', async ({mount, expectScreenshot}) => {
@@ -92,8 +88,6 @@ test.describe('Radio', {tag: '@Radio'}, () => {
             </div>,
         );
 
-        await expectScreenshot({
-            themes: ['light'],
-        });
+        await expectScreenshot({});
     });
 });

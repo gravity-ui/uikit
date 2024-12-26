@@ -2,7 +2,7 @@ import React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {render, screen} from '../../../../test-utils/utils';
+import {render, screen} from '../../../../../test-utils/utils';
 import {Tabs, TabsDirection} from '../Tabs';
 import type {TabsItemProps, TabsSize} from '../Tabs';
 

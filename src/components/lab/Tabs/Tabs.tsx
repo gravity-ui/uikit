@@ -2,8 +2,8 @@
 
 import React from 'react';
 
-import type {QAProps} from '../types';
-import {block} from '../utils/cn';
+import type {QAProps} from '../../types';
+import {block} from '../../utils/cn';
 
 import {TabsContext} from './TabsContext';
 import {TabsItem} from './TabsItem';

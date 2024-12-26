@@ -1,4 +1,3 @@
-import {FaceRobot} from '@gravity-ui/icons';
 import {expect} from '@playwright/experimental-ct-react';
 
 import {smokeTest, test} from '~playwright/core';

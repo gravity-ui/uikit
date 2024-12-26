@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {FaceRobot} from '@gravity-ui/icons';
 
 import {Avatar} from '../Avatar';

@@ -1,6 +1,4 @@
-import React from 'react';
-
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {RadioGroupOption, RadioGroupProps} from '../RadioGroup';
@@ -20,34 +18,53 @@ test.describe('RadioGroup', {tag: '@RadioGroup'}, () => {
         options,
     };
 
-    createSmokeScenarios<RadioGroupProps>(defaultProps, {
-        size: sizeCases,
-        direction: directionCases,
-    }).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<RadioGroup {...props} />);
-
-            await expectScreenshot();
-        });
-    });
-
-    createSmokeScenarios<RadioGroupProps>(
-        {
-            ...defaultProps,
-            disabled: true,
-        },
-        {
+    smokeTest('', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<RadioGroupProps>(defaultProps, {
             size: sizeCases,
             direction: directionCases,
-        },
-        {
-            scenarioName: 'disabled',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<RadioGroup {...props} />);
-
-            await expectScreenshot();
         });
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <RadioGroup {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({});
+    });
+
+    smokeTest('disabled', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<RadioGroupProps>(
+            {
+                ...defaultProps,
+                disabled: true,
+            },
+            {
+                size: sizeCases,
+                direction: directionCases,
+            },
+        );
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <RadioGroup {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({});
     });
 });

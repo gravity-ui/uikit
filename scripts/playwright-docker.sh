@@ -12,12 +12,12 @@ command_exists() {
 }
 
 run_command() {
-    $CONTAINER_TOOL run --rm --network host -it -w /work \
-        -v $(pwd):/work \
-        -v "$NODE_MODULES_CACHE_DIR:/work/node_modules" \
-        -e IS_DOCKER=1 \
-        "$IMAGE_NAME:$IMAGE_TAG" \
-        /bin/bash -c "$1"
+  $CONTAINER_TOOL run --rm --network host -it -w /work \
+    -v $(pwd):/work \
+    -v "$NODE_MODULES_CACHE_DIR:/work/node_modules" \
+    -e IS_DOCKER=1 \
+    "$IMAGE_NAME:$IMAGE_TAG" \
+    /bin/bash -c "$1"
 }
 
 if command_exists docker; then
@@ -30,14 +30,14 @@ else
 fi
 
 if [[ "$1" = "clear-cache" ]]; then
-    rm -rf "$NODE_MODULES_CACHE_DIR"
-    rm -rf "./playwright/.cache-docker"
-    exit 0
+  rm -rf "$NODE_MODULES_CACHE_DIR"
+  rm -rf "./playwright/.cache-docker"
+  exit 0
 fi
 
 if [[ ! -d "$NODE_MODULES_CACHE_DIR" ]]; then
-    mkdir -p "$NODE_MODULES_CACHE_DIR"
-    run_command 'npm ci'
+  mkdir -p "$NODE_MODULES_CACHE_DIR"
+  run_command 'npm ci'
 fi
 
 run_command "$1"

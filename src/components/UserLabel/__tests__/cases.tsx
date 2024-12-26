@@ -7,7 +7,7 @@ export const viewCases: Cases<UserLabelProps['view']> = ['outlined', 'clear'];
 
 export const typeCases: Cases<UserLabelProps['type']> = ['person', 'email', 'empty'];
 
-export const childrenCases: CasesWithName<UserLabelProps['children']> = [
+export const textCases: CasesWithName<UserLabelProps['text']> = [
     [
         'long label',
         'Charles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles DarwinCharles Darwin',

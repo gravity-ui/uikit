@@ -1,12 +1,11 @@
 import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
-import type {MenuProps} from '../Menu';
+import type {MenuItemProps, MenuProps} from '../Menu';
 import type {MenuGroupProps} from '../MenuGroup';
 
 import {activeCases, disabledCases, selectedCases, sizeCases, themeCases} from './cases';
 import type {
-    MenuItemProps,
     TestMenuGroupProps,
     TestMenuItemProps,
     TestMenuItemWithIconsProps,

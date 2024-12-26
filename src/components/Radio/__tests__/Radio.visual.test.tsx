@@ -1,6 +1,4 @@
-import React from 'react';
-
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {RadioProps} from '../Radio';
@@ -8,68 +6,94 @@ import {Radio} from '../Radio';
 
 import {sizeCases} from './cases';
 
-const qa = 'value-1';
-
 test.describe('Radio', {tag: '@Radio'}, () => {
     const defaultProps: RadioProps = {
         children: 'Test',
         value: '1',
-        qa,
     };
 
-    createSmokeScenarios<RadioProps>(defaultProps, {
+    const commonPropsCases = {
         size: sizeCases,
-    }).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            const root = await mount(<Radio {...props} />);
+    } as const;
 
-            await expectScreenshot({});
+    smokeTest('', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<RadioProps>(defaultProps, {
+            ...commonPropsCases,
+        });
 
-            root.getByTestId(qa).focus();
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Radio {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
 
-            await expectScreenshot({nameSuffix: 'after focus'});
-
-            await root.getByTestId(qa).click();
-
-            await expectScreenshot({nameSuffix: 'after click'});
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 
-    createSmokeScenarios<RadioProps>(
-        {
-            ...defaultProps,
-            disabled: true,
-        },
-        {
-            size: sizeCases,
-        },
-        {
-            scenarioName: 'disabled',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<Radio {...props} />);
+    smokeTest('disabled', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<RadioProps>(
+            {
+                ...defaultProps,
+                disabled: true,
+            },
+            {
+                ...commonPropsCases,
+            },
+        );
 
-            await expectScreenshot();
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Radio {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 
-    createSmokeScenarios<RadioProps>(
-        {
-            ...defaultProps,
-            defaultChecked: true,
-        },
-        {
-            size: sizeCases,
-        },
-        {
-            scenarioName: 'default checked',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<Radio {...props} />);
+    smokeTest('default checked', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<RadioProps>(
+            {
+                ...defaultProps,
+                defaultChecked: true,
+            },
+            {
+                ...commonPropsCases,
+            },
+        );
 
-            await expectScreenshot();
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Radio {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 });

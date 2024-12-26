@@ -1,15 +1,17 @@
 import React from 'react';
 
-import {expect} from '@playwright/experimental-ct-react';
-
 import {test} from '~playwright/core';
 
-import {Default} from './stories';
+import {UserStories} from './stories';
 
 test.describe('User', () => {
-    test('render story: <Default>', async ({mount}) => {
-        const component = await mount(<Default />);
+    test('render story: <Default>', async ({mount, expectScreenshot}) => {
+        const component = await mount(<UserStories.Default />);
+        await expectScreenshot({component});
+    });
 
-        await expect(component).toHaveScreenshot();
+    test('render story: <Showcase>', async ({mount, expectScreenshot}) => {
+        const component = await mount(<UserStories.UserShowcase />);
+        await expectScreenshot({component});
     });
 });

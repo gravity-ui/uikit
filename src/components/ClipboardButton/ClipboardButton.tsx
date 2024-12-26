@@ -102,7 +102,6 @@ export function ClipboardButton(props: ClipboardButtonProps) {
         text,
         timeout = DEFAULT_TIMEOUT,
         onCopy,
-        options,
         hasTooltip = true,
         onMouseEnter,
         onFocus,
@@ -154,7 +153,7 @@ export function ClipboardButton(props: ClipboardButtonProps) {
     );
 
     return (
-        <CopyToClipboard text={text} timeout={timeout} onCopy={handleCopy} options={options}>
+        <CopyToClipboard text={text} timeout={timeout} onCopy={handleCopy}>
             {(status) => (
                 <ClipboardButtonComponent
                     {...buttonProps}

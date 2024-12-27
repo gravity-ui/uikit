@@ -4,9 +4,8 @@
 
 <!--/GITHUB_BLOCK-->
 
-A simple text tip that uses its children node as an anchor. This component accepts only text content and may be an excellent alternative to the browser title with its small size and increased appearance delay.
-
-Tooltip has a light and dark theme.
+A simple text tip that uses its children node as an anchor. This component accepts only text content and may be an excellent
+alternative to the browser's `title` attribute with its small size and long appearance delay.
 
 ## Usage
 
@@ -18,18 +17,58 @@ import {Tooltip} from '@gravity-ui/uikit';
 </Tooltip>;
 ```
 
+## Anchor
+
+In order for `Tooltip` to work you should pass a valid `ReactElement` as a children which accepts `ref` property for `HTMLElement`
+and other properties for `HTMLElement`.
+
+Alternatively, you can pass function as a children to provide ref and props manually to your underlying components:
+
+```tsx
+import {Tooltip} from '@gravity-ui/uikit';
+
+<Tooltip content="Content">
+  {(props, ref) => <MyCustomButton buttonProps={props} buttonRef={ref} />}
+</Tooltip>;
+```
+
+## Controlled State
+
+By default `Tooltip` opens and hides by hovering the anchor. You can change this behaviour to manually set the open state.
+Pass your state to the `open` prop and change it from `onOpenChange` callback.
+`onOpenChange` callback has the following signature: `(open: boolean, event?: Event, reason: 'hover' | 'focus') => void`.
+
+## Role
+
+`Tooltip` accepts the `role` property which changes how it should act it terms of accessibility.
+`tooltip` role should be used when anchor has its own text and `label` role otherwise (e.g. in icon button).
+
 ## Properties
 
-| Name             | Description                                                                             |                       Type                       | Default |
-| :--------------- | --------------------------------------------------------------------------------------- | :----------------------------------------------: | :-----: |
-| children         | An anchor element for a `Tooltip`. Must accept a `ref` that will provide a DOM element. |               `React.ReactElement`               |         |
-| closeDelay       | Number of ms to delay hiding the `Tooltip` after the hover ends                         |                     `number`                     |   `0`   |
-| openDelay        | Number of ms to delay showing the `Tooltip` after the hover begins                      |                     `number`                     | `1000`  |
-| placement        | `Tooltip` position relative to its anchor                                               | [`PopupPlacement`](../Popup/README.md#placement) |         |
-| qa               | HTML `data-qa` attribute, used in tests                                                 |                     `string`                     |         |
-| content          | Content that will be shown in the `Tooltip`                                             |                `React.ReactNode`                 |         |
-| id               | This prop is used to help implement the accessibility logic.                            |                     `string`                     |         |
-| disablePortal    | Do not use Portal for children                                                          |                    `boolean`                     |         |
-| contentClassName | HTML class attribute for content node                                                   |                     `string`                     |         |
-| className        | HTML class attribute for popup                                                          |                     `string`                     |         |
-| disabled         | Prevent popup from opening                                                              |                    `boolean`                     | `false` |
+| Name         | Description                                                                 |                       Type                       |   Default   |
+| :----------- | --------------------------------------------------------------------------- | :----------------------------------------------: | :---------: |
+| children     | An anchor element for the `Tooltip`                                         |         `React.ReactElement` `Function`          |             |
+| className    | HTML class attribute                                                        |                     `string`                     |             |
+| closeDelay   | Number of ms to delay hiding the `Tooltip` after the hover ends             |                     `number`                     |     `0`     |
+| content      | Content that will be shown in the `Tooltip`                                 |                `React.ReactNode`                 |             |
+| disabled     | Prevent the `Tooltip` from opening                                          |                    `boolean`                     |             |
+| offset       | `Tooltip` offset from its anchor                                            |                     `number`                     |     `4`     |
+| onOpenChange | Callback to handle open state change                                        |                    `Function`                    |             |
+| open         | Controlled open state                                                       |                    `boolean`                     |             |
+| openDelay    | Number of ms to delay showing the `Tooltip` after the hover begins          |                     `number`                     |   `1000`    |
+| placement    | `Tooltip` position relative to its anchor                                   | [`PopupPlacement`](../Popup/README.md#placement) |  `bottom`   |
+| qa           | HTML `data-qa` attribute, used in tests                                     |                     `string`                     |             |
+| role         | The role `Tooltip` is used for                                              |              `"tooltip"` `"label"`               | `"tooltip"` |
+| strategy     | The type of CSS position property to use.                                   |                `absolute` `fixed`                | `absolute`  |
+| style        | HTML style attribute                                                        |              `React.CSSProperties`               |             |
+| trigger      | Event type that should trigger opening. By default both hover and focus do. |                    `"focus"`                     |             |
+
+## CSS API
+
+| Name                           | Description      |
+| :----------------------------- | :--------------- |
+| `--g-tooltip-text-color`       | Text color       |
+| `--g-tooltip-background-color` | Background color |
+| `--g-tooltip-padding`          | Padding          |
+| `--g-tooltip-border-radius`    | Border radius    |
+| `--g-tooltip-box-shadow`       | Shadow           |

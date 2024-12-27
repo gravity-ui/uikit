@@ -72,8 +72,7 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
                 open={open}
                 onClose={() => setOpen(false)}
                 disablePortal
-                restoreFocus
-                restoreFocusRef={controlRef}
+                returnFocus={controlRef}
             >
                 <ListContainer
                     containerRef={containerRef}

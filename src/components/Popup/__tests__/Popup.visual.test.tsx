@@ -1,36 +1,71 @@
-import React from 'react';
-
 import {expect} from '@playwright/experimental-ct-react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {PopupProps} from '../Popup';
 
-import {hasArrowCases, offsetCases, placementCases, strategyCases} from './cases';
+import {offsetCases, placementCases, strategyCases} from './cases';
 import {VisualTestQA} from './constants';
-import {VisualTestPopup} from './helpers';
+import {TestPopup} from './helpers';
 
 test.describe('Popup', {tag: '@Popup'}, () => {
     const defaultProps: PopupProps = {};
 
-    createSmokeScenarios(defaultProps, {
-        hasArrow: hasArrowCases,
-        placement: placementCases,
+    createSmokeScenarios<PopupProps>(defaultProps, {
         offset: offsetCases,
         strategy: strategyCases,
-    }).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, page, expectScreenshot}) => {
-            const root = await mount(<VisualTestPopup {...props} />);
-
-            await expectScreenshot({});
-
-            await root.locator(`button[data-qa="${VisualTestQA.trigger}"]`).click();
+    }).forEach(([title, props]) => {
+        smokeTest(title, async ({mount, page, expectScreenshot}) => {
+            await mount(<TestPopup {...props} />);
 
             await expect(page.getByTestId(VisualTestQA.popupContent)).toBeVisible();
 
             await expectScreenshot({
-                nameSuffix: 'opened',
+                themes: ['light'],
+            });
+        });
+    });
+
+    createSmokeScenarios<PopupProps>(
+        defaultProps,
+        {
+            placement: placementCases,
+        },
+        {
+            scenarioName: 'placement',
+        },
+    ).forEach(([title, props]) => {
+        smokeTest(title, async ({mount, page, expectScreenshot}) => {
+            await mount(<TestPopup {...props} />);
+
+            await expect(page.getByTestId(VisualTestQA.popupContent)).toBeVisible();
+
+            await expectScreenshot({
+                themes: ['light'],
+            });
+        });
+    });
+
+    createSmokeScenarios<PopupProps>(
+        {
+            ...defaultProps,
+            hasArrow: true,
+        },
+        {
+            placement: placementCases,
+        },
+        {
+            scenarioName: 'placement with arrow',
+        },
+    ).forEach(([title, props]) => {
+        smokeTest(title, async ({mount, page, expectScreenshot}) => {
+            await mount(<TestPopup {...props} />);
+
+            await expect(page.getByTestId(VisualTestQA.popupContent)).toBeVisible();
+
+            await expectScreenshot({
+                themes: ['light'],
             });
         });
     });

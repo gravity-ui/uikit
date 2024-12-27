@@ -1,7 +1,6 @@
 import type {Cases, CasesWithName} from '../../../stories/tests-factory/models';
 import type {PopupProps} from '../Popup';
 
-export const hasArrowCases: Cases<PopupProps['hasArrow']> = [true];
 export const placementCases: Cases<PopupProps['placement']> = [
     'auto',
     'auto-start',

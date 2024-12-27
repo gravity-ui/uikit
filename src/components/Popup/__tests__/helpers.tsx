@@ -1,22 +1,22 @@
-import React from 'react';
+import * as React from 'react';
 
-import {Button} from '../../Button';
 import type {PopupProps} from '../Popup';
 import {Popup} from '../Popup';
 
 import {VisualTestQA} from './constants';
 
-export const VisualTestPopup = (props: PopupProps) => {
-    const anchorRef = React.useRef<HTMLButtonElement>(null);
-    const [open, setOpen] = React.useState(false);
+export const TestPopup = (props: PopupProps) => {
+    const anchorRef = React.useRef<HTMLDivElement>(null);
 
     return (
         <React.Fragment>
             <Popup
                 {...props}
-                open={open}
+                open
+                onClose={() => {
+                    // nothing
+                }}
                 anchorRef={anchorRef}
-                onClose={() => setOpen(false)}
                 qa={VisualTestQA.popupContent}
             >
                 <div style={{padding: 10}}>Popup content</div>
@@ -30,9 +30,19 @@ export const VisualTestPopup = (props: PopupProps) => {
                     justifyContent: 'center',
                 }}
             >
-                <Button ref={anchorRef} onClick={() => setOpen(!open)} qa={VisualTestQA.trigger}>
-                    {open ? 'Hide' : 'Show'}
-                </Button>
+                <div
+                    ref={anchorRef}
+                    style={{
+                        width: '100px',
+                        height: '100px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        border: '1px solid tomato',
+                    }}
+                >
+                    base content
+                </div>
             </div>
         </React.Fragment>
     );

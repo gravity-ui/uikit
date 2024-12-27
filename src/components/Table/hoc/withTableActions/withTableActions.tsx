@@ -181,11 +181,9 @@ const DefaultRowActions = <I extends TableDataItem>({
                 size={rowActionsSize}
                 ref={anchorRef}
                 disabled={disabled}
-                extraProps={{
-                    'aria-label': i18n('label-actions'),
-                    'aria-expanded': isPopupOpen,
-                    'aria-controls': rowId,
-                }}
+                aria-label={i18n('label-actions')}
+                aria-expanded={isPopupOpen}
+                aria-controls={rowId}
             >
                 <Icon data={Ellipsis} />
             </Button>

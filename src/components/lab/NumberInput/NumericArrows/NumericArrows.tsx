@@ -33,16 +33,14 @@ export function NumericArrows({
     onDownClick,
     ...restProps
 }: NumericArrowsProps) {
-    const commonBtnProps: Partial<ButtonProps> = {
+    const commonBtnProps: ButtonProps = {
         size: 's',
         pin: 'brick-brick',
         view: 'flat-secondary',
         disabled,
         tabIndex: -1,
         width: 'max',
-        extraProps: {
-            'aria-hidden': 'true',
-        },
+        'aria-hidden': 'true',
     };
 
     return (
@@ -57,7 +55,7 @@ export function NumericArrows({
                 qa={INCREMENT_BUTTON_QA}
                 {...commonBtnProps}
                 onClick={onUpClick}
-                extraProps={{'aria-label': i18n('label_increment')}}
+                aria-label={i18n('label_increment')}
             >
                 <Icon data={ChevronUp} size={12} />
             </Button>
@@ -67,7 +65,7 @@ export function NumericArrows({
                 qa={DECREMENT_BUTTON_QA}
                 {...commonBtnProps}
                 onClick={onDownClick}
-                extraProps={{'aria-label': i18n('label_decrement')}}
+                aria-label={i18n('label_decrement')}
             >
                 <Icon data={ChevronDown} size={12} />
             </Button>

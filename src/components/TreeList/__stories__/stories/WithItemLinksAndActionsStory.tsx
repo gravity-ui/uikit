@@ -71,9 +71,7 @@ export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStory
                                             },
                                         ]}
                                         defaultSwitcherProps={{
-                                            extraProps: {
-                                                'aria-label': moreOptionsButton,
-                                            },
+                                            'aria-label': moreOptionsButton,
                                         }}
                                     />
                                 ),
@@ -90,11 +88,11 @@ export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStory
                                                 [id]: !prevExpandedState[id],
                                             }));
                                         }}
-                                        extraProps={{
-                                            'aria-label': itemProps.content.expanded
+                                        aria-label={
+                                            itemProps.content.expanded
                                                 ? closeButtonLabel
-                                                : expandButtonLabel,
-                                        }}
+                                                : expandButtonLabel
+                                        }
                                     >
                                         <Button.Icon>
                                             <ListItemExpandIcon

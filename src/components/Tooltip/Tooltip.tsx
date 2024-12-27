@@ -7,6 +7,7 @@ import {
     limitShift,
     offset,
     shift,
+    useDismiss,
     useFloating,
     useFocus,
     useHover,
@@ -17,6 +18,7 @@ import type {OpenChangeReason, Strategy} from '@floating-ui/react';
 
 import {useControlledState, useForkRef} from '../../hooks';
 import type {PopupOffset, PopupPlacement} from '../Popup';
+import {OVERFLOW_PADDING} from '../Popup/constants';
 import {getPlacementOptions} from '../Popup/utils';
 import {Portal} from '../Portal';
 import type {DOMProps, QAProps} from '../types';
@@ -87,7 +89,24 @@ export function Tooltip({
         onOpenChange: setIsOpen,
         strategy,
         placement,
-        middleware: [offset(offsetProp), placementMiddleware, shift({limiter: limitShift()})],
+        middleware: [
+            offset(offsetProp),
+            placementMiddleware,
+            shift({
+                padding: OVERFLOW_PADDING,
+                limiter: limitShift({
+                    offset: ({rects, placement}) => {
+                        const referenceProp: Record<string, 'width' | 'height'> = {
+                            top: 'width',
+                            bottom: 'width',
+                            left: 'height',
+                            right: 'height',
+                        };
+                        return {mainAxis: rects.reference[referenceProp[placement.split('-')[0]]]};
+                    },
+                }),
+            }),
+        ],
         whileElementsMounted: autoUpdate,
         elements: {
             reference: anchorElement,
@@ -103,8 +122,11 @@ export function Tooltip({
     const role = useRole(context, {
         role: roleProp,
     });
+    const dismiss = useDismiss(context, {
+        outsidePress: false,
+    });
 
-    const {getReferenceProps, getFloatingProps} = useInteractions([hover, focus, role]);
+    const {getReferenceProps, getFloatingProps} = useInteractions([hover, focus, role, dismiss]);
 
     const anchorRef = useForkRef(
         setAnchorElement,

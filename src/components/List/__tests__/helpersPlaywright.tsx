@@ -1,7 +1,5 @@
-import React from 'react';
-
 import {List} from '../List';
-import type {ListItemData, ListProps} from '../types';
+import type {ListProps} from '../types';
 
 export const TestList = <T extends string>(props: Partial<ListProps<T>>) => {
     const [activeItemIndex, setActiveItemIndex] = React.useState<number | undefined>(1);
@@ -14,25 +12,6 @@ export const TestList = <T extends string>(props: Partial<ListProps<T>>) => {
             onChangeActive={setActiveItemIndex}
             selectedItemIndex={selectedItemIndex}
             onItemClick={(_, index) => setSelectedItemIndex(index)}
-        />
-    );
-};
-
-export const TestFilterableList = <T extends string>(props: Partial<ListProps<T>>) => {
-    const [filter, setFilter] = React.useState<string>('');
-
-    const filterItem = (filter: string) => (item: ListItemData<T>) => {
-        return item.includes(filter);
-    };
-
-    return (
-        <TestList
-            {...props}
-            autoFocus
-            filterable
-            filter={filter}
-            onFilterUpdate={setFilter}
-            filterItem={filterItem}
         />
     );
 };

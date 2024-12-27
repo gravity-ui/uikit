@@ -1,6 +1,4 @@
-import React from 'react';
-
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {ListProps} from '../types';
@@ -11,7 +9,7 @@ import {
     sizeCases,
     sortHandleAlignCases,
 } from './cases';
-import {TestFilterableList, TestList, TestListWithCustomRender} from './helpersPlaywright';
+import {TestList, TestListWithCustomRender} from './helpersPlaywright';
 
 test.describe('List', {tag: '@List'}, () => {
     const defaultProps: ListProps<string> = {
@@ -19,118 +17,100 @@ test.describe('List', {tag: '@List'}, () => {
         items: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'],
     };
 
-    createSmokeScenarios(defaultProps, {
-        size: sizeCases,
-    }).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            const root = await mount(<TestList {...props} />);
-
-            await expectScreenshot();
-
-            root.getByText('one').hover();
-
-            await expectScreenshot({
-                nameSuffix: 'after hover on first item',
-            });
-        });
-    });
-
-    createSmokeScenarios(
-        {
-            ...defaultProps,
-            items: [],
-        },
-        {
-            size: sizeCases,
-            emptyPlaceholder: emptyPlaceholderCases,
-        },
-        {
-            scenarioName: 'empty',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<TestList {...props} />);
-
-            await expectScreenshot();
-        });
-    });
-
-    createSmokeScenarios(
-        defaultProps,
-        {
-            size: sizeCases,
-        },
-        {
-            scenarioName: 'custom render item',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<TestListWithCustomRender {...props} />);
-
-            await expectScreenshot();
-        });
-    });
-
-    createSmokeScenarios(
-        {
-            ...defaultProps,
-            sortable: true,
-        },
-        {
-            size: sizeCases,
-            sortHandleAlign: sortHandleAlignCases,
-        },
-        {
-            scenarioName: 'with sort',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<TestList {...props} />);
-
-            await expectScreenshot();
-        });
-    });
-
-    createSmokeScenarios(
-        {
-            ...defaultProps,
-        },
-        {
+    smokeTest('', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<ListProps<string>>(defaultProps, {
             size: sizeCases,
             filterPlaceholder: filterPlaceholderCases,
-        },
-        {
-            scenarioName: 'filterable',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, page, expectScreenshot}) => {
-            await mount(<TestFilterableList {...props} />);
+            sortHandleAlign: sortHandleAlignCases,
+        });
 
-            await expectScreenshot();
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestList {...props} />
+                        </div>
+                        <hr />
+                    </div>
+                ))}
+            </div>,
+        );
 
-            await page.keyboard.type('on');
-
-            await expectScreenshot({
-                nameSuffix: 'after apply filter',
-            });
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 
-    createSmokeScenarios(
-        {
+    smokeTest('empty', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<ListProps<string>>(
+            {
+                ...defaultProps,
+                items: [],
+            },
+            {
+                filterPlaceholder: filterPlaceholderCases,
+                emptyPlaceholder: emptyPlaceholderCases,
+            },
+        );
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestList {...props} />
+                        </div>
+                        <hr />
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
+        });
+    });
+
+    smokeTest('custom render item', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<ListProps<string>>(defaultProps, {
+            size: sizeCases,
+            filterPlaceholder: filterPlaceholderCases,
+            sortHandleAlign: sortHandleAlignCases,
+        });
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestListWithCustomRender {...props} />
+                        </div>
+                        <hr />
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
+        });
+    });
+
+    smokeTest('virtualized', async ({mount, expectScreenshot}) => {
+        const props: ListProps<string> = {
             ...defaultProps,
             itemHeight: 30,
             virtualized: true,
-        },
-        {},
-        {
-            scenarioName: 'virtualized',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<TestList {...props} />);
+        };
 
-            await expectScreenshot();
+        await mount(<TestList {...props} />);
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 });

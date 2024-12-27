@@ -23,31 +23,34 @@ test.describe('ActionTooltip', {tag: '@ActionTooltip'}, () => {
     smokeScenarios.forEach(([title, props]) => {
         smokeTest(title, async ({mount, page, expectScreenshot}) => {
             const root = await mount(
-                <div
-                    style={{
-                        width: '400px',
-                        height: '400px',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}
-                >
-                    <div>
-                        <ActionTooltip {...props}>
-                            <div
-                                data-qa="trigger"
-                                style={{
-                                    width: '200px',
-                                    height: '200px',
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    border: '1px tomato dotted',
-                                }}
-                            >
-                                trigger block
-                            </div>
-                        </ActionTooltip>
+                <div>
+                    <h4>{title}</h4>
+                    <div
+                        style={{
+                            width: '400px',
+                            height: '400px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <div>
+                            <ActionTooltip {...props}>
+                                <div
+                                    data-qa="trigger"
+                                    style={{
+                                        width: '200px',
+                                        height: '200px',
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        border: '1px tomato dotted',
+                                    }}
+                                >
+                                    trigger block
+                                </div>
+                            </ActionTooltip>
+                        </div>
                     </div>
                 </div>,
             );

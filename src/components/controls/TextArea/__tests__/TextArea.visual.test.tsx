@@ -1,14 +1,11 @@
-import React from 'react';
-
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../../stories/tests-factory/create-smoke-scenarios';
 import type {TextAreaProps} from '../TextArea';
 import {TextArea} from '../TextArea';
 
 import {
-    defaultValueCases,
-    errorPlacementCases,
+    disabledCases,
     hasClearCases,
     maxRowsCases,
     minRowsCases,
@@ -16,6 +13,9 @@ import {
     pinCases,
     rowsCases,
     sizeCases,
+    testValue,
+    validationStateCases,
+    valueCases,
     viewCases,
 } from './cases';
 
@@ -24,8 +24,7 @@ test.describe('TextArea', {tag: '@TextArea'}, () => {
         placeholder: 'Placeholder',
     };
 
-    const propCases = {
-        defaultValue: defaultValueCases,
+    const commonPropCases = {
         pin: pinCases,
         size: sizeCases,
         view: viewCases,
@@ -34,92 +33,85 @@ test.describe('TextArea', {tag: '@TextArea'}, () => {
         maxRows: maxRowsCases,
         note: noteCases,
         hasClear: hasClearCases,
+        disabled: disabledCases,
+        validationState: validationStateCases,
     } as const;
 
-    createSmokeScenarios(
-        {
-            ...defaultProps,
-        },
-        propCases,
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            const root = await mount(<TextArea {...props} />);
+    smokeTest('empty', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios(defaultProps, commonPropCases);
 
-            await expectScreenshot({});
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TextArea {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
 
-            await root.locator('textarea').hover();
-
-            await expectScreenshot({
-                nameSuffix: 'hovered',
-            });
-
-            await root.locator('textarea').fill('Text');
-
-            await expectScreenshot({
-                nameSuffix: 'filled',
-            });
-
-            await root.locator('textarea').blur();
-
-            await expectScreenshot({
-                nameSuffix: 'after blur',
-            });
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 
-    createSmokeScenarios(
-        {
-            ...defaultProps,
-            disabled: true,
-        },
-        propCases,
-        {
-            scenarioName: 'disabled',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<TextArea {...props} />);
+    smokeTest('with value', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios(
+            {
+                ...defaultProps,
+                value: testValue,
+            },
+            commonPropCases,
+        );
 
-            await expectScreenshot();
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TextArea {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 
-    createSmokeScenarios(
-        {
-            ...defaultProps,
-            validationState: 'invalid',
-            errorMessage: 'Error message',
-        } as const,
-        {
-            ...propCases,
-            errorPlacement: errorPlacementCases,
-        },
-        {
-            scenarioName: 'with error',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            const root = await mount(<TextArea {...props} />);
+    smokeTest('with error', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios(
+            {
+                ...defaultProps,
+                validationState: 'invalid',
+                errorMessage: 'Test error message',
+            } as const,
+            {
+                value: valueCases,
+            },
+        );
 
-            await expectScreenshot({});
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TextArea {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
 
-            await root.locator('textarea').hover();
-
-            await expectScreenshot({
-                nameSuffix: 'hovered',
-            });
-
-            await root.locator('textarea').fill('Text');
-
-            await expectScreenshot({
-                nameSuffix: 'filled',
-            });
-
-            await root.locator('textarea').blur();
-
-            await expectScreenshot({
-                nameSuffix: 'after blur',
-            });
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 });

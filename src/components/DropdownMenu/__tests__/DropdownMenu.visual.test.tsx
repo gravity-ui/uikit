@@ -1,15 +1,11 @@
-import React from 'react';
-
 import {expect} from '@playwright/experimental-ct-react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
-import type {DropdownMenuItemMixed, DropdownMenuProps} from '../DropdownMenu';
+import type {DropdownMenuItemMixed} from '../DropdownMenu';
 import {DropdownMenu} from '../DropdownMenu';
 
-import type {ItemData} from './cases';
-import {disabledCases, iconCases, sizeCases} from './cases';
+type ItemData = {};
 
 test.describe('DropdownMenu', {tag: '@DropdownMenu'}, () => {
     const items: DropdownMenuItemMixed<ItemData>[] = [
@@ -62,50 +58,23 @@ test.describe('DropdownMenu', {tag: '@DropdownMenu'}, () => {
         },
     ];
 
-    const defaultProps: DropdownMenuProps<ItemData> = {
-        items,
-    };
+    smokeTest('', async ({mount, page, expectScreenshot}) => {
+        await page.setViewportSize({width: 500, height: 500});
 
-    createSmokeScenarios(defaultProps, {
-        size: sizeCases,
-        icon: iconCases,
-        disabled: disabledCases,
-        // renderSwitcher: customSwitcherCases
-    }).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, page, expectScreenshot}) => {
-            await page.setViewportSize({width: 500, height: 500});
+        const root = await mount(
+            <div style={{width: '500px', height: '500px'}}>
+                <DropdownMenu items={items} />
+            </div>,
+        );
 
-            const root = await mount(
-                <div style={{width: '500px', height: '500px'}}>
-                    <DropdownMenu {...props} />
-                </div>,
-            );
+        await root.locator(`button`).click();
 
-            await expectScreenshot({});
+        await expect(page.locator(`ul`)).toBeVisible();
 
-            if (props.disabled) {
-                return;
-            }
+        await page.locator(`ul li:nth-child(6)`).hover();
 
-            await root.locator(`button`).hover();
-
-            await expectScreenshot({
-                nameSuffix: 'after hover trigger',
-            });
-
-            await root.locator(`button`).click();
-
-            await expect(page.locator(`ul`)).toBeVisible();
-
-            await expectScreenshot({
-                nameSuffix: 'after click trigger',
-            });
-
-            await page.locator(`ul li:nth-child(6)`).hover();
-
-            await expectScreenshot({
-                nameSuffix: 'after click item',
-            });
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 });

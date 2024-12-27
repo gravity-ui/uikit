@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {ChevronRight, Flame, House, Rocket} from '@gravity-ui/icons';
 
 import {Box} from '../../../layout/Box/Box';

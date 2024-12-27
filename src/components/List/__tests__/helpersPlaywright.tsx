@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import {List} from '../List';
 import type {ListProps} from '../types';
 

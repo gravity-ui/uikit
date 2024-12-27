@@ -121,7 +121,7 @@ test.describe('Toast', {tag: '@Toaster'}, () => {
         });
     });
 
-    smokeTest('with icons', async ({mount, expectScreenshot}) => {
+    smokeTest('with custom icon', async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<ToastProps>(
             {
                 name: 'toast',

@@ -73,8 +73,6 @@ test.describe('DropdownMenu', {tag: '@DropdownMenu'}, () => {
 
         await page.locator(`ul li:nth-child(6)`).hover();
 
-        await expectScreenshot({
-            themes: ['light'],
-        });
+        await expectScreenshot({});
     });
 });

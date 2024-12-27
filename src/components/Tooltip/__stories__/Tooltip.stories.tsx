@@ -16,7 +16,7 @@ export const Default: Story = {
     render: (args) => {
         return (
             <Tooltip {...args}>
-                <Button extraProps={{'aria-describedby': args.id}}>Hover to see tooltip</Button>
+                <Button aria-describedby={args.id}>Hover to see tooltip</Button>
             </Tooltip>
         );
     },

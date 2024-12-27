@@ -1,6 +1,6 @@
-import React from 'react';
+import type * as React from 'react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import {Slider} from '../Slider';
@@ -17,6 +17,12 @@ import {
 } from './cases';
 
 test.describe('Slider', {tag: '@Slider'}, () => {
+    const defaultWrapStyle: React.CSSProperties = {
+        width: 300,
+        height: 50,
+        paddingBottom: 20,
+    };
+
     const defaultProps: SliderProps = {
         value: 40,
         min: 0,
@@ -24,49 +30,64 @@ test.describe('Slider', {tag: '@Slider'}, () => {
         onUpdate: () => {},
     };
 
-    createSmokeScenarios(defaultProps, {
-        size: sizeCases,
-        disabled: disabledCases,
-        validationState: validationStateCases,
-        hasTooltip: hasTooltipCases,
-        marksCount: marksCountCases,
-        step: stepCases,
-        availableValues: availableValuesCases,
-    }).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(
-                <div style={{width: 300, height: 50}}>
-                    <Slider {...props} />
-                </div>,
-            );
-
-            await expectScreenshot();
-        });
-    });
-
-    createSmokeScenarios<SliderProps>(
-        {
-            ...defaultProps,
-            validationState: 'invalid',
-            errorMessage: 'Error message',
-        },
-        {
+    smokeTest('', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios(defaultProps, {
+            size: sizeCases,
+            disabled: disabledCases,
+            validationState: validationStateCases,
             hasTooltip: hasTooltipCases,
             marksCount: marksCountCases,
             step: stepCases,
-        },
-        {
-            scenarioName: 'with error',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(
-                <div style={{width: 300, height: 200}}>
-                    <Slider {...props} />
-                </div>,
-            );
+            availableValues: availableValuesCases,
+        });
 
-            await expectScreenshot();
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div style={defaultWrapStyle}>
+                            <Slider {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
+        });
+    });
+
+    smokeTest('with error', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<SliderProps>(
+            {
+                ...defaultProps,
+                validationState: 'invalid',
+                errorMessage: 'Error message',
+            },
+            {
+                hasTooltip: hasTooltipCases,
+                marksCount: marksCountCases,
+                step: stepCases,
+            },
+        );
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div style={defaultWrapStyle}>
+                            <Slider {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 
@@ -77,9 +98,8 @@ test.describe('Slider', {tag: '@Slider'}, () => {
         onUpdate: () => {},
     };
 
-    createSmokeScenarios<SliderProps>(
-        defaultRangeProps,
-        {
+    smokeTest('range value', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<SliderProps>(defaultRangeProps, {
             size: sizeCases,
             disabled: disabledCases,
             validationState: validationStateCases,
@@ -87,45 +107,55 @@ test.describe('Slider', {tag: '@Slider'}, () => {
             marksCount: marksCountCases,
             step: stepCases,
             availableValues: availableValuesCases,
-        },
-        {
-            scenarioName: 'range',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(
-                <div style={{width: 300, height: 50}}>
-                    <Slider {...props} />
-                </div>,
-            );
+        });
 
-            await expectScreenshot();
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div style={defaultWrapStyle}>
+                            <Slider {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 
-    createSmokeScenarios<SliderProps>(
-        {
-            ...defaultRangeProps,
-            validationState: 'invalid',
-            errorMessage: 'Error message',
-        },
-        {
-            hasTooltip: hasTooltipCases,
-            marksCount: marksCountCases,
-            step: stepCases,
-        },
-        {
-            scenarioName: 'range with error',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(
-                <div style={{width: 300, height: 200}}>
-                    <Slider {...props} />
-                </div>,
-            );
+    smokeTest('range value with error', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<SliderProps>(
+            {
+                ...defaultRangeProps,
+                validationState: 'invalid',
+                errorMessage: 'Error message',
+            },
+            {
+                hasTooltip: hasTooltipCases,
+                marksCount: marksCountCases,
+                step: stepCases,
+            },
+        );
 
-            await expectScreenshot();
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div style={defaultWrapStyle}>
+                            <Slider {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 });

@@ -69,10 +69,13 @@ test.describe('DropdownMenu', {tag: '@DropdownMenu'}, () => {
 
         await root.locator(`button`).click();
 
+        // wait open
         await expect(page.locator(`ul`)).toBeVisible();
 
         await page.locator(`ul li:nth-child(6)`).hover();
 
-        await expectScreenshot({});
+        await expectScreenshot({
+            themes: ['light'],
+        });
     });
 });

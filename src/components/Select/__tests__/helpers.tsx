@@ -1,10 +1,10 @@
-import React from 'react';
+import * as React from "react";
 
-import {Select} from '../Select';
-import {useSelectOptions} from '../hooks-public';
-import type {SelectProps} from '../types';
+import { Select } from "../Select";
+import { useSelectOptions } from "../hooks-public";
+import type { SelectProps } from "../types";
 
-import {getSelectOptionTestQA} from './constants';
+import { getSelectOptionTestQA } from "./constants";
 
 export const TestSelectWithFilter = (props: Partial<SelectProps<string>>) => {
     const [value, setValue] = React.useState<string[]>([]);

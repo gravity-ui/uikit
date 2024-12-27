@@ -21,7 +21,7 @@ export const widthCases: Cases<SelectProps<string>['width']> = ['auto', 'max', 2
 
 export const labelCases: Cases<SelectProps<string>['label']> = ['Test label'];
 
-export const placeholderLabelCases: Cases<SelectProps<string>['placeholder']> = ['Placeholder'];
+export const hasClearCases: Cases<SelectProps<string>['hasClear']> = [true];
 
 export const errorPlacementCases: Cases<SelectProps<string>['errorPlacement']> = [
     'outside',

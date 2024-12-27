@@ -110,7 +110,7 @@
         "prepublishOnly": "npm run build && npm pkg delete engines",
         "playwright:install": "playwright install chromium webkit --with-deps",
         "playwright": "playwright test --config=playwright/playwright.config.ts",
-        "playwright:update": "npm run playwright -- -u",
+        "playwright:update": "npm run playwright -- -u --grep Select",
         "playwright:clear-cache": "rm -rf ./playwright/.cache",
         "playwright:docker": "./scripts/playwright-docker.sh 'npm run playwright'",
         "playwright:docker:update": "./scripts/playwright-docker.sh 'npm run playwright:update'",

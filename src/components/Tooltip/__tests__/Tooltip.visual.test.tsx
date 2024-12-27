@@ -22,7 +22,11 @@ test.describe('Tooltip', {tag: '@Tooltip'}, () => {
             const root = await mount(
                 <div>
                     <h4>{title}</h4>
-                    <div>
+                    <div
+                        style={{
+                            padding: '25px 100px',
+                        }}
+                    >
                         <TestTooltip {...props} />
                     </div>
                 </div>,

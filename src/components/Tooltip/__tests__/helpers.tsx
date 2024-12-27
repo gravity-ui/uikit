@@ -5,30 +5,24 @@ import {TooltipQA} from './constants';
 
 export const TestTooltip = (props: Omit<TooltipProps, 'content' | 'disablePortal'>) => {
     return (
-        <div
-            style={{
-                padding: 50,
-            }}
+        <Tooltip
+            {...props}
+            disablePortal
+            content={<div data-qa={TooltipQA.tooltipContent}>tooltip content</div>}
         >
-            <Tooltip
-                {...props}
-                disablePortal
-                content={<div data-qa={TooltipQA.tooltipContent}>tooltip content</div>}
+            <div
+                style={{
+                    width: '200px',
+                    height: '100px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px dotted tomato',
+                }}
+                data-qa={TooltipQA.trigger}
             >
-                <div
-                    style={{
-                        width: '200px',
-                        height: '100px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        border: '1px dotted tomato',
-                    }}
-                    data-qa={TooltipQA.trigger}
-                >
-                    <div>tooltip trigger</div>
-                </div>
-            </Tooltip>
-        </div>
+                <div>tooltip trigger</div>
+            </div>
+        </Tooltip>
     );
 };

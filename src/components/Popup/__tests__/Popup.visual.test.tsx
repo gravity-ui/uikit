@@ -17,7 +17,12 @@ test.describe('Popup', {tag: '@Popup'}, () => {
         strategy: strategyCases,
     }).forEach(([title, props]) => {
         smokeTest(title, async ({mount, page, expectScreenshot}) => {
-            await mount(<TestPopup {...props} />);
+            await mount(
+                <div>
+                    <h4>{title}</h4>
+                    <TestPopup {...props} />
+                </div>,
+            );
 
             await expect(page.getByTestId(VisualTestQA.popupContent)).toBeVisible();
 
@@ -37,7 +42,12 @@ test.describe('Popup', {tag: '@Popup'}, () => {
         },
     ).forEach(([title, props]) => {
         smokeTest(title, async ({mount, page, expectScreenshot}) => {
-            await mount(<TestPopup {...props} />);
+            await mount(
+                <div>
+                    <h4>{title}</h4>
+                    <TestPopup {...props} />
+                </div>,
+            );
 
             await expect(page.getByTestId(VisualTestQA.popupContent)).toBeVisible();
 
@@ -60,7 +70,12 @@ test.describe('Popup', {tag: '@Popup'}, () => {
         },
     ).forEach(([title, props]) => {
         smokeTest(title, async ({mount, page, expectScreenshot}) => {
-            await mount(<TestPopup {...props} />);
+            await mount(
+                <div>
+                    <h4>{title}</h4>
+                    <TestPopup {...props} />
+                </div>,
+            );
 
             await expect(page.getByTestId(VisualTestQA.popupContent)).toBeVisible();
 

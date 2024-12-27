@@ -24,7 +24,7 @@ export const TestPopup = (props: PopupProps) => {
             <div
                 style={{
                     width: '400px',
-                    height: '400px',
+                    height: '200px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -33,7 +33,7 @@ export const TestPopup = (props: PopupProps) => {
                 <div
                     ref={anchorRef}
                     style={{
-                        width: '100px',
+                        width: '200px',
                         height: '100px',
                         display: 'flex',
                         alignItems: 'center',
@@ -41,7 +41,7 @@ export const TestPopup = (props: PopupProps) => {
                         border: '1px solid tomato',
                     }}
                 >
-                    base content
+                    trigger block
                 </div>
             </div>
         </React.Fragment>

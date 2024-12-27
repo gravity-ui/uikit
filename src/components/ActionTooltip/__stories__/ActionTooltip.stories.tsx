@@ -12,6 +12,18 @@ const meta: Meta<typeof ActionTooltip> = {
     component: ActionTooltip,
     parameters: {
         layout: 'centered',
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'button-name',
+                        // We set aria-attributes dynamically
+                        enabled: false,
+                    },
+                ],
+            },
+        },
     },
 };
 

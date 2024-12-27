@@ -35,6 +35,11 @@ export default {
                         id: 'button-name',
                         enabled: false,
                     },
+                    {
+                        id: 'aria-hidden-focus',
+                        enabled: false,
+                        selector: '[data-floating-ui-focus-guard]',
+                    },
                 ],
             },
         },

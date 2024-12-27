@@ -10,6 +10,7 @@ export const mountFixture: PlaywrightFixture<MountFixture> = async ({mount: base
                     boxSizing: options?.width ? 'content-box' : undefined,
                     width: options?.width ? options.width : 'fit-content',
                     height: 'fit-content',
+                    ...options?.rootStyle,
                 }}
                 className="playwright-wrapper-test"
             >

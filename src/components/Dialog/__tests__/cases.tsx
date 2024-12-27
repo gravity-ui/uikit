@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type {Cases, CasesWithName} from '../../../stories/tests-factory/models';
 import type {DialogProps} from '../Dialog';
 import type {DialogBodyProps} from '../DialogBody/DialogBody';

@@ -1,188 +1,112 @@
-import React from 'react';
-
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {PinInputProps} from '../PinInput';
+import {PinInput} from '../PinInput';
 
-import {maskCases, placeholderCases, sizeCases, validationStateCases} from './cases';
 import {
-    TestPinInput,
-    TestPinInputWithErrorMessage,
-    TestPinInputWithNote,
-} from './helpersPlaywright';
+    disabledCases,
+    lengthCases,
+    maskCases,
+    noteCases,
+    placeholderCases,
+    responsiveCases,
+    sizeCases,
+    validationStateCases,
+} from './cases';
 
 test.describe('PinInput', {tag: '@PinInput'}, () => {
-    createSmokeScenarios<PinInputProps>(
-        {
-            type: 'numeric',
-        },
-        {
-            placeholder: placeholderCases,
-            mask: maskCases,
-            size: sizeCases,
-            validationState: validationStateCases,
-        },
-        {
-            scenarioName: 'numeric',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, page, expectScreenshot}) => {
-            await mount(<TestPinInput {...props} />);
+    const commonPropsCases = {
+        placeholder: placeholderCases,
+        length: lengthCases,
+        disabled: disabledCases,
+        responsive: responsiveCases,
+        note: noteCases,
+        mask: maskCases,
+        size: sizeCases,
+        validationState: validationStateCases,
+    } as const;
 
-            await expectScreenshot({});
+    smokeTest('empty', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<PinInputProps>(
+            {
+                type: 'numeric',
+                errorMessage: 'Test error message',
+            },
+            commonPropsCases,
+        );
 
-            await page.keyboard.type('1');
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <PinInput {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
 
-            // wait focus next input
-            await page.waitForTimeout(1000);
-
-            await expectScreenshot({
-                nameSuffix: 'after type one symbol',
-            });
-
-            await page.keyboard.type('2');
-
-            // wait focus next input
-            await page.waitForTimeout(1000);
-
-            await page.keyboard.type('3');
-
-            // wait focus next input
-            await page.waitForTimeout(1000);
-
-            await page.keyboard.type('4');
-
-            // wait focus next input
-            await page.waitForTimeout(1000);
-
-            await expectScreenshot({
-                nameSuffix: 'after type code',
-            });
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 
-    createSmokeScenarios<PinInputProps>(
-        {
-            type: 'alphanumeric',
-        },
-        {
-            placeholder: placeholderCases,
-            mask: maskCases,
-            size: sizeCases,
-            validationState: validationStateCases,
-        },
-        {
-            scenarioName: 'alphanumeric',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, page, expectScreenshot}) => {
-            await mount(<TestPinInput {...props} />);
+    smokeTest('number', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<PinInputProps>(
+            {
+                type: 'numeric',
+                errorMessage: 'Test error message',
+                value: ['1', '2', '3', '4'],
+            },
+            commonPropsCases,
+        );
 
-            await expectScreenshot({});
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <PinInput {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
 
-            await page.keyboard.type('1');
-
-            // wait focus next input
-            await page.waitForTimeout(1000);
-
-            await expectScreenshot({
-                nameSuffix: 'after type one symbol',
-            });
-
-            await page.keyboard.type('a');
-
-            // wait focus next input
-            await page.waitForTimeout(1000);
-
-            await page.keyboard.type('b');
-
-            // wait focus next input
-            await page.waitForTimeout(1000);
-
-            await page.keyboard.type('c');
-
-            // wait focus next input
-            await page.waitForTimeout(1000);
-
-            await expectScreenshot({
-                nameSuffix: 'after type code',
-            });
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 
-    createSmokeScenarios<PinInputProps>(
-        {
-            disabled: true,
-        },
-        {},
-        {
-            scenarioName: 'disabled',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<TestPinInput {...props} />);
+    smokeTest('alphabetic', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<PinInputProps>(
+            {
+                type: 'alphanumeric',
+                errorMessage: 'Test error message',
+                value: ['a', 'b', 'c', 'd'],
+            },
+            commonPropsCases,
+        );
 
-            await expectScreenshot({});
-        });
-    });
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <PinInput {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
 
-    createSmokeScenarios<PinInputProps>(
-        {
-            type: 'numeric',
-        } as const,
-        {
-            placeholder: placeholderCases,
-            mask: maskCases,
-            size: sizeCases,
-            validationState: validationStateCases,
-        },
-        {
-            scenarioName: 'with note',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, page, expectScreenshot}) => {
-            await mount(<TestPinInputWithNote {...props} />);
-
-            await expectScreenshot({});
-
-            await page.keyboard.type('1');
-
-            // wait focus next input
-            await page.waitForTimeout(1000);
-
-            await expectScreenshot({
-                nameSuffix: 'after type one symbol',
-            });
-        });
-    });
-
-    createSmokeScenarios<PinInputProps>(
-        {
-            type: 'numeric',
-        } as const,
-        {
-            placeholder: placeholderCases,
-            mask: maskCases,
-            size: sizeCases,
-        },
-        {
-            scenarioName: 'with error message',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, page, expectScreenshot}) => {
-            await mount(<TestPinInputWithErrorMessage {...props} />);
-
-            await expectScreenshot({});
-
-            await page.keyboard.type('1');
-
-            // wait focus next input
-            await page.waitForTimeout(1000);
-
-            await expectScreenshot({
-                nameSuffix: 'after type one symbol',
-            });
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 });

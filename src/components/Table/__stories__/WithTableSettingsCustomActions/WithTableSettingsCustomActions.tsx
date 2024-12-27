@@ -4,7 +4,7 @@ import {ArrowRotateLeft} from '@gravity-ui/icons';
 import _isEqual from 'lodash/isEqual';
 
 import {Button} from '../../../Button';
-import type {ButtonProps} from '../../../Button';
+import type {ButtonButtonProps} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Flex} from '../../../layout';
 import type {TableProps} from '../../Table';
@@ -72,11 +72,11 @@ export const WithTableSettingsCustomActionsShowcase = ({
     );
 };
 
-function SelectAllButton<T extends ButtonProps>({onClick}: T) {
+function SelectAllButton<T extends ButtonButtonProps>({onClick}: T) {
     return <Button onClick={onClick}>Select All</Button>;
 }
 
-function ResetButton<T extends ButtonProps>({onClick}: T) {
+function ResetButton<T extends ButtonButtonProps>({onClick}: T) {
     return (
         <Button view="outlined-warning" onClick={onClick}>
             <Flex alignItems="center" gap="1">

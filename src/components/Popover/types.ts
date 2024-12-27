@@ -44,8 +44,6 @@ export interface PopoverExternalProps {
     tooltipOffset?: PopupOffset;
     /** Tooltip's css class */
     tooltipClassName?: string;
-    /** Tooltip's content css class */
-    tooltipContentClassName?: string;
     /** css class for the control */
     className?: string;
     /**
@@ -124,7 +122,7 @@ export type PopoverDefaultProps = {
 
 export type PopoverProps = Pick<
     PopupProps,
-    'anchorElement' | 'anchorRef' | 'strategy' | 'placement' | 'middlewares'
+    'anchorElement' | 'anchorRef' | 'strategy' | 'placement'
 > &
     PopoverExternalProps &
     PopoverBehaviorProps &

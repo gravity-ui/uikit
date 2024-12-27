@@ -221,14 +221,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         disabled: filterable,
     });
 
-    React.useEffect(() => {
-        if (open) {
-            if (filterable) {
-                filterRef.current?.focus();
-            }
-        }
-    }, [open, filterable]);
-
     const mods: CnMods = {
         ...(width === 'max' && {width}),
     };
@@ -355,6 +347,13 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 virtualized={virtualized}
                 mobile={mobile}
                 placement={popupPlacement}
+                onAfterOpen={
+                    filterable
+                        ? () => {
+                              filterRef.current?.focus();
+                          }
+                        : undefined
+                }
                 onAfterClose={
                     filterable
                         ? () => {

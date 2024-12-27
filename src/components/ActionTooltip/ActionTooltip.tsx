@@ -2,90 +2,62 @@
 
 import * as React from 'react';
 
-import {useForkRef} from '../../hooks';
-import {useTooltipVisible} from '../../hooks/private';
-import type {TooltipDelayProps} from '../../hooks/private';
 import {Hotkey} from '../Hotkey';
 import type {HotkeyProps} from '../Hotkey';
-import {Popup} from '../Popup';
-import type {PopupPlacement} from '../Popup';
+import {Tooltip} from '../Tooltip';
+import type {TooltipProps} from '../Tooltip';
 import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
-import {getElementRef} from '../utils/getElementRef';
 
 import './ActionTooltip.scss';
 
-export interface ActionTooltipProps extends QAProps, DOMProps, TooltipDelayProps {
-    id?: string;
-    disablePortal?: boolean;
-    contentClassName?: string;
-    disabled?: boolean;
-    placement?: PopupPlacement;
-    children: React.ReactElement;
+export interface ActionTooltipProps
+    extends QAProps,
+        DOMProps,
+        Omit<TooltipProps, 'content' | 'role'> {
+    /** Floating element title */
     title: string;
-    hotkey?: HotkeyProps['value'];
+    /** Floating element description */
     description?: React.ReactNode;
+    /** Floating element hotkey label */
+    hotkey?: HotkeyProps['value'];
 }
 
-const DEFAULT_PLACEMENT: PopupPlacement = ['bottom', 'top'];
 const b = block('action-tooltip');
+const DEFAULT_OPEN_DELAY = 500;
+const DEFAULT_CLOSE_DELAY = 0;
 
-export function ActionTooltip(props: ActionTooltipProps) {
-    const {
-        placement = DEFAULT_PLACEMENT,
-        title,
-        hotkey,
-        children,
-        className,
-        contentClassName,
-        description,
-        disabled = false,
-        style,
-        qa,
-        id,
-        disablePortal,
-        ...delayProps
-    } = props;
-
-    const [anchorElement, setAnchorElement] = React.useState<HTMLElement | null>(null);
-    const tooltipVisible = useTooltipVisible(anchorElement, delayProps);
-
-    const renderPopup = () => {
-        return (
-            <Popup
-                id={id}
-                disablePortal={disablePortal}
-                role="tooltip"
-                className={b(null, className)}
-                style={style}
-                open={tooltipVisible && !disabled}
-                placement={placement}
-                anchorElement={anchorElement}
-                disableEscapeKeyDown
-                disableOutsideClick
-                disableLayer
-                qa={qa}
-            >
-                <div className={b('content', contentClassName)}>
-                    <div className={b('heading')}>
-                        <div className={b('title')}>{title}</div>
-                        {hotkey && <Hotkey view="dark" value={hotkey} className={b('hotkey')} />}
-                    </div>
-                    {description && <div className={b('description')}>{description}</div>}
+export function ActionTooltip({
+    title,
+    description,
+    hotkey,
+    openDelay = DEFAULT_OPEN_DELAY,
+    closeDelay = DEFAULT_CLOSE_DELAY,
+    className,
+    ...restProps
+}: ActionTooltipProps) {
+    const content = React.useMemo(
+        () => (
+            <React.Fragment>
+                <div className={b('heading')}>
+                    <div className={b('title')}>{title}</div>
+                    {hotkey && <Hotkey view="dark" value={hotkey} className={b('hotkey')} />}
                 </div>
-            </Popup>
-        );
-    };
-
-    const child = React.Children.only(children);
-    const childRef = getElementRef(child);
-
-    const ref = useForkRef(setAnchorElement, childRef);
+                {description && <div className={b('description')}>{description}</div>}
+            </React.Fragment>
+        ),
+        [title, description, hotkey],
+    );
 
     return (
-        <React.Fragment>
-            {React.cloneElement(child, {ref})}
-            {anchorElement ? renderPopup() : null}
-        </React.Fragment>
+        <Tooltip
+            {...restProps}
+            // eslint-disable-next-line jsx-a11y/aria-role
+            role="label"
+            content={content}
+            openDelay={openDelay}
+            closeDelay={closeDelay}
+            className={b(null, className)}
+        />
     );
 }

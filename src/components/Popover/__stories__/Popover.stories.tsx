@@ -75,7 +75,6 @@ const meta: Meta<typeof Popover> = {
         tooltipCancelButton: {control: 'object'},
         tooltipOffset: {control: 'object'},
         tooltipClassName: {control: 'text'},
-        tooltipContentClassName: {control: 'text'},
         className: {control: 'text'},
         onClick: {action: 'onClick'},
         onOpenChange: {action: 'onOpenChange'},

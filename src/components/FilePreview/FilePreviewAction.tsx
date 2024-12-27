@@ -17,7 +17,7 @@ export interface FilePreviewActionProps {
     disabled?: boolean;
     onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
     extraProps?: ButtonButtonProps | ButtonLinkProps;
-    tooltipExtraProps?: Omit<ActionTooltipProps, 'id' | 'title' | 'children'>;
+    tooltipExtraProps?: Omit<ActionTooltipProps, 'title' | 'children'>;
 }
 
 export function FilePreviewAction({
@@ -31,7 +31,7 @@ export function FilePreviewAction({
     tooltipExtraProps,
 }: FilePreviewActionProps) {
     return (
-        <ActionTooltip id={id} title={title} {...tooltipExtraProps}>
+        <ActionTooltip title={title} {...tooltipExtraProps}>
             <Button
                 onClick={onClick}
                 view="raised"

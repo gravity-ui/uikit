@@ -113,9 +113,7 @@ export function BrandingConfigurator({theme}: BrandingConfiguratorProps) {
                         view="outlined"
                         size="xl"
                         onClick={handleRandomClick}
-                        extraProps={{
-                            'aria-label': 'Regenerate colors',
-                        }}
+                        aria-label="Regenerate colors"
                     >
                         <Icon data={ArrowsRotateRight} size={20} />
                     </Button>

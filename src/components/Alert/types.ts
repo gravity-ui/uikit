@@ -89,7 +89,7 @@ export interface AlertActionsProps {
     items?: AlertAction[];
     children?: React.ReactNode | React.ReactNode[];
 }
-export interface AlertActionProps extends ButtonProps {}
+export type AlertActionProps = ButtonProps;
 export interface AlertTitleProps {
     className?: string;
     text: string;

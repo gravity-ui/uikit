@@ -35,12 +35,13 @@ test.describe('Sheet', {tag: '@Sheet'}, () => {
         smokeTest(title, async ({mount, page, expectScreenshot}) => {
             await page.setViewportSize({width: 500, height: 500});
 
-            const root = await mount(
-                <div style={{minHeight: '500px'}}>
-                    <TestSheet {...props} />
-                </div>,
-                {width: 'auto'},
-            );
+            const root = await mount(<TestSheet {...props} />, {
+                rootStyle: {
+                    padding: 0,
+                    width: '100%',
+                    minHeight: '500px',
+                },
+            });
 
             await root.locator('button').click();
             await expect(page.locator(`[data-qa='${QASheet.content}']`)).toBeVisible();

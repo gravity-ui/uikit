@@ -197,7 +197,7 @@ export function DialogShowcase() {
                     textButtonApply="attack"
                     propsButtonApply={{
                         className: 'my-custom-apply-btn-class',
-                        extraProps: {autoFocus: true},
+                        autoFocus: true,
                     }}
                     textButtonCancel="fend off attack"
                     propsButtonCancel={{className: 'my-custom-cancel-btn-class'}}

@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import {Button} from '../Button';
+import type {ButtonProps} from '../Button';
 import {block} from '../utils/cn';
 
 import {componentClassName} from './constants';
@@ -10,19 +11,11 @@ import './PlaceholderContainer.scss';
 
 const b = block(componentClassName);
 
-const PlaceholderContainerAction = (props: PlaceholderContainerActionProps) => {
+const PlaceholderContainerAction = ({text, ...buttonProps}: PlaceholderContainerActionProps) => {
     return (
         <div className={b('action')}>
-            <Button
-                className={b('action-btn')}
-                view={props.view || 'normal'}
-                size={props.size || 'm'}
-                loading={Boolean(props.loading)}
-                disabled={Boolean(props.disabled)}
-                href={props.href}
-                {...(props.onClick ? {onClick: props.onClick} : {})}
-            >
-                {props.text}
+            <Button {...(buttonProps as ButtonProps)} className={b('action-btn')}>
+                {text}
             </Button>
         </div>
     );

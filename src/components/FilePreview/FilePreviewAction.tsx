@@ -3,6 +3,7 @@ import type * as React from 'react';
 import {ActionTooltip} from '../ActionTooltip';
 import type {ActionTooltipProps} from '../ActionTooltip';
 import {Button} from '../Button';
+import type {ButtonButtonProps, ButtonLinkProps} from '../Button';
 import {block} from '../utils/cn';
 
 import './FilePreview.scss';
@@ -15,9 +16,7 @@ export interface FilePreviewActionProps {
     href?: string;
     disabled?: boolean;
     onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
-    extraProps?:
-        | React.ButtonHTMLAttributes<HTMLButtonElement>
-        | React.AnchorHTMLAttributes<HTMLAnchorElement>;
+    extraProps?: ButtonButtonProps | ButtonLinkProps;
     tooltipExtraProps?: Omit<ActionTooltipProps, 'id' | 'title' | 'children'>;
 }
 
@@ -35,14 +34,15 @@ export function FilePreviewAction({
         <ActionTooltip id={id} title={title} {...tooltipExtraProps}>
             <Button
                 onClick={onClick}
-                aria-describedby={id}
                 view="raised"
                 pin="circle-circle"
-                href={href}
+                href={href as string}
                 disabled={disabled}
                 size="s"
                 className={cn('action-button')}
-                extraProps={{'aria-label': title, 'aria-describedby': id, ...extraProps}}
+                aria-label={title}
+                aria-describedby={id}
+                {...(extraProps as Omit<ButtonLinkProps, 'href'>)}
             >
                 <div className={cn('action-icon-wrapper')}>{icon}</div>
             </Button>

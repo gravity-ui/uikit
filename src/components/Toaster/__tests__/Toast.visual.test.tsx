@@ -1,9 +1,13 @@
 import type * as React from 'react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
+import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {Toast} from '../Toast/Toast';
+import type {ToastProps} from '../types';
 
+import {actionsCases, isClosableCases, themeCases, titleCases} from './cases';
+import {TestToast, TestToastWithIcon} from './helpers';
 import {ToastStories} from './helpersPlaywright';
 
 const wrapperOptions = {
@@ -83,5 +87,69 @@ test.describe('Toast', {tag: '@Toaster'}, () => {
         );
 
         await expectScreenshot();
+    });
+
+    smokeTest('', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<ToastProps>(
+            {
+                name: 'toast',
+                content: <div>toast content</div>,
+            },
+            {
+                title: titleCases,
+                theme: themeCases,
+                actions: actionsCases,
+                isClosable: isClosableCases,
+            },
+        );
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestToast {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
+        });
+    });
+
+    smokeTest('with icons', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<ToastProps>(
+            {
+                name: 'toast',
+                content: <div>toast content</div>,
+            },
+            {
+                title: titleCases,
+                theme: themeCases,
+                actions: actionsCases,
+                isClosable: isClosableCases,
+            },
+        );
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestToastWithIcon {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
+        });
     });
 });

@@ -1,9 +1,8 @@
-import React from 'react';
-
 import {TrashBin} from '@gravity-ui/icons';
 
 import {Icon} from '../../Icon';
 import {ToasterProvider} from '../Provider/ToasterProvider';
+import {Toast} from '../Toast/Toast';
 import {ToasterComponent} from '../ToasterComponent/ToasterComponent';
 import {useToaster} from '../hooks/useToaster';
 import type {ToastProps} from '../types';
@@ -33,16 +32,25 @@ export const TestToaster = (props: {toastProps: ToastProps}) => {
     );
 };
 
-export const TestToasterWithIcons = (props: {toastProps: ToastProps}) => {
+export const TestToast = (props: ToastProps) => {
     return (
-        <ToasterProvider>
-            <TestToasterTrigger
-                toastProps={{
-                    ...props.toastProps,
-                    renderIcon: () => <Icon data={TrashBin} />,
-                }}
-            />
-            <ToasterComponent hasPortal={false} />
-        </ToasterProvider>
+        <Toast
+            {...props}
+            removeCallback={() => {
+                // noop
+            }}
+        />
+    );
+};
+
+export const TestToastWithIcon = (props: ToastProps) => {
+    return (
+        <Toast
+            {...props}
+            removeCallback={() => {
+                // noop
+            }}
+            renderIcon={() => <Icon data={TrashBin} />}
+        />
     );
 };

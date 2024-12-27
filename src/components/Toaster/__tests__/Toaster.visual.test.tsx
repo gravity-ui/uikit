@@ -1,67 +1,29 @@
-import React from 'react';
+import {smokeTest, test} from '~playwright/core';
 
-import {test} from '~playwright/core';
-
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {ToastProps} from '../types';
 
-import {actionsCases, isClosableCases, themeCases, titleCases} from './cases';
 import {ToasterQA} from './constants';
-import {TestToaster, TestToasterWithIcons} from './helpers';
+import {TestToaster} from './helpers';
 
 test.describe('Toaster', {tag: '@Toaster'}, () => {
-    createSmokeScenarios<ToastProps>(
-        {
+    smokeTest('', async ({mount, page, expectScreenshot}) => {
+        await page.setViewportSize({width: 500, height: 500});
+
+        const toastProps: ToastProps = {
             name: 'toast',
             content: <div>toast content</div>,
-        },
-        {
-            title: titleCases,
-            theme: themeCases,
-            actions: actionsCases,
-            isClosable: isClosableCases,
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, page, expectScreenshot}) => {
-            await page.setViewportSize({width: 500, height: 500});
+        };
 
-            const root = await mount(<TestToaster toastProps={props} />);
+        const root = await mount(<TestToaster toastProps={toastProps} />);
 
-            await root.locator(`button[data-qa="${ToasterQA.trigger}"]`).click();
+        await root.locator(`button[data-qa="${ToasterQA.trigger}"]`).click();
 
-            // wait show toast & end animations
-            await page.waitForTimeout(2000);
+        // wait show toast & end animations
+        await page.waitForTimeout(2000);
 
-            await expectScreenshot({});
-        });
-    });
-
-    createSmokeScenarios<ToastProps>(
-        {
-            name: 'toast',
-            content: <div>toast content</div>,
-        },
-        {
-            title: titleCases,
-            theme: themeCases,
-            actions: actionsCases,
-            isClosable: isClosableCases,
-        },
-        {
-            scenarioName: 'with icons',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, page, expectScreenshot}) => {
-            await page.setViewportSize({width: 500, height: 500});
-
-            const root = await mount(<TestToasterWithIcons toastProps={props} />);
-
-            await root.locator(`button[data-qa="${ToasterQA.trigger}"]`).click();
-
-            // wait show toast & end animations
-            await page.waitForTimeout(2000);
-
-            await expectScreenshot({});
+        await expectScreenshot({
+            themes: ['light'],
+            component: page.locator('body'),
         });
     });
 });

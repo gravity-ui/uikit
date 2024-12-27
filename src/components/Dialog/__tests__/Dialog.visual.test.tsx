@@ -1,6 +1,4 @@
-import React from 'react';
-
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import {Dialog} from '../Dialog';
@@ -68,11 +66,8 @@ test.describe('Dialog', {tag: '@Dialog'}, () => {
             footerTextButtonCancel: footerTextButtonCancelCases,
             footerTextButtonApply: footerTextButtonApplyCases,
         },
-        {
-            scenarioName: 'selection',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({page, mount, expectScreenshot}) => {
+    ).forEach(([title, props]) => {
+        smokeTest(title, async ({page, mount, expectScreenshot}) => {
             await page.setViewportSize({width: 1000, height: 600});
 
             const {
@@ -112,6 +107,7 @@ test.describe('Dialog', {tag: '@Dialog'}, () => {
 
             await expectScreenshot({
                 component: page,
+                themes: ['light'],
             });
         });
     });

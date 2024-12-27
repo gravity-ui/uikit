@@ -1,8 +1,15 @@
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
-import {LabelStories} from './helpersPlaywright';
+import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import type {LabelProps} from '../Label';
+import {Label} from '../Label';
 
-test.describe('Label', () => {
+import {disabledCases, sizeCases, themeCases} from './cases';
+import {LabelStories, TestLabelWithIcon} from './helpersPlaywright';
+
+const qa = 'label';
+
+test.describe('Label', {tag: '@Label'}, () => {
     test('render story: <Default>', async ({mount, expectScreenshot}) => {
         await mount(<LabelStories.Default />);
 
@@ -61,5 +68,118 @@ test.describe('Label', () => {
         await mount(<LabelStories.Close />);
 
         await expectScreenshot();
+    });
+
+    const defaultProps: LabelProps = {
+        children: 'Label',
+        qa,
+        type: 'default',
+    };
+
+    smokeTest('', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<LabelProps>(defaultProps, {
+            theme: themeCases,
+            size: sizeCases,
+            disabled: disabledCases,
+        });
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Label {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({});
+    });
+
+    smokeTest('with custom icon', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<LabelProps>(defaultProps, {
+            theme: themeCases,
+            size: sizeCases,
+            disabled: disabledCases,
+        });
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TestLabelWithIcon {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({});
+    });
+
+    smokeTest('with copy', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<LabelProps>(
+            {
+                ...defaultProps,
+                type: 'copy',
+                copyText: 'Copy text',
+                onCopy: () => {},
+            },
+            {
+                theme: themeCases,
+                size: sizeCases,
+                disabled: disabledCases,
+            },
+        );
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Label {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({});
+    });
+
+    smokeTest('with close', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<LabelProps>(
+            {
+                ...defaultProps,
+                type: 'close',
+                onCloseClick: () => {},
+            },
+            {
+                theme: themeCases,
+                size: sizeCases,
+                disabled: disabledCases,
+            },
+        );
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Label {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({});
     });
 });

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type {TooltipProps} from '../Tooltip';
 import {Tooltip} from '../Tooltip';
 
@@ -9,11 +7,7 @@ export const TestTooltip = (props: Omit<TooltipProps, 'content' | 'disablePortal
     return (
         <div
             style={{
-                width: '300px',
-                height: '300px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
+                padding: 50,
             }}
         >
             <Tooltip
@@ -22,10 +16,17 @@ export const TestTooltip = (props: Omit<TooltipProps, 'content' | 'disablePortal
                 content={<div data-qa={TooltipQA.tooltipContent}>tooltip content</div>}
             >
                 <div
-                    style={{border: '1px dotted tomato', display: 'inline'}}
+                    style={{
+                        width: '200px',
+                        height: '100px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        border: '1px dotted tomato',
+                    }}
                     data-qa={TooltipQA.trigger}
                 >
-                    tooltip trigger
+                    <div>tooltip trigger</div>
                 </div>
             </Tooltip>
         </div>

@@ -1,8 +1,6 @@
-import React from 'react';
-
 import {expect} from '@playwright/experimental-ct-react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {TooltipProps} from '../Tooltip';
@@ -19,9 +17,16 @@ test.describe('Tooltip', {tag: '@Tooltip'}, () => {
         {
             placement: placementCases,
         },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, page, expectScreenshot}) => {
-            const root = await mount(<TestTooltip {...props} />);
+    ).forEach(([title, props]) => {
+        smokeTest(title, async ({mount, page, expectScreenshot}) => {
+            const root = await mount(
+                <div>
+                    <h4>{title}</h4>
+                    <div>
+                        <TestTooltip {...props} />
+                    </div>
+                </div>,
+            );
 
             await root.getByTestId(TooltipQA.trigger).hover();
 
@@ -29,7 +34,9 @@ test.describe('Tooltip', {tag: '@Tooltip'}, () => {
                 timeout: 3000,
             });
 
-            await expectScreenshot({});
+            await expectScreenshot({
+                themes: ['light'],
+            });
         });
     });
 });

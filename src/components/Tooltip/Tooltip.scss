@@ -3,33 +3,31 @@
 $block: '.#{variables.$ns}tooltip';
 
 #{$block} {
-    // [class] for increasing specificity
-    &[class] {
-        --g-popup-border-width: 0;
+    --_--text-color: var(--g-tooltip-text-color, var(--g-color-text-primary));
+    --_--background-color: var(--g-tooltip-background-color, var(--g-color-base-float));
+    --_--padding: var(--g-tooltip-padding, var(--g-spacing-1) var(--g-spacing-2));
+    --_--border-radius: var(--g-tooltip-border-radius, 4px);
+    --_--box-shadow: var(--g-tooltip-box-shadow, 0 1px 5px 0 var(--g-color-sfx-shadow));
 
-        > div {
-            padding: 4px 8px;
-            max-width: 360px;
-            box-sizing: border-box;
-            box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.15);
-            animation-duration: 1ms;
-        }
-    }
+    // -webkit-line-clamp will not work without display: -webkit-box;
+    /* stylelint-disable-next-line */
+    display: -webkit-box;
 
-    &__content {
-        // -webkit-line-clamp will not work without display: -webkit-box;
-        /* stylelint-disable-next-line */
-        display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    -ms-box-orient: vertical;
 
-        -webkit-box-orient: vertical;
-        -moz-box-orient: vertical;
-        -ms-box-orient: vertical;
+    -webkit-line-clamp: 20;
+    -moz-line-clamp: 20;
+    -ms-line-clamp: 20;
 
-        -webkit-line-clamp: 20;
-        -moz-line-clamp: 20;
-        -ms-line-clamp: 20;
+    box-sizing: border-box;
+    padding: var(--_--padding);
+    max-width: 360px;
+    background-color: var(--_--background-color);
+    box-shadow: var(--_--box-shadow);
+    border-radius: var(--_--border-radius);
 
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

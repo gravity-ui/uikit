@@ -2,33 +2,88 @@
 
 import * as React from 'react';
 
-import {CSSTransition} from 'react-transition-group';
+import {
+    FloatingFocusManager,
+    FloatingOverlay,
+    useDismiss,
+    useFloating,
+    useInteractions,
+    useRole,
+    useTransitionStatus,
+} from '@floating-ui/react';
+import type {
+    FloatingFocusManagerProps,
+    OpenChangeReason,
+    UseFloatingOptions,
+} from '@floating-ui/react';
+import {isTabbable} from 'tabbable';
 
-import {useBodyScrollLock} from '../../hooks';
-import {useRestoreFocus} from '../../hooks/private';
+import {KeyCode} from '../../constants';
+import {useForkRef} from '../../hooks';
+import {usePrevious} from '../../hooks/private';
 import {Portal} from '../Portal';
 import type {DOMProps, QAProps} from '../types';
-import {FocusTrap} from '../utils/FocusTrap';
 import {block} from '../utils/cn';
-import type {LayerCloseReason} from '../utils/layer-manager';
-import {useLayer} from '../utils/layer-manager';
-import type {LayerExtendableProps} from '../utils/layer-manager/LayerManager';
-import {getCSSTransitionClassNames} from '../utils/transition';
+
+import i18n from './i18n';
 
 import './Modal.scss';
 
-export interface ModalProps extends DOMProps, LayerExtendableProps, QAProps {
+export type ModalCloseReason = 'outsideClick' | 'escapeKeyDown';
+
+export interface ModalProps extends DOMProps, QAProps {
     open?: boolean;
+    /** Callback for open state changes, when dismiss happens for example */
+    onOpenChange?: (open: boolean, event?: Event, reason?: OpenChangeReason) => void;
     keepMounted?: boolean;
     disableBodyScrollLock?: boolean;
-    /** @deprecated Use focusTrap instead */
-    disableFocusTrap?: boolean;
-    /** @deprecated Use autoFocus instead */
-    disableAutoFocus?: boolean;
-    focusTrap?: boolean;
-    autoFocus?: boolean;
-    restoreFocusRef?: React.RefObject<HTMLElement>;
+    /**
+     * FloatingFocusManager `initialFocus` property
+     */
+    initialFocus?: FloatingFocusManagerProps['initialFocus'];
+    /**
+     * FloatingFocusManager `returnFocus` property
+     */
+    returnFocus?: FloatingFocusManagerProps['returnFocus'];
+
+    /** Do not add a11y dismiss buttons when managing focus */
+    disableFocusVisuallyHiddenDismiss?: boolean;
+
     children?: React.ReactNode;
+
+    /**
+     * This callback will be called when Escape key pressed on keyboard, or click outside was made
+     * This behaviour could be disabled with `disableEscapeKeyDown`
+     * and `disableOutsideClick` options
+     *
+     * @deprecated Use `onOpenChange` instead
+     */
+    onClose?: (event: MouseEvent | KeyboardEvent, reason: ModalCloseReason) => void;
+    /**
+     * This callback will be called when Escape key pressed on keyboard
+     * This behaviour could be disabled with `disableEscapeKeyDown` option
+     *
+     * @deprecated Use `onOpenChange` instead
+     */
+    onEscapeKeyDown?: (event: KeyboardEvent) => void;
+    /**
+     * This callback will be called when Enter key is pressed on keyboard
+     *
+     * @deprecated It is not recommended to use this callback.
+     * Consider using the submit event in case of a form content or using initialFocus property on the confirm button in case of non-interactive content
+     */
+    onEnterKeyDown?: (event: KeyboardEvent) => void;
+    /**
+     * This callback will be called when click is outside of elements of "top layer"
+     * This behaviour could be disabled with `disableOutsideClick` option
+     *
+     * @deprecated Use `onOpenChange` instead
+     */
+    onOutsideClick?: (event: MouseEvent) => void;
+    /** Do not dismiss on escape key press */
+    disableEscapeKeyDown?: boolean;
+    /** Do not dismiss on outside click */
+    disableOutsideClick?: boolean;
     /**
      * Id of visible `<Modal/>` caption element
      */
@@ -40,36 +95,41 @@ export interface ModalProps extends DOMProps, LayerExtendableProps, QAProps {
     'aria-label'?: string;
     container?: HTMLElement;
     contentClassName?: string;
-    onTransitionEnter?: VoidFunction;
-    onTransitionEntered?: VoidFunction;
-    onTransitionExit?: VoidFunction;
-    onTransitionExited?: VoidFunction;
+    /** Callback called when `Modal` is opened and "in" transition is started */
+    onTransitionIn?: () => void;
+    /** Callback called when `Modal` is opened and "in" transition is completed */
+    onTransitionInComplete?: () => void;
+    /** Callback called when `Modal` is closed and "out" transition is started */
+    onTransitionOut?: () => void;
+    /** Callback called when `Popup` is closed and "out" transition is completed */
+    onTransitionOutComplete?: () => void;
     contentOverflow?: 'visible' | 'auto';
-}
 
-export type ModalCloseReason = LayerCloseReason;
+    floatingRef?: React.RefObject<HTMLDivElement>;
+}
 
 const b = block('modal');
 
+const TRANSITION_DURATION = 150;
+
 export function Modal({
     open = false,
+    onOpenChange,
     keepMounted = false,
     disableBodyScrollLock = false,
     disableEscapeKeyDown,
     disableOutsideClick,
-    disableFocusTrap,
-    disableAutoFocus,
-    focusTrap = true,
-    autoFocus = true,
-    restoreFocusRef,
+    initialFocus,
+    returnFocus,
+    disableFocusVisuallyHiddenDismiss,
     onEscapeKeyDown,
-    onEnterKeyDown,
     onOutsideClick,
     onClose,
-    onTransitionEnter,
-    onTransitionEntered,
-    onTransitionExit,
-    onTransitionExited,
+    onEnterKeyDown,
+    onTransitionIn,
+    onTransitionInComplete,
+    onTransitionOut,
+    onTransitionOutComplete,
     children,
     style,
     contentOverflow = 'visible',
@@ -79,85 +139,159 @@ export function Modal({
     'aria-label': ariaLabel,
     container,
     qa,
+    floatingRef,
 }: ModalProps) {
-    const containerRef = React.useRef<HTMLDivElement>(null);
-    const contentRef = React.useRef<HTMLDivElement>(null);
-    const [inTransition, setInTransition] = React.useState(false);
+    const handleOpenChange = React.useCallback<NonNullable<UseFloatingOptions['onOpenChange']>>(
+        (isOpen, event, reason) => {
+            onOpenChange?.(isOpen, event, reason);
 
-    useBodyScrollLock({enabled: !disableBodyScrollLock && (open || inTransition)});
-    const containerProps = useRestoreFocus({
-        enabled: open || inTransition,
-        restoreFocusRef,
-        focusTrapped: true,
-    });
+            if (isOpen || !event) {
+                return;
+            }
 
-    useLayer({
+            const closeReason = reason === 'escape-key' ? 'escapeKeyDown' : 'outsideClick';
+
+            if (closeReason === 'escapeKeyDown' && onEscapeKeyDown) {
+                onEscapeKeyDown(event as KeyboardEvent);
+            }
+
+            if (closeReason === 'outsideClick' && onOutsideClick) {
+                onOutsideClick(event as MouseEvent);
+            }
+
+            onClose?.(event as KeyboardEvent | MouseEvent, closeReason);
+        },
+        [onOpenChange, onEscapeKeyDown, onOutsideClick, onClose],
+    );
+
+    const {refs, elements, context} = useFloating({
         open,
-        disableEscapeKeyDown,
-        disableOutsideClick,
-        onEscapeKeyDown,
-        onEnterKeyDown,
-        onOutsideClick,
-        onClose,
-        contentRefs: [contentRef],
-        type: 'modal',
+        onOpenChange: handleOpenChange,
     });
 
-    return (
-        <CSSTransition
-            nodeRef={containerRef}
-            in={open}
-            addEndListener={(done) => containerRef.current?.addEventListener('animationend', done)}
-            classNames={getCSSTransitionClassNames(b)}
-            mountOnEnter={!keepMounted}
-            unmountOnExit={!keepMounted}
-            appear={true}
-            onEnter={() => {
-                setInTransition(true);
-                onTransitionEnter?.();
-            }}
-            onExit={() => {
-                setInTransition(true);
-                onTransitionExit?.();
-            }}
-            onEntered={() => {
-                setInTransition(false);
-                onTransitionEntered?.();
-            }}
-            onExited={() => {
-                setInTransition(false);
-                onTransitionExited?.();
-            }}
-        >
-            <Portal container={container}>
-                <div ref={containerRef} style={style} className={b({open}, className)} data-qa={qa}>
-                    <div className={b('content-aligner')}>
-                        <div className={b('content-wrapper')}>
-                            <FocusTrap
-                                enabled={!disableFocusTrap && focusTrap && open && !inTransition}
-                                autoFocus={!disableAutoFocus && autoFocus}
+    const initialFocusRef = React.useRef<HTMLDivElement>(null);
+    const handleFloatingRef = useForkRef<HTMLDivElement>(
+        refs.setFloating,
+        initialFocusRef,
+        floatingRef,
+    );
+
+    const dismiss = useDismiss(context, {
+        enabled: !disableOutsideClick || !disableEscapeKeyDown,
+        outsidePress: !disableOutsideClick,
+        escapeKey: !disableEscapeKeyDown,
+    });
+
+    const role = useRole(context, {role: 'dialog'});
+
+    const {getFloatingProps} = useInteractions([dismiss, role]);
+
+    const {isMounted, status} = useTransitionStatus(context, {duration: TRANSITION_DURATION});
+    const previousStatus = usePrevious(status);
+
+    React.useEffect(() => {
+        if (status === 'initial' && previousStatus === 'unmounted') {
+            onTransitionIn?.();
+        }
+        if (status === 'close' && previousStatus === 'open') {
+            onTransitionOut?.();
+        }
+        if (status === 'unmounted' && previousStatus === 'close') {
+            onTransitionOutComplete?.();
+        }
+    }, [previousStatus, status, onTransitionIn, onTransitionOut, onTransitionOutComplete]);
+
+    const handleTransitionEnd = React.useCallback(
+        (event: React.TransitionEvent) => {
+            // There are two simultaneous transitions running at the same time
+            // Use specific name to only notify once
+            if (
+                status === 'open' &&
+                event.propertyName === 'transform' &&
+                event.target === elements.floating
+            ) {
+                onTransitionInComplete?.();
+            }
+        },
+        [status, onTransitionInComplete, elements.floating],
+    );
+
+    const handleKeyDown = React.useCallback(
+        (event: React.KeyboardEvent) => {
+            if (!onEnterKeyDown || event.key !== KeyCode.ENTER || event.defaultPrevented) {
+                return;
+            }
+
+            const floatingElement = elements.floating;
+            if (!floatingElement) {
+                return;
+            }
+            const pathElements = event.nativeEvent.composedPath();
+            const index = pathElements.indexOf(floatingElement);
+
+            const nestedElements = index < 0 ? pathElements : pathElements.slice(0, index);
+            const nestedFloatingElementIndex = nestedElements.findIndex((el) =>
+                (el as Element)?.hasAttribute('data-floating-ui-focusable'),
+            );
+
+            if (nestedFloatingElementIndex < 0) {
+                onEnterKeyDown(event.nativeEvent);
+                return;
+            }
+
+            const hasInnerTabbableElements = nestedElements
+                .slice(0, nestedFloatingElementIndex)
+                .some((el) => isTabbable(el as Element));
+
+            if (!hasInnerTabbableElements) {
+                onEnterKeyDown(event.nativeEvent);
+            }
+        },
+        [elements.floating, onEnterKeyDown],
+    );
+
+    return isMounted || keepMounted ? (
+        <Portal container={container}>
+            <FloatingOverlay
+                style={style}
+                className={b({open}, className)}
+                data-qa={qa}
+                data-floating-ui-status={status}
+                lockScroll={!disableBodyScrollLock}
+            >
+                <div className={b('content-aligner')}>
+                    <div className={b('content-wrapper')}>
+                        <FloatingFocusManager
+                            context={context}
+                            disabled={!isMounted}
+                            modal={isMounted}
+                            initialFocus={initialFocus ?? initialFocusRef}
+                            returnFocus={returnFocus}
+                            visuallyHiddenDismiss={
+                                disableFocusVisuallyHiddenDismiss ? false : i18n('close')
+                            }
+                            restoreFocus={true}
+                        >
+                            <div
+                                className={b(
+                                    'content',
+                                    {'has-scroll': contentOverflow === 'auto'},
+                                    contentClassName,
+                                )}
+                                ref={handleFloatingRef}
+                                aria-label={ariaLabel}
+                                aria-labelledby={ariaLabelledBy}
+                                {...getFloatingProps({
+                                    onTransitionEnd: handleTransitionEnd,
+                                    onKeyDown: handleKeyDown,
+                                })}
                             >
-                                <div
-                                    ref={contentRef}
-                                    tabIndex={-1}
-                                    role="dialog"
-                                    aria-modal={open}
-                                    aria-label={ariaLabel}
-                                    aria-labelledby={ariaLabelledBy}
-                                    className={b(
-                                        'content',
-                                        {'has-scroll': contentOverflow === 'auto'},
-                                        contentClassName,
-                                    )}
-                                    {...containerProps}
-                                >
-                                    {children}
-                                </div>
-                            </FocusTrap>
-                        </div>
+                                {children}
+                            </div>
+                        </FloatingFocusManager>
                     </div>
                 </div>
-            </Portal>
-        </CSSTransition>
-    );
+            </FloatingOverlay>
+        </Portal>
+    ) : null;
 }

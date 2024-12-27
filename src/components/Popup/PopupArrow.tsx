@@ -8,21 +8,22 @@ const b = block('popup');
 
 interface PopupArrowProps {
     styles: React.CSSProperties;
-    attributes?: Record<string, unknown>;
-    setArrowRef: (value: HTMLDivElement) => void;
 }
 
-export function PopupArrow({styles, attributes, setArrowRef}: PopupArrowProps) {
+export const PopupArrow = React.forwardRef<HTMLDivElement, PopupArrowProps>(function PopupArrow(
+    {styles},
+    ref,
+) {
     return (
-        <div ref={setArrowRef} className={b('arrow')} style={styles} {...attributes}>
+        <div ref={ref} className={b('arrow')} style={styles}>
             <div className={b('arrow-content')}>
                 <div className={b('arrow-circle-wrapper')}>
-                    <div className={b('arrow-circle', {left: true})}></div>
+                    <div className={b('arrow-circle', {left: true})} />
                 </div>
                 <div className={b('arrow-circle-wrapper')}>
-                    <div className={b('arrow-circle', {right: true})}></div>
+                    <div className={b('arrow-circle', {right: true})} />
                 </div>
             </div>
         </div>
     );
-}
+});

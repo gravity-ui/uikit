@@ -1,13 +1,9 @@
-import React from 'react';
-
 import type {Cases, CasesWithName} from '../../../../stories/tests-factory/models';
 import type {TextInputProps} from '../TextInput';
 
 /* eslint-disable react/jsx-key */
 
 export const disabledCases: Array<TextInputProps['disabled']> = [true];
-
-export const defaultValueCases: Array<TextInputProps['defaultValue']> = ['Default value'];
 
 export const hasClearCases: Array<TextInputProps['hasClear']> = [true];
 
@@ -22,6 +18,8 @@ export const pinCases: Cases<TextInputProps['pin']> = [
     'brick-clear',
     'clear-brick',
 ];
+
+export const validationStateCases: Cases<TextInputProps['validationState']> = ['invalid'];
 
 export const sizeCases: Cases<TextInputProps['size']> = ['s', 'm', 'l', 'xl'];
 

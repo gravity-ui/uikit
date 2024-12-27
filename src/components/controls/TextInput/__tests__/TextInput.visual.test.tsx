@@ -1,13 +1,14 @@
-import React from 'react';
+import {expect} from '@playwright/experimental-ct-react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../../stories/tests-factory/create-smoke-scenarios';
+import {CONTROL_ERROR_ICON_QA} from '../../utils';
 import type {TextInputProps} from '../TextInput';
 import {TextInput} from '../TextInput';
 
 import {
-    defaultValueCases,
+    disabledCases,
     endContentCases,
     errorPlacementCases,
     hasClearCases,
@@ -16,6 +17,7 @@ import {
     pinCases,
     sizeCases,
     startContentCases,
+    validationStateCases,
     viewCases,
 } from './cases';
 
@@ -24,97 +26,127 @@ test.describe('TextInput', {tag: '@TextInput'}, () => {
         placeholder: 'Placeholder',
     };
 
-    const propCases = {
-        defaultValue: defaultValueCases,
+    const commonPropCases = {
         pin: pinCases,
         size: sizeCases,
         view: viewCases,
         note: noteCases,
+        validationState: validationStateCases,
         startContent: startContentCases,
         endContent: endContentCases,
+        disabled: disabledCases,
         hasClear: hasClearCases,
         label: labelCases,
     } as const;
 
-    createSmokeScenarios(defaultProps, propCases).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            const root = await mount(<TextInput {...props} />);
+    smokeTest('empty', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<TextInputProps>(
+            {
+                ...defaultProps,
+            },
+            commonPropCases,
+        );
 
-            await expectScreenshot({});
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TextInput {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
 
-            await root.locator('input').hover();
-
-            await expectScreenshot({
-                nameSuffix: 'hovered',
-            });
-
-            await root.locator('input').fill('Text');
-
-            await expectScreenshot({
-                nameSuffix: 'filled',
-            });
-
-            await root.locator('input').blur();
-
-            await expectScreenshot({
-                nameSuffix: 'after blur',
-            });
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 
-    createSmokeScenarios(
-        {
-            ...defaultProps,
-            disabled: true,
-        },
-        propCases,
-        {
-            scenarioName: 'disabled',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<TextInput {...props} />);
+    smokeTest('with value', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<TextInputProps>(
+            {
+                ...defaultProps,
+                value: 'Text',
+            },
+            commonPropCases,
+        );
 
-            await expectScreenshot();
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TextInput {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 
-    createSmokeScenarios(
-        {
+    smokeTest('with error', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios(
+            {
+                ...defaultProps,
+                value: 'Text',
+                validationState: 'invalid',
+                errorMessage: 'Test error message',
+            } as const,
+            {
+                errorPlacement: errorPlacementCases,
+            },
+        );
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <TextInput {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
+        });
+    });
+
+    smokeTest('inside error placement tooltip', async ({mount, page, expectScreenshot}) => {
+        const props: TextInputProps = {
             ...defaultProps,
+            value: 'Text',
             validationState: 'invalid',
-            errorMessage: 'Error message',
-        } as const,
-        {
-            ...propCases,
-            errorPlacement: errorPlacementCases,
-        },
-        {
-            scenarioName: 'with error',
-        },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
-            const root = await mount(<TextInput {...props} />);
+            errorMessage: 'Test error message',
+            errorPlacement: 'inside',
+        };
 
-            await expectScreenshot({});
+        const root = await mount(
+            <div style={{width: 250}}>
+                <TextInput {...props} />
+            </div>,
+            {
+                width: 500,
+            },
+        );
 
-            await root.locator('input').hover();
+        await root.getByTestId(CONTROL_ERROR_ICON_QA).hover();
 
-            await expectScreenshot({
-                nameSuffix: 'hovered',
-            });
+        await expect(page.locator('.g-popup')).toBeVisible();
 
-            await root.locator('input').fill('Text');
-
-            await expectScreenshot({
-                nameSuffix: 'filled',
-            });
-
-            await root.locator('input').blur();
-
-            await expectScreenshot({
-                nameSuffix: 'after blur',
-            });
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 });

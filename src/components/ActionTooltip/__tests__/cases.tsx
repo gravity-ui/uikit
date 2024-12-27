@@ -18,5 +18,3 @@ export const placementCases: Cases<ActionTooltipProps['placement']> = [
     'left-start',
     'left-end',
 ];
-export const hotkeyCases: Cases<ActionTooltipProps['hotkey']> = ['mod+a mod+c mod+v'];
-export const descriptionCases: Cases<ActionTooltipProps['description']> = ['Description'];

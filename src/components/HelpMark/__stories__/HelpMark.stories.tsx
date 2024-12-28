@@ -7,7 +7,6 @@ export default {
     id: 'components/utils/HelpMark',
     component: HelpMark,
     args: {
-        qa: 'aboba',
         buttonProps: {
             'aria-label': 'Note',
         },

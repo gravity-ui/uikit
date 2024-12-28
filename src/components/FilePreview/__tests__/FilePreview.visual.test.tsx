@@ -32,7 +32,7 @@ test.describe('FilePreview', {tag: '@FilePreview'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
-            nameSuffix: 'show actionsdf',
+            nameSuffix: 'show actions',
         });
 
         await page.locator('button[aria-label="Close"]').hover();

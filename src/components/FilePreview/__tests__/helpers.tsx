@@ -43,9 +43,6 @@ export const FilePreviewWithAllActions = (
                     onClick: () => {
                         // nothing
                     },
-                    extraProps: {
-                        qa: 'action-1-trigger',
-                    },
                     tooltipExtraProps: {
                         qa: 'action-1-tooltip',
                     },

@@ -1,5 +1,14 @@
 # Changelog
 
+## [6.41.0](https://github.com/gravity-ui/uikit/compare/v6.40.0...v6.41.0) (2024-12-28)
+
+
+### Features
+
+* migrate to new JSX transform ([#2006](https://github.com/gravity-ui/uikit/issues/2006)) ([300a013](https://github.com/gravity-ui/uikit/commit/300a013920ae21cd55364ebada8e58003cc79381))
+* pass event to handler callback in useOutsideClick ([#1998](https://github.com/gravity-ui/uikit/issues/1998)) ([3097c80](https://github.com/gravity-ui/uikit/commit/3097c80137b5531cd9d0e3afa9e414dfbca2d424))
+* require React version 16.14.0 or higher ([#2018](https://github.com/gravity-ui/uikit/issues/2018)) ([f90b57b](https://github.com/gravity-ui/uikit/commit/f90b57bdd70480017037569f4af380ab2e090c4f))
+
 ## [6.40.0](https://github.com/gravity-ui/uikit/compare/v6.39.0...v6.40.0) (2024-12-24)
 
 

@@ -49,7 +49,7 @@ export const Slider = React.forwardRef(function Slider(
         'aria-labelledby': ariaLabelledByForHandle,
         name,
         form,
-        ...otherProps
+        ...restProps
     }: SliderProps,
     ref: React.ForwardedRef<HTMLDivElement>,
 ) {
@@ -127,7 +127,7 @@ export const Slider = React.forwardRef(function Slider(
     };
 
     return (
-        <div {...filterDOMProps(otherProps)} className={b(null, className)} style={style} ref={ref}>
+        <div {...filterDOMProps(restProps)} className={b(null, className)} style={style} ref={ref}>
             <div className={b('top', {size, 'tooltip-display': tooltipDisplay})}>
                 {/* use this block to reserve place for tooltip */}
             </div>

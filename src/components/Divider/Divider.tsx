@@ -25,12 +25,12 @@ export const Divider = React.forwardRef<HTMLDivElement, DividerProps>(function D
         qa,
         children,
         align = 'start',
-        ...otherProps
+        ...restProps
     } = props;
 
     return (
         <div
-            {...filterDOMProps(otherProps, {labelable: true})}
+            {...filterDOMProps(restProps, {labelable: true})}
             className={b({orientation, align}, className)}
             ref={ref}
             style={style}

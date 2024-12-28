@@ -20,11 +20,11 @@ export interface TocProps extends AriaLabelingProps, QAProps {
 }
 
 export const Toc = React.forwardRef<HTMLElement, TocProps>(function Toc(props, ref) {
-    const {value: activeValue, items, className, onUpdate, onItemClick, qa, ...otherProps} = props;
+    const {value: activeValue, items, className, onUpdate, onItemClick, qa, ...restProps} = props;
 
     return (
         <nav
-            {...filterDOMProps(otherProps, {labelable: true})}
+            {...filterDOMProps(restProps, {labelable: true})}
             className={b(null, className)}
             ref={ref}
             data-qa={qa}

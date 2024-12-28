@@ -1,13 +1,13 @@
 import {action} from '@storybook/addon-actions';
 import type {Meta, StoryObj} from '@storybook/react';
 
-import {Button} from '../../../Button';
-import {Link} from '../../../Link';
-import {Flex} from '../../../layout';
+import {Button} from '../../Button';
+import {Link} from '../../Link';
+import {Flex} from '../../layout';
 import {Popover} from '../Popover';
 
 const meta: Meta<typeof Popover> = {
-    title: 'Lab/Popover',
+    title: 'Components/Overlays/Popover',
     component: Popover,
     parameters: {
         layout: 'centered',

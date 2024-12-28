@@ -9,12 +9,12 @@ import {
 } from '@floating-ui/react';
 import type {UseInteractionsReturn} from '@floating-ui/react';
 
-import {useControlledState, useForkRef} from '../../../hooks';
-import {Popup} from '../../Popup';
-import type {PopupProps} from '../../Popup';
-import type {AriaLabelingProps, DOMProps, QAProps} from '../../types';
-import {block} from '../../utils/cn';
-import {getElementRef} from '../../utils/getElementRef';
+import {useControlledState, useForkRef} from '../../hooks';
+import {Popup} from '../Popup';
+import type {PopupProps} from '../Popup';
+import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
+import {block} from '../utils/cn';
+import {getElementRef} from '../utils/getElementRef';
 
 export interface PopoverProps
     extends AriaLabelingProps,

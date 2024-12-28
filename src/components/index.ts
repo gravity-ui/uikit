@@ -36,6 +36,7 @@ export * from './Palette';
 export * from './UserLabel';
 export * from './PinInput';
 export * from './PlaceholderContainer';
+export * from './Popover';
 export * from './Popup';
 export * from './Portal';
 export * from './Progress';

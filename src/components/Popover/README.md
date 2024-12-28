@@ -8,7 +8,7 @@
 import {Popover} from '@gravity-ui/uikit';
 ```
 
-The `Popover` component is technically the [`Popup`](./TODO) with some trigger interactivity built-in. The `Popover` uses passed `ReactElement`
+The `Popover` component is technically the [`Popup`](../Popup/README.md) with some trigger interactivity built-in. The `Popover` uses passed `ReactElement`
 from `children` property as a trigger, and opens whenever trigger is hovered or clicked. Content of the `Popover` might contain
 interactive elements like links or buttons.
 

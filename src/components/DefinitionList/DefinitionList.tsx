@@ -19,7 +19,7 @@ export function DefinitionList({
     className,
     children,
     qa,
-    ...otherProps
+    ...restProps
 }: DefinitionListProps) {
     const normalizedChildren = prepareChildren(children);
     return (
@@ -29,7 +29,7 @@ export function DefinitionList({
             contentMaxWidth={contentMaxWidth}
         >
             <dl
-                {...filterDOMProps(otherProps, {labelable: true})}
+                {...filterDOMProps(restProps, {labelable: true})}
                 className={b({responsive, vertical: direction === 'vertical'}, className)}
                 data-qa={qa}
             >

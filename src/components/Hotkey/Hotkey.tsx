@@ -34,7 +34,7 @@ export interface HotkeyProps extends AriaLabelingProps, DOMProps, QAProps {
 }
 
 export const Hotkey = React.forwardRef<HTMLElement, HotkeyProps>(function Hotkey(props, ref) {
-    const {value, platform, view = 'light', qa, style, className, ...otherProps} = props;
+    const {value, platform, view = 'light', qa, style, className, ...restProps} = props;
 
     const groups = parseHotkeys(value, {platform});
     const content: React.ReactNode[] = [];
@@ -66,7 +66,7 @@ export const Hotkey = React.forwardRef<HTMLElement, HotkeyProps>(function Hotkey
 
     return (
         <kbd
-            {...filterDOMProps(otherProps, {labelable: true})}
+            {...filterDOMProps(restProps, {labelable: true})}
             ref={ref}
             style={style}
             data-qa={qa}

@@ -32,12 +32,12 @@ interface MenuComponent
 
 // TODO: keyboard navigation, Up/Down arrows and Enter
 export const Menu = React.forwardRef<HTMLUListElement, MenuProps>(function Menu(
-    {size = 'm', children, style, className, qa, ...otherProps},
+    {size = 'm', children, style, className, qa, ...restProps},
     ref,
 ) {
     return (
         <ul
-            {...filterDOMProps(otherProps, {labelable: true})}
+            {...filterDOMProps(restProps, {labelable: true})}
             ref={ref}
             role="menu"
             // tabIndex={0}

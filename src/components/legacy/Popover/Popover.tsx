@@ -4,14 +4,14 @@ import * as React from 'react';
 
 import {Xmark} from '@gravity-ui/icons';
 
-import {useUniqId} from '../../hooks/useUniqId';
-import {Button} from '../Button';
-import {Icon} from '../Icon';
-import type {PopupPlacement} from '../Popup';
-import {Popup} from '../Popup';
-import {useDirection} from '../theme';
-import type {QAProps} from '../types';
-import {warnOnce} from '../utils/warn';
+import {useUniqId} from '../../../hooks/useUniqId';
+import {Button} from '../../Button';
+import {Icon} from '../../Icon';
+import type {PopupPlacement} from '../../Popup';
+import {Popup} from '../../Popup';
+import {useDirection} from '../../theme';
+import type {QAProps} from '../../types';
+import {warnOnce} from '../../utils/warn';
 
 import {cnPopover} from './Popover.classname';
 import {Buttons} from './components/Buttons/Buttons';
@@ -24,6 +24,9 @@ import type {PopoverInstanceProps, PopoverProps} from './types';
 
 import './Popover.scss';
 
+/**
+ * @deprecated
+ */
 export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAProps>(function (
     {
         initialOpen = false,

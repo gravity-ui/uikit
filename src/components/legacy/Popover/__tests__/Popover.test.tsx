@@ -1,5 +1,5 @@
-import {setupTimersMock} from '../../../../test-utils/setupTimersMock';
-import {act, fireEvent, render, screen, waitFor} from '../../../../test-utils/utils';
+import {setupTimersMock} from '../../../../../test-utils/setupTimersMock';
+import {act, fireEvent, render, screen, waitFor} from '../../../../../test-utils/utils';
 import {Popover} from '../Popover';
 import {PopoverBehavior, delayByBehavior} from '../config';
 import type {PopoverProps} from '../types';

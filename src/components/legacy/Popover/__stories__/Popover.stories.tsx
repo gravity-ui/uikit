@@ -4,7 +4,7 @@ import type {Meta, StoryFn} from '@storybook/react';
 
 import {Popover, PopoverBehavior} from '../';
 import type {PopoverProps} from '../';
-import {Button} from '../../Button';
+import {Button} from '../../../Button';
 
 import {cnPopoverDemo} from './PopoverDemo.classname';
 import {Base} from './examples/Base/Base';
@@ -13,7 +13,7 @@ import {WithCustomAnchor as WithCustomAnchorExample} from './examples/WithCustom
 import './PopoverDemo.scss';
 
 const meta: Meta<typeof Popover> = {
-    title: 'Components/Overlays/Popover',
+    title: 'Legacy/Popover',
     component: Popover,
     args: {
         initialOpen: false,

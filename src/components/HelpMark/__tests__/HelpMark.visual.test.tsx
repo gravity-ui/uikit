@@ -24,17 +24,20 @@ test.describe('HelpMark', {tag: '@HelpMark'}, () => {
     ).forEach(([title, props]) => {
         smokeTest(title, async ({mount, page, expectScreenshot}) => {
             const root = await mount(
-                <div style={{padding: 100}}>
-                    <HelpMark
-                        qa="popover"
-                        buttonProps={{
-                            // @ts-expect-error Object literal may only specify known properties, and ''data-qa'' does not exist in type 'ButtonHTMLAttributes<HTMLButtonElement>'
-                            'data-qa': 'trigger',
-                        }}
-                        {...props}
-                    >
-                        Test content
-                    </HelpMark>
+                <div>
+                    <h4>{title}</h4>
+                    <div style={{padding: 100}}>
+                        <HelpMark
+                            qa="popover"
+                            buttonProps={{
+                                // @ts-expect-error Object literal may only specify known properties, and ''data-qa'' does not exist in type 'ButtonHTMLAttributes<HTMLButtonElement>'
+                                'data-qa': 'trigger',
+                            }}
+                            {...props}
+                        >
+                            Test content
+                        </HelpMark>
+                    </div>
                 </div>,
             );
 

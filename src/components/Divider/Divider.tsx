@@ -1,14 +1,15 @@
 import * as React from 'react';
 
-import type {DOMProps, QAProps} from '../types';
+import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
+import {filterDOMProps} from '../utils/filterDOMProps';
 
 import './Divider.scss';
 
 export type DividerOrientation = 'vertical' | 'horizontal';
 export type DividerAlign = 'start' | 'center' | 'end';
 
-export interface DividerProps extends DOMProps, QAProps {
+export interface DividerProps extends AriaLabelingProps, DOMProps, QAProps {
     orientation?: DividerOrientation;
     align?: DividerAlign;
     children?: React.ReactNode;
@@ -17,10 +18,19 @@ export interface DividerProps extends DOMProps, QAProps {
 const b = block('divider');
 
 export const Divider = React.forwardRef<HTMLDivElement, DividerProps>(function Divider(props, ref) {
-    const {orientation = 'horizontal', className, style, qa, children, align = 'start'} = props;
+    const {
+        orientation = 'horizontal',
+        className,
+        style,
+        qa,
+        children,
+        align = 'start',
+        ...otherProps
+    } = props;
 
     return (
         <div
+            {...filterDOMProps(otherProps, {labelable: true})}
             className={b({orientation, align}, className)}
             ref={ref}
             style={style}

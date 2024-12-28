@@ -79,7 +79,7 @@ const TabsComponent = React.forwardRef<HTMLDivElement, TabsProps>(
             onSelectTab,
             wrapTo,
             qa,
-            ...otherProps
+            ...restProps
         },
         ref,
     ) => {
@@ -107,7 +107,7 @@ const TabsComponent = React.forwardRef<HTMLDivElement, TabsProps>(
 
         return (
             <div
-                {...filterDOMProps(otherProps, {labelable: true})}
+                {...filterDOMProps(restProps, {labelable: true})}
                 role="tablist"
                 className={b({direction, size}, className)}
                 data-qa={qa}

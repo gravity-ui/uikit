@@ -75,7 +75,7 @@ export function Dialog({
     onTransitionOut,
     onTransitionOutComplete,
     qa,
-    ...otherProps
+    ...restProps
 }: DialogProps) {
     const handleCloseButtonClick = React.useCallback(
         (event: React.MouseEvent) => {
@@ -112,7 +112,7 @@ export function Dialog({
 
     return (
         <Modal
-            {...filterDOMProps(otherProps, {labelable: true})}
+            {...filterDOMProps(restProps, {labelable: true})}
             open={open}
             contentOverflow={contentOverflow}
             disableBodyScrollLock={disableBodyScrollLock}

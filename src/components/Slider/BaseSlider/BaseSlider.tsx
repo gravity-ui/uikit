@@ -18,12 +18,12 @@ type BaseSliderProps<T = number | number[]> = {stateModifiers: StateModifiers} &
 >;
 
 export const BaseSlider = React.forwardRef<SliderRef, BaseSliderProps>(function BaseSlider(
-    {stateModifiers, ...otherProps},
+    {stateModifiers, ...restProps},
     ref,
 ) {
     return (
         <Slider
-            {...otherProps}
+            {...restProps}
             ref={ref}
             className={b(stateModifiers)}
             classNames={{

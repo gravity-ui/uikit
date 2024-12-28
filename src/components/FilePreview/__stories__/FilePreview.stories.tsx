@@ -38,10 +38,6 @@ Default.args = {
             icon: <Link width={14} height={14} />,
             onClick: () => action('onLink'),
             title: 'Link',
-            extraProps: {},
-            tooltipExtraProps: {
-                qa: 'action-1-tooltip',
-            },
         },
         {
             icon: <Xmark width={14} height={14} />,

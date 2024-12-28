@@ -17,11 +17,11 @@ export function getOffsetOptions(offsetProp: PopupOffset, hasArrow: boolean | un
     return {offset};
 }
 
-function isAutoPlacement(placement: string): placement is AutoPlacement {
-    return AUTO_PLACEMENTS.includes(placement as AutoPlacement);
+function isAutoPlacement(placement?: string): placement is AutoPlacement {
+    return Boolean(placement && AUTO_PLACEMENTS.includes(placement as AutoPlacement));
 }
 
-export function getPlacementOptions(placementProp: PopupPlacement, disablePortal?: boolean) {
+export function getPlacementOptions(placementProp?: PopupPlacement, disablePortal?: boolean) {
     let placement: Placement | undefined;
     let middleware: Middleware;
 

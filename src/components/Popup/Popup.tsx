@@ -137,7 +137,7 @@ export function Popup({
     open = false,
     onOpenChange,
     strategy,
-    placement: placementProp = 'top',
+    placement: placementProp,
     offset: offsetProp = 4,
     anchorElement,
     anchorRef,

@@ -96,17 +96,7 @@ export function Tooltip({
             placementMiddleware,
             shift({
                 padding: OVERFLOW_PADDING,
-                limiter: limitShift({
-                    offset: ({rects, placement}) => {
-                        const referenceProp: Record<string, 'width' | 'height'> = {
-                            top: 'width',
-                            bottom: 'width',
-                            left: 'height',
-                            right: 'height',
-                        };
-                        return {mainAxis: rects.reference[referenceProp[placement.split('-')[0]]]};
-                    },
-                }),
+                limiter: limitShift(),
             }),
         ],
         whileElementsMounted: autoUpdate,

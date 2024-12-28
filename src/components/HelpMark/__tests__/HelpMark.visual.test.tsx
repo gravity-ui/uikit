@@ -7,8 +7,14 @@ import {HelpMark} from '../HelpMark';
 test.describe('HelpMark', {tag: '@HelpMark'}, () => {
     smokeTest('', async ({mount, page, expectScreenshot}) => {
         const root = await mount(
-            <div style={{minHeght: 500, minWidth: 500}}>
-                <HelpMark qa="popover" buttonProps={{'data-qa': 'trigger'}}>
+            <div style={{minHeight: 500, minWidth: 500}}>
+                <HelpMark
+                    qa="popover"
+                    buttonProps={{
+                        // @ts-expect-error Object literal may only specify known properties, and ''data-qa'' does not exist in type 'ButtonHTMLAttributes<HTMLButtonElement>'
+                        'data-qa': 'trigger',
+                    }}
+                >
                     Test content
                 </HelpMark>
             </div>,

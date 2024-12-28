@@ -129,7 +129,7 @@ export function Modal({
     container,
     qa,
     floatingRef,
-    ...otherProps
+    ...restProps
 }: ModalProps) {
     const handleOpenChange = React.useCallback<NonNullable<UseFloatingOptions['onOpenChange']>>(
         (isOpen, event, reason) => {
@@ -263,7 +263,7 @@ export function Modal({
                             restoreFocus={true}
                         >
                             <div
-                                {...filterDOMProps(otherProps, {labelable: true})}
+                                {...filterDOMProps(restProps, {labelable: true})}
                                 className={b(
                                     'content',
                                     {'has-scroll': contentOverflow === 'auto'},

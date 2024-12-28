@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import {render, screen} from '../../../../test-utils/utils';
 import {Toc} from '../Toc';
+const titles = ['l1Title', 'l2Title', 'l3Title', 'l4Title', 'l5Title', 'l6Title', 'l7Title'];
 
 const defaultItems = [
     {
@@ -18,12 +19,42 @@ const defaultItems = [
     },
     {
         value: 'thirdItem',
-        content: 'Third item',
+        content: titles[0],
         items: [
             {
                 value: 'firstChildItem',
-                content: 'First child item',
-                items: [],
+                content: titles[1],
+                items: [
+                    {
+                        value: 'firstChildItem-depth3',
+                        content: titles[2],
+                        items: [
+                            {
+                                value: 'firstChildItem-depth4',
+                                content: titles[3],
+                                items: [
+                                    {
+                                        value: 'firstChildItem-depth5',
+                                        content: titles[4],
+                                        items: [
+                                            {
+                                                value: 'firstChildItem-depth6',
+                                                content: titles[5],
+                                                items: [
+                                                    {
+                                                        value: 'firstChildItem-depth7',
+                                                        content: titles[6],
+                                                        items: [],
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
             },
             {
                 value: 'secondChildItem',
@@ -52,13 +83,22 @@ describe('Toc', () => {
         const nextValue = defaultItems[0].value;
         const nextTitle = defaultItems[0].content;
         const onUpdateFn = jest.fn();
+        const onItemClickFn = jest.fn();
         const user = userEvent.setup();
 
-        render(<Toc value={defaultValue} items={defaultItems} onUpdate={onUpdateFn} />);
+        render(
+            <Toc
+                value={defaultValue}
+                items={defaultItems}
+                onUpdate={onUpdateFn}
+                onItemClick={onItemClickFn}
+            />,
+        );
         const nextItem = screen.getByText(nextTitle);
         await user.click(nextItem);
 
-        expect(onUpdateFn).toBeCalledWith(nextValue);
+        expect(onUpdateFn).toHaveBeenCalledWith(nextValue);
+        expect(onItemClickFn).toHaveBeenCalledWith(expect.objectContaining({}));
     });
 
     test('calls onUpdate with correct item with link', async () => {
@@ -71,13 +111,14 @@ describe('Toc', () => {
         const nextItem = screen.getByText(nextTitle);
         await user.click(nextItem);
 
-        expect(onUpdateFn).toBeCalledWith(nextValue);
+        expect(onUpdateFn).toHaveBeenCalledWith(nextValue);
     });
 
     test('accessible for keyboard', async () => {
         const firstTitle = defaultItems[0].content;
         const secondValue = defaultItems[1].value;
         const onUpdateFn = jest.fn();
+
         const user = userEvent.setup();
 
         render(<Toc value={defaultValue} items={defaultItems} onUpdate={onUpdateFn} />);
@@ -86,7 +127,7 @@ describe('Toc', () => {
         await user.tab();
         await user.keyboard('{Enter}');
 
-        expect(onUpdateFn).toBeCalledWith(secondValue);
+        expect(onUpdateFn).toHaveBeenCalledWith(secondValue);
     });
 
     test('accessible for keyboard with links', async () => {
@@ -101,7 +142,7 @@ describe('Toc', () => {
         await user.tab();
         await user.keyboard('{Enter}');
 
-        expect(onUpdateFn).toBeCalledWith(secondValue);
+        expect(onUpdateFn).toHaveBeenCalledWith(secondValue);
     });
 
     test('add className', () => {
@@ -148,6 +189,18 @@ describe('Toc', () => {
 
         const currentItem = screen.getByRole('listitem', {current: true});
 
-        expect(currentItem.textContent).toContain(content);
+        expect(currentItem.textContent).toBe(content);
+    });
+
+    test('should render 6 levels', async () => {
+        const value = defaultItems[0].value;
+
+        render(<Toc value={value} items={defaultItems} qa={qaId} />);
+
+        for (let i = 0; i <= 5; i++) {
+            expect(screen.getByText(titles[i])).toBeVisible();
+        }
+
+        expect(screen.queryByText(titles[6])).not.toBeInTheDocument();
     });
 });

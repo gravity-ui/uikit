@@ -32,7 +32,7 @@ test.describe('FilePreview', {tag: '@FilePreview'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
-            nameSuffix: 'actions',
+            nameSuffix: 'show actionsdf',
         });
 
         await page.locator('button[aria-label="Close"]').hover();
@@ -42,7 +42,7 @@ test.describe('FilePreview', {tag: '@FilePreview'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
-            nameSuffix: 'action-tooltip',
+            nameSuffix: 'show action tooltip',
         });
     });
 });

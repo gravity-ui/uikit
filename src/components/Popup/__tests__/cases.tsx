@@ -19,6 +19,6 @@ export const placementCases: Cases<PopupProps['placement']> = [
     'left-end',
 ];
 export const offsetCases: CasesWithName<PopupProps['offset']> = [
-    ['4-12', {mainAxis: 4, crossAxis: 12}],
+    ['10-25', {mainAxis: 10, crossAxis: 25}],
 ];
 export const strategyCases: Cases<PopupProps['strategy']> = ['absolute', 'fixed'];

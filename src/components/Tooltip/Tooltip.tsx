@@ -21,13 +21,14 @@ import type {PopupOffset, PopupPlacement} from '../Popup';
 import {OVERFLOW_PADDING} from '../Popup/constants';
 import {getPlacementOptions} from '../Popup/utils';
 import {Portal} from '../Portal';
-import type {DOMProps, QAProps} from '../types';
+import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
+import {filterDOMProps} from '../utils/filterDOMProps';
 import {getElementRef} from '../utils/getElementRef';
 
 import './Tooltip.scss';
 
-export interface TooltipProps extends QAProps, DOMProps {
+export interface TooltipProps extends AriaLabelingProps, QAProps, DOMProps {
     /** Anchor node */
     children:
         | ((props: Record<string, unknown>, ref: React.Ref<HTMLElement>) => React.ReactElement)
@@ -78,6 +79,7 @@ export function Tooltip({
     className,
     style,
     qa,
+    ...otherProps
 }: TooltipProps) {
     const [anchorElement, setAnchorElement] = React.useState<HTMLElement | null>(null);
     const {placement, middleware: placementMiddleware} = getPlacementOptions(placementProp, false);
@@ -148,6 +150,7 @@ export function Tooltip({
             {isOpen && !disabled ? (
                 <Portal>
                     <div
+                        {...filterDOMProps(otherProps, {labelable: true})}
                         ref={refs.setFloating}
                         style={{
                             position: 'absolute',

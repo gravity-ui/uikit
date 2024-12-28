@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import {filterDOMProps} from '../utils/filterDOMProps';
 import {isOfType} from '../utils/isOfType';
 import {warnOnce} from '../utils/warn';
 
@@ -18,6 +19,7 @@ export function DefinitionList({
     className,
     children,
     qa,
+    ...otherProps
 }: DefinitionListProps) {
     const normalizedChildren = prepareChildren(children);
     return (
@@ -27,6 +29,7 @@ export function DefinitionList({
             contentMaxWidth={contentMaxWidth}
         >
             <dl
+                {...filterDOMProps(otherProps, {labelable: true})}
                 className={b({responsive, vertical: direction === 'vertical'}, className)}
                 data-qa={qa}
             >

@@ -1,35 +1,26 @@
-import {expect} from '@playwright/experimental-ct-react';
-
 import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../../stories/tests-factory/create-smoke-scenarios';
-import {CONTROL_ERROR_ICON_QA} from '../../../controls/utils';
-import {NumberInput} from '../NumberInput';
-import type {NumberInputProps} from '../NumberInput';
+import type {TextAreaProps} from '../TextArea';
+import {TextArea} from '../TextArea';
 
 import {
     disabledCases,
-    endContentCases,
-    errorPlacementCases,
     hasClearCases,
-    labelCases,
+    maxRowsCases,
+    minRowsCases,
     noteCases,
     pinCases,
+    rowsCases,
     sizeCases,
-    startContentCases,
+    testValue,
     validationStateCases,
+    valueCases,
     viewCases,
 } from './cases';
-import {NumberInputStories} from './stories';
 
-test.describe('NumberInput', () => {
-    test('render story: <Default>', async ({mount, expectScreenshot}) => {
-        await mount(<NumberInputStories.Default />);
-
-        await expectScreenshot();
-    });
-
-    const defaultProps: NumberInputProps = {
+test.describe('TextArea', {tag: '@TextArea'}, () => {
+    const defaultProps: TextAreaProps = {
         placeholder: 'Placeholder',
     };
 
@@ -37,22 +28,17 @@ test.describe('NumberInput', () => {
         pin: pinCases,
         size: sizeCases,
         view: viewCases,
+        rows: rowsCases,
+        minRows: minRowsCases,
+        maxRows: maxRowsCases,
         note: noteCases,
-        validationState: validationStateCases,
-        startContent: startContentCases,
-        endContent: endContentCases,
-        disabled: disabledCases,
         hasClear: hasClearCases,
-        label: labelCases,
+        disabled: disabledCases,
+        validationState: validationStateCases,
     } as const;
 
     smokeTest('empty', async ({mount, expectScreenshot}) => {
-        const smokeScenarios = createSmokeScenarios<NumberInputProps>(
-            {
-                ...defaultProps,
-            },
-            commonPropCases,
-        );
+        const smokeScenarios = createSmokeScenarios(defaultProps, commonPropCases);
 
         await mount(
             <div>
@@ -60,7 +46,7 @@ test.describe('NumberInput', () => {
                     <div key={title}>
                         <h4>{title}</h4>
                         <div>
-                            <NumberInput {...props} />
+                            <TextArea {...props} />
                         </div>
                     </div>
                 ))}
@@ -73,10 +59,10 @@ test.describe('NumberInput', () => {
     });
 
     smokeTest('with value', async ({mount, expectScreenshot}) => {
-        const smokeScenarios = createSmokeScenarios<NumberInputProps>(
+        const smokeScenarios = createSmokeScenarios(
             {
                 ...defaultProps,
-                value: 1234,
+                value: testValue,
             },
             commonPropCases,
         );
@@ -87,7 +73,7 @@ test.describe('NumberInput', () => {
                     <div key={title}>
                         <h4>{title}</h4>
                         <div>
-                            <NumberInput {...props} />
+                            <TextArea {...props} />
                         </div>
                     </div>
                 ))}
@@ -103,12 +89,11 @@ test.describe('NumberInput', () => {
         const smokeScenarios = createSmokeScenarios(
             {
                 ...defaultProps,
-                value: 1234,
                 validationState: 'invalid',
                 errorMessage: 'Test error message',
             } as const,
             {
-                errorPlacement: errorPlacementCases,
+                value: valueCases,
             },
         );
 
@@ -118,39 +103,12 @@ test.describe('NumberInput', () => {
                     <div key={title}>
                         <h4>{title}</h4>
                         <div>
-                            <NumberInput {...props} />
+                            <TextArea {...props} />
                         </div>
                     </div>
                 ))}
             </div>,
         );
-
-        await expectScreenshot({
-            themes: ['light'],
-        });
-    });
-
-    smokeTest('inside error placement tooltip', async ({mount, page, expectScreenshot}) => {
-        const props: NumberInputProps = {
-            ...defaultProps,
-            value: 1234,
-            validationState: 'invalid',
-            errorMessage: 'Test error message',
-            errorPlacement: 'inside',
-        };
-
-        const root = await mount(
-            <div style={{width: 250}}>
-                <NumberInput {...props} />
-            </div>,
-            {
-                width: 500,
-            },
-        );
-
-        await root.getByTestId(CONTROL_ERROR_ICON_QA).hover();
-
-        await expect(page.locator('.g-popup')).toBeVisible();
 
         await expectScreenshot({
             themes: ['light'],

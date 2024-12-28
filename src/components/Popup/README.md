@@ -117,7 +117,7 @@ LANDING_BLOCK-->
 | onTransitionExit     | On start close popup animation                                                             |                          `Function`                           |                                  |
 | onTransitionExited   | On finish close popup animation                                                            |                          `Function`                           |                                  |
 | open                 | Manages `Popup` visibility                                                                 |                           `boolean`                           |             `false`              |
-| placement            | `Floating UI` placement                                                                    | `Placement` `Array<Placement>` `auto` `auto-start` `auto-end` |              `top`               |
+| placement            | `Floating UI` placement                                                                    | `Placement` `Array<Placement>` `auto` `auto-start` `auto-end` |                                  |
 | qa                   | Test attribute (`data-qa`)                                                                 |                           `string`                            |                                  |
 | restoreFocus         | If true, the focus will return to the anchor element                                       |                           `boolean`                           |             `false`              |
 | restoreFocusRef      | Element the focus will be restored to                                                      |                       `React.RefObject`                       |                                  |

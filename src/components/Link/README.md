@@ -170,7 +170,7 @@ LANDING_BLOCK-->
 `Link` accepts any valid `a` element props in addition to these:
 
 | Name      | Description                                |                 Type                 |  Default   |
-| :-------- |:-------------------------------------------| :----------------------------------: | :--------: |
+| :-------- | :----------------------------------------- | :----------------------------------: | :--------: |
 | children  | `Link` content                             |          `React.ReactNode`           |            |
 | href      | `href` HTML attribute                      |               `string`               |            |
 | qa        | `data-qa` HTML attribute, used for testing |               `string`               |            |

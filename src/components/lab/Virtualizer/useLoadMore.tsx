@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 export interface Loadable {
     /** Whether the items are currently loading. */

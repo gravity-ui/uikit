@@ -9,7 +9,6 @@ This is a component for adjustable notifications.
 ## Using `Toaster` with context
 
 ```jsx
-import React from 'react';
 import ReactDOMClient from 'react-dom/client';
 import {ToasterComponent, ToasterProvider} from '@gravity-ui/uikit';
 

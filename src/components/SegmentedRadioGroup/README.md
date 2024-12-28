@@ -191,7 +191,7 @@ LANDING_BLOCK-->
 ### Properties
 
 | Name         | Description                                                                                              |                Type                | Default |
-| :----------- | :------------------------------------------------------------------------------------------------------- |:----------------------------------:| :-----: |
+| :----------- | :------------------------------------------------------------------------------------------------------- | :--------------------------------: | :-----: |
 | children     | Content of the radio button.                                                                             |            `ReactNode`             |         |
 | disabled     | Toggles the `disabled` state of the radio button.                                                        |             `boolean`              | `false` |
 | options      | Options for radio button.                                                                                | `SegmentedRadioGroupOptionProps[]` |         |
@@ -256,7 +256,7 @@ const options: SegmentedRadioGroupOption[] = [
 ### Properties
 
 | Name     | Description                                         |    Type     | Default |
-| :------- |:----------------------------------------------------| :---------: | :-----: |
+| :------- | :-------------------------------------------------- | :---------: | :-----: |
 | children | The content of the radio (usually, a label).        | `ReactNode` |         |
 | content  | The content of the radio (alternative to children). | `ReactNode` |         |
 | disabled | Toggles the `disabled` state of the radio.          |  `boolean`  | `false` |

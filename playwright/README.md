@@ -8,9 +8,7 @@
 
    Capture a screenshot, by default in light theme only:
 
-   ```ts
-   import React from 'react';
-
+   ```tsx
    import {expect} from '@playwright/experimental-ct-react';
 
    import {MyComponent} from '../MyComponent';
@@ -28,9 +26,7 @@
 
    You can also capture screenshots both in dark and light themes:
 
-   ```ts
-   import React from 'react';
-
+   ```tsx
    import {MyComponent} from '../MyComponent';
 
    import {test} from '~playwright/core';
@@ -46,9 +42,7 @@
 
    If you need to do any actions with the component:
 
-   ```ts
-   import React from 'react';
-
+   ```tsx
    import {MyComponent} from '../MyComponent';
 
    import {test} from '~playwright/core';

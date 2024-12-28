@@ -31,7 +31,6 @@ npm install --save-dev @gravity-ui/uikit
 ## Использование
 
 ```jsx
-import React from 'react';
 import {Button} from '@gravity-ui/uikit';
 
 const SubmitButton = <Button view="action" size="l" />;

@@ -3,7 +3,9 @@ import {FaceRobot} from '@gravity-ui/icons';
 import {Avatar} from '../Avatar';
 import type {AvatarProps} from '../types/main';
 
-export const TestAvatarWithImage = (props: AvatarProps) => {
+export type TestAvatarProps = Omit<AvatarProps, 'imgUrl' | 'icon' | 'text'>;
+
+export const TestAvatarWithImage = (props: TestAvatarProps) => {
     return (
         <Avatar
             imgUrl={
@@ -14,6 +16,10 @@ export const TestAvatarWithImage = (props: AvatarProps) => {
     );
 };
 
-export const TestAvatarWithIcon = (props: AvatarProps) => {
+export const TestAvatarWithIcon = (props: TestAvatarProps) => {
     return <Avatar icon={FaceRobot} {...props} />;
+};
+
+export const TestAvatarWithText = (props: TestAvatarProps) => {
+    return <Avatar text="Text" color="black" {...props} />;
 };

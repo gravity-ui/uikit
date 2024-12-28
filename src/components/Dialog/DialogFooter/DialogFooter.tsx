@@ -127,7 +127,7 @@ export function DialogFooter(props: DialogFooterProps) {
                     open={showError}
                     onOpenChange={handleOpenChange}
                     anchorRef={errorTooltipRef}
-                    placement={['bottom', 'top']}
+                    placement="top"
                     disablePortal
                     hasArrow
                 >

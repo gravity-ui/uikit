@@ -79,7 +79,7 @@ export function Tooltip({
     className,
     style,
     qa,
-    ...otherProps
+    ...restProps
 }: TooltipProps) {
     const [anchorElement, setAnchorElement] = React.useState<HTMLElement | null>(null);
     const {placement, middleware: placementMiddleware} = getPlacementOptions(placementProp, false);
@@ -140,7 +140,6 @@ export function Tooltip({
             {isOpen && !disabled ? (
                 <Portal>
                     <div
-                        {...filterDOMProps(otherProps, {labelable: true})}
                         ref={refs.setFloating}
                         style={{
                             position: 'absolute',
@@ -152,7 +151,12 @@ export function Tooltip({
                         }}
                         {...getFloatingProps()}
                     >
-                        <div className={b(null, className)} style={style} data-qa={qa}>
+                        <div
+                            className={b(null, className)}
+                            style={style}
+                            data-qa={qa}
+                            {...filterDOMProps(restProps, {labelable: true})}
+                        >
                             {content}
                         </div>
                     </div>

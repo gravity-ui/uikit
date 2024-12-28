@@ -22,8 +22,9 @@ import {KeyCode} from '../../constants';
 import {useForkRef} from '../../hooks';
 import {usePrevious} from '../../hooks/private';
 import {Portal} from '../Portal';
-import type {DOMProps, QAProps} from '../types';
+import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
+import {filterDOMProps} from '../utils/filterDOMProps';
 
 import i18n from './i18n';
 
@@ -31,7 +32,7 @@ import './Modal.scss';
 
 export type ModalCloseReason = 'outsideClick' | 'escapeKeyDown';
 
-export interface ModalProps extends DOMProps, QAProps {
+export interface ModalProps extends DOMProps, AriaLabelingProps, QAProps {
     open?: boolean;
     /** Callback for open state changes, when dismiss happens for example */
     onOpenChange?: (open: boolean, event?: Event, reason?: OpenChangeReason) => void;
@@ -50,7 +51,6 @@ export interface ModalProps extends DOMProps, QAProps {
     disableFocusVisuallyHiddenDismiss?: boolean;
 
     children?: React.ReactNode;
-
     /**
      * This callback will be called when Escape key pressed on keyboard, or click outside was made
      * This behaviour could be disabled with `disableEscapeKeyDown`
@@ -84,15 +84,6 @@ export interface ModalProps extends DOMProps, QAProps {
     disableEscapeKeyDown?: boolean;
     /** Do not dismiss on outside click */
     disableOutsideClick?: boolean;
-    /**
-     * Id of visible `<Modal/>` caption element
-     */
-    'aria-labelledby'?: string;
-    /**
-     * A11y text
-     * Prefer `aria-labelledby` in case caption is visible to user
-     */
-    'aria-label'?: string;
     container?: HTMLElement;
     contentClassName?: string;
     /** Callback called when `Modal` is opened and "in" transition is started */
@@ -135,11 +126,10 @@ export function Modal({
     contentOverflow = 'visible',
     className,
     contentClassName,
-    'aria-labelledby': ariaLabelledBy,
-    'aria-label': ariaLabel,
     container,
     qa,
     floatingRef,
+    ...otherProps
 }: ModalProps) {
     const handleOpenChange = React.useCallback<NonNullable<UseFloatingOptions['onOpenChange']>>(
         (isOpen, event, reason) => {
@@ -273,14 +263,13 @@ export function Modal({
                             restoreFocus={true}
                         >
                             <div
+                                {...filterDOMProps(otherProps, {labelable: true})}
                                 className={b(
                                     'content',
                                     {'has-scroll': contentOverflow === 'auto'},
                                     contentClassName,
                                 )}
                                 ref={handleFloatingRef}
-                                aria-label={ariaLabel}
-                                aria-labelledby={ariaLabelledBy}
                                 {...getFloatingProps({
                                     onTransitionEnd: handleTransitionEnd,
                                     onKeyDown: handleKeyDown,

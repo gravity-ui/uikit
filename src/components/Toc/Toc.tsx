@@ -1,7 +1,8 @@
 import * as React from 'react';
 
-import type {QAProps} from '../types';
+import type {AriaLabelingProps, QAProps} from '../types';
 import {block} from '../utils/cn';
+import {filterDOMProps} from '../utils/filterDOMProps';
 
 import {TocItem} from './TocItem/TocItem';
 import type {TocItem as TocItemType} from './types';
@@ -10,7 +11,7 @@ import './Toc.scss';
 
 const b = block('toc');
 
-export interface TocProps extends QAProps {
+export interface TocProps extends AriaLabelingProps, QAProps {
     className?: string;
     items: TocItemType[];
     value?: string;
@@ -19,10 +20,15 @@ export interface TocProps extends QAProps {
 }
 
 export const Toc = React.forwardRef<HTMLElement, TocProps>(function Toc(props, ref) {
-    const {value: activeValue, items, className, onUpdate, onItemClick, qa} = props;
+    const {value: activeValue, items, className, onUpdate, onItemClick, qa, ...otherProps} = props;
 
     return (
-        <nav className={b(null, className)} ref={ref} data-qa={qa}>
+        <nav
+            {...filterDOMProps(otherProps, {labelable: true})}
+            className={b(null, className)}
+            ref={ref}
+            data-qa={qa}
+        >
             <ul className={b('sections')}>
                 {items.map(({value, content, href, items: childrenItems}) => (
                     <li key={value ?? href} aria-current={activeValue === value}>

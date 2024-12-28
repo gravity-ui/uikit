@@ -2,8 +2,9 @@
 
 import * as React from 'react';
 
-import type {QAProps} from '../types';
+import type {AriaLabelingProps, QAProps} from '../types';
 import {block} from '../utils/cn';
+import {filterDOMProps} from '../utils/filterDOMProps';
 
 import {TabsContext} from './TabsContext';
 import {TabsItem} from './TabsItem';
@@ -23,7 +24,7 @@ export type TabsSize = 'm' | 'l' | 'xl';
 export interface TabsItemProps
     extends Omit<TabsItemInternalProps, 'active' | 'direction' | 'onClick'> {}
 
-export interface TabsProps extends QAProps {
+export interface TabsProps extends AriaLabelingProps, QAProps {
     /**
      * Tabs direction
      * @deprecated Vertical tabs are deprecated
@@ -78,6 +79,7 @@ const TabsComponent = React.forwardRef<HTMLDivElement, TabsProps>(
             onSelectTab,
             wrapTo,
             qa,
+            ...otherProps
         },
         ref,
     ) => {
@@ -104,7 +106,13 @@ const TabsComponent = React.forwardRef<HTMLDivElement, TabsProps>(
         }, [items, onSelectTab, wrapTo]);
 
         return (
-            <div role="tablist" className={b({direction, size}, className)} data-qa={qa} ref={ref}>
+            <div
+                {...filterDOMProps(otherProps, {labelable: true})}
+                role="tablist"
+                className={b({direction, size}, className)}
+                data-qa={qa}
+                ref={ref}
+            >
                 <TabsContext.Provider value={tabsContextValue}>
                     {children || tabs}
                 </TabsContext.Provider>

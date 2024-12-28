@@ -18,7 +18,6 @@ Wrap HTML element or any component that accepts native DOM handlers and ARIA att
 into `content` property.
 
 ```jsx
-import React from 'react';
 import {Button, Popover} from '@gravity-ui/uikit';
 
 <Popover content="Content">

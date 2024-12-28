@@ -63,7 +63,11 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
     offset?: PopupOffset;
     /** floating element anchor */
     anchorElement?: PopupAnchorElement | null;
-    /** floating element anchor ref object */
+    /**
+     * floating element anchor ref object
+     *
+     * @deprecated Use `anchorElement` instead
+     * */
     anchorRef?: PopupAnchorRef;
     /** Set up a getter for props that need to be passed to the anchor */
     setGetAnchorProps?: (getAnchorProps: UseInteractionsReturn['getReferenceProps']) => void;

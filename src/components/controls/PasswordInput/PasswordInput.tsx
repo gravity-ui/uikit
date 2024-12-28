@@ -13,6 +13,7 @@ import {block} from '../../utils/cn';
 import {TextInput} from '../TextInput';
 import type {TextInputProps} from '../TextInput';
 
+import {PasswordInputQa} from './constants';
 import {i18n} from './i18n';
 import {getActionButtonSizeAndIconSize} from './utils';
 
@@ -72,6 +73,7 @@ export const PasswordInput = (props: PasswordInputProps) => {
                     hasTooltip={showCopyTooltip}
                     size={actionButtonSize}
                     className={b('copy-button')}
+                    qa={PasswordInputQa.copyButton}
                 />
             ) : null}
             {hideRevealButton ? null : (
@@ -80,6 +82,7 @@ export const PasswordInput = (props: PasswordInputProps) => {
                     title={revealValue ? i18n('label_hide-password') : i18n('label_show-password')}
                 >
                     <Button
+                        qa={PasswordInputQa.revealButton}
                         view="flat-secondary"
                         disabled={props.disabled}
                         onClick={() => setRevealValue(!revealValue)}

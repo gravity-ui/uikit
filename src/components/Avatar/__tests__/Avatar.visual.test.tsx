@@ -1,8 +1,6 @@
 import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
-import {Avatar} from '../Avatar';
-import type {AvatarProps} from '../types/main';
 
 import {
     backgroundColorCases,
@@ -12,7 +10,8 @@ import {
     titleCases,
     viewCases,
 } from './cases';
-import {TestAvatarWithIcon, TestAvatarWithImage} from './helpersPlaywright';
+import {TestAvatarWithIcon, TestAvatarWithImage, TestAvatarWithText} from './helpersPlaywright';
+import type {TestAvatarProps} from './helpersPlaywright';
 import {AvatarStories} from './stories';
 
 test.describe('Avatar', {tag: '@Avatar'}, () => {
@@ -53,8 +52,6 @@ test.describe('Avatar', {tag: '@Avatar'}, () => {
         await expectScreenshot({component});
     });
 
-    const defaultProps: AvatarProps = {};
-
     const commonCases = {
         size: sizeCases,
         theme: themeCases,
@@ -65,8 +62,8 @@ test.describe('Avatar', {tag: '@Avatar'}, () => {
     } as const;
 
     smokeTest('with image', async ({mount, expectScreenshot}) => {
-        const smokeScenarios = createSmokeScenarios(
-            defaultProps,
+        const smokeScenarios = createSmokeScenarios<TestAvatarProps>(
+            {},
             {
                 ...commonCases,
             },
@@ -94,8 +91,8 @@ test.describe('Avatar', {tag: '@Avatar'}, () => {
     });
 
     smokeTest('with icon', async ({mount, expectScreenshot}) => {
-        const smokeScenarios = createSmokeScenarios(
-            defaultProps,
+        const smokeScenarios = createSmokeScenarios<TestAvatarProps>(
+            {},
             {
                 ...commonCases,
             },
@@ -123,12 +120,8 @@ test.describe('Avatar', {tag: '@Avatar'}, () => {
     });
 
     smokeTest('with text', async ({mount, expectScreenshot}) => {
-        const smokeScenarios = createSmokeScenarios(
-            {
-                ...defaultProps,
-                text: 'Text',
-                color: 'black',
-            },
+        const smokeScenarios = createSmokeScenarios<TestAvatarProps>(
+            {},
             {
                 ...commonCases,
             },
@@ -143,7 +136,7 @@ test.describe('Avatar', {tag: '@Avatar'}, () => {
                     <div key={title}>
                         <h4>{title}</h4>
                         <div>
-                            <Avatar {...props} />
+                            <TestAvatarWithText {...props} />
                         </div>
                     </div>
                 ))}

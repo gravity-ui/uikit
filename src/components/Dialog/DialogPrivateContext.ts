@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 export interface DialogPrivateContextProps {
     initialFocusRef?: React.RefObject<HTMLElement | null>;

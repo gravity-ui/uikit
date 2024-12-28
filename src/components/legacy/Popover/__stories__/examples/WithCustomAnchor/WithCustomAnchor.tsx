@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 import {Popover} from '../../../';
-import {Button} from '../../../../Button';
-import {Loader} from '../../../../Loader';
+import {Button} from '../../../../../Button';
+import {Loader} from '../../../../../Loader';
 import type {PopoverInstanceProps} from '../../../types';
 import {cnPopoverDemo} from '../../PopoverDemo.classname';
 

@@ -1,6 +1,6 @@
-@use '../../variables';
+@use '../../../variables';
 
-$block: '.#{variables.$ns}popover-demo';
+$block: '.#{variables.$ns}popover-legacy-demo';
 
 #{$block} {
     display: flex;

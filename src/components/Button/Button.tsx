@@ -50,6 +50,7 @@ export interface ButtonProps extends DOMProps, QAProps {
     type?: 'button' | 'submit' | 'reset';
     component?: React.ElementType;
     href?: string;
+    hrefComponent?: React.ElementType;
     target?: string;
     rel?: string;
     extraProps?:
@@ -80,6 +81,7 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
         type = 'button',
         component,
         href,
+        hrefComponent,
         target,
         rel,
         extraProps,
@@ -137,14 +139,17 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
         'data-qa': qa,
     };
 
-    if (typeof href === 'string' || component) {
+    if (href || component) {
         const linkProps = {
             href,
             target,
             rel: target === '_blank' && !rel ? 'noopener noreferrer' : rel,
         };
+
+        const LinkComponent = hrefComponent || 'a';
+
         return React.createElement(
-            component || 'a',
+            component || LinkComponent,
             {
                 ...extraProps,
                 ...commonProps,

@@ -1,3 +1,3 @@
 export type {UserSize, UserProps} from './types';
-export {UserQa} from './constants';
+export {DEFAULT_USER_SIZE, UserQa} from './constants';
 export {User} from './User';

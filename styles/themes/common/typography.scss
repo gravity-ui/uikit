@@ -1,6 +1,6 @@
 @mixin variables {
     --g-font-family-sans: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-    --g-font-family-monospace: 'Menlo', 'Monaco', 'Consolas', 'Ubuntu Mono', 'Liberation Mono',
+    --g-font-family-monospace: 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Ubuntu Mono',
         'DejaVu Sans Mono', 'Courier New', 'Courier', monospace;
 
     --g-text-body-font-family: var(--g-font-family-sans);

@@ -57,7 +57,9 @@ export const DropdownMenuPopup = <T,>({
     const handleMouseEnter = React.useCallback(
         (event: React.MouseEvent<HTMLDivElement>) => {
             setActiveMenuPath(path);
-            popupProps?.onMouseEnter?.(event);
+            (popupProps?.floatingProps?.onMouseEnter as React.MouseEventHandler | undefined)?.(
+                event,
+            );
         },
         [path, popupProps, setActiveMenuPath],
     );
@@ -65,7 +67,9 @@ export const DropdownMenuPopup = <T,>({
     const handleMouseLeave = React.useCallback(
         (event: React.MouseEvent<HTMLDivElement>) => {
             activateParent();
-            popupProps?.onMouseLeave?.(event);
+            (popupProps?.floatingProps?.onMouseLeave as React.MouseEventHandler | undefined)?.(
+                event,
+            );
         },
         [activateParent, popupProps],
     );
@@ -142,9 +146,13 @@ export const DropdownMenuPopup = <T,>({
             open={open}
             anchorRef={anchorRef}
             onClose={onClose}
+            placement="bottom-start"
             {...popupProps}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            floatingProps={{
+                ...popupProps?.floatingProps,
+                onMouseEnter: handleMouseEnter,
+                onMouseLeave: handleMouseLeave,
+            }}
         >
             {children || (
                 <Menu className={cnDropdownMenu('menu')} size={size} {...menuProps}>

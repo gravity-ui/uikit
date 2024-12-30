@@ -14,6 +14,7 @@ import type {Meta, StoryObj} from '@storybook/react';
 import {Showcase} from '../../../demo/Showcase';
 import {Icon as IconComponent} from '../../Icon/Icon';
 import {Button} from '../Button';
+import type {ButtonButtonProps, ButtonLinkProps} from '../Button';
 
 import {ButtonViewShowcase} from './ButtonViewShowcase';
 
@@ -54,7 +55,7 @@ export const Default: Story = {
 };
 
 export const View: Story = {
-    render: (args) => <ButtonViewShowcase {...args} />,
+    render: (args) => <ButtonViewShowcase {...(args as ButtonButtonProps)} />,
 };
 
 export const Size: Story = {
@@ -174,7 +175,7 @@ export const Link: Story = {
         children: ['Link Button', <IconComponent key="icon" data={ArrowUpRightFromSquare} />],
         href: 'https://gravity-ui.com',
         target: '_blank',
-    },
+    } as ButtonLinkProps,
     name: 'As Link',
 };
 
@@ -190,7 +191,7 @@ export const InsideText: Story = {
                 <Button {...args} /> dolor
                 <br />
                 sit{' '}
-                <Button {...args} extraProps={{'aria-label': 'Icon button inside text'}}>
+                <Button {...args} aria-label="Icon button inside text">
                     <IconComponent data={Globe} />
                 </Button>{' '}
                 amet

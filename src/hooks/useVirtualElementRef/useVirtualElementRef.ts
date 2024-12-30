@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import type {VirtualElement} from '@popperjs/core';
+import type {VirtualElement} from '@floating-ui/react';
 
 export type VirtualElementRect = {
     top?: number;

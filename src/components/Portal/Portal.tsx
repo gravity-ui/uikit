@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import ReactDOM from 'react-dom';
+import {FloatingPortal} from '@floating-ui/react';
 
 import {usePortalContainer} from '../../hooks';
 import {ThemeProvider} from '../theme';
@@ -29,16 +29,19 @@ export function Portal({container, children, disablePortal}: PortalProps) {
         return <React.Fragment>{children}</React.Fragment>;
     }
 
-    return containerNode
-        ? ReactDOM.createPortal(
-              scoped ? (
-                  <ThemeProvider rootClassName={b('theme-wrapper')} scoped>
-                      {children}
-                  </ThemeProvider>
-              ) : (
-                  children
-              ),
-              containerNode,
-          )
-        : null;
+    if (containerNode) {
+        return (
+            <FloatingPortal root={containerNode}>
+                {scoped ? (
+                    <ThemeProvider rootClassName={b('theme-wrapper')} scoped>
+                        {children}
+                    </ThemeProvider>
+                ) : (
+                    children
+                )}
+            </FloatingPortal>
+        );
+    }
+
+    return null;
 }

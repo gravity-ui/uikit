@@ -2,8 +2,8 @@
 const path = require('path');
 
 const {task, src, dest, series, parallel} = require('gulp');
-const sass = require('gulp-dart-sass');
 const replace = require('gulp-replace');
+const sass = require('gulp-sass')(require('sass'));
 const ts = require('gulp-typescript');
 const {rimrafSync} = require('rimraf');
 
@@ -18,7 +18,8 @@ task('clean', (done) => {
 function compileTs(modules = false) {
     const tsProject = ts.createProject('tsconfig.json', {
         declaration: true,
-        module: modules ? 'esnext' : 'commonjs',
+        module: modules ? 'esnext' : 'nodenext',
+        moduleResolution: modules ? 'bundler' : 'nodenext',
         ...(modules ? undefined : {verbatimModuleSyntax: false}),
     });
 
@@ -54,7 +55,7 @@ task('copy-i18n', () => {
 task('styles-global', () => {
     return src(['styles/styles.scss', 'styles/fonts.scss'])
         .pipe(
-            sass().on('error', function (error) {
+            sass.sync().on('error', function (error) {
                 sass.logError.call(this, error);
                 process.exit(1);
             }),
@@ -65,7 +66,7 @@ task('styles-global', () => {
 task('styles-components', () => {
     return src(['src/components/**/*.scss', '!src/components/**/__stories__/**/*'])
         .pipe(
-            sass().on('error', function (error) {
+            sass.sync().on('error', function (error) {
                 sass.logError.call(this, error);
                 process.exit(1);
             }),

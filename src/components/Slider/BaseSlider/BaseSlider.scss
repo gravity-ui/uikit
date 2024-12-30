@@ -148,16 +148,16 @@ $rail-xl-size: 6px;
 }
 
 #{$block} {
-    * {
-        box-sizing: border-box;
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    }
-
     position: relative;
     flex-grow: 1;
     touch-action: none;
     box-sizing: border-box;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+    * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
 
     &_size {
         &_s {

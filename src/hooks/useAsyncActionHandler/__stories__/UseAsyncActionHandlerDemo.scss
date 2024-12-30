@@ -1,6 +1,6 @@
-@import '../../../components/variables';
+@use '../../../components/variables';
 
-$block: '.#{$ns}async-action-handler-demo';
+$block: '.#{variables.$ns}async-action-handler-demo';
 
 #{$block} {
     display: flex;

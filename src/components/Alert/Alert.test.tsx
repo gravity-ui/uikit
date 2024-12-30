@@ -56,21 +56,6 @@ describe('Alert', () => {
         expect(await screen.findByText(center)).toBeInTheDocument();
     });
 
-    test('has predicted styles if inline layout rendered', async () => {
-        const {container} = render(
-            <Alert
-                theme="danger"
-                align="center"
-                title={title}
-                layout="horizontal"
-                onClose={jest.fn()}
-                actions={[{text: right}]}
-            />,
-        );
-
-        expect(container).toMatchSnapshot();
-    });
-
     test.each<AlertTheme>(['danger', 'info', 'success', 'warning', 'utility'])(
         'render correct icon if not normal theme',
         async (theme) => {

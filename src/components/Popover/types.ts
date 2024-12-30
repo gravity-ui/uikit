@@ -1,4 +1,4 @@
-import type {PopupAnchorRef, PopupProps} from '../Popup';
+import type {PopupAnchorElement, PopupAnchorRef, PopupOffset, PopupProps} from '../Popup';
 
 import type {ButtonsProps} from './components/Buttons/Buttons';
 import type {ContentProps} from './components/Content/Content';
@@ -41,11 +41,9 @@ export interface PopoverExternalProps {
      */
     tooltipCancelButton?: ButtonsProps['tooltipCancelButton'];
     /** Tooltip's offset relative to the control */
-    tooltipOffset?: [number, number];
+    tooltipOffset?: PopupOffset;
     /** Tooltip's css class */
     tooltipClassName?: string;
-    /** Tooltip's content css class */
-    tooltipContentClassName?: string;
     /** css class for the control */
     className?: string;
     /**
@@ -92,6 +90,7 @@ export type PopoverBehaviorProps = {
 
 export type PopoverTheme = 'info' | 'special' | 'announcement';
 export type PopoverAnchorRef = PopupAnchorRef;
+export type PopoverAnchorElement = PopupAnchorElement;
 
 export type PopoverDefaultProps = {
     /** Whether the tooltip initially opened */
@@ -121,7 +120,10 @@ export type PopoverDefaultProps = {
     size: 's' | 'l';
 };
 
-export type PopoverProps = Pick<PopupProps, 'anchorRef' | 'strategy' | 'placement' | 'modifiers'> &
+export type PopoverProps = Pick<
+    PopupProps,
+    'anchorElement' | 'anchorRef' | 'strategy' | 'placement'
+> &
     PopoverExternalProps &
     PopoverBehaviorProps &
     Partial<PopoverDefaultProps>;

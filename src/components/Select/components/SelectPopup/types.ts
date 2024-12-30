@@ -15,5 +15,6 @@ export type SelectPopupProps = {
     disablePortal?: boolean;
     virtualized?: boolean;
     id?: string;
+    onAfterOpen?: () => void;
     onAfterClose?: () => void;
 };

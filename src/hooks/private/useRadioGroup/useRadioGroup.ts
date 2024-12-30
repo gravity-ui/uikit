@@ -1,4 +1,4 @@
-import {useControlledState, useUniqId} from '../..';
+import {useControlledState, useFocusWithin, useUniqId} from '../..';
 import type {ControlGroupOption, ControlGroupProps} from '../../../components/types';
 import {filterDOMProps} from '../../../components/utils/filterDOMProps';
 import {useFormResetHandler} from '../useFormResetHandler';
@@ -41,8 +41,7 @@ export function useRadioGroup<ValueType extends string = string>(
     const controlId = useUniqId();
     const [currentValue, setValueState] = useControlledState<string | null, ValueType>(
         value,
-        // FIXME: Do not set defaultValue to first option value
-        defaultValue ?? options[0]?.value ?? null,
+        defaultValue ?? null,
         onUpdate,
     );
 
@@ -50,6 +49,8 @@ export function useRadioGroup<ValueType extends string = string>(
         initialValue: currentValue as ValueType,
         onReset: setValueState,
     });
+
+    const {focusWithinProps} = useFocusWithin({onFocusWithin: onFocus, onBlurWithin: onBlur});
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setValueState(event.target.value as ValueType);
@@ -61,6 +62,7 @@ export function useRadioGroup<ValueType extends string = string>(
 
     const containerProps = {
         ...filterDOMProps(props, {labelable: true}),
+        ...focusWithinProps,
         role: 'radiogroup',
         'aria-disabled': disabled,
     };
@@ -73,9 +75,6 @@ export function useRadioGroup<ValueType extends string = string>(
         checked: currentValue === String(option.value),
         disabled: disabled || option.disabled,
         onChange: handleChange,
-        // FIXME: onFocus and onBlur should be on the container via useFocusWithin hook
-        onFocus: onFocus,
-        onBlur: onBlur,
         ref: fieldRef,
     }));
 

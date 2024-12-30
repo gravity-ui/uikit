@@ -33,7 +33,6 @@ const config: PlaywrightTestConfig = {
     updateSnapshots: process.env.UPDATE_REQUEST ? 'all' : 'missing',
     snapshotPathTemplate:
         '{testDir}/{testFileDir}/../__snapshots__/{testFileName}-snapshots/{arg}{-projectName}-linux{ext}',
-    /* The base directory, relative to the config file, for snapshot files created with toMatchSnapshot and toHaveScreenshot. */
     /* Maximum time one test can run for. */
     timeout: 10 * 1000,
     /* Run tests in files in parallel */
@@ -52,7 +51,6 @@ const config: PlaywrightTestConfig = {
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: 'on-first-retry',
         headless: true,
-        /* Port to use for Playwright component endpoint. */
         screenshot: 'only-on-failure',
         timezoneId: 'UTC',
         ctCacheDir: process.env.IS_DOCKER ? '.cache-docker' : '.cache',

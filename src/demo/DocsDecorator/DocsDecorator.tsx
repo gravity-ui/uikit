@@ -15,7 +15,7 @@ const b = cn('docs-decorator');
 
 export function DocsDecorator({children, context}: DocsDecoratorProps) {
     // @ts-expect-error
-    const theme = context.store.globals.globals.theme;
+    const theme = context.store.userGlobals.globals.theme;
     return (
         <div className={b()}>
             <DocsContainer context={context} theme={themes[getThemeType(theme)]}>

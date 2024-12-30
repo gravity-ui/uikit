@@ -1,3 +1,6 @@
+@use 'sass:list';
+@use 'sass:selector';
+
 @mixin overflow-ellipsis($type: ellipsis) {
     white-space: nowrap;
     overflow: hidden;
@@ -57,9 +60,9 @@
 
 @function get-pin-selector($mod, $selector, $append: true) {
     @if $append {
-        @return selector-append($mod, $selector);
+        @return selector.append($mod, $selector);
     } @else {
-        @return join($mod, $selector, $separator: space);
+        @return list.join($mod, $selector, $separator: space);
     }
 }
 
@@ -320,4 +323,33 @@
 
     // stylelint-disable-next-line no-unknown-animations
     animation: g-loading-animation 0.5s linear infinite;
+}
+
+@mixin scrollbar() {
+    &::-webkit-scrollbar,
+    *::-webkit-scrollbar {
+        width: var(--g-scrollbar-width);
+        height: var(--g-scrollbar-width);
+        background: var(--g-color-scroll-track);
+    }
+
+    &::-webkit-scrollbar-track,
+    *::-webkit-scrollbar-track {
+        background: var(--g-color-scroll-track);
+    }
+
+    &::-webkit-scrollbar-corner,
+    *::-webkit-scrollbar-corner {
+        background: var(--g-color-scroll-corner);
+    }
+
+    &::-webkit-scrollbar-thumb,
+    *::-webkit-scrollbar-thumb {
+        background: var(--g-color-scroll-handle);
+    }
+
+    &::-webkit-scrollbar-thumb:hover,
+    *::-webkit-scrollbar-thumb:hover {
+        background: var(--g-color-scroll-handle-hover);
+    }
 }

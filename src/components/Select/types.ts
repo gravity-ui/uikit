@@ -1,7 +1,7 @@
 import type * as React from 'react';
 
-import type {PopperPlacement} from '../../hooks/private';
 import type {UseOpenProps} from '../../hooks/useSelect/types';
+import type {PopupPlacement} from '../Popup';
 import type {InputControlPin, InputControlSize, InputControlView} from '../controls';
 import type {AriaLabelingProps, ControlGroupOption, QAProps} from '../types';
 
@@ -125,7 +125,7 @@ export type SelectProps<T = any> = QAProps &
         className?: string;
         controlClassName?: string;
         popupClassName?: string;
-        popupPlacement?: PopperPlacement;
+        popupPlacement?: PopupPlacement;
         label?: string;
         placeholder?: React.ReactNode;
         filterPlaceholder?: string;

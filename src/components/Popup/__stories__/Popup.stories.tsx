@@ -6,7 +6,7 @@ import {useVirtualElementRef} from '../../../hooks';
 import {Button} from '../../Button';
 import {Text} from '../../Text';
 import {Popup} from '../Popup';
-import type {PopupPlacement} from '../Popup';
+import type {PopupPlacement} from '../types';
 
 const meta: Meta<typeof Popup> = {
     title: 'Components/Overlays/Popup',
@@ -24,7 +24,12 @@ export const Default: Story = {
 
         return (
             <React.Fragment>
-                <Popup {...props} open={open} anchorRef={anchorRef} onClose={() => setOpen(false)}>
+                <Popup
+                    {...props}
+                    open={open}
+                    anchorElement={anchorRef.current}
+                    onClose={() => setOpen(false)}
+                >
                     <div style={{padding: 10}}>Popup content</div>
                 </Popup>
                 <div

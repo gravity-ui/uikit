@@ -1,9 +1,9 @@
 import type {AvatarTextProps} from './types';
 import {getAvatarDisplayText} from './utils';
 
-export const AvatarText = ({text, color, className}: AvatarTextProps) => {
+export const AvatarText = ({text, color, className, size}: AvatarTextProps) => {
     const style = {color};
-    const displayText = getAvatarDisplayText(text);
+    const displayText = size === '3xs' ? text[0].toUpperCase() : getAvatarDisplayText(text);
 
     return (
         <div style={style} className={className}>

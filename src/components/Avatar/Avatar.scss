@@ -63,6 +63,16 @@ $block: '.#{variables.$ns}avatar';
         &::after {
             border: 2px solid var(--g-avatar-border-color, var(--_--border-color));
         }
+
+        &#{$block}_size_2xs::before,
+        &#{$block}_size_3xs::before {
+            border: 2.5px solid var(--g-color-base-background);
+        }
+
+        &#{$block}_size_2xs::after,
+        &#{$block}_size_3xs::after {
+            border: 1.5px solid var(--g-avatar-border-color, var(--_--border-color));
+        }
     }
 
     &_size {
@@ -72,6 +82,7 @@ $block: '.#{variables.$ns}avatar';
             }
         }
 
+        &_3xs,
         &_2xs {
             --_--font-size: var(--g-text-caption-1-font-size);
             --_--line-height: var(--g-text-caption-1-line-height);

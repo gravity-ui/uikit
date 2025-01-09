@@ -140,12 +140,14 @@ LANDING_BLOCK-->
 
 ### Размер
 
-Размер `Avatar` можно настроить с помощью свойства `size`. Размер по умолчанию — `m`. Возможные значения: `xs`, `s`, `m`, `l` и `xl`.
+Размер `Avatar` можно настроить с помощью свойства `size`. Размер по умолчанию — `m`. Возможные значения: `3xs`,`2xs`, `xs`, `s`, `m`, `l` и `xl`.
 
 <!--LANDING_BLOCK
 
 <ExampleBlock
     code={`
+<Avatar text="Charles Darwin" theme="brand" size="3xs" />
+<Avatar text="Charles Darwin" theme="brand" size="2xs" />
 <Avatar text="Charles Darwin" theme="brand" size="xs" />
 <Avatar text="Charles Darwin" theme="brand" size="s" />
 <Avatar text="Charles Darwin" theme="brand" size="m" />
@@ -153,6 +155,8 @@ LANDING_BLOCK-->
 <Avatar text="Charles Darwin" theme="brand" size="xl" />
 `}
 >
+    <UIKit.Avatar text="Charles Darwin" theme="brand" size="3xs" />
+    <UIKit.Avatar text="Charles Darwin" theme="brand" size="2xs" />
     <UIKit.Avatar text="Charles Darwin" theme="brand" size="xs" />
     <UIKit.Avatar text="Charles Darwin" theme="brand" size="s" />
     <UIKit.Avatar text="Charles Darwin" theme="brand" size="m" />
@@ -166,19 +170,19 @@ LANDING_BLOCK-->
 
 ### Общие
 
-| Имя             | Описание                                               |               Тип               | Значение по умолчанию |
-| :-------------- | :----------------------------------------------------- | :-----------------------------: | :-------------------: |
-| size            | Размер аватара.                                        | `'xs'` `'s'` `'m'` `'l'` `'xl'` |          `m`          |
-| theme           | Тема аватара.                                          |      `'normal'` `'brand'`       |       `normal`        |
-| view            | Варианты заполнения и обводки аватара.                 |     `'filled'` `'outlined'`     |       `filled`        |
-| backgroundColor | Пользовательский цвет фона.                            |            `string`             |                       |
-| borderColor     | Пользовательский цвет границы.                         |            `string`             |                       |
-| title           | HTML-атрибут `title`.                                  |            `string`             |                       |
-| aria-label      | Атрибут `aria-label` для секции аватара.               |            `string`             |                       |
-| aria-labelledby | Атрибут `aria-labelledby` для секции аватара.          |            `string`             |                       |
-| className       | Пользовательский CSS-класс корневого элемента.         |            `string`             |                       |
-| style           | HTML-атрибут `style`.                                  |      `React.CSSProperties`      |                       |
-| qa              | HTML-атрибут `data-qa`, используется для тестирования. |            `string`             |                       |
+| Имя             | Описание                                               |                       Тип                       | Значение по умолчанию |
+| :-------------- | :----------------------------------------------------- | :---------------------------------------------: | :-------------------: |
+| size            | Размер аватара.                                        | `'3xs'` `'2xs'` `'xs'` `'s'` `'m'` `'l'` `'xl'` |          `m`          |
+| theme           | Тема аватара.                                          |              `'normal'` `'brand'`               |       `normal`        |
+| view            | Варианты заполнения и обводки аватара.                 |             `'filled'` `'outlined'`             |       `filled`        |
+| backgroundColor | Пользовательский цвет фона.                            |                    `string`                     |                       |
+| borderColor     | Пользовательский цвет границы.                         |                    `string`                     |                       |
+| title           | HTML-атрибут `title`.                                  |                    `string`                     |                       |
+| aria-label      | Атрибут `aria-label` для секции аватара.               |                    `string`                     |                       |
+| aria-labelledby | Атрибут `aria-labelledby` для секции аватара.          |                    `string`                     |                       |
+| className       | Пользовательский CSS-класс корневого элемента.         |                    `string`                     |                       |
+| style           | HTML-атрибут `style`.                                  |              `React.CSSProperties`              |                       |
+| qa              | HTML-атрибут `data-qa`, используется для тестирования. |                    `string`                     |                       |
 
 ### Свойства изображений
 

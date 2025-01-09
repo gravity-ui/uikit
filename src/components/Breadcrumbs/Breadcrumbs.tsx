@@ -2,12 +2,12 @@
 
 import * as React from 'react';
 
-import {useForkRef, useResizeObserver} from '../../../hooks';
-import {Button} from '../../Button';
-import {DropdownMenu} from '../../DropdownMenu';
-import type {PopupPlacement} from '../../Popup';
-import type {AriaLabelingProps, DOMProps, Href, Key, QAProps, RouterOptions} from '../../types';
-import {filterDOMProps} from '../../utils/filterDOMProps';
+import {useForkRef, useResizeObserver} from '../../hooks';
+import {Button} from '../Button';
+import {DropdownMenu} from '../DropdownMenu';
+import type {PopupPlacement} from '../Popup';
+import type {AriaLabelingProps, DOMProps, Href, Key, QAProps, RouterOptions} from '../types';
+import {filterDOMProps} from '../utils/filterDOMProps';
 
 import {BreadcrumbItem} from './BreadcrumbItem';
 import {BreadcrumbsSeparator} from './BreadcrumbsSeparator';

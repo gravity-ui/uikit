@@ -3,13 +3,13 @@ import * as React from 'react';
 import {ChevronRight, Flame, House, Rocket} from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react';
 
-import {Text} from '../../../Text';
-import {Box, Flex} from '../../../layout';
-import type {Key} from '../../../types';
+import {Text} from '../../Text';
+import {Box, Flex} from '../../layout';
+import type {Key} from '../../types';
 import {Breadcrumbs} from '../Breadcrumbs';
 
 const meta: Meta<typeof Breadcrumbs> = {
-    title: 'Lab/Breadcrumbs',
+    title: 'Components/Navigation/Breadcrumbs',
     component: Breadcrumbs,
 };
 

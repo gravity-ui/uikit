@@ -1,4 +1,4 @@
-import {block} from '../../utils/cn';
+import {block} from '../utils/cn';
 
 interface Modifiers {
     metaKey?: boolean;

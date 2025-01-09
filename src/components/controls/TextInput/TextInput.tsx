@@ -7,7 +7,7 @@ import {TriangleExclamation} from '@gravity-ui/icons';
 import {useControlledState, useForkRef, useUniqId} from '../../../hooks';
 import {useElementSize, useFormResetHandler} from '../../../hooks/private';
 import {Icon} from '../../Icon';
-import {Popover} from '../../Popover';
+import {Popover} from '../../legacy';
 import {block} from '../../utils/cn';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
 import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';

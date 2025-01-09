@@ -69,6 +69,16 @@
                 "default": "./build/cjs/i18n/index.js"
             }
         },
+        "./legacy": {
+            "import": {
+                "types": "./build/esm/legacy.d.ts",
+                "default": "./build/esm/legacy.js"
+            },
+            "require": {
+                "types": "./build/cjs/legacy.d.ts",
+                "default": "./build/cjs/legacy.js"
+            }
+        },
         "./unstable": {
             "import": {
                 "types": "./build/esm/unstable.d.ts",

@@ -76,6 +76,9 @@ export enum FirstDisplayedItemsCount {
     One = 1,
 }
 
+/**
+ * @deprecated
+ */
 export class Breadcrumbs<T extends BreadcrumbsItem = BreadcrumbsItem> extends React.Component<
     BreadcrumbsProps<T>,
     BreadcrumbsState<T>

@@ -7,7 +7,6 @@ export * from './ActionTooltip';
 export * from './Alert';
 export * from './ArrowToggle';
 export * from './Avatar';
-export * from './Breadcrumbs';
 export * from './Button';
 export * from './Checkbox';
 export * from './Card';

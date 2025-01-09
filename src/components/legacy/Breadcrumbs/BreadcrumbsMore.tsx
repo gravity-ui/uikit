@@ -1,7 +1,7 @@
 'use client';
 
-import {DropdownMenu} from '../DropdownMenu';
-import {block} from '../utils/cn';
+import {DropdownMenu} from '../../DropdownMenu';
+import {block} from '../../utils/cn';
 
 import type {BreadcrumbsProps} from './Breadcrumbs';
 import {BreadcrumbsButton} from './BreadcrumbsButton';

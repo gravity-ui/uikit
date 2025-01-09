@@ -2,8 +2,8 @@
 
 import * as React from 'react';
 
-import {Link} from '../Link';
-import {block} from '../utils/cn';
+import {Link} from '../../Link';
+import {block} from '../../utils/cn';
 
 import type {BreadcrumbsItem as IBreadcrumbsItem} from './Breadcrumbs';
 import {BreadcrumbsButton} from './BreadcrumbsButton';

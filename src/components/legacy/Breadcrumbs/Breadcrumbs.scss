@@ -1,5 +1,5 @@
-@use '../variables';
-@use '../../../styles/mixins';
+@use '../../variables';
+@use '../../../../styles/mixins';
 
 $block: '.#{variables.$ns}breadcrumbs';
 

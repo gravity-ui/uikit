@@ -4,9 +4,9 @@ import * as React from 'react';
 
 import _throttle from 'lodash/throttle';
 
-import type {PopupPlacement} from '../Popup';
-import type {QAProps} from '../types';
-import {block} from '../utils/cn';
+import type {PopupPlacement} from '../../Popup';
+import type {QAProps} from '../../types';
+import {block} from '../../utils/cn';
 
 import type {Props as BreadcrumbsItemProps} from './BreadcrumbsItem';
 import {BreadcrumbsItem as Item} from './BreadcrumbsItem';

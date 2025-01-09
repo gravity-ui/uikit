@@ -1,4 +1,4 @@
-import {Button} from '../../../Button';
+import {Button} from '../../../../Button';
 import {cnPopover} from '../../Popover.classname';
 import type {PopoverButtonProps, PopoverTheme} from '../../types';
 

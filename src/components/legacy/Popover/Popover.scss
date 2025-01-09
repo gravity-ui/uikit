@@ -1,7 +1,7 @@
-@use '../../../styles/mixins';
-@use '../variables';
+@use '../../../../styles/mixins';
+@use '../../variables';
 
-$block: '.#{variables.$ns}popover';
+$block: '.#{variables.$ns}popover-legacy';
 
 #{$block} {
     display: inline-block;

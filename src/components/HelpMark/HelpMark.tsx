@@ -3,8 +3,8 @@ import type * as React from 'react';
 import {CircleQuestion} from '@gravity-ui/icons';
 
 import {Icon} from '../Icon';
-import {Popover} from '../Popover';
 import type {PopupPlacement} from '../Popup';
+import {Popover} from '../legacy';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 

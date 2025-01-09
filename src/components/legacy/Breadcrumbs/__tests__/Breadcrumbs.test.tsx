@@ -1,4 +1,4 @@
-import {render, screen} from '../../../../test-utils/utils';
+import {render, screen} from '../../../../../test-utils/utils';
 import {Breadcrumbs} from '../Breadcrumbs';
 
 const items = [

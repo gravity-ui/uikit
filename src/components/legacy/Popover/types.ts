@@ -1,4 +1,4 @@
-import type {PopupAnchorElement, PopupAnchorRef, PopupOffset, PopupProps} from '../Popup';
+import type {PopupAnchorElement, PopupAnchorRef, PopupOffset, PopupProps} from '../../Popup';
 
 import type {ButtonsProps} from './components/Buttons/Buttons';
 import type {ContentProps} from './components/Content/Content';

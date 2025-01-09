@@ -7,7 +7,7 @@ import isEmpty from 'lodash/isEmpty';
 
 import {useUniqId} from '../../../../hooks';
 import {Icon} from '../../../Icon';
-import {Popover} from '../../../Popover';
+import {Popover} from '../../../legacy';
 import type {CnMods} from '../../../utils/cn';
 import {selectControlBlock, selectControlButtonBlock} from '../../constants';
 import i18n from '../../i18n';

@@ -4,7 +4,7 @@ import type {BreadcrumbsProps} from './Breadcrumbs';
 
 type Props = Pick<BreadcrumbsProps, 'renderItemDivider'>;
 
-const b = block('breadcrumbs');
+const b = block('breadcrumbs-legacy');
 
 export function BreadcrumbsSeparator({renderItemDivider}: Props) {
     return (

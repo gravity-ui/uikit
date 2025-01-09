@@ -1,7 +1,7 @@
 @use '../variables';
 @use '../../../styles/mixins';
 
-$block: '.#{variables.$ns}breadcrumbs2';
+$block: '.#{variables.$ns}breadcrumbs';
 
 #{$block} {
     display: flex;

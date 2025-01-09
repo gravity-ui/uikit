@@ -21,4 +21,4 @@ export function shouldClientNavigate(link: HTMLAnchorElement, modifiers: Modifie
     );
 }
 
-export const b = block('breadcrumbs2');
+export const b = block('breadcrumbs');

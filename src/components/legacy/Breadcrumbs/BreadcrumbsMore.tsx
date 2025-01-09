@@ -9,7 +9,7 @@ import i18n from './i18n';
 
 interface Props extends Pick<BreadcrumbsProps, 'popupPlacement' | 'popupStyle' | 'items'> {}
 
-const b = block('breadcrumbs');
+const b = block('breadcrumbs-legacy');
 
 export function BreadcrumbsMore({popupStyle, popupPlacement, items}: Props) {
     return (

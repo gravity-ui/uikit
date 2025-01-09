@@ -64,7 +64,7 @@ const MORE_ITEM_WIDTH = 34;
 const DEFAULT_POPUP_PLACEMENT = ['bottom', 'top'];
 const GAP_WIDTH = 4;
 
-const b = block('breadcrumbs');
+const b = block('breadcrumbs-legacy');
 
 export enum LastDisplayedItemsCount {
     One = 1,

@@ -21,7 +21,7 @@ export interface Props<T extends IBreadcrumbsItem = IBreadcrumbsItem> {
     renderItem?: RenderBreadcrumbsItem<T>;
 }
 
-const b = block('breadcrumbs');
+const b = block('breadcrumbs-legacy');
 
 function Item<T extends IBreadcrumbsItem = IBreadcrumbsItem>({
     item,

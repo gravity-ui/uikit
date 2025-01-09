@@ -1,7 +1,7 @@
 @use '../../variables';
 @use '../../../../styles/mixins';
 
-$block: '.#{variables.$ns}breadcrumbs';
+$block: '.#{variables.$ns}breadcrumbs-legacy';
 
 #{$block} {
     &__inner {

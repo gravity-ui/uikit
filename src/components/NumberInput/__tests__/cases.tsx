@@ -1,4 +1,4 @@
-import type {Cases, CasesWithName} from '../../../../stories/tests-factory/models';
+import type {Cases, CasesWithName} from '../../../stories/tests-factory/models';
 import type {NumberInputProps} from '../NumberInput';
 
 /* eslint-disable react/jsx-key */

@@ -1,6 +1,6 @@
 import {expect, smokeTest, test} from '~playwright/core';
 
-import {createSmokeScenarios} from '../../../../stories/tests-factory/create-smoke-scenarios';
+import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {BreadcrumbsProps} from '../Breadcrumbs';
 
 import {disabledCases, popupPlacementCases} from './cases';

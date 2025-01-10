@@ -2,8 +2,8 @@
 
 import type * as React from 'react';
 
-import type {Href, RouterOptions} from '../../types';
-import {filterDOMProps} from '../../utils/filterDOMProps';
+import type {Href, RouterOptions} from '../types';
+import {filterDOMProps} from '../utils/filterDOMProps';
 
 import type {BreadcrumbsItemProps} from './Breadcrumbs';
 import {b, shouldClientNavigate} from './utils';

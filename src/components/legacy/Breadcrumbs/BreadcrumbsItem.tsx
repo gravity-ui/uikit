@@ -2,8 +2,8 @@
 
 import * as React from 'react';
 
-import {Link} from '../Link';
-import {block} from '../utils/cn';
+import {Link} from '../../Link';
+import {block} from '../../utils/cn';
 
 import type {BreadcrumbsItem as IBreadcrumbsItem} from './Breadcrumbs';
 import {BreadcrumbsButton} from './BreadcrumbsButton';
@@ -21,7 +21,7 @@ export interface Props<T extends IBreadcrumbsItem = IBreadcrumbsItem> {
     renderItem?: RenderBreadcrumbsItem<T>;
 }
 
-const b = block('breadcrumbs');
+const b = block('breadcrumbs-legacy');
 
 function Item<T extends IBreadcrumbsItem = IBreadcrumbsItem>({
     item,

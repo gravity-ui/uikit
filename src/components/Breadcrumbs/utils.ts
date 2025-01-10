@@ -1,4 +1,4 @@
-import {block} from '../../utils/cn';
+import {block} from '../utils/cn';
 
 interface Modifiers {
     metaKey?: boolean;
@@ -21,4 +21,4 @@ export function shouldClientNavigate(link: HTMLAnchorElement, modifiers: Modifie
     );
 }
 
-export const b = block('breadcrumbs2');
+export const b = block('breadcrumbs');

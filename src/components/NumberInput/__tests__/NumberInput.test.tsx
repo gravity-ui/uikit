@@ -2,9 +2,9 @@ import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {act, fireEvent, render, screen} from '../../../../../test-utils/utils';
-import {KeyCode} from '../../../../constants';
-import {CONTROL_ERROR_ICON_QA} from '../../../controls/utils';
+import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
+import {KeyCode} from '../../../constants';
+import {CONTROL_ERROR_ICON_QA} from '../../controls/utils';
 import {NumberInput} from '../NumberInput';
 import {CONTROL_BUTTONS_QA, DECREMENT_BUTTON_QA, INCREMENT_BUTTON_QA} from '../utils';
 

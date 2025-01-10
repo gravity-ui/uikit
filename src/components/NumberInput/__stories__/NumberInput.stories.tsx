@@ -3,15 +3,15 @@ import * as React from 'react';
 import {ArrowShapeUpToLine} from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react';
 
-import {Showcase} from '../../../../demo/Showcase';
-import {Button} from '../../../Button';
-import {Icon} from '../../../Icon';
-import {Text} from '../../../Text';
+import {Showcase} from '../../../demo/Showcase';
+import {Button} from '../../Button';
+import {Icon} from '../../Icon';
+import {Text} from '../../Text';
 import {NumberInput} from '../NumberInput';
 import type {NumberInputProps} from '../NumberInput';
 
 export default {
-    title: 'Lab/NumberInput',
+    title: 'Components/Inputs/NumberInput',
     component: NumberInput,
     parameters: {
         a11y: {

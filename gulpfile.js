@@ -18,8 +18,8 @@ task('clean', (done) => {
 function compileTs(modules = false) {
     const tsProject = ts.createProject('tsconfig.json', {
         declaration: true,
-        module: modules ? 'esnext' : 'nodenext',
-        moduleResolution: modules ? 'bundler' : 'nodenext',
+        module: modules ? 'esnext' : 'commonjs',
+        moduleResolution: modules ? 'bundler' : 'node',
         ...(modules ? undefined : {verbatimModuleSyntax: false}),
     });
 

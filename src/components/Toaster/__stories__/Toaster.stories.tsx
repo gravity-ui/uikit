@@ -3,12 +3,12 @@ import * as React from 'react';
 import {faker} from '@faker-js/faker/locale/en';
 import type {Meta, StoryObj} from '@storybook/react';
 
+import {toaster} from '../../../toaster-singleton';
 import type {ButtonView} from '../../Button';
 import {BUTTON_VIEWS} from '../../Button/constants';
 import {ToasterProvider} from '../Provider/ToasterProvider';
 import {Toast} from '../Toast/Toast';
 import {ToasterComponent} from '../ToasterComponent/ToasterComponent';
-import {ToasterSingleton} from '../ToasterSingleton';
 import {TOAST_THEMES} from '../constants';
 import {useToaster} from '../hooks/useToaster';
 import type {ToastAction} from '../types';
@@ -54,15 +54,13 @@ function booleanControl(label: string) {
     };
 }
 
-const toasterInstance = new ToasterSingleton();
-
 export default {
     title: 'Components/Feedback/Toaster',
     component: Toast,
     decorators: [
         function withToasters(Story) {
             return (
-                <ToasterProvider toaster={toasterInstance}>
+                <ToasterProvider toaster={toaster}>
                     <Story />
                 </ToasterProvider>
             );

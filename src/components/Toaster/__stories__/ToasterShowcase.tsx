@@ -3,8 +3,9 @@ import * as React from 'react';
 import {faker} from '@faker-js/faker/locale/en';
 import {CircleCheck, CircleInfo, Thunderbolt, TriangleExclamation} from '@gravity-ui/icons';
 
-import {Toaster, ToasterComponent, useToaster} from '..';
+import {ToasterComponent, useToaster} from '..';
 import type {ToastAction, ToastProps} from '..';
+import {toaster as singletonToaster} from '../../../toaster-singleton';
 import {Button} from '../../Button';
 import type {ButtonView} from '../../Button';
 import {Icon} from '../../Icon';
@@ -13,8 +14,6 @@ import {cn} from '../../utils/cn';
 import './ToasterShowcase.scss';
 
 const b = cn('toaster-showcase');
-
-export const toasterInstance = new Toaster();
 
 const CONTENT = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, atque!';
 
@@ -377,7 +376,7 @@ export const ToasterDemo = ({
         <Button
             size="l"
             onClick={() => {
-                toasterInstance.add({
+                singletonToaster.add({
                     title: 'Singleton Toast',
                     content: 'I am separate toast, which can be added outside of react!',
                     name: 'uniqueName' + Math.random().toString(),

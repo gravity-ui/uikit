@@ -6,25 +6,9 @@ import {getToastIndex} from './utilities/getToastIndex';
 import {hasToast} from './utilities/hasToast';
 import {removeToast} from './utilities/removeToast';
 
-const TOASTER_KEY: unique symbol = Symbol('Toaster instance key');
-
-declare global {
-    interface Window {
-        [TOASTER_KEY]: ToasterSingleton;
-    }
-}
-
-export class ToasterSingleton {
+export class Toaster {
     private toasts: InternalToastProps[] = [];
     private eventEmitter: EventEmitter<InternalToastProps[]> = new EventEmitter();
-
-    constructor() {
-        if (window[TOASTER_KEY] instanceof ToasterSingleton) {
-            return window[TOASTER_KEY];
-        }
-
-        window[TOASTER_KEY] = this;
-    }
 
     add(toast: ToastProps) {
         let nextToasts = this.toasts;

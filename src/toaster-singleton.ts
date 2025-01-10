@@ -1,5 +1,4 @@
-import {ToasterSingleton} from './components/Toaster/ToasterSingleton';
+import {Toaster} from './components/Toaster/Toaster';
 
 // in SSR case
-export const toaster =
-    typeof window === 'object' ? new ToasterSingleton() : ({} as ToasterSingleton);
+export const toaster = typeof window === 'object' ? new Toaster() : ({} as Toaster);

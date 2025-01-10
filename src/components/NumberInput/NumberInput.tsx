@@ -2,13 +2,13 @@
 
 import * as React from 'react';
 
-import {KeyCode} from '../../../constants';
-import {useControlledState, useForkRef} from '../../../hooks';
-import {useFormResetHandler} from '../../../hooks/private';
-import {TextInput} from '../../controls/TextInput';
-import type {BaseInputControlProps} from '../../controls/types';
-import {getInputControlState} from '../../controls/utils';
-import {block} from '../../utils/cn';
+import {KeyCode} from '../../constants';
+import {useControlledState, useForkRef} from '../../hooks';
+import {useFormResetHandler} from '../../hooks/private';
+import {TextInput} from '../controls/TextInput';
+import type {BaseInputControlProps} from '../controls/types';
+import {getInputControlState} from '../controls/utils';
+import {block} from '../utils/cn';
 
 import {NumericArrows} from './NumericArrows/NumericArrows';
 import {

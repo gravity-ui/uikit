@@ -30,6 +30,3 @@ export {
     TreeList as unstable_TreeList,
     type TreeListProps as unstable_TreeListProps,
 } from './components/TreeList';
-
-export {NumberInput as unstable_NumberInput} from './components/lab/NumberInput';
-export type {NumberInputProps as unstable_NumberInputProps} from './components/lab/NumberInput';

@@ -15,7 +15,7 @@ export function withMobile<T extends WithMobileProps>(
     return class WithMobileComponent extends React.Component<Omit<T, keyof WithMobileProps>> {
         static displayName = `withMobile(${componentName})`;
         static contextType = MobileContext;
-        context!: React.ContextType<typeof MobileContext>;
+        declare context: React.ContextType<typeof MobileContext>;
 
         render() {
             return (

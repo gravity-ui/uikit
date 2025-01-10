@@ -1,4 +1,4 @@
-import type {Cases} from '../../../../stories/tests-factory/models';
+import type {Cases} from '../../../stories/tests-factory/models';
 import type {BreadcrumbsProps} from '../Breadcrumbs';
 
 export const disabledCases: Cases<BreadcrumbsProps['disabled']> = [true];

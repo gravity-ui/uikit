@@ -1,0 +1,74 @@
+@use '../../variables';
+@use '../../../../styles/mixins';
+
+$block: '.#{variables.$ns}breadcrumbs-legacy';
+
+#{$block} {
+    &__inner {
+        display: inline-flex;
+        align-items: center;
+        width: 100%;
+        min-height: 24px;
+        overflow: hidden;
+        gap: 4px;
+    }
+
+    &__switcher {
+        @include mixins.button-reset();
+        color: var(--g-color-text-secondary);
+
+        &:focus-visible {
+            outline: 2px solid var(--g-color-line-focus);
+        }
+    }
+
+    &__item,
+    &__switcher {
+        flex-shrink: 1;
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+        &:focus-visible {
+            outline: 2px solid var(--g-color-line-focus);
+            border-radius: var(--g-focus-border-radius);
+        }
+    }
+
+    &_calculated_no {
+        #{$block}__item {
+            overflow: visible;
+        }
+    }
+
+    &__divider {
+        display: flex;
+        align-items: center;
+        color: var(--g-color-text-secondary);
+    }
+
+    &__popup_staircase {
+        $menu: '.#{variables.$ns}menu';
+        $staircaseLength: 10;
+        #{$menu} {
+            #{$menu}__list-item {
+                #{$menu}__item {
+                    /* stylelint-disable declaration-no-important */
+                    padding-inline-start: 8px * $staircaseLength !important;
+                    /* stylelint-enable declaration-no-important */
+                }
+            }
+
+            @for $i from 0 through $staircaseLength {
+                #{$menu}__list-item:nth-child(#{$i}) {
+                    #{$menu}__item {
+                        /* stylelint-disable declaration-no-important */
+                        padding-inline-start: 8px * $i !important;
+                        /* stylelint-enable declaration-no-important */
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,8 +1,8 @@
 import type * as React from 'react';
 
-import {block} from '../utils/cn';
+import {block} from '../../utils/cn';
 
-const b = block('breadcrumbs');
+const b = block('breadcrumbs-legacy');
 
 export function BreadcrumbsButton(props: {
     title: string;

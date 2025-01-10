@@ -1,122 +1,285 @@
-import {render, screen} from '../../../../test-utils/utils';
+import * as React from 'react';
+
+import {userEvent} from '@testing-library/user-event';
+
+import {render, screen, within} from '../../../../test-utils/utils';
 import {Breadcrumbs} from '../Breadcrumbs';
 
-const items = [
-    {text: 'Root', action() {}, href: 'https://example.com'},
-    {text: 'Region', action() {}, href: 'https://example.com/region/'},
-    {text: 'Country', action() {}, href: 'https://example.com/region/country/'},
-    {text: 'City', action() {}, href: 'https://example.com/region/country/city/'},
-    {
-        text: 'District',
-        action() {},
-        href: 'https://example.com/region/country/city/district/',
-    },
-    {
-        text: 'Street',
-        action() {},
-        href: 'https://example.com/region/country/city/district/street/',
-    },
-];
-
-test('should apply custom renderer when first item forced to display', () => {
-    render(
-        <Breadcrumbs
-            items={items}
-            lastDisplayedItemsCount={1}
-            firstDisplayedItemsCount={1}
-            renderItemContent={(a) => `${a.text} (Custom item render)`}
-            renderRootContent={(a) => `${a.text} (Custom root render)`}
-        />,
-    );
-
-    expect(screen.getByText('Root (Custom root render)')).toBeInTheDocument();
-});
-
-test('root render should fallback to item renderer', () => {
-    render(
-        <Breadcrumbs
-            items={items}
-            lastDisplayedItemsCount={1}
-            firstDisplayedItemsCount={1}
-            renderItemContent={(a) => `${a.text} (Custom item render)`}
-        />,
-    );
-
-    expect(screen.getByText('Root (Custom item render)')).toBeInTheDocument();
-});
-
-test('should ignore root item custom render without first item forced to display', () => {
-    render(
-        <Breadcrumbs
-            items={items}
-            lastDisplayedItemsCount={1}
-            firstDisplayedItemsCount={0}
-            renderRootContent={(a) => `${a.text} (Custom root render)`}
-        />,
-    );
-
-    expect(screen.queryByText('Root (Custom root render)')).not.toBeInTheDocument();
-    expect(screen.getByText('Root')).toBeInTheDocument();
-});
-
-test('should render links', () => {
-    render(
-        <Breadcrumbs
-            items={items}
-            lastDisplayedItemsCount={1}
-            firstDisplayedItemsCount={0}
-            renderRootContent={(a) => `${a.text} (Custom root render)`}
-        />,
-    );
-
-    expect(screen.getByRole('link', {name: 'Root'})).toBeInTheDocument();
-    expect(screen.getByRole('link', {name: 'Region'})).toBeInTheDocument();
-    expect(screen.getByRole('link', {name: 'Country'})).toBeInTheDocument();
-    expect(screen.getByRole('link', {name: 'City'})).toBeInTheDocument();
-    expect(screen.getByRole('link', {name: 'District'})).toBeInTheDocument();
-    expect(screen.queryByRole('link', {name: 'Street'})).not.toBeInTheDocument();
-    expect(screen.getByText('Street')).toBeInTheDocument();
-});
-
-test('should allow to override separator', () => {
-    render(
-        <Breadcrumbs
-            items={items}
-            lastDisplayedItemsCount={1}
-            firstDisplayedItemsCount={0}
-            renderItemDivider={() => '•'}
-        />,
-    );
-
-    expect(screen.getAllByText('•')).toHaveLength(items.length);
-});
-
-test('should display custom title', () => {
-    render(
-        <Breadcrumbs
-            items={items.map((item) => ({...item, title: `Custom title for ${item.text}`}))}
-            lastDisplayedItemsCount={1}
-            firstDisplayedItemsCount={0}
-        />,
-    );
-
-    expect(screen.getByTitle('Custom title for Root')).toBeInTheDocument();
-    expect(screen.getByTitle('Custom title for Street')).toBeInTheDocument();
-});
-
-test('renderItem property', () => {
-    const getText = (text: string) => `qwerty_${text}`;
-
-    render(
-        <Breadcrumbs
-            items={items}
-            firstDisplayedItemsCount={0}
-            lastDisplayedItemsCount={1}
-            renderItem={({item}) => <div>{getText(item.text)}</div>}
-        />,
-    );
-
-    items.forEach(({text}) => {
-        expect(screen.getByText(getText(text))).toBeInTheDocument();
+beforeEach(() => {
+    jest.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockImplementation(function (
+        this: Element,
+    ) {
+        if (this instanceof HTMLOListElement) {
+            return 500;
+        }
+        return 100;
     });
+});
+
+it('handles multiple items', () => {
+    render(
+        <Breadcrumbs>
+            <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 2</Breadcrumbs.Item>
+            <Breadcrumbs.Item disabled>Folder 3</Breadcrumbs.Item>
+        </Breadcrumbs>,
+    );
+    const item1 = screen.getByText('Folder 1');
+    expect(item1.tabIndex).toBe(0);
+    expect(item1).not.toHaveAttribute('aria-current');
+    const item2 = screen.getByText('Folder 2');
+    expect(item2.tabIndex).toBe(0);
+    expect(item2).not.toHaveAttribute('aria-current');
+    const item3 = screen.getByText('Folder 3');
+    expect(item3.tabIndex).toBe(-1);
+    expect(item3).toHaveAttribute('aria-disabled', 'true');
+    expect(item3).toHaveAttribute('aria-current', 'page');
+});
+
+it('should handle forward ref', function () {
+    let ref: React.RefObject<any> | undefined;
+    const Component = () => {
+        ref = React.useRef();
+        return (
+            <Breadcrumbs ref={ref} aria-label="breadcrumbs-test">
+                <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
+            </Breadcrumbs>
+        );
+    };
+    render(<Component />);
+    const breadcrumb = screen.getByLabelText('breadcrumbs-test');
+    expect(breadcrumb).toBe(ref?.current);
+});
+
+it('shows four items with no menu', () => {
+    render(
+        <Breadcrumbs maxItems={4}>
+            <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 2</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 3</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 4</Breadcrumbs.Item>
+        </Breadcrumbs>,
+    );
+    const {children} = screen.getByRole('list');
+    expect(within(children[0] as HTMLElement).queryByRole('button')).toBeNull();
+    expect(screen.getByText('Folder 1')).toBeTruthy();
+    expect(screen.getByText('Folder 2')).toBeTruthy();
+    expect(screen.getByText('Folder 3')).toBeTruthy();
+    expect(screen.getByText('Folder 4')).toBeTruthy();
+});
+
+it('shows a maximum of 3 items', () => {
+    render(
+        <Breadcrumbs maxItems={3}>
+            <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 2</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 3</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 4</Breadcrumbs.Item>
+        </Breadcrumbs>,
+    );
+    const {children} = screen.getByRole('list');
+    expect(within(children[0] as HTMLElement).getByRole('button')).toBeTruthy();
+    expect(() => screen.getByText('Folder 1')).toThrow();
+    expect(() => screen.getByText('Folder 2')).toThrow();
+    expect(screen.getByText('Folder 3')).toBeTruthy();
+    expect(screen.getByText('Folder 4')).toBeTruthy();
+});
+
+it('shows a maximum of 3 items with showRoot', () => {
+    render(
+        <Breadcrumbs maxItems={3} showRoot>
+            <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 2</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 3</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 4</Breadcrumbs.Item>
+        </Breadcrumbs>,
+    );
+    const {children} = screen.getByRole('list');
+    expect(screen.getByText('Folder 1')).toBeTruthy();
+    expect(within(children[1] as HTMLElement).getByRole('button')).toBeTruthy();
+    expect(() => screen.getByText('Folder 2')).toThrow();
+    expect(() => screen.getByText('Folder 3')).toThrow();
+    expect(screen.getByText('Folder 4')).toBeTruthy();
+});
+
+it('shows less than 4 items if they do not fit', () => {
+    jest.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockImplementation(function (
+        this: Element,
+    ) {
+        if (this instanceof HTMLUListElement) {
+            return 300;
+        }
+
+        return 100;
+    });
+
+    render(
+        <Breadcrumbs maxItems={4}>
+            <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 2</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 3</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 4</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 5</Breadcrumbs.Item>
+        </Breadcrumbs>,
+    );
+
+    const {children} = screen.getByRole('list');
+    expect(within(children[0] as HTMLElement).getByRole('button')).toBeTruthy();
+    expect(() => screen.getByText('Folder 1')).toThrow();
+    expect(() => screen.getByText('Folder 2')).toThrow();
+    expect(() => screen.getByText('Folder 3')).toThrow();
+    expect(() => screen.getByText('Folder 4')).toThrow();
+    expect(screen.getByText('Folder 5')).toBeTruthy();
+});
+
+it('collapses root item if it does not fit', () => {
+    jest.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockImplementation(function (
+        this: Element,
+    ) {
+        if (this instanceof HTMLUListElement) {
+            return 300;
+        }
+
+        return 100;
+    });
+
+    render(
+        <Breadcrumbs showRoot>
+            <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 2</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 3</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 4</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 5</Breadcrumbs.Item>
+        </Breadcrumbs>,
+    );
+
+    const {children} = screen.getByRole('list');
+    expect(() => screen.getByText('Folder 1')).toThrow();
+    expect(within(children[0] as HTMLElement).getByRole('button')).toBeTruthy();
+    expect(() => screen.getByText('Folder 2')).toThrow();
+    expect(() => screen.getByText('Folder 3')).toThrow();
+    expect(() => screen.getByText('Folder 4')).toThrow();
+    expect(screen.getByText('Folder 5')).toBeTruthy();
+});
+
+it('supports aria-label', function () {
+    render(
+        <Breadcrumbs aria-label="Test">
+            <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
+        </Breadcrumbs>,
+    );
+    const breadcrumbs = screen.getByRole('list');
+    expect(breadcrumbs).toHaveAttribute('aria-label', 'Test');
+});
+
+it('supports aria-labelledby', function () {
+    render(
+        <React.Fragment>
+            <span id="test">Test</span>
+            <Breadcrumbs aria-labelledby="test">
+                <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
+            </Breadcrumbs>
+        </React.Fragment>,
+    );
+    const breadcrumbs = screen.getByRole('list');
+    expect(breadcrumbs).toHaveAttribute('aria-labelledby', 'test');
+});
+
+it('supports aria-describedby', function () {
+    render(
+        <React.Fragment>
+            <span id="test">Test</span>
+            <Breadcrumbs aria-describedby="test">
+                <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
+            </Breadcrumbs>
+        </React.Fragment>,
+    );
+    const breadcrumbs = screen.getByRole('list');
+    expect(breadcrumbs).toHaveAttribute('aria-describedby', 'test');
+});
+
+it('supports custom props', function () {
+    render(
+        <Breadcrumbs data-testid="test">
+            <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
+        </Breadcrumbs>,
+    );
+    const breadcrumbs = screen.getByRole('list');
+    expect(breadcrumbs).toHaveAttribute('data-testid', 'test');
+});
+
+it('should support links', async function () {
+    render(
+        <Breadcrumbs>
+            <Breadcrumbs.Item href="https://example.com">Example.com</Breadcrumbs.Item>
+            <Breadcrumbs.Item href="https://example.com/foo">Foo</Breadcrumbs.Item>
+            <Breadcrumbs.Item href="https://example.com/foo/bar">Bar</Breadcrumbs.Item>
+            <Breadcrumbs.Item href="https://example.com/foo/bar/baz">Baz</Breadcrumbs.Item>
+            <Breadcrumbs.Item href="https://example.com/foo/bar/baz/qux">Qux</Breadcrumbs.Item>
+        </Breadcrumbs>,
+    );
+
+    const links = screen.getAllByRole('link');
+    expect(links).toHaveLength(3);
+    expect(links[0]).toHaveAttribute('href', 'https://example.com/foo/bar');
+    expect(links[1]).toHaveAttribute('href', 'https://example.com/foo/bar/baz');
+    expect(links[2]).toHaveAttribute('href', 'https://example.com/foo/bar/baz/qux');
+
+    const menuButton = screen.getByRole('button');
+    await userEvent.click(menuButton);
+
+    const menu = screen.getByRole('menu');
+    const items = within(menu).getAllByRole('menuitem');
+    expect(items).toHaveLength(2);
+    expect(items[0].tagName).toBe('A');
+    expect(items[0]).toHaveAttribute('href', 'https://example.com');
+    expect(items[1].tagName).toBe('A');
+    expect(items[1]).toHaveAttribute('href', 'https://example.com/foo');
+});
+
+it('should support RouterProvider', async () => {
+    /*
+        declare module '@gravity-ui/uikit' {
+            interface RouterConfig {
+                routerOptions: {
+                    foo: string;
+                };
+            }
+        }
+    */
+    const navigate = jest.fn();
+    render(
+        <Breadcrumbs navigate={navigate}>
+            <Breadcrumbs.Item href="/" routerOptions={{foo: 'bar'} as any}>
+                Example.com
+            </Breadcrumbs.Item>
+            <Breadcrumbs.Item href="/foo" routerOptions={{foo: 'foo'} as any}>
+                Foo
+            </Breadcrumbs.Item>
+            <Breadcrumbs.Item href="/foo/bar" routerOptions={{foo: 'bar'} as any}>
+                Bar
+            </Breadcrumbs.Item>
+            <Breadcrumbs.Item href="/foo/bar/baz" routerOptions={{foo: 'bar'} as any}>
+                Baz
+            </Breadcrumbs.Item>
+            <Breadcrumbs.Item href="/foo/bar/baz/qux" routerOptions={{foo: 'bar'} as any}>
+                Qux
+            </Breadcrumbs.Item>
+        </Breadcrumbs>,
+    );
+
+    const links = screen.getAllByRole('link');
+    expect(links[0]).toHaveAttribute('href', '/foo/bar');
+    await userEvent.click(links[0]);
+    expect(navigate).toHaveBeenCalledWith('/foo/bar', {foo: 'bar'});
+    navigate.mockReset();
+
+    const menuButton = screen.getByRole('button');
+    await userEvent.click(menuButton);
+
+    const menu = screen.getByRole('menu');
+    const items = within(menu).getAllByRole('menuitem');
+    expect(items[1]).toHaveAttribute('href', '/foo');
+    await userEvent.click(items[1]);
+    expect(navigate).toHaveBeenCalledWith('/foo', {foo: 'foo'});
 });

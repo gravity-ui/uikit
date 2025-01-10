@@ -31,14 +31,5 @@ export {
     type TreeListProps as unstable_TreeListProps,
 } from './components/TreeList';
 
-export {
-    Breadcrumbs as unstable_Breadcrumbs,
-    BreadcrumbsItem as unstable_BreadcrumbsItem,
-} from './components/lab/Breadcrumbs';
-export type {
-    BreadcrumbsProps as unstable_BreadcrumbsProps,
-    BreadcrumbsItemProps as unstable_BreadcrumbsItemProps,
-} from './components/lab/Breadcrumbs';
-
 export {NumberInput as unstable_NumberInput} from './components/lab/NumberInput';
 export type {NumberInputProps as unstable_NumberInputProps} from './components/lab/NumberInput';

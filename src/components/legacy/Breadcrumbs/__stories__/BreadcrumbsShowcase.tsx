@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {cn} from '../../utils/cn';
+import {cn} from '../../../utils/cn';
 import {Breadcrumbs} from '../Breadcrumbs';
 import type {BreadcrumbsProps} from '../Breadcrumbs';
 import type {RenderBreadcrumbsItemProps} from '../types';

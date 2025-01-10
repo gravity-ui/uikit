@@ -1,7 +1,7 @@
 import {ChevronRight, Flame, House, Rocket} from '@gravity-ui/icons';
 
-import {Box} from '../../../layout/Box/Box';
-import {Flex} from '../../../layout/Flex/Flex';
+import {Box} from '../../layout/Box/Box';
+import {Flex} from '../../layout/Flex/Flex';
 import type {BreadcrumbsProps} from '../Breadcrumbs';
 import {Breadcrumbs} from '../Breadcrumbs';
 

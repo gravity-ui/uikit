@@ -257,7 +257,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
             onKeyDown={handleKeyDown}
             onBlur={handleBlur}
             ref={ref}
-            unstable_endContent={
+            endContent={
                 <React.Fragment>
                     {endContent}
                     {hiddenControls ? null : (

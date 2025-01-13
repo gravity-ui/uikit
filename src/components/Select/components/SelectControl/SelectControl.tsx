@@ -172,16 +172,11 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
     if (renderControl) {
         return renderControl(
             {
-                onKeyDown,
                 onClear: clearValue,
-                onClick: handleControlClick,
                 renderClear: renderClearIcon,
                 renderCounter: renderCounterComponent,
                 ref,
                 open,
-                popupId,
-                selectId,
-                activeIndex,
                 disabled,
                 triggerProps,
             },

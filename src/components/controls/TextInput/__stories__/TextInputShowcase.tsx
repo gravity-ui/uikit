@@ -44,7 +44,6 @@ const EyeButton = (props: {
 export function TextInputShowcase(args: TextInputProps) {
     const [value, setValue] = React.useState('');
     const [isErrorMessageVisible, setErrorMessageVisibility] = React.useState(false);
-    const [isUseUnstableEndContent, setUseUnstableEndContent] = React.useState(false);
     const [hideValue, setHideValue] = React.useState(false);
     const additionalContentExmpleInputType = hideValue ? 'password' : undefined;
 
@@ -170,64 +169,36 @@ export function TextInputShowcase(args: TextInputProps) {
 
             <div className={b('text-input-examples')}>
                 <h2 className={b('title')}>TextInput (with additional content)</h2>
-
                 <div className={'size-examples'}>
                     <h3 className={b('section-header')}>Sizes:</h3>
-
-                    <div className={b('row', {type: 'checkbox'})}>
-                        <Checkbox
-                            content="Use unstable_endContent"
-                            onUpdate={setUseUnstableEndContent}
-                            checked={isUseUnstableEndContent}
-                        />
-                    </div>
-
                     <TextInput
                         {...textInputProps}
                         size="s"
                         placeholder="s"
                         type={additionalContentExmpleInputType}
-                        leftContent={<Icon data={Key} />}
-                        {...{
-                            [isUseUnstableEndContent ? 'unstable_endContent' : 'rightContent']: (
-                                <EyeButton
-                                    size="s"
-                                    opened={hideValue}
-                                    onClick={handleEyeButtonClick}
-                                />
-                            ),
-                        }}
+                        startContent={<Icon data={Key} />}
+                        endContent={
+                            <EyeButton size="s" opened={hideValue} onClick={handleEyeButtonClick} />
+                        }
                     />
                     <TextInput
                         {...textInputProps}
                         placeholder="m"
                         type={additionalContentExmpleInputType}
-                        leftContent={<Icon data={Key} />}
-                        {...{
-                            [isUseUnstableEndContent ? 'unstable_endContent' : 'rightContent']: (
-                                <EyeButton
-                                    size="m"
-                                    opened={hideValue}
-                                    onClick={handleEyeButtonClick}
-                                />
-                            ),
-                        }}
+                        startContent={<Icon data={Key} />}
+                        endContent={
+                            <EyeButton size="m" opened={hideValue} onClick={handleEyeButtonClick} />
+                        }
                     />
                     <TextInput
                         {...textInputProps}
                         size="l"
                         placeholder="l"
                         type={additionalContentExmpleInputType}
-                        leftContent={<Icon data={Key} />}
-                        {...{
-                            [isUseUnstableEndContent ? 'unstable_endContent' : 'rightContent']: (
-                                <EyeButton
-                                    size="l"
-                                    opened={hideValue}
-                                    onClick={handleEyeButtonClick}
-                                />
-                            ),
-                        }}
+                        startContent={<Icon data={Key} />}
+                        endContent={
+                            <EyeButton size="l" opened={hideValue} onClick={handleEyeButtonClick} />
+                        }
                     />
                     <TextInput
                         {...textInputProps}
@@ -235,16 +206,14 @@ export function TextInputShowcase(args: TextInputProps) {
                         placeholder="xl"
                         type={additionalContentExmpleInputType}
                         label={LABEL}
-                        leftContent={<Icon data={Key} />}
-                        {...{
-                            [isUseUnstableEndContent ? 'unstable_endContent' : 'rightContent']: (
-                                <EyeButton
-                                    size="xl"
-                                    opened={hideValue}
-                                    onClick={handleEyeButtonClick}
-                                />
-                            ),
-                        }}
+                        startContent={<Icon data={Key} />}
+                        endContent={
+                            <EyeButton
+                                size="xl"
+                                opened={hideValue}
+                                onClick={handleEyeButtonClick}
+                            />
+                        }
                     />
                 </div>
 
@@ -257,8 +226,8 @@ export function TextInputShowcase(args: TextInputProps) {
                             placeholder="error with message"
                             error={isErrorMessageVisible ? 'A validation error has occurred' : true}
                             type={additionalContentExmpleInputType}
-                            leftContent={<Icon data={Key} />}
-                            rightContent={
+                            startContent={<Icon data={Key} />}
+                            endContent={
                                 <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
                             }
                         />
@@ -283,24 +252,10 @@ export function TextInputShowcase(args: TextInputProps) {
                     />
                     <TextInput
                         {...textInputProps}
-                        placeholder="inside error placement with unstable_endContent"
-                        label={LABEL}
-                        type={additionalContentExmpleInputType}
-                        startContent={<Icon data={Key} />}
-                        unstable_endContent={
-                            <EyeButton opened={hideValue} disabled onClick={handleEyeButtonClick} />
-                        }
-                        validationState="invalid"
-                        errorMessage="A validation error has occurred"
-                        errorPlacement="inside"
-                        hasClear
-                    />
-                    <TextInput
-                        {...textInputProps}
                         placeholder="disabled"
                         type={additionalContentExmpleInputType}
-                        leftContent={<Icon data={Key} />}
-                        rightContent={
+                        startContent={<Icon data={Key} />}
+                        endContent={
                             <EyeButton opened={hideValue} disabled onClick={handleEyeButtonClick} />
                         }
                         disabled
@@ -310,10 +265,8 @@ export function TextInputShowcase(args: TextInputProps) {
                         placeholder="readonly"
                         type={additionalContentExmpleInputType}
                         value="readonlyValue"
-                        leftContent={<Icon data={Key} />}
-                        rightContent={
-                            <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
-                        }
+                        startContent={<Icon data={Key} />}
+                        endContent={<EyeButton opened={hideValue} onClick={handleEyeButtonClick} />}
                         readOnly
                     />
                     <TextInput
@@ -321,10 +274,8 @@ export function TextInputShowcase(args: TextInputProps) {
                         placeholder="clear"
                         type={additionalContentExmpleInputType}
                         label={LABEL}
-                        leftContent={<Icon data={Key} />}
-                        rightContent={
-                            <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
-                        }
+                        startContent={<Icon data={Key} />}
+                        endContent={<EyeButton opened={hideValue} onClick={handleEyeButtonClick} />}
                         hasClear
                     />
                     <TextInput
@@ -334,20 +285,16 @@ export function TextInputShowcase(args: TextInputProps) {
                         defaultValue="defaultValue"
                         type={additionalContentExmpleInputType}
                         label={LONG_LABEL}
-                        leftContent={<Icon data={Key} />}
-                        rightContent={
-                            <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
-                        }
+                        startContent={<Icon data={Key} />}
+                        endContent={<EyeButton opened={hideValue} onClick={handleEyeButtonClick} />}
                     />
                     <TextInput
                         {...textInputProps}
                         placeholder="with note"
                         type={additionalContentExmpleInputType}
                         label={LABEL}
-                        leftContent={<Icon data={Key} />}
-                        rightContent={
-                            <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
-                        }
+                        startContent={<Icon data={Key} />}
+                        endContent={<EyeButton opened={hideValue} onClick={handleEyeButtonClick} />}
                         note={<Text color="secondary">Additional</Text>}
                         hasClear
                     />
@@ -393,10 +340,8 @@ export function TextInputShowcase(args: TextInputProps) {
                         placeholder="clear"
                         type={additionalContentExmpleInputType}
                         label={LABEL}
-                        leftContent={<Icon data={Key} />}
-                        rightContent={
-                            <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
-                        }
+                        startContent={<Icon data={Key} />}
+                        endContent={<EyeButton opened={hideValue} onClick={handleEyeButtonClick} />}
                         hasClear
                     />
                     <TextInput
@@ -407,10 +352,8 @@ export function TextInputShowcase(args: TextInputProps) {
                         defaultValue="defaultValue"
                         type={additionalContentExmpleInputType}
                         label={LONG_LABEL}
-                        leftContent={<Icon data={Key} />}
-                        rightContent={
-                            <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
-                        }
+                        startContent={<Icon data={Key} />}
+                        endContent={<EyeButton opened={hideValue} onClick={handleEyeButtonClick} />}
                         hasClear
                     />
                 </div>
@@ -460,10 +403,8 @@ export function TextInputShowcase(args: TextInputProps) {
                         placeholder="clear"
                         type={additionalContentExmpleInputType}
                         label={LABEL}
-                        leftContent={<Icon data={Key} />}
-                        rightContent={
-                            <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
-                        }
+                        startContent={<Icon data={Key} />}
+                        endContent={<EyeButton opened={hideValue} onClick={handleEyeButtonClick} />}
                         hasClear
                     />
                     <TextInput
@@ -475,10 +416,8 @@ export function TextInputShowcase(args: TextInputProps) {
                         defaultValue="defaultValue"
                         type={additionalContentExmpleInputType}
                         label={LONG_LABEL}
-                        leftContent={<Icon data={Key} />}
-                        rightContent={
-                            <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
-                        }
+                        startContent={<Icon data={Key} />}
+                        endContent={<EyeButton opened={hideValue} onClick={handleEyeButtonClick} />}
                         hasClear
                     />
                 </div>

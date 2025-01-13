@@ -28,20 +28,10 @@ export type SelectRenderTriggerProps = AriaLabelingProps &
 
 export type SelectRenderControlProps = {
     onClear: () => void;
-    /** @deprecated use triggerProps instead */
-    onClick: (e: React.MouseEvent<HTMLElement>) => void;
-    /** @deprecated use triggerProps instead */
-    onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
     renderClear: (args: SelectRenderClearArgs) => React.ReactNode;
     renderCounter: () => React.ReactNode;
     ref: React.Ref<HTMLElement>;
     open: boolean;
-    /** @deprecated use triggerProps instead */
-    popupId: string;
-    /** @deprecated use triggerProps instead */
-    selectId: string;
-    /** @deprecated use triggerProps instead */
-    activeIndex?: number;
     disabled?: boolean;
     triggerProps: SelectRenderTriggerProps;
 };

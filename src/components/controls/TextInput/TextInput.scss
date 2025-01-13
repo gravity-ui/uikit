@@ -321,13 +321,11 @@ $block: '.#{variables.$ns}text-input';
     }
 
     &_has-end-content {
+        --_--error-icon-padding-inline: 0;
+
         #{$block}__control {
             padding-inline-end: 2px;
         }
-    }
-
-    &_has-unstable-end-content {
-        --_--error-icon-padding-inline: 0;
     }
 
     &_state {

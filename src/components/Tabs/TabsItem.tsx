@@ -1,9 +1,10 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 import {Label} from '../Label';
 import type {LabelProps} from '../Label';
+import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
 import {TabsContext} from './TabsContext';
@@ -22,7 +23,7 @@ type ExtraProps = Omit<
     | 'onKeyDown'
 >;
 
-export interface TabsItemProps {
+export interface TabsItemProps extends QAProps {
     id: string;
     className?: string;
     title: string | React.ReactNode;
@@ -32,7 +33,7 @@ export interface TabsItemProps {
     disabled?: boolean;
     hasOverflow?: boolean;
     icon?: React.ReactNode;
-    counter?: number;
+    counter?: number | string;
     label?: {
         content: React.ReactNode;
         theme?: LabelProps['theme'];
@@ -55,6 +56,7 @@ export function TabsItem({
     hasOverflow,
     extraProps,
     onClick,
+    qa,
 }: TabsItemProps) {
     const {activeTabId} = React.useContext(TabsContext);
     const isActive = typeof active === 'boolean' ? active : activeTabId === id;
@@ -96,11 +98,12 @@ export function TabsItem({
             title={htmlTitle}
             onClick={handleClick}
             onKeyDown={handleKeyDown}
+            data-qa={qa}
         >
             <div className={b('item-content')}>
                 {icon && <div className={b('item-icon')}>{icon}</div>}
                 <div className={b('item-title')}>{title || id}</div>
-                {typeof counter === 'number' && <div className={b('item-counter')}>{counter}</div>}
+                {counter !== undefined && <div className={b('item-counter')}>{counter}</div>}
                 {label && (
                     <Label className={b('item-label')} theme={label.theme}>
                         {label.content}

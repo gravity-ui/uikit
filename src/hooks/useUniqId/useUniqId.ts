@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {NAMESPACE} from '../../components/utils/cn';
 import {getUniqId} from '../../components/utils/common';

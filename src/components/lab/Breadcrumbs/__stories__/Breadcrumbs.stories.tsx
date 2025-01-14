@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {ChevronRight, Flame, House, Rocket} from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react';
@@ -135,4 +135,20 @@ export const WithIcons = {
 
 export const Landmarks = {
     render: (args) => <nav aria-label="Breadcrumb">{Links.render(args)}</nav>,
+} satisfies Story;
+
+export const DisabledItems = {
+    render: (args) => (
+        <Breadcrumbs {...args}>
+            <Breadcrumbs.Item href="#Region">Region</Breadcrumbs.Item>
+            <Breadcrumbs.Item href="#Country" disabled>
+                Country
+            </Breadcrumbs.Item>
+            <Breadcrumbs.Item href="#City">City</Breadcrumbs.Item>
+            <Breadcrumbs.Item href="#District">District</Breadcrumbs.Item>
+            <Breadcrumbs.Item href="#Street" disabled>
+                Street
+            </Breadcrumbs.Item>
+        </Breadcrumbs>
+    ),
 } satisfies Story;

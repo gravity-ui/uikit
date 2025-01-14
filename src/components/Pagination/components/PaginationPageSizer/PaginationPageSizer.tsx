@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 import {Select} from '../../../Select';
 import type {SelectOption} from '../../../Select';
 import {PaginationQa, getPaginationPageSizeOptionQa} from '../../constants';

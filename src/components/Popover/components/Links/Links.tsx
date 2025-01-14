@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {Link} from '../../../Link';
 import {cnPopover} from '../../Popover.classname';

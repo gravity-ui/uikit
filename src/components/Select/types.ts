@@ -1,4 +1,4 @@
-import type React from 'react';
+import type * as React from 'react';
 
 import type {PopperPlacement} from '../../hooks/private';
 import type {UseOpenProps} from '../../hooks/useSelect/types';
@@ -176,6 +176,7 @@ export type SelectOptionGroup<T = any> = {
     /** Label is a string which displayed above the options group.
      * If label is empty string, group item height will be 0 and only border will be displayed */
     label: string;
+    data?: T;
     options?: SelectOption<T>[];
     children?:
         | React.ReactElement<SelectOption, typeof Option>

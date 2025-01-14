@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {Ban} from '@gravity-ui/icons';
 import ReactCopyToClipboard from 'react-copy-to-clipboard';

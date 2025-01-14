@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type {MountFixture, PlaywrightFixture} from './types';
 
 export const mountFixture: PlaywrightFixture<MountFixture> = async ({mount: baseMount}, use) => {
@@ -12,6 +10,7 @@ export const mountFixture: PlaywrightFixture<MountFixture> = async ({mount: base
                     boxSizing: options?.width ? 'content-box' : undefined,
                     width: options?.width ? options.width : 'fit-content',
                     height: 'fit-content',
+                    ...options?.rootStyle,
                 }}
                 className="playwright-wrapper-test"
             >

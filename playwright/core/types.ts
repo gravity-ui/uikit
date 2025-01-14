@@ -1,8 +1,9 @@
-import type React from 'react';
+import type * as React from 'react';
 
 import type {MountOptions, MountResult} from '@playwright/experimental-ct-react';
 import type {
     Locator,
+    Page,
     PageScreenshotOptions,
     PlaywrightTestArgs,
     PlaywrightTestOptions,
@@ -14,7 +15,10 @@ import type {
 interface ComponentFixtures {
     mount<HooksConfig>(
         component: React.JSX.Element,
-        options?: MountOptions<HooksConfig> & {width?: number},
+        options?: MountOptions<HooksConfig> & {
+            width?: number | string;
+            rootStyle?: React.CSSProperties;
+        },
     ): Promise<MountResult>;
 }
 
@@ -36,6 +40,6 @@ export interface ExpectScreenshotFixture {
 
 export interface CaptureScreenshotParams extends PageScreenshotOptions {
     nameSuffix?: string;
-    component?: Locator;
+    component?: Locator | Page;
     themes?: Array<'light' | 'dark'>;
 }

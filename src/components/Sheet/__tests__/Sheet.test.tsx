@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {render, screen} from '../../../../test-utils/utils';
 import {Sheet} from '../Sheet';
 import {sheetBlock} from '../constants';

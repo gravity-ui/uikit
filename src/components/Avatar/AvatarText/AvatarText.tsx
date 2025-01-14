@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type {AvatarTextProps} from './types';
 import {getAvatarDisplayText} from './utils';
 

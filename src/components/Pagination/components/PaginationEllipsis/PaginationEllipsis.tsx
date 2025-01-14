@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {block} from '../../../utils/cn';
 import type {PaginationSize} from '../../types';
 

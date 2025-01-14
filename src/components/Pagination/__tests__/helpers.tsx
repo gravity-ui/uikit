@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {Pagination} from '../Pagination';
 import type {PaginationProps} from '../types';

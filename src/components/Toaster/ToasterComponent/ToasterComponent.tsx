@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 import {useMobile} from '../../mobile';
 import {ToastsContext} from '../Provider/ToastsContext';

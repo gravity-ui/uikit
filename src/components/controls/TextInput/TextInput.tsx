@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 import {TriangleExclamation} from '@gravity-ui/icons';
 
@@ -62,7 +62,6 @@ export type TextInputSize = InputControlSize;
 export type TextInputView = InputControlView;
 
 export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
-    // eslint-disable-next-line complexity
     function TextInput(props, ref) {
         const {
             view = 'normal',

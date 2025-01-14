@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {userEvent} from '@testing-library/user-event';
 
@@ -21,7 +21,7 @@ it('handles multiple items', () => {
         <Breadcrumbs>
             <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
             <Breadcrumbs.Item>Folder 2</Breadcrumbs.Item>
-            <Breadcrumbs.Item>Folder 3</Breadcrumbs.Item>
+            <Breadcrumbs.Item disabled>Folder 3</Breadcrumbs.Item>
         </Breadcrumbs>,
     );
     const item1 = screen.getByText('Folder 1');
@@ -32,6 +32,7 @@ it('handles multiple items', () => {
     expect(item2).not.toHaveAttribute('aria-current');
     const item3 = screen.getByText('Folder 3');
     expect(item3.tabIndex).toBe(-1);
+    expect(item3).toHaveAttribute('aria-disabled', 'true');
     expect(item3).toHaveAttribute('aria-current', 'page');
 });
 

@@ -1,10 +1,10 @@
 /* eslint-env node */
 const path = require('path');
 
+const utils = require('@gravity-ui/gulp-utils');
 const {task, src, dest, series, parallel} = require('gulp');
-const replace = require('gulp-replace');
 const sass = require('gulp-sass')(require('sass'));
-const ts = require('gulp-typescript');
+const sourcemaps = require('gulp-sourcemaps');
 const {rimrafSync} = require('rimraf');
 
 const BUILD_DIR = path.resolve('build');
@@ -15,27 +15,50 @@ task('clean', (done) => {
     done();
 });
 
-function compileTs(modules = false) {
-    const tsProject = ts.createProject('tsconfig.json', {
-        declaration: true,
-        module: modules ? 'esnext' : 'commonjs',
-        moduleResolution: modules ? 'bundler' : 'node',
-        ...(modules ? undefined : {verbatimModuleSyntax: false}),
+async function compileTs(modules = false) {
+    const tsProject = await utils.createTypescriptProject({
+        compilerOptions: {
+            declaration: true,
+            module: modules ? 'esnext' : 'nodenext',
+            moduleResolution: modules ? 'bundler' : 'nodenext',
+            ...(modules ? undefined : {verbatimModuleSyntax: false}),
+        },
     });
 
-    return src([
-        'src/**/*.{ts,tsx}',
-        '!src/demo/**/*',
-        '!src/stories/**/*',
-        '!src/**/__stories__/**/*',
-        '!src/**/__tests__/**/*',
-        '!src/**/__mocks__/**/*',
-        '!src/**/*.test.{ts,tsx}',
-        '!src/**/__snapshots__/**/*',
-    ])
-        .pipe(replace(/(import.+)\.scss/g, '$1.css'))
-        .pipe(tsProject())
-        .pipe(dest(path.resolve(BUILD_DIR, modules ? 'esm' : 'cjs')));
+    const transformers = [
+        tsProject.customTransformers.transformScssImports,
+        tsProject.customTransformers.transformLocalModules,
+    ];
+    return new Promise((resolve) => {
+        src([
+            'src/**/*.{ts,tsx}',
+            '!src/demo/**/*',
+            '!src/stories/**/*',
+            '!src/**/__stories__/**/*',
+            '!src/**/__tests__/**/*',
+            '!src/**/__mocks__/**/*',
+            '!src/**/*.test.{ts,tsx}',
+            '!src/**/__snapshots__/**/*',
+        ])
+            .pipe(sourcemaps.init())
+            .pipe(
+                tsProject({
+                    customTransformers: {
+                        before: transformers,
+                        afterDeclarations: transformers,
+                    },
+                }),
+            )
+            .pipe(sourcemaps.write('.', {includeContent: true, sourceRoot: '../../src'}))
+            .pipe(
+                utils.addVirtualFile({
+                    fileName: 'package.json',
+                    text: JSON.stringify({type: modules ? 'module' : 'commonjs'}),
+                }),
+            )
+            .pipe(dest(path.resolve(BUILD_DIR, modules ? 'esm' : 'cjs')))
+            .on('end', resolve);
+    });
 }
 
 task('compile-to-esm', () => {

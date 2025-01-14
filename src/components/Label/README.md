@@ -288,3 +288,5 @@ LANDING_BLOCK-->
 | `--g-label-border-radius`          | Border radius             |
 | `--g-label-font-size`              | Text font size            |
 | `--g-label-padding`                | Side paddings             |
+| `--g-label-addon-margin-start`     | Addon start margin        |
+| `--g-label-addon-margin-end`       | Addon end margin          |

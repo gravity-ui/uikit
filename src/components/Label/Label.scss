@@ -203,10 +203,10 @@ $transition-timing-function: ease-in-out;
 
     // Apply margins for addons
     &:has(#{$block}__addon_side_start) &__text {
-        margin-inline-start: var(--_--margin-addon-start);
+        margin-inline-start: var(--g-label-addon-margin-start, var(--_--margin-addon-start));
     }
     &:has(#{$block}__addon_side_end) &__text {
-        margin-inline-end: var(--_--margin-addon-end);
+        margin-inline-end: var(--g-label-addon-margin-end, var(--_--margin-addon-end));
     }
 
     // hover styles

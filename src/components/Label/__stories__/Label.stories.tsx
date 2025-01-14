@@ -175,6 +175,7 @@ export const Custom: Story = {
                     --g-label-border-width: 5px;
                     --g-label-border-color: #8526de;
                     --g-label-height: 60px;
+                    --g-label-addon-margin-end: 60px;
                     --g-label-padding: 36px;
                     --g-label-font-size: 20px;
                     --g-label-border-radius: 40px 20px;
@@ -182,7 +183,7 @@ export const Custom: Story = {
                     --g-label-focus-outline-offset: 4px;
                 }`}
             </style>
-            <Label interactive type="close" {...args} />
+            <Label interactive type="copy" {...args} />
         </React.Fragment>
     ),
 };

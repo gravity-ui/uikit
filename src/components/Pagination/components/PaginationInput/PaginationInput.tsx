@@ -16,13 +16,19 @@ const b = block('pagination-input');
 
 type Props = {
     numberOfPages: number;
-    onUpdate: NonNullable<PaginationProps['onUpdate']>;
     pageSize: NonNullable<PaginationProps['pageSize']>;
     size: PaginationSize;
     className?: string;
-};
+} & Pick<PaginationProps, 'onUpdate' | 'pageHrefUpdater'>;
 
-export const PaginationInput = ({numberOfPages, size, pageSize, onUpdate, className}: Props) => {
+export const PaginationInput = ({
+    numberOfPages,
+    size,
+    pageSize,
+    pageHrefUpdater,
+    onUpdate,
+    className,
+}: Props) => {
     const [value, setValue] = React.useState('');
 
     const handleUpdateValue = (inputValue: string) => {
@@ -50,7 +56,10 @@ export const PaginationInput = ({numberOfPages, size, pageSize, onUpdate, classN
         }
 
         setValue('');
-        onUpdate(numValue, pageSize);
+        if (pageHrefUpdater) {
+            window.location.href = pageHrefUpdater(numValue, pageSize);
+        }
+        onUpdate?.(numValue, pageSize);
     };
 
     const handleBlur: TextInputProps['onBlur'] = (event) => handleUpdate(event.currentTarget.value);

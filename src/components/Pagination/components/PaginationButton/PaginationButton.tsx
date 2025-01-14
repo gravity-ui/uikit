@@ -15,10 +15,9 @@ type Props = {
     size: PaginationSize;
     page: NonNullable<PaginationProps['page']>;
     pageSize: NonNullable<PaginationProps['pageSize']>;
-    onUpdate: NonNullable<PaginationProps['onUpdate']>;
     compact: NonNullable<PaginationProps['compact']>;
     className?: string;
-};
+} & Pick<PaginationProps, 'onUpdate' | 'pageHrefUpdater'>;
 
 export const PaginationButton = ({
     item,
@@ -27,6 +26,7 @@ export const PaginationButton = ({
     page,
     pageSize,
     onUpdate,
+    pageHrefUpdater,
     compact,
 }: Props) => {
     let button: React.ReactNode = null;
@@ -39,7 +39,8 @@ export const PaginationButton = ({
                     size={size}
                     view="outlined"
                     className={className}
-                    onClick={() => onUpdate(1, pageSize)}
+                    href={pageHrefUpdater?.(1, pageSize)}
+                    onClick={() => onUpdate?.(1, pageSize)}
                     title={compact ? i18n('button_first') : undefined}
                     disabled={disabled}
                     qa={PaginationQa.PaginationButtonFirst}
@@ -55,7 +56,8 @@ export const PaginationButton = ({
                     size={size}
                     view="outlined"
                     className={className}
-                    onClick={() => onUpdate(page - 1, pageSize)}
+                    href={pageHrefUpdater?.(page - 1, pageSize)}
+                    onClick={() => onUpdate?.(page - 1, pageSize)}
                     title={compact ? i18n('button_previous') : undefined}
                     disabled={disabled}
                     qa={PaginationQa.PaginationButtonPrevious}
@@ -71,7 +73,8 @@ export const PaginationButton = ({
                     size={size}
                     view="outlined"
                     className={className}
-                    onClick={() => onUpdate(page + 1, pageSize)}
+                    href={pageHrefUpdater?.(page + 1, pageSize)}
+                    onClick={() => onUpdate?.(page + 1, pageSize)}
                     title={compact ? i18n('button_next') : undefined}
                     disabled={disabled}
                     qa={PaginationQa.PaginationButtonNext}

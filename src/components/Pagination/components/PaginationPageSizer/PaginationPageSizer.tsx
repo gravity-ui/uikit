@@ -10,16 +10,16 @@ import type {PaginationProps, PaginationSize} from '../../types';
 import {getNumberOfPages} from '../../utils';
 
 type Props = {
-    onUpdate: NonNullable<PaginationProps['onUpdate']>;
     page: NonNullable<PaginationProps['page']>;
     pageSize: NonNullable<PaginationProps['pageSize']>;
     pageSizeOptions: NonNullable<PaginationProps['pageSizeOptions']>;
     total: PaginationProps['total'];
     size: PaginationSize;
     className?: string;
-};
+} & Pick<PaginationProps, 'onUpdate' | 'pageHrefUpdater'>;
 
 export const PaginationPageSizer = ({
+    pageHrefUpdater,
     onUpdate,
     pageSize,
     size,
@@ -43,13 +43,19 @@ export const PaginationPageSizer = ({
         const hasUpperLimit = numberOfPages > 0;
 
         if (!hasUpperLimit) {
-            onUpdate(1, newPageSize);
+            if (pageHrefUpdater) {
+                window.location.href = pageHrefUpdater(1, newPageSize);
+            }
+            onUpdate?.(1, newPageSize);
             return;
         }
 
         const newPage = page > numberOfPages ? numberOfPages : page;
 
-        onUpdate(newPage, newPageSize);
+        if (pageHrefUpdater) {
+            window.location.href = pageHrefUpdater(newPage, newPageSize);
+        }
+        onUpdate?.(newPage, newPageSize);
     };
 
     return (

@@ -18,9 +18,13 @@ export type PaginationProps = {
      */
     size?: PaginationSize;
     /**
-     * Called when the page number or pageSize is changed.
+     * Function for update links on pagination buttons
      */
-    onUpdate: (page: number, pageSize: number) => void;
+    pageHrefUpdater?: (page: number, pageSize: number) => string;
+    /**
+     * Called when the page number or pageSize is changed (only if pageHrefUpdater not set)
+     */
+    onUpdate?: (page: number, pageSize: number) => void;
     /**
      * Total number of data items.
      */

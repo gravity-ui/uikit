@@ -27,6 +27,7 @@ export const Pagination = ({
     total,
     size: propSize,
     onUpdate,
+    pageHrefUpdater,
     compact: propCompact = true,
     pageSizeOptions,
     showPages = true,
@@ -53,6 +54,8 @@ export const Pagination = ({
         mobile,
     });
 
+    const onUpdateInner = pageHrefUpdater ? undefined : onUpdate;
+
     const pagination = items
         .map((item) => {
             switch (item.type) {
@@ -64,7 +67,8 @@ export const Pagination = ({
                                 size={size}
                                 pageSize={pageSize}
                                 item={item}
-                                onUpdate={onUpdate}
+                                pageHrefUpdater={pageHrefUpdater}
+                                onUpdate={onUpdateInner}
                                 className={b('pagination-item')}
                             />
                         )
@@ -97,7 +101,8 @@ export const Pagination = ({
                             item={item}
                             page={resultPage}
                             pageSize={pageSize}
-                            onUpdate={onUpdate}
+                            pageHrefUpdater={pageHrefUpdater}
+                            onUpdate={onUpdateInner}
                             compact={compact}
                             className={b('pagination-item')}
                         />
@@ -116,13 +121,15 @@ export const Pagination = ({
                     numberOfPages={numberOfPages}
                     pageSize={pageSize}
                     size={size}
-                    onUpdate={onUpdate}
+                    pageHrefUpdater={pageHrefUpdater}
+                    onUpdate={onUpdateInner}
                     className={b('input')}
                 />
             )}
             {pageSizeOptions && (
                 <PaginationPageSizer
-                    onUpdate={onUpdate}
+                    pageHrefUpdater={pageHrefUpdater}
+                    onUpdate={onUpdateInner}
                     page={resultPage}
                     pageSize={pageSize}
                     pageSizeOptions={pageSizeOptions}

@@ -1,0 +1,27 @@
+import {
+    Meta,
+    Markdown,
+    Canvas,
+    AnchorMdx,
+    CodeOrSourceMdx,
+    HeadersMdx,
+} from '@storybook/addon-docs';
+import * as Stories from './FilePreview.stories';
+import Readme from '../README.md?raw';
+
+export const FilePreviewExample = () => <Canvas of={Stories.Default} sourceState="none" />;
+
+<Meta of={Stories} />
+
+<Markdown
+    options={{
+        overrides: {
+            code: CodeOrSourceMdx,
+            a: AnchorMdx,
+            ...HeadersMdx,
+            FilePreviewExample,
+        },
+    }}
+>
+    {Readme}
+</Markdown>

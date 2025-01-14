@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {TextInput} from '../../../controls';
 import {Flex} from '../../../layout';

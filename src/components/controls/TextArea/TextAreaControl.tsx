@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 import {useForkRef} from '../../../hooks';
 import {block} from '../../utils/cn';

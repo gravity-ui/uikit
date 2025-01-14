@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {ChevronDown, Globe} from '@gravity-ui/icons';
 import {composeStories} from '@storybook/react';
 

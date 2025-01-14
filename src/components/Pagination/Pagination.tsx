@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 import {useMobile} from '../mobile';
 import {block} from '../utils/cn';
 

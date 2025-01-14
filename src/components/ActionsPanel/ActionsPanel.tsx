@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 import {Xmark} from '@gravity-ui/icons';
 
 import {Button} from '../Button';

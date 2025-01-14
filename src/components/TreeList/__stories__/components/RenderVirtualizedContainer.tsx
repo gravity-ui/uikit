@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {ListContainerView, computeItemSize} from '../../../useList';
 import {VirtualizedListContainer} from '../../../useList/__stories__/components/VirtualizedListContainer';
 import type {TreeListContainerProps} from '../../types';

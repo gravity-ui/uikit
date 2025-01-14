@@ -8,34 +8,34 @@
 import {Toc} from '@gravity-ui/uikit';
 ```
 
-The `Toc` component is designed to represent table of contents of the page, displaying a set items with two levels of hierarchy.
+The `Toc` component is designed to display a table of contents of the page, namely showing a set items with two levels of hierarchy.
 
 ## Usage
 
 You can use `Toc` in two ways:
 
-1. Items are links
-2. Items are clickable buttons
+1. With items as links.
+2. With items as clickable buttons.
 
-To use the first method, pass the corresponding link to each item of the `Toc` via `href` property. You will still be able to use a click handler to control active element of the `Toc`.
+To use the first option, provide the appropriate link to each `Toc` item through the `href` property. You will still be able to use a click handler to control the active `Toc` element.
 
-If you don't do this, the component will work in the second way.
+If you skip this, the component will use the other option.
 
 ## Properties
 
-| Name      | Description                                                          |    Type     | Default |
-| :-------- | :------------------------------------------------------------------- | :---------: | :-----: |
-| className | CSS class                                                            |  `string`   |         |
-| items     | Elements of the table of contents                                    | `TocItem[]` |         |
-| value     | Current active item                                                  |  `string`   |         |
-| onUpdate  | Item click handler                                                   | `Function`  |         |
-| qa        | The value to be passed to `data-qa` attribute of the `Toc` container |  `string`   |         |
+| Name      | Description                                                            |    Type     | Default |
+| :-------- | :--------------------------------------------------------------------- | :---------: | :-----: |
+| className | CSS class                                                              |  `string`   |         |
+| items     | TOC elements                                                           | `TocItem[]` |         |
+| value     | Current active item                                                    |  `string`   |         |
+| onUpdate  | Item click handler                                                     | `Function`  |         |
+| qa        | The value to provide to the `data-qa` attribute of the `Toc` container |  `string`   |         |
 
 #### TocItem
 
-| Name    | Description                                                                    |        Type         | Default |
-| :------ | :----------------------------------------------------------------------------- | :-----------------: | :-----: |
-| value   | Value of the item                                                              |      `string`       |         |
-| content | Content of the item that will be displayed                                     | `React.ReactNode[]` |         |
-| href    | `href` property of the `<a>` element to which item will be converted if passed |      `string`       |         |
-| items   | Children items                                                                 |     `TocItem[]`     |         |
+| Name    | Description                                                                              |        Type         | Default |
+| :------ | :--------------------------------------------------------------------------------------- | :-----------------: | :-----: |
+| value   | Item value                                                                               |      `string`       |         |
+| content | Item content to display                                                                  | `React.ReactNode[]` |         |
+| href    | The `href` property of the `<a>` element, to which an item will be converted if provided |      `string`       |         |
+| items   | Child items                                                                              |     `TocItem[]`     |         |

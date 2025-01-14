@@ -1,4 +1,4 @@
-import React from 'react';
+import type * as React from 'react';
 
 import {Check} from '@gravity-ui/icons';
 
@@ -20,8 +20,12 @@ type OptionWrapProps = {
 };
 
 const DefaultOption = ({option}: DefaultOptionProps) => {
-    const {content, children, disabled} = option;
-    return <span className={b('option-default-label', {disabled})}>{content || children}</span>;
+    const {content, children, disabled, title} = option;
+    return (
+        <span title={title} className={b('option-default-label', {disabled})}>
+            {content || children}
+        </span>
+    );
 };
 
 export const OptionWrap = (props: OptionWrapProps) => {

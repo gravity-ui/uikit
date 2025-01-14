@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 import _range from 'lodash/range';
 import type {DroppableProvided} from 'react-beautiful-dnd';

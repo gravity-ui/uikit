@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {Copy, CopyCheck, CopyXmark} from '@gravity-ui/icons';
 
 import type {CopyToClipboardStatus} from '../CopyToClipboard/types';

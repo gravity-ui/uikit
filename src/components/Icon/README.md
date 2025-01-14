@@ -8,9 +8,7 @@
 import {Icon} from '@gravity-ui/uikit';
 ```
 
-The `Icon` component is a wrapper for SVG icon. SVGs can be loaded in different ways,
-such as though a React component or various Webpack
-loaders: [`SVGR`](https://react-svgr.com/docs/webpack/), [`svg-react-loader`](https://github.com/jhamlet/svg-react-loader), [`svg-inline-loader`](https://github.com/webpack-contrib/svg-inline-loader), or [`svg-sprite-loader`](https://github.com/JetBrains/svg-sprite-loader).
+The `Icon` component is a wrapper for SVG icon. SVGs can be loaded in different ways, such as though a React component or various Webpack loaders: [`SVGR`](https://react-svgr.com/docs/webpack/), [`svg-react-loader`](https://github.com/jhamlet/svg-react-loader), [`svg-inline-loader`](https://github.com/webpack-contrib/svg-inline-loader), or [`svg-sprite-loader`](https://github.com/JetBrains/svg-sprite-loader).
 The `Icon` component serves as a proxy to use through the codebase.
 
 ### React component
@@ -53,12 +51,12 @@ import CheckIcon from './check.svg';
 
 ## Properties
 
-| Name      | Description                             |       Type        |     Default      |
-| :-------- | :-------------------------------------- | :---------------: | :--------------: |
-| data      | Source of SVG icon                      |    `IconData`     |                  |
-| width     | `width` SVG attribute                   | `number` `string` |                  |
-| height    | `height` SVG attribute                  | `number` `string` |                  |
-| size      | Both `width` and `height` SVG attribute | `number` `string` |                  |
-| fill      | `fill` SVG attribute                    |     `string`      | `"currentColor"` |
-| stroke    | `stroke` SVG attribute                  |     `string`      |     `"none"`     |
-| className | Custom CSS class for the root element   |     `string`      |                  |
+| Name      | Description                              |       Type        |     Default      |
+| :-------- | :--------------------------------------- | :---------------: | :--------------: |
+| data      | Source of SVG icon                       |    `IconData`     |                  |
+| width     | `width` SVG attribute                    | `number` `string` |                  |
+| height    | `height` SVG attribute                   | `number` `string` |                  |
+| size      | Both `width` and `height` SVG attributes | `number` `string` |                  |
+| fill      | `fill` SVG attribute                     |     `string`      | `"currentColor"` |
+| stroke    | `stroke` SVG attribute                   |     `string`      |     `"none"`     |
+| className | Custom CSS class for the root element    |     `string`      |                  |

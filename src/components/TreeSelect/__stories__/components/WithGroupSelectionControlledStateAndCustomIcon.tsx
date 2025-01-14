@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {Database, PlugConnection} from '@gravity-ui/icons';
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {Button} from '../Button';
 import {block} from '../utils/cn';
@@ -19,7 +19,7 @@ const PlaceholderContainerAction = (props: PlaceholderContainerActionProps) => {
                 size={props.size || 'm'}
                 loading={Boolean(props.loading)}
                 disabled={Boolean(props.disabled)}
-                href={props.href || ''}
+                href={props.href}
                 {...(props.onClick ? {onClick: props.onClick} : {})}
             >
                 {props.text}

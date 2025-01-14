@@ -8,7 +8,7 @@
 import {DropdownMenu} from '@gravity-ui/uikit';
 ```
 
-This is a dropdown menu component with item grouping, submenus, and a customizable toggle. The dropdown menu items are configured with the `items` prop. By default, the menu toggle is a button with the ellipsis icon (**⋯**), which can be overridden with the `renderSwitcher` prop.
+The dropdown menu component provides item grouping, submenus, and a customizable toggle. The dropdown menu items are configured with the `items` property. By default, the menu toggle is a button with the ellipsis icon (**⋯**), which can be overridden with the `renderSwitcher` property.
 
 <!--LANDING_BLOCK
 
@@ -158,12 +158,12 @@ LANDING_BLOCK-->
 
 ## Submenus
 
-The `items` property on an individual menu item adds nested subitems to this menu item.
+The `items` property on an individual menu item adds nested sub-items to such item.
 
-Menu items with submenus obtain the following additional class names to allow for extra styling:
+Menu items with submenus get the following additional class names to allow for extra styling:
 
-- the class name `.g-dropdown-menu__menu-item_with-submenu` is added to items with more than 1 nested item;
-- the class name `.g-dropdown-menu__menu-item_active-parent` is added to an item whose submenu is currently open.
+- `.g-dropdown-menu__menu-item_with-submenu`: For items with more than one nested item.
+- `.g-dropdown-menu__menu-item_active-parent`: For the item whose submenu is currently open.
 
 <!--LANDING_BLOCK
 
@@ -331,7 +331,7 @@ LANDING_BLOCK-->
 
 ## Custom menu toggle
 
-The menu toggle is configured with the `renderSwitcher` prop. It can be any function that returns a React component (or any `(props: SwitcherProps) => React.ReactNode` in the TypeScript terms, see [`SwitcherProps`](#switcherprops) below). By default, the menu toggle is a button with the ellipsis icon (**⋯**).
+To configure the menu toggle, use the `renderSwitcher` property. It can be any function that returns a React component (or any `(props: SwitcherProps) => React.ReactNode` in the TypeScript terms, see [`SwitcherProps`](#switcherprops) below). By default, the menu toggle is a button with the ellipsis icon (**⋯**).
 
 <!--LANDING_BLOCK
 
@@ -400,13 +400,13 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
-The example above is oversimplified to demonstrate the idea of the customizable menu toggle. In a real-life application, it is generally recommended that the clickable menu toggle should be a component accessible with a keyboard and other assistive technologies (such as a button).
+The example above is oversimplified to demonstrate the idea of the customizable menu toggle. In a real-life application, it is generally recommended that the clickable menu toggle should be a component accessible with a keyboard and other assistive technologies such as a button.
 
 ## Custom icons
 
-Custom icons can be added to a `DropdownMenu` item by assigning the `iconStart` or `iconEnd` property. By default, `DropdownMenu` items go without icons.
+You can add custom icons to a `DropdownMenu` item using the `iconStart` or `iconEnd` property. By default, the `DropdownMenu` items go without icons.
 
-The menu toggle icon can be changed with the `DropdownMenu`'s `renderSwitcher` prop. By default, the menu toggle is a button with the ellipsis icon (**⋯**).
+You can change the menu toggle icon with the `DropdownMenu`'s `renderSwitcher` properties. By default, the menu toggle is a button with the ellipsis icon (**⋯**).
 
 <!--LANDING_BLOCK
 
@@ -506,24 +506,24 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name                       | Description                                                                                    |                        Type                        |    Default    |
-| :------------------------- | :--------------------------------------------------------------------------------------------- | :------------------------------------------------: | :-----------: |
-| `items`                    | Array of items. Nested arrays of items represent visually separated groups.                    | `(DropdownMenuItem \| DropdownMenuItem[])[] \| []` |               |
-| `data`                     | A payload passed to the actions called from the menu. (Can be useful for context menus.)       |                       `any`                        |               |
-| `icon`                     | Icon of the default `switcher`.                                                                |                 `React.ReactNode`                  | Ellipsis icon |
-| `size`                     | Applied both to the default `switcher` and the menu.                                           |            `'s' \| 'm' \| 'l' \| 'xl'`             |     `'m'`     |
-| `disabled`                 | Setting this prop to `true` disables the `switcher` button and prevents the menu from opening. |                     `boolean`                      |               |
-| `renderSwitcher`           | Render function for the menu toggle control.                                                   |                 `React.ReactNode`                  |               |
-| `switcherWrapperClassName` | Value for the `className` prop of the `switcher`'s parent component.                           |                      `string`                      |               |
-| `defaultSwitcherProps`     | Default `switcher` props.                                                                      |                   `ButtonProps`                    |               |
-| `defaultSwitcherClassName` | Value for the `className` prop of the default `switcher`.                                      |                      `string`                      |               |
-| `menuProps`                | Overrides the default dropdown menu popup props.                                               |                    `MenuProps`                     |               |
-| `popupProps`               | Overrides the default popup props.                                                             |                    `PopupProps`                    |               |
-| `open`                     | Controls dropdown menu visibility.                                                             |                     `boolean`                      |               |
-| `onOpenToggle`             | Called when the menu is opened or closed.                                                      |                    `() => void`                    |               |
-| `onSwitcherClick`          | Called when `switcher` is clicked.                                                             |       `React.MouseEventHandler<HTMLElement>`       |               |
-| `hideOnScroll`             | Specifies whether to hide the menu when a parent element is scrolled.                          |                     `boolean`                      |    `true`     |
-| `children`                 | Custom content inside the menu popup.                                                          |                 `React.ReactNode`                  |               |
+| Name                       | Description                                                                                        |                        Type                        |    Default    |
+| :------------------------- | :------------------------------------------------------------------------------------------------- | :------------------------------------------------: | :-----------: |
+| `items`                    | Array of items. Nested arrays of items represent visually separated groups.                        | `(DropdownMenuItem \| DropdownMenuItem[])[] \| []` |               |
+| `data`                     | A payload provided to the actions called from the menu. (This can be useful for context menus.)    |                       `any`                        |               |
+| `icon`                     | Icon of the default `switcher`.                                                                    |                 `React.ReactNode`                  | Ellipsis icon |
+| `size`                     | Applied both to the default `switcher` and the menu.                                               |            `'s' \| 'm' \| 'l' \| 'xl'`             |     `'m'`     |
+| `disabled`                 | Setting this property to `true` disables the `switcher` button and prevents the menu from opening. |                     `boolean`                      |               |
+| `renderSwitcher`           | Render function for the menu toggle control.                                                       |                 `React.ReactNode`                  |               |
+| `switcherWrapperClassName` | Value for the `className` property of the `switcher`'s parent component.                           |                      `string`                      |               |
+| `defaultSwitcherProps`     | Default `switcher` properties.                                                                     |                   `ButtonProps`                    |               |
+| `defaultSwitcherClassName` | Value for the `className` property of the default `switcher`.                                      |                      `string`                      |               |
+| `menuProps`                | Overrides the default dropdown menu popup properties.                                              |                    `MenuProps`                     |               |
+| `popupProps`               | Overrides the default popup properties.                                                            |                    `PopupProps`                    |               |
+| `open`                     | Toggles dropdown menu visibility.                                                                  |                     `boolean`                      |               |
+| `onOpenToggle`             | Called when the menu is opened or closed.                                                          |                    `() => void`                    |               |
+| `onSwitcherClick`          | Called when `switcher` is clicked.                                                                 |       `React.MouseEventHandler<HTMLElement>`       |               |
+| `hideOnScroll`             | Specifies whether to hide the menu when a parent element is scrolled.                              |                     `boolean`                      |    `true`     |
+| `children`                 | Custom content inside the menu popup.                                                              |                 `React.ReactNode`                  |               |
 
 ### DropdownMenuItem
 
@@ -532,20 +532,20 @@ This type describes individual dropdown menu items.
 | Name         | Description                                                                                                                     |                      Type                      | Default |
 | :----------- | :------------------------------------------------------------------------------------------------------------------------------ | :--------------------------------------------: | :-----: |
 | `text`       | Menu item content.                                                                                                              |               `React.ReactNode`                |         |
-| `action`     | Menu item click handler. Recieves the parameters from the parent dropdown menu component (both `event` and `data`).             | `(event: React.MouseEvent, data: any) => void` |         |
+| `action`     | Menu item click handler. It gets the parameters from the parent dropdown menu component (both `event` and `data`).              | `(event: React.MouseEvent, data: any) => void` |         |
 | `iconStart`  | Menu item icon before the item content.                                                                                         |               `React.ReactNode`                |         |
 | `iconEnd`    | Menu item icon after the item content. Ignored if the item has a submenu.                                                       |               `React.ReactNode`                |         |
 | `hidden`     | Determines whether the item is hidden.                                                                                          |                   `boolean`                    |         |
 | `disabled`   | Determines whether the item is disabled.                                                                                        |                   `boolean`                    |         |
-| `href`       | Menu item with this prop becomes a link to the specified location.                                                              |                    `string`                    |         |
+| `href`       | Menu item with this property becomes a link to the specified location.                                                          |                    `string`                    |         |
 | `target`     | Same as the `target` attribute of the `<a>` tag.                                                                                |                    `string`                    |         |
 | `rel`        | Same as the `rel` attribute of the `<a>` tag.                                                                                   |                    `string`                    |         |
-| `extraProps` | Additional menu item props.                                                                                                     |                    `object`                    |         |
+| `extraProps` | Additional menu item properties.                                                                                                |                    `object`                    |         |
 | `title`      | Tooltip text.                                                                                                                   |                    `string`                    |         |
-| `className`  | HTML `class` attribute value.                                                                                                   |                    `string`                    |         |
+| `className`  | `class` HTML attribute value.                                                                                                   |                    `string`                    |         |
 | `items`      | Submenu items.                                                                                                                  |  `(DropdownMenuItem \| DropdownMenuItem[])[]`  |         |
-| `popupProps` | Submenu popup props.                                                                                                            |                    `string`                    |         |
-| `path`       | Path of indexes from the root to the current item.                                                                              |                   `number[]`                   |         |
+| `popupProps` | Submenu popup properties.                                                                                                       |                    `string`                    |         |
+| `path`       | Path of the indexes from the root to the current item.                                                                          |                   `number[]`                   |         |
 | `closeMenu`  | Custom `closeMenu` callback. It can be called instead of closing the main menu and used to close submenus before the main menu. |                  `() => void`                  |         |
 
 ### SwitcherProps

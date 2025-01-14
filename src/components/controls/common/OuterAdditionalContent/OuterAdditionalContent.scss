@@ -10,12 +10,11 @@ $block: '.#{variables.$ns}outer-additional-content';
 
     &__note,
     &__error {
+        @include mixins.text-body-1();
         margin-block-start: 2px;
     }
 
     &__error {
-        @include mixins.text-body-1();
-
         color: var(--g-color-text-danger);
 
         &:not(:last-child) {

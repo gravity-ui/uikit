@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseGrid} from '../../../demo/ShowcaseGrid/ShowcaseGrid';
 import {Link} from '../Link';

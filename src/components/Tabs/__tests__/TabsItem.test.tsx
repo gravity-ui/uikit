@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {Flame} from '@gravity-ui/icons';
 import userEvent from '@testing-library/user-event';
 

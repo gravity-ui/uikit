@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 import {useCheckbox} from '../../hooks/private';
 import {ControlLabel} from '../ControlLabel';

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 import type {PopperPlacement} from '../../../../hooks/private';
 import {Popup} from '../../../Popup';

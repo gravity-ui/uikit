@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 import {useActionHandlers} from '../../../hooks';
 import {block} from '../../utils/cn';
@@ -14,18 +14,23 @@ export interface TocItemProps extends TocItemType {
     childItem?: boolean;
     active?: boolean;
     onClick?: (value: string) => void;
+    onItemClick?: (event: React.MouseEvent) => void;
 }
 
 export const TocItem = (props: TocItemProps) => {
-    const {active = false, childItem = false, content, href, value, onClick} = props;
+    const {active = false, childItem = false, content, href, value, onClick, onItemClick} = props;
 
-    const handleClick = React.useCallback(() => {
-        if (value === undefined || !onClick) {
-            return;
-        }
+    const handleClick = React.useCallback(
+        (event: React.MouseEvent) => {
+            onItemClick?.(event);
+            if (value === undefined || !onClick) {
+                return;
+            }
 
-        onClick(value);
-    }, [onClick, value]);
+            onClick(value);
+        },
+        [onClick, onItemClick, value],
+    );
 
     const {onKeyDown} = useActionHandlers(handleClick);
 

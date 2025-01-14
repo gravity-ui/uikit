@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 import {Grip} from '@gravity-ui/icons';
 import type {DraggableProvided} from 'react-beautiful-dnd';

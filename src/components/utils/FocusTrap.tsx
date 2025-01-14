@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 import {createFocusTrap} from 'focus-trap';
 import type {FocusTrap as FocusTrapInstance} from 'focus-trap';

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {DocsExample} from '../../../../demo/DocsExample/DocsExample';
 import {Button} from '../../../Button';

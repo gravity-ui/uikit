@@ -5,7 +5,6 @@ import {composeStories} from '@storybook/react';
 import type {TableColumnConfig, TableProps} from '../Table';
 import {Table} from '../Table';
 import * as DefaultTableStories from '../__stories__/Table.stories';
-import {DEFAULT_SETTINGS} from '../__stories__/Table.stories';
 import type {TableSettingsData} from '../hoc';
 import {withTableSettings} from '../hoc';
 
@@ -49,7 +48,9 @@ export const TestTableWithSettings = (props: Partial<TableProps<DataItem>>) => {
         };
     });
 
-    const [settings, setSettings] = React.useState<TableSettingsData>(DEFAULT_SETTINGS);
+    const [settings, setSettings] = React.useState<TableSettingsData>(
+        columns.map(({id}) => ({id, isSelected: true})),
+    );
 
     return (
         <TableWithSettings

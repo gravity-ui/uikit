@@ -24,6 +24,9 @@ import {Pagination, PaginationProps} from '@gravity-ui/uikit';
 
 const [state, setState] = React.useState({page: 1, pageSize: 100});
 
+const PAGE_PARAM = 'page_number';
+const PAGE_SIZE_PARAM = 'page_size';
+
 const pageHrefBuilder: PaginationProps['pageHrefBuilder'] = (page, pageSize) => {
         const queryParams = new URLSearchParams(window.location.search);
         queryParams.set(PAGE_PARAM, String(page));

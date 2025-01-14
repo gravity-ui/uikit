@@ -1,4 +1,4 @@
-import type {Cases} from '../../../stories/tests-factory/models';
+import type {Cases} from '../../../../stories/tests-factory/models';
 import type {TabsProps} from '../Tabs';
 import {TabsDirection} from '../Tabs';
 

@@ -1,6 +1,6 @@
 import {smokeTest, test} from '~playwright/core';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {createSmokeScenarios} from '../../../../stories/tests-factory/create-smoke-scenarios';
 import type {TabsProps} from '../Tabs';
 
 import {directionCases, sizeCases} from './cases';

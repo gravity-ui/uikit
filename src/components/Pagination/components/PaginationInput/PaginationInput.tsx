@@ -19,13 +19,13 @@ type Props = {
     pageSize: NonNullable<PaginationProps['pageSize']>;
     size: PaginationSize;
     className?: string;
-} & Pick<PaginationProps, 'onUpdate' | 'pageHrefUpdater'>;
+} & Pick<PaginationProps, 'onUpdate' | 'pageHrefBuilder'>;
 
 export const PaginationInput = ({
     numberOfPages,
     size,
     pageSize,
-    pageHrefUpdater,
+    pageHrefBuilder,
     onUpdate,
     className,
 }: Props) => {
@@ -56,8 +56,8 @@ export const PaginationInput = ({
         }
 
         setValue('');
-        if (pageHrefUpdater) {
-            window.location.href = pageHrefUpdater(numValue, pageSize);
+        if (pageHrefBuilder) {
+            window.location.href = pageHrefBuilder(numValue, pageSize);
         }
         onUpdate?.(numValue, pageSize);
     };

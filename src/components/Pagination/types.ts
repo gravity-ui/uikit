@@ -20,9 +20,9 @@ export type PaginationProps = {
     /**
      * Function for update links on pagination buttons
      */
-    pageHrefUpdater?: (page: number, pageSize: number) => string;
+    pageHrefBuilder?: (page: number, pageSize: number) => string;
     /**
-     * Called when the page number or pageSize is changed (only if pageHrefUpdater not set)
+     * Called when the page number or pageSize is changed (only if pageHrefBuilder not set)
      */
     onUpdate?: (page: number, pageSize: number) => void;
     /**

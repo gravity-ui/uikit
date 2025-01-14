@@ -17,7 +17,7 @@ type Props = {
     pageSize: NonNullable<PaginationProps['pageSize']>;
     compact: NonNullable<PaginationProps['compact']>;
     className?: string;
-} & Pick<PaginationProps, 'onUpdate' | 'pageHrefUpdater'>;
+} & Pick<PaginationProps, 'onUpdate' | 'pageHrefBuilder'>;
 
 export const PaginationButton = ({
     item,
@@ -26,7 +26,7 @@ export const PaginationButton = ({
     page,
     pageSize,
     onUpdate,
-    pageHrefUpdater,
+    pageHrefBuilder,
     compact,
 }: Props) => {
     let button: React.ReactNode = null;
@@ -39,7 +39,7 @@ export const PaginationButton = ({
                     size={size}
                     view="outlined"
                     className={className}
-                    href={pageHrefUpdater?.(1, pageSize)}
+                    href={pageHrefBuilder?.(1, pageSize)}
                     onClick={() => onUpdate?.(1, pageSize)}
                     title={compact ? i18n('button_first') : undefined}
                     disabled={disabled}
@@ -56,7 +56,7 @@ export const PaginationButton = ({
                     size={size}
                     view="outlined"
                     className={className}
-                    href={pageHrefUpdater?.(page - 1, pageSize)}
+                    href={pageHrefBuilder?.(page - 1, pageSize)}
                     onClick={() => onUpdate?.(page - 1, pageSize)}
                     title={compact ? i18n('button_previous') : undefined}
                     disabled={disabled}
@@ -73,7 +73,7 @@ export const PaginationButton = ({
                     size={size}
                     view="outlined"
                     className={className}
-                    href={pageHrefUpdater?.(page + 1, pageSize)}
+                    href={pageHrefBuilder?.(page + 1, pageSize)}
                     onClick={() => onUpdate?.(page + 1, pageSize)}
                     title={compact ? i18n('button_next') : undefined}
                     disabled={disabled}

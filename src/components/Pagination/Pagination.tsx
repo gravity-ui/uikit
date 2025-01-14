@@ -25,7 +25,7 @@ export const Pagination = ({
     total,
     size: propSize,
     onUpdate,
-    pageHrefUpdater,
+    pageHrefBuilder,
     compact: propCompact = true,
     pageSizeOptions,
     showPages = true,
@@ -52,7 +52,7 @@ export const Pagination = ({
         mobile,
     });
 
-    const onUpdateInner = pageHrefUpdater ? undefined : onUpdate;
+    const onUpdateInner = pageHrefBuilder ? undefined : onUpdate;
 
     const pagination = items
         .map((item) => {
@@ -65,7 +65,7 @@ export const Pagination = ({
                                 size={size}
                                 pageSize={pageSize}
                                 item={item}
-                                pageHrefUpdater={pageHrefUpdater}
+                                pageHrefBuilder={pageHrefBuilder}
                                 onUpdate={onUpdateInner}
                                 className={b('pagination-item')}
                             />
@@ -99,7 +99,7 @@ export const Pagination = ({
                             item={item}
                             page={resultPage}
                             pageSize={pageSize}
-                            pageHrefUpdater={pageHrefUpdater}
+                            pageHrefBuilder={pageHrefBuilder}
                             onUpdate={onUpdateInner}
                             compact={compact}
                             className={b('pagination-item')}
@@ -119,14 +119,14 @@ export const Pagination = ({
                     numberOfPages={numberOfPages}
                     pageSize={pageSize}
                     size={size}
-                    pageHrefUpdater={pageHrefUpdater}
+                    pageHrefBuilder={pageHrefBuilder}
                     onUpdate={onUpdateInner}
                     className={b('input')}
                 />
             )}
             {pageSizeOptions && (
                 <PaginationPageSizer
-                    pageHrefUpdater={pageHrefUpdater}
+                    pageHrefBuilder={pageHrefBuilder}
                     onUpdate={onUpdateInner}
                     page={resultPage}
                     pageSize={pageSize}

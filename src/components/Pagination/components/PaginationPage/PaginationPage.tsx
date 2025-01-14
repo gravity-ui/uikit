@@ -14,7 +14,7 @@ type Props = {
     size: PaginationSize;
     pageSize: NonNullable<PaginationProps['pageSize']>;
     className?: string;
-} & Pick<PaginationProps, 'onUpdate' | 'pageHrefUpdater'>;
+} & Pick<PaginationProps, 'onUpdate' | 'pageHrefBuilder'>;
 
 export const PaginationPage = ({
     item,
@@ -22,7 +22,7 @@ export const PaginationPage = ({
     pageSize,
     className,
     onUpdate,
-    pageHrefUpdater,
+    pageHrefBuilder,
 }: Props) => {
     const qa = getPaginationPageQa(item.page);
     if (item.simple) {
@@ -42,7 +42,7 @@ export const PaginationPage = ({
             view={view}
             selected={item.current}
             className={className}
-            href={pageHrefUpdater?.(item.page, pageSize)}
+            href={pageHrefBuilder?.(item.page, pageSize)}
             onClick={() => onUpdate?.(item.page, pageSize)}
             qa={qa}
         >

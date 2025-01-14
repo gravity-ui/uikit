@@ -26,7 +26,7 @@ const useState = (args: PaginationProps) => {
     React.useEffect(() => {
         let currentPage = args.page;
         let currentPageSize = args.pageSize;
-        if (args.pageHrefUpdater) {
+        if (args.pageHrefBuilder) {
             const queryParams = new URLSearchParams(window.location.search);
 
             currentPage = getParamNumberValue(PAGE_PARAM, queryParams, currentPage);
@@ -72,7 +72,7 @@ Links.args = {
     pageSizeOptions: [20, 50, 100],
     showInput: true,
     compact: false,
-    pageHrefUpdater: (page, pageSize) => {
+    pageHrefBuilder: (page, pageSize) => {
         const queryParams = new URLSearchParams(window.location.search);
         queryParams.set(PAGE_PARAM, String(page));
         queryParams.set(PAGE_SIZE_PARAM, String(pageSize));

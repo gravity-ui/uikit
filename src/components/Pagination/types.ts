@@ -18,7 +18,7 @@ export type PaginationProps = {
      */
     size?: PaginationSize;
     /**
-     * Function for update links on pagination buttons
+     * Function to create links for pagination controls
      */
     pageHrefBuilder?: (page: number, pageSize: number) => string;
     /**

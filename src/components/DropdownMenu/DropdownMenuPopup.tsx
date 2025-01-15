@@ -54,25 +54,14 @@ export const DropdownMenuPopup = <T,>({
         setActiveMenuPath(path.slice(0, path.length - 1));
     }, [setActiveMenuPath, path]);
 
-    const handleMouseEnter = React.useCallback(
-        (event: React.MouseEvent<HTMLDivElement>) => {
-            setActiveMenuPath(path);
-            (popupProps?.floatingProps?.onMouseEnter as React.MouseEventHandler | undefined)?.(
-                event,
-            );
-        },
-        [path, popupProps, setActiveMenuPath],
-    );
+    const handleMouseEnter = React.useCallback(() => {
+        setActiveMenuPath(path);
+    }, [path, setActiveMenuPath]);
 
-    const handleMouseLeave = React.useCallback(
-        (event: React.MouseEvent<HTMLDivElement>) => {
-            activateParent();
-            (popupProps?.floatingProps?.onMouseLeave as React.MouseEventHandler | undefined)?.(
-                event,
-            );
-        },
-        [activateParent, popupProps],
-    );
+    const handleMouseLeave = React.useCallback(() => {
+        activateParent();
+    }, [activateParent]);
+
     const handleSelect = React.useCallback(
         (activeItem: DropdownMenuListItem<T>, event: KeyboardEvent) => {
             if (activeItem.items && activeItem.path) {
@@ -148,52 +137,51 @@ export const DropdownMenuPopup = <T,>({
             onClose={onClose}
             placement="bottom-start"
             {...popupProps}
-            floatingProps={{
-                ...popupProps?.floatingProps,
-                onMouseEnter: handleMouseEnter,
-                onMouseLeave: handleMouseLeave,
-            }}
         >
-            {children || (
-                <Menu className={cnDropdownMenu('menu')} size={size} {...menuProps}>
-                    {items.map((item, index) => {
-                        const isActive = isNavigationActive && activeItemIndex === index;
-                        const activate = () => setActiveItemIndex(index);
+            <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                {children || (
+                    <Menu className={cnDropdownMenu('menu')} size={size} {...menuProps}>
+                        {items.map((item, index) => {
+                            const isActive = isNavigationActive && activeItemIndex === index;
+                            const activate = () => setActiveItemIndex(index);
 
-                        const isActiveParent =
-                            open &&
-                            !isActive &&
-                            activeMenuPath.length !== 0 &&
-                            stringifyNavigationPath(item.path) ===
-                                stringifyNavigationPath(activeMenuPath.slice(0, item.path.length));
+                            const isActiveParent =
+                                open &&
+                                !isActive &&
+                                activeMenuPath.length !== 0 &&
+                                stringifyNavigationPath(item.path) ===
+                                    stringifyNavigationPath(
+                                        activeMenuPath.slice(0, item.path.length),
+                                    );
 
-                        const extraProps = {
-                            ...item.extraProps,
-                            onMouseEnter: activate,
-                        };
+                            const extraProps = {
+                                ...item.extraProps,
+                                onMouseEnter: activate,
+                            };
 
-                        return (
-                            <DropdownMenuItem
-                                key={index}
-                                className={cnDropdownMenu(
-                                    'menu-item',
-                                    {
-                                        separator: isSeparator(item),
-                                        'active-parent': isActiveParent,
-                                        'with-submenu': Boolean(item.items?.length),
-                                    },
-                                    item.className,
-                                )}
-                                selected={isActive}
-                                popupProps={popupProps}
-                                closeMenu={onClose}
-                                {...item}
-                                extraProps={extraProps}
-                            />
-                        );
-                    })}
-                </Menu>
-            )}
+                            return (
+                                <DropdownMenuItem
+                                    key={index}
+                                    className={cnDropdownMenu(
+                                        'menu-item',
+                                        {
+                                            separator: isSeparator(item),
+                                            'active-parent': isActiveParent,
+                                            'with-submenu': Boolean(item.items?.length),
+                                        },
+                                        item.className,
+                                    )}
+                                    selected={isActive}
+                                    popupProps={popupProps}
+                                    closeMenu={onClose}
+                                    {...item}
+                                    extraProps={extraProps}
+                                />
+                            );
+                        })}
+                    </Menu>
+                )}
+            </div>
         </Popup>
     );
 };

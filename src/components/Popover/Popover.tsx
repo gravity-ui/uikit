@@ -88,8 +88,6 @@ export function Popover({
     });
     const dismiss = useDismiss(context, {
         enabled: !disabled,
-        outsidePress: true,
-        escapeKey: true,
     });
 
     const interactions = [hover, click, role, dismiss];
@@ -120,7 +118,6 @@ export function Popover({
                 floatingInteractions={interactions}
                 autoFocus
                 modalFocus
-                role="dialog"
                 className={b(null, className)}
             >
                 {content}

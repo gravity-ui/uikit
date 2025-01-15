@@ -33,9 +33,13 @@ $block: '.#{variables.$ns}toc-item';
             }
         }
 
-        &_child {
-            #{$class}__section-link {
-                padding-inline-start: 25px;
+        @for $i from 1 through 6 {
+            $item-padding: 12px * $i;
+
+            &_depth_#{$i} {
+                #{$class}__section-link {
+                    padding-inline-start: $item-padding;
+                }
             }
         }
 

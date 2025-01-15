@@ -53,10 +53,27 @@ Default.args = {
                 {
                     value: 'control',
                     content: 'Disk controls',
+                    items: [
+                        {
+                            value: 'floppy',
+                            content: 'Floppy',
+                        },
+                        {
+                            value: 'hard',
+                            content: 'Hard',
+                            items: [],
+                        },
+                    ],
                 },
                 {
                     value: 'snapshots',
                     content: 'Disk snapshots',
+                    items: [
+                        {
+                            value: 'standard',
+                            content: 'Standard',
+                        },
+                    ],
                 },
             ],
         },

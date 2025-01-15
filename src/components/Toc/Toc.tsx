@@ -1,17 +1,14 @@
 import * as React from 'react';
 
-import type {AriaLabelingProps, QAProps} from '../types';
+import type {QAProps} from '../types';
 import {block} from '../utils/cn';
-import {filterDOMProps} from '../utils/filterDOMProps';
 
-import {TocItem} from './TocItem/TocItem';
+import {TocSections} from './TocSections';
 import type {TocItem as TocItemType} from './types';
-
-import './Toc.scss';
 
 const b = block('toc');
 
-export interface TocProps extends AriaLabelingProps, QAProps {
+export interface TocProps extends QAProps {
     className?: string;
     items: TocItemType[];
     value?: string;
@@ -20,55 +17,17 @@ export interface TocProps extends AriaLabelingProps, QAProps {
 }
 
 export const Toc = React.forwardRef<HTMLElement, TocProps>(function Toc(props, ref) {
-    const {value: activeValue, items, className, onUpdate, onItemClick, qa, ...restProps} = props;
+    const {value: activeValue, items, className, onUpdate, qa, onItemClick} = props;
 
     return (
-        <nav
-            {...filterDOMProps(restProps, {labelable: true})}
-            className={b(null, className)}
-            ref={ref}
-            data-qa={qa}
-        >
-            <ul className={b('sections')}>
-                {items.map(({value, content, href, items: childrenItems}) => (
-                    <li key={value ?? href} aria-current={activeValue === value}>
-                        <TocItem
-                            content={content}
-                            value={value}
-                            href={href}
-                            active={activeValue === value}
-                            onClick={onUpdate}
-                            onItemClick={onItemClick}
-                        />
-                        {childrenItems && childrenItems.length > 0 && (
-                            <ul className={b('subsections')}>
-                                {childrenItems?.map(
-                                    ({
-                                        value: childrenValue,
-                                        content: childrenContent,
-                                        href: childrenHref,
-                                    }) => (
-                                        <li
-                                            key={childrenValue ?? childrenHref}
-                                            aria-current={activeValue === childrenValue}
-                                        >
-                                            <TocItem
-                                                content={childrenContent}
-                                                value={childrenValue}
-                                                href={childrenHref}
-                                                childItem={true}
-                                                active={activeValue === childrenValue}
-                                                onClick={onUpdate}
-                                                onItemClick={onItemClick}
-                                            />
-                                        </li>
-                                    ),
-                                )}
-                            </ul>
-                        )}
-                    </li>
-                ))}
-            </ul>
+        <nav className={b(null, className)} ref={ref} data-qa={qa}>
+            <TocSections
+                items={items}
+                value={activeValue}
+                onUpdate={onUpdate}
+                depth={1}
+                onItemClick={onItemClick}
+            />
         </nav>
     );
 });

@@ -91,13 +91,6 @@ export function FilePreview({
     const isPreviewString = typeof previewSrc === 'string';
     const hideActions = isPreviewString && mobile;
 
-    const handleClick: React.MouseEventHandler<HTMLDivElement> = React.useCallback(
-        (e) => {
-            onClick?.(e);
-        },
-        [onClick],
-    );
-
     return (
         <div className={cn(null, className)} data-qa={qa}>
             <div
@@ -105,7 +98,7 @@ export function FilePreview({
                 role={clickable ? 'button' : undefined}
                 onKeyDown={clickable ? onKeyDown : undefined}
                 tabIndex={clickable ? 0 : undefined}
-                onClick={clickable ? handleClick : undefined}
+                onClick={onClick}
             >
                 {isPreviewString ? (
                     <div className={cn('image-container')}>

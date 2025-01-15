@@ -187,7 +187,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
                                             {title}
                                         </div>
                                     )}
-                                    <div>{content}</div>
+                                    {content}
                                 </div>
                             </div>
                         </div>

@@ -138,7 +138,11 @@ export const DropdownMenuPopup = <T,>({
             placement="bottom-start"
             {...popupProps}
         >
-            <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+            <div
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                className={cnDropdownMenu('popup-content')}
+            >
                 {children || (
                     <Menu className={cnDropdownMenu('menu')} size={size} {...menuProps}>
                         {items.map((item, index) => {

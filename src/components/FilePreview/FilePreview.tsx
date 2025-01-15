@@ -13,7 +13,6 @@ import {
 } from '@gravity-ui/icons';
 
 import {useActionHandlers, useUniqId} from '../../hooks';
-import {useBoolean} from '../../hooks/private';
 import {Icon} from '../Icon';
 import type {IconData} from '../Icon';
 import {Text} from '../Text';
@@ -23,7 +22,6 @@ import {block} from '../utils/cn';
 
 import {FilePreviewAction} from './FilePreviewAction';
 import type {FilePreviewActionProps} from './FilePreviewAction';
-import {MobileImagePreview} from './MobileImagePreview/MobileImagePreview';
 import type {FileType} from './types';
 import {getFileType} from './utils';
 
@@ -66,7 +64,6 @@ export function FilePreview({
     const id = useUniqId();
 
     const [previewSrc, setPreviewSrc] = React.useState<string | undefined>(imageSrc);
-    const [isPreviewSheetVisible, showPreviewSheet, closePreviewSheet] = useBoolean(false);
     const mobile = useMobile();
     const type = getFileType(file);
 
@@ -94,20 +91,6 @@ export function FilePreview({
     const isPreviewString = typeof previewSrc === 'string';
     const hideActions = isPreviewString && mobile;
 
-    const handleClick: React.MouseEventHandler<HTMLDivElement> = React.useCallback(
-        (e) => {
-            if (onClick) {
-                onClick(e);
-                return;
-            }
-
-            if (mobile && isPreviewString) {
-                showPreviewSheet();
-            }
-        },
-        [isPreviewString, mobile, onClick, showPreviewSheet],
-    );
-
     return (
         <div className={cn(null, className)} data-qa={qa}>
             <div
@@ -115,7 +98,7 @@ export function FilePreview({
                 role={clickable ? 'button' : undefined}
                 onKeyDown={clickable ? onKeyDown : undefined}
                 tabIndex={clickable ? 0 : undefined}
-                onClick={clickable ? handleClick : undefined}
+                onClick={onClick}
             >
                 {isPreviewString ? (
                     <div className={cn('image-container')}>
@@ -151,14 +134,6 @@ export function FilePreview({
                     ))}
                 </div>
             ) : null}
-
-            <MobileImagePreview
-                visible={isPreviewSheetVisible}
-                onClose={closePreviewSheet}
-                actions={actions}
-                previewSrc={previewSrc}
-                fileName={file.name}
-            />
         </div>
     );
 }

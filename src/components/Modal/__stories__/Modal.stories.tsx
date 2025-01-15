@@ -6,24 +6,30 @@ import range from 'lodash/range';
 
 import {Button} from '../../Button';
 import {Popup} from '../../Popup';
+import {ToasterComponent, ToasterProvider, useToaster} from '../../Toaster';
+import {Flex} from '../../layout';
 import {Modal} from '../Modal';
 import type {ModalProps} from '../Modal';
 
 export default {
     title: 'Components/Overlays/Modal',
     component: Modal,
+    parameters: {
+        layout: 'centered',
+    },
 } as Meta;
 
 export const Default: StoryFn<ModalProps> = (props) => {
     const [openSmall, setOpenSmall] = React.useState(false);
     const [openLarge, setOpenLarge] = React.useState(false);
-    const [openWithPopups, setOpenWithPopups] = React.useState(false);
+    const [openWithToast, setOpenWithToast] = React.useState(false);
+    const [openWithPopup, setOpenWithPopup] = React.useState(false);
     const [openWithModal, setOpenWithModal] = React.useState(false);
 
     const [textLines] = React.useState(() => range(50).map(() => faker.lorem.sentences()));
 
     return (
-        <React.Fragment>
+        <Flex gap={5} direction="column" wrap>
             <Modal {...props} open={openSmall} onOpenChange={setOpenSmall}>
                 <div style={{padding: 10}}>Modal content</div>
             </Modal>
@@ -34,95 +40,68 @@ export const Default: StoryFn<ModalProps> = (props) => {
                     </div>
                 ))}
             </Modal>
-            <ModalWithPopups {...props} open={openWithPopups} onOpenChange={setOpenWithPopups} />
+            <ToasterProvider>
+                <ModalWithToast {...props} open={openWithToast} onOpenChange={setOpenWithToast} />
+                <ToasterComponent />
+            </ToasterProvider>
+            <ModalWithPopup {...props} open={openWithPopup} onOpenChange={setOpenWithPopup} />
             <ModalWithModal {...props} open={openWithModal} onOpenChange={setOpenWithModal} />
-            <div
-                style={{
-                    width: '100%',
-                    height: 100,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}
-            >
-                <Button onClick={() => setOpenSmall(true)}>Show small modal</Button>
-            </div>
-            <div
-                style={{
-                    width: '100%',
-                    height: 100,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}
-            >
-                <Button onClick={() => setOpenLarge(true)}>Show large modal</Button>
-            </div>
-            <div
-                style={{
-                    width: '100%',
-                    height: 100,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}
-            >
-                <Button onClick={() => setOpenWithPopups(true)}>Show modal with popups</Button>
-            </div>
-            <div
-                style={{
-                    width: '100%',
-                    height: 100,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}
-            >
-                <Button onClick={() => setOpenWithModal(true)}>Show modal with modal</Button>
-            </div>
-        </React.Fragment>
+
+            <Button onClick={() => setOpenSmall(true)}>Show small modal</Button>
+            <Button onClick={() => setOpenLarge(true)}>Show large modal</Button>
+            <Button onClick={() => setOpenWithToast(true)}>Show modal with toast</Button>
+            <Button onClick={() => setOpenWithPopup(true)}>Show modal with popup</Button>
+            <Button onClick={() => setOpenWithModal(true)}>Show modal with modal</Button>
+        </Flex>
     );
 };
 
-function ModalWithPopups(props: ModalProps) {
-    const [topPopupOpen, setTopPopupOpen] = React.useState(false);
-    const [bottomPopupOpen, setBottomPopupOpen] = React.useState(false);
+function ModalWithToast(props: ModalProps) {
+    const toaster = useToaster();
 
-    const handleTogglePopups = React.useCallback(() => {
-        setTopPopupOpen(!topPopupOpen);
-        setBottomPopupOpen(!bottomPopupOpen);
-    }, [topPopupOpen, bottomPopupOpen]);
+    return (
+        <Modal {...props}>
+            <div style={{padding: 100}}>
+                <Button
+                    onClick={() => {
+                        toaster.add({
+                            name: `modal-toast-${Date.now()}`,
+                            theme: 'normal',
+                            title: faker.lorem.words(3),
+                            content: faker.lorem.sentences(2),
+                        });
+                    }}
+                >
+                    Create toast
+                </Button>
+            </div>
+        </Modal>
+    );
+}
 
+function ModalWithPopup(props: ModalProps) {
+    const [popupOpen, setPopupOpen] = React.useState(false);
     const [popupAnchor, setPopupAnchor] = React.useState<HTMLElement | null>(null);
 
     React.useEffect(() => {
         if (!props.open) {
-            setTopPopupOpen(false);
-            setBottomPopupOpen(false);
+            setPopupOpen(false);
         }
     }, [props.open]);
 
     return (
         <Modal {...props}>
             <div style={{padding: 100}}>
-                <Button ref={setPopupAnchor} onClick={handleTogglePopups}>
-                    Toggle popups
+                <Button ref={setPopupAnchor} onClick={() => setPopupOpen((prevOpen) => !prevOpen)}>
+                    Open popup
                 </Button>
                 <Popup
-                    open={topPopupOpen}
-                    onOpenChange={setTopPopupOpen}
+                    open={popupOpen}
+                    onOpenChange={setPopupOpen}
                     placement="top"
                     anchorElement={popupAnchor}
                 >
-                    <div style={{padding: 10}}>Top popup</div>
-                </Popup>
-                <Popup
-                    open={bottomPopupOpen}
-                    onOpenChange={setBottomPopupOpen}
-                    placement="bottom"
-                    anchorElement={popupAnchor}
-                >
-                    <div style={{padding: 10}}>Bottom popup</div>
+                    <div style={{padding: 10}}>Popup content</div>
                 </Popup>
             </div>
         </Modal>

@@ -19,13 +19,13 @@ To specify the anchor of a floating element, you can use the `anchorElement` pro
 
 <ExampleBlock
     code={`
-const buttonRef = React.useRef(null);
+const [buttonElement, setButtonElement] = React.useState(null);
 const [open, setOpen] = React.useState(false);
 
-<Button ref={buttonRef} onClick={() => setOpen((prevOpen) => !prevOpen)}>
+<Button ref={setButtonElement} onClick={() => setOpen((prevOpen) => !prevOpen)}>
   Toggle Popup
 </Button>
-<Popup anchorElement={buttonRef.current} open={open} placement="bottom">
+<Popup anchorElement={buttonElement} open={open} placement="bottom">
   Content
 </Popup>
 `}>
@@ -37,13 +37,13 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-const buttonRef = React.useRef(null);
+const [buttonElement, setButtonElement] = React.useState(null);
 const [open, setOpen] = React.useState(false);
 
-<Button ref={buttonRef} onClick={() => setOpen((prevOpen) => !prevOpen)}>
+<Button ref={setButtonElement} onClick={() => setOpen((prevOpen) => !prevOpen)}>
   Toggle Popup
 </Button>
-<Popup anchorElement={buttonRef.current} open={open} placement="bottom">
+<Popup anchorElement={buttonElement} open={open} placement="bottom">
   Content
 </Popup>
 ```
@@ -61,21 +61,21 @@ It is also acceptable to use the values `auto`, `auto-start`, `auto-end` to use 
 
 <ExampleBlock
     code={`
-const boxRef = React.useRef(null);
+const [boxElement, setBoxElement] = React.useState(null);
 
-<div ref={boxRef} />
-<Popup open anchorElement={boxRef.current} placement="top-start">Top Start</Popup>
-<Popup open anchorElement={boxRef.current} placement="top">Top</Popup>
-<Popup open anchorElement={boxRef.current} placement="top-end">Top End</Popup>
-<Popup open anchorElement={boxRef.current} placement="right-start">Right Start</Popup>
-<Popup open anchorElement={boxRef.current} placement="right">Right</Popup>
-<Popup open anchorElement={boxRef.current} placement="right-end">Right End</Popup>
-<Popup open anchorElement={boxRef.current} placement="bottom-end">Bottom End</Popup>
-<Popup open anchorElement={boxRef.current} placement="bottom">Bottom</Popup>
-<Popup open anchorElement={boxRef.current} placement="bottom-start">Bottom Start</Popup>
-<Popup open anchorElement={boxRef.current} placement="left-end">Left End</Popup>
-<Popup open anchorElement={boxRef.current} placement="left">Left</Popup>
-<Popup open anchorElement={boxRef.current} placement="left-start">Left Start</Popup>
+<div ref={setBoxElement} />
+<Popup open anchorElement={boxElement} placement="top-start">Top Start</Popup>
+<Popup open anchorElement={boxElement} placement="top">Top</Popup>
+<Popup open anchorElement={boxElement} placement="top-end">Top End</Popup>
+<Popup open anchorElement={boxElement} placement="right-start">Right Start</Popup>
+<Popup open anchorElement={boxElement} placement="right">Right</Popup>
+<Popup open anchorElement={boxElement} placement="right-end">Right End</Popup>
+<Popup open anchorElement={boxElement} placement="bottom-end">Bottom End</Popup>
+<Popup open anchorElement={boxElement} placement="bottom">Bottom</Popup>
+<Popup open anchorElement={boxElement} placement="bottom-start">Bottom Start</Popup>
+<Popup open anchorElement={boxElement} placement="left-end">Left End</Popup>
+<Popup open anchorElement={boxElement} placement="left">Left</Popup>
+<Popup open anchorElement={boxElement} placement="left-start">Left Start</Popup>
 `}>
     <UIKitExamples.PopupPlacementExample/>
 </ExampleBlock>
@@ -84,49 +84,39 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name                 | Description                                                                                |                             Type                              |             Default              |
-| :------------------- | :----------------------------------------------------------------------------------------- | :-----------------------------------------------------------: | :------------------------------: |
-| anchorElement        | Anchor element. Can also be `VirtualElement`                                               |                     `PopupAnchorElement`                      |                                  |
-| autoFocus            | While open, the focus will be set to the first interactive element in the content          |                           `boolean`                           |             `false`              |
-| children             | Any React content                                                                          |                       `React.ReactNode`                       |                                  |
-| className            | `class` HTML attribute for the root node                                                   |                           `string`                            |                                  |
-| container            | DOM element the children will be mounted to                                                |                         `HTMLElement`                         |         `document.body`          |
-| contentClassName     | `class` HTML attribute for the content node                                                |                           `string`                            |                                  |
-| disableEscapeKeyDown | Disables triggering close on `Esc`                                                         |                           `boolean`                           |             `false`              |
-| disableLayer         | Disables using `LayerManager` on stacking popups                                           |                           `boolean`                           |             `false`              |
-| disableOutsideClick  | Disables triggering close on outside clicks                                                |                           `boolean`                           |             `false`              |
-| disablePortal        | Disables using `Portal` for children                                                       |                           `boolean`                           |             `false`              |
-| focusTrap            | Enables focus trapping behavior                                                            |                           `boolean`                           |             `false`              |
-| hasArrow             | Renders arrow pointing to the anchor                                                       |                           `boolean`                           |             `false`              |
-| id                   | `id` HTML attribute                                                                        |                           `string`                            |                                  |
-| keepMounted          | `Popup` will not be removed from the DOM upon hiding                                       |                           `boolean`                           |             `false`              |
-| middlewares          | `Floating UI` middlewares. If set, they will completely overwrite the default middlewares. |                      `Array<Middleware>`                      |                                  |
-| offset               | `Floating UI` offset value                                                                 |                         `PopupOffset`                         |               `4`                |
-| floatingContext      | `Floating UI` context to provide interactions                                              |                     `FloatingRootContext`                     |                                  |
-| floatingProps        | Additional floating element props to provide interactions                                  |                   `Record<string, unknown>`                   |                                  |
-| onBlur               | `blur` event handler                                                                       |                          `Function`                           |                                  |
-| onClose              | Handles `Popup` close event                                                                |                          `Function`                           |                                  |
-| onEnterKeyDown       | `Enter` press event handler                                                                |                          `Function`                           |                                  |
-| onEscapeKeyDown      | `Esc` press event handler                                                                  |                          `Function`                           |                                  |
-| onFocus              | `focus` event handler                                                                      |                          `Function`                           |                                  |
-| onMouseEnter         | `mouseenter` event handler                                                                 |                          `Function`                           |                                  |
-| onMouseLeave         | `mouseleave` event handler                                                                 |                          `Function`                           |                                  |
-| onOutsideClick       | Outside click event handler                                                                |                          `Function`                           |                                  |
-| onTransitionEnter    | On start open popup animation                                                              |                          `Function`                           |                                  |
-| onTransitionEntered  | On finish open popup animation                                                             |                          `Function`                           |                                  |
-| onTransitionExit     | On start close popup animation                                                             |                          `Function`                           |                                  |
-| onTransitionExited   | On finish close popup animation                                                            |                          `Function`                           |                                  |
-| open                 | Manages `Popup` visibility                                                                 |                           `boolean`                           |             `false`              |
-| placement            | `Floating UI` placement                                                                    | `Placement` `Array<Placement>` `auto` `auto-start` `auto-end` |                                  |
-| qa                   | Test attribute (`data-qa`)                                                                 |                           `string`                            |                                  |
-| restoreFocus         | If true, the focus will return to the anchor element                                       |                           `boolean`                           |             `false`              |
-| restoreFocusRef      | Element the focus will be restored to                                                      |                       `React.RefObject`                       |                                  |
-| aria-labelledby      | `aria-labelledby` attribute. Preferable if you have visible caption                        |                           `string`                            |                                  |
-| aria-label           | `aria-label` attribute. Use it only if you do not have any visible caption                 |                           `string`                            |                                  |
-| aria-modal           | `aria-modal` attribute. Indicates whether an element is modal when displayed               |                         `Booleanish`                          |       value of `focusTrap`       |
-| role                 | Accessibility role for popup                                                               |                           `string`                            | `dialog` if `aria-modal` is true |
-| strategy             | `Floating UI` positioning strategy                                                         |                      `absolute` `fixed`                       |            `absolute`            |
-| style                | `style` HTML attribute for root node                                                       |                           `string`                            |                                  |
+| Name                    | Description                                                                                               |                             Type                              |  Default   |
+| :---------------------- | :-------------------------------------------------------------------------------------------------------- | :-----------------------------------------------------------: | :--------: |
+| anchorElement           | Anchor element. Can also be a `VirtualElement`                                                            |                     `PopupAnchorElement`                      |            |
+| aria-describedby        | `aria-describedby` attribute. Use it if you have both label and description nodes                         |                           `string`                            |            |
+| aria-label              | `aria-label` attribute. Use it only if you do not have any visible caption                                |                           `string`                            |            |
+| aria-labelledby         | `aria-labelledby` attribute. Preferable if you have visible caption                                       |                           `string`                            |            |
+| autoFocus               | While open, the focus will be set to the floating element                                                 |                           `boolean`                           |  `false`   |
+| children                | Any React content                                                                                         |                       `React.ReactNode`                       |            |
+| className               | `class` HTML attribute for the root node                                                                  |                           `string`                            |            |
+| disableEscapeKeyDown    | Disables triggering close on `Esc`                                                                        |                           `boolean`                           |  `false`   |
+| disableOutsideClick     | Disables triggering close on outside clicks                                                               |                           `boolean`                           |  `false`   |
+| disablePortal           | Disables using `Portal` for children                                                                      |                           `boolean`                           |  `false`   |
+| floatingContext         | `Floating UI` context to provide interactions                                                             |                     `FloatingRootContext`                     |            |
+| floatingInteractions    | Override `Floating UI` interactions                                                                       |                     `Array<ElementProps>`                     |            |
+| floatingMiddlewares     | `Floating UI` middlewares. If set, they will completely overwrite the default middlewares.                |                      `Array<Middleware>`                      |            |
+| hasArrow                | Renders arrow pointing to the anchor                                                                      |                           `boolean`                           |  `false`   |
+| id                      | `id` HTML attribute                                                                                       |                           `string`                            |            |
+| initialFocus            | Initial element to be focused when `autoFocus` is true. Positive number is the index of tabbable element. |               `number` `React.Ref<HTMLElement>`               |            |
+| keepMounted             | `Popup` will not be removed from the DOM upon hiding                                                      |                           `boolean`                           |  `false`   |
+| modalFocus              | Enables focus trapping behaviour                                                                          |                           `boolean`                           |  `false`   |
+| offset                  | `Floating UI` offset value                                                                                |                         `PopupOffset`                         |    `4`     |
+| onOpenChange            | Handles `Popup` open change event                                                                         |                          `Function`                           |            |
+| onTransitionIn          | On start open popup animation                                                                             |                          `Function`                           |            |
+| onTransitionInComplete  | On finish open popup animation                                                                            |                          `Function`                           |            |
+| onTransitionOut         | On start close popup animation                                                                            |                          `Function`                           |            |
+| onTransitionOutComplete | On finish close popup animation                                                                           |                          `Function`                           |            |
+| open                    | Manages `Popup` visibility                                                                                |                           `boolean`                           |  `false`   |
+| placement               | `Floating UI` placement                                                                                   | `Placement` `Array<Placement>` `auto` `auto-start` `auto-end` |            |
+| qa                      | Test attribute (`data-qa`)                                                                                |                           `string`                            |            |
+| returnFocus             | Element to be focused on closing                                                                          |              `boolean` `React.Ref<HTMLElement>`               |   `true`   |
+| role                    | Accessibility role for popup                                                                              |                           `string`                            |            |
+| strategy                | `Floating UI` positioning strategy                                                                        |                      `absolute` `fixed`                       | `absolute` |
+| style                   | `style` HTML attribute for root node                                                                      |                           `string`                            |            |
 
 ## CSS API
 

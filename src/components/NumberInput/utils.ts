@@ -91,8 +91,10 @@ export function getInternalState(props: VariablesProps): {
               }
             : {min: externalMin, max: externalMax};
 
-    const min = rangedMin && rangedMin >= Number.MIN_SAFE_INTEGER ? rangedMin : undefined;
-    const max = rangedMax && rangedMax <= Number.MAX_SAFE_INTEGER ? rangedMax : undefined;
+    const min =
+        rangedMin !== undefined && rangedMin >= Number.MIN_SAFE_INTEGER ? rangedMin : undefined;
+    const max =
+        rangedMax !== undefined && rangedMax <= Number.MAX_SAFE_INTEGER ? rangedMax : undefined;
 
     const step = roundIfNecessary(Math.abs(externalStep), allowDecimal) || 1;
     const shiftMultiplier = roundIfNecessary(externalShiftMultiplier, allowDecimal) || 10;

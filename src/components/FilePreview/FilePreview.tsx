@@ -81,7 +81,7 @@ export function FilePreview({
             return () => {
                 URL.revokeObjectURL(createdUrl);
             };
-        } catch (error: unknown) {
+        } catch {
             return undefined;
         }
     }, [file, imageSrc, type]);

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import type {Meta, StoryObj} from '@storybook/react';
 
-import {useVirtualElementRef} from '../../../hooks';
+import {useVirtualElement} from '../../../hooks';
 import {Button} from '../../Button';
 import {Text} from '../../Text';
 import {Popup} from '../Popup';
@@ -19,7 +19,7 @@ type Story = StoryObj<typeof Popup>;
 
 export const Default: Story = {
     render: function PopupStory(props) {
-        const anchorRef = React.useRef<HTMLButtonElement>(null);
+        const [anchor, setAnchor] = React.useState<HTMLButtonElement | null>(null);
         const [open, setOpen] = React.useState(false);
 
         return (
@@ -27,8 +27,8 @@ export const Default: Story = {
                 <Popup
                     {...props}
                     open={open}
-                    anchorElement={anchorRef.current}
-                    onClose={() => setOpen(false)}
+                    anchorElement={anchor}
+                    onOpenChange={(isOpen) => setOpen(isOpen)}
                 >
                     <div style={{padding: 10}}>Popup content</div>
                 </Popup>
@@ -41,7 +41,7 @@ export const Default: Story = {
                         justifyContent: 'center',
                     }}
                 >
-                    <Button ref={anchorRef} onClick={() => setOpen(!open)}>
+                    <Button ref={setAnchor} onClick={() => setOpen(!open)}>
                         {open ? 'Hide' : 'Show'}
                     </Button>
                 </div>
@@ -52,7 +52,7 @@ export const Default: Story = {
 
 export const Placement: Story = {
     render: function PopupStory(props) {
-        const anchorRef = React.useRef<HTMLDivElement>(null);
+        const [anchor, setAnchor] = React.useState<HTMLDivElement | null>(null);
         const [open, setOpen] = React.useState(true);
         const contentStyle = {padding: 10};
         const placements: PopupPlacement = [
@@ -72,7 +72,7 @@ export const Placement: Story = {
 
         return (
             <div
-                ref={anchorRef}
+                ref={setAnchor}
                 style={{
                     width: 300,
                     height: 200,
@@ -88,7 +88,7 @@ export const Placement: Story = {
                         key={placement}
                         {...props}
                         open={open}
-                        anchorRef={anchorRef}
+                        anchorElement={anchor}
                         placement={placement}
                     >
                         <div style={contentStyle}>{placement}</div>
@@ -106,12 +106,8 @@ export const Position: Story = {
     render: function PopupStory(props) {
         const [left, setLeft] = React.useState(0);
         const [top, setTop] = React.useState(0);
+        const {anchor, setContextElement} = useVirtualElement({left, top});
 
-        const [contextElement, setContextElement] = React.useState<HTMLDivElement | null>(null);
-        const anchorRef = useVirtualElementRef({
-            rect: {top, left},
-            contextElement: contextElement ?? undefined,
-        });
         const [open, setOpen] = React.useState(false);
 
         const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -146,7 +142,7 @@ export const Position: Story = {
                 >
                     <div ref={setContextElement} />
                     <Text color="complementary">Move cursor here</Text>
-                    <Popup {...props} open={open} anchorRef={anchorRef}>
+                    <Popup {...props} open={open} anchorRef={{current: anchor}}>
                         <div style={{padding: 10}}>Popup content</div>
                     </Popup>
                 </div>

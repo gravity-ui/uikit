@@ -29,7 +29,7 @@ describe('Palette utils', () => {
             let hasThrownError = false;
             try {
                 getPaletteRows(options, 0);
-            } catch (error) {
+            } catch {
                 hasThrownError = true;
             }
             expect(hasThrownError).toEqual(true);

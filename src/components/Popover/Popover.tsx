@@ -3,11 +3,12 @@ import * as React from 'react';
 import {
     safePolygon,
     useClick,
+    useDismiss,
     useFloatingRootContext,
     useHover,
     useInteractions,
+    useRole,
 } from '@floating-ui/react';
-import type {UseInteractionsReturn} from '@floating-ui/react';
 
 import {useControlledState, useForkRef} from '../../hooks';
 import {Popup} from '../Popup';
@@ -63,20 +64,11 @@ export function Popover({
 }: PopoverProps) {
     const [anchorElement, setAnchorElement] = React.useState<HTMLElement | null>(null);
     const [floatingElement, setFloatingElement] = React.useState<HTMLDivElement | null>(null);
-    const [getAnchorProps, setGetAnchorProps] =
-        React.useState<UseInteractionsReturn['getReferenceProps']>();
-
-    const handleSetGetAnchorProps = React.useCallback<NonNullable<PopupProps['setGetAnchorProps']>>(
-        (getAnchorPropsFn) => {
-            setGetAnchorProps(() => getAnchorPropsFn);
-        },
-        [],
-    );
 
     const [isOpen, setIsOpen] = useControlledState(open, false, onOpenChange);
 
     const context = useFloatingRootContext({
-        open: isOpen,
+        open: isOpen && !disabled,
         onOpenChange: setIsOpen,
         elements: {
             reference: anchorElement,
@@ -91,16 +83,23 @@ export function Popover({
         handleClose: enableSafePolygon ? safePolygon() : undefined,
     });
     const click = useClick(context, {enabled: !disabled});
+    const role = useRole(context, {
+        role: 'dialog',
+    });
+    const dismiss = useDismiss(context, {
+        enabled: !disabled,
+    });
 
-    const {getReferenceProps, getFloatingProps} = useInteractions([hover, click]);
+    const interactions = [hover, click, role, dismiss];
+    const {getReferenceProps} = useInteractions(interactions);
 
     const anchorRef = useForkRef(
         setAnchorElement,
         React.isValidElement(children) ? getElementRef(children) : undefined,
     );
     const anchorProps = React.isValidElement<any>(children)
-        ? getReferenceProps(getAnchorProps?.(children.props) ?? children.props)
-        : getReferenceProps(getAnchorProps?.());
+        ? getReferenceProps(children.props)
+        : getReferenceProps();
     const anchorNode = React.isValidElement<any>(children)
         ? React.cloneElement(children, {
               ref: anchorRef,
@@ -113,14 +112,12 @@ export function Popover({
             {anchorNode}
             <Popup
                 {...restProps}
-                open={isOpen && !disabled}
-                setGetAnchorProps={handleSetGetAnchorProps}
+                open={context.open}
                 floatingContext={context}
                 floatingRef={setFloatingElement}
-                floatingProps={getFloatingProps()}
+                floatingInteractions={interactions}
                 autoFocus
                 modalFocus
-                role="dialog"
                 className={b(null, className)}
             >
                 {content}

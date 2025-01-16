@@ -16,6 +16,7 @@ import {
     useTransitionStatus,
 } from '@floating-ui/react';
 import type {
+    ElementProps,
     FloatingFocusManagerProps,
     FloatingRootContext,
     Middleware,
@@ -23,7 +24,6 @@ import type {
     ReferenceType,
     Strategy,
     UseFloatingOptions,
-    UseInteractionsReturn,
     UseRoleProps,
 } from '@floating-ui/react';
 
@@ -36,7 +36,6 @@ import {filterDOMProps} from '../utils/filterDOMProps';
 
 import {PopupArrow} from './PopupArrow';
 import {OVERFLOW_PADDING, TRANSITION_DURATION} from './constants';
-import {useAnchor} from './hooks';
 import i18n from './i18n';
 import type {PopupAnchorElement, PopupAnchorRef, PopupOffset, PopupPlacement} from './types';
 import {arrowStylesMiddleware, getOffsetOptions, getPlacementOptions} from './utils';
@@ -69,14 +68,12 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
      * @deprecated Use `anchorElement` instead
      * */
     anchorRef?: PopupAnchorRef;
-    /** Set up a getter for props that need to be passed to the anchor */
-    setGetAnchorProps?: (getAnchorProps: UseInteractionsReturn['getReferenceProps']) => void;
     /** Floating UI middlewares. If set, they will completely overwrite the default middlewares. */
     floatingMiddlewares?: Middleware[];
     /** Floating UI context to provide interactions */
     floatingContext?: FloatingRootContext<ReferenceType>;
     /** Additional floating element props to provide interactions */
-    floatingProps?: Record<string, unknown>;
+    floatingInteractions?: ElementProps[];
     /** React ref floating element is attached to */
     floatingRef?: React.Ref<HTMLDivElement>;
     /** Manage focus when opened */
@@ -145,10 +142,9 @@ export function Popup({
     offset: offsetProp = 4,
     anchorElement,
     anchorRef,
-    setGetAnchorProps,
     floatingMiddlewares,
     floatingContext,
-    floatingProps,
+    floatingInteractions,
     floatingRef,
     modalFocus = false,
     autoFocus = false,
@@ -165,7 +161,6 @@ export function Popup({
     children,
     disablePortal = false,
     qa,
-    id,
     role: roleProp,
     zIndex = 1000,
     onTransitionIn,
@@ -177,7 +172,6 @@ export function Popup({
     const contentRef = React.useRef<HTMLDivElement>(null);
     const [arrowElement, setArrowElement] = React.useState<HTMLElement | null>(null);
 
-    const anchor = useAnchor(anchorElement, anchorRef);
     const {offset} = getOffsetOptions(offsetProp, hasArrow);
     const {placement, middleware: placementMiddleware} = getPlacementOptions(
         placementProp,
@@ -221,10 +215,6 @@ export function Popup({
         placement: placement,
         open,
         onOpenChange: handleOpenChange,
-        elements: {
-            // @ts-expect-error: Type 'Element | VirtualElement | undefined' is not assignable to type 'Element | null | undefined'.
-            reference: anchor.element,
-        },
         middleware: floatingMiddlewares ?? [
             floatingOffset(offset),
             placementMiddleware,
@@ -239,6 +229,13 @@ export function Popup({
         ],
     });
 
+    React.useEffect(() => {
+        const element = anchorElement === undefined ? anchorRef?.current : anchorElement;
+        if (element !== undefined && element !== refs.reference.current) {
+            refs.setReference(element);
+        }
+    }, [anchorElement, anchorRef, refs]);
+
     const role = useRole(context, {
         enabled: Boolean(roleProp || modalFocus),
         role: roleProp ?? (modalFocus ? 'dialog' : undefined),
@@ -249,11 +246,7 @@ export function Popup({
         escapeKey: !disableEscapeKeyDown,
     });
 
-    const {getReferenceProps, getFloatingProps} = useInteractions([role, dismiss]);
-
-    React.useLayoutEffect(() => {
-        setGetAnchorProps?.(getReferenceProps);
-    }, [setGetAnchorProps, getReferenceProps]);
+    const {getFloatingProps} = useInteractions(floatingInteractions ?? [role, dismiss]);
 
     const {isMounted, status} = useTransitionStatus(context, {duration: TRANSITION_DURATION});
     const previousStatus = usePrevious(status);
@@ -262,7 +255,7 @@ export function Popup({
         if (isMounted && elements.reference && elements.floating) {
             return autoUpdate(elements.reference, elements.floating, update);
         }
-        return;
+        return undefined;
     }, [isMounted, elements, update]);
 
     const initialFocusRef = React.useRef<HTMLDivElement>(null);
@@ -323,7 +316,6 @@ export function Popup({
                     data-floating-ui-status={status}
                     aria-modal={modalFocus && isMounted ? true : undefined}
                     {...getFloatingProps({
-                        ...floatingProps,
                         onTransitionEnd: handleTransitionEnd,
                     })}
                 >
@@ -332,7 +324,6 @@ export function Popup({
                         className={b({open: isMounted}, className)}
                         style={style}
                         data-qa={qa}
-                        id={id}
                         {...filterDOMProps(restProps)}
                     >
                         {hasArrow && (

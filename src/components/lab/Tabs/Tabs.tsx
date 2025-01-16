@@ -2,9 +2,9 @@
 
 import * as React from 'react';
 
-import type {AriaLabelingProps, QAProps} from '../types';
-import {block} from '../utils/cn';
-import {filterDOMProps} from '../utils/filterDOMProps';
+import type {AriaLabelingProps, QAProps} from '../../types';
+import {block} from '../../utils/cn';
+import {filterDOMProps} from '../../utils/filterDOMProps';
 
 import {TabsContext} from './TabsContext';
 import {TabsItem} from './TabsItem';

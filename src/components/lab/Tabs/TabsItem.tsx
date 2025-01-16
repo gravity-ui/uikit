@@ -2,10 +2,10 @@
 
 import * as React from 'react';
 
-import {Label} from '../Label';
-import type {LabelProps} from '../Label';
-import type {QAProps} from '../types';
-import {block} from '../utils/cn';
+import {Label} from '../../Label';
+import type {LabelProps} from '../../Label';
+import type {QAProps} from '../../types';
+import {block} from '../../utils/cn';
 
 import {TabsContext} from './TabsContext';
 

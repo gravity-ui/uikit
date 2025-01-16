@@ -1,7 +1,7 @@
 import {Flame} from '@gravity-ui/icons';
 import userEvent from '@testing-library/user-event';
 
-import {render, screen} from '../../../../test-utils/utils';
+import {render, screen} from '../../../../../test-utils/utils';
 import {TabsItem} from '../TabsItem';
 
 const tabId = 'tab-id';

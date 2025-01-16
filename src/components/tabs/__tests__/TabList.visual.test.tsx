@@ -1,20 +1,19 @@
 import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
-import type {TabsProps} from '../Tabs';
+import type {TabListProps} from '../TabList';
 
-import {directionCases, sizeCases} from './cases';
-import {TestTabs, TestTabsWithCustomTabs} from './helpers';
+import {sizeCases} from './cases';
+import {TestTabList, TestTabListWithCustomTabs} from './helpers';
 
-test.describe('Tabs', {tag: '@Tabs'}, () => {
+test.describe('TabList', {tag: '@TabList'}, () => {
     smokeTest('', async ({mount, expectScreenshot}) => {
-        const smokeScenarios = createSmokeScenarios<TabsProps>(
+        const smokeScenarios = createSmokeScenarios<TabListProps>(
             {
-                activeTab: 'active',
+                value: 'active',
             },
             {
                 size: sizeCases,
-                direction: directionCases,
             },
         );
 
@@ -24,7 +23,7 @@ test.describe('Tabs', {tag: '@Tabs'}, () => {
                     <div key={title}>
                         <h4>{title}</h4>
                         <div>
-                            <TestTabs {...props} />
+                            <TestTabList {...props} />
                         </div>
                     </div>
                 ))}
@@ -36,13 +35,8 @@ test.describe('Tabs', {tag: '@Tabs'}, () => {
         });
     });
 
-    smokeTest('allow not selected', async ({mount, expectScreenshot}) => {
-        const smokeScenarios = createSmokeScenarios<TabsProps>(
-            {
-                allowNotSelected: true,
-            },
-            {},
-        );
+    smokeTest('without value', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<TabListProps>({}, {});
 
         await mount(
             <div>
@@ -50,7 +44,7 @@ test.describe('Tabs', {tag: '@Tabs'}, () => {
                     <div key={title}>
                         <h4>{title}</h4>
                         <div>
-                            <TestTabs {...props} />
+                            <TestTabList {...props} />
                         </div>
                     </div>
                 ))}
@@ -63,13 +57,12 @@ test.describe('Tabs', {tag: '@Tabs'}, () => {
     });
 
     smokeTest('with custom tab', async ({mount, expectScreenshot}) => {
-        const smokeScenarios = createSmokeScenarios<TabsProps>(
+        const smokeScenarios = createSmokeScenarios<TabListProps>(
             {
-                activeTab: 'active',
+                value: 'active',
             },
             {
                 size: sizeCases,
-                direction: directionCases,
             },
         );
 
@@ -79,7 +72,7 @@ test.describe('Tabs', {tag: '@Tabs'}, () => {
                     <div key={title}>
                         <h4>{title}</h4>
                         <div>
-                            <TestTabsWithCustomTabs {...props} />
+                            <TestTabListWithCustomTabs {...props} />
                         </div>
                     </div>
                 ))}

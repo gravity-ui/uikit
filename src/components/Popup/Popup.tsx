@@ -76,8 +76,6 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
     floatingInteractions?: ElementProps[];
     /** React ref floating element is attached to */
     floatingRef?: React.Ref<HTMLDivElement>;
-    /** Manage focus when opened */
-    autoFocus?: boolean;
     /** If true focus is trapped inside the floating element */
     modalFocus?: boolean;
     /** The initial element to be focused */
@@ -149,7 +147,6 @@ export function Popup({
     floatingInteractions,
     floatingRef,
     modalFocus = false,
-    autoFocus = false,
     initialFocus: initialFocusProp,
     returnFocus = true,
     focusOrder,
@@ -291,7 +288,7 @@ export function Popup({
     if (initialFocus === undefined) {
         if (modalFocus) {
             initialFocus = refs.floating;
-        } else if (!autoFocus) {
+        } else {
             initialFocus = -1;
         }
     }

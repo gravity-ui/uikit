@@ -54,8 +54,6 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
                 open={open}
                 onClose={handleClose}
                 disablePortal={disablePortal}
-                autoFocus
-                initialFocus={-1}
                 returnFocus={controlRef}
                 floatingMiddlewares={getMiddlewares({width, disablePortal, virtualized})}
                 id={id}

@@ -116,7 +116,6 @@ export function Popover({
                 floatingContext={context}
                 floatingRef={setFloatingElement}
                 floatingInteractions={interactions}
-                autoFocus
                 modalFocus
                 className={b(null, className)}
             >

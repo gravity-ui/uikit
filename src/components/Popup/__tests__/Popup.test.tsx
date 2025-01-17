@@ -50,26 +50,26 @@ describe('Popup', () => {
     });
 
     test('should set aria-modal to true and role to dialog  if modalFocus is true', async () => {
-        render(<Popup open autoFocus modalFocus />);
+        render(<Popup open modalFocus />);
         const popup = screen.getByRole('dialog');
         expect(popup).toHaveAttribute('aria-modal', 'true');
     });
 
     test('should use role from props if modalFocus is true', async () => {
-        render(<Popup open autoFocus modalFocus role="alertdialog" />);
+        render(<Popup open modalFocus role="alertdialog" />);
         const popup = screen.getByRole('alertdialog');
         expect(popup).toHaveAttribute('aria-modal', 'true');
     });
 
     test('should not set aria-modal from props if modalFocus is true', async () => {
-        render(<Popup open qa={qaId} autoFocus modalFocus={false} />);
+        render(<Popup open qa={qaId} modalFocus={false} />);
         const popup = screen.getByTestId(qaId);
         expect(popup).not.toHaveAttribute('aria-modal');
         expect(popup).not.toHaveAttribute('role');
     });
 
     test('should remove aria-modal if popup is closed', async () => {
-        render(<Popup keepMounted autoFocus modalFocus />);
+        render(<Popup keepMounted modalFocus />);
         const popup = screen.getByRole('dialog');
         expect(popup).not.toHaveAttribute('aria-modal');
     });

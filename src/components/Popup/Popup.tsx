@@ -76,8 +76,8 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
     floatingInteractions?: ElementProps[];
     /** React ref floating element is attached to */
     floatingRef?: React.Ref<HTMLDivElement>;
-    /** If true focus is trapped inside the floating element */
-    modalFocus?: boolean;
+    /** If true `Popup` act like a modal dialog */
+    modal?: boolean;
     /** The initial element to be focused */
     initialFocus?: FloatingFocusManagerProps['initialFocus'];
     /** Element which focus should be returned to */
@@ -146,7 +146,7 @@ export function Popup({
     floatingContext,
     floatingInteractions,
     floatingRef,
-    modalFocus = false,
+    modal = false,
     initialFocus: initialFocusProp,
     returnFocus = true,
     focusOrder,
@@ -237,8 +237,8 @@ export function Popup({
     }, [anchorElement, anchorRef, refs]);
 
     const role = useRole(context, {
-        enabled: Boolean(roleProp || modalFocus),
-        role: roleProp ?? (modalFocus ? 'dialog' : undefined),
+        enabled: Boolean(roleProp || modal),
+        role: roleProp ?? (modal ? 'dialog' : undefined),
     });
     const dismiss = useDismiss(context, {
         enabled: !disableOutsideClick || !disableEscapeKeyDown,
@@ -286,7 +286,7 @@ export function Popup({
 
     let initialFocus = initialFocusProp;
     if (initialFocus === undefined) {
-        if (modalFocus) {
+        if (modal) {
             initialFocus = refs.floating;
         } else {
             initialFocus = -1;
@@ -298,11 +298,11 @@ export function Popup({
             <FloatingFocusManager
                 context={context}
                 disabled={!isMounted}
-                modal={modalFocus}
+                modal={modal}
                 initialFocus={initialFocus}
                 returnFocus={returnFocus}
                 visuallyHiddenDismiss={disableFocusVisuallyHiddenDismiss ? false : i18n('close')}
-                guards={modalFocus || !disablePortal}
+                guards={modal || !disablePortal}
                 order={focusOrder}
             >
                 <div
@@ -319,7 +319,7 @@ export function Popup({
                     }}
                     data-floating-ui-placement={finalPlacement}
                     data-floating-ui-status={status}
-                    aria-modal={modalFocus && isMounted ? true : undefined}
+                    aria-modal={modal && isMounted ? true : undefined}
                     {...getFloatingProps({
                         onTransitionEnd: handleTransitionEnd,
                     })}

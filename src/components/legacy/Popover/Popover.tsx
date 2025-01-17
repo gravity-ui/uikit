@@ -147,7 +147,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
             qa={qa ? `${qa}-tooltip` : ''}
             disablePortal={disablePortal}
             initialFocus={autoFocus ? 0 : undefined}
-            modalFocus={focusTrap}
+            modal={focusTrap}
             returnFocus={restoreFocusRef}
             aria-labelledby={title ? popoverTitleId : undefined}
         >

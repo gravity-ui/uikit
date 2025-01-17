@@ -103,7 +103,7 @@ LANDING_BLOCK-->
 | id                      | `id` HTML attribute                                                                        |                           `string`                            |               |
 | initialFocus            | Initial element to be focused. Positive number is the index of tabbable element.           |               `number` `React.Ref<HTMLElement>`               |               |
 | keepMounted             | `Popup` will not be removed from the DOM upon hiding                                       |                           `boolean`                           |    `false`    |
-| modalFocus              | Enables focus trapping behaviour                                                           |                           `boolean`                           |    `false`    |
+| modal                   | Enables focus trapping behaviour                                                           |                           `boolean`                           |    `false`    |
 | offset                  | `Floating UI` offset value                                                                 |                         `PopupOffset`                         |      `4`      |
 | onOpenChange            | Handles `Popup` open change event                                                          |                          `Function`                           |               |
 | onTransitionIn          | On start open popup animation                                                              |                          `Function`                           |               |

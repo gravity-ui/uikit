@@ -45,7 +45,7 @@ export interface PopoverProps
     enableSafePolygon?: boolean;
 }
 
-const b = block('popover2');
+const b = block('popover');
 const DEFAULT_OPEN_DELAY = 500;
 const DEFAULT_CLOSE_DELAY = 250;
 
@@ -116,7 +116,7 @@ export function Popover({
                 floatingContext={context}
                 floatingRef={setFloatingElement}
                 floatingInteractions={interactions}
-                modalFocus
+                modal
                 className={b(null, className)}
             >
                 {content}

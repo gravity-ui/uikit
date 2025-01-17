@@ -76,14 +76,14 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
     floatingInteractions?: ElementProps[];
     /** React ref floating element is attached to */
     floatingRef?: React.Ref<HTMLDivElement>;
-    /** Manage focus when opened */
-    autoFocus?: boolean;
     /** If true focus is trapped inside the floating element */
     modalFocus?: boolean;
     /** The initial element to be focused */
     initialFocus?: FloatingFocusManagerProps['initialFocus'];
     /** Element which focus should be returned to */
     returnFocus?: FloatingFocusManagerProps['returnFocus'];
+    /** The order in which focus circle */
+    focusOrder?: FloatingFocusManagerProps['order'];
     /** Do not add a11y dismiss buttons when managing focus */
     disableFocusVisuallyHiddenDismiss?: boolean;
     /**
@@ -147,9 +147,9 @@ export function Popup({
     floatingInteractions,
     floatingRef,
     modalFocus = false,
-    autoFocus = false,
-    initialFocus,
+    initialFocus: initialFocusProp,
     returnFocus = true,
+    focusOrder,
     disableFocusVisuallyHiddenDismiss = false,
     onClose,
     onEscapeKeyDown,
@@ -258,12 +258,7 @@ export function Popup({
         return undefined;
     }, [isMounted, elements, update]);
 
-    const initialFocusRef = React.useRef<HTMLDivElement>(null);
-    const handleFloatingRef = useForkRef<HTMLDivElement>(
-        refs.setFloating,
-        floatingRef,
-        initialFocusRef,
-    );
+    const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
 
     const handleTransitionEnd = React.useCallback(
         (event: React.TransitionEvent) => {
@@ -289,16 +284,26 @@ export function Popup({
         }
     }, [status, previousStatus, onTransitionIn, onTransitionOut, onTransitionOutComplete]);
 
+    let initialFocus = initialFocusProp;
+    if (initialFocus === undefined) {
+        if (modalFocus) {
+            initialFocus = refs.floating;
+        } else {
+            initialFocus = -1;
+        }
+    }
+
     return isMounted || keepMounted ? (
         <Portal disablePortal={disablePortal}>
             <FloatingFocusManager
                 context={context}
-                disabled={!autoFocus || !isMounted}
-                modal={modalFocus && isMounted}
-                initialFocus={initialFocus ?? initialFocusRef}
+                disabled={!isMounted}
+                modal={modalFocus}
+                initialFocus={initialFocus}
                 returnFocus={returnFocus}
                 visuallyHiddenDismiss={disableFocusVisuallyHiddenDismiss ? false : i18n('close')}
                 guards={modalFocus || !disablePortal}
+                order={focusOrder}
             >
                 <div
                     ref={handleFloatingRef}

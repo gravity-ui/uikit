@@ -59,7 +59,7 @@ function roundIfNecessary(value: number, allowDecimal: boolean) {
 interface VariablesProps {
     min: number | undefined;
     max: number | undefined;
-    step: number;
+    step: number | undefined;
     shiftMultiplier: number;
     value: number | null | undefined;
     defaultValue: number | null | undefined;
@@ -76,7 +76,7 @@ export function getInternalState(props: VariablesProps): {
     const {
         min: externalMin,
         max: externalMax,
-        step: externalStep,
+        step: externalStep = 1,
         shiftMultiplier: externalShiftMultiplier,
         value: externalValue,
         allowDecimal,
@@ -91,8 +91,10 @@ export function getInternalState(props: VariablesProps): {
               }
             : {min: externalMin, max: externalMax};
 
-    const min = rangedMin && rangedMin >= Number.MIN_SAFE_INTEGER ? rangedMin : undefined;
-    const max = rangedMax && rangedMax <= Number.MAX_SAFE_INTEGER ? rangedMax : undefined;
+    const min =
+        rangedMin !== undefined && rangedMin >= Number.MIN_SAFE_INTEGER ? rangedMin : undefined;
+    const max =
+        rangedMax !== undefined && rangedMax <= Number.MAX_SAFE_INTEGER ? rangedMax : undefined;
 
     const step = roundIfNecessary(Math.abs(externalStep), allowDecimal) || 1;
     const shiftMultiplier = roundIfNecessary(externalShiftMultiplier, allowDecimal) || 10;

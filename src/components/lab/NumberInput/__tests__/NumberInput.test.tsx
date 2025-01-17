@@ -223,6 +223,18 @@ describe('NumberInput input', () => {
 
             expect(handleUpdate).toHaveBeenLastCalledWith(6);
         });
+        it('does not clamp decimal without defined step on blur', async () => {
+            const handleUpdate = jest.fn();
+            render(<NumberInput value={7.123} allowDecimal onUpdate={handleUpdate} />);
+            const input = getInput();
+
+            act(() => {
+                input.focus();
+                input.blur();
+            });
+
+            expect(getInput()).toHaveValue('7.123');
+        });
         it('swaps min/max if max < min', async () => {
             const handleUpdate = jest.fn();
             render(<NumberInput min={1000} max={-1} value={100000000} onUpdate={handleUpdate} />);

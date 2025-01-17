@@ -89,7 +89,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
         min: externalMin,
         max: externalMax,
         shiftMultiplier: externalShiftMultiplier = 10,
-        step: externalStep = 1,
+        step: externalStep,
         size = 'm',
         view = 'normal',
         disabled,
@@ -136,7 +136,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
         });
     }, [value]);
 
-    const clamp = true;
+    const clamp = !(allowDecimal && !externalStep);
 
     const safeValue = value ?? 0;
 

@@ -1,8 +1,16 @@
+import type * as React from 'react';
+
 import type {QAProps} from '../types';
 
 export type ActionName = 'previous' | 'next' | 'first';
 
 export type PaginationSize = 's' | 'm' | 'l' | 'xl';
+
+export type ButtonWrapperParam = {
+    page: number;
+    pageSize: number;
+    button: React.ReactElement;
+};
 
 export type PaginationProps = {
     /**
@@ -18,9 +26,13 @@ export type PaginationProps = {
      */
     size?: PaginationSize;
     /**
-     * Called when the page number or pageSize is changed.
+     * Custom wrapper for paginations's button components
      */
-    onUpdate: (page: number, pageSize: number) => void;
+    buttonWrapper?: ({page, pageSize, button}: ButtonWrapperParam) => React.ReactElement;
+    /**
+     * Called when the page number or pageSize is changed (only if pageHrefBuilder not set)
+     */
+    onUpdate?: (page: number, pageSize: number) => void;
     /**
      * Total number of data items.
      */

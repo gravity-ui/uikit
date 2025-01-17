@@ -17,33 +17,20 @@ function NoteElement({note}: NoteElementsProps) {
     if (!note) {
         return null;
     }
-    const popoverClassName = b('item-note-tooltip');
     if (typeof note === 'string') {
         return (
-            <HelpMark
-                className={popoverClassName}
-                placement={['bottom', 'top']}
-                buttonProps={{
-                    'aria-label': i18n('label_note'),
-                }}
-            >
+            <HelpMark popoverProps={{placement: ['bottom', 'top']}} aria-label={i18n('label_note')}>
                 {note}
             </HelpMark>
         );
     }
 
     if (typeof note === 'object') {
-        const {buttonProps, ...rest} = note;
-
         return (
             <HelpMark
-                className={popoverClassName}
-                placement={['bottom', 'top']}
-                buttonProps={{
-                    'aria-label': i18n('label_note'),
-                    ...buttonProps,
-                }}
-                {...rest}
+                {...note}
+                popoverProps={{placement: ['bottom', 'top'], ...note.popoverProps}}
+                aria-label={i18n('label_note')}
             />
         );
     }

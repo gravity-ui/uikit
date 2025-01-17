@@ -84,39 +84,39 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name                    | Description                                                                                               |                             Type                              |  Default   |
-| :---------------------- | :-------------------------------------------------------------------------------------------------------- | :-----------------------------------------------------------: | :--------: |
-| anchorElement           | Anchor element. Can also be a `VirtualElement`                                                            |                     `PopupAnchorElement`                      |            |
-| aria-describedby        | `aria-describedby` attribute. Use it if you have both label and description nodes                         |                           `string`                            |            |
-| aria-label              | `aria-label` attribute. Use it only if you do not have any visible caption                                |                           `string`                            |            |
-| aria-labelledby         | `aria-labelledby` attribute. Preferable if you have visible caption                                       |                           `string`                            |            |
-| autoFocus               | While open, the focus will be set to the floating element                                                 |                           `boolean`                           |  `false`   |
-| children                | Any React content                                                                                         |                       `React.ReactNode`                       |            |
-| className               | `class` HTML attribute for the root node                                                                  |                           `string`                            |            |
-| disableEscapeKeyDown    | Disables triggering close on `Esc`                                                                        |                           `boolean`                           |  `false`   |
-| disableOutsideClick     | Disables triggering close on outside clicks                                                               |                           `boolean`                           |  `false`   |
-| disablePortal           | Disables using `Portal` for children                                                                      |                           `boolean`                           |  `false`   |
-| floatingContext         | `Floating UI` context to provide interactions                                                             |                     `FloatingRootContext`                     |            |
-| floatingInteractions    | Override `Floating UI` interactions                                                                       |                     `Array<ElementProps>`                     |            |
-| floatingMiddlewares     | `Floating UI` middlewares. If set, they will completely overwrite the default middlewares.                |                      `Array<Middleware>`                      |            |
-| hasArrow                | Renders arrow pointing to the anchor                                                                      |                           `boolean`                           |  `false`   |
-| id                      | `id` HTML attribute                                                                                       |                           `string`                            |            |
-| initialFocus            | Initial element to be focused when `autoFocus` is true. Positive number is the index of tabbable element. |               `number` `React.Ref<HTMLElement>`               |            |
-| keepMounted             | `Popup` will not be removed from the DOM upon hiding                                                      |                           `boolean`                           |  `false`   |
-| modalFocus              | Enables focus trapping behaviour                                                                          |                           `boolean`                           |  `false`   |
-| offset                  | `Floating UI` offset value                                                                                |                         `PopupOffset`                         |    `4`     |
-| onOpenChange            | Handles `Popup` open change event                                                                         |                          `Function`                           |            |
-| onTransitionIn          | On start open popup animation                                                                             |                          `Function`                           |            |
-| onTransitionInComplete  | On finish open popup animation                                                                            |                          `Function`                           |            |
-| onTransitionOut         | On start close popup animation                                                                            |                          `Function`                           |            |
-| onTransitionOutComplete | On finish close popup animation                                                                           |                          `Function`                           |            |
-| open                    | Manages `Popup` visibility                                                                                |                           `boolean`                           |  `false`   |
-| placement               | `Floating UI` placement                                                                                   | `Placement` `Array<Placement>` `auto` `auto-start` `auto-end` |            |
-| qa                      | Test attribute (`data-qa`)                                                                                |                           `string`                            |            |
-| returnFocus             | Element to be focused on closing                                                                          |              `boolean` `React.Ref<HTMLElement>`               |   `true`   |
-| role                    | Accessibility role for popup                                                                              |                           `string`                            |            |
-| strategy                | `Floating UI` positioning strategy                                                                        |                      `absolute` `fixed`                       | `absolute` |
-| style                   | `style` HTML attribute for root node                                                                      |                           `string`                            |            |
+| Name                    | Description                                                                                |                             Type                              |    Default    |
+| :---------------------- | :----------------------------------------------------------------------------------------- | :-----------------------------------------------------------: | :-----------: |
+| anchorElement           | Anchor element. Can also be a `VirtualElement`                                             |                     `PopupAnchorElement`                      |               |
+| aria-describedby        | `aria-describedby` attribute. Use it if you have both label and description nodes          |                           `string`                            |               |
+| aria-label              | `aria-label` attribute. Use it only if you do not have any visible caption                 |                           `string`                            |               |
+| aria-labelledby         | `aria-labelledby` attribute. Preferable if you have visible caption                        |                           `string`                            |               |
+| children                | Any React content                                                                          |                       `React.ReactNode`                       |               |
+| className               | `class` HTML attribute for the root node                                                   |                           `string`                            |               |
+| disableEscapeKeyDown    | Disables triggering close on `Esc`                                                         |                           `boolean`                           |    `false`    |
+| disableOutsideClick     | Disables triggering close on outside clicks                                                |                           `boolean`                           |    `false`    |
+| disablePortal           | Disables using `Portal` for children                                                       |                           `boolean`                           |    `false`    |
+| floatingContext         | `Floating UI` context to provide interactions                                              |                     `FloatingRootContext`                     |               |
+| floatingInteractions    | Override `Floating UI` interactions                                                        |                     `Array<ElementProps>`                     |               |
+| floatingMiddlewares     | `Floating UI` middlewares. If set, they will completely overwrite the default middlewares. |                      `Array<Middleware>`                      |               |
+| focusOrder              | The order in which focus circle                                                            |        `Array<'reference' \| 'floating' \| 'content'>`        | `['content']` |
+| hasArrow                | Renders arrow pointing to the anchor                                                       |                           `boolean`                           |    `false`    |
+| id                      | `id` HTML attribute                                                                        |                           `string`                            |               |
+| initialFocus            | Initial element to be focused. Positive number is the index of tabbable element.           |               `number` `React.Ref<HTMLElement>`               |               |
+| keepMounted             | `Popup` will not be removed from the DOM upon hiding                                       |                           `boolean`                           |    `false`    |
+| modalFocus              | Enables focus trapping behaviour                                                           |                           `boolean`                           |    `false`    |
+| offset                  | `Floating UI` offset value                                                                 |                         `PopupOffset`                         |      `4`      |
+| onOpenChange            | Handles `Popup` open change event                                                          |                          `Function`                           |               |
+| onTransitionIn          | On start open popup animation                                                              |                          `Function`                           |               |
+| onTransitionInComplete  | On finish open popup animation                                                             |                          `Function`                           |               |
+| onTransitionOut         | On start close popup animation                                                             |                          `Function`                           |               |
+| onTransitionOutComplete | On finish close popup animation                                                            |                          `Function`                           |               |
+| open                    | Manages `Popup` visibility                                                                 |                           `boolean`                           |    `false`    |
+| placement               | `Floating UI` placement                                                                    | `Placement` `Array<Placement>` `auto` `auto-start` `auto-end` |               |
+| qa                      | Test attribute (`data-qa`)                                                                 |                           `string`                            |               |
+| returnFocus             | Element to be focused on closing                                                           |              `boolean` `React.Ref<HTMLElement>`               |    `true`     |
+| role                    | Accessibility role for popup                                                               |                           `string`                            |               |
+| strategy                | `Floating UI` positioning strategy                                                         |                      `absolute` `fixed`                       |  `absolute`   |
+| style                   | `style` HTML attribute for root node                                                       |                           `string`                            |               |
 
 ## CSS API
 

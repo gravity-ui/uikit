@@ -38,7 +38,7 @@ const pagination = <Pagination page={1} pageSize={100} total={1000} onUpdate={ha
 
 > Например, можно обернуть кнопки в тег `<a/>` и взаимодействовать с ними, как с ссылками. Это позволит открывать страницы (например, из контекстного меню) в новой владке, в новом окне и т.д.
 
-#### Links example
+#### Пример использования ссылок
 
 ```jsx
 import {Pagination, PaginationProps} from '@gravity-ui/uikit';
@@ -78,7 +78,7 @@ const pagination = <Pagination
     >;
 ```
 
-#### Links for react-router SPA way
+#### Пример использования ссылок из react-router в парадигме SPA
 
 ```jsx
 import {Pagination, PaginationProps} from '@gravity-ui/uikit';

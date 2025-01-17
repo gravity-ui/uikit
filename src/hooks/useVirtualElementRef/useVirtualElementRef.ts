@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import type {VirtualElement} from '@popperjs/core';
+import type {VirtualElement} from '@floating-ui/react';
 
 export type VirtualElementRect = {
     top?: number;
@@ -61,4 +61,38 @@ export function useVirtualElementRef(
     }
 
     return ref;
+}
+
+export function useVirtualElement(rect: VirtualElementRect) {
+    const rectRef = React.useRef(rect);
+    const [anchor, setAnchor] = React.useState<VirtualElement>({
+        getBoundingClientRect() {
+            const {top = 0, left = 0, right = left, bottom = top} = rectRef.current;
+            return {top, left, bottom, right, width: right - left, height: bottom - top} as DOMRect;
+        },
+        contextElement: undefined,
+    });
+    const setContextElement = React.useCallback((node: HTMLDivElement | null) => {
+        setAnchor({
+            getBoundingClientRect() {
+                const {top = 0, left = 0, right = left, bottom = top} = rectRef.current;
+                return {
+                    top,
+                    left,
+                    bottom,
+                    right,
+                    width: right - left,
+                    height: bottom - top,
+                } as DOMRect;
+            },
+            contextElement: node ?? undefined,
+        });
+    }, []);
+
+    const {top, left, bottom, right} = rect;
+    React.useEffect(() => {
+        rectRef.current = {top, left, bottom, right};
+    }, [top, left, bottom, right]);
+
+    return {anchor, setContextElement};
 }

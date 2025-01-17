@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import type * as React from 'react';
 
 import {useActionHandlers} from '../../../hooks';
 import {block} from '../../utils/cn';
@@ -13,26 +13,14 @@ const b = block('toc-item');
 export interface TocItemProps extends TocItemType {
     childItem?: boolean;
     active?: boolean;
-    onClick?: (value: string) => void;
-    onItemClick?: (event: React.MouseEvent) => void;
+    onClick?: (event: React.MouseEvent) => void;
+    depth: number;
 }
 
 export const TocItem = (props: TocItemProps) => {
-    const {active = false, childItem = false, content, href, value, onClick, onItemClick} = props;
+    const {active = false, childItem = false, content, href, onClick, depth} = props;
 
-    const handleClick = React.useCallback(
-        (event: React.MouseEvent) => {
-            onItemClick?.(event);
-            if (value === undefined || !onClick) {
-                return;
-            }
-
-            onClick(value);
-        },
-        [onClick, onItemClick, value],
-    );
-
-    const {onKeyDown} = useActionHandlers(handleClick);
+    const {onKeyDown} = useActionHandlers(onClick);
 
     const item =
         href === undefined ? (
@@ -40,16 +28,16 @@ export const TocItem = (props: TocItemProps) => {
                 role="button"
                 tabIndex={0}
                 className={b('section-link')}
-                onClick={handleClick}
+                onClick={onClick}
                 onKeyDown={onKeyDown}
             >
                 {content}
             </div>
         ) : (
-            <a href={href} onClick={handleClick} className={b('section-link')}>
+            <a href={href} onClick={onClick} className={b('section-link')}>
                 {content}
             </a>
         );
 
-    return <div className={b('section', {child: childItem, active})}>{item}</div>;
+    return <div className={b('section', {child: childItem, depth, active})}>{item}</div>;
 };

@@ -25,7 +25,7 @@ export function ShowcaseGrid<ComponentType extends React.ElementType>({
     }, [propsCombinations, staticProps]);
 
     if (rowKey) {
-        const names = propsCombinations[rowKey].map(({name}) => name);
+        const names = propsCombinations[rowKey]!.map(({name}) => name);
 
         const rows = combinations.reduce(
             (result, combination) => {

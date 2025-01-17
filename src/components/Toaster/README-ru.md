@@ -9,7 +9,6 @@
 ## Использование `Toaster` с контекстом
 
 ```jsx
-import React from 'react';
 import ReactDOMClient from 'react-dom/client';
 import {ToasterComponent, ToasterProvider} from '@gravity-ui/uikit';
 

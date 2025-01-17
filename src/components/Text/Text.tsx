@@ -45,7 +45,7 @@ type TextPropsWithTypedAttrs<T extends React.ElementType> = TextProps<T> &
  * import {text} from '@gravity-ui/uikit';
  *
  * // textStyles = 'text text_variant_display-1 some-class-name'
- * const textStyles = text({variant: 'display-1'}, 'some-class-name'));
+ * const textStyles = text({variant: 'display-1'}, 'some-class-name');
  *
  * <span className={textStyles}>some text</span>
  * ```
@@ -65,7 +65,7 @@ export const Text = React.forwardRef(function Text<C extends React.ElementType =
         qa,
         ...rest
     }: TextPropsWithTypedAttrs<C>,
-    ref?: TextRef<C>,
+    ref: React.ForwardedRef<C>,
 ) {
     const Tag: React.ElementType = as || 'span';
 

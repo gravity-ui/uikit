@@ -112,6 +112,8 @@ export function PaletteGenerator({theme}: BrandingConfiguratorProps) {
 
     const colorNameId = useUniqId();
     const mainColorValueId = useUniqId();
+    const lowContrastColorValueId = useUniqId();
+    const highContrastColorValueId = useUniqId();
 
     return (
         <div className={b()}>
@@ -132,7 +134,11 @@ export function PaletteGenerator({theme}: BrandingConfiguratorProps) {
                 </div>
                 <div className={b('parameters-control')}>
                     <div className={b('color-picker-wrapper')}>
-                        <label className={b('color-picker')} style={{backgroundColor: color}}>
+                        <label
+                            className={b('color-picker')}
+                            style={{backgroundColor: color}}
+                            aria-labelledby={mainColorValueId}
+                        >
                             <input
                                 type="color"
                                 className={b('color-picker-input')}
@@ -150,9 +156,15 @@ export function PaletteGenerator({theme}: BrandingConfiguratorProps) {
                         />
                     </div>
                 </div>
-                <div className={b('parameters-name')}>Low Contrast Base</div>
+                <div className={b('parameters-name')} id={lowContrastColorValueId}>
+                    Low Contrast Base
+                </div>
                 <div className={b('parameters-control')}>
-                    <label className={b('color-picker')} style={{backgroundColor: lowContrastBase}}>
+                    <label
+                        className={b('color-picker')}
+                        style={{backgroundColor: lowContrastBase}}
+                        aria-labelledby={lowContrastColorValueId}
+                    >
                         <input
                             type="color"
                             className={b('color-picker-input')}
@@ -167,18 +179,19 @@ export function PaletteGenerator({theme}: BrandingConfiguratorProps) {
                         view="outlined"
                         size="l"
                         onClick={handleSwapContrastClick}
-                        extraProps={{
-                            'aria-label': 'Switch colors',
-                        }}
+                        aria-label="Switch colors"
                     >
                         <Icon data={ArrowUpArrowDown} size={18} />
                     </Button>
                 </div>
-                <div className={b('parameters-name')}>High Contrast Base</div>
+                <div className={b('parameters-name')} id={highContrastColorValueId}>
+                    High Contrast Base
+                </div>
                 <div className={b('parameters-control')}>
                     <label
                         className={b('color-picker')}
                         style={{backgroundColor: highContrastBase}}
+                        aria-labelledby={highContrastColorValueId}
                     >
                         <input
                             type="color"

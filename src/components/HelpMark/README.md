@@ -18,12 +18,7 @@ Component with rendered raw html and close on mouse leave:
 
 <ExampleBlock
     code={`
-<HelpMark
-    placement={['right', 'bottom']}
-    buttonProps={{
-        onClick: () => console.log('just action happened'),
-    }}
->
+<HelpMark onClick={() => console.log('just action happened')}>
     <b>Lorem ipsum</b> dolor sit{' '}
     <a href="https://example.com" target="_blank" rel="noreferrer">
         amet
@@ -32,12 +27,7 @@ Component with rendered raw html and close on mouse leave:
 </HelpMark>
 `}
 >
-<UIKit.HelpMark
-    placement={['right', 'bottom']}
-    buttonProps={{
-        onClick: () => console.log('just action happened'),
-    }}
->
+<UIKit.HelpMark onClick={() => console.log('just action happened')}>
     <b>Lorem ipsum</b> dolor sit{' '}
     <a href="https://example.com" target="_blank" rel="noreferrer">
         amet
@@ -51,12 +41,7 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<HelpMark
-  placement={['right', 'bottom']}
-  buttonProps={{
-    onClick: () => console.log('just action happened'),
-  }}
->
+<HelpMark onClick={() => console.log('just action happened')}>
   <b>Lorem ipsum</b> dolor sit{' '}
   <a href="https://example.com" target="_blank" rel="noreferrer">
     amet
@@ -69,10 +54,8 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name        | Description                                     |                      Type                       |       Default       |
-| :---------- | :---------------------------------------------- | :---------------------------------------------: | :-----------------: |
-| className   | Control class name                              |                    `String`                     |                     |
-| placement   | Allowed popover positions                       |                     `Array`                     | [`right`, `bottom`] |
-| children    | Popover content                                 |                   `ReactNode`                   |                     |
-| buttonProps | Set attributes to the underlying button element | `React.ButtonHTMLAttributes<HTMLButtonElement>` |                     |
-| buttonRef   | Ref to the underlying button element            |      `React.RefObject<HTMLButtonElement>`       |                     |
+`HelpMark` accepts any valid `button` element props in addition to these:
+
+| Name         | Description              |      Type      | Default |
+| :----------- | :----------------------- | :------------: | :-----: |
+| popoverProps | Override `Popover` props | `PopoverProps` |         |

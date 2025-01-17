@@ -20,5 +20,6 @@ export const mountFixture: PlaywrightFixture<MountFixture> = async ({mount: base
         );
     };
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     await use(mount);
 };

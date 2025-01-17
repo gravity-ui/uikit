@@ -93,14 +93,10 @@ export const generateOptionsGroups = (
 };
 
 export const renderControl = (args: SelectRenderControlProps) => {
-    const {onClear, onClick, onKeyDown, ref} = args;
+    const {onClear, triggerProps, ref} = args;
     return (
         <div>
-            <button
-                ref={ref as React.RefObject<HTMLButtonElement>}
-                onClick={onClick}
-                onKeyDown={onKeyDown}
-            ></button>
+            <button {...triggerProps} ref={ref as React.RefObject<HTMLButtonElement>}></button>
             <button onClick={onClear}>Clear</button>
         </div>
     );

@@ -3,23 +3,21 @@ import * as React from 'react';
 import {SyntheticFocusEvent} from './SyntheticFocusEvent';
 import {useSyntheticBlurEvent} from './useSyntheticBlurEvent';
 
-export interface FocusWithinProps {
+export interface UseFocusWithinProps<T extends Element = Element> {
     /** Whether the focus within events should be disabled. */
     isDisabled?: boolean;
     /** Handler that is called when the target element or a descendant receives focus. */
-    onFocusWithin?: (e: React.FocusEvent) => void;
+    onFocusWithin?: (e: React.FocusEvent<T>) => void;
     /** Handler that is called when the target element and all descendants lose focus. */
-    onBlurWithin?: (e: React.FocusEvent) => void;
-    /** Handler that is called when the the focus within state changes. */
+    onBlurWithin?: (e: React.FocusEvent<T>) => void;
+    /** Handler that is called when the focus within state changes. */
     onFocusWithinChange?: (isFocusWithin: boolean) => void;
 }
 
-export interface UseFocusWithinProps extends FocusWithinProps {}
-
-export interface UseFocusWithinResult {
+export interface UseFocusWithinResult<T extends Element = Element> {
     focusWithinProps: {
-        onFocus?: (event: React.FocusEvent<Element, Element>) => void;
-        onBlur?: (event: React.FocusEvent<Element, Element>) => void;
+        onFocus?: (event: React.FocusEvent<T>) => void;
+        onBlur?: (event: React.FocusEvent<T>) => void;
     };
 }
 
@@ -59,22 +57,23 @@ export interface UseFocusWithinResult {
  *
  *   return (
  *     <span {...focusWithinProps}>
- *       <Button onClick={() => {setOpen(true);}}>Select</Button>
+ *       <Button onClick={() => {setOpen(true)}}>Select</Button>
  *       <Popup open={open}>
  *          ...
  *       </Popup>
  *     </span>
  *   );
  *  }
- * }
  */
-export function useFocusWithin(props: UseFocusWithinProps) {
+export function useFocusWithin<T extends Element = Element>(
+    props: UseFocusWithinProps<T>,
+): UseFocusWithinResult<T> {
     const {onFocusWithin, onBlurWithin, onFocusWithinChange, isDisabled} = props;
 
     const isFocusWithinRef = React.useRef(false);
 
     const onFocus = React.useCallback(
-        (event: React.FocusEvent) => {
+        (event: React.FocusEvent<T>) => {
             if (!isFocusWithinRef.current && document.activeElement === event.target) {
                 isFocusWithinRef.current = true;
 
@@ -91,7 +90,7 @@ export function useFocusWithin(props: UseFocusWithinProps) {
     );
 
     const onBlur = React.useCallback(
-        (event: React.FocusEvent) => {
+        (event: React.FocusEvent<T>) => {
             if (!isFocusWithinRef.current) {
                 return;
             }
@@ -109,7 +108,7 @@ export function useFocusWithin(props: UseFocusWithinProps) {
         [onBlurWithin, onFocusWithinChange],
     );
 
-    const {onBlur: onBlurHandler, onFocus: onFocusHandler} = useFocusEvents({
+    const {onBlur: onBlurHandler, onFocus: onFocusHandler} = useFocusEvents<T>({
         onFocus,
         onBlur,
         isDisabled,
@@ -132,13 +131,13 @@ export function useFocusWithin(props: UseFocusWithinProps) {
     };
 }
 
-function useFocusEvents({
+function useFocusEvents<T extends Element = Element>({
     onFocus,
     onBlur,
     isDisabled,
 }: {
-    onFocus: (event: React.FocusEvent) => void;
-    onBlur: (event: React.FocusEvent) => void;
+    onFocus: (event: React.FocusEvent<T>) => void;
+    onBlur: (event: React.FocusEvent<T>) => void;
     isDisabled?: boolean;
 }) {
     const capturedRef = React.useRef(false);
@@ -173,7 +172,7 @@ function useFocusEvents({
 
         window.addEventListener('focus', handleFocus, {capture: true});
         // use focusin because a focus event does not bubble and current browser
-        // implementations fire focusin events after fucus event
+        // implementations fire focusin events after focus event
         window.addEventListener('focusin', handleFocusIn);
 
         return () => {
@@ -183,7 +182,7 @@ function useFocusEvents({
     }, [isDisabled, onBlur]);
 
     const onBlurHandler = React.useCallback(
-        (event: React.FocusEvent) => {
+        (event: React.FocusEvent<T>) => {
             if (
                 document.activeElement !== event.target &&
                 (event.relatedTarget === null ||
@@ -200,7 +199,7 @@ function useFocusEvents({
     const onSyntheticFocus = useSyntheticBlurEvent(onBlur);
 
     const onFocusHandler = React.useCallback(
-        (event: React.FocusEvent) => {
+        (event: React.FocusEvent<T>) => {
             capturedRef.current = true;
             targetRef.current = event.target;
             onSyntheticFocus(event);

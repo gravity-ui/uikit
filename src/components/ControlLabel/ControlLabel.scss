@@ -33,18 +33,11 @@ $block: '.#{variables.$ns}control-label';
 
     &__text {
         flex-grow: 1;
+        margin-inline-start: var(--g-spacing-2);
         white-space: normal;
 
         #{$block}_disabled & {
             opacity: 0.6;
-        }
-
-        #{$block}_size_m & {
-            margin-inline-start: 5px;
-        }
-
-        #{$block}_size_l & {
-            margin-inline-start: 7px;
         }
     }
 }

@@ -1,22 +1,62 @@
-import type {StoryFn} from '@storybook/react';
+import {FloppyDisk} from '@gravity-ui/icons';
+import type {Meta, StoryObj} from '@storybook/react';
 
 import {Button} from '../../Button';
+import {Icon} from '../../Icon';
 import {ActionTooltip} from '../ActionTooltip';
-import type {ActionTooltipProps} from '../ActionTooltip';
 
-export default {
+const meta: Meta<typeof ActionTooltip> = {
     title: 'Components/Overlays/ActionTooltip',
     component: ActionTooltip,
+    parameters: {
+        layout: 'centered',
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'button-name',
+                        // We set aria-attributes dynamically
+                        enabled: false,
+                    },
+                ],
+            },
+        },
+    },
 };
 
-const DefaultTemplate: StoryFn<ActionTooltipProps> = (args) => <ActionTooltip {...args} />;
+export default meta;
 
-export const Default = DefaultTemplate.bind({});
+type Story = StoryObj<typeof ActionTooltip>;
 
-Default.args = {
-    title: 'Tooltip text',
-    hotkey: 'mod+s',
-    description:
-        'Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.',
-    children: <Button>Hover to see tooltip</Button>,
+export const Default: Story = {
+    render: (args) => {
+        return (
+            <ActionTooltip {...args}>
+                <Button>
+                    <Icon data={FloppyDisk} size={16} />
+                </Button>
+            </ActionTooltip>
+        );
+    },
+    args: {
+        title: 'Save',
+    },
+};
+
+export const Hotkey: Story = {
+    ...Default,
+    args: {
+        ...Default.args,
+        hotkey: 'mod+s',
+    },
+};
+
+export const Description: Story = {
+    ...Default,
+    args: {
+        ...Default.args,
+        description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+    },
 };

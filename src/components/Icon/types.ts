@@ -6,6 +6,7 @@ export interface SVGIconSpriteData {
     viewBox: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class SVGReactComponent extends React.Component<React.SVGProps<SVGSVGElement>> {
     static defaultProps: React.SVGProps<SVGSVGElement>;
 }

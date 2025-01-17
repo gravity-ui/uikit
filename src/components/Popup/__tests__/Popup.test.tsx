@@ -23,14 +23,6 @@ describe('Popup', () => {
         expect(popup).toHaveClass(arbitratyClassName);
     });
 
-    test('should pass arbitraty className to content', () => {
-        const arbitratyClassName = 'arbitratyClassName';
-        render(<Popup open qa={qaId} contentClassName={arbitratyClassName}></Popup>);
-        const popup = screen.getByTestId(qaId);
-        /* eslint-disable-next-line testing-library/no-node-access */
-        expect(popup.firstChild).toHaveClass(arbitratyClassName);
-    });
-
     test('should open on click', async () => {
         const btnText = 'Click me';
         function Test() {
@@ -57,27 +49,27 @@ describe('Popup', () => {
         expect(popup).not.toHaveAttribute('role');
     });
 
-    test('should set aria-modal to true and role to dialog  if focusTrap is true', async () => {
-        render(<Popup open focusTrap />);
+    test('should set aria-modal to true and role to dialog  if modal is true', async () => {
+        render(<Popup open modal />);
         const popup = screen.getByRole('dialog');
         expect(popup).toHaveAttribute('aria-modal', 'true');
     });
 
-    test('should use role from props if focusTrap is true', async () => {
-        render(<Popup open focusTrap role="alertdialog" />);
+    test('should use role from props if modal is true', async () => {
+        render(<Popup open modal role="alertdialog" />);
         const popup = screen.getByRole('alertdialog');
         expect(popup).toHaveAttribute('aria-modal', 'true');
     });
 
-    test('should use aria-modal from props if focusTrap is true', async () => {
-        render(<Popup open qa={qaId} focusTrap aria-modal={false} />);
+    test('should not set aria-modal from props if modal is true', async () => {
+        render(<Popup open qa={qaId} modal={false} />);
         const popup = screen.getByTestId(qaId);
         expect(popup).not.toHaveAttribute('aria-modal');
         expect(popup).not.toHaveAttribute('role');
     });
 
     test('should remove aria-modal if popup is closed', async () => {
-        render(<Popup aria-modal keepMounted />);
+        render(<Popup keepMounted modal />);
         const popup = screen.getByRole('dialog');
         expect(popup).not.toHaveAttribute('aria-modal');
     });

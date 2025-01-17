@@ -1,0 +1,42 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}number-input';
+
+#{$block} {
+    &_size {
+        &_s {
+            --_--textinput-end-padding: 1px;
+        }
+
+        &_m {
+            --_--textinput-end-padding: 1px;
+        }
+
+        &_l {
+            --_--textinput-end-padding: 3px;
+        }
+
+        &_xl {
+            --_--textinput-end-padding: 3px;
+        }
+    }
+
+    &_view_normal {
+        --_--arrows-border-color: var(--g-color-line-generic);
+
+        &#{$block}_state_error {
+            --_--arrows-border-color: var(--g-color-line-danger);
+        }
+    }
+
+    &_view_clear {
+        --_--arrows-border-color: transparent;
+    }
+
+    &__arrows {
+        border-style: none;
+        border-inline-start-style: solid;
+
+        margin-inline: var(--_--textinput-end-padding) calc(0px - var(--_--textinput-end-padding));
+    }
+}

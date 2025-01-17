@@ -44,9 +44,7 @@ export const ActionsPanel = ({
                     size="m"
                     onClick={onClose}
                     className={b('button-close')}
-                    extraProps={{
-                        'aria-label': i18n('label_close'),
-                    }}
+                    aria-label={i18n('label_close')}
                 >
                     <Icon key="icon" data={Xmark} />
                 </Button>

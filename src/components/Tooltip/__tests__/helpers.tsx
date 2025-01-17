@@ -5,11 +5,7 @@ import {TooltipQA} from './constants';
 
 export const TestTooltip = (props: Omit<TooltipProps, 'content' | 'disablePortal'>) => {
     return (
-        <Tooltip
-            {...props}
-            disablePortal
-            content={<div data-qa={TooltipQA.tooltipContent}>tooltip content</div>}
-        >
+        <Tooltip {...props} content={<div data-qa={TooltipQA.tooltipContent}>tooltip content</div>}>
             <div
                 style={{
                     width: '200px',

@@ -1,7 +1,7 @@
 import type * as React from 'react';
 
-import type {PopperPlacement} from '../../hooks/private';
 import type {UseOpenProps} from '../../hooks/useSelect/types';
+import type {PopupPlacement} from '../Popup';
 import type {SelectPopupProps} from '../Select/components/SelectPopup/types';
 import type {
     TreeListContainerProps,
@@ -68,7 +68,7 @@ export interface TreeSelectProps<T, P extends {} = {}>
     defaultValue?: ListItemId[] | undefined;
     popupClassName?: string;
     popupWidth?: SelectPopupProps['width'];
-    placement?: PopperPlacement;
+    placement?: PopupPlacement;
     width?: 'auto' | 'max' | number;
     containerClassName?: string;
     popupDisablePortal?: boolean;

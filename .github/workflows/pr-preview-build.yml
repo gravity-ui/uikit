@@ -10,4 +10,4 @@ jobs:
     steps:
       - uses: gravity-ui/preview-build-action@v2
         with:
-          node-version: 18
+          node-version: 20

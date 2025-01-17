@@ -19,16 +19,9 @@ type Props = {
     pageSize: NonNullable<PaginationProps['pageSize']>;
     size: PaginationSize;
     className?: string;
-} & Pick<PaginationProps, 'onUpdate' | 'pageHrefBuilder'>;
+} & Pick<PaginationProps, 'onUpdate'>;
 
-export const PaginationInput = ({
-    numberOfPages,
-    size,
-    pageSize,
-    pageHrefBuilder,
-    onUpdate,
-    className,
-}: Props) => {
+export const PaginationInput = ({numberOfPages, size, pageSize, onUpdate, className}: Props) => {
     const [value, setValue] = React.useState('');
 
     const handleUpdateValue = (inputValue: string) => {
@@ -56,9 +49,6 @@ export const PaginationInput = ({
         }
 
         setValue('');
-        if (pageHrefBuilder) {
-            window.location.href = pageHrefBuilder(numValue, pageSize);
-        }
         onUpdate?.(numValue, pageSize);
     };
 

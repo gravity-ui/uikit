@@ -14,7 +14,7 @@ type Props = {
     size: PaginationSize;
     pageSize: NonNullable<PaginationProps['pageSize']>;
     className?: string;
-} & Pick<PaginationProps, 'onUpdate' | 'pageHrefBuilder'>;
+} & Pick<PaginationProps, 'onUpdate' | 'buttonWrapper'>;
 
 export const PaginationPage = ({
     item,
@@ -22,7 +22,7 @@ export const PaginationPage = ({
     pageSize,
     className,
     onUpdate,
-    pageHrefBuilder,
+    buttonWrapper,
 }: Props) => {
     const qa = getPaginationPageQa(item.page);
     if (item.simple) {
@@ -35,18 +35,19 @@ export const PaginationPage = ({
 
     const view = item.current ? 'normal' : 'flat';
 
-    return (
+    const button = (
         <Button
             size={size}
             key={view}
             view={view}
             selected={item.current}
             className={className}
-            href={pageHrefBuilder?.(item.page, pageSize)}
             onClick={() => onUpdate?.(item.page, pageSize)}
             qa={qa}
         >
             {item.page}
         </Button>
     );
+
+    return buttonWrapper ? buttonWrapper({page: item.page, pageSize, button}) : button;
 };

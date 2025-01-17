@@ -8,6 +8,13 @@ import type {PaginationProps} from '../../Pagination';
 const PAGE_PARAM = 'page_number';
 const PAGE_SIZE_PARAM = 'page_size';
 
+function pageHrefBuilder(page: number, pageSize: number) {
+    const queryParams = new URLSearchParams(window.location.search);
+    queryParams.set(PAGE_PARAM, String(page));
+    queryParams.set(PAGE_SIZE_PARAM, String(pageSize));
+    return window.location.href.replace(window.location.search, `?${queryParams.toString()}`);
+}
+
 function getParamNumberValue(
     paramName: string,
     queryParams: URLSearchParams,
@@ -20,13 +27,18 @@ function getParamNumberValue(
 const useState = (args: PaginationProps) => {
     const [state, setState] = React.useState({...args});
 
-    const onUpdate: PaginationProps['onUpdate'] = (page, pageSize) =>
-        setState((prevState) => ({...prevState, page, pageSize}));
+    const onUpdate: PaginationProps['onUpdate'] = (page, pageSize) => {
+        if (args.buttonWrapper) {
+            window.location.href = pageHrefBuilder(page, pageSize);
+        } else {
+            setState((prevState) => ({...prevState, page, pageSize}));
+        }
+    };
 
     React.useEffect(() => {
         let currentPage = args.page;
         let currentPageSize = args.pageSize;
-        if (args.pageHrefBuilder) {
+        if (args.buttonWrapper) {
             const queryParams = new URLSearchParams(window.location.search);
 
             currentPage = getParamNumberValue(PAGE_PARAM, queryParams, currentPage);
@@ -72,11 +84,14 @@ Links.args = {
     pageSizeOptions: [20, 50, 100],
     showInput: true,
     compact: false,
-    pageHrefBuilder: (page, pageSize) => {
-        const queryParams = new URLSearchParams(window.location.search);
-        queryParams.set(PAGE_PARAM, String(page));
-        queryParams.set(PAGE_SIZE_PARAM, String(pageSize));
-        return window.location.href.replace(window.location.search, `?${queryParams.toString()}`);
+    buttonWrapper({page, pageSize, button}) {
+        return button.props.disabled ? (
+            button
+        ) : (
+            <a href={pageHrefBuilder(page, pageSize)} key={button.key}>
+                {button}
+            </a>
+        );
     },
 };
 

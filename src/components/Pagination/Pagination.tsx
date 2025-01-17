@@ -25,7 +25,7 @@ export const Pagination = ({
     total,
     size: propSize,
     onUpdate,
-    pageHrefBuilder,
+    buttonWrapper,
     compact: propCompact = true,
     pageSizeOptions,
     showPages = true,
@@ -52,7 +52,7 @@ export const Pagination = ({
         mobile,
     });
 
-    const onUpdateInner = pageHrefBuilder ? undefined : onUpdate;
+    const handleOnUpdateForButtonControl = buttonWrapper ? undefined : onUpdate;
 
     const pagination = items
         .map((item) => {
@@ -65,8 +65,8 @@ export const Pagination = ({
                                 size={size}
                                 pageSize={pageSize}
                                 item={item}
-                                pageHrefBuilder={pageHrefBuilder}
-                                onUpdate={onUpdateInner}
+                                buttonWrapper={buttonWrapper}
+                                onUpdate={handleOnUpdateForButtonControl}
                                 className={b('pagination-item')}
                             />
                         )
@@ -99,8 +99,8 @@ export const Pagination = ({
                             item={item}
                             page={resultPage}
                             pageSize={pageSize}
-                            pageHrefBuilder={pageHrefBuilder}
-                            onUpdate={onUpdateInner}
+                            buttonWrapper={buttonWrapper}
+                            onUpdate={handleOnUpdateForButtonControl}
                             compact={compact}
                             className={b('pagination-item')}
                         />
@@ -119,15 +119,13 @@ export const Pagination = ({
                     numberOfPages={numberOfPages}
                     pageSize={pageSize}
                     size={size}
-                    pageHrefBuilder={pageHrefBuilder}
-                    onUpdate={onUpdateInner}
+                    onUpdate={onUpdate}
                     className={b('input')}
                 />
             )}
             {pageSizeOptions && (
                 <PaginationPageSizer
-                    pageHrefBuilder={pageHrefBuilder}
-                    onUpdate={onUpdateInner}
+                    onUpdate={onUpdate}
                     page={resultPage}
                     pageSize={pageSize}
                     pageSizeOptions={pageSizeOptions}

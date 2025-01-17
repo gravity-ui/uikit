@@ -14,10 +14,9 @@ type Props = {
     total: PaginationProps['total'];
     size: PaginationSize;
     className?: string;
-} & Pick<PaginationProps, 'onUpdate' | 'pageHrefBuilder'>;
+} & Pick<PaginationProps, 'onUpdate'>;
 
 export const PaginationPageSizer = ({
-    pageHrefBuilder,
     onUpdate,
     pageSize,
     size,
@@ -41,18 +40,12 @@ export const PaginationPageSizer = ({
         const hasUpperLimit = numberOfPages > 0;
 
         if (!hasUpperLimit) {
-            if (pageHrefBuilder) {
-                window.location.href = pageHrefBuilder(1, newPageSize);
-            }
             onUpdate?.(1, newPageSize);
             return;
         }
 
         const newPage = page > numberOfPages ? numberOfPages : page;
 
-        if (pageHrefBuilder) {
-            window.location.href = pageHrefBuilder(newPage, newPageSize);
-        }
         onUpdate?.(newPage, newPageSize);
     };
 

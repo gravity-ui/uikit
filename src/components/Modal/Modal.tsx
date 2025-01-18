@@ -45,7 +45,6 @@ export interface ModalProps extends DOMProps, LayerExtendableProps, QAProps {
     onTransitionExit?: VoidFunction;
     onTransitionExited?: VoidFunction;
     contentOverflow?: 'visible' | 'auto';
-    fullPage?: boolean;
 }
 
 export type ModalCloseReason = LayerCloseReason;
@@ -80,7 +79,6 @@ export function Modal({
     'aria-label': ariaLabel,
     container,
     qa,
-    fullPage,
 }: ModalProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
     const contentRef = React.useRef<HTMLDivElement>(null);
@@ -132,12 +130,7 @@ export function Modal({
             }}
         >
             <Portal container={container}>
-                <div
-                    ref={containerRef}
-                    style={style}
-                    className={b({open, 'full-page': fullPage}, className)}
-                    data-qa={qa}
-                >
+                <div ref={containerRef} style={style} className={b({open}, className)} data-qa={qa}>
                     <div className={b('content-aligner')}>
                         <div className={b('content-wrapper')}>
                             <FocusTrap

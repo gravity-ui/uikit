@@ -34,18 +34,18 @@ export const Default: StoryFn<ModalProps> = (props) => {
     );
 };
 
-export const FullPage: StoryFn<ModalProps> = (props) => {
+export const FullScreen: StoryFn<ModalProps> = (props) => {
     const [open, setOpen] = React.useState(false);
 
     return (
         <React.Fragment>
-            <Modal {...props} open={open} onClose={() => setOpen(false)} fullPage>
+            <Modal {...props} open={open} onClose={() => setOpen(false)} fullscreen>
                 <div style={{padding: 10}}>
                     <Button onClick={() => setOpen(false)}>Close</Button>
                 </div>
             </Modal>
             <div style={showButtonStyle}>
-                <Button onClick={() => setOpen(true)}>Show full page modal</Button>
+                <Button onClick={() => setOpen(true)}>Show full screen modal</Button>
             </div>
         </React.Fragment>
     );

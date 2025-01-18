@@ -2,6 +2,8 @@
 
 $block: '.#{variables.$ns}modal';
 $modal-default-border-radius: 5px;
+$modal-default-height: auto;
+$modal-default-width: auto;
 
 #{$block} {
     display: none;
@@ -17,9 +19,17 @@ $modal-default-border-radius: 5px;
     -webkit-overflow-scrolling: touch;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
+    &_fullscreen {
+        --g-modal-border-radius: 0;
+        --g-modal-margin: 0;
+        --g-modal-width: 100vw;
+        --g-modal-height: 100%;
+    }
+
     &__content-aligner {
         min-width: 100%;
         min-height: 100%;
+        height: var(--g-modal-height, #{$modal-default-height});
 
         display: inline-flex;
         align-items: center;
@@ -27,12 +37,17 @@ $modal-default-border-radius: 5px;
     }
 
     &__content-wrapper {
+        width: var(--g-modal-width, #{$modal-default-width});
+        height: var(--g-modal-height, #{$modal-default-height});
+
         margin: var(--g-modal-margin, #{variables.$modal-default-margin});
         border-radius: var(--g-modal-border-radius, #{$modal-default-border-radius});
         overflow-x: hidden;
     }
 
     &__content {
+        height: var(--g-modal-height, #{$modal-default-height});
+
         background-color: var(--g-color-base-modal);
         border-radius: var(--g-modal-border-radius, #{$modal-default-border-radius});
 
@@ -74,26 +89,6 @@ $modal-default-border-radius: 5px;
     &_exit_active {
         animation-name: #{variables.$ns}modal;
         animation-duration: 200ms;
-    }
-
-    &_full-page {
-        #{$block} {
-            &__content-aligner,
-            &__content-wrapper,
-            &__content {
-                width: 100%;
-                height: 100%;
-            }
-
-            &__content-wrapper {
-                margin: 0;
-            }
-
-            &__content-wrapper,
-            &__content {
-                border-radius: unset;
-            }
-        }
     }
 }
 

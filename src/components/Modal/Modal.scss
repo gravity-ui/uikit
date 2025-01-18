@@ -2,6 +2,8 @@
 
 $block: '.#{variables.$ns}modal';
 $modal-default-border-radius: 5px;
+$modal-default-height: auto;
+$modal-default-width: auto;
 
 #{$block} {
     display: block;
@@ -30,6 +32,7 @@ $modal-default-border-radius: 5px;
     &__content-aligner {
         min-width: 100%;
         min-height: 100%;
+        height: var(--g-modal-height, #{$modal-default-height});
 
         display: inline-flex;
         align-items: center;
@@ -37,12 +40,17 @@ $modal-default-border-radius: 5px;
     }
 
     &__content-wrapper {
+        width: var(--g-modal-width, #{$modal-default-width});
+        height: var(--g-modal-height, #{$modal-default-height});
+
         margin: var(--g-modal-margin, #{variables.$modal-default-margin});
         border-radius: var(--g-modal-border-radius, #{$modal-default-border-radius});
         overflow-x: hidden;
     }
 
     &__content {
+        height: var(--g-modal-height, #{$modal-default-height});
+
         background-color: var(--g-color-base-modal);
         border-radius: var(--g-modal-border-radius, #{$modal-default-border-radius});
         outline: none;

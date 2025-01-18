@@ -55,6 +55,7 @@ const [open, setOpen] = React.useState(false);
 | aria-label            | `aria-label` HTML attribute to describe `Modal`                                              |     `string`      |                 |
 | aria-labelledby       | ID of the visible `Modal` caption element                                                    |     `string`      |                 |
 | contentOverflow       | Determines whether the `Modal` has a scroll indicator inside or gets larger with the content | `visible` `auto`  |    `visible`    |
+| fullscreen            | Open modal window for the whole page                                                         |     `boolean`     |     `false`     |
 
 ## CSS API
 
@@ -62,3 +63,5 @@ const [open, setOpen] = React.useState(false);
 | :------------------------ | :-------------------------------- |
 | `--g-modal-margin`        | Margin around the `Modal` content |
 | `--g-modal-border-radius` | `Modal` content border radius     |
+| `--g-modal-width`         | `Modal` container width           |
+| `--g-modal-height`        | `Modal` container height          |

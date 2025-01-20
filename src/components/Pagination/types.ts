@@ -1,5 +1,6 @@
 import type * as React from 'react';
 
+import type {ButtonProps} from '../Button';
 import type {QAProps} from '../types';
 
 export type ActionName = 'previous' | 'next' | 'first';
@@ -9,7 +10,7 @@ export type PaginationSize = 's' | 'm' | 'l' | 'xl';
 export type ButtonWrapperParam = {
     page: number;
     pageSize: number;
-    button: React.ReactElement;
+    button: React.ReactElement<ButtonProps>;
 };
 
 export type PaginationProps = {

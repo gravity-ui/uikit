@@ -25,23 +25,11 @@ export type SliderProps<ValueType = number | [number, number]> = {
     /** Max value of the component */
     max?: number;
     /** Marks on the slider. It can be either the number of marks on the slider or a list of them */
-    marks?: number | number[];
+    marks: number | number[];
     /** Formatter for marks text */
     markFormat?: FormatterType;
-    /**  Specifies the array of available values for the slider. The `availableValues` property overrides `min`, `max`, `marksCount` and `step` properties if used in conjunction, as the slider directly uses the provided array values instead of a continuous range.
-     * @deprecated use `marks` and `step` === null instead.
-     */
-    availableValues?: number[];
     /** Value to be added or subtracted on each step the slider makes. This prop will be ignored if available values is set.  */
     step?: number | null;
-    /** Amount of text marks under the slider. Split whole range on equal parts. Could be set >=2. This prop will be ignored if available values is set.
-     * @deprecated use `marks` instead.
-     */
-    marksCount?: number;
-    /**  Show tooltip with current value of component or not
-     * @deprecated use `tooltipDisplay` instead.
-     */
-    hasTooltip?: boolean;
     /** Specifies the tooltip behaviour */
     tooltipDisplay?: TooltipDisplayType;
     /** Format of the slider's value in the tooltip. Uses `markFormat` if not specified */

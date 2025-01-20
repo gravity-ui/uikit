@@ -7,10 +7,9 @@ import {Slider} from '../Slider';
 import type {SliderProps} from '../types';
 
 import {
-    availableValuesCases,
     disabledCases,
     hasTooltipCases,
-    marksCountCases,
+    marksCases,
     sizeCases,
     stepCases,
     validationStateCases,
@@ -35,10 +34,9 @@ test.describe('Slider', {tag: '@Slider'}, () => {
             size: sizeCases,
             disabled: disabledCases,
             validationState: validationStateCases,
-            hasTooltip: hasTooltipCases,
-            marksCount: marksCountCases,
+            tooltipDisplay: hasTooltipCases,
+            marks: marksCases,
             step: stepCases,
-            availableValues: availableValuesCases,
         });
 
         await mount(
@@ -67,8 +65,8 @@ test.describe('Slider', {tag: '@Slider'}, () => {
                 errorMessage: 'Error message',
             },
             {
-                hasTooltip: hasTooltipCases,
-                marksCount: marksCountCases,
+                tooltipDisplay: hasTooltipCases,
+                marks: marksCases,
                 step: stepCases,
             },
         );
@@ -103,10 +101,9 @@ test.describe('Slider', {tag: '@Slider'}, () => {
             size: sizeCases,
             disabled: disabledCases,
             validationState: validationStateCases,
-            hasTooltip: hasTooltipCases,
-            marksCount: marksCountCases,
+            tooltipDisplay: hasTooltipCases,
+            marks: marksCases,
             step: stepCases,
-            availableValues: availableValuesCases,
         });
 
         await mount(
@@ -135,8 +132,8 @@ test.describe('Slider', {tag: '@Slider'}, () => {
                 errorMessage: 'Error message',
             },
             {
-                hasTooltip: hasTooltipCases,
-                marksCount: marksCountCases,
+                tooltipDisplay: hasTooltipCases,
+                marks: marksCases,
                 step: stepCases,
             },
         );

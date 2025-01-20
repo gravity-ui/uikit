@@ -25,7 +25,7 @@ export const Pagination = ({
     total,
     size: propSize,
     onUpdate,
-    buttonWrapper,
+    itemWrapper,
     compact: propCompact = true,
     pageSizeOptions,
     showPages = true,
@@ -52,7 +52,7 @@ export const Pagination = ({
         mobile,
     });
 
-    const handleOnUpdateForButtonControl = buttonWrapper ? undefined : onUpdate;
+    const handleOnUpdateForButtonControl = itemWrapper ? undefined : onUpdate;
 
     const pagination = items
         .map((item) => {
@@ -65,7 +65,7 @@ export const Pagination = ({
                                 size={size}
                                 pageSize={pageSize}
                                 item={item}
-                                buttonWrapper={buttonWrapper}
+                                itemWrapper={itemWrapper}
                                 onUpdate={handleOnUpdateForButtonControl}
                                 className={b('pagination-item')}
                             />
@@ -99,7 +99,7 @@ export const Pagination = ({
                             item={item}
                             page={resultPage}
                             pageSize={pageSize}
-                            buttonWrapper={buttonWrapper}
+                            itemWrapper={itemWrapper}
                             onUpdate={handleOnUpdateForButtonControl}
                             compact={compact}
                             className={b('pagination-item')}

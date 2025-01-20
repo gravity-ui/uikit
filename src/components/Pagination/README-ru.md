@@ -17,7 +17,7 @@ import {Pagination} from '@gravity-ui/uikit';
 ### Кнопки
 
 При использовании этого способа пользователь будет взаимодействовать с компонентами пагинации, как с кнопками.
-Для этого необходимо указать свойство `onUpdate` (свойство `buttonWrapper` должно быть `undefined`)
+Для этого необходимо указать свойство `onUpdate` (свойство `itemWrapper` должно быть `undefined`)
 
 ```jsx
 import {Pagination, PaginationProps} from '@gravity-ui/uikit';
@@ -73,7 +73,7 @@ const pagination = <Pagination
         page={1}
         pageSize={100}
         total={1000}
-        buttonWrapper={renderWrapper}
+        itemWrapper={renderWrapper}
         onUpdate={(page, pageSize)=>setState({page, pageSize})}
     >;
 ```
@@ -115,24 +115,24 @@ const pagination = <Pagination
         page={1}
         pageSize={100}
         total={1000}
-        buttonWrapper={renderWrapper}
+        itemWrapper={renderWrapper}
         onUpdate={(page, pageSize)=>setState({page, pageSize})}
     >;
 ```
 
 ## Свойства
 
-| Имя             | Описание                                                                                                                                                      |    Тип     | Значение по умолчанию |
-| :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------: | :-------------------: |
-| className       | HTML-атрибут `class`.                                                                                                                                         |  `string`  |                       |
-| compact         | Скрывает заголовки для кнопок `First`, `Previous` и `Next`. В мобильной версии всегда имеет значение `true`.                                                  | `boolean`  |        `true`         |
-| buttonWrapper   | Компонент-обертка над кнопками пагинации                                                                                                                      | `Function` |                       |
-| onUpdate        | Вызывается при изменении номера страницы или свойства `pageSize` (если задан параметр `buttonWrapper`, то `onUpdate` вызывается только в `input` и `select`). | `Function` |                       |
-| size            | Размер элементов пагинации. По умолчанию `l` для мобильных и `m` для десктопных версий.                                                                       |  `string`  |                       |
-| page            | Номер текущей страницы.                                                                                                                                       |  `number`  |                       |
-| pageSize        | Количество элементов данных на одной странице.                                                                                                                |  `number`  |                       |
-| pageSizeOptions | Позволяет указать опции для `sizeChanger`.                                                                                                                    | `number[]` |                       |
-| total           | Общее количество элементов данных.                                                                                                                            |  `number`  |                       |
-| showInput       | Отображает элемент ввода для перехода к конкретной странице                                                                                                   | `boolean`  |        `false`        |
-| showPages       | Отображает нумерацию страниц.                                                                                                                                 | `boolean`  |        `true`         |
-| qa              | HTML-атрибут `data-qa`, используется для тестирования.                                                                                                        |  `string`  |                       |
+| Имя             | Описание                                                                                                                                                    |    Тип     | Значение по умолчанию |
+| :-------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------: | :-------------------: |
+| className       | HTML-атрибут `class`.                                                                                                                                       |  `string`  |                       |
+| compact         | Скрывает заголовки для кнопок `First`, `Previous` и `Next`. В мобильной версии всегда имеет значение `true`.                                                | `boolean`  |        `true`         |
+| itemWrapper     | Компонент-обертка над кнопками пагинации                                                                                                                    | `Function` |                       |
+| onUpdate        | Вызывается при изменении номера страницы или свойства `pageSize` (если задан параметр `itemWrapper`, то `onUpdate` вызывается только в `input` и `select`). | `Function` |                       |
+| size            | Размер элементов пагинации. По умолчанию `l` для мобильных и `m` для десктопных версий.                                                                     |  `string`  |                       |
+| page            | Номер текущей страницы.                                                                                                                                     |  `number`  |                       |
+| pageSize        | Количество элементов данных на одной странице.                                                                                                              |  `number`  |                       |
+| pageSizeOptions | Позволяет указать опции для `sizeChanger`.                                                                                                                  | `number[]` |                       |
+| total           | Общее количество элементов данных.                                                                                                                          |  `number`  |                       |
+| showInput       | Отображает элемент ввода для перехода к конкретной странице                                                                                                 | `boolean`  |        `false`        |
+| showPages       | Отображает нумерацию страниц.                                                                                                                               | `boolean`  |        `true`         |
+| qa              | HTML-атрибут `data-qa`, используется для тестирования.                                                                                                      |  `string`  |                       |

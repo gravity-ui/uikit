@@ -74,7 +74,7 @@ const pagination = <Pagination
         page={1}
         pageSize={100}
         total={1000}
-        buttonWrapper={renderWrapper}
+        itemWrapper={renderWrapper}
         onUpdate={(page, pageSize)=>setState({page, pageSize})}
     >;
 ```
@@ -116,7 +116,7 @@ const pagination = <Pagination
         page={1}
         pageSize={100}
         total={1000}
-        buttonWrapper={renderWrapper}
+        itemWrapper={renderWrapper}
         onUpdate={(page, pageSize)=>setState({page, pageSize})}
     >;
 ```

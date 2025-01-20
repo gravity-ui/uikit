@@ -28,7 +28,7 @@ const useState = (args: PaginationProps) => {
     const [state, setState] = React.useState({...args});
 
     const onUpdate: PaginationProps['onUpdate'] = (page, pageSize) => {
-        if (args.buttonWrapper) {
+        if (args.itemWrapper) {
             window.location.href = pageHrefBuilder(page, pageSize);
         } else {
             setState((prevState) => ({...prevState, page, pageSize}));
@@ -38,7 +38,7 @@ const useState = (args: PaginationProps) => {
     React.useEffect(() => {
         let currentPage = args.page;
         let currentPageSize = args.pageSize;
-        if (args.buttonWrapper) {
+        if (args.itemWrapper) {
             const queryParams = new URLSearchParams(window.location.search);
 
             currentPage = getParamNumberValue(PAGE_PARAM, queryParams, currentPage);
@@ -84,12 +84,12 @@ Links.args = {
     pageSizeOptions: [20, 50, 100],
     showInput: true,
     compact: false,
-    buttonWrapper({page, pageSize, button}) {
-        return button.props.disabled ? (
-            button
+    itemWrapper({page, pageSize, item}) {
+        return item.props.disabled ? (
+            item
         ) : (
-            <a href={pageHrefBuilder(page, pageSize)} key={button.key}>
-                {button}
+            <a href={pageHrefBuilder(page, pageSize)} key={item.key}>
+                {item}
             </a>
         );
     },

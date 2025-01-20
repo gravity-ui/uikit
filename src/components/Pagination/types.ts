@@ -7,10 +7,10 @@ export type ActionName = 'previous' | 'next' | 'first';
 
 export type PaginationSize = 's' | 'm' | 'l' | 'xl';
 
-export type ButtonWrapperParam = {
+export type ItemWrapperParam = {
     page: number;
     pageSize: number;
-    button: React.ReactElement<ButtonProps>;
+    item: React.ReactElement<ButtonProps>;
 };
 
 export type PaginationProps = {
@@ -29,7 +29,7 @@ export type PaginationProps = {
     /**
      * Custom wrapper for paginations's button components
      */
-    buttonWrapper?: ({page, pageSize, button}: ButtonWrapperParam) => React.ReactElement;
+    itemWrapper?: ({page, pageSize, item}: ItemWrapperParam) => React.ReactElement;
     /**
      * Called when the page number or pageSize is changed (only if pageHrefBuilder not set)
      */

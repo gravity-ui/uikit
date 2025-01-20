@@ -4,24 +4,46 @@
 
 <!--/GITHUB_BLOCK-->
 
-This is a component for adjustable notifications.
+This is a component for adjustable notifications also known as toasts.
 
-## Using `Toaster` with context
+## Using Toaster
+
+To show toasts in your application you need to wrap your application in `ToasterProvider`.
 
 ```jsx
-import ReactDOMClient from 'react-dom/client';
-import {ToasterComponent, ToasterProvider} from '@gravity-ui/uikit';
+import {Toaster, ToasterComponent, ToasterProvider} from '@gravity-ui/uikit';
+
+const toaster = new Toaster();
 
 const root = ReactDOMClient.createRoot(document.getElementById('root'));
 root.render(
-  <ToasterProvider>
+  <ToasterProvider toaster={toaster}>
     <App />
     <ToasterComponent className="optional additional classes" />
   </ToasterProvider>,
 );
 ```
 
-This way, you can show toasts with the `useToaster` hook in your app components.:
+`toaster` here is the instance of the class, which holds the state with all your toasts and used under the hood in `useToaster` hook and `withToaster` HOC.
+
+But you can also use `toaster` directly in different parts of your application (outside React):
+
+```js
+toaster.add({
+  title: 'Toaster is here',
+});
+```
+
+You must use same instance of `Toaster` in React and outside of it to show all toasts in the same container on the screen.
+You can implement this logic yourself or import ready-to-use instance from `toaster-singleton` module.
+
+```js
+import {toaster} from '@gravity-ui/uikit/toaster-singleton';
+```
+
+## Using `useToaster`
+
+You can show toasts with the `useToaster` hook in your app components:
 
 ```jsx
 import {useToaster} from '@gravity-ui/uikit';
@@ -59,39 +81,6 @@ class FoobarComponent extends Component {
 const FoobarWithToaster = withToaster()(FoobarComponent);
 ```
 
-## Using `Toaster` as a singleton
-
-`Toaster` has a singleton, so when it is initialized in different parts of the application, the same instance will be returned.
-On initialization, you can transmit a `className` that will be assigned to a `dom` element that wraps all toasts.
-
-### React under v18
-
-```js
-import {Toaster} from '@gravity-ui/uikit';
-const toaster = new Toaster();
-```
-
-or
-
-```js
-import {toaster} from '@gravity-ui/uikit/toaster-singleton';
-```
-
-### React v18
-
-```js
-import ReactDOMClient from 'react-dom/client';
-import {Toaster} from '@gravity-ui/uikit';
-Toaster.injectReactDOMClient(ReactDOMClient);
-const toaster = new Toaster();
-```
-
-or
-
-```js
-import {toaster} from '@gravity-ui/uikit/toaster-singleton-react-18';
-```
-
 ## Constructor arguments
 
 | Parameter | Type      | Default     | Description                                         |
@@ -105,6 +94,7 @@ import {toaster} from '@gravity-ui/uikit/toaster-singleton-react-18';
 | :---------------------------- | :----------------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
 | add(toastOptions)             | `Object`           | Creates a new notification                                                                                                              |
 | remove(name)                  | `string`           | Manually deletes an existing notification                                                                                               |
+| removeAll()                   |                    | Deletes all existing notifications                                                                                                      |
 | update(name, overrideOptions) | `string`, `Object` | Changes already rendered notification content. In `overrideOptions`, the `title`, `type`, `content`, and `actions` fields are optional. |
 | has(name)                     | `string`           | Checks for a toast with the certain name in the list of displayed toasts                                                                |
 

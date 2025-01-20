@@ -59,6 +59,7 @@ interface SheetContentState {
     veilTouched: boolean;
     isAnimating: boolean;
     inWindowResizeScope: boolean;
+    delayedResize: boolean;
 }
 
 class SheetContent extends React.Component<SheetContentInnerProps, SheetContentState> {
@@ -86,6 +87,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         veilTouched: false,
         isAnimating: false,
         inWindowResizeScope: false,
+        delayedResize: false,
     };
 
     componentDidMount() {
@@ -333,12 +335,13 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
             y: e.nativeEvent.touches[0].clientY,
         });
 
-        this.setState({deltaY: delta});
-
+        // if allowHideOnContentScroll is true and delta <= 0, it's a content scroll
+        // animation is not needed
         if (delta <= 0) {
             return;
         }
 
+        this.setState({deltaY: delta});
         this.setStyles({status: 'showing', deltaHeight: delta});
     };
 
@@ -397,6 +400,12 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
 
         if (this.veilOpacity === '0') {
             this.props.hideSheet();
+            return;
+        }
+
+        if (this.state.delayedResize) {
+            this.onResizeWindow();
+            this.setState({delayedResize: false});
         }
     };
 
@@ -410,6 +419,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
 
     private onResizeWindow = () => {
         if (this.state.isAnimating) {
+            this.setState({delayedResize: true});
             return;
         }
 

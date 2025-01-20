@@ -25,7 +25,7 @@ export type SliderProps<ValueType = number | [number, number]> = {
     /** Max value of the component */
     max?: number;
     /** Marks on the slider. It can be either the number of marks on the slider or a list of them */
-    marks: number | number[];
+    marks?: number | number[];
     /** Formatter for marks text */
     markFormat?: FormatterType;
     /** Value to be added or subtracted on each step the slider makes. This prop will be ignored if available values is set.  */

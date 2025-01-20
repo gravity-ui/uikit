@@ -18,7 +18,7 @@ There are 2 ways of using pagination: as [buttons](#buttons) and as [custom cont
 
 In this case user will iteract with pagination's controls as with buttons.
 
-Set `onUpdate` prop to use pagination as buttons (`buttonWraper` must be `undefined`).
+Set `onUpdate` prop to use pagination as buttons (`itemWrapper` must be `undefined`).
 
 ```jsx
 import {Pagination, PaginationProps} from '@gravity-ui/uikit';
@@ -35,7 +35,7 @@ const pagination = <Pagination page={1} pageSize={100} total={1000} onUpdate={ha
 
 In this case user will iteract with pagination's buttons as with custom controls.
 
-Set `buttonWraper` prop to use pagination as custom contrlols. In this case `onUpdate` will fire only on input and select components.
+Set `itemWrapper` prop to use pagination as custom contrlols. In this case `onUpdate` will fire only on input and select components.
 
 > For example, you can wrap it in `<a/>` tag and use them as links. Pages will be available to open (from context menu for example) in new tab, new window, etc.
 
@@ -123,17 +123,17 @@ const pagination = <Pagination
 
 ## Properties
 
-| Name            | Description                                                                                                       |    Type    | Default |
-| :-------------- | :---------------------------------------------------------------------------------------------------------------- | :--------: | :-----: |
-| className       | `class` HTML attribute                                                                                            |  `string`  |         |
-| compact         | Hides the title for the `First`, `Previous`, and `Next` buttons. Always set to `true` in mobile version.          | `boolean`  | `true`  |
-| buttonWraper    | Custom wrapper for paginations's button components                                                                | `Function` |         |
-| onUpdate        | Called when the page number or `pageSize` is changed(if `buttonWraper` is set, it fires only on input and select) | `Function` |         |
-| size            | Size of the pagination items. By default, its value is `l` in mobile version and `m`, in desktop version          |  `string`  |         |
-| page            | Current page number                                                                                               |  `number`  |         |
-| pageSize        | Number of data items per page                                                                                     |  `number`  |         |
-| pageSizeOptions | Allows you to specify the `sizeChanger` options                                                                   | `number[]` |         |
-| total           | Total number of data items                                                                                        |  `number`  |         |
-| showInput       | Shows input to navigate to pages directly                                                                         | `boolean`  | `false` |
-| showPages       | Shows page numbering                                                                                              | `boolean`  | `true`  |
-| qa              | `data-qa` HTML attribute, used for testing                                                                        |  `string`  |         |
+| Name            | Description                                                                                                      |    Type    | Default |
+| :-------------- | :--------------------------------------------------------------------------------------------------------------- | :--------: | :-----: |
+| className       | `class` HTML attribute                                                                                           |  `string`  |         |
+| compact         | Hides the title for the `First`, `Previous`, and `Next` buttons. Always set to `true` in mobile version.         | `boolean`  | `true`  |
+| itemWrapper     | Custom wrapper for paginations's button components                                                               | `Function` |         |
+| onUpdate        | Called when the page number or `pageSize` is changed(if `itemWrapper` is set, it fires only on input and select) | `Function` |         |
+| size            | Size of the pagination items. By default, its value is `l` in mobile version and `m`, in desktop version         |  `string`  |         |
+| page            | Current page number                                                                                              |  `number`  |         |
+| pageSize        | Number of data items per page                                                                                    |  `number`  |         |
+| pageSizeOptions | Allows you to specify the `sizeChanger` options                                                                  | `number[]` |         |
+| total           | Total number of data items                                                                                       |  `number`  |         |
+| showInput       | Shows input to navigate to pages directly                                                                        | `boolean`  | `false` |
+| showPages       | Shows page numbering                                                                                             | `boolean`  | `true`  |
+| qa              | `data-qa` HTML attribute, used for testing                                                                       |  `string`  |         |

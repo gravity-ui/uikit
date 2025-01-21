@@ -338,6 +338,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         // if allowHideOnContentScroll is true and delta <= 0, it's a content scroll
         // animation is not needed
         if (delta <= 0) {
+            this.setState({deltaY: 0});
             return;
         }
 

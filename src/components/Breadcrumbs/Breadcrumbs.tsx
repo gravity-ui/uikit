@@ -3,48 +3,42 @@
 import * as React from 'react';
 
 import {useForkRef, useResizeObserver} from '../../hooks';
-import {Button} from '../Button';
-import {DropdownMenu} from '../DropdownMenu';
 import type {PopupPlacement} from '../Popup';
-import type {AriaLabelingProps, DOMProps, Href, Key, QAProps, RouterOptions} from '../types';
+import type {AriaLabelingProps, DOMProps, Key, QAProps} from '../types';
 import {filterDOMProps} from '../utils/filterDOMProps';
 
-import {BreadcrumbItem} from './BreadcrumbItem';
+import {BreadcrumbsDropdownMenu} from './BreadcrumbsDropdownMenu';
+import {BreadcrumbsItemView} from './BreadcrumbsItemView';
 import {BreadcrumbsSeparator} from './BreadcrumbsSeparator';
-import i18n from './i18n';
-import {b, shouldClientNavigate} from './utils';
+import {b} from './utils';
 
 import './Breadcrumbs.scss';
 
-export interface BreadcrumbsItemProps {
-    children: React.ReactNode;
-    title?: string;
-    href?: Href;
-    hrefLang?: string;
-    target?: React.HTMLAttributeAnchorTarget;
-    rel?: string;
-    download?: boolean | string;
-    ping?: string;
-    referrerPolicy?: React.HTMLAttributeReferrerPolicy;
-    'aria-label'?: string;
-    'aria-current'?: React.AriaAttributes['aria-current'];
-    routerOptions?: RouterOptions;
-    disabled?: boolean;
-}
+export type BreadcrumbsItemProps<T extends React.ElementType> =
+    React.ComponentPropsWithoutRef<T> & {
+        component?: T;
+        disabled?: boolean;
+    };
 
-function Item(_props: BreadcrumbsItemProps): React.ReactElement | null {
+function Item<T extends React.ElementType = 'a'>(
+    _props: BreadcrumbsItemProps<T>,
+): React.ReactElement | null {
     return null;
 }
 
-export interface BreadcrumbsProps extends DOMProps, AriaLabelingProps, QAProps {
+export interface BreadcrumbsProps<T extends React.ElementType = 'a'>
+    extends DOMProps,
+        AriaLabelingProps,
+        QAProps {
     id?: string;
     showRoot?: boolean;
     separator?: React.ReactNode;
     maxItems?: number;
     popupStyle?: 'staircase';
     popupPlacement?: PopupPlacement;
-    children: React.ReactElement<BreadcrumbsItemProps> | React.ReactElement<BreadcrumbsItemProps>[];
-    navigate?: (href: Href, routerOptions: RouterOptions | undefined) => void;
+    children:
+        | React.ReactElement<BreadcrumbsItemProps<T>>
+        | React.ReactElement<BreadcrumbsItemProps<T>>[];
     disabled?: boolean;
     onAction?: (key: Key) => void;
 }
@@ -155,7 +149,6 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
         }
     });
 
-    const {navigate} = props;
     let contents = items;
     if (items.length > visibleItemsCount) {
         contents = [];
@@ -170,53 +163,31 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
         }
         const hiddenItems = breadcrumbs.slice(0, -endItems);
         const menuItem = (
-            <BreadcrumbItem itemType="menu">
-                <DropdownMenu
-                    items={hiddenItems.map((el, index) => {
-                        return {
-                            ...el.props,
-                            text: el.props.children,
-                            disabled: props.disabled,
-                            items: [],
-                            action: (event) => {
+            <BreadcrumbsDropdownMenu
+                disabled={props.disabled}
+                popupPlacement={props.popupPlacement}
+                popupStyle={props.popupStyle}
+                component={BreadcrumbsDropdownMenu}
+            >
+                {hiddenItems.map((child, index) => {
+                    const Component = child.props.component ?? BreadcrumbsItemView;
+                    return (
+                        <Component
+                            {...child.props}
+                            index={index}
+                            key={child.key}
+                            disabled={props.disabled || child.props.disabled}
+                            onAction={() => {
                                 if (typeof props.onAction === 'function') {
-                                    props.onAction(el.key ?? index);
+                                    props.onAction(child.key ?? index);
                                 }
-
-                                // TODO: move this logic to DropdownMenu
-                                const target = event.currentTarget;
-                                if (
-                                    typeof navigate === 'function' &&
-                                    target instanceof HTMLAnchorElement
-                                ) {
-                                    if (el.props.href && shouldClientNavigate(target, event)) {
-                                        event.preventDefault();
-                                        navigate(el.props.href, el.props.routerOptions);
-                                    }
-                                }
-                            },
-                        };
-                    })}
-                    popupProps={{
-                        className: b('popup', {
-                            staircase: props.popupStyle === 'staircase',
-                        }),
-                        placement: props.popupPlacement,
-                    }}
-                    renderSwitcher={({onClick}) => (
-                        <Button
-                            title={i18n('label_more')}
-                            className={b('more-button')}
-                            onClick={onClick}
-                            size="s"
-                            view="flat"
-                            disabled={props.disabled}
+                            }}
                         >
-                            <Button.Icon>...</Button.Icon>
-                        </Button>
-                    )}
-                />
-            </BreadcrumbItem>
+                            {child.props.children}
+                        </Component>
+                    );
+                })}
+            </BreadcrumbsDropdownMenu>
         );
 
         contents.push(menuItem);
@@ -233,18 +204,18 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
             }
         };
 
+        const {component: Component = BreadcrumbsItemView, ...childProps} = child.props;
         return (
             <li key={index} className={b('item', {calculating: !calculated})}>
-                <BreadcrumbItem
-                    {...child.props}
+                <Component
+                    {...childProps}
                     key={key}
                     current={isCurrent}
-                    disabled={props.disabled || child.props.disabled}
+                    disabled={props.disabled || childProps.disabled}
                     onAction={handleAction}
-                    navigate={navigate}
                 >
-                    {child.props.children}
-                </BreadcrumbItem>
+                    {childProps.children}
+                </Component>
                 {isCurrent ? null : <BreadcrumbsSeparator separator={props.separator} />}
             </li>
         );

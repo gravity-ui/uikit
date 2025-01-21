@@ -4,6 +4,7 @@ import {userEvent} from '@testing-library/user-event';
 
 import {render, screen, within} from '../../../../test-utils/utils';
 import {Breadcrumbs} from '../Breadcrumbs';
+import {BreadcrumbsItemView} from '../BreadcrumbsItemView';
 
 beforeEach(() => {
     jest.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockImplementation(function (
@@ -237,32 +238,48 @@ it('should support links', async function () {
     expect(items[1]).toHaveAttribute('href', 'https://example.com/foo');
 });
 
-it('should support RouterProvider', async () => {
-    /*
-        declare module '@gravity-ui/uikit' {
-            interface RouterConfig {
-                routerOptions: {
-                    foo: string;
-                };
-            }
-        }
-    */
+it('should support custom item component', async () => {
     const navigate = jest.fn();
+    function RouterLink({
+        href,
+        routerOptions,
+        ...rest
+    }: {
+        href: string;
+        routerOptions: {foo: string};
+        children: React.ReactNode;
+    }) {
+        return (
+            <BreadcrumbsItemView
+                {...rest}
+                href={href}
+                onClick={() => navigate(href, routerOptions)}
+            />
+        );
+    }
     render(
-        <Breadcrumbs navigate={navigate}>
-            <Breadcrumbs.Item href="/" routerOptions={{foo: 'bar'} as any}>
+        <Breadcrumbs>
+            <Breadcrumbs.Item href="/" routerOptions={{foo: 'bar'}} component={RouterLink}>
                 Example.com
             </Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/foo" routerOptions={{foo: 'foo'} as any}>
+            <Breadcrumbs.Item href="/foo" routerOptions={{foo: 'foo'}} component={RouterLink}>
                 Foo
             </Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/foo/bar" routerOptions={{foo: 'bar'} as any}>
+            <Breadcrumbs.Item href="/foo/bar" routerOptions={{foo: 'bar'}} component={RouterLink}>
                 Bar
             </Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/foo/bar/baz" routerOptions={{foo: 'bar'} as any}>
+            <Breadcrumbs.Item
+                href="/foo/bar/baz"
+                routerOptions={{foo: 'bar'}}
+                component={RouterLink}
+            >
                 Baz
             </Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/foo/bar/baz/qux" routerOptions={{foo: 'bar'} as any}>
+            <Breadcrumbs.Item
+                href="/foo/bar/baz/qux"
+                routerOptions={{foo: 'bar'}}
+                component={RouterLink}
+            >
                 Qux
             </Breadcrumbs.Item>
         </Breadcrumbs>,

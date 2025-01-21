@@ -7,6 +7,7 @@ import {Text} from '../../Text';
 import {Box, Flex} from '../../layout';
 import type {Key} from '../../types';
 import {Breadcrumbs} from '../Breadcrumbs';
+import {BreadcrumbsItemView} from '../BreadcrumbsItemView';
 
 const meta: Meta<typeof Breadcrumbs> = {
     title: 'Components/Navigation/Breadcrumbs',
@@ -152,3 +153,35 @@ export const DisabledItems = {
         </Breadcrumbs>
     ),
 } satisfies Story;
+
+export const ClientNavigation = {
+    render: (args) => {
+        return (
+            <Breadcrumbs {...args}>
+                <Breadcrumbs.Item to="/" component={RouterLink}>
+                    Home
+                </Breadcrumbs.Item>
+                <Breadcrumbs.Item to="/components" component={RouterLink}>
+                    Components
+                </Breadcrumbs.Item>
+                <Breadcrumbs.Item to="/components/breadcrumbs" component={RouterLink}>
+                    Breadcrumbs
+                </Breadcrumbs.Item>
+            </Breadcrumbs>
+        );
+    },
+} satisfies Story;
+
+function RouterLink({to, ...rest}: {to: string; children: React.ReactNode}) {
+    const href = to;
+    return (
+        <BreadcrumbsItemView
+            {...rest}
+            href={href}
+            onClick={(e) => {
+                e.preventDefault();
+                alert(`navigate to ${to}`);
+            }}
+        />
+    );
+}

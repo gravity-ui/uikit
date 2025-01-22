@@ -25,11 +25,8 @@ export const Slider = React.forwardRef(function Slider(
         min = 0,
         max = 100,
         step = 1,
-        marksCount = 2,
-        availableValues,
-        hasTooltip,
         markFormat,
-        marks,
+        marks = 2,
         tooltipDisplay,
         tooltipFormat = markFormat,
         errorMessage,
@@ -56,16 +53,13 @@ export const Slider = React.forwardRef(function Slider(
     const direction = useDirection();
 
     const innerState = prepareSliderInnerState({
-        availableValues,
         defaultValue,
-        marksCount,
         max,
         min,
         step,
         value,
         markFormat,
         marks,
-        hasTooltip,
         tooltipDisplay,
         tooltipFormat,
     });

@@ -7,6 +7,7 @@ import {Slider} from '../Slider';
 import type {SliderProps} from '../types';
 
 import {
+    availableValuesCases,
     disabledCases,
     hasTooltipCases,
     marksCases,
@@ -38,6 +39,20 @@ test.describe('Slider', {tag: '@Slider'}, () => {
             marks: marksCases,
             step: stepCases,
         });
+
+        const availableValuesScenarios = createSmokeScenarios(
+            {
+                ...defaultProps,
+                step: null,
+                min: (availableValuesCases?.at(0)?.at(1) as number[]).at(0),
+                max: (availableValuesCases?.at(0)?.at(1) as number[]).at(-1),
+            },
+            {
+                marks: availableValuesCases,
+            },
+        );
+
+        smokeScenarios.push(availableValuesScenarios[1]);
 
         await mount(
             <div>
@@ -105,6 +120,20 @@ test.describe('Slider', {tag: '@Slider'}, () => {
             marks: marksCases,
             step: stepCases,
         });
+
+        const availableValuesScenario = createSmokeScenarios(
+            {
+                ...defaultRangeProps,
+                step: null,
+                min: (availableValuesCases?.at(0)?.at(1) as number[]).at(0),
+                max: (availableValuesCases?.at(0)?.at(1) as number[]).at(-1),
+            },
+            {
+                marks: availableValuesCases,
+            },
+        );
+
+        smokeScenarios.push(availableValuesScenario[1]);
 
         await mount(
             <div>

@@ -448,33 +448,21 @@ LANDING_BLOCK-->
 
 ## Свойства
 
-| Имя          | Описание                                                                    |               Тип               | Значение по умолчанию |
-| :----------- | :-------------------------------------------------------------------------- | :-----------------------------: | :-------------------: |
-| children     | Содержимое кнопки. Можно использовать как текст, так и компонент `<Icon/>`. |           `ReactNode`           |                       |
-| className    | HTML-атрибут `class`.                                                       |            `string`             |                       |
-| component    | Переопределяет корневой компонент.                                          |       `ElementType<any>`        |      `"button"`       |
-| disabled     | Включает или отключает состояние `disabled`.                                |             `false`             |        `false`        |
-| extraProps   | Дополнительные свойства.                                                    |            `Record`             |                       |
-| href         | HTML-атрибут `href`.                                                        |            `string`             |                       |
-| id           | HTML-атрибут `id`.                                                          |            `string`             |                       |
-| loading      | Включает или отключает состояние `loading`.                                 |             `false`             |        `false`        |
-| onBlur       | Обработчик события `blur`.                                                  |           `Function`            |                       |
-| onClick      | Обработчик события `click`.                                                 |           `Function`            |                       |
-| onFocus      | Обработчик события `focus`.                                                 |           `Function`            |                       |
-| onMouseEnter | Обработчик события `mouseenter`.                                            |           `Function`            |                       |
-| onMouseLeave | Обработчик события `mouseleave`.                                            |           `Function`            |                       |
-| pin          | Задает стиль краев кнопки.                                                  |            `string`             |    `"round-round"`    |
-| qa           | HTML-атрибут `data-qa`, используется для тестирования.                      |            `string`             |                       |
-| rel          | HTML-атрибут `rel`.                                                         |            `string`             |                       |
-| selected     | Включает или отключает состояние `selected`.                                |                                 |                       |
-| size         | Задает размер кнопки.                                                       |            `string`             |         `"m"`         |
-| style        | HTML-атрибут `style`.                                                       |      `React.CSSProperties`      |                       |
-| tabIndex     | HTML-атрибут `tabIndex`.                                                    |            `number`             |                       |
-| target       | HTML-атрибут `target`.                                                      |            `string`             |                       |
-| title        | HTML-атрибут `title`.                                                       |            `string`             |                       |
-| type         | HTML-атрибут `type`.                                                        | `"button"` `"submit"` `"reset"` |      `"button"`       |
-| view         | Задает внешний вид кнопки.                                                  |            `string`             |      `"normal"`       |
-| width        | `"auto"` `"max"`                                                            |        `"auto"` `"max"`         |                       |
+Компонент `Button` принимает все допустимые свойства элемента `button` или `a`, в добавок к следующим:
+
+| Имя       | Описание                                                                    |               Тип               | Значение по умолчанию |
+| :-------- | :-------------------------------------------------------------------------- | :-----------------------------: | :-------------------: |
+| children  | Содержимое кнопки. Можно использовать как текст, так и компонент `<Icon/>`. |        `React.ReactNode`        |                       |
+| component | Переопределяет корневой компонент.                                          |       `React.ElementType`       |                       |
+| disabled  | Включает или отключает состояние `disabled`.                                |            `boolean`            |        `false`        |
+| href      | Делает корневой элемент ссылкой                                             |            `string`             |                       |
+| loading   | Включает или отключает состояние `loading`.                                 |            `boolean`            |        `false`        |
+| pin       | Задает стиль краев кнопки.                                                  |            `string`             |    `"round-round"`    |
+| qa        | HTML-атрибут `data-qa`, используется для тестирования.                      |            `string`             |                       |
+| selected  | Включает или отключает состояние `selected`.                                |            `boolean`            |                       |
+| size      | Задает размер кнопки.                                                       | `"xs"` `"s"` `"m"` `"l"` `"xl"` |         `"m"`         |
+| view      | Задает внешний вид кнопки.                                                  |          `ButtonView`           |      `"normal"`       |
+| width     | Задает ширину кнопки.                                                       |        `"auto"` `"max"`         |                       |
 
 ## API CSS
 
@@ -495,5 +483,5 @@ LANDING_BLOCK-->
 | `--g-button-padding`                | Боковые отступы.                       |
 | `--g-button-border-radius`          | Радиус скругления углов.               |
 | `--g-button-font-size`              | Размер шрифта текста.                  |
-| `--g-button-icon-size`              | Размер иконки.                         |
+| `--g-button-icon-space`             | Размер пространства под иконку.        |
 | `--g-button-icon-offset`            | Смещение иконки.                       |

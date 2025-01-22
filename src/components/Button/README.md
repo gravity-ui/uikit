@@ -448,7 +448,7 @@ LANDING_BLOCK-->
 
 ## Properties
 
-`Buttont` accepts any valid `button` or `a` element props in addition to these:
+`Button` accepts any valid `button` or `a` element props in addition to these:
 
 | Name      | Description                                                          |              Type               |     Default     |
 | :-------- | :------------------------------------------------------------------- | :-----------------------------: | :-------------: |

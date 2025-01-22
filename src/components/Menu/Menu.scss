@@ -98,7 +98,7 @@ $block: '.#{variables.$ns}menu';
 
     &_size {
         &_s {
-            line-height: var(--g-spacing-6);
+            line-height: 24px;
             padding: var(--g-spacing-1) 0;
 
             #{$block}__item,
@@ -123,7 +123,7 @@ $block: '.#{variables.$ns}menu';
         }
 
         &_m {
-            line-height: var(--g-spacing-7);
+            line-height: 28px;
             padding: var(--g-spacing-1) 0;
 
             #{$block}__item,
@@ -148,7 +148,7 @@ $block: '.#{variables.$ns}menu';
         }
 
         &_l {
-            line-height: var(--g-spacing-8);
+            line-height: 32px;
             padding: var(--g-spacing-1) 0;
 
             #{$block}__item,
@@ -174,7 +174,7 @@ $block: '.#{variables.$ns}menu';
 
         &_xl {
             font-size: var(--g-text-body-2-font-size);
-            line-height: var(--g-spacing-9);
+            line-height: 36px;
             padding: var(--g-spacing-1) 0;
 
             #{$block}__item,

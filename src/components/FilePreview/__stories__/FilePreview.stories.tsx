@@ -48,6 +48,47 @@ Default.args = {
 };
 
 const CollageTemplate: StoryFn<FilePreviewProps> = () => {
+    const items = FILE_TYPES.map((fileType) => (
+        <FilePreview
+            key={fileType}
+            file={{name: fileType, type: fileType} as File}
+            onClick={() => action('onClick')}
+            actions={[
+                {
+                    icon: <Link width={14} height={14} />,
+                    title: 'open on drive',
+                    onClick: () => action('onLink'),
+                },
+                {
+                    icon: <Xmark width={14} height={14} />,
+                    title: 'delete a file',
+                    onClick: () => action('onClose'),
+                },
+            ]}
+        />
+    ));
+
+    items.splice(
+        4,
+        0,
+        <FilePreview
+            file={{name: 'my-image-from-thailand.jpg', type: 'image/png'} as File}
+            imageSrc="https://storage.yandexcloud.net/uikit-storybook-assets/changelog-dialog-picture-2.png"
+            actions={[
+                {
+                    icon: <CircleExclamation width={14} height={14} />,
+                    title: 'some hint',
+                    onClick: () => action('onHint'),
+                },
+                {
+                    icon: <Xmark width={14} height={14} />,
+                    onClick: () => action('onClose'),
+                    title: 'Close',
+                },
+            ]}
+        />,
+    );
+
     return (
         <div
             style={{
@@ -55,45 +96,11 @@ const CollageTemplate: StoryFn<FilePreviewProps> = () => {
                 justifyItems: 'center',
                 alignItems: 'center',
                 gridTemplateColumns: 'repeat(3, 1fr)',
-                gridGap: 10,
-                width: 500,
+                gridGap: 8,
+                width: 400,
             }}
         >
-            {FILE_TYPES.map((fileType) => (
-                <FilePreview
-                    key={fileType}
-                    file={{name: fileType, type: fileType} as File}
-                    onClick={() => action('onClick')}
-                    actions={[
-                        {
-                            icon: <Link width={14} height={14} />,
-                            title: 'open on drive',
-                            onClick: () => action('onLink'),
-                        },
-                        {
-                            icon: <Xmark width={14} height={14} />,
-                            title: 'delete a file',
-                            onClick: () => action('onClose'),
-                        },
-                    ]}
-                />
-            ))}
-            <FilePreview
-                file={{name: 'my-image-from-thailand.jpg', type: 'image/png'} as File}
-                imageSrc="https://storage.yandexcloud.net/uikit-storybook-assets/changelog-dialog-picture-2.png"
-                actions={[
-                    {
-                        icon: <CircleExclamation width={14} height={14} />,
-                        title: 'some hint',
-                        onClick: () => action('onHint'),
-                    },
-                    {
-                        icon: <Xmark width={14} height={14} />,
-                        onClick: () => action('onClose'),
-                        title: 'Close',
-                    },
-                ]}
-            />
+            {items}
         </div>
     );
 };

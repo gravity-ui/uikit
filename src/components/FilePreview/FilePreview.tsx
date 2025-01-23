@@ -122,8 +122,10 @@ export function FilePreview({
                         <img className={cn('image')} src={previewSrc} alt={file.name} />
                     </div>
                 ) : (
-                    <div className={cn('icon', {type})}>
-                        <Icon className={cn('icon-svg')} data={FILE_ICON[type]} size={20} />
+                    <div className={cn('icon-container')}>
+                        <div className={cn('icon', {type})}>
+                            <Icon className={cn('icon-svg')} data={FILE_ICON[type]} size={20} />
+                        </div>
                     </div>
                 )}
                 <Text className={cn('name')} color="secondary" ellipsis title={file.name}>

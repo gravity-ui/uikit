@@ -10,8 +10,10 @@ $smallRoundedButtonSize: 24px;
     --_-border-radius: 4px;
     --_-color-base-background: transparent;
 
-    position: relative;
+    --g-image-preview-height: 64px;
+    --g-image-preview-width: 96px;
 
+    position: relative;
     width: 120px;
 
     &:hover,
@@ -130,9 +132,18 @@ $smallRoundedButtonSize: 24px;
 
         border-radius: 4px;
         overflow: hidden;
+    }
 
-        height: 64px;
-        width: 96px;
+    &__icon-container,
+    &__image-container {
+        height: var(--g-image-preview-height);
+        width: var(--g-image-preview-width);
+    }
+
+    &__icon-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     &__image {

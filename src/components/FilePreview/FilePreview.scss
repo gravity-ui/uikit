@@ -9,6 +9,7 @@ $smallRoundedButtonSize: 24px;
     --_-box-shadow: none;
     --_-border-radius: 4px;
     --_-color-base-background: transparent;
+    --_-action-button-size: 24px;
 
     position: relative;
 
@@ -144,5 +145,16 @@ $smallRoundedButtonSize: 24px;
 
         height: 100%;
         width: 100%;
+    }
+
+    &__action-button {
+        height: var(--_-action-button-size);
+        width: var(--_-action-button-size);
+        display: flex;
+        align-items: center;
+    }
+
+    &__action-icon-wrapper {
+        display: flex;
     }
 }

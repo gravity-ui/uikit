@@ -5,14 +5,14 @@
 <!--/GITHUB_BLOCK-->
 
 ```tsx
-import {deprecated_Tabs as Tabs} from '@gravity-ui/uikit/deprecated';
+import {Tabs} from '@gravity-ui/uikit/legacy';
 ```
 
-The `Tabs` component is used to explore and organize content, as well as to switch across various views.
+Компонент `Tabs` используется организации контента и навигации по нему, а также для переключения между различными представлениями.
 
-## Items
+## Элементы
 
-Use the `items` property to render `Tabs` items.
+Для рендеринга элементов `Tabs` используйте свойство `items`.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -58,7 +58,7 @@ return (
 
 <!--/GITHUB_BLOCK-->
 
-`Tabs` also has the `Tabs.Item` dedicated component for an item.
+`Tabs` также имеет специальный компонент для рендеринга отдельных элементов.
 
 <!--GITHUB_BLOCK-->
 
@@ -75,9 +75,9 @@ return (
 
 <!--/GITHUB_BLOCK-->
 
-## Size
+## Размер
 
-Use the `size` property to manage the `Tabs` size. The default size is `m`.
+Размер `Tabs` можно настроить с помощью свойства `size`. Размер по умолчанию — `m`.
 
 <!--LANDING_BLOCK
 
@@ -174,11 +174,11 @@ LANDING_BLOCK-->
 
 ## Tabs.Item
 
-Used to render a `Tabs` item.
+Используется для рендеринга элемента `Tabs`.
 
-### Icon
+### Иконка
 
-Used in case you need to display an icon for a `Tabs` item.
+Используется, если нужно отобразить иконку для элемента `Tabs`.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -226,9 +226,9 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
-### States
+### Состояния
 
-`Tabs` items have the `disabled` flag.
+Элементы `Tabs` поддерживают флаг `disabled`.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -257,9 +257,9 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
-### Counter
+### Счетчик
 
-Used in case you need to display a number for a `Tabs` item.
+Используется, если нужно отобразить число для элемента `Tabs`.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -288,38 +288,38 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
-### Tabs.Item properties
+### Свойства `Tabs.Item`
 
-| Name     | Description                    |            Type            | Default |
-| :------- | ------------------------------ | :------------------------: | :-----: |
-| id       | Tab ID                         |          `string`          |         |
-| title    | Tab title                      | `string` `React.ReactNode` |         |
-| meta     | Tab description                |          `string`          |         |
-| hint     | HTML title attribute           |          `string`          |         |
-| icon     | Icon displayed at the start    |     `React.ReactNode`      |         |
-| counter  | Number displayed at the end    |     `number` `string`      |         |
-| label    | `<Label>` displayed at the end |     `React.ReactNode`      |         |
-| disabled | Inactive state                 |         `boolean`          |         |
+| Имя      | Описание                         |            Тип             | Значение по умолчанию |
+| :------- | -------------------------------- | :------------------------: | :-------------------: |
+| id       | Идентификатор вкладки.           |          `string`          |                       |
+| title    | Заголовок вкладки.               | `string` `React.ReactNode` |                       |
+| meta     | Описание вкладки.                |          `string`          |                       |
+| hint     | HTML-атрибут `title`.            |          `string`          |                       |
+| icon     | Иконка, отображаемая в начале.   |     `React.ReactNode`      |                       |
+| counter  | Число, отображаемое в конце.     |     `React.ReactNode`      |                       |
+| label    | `<Label>`, отображаемый в конце. |     `React.ReactNode`      |                       |
+| disabled | Неактивное состояние.            |         `boolean`          |                       |
 
-## Properties
+## Свойства
 
-| Name             | Description                                                                 |                                    Type                                    |   Default    |
-| :--------------- | :-------------------------------------------------------------------------- | :------------------------------------------------------------------------: | :----------: |
-| direction        | Tab direction (deprecated)                                                  |                                  `string`                                  | `horizontal` |
-| activeTab        | Active tab ID                                                               |                                  `string`                                  |              |
-| allowNotSelected | Allows `activeTab` to be undefined                                          |                                 `boolean`                                  |              |
-| items            | Tabs array                                                                  |                             `TabsItemProps[]`                              |     `[]`     |
-| onSelectTab      | Select tab handler                                                          |                    `onSelectTab?(tabId: string): void`                     |              |
-| wrapTo           | Enables wrapping `TabItem` into another component or rendering a custom tab | `wrapTo?(item: TabsItemProps, node: React.ReactNode, index: number): void` |              |
-| className        | CSS class of the element                                                    |                                  `string`                                  |              |
+| Имя              | Описание                                                                                 |                                    Тип                                     | Значение по умолчанию |
+| :--------------- | :--------------------------------------------------------------------------------------- | :------------------------------------------------------------------------: | :-------------------: |
+| direction        | Направление отображения вкладок (устаревшее свойство).                                   |                                  `string`                                  |     `horizontal`      |
+| activeTab        | Идентификатор активной вкладки.                                                          |                                  `string`                                  |                       |
+| allowNotSelected | Позволяет не выбирать `activeTab`.                                                       |                                 `boolean`                                  |                       |
+| items            | Массив вкладок.                                                                          |                             `TabsItemProps[]`                              |         `[]`          |
+| onSelectTab      | Обработчик выбора вкладки.                                                               |                    `onSelectTab?(tabId: string): void`                     |                       |
+| wrapTo           | Позволяет обернуть `TabItem` в другой компонент или отрисовать пользовательскую вкладку. | `wrapTo?(item: TabsItemProps, node: React.ReactNode, index: number): void` |                       |
+| className        | CSS-класс элемента.                                                                      |                                  `string`                                  |                       |
 
-## CSS API
+## API CSS
 
-| Name                             | Description                  |
-| :------------------------------- | :--------------------------- |
-| `--g-tabs-border-width`          | `Tabs` border width          |
-| `--g-tabs-item-height`           | `Tabs` item height           |
-| `--g-tabs-item-border-width`     | `Tabs` item border width     |
-| `--g-tabs-item-gap`              | Distance between tabs        |
-| `--g-tabs-vertical-item-height`  | `Tabs` vertical item height  |
-| `--g-tabs-vertical-item-padding` | `Tabs` vertical item padding |
+| Имя                              | Описание                                         |
+| :------------------------------- | :----------------------------------------------- |
+| `--g-tabs-border-width`          | Ширина границы `Tabs`.                           |
+| `--g-tabs-item-height`           | Высота элемента `Tabs`.                          |
+| `--g-tabs-item-border-width`     | Ширина границы элемента `Tabs`.                  |
+| `--g-tabs-item-gap`              | Расстояние между вкладками.                      |
+| `--g-tabs-vertical-item-height`  | Высота вертикального элемента `Tabs`.            |
+| `--g-tabs-vertical-item-padding` | Внутренний отступ вертикального элемента `Tabs`. |

@@ -85,11 +85,6 @@
                 "default": "./build/cjs/unstable.js"
             }
         },
-        "./deprecated": {
-            "types": "./build/esm/deprecated.d.ts",
-            "require": "./build/cjs/deprecated.js",
-            "import": "./build/esm/deprecated.js"
-        },
         "./server": {
             "import": {
                 "types": "./build/esm/server.d.ts",

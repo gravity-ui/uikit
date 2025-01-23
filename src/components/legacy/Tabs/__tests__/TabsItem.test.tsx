@@ -12,7 +12,7 @@ test('should render tab item by default', () => {
     const component = screen.getByRole('tab');
 
     expect(component).toBeVisible();
-    expect(component).not.toHaveClass('g-tabs__item_active');
+    expect(component).not.toHaveClass('g-tabs-legacy__item_active');
     expect(component).toHaveAttribute('aria-selected', 'false');
     expect(component).toHaveAttribute('aria-disabled', 'false');
 });
@@ -22,7 +22,7 @@ test('should render active tab item', () => {
     const component = screen.getByRole('tab');
 
     expect(component).toBeVisible();
-    expect(component).toHaveClass('g-tabs__item_active');
+    expect(component).toHaveClass('g-tabs-legacy__item_active');
     expect(component).toHaveAttribute('aria-selected', 'true');
 });
 
@@ -70,7 +70,7 @@ test('should render id if title is empty', () => {
     const titleComponent = screen.getByText(tabId);
 
     expect(component).toContainElement(titleComponent);
-    expect(titleComponent).toHaveClass('g-tabs__item-title');
+    expect(titleComponent).toHaveClass('g-tabs-legacy__item-title');
 });
 
 test('should render counter', () => {
@@ -82,7 +82,7 @@ test('should render counter', () => {
     const counterComponent = screen.getByText(counter);
 
     expect(counterComponent).toBeVisible();
-    expect(counterComponent).toHaveClass('g-tabs__item-counter');
+    expect(counterComponent).toHaveClass('g-tabs-legacy__item-counter');
     expect(component).toContainElement(counterComponent);
 });
 
@@ -126,7 +126,7 @@ test('should render meta', () => {
     const metaComponent = screen.getByText(meta);
 
     expect(metaComponent).toBeVisible();
-    expect(metaComponent).toHaveClass('g-tabs__item-meta');
+    expect(metaComponent).toHaveClass('g-tabs-legacy__item-meta');
     expect(component).toContainElement(metaComponent);
 });
 

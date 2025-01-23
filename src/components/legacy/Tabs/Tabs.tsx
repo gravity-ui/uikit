@@ -12,7 +12,7 @@ import type {TabsItemProps as TabsItemInternalProps} from './TabsItem';
 
 import './Tabs.scss';
 
-const b = block('tabs');
+const b = block('tabs-legacy');
 
 export enum TabsDirection {
     Horizontal = 'horizontal',
@@ -66,6 +66,9 @@ const getActiveTabId = (
 
 const emptyTabsList: TabsItemProps[] = [];
 
+/**
+ * @deprecated
+ */
 const TabsComponent = React.forwardRef<HTMLDivElement, TabsProps>(
     (
         {

@@ -9,7 +9,7 @@ import {block} from '../../utils/cn';
 
 import {TabsContext} from './TabsContext';
 
-const b = block('tabs');
+const b = block('tabs-legacy');
 
 type ExtraProps = Omit<
     React.HTMLProps<HTMLDivElement>,

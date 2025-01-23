@@ -37,6 +37,7 @@ export const PaginationPage = ({item, size, pageSize, className, onUpdate, itemW
             className={className}
             onClick={() => onUpdate?.(item.page, pageSize)}
             qa={qa}
+            component={itemWrapper ? 'span' : undefined}
         >
             {item.page}
         </Button>

@@ -66,7 +66,7 @@ export const PaginationButton = ({
         return itemWrapper({
             page: currentPage,
             pageSize,
-            item: <Button {...buttonProps} />,
+            item: <Button {...buttonProps} component={'span'} />,
         });
     } else {
         return <Button {...buttonProps} />;

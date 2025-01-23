@@ -37,6 +37,7 @@ const FILE_ICON: Record<FileType, IconData> = {
     video: VideoIcon,
     code: CodeIcon,
     archive: ArchiveIcon,
+    audio: MusicIcon,
     music: MusicIcon,
     text: TextIcon,
     pdf: PdfIcon,

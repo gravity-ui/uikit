@@ -143,3 +143,25 @@ export const Align: Story = {
         ...Default.args,
     },
 };
+
+export const WithScrollableMessage: Story = {
+    render: ({message, ...restArgs}) => (
+        <Showcase>
+            <ShowcaseItem title={''}>
+                <Alert
+                    {...restArgs}
+                    message={
+                        <div style={{overflowX: 'auto'}}>
+                            <div>{message}</div>
+                        </div>
+                    }
+                />
+            </ShowcaseItem>
+        </Showcase>
+    ),
+    args: {
+        ...Default.args,
+        message: 'VeryveryveryveryveryveryveryveryveryveryveryveryLongUnbreakableMessage',
+        style: {maxWidth: '300px'},
+    },
+};

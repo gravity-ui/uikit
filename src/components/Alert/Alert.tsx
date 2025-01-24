@@ -44,9 +44,28 @@ export const Alert = (props: AlertProps) => {
                     ) : (
                         props.icon // ability to pass `null` as `icon` prop value
                     )}
-                    <Flex direction={layout === 'vertical' ? 'column' : 'row'} gap="5" grow>
-                        <Flex gap="2" grow className={bAlert('text-content')}>
-                            <Flex direction="column" gap="1" grow justifyContent={align}>
+                    <Flex
+                        direction={layout === 'vertical' ? 'column' : 'row'}
+                        gap="5"
+                        grow
+                        shrink={1}
+                        minWidth={0}
+                    >
+                        <Flex
+                            gap="2"
+                            grow
+                            shrink={1}
+                            minWidth={0}
+                            className={bAlert('text-content')}
+                        >
+                            <Flex
+                                direction="column"
+                                justifyContent={align}
+                                gap="1"
+                                grow
+                                shrink={1}
+                                minWidth={0}
+                            >
                                 {typeof props.title === 'string' ? (
                                     <Alert.Title text={props.title} />
                                 ) : (

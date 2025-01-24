@@ -26,7 +26,7 @@ import {Pagination, PaginationProps} from '@gravity-ui/uikit';
 const [state, setState] = React.useState({page: 1, pageSize: 100});
 
 const handleUpdate: PaginationProps['onUpdate'] = (page, pageSize) =>
-  setState((prevState) => ({...prevState, page, pageSize}));
+  setState({page, pageSize});
 
 const pagination = <Pagination page={1} pageSize={100} total={1000} onUpdate={handleUpdate} />;
 ```
@@ -35,7 +35,7 @@ const pagination = <Pagination page={1} pageSize={100} total={1000} onUpdate={ha
 
 In this case user will iteract with pagination's buttons as with custom controls.
 
-Set `itemWrapper` prop to use pagination as custom contrlols. In this case `onUpdate` will fire only on input and select components.
+Set `itemWrapper` prop to use pagination as custom controls. In this case `onUpdate` will fire only on input and select components.
 
 > For example, you can wrap it in `<a/>` tag and use them as links. Pages will be available to open (from context menu for example) in new tab, new window, etc.
 
@@ -54,14 +54,16 @@ function pageHrefBuilder(page: number, pageSize: number) {
     return window.location.href.replace(window.location.search, `?${queryParams.toString()}`);
 }
 
-const [state, setState] = React.useState({page: 1, pageSize: 100});
+const queryParams = new URLSearchParams(window.location.search);
+const page = Number(queryParams.get(PAGE_PARAM));
+const pageSize = Number(queryParams.get(PAGE_SIZE_PARAM));
 
-const renderWrapper = ({page, pageSize, button}) => {
-        return button.props.disabled ? (
-            button
+const renderWrapper = ({page, pageSize, item}) => {
+        return item.props.disabled ? (
+            item
         ) : (
-            <a href={pageHrefBuilder(page, pageSize)} key={button.key}>
-                {button}
+            <a href={pageHrefBuilder(page, pageSize)} key={item.key}>
+                {item}
             </a>
         );
     },
@@ -71,11 +73,11 @@ const handleUpdate = (page, pageSize)=>{
     }
 
 const pagination = <Pagination
-        page={1}
-        pageSize={100}
+        page={page || 1}
+        pageSize={pageSize || 100}
         total={1000}
         itemWrapper={renderWrapper}
-        onUpdate={(page, pageSize)=>setState({page, pageSize})}
+        onUpdate={handleUpdate}
     >;
 ```
 
@@ -95,29 +97,32 @@ function pageHrefBuilder(page: number, pageSize: number) {
     return window.location.href.replace(window.location.search, `?${queryParams.toString()}`);
 }
 
-const [state, setState] = React.useState({page: 1, pageSize: 100});
 const navigate = useNavigate();
 
-const renderWrapper = ({page, pageSize, button}) => {
-        return button.props.disabled ? (
-            button
+const queryParams = new URLSearchParams(window.location.search);
+const page = Number(queryParams.get(PAGE_PARAM));
+const pageSize = Number(queryParams.get(PAGE_SIZE_PARAM));
+
+const renderWrapper = ({page, pageSize, item}) => {
+        return item.props.disabled ? (
+            item
         ) : (
-            <Link to={pageHrefBuilder(page, pageSize)} key={button.key}>
-                {button}
+            <Link to={pageHrefBuilder(page, pageSize)} key={item.key}>
+                {item}
             </a>
         );
     },
 
-const handleUpdate = (page, pageSize)=>{
+const handleUpdate = (page, pageSize) => {
         navigate(pageHrefBuilder(page, pageSize));
     }
 
 const pagination = <Pagination
-        page={1}
-        pageSize={100}
+        page={page || 1}
+        pageSize={pageSize || 100}
         total={1000}
         itemWrapper={renderWrapper}
-        onUpdate={(page, pageSize)=>setState({page, pageSize})}
+        onUpdate={handleUpdate}
     >;
 ```
 

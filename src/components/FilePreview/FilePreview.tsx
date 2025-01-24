@@ -74,7 +74,7 @@ export function FilePreview({
     const {onKeyDown} = useActionHandlers(onClick);
 
     React.useEffect(() => {
-        if (imageSrc) return undefined;
+        if (imageSrc || type !== 'image') return undefined;
 
         try {
             const createdUrl = URL.createObjectURL(file);
@@ -87,7 +87,7 @@ export function FilePreview({
         } catch (error: unknown) {
             return undefined;
         }
-    }, [file, imageSrc]);
+    }, [file, imageSrc, type]);
 
     const clickable = Boolean(onClick);
     const withActions = Boolean(actions?.length);

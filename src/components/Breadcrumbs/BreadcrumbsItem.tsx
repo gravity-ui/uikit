@@ -8,23 +8,22 @@ import {filterDOMProps} from '../utils/filterDOMProps';
 import {useMenuContext} from './BreadcrumbsDropdownMenu';
 import {b} from './utils';
 
-export interface BreadcrumbsItemViewProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-    children: React.ReactNode;
-    disabled?: boolean;
-    onAction?: () => void;
-    current?: boolean;
-    index?: number;
+export interface BreadcrumbsItemInnerProps {
+    __disabled?: boolean;
+    __onAction?: () => void;
+    __current?: boolean;
+    __index?: number;
 }
 
-function BreadcrumbsItem(
-    props: BreadcrumbsItemViewProps,
-    ref: React.ForwardedRef<HTMLAnchorElement>,
-) {
+export interface BreadcrumbsItemProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+    disabled?: boolean;
+    children?: React.ReactNode;
+}
+
+function BreadcrumbsItem(props: BreadcrumbsItemProps, ref: React.ForwardedRef<HTMLAnchorElement>) {
     const domProps = filterDOMProps(props, {labelable: true});
 
     const {
-        disabled,
-        current,
         href,
         hrefLang,
         target,
@@ -33,23 +32,26 @@ function BreadcrumbsItem(
         ping,
         referrerPolicy,
         children,
-        onAction,
-        index,
+        __disabled: disabled,
+        __current: current,
+        __onAction: onAction,
+        __index: index,
         ...restProps
-    } = props;
+    } = props as BreadcrumbsItemProps & BreadcrumbsItemInnerProps;
+
     let title = props.title;
     if (!title && typeof children === 'string') {
         title = children;
     }
 
-    const handleAction = (event: React.MouseEvent<HTMLElement>) => {
+    const handleAction = (event: React.MouseEvent<HTMLAnchorElement>) => {
         if (disabled) {
             event.preventDefault();
             return;
         }
 
         if (typeof restProps.onClick === 'function') {
-            restProps.onClick(event as any);
+            restProps.onClick(event);
         }
 
         if (typeof onAction === 'function') {
@@ -57,11 +59,10 @@ function BreadcrumbsItem(
         }
     };
 
-    const isDisabled = props.disabled;
-    const linkProps: React.AnchorHTMLAttributes<HTMLElement> = {
+    const linkProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
         title,
         onClick: handleAction,
-        'aria-disabled': isDisabled ? true : undefined,
+        'aria-disabled': disabled ? true : undefined,
     };
 
     if (href) {
@@ -72,10 +73,10 @@ function BreadcrumbsItem(
         linkProps.download = download;
         linkProps.ping = ping;
         linkProps.referrerPolicy = referrerPolicy;
-        linkProps.tabIndex = isDisabled ? -1 : undefined;
+        linkProps.tabIndex = disabled ? -1 : undefined;
     } else {
         linkProps.role = 'link';
-        linkProps.tabIndex = isDisabled ? undefined : 0;
+        linkProps.tabIndex = disabled ? undefined : 0;
         linkProps.onKeyDown = (event) => {
             if (disabled) {
                 event.preventDefault();
@@ -83,7 +84,7 @@ function BreadcrumbsItem(
             }
 
             if (typeof restProps.onKeyDown === 'function') {
-                restProps.onKeyDown(event as any);
+                restProps.onKeyDown(event);
             }
 
             if (event.key === 'Enter') {
@@ -102,7 +103,7 @@ function BreadcrumbsItem(
 
     const {isMenu, getItemProps, listItemsRef, activeIndex, popupStyle} = useMenuContext();
     if (isMenu) {
-        const active = !isDisabled && activeIndex === index;
+        const active = !disabled && activeIndex === index;
         return (
             <ListItemView
                 {...getItemProps({
@@ -121,7 +122,7 @@ function BreadcrumbsItem(
                 size="m"
                 className={b('menu-link', props.className)}
                 component={Element}
-                disabled={isDisabled}
+                disabled={disabled}
             >
                 {children}
             </ListItemView>
@@ -138,7 +139,7 @@ function BreadcrumbsItem(
                 'link',
                 {
                     'is-current': current,
-                    'is-disabled': isDisabled && !current,
+                    'is-disabled': disabled && !current,
                 },
                 props.className,
             )}
@@ -150,4 +151,5 @@ function BreadcrumbsItem(
 
 BreadcrumbsItem.displayName = 'Breadcrumbs.Item';
 
-export const BreadcrumbsItemView = React.forwardRef(BreadcrumbsItem);
+const _BreadcrumbsItem = React.forwardRef(BreadcrumbsItem);
+export {_BreadcrumbsItem as BreadcrumbsItem};

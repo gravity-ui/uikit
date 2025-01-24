@@ -8,37 +8,22 @@ import type {AriaLabelingProps, DOMProps, Key, QAProps} from '../types';
 import {filterDOMProps} from '../utils/filterDOMProps';
 
 import {BreadcrumbsDropdownMenu} from './BreadcrumbsDropdownMenu';
-import {BreadcrumbsItemView} from './BreadcrumbsItemView';
+import {BreadcrumbsItem} from './BreadcrumbsItem';
+import type {BreadcrumbsItemInnerProps} from './BreadcrumbsItem';
 import {BreadcrumbsSeparator} from './BreadcrumbsSeparator';
 import {b} from './utils';
 
 import './Breadcrumbs.scss';
 
-export type BreadcrumbsItemProps<T extends React.ElementType> =
-    React.ComponentPropsWithoutRef<T> & {
-        component?: T;
-        disabled?: boolean;
-    };
-
-function Item<T extends React.ElementType = 'a'>(
-    _props: BreadcrumbsItemProps<T>,
-): React.ReactElement | null {
-    return null;
-}
-
-export interface BreadcrumbsProps<T extends React.ElementType = 'a'>
-    extends DOMProps,
-        AriaLabelingProps,
-        QAProps {
+export interface BreadcrumbsProps extends DOMProps, AriaLabelingProps, QAProps {
     id?: string;
     showRoot?: boolean;
     separator?: React.ReactNode;
     maxItems?: number;
     popupStyle?: 'staircase';
     popupPlacement?: PopupPlacement;
-    children:
-        | React.ReactElement<BreadcrumbsItemProps<T>>
-        | React.ReactElement<BreadcrumbsItemProps<T>>[];
+    itemComponent?: React.ElementType;
+    children: React.ReactNode;
     disabled?: boolean;
     onAction?: (key: Key) => void;
 }
@@ -167,22 +152,23 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
                 disabled={props.disabled}
                 popupPlacement={props.popupPlacement}
                 popupStyle={props.popupStyle}
-                component={BreadcrumbsDropdownMenu}
+                data-breadcrumbs-menu-item={true}
             >
                 {hiddenItems.map((child, index) => {
-                    const Component = child.props.component ?? BreadcrumbsItemView;
+                    const Component = props.itemComponent ?? BreadcrumbsItem;
+                    const key = child.key ?? index;
+                    const handleAction = () => {
+                        if (typeof props.onAction === 'function') {
+                            props.onAction(key);
+                        }
+                    };
+                    const innerProps: BreadcrumbsItemInnerProps = {
+                        __index: index,
+                        __disabled: props.disabled || child.props.disabled,
+                        __onAction: handleAction,
+                    };
                     return (
-                        <Component
-                            {...child.props}
-                            index={index}
-                            key={child.key}
-                            disabled={props.disabled || child.props.disabled}
-                            onAction={() => {
-                                if (typeof props.onAction === 'function') {
-                                    props.onAction(child.key ?? index);
-                                }
-                            }}
-                        >
+                        <Component {...child.props} key={key} {...innerProps}>
                             {child.props.children}
                         </Component>
                     );
@@ -195,7 +181,7 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
     }
 
     const lastIndex = contents.length - 1;
-    const breadcrumbItems = contents.map((child, index) => {
+    const breadcrumbsItems = contents.map((child, index) => {
         const isCurrent = index === lastIndex;
         const key = child.key ?? index;
         const handleAction = () => {
@@ -204,18 +190,26 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
             }
         };
 
-        const {component: Component = BreadcrumbsItemView, ...childProps} = child.props;
-        return (
-            <li key={index} className={b('item', {calculating: !calculated})}>
-                <Component
-                    {...childProps}
-                    key={key}
-                    current={isCurrent}
-                    disabled={props.disabled || childProps.disabled}
-                    onAction={handleAction}
-                >
+        const {'data-breadcrumbs-menu-item': isMenu, ...childProps} = child.props;
+        let item: React.ReactNode;
+        if (isMenu) {
+            item = child;
+        } else {
+            const Component = props.itemComponent ?? BreadcrumbsItem;
+            const innerProps: BreadcrumbsItemInnerProps = {
+                __current: isCurrent,
+                __disabled: props.disabled || childProps.disabled,
+                __onAction: handleAction,
+            };
+            item = (
+                <Component {...childProps} key={key} {...innerProps}>
                     {childProps.children}
                 </Component>
+            );
+        }
+        return (
+            <li key={index} className={b('item', {calculating: !calculated})}>
+                {item}
                 {isCurrent ? null : <BreadcrumbsSeparator separator={props.separator} />}
             </li>
         );
@@ -228,7 +222,7 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
             className={b(null, props.className)}
             style={props.style}
         >
-            {breadcrumbItems}
+            {breadcrumbsItems}
         </ol>
     );
 }) as unknown as BreadcrumbsComponent;
@@ -236,10 +230,8 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
 type BreadcrumbsComponent = React.FunctionComponent<
     BreadcrumbsProps & {ref?: React.Ref<HTMLElement>}
 > & {
-    Item: typeof Item;
+    Item: typeof BreadcrumbsItem;
 };
 
-Breadcrumbs.Item = Item;
+Breadcrumbs.Item = BreadcrumbsItem;
 Breadcrumbs.displayName = 'Breadcrumbs';
-
-export {Item as BreadcrumbsItem};

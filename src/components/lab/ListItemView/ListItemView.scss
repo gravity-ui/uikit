@@ -3,68 +3,69 @@
 
 $block: '.#{variables.$ns}lab-list-item-view';
 
-/* ListItemView CSS API */
+/* ListItemView CSS API
+    --g-list-item-view-min-height
+    --g-list-item-view-border-radius
+    --g-list-item-view-padding-inline
+    --g-list-item-view-padding-block
+    --g-list-item-view-line-height
+    --g-list-item-view-controls-gap
+    --g-list-item-view-controls-size
+    --g-list-item-view-controls-border-radius
+    --g-list-item-view-controls-icon-size
+    --g-list-item-view-spacer-size
+    --g-list-item-view-background-color
+    --g-list-item-view-background-color-hover
+    --g-list-item-view-text-color
+    --g-list-item-view-description-color
+*/
 #{$block} {
     /* Sizes */
-    --_--g-list-item-view-height: var(--g-list-item-view-height, #{variables.$m-height});
-    --_--g-list-item-view-border-radius: var(
-        --g-list-item-view-border-radius,
-        var(--g-border-radius-m)
-    );
-    --_--g-list-item-view-padding-inline: var(
-        --g-list-item-view-padding-inline,
-        var(--g-spacing-2)
-    );
-    --_--g-list-item-view-padding-block: var(--g-list-item-view-padding-block, var(--g-spacing-1));
-    --_--g-list-item-view-line-height: var(--g-list-item-view-line-height, 18px);
+    --_--min-height: var(--g-list-item-view-min-height, #{variables.$m-height});
+    --_--border-radius: var(--g-list-item-view-border-radius, var(--g-border-radius-m));
+    --_--padding-inline: var(--g-list-item-view-padding-inline, var(--g-spacing-2));
+    --_--padding-block: var(--g-list-item-view-padding-block, var(--g-spacing-1));
+    --_--line-height: var(--g-list-item-view-line-height, 18px);
 
-    --_--g-list-item-view-controls-gap: var(--g-list-item-view-controls-gap, var(--g-spacing-1));
-    --_--g-list-item-view-controls-size: var(
-        --g-list-item-view-controls-size,
-        #{variables.$s-height}
-    );
-    --_--g-list-item-view-controls-border-radius: var(
+    --_--controls-gap: var(--g-list-item-view-controls-gap, var(--g-spacing-1));
+    --_--controls-size: var(--g-list-item-view-controls-size, #{variables.$s-height});
+    --_--controls-border-radius: var(
         --g-list-item-view-controls-border-radius,
         var(--g-border-radius-s)
     );
-    --_--g-list-item-view-controls-icon-size: var(--g-list-item-view-controls-icon-size, 16px);
-    --_--g-list-item-view-spacer-size: var(
-        --g-list-item-view-spacer-size,
-        var(--_--g-list-item-view-controls-size)
-    );
+    --_--controls-icon-size: var(--g-list-item-view-controls-icon-size, 16px);
+
+    --_--spacer-size: var(--g-list-item-view-spacer-size, var(--_--controls-size));
 
     /* Colors */
-    --_--g-list-item-view-background: var(--g-list-item-view-background, var(--g-color-base-fill));
-    --_--g-list-item-view-background-hover: var(
-        --g-list-item-view-background-hover,
+    --_--background-color: var(--g-list-item-view-background-color, var(--g-color-base-fill));
+    --_--background-color-hover: var(
+        --g-list-item-view-background-color-hover,
         var(--g-color-base-simple-hover)
     );
-    --_--g-list-item-view-background-disabled: var(
-        --g-list-item-view-background-disabled,
+    --_--background-color-disabled: var(
+        --g-list-item-view-background-color,
         var(--g-color-base-fill)
     );
-    --_--g-list-item-view-background-selected: var(
-        --g-list-item-view-background-selected,
+    --_--background-color-active: var(
+        --g-list-item-view-background-color,
+        var(--g-color-base-generic-medium)
+    );
+    --_--background-color-selected: var(
+        --g-list-item-view-background-color,
         var(--g-color-base-selection)
     );
-    --_--g-list-item-view-background-selected-hover: var(
-        --g-list-item-view-background-selected-hover,
+    --_--background-color-selected-hover: var(
+        --g-list-item-view-background-color-hover,
         var(--g-color-base-selection-hover)
     );
-    --_--g-list-item-view-focus-outline-width: var(--g-list-item-view-focus-outline-width, 2px);
-    --_--g-list-item-view-focus-outline-style: var(--g-list-item-view-focus-outline-style, solid);
-    --_--g-list-item-view-focus-outline-color: var(
-        --g-list-item-view-focus-outline-color,
-        var(--g-color-line-focus)
+    --_--text-color: var(--g-list-item-view-text-color, var(--g-color-text-primary));
+    --_--text-color-disabled: var(--g-list-item-view-text-color, var(--g-color-text-hint));
+    --_--description-color: var(
+        --g-list-item-view-description-color,
+        var(--g-color-text-secondary)
     );
-    --_--g-list-item-view-focus-outline-offset: var(--g-list-item-view-focus-outline-offset, 0);
-    --_--g-list-item-view-color: var(--g-list-item-view-color, var(--g-color-text-primary));
-    --_--g-list-item-view-color-description: var(--g-color-text-secondary);
-    --_--g-list-item-view-color-disabled: var(
-        --g-list-item-view-color-disabled,
-        var(--g-color-text-hint)
-    );
-    --_--g-list-item-view-nested-level: var(--g-list-item-view-nested-level, 0);
+    --_--nested-level: 0;
 }
 
 #{$block} {
@@ -75,63 +76,51 @@ $block: '.#{variables.$ns}lab-list-item-view';
         'drag-handle spacer collapsed-toggle checked start-content description end-content' auto
         / auto auto auto auto auto 1fr auto;
     align-items: center;
-    min-height: calc(
-        var(--_--g-list-item-view-height) + var(--_--g-list-item-view-description-height, 0px)
-    );
-    border-radius: var(--_--g-list-item-view-border-radius);
-    background: var(--_--g-list-item-view-background);
-    color: var(--_--g-list-item-view-color);
+    min-height: calc(var(--_--min-height) + var(--_--description-min-height, 0px));
+    border-radius: var(--_--border-radius);
+    background: var(--_--background-color);
+    color: var(--_--text-color);
 
-    padding-inline: var(--_--g-list-item-view-padding-inline);
-    padding-block: var(--_--g-list-item-view-padding-block);
+    padding-inline: var(--_--padding-inline);
+    padding-block: var(--_--padding-block);
     outline: none;
 
     @include mixins.text-body-1;
 
-    &:focus-visible {
-        outline: var(--_--g-list-item-view-focus-outline-width)
-            var(--_--g-list-item-view-focus-outline-style)
-            var(--_--g-list-item-view-focus-outline-color);
-        outline-offset: var(--_--g-list-item-view-focus-outline-offset);
-        --_--g-list-item-view-background: var(--_--g-list-item-view-background-hover);
-    }
-
     &_has-description {
-        --_--g-list-item-view-description-height: 16px;
+        --_--description-min-height: 16px;
     }
 
     &__slot {
         &:not(&_name_spacer) + &:not(&_name_description, &_name_spacer),
         &:not(&_name_spacer) + & + &_name_description {
-            margin-inline-start: var(--_--g-list-item-view-controls-gap);
+            margin-inline-start: var(--_--controls-gap);
         }
 
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: var(--_--g-list-item-view-controls-gap);
-        margin-block: calc(-1 * var(--_--g-list-item-view-padding-block));
+        gap: var(--_--controls-gap);
+        margin-block: calc(-1 * var(--_--padding-block));
 
         &_name {
             &_drag-handle {
                 grid-area: drag-handle;
-                --g-button-height: var(--_--g-list-item-view-controls-size);
-                --g-button-border-radius: var(--_--g-list-item-view-controls-border-radius);
+                --g-button-height: var(--_--controls-size);
+                --g-button-border-radius: var(--_--controls-border-radius);
                 --g-button-background-color-hover: transparent;
             }
 
             &_spacer {
                 grid-area: spacer;
-                width: calc(
-                    var(--_--g-list-item-view-spacer-size) * var(--_--g-list-item-view-nested-level)
-                );
-                height: var(--_--g-list-item-view-controls-size);
+                width: calc(var(--_--spacer-size) * var(--_--nested-level));
+                height: var(--_--controls-size);
             }
 
             &_collapsed-toggle {
                 grid-area: collapsed-toggle;
-                --g-button-height: var(--_--g-list-item-view-controls-size);
-                --g-button-border-radius: var(--_--g-list-item-view-controls-border-radius);
+                --g-button-height: var(--_--controls-size);
+                --g-button-border-radius: var(--_--controls-border-radius);
                 --g-button-background-color-hover: transparent;
             }
 
@@ -149,7 +138,7 @@ $block: '.#{variables.$ns}lab-list-item-view';
                 justify-content: flex-start;
                 overflow: hidden;
                 min-width: 3ch;
-                line-height: var(--_--g-list-item-view-line-height);
+                line-height: var(--_--line-height);
                 margin-block: 0;
             }
 
@@ -158,8 +147,8 @@ $block: '.#{variables.$ns}lab-list-item-view';
                 justify-content: flex-start;
                 overflow: hidden;
                 min-width: 3ch;
-                color: var(--_--g-list-item-view-color-description);
-                line-height: var(--_--g-list-item-view-line-height);
+                color: var(--_--description-color);
+                line-height: var(--_--line-height);
                 margin-block: 0;
             }
 
@@ -177,82 +166,85 @@ $block: '.#{variables.$ns}lab-list-item-view';
 
     &_size {
         &_s {
-            --_--g-list-item-view-height: #{variables.$s-height};
-            --_--g-list-item-view-border-radius: var(--g-border-radius-s);
-            --_--g-list-item-view-padding-inline: var(--g-spacing-2);
-            --_--g-list-item-view-padding-block: var(--g-spacing-half);
+            --_--min-height: #{variables.$s-height};
+            --_--border-radius: var(--g-border-radius-s);
+            --_--padding-inline: var(--g-spacing-2);
+            --_--padding-block: var(--g-spacing-half);
 
-            --_--g-list-item-view-controls-gap: var(--g-spacing-2);
-            --_--g-list-item-view-controls-size: #{variables.$xs-height};
-            --_--g-list-item-view-controls-border-radius: var(--g-border-radius-xs);
-            --_--g-list-item-view-controls-icon-size: 12px;
+            --_--controls-gap: var(--g-spacing-2);
+            --_--controls-size: #{variables.$xs-height};
+            --_--controls-border-radius: var(--g-border-radius-xs);
+            --_--controls-icon-size: 12px;
         }
 
         &_m {
-            --_--g-list-item-view-height: #{variables.$m-height};
-            --_--g-list-item-view-border-radius: var(--g-border-radius-m);
-            --_--g-list-item-view-padding-inline: var(--g-spacing-2);
-            --_--g-list-item-view-padding-block: var(--g-spacing-1);
+            --_--min-height: #{variables.$m-height};
+            --_--border-radius: var(--g-border-radius-m);
+            --_--padding-inline: var(--g-spacing-2);
+            --_--padding-block: var(--g-spacing-1);
 
-            --_--g-list-item-view-controls-gap: var(--g-spacing-2);
-            --_--g-list-item-view-controls-size: #{variables.$s-height};
-            --_--g-list-item-view-controls-border-radius: var(--g-border-radius-s);
-            --_--g-list-item-view-controls-icon-size: 16px;
+            --_--controls-gap: var(--g-spacing-2);
+            --_--controls-size: #{variables.$s-height};
+            --_--controls-border-radius: var(--g-border-radius-s);
+            --_--controls-icon-size: 16px;
         }
 
         &_l {
-            --_--g-list-item-view-height: #{variables.$l-height};
-            --_--g-list-item-view-border-radius: var(--g-border-radius-l);
-            --_--g-list-item-view-padding-inline: var(--g-spacing-2);
-            --_--g-list-item-view-padding-block: var(--g-spacing-2)
-                --_--g-list-item-view-controls-gap: var(--g-spacing-2);
-            --_--g-list-item-view-controls-size: #{variables.$m-height};
-            --_--g-list-item-view-controls-border-radius: var(--g-border-radius-m);
-            --_--g-list-item-view-controls-icon-size: 16px;
+            --_--min-height: #{variables.$l-height};
+            --_--border-radius: var(--g-border-radius-l);
+            --_--padding-inline: var(--g-spacing-2);
+            --_--padding-block: var(--g-spacing-2);
+            --_--controls-gap: var(--g-spacing-2);
+            --_--controls-size: #{variables.$m-height};
+            --_--controls-border-radius: var(--g-border-radius-m);
+            --_--controls-icon-size: 16px;
         }
 
         &_xl {
-            --_--g-list-item-view-height: #{variables.$xl-height};
-            --_--g-list-item-view-border-radius: var(--g-border-radius-xl);
-            --_--g-list-item-view-padding-inline: var(--g-spacing-2);
-            --_--g-list-item-view-padding-block: var(--g-spacing-3);
+            --_--min-height: #{variables.$xl-height};
+            --_--border-radius: var(--g-border-radius-xl);
+            --_--padding-inline: var(--g-spacing-2);
+            --_--padding-block: var(--g-spacing-3);
 
-            --_--g-list-item-view-controls-gap: var(--g-spacing-2);
-            --_--g-list-item-view-controls-size: #{variables.$l-height};
-            --_--g-list-item-view-controls-border-radius: var(--g-border-radius-l);
-            --_--g-list-item-view-controls-icon-size: 16px;
+            --_--controls-gap: var(--g-spacing-2);
+            --_--controls-size: #{variables.$l-height};
+            --_--controls-border-radius: var(--g-border-radius-l);
+            --_--controls-icon-size: 16px;
 
             @include mixins.text-body-2;
         }
     }
 
     &_is-container {
-        --_--g-list-item-view-padding-inline: 0;
-        --_--g-list-item-view-padding-block: 0;
+        --_--padding-inline: 0;
+        --_--padding-block: 0;
+    }
+
+    &:focus {
+        --_--background-color: var(--_--background-color-hover);
     }
 
     &:hover {
-        --_--g-list-item-view-background: var(--_--g-list-item-view-background-hover);
-    }
-
-    &_selected {
-        --_--g-list-item-view-background: var(--_--g-list-item-view-background-selected);
-        --_--g-list-item-view-background-hover: var(
-            --_--g-list-item-view-background-selected-hover
-        );
+        --_--background-color: var(--_--background-color-hover);
     }
 
     &_active {
-        --_--g-list-item-view-background: var(--_--g-list-item-view-background-hover);
+        --_--background-color: var(--_--background-color-hover);
+        --_--background-color-hover: var(--_--background-color-active);
+    }
+
+    &_selected {
+        --_--background-color: var(--_--background-color-selected);
+        --_--background-color-hover: var(--_--background-color-selected-hover);
     }
 
     &_disabled {
         &,
         &:hover,
         &:focus {
-            --_--g-list-item-view-background: var(--_--g-list-item-view-background-disabled);
-            --_--g-list-item-view-color: var(--_--g-list-item-view-color-disabled);
-            --_--g-list-item-view-color-description: var(--_--g-list-item-view-color-disabled);
+            --_--background-color: var(--_--background-color-disabled);
+            --_--text-color: var(--_--text-color-disabled);
+            --_--description-color: var(--_--text-color-disabled);
             outline: none;
         }
     }
@@ -273,13 +265,13 @@ $block: '.#{variables.$ns}lab-list-item-view';
         justify-content: center;
         align-items: center;
 
-        width: var(--_--g-list-item-view-controls-size);
-        height: var(--_--g-list-item-view-controls-size);
+        width: var(--_--controls-size);
+        height: var(--_--controls-size);
         color: var(--g-color-base-brand);
     }
 
     &__icon {
-        width: var(--_--g-list-item-view-controls-icon-size);
-        height: var(--_--g-list-item-view-controls-icon-size);
+        width: var(--_--controls-icon-size);
+        height: var(--_--controls-icon-size);
     }
 }

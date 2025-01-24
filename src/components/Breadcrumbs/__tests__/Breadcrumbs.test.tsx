@@ -4,7 +4,8 @@ import {userEvent} from '@testing-library/user-event';
 
 import {render, screen, within} from '../../../../test-utils/utils';
 import {Breadcrumbs} from '../Breadcrumbs';
-import {BreadcrumbsItemView} from '../BreadcrumbsItemView';
+import {BreadcrumbsItem} from '../BreadcrumbsItem';
+import type {BreadcrumbsItemProps} from '../BreadcrumbsItem';
 
 beforeEach(() => {
     jest.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockImplementation(function (
@@ -247,41 +248,28 @@ it('should support custom item component', async () => {
     }: {
         href: string;
         routerOptions: {foo: string};
-        children: React.ReactNode;
-    }) {
+    } & Omit<BreadcrumbsItemProps, 'href' | 'onClick'>) {
         return (
-            <BreadcrumbsItemView
-                {...rest}
-                href={href}
-                onClick={() => navigate(href, routerOptions)}
-            />
+            <BreadcrumbsItem {...rest} href={href} onClick={() => navigate(href, routerOptions)} />
         );
     }
     render(
-        <Breadcrumbs>
-            <Breadcrumbs.Item href="/" routerOptions={{foo: 'bar'}} component={RouterLink}>
+        <Breadcrumbs itemComponent={RouterLink}>
+            <RouterLink href="/" routerOptions={{foo: 'bar'}} disabled>
                 Example.com
-            </Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/foo" routerOptions={{foo: 'foo'}} component={RouterLink}>
+            </RouterLink>
+            <RouterLink href="/foo" routerOptions={{foo: 'foo'}}>
                 Foo
-            </Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/foo/bar" routerOptions={{foo: 'bar'}} component={RouterLink}>
+            </RouterLink>
+            <RouterLink href="/foo/bar" routerOptions={{foo: 'bar'}}>
                 Bar
-            </Breadcrumbs.Item>
-            <Breadcrumbs.Item
-                href="/foo/bar/baz"
-                routerOptions={{foo: 'bar'}}
-                component={RouterLink}
-            >
+            </RouterLink>
+            <RouterLink href="/foo/bar/baz" routerOptions={{foo: 'bar'}}>
                 Baz
-            </Breadcrumbs.Item>
-            <Breadcrumbs.Item
-                href="/foo/bar/baz/qux"
-                routerOptions={{foo: 'bar'}}
-                component={RouterLink}
-            >
+            </RouterLink>
+            <RouterLink href="/foo/bar/baz/qux" routerOptions={{foo: 'bar'}} disabled>
                 Qux
-            </Breadcrumbs.Item>
+            </RouterLink>
         </Breadcrumbs>,
     );
 
@@ -291,6 +279,9 @@ it('should support custom item component', async () => {
     expect(navigate).toHaveBeenCalledWith('/foo/bar', {foo: 'bar'});
     navigate.mockReset();
 
+    expect(links[2]).toHaveAttribute('aria-disabled', 'true');
+    expect(links[2]).toHaveAttribute('aria-current', 'page');
+
     const menuButton = screen.getByRole('button');
     await userEvent.click(menuButton);
 
@@ -299,4 +290,6 @@ it('should support custom item component', async () => {
     expect(items[1]).toHaveAttribute('href', '/foo');
     await userEvent.click(items[1]);
     expect(navigate).toHaveBeenCalledWith('/foo', {foo: 'foo'});
+
+    expect(items[0]).toHaveAttribute('aria-disabled', 'true');
 });

@@ -137,9 +137,7 @@ function ListItemViewContent({
     return (
         <React.Fragment>
             {draggable ? <Slot name="drag-handle" /> : null}
-            {nestedLevel ? (
-                <Slot name="spacer" style={{'--_--g-list-item-view-nested-level': nestedLevel}} />
-            ) : null}
+            {nestedLevel ? <Slot name="spacer" style={{'--_--nested-level': nestedLevel}} /> : null}
             {collapsible ? (
                 <Slot name="collapsed-toggle">
                     <Button

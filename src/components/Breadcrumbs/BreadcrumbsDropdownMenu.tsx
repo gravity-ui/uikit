@@ -24,7 +24,6 @@ interface DropdownMenuProps {
     disabled?: boolean;
     popupPlacement?: PopupPlacement;
     popupStyle?: 'staircase';
-    component?: typeof BreadcrumbsDropdownMenu;
 }
 
 interface MenuContext {

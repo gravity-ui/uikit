@@ -342,26 +342,20 @@ LANDING_BLOCK-->
 
 ```jsx
 import {useLinkClickHandler, useHref} from 'react-router';
-import {Breadcrumbs, BreadcrumbsItemView} from '@gravity-ui/uikit';
+import {Breadcrumbs, BreadcrumbsItem} from '@gravity-ui/uikit';
 
 function RouterLink({to, ...rest}) {
   const href = useHref(to);
   const onClick = useLinkClickHandler(to);
-  return <BreadcrumbsItemView {...rest} href={href} onClick={onClick} />;
+  return <BreadcrumbsItem {...rest} href={href} onClick={onClick} />;
 }
 
 function Navigation() {
   return (
-    <Breadcrumbs>
-      <Breadcrumbs.Item to="/" component={RouterLink}>
-        Home
-      </Breadcrumbs.Item>
-      <Breadcrumbs.Item to="/components" component={RouterLink}>
-        Components
-      </Breadcrumbs.Item>
-      <Breadcrumbs.Item to="/components/breadcrumbs" component={RouterLink}>
-        Breadcrumbs
-      </Breadcrumbs.Item>
+    <Breadcrumbs itemComponent={RouterLink}>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/components">Components</RouterLink>
+      <RouterLink to="/components/breadcrumbs">Breadcrumbs</RouterLink>
     </Breadcrumbs>
   );
 }
@@ -371,28 +365,22 @@ function Navigation() {
 
 ```jsx
 import Link from 'next/link';
-import {Breadcrumbs, BreadcrumbsItemView} from '@gravity-ui/uikit';
+import {Breadcrumbs, BreadcrumbsItem} from '@gravity-ui/uikit';
 
 function RouterLink({href, ...rest}) {
   return (
     <Link href={href} passHref legacyBehavior>
-      <BreadcrumbsItemView {...rest} />;
+      <BreadcrumbsItem {...rest} />;
     </Link>
   );
 }
 
 function Navigation() {
   return (
-    <Breadcrumbs>
-      <Breadcrumbs.Item href="/" component={RouterLink}>
-        Home
-      </Breadcrumbs.Item>
-      <Breadcrumbs.Item href="/components" component={RouterLink}>
-        Components
-      </Breadcrumbs.Item>
-      <Breadcrumbs.Item href="/components/breadcrumbs" component={RouterLink}>
-        Breadcrumbs
-      </Breadcrumbs.Item>
+    <Breadcrumbs itemComponent={RouterLink}>
+      <RouterLink href="/">Home</RouterLink>
+      <RouterLink href="/components">Components</RouterLink>
+      <RouterLink href="/components/breadcrumbs">Breadcrumbs</RouterLink>
     </Breadcrumbs>
   );
 }
@@ -402,22 +390,16 @@ function Navigation() {
 
 ```jsx
 import {createLink} from '@tanstack/react-router';
-import {Breadcrumbs, BreadcrumbsItemView} from '@gravity-ui/uikit';
+import {Breadcrumbs, BreadcrumbsItem} from '@gravity-ui/uikit';
 
-const RouterLink = createLink(BreadcrumbsItemView);
+const RouterLink = createLink(BreadcrumbsItem);
 
 function Navigation() {
   return (
-    <Breadcrumbs>
-      <Breadcrumbs.Item href="/" component={RouterLink}>
-        Home
-      </Breadcrumbs.Item>
-      <Breadcrumbs.Item href="/components" component={RouterLink}>
-        Components
-      </Breadcrumbs.Item>
-      <Breadcrumbs.Item href="/components/breadcrumbs" component={RouterLink}>
-        Breadcrumbs
-      </Breadcrumbs.Item>
+    <Breadcrumbs itemComponent={RouterLink}>
+      <RouterLink href="/">Home</RouterLink>
+      <RouterLink href="/components">Components</RouterLink>
+      <RouterLink href="/components/breadcrumbs">Breadcrumbs</RouterLink>
     </Breadcrumbs>
   );
 }

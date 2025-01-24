@@ -38,15 +38,15 @@ exports[`Alert has predicted styles if inline layout rendered 1`] = `
       </div>
       <div
         class="g-box g-flex"
-        style="flex-direction: row; flex-grow: 1; column-gap: 20px; row-gap: 20px;"
+        style="min-width: 0; flex-direction: row; flex-grow: 1; flex-shrink: 1; column-gap: 20px; row-gap: 20px;"
       >
         <div
           class="g-box g-flex g-alert__text-content"
-          style="flex-grow: 1; column-gap: 8px; row-gap: 8px;"
+          style="min-width: 0; flex-grow: 1; flex-shrink: 1; column-gap: 8px; row-gap: 8px;"
         >
           <div
             class="g-box g-flex"
-            style="flex-direction: column; flex-grow: 1; column-gap: 4px; row-gap: 4px; justify-content: center;"
+            style="min-width: 0; flex-direction: column; flex-grow: 1; flex-shrink: 1; column-gap: 4px; row-gap: 4px; justify-content: center;"
           >
             <span
               class="g-text g-text_variant_subheader-2 g-alert__title"

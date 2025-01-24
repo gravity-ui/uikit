@@ -10,7 +10,7 @@ jobs:
   comment:
     name: Create GitHub Comment
     if: github.event.workflow_run.event == 'pull_request'
-    runs-on: 'ubuntu-24.04:20250105.1.0'
+    runs-on: ubuntu-latest
     steps:
       - name: Download Artifacts
         uses: actions/download-artifact@v4

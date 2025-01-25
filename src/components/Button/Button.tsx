@@ -50,6 +50,7 @@ export interface ButtonButtonProps
     extends ButtonCommonProps,
         Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'> {
     component?: never;
+    ref?: React.Ref<HTMLButtonElement>;
     href?: never;
     /**
      * @deprecated Use additional props at the root
@@ -61,6 +62,7 @@ export interface ButtonLinkProps
     extends ButtonCommonProps,
         React.AnchorHTMLAttributes<HTMLAnchorElement> {
     component?: never;
+    ref?: React.Ref<HTMLAnchorElement>;
     href: string;
     /**
      * @deprecated Use additional props at the root
@@ -68,9 +70,11 @@ export interface ButtonLinkProps
     extraProps?: React.AnchorHTMLAttributes<HTMLAnchorElement>;
 }
 
-export type ButtonComponentProps<T extends React.ElementType = 'button'> = ButtonCommonProps &
+export type ButtonComponentProps<T extends React.ElementType> = ButtonCommonProps &
     React.ComponentPropsWithoutRef<T> & {
-        component: T;
+        component: Exclude<T, 'a' | 'button'>;
+        ref?: React.Ref<T extends string ? React.ComponentRef<Exclude<T, 'a' | 'button'>> : T>;
+        href?: never;
         /**
          * @deprecated Use additional props at the root
          */
@@ -84,8 +88,11 @@ export type ButtonProps<T extends React.ElementType = 'button'> =
 
 const b = block('button');
 
-const _Button = React.forwardRef(function Button(
-    {
+const _Button = React.forwardRef(function Button<T extends React.ElementType>(
+    props: ButtonProps<T>,
+    ref: any,
+) {
+    const {
         view = 'normal',
         size = 'm',
         pin = 'round-round',
@@ -96,10 +103,9 @@ const _Button = React.forwardRef(function Button(
         children,
         extraProps,
         qa,
-        ...props
-    }: ButtonProps,
-    ref,
-) {
+        ...rest
+    } = props;
+
     const handleClickCapture = React.useCallback(
         (event: React.MouseEvent<any>) => {
             eventBroker.publish({
@@ -131,7 +137,7 @@ const _Button = React.forwardRef(function Button(
                 loading: loading,
                 width: width,
             },
-            props.className,
+            rest.className,
         ),
         'data-qa': qa,
     };
@@ -140,7 +146,7 @@ const _Button = React.forwardRef(function Button(
         return React.createElement(
             props.component,
             {
-                ...props,
+                ...rest,
                 ...extraProps,
                 ...commonProps,
                 ref: ref,
@@ -153,11 +159,11 @@ const _Button = React.forwardRef(function Button(
     if (typeof props.href !== 'undefined') {
         return (
             <a
-                {...props}
-                {...(extraProps as ButtonLinkProps['extraProps'])}
+                {...(rest as Pick<typeof props, keyof typeof rest>)}
+                {...(extraProps as (typeof props)['extraProps'])}
                 {...commonProps}
-                ref={ref as React.Ref<HTMLAnchorElement>}
-                rel={props.target === '_blank' && !props.rel ? 'noopener noreferrer' : props.rel}
+                ref={ref as (typeof props)['ref']}
+                rel={props.target === '_blank' && !rest.rel ? 'noopener noreferrer' : rest.rel}
                 aria-disabled={disabled ?? undefined}
             >
                 {prepareChildren(children)}
@@ -167,24 +173,18 @@ const _Button = React.forwardRef(function Button(
 
     return (
         <button
-            {...props}
-            {...(extraProps as ButtonButtonProps['extraProps'])}
+            {...(rest as Pick<typeof props, keyof typeof rest>)}
+            {...extraProps}
             {...commonProps}
-            ref={ref as React.Ref<HTMLButtonElement>}
-            type={props.type || 'button'}
+            ref={ref}
+            type={'button'}
             disabled={disabled || loading}
             aria-pressed={selected}
         >
             {prepareChildren(children)}
         </button>
     );
-}) as <T extends React.ElementType, P extends ButtonProps<T>>(
-    props: P extends {component: T}
-        ? ButtonComponentProps<T> & {ref?: any} // TODO: Add ref inference
-        : P extends {href: string}
-          ? ButtonLinkProps & {ref?: React.Ref<HTMLAnchorElement>}
-          : ButtonButtonProps & {ref?: React.Ref<HTMLButtonElement>},
-) => React.ReactElement;
+}) as <T extends React.ElementType = 'button'>(props: ButtonProps<T>) => React.ReactElement;
 
 export const Button = Object.assign(_Button, {Icon: ButtonIcon});
 

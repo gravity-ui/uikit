@@ -73,8 +73,6 @@ export interface ButtonLinkProps
 export type ButtonComponentProps<T extends React.ElementType> = ButtonCommonProps &
     React.ComponentPropsWithoutRef<T> & {
         component: Exclude<T, 'a' | 'button'>;
-        ref?: React.Ref<T extends string ? React.ComponentRef<Exclude<T, 'a' | 'button'>> : T>;
-        href?: never;
         /**
          * @deprecated Use additional props at the root
          */
@@ -90,7 +88,10 @@ const b = block('button');
 
 const _Button = React.forwardRef(function Button<T extends React.ElementType>(
     props: ButtonProps<T>,
-    ref: ButtonProps<T>['ref'],
+    ref:
+        | React.Ref<HTMLButtonElement>
+        | React.Ref<HTMLAnchorElement>
+        | React.Ref<T extends string ? React.ComponentRef<Exclude<T, 'a' | 'button'>> : T>,
 ) {
     const {
         view = 'normal',
@@ -142,7 +143,11 @@ const _Button = React.forwardRef(function Button<T extends React.ElementType>(
         'data-qa': qa,
     };
 
-    if (props.component) {
+    function isButtonComoponentProps(p: ButtonProps<T>): p is ButtonComponentProps<T> {
+        return p.component !== undefined;
+    }
+
+    if (isButtonComoponentProps(props)) {
         return React.createElement(
             props.component,
             {
@@ -184,7 +189,17 @@ const _Button = React.forwardRef(function Button<T extends React.ElementType>(
             {prepareChildren(children)}
         </button>
     );
-}) as <T extends React.ElementType = 'button'>(props: ButtonProps<T>) => React.ReactElement;
+}) as <T extends React.ElementType, P extends ButtonProps<T>>(
+    props: P extends {component: T}
+        ? ButtonComponentProps<T> & {
+              ref?: React.Ref<
+                  T extends string ? React.ComponentRef<Exclude<T, 'a' | 'button'>> : T
+              >;
+          }
+        : P extends {href: string}
+          ? ButtonLinkProps & {ref?: React.Ref<HTMLAnchorElement>}
+          : ButtonButtonProps & {ref?: React.Ref<HTMLButtonElement>},
+) => React.ReactElement;
 
 export const Button = Object.assign(_Button, {Icon: ButtonIcon});
 

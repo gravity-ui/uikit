@@ -11,6 +11,14 @@ export default {
     component: Modal,
 } as Meta;
 
+const showButtonStyle = {
+    width: '100%',
+    height: 200,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+};
+
 export const Default: StoryFn<ModalProps> = (props) => {
     const [open, setOpen] = React.useState(false);
 
@@ -19,15 +27,7 @@ export const Default: StoryFn<ModalProps> = (props) => {
             <Modal {...props} open={open} onClose={() => setOpen(false)}>
                 <div style={{padding: 10}}>Modal content</div>
             </Modal>
-            <div
-                style={{
-                    width: '100%',
-                    height: 200,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}
-            >
+            <div style={showButtonStyle}>
                 <Button onClick={() => setOpen(true)}>Show</Button>
             </div>
         </React.Fragment>

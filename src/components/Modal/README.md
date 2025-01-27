@@ -62,3 +62,5 @@ const [open, setOpen] = React.useState(false);
 | :------------------------ | :-------------------------------- |
 | `--g-modal-margin`        | Margin around the `Modal` content |
 | `--g-modal-border-radius` | `Modal` content border radius     |
+| `--g-modal-width`         | `Modal` container width           |
+| `--g-modal-height`        | `Modal` container height          |

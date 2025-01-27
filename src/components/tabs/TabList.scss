@@ -72,6 +72,7 @@ $block: '.#{variables.$ns}tab-list';
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            color: var(--g-color-text-secondary);
         }
 
         &-counter,
@@ -88,10 +89,6 @@ $block: '.#{variables.$ns}tab-list';
                 outline: 2px solid var(--g-color-line-focus);
                 outline-offset: -2px;
             }
-        }
-
-        &-title {
-            color: var(--g-color-text-secondary);
         }
 
         &-icon,

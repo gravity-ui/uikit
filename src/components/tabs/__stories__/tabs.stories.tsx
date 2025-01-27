@@ -3,6 +3,7 @@ import * as React from 'react';
 import {useArgs} from '@storybook/preview-api';
 import type {Meta, StoryFn} from '@storybook/react';
 
+import {Tooltip} from '../../Tooltip';
 import {Tab} from '../Tab';
 import {TabList} from '../TabList';
 import type {TabListProps} from '../TabList';
@@ -146,5 +147,26 @@ export const CustomTab: StoryFn<TabListProps> = ({...props}) => {
         <TabList {...props} onUpdate={(tabId) => setStoryArgs({value: tabId})}>
             {items}
         </TabList>
+    );
+};
+
+export const WrapTab: StoryFn<TabListProps> = ({...props}) => {
+    const [, setStoryArgs] = useArgs();
+
+    const items = React.useMemo(
+        () =>
+            getTabsMock({withTitle: false})?.map(({value, ...props}, i) => (
+                <Tooltip key={i} content={`I'm a tooltip for ${value}!`}>
+                    <Tab value={value} {...props} />
+                </Tooltip>
+            )),
+        [],
+    );
+    return (
+        <React.Fragment>
+            <TabList {...props} onUpdate={(tabId) => setStoryArgs({value: tabId})}>
+                {items}
+            </TabList>
+        </React.Fragment>
     );
 };

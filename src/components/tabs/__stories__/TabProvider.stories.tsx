@@ -3,6 +3,7 @@ import * as React from 'react';
 import {useArgs} from '@storybook/preview-api';
 import type {Meta, StoryFn} from '@storybook/react';
 
+import {Button} from '../../Button';
 import {Tab} from '../Tab';
 import {TabList} from '../TabList';
 import type {TabListProps} from '../TabList';
@@ -65,7 +66,9 @@ export const Default: StoryFn<TabListProps> = ({...args}) => {
         () =>
             getTabsMock({})?.map((tab, i) => (
                 <TabPanel key={i} value={tab.value} aria-labelledby={`tab-${i}`} id={`panel-${i}`}>
-                    {`Content of ${tab.value} tab panel`}
+                    <Button
+                        style={{marginTop: '10px'}}
+                    >{`Content of ${tab.value} tab panel`}</Button>
                 </TabPanel>
             )),
         [],

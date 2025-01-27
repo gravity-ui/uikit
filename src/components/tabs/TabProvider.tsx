@@ -5,7 +5,7 @@ import * as React from 'react';
 import {TabContext} from './contexts/TabContext';
 
 export type TabProviderProps = React.PropsWithChildren<{
-    value: string | undefined;
+    value?: string;
 }>;
 
 export const TabProvider = ({value: activeTabId, children}: TabProviderProps) => {

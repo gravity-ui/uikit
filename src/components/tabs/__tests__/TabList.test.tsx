@@ -2,11 +2,12 @@ import userEvent from '@testing-library/user-event';
 
 import {Tab, TabList} from '../';
 import {render, screen} from '../../../../test-utils/utils';
+import {KeyCode} from '../../../constants';
 import type {TabSize} from '../types';
 
 const qaId = 'tabs-list';
 
-import {tab1, tab2} from './constants';
+import {tab1, tab2, tab3, tab4} from './constants';
 
 test('should render tabs by default', () => {
     render(<TabList qa={qaId} />);
@@ -146,7 +147,7 @@ test('should call onUpdate on "\' \'" key', async () => {
     expect(onUpdateFn).toHaveBeenCalledWith(tab2.id);
 });
 
-test('should not call onUpdate on "[Enter]" key', async () => {
+test('should call onUpdate on "[Enter]" key', async () => {
     const onUpdateFn = jest.fn();
     const user = userEvent.setup();
 
@@ -166,5 +167,92 @@ test('should not call onUpdate on "[Enter]" key', async () => {
 
     await user.keyboard('[Enter]');
 
-    expect(onUpdateFn).not.toHaveBeenCalled();
+    expect(onUpdateFn).toHaveBeenCalledWith(tab2.id);
+});
+
+test('move focus on LEFT/RIGHT arrows', async () => {
+    const user = userEvent.setup();
+
+    render(
+        <TabList value={tab2.id}>
+            <div>
+                <Tab value={tab1.id} qa={tab1.qa}>
+                    {tab1.title}
+                </Tab>
+            </div>
+            <Tab value={tab2.id} qa={tab2.qa}>
+                {tab2.title}
+            </Tab>
+            <Tab disabled value={tab3.id} qa={tab3.qa}>
+                {tab3.title}
+            </Tab>
+            <Tab value={tab4.id} qa={tab4.qa}>
+                {tab4.title}
+            </Tab>
+        </TabList>,
+    );
+
+    const tabs = screen.queryAllByRole('tab');
+
+    await user.keyboard(`{${KeyCode.TAB}}`);
+    // active tab
+    expect(tabs[1]).toHaveFocus();
+
+    await user.keyboard(`{${KeyCode.ARROW_RIGHT}}`);
+    expect(tabs[3]).toHaveFocus();
+    expect(tabs[3]).toHaveAttribute('aria-selected', 'false');
+
+    await user.keyboard(`{${KeyCode.ARROW_RIGHT}}`);
+    expect(tabs[0]).toHaveFocus();
+    expect(tabs[0]).toHaveAttribute('aria-selected', 'false');
+
+    await user.keyboard(`{${KeyCode.ARROW_RIGHT}}`);
+    expect(tabs[1]).toHaveFocus();
+    expect(tabs[1]).toHaveAttribute('aria-selected', 'true');
+
+    await user.keyboard(`{${KeyCode.ARROW_LEFT}}`);
+    expect(tabs[0]).toHaveFocus();
+
+    await user.keyboard(`{${KeyCode.ARROW_LEFT}}`);
+    expect(tabs[3]).toHaveFocus();
+
+    await user.keyboard(`{${KeyCode.ARROW_LEFT}}`);
+    expect(tabs[1]).toHaveFocus();
+
+    await user.keyboard(`{${KeyCode.ARROW_LEFT}}`);
+    expect(tabs[0]).toHaveFocus();
+});
+
+it('move focus to the first/last tab on HOME/END button', async () => {
+    const user = userEvent.setup();
+    render(
+        <TabList value={tab2.id}>
+            <div>
+                <Tab value={tab1.id} qa={tab1.qa}>
+                    {tab1.title}
+                </Tab>
+            </div>
+            <Tab value={tab2.id} qa={tab2.qa}>
+                {tab2.title}
+            </Tab>
+            <Tab value={tab3.id} qa={tab3.qa}>
+                {tab3.title}
+            </Tab>
+            <Tab disabled value={tab4.id} qa={tab4.qa}>
+                {tab4.title}
+            </Tab>
+        </TabList>,
+    );
+
+    const tabs = screen.queryAllByRole('tab');
+
+    await user.keyboard(`{${KeyCode.TAB}}`);
+    // active tab
+    expect(tabs[1]).toHaveFocus();
+
+    await user.keyboard(`{${KeyCode.END}}`);
+    expect(tabs[2]).toHaveFocus();
+
+    await user.keyboard(`{${KeyCode.HOME}}`);
+    expect(tabs[0]).toHaveFocus();
 });

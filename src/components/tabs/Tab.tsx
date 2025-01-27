@@ -14,6 +14,7 @@ import type {TabTriggerProps} from './types';
 
 export interface TabProps extends AriaLabelingProps, DOMProps, QAProps, TabTriggerProps {
     value: string;
+    index?: number;
     title?: string;
     icon?: React.ReactNode;
     counter?: number | string;
@@ -27,10 +28,23 @@ export interface TabProps extends AriaLabelingProps, DOMProps, QAProps, TabTrigg
 }
 
 export const Tab = React.forwardRef<HTMLAnchorElement | HTMLDivElement, TabProps>((props, ref) => {
-    const {value, className, icon, counter, label, disabled, href, style, children, title, qa} =
-        props;
+    const {
+        value,
+        className,
+        icon,
+        counter,
+        label,
+        disabled,
+        href,
+        style,
+        children,
+        title,
+        qa,
+        index,
+    } = props;
 
-    const {activeTabId, onUpdate} = React.useContext(TabInnerContext);
+    const {activeTabId, onUpdate, focusedIndex, setFocusedIndex} =
+        React.useContext(TabInnerContext);
     const isActive = activeTabId === value;
 
     const handleClick = (event: React.MouseEvent | React.KeyboardEvent) => {
@@ -42,10 +56,34 @@ export const Tab = React.forwardRef<HTMLAnchorElement | HTMLDivElement, TabProps
     };
 
     const handleKeyDown = (event: React.KeyboardEvent) => {
-        if (event.key === KeyCode.SPACEBAR) {
+        if (event.key === KeyCode.SPACEBAR || event.key === KeyCode.ENTER) {
             onUpdate?.(value);
         }
     };
+
+    const tabIndex = React.useMemo(() => {
+        if (disabled) {
+            return -1;
+        }
+
+        if (focusedIndex === -1 && activeTabId) {
+            return activeTabId === value ? 0 : -1;
+        } else if (focusedIndex === -1 && !activeTabId) {
+            return index === 0 ? 0 : -1;
+        } else {
+            return focusedIndex === index ? 0 : -1;
+        }
+    }, [disabled, focusedIndex, index, value, activeTabId]);
+
+    const handleFocus = React.useCallback(() => {
+        if (index !== undefined) {
+            setFocusedIndex?.(index);
+        }
+    }, [index, setFocusedIndex]);
+
+    const handleBlur = React.useCallback(() => {
+        setFocusedIndex?.(-1);
+    }, [setFocusedIndex]);
 
     const tabProps = {
         'aria-selected': isActive,
@@ -56,7 +94,10 @@ export const Tab = React.forwardRef<HTMLAnchorElement | HTMLDivElement, TabProps
         style,
         title,
         onClick: handleClick,
+        onFocus: handleFocus,
+        onBlur: handleBlur,
         onKeyDown: handleKeyDown,
+        tabIndex,
         id: props.id,
         'data-qa': qa,
         className: bTabList('item', {active: isActive, disabled}, className),
@@ -84,7 +125,7 @@ export const Tab = React.forwardRef<HTMLAnchorElement | HTMLDivElement, TabProps
     }
 
     return (
-        <div {...tabProps} tabIndex={disabled ? -1 : 0} ref={ref as React.Ref<HTMLDivElement>}>
+        <div {...tabProps} ref={ref as React.Ref<HTMLDivElement>}>
             {content}
         </div>
     );

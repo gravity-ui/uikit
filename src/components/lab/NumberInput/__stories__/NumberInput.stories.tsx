@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {ArrowShapeUpToLine} from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react';

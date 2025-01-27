@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {Bars} from '@gravity-ui/icons';
 import type {Meta, StoryFn} from '@storybook/react';

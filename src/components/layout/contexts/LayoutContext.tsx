@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {DEFAULT_LAYOUT_THEME} from '../constants';
 import type {LayoutTheme, MediaType} from '../types';

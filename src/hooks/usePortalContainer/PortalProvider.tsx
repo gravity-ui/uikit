@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 export const PortalContext = React.createContext<React.RefObject<HTMLElement>>({current: null});
 

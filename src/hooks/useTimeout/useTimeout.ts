@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 export type UseTimeoutProps = Parameters<
     (callback: VoidFunction, ms: number | null | undefined) => void

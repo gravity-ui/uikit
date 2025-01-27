@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {ClipboardButton} from '../../ClipboardButton';
 import {b} from '../constants';
 import type {DefinitionListItemProps} from '../types';

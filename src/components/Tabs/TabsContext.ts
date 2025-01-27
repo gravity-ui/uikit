@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 export const TabsContext = React.createContext<{activeTabId: string | undefined}>({
     activeTabId: undefined,

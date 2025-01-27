@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {Flame} from '@gravity-ui/icons';
 
 import type {TabsProps} from '../Tabs';
@@ -22,6 +20,7 @@ export function getTabsMock(args: StoryParams): TabsProps['items'] {
                     maxWidth: args.withOverflow ? '100px' : 'auto',
                 },
             },
+            qa: '1',
         },
         {
             id: 'active',
@@ -35,6 +34,7 @@ export function getTabsMock(args: StoryParams): TabsProps['items'] {
                     maxWidth: args.withOverflow ? '100px' : 'auto',
                 },
             },
+            qa: '2',
         },
         {
             id: 'disabled',
@@ -49,6 +49,7 @@ export function getTabsMock(args: StoryParams): TabsProps['items'] {
                     maxWidth: args.withOverflow ? '100px' : 'auto',
                 },
             },
+            qa: '3',
         },
     ];
 }

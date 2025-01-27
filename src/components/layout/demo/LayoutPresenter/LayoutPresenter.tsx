@@ -1,4 +1,4 @@
-import React from 'react';
+import type * as React from 'react';
 
 import {Text} from '../../../Text';
 import type {LayoutTheme} from '../../../layout';

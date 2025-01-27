@@ -1,4 +1,4 @@
-import React from 'react';
+import type * as React from 'react';
 
 export function CheckboxTickIcon(props: React.SVGProps<SVGSVGElement>) {
     return (

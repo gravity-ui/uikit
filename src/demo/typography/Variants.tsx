@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {Showcase} from '../Showcase';
 
 import {TextPanel} from './TextPanel';

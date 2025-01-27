@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 import {Xmark} from '@gravity-ui/icons';
 
@@ -10,6 +10,8 @@ import type {CopyToClipboardStatus} from '../CopyToClipboard';
 import {Icon} from '../Icon';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
+
+import {LabelQa} from './constants';
 
 import './Label.scss';
 
@@ -122,6 +124,7 @@ export const Label = React.forwardRef(function Label(
                         side: 'end',
                         type: 'button',
                     })}
+                    data-qa={LabelQa.copyButton}
                 >
                     <ClipboardIcon status={status || 'pending'} size={copyIconSize} />
                 </button>
@@ -137,6 +140,7 @@ export const Label = React.forwardRef(function Label(
                         side: 'end',
                         type: 'button',
                     })}
+                    data-qa={LabelQa.closeButton}
                 >
                     <Icon size={closeIconSize} data={Xmark} />
                 </button>
@@ -165,6 +169,7 @@ export const Label = React.forwardRef(function Label(
                         type="button"
                         onClick={onClick}
                         className={b('main-button')}
+                        data-qa={LabelQa.mainButton}
                     >
                         {content}
                     </button>

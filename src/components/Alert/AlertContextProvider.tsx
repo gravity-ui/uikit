@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 import {AlertContext} from './AlertContext';
 import type {AlertContextProviderProps} from './types';
 

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 import {useRadioGroup} from '../../hooks/private';
 import {Radio} from '../Radio';
@@ -50,6 +50,7 @@ export const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
                 value: props.value,
                 content: props.content || props.children,
                 disabled: props.disabled,
+                qa: props.qa,
             }));
         }
 

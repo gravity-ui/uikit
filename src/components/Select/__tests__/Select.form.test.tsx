@@ -1,5 +1,5 @@
 /* eslint-disable testing-library/no-node-access */
-import React from 'react';
+import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 

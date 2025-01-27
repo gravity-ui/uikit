@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {Gear} from '@gravity-ui/icons';
 import {action} from '@storybook/addon-actions';
 import type {Meta, StoryObj} from '@storybook/react';
@@ -8,6 +6,7 @@ import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {Icon as IconComponent} from '../../Icon';
 import {Alert} from '../Alert';
+import {alignCases, cornersCases, layoutCases, themeCases, viewCases} from '../__tests__/cases';
 import type {AlertProps} from '../types';
 
 export default {
@@ -24,15 +23,6 @@ export const Default: Story = {
         message: 'Choose wisely: the end of the fairy tale depends on your decision',
     },
 };
-
-const themeCases: Array<NonNullable<AlertProps['theme']>> = [
-    'normal',
-    'info',
-    'success',
-    'warning',
-    'danger',
-    'utility',
-];
 
 export const Theme: Story = {
     render: (args) => (
@@ -56,13 +46,11 @@ export const CustomIcon: Story = {
     },
 };
 
-const cornersCases: Array<NonNullable<AlertProps['corners']>> = ['rounded', 'square'];
-
 export const Corners: Story = {
     render: (args) => (
         <Showcase>
             {cornersCases.map((corners, index) => (
-                <ShowcaseItem title={corners} key={index}>
+                <ShowcaseItem title={corners || ''} key={index}>
                     <Alert {...args} corners={corners} />
                 </ShowcaseItem>
             ))}
@@ -73,13 +61,11 @@ export const Corners: Story = {
     },
 };
 
-const viewCases: Array<NonNullable<AlertProps['view']>> = ['filled', 'outlined'];
-
 export const View: Story = {
     render: (args) => (
         <Showcase>
             {viewCases.map((view, index) => (
-                <ShowcaseItem title={view} key={index}>
+                <ShowcaseItem title={view || ''} key={index}>
                     <Alert {...args} view={view} />
                 </ShowcaseItem>
             ))}
@@ -90,13 +76,11 @@ export const View: Story = {
     },
 };
 
-const layoutCases: Array<NonNullable<AlertProps['layout']>> = ['vertical', 'horizontal'];
-
 export const Layout: Story = {
     render: (args) => (
         <Showcase>
             {layoutCases.map((layout, index) => (
-                <ShowcaseItem title={layout} key={index}>
+                <ShowcaseItem title={layout || ''} key={index}>
                     <Alert {...args} layout={layout} />
                 </ShowcaseItem>
             ))}
@@ -145,13 +129,11 @@ export const Actions: Story = {
     },
 };
 
-const alignCases: Array<NonNullable<AlertProps['align']>> = ['center', 'baseline'];
-
 export const Align: Story = {
     render: (args) => (
         <Showcase>
             {alignCases.map((align, index) => (
-                <ShowcaseItem title={align} key={index}>
+                <ShowcaseItem title={align || ''} key={index}>
                     <Alert {...args} align={align} />
                 </ShowcaseItem>
             ))}

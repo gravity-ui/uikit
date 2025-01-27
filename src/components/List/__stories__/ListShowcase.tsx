@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import _random from 'lodash/random';
 import _range from 'lodash/range';

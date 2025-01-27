@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import type {ListItemType} from '../../../useList';
 import {TreeSelect} from '../../TreeSelect';

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {ArrowLeft as ArrowLeftIcon} from '@gravity-ui/icons';
 

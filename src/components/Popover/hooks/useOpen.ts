@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {useUpdateEffect} from '../../../hooks/private';
 import {delayByBehavior} from '../config';

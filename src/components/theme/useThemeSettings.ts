@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {ThemeSettingsContext} from './ThemeSettingsContext';
 import type {ThemeSettings} from './ThemeSettingsContext';

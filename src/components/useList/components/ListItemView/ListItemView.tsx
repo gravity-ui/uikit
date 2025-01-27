@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {spacing} from '../../../layout';
 import type {QAProps} from '../../../types';

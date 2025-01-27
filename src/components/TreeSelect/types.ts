@@ -1,4 +1,4 @@
-import type React from 'react';
+import type * as React from 'react';
 
 import type {PopperPlacement} from '../../hooks/private';
 import type {UseOpenProps} from '../../hooks/useSelect/types';

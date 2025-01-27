@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 import {List} from '../../../List';
 import {SelectQa, selectListBlock} from '../../constants';

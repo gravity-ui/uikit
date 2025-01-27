@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {KeyCode} from '../../constants';
 import type {List, ListItemData} from '../List';
@@ -19,7 +19,7 @@ import type {
 } from './types';
 
 // "disable" property needs to deactivate group title item in List
-export type GroupTitleItem = {label: string; disabled: true};
+export type GroupTitleItem<T = any> = {label: string; disabled: true; data?: T};
 
 export type FlattenOption = SelectOption | GroupTitleItem;
 
@@ -38,7 +38,7 @@ export const isSelectGroupTitle = (
 export const getFlattenOptions = (options: SelectOptions): FlattenOptions => {
     const flatten = options.reduce<FlattenOption[]>((acc, option) => {
         if ('label' in option) {
-            acc.push({label: option.label, disabled: true});
+            acc.push({label: option.label, disabled: true, data: option.data});
             acc.push(...(option.options || []));
         } else {
             acc.push(option);

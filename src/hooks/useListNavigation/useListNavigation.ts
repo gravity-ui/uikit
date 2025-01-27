@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {moveBack} from './moveBack';
 import {moveForward} from './moveForward';

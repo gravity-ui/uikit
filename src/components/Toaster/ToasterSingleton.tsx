@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 import get from 'lodash/get';
 import ReactDOM from 'react-dom';
 

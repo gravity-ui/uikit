@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {getDarkMediaMatch, getSystemTheme, supportsMatchMedia} from './dom-helpers';
 import type {ThemeType} from './types';

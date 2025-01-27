@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 export function useControlledState<T, C = T, Args extends any[] = []>(
     value: Exclude<T, undefined>,

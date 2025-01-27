@@ -1,4 +1,4 @@
-import React from 'react';
+import type * as React from 'react';
 
 // eslint-disable-next-line no-restricted-syntax
 import {render} from '@testing-library/react';

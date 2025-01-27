@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {HelpMark} from '../../HelpMark';
 import {b} from '../constants';

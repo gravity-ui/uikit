@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {withTableSelection} from '..';
 import {Table} from '../Table';
 import type {TableColumnConfig} from '../Table';

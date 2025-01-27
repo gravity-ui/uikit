@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';

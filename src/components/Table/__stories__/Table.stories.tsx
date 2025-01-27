@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {Pencil} from '@gravity-ui/icons';
 import {action} from '@storybook/addon-actions';

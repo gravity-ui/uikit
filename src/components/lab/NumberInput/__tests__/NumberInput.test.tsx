@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
@@ -222,6 +222,18 @@ describe('NumberInput input', () => {
             });
 
             expect(handleUpdate).toHaveBeenLastCalledWith(6);
+        });
+        it('does not clamp decimal without defined step on blur', async () => {
+            const handleUpdate = jest.fn();
+            render(<NumberInput value={7.123} allowDecimal onUpdate={handleUpdate} />);
+            const input = getInput();
+
+            act(() => {
+                input.focus();
+                input.blur();
+            });
+
+            expect(getInput()).toHaveValue('7.123');
         });
         it('swaps min/max if max < min', async () => {
             const handleUpdate = jest.fn();

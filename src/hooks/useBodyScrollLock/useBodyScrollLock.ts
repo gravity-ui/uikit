@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 const PROPERTY_PADDING_RIGHT = 'padding-right';
 const PROPERTY_PADDING_BOTTOM = 'padding-bottom';

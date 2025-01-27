@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type {ArrowToggleProps} from '../../../ArrowToggle';
 import {ArrowToggle} from '../../../ArrowToggle';
 import {colorText} from '../../../Text';

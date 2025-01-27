@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {DEFAULT_AVATAR_SIZE} from '../Avatar';
 import {block} from '../utils/cn';

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {useLayoutContext} from '../hooks/useLayoutContext';
 import type {CommonProps, ContainerConfigProps} from '../types';

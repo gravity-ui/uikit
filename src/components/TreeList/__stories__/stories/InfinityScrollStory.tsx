@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {Label} from '../../../Label';
 import {Loader} from '../../../Loader';
 import {Flex, spacing} from '../../../layout';

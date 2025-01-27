@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 interface UseResizeObserverProps<T> {
     ref: React.RefObject<T | null | undefined> | undefined;

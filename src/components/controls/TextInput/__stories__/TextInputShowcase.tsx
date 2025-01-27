@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {Eye, EyeSlash, Key} from '@gravity-ui/icons';
 

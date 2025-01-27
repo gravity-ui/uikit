@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 import {useIntersection} from '../../../../hooks';
 import {Loader} from '../../../Loader/Loader';

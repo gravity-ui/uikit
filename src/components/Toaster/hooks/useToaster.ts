@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {ToasterContext} from '../Provider/ToasterContext';
 import type {ToasterPublicMethods} from '../types';

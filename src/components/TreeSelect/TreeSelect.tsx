@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 
 import {useFocusWithin, useForkRef, useUniqId} from '../../hooks';
 import {useOpenState} from '../../hooks/useSelect/useOpenState';

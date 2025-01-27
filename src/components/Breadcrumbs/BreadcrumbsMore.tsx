@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 import {DropdownMenu} from '../DropdownMenu';
 import {block} from '../utils/cn';
 

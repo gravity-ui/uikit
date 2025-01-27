@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type {BreadcrumbsProps} from './Breadcrumbs';
 import {b} from './utils';
 

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {render, screen} from '../../../../test-utils/utils';
 import {CONTROL_ERROR_MESSAGE_QA} from '../../controls/utils';
 import {Select} from '../Select';

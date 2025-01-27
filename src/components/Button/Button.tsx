@@ -50,7 +50,6 @@ export interface ButtonButtonProps
     extends ButtonCommonProps,
         Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'> {
     component?: never;
-    ref?: React.Ref<HTMLButtonElement>;
     href?: never;
     /**
      * @deprecated Use additional props at the root
@@ -62,7 +61,6 @@ export interface ButtonLinkProps
     extends ButtonCommonProps,
         React.AnchorHTMLAttributes<HTMLAnchorElement> {
     component?: never;
-    ref?: React.Ref<HTMLAnchorElement>;
     href: string;
     /**
      * @deprecated Use additional props at the root
@@ -70,27 +68,37 @@ export interface ButtonLinkProps
     extraProps?: React.AnchorHTMLAttributes<HTMLAnchorElement>;
 }
 
-export type ButtonComponentProps<T extends React.ElementType> = ButtonCommonProps &
-    React.ComponentPropsWithoutRef<T> & {
-        component: Exclude<T, 'a' | 'button'>;
-        ref?: React.Ref<T extends string ? React.ComponentRef<Exclude<T, 'a' | 'button'>> : T>;
-        href?: never;
-        /**
-         * @deprecated Use additional props at the root
-         */
-        extraProps?: React.ComponentPropsWithoutRef<T>;
-    };
+export type ButtonComponentProps<T extends Exclude<ButtonCustomElementType, undefined>> =
+    ButtonCommonProps &
+        React.ComponentPropsWithoutRef<T> & {
+            component: T;
+            /**
+             * @deprecated Use additional props at the root
+             */
+            extraProps?: React.ComponentPropsWithoutRef<T>;
+        };
 
-export type ButtonProps<T extends React.ElementType = 'button'> =
+function isButtonComoponentProps<T extends ButtonCustomElementType>(
+    p: ButtonProps<T>,
+): p is ButtonComponentProps<Exclude<T, undefined>> {
+    return p.component !== undefined;
+}
+
+export type ButtonCustomElementType = Exclude<React.ElementType, 'a' | 'button'> | undefined;
+
+export type ButtonProps<T extends ButtonCustomElementType = undefined> =
     | ButtonLinkProps
     | ButtonButtonProps
-    | ButtonComponentProps<T>;
+    | ButtonComponentProps<Exclude<T, undefined>>;
 
 const b = block('button');
 
-const _Button = React.forwardRef(function Button<T extends React.ElementType>(
+const _Button = React.forwardRef(function Button<T extends ButtonCustomElementType>(
     props: ButtonProps<T>,
-    ref: ButtonProps<T>['ref'],
+    ref:
+        | React.Ref<HTMLButtonElement>
+        | React.Ref<HTMLAnchorElement>
+        | React.Ref<T extends string ? React.ComponentRef<T> : T>,
 ) {
     const {
         view = 'normal',
@@ -142,7 +150,7 @@ const _Button = React.forwardRef(function Button<T extends React.ElementType>(
         'data-qa': qa,
     };
 
-    if (props.component) {
+    if (isButtonComoponentProps(props)) {
         return React.createElement(
             props.component,
             {
@@ -184,7 +192,15 @@ const _Button = React.forwardRef(function Button<T extends React.ElementType>(
             {prepareChildren(children)}
         </button>
     );
-}) as <T extends React.ElementType = 'button'>(props: ButtonProps<T>) => React.ReactElement;
+}) as <T extends ButtonCustomElementType, P extends ButtonProps<T>>(
+    props: P extends {component: Exclude<T, undefined>}
+        ? ButtonComponentProps<Exclude<T, undefined>> & {
+              ref?: React.Ref<T extends string ? React.ComponentRef<T> : T>;
+          }
+        : P extends {href: string}
+          ? ButtonLinkProps & {ref?: React.Ref<HTMLAnchorElement>}
+          : ButtonButtonProps & {ref?: React.Ref<HTMLButtonElement>},
+) => React.ReactElement;
 
 export const Button = Object.assign(_Button, {Icon: ButtonIcon});
 

@@ -5,7 +5,7 @@
 <!--/GITHUB_BLOCK-->
 
 ```tsx
-import {Tabs} from '@gravity-ui/uikit';
+import {Tabs} from '@gravity-ui/uikit/legacy';
 ```
 
 The `Tabs` component is used to explore and organize content, as well as to switch across various views.

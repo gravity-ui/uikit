@@ -3,7 +3,11 @@ import type * as React from 'react';
 import {ActionTooltip} from '../ActionTooltip';
 import type {ActionTooltipProps} from '../ActionTooltip';
 import {Button} from '../Button';
+import {block} from '../utils/cn';
 
+import './FilePreview.scss';
+
+const cn = block('file-preview');
 export interface FilePreviewActionProps {
     id?: string;
     icon: React.ReactNode;
@@ -37,9 +41,10 @@ export function FilePreviewAction({
                 href={href}
                 disabled={disabled}
                 size="s"
+                className={cn('action-button')}
                 extraProps={{'aria-label': title, 'aria-describedby': id, ...extraProps}}
             >
-                {icon}
+                <div className={cn('action-icon-wrapper')}>{icon}</div>
             </Button>
         </ActionTooltip>
     );

@@ -5,14 +5,47 @@ import type {Meta, StoryFn} from '@storybook/react';
 import {Pagination} from '../../Pagination';
 import type {PaginationProps} from '../../Pagination';
 
+const PAGE_PARAM = 'page_number';
+const PAGE_SIZE_PARAM = 'page_size';
+
+function pageHrefBuilder(page: number, pageSize: number) {
+    const queryParams = new URLSearchParams(window.location.search);
+    queryParams.set(PAGE_PARAM, String(page));
+    queryParams.set(PAGE_SIZE_PARAM, String(pageSize));
+    return window.location.href.replace(window.location.search, `?${queryParams.toString()}`);
+}
+
+function getParamNumberValue(
+    paramName: string,
+    queryParams: URLSearchParams,
+    defaultValue: number,
+) {
+    const paramValue = Number(queryParams.get(paramName));
+    return paramValue ? paramValue : defaultValue;
+}
+
 const useState = (args: PaginationProps) => {
     const [state, setState] = React.useState({...args});
 
-    const onUpdate: PaginationProps['onUpdate'] = (page, pageSize) =>
-        setState((prevState) => ({...prevState, page, pageSize}));
+    const onUpdate: PaginationProps['onUpdate'] = (page, pageSize) => {
+        if (args.itemWrapper) {
+            window.location.href = pageHrefBuilder(page, pageSize);
+        } else {
+            setState((prevState) => ({...prevState, page, pageSize}));
+        }
+    };
 
     React.useEffect(() => {
-        setState({...args});
+        let currentPage = args.page;
+        let currentPageSize = args.pageSize;
+        if (args.itemWrapper) {
+            const queryParams = new URLSearchParams(window.location.search);
+
+            currentPage = getParamNumberValue(PAGE_PARAM, queryParams, currentPage);
+            currentPageSize = getParamNumberValue(PAGE_SIZE_PARAM, queryParams, currentPageSize);
+        }
+
+        setState({...args, page: currentPage, pageSize: currentPageSize});
     }, [args]);
 
     return {...state, onUpdate};
@@ -36,6 +69,30 @@ Default.args = {
     pageSizeOptions: [20, 50, 100],
     showInput: true,
     compact: false,
+};
+
+const LinksTemplate: StoryFn<PaginationProps> = (args) => {
+    const state = useState(args);
+    return <Pagination {...state} />;
+};
+
+export const Links = LinksTemplate.bind({});
+Links.args = {
+    page: 1,
+    pageSize: 100,
+    total: 950,
+    pageSizeOptions: [20, 50, 100],
+    showInput: true,
+    compact: false,
+    itemWrapper({page, pageSize, item}) {
+        return item.props.disabled ? (
+            item
+        ) : (
+            <a href={pageHrefBuilder(page, pageSize)} key={item.key}>
+                {item}
+            </a>
+        );
+    },
 };
 
 const TotalUnknownTemplate: StoryFn<PaginationProps> = (args) => {

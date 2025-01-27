@@ -179,7 +179,7 @@ test.describe('PasswordInput', () => {
 
         await root.getByTestId(PasswordInputQa.revealButton).hover();
 
-        await expect(page.locator('.g-popup')).toBeVisible();
+        await expect(page.locator('.g-tooltip')).toBeVisible();
 
         await expectScreenshot({
             themes: ['light'],
@@ -201,7 +201,7 @@ test.describe('PasswordInput', () => {
 
         await root.getByTestId(PasswordInputQa.copyButton).hover();
 
-        await expect(page.locator('.g-popup')).toBeVisible();
+        await expect(page.locator('.g-tooltip')).toBeVisible();
 
         await expectScreenshot({
             themes: ['light'],

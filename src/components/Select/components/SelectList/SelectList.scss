@@ -121,7 +121,8 @@ $xl-right-padding: '12px';
         }
 
         #{$block}_size_m & {
-            padding: 0 #{select-css-variables.$m-hor-padding} 0 #{select-css-variables.$m-hor-padding};
+            padding: 0 #{select-css-variables.$m-hor-padding} 0
+                #{select-css-variables.$m-hor-padding};
 
             & #{$block}__option-default-label {
                 height: #{variables.$m-height};
@@ -132,7 +133,8 @@ $xl-right-padding: '12px';
         }
 
         #{$block}_size_l & {
-            padding: 0 #{select-css-variables.$l-hor-padding} 0 #{select-css-variables.$l-hor-padding};
+            padding: 0 #{select-css-variables.$l-hor-padding} 0
+                #{select-css-variables.$l-hor-padding};
 
             & #{$block}__option-default-label {
                 height: #{variables.$l-height};
@@ -155,7 +157,8 @@ $xl-right-padding: '12px';
         }
 
         #{$block}_mobile & {
-            padding: 0 #{select-css-variables.$l-hor-padding} 0 #{select-css-variables.$l-hor-padding};
+            padding: 0 #{select-css-variables.$l-hor-padding} 0
+                #{select-css-variables.$l-hor-padding};
 
             & #{$block}__option-default-label {
                 height: #{variables.$l-height};

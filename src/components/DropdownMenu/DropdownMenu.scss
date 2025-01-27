@@ -47,4 +47,16 @@ $block: '.#{variables.$ns}dropdown-menu';
             }
         }
     }
+
+    &__popup-content {
+        & > :first-child {
+            border-start-start-radius: inherit;
+            border-start-end-radius: inherit;
+        }
+
+        & > :last-child {
+            border-end-start-radius: inherit;
+            border-end-end-radius: inherit;
+        }
+    }
 }

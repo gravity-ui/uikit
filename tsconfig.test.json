@@ -2,7 +2,8 @@
   "extends": "@gravity-ui/tsconfig",
   "compilerOptions": {
     "resolveJsonModule": true,
-    "module": "CommonJS",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "jsx": "react-jsx"
   }
 }

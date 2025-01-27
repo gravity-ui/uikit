@@ -16,25 +16,20 @@ test.describe('HelpMark', {tag: '@HelpMark'}, () => {
         await expectScreenshot();
     });
 
-    createSmokeScenarios<HelpMarkProps>(
-        {},
+    createSmokeScenarios<NonNullable<HelpMarkProps['popoverProps']>>(
+        {
+            qa: 'popover',
+        },
         {
             placement: placementCases,
         },
-    ).forEach(([title, props]) => {
+    ).forEach(([title, popoverProps]) => {
         smokeTest(title, async ({mount, page, expectScreenshot}) => {
             const root = await mount(
                 <div>
                     <h4>{title}</h4>
                     <div style={{padding: 100}}>
-                        <HelpMark
-                            qa="popover"
-                            buttonProps={{
-                                // @ts-expect-error Object literal may only specify known properties, and ''data-qa'' does not exist in type 'ButtonHTMLAttributes<HTMLButtonElement>'
-                                'data-qa': 'trigger',
-                            }}
-                            {...props}
-                        >
+                        <HelpMark qa="trigger" popoverProps={popoverProps}>
                             Test content
                         </HelpMark>
                     </div>
@@ -42,7 +37,7 @@ test.describe('HelpMark', {tag: '@HelpMark'}, () => {
             );
 
             await root.getByTestId('trigger').hover();
-            await expect(page.getByTestId('popover-tooltip')).toBeVisible();
+            await expect(page.getByTestId('popover')).toBeVisible();
 
             await expectScreenshot({
                 themes: ['light'],

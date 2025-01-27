@@ -160,7 +160,7 @@ LANDING_BLOCK-->
 
 Allows you to set the label to the left of control.
 
-- label occupies the leftmost position relative to the control. That is, the elements added via `leftContent` property will be located to the right.
+- label occupies the leftmost position relative to the control. That is, the elements added via `startContent` property will be located to the right.
 - label can take up no more than half the width of the entire TextInput's space.
 
 <!--LANDING_BLOCK
@@ -185,18 +185,18 @@ LANDING_BLOCK-->
 
 ## Additional content
 
-### Left content
+### Start content
 
-Allows you to add content to the left of the control. Located to the right of the label added via `label` property.
+Allows you to add content to the left of the control (or to the right in case of using [rtl](https://developer.mozilla.org/en-US/docs/Glossary/RTL)). Located to the left (or to the right in case of using rtl) of the label added via `label` property.
 
 <!--LANDING_BLOCK
 <ExampleBlock
-    code={`<TextInput placeholder="Placeholder" label="Label" leftContent={<Label size="s">Left</Label>} />`}
+    code={`<TextInput placeholder="Placeholder" label="Label" startContent={<Label size="s">Left</Label>} />`}
 >
     <UIKit.TextInput
         placeholder="Search"
         label="Label"
-        leftContent={<UIKit.Label size="s">Left</UIKit.Label>}
+        startContent={<UIKit.Label size="s">Left</UIKit.Label>}
     />
 </ExampleBlock>
 LANDING_BLOCK-->
@@ -204,23 +204,23 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<TextInput leftContent={<Label>Left</Label>} />
+<TextInput startContent={<Label>Left</Label>} />
 ```
 
 <!--/GITHUB_BLOCK-->
 
-### Right content
+### End content
 
-Allows you to add content to the right of the control. Located to the right of the clear button added via `hasClear` property.
+Allows you to add content to the right (or to the left in case of using [rtl](https://developer.mozilla.org/en-US/docs/Glossary/RTL)) of the control. Located to the right (or to the left in case of using rtl) of the clear button added via `hasClear` property.
 
 <!--LANDING_BLOCK
 <ExampleBlock
-    code={`<TextInput placeholder="Placeholder" rightContent={<Label size="s">Right</Label>} hasClear/>`}
+    code={`<TextInput placeholder="Placeholder" endContent={<Label size="s">Right</Label>} hasClear/>`}
 >
     <UIKit.TextInput
         hasClear
         placeholder="Placeholder"
-        rightContent={<UIKit.Label size="s">Right</UIKit.Label>}
+        endContent={<UIKit.Label size="s">Right</UIKit.Label>}
     />
 </ExampleBlock>
 LANDING_BLOCK-->
@@ -228,7 +228,7 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<TextInput rightContent={<Label>Right</Label>} />
+<TextInput endContent={<Label>Right</Label>} />
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -243,13 +243,13 @@ LANDING_BLOCK-->
 | controlProps    | The control's html attributes                                                                                           |             `React.InputHTMLAttributes<HTMLInputElement>`             |                 |
 | controlRef      | React ref provided to the control                                                                                       |                     `React.Ref<HTMLInputElement>`                     |                 |
 | defaultValue    | The control's default value, used when the component is not controlled                                                  |                               `string`                                |                 |
-| disabled        | Indicates that the user cannot interact with the control                                                                |                               `boolean`                               |     `false`     |
+| disabled        | Indicates that the user cannot interact with the control                                                                |                           `React.ReactNode`                           |                 |
+| endContent      | User`s node rendered after input node, clear button and error icon                                                      |                               `string`                                |                 |
 | errorMessage    | Error text                                                                                                              |                               `string`                                |                 |
 | errorPlacement  | Error placement                                                                                                         |                          `outside` `inside`                           |    `outside`    |
 | hasClear        | Shows the icon for clearing control's value                                                                             |                               `boolean`                               |     `false`     |
 | id              | The control's `id` attribute                                                                                            |                               `string`                                |                 |
 | label           | Help text rendered to the left of the input node                                                                        |                               `string`                                |                 |
-| leftContent     | The user`s node rendered before label and input                                                                         |                           `React.ReactNode`                           |                 |
 | name            | The `name` attribute of the control. If unspecified, it will be autogenerated if not specified                          |                               `string`                                |                 |
 | note            | An optional element displayed under the bottom-right corner of the control that shares a space with the error container |                           `React.ReactNode`                           |                 |
 | onBlur          | Fires when the control lost focus. Provides focus event as a callback's argument                                        |                              `function`                               |                 |
@@ -262,8 +262,8 @@ LANDING_BLOCK-->
 | placeholder     | Text that appears in the control when it has no value set                                                               |                               `string`                                |                 |
 | qa              | Test ID attribute (`data-qa`)                                                                                           |                               `string`                                |
 | readOnly        | Indicates that the user cannot change control's value                                                                   |                               `boolean`                               |     `false`     |
-| rightContent    | User`s node rendered after the input node and clear button                                                              |                           `React.ReactNode`                           |                 |
 | size            | The size of the control                                                                                                 |                       `"s"` `"m"` `"l"` `"xl"`                        |      `"m"`      |
+| startContent    | User`s node rendered before label and input node                                                                        |                           `React.ReactNode`                           |                 |
 | tabIndex        | The `tabindex` attribute of the control                                                                                 |                               `string`                                |                 |
 | type            | The type of the control                                                                                                 | `"email"` `"number"` `"password"` `"search"` `"tel"` `"text"` `"url"` |                 |
 | validationState | Validation state                                                                                                        |                              `"invalid"`                              |                 |

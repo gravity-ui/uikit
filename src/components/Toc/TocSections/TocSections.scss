@@ -1,0 +1,13 @@
+@use '../../variables';
+@use '../../../../styles/mixins.scss';
+
+$block: '.#{variables.$ns}toc';
+
+#{$block}__sections {
+    padding: 0;
+    margin: 0;
+
+    overflow: hidden auto;
+
+    list-style: none;
+}

@@ -448,33 +448,21 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name         | Description                                                        |              Type               |     Default     |
-| :----------- | :----------------------------------------------------------------- | :-----------------------------: | :-------------: |
-| children     | Button content. You can use both text and the `<Icon/>` component. |           `ReactNode`           |                 |
-| className    | `class` HTML attribute                                             |            `string`             |                 |
-| component    | Overrides the root component                                       |       `ElementType<any>`        |   `"button"`    |
-| disabled     | Toggles the `disabled` state                                       |             `false`             |     `false`     |
-| extraProps   | Additional properties                                              |            `Record`             |                 |
-| href         | `href` HTML attribute                                              |            `string`             |                 |
-| id           | `id` HTML attribute                                                |            `string`             |                 |
-| loading      | Toggles the `loading` state                                        |             `false`             |     `false`     |
-| onBlur       | `blur` event handler                                               |           `Function`            |                 |
-| onClick      | `click` event handler                                              |           `Function`            |                 |
-| onFocus      | `focus` event handler                                              |           `Function`            |                 |
-| onMouseEnter | `mouseenter` event handler                                         |           `Function`            |                 |
-| onMouseLeave | `mouseleave` event handler                                         |           `Function`            |                 |
-| pin          | Sets the button edge style                                         |            `string`             | `"round-round"` |
-| qa           | `data-qa` HTML attribute, used for testing                         |            `string`             |                 |
-| rel          | `rel` HTML attribute                                               |            `string`             |                 |
-| selected     | Toggles the `selected` state                                       |                                 |                 |
-| size         | Sets the button size                                               |            `string`             |      `"m"`      |
-| style        | `style` HTML attribute                                             |      `React.CSSProperties`      |                 |
-| tabIndex     | `tabIndex` HTML attribute                                          |            `number`             |                 |
-| target       | `target` HTML attribute                                            |            `string`             |                 |
-| title        | `title` HTML attribute                                             |            `string`             |                 |
-| type         | `type` HTML attribute                                              | `"button"` `"submit"` `"reset"` |   `"button"`    |
-| view         | Sets the button appearance                                         |            `string`             |   `"normal"`    |
-| width        | `"auto"` `"max"`                                                   |        `"auto"` `"max"`         |                 |
+`Button` accepts any valid `button` or `a` element props in addition to these:
+
+| Name      | Description                                                          |              Type               |     Default     |
+| :-------- | :------------------------------------------------------------------- | :-----------------------------: | :-------------: |
+| children  | `Button` content. You can use both text and the `<Icon/>` component. |        `React.ReactNode`        |                 |
+| component | Overrides the root component                                         |       `React.ElementType`       |                 |
+| disabled  | Toggles the `disabled` state                                         |            `boolean`            |     `false`     |
+| href      | Pass this to make the root component a link                          |            `string`             |                 |
+| loading   | Toggles the `loading` state                                          |            `boolean`            |     `false`     |
+| pin       | Sets the `Button` edge style                                         |            `string`             | `"round-round"` |
+| qa        | `data-qa` HTML attribute, used for testing                           |            `string`             |                 |
+| selected  | Toggles the `selected` state                                         |            `boolean`            |                 |
+| size      | Sets the`Button` size                                                | `"xs"` `"s"` `"m"` `"l"` `"xl"` |      `"m"`      |
+| view      | Sets the `Button` appearance                                         |          `ButtonView`           |   `"normal"`    |
+| width     | Controls how `Button` uses parent's space                            |        `"auto"` `"max"`         |                 |
 
 ## CSS API
 
@@ -495,5 +483,5 @@ LANDING_BLOCK-->
 | `--g-button-padding`                | Side paddings             |
 | `--g-button-border-radius`          | Border radius             |
 | `--g-button-font-size`              | Text font size            |
-| `--g-button-icon-size`              | Icon size                 |
+| `--g-button-icon-space`             | Icon available space      |
 | `--g-button-icon-offset`            | Icon offset               |

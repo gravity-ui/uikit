@@ -15,10 +15,10 @@ With `Modal`, you can implement dialogs, alerts, confirmations, and more.
 ## Usage
 
 ```tsx
-import React from 'react';
+import {useState} from 'react';
 import {Button, Modal} from '@gravity-ui/uikit';
 
-const [open, setOpen] = React.useState(false);
+const [open, setOpen] = useState(false);
 
 <Button onClick={() => setOpen(true)}>Open Modal</Button>
 <Modal open={open} onClose={() => setOpen(false)}>

@@ -1,6 +1,6 @@
 'use client';
 
-import type {VirtualElement} from '@popperjs/core';
+import type {VirtualElement} from '@floating-ui/react';
 
 import {KeyCode} from '../../../constants';
 import {eventBroker} from '../event-broker';

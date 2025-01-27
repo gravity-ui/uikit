@@ -54,12 +54,14 @@ const randomAvatars = faker.helpers
 
 const imageProps = {
     imgUrl,
+    alt: 'Sample image',
 };
 
 const iconProps = {
     backgroundColor: 'var(--g-color-base-brand)',
     icon: FaceRobot,
     color: 'var(--g-color-text-brand-contrast)',
+    'aria-label': 'Sample icon',
 };
 
 const textProps = {
@@ -132,9 +134,8 @@ export const TextInitials: Story = {
 
 export const WithBorder: Story = {
     args: {
-        imgUrl,
+        ...imageProps,
         borderColor: 'var(--g-color-line-misc)',
-        alt: 'Sample image',
         'aria-label': 'Image with border',
     },
 };
@@ -145,52 +146,33 @@ export const AvatarShowcase: Story = {
         return (
             <React.Fragment>
                 <Showcase title="Image">
+                    <ShowcaseItem title="3xs">
+                        <Avatar {...imageProps} size="3xs" aria-label="Avatar with 3XS size" />
+                    </ShowcaseItem>
                     <ShowcaseItem title="2xs">
-                        <Avatar
-                            {...imageProps}
-                            size="2xs"
-                            alt="Sample image"
-                            aria-label="Avatar with 2XS size"
-                        />
+                        <Avatar {...imageProps} size="2xs" aria-label="Avatar with 2XS size" />
                     </ShowcaseItem>
                     <ShowcaseItem title="xs">
-                        <Avatar
-                            {...imageProps}
-                            size="xs"
-                            alt="Sample image"
-                            aria-label="Avatar with XS size"
-                        />
+                        <Avatar {...imageProps} size="xs" aria-label="Avatar with XS size" />
                     </ShowcaseItem>
                     <ShowcaseItem title="s">
-                        <Avatar
-                            {...imageProps}
-                            size="s"
-                            alt="Sample image"
-                            aria-label="Avatar with S size"
-                        />
+                        <Avatar {...imageProps} size="s" aria-label="Avatar with S size" />
                     </ShowcaseItem>
                     <ShowcaseItem title="m">
-                        <Avatar
-                            {...imageProps}
-                            size="m"
-                            alt="Sample image"
-                            aria-label="Avatar with M size"
-                        />
+                        <Avatar {...imageProps} size="m" aria-label="Avatar with M size" />
                     </ShowcaseItem>
                     <ShowcaseItem title="l">
-                        <Avatar
-                            {...imageProps}
-                            size="l"
-                            alt="Sample image"
-                            aria-label="Avatar with L size"
-                        />
+                        <Avatar {...imageProps} size="l" aria-label="Avatar with L size" />
                     </ShowcaseItem>
                     <ShowcaseItem title="xl">
+                        <Avatar {...imageProps} size="xl" aria-label="Avatar with XL size" />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="3xs">
                         <Avatar
                             {...imageProps}
-                            size="xl"
-                            alt="Sample image"
-                            aria-label="Avatar with XL size"
+                            size="3xs"
+                            borderColor={BORDER_COLOR}
+                            aria-label="Avatar with 3XS size and border"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="2xs">
@@ -198,7 +180,6 @@ export const AvatarShowcase: Story = {
                             {...imageProps}
                             size="2xs"
                             borderColor={BORDER_COLOR}
-                            alt="Sample image"
                             aria-label="Avatar with 2XS size and border"
                         />
                     </ShowcaseItem>
@@ -207,7 +188,6 @@ export const AvatarShowcase: Story = {
                             {...imageProps}
                             size="xs"
                             borderColor={BORDER_COLOR}
-                            alt="Sample image"
                             aria-label="Avatar with XS size and border"
                         />
                     </ShowcaseItem>
@@ -216,7 +196,6 @@ export const AvatarShowcase: Story = {
                             {...imageProps}
                             size="s"
                             borderColor={BORDER_COLOR}
-                            alt="Sample image"
                             aria-label="Avatar with S size and border"
                         />
                     </ShowcaseItem>
@@ -225,7 +204,6 @@ export const AvatarShowcase: Story = {
                             {...imageProps}
                             size="m"
                             borderColor={BORDER_COLOR}
-                            alt="Sample image"
                             aria-label="Avatar with M size and border"
                         />
                     </ShowcaseItem>
@@ -234,7 +212,6 @@ export const AvatarShowcase: Story = {
                             {...imageProps}
                             size="l"
                             borderColor={BORDER_COLOR}
-                            alt="Sample image"
                             aria-label="Avatar with L size and border"
                         />
                     </ShowcaseItem>
@@ -243,80 +220,58 @@ export const AvatarShowcase: Story = {
                             {...imageProps}
                             size="xl"
                             borderColor={BORDER_COLOR}
-                            alt="Sample image"
                             aria-label="Avatar with XL size and border"
                         />
                     </ShowcaseItem>
                 </Showcase>
                 <Showcase title="Icon">
-                    <ShowcaseItem title="2xs">
-                        <Avatar {...iconProps} size="2xs" aria-label="Sample icon" />
-                    </ShowcaseItem>
-                    <ShowcaseItem title="xs">
-                        <Avatar {...iconProps} size="xs" aria-label="Sample icon" />
-                    </ShowcaseItem>
-                    <ShowcaseItem title="s">
-                        <Avatar {...iconProps} size="s" aria-label="Sample icon" />
-                    </ShowcaseItem>
-                    <ShowcaseItem title="m">
-                        <Avatar {...iconProps} size="m" aria-label="Sample icon" />
-                    </ShowcaseItem>
-                    <ShowcaseItem title="l">
-                        <Avatar {...iconProps} size="l" aria-label="Sample icon" />
-                    </ShowcaseItem>
-                    <ShowcaseItem title="xl">
-                        <Avatar {...iconProps} size="xl" aria-label="Sample icon" />
+                    <ShowcaseItem title="3xs">
+                        <Avatar {...iconProps} size="3xs" />
                     </ShowcaseItem>
                     <ShowcaseItem title="2xs">
-                        <Avatar
-                            {...iconProps}
-                            size="2xs"
-                            borderColor={BORDER_COLOR}
-                            aria-label="Sample icon"
-                        />
+                        <Avatar {...iconProps} size="2xs" />
                     </ShowcaseItem>
                     <ShowcaseItem title="xs">
-                        <Avatar
-                            {...iconProps}
-                            size="xs"
-                            borderColor={BORDER_COLOR}
-                            aria-label="Sample icon"
-                        />
+                        <Avatar {...iconProps} size="xs" />
                     </ShowcaseItem>
                     <ShowcaseItem title="s">
-                        <Avatar
-                            {...iconProps}
-                            size="s"
-                            borderColor={BORDER_COLOR}
-                            aria-label="Sample icon"
-                        />
+                        <Avatar {...iconProps} size="s" />
                     </ShowcaseItem>
                     <ShowcaseItem title="m">
-                        <Avatar
-                            {...iconProps}
-                            size="m"
-                            borderColor={BORDER_COLOR}
-                            aria-label="Sample icon"
-                        />
+                        <Avatar {...iconProps} size="m" />
                     </ShowcaseItem>
                     <ShowcaseItem title="l">
-                        <Avatar
-                            {...iconProps}
-                            size="l"
-                            borderColor={BORDER_COLOR}
-                            aria-label="Sample icon"
-                        />
+                        <Avatar {...iconProps} size="l" />
                     </ShowcaseItem>
                     <ShowcaseItem title="xl">
-                        <Avatar
-                            {...iconProps}
-                            size="xl"
-                            borderColor={BORDER_COLOR}
-                            aria-label="Sample icon"
-                        />
+                        <Avatar {...iconProps} size="xl" />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="3xs">
+                        <Avatar {...iconProps} size="3xs" borderColor={BORDER_COLOR} />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="2xs">
+                        <Avatar {...iconProps} size="2xs" borderColor={BORDER_COLOR} />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="xs">
+                        <Avatar {...iconProps} size="xs" borderColor={BORDER_COLOR} />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="s">
+                        <Avatar {...iconProps} size="s" borderColor={BORDER_COLOR} />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="m">
+                        <Avatar {...iconProps} size="m" borderColor={BORDER_COLOR} />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="l">
+                        <Avatar {...iconProps} size="l" borderColor={BORDER_COLOR} />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="xl">
+                        <Avatar {...iconProps} size="xl" borderColor={BORDER_COLOR} />
                     </ShowcaseItem>
                 </Showcase>
                 <Showcase title="Text">
+                    <ShowcaseItem title="3xs">
+                        <Avatar {...textProps} size="3xs" aria-label="CD" />
+                    </ShowcaseItem>
                     <ShowcaseItem title="2xs">
                         <Avatar {...textProps} size="2xs" aria-label="CD" />
                     </ShowcaseItem>
@@ -334,6 +289,14 @@ export const AvatarShowcase: Story = {
                     </ShowcaseItem>
                     <ShowcaseItem title="xl">
                         <Avatar {...textProps} size="xl" aria-label="CD" />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="3xs">
+                        <Avatar
+                            {...textProps}
+                            size="3xs"
+                            borderColor={BORDER_COLOR}
+                            aria-label="CD"
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="2xs">
                         <Avatar

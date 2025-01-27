@@ -1,15 +1,12 @@
-import {block} from '../utils/cn';
-
 import type {BreadcrumbsProps} from './Breadcrumbs';
+import {b} from './utils';
 
-type Props = Pick<BreadcrumbsProps, 'renderItemDivider'>;
+type Props = Pick<BreadcrumbsProps, 'separator'>;
 
-const b = block('breadcrumbs');
-
-export function BreadcrumbsSeparator({renderItemDivider}: Props) {
+export function BreadcrumbsSeparator({separator}: Props) {
     return (
         <div aria-hidden={true} className={b('divider')}>
-            {renderItemDivider ? renderItemDivider() : '/'}
+            {separator ?? '/'}
         </div>
     );
 }

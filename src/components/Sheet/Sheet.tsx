@@ -2,7 +2,8 @@
 
 import * as React from 'react';
 
-import {useBodyScrollLock} from '../../hooks';
+import {FloatingOverlay} from '@floating-ui/react';
+
 import {Portal} from '../Portal/Portal';
 import type {QAProps} from '../types';
 
@@ -48,8 +49,6 @@ export const Sheet = ({
     const [open, setOpen] = React.useState(visible);
     const [prevVisible, setPrevVisible] = React.useState(visible);
 
-    useBodyScrollLock({enabled: open});
-
     if (!prevVisible && visible) {
         setOpen(true);
     }
@@ -71,7 +70,12 @@ export const Sheet = ({
 
     return (
         <Portal>
-            <div data-qa={qa} className={sheetBlock(null, className)}>
+            <FloatingOverlay
+                data-qa={qa}
+                className={sheetBlock(null, className)}
+                lockScroll={open}
+                style={{overflow: undefined}}
+            >
                 <SheetContentContainer
                     id={id}
                     content={children}
@@ -83,7 +87,7 @@ export const Sheet = ({
                     hideTopBar={hideTopBar}
                     hideSheet={hideSheet}
                 />
-            </div>
+            </FloatingOverlay>
         </Portal>
     );
 };

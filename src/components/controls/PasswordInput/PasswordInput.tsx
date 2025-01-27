@@ -41,7 +41,6 @@ export const PasswordInput = (props: PasswordInputProps) => {
         autoComplete,
         controlProps,
         endContent,
-        rightContent,
         hideCopyButton = false,
         hideRevealButton = false,
         showCopyTooltip = false,
@@ -65,7 +64,7 @@ export const PasswordInput = (props: PasswordInputProps) => {
 
     const additionalEndContent = (
         <React.Fragment>
-            {endContent || rightContent}
+            {endContent}
             {inputValue && !hideCopyButton && !props.disabled ? (
                 <ClipboardButton
                     view="flat-secondary"
@@ -87,12 +86,10 @@ export const PasswordInput = (props: PasswordInputProps) => {
                         disabled={props.disabled}
                         onClick={() => setRevealValue(!revealValue)}
                         size={actionButtonSize}
-                        extraProps={{
-                            'aria-label': revealValue
-                                ? i18n('label_hide-password')
-                                : i18n('label_show-password'),
-                            onMouseDown: (event: React.SyntheticEvent) => event.preventDefault(),
-                        }}
+                        onMouseDown={(event: React.SyntheticEvent) => event.preventDefault()}
+                        aria-label={
+                            revealValue ? i18n('label_hide-password') : i18n('label_show-password')
+                        }
                     >
                         <Icon data={revealValue ? EyeSlash : Eye} size={iconSize} />
                     </Button>
@@ -105,7 +102,7 @@ export const PasswordInput = (props: PasswordInputProps) => {
         <TextInput
             {...props}
             type={revealValue ? 'text' : 'password'}
-            unstable_endContent={additionalEndContent}
+            endContent={additionalEndContent}
             autoComplete={autoComplete ? autoComplete : 'new-password'}
             controlProps={{
                 ...controlProps,

@@ -10,7 +10,7 @@ import {
     availableValuesCases,
     disabledCases,
     hasTooltipCases,
-    marksCountCases,
+    marksCases,
     sizeCases,
     stepCases,
     validationStateCases,
@@ -35,11 +35,24 @@ test.describe('Slider', {tag: '@Slider'}, () => {
             size: sizeCases,
             disabled: disabledCases,
             validationState: validationStateCases,
-            hasTooltip: hasTooltipCases,
-            marksCount: marksCountCases,
+            tooltipDisplay: hasTooltipCases,
+            marks: marksCases,
             step: stepCases,
-            availableValues: availableValuesCases,
         });
+
+        const availableValuesScenarios = createSmokeScenarios(
+            {
+                ...defaultProps,
+                step: null,
+                min: (availableValuesCases?.at(0)?.at(1) as number[]).at(0),
+                max: (availableValuesCases?.at(0)?.at(1) as number[]).at(-1),
+            },
+            {
+                marks: availableValuesCases,
+            },
+        );
+
+        smokeScenarios.push(availableValuesScenarios[1]);
 
         await mount(
             <div>
@@ -67,8 +80,8 @@ test.describe('Slider', {tag: '@Slider'}, () => {
                 errorMessage: 'Error message',
             },
             {
-                hasTooltip: hasTooltipCases,
-                marksCount: marksCountCases,
+                tooltipDisplay: hasTooltipCases,
+                marks: marksCases,
                 step: stepCases,
             },
         );
@@ -103,11 +116,24 @@ test.describe('Slider', {tag: '@Slider'}, () => {
             size: sizeCases,
             disabled: disabledCases,
             validationState: validationStateCases,
-            hasTooltip: hasTooltipCases,
-            marksCount: marksCountCases,
+            tooltipDisplay: hasTooltipCases,
+            marks: marksCases,
             step: stepCases,
-            availableValues: availableValuesCases,
         });
+
+        const availableValuesScenario = createSmokeScenarios(
+            {
+                ...defaultRangeProps,
+                step: null,
+                min: (availableValuesCases?.at(0)?.at(1) as number[]).at(0),
+                max: (availableValuesCases?.at(0)?.at(1) as number[]).at(-1),
+            },
+            {
+                marks: availableValuesCases,
+            },
+        );
+
+        smokeScenarios.push(availableValuesScenario[1]);
 
         await mount(
             <div>
@@ -135,8 +161,8 @@ test.describe('Slider', {tag: '@Slider'}, () => {
                 errorMessage: 'Error message',
             },
             {
-                hasTooltip: hasTooltipCases,
-                marksCount: marksCountCases,
+                tooltipDisplay: hasTooltipCases,
+                marks: marksCases,
                 step: stepCases,
             },
         );

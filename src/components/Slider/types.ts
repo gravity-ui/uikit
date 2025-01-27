@@ -28,20 +28,8 @@ export type SliderProps<ValueType = number | [number, number]> = {
     marks?: number | number[];
     /** Formatter for marks text */
     markFormat?: FormatterType;
-    /**  Specifies the array of available values for the slider. The `availableValues` property overrides `min`, `max`, `marksCount` and `step` properties if used in conjunction, as the slider directly uses the provided array values instead of a continuous range.
-     * @deprecated use `marks` and `step` === null instead.
-     */
-    availableValues?: number[];
     /** Value to be added or subtracted on each step the slider makes. This prop will be ignored if available values is set.  */
     step?: number | null;
-    /** Amount of text marks under the slider. Split whole range on equal parts. Could be set >=2. This prop will be ignored if available values is set.
-     * @deprecated use `marks` instead.
-     */
-    marksCount?: number;
-    /**  Show tooltip with current value of component or not
-     * @deprecated use `tooltipDisplay` instead.
-     */
-    hasTooltip?: boolean;
     /** Specifies the tooltip behaviour */
     tooltipDisplay?: TooltipDisplayType;
     /** Format of the slider's value in the tooltip. Uses `markFormat` if not specified */
@@ -53,10 +41,6 @@ export type SliderProps<ValueType = number | [number, number]> = {
     /** Describes the validation state */
     validationState?: 'invalid';
 
-    /** Specifies the delay (in milliseconds) before the processing function is called
-     * @deprecated use external debouncing.
-     */
-    debounceDelay?: number;
     /** Fires when the control gets focus. Provides focus event as a callback's argument */
     onFocus?: (e: React.FocusEvent<HTMLDivElement>) => void;
     /** Fires when the control lost focus. Provides focus event as a callback's argument */
@@ -71,16 +55,22 @@ export type SliderProps<ValueType = number | [number, number]> = {
     /** The control's tabIndex attribute */
     tabIndex?: ValueType;
     /** Ref to Slider's component props of focus and blur */
-    apiRef?: React.RefObject<BaseSliderRefType>;
-    'aria-label'?: string;
-    'aria-labelledby'?: string;
-} & Pick<DOMProps, 'className'> &
+    apiRef?: React.Ref<BaseSliderRefType>;
+    'aria-label'?: string | [string, string];
+    'aria-labelledby'?: string | [string, string];
+    id?: string;
+    /** Name attribute of the hidden input element. */
+    name?: string;
+    form?: string;
+} & DOMProps &
     QAProps;
 
 export type SliderInnerState = {
     max: number;
     min: number;
-} & Pick<RcSliderProps, 'value' | 'defaultValue' | 'step' | 'range' | 'marks'> &
+    value?: number | [number, number];
+    defaultValue?: number | [number, number];
+} & Pick<RcSliderProps, 'step' | 'range' | 'marks'> &
     Pick<SliderProps, 'tooltipDisplay' | 'tooltipFormat'>;
 
 export type StateModifiers = {

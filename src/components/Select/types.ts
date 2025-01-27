@@ -1,7 +1,7 @@
 import type * as React from 'react';
 
-import type {PopperPlacement} from '../../hooks/private';
 import type {UseOpenProps} from '../../hooks/useSelect/types';
+import type {PopupPlacement} from '../Popup';
 import type {InputControlPin, InputControlSize, InputControlView} from '../controls';
 import type {AriaLabelingProps, ControlGroupOption, QAProps} from '../types';
 
@@ -28,20 +28,10 @@ export type SelectRenderTriggerProps = AriaLabelingProps &
 
 export type SelectRenderControlProps = {
     onClear: () => void;
-    /** @deprecated use triggerProps instead */
-    onClick: (e: React.MouseEvent<HTMLElement>) => void;
-    /** @deprecated use triggerProps instead */
-    onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
     renderClear: (args: SelectRenderClearArgs) => React.ReactNode;
     renderCounter: () => React.ReactNode;
     ref: React.Ref<HTMLElement>;
     open: boolean;
-    /** @deprecated use triggerProps instead */
-    popupId: string;
-    /** @deprecated use triggerProps instead */
-    selectId: string;
-    /** @deprecated use triggerProps instead */
-    activeIndex?: number;
     disabled?: boolean;
     triggerProps: SelectRenderTriggerProps;
 };
@@ -125,7 +115,7 @@ export type SelectProps<T = any> = QAProps &
         className?: string;
         controlClassName?: string;
         popupClassName?: string;
-        popupPlacement?: PopperPlacement;
+        popupPlacement?: PopupPlacement;
         label?: string;
         placeholder?: React.ReactNode;
         filterPlaceholder?: string;

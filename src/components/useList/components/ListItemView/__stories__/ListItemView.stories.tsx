@@ -64,9 +64,7 @@ const EndSlot = ({selfStart}: {selfStart?: boolean}) => (
                 },
             ]}
             defaultSwitcherProps={{
-                extraProps: {
-                    'aria-label': 'Actions',
-                },
+                'aria-label': 'Actions',
             }}
         />
     </Flex>
@@ -255,7 +253,7 @@ const stories: ListItemViewProps[] = [
             expanded: false,
             expandIconPlacement: 'end',
             renderExpandIcon: (props) => (
-                <Button view="flat" extraProps={{'aria-label': 'toggle-button'}}>
+                <Button view="flat" aria-label="Toggle Button">
                     <Button.Icon>
                         <ListItemExpandIcon {...props} />
                     </Button.Icon>

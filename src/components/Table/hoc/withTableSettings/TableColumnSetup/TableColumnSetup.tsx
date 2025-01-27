@@ -12,10 +12,10 @@ import type {
 } from 'react-beautiful-dnd';
 
 import {useUniqId} from '../../../../../hooks';
-import type {PopperPlacement} from '../../../../../hooks/private';
 import {createOnKeyDownHandler} from '../../../../../hooks/useActionHandlers/useActionHandlers';
 import {Button} from '../../../../Button';
 import {Icon} from '../../../../Icon';
+import type {PopupPlacement} from '../../../../Popup';
 import {Text} from '../../../../Text';
 import {TreeSelect} from '../../../../TreeSelect/TreeSelect';
 import type {
@@ -276,7 +276,7 @@ export interface TableColumnSetupProps {
 
     onUpdate: (newSettings: TableSetting[]) => void;
     popupWidth?: TreeSelectProps<unknown>['popupWidth'];
-    popupPlacement?: PopperPlacement;
+    popupPlacement?: PopupPlacement;
 
     /**
      * @deprecated
@@ -384,7 +384,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
         return (
             renderSwitcher?.({onClick: toggleOpen, onKeyDown}) || (
-                <Button onClick={toggleOpen} extraProps={{onKeyDown}}>
+                <Button onClick={toggleOpen} onKeyDown={onKeyDown}>
                     <Icon data={Gear} />
                     {i18n('button_switcher')}
                 </Button>

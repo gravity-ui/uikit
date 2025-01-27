@@ -1,5 +1,5 @@
-@import '../variables';
-@import '../../../styles/mixins';
+@use '../variables';
+@use '../../../styles/mixins';
 
 $imageSmallSize: 100px;
 $imageMediumSize: 150px;
@@ -21,7 +21,7 @@ $normalOffset: var(--g-spacing-5);
 $mediumOffset: var(--g-spacing-7);
 $bigOffset: var(--g-spacing-10);
 
-$block: '.#{$ns}placeholder-container';
+$block: '.#{variables.$ns}placeholder-container';
 
 @mixin container-row-sizes($bodyWidth, $imageSize, $contentHeight, $contentOffset) {
     #{$block}__body {
@@ -120,19 +120,19 @@ $block: '.#{$ns}placeholder-container';
 
     &__title {
         #{$block}_size_s & {
-            @include text-subheader-1();
+            @include mixins.text-subheader-1();
         }
 
         #{$block}_size_m & {
-            @include text-subheader-2();
+            @include mixins.text-subheader-2();
         }
 
         #{$block}_size_l & {
-            @include text-subheader-3();
+            @include mixins.text-subheader-3();
         }
 
         #{$block}_size_promo & {
-            @include text-header-1();
+            @include mixins.text-header-1();
         }
     }
 

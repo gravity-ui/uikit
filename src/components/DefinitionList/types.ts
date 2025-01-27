@@ -1,7 +1,7 @@
 import type * as React from 'react';
 
 import type {HelpMarkProps} from '../HelpMark';
-import type {QAProps} from '../types';
+import type {AriaLabelingProps, QAProps} from '../types';
 export type DefinitionListItemNote = string | HelpMarkProps;
 
 export interface DefinitionListItemProps {
@@ -13,7 +13,7 @@ export interface DefinitionListItemProps {
 
 export type DefinitionListDirection = 'vertical' | 'horizontal';
 
-export interface DefinitionListProps extends QAProps {
+export interface DefinitionListProps extends AriaLabelingProps, QAProps {
     responsive?: boolean;
     direction?: DefinitionListDirection;
     nameMaxWidth?: number;

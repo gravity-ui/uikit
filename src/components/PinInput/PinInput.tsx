@@ -86,7 +86,7 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>((props, 
         className,
         style,
         qa,
-        ...otherProps
+        ...restProps
     } = props;
     const refs = React.useRef<Record<number, HTMLInputElement | null>>({});
     const [activeIndex, setActiveIndex] = React.useState(0);
@@ -269,7 +269,7 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>((props, 
     return (
         <div
             ref={ref}
-            {...filterDOMProps(otherProps, {labelable: true})}
+            {...filterDOMProps(restProps, {labelable: true})}
             {...focusWithinProps}
             className={b({size, responsive}, className)}
             style={style}

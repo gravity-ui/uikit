@@ -12,18 +12,18 @@ import './BaseSlider.scss';
 
 const b = block('base-slider');
 
-type BaseSliderProps = {stateModifiers: StateModifiers} & Omit<
-    SliderProps,
+type BaseSliderProps<T = number | number[]> = {stateModifiers: StateModifiers} & Omit<
+    SliderProps<T>,
     'classNames' | 'prefixCls' | 'className' | 'pushable' | 'keyboard'
 >;
 
 export const BaseSlider = React.forwardRef<SliderRef, BaseSliderProps>(function BaseSlider(
-    {stateModifiers, ...otherProps}: BaseSliderProps,
-    ref: React.ForwardedRef<SliderRef>,
+    {stateModifiers, ...restProps},
+    ref,
 ) {
     return (
         <Slider
-            {...otherProps}
+            {...restProps}
             ref={ref}
             className={b(stateModifiers)}
             classNames={{
@@ -34,6 +34,6 @@ export const BaseSlider = React.forwardRef<SliderRef, BaseSliderProps>(function 
             pushable={false}
             dots={false}
             keyboard={true}
-        ></Slider>
+        />
     );
-});
+}) as <T>(p: BaseSliderProps<T> & {ref?: React.Ref<SliderRef>}) => React.ReactElement;

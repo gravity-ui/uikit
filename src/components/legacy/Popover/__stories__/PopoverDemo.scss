@@ -1,0 +1,47 @@
+@use '../../../variables';
+
+$block: '.#{variables.$ns}popover-legacy-demo';
+
+#{$block} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    flex-direction: column;
+
+    & > * {
+        margin-block-end: 20px;
+    }
+
+    &__content {
+        border: 4px solid var(--g-color-line-danger);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 320px;
+        padding: 15px;
+    }
+
+    &__title {
+        color: var(--g-color-text-danger);
+        margin: 0;
+    }
+
+    &__text {
+        margin: 0;
+    }
+
+    &__title + &__text {
+        margin-block-start: 15px;
+    }
+
+    &__loader {
+        display: flex;
+        justify-content: center;
+    }
+
+    &__variants {
+        display: flex;
+        gap: 16px;
+    }
+}

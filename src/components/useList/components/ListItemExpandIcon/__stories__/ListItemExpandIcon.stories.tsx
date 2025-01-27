@@ -27,7 +27,7 @@ const InsideButtonExample = (props: ListItemExpandIconProps) => {
     const [expanded, setExpanded] = React.useState(false);
 
     return (
-        <Button extraProps={{'aria-label': 'toggle-button'}} onClick={() => setExpanded((x) => !x)}>
+        <Button aria-label="Toggle Button" onClick={() => setExpanded((x) => !x)}>
             <Button.Icon>
                 <ListItemExpandIcon {...props} expanded={expanded} />
             </Button.Icon>

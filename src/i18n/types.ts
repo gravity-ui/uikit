@@ -14,7 +14,7 @@ import type {default as TableColumnSetupKeyset} from '../components/TableColumnS
 import type {default as ToasterKeyset} from '../components/Toaster/i18n';
 import type {default as UserLabelKeyset} from '../components/UserLabel/i18n';
 import type {default as ClearButtonKeyset} from '../components/controls/common/ClearButton/i18n';
-import type {default as LabBreadcrumbsKeyset} from '../components/lab/Breadcrumbs/i18n';
+import type {default as LegacyBreadcrumbsKeyset} from '../components/legacy/Breadcrumbs/i18n';
 import type {DeepPartial} from '../types/utils';
 
 export type Keysets = typeof ActionsPanelKeyset &
@@ -29,7 +29,7 @@ export type Keysets = typeof ActionsPanelKeyset &
     typeof WithTableSettingsKeyset.keysetData &
     typeof TableColumnSetupKeyset.keysetData &
     typeof ClearButtonKeyset.keysetData &
-    typeof LabBreadcrumbsKeyset.keysetData &
+    typeof LegacyBreadcrumbsKeyset.keysetData &
     typeof SelectKeyset.keysetData &
     typeof TableKeyset.keysetData &
     typeof ToasterKeyset.keysetData &

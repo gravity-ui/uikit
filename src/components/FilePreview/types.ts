@@ -5,6 +5,7 @@ export const FILE_TYPES = [
     'code',
     'archive',
     'music',
+    'audio',
     'text',
     'pdf',
     'table',

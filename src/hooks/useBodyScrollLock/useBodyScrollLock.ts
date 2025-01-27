@@ -2,12 +2,18 @@ import * as React from 'react';
 
 const PROPERTY_PADDING_RIGHT = 'padding-right';
 const PROPERTY_PADDING_BOTTOM = 'padding-bottom';
-const PROPERTY_OVERFLOW = 'overflow';
+
+const lockBodyStyles = {
+    overflow: 'hidden',
+    position: 'fixed',
+    inset: '0',
+    height: '100%',
+};
 
 const STORED_BODY_STYLE_KEYS = [
-    PROPERTY_OVERFLOW,
     PROPERTY_PADDING_RIGHT,
     PROPERTY_PADDING_BOTTOM,
+    ...Object.keys(lockBodyStyles),
 ] as const;
 
 type StoredBodyStyleKeys = (typeof STORED_BODY_STYLE_KEYS)[number];
@@ -60,7 +66,9 @@ function setBodyStyles() {
 
     storedBodyStyle = getStoredStyles();
 
-    document.body.style.setProperty(PROPERTY_OVERFLOW, 'hidden');
+    for (const [style, value] of Object.entries(lockBodyStyles)) {
+        document.body.style.setProperty(style, value);
+    }
 
     if (yScrollbarWidth) {
         document.body.style.setProperty(

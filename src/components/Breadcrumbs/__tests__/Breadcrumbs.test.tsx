@@ -4,6 +4,8 @@ import {userEvent} from '@testing-library/user-event';
 
 import {render, screen, within} from '../../../../test-utils/utils';
 import {Breadcrumbs} from '../Breadcrumbs';
+import {BreadcrumbsItem} from '../BreadcrumbsItem';
+import type {BreadcrumbsItemProps} from '../BreadcrumbsItem';
 
 beforeEach(() => {
     jest.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockImplementation(function (
@@ -237,34 +239,37 @@ it('should support links', async function () {
     expect(items[1]).toHaveAttribute('href', 'https://example.com/foo');
 });
 
-it('should support RouterProvider', async () => {
-    /*
-        declare module '@gravity-ui/uikit' {
-            interface RouterConfig {
-                routerOptions: {
-                    foo: string;
-                };
-            }
-        }
-    */
+it('should support custom item component', async () => {
     const navigate = jest.fn();
+    function RouterLink({
+        href,
+        routerOptions,
+        ...rest
+    }: {
+        href: string;
+        routerOptions: {foo: string};
+    } & Omit<BreadcrumbsItemProps, 'href' | 'onClick'>) {
+        return (
+            <BreadcrumbsItem {...rest} href={href} onClick={() => navigate(href, routerOptions)} />
+        );
+    }
     render(
-        <Breadcrumbs navigate={navigate}>
-            <Breadcrumbs.Item href="/" routerOptions={{foo: 'bar'} as any}>
+        <Breadcrumbs itemComponent={RouterLink}>
+            <RouterLink href="/" routerOptions={{foo: 'bar'}} disabled>
                 Example.com
-            </Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/foo" routerOptions={{foo: 'foo'} as any}>
+            </RouterLink>
+            <RouterLink href="/foo" routerOptions={{foo: 'foo'}}>
                 Foo
-            </Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/foo/bar" routerOptions={{foo: 'bar'} as any}>
+            </RouterLink>
+            <RouterLink href="/foo/bar" routerOptions={{foo: 'bar'}}>
                 Bar
-            </Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/foo/bar/baz" routerOptions={{foo: 'bar'} as any}>
+            </RouterLink>
+            <RouterLink href="/foo/bar/baz" routerOptions={{foo: 'bar'}}>
                 Baz
-            </Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/foo/bar/baz/qux" routerOptions={{foo: 'bar'} as any}>
+            </RouterLink>
+            <RouterLink href="/foo/bar/baz/qux" routerOptions={{foo: 'bar'}} disabled>
                 Qux
-            </Breadcrumbs.Item>
+            </RouterLink>
         </Breadcrumbs>,
     );
 
@@ -274,6 +279,9 @@ it('should support RouterProvider', async () => {
     expect(navigate).toHaveBeenCalledWith('/foo/bar', {foo: 'bar'});
     navigate.mockReset();
 
+    expect(links[2]).toHaveAttribute('aria-disabled', 'true');
+    expect(links[2]).toHaveAttribute('aria-current', 'page');
+
     const menuButton = screen.getByRole('button');
     await userEvent.click(menuButton);
 
@@ -282,4 +290,6 @@ it('should support RouterProvider', async () => {
     expect(items[1]).toHaveAttribute('href', '/foo');
     await userEvent.click(items[1]);
     expect(navigate).toHaveBeenCalledWith('/foo', {foo: 'foo'});
+
+    expect(items[0]).toHaveAttribute('aria-disabled', 'true');
 });

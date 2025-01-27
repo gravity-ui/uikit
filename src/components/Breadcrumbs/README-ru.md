@@ -336,92 +336,80 @@ LANDING_BLOCK-->
 
 ### Интеграция с роутерами
 
-Компонент `Breadcrumbs` принимает функцию навигации от роутера для программного управления навигацией на стороне клиента.
-На примере ниже показана общая схема:
+<!--GITHUB_BLOCK-->
+
+#### React Router
 
 ```jsx
-function Header() {
-  const navigate = useNavigateFromYourRouter();
+import {useLinkClickHandler, useHref} from 'react-router';
+import {Breadcrumbs, BreadcrumbsItem} from '@gravity-ui/uikit';
 
-  return (
-    <header>
-      <Breadcrumbs navigate={navigate}>{/*...*/}</Breadcrumbs>
-    </header>
-  );
+function RouterLink({to, ...rest}) {
+  const href = useHref(to);
+  const onClick = useLinkClickHandler(to);
+  return <BreadcrumbsItem {...rest} href={href} onClick={onClick} />;
 }
-```
 
-#### React Router v5
-
-```jsx
-import {useHistory} from 'react-router-dom';
-import {Breadcrumbs} from '@gravity-ui/uikit';
-
-function Header() {
-  const history = useHistory();
-
+function Navigation() {
   return (
-    <header>
-      <Breadcrumbs navigate={history.push}>{/*...*/}</Breadcrumbs>
-    </header>
-  );
-}
-```
-
-#### React Router v6
-
-```jsx
-import {useNavigate} from 'react-router-dom';
-import {Breadcrumbs} from '@gravity-ui/uikit';
-
-function Header() {
-  const navigate = useNavigate();
-
-  return (
-    <header>
-      <Breadcrumbs navigate={navigate}>{/*...*/}</Breadcrumbs>
-    </header>
+    <Breadcrumbs itemComponent={RouterLink}>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/components">Components</RouterLink>
+      <RouterLink to="/components/breadcrumbs">Breadcrumbs</RouterLink>
+    </Breadcrumbs>
   );
 }
 ```
 
 #### Next.js
 
-`App router`
-
 ```jsx
-'use client';
+import Link from 'next/link';
+import {Breadcrumbs, BreadcrumbsItem} from '@gravity-ui/uikit';
 
-import {useRouter} from 'next/navigation';
-import {Breadcrumbs} from '@gravity-ui/uikit';
-
-function Header() {
-  const router = useRouter();
-
+function RouterLink({href, ...rest}) {
   return (
-    <header>
-      <Breadcrumbs navigate={router.push}>{/*...*/}</Breadcrumbs>
-    </header>
+    <Link href={href} passHref legacyBehavior>
+      <BreadcrumbsItem {...rest} />;
+    </Link>
+  );
+}
+
+function Navigation() {
+  return (
+    <Breadcrumbs itemComponent={RouterLink}>
+      <RouterLink href="/">Home</RouterLink>
+      <RouterLink href="/components">Components</RouterLink>
+      <RouterLink href="/components/breadcrumbs">Breadcrumbs</RouterLink>
+    </Breadcrumbs>
   );
 }
 ```
 
-`Pages router`
+#### Tanstack Router
 
 ```jsx
-import {useRouter} from 'next/router';
-import {Breadcrumbs} from '@gravity-ui/uikit';
+import {createLink} from '@tanstack/react-router';
+import {Breadcrumbs, BreadcrumbsItem} from '@gravity-ui/uikit';
 
-function Header() {
-  const router = useRouter();
+const RouterLink = createLink(BreadcrumbsItem);
 
+function Navigation() {
   return (
-    <header>
-      <Breadcrumbs navigate={router.push}>{/*...*/}</Breadcrumbs>
-    </header>
+    <Breadcrumbs itemComponent={RouterLink}>
+      <RouterLink href="/">Home</RouterLink>
+      <RouterLink href="/components">Components</RouterLink>
+      <RouterLink href="/components/breadcrumbs">Breadcrumbs</RouterLink>
+    </Breadcrumbs>
   );
 }
 ```
+
+<!-- Storybook example -->
+
+<BreadcrumbsClientNavigation />
+
+<!--/GITHUB_BLOCK-->
 
 ### Области навигации
 

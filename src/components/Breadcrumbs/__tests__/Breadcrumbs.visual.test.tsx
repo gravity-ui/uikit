@@ -32,7 +32,7 @@ test.describe('Breadcrumbs', {tag: '@Breadcrumbs'}, () => {
 
             await root.locator('button').click();
 
-            await expect(page.locator(`ul[role="menu"]`)).toBeVisible();
+            await expect(page.locator(`div[role="menu"]`)).toBeVisible();
 
             await expectScreenshot({
                 themes: ['light'],

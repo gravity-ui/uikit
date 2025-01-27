@@ -1,7 +1,7 @@
 import type * as React from 'react';
 
 export interface DOMProps {
-    style?: React.CSSProperties;
+    style?: CSSProperties;
     className?: string;
 }
 
@@ -64,11 +64,6 @@ export interface ControlGroupProps<ValueType extends string = string> extends Ar
 
 export type Key = string | number;
 
-export interface RouterConfig {}
-
-export type Href = RouterConfig extends {href: infer H} ? H : string;
-export type RouterOptions = RouterConfig extends {routerOptions: infer O} ? O : never;
-
 export interface AriaLabelingProps {
     /**
      * Defines a string value that labels the current element.
@@ -96,4 +91,8 @@ export interface FocusEventHandlers<Target = Element> {
     onFocus?: React.FocusEventHandler<Target>;
     /** Handler that is called when the element loses focus. */
     onBlur?: React.FocusEventHandler<Target>;
+}
+
+export interface CSSProperties extends React.CSSProperties {
+    [key: `--${string}`]: string | number;
 }

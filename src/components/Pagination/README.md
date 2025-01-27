@@ -109,7 +109,7 @@ const renderWrapper = ({page, pageSize, item}) => {
         ) : (
             <Link to={pageHrefBuilder(page, pageSize)} key={item.key}>
                 {item}
-            </a>
+            </Link>
         );
     },
 

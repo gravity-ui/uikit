@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export interface TabContextProps {
-    activeTabId: string | undefined;
+    activeTabId?: string;
 }
 export const TabContext = React.createContext<TabContextProps>({
     activeTabId: undefined,

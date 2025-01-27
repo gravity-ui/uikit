@@ -12,15 +12,17 @@ type StoryParams = {
     withLabel?: boolean;
     withLink?: boolean;
     withCustomChildren?: boolean;
+    withTitle?: boolean;
 };
 
 const gearIcon = <Flame width={18} height={18} />;
 
 export function getTabsMock(args: StoryParams): TabProps[] {
+    const {withTitle = true} = args;
     return [
         {
             value: 'first',
-            title: 'First Tab',
+            title: withTitle ? 'First Tab' : undefined,
             children: args.withCustomChildren ? <RenderWithWrap title="First Tab" /> : 'First Tab',
             icon: args.withIcon ? gearIcon : undefined,
             counter: args.withCounter ? Math.floor(Math.random() * 5 + 1) : undefined,
@@ -29,7 +31,7 @@ export function getTabsMock(args: StoryParams): TabProps[] {
         },
         {
             value: 'active',
-            title: 'Active Tab',
+            title: withTitle ? 'Active Tab' : undefined,
             children: args.withCustomChildren ? (
                 <RenderWithWrap title="Active Tab" />
             ) : (
@@ -42,7 +44,7 @@ export function getTabsMock(args: StoryParams): TabProps[] {
         },
         {
             value: 'disabled',
-            title: 'disabled',
+            title: withTitle ? 'disabled' : undefined,
             children: args.withCustomChildren ? (
                 <RenderWithWrap title="Disabled Tab" />
             ) : (
@@ -56,7 +58,7 @@ export function getTabsMock(args: StoryParams): TabProps[] {
         },
         {
             value: 'fourth',
-            title: 'Fourth Long Text To Show Tab',
+            title: withTitle ? 'Fourth Long Text To Show Tab' : undefined,
             children: args.withCustomChildren ? (
                 <RenderWithWrap title="Fourth Long Text To Show Tab" />
             ) : (
@@ -69,7 +71,7 @@ export function getTabsMock(args: StoryParams): TabProps[] {
         },
         {
             value: 'fifth',
-            title: 'One More Long Text Tab To Show',
+            title: withTitle ? 'One More Long Text Tab To Show' : undefined,
             children: args.withCustomChildren ? (
                 <RenderWithWrap title="One More Long Text Tab To Show" />
             ) : (

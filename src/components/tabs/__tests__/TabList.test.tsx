@@ -146,7 +146,7 @@ test('should call onUpdate on "\' \'" key', async () => {
     expect(onUpdateFn).toHaveBeenCalledWith(tab2.id);
 });
 
-test('should not call onUpdate on "[Enter]" key', async () => {
+test('should call onUpdate on "[Enter]" key', async () => {
     const onUpdateFn = jest.fn();
     const user = userEvent.setup();
 
@@ -166,5 +166,5 @@ test('should not call onUpdate on "[Enter]" key', async () => {
 
     await user.keyboard('[Enter]');
 
-    expect(onUpdateFn).not.toHaveBeenCalled();
+    expect(onUpdateFn).toHaveBeenCalledWith(tab2.id);
 });

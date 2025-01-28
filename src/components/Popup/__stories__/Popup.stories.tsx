@@ -11,6 +11,20 @@ import type {PopupPlacement} from '../types';
 const meta: Meta<typeof Popup> = {
     title: 'Components/Overlays/Popup',
     component: Popup,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'aria-hidden-focus',
+                        enabled: false,
+                        selector: '[data-floating-ui-focus-guard]',
+                    },
+                ],
+            },
+        },
+    },
 };
 
 export default meta;

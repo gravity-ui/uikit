@@ -102,10 +102,3 @@ For a file, you can prescribe actions that will be visible when you hover over i
 | onClick    | Action click handler           | `function`                                                                           |          |         |
 | href       | Action button href             | `String`                                                                             |          |         |
 | extraProps | Additional action button props | `ButtonHTMLAttributes<HTMLButtonElement> \| AnchorHTMLAttributes<HTMLAnchorElement>` |          |         |
-
-## CSS API
-
-| Name                       | Description                          |
-| -------------------------- | ------------------------------------ |
-| `--g-image-preview-height` | The height of the image preview area |
-| `--g-image-preview-width`  | The width of the image preview area  |

@@ -1,5 +1,19 @@
 # Changelog
 
+## [6.42.0](https://github.com/gravity-ui/uikit/compare/v6.41.0...v6.42.0) (2025-01-28)
+
+
+### Features
+
+* **FilePreview:** add support of most types of files uploaded via input ([#2063](https://github.com/gravity-ui/uikit/issues/2063)) ([059643c](https://github.com/gravity-ui/uikit/commit/059643c1d070914dd3480ad3db67495336b092ce))
+
+
+### Bug Fixes
+
+* **FilePreview:** fix view of image preview ([#2060](https://github.com/gravity-ui/uikit/issues/2060)) ([3f580e1](https://github.com/gravity-ui/uikit/commit/3f580e12c722075204fa3364712994c005121b8a))
+* **FilePreview:** fix visual of actions ([#2062](https://github.com/gravity-ui/uikit/issues/2062)) ([978503e](https://github.com/gravity-ui/uikit/commit/978503e6350f5e8efefade6865a44a959b5c0a5a))
+* **Sheet:** fix incorrect behavior if allowHideOnContentScroll is enabled ([#2053](https://github.com/gravity-ui/uikit/issues/2053)) ([3075beb](https://github.com/gravity-ui/uikit/commit/3075beb4f7a94db41c3e643386f088b9f4b05eab))
+
 ## [6.41.0](https://github.com/gravity-ui/uikit/compare/v6.40.0...v6.41.0) (2025-01-16)
 
 

@@ -38,7 +38,6 @@ interface ClipboardButtonComponentProps extends Omit<ButtonButtonProps, 'onCopy'
 }
 
 const DEFAULT_TIMEOUT = 1200;
-const TOOLTIP_ANIMATION = 200;
 
 const ButtonSizeToIconSize: Record<ButtonSize, number> = {
     xs: 12,
@@ -120,7 +119,7 @@ export function ClipboardButton(props: ClipboardButtonProps) {
 
             timerIdRef.current = window.setTimeout(() => {
                 setTooltipDisabled(true);
-            }, timeout - TOOLTIP_ANIMATION);
+            }, timeout);
         },
         [onCopy, timeout],
     );

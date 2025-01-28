@@ -30,6 +30,7 @@ export interface PopoverProps
             | 'offset'
             | 'keepMounted'
             | 'hasArrow'
+            | 'modal'
             | 'initialFocus'
             | 'returnFocus'
             | 'disableFocusVisuallyHiddenDismiss'
@@ -58,6 +59,7 @@ export function Popover({
     disabled,
     content,
     trigger,
+    modal = true,
     openDelay = DEFAULT_OPEN_DELAY,
     closeDelay = DEFAULT_CLOSE_DELAY,
     enableSafePolygon,
@@ -118,7 +120,7 @@ export function Popover({
                 floatingContext={context}
                 floatingRef={setFloatingElement}
                 floatingInteractions={interactions}
-                modal
+                modal={modal}
                 className={b(null, className)}
             >
                 {content}

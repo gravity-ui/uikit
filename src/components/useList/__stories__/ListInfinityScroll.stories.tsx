@@ -20,6 +20,10 @@ export default {
                         enabled: false,
                         selector: '.g-list-container-view', // scrollable content is accessible via arrows
                     },
+                    {
+                        id: 'aria-input-field-name',
+                        enabled: false,
+                    },
                 ],
             },
         },

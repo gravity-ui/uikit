@@ -9,14 +9,20 @@ $transition-timing-function: ease-in-out;
     --_--bg-color: none;
     --_--bg-color-hover: none;
     --_--text-color: none;
+    --_--font-size: var(--g-text-body-1-font-size);
+    --_--border-color: var(--g-color-line-generic);
+    --_--border-width: 0;
+    --_--border-color: currentColor;
 
     display: inline-flex;
     align-items: center;
     position: relative;
-    height: var(--_--height);
-    border-radius: var(--_--border-radius);
-    color: var(--_--text-color);
-    background-color: var(--_--bg-color);
+    height: var(--g-label-height, var(--_--height));
+    border-radius: var(--g-label-border-radius, var(--_--border-radius));
+    color: var(--g-label-text-color, var(--_--text-color));
+    background-color: var(--g-label-background-color, var(--_--bg-color));
+    box-shadow: inset 0 0 0 var(--g-label-border-width, var(--_--border-width))
+        var(--g-label-border-color, var(--_--border-color));
     transition-property: opacity, color, background-color;
     transition-duration: $transition-duration;
     transition-timing-function: $transition-timing-function;
@@ -25,12 +31,14 @@ $transition-timing-function: ease-in-out;
     isolation: isolate;
 
     &__text {
-        @include mixins.text-body-1();
         display: flex;
         align-items: baseline;
-        margin: 0 var(--_--margin-inline);
+        padding: 0 var(--g-label-padding, var(--_--padding-inline));
         width: 100%;
-        line-height: var(--_--height);
+        font-family: var(--g-text-body-font-family);
+        font-weight: var(--g-text-body-font-weight);
+        font-size: var(--g-label-font-size, var(--_--font-size));
+        line-height: var(--g-label-height, var(--_--height));
         text-align: center;
         white-space: nowrap;
         overflow: hidden;
@@ -67,9 +75,9 @@ $transition-timing-function: ease-in-out;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: var(--_--height);
-        height: var(--_--height);
-        border-radius: var(--_--border-radius);
+        width: var(--g-label-height, var(--_--height));
+        height: var(--g-label-height, var(--_--height));
+        border-radius: var(--g-label-border-radius, var(--_--border-radius));
 
         &_side_start,
         &_side_end {
@@ -93,7 +101,7 @@ $transition-timing-function: ease-in-out;
             @include mixins.button-reset();
             z-index: 2;
             cursor: pointer;
-            color: var(--_--text-color);
+            color: var(--g-label-text-color, var(--_--text-color));
             background-color: transparent;
             transition:
                 color $transition-duration $transition-timing-function,
@@ -110,7 +118,7 @@ $transition-timing-function: ease-in-out;
         &_xs {
             --_--height: 20px;
             --_--border-radius: var(--g-border-radius-xs);
-            --_--margin-inline: 8px;
+            --_--padding-inline: 8px;
             --_--margin-addon-start: 24px;
             --_--margin-addon-end: 22px;
         }
@@ -118,7 +126,7 @@ $transition-timing-function: ease-in-out;
         &_s {
             --_--height: 24px;
             --_--border-radius: var(--g-border-radius-s);
-            --_--margin-inline: 10px;
+            --_--padding-inline: 10px;
             --_--margin-addon-start: 28px;
             --_--margin-addon-end: 26px;
         }
@@ -126,7 +134,7 @@ $transition-timing-function: ease-in-out;
         &_m {
             --_--height: 28px;
             --_--border-radius: var(--g-border-radius-m);
-            --_--margin-inline: 12px;
+            --_--padding-inline: 12px;
             --_--margin-addon-start: 32px;
             --_--margin-addon-end: 32px;
         }
@@ -188,28 +196,30 @@ $transition-timing-function: ease-in-out;
             --_--bg-color: transparent;
             --_--bg-color-hover: var(--g-color-base-simple-hover);
             --_--text-color: var(--g-color-text-complementary);
-
-            box-shadow: inset 0 0 0 1px var(--g-color-line-generic);
+            --_--border-width: 1px;
+            --_--border-color: var(--g-color-line-generic);
         }
     }
 
     // Apply margins for addons
     &:has(#{$block}__addon_side_start) &__text {
-        margin-inline-start: var(--_--margin-addon-start);
+        margin-inline-start: var(--g-label-addon-margin-start, var(--_--margin-addon-start));
     }
     &:has(#{$block}__addon_side_end) &__text {
-        margin-inline-end: var(--_--margin-addon-end);
+        margin-inline-end: var(--g-label-addon-margin-end, var(--_--margin-addon-end));
     }
 
     // hover styles
     &_interactive:hover:not(:has(#{$block}__addon_type_button:hover)),
     &__addon_type_button:hover {
-        background-color: var(--_--bg-color-hover);
+        background-color: var(--g-label-background-color-hover, var(--_--bg-color-hover));
     }
 
     // focus styles
     &__main-button:focus-visible,
     &__addon_type_button:focus-visible {
-        outline: 2px solid var(--g-color-line-focus);
+        outline: var(--g-label-focus-outline-width, 2px) var(--g-label-focus-outline-style, solid)
+            var(--g-label-focus-outline-color, var(--g-color-line-focus));
+        outline-offset: var(--g-label-focus-outline-offset, 0);
     }
 }

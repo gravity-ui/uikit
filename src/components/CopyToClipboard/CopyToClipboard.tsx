@@ -2,8 +2,7 @@
 
 import * as React from 'react';
 
-import {copyText} from '../../utils/copyText';
-
+import {copyText} from './copyText';
 import type {CopyToClipboardProps, CopyToClipboardStatus} from './types';
 
 const INITIAL_STATUS: CopyToClipboardStatus = 'pending';

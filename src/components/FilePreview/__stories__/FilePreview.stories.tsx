@@ -2,6 +2,7 @@ import {CircleExclamation, Link, Xmark} from '@gravity-ui/icons';
 import {action} from '@storybook/addon-actions';
 import type {Meta, StoryFn} from '@storybook/react';
 
+import {Icon} from '../../Icon';
 import {Flex} from '../../layout';
 import type {FilePreviewProps} from '../FilePreview';
 import {FilePreview} from '../FilePreview';

@@ -1,5 +1,13 @@
 # Changelog
 
+## [6.41.1](https://github.com/gravity-ui/uikit/compare/v6.41.0...v6.41.1) (2025-01-28)
+
+
+### Bug Fixes
+
+* **FilePreview:** fix view of image preview ([#2060](https://github.com/gravity-ui/uikit/issues/2060)) ([3f580e1](https://github.com/gravity-ui/uikit/commit/3f580e12c722075204fa3364712994c005121b8a))
+* **Sheet:** fix incorrect behavior if allowHideOnContentScroll is enabled ([#2053](https://github.com/gravity-ui/uikit/issues/2053)) ([3075beb](https://github.com/gravity-ui/uikit/commit/3075beb4f7a94db41c3e643386f088b9f4b05eab))
+
 ## [6.41.0](https://github.com/gravity-ui/uikit/compare/v6.40.0...v6.41.0) (2025-01-16)
 
 

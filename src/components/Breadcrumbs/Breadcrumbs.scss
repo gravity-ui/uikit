@@ -25,6 +25,8 @@ $block: '.#{variables.$ns}breadcrumbs';
         &:last-child {
             font-weight: var(--g-text-accent-font-weight);
             overflow: hidden;
+            margin: -2px;
+            padding: 2px;
 
             #{$block}__link {
                 @include mixins.overflow-ellipsis();
@@ -65,6 +67,7 @@ $block: '.#{variables.$ns}breadcrumbs';
 
         &:focus-visible {
             outline: 2px solid var(--g-color-line-focus);
+            outline-offset: 0;
         }
     }
 
@@ -77,34 +80,28 @@ $block: '.#{variables.$ns}breadcrumbs';
 
     &__more-button {
         --g-button-border-radius: var(--g-focus-border-radius);
-        --g-button-focus-outline-offset: -2px;
     }
 
     &__menu {
         margin-inline: calc(-1 * var(--g-spacing-2));
+
+        &-popup {
+            --g-list-item-view-spacer-size: 8px;
+            max-width: 320px;
+            padding: var(--g-spacing-1);
+        }
+
+        &-link {
+            text-decoration: none;
+            cursor: default;
+
+            &:not([aria-disabled]) {
+                cursor: pointer;
+            }
+        }
     }
 
     &__item:first-child &__menu {
         margin-inline-start: 0;
-    }
-
-    &__popup_staircase {
-        $menu: '.#{variables.$ns}menu';
-        $staircaseLength: 10;
-        #{$menu} {
-            #{$menu}__list-item {
-                #{$menu}__item[class] {
-                    padding-inline-start: 8px * $staircaseLength;
-                }
-            }
-
-            @for $i from 0 through $staircaseLength {
-                #{$menu}__list-item:nth-child(#{$i}) {
-                    #{$menu}__item[class] {
-                        padding-inline-start: 8px * $i;
-                    }
-                }
-            }
-        }
     }
 }

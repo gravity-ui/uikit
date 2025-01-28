@@ -9,9 +9,8 @@ $smallRoundedButtonSize: 24px;
     --_-box-shadow: none;
     --_-border-radius: 4px;
     --_-color-base-background: transparent;
-
-    --g-image-preview-height: 64px;
-    --g-image-preview-width: 96px;
+    --_-image-preview-height: 64px;
+    --_-iimage-preview-width: 96px;
 
     position: relative;
     width: 120px;
@@ -136,8 +135,8 @@ $smallRoundedButtonSize: 24px;
 
     &__icon-container,
     &__image-container {
-        height: var(--g-image-preview-height);
-        width: var(--g-image-preview-width);
+        height: var(--_-image-preview-height);
+        width: var(--_-iimage-preview-width);
     }
 
     &__icon-container {

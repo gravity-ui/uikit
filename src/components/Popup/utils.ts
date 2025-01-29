@@ -47,10 +47,19 @@ export function getPlacementOptions(placementProp?: PopupPlacement, disablePorta
             alignment,
         });
     } else {
+        let fallbackAxisSideDirection;
+
+        if (placementProp?.startsWith('top') || placementProp?.startsWith('left')) {
+            fallbackAxisSideDirection = 'start' as const;
+        } else {
+            fallbackAxisSideDirection = 'end' as const;
+        }
+
         placement = placementProp;
         middleware = flip({
             padding: OVERFLOW_PADDING,
             altBoundary: disablePortal,
+            fallbackAxisSideDirection,
         });
     }
 

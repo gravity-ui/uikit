@@ -56,6 +56,13 @@ const config: PlaywrightTestConfig = {
         ctCacheDir: process.env.IS_DOCKER ? '.cache-docker' : '.cache',
         ctViteConfig: {
             plugins: [react()],
+            css: {
+                preprocessorOptions: {
+                    scss: {
+                        api: 'modern-compiler',
+                    },
+                },
+            },
         },
     },
     /* Configure projects for major browsers */

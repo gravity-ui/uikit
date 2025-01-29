@@ -14,6 +14,8 @@ export const mountFixture: PlaywrightFixture<MountFixture> = async ({mount: base
                 }}
                 className="playwright-wrapper-test"
             >
+                {/* Do not scale buttons while clicking. Floating UI might position its elements differently in every test run. */}
+                <style>{'.g-button, .g-button::after { transform: scale(1) !important; }'}</style>
                 {component}
             </div>,
             options,

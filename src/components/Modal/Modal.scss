@@ -35,6 +35,7 @@ $modal-default-border-radius: 5px;
     &__content {
         background-color: var(--g-color-base-modal);
         border-radius: var(--g-modal-border-radius, #{$modal-default-border-radius});
+        transition: height 0.35s ease-in-out;
 
         &_has-scroll {
             overflow-y: auto;

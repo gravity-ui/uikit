@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import {CSSTransition} from 'react-transition-group';
 
-import {useBodyScrollLock} from '../../hooks';
+import {useBodyScrollLock, useResizeObserver} from '../../hooks';
 import {useRestoreFocus} from '../../hooks/private';
 import {Portal} from '../Portal';
 import type {DOMProps, QAProps} from '../types';
@@ -83,6 +83,50 @@ export function Modal({
     const containerRef = React.useRef<HTMLDivElement>(null);
     const contentRef = React.useRef<HTMLDivElement>(null);
     const [inTransition, setInTransition] = React.useState(false);
+    const previousHeight = React.useRef<number | null>(null);
+    const isTransitioningHeight = React.useRef(false);
+
+    const handleContentTransitionEnd = React.useCallback(
+        (event: React.TransitionEvent<HTMLDivElement>) => {
+            if (event.propertyName !== 'height') {
+                return;
+            }
+
+            // ResizeObserver final resize event fires before this, so we have to delay with timeout
+            setTimeout(() => {
+                if (contentRef.current) {
+                    contentRef.current.style.height = 'auto';
+                    isTransitioningHeight.current = false;
+                }
+            }, 0);
+        },
+        [contentRef],
+    );
+
+    const handleResize = React.useCallback(() => {
+        if (!contentRef.current || isTransitioningHeight.current) {
+            return;
+        }
+
+        const contentHeight = contentRef.current.clientHeight;
+        if (!previousHeight.current) {
+            previousHeight.current = contentHeight;
+            return;
+        }
+
+        // Set previous height first for the transition to work, because it doesn't work with 'auto'
+        contentRef.current.style.height = `${previousHeight.current}px`;
+        isTransitioningHeight.current = true;
+
+        requestAnimationFrame(() => {
+            if (contentRef.current) {
+                contentRef.current.style.height = `${contentHeight}px`;
+                previousHeight.current = contentHeight;
+            }
+        });
+    }, []);
+
+    useResizeObserver({ref: contentRef, onResize: handleResize});
 
     useBodyScrollLock({enabled: !disableBodyScrollLock && (open || inTransition)});
     const containerProps = useRestoreFocus({
@@ -149,6 +193,7 @@ export function Modal({
                                         {'has-scroll': contentOverflow === 'auto'},
                                         contentClassName,
                                     )}
+                                    onTransitionEnd={handleContentTransitionEnd}
                                     {...containerProps}
                                 >
                                     {children}

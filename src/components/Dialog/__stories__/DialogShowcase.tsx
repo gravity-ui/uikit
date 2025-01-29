@@ -123,6 +123,62 @@ function OtherDialog() {
     );
 }
 
+function DynamicHeightDialog() {
+    const [open, setOpen] = React.useState(false);
+    const [rows, setRows] = React.useState(0);
+
+    const switchVisibility = () => {
+        setOpen((prevOpen) => !prevOpen);
+    };
+
+    const addRows = () => {
+        setRows((previousRows) => previousRows + 2);
+    };
+
+    const removeRows = () => {
+        setRows((previousRows) => Math.max(previousRows - 2, 0));
+    };
+
+    return (
+        <div>
+            <Button view="outlined" size="l" onClick={switchVisibility}>
+                dialog with dynamic height transition
+            </Button>
+            <Dialog
+                open={open}
+                onClose={switchVisibility}
+                className="my-custom-class-for-dialog"
+                hasCloseButton
+                keepMounted
+                qa="dynamicHeight"
+                contentOverflow="auto"
+            >
+                <Dialog.Body>
+                    <Flex direction="column" gap="3" style={{paddingTop: '40px'}}>
+                        {[...Array(rows).keys()].map((key) => (
+                            <Flex
+                                alignItems="center"
+                                justifyContent="center"
+                                key={key}
+                                style={{height: '40px', border: '1px solid', borderRadius: '10px'}}
+                            >
+                                Row {key + 1}
+                            </Flex>
+                        ))}
+                    </Flex>
+                </Dialog.Body>
+                <Dialog.Footer
+                    preset="default"
+                    onClickButtonCancel={removeRows}
+                    onClickButtonApply={addRows}
+                    textButtonApply="Add rows"
+                    textButtonCancel="Remove rows"
+                />
+            </Dialog>
+        </div>
+    );
+}
+
 export function DialogShowcase() {
     const buttonRef = React.useRef<HTMLButtonElement>(null);
     const [open, setOpen] = React.useState(false);
@@ -210,6 +266,9 @@ export function DialogShowcase() {
             </Dialog>
             <div>
                 <OtherDialog />
+            </div>
+            <div style={{marginTop: 10}}>
+                <DynamicHeightDialog />
             </div>
         </div>
     );

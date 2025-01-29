@@ -30,7 +30,7 @@ export function TextPanel(props: TextPanelProps) {
                         <div className={b('card-headline')}>
                             <div className={b('card-title')}>{item.title}</div>
                             <CopyToClipboard text={copyText}>
-                                {() => <div className={b('card-var')}>{varName}</div>}
+                                <div className={b('card-var')}>{varName}</div>
                             </CopyToClipboard>
                         </div>
                         {item.description && (
@@ -38,18 +38,14 @@ export function TextPanel(props: TextPanelProps) {
                         )}
                         {props.variant && (
                             <CopyToClipboard text={copyText}>
-                                {() => (
-                                    <div
-                                        className={b('card-sample', {variant: varName})}
-                                        style={
-                                            props.variant
-                                                ? undefined
-                                                : {fontFamily: `var(${varName})`}
-                                        }
-                                    >
-                                        {SAMPLE_TEXT}
-                                    </div>
-                                )}
+                                <div
+                                    className={b('card-sample', {variant: varName})}
+                                    style={
+                                        props.variant ? undefined : {fontFamily: `var(${varName})`}
+                                    }
+                                >
+                                    {SAMPLE_TEXT}
+                                </div>
                             </CopyToClipboard>
                         )}
                     </div>

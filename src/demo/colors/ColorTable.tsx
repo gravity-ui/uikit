@@ -83,7 +83,7 @@ export function ColorTable({theme}: ColorTableProps) {
 
                                 return varExist ? (
                                     <CopyToClipboard text={`var(${varName})`} key={step}>
-                                        {() => content}
+                                        {content}
                                     </CopyToClipboard>
                                 ) : (
                                     content

@@ -37,18 +37,16 @@ export function ColorPanel(props: ColorPanelProps) {
             return (
                 <div className="color-panel__card" key={color.name}>
                     <CopyToClipboard text={copyText}>
-                        {() => (
-                            <div
-                                className={`color-panel__card-box ${boxBorders}`}
-                                style={{background: `var(${varName})`}}
-                            />
-                        )}
+                        <div
+                            className={`color-panel__card-box ${boxBorders}`}
+                            style={{background: `var(${varName})`}}
+                        />
                     </CopyToClipboard>
                     <div className="color-panel__card-texts">
                         <div className="color-panel__card-headline">
                             <div className="color-panel__card-title">{color.title}</div>
                             <CopyToClipboard text={copyText}>
-                                {() => <div className="color-panel__card-var">{varName}</div>}
+                                <div className="color-panel__card-var">{varName}</div>
                             </CopyToClipboard>
                         </div>
                         <div className="color-panel__card-description">{color.description}</div>

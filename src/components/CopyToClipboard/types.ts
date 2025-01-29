@@ -10,6 +10,6 @@ export interface CopyToClipboardProps {
     text: string;
     timeout?: number;
     /** Child element should have `onClick` handler to work properly */
-    children: CopyToClipboardContent;
+    children: React.ReactElement | CopyToClipboardContent;
     onCopy?: OnCopyHandler;
 }

@@ -15,10 +15,7 @@ export function CopyToClipboard(props: CopyToClipboardProps) {
 
     const timerIdRef = React.useRef<number>();
 
-    const content = React.useMemo<React.ReactElement<React.HTMLAttributes<HTMLElement>>>(
-        () => children(status),
-        [children, status],
-    );
+    const content: React.ReactElement<React.HTMLAttributes<HTMLElement>> = children(status);
 
     const handleCopy = React.useCallback(
         (copyText: string, result: boolean) => {

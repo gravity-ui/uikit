@@ -217,13 +217,13 @@ export function Popup({
         onOpenChange: handleOpenChange,
         middleware: floatingMiddlewares ?? [
             floatingOffset(offset),
-            placementMiddleware,
             shift({
                 padding: OVERFLOW_PADDING,
                 // Offset 22 is size of the arrow (18) + padding (4)
                 limiter: limitShift({offset: 4 + (hasArrow ? 18 : 0)}),
                 altBoundary: disablePortal,
             }),
+            placementMiddleware,
             hasArrow && arrow({element: arrowElement, padding: 4}),
             hasArrow && arrowStylesMiddleware(),
         ],

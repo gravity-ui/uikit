@@ -41,10 +41,10 @@ const [buttonElement, setButtonElement] = React.useState(null);
 const [open, setOpen] = React.useState(false);
 
 <Button ref={setButtonElement} onClick={() => setOpen((prevOpen) => !prevOpen)}>
-  Toggle Popup
+    Toggle Popup
 </Button>
 <Popup anchorElement={buttonElement} open={open} placement="bottom">
-  Content
+    Content
 </Popup>
 ```
 
@@ -93,6 +93,7 @@ LANDING_BLOCK-->
 | children                | Any React content                                                                          |                       `React.ReactNode`                       |               |
 | className               | `class` HTML attribute for the root node                                                   |                           `string`                            |               |
 | disableEscapeKeyDown    | Disables triggering close on `Esc`                                                         |                           `boolean`                           |    `false`    |
+| disableFocusOut         | Disables triggering close on focusout                                                      |                           `boolean`                           |    `false`    |
 | disableOutsideClick     | Disables triggering close on outside clicks                                                |                           `boolean`                           |    `false`    |
 | disablePortal           | Disables using `Portal` for children                                                       |                           `boolean`                           |    `false`    |
 | floatingContext         | `Floating UI` context to provide interactions                                              |                     `FloatingRootContext`                     |               |

@@ -63,8 +63,8 @@ export class Toaster {
     }
 
     destroy() {
-        this.eventEmitter.destroy();
         this.removeAll();
+        this.eventEmitter.destroy();
     }
 
     subscribe(listener: (toasts: InternalToastProps[]) => void) {

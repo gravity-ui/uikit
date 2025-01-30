@@ -4,7 +4,7 @@ import {getToastIndex} from './utilities/getToastIndex';
 import {hasToast} from './utilities/hasToast';
 import {removeToast} from './utilities/removeToast';
 
-export class Toaster {
+export class ToasterSingleton {
     private toasts: InternalToastProps[] = [];
     private eventEmitter: EventEmitter<InternalToastProps[]> = new EventEmitter({
         stashUndelivered: true,

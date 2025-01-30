@@ -34,6 +34,7 @@ export interface PopoverProps
             | 'initialFocus'
             | 'returnFocus'
             | 'disableFocusVisuallyHiddenDismiss'
+            | 'disableFocusManager'
         > {
     children:
         | ((props: Record<string, unknown>, ref: React.Ref<HTMLElement>) => React.ReactElement)

@@ -94,6 +94,7 @@ LANDING_BLOCK-->
 | className               | `class` HTML attribute for the root node                                                   |                           `string`                            |               |
 | disableEscapeKeyDown    | Disables triggering close on `Esc`                                                         |                           `boolean`                           |    `false`    |
 | disableFocusOut         | Disables triggering close on focusout                                                      |                           `boolean`                           |    `false`    |
+| disableFocusManager     | Disables focus management from `Floating UI`                                               |                           `boolean`                           |    `false`    |
 | disableOutsideClick     | Disables triggering close on outside clicks                                                |                           `boolean`                           |    `false`    |
 | disablePortal           | Disables using `Portal` for children                                                       |                           `boolean`                           |    `false`    |
 | floatingContext         | `Floating UI` context to provide interactions                                              |                     `FloatingRootContext`                     |               |

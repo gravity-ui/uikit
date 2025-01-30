@@ -114,6 +114,8 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
     disableOutsideClick?: boolean;
     /** Do not dismiss on focusout */
     disableFocusOut?: boolean;
+    /** Do not enable focus managment */
+    disableFocusManager?: boolean;
     /** Do not use `Portal` for children */
     disablePortal?: boolean;
     /** ARIA role or special component role (select, combobox) */
@@ -159,6 +161,7 @@ export function Popup({
     disableEscapeKeyDown = false,
     disableOutsideClick = false,
     disableFocusOut = false,
+    disableFocusManager = false,
     style,
     className,
     children,
@@ -300,7 +303,7 @@ export function Popup({
         <Portal disablePortal={disablePortal}>
             <FloatingFocusManager
                 context={context}
-                disabled={!isMounted}
+                disabled={disableFocusManager || !isMounted}
                 modal={modal}
                 initialFocus={initialFocus}
                 returnFocus={returnFocus}

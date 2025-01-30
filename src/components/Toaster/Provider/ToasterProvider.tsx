@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import type {Toaster} from '../Toaster';
+import type {Toaster} from '../ToasterSingleton';
 import type {InternalToastProps} from '../types';
 
 import {ToasterContext} from './ToasterContext';

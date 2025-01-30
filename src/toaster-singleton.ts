@@ -1,3 +1,3 @@
-import {Toaster} from './components/Toaster/Toaster';
+import {Toaster} from './components/Toaster/ToasterSingleton';
 
 export const toaster = new Toaster();

@@ -135,12 +135,9 @@ export const ToastPlayground: Story = {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         React.useEffect(() => {
             const toastId = 'demo-toast';
-
-            setTimeout(() => {
-                toaster.add({
-                    ...args,
-                    name: toastId,
-                });
+            toaster.add({
+                ...args,
+                name: toastId,
             });
 
             return () => toaster.remove(toastId);

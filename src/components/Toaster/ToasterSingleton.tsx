@@ -6,7 +6,9 @@ import {removeToast} from './utilities/removeToast';
 
 export class Toaster {
     private toasts: InternalToastProps[] = [];
-    private eventEmitter: EventEmitter<InternalToastProps[]> = new EventEmitter();
+    private eventEmitter: EventEmitter<InternalToastProps[]> = new EventEmitter({
+        stashUndelivered: true,
+    });
 
     add(toast: ToastProps) {
         let nextToasts = this.toasts;

@@ -7,6 +7,10 @@ export class EventEmitter<T> {
         this.listeners = [];
     }
 
+    destroy() {
+        this.listeners = [];
+    }
+
     subscribe(listener: EventListener<T>) {
         if (typeof listener === 'function') {
             this.listeners.push(listener);

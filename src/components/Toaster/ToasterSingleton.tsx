@@ -63,6 +63,7 @@ export class Toaster {
     }
 
     destroy() {
+        this.eventEmitter.destroy();
         this.removeAll();
     }
 

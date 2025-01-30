@@ -1,3 +1,3 @@
-import {ToasterSingleton as Toaster} from './components/Toaster/ToasterSingleton';
+import {ToasterSingleton} from './components/Toaster/ToasterSingleton';
 
-export const toaster = new Toaster();
+export const toaster = new ToasterSingleton();

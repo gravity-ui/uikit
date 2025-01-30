@@ -96,6 +96,7 @@ export function Modal({
             setTimeout(() => {
                 if (contentRef.current) {
                     contentRef.current.style.height = 'auto';
+                    contentRef.current.style.overflowY = '';
                     isTransitioningHeight.current = false;
                 }
             }, 0);
@@ -116,6 +117,8 @@ export function Modal({
 
         // Set previous height first for the transition to work, because it doesn't work with 'auto'
         contentRef.current.style.height = `${previousHeight.current}px`;
+        // Set overflow to hidden so that scrollbar doesn't appear while transitioning
+        contentRef.current.style.overflowY = 'hidden';
         isTransitioningHeight.current = true;
 
         requestAnimationFrame(() => {

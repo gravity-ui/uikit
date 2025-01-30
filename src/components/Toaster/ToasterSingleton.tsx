@@ -10,6 +10,11 @@ export class Toaster {
         stashUndelivered: true,
     });
 
+    destroy() {
+        this.removeAll();
+        this.eventEmitter.destroy();
+    }
+
     add(toast: ToastProps) {
         let nextToasts = this.toasts;
 
@@ -62,11 +67,6 @@ export class Toaster {
 
     has(name: string) {
         return hasToast(this.toasts, name);
-    }
-
-    destroy() {
-        this.removeAll();
-        this.eventEmitter.destroy();
     }
 
     subscribe(listener: (toasts: InternalToastProps[]) => void) {

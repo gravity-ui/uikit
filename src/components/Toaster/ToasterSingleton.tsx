@@ -5,10 +5,10 @@ import {hasToast} from './utilities/hasToast';
 import {removeToast} from './utilities/removeToast';
 
 export class ToasterSingleton {
+    /** We were tried to notify about toaster changes, but no one were listened */
+    private hasUndelivered = false;
     private toasts: InternalToastProps[] = [];
-    private eventEmitter: EventEmitter<InternalToastProps[]> = new EventEmitter({
-        stashUndelivered: true,
-    });
+    private eventEmitter: EventEmitter<InternalToastProps[]> = new EventEmitter();
 
     destroy() {
         this.removeAll();
@@ -70,10 +70,18 @@ export class ToasterSingleton {
     }
 
     subscribe(listener: (toasts: InternalToastProps[]) => void) {
-        return this.eventEmitter.subscribe(listener);
+        const unsubscribe = this.eventEmitter.subscribe(listener);
+
+        if (this.hasUndelivered) {
+            this.notify();
+        }
+
+        return unsubscribe;
     }
 
     private notify() {
-        this.eventEmitter.notify(this.toasts);
+        const isDelivered = this.eventEmitter.notify(this.toasts);
+
+        this.hasUndelivered = !isDelivered;
     }
 }

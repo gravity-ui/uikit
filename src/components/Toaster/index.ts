@@ -1,4 +1,4 @@
-export {ToasterSingleton as Toaster} from './ToasterSingleton';
+export {ToasterSingleton as Toaster} from './Toaster';
 export {Toast} from './Toast/Toast';
 
 export * from './types';

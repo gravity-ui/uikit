@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import {useMobile} from '../../components/mobile';
+
 import {SyntheticFocusEvent} from './SyntheticFocusEvent';
 import {useSyntheticBlurEvent} from './useSyntheticBlurEvent';
 
@@ -143,6 +145,8 @@ function useFocusEvents<T extends Element = Element>({
     const capturedRef = React.useRef(false);
     const targetRef = React.useRef<EventTarget | null>(null);
 
+    const mobile = useMobile();
+
     React.useEffect(() => {
         if (isDisabled) {
             return undefined;
@@ -185,7 +189,7 @@ function useFocusEvents<T extends Element = Element>({
         (event: React.FocusEvent<T>) => {
             if (
                 document.activeElement !== event.target &&
-                (event.relatedTarget === null ||
+                ((!mobile && event.relatedTarget === null) ||
                     event.relatedTarget === document.body ||
                     event.relatedTarget === (document as EventTarget))
             ) {
@@ -193,7 +197,7 @@ function useFocusEvents<T extends Element = Element>({
                 targetRef.current = null;
             }
         },
-        [onBlur],
+        [mobile, onBlur],
     );
 
     const onSyntheticFocus = useSyntheticBlurEvent(onBlur);

@@ -164,7 +164,10 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
             if (multiple) {
                 const activeItemIndex = listRef?.current?.getActiveItem();
-                filterRef.current?.focus();
+
+                if (!mobile) {
+                    filterRef.current?.focus();
+                }
 
                 if (typeof activeItemIndex === 'number') {
                     // prevent item deactivation in case of multiple selection
@@ -178,7 +181,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
             handleSelection(option);
         },
-        [handleSelection, multiple],
+        [handleSelection, mobile, multiple],
     );
 
     const handleControlKeyDown = React.useCallback(

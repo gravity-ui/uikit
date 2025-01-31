@@ -2,8 +2,10 @@
 
 $block: '.#{variables.$ns}modal';
 $modal-default-border-radius: 5px;
-$modal-default-height: auto;
-$modal-default-width: auto;
+$modal-content-height: auto;
+$modal-content-width: auto;
+$modal-wrapper-height: auto;
+$modal-wrapper-width: auto;
 
 #{$block} {
     display: block;
@@ -32,7 +34,7 @@ $modal-default-width: auto;
     &__content-aligner {
         min-width: 100%;
         min-height: 100%;
-        height: var(--g-modal-height, #{$modal-default-height});
+        height: var(--g-modal-wrapper-height, #{$modal-wrapper-height});
 
         display: inline-flex;
         align-items: center;
@@ -40,8 +42,8 @@ $modal-default-width: auto;
     }
 
     &__content-wrapper {
-        width: var(--g-modal-width, #{$modal-default-width});
-        height: var(--g-modal-height, #{$modal-default-height});
+        width: var(--g-modal-wrapper-width, #{$modal-wrapper-width});
+        height: var(--g-modal-wrapper-height, #{$modal-wrapper-height});
 
         margin: var(--g-modal-margin, #{variables.$modal-default-margin});
         border-radius: var(--g-modal-border-radius, #{$modal-default-border-radius});
@@ -49,7 +51,8 @@ $modal-default-width: auto;
     }
 
     &__content {
-        height: var(--g-modal-height, #{$modal-default-height});
+        height: var(--g-modal-content-height, #{modal-content-height});
+        width: var(--g-modal-content-width, #{$modal-content-width});
 
         background-color: var(--g-color-base-modal);
         border-radius: var(--g-modal-border-radius, #{$modal-default-border-radius});

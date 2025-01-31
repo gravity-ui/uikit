@@ -1,7 +1,7 @@
-@use '../variables';
-@use '../../../styles/mixins';
+@use '../../variables';
+@use '../../../../styles/mixins';
 
-$block: '.#{variables.$ns}tabs';
+$block: '.#{variables.$ns}tabs-legacy';
 
 #{$block} {
     --_--vertical-item-padding: var(--g-tabs-vertical-item-padding, 6px 20px);

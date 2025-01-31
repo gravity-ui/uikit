@@ -45,16 +45,6 @@
                 "default": "./build/cjs/toaster-singleton.js"
             }
         },
-        "./toaster-singleton-react-18": {
-            "import": {
-                "types": "./build/esm/toaster-singleton-react-18.d.ts",
-                "default": "./build/esm/toaster-singleton-react-18.js"
-            },
-            "require": {
-                "types": "./build/cjs/toaster-singleton-react-18.d.ts",
-                "default": "./build/cjs/toaster-singleton-react-18.js"
-            }
-        },
         "./i18n": {
             "import": {
                 "types": "./build/esm/i18n/index.d.ts",

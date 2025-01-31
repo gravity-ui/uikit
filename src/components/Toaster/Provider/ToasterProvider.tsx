@@ -2,14 +2,14 @@
 
 import * as React from 'react';
 
-import type {ToasterSingleton} from '../Toaster';
+import type {Toaster} from '../Toaster';
 import type {InternalToastProps} from '../types';
 
 import {ToasterContext} from './ToasterContext';
 import {ToastsContext} from './ToastsContext';
 
 type Props = React.PropsWithChildren<{
-    toaster: ToasterSingleton;
+    toaster: Toaster;
 }>;
 
 export const ToasterProvider = ({toaster, children}: Props) => {

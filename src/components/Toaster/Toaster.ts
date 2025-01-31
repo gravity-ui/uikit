@@ -4,7 +4,7 @@ import {getToastIndex} from './utilities/getToastIndex';
 import {hasToast} from './utilities/hasToast';
 import {removeToast} from './utilities/removeToast';
 
-export class ToasterSingleton {
+export class Toaster {
     /** We were tried to notify about toaster changes, but no one were listened */
     private hasUndelivered = false;
     private toasts: InternalToastProps[] = [];

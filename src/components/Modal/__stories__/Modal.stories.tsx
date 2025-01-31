@@ -6,7 +6,7 @@ import range from 'lodash/range';
 
 import {Button} from '../../Button';
 import {Popup} from '../../Popup';
-import {ToasterComponent, ToasterProvider, useToaster} from '../../Toaster';
+import {Toaster, ToasterComponent, ToasterProvider, useToaster} from '../../Toaster';
 import {Flex} from '../../layout';
 import {Modal} from '../Modal';
 import type {ModalProps} from '../Modal';
@@ -18,6 +18,8 @@ export default {
         layout: 'centered',
     },
 } as Meta;
+
+const toaster = new Toaster();
 
 export const Default: StoryFn<ModalProps> = (props) => {
     const [openSmall, setOpenSmall] = React.useState(false);
@@ -40,7 +42,7 @@ export const Default: StoryFn<ModalProps> = (props) => {
                     </div>
                 ))}
             </Modal>
-            <ToasterProvider>
+            <ToasterProvider toaster={toaster}>
                 <ModalWithToast {...props} open={openWithToast} onOpenChange={setOpenWithToast} />
                 <ToasterComponent />
             </ToasterProvider>

@@ -7,38 +7,20 @@ import {ToasterComponent} from '../ToasterComponent/ToasterComponent';
 import {fireAnimationEndEvent} from '../__mocks__/fireAnimationEndEvent';
 import {getToast} from '../__mocks__/getToast';
 import {tick} from '../__mocks__/tick';
-import {useToaster} from '../hooks/useToaster';
-import type {ToasterPublicMethods} from '../types';
+import {Toaster} from '../index';
 
-function ToastAPI({onMount}: {onMount: (api: ToasterPublicMethods) => void}) {
-    const toaster = useToaster();
-
-    React.useEffect(() => {
-        onMount(toaster);
-    }, []);
-
-    return null;
-}
+let toasterInstance: Toaster;
 
 function setup() {
-    let providerAPI: undefined | ToasterPublicMethods;
-
     render(
-        <ToasterProvider>
-            <ToastAPI
-                onMount={(api) => {
-                    providerAPI = api;
-                }}
-            />
+        <ToasterProvider toaster={toasterInstance}>
             <ToasterComponent />
         </ToasterProvider>,
     );
 
-    if (!providerAPI) {
+    if (!toasterInstance) {
         throw new Error('Failed to setup test');
     }
-
-    return providerAPI;
 }
 
 const toastTimeout = 1000;
@@ -47,17 +29,25 @@ const toastProps = {
     title: 'Test Toast',
 };
 
-beforeEach(() => jest.useFakeTimers());
-afterEach(() => jest.useRealTimers());
+beforeEach(() => {
+    jest.useFakeTimers();
+
+    toasterInstance = new Toaster();
+});
+afterEach(() => {
+    jest.useRealTimers();
+
+    toasterInstance.destroy();
+});
 
 describe('api.add', () => {
     // We test that after adding toast the next add will remove
     // previous toast from DOM and add it again
     it('should override already added toast', async function () {
-        const providerAPI = setup();
+        setup();
 
         act(() => {
-            providerAPI.add(toastProps);
+            toasterInstance.add(toastProps);
         });
 
         let toast = getToast();
@@ -67,7 +57,7 @@ describe('api.add', () => {
         jest.advanceTimersByTime(1);
 
         act(() => {
-            providerAPI.add(toastProps);
+            toasterInstance.add(toastProps);
         });
         fireAnimationEndEvent(toast, 'toast-hide-end');
 
@@ -81,10 +71,10 @@ describe('api.add', () => {
 
 describe('api.remove', () => {
     it('should remove toast', function () {
-        const providerAPI = setup();
+        setup();
 
         act(() => {
-            providerAPI.add({
+            toasterInstance.add({
                 ...toastProps,
                 autoHiding: toastTimeout,
             });
@@ -94,7 +84,7 @@ describe('api.remove', () => {
         expect(toast).toBeInTheDocument();
 
         act(() => {
-            providerAPI.remove(toastProps.name);
+            toasterInstance.remove(toastProps.name);
         });
         tick(toast, 0);
 
@@ -104,10 +94,10 @@ describe('api.remove', () => {
 });
 
 it('should remove toast after timeout', function () {
-    const providerAPI = setup();
+    setup();
 
     act(() => {
-        providerAPI.add({
+        toasterInstance.add({
             ...toastProps,
             autoHiding: toastTimeout,
         });
@@ -132,10 +122,10 @@ it('should remove toast after timeout', function () {
 });
 
 it('should preserve toast on hover', function () {
-    const providerAPI = setup();
+    setup();
 
     act(() => {
-        providerAPI.add({
+        toasterInstance.add({
             ...toastProps,
             autoHiding: toastTimeout,
         });
@@ -170,10 +160,10 @@ it('should preserve toast on hover', function () {
 
 describe('api.update', () => {
     it('should update toast', function () {
-        const providerAPI = setup();
+        setup();
 
         act(() => {
-            providerAPI.add({
+            toasterInstance.add({
                 ...toastProps,
                 autoHiding: toastTimeout,
             });
@@ -185,7 +175,7 @@ describe('api.update', () => {
         expect(screen.queryByRole('button', {name: 'Toast Button'})).not.toBeInTheDocument();
 
         act(() => {
-            providerAPI.update(toastProps.name, {
+            toasterInstance.update(toastProps.name, {
                 content: 'Test Content of the toast',
                 actions: [
                     {
@@ -202,10 +192,10 @@ describe('api.update', () => {
     });
 
     it('should bypass update of unexisted toasts', function () {
-        const providerAPI = setup();
+        setup();
 
         act(() => {
-            providerAPI.add({
+            toasterInstance.add({
                 ...toastProps,
                 autoHiding: toastTimeout,
             });
@@ -214,7 +204,7 @@ describe('api.update', () => {
         const toast = getToast();
 
         act(() => {
-            providerAPI.update(`unexisted ${toastProps.name}`, {
+            toasterInstance.update(`unexisted ${toastProps.name}`, {
                 content: 'Test Content of the toast',
                 actions: [
                     {
@@ -231,11 +221,11 @@ describe('api.update', () => {
 
 describe('api.removeAll', () => {
     it('should remove all toasts', function () {
-        const providerAPI = setup();
+        setup();
 
         act(() => {
-            providerAPI.add(toastProps);
-            providerAPI.add({
+            toasterInstance.add(toastProps);
+            toasterInstance.add({
                 ...toastProps,
                 name: `${toastProps.name}2`,
                 title: `${toastProps.title}2`,
@@ -249,7 +239,7 @@ describe('api.removeAll', () => {
         expect(toast2).toBeInTheDocument();
 
         act(() => {
-            providerAPI.removeAll();
+            toasterInstance.removeAll();
         });
 
         [toast1, toast2].forEach((toast) => fireAnimationEndEvent(toast, 'toast-hide-end'));
@@ -261,45 +251,45 @@ describe('api.removeAll', () => {
 
 describe('api.has', () => {
     it('should return false when toast is not added', () => {
-        const providerAPI = setup();
-        expect(providerAPI.has('unexisted toasts')).toBe(false);
+        setup();
+        expect(toasterInstance.has('unexisted toasts')).toBe(false);
     });
 
     it('should return false when toast is removed by code', () => {
-        const providerAPI = setup();
+        setup();
 
         act(() => {
-            providerAPI.add({
+            toasterInstance.add({
                 ...toastProps,
                 autoHiding: toastTimeout,
             });
         });
 
-        expect(providerAPI.has(toastProps.name)).toBe(true);
+        expect(toasterInstance.has(toastProps.name)).toBe(true);
 
         act(() => {
-            providerAPI.remove(toastProps.name);
+            toasterInstance.remove(toastProps.name);
         });
 
-        expect(providerAPI.has(toastProps.name)).toBe(false);
+        expect(toasterInstance.has(toastProps.name)).toBe(false);
     });
 
     it('should return false when toast is removed by timer', () => {
-        const providerAPI = setup();
+        setup();
 
         act(() => {
-            providerAPI.add({
+            toasterInstance.add({
                 ...toastProps,
                 autoHiding: toastTimeout,
             });
         });
 
-        expect(providerAPI.has(toastProps.name)).toBe(true);
+        expect(toasterInstance.has(toastProps.name)).toBe(true);
 
         act(() => {
             jest.advanceTimersByTime(toastTimeout);
         });
-        expect(providerAPI.has(toastProps.name)).toBe(false);
+        expect(toasterInstance.has(toastProps.name)).toBe(false);
     });
 });
 
@@ -322,16 +312,10 @@ describe('modal remains open after toaster close', () => {
     };
 
     function setup() {
-        let providerAPI: undefined | ToasterPublicMethods;
         let openModal: undefined | (() => void);
 
         render(
-            <ToasterProvider>
-                <ToastAPI
-                    onMount={(api) => {
-                        providerAPI = api;
-                    }}
-                />
+            <ToasterProvider toaster={toasterInstance}>
                 <ModalAPI
                     onMount={(_openModal) => {
                         openModal = _openModal;
@@ -341,15 +325,15 @@ describe('modal remains open after toaster close', () => {
             </ToasterProvider>,
         );
 
-        if (!providerAPI || !openModal) {
+        if (!toasterInstance || !openModal) {
             throw new Error('Failed to setup test');
         }
 
-        return {providerAPI, openModal};
+        return {openModal};
     }
 
     it('Toaster was opened after Modal', async () => {
-        const {providerAPI, openModal} = setup();
+        const {openModal} = setup();
 
         act(openModal);
 
@@ -357,7 +341,7 @@ describe('modal remains open after toaster close', () => {
         expect(modal).toBeInTheDocument();
 
         act(() => {
-            providerAPI.add({...toastProps, isClosable: true});
+            toasterInstance.add({...toastProps, isClosable: true});
         });
 
         const toast = getToast();
@@ -380,10 +364,10 @@ describe('modal remains open after toaster close', () => {
     });
 
     it('Toaster was opened before Modal', async () => {
-        const {providerAPI, openModal} = setup();
+        const {openModal} = setup();
 
         act(() => {
-            providerAPI.add({...toastProps, isClosable: true});
+            toasterInstance.add({...toastProps, isClosable: true});
         });
 
         const toast = getToast();
@@ -411,12 +395,12 @@ describe('modal remains open after toaster close', () => {
     });
 
     it('Toaster calls onClose callback when close icon is clicked', async () => {
-        const {providerAPI} = setup();
+        setup();
 
         const mockOnCloseFn = jest.fn();
 
         act(() => {
-            providerAPI.add({...toastProps, isClosable: true, onClose: mockOnCloseFn});
+            toasterInstance.add({...toastProps, isClosable: true, onClose: mockOnCloseFn});
         });
 
         const toast = getToast();

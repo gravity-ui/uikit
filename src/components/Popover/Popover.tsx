@@ -33,7 +33,7 @@ export interface PopoverProps
             | 'modal'
             | 'initialFocus'
             | 'returnFocus'
-            | 'disableFocusVisuallyHiddenDismiss'
+            | 'disableVisuallyHiddenDismiss'
         > {
     children:
         | ((props: Record<string, unknown>, ref: React.Ref<HTMLElement>) => React.ReactElement)

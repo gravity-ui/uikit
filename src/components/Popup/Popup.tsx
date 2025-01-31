@@ -84,8 +84,8 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
     returnFocus?: FloatingFocusManagerProps['returnFocus'];
     /** The order in which focus circle */
     focusOrder?: FloatingFocusManagerProps['order'];
-    /** Do not add a11y dismiss buttons when managing focus */
-    disableFocusVisuallyHiddenDismiss?: boolean;
+    /** Do not add a11y dismiss buttons when managing focus in modal */
+    disableVisuallyHiddenDismiss?: boolean;
     /**
      * This callback will be called when Escape key pressed on keyboard, or click outside was made
      * This behaviour could be disabled with `disableEscapeKeyDown`
@@ -152,7 +152,7 @@ export function Popup({
     initialFocus: initialFocusProp,
     returnFocus = true,
     focusOrder,
-    disableFocusVisuallyHiddenDismiss = false,
+    disableVisuallyHiddenDismiss = !modal,
     onClose,
     onEscapeKeyDown,
     onOutsideClick,
@@ -305,7 +305,7 @@ export function Popup({
                 initialFocus={initialFocus}
                 returnFocus={returnFocus}
                 closeOnFocusOut={!disableFocusOut}
-                visuallyHiddenDismiss={disableFocusVisuallyHiddenDismiss ? false : i18n('close')}
+                visuallyHiddenDismiss={disableVisuallyHiddenDismiss ? false : i18n('close')}
                 guards={modal || !disablePortal}
                 order={focusOrder}
             >

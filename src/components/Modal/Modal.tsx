@@ -48,7 +48,7 @@ export interface ModalProps extends DOMProps, AriaLabelingProps, QAProps {
     returnFocus?: FloatingFocusManagerProps['returnFocus'];
 
     /** Do not add a11y dismiss buttons when managing focus */
-    disableFocusVisuallyHiddenDismiss?: boolean;
+    disableVisuallyHiddenDismiss?: boolean;
 
     children?: React.ReactNode;
     /**
@@ -112,7 +112,7 @@ export function Modal({
     disableOutsideClick,
     initialFocus,
     returnFocus,
-    disableFocusVisuallyHiddenDismiss,
+    disableVisuallyHiddenDismiss,
     onEscapeKeyDown,
     onOutsideClick,
     onClose,
@@ -258,7 +258,7 @@ export function Modal({
                             initialFocus={initialFocus ?? initialFocusRef}
                             returnFocus={returnFocus}
                             visuallyHiddenDismiss={
-                                disableFocusVisuallyHiddenDismiss ? false : i18n('close')
+                                disableVisuallyHiddenDismiss ? false : i18n('close')
                             }
                             restoreFocus={true}
                         >

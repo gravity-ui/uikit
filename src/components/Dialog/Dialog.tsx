@@ -118,7 +118,7 @@ export function Dialog({
             disableBodyScrollLock={disableBodyScrollLock}
             disableEscapeKeyDown={disableEscapeKeyDown}
             disableOutsideClick={disableOutsideClick}
-            disableFocusVisuallyHiddenDismiss={hasCloseButton}
+            disableVisuallyHiddenDismiss={hasCloseButton}
             initialFocus={initialFocusValue}
             returnFocus={returnFocus}
             keepMounted={keepMounted}

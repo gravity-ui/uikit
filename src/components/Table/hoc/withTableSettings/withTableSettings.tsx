@@ -110,7 +110,7 @@ export function getActualItems<I>(
 }
 
 export interface WithTableSettingsOptions {
-    width?: TreeSelectProps<any>['popupWidth'];
+    width?: TreeSelectProps['popupWidth'];
     sortable?: boolean;
     filterable?: boolean;
 }
@@ -119,7 +119,7 @@ interface WithTableSettingsBaseProps {
     /**
      * @deprecated Use factory notation: "withTableSettings({width: <value>})(Table)"
      */
-    settingsPopupWidth?: TreeSelectProps<any>['popupWidth'];
+    settingsPopupWidth?: TreeSelectProps['popupWidth'];
 
     settings: TableSettingsData;
     updateSettings: (data: TableSettingsData) => void;

@@ -28,14 +28,14 @@ export interface WithItemLinksAndActionsExampleProps
     > {}
 
 export const WithItemLinksAndActionsExample = (storyProps: WithItemLinksAndActionsExampleProps) => {
-    const [value, setValue] = React.useState<string[]>([]);
+    const [value, setValue] = React.useState<string | undefined>();
     const [open, setOpen] = React.useState(true);
     const items = React.useMemo(() => createRandomizedData({num: 10, depth: 1}), []);
 
     const onItemClick = (id: ListItemId, list: UseListResult<{title: string}>) => {
         if (list.state.disabledById[id]) return;
 
-        setValue([id]);
+        setValue(id);
 
         list.state.setActiveItemId(id);
 

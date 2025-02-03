@@ -4,9 +4,6 @@
 $block: '.#{variables.$ns}tab-list';
 
 #{$block} {
-    --_--vertical-item-padding: var(--g-tabs-vertical-item-padding, 6px 20px);
-    --_--vertical-item-height: var(--g-tabs-vertical-item-height, 18px);
-
     &_size {
         &_m {
             --_--item-height: 36px;

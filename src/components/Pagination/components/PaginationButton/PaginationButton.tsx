@@ -1,10 +1,9 @@
 'use client';
 
-import type * as React from 'react';
-
 import {ChevronLeft, ChevronRight, ChevronsLeft} from '@gravity-ui/icons';
 
 import {Button} from '../../../Button';
+import type {ButtonProps} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {PaginationQa} from '../../constants';
 import i18n from '../../i18n';
@@ -15,10 +14,9 @@ type Props = {
     size: PaginationSize;
     page: NonNullable<PaginationProps['page']>;
     pageSize: NonNullable<PaginationProps['pageSize']>;
-    onUpdate: NonNullable<PaginationProps['onUpdate']>;
     compact: NonNullable<PaginationProps['compact']>;
     className?: string;
-};
+} & Pick<PaginationProps, 'onUpdate' | 'itemWrapper'>;
 
 export const PaginationButton = ({
     item,
@@ -28,60 +26,49 @@ export const PaginationButton = ({
     pageSize,
     onUpdate,
     compact,
+    itemWrapper,
 }: Props) => {
-    let button: React.ReactNode = null;
-    const {disabled} = item;
+    let currentPage: number;
+    const buttonProps: ButtonProps = {size, className, view: 'outlined', disabled: item.disabled};
 
     switch (item.action) {
         case 'first':
-            button = (
-                <Button
-                    size={size}
-                    view="outlined"
-                    className={className}
-                    onClick={() => onUpdate(1, pageSize)}
-                    title={compact ? i18n('button_first') : undefined}
-                    disabled={disabled}
-                    qa={PaginationQa.PaginationButtonFirst}
-                >
-                    <Icon data={ChevronsLeft} size="16" />
-                    {compact ? undefined : i18n('button_first')}
-                </Button>
-            );
+            currentPage = 1;
+            buttonProps.title = compact ? i18n('button_first') : undefined;
+            buttonProps.qa = PaginationQa.PaginationButtonFirst;
+            buttonProps.children = [
+                <Icon data={ChevronsLeft} size="16" key={item.action} />,
+                compact ? undefined : i18n('button_first'),
+            ];
             break;
         case 'previous':
-            button = (
-                <Button
-                    size={size}
-                    view="outlined"
-                    className={className}
-                    onClick={() => onUpdate(page - 1, pageSize)}
-                    title={compact ? i18n('button_previous') : undefined}
-                    disabled={disabled}
-                    qa={PaginationQa.PaginationButtonPrevious}
-                >
-                    <Icon data={ChevronLeft} size="16" />
-                    {compact ? undefined : i18n('button_previous')}
-                </Button>
-            );
+            currentPage = page - 1;
+            buttonProps.title = compact ? i18n('button_previous') : undefined;
+            buttonProps.qa = PaginationQa.PaginationButtonPrevious;
+            buttonProps.children = [
+                <Icon data={ChevronLeft} size="16" key={item.action} />,
+                compact ? undefined : i18n('button_previous'),
+            ];
             break;
         case 'next':
-            button = (
-                <Button
-                    size={size}
-                    view="outlined"
-                    className={className}
-                    onClick={() => onUpdate(page + 1, pageSize)}
-                    title={compact ? i18n('button_next') : undefined}
-                    disabled={disabled}
-                    qa={PaginationQa.PaginationButtonNext}
-                >
-                    <Icon data={ChevronRight} size="16" />
-                    {compact ? undefined : i18n('button_next')}
-                </Button>
-            );
+            currentPage = page + 1;
+            buttonProps.title = compact ? i18n('button_next') : undefined;
+            buttonProps.qa = PaginationQa.PaginationButtonNext;
+            buttonProps.children = [
+                <Icon data={ChevronRight} size="16" key={item.action} />,
+                compact ? undefined : i18n('button_next'),
+            ];
             break;
     }
+    buttonProps.onClick = () => onUpdate?.(currentPage, pageSize);
 
-    return button;
+    if (itemWrapper) {
+        return itemWrapper({
+            page: currentPage,
+            pageSize,
+            item: <Button {...buttonProps} component={'span'} />,
+        });
+    } else {
+        return <Button {...buttonProps} />;
+    }
 };

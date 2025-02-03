@@ -13,11 +13,10 @@ type Props = {
     item: PageItem;
     size: PaginationSize;
     pageSize: NonNullable<PaginationProps['pageSize']>;
-    onUpdate: NonNullable<PaginationProps['onUpdate']>;
     className?: string;
-};
+} & Pick<PaginationProps, 'onUpdate' | 'itemWrapper'>;
 
-export const PaginationPage = ({item, size, pageSize, className, onUpdate}: Props) => {
+export const PaginationPage = ({item, size, pageSize, className, onUpdate, itemWrapper}: Props) => {
     const qa = getPaginationPageQa(item.page);
     if (item.simple) {
         return (
@@ -29,17 +28,20 @@ export const PaginationPage = ({item, size, pageSize, className, onUpdate}: Prop
 
     const view = item.current ? 'normal' : 'flat';
 
-    return (
+    const button = (
         <Button
             size={size}
             key={view}
             view={view}
             selected={item.current}
             className={className}
-            onClick={() => onUpdate(item.page, pageSize)}
+            onClick={() => onUpdate?.(item.page, pageSize)}
             qa={qa}
+            component={itemWrapper ? 'span' : undefined}
         >
             {item.page}
         </Button>
     );
+
+    return itemWrapper ? itemWrapper({page: item.page, pageSize, item: button}) : button;
 };

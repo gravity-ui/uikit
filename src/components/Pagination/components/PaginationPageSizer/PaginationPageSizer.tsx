@@ -8,14 +8,13 @@ import type {PaginationProps, PaginationSize} from '../../types';
 import {getNumberOfPages} from '../../utils';
 
 type Props = {
-    onUpdate: NonNullable<PaginationProps['onUpdate']>;
     page: NonNullable<PaginationProps['page']>;
     pageSize: NonNullable<PaginationProps['pageSize']>;
     pageSizeOptions: NonNullable<PaginationProps['pageSizeOptions']>;
     total: PaginationProps['total'];
     size: PaginationSize;
     className?: string;
-};
+} & Pick<PaginationProps, 'onUpdate'>;
 
 export const PaginationPageSizer = ({
     onUpdate,
@@ -41,13 +40,13 @@ export const PaginationPageSizer = ({
         const hasUpperLimit = numberOfPages > 0;
 
         if (!hasUpperLimit) {
-            onUpdate(1, newPageSize);
+            onUpdate?.(1, newPageSize);
             return;
         }
 
         const newPage = page > numberOfPages ? numberOfPages : page;
 
-        onUpdate(newPage, newPageSize);
+        onUpdate?.(newPage, newPageSize);
     };
 
     return (

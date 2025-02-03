@@ -1,0 +1,10 @@
+@use '../variables';
+@use '../../../styles/mixins';
+
+$block: '.#{variables.$ns}tab-panel';
+
+#{$block} {
+    &_hidden {
+        display: none;
+    }
+}

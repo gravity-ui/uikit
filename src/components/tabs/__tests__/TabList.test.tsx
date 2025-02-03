@@ -14,7 +14,7 @@ test('should render tabs by default', () => {
     const component = screen.getByTestId(qaId);
 
     expect(component).toBeVisible();
-    expect(component).toHaveClass('g-tab-list_size_m');
+    expect(component).toHaveClass('g-tab-list');
 });
 
 test('should not render tabs if no items', () => {
@@ -33,7 +33,7 @@ test.each(new Array<TabSize>('m', 'l', 'xl'))('should render with given "%s" siz
     expect(component).toHaveClass(`g-tab-list_size_${size}`);
 });
 
-test('should passed className', () => {
+test('should have passed className', () => {
     const className = 'class-name';
 
     render(<TabList className={className} qa={qaId} />);
@@ -45,10 +45,10 @@ test('should passed className', () => {
 test('should not select tab by default', () => {
     render(
         <TabList>
-            <Tab value={tab1.id} qa={tab1.qa}>
+            <Tab value={tab1.value} qa={tab1.qa}>
                 {tab1.title}
             </Tab>
-            <Tab value={tab2.id} qa={tab2.qa}>
+            <Tab value={tab2.value} qa={tab2.qa}>
                 {tab2.title}
             </Tab>
         </TabList>,
@@ -56,20 +56,20 @@ test('should not select tab by default', () => {
     const tabComponent1 = screen.getByTestId(tab1.qa);
     const tabComponent2 = screen.getByTestId(tab2.qa);
 
-    expect(tabComponent1).not.toHaveClass('g-tab-list__item_active');
+    expect(tabComponent1).not.toHaveClass('g-tab_active');
     expect(tabComponent1).toHaveAttribute('aria-selected', 'false');
 
-    expect(tabComponent2).not.toHaveClass('g-tab-list__item_active');
+    expect(tabComponent2).not.toHaveClass('g-tab_active');
     expect(tabComponent2).toHaveAttribute('aria-selected', 'false');
 });
 
-test('should passed active tab', () => {
+test('should render active tab', () => {
     render(
-        <TabList value={tab2.id}>
-            <Tab value={tab1.id} qa={tab1.qa}>
+        <TabList value={tab2.value}>
+            <Tab value={tab1.value} qa={tab1.qa}>
                 {tab1.title}
             </Tab>
-            <Tab value={tab2.id} qa={tab2.qa}>
+            <Tab value={tab2.value} qa={tab2.qa}>
                 {tab2.title}
             </Tab>
         </TabList>,
@@ -77,10 +77,10 @@ test('should passed active tab', () => {
     const tabComponent1 = screen.getByTestId(tab1.qa);
     const tabComponent2 = screen.getByTestId(tab2.qa);
 
-    expect(tabComponent1).not.toHaveClass('g-tab-list__item_active');
+    expect(tabComponent1).not.toHaveClass('g-tab_active');
     expect(tabComponent1).toHaveAttribute('aria-selected', 'false');
 
-    expect(tabComponent2).toHaveClass('g-tab-list__item_active');
+    expect(tabComponent2).toHaveClass('g-tab_active');
     expect(tabComponent2).toHaveAttribute('aria-selected', 'true');
 });
 
@@ -90,10 +90,10 @@ test('should call onUpdate on tab click', async () => {
 
     render(
         <TabList onUpdate={onUpdateFn}>
-            <Tab value={tab1.id} qa={tab1.qa}>
+            <Tab value={tab1.value} qa={tab1.qa}>
                 {tab1.title}
             </Tab>
-            <Tab value={tab2.id} qa={tab2.qa}>
+            <Tab value={tab2.value} qa={tab2.qa}>
                 {tab2.title}
             </Tab>
         </TabList>,
@@ -102,10 +102,10 @@ test('should call onUpdate on tab click', async () => {
     const tabComponent2 = screen.getByTestId(tab2.qa);
 
     await user.click(tabComponent2);
-    expect(onUpdateFn).toHaveBeenCalledWith(tab2.id);
+    expect(onUpdateFn).toHaveBeenCalledWith(tab2.value);
 
     await user.click(tabComponent1);
-    expect(onUpdateFn).toHaveBeenCalledWith(tab1.id);
+    expect(onUpdateFn).toHaveBeenCalledWith(tab1.value);
 });
 
 test('should wrap tabs', () => {
@@ -114,7 +114,7 @@ test('should wrap tabs', () => {
     render(
         <TabList>
             <div data-qa={wrapQaId}>
-                <Tab value={tab1.id}>{tab1.title}</Tab>
+                <Tab value={tab1.value}>{tab1.title}</Tab>
             </div>
         </TabList>,
     );
@@ -125,15 +125,15 @@ test('should wrap tabs', () => {
     expect(wrapper).toContainElement(tabComponent);
 });
 
-test('should call onUpdate on "\' \'" key', async () => {
+test('should call onUpdate on "{Space}" key', async () => {
     const onUpdateFn = jest.fn();
     const user = userEvent.setup();
     render(
         <TabList onUpdate={onUpdateFn}>
-            <Tab value={tab1.id} qa={tab1.qa}>
+            <Tab value={tab1.value} qa={tab1.qa}>
                 {tab1.title}
             </Tab>
-            <Tab value={tab2.id} qa={tab2.qa}>
+            <Tab value={tab2.value} qa={tab2.qa}>
                 {tab2.title}
             </Tab>
         </TabList>,
@@ -144,19 +144,19 @@ test('should call onUpdate on "\' \'" key', async () => {
 
     await user.keyboard(' ');
 
-    expect(onUpdateFn).toHaveBeenCalledWith(tab2.id);
+    expect(onUpdateFn).toHaveBeenCalledWith(tab2.value);
 });
 
-test('should call onUpdate on "[Enter]" key', async () => {
+test('should call onUpdate on "{Enter}" key', async () => {
     const onUpdateFn = jest.fn();
     const user = userEvent.setup();
 
     render(
         <TabList onUpdate={onUpdateFn}>
-            <Tab value={tab1.id} qa={tab1.qa}>
+            <Tab value={tab1.value} qa={tab1.qa}>
                 {tab1.title}
             </Tab>
-            <Tab value={tab2.id} qa={tab2.qa}>
+            <Tab value={tab2.value} qa={tab2.qa}>
                 {tab2.title}
             </Tab>
         </TabList>,
@@ -165,28 +165,28 @@ test('should call onUpdate on "[Enter]" key', async () => {
     const tabComponent2 = screen.getByTestId(tab2.qa);
     tabComponent2.focus();
 
-    await user.keyboard('[Enter]');
+    await user.keyboard('{Enter}');
 
-    expect(onUpdateFn).toHaveBeenCalledWith(tab2.id);
+    expect(onUpdateFn).toHaveBeenCalledWith(tab2.value);
 });
 
 test('move focus on LEFT/RIGHT arrows', async () => {
     const user = userEvent.setup();
 
     render(
-        <TabList value={tab2.id}>
+        <TabList value={tab2.value}>
             <div>
-                <Tab value={tab1.id} qa={tab1.qa}>
+                <Tab value={tab1.value} qa={tab1.qa}>
                     {tab1.title}
                 </Tab>
             </div>
-            <Tab value={tab2.id} qa={tab2.qa}>
+            <Tab value={tab2.value} qa={tab2.qa}>
                 {tab2.title}
             </Tab>
-            <Tab disabled value={tab3.id} qa={tab3.qa}>
+            <Tab disabled value={tab3.value} qa={tab3.qa}>
                 {tab3.title}
             </Tab>
-            <Tab value={tab4.id} qa={tab4.qa}>
+            <Tab value={tab4.value} qa={tab4.qa}>
                 {tab4.title}
             </Tab>
         </TabList>,
@@ -226,19 +226,19 @@ test('move focus on LEFT/RIGHT arrows', async () => {
 it('move focus to the first/last tab on HOME/END button', async () => {
     const user = userEvent.setup();
     render(
-        <TabList value={tab2.id}>
+        <TabList value={tab2.value}>
             <div>
-                <Tab value={tab1.id} qa={tab1.qa}>
+                <Tab value={tab1.value} qa={tab1.qa}>
                     {tab1.title}
                 </Tab>
             </div>
-            <Tab value={tab2.id} qa={tab2.qa}>
+            <Tab value={tab2.value} qa={tab2.qa}>
                 {tab2.title}
             </Tab>
-            <Tab value={tab3.id} qa={tab3.qa}>
+            <Tab value={tab3.value} qa={tab3.qa}>
                 {tab3.title}
             </Tab>
-            <Tab disabled value={tab4.id} qa={tab4.qa}>
+            <Tab disabled value={tab4.value} qa={tab4.qa}>
                 {tab4.title}
             </Tab>
         </TabList>,

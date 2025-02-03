@@ -2,16 +2,23 @@
 @use '../../../styles/mixins';
 
 $block: '.#{variables.$ns}tab-list';
+$tabBlock: '.#{variables.$ns}tab';
 
 #{$block} {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    box-shadow: inset 0 calc(var(--g-tabs-border-width, 1px) * -1) 0 0 var(--g-color-line-generic);
+    overflow: hidden;
+
     &_size {
         &_m {
             --_--item-height: 36px;
             --_--item-gap: 24px;
             --_--item-border-width: 2px;
 
-            #{$block}__item-title,
-            #{$block}__item-counter {
+            #{$tabBlock}__title,
+            #{$tabBlock}__counter {
                 @include mixins.text-body-1();
             }
         }
@@ -21,8 +28,8 @@ $block: '.#{variables.$ns}tab-list';
             --_--item-gap: 28px;
             --_--item-border-width: 2px;
 
-            #{$block}__item-title,
-            #{$block}__item-counter {
+            #{$tabBlock}__title,
+            #{$tabBlock}__counter {
                 @include mixins.text-body-2();
             }
         }
@@ -32,105 +39,14 @@ $block: '.#{variables.$ns}tab-list';
             --_--item-gap: 32px;
             --_--item-border-width: 3px;
 
-            #{$block}__item-title,
-            #{$block}__item-counter {
+            #{$tabBlock}__title,
+            #{$tabBlock}__counter {
                 @include mixins.text-subheader-3();
             }
         }
     }
 
-    &__item {
-        cursor: pointer;
-        user-select: none;
-        outline: none;
-        color: inherit;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        box-sizing: border-box;
-        height: var(--g-tabs-item-height, var(--_--item-height));
-        border-block-end: var(--g-tabs-item-border-width, var(--_--item-border-width)) solid
-            transparent;
-        padding-block-start: var(--_--item-border-width);
-
-        &-content {
-            display: flex;
-            align-items: center;
-            border-radius: var(--g-focus-border-radius);
-            min-width: 0;
-            height: 100%;
-        }
-
-        &-icon {
-            margin-inline-end: 8px;
-        }
-
-        &-title {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            color: var(--g-color-text-secondary);
-        }
-
-        &-counter,
-        &-label {
-            margin-inline-start: 8px;
-        }
-
-        &-icon > svg {
-            display: block;
-        }
-
-        &:focus-visible {
-            #{$block}__item-content {
-                outline: 2px solid var(--g-color-line-focus);
-                outline-offset: -2px;
-            }
-        }
-
-        &-icon,
-        &-counter {
-            color: var(--g-color-text-hint);
-        }
-
-        &_active,
-        &:hover,
-        &:focus-visible {
-            #{$block}__item-title {
-                color: var(--g-color-text-primary);
-            }
-
-            #{$block}__item-icon,
-            #{$block}__item-counter {
-                color: var(--g-color-text-secondary);
-            }
-        }
-
-        &_active,
-        &_active:hover,
-        &_active:focus-visible {
-            border-color: var(--g-color-line-brand);
-        }
-
-        &_disabled {
-            pointer-events: none;
-
-            #{$block}__item-title {
-                color: var(--g-color-text-hint);
-            }
-        }
-    }
-
-    &__tabs {
-        display: flex;
-        align-items: flex-end;
-        flex-wrap: wrap;
-        box-shadow: inset 0 calc(var(--g-tabs-border-width, 1px) * -1) 0 0
-            var(--g-color-line-generic);
-        overflow: hidden;
-
-        > :not(:last-child) {
-            margin-inline-end: var(--g-tabs-item-gap, var(--_--item-gap));
-        }
+    #{$tabBlock}:not(:last-child) {
+        margin-inline-end: var(--g-tabs-item-gap, var(--_--item-gap));
     }
 }

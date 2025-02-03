@@ -3,7 +3,7 @@ import {action} from '@storybook/addon-actions';
 import type {Meta, StoryFn} from '@storybook/react';
 
 import {Icon} from '../../Icon';
-import {Flex} from '../../layout';
+import {Flex} from '../../layout/Flex/Flex';
 import type {FilePreviewProps} from '../FilePreview';
 import {FilePreview} from '../FilePreview';
 import {FILE_TYPES} from '../types';
@@ -116,17 +116,15 @@ const noClickableTemplateActions = [
     },
 ];
 
-const NoClickableTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> = (args) => {
+const NoClickableTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> = () => {
     return (
         <Flex gap={4}>
-            <FilePreview {...args} file={{name: 'No clickable', type: 'text/docs'} as File} />
+            <FilePreview file={{name: 'No clickable', type: 'text/docs'} as File} />
             <FilePreview
-                {...args}
                 file={{name: 'No clickable with actions', type: 'text/docs'} as File}
                 actions={noClickableTemplateActions}
             />
             <FilePreview
-                {...args}
                 file={{name: 'Clickable with actions', type: 'text/docs'} as File}
                 onClick={() => action('onClick')}
                 actions={noClickableTemplateActions}
@@ -148,11 +146,10 @@ const withoutActionTooltipTemplateActions = [
     },
 ];
 
-const WithoutActionTooltipTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> = (args) => {
+const WithoutActionTooltipTemplate: StoryFn<FilePreviewProps> = () => {
     return (
         <Flex gap={4}>
             <FilePreview
-                {...args}
                 file={{name: 'Clicable without tooltip', type: 'text/docs'} as File}
                 onClick={() => action('onClick')}
                 actions={withoutActionTooltipTemplateActions}

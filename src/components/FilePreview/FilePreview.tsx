@@ -16,6 +16,7 @@ import {useActionHandlers} from '../../hooks';
 import {Icon} from '../Icon';
 import type {IconData} from '../Icon';
 import {Text} from '../Text';
+import {useMobile} from '../mobile';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
@@ -63,6 +64,8 @@ export function FilePreview({
     const [previewSrc, setPreviewSrc] = React.useState<string | undefined>(imageSrc);
     const type = getFileType(file);
 
+    const mobile = useMobile();
+
     const {onKeyDown} = useActionHandlers(onClick);
 
     React.useEffect(() => {
@@ -87,7 +90,7 @@ export function FilePreview({
     const isPreviewString = typeof previewSrc === 'string';
 
     return (
-        <div className={cn(null, className)} data-qa={qa}>
+        <div className={cn({mobile}, className)} data-qa={qa}>
             <div
                 className={cn('card', {clickable, hoverable: clickable || withActions})}
                 role={clickable ? 'button' : undefined}
@@ -124,6 +127,7 @@ export function FilePreview({
                 actions={actions}
                 hoverabelPanelClassName={cn('actions-panel')}
                 fileName={file.name}
+                isCustomImage={isPreviewString}
             />
         </div>
     );

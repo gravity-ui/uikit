@@ -1,5 +1,6 @@
 @use 'sass:math';
 @use '../variables';
+@use './variables.scss' as file-preview-css-variables;
 
 $block: '.#{variables.$ns}file-preview';
 
@@ -8,15 +9,14 @@ $block: '.#{variables.$ns}file-preview';
     --_-border-radius: 4px;
     --_-color-base-background: transparent;
     --_-action-button-size: 24px;
-    --_-image-preview-height: 64px;
-    --_-image-preview-width: 96px;
 
     position: relative;
-    width: 120px;
+
+    width: file-preview-css-variables.$cardWidth;
 
     &:not(#{$block}_mobile):focus-within,
     &:not(#{$block}_mobile):hover {
-        --_--color-base-background: var(--g-color-base-simple-hover);
+        --_-color-base-background: var(--g-color-base-simple-hover);
     }
 
     &:hover {
@@ -33,27 +33,27 @@ $block: '.#{variables.$ns}file-preview';
         position: relative;
         outline: none;
 
-        box-shadow: var(--gc-card-box-shadow);
-        border-radius: var(--_--border-radius);
-        padding: 4px 10px;
+        border-radius: var(--_-border-radius);
+        padding: file-preview-css-variables.$verticalCardPadding
+            file-preview-css-variables.$horizontalCardPadding;
 
         &_clickable {
             cursor: pointer;
         }
 
         &_hoverable {
-            background-color: var(--_--color-base-background);
+            background-color: var(--_-color-base-background);
         }
 
         &::after {
             position: absolute;
             inset: 0;
-            border-radius: var(--_--border-radius);
+            border-radius: var(--_-border-radius);
             pointer-events: none;
         }
 
         &:hover {
-            --_--box-shadow: 0px 3px 10px var(--g-color-sfx-shadow);
+            --_-box-shadow: 0px 3px 10px var(--g-color-sfx-shadow);
         }
 
         &:focus::after {
@@ -120,8 +120,8 @@ $block: '.#{variables.$ns}file-preview';
 
     &__icon-container,
     &__image-container {
-        height: var(--_-image-preview-height);
-        width: var(--_-image-preview-width);
+        height: file-preview-css-variables.$imagePreviewHeight;
+        width: file-preview-css-variables.$imagePreviewWidth;
     }
 
     &__icon-container {
@@ -139,16 +139,5 @@ $block: '.#{variables.$ns}file-preview';
 
         height: 100%;
         width: 100%;
-    }
-
-    &__action-button {
-        height: var(--_-action-button-size);
-        width: var(--_-action-button-size);
-        display: flex;
-        align-items: center;
-    }
-
-    &__action-icon-wrapper {
-        display: flex;
     }
 }

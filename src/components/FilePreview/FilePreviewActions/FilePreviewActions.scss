@@ -1,15 +1,17 @@
 @use 'sass:math';
 @use '../../variables';
 @use '../../../../styles/mixins';
+@use '../variables.scss' as file-preview-css-variables;
 
 $block: '.#{variables.$ns}file-preview-actions';
 
-#{$block} {
-    --_--mobile-icon-size: 18px;
-    --_--mobile-actions-menu-size: 28px;
-    --_--small-rounded-button-size: 24px;
+$desktopButtonSize: 24px;
+$mobileActionsGap: 2px;
 
-    &__round-actions,
+#{$block} {
+    --_-mobile-actions-menu-size: 28px;
+
+    &__desktop-actions,
     &__mobile-actions-menu {
         position: absolute;
         z-index: 1;
@@ -18,24 +20,36 @@ $block: '.#{variables.$ns}file-preview-actions';
     }
 
     &__mobile-actions-menu {
-        height: var(--_--mobile-actions-menu-size);
-        width: var(--_--mobile-actions-menu-size);
+        height: $desktopButtonSize;
+        width: $desktopButtonSize;
+        padding: 0;
+
+        top: file-preview-css-variables.$verticalCardPadding + $mobileActionsGap;
+        right: math.div(
+                file-preview-css-variables.$cardWidth -
+                    file-preview-css-variables.$imagePreviewWidth,
+                2
+            ) + $mobileActionsGap;
+
+        &::before {
+            box-shadow: none;
+        }
     }
 
-    &__round-actions {
-        inset-block-start: -1 * math.div(var(--_--small-rounded-button-size), 2);
-        inset-inline-end: -1 * math.div(var(--_--small-rounded-button-size), 2);
+    &__desktop-actions {
+        inset-block-start: -1 * math.div($desktopButtonSize, 2);
+        inset-inline-end: -1 * math.div($desktopButtonSize, 2);
         opacity: 0;
     }
 
-    &__round-button {
-        width: var(--_--small-rounded-button-size);
-        height: var(--_--small-rounded-button-size);
+    &__desktop-action-button {
+        width: $desktopButtonSize;
+        height: $desktopButtonSize;
         justify-content: center;
         align-items: center;
     }
 
-    &__icon {
+    &__action-icon-wrapper {
         display: flex;
     }
 
@@ -43,16 +57,17 @@ $block: '.#{variables.$ns}file-preview-actions';
         display: flex;
         gap: var(--g-spacing-2);
         align-items: center;
-        padding: 0 var(--g-spacing-2);
+        padding: 0 var(--g-spacing-4);
 
         & > svg {
-            width: var(--_--mobile-icon-size);
-            height: var(--_--mobile-icon-size);
+            width: var(--_-mobile-icon-size);
+            height: var(--_-mobile-icon-size);
         }
     }
 
     &__mobile-sheet {
-        --g-sheet-content-padding: var(--g-spacing-1) var(--g-spacing-2);
+        --_-mobile-icon-size: 18px;
+        --g-sheet-content-padding: var(--g-spacing-1) 0;
     }
 
     &__mobile-button-icon {

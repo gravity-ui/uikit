@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {EllipsisVertical} from '@gravity-ui/icons';
 
@@ -21,6 +21,7 @@ export interface FilePreviewActionsProps {
     actions?: FilePreviewActionProps[];
     hoverabelPanelClassName: string;
     fileName: string;
+    isCustomImage?: boolean;
 }
 
 const renderListItem = (item: FilePreviewActionProps) => {
@@ -38,6 +39,7 @@ export const FilePreviewActions = ({
     actions,
     fileName,
     hoverabelPanelClassName,
+    isCustomImage,
 }: FilePreviewActionsProps) => {
     const id = useUniqId();
     const mobile = useMobile();
@@ -66,12 +68,15 @@ export const FilePreviewActions = ({
     };
 
     if (mobile) {
+        const buttonView = isCustomImage ? 'raised' : 'flat';
+
         return (
             <React.Fragment>
                 <Button
-                    view="flat"
+                    view={buttonView}
                     className={cn('mobile-actions-menu')}
                     onClick={handleMobileButtonClick}
+                    size="s"
                 >
                     <EllipsisVertical height={16} width={16} className={cn('mobile-button-icon')} />
                 </Button>
@@ -95,7 +100,7 @@ export const FilePreviewActions = ({
     }
 
     return (
-        <div className={cn('round-actions', hoverabelPanelClassName)}>
+        <div className={cn('desktop-actions', hoverabelPanelClassName)}>
             {actions.map(
                 ({title, icon, onClick, href, disabled, extraProps, tooltipExtraProps}, index) => (
                     <ActionTooltip
@@ -112,14 +117,14 @@ export const FilePreviewActions = ({
                             href={href}
                             disabled={disabled}
                             size="s"
-                            className={cn('round-button')}
+                            className={cn('desktop-action-button')}
                             extraProps={{
                                 'aria-label': title,
                                 'aria-describedby': id,
                                 ...extraProps,
                             }}
                         >
-                            <div className={cn('icon')}>{icon}</div>
+                            <div className={cn('action-icon-wrapper')}>{icon}</div>
                         </Button>
                     </ActionTooltip>
                 ),

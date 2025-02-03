@@ -66,9 +66,6 @@ const getActiveTabId = (
 
 const emptyTabsList: TabsItemProps[] = [];
 
-/**
- * @deprecated
- */
 const TabsComponent = React.forwardRef<HTMLDivElement, TabsProps>(
     (
         {
@@ -126,4 +123,7 @@ const TabsComponent = React.forwardRef<HTMLDivElement, TabsProps>(
 
 TabsComponent.displayName = 'Tabs';
 
+/**
+ * @deprecated
+ */
 export const Tabs = Object.assign(TabsComponent, {Item: TabsItem});

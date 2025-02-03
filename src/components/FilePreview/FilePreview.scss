@@ -29,57 +29,46 @@ $block: '.#{variables.$ns}file-preview';
         display: flex;
         flex-direction: column;
         align-items: center;
-
         position: relative;
         outline: none;
 
-        border-radius: var(--_--border-radius);
+        border-radius: var(--_-border-radius);
         padding: file-preview-css-variables.$verticalCardPadding file-preview-css-variables.$horizontalCardPadding;
 
         &_clickable {
             cursor: pointer;
         }
-
         &_hoverable {
-            background-color: var(--_--color-base-background);
+            background-color: var(--_-color-base-background);
         }
-
         &::after {
             position: absolute;
             inset: 0;
-            border-radius: var(--_--border-radius);
+            border-radius: var(--_-border-radius);
             pointer-events: none;
         }
-
         &:hover {
-            --_--box-shadow: 0px 3px 10px var(--g-color-sfx-shadow);
+            --_-box-shadow: 0px 3px 10px var(--g-color-sfx-shadow);
         }
-
         &:focus::after {
             content: '';
             box-shadow: 0 0 0 2px var(--g-color-line-misc);
         }
-
         &:focus:not(:focus-visible)::after {
             box-shadow: none;
         }
     }
-
     &__icon {
         display: flex;
         justify-content: center;
         align-items: center;
-
         border-radius: 4px;
         background-color: var(--g-color-base-generic-medium);
-
         height: 40px;
         width: 40px;
-
         &-svg {
             color: var(--g-color-base-background);
         }
-
         &_type {
             &_image,
             &_video,
@@ -99,20 +88,16 @@ $block: '.#{variables.$ns}file-preview';
             }
         }
     }
-
     &__name {
         margin-block-start: 4px;
     }
-
     &__name,
     &__description {
         text-align: center;
         width: 100%;
     }
-
     &__image-container {
         position: relative;
-
         border-radius: 4px;
         overflow: hidden;
     }
@@ -128,14 +113,11 @@ $block: '.#{variables.$ns}file-preview';
         align-items: center;
         justify-content: center;
     }
-
     &__image {
         position: absolute;
         inset-block-start: 0;
         inset-inline-start: 0;
-
         object-fit: cover;
-
         height: 100%;
         width: 100%;
     }

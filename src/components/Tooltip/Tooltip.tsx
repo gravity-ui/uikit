@@ -93,11 +93,11 @@ export function Tooltip({
         placement,
         middleware: [
             offset(offsetProp),
-            placementMiddleware,
             shift({
                 padding: OVERFLOW_PADDING,
                 limiter: limitShift(),
             }),
+            placementMiddleware,
         ],
         whileElementsMounted: autoUpdate,
         elements: {

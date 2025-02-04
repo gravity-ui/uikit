@@ -17,6 +17,7 @@ export function useTab(tabProps: TabProps) {
 
     const isSelected = currentValue === tabProps.value;
     const isDisabled = tabProps.disabled;
+    const isFocused = tabListContextProps.isFocused;
 
     const onClick = () => {
         if (!tabProps.disabled) {
@@ -39,7 +40,7 @@ export function useTab(tabProps: TabProps) {
         'aria-disabled': isDisabled,
         'aria-controls': panelId,
         id: tabId,
-        tabIndex: isSelected && !isDisabled ? 0 : -1,
+        tabIndex: isSelected && !isDisabled && !isFocused ? 0 : -1,
         onClick,
         onKeyDown,
         title: tabProps.title,

@@ -4,32 +4,32 @@ import {KeyCode} from '../../../constants';
 import {filterDOMProps} from '../../utils/filterDOMProps';
 import {TAB_DATA_ATTRIBUTE, bTab} from '../constants';
 import {TabContext} from '../contexts/TabContext';
-import {TabListContext} from '../contexts/TabListContext';
 import type {TabProps} from '../types';
 
 export function useTab(tabProps: TabProps) {
-    const tabContextProps = React.useContext(TabContext);
-    const tabListContextProps = React.useContext(TabListContext);
+    const tabContext = React.useContext(TabContext);
 
-    const currentValue = tabContextProps.value ?? tabListContextProps.value;
-    const tabId = `${tabContextProps.id ?? tabListContextProps.id}:t:${tabProps.value}`;
-    const panelId = tabContextProps.id ? `${tabContextProps.id}:p:${tabProps.value}` : undefined;
+    if (!tabContext) {
+        throw new Error('<Tab> must be used within <TabList>');
+    }
+
+    const currentValue = tabContext.value;
+    const tabId = `${tabContext.id}:t:${tabProps.value}`;
+    const panelId = tabContext.isProvider ? `${tabContext.id}:p:${tabProps.value}` : undefined;
 
     const isSelected = currentValue === tabProps.value;
     const isDisabled = tabProps.disabled;
-    const isFocused = tabListContextProps.isFocused;
+    const isFocused = tabContext.isFocused;
 
     const onClick = () => {
         if (!tabProps.disabled) {
-            tabListContextProps.onUpdate?.(tabProps.value);
-            tabContextProps.onUpdate?.(tabProps.value);
+            tabContext.onUpdate?.(tabProps.value);
         }
     };
 
     const onKeyDown = (event: React.KeyboardEvent) => {
         if ((event.key === KeyCode.SPACEBAR || event.key === KeyCode.ENTER) && !tabProps.disabled) {
-            tabListContextProps.onUpdate?.(tabProps.value);
-            tabContextProps.onUpdate?.(tabProps.value);
+            tabContext.onUpdate?.(tabProps.value);
         }
     };
 

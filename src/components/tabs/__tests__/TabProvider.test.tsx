@@ -3,13 +3,13 @@ import userEvent from '@testing-library/user-event';
 import {Tab, TabList, TabPanel, TabProvider} from '../';
 import {render, screen} from '../../../../test-utils/utils';
 
-import {panel1qa, panel2qa, tab1, tab2, tabList1qa} from './constants';
+import {panel1qa, panel2qa, tab1, tab2} from './constants';
 import {ControlledTabs} from './helpers';
 
 test('should render active tab and panel with correct attributes', () => {
     render(
         <TabProvider value={tab2.value}>
-            <TabList qa={tabList1qa}>
+            <TabList>
                 <Tab value={tab1.value} qa={tab1.qa}>
                     {tab1.title}
                 </Tab>
@@ -26,8 +26,6 @@ test('should render active tab and panel with correct attributes', () => {
         </TabProvider>,
     );
 
-    const tabListComponent = screen.getByTestId(tabList1qa);
-
     const tabComponent1 = screen.getByTestId(tab1.qa);
     const tabComponent2 = screen.getByTestId(tab2.qa);
 
@@ -38,8 +36,6 @@ test('should render active tab and panel with correct attributes', () => {
     const tab2Id = tabComponent2.id;
     const panel1Id = panelComponent1.id;
     const panel2Id = panelComponent2.id;
-
-    expect(tabListComponent).toHaveAttribute('aria-labelledby', tab2Id);
 
     expect(tabComponent1).not.toHaveClass('g-tab_active');
     expect(tabComponent1).toHaveAttribute('aria-selected', 'false');

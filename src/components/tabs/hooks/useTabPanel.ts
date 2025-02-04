@@ -8,6 +8,10 @@ import type {TabPanelProps} from '../types';
 export function useTabPanel(tabPanelProps: TabPanelProps) {
     const tabContextProps = React.useContext(TabContext);
 
+    if (!tabContextProps) {
+        throw new Error('<TabPanel> must be used within <TabProvider>');
+    }
+
     const currentValue = tabContextProps.value;
     const parentId = tabContextProps.id;
     const tabId = `${parentId}:t:${tabPanelProps.value}`;

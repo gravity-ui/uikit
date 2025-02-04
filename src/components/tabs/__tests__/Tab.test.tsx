@@ -1,12 +1,16 @@
 import {Flame} from '@gravity-ui/icons';
 
-import {Tab} from '../';
+import {Tab, TabList} from '../';
 import {render, screen} from '../../../../test-utils/utils';
 
 import {tab1} from './constants';
 
 test('should render tab item by default', () => {
-    render(<Tab value={tab1.value}>{tab1.title}</Tab>);
+    render(
+        <TabList>
+            <Tab value={tab1.value}>{tab1.title}</Tab>
+        </TabList>,
+    );
     const component = screen.getByRole('tab');
 
     expect(component).toBeVisible();
@@ -16,9 +20,11 @@ test('should render tab item by default', () => {
 
 test('should render disabled tab item', () => {
     render(
-        <Tab value={tab1.value} disabled={true}>
-            {tab1.title}
-        </Tab>,
+        <TabList>
+            <Tab value={tab1.value} disabled={true}>
+                {tab1.title}
+            </Tab>
+        </TabList>,
     );
     const component = screen.getByRole('tab');
 
@@ -29,9 +35,11 @@ test('should render disabled tab item', () => {
 
 test('should have passed title', () => {
     render(
-        <Tab value={tab1.value} title={tab1.title}>
-            {tab1.title}
-        </Tab>,
+        <TabList>
+            <Tab value={tab1.value} title={tab1.title}>
+                {tab1.title}
+            </Tab>
+        </TabList>,
     );
     const component = screen.getByTitle(tab1.title);
 
@@ -41,9 +49,11 @@ test('should have passed title', () => {
 test('should render passed children', () => {
     const titleQaId = 'title-qa-id';
     render(
-        <Tab value={tab1.value}>
-            <span data-qa={titleQaId}>html title</span>
-        </Tab>,
+        <TabList>
+            <Tab value={tab1.value}>
+                <span data-qa={titleQaId}>html title</span>
+            </Tab>
+        </TabList>,
     );
 
     const component = screen.getByRole('tab');
@@ -53,7 +63,11 @@ test('should render passed children', () => {
 });
 
 test('should render value if children is empty', () => {
-    render(<Tab value={tab1.value} />);
+    render(
+        <TabList>
+            <Tab value={tab1.value} />
+        </TabList>,
+    );
 
     const component = screen.getByRole('tab');
     const titleComponent = screen.getByText(tab1.value);
@@ -66,9 +80,11 @@ test('should render counter', () => {
     const counter = 3;
 
     render(
-        <Tab value={tab1.value} counter={counter}>
-            {tab1.title}
-        </Tab>,
+        <TabList>
+            <Tab value={tab1.value} counter={counter}>
+                {tab1.title}
+            </Tab>
+        </TabList>,
     );
 
     const component = screen.getByRole('tab');
@@ -88,9 +104,11 @@ test('should render label', () => {
     };
 
     render(
-        <Tab value={tab1.value} label={label}>
-            {tab1.title}
-        </Tab>,
+        <TabList>
+            <Tab value={tab1.value} label={label}>
+                {tab1.title}
+            </Tab>
+        </TabList>,
     );
 
     const component = screen.getByRole('tab');
@@ -106,9 +124,11 @@ test('should render icon', () => {
     const icon = <Flame data-qa={iconQaId} width={18} height={18} />;
 
     render(
-        <Tab value={tab1.value} title={tab1.title} icon={icon}>
-            {tab1.title}
-        </Tab>,
+        <TabList>
+            <Tab value={tab1.value} title={tab1.title} icon={icon}>
+                {tab1.title}
+            </Tab>
+        </TabList>,
     );
 
     const component = screen.getByRole('tab');
@@ -120,9 +140,11 @@ test('should render icon', () => {
 
 test('should render link', async () => {
     render(
-        <Tab value={tab1.value} title={tab1.title} href={'https://example.com/foo/bar'}>
-            {tab1.title}
-        </Tab>,
+        <TabList>
+            <Tab value={tab1.value} title={tab1.title} href={'https://example.com/foo/bar'}>
+                {tab1.title}
+            </Tab>
+        </TabList>,
     );
 
     const component = screen.getByRole('tab');

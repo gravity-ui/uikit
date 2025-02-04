@@ -4,4 +4,3 @@ export const tab3 = {value: 'tab-3-value', title: 'Tab 3', qa: 'tab3qa'};
 export const tab4 = {value: 'tab-4-value', title: 'Tab 4', qa: 'tab4qa'};
 export const panel1qa = 'panel1qa';
 export const panel2qa = 'panel2qa';
-export const tabList1qa = 'tabList1qa';

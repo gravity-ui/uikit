@@ -9,6 +9,9 @@ import type {TabProviderProps} from './types';
 
 export const TabProvider = ({value, onUpdate, children}: TabProviderProps) => {
     const id = useUniqId();
-    const contextValue = React.useMemo(() => ({value, onUpdate, id}), [value, onUpdate, id]);
+    const contextValue = React.useMemo(
+        () => ({value, onUpdate, id, isProvider: true}),
+        [value, onUpdate, id],
+    );
     return <TabContext.Provider value={contextValue}>{children}</TabContext.Provider>;
 };

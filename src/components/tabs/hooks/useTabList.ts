@@ -71,20 +71,16 @@ const focusFurthestTab = (event: React.KeyboardEvent, isInverse: boolean): HTMLE
     return lastFocusableTabElement;
 };
 
-export function useTabList(tabListProps: TabListProps, tabListId: string) {
+export function useTabList(tabListProps: TabListProps) {
     const tabContextProps = React.useContext(TabContext);
     const isRTL = useDirection() === 'rtl';
-
-    const currentValue = tabContextProps.value ?? tabListProps.value;
-    const parentId = tabContextProps.id ?? tabListId;
-    const currentTabId = currentValue ? `${parentId}:t:${currentValue}` : undefined;
 
     const activateOnFocus = (tabElement: HTMLElement) => {
         const value = getTabValue(tabElement);
 
         if (tabListProps.activateOnFocus && value) {
             tabListProps.onUpdate?.(value);
-            tabContextProps.onUpdate?.(value);
+            tabContextProps?.onUpdate?.(value);
         }
     };
 
@@ -117,7 +113,6 @@ export function useTabList(tabListProps: TabListProps, tabListId: string) {
         ...filterDOMProps(tabListProps, {labelable: true}),
         role: 'tablist',
         'aria-orientation': 'horizontal' as const,
-        'aria-labelledby': currentTabId,
         onKeyDown,
         style: tabListProps.style,
         className: bTabList({size: tabListProps.size ?? 'm'}, tabListProps.className),

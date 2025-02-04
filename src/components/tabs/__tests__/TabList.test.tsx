@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event';
 
 import {Tab, TabList} from '../';
-import {render, screen} from '../../../../test-utils/utils';
+import {act, render, screen} from '../../../../test-utils/utils';
 import {KeyCode} from '../../../constants';
 import type {TabSize} from '../types';
 
@@ -140,8 +140,8 @@ test('should call onUpdate on "{Space}" key', async () => {
     );
 
     const tabComponent2 = screen.getByTestId(tab2.qa);
-    tabComponent2.focus();
 
+    act(() => tabComponent2.focus());
     await user.keyboard(' ');
 
     expect(onUpdateFn).toHaveBeenCalledWith(tab2.value);
@@ -163,8 +163,8 @@ test('should call onUpdate on "{Enter}" key', async () => {
     );
 
     const tabComponent2 = screen.getByTestId(tab2.qa);
-    tabComponent2.focus();
 
+    act(() => tabComponent2.focus());
     await user.keyboard('{Enter}');
 
     expect(onUpdateFn).toHaveBeenCalledWith(tab2.value);

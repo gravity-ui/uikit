@@ -4,30 +4,39 @@ import * as React from 'react';
 
 import {useFocusWithin, useUniqId} from '../../hooks';
 
-import {TabListContext} from './contexts/TabListContext';
+import {TabContext} from './contexts/TabContext';
 import {useTabList} from './hooks/useTabList';
 import type {TabListProps} from './types';
 
 import './TabList.scss';
 
 export const TabList = React.forwardRef<HTMLDivElement, TabListProps>((props, ref) => {
+    const tabContext = React.useContext(TabContext);
     const id = useUniqId();
-    const tabListProps = useTabList(props, id);
+    const tabListProps = useTabList(props);
     const [isFocused, setIsFocused] = React.useState(false);
-
-    const contextValue = React.useMemo(
-        () => ({value: props.value, onUpdate: props.onUpdate, id, isFocused}),
-        [props.value, props.onUpdate, id, isFocused],
-    );
 
     const {focusWithinProps} = useFocusWithin({
         onFocusWithinChange: setIsFocused,
     });
 
+    const innerContextValue = React.useMemo(
+        () => ({
+            value: tabContext?.value ?? props.value,
+            onUpdate: tabContext?.onUpdate ?? props.onUpdate,
+            id: tabContext?.id ?? id,
+            isProvider: tabContext?.isProvider ?? false,
+            isFocused,
+        }),
+        [tabContext, props.value, props.onUpdate, id, isFocused],
+    );
+
     return (
-        <div ref={ref} {...tabListProps} {...focusWithinProps}>
-            <TabListContext.Provider value={contextValue}>{props.children}</TabListContext.Provider>
-        </div>
+        <TabContext.Provider value={innerContextValue}>
+            <div ref={ref} {...tabListProps} {...focusWithinProps}>
+                {props.children}
+            </div>
+        </TabContext.Provider>
     );
 });
 

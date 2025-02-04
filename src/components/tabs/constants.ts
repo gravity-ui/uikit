@@ -5,4 +5,3 @@ export const bTab = block('tab');
 export const bTabPanel = block('tab-panel');
 
 export const TAB_DATA_ATTRIBUTE = 'data-tab';
-export const TAB_LIST_DATA_ATTRIBUTE = 'data-tab-list';

@@ -3,14 +3,14 @@ import * as React from 'react';
 import {KeyCode} from '../../../constants';
 import {useDirection} from '../../theme';
 import {filterDOMProps} from '../../utils/filterDOMProps';
-import {TAB_DATA_ATTRIBUTE, TAB_LIST_DATA_ATTRIBUTE, bTabList} from '../constants';
+import {TAB_DATA_ATTRIBUTE, bTabList} from '../constants';
 import {TabContext} from '../contexts/TabContext';
 import type {TabListProps} from '../types';
 
 const getAllTabElements = (tabElement: HTMLElement): HTMLElement[] => {
     return [
         ...(tabElement
-            .closest(`[${TAB_LIST_DATA_ATTRIBUTE}]`)
+            .closest('[role="tablist"]')
             ?.querySelectorAll<HTMLElement>(`[${TAB_DATA_ATTRIBUTE}]`) ?? []),
     ];
 };
@@ -116,7 +116,6 @@ export function useTabList(tabListProps: TabListProps) {
         style: tabListProps.style,
         className: bTabList({size: tabListProps.size ?? 'm'}, tabListProps.className),
         'data-qa': tabListProps.qa,
-        [TAB_LIST_DATA_ATTRIBUTE]: '',
         ...filterDOMProps(tabListProps, {labelable: true}),
     };
 }

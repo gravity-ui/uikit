@@ -20,12 +20,12 @@ export function useTabPanel(tabPanelProps: TabPanelProps) {
     const isSelected = currentValue === tabPanelProps.value;
 
     return {
-        ...filterDOMProps(tabPanelProps, {labelable: true}),
         role: 'tabpanel',
         'aria-labelledby': tabId,
         id: panelId,
         style: tabPanelProps.style,
         className: bTabPanel({hidden: !isSelected}, tabPanelProps.className),
         'data-qa': tabPanelProps.qa,
+        ...filterDOMProps(tabPanelProps, {labelable: true}),
     };
 }

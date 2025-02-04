@@ -34,7 +34,6 @@ export function useTab(tabProps: TabProps) {
     };
 
     return {
-        ...filterDOMProps(tabProps, {labelable: true}),
         role: 'tab',
         'aria-selected': isSelected,
         'aria-disabled': isDisabled,
@@ -48,5 +47,6 @@ export function useTab(tabProps: TabProps) {
         className: bTab({active: isSelected, disabled: isDisabled}, tabProps.className),
         'data-qa': tabProps.qa,
         [TAB_DATA_ATTRIBUTE]: tabProps.value,
+        ...filterDOMProps(tabProps, {labelable: true}),
     };
 }

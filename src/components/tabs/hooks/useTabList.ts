@@ -110,7 +110,6 @@ export function useTabList(tabListProps: TabListProps) {
     };
 
     return {
-        ...filterDOMProps(tabListProps, {labelable: true}),
         role: 'tablist',
         'aria-orientation': 'horizontal' as const,
         onKeyDown,
@@ -118,5 +117,6 @@ export function useTabList(tabListProps: TabListProps) {
         className: bTabList({size: tabListProps.size ?? 'm'}, tabListProps.className),
         'data-qa': tabListProps.qa,
         [TAB_LIST_DATA_ATTRIBUTE]: '',
+        ...filterDOMProps(tabListProps, {labelable: true}),
     };
 }

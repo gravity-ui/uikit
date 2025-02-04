@@ -1,25 +1,30 @@
 import {Flame} from '@gravity-ui/icons';
 
-import {Tab} from '../';
+import {Tab, TabList} from '../';
 import {render, screen} from '../../../../test-utils/utils';
 
 import {tab1} from './constants';
 
 test('should render tab item by default', () => {
-    render(<Tab value={tab1.id}>{tab1.title}</Tab>);
+    render(
+        <TabList>
+            <Tab value={tab1.value}>{tab1.title}</Tab>
+        </TabList>,
+    );
     const component = screen.getByRole('tab');
 
     expect(component).toBeVisible();
-    expect(component).not.toHaveClass('g-tabs__item_active');
+    expect(component).not.toHaveClass('g-tab_active');
     expect(component).toHaveAttribute('aria-selected', 'false');
-    expect(component).toHaveAttribute('aria-disabled', 'false');
 });
 
 test('should render disabled tab item', () => {
     render(
-        <Tab value={tab1.id} disabled={true}>
-            {tab1.title}
-        </Tab>,
+        <TabList>
+            <Tab value={tab1.value} disabled={true}>
+                {tab1.title}
+            </Tab>
+        </TabList>,
     );
     const component = screen.getByRole('tab');
 
@@ -28,37 +33,27 @@ test('should render disabled tab item', () => {
     expect(component).toHaveAttribute('tabIndex', '-1');
 });
 
-test('should passed title', () => {
+test('should have passed title', () => {
     render(
-        <Tab value={tab1.id} title={tab1.title}>
-            {tab1.title}
-        </Tab>,
+        <TabList>
+            <Tab value={tab1.value} title={tab1.title}>
+                {tab1.title}
+            </Tab>
+        </TabList>,
     );
     const component = screen.getByTitle(tab1.title);
 
     expect(component).toBeVisible();
 });
 
-test('should passed aria-controls and id', () => {
-    const tabId = 'tab-id';
-    const ariaId = 'aria-id';
-    render(
-        <Tab value={tab1.id} title={tab1.title} aria-controls={ariaId} id={tabId}>
-            {tab1.title}
-        </Tab>,
-    );
-    const component = screen.getByTitle(tab1.title);
-
-    expect(component).toHaveAttribute('aria-controls', ariaId);
-    expect(component).toHaveAttribute('id', tabId);
-});
-
-test('should passed children', () => {
+test('should render passed children', () => {
     const titleQaId = 'title-qa-id';
     render(
-        <Tab value={tab1.id}>
-            <span data-qa={titleQaId}>html title</span>
-        </Tab>,
+        <TabList>
+            <Tab value={tab1.value}>
+                <span data-qa={titleQaId}>html title</span>
+            </Tab>
+        </TabList>,
     );
 
     const component = screen.getByRole('tab');
@@ -68,29 +63,35 @@ test('should passed children', () => {
 });
 
 test('should render value if children is empty', () => {
-    render(<Tab value={tab1.id} />);
+    render(
+        <TabList>
+            <Tab value={tab1.value} />
+        </TabList>,
+    );
 
     const component = screen.getByRole('tab');
-    const titleComponent = screen.getByText(tab1.id);
+    const titleComponent = screen.getByText(tab1.value);
 
     expect(component).toContainElement(titleComponent);
-    expect(titleComponent).toHaveClass('g-tab-list__item-title');
+    expect(titleComponent).toHaveClass('g-tab__title');
 });
 
 test('should render counter', () => {
     const counter = 3;
 
     render(
-        <Tab value={tab1.id} counter={counter}>
-            {tab1.title}
-        </Tab>,
+        <TabList>
+            <Tab value={tab1.value} counter={counter}>
+                {tab1.title}
+            </Tab>
+        </TabList>,
     );
 
     const component = screen.getByRole('tab');
     const counterComponent = screen.getByText(counter);
 
     expect(counterComponent).toBeVisible();
-    expect(counterComponent).toHaveClass('g-tab-list__item-counter');
+    expect(counterComponent).toHaveClass('g-tab__counter');
     expect(component).toContainElement(counterComponent);
 });
 
@@ -103,9 +104,11 @@ test('should render label', () => {
     };
 
     render(
-        <Tab value={tab1.id} label={label}>
-            {tab1.title}
-        </Tab>,
+        <TabList>
+            <Tab value={tab1.value} label={label}>
+                {tab1.title}
+            </Tab>
+        </TabList>,
     );
 
     const component = screen.getByRole('tab');
@@ -121,9 +124,11 @@ test('should render icon', () => {
     const icon = <Flame data-qa={iconQaId} width={18} height={18} />;
 
     render(
-        <Tab value={tab1.id} title={tab1.title} icon={icon}>
-            {tab1.title}
-        </Tab>,
+        <TabList>
+            <Tab value={tab1.value} title={tab1.title} icon={icon}>
+                {tab1.title}
+            </Tab>
+        </TabList>,
     );
 
     const component = screen.getByRole('tab');
@@ -135,9 +140,11 @@ test('should render icon', () => {
 
 test('should render link', async () => {
     render(
-        <Tab value={tab1.id} title={tab1.title} href={'https://example.com/foo/bar'}>
-            {tab1.title}
-        </Tab>,
+        <TabList>
+            <Tab value={tab1.value} title={tab1.title} href={'https://example.com/foo/bar'}>
+                {tab1.title}
+            </Tab>
+        </TabList>,
     );
 
     const component = screen.getByRole('tab');

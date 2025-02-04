@@ -4,7 +4,7 @@ import {Flame, SquarePlus, SquareXmark} from '@gravity-ui/icons';
 
 import {Icon} from '../../Icon';
 import {Flex} from '../../layout';
-import type {TabProps} from '../Tab';
+import type {TabProps} from '../types';
 
 type StoryParams = {
     withIcon?: boolean;

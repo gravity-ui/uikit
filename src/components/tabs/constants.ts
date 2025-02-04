@@ -1,5 +1,7 @@
 import {block} from '../utils/cn';
 
-import './TabList.scss';
-
 export const bTabList = block('tab-list');
+export const bTab = block('tab');
+export const bTabPanel = block('tab-panel');
+
+export const TAB_DATA_ATTRIBUTE = 'data-tab';

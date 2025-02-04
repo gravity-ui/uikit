@@ -1,7 +1,7 @@
 import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
-import type {TabListProps} from '../TabList';
+import type {TabListProps} from '../types';
 
 import {sizeCases} from './cases';
 import {TestTabList, TestTabListWithCustomTabs} from './helpers';

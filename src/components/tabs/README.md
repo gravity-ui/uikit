@@ -14,11 +14,11 @@ Tabs components is used to explore, organize content and switch between differen
 
 <ExampleBlock
     code={`
-<TabProvider value={activeTab}>
-    <TabList onUpdate={setActiveTab}>
-        <Tab value="first" aria-controls="panel-first" id="tab-first">First Tab</Tab>
-        <Tab value="second" aria-controls="panel-second" id="tab-second">Active Tab</Tab>
-        <Tab value="third" aria-controls="panel-third" id="tab-third" disabled>Disabled Tab</Tab>
+<TabProvider value={activeTab} onUpdate={setActiveTab}>
+    <TabList>
+        <Tab value="first">First Tab</Tab>
+        <Tab value="second">Active Tab</Tab>
+        <Tab value="third" disabled>Disabled Tab</Tab>
     </TabList>
     <div>
         <TabPanel value="first">First Panel</TabPanel>
@@ -30,9 +30,9 @@ Tabs components is used to explore, organize content and switch between differen
 >
     <UIKit.TabProvider value="first">
         <UIKit.TabList>
-            <UIKit.Tab value="first" aria-controls="panel-first" id="tab-first">First Tab</UIKit.Tab>
-            <UIKit.Tab value="second" aria-controls="panel-second" id="tab-second">Active Tab</UIKit.Tab>
-            <UIKit.Tab value="third" aria-controls="panel-third" id="tab-third" disabled>Disabled Tab</UIKit.Tab>
+            <UIKit.Tab value="first">First Tab</UIKit.Tab>
+            <UIKit.Tab value="second">Active Tab</UIKit.Tab>
+            <UIKit.Tab value="third" disabled>Disabled Tab</UIKit.Tab>
         </UIKit.TabList>
         <div>
             <UIKit.TabPanel value="first">First Panel</UIKit.TabPanel>
@@ -50,15 +50,11 @@ LANDING_BLOCK-->
 const [activeTab, setActiveTab] = React.useState('second');
 
 return (
-  <TabProvider value={activeTab}>
-    <TabList onUpdate={setActiveTab}>
-      <Tab value="first" aria-controls="panel-first" id="tab-first">
-        First Tab
-      </Tab>
-      <Tab value="second" aria-controls="panel-second" id="tab-second">
-        Active Tab
-      </Tab>
-      <Tab value="third" aria-controls="panel-third" id="tab-third" disabled>
+  <TabProvider value={activeTab} onUpdate={setActiveTab}>
+    <TabList>
+      <Tab value="first">First Tab</Tab>
+      <Tab value="second">Active Tab</Tab>
+      <Tab value="third" disabled>
         Disabled Tab
       </Tab>
     </TabList>
@@ -86,10 +82,11 @@ A component that provides the tab selection functionality
 
 ### Properties
 
-| Name     | Description                                              |       Type        | Default |
-| :------- | :------------------------------------------------------- | :---------------: | :-----: |
-| children | List of tabs and tab panels, probably with some wrappers | `React.ReactNode` |         |
-| value    | Active tab value                                         |     `string`      |         |
+| Name     | Description                                              |           Type            | Default |
+| :------- | :------------------------------------------------------- | :-----------------------: | :-----: |
+| children | List of tabs and tab panels, probably with some wrappers |     `React.ReactNode`     |         |
+| value    | Active tab value                                         |         `string`          |         |
+| onUpdate | Update tab handler                                       | `(value: string) => void` |         |
 
 ## TabList
 
@@ -158,15 +155,15 @@ LANDING_BLOCK-->
 
 ### Properties
 
-| Name            | Description                               |           Type            | Default  |
-| :-------------- | :---------------------------------------- | :-----------------------: | :------: |
-| value           | Active tab value                          |         `string`          |          |
-| children        | List of tabs, probably with some wrappers |     `React.ReactNode`     |          |
-| onUpdate        | Update tab handler                        | `(value: string) => void` |          |
-| className       | CSS-class of element                      |         `string`          |          |
-| size            | Element size                              |    `"m"` `"l"` `"xl"`     |  `"m"`   |
-| contentOverflow | Controls component overflow behavior      |         `"wrap"`          | `"wrap"` |
-| qa              | HTML `data-qa` attribute, used in tests   |         `string`          |          |
+| Name            | Description                                                                          |           Type            | Default |
+| :-------------- | :----------------------------------------------------------------------------------- | :-----------------------: | :-----: |
+| children        | List of tabs, probably with some wrappers                                            |     `React.ReactNode`     |         |
+| value           | Active tab value                                                                     |         `string`          |         |
+| onUpdate        | Update tab handler                                                                   | `(value: string) => void` |         |
+| className       | CSS-class of element                                                                 |         `string`          |         |
+| activateOnFocus | Activate tab on focus. Use this only if panel's content can be displayed immediately |         `boolean`         | `false` |
+| size            | Element size                                                                         |    `"m"` `"l"` `"xl"`     |  `"m"`  |
+| qa              | HTML `data-qa` attribute, used in tests                                              |         `string`          |         |
 
 ## Tab
 
@@ -319,20 +316,17 @@ LANDING_BLOCK-->
 
 ### Properties
 
-| Name          | Description                                                      |       Type        | Default |
-| :------------ | ---------------------------------------------------------------- | :---------------: | :-----: |
-| value         | Tab value                                                        |     `string`      |         |
-| title         | Tab title                                                        |     `string`      |         |
-| icon          | Icon displayed at the start                                      | `React.ReactNode` |         |
-| counter       | Content displayed at the end                                     | `number` `string` |         |
-| href          | A URL to link to.                                                |     `string `     |         |
-| label         | `<Label>` displayed at the end                                   | `React.ReactNode` |         |
-| disabled      | Inactive state                                                   |     `boolean`     |         |
-| children      | Tab's content                                                    | `React.ReactNode` |         |
-| id            | This prop is used to help implement the accessibility logic      |     `string`      |         |
-| aria-controls | Indicates that tab controls the interaction with another element |     `string`      |         |
-| aria-label    | An accessibility label for this item                             |     `string`      |         |
-| qa            | HTML `data-qa` attribute, used in tests                          |     `string`      |         |
+| Name     | Description                             |       Type        | Default |
+| :------- | --------------------------------------- | :---------------: | :-----: |
+| value    | Tab value                               |     `string`      |         |
+| title    | Tab title                               |     `string`      |         |
+| icon     | Icon displayed at the start             | `React.ReactNode` |         |
+| counter  | Content displayed at the end            | `number` `string` |         |
+| href     | A URL to link to.                       |     `string `     |         |
+| label    | `<Label>` displayed at the end          | `React.ReactNode` |         |
+| disabled | Inactive state                          |     `boolean`     |         |
+| children | Tab's content                           | `React.ReactNode` |         |
+| qa       | HTML `data-qa` attribute, used in tests |     `string`      |         |
 
 ## TabPanel
 
@@ -340,13 +334,11 @@ Is a container element for content associated with a tab
 
 ### Properties
 
-| Name            | Description                                                           |       Type        | Default |
-| :-------------- | :-------------------------------------------------------------------- | :---------------: | :-----: |
-| children        | Content of panel                                                      | `React.ReactNode` |         |
-| value           | Active tab value                                                      |     `string`      |         |
-| id              | This prop is used to help implement the accessibility logic           |     `string`      |         |
-| aria-labelledby | Identifies the element (or elements) that labels the current element. |     `string`      |         |
-| qa              | HTML `data-qa` attribute, used in tests                               |     `string`      |         |
+| Name     | Description                             |       Type        | Default |
+| :------- | :-------------------------------------- | :---------------: | :-----: |
+| children | Content of panel                        | `React.ReactNode` |         |
+| value    | Active tab value                        |     `string`      |         |
+| qa       | HTML `data-qa` attribute, used in tests |     `string`      |         |
 
 ## CSS API
 

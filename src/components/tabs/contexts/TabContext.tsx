@@ -1,10 +1,12 @@
 import * as React from 'react';
 
 export interface TabContextProps {
-    activeTabId?: string;
+    id: string;
+    value?: string;
+    onUpdate?: (value: string) => void;
+    isFocused?: boolean;
+    isProvider?: boolean;
 }
-export const TabContext = React.createContext<TabContextProps>({
-    activeTabId: undefined,
-});
+export const TabContext = React.createContext<TabContextProps | undefined>(undefined);
 
-TabContext.displayName = 'TabsContext';
+TabContext.displayName = 'TabContext';

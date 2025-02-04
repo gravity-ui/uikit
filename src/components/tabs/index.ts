@@ -1,5 +1,5 @@
-export {TabList, type TabListProps} from './TabList';
-export {Tab, type TabProps} from './Tab';
-export {TabProvider, type TabProviderProps} from './TabProvider';
-export {TabPanel, type TabPanelProps} from './TabPanel';
-export type {TabSize} from './types';
+export {TabProvider} from './TabProvider';
+export {TabList} from './TabList';
+export {Tab} from './Tab';
+export {TabPanel} from './TabPanel';
+export type {TabProviderProps, TabListProps, TabProps, TabPanelProps, TabSize} from './types';

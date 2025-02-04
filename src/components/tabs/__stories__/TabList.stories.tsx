@@ -51,6 +51,15 @@ export const Default: Story = {
     },
 };
 
+export const ActivateOnFocus: Story = {
+    ...Default,
+    args: {
+        ...Default.args,
+        activateOnFocus: true,
+        children: getTabsMock({})?.map((props, i) => <Tab key={i} {...props} />),
+    },
+};
+
 export const Icon: Story = {
     ...Default,
     args: {
@@ -121,23 +130,10 @@ export const Panels: Story = {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const [tab, setTab] = React.useState(tabs[0].value);
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const items = React.useMemo(
-            () =>
-                tabs.map((props, i) => (
-                    <Tab key={i} {...props} aria-controls={`panel-${i}`} id={`tab-${i}`} />
-                )),
-            [],
-        );
-        // eslint-disable-next-line react-hooks/rules-of-hooks
         const panels = React.useMemo(
             () =>
                 tabs.map((props, i) => (
-                    <TabPanel
-                        key={i}
-                        value={props.value}
-                        aria-labelledby={`tab-${i}`}
-                        id={`panel-${i}`}
-                    >
+                    <TabPanel key={i} value={props.value}>
                         <div
                             style={{marginTop: '10px'}}
                         >{`Content of ${props.value} tab panel`}</div>
@@ -147,9 +143,11 @@ export const Panels: Story = {
         );
 
         return (
-            <TabProvider value={tab}>
-                <TabList {...args} value={tab} onUpdate={setTab}>
-                    {items}
+            <TabProvider value={tab} onUpdate={setTab}>
+                <TabList {...args}>
+                    {tabs.map((props, i) => (
+                        <Tab key={i} {...props} />
+                    ))}
                 </TabList>
                 <div>{panels}</div>
             </TabProvider>

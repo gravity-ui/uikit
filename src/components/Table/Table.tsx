@@ -90,6 +90,8 @@ export interface DescriptorType {
      * Condition for disabling columns.
      */
     disabled?: boolean;
+    /** Show row hover */
+    interactive?: boolean;
 }
 
 export type TableWidth = 'auto' | 'max';
@@ -486,7 +488,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
         const additionalClassNames =
             descriptor?.classNames || getRowClassNames?.(item, rowIndex) || [];
 
-        const interactive = Boolean(!disabled && onRowClick);
+        const interactive = Boolean(!disabled && (descriptor?.interactive || onRowClick));
 
         return (
             <tr

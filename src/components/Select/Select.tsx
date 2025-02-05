@@ -83,6 +83,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         width,
         popupWidth,
         popupPlacement,
+        popupMaxHeight,
         error,
         virtualizationThreshold = DEFAULT_VIRTUALIZATION_THRESHOLD,
         view = 'normal',
@@ -361,6 +362,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                           }
                         : undefined
                 }
+                maxHeight={popupMaxHeight}
             >
                 {renderPopup({renderFilter: _renderFilter, renderList: _renderList})}
             </SelectPopup>

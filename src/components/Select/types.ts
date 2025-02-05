@@ -115,6 +115,7 @@ export type SelectProps<T = any> = QAProps &
         className?: string;
         controlClassName?: string;
         popupClassName?: string;
+        popupMaxHeight?: boolean;
         popupPlacement?: PopupPlacement;
         label?: string;
         placeholder?: React.ReactNode;

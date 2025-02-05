@@ -46,6 +46,7 @@ const SheetExample = () => {
 | swipeAreaClassName          | HTML-атрибут `class` для области свайпа.                                                                                               |  `string`  |      `undefined`      |
 | onClose                     | Обработчик события закрытия.                                                                                                           | `function` |      `undefined`      |
 | maxContentHeightCoefficient | Коэффициент, определающий максимальную высоту шторки относительно высоты окна (диапазон 0-1)                                           |  `number`  |         `0.9`         |
+| maxHeight                   | Контент занимает максимальную высоту для данного viewport                                                                              | `boolean`  |      `undefined`      |
 
 ## API CSS
 

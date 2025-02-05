@@ -17,7 +17,7 @@ import type {default as ClearButtonKeyset} from '../components/controls/common/C
 import type {default as LegacyBreadcrumbsKeyset} from '../components/legacy/Breadcrumbs/i18n';
 import type {DeepPartial} from '../types/utils';
 
-export type Keysets = typeof ActionsPanelKeyset &
+export type Keysets = typeof ActionsPanelKeyset.keysetData &
     typeof AlertKeyset.keysetData &
     typeof AvatarStackKeyset.keysetData &
     typeof BreadcrumbsKeyset.keysetData &

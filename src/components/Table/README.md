@@ -44,11 +44,12 @@ Additional features are enabled through HOCs:
 
 ### DescriptorType
 
-| Name       | Description                                 |    Type     | Default |
-| :--------- | :------------------------------------------ | :---------: | :-----: |
-| id         | Row ID used when selecting and sorting rows |  `string`   |         |
-| disabled   | Condition for disabling columns             |  `boolean`  |         |
-| classNames | Row CSS classes                             | ` string[]` |         |
+| Name        | Description                                 |    Type    | Default |
+| :---------- | :------------------------------------------ | :--------: | :-----: |
+| id          | Row ID used when selecting and sorting rows |  `string`  |         |
+| disabled    | Condition for disabling columns             | `boolean`  |         |
+| interactive | Show row hover                              | `boolean`  |         |
+| classNames  | Row CSS classes                             | `string[]` |         |
 
 ### TableColumnConfig
 

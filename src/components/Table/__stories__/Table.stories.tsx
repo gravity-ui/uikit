@@ -81,6 +81,13 @@ OnRowClick.args = {
     },
 };
 
+export const RowInteractive = DefaultTemplate.bind({});
+RowInteractive.args = {
+    getRowDescriptor() {
+        return {interactive: true};
+    },
+};
+
 // ---------------------------------
 const oneColumn = _cloneDeep(columns);
 oneColumn[1].width = '100%';

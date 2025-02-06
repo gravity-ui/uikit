@@ -40,7 +40,6 @@ export const Default = {
                 <Select.Option value="val3" content="Value3" />
                 <Select.Option value="val4" content="Value4" />
             </Select>
-            <button>1</button>
         </Flex>
     ),
 } satisfies Story;

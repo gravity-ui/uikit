@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.43.0](https://github.com/gravity-ui/uikit/compare/v6.42.0...v6.43.0) (2025-02-06)
+
+
+### Features
+
+* **Table:** add `interactive` descriptor ([#2093](https://github.com/gravity-ui/uikit/issues/2093)) ([01b1783](https://github.com/gravity-ui/uikit/commit/01b17837b6dad2a52dd20a4e1106d3c5b5fa1cc4))
+
 ## [6.42.0](https://github.com/gravity-ui/uikit/compare/v6.41.0...v6.42.0) (2025-01-28)
 
 

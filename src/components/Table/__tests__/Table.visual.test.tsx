@@ -66,6 +66,16 @@ test.describe('Table', {tag: '@Table'}, () => {
         });
     });
 
+    test('render story: <RowInteractive>', async ({mount, page, expectScreenshot}) => {
+        await mount(<TableStories.RowInteractive />);
+
+        await page.getByRole('row').nth(3).hover();
+
+        await expectScreenshot({
+            themes: ['light'],
+        });
+    });
+
     test('render story: <HOCWithTableSorting>', async ({mount, expectScreenshot}) => {
         await mount(<TableStories.HOCWithTableSorting />);
 

@@ -35,6 +35,7 @@ export const SelectQa = {
     LIST: 'select-list',
     POPUP: 'select-popup',
     SHEET: 'select-sheet',
+    SHEET_VEIL: 'select-sheet-veil',
     CLEAR: 'select-clear',
     FILTER_INPUT: 'select-filter-input',
 };

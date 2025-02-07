@@ -2,10 +2,11 @@ import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {render, screen} from '../../../../test-utils/utils';
+import {fireEvent, render, screen} from '../../../../test-utils/utils';
 import {TextInput} from '../../controls';
 import {MobileProvider} from '../../mobile';
 import {Select} from '../Select';
+import {SelectQa} from '../constants';
 import type {SelectOption, SelectProps, SelectRenderPopup} from '../types';
 
 import {TEST_QA, generateOptions, generateOptionsGroups, setup, timeout} from './utils';
@@ -138,7 +139,6 @@ describe('Select filter', () => {
                     filterable
                     onFilterChange={onFilterChange}
                     onClose={onClose}
-                    qa="select"
                     filterPlaceholder="filter"
                 >
                     <Select.Option value="one">One</Select.Option>
@@ -148,13 +148,18 @@ describe('Select filter', () => {
             </MobileProvider>,
         );
 
+        const sheet = screen.getByTestId(SelectQa.SHEET_VEIL);
+
+        fireEvent.transitionEnd(sheet);
+
         await userEvent.click(screen.getByPlaceholderText('filter'));
         await userEvent.keyboard('test');
 
         expect(onFilterChange).toHaveBeenCalledTimes(4);
         onFilterChange.mockClear();
 
-        await userEvent.click(document.body);
+        await userEvent.click(sheet);
+        fireEvent.transitionEnd(sheet);
         await timeout(400);
 
         expect(onClose).toHaveBeenCalledTimes(1);
@@ -170,7 +175,6 @@ describe('Select filter', () => {
                     filterable
                     onFilterChange={onFilterChange}
                     onClose={onClose}
-                    qa="select"
                     filterPlaceholder="filter"
                 >
                     <Select.Option value="one">One</Select.Option>
@@ -180,13 +184,18 @@ describe('Select filter', () => {
             </MobileProvider>,
         );
 
+        const sheet = screen.getByTestId(SelectQa.SHEET_VEIL);
+
+        fireEvent.transitionEnd(sheet);
+
         await userEvent.click(screen.getByPlaceholderText('filter'));
         await userEvent.keyboard('test');
 
         expect(onFilterChange).toHaveBeenCalledTimes(4);
         onFilterChange.mockClear();
 
-        await userEvent.click(document.body);
+        await userEvent.click(sheet);
+        fireEvent.transitionEnd(sheet);
         await timeout(400);
 
         expect(onClose).toHaveBeenCalledTimes(1);

@@ -244,6 +244,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             },
             [handleClose, onBlur],
         ),
+        isDisabled: mobile,
     });
 
     const uniqId = useUniqId();

@@ -1,5 +1,18 @@
 # Changelog
 
+## [7.1.0](https://github.com/gravity-ui/uikit/compare/v7.0.0...v7.1.0) (2025-02-07)
+
+
+### Features
+
+* **Table:** add `interactive` descriptor ([#2090](https://github.com/gravity-ui/uikit/issues/2090)) ([09906b2](https://github.com/gravity-ui/uikit/commit/09906b21070863cda3f706a24a252d29dd5e3696))
+
+
+### Bug Fixes
+
+* fix esm build ([#2099](https://github.com/gravity-ui/uikit/issues/2099)) ([e3e702c](https://github.com/gravity-ui/uikit/commit/e3e702ca7683d92fd56245fcc6b7c5547f8159fa))
+* **i18n:** use correct keyset type ([#2085](https://github.com/gravity-ui/uikit/issues/2085)) ([5d34c33](https://github.com/gravity-ui/uikit/commit/5d34c338356d5bb6e84654ab8529ed354e48549c))
+
 ## [7.0.0](https://github.com/gravity-ui/uikit/compare/v6.42.0...v7.0.0) (2025-02-04)
 
 

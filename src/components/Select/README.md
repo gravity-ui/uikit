@@ -25,6 +25,7 @@ You can define options as an array of objects or as the children of a component.
 <ExampleBlock
     code={`
 <Select
+  placeholder="value"
   options={[
     {value: 'val_1', content: 'Value 1'},
     {value: 'val_2', content: 'Value 2'},
@@ -32,7 +33,7 @@ You can define options as an array of objects or as the children of a component.
     {value: 'val_4', content: 'Value 4'},
   ]}
 />
-<Select>
+<Select placeholder="value">
   <Select.Option value="val_1">Value 1</Select.Option>
   <Select.Option value="val_2">Value 2</Select.Option>
   <Select.Option value="val_3">Value 3</Select.Option>
@@ -42,7 +43,7 @@ You can define options as an array of objects or as the children of a component.
 >
   <div>
     Array of objects
-    <UIKit.Select
+    <UIKit.Select placeholder="value"
       options={[
         {value: 'val_1', content: 'Value 1'},
         {value: 'val_2', content: 'Value 2'},
@@ -53,7 +54,7 @@ You can define options as an array of objects or as the children of a component.
   </div>
   <div>
     Child nodes
-    <UIKit.Select>
+    <UIKit.Select placeholder="value">
       <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
       <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
       <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
@@ -69,6 +70,7 @@ LANDING_BLOCK-->
 ```tsx
 // Array of objects
 <Select
+  placeholder="value"
   options={[
     {value: 'val_1', content: 'Value 1'},
     {value: 'val_2', content: 'Value 2'},
@@ -77,7 +79,7 @@ LANDING_BLOCK-->
   ]}
 />
 // Child nodes
-<Select>
+<Select placeholder="value">
   <Select.Option value="val_1">Value 1</Select.Option>
   <Select.Option value="val_2">Value 2</Select.Option>
   <Select.Option value="val_3">Value 3</Select.Option>
@@ -94,6 +96,7 @@ LANDING_BLOCK-->
 <ExampleBlock
     code={`
 <Select
+  placeholder="value"
   options={[
     {
       label: 'Group 1',
@@ -111,7 +114,7 @@ LANDING_BLOCK-->
     },
   ]}
 />
-<Select>
+<Select placeholder="value">
   <Select.OptionGroup label="Group 1">
     <Select.Option value="val_1" content="Value 1" />
     <Select.Option value="val_2" content="Value 2" />
@@ -126,6 +129,7 @@ LANDING_BLOCK-->
   <div>
     Array of objects
     <UIKit.Select
+      placeholder="value"
       options={[
         {
           label: 'Group 1',
@@ -146,7 +150,7 @@ LANDING_BLOCK-->
   </div>
   <div>
     Child nodes
-    <UIKit.Select>
+    <UIKit.Select placeholder="value">
       <UIKit.Select.OptionGroup label="Group 1">
         <UIKit.Select.Option value="val_1" content="Value 1" />
         <UIKit.Select.Option value="val_2" content="Value 2" />
@@ -166,6 +170,7 @@ LANDING_BLOCK-->
 ```tsx
 // Array of objects
 <Select
+  placeholder="value"
   options={[
     {
       label: 'Group 1',
@@ -184,7 +189,7 @@ LANDING_BLOCK-->
   ]}
 />
 // Child nodes
-<Select>
+<Select placeholder="value">
   <Select.OptionGroup label="Group 1">
     <Select.Option value="val_1" content="Value 1" />
     <Select.Option value="val_2" content="Value 2" />
@@ -210,7 +215,7 @@ To enable multiple selection, use the `multiple` property. Its default value is 
 
 <ExampleBlock
     code={`
-<Select multiple={true}>
+<Select multiple={true} placeholder="values">
   <Select.Option value="val_1">Value 1</Select.Option>
   <Select.Option value="val_2">Value 2</Select.Option>
   <Select.Option value="val_3">Value 3</Select.Option>
@@ -218,7 +223,7 @@ To enable multiple selection, use the `multiple` property. Its default value is 
 </Select>
 `}
 >
-  <UIKit.Select multiple={true}>
+  <UIKit.Select multiple={true} placeholder="values">
     <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
     <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
     <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
@@ -231,7 +236,7 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<Select multiple={true}>
+<Select multiple={true} placeholder="values">
   <Select.Option value="val_1">Value 1</Select.Option>
   <Select.Option value="val_2">Value 2</Select.Option>
   <Select.Option value="val_3">Value 3</Select.Option>
@@ -249,7 +254,7 @@ You can add a counter of the selected items to the component using the `hasCount
 
 <ExampleBlock
     code={`
-<Select multiple={true} hasCounter={true}>
+<Select multiple={true} hasCounter={true} placeholder="values">
   <Select.Option value="val_1">Value 1</Select.Option>
   <Select.Option value="val_2">Value 2</Select.Option>
   <Select.Option value="val_3">Value 3</Select.Option>
@@ -257,7 +262,7 @@ You can add a counter of the selected items to the component using the `hasCount
 </Select>
 `}
 >
-  <UIKit.Select multiple={true} hasCounter={true}>
+  <UIKit.Select multiple={true} hasCounter={true} placeholder="values">
     <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
     <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
     <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
@@ -270,7 +275,7 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<Select multiple={true} hasCounter={true}>
+<Select multiple={true} hasCounter={true} placeholder="values">
   <Select.Option value="val_1">Value 1</Select.Option>
   <Select.Option value="val_2">Value 2</Select.Option>
   <Select.Option value="val_3">Value 3</Select.Option>
@@ -288,7 +293,7 @@ To enable filter section, use the `filterable` property. Its default value is `f
 
 <ExampleBlock
     code={`
-<Select filterable={true}>
+<Select filterable={true} placeholder="Filterable">
   <Select.Option value="val_1">Value 1</Select.Option>
   <Select.Option value="val_2">Value 2</Select.Option>
   <Select.Option value="val_3">Value 3</Select.Option>
@@ -309,7 +314,7 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<Select filterable={true}>
+<Select filterable={true} placeholder="Filterable">
   <Select.Option value="val_1">Value 1</Select.Option>
   <Select.Option value="val_2">Value 2</Select.Option>
   <Select.Option value="val_3">Value 3</Select.Option>
@@ -1108,12 +1113,32 @@ You can change this with the `errorPlacement` property.
 <!--LANDING_BLOCK
 <ExampleBlock
     code={`
-<Select placeholder="Placeholder" errorMessage="Error message" validationState="invalid" />
-<Select placeholder="Placeholder" errorPlacement="inside" errorMessage="Error message" validationState="invalid" />
+<Select placeholder="Placeholder" errorMessage="Error message" validationState="invalid">
+    <Select.Option value="val_1">Value 1</Select.Option>
+    <Select.Option value="val_2">Value 2</Select.Option>
+    <Select.Option value="val_3">Value 3</Select.Option>
+    <Select.Option value="val_4">Value 4</Select.Option>
+</Select>
+<Select placeholder="Placeholder" errorPlacement="inside" errorMessage="Error message" validationState="invalid">
+    <Select.Option value="val_1">Value 1</Select.Option>
+    <Select.Option value="val_2">Value 2</Select.Option>
+    <Select.Option value="val_3">Value 3</Select.Option>
+    <Select.Option value="val_4">Value 4</Select.Option>
+</Select>
 `}
 >
-    <UIKit.Select placeholder="Placeholder" errorMessage="Error message" validationState="invalid" />
+    <UIKit.Select placeholder="Placeholder" errorMessage="Error message" validationState="invalid">
+        <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
+    </UIKit.Select>
     <UIKit.Select placeholder="Placeholder" errorPlacement="inside" errorMessage="Error message" validationState="invalid" />
+        <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
+    </UIKit.Select>
 </ExampleBlock>
 LANDING_BLOCK-->
 

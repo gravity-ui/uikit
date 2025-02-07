@@ -215,7 +215,7 @@ To enable multiple selection, use the `multiple` property. Its default value is 
 
 <ExampleBlock
     code={`
-<Select multiple={true}>
+<Select multiple={true} placeholder="values">
   <Select.Option value="val_1">Value 1</Select.Option>
   <Select.Option value="val_2">Value 2</Select.Option>
   <Select.Option value="val_3">Value 3</Select.Option>
@@ -223,7 +223,7 @@ To enable multiple selection, use the `multiple` property. Its default value is 
 </Select>
 `}
 >
-  <UIKit.Select multiple={true}>
+  <UIKit.Select multiple={true} placeholder="values">
     <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
     <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
     <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
@@ -236,7 +236,7 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<Select multiple={true}>
+<Select multiple={true} placeholder="values">
   <Select.Option value="val_1">Value 1</Select.Option>
   <Select.Option value="val_2">Value 2</Select.Option>
   <Select.Option value="val_3">Value 3</Select.Option>
@@ -254,7 +254,7 @@ You can add a counter of the selected items to the component using the `hasCount
 
 <ExampleBlock
     code={`
-<Select multiple={true} hasCounter={true}>
+<Select multiple={true} hasCounter={true} placeholder="values">
   <Select.Option value="val_1">Value 1</Select.Option>
   <Select.Option value="val_2">Value 2</Select.Option>
   <Select.Option value="val_3">Value 3</Select.Option>
@@ -262,7 +262,7 @@ You can add a counter of the selected items to the component using the `hasCount
 </Select>
 `}
 >
-  <UIKit.Select multiple={true} hasCounter={true}>
+  <UIKit.Select multiple={true} hasCounter={true} placeholder="values">
     <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
     <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
     <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
@@ -275,7 +275,7 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<Select multiple={true} hasCounter={true}>
+<Select multiple={true} hasCounter={true} placeholder="values">
   <Select.Option value="val_1">Value 1</Select.Option>
   <Select.Option value="val_2">Value 2</Select.Option>
   <Select.Option value="val_3">Value 3</Select.Option>
@@ -293,7 +293,7 @@ To enable filter section, use the `filterable` property. Its default value is `f
 
 <ExampleBlock
     code={`
-<Select filterable={true}>
+<Select filterable={true} placeholder="Filterable">
   <Select.Option value="val_1">Value 1</Select.Option>
   <Select.Option value="val_2">Value 2</Select.Option>
   <Select.Option value="val_3">Value 3</Select.Option>
@@ -314,7 +314,7 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<Select filterable={true}>
+<Select filterable={true} placeholder="Filterable">
   <Select.Option value="val_1">Value 1</Select.Option>
   <Select.Option value="val_2">Value 2</Select.Option>
   <Select.Option value="val_3">Value 3</Select.Option>
@@ -1117,8 +1117,18 @@ You can change this with the `errorPlacement` property.
 <Select placeholder="Placeholder" errorPlacement="inside" errorMessage="Error message" validationState="invalid" />
 `}
 >
-    <UIKit.Select placeholder="Placeholder" errorMessage="Error message" validationState="invalid" />
+    <UIKit.Select placeholder="Placeholder" errorMessage="Error message" validationState="invalid">
+        <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
+    <UIKit.Select />
     <UIKit.Select placeholder="Placeholder" errorPlacement="inside" errorMessage="Error message" validationState="invalid" />
+        <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
+    <UIKit.Select />
 </ExampleBlock>
 LANDING_BLOCK-->
 

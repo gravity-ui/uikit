@@ -18,13 +18,14 @@ Options to select.
 
 You can define options as an array of objects or as the children of a component. The first approach is useful for cases where options require complex preparation and, possibly, memorization. The second one is convenient when there are few options, and their configuration does not require complex calculations.
 
-#### Flat list
+#### Flat list 123
 
 <!--LANDING_BLOCK
 
 <ExampleBlock
     code={`
 <Select
+  placeholder="value"
   options={[
     {value: 'val_1', content: 'Value 1'},
     {value: 'val_2', content: 'Value 2'},
@@ -32,7 +33,7 @@ You can define options as an array of objects or as the children of a component.
     {value: 'val_4', content: 'Value 4'},
   ]}
 />
-<Select>
+<Select placeholder="value">
   <Select.Option value="val_1">Value 1</Select.Option>
   <Select.Option value="val_2">Value 2</Select.Option>
   <Select.Option value="val_3">Value 3</Select.Option>

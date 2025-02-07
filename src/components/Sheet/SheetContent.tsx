@@ -2,11 +2,10 @@
 
 import * as React from 'react';
 
-import {SelectQa} from '../Select';
 import {Platform, withMobile} from '../mobile';
 import type {History, Location, MobileContextProps} from '../mobile';
 
-import {sheetBlock} from './constants';
+import {SheetQa, sheetBlock} from './constants';
 import {VelocityTracker} from './utils';
 
 import './Sheet.scss';
@@ -148,7 +147,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
                     onClick={this.onVeilClick}
                     onTransitionEnd={this.onVeilTransitionEnd}
                     role="presentation"
-                    data-qa={SelectQa.SHEET_VEIL}
+                    data-qa={SheetQa.VEIL}
                 />
                 <div
                     ref={this.sheetRef}

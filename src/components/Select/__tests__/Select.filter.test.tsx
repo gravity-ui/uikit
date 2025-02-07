@@ -3,10 +3,10 @@ import * as React from 'react';
 import userEvent from '@testing-library/user-event';
 
 import {fireEvent, render, screen} from '../../../../test-utils/utils';
+import {SheetQa} from '../../../components/Sheet/constants';
 import {TextInput} from '../../controls';
 import {MobileProvider} from '../../mobile';
 import {Select} from '../Select';
-import {SelectQa} from '../constants';
 import type {SelectOption, SelectProps, SelectRenderPopup} from '../types';
 
 import {TEST_QA, generateOptions, generateOptionsGroups, setup, timeout} from './utils';
@@ -148,9 +148,9 @@ describe('Select filter', () => {
             </MobileProvider>,
         );
 
-        const sheet = screen.getByTestId(SelectQa.SHEET_VEIL);
+        const sheetVeil = screen.getByTestId(SheetQa.VEIL);
 
-        fireEvent.transitionEnd(sheet);
+        fireEvent.transitionEnd(sheetVeil);
 
         await userEvent.click(screen.getByPlaceholderText('filter'));
         await userEvent.keyboard('test');
@@ -158,8 +158,8 @@ describe('Select filter', () => {
         expect(onFilterChange).toHaveBeenCalledTimes(4);
         onFilterChange.mockClear();
 
-        await userEvent.click(sheet);
-        fireEvent.transitionEnd(sheet);
+        await userEvent.click(sheetVeil);
+        fireEvent.transitionEnd(sheetVeil);
         await timeout(400);
 
         expect(onClose).toHaveBeenCalledTimes(1);
@@ -184,9 +184,9 @@ describe('Select filter', () => {
             </MobileProvider>,
         );
 
-        const sheet = screen.getByTestId(SelectQa.SHEET_VEIL);
+        const sheetVeil = screen.getByTestId(SheetQa.VEIL);
 
-        fireEvent.transitionEnd(sheet);
+        fireEvent.transitionEnd(sheetVeil);
 
         await userEvent.click(screen.getByPlaceholderText('filter'));
         await userEvent.keyboard('test');
@@ -194,8 +194,8 @@ describe('Select filter', () => {
         expect(onFilterChange).toHaveBeenCalledTimes(4);
         onFilterChange.mockClear();
 
-        await userEvent.click(sheet);
-        fireEvent.transitionEnd(sheet);
+        await userEvent.click(sheetVeil);
+        fireEvent.transitionEnd(sheetVeil);
         await timeout(400);
 
         expect(onClose).toHaveBeenCalledTimes(1);

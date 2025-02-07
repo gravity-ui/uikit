@@ -70,6 +70,7 @@ LANDING_BLOCK-->
 ```tsx
 // Array of objects
 <Select
+  placeholder="value"
   options={[
     {value: 'val_1', content: 'Value 1'},
     {value: 'val_2', content: 'Value 2'},
@@ -78,7 +79,7 @@ LANDING_BLOCK-->
   ]}
 />
 // Child nodes
-<Select>
+<Select placeholder="value">
   <Select.Option value="val_1">Value 1</Select.Option>
   <Select.Option value="val_2">Value 2</Select.Option>
   <Select.Option value="val_3">Value 3</Select.Option>
@@ -95,6 +96,7 @@ LANDING_BLOCK-->
 <ExampleBlock
     code={`
 <Select
+  placeholder="value"
   options={[
     {
       label: 'Group 1',
@@ -112,7 +114,7 @@ LANDING_BLOCK-->
     },
   ]}
 />
-<Select>
+<Select placeholder="value">
   <Select.OptionGroup label="Group 1">
     <Select.Option value="val_1" content="Value 1" />
     <Select.Option value="val_2" content="Value 2" />
@@ -127,6 +129,7 @@ LANDING_BLOCK-->
   <div>
     Array of objects
     <UIKit.Select
+      placeholder="value"
       options={[
         {
           label: 'Group 1',
@@ -147,7 +150,7 @@ LANDING_BLOCK-->
   </div>
   <div>
     Child nodes
-    <UIKit.Select>
+    <UIKit.Select placeholder="value">
       <UIKit.Select.OptionGroup label="Group 1">
         <UIKit.Select.Option value="val_1" content="Value 1" />
         <UIKit.Select.Option value="val_2" content="Value 2" />
@@ -167,6 +170,7 @@ LANDING_BLOCK-->
 ```tsx
 // Array of objects
 <Select
+  placeholder="value"
   options={[
     {
       label: 'Group 1',
@@ -185,7 +189,7 @@ LANDING_BLOCK-->
   ]}
 />
 // Child nodes
-<Select>
+<Select placeholder="value">
   <Select.OptionGroup label="Group 1">
     <Select.Option value="val_1" content="Value 1" />
     <Select.Option value="val_2" content="Value 2" />

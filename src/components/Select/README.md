@@ -18,7 +18,7 @@ Options to select.
 
 You can define options as an array of objects or as the children of a component. The first approach is useful for cases where options require complex preparation and, possibly, memorization. The second one is convenient when there are few options, and their configuration does not require complex calculations.
 
-#### Flat list 123
+#### Flat list
 
 <!--LANDING_BLOCK
 

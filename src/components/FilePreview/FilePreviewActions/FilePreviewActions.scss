@@ -24,12 +24,13 @@ $mobileActionsGap: 2px;
         width: $desktopButtonSize;
         padding: 0;
 
-        top: file-preview-css-variables.$verticalCardPadding + $mobileActionsGap;
-        right: math.div(
+        inset-block-start: file-preview-css-variables.$verticalCardPadding + $mobileActionsGap;
+        inset-inline-end: math.div(
                 file-preview-css-variables.$cardWidth -
                     file-preview-css-variables.$imagePreviewWidth,
                 2
-            ) + $mobileActionsGap;
+            ) +
+            $mobileActionsGap;
 
         &::before {
             box-shadow: none;

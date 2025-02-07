@@ -1113,12 +1113,12 @@ You can change this with the `errorPlacement` property.
 <!--LANDING_BLOCK
 <ExampleBlock
     code={`
-<Select placeholder="Placeholder" errorMessage="Error message" validationState="invalid" />
-<Select placeholder="Placeholder" errorPlacement="inside" errorMessage="Error message" validationState="invalid" />
-`}
->
     <Select placeholder="Placeholder" errorMessage="Error message" validationState="invalid" />
     <Select placeholder="Placeholder" errorPlacement="inside" errorMessage="Error message" validationState="invalid" />
+`}
+>
+    <UIKit.Select placeholder="Placeholder" errorMessage="Error message" validationState="invalid" />
+    <UIKit.Select placeholder="Placeholder" errorPlacement="inside" errorMessage="Error message" validationState="invalid" />
 </ExampleBlock>
 LANDING_BLOCK-->
 

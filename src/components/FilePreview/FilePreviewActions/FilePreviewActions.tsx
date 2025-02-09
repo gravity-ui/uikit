@@ -5,6 +5,7 @@ import {EllipsisVertical} from '@gravity-ui/icons';
 import {useUniqId} from '../../../hooks/useUniqId';
 import {ActionTooltip} from '../../ActionTooltip';
 import {Button} from '../../Button';
+import type {ButtonButtonProps, ButtonLinkProps} from '../../Button';
 import {List} from '../../List';
 import type {ListProps} from '../../List';
 import {Sheet} from '../../Sheet';
@@ -101,34 +102,28 @@ export const FilePreviewActions = ({
 
     return (
         <div className={cn('desktop-actions', hoverabelPanelClassName)}>
-            {actions.map(
-                ({title, icon, onClick, href, disabled, extraProps, tooltipExtraProps}, index) => (
-                    <ActionTooltip
-                        key={`${id}-${index}`}
-                        id={`${id}-${index}`}
-                        title={title}
-                        {...tooltipExtraProps}
-                    >
+            {actions.map(({title, icon, onClick, disabled, tooltipExtraProps, ...props}, index) => {
+                const extraProps: ButtonLinkProps | ButtonButtonProps | undefined = props.href
+                    ? {...(props.extraProps as ButtonLinkProps), href: props.href}
+                    : props.extraProps;
+                return (
+                    <ActionTooltip key={`${id}-${index}`} title={title} {...tooltipExtraProps}>
                         <Button
                             onClick={onClick}
                             aria-describedby={`${id}-${index}`}
                             view="raised"
                             pin="circle-circle"
-                            href={href}
                             disabled={disabled}
                             size="s"
                             className={cn('desktop-action-button')}
-                            extraProps={{
-                                'aria-label': title,
-                                'aria-describedby': id,
-                                ...extraProps,
-                            }}
+                            aria-label={title}
+                            {...extraProps}
                         >
                             <div className={cn('action-icon-wrapper')}>{icon}</div>
                         </Button>
                     </ActionTooltip>
-                ),
-            )}
+                );
+            })}
         </div>
     );
 };

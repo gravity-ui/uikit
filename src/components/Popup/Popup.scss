@@ -41,34 +41,34 @@ $transition-distance: 10px;
         border-end-end-radius: inherit;
     }
 
-    @at-root [data-floating-ui-status='open'] &,
-        [data-floating-ui-status='close'] & {
+    @at-root [data-floating-ui-status='open'] > &,
+        [data-floating-ui-status='close'] > & {
         transition-duration: $transition-duration;
     }
 
-    @at-root [data-floating-ui-status='initial'] &,
-        [data-floating-ui-status='close'] & {
+    @at-root [data-floating-ui-status='initial'] > &,
+        [data-floating-ui-status='close'] > & {
         opacity: 0;
         transform: translate(0, 0);
     }
 
-    @at-root [data-floating-ui-status='initial'][data-floating-ui-placement*='bottom'] &,
-        [data-floating-ui-status='close'][data-floating-ui-placement*='bottom'] & {
+    @at-root [data-floating-ui-status='initial'][data-floating-ui-placement*='bottom'] > &,
+        [data-floating-ui-status='close'][data-floating-ui-placement*='bottom'] > & {
         transform: translateY($transition-distance);
     }
 
-    @at-root [data-floating-ui-status='initial'][data-floating-ui-placement*='top'] &,
-        [data-floating-ui-status='close'][data-floating-ui-placement*='top'] & {
+    @at-root [data-floating-ui-status='initial'][data-floating-ui-placement*='top'] > &,
+        [data-floating-ui-status='close'][data-floating-ui-placement*='top'] > & {
         transform: translateY(-$transition-distance);
     }
 
-    @at-root [data-floating-ui-status='initial'][data-floating-ui-placement*='left'] &,
-        [data-floating-ui-status='close'][data-floating-ui-placement*='left'] & {
+    @at-root [data-floating-ui-status='initial'][data-floating-ui-placement*='left'] > &,
+        [data-floating-ui-status='close'][data-floating-ui-placement*='left'] > & {
         transform: translateX(-$transition-distance);
     }
 
-    @at-root [data-floating-ui-status='initial'][data-floating-ui-placement*='right'] &,
-        [data-floating-ui-status='close'][data-floating-ui-placement*='right'] & {
+    @at-root [data-floating-ui-status='initial'][data-floating-ui-placement*='right'] > &,
+        [data-floating-ui-status='close'][data-floating-ui-placement*='right'] > & {
         transform: translateX($transition-distance);
     }
 

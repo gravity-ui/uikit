@@ -78,7 +78,7 @@ export type ButtonComponentProps<T extends Exclude<ButtonCustomElementType, unde
             extraProps?: React.ComponentPropsWithoutRef<T>;
         };
 
-function isButtonComoponentProps<T extends ButtonCustomElementType>(
+function isButtonComponentProps<T extends ButtonCustomElementType>(
     p: ButtonProps<T>,
 ): p is ButtonComponentProps<Exclude<T, undefined>> {
     return p.component !== undefined;
@@ -150,7 +150,7 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
         'data-qa': qa,
     };
 
-    if (isButtonComoponentProps(props)) {
+    if (isButtonComponentProps(props)) {
         return React.createElement(
             props.component,
             {

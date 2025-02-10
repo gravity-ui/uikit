@@ -3,8 +3,6 @@
 
 $block: '.#{variables.$ns}stepper';
 
-// CSS API --g-stepper-gap, --g-stepper-item-text-max-width
-
 #{$block} {
     --_--text-max-width: 150px;
     --_--step-gap: var(--g-stepper-gap, var(--g-spacing-2));

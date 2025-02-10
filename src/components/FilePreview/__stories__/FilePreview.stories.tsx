@@ -146,7 +146,7 @@ const withoutActionTooltipTemplateActions = [
     },
 ];
 
-const WithoutActionTooltipTemplate: StoryFn<FilePreviewProps> = () => {
+const WithoutActionTooltipTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> = () => {
     return (
         <Flex gap={4}>
             <FilePreview

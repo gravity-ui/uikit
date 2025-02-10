@@ -55,7 +55,7 @@ $block: '.#{variables.$ns}sheet';
         height: $top-height;
         border-start-start-radius: 20px;
         border-start-end-radius: 20px;
-        background-color: var(--g-color-base-float);
+        background-color: var(--g-sheet-background-color, var(--g-color-base-float));
     }
 
     &__sheet-top-resizer {
@@ -75,7 +75,7 @@ $block: '.#{variables.$ns}sheet';
         max-height: calc(90% - #{$top-height});
         overflow: hidden auto;
         overscroll-behavior-y: contain;
-        background-color: var(--g-color-base-float);
+        background-color: var(--g-sheet-background-color, var(--g-color-base-float));
 
         transition: height $transition-duration ease;
 

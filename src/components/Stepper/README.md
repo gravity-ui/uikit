@@ -169,3 +169,40 @@ const Separator = () => {
 <StepperCustomSeparator/>
 
 <!--/GITHUB_BLOCK-->
+
+## Properties
+
+| Name             | Description                                               | Type                                   | Default |
+| :--------------- | :-------------------------------------------------------- | :------------------------------------- | :------ |
+| children         | Stepper items.                                            | `React.ReactElement<StepperItemProps>` |         |
+| size             | Set the `Step` size.                                      | `"s"` `"m"` `"l"`                      | `"s"`   |
+| value            | Current selected `Step` id.                               | `number` `string`                      | `0`     |
+| onUpdate         | function for change current `Step`.                       | `Function`                             |         |
+| qa               | `data-qa` HTML attribute, used for testing.               | `string`                               |         |
+| separator        | Custom separator node.                                    | `React.ReactNode`                      |         |
+| className        | CSS class name for the element.                           | `string`                               |         |
+| style            | Sets the inline style for the element.                    | `CSSProperties`                        |         |
+| aria-label       | Defines a string value that labels the current element.   | `string`                               |         |
+| aria-labelledby  | Identifies the element(s) that label the current element. | `string`                               |         |
+| aria-describedby | Identifies the element(s) that describe the object.       | `string`                               |         |
+
+### StepperItemProps
+
+| Name      | Description                                       | Type                           | Default  |
+| :-------- | :------------------------------------------------ | :----------------------------- | :------- |
+| id        | Set `Step` id. Index of array element as default. | `string` `number`              |          |
+| view      | Set `Step` view.                                  | `"idle"` `"error"` `"success"` | `"idle"` |
+| children  | `Step` content.                                   | `React.Node`                   |          |
+| disabled  | Determines whether `Step` is disable.             | `boolean`                      |          |
+| selected  | Determines whether `Step` is select.              | `boolean`                      |          |
+| variant   | Set `Step` content text variant.                  | `"TextProps['variant]"`        |          |
+| icon      | Custom icon node.                                 | `React.Node`                   |          |
+| onClick   | Step click handler.                               | `React.MouseEventHandler`      |          |
+| className | CSS class name for the element.                   | `string`                       |          |
+
+### CSS API
+
+| Name                              | Description                           |
+| :-------------------------------- | :------------------------------------ |
+| `--g-stepper-gap`                 | Gap between step items and separator. |
+| `--g-stepper-item-text-max-width` | Step item text max-width.             |

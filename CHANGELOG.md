@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.1.1](https://github.com/gravity-ui/uikit/compare/v7.1.0...v7.1.1) (2025-02-10)
+
+
+### Bug Fixes
+
+* **Tab:** click on tabs should not generate 'submit' event ([#2103](https://github.com/gravity-ui/uikit/issues/2103)) ([dd35766](https://github.com/gravity-ui/uikit/commit/dd3576647b4a1e16b154e07c0105ba8ddc65e2a1))
+
 ## [7.1.0](https://github.com/gravity-ui/uikit/compare/v7.0.0...v7.1.0) (2025-02-07)
 
 

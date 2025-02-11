@@ -22,11 +22,7 @@ export type FilePreviewActionProps = {
     title: string;
     href?: string;
     disabled?: boolean;
-    onClick?: (
-        event:
-            | React.MouseEvent<HTMLButtonElement | HTMLAnchorElement | HTMLDivElement | MouseEvent>
-            | React.KeyboardEvent<HTMLElement>,
-    ) => void;
+    onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
     extraProps?: ButtonButtonProps | ButtonLinkProps;
-    tooltipExtraProps?: Omit<ActionTooltipProps, 'id' | 'title' | 'children'>;
+    tooltipExtraProps?: Omit<ActionTooltipProps, 'title' | 'children'>;
 };

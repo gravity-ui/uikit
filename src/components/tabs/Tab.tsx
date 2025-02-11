@@ -38,7 +38,7 @@ export const Tab = React.forwardRef<HTMLAnchorElement | HTMLButtonElement, TabPr
         }
 
         return (
-            <button {...tabProps} ref={ref as React.Ref<HTMLButtonElement>}>
+            <button {...tabProps} type="button" ref={ref as React.Ref<HTMLButtonElement>}>
                 {content}
             </button>
         );

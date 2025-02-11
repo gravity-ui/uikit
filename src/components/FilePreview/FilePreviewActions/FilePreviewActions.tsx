@@ -55,7 +55,8 @@ export const FilePreviewActions = ({
         NonNullable<ListProps<FilePreviewActionProps>['onItemClick']>
     >((item, _, __, event) => {
         if (event) {
-            item.onClick?.(event);
+            // function can be called only on a mobile device
+            item.onClick?.(event as React.MouseEvent<HTMLDivElement, MouseEvent>);
         }
         setShowMobileMenu(false);
     }, []);

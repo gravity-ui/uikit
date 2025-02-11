@@ -1,0 +1,14 @@
+@use '../../variables';
+
+$b: '.#{variables.$ns}menu2-divider';
+
+#{$b} {
+    padding-block: 4px;
+
+    &::before {
+        content: '';
+        display: block;
+        height: 1px;
+        background-color: var(--g-color-line-generic);
+    }
+}

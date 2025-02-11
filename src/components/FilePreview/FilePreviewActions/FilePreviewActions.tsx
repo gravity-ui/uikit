@@ -6,6 +6,7 @@ import {useUniqId} from '../../../hooks/useUniqId';
 import {ActionTooltip} from '../../ActionTooltip';
 import {Button} from '../../Button';
 import type {ButtonButtonProps, ButtonLinkProps} from '../../Button';
+import {Icon} from '../../Icon';
 import {List} from '../../List';
 import type {ListProps} from '../../List';
 import {Sheet} from '../../Sheet';
@@ -80,7 +81,7 @@ export const FilePreviewActions = ({
                     onClick={handleMobileButtonClick}
                     size="s"
                 >
-                    <EllipsisVertical height={16} width={16} className={cn('mobile-button-icon')} />
+                    <Icon data={EllipsisVertical} height={16} width={16} />
                 </Button>
                 <Sheet
                     className={cn('mobile-sheet')}

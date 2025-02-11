@@ -15,8 +15,6 @@ $mobileActionsGap: 2px;
     &__mobile-actions-menu {
         position: absolute;
         z-index: 1;
-        display: flex;
-        gap: var(--g-spacing-1);
     }
 
     &__mobile-actions-menu {
@@ -25,8 +23,12 @@ $mobileActionsGap: 2px;
         padding: 0;
 
         inset-block-start: file-preview-css-variables.$verticalCardPadding + $mobileActionsGap;
-        inset-inline-end: math.div(file-preview-css-variables.$cardWidth - file-preview-css-variables.$imagePreviewWidth,
-                2) + $mobileActionsGap;
+        inset-inline-end: math.div(
+                file-preview-css-variables.$cardWidth -
+                    file-preview-css-variables.$imagePreviewWidth,
+                2
+            ) +
+            $mobileActionsGap;
 
         &::before {
             box-shadow: none;
@@ -37,6 +39,8 @@ $mobileActionsGap: 2px;
         inset-block-start: -1 * math.div($desktopButtonSize, 2);
         inset-inline-end: -1 * math.div($desktopButtonSize, 2);
         opacity: 0;
+        display: flex;
+        gap: var(--g-spacing-1);
     }
 
     &__desktop-action-button {

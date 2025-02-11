@@ -33,7 +33,8 @@ $block: '.#{variables.$ns}file-preview';
         outline: none;
 
         border-radius: var(--_-border-radius);
-        padding: file-preview-css-variables.$verticalCardPadding file-preview-css-variables.$horizontalCardPadding;
+        padding: file-preview-css-variables.$verticalCardPadding
+            file-preview-css-variables.$horizontalCardPadding;
 
         &_clickable {
             cursor: pointer;

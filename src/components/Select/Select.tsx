@@ -240,11 +240,13 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         onBlurWithin: React.useCallback(
             (e: React.FocusEvent) => {
                 onBlur?.(e);
-                handleClose();
+
+                if (!mobile) {
+                    handleClose();
+                }
             },
-            [handleClose, onBlur],
+            [handleClose, mobile, onBlur],
         ),
-        isDisabled: mobile,
     });
 
     const uniqId = useUniqId();

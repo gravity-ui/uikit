@@ -25,6 +25,7 @@ import {Portal} from '../Portal';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
+import {useLayer} from '../utils/layer-manager';
 
 import i18n from './i18n';
 
@@ -131,6 +132,8 @@ export function Modal({
     floatingRef,
     ...restProps
 }: ModalProps) {
+    useLayer({open, type: 'modal'});
+
     const handleOpenChange = React.useCallback<NonNullable<UseFloatingOptions['onOpenChange']>>(
         (isOpen, event, reason) => {
             onOpenChange?.(isOpen, event, reason);

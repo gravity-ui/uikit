@@ -1,6 +1,8 @@
 import * as React from 'react';
 
 import {
+    Composite,
+    CompositeItem,
     FloatingList,
     FloatingTree,
     flip,
@@ -31,6 +33,7 @@ import {MenuDivider} from './MenuDivider';
 import {MenuItem} from './MenuItem';
 import {MenuTrigger} from './MenuTrigger';
 import type {MenuProps} from './types';
+import {isComponentType} from './utils';
 
 import './Menu.scss';
 
@@ -38,6 +41,7 @@ const b = block('menu2');
 
 function MenuComponent({
     trigger,
+    inline = false,
     defaultOpen,
     open,
     onOpenChange,
@@ -110,13 +114,53 @@ function MenuComponent({
           ? trigger(anchorProps, anchorRef)
           : null;
 
+    const getItemPropsInline = React.useCallback(
+        (userProps?: React.HTMLAttributes<HTMLElement>) => {
+            const handleItemPointerEnter = (event: React.PointerEvent<HTMLElement>) => {
+                userProps?.onPointerEnter?.(event);
+
+                const element = event.currentTarget;
+                const index = [
+                    ...(element.closest('[role="menu"]')?.querySelectorAll('[role="menuitem"]') ??
+                        []),
+                ].indexOf(element);
+
+                if (
+                    !(element as HTMLButtonElement).disabled &&
+                    !element.ariaDisabled &&
+                    index >= 0
+                ) {
+                    element.focus();
+                    setActiveIndex(index);
+                } else {
+                    setActiveIndex(null);
+                }
+            };
+
+            const handleItemPointerLeave = (event: React.PointerEvent<HTMLElement>) => {
+                userProps?.onPointerLeave?.(event);
+                setActiveIndex(null);
+            };
+
+            return {
+                // Clear attribute set by Floating UI Composite (we don't use it)
+                'data-active': undefined,
+                ...userProps,
+                onPointerEnter: handleItemPointerEnter,
+                onPointerLeave: handleItemPointerLeave,
+            };
+        },
+        [],
+    );
+
     const contextValue = React.useMemo(
         () => ({
+            inline: parentMenu?.inline ?? inline,
             size: parentMenu?.size ?? size,
             activeIndex,
-            getItemProps,
+            getItemProps: inline ? getItemPropsInline : getItemProps,
         }),
-        [parentMenu, size, activeIndex, getItemProps],
+        [parentMenu, inline, size, activeIndex, getItemPropsInline, getItemProps],
     );
 
     React.useEffect(() => {
@@ -161,6 +205,44 @@ function MenuComponent({
         }
     }, [trigger]);
 
+    if (inline) {
+        const preparedChildren = React.Children.toArray(children).map((child, index) => {
+            if (!React.isValidElement(child) || !isComponentType(child, 'Menu.Item')) {
+                return child;
+            }
+
+            return (
+                <CompositeItem
+                    key={index}
+                    render={(props) => React.cloneElement(child, {...child.props, ...props})}
+                />
+            );
+        });
+
+        return (
+            <MenuContext.Provider value={contextValue}>
+                <Composite
+                    render={
+                        <div
+                            role="menu"
+                            className={b(null, className)}
+                            style={style}
+                            data-qa={qa}
+                        />
+                    }
+                    orientation="vertical"
+                    loop={false}
+                    rtl={isRTL}
+                    // @ts-expect-error
+                    activeIndex={activeIndex}
+                    onNavigate={setActiveIndex}
+                >
+                    {preparedChildren}
+                </Composite>
+            </MenuContext.Provider>
+        );
+    }
+
     return (
         <React.Fragment>
             {anchorNode}
@@ -189,7 +271,7 @@ function MenuComponent({
 export function Menu(props: MenuProps) {
     const parentId = useFloatingParentNodeId();
 
-    if (parentId === null) {
+    if (!props.inline && parentId === null) {
         return (
             <FloatingTree>
                 <MenuComponent {...props} />
@@ -199,6 +281,8 @@ export function Menu(props: MenuProps) {
 
     return <MenuComponent {...props} />;
 }
+
+Menu.displayName = 'Menu';
 
 Menu.Trigger = MenuTrigger;
 Menu.Item = MenuItem;

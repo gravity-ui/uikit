@@ -7,3 +7,5 @@ const b = block('menu2-divider');
 export function MenuDivider() {
     return <div className={b()} />;
 }
+
+MenuDivider.displayName = 'Menu.Divider';

@@ -12,7 +12,7 @@ export interface MenuTriggerProps extends ButtonButtonProps {
 }
 
 export const MenuTrigger = React.forwardRef<HTMLButtonElement, MenuTriggerProps>(
-    function MenuTrigger({size = 'm', children, icon = 'horizontal', ...restProps}, ref) {
+    ({size = 'm', children, icon = 'horizontal', ...restProps}, ref) => {
         return (
             <Button ref={ref} size={size} {...restProps}>
                 {children ? (
@@ -27,3 +27,5 @@ export const MenuTrigger = React.forwardRef<HTMLButtonElement, MenuTriggerProps>
         );
     },
 );
+
+MenuTrigger.displayName = 'Menu.Trigger';

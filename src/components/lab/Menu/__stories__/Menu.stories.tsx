@@ -7,6 +7,7 @@ import type {Meta, StoryObj} from '@storybook/react';
 import {BUTTON_ICON_SIZE_MAP} from '../../../Button/constants';
 import {Icon} from '../../../Icon';
 import {Label} from '../../../Label';
+import {Sheet} from '../../../Sheet';
 import {Menu} from '../Menu';
 import {MenuItem} from '../MenuItem';
 import {MenuTrigger} from '../MenuTrigger';
@@ -79,6 +80,19 @@ export const Context = {
                 </Menu>
             </React.Fragment>
         );
+    },
+} satisfies Story;
+
+export const InsideSheet = {
+    render: (args) => {
+        return (
+            <Sheet visible>
+                <Menu {...args}>{getMenuItems(args, true)}</Menu>
+            </Sheet>
+        );
+    },
+    args: {
+        inline: true,
     },
 } satisfies Story;
 

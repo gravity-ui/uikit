@@ -6,6 +6,7 @@ export interface MenuContextProps {
     size: MenuSize;
     activeIndex: number | null;
     getItemProps: (userProps?: React.HTMLProps<HTMLElement>) => Record<string, unknown>;
+    inline: boolean;
 }
 
 export const MenuContext = React.createContext<MenuContextProps | null>(null);

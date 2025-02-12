@@ -48,6 +48,7 @@ const SheetExample = () => {
 
 ## CSS API
 
-| Name                        | Description     |
-| :-------------------------- | :-------------- |
-| `--g-sheet-content-padding` | Content padding |
+| Name                         | Description      |
+| :--------------------------- | :--------------- |
+| `--g-sheet-content-padding`  | Content padding  |
+| `--g-sheet-background-color` | Background color |

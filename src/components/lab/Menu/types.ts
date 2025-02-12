@@ -19,6 +19,7 @@ export interface MenuProps
         | React.ReactElement
         | VirtualElement
         | null;
+    inline?: boolean;
     children?: React.ReactNode;
 }
 

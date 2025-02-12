@@ -18,10 +18,10 @@ import {Icon} from '../../../Icon';
 import {Menu} from '../Menu';
 import type {MenuProps} from '../types';
 
-export function getMenuItems(args: MenuProps) {
+export function getMenuItems(args: MenuProps, inline?: boolean) {
     const iconSize = BUTTON_ICON_SIZE_MAP[args.size ?? 'm'];
 
-    return [
+    const items = [
         <Menu.Item
             key="undo"
             icon={<Icon data={ArrowRotateLeft} size={iconSize} />}
@@ -52,30 +52,39 @@ export function getMenuItems(args: MenuProps) {
         >
             Delete
         </Menu.Item>,
-        <Menu.Divider key="divider2" />,
-        <Menu.Item key="copy">
-            Copy as
-            <Menu>
-                <Menu.Item icon={<Icon data={Text} size={iconSize} />}>Text</Menu.Item>
-                <Menu.Item icon={<Icon data={Video} size={iconSize} />}>Video</Menu.Item>
-                <Menu.Item icon={<Icon data={Picture} size={iconSize} />}>
-                    Image
-                    <Menu>
-                        <Menu.Item>.png</Menu.Item>
-                        <Menu.Item>.jpg</Menu.Item>
-                        <Menu.Item>.svg</Menu.Item>
-                        <Menu.Item>.gif</Menu.Item>
-                    </Menu>
-                </Menu.Item>
-                <Menu.Item icon={<Icon data={MusicNote} size={iconSize} />}>Audio</Menu.Item>
-            </Menu>
-        </Menu.Item>,
-        <Menu.Item key="share" icon={<Icon data={ArrowShapeTurnUpRight} size={iconSize} />}>
-            Share
-            <Menu>
-                <Menu.Item icon={<Icon data={Envelope} size={iconSize} />}>Mail</Menu.Item>
-                <Menu.Item icon={<Icon data={LogoTelegram} size={iconSize} />}>Telegram</Menu.Item>
-            </Menu>
-        </Menu.Item>,
     ];
+
+    if (!inline) {
+        items.push(
+            <Menu.Divider key="divider2" />,
+            <Menu.Item key="copy">
+                Copy as
+                <Menu>
+                    <Menu.Item icon={<Icon data={Text} size={iconSize} />}>Text</Menu.Item>
+                    <Menu.Item icon={<Icon data={Video} size={iconSize} />}>Video</Menu.Item>
+                    <Menu.Item icon={<Icon data={Picture} size={iconSize} />}>
+                        Image
+                        <Menu>
+                            <Menu.Item>.png</Menu.Item>
+                            <Menu.Item>.jpg</Menu.Item>
+                            <Menu.Item>.svg</Menu.Item>
+                            <Menu.Item>.gif</Menu.Item>
+                        </Menu>
+                    </Menu.Item>
+                    <Menu.Item icon={<Icon data={MusicNote} size={iconSize} />}>Audio</Menu.Item>
+                </Menu>
+            </Menu.Item>,
+            <Menu.Item key="share" icon={<Icon data={ArrowShapeTurnUpRight} size={iconSize} />}>
+                Share
+                <Menu>
+                    <Menu.Item icon={<Icon data={Envelope} size={iconSize} />}>Mail</Menu.Item>
+                    <Menu.Item icon={<Icon data={LogoTelegram} size={iconSize} />}>
+                        Telegram
+                    </Menu.Item>
+                </Menu>
+            </Menu.Item>,
+        );
+    }
+
+    return items;
 }

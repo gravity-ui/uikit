@@ -33,6 +33,7 @@ import {Portal} from '../Portal';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
+import {useLayer} from '../utils/layer-manager';
 
 import {PopupArrow} from './PopupArrow';
 import {OVERFLOW_PADDING, TRANSITION_DURATION} from './constants';
@@ -116,6 +117,10 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
     disableFocusOut?: boolean;
     /** Do not use `Portal` for children */
     disablePortal?: boolean;
+    /**
+     * Do not use as layer
+     */
+    disableLayer?: boolean;
     /** ARIA role or special component role (select, combobox) */
     role?: UseRoleProps['role'];
     /** HTML `id` attribute */
@@ -163,6 +168,7 @@ export function Popup({
     className,
     children,
     disablePortal = false,
+    disableLayer = false,
     qa,
     role: roleProp,
     zIndex = 1000,
@@ -172,6 +178,8 @@ export function Popup({
     onTransitionOutComplete,
     ...restProps
 }: PopupProps) {
+    useLayer({open, type: 'popup', enabled: !disableLayer});
+
     const contentRef = React.useRef<HTMLDivElement>(null);
     const [arrowElement, setArrowElement] = React.useState<HTMLElement | null>(null);
 

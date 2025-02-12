@@ -1,5 +1,20 @@
 # Changelog
 
+## [7.2.0](https://github.com/gravity-ui/uikit/compare/v7.1.1...v7.2.0) (2025-02-12)
+
+
+### Features
+
+* add typography shortcut variables ([#2110](https://github.com/gravity-ui/uikit/issues/2110)) ([39f20a5](https://github.com/gravity-ui/uikit/commit/39f20a550d5c6b587e19ecc1127452c590a428fa))
+* **Sheet:** add background css api ([#2105](https://github.com/gravity-ui/uikit/issues/2105)) ([51d1dc2](https://github.com/gravity-ui/uikit/commit/51d1dc206bdfe267c498161173b82d79f4dc4a5d))
+
+
+### Bug Fixes
+
+* **Popup:** fix animation for nested non portal popups ([#2109](https://github.com/gravity-ui/uikit/issues/2109)) ([ccd3bdc](https://github.com/gravity-ui/uikit/commit/ccd3bdc26531130298135696fd2f9308e6e1a191))
+* **Select:** keyboard behavior on mobile ([#2082](https://github.com/gravity-ui/uikit/issues/2082)) ([95a1d20](https://github.com/gravity-ui/uikit/commit/95a1d20c3a0a3f7c54c5e72d5b4d69777d81135b))
+* use Popup and Modal as layer ([#2111](https://github.com/gravity-ui/uikit/issues/2111)) ([318bfa2](https://github.com/gravity-ui/uikit/commit/318bfa24b290482c8025861d99a3ebeddb88e899))
+
 ## [7.1.1](https://github.com/gravity-ui/uikit/compare/v7.1.0...v7.1.1) (2025-02-10)
 
 

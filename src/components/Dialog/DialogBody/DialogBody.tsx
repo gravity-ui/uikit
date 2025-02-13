@@ -1,5 +1,6 @@
-import type * as React from 'react';
+import * as React from 'react';
 
+import {useAnimateHeight} from '../../../hooks/private';
 import {block} from '../../utils/cn';
 
 import './DialogBody.scss';
@@ -14,6 +15,14 @@ export interface DialogBodyProps {
 
 export function DialogBody(props: DialogBodyProps) {
     const {className, hasBorders = false} = props;
+    const contentRef = React.useRef<HTMLDivElement>(null);
+    const {onTransitionEnd} = useAnimateHeight(contentRef);
 
-    return <div className={b({'has-borders': hasBorders}, className)}>{props.children}</div>;
+    return (
+        <div className={b({'has-borders': hasBorders}, className)}>
+            <div ref={contentRef} onTransitionEnd={onTransitionEnd} className={b('content')}>
+                {props.children}
+            </div>
+        </div>
+    );
 }

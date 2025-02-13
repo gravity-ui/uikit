@@ -122,6 +122,7 @@ export class Dialog extends React.Component<DialogInnerProps> {
                 aria-labelledby={ariaLabelledBy}
                 container={container}
                 qa={qa}
+                shouldAnimateHeight={false}
             >
                 <div
                     className={b(

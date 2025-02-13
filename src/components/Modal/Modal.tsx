@@ -4,8 +4,8 @@ import * as React from 'react';
 
 import {CSSTransition} from 'react-transition-group';
 
-import {useBodyScrollLock, useResizeObserver} from '../../hooks';
-import {useRestoreFocus} from '../../hooks/private';
+import {useBodyScrollLock} from '../../hooks';
+import {useAnimateHeight, useRestoreFocus} from '../../hooks/private';
 import {Portal} from '../Portal';
 import type {DOMProps, QAProps} from '../types';
 import {FocusTrap} from '../utils/FocusTrap';
@@ -45,6 +45,7 @@ export interface ModalProps extends DOMProps, LayerExtendableProps, QAProps {
     onTransitionExit?: VoidFunction;
     onTransitionExited?: VoidFunction;
     contentOverflow?: 'visible' | 'auto';
+    shouldAnimateHeight?: boolean;
 }
 
 export type ModalCloseReason = LayerCloseReason;
@@ -79,57 +80,12 @@ export function Modal({
     'aria-label': ariaLabel,
     container,
     qa,
+    shouldAnimateHeight = true,
 }: ModalProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
     const contentRef = React.useRef<HTMLDivElement>(null);
     const [inTransition, setInTransition] = React.useState(false);
-    const previousHeight = React.useRef<number | null>(null);
-    const isTransitioningHeight = React.useRef(false);
-
-    const handleContentTransitionEnd = React.useCallback(
-        (event: React.TransitionEvent<HTMLDivElement>) => {
-            if (event.propertyName !== 'height') {
-                return;
-            }
-
-            // ResizeObserver final resize event fires before this, so we have to delay with timeout
-            setTimeout(() => {
-                if (contentRef.current) {
-                    contentRef.current.style.height = 'auto';
-                    contentRef.current.style.overflowY = '';
-                    isTransitioningHeight.current = false;
-                }
-            }, 0);
-        },
-        [contentRef],
-    );
-
-    const handleResize = React.useCallback(() => {
-        if (!contentRef.current || isTransitioningHeight.current) {
-            return;
-        }
-
-        const contentHeight = contentRef.current.clientHeight;
-        if (!previousHeight.current) {
-            previousHeight.current = contentHeight;
-            return;
-        }
-
-        // Set previous height first for the transition to work, because it doesn't work with 'auto'
-        contentRef.current.style.height = `${previousHeight.current}px`;
-        // Set overflow to hidden so that scrollbar doesn't appear while transitioning
-        contentRef.current.style.overflowY = 'hidden';
-        isTransitioningHeight.current = true;
-
-        requestAnimationFrame(() => {
-            if (contentRef.current) {
-                contentRef.current.style.height = `${contentHeight}px`;
-                previousHeight.current = contentHeight;
-            }
-        });
-    }, []);
-
-    useResizeObserver({ref: contentRef, onResize: handleResize});
+    const animateHeightResult = useAnimateHeight(shouldAnimateHeight ? contentRef : undefined);
 
     useBodyScrollLock({enabled: !disableBodyScrollLock && (open || inTransition)});
     const containerProps = useRestoreFocus({
@@ -196,7 +152,7 @@ export function Modal({
                                         {'has-scroll': contentOverflow === 'auto'},
                                         contentClassName,
                                     )}
-                                    onTransitionEnd={handleContentTransitionEnd}
+                                    onTransitionEnd={animateHeightResult.onTransitionEnd}
                                     {...containerProps}
                                 >
                                     {children}

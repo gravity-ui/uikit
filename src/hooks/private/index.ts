@@ -11,3 +11,4 @@ export * from './useRestoreFocus';
 export * from './useUpdateEffect';
 export * from './useTooltipVisible';
 export * from './useFormResetHandler';
+export * from './useAnimateHeight';

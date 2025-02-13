@@ -151,21 +151,31 @@ function DynamicHeightDialog() {
                 hasCloseButton
                 keepMounted
                 qa="dynamicHeight"
-                contentOverflow="auto"
             >
                 <Dialog.Body>
-                    <Flex direction="column" gap="3" style={{paddingTop: '40px'}}>
-                        {[...Array(rows).keys()].map((key) => (
-                            <Flex
-                                alignItems="center"
-                                justifyContent="center"
-                                key={key}
-                                style={{height: '40px', border: '1px solid', borderRadius: '10px'}}
-                            >
-                                Row {key + 1}
-                            </Flex>
-                        ))}
-                    </Flex>
+                    <div
+                        style={{
+                            overflowY: 'auto',
+                            maxHeight: '400px',
+                        }}
+                    >
+                        <Flex direction="column" gap="3" style={{paddingTop: '40px'}}>
+                            {[...Array(rows).keys()].map((key) => (
+                                <Flex
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    key={key}
+                                    style={{
+                                        height: '40px',
+                                        border: '1px solid',
+                                        borderRadius: '10px',
+                                    }}
+                                >
+                                    Row {key + 1}
+                                </Flex>
+                            ))}
+                        </Flex>
+                    </div>
                 </Dialog.Body>
                 <Dialog.Footer
                     preset="default"

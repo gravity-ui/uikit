@@ -8,12 +8,10 @@ const rootClassName = b();
 
 export function updateBodyClassName({
     theme,
-    nativeScrollbar = false,
     className,
     prevClassName,
 }: {
     theme: RealTheme;
-    nativeScrollbar?: boolean;
     className?: string;
     prevClassName?: string;
 }) {
@@ -47,14 +45,6 @@ export function updateBodyClassName({
         }
     });
     bodyEl.classList.add(modsClassName(b({theme})));
-
-    const modifiers = {
-        'native-scrollbar': nativeScrollbar,
-    };
-
-    for (const [key, value] of Object.entries(modifiers)) {
-        bodyEl.classList.toggle(modsClassName(b({[key]: true})), value);
-    }
 }
 
 export function updateBodyDirection(direction: Direction) {

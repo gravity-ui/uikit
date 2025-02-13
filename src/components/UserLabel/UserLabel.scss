@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use '../../../styles/mixins';
 @use '../variables';
 @use '../Avatar/variables' as avatar-variables;
@@ -8,25 +9,36 @@ $block: '.#{variables.$ns}user-label';
     $transitionDuration: 0.1s;
     $transitionTimingFunction: ease-in-out;
 
+    --_--size: #{map.get(avatar-variables.$sizes, 's')};
+    --_--border-radius: 25px;
+    --_--padding: var(--g-spacing-3);
+    --_--gap: calc(var(--g-spacing-base) * 1.5);
+    --_--text-font-weight: var(--g-text-body-font-weight);
+    --_--text-font-size: var(--g-text-body-short-font-size);
+    --_--text-line-height: var(--g-text-body-short-line-height);
+    --_--description-font-weight: var(--g-text-body-font-weight);
+    --_--description-font-size: var(--g-text-body-short-font-size);
+    --_--description-line-height: var(--g-text-body-short-line-height);
+
     position: relative;
     z-index: 0;
     display: inline-flex;
     max-width: 100%;
-    height: 28px;
-    border-radius: 20px;
+    height: var(--g-user-label-size, var(--_--size));
+    border-radius: var(--g-user-label-border-radius, var(--_--border-radius));
 
     transition-property: background-color;
     transition-duration: $transitionDuration;
     transition-timing-function: $transitionTimingFunction;
 
     &_view_outlined {
-        &:after {
+        &::after {
+            content: '';
             position: absolute;
             z-index: -1;
             inset: 0;
-            content: '';
-            border: 1px solid var(--g-color-line-generic);
-            border-radius: 20px;
+            border: 1px solid var(--g-color-line-generic-solid);
+            border-radius: inherit;
 
             transition-property: border-color;
             transition-duration: $transitionDuration;
@@ -34,70 +46,149 @@ $block: '.#{variables.$ns}user-label';
         }
     }
 
-    &_empty {
-        padding-inline-start: 12px;
+    &_size {
+        @each $size-name, $size-value in avatar-variables.$sizes {
+            &_#{$size-name} {
+                --_--size: #{$size-value};
+            }
+        }
+
+        &_3xs,
+        &_2xs {
+            --_--padding: calc(var(--g-spacing-base) * 1.5);
+            --_--gap: var(--g-spacing-1);
+        }
+
+        &_xs {
+            --_--padding: calc(var(--g-spacing-base) * 2.5);
+            --_--gap: calc(var(--g-spacing-base) * 1.5);
+        }
+
+        &_s {
+            --_--padding: var(--g-spacing-3);
+            --_--gap: calc(var(--g-spacing-base) * 1.5);
+        }
+
+        &_m {
+            --_--padding: var(--g-spacing-3);
+            --_--gap: var(--g-spacing-2);
+        }
+
+        &_l {
+            --_--padding: var(--g-spacing-4);
+            --_--gap: var(--g-spacing-3);
+        }
+
+        &_xl {
+            --_--padding: var(--g-spacing-5);
+            --_--gap: var(--g-spacing-4);
+        }
+
+        &_3xs,
+        &_2xs,
+        &_xs {
+            --_--text-font-weight: var(--g-text-caption-font-weight);
+            --_--text-font-size: var(--g-text-caption-2-font-size);
+            --_--text-line-height: var(--g-text-caption-2-line-height);
+        }
+
+        &_s,
+        &_m,
+        &_l {
+            --_--text-font-weight: var(--g-text-body-font-weight);
+            --_--text-font-size: var(--g-text-body-short-font-size);
+            --_--text-line-height: var(--g-text-body-short-line-height);
+        }
+
+        &_xl {
+            --_--text-font-weight: var(--g-text-body-font-weight);
+            --_--text-font-size: var(--g-text-body-2-font-size);
+            --_--text-line-height: var(--g-text-body-2-line-height);
+        }
     }
 
     &_clickable:hover {
-        cursor: pointer;
         background-color: var(--g-color-base-simple-hover);
 
-        &:after {
+        &::after {
             border-color: transparent;
         }
+    }
+
+    &__avatar {
+        --g-avatar-size: var(--g-user-label-size, var(--_--size));
+        --g-avatar-border-width: 1px;
+        --g-avatar-inner-border-width: 0;
+        --g-avatar-background-color: var(--g-color-base-neutral-light);
+        --g-avatar-text-color: var(--g-color-text-primary);
+
+        display: flex;
+        margin-inline-end: var(--g-user-label-gap, var(--_--gap));
     }
 
     &__main {
         @include mixins.button-reset();
 
-        display: inline-flex;
+        display: flex;
         align-items: center;
         min-width: 0;
-        border-radius: inherit;
-        padding-inline-end: 6px;
+        border-radius: var(--g-user-label-border-radius, var(--_--border-radius));
+        padding-inline-end: var(--g-user-label-padding, var(--_--padding));
+        cursor: unset;
 
-        #{$block}_closeable & {
-            padding-inline-end: 0;
+        #{$block}_empty & {
+            padding-inline-start: var(--g-user-label-padding, var(--_--padding));
         }
 
         #{$block}_clickable & {
             outline-offset: -1px;
+            cursor: pointer;
 
             &:focus-visible {
                 outline: 2px solid var(--g-color-line-focus);
             }
         }
+
+        #{$block}_closeable & {
+            padding-inline-end: var(--g-user-label-gap, var(--_--gap));
+        }
     }
 
-    &__avatar {
-        --g-avatar-background-color: var(--g-color-base-generic-accent);
-        --g-avatar-color: var(--g-color-text-primary);
-
+    &__info {
         display: flex;
-        margin-inline-end: 6px;
+        flex-direction: column;
+        min-width: 0;
     }
 
     &__text {
-        font-size: var(--g-user-label-font-size, inherit);
-        line-height: var(--g-user-label-line-height, inherit);
-        min-width: 0;
-        margin-inline-end: 6px;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
+        @include mixins.overflow-ellipsis();
+
+        color: var(--g-color-text-primary);
+        font-weight: var(--g-user-label-text-font-weight, var(--_--text-font-weight));
+        font-size: var(--g-user-label-text-font-size, var(--_--text-font-size));
+        line-height: var(--g-user-label-text-line-height, var(--_--text-line-height));
+    }
+
+    &__description {
+        @include mixins.overflow-ellipsis();
+
+        color: var(--g-color-text-secondary);
+        font-weight: var(--g-user-label-description-font-weight, var(--_--description-font-weight));
+        font-size: var(--g-user-label-description-font-size, var(--_--description-font-size));
+        line-height: var(--g-user-label-description-line-height, var(--_--description-line-height));
     }
 
     &__close {
         @include mixins.button-reset();
 
         box-sizing: initial;
-        display: inline-flex;
+        display: flex;
         justify-content: center;
         align-items: center;
-        width: 16px;
-        cursor: pointer;
-        padding-inline-end: 6px;
+        border-radius: var(--g-user-label-border-radius, var(--_--border-radius));
+        padding-inline-end: var(--g-user-label-padding, var(--_--padding));
         color: var(--g-color-text-secondary);
+        cursor: pointer;
 
         transition-property: color;
         transition-duration: $transitionDuration;
@@ -113,17 +204,6 @@ $block: '.#{variables.$ns}user-label';
 
         #{$block}__close:focus-visible & {
             outline: 2px solid var(--g-color-line-focus);
-        }
-    }
-
-    &_size {
-        @each $size-name, $size-value in avatar-variables.$sizes {
-            &_#{$size-name} {
-                height: #{$size-value};
-            }
-            &_xl::after {
-                border-radius: 150px;
-            }
         }
     }
 }

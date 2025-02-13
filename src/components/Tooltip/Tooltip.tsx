@@ -2,88 +2,166 @@
 
 import * as React from 'react';
 
-import {useForkRef} from '../../hooks';
-import {useTooltipVisible} from '../../hooks/private';
-import type {TooltipDelayProps} from '../../hooks/private';
-import {Popup} from '../Popup';
-import type {PopupPlacement} from '../Popup';
-import {Text} from '../Text';
-import type {DOMProps, QAProps} from '../types';
+import {
+    autoUpdate,
+    limitShift,
+    offset,
+    shift,
+    useDismiss,
+    useFloating,
+    useFocus,
+    useHover,
+    useInteractions,
+    useRole,
+} from '@floating-ui/react';
+import type {OpenChangeReason, Strategy} from '@floating-ui/react';
+
+import {useControlledState, useForkRef} from '../../hooks';
+import type {PopupOffset, PopupPlacement} from '../Popup';
+import {OVERFLOW_PADDING} from '../Popup/constants';
+import {getPlacementOptions} from '../Popup/utils';
+import {Portal} from '../Portal';
+import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
+import {filterDOMProps} from '../utils/filterDOMProps';
 import {getElementRef} from '../utils/getElementRef';
 
 import './Tooltip.scss';
 
-export interface TooltipProps extends QAProps, DOMProps, TooltipDelayProps {
-    id?: string;
-    disabled?: boolean;
-    content?: React.ReactNode;
+export interface TooltipProps extends AriaLabelingProps, QAProps, DOMProps {
+    /** Anchor node */
+    children:
+        | ((props: Record<string, unknown>, ref: React.Ref<HTMLElement>) => React.ReactElement)
+        | React.ReactElement;
+    /** Controls open state */
+    open?: boolean;
+    /** Callback for open state changes, when dismiss happens for example */
+    onOpenChange?: (open: boolean, event?: Event, reason?: OpenChangeReason) => void;
+    /** Floating UI strategy */
+    strategy?: Strategy;
+    /** Floating element placement */
     placement?: PopupPlacement;
-    children: React.ReactElement;
-    contentClassName?: string;
-    disablePortal?: boolean;
+    /** Floating element offset relative to anchor */
+    offset?: PopupOffset;
+    /** Disabled state */
+    disabled?: boolean;
+    /** Floating element content */
+    content?: React.ReactNode;
+    /** Event that should trigger opening */
+    trigger?: 'focus';
+    /** Role applied to the floating element */
+    role?: 'tooltip' | 'label';
+    /** Delay in ms before open */
+    openDelay?: number;
+    /** Delay in ms before close */
+    closeDelay?: number;
 }
 
 const b = block('tooltip');
-const DEFAULT_PLACEMENT: PopupPlacement = ['bottom', 'top'];
+const DEFAULT_OPEN_DELAY = 1000;
+const DEFAULT_CLOSE_DELAY = 0;
+const DEFAULT_PLACEMENT: PopupPlacement = 'bottom';
+const DEFAULT_OFFSET = 4;
 
-export const Tooltip = (props: TooltipProps) => {
-    const {
-        children,
-        content,
-        disabled,
-        placement = DEFAULT_PLACEMENT,
-        qa,
-        id,
-        className,
-        style,
-        disablePortal,
-        contentClassName,
-        openDelay = 1000,
-        closeDelay,
-    } = props;
-
+export function Tooltip({
+    children,
+    open,
+    onOpenChange,
+    strategy,
+    placement: placementProp = DEFAULT_PLACEMENT,
+    offset: offsetProp = DEFAULT_OFFSET,
+    disabled,
+    content,
+    trigger,
+    role: roleProp = 'tooltip',
+    openDelay = DEFAULT_OPEN_DELAY,
+    closeDelay = DEFAULT_CLOSE_DELAY,
+    className,
+    style,
+    qa,
+    ...restProps
+}: TooltipProps) {
     const [anchorElement, setAnchorElement] = React.useState<HTMLElement | null>(null);
-    const tooltipVisible = useTooltipVisible(anchorElement, {
-        openDelay,
-        closeDelay,
-        preventTriggerOnFocus: true,
+    const {placement, middleware: placementMiddleware} = getPlacementOptions(placementProp, false);
+
+    const [isOpen, setIsOpen] = useControlledState(open, false, onOpenChange);
+
+    const {refs, floatingStyles, context} = useFloating({
+        open: isOpen,
+        onOpenChange: setIsOpen,
+        strategy,
+        placement,
+        middleware: [
+            offset(offsetProp),
+            shift({
+                padding: OVERFLOW_PADDING,
+                limiter: limitShift(),
+            }),
+            placementMiddleware,
+        ],
+        whileElementsMounted: autoUpdate,
+        elements: {
+            reference: anchorElement,
+        },
     });
 
-    const renderPopup = () => {
-        return (
-            <Popup
-                id={id}
-                role="tooltip"
-                className={b(null, className)}
-                style={style}
-                open={tooltipVisible && !disabled}
-                placement={placement}
-                anchorRef={{current: anchorElement}}
-                disablePortal={disablePortal}
-                disableEscapeKeyDown
-                disableOutsideClick
-                disableLayer
-                qa={qa}
-            >
-                <div className={b('content', contentClassName)}>
-                    <Text variant="body-short" color="complementary">
-                        {content}
-                    </Text>
-                </div>
-            </Popup>
-        );
-    };
+    const hover = useHover(context, {
+        enabled: !disabled && trigger !== 'focus',
+        delay: {open: openDelay, close: closeDelay},
+        move: false,
+    });
+    const focus = useFocus(context, {enabled: !disabled});
+    const role = useRole(context, {
+        role: roleProp,
+    });
+    const dismiss = useDismiss(context, {
+        outsidePress: false,
+    });
 
-    const child = React.Children.only(children);
-    const childRef = getElementRef(child);
+    const {getReferenceProps, getFloatingProps} = useInteractions([hover, focus, role, dismiss]);
 
-    const ref = useForkRef(setAnchorElement, childRef);
+    const anchorRef = useForkRef(
+        setAnchorElement,
+        React.isValidElement(children) ? getElementRef(children) : undefined,
+    );
+    const anchorProps = React.isValidElement<any>(children)
+        ? getReferenceProps(children.props)
+        : getReferenceProps();
+    const anchorNode = React.isValidElement<any>(children)
+        ? React.cloneElement(children, {
+              ref: anchorRef,
+              ...anchorProps,
+          })
+        : children(anchorProps, anchorRef);
 
     return (
         <React.Fragment>
-            {React.cloneElement(child, {ref})}
-            {anchorElement ? renderPopup() : null}
+            {anchorNode}
+            {isOpen && !disabled ? (
+                <Portal>
+                    <div
+                        ref={refs.setFloating}
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            zIndex: 10000,
+                            width: 'max-content',
+                            ...floatingStyles,
+                        }}
+                        {...getFloatingProps()}
+                    >
+                        <div
+                            className={b(null, className)}
+                            style={style}
+                            data-qa={qa}
+                            {...filterDOMProps(restProps, {labelable: true})}
+                        >
+                            {content}
+                        </div>
+                    </div>
+                </Portal>
+            ) : null}
         </React.Fragment>
     );
-};
+}

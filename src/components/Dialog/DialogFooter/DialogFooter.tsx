@@ -2,10 +2,14 @@
 
 import * as React from 'react';
 
+import type {UseFloatingOptions} from '@floating-ui/react';
+
+import {useForkRef} from '../../../hooks';
 import {Button} from '../../Button';
-import type {ButtonProps, ButtonView} from '../../Button';
+import type {ButtonButtonProps, ButtonView} from '../../Button';
 import {Popup} from '../../Popup';
 import {block} from '../../utils/cn';
+import {DialogPrivateContext} from '../DialogPrivateContext';
 
 import './DialogFooter.scss';
 
@@ -18,8 +22,8 @@ interface DialogFooterOwnProps {
     onClickButtonCancel?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
     textButtonCancel?: string;
     textButtonApply?: string;
-    propsButtonCancel?: Partial<ButtonProps>;
-    propsButtonApply?: Partial<ButtonProps>;
+    propsButtonCancel?: ButtonButtonProps;
+    propsButtonApply?: ButtonButtonProps;
     loading?: boolean;
     children?: React.ReactNode;
     errorText?: string;
@@ -33,15 +37,9 @@ interface DialogFooterOwnProps {
 interface DialogFooterDefaultProps {
     preset: ButtonPreset;
     showError: boolean;
-    /**
-     * @deprecated use on onEnterKeyDown on Dialog component
-     */
-    listenKeyEnter: boolean;
 }
 
-export type DialogFooterProps = DialogFooterOwnProps & Partial<DialogFooterDefaultProps>;
-type DialogFooterInnerProps = DialogFooterOwnProps & DialogFooterDefaultProps;
-
+// TODO: Оно точно нужно?
 function getButtonView(preset: ButtonPreset): ButtonView {
     switch (preset) {
         case 'default':
@@ -55,129 +53,103 @@ function getButtonView(preset: ButtonPreset): ButtonView {
     }
 }
 
-export class DialogFooter extends React.Component<DialogFooterInnerProps> {
-    static defaultProps: DialogFooterDefaultProps = {
-        preset: 'default',
-        showError: false,
-        listenKeyEnter: false,
-    };
+export type DialogFooterProps = DialogFooterOwnProps & Partial<DialogFooterDefaultProps>;
 
-    private errorTooltipRef = React.createRef<HTMLButtonElement>();
+export function DialogFooter(props: DialogFooterProps) {
+    const {
+        onClickButtonCancel,
+        onClickButtonApply,
+        loading,
+        textButtonCancel,
+        textButtonApply,
+        propsButtonCancel,
+        propsButtonApply,
+        preset = 'default',
+        children,
+        errorText,
+        showError = false,
+        renderButtons,
+        className,
+    } = props;
 
-    componentDidMount() {
-        if (this.props.listenKeyEnter) {
-            this.attachKeyDownListeners();
-        }
-    }
+    const {initialFocusRef, initialFocusAction, onTooltipEscapeKeyDown} =
+        React.useContext(DialogPrivateContext);
 
-    componentDidUpdate(prevProps: DialogFooterInnerProps) {
-        if (!this.props.listenKeyEnter && prevProps.listenKeyEnter) {
-            this.detachKeyDownListeners();
-        }
-        if (this.props.listenKeyEnter && !prevProps.listenKeyEnter) {
-            this.attachKeyDownListeners();
-        }
-    }
+    const errorTooltipRef = React.useRef<HTMLButtonElement>(null);
+    const apllyBtnRef = useForkRef(
+        errorTooltipRef,
+        initialFocusAction === 'apply' ? initialFocusRef : null,
+    );
+    const cancelBtnRef = useForkRef(initialFocusAction === 'cancel' ? initialFocusRef : null);
 
-    componentWillUnmount() {
-        this.detachKeyDownListeners();
-    }
+    const buttonCancel = (
+        <div className={b('button', {action: 'cancel'})}>
+            <Button
+                ref={cancelBtnRef}
+                view={textButtonApply ? 'flat' : 'normal'}
+                size="l"
+                width="max"
+                onClick={onClickButtonCancel}
+                disabled={loading}
+                {...propsButtonCancel}
+            >
+                {textButtonCancel}
+            </Button>
+        </div>
+    );
 
-    render() {
-        const {
-            onClickButtonCancel,
-            onClickButtonApply,
-            loading,
-            textButtonCancel,
-            textButtonApply,
-            propsButtonCancel,
-            propsButtonApply,
-            preset,
-            children,
-            errorText,
-            showError,
-            renderButtons,
-            className,
-        } = this.props;
+    const handleOpenChange = React.useCallback<NonNullable<UseFloatingOptions['onOpenChange']>>(
+        (isOpen, event, reason) => {
+            if (!isOpen && event && reason === 'escape-key') {
+                onTooltipEscapeKeyDown?.(event as KeyboardEvent);
+            }
+        },
+        [onTooltipEscapeKeyDown],
+    );
 
-        const buttonCancel = (
-            <div className={b('button', {action: 'cancel'})}>
-                <Button
-                    view={textButtonApply ? 'flat' : 'normal'}
-                    size="l"
-                    width="max"
-                    onClick={onClickButtonCancel}
-                    disabled={loading}
-                    {...propsButtonCancel}
+    const buttonApply = (
+        <div className={b('button', {action: 'apply'})}>
+            <Button
+                ref={apllyBtnRef}
+                type="submit"
+                view={getButtonView(preset)}
+                size="l"
+                width="max"
+                onClick={onClickButtonApply}
+                loading={loading}
+                className={b('button-apply', {preset})}
+                {...propsButtonApply}
+            >
+                {textButtonApply}
+            </Button>
+            {errorText && (
+                <Popup
+                    open={showError}
+                    onOpenChange={handleOpenChange}
+                    anchorRef={errorTooltipRef}
+                    placement="top"
+                    disablePortal
+                    hasArrow
                 >
-                    {textButtonCancel}
-                </Button>
-            </div>
-        );
+                    <div className={b('error')}>{errorText}</div>
+                </Popup>
+            )}
+        </div>
+    );
 
-        const buttonApply = (
-            <div className={b('button', {action: 'apply'})}>
-                <Button
-                    ref={this.errorTooltipRef}
-                    type="submit"
-                    view={getButtonView(preset)}
-                    size="l"
-                    width="max"
-                    onClick={onClickButtonApply}
-                    loading={loading}
-                    className={b('button-apply', {preset})}
-                    {...propsButtonApply}
-                >
-                    {textButtonApply}
-                </Button>
-                {errorText && (
-                    <Popup
-                        open={showError}
-                        anchorRef={this.errorTooltipRef}
-                        placement={['bottom', 'top']}
-                        disableLayer
-                        disablePortal
-                        hasArrow
-                    >
-                        <div className={b('error')}>{errorText}</div>
-                    </Popup>
+    return (
+        <div className={b(null, className)}>
+            <div className={b('children')}>{children}</div>
+            <div className={b('bts-wrapper')}>
+                {renderButtons ? (
+                    renderButtons(buttonApply, buttonCancel)
+                ) : (
+                    <React.Fragment>
+                        {textButtonCancel && buttonCancel}
+                        {textButtonApply && buttonApply}
+                    </React.Fragment>
                 )}
             </div>
-        );
-
-        return (
-            <div className={b(null, className)}>
-                <div className={b('children')}>{children}</div>
-                <div className={b('bts-wrapper')}>
-                    {renderButtons ? (
-                        renderButtons(buttonApply, buttonCancel)
-                    ) : (
-                        <React.Fragment>
-                            {textButtonCancel && buttonCancel}
-                            {textButtonApply && buttonApply}
-                        </React.Fragment>
-                    )}
-                </div>
-            </div>
-        );
-    }
-
-    private attachKeyDownListeners() {
-        setTimeout(() => {
-            window.addEventListener('keydown', this.handleKeyDown);
-        }, 0);
-    }
-
-    private detachKeyDownListeners() {
-        window.removeEventListener('keydown', this.handleKeyDown);
-    }
-
-    private handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            if (this.props.onClickButtonApply) {
-                this.props.onClickButtonApply(event);
-            }
-        }
-    };
+        </div>
+    );
 }

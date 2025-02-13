@@ -3,6 +3,7 @@ import * as React from 'react';
 import {faker} from '@faker-js/faker/locale/en';
 import type {Meta, StoryObj} from '@storybook/react';
 
+import {toaster} from '../../../toaster-singleton';
 import type {ButtonView} from '../../Button';
 import {BUTTON_VIEWS} from '../../Button/constants';
 import {ToasterProvider} from '../Provider/ToasterProvider';
@@ -59,7 +60,7 @@ export default {
     decorators: [
         function withToasters(Story) {
             return (
-                <ToasterProvider>
+                <ToasterProvider toaster={toaster}>
                     <Story />
                 </ToasterProvider>
             );
@@ -134,7 +135,6 @@ export const ToastPlayground: Story = {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         React.useEffect(() => {
             const toastId = 'demo-toast';
-
             toaster.add({
                 ...args,
                 name: toastId,

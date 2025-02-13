@@ -1,7 +1,7 @@
 import type {Cases} from '../../../stories/tests-factory/models';
 import type {HelpMarkProps} from '../HelpMark';
 
-export const placementCases: Cases<HelpMarkProps['placement']> = [
+export const placementCases: Cases<NonNullable<HelpMarkProps['popoverProps']>['placement']> = [
     'auto',
     'auto-start',
     'auto-end',

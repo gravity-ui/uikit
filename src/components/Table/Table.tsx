@@ -6,8 +6,9 @@ import _get from 'lodash/get';
 import _has from 'lodash/has';
 import _isNumber from 'lodash/isNumber';
 
-import type {QAProps} from '../types';
+import type {AriaLabelingProps, QAProps} from '../types';
 import {block} from '../utils/cn';
+import {filterDOMProps} from '../utils/filterDOMProps';
 import {warnOnce} from '../utils/warn';
 
 import i18n from './i18n';
@@ -90,12 +91,14 @@ export interface DescriptorType {
      * Condition for disabling columns.
      */
     disabled?: boolean;
+    /** Show row hover */
+    interactive?: boolean;
 }
 
 export type TableWidth = 'auto' | 'max';
 
 // TODO: Replace @default in props description with defaultProps in order to work with Storybook.
-export interface TableProps<I> extends QAProps {
+export interface TableProps<I> extends AriaLabelingProps, QAProps {
     /** Data */
     data: I[];
     /** Column parameters */
@@ -456,7 +459,11 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
     private renderTable() {
         const {width = 'auto'} = this.props;
         return (
-            <table ref={this.tableRef} className={b('table', {width})}>
+            <table
+                {...filterDOMProps(this.props, {labelable: true})}
+                ref={this.tableRef}
+                className={b('table', {width})}
+            >
                 {this.renderHead()}
                 {this.renderBody()}
             </table>
@@ -486,7 +493,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
         const additionalClassNames =
             descriptor?.classNames || getRowClassNames?.(item, rowIndex) || [];
 
-        const interactive = Boolean(!disabled && onRowClick);
+        const interactive = Boolean(!disabled && (descriptor?.interactive || onRowClick));
 
         return (
             <tr

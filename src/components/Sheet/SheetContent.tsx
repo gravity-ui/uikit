@@ -5,7 +5,7 @@ import * as React from 'react';
 import {Platform, withMobile} from '../mobile';
 import type {History, Location, MobileContextProps} from '../mobile';
 
-import {sheetBlock} from './constants';
+import {SheetQa, sheetBlock} from './constants';
 import {VelocityTracker} from './utils';
 
 import './Sheet.scss';
@@ -125,7 +125,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     render() {
         const {content, contentClassName, swipeAreaClassName, hideTopBar, title} = this.props;
 
-        const {deltaY, swipeAreaTouched, contentTouched, veilTouched, isAnimating} = this.state;
+        const {deltaY, swipeAreaTouched, contentTouched, veilTouched} = this.state;
 
         const veilTransitionMod = {
             'with-transition': !deltaY || veilTouched,
@@ -144,9 +144,10 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
                 <div
                     ref={this.veilRef}
                     className={sheetBlock('veil', veilTransitionMod)}
-                    onClick={isAnimating ? undefined : this.onVeilClick}
+                    onClick={this.onVeilClick}
                     onTransitionEnd={this.onVeilTransitionEnd}
                     role="presentation"
+                    data-qa={SheetQa.VEIL}
                 />
                 <div
                     ref={this.sheetRef}
@@ -187,7 +188,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
                                             {title}
                                         </div>
                                     )}
-                                    <div>{content}</div>
+                                    {content}
                                 </div>
                             </div>
                         </div>
@@ -392,6 +393,10 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     };
 
     private onVeilClick = () => {
+        if (this.state.isAnimating) {
+            return;
+        }
+
         this.setState({veilTouched: true});
         this.hide();
     };

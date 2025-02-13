@@ -20,6 +20,9 @@ const config: TestRunnerConfig = {
             reporter: 'no-passes',
         });
 
+        // Trying to fix error "Axe is already running"
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
         await checkA11y(page, '#storybook-root', {
             verbose: false,
             detailedReport: true,

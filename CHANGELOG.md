@@ -1,5 +1,163 @@
 # Changelog
 
+## [7.2.0](https://github.com/gravity-ui/uikit/compare/v7.1.1...v7.2.0) (2025-02-12)
+
+
+### Features
+
+* add typography shortcut variables ([#2110](https://github.com/gravity-ui/uikit/issues/2110)) ([39f20a5](https://github.com/gravity-ui/uikit/commit/39f20a550d5c6b587e19ecc1127452c590a428fa))
+* **Sheet:** add background css api ([#2105](https://github.com/gravity-ui/uikit/issues/2105)) ([51d1dc2](https://github.com/gravity-ui/uikit/commit/51d1dc206bdfe267c498161173b82d79f4dc4a5d))
+
+
+### Bug Fixes
+
+* **Popup:** fix animation for nested non portal popups ([#2109](https://github.com/gravity-ui/uikit/issues/2109)) ([ccd3bdc](https://github.com/gravity-ui/uikit/commit/ccd3bdc26531130298135696fd2f9308e6e1a191))
+* **Select:** keyboard behavior on mobile ([#2082](https://github.com/gravity-ui/uikit/issues/2082)) ([95a1d20](https://github.com/gravity-ui/uikit/commit/95a1d20c3a0a3f7c54c5e72d5b4d69777d81135b))
+* use Popup and Modal as layer ([#2111](https://github.com/gravity-ui/uikit/issues/2111)) ([318bfa2](https://github.com/gravity-ui/uikit/commit/318bfa24b290482c8025861d99a3ebeddb88e899))
+
+## [7.1.1](https://github.com/gravity-ui/uikit/compare/v7.1.0...v7.1.1) (2025-02-10)
+
+
+### Bug Fixes
+
+* **Tab:** click on tabs should not generate 'submit' event ([#2103](https://github.com/gravity-ui/uikit/issues/2103)) ([dd35766](https://github.com/gravity-ui/uikit/commit/dd3576647b4a1e16b154e07c0105ba8ddc65e2a1))
+
+## [7.1.0](https://github.com/gravity-ui/uikit/compare/v7.0.0...v7.1.0) (2025-02-07)
+
+
+### Features
+
+* **Table:** add `interactive` descriptor ([#2090](https://github.com/gravity-ui/uikit/issues/2090)) ([09906b2](https://github.com/gravity-ui/uikit/commit/09906b21070863cda3f706a24a252d29dd5e3696))
+
+
+### Bug Fixes
+
+* fix esm build ([#2099](https://github.com/gravity-ui/uikit/issues/2099)) ([e3e702c](https://github.com/gravity-ui/uikit/commit/e3e702ca7683d92fd56245fcc6b7c5547f8159fa))
+* **i18n:** use correct keyset type ([#2085](https://github.com/gravity-ui/uikit/issues/2085)) ([5d34c33](https://github.com/gravity-ui/uikit/commit/5d34c338356d5bb6e84654ab8529ed354e48549c))
+
+## [7.0.0](https://github.com/gravity-ui/uikit/compare/v6.42.0...v7.0.0) (2025-02-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* rename hidden dismiss prop
+* **Toaster:** use single component for Toast render ([#1987](https://github.com/gravity-ui/uikit/issues/1987))
+* use native copy method ([#1852](https://github.com/gravity-ui/uikit/issues/1852))
+* **FilePreview:** change size of default image preview ([#2074](https://github.com/gravity-ui/uikit/issues/2074))
+* **Popup:** rename `modalFocus` prop
+* **HelpMark:** use default popover component ([#2051](https://github.com/gravity-ui/uikit/issues/2051))
+* **FilePreview:** remove fullscreen mobile image preview ([#2044](https://github.com/gravity-ui/uikit/issues/2044))
+* **Sheet:** remove extra wrapper around content ([#2043](https://github.com/gravity-ui/uikit/issues/2043))
+* remove old deprications ([#2036](https://github.com/gravity-ui/uikit/issues/2036))
+* use target es2022 while TS emit ([#2035](https://github.com/gravity-ui/uikit/issues/2035))
+* **NumberInput:** move to components ([#2034](https://github.com/gravity-ui/uikit/issues/2034))
+* **Breadcrumbs:** move Breadcrumbs to main entry point ([#2033](https://github.com/gravity-ui/uikit/issues/2033))
+* **Popover:** replace legacy Popover with the new one ([#2031](https://github.com/gravity-ui/uikit/issues/2031))
+* refactor components to use Floating UI API ([#1979](https://github.com/gravity-ui/uikit/issues/1979))
+* **Button:** allow HTML attributes as "top-level" props ([#2015](https://github.com/gravity-ui/uikit/issues/2015))
+* rework Avatar, User and UserLabel components ([#1991](https://github.com/gravity-ui/uikit/issues/1991))
+* **RadioGroup:** do not have value by default ([#2017](https://github.com/gravity-ui/uikit/issues/2017))
+* **Slider:** support form ([#1670](https://github.com/gravity-ui/uikit/issues/1670))
+* change disabled state color for Checkbox and Radio ([#1704](https://github.com/gravity-ui/uikit/issues/1704))
+* **Link:** allow HTML attributes as "top-level" props ([#2016](https://github.com/gravity-ui/uikit/issues/2016))
+* **RadioButton:** rename component to SegmentedRadioGroup ([#1975](https://github.com/gravity-ui/uikit/issues/1975))
+* update ControlLabel text offset ([#1973](https://github.com/gravity-ui/uikit/issues/1973))
+* **Button:** rename icon-size CSS API ([#1972](https://github.com/gravity-ui/uikit/issues/1972))
+* move scrollbar styles to separate mixin ([#1971](https://github.com/gravity-ui/uikit/issues/1971))
+* update all deps ([#1963](https://github.com/gravity-ui/uikit/issues/1963))
+* **Popup:** migrate to floating-ui ([#1952](https://github.com/gravity-ui/uikit/issues/1952))
+* remove typesVersions, adjust exports ([#1957](https://github.com/gravity-ui/uikit/issues/1957))
+* **styles:** change monospace fonts order ([#1932](https://github.com/gravity-ui/uikit/issues/1932))
+
+### refactor
+
+* **Toaster:** use single component for Toast render ([#1987](https://github.com/gravity-ui/uikit/issues/1987)) ([355d8e4](https://github.com/gravity-ui/uikit/commit/355d8e4ebda6c80a8cf0efdfd365e8be08f81c64))
+
+
+### chore
+
+* remove typesVersions, adjust exports ([#1957](https://github.com/gravity-ui/uikit/issues/1957)) ([0fe4232](https://github.com/gravity-ui/uikit/commit/0fe42325db3c576444fa6b67451b78afbf0ef848))
+
+
+### Features
+
+* add Virtualizer component ([#1968](https://github.com/gravity-ui/uikit/issues/1968)) ([89fbc61](https://github.com/gravity-ui/uikit/commit/89fbc618dc2b1407cda5f2efe114fd62d233b403))
+* **Breadcrumbs:** move Breadcrumbs to main entry point ([#2033](https://github.com/gravity-ui/uikit/issues/2033)) ([cfd37c8](https://github.com/gravity-ui/uikit/commit/cfd37c83f68d68f8e6a31d25ca64a0cd14ab75b1))
+* **Breadcrumbs:** replace navigate with custom item component ([#2054](https://github.com/gravity-ui/uikit/issues/2054)) ([9a6966e](https://github.com/gravity-ui/uikit/commit/9a6966e51cf82720ba795b1835dd2cb2967fd752))
+* **Button:** allow HTML attributes as "top-level" props ([#2015](https://github.com/gravity-ui/uikit/issues/2015)) ([e92ad8e](https://github.com/gravity-ui/uikit/commit/e92ad8ef005b0d9c31c56f4594b395a79322c655))
+* **Button:** rename icon-size CSS API ([#1972](https://github.com/gravity-ui/uikit/issues/1972)) ([6323bc5](https://github.com/gravity-ui/uikit/commit/6323bc546ea7a5725b94116afcbe638c5a59c842))
+* change disabled state color for Checkbox and Radio ([#1704](https://github.com/gravity-ui/uikit/issues/1704)) ([8b551fb](https://github.com/gravity-ui/uikit/commit/8b551fb77f752fb57aed94c17f9fcd4c9df6892c))
+* **FilePreview:** change size of default image preview ([#2074](https://github.com/gravity-ui/uikit/issues/2074)) ([0d88f12](https://github.com/gravity-ui/uikit/commit/0d88f126a782425b3a6cb6747d2124a1cb732bf6))
+* **FilePreview:** remove fullscreen mobile image preview ([#2044](https://github.com/gravity-ui/uikit/issues/2044)) ([8f404d4](https://github.com/gravity-ui/uikit/commit/8f404d4bf03b16eca7ece8e6df45679d6db0f51d))
+* **HelpMark:** use default popover component ([#2051](https://github.com/gravity-ui/uikit/issues/2051)) ([1b52de5](https://github.com/gravity-ui/uikit/commit/1b52de53f4f794c791d8bfaab45a2c3198bf8011))
+* implement new Popover draft ([#1969](https://github.com/gravity-ui/uikit/issues/1969)) ([e173f19](https://github.com/gravity-ui/uikit/commit/e173f198d1cdc48fa18dfb049e98634bf94718b8))
+* improve handling aria props ([#1958](https://github.com/gravity-ui/uikit/issues/1958)) ([ecc641e](https://github.com/gravity-ui/uikit/commit/ecc641e1c20d11a6c808c7147516c9410e380bb6))
+* **Link:** allow HTML attributes as "top-level" props ([#2016](https://github.com/gravity-ui/uikit/issues/2016)) ([559d534](https://github.com/gravity-ui/uikit/commit/559d534a3fe0e9d69a8cac6479005b2c09803c98))
+* **Menu:** update paddings ([#2058](https://github.com/gravity-ui/uikit/issues/2058)) ([d00fedc](https://github.com/gravity-ui/uikit/commit/d00fedc39971f61dbfedbd4dd1275032d550bac3))
+* move scrollbar styles to separate mixin ([#1971](https://github.com/gravity-ui/uikit/issues/1971)) ([0137048](https://github.com/gravity-ui/uikit/commit/0137048313fcb0ef346d0cfe8cca5735b8e7568a))
+* **NumberInput:** move to components ([#2034](https://github.com/gravity-ui/uikit/issues/2034)) ([24bf889](https://github.com/gravity-ui/uikit/commit/24bf88971d4de7954b1159398c4bc55a0d0099fc))
+* **Popover:** add modal prop ([4c00fba](https://github.com/gravity-ui/uikit/commit/4c00fbabce69ce041a84c77712015532e70f44eb))
+* **Popover:** replace legacy Popover with the new one ([#2031](https://github.com/gravity-ui/uikit/issues/2031)) ([08ac6da](https://github.com/gravity-ui/uikit/commit/08ac6da5a587691f53c5bf65cc185f758e7455ab))
+* **Popup:** add disableFocusOut prop ([2b7819e](https://github.com/gravity-ui/uikit/commit/2b7819ed501276a5a327545089c20c6112a8bba2))
+* **Popup:** deprecate anchorRef ([b30e9d1](https://github.com/gravity-ui/uikit/commit/b30e9d1ec1331b625a46f175d52edf8644dec1da))
+* **Popup:** migrate to floating-ui ([#1952](https://github.com/gravity-ui/uikit/issues/1952)) ([cde1e99](https://github.com/gravity-ui/uikit/commit/cde1e99be0b318daf14e1ce4aa43bfb8d3f1c20e))
+* **Popup:** proxy focus order prop to FloatingFocusManager ([#2049](https://github.com/gravity-ui/uikit/issues/2049)) ([b76b530](https://github.com/gravity-ui/uikit/commit/b76b53071032d77119b455d9a583f451bc601771))
+* **Popup:** rename `modalFocus` prop ([677e714](https://github.com/gravity-ui/uikit/commit/677e714f3f6ddd6725487f15ba129bc285c1ef2d))
+* **RadioButton:** redesign to increase contrast in component ([#1742](https://github.com/gravity-ui/uikit/issues/1742)) ([9894053](https://github.com/gravity-ui/uikit/commit/9894053152e6cb2d8d11058045b6581c3c030dea))
+* **RadioButton:** rename component to SegmentedRadioGroup ([#1975](https://github.com/gravity-ui/uikit/issues/1975)) ([ca3d957](https://github.com/gravity-ui/uikit/commit/ca3d95730c7e51d2c5732ea26aab8cae557bdd63))
+* **RadioGroup:** do not have value by default ([#2017](https://github.com/gravity-ui/uikit/issues/2017)) ([94506ee](https://github.com/gravity-ui/uikit/commit/94506eeebdc550e2cb379a4ee0ed4068724e4997))
+* refactor components to use Floating UI API ([#1979](https://github.com/gravity-ui/uikit/issues/1979)) ([ac12060](https://github.com/gravity-ui/uikit/commit/ac12060f3561265b1799f81f1b84e9701466e2af))
+* remove old deprications ([#2036](https://github.com/gravity-ui/uikit/issues/2036)) ([3a1dccf](https://github.com/gravity-ui/uikit/commit/3a1dccf1bcb734f2a0a8245673ae1836ce2f3bfb))
+* rename hidden dismiss prop ([6eb6cb5](https://github.com/gravity-ui/uikit/commit/6eb6cb56be16f098686beeb4f410e58d8f1879e4))
+* rework Avatar, User and UserLabel components ([#1991](https://github.com/gravity-ui/uikit/issues/1991)) ([7be5c5a](https://github.com/gravity-ui/uikit/commit/7be5c5ae68cca40ae11ccdafa03c36619d0d6097))
+* rewrite usePrevious hook implementation ([07c3d80](https://github.com/gravity-ui/uikit/commit/07c3d80a4422f48eaea50ba68f593d67e45e2b3a))
+* **Sheet:** remove extra wrapper around content ([#2043](https://github.com/gravity-ui/uikit/issues/2043)) ([6c51849](https://github.com/gravity-ui/uikit/commit/6c51849c9424d2235a1721c69b308c5f5b475d23))
+* **Slider:** remove deprecated fields ([#2052](https://github.com/gravity-ui/uikit/issues/2052)) ([dd47f3f](https://github.com/gravity-ui/uikit/commit/dd47f3f329f08c82b9a720a56b32d5b2ff7ff221))
+* **Slider:** support form ([#1670](https://github.com/gravity-ui/uikit/issues/1670)) ([80518f6](https://github.com/gravity-ui/uikit/commit/80518f6b90d3a6129d58af9f9f26afaab43a795c))
+* **styles:** change monospace fonts order ([#1932](https://github.com/gravity-ui/uikit/issues/1932)) ([a88e16f](https://github.com/gravity-ui/uikit/commit/a88e16f2e6ebd538068ca437d3a2bc5cd9f3b241))
+* **TabList:** use hooks for logic ([#2083](https://github.com/gravity-ui/uikit/issues/2083)) ([f1d8ab8](https://github.com/gravity-ui/uikit/commit/f1d8ab801cdec37cebaef56798f00ac5eda07b7f))
+* **tabs:** add new tabs components ([#2002](https://github.com/gravity-ui/uikit/issues/2002)) ([b35e35c](https://github.com/gravity-ui/uikit/commit/b35e35c9bc049f1e67cc2c8fc58a4f989d39ac2f))
+* **Toc:** render 6 levels of nested items ([#2010](https://github.com/gravity-ui/uikit/issues/2010)) ([c3ac706](https://github.com/gravity-ui/uikit/commit/c3ac70686eafa1591c7318ba118cd1c101d2818b))
+* update all deps ([#1963](https://github.com/gravity-ui/uikit/issues/1963)) ([4a86b57](https://github.com/gravity-ui/uikit/commit/4a86b5776a12d333fbac97939a9a2a733c8456a7))
+* update ControlLabel text offset ([#1973](https://github.com/gravity-ui/uikit/issues/1973)) ([05bbc00](https://github.com/gravity-ui/uikit/commit/05bbc004805b95c0c4197026aab8569841d3fb98))
+* update deps ([#2048](https://github.com/gravity-ui/uikit/issues/2048)) ([fb14c21](https://github.com/gravity-ui/uikit/commit/fb14c2199639c83bd678bb6e3f6aeaf8b6584737))
+* use native copy method ([#1852](https://github.com/gravity-ui/uikit/issues/1852)) ([ef7d46a](https://github.com/gravity-ui/uikit/commit/ef7d46a2c2ba6fb12cbcf94062ee9c011a60a864))
+* use target es2022 while TS emit ([#2035](https://github.com/gravity-ui/uikit/issues/2035)) ([c84382e](https://github.com/gravity-ui/uikit/commit/c84382ef5b3aaf03b195c88a8f0c75b68d73a876))
+
+
+### Bug Fixes
+
+* **build:** compile to esm and commonjs, add sourcemaps ([#2039](https://github.com/gravity-ui/uikit/issues/2039)) ([5df098e](https://github.com/gravity-ui/uikit/commit/5df098e5a4a1c8a3c2e183628165532a1cfff208))
+* **Button:** additional to [#2070](https://github.com/gravity-ui/uikit/issues/2070) ([#2072](https://github.com/gravity-ui/uikit/issues/2072)) ([e1dea51](https://github.com/gravity-ui/uikit/commit/e1dea518e5b7c877e69ff6607b59ed7300a6b405))
+* **Button:** better type definition of ButtonProps ([#2070](https://github.com/gravity-ui/uikit/issues/2070)) ([dac1c24](https://github.com/gravity-ui/uikit/commit/dac1c244e0a612c61a7705e86b4627309c423e65))
+* **ClipboardButton:** do not count tooltip animation ([c710593](https://github.com/gravity-ui/uikit/commit/c710593b648266ab0c73ac60c7a8ea6ee4ffe26e))
+* i18n exports ([#2038](https://github.com/gravity-ui/uikit/issues/2038)) ([22f1e8d](https://github.com/gravity-ui/uikit/commit/22f1e8db9123620a8ee7089a8ce053b17f2a7e12))
+* **Popover:** fix missing "use client" directive ([3b2fefd](https://github.com/gravity-ui/uikit/commit/3b2fefda165c7de7d8ad81b6bb3639fe2061ff2a))
+* **Popup:** anchor and replace floatingProps with floatingInteractions ([#2045](https://github.com/gravity-ui/uikit/issues/2045)) ([41df989](https://github.com/gravity-ui/uikit/commit/41df9892fdb2e6afc7515eb0290c2ca4820b9ef7))
+* **Popup:** fix flip + shift behaviour ([2edf776](https://github.com/gravity-ui/uikit/commit/2edf77654a40337f382a6dbdf708a16270e48038))
+* **Popup:** remove default placement ([7aab830](https://github.com/gravity-ui/uikit/commit/7aab830f53400d144fa963de27d134aaa14a0509))
+* rebase issues ([e561331](https://github.com/gravity-ui/uikit/commit/e561331c84b050a6ca924cc87028262b57d20c2f))
+* revert cjs bundle changes ([0c89b82](https://github.com/gravity-ui/uikit/commit/0c89b82ff8119dea2077f176336eddb5c47afc39))
+* **Toc:** remove unused forwardRef ([#2050](https://github.com/gravity-ui/uikit/issues/2050)) ([b058c9f](https://github.com/gravity-ui/uikit/commit/b058c9f7ae0c8e0d88dfe0ae1b98ec45a8a5f26f))
+* **Tooltip:** fix flip + shift behaviour ([42ba319](https://github.com/gravity-ui/uikit/commit/42ba3199b83ced6e010fb6f580ad0abc351d0487))
+* **Tooltip:** remove custom limiter ([1cbfcff](https://github.com/gravity-ui/uikit/commit/1cbfcff41162072e53fb728ecfd41cc655d9a2b3))
+* update smoke screenshots after rebase ([8382fdf](https://github.com/gravity-ui/uikit/commit/8382fdf2eba1cd394d64548af004f9a3c514e57e))
+* update visual test snapshots ([7754f00](https://github.com/gravity-ui/uikit/commit/7754f0078b00d0d674163d2330e283761ceabee4))
+
+## [6.42.0](https://github.com/gravity-ui/uikit/compare/v6.41.0...v6.42.0) (2025-01-28)
+
+
+### Features
+
+* **FilePreview:** add support of most types of files uploaded via input ([#2063](https://github.com/gravity-ui/uikit/issues/2063)) ([059643c](https://github.com/gravity-ui/uikit/commit/059643c1d070914dd3480ad3db67495336b092ce))
+
+
+### Bug Fixes
+
+* **FilePreview:** fix view of image preview ([#2060](https://github.com/gravity-ui/uikit/issues/2060)) ([3f580e1](https://github.com/gravity-ui/uikit/commit/3f580e12c722075204fa3364712994c005121b8a))
+* **FilePreview:** fix visual of actions ([#2062](https://github.com/gravity-ui/uikit/issues/2062)) ([978503e](https://github.com/gravity-ui/uikit/commit/978503e6350f5e8efefade6865a44a959b5c0a5a))
+* **Sheet:** fix incorrect behavior if allowHideOnContentScroll is enabled ([#2053](https://github.com/gravity-ui/uikit/issues/2053)) ([3075beb](https://github.com/gravity-ui/uikit/commit/3075beb4f7a94db41c3e643386f088b9f4b05eab))
+
 ## [6.41.0](https://github.com/gravity-ui/uikit/compare/v6.40.0...v6.41.0) (2025-01-16)
 
 

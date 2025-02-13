@@ -3,6 +3,10 @@ import {smokeTest, test} from '~playwright/core';
 import type {ClipboardButtonProps} from '../ClipboardButton';
 import {ClipboardButton} from '../ClipboardButton';
 
+test.use({
+    permissions: ['clipboard-write'],
+});
+
 test.describe('ClipboardButton', {tag: '@ClipboardButton'}, () => {
     const defaultProps: ClipboardButtonProps = {
         text: 'Text',

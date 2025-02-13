@@ -67,8 +67,6 @@ test.describe('PlaceholderContainer', {tag: '@PlaceholderContainer'}, () => {
         await mount(
             <div>
                 {smokeScenarios.map(([title, props]) => {
-                    console.log('kekw', props);
-
                     return (
                         <div key={title}>
                             <h4>{title}</h4>

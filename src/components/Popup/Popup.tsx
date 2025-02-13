@@ -2,225 +2,354 @@
 
 import * as React from 'react';
 
-import {CSSTransition} from 'react-transition-group';
+import {
+    FloatingFocusManager,
+    arrow,
+    autoUpdate,
+    offset as floatingOffset,
+    limitShift,
+    shift,
+    useDismiss,
+    useFloating,
+    useInteractions,
+    useRole,
+    useTransitionStatus,
+} from '@floating-ui/react';
+import type {
+    ElementProps,
+    FloatingFocusManagerProps,
+    FloatingRootContext,
+    Middleware,
+    OpenChangeReason,
+    ReferenceType,
+    Strategy,
+    UseFloatingOptions,
+    UseRoleProps,
+} from '@floating-ui/react';
 
 import {useForkRef} from '../../hooks';
-import {usePopper, useRestoreFocus} from '../../hooks/private';
-import type {PopperAnchorRef, PopperPlacement, PopperProps} from '../../hooks/private';
+import {usePrevious} from '../../hooks/private';
 import {Portal} from '../Portal';
-import type {DOMProps, QAProps} from '../types';
-import {FocusTrap, useParentFocusTrap} from '../utils/FocusTrap';
+import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
+import {filterDOMProps} from '../utils/filterDOMProps';
 import {useLayer} from '../utils/layer-manager';
-import type {LayerExtendableProps} from '../utils/layer-manager/LayerManager';
-import {getCSSTransitionClassNames} from '../utils/transition';
 
 import {PopupArrow} from './PopupArrow';
+import {OVERFLOW_PADDING, TRANSITION_DURATION} from './constants';
+import i18n from './i18n';
+import type {PopupAnchorElement, PopupAnchorRef, PopupOffset, PopupPlacement} from './types';
+import {arrowStylesMiddleware, getOffsetOptions, getPlacementOptions} from './utils';
 
 import './Popup.scss';
 
-export type PopupPlacement = PopperPlacement;
-export type PopupAnchorRef = PopperAnchorRef;
+export type PopupCloseReason = 'outsideClick' | 'escapeKeyDown';
 
-export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps, QAProps {
+export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
     children?: React.ReactNode;
     /** Manages `Popup` visibility */
     open?: boolean;
+    /** Callback for open state changes, when dismiss happens for example */
+    onOpenChange?: (open: boolean, event?: Event, reason?: OpenChangeReason) => void;
     /** `Popup` will not be removed from the DOM upon hiding */
     keepMounted?: boolean;
     /** Render an arrow pointing to the anchor */
     hasArrow?: boolean;
-    /** Do not use `LayerManager` on stacking popups */
-    disableLayer?: boolean;
-    /** @deprecated Add onClick handler to children */
-    onClick?: React.MouseEventHandler<HTMLDivElement>;
-    /** `mouseenter` event handler */
-    onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
-    /** `mouseleave` event handler */
-    onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
-    /** `focus` event handler */
-    onFocus?: React.FocusEventHandler<HTMLDivElement>;
-    /** `blur` event handler */
-    onBlur?: React.FocusEventHandler<HTMLDivElement>;
-    /** On start open popup animation void callback */
-    onTransitionEnter?: VoidFunction;
-    /** On finish open popup animation void callback */
-    onTransitionEntered?: VoidFunction;
-    /** On start close popup animation void callback */
-    onTransitionExit?: VoidFunction;
-    /** On finish close popup animation void callback */
-    onTransitionExited?: VoidFunction;
+    /** Floating UI strategy */
+    strategy?: Strategy;
+    /** floating element placement */
+    placement?: PopupPlacement;
+    /** floating element offset relative to anchor */
+    offset?: PopupOffset;
+    /** floating element anchor */
+    anchorElement?: PopupAnchorElement | null;
+    /**
+     * floating element anchor ref object
+     *
+     * @deprecated Use `anchorElement` instead
+     * */
+    anchorRef?: PopupAnchorRef;
+    /** Floating UI middlewares. If set, they will completely overwrite the default middlewares. */
+    floatingMiddlewares?: Middleware[];
+    /** Floating UI context to provide interactions */
+    floatingContext?: FloatingRootContext<ReferenceType>;
+    /** Additional floating element props to provide interactions */
+    floatingInteractions?: ElementProps[];
+    /** React ref floating element is attached to */
+    floatingRef?: React.Ref<HTMLDivElement>;
+    /** If true `Popup` act like a modal dialog */
+    modal?: boolean;
+    /** The initial element to be focused */
+    initialFocus?: FloatingFocusManagerProps['initialFocus'];
+    /** Element which focus should be returned to */
+    returnFocus?: FloatingFocusManagerProps['returnFocus'];
+    /** The order in which focus circle */
+    focusOrder?: FloatingFocusManagerProps['order'];
+    /** Do not add a11y dismiss buttons when managing focus in modal */
+    disableVisuallyHiddenDismiss?: boolean;
+    /**
+     * This callback will be called when Escape key pressed on keyboard, or click outside was made
+     * This behaviour could be disabled with `disableEscapeKeyDown`
+     * and `disableOutsideClick` options
+     *
+     * @deprecated Use `onOpenChange` instead
+     */
+    onClose?: (event: MouseEvent | KeyboardEvent, reason: PopupCloseReason) => void;
+    /**
+     * This callback will be called when Escape key pressed on keyboard
+     * This behaviour could be disabled with `disableEscapeKeyDown` option
+     *
+     * @deprecated Use `onOpenChange` instead
+     */
+    onEscapeKeyDown?: (event: KeyboardEvent) => void;
+    /**
+     * This callback will be called when click is outside of elements of "top layer"
+     * This behaviour could be disabled with `disableOutsideClick` option
+     *
+     * @deprecated Use `onOpenChange` instead
+     */
+    onOutsideClick?: (event: MouseEvent) => void;
+    /** Do not dismiss on escape key press */
+    disableEscapeKeyDown?: boolean;
+    /** Do not dismiss on outside click */
+    disableOutsideClick?: boolean;
+    /** Do not dismiss on focusout */
+    disableFocusOut?: boolean;
     /** Do not use `Portal` for children */
     disablePortal?: boolean;
-    /** DOM element children to be mounted to */
-    container?: HTMLElement;
-    /** HTML `class` attribute for content node */
-    contentClassName?: string;
-    /** If true, the focus will return to the anchor element */
-    restoreFocus?: boolean;
-    /** Element the focus will be restored to, depends on `restoreFocus` */
-    restoreFocusRef?: React.RefObject<HTMLElement>;
-    /** `aria-label` attribute, use this attribute only if you didn't have visible caption */
-    'aria-label'?: React.AriaAttributes['aria-label'];
-    /** `aria-labelledby` attribute, prefer this attribute if you have visible caption */
-    'aria-labelledby'?: React.AriaAttributes['aria-labelledby'];
-    /** `aria-modal` attribute, default value is equal to focusTrap */
-    'aria-modal'?: React.AriaAttributes['aria-modal'];
-    /** `aria-role` attribute */
-    role?: React.AriaRole;
+    /**
+     * Do not use as layer
+     */
+    disableLayer?: boolean;
+    /** ARIA role or special component role (select, combobox) */
+    role?: UseRoleProps['role'];
     /** HTML `id` attribute */
     id?: string;
-    /** Enable focus trapping behavior */
-    focusTrap?: boolean;
-    /** While open, the focus will be set to the first interactive element in the content */
-    autoFocus?: boolean;
+    /** CSS property `z-index` */
+    zIndex?: number;
+    /** Callback called when `Popup` is opened and "in" transition is started */
+    onTransitionIn?: () => void;
+    /** Callback called when `Popup` is opened and "in" transition is completed */
+    onTransitionInComplete?: () => void;
+    /** Callback called when `Popup` is closed and "out" transition is started */
+    onTransitionOut?: () => void;
+    /** Callback called when `Popup` is closed and "out" transition is completed */
+    onTransitionOutComplete?: () => void;
 }
 
 const b = block('popup');
-const ARROW_SIZE = 8;
+
 export function Popup({
     keepMounted = false,
     hasArrow = false,
-    offset = [0, 4],
-    open,
-    placement,
+    open = false,
+    onOpenChange,
+    strategy,
+    placement: placementProp,
+    offset: offsetProp = 4,
+    anchorElement,
     anchorRef,
-    disableEscapeKeyDown,
-    disableOutsideClick,
-    disableLayer,
-    style,
-    className,
-    contentClassName,
-    modifiers = [],
-    children,
+    floatingMiddlewares,
+    floatingContext,
+    floatingInteractions,
+    floatingRef,
+    modal = false,
+    initialFocus: initialFocusProp,
+    returnFocus = true,
+    focusOrder,
+    disableVisuallyHiddenDismiss = !modal,
+    onClose,
     onEscapeKeyDown,
     onOutsideClick,
-    onClose,
-    onClick,
-    onMouseEnter,
-    onMouseLeave,
-    onFocus,
-    onBlur,
-    onTransitionEnter,
-    onTransitionEntered,
-    onTransitionExit,
-    onTransitionExited,
-    disablePortal,
-    container,
-    strategy,
+    disableEscapeKeyDown = false,
+    disableOutsideClick = false,
+    disableFocusOut = false,
+    style,
+    className,
+    children,
+    disablePortal = false,
+    disableLayer = false,
     qa,
-    restoreFocus,
-    restoreFocusRef,
-    'aria-label': ariaLabel,
-    'aria-labelledby': ariaLabelledBy,
     role: roleProp,
-    id,
-    focusTrap = false,
-    autoFocus = false,
-    'aria-modal': ariaModal = focusTrap,
+    zIndex = 1000,
+    onTransitionIn,
+    onTransitionOut,
+    onTransitionInComplete,
+    onTransitionOutComplete,
+    ...restProps
 }: PopupProps) {
-    const containerRef = React.useRef<HTMLDivElement>(null);
+    useLayer({open, type: 'popup', enabled: !disableLayer});
 
-    useLayer({
-        open,
-        disableEscapeKeyDown,
-        disableOutsideClick,
-        onEscapeKeyDown,
-        onOutsideClick,
-        onClose,
-        contentRefs: [anchorRef, containerRef],
-        enabled: !disableLayer,
-        type: 'popup',
-    });
+    const contentRef = React.useRef<HTMLDivElement>(null);
+    const [arrowElement, setArrowElement] = React.useState<HTMLElement | null>(null);
 
-    const {attributes, styles, setPopperRef, setArrowRef} = usePopper({
-        anchorRef,
-        placement,
-        // Take arrow size into offset account
-        offset: hasArrow ? [offset[0], offset[1] + ARROW_SIZE] : offset,
+    const {offset} = getOffsetOptions(offsetProp, hasArrow);
+    const {placement, middleware: placementMiddleware} = getPlacementOptions(
+        placementProp,
+        disablePortal,
+    );
+
+    const handleOpenChange = React.useCallback<NonNullable<UseFloatingOptions['onOpenChange']>>(
+        (isOpen, event, reason) => {
+            onOpenChange?.(isOpen, event, reason);
+
+            if (isOpen || !event) {
+                return;
+            }
+
+            const closeReason = reason === 'escape-key' ? 'escapeKeyDown' : 'outsideClick';
+
+            if (closeReason === 'escapeKeyDown' && onEscapeKeyDown) {
+                onEscapeKeyDown(event as KeyboardEvent);
+            }
+
+            if (closeReason === 'outsideClick' && onOutsideClick) {
+                onOutsideClick(event as MouseEvent);
+            }
+
+            onClose?.(event as KeyboardEvent | MouseEvent, closeReason);
+        },
+        [onOpenChange, onClose, onEscapeKeyDown, onOutsideClick],
+    );
+
+    const {
+        refs,
+        elements,
+        floatingStyles,
+        placement: finalPlacement,
+        middlewareData,
+        context,
+        update,
+    } = useFloating({
+        rootContext: floatingContext,
         strategy,
-        altBoundary: disablePortal,
-        modifiers: [
-            // Properly display arrow within rounded container
-            {name: 'arrow', options: {enabled: hasArrow, padding: 4}},
-            // Prevent border hiding
-            {name: 'preventOverflow', options: {padding: 1, altBoundary: disablePortal}},
-            ...modifiers,
+        placement: placement,
+        open,
+        onOpenChange: handleOpenChange,
+        middleware: floatingMiddlewares ?? [
+            floatingOffset(offset),
+            shift({
+                padding: OVERFLOW_PADDING,
+                // Offset 22 is size of the arrow (18) + padding (4)
+                limiter: limitShift({offset: 4 + (hasArrow ? 18 : 0)}),
+                altBoundary: disablePortal,
+            }),
+            placementMiddleware,
+            hasArrow && arrow({element: arrowElement, padding: 4}),
+            hasArrow && arrowStylesMiddleware(),
         ],
     });
-    const handleRef = useForkRef<HTMLDivElement>(setPopperRef, containerRef, useParentFocusTrap());
 
-    const containerProps = useRestoreFocus({
-        enabled: Boolean(restoreFocus && open),
-        restoreFocusRef,
+    React.useEffect(() => {
+        const element = anchorElement === undefined ? anchorRef?.current : anchorElement;
+        if (element !== undefined && element !== refs.reference.current) {
+            refs.setReference(element);
+        }
+    }, [anchorElement, anchorRef, refs]);
+
+    const role = useRole(context, {
+        enabled: Boolean(roleProp || modal),
+        role: roleProp ?? (modal ? 'dialog' : undefined),
+    });
+    const dismiss = useDismiss(context, {
+        enabled: !disableOutsideClick || !disableEscapeKeyDown,
+        outsidePress: !disableOutsideClick,
+        escapeKey: !disableEscapeKeyDown,
     });
 
-    let role = roleProp;
-    if ((ariaModal === true || ariaModal === 'true') && !role) {
-        role = 'dialog';
+    const {getFloatingProps} = useInteractions(floatingInteractions ?? [role, dismiss]);
+
+    const {isMounted, status} = useTransitionStatus(context, {duration: TRANSITION_DURATION});
+    const previousStatus = usePrevious(status);
+
+    React.useEffect(() => {
+        if (isMounted && elements.reference && elements.floating) {
+            return autoUpdate(elements.reference, elements.floating, update);
+        }
+        return undefined;
+    }, [isMounted, elements, update]);
+
+    const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
+
+    const handleTransitionEnd = React.useCallback(
+        (event: React.TransitionEvent) => {
+            // There are two simultaneous transitions running at the same time
+            // Use specific name to only notify once
+            if (status === 'open' && event.propertyName === 'transform') {
+                onTransitionInComplete?.();
+            }
+        },
+        [status, onTransitionInComplete],
+    );
+
+    // Cannot use transitionend event for these callbacks due to unmounting from the DOM
+    React.useEffect(() => {
+        if (status === 'initial' && previousStatus === 'unmounted') {
+            onTransitionIn?.();
+        }
+        if (status === 'close' && previousStatus === 'open') {
+            onTransitionOut?.();
+        }
+        if (status === 'unmounted' && previousStatus === 'close') {
+            onTransitionOutComplete?.();
+        }
+    }, [status, previousStatus, onTransitionIn, onTransitionOut, onTransitionOutComplete]);
+
+    let initialFocus = initialFocusProp;
+    if (initialFocus === undefined) {
+        if (modal) {
+            initialFocus = refs.floating;
+        } else {
+            initialFocus = -1;
+        }
     }
 
-    return (
-        <CSSTransition
-            nodeRef={containerRef}
-            in={open}
-            addEndListener={(done) => containerRef.current?.addEventListener('animationend', done)}
-            classNames={getCSSTransitionClassNames(b)}
-            mountOnEnter={!keepMounted}
-            unmountOnExit={!keepMounted}
-            appear={true}
-            onEnter={() => {
-                onTransitionEnter?.();
-            }}
-            onEntered={() => {
-                onTransitionEntered?.();
-            }}
-            onExit={() => {
-                onTransitionExit?.();
-            }}
-            onExited={() => {
-                onTransitionExited?.();
-            }}
-        >
-            <Portal container={container} disablePortal={disablePortal}>
+    return isMounted || keepMounted ? (
+        <Portal disablePortal={disablePortal}>
+            <FloatingFocusManager
+                context={context}
+                disabled={!isMounted}
+                modal={modal}
+                initialFocus={initialFocus}
+                returnFocus={returnFocus}
+                closeOnFocusOut={!disableFocusOut}
+                visuallyHiddenDismiss={disableVisuallyHiddenDismiss ? false : i18n('close')}
+                guards={modal || !disablePortal}
+                order={focusOrder}
+            >
                 <div
-                    ref={handleRef}
-                    style={styles.popper}
-                    {...attributes.popper}
-                    {...containerProps}
-                    className={b({open}, className)}
-                    data-qa={qa}
-                    id={id}
-                    role={role}
-                    aria-label={ariaLabel}
-                    aria-labelledby={ariaLabelledBy}
-                    aria-modal={ariaModal && open ? ariaModal : undefined}
+                    ref={handleFloatingRef}
+                    style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        zIndex,
+                        width: 'max-content',
+                        pointerEvents: isMounted ? 'auto' : 'none',
+                        outline: 'none',
+                        ...floatingStyles,
+                    }}
+                    data-floating-ui-placement={finalPlacement}
+                    data-floating-ui-status={status}
+                    aria-modal={modal && isMounted ? true : undefined}
+                    {...getFloatingProps({
+                        onTransitionEnd: handleTransitionEnd,
+                    })}
                 >
-                    <FocusTrap enabled={focusTrap && open} autoFocus={autoFocus}>
-                        {/* FIXME The onClick event handler is deprecated and should be removed */}
-                        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
-                        <div
-                            onClick={onClick}
-                            onMouseEnter={onMouseEnter}
-                            onMouseLeave={onMouseLeave}
-                            onFocus={onFocus}
-                            onBlur={onBlur}
-                            className={b('content', contentClassName)}
-                            style={style}
-                            tabIndex={-1}
-                        >
-                            {hasArrow && (
-                                <PopupArrow
-                                    styles={styles.arrow}
-                                    attributes={attributes.arrow}
-                                    setArrowRef={setArrowRef}
-                                />
-                            )}
-                            {children}
-                        </div>
-                    </FocusTrap>
+                    <div
+                        ref={contentRef}
+                        className={b({open: isMounted}, className)}
+                        style={style}
+                        data-qa={qa}
+                        {...filterDOMProps(restProps)}
+                    >
+                        {hasArrow && (
+                            <PopupArrow ref={setArrowElement} styles={middlewareData.arrowStyles} />
+                        )}
+                        {children}
+                    </div>
                 </div>
-            </Portal>
-        </CSSTransition>
-    );
+            </FloatingFocusManager>
+        </Portal>
+    ) : null;
 }

@@ -35,7 +35,7 @@ test.describe('ActionTooltip', {tag: '@ActionTooltip'}, () => {
                         }}
                     >
                         <div>
-                            <ActionTooltip {...props}>
+                            <ActionTooltip {...props} qa="tooltip">
                                 <div
                                     data-qa="trigger"
                                     style={{
@@ -56,7 +56,7 @@ test.describe('ActionTooltip', {tag: '@ActionTooltip'}, () => {
             );
 
             await root.getByTestId('trigger').hover();
-            await expect(page.locator("[role='tooltip']")).toBeVisible({timeout: 1000});
+            await expect(page.getByTestId('tooltip')).toBeVisible({timeout: 1000});
 
             await expectScreenshot({
                 themes: ['light'],

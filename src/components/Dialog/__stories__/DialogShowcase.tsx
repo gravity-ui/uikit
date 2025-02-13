@@ -68,7 +68,7 @@ function OtherDialog() {
                 keepMounted
                 onEnterKeyDown={handleApply}
                 qa="darthVader"
-                onTransitionEntered={() => {
+                onTransitionInComplete={() => {
                     selectRef?.current?.focus();
                     setTimeout(() => setOpenSelect(true), 0);
                 }}
@@ -231,6 +231,7 @@ export function DialogShowcase() {
                 className="my-custom-class-for-dialog"
                 hasCloseButton
                 onEnterKeyDown={handleApply}
+                initialFocus="apply"
             >
                 <Dialog.Header
                     caption="Episode VII THE FORCE AWAKENS"
@@ -263,7 +264,6 @@ export function DialogShowcase() {
                     textButtonApply="attack"
                     propsButtonApply={{
                         className: 'my-custom-apply-btn-class',
-                        extraProps: {autoFocus: true},
                     }}
                     textButtonCancel="fend off attack"
                     propsButtonCancel={{className: 'my-custom-cancel-btn-class'}}

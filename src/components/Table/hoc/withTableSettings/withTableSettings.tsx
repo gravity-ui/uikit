@@ -8,9 +8,9 @@ import _isEqual from 'lodash/isEqual';
 import _isString from 'lodash/isString';
 import _last from 'lodash/last';
 
-import type {PopperPlacement} from '../../../../hooks/private';
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
+import type {PopupPlacement} from '../../../Popup';
 import type {TreeSelectProps} from '../../../TreeSelect';
 import {block} from '../../../utils/cn';
 import {getComponentName} from '../../../utils/getComponentName';
@@ -158,7 +158,7 @@ export type WithTableSettingsProps = WithTableSettingsBaseProps &
 
 const b = block('table');
 
-const POPUP_PLACEMENT: PopperPlacement = ['bottom-end', 'bottom', 'top-end', 'top', 'auto'];
+const POPUP_PLACEMENT: PopupPlacement = ['bottom-end', 'bottom', 'top-end', 'top'];
 
 export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
     Component: React.ComponentType<TableProps<I> & E>,
@@ -221,7 +221,7 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
                                     <Button
                                         view="flat"
                                         className={b('settings-button')}
-                                        extraProps={{'aria-label': i18n('label_settings')}}
+                                        aria-label={i18n('label_settings')}
                                         onClick={onClick}
                                     >
                                         <Icon data={Gear} />

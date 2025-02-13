@@ -11,10 +11,6 @@ const useState = (args: PaginationProps) => {
     const onUpdate: PaginationProps['onUpdate'] = (page, pageSize) =>
         setState((prevState) => ({...prevState, page, pageSize}));
 
-    React.useEffect(() => {
-        setState({...args});
-    }, [args]);
-
     return {...state, onUpdate};
 };
 

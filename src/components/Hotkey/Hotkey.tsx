@@ -2,8 +2,9 @@
 
 import * as React from 'react';
 
-import type {DOMProps, QAProps} from '../types';
+import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
+import {filterDOMProps} from '../utils/filterDOMProps';
 
 import {defsByPlatform} from './definitions';
 import {parseKeyGroups} from './parse';
@@ -19,7 +20,7 @@ const Spaces = {
     BetweenKeys: String.fromCharCode(8239), // Narrow No-Break Space
 };
 
-export interface HotkeyProps extends DOMProps, QAProps {
+export interface HotkeyProps extends AriaLabelingProps, DOMProps, QAProps {
     /**
      * @example
      * 'mod+a mod+c mod+v'
@@ -33,7 +34,7 @@ export interface HotkeyProps extends DOMProps, QAProps {
 }
 
 export const Hotkey = React.forwardRef<HTMLElement, HotkeyProps>(function Hotkey(props, ref) {
-    const {value, platform, view = 'light', qa, style, className} = props;
+    const {value, platform, view = 'light', qa, style, className, ...restProps} = props;
 
     const groups = parseHotkeys(value, {platform});
     const content: React.ReactNode[] = [];
@@ -64,7 +65,13 @@ export const Hotkey = React.forwardRef<HTMLElement, HotkeyProps>(function Hotkey
     if (content.length === 0) return null;
 
     return (
-        <kbd ref={ref} style={style} data-qa={qa} className={b({view}, className)}>
+        <kbd
+            {...filterDOMProps(restProps, {labelable: true})}
+            ref={ref}
+            style={style}
+            data-qa={qa}
+            className={b({view}, className)}
+        >
             {content}
         </kbd>
     );

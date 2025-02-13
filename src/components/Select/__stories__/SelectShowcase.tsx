@@ -8,8 +8,7 @@ import type {SelectOption, SelectProps} from '..';
 import {Button} from '../../Button';
 import {ClipboardButton} from '../../ClipboardButton';
 import {Icon} from '../../Icon';
-import {RadioButton} from '../../RadioButton';
-import type {RadioButtonOption} from '../../RadioButton';
+import {SegmentedRadioGroup} from '../../SegmentedRadioGroup';
 import {Tooltip} from '../../Tooltip';
 import {TextInput} from '../../controls';
 import {block} from '../../utils/cn';
@@ -47,11 +46,6 @@ const getEscapedString = (str: string) => {
     return str.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
 };
 
-const radioButtonOptions: RadioButtonOption[] = [
-    {value: Mode.VIEW, content: 'View'},
-    {value: Mode.CODE, content: 'Code'},
-];
-
 const ExampleItem = (props: {
     title: string;
     selectProps: SelectProps;
@@ -75,15 +69,15 @@ const ExampleItem = (props: {
             <h3>
                 <label htmlFor={id}>{title}</label>
                 {Boolean(code.length) && (
-                    <RadioButton
+                    <SegmentedRadioGroup
                         className={b('example-item-radio')}
                         size="s"
                         value={mode}
                         onUpdate={(nextMode) => setMode(nextMode)}
                     >
-                        <RadioButton.Option {...radioButtonOptions[0]} />
-                        <RadioButton.Option {...radioButtonOptions[1]} />
-                    </RadioButton>
+                        <SegmentedRadioGroup.Option value={Mode.VIEW} content="View" />
+                        <SegmentedRadioGroup.Option value={Mode.CODE} content="Code" />
+                    </SegmentedRadioGroup>
                 )}
             </h3>
             {mode === Mode.VIEW ? (
@@ -293,15 +287,13 @@ export const SelectShowcase = (props: SelectProps) => {
                         return (
                             <Button
                                 id={id}
-                                ref={ref}
+                                ref={ref as React.Ref<HTMLButtonElement>}
                                 view="action"
                                 onClick={onClick}
                                 disabled={disabled}
-                                extraProps={{
-                                    ...extraProps,
-                                    'aria-label': extraProps['aria-label'] || 'User control',
-                                }}
+                                aria-label={extraProps['aria-label'] || 'User control'}
                                 className={b({'has-clear': props.hasClear})}
+                                {...extraProps}
                             >
                                 <span className={b('text')}>User control</span>
                                 {renderClear({
@@ -327,21 +319,15 @@ export const SelectShowcase = (props: SelectProps) => {
                     ...props,
                     className: b('user-control-placement'),
                     popupPlacement: ['bottom'],
-                    renderControl: ({
-                        ref,
-                        triggerProps: {onClick, disabled, id, ...extraProps},
-                    }) => {
+                    renderControl: ({ref, triggerProps: {onClick, disabled, ...extraProps}}) => {
                         return (
                             <Button
-                                id={id}
-                                ref={ref}
+                                ref={ref as React.Ref<HTMLButtonElement>}
                                 view="action"
                                 onClick={onClick}
                                 disabled={disabled}
-                                extraProps={{
-                                    ...extraProps,
-                                    'aria-label': extraProps['aria-label'] || 'Add',
-                                }}
+                                aria-label={extraProps['aria-label'] || 'Add'}
+                                {...extraProps}
                             >
                                 <Icon data={Plus} />
                             </Button>

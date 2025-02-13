@@ -164,7 +164,10 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
             if (multiple) {
                 const activeItemIndex = listRef?.current?.getActiveItem();
-                filterRef.current?.focus();
+
+                if (!mobile) {
+                    filterRef.current?.focus();
+                }
 
                 if (typeof activeItemIndex === 'number') {
                     // prevent item deactivation in case of multiple selection
@@ -178,7 +181,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
             handleSelection(option);
         },
-        [handleSelection, multiple],
+        [handleSelection, mobile, multiple],
     );
 
     const handleControlKeyDown = React.useCallback(
@@ -221,14 +224,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         disabled: filterable,
     });
 
-    React.useEffect(() => {
-        if (open) {
-            if (filterable) {
-                filterRef.current?.focus();
-            }
-        }
-    }, [open, filterable]);
-
     const mods: CnMods = {
         ...(width === 'max' && {width}),
     };
@@ -245,9 +240,12 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         onBlurWithin: React.useCallback(
             (e: React.FocusEvent) => {
                 onBlur?.(e);
-                handleClose();
+
+                if (!mobile) {
+                    handleClose();
+                }
             },
-            [handleClose, onBlur],
+            [handleClose, mobile, onBlur],
         ),
     });
 
@@ -355,6 +353,13 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 virtualized={virtualized}
                 mobile={mobile}
                 placement={popupPlacement}
+                onAfterOpen={
+                    filterable
+                        ? () => {
+                              filterRef.current?.focus();
+                          }
+                        : undefined
+                }
                 onAfterClose={
                     filterable
                         ? () => {

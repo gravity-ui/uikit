@@ -6,23 +6,43 @@
 
 `Toaster` — компонент для настраиваемых уведомлений.
 
-## Использование `Toaster` с контекстом
+## Использование Toaster
+
+Чтобы показывать тосты в вашем приложении, необходимо обернуть приложение в `ToasterProvider`.
 
 ```jsx
-import React from 'react';
-import ReactDOMClient from 'react-dom/client';
-import {ToasterComponent, ToasterProvider} from '@gravity-ui/uikit';
+import {Toaster, ToasterComponent, ToasterProvider} from '@gravity-ui/uikit';
+
+const toaster = new Toaster();
 
 const root = ReactDOMClient.createRoot(document.getElementById('root'));
 root.render(
-  <ToasterProvider>
+  <ToasterProvider toaster={toaster}>
     <App />
     <ToasterComponent className="optional additional classes" />
   </ToasterProvider>,
 );
 ```
 
-Так можно отображать тосты с помощью хука `useToaster` в компонентах вашего приложения:
+`toaster` является экземпляром класса, который хранит состояние всех ваших тостов и используется "под капотом" в хуке `useToaster` и HOC `withToaster`.
+
+Вы также можете использовать `toaster` напрямую в различных частях вашего приложения (вне React):
+
+```js
+toaster.add({
+  title: 'Toaster is here',
+});
+```
+
+Необходимо использовать один и тот же экземпляр `Toaster` в React и за его пределами, чтобы все тосты отображались в одном контейнере на экране. Вы можете реализовать эту логику самостоятельно или импортировать готовый экземпляр из модуля `toaster-singleton`.
+
+```js
+import {toaster} from '@gravity-ui/uikit/toaster-singleton';
+```
+
+## Использование `useToaster`
+
+Вы можете показывать тосты с помощью хука `useToaster` в компонентах вашего приложения:
 
 ```jsx
 import {useToaster} from '@gravity-ui/uikit';
@@ -41,11 +61,11 @@ export function FoobarComponent() {
 }
 ```
 
-Хук возвращает методы `add`, `update`, `remove` и `removeAll` (подробнее см. ниже).
+Хук возвращает методы `add`, `update`, `remove` и `removeAll` (подробнее о них ниже).
 
-## Использование `Toaster` в качестве HOC
+## Использование `Toaster` как HOC
 
-Для классовых компонентов можно использовать HOC `withToaster`, который добавит свойство `toaster` в компонент.
+Для классовых компонентов можно использовать HOC `withToaster`, который добавит свойство `toaster` в ваш компонент.
 
 ```jsx
 import {Component} from 'react';
@@ -58,39 +78,6 @@ class FoobarComponent extends Component {
 }
 
 const FoobarWithToaster = withToaster()(FoobarComponent);
-```
-
-## Использование `Toaster` в качестве синглтона
-
-`Toaster` реализован как синглтон, поэтому при его инициализации в разных частях приложения будет возвращаться один и тот же экземпляр.
-При инициализации можно передать `className`, значение которого будет назначено элементу `dom`, оборачивающему все тосты.
-
-### React до v18
-
-```js
-import {Toaster} from '@gravity-ui/uikit';
-const toaster = new Toaster();
-```
-
-или
-
-```js
-import {toaster} from '@gravity-ui/uikit/toaster-singleton';
-```
-
-### React v18
-
-```js
-import ReactDOMClient from 'react-dom/client';
-import {Toaster} from '@gravity-ui/uikit';
-Toaster.injectReactDOMClient(ReactDOMClient);
-const toaster = new Toaster();
-```
-
-или
-
-```js
-import {toaster} from '@gravity-ui/uikit/toaster-singleton-react-18';
 ```
 
 ## Аргументы конструктора

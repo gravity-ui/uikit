@@ -1,10 +1,10 @@
 /* eslint-env node */
 const path = require('path');
 
+const utils = require('@gravity-ui/gulp-utils');
 const {task, src, dest, series, parallel} = require('gulp');
-const sass = require('gulp-dart-sass');
-const replace = require('gulp-replace');
-const ts = require('gulp-typescript');
+const sass = require('gulp-sass')(require('sass'));
+const sourcemaps = require('gulp-sourcemaps');
 const {rimrafSync} = require('rimraf');
 
 const BUILD_DIR = path.resolve('build');
@@ -15,26 +15,50 @@ task('clean', (done) => {
     done();
 });
 
-function compileTs(modules = false) {
-    const tsProject = ts.createProject('tsconfig.json', {
-        declaration: true,
-        module: modules ? 'esnext' : 'commonjs',
-        ...(modules ? undefined : {verbatimModuleSyntax: false}),
+async function compileTs(modules = false) {
+    const tsProject = await utils.createTypescriptProject({
+        compilerOptions: {
+            declaration: true,
+            module: modules ? 'esnext' : 'nodenext',
+            moduleResolution: modules ? 'bundler' : 'nodenext',
+            ...(modules ? undefined : {verbatimModuleSyntax: false}),
+        },
     });
 
-    return src([
-        'src/**/*.{ts,tsx}',
-        '!src/demo/**/*',
-        '!src/stories/**/*',
-        '!src/**/__stories__/**/*',
-        '!src/**/__tests__/**/*',
-        '!src/**/__mocks__/**/*',
-        '!src/**/*.test.{ts,tsx}',
-        '!src/**/__snapshots__/**/*',
-    ])
-        .pipe(replace(/(import.+)\.scss/g, '$1.css'))
-        .pipe(tsProject())
-        .pipe(dest(path.resolve(BUILD_DIR, modules ? 'esm' : 'cjs')));
+    const transformers = [
+        tsProject.customTransformers.transformScssImports,
+        tsProject.customTransformers.transformLocalModules,
+    ];
+    return new Promise((resolve) => {
+        src([
+            'src/**/*.{ts,tsx}',
+            '!src/demo/**/*',
+            '!src/stories/**/*',
+            '!src/**/__stories__/**/*',
+            '!src/**/__tests__/**/*',
+            '!src/**/__mocks__/**/*',
+            '!src/**/*.test.{ts,tsx}',
+            '!src/**/__snapshots__/**/*',
+        ])
+            .pipe(sourcemaps.init())
+            .pipe(
+                tsProject({
+                    customTransformers: {
+                        before: transformers,
+                        afterDeclarations: transformers,
+                    },
+                }),
+            )
+            .pipe(sourcemaps.write('.', {includeContent: true, sourceRoot: '../../src'}))
+            .pipe(
+                utils.addVirtualFile({
+                    fileName: 'package.json',
+                    text: JSON.stringify({type: modules ? 'module' : 'commonjs'}),
+                }),
+            )
+            .pipe(dest(path.resolve(BUILD_DIR, modules ? 'esm' : 'cjs')))
+            .on('end', resolve);
+    });
 }
 
 task('compile-to-esm', () => {
@@ -54,7 +78,7 @@ task('copy-i18n', () => {
 task('styles-global', () => {
     return src(['styles/styles.scss', 'styles/fonts.scss'])
         .pipe(
-            sass().on('error', function (error) {
+            sass.sync().on('error', function (error) {
                 sass.logError.call(this, error);
                 process.exit(1);
             }),
@@ -65,7 +89,7 @@ task('styles-global', () => {
 task('styles-components', () => {
     return src(['src/components/**/*.scss', '!src/components/**/__stories__/**/*'])
         .pipe(
-            sass().on('error', function (error) {
+            sass.sync().on('error', function (error) {
                 sass.logError.call(this, error);
                 process.exit(1);
             }),

@@ -2,6 +2,7 @@ import type {Meta, StoryObj} from '@storybook/react';
 
 import {Select} from '..';
 import {Button} from '../../Button';
+import {Flex} from '../../layout';
 
 import {SelectPopupWidthShowcase} from './SelectPopupWidthShowcase';
 import {SelectShowcase} from './SelectShowcase';
@@ -32,12 +33,14 @@ type Story = StoryObj<typeof Select>;
 
 export const Default = {
     render: (args) => (
-        <Select {...args} title="Select sample">
-            <Select.Option value="val1" content="Value1" />
-            <Select.Option value="val2" content="Value2" />
-            <Select.Option value="val3" content="Value3" />
-            <Select.Option value="val4" content="Value4" />
-        </Select>
+        <Flex gap={2}>
+            <Select {...args} title="Select sample">
+                <Select.Option value="val1" content="Value1" />
+                <Select.Option value="val2" content="Value2" />
+                <Select.Option value="val3" content="Value3" />
+                <Select.Option value="val4" content="Value4" />
+            </Select>
+        </Flex>
     ),
 } satisfies Story;
 

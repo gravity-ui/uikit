@@ -7,7 +7,17 @@ const config: StorybookConfig = {
         defaultName: 'Docs',
     },
     addons: [
-        '@storybook/preset-scss',
+        {
+            name: '@storybook/addon-styling-webpack',
+            options: {
+                rules: [
+                    {
+                        test: /\.(css|scss)$/i,
+                        use: ['style-loader', 'css-loader', 'sass-loader'],
+                    },
+                ],
+            },
+        },
         {name: '@storybook/addon-essentials', options: {backgrounds: false}},
         './theme-addon/register.tsx',
         '@storybook/addon-a11y',

@@ -2,6 +2,7 @@ import {CircleExclamation, Link, Xmark} from '@gravity-ui/icons';
 import {action} from '@storybook/addon-actions';
 import type {Meta, StoryFn} from '@storybook/react';
 
+import {Icon} from '../../Icon';
 import {Flex} from '../../layout';
 import type {FilePreviewProps} from '../FilePreview';
 import {FilePreview} from '../FilePreview';
@@ -48,6 +49,47 @@ Default.args = {
 };
 
 const CollageTemplate: StoryFn<FilePreviewProps> = () => {
+    const items = FILE_TYPES.map((fileType) => (
+        <FilePreview
+            key={fileType}
+            file={{name: fileType, type: fileType} as File}
+            onClick={() => action('onClick')}
+            actions={[
+                {
+                    icon: <Link width={14} height={14} />,
+                    title: 'open on drive',
+                    onClick: () => action('onLink'),
+                },
+                {
+                    icon: <Icon data={Xmark} width={14} height={14} />,
+                    title: 'delete a file',
+                    onClick: () => action('onClose'),
+                },
+            ]}
+        />
+    ));
+
+    items.splice(
+        4,
+        0,
+        <FilePreview
+            file={{name: 'my-image-from-thailand.jpg', type: 'image/png'} as File}
+            imageSrc="https://storage.yandexcloud.net/uikit-storybook-assets/changelog-dialog-picture-2.png"
+            actions={[
+                {
+                    icon: <CircleExclamation width={14} height={14} />,
+                    title: 'some hint',
+                    onClick: () => action('onHint'),
+                },
+                {
+                    icon: <Xmark width={14} height={14} />,
+                    onClick: () => action('onClose'),
+                    title: 'Close',
+                },
+            ]}
+        />,
+    );
+
     return (
         <div
             style={{
@@ -55,50 +97,24 @@ const CollageTemplate: StoryFn<FilePreviewProps> = () => {
                 justifyItems: 'center',
                 alignItems: 'center',
                 gridTemplateColumns: 'repeat(3, 1fr)',
-                gridGap: 10,
-                width: 500,
+                gridGap: 8,
+                width: 400,
             }}
         >
-            {FILE_TYPES.map((fileType) => (
-                <FilePreview
-                    key={fileType}
-                    file={{name: fileType, type: fileType} as File}
-                    onClick={() => action('onClick')}
-                    actions={[
-                        {
-                            icon: <Link width={14} height={14} />,
-                            title: 'open on drive',
-                            onClick: () => action('onLink'),
-                        },
-                        {
-                            icon: <Xmark width={14} height={14} />,
-                            title: 'delete a file',
-                            onClick: () => action('onClose'),
-                        },
-                    ]}
-                />
-            ))}
-            <FilePreview
-                file={{name: 'my-image-from-thailand.jpg', type: 'image/png'} as File}
-                imageSrc="https://storage.yandexcloud.net/uikit-storybook-assets/changelog-dialog-picture-2.png"
-                actions={[
-                    {
-                        icon: <CircleExclamation width={14} height={14} />,
-                        title: 'some hint',
-                        onClick: () => action('onHint'),
-                    },
-                    {
-                        icon: <Xmark width={14} height={14} />,
-                        onClick: () => action('onClose'),
-                        title: 'Close',
-                    },
-                ]}
-            />
+            {items}
         </div>
     );
 };
 
 export const Collage = CollageTemplate.bind({});
+
+const noClickableTemplateActions = [
+    {
+        icon: <Xmark width={14} height={14} />,
+        onClick: () => action('Are you sure you want to delete the file?'),
+        title: 'Close',
+    },
+];
 
 const NoClickableTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> = (args) => {
     return (
@@ -107,31 +123,30 @@ const NoClickableTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> = (args) =
             <FilePreview
                 {...args}
                 file={{name: 'No clickable with actions', type: 'text/docs'} as File}
-                actions={[
-                    {
-                        icon: <Xmark width={14} height={14} />,
-                        onClick: () => action('Are you sure you want to delete the file?'),
-                        title: 'Close',
-                    },
-                ]}
+                actions={noClickableTemplateActions}
             />
             <FilePreview
                 {...args}
                 file={{name: 'Clickable with actions', type: 'text/docs'} as File}
                 onClick={() => action('onClick')}
-                actions={[
-                    {
-                        icon: <Xmark width={14} height={14} />,
-                        onClick: () => action('Are you sure you want to delete the file?'),
-                        title: 'Close',
-                    },
-                ]}
+                actions={noClickableTemplateActions}
             />
         </Flex>
     );
 };
 
 export const NoClickable = NoClickableTemplate.bind({});
+
+const withoutActionTooltipTemplateActions = [
+    {
+        icon: <Xmark width={14} height={14} />,
+        onClick: () => action('onClose'),
+        title: 'Close',
+        tooltipExtraProps: {
+            disabled: true,
+        },
+    },
+];
 
 const WithoutActionTooltipTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> = (args) => {
     return (
@@ -140,16 +155,7 @@ const WithoutActionTooltipTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> =
                 {...args}
                 file={{name: 'Clicable without tooltip', type: 'text/docs'} as File}
                 onClick={() => action('onClick')}
-                actions={[
-                    {
-                        icon: <Xmark width={14} height={14} />,
-                        onClick: () => action('onClose'),
-                        title: 'Close',
-                        tooltipExtraProps: {
-                            disabled: true,
-                        },
-                    },
-                ]}
+                actions={withoutActionTooltipTemplateActions}
             />
         </Flex>
     );

@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import type {DOMProps, QAProps} from '../types';
+import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 import {isIcon, isSvg} from '../utils/common';
 import {eventBroker} from '../utils/event-broker';
@@ -35,8 +35,7 @@ export type ButtonPin =
 
 export type ButtonWidth = 'auto' | 'max';
 
-export interface ButtonProps extends DOMProps, QAProps {
-    /** Button appearance */
+interface ButtonCommonProps extends QAProps {
     view?: ButtonView;
     size?: ButtonSize;
     pin?: ButtonPin;
@@ -44,30 +43,64 @@ export interface ButtonProps extends DOMProps, QAProps {
     disabled?: boolean;
     loading?: boolean;
     width?: ButtonWidth;
-    title?: string;
-    tabIndex?: number;
-    id?: string;
-    type?: 'button' | 'submit' | 'reset';
-    component?: React.ElementType;
-    href?: string;
-    target?: string;
-    rel?: string;
-    extraProps?:
-        | React.ButtonHTMLAttributes<HTMLButtonElement>
-        | React.AnchorHTMLAttributes<HTMLAnchorElement>;
-    onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
-    onMouseEnter?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
-    onMouseLeave?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
-    onFocus?: React.FocusEventHandler<HTMLButtonElement | HTMLAnchorElement>;
-    onBlur?: React.FocusEventHandler<HTMLButtonElement | HTMLAnchorElement>;
-    /** Button content. You can mix button text with `<Icon/>` component */
     children?: React.ReactNode;
 }
 
+export interface ButtonButtonProps
+    extends ButtonCommonProps,
+        Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'> {
+    component?: never;
+    href?: never;
+    /**
+     * @deprecated Use additional props at the root
+     */
+    extraProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
+}
+
+export interface ButtonLinkProps
+    extends ButtonCommonProps,
+        React.AnchorHTMLAttributes<HTMLAnchorElement> {
+    component?: never;
+    href: string;
+    /**
+     * @deprecated Use additional props at the root
+     */
+    extraProps?: React.AnchorHTMLAttributes<HTMLAnchorElement>;
+}
+
+export type ButtonComponentProps<T extends Exclude<ButtonCustomElementType, undefined>> =
+    ButtonCommonProps &
+        React.ComponentPropsWithoutRef<T> & {
+            component: T;
+            /**
+             * @deprecated Use additional props at the root
+             */
+            extraProps?: React.ComponentPropsWithoutRef<T>;
+        };
+
+function isButtonComoponentProps<T extends ButtonCustomElementType>(
+    p: ButtonProps<T>,
+): p is ButtonComponentProps<Exclude<T, undefined>> {
+    return p.component !== undefined;
+}
+
+export type ButtonCustomElementType = Exclude<React.ElementType, 'a' | 'button'> | undefined;
+
+export type ButtonProps<T extends ButtonCustomElementType = undefined> =
+    | ButtonLinkProps
+    | ButtonButtonProps
+    | ButtonComponentProps<Exclude<T, undefined>>;
+
 const b = block('button');
 
-const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function Button(
-    {
+const _Button = React.forwardRef(function Button<T extends ButtonCustomElementType>(
+    props: ButtonProps<T>,
+    ref:
+        | React.Ref<HTMLButtonElement>
+        | React.Ref<HTMLAnchorElement>
+        | React.Ref<T extends string ? React.ComponentRef<T> : T>,
+) {
+    const {
         view = 'normal',
         size = 'm',
         pin = 'round-round',
@@ -75,104 +108,101 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
         disabled = false,
         loading = false,
         width,
-        title,
-        tabIndex,
-        type = 'button',
-        component,
-        href,
-        target,
-        rel,
-        extraProps,
-        onClick,
-        onMouseEnter,
-        onMouseLeave,
-        onFocus,
-        onBlur,
         children,
-        id,
-        style,
-        className,
+        extraProps,
         qa,
-    },
-    ref,
-) {
+        ...rest
+    } = props;
+
     const handleClickCapture = React.useCallback(
-        (event: React.SyntheticEvent) => {
+        (event: React.MouseEvent<any>) => {
             eventBroker.publish({
                 componentId: 'Button',
                 eventId: 'click',
                 domEvent: event,
                 meta: {
                     content: event.currentTarget.textContent,
-                    view,
+                    view: view,
                 },
             });
+
+            if (props.onClickCapture) {
+                props.onClickCapture(event);
+            }
         },
-        [view],
+        [view, props.onClickCapture],
     );
 
     const commonProps = {
-        title,
-        tabIndex,
-        onClick,
         onClickCapture: handleClickCapture,
-        onMouseEnter,
-        onMouseLeave,
-        onFocus,
-        onBlur,
-        id,
-        style,
         className: b(
             {
-                view,
-                size,
-                pin,
-                selected,
+                view: view,
+                size: size,
+                pin: pin,
+                selected: selected,
                 disabled: disabled || loading,
-                loading,
-                width,
+                loading: loading,
+                width: width,
             },
-            className,
+            rest.className,
         ),
         'data-qa': qa,
     };
 
-    if (typeof href === 'string' || component) {
-        const linkProps = {
-            href,
-            target,
-            rel: target === '_blank' && !rel ? 'noopener noreferrer' : rel,
-        };
+    if (isButtonComoponentProps(props)) {
         return React.createElement(
-            component || 'a',
+            props.component,
             {
+                ...rest,
                 ...extraProps,
                 ...commonProps,
-                ...(component ? {} : linkProps),
-                ref: ref as React.Ref<HTMLAnchorElement>,
-                'aria-disabled': disabled || loading,
+                ref: ref,
+                'aria-disabled': disabled ?? undefined,
             },
             prepareChildren(children),
         );
-    } else {
+    }
+
+    if (typeof props.href !== 'undefined') {
         return (
-            <button
-                {...(extraProps as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+            <a
+                {...(rest as Pick<typeof props, keyof typeof rest>)}
+                {...(extraProps as (typeof props)['extraProps'])}
                 {...commonProps}
-                ref={ref as React.Ref<HTMLButtonElement>}
-                type={type}
-                disabled={disabled || loading}
-                aria-pressed={selected}
+                ref={ref as React.Ref<HTMLAnchorElement>}
+                rel={props.target === '_blank' && !rest.rel ? 'noopener noreferrer' : rest.rel}
+                aria-disabled={disabled ?? undefined}
             >
                 {prepareChildren(children)}
-            </button>
+            </a>
         );
     }
-});
 
-ButtonWithHandlers.displayName = 'Button';
+    return (
+        <button
+            {...(rest as Pick<typeof props, keyof typeof rest>)}
+            {...(extraProps as (typeof props)['extraProps'])}
+            {...commonProps}
+            ref={ref as React.Ref<HTMLButtonElement>}
+            type={props.type || 'button'}
+            disabled={disabled || loading}
+            aria-pressed={selected}
+        >
+            {prepareChildren(children)}
+        </button>
+    );
+}) as <T extends ButtonCustomElementType, P extends ButtonProps<T>>(
+    props: P extends {component: Exclude<T, undefined>}
+        ? ButtonComponentProps<Exclude<T, undefined>> & {
+              ref?: React.Ref<T extends string ? React.ComponentRef<T> : T>;
+          }
+        : P extends {href: string}
+          ? ButtonLinkProps & {ref?: React.Ref<HTMLAnchorElement>}
+          : ButtonButtonProps & {ref?: React.Ref<HTMLButtonElement>},
+) => React.ReactElement;
 
-export const Button = Object.assign(ButtonWithHandlers, {Icon: ButtonIcon});
+export const Button = Object.assign(_Button, {Icon: ButtonIcon});
 
 const isButtonIconComponent = isOfType(ButtonIcon);
 const isSpan = isOfType<{className?: string}>('span');

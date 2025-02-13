@@ -58,7 +58,7 @@ export function useAnimateHeight(
                 previousHeight.current = contentHeight;
             }
         });
-    }, []);
+    }, [ref]);
 
     useResizeObserver({ref, onResize: handleResize});
 

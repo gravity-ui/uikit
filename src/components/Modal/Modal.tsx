@@ -97,7 +97,7 @@ export interface ModalProps extends DOMProps, AriaLabelingProps, QAProps {
     onTransitionOutComplete?: () => void;
     contentOverflow?: 'visible' | 'auto';
     floatingRef?: React.RefObject<HTMLDivElement>;
-    shouldAnimateHeight?: boolean;
+    disableHeightTransition?: boolean;
 }
 
 const b = block('modal');
@@ -130,11 +130,10 @@ export function Modal({
     container,
     qa,
     floatingRef,
-    shouldAnimateHeight = true,
+    disableHeightTransition = false,
     ...restProps
 }: ModalProps) {
     useLayer({open, type: 'modal'});
-    useAnimateHeight(shouldAnimateHeight ? undefined : undefined);
 
     const handleOpenChange = React.useCallback<NonNullable<UseFloatingOptions['onOpenChange']>>(
         (isOpen, event, reason) => {
@@ -184,6 +183,10 @@ export function Modal({
     const {isMounted, status} = useTransitionStatus(context, {duration: TRANSITION_DURATION});
     const previousStatus = usePrevious(status);
 
+    const animateHeightProps = useAnimateHeight(
+        !disableHeightTransition && initialFocusRef.current ? initialFocusRef : undefined,
+    );
+
     React.useEffect(() => {
         if (status === 'initial' && previousStatus === 'unmounted') {
             onTransitionIn?.();
@@ -197,7 +200,7 @@ export function Modal({
     }, [previousStatus, status, onTransitionIn, onTransitionOut, onTransitionOutComplete]);
 
     const handleTransitionEnd = React.useCallback(
-        (event: React.TransitionEvent) => {
+        (event: React.TransitionEvent<HTMLDivElement>) => {
             // There are two simultaneous transitions running at the same time
             // Use specific name to only notify once
             if (
@@ -207,8 +210,10 @@ export function Modal({
             ) {
                 onTransitionInComplete?.();
             }
+
+            animateHeightProps.onTransitionEnd(event);
         },
-        [status, onTransitionInComplete, elements.floating],
+        [status, onTransitionInComplete, elements.floating, animateHeightProps],
     );
 
     const handleKeyDown = React.useCallback(

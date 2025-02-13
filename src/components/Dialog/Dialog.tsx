@@ -133,7 +133,7 @@ export function Dialog({
             className={b('modal', modalClassName)}
             container={container}
             qa={qa}
-            shouldAnimateHeight={false}
+            disableHeightTransition
         >
             <div
                 className={b(

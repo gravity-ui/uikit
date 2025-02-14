@@ -121,6 +121,8 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
      * Do not use as layer
      */
     disableLayer?: boolean;
+    /** Disables animation of popup appearing/disappearing */
+    disableTransition?: boolean;
     /** ARIA role or special component role (select, combobox) */
     role?: UseRoleProps['role'];
     /** HTML `id` attribute */
@@ -169,6 +171,7 @@ export function Popup({
     children,
     disablePortal = false,
     disableLayer = false,
+    disableTransition = false,
     qa,
     role: roleProp,
     zIndex = 1000,
@@ -259,7 +262,9 @@ export function Popup({
 
     const {getFloatingProps} = useInteractions(floatingInteractions ?? [role, dismiss]);
 
-    const {isMounted, status} = useTransitionStatus(context, {duration: TRANSITION_DURATION});
+    const {isMounted, status} = useTransitionStatus(context, {
+        duration: disableTransition ? 0 : TRANSITION_DURATION,
+    });
     const previousStatus = usePrevious(status);
 
     React.useEffect(() => {
@@ -338,7 +343,13 @@ export function Popup({
                 >
                     <div
                         ref={contentRef}
-                        className={b({open: isMounted}, className)}
+                        className={b(
+                            {
+                                open: isMounted,
+                                'disable-transition': disableTransition,
+                            },
+                            className,
+                        )}
                         style={style}
                         data-qa={qa}
                         {...filterDOMProps(restProps)}

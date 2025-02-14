@@ -4,7 +4,7 @@ import Stepper from '../Stepper';
 import type {StepperProps} from '../Stepper';
 
 export const StepperShowcase = (props: StepperProps) => {
-    const [value, setValue] = React.useState<number | string>();
+    const [value, setValue] = React.useState<number | string | undefined>(0);
 
     return (
         <Stepper {...props} value={value} onUpdate={setValue}>

@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
+import {filterDOMProps} from '../utils/filterDOMProps';
 
 import {StepperItem} from './StepperItem';
 import type {StepperItemProps} from './StepperItem';
@@ -20,38 +21,23 @@ export interface StepperProps extends DOMProps, AriaLabelingProps, QAProps {
     separator?: React.ReactNode;
 }
 
-function Item(_props: StepperItemProps): React.ReactElement | null {
-    return null;
-}
-
 export const Stepper = (props: StepperProps) => {
-    const {children, value = 0, size = 's', className, onUpdate, separator} = props;
+    const {children, value, size = 's', className, onUpdate, separator} = props;
 
     const stepItems = React.useMemo(() => {
-        const items: React.ReactElement<StepperItemProps>[] = [];
-
-        React.Children.forEach(children, (child, index) => {
-            if (React.isValidElement(child)) {
-                if (child.key === undefined || child.key === null) {
-                    child = React.cloneElement(child, {key: child.props.id || index});
-                }
-                items.push(child);
-            }
-        });
-
-        return items.map((item, index) => {
-            const id = item.props.id || index;
+        return React.Children.map(children, (child, index) => {
+            const id = child.props.id ?? index;
 
             return (
                 <li key={id} className={b('list-item')}>
                     <StepperItem
-                        {...item.props}
+                        {...child.props}
                         id={id}
                         size={size}
                         selected={value}
                         onUpdate={onUpdate}
                     />
-                    {Boolean(index !== items.length - 1) && (
+                    {Boolean(index !== React.Children.count(children) - 1) && (
                         <StepperSeparator separator={separator} />
                     )}
                 </li>
@@ -60,15 +46,22 @@ export const Stepper = (props: StepperProps) => {
     }, [children, value, size, onUpdate, separator]);
 
     return (
-        <ol className={b(null, className)} style={props.style} data-qa={props.qa}>
+        <ol
+            {...filterDOMProps(props, {labelable: true})}
+            className={b(null, className)}
+            style={props.style}
+            data-qa={props.qa}
+        >
             {stepItems}
         </ol>
     );
 };
 
+function Item(_props: StepperItemProps): React.ReactElement | null {
+    return null;
+}
+
 Stepper.Item = Item;
 Stepper.displayName = 'Stepper';
 
 export default Stepper;
-
-export {Item as StepperItem};

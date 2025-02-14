@@ -96,6 +96,7 @@ LANDING_BLOCK-->
 | disableFocusOut         | Disables triggering close on focusout                                                      |                           `boolean`                           |    `false`    |
 | disableOutsideClick     | Disables triggering close on outside clicks                                                |                           `boolean`                           |    `false`    |
 | disablePortal           | Disables using `Portal` for children                                                       |                           `boolean`                           |    `false`    |
+| disableTransition       | Disables animation of popup appearing/disappearing                                         |                           `boolean`                           |    `false`    |
 | floatingContext         | `Floating UI` context to provide interactions                                              |                     `FloatingRootContext`                     |               |
 | floatingInteractions    | Override `Floating UI` interactions                                                        |                     `Array<ElementProps>`                     |               |
 | floatingMiddlewares     | `Floating UI` middlewares. If set, they will completely overwrite the default middlewares. |                      `Array<Middleware>`                      |               |

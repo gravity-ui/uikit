@@ -30,6 +30,10 @@ $transition-distance: 10px;
         visibility: visible;
     }
 
+    &_disable-transition {
+        transition: none;
+    }
+
     & > :first-child:not(#{$block}__arrow),
     & > #{$block}__arrow + * {
         border-start-start-radius: inherit;

@@ -1,8 +1,13 @@
+import * as React from 'react';
+
+import {CircleCheck, CircleDashed, CircleExclamation} from '@gravity-ui/icons';
+
+import {Button} from '../Button';
+import {Icon} from '../Icon';
+import type {SVGIconData} from '../Icon/types';
 import {Text} from '../Text';
-import type {TextProps} from '../Text';
 
 import type {StepperProps} from './Stepper';
-import {StepperIcon} from './StepperIcon';
 import type {StepperItemView} from './types';
 import {b} from './utils';
 
@@ -13,25 +18,25 @@ export interface StepperItemProps {
     children: React.ReactNode;
     view?: StepperItemView;
     disabled?: boolean;
-    selected?: string | number;
-    variant?: TextProps['variant'];
-    icon?: React.ReactNode;
+    icon?: SVGIconData;
     onClick?: (event: React.MouseEvent) => void;
     className?: string;
 }
 
-export const StepperItem = (props: StepperItemProps & Pick<StepperProps, 'size' | 'onUpdate'>) => {
+type ComponentProps = StepperItemProps &
+    Pick<StepperProps, 'size' | 'onUpdate'> & {selected?: string | number};
+
+export const StepperItem = (props: ComponentProps) => {
     const {
         id,
         size,
         children,
         view = 'idle',
-        variant = 'body-1',
         disabled = false,
         selected = false,
         className,
         onUpdate,
-        icon,
+        icon: customIcon,
     } = props;
 
     const onClick = (e: React.MouseEvent) => {
@@ -40,17 +45,41 @@ export const StepperItem = (props: StepperItemProps & Pick<StepperProps, 'size' 
         onUpdate?.(id);
     };
 
+    const icon = React.useMemo(() => {
+        if (customIcon) {
+            return customIcon;
+        }
+
+        switch (view) {
+            case 'idle': {
+                return CircleDashed;
+            }
+            case 'error': {
+                return CircleExclamation;
+            }
+            case 'success': {
+                return CircleCheck;
+            }
+            default: {
+                return CircleDashed;
+            }
+        }
+    }, [view, customIcon]);
+
+    const selectedItem = id === selected;
+
     return (
-        <button
+        <Button
+            width="auto"
             title={typeof children === 'string' ? children : undefined}
-            className={b('item', {view, disabled, selected: id === selected, size}, className)}
+            className={b('item', {view, disabled, selected: selectedItem, size}, className)}
             onClick={onClick}
             disabled={disabled}
+            size={size}
+            view={selectedItem ? 'outlined-info' : 'outlined'}
         >
-            <StepperIcon view={view} icon={icon} />
-            <Text className={b('item__text')} variant={variant}>
-                {children}
-            </Text>
-        </button>
+            <Icon data={icon} className={b('item-icon', {view})} />
+            <Text className={b('item-text')}>{children}</Text>
+        </Button>
     );
 };

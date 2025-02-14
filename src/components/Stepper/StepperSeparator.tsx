@@ -11,9 +11,9 @@ type StepperSeparatorProps = {
 };
 
 export const StepperSeparator = ({separator}: StepperSeparatorProps) => {
-    if (separator) {
-        return separator;
-    }
-
-    return <Icon data={ChevronRight} className={b('separator')} />;
+    return (
+        <div className={b('separator')} aria-hidden={true}>
+            {separator ?? <Icon data={ChevronRight} />}
+        </div>
+    );
 };

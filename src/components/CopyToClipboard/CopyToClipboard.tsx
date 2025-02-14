@@ -10,7 +10,7 @@ const INITIAL_STATUS: CopyToClipboardStatus = 'pending';
 export function CopyToClipboard(props: CopyToClipboardProps) {
     const {children, text, timeout, onCopy} = props;
 
-    const textRef = React.useRef(text);
+    const textRef = React.useRef('');
     const [status, setStatus] = React.useState<CopyToClipboardStatus>(INITIAL_STATUS);
 
     const timerIdRef = React.useRef<number>();
@@ -30,17 +30,18 @@ export function CopyToClipboard(props: CopyToClipboardProps) {
 
     const onClickWithCopy: React.MouseEventHandler<HTMLElement> = React.useCallback(
         (event) => {
-            textRef.current = text;
+            const currentText = typeof text === 'function' ? text() : text;
+            textRef.current = currentText;
 
             function copy(result: boolean) {
-                if (text === textRef.current) {
-                    handleCopy(text, result);
+                if (currentText === textRef.current) {
+                    handleCopy(currentText, result);
 
                     content.props?.onClick?.(event);
                 }
             }
 
-            copyText(text).then(
+            copyText(currentText).then(
                 () => {
                     copy(true);
                 },

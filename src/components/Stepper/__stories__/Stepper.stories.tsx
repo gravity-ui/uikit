@@ -1,7 +1,6 @@
 import {Cloud, CreditCard, Rocket} from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react';
 
-import {Icon} from '../../Icon';
 import {Text} from '../../Text';
 import {Flex} from '../../layout';
 import {Stepper} from '../Stepper';
@@ -102,11 +101,11 @@ export const CustomIcons = {
     render: (args) => {
         return (
             <Stepper {...args}>
-                <Stepper.Item icon={<Icon data={Rocket} />}>Step 1</Stepper.Item>
-                <Stepper.Item view="error" icon={<Icon data={CreditCard} />}>
+                <Stepper.Item icon={Rocket}>Step 1</Stepper.Item>
+                <Stepper.Item view="error" icon={CreditCard}>
                     Step 2
                 </Stepper.Item>
-                <Stepper.Item view="success" icon={<Icon data={Cloud} />}>
+                <Stepper.Item view="success" icon={Cloud}>
                     Step 3
                 </Stepper.Item>
                 <Stepper.Item>Step 4 with very long title</Stepper.Item>

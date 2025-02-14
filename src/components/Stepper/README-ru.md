@@ -19,7 +19,7 @@ import {Stepper} from '@gravity-ui/uikit';
   <Stepper.Item>Step 1</Stepper.Item>
   <Stepper.Item>Step 2</Stepper.Item>
   <Stepper.Item>Step 3</Stepper.Item>
-  <Stepper.Item>Step 4</Stepper.Item>
+  <Stepper.Item>Step 4 with very long title</Stepper.Item>
 </Stepper>
 ```
 
@@ -176,12 +176,12 @@ const Separator = () => {
 | :--------------- | :---------------------------------------------------------------------------------- | :------------------------------------- | :------ |
 | children         | Дочерние элементы степера.                                                          | `React.ReactElement<StepperItemProps>` |         |
 | size             | Задает размер степа.                                                                | `"s"` `"m"` `"l"`                      | `"s"`   |
-| value            | Текущий выбранный идентификатор степа.                                              | `number` `string`                      | `0`     |
+| value            | Текущий выбранный идентификатор степа.                                              | `number` `string`                      |         |
 | onUpdate         | Функция для обновления текущего выбранного элемента.                                | `Function`                             |         |
 | qa               | `data-qa` HTML атрибут, используется для тестирования.                              | `string`                               |         |
 | separator        | Кастомная нода-разделитель степов.                                                  | `React.ReactNode`                      |         |
-| className        | CSS имя класса элемента.                                                            | `string`                               |         |
-| style            | Задает инлайн-стиль для элемента..                                                  | `CSSProperties`                        |         |
+| className        | CSS имя класса Step контейнера.                                                     | `string`                               |         |
+| style            | Задает инлайн-стили Step контейнера.                                                | `CSSProperties`                        |         |
 | aria-label       | Определяет строковое значение, используемое в качестве метки для текущего элемента. | `string`                               |         |
 | aria-labelledby  | Определяет элементы, используемые в качестве метки для текущего элемента.           | `string`                               |         |
 | aria-describedby | Определяет элементы, описывающие объект.                                            | `string`                               |         |
@@ -194,8 +194,7 @@ const Separator = () => {
 | view      | Внешний вид степа.                                                       | `"idle"` `"error"` `"success"` | `"idle"` |
 | children  | Внутреннее содержимое степа.                                             | `React.Node`                   |          |
 | disabled  | Устанавливает заблокированное состояние для степа.                       | `boolean`                      |          |
-| variant   | Устанавливает вариант текстового контента для степа.                     | `"TextProps['variant]"`        |          |
-| icon      | Задает кастомную иконка степа                                            | `React.Node`                   |          |
+| icon      | Задает кастомную иконка степа                                            | `SVGIconData`                  |          |
 | onClick   | Обработчик клика на степ                                                 | `React.MouseEventHandler`      |          |
 | className | CSS class name элемента                                                  | `string`                       |          |
 

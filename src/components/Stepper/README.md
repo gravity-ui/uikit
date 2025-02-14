@@ -19,7 +19,7 @@ import {Stepper} from '@gravity-ui/uikit';
   <Stepper.Item>Step 1</Stepper.Item>
   <Stepper.Item>Step 2</Stepper.Item>
   <Stepper.Item>Step 3</Stepper.Item>
-  <Stepper.Item>Step 4</Stepper.Item>
+  <Stepper.Item>Step 4 with very long title</Stepper.Item>
 </Stepper>
 ```
 
@@ -176,12 +176,12 @@ const Separator = () => {
 | :--------------- | :-------------------------------------------------------- | :------------------------------------- | :------ |
 | children         | Stepper items.                                            | `React.ReactElement<StepperItemProps>` |         |
 | size             | Set the `Step` size.                                      | `"s"` `"m"` `"l"`                      | `"s"`   |
-| value            | Current selected `Step` id.                               | `number` `string`                      | `0`     |
+| value            | Current selected `Step` id.                               | `number` `string`                      |         |
 | onUpdate         | function for change current `Step`.                       | `Function`                             |         |
 | qa               | `data-qa` HTML attribute, used for testing.               | `string`                               |         |
 | separator        | Custom separator node.                                    | `React.ReactNode`                      |         |
-| className        | CSS class name for the element.                           | `string`                               |         |
-| style            | Sets the inline style for the element.                    | `CSSProperties`                        |         |
+| className        | CSS class name for the Steps container.                   | `string`                               |         |
+| style            | Sets the inline style for the Steps container.            | `CSSProperties`                        |         |
 | aria-label       | Defines a string value that labels the current element.   | `string`                               |         |
 | aria-labelledby  | Identifies the element(s) that label the current element. | `string`                               |         |
 | aria-describedby | Identifies the element(s) that describe the object.       | `string`                               |         |
@@ -194,9 +194,7 @@ const Separator = () => {
 | view      | Set `Step` view.                                  | `"idle"` `"error"` `"success"` | `"idle"` |
 | children  | `Step` content.                                   | `React.Node`                   |          |
 | disabled  | Determines whether `Step` is disable.             | `boolean`                      |          |
-| selected  | Determines whether `Step` is select.              | `boolean`                      |          |
-| variant   | Set `Step` content text variant.                  | `"TextProps['variant]"`        |          |
-| icon      | Custom icon node.                                 | `React.Node`                   |          |
+| icon      | Custom icon node.                                 | `SVGIconData`                  |          |
 | onClick   | Step click handler.                               | `React.MouseEventHandler`      |          |
 | className | CSS class name for the element.                   | `string`                       |          |
 

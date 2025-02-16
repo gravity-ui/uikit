@@ -58,11 +58,9 @@ const [open, setOpen] = useState(false);
 
 ## CSS API
 
-| Name                       | Description                       |
-| :------------------------- | :-------------------------------- |
-| `--g-modal-margin`         | Margin around the `Modal` content |
-| `--g-modal-border-radius`  | `Modal` content border radius     |
-| `--g-modal-wrapper-width`  | `Modal` wrapper width             |
-| `--g-modal-wrapper-height` | `Modal` wrapper height            |
-| `--g-modal-content-width`  | `Modal` content width             |
-| `--g-modal-content-height` | `Modal` content height            |
+| Name                      | Description                       |
+| :------------------------ | :-------------------------------- |
+| `--g-modal-margin`        | Margin around the `Modal` content |
+| `--g-modal-border-radius` | `Modal` content border radius     |
+| `--g-modal-width`         | `Modal` content width             |
+| `--g-modal-height`        | `Modal` content height            |

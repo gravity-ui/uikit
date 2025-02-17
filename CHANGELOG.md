@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.4.0](https://github.com/gravity-ui/uikit/compare/v7.3.0...v7.4.0) (2025-02-17)
+
+
+### Features
+
+* **Popup:** add `floatingClassName` & `floatingStyles` properties ([#2116](https://github.com/gravity-ui/uikit/issues/2116)) ([2f8abaf](https://github.com/gravity-ui/uikit/commit/2f8abafdd533bf2e194ddfc620a0037822ef6edb))
+
 ## [7.3.0](https://github.com/gravity-ui/uikit/compare/v7.2.0...v7.3.0) (2025-02-17)
 
 

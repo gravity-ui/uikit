@@ -1,5 +1,14 @@
 # Changelog
 
+## [7.3.0](https://github.com/gravity-ui/uikit/compare/v7.2.0...v7.3.0) (2025-02-17)
+
+
+### Features
+
+* accept text as function in clipboard button ([#2112](https://github.com/gravity-ui/uikit/issues/2112)) ([d8c9461](https://github.com/gravity-ui/uikit/commit/d8c946108f2f0fcd9616a3f492feaaaec1a5697f))
+* **FilePreview:** support mobile menu ([#2001](https://github.com/gravity-ui/uikit/issues/2001)) ([98cd6f2](https://github.com/gravity-ui/uikit/commit/98cd6f2a4b464502b95287c3790fe863caf633ac))
+* **Popup:** add `disableTransition` property ([#2114](https://github.com/gravity-ui/uikit/issues/2114)) ([32c9c3c](https://github.com/gravity-ui/uikit/commit/32c9c3c7b7b809ab5b0a91fd2dafc142196e00e7))
+
 ## [7.2.0](https://github.com/gravity-ui/uikit/compare/v7.1.1...v7.2.0) (2025-02-12)
 
 

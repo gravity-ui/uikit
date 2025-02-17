@@ -77,6 +77,10 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
     floatingInteractions?: ElementProps[];
     /** React ref floating element is attached to */
     floatingRef?: React.Ref<HTMLDivElement>;
+    /** Styles to apply to the `Floating UI` element */
+    floatingStyles?: React.CSSProperties;
+    /** Additional class to apply to the `Floating UI` element */
+    floatingClassName?: string;
     /** If true `Popup` act like a modal dialog */
     modal?: boolean;
     /** The initial element to be focused */
@@ -155,6 +159,8 @@ export function Popup({
     floatingContext,
     floatingInteractions,
     floatingRef,
+    floatingStyles: floatingStylesProp,
+    floatingClassName,
     modal = false,
     initialFocus: initialFocusProp,
     returnFocus = true,
@@ -324,6 +330,7 @@ export function Popup({
             >
                 <div
                     ref={handleFloatingRef}
+                    className={floatingClassName}
                     style={{
                         position: 'absolute',
                         top: 0,
@@ -332,6 +339,7 @@ export function Popup({
                         width: 'max-content',
                         pointerEvents: isMounted ? 'auto' : 'none',
                         outline: 'none',
+                        ...floatingStylesProp,
                         ...floatingStyles,
                     }}
                     data-floating-ui-placement={finalPlacement}

@@ -97,9 +97,11 @@ LANDING_BLOCK-->
 | disableOutsideClick     | Disables triggering close on outside clicks                                                |                           `boolean`                           |    `false`    |
 | disablePortal           | Disables using `Portal` for children                                                       |                           `boolean`                           |    `false`    |
 | disableTransition       | Disables animation of popup appearing/disappearing                                         |                           `boolean`                           |    `false`    |
+| floatingClassName       | Additional class to apply to the `Floating UI` element                                     |                           `string`                            |               |
 | floatingContext         | `Floating UI` context to provide interactions                                              |                     `FloatingRootContext`                     |               |
 | floatingInteractions    | Override `Floating UI` interactions                                                        |                     `Array<ElementProps>`                     |               |
 | floatingMiddlewares     | `Floating UI` middlewares. If set, they will completely overwrite the default middlewares. |                      `Array<Middleware>`                      |               |
+| floatingStyles          | Styles to apply to the `Floating UI` element                                               |                     `React.CSSProperties`                     |               |
 | focusOrder              | The order in which focus circle                                                            |        `Array<'reference' \| 'floating' \| 'content'>`        | `['content']` |
 | hasArrow                | Renders arrow pointing to the anchor                                                       |                           `boolean`                           |    `false`    |
 | id                      | `id` HTML attribute                                                                        |                           `string`                            |               |
@@ -118,7 +120,7 @@ LANDING_BLOCK-->
 | returnFocus             | Element to be focused on closing                                                           |              `boolean` `React.Ref<HTMLElement>`               |    `true`     |
 | role                    | Accessibility role for popup                                                               |                           `string`                            |               |
 | strategy                | `Floating UI` positioning strategy                                                         |                      `absolute` `fixed`                       |  `absolute`   |
-| style                   | `style` HTML attribute for root node                                                       |                           `string`                            |               |
+| style                   | `style` HTML attribute for root node                                                       |                     `React.CSSProperties`                     |               |
 
 ## CSS API
 

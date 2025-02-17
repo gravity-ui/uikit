@@ -339,8 +339,8 @@ export function Popup({
                         width: 'max-content',
                         pointerEvents: isMounted ? 'auto' : 'none',
                         outline: 'none',
-                        ...floatingStylesProp,
                         ...floatingStyles,
+                        ...floatingStylesProp,
                     }}
                     data-floating-ui-placement={finalPlacement}
                     data-floating-ui-status={status}

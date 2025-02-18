@@ -287,6 +287,6 @@ LANDING_BLOCK-->
 | `--g-label-height`                 | Height, line-height       |
 | `--g-label-border-radius`          | Border radius             |
 | `--g-label-font-size`              | Text font size            |
-| `--g-label-padding`                | Side paddings             |
+| `--g-label-margin-inline`          | Margin inline             |
 | `--g-label-addon-margin-start`     | Addon start margin        |
 | `--g-label-addon-margin-end`       | Addon end margin          |

@@ -33,7 +33,7 @@ $transition-timing-function: ease-in-out;
     &__text {
         display: flex;
         align-items: baseline;
-        padding: 0 var(--g-label-padding, var(--_--padding-inline));
+        margin: 0 var(--g-label-margin-inline, var(--_--margin-inline));
         width: 100%;
         font-family: var(--g-text-body-font-family);
         font-weight: var(--g-text-body-font-weight);

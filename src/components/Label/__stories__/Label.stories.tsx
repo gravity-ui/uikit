@@ -175,8 +175,8 @@ export const Custom: Story = {
                     --g-label-border-width: 5px;
                     --g-label-border-color: #8526de;
                     --g-label-height: 60px;
-                    --g-label-addon-margin-end: 60px;
-                    --g-label-padding: 36px;
+                    --g-label-addon-margin-end: 72px;
+                    --g-label-margin-inline: 36px;
                     --g-label-font-size: 20px;
                     --g-label-border-radius: 40px 20px;
                     --g-label-focus-outline-color: #9a2eff;

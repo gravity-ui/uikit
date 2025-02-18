@@ -29,6 +29,21 @@ export const expectScreenshotFixture: PlaywrightFixture<ExpectScreenshotFixture>
 
         const themes = paramsThemes || defaultParams.themes;
 
+        // Wait for loading of all the images
+        const locators = await page.locator('//img').all();
+        await Promise.all(
+            locators.map((locator) =>
+                locator.evaluate(
+                    (image: HTMLImageElement) =>
+                        image.complete ||
+                        new Promise<unknown>((resolve) => image.addEventListener('load', resolve)),
+                ),
+            ),
+        );
+
+        // Wait for loading fonts
+        await page.evaluate(() => document.fonts.ready);
+
         if (themes?.includes('light')) {
             await page.emulateMedia({colorScheme: 'light'});
 
@@ -46,5 +61,6 @@ export const expectScreenshotFixture: PlaywrightFixture<ExpectScreenshotFixture>
         }
     };
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     await use(expectScreenshot);
 };

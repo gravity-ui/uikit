@@ -21,6 +21,11 @@ jobs:
         id: pr
         run: echo "::set-output name=id::$(<pr/pr-id.txt)"
         shell: bash
+      - name: Install AWS CLI
+        uses: unfor19/install-aws-cli-action@v1
+        with:
+          version: 2.22.35
+          arch: amd64
       - name: Upload to S3
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.STORYBOOK_S3_KEY_ID }}

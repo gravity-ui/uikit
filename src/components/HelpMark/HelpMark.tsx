@@ -1,10 +1,10 @@
-import type * as React from 'react';
+import * as React from 'react';
 
 import {CircleQuestion} from '@gravity-ui/icons';
 
 import {Icon} from '../Icon';
 import {Popover} from '../Popover';
-import type {PopupPlacement} from '../Popup';
+import type {PopoverProps} from '../Popover';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
@@ -13,33 +13,30 @@ import './HelpMark.scss';
 const b = block('help-mark');
 const ICON_SIZE = 16;
 
-export interface HelpMarkProps extends QAProps {
-    buttonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
-    buttonRef?: React.RefObject<HTMLButtonElement>;
-    placement?: PopupPlacement;
-    className?: string;
+export interface HelpMarkProps extends QAProps, React.ButtonHTMLAttributes<HTMLButtonElement> {
+    popoverProps?: Omit<PopoverProps, 'children'>;
     children?: React.ReactNode;
 }
 
-export function HelpMark({
-    buttonRef,
-    buttonProps = {},
-    children,
-    className,
-    ...rest
-}: HelpMarkProps) {
+export const HelpMark = React.forwardRef<HTMLButtonElement, HelpMarkProps>(function HelpMark(
+    {children, qa, className, popoverProps, ...restProps},
+    ref,
+) {
     return (
-        <Popover {...rest} delayClosing={300} className={b(null, className)} content={children}>
-            {() => (
-                <button
-                    ref={buttonRef}
-                    type="button"
-                    {...buttonProps}
-                    className={b('button', buttonProps.className)}
-                >
-                    <Icon data={CircleQuestion} size={ICON_SIZE} />
-                </button>
-            )}
+        <Popover
+            content={<div className={b('popover')}>{children}</div>}
+            hasArrow
+            {...popoverProps}
+        >
+            <button
+                {...restProps}
+                ref={ref}
+                type="button"
+                className={b(null, className)}
+                data-qa={qa}
+            >
+                <Icon data={CircleQuestion} size={ICON_SIZE} />
+            </button>
         </Popover>
     );
-}
+});

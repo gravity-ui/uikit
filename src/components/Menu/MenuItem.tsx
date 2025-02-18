@@ -10,8 +10,6 @@ import {eventBroker} from '../utils/event-broker';
 const b = block('menu');
 
 export interface MenuItemProps extends DOMProps, QAProps {
-    /** @deprecated use `iconStart` instead */
-    icon?: React.ReactNode;
     iconStart?: React.ReactNode;
     iconEnd?: React.ReactNode;
     title?: string;
@@ -31,8 +29,7 @@ export interface MenuItemProps extends DOMProps, QAProps {
 
 export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function MenuItem(
     {
-        icon,
-        iconStart = icon,
+        iconStart,
         iconEnd,
         title,
         disabled,

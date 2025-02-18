@@ -12,8 +12,7 @@ import {
     Filmstrip as VideoIcon,
 } from '@gravity-ui/icons';
 
-import {useActionHandlers, useUniqId} from '../../hooks';
-import {useBoolean} from '../../hooks/private';
+import {useActionHandlers} from '../../hooks';
 import {Icon} from '../Icon';
 import type {IconData} from '../Icon';
 import {Text} from '../Text';
@@ -21,10 +20,8 @@ import {useMobile} from '../mobile';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
-import {FilePreviewAction} from './FilePreviewAction';
-import type {FilePreviewActionProps} from './FilePreviewAction';
-import {MobileImagePreview} from './MobileImagePreview/MobileImagePreview';
-import type {FileType} from './types';
+import {FilePreviewActions} from './FilePreviewActions/FilePreviewActions';
+import type {FilePreviewActionProps, FileType} from './types';
 import {getFileType} from './utils';
 
 import './FilePreview.scss';
@@ -37,6 +34,7 @@ const FILE_ICON: Record<FileType, IconData> = {
     video: VideoIcon,
     code: CodeIcon,
     archive: ArchiveIcon,
+    audio: MusicIcon,
     music: MusicIcon,
     text: TextIcon,
     pdf: PdfIcon,
@@ -63,17 +61,15 @@ export function FilePreview({
     onClick,
     actions,
 }: FilePreviewProps) {
-    const id = useUniqId();
-
     const [previewSrc, setPreviewSrc] = React.useState<string | undefined>(imageSrc);
-    const [isPreviewSheetVisible, showPreviewSheet, closePreviewSheet] = useBoolean(false);
-    const mobile = useMobile();
     const type = getFileType(file);
+
+    const mobile = useMobile();
 
     const {onKeyDown} = useActionHandlers(onClick);
 
     React.useEffect(() => {
-        if (imageSrc) return undefined;
+        if (imageSrc || type !== 'image') return undefined;
 
         try {
             const createdUrl = URL.createObjectURL(file);
@@ -83,47 +79,34 @@ export function FilePreview({
             return () => {
                 URL.revokeObjectURL(createdUrl);
             };
-        } catch (error: unknown) {
+        } catch {
             return undefined;
         }
-    }, [file, imageSrc]);
+    }, [file, imageSrc, type]);
 
     const clickable = Boolean(onClick);
     const withActions = Boolean(actions?.length);
 
     const isPreviewString = typeof previewSrc === 'string';
-    const hideActions = isPreviewString && mobile;
-
-    const handleClick: React.MouseEventHandler<HTMLDivElement> = React.useCallback(
-        (e) => {
-            if (onClick) {
-                onClick(e);
-                return;
-            }
-
-            if (mobile && isPreviewString) {
-                showPreviewSheet();
-            }
-        },
-        [isPreviewString, mobile, onClick, showPreviewSheet],
-    );
 
     return (
-        <div className={cn(null, className)} data-qa={qa}>
+        <div className={cn({mobile}, className)} data-qa={qa}>
             <div
                 className={cn('card', {clickable, hoverable: clickable || withActions})}
                 role={clickable ? 'button' : undefined}
                 onKeyDown={clickable ? onKeyDown : undefined}
                 tabIndex={clickable ? 0 : undefined}
-                onClick={clickable ? handleClick : undefined}
+                onClick={onClick}
             >
                 {isPreviewString ? (
                     <div className={cn('image-container')}>
                         <img className={cn('image')} src={previewSrc} alt={file.name} />
                     </div>
                 ) : (
-                    <div className={cn('icon', {type})}>
-                        <Icon className={cn('icon-svg')} data={FILE_ICON[type]} size={20} />
+                    <div className={cn('icon-container')}>
+                        <div className={cn('icon', {type})}>
+                            <Icon className={cn('icon-svg')} data={FILE_ICON[type]} size={20} />
+                        </div>
                     </div>
                 )}
                 <Text className={cn('name')} color="secondary" ellipsis title={file.name}>
@@ -140,24 +123,11 @@ export function FilePreview({
                     </Text>
                 )}
             </div>
-            {actions?.length ? (
-                <div className={cn('actions', {hide: hideActions})}>
-                    {actions.map((action, index) => (
-                        <FilePreviewAction
-                            key={`${id}-${index}`}
-                            id={`${id}-${index}`}
-                            {...action}
-                        />
-                    ))}
-                </div>
-            ) : null}
-
-            <MobileImagePreview
-                visible={isPreviewSheetVisible}
-                onClose={closePreviewSheet}
+            <FilePreviewActions
                 actions={actions}
-                previewSrc={previewSrc}
+                hoverabelPanelClassName={cn('actions-panel')}
                 fileName={file.name}
+                isCustomImage={isPreviewString}
             />
         </div>
     );

@@ -27,7 +27,6 @@ export interface ThemeProviderProps extends React.PropsWithChildren<{}> {
     systemLightTheme?: RealTheme;
     systemDarkTheme?: RealTheme;
     direction?: Direction;
-    nativeScrollbar?: boolean;
     scoped?: boolean;
     rootClassName?: string;
     layout?: Omit<PrivateLayoutProviderProps, 'children'>;
@@ -38,7 +37,6 @@ export function ThemeProvider({
     systemLightTheme: systemLightThemeProp,
     systemDarkTheme: systemDarkThemeProp,
     direction: directionProp,
-    nativeScrollbar,
     scoped: scopedProp = false,
     rootClassName = '',
     children,
@@ -67,14 +65,13 @@ export function ThemeProvider({
         if (!scoped) {
             updateBodyClassName({
                 theme: themeValue,
-                nativeScrollbar,
                 className: rootClassName,
                 prevClassName: prevRootClassName.current,
             });
             updateBodyDirection(direction);
             prevRootClassName.current = rootClassName;
         }
-    }, [scoped, themeValue, direction, nativeScrollbar, rootClassName]);
+    }, [scoped, themeValue, direction, rootClassName]);
 
     const contextValue = React.useMemo(
         () =>
@@ -97,16 +94,7 @@ export function ThemeProvider({
             <ThemeContext.Provider value={contextValue}>
                 <ThemeSettingsContext.Provider value={themeSettingsContext}>
                     {scoped ? (
-                        <div
-                            className={b(
-                                {
-                                    theme: themeValue,
-                                    'native-scrollbar': nativeScrollbar !== false,
-                                },
-                                rootClassName,
-                            )}
-                            dir={direction}
-                        >
+                        <div className={b({theme: themeValue}, rootClassName)} dir={direction}>
                             {children}
                         </div>
                     ) : (

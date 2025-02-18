@@ -1,0 +1,52 @@
+@use '../variables';
+@use '../../../styles/mixins';
+
+$block: '.#{variables.$ns}tab-list';
+$tabBlock: '.#{variables.$ns}tab';
+
+#{$block} {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    box-shadow: inset 0 calc(var(--g-tabs-border-width, 1px) * -1) 0 0 var(--g-color-line-generic);
+    overflow: hidden;
+
+    &_size {
+        &_m {
+            --_--item-height: 36px;
+            --_--item-gap: 24px;
+            --_--item-border-width: 2px;
+
+            #{$tabBlock}__title,
+            #{$tabBlock}__counter {
+                @include mixins.text-body-1();
+            }
+        }
+
+        &_l {
+            --_--item-height: 40px;
+            --_--item-gap: 28px;
+            --_--item-border-width: 2px;
+
+            #{$tabBlock}__title,
+            #{$tabBlock}__counter {
+                @include mixins.text-body-2();
+            }
+        }
+
+        &_xl {
+            --_--item-height: 44px;
+            --_--item-gap: 32px;
+            --_--item-border-width: 3px;
+
+            #{$tabBlock}__title,
+            #{$tabBlock}__counter {
+                @include mixins.text-subheader-3();
+            }
+        }
+    }
+
+    #{$tabBlock}:not(:last-child) {
+        margin-inline-end: var(--g-tabs-item-gap, var(--_--item-gap));
+    }
+}

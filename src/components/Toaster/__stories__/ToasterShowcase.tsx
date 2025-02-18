@@ -5,6 +5,7 @@ import {CircleCheck, CircleInfo, Thunderbolt, TriangleExclamation} from '@gravit
 
 import {ToasterComponent, useToaster} from '..';
 import type {ToastAction, ToastProps} from '..';
+import {toaster as singletonToaster} from '../../../toaster-singleton';
 import {Button} from '../../Button';
 import type {ButtonView} from '../../Button';
 import {Icon} from '../../Icon';
@@ -371,6 +372,22 @@ export const ToasterDemo = ({
         </Button>
     );
 
+    const singletonToasterBtn = (
+        <Button
+            size="l"
+            onClick={() => {
+                singletonToaster.add({
+                    title: 'Singleton Toast',
+                    content: 'I am separate toast, which can be added outside of react!',
+                    name: 'uniqueName' + Math.random().toString(),
+                });
+            }}
+            style={btnStyle}
+        >
+            Add toast via Toaster API
+        </Button>
+    );
+
     const component = React.useMemo(() => <ToasterComponent />, []);
 
     return (
@@ -385,6 +402,7 @@ export const ToasterDemo = ({
             <p>{toastWithLongContent}</p>
             <p>{dynamicallyUpdatingToast}</p>
             <p>{overrideToastBtn}</p>
+            <p>{singletonToasterBtn}</p>
             <p>{clearBtn}</p>
 
             {component}

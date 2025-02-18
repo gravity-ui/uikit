@@ -7,12 +7,12 @@ import _memoize from 'lodash/memoize';
 
 import {useUniqId} from '../../../../hooks';
 import {useBoolean} from '../../../../hooks/private';
-import type {PopperPlacement} from '../../../../hooks/private';
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Menu} from '../../../Menu';
 import type {MenuItemProps} from '../../../Menu';
 import {Popup} from '../../../Popup';
+import type {PopupPlacement} from '../../../Popup';
 import {block} from '../../../utils/cn';
 import {getComponentName} from '../../../utils/getComponentName';
 import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
@@ -96,7 +96,7 @@ const bPopup = block('table-action-popup');
 const menuCn = bPopup('menu');
 const menuItemCn = bPopup('menu-item');
 
-const DEFAULT_PLACEMENT: PopperPlacement = ['bottom-end', 'top-end', 'auto'];
+const DEFAULT_PLACEMENT: PopupPlacement = ['bottom-end', 'top-end'];
 
 type DefaultRowActionsProps<I extends TableDataItem> = Pick<
     WithTableActionsProps<I>,
@@ -181,11 +181,9 @@ const DefaultRowActions = <I extends TableDataItem>({
                 size={rowActionsSize}
                 ref={anchorRef}
                 disabled={disabled}
-                extraProps={{
-                    'aria-label': i18n('label-actions'),
-                    'aria-expanded': isPopupOpen,
-                    'aria-controls': rowId,
-                }}
+                aria-label={i18n('label-actions')}
+                aria-expanded={isPopupOpen}
+                aria-controls={rowId}
             >
                 <Icon data={Ellipsis} />
             </Button>

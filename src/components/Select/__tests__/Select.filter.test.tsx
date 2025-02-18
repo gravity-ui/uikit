@@ -2,7 +2,8 @@ import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {render, screen} from '../../../../test-utils/utils';
+import {fireEvent, render, screen} from '../../../../test-utils/utils';
+import {SheetQa} from '../../../components/Sheet/constants';
 import {TextInput} from '../../controls';
 import {MobileProvider} from '../../mobile';
 import {Select} from '../Select';
@@ -138,7 +139,6 @@ describe('Select filter', () => {
                     filterable
                     onFilterChange={onFilterChange}
                     onClose={onClose}
-                    qa="select"
                     filterPlaceholder="filter"
                 >
                     <Select.Option value="one">One</Select.Option>
@@ -148,13 +148,18 @@ describe('Select filter', () => {
             </MobileProvider>,
         );
 
+        const sheetVeil = screen.getByTestId(SheetQa.VEIL);
+
+        fireEvent.transitionEnd(sheetVeil);
+
         await userEvent.click(screen.getByPlaceholderText('filter'));
         await userEvent.keyboard('test');
 
         expect(onFilterChange).toHaveBeenCalledTimes(4);
         onFilterChange.mockClear();
 
-        await userEvent.click(document.body);
+        await userEvent.click(sheetVeil);
+        fireEvent.transitionEnd(sheetVeil);
         await timeout(400);
 
         expect(onClose).toHaveBeenCalledTimes(1);
@@ -170,7 +175,6 @@ describe('Select filter', () => {
                     filterable
                     onFilterChange={onFilterChange}
                     onClose={onClose}
-                    qa="select"
                     filterPlaceholder="filter"
                 >
                     <Select.Option value="one">One</Select.Option>
@@ -180,13 +184,18 @@ describe('Select filter', () => {
             </MobileProvider>,
         );
 
+        const sheetVeil = screen.getByTestId(SheetQa.VEIL);
+
+        fireEvent.transitionEnd(sheetVeil);
+
         await userEvent.click(screen.getByPlaceholderText('filter'));
         await userEvent.keyboard('test');
 
         expect(onFilterChange).toHaveBeenCalledTimes(4);
         onFilterChange.mockClear();
 
-        await userEvent.click(document.body);
+        await userEvent.click(sheetVeil);
+        fireEvent.transitionEnd(sheetVeil);
         await timeout(400);
 
         expect(onClose).toHaveBeenCalledTimes(1);

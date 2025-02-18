@@ -21,7 +21,7 @@ export type UseFileInputResult = {
  *
  * Usage example:
  ```tsx
-    import React from 'react';
+    import * as React from 'react';
     import {Button, useFileInput} from '@gravity-ui/uikit';
 
     const Component = () => {

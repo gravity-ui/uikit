@@ -7,7 +7,7 @@ import {TriangleExclamation} from '@gravity-ui/icons';
 import {useControlledState, useForkRef, useUniqId} from '../../../hooks';
 import {useElementSize, useFormResetHandler} from '../../../hooks/private';
 import {Icon} from '../../Icon';
-import {Popover} from '../../Popover';
+import {Popover} from '../../legacy';
 import {block} from '../../utils/cn';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
 import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';
@@ -38,22 +38,10 @@ export type TextInputProps = BaseInputControlProps<HTMLInputElement> & {
     controlProps?: React.InputHTMLAttributes<HTMLInputElement>;
     /** Help text rendered to the left of the input node */
     label?: string;
-    /** User`s node rendered before label and input node
-     * @deprecated use `startContent` instead
-     */
-    leftContent?: React.ReactNode;
-    /** User`s node rendered after input node and clear button
-     * @deprecated use `endContent` instead
-     */
-    rightContent?: React.ReactNode;
     /** User`s node rendered before label and input node */
     startContent?: React.ReactNode;
-    /** User`s node rendered after input node and clear button */
+    /** User`s node rendered after input node, clear button and error icon */
     endContent?: React.ReactNode;
-    /** User`s node rendered after input node, clear button and error icon.
-     * This prop will replace current `endContent` prop in next major
-     */
-    unstable_endContent?: React.ReactNode;
     /** An optional element displayed under the lower right corner of the control and sharing the place with the error container */
     note?: React.ReactNode;
 };
@@ -85,11 +73,8 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
             className,
             qa,
             controlProps: controlPropsProp,
-            leftContent,
-            rightContent,
-            startContent = leftContent,
-            endContent = rightContent,
-            unstable_endContent: unstableEndContent,
+            startContent,
+            endContent,
             note,
             onUpdate,
             onChange,
@@ -117,8 +102,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
             validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'inside';
         const isClearControlVisible = Boolean(hasClear && !disabled && !readOnly && inputValue);
         const isStartContentVisible = Boolean(startContent);
-        const isUnstableEndContentVisible = Boolean(unstableEndContent);
-        const isEndContentVisible = Boolean(endContent) && !isUnstableEndContentVisible;
+        const isEndContentVisible = Boolean(endContent);
         const isAutoCompleteOff =
             isLabelVisible && !idProp && !name && typeof autoComplete === 'undefined';
 
@@ -208,11 +192,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
                         pin: view === 'clear' ? undefined : pin,
                         'has-clear': isClearControlVisible,
                         'has-start-content': isStartContentVisible,
-                        'has-end-content':
-                            isClearControlVisible ||
-                            isEndContentVisible ||
-                            isUnstableEndContentVisible,
-                        'has-unstable-end-content': isUnstableEndContentVisible,
+                        'has-end-content': isClearControlVisible || isEndContentVisible,
                     },
                     className,
                 )}
@@ -252,11 +232,6 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
                             className={b('clear', {size})}
                         />
                     )}
-                    {isEndContentVisible && (
-                        <AdditionalContent placement="end" onClick={handleAdditionalContentClick}>
-                            {endContent}
-                        </AdditionalContent>
-                    )}
                     {isErrorIconVisible && (
                         <Popover content={errorMessage}>
                             <span data-qa={CONTROL_ERROR_ICON_QA}>
@@ -268,9 +243,9 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
                             </span>
                         </Popover>
                     )}
-                    {isUnstableEndContentVisible && (
+                    {isEndContentVisible && (
                         <AdditionalContent placement="end" onClick={handleAdditionalContentClick}>
-                            {unstableEndContent}
+                            {endContent}
                         </AdditionalContent>
                     )}
                 </span>

@@ -4,144 +4,157 @@ import * as React from 'react';
 
 import {Modal} from '../Modal';
 import type {ModalCloseReason, ModalProps} from '../Modal';
-import type {QAProps} from '../types';
+import type {AriaLabelingProps, QAProps} from '../types';
 import {block} from '../utils/cn';
+import {filterDOMProps} from '../utils/filterDOMProps';
 
 import {ButtonClose} from './ButtonClose/ButtonClose';
 import {DialogBody} from './DialogBody/DialogBody';
 import {DialogDivider} from './DialogDivider/DialogDivider';
 import {DialogFooter} from './DialogFooter/DialogFooter';
 import {DialogHeader} from './DialogHeader/DialogHeader';
+import {DialogPrivateContext} from './DialogPrivateContext';
+import type {DialogPrivateContextProps} from './DialogPrivateContext';
 
 import './Dialog.scss';
 
 const b = block('dialog');
 
-interface DialogOwnProps extends QAProps {
+export interface DialogProps extends AriaLabelingProps, QAProps {
     open: boolean;
     children: React.ReactNode;
+    onOpenChange?: ModalProps['onOpenChange'];
+    onEnterKeyDown?: (event: KeyboardEvent) => void;
     onEscapeKeyDown?: ModalProps['onEscapeKeyDown'];
-    onEnterKeyDown?: ModalProps['onEnterKeyDown'];
     onOutsideClick?: ModalProps['onOutsideClick'];
     onClose: (
         event: MouseEvent | KeyboardEvent,
         reason: ModalCloseReason | 'closeButtonClick',
     ) => void;
-    onTransitionEnter?: ModalProps['onTransitionEnter'];
-    onTransitionEntered?: ModalProps['onTransitionEntered'];
-    onTransitionExit?: ModalProps['onTransitionExit'];
-    onTransitionExited?: ModalProps['onTransitionExited'];
+    onTransitionIn?: ModalProps['onTransitionIn'];
+    onTransitionInComplete?: ModalProps['onTransitionInComplete'];
+    onTransitionOut?: ModalProps['onTransitionOut'];
+    onTransitionOutComplete?: ModalProps['onTransitionOutComplete'];
     className?: string;
     modalClassName?: string;
     size?: 's' | 'm' | 'l';
-    'aria-label'?: string;
-    'aria-labelledby'?: string;
     container?: HTMLElement;
-    disableFocusTrap?: boolean;
-    disableAutoFocus?: boolean;
-    restoreFocusRef?: React.RefObject<HTMLElement>;
+    // TODO: Remove from readme disableFocusTrap disableAutoFocus
+    initialFocus?: ModalProps['initialFocus'] | 'cancel' | 'apply';
+    returnFocus?: ModalProps['returnFocus'];
     contentOverflow?: 'visible' | 'auto';
+    disableBodyScrollLock?: boolean;
+    disableEscapeKeyDown?: boolean;
+    disableOutsideClick?: boolean;
+    keepMounted?: boolean;
+    hasCloseButton?: boolean;
 }
 
-interface DialogDefaultProps {
-    disableBodyScrollLock: boolean;
-    disableEscapeKeyDown: boolean;
-    disableOutsideClick: boolean;
-    keepMounted: boolean;
-    hasCloseButton: boolean;
-}
+export function Dialog({
+    container,
+    children,
+    open,
+    disableBodyScrollLock = false,
+    disableEscapeKeyDown = false,
+    disableOutsideClick = false,
+    initialFocus,
+    returnFocus,
+    keepMounted = false,
+    size,
+    contentOverflow = 'visible',
+    className,
+    modalClassName,
+    hasCloseButton = true,
+    onEscapeKeyDown,
+    onEnterKeyDown,
+    onOpenChange,
+    onOutsideClick,
+    onClose,
+    onTransitionIn,
+    onTransitionInComplete,
+    onTransitionOut,
+    onTransitionOutComplete,
+    qa,
+    ...restProps
+}: DialogProps) {
+    const handleCloseButtonClick = React.useCallback(
+        (event: React.MouseEvent) => {
+            onClose(event.nativeEvent, 'closeButtonClick');
+        },
+        [onClose],
+    );
 
-export type DialogProps = DialogOwnProps & Partial<DialogDefaultProps>;
-type DialogInnerProps = DialogOwnProps & DialogDefaultProps;
+    const footerAutoFocusRef = React.useRef<HTMLElement | null>(null);
 
-export class Dialog extends React.Component<DialogInnerProps> {
-    static defaultProps: DialogDefaultProps = {
-        disableBodyScrollLock: false,
-        disableEscapeKeyDown: false,
-        disableOutsideClick: false,
-        keepMounted: false,
-        hasCloseButton: true,
-    };
+    const privateContextProps = React.useMemo(() => {
+        const result: DialogPrivateContextProps = {
+            onTooltipEscapeKeyDown: (event: KeyboardEvent) => {
+                onOpenChange?.(false, event, 'escape-key');
+                onEscapeKeyDown?.(event);
+                onClose?.(event, 'escapeKeyDown');
+            },
+        };
 
-    static Footer = DialogFooter;
-    static Header = DialogHeader;
-    static Body = DialogBody;
-    static Divider = DialogDivider;
+        if (typeof initialFocus === 'string') {
+            result.initialFocusRef = footerAutoFocusRef;
+            result.initialFocusAction = initialFocus;
+        }
 
-    render() {
-        const {
-            container,
-            children,
-            open,
-            disableBodyScrollLock,
-            disableEscapeKeyDown,
-            disableOutsideClick,
-            disableFocusTrap,
-            disableAutoFocus,
-            restoreFocusRef,
-            keepMounted,
-            size,
-            contentOverflow = 'visible',
-            className,
-            modalClassName,
-            hasCloseButton,
-            onEscapeKeyDown,
-            onEnterKeyDown,
-            onOutsideClick,
-            onClose,
-            onTransitionEnter,
-            onTransitionEntered,
-            onTransitionExit,
-            onTransitionExited,
-            'aria-label': ariaLabel,
-            'aria-labelledby': ariaLabelledBy,
-            qa,
-        } = this.props;
+        return result;
+    }, [initialFocus, onEscapeKeyDown, onClose, onOpenChange]);
 
-        return (
-            <Modal
-                open={open}
-                contentOverflow={contentOverflow}
-                disableBodyScrollLock={disableBodyScrollLock}
-                disableEscapeKeyDown={disableEscapeKeyDown}
-                disableOutsideClick={disableOutsideClick}
-                disableFocusTrap={disableFocusTrap}
-                disableAutoFocus={disableAutoFocus}
-                restoreFocusRef={restoreFocusRef}
-                keepMounted={keepMounted}
-                onEscapeKeyDown={onEscapeKeyDown}
-                onEnterKeyDown={onEnterKeyDown}
-                onOutsideClick={onOutsideClick}
-                onClose={onClose}
-                onTransitionEnter={onTransitionEnter}
-                onTransitionEntered={onTransitionEntered}
-                onTransitionExit={onTransitionExit}
-                onTransitionExited={onTransitionExited}
-                className={b('modal', modalClassName)}
-                aria-label={ariaLabel}
-                aria-labelledby={ariaLabelledBy}
-                container={container}
-                qa={qa}
-            >
-                <div
-                    className={b(
-                        {
-                            size,
-                            'has-close': hasCloseButton,
-                            'has-scroll': contentOverflow === 'auto',
-                        },
-                        className,
-                    )}
-                >
-                    {children}
-                    {hasCloseButton && <ButtonClose onClose={this.handleCloseButtonClick} />}
-                </div>
-            </Modal>
-        );
+    let initialFocusValue: ModalProps['initialFocus'];
+    if (typeof initialFocus === 'string') {
+        initialFocusValue = footerAutoFocusRef;
+    } else {
+        initialFocusValue = initialFocus;
     }
 
-    private handleCloseButtonClick = (event: React.MouseEvent) => {
-        const {onClose} = this.props;
-        onClose(event.nativeEvent, 'closeButtonClick');
-    };
+    return (
+        <Modal
+            {...filterDOMProps(restProps, {labelable: true})}
+            open={open}
+            contentOverflow={contentOverflow}
+            disableBodyScrollLock={disableBodyScrollLock}
+            disableEscapeKeyDown={disableEscapeKeyDown}
+            disableOutsideClick={disableOutsideClick}
+            disableVisuallyHiddenDismiss={hasCloseButton}
+            initialFocus={initialFocusValue}
+            returnFocus={returnFocus}
+            keepMounted={keepMounted}
+            onEscapeKeyDown={onEscapeKeyDown}
+            onOutsideClick={onOutsideClick}
+            onClose={onClose}
+            onEnterKeyDown={onEnterKeyDown}
+            onTransitionIn={onTransitionIn}
+            onTransitionInComplete={onTransitionInComplete}
+            onTransitionOut={onTransitionOut}
+            onTransitionOutComplete={onTransitionOutComplete}
+            className={b('modal', modalClassName)}
+            container={container}
+            qa={qa}
+        >
+            <div
+                className={b(
+                    {
+                        size,
+                        'has-close': hasCloseButton,
+                        'has-scroll': contentOverflow === 'auto',
+                    },
+                    className,
+                )}
+            >
+                <DialogPrivateContext.Provider value={privateContextProps}>
+                    {children}
+                </DialogPrivateContext.Provider>
+
+                {hasCloseButton && <ButtonClose onClose={handleCloseButtonClick} />}
+            </div>
+        </Modal>
+    );
 }
+
+Dialog.Footer = DialogFooter;
+Dialog.Header = DialogHeader;
+Dialog.Body = DialogBody;
+Dialog.Divider = DialogDivider;

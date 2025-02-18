@@ -7,6 +7,7 @@ $arrow-offset: 9px;
 $arrow-border: 5px;
 $arrow-circle-width: 28px;
 $arrow-circle-height: 30px;
+$transition-duration: 100ms;
 $transition-distance: 10px;
 
 #{$block} {
@@ -14,106 +15,69 @@ $transition-distance: 10px;
     --_--border-color: var(--g-popup-border-color, var(--g-color-line-generic-solid));
     --_--border-width: var(--g-popup-border-width, 1px);
 
-    z-index: 1000;
+    position: relative;
+    border-radius: 4px;
+    background-color: var(--_--background-color);
+    box-shadow:
+        0 0 0 var(--_--border-width) var(--_--border-color),
+        0 8px 20px var(--_--border-width) var(--g-color-sfx-shadow);
+    outline: none;
     visibility: hidden;
+    transition-property: opacity, transform;
+    transition-timing-function: ease-out;
 
-    &_open,
-    &_exit_active {
+    &_open {
         visibility: visible;
     }
 
-    &_exit_active {
-        &[data-popper-placement*='bottom'] #{$block}__content {
-            animation-name: #{variables.$ns}popup-bottom;
-        }
-
-        &[data-popper-placement*='top'] #{$block}__content {
-            animation-name: #{variables.$ns}popup-top;
-        }
-
-        &[data-popper-placement*='left'] #{$block}__content {
-            animation-name: #{variables.$ns}popup-left;
-        }
-
-        &[data-popper-placement*='right'] #{$block}__content {
-            animation-name: #{variables.$ns}popup-right;
-        }
+    &_disable-transition {
+        transition: none;
     }
 
-    // open state
-    &_enter_active,
-    &_appear_active {
-        &[data-popper-placement*='bottom'] #{$block}__content {
-            animation-name: #{variables.$ns}popup-bottom-open;
-        }
-
-        &[data-popper-placement*='top'] #{$block}__content {
-            animation-name: #{variables.$ns}popup-top-open;
-        }
-
-        &[data-popper-placement*='left'] #{$block}__content {
-            animation-name: #{variables.$ns}popup-left-open;
-        }
-
-        &[data-popper-placement*='right'] #{$block}__content {
-            animation-name: #{variables.$ns}popup-right-open;
-        }
+    & > :first-child:not(#{$block}__arrow),
+    & > #{$block}__arrow + * {
+        border-start-start-radius: inherit;
+        border-start-end-radius: inherit;
     }
 
-    // arrow
-    &[data-popper-placement*='bottom'] #{$block}__arrow {
-        inset-block-start: -$arrow-offset;
+    & > :last-child {
+        border-end-start-radius: inherit;
+        border-end-end-radius: inherit;
     }
 
-    &[data-popper-placement*='top'] #{$block}__arrow {
-        inset-block-end: -$arrow-offset;
-
-        &-content {
-            transform: rotate(180deg);
-        }
+    @at-root [data-floating-ui-status='open'] > &,
+        [data-floating-ui-status='close'] > & {
+        transition-duration: $transition-duration;
     }
 
-    &[data-popper-placement*='left'] #{$block}__arrow {
-        // stylelint-disable-next-line csstools/use-logical
-        right: -$arrow-offset;
-
-        &-content {
-            transform: rotate(90deg);
-        }
+    @at-root [data-floating-ui-status='initial'] > &,
+        [data-floating-ui-status='close'] > & {
+        opacity: 0;
+        transform: translate(0, 0);
     }
 
-    &[data-popper-placement*='right'] #{$block}__arrow {
-        // stylelint-disable-next-line csstools/use-logical
-        left: -$arrow-offset;
-
-        &-content {
-            transform: rotate(-90deg);
-        }
+    @at-root [data-floating-ui-status='initial'][data-floating-ui-placement*='bottom'] > &,
+        [data-floating-ui-status='close'][data-floating-ui-placement*='bottom'] > & {
+        transform: translateY($transition-distance);
     }
 
-    &__content {
-        position: relative;
-        animation-duration: 0.1s;
-        animation-timing-function: ease-out;
-        animation-fill-mode: forwards;
-        border-radius: 4px;
-        background-color: var(--_--background-color);
-        box-shadow:
-            0 0 0 var(--_--border-width) var(--_--border-color),
-            0 8px 20px var(--_--border-width) var(--g-color-sfx-shadow);
-        outline: none;
+    @at-root [data-floating-ui-status='initial'][data-floating-ui-placement*='top'] > &,
+        [data-floating-ui-status='close'][data-floating-ui-placement*='top'] > & {
+        transform: translateY(-$transition-distance);
+    }
 
-        // Corners rounding for content
-        & > :first-child:not(#{$block}__arrow),
-        & > #{$block}__arrow + * {
-            border-start-start-radius: inherit;
-            border-start-end-radius: inherit;
-        }
+    @at-root [data-floating-ui-status='initial'][data-floating-ui-placement*='left'] > &,
+        [data-floating-ui-status='close'][data-floating-ui-placement*='left'] > & {
+        transform: translateX(-$transition-distance);
+    }
 
-        & > :last-child {
-            border-end-start-radius: inherit;
-            border-end-end-radius: inherit;
-        }
+    @at-root [data-floating-ui-status='initial'][data-floating-ui-placement*='right'] > &,
+        [data-floating-ui-status='close'][data-floating-ui-placement*='right'] > & {
+        transform: translateX($transition-distance);
+    }
+
+    &__arrow {
+        position: absolute;
     }
 
     &__arrow-content {
@@ -152,92 +116,34 @@ $transition-distance: 10px;
             inset-block-end: -4px;
         }
     }
-}
 
-@keyframes #{variables.$ns}popup-bottom {
-    0% {
-        opacity: 1;
-        transform: translateY(0);
+    @at-root [data-floating-ui-placement*='bottom'] #{$block}__arrow {
+        inset-block-start: -$arrow-offset;
     }
-    100% {
-        opacity: 0;
-        transform: translateY($transition-distance);
-    }
-}
 
-@keyframes #{variables.$ns}popup-bottom-open {
-    0% {
-        opacity: 0;
-        transform: translateY($transition-distance);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+    @at-root [data-floating-ui-placement*='top'] #{$block}__arrow {
+        inset-block-end: -$arrow-offset;
 
-@keyframes #{variables.$ns}popup-top {
-    0% {
-        opacity: 1;
-        transform: translateY(0);
+        &-content {
+            transform: rotate(180deg);
+        }
     }
-    100% {
-        opacity: 0;
-        transform: translateY(-$transition-distance);
-    }
-}
 
-@keyframes #{variables.$ns}popup-top-open {
-    0% {
-        opacity: 0;
-        transform: translateY(-$transition-distance);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+    @at-root [data-floating-ui-placement*='left'] #{$block}__arrow {
+        // stylelint-disable-next-line csstools/use-logical
+        right: -$arrow-offset;
 
-@keyframes #{variables.$ns}popup-left {
-    0% {
-        opacity: 1;
-        transform: translateX(0);
+        &-content {
+            transform: rotate(90deg);
+        }
     }
-    100% {
-        opacity: 0;
-        transform: translateX(-$transition-distance);
-    }
-}
 
-@keyframes #{variables.$ns}popup-left-open {
-    0% {
-        opacity: 0;
-        transform: translateX(-$transition-distance);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
+    @at-root [data-floating-ui-placement*='right'] #{$block}__arrow {
+        // stylelint-disable-next-line csstools/use-logical
+        left: -$arrow-offset;
 
-@keyframes #{variables.$ns}popup-right {
-    0% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateX($transition-distance);
-    }
-}
-
-@keyframes #{variables.$ns}popup-right-open {
-    0% {
-        opacity: 0;
-        transform: translateX($transition-distance);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
+        &-content {
+            transform: rotate(-90deg);
+        }
     }
 }

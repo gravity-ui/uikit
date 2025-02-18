@@ -8,293 +8,47 @@
 import {Popover} from '@gravity-ui/uikit';
 ```
 
-This component allows you to add a section with some pop-up content.
+The `Popover` component is technically the [`Popup`](../Popup/README.md) with some trigger interactivity built-in. The `Popover` uses passed `ReactElement`
+from `children` property as a trigger, and opens whenever trigger is hovered or clicked. Content of the `Popover` might contain
+interactive elements like links or buttons.
 
-### Simple usage
+## Usage
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Popover content="Tooltip">Open a tooltip</Popover>
-`}
->
-    <UIKit.Popover content="Tooltip">Open a tooltip</UIKit.Popover>
-</ExampleBlock>
-LANDING_BLOCK-->
+Wrap HTML element or any component that accepts native DOM handlers and ARIA attributes in properties (i.e. `Button`) with `Popover` component. Put your content
+into `content` property.
 
-<!--GITHUB_BLOCK-->
+```jsx
+import {Button, Popover} from '@gravity-ui/uikit';
 
-```tsx
-<Popover content="Tooltip">Open a tooltip</Popover>
+<Popover content="Content">
+  <Button>Click or hover me</Button>
+</Popover>;
 ```
-
-<!--/GITHUB_BLOCK-->
-
-### With jsx content
-
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Popover content={<Loader size="s" />}>Open a tooltip</Popover>
-`}
->
-    <UIKit.Popover content={<UIKit.Loader size="s" />}>Open a tooltip</UIKit.Popover>
-</ExampleBlock>
-LANDING_BLOCK-->
-
-<!--GITHUB_BLOCK-->
-
-```tsx
-<Popover content={<Loader size="s" />}>Open a tooltip</Popover>
-```
-
-<!--/GITHUB_BLOCK-->
-
-### With html content
-
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Popover
-  htmlContent={
-    'Tooltip\'s <b>html</b> content. Learn more <a href="https://example.com" target="_blank">here</a>'
-  }
->
-  Open a tooltip
-</Popover>
-`}
->
-    <UIKit.Popover
-      htmlContent={
-        'Tooltip\'s <b>html</b> content. Learn more <a href="https://example.com" target="_blank">here</a>'
-      }
-    >Open a tooltip</UIKit.Popover>
-</ExampleBlock>
-LANDING_BLOCK-->
-
-<!--GITHUB_BLOCK-->
-
-```tsx
-<Popover
-  htmlContent={
-    'Tooltip\'s <b>html</b> content. Learn more <a href="https://example.com" target="_blank">here</a>'
-  }
->
-  Open a tooltip
-</Popover>
-```
-
-<!--/GITHUB_BLOCK-->
-
-### With links
-
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Popover
-  links={[
-    {
-      text: 'Link with a href',
-      href: 'https://ya.ru',
-    },
-    {
-      text: 'Link with an onClick handler',
-      onClick: () => alert('The link is clicked'),
-    },
-  ]}
->
-  Open a tooltip
-</Popover>
-`}
->
-    <UIKit.Popover
-      links={[{text: 'Link with a href', href: 'https://ya.ru',},{text: 'Link with an onClick handler', onClick: () => alert('The link is clicked'),},]}
-    >Open a tooltip</UIKit.Popover>
-</ExampleBlock>
-LANDING_BLOCK-->
-
-<!--GITHUB_BLOCK-->
-
-```tsx
-<Popover
-  links={[
-    {
-      text: 'Link with a href',
-      href: 'https://ya.ru',
-    },
-    {
-      text: 'Link with an onClick handler',
-      onClick: () => alert('The link is clicked'),
-    },
-  ]}
->
-  Open a tooltip
-</Popover>
-```
-
-<!--/GITHUB_BLOCK-->
-
-### With action button
-
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Popover
-  tooltipActionButton={{
-    text: 'Action',
-    onClick: () => console.log('Action button was clicked'),
-  }}
->
-  Open a tooltip
-</Popover>
-`}
->
-    <UIKit.Popover
-      tooltipActionButton={{
-        text: 'Action',
-        onClick: () => console.log('Action button was clicked'),
-      }}
-    >Open a tooltip</UIKit.Popover>
-</ExampleBlock>
-LANDING_BLOCK-->
-
-<!--GITHUB_BLOCK-->
-
-```tsx
-<Popover
-  tooltipActionButton={{
-    text: 'Action',
-    onClick: () => console.log('Action button was clicked'),
-  }}
->
-  Open a tooltip
-</Popover>
-```
-
-<!--/GITHUB_BLOCK-->
-
-### With automatic closing when the cursor is outside for `delayClosing`
-
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Popover delayClosing={500}>Open a tooltip</Popover>
-`}
->
-    <UIKit.Popover delayClosing={500}>Open a tooltip</UIKit.Popover>
-</ExampleBlock>
-LANDING_BLOCK-->
-
-<!--GITHUB_BLOCK-->
-
-```tsx
-<Popover
-  tooltipActionButton={{
-    text: 'Action',
-    onClick: () => console.log('Action button was clicked'),
-  }}
->
-  Open a tooltip
-</Popover>
-```
-
-<!--/GITHUB_BLOCK-->
-
-## Instance usage
-
-```tsx
-import {Popover, PopoverInstanceProps} from '@gravity-ui/uikit';
-
-const popoverRef = useRef<PopoverInstanceProps>();
-
-const open = () => {
-  popoverRef.current?.openTooltip();
-};
-
-const close = () => {
-  popoverRef.current?.closeTooltip();
-};
-
-<>
-  <Popover content="Tooltip" ref={popoverRef} />
-  <button onClick={open}>Open a tooltip</button>
-  <button onClick={close}>Close a tooltip</button>
-</>;
-```
-
-### Instance properties
-
-| Name         | Description                     |    Type    | Default |
-| ------------ | ------------------------------- | :--------: | :-----: |
-| openTooltip  | Opens the `() => void` tooltip  | `Function` |         |
-| closeTooltip | Closes the `() => void` tooltip | `Function` |         |
 
 ## Properties
 
-| Name                    | Description                                                                                                                                                                                                                                                                            |                       Type                       |        Default        |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------: | :-------------------: |
-| anchorRef               | `Popper.js` anchor element that can also be `popper.VirtualElement`                                                                                                                                                                                                                    |  [`PopupAnchorRef`](../Popup/README.md#anchor)   |                       |
-| autoclosable            | Enables or disables closing the tooltip automatically when the cursor moves outside it                                                                                                                                                                                                 |                    `boolean`                     |        `true`         |
-| autoFocus               | If true, the focus will be transferred to the first element when the popover opens                                                                                                                                                                                                     |                    `boolean`                     |                       |
-| behavior                | Tooltip open or close behavior with `openOnHover`. `"immediate"`: without any delay, `"delayed"`: with 300ms delay for opening and closing, `"delayedClosing"`: with 300ms delay only for closing. This property will not apply in case `delayOpening` or `delayClosing` are provided. |   `"immediate"` `"delayed"` `"delayedClosing"`   |      `"delayed"`      |
-| children                | Tooltip's trigger content over which the tooltip is shown. It can either be the `(triggerProps: `[`TriggerProps`](#triggerprops))` => React.ReactNode` function or `ReactNode`.                                                                                                        |           `React.ReactNode` `Function`           |                       |
-| className               | CSS class for the control                                                                                                                                                                                                                                                              |                     `string`                     |                       |
-| content                 | Tooltip content                                                                                                                                                                                                                                                                        |                `React.ReactNode`                 |                       |
-| contentClassName        | CSS class for `content`                                                                                                                                                                                                                                                                |                     `string`                     |                       |
-| delayClosing            | Custom delay for closing if `autoclosable`                                                                                                                                                                                                                                             |                     `number`                     |                       |
-| delayOpening            | Custom delay for opening if `openOnHover`                                                                                                                                                                                                                                              |                     `number`                     |                       |
-| disabled                | Disables open state changes                                                                                                                                                                                                                                                            |                    `boolean`                     |        `false`        |
-| disablePortal           | Disable rendering of the popover in a portal                                                                                                                                                                                                                                           |                    `boolean`                     |        `false`        |
-| focusTrap               | Prevents focus from leaving the popover while open                                                                                                                                                                                                                                     |                    `boolean`                     |                       |
-| forceLinksAppearance    | Forces styles for links                                                                                                                                                                                                                                                                |                    `boolean`                     |        `false`        |
-| hasArrow                | Enables or disables a tooltip arrow                                                                                                                                                                                                                                                    |                    `boolean`                     |        `true`         |
-| hasClose                | Enables or disables a close button for a tooltip                                                                                                                                                                                                                                       |                    `boolean`                     |        `false`        |
-| htmlContent             | Tooltip's HTML content to render via `dangerouslySetInnerHTML`                                                                                                                                                                                                                         |                     `string`                     |                       |
-| initialOpen             | Enables or disables the tooltip initial opening                                                                                                                                                                                                                                        |                    `boolean`                     |        `false`        |
-| links                   | Links under the content                                                                                                                                                                                                                                                                |         `[`[`LinkProps`](#linksprops)`]`         |                       |
-| offset                  | Control's offset                                                                                                                                                                                                                                                                       |          `{top: number, left: number}`           |                       |
-| onClick                 | Anchor click callback: `(event: React.MouseEvent) => boolean \| Promise`. If the function returns `true, the tooltip will be open; otherwise, it won't open.                                                                                                                           |                    `Function`                    |                       |
-| onCloseClick            | Close button click handler: `(event: React.MouseEvent) => void`                                                                                                                                                                                                                        |                    `Function`                    |                       |
-| onOpenChange            | Open state change handler: `(open: boolean) => void`. Might be useful for the delayed rendering of the tooltip content.                                                                                                                                                                |                    `Function`                    |                       |
-| openOnHover             | Enables or disables opening the tooltip when hovered                                                                                                                                                                                                                                   |                    `boolean`                     |        `true`         |
-| placement               | `Popper.js` placement                                                                                                                                                                                                                                                                  | [`PopupPlacement`](../Popup/README.md#placement) | `["right", "bottom"]` |
-| qa                      | `data-qa` HTML attribute, used for testing                                                                                                                                                                                                                                             |                     `string`                     |                       |
-| restoreFocusRef         | Focused element when the popover closes                                                                                                                                                                                                                                                |                `React.RefObject`                 |                       |
-| size                    | Tooltip size                                                                                                                                                                                                                                                                           |                   `"s"` `"l"`                    |         `"s"`         |
-| strategy                | `Popper.js` positioning [strategy](https://popper.js.org/docs/v2/constructors/#strategy)                                                                                                                                                                                               |              `"absolute"` `"fixed"`              |     `"absolute"`      |
-| title                   | Tooltip title                                                                                                                                                                                                                                                                          |                     `string`                     |                       |
-| theme                   | Tooltip theme                                                                                                                                                                                                                                                                          |      `"info"` `"special"` `"announcement"`       |       `"info"`        |
-| tooltipActionButton     | Action button properties. The button won't be rendered without it.                                                                                                                                                                                                                     |   [`PopoverButtonProps`](#popoverbuttonprops)    |                       |
-| tooltipCancelButton     | Cancel button properties. The button won't be rendered without it.                                                                                                                                                                                                                     |   [`PopoverButtonProps`](#popoverbuttonprops)    |                       |
-| tooltipClassName        | Tooltip CSS class                                                                                                                                                                                                                                                                      |                     `string`                     |                       |
-| tooltipContentClassName | Tooltip content CSS class                                                                                                                                                                                                                                                              |                     `string`                     |                       |
-| tooltipOffset           | Tooltip offset relative to the control                                                                                                                                                                                                                                                 |                `[number, number]`                |                       |
-| tooltipId               | HTML ID attribute of the popover                                                                                                                                                                                                                                                       |                     `string`                     |                       |
-
-### TriggerProps
-
-| Name      | Description            |             Type             | Default |
-| --------- | ---------------------- | :--------------------------: | :-----: |
-| onClick   | Click event handler    |  `React.MouseEventHandler`   |         |
-| onKeyDown | Keyboard event handler | `React.KeyboardEventHandler` |         |
-
-### LinkProps
-
-| Name    | Description                                                                 |         Type         | Default |
-| ------- | --------------------------------------------------------------------------- | :------------------: | :-----: |
-| text    | Link text                                                                   |       `string`       |         |
-| href    | Link href                                                                   |       `string`       |         |
-| target  | Where link should be opened                                                 | `"_self"` `"_blank"` |         |
-| onClick | Click event handler: `(event: React.MouseEvent<HTMLAnchorElement>) => void` |      `Function`      |         |
-
-### PopoverButtonProps
-
-| Name    | Description                                                                  |    Type    | Default |
-| ------- | ---------------------------------------------------------------------------- | :--------: | :-----: |
-| text    | Button text                                                                  |  `string`  |         |
-| onClick | Button click handler: `(event: React.MouseEvent<HTMLButtonElement>) => void` | `Function` |         |
-
-| Name                    | Description       |
-| :---------------------- | :---------------- |
-| `--g-popover-padding`   | Content padding   |
-| `--g-popover-max-width` | Content max width |
+| Name                 | Description                                                                                                   |                                Type                                 |   Default    |
+| :------------------- | :------------------------------------------------------------------------------------------------------------ | :-----------------------------------------------------------------: | :----------: |
+| children             | `ReactNode` which accepts DOM handlers                                                                        |                          `React.ReactNode`                          |              |
+| className            | HTML `class` attribute for root node                                                                          |                              `string`                               |              |
+| content              | Any content to render inside the `Popover`                                                                    |                          `React.ReactNode`                          |              |
+| contentClassName     | HTML `class` attribute for content node                                                                       |                              `string`                               |              |
+| delay                | Wait specified time in milliseconds before changing `open` state                                              |             `number` `{open?: number; close?: number}`              |              |
+| disableEscapeKeyDown | Do not dismiss on `Esc` keydown                                                                               |                              `boolean`                              |   `false`    |
+| disableLayer         | Do not use `LayerManager` on stacking floating elements                                                       |                              `boolean`                              |   `false`    |
+| disableOutsideClick  | Do not dismiss on outside click                                                                               |                              `boolean`                              |   `false`    |
+| disablePortal        | Do not use `Portal` for children                                                                              |                              `boolean`                              |   `false`    |
+| disabled             | Do not open on any event                                                                                      |                              `boolean`                              |   `false`    |
+| enableSafePolygon    | Use dynamic polygon area when moving the pointer from trigger to `Popover` content to prevent it from closing |                              `boolean`                              |   `false`    |
+| hasArrow             | Render an arrow pointing to the trigger                                                                       |                              `boolean`                              |   `false`    |
+| keepMounted          | `Popover` will not be removed from the DOM upon hiding                                                        |                              `boolean`                              |   `false`    |
+| modal                | Enables focus trapping behaviour                                                                              |                              `boolean`                              |    `true`    |
+| middlewares          | `Floating UI` middlewares. If set, they will completely overwrite the default middlewares.                    |                         `Array<Middleware>`                         |              |
+| offset               | `Floating UI` offset value                                                                                    |                           `PopoverOffset`                           |     `4`      |
+| onOpenChange         | Function that is called when the `open` state changes                                                         |                             `Function`                              |              |
+| open                 | Manually control the `open` state                                                                             |                              `boolean`                              |              |
+| placement            | `Floating UI` placement                                                                                       | `Placement` `Array<Placement>` `"auto"` `"auto-start"` `"auto-end"` |   `"top"`    |
+| qa                   | Test attribute (`data-qa`)                                                                                    |                              `string`                               |              |
+| strategy             | `Floating UI` positioning strategy                                                                            |                       `"absolute"` `"fixed"`                        | `"absolute"` |
+| style                | HTML `style` attribute for root node                                                                          |                              `string`                               |              |
+| trigger              | Which event should open the `Popover`. By default, `click` and `hover` both do                                |                              `"click"`                              |              |

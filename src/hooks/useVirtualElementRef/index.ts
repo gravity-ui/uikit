@@ -1,4 +1,4 @@
-export {useVirtualElementRef} from './useVirtualElementRef';
+export {useVirtualElementRef, useVirtualElement} from './useVirtualElementRef';
 export type {
     VirtualElementRect,
     UseVirtualElementRefProps,

@@ -14,8 +14,9 @@ import {
     Radio,
     Spin,
     Switch,
+    Tab,
+    TabList,
     Table,
-    Tabs,
     withTableSelection,
 } from '../../../components';
 import {cn} from '../../../components/utils/cn';
@@ -113,9 +114,7 @@ export function BrandingConfigurator({theme}: BrandingConfiguratorProps) {
                         view="outlined"
                         size="xl"
                         onClick={handleRandomClick}
-                        extraProps={{
-                            'aria-label': 'Regenerate colors',
-                        }}
+                        aria-label="Regenerate colors"
                     >
                         <Icon data={ArrowsRotateRight} size={20} />
                     </Button>
@@ -158,14 +157,10 @@ export function BrandingConfigurator({theme}: BrandingConfiguratorProps) {
                 </div>
                 <div className={b('components-title')}>Tabs</div>
                 <div className={b('components-content')}>
-                    <Tabs
-                        activeTab={activeTab}
-                        onSelectTab={setActiveTab}
-                        items={[
-                            {id: 'overview', title: 'Overview'},
-                            {id: 'settings', title: 'Settings'},
-                        ]}
-                    />
+                    <TabList value={activeTab} onUpdate={setActiveTab}>
+                        <Tab value="overview">Overview</Tab>
+                        <Tab value="settings">Settings</Tab>
+                    </TabList>
                 </div>
                 <div className={b('components-title')}>Table</div>
                 <div className={b('components-content')}>

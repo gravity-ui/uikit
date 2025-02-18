@@ -30,22 +30,13 @@ LANDING_BLOCK-->
 
 ## Properties
 
-The `ClipboardButton` properties are inherited from the `Button` [properties](../Button/README.md#properties), except for `href`, `component`, `target`, `rel`, `loading`, and `children`.
+The `ClipboardButton` properties are inherited from the `Button` [properties](../Button/README.md#properties).
 
-| Name               | Description                                                               |                       Type                        |   Default   |
-| :----------------- | :------------------------------------------------------------------------ | :-----------------------------------------------: | :---------: |
-| hasTooltip         | Toggles displaying the tooltip                                            |                     `boolean`                     |   `true`    |
-| onCopy             | Callback after copying `(text: string, result: boolean) => void`          |                    `Function`                     |             |
-| options            | Copy to clipboard options                                                 | [CopyToClipboardOptions](#copytoclipboardoptions) |             |
-| text               | Text to copy                                                              |                     `string`                      |             |
-| timeout            | Time before the state switches back to normal after the button is clicked |                     `number`                      |   `1000`    |
-| tooltipInitialText | Text shown before copying                                                 |                     `string`                      |  `"Copy"`   |
-| tooltipSuccessText | Text shown after copying                                                  |                     `string`                      | `"Copied!"` |
-
-### CopyToClipboardOptions
-
-| Name    | Description                                                                                                                                                       |   Type    |    Default    |
-| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------: | :-----------: |
-| debug   | Enables output to console                                                                                                                                         | `boolean` |    `false`    |
-| message | Prompt message                                                                                                                                                    | `string`  |               |
-| format  | Set the MIME type of what you want to copy. Use `text/html` to copy as HTML and `text/plain` to avoid showing inherited styles when pasted into rich text editor. | `string`  | `"text/html"` |
+| Name               | Description                                                               |           Type           |   Default   |
+| :----------------- | :------------------------------------------------------------------------ | :----------------------: | :---------: |
+| hasTooltip         | Toggles displaying the tooltip                                            |        `boolean`         |   `true`    |
+| onCopy             | Callback after copying `(text: string, result: boolean) => void`          |        `Function`        |             |
+| text               | Text to copy (can be a string or a function that returns a string)        | `string \| () => string` |             |
+| timeout            | Time before the state switches back to normal after the button is clicked |         `number`         |   `1000`    |
+| tooltipInitialText | Text shown before copying                                                 |         `string`         |  `"Copy"`   |
+| tooltipSuccessText | Text shown after copying                                                  |         `string`         | `"Copied!"` |

@@ -1,0 +1,248 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}segmented-radio-group';
+
+#{$block} {
+    --_--border-width: 1px;
+    --_--transition-time: 0.15s;
+
+    box-sizing: border-box;
+    display: inline-flex;
+    flex-direction: row;
+    font-family: var(--g-text-body-font-family);
+    font-weight: var(--g-text-body-font-weight);
+    position: relative;
+
+    &__option {
+        position: relative;
+        flex: 1 1 auto;
+        user-select: none;
+        font-size: var(--g-text-body-1-font-size);
+        text-align: center;
+
+        cursor: pointer;
+        transform: scale(1);
+        transition: color var(--_--transition-time) linear;
+
+        &::before {
+            position: absolute;
+            inset-inline-start: 0;
+            inset-block: var(--_--border-width);
+            content: '';
+            width: var(--_--border-width);
+            background-color: var(--g-color-line-generic);
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            z-index: -1;
+            inset: 0;
+            border: var(--_--border-width) solid var(--g-color-line-generic);
+            border-radius: 0;
+
+            transition:
+                background-color var(--_--transition-time) linear,
+                border-color var(--_--transition-time) linear;
+        }
+
+        &:not(:first-child):not(&_checked)::after {
+            border-inline-start-width: 0;
+        }
+
+        &:not(:last-child):not(&_checked):after {
+            border-inline-end-width: 0;
+        }
+
+        &:first-child {
+            border-start-start-radius: var(--_--border-radius);
+            border-end-start-radius: var(--_--border-radius);
+
+            &::before {
+                display: none;
+            }
+
+            &::after {
+                border-start-start-radius: var(--_--border-radius);
+                border-end-start-radius: var(--_--border-radius);
+            }
+        }
+
+        &:last-child {
+            border-start-end-radius: var(--_--border-radius);
+            border-end-end-radius: var(--_--border-radius);
+
+            &::after {
+                border-start-end-radius: var(--_--border-radius);
+                border-end-end-radius: var(--_--border-radius);
+            }
+        }
+
+        &:not(&_checked):not(&_disabled):hover {
+            &::after {
+                background-color: var(--g-color-base-simple-hover);
+            }
+
+            #{$block}__option-text {
+                color: var(--g-color-text-primary);
+            }
+        }
+
+        &:has(#{&}-control:focus-visible) {
+            outline: 2px solid var(--g-color-line-misc);
+            outline-offset: calc(-1 * var(--_--border-width));
+        }
+
+        &-control {
+            position: absolute;
+            inset-block-start: 0;
+            inset-inline-start: 0;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            border: none;
+            outline: none;
+            opacity: 0;
+            cursor: inherit;
+        }
+
+        &-text {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            color: var(--g-color-text-complementary);
+            overflow: hidden;
+
+            &_icon {
+                height: 100%;
+                display: flex;
+                align-items: center;
+            }
+        }
+
+        &_checked {
+            cursor: default;
+            border-color: var(--g-color-line-brand);
+
+            #{$block}__option-text {
+                color: var(--g-color-text-brand-heavy);
+            }
+
+            &::after {
+                background-color: var(--g-color-base-selection);
+                border-color: var(--g-color-line-brand);
+            }
+
+            &::before,
+            & + #{$block}__option::before {
+                background-color: transparent;
+            }
+        }
+
+        &_disabled {
+            cursor: default;
+
+            &::after {
+                background-color: var(--g-color-base-generic);
+            }
+
+            #{$block}__option-text {
+                color: var(--g-color-text-hint);
+            }
+        }
+
+        &_disabled#{&}_checked {
+            &::after {
+                background-color: var(--g-color-base-generic-accent);
+                border-color: var(--g-color-line-generic-accent);
+            }
+
+            #{$block}__option-text {
+                color: var(--g-color-text-secondary);
+            }
+        }
+    }
+
+    &__option::before {
+        z-index: -1;
+    }
+
+    &_size {
+        &_s {
+            #{$block}__option {
+                height: 24px;
+                line-height: 24px;
+
+                &-text {
+                    margin: 0 10px;
+                }
+            }
+
+            --_--border-radius: var(--g-border-radius-s);
+        }
+
+        &_m {
+            #{$block}__option {
+                height: 28px;
+                line-height: 28px;
+
+                &-text {
+                    margin: 0 13px;
+                }
+            }
+
+            --_--border-radius: var(--g-border-radius-m);
+        }
+
+        &_l {
+            #{$block}__option {
+                height: 36px;
+                line-height: 36px;
+
+                &-text {
+                    margin: 0 18px;
+                }
+            }
+
+            --_--border-radius: var(--g-border-radius-l);
+        }
+
+        &_xl {
+            #{$block}__option {
+                height: 44px;
+                line-height: 44px;
+                font-size: var(--g-text-body-2-font-size);
+
+                &-text {
+                    margin: 0 25px;
+                }
+            }
+
+            --_--border-radius: var(--g-border-radius-xl);
+        }
+    }
+
+    &_width_auto {
+        max-width: 100%;
+    }
+
+    &_width_max {
+        width: 100%;
+    }
+
+    &_width_auto,
+    &_width_max {
+        #{$block}__option {
+            overflow: hidden;
+
+            &-text {
+                display: block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+}

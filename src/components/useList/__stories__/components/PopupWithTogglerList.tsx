@@ -68,12 +68,11 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
                 style={{width: COMPONENT_WIDTH, height: '80vh', overflow: 'auto', borderRadius: 6}}
                 anchorRef={controlWrapRef as React.RefObject<HTMLDivElement>}
                 placement={['bottom-start', 'bottom-end', 'top-start', 'top-end']}
-                offset={[0, 10]}
+                offset={10}
                 open={open}
                 onClose={() => setOpen(false)}
                 disablePortal
-                restoreFocus
-                restoreFocusRef={controlRef}
+                returnFocus={controlRef}
             >
                 <ListContainer
                     containerRef={containerRef}

@@ -1,0 +1,156 @@
+@use '../../../../styles/mixins';
+@use '../../variables';
+
+$block: '.#{variables.$ns}popover-legacy';
+
+#{$block} {
+    display: inline-block;
+    position: relative;
+
+    &:not(&_disabled) {
+        cursor: pointer;
+    }
+
+    &__handler {
+        display: inline-block;
+    }
+
+    $class: &;
+
+    &__tooltip {
+        $tooltip_block: &;
+
+        --_--padding: 16px;
+        --_--close-offset: 8px;
+        --_--close-size: 24px;
+
+        box-sizing: border-box;
+        min-height: 40px;
+        max-width: var(--g-popover-max-width, 300px);
+        padding: var(--g-popover-padding, var(--_--padding));
+        cursor: default;
+
+        &-title {
+            @include mixins.text-subheader-3();
+            display: inline-flex;
+            margin: 0 0 12px;
+        }
+
+        &-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-block-start: 20px;
+        }
+
+        &-button {
+            flex: 1;
+        }
+
+        &-close {
+            position: absolute;
+            inset-block-start: var(--_--close-offset);
+            inset-inline-end: var(--_--close-offset);
+        }
+
+        &-content {
+            @include mixins.text-body-1();
+            overflow-wrap: break-word;
+
+            &_secondary {
+                opacity: 0.7;
+            }
+        }
+
+        &-links > * {
+            margin-block-start: 8px;
+
+            &:first-child {
+                margin-block-start: 0;
+            }
+        }
+
+        &-content + &-links > * {
+            &:first-child {
+                margin-block-start: 12px;
+            }
+        }
+
+        &-link {
+            @include mixins.text-body-1();
+            display: inline-block;
+        }
+
+        &_theme {
+            &_info,
+            &_announcement {
+                // Increasing specificity for overrides
+                &#{&} {
+                    color: var(--g-color-text-primary);
+                }
+
+                #{$class}__tooltip-content a:not(.g-button) {
+                    @at-root #{$tooltip_block}_force-links-appearance#{&} {
+                        text-decoration: none;
+                        color: var(--g-color-text-link);
+
+                        &:hover {
+                            color: var(--g-color-text-link-hover);
+                        }
+                    }
+                }
+            }
+
+            &_announcement {
+                --g-popup-background-color: var(--g-color-base-simple-hover-solid);
+                --g-popup-border-color: var(--g-color-base-simple-hover-solid);
+            }
+
+            &_special {
+                --g-popup-background-color: var(--g-color-base-brand);
+                --g-popup-border-color: var(--g-color-base-brand);
+                color: var(--g-color-text-light-primary);
+
+                #{$class}__tooltip-content a:not(.g-button) {
+                    @include mixins.text-accent;
+                    color: var(--g-color-text-light-primary);
+
+                    &:hover {
+                        color: var(--g-color-text-light-secondary);
+                    }
+                }
+
+                .g-link {
+                    color: var(--g-color-text-light-primary);
+
+                    &:hover {
+                        color: var(--g-color-text-light-secondary);
+                    }
+                }
+            }
+        }
+
+        &_size {
+            &_l {
+                --_--padding: 24px;
+
+                #{$class}__tooltip-title {
+                    @include mixins.text-header-1();
+                }
+
+                #{$class}__tooltip-content {
+                    @include mixins.text-body-2();
+                }
+            }
+        }
+
+        &_with-close {
+            #{$class}__tooltip-title,
+            #{$class}__tooltip-content {
+                padding-inline-end: calc(
+                    var(--_--close-offset) + var(--_--close-size) - var(--_--padding)
+                );
+            }
+        }
+    }
+}

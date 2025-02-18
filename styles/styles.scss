@@ -1,57 +1,25 @@
-@import './themes';
+@use './themes';
 
 .g-root {
     background: var(--g-color-base-background);
     color: var(--g-color-text-primary);
 
-    @include g-theme-common;
+    @include themes.g-theme-common;
 
     &_theme_light {
-        @include g-theme-light;
+        @include themes.g-theme-light;
     }
 
     &_theme_dark {
-        @include g-theme-dark;
+        @include themes.g-theme-dark;
     }
 
     &_theme_light-hc {
-        @include g-theme-light-hc;
+        @include themes.g-theme-light-hc;
     }
 
     &_theme_dark-hc {
-        @include g-theme-dark-hc;
-    }
-}
-
-.g-root:not(.g-root_mobile):not(.g-root_native-scrollbar) {
-    scrollbar-width: var(--g-scrollbar-width);
-    scrollbar-color: var(--g-color-scroll-handle) var(--g-color-scroll-track);
-
-    &::-webkit-scrollbar,
-    *::-webkit-scrollbar {
-        width: var(--g-scrollbar-width);
-        height: var(--g-scrollbar-width);
-        background: var(--g-color-scroll-track);
-    }
-
-    &::-webkit-scrollbar-track,
-    *::-webkit-scrollbar-track {
-        background: var(--g-color-scroll-track);
-    }
-
-    &::-webkit-scrollbar-corner,
-    *::-webkit-scrollbar-corner {
-        background: var(--g-color-scroll-corner);
-    }
-
-    &::-webkit-scrollbar-thumb,
-    *::-webkit-scrollbar-thumb {
-        background: var(--g-color-scroll-handle);
-    }
-
-    &::-webkit-scrollbar-thumb:hover,
-    *::-webkit-scrollbar-thumb:hover {
-        background: var(--g-color-scroll-handle-hover);
+        @include themes.g-theme-dark-hc;
     }
 }
 

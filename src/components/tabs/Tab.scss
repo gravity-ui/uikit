@@ -1,0 +1,88 @@
+@use '../variables';
+@use '../../../styles/mixins';
+
+$block: '.#{variables.$ns}tab';
+
+#{$block} {
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    color: inherit;
+    background: transparent;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    height: var(--g-tabs-item-height, var(--_--item-height));
+    border: none;
+    padding: 0;
+    border-block-end: var(--g-tabs-item-border-width, var(--_--item-border-width)) solid transparent;
+    padding-block-start: var(--_--item-border-width);
+
+    &__content {
+        display: flex;
+        align-items: center;
+        border-radius: var(--g-focus-border-radius);
+        min-width: 0;
+        height: 100%;
+    }
+
+    &__icon {
+        margin-inline-end: 8px;
+    }
+
+    &__title {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: var(--g-color-text-secondary);
+    }
+
+    &__counter,
+    &__label {
+        margin-inline-start: 8px;
+    }
+
+    &__icon > svg {
+        display: block;
+    }
+
+    &:focus-visible {
+        #{$block}__content {
+            outline: 2px solid var(--g-color-line-focus);
+            outline-offset: -2px;
+        }
+    }
+
+    &__icon,
+    &__counter {
+        color: var(--g-color-text-hint);
+    }
+
+    &_active,
+    &:hover,
+    &:focus-visible {
+        #{$block}__title {
+            color: var(--g-color-text-primary);
+        }
+
+        #{$block}__icon,
+        #{$block}__counter {
+            color: var(--g-color-text-secondary);
+        }
+    }
+
+    &_active,
+    &_active:hover,
+    &_active:focus-visible {
+        border-color: var(--g-color-line-brand);
+    }
+
+    &_disabled {
+        pointer-events: none;
+
+        #{$block}__title {
+            color: var(--g-color-text-hint);
+        }
+    }
+}

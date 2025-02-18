@@ -81,6 +81,13 @@ OnRowClick.args = {
     },
 };
 
+export const RowInteractive = DefaultTemplate.bind({});
+RowInteractive.args = {
+    getRowDescriptor() {
+        return {interactive: true};
+    },
+};
+
 // ---------------------------------
 const oneColumn = _cloneDeep(columns);
 oneColumn[1].width = '100%';
@@ -201,7 +208,7 @@ const WithTableSelectionTemplate: StoryFn<TableProps<DataItem>> = (args) => {
 };
 export const HOCWithTableSelection = WithTableSelectionTemplate.bind({});
 
-export const DEFAULT_SETTINGS = columns.map((x) => ({id: x.id, isSelected: true}));
+const DEFAULT_SETTINGS = columns.map((x) => ({id: x.id, isSelected: true}));
 // ---------------------------------
 const WithTableSettingsTemplate: StoryFn<TableProps<DataItem>> = (args, context) => {
     const [settings, setSettings] = React.useState<TableSettingsData>(DEFAULT_SETTINGS);

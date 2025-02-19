@@ -19,6 +19,11 @@ export function updateBodyClassName({
 }) {
     const bodyEl = document.body;
 
+    // https://html.spec.whatwg.org/multipage/dom.html#dom-document-body-dev
+    if (!bodyEl) {
+        return;
+    }
+
     if (!bodyEl.classList.contains(rootClassName)) {
         bodyEl.classList.add(rootClassName);
     }

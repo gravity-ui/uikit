@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.43.1](https://github.com/gravity-ui/uikit/compare/v6.43.0...v6.43.1) (2025-02-20)
+
+
+### Bug Fixes
+
+* **ThemeProvider:** do not update class name in case of null body ([#2123](https://github.com/gravity-ui/uikit/issues/2123)) ([23f1f94](https://github.com/gravity-ui/uikit/commit/23f1f94883c9e52be32a2103f1bbf28827fde78e))
+
 ## [6.43.0](https://github.com/gravity-ui/uikit/compare/v6.42.0...v6.43.0) (2025-02-06)
 
 

@@ -24,4 +24,4 @@ jobs:
       - name: Install Packages
         run: npm ci
       - name: Run Commitlint
-        run: echo "${{github.event.pull_request.title}}" | npx commitlint
+        run: echo '${{github.event.pull_request.title}}' | npx commitlint

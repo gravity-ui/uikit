@@ -20,7 +20,7 @@ import {isTabbable} from 'tabbable';
 
 import {KeyCode} from '../../constants';
 import {useForkRef} from '../../hooks';
-import {usePrevious} from '../../hooks/private';
+import {useAnimateHeight, usePrevious} from '../../hooks/private';
 import {Portal} from '../Portal';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
@@ -96,8 +96,8 @@ export interface ModalProps extends DOMProps, AriaLabelingProps, QAProps {
     /** Callback called when `Popup` is closed and "out" transition is completed */
     onTransitionOutComplete?: () => void;
     contentOverflow?: 'visible' | 'auto';
-
     floatingRef?: React.RefObject<HTMLDivElement>;
+    disableHeightTransition?: boolean;
 }
 
 const b = block('modal');
@@ -130,6 +130,7 @@ export function Modal({
     container,
     qa,
     floatingRef,
+    disableHeightTransition = false,
     ...restProps
 }: ModalProps) {
     useLayer({open, type: 'modal'});
@@ -182,6 +183,10 @@ export function Modal({
     const {isMounted, status} = useTransitionStatus(context, {duration: TRANSITION_DURATION});
     const previousStatus = usePrevious(status);
 
+    const animateHeightProps = useAnimateHeight(
+        !disableHeightTransition && initialFocusRef.current ? initialFocusRef : undefined,
+    );
+
     React.useEffect(() => {
         if (status === 'initial' && previousStatus === 'unmounted') {
             onTransitionIn?.();
@@ -195,7 +200,7 @@ export function Modal({
     }, [previousStatus, status, onTransitionIn, onTransitionOut, onTransitionOutComplete]);
 
     const handleTransitionEnd = React.useCallback(
-        (event: React.TransitionEvent) => {
+        (event: React.TransitionEvent<HTMLDivElement>) => {
             // There are two simultaneous transitions running at the same time
             // Use specific name to only notify once
             if (
@@ -205,8 +210,10 @@ export function Modal({
             ) {
                 onTransitionInComplete?.();
             }
+
+            animateHeightProps.onTransitionEnd(event);
         },
-        [status, onTransitionInComplete, elements.floating],
+        [status, onTransitionInComplete, elements.floating, animateHeightProps],
     );
 
     const handleKeyDown = React.useCallback(

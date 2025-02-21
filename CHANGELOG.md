@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.4.1](https://github.com/gravity-ui/uikit/compare/v7.4.0...v7.4.1) (2025-02-21)
+
+
+### Bug Fixes
+
+* **ThemeProvider:** do not update class name in case of null body ([#2121](https://github.com/gravity-ui/uikit/issues/2121)) ([5215fe4](https://github.com/gravity-ui/uikit/commit/5215fe4dbac816d0a155bf79407e2d78df73bd31))
+
 ## [7.4.0](https://github.com/gravity-ui/uikit/compare/v7.3.0...v7.4.0) (2025-02-17)
 
 

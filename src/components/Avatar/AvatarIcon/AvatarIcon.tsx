@@ -1,4 +1,5 @@
 import {Icon} from '../../Icon';
+import {bAvatar} from '../constants';
 import type {AvatarSize} from '../types/common';
 
 import type {AvatarIconProps} from './types';
@@ -13,11 +14,11 @@ const avatarSizeToIconSize: Record<AvatarSize, number> = {
     xl: 24,
 };
 
-export const AvatarIcon = ({icon, color, size, className}: AvatarIconProps) => {
+export const AvatarIcon = ({icon, color, size}: AvatarIconProps) => {
     const style = {color};
 
     return (
-        <div style={style} className={className}>
+        <div className={bAvatar('icon')} style={style}>
             <Icon data={icon} size={avatarSizeToIconSize[size]} />
         </div>
     );

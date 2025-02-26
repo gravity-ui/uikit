@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import {AVATAR_SIZES} from '../constants';
+import {AVATAR_SIZES, bAvatar} from '../constants';
 
 import type {AvatarImageProps} from './types';
 
@@ -13,8 +13,8 @@ export const AvatarImage = ({
     srcSet,
     alt,
     loading,
+    withImageBorder,
     size,
-    className,
 }: AvatarImageProps) => {
     const [isErrored, setIsErrored] = React.useState(false);
 
@@ -29,7 +29,7 @@ export const AvatarImage = ({
 
     return (
         <img
-            className={className}
+            className={bAvatar('image', {'with-border': withImageBorder})}
             loading={loading}
             width={AVATAR_SIZES[size]}
             height={AVATAR_SIZES[size]}

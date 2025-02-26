@@ -16,7 +16,6 @@ import {Flex} from '../../layout';
 import {block} from '../../utils/cn';
 
 import {SelectPopupWidthShowcase} from './SelectPopupWidthShowcase';
-import {SelectShowcase} from './SelectShowcase';
 import {UseSelectOptionsShowcase} from './UseSelectOptionsShowcase';
 
 import './SelectShowcase.scss';
@@ -63,20 +62,6 @@ export const Default = {
             </Select>
         </Flex>
     ),
-} satisfies Story;
-
-export const Showcase2 = {
-    render: (args) => <SelectShowcase {...args} />,
-    args: {
-        view: 'normal',
-        size: 'm',
-        multiple: false,
-        filterable: false,
-        disabled: false,
-        placeholder: 'Values',
-        label: '',
-        hasClear: false,
-    },
 } satisfies Story;
 
 export const PopupWidth = {
@@ -128,7 +113,14 @@ const WithTitle: Decorator<StoryArgs> = (Story, context) => {
 };
 
 const showcaseArgs = {
-    ...Showcase2.args,
+    view: 'normal',
+    size: 'm',
+    multiple: false,
+    filterable: false,
+    disabled: false,
+    placeholder: 'Values',
+    label: '',
+    hasClear: false,
     title: 'Sample select',
 };
 

@@ -1,9 +1,11 @@
 import {FaceRobot} from '@gravity-ui/icons';
 
+import type {DistributiveOmit} from 'src/types/utils';
+
 import {Avatar} from '../Avatar';
 import type {AvatarProps} from '../types/main';
 
-export type TestAvatarProps = Omit<AvatarProps, 'imgUrl' | 'icon' | 'text'>;
+export type TestAvatarProps = DistributiveOmit<AvatarProps, 'imgUrl' | 'icon' | 'text'>;
 
 export const TestAvatarWithImage = (props: TestAvatarProps) => {
     return (

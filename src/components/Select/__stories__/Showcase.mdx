@@ -1,0 +1,21 @@
+import {Canvas, Meta} from '@storybook/blocks';
+import * as Stories from './Select.stories';
+
+<Meta of={Stories} />
+
+<Canvas of={Stories.Simple} />
+<Canvas of={Stories.WithGroups} />
+<Canvas of={Stories.WithDisabledOptions} />
+<Canvas of={Stories.WithUserOptions} />
+<Canvas of={Stories.WithUserSelectedOptions} />
+<Canvas of={Stories.WithUserControlAndNativeCustomIcon} />
+<Canvas of={Stories.WithUserControlAndCustomPlacement} />
+<Canvas of={Stories.WithVirtualizedList} />
+<Canvas of={Stories.WithCustomRendererAndTooltipAtDisabledItem} />
+<Canvas of={Stories.WithCustomFilterSection} />
+<Canvas of={Stories.WithCustomPopup} />
+
+## With errors
+
+<Canvas of={Stories.WithOutsideError} />
+<Canvas of={Stories.WithInsideError} />

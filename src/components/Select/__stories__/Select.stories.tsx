@@ -100,8 +100,6 @@ export const Form = {
 } satisfies Story;
 
 const WithTitle: Decorator<StoryArgs> = (Story, context) => {
-    console.log(context);
-
     return (
         <React.Fragment>
             <Text as="h3" variant="subheader-3" style={{margin: '0 0 4px'}}>

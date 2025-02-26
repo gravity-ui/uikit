@@ -26,11 +26,11 @@ export type SelectRenderTriggerProps = AriaLabelingProps &
         | 'disabled'
     >;
 
-export type SelectRenderControlProps = {
+export type SelectRenderControlProps<T extends HTMLElement = HTMLElement> = {
     onClear: () => void;
     renderClear: (args: SelectRenderClearArgs) => React.ReactNode;
     renderCounter: () => React.ReactNode;
-    ref: React.Ref<HTMLElement>;
+    ref: React.Ref<T>;
     open: boolean;
     disabled?: boolean;
     triggerProps: SelectRenderTriggerProps;
@@ -39,8 +39,8 @@ export type SelectRenderControlProps = {
 export type SelectRenderControlOptions = {
     value: SelectProps['value'];
 };
-export type SelectRenderControl = (
-    props: SelectRenderControlProps,
+export type SelectRenderControl<T extends HTMLElement = HTMLElement> = (
+    props: SelectRenderControlProps<T>,
     options: SelectRenderControlOptions,
 ) => React.ReactElement;
 

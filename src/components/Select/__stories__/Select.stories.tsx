@@ -112,7 +112,7 @@ const WithTitle: Decorator<StoryArgs> = (Story, context) => {
     );
 };
 
-const showcaseArgs = {
+const showcaseArgs: StoryArgs = {
     view: 'normal',
     size: 'm',
     multiple: false,

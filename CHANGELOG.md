@@ -1,5 +1,20 @@
 # Changelog
 
+## [7.5.0](https://github.com/gravity-ui/uikit/compare/v7.4.0...v7.5.0) (2025-02-26)
+
+
+### Features
+
+* **Avatar:** add withImageBorder property ([#2138](https://github.com/gravity-ui/uikit/issues/2138)) ([81a3380](https://github.com/gravity-ui/uikit/commit/81a338045381bb8561334bac3424b1bb6d71ab6d))
+
+
+### Bug Fixes
+
+* add export for legacy Breadcrumbs ([#2131](https://github.com/gravity-ui/uikit/issues/2131)) ([0d5b448](https://github.com/gravity-ui/uikit/commit/0d5b448690af4cb9b93fba4c146a0699a1c99356))
+* **Avatar:** add support for cyrillic characters ([#2137](https://github.com/gravity-ui/uikit/issues/2137)) ([c81d148](https://github.com/gravity-ui/uikit/commit/c81d1487750d2a37bdf7143c8b0174cdaaa039a1))
+* make `ref` in `renderControl` generic ([#2140](https://github.com/gravity-ui/uikit/issues/2140)) ([142c1e6](https://github.com/gravity-ui/uikit/commit/142c1e67a86f23770ff63257c64142a19806a0d5))
+* **ThemeProvider:** do not update class name in case of null body ([#2121](https://github.com/gravity-ui/uikit/issues/2121)) ([5215fe4](https://github.com/gravity-ui/uikit/commit/5215fe4dbac816d0a155bf79407e2d78df73bd31))
+
 ## [7.4.0](https://github.com/gravity-ui/uikit/compare/v7.3.0...v7.4.0) (2025-02-17)
 
 

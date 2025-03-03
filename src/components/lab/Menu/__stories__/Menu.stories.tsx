@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 import type {VirtualElement} from '@floating-ui/react';
-import {LayoutColumns3, LayoutRows3} from '@gravity-ui/icons';
+import {Envelope, LayoutColumns3, LayoutRows3, LogoTelegram, Smartphone} from '@gravity-ui/icons';
+import {action} from '@storybook/addon-actions';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import {BUTTON_ICON_SIZE_MAP} from '../../../Button/constants';
@@ -12,7 +13,7 @@ import {Menu} from '../Menu';
 import {MenuItem} from '../MenuItem';
 import {MenuTrigger} from '../MenuTrigger';
 
-import {getMenuItems} from './utils';
+import {getFullFeaturedMenuItems, getSimpleMenuItems} from './utils';
 
 const meta: Meta<typeof Menu> = {
     title: 'Lab/Menu',
@@ -28,15 +29,39 @@ type Story = StoryObj<typeof Menu>;
 
 export const Default = {
     render: (args) => {
+        return <Menu {...args}>{getSimpleMenuItems(args)}</Menu>;
+    },
+    args: {
+        trigger: <MenuTrigger aria-label="Actions" />,
+        onOpenChange: action('onOpenChange'),
+    },
+} satisfies Story;
+
+export const IconStory = {
+    ...Default,
+    name: 'Icon',
+    render: (args) => {
         return (
             <Menu {...args} trigger={<MenuTrigger aria-label="Actions" />}>
-                {getMenuItems(args)}
+                {getSimpleMenuItems(args, true)}
+            </Menu>
+        );
+    },
+} satisfies Story;
+
+export const FullFeatured = {
+    ...Default,
+    render: (args) => {
+        return (
+            <Menu {...args} trigger={<MenuTrigger aria-label="Actions" />}>
+                {getFullFeaturedMenuItems(args)}
             </Menu>
         );
     },
 } satisfies Story;
 
 export const Context = {
+    ...Default,
     render: (args) => {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const [anchor, setAnchor] = React.useState<VirtualElement | null>(null);
@@ -76,7 +101,7 @@ export const Context = {
                     Right click in the area to open the menu
                 </div>
                 <Menu {...args} trigger={anchor}>
-                    {getMenuItems(args)}
+                    {getFullFeaturedMenuItems(args)}
                 </Menu>
             </React.Fragment>
         );
@@ -84,10 +109,11 @@ export const Context = {
 } satisfies Story;
 
 export const InsideSheet = {
+    ...Default,
     render: (args) => {
         return (
             <Sheet visible>
-                <Menu {...args}>{getMenuItems(args, true)}</Menu>
+                <Menu {...args}>{getFullFeaturedMenuItems(args, true)}</Menu>
             </Sheet>
         );
     },
@@ -97,6 +123,7 @@ export const InsideSheet = {
 } satisfies Story;
 
 export const Selection = {
+    ...Default,
     render: (args) => {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const [value, setValue] = React.useState('row');
@@ -132,6 +159,37 @@ export const Selection = {
                         {item.title}
                     </MenuItem>
                 ))}
+            </Menu>
+        );
+    },
+} satisfies Story;
+
+export const Links = {
+    ...Default,
+    render: (args) => {
+        return (
+            <Menu {...args}>
+                <Menu.Item
+                    href="#mail"
+                    icon={<Icon data={Envelope} size={BUTTON_ICON_SIZE_MAP[args.size ?? 'm']} />}
+                >
+                    Mail
+                </Menu.Item>
+                <Menu.Item
+                    href="#sms"
+                    icon={<Icon data={Smartphone} size={BUTTON_ICON_SIZE_MAP[args.size ?? 'm']} />}
+                    disabled
+                >
+                    SMS
+                </Menu.Item>
+                <Menu.Item
+                    href="#telegram"
+                    icon={
+                        <Icon data={LogoTelegram} size={BUTTON_ICON_SIZE_MAP[args.size ?? 'm']} />
+                    }
+                >
+                    Telegram
+                </Menu.Item>
             </Menu>
         );
     },

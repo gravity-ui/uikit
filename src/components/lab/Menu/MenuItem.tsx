@@ -40,6 +40,7 @@ export const MenuItem = React.forwardRef(
             | React.Ref<T extends string ? React.ComponentRef<T> : T>,
     ) => {
         const {
+            theme,
             selected = false,
             disabled = false,
             icon,
@@ -120,6 +121,7 @@ export const MenuItem = React.forwardRef(
             tabIndex,
             className: b(
                 {
+                    theme,
                     size: menuContext.size,
                     active: isActive,
                     selected,

@@ -55,6 +55,28 @@ $b: '.#{variables.$ns}menu2-item';
         content: '';
     }
 
+    &_theme {
+        &_info {
+            --_--text-color: var(--g-color-text-info);
+        }
+
+        &_success {
+            --_--text-color: var(--g-color-text-positive);
+        }
+
+        &_warning {
+            --_--text-color: var(--g-color-text-warning);
+        }
+
+        &_danger {
+            --_--text-color: var(--g-color-text-danger);
+        }
+
+        &_utility {
+            --_--text-color: var(--g-color-text-utility);
+        }
+    }
+
     &_active {
         --_--background-color: var(--g-color-base-generic-hover);
     }

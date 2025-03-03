@@ -7,6 +7,8 @@ import type {DOMProps, QAProps} from '../../types';
 
 export type MenuSize = 's' | 'm' | 'l' | 'xl';
 
+export type MenuItemTheme = 'normal' | 'info' | 'success' | 'warning' | 'danger' | 'utility';
+
 export interface MenuProps
     extends Pick<PopupProps, 'open' | 'onOpenChange' | 'placement'>,
         DOMProps,
@@ -24,6 +26,7 @@ export interface MenuProps
 }
 
 interface MenuItemCommonProps extends QAProps {
+    theme?: MenuItemTheme;
     selected?: boolean;
     disabled?: boolean;
     icon?: React.ReactElement;

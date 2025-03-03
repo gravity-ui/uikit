@@ -12,7 +12,7 @@ import {Menu} from '../Menu';
 import {MenuItem} from '../MenuItem';
 import {MenuTrigger} from '../MenuTrigger';
 
-import {getMenuItems} from './utils';
+import {getFullFeaturedMenuItems, getSimpleMenuItems} from './utils';
 
 const meta: Meta<typeof Menu> = {
     title: 'Lab/Menu',
@@ -30,7 +30,28 @@ export const Default = {
     render: (args) => {
         return (
             <Menu {...args} trigger={<MenuTrigger aria-label="Actions" />}>
-                {getMenuItems(args)}
+                {getSimpleMenuItems(args)}
+            </Menu>
+        );
+    },
+} satisfies Story;
+
+export const IconStory = {
+    name: 'Icon',
+    render: (args) => {
+        return (
+            <Menu {...args} trigger={<MenuTrigger aria-label="Actions" />}>
+                {getSimpleMenuItems(args, true)}
+            </Menu>
+        );
+    },
+} satisfies Story;
+
+export const FullFeatured = {
+    render: (args) => {
+        return (
+            <Menu {...args} trigger={<MenuTrigger aria-label="Actions" />}>
+                {getFullFeaturedMenuItems(args)}
             </Menu>
         );
     },
@@ -76,7 +97,7 @@ export const Context = {
                     Right click in the area to open the menu
                 </div>
                 <Menu {...args} trigger={anchor}>
-                    {getMenuItems(args)}
+                    {getFullFeaturedMenuItems(args)}
                 </Menu>
             </React.Fragment>
         );
@@ -87,7 +108,7 @@ export const InsideSheet = {
     render: (args) => {
         return (
             <Sheet visible>
-                <Menu {...args}>{getMenuItems(args, true)}</Menu>
+                <Menu {...args}>{getFullFeaturedMenuItems(args, true)}</Menu>
             </Sheet>
         );
     },

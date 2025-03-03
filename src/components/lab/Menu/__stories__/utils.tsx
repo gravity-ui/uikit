@@ -31,7 +31,11 @@ export function getSimpleMenuItems(args: MenuProps, icon?: boolean) {
         <MenuItem key="move" icon={icon ? <Icon data={ArrowsExpand} size={iconSize} /> : undefined}>
             Move
         </MenuItem>,
-        <MenuItem key="delete" icon={icon ? <Icon data={TrashBin} size={iconSize} /> : undefined}>
+        <MenuItem
+            key="delete"
+            icon={icon ? <Icon data={TrashBin} size={iconSize} /> : undefined}
+            theme="danger"
+        >
             Delete
         </MenuItem>,
     ];
@@ -64,11 +68,7 @@ export function getFullFeaturedMenuItems(args: MenuProps, inline?: boolean) {
             Cut
         </Menu.Item>,
         <Menu.Divider key="divider1" />,
-        <Menu.Item
-            key="delete"
-            icon={<Icon data={TrashBin} size={iconSize} />}
-            style={{color: 'var(--g-color-text-danger)'}}
-        >
+        <Menu.Item key="delete" icon={<Icon data={TrashBin} size={iconSize} />} theme="danger">
             Delete
         </Menu.Item>,
     ];

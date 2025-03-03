@@ -2,6 +2,8 @@ import {
     ArrowRotateLeft,
     ArrowRotateRight,
     ArrowShapeTurnUpRight,
+    ArrowsExpand,
+    Copy,
     Envelope,
     LogoTelegram,
     MusicNote,
@@ -16,9 +18,26 @@ import {BUTTON_ICON_SIZE_MAP} from '../../../Button/constants';
 import {Hotkey} from '../../../Hotkey';
 import {Icon} from '../../../Icon';
 import {Menu} from '../Menu';
+import {MenuItem} from '../MenuItem';
 import type {MenuProps} from '../types';
 
-export function getMenuItems(args: MenuProps, inline?: boolean) {
+export function getSimpleMenuItems(args: MenuProps, icon?: boolean) {
+    const iconSize = BUTTON_ICON_SIZE_MAP[args.size ?? 'm'];
+
+    return [
+        <MenuItem key="copy" icon={icon ? <Icon data={Copy} size={iconSize} /> : undefined}>
+            Copy
+        </MenuItem>,
+        <MenuItem key="move" icon={icon ? <Icon data={ArrowsExpand} size={iconSize} /> : undefined}>
+            Move
+        </MenuItem>,
+        <MenuItem key="delete" icon={icon ? <Icon data={TrashBin} size={iconSize} /> : undefined}>
+            Delete
+        </MenuItem>,
+    ];
+}
+
+export function getFullFeaturedMenuItems(args: MenuProps, inline?: boolean) {
     const iconSize = BUTTON_ICON_SIZE_MAP[args.size ?? 'm'];
 
     const items = [

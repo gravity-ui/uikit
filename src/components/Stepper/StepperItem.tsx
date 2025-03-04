@@ -3,17 +3,16 @@ import * as React from 'react';
 import {CircleCheck, CircleDashed, CircleExclamation} from '@gravity-ui/icons';
 
 import {Button} from '../Button';
+import type {ButtonButtonProps} from '../Button';
 import {Icon} from '../Icon';
 import type {SVGIconData} from '../Icon/types';
 import {Text} from '../Text';
 
-import type {StepperProps} from './Stepper';
+import {useStepperContext} from './context';
 import type {StepperItemView} from './types';
 import {b} from './utils';
 
-import './Stepper.scss';
-
-export interface StepperItemProps {
+export type StepperItemProps = Omit<ButtonButtonProps, 'view'> & {
     id?: string | number;
     children: React.ReactNode;
     view?: StepperItemView;
@@ -21,23 +20,20 @@ export interface StepperItemProps {
     icon?: SVGIconData;
     onClick?: (event: React.MouseEvent) => void;
     className?: string;
-}
+};
 
-type ComponentProps = StepperItemProps &
-    Pick<StepperProps, 'size' | 'onUpdate'> & {selected?: string | number};
-
-export const StepperItem = (props: ComponentProps) => {
+export const StepperItem = React.forwardRef<HTMLButtonElement, StepperItemProps>((props, ref) => {
     const {
         id,
-        size,
         children,
         view = 'idle',
         disabled = false,
-        selected = false,
         className,
-        onUpdate,
         icon: customIcon,
+        ...restButtonProps
     } = props;
+
+    const {onUpdate, value, size} = useStepperContext();
 
     const onClick = (e: React.MouseEvent) => {
         props.onClick?.(e);
@@ -66,10 +62,12 @@ export const StepperItem = (props: ComponentProps) => {
         }
     }, [view, customIcon]);
 
-    const selectedItem = id === selected;
+    const selectedItem = id === undefined ? false : id === value;
 
     return (
         <Button
+            ref={ref}
+            {...restButtonProps}
             width="auto"
             title={typeof children === 'string' ? children : undefined}
             className={b('item', {view, disabled, selected: selectedItem, size}, className)}
@@ -82,4 +80,6 @@ export const StepperItem = (props: ComponentProps) => {
             <Text className={b('item-text')}>{children}</Text>
         </Button>
     );
-};
+});
+
+StepperItem.displayName = 'StepperItem';

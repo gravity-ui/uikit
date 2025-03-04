@@ -2,10 +2,10 @@ import {Cloud, CreditCard, Rocket} from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import {Text} from '../../Text';
-import {Flex} from '../../layout';
+import {Tooltip} from '../../Tooltip';
 import {Stepper} from '../Stepper';
 
-import {StepperShowcase} from './StepperShowcase';
+import {StepperInteractiveShowcase, StepperSizeShowcase} from './StepperShowcase';
 
 export default {
     title: 'Components/Navigation/Stepper',
@@ -59,28 +59,8 @@ export const View = {
 } satisfies Story;
 
 export const Size = {
-    render: (args) => {
-        return (
-            <Flex direction="column" gap={4}>
-                <Stepper {...args} size="s">
-                    <Stepper.Item>Step 1</Stepper.Item>
-                    <Stepper.Item>Step 2</Stepper.Item>
-                    <Stepper.Item>Step 3</Stepper.Item>
-                </Stepper>
-
-                <Stepper {...args} size="m">
-                    <Stepper.Item>Step 1</Stepper.Item>
-                    <Stepper.Item>Step 2</Stepper.Item>
-                    <Stepper.Item>Step 3</Stepper.Item>
-                </Stepper>
-
-                <Stepper {...args} size="l">
-                    <Stepper.Item>Step 1</Stepper.Item>
-                    <Stepper.Item>Step 2</Stepper.Item>
-                    <Stepper.Item>Step 3</Stepper.Item>
-                </Stepper>
-            </Flex>
-        );
+    render: () => {
+        return <StepperSizeShowcase />;
     },
 } satisfies Story;
 
@@ -133,6 +113,21 @@ export const CustomSeparator = {
 
 export const InteractiveShowcase = {
     render: (args) => {
-        return <StepperShowcase {...args} />;
+        return <StepperInteractiveShowcase {...args} />;
+    },
+} satisfies Story;
+
+export const WithFloatingElements = {
+    render: (args) => {
+        return (
+            <Stepper {...args} separator={<Separator />}>
+                <Tooltip content="fancy step with tooltip">
+                    <Stepper.Item>Step 1</Stepper.Item>
+                </Tooltip>
+                <Stepper.Item view="error">Step 2</Stepper.Item>
+                <Stepper.Item view="success">Step 3</Stepper.Item>
+                <Stepper.Item>Step 4 with very long title</Stepper.Item>
+            </Stepper>
+        );
     },
 } satisfies Story;

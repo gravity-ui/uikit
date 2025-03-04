@@ -11,9 +11,6 @@ $block: '.#{variables.$ns}stepper';
     display: flex;
     gap: var(--_--step-gap);
 
-    flex-wrap: nowrap;
-    overflow-x: auto;
-
     &__list-item {
         display: flex;
         flex-wrap: nowrap;
@@ -22,10 +19,6 @@ $block: '.#{variables.$ns}stepper';
     }
 
     &__item {
-        &:hover:not(&_disabled) {
-            background-color: var(--g-color-base-generic);
-        }
-
         &_selected:not(&_disabled) {
             border-color: var(--g-color-line-info);
         }

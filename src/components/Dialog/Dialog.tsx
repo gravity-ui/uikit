@@ -93,6 +93,7 @@ export function Dialog({
                 onEscapeKeyDown?.(event);
                 onClose?.(event, 'escapeKeyDown');
             },
+            open,
         };
 
         if (typeof initialFocus === 'string') {
@@ -101,7 +102,7 @@ export function Dialog({
         }
 
         return result;
-    }, [initialFocus, onEscapeKeyDown, onClose, onOpenChange]);
+    }, [initialFocus, onEscapeKeyDown, onClose, onOpenChange, open]);
 
     let initialFocusValue: ModalProps['initialFocus'];
     if (typeof initialFocus === 'string') {

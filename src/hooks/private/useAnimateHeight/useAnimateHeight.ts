@@ -6,11 +6,22 @@ export interface UseAnimateHeightResult {
     onTransitionEnd: (event: React.TransitionEvent<HTMLElement>) => void;
 }
 
-export function useAnimateHeight(
-    ref?: React.RefObject<HTMLElement | null | undefined>,
-): UseAnimateHeightResult {
+export function useAnimateHeight({
+    ref,
+    enabled,
+}: {
+    ref?: React.RefObject<HTMLElement | null | undefined>;
+    enabled: boolean;
+}): UseAnimateHeightResult {
     const previousHeight = React.useRef<number | null>(null);
     const isTransitioningHeight = React.useRef(false);
+
+    React.useEffect(() => {
+        if (!enabled) {
+            previousHeight.current = null;
+            isTransitioningHeight.current = false;
+        }
+    }, [enabled]);
 
     const handleContentTransitionEnd = React.useCallback(
         (event: React.TransitionEvent<HTMLElement>) => {
@@ -23,8 +34,6 @@ export function useAnimateHeight(
                 if (ref?.current) {
                     // eslint-disable-next-line no-param-reassign
                     ref.current.style.height = 'auto';
-                    // eslint-disable-next-line no-param-reassign
-                    ref.current.style.overflowY = '';
                     isTransitioningHeight.current = false;
                 }
             }, 0);
@@ -33,7 +42,7 @@ export function useAnimateHeight(
     );
 
     const handleResize = React.useCallback(() => {
-        if (!ref?.current || isTransitioningHeight.current) {
+        if (!ref?.current || isTransitioningHeight.current || !enabled) {
             return;
         }
 
@@ -46,9 +55,6 @@ export function useAnimateHeight(
         // Set previous height first for the transition to work, because it doesn't work with 'auto'
         // eslint-disable-next-line no-param-reassign
         ref.current.style.height = `${previousHeight.current}px`;
-        // Set overflow to hidden so that scrollbar doesn't appear while transitioning
-        // eslint-disable-next-line no-param-reassign
-        ref.current.style.overflowY = 'hidden';
         isTransitioningHeight.current = true;
 
         requestAnimationFrame(() => {
@@ -58,7 +64,7 @@ export function useAnimateHeight(
                 previousHeight.current = contentHeight;
             }
         });
-    }, [ref]);
+    }, [ref, enabled]);
 
     useResizeObserver({ref, onResize: handleResize});
 

@@ -183,9 +183,10 @@ export function Modal({
     const {isMounted, status} = useTransitionStatus(context, {duration: TRANSITION_DURATION});
     const previousStatus = usePrevious(status);
 
-    const animateHeightProps = useAnimateHeight(
-        !disableHeightTransition && initialFocusRef.current ? initialFocusRef : undefined,
-    );
+    const animateHeightProps = useAnimateHeight({
+        ref: !disableHeightTransition && initialFocusRef.current ? initialFocusRef : undefined,
+        enabled: open,
+    });
 
     React.useEffect(() => {
         if (status === 'initial' && previousStatus === 'unmounted') {

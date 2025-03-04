@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import {Button} from '../../../components/Button';
 import {Dialog} from '../../../components/Dialog/Dialog';
+import {Loader} from '../../../components/Loader';
 import {Select} from '../../../components/Select';
 import {TextInput} from '../../controls';
 import {Flex} from '../../layout/Flex/Flex';
@@ -125,19 +126,27 @@ function OtherDialog() {
 
 function DynamicHeightDialog() {
     const [open, setOpen] = React.useState(false);
-    const [rows, setRows] = React.useState(0);
+    const [isFirstDynamicPartOpen, setIsFirstDynamicPartOpen] = React.useState(false);
+    const [isSecondDynamicPartOpen, setIsSecondDynamicPartOpen] = React.useState(false);
 
     const switchVisibility = () => {
         setOpen((prevOpen) => !prevOpen);
     };
 
-    const addRows = () => {
-        setRows((previousRows) => previousRows + 2);
-    };
+    React.useEffect(() => {
+        if (open) {
+            setTimeout(() => {
+                setIsFirstDynamicPartOpen(true);
+            }, 2000);
 
-    const removeRows = () => {
-        setRows((previousRows) => Math.max(previousRows - 2, 0));
-    };
+            setTimeout(() => {
+                setIsSecondDynamicPartOpen(true);
+            }, 4000);
+        } else {
+            setIsFirstDynamicPartOpen(false);
+            setIsSecondDynamicPartOpen(false);
+        }
+    }, [open]);
 
     return (
         <div>
@@ -153,37 +162,47 @@ function DynamicHeightDialog() {
                 qa="dynamicHeight"
             >
                 <Dialog.Body>
-                    <div
-                        style={{
-                            overflowY: 'auto',
-                            maxHeight: '400px',
-                        }}
-                    >
-                        <Flex direction="column" gap="3" style={{paddingTop: '40px'}}>
-                            {[...Array(rows).keys()].map((key) => (
-                                <Flex
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    key={key}
-                                    style={{
-                                        height: '40px',
-                                        border: '1px solid',
-                                        borderRadius: '10px',
-                                    }}
-                                >
-                                    Row {key + 1}
-                                </Flex>
-                            ))}
-                        </Flex>
+                    <div>
+                        <div style={{marginTop: '24px', marginBottom: '24px'}}>
+                            This is a dialog with dynamic height
+                        </div>
+                        {isFirstDynamicPartOpen && (
+                            <div style={{display: 'flex', flexDirection: 'column', gap: '24px'}}>
+                                <div>Content loaded</div>
+                                <div>This is the description</div>
+                                <div>More content to come</div>
+                            </div>
+                        )}
+                        {(!isFirstDynamicPartOpen || !isSecondDynamicPartOpen) && (
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    marginTop: '24px',
+                                }}
+                            >
+                                <Loader />
+                            </div>
+                        )}
+                        {isSecondDynamicPartOpen && (
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: '24px',
+                                    marginTop: '24px',
+                                }}
+                            >
+                                <div>Second part loaded</div>
+                                <div>This is the description part 1</div>
+                                <div>This is the description part 2</div>
+                                <div>This is the description part 3</div>
+                                <div>No more content to load</div>
+                            </div>
+                        )}
                     </div>
                 </Dialog.Body>
-                <Dialog.Footer
-                    preset="default"
-                    onClickButtonCancel={removeRows}
-                    onClickButtonApply={addRows}
-                    textButtonApply="Add rows"
-                    textButtonCancel="Remove rows"
-                />
+                <Dialog.Footer preset="default" textButtonApply="Yes" textButtonCancel="No" />
             </Dialog>
         </div>
     );

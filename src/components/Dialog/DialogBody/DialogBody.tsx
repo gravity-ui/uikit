@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import {useAnimateHeight} from '../../../hooks/private';
 import {block} from '../../utils/cn';
+import {DialogPrivateContext} from '../DialogPrivateContext';
 
 import './DialogBody.scss';
 
@@ -16,7 +17,8 @@ export interface DialogBodyProps {
 export function DialogBody(props: DialogBodyProps) {
     const {className, hasBorders = false} = props;
     const contentRef = React.useRef<HTMLDivElement>(null);
-    const {onTransitionEnd} = useAnimateHeight(contentRef);
+    const {open} = React.useContext(DialogPrivateContext);
+    const {onTransitionEnd} = useAnimateHeight({ref: contentRef, enabled: open});
 
     return (
         <div className={b({'has-borders': hasBorders}, className)}>

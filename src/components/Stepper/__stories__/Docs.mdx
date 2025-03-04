@@ -17,6 +17,9 @@ export const StepperCustomSeparator = () => (
     <Canvas of={Stories.CustomSeparator} sourceState="none" />
 );
 export const StepperDisabled = () => <Canvas of={Stories.Disabled} sourceState="none" />;
+export const StepperWithFloatingElements = () => (
+    <Canvas of={Stories.WithFloatingElements} sourceState="none" />
+);
 export const StepperInteractiveShowcase = () => (
     <Canvas of={Stories.InteractiveShowcase} sourceState="none" />
 );
@@ -36,6 +39,7 @@ export const StepperInteractiveShowcase = () => (
             StepperCustomSeparator,
             StepperDisabled,
             StepperInteractiveShowcase,
+            StepperWithFloatingElements,
         },
     }}
 >

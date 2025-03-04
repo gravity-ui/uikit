@@ -170,6 +170,27 @@ const Separator = () => {
 
 <!--/GITHUB_BLOCK-->
 
+### Step with floating element
+
+<!--GITHUB_BLOCK-->
+
+```jsx
+<Stepper {...args} separator={<Separator />}>
+  <Tooltip content="fancy step with tooltip">
+    <Stepper.Item>Step 1</Stepper.Item>
+  </Tooltip>
+  <Stepper.Item view="error">Step 2</Stepper.Item>
+  <Stepper.Item view="success">Step 3</Stepper.Item>
+  <Stepper.Item>Step 4 with very long title</Stepper.Item>
+</Stepper>
+```
+
+<!-- Storybook example -->
+
+<StepperWithFloatingElements/>
+
+<!--/GITHUB_BLOCK-->
+
 ## Properties
 
 | Name             | Description                                                                         | Type                                   | Default |

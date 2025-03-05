@@ -27,6 +27,11 @@ $block: '.#{variables.$ns}control-label';
         line-height: 18px;
     }
 
+    &_size_xl {
+        font-size: var(--g-text-body-2-font-size);
+        line-height: 25px;
+    }
+
     &__indicator {
         flex-shrink: 0;
     }

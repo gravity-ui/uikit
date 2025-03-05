@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import {
     FloatingFocusManager,
+    FloatingNode,
     arrow,
     autoUpdate,
     offset as floatingOffset,
@@ -73,6 +74,8 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
     floatingMiddlewares?: Middleware[];
     /** Floating UI context to provide interactions */
     floatingContext?: FloatingRootContext<ReferenceType>;
+    /** Floating UI node id */
+    floatingNodeId?: string;
     /** Additional floating element props to provide interactions */
     floatingInteractions?: ElementProps[];
     /** React ref floating element is attached to */
@@ -157,6 +160,7 @@ export function Popup({
     anchorRef,
     floatingMiddlewares,
     floatingContext,
+    floatingNodeId,
     floatingInteractions,
     floatingRef,
     floatingStyles: floatingStylesProp,
@@ -231,6 +235,7 @@ export function Popup({
         update,
     } = useFloating({
         rootContext: floatingContext,
+        nodeId: floatingNodeId,
         strategy,
         placement: placement,
         open,
@@ -315,60 +320,70 @@ export function Popup({
         }
     }
 
-    return isMounted || keepMounted ? (
-        <Portal disablePortal={disablePortal}>
-            <FloatingFocusManager
-                context={context}
-                disabled={!isMounted}
-                modal={modal}
-                initialFocus={initialFocus}
-                returnFocus={returnFocus}
-                closeOnFocusOut={!disableFocusOut}
-                visuallyHiddenDismiss={disableVisuallyHiddenDismiss ? false : i18n('close')}
-                guards={modal || !disablePortal}
-                order={focusOrder}
-            >
-                <div
-                    ref={handleFloatingRef}
-                    className={floatingClassName}
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        zIndex,
-                        width: 'max-content',
-                        pointerEvents: isMounted ? 'auto' : 'none',
-                        outline: 'none',
-                        ...floatingStyles,
-                        ...floatingStylesProp,
-                    }}
-                    data-floating-ui-placement={finalPlacement}
-                    data-floating-ui-status={status}
-                    aria-modal={modal && isMounted ? true : undefined}
-                    {...getFloatingProps({
-                        onTransitionEnd: handleTransitionEnd,
-                    })}
+    const content =
+        isMounted || keepMounted ? (
+            <Portal disablePortal={disablePortal}>
+                <FloatingFocusManager
+                    context={context}
+                    disabled={!isMounted}
+                    modal={modal}
+                    initialFocus={initialFocus}
+                    returnFocus={returnFocus}
+                    closeOnFocusOut={!disableFocusOut}
+                    visuallyHiddenDismiss={disableVisuallyHiddenDismiss ? false : i18n('close')}
+                    guards={modal || !disablePortal}
+                    order={focusOrder}
                 >
                     <div
-                        ref={contentRef}
-                        className={b(
-                            {
-                                open: isMounted,
-                                'disable-transition': disableTransition,
-                            },
-                            className,
-                        )}
-                        style={style}
-                        data-qa={qa}
-                        {...filterDOMProps(restProps)}
+                        ref={handleFloatingRef}
+                        className={floatingClassName}
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            zIndex,
+                            width: 'max-content',
+                            pointerEvents: isMounted ? 'auto' : 'none',
+                            outline: 'none',
+                            ...floatingStyles,
+                            ...floatingStylesProp,
+                        }}
+                        data-floating-ui-placement={finalPlacement}
+                        data-floating-ui-status={status}
+                        aria-modal={modal && isMounted ? true : undefined}
+                        {...getFloatingProps({
+                            onTransitionEnd: handleTransitionEnd,
+                        })}
                     >
-                        {hasArrow && (
-                            <PopupArrow ref={setArrowElement} styles={middlewareData.arrowStyles} />
-                        )}
-                        {children}
+                        <div
+                            ref={contentRef}
+                            className={b(
+                                {
+                                    open: isMounted,
+                                    'disable-transition': disableTransition,
+                                },
+                                className,
+                            )}
+                            style={style}
+                            data-qa={qa}
+                            {...filterDOMProps(restProps)}
+                        >
+                            {hasArrow && (
+                                <PopupArrow
+                                    ref={setArrowElement}
+                                    styles={middlewareData.arrowStyles}
+                                />
+                            )}
+                            {children}
+                        </div>
                     </div>
-                </div>
-            </FloatingFocusManager>
-        </Portal>
-    ) : null;
+                </FloatingFocusManager>
+            </Portal>
+        ) : null;
+
+    if (floatingNodeId) {
+        return <FloatingNode id={floatingNodeId}>{content}</FloatingNode>;
+    }
+
+    return content;
 }

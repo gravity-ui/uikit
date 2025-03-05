@@ -16,13 +16,12 @@ import {Icon as IconComponent} from '../../Icon/Icon';
 import type {IconProps} from '../../Icon/Icon';
 import {Button} from '../Button';
 import type {ButtonButtonProps, ButtonLinkProps, ButtonSize} from '../Button';
+import {BUTTON_ICON_SIZE_MAP} from '../constants';
 
 import {ButtonViewShowcase} from './ButtonViewShowcase';
 
-const iconSizeMap = {xs: 12, s: 14, m: 16, l: 16, xl: 20} as const;
-
 function IconWithSize({data, size = 'm'}: Omit<IconProps, 'size'> & {size?: ButtonSize}) {
-    return <IconComponent data={data} size={iconSizeMap[size]} />;
+    return <IconComponent data={data} size={BUTTON_ICON_SIZE_MAP[size]} />;
 }
 
 IconWithSize.displayName = 'Icon';

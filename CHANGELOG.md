@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.5.1](https://github.com/gravity-ui/uikit/compare/v7.5.0...v7.5.1) (2025-03-05)
+
+
+### Bug Fixes
+
+* **DialogFooter:** extend types for propsButtonApply and propsButtonC… ([#2145](https://github.com/gravity-ui/uikit/issues/2145)) ([49d6529](https://github.com/gravity-ui/uikit/commit/49d65297c95e0354312b1f6fbeaf187b08c6a431))
+* fix comment subheader 3 ([#2142](https://github.com/gravity-ui/uikit/issues/2142)) ([70790b9](https://github.com/gravity-ui/uikit/commit/70790b971b264699a143620e704177e667328b3f))
+
 ## [7.5.0](https://github.com/gravity-ui/uikit/compare/v7.4.0...v7.5.0) (2025-02-26)
 
 

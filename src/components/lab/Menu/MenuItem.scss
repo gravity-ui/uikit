@@ -37,6 +37,8 @@ $b: '.#{variables.$ns}menu2-item';
 
     &::after,
     &__arrow {
+        display: flex;
+        align-items: center;
         position: relative;
         inset-inline-start: var(--_--submenu-icon-shift);
         margin-inline-start: auto;
@@ -122,9 +124,9 @@ $b: '.#{variables.$ns}menu2-item';
         }
 
         &_l {
-            --_--min-height: 36px;
+            --_--min-height: 32px;
             --_--padding-block: 8px;
-            --_--padding-inline: 16px;
+            --_--padding-inline: 12px;
             --_--border-radius: var(--g-border-radius-m);
             --_--icon-size: 16px;
             --_--icon-offset: 6px;
@@ -132,8 +134,8 @@ $b: '.#{variables.$ns}menu2-item';
         }
 
         &_xl {
-            --_--min-height: 44px;
-            --_--padding-block: 12px;
+            --_--min-height: 36px;
+            --_--padding-block: 8px;
             --_--padding-inline: 16px;
             --_--border-radius: var(--g-border-radius-l);
             --_--icon-size: 20px;

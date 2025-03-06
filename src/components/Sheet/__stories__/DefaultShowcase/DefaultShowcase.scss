@@ -8,7 +8,7 @@
         inset-block-start: 0;
         display: flex;
         justify-content: center;
-        margin-block-end: 20px;
+        padding-block-end: 20px;
         background-color: var(--g-color-base-background);
         z-index: 1;
     }
@@ -27,10 +27,10 @@
     }
 
     &__content-item {
-        margin-block-end: 15px;
+        padding-block-end: 15px;
 
         &:last-child {
-            margin-block-end: 25px;
+            padding-block-end: 25px;
         }
     }
 }

@@ -83,10 +83,12 @@ export const Default: StoryFn<SheetProps> = ({
                 onClose={() => setVisible(false)}
                 title={withTitle ? 'Sheet title' : undefined}
                 qa={DEFAULT_SHEET_QA}
+                topContent={
+                    <div className={b('content-item')}>
+                        <TextInput />
+                    </div>
+                }
             >
-                <div className={b('content-item')}>
-                    <TextInput />
-                </div>
                 <div className={b('content-item', b('checkbox'))}>
                     <Checkbox
                         content="Extra content"

@@ -11,6 +11,7 @@ export type SelectPopupProps = {
     placement?: PopupPlacement;
     controlRef?: React.RefObject<HTMLElement>;
     children?: React.ReactNode;
+    topContent?: React.ReactNode;
     className?: string;
     disablePortal?: boolean;
     virtualized?: boolean;

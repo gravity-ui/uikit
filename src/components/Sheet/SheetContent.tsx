@@ -39,6 +39,7 @@ interface SheetContentBaseProps {
     hideTopBar?: boolean;
     maxContentHeightCoefficient?: number;
     alwaysFullHeight?: boolean;
+    topContent?: React.ReactNode;
 }
 
 interface SheetContentDefaultProps {
@@ -81,6 +82,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     sheetTopRef = React.createRef<HTMLDivElement>();
     sheetMarginBoxRef = React.createRef<HTMLDivElement>();
     sheetScrollContainerRef = React.createRef<HTMLDivElement>();
+    sheetTopContainerRef = React.createRef<HTMLDivElement>();
     velocityTracker = new VelocityTracker();
     observer: ResizeObserver | null = null;
     resizeWindowTimer: number | null = null;
@@ -131,7 +133,8 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     }
 
     render() {
-        const {content, contentClassName, swipeAreaClassName, hideTopBar, title} = this.props;
+        const {content, contentClassName, swipeAreaClassName, hideTopBar, title, topContent} =
+            this.props;
 
         const {deltaY, swipeAreaTouched, contentTouched, veilTouched} = this.state;
 
@@ -180,6 +183,13 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
                         onTouchMove={this.onSwipeAriaTouchMove}
                         onTouchEnd={this.onSwipeAriaTouchEnd}
                     />
+                    <div
+                        ref={this.sheetTopContainerRef}
+                        className={sheetBlock('sheet-top-container')}
+                    >
+                        {title && <div className={sheetBlock('sheet-content-title')}>{title}</div>}
+                        <div className={sheetBlock('sheet-top-content')}>{topContent}</div>
+                    </div>
                     {/* TODO: extract to external component ContentArea */}
                     <div
                         ref={this.sheetScrollContainerRef}
@@ -195,11 +205,6 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
                         >
                             <div className={sheetBlock('sheet-margin-box-border-compensation')}>
                                 <div className={sheetBlock('sheet-content', contentClassName)}>
-                                    {title && (
-                                        <div className={sheetBlock('sheet-content-title')}>
-                                            {title}
-                                        </div>
-                                    )}
                                     {content}
                                 </div>
                             </div>
@@ -224,6 +229,10 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
 
     private get sheetScrollTop() {
         return this.sheetScrollContainerRef.current?.scrollTop || 0;
+    }
+
+    private get sheetTopContentHeight() {
+        return this.sheetTopContainerRef.current?.getBoundingClientRect().height || 0;
     }
 
     private get sheetContentHeight() {

@@ -16,6 +16,8 @@ import './Sheet.scss';
 export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePortal'>, QAProps {
     children?: React.ReactNode;
     onClose?: () => void;
+    /** Сontent fixed at the top of sheet */
+    topContent?: React.ReactNode;
     /** Show/hide sheet */
     visible: boolean;
     /** ID of the sheet, used as hash in URL. It's important to specify different `id` values if there can be more than one sheet on the page */
@@ -40,6 +42,7 @@ export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePort
 
 export const Sheet = ({
     children,
+    topContent,
     onClose,
     visible,
     id,
@@ -87,6 +90,7 @@ export const Sheet = ({
             >
                 <SheetContentContainer
                     id={id}
+                    topContent={topContent}
                     content={children}
                     contentClassName={contentClassName}
                     swipeAreaClassName={swipeAreaClassName}

@@ -11,6 +11,8 @@ export const themeCases: Array<NonNullable<AlertProps['theme']>> = [
     'utility',
 ];
 
+export const sizeCases: Array<NonNullable<AlertProps['size']>> = ['s', 'm', 'l'];
+
 export const viewCases: Cases<AlertProps['view']> = ['filled', 'outlined'];
 
 export const layoutCases: Cases<AlertProps['layout']> = ['vertical', 'horizontal'];

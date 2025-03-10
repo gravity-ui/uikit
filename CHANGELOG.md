@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.43.2](https://github.com/gravity-ui/uikit/compare/v6.43.1...v6.43.2) (2025-03-10)
+
+
+### Bug Fixes
+
+* **DialogFooter:** ignore onClickButtonApply if button is in disabled or in loading state ([#2155](https://github.com/gravity-ui/uikit/issues/2155)) ([e3ef30e](https://github.com/gravity-ui/uikit/commit/e3ef30e3c7dbdf48f1ef5f3ac9006dba260b94f2))
+
 ## [6.43.1](https://github.com/gravity-ui/uikit/compare/v6.43.0...v6.43.1) (2025-02-20)
 
 

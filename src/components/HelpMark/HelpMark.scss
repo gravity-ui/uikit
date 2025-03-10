@@ -15,4 +15,8 @@ $block: '.#{variables.$ns}help-mark';
     &__popover {
         padding: var(--g-spacing-3);
     }
+
+    &__icon {
+        display: block;
+    }
 }

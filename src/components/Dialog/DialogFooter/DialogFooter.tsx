@@ -175,7 +175,11 @@ export class DialogFooter extends React.Component<DialogFooterInnerProps> {
     private handleKeyDown = (event: KeyboardEvent) => {
         if (event.key === 'Enter') {
             event.preventDefault();
-            if (this.props.onClickButtonApply) {
+            if (
+                this.props.onClickButtonApply &&
+                !this.props.propsButtonApply?.disabled &&
+                (!this.props.loading || !this.props.propsButtonApply?.loading)
+            ) {
                 this.props.onClickButtonApply(event);
             }
         }

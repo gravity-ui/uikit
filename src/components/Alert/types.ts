@@ -1,8 +1,9 @@
 import type * as React from 'react';
 
-import type {ButtonProps} from '../Button';
+import type {ButtonProps, ButtonSize} from '../Button';
 import type {QAProps} from '../types';
 
+export type AlertSize = 's' | 'm' | 'l';
 export type AlertTheme = 'clear' | 'normal' | 'info' | 'success' | 'warning' | 'danger' | 'utility';
 export type AlertView = 'filled' | 'outlined';
 export type AlertLayout = 'vertical' | 'horizontal';
@@ -18,6 +19,7 @@ export type AlertContextType = {
      */
     layout: AlertLayout;
     view: AlertView;
+    size: AlertSize;
 };
 
 export type AlertContextProviderProps = React.PropsWithChildren<AlertContextType>;
@@ -26,6 +28,7 @@ export interface AlertProps extends QAProps, Partial<AlertContextType> {
     title?: React.ReactNode;
     message?: React.ReactNode;
     theme?: AlertTheme;
+    size?: AlertSize;
     /**
      * Override default icons
      */
@@ -35,6 +38,7 @@ export interface AlertProps extends QAProps, Partial<AlertContextType> {
      */
     corners?: AlertCorners;
     onClose?: () => void;
+    closeBtnSize?: ButtonSize;
     /**
      * Add you Actions to alert component:
      * - by declaration:

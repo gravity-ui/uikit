@@ -3,12 +3,123 @@
 $block: '.#{variables.$ns}alert';
 
 #{$block} {
+    --_--icon-indent: var(--g-spacing-2);
+    --_--close-btn-indent: 2px;
+    --_--title-font-weight: var(--g-text-subheader-font-weight);
+    --_--message-font-weight: var(--g-text-body-font-weight);
+    --_--message-font-size: var(--g-text-body-1-font-size);
+    --_--message-line-height: var(--g-text-body-1-line-height);
+
+    padding: var(--g-alert-padding, var(--_--padding));
+    --g-card-border-radius: var(--g-alert-border-radius, var(--_--border-radius));
+
+    display: flex;
+    align-items: var(--_--align);
+
+    &_align_baseline {
+        --_--align: baseline;
+
+        #{$block}__close-btn {
+            align-self: flex-start;
+        }
+    }
+
+    &_align_center {
+        --_--align: center;
+    }
+
     &_corners_square {
         --g-card-border-radius: 0;
     }
 
+    &_size {
+        &_s {
+            --_--padding: 11px var(--g-spacing-3);
+            --_--border-radius: var(--g-border-radius-m);
+            --_--text-content-gap: 0;
+            --_--content-gap: var(--g-spacing-2);
+            --_--title-font-size: var(--g-text-subheader-1-font-size);
+            --_--title-line-height: var(--g-text-subheader-1-line-height);
+        }
+
+        &_m {
+            --_--padding: var(--g-spacing-4) var(--g-spacing-5);
+            --_--border-radius: var(--g-border-radius-l);
+            --_--text-content-gap: var(--g-spacing-1);
+            --_--content-gap: var(--g-spacing-3);
+            --_--title-font-size: var(--g-text-subheader-2-font-size);
+            --_--title-line-height: var(--g-text-subheader-2-line-height);
+        }
+
+        &_l {
+            --_--padding: var(--g-spacing-6);
+            --_--border-radius: 12px;
+            --_--icon-indent: var(--g-spacing-3);
+            --_--close-btn-indent: 6px;
+            --_--text-content-gap: var(--g-spacing-2);
+            --_--content-gap: var(--g-spacing-5);
+            --_--title-font-size: var(--g-text-subheader-3-font-size);
+            --_--title-line-height: var(--g-text-subheader-3-line-height);
+            --_--message-font-size: var(--g-text-body-2-font-size);
+            --_--message-line-height: var(--g-text-body-2-line-height);
+        }
+    }
+
+    &__icon-wrapper {
+        margin-inline-end: var(--g-alert-icon-indent, var(--_--icon-indent));
+    }
+
+    &__icon {
+        vertical-align: text-bottom;
+    }
+
+    &__main {
+        flex-grow: 1;
+        display: flex;
+        gap: var(--g-alert-content-gap, var(--_--content-gap));
+
+        &_layout_vertical {
+            flex-direction: column;
+        }
+
+        &_layout_horizontal {
+            flex-direction: row;
+        }
+    }
+
     &__text-content {
+        display: flex;
+        flex-direction: column;
         width: 100%;
+        flex-grow: 1;
+
+        gap: var(--g-alert-text-content-gap, var(--_--text-content-gap));
+    }
+
+    &__title {
+        color: var(--g-alert-title-color, var(--g-color-text-primary));
+        font-size: var(--g-alert-title-font-size, var(--_--title-font-size));
+        font-weight: var(--g-alert-title-font-weight, var(--_--title-font-weight));
+        line-height: var(--g-alert-title-line-height, var(--_--title-line-height));
+    }
+
+    &__message {
+        color: var(--g-alert-message-color, var(--g-color-text-complementary));
+        font-size: var(--g-alert-message-font-size, var(--_--message-font-size));
+        font-weight: var(--g-alert-message-font-weight, var(--_--message-font-weight));
+        line-height: var(--g-alert-message-line-height, var(--_--message-line-height));
+    }
+
+    &__actions {
+        display: flex;
+        align-items: flex-start;
+        flex-wrap: wrap;
+
+        gap: var(--g-alert-actions-gap, var(--g-spacing-3));
+
+        &_center {
+            align-items: center;
+        }
     }
 
     &__actions_minContent {
@@ -17,5 +128,6 @@ $block: '.#{variables.$ns}alert';
 
     &__close-btn {
         flex-shrink: 0;
+        margin-inline-start: var(--g-alert-close-btn-indent, var(--_--close-btn-indent));
     }
 }

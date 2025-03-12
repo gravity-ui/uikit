@@ -29,8 +29,20 @@ test.describe('Alert', {tag: '@Alert'}, () => {
         await expectScreenshot();
     });
 
+    test('render story: <Size>', async ({mount, expectScreenshot}) => {
+        await mount(<AlertStories.Size />);
+
+        await expectScreenshot();
+    });
+
     test('render story: <CustomIcon>', async ({mount, expectScreenshot}) => {
         await mount(<AlertStories.CustomIcon />);
+
+        await expectScreenshot();
+    });
+
+    test('render story: <WithoutCloseBtn>', async ({mount, expectScreenshot}) => {
+        await mount(<AlertStories.WithoutCloseBtn />);
 
         await expectScreenshot();
     });

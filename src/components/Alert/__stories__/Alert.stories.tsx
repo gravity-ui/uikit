@@ -6,7 +6,14 @@ import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {Icon as IconComponent} from '../../Icon';
 import {Alert} from '../Alert';
-import {alignCases, cornersCases, layoutCases, themeCases, viewCases} from '../__tests__/cases';
+import {
+    alignCases,
+    cornersCases,
+    layoutCases,
+    sizeCases,
+    themeCases,
+    viewCases,
+} from '../__tests__/cases';
 import type {AlertProps} from '../types';
 
 export default {
@@ -39,10 +46,33 @@ export const Theme: Story = {
     },
 };
 
+export const Size: Story = {
+    render: (args) => (
+        <Showcase>
+            {sizeCases.map((size, index) => (
+                <ShowcaseItem title={size} key={index}>
+                    <Alert {...args} size={size} />
+                </ShowcaseItem>
+            ))}
+        </Showcase>
+    ),
+    args: {
+        ...Default.args,
+        actions: [{text: 'First action'}],
+    },
+};
+
 export const CustomIcon: Story = {
     args: {
         ...Default.args,
         icon: <IconComponent size={16} data={Gear} />,
+    },
+};
+
+export const WithoutCloseBtn: Story = {
+    args: {
+        ...Default.args,
+        onClose: undefined,
     },
 };
 

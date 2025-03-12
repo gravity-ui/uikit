@@ -67,9 +67,9 @@ export const StepperItem = React.forwardRef<HTMLButtonElement, StepperItemProps>
     return (
         <Button
             ref={ref}
+            title={typeof children === 'string' ? children : undefined}
             {...restButtonProps}
             width="auto"
-            title={typeof children === 'string' ? children : undefined}
             className={b('item', {view, disabled, selected: selectedItem, size}, className)}
             onClick={onClick}
             disabled={disabled}

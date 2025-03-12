@@ -12,6 +12,7 @@ import {
     hasTooltipCases,
     marksCases,
     sizeCases,
+    startPointCases,
     stepCases,
     validationStateCases,
 } from './cases';
@@ -38,6 +39,7 @@ test.describe('Slider', {tag: '@Slider'}, () => {
             tooltipDisplay: hasTooltipCases,
             marks: marksCases,
             step: stepCases,
+            startPoint: startPointCases,
         });
 
         const availableValuesScenarios = createSmokeScenarios(

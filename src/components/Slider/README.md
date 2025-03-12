@@ -277,7 +277,7 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
-### Start point
+## Start point
 
 The `startPoint` property allows you to set the start point of the track. It uses the minimal `Slider` value by default. It will be ignored if you use `Slider` with range values.
 
@@ -337,13 +337,13 @@ You are able to change display format of tooltip value by using `tooltipFormat` 
 | [marksFormat](#marks)            | Formatter for the mark's displayed value                                                                                                                                                 |             `(value: number) => string`              |         |
 | [max](#min-and-max-value)        | The maximum value of the component.                                                                                                                                                      |                       `number`                       |  `100`  |
 | [min](#min-and-max-value)        | The minimum value of the component.                                                                                                                                                      |                       `number`                       |   `0`   |
-| [startPoint](#start-point)       | Start point of the track. Ignored for range slider.                                                                                                                                      |                       `number`                       |         |
 | onBlur                           | Fires when the control lost focus. Provides focus event as a callback's argument                                                                                                         | `((e: FocusEvent<HTMLDivElement, Element>) => void)` |         |
 | onUpdate                         | Fires when the slider’s value is changed by the user. Provides change event as an callback's argument                                                                                    |   `((value: number \| [number, number]) => void)`    |         |
 | onUpdateComplete                 | Fires when ontouchend or onmouseup is triggered. Provides change event as an callback's argument                                                                                         |   `((value: number \| [number, number]) => void)`    |         |
 | onFocus                          | Fires when the control gets focus. Provides focus event as a callback's argument                                                                                                         | `((e: FocusEvent<HTMLDivElement, Element>) => void)` |         |
 | [size](#size)                    | The size of the control                                                                                                                                                                  |               `"s"` `"m"` `"l"` `"xl"`               |  `"m"`  |
 | [step](#step)                    | Value to be added or subtracted on each step the slider makes. Can be set to `null` to make `marks` as steps.                                                                            |                   `number` `null`                    |   `1`   |
+| [startPoint](#start-point)       | Start point of the track. Ignored for range slider.                                                                                                                                      |                       `number`                       |         |
 | tabIndex                         | The control's `tabIndex` attribute                                                                                                                                                       |             `number` `[number, number]`              |         |
 | [tooltipDisplay](#tooltip)       | The tooltip's display behaviour                                                                                                                                                          |                  `off` `on` `auto`                   |  `off`  |
 | [tooltipFormat](#tooltip)        | Formatter for the tooltip's displayed value. Uses `marksFormat` if not set                                                                                                               |             `(value: number) => string`              |         |

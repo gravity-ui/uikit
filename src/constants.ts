@@ -15,4 +15,5 @@ export const KeyCode = {
 
     HOME: 'Home',
     END: 'End',
+    TEST: 'Test',
 };

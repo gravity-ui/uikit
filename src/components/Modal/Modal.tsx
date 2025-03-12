@@ -163,12 +163,7 @@ export function Modal({
         onOpenChange: handleOpenChange,
     });
 
-    const initialFocusRef = React.useRef<HTMLDivElement>(null);
-    const handleFloatingRef = useForkRef<HTMLDivElement>(
-        refs.setFloating,
-        initialFocusRef,
-        floatingRef,
-    );
+    const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
 
     const dismiss = useDismiss(context, {
         enabled: !disableOutsideClick || !disableEscapeKeyDown,
@@ -184,7 +179,7 @@ export function Modal({
     const previousStatus = usePrevious(status);
 
     const animateHeightProps = useAnimateHeight({
-        ref: !disableHeightTransition && initialFocusRef.current ? initialFocusRef : undefined,
+        ref: !disableHeightTransition && refs.floating.current ? refs.floating : undefined,
         enabled: open,
     });
 
@@ -266,7 +261,7 @@ export function Modal({
                             context={context}
                             disabled={!isMounted}
                             modal={isMounted}
-                            initialFocus={initialFocus ?? initialFocusRef}
+                            initialFocus={initialFocus ?? refs.floating}
                             returnFocus={returnFocus}
                             visuallyHiddenDismiss={
                                 disableVisuallyHiddenDismiss ? false : i18n('close')

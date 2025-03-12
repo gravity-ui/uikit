@@ -17,8 +17,11 @@ export interface DialogBodyProps {
 export function DialogBody(props: DialogBodyProps) {
     const {className, hasBorders = false} = props;
     const contentRef = React.useRef<HTMLDivElement>(null);
-    const {open} = React.useContext(DialogPrivateContext);
-    const {onTransitionEnd} = useAnimateHeight({ref: contentRef, enabled: open});
+    const {disableHeightTransition} = React.useContext(DialogPrivateContext);
+    const {onTransitionEnd} = useAnimateHeight({
+        ref: contentRef,
+        enabled: !disableHeightTransition,
+    });
 
     return (
         <div className={b({'has-borders': hasBorders}, className)}>

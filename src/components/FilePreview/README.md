@@ -89,6 +89,7 @@ LANDING_BLOCK-->
 | className           | Class name for the file container                                                                                | `string`                   |          |         |
 | onClick             | Click handler for the file container                                                                             | `function`                 |          |         |
 | [actions](#actions) | Аn array of interactive actions                                                                                  | `FilePreviewActionProps[]` |          | `[]`    |
+| compact             | Use the compact view (small file preview without text)                                                           | `boolean`                  |          |         |
 
 #### Actions
 

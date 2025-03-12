@@ -211,15 +211,15 @@ const Separator = () => {
 
 ### StepperItemProps
 
-| Name      | Description                                       | Type                           | Default  |
-| :-------- | :------------------------------------------------ | :----------------------------- | :------- |
-| id        | Set `Step` id. Index of array element as default. | `string` `number`              |          |
+| Name      | Description                                       |              Type              | Default  |
+| :-------- | :------------------------------------------------ | :----------------------------: | :------: |
+| id        | Set `Step` id. Index of array element as default. |       `string` `number`        |          |
 | view      | Set `Step` view.                                  | `"idle"` `"error"` `"success"` | `"idle"` |
-| children  | `Step` content.                                   | `React.Node`                   |          |
-| disabled  | Determines whether `Step` is disable.             | `boolean`                      |          |
-| icon      | Custom icon node.                                 | `SVGIconData`                  |          |
-| onClick   | Step click handler.                               | `React.MouseEventHandler`      |          |
-| className | CSS class name for the element.                   | `string`                       |          |
+| children  | `Step` content.                                   |          `React.Node`          |          |
+| disabled  | Determines whether `Step` is disable.             |           `boolean`            |          |
+| icon      | Custom icon node.                                 |         `SVGIconData`          |          |
+| onClick   | Step click handler.                               |   `React.MouseEventHandler`    |          |
+| className | CSS class name for the element.                   |            `string`            |          |
 
 ### CSS API
 

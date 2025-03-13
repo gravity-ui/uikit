@@ -4,14 +4,12 @@ import {
     Composite,
     CompositeItem,
     FloatingList,
-    FloatingTree,
     flip,
     offset,
     safePolygon,
     shift,
     useClick,
     useDismiss,
-    useFloatingNodeId,
     useFloatingParentNodeId,
     useFloatingRootContext,
     useFloatingTree,
@@ -39,7 +37,65 @@ import './Menu.scss';
 
 const b = block('menu2');
 
-function MenuComponent({
+// The component is needed to run submenu logic hooks.
+// We get <nodeId> of the Popup using "useFloatingParentNodeId" here
+// and <parentId> from using "useFloatingParentNodeId" outside the Popup.
+function MenuPopupContent({
+    open,
+    onRequestClose,
+    parentId,
+    children,
+    className,
+    style,
+    qa,
+}: Pick<MenuProps, 'children' | 'className' | 'style' | 'qa'> & {
+    open: boolean;
+    onRequestClose: () => void;
+    parentId: string | null;
+}) {
+    const tree = useFloatingTree();
+    const nodeId = useFloatingParentNodeId();
+
+    React.useEffect(() => {
+        if (!tree) return;
+
+        function handleTreeClick() {
+            // Closing only the root Menu so the closing animation runs once for all menus due to shared portal container
+            if (!parentId) {
+                onRequestClose();
+            }
+        }
+
+        function handleSubMenuOpen(event: {nodeId: string; parentId: string}) {
+            // Closing on sibling submenu open
+            if (event.nodeId !== nodeId && event.parentId === parentId) {
+                onRequestClose();
+            }
+        }
+
+        tree.events.on('click', handleTreeClick);
+        tree.events.on('menuopen', handleSubMenuOpen);
+
+        return () => {
+            tree.events.off('click', handleTreeClick);
+            tree.events.off('menuopen', handleSubMenuOpen);
+        };
+    }, [onRequestClose, tree, nodeId, parentId]);
+
+    React.useEffect(() => {
+        if (open && tree) {
+            tree.events.emit('menuopen', {parentId, nodeId});
+        }
+    }, [open, tree, nodeId, parentId]);
+
+    return (
+        <div className={b(null, className)} style={style} data-qa={qa}>
+            {children}
+        </div>
+    );
+}
+
+export function Menu({
     trigger,
     inline = false,
     defaultOpen,
@@ -63,8 +119,6 @@ function MenuComponent({
     const itemsRef = React.useRef<Array<HTMLElement | null>>([]);
     const parentMenu = React.useContext(MenuContext);
 
-    const tree = useFloatingTree();
-    const nodeId = useFloatingNodeId();
     const parentId = useFloatingParentNodeId();
     const isNested = Boolean(parentId);
 
@@ -114,6 +168,10 @@ function MenuComponent({
           ? trigger(anchorProps, anchorRef)
           : null;
 
+    const handleContentRequestClose = React.useCallback(() => {
+        setIsOpen(false);
+    }, [setIsOpen]);
+
     const getItemPropsInline = React.useCallback(
         (userProps?: React.HTMLAttributes<HTMLElement>) => {
             const handleItemPointerEnter = (event: React.PointerEvent<HTMLElement>) => {
@@ -162,37 +220,6 @@ function MenuComponent({
         }),
         [parentMenu, inline, size, activeIndex, getItemPropsInline, getItemProps],
     );
-
-    React.useEffect(() => {
-        if (!tree) return;
-
-        function handleTreeClick() {
-            // Closing only the root Menu so the closing animation runs once for all menus due to shared portal container
-            if (!parentId) {
-                setIsOpen(false);
-            }
-        }
-
-        function handleSubMenuOpen(event: {nodeId: string; parentId: string}) {
-            if (event.nodeId !== nodeId && event.parentId === parentId) {
-                setIsOpen(false);
-            }
-        }
-
-        tree.events.on('click', handleTreeClick);
-        tree.events.on('menuopen', handleSubMenuOpen);
-
-        return () => {
-            tree.events.off('click', handleTreeClick);
-            tree.events.off('menuopen', handleSubMenuOpen);
-        };
-    }, [setIsOpen, tree, nodeId, parentId]);
-
-    React.useEffect(() => {
-        if (isOpen && tree) {
-            tree.events.emit('menuopen', {parentId, nodeId});
-        }
-    }, [isOpen, tree, nodeId, parentId]);
 
     React.useEffect(() => {
         if (!anchorNode) {
@@ -251,35 +278,27 @@ function MenuComponent({
                 placement={isNested ? `${isRTL ? 'left' : 'right'}-start` : placement}
                 disablePortal={isNested}
                 floatingContext={floatingContext}
-                floatingNodeId={nodeId}
                 floatingRef={setFloatingElement}
                 floatingMiddlewares={middlewares}
                 floatingInteractions={interactions}
             >
                 <MenuContext.Provider value={contextValue}>
                     <FloatingList elementsRef={itemsRef}>
-                        <div className={b(null, className)} style={style} data-qa={qa}>
+                        <MenuPopupContent
+                            open={isOpen}
+                            onRequestClose={handleContentRequestClose}
+                            parentId={parentId}
+                            className={className}
+                            style={style}
+                            qa={qa}
+                        >
                             {children}
-                        </div>
+                        </MenuPopupContent>
                     </FloatingList>
                 </MenuContext.Provider>
             </Popup>
         </React.Fragment>
     );
-}
-
-export function Menu(props: MenuProps) {
-    const parentId = useFloatingParentNodeId();
-
-    if (!props.inline && parentId === null) {
-        return (
-            <FloatingTree>
-                <MenuComponent {...props} />
-            </FloatingTree>
-        );
-    }
-
-    return <MenuComponent {...props} />;
 }
 
 Menu.displayName = 'Menu';

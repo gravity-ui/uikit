@@ -57,10 +57,12 @@ Use the `size` property to manage the `Checkbox` size. The default size is `m`.
     code={`
 <Checkbox size="m">M Size</Checkbox>
 <Checkbox size="l">L Size</Checkbox>
+<Checkbox size="xl">XL Size</Checkbox>
 `}
 >
     <UIKit.Checkbox size="m">M Size</UIKit.Checkbox>
     <UIKit.Checkbox size="l">L Size</UIKit.Checkbox>
+    <UIKit.Checkbox size="xl">XL Size</UIKit.Checkbox>
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -70,6 +72,7 @@ LANDING_BLOCK-->
 ```tsx
 <Checkbox size="m">M Size</Checkbox>
 <Checkbox size="l">L Size</Checkbox>
+<Checkbox size="xl">XL Size</Checkbox>
 ```
 
 <!--/GITHUB_BLOCK-->

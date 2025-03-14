@@ -3,6 +3,7 @@
 $block: '.#{variables.$ns}radio';
 $discMarginMSize: 5px;
 $discMarginLSize: 6px;
+$discMarginXLSize: 8px;
 
 #{$block} {
     &__indicator {
@@ -91,6 +92,17 @@ $discMarginLSize: 6px;
 
             #{$block}__disc::before {
                 inset: $discMarginLSize;
+            }
+        }
+
+        &_xl {
+            #{$block}__indicator {
+                width: 24px;
+                height: 24px;
+            }
+
+            #{$block}__disc::before {
+                inset: $discMarginXLSize;
             }
         }
     }

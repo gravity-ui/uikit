@@ -53,10 +53,12 @@ LANDING_BLOCK-->
     code={`
 <Radio value="option 1" content="M Size" size="m"/>
 <Radio value="option 2" content="L Size" size="l"/>
+<Radio value="option 3" content="XL Size" size="xl"/>
 `}
 >
     <UIKit.Radio value="option 1" content="M Size" size="m"/>
     <UIKit.Radio value="option 2" content="L Size" size="l"/>
+    <UIKit.Radio value="option 3" content="XL Size" size="xl"/>
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -66,6 +68,7 @@ LANDING_BLOCK-->
 ```tsx
 <Radio value="option 1" content="M Size" size="m"/>
 <Radio value="option 2" content="L Size" size="l"/>
+<Radio value="option 3" content="XL Size" size="xl"/>
 ```
 
 <!--/GITHUB_BLOCK-->

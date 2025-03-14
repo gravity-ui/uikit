@@ -21,6 +21,11 @@
     cursor: pointer;
 }
 
+@mixin link-reset() {
+    color: inherit;
+    text-decoration: inherit;
+}
+
 @mixin expand-interactive-area($h: 4px, $v: $h) {
     position: relative;
 

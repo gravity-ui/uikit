@@ -49,7 +49,8 @@ $block: '.#{variables.$ns}button';
         transition: background-color 0.15s linear;
     }
 
-    &:hover {
+    &:hover,
+    &[aria-haspopup][aria-expanded='true'] {
         color: var(--g-button-text-color-hover, var(--_--text-color-hover));
 
         &::before {

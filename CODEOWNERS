@@ -17,7 +17,7 @@
 #/src/components/Dialog
 /src/components/Disclosure @Raubzeug
 /src/components/Divider @v4dyar4
-/src/components/DropdownMenu @axtk
+#/src/components/DropdownMenu @axtk
 /src/components/FilePreview @mournfulCoroner
 /src/components/HelpMark @Raubzeug
 /src/components/Hotkey @d3m1d0v
@@ -34,7 +34,8 @@
 /src/components/Palette @Ruminat
 /src/components/PinInput @amje
 /src/components/PlaceholderContainer @Marginy605
-/src/components/Popover @kseniya57
+/src/components/legacy/Popover @kseniya57
+/src/components/Popover @amje
 /src/components/Popup @amje
 /src/components/Portal @amje
 /src/components/Progress @Lunory
@@ -65,7 +66,7 @@
 /src/hooks/useActionHandlers @ogonkov
 /src/hooks/useFileInput @korvin89
 /src/hooks/useForkRef @ValeraS
-/src/hooks/useIntersection @imechoim
+#/src/hooks/useIntersection @imechoim
 /src/hooks/useTimeout @ogonkov
 /src/hooks/useOutsideClick @NikitaCG
 /src/hooks/useViewportSize @NikitaCG

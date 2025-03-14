@@ -1,3 +1,4 @@
+export * from './useAnimateHeight';
 export * from './useBoolean';
 export * from './useCheckbox';
 export * from './useCloseOnTimeout';

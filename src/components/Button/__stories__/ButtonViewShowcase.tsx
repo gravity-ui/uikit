@@ -4,6 +4,7 @@ import {Icon} from '../../Icon';
 import {cn} from '../../utils/cn';
 import {Button} from '../Button';
 import type {ButtonProps} from '../Button';
+import {BUTTON_ICON_SIZE_MAP} from '../constants';
 
 import './ButtonViewShowcase.scss';
 
@@ -88,7 +89,11 @@ export function ButtonViewShowcase(args: ButtonProps) {
                         className={b('grid-cell')}
                     >
                         <Button {...props}>
-                            <Icon key="icon" data={Gear} />
+                            <Icon
+                                key="icon"
+                                data={Gear}
+                                size={BUTTON_ICON_SIZE_MAP[args.size || 'm']}
+                            />
                             Button
                         </Button>
                     </div>,

@@ -21,3 +21,11 @@ export const BUTTON_VIEWS = [
     'outlined-contrast', // outlined button appearance with contrast background
     'flat-contrast', // flat button appearance with contrast background
 ] as const;
+
+export const BUTTON_ICON_SIZE_MAP = {
+    xs: 12,
+    s: 14,
+    m: 16,
+    l: 16,
+    xl: 20,
+} as const;

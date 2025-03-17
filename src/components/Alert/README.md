@@ -193,7 +193,7 @@ LANDING_BLOCK-->
 
 ## Close button size
 
-`closeBtnSize` — close button size. It can be one of the available values of the `size` property of the `Button` component.
+`closeButttonSize` — close button size. It can be one of the available values of the `size` property of the `Button` component.
 
 Size by default - `m`
 
@@ -250,16 +250,14 @@ LANDING_BLOCK-->
 | :------------------------------ | :----------------------------------------------------------------------------- |
 | `--g-alert-padding`             | Side paddings.                                                                 |
 | `--g-alert-border-radius`       | Border radius.                                                                 |
-| `--g-alert-icon-indent`         | The indentation between icon and content part (text content + actions)         |
-| `--g-alert-close-btn-indent`    | The indentation between content part (text content + actions) and close button |
-| `--g-alert-content-gap`         | Gap between text content and actions.                                          |
-| `--g-alert-text-content-gap`    | Gap between title and message.                                                 |
+| `--g-alert-icon-margin`         | The indentation between icon and content part (text content + actions)         |
+| `--g-alert-close-btn-margin`    | The indentation between content part (text content + actions) and close button |
+| `--g-alert-actions-margin`      | Gap between text content and actions.                                          |
+| `--g-alert-message-margin`      | Gap between title and message.                                                 |
 | `--g-alert-actions-gap`         | Gap between action buttons.                                                    |
-| `--g-alert-title-color`         | Title color.                                                                   |
+| `--g-alert-title-text-color`    | Title color.                                                                   |
 | `--g-alert-title-font-size`     | Title font size.                                                               |
-| `--g-alert-title-font-weight`   | Title font weight.                                                             |
 | `--g-alert-title-line-height`   | Title line height.                                                             |
-| `--g-alert-message-color`       | Message color.                                                                 |
+| `--g-alert-message-text-color`  | Message color.                                                                 |
 | `--g-alert-message-font-size`   | Message font size.                                                             |
-| `--g-alert-message-font-weight` | Message font weight.                                                           |
 | `--g-alert-message-line-height` | Message line height.                                                           |

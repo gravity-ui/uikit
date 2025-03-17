@@ -3,8 +3,8 @@
 $block: '.#{variables.$ns}alert';
 
 #{$block} {
-    --_--icon-indent: var(--g-spacing-2);
-    --_--close-btn-indent: 2px;
+    --_--icon-margin: var(--g-spacing-2);
+    --_--close-btn-margin: 2px;
     --_--title-font-weight: var(--g-text-subheader-font-weight);
     --_--message-font-weight: var(--g-text-body-font-weight);
     --_--message-font-size: var(--g-text-body-1-font-size);
@@ -54,8 +54,8 @@ $block: '.#{variables.$ns}alert';
         &_l {
             --_--padding: var(--g-spacing-6);
             --_--border-radius: 12px;
-            --_--icon-indent: var(--g-spacing-3);
-            --_--close-btn-indent: 6px;
+            --_--icon-margin: var(--g-spacing-3);
+            --_--close-btn-margin: 6px;
             --_--text-content-gap: var(--g-spacing-2);
             --_--content-gap: var(--g-spacing-5);
             --_--title-font-size: var(--g-text-subheader-3-font-size);
@@ -66,7 +66,7 @@ $block: '.#{variables.$ns}alert';
     }
 
     &__icon-wrapper {
-        margin-inline-end: var(--g-alert-icon-indent, var(--_--icon-indent));
+        margin-inline-end: var(--g-alert-icon-margin, var(--_--icon-margin));
     }
 
     &__icon {
@@ -76,7 +76,7 @@ $block: '.#{variables.$ns}alert';
     &__main {
         flex-grow: 1;
         display: flex;
-        gap: var(--g-alert-content-gap, var(--_--content-gap));
+        gap: var(--g-alert-actions-margin, var(--_--content-gap));
 
         &_layout_vertical {
             flex-direction: column;
@@ -93,20 +93,20 @@ $block: '.#{variables.$ns}alert';
         width: 100%;
         flex-grow: 1;
 
-        gap: var(--g-alert-text-content-gap, var(--_--text-content-gap));
+        gap: var(--g-alert-message-margin, var(--_--text-content-gap));
     }
 
     &__title {
-        color: var(--g-alert-title-color, var(--g-color-text-primary));
+        color: var(--g-alert-title-text-color, var(--g-color-text-primary));
         font-size: var(--g-alert-title-font-size, var(--_--title-font-size));
-        font-weight: var(--g-alert-title-font-weight, var(--_--title-font-weight));
+        font-weight: var(--_--title-font-weight);
         line-height: var(--g-alert-title-line-height, var(--_--title-line-height));
     }
 
     &__message {
-        color: var(--g-alert-message-color, var(--g-color-text-complementary));
+        color: var(--g-alert-message-text-color, var(--g-color-text-complementary));
         font-size: var(--g-alert-message-font-size, var(--_--message-font-size));
-        font-weight: var(--g-alert-message-font-weight, var(--_--message-font-weight));
+        font-weight: var(--_--message-font-weight);
         line-height: var(--g-alert-message-line-height, var(--_--message-line-height));
     }
 
@@ -128,6 +128,6 @@ $block: '.#{variables.$ns}alert';
 
     &__close-btn {
         flex-shrink: 0;
-        margin-inline-start: var(--g-alert-close-btn-indent, var(--_--close-btn-indent));
+        margin-inline-start: var(--g-alert-close-btn-margin, var(--_--close-btn-margin));
     }
 }

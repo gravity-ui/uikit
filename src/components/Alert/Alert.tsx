@@ -34,7 +34,7 @@ export const Alert = (props: AlertProps) => {
         view = 'filled',
         size = 'm',
         layout = 'vertical',
-        closeBtnSize = 'm',
+        closeButttonSize = 'm',
         message,
         className,
         corners,
@@ -80,7 +80,7 @@ export const Alert = (props: AlertProps) => {
                     className={bAlert('close-btn')}
                     onClick={onClose}
                     aria-label={i18n('label_close')}
-                    size={closeBtnSize}
+                    size={closeButttonSize}
                 >
                     <Icon
                         data={Xmark}

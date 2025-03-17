@@ -43,7 +43,7 @@ export const Size: Story = {
                     Size l
                 </Checkbox>
                 <Checkbox {...args} size="xl">
-                    Size l
+                    Size xl
                 </Checkbox>
             </div>
         </Showcase>

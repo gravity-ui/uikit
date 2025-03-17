@@ -38,7 +38,7 @@ export interface AlertProps extends QAProps, Partial<AlertContextType> {
      */
     corners?: AlertCorners;
     onClose?: () => void;
-    closeBtnSize?: ButtonSize;
+    closeButttonSize?: ButtonSize;
     /**
      * Add you Actions to alert component:
      * - by declaration:

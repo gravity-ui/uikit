@@ -22,7 +22,7 @@ function prepareStartPoint({
     max: number;
     startPoint?: number;
 }) {
-    if (!startPoint) {
+    if (startPoint === undefined) {
         return undefined;
     }
     return prepareSingleValue({min, max, value: startPoint});

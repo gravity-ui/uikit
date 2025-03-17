@@ -4,7 +4,7 @@
 $block: '.#{variables.$ns}stepper';
 
 #{$block} {
-    --_--text-max-width: 150px;
+    --_--text-max-width: 180px;
     --_--step-gap: var(--g-stepper-gap, var(--g-spacing-2));
 
     list-style: none;
@@ -19,8 +19,10 @@ $block: '.#{variables.$ns}stepper';
     }
 
     &__item {
+        max-width: var(--g-stepper-item-text-max-width, var(--_--text-max-width));
+
         &_selected:not(&_disabled) {
-            border-color: var(--g-color-line-info);
+            --g-button-border-color: var(--g-color-line-brand);
         }
 
         &_disabled {
@@ -30,17 +32,6 @@ $block: '.#{variables.$ns}stepper';
                 color: var(--g-color-text-hint);
             }
         }
-    }
-
-    &__item-text {
-        display: inline-block;
-        vertical-align: middle;
-
-        width: 100%;
-        max-width: var(--g-stepper-item-text-max-width, var(--_--text-max-width));
-        color: var(--g-color-text-primary);
-
-        @include mixins.overflow-ellipsis();
     }
 
     &__item-icon {

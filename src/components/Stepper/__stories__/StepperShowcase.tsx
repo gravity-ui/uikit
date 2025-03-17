@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {Flex} from '../../layout/Flex/Flex';
+import {Showcase} from '../../../demo/Showcase';
 import {Stepper} from '../Stepper';
 import type {StepperProps} from '../Stepper';
 
@@ -19,7 +19,7 @@ export const StepperInteractiveShowcase = (props: StepperProps) => {
 
 export const StepperSizeShowcase = () => {
     return (
-        <Flex direction="column" gap={4}>
+        <Showcase direction="column">
             <Stepper size="s">
                 <Stepper.Item>Step 1</Stepper.Item>
                 <Stepper.Item>Step 2</Stepper.Item>
@@ -37,6 +37,6 @@ export const StepperSizeShowcase = () => {
                 <Stepper.Item>Step 2</Stepper.Item>
                 <Stepper.Item>Step 3</Stepper.Item>
             </Stepper>
-        </Flex>
+        </Showcase>
     );
 };

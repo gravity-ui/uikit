@@ -6,7 +6,6 @@ import {Button} from '../Button';
 import type {ButtonButtonProps} from '../Button';
 import {Icon} from '../Icon';
 import type {SVGIconData} from '../Icon/types';
-import {Text} from '../Text';
 
 import {useStepperContext} from './context';
 import type {StepperItemView} from './types';
@@ -74,10 +73,10 @@ export const StepperItem = React.forwardRef<HTMLButtonElement, StepperItemProps>
             onClick={onClick}
             disabled={disabled}
             size={size}
-            view={selectedItem ? 'outlined-info' : 'outlined'}
+            view="outlined"
         >
             <Icon data={icon} className={b('item-icon', {view})} />
-            <Text className={b('item-text')}>{children}</Text>
+            {children}
         </Button>
     );
 });

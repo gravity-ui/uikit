@@ -1,4 +1,4 @@
-import {Cloud, CreditCard, Rocket} from '@gravity-ui/icons';
+import {Gear} from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import {Text} from '../../Text';
@@ -81,11 +81,11 @@ export const CustomIcons = {
     render: (args) => {
         return (
             <Stepper {...args}>
-                <Stepper.Item icon={Rocket}>Step 1</Stepper.Item>
-                <Stepper.Item view="error" icon={CreditCard}>
+                <Stepper.Item icon={Gear}>Step 1</Stepper.Item>
+                <Stepper.Item view="error" icon={Gear}>
                     Step 2
                 </Stepper.Item>
-                <Stepper.Item view="success" icon={Cloud}>
+                <Stepper.Item view="success" icon={Gear}>
                     Step 3
                 </Stepper.Item>
                 <Stepper.Item>Step 4 with very long title</Stepper.Item>
@@ -120,7 +120,7 @@ export const InteractiveShowcase = {
 export const WithFloatingElements = {
     render: (args) => {
         return (
-            <Stepper {...args} separator={<Separator />}>
+            <Stepper {...args}>
                 <Tooltip content="fancy step with tooltip">
                     <Stepper.Item>Step 1</Stepper.Item>
                 </Tooltip>

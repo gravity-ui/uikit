@@ -35,12 +35,17 @@ export const Indeterminate: Story = {
 export const Size: Story = {
     render: (args) => (
         <Showcase>
-            <Checkbox {...args} size="m">
-                Size m
-            </Checkbox>
-            <Checkbox {...args} size="l">
-                Size l
-            </Checkbox>
+            <div style={{display: 'flex', alignItems: 'center', gap: '16px'}}>
+                <Checkbox {...args} size="m">
+                    Size m
+                </Checkbox>
+                <Checkbox {...args} size="l">
+                    Size l
+                </Checkbox>
+                <Checkbox {...args} size="xl">
+                    Size xl
+                </Checkbox>
+            </div>
         </Showcase>
     ),
 };

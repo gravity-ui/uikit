@@ -63,6 +63,7 @@ const options: RadioGroupOption[] = [
 ];
 <RadioGroup name="group1" defaultValue={options[0].value} options={options} size="m"/>
 <RadioGroup name="group2" defaultValue={options[0].value} options={options} size="l"/>
+<RadioGroup name="group3" defaultValue={options[0].value} options={options} size="xl"/>
 `}
 >
   <UIKit.RadioGroup name="group1" defaultValue="Value 1" options={
@@ -79,6 +80,13 @@ const options: RadioGroupOption[] = [
       {value: 'Value 3', content: 'Value 3'},
     ]
   } size="l"/>
+  <UIKit.RadioGroup name="group3" defaultValue="Value 1" options={
+    [
+      {value: 'Value 1', content: 'Value 1'},
+      {value: 'Value 2', content: 'Value 2'},
+      {value: 'Value 3', content: 'Value 3'},
+    ]
+  } size="xl"/>
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -93,6 +101,7 @@ LANDING_BLOCK-->
   ];
   <RadioGroup name="group1" defaultValue={options[0].value} options={options} size="m"/>
   <RadioGroup name="group2" defaultValue={options[0].value} options={options} size="l"/>
+  <RadioGroup name="group3" defaultValue={options[0].value} options={options} size="xl"/>
 ```
 
 <!--/GITHUB_BLOCK-->

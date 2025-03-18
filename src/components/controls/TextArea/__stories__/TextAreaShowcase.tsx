@@ -115,6 +115,7 @@ export function TextAreaCustomShowcase() {
                 <h3 className={b('section-header')}>Normal</h3>
                 <TextArea
                     {...textAreaProps}
+                    value={undefined}
                     defaultValue={`
 multi
 line
@@ -140,6 +141,7 @@ value`.trim()}
                 <h3 className={b('section-header')}>Custom theme</h3>
                 <TextArea
                     {...textAreaProps}
+                    value={undefined}
                     defaultValue={`
 multi
 line

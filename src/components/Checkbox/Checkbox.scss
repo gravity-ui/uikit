@@ -105,6 +105,23 @@ $block: '.#{variables.$ns}checkbox';
                 height: 17px;
             }
         }
+
+        &_xl {
+            #{$block}__icon-svg_type_tick {
+                width: 16px;
+                height: 13px;
+            }
+
+            #{$block}__icon-svg_type_dash {
+                width: 22px;
+                height: 22px;
+            }
+
+            #{$block}__indicator {
+                width: 24px;
+                height: 24px;
+            }
+        }
     }
 
     &:hover {

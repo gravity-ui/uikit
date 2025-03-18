@@ -37,6 +37,9 @@ export const Size: Story = {
             <ShowcaseItem title="Size l">
                 <RadioGroup {...args} size="l" />
             </ShowcaseItem>
+            <ShowcaseItem title="Size xl">
+                <RadioGroup {...args} size="xl" />
+            </ShowcaseItem>
         </Showcase>
     ),
     args: {

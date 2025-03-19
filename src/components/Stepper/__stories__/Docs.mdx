@@ -1,0 +1,47 @@
+import {
+    Meta,
+    Markdown,
+    Canvas,
+    AnchorMdx,
+    CodeOrSourceMdx,
+    HeadersMdx,
+} from '@storybook/addon-docs';
+import * as Stories from './Stepper.stories';
+import Readme from '../README.md?raw';
+
+export const StepperDefault = () => <Canvas of={Stories.Default} sourceState="none" />;
+export const StepperSize = () => <Canvas of={Stories.Size} sourceState="none" />;
+export const StepperView = () => <Canvas of={Stories.View} sourceState="none" />;
+export const StepperCustomIcons = () => <Canvas of={Stories.CustomIcons} sourceState="none" />;
+export const StepperCustomSeparator = () => (
+    <Canvas of={Stories.CustomSeparator} sourceState="none" />
+);
+export const StepperDisabled = () => <Canvas of={Stories.Disabled} sourceState="none" />;
+export const StepperWithFloatingElements = () => (
+    <Canvas of={Stories.WithFloatingElements} sourceState="none" />
+);
+export const StepperInteractiveShowcase = () => (
+    <Canvas of={Stories.InteractiveShowcase} sourceState="none" />
+);
+
+<Meta of={Stories} />
+
+<Markdown
+    options={{
+        overrides: {
+            code: CodeOrSourceMdx,
+            a: AnchorMdx,
+            ...HeadersMdx,
+            StepperDefault,
+            StepperSize,
+            StepperView,
+            StepperCustomIcons,
+            StepperCustomSeparator,
+            StepperDisabled,
+            StepperInteractiveShowcase,
+            StepperWithFloatingElements,
+        },
+    }}
+>
+    {Readme}
+</Markdown>

@@ -178,9 +178,9 @@ export function Modal({
     const {isMounted, status} = useTransitionStatus(context, {duration: TRANSITION_DURATION});
     const previousStatus = usePrevious(status);
 
-    const animateHeightProps = useAnimateHeight({
-        ref: !disableHeightTransition && refs.floating.current ? refs.floating : undefined,
-        enabled: open,
+    useAnimateHeight({
+        ref: refs.floating,
+        enabled: status === 'open' && !disableHeightTransition,
     });
 
     React.useEffect(() => {
@@ -206,10 +206,8 @@ export function Modal({
             ) {
                 onTransitionInComplete?.();
             }
-
-            animateHeightProps.onTransitionEnd(event);
         },
-        [status, onTransitionInComplete, elements.floating, animateHeightProps],
+        [status, onTransitionInComplete, elements.floating],
     );
 
     const handleKeyDown = React.useCallback(

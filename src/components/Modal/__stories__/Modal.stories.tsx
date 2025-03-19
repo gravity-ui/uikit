@@ -140,18 +140,23 @@ function ModalWithDynamicContent(props: ModalProps) {
     const [isSecondDynamicPartOpen, setIsSecondDynamicPartOpen] = React.useState(false);
 
     React.useEffect(() => {
+        const timers: number[] = [];
         if (props.open) {
-            setTimeout(() => {
+            timers[0] = window.setTimeout(() => {
                 setIsFirstDynamicPartOpen(true);
             }, 2000);
-
-            setTimeout(() => {
+            timers[1] = window.setTimeout(() => {
                 setIsSecondDynamicPartOpen(true);
             }, 4000);
         } else {
             setIsFirstDynamicPartOpen(false);
             setIsSecondDynamicPartOpen(false);
         }
+        return () => {
+            timers.forEach((t) => {
+                window.clearTimeout(t);
+            });
+        };
     }, [props.open]);
 
     return (

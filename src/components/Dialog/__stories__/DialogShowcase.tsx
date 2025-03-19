@@ -134,18 +134,23 @@ function DynamicHeightDialog() {
     };
 
     React.useEffect(() => {
+        const timers: number[] = [];
         if (open) {
-            setTimeout(() => {
+            timers[0] = window.setTimeout(() => {
                 setIsFirstDynamicPartOpen(true);
             }, 2000);
-
-            setTimeout(() => {
+            timers[1] = window.setTimeout(() => {
                 setIsSecondDynamicPartOpen(true);
             }, 4000);
         } else {
             setIsFirstDynamicPartOpen(false);
             setIsSecondDynamicPartOpen(false);
         }
+        return () => {
+            timers.forEach((t) => {
+                window.clearTimeout(t);
+            });
+        };
     }, [open]);
 
     return (

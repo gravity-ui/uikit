@@ -1,11 +1,11 @@
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react';
 
+import {Disclosure} from '../../../Disclosure';
 import {TextArea} from '../TextArea';
-import type {TextAreaProps} from '../TextArea';
 
 import {TextAreaCustomShowcase, TextAreaShowcase} from './TextAreaShowcase';
 
-export default {
+const meta: Meta<typeof TextArea> = {
     title: 'Components/Inputs/TextArea',
     component: TextArea,
     parameters: {
@@ -30,21 +30,63 @@ export default {
             },
         },
     },
-} as Meta;
-
-const fixConsoleErrors = {
-    onKeyDown: () => {},
-    onKeyUp: () => {},
-    onKeyPress: () => {},
 };
 
-const DefaultTemplate: StoryFn<TextAreaProps> = (args) => (
-    <TextArea {...fixConsoleErrors} {...args} />
-);
-export const Default = DefaultTemplate.bind({});
+export default meta;
 
-const ShowcaseTemplate: StoryFn = () => <TextAreaShowcase />;
-export const Showcase = ShowcaseTemplate.bind({});
+type Story = StoryObj<typeof TextArea>;
 
-const CustomThemeTemplate: StoryFn = () => <TextAreaCustomShowcase />;
-export const CustomTheme = CustomThemeTemplate.bind({});
+export const Default: Story = {
+    render: (args) => <TextArea {...args} />,
+    parameters: {
+        controls: {
+            exclude: /^on[A-Z]|Ref$/,
+        },
+    },
+    argTypes: {
+        autoComplete: {
+            options: ['on', 'off', 'none'],
+            mapping: {none: undefined},
+            control: {type: 'radio'},
+        },
+        note: {
+            control: 'text',
+        },
+        error: {
+            control: 'text',
+        },
+        errorMessage: {
+            control: 'text',
+        },
+        validationState: {
+            options: ['invalid', 'none'],
+            mapping: {none: undefined},
+            control: {type: 'radio'},
+        },
+    },
+};
+
+export const InsideDisclosure = {
+    ...Default,
+    render: function InsideDisclosure(args) {
+        return (
+            <Disclosure summary="TextArea inside">
+                <TextArea {...args} />
+            </Disclosure>
+        );
+    },
+    args: {
+        ...Default.args,
+        defaultValue: 'first line\nsecond line\nthird line',
+    },
+} satisfies Story;
+
+export const Showcase = {
+    render: () => <TextAreaShowcase />,
+    parameters: {controls: {disable: true}},
+} satisfies Story;
+
+export const CustomTheme = {
+    render: () => <TextAreaCustomShowcase />,
+    parameters: {controls: {disable: true}},
+} satisfies Story;

@@ -521,6 +521,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                     {disabled, interactive, 'vertical-align': verticalAlign},
                     additionalClassNames.join(' '),
                 )}
+                data-qa={`row-${rowIndex}`}
             >
                 {columns.map((column, colIndex) => {
                     const {id, align: rawAlign, primary, className, sticky: rawSticky} = column;
@@ -530,6 +531,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                     return (
                         <td
                             key={id}
+                            data-qa={`column-${id}`}
                             style={columnsStyles[colIndex]}
                             className={b(
                                 'cell',

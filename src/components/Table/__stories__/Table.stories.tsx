@@ -124,16 +124,19 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
                 alert(JSON.stringify(item));
                 action('default')(handlerArgs);
             },
+            qa: 'default-action',
         },
         {
             text: 'with icon',
             icon: <Icon data={Pencil} size={14} />,
             handler: () => {},
+            qa: 'with-icon-action',
         },
         {
             text: 'disabled',
             disabled: true,
             handler: () => {},
+            qa: 'disabled',
         },
         {
             text: 'danger theme',
@@ -142,6 +145,7 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
                 alert(index);
                 action('danger')(handlerArgs);
             },
+            qa: 'danger-theme-action',
         },
         {
             text: 'with href',
@@ -150,6 +154,7 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
             target: '_blank',
             rel: 'noopener noreferrer',
             handler: () => {},
+            qa: 'with-href-action',
         },
     ];
     return (

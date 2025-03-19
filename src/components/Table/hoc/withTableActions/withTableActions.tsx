@@ -56,6 +56,7 @@ export interface TableAction<I> {
     disabled?: boolean;
     theme?: MenuItemProps['theme'];
     icon?: MenuItemProps['iconStart'];
+    qa?: string;
 }
 
 export interface TableActionGroup<I> {
@@ -169,6 +170,7 @@ const DefaultRowActions = <I extends TableDataItem>({
                 placement={DEFAULT_PLACEMENT}
                 onOutsideClick={closePopup}
                 id={rowId}
+                qa="table-actions-popup"
             >
                 <Menu className={menuCn} size={rowActionsSize}>
                     {actions.map(renderPopupMenuItem)}
@@ -181,6 +183,7 @@ const DefaultRowActions = <I extends TableDataItem>({
                 size={rowActionsSize}
                 ref={anchorRef}
                 disabled={disabled}
+                qa="actions-trigger"
                 aria-label={i18n('label-actions')}
                 aria-expanded={isPopupOpen}
                 aria-controls={rowId}

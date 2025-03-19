@@ -7,6 +7,7 @@ export type DefinitionListItemNote = string | HelpMarkProps;
 export interface DefinitionListItemProps {
     name: React.ReactNode;
     children?: React.ReactNode;
+    qa?: string;
     copyText?: string;
     note?: DefinitionListItemNote;
 }

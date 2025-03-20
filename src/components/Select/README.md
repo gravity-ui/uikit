@@ -1198,9 +1198,9 @@ LANDING_BLOCK-->
 | errorMessage                                              | Error text                                                                                                                       | `string`                                 |                                                          |
 | errorPlacement                                            | Error position                                                                                                                   | `outside` `inside`                       | `outside`                                                |
 | validationState                                           | Validation state                                                                                                                 | `"invalid"`                              |                                                          |
-| [hasCounter](#counter)                                    | Shows the selected option count. The counter appears only when the [multiple](#selecting-multiple-options) selection is enabled. | `boolean`                                |
-| aria-label                                                | Control label, in case there is no visible label on page                                                                         | `string`                                 |
-| aria-labelledby                                           | Id of label, that is visible on page                                                                                             | `string`                                 |
+| [hasCounter](#counter)                                    | Shows the selected option count. The counter appears only when the [multiple](#selecting-multiple-options) selection is enabled. | `boolean`                                |                                                          |
+| aria-label                                                | Control label, in case there is no visible label on page                                                                         | `string`                                 |                                                          |
+| aria-labelledby                                           | Id of label, that is visible on page                                                                                             | `string`                                 |                                                          |
 
 ## CSS API
 

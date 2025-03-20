@@ -48,6 +48,8 @@ type ControlProps = {
     popupId: string;
     selectId: string;
     activeIndex?: number;
+    'aria-label'?: string;
+    'aria-labelledby'?: string;
 };
 
 export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((props, ref) => {
@@ -76,6 +78,8 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         renderCounter,
         hasCounter,
         title,
+        'aria-label': ariaLabel,
+        'aria-labelledby': ariaLabelledby,
     } = props;
     const showOptionsText = Boolean(selectedOptionsContent);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
@@ -164,6 +168,8 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         'aria-expanded': open,
         'aria-activedescendant':
             activeIndex === undefined ? undefined : `${popupId}-item-${activeIndex}`,
+        'aria-label': ariaLabel,
+        'aria-labelledby': ariaLabelledby,
         onClick: handleControlClick,
         onKeyDown,
         disabled,

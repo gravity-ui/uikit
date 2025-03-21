@@ -1,0 +1,12 @@
+.compact-file-preview-with-actions {
+    display: inline-flex;
+
+    position: relative;
+
+    &:hover,
+    &:focus-within {
+        .file-preview-actions-compact {
+            opacity: 1;
+        }
+    }
+}

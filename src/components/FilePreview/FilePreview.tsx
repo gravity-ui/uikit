@@ -41,7 +41,7 @@ const FILE_ICON: Record<FileType, IconData> = {
     table: TableIcon,
 };
 
-export interface FilePreviewProps extends QAProps {
+interface FilePreviewBaseProps extends QAProps {
     className?: string;
 
     file: File;
@@ -49,18 +49,24 @@ export interface FilePreviewProps extends QAProps {
     description?: string;
 
     onClick?: React.MouseEventHandler<HTMLDivElement>;
-    actions?: FilePreviewActionProps[];
 }
 
-export function FilePreview({
-    className,
-    qa,
-    file,
-    imageSrc,
-    description,
-    onClick,
-    actions,
-}: FilePreviewProps) {
+interface DefaultFilePreviewProps extends FilePreviewBaseProps {
+    actions?: FilePreviewActionProps[];
+    view?: 'default';
+}
+
+interface CompactFilePreviewProps extends FilePreviewBaseProps {
+    view: 'compact';
+}
+
+export type FilePreviewProps = DefaultFilePreviewProps | CompactFilePreviewProps;
+
+export function FilePreview(props: FilePreviewProps) {
+    const {className, qa, file, imageSrc, description, onClick, view = 'default'} = props;
+
+    const actions = view === 'default' && 'actions' in props ? props.actions : undefined;
+
     const [previewSrc, setPreviewSrc] = React.useState<string | undefined>(imageSrc);
     const type = getFileType(file);
 
@@ -89,8 +95,10 @@ export function FilePreview({
 
     const isPreviewString = typeof previewSrc === 'string';
 
+    const compact = view === 'compact';
+
     return (
-        <div className={cn({mobile}, className)} data-qa={qa}>
+        <div className={cn({mobile, view}, className)} data-qa={qa}>
             <div
                 className={cn('card', {clickable, hoverable: clickable || withActions})}
                 role={clickable ? 'button' : undefined}
@@ -109,26 +117,32 @@ export function FilePreview({
                         </div>
                     </div>
                 )}
-                <Text className={cn('name')} color="secondary" ellipsis title={file.name}>
-                    {file.name}
-                </Text>
-                {Boolean(description) && (
-                    <Text
-                        className={cn('description')}
-                        color="secondary"
-                        ellipsis
-                        title={description}
-                    >
-                        {description}
-                    </Text>
+                {!compact && (
+                    <React.Fragment>
+                        <Text className={cn('name')} color="secondary" ellipsis title={file.name}>
+                            {file.name}
+                        </Text>
+                        {Boolean(description) && (
+                            <Text
+                                className={cn('description')}
+                                color="secondary"
+                                ellipsis
+                                title={description}
+                            >
+                                {description}
+                            </Text>
+                        )}
+                    </React.Fragment>
                 )}
             </div>
-            <FilePreviewActions
-                actions={actions}
-                hoverabelPanelClassName={cn('actions-panel')}
-                fileName={file.name}
-                isCustomImage={isPreviewString}
-            />
+            {actions?.length && (
+                <FilePreviewActions
+                    hoverabelPanelClassName={cn('actions-panel')}
+                    fileName={file.name}
+                    isCustomImage={isPreviewString}
+                    actions={actions}
+                />
+            )}
         </div>
     );
 }

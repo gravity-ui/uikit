@@ -32,6 +32,7 @@ export default {
     args: {
         columns,
         data,
+        qa: 'test-table',
     },
     parameters: {
         a11y: {

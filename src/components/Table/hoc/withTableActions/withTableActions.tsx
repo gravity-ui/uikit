@@ -56,6 +56,7 @@ export interface TableAction<I> {
     disabled?: boolean;
     theme?: MenuItemProps['theme'];
     icon?: MenuItemProps['iconStart'];
+    qa?: string;
 }
 
 export interface TableActionGroup<I> {
@@ -105,6 +106,7 @@ type DefaultRowActionsProps<I extends TableDataItem> = Pick<
     Pick<TableProps<I>, 'isRowDisabled' | 'getRowDescriptor'> & {
         item: I;
         index: number;
+        tableQa?: string;
     };
 
 const DefaultRowActions = <I extends TableDataItem>({
@@ -114,6 +116,7 @@ const DefaultRowActions = <I extends TableDataItem>({
     getRowDescriptor,
     rowActionsSize,
     isRowDisabled,
+    tableQa,
 }: DefaultRowActionsProps<I>) => {
     const [isPopupOpen, , closePopup, togglePopup] = useBoolean(false);
     const anchorRef = React.useRef<HTMLButtonElement>(null);
@@ -169,6 +172,7 @@ const DefaultRowActions = <I extends TableDataItem>({
                 placement={DEFAULT_PLACEMENT}
                 onOutsideClick={closePopup}
                 id={rowId}
+                qa={tableQa && `${tableQa}-actions-popup`}
             >
                 <Menu className={menuCn} size={rowActionsSize}>
                     {actions.map(renderPopupMenuItem)}
@@ -181,6 +185,7 @@ const DefaultRowActions = <I extends TableDataItem>({
                 size={rowActionsSize}
                 ref={anchorRef}
                 disabled={disabled}
+                qa={tableQa && `${tableQa}-actions-trigger-${index}`}
                 extraProps={{
                     'aria-label': i18n('label-actions'),
                     'aria-expanded': isPopupOpen,
@@ -235,6 +240,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
                 renderRowActions,
                 isRowDisabled,
                 getRowDescriptor,
+                qa,
             } = this.props;
 
             if (renderRowActions) {
@@ -249,6 +255,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
                     rowActionsSize={rowActionsSize}
                     getRowDescriptor={getRowDescriptor}
                     isRowDisabled={isRowDisabled}
+                    tableQa={qa}
                 />
             );
         };

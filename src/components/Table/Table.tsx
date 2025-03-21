@@ -531,7 +531,6 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                     return (
                         <td
                             key={id}
-                            data-qa={`column-${id}`}
                             style={columnsStyles[colIndex]}
                             className={b(
                                 'cell',

@@ -1,0 +1,8 @@
+.file-preview-actions-compact {
+    position: absolute;
+    z-index: 1;
+
+    inset-block-start: calc(-1 * var(--g-spacing-2));
+    inset-inline-end: calc(-1 * var(--g-spacing-2));
+    opacity: 0;
+}

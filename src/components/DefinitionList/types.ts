@@ -4,10 +4,9 @@ import type {HelpMarkProps} from '../HelpMark';
 import type {AriaLabelingProps, QAProps} from '../types';
 export type DefinitionListItemNote = string | HelpMarkProps;
 
-export interface DefinitionListItemProps {
+export interface DefinitionListItemProps extends QAProps {
     name: React.ReactNode;
     children?: React.ReactNode;
-    qa?: string;
     copyText?: string;
     note?: DefinitionListItemNote;
 }

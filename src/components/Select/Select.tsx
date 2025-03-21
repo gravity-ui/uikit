@@ -99,6 +99,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         hasCounter,
         renderCounter,
         title,
+        'aria-label': ariaLabel,
+        'aria-labelledby': ariaLabelledby,
     } = props;
     const mobile = useMobile();
     const [filter, setFilter] = useControlledState(propsFilter, '', onFilterChange);
@@ -341,6 +343,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 hasCounter={multiple && hasCounter}
                 renderCounter={renderCounter}
                 title={title}
+                aria-label={ariaLabel}
+                aria-labelledby={ariaLabelledby}
             />
             <SelectPopup
                 ref={controlWrapRef}

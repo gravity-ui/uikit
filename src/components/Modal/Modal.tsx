@@ -20,7 +20,7 @@ import {isTabbable} from 'tabbable';
 
 import {KeyCode} from '../../constants';
 import {useForkRef} from '../../hooks';
-import {usePrevious} from '../../hooks/private';
+import {useAnimateHeight, usePrevious} from '../../hooks/private';
 import {Portal} from '../Portal';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
@@ -96,8 +96,8 @@ export interface ModalProps extends DOMProps, AriaLabelingProps, QAProps {
     /** Callback called when `Popup` is closed and "out" transition is completed */
     onTransitionOutComplete?: () => void;
     contentOverflow?: 'visible' | 'auto';
-
     floatingRef?: React.RefObject<HTMLDivElement>;
+    disableHeightTransition?: boolean;
 }
 
 const b = block('modal');
@@ -130,6 +130,7 @@ export function Modal({
     container,
     qa,
     floatingRef,
+    disableHeightTransition = false,
     ...restProps
 }: ModalProps) {
     useLayer({open, type: 'modal'});
@@ -162,12 +163,7 @@ export function Modal({
         onOpenChange: handleOpenChange,
     });
 
-    const initialFocusRef = React.useRef<HTMLDivElement>(null);
-    const handleFloatingRef = useForkRef<HTMLDivElement>(
-        refs.setFloating,
-        initialFocusRef,
-        floatingRef,
-    );
+    const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
 
     const dismiss = useDismiss(context, {
         enabled: !disableOutsideClick || !disableEscapeKeyDown,
@@ -182,6 +178,11 @@ export function Modal({
     const {isMounted, status} = useTransitionStatus(context, {duration: TRANSITION_DURATION});
     const previousStatus = usePrevious(status);
 
+    useAnimateHeight({
+        ref: refs.floating,
+        enabled: status === 'open' && !disableHeightTransition,
+    });
+
     React.useEffect(() => {
         if (status === 'initial' && previousStatus === 'unmounted') {
             onTransitionIn?.();
@@ -195,7 +196,7 @@ export function Modal({
     }, [previousStatus, status, onTransitionIn, onTransitionOut, onTransitionOutComplete]);
 
     const handleTransitionEnd = React.useCallback(
-        (event: React.TransitionEvent) => {
+        (event: React.TransitionEvent<HTMLDivElement>) => {
             // There are two simultaneous transitions running at the same time
             // Use specific name to only notify once
             if (
@@ -258,7 +259,7 @@ export function Modal({
                             context={context}
                             disabled={!isMounted}
                             modal={isMounted}
-                            initialFocus={initialFocus ?? initialFocusRef}
+                            initialFocus={initialFocus ?? refs.floating}
                             returnFocus={returnFocus}
                             visuallyHiddenDismiss={
                                 disableVisuallyHiddenDismiss ? false : i18n('close')

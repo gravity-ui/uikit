@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.43.3](https://github.com/gravity-ui/uikit/compare/v6.43.2...v6.43.3) (2025-03-21)
+
+
+### Bug Fixes
+
+* **Table & DefinitionList:** backport adding QA props ([#2175](https://github.com/gravity-ui/uikit/issues/2175)) ([8b4b515](https://github.com/gravity-ui/uikit/commit/8b4b5155979a25582cb441794198d0ee554bd22b))
+
 ## [6.43.2](https://github.com/gravity-ui/uikit/compare/v6.43.1...v6.43.2) (2025-03-10)
 
 

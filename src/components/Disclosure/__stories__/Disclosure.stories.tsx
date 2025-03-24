@@ -19,6 +19,7 @@ export default {
         size: 'm',
         disabled: false,
         arrowPosition: 'start',
+        qa: 'disclosure',
     },
 } as Meta;
 

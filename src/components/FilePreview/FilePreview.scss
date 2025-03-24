@@ -1,57 +1,42 @@
 @use 'sass:math';
 @use '../variables';
+@use './variables.scss' as file-preview-css-variables;
 
 $block: '.#{variables.$ns}file-preview';
 
-$smallRoundedButtonSize: 24px;
-
 #{$block} {
     --_-box-shadow: none;
-    --_-border-radius: 4px;
+    --_-border-radius: 8px;
+    --_-icon-border-radius: 4px;
     --_-color-base-background: transparent;
     --_-action-button-size: 24px;
-    --_-image-preview-height: 64px;
-    --_-image-preview-width: 96px;
 
     position: relative;
-    width: 120px;
+
+    width: file-preview-css-variables.$cardWidth;
+
+    &:not(#{$block}_mobile):focus-within,
+    &:not(#{$block}_mobile):hover {
+        --_-color-base-background: var(--g-color-base-simple-hover);
+    }
 
     &:hover,
     &:focus-within {
-        #{$block}__actions:not(#{$block}__actions_hide) {
+        #{$block}__actions-panel {
             opacity: 1;
         }
-
-        --_-color-base-background: var(--g-color-base-simple-hover, rgba(0, 0, 0, 0.05));
-    }
-
-    &__actions {
-        position: absolute;
-        inset-block-start: -1 * math.div($smallRoundedButtonSize, 2);
-        inset-inline-end: -1 * math.div($smallRoundedButtonSize, 2);
-        z-index: 1;
-
-        display: flex;
-        gap: 4px;
-
-        opacity: 0;
-    }
-
-    &:hover {
-        --_-color-base-background: var(--g-color-base-simple-hover);
     }
 
     &__card {
         display: flex;
         flex-direction: column;
         align-items: center;
-
         position: relative;
         outline: none;
 
-        box-shadow: var(--gc-card-box-shadow);
         border-radius: var(--_-border-radius);
-        padding: 4px 10px;
+        padding: file-preview-css-variables.$verticalCardPadding
+            file-preview-css-variables.$horizontalCardPadding;
 
         &_clickable {
             cursor: pointer;
@@ -61,42 +46,38 @@ $smallRoundedButtonSize: 24px;
             background-color: var(--_-color-base-background);
         }
 
+        &_selected {
+            outline: 1px solid var(--g-color-line-brand);
+        }
+
         &::after {
             position: absolute;
             inset: 0;
             border-radius: var(--_-border-radius);
             pointer-events: none;
         }
-
         &:hover {
             --_-box-shadow: 0px 3px 10px var(--g-color-sfx-shadow);
         }
-
         &:focus::after {
             content: '';
             box-shadow: 0 0 0 2px var(--g-color-line-misc);
         }
-
         &:focus:not(:focus-visible)::after {
             box-shadow: none;
         }
     }
-
     &__icon {
         display: flex;
         justify-content: center;
         align-items: center;
-
-        border-radius: 4px;
+        border-radius: var(--_-icon-border-radius);
         background-color: var(--g-color-base-generic-medium);
-
         height: 40px;
         width: 40px;
-
         &-svg {
             color: var(--g-color-base-background);
         }
-
         &_type {
             &_image,
             &_video,
@@ -116,28 +97,24 @@ $smallRoundedButtonSize: 24px;
             }
         }
     }
-
     &__name {
         margin-block-start: 4px;
     }
-
     &__name,
     &__description {
         text-align: center;
         width: 100%;
     }
-
     &__image-container {
         position: relative;
-
         border-radius: 4px;
         overflow: hidden;
     }
 
     &__icon-container,
     &__image-container {
-        height: var(--_-image-preview-height);
-        width: var(--_-image-preview-width);
+        height: file-preview-css-variables.$imagePreviewHeight;
+        width: file-preview-css-variables.$imagePreviewWidth;
     }
 
     &__icon-container {
@@ -145,26 +122,37 @@ $smallRoundedButtonSize: 24px;
         align-items: center;
         justify-content: center;
     }
-
     &__image {
         position: absolute;
         inset-block-start: 0;
         inset-inline-start: 0;
-
         object-fit: cover;
-
         height: 100%;
         width: 100%;
     }
 
-    &__action-button {
-        height: var(--_-action-button-size);
-        width: var(--_-action-button-size);
-        display: flex;
-        align-items: center;
-    }
+    &_view_compact {
+        width: file-preview-css-variables.$compactCardWidth;
+        height: file-preview-css-variables.$compactCardWidth;
 
-    &__action-icon-wrapper {
-        display: flex;
+        #{$block}__card {
+            width: 100%;
+            min-width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            padding: file-preview-css-variables.$verticalCardPadding;
+        }
+
+        #{$block}__icon-container,
+        #{$block}__image-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        #{$block}__icon,
+        #{$block}__image {
+            width: 100%;
+            height: 100%;
+        }
     }
 }

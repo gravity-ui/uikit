@@ -81,24 +81,25 @@ LANDING_BLOCK-->
 
 ### Properties
 
-| Name                | Description                                                                                                      | Type                       | Required | Default |
-| :------------------ | :--------------------------------------------------------------------------------------------------------------- | :------------------------- | :------: | :------ |
-| file                | The File interface provides information about files and allows JavaScript in a web page to access their content. | `File`                     |   yes    |         |
-| imageSrc            | source for image preview                                                                                         | `string`                   |          |         |
-| description         | Description displayed under the file name                                                                        | `string`                   |          |         |
-| className           | Class name for the file container                                                                                | `string`                   |          |         |
-| onClick             | Click handler for the file container                                                                             | `function`                 |          |         |
-| [actions](#actions) | Аn array of interactive actions                                                                                  | `FilePreviewActionProps[]` |          | `[]`    |
+| Name                | Description                                                                                                      | Type                       | Required | Default   |
+| :------------------ | :--------------------------------------------------------------------------------------------------------------- | :------------------------- | :------: | :-------- |
+| file                | The File interface provides information about files and allows JavaScript in a web page to access their content. | `File`                     |   yes    |           |
+| imageSrc            | source for image preview                                                                                         | `string`                   |          |           |
+| description         | Description displayed under the file name                                                                        | `string`                   |          |           |
+| className           | Class name for the file container                                                                                | `string`                   |          |           |
+| onClick             | Click handler for the file container                                                                             | `function`                 |          |           |
+| [actions](#actions) | Аn array of interactive actions                                                                                  | `FilePreviewActionProps[]` |          | `[]`      |
+| view                | The file preview view mode (the text is not visible for the `compact` view)                                      | `default`, `compact`       |          | `default` |
 
 #### Actions
 
 For a file, you can prescribe actions that will be visible when you hover over it.
 
-| Name       | Description                    | Type                                                                                 | Required | Default |
-| ---------- | ------------------------------ | ------------------------------------------------------------------------------------ | -------- | ------- |
-| id         | Action id                      | `String`                                                                             |          |         |
-| icon       | Action icon                    | `String`                                                                             | ✓        |         |
-| title      | Action hint on hover           | `String`                                                                             | ✓        |         |
-| onClick    | Action click handler           | `function`                                                                           |          |         |
-| href       | Action button href             | `String`                                                                             |          |         |
-| extraProps | Additional action button props | `ButtonHTMLAttributes<HTMLButtonElement> \| AnchorHTMLAttributes<HTMLAnchorElement>` |          |         |
+| Name       | Description                    | Type                                                                                                                                                       | Required | Default |
+| ---------- | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------- | --- |
+| id         | Action id                      | `String`                                                                                                                                                   |          |         |
+| icon       | Action icon                    | `String`                                                                                                                                                   | ✓        |         |
+| title      | Action hint on hover           | `String`                                                                                                                                                   | ✓        |         |
+| onClick    | Action click handler           | `React.MouseEventHandler<HTMLElement>` for default view and `(event: React.MouseEvent<HTMLElement, MouseEvent> or KeyboardEvent) => void` for compact view |          |         |
+| href       | Action button href             | `String`                                                                                                                                                   |          |         |
+| extraProps | Additional action button props | `ButtonHTMLAttributes<HTMLButtonElement> or AnchorHTMLAttributes<HTMLAnchorElement>` (works only for the default desktop view)                             |          |         |     |

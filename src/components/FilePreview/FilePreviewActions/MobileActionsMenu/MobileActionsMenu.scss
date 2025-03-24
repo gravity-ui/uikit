@@ -1,0 +1,51 @@
+@use 'sass:math';
+@use '../../../variables';
+@use '../../../../../styles/mixins';
+@use '../../variables.scss' as file-preview-css-variables;
+
+$block: '.#{variables.$ns}file-preview-actions-mobile';
+
+$buttonSize: 24px;
+$actionsGap: 2px;
+
+#{$block} {
+    --_-mobile-actions-menu-size: 28px;
+
+    &__actions-menu {
+        position: absolute;
+        z-index: 1;
+
+        height: $buttonSize;
+        width: $buttonSize;
+        padding: 0;
+
+        inset-block-start: file-preview-css-variables.$verticalCardPadding + $actionsGap;
+        inset-inline-end: math.div(
+                file-preview-css-variables.$cardWidth -
+                    file-preview-css-variables.$imagePreviewWidth,
+                2
+            ) +
+            $actionsGap;
+
+        &::before {
+            box-shadow: none;
+        }
+    }
+
+    &__list-item {
+        display: flex;
+        gap: var(--g-spacing-2);
+        align-items: center;
+        padding: 0 var(--g-spacing-4);
+
+        & > svg {
+            width: var(--_-mobile-icon-size);
+            height: var(--_-mobile-icon-size);
+        }
+    }
+
+    &__sheet {
+        --_-mobile-icon-size: 18px;
+        --g-sheet-content-padding: var(--g-spacing-1) 0;
+    }
+}

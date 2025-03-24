@@ -12,7 +12,7 @@ import {
     Filmstrip as VideoIcon,
 } from '@gravity-ui/icons';
 
-import {useActionHandlers, useUniqId} from '../../hooks';
+import {useActionHandlers} from '../../hooks';
 import {Icon} from '../Icon';
 import type {IconData} from '../Icon';
 import {Text} from '../Text';
@@ -20,9 +20,8 @@ import {useMobile} from '../mobile';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
-import {FilePreviewAction} from './FilePreviewAction';
-import type {FilePreviewActionProps} from './FilePreviewAction';
-import type {FileType} from './types';
+import {FilePreviewActions} from './FilePreviewActions/FilePreviewActions';
+import type {FilePreviewActionProps, FileType} from './types';
 import {getFileType} from './utils';
 
 import './FilePreview.scss';
@@ -42,7 +41,7 @@ const FILE_ICON: Record<FileType, IconData> = {
     table: TableIcon,
 };
 
-export interface FilePreviewProps extends QAProps {
+interface FilePreviewBaseProps extends QAProps {
     className?: string;
 
     file: File;
@@ -50,23 +49,29 @@ export interface FilePreviewProps extends QAProps {
     description?: string;
 
     onClick?: React.MouseEventHandler<HTMLDivElement>;
-    actions?: FilePreviewActionProps[];
+    selected?: boolean;
 }
 
-export function FilePreview({
-    className,
-    qa,
-    file,
-    imageSrc,
-    description,
-    onClick,
-    actions,
-}: FilePreviewProps) {
-    const id = useUniqId();
+interface DefaultFilePreviewProps extends FilePreviewBaseProps {
+    actions?: FilePreviewActionProps[];
+    view?: 'default';
+}
+
+interface CompactFilePreviewProps extends FilePreviewBaseProps {
+    view: 'compact';
+}
+
+export type FilePreviewProps = DefaultFilePreviewProps | CompactFilePreviewProps;
+
+export function FilePreview(props: FilePreviewProps) {
+    const {className, qa, file, imageSrc, description, onClick, view = 'default', selected} = props;
+
+    const actions = view === 'default' && 'actions' in props ? props.actions : undefined;
 
     const [previewSrc, setPreviewSrc] = React.useState<string | undefined>(imageSrc);
-    const mobile = useMobile();
     const type = getFileType(file);
+
+    const mobile = useMobile();
 
     const {onKeyDown} = useActionHandlers(onClick);
 
@@ -90,12 +95,17 @@ export function FilePreview({
     const withActions = Boolean(actions?.length);
 
     const isPreviewString = typeof previewSrc === 'string';
-    const hideActions = isPreviewString && mobile;
+
+    const compact = view === 'compact';
 
     return (
-        <div className={cn(null, className)} data-qa={qa}>
+        <div className={cn({mobile, view}, className)} data-qa={qa}>
             <div
-                className={cn('card', {clickable, hoverable: clickable || withActions})}
+                className={cn('card', {
+                    clickable,
+                    hoverable: !selected && (clickable || withActions),
+                    selected,
+                })}
                 role={clickable ? 'button' : undefined}
                 onKeyDown={clickable ? onKeyDown : undefined}
                 tabIndex={clickable ? 0 : undefined}
@@ -112,31 +122,32 @@ export function FilePreview({
                         </div>
                     </div>
                 )}
-                <Text className={cn('name')} color="secondary" ellipsis title={file.name}>
-                    {file.name}
-                </Text>
-                {Boolean(description) && (
-                    <Text
-                        className={cn('description')}
-                        color="secondary"
-                        ellipsis
-                        title={description}
-                    >
-                        {description}
-                    </Text>
+                {!compact && (
+                    <React.Fragment>
+                        <Text className={cn('name')} color="secondary" ellipsis title={file.name}>
+                            {file.name}
+                        </Text>
+                        {Boolean(description) && (
+                            <Text
+                                className={cn('description')}
+                                color="secondary"
+                                ellipsis
+                                title={description}
+                            >
+                                {description}
+                            </Text>
+                        )}
+                    </React.Fragment>
                 )}
             </div>
-            {actions?.length ? (
-                <div className={cn('actions', {hide: hideActions})}>
-                    {actions.map((action, index) => (
-                        <FilePreviewAction
-                            key={`${id}-${index}`}
-                            id={`${id}-${index}`}
-                            {...action}
-                        />
-                    ))}
-                </div>
-            ) : null}
+            {actions?.length && (
+                <FilePreviewActions
+                    hoverabelPanelClassName={cn('actions-panel')}
+                    fileName={file.name}
+                    isCustomImage={isPreviewString}
+                    actions={actions}
+                />
+            )}
         </div>
     );
 }

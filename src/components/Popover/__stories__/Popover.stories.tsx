@@ -77,7 +77,10 @@ export const FocusManagement: Story = {
     render: (args) => (
         <Flex gap={3} justifyContent="center" wrap>
             <Popover {...args}>
-                <Button>Focus container (default)</Button>
+                <Button>Default</Button>
+            </Popover>
+            <Popover {...args} modal>
+                <Button>Modal (Focus container + trap)</Button>
             </Popover>
             <Popover {...args} initialFocus={0}>
                 <Button>Focus first tabbable</Button>

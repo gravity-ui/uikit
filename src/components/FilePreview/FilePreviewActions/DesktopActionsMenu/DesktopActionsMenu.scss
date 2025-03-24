@@ -1,0 +1,29 @@
+@use 'sass:math';
+@use '../../../variables';
+@use '../../../../../styles/mixins';
+
+$block: '.#{variables.$ns}file-preview-actions-desktop';
+
+$buttonSize: 24px;
+
+#{$block} {
+    position: absolute;
+    z-index: 1;
+
+    inset-block-start: -1 * math.div($buttonSize, 2);
+    inset-inline-end: -1 * math.div($buttonSize, 2);
+    opacity: 0;
+    display: flex;
+    gap: var(--g-spacing-1);
+
+    &__action-button {
+        width: $buttonSize;
+        height: $buttonSize;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__action-icon-wrapper {
+        display: flex;
+    }
+}

@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import {useForkRef} from '../../../hooks';
+import {useForkRef, useResizeObserver} from '../../../hooks';
 import {block} from '../../utils/cn';
 
 import type {TextAreaProps} from './TextArea';
@@ -55,18 +55,27 @@ export function TextAreaControl(props: Props) {
     } = props;
     const innerControlRef = React.useRef<HTMLTextAreaElement>(null);
     const handleRef = useForkRef(controlRef, innerControlRef);
-    const textareaRows = rows || minRows;
+    const textareaRows = Math.max(rows || minRows, 1);
     const innerValue = value || innerControlRef?.current?.value;
 
     const resizeHeight = React.useCallback(() => {
         const control = innerControlRef?.current;
+        const parent = control?.parentElement;
 
-        if (control && !rows) {
+        if (control && parent && !rows) {
             const controlStyles = getComputedStyle(control);
             const lineHeight = parseInt(controlStyles.getPropertyValue('line-height'), 10);
             const paddingTop = parseInt(controlStyles.getPropertyValue('padding-top'), 10);
             const paddingBottom = parseInt(controlStyles.getPropertyValue('padding-bottom'), 10);
             const linesWithCarriageReturn = (innerValue?.match(/\n/g) || []).length + 1;
+
+            const parentHeight = parent.style.height;
+            parent.style.height = `${parent.offsetHeight}px`;
+
+            control.style.height = `${lineHeight + paddingTop + paddingBottom}px`;
+            const overflow = control.style.overflow;
+            control.style.overflow = 'hidden';
+
             const linesByScrollHeight = calculateLinesByScrollHeight({
                 height: control.scrollHeight,
                 paddingTop,
@@ -74,15 +83,25 @@ export function TextAreaControl(props: Props) {
                 lineHeight,
             });
 
-            control.style.height = 'auto';
+            const linesCount = Math.max(linesByScrollHeight, linesWithCarriageReturn);
 
-            if (maxRows && maxRows < Math.max(linesByScrollHeight, linesWithCarriageReturn)) {
-                control.style.height = `${maxRows * lineHeight + 2 * paddingTop}px`;
-            } else if (linesWithCarriageReturn > 1 || linesByScrollHeight > 1) {
+            if (maxRows && maxRows < linesCount) {
+                control.style.height = `${maxRows * lineHeight + paddingTop + paddingBottom}px`;
+            } else if (minRows && minRows > linesCount) {
+                control.style.height = `${Math.min(minRows, maxRows || Infinity) * lineHeight + paddingTop + paddingBottom}px`;
+            } else {
                 control.style.height = `${control.scrollHeight}px`;
             }
+
+            control.style.overflow = overflow;
+            parent.style.height = parentHeight;
         }
-    }, [rows, maxRows, innerValue]);
+    }, [rows, maxRows, minRows, innerValue]);
+
+    useResizeObserver({
+        ref: rows ? undefined : innerControlRef,
+        onResize: resizeHeight,
+    });
 
     React.useEffect(() => {
         resizeHeight();

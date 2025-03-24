@@ -7,4 +7,5 @@ export interface AvatarImageProps extends AvatarCommonProps {
     srcSet?: string;
     alt?: string;
     loading?: 'eager' | 'lazy';
+    withImageBorder?: boolean;
 }

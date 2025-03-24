@@ -77,6 +77,10 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
     floatingInteractions?: ElementProps[];
     /** React ref floating element is attached to */
     floatingRef?: React.Ref<HTMLDivElement>;
+    /** Styles to apply to the `Floating UI` element */
+    floatingStyles?: React.CSSProperties;
+    /** Additional class to apply to the `Floating UI` element */
+    floatingClassName?: string;
     /** If true `Popup` act like a modal dialog */
     modal?: boolean;
     /** The initial element to be focused */
@@ -121,6 +125,8 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
      * Do not use as layer
      */
     disableLayer?: boolean;
+    /** Disables animation of popup appearing/disappearing */
+    disableTransition?: boolean;
     /** ARIA role or special component role (select, combobox) */
     role?: UseRoleProps['role'];
     /** HTML `id` attribute */
@@ -153,6 +159,8 @@ export function Popup({
     floatingContext,
     floatingInteractions,
     floatingRef,
+    floatingStyles: floatingStylesProp,
+    floatingClassName,
     modal = false,
     initialFocus: initialFocusProp,
     returnFocus = true,
@@ -169,6 +177,7 @@ export function Popup({
     children,
     disablePortal = false,
     disableLayer = false,
+    disableTransition = false,
     qa,
     role: roleProp,
     zIndex = 1000,
@@ -259,7 +268,9 @@ export function Popup({
 
     const {getFloatingProps} = useInteractions(floatingInteractions ?? [role, dismiss]);
 
-    const {isMounted, status} = useTransitionStatus(context, {duration: TRANSITION_DURATION});
+    const {isMounted, status} = useTransitionStatus(context, {
+        duration: disableTransition ? 0 : TRANSITION_DURATION,
+    });
     const previousStatus = usePrevious(status);
 
     React.useEffect(() => {
@@ -319,6 +330,7 @@ export function Popup({
             >
                 <div
                     ref={handleFloatingRef}
+                    className={floatingClassName}
                     style={{
                         position: 'absolute',
                         top: 0,
@@ -328,6 +340,7 @@ export function Popup({
                         pointerEvents: isMounted ? 'auto' : 'none',
                         outline: 'none',
                         ...floatingStyles,
+                        ...floatingStylesProp,
                     }}
                     data-floating-ui-placement={finalPlacement}
                     data-floating-ui-status={status}
@@ -338,7 +351,13 @@ export function Popup({
                 >
                     <div
                         ref={contentRef}
-                        className={b({open: isMounted}, className)}
+                        className={b(
+                            {
+                                open: isMounted,
+                                'disable-transition': disableTransition,
+                            },
+                            className,
+                        )}
                         style={style}
                         data-qa={qa}
                         {...filterDOMProps(restProps)}

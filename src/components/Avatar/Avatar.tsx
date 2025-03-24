@@ -1,17 +1,14 @@
 import * as React from 'react';
 
-import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
 
 import {AvatarIcon} from './AvatarIcon';
 import {AvatarImage} from './AvatarImage';
 import {AvatarText} from './AvatarText';
-import {DEFAULT_AVATAR_SIZE} from './constants';
+import {DEFAULT_AVATAR_SIZE, bAvatar} from './constants';
 import type {AvatarProps} from './types/main';
 
 import './Avatar.scss';
-
-const b = block('avatar');
 
 export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
     const {
@@ -32,38 +29,24 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref)
         if ('imgUrl' in props && props.imgUrl) {
             return (
                 <AvatarImage
-                    className={b('image')}
                     imgUrl={props.imgUrl}
                     fallbackImgUrl={props.fallbackImgUrl}
                     sizes={props.sizes}
                     srcSet={props.srcSet}
                     alt={props.alt || title}
                     loading={props.loading}
+                    withImageBorder={props.withImageBorder}
                     size={size}
                 />
             );
         }
 
         if ('icon' in props && props.icon) {
-            return (
-                <AvatarIcon
-                    className={b('icon')}
-                    icon={props.icon}
-                    color={props.color}
-                    size={size}
-                />
-            );
+            return <AvatarIcon icon={props.icon} color={props.color} size={size} />;
         }
 
         if ('text' in props && props.text) {
-            return (
-                <AvatarText
-                    className={b('text')}
-                    text={props.text}
-                    color={props.color}
-                    size={size}
-                />
-            );
+            return <AvatarText text={props.text} color={props.color} size={size} />;
         }
 
         return null;
@@ -71,7 +54,7 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref)
 
     return (
         <div
-            className={b({size, theme, view, 'with-border': Boolean(borderColor)}, className)}
+            className={bAvatar({size, theme, view, 'with-border': Boolean(borderColor)}, className)}
             title={title}
             role="img"
             style={style}

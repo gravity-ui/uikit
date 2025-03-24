@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import {
     ArrowUpRightFromSquare,
     ChevronDown,
@@ -16,13 +14,12 @@ import {Icon as IconComponent} from '../../Icon/Icon';
 import type {IconProps} from '../../Icon/Icon';
 import {Button} from '../Button';
 import type {ButtonButtonProps, ButtonLinkProps, ButtonSize} from '../Button';
+import {BUTTON_ICON_SIZE_MAP} from '../constants';
 
 import {ButtonViewShowcase} from './ButtonViewShowcase';
 
-const iconSizeMap = {xs: 12, s: 14, m: 16, l: 16, xl: 20} as const;
-
 function IconWithSize({data, size = 'm'}: Omit<IconProps, 'size'> & {size?: ButtonSize}) {
-    return <IconComponent data={data} size={iconSizeMap[size]} />;
+    return <IconComponent data={data} size={BUTTON_ICON_SIZE_MAP[size]} />;
 }
 
 IconWithSize.displayName = 'Icon';
@@ -220,24 +217,23 @@ export const Custom: Story = {
         children: 'Fancy Button',
     },
     render: (args) => (
-        <React.Fragment>
-            <style>
-                {`.g-root {
-                    --g-button-text-color: #fff;
-                    --g-button-text-color-hover: #fff;
-                    --g-button-background-color: #9a2eff;
-                    --g-button-background-color-hover: #8526de;
-                    --g-button-border-width: 5px;
-                    --g-button-border-style: dotted;
-                    --g-button-height: 60px;
-                    --g-button-padding: 36px;
-                    --g-button-font-size: 20px;
-                    --g-button-border-radius: 40px 20px;
-                    --g-button-focus-outline-color: #9a2eff;
-                    --g-button-focus-outline-offset: 4px;
-                }`}
-            </style>
-            <Button {...args} />
-        </React.Fragment>
+        <Button
+            {...args}
+            style={{
+                '--g-button-text-color': '#fff',
+                '--g-button-text-color-hover': '#fff',
+                '--g-button-background-color': '#9a2eff',
+                '--g-button-background-color-hover': '#8526de',
+                '--g-button-border-width': '5px',
+                '--g-button-border-style': 'dotted',
+                '--g-button-height': '60px',
+                '--g-button-padding': '36px',
+                '--g-button-font-size': '20px',
+                '--g-button-border-radius': '40px 20px',
+                '--g-button-focus-outline-color': '#9a2eff',
+                '--g-button-focus-outline-offset': '4px',
+                ...args.style,
+            }}
+        />
     ),
 };

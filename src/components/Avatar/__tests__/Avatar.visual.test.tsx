@@ -147,4 +147,12 @@ test.describe('Avatar', {tag: '@Avatar'}, () => {
             themes: ['light'],
         });
     });
+
+    test('should render default border for the image if withImageBorder=true', async ({
+        mount,
+        expectScreenshot,
+    }) => {
+        const component = await mount(<TestAvatarWithImage withImageBorder />);
+        await expectScreenshot({component});
+    });
 });

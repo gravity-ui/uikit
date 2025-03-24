@@ -18,6 +18,19 @@ describe('ClipboardButton', () => {
         document.execCommand = documentExecCommand;
     });
 
+    test('copy function text on click', async () => {
+        const onCopy = jest.fn();
+        const user = userEvent.setup();
+        const text = 'Dynamic text';
+        const getText = jest.fn().mockReturnValue(text);
+
+        render(<ClipboardButton text={getText} onCopy={onCopy} />);
+        await user.click(screen.getByRole('button'));
+
+        expect(getText).toHaveBeenCalled();
+        expect(onCopy).toHaveBeenCalledWith(text, true);
+    });
+
     test.each(['[Enter]', ' '])('copy text on "%s" key', async (key) => {
         const onCopy = jest.fn();
         const user = userEvent.setup();

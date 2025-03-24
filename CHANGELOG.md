@@ -1,5 +1,63 @@
 # Changelog
 
+## [7.6.0](https://github.com/gravity-ui/uikit/compare/v7.5.1...v7.6.0) (2025-03-21)
+
+
+### Features
+
+* **Checkbox:** add xl size ([#2144](https://github.com/gravity-ui/uikit/issues/2144)) ([9b7858f](https://github.com/gravity-ui/uikit/commit/9b7858f4afdfa8cdb9b40b6225ff25e596a73c28))
+* **DefinitionList:** add qa ([#2170](https://github.com/gravity-ui/uikit/issues/2170)) ([8367d6a](https://github.com/gravity-ui/uikit/commit/8367d6ac07d649c364039473afa663c4550c0994))
+* **FilePreview:** add compact view ([#2157](https://github.com/gravity-ui/uikit/issues/2157)) ([48f0743](https://github.com/gravity-ui/uikit/commit/48f0743c8e831e20a965ca4165fdf073e45a6b76))
+* **FilePreview:** add selected state ([#2174](https://github.com/gravity-ui/uikit/issues/2174)) ([4ad9156](https://github.com/gravity-ui/uikit/commit/4ad9156d6afad34e96c42704b98b0fea2a493326))
+* implement Stepper component ([#2098](https://github.com/gravity-ui/uikit/issues/2098)) ([a0b5740](https://github.com/gravity-ui/uikit/commit/a0b574008dcb0be508a2f87458f8d10972c37886))
+* **Table:** add qa ([#2169](https://github.com/gravity-ui/uikit/issues/2169)) ([343ba6b](https://github.com/gravity-ui/uikit/commit/343ba6b12e91f44a6cea94f9c1099a16b7ef31f6))
+
+
+### Bug Fixes
+
+* **Popover:** non modal behavior by default ([#2163](https://github.com/gravity-ui/uikit/issues/2163)) ([40a500f](https://github.com/gravity-ui/uikit/commit/40a500fd68583af15afce31c1ecc480edc3a3f0c))
+* style prop type for Button and Link ([#2162](https://github.com/gravity-ui/uikit/issues/2162)) ([2d0db5e](https://github.com/gravity-ui/uikit/commit/2d0db5ec2feba9f1247c282810340634fde4c256))
+* **TextArea:** automatic height calculation ([#2166](https://github.com/gravity-ui/uikit/issues/2166)) ([56ce7b3](https://github.com/gravity-ui/uikit/commit/56ce7b3d6ff43dac82b8c3f70e933e4355f76541))
+
+## [7.5.1](https://github.com/gravity-ui/uikit/compare/v7.5.0...v7.5.1) (2025-03-05)
+
+
+### Bug Fixes
+
+* **DialogFooter:** extend types for propsButtonApply and propsButtonC… ([#2145](https://github.com/gravity-ui/uikit/issues/2145)) ([49d6529](https://github.com/gravity-ui/uikit/commit/49d65297c95e0354312b1f6fbeaf187b08c6a431))
+* fix comment subheader 3 ([#2142](https://github.com/gravity-ui/uikit/issues/2142)) ([70790b9](https://github.com/gravity-ui/uikit/commit/70790b971b264699a143620e704177e667328b3f))
+
+## [7.5.0](https://github.com/gravity-ui/uikit/compare/v7.4.0...v7.5.0) (2025-02-26)
+
+
+### Features
+
+* **Avatar:** add withImageBorder property ([#2138](https://github.com/gravity-ui/uikit/issues/2138)) ([81a3380](https://github.com/gravity-ui/uikit/commit/81a338045381bb8561334bac3424b1bb6d71ab6d))
+
+
+### Bug Fixes
+
+* add export for legacy Breadcrumbs ([#2131](https://github.com/gravity-ui/uikit/issues/2131)) ([0d5b448](https://github.com/gravity-ui/uikit/commit/0d5b448690af4cb9b93fba4c146a0699a1c99356))
+* **Avatar:** add support for cyrillic characters ([#2137](https://github.com/gravity-ui/uikit/issues/2137)) ([c81d148](https://github.com/gravity-ui/uikit/commit/c81d1487750d2a37bdf7143c8b0174cdaaa039a1))
+* make `ref` in `renderControl` generic ([#2140](https://github.com/gravity-ui/uikit/issues/2140)) ([142c1e6](https://github.com/gravity-ui/uikit/commit/142c1e67a86f23770ff63257c64142a19806a0d5))
+* **ThemeProvider:** do not update class name in case of null body ([#2121](https://github.com/gravity-ui/uikit/issues/2121)) ([5215fe4](https://github.com/gravity-ui/uikit/commit/5215fe4dbac816d0a155bf79407e2d78df73bd31))
+
+## [7.4.0](https://github.com/gravity-ui/uikit/compare/v7.3.0...v7.4.0) (2025-02-17)
+
+
+### Features
+
+* **Popup:** add `floatingClassName` & `floatingStyles` properties ([#2116](https://github.com/gravity-ui/uikit/issues/2116)) ([2f8abaf](https://github.com/gravity-ui/uikit/commit/2f8abafdd533bf2e194ddfc620a0037822ef6edb))
+
+## [7.3.0](https://github.com/gravity-ui/uikit/compare/v7.2.0...v7.3.0) (2025-02-17)
+
+
+### Features
+
+* accept text as function in clipboard button ([#2112](https://github.com/gravity-ui/uikit/issues/2112)) ([d8c9461](https://github.com/gravity-ui/uikit/commit/d8c946108f2f0fcd9616a3f492feaaaec1a5697f))
+* **FilePreview:** support mobile menu ([#2001](https://github.com/gravity-ui/uikit/issues/2001)) ([98cd6f2](https://github.com/gravity-ui/uikit/commit/98cd6f2a4b464502b95287c3790fe863caf633ac))
+* **Popup:** add `disableTransition` property ([#2114](https://github.com/gravity-ui/uikit/issues/2114)) ([32c9c3c](https://github.com/gravity-ui/uikit/commit/32c9c3c7b7b809ab5b0a91fd2dafc142196e00e7))
+
 ## [7.2.0](https://github.com/gravity-ui/uikit/compare/v7.1.1...v7.2.0) (2025-02-12)
 
 

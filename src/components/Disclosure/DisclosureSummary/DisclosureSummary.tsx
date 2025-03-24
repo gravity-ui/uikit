@@ -5,7 +5,7 @@ import type {QAProps} from '../../types';
 import {warnOnce} from '../../utils/warn';
 import type {DisclosureSize} from '../Disclosure';
 import {useDisclosureAttributes, useToggleDisclosure} from '../DisclosureContext';
-import {b} from '../constants';
+import {DisclosureQa, b} from '../constants';
 
 const ComponentSizeToIconSizeMap: Record<DisclosureSize, number> = {
     m: 14,
@@ -70,7 +70,7 @@ export function DefaultDisclosureSummary({
             id={id}
             onClick={onClick}
             disabled={disabled}
-            data-qa={qa}
+            data-qa={qa || DisclosureQa.SUMMARY}
         >
             <ArrowToggle
                 size={ComponentSizeToIconSizeMap[size]}

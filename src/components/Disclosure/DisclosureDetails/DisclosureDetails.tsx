@@ -7,7 +7,7 @@ import {CSSTransition} from 'react-transition-group';
 import type {QAProps} from '../../types';
 import {getCSSTransitionClassNames} from '../../utils/transition';
 import {useDisclosureAttributes} from '../DisclosureContext';
-import {b} from '../constants';
+import {DisclosureQa, b} from '../constants';
 
 export interface DisclosureDetailsProps extends QAProps {
     children: React.ReactNode;
@@ -33,7 +33,7 @@ export function DisclosureDetails({children, qa}: DisclosureDetailsProps) {
                 role="region"
                 aria-labelledby={ariaLabelledby}
                 className={b('content', {visible: expanded})}
-                data-qa={qa}
+                data-qa={qa || DisclosureQa.DETAILS}
             >
                 {children}
             </div>

@@ -11,4 +11,8 @@ $block: '.#{variables.$ns}dialog-body';
         border-block-start: 1px solid var(--g-color-line-generic);
         border-block-end: 1px solid var(--g-color-line-generic);
     }
+
+    &__content {
+        transition: height 0.35s ease-in-out;
+    }
 }

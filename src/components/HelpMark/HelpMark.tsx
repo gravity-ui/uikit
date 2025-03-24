@@ -35,7 +35,7 @@ export const HelpMark = React.forwardRef<HTMLButtonElement, HelpMarkProps>(funct
                 className={b(null, className)}
                 data-qa={qa}
             >
-                <Icon data={CircleQuestion} size={ICON_SIZE} />
+                <Icon data={CircleQuestion} size={ICON_SIZE} className={b('icon')} />
             </button>
         </Popover>
     );

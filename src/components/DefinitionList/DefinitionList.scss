@@ -90,4 +90,8 @@ $block: '.#{variables.$ns}definition-list';
             opacity: 1;
         }
     }
+
+    &__note {
+        vertical-align: middle;
+    }
 }

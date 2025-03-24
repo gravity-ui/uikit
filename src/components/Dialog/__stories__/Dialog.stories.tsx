@@ -26,6 +26,9 @@ const DefaultTemplate: StoryFn<DialogProps & {showError: boolean}> = ({showError
             <Button view="normal" onClick={() => setOpen(true)}>
                 Show dialog
             </Button>
+
+            <NotWorkingRefShowcase />
+
             <Dialog
                 {...args}
                 onClose={() => setOpen(false)}
@@ -53,3 +56,21 @@ export const Default = DefaultTemplate.bind({});
 
 const ShowcaseTemplate: StoryFn = () => <DialogShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});
+
+function NotWorkingRefShowcase() {
+    const buttonRef = React.useRef<HTMLButtonElement>(null);
+
+    React.useEffect(() => {
+        console.log('buttonRef.current is', buttonRef.current);
+    }, []);
+
+    return (
+        <Dialog open={true} onClose={() => console.log('close')}>
+            <Dialog.Header caption="Ref example" />
+            <Dialog.Body>
+                <Button ref={buttonRef}>{'ref.current is undefined inside useEffect : > ('}</Button>
+            </Dialog.Body>
+            <Dialog.Footer textButtonApply=":("></Dialog.Footer>
+        </Dialog>
+    );
+}

@@ -43,6 +43,9 @@ $modal-default-border-radius: 5px;
     }
 
     &__content {
+        height: var(--g-modal-height, auto);
+        width: var(--g-modal-width, auto);
+
         background-color: var(--g-color-base-modal);
         border-radius: var(--g-modal-border-radius, #{$modal-default-border-radius});
         outline: none;

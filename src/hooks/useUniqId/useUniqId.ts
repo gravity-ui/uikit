@@ -1,4 +1,6 @@
-import * as React from 'react';
+// webpack checks that namespace import (* as React) has useId
+// eslint-disable-next-line no-restricted-syntax
+import React from 'react';
 
 import {NAMESPACE} from '../../components/utils/cn';
 import {getUniqId} from '../../components/utils/common';

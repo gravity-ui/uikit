@@ -25,6 +25,13 @@ This is the disclosure component that shows and hides enclosed content.
 | children | `(props, defaultSummary) => React.ReactElement` |   Yes    |                      | Render function |
 | qa       | `String`                                        |          | `disclosure-summary` | Test identifier |
 
+### Disclosure.Details PropTypes
+
+| Name     | Type              | Required | Default              | Description     |
+| :------- | :---------------- | :------: | :------------------- | :-------------- |
+| children | `React.ReactNode` |   Yes    |                      | Content         |
+| qa       | `String`          |          | `disclosure-details` | Test identifier |
+
 ### Examples
 
 Basic example:

@@ -16,6 +16,14 @@ This is the disclosure component that shows and hides enclosed content.
 | keepMounted     | `Boolean`                     |          | `true`  | Keep content in DOM                                         |
 | onUpdate        | `(expanded: boolean) => void` |          |         | Callback is fired when the expand/collapse state is changed |
 | children        | `React.ReactNode`             |          |         | Content                                                     |
+| qa              | `String`                      |          |         | Test identifier                                             |
+
+### Disclosure.Summary PropTypes
+
+| Name     | Type                                            | Required | Default              | Description     |
+| :------- | :---------------------------------------------- | :------: | :------------------- | :-------------- |
+| children | `(props, defaultSummary) => React.ReactElement` |   Yes    |                      | Render function |
+| qa       | `String`                                        |          | `disclosure-summary` | Test identifier |
 
 ### Examples
 

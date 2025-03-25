@@ -483,6 +483,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
             edgePadding,
             wordWrap,
             getRowDescriptor,
+            qa,
         } = this.props;
         const {columnsStyles} = this.state;
 
@@ -521,6 +522,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                     {disabled, interactive, 'vertical-align': verticalAlign},
                     additionalClassNames.join(' '),
                 )}
+                data-qa={qa && `${qa}-row-${rowIndex}`}
             >
                 {columns.map((column, colIndex) => {
                     const {id, align: rawAlign, primary, className, sticky: rawSticky} = column;

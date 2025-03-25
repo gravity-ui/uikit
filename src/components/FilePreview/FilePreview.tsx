@@ -49,6 +49,7 @@ interface FilePreviewBaseProps extends QAProps {
     description?: string;
 
     onClick?: React.MouseEventHandler<HTMLDivElement>;
+    selected?: boolean;
 }
 
 interface DefaultFilePreviewProps extends FilePreviewBaseProps {
@@ -63,7 +64,7 @@ interface CompactFilePreviewProps extends FilePreviewBaseProps {
 export type FilePreviewProps = DefaultFilePreviewProps | CompactFilePreviewProps;
 
 export function FilePreview(props: FilePreviewProps) {
-    const {className, qa, file, imageSrc, description, onClick, view = 'default'} = props;
+    const {className, qa, file, imageSrc, description, onClick, view = 'default', selected} = props;
 
     const actions = view === 'default' && 'actions' in props ? props.actions : undefined;
 
@@ -100,7 +101,11 @@ export function FilePreview(props: FilePreviewProps) {
     return (
         <div className={cn({mobile, view}, className)} data-qa={qa}>
             <div
-                className={cn('card', {clickable, hoverable: clickable || withActions})}
+                className={cn('card', {
+                    clickable,
+                    hoverable: !selected && (clickable || withActions),
+                    selected,
+                })}
                 role={clickable ? 'button' : undefined}
                 onKeyDown={clickable ? onKeyDown : undefined}
                 tabIndex={clickable ? 0 : undefined}

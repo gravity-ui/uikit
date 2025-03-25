@@ -43,13 +43,16 @@ $modal-default-border-radius: 5px;
     }
 
     &__content {
+        height: var(--g-modal-height, auto);
+        width: var(--g-modal-width, auto);
+
         background-color: var(--g-color-base-modal);
         border-radius: var(--g-modal-border-radius, #{$modal-default-border-radius});
         outline: none;
 
-        transition-property: transform;
-        transition-timing-function: ease-out;
-        transition-duration: 150ms;
+        transition:
+            height 0.35s ease-in-out,
+            transform 0.15s ease-out;
 
         &_has-scroll {
             overflow-y: auto;

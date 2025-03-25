@@ -41,9 +41,15 @@ $block: '.#{variables.$ns}file-preview';
         &_clickable {
             cursor: pointer;
         }
+
         &_hoverable {
             background-color: var(--_-color-base-background);
         }
+
+        &_selected {
+            outline: 1px solid var(--g-color-line-brand);
+        }
+
         &::after {
             position: absolute;
             inset: 0;

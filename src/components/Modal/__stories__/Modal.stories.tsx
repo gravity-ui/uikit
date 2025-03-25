@@ -5,6 +5,7 @@ import type {Meta, StoryFn} from '@storybook/react';
 import range from 'lodash/range';
 
 import {Button} from '../../Button';
+import {Loader} from '../../Loader';
 import {Popup} from '../../Popup';
 import {Toaster, ToasterComponent, ToasterProvider, useToaster} from '../../Toaster';
 import {Flex} from '../../layout';
@@ -27,6 +28,7 @@ export const Default: StoryFn<ModalProps> = (props) => {
     const [openWithToast, setOpenWithToast] = React.useState(false);
     const [openWithPopup, setOpenWithPopup] = React.useState(false);
     const [openWithModal, setOpenWithModal] = React.useState(false);
+    const [openWithDynamicContent, setOpenWithDynamicContent] = React.useState(false);
 
     const [textLines] = React.useState(() => range(50).map(() => faker.lorem.sentences()));
 
@@ -48,12 +50,20 @@ export const Default: StoryFn<ModalProps> = (props) => {
             </ToasterProvider>
             <ModalWithPopup {...props} open={openWithPopup} onOpenChange={setOpenWithPopup} />
             <ModalWithModal {...props} open={openWithModal} onOpenChange={setOpenWithModal} />
+            <ModalWithDynamicContent
+                {...props}
+                open={openWithDynamicContent}
+                onOpenChange={setOpenWithDynamicContent}
+            />
 
             <Button onClick={() => setOpenSmall(true)}>Show small modal</Button>
             <Button onClick={() => setOpenLarge(true)}>Show large modal</Button>
             <Button onClick={() => setOpenWithToast(true)}>Show modal with toast</Button>
             <Button onClick={() => setOpenWithPopup(true)}>Show modal with popup</Button>
             <Button onClick={() => setOpenWithModal(true)}>Show modal with modal</Button>
+            <Button onClick={() => setOpenWithDynamicContent(true)}>
+                Show modal with dynamic content
+            </Button>
         </Flex>
     );
 };
@@ -120,6 +130,67 @@ function ModalWithModal(props: ModalProps) {
                 <Modal open={innerModalOpen} onOpenChange={setInnerModalOpen}>
                     <div style={{padding: 10}}>Modal content</div>
                 </Modal>
+            </div>
+        </Modal>
+    );
+}
+
+function ModalWithDynamicContent(props: ModalProps) {
+    const [isFirstDynamicPartOpen, setIsFirstDynamicPartOpen] = React.useState(false);
+    const [isSecondDynamicPartOpen, setIsSecondDynamicPartOpen] = React.useState(false);
+
+    React.useEffect(() => {
+        const timers: number[] = [];
+        if (props.open) {
+            timers[0] = window.setTimeout(() => {
+                setIsFirstDynamicPartOpen(true);
+            }, 2000);
+            timers[1] = window.setTimeout(() => {
+                setIsSecondDynamicPartOpen(true);
+            }, 4000);
+        } else {
+            setIsFirstDynamicPartOpen(false);
+            setIsSecondDynamicPartOpen(false);
+        }
+        return () => {
+            timers.forEach((t) => {
+                window.clearTimeout(t);
+            });
+        };
+    }, [props.open]);
+
+    return (
+        <Modal {...props}>
+            <div style={{padding: 40, width: '200px'}}>
+                <div style={{marginBottom: '24px'}}>This is a dynamic modal content</div>
+                {isFirstDynamicPartOpen && (
+                    <div style={{display: 'flex', flexDirection: 'column', gap: '24px'}}>
+                        <div>Content loaded</div>
+                        <div>This is the description</div>
+                        <div>More content to come</div>
+                    </div>
+                )}
+                {(!isFirstDynamicPartOpen || !isSecondDynamicPartOpen) && (
+                    <div style={{display: 'flex', justifyContent: 'center', marginTop: '24px'}}>
+                        <Loader />
+                    </div>
+                )}
+                {isSecondDynamicPartOpen && (
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '24px',
+                            marginTop: '24px',
+                        }}
+                    >
+                        <div>Second part loaded</div>
+                        <div>This is the description part 1</div>
+                        <div>This is the description part 2</div>
+                        <div>This is the description part 3</div>
+                        <div>No more content to load</div>
+                    </div>
+                )}
             </div>
         </Modal>
     );

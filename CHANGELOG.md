@@ -1,5 +1,24 @@
 # Changelog
 
+## [7.6.0](https://github.com/gravity-ui/uikit/compare/v7.5.1...v7.6.0) (2025-03-21)
+
+
+### Features
+
+* **Checkbox:** add xl size ([#2144](https://github.com/gravity-ui/uikit/issues/2144)) ([9b7858f](https://github.com/gravity-ui/uikit/commit/9b7858f4afdfa8cdb9b40b6225ff25e596a73c28))
+* **DefinitionList:** add qa ([#2170](https://github.com/gravity-ui/uikit/issues/2170)) ([8367d6a](https://github.com/gravity-ui/uikit/commit/8367d6ac07d649c364039473afa663c4550c0994))
+* **FilePreview:** add compact view ([#2157](https://github.com/gravity-ui/uikit/issues/2157)) ([48f0743](https://github.com/gravity-ui/uikit/commit/48f0743c8e831e20a965ca4165fdf073e45a6b76))
+* **FilePreview:** add selected state ([#2174](https://github.com/gravity-ui/uikit/issues/2174)) ([4ad9156](https://github.com/gravity-ui/uikit/commit/4ad9156d6afad34e96c42704b98b0fea2a493326))
+* implement Stepper component ([#2098](https://github.com/gravity-ui/uikit/issues/2098)) ([a0b5740](https://github.com/gravity-ui/uikit/commit/a0b574008dcb0be508a2f87458f8d10972c37886))
+* **Table:** add qa ([#2169](https://github.com/gravity-ui/uikit/issues/2169)) ([343ba6b](https://github.com/gravity-ui/uikit/commit/343ba6b12e91f44a6cea94f9c1099a16b7ef31f6))
+
+
+### Bug Fixes
+
+* **Popover:** non modal behavior by default ([#2163](https://github.com/gravity-ui/uikit/issues/2163)) ([40a500f](https://github.com/gravity-ui/uikit/commit/40a500fd68583af15afce31c1ecc480edc3a3f0c))
+* style prop type for Button and Link ([#2162](https://github.com/gravity-ui/uikit/issues/2162)) ([2d0db5e](https://github.com/gravity-ui/uikit/commit/2d0db5ec2feba9f1247c282810340634fde4c256))
+* **TextArea:** automatic height calculation ([#2166](https://github.com/gravity-ui/uikit/issues/2166)) ([56ce7b3](https://github.com/gravity-ui/uikit/commit/56ce7b3d6ff43dac82b8c3f70e933e4355f76541))
+
 ## [7.5.1](https://github.com/gravity-ui/uikit/compare/v7.5.0...v7.5.1) (2025-03-05)
 
 

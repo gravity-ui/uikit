@@ -130,6 +130,7 @@ const items: DefinitionListItemProps[] = [
     {
         name: 'Label',
         children: <Label>label</Label>,
+        qa: 'label',
     },
 ];
 const definitionListItems = items.map(({children, ...rest}, index) => (

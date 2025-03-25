@@ -106,11 +106,11 @@ export function Tooltip({
     });
 
     const hover = useHover(context, {
-        enabled: !disabled && trigger !== 'focus',
+        enabled: trigger !== 'focus',
         delay: {open: openDelay, close: closeDelay},
         move: false,
     });
-    const focus = useFocus(context, {enabled: !disabled});
+    const focus = useFocus(context);
     const role = useRole(context, {
         role: roleProp,
     });

@@ -80,18 +80,16 @@ export function Popover({
     });
 
     const hover = useHover(context, {
-        enabled: !disabled && trigger !== 'click',
+        enabled: trigger !== 'click',
         delay: {open: openDelay, close: closeDelay},
         move: false,
         handleClose: enableSafePolygon ? safePolygon() : undefined,
     });
-    const click = useClick(context, {enabled: !disabled});
+    const click = useClick(context);
     const role = useRole(context, {
         role: 'dialog',
     });
-    const dismiss = useDismiss(context, {
-        enabled: !disabled,
-    });
+    const dismiss = useDismiss(context);
 
     const interactions = [hover, click, role, dismiss];
     const {getReferenceProps} = useInteractions(interactions);

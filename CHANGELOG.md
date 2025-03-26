@@ -1,5 +1,23 @@
 # Changelog
 
+## [7.7.0](https://github.com/gravity-ui/uikit/compare/v7.6.0...v7.7.0) (2025-03-26)
+
+
+### Features
+
+* **Disclosure:** dynamic Qa ([#2180](https://github.com/gravity-ui/uikit/issues/2180)) ([f95ced7](https://github.com/gravity-ui/uikit/commit/f95ced731da4952c072dba378d506f52bd2ea1ff))
+* **Modal:** add CSS API for width and height ([#2009](https://github.com/gravity-ui/uikit/issues/2009)) ([4924e39](https://github.com/gravity-ui/uikit/commit/4924e39f990d5bac06e3e2eb38180554cd252db2))
+* **Modal:** height animation ([#2076](https://github.com/gravity-ui/uikit/issues/2076)) ([a963578](https://github.com/gravity-ui/uikit/commit/a96357836051dcb4f7399085e31ab22a9bb9ae68))
+* **Slider:** add startPoint property ([#2158](https://github.com/gravity-ui/uikit/issues/2158)) ([0d1ab19](https://github.com/gravity-ui/uikit/commit/0d1ab191df5afbe61493b6b12877e084dd095d62))
+
+
+### Bug Fixes
+
+* `disable` prop affects interactions in Tooltip and Popover ([#2183](https://github.com/gravity-ui/uikit/issues/2183)) ([1f86e70](https://github.com/gravity-ui/uikit/commit/1f86e70c69763f43fe2f7cd7b196f230ba66181c))
+* **FilePreview:** add export of getFileType utility ([#2185](https://github.com/gravity-ui/uikit/issues/2185)) ([02bf8d9](https://github.com/gravity-ui/uikit/commit/02bf8d958f263b5e76a206454ec261be3c48f800))
+* **Tooltip:** correct positioning in React 19 ([#2184](https://github.com/gravity-ui/uikit/issues/2184)) ([b3a9c5c](https://github.com/gravity-ui/uikit/commit/b3a9c5c41dd4f97c7a0fb89c7bf1deedbe30e1d2))
+* **useUniqId:** fix build with Webpack and React 17 ([#2182](https://github.com/gravity-ui/uikit/issues/2182)) ([c2cfbea](https://github.com/gravity-ui/uikit/commit/c2cfbeab6078dc141db04ea633e6306be8933c9a))
+
 ## [7.6.0](https://github.com/gravity-ui/uikit/compare/v7.5.1...v7.6.0) (2025-03-21)
 
 

@@ -5,8 +5,6 @@ import {Disclosure} from '../Disclosure';
 import type {DisclosureSize} from '../Disclosure';
 import {DisclosureQa} from '../constants';
 
-const qaId = 'disclosure-component';
-
 describe.only('Disclosure', () => {
     test('render disclosure by default', () => {
         render(<Disclosure />);
@@ -18,7 +16,8 @@ describe.only('Disclosure', () => {
     });
 
     test.each(new Array<DisclosureSize>('m', 'l', 'xl'))('render with given "%s" size', (size) => {
-        render(<Disclosure qa={qaId} size={size} />);
+        const qaId = 'disclosure';
+        render(<Disclosure size={size} qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
         expect(component).toHaveClass(`g-disclosure_size_${size}`);
@@ -48,34 +47,37 @@ describe.only('Disclosure', () => {
     });
 
     test('show given node summary', () => {
+        const contentQaId = 'disclosure-content';
         const className = 'content';
         const content = (
-            <div data-qa={qaId} className={className}>
+            <div data-qa={contentQaId} className={className}>
                 Some content
             </div>
         );
 
         render(<Disclosure summary={content} />);
-        const component = screen.getByTestId(qaId);
+        const component = screen.getByTestId(contentQaId);
         const wrapperComponent = screen.getByTestId(DisclosureQa.SUMMARY);
 
         expect(wrapperComponent).toBeVisible();
         expect(component).toHaveClass(className);
     });
     test('render custom summary without default', () => {
+        const contentQaId = 'disclosure-content';
+
         const className = 'content';
         render(
             <Disclosure>
                 <Disclosure.Summary>
                     {() => (
-                        <div data-qa={qaId} className={className}>
+                        <div data-qa={contentQaId} className={className}>
                             Some content
                         </div>
                     )}
                 </Disclosure.Summary>
             </Disclosure>,
         );
-        const component = screen.getByTestId(qaId);
+        const component = screen.getByTestId(contentQaId);
         const wrapperComponent = screen.queryByTestId(DisclosureQa.SUMMARY);
 
         expect(wrapperComponent).toBeNull();
@@ -83,11 +85,13 @@ describe.only('Disclosure', () => {
     });
     test('render custom summary with default', () => {
         const className = 'content';
+        const contentQaId = 'disclosure-content';
+
         render(
             <Disclosure>
                 <Disclosure.Summary>
                     {(_, defaultButton) => (
-                        <div data-qa={qaId} className={className}>
+                        <div data-qa={contentQaId} className={className}>
                             {defaultButton}
                             Some content
                         </div>
@@ -95,7 +99,7 @@ describe.only('Disclosure', () => {
                 </Disclosure.Summary>
             </Disclosure>,
         );
-        const component = screen.getByTestId(qaId);
+        const component = screen.getByTestId(contentQaId);
         const wrapperComponent = screen.getByTestId(DisclosureQa.SUMMARY);
 
         expect(wrapperComponent).toBeVisible();
@@ -103,6 +107,7 @@ describe.only('Disclosure', () => {
     });
 
     test('add className', () => {
+        const qaId = 'disclosure';
         const className = 'my-class';
 
         render(<Disclosure className={className} qa={qaId} />);

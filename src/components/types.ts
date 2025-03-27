@@ -93,6 +93,8 @@ export interface FocusEventHandlers<Target = Element> {
     onBlur?: React.FocusEventHandler<Target>;
 }
 
-export interface CSSProperties extends React.CSSProperties {
-    [key: `--${string}`]: string | number;
-}
+export type CSSProperties =
+    | (React.CSSProperties & {
+          [key: `--${string}`]: string | number;
+      })
+    | React.CSSProperties;

@@ -525,7 +525,6 @@ LANDING_BLOCK-->
 | qa               | `data-qa` HTML attribute, used for testing                                   | `string`                                   |         |
 | separator        | Custom separator node.                                                       | `React.ReactNode`                          | "/"     |
 | action           | `click` event handler.                                                       | `(id: Key) => void`                        |         |
-| navigate         | Client-side navigation.                                                      | `(href: string) => void`                   |         |
 | id               | Element's unique ID.                                                         | `string`                                   |         |
 | className        | CSS class name for the element.                                              | `string`                                   |         |
 | style            | Sets the inline style for the element.                                       | `CSSProperties`                            |         |

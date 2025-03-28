@@ -61,7 +61,8 @@ export function Popover({
     trigger,
     openDelay = DEFAULT_OPEN_DELAY,
     closeDelay = DEFAULT_CLOSE_DELAY,
-    enableSafePolygon,
+    // Force enable to workaround https://github.com/floating-ui/floating-ui/issues/3261
+    // enableSafePolygon,
     className,
     ...restProps
 }: PopoverProps) {
@@ -83,7 +84,7 @@ export function Popover({
         enabled: trigger !== 'click',
         delay: {open: openDelay, close: closeDelay},
         move: false,
-        handleClose: enableSafePolygon ? safePolygon() : undefined,
+        handleClose: safePolygon(),
     });
     const click = useClick(context);
     const role = useRole(context, {

@@ -131,10 +131,10 @@ function BreadcrumbsItem(props: BreadcrumbsItemProps, ref: React.ForwardedRef<HT
 
     return (
         <Element
-            ref={ref}
             {...restProps}
             {...domProps}
             {...linkProps}
+            ref={ref}
             className={b(
                 'link',
                 {

@@ -22,18 +22,19 @@ $block: '.#{variables.$ns}breadcrumbs';
         white-space: nowrap;
         color: var(--g-color-text-primary);
 
-        &:last-child {
+        &_current {
             font-weight: var(--g-text-accent-font-weight);
             overflow: hidden;
             margin: -2px;
             padding: 2px;
+            min-width: 25px;
 
             #{$block}__link {
                 @include mixins.overflow-ellipsis();
             }
         }
 
-        &_calculating:last-child {
+        &_calculating {
             overflow: visible;
         }
     }

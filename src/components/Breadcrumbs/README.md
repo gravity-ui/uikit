@@ -513,6 +513,57 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
+### End content
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Breadcrumbs endContent={<div style={{paddingInlineStart: 4}}><Button>Push</Button></div>}>
+    <Breadcrumbs.Item>Region</Breadcrumbs.Item>
+    <Breadcrumbs.Item>Country</Breadcrumbs.Item>
+    <Breadcrumbs.Item>City</Breadcrumbs.Item>
+    <Breadcrumbs.Item>District</Breadcrumbs.Item>
+    <Breadcrumbs.Item>Street</Breadcrumbs.Item>
+</Breadcrumbs>
+`}
+>
+    <UIKit.Breadcrumbs endContent={<div style={{paddingInlineStart: 4}}><Button>Push</Button></div>}>
+        <UIKit.Breadcrumbs.Item>Region</UIKit.Breadcrumbs.Item>
+        <UIKit.Breadcrumbs.Item>Country</UIKit.Breadcrumbs.Item>
+        <UIKit.Breadcrumbs.Item>City</UIKit.Breadcrumbs.Item>
+        <UIKit.Breadcrumbs.Item>District</UIKit.Breadcrumbs.Item>
+        <UIKit.Breadcrumbs.Item>Street</UIKit.Breadcrumbs.Item>
+    </UIKit.Breadcrumbs>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```jsx
+<Breadcrumbs
+  endContent={
+    <Flex gap={1} spacing={{pl: 1}}>
+      <Button>Test1</Button>
+      <Button>Test2</Button>
+    </Flex>
+  }
+>
+  <Breadcrumbs.Item>Region</Breadcrumbs.Item>
+  <Breadcrumbs.Item>Country</Breadcrumbs.Item>
+  <Breadcrumbs.Item>City</Breadcrumbs.Item>
+  <Breadcrumbs.Item>District</Breadcrumbs.Item>
+  <Breadcrumbs.Item>Street</Breadcrumbs.Item>
+</Breadcrumbs>
+```
+
+<!-- Storybook example -->
+
+<BreadcrumbsEndContent />
+
+<!--/GITHUB_BLOCK-->
+
 ## Properties
 
 | Name             | Description                                                                  | Type                                       | Default |
@@ -531,6 +582,7 @@ LANDING_BLOCK-->
 | aria-label       | Defines a string value that labels the current element.                      | `string`                                   |         |
 | aria-labelledby  | Identifies the element(s) that label the current element.                    | `string`                                   |         |
 | aria-describedby | Identifies the element(s) that describe the object.                          | `string`                                   |         |
+| endContent       | User's node rendered after last breadcrumb item.                             | `React.ReactNode`                          |         |
 
 ### BreadcrumbsItemProps
 

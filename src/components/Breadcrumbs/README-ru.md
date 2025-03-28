@@ -469,7 +469,6 @@ LANDING_BLOCK-->
 | qa               | HTML-атрибут `data-qa`, используется для тестирования.                                                           | `string`                                   |                       |
 | separator        | Пользовательский разделитель элементов.                                                                          | `React.ReactNode`                          | "/"                   |
 | action           | Обработчик события `click`.                                                                                      | `(id: Key) => void`                        |                       |
-| navigate         | Навигация на стороне клиента.                                                                                    | `(href: string) => void`                   |                       |
 | id               | Уникальный идентификатор элемента.                                                                               | `string`                                   |                       |
 | className        | Имя CSS-класса элемента.                                                                                         | `string`                                   |                       |
 | style            | Задает инлайн-стиль для элемента.                                                                                | `CSSProperties`                            |                       |

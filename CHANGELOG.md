@@ -1,5 +1,14 @@
 # Changelog
 
+## [7.7.1](https://github.com/gravity-ui/uikit/compare/v7.7.0...v7.7.1) (2025-03-28)
+
+
+### Bug Fixes
+
+* **Popover:** always enable safePolygon to workaround `useHover` issue ([#2190](https://github.com/gravity-ui/uikit/issues/2190)) ([f8c5277](https://github.com/gravity-ui/uikit/commit/f8c52776c9a48ab03a455ac6ca8b86ad47d530bd))
+* **Popover:** correct positioning in React 19 ([#2189](https://github.com/gravity-ui/uikit/issues/2189)) ([52de624](https://github.com/gravity-ui/uikit/commit/52de624ca350cac95029fb582ebb3bf30a66c66d))
+* **types:** support pass var with type React.CSSProperties to style prop ([#2186](https://github.com/gravity-ui/uikit/issues/2186)) ([9f4ae43](https://github.com/gravity-ui/uikit/commit/9f4ae43324b96117b4d7b30cf39812aeb0c4a6fd))
+
 ## [7.7.0](https://github.com/gravity-ui/uikit/compare/v7.6.0...v7.7.0) (2025-03-26)
 
 

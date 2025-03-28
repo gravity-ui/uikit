@@ -103,8 +103,8 @@ export function Popover({
         : getReferenceProps();
     const anchorNode = React.isValidElement<any>(children)
         ? React.cloneElement(children, {
-              ref: anchorRef,
               ...anchorProps,
+              ref: anchorRef,
           })
         : children(anchorProps, anchorRef);
 

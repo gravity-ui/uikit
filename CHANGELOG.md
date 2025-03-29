@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.8.0](https://github.com/gravity-ui/uikit/compare/v7.7.1...v7.8.0) (2025-03-29)
+
+
+### Features
+
+* **Breadcrumbs:** allow to display content after the last breadcrumb item ([#2193](https://github.com/gravity-ui/uikit/issues/2193)) ([6086c01](https://github.com/gravity-ui/uikit/commit/6086c0182b402c58c4e9e0892ac6bd63c7e07122))
+
 ## [7.7.1](https://github.com/gravity-ui/uikit/compare/v7.7.0...v7.7.1) (2025-03-28)
 
 

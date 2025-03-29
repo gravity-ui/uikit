@@ -3,6 +3,7 @@ import * as React from 'react';
 import {ChevronRight, Flame, House, Rocket} from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react';
 
+import {Button} from '../../Button';
 import {Text} from '../../Text';
 import {Box, Flex} from '../../layout';
 import type {Key} from '../../types';
@@ -153,6 +154,20 @@ export const DisabledItems = {
             </Breadcrumbs.Item>
         </Breadcrumbs>
     ),
+} satisfies Story;
+
+export const EndContent = {
+    render: (args) => {
+        return Default.render({
+            ...args,
+            endContent: (
+                <Flex gap={1} spacing={{pl: 1}}>
+                    <Button>Test1</Button>
+                    <Button>Test2</Button>
+                </Flex>
+            ),
+        });
+    },
 } satisfies Story;
 
 export const ClientNavigation = {

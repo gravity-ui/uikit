@@ -41,7 +41,7 @@ it('handles multiple items', () => {
 it('should handle forward ref', function () {
     let ref: React.RefObject<any> | undefined;
     const Component = () => {
-        ref = React.useRef();
+        ref = React.useRef(null);
         return (
             <Breadcrumbs ref={ref} aria-label="breadcrumbs-test">
                 <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>

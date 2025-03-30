@@ -40,7 +40,7 @@ function BreadcrumbsItem(props: BreadcrumbsItemProps, ref: React.ForwardedRef<HT
     } = props as BreadcrumbsItemProps & BreadcrumbsItemInnerProps;
 
     let title = props.title;
-    if (!title && typeof children === 'string') {
+    if (typeof title !== 'string' && typeof children === 'string') {
         title = children;
     }
 

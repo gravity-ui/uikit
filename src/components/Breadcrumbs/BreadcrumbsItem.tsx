@@ -39,11 +39,6 @@ function BreadcrumbsItem(props: BreadcrumbsItemProps, ref: React.ForwardedRef<HT
         ...restProps
     } = props as BreadcrumbsItemProps & BreadcrumbsItemInnerProps;
 
-    let title = props.title;
-    if (!title && typeof children === 'string') {
-        title = children;
-    }
-
     const handleAction = (event: React.MouseEvent<HTMLAnchorElement>) => {
         if (disabled) {
             event.preventDefault();
@@ -60,7 +55,6 @@ function BreadcrumbsItem(props: BreadcrumbsItemProps, ref: React.ForwardedRef<HT
     };
 
     const linkProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
-        title,
         onClick: handleAction,
         'aria-disabled': disabled ? true : undefined,
     };

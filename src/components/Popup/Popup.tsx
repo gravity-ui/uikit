@@ -210,12 +210,14 @@ function PopupComponent({
                 return;
             }
 
-            const closeReason =
-                reason === 'escape-key'
-                    ? 'escapeKeyDown'
-                    : reason === 'outside-press'
-                      ? 'outsideClick'
-                      : reason;
+            let closeReason;
+            if (reason === 'escape-key') {
+                closeReason = 'escapeKeyDown';
+            } else if (reason === 'outside-press') {
+                closeReason = 'outsideClick';
+            } else {
+                closeReason = reason;
+            }
 
             if (closeReason === 'escapeKeyDown' && onEscapeKeyDown) {
                 onEscapeKeyDown(event as KeyboardEvent);

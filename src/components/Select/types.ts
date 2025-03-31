@@ -94,7 +94,8 @@ export type SelectRenderCounter = (
     counterProps: SelectCounterProps,
 ) => React.ReactElement;
 
-export type SelectProps<T = any> = QAProps &
+export type SelectProps<T = any> = AriaLabelingProps &
+    QAProps &
     UseOpenProps & {
         onUpdate?: (value: string[]) => void;
         renderControl?: SelectRenderControl;
@@ -156,8 +157,6 @@ export type SelectProps<T = any> = QAProps &
         name?: string;
         form?: string;
         disabled?: boolean;
-        'aria-label'?: string;
-        'aria-labelledby'?: string;
     };
 
 export type SelectOption<T = any> = QAProps &

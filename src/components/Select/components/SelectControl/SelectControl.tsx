@@ -5,6 +5,9 @@ import * as React from 'react';
 import {ChevronDown, TriangleExclamation} from '@gravity-ui/icons';
 import isEmpty from 'lodash/isEmpty';
 
+import type {AriaLabelingProps} from 'src/components/types';
+import {filterDOMProps} from 'src/components/utils/filterDOMProps';
+
 import {useUniqId} from '../../../../hooks';
 import {Icon} from '../../../Icon';
 import {Popover} from '../../../legacy';
@@ -48,9 +51,7 @@ type ControlProps = {
     popupId: string;
     selectId: string;
     activeIndex?: number;
-    'aria-label'?: string;
-    'aria-labelledby'?: string;
-};
+} & AriaLabelingProps;
 
 export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((props, ref) => {
     const {
@@ -78,8 +79,6 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         renderCounter,
         hasCounter,
         title,
-        'aria-label': ariaLabel,
-        'aria-labelledby': ariaLabelledby,
     } = props;
     const showOptionsText = Boolean(selectedOptionsContent);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
@@ -161,6 +160,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
     };
 
     const triggerProps: SelectRenderTriggerProps = {
+        ...filterDOMProps(props, {labelable: true}),
         id: selectId,
         role: 'combobox',
         'aria-controls': open ? popupId : undefined,
@@ -168,8 +168,6 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         'aria-expanded': open,
         'aria-activedescendant':
             activeIndex === undefined ? undefined : `${popupId}-item-${activeIndex}`,
-        'aria-label': ariaLabel,
-        'aria-labelledby': ariaLabelledby,
         onClick: handleControlClick,
         onKeyDown,
         disabled,

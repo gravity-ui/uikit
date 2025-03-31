@@ -32,17 +32,13 @@ function BreadcrumbsItem(props: BreadcrumbsItemProps, ref: React.ForwardedRef<HT
         ping,
         referrerPolicy,
         children,
+        title,
         __disabled: disabled,
         __current: current,
         __onAction: onAction,
         __index: index,
         ...restProps
     } = props as BreadcrumbsItemProps & BreadcrumbsItemInnerProps;
-
-    let title = props.title;
-    if (typeof title !== 'string' && typeof children === 'string') {
-        title = children;
-    }
 
     const handleAction = (event: React.MouseEvent<HTMLAnchorElement>) => {
         if (disabled) {

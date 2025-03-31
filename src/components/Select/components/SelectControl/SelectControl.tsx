@@ -5,13 +5,12 @@ import * as React from 'react';
 import {ChevronDown, TriangleExclamation} from '@gravity-ui/icons';
 import isEmpty from 'lodash/isEmpty';
 
-import type {AriaLabelingProps} from 'src/components/types';
-import {filterDOMProps} from 'src/components/utils/filterDOMProps';
-
 import {useUniqId} from '../../../../hooks';
 import {Icon} from '../../../Icon';
 import {Popover} from '../../../legacy';
+import type {AriaLabelingProps} from '../../../types';
 import type {CnMods} from '../../../utils/cn';
+import {filterDOMProps} from '../../../utils/filterDOMProps';
 import {selectControlBlock, selectControlButtonBlock} from '../../constants';
 import i18n from '../../i18n';
 import type {

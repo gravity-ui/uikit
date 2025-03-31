@@ -35,7 +35,7 @@ import i18n from './i18n';
 
 import './Modal.scss';
 
-export type ModalCloseReason = 'outsideClick' | 'escapeKeyDown';
+export type ModalCloseReason = 'outsideClick' | 'escapeKeyDown' | string | undefined;
 
 export interface ModalProps extends DOMProps, AriaLabelingProps, QAProps {
     open?: boolean;
@@ -147,7 +147,12 @@ function ModalComponent({
                 return;
             }
 
-            const closeReason = reason === 'escape-key' ? 'escapeKeyDown' : 'outsideClick';
+            const closeReason =
+                reason === 'escape-key'
+                    ? 'escapeKeyDown'
+                    : reason === 'outside-press'
+                      ? 'outsideClick'
+                      : reason;
 
             if (closeReason === 'escapeKeyDown' && onEscapeKeyDown) {
                 onEscapeKeyDown(event as KeyboardEvent);

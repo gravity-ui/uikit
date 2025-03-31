@@ -47,7 +47,7 @@ import {arrowStylesMiddleware, getOffsetOptions, getPlacementOptions} from './ut
 
 import './Popup.scss';
 
-export type PopupCloseReason = 'outsideClick' | 'escapeKeyDown';
+export type PopupCloseReason = 'outsideClick' | 'escapeKeyDown' | string | undefined;
 
 export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
     children?: React.ReactNode;
@@ -210,7 +210,12 @@ function PopupComponent({
                 return;
             }
 
-            const closeReason = reason === 'escape-key' ? 'escapeKeyDown' : 'outsideClick';
+            const closeReason =
+                reason === 'escape-key'
+                    ? 'escapeKeyDown'
+                    : reason === 'outside-press'
+                      ? 'outsideClick'
+                      : reason;
 
             if (closeReason === 'escapeKeyDown' && onEscapeKeyDown) {
                 onEscapeKeyDown(event as KeyboardEvent);

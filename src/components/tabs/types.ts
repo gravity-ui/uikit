@@ -32,6 +32,11 @@ export interface TabProps extends AriaLabelingProps, DOMProps, QAProps {
     };
     disabled?: boolean;
     children?: React.ReactNode;
+    onClick?: (
+        event:
+            | React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>
+            | React.KeyboardEvent<HTMLAnchorElement | HTMLButtonElement>,
+    ) => void;
 }
 
 export interface TabPanelProps extends AriaLabelingProps, DOMProps, QAProps {

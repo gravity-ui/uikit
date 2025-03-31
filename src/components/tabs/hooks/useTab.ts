@@ -21,14 +21,18 @@ export function useTab(tabProps: TabProps) {
     const isDisabled = tabProps.disabled;
     const isFocused = tabContext.isFocused;
 
-    const onClick = () => {
+    const onClick: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement> = (event) => {
         if (!tabProps.disabled) {
+            tabProps.onClick?.(event);
             tabContext.onUpdate?.(tabProps.value);
         }
     };
 
-    const onKeyDown = (event: React.KeyboardEvent) => {
+    const onKeyDown: React.KeyboardEventHandler<HTMLAnchorElement | HTMLButtonElement> = (
+        event,
+    ) => {
         if ((event.key === KeyCode.SPACEBAR || event.key === KeyCode.ENTER) && !tabProps.disabled) {
+            tabProps.onClick?.(event);
             tabContext.onUpdate?.(tabProps.value);
         }
     };

@@ -4,9 +4,13 @@ import * as React from 'react';
 
 import {
     FloatingFocusManager,
+    FloatingNode,
     FloatingOverlay,
+    FloatingTree,
     useDismiss,
     useFloating,
+    useFloatingNodeId,
+    useFloatingParentNodeId,
     useInteractions,
     useRole,
     useTransitionStatus,
@@ -104,7 +108,7 @@ const b = block('modal');
 
 const TRANSITION_DURATION = 150;
 
-export function Modal({
+function ModalComponent({
     open = false,
     onOpenChange,
     keepMounted = false,
@@ -158,7 +162,10 @@ export function Modal({
         [onOpenChange, onEscapeKeyDown, onOutsideClick, onClose],
     );
 
+    const floatingNodeId = useFloatingNodeId();
+
     const {refs, elements, context} = useFloating({
+        nodeId: floatingNodeId,
         open,
         onOpenChange: handleOpenChange,
     });
@@ -244,47 +251,65 @@ export function Modal({
         [elements.floating, onEnterKeyDown],
     );
 
-    return isMounted || keepMounted ? (
-        <Portal container={container}>
-            <FloatingOverlay
-                style={style}
-                className={b({open}, className)}
-                data-qa={qa}
-                data-floating-ui-status={status}
-                lockScroll={!disableBodyScrollLock}
-            >
-                <div className={b('content-aligner')}>
-                    <div className={b('content-wrapper')}>
-                        <FloatingFocusManager
-                            context={context}
-                            disabled={!isMounted}
-                            modal={isMounted}
-                            initialFocus={initialFocus ?? refs.floating}
-                            returnFocus={returnFocus}
-                            visuallyHiddenDismiss={
-                                disableVisuallyHiddenDismiss ? false : i18n('close')
-                            }
-                            restoreFocus={true}
-                        >
-                            <div
-                                {...filterDOMProps(restProps, {labelable: true})}
-                                className={b(
-                                    'content',
-                                    {'has-scroll': contentOverflow === 'auto'},
-                                    contentClassName,
-                                )}
-                                ref={handleFloatingRef}
-                                {...getFloatingProps({
-                                    onTransitionEnd: handleTransitionEnd,
-                                    onKeyDown: handleKeyDown,
-                                })}
-                            >
-                                {children}
+    return (
+        <FloatingNode id={floatingNodeId}>
+            {isMounted || keepMounted ? (
+                <Portal container={container}>
+                    <FloatingOverlay
+                        style={style}
+                        className={b({open}, className)}
+                        data-qa={qa}
+                        data-floating-ui-status={status}
+                        lockScroll={!disableBodyScrollLock}
+                    >
+                        <div className={b('content-aligner')}>
+                            <div className={b('content-wrapper')}>
+                                <FloatingFocusManager
+                                    context={context}
+                                    disabled={!isMounted}
+                                    modal={isMounted}
+                                    initialFocus={initialFocus ?? refs.floating}
+                                    returnFocus={returnFocus}
+                                    visuallyHiddenDismiss={
+                                        disableVisuallyHiddenDismiss ? false : i18n('close')
+                                    }
+                                    restoreFocus={true}
+                                >
+                                    <div
+                                        {...filterDOMProps(restProps, {labelable: true})}
+                                        className={b(
+                                            'content',
+                                            {'has-scroll': contentOverflow === 'auto'},
+                                            contentClassName,
+                                        )}
+                                        ref={handleFloatingRef}
+                                        {...getFloatingProps({
+                                            onTransitionEnd: handleTransitionEnd,
+                                            onKeyDown: handleKeyDown,
+                                        })}
+                                    >
+                                        {children}
+                                    </div>
+                                </FloatingFocusManager>
                             </div>
-                        </FloatingFocusManager>
-                    </div>
-                </div>
-            </FloatingOverlay>
-        </Portal>
-    ) : null;
+                        </div>
+                    </FloatingOverlay>
+                </Portal>
+            ) : null}
+        </FloatingNode>
+    );
+}
+
+export function Modal(props: ModalProps) {
+    const parentId = useFloatingParentNodeId();
+
+    if (parentId === null) {
+        return (
+            <FloatingTree>
+                <ModalComponent {...props} />
+            </FloatingTree>
+        );
+    }
+
+    return <ModalComponent {...props} />;
 }

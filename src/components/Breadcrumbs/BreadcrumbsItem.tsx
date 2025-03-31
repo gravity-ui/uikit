@@ -32,7 +32,6 @@ function BreadcrumbsItem(props: BreadcrumbsItemProps, ref: React.ForwardedRef<HT
         ping,
         referrerPolicy,
         children,
-        title,
         __disabled: disabled,
         __current: current,
         __onAction: onAction,
@@ -56,7 +55,6 @@ function BreadcrumbsItem(props: BreadcrumbsItemProps, ref: React.ForwardedRef<HT
     };
 
     const linkProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
-        title,
         onClick: handleAction,
         'aria-disabled': disabled ? true : undefined,
     };

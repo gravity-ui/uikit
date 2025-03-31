@@ -457,6 +457,113 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
+### Неактивные элементы
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Breadcrumbs>
+    <Breadcrumbs.Item href="#Region">Region</Breadcrumbs.Item>
+    <Breadcrumbs.Item href="#Country" disabled>
+        Country
+    </Breadcrumbs.Item>
+    <Breadcrumbs.Item href="#City">City</Breadcrumbs.Item>
+    <Breadcrumbs.Item href="#District">District</Breadcrumbs.Item>
+    <Breadcrumbs.Item href="#Street" disabled>
+        Street
+    </Breadcrumbs.Item>
+</Breadcrumbs>
+`}
+>
+    <UIKit.Breadcrumbs>
+        <UIKit.Breadcrumbs.Item href="#Region">Region</UIKit.Breadcrumbs.Item>
+        <UIKit.Breadcrumbs.Item href="#Country" disabled>
+            Country
+        </UIKit.Breadcrumbs.Item>
+        <UIKit.Breadcrumbs.Item href="#City">City</UIKit.Breadcrumbs.Item>
+        <UIKit.Breadcrumbs.Item href="#District">District</UIKit.Breadcrumbs.Item>
+        <UIKit.Breadcrumbs.Item href="#Street" disabled>
+            Street
+        </UIKit.Breadcrumbs.Item>
+    </UIKit.Breadcrumbs>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```jsx
+<Breadcrumbs>
+  <Breadcrumbs.Item href="#Region">Region</Breadcrumbs.Item>
+  <Breadcrumbs.Item href="#Country" disabled>
+    Country
+  </Breadcrumbs.Item>
+  <Breadcrumbs.Item href="#City">City</Breadcrumbs.Item>
+  <Breadcrumbs.Item href="#District">District</Breadcrumbs.Item>
+  <Breadcrumbs.Item href="#Street" disabled>
+    Street
+  </Breadcrumbs.Item>
+</Breadcrumbs>
+```
+
+<!-- Storybook example -->
+
+<BreadcrumbsDisabledItems />
+
+<!--/GITHUB_BLOCK-->
+
+### Пользовательский контент после последней крошки
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Breadcrumbs endContent={<div style={{paddingInlineStart: 4}}><Button>Push</Button></div>}>
+    <Breadcrumbs.Item>Region</Breadcrumbs.Item>
+    <Breadcrumbs.Item>Country</Breadcrumbs.Item>
+    <Breadcrumbs.Item>City</Breadcrumbs.Item>
+    <Breadcrumbs.Item>District</Breadcrumbs.Item>
+    <Breadcrumbs.Item>Street</Breadcrumbs.Item>
+</Breadcrumbs>
+`}
+>
+    <UIKit.Breadcrumbs endContent={<div style={{paddingInlineStart: 4}}><Button>Push</Button></div>}>
+        <UIKit.Breadcrumbs.Item>Region</UIKit.Breadcrumbs.Item>
+        <UIKit.Breadcrumbs.Item>Country</UIKit.Breadcrumbs.Item>
+        <UIKit.Breadcrumbs.Item>City</UIKit.Breadcrumbs.Item>
+        <UIKit.Breadcrumbs.Item>District</UIKit.Breadcrumbs.Item>
+        <UIKit.Breadcrumbs.Item>Street</UIKit.Breadcrumbs.Item>
+    </UIKit.Breadcrumbs>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```jsx
+<Breadcrumbs
+  endContent={
+    <Flex gap={1} spacing={{pl: 1}}>
+      <Button>Test1</Button>
+      <Button>Test2</Button>
+    </Flex>
+  }
+>
+  <Breadcrumbs.Item>Region</Breadcrumbs.Item>
+  <Breadcrumbs.Item>Country</Breadcrumbs.Item>
+  <Breadcrumbs.Item>City</Breadcrumbs.Item>
+  <Breadcrumbs.Item>District</Breadcrumbs.Item>
+  <Breadcrumbs.Item>Street</Breadcrumbs.Item>
+</Breadcrumbs>
+```
+
+<!-- Storybook example -->
+
+<BreadcrumbsEndContent />
+
+<!--/GITHUB_BLOCK-->
+
 ## Свойства
 
 | Имя              | Описание                                                                                                         | Тип                                        | Значение по умолчанию |
@@ -475,6 +582,7 @@ LANDING_BLOCK-->
 | aria-label       | Определяет строковое значение, используемое в качестве метки для текущего элемента.                              | `string`                                   |                       |
 | aria-labelledby  | Определяет элементы, используемые в качестве метки для текущего элемента.                                        | `string`                                   |                       |
 | aria-describedby | Определяет элементы, описывающие объект.                                                                         | `string`                                   |                       |
+| endContent       | Пользовательский контент после последней крошки.                                                                 | `React.ReactNode`                          |                       |
 
 ### BreadcrumbsItemProps
 
@@ -486,3 +594,4 @@ LANDING_BLOCK-->
 | href       | URL-адрес гиперссылки.                                             | `string`                          |                       |
 | target     | Целевое окно для ссылки.                                           | `React.HTMLAttributeAnchorTarget` |                       |
 | rel        | Определяет отношение между связанным ресурсом и текущей страницей. | `string`                          |                       |
+| disabled   | Определяет можно ли взаимодействовать с элементом.                 | `boolean`                         |                       |

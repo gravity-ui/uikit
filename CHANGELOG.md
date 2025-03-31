@@ -1,5 +1,19 @@
 # Changelog
 
+## [7.8.0](https://github.com/gravity-ui/uikit/compare/v7.7.1...v7.8.0) (2025-03-31)
+
+
+### Features
+
+* add link reset mixin ([#2199](https://github.com/gravity-ui/uikit/issues/2199)) ([9f348f7](https://github.com/gravity-ui/uikit/commit/9f348f7bbde9e8713ae5b569ab13d12bf342b113))
+* always render Modal and Popup with FloatingTree ([#2200](https://github.com/gravity-ui/uikit/issues/2200)) ([a26c812](https://github.com/gravity-ui/uikit/commit/a26c812ed81d79c766593fae3679a7ecea75626c))
+* **Breadcrumbs:** allow to display content after the last breadcrumb item ([#2193](https://github.com/gravity-ui/uikit/issues/2193)) ([6086c01](https://github.com/gravity-ui/uikit/commit/6086c0182b402c58c4e9e0892ac6bd63c7e07122))
+
+
+### Bug Fixes
+
+* **Breadcrumbs:** do not set `title` property for `BreadcrumbsItem` by default ([#2196](https://github.com/gravity-ui/uikit/issues/2196)) ([18b822a](https://github.com/gravity-ui/uikit/commit/18b822a388653565497f6be5ecfaa0a204f0109d))
+
 ## [7.7.1](https://github.com/gravity-ui/uikit/compare/v7.7.0...v7.7.1) (2025-03-28)
 
 

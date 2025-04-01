@@ -21,8 +21,6 @@ export type SelectRenderTriggerProps = AriaLabelingProps &
         | 'aria-haspopup'
         | 'aria-expanded'
         | 'aria-activedescendant'
-        | 'aria-label'
-        | 'aria-labelledby'
         | 'onClick'
         | 'onKeyDown'
         | 'disabled'

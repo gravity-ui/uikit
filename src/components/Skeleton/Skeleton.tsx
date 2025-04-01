@@ -11,18 +11,17 @@ export interface SkeletonProps
     extends Pick<React.HTMLAttributes<HTMLDivElement>, 'className' | 'style'>,
         QAProps {
     /**
-     * Controls whether the animation effect is enabled
-     * @default true
+     * Disables the animation effect when set to true
      */
-    isAnimated?: boolean;
+    disableAnimation?: boolean;
 }
 
-export function Skeleton({className, style, qa, isAnimated = true}: SkeletonProps) {
+export function Skeleton({className, style, qa, disableAnimation}: SkeletonProps) {
     return (
         <div
             className={b(
                 {
-                    animated: isAnimated,
+                    animated: !disableAnimation,
                 },
                 className,
             )}

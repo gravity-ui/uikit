@@ -43,7 +43,7 @@ test.describe('Skeleton', {tag: '@Skeleton'}, () => {
                                 width: '30px',
                                 height: '30px',
                             }}
-                            isAnimated={false}
+                            disableAnimation
                         />
                     </div>
                 </div>

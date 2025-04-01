@@ -31,4 +31,25 @@ test.describe('Skeleton', {tag: '@Skeleton'}, () => {
 
         await expectScreenshot({});
     });
+
+    test('with animation disabled', async ({mount, expectScreenshot}) => {
+        await mount(
+            <div style={{width: 400}}>
+                <div>
+                    <h4>Animation disabled</h4>
+                    <div>
+                        <Skeleton
+                            style={{
+                                width: '30px',
+                                height: '30px',
+                            }}
+                            isAnimated={false}
+                        />
+                    </div>
+                </div>
+            </div>,
+        );
+
+        await expectScreenshot({});
+    });
 });

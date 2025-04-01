@@ -70,6 +70,8 @@ export function SkeletonShowcase() {
             <SkeletonListShowcase />
             <h2>Styled with inline prop</h2>
             <Skeleton style={{height: 100, width: 200}} />
+            <h2>Without animation</h2>
+            <Skeleton style={{height: 100, width: 200}} isAnimated={false} />
         </React.Fragment>
     );
 }

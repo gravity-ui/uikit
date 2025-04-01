@@ -4,6 +4,7 @@ export function setRef<T>(ref: React.Ref<T | null> | undefined, value: T | null)
     if (typeof ref === 'function') {
         ref(value);
     } else if (ref) {
-        (ref as React.MutableRefObject<T | null>).current = value;
+        //@ts-expect-error
+        ref.current = value;
     }
 }

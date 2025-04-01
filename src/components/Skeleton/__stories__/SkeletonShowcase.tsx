@@ -71,7 +71,7 @@ export function SkeletonShowcase() {
             <h2>Styled with inline prop</h2>
             <Skeleton style={{height: 100, width: 200}} />
             <h2>Without animation</h2>
-            <Skeleton style={{height: 100, width: 200}} isAnimated={false} />
+            <Skeleton style={{height: 100, width: 200}} disableAnimation />
         </React.Fragment>
     );
 }

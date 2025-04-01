@@ -19,7 +19,7 @@ Default.args = {
 export const WithoutAnimation = DefaultTemplate.bind({});
 WithoutAnimation.args = {
     style: {height: 30},
-    isAnimated: false,
+    disableAnimation: true,
 };
 
 const ShowcaseTemplate: StoryFn = () => <SkeletonShowcase />;

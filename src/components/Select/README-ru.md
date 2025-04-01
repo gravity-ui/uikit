@@ -1165,8 +1165,6 @@ LANDING_BLOCK-->
 | errorPlacement                                            | Положение отображения ошибки.                                                                                                                 | `outside` `inside`                       | `outside`                                                |
 | validationState                                           | Состояние валидации.                                                                                                                          | `"invalid"`                              |                                                          |
 | [hasCounter](#counter)                                    | Показывает количество выбранных вариантов. Счетчик появляется только тогда, когда включен [множественный](#selecting-multiple-options) выбор. | `boolean`                                |                                                          |
-| aria-label                                                | Лейбл контрола, если на странице нет видимого лейбла                                                                                          | `string`                                 |                                                          |
-| aria-labelledby                                           | Идентификатор лейбла, который видим на странице                                                                                               | `string`                                 |                                                          |
 
 ## API CSS
 

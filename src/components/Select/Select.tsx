@@ -9,6 +9,7 @@ import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/
 import {errorPropsMapper} from '../controls/utils';
 import {useMobile} from '../mobile';
 import type {CnMods} from '../utils/cn';
+import {filterDOMProps} from '../utils/filterDOMProps';
 
 import {
     EmptyOptions,
@@ -316,6 +317,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             tabIndex={-1}
         >
             <SelectControl
+                {...filterDOMProps(props, {labelable: true})}
                 toggleOpen={toggleOpen}
                 hasClear={hasClear}
                 clearValue={handleClearValue}

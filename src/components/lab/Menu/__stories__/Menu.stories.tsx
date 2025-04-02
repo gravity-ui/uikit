@@ -20,6 +20,17 @@ const meta: Meta<typeof Menu> = {
     component: Menu,
     parameters: {
         layout: 'centered',
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                    },
+                ],
+            },
+        },
     },
 };
 

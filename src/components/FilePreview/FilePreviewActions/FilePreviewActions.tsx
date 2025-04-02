@@ -1,5 +1,5 @@
 import {useMobile} from '../../mobile';
-import type {FilePreviewActionProps} from '../types';
+import type {FilePreviewAction} from '../types';
 
 import {DesktopActionsMenu} from './DesktopActionsMenu/DesktopActionsMenu';
 import {MobileActionsMenu} from './MobileActionsMenu/MobileActionsMenu';
@@ -8,7 +8,7 @@ export interface FilePreviewActionsProps {
     hoverabelPanelClassName: string;
     fileName: string;
     isCustomImage?: boolean;
-    actions: FilePreviewActionProps[];
+    actions: FilePreviewAction[];
 }
 
 export const FilePreviewActions = ({

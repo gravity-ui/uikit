@@ -81,15 +81,15 @@ LANDING_BLOCK-->
 
 ### Properties
 
-| Name                | Description                                                                                                      | Type                       | Required | Default   |
-| :------------------ | :--------------------------------------------------------------------------------------------------------------- | :------------------------- | :------: | :-------- |
-| file                | The File interface provides information about files and allows JavaScript in a web page to access their content. | `File`                     |   yes    |           |
-| imageSrc            | source for image preview                                                                                         | `string`                   |          |           |
-| description         | Description displayed under the file name                                                                        | `string`                   |          |           |
-| className           | Class name for the file container                                                                                | `string`                   |          |           |
-| onClick             | Click handler for the file container                                                                             | `function`                 |          |           |
-| [actions](#actions) | Аn array of interactive actions                                                                                  | `FilePreviewActionProps[]` |          | `[]`      |
-| view                | The file preview view mode (the text is not visible for the `compact` view)                                      | `default`, `compact`       |          | `default` |
+| Name                | Description                                                                                                      | Type                  | Required | Default   |
+| :------------------ | :--------------------------------------------------------------------------------------------------------------- | :-------------------- | :------: | :-------- |
+| file                | The File interface provides information about files and allows JavaScript in a web page to access their content. | `File`                |   yes    |           |
+| imageSrc            | source for image preview                                                                                         | `string`              |          |           |
+| description         | Description displayed under the file name                                                                        | `string`              |          |           |
+| className           | Class name for the file container                                                                                | `string`              |          |           |
+| onClick             | Click handler for the file container                                                                             | `function`            |          |           |
+| [actions](#actions) | Аn array of interactive actions                                                                                  | `FilePreviewAction[]` |          | `[]`      |
+| view                | The file preview view mode (the text is not visible for the `compact` view)                                      | `default`, `compact`  |          | `default` |
 
 #### Actions
 

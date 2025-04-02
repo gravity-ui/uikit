@@ -3,14 +3,14 @@ import {ActionTooltip} from '../../../ActionTooltip';
 import {Button} from '../../../Button';
 import type {ButtonButtonProps, ButtonLinkProps} from '../../../Button';
 import {block} from '../../../utils/cn';
-import type {FilePreviewActionProps} from '../../types';
+import type {FilePreviewAction} from '../../types';
 
 import './DesktopActionsMenu.scss';
 
 const cn = block('file-preview-actions-desktop');
 
 export interface DesktopActionsMenuProps {
-    actions: FilePreviewActionProps[];
+    actions: FilePreviewAction[];
     hoverabelPanelClassName: string;
 }
 

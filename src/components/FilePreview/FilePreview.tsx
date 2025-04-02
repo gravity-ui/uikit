@@ -58,6 +58,7 @@ interface DefaultFilePreviewProps extends FilePreviewBaseProps {
 }
 
 interface CompactFilePreviewProps extends FilePreviewBaseProps {
+    actions?: never;
     view: 'compact';
 }
 

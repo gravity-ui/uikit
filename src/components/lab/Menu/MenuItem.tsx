@@ -38,7 +38,7 @@ function isMenuItemLinkProps<T extends MenuItemComponentElementType>(
     return p.href !== undefined;
 }
 
-const b = block('menu2-item');
+const b = block('lab-menu-item');
 
 export const MenuItem = React.forwardRef(
     <T extends MenuItemComponentElementType>(

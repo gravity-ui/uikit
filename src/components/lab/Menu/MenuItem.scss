@@ -1,7 +1,7 @@
 @use '../../variables';
 @use '../../../../styles/mixins';
 
-$b: '.#{variables.$ns}menu2-item';
+$b: '.#{variables.$ns}lab-menu-item';
 
 #{$b} {
     --_--padding-block: 0;

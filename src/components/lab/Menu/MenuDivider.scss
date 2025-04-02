@@ -3,12 +3,5 @@
 $b: '.#{variables.$ns}lab-menu-divider';
 
 #{$b} {
-    padding-block: 4px;
-
-    &::before {
-        content: '';
-        display: block;
-        height: 1px;
-        background-color: var(--g-color-line-generic);
-    }
+    margin-block: 4px;
 }

@@ -1,5 +1,7 @@
 import type {StorybookConfig} from '@storybook/react-webpack5';
 
+import {sassFunctions} from '../build-utils/sass-functions';
+
 const config: StorybookConfig = {
     framework: '@storybook/react-webpack5',
     stories: ['../src/**/*.mdx', '../src/**/*.stories.@(ts|tsx)'],
@@ -13,7 +15,18 @@ const config: StorybookConfig = {
                 rules: [
                     {
                         test: /\.(css|scss)$/i,
-                        use: ['style-loader', 'css-loader', 'sass-loader'],
+                        use: [
+                            'style-loader',
+                            'css-loader',
+                            {
+                                loader: 'sass-loader',
+                                options: {
+                                    sassOptions: {
+                                        functions: sassFunctions,
+                                    },
+                                },
+                            },
+                        ],
                     },
                 ],
             },

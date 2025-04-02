@@ -7,6 +7,8 @@ const sass = require('gulp-sass')(require('sass'));
 const sourcemaps = require('gulp-sourcemaps');
 const {rimrafSync} = require('rimraf');
 
+const {sassFunctions} = require('./build-utils/sass-functions');
+
 const BUILD_DIR = path.resolve('build');
 
 task('clean', (done) => {
@@ -89,7 +91,7 @@ task('styles-global', () => {
 task('styles-components', () => {
     return src(['src/components/**/*.scss', '!src/components/**/__stories__/**/*'])
         .pipe(
-            sass.sync().on('error', function (error) {
+            sass.sync({functions: sassFunctions}).on('error', function (error) {
                 sass.logError.call(this, error);
                 process.exit(1);
             }),

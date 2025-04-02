@@ -21,7 +21,7 @@ import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
 import {FilePreviewActions} from './FilePreviewActions/FilePreviewActions';
-import type {FilePreviewActionProps, FileType} from './types';
+import type {FilePreviewAction, FileType} from './types';
 import {getFileType} from './utils';
 
 import './FilePreview.scss';
@@ -53,7 +53,7 @@ interface FilePreviewBaseProps extends QAProps {
 }
 
 interface DefaultFilePreviewProps extends FilePreviewBaseProps {
-    actions?: FilePreviewActionProps[];
+    actions?: FilePreviewAction[];
     view?: 'default';
 }
 

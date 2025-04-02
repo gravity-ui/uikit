@@ -9,19 +9,19 @@ import type {ListProps} from '../../../List';
 import {Sheet} from '../../../Sheet';
 import {Text} from '../../../Text';
 import {block} from '../../../utils/cn';
-import type {FilePreviewActionProps} from '../../types';
+import type {FilePreviewAction} from '../../types';
 
 import './MobileActionsMenu.scss';
 
 const cn = block('file-preview-actions-mobile');
 
 export interface MobileActionsMenuProps {
-    actions: FilePreviewActionProps[];
+    actions: FilePreviewAction[];
     fileName: string;
     isCustomImage?: boolean;
 }
 
-const renderListItem = (item: FilePreviewActionProps) => {
+const renderListItem = (item: FilePreviewAction) => {
     return (
         <div className={cn('list-item')}>
             {item.icon}
@@ -40,7 +40,7 @@ export const MobileActionsMenu = ({actions, fileName, isCustomImage}: MobileActi
     }, []);
 
     const handleItemClick = React.useCallback<
-        NonNullable<ListProps<FilePreviewActionProps>['onItemClick']>
+        NonNullable<ListProps<FilePreviewAction>['onItemClick']>
     >((item, _, __, event) => {
         if (event) {
             // function can be called only on a mobile device

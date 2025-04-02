@@ -139,7 +139,7 @@ export function Menu({
         toggle: !isNested,
         ignoreMouse: isNested,
     });
-    const dismiss = useDismiss(floatingContext, {bubbles: true});
+    const dismiss = useDismiss(floatingContext, {enabled: !isNested});
     const role = useRole(floatingContext, {role: 'menu'});
     const listNavigation = useListNavigation(floatingContext, {
         listRef: itemsRef,
@@ -161,8 +161,8 @@ export function Menu({
         : getReferenceProps();
     const anchorNode = React.isValidElement<any>(trigger)
         ? React.cloneElement(trigger, {
-              ref: anchorRef,
               ...anchorProps,
+              ref: anchorRef,
           })
         : typeof trigger === 'function'
           ? trigger(anchorProps, anchorRef)
@@ -277,6 +277,8 @@ export function Menu({
                 open={floatingContext.open}
                 placement={isNested ? `${isRTL ? 'left' : 'right'}-start` : placement}
                 disablePortal={isNested}
+                disableEscapeKeyDown={isNested}
+                disableOutsideClick={isNested}
                 floatingContext={floatingContext}
                 floatingRef={setFloatingElement}
                 floatingMiddlewares={middlewares}

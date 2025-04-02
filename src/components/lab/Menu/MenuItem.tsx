@@ -3,11 +3,14 @@ import * as React from 'react';
 import {useFloatingTree, useListItem} from '@floating-ui/react';
 import {ChevronLeft, ChevronRight} from '@gravity-ui/icons';
 
-import {useForkRef} from '../../../hooks';
+import {mergeRefs, useForkRef} from '../../../hooks';
 import {BUTTON_ICON_SIZE_MAP} from '../../Button/constants';
 import {Icon} from '../../Icon';
 import {useDirection} from '../../theme';
 import {block} from '../../utils/cn';
+import {mergeProps} from '../../utils/mergeProps';
+import {ListItemView} from '../ListItemView/ListItemView';
+import type {ListItemViewProps} from '../ListItemView/ListItemView';
 
 import {MenuContext} from './MenuContext';
 import {MenuItemContext} from './MenuItemContext';
@@ -29,6 +32,12 @@ function isMenuItemComponentProps<T extends MenuItemComponentElementType>(
     return p.component !== undefined;
 }
 
+function isMenuItemLinkProps<T extends MenuItemComponentElementType>(
+    p: MenuItemProps<T>,
+): p is MenuItemLinkProps {
+    return p.href !== undefined;
+}
+
 const b = block('menu2-item');
 
 export const MenuItem = React.forwardRef(
@@ -41,15 +50,16 @@ export const MenuItem = React.forwardRef(
     ) => {
         const {
             theme,
-            selected = false,
-            disabled = false,
+            selected,
+            disabled,
             icon,
             arrow,
             children,
             className,
             qa,
-            ...rest
+            ...restComponentProps
         } = props;
+        const [submenuOpen, setSubmenuOpen] = React.useState(false);
         const [hasFocusInside, setHasFocusInside] = React.useState(false);
 
         const isRTL = useDirection() === 'rtl';
@@ -66,7 +76,6 @@ export const MenuItem = React.forwardRef(
         const isActive = item.index === menuContext.activeIndex;
         const tabIndex = (menuContext.inline && item.index === 0) || isActive ? 0 : -1;
 
-        let content: React.ReactElement<MenuItemProps>;
         let submenu: React.ReactElement<MenuProps> | null = null;
         const preparedChildren: React.ReactNode[] = [];
 
@@ -116,65 +125,66 @@ export const MenuItem = React.forwardRef(
             menuItemContext?.setHasFocusInside(true);
         };
 
-        const commonProps = {
+        let component: React.ElementType;
+        let componentProps: React.ComponentProps<typeof component>;
+        const commonComponentProps = {
             role: 'menuitem',
             tabIndex,
             className: b(
                 {
                     theme,
                     size: menuContext.size,
-                    active: isActive,
-                    selected,
-                    disabled,
-                    'has-focus-inside': hasFocusInside,
                 },
                 className,
             ),
             'data-qa': qa,
             ...menuContext.getItemProps({
-                ...rest,
+                ...restComponentProps,
                 onClick: handleClick,
                 onFocus: handleFocus,
             }),
         };
 
         if (isMenuItemComponentProps(props)) {
-            content = React.createElement(
-                props.component,
-                {
-                    ...rest,
-                    ...commonProps,
-                    ref: handleRef,
-                    'aria-disabled': disabled ?? undefined,
-                },
-                preparedChildren,
-            );
-        } else if (typeof props.href !== 'undefined') {
-            content = (
-                <a
-                    {...(rest as Pick<typeof props, keyof typeof rest>)}
-                    {...commonProps}
-                    ref={handleRef as React.Ref<HTMLAnchorElement>}
-                    rel={props.target === '_blank' && !rest.rel ? 'noopener noreferrer' : rest.rel}
-                    aria-disabled={disabled ?? undefined}
-                >
-                    {preparedChildren}
-                </a>
-            );
+            component = props.component;
+            componentProps = {
+                ...commonComponentProps,
+                'aria-disabled': disabled ?? undefined,
+            };
+        } else if (isMenuItemLinkProps(props)) {
+            component = 'a';
+            componentProps = {
+                ...commonComponentProps,
+                rel: props.target === '_blank' && !props.rel ? 'noopener noreferrer' : props.rel,
+                'aria-disabled': disabled ?? undefined,
+            } satisfies React.ComponentProps<'a'>;
         } else {
-            content = (
-                <button
-                    {...(rest as Pick<typeof props, keyof typeof rest>)}
-                    {...commonProps}
-                    ref={handleRef as React.Ref<HTMLButtonElement>}
-                    type="button"
-                    disabled={disabled}
-                    aria-pressed={selected}
-                >
-                    {preparedChildren}
-                </button>
-            );
+            component = 'button';
+            componentProps = {
+                ...commonComponentProps,
+                type: 'button',
+                disabled,
+                'aria-disabled': disabled ?? undefined,
+                'aria-pressed': selected ?? undefined,
+            } satisfies React.ComponentProps<'button'>;
         }
+
+        const content = (
+            <ListItemView
+                isContainer
+                component={component}
+                componentProps={componentProps}
+                ref={handleRef}
+                size={menuContext.size}
+                disabled={disabled}
+                active={isActive && !hasFocusInside}
+                hovered={hasFocusInside || (!isActive && submenuOpen)}
+                selected={selected}
+                selectionStyle="highlight"
+            >
+                {preparedChildren}
+            </ListItemView>
+        );
 
         const contextValue = React.useMemo(
             () => ({
@@ -187,9 +197,17 @@ export const MenuItem = React.forwardRef(
             return (
                 <MenuItemContext.Provider value={contextValue}>
                     {React.cloneElement<MenuProps>(submenu, {
-                        trigger: content,
+                        trigger: (triggerProps, triggerRef) => {
+                            return React.cloneElement<
+                                ListItemViewProps & {ref?: React.Ref<unknown>}
+                            >(content, {
+                                ref: mergeRefs(triggerRef, handleRef),
+                                componentProps: mergeProps(triggerProps, componentProps),
+                            });
+                        },
                         onOpenChange: (open, event, reason) => {
                             submenu.props.onOpenChange?.(open, event, reason);
+                            setSubmenuOpen(open);
 
                             if (!open) {
                                 setHasFocusInside(false);

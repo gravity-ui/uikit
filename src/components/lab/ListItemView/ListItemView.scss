@@ -69,6 +69,9 @@ $block: '.#{variables.$ns}lab-list-item-view';
 }
 
 #{$block} {
+    @include mixins.button-reset();
+    @include mixins.link-reset();
+
     display: grid;
     box-sizing: border-box;
     grid-template:
@@ -81,6 +84,7 @@ $block: '.#{variables.$ns}lab-list-item-view';
     background: var(--_--background-color);
     color: var(--_--text-color);
 
+    width: 100%;
     padding-inline: var(--_--padding-inline);
     padding-block: var(--_--padding-block);
     outline: none;
@@ -216,6 +220,7 @@ $block: '.#{variables.$ns}lab-list-item-view';
     }
 
     &_is-container {
+        display: block;
         --_--padding-inline: 0;
         --_--padding-block: 0;
     }
@@ -224,7 +229,8 @@ $block: '.#{variables.$ns}lab-list-item-view';
         --_--background-color: var(--_--background-color-hover);
     }
 
-    &:hover {
+    &:not(&_hovered_no):hover,
+    &_hovered_yes {
         --_--background-color: var(--_--background-color-hover);
     }
 
@@ -239,6 +245,8 @@ $block: '.#{variables.$ns}lab-list-item-view';
     }
 
     &_disabled {
+        pointer-events: none;
+
         &,
         &:hover,
         &:focus {

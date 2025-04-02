@@ -1,6 +1,6 @@
 @use '../../variables';
 
-$b: '.#{variables.$ns}menu2-divider';
+$b: '.#{variables.$ns}lab-menu-divider';
 
 #{$b} {
     padding-block: 4px;

@@ -88,7 +88,7 @@ LANDING_BLOCK-->
 | description         | Description displayed under the file name                                                                        | `string`              |          |           |
 | className           | Class name for the file container                                                                                | `string`              |          |           |
 | onClick             | Click handler for the file container                                                                             | `function`            |          |           |
-| [actions](#actions) | Аn array of interactive actions                                                                                  | `FilePreviewAction[]` |          | `[]`      |
+| [actions](#actions) | An array of interactive actions                                                                                  | `FilePreviewAction[]` |          | `[]`      |
 | view                | The file preview view mode (the text is not visible for the `compact` view)                                      | `default`, `compact`  |          | `default` |
 
 #### Actions

@@ -5,6 +5,8 @@ import {Disclosure} from '../Disclosure';
 import type {DisclosureSize} from '../Disclosure';
 import {DisclosureQa} from '../constants';
 
+const qaId = 'disclosure-component';
+
 describe.only('Disclosure', () => {
     test('render disclosure by default', () => {
         render(<Disclosure />);
@@ -16,8 +18,7 @@ describe.only('Disclosure', () => {
     });
 
     test.each(new Array<DisclosureSize>('m', 'l', 'xl'))('render with given "%s" size', (size) => {
-        const qaId = 'disclosure';
-        render(<Disclosure size={size} qa={qaId} />);
+        render(<Disclosure qa={qaId} size={size} />);
         const component = screen.getByTestId(qaId);
 
         expect(component).toHaveClass(`g-disclosure_size_${size}`);
@@ -47,51 +48,48 @@ describe.only('Disclosure', () => {
     });
 
     test('show given node summary', () => {
-        const contentQaId = 'disclosure-content';
         const className = 'content';
         const content = (
-            <div data-qa={contentQaId} className={className}>
+            <div data-qa={qaId} className={className}>
                 Some content
             </div>
         );
 
         render(<Disclosure summary={content} />);
-        const component = screen.getByTestId(contentQaId);
+        const component = screen.getByTestId(qaId);
         const wrapperComponent = screen.getByTestId(DisclosureQa.SUMMARY);
 
         expect(wrapperComponent).toBeVisible();
         expect(component).toHaveClass(className);
     });
-    test('render custom summary without default', () => {
-        const contentQaId = 'disclosure-content';
 
+    test('render custom summary without default', () => {
         const className = 'content';
         render(
             <Disclosure>
                 <Disclosure.Summary>
                     {() => (
-                        <div data-qa={contentQaId} className={className}>
+                        <div data-qa={qaId} className={className}>
                             Some content
                         </div>
                     )}
                 </Disclosure.Summary>
             </Disclosure>,
         );
-        const component = screen.getByTestId(contentQaId);
+        const component = screen.getByTestId(qaId);
         const wrapperComponent = screen.queryByTestId(DisclosureQa.SUMMARY);
 
         expect(wrapperComponent).toBeNull();
         expect(component).toHaveClass(className);
     });
+
     test('render custom summary with default', () => {
         const className = 'content';
-        const contentQaId = 'disclosure-content';
-
         render(
             <Disclosure>
                 <Disclosure.Summary>
                     {(_, defaultButton) => (
-                        <div data-qa={contentQaId} className={className}>
+                        <div data-qa={qaId} className={className}>
                             {defaultButton}
                             Some content
                         </div>
@@ -99,7 +97,7 @@ describe.only('Disclosure', () => {
                 </Disclosure.Summary>
             </Disclosure>,
         );
-        const component = screen.getByTestId(contentQaId);
+        const component = screen.getByTestId(qaId);
         const wrapperComponent = screen.getByTestId(DisclosureQa.SUMMARY);
 
         expect(wrapperComponent).toBeVisible();
@@ -107,7 +105,6 @@ describe.only('Disclosure', () => {
     });
 
     test('add className', () => {
-        const qaId = 'disclosure';
         const className = 'my-class';
 
         render(<Disclosure className={className} qa={qaId} />);
@@ -122,6 +119,7 @@ describe.only('Disclosure', () => {
 
         expect(disclosure).toHaveAttribute('aria-expanded', 'true');
     });
+
     test('call onUpdate when clicked', async () => {
         const onUpdateFn = jest.fn();
         const user = userEvent.setup();
@@ -133,6 +131,7 @@ describe.only('Disclosure', () => {
 
         expect(onUpdateFn).toBeCalled();
     });
+
     test('content is visible when expanded', () => {
         const content = 'Some content';
         render(<Disclosure expanded={true}>{content}</Disclosure>);
@@ -142,6 +141,7 @@ describe.only('Disclosure', () => {
         expect(text).toHaveClass('g-disclosure__content_visible');
         expect(button).toHaveAttribute('aria-expanded', 'true');
     });
+
     test('content is not visible when not expanded', () => {
         const content = 'Some content';
         render(<Disclosure expanded={false}>{content}</Disclosure>);
@@ -151,6 +151,7 @@ describe.only('Disclosure', () => {
         expect(text).not.toHaveClass('g-disclosure__content_visible');
         expect(button).toHaveAttribute('aria-expanded', 'false');
     });
+
     test('content visibility toggles when clicked', async () => {
         const user = userEvent.setup();
 
@@ -163,6 +164,7 @@ describe.only('Disclosure', () => {
         await user.click(disclosure);
         expect(component).toHaveClass('g-disclosure__content_visible');
     });
+
     test('content not in dom if not keepMounted and not expanded', () => {
         const content = 'Some content';
         render(
@@ -175,6 +177,7 @@ describe.only('Disclosure', () => {
 
         expect(text).not.toBeInTheDocument();
     });
+
     test('content in dom if keepMounted and not expanded', () => {
         const content = 'Some content';
         render(
@@ -186,16 +189,30 @@ describe.only('Disclosure', () => {
         const text = screen.queryByText(content);
         expect(text).toBeInTheDocument();
     });
+
     test('arrow on the start position by default', () => {
         render(<Disclosure />);
         const disclosure = screen.getByRole('button');
 
         expect(disclosure).not.toHaveClass('g-disclosure__trigger_arrow_end');
     });
+
     test('arrow on the end position if arrowPosition=end', () => {
         render(<Disclosure arrowPosition="end" />);
         const disclosure = screen.getByRole('button');
 
         expect(disclosure).toHaveClass('g-disclosure__trigger_arrow_end');
+    });
+
+    test('custom qa', () => {
+        render(
+            <Disclosure qa="test-custom-qa">
+                <div>content</div>
+            </Disclosure>,
+        );
+
+        expect(screen.getByTestId('test-custom-qa')).toBeTruthy();
+        expect(screen.getByTestId('test-custom-qa-summary')).toBeTruthy();
+        expect(screen.getByTestId('test-custom-qa-details')).toBeTruthy();
     });
 });

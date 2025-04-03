@@ -47,6 +47,7 @@ export * from './Select';
 export * from './Sheet';
 export * from './Skeleton';
 export * from './Slider';
+export * from './Stepper';
 export * from './Spin';
 export * from './Switch';
 export * from './Table';

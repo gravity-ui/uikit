@@ -6,7 +6,6 @@ import type {Meta, StoryObj} from '@storybook/react';
 import {Showcase} from '../../../demo/Showcase';
 import {Card} from '../../Card';
 import {Icon} from '../../Icon';
-import {ListItem} from '../../List';
 import {Flex} from '../../layout';
 import {Divider} from '../Divider';
 import type {DividerProps} from '../Divider';
@@ -45,7 +44,7 @@ const disabledControl = {
     },
 };
 
-const listItemStyle: React.CSSProperties = {
+const itemStyle: React.CSSProperties = {
     padding: '0.5rem',
     textAlign: 'center',
     width: '60px',
@@ -69,15 +68,7 @@ export const Horizontal: Story = {
                     <Flex direction="column">
                         {listItems.map((value, index) => (
                             <React.Fragment key={index}>
-                                <ListItem
-                                    item={value}
-                                    itemIndex={index}
-                                    active={false}
-                                    selected={false}
-                                    onActivate={() => {}}
-                                    style={listItemStyle}
-                                />
-
+                                <div style={itemStyle}>{value}</div>
                                 {index < listItems.length - 1 && <Divider {...args} />}
                             </React.Fragment>
                         ))}
@@ -105,15 +96,7 @@ export const Vertical: Story = {
                 <Flex>
                     {listItems.map((value, index) => (
                         <React.Fragment key={index}>
-                            <ListItem
-                                item={value}
-                                itemIndex={index}
-                                active={false}
-                                selected={false}
-                                onActivate={() => {}}
-                                style={listItemStyle}
-                            />
-
+                            <div style={itemStyle}>{value}</div>
                             {index < listItems.length - 1 && <Divider {...args} />}
                         </React.Fragment>
                     ))}
@@ -127,7 +110,6 @@ export const Custom: Story = {
     args: {
         orientation: 'vertical',
         className: 'custom-divider',
-        style: {borderWidth: '2px'},
     },
     argTypes: {
         align: disabledControl,
@@ -137,21 +119,14 @@ export const Custom: Story = {
             <style>
                 {`.g-root {
                   --g-divider-color: #027bf3;
+                  --g-divider-size: 2px;
                 }`}
             </style>
             <Card theme="normal" type="container">
                 <Flex direction={args.orientation === 'vertical' ? 'row' : 'column'}>
                     {listItems.map((value, index) => (
                         <React.Fragment key={index}>
-                            <ListItem
-                                item={value}
-                                itemIndex={index}
-                                active={false}
-                                selected={false}
-                                onActivate={() => {}}
-                                style={listItemStyle}
-                            />
-
+                            <div style={itemStyle}>{value}</div>
                             {index < listItems.length - 1 && <Divider {...args} />}
                         </React.Fragment>
                     ))}

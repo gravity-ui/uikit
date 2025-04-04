@@ -9,8 +9,24 @@ const b = block('skeleton');
 
 export interface SkeletonProps
     extends Pick<React.HTMLAttributes<HTMLDivElement>, 'className' | 'style'>,
-        QAProps {}
+        QAProps {
+    /**
+     * Disables the animation effect when set to true
+     */
+    disableAnimation?: boolean;
+}
 
-export function Skeleton({className, style, qa}: SkeletonProps) {
-    return <div className={b(null, className)} style={style} data-qa={qa} />;
+export function Skeleton({className, style, qa, disableAnimation}: SkeletonProps) {
+    return (
+        <div
+            className={b(
+                {
+                    animated: !disableAnimation,
+                },
+                className,
+            )}
+            style={style}
+            data-qa={qa}
+        />
+    );
 }

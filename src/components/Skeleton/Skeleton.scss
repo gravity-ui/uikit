@@ -25,8 +25,11 @@ $block: '.#{variables.$ns}skeleton';
             transparent,
             var(--g-color-base-generic)
         );
-        animation: #{variables.$ns}skeleton 1.2s ease-out infinite;
         content: '';
+    }
+
+    &_animated::after {
+        animation: #{variables.$ns}skeleton 1.2s ease-out infinite;
     }
 }
 

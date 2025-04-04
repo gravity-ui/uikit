@@ -6,43 +6,70 @@ import {Label} from '../Label';
 
 import {bTab} from './constants';
 import {useTab} from './hooks/useTab';
-import type {TabProps} from './types';
+import type {TabComponentElementType, TabComponentProps, TabLinkProps, TabProps} from './types';
 
 import './Tab.scss';
 
-export const Tab = React.forwardRef<HTMLAnchorElement | HTMLButtonElement, TabProps>(
-    (props, ref) => {
-        const tabProps = useTab(props);
+function isTabComponentProps<T extends TabComponentElementType>(
+    p: TabProps<T>,
+): p is TabComponentProps<Exclude<T, undefined>> {
+    return p.component !== undefined;
+}
 
-        const content = (
-            <div className={bTab('content')}>
-                {props.icon && <div className={bTab('icon')}>{props.icon}</div>}
-                <div className={bTab('title')}>{props.children || props.value}</div>
-                {props.counter !== undefined && (
-                    <div className={bTab('counter')}>{props.counter}</div>
-                )}
-                {props.label && (
-                    <Label className={bTab('label')} theme={props.label.theme}>
-                        {props.label.content}
-                    </Label>
-                )}
-            </div>
-        );
+function isTabLinkProps<T extends TabComponentElementType>(p: TabProps<T>): p is TabLinkProps {
+    return p.href !== undefined;
+}
 
-        if (props.href) {
-            return (
-                <a {...tabProps} href={props.href} ref={ref as React.Ref<HTMLAnchorElement>}>
-                    {content}
-                </a>
-            );
-        }
+export const Tab = React.forwardRef<HTMLAnchorElement | HTMLButtonElement, TabProps>(function Tab<
+    T extends TabComponentElementType,
+>(
+    props: TabProps<T>,
+    ref:
+        | React.Ref<HTMLButtonElement>
+        | React.Ref<HTMLAnchorElement>
+        | React.Ref<T extends string ? React.ComponentRef<T> : T>,
+) {
+    const tabProps = useTab(props);
 
+    const content = (
+        <div className={bTab('content')}>
+            {props.icon && <div className={bTab('icon')}>{props.icon}</div>}
+            <div className={bTab('title')}>{props.children || props.value}</div>
+            {props.counter !== undefined && <div className={bTab('counter')}>{props.counter}</div>}
+            {props.label && (
+                <Label className={bTab('label')} theme={props.label.theme}>
+                    {props.label.content}
+                </Label>
+            )}
+        </div>
+    );
+
+    if (isTabComponentProps(props)) {
+        return React.createElement(props.component, {...tabProps, ref});
+    }
+
+    if (isTabLinkProps(props)) {
         return (
-            <button {...tabProps} type="button" ref={ref as React.Ref<HTMLButtonElement>}>
+            <a
+                {...tabProps}
+                ref={ref as React.Ref<HTMLAnchorElement>}
+                href={props.href}
+                rel={props.target === '_blank' && !props.rel ? 'noopener noreferrer' : props.rel}
+            >
                 {content}
-            </button>
+            </a>
         );
-    },
-);
+    }
+
+    return (
+        <button
+            {...tabProps}
+            ref={ref as React.Ref<HTMLButtonElement>}
+            type={props.type || 'button'}
+        >
+            {content}
+        </button>
+    );
+});
 
 Tab.displayName = 'Tab';

@@ -129,7 +129,7 @@
         "@bem-react/classname": "^1.6.0",
         "@floating-ui/react": "^0.27.3",
         "@gravity-ui/i18n": "^1.7.0",
-        "@gravity-ui/icons": "^2.12.0",
+        "@gravity-ui/icons": "^2.13.0",
         "@tanstack/react-virtual": "^3.11.2",
         "blueimp-md5": "^2.19.0",
         "lodash": "^4.17.21",

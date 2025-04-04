@@ -1,5 +1,23 @@
 # Changelog
 
+## [7.9.0](https://github.com/gravity-ui/uikit/compare/v7.8.0...v7.9.0) (2025-04-04)
+
+
+### Features
+
+* **Divider:** use height block as separator ([#2211](https://github.com/gravity-ui/uikit/issues/2211)) ([36f9741](https://github.com/gravity-ui/uikit/commit/36f97415d99fa9e188d34365235774a69abecdaf))
+* extract mergeRefs helper from useForkRef ([#2198](https://github.com/gravity-ui/uikit/issues/2198)) ([4efd2bc](https://github.com/gravity-ui/uikit/commit/4efd2bc777ce7a62706157f6819cce310f8a0614))
+* **FilePreview:** add export of FilePreviewAction type ([#2209](https://github.com/gravity-ui/uikit/issues/2209)) ([0ae6fdf](https://github.com/gravity-ui/uikit/commit/0ae6fdfe8777a239ab3eb21e06c3626d6e59b38a))
+* **Select:** add labeling props for control ([#2171](https://github.com/gravity-ui/uikit/issues/2171)) ([9679c9c](https://github.com/gravity-ui/uikit/commit/9679c9c641d3355cce047dab760188f79842d574))
+* **Tabs:** pass all props to the root component ([#2216](https://github.com/gravity-ui/uikit/issues/2216)) ([1053598](https://github.com/gravity-ui/uikit/commit/1053598cd9dd68ab6a3305ae9d573aed96838f9e))
+
+
+### Bug Fixes
+
+* add export for Stepper component ([#2214](https://github.com/gravity-ui/uikit/issues/2214)) ([826ee67](https://github.com/gravity-ui/uikit/commit/826ee6781e15279b9110d776255551a3e70c6974))
+* **FilePreview:** fix actions type for compact view ([#2208](https://github.com/gravity-ui/uikit/issues/2208)) ([9942517](https://github.com/gravity-ui/uikit/commit/9942517c33ced36c3cf4a4cc0f0efcba41e059ac))
+* **HelpMark:** icon alignment ([#2153](https://github.com/gravity-ui/uikit/issues/2153)) ([3dc063d](https://github.com/gravity-ui/uikit/commit/3dc063dfa6ac64dd40fd0bfe1ee3c306e8f35021))
+
 ## [7.8.0](https://github.com/gravity-ui/uikit/compare/v7.7.1...v7.8.0) (2025-03-31)
 
 

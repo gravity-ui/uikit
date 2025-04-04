@@ -155,6 +155,8 @@ LANDING_BLOCK-->
 
 ### Properties
 
+`TabList` accepts any valid `div` element props in addition to these:
+
 | Name            | Description                                                                          |           Type            | Default |
 | :-------------- | :----------------------------------------------------------------------------------- | :-----------------------: | :-----: |
 | children        | List of tabs, probably with some wrappers                                            |     `React.ReactNode`     |         |
@@ -316,23 +318,28 @@ LANDING_BLOCK-->
 
 ### Properties
 
-| Name     | Description                             |       Type        | Default |
-| :------- | --------------------------------------- | :---------------: | :-----: |
-| value    | Tab value                               |     `string`      |         |
-| title    | Tab title                               |     `string`      |         |
-| icon     | Icon displayed at the start             | `React.ReactNode` |         |
-| counter  | Content displayed at the end            | `number` `string` |         |
-| href     | A URL to link to.                       |     `string `     |         |
-| label    | `<Label>` displayed at the end          | `React.ReactNode` |         |
-| disabled | Inactive state                          |     `boolean`     |         |
-| children | Tab's content                           | `React.ReactNode` |         |
-| qa       | HTML `data-qa` attribute, used in tests |     `string`      |         |
+`Tab` accepts any valid `button` or `a` element props in addition to these:
+
+| Name      | Description                             |        Type         | Default |
+| :-------- | --------------------------------------- | :-----------------: | :-----: |
+| value     | Tab value                               |      `string`       |         |
+| title     | Tab title                               |      `string`       |         |
+| icon      | Icon displayed at the start             |  `React.ReactNode`  |         |
+| counter   | Content displayed at the end            |  `number` `string`  |         |
+| href      | A URL to link to.                       |      `string `      |         |
+| label     | `<Label>` displayed at the end          |  `React.ReactNode`  |         |
+| disabled  | Inactive state                          |      `boolean`      |         |
+| component | Overrides the root component            | `React.ElementType` |         |
+| children  | Tab's content                           |  `React.ReactNode`  |         |
+| qa        | HTML `data-qa` attribute, used in tests |      `string`       |         |
 
 ## TabPanel
 
 Is a container element for content associated with a tab
 
 ### Properties
+
+`TabPanel` accepts any valid `div` element props in addition to these:
 
 | Name     | Description                             |       Type        | Default |
 | :------- | :-------------------------------------- | :---------------: | :-----: |

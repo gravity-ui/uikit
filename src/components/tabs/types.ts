@@ -1,7 +1,7 @@
 import type * as React from 'react';
 
 import type {LabelProps} from '../Label';
-import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
+import type {DOMProps, QAProps} from '../types';
 
 export type TabSize = 'm' | 'l' | 'xl';
 
@@ -11,7 +11,10 @@ export interface TabProviderProps {
     children?: React.ReactNode;
 }
 
-export interface TabListProps extends AriaLabelingProps, DOMProps, QAProps {
+export interface TabListProps
+    extends DOMProps,
+        QAProps,
+        Omit<React.HTMLAttributes<HTMLDivElement>, 'style'> {
     onUpdate?: (value: string) => void;
     value?: string;
     size?: TabSize;
@@ -20,12 +23,10 @@ export interface TabListProps extends AriaLabelingProps, DOMProps, QAProps {
     children?: React.ReactNode;
 }
 
-export interface TabProps extends AriaLabelingProps, DOMProps, QAProps {
+interface TabCommonProps extends QAProps, DOMProps {
     value: string;
-    title?: string;
     icon?: React.ReactNode;
     counter?: number | string;
-    href?: string;
     label?: {
         content: React.ReactNode;
         theme?: LabelProps['theme'];
@@ -34,7 +35,37 @@ export interface TabProps extends AriaLabelingProps, DOMProps, QAProps {
     children?: React.ReactNode;
 }
 
-export interface TabPanelProps extends AriaLabelingProps, DOMProps, QAProps {
+export interface TabButtonProps
+    extends TabCommonProps,
+        Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'value' | 'disabled' | 'style'> {
+    component?: never;
+    href?: never;
+}
+
+export interface TabLinkProps
+    extends TabCommonProps,
+        Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'style'> {
+    component?: never;
+    href: string;
+}
+
+export type TabComponentElementType = Exclude<React.ElementType, 'a' | 'button'> | undefined;
+
+export type TabComponentProps<T extends Exclude<TabComponentElementType, undefined>> =
+    TabCommonProps &
+        React.ComponentPropsWithoutRef<T> & {
+            component: T;
+        };
+
+export type TabProps<T extends TabComponentElementType = undefined> =
+    | TabButtonProps
+    | TabLinkProps
+    | TabComponentProps<Exclude<T, undefined>>;
+
+export interface TabPanelProps
+    extends DOMProps,
+        QAProps,
+        Omit<React.HTMLAttributes<HTMLDivElement>, 'style'> {
     value: string;
     children?: React.ReactNode;
 }

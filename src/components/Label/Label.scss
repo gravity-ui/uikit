@@ -25,12 +25,11 @@ $transition-timing-function: ease-in-out;
     isolation: isolate;
 
     &__text {
-        @include mixins.text-body-1();
+        @include mixins.text-body-short();
         display: flex;
         align-items: baseline;
         margin: 0 var(--_--margin-inline);
         width: 100%;
-        line-height: var(--_--height);
         text-align: center;
         white-space: nowrap;
         overflow: hidden;

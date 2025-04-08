@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.9.1](https://github.com/gravity-ui/uikit/compare/v7.9.0...v7.9.1) (2025-04-08)
+
+
+### Bug Fixes
+
+* **Label:** use `body-short` font for text content ([#2220](https://github.com/gravity-ui/uikit/issues/2220)) ([090daea](https://github.com/gravity-ui/uikit/commit/090daea4daefadccdf439146a4bfd97b87769870))
+
 ## [7.9.0](https://github.com/gravity-ui/uikit/compare/v7.8.0...v7.9.0) (2025-04-04)
 
 

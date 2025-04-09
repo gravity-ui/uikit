@@ -24,7 +24,7 @@ import {isTabbable} from 'tabbable';
 
 import {KeyCode} from '../../constants';
 import {useForkRef} from '../../hooks';
-import {useAnimateHeight, usePrevious} from '../../hooks/private';
+import {useAnimateHeight, usePrevious, useScrollPadding} from '../../hooks/private';
 import {Portal} from '../Portal';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
@@ -138,6 +138,7 @@ function ModalComponent({
     ...restProps
 }: ModalProps) {
     useLayer({open, type: 'modal'});
+    useScrollPadding(open);
 
     const handleOpenChange = React.useCallback<NonNullable<UseFloatingOptions['onOpenChange']>>(
         (isOpen, event, reason) => {

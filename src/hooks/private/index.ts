@@ -11,3 +11,4 @@ export * from './useRadio';
 export * from './useRadioGroup';
 export * from './useTooltipVisible';
 export * from './useUpdateEffect';
+export * from './useScrollPadding';

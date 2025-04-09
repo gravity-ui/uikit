@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import {FloatingOverlay} from '@floating-ui/react';
 
+import {useScrollPadding} from '../../hooks/private';
 import {Portal} from '../Portal/Portal';
 import type {QAProps} from '../types';
 
@@ -48,6 +49,7 @@ export const Sheet = ({
 }: SheetProps) => {
     const [open, setOpen] = React.useState(visible);
     const [prevVisible, setPrevVisible] = React.useState(visible);
+    useScrollPadding(open);
 
     if (!prevVisible && visible) {
         setOpen(true);

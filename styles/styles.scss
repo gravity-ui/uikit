@@ -21,6 +21,10 @@
     &_theme_dark-hc {
         @include themes.g-theme-dark-hc;
     }
+
+    [hidden] {
+        display: none;
+    }
 }
 
 @keyframes g-loading-animation {

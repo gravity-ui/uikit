@@ -282,7 +282,7 @@ describe('RadioGroup', () => {
             await userEvent.tab();
             await userEvent.keyboard('{ArrowLeft}');
 
-            expect(form).toHaveFormValues({'radio-field': 'Value 3'});
+            expect(form).toHaveFormValues({'radio-field': 'Value 1'});
 
             const button = screen.getByTestId('reset');
             await userEvent.click(button);

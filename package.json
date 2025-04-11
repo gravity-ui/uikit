@@ -121,9 +121,9 @@
         "playwright": "playwright test --config=playwright/playwright.config.ts",
         "playwright:update": "npm run playwright -- -u",
         "playwright:clear-cache": "rm -rf ./playwright/.cache",
-        "playwright:docker": "./scripts/playwright-docker.sh 'npm run playwright'",
-        "playwright:docker:update": "./scripts/playwright-docker.sh 'npm run playwright:update'",
-        "playwright:docker:clear-cache": "./scripts/playwright-docker.sh clear-cache"
+        "playwright:docker": "./playwright/run-docker-command.sh npm run playwright --",
+        "playwright:docker:update": "./playwright/run-docker-command.sh npm run playwright:update --",
+        "playwright:docker:clear-cache": "./playwright/run-docker-command.sh clear-cache"
     },
     "dependencies": {
         "@bem-react/classname": "^1.6.0",

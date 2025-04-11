@@ -16,10 +16,7 @@ reporter.push(
         'html',
         {
             open: process.env.CI ? 'never' : 'on-failure',
-            outputFolder: resolve(
-                process.cwd(),
-                process.env.IS_DOCKER ? 'playwright-report-docker' : 'playwright-report',
-            ),
+            outputFolder: resolve(__dirname, process.env.IS_DOCKER ? 'report-docker' : 'report'),
         },
     ],
 );
@@ -28,6 +25,7 @@ reporter.push(
  * See https://playwright.dev/docs/test-configuration.
  */
 const config: PlaywrightTestConfig = {
+    outputDir: resolve(__dirname, 'test-results'),
     testDir: pathFromRoot('src'),
     testMatch: '**/__tests__/*.visual.test.tsx',
     updateSnapshots: process.env.UPDATE_REQUEST ? 'all' : 'missing',

@@ -8,7 +8,7 @@ IMAGE_TAG="v1.51.1-jammy" # This version have to be synchronized with playwright
 NODE_MODULES_CACHE_DIR="$HOME/.cache/uikit-playwright-docker-node-modules"
 
 command_exists() {
-  command -v "$1" >/dev/null 2>&1
+  command -v "$*" >/dev/null 2>&1
 }
 
 run_command() {
@@ -17,7 +17,7 @@ run_command() {
     -v "$NODE_MODULES_CACHE_DIR:/work/node_modules" \
     -e IS_DOCKER=1 \
     "$IMAGE_NAME:$IMAGE_TAG" \
-    /bin/bash -c "$1"
+    /bin/bash -c "$*"
 }
 
 if command_exists docker; then
@@ -29,7 +29,7 @@ else
   exit 1
 fi
 
-if [[ "$1" = "clear-cache" ]]; then
+if [[ "$*" = "clear-cache" ]]; then
   rm -rf "$NODE_MODULES_CACHE_DIR"
   rm -rf "./playwright/.cache-docker"
   exit 0
@@ -40,4 +40,4 @@ if [[ ! -d "$NODE_MODULES_CACHE_DIR" ]]; then
   run_command 'npm ci'
 fi
 
-run_command "$1"
+run_command "$*"

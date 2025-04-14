@@ -38,7 +38,7 @@ interface SheetContentBaseProps {
     swipeAreaClassName?: string;
     hideTopBar?: boolean;
     maxContentHeightCoefficient?: number;
-    maxHeight?: boolean;
+    alwaysFullHeight?: boolean;
 }
 
 interface SheetContentDefaultProps {
@@ -269,10 +269,12 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         const availableViewportHeight =
             window.innerHeight * heightCoefficient - this.sheetTopHeight;
 
+        if (this.props.alwaysFullHeight) {
+            return availableViewportHeight;
+        }
+
         const availableContentHeight =
-            this.props.maxHeight || sheetHeight >= availableViewportHeight
-                ? availableViewportHeight
-                : sheetHeight;
+            sheetHeight >= availableViewportHeight ? availableViewportHeight : sheetHeight;
 
         return availableContentHeight;
     };

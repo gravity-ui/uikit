@@ -7,7 +7,6 @@ export type SelectPopupProps = {
     mobile: boolean;
     handleClose: () => void;
     width?: SelectProps['popupWidth'];
-    maxHeight?: boolean;
     open?: boolean;
     placement?: PopupPlacement;
     controlRef?: React.RefObject<HTMLElement>;

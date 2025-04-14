@@ -4,12 +4,19 @@
 $block: '.#{variables.$ns}hotkey';
 
 #{$block} {
-    padding: 1px 5px;
-    border-radius: 4px;
+    padding: 0 5px;
+    border-radius: var(--g-border-radius-xs);
+
+    display: flex;
+    align-items: baseline;
+    width: fit-content;
+    text-align: center;
+    white-space: nowrap;
 
     &,
     kbd {
         @include mixins.text-body-1();
+        line-height: 20px;
     }
 
     &_view {

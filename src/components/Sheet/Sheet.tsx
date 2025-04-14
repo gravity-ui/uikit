@@ -31,6 +31,8 @@ export interface SheetProps extends QAProps {
     allowHideOnContentScroll?: boolean;
     /** Hide top bar with resize handle */
     hideTopBar?: boolean;
+    /** Viewport height coefficient for content calculation (0-1 ratio) */
+    maxContentHeightCoefficient?: number;
 }
 
 export const Sheet = ({
@@ -44,6 +46,7 @@ export const Sheet = ({
     swipeAreaClassName,
     allowHideOnContentScroll,
     hideTopBar,
+    maxContentHeightCoefficient,
     qa,
 }: SheetProps) => {
     const [open, setOpen] = React.useState(visible);
@@ -86,6 +89,7 @@ export const Sheet = ({
                     allowHideOnContentScroll={allowHideOnContentScroll}
                     hideTopBar={hideTopBar}
                     hideSheet={hideSheet}
+                    maxContentHeightCoefficient={maxContentHeightCoefficient}
                 />
             </FloatingOverlay>
         </Portal>

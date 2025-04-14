@@ -34,17 +34,18 @@ const SheetExample = () => {
 
 ## Properties
 
-| Name                     | Description                                                                                                                                                      |    Type    |   Default   |
-| :----------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------: | :---------: |
-| visible                  | Manages `Sheet` visibility                                                                                                                                       | `boolean`  |   `false`   |
-| allowHideOnContentScroll | Enables the behavior of closing the sheet window by swiping down if the content is scrolled to its top (`content Node.scrollTop === 0`) or has no scroll at all. | `boolean`  |   `true`    |
-| hideTopBar               | Hides the top bar with the resize handle.                                                                                                                        | `boolean`  |             |
-| id                       | Sheet ID used as hash in a URL. Make sure to specify multiple `id` values if there can be more than one sheet on a page.                                         |  `string`  |   `modal`   |
-| title                    | Sheet window title.                                                                                                                                              |  `string`  | `undefined` |
-| className                | `class` HTML attribute                                                                                                                                           |  `string`  | `undefined` |
-| contentClassName         | `class` HTML attribute for the sheet content.                                                                                                                    |  `string`  | `undefined` |
-| swipeAreaClassName       | `class` HTML attribute for the swipe area.                                                                                                                       |  `string`  | `undefined` |
-| onClose                  | Handler for close event.                                                                                                                                         | `function` | `undefined` |
+| Name                        | Description                                                                                                                                                      |    Type    |   Default   |
+| :-------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------: | :---------: |
+| visible                     | Manages `Sheet` visibility                                                                                                                                       | `boolean`  |   `false`   |
+| allowHideOnContentScroll    | Enables the behavior of closing the sheet window by swiping down if the content is scrolled to its top (`content Node.scrollTop === 0`) or has no scroll at all. | `boolean`  |   `true`    |
+| hideTopBar                  | Hides the top bar with the resize handle.                                                                                                                        | `boolean`  |             |
+| id                          | Sheet ID used as hash in a URL. Make sure to specify multiple `id` values if there can be more than one sheet on a page.                                         |  `string`  |   `modal`   |
+| title                       | Sheet window title.                                                                                                                                              |  `string`  | `undefined` |
+| className                   | `class` HTML attribute                                                                                                                                           |  `string`  | `undefined` |
+| contentClassName            | `class` HTML attribute for the sheet content.                                                                                                                    |  `string`  | `undefined` |
+| swipeAreaClassName          | `class` HTML attribute for the swipe area.                                                                                                                       |  `string`  | `undefined` |
+| onClose                     | Handler for close event.                                                                                                                                         | `function` | `undefined` |
+| maxContentHeightCoefficient | Viewport height coefficient for content calculation (0-1 ratio)                                                                                                  |  `number`  |    `0.9`    |
 
 ## CSS API
 

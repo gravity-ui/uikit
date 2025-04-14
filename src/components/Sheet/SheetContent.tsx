@@ -14,8 +14,7 @@ const TRANSITION_DURATION = '0.3s';
 const HIDE_THRESHOLD = 50;
 const ACCELERATION_Y_MAX = 0.08;
 const ACCELERATION_Y_MIN = -0.02;
-// 90% from viewport
-const MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT = 0.9;
+const DEFAULT_MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT = 0.9;
 const WINDOW_RESIZE_TIMEOUT = 50;
 
 let hashHistory: string[] = [];
@@ -31,6 +30,7 @@ interface SheetContentBaseProps {
     contentClassName?: string;
     swipeAreaClassName?: string;
     hideTopBar?: boolean;
+    maxContentHeightCoefficient?: number;
 }
 
 interface SheetContentDefaultProps {
@@ -246,8 +246,12 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     };
 
     private getAvailableContentHeight = (sheetHeight: number) => {
+        const heightCoefficient =
+            this.props.maxContentHeightCoefficient ??
+            DEFAULT_MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT;
+
         const availableViewportHeight =
-            window.innerHeight * MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT - this.sheetTopHeight;
+            window.innerHeight * heightCoefficient - this.sheetTopHeight;
 
         const availableContentHeight =
             sheetHeight >= availableViewportHeight ? availableViewportHeight : sheetHeight;

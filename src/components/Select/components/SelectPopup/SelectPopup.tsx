@@ -33,7 +33,6 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             virtualized,
             mobile,
             id,
-            maxHeight,
         },
         ref,
     ) =>
@@ -43,7 +42,6 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
                 className={className}
                 visible={Boolean(open)}
                 onClose={handleClose}
-                maxHeight={maxHeight}
             >
                 {children}
             </Sheet>

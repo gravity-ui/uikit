@@ -83,7 +83,6 @@ export function BreadcrumbsDropdownMenu({
                 {...getReferenceProps()}
                 title={i18n('label_more')}
                 aria-label={i18n('label_more')}
-                className={b('more-button')}
                 size="s"
                 view="flat"
                 disabled={disabled}

@@ -126,6 +126,10 @@ $blockButton: '.#{variables.$ns}select-control__button';
             z-index: -1;
         }
 
+        &:active::after {
+            transform: scale(1.042);
+        }
+
         &_view_clear {
             border-color: transparent;
 
@@ -159,7 +163,7 @@ $blockButton: '.#{variables.$ns}select-control__button';
             border-color: var(--g-color-line-danger);
         }
 
-        &:hover::after {
+        &:hover::before {
             background-color: var(--g-color-base-simple-hover);
         }
 
@@ -167,11 +171,11 @@ $blockButton: '.#{variables.$ns}select-control__button';
             color: var(--g-color-text-hint);
             pointer-events: none;
 
-            &::after {
+            &::before {
                 background-color: var(--g-color-base-generic-accent-disabled);
             }
 
-            &::before {
+            &::after {
                 border-color: transparent;
             }
         }

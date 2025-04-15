@@ -4,6 +4,9 @@
     "resolveJsonModule": true,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    // NodeNext resolution is only supported with "isolatedModules: true"
+    // See https://github.com/kulshekhar/ts-jest/issues/4198#issuecomment-2765811528
+    "isolatedModules": true,
     "jsx": "react-jsx"
   }
 }

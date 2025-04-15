@@ -25,6 +25,8 @@ export interface PopoverProps
         DOMProps,
         Pick<
             PopupProps,
+            | 'open'
+            | 'onOpenChange'
             | 'strategy'
             | 'placement'
             | 'offset'
@@ -38,8 +40,6 @@ export interface PopoverProps
     children:
         | ((props: Record<string, unknown>, ref: React.Ref<HTMLElement>) => React.ReactElement)
         | React.ReactElement;
-    open?: boolean;
-    onOpenChange?: (open: boolean) => void;
     disabled?: boolean;
     content?: React.ReactNode;
     trigger?: 'click';

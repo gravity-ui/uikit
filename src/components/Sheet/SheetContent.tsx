@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import {Platform, withMobile} from '../mobile';
 import type {History, Location, MobileContextProps} from '../mobile';
+import {warnOnce} from '../utils/warn';
 
 import {SheetQa, sheetBlock} from './constants';
 import {VelocityTracker} from './utils';
@@ -18,6 +19,12 @@ const DEFAULT_MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT = 0.9;
 const WINDOW_RESIZE_TIMEOUT = 50;
 
 let hashHistory: string[] = [];
+
+function warnAboutOutOfRange() {
+    warnOnce(
+        '[Sheet] The value of the "maxContentHeightCoefficient" property must be between 0 and 1',
+    );
+}
 
 type Status = 'showing' | 'hiding';
 
@@ -246,9 +253,17 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     };
 
     private getAvailableContentHeight = (sheetHeight: number) => {
-        const heightCoefficient =
-            this.props.maxContentHeightCoefficient ??
-            DEFAULT_MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT;
+        let heightCoefficient = DEFAULT_MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT;
+
+        if (
+            typeof this.props.maxContentHeightCoefficient === 'number' &&
+            this.props.maxContentHeightCoefficient >= 0 &&
+            this.props.maxContentHeightCoefficient <= 1
+        ) {
+            heightCoefficient = this.props.maxContentHeightCoefficient;
+        } else if (typeof this.props.maxContentHeightCoefficient === 'number') {
+            warnAboutOutOfRange();
+        }
 
         const availableViewportHeight =
             window.innerHeight * heightCoefficient - this.sheetTopHeight;

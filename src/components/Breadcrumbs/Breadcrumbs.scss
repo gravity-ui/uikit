@@ -79,10 +79,6 @@ $block: '.#{variables.$ns}breadcrumbs';
         padding: 0 var(--g-spacing-2);
     }
 
-    &__more-button {
-        --g-button-border-radius: var(--g-focus-border-radius);
-    }
-
     &__menu {
         margin-inline: calc(-1 * var(--g-spacing-2));
 

@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import {Platform, withMobile} from '../mobile';
 import type {History, Location, MobileContextProps} from '../mobile';
+import {warnOnce} from '../utils/warn';
 
 import {SheetQa, sheetBlock} from './constants';
 import {VelocityTracker} from './utils';
@@ -14,11 +15,16 @@ const TRANSITION_DURATION = '0.3s';
 const HIDE_THRESHOLD = 50;
 const ACCELERATION_Y_MAX = 0.08;
 const ACCELERATION_Y_MIN = -0.02;
-// 90% from viewport
-const MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT = 0.9;
+const DEFAULT_MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT = 0.9;
 const WINDOW_RESIZE_TIMEOUT = 50;
 
 let hashHistory: string[] = [];
+
+function warnAboutOutOfRange() {
+    warnOnce(
+        '[Sheet] The value of the "maxContentHeightCoefficient" property must be between 0 and 1',
+    );
+}
 
 type Status = 'showing' | 'hiding';
 
@@ -31,6 +37,7 @@ interface SheetContentBaseProps {
     contentClassName?: string;
     swipeAreaClassName?: string;
     hideTopBar?: boolean;
+    maxContentHeightCoefficient?: number;
 }
 
 interface SheetContentDefaultProps {
@@ -246,8 +253,20 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     };
 
     private getAvailableContentHeight = (sheetHeight: number) => {
+        let heightCoefficient = DEFAULT_MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT;
+
+        if (
+            typeof this.props.maxContentHeightCoefficient === 'number' &&
+            this.props.maxContentHeightCoefficient >= 0 &&
+            this.props.maxContentHeightCoefficient <= 1
+        ) {
+            heightCoefficient = this.props.maxContentHeightCoefficient;
+        } else if (typeof this.props.maxContentHeightCoefficient === 'number') {
+            warnAboutOutOfRange();
+        }
+
         const availableViewportHeight =
-            window.innerHeight * MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT - this.sheetTopHeight;
+            window.innerHeight * heightCoefficient - this.sheetTopHeight;
 
         const availableContentHeight =
             sheetHeight >= availableViewportHeight ? availableViewportHeight : sheetHeight;

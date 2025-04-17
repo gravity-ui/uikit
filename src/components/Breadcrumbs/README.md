@@ -494,7 +494,7 @@ LANDING_BLOCK-->
 
 <ExampleBlock
     code={`
-<Breadcrumbs endContent={<div style={{paddingInlineStart: 4}}><UButton>Push</UButton></div>}>
+<Breadcrumbs endContent={<div style={{paddingInlineStart: 4}}><Button>Push</Button></div>}>
     <Breadcrumbs.Item>Region</Breadcrumbs.Item>
     <Breadcrumbs.Item>Country</Breadcrumbs.Item>
     <Breadcrumbs.Item>City</Breadcrumbs.Item>

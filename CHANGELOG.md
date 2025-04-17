@@ -1,5 +1,22 @@
 # Changelog
 
+## [7.10.0](https://github.com/gravity-ui/uikit/compare/v7.9.1...v7.10.0) (2025-04-17)
+
+
+### Features
+
+* **Sheet:** add maxContentHeightCoefficient prop ([#2225](https://github.com/gravity-ui/uikit/issues/2225)) ([f3c307f](https://github.com/gravity-ui/uikit/commit/f3c307f21dcf68b70d0adb768e462e70b4a861e3))
+* update dependencies ([#2224](https://github.com/gravity-ui/uikit/issues/2224)) ([0e7bef8](https://github.com/gravity-ui/uikit/commit/0e7bef8fc655d5376ce83bc2bafb8f55c6e744b9))
+
+
+### Bug Fixes
+
+* **Breadcrumbs:** change more button border radius to default --g-border-radius-m ([#2231](https://github.com/gravity-ui/uikit/issues/2231)) ([8a48f52](https://github.com/gravity-ui/uikit/commit/8a48f529b3e7d4b55bd45181a0f1fec5e89a9f07))
+* **Popover:** remove force safePolygon workaround ([#2228](https://github.com/gravity-ui/uikit/issues/2228)) ([5c6fa9c](https://github.com/gravity-ui/uikit/commit/5c6fa9ccdd251a25faba35e97b4d641a2da87894))
+* **Popover:** reuse props types from Popup ([#2227](https://github.com/gravity-ui/uikit/issues/2227)) ([57f66e1](https://github.com/gravity-ui/uikit/commit/57f66e153b832c8d70839c6518fb65456c9154d0))
+* replace custom icons examples (stepper, breadcrumbs) to uikit-examples in README for landing ([#2234](https://github.com/gravity-ui/uikit/issues/2234)) ([7df747f](https://github.com/gravity-ui/uikit/commit/7df747ff5162bc6ff2a89a8b30b74a4fb15ca07d))
+* **Select:** fix default control hitbox area during scale animation ([#2230](https://github.com/gravity-ui/uikit/issues/2230)) ([44224a3](https://github.com/gravity-ui/uikit/commit/44224a32a4be7dee11f651e945a2b796677b7ea0))
+
 ## [7.9.1](https://github.com/gravity-ui/uikit/compare/v7.9.0...v7.9.1) (2025-04-08)
 
 

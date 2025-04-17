@@ -31,7 +31,7 @@ export interface SheetProps extends QAProps {
     allowHideOnContentScroll?: boolean;
     /** Hide top bar with resize handle */
     hideTopBar?: boolean;
-    /** Viewport height coefficient for content calculation (0-1 ratio) */
+    /** Coefficient that determines the maximum height of the `Sheet` relative to the height of the viewport (range 0-1) */
     maxContentHeightCoefficient?: number;
 }
 

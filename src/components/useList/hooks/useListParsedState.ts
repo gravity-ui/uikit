@@ -1,4 +1,3 @@
-/* eslint-disable valid-jsdoc */
 import * as React from 'react';
 
 import {getListParsedState} from '../utils/getListParsedState';

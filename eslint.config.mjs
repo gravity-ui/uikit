@@ -1,0 +1,92 @@
+import baseConfig from '@gravity-ui/eslint-config';
+import a11yConfig from '@gravity-ui/eslint-config/a11y';
+import clientConfig from '@gravity-ui/eslint-config/client';
+import importOrderConfig from '@gravity-ui/eslint-config/import-order';
+import prettierConfig from '@gravity-ui/eslint-config/prettier';
+import testingLibraryPlugin from 'eslint-plugin-testing-library';
+import globals from 'globals';
+
+export default [
+    ...baseConfig,
+    ...clientConfig,
+    ...prettierConfig,
+    ...importOrderConfig,
+    ...a11yConfig,
+    {
+        rules: {
+            'react/jsx-fragments': ['error', 'element'],
+            'react/react-in-jsx-scope': 'off',
+            'no-restricted-syntax': [
+                'error',
+                {
+                    selector:
+                        "ImportDeclaration[source.value='react'] :matches(ImportDefaultSpecifier, ImportSpecifier)",
+                    message: "Please use `import * as React from 'react'` instead.",
+                },
+                {
+                    selector: "TSTypeReference>TSQualifiedName[left.name='React'][right.name='FC']",
+                    message: "Don't use React.FC",
+                },
+                {
+                    selector: "ImportDeclaration[source.value='@testing-library/react']",
+                    message: "Please use wrapper from 'test-utils/utils.tsx'.",
+                },
+            ],
+            'jsx-a11y/no-autofocus': 'off',
+            'import/no-extraneous-dependencies': 'off',
+            'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
+            complexity: 'off',
+        },
+    },
+    {
+        files: ['**/*.ts', '**/*.tsx'],
+        rules: {
+            '@typescript-eslint/prefer-ts-expect-error': 'error',
+
+            '@typescript-eslint/consistent-type-imports': [
+                'error',
+                {
+                    prefer: 'type-imports',
+                    fixStyle: 'separate-type-imports',
+                },
+            ],
+        },
+    },
+    {
+        ...testingLibraryPlugin.configs['flat/react'],
+        files: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
+        ignores: ['**/__tests__/**/*.visual.test.*'],
+        languageOptions: {
+            globals: {
+                ...globals.node,
+                ...globals.jest,
+            },
+        },
+    },
+    {
+        files: ['**/__stories__/**/*.[jt]s?(x)'],
+        rules: {
+            'no-console': 'off',
+        },
+    },
+    {
+        files: ['**/*.js', '!src/**/*'],
+        languageOptions: {
+            globals: {
+                ...globals.node,
+            },
+        },
+    },
+    {
+        files: ['**/__tests__/**/*.visual.test.*'],
+        languageOptions: {
+            globals: {
+                ...globals.node,
+                ...globals.jest,
+            },
+        },
+    },
+    {
+        ignores: ['build', 'storybook-static', 'playwright/.cache*'],
+    },
+];

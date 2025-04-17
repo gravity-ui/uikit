@@ -273,32 +273,7 @@ LANDING_BLOCK-->
 </Breadcrumbs>
 `}
 >
-    <UIKit.Breadcrumbs>
-        <UIKit.Breadcrumbs.Item>
-            <UIKit.Flex alignItems="center" gap={1}>
-                <UIKit.Icon data={() => (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" d="M12.5 12.618c.307-.275.5-.674.5-1.118V6.977a1.5 1.5 0 0 0-.585-1.189l-3.5-2.692a1.5 1.5 0 0 0-1.83 0l-3.5 2.692A1.5 1.5 0 0 0 3 6.978V11.5A1.496 1.496 0 0 0 4.493 13H5V9.5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2V13h.507c.381-.002.73-.146.993-.382Zm2-1.118a3 3 0 0 1-3 3h-7a3 3 0 0 1-3-3V6.977A3 3 0 0 1 2.67 4.6l3.5-2.692a3 3 0 0 1 3.66 0l3.5 2.692a3.003 3.003 0 0 1 1.17 2.378V11.5Zm-5-2A.5.5 0 0 0 9 9H7a.5.5 0 0 0-.5.5V13h3V9.5Z" clip-rule="evenodd"/></svg>
-                )} /> uikit
-            </UIKit.Flex>
-        </UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>
-            <UIKit.Flex alignItems="center" gap={1}>
-                <UIKit.Icon data={() => (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16"><path fill="currentColor" fillRule="evenodd" d="m6.452 6.864 1.13-2.173a31.715 31.715 0 0 1 1.872-3.095c.964 1.045 1.906 2.3 2.612 3.622.748 1.402 1.184 2.789 1.184 4.032 0 1.427-.904 2.83-2.153 3.613.058-.265.09-.553.09-.863 0-1.255-.674-2.336-1.143-2.963a8.82 8.82 0 0 0-1.01-1.125l-.024-.02-.008-.008L9 7.88l-.001-.001C8.996 7.88 8.996 7.878 8 9a7.03 7.03 0 0 0 .984 1.133c.37.534.704 1.2.704 1.867 0 .77-.313 1.276-.618 1.587-.159.162-.279.38-.314.6a.786.786 0 0 0 0 .264.694.694 0 0 0 .06.182c.113.225.343.37.594.35 2.836-.235 5.34-2.87 5.34-5.733 0-3.149-2.177-6.538-4.357-8.845A1.313 1.313 0 0 0 9.435 0 1.32 1.32 0 0 0 8.35.556 33.486 33.486 0 0 0 6.25 4l-.955-1.337a.986.986 0 0 0-1.589-.018C2.62 4.123 1.25 6.249 1.25 9.25c0 2.863 2.504 5.498 5.34 5.733.25.02.481-.125.593-.35a.672.672 0 0 0 .06-.182.786.786 0 0 0 .001-.263 1.145 1.145 0 0 0-.314-.601c-.305-.31-.617-.817-.617-1.587 0-.666.333-1.333.703-1.867l.09-.128C7.544 9.405 8 9 8 9l-.997-1.12H7l-.003.003-.008.007-.024.021-.073.07a8.827 8.827 0 0 0-.937 1.056c-.47.626-1.143 1.707-1.143 2.962 0 .31.033.598.09.863C3.654 12.08 2.75 10.677 2.75 9.25c0-2.171.847-3.812 1.745-5.126l.534.748 1.423 1.992ZM8 9l.997-1.121L8 6.993l-.997.886L8 9Z" clipRule="evenodd" /></svg>
-                )} /> components
-            </UIKit.Flex>
-        </UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>
-            <UIKit.Flex alignItems="center" gap={1}>
-                <UIKit.Icon data={() => (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16"><g clip-path="url(#a)"><path fill="currentColor" fill-rule="evenodd" d="M15.37 1.268a.75.75 0 0 0-.62-.634 7.745 7.745 0 0 0-7.516 3.055l-.156.212-2.59.112a.75.75 0 0 0-.433.16L.696 6.827a.75.75 0 0 0 .206 1.292L4.25 9.352c.673.273 1.13.56 1.484.913.352.353.64.811.913 1.484l1.234 3.35a.75.75 0 0 0 1.292.205l2.652-3.36a.75.75 0 0 0 .16-.431l.113-2.591.212-.156a7.745 7.745 0 0 0 3.058-7.498ZM4.794 5.501l1.144-.05-1.69 2.302-1.572-.58 2.118-1.672Zm4.032 7.822-.58-1.572 2.302-1.69-.05 1.145-1.672 2.117Zm5.127-11.277a6.246 6.246 0 0 0-5.511 2.531l-2.78 3.786c.425.237.8.51 1.132.842.332.332.606.707.842 1.133l3.786-2.78a6.246 6.246 0 0 0 2.53-5.512ZM2.378 13.952a5.36 5.36 0 0 1-.377.053 5.52 5.52 0 0 1 .05-.366c.104-.59.294-1.014.527-1.247.244-.244.694-.274 1.004.036.31.31.281.76.036 1.005-.223.223-.644.413-1.24.519ZM.48 15.069a7.796 7.796 0 0 1 .025-1.18c.082-.838.33-1.876 1.012-2.557.853-.854 2.253-.838 3.126.035.873.874.89 2.273.036 3.126-1.082 1.082-3.112 1.068-3.735 1.036a.487.487 0 0 1-.319-.145.486.486 0 0 1-.145-.316Z" clip-rule="evenodd"/></g><defs><clipPath id="a"><path fill="currentColor" d="M0 0h16v16H0z"/></clipPath></defs></svg>
-                )} />
-                <UIKit.Text varian="inherit" ellipsis>
-                    Breadcrumbs
-                </UIKit.Text>
-            </UIKit.Flex>
-        </UIKit.Breadcrumbs.Item>
-    </UIKit.Breadcrumbs>
+    <UIKitExamples.BreadcrumbsCustomIconExample />
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -528,7 +503,7 @@ LANDING_BLOCK-->
 </Breadcrumbs>
 `}
 >
-    <UIKit.Breadcrumbs endContent={<div style={{paddingInlineStart: 4}}><Button>Push</Button></div>}>
+    <UIKit.Breadcrumbs endContent={<div style={{paddingInlineStart: 4}}><UIKit.Button>Push</UIKit.Button></div>}>
         <UIKit.Breadcrumbs.Item>Region</UIKit.Breadcrumbs.Item>
         <UIKit.Breadcrumbs.Item>Country</UIKit.Breadcrumbs.Item>
         <UIKit.Breadcrumbs.Item>City</UIKit.Breadcrumbs.Item>

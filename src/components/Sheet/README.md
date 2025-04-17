@@ -46,7 +46,7 @@ const SheetExample = () => {
 | swipeAreaClassName          | `class` HTML attribute for the swipe area.                                                                                                                       |  `string`  | `undefined` |
 | onClose                     | Handler for close event.                                                                                                                                         | `function` | `undefined` |
 | maxContentHeightCoefficient | Coefficient that determines the maximum height of the `Sheet` relative to the height of the viewport (range 0-1)                                                 |  `number`  |    `0.9`    |
-| alwaysFullHeight            | Sheet height will always have the maximum value                                                                                                                     | `boolean`  | `undefined` |
+| alwaysFullHeight            | Sheet height will always have the maximum value                                                                                                                  | `boolean`  | `undefined` |
 
 ## CSS API
 

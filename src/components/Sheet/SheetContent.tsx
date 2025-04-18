@@ -147,6 +147,14 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
             'without-scroll': (deltaY > 0 && contentTouched) || swipeAreaTouched,
         };
 
+        const contentBoxMode = {
+            'always-full-height': this.props.alwaysFullHeight,
+        };
+
+        const contentBoxBorderCompensationMode = {
+            'always-full-height': this.props.alwaysFullHeight,
+        };
+
         return (
             <React.Fragment>
                 <div
@@ -187,9 +195,14 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
                     >
                         <div
                             ref={this.sheetContentBoxRef}
-                            className={sheetBlock('sheet-content-box')}
+                            className={sheetBlock('sheet-content-box', contentBoxMode)}
                         >
-                            <div className={sheetBlock('sheet-content-box-border-compensation')}>
+                            <div
+                                className={sheetBlock(
+                                    'sheet-content-box-border-compensation',
+                                    contentBoxBorderCompensationMode,
+                                )}
+                            >
                                 <div className={sheetBlock('sheet-content', contentClassName)}>
                                     {title && (
                                         <div className={sheetBlock('sheet-content-title')}>

@@ -89,17 +89,18 @@ $block: '.#{variables.$ns}sheet';
         border: 1px solid transparent;
 
         &_always-full-height {
-            height: calc(100% - 2px);
+            box-sizing: border-box;
+            height: 100%;
+
+            #{block}__sheet-content-box-border-compensation {
+                height: 100%;
+            }
         }
     }
 
     &__sheet-content-box-border-compensation {
         // compensate for border of content box
         margin: -1px;
-
-        &_always-full-height {
-            height: 100%;
-        }
     }
 
     &__sheet-content {

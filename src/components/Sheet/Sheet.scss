@@ -87,11 +87,19 @@ $block: '.#{variables.$ns}sheet';
     &__sheet-content-box {
         // prevents margin escape from container
         border: 1px solid transparent;
+
+        &_always-full-height {
+            height: calc(100% - 2px);
+        }
     }
 
     &__sheet-content-box-border-compensation {
         // compensate for border of content box
         margin: -1px;
+
+        &_always-full-height {
+            height: 100%;
+        }
     }
 
     &__sheet-content {

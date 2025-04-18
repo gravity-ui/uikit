@@ -31,4 +31,68 @@ test.describe('Skeleton', {tag: '@Skeleton'}, () => {
 
         await expectScreenshot({});
     });
+
+    test('with animation disabled', async ({mount, expectScreenshot}) => {
+        await mount(
+            <div style={{width: 400}}>
+                <div>
+                    <h4>Animation disabled</h4>
+                    <div>
+                        <Skeleton
+                            style={{
+                                width: '30px',
+                                height: '30px',
+                            }}
+                            disableAnimation
+                        />
+                    </div>
+                </div>
+            </div>,
+        );
+
+        await expectScreenshot({});
+    });
+
+    test('without gradient', async ({mount, expectScreenshot}) => {
+        await mount(
+            <div style={{width: 400}}>
+                <div>
+                    <h4>Gradient disabled</h4>
+                    <div>
+                        <Skeleton
+                            style={{
+                                width: '30px',
+                                height: '30px',
+                            }}
+                            disableGradient
+                        />
+                    </div>
+                </div>
+            </div>,
+        );
+
+        await expectScreenshot({});
+    });
+
+    test('without animation and gradient', async ({mount, expectScreenshot}) => {
+        await mount(
+            <div style={{width: 400}}>
+                <div>
+                    <h4>Animation and gradient disabled</h4>
+                    <div>
+                        <Skeleton
+                            style={{
+                                width: '30px',
+                                height: '30px',
+                            }}
+                            disableAnimation
+                            disableGradient
+                        />
+                    </div>
+                </div>
+            </div>,
+        );
+
+        await expectScreenshot({});
+    });
 });

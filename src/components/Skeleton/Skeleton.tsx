@@ -9,8 +9,29 @@ const b = block('skeleton');
 
 export interface SkeletonProps
     extends Pick<React.HTMLAttributes<HTMLDivElement>, 'className' | 'style'>,
-        QAProps {}
+        QAProps {
+    /**
+     * Disables the animation effect when set to true
+     */
+    disableAnimation?: boolean;
+    /**
+     * Disables the gradient effect when set to true
+     */
+    disableGradient?: boolean;
+}
 
-export function Skeleton({className, style, qa}: SkeletonProps) {
-    return <div className={b(null, className)} style={style} data-qa={qa} />;
+export function Skeleton({className, style, qa, disableAnimation, disableGradient}: SkeletonProps) {
+    return (
+        <div
+            className={b(
+                {
+                    animated: !disableAnimation,
+                    'without-gradient': disableGradient,
+                },
+                className,
+            )}
+            style={style}
+            data-qa={qa}
+        />
+    );
 }

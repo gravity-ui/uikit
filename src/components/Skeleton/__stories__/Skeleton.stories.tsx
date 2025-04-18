@@ -9,12 +9,23 @@ export default {
     title: 'Components/Feedback/Skeleton',
     component: Skeleton,
 } as Meta;
-
 const DefaultTemplate: StoryFn<SkeletonProps> = (args) => <Skeleton {...args} />;
 export const Default = DefaultTemplate.bind({});
 
 Default.args = {
     style: {height: 30},
+};
+
+export const WithoutAnimation = DefaultTemplate.bind({});
+WithoutAnimation.args = {
+    style: {height: 30},
+    disableAnimation: true,
+};
+
+export const WithoutGradient = DefaultTemplate.bind({});
+WithoutGradient.args = {
+    style: {height: 30},
+    disableGradient: true,
 };
 
 const ShowcaseTemplate: StoryFn = () => <SkeletonShowcase />;

@@ -79,7 +79,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     veilRef = React.createRef<HTMLDivElement>();
     sheetRef = React.createRef<HTMLDivElement>();
     sheetTopRef = React.createRef<HTMLDivElement>();
-    sheetContentBoxRef = React.createRef<HTMLDivElement>();
+    sheetMarginBoxRef = React.createRef<HTMLDivElement>();
     sheetScrollContainerRef = React.createRef<HTMLDivElement>();
     velocityTracker = new VelocityTracker();
     observer: ResizeObserver | null = null;
@@ -147,7 +147,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
             'without-scroll': (deltaY > 0 && contentTouched) || swipeAreaTouched,
         };
 
-        const contentBoxMod = {
+        const marginBoxMod = {
             'always-full-height': this.props.alwaysFullHeight,
         };
 
@@ -190,10 +190,10 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
                         onTransitionEnd={this.onContentTransitionEnd}
                     >
                         <div
-                            ref={this.sheetContentBoxRef}
-                            className={sheetBlock('sheet-content-box', contentBoxMod)}
+                            ref={this.sheetMarginBoxRef}
+                            className={sheetBlock('sheet-margin-box', marginBoxMod)}
                         >
-                            <div className={sheetBlock('sheet-content-box-border-compensation')}>
+                            <div className={sheetBlock('sheet-margin-box-border-compensation')}>
                                 <div className={sheetBlock('sheet-content', contentClassName)}>
                                     {title && (
                                         <div className={sheetBlock('sheet-content-title')}>
@@ -227,11 +227,11 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     }
 
     private get sheetContentHeight() {
-        return this.sheetContentBoxRef.current?.getBoundingClientRect().height || 0;
+        return this.sheetMarginBoxRef.current?.getBoundingClientRect().height || 0;
     }
 
     private setInitialStyles(initialHeight: number) {
-        if (this.sheetScrollContainerRef.current && this.sheetContentBoxRef.current) {
+        if (this.sheetScrollContainerRef.current && this.sheetMarginBoxRef.current) {
             this.sheetScrollContainerRef.current.style.height = `${initialHeight}px`;
         }
     }
@@ -494,13 +494,13 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     private addListeners() {
         window.addEventListener('resize', this.onResizeWindow);
 
-        if (this.sheetContentBoxRef.current) {
+        if (this.sheetMarginBoxRef.current) {
             this.observer = new ResizeObserver(() => {
                 if (!this.state.inWindowResizeScope) {
                     this.onResize();
                 }
             });
-            this.observer.observe(this.sheetContentBoxRef.current);
+            this.observer.observe(this.sheetMarginBoxRef.current);
         }
     }
 

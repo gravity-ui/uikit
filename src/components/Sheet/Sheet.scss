@@ -33,7 +33,7 @@ $block: '.#{variables.$ns}sheet';
         inset-block-start: 100%;
         inset-inline-start: 0;
         width: 100%;
-        max-height: 90%;
+        max-height: 100%;
         will-change: transform;
 
         &_with-transition {
@@ -72,7 +72,7 @@ $block: '.#{variables.$ns}sheet';
 
     &__sheet-scroll-container {
         box-sizing: border-box;
-        max-height: calc(90% - #{$top-height});
+        max-height: calc(100% - #{$top-height});
         overflow: hidden auto;
         overscroll-behavior-y: contain;
         background-color: var(--g-sheet-background-color, var(--g-color-base-float));
@@ -84,7 +84,7 @@ $block: '.#{variables.$ns}sheet';
         }
     }
 
-    &__sheet-content-box {
+    &__sheet-margin-box {
         // prevents margin escape from container
         border: 1px solid transparent;
 
@@ -92,14 +92,14 @@ $block: '.#{variables.$ns}sheet';
             box-sizing: border-box;
             height: 100%;
 
-            #{block}__sheet-content-box-border-compensation {
+            #{$block}__sheet-margin-box-border-compensation {
                 height: 100%;
             }
         }
     }
 
-    &__sheet-content-box-border-compensation {
-        // compensate for border of content box
+    &__sheet-margin-box-border-compensation {
+        // compensate for border of margin box
         margin: -1px;
     }
 

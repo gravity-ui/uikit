@@ -1,4 +1,3 @@
-/* eslint-disable valid-jsdoc */
 import * as React from 'react';
 
 export type UseFileInputProps = {

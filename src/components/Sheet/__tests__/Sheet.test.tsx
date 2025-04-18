@@ -20,6 +20,6 @@ test('Do not renders top bar when hideTopBar property is set', () => {
     const {container} = render(<Sheet visible hideTopBar></Sheet>);
 
     // Element is accessible only by selector
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+    // eslint-disable-next-line testing-library/no-container
     expect(container.querySelector(sheetBlock('sheet-top'))).not.toBeInTheDocument();
 });

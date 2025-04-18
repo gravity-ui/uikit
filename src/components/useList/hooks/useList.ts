@@ -1,4 +1,3 @@
-/* eslint-disable valid-jsdoc */
 import * as React from 'react';
 
 import type {InitialListParsedState, ListState, UseListResult} from '../types';

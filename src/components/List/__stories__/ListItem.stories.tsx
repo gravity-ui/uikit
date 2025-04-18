@@ -78,9 +78,7 @@ export default {
 
 const getComponentTemplate = <
     T extends React.JSXElementConstructor<ListItemProps<any>> = typeof ListItem,
->(): StoryFn<T> =>
-    // eslint-disable-next-line react/display-name
-    ((args: any) => <ListItem {...args} />) as any;
+>(): StoryFn<T> => ((args: any) => <ListItem {...args} />) as any;
 
 const Template = getComponentTemplate();
 

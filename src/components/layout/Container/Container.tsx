@@ -1,6 +1,5 @@
 'use client';
 
-/* eslint-disable valid-jsdoc */
 import type * as React from 'react';
 
 import type {QAProps} from '../../types';

@@ -1,4 +1,3 @@
-/* eslint-disable valid-jsdoc */
 import merge from 'lodash/merge';
 
 import type {LayoutTheme, RecursivePartial} from '../types';

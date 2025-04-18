@@ -4,7 +4,7 @@ import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-
 import type {SkeletonProps} from '../Skeleton';
 import {Skeleton} from '../Skeleton';
 
-test.describe.only('Skeleton', {tag: '@Skeleton'}, () => {
+test.describe('Skeleton', {tag: '@Skeleton'}, () => {
     smokeTest('', async ({mount, expectScreenshot}) => {
         const defaultProps: SkeletonProps = {
             className: '',

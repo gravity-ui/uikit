@@ -18,3 +18,4 @@ The Skeleton component displays a placeholder preview of your content before the
 | className        | Custom CSS class for the root element          |       `string`        |         |
 | qa               | `data-qa` HTML attribute, used for testing     |       `string`        |         |
 | disableAnimation | Disables the animation effect when set to true |       `boolean`       |         |
+| disableGradient  | Disables the gradient effect when set to true  |       `boolean`       |         |

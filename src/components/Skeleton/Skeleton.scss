@@ -31,6 +31,10 @@ $block: '.#{variables.$ns}skeleton';
     &_animated::after {
         animation: #{variables.$ns}skeleton 1.2s ease-out infinite;
     }
+
+    &_without-gradient::after {
+        display: none;
+    }
 }
 
 @keyframes #{variables.$ns}skeleton {

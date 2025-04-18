@@ -14,14 +14,19 @@ export interface SkeletonProps
      * Disables the animation effect when set to true
      */
     disableAnimation?: boolean;
+    /**
+     * Disables the gradient effect when set to true
+     */
+    disableGradient?: boolean;
 }
 
-export function Skeleton({className, style, qa, disableAnimation}: SkeletonProps) {
+export function Skeleton({className, style, qa, disableAnimation, disableGradient}: SkeletonProps) {
     return (
         <div
             className={b(
                 {
                     animated: !disableAnimation,
+                    'without-gradient': disableGradient,
                 },
                 className,
             )}

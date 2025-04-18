@@ -22,5 +22,11 @@ WithoutAnimation.args = {
     disableAnimation: true,
 };
 
+export const WithoutGradient = DefaultTemplate.bind({});
+WithoutGradient.args = {
+    style: {height: 30},
+    disableGradient: true,
+};
+
 const ShowcaseTemplate: StoryFn = () => <SkeletonShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});

@@ -18,3 +18,4 @@ import {Skeleton} from '@gravity-ui/uikit';
 | className        | Пользовательский CSS-класс корневого элемента.         |       `string`        |                       |
 | qa               | HTML-атрибут `data-qa`, используется для тестирования. |       `string`        |                       |
 | disableAnimation | Отключает эффект анимации при значении true.           |       `boolean`       |                       |
+| disableGradient  | Отключает эффект градиента при значении true.          |       `boolean`       |                       |

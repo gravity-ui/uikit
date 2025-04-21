@@ -148,7 +148,7 @@
         "@commitlint/cli": "^19.8.0",
         "@commitlint/config-conventional": "^19.8.0",
         "@faker-js/faker": "^9.6.0",
-        "@gravity-ui/eslint-config": "^4.0.0",
+        "@gravity-ui/eslint-config": "^4.0.1",
         "@gravity-ui/gulp-utils": "^1.0.3",
         "@gravity-ui/prettier-config": "^1.1.0",
         "@gravity-ui/stylelint-config": "^4.0.1",

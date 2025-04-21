@@ -3,10 +3,11 @@ import a11yConfig from '@gravity-ui/eslint-config/a11y';
 import clientConfig from '@gravity-ui/eslint-config/client';
 import importOrderConfig from '@gravity-ui/eslint-config/import-order';
 import prettierConfig from '@gravity-ui/eslint-config/prettier';
+import {defineConfig} from 'eslint/config';
 import testingLibraryPlugin from 'eslint-plugin-testing-library';
 import globals from 'globals';
 
-export default [
+export default defineConfig([
     ...baseConfig,
     ...clientConfig,
     ...prettierConfig,
@@ -42,7 +43,6 @@ export default [
         files: ['**/*.ts', '**/*.tsx'],
         rules: {
             '@typescript-eslint/prefer-ts-expect-error': 'error',
-
             '@typescript-eslint/consistent-type-imports': [
                 'error',
                 {
@@ -53,9 +53,9 @@ export default [
         },
     },
     {
-        ...testingLibraryPlugin.configs['flat/react'],
         files: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
         ignores: ['**/__tests__/**/*.visual.test.*'],
+        extends: [testingLibraryPlugin.configs['flat/react']],
         languageOptions: {
             globals: {
                 ...globals.node,
@@ -89,4 +89,4 @@ export default [
     {
         ignores: ['build', 'storybook-static', 'playwright/.cache*'],
     },
-];
+]);

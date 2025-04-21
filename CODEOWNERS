@@ -12,7 +12,7 @@
 /src/components/ClipboardButton @Raubzeug
 /src/components/ClipboardIcon @Raubzeug
 /src/components/ControlLabel @korvin89
-/src/components/CopyToClipboard @SeqviriouM
+/src/components/CopyToClipboard @ogonkov
 /src/components/DefinitionList @Raubzeug
 #/src/components/Dialog
 /src/components/Disclosure @Raubzeug
@@ -25,7 +25,7 @@
 /src/components/Label @goshander
 /src/components/Link @Estasie
 /src/components/List @korvin89
-/src/components/Loader @SeqviriouM
+/src/components/Loader @ogonkov
 /src/components/Menu @NikitaCG
 /src/components/Modal @amje
 /src/components/NumberInput @DaryaLari
@@ -47,9 +47,9 @@
 /src/components/useList @IsaevAlexandr
 /src/components/Select @korvin89
 /src/components/Sheet @mournfulCoroner
-/src/components/Skeleton @SeqviriouM
+/src/components/Skeleton @ogonkov
 /src/components/Slider @Arucard89
-/src/components/Spin @SeqviriouM
+/src/components/Spin @ogonkov
 /src/components/Stories @DarkGenius
 /src/components/Switch @zamkovskaya
 /src/components/Table @Raubzeug

@@ -22,6 +22,8 @@ import {Alert} from '@gravity-ui/uikit';
 
 `utility` — используется для полезных советов.
 
+`clear` — подходит для использования Alert как часть других компонентов (например, в качестве `content` в `Popover`)
+
 <!--LANDING_BLOCK
 <ExampleBlock
     code={`
@@ -30,7 +32,8 @@ import {Alert} from '@gravity-ui/uikit';
 <Alert theme="success" title="Success" message="Success theme" />
 <Alert theme="warning" title="Warning" message="Warning theme" />
 <Alert theme="danger" title="Danger" message="Danger theme" />
-<Alert theme="utility" title="utility" message="Utility theme" />
+<Alert theme="utility" title="Utility" message="Utility theme" />
+<Alert theme="clear" title="Clear" message="Clear theme" />
 `}>
     <UIKit.Alert theme="normal" title="Normal" message="Normal theme" />
     <UIKit.Alert theme="info" title="Info" message="Info theme" />
@@ -38,6 +41,7 @@ import {Alert} from '@gravity-ui/uikit';
     <UIKit.Alert theme="warning" title="Warning" message="Warning theme" />
     <UIKit.Alert theme="danger" title="Danger" message="Danger theme" />
     <UIKit.Alert theme="utility" title="Utility" message="Utility theme" />
+    <UIKit.Alert theme="clear" title="Clear" message="Clear theme" />
 </ExampleBlock>
 LANDING_BLOCK-->
 
@@ -50,6 +54,7 @@ LANDING_BLOCK-->
 <Alert theme="warning" title="Warning" message="Warning theme"/>
 <Alert theme="danger" title="Danger" message="Danger theme"/>
 <Alert theme="utility" title="Utility" message="Utility theme"/>
+<Alert theme="clear" title="Clear" message="Clear theme" />
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -216,18 +221,18 @@ LANDING_BLOCK-->
 
 ## Свойства
 
-| Имя       | Описание                                                                                                   |                                Тип                                 | Значение по умолчанию |
-| :-------- | :--------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------: | :-------------------: |
-| theme     | Внешний вид алерта.                                                                                        | `"normal"` `"info"` `"success"` `"warning"` `"danger"` `"utility"` |      `"normal"`       |
-| view      | Включает или отключает цвет фона окна алерта.                                                              |                      `"filled"` `"outlined"`                       |      `"filled"`       |
-| layout    | Используется для привлечения внимания пользователей к контенту, если задано свойство `actions` с кнопками. |                    `"vertical"` `"horizontal"`                     |     `"vertical"`      |
-| corners   | Управляет оформлением углов (прямые или скругленные) для окна алерта.                                      |                       `"rounded"` `"square"`                       |      `"rounded"`      |
-| title     | Заголовок алерта                                                                                           |                              `string`                              |                       |
-| message   | Сообщение алерта                                                                                           |                              `string`                              |                       |
-| onClose   | Функция обратного вызова, которая срабатывает, когда пользователь нажимает на кнопку закрытия алерта.      |                             `Function`                             |                       |
-| actions   | Массив кнопок или пользовательских компонентов.                                                            |                 `React.ReactNode` `"AlertAction"`                  |                       |
-| align     | Управляет вертикальным выравниванием содержимого внутри компонента `Alert`.                                |                      `"center"` `"baseline"`                       |     `"baseline"`      |
-| style     | HTML-атрибут `style`.                                                                                      |                       `React.CSSProperties`                        |                       |
-| className | Имя CSS-класса алерта.                                                                                     |                              `string`                              |                       |
-| icon      | Переопределяет иконку по умолчанию.                                                                        |                         `React.ReactNode`                          |                       |
-| qa        | HTML-атрибут `data-qa`, используется для тестирования.                                                     |                              `string`                              |                       |
+| Имя       | Описание                                                                                                   |                                     Тип                                      | Значение по умолчанию |
+| :-------- | :--------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------: | :-------------------: |
+| theme     | Внешний вид алерта.                                                                                        | `"normal"` `"info"` `"success"` `"warning"` `"danger"` `"utility"` `"clear"` |      `"normal"`       |
+| view      | Включает или отключает цвет фона окна алерта.                                                              |                           `"filled"` `"outlined"`                            |      `"filled"`       |
+| layout    | Используется для привлечения внимания пользователей к контенту, если задано свойство `actions` с кнопками. |                         `"vertical"` `"horizontal"`                          |     `"vertical"`      |
+| corners   | Управляет оформлением углов (прямые или скругленные) для окна алерта.                                      |                            `"rounded"` `"square"`                            |      `"rounded"`      |
+| title     | Заголовок алерта                                                                                           |                                   `string`                                   |                       |
+| message   | Сообщение алерта                                                                                           |                                   `string`                                   |                       |
+| onClose   | Функция обратного вызова, которая срабатывает, когда пользователь нажимает на кнопку закрытия алерта.      |                                  `Function`                                  |                       |
+| actions   | Массив кнопок или пользовательских компонентов.                                                            |                      `React.ReactNode` `"AlertAction"`                       |                       |
+| align     | Управляет вертикальным выравниванием содержимого внутри компонента `Alert`.                                |                           `"center"` `"baseline"`                            |     `"baseline"`      |
+| style     | HTML-атрибут `style`.                                                                                      |                            `React.CSSProperties`                             |                       |
+| className | Имя CSS-класса алерта.                                                                                     |                                   `string`                                   |                       |
+| icon      | Переопределяет иконку по умолчанию.                                                                        |                              `React.ReactNode`                               |                       |
+| qa        | HTML-атрибут `data-qa`, используется для тестирования.                                                     |                                   `string`                                   |                       |

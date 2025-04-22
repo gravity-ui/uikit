@@ -1,5 +1,5 @@
-import {configure} from '../components';
 import i18n from '../components/ActionsPanel/i18n';
+import {configure} from '../utils/configure';
 
 import {addLanguageKeysets} from './addLanguageKeysets';
 import type {PartialKeysets} from './types';

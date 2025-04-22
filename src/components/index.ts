@@ -67,7 +67,6 @@ export * from './utils/event-broker';
 export {getComponentName} from './utils/getComponentName';
 export * from './utils/withEventBrokerDomHandlers';
 export * from './utils/layer-manager';
-export {Lang, configure, getConfig} from './utils/configure';
 export * from './utils/xpath';
 export {getUniqId} from './utils/common';
 export {getElementRef} from './utils/getElementRef';

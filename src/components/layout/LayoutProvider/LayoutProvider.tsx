@@ -1,6 +1,5 @@
 'use client';
 
-/* eslint-disable valid-jsdoc */
 import * as React from 'react';
 
 import {LayoutContext} from '../contexts/LayoutContext';

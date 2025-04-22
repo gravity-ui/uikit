@@ -11,22 +11,18 @@ export interface SkeletonProps
     extends Pick<React.HTMLAttributes<HTMLDivElement>, 'className' | 'style'>,
         QAProps {
     /**
-     * Disables the animation effect when set to true
+     * Animation type to apply to the skeleton
+     * @default 'gradient'
      */
-    disableAnimation?: boolean;
-    /**
-     * Disables the gradient effect when set to true
-     */
-    disableGradient?: boolean;
+    animation?: 'gradient' | 'pulse' | 'none';
 }
 
-export function Skeleton({className, style, qa, disableAnimation, disableGradient}: SkeletonProps) {
+export function Skeleton({className, style, qa, animation = 'gradient'}: SkeletonProps) {
     return (
         <div
             className={b(
                 {
-                    animated: !disableAnimation,
-                    'without-gradient': disableGradient,
+                    animation,
                 },
                 className,
             )}

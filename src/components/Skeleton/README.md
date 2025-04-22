@@ -12,10 +12,9 @@ The Skeleton component displays a placeholder preview of your content before the
 
 ## Properties
 
-| Name             | Description                                    |         Type          | Default |
-| :--------------- | :--------------------------------------------- | :-------------------: | :-----: |
-| style            | Custom CSS properties for root element         | `React.CSSProperties` |         |
-| className        | Custom CSS class for the root element          |       `string`        |         |
-| qa               | `data-qa` HTML attribute, used for testing     |       `string`        |         |
-| disableAnimation | Disables the animation effect when set to true |       `boolean`       |         |
-| disableGradient  | Disables the gradient effect when set to true  |       `boolean`       |         |
+| Name      | Description                                |                 Type                  |  Default   |
+| :-------- | :----------------------------------------- | :-----------------------------------: | :--------: |
+| style     | Custom CSS properties for root element     |         `React.CSSProperties`         |            |
+| className | Custom CSS class for the root element      |               `string`                |            |
+| qa        | `data-qa` HTML attribute, used for testing |               `string`                |            |
+| animation | Animation type to apply to the skeleton    | `'gradient'` \| `'pulse'` \| `'none'` | `gradient` |

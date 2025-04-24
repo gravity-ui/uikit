@@ -19,6 +19,19 @@ export function useAnimateHeight({
         }
     }, [enabled]);
 
+    React.useEffect(() => {
+        const handleError = (event: ErrorEvent) => {
+            // This error is benign, so we can suppress it
+            // It occurs because of height change inside ResizeObserver callback, but doesn't affect the functionality
+            if (event.message.includes('ResizeObserver loop')) {
+                event.preventDefault();
+            }
+        };
+
+        window.addEventListener('error', handleError);
+        return () => window.removeEventListener('error', handleError);
+    }, []);
+
     const handleResize = React.useCallback(() => {
         const node = ref?.current;
         if (!node || isTransitioningHeight.current || !enabled) {

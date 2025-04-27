@@ -13,13 +13,14 @@ import {cnDropdownMenu} from './DropdownMenu.classname';
 import {DropdownMenuContext} from './DropdownMenuContext';
 import {DropdownMenuPopup} from './DropdownMenuPopup';
 import {useSubmenu} from './hooks/useSubmenu';
-import type {DropdownMenuListItem} from './types';
+import type {DropdownMenuListItem, DropdownMenuSize} from './types';
 
 export type DropdownMenuItemProps<T> = Omit<DropdownMenuListItem<T>, 'path'> & {
     popupProps?: Partial<PopupProps>;
     closeMenu?: () => void;
     children?: React.ReactNode;
     path?: number[];
+    size?: DropdownMenuSize;
 };
 
 export const DropdownMenuItem = <T,>({
@@ -30,6 +31,7 @@ export const DropdownMenuItem = <T,>({
     closeMenu,
     children,
     path,
+    size,
     ...props
 }: DropdownMenuItemProps<T>) => {
     const {toggle, data} = React.useContext(DropdownMenuContext);
@@ -132,6 +134,7 @@ export const DropdownMenuItem = <T,>({
                         className: cnDropdownMenu('sub-menu', popupProps?.className),
                         placement: subMenuPlacement,
                     }}
+                    size={size}
                     items={subMenuItems}
                     path={path}
                     open={isSubmenuOpen}

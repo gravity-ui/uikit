@@ -1,4 +1,3 @@
-/* eslint-disable valid-jsdoc */
 import {block} from '../../utils/cn';
 import type {Space} from '../types';
 import {makeCssMod} from '../utils';

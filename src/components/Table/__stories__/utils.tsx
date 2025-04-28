@@ -68,27 +68,11 @@ export const columns: TableColumnConfig<DataItem>[] = [
             );
         },
     },
-    {
-        id: 'location.region',
-        name: 'Region',
-    },
-    {
-        id: 'location.city',
-        name: 'City',
-    },
-    {
-        id: 'phone',
-        name: 'Phone',
-    },
-    {
-        id: 'count',
-        name: 'Count',
-        align: 'end',
-    },
-    {
-        id: 'date',
-        name: 'Date created',
-    },
+    {id: 'location.region', name: 'Region'},
+    {id: 'location.city', name: 'City'},
+    {id: 'phone', name: 'Phone'},
+    {id: 'count', name: 'Count', align: 'end'},
+    {id: 'date', name: 'Date created', meta: {displayName: 'Foo'}},
 ];
 
 export const TableWithAction = withTableActions<DataItem>(Table);

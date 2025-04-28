@@ -24,10 +24,7 @@ import i18n from './i18n';
 
 import './withTableSettings.scss';
 
-export type TableSetting = {
-    id: string;
-    isSelected?: boolean;
-};
+export type TableSetting = {id: string; isSelected?: boolean};
 
 export type TableSettingsData = TableSetting[];
 
@@ -55,6 +52,10 @@ export function filterColumns<I>(
 }
 
 export function getColumnStringTitle<Data>(column: TableColumnConfig<Data>) {
+    const displayName = _get(column, ['meta', 'displayName']);
+    if (_isString(displayName)) {
+        return displayName;
+    }
     if (_isString(column.name)) {
         return column.name;
     }

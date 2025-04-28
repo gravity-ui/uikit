@@ -166,6 +166,7 @@ export const DropdownMenuPopup = <T,>({
                             return (
                                 <DropdownMenuItem
                                     key={index}
+                                    size={size}
                                     className={cnDropdownMenu(
                                         'menu-item',
                                         {

@@ -45,7 +45,6 @@ export const RecursiveList = ({size, itemsCount, 'aria-label': ariaLabel}: Recur
                 value={filterState.filter}
                 onUpdate={filterState.onFilterUpdate}
                 ref={filterState.filterRef}
-                // eslint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus
             />
             <ListContainer

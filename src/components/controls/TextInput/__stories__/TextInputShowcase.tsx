@@ -36,9 +36,13 @@ const EyeButton = (props: {
             onClick={onClick}
             aria-label={opened ? showLabel : hideLabel}
         >
-            <Icon data={opened ? Eye : EyeSlash} />
+            <Icon size={size === 's' ? 12 : 16} data={opened ? Eye : EyeSlash} />
         </Button>
     );
+};
+
+const KeyIcon = ({size = 'm'}: {size?: TextInputProps['size']}) => {
+    return <Icon size={size === 's' ? 12 : 16} data={Key} />;
 };
 
 export function TextInputShowcase(args: TextInputProps) {
@@ -176,7 +180,7 @@ export function TextInputShowcase(args: TextInputProps) {
                         size="s"
                         placeholder="s"
                         type={additionalContentExmpleInputType}
-                        startContent={<Icon data={Key} />}
+                        startContent={<KeyIcon size="s" />}
                         endContent={
                             <EyeButton size="s" opened={hideValue} onClick={handleEyeButtonClick} />
                         }
@@ -185,7 +189,7 @@ export function TextInputShowcase(args: TextInputProps) {
                         {...textInputProps}
                         placeholder="m"
                         type={additionalContentExmpleInputType}
-                        startContent={<Icon data={Key} />}
+                        startContent={<KeyIcon size="m" />}
                         endContent={
                             <EyeButton size="m" opened={hideValue} onClick={handleEyeButtonClick} />
                         }
@@ -195,7 +199,7 @@ export function TextInputShowcase(args: TextInputProps) {
                         size="l"
                         placeholder="l"
                         type={additionalContentExmpleInputType}
-                        startContent={<Icon data={Key} />}
+                        startContent={<KeyIcon size="l" />}
                         endContent={
                             <EyeButton size="l" opened={hideValue} onClick={handleEyeButtonClick} />
                         }
@@ -206,7 +210,7 @@ export function TextInputShowcase(args: TextInputProps) {
                         placeholder="xl"
                         type={additionalContentExmpleInputType}
                         label={LABEL}
-                        startContent={<Icon data={Key} />}
+                        startContent={<KeyIcon size="xl" />}
                         endContent={
                             <EyeButton
                                 size="xl"
@@ -226,9 +230,13 @@ export function TextInputShowcase(args: TextInputProps) {
                             placeholder="error with message"
                             error={isErrorMessageVisible ? 'A validation error has occurred' : true}
                             type={additionalContentExmpleInputType}
-                            startContent={<Icon data={Key} />}
+                            startContent={<KeyIcon size={args.size} />}
                             endContent={
-                                <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
+                                <EyeButton
+                                    size={args.size}
+                                    opened={hideValue}
+                                    onClick={handleEyeButtonClick}
+                                />
                             }
                         />
                         <Checkbox
@@ -241,9 +249,14 @@ export function TextInputShowcase(args: TextInputProps) {
                         {...textInputProps}
                         placeholder="inside error placement"
                         type={additionalContentExmpleInputType}
-                        startContent={<Icon data={Key} />}
+                        startContent={<KeyIcon size={args.size} />}
                         endContent={
-                            <EyeButton opened={hideValue} disabled onClick={handleEyeButtonClick} />
+                            <EyeButton
+                                size={args.size}
+                                opened={hideValue}
+                                disabled
+                                onClick={handleEyeButtonClick}
+                            />
                         }
                         validationState="invalid"
                         errorMessage="A validation error has occurred"
@@ -254,9 +267,14 @@ export function TextInputShowcase(args: TextInputProps) {
                         {...textInputProps}
                         placeholder="disabled"
                         type={additionalContentExmpleInputType}
-                        startContent={<Icon data={Key} />}
+                        startContent={<KeyIcon size={args.size} />}
                         endContent={
-                            <EyeButton opened={hideValue} disabled onClick={handleEyeButtonClick} />
+                            <EyeButton
+                                size={args.size}
+                                opened={hideValue}
+                                disabled
+                                onClick={handleEyeButtonClick}
+                            />
                         }
                         disabled
                     />
@@ -265,8 +283,14 @@ export function TextInputShowcase(args: TextInputProps) {
                         placeholder="readonly"
                         type={additionalContentExmpleInputType}
                         value="readonlyValue"
-                        startContent={<Icon data={Key} />}
-                        endContent={<EyeButton opened={hideValue} onClick={handleEyeButtonClick} />}
+                        startContent={<KeyIcon size={args.size} />}
+                        endContent={
+                            <EyeButton
+                                size={args.size}
+                                opened={hideValue}
+                                onClick={handleEyeButtonClick}
+                            />
+                        }
                         readOnly
                     />
                     <TextInput
@@ -274,8 +298,14 @@ export function TextInputShowcase(args: TextInputProps) {
                         placeholder="clear"
                         type={additionalContentExmpleInputType}
                         label={LABEL}
-                        startContent={<Icon data={Key} />}
-                        endContent={<EyeButton opened={hideValue} onClick={handleEyeButtonClick} />}
+                        startContent={<KeyIcon size={args.size} />}
+                        endContent={
+                            <EyeButton
+                                size={args.size}
+                                opened={hideValue}
+                                onClick={handleEyeButtonClick}
+                            />
+                        }
                         hasClear
                     />
                     <TextInput
@@ -285,16 +315,28 @@ export function TextInputShowcase(args: TextInputProps) {
                         defaultValue="defaultValue"
                         type={additionalContentExmpleInputType}
                         label={LONG_LABEL}
-                        startContent={<Icon data={Key} />}
-                        endContent={<EyeButton opened={hideValue} onClick={handleEyeButtonClick} />}
+                        startContent={<KeyIcon size={args.size} />}
+                        endContent={
+                            <EyeButton
+                                size={args.size}
+                                opened={hideValue}
+                                onClick={handleEyeButtonClick}
+                            />
+                        }
                     />
                     <TextInput
                         {...textInputProps}
                         placeholder="with note"
                         type={additionalContentExmpleInputType}
                         label={LABEL}
-                        startContent={<Icon data={Key} />}
-                        endContent={<EyeButton opened={hideValue} onClick={handleEyeButtonClick} />}
+                        startContent={<KeyIcon size={args.size} />}
+                        endContent={
+                            <EyeButton
+                                size={args.size}
+                                opened={hideValue}
+                                onClick={handleEyeButtonClick}
+                            />
+                        }
                         note={<Text color="secondary">Additional</Text>}
                         hasClear
                     />
@@ -340,8 +382,14 @@ export function TextInputShowcase(args: TextInputProps) {
                         placeholder="clear"
                         type={additionalContentExmpleInputType}
                         label={LABEL}
-                        startContent={<Icon data={Key} />}
-                        endContent={<EyeButton opened={hideValue} onClick={handleEyeButtonClick} />}
+                        startContent={<KeyIcon size={args.size} />}
+                        endContent={
+                            <EyeButton
+                                size={args.size}
+                                opened={hideValue}
+                                onClick={handleEyeButtonClick}
+                            />
+                        }
                         hasClear
                     />
                     <TextInput
@@ -352,8 +400,14 @@ export function TextInputShowcase(args: TextInputProps) {
                         defaultValue="defaultValue"
                         type={additionalContentExmpleInputType}
                         label={LONG_LABEL}
-                        startContent={<Icon data={Key} />}
-                        endContent={<EyeButton opened={hideValue} onClick={handleEyeButtonClick} />}
+                        startContent={<KeyIcon size={args.size} />}
+                        endContent={
+                            <EyeButton
+                                size={args.size}
+                                opened={hideValue}
+                                onClick={handleEyeButtonClick}
+                            />
+                        }
                         hasClear
                     />
                 </div>
@@ -403,8 +457,14 @@ export function TextInputShowcase(args: TextInputProps) {
                         placeholder="clear"
                         type={additionalContentExmpleInputType}
                         label={LABEL}
-                        startContent={<Icon data={Key} />}
-                        endContent={<EyeButton opened={hideValue} onClick={handleEyeButtonClick} />}
+                        startContent={<KeyIcon size={args.size} />}
+                        endContent={
+                            <EyeButton
+                                size={args.size}
+                                opened={hideValue}
+                                onClick={handleEyeButtonClick}
+                            />
+                        }
                         hasClear
                     />
                     <TextInput
@@ -416,8 +476,14 @@ export function TextInputShowcase(args: TextInputProps) {
                         defaultValue="defaultValue"
                         type={additionalContentExmpleInputType}
                         label={LONG_LABEL}
-                        startContent={<Icon data={Key} />}
-                        endContent={<EyeButton opened={hideValue} onClick={handleEyeButtonClick} />}
+                        startContent={<KeyIcon size={args.size} />}
+                        endContent={
+                            <EyeButton
+                                size={args.size}
+                                opened={hideValue}
+                                onClick={handleEyeButtonClick}
+                            />
+                        }
                         hasClear
                     />
                 </div>

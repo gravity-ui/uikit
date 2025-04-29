@@ -69,7 +69,7 @@ export function TextInputShowcase(args: TextInputProps) {
                     <h3 className={b('section-header')}>Sizes:</h3>
 
                     <TextInput {...textInputProps} size="s" placeholder="s" />
-                    <TextInput {...textInputProps} placeholder="m" />
+                    <TextInput {...textInputProps} size="m" placeholder="m" />
                     <TextInput {...textInputProps} size="l" placeholder="l" />
                     <TextInput {...textInputProps} size="xl" placeholder="xl" />
                 </div>
@@ -118,7 +118,7 @@ export function TextInputShowcase(args: TextInputProps) {
                     <h3 className={b('section-header')}>Sizes:</h3>
 
                     <TextInput {...textInputProps} size="s" placeholder="s" label={LABEL} />
-                    <TextInput {...textInputProps} placeholder="m" label={LABEL} />
+                    <TextInput {...textInputProps} size="m" placeholder="m" label={LABEL} />
                     <TextInput {...textInputProps} size="l" placeholder="l" label={LABEL} />
                     <TextInput {...textInputProps} size="xl" placeholder="xl" label={LABEL} />
                 </div>
@@ -187,6 +187,7 @@ export function TextInputShowcase(args: TextInputProps) {
                     />
                     <TextInput
                         {...textInputProps}
+                        size="m"
                         placeholder="m"
                         type={additionalContentExmpleInputType}
                         startContent={<KeyIcon size="m" />}
@@ -357,6 +358,7 @@ export function TextInputShowcase(args: TextInputProps) {
                     />
                     <TextInput
                         {...textInputProps}
+                        size="m"
                         placeholder="m"
                         errorMessage="A validation error has occurred"
                     />
@@ -428,6 +430,7 @@ export function TextInputShowcase(args: TextInputProps) {
                     />
                     <TextInput
                         {...textInputProps}
+                        size="m"
                         placeholder="m"
                         errorMessage="A validation error has occurred"
                         errorPlacement="inside"

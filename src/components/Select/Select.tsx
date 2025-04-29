@@ -200,7 +200,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 toggleOpen();
             }
             if (e.key === KeyCode.ESCAPE && open) {
-                e.preventDefault();
                 toggleOpen(false);
             }
 

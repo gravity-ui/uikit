@@ -1,9 +1,15 @@
+import * as React from 'react';
+
 import userEvent from '@testing-library/user-event';
 
+import {render} from '../../../../test-utils/utils';
+import {Dialog} from '../../Dialog';
+import {TRANSITION_DURATION} from '../../Popup/constants';
+import {Select} from '../Select';
 import {GROUP_ITEM_MARGIN_TOP, SelectQa} from '../constants';
 import type {SelectSize} from '../types';
 
-import {DEFAULT_OPTIONS, GROUPED_OPTIONS, TEST_QA, setup} from './utils';
+import {DEFAULT_OPTIONS, GROUPED_OPTIONS, TEST_QA, setup, timeout} from './utils';
 
 const onUpdate = jest.fn();
 describe('Select popup', () => {
@@ -140,5 +146,45 @@ describe('Select popup', () => {
             expect.anything(),
             expect.objectContaining({itemHeight: getOptionGroupHeight()}),
         );
+    });
+
+    test('should close select popup on Escape key press', async () => {
+        const {getByTestId, queryByTestId} = setup({
+            options: DEFAULT_OPTIONS,
+            onUpdate,
+        });
+        const user = userEvent.setup();
+        const selectControl = getByTestId(TEST_QA);
+        await user.click(selectControl);
+
+        expect(getByTestId(SelectQa.POPUP)).toBeInTheDocument();
+
+        await user.keyboard('{Escape}');
+        await timeout(TRANSITION_DURATION);
+
+        expect(queryByTestId(SelectQa.POPUP)).toBeNull();
+    });
+
+    test('should close select popup on Escape key press inside Dialog', async () => {
+        const TestComponent = () => {
+            const [open, setOpen] = React.useState(true);
+            return (
+                <Dialog open={open} onClose={() => setOpen(false)}>
+                    <Dialog.Body>
+                        <Select options={DEFAULT_OPTIONS} onUpdate={onUpdate} qa={TEST_QA} />
+                    </Dialog.Body>
+                </Dialog>
+            );
+        };
+        const {getByTestId, queryByTestId} = render(<TestComponent />);
+        const user = userEvent.setup();
+        const selectControl = getByTestId(TEST_QA);
+        await user.click(selectControl);
+
+        expect(getByTestId(SelectQa.POPUP)).toBeInTheDocument();
+
+        await user.keyboard('{Escape}');
+        await timeout(TRANSITION_DURATION);
+        expect(queryByTestId(SelectQa.POPUP)).toBeNull();
     });
 });

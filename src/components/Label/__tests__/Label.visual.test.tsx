@@ -4,7 +4,7 @@ import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-
 import type {LabelProps} from '../Label';
 import {Label} from '../Label';
 
-import {disabledCases, sizeCases, themeCases} from './cases';
+import {disabledCases, interactiveCases, sizeCases, themeCases} from './cases';
 import {LabelStories, TestLabelWithIcon} from './helpersPlaywright';
 
 const qa = 'label';
@@ -164,6 +164,61 @@ test.describe('Label', {tag: '@Label'}, () => {
                 theme: themeCases,
                 size: sizeCases,
                 disabled: disabledCases,
+            },
+        );
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Label {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({});
+    });
+
+    smokeTest('with info', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<LabelProps>(
+            {
+                ...defaultProps,
+                type: 'info',
+            },
+            {
+                theme: themeCases,
+                size: sizeCases,
+                disabled: disabledCases,
+            },
+        );
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Label {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({});
+    });
+
+    smokeTest('with interactive options', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<LabelProps>(
+            {
+                ...defaultProps,
+            },
+            {
+                interactive: interactiveCases,
             },
         );
 

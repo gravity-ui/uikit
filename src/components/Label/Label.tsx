@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import {Xmark} from '@gravity-ui/icons';
+import {CircleInfo, Xmark} from '@gravity-ui/icons';
 
 import {ClipboardIcon} from '../ClipboardIcon';
 import {CopyToClipboard} from '../CopyToClipboard';
@@ -17,12 +17,12 @@ import './Label.scss';
 
 const b = block('label');
 
-type SizeMapType = {copyIconSize: number; closeIconSize: number};
+type SizeMapType = {copyIconSize: number; closeIconSize: number; infoIconSize: number};
 
 const sizeMap: Record<string, SizeMapType> = {
-    xs: {copyIconSize: 12, closeIconSize: 12},
-    s: {copyIconSize: 14, closeIconSize: 14},
-    m: {copyIconSize: 16, closeIconSize: 16},
+    xs: {copyIconSize: 12, closeIconSize: 12, infoIconSize: 12},
+    s: {copyIconSize: 14, closeIconSize: 14, infoIconSize: 14},
+    m: {copyIconSize: 16, closeIconSize: 16, infoIconSize: 16},
 };
 
 export interface LabelProps extends QAProps {
@@ -46,14 +46,19 @@ export interface LabelProps extends QAProps {
     className?: string;
     /** Content */
     children?: React.ReactNode;
-    /** Display hover */
-    interactive?: boolean;
+    /**
+     * Interactive behavior:
+     * - true: shows hover effect on content and icon
+     * - "hover": shows hover effect on current hovered part of label
+     * - "icon": shows hover effect only on icon
+     */
+    interactive?: boolean | 'hover' | 'icon';
     /** Label value (shows as "children : value") */
     value?: string;
     /** Label color */
     theme?: 'normal' | 'info' | 'danger' | 'warning' | 'success' | 'utility' | 'unknown' | 'clear';
-    /** Label type (plain, with copy text button or with close button) */
-    type?: 'default' | 'copy' | 'close';
+    /** Label type (plain, with copy text button, with close button, or with info icon) */
+    type?: 'default' | 'copy' | 'close' | 'info';
     /** Label size */
     size?: 'xs' | 's' | 'm';
     /** Browser title for Label */
@@ -77,7 +82,7 @@ export const Label = React.forwardRef(function Label(
         copyText,
         closeButtonLabel,
         copyButtonLabel,
-        interactive = false,
+        interactive = true,
         value,
         onCopy,
         onClick,
@@ -87,11 +92,19 @@ export const Label = React.forwardRef(function Label(
 
     const typeClose = type === 'close' && hasContent;
     const typeCopy = type === 'copy' && hasContent;
+    const typeInfo = type === 'info';
 
     const hasOnClick = typeof onClick === 'function';
     const hasCopy = Boolean(typeCopy && copyText);
-    const isInteractive = (hasOnClick || hasCopy || interactive) && !disabled;
-    const {copyIconSize, closeIconSize} = sizeMap[size];
+    const isInteractive = (hasOnClick || hasCopy || Boolean(interactive)) && !disabled;
+
+    const interactiveClassNames = {
+        interactive_full: (interactive === true || hasCopy || typeInfo) && !disabled,
+        interactive_hover: isInteractive && interactive === 'hover' && !hasCopy && !typeInfo,
+        interactive_icon: isInteractive && interactive === 'icon' && !hasCopy && !typeInfo,
+    };
+
+    const {copyIconSize, closeIconSize, infoIconSize} = sizeMap[size];
 
     const startIcon = icon && (
         <div className={b('addon', {side: hasContent ? 'start' : undefined, type: 'icon'})}>
@@ -130,6 +143,17 @@ export const Label = React.forwardRef(function Label(
                     <ClipboardIcon status={status || 'pending'} size={copyIconSize} />
                 </button>
             );
+        } else if (typeInfo) {
+            actionButton = (
+                <div
+                    className={b('addon', {
+                        side: 'end',
+                        type: 'icon',
+                    })}
+                >
+                    <Icon size={infoIconSize} data={CircleInfo} />
+                </div>
+            );
         } else if (typeClose) {
             actionButton = (
                 <button
@@ -156,7 +180,7 @@ export const Label = React.forwardRef(function Label(
                     {
                         theme,
                         size,
-                        interactive: isInteractive,
+                        ...interactiveClassNames,
                         disabled,
                     },
                     className,

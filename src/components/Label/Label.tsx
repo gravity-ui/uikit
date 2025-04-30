@@ -96,13 +96,14 @@ export const Label = React.forwardRef(function Label(
 
     const hasOnClick = typeof onClick === 'function';
     const hasCopy = Boolean(typeCopy && copyText);
-    const isInteractive = (hasOnClick || hasCopy || Boolean(interactive)) && !disabled;
 
-    const interactiveClassNames = {
-        interactive_full: (interactive === true || hasCopy || typeInfo) && !disabled,
-        interactive_hover: isInteractive && interactive === 'hover' && !hasCopy && !typeInfo,
-        interactive_icon: isInteractive && interactive === 'icon' && !hasCopy && !typeInfo,
-    };
+    const interactiveClassNames = getInteractiveClasses({
+        interactive,
+        hasCopy,
+        typeInfo,
+        typeClose,
+        disabled,
+    });
 
     const {copyIconSize, closeIconSize, infoIconSize} = sizeMap[size];
 
@@ -217,3 +218,37 @@ export const Label = React.forwardRef(function Label(
 
     return renderLabel();
 });
+
+interface GetInteractiveClassesParams {
+    interactive?: LabelProps['interactive'];
+    hasCopy: boolean;
+    typeInfo: boolean;
+    typeClose: boolean;
+    disabled?: LabelProps['disabled'];
+}
+
+function getInteractiveClasses({
+    interactive,
+    hasCopy,
+    typeInfo,
+    typeClose,
+    disabled,
+}: GetInteractiveClassesParams): Record<string, boolean> {
+    if (disabled) {
+        return {};
+    }
+    if (hasCopy || typeInfo || interactive === true) {
+        return {interactive_full: true};
+    }
+    if (typeClose && !interactive) {
+        return {interactive_icon: true};
+    }
+    switch (interactive) {
+        case 'hover':
+            return {interactive_hover: true};
+        case 'icon':
+            return {interactive_icon: true};
+        default:
+            return {};
+    }
+}

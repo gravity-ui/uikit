@@ -36,6 +36,7 @@ export interface PopoverProps
             | 'initialFocus'
             | 'returnFocus'
             | 'disableVisuallyHiddenDismiss'
+            | 'zIndex'
         > {
     children:
         | ((props: Record<string, unknown>, ref: React.Ref<HTMLElement>) => React.ReactElement)

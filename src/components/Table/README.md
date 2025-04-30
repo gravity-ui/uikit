@@ -64,7 +64,7 @@ Additional features are enabled through HOCs:
 | sticky      | Sticky column                                                                                                      |                     `"start"` `"end"`                      |                                                         |
 | primary     | Identifies a column as primary as opposed to others                                                                |                         `boolean`                          |                                                         |
 | width       | Column's content width in pixels                                                                                   |                     `number` `string`                      |                                                         |
-| meta        | Miscellaneous data including the HOC settings                                                                      |                   `Record<string, any>`                    |                                                         |
+| meta        | _displayName_: name to be shown in Table Settings widget; other miscellaneous data including the HOC settings      |                   `Record<string, any>`                    |                                                         |
 
 ## Using `Table` with the `withTableActions` HOC
 

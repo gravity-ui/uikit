@@ -1,4 +1,5 @@
 import userEvent from '@testing-library/user-event';
+import _ from 'lodash';
 
 import {fireEvent, render, screen, waitFor} from '../../../../test-utils/utils';
 import {Button} from '../../Button';
@@ -21,28 +22,13 @@ interface SomeItem {
 }
 
 const columns: TableColumnConfig<SomeItem>[] = [
-    {
-        id: 'id',
-    },
-    {
-        id: 'name',
-    },
-    {
-        id: 'description',
-        meta: {
-            sort: true,
-        },
-    },
+    {id: 'id'},
+    {id: 'name'},
+    {id: 'description', meta: {sort: true}},
 ];
 
 const columnsWithSystem: TableColumnConfig<SomeItem>[] = enhanceSystemColumn(
-    [
-        {
-            id: selectionColumnId,
-            name: 'selection',
-        },
-        ...columns,
-    ],
+    [{id: selectionColumnId, name: 'selection'}, ...columns],
     (systemColumn) => {
         systemColumn.template = () => 'template';
         return systemColumn;
@@ -62,6 +48,16 @@ describe('withTableSettings', () => {
     const TableWithSettings = withTableSettings<SomeItem>(Table);
 
     describe('getColumnStringTitle', () => {
+        it('should use meta.displayName if it is defined', () => {
+            expect(
+                getColumnStringTitle({
+                    id: 'name',
+                    name: 'First Name',
+                    meta: {displayName: 'Display', _originalName: 'Original'},
+                }),
+            ).toEqual('Display');
+        });
+
         it('should use id if name is not defined', () => {
             expect(getColumnStringTitle({id: 'name'})).toEqual('name');
         });
@@ -71,14 +67,9 @@ describe('withTableSettings', () => {
         });
 
         it('should use meta._originalName if it is a string', () => {
-            expect(
-                getColumnStringTitle({
-                    id: 'name',
-                    meta: {
-                        _originalName: 'Result',
-                    },
-                }),
-            ).toEqual('Result');
+            expect(getColumnStringTitle({id: 'name', meta: {_originalName: 'Result'}})).toEqual(
+                'Result',
+            );
         });
     });
 
@@ -91,18 +82,9 @@ describe('withTableSettings', () => {
 
         it('should return recently added columns', () => {
             const settings: TableSettingsData = [
-                {
-                    id: 'id',
-                    isSelected: true,
-                },
-                {
-                    id: 'name',
-                    isSelected: false,
-                },
-                {
-                    id: 'description',
-                    isSelected: true,
-                },
+                {id: 'id', isSelected: true},
+                {id: 'name', isSelected: false},
+                {id: 'description', isSelected: true},
             ];
             const updatedColumns = [...columns, {id: 'os'}];
             const actualSettings = getActualItems(updatedColumns, settings).map(
@@ -113,33 +95,14 @@ describe('withTableSettings', () => {
 
         it('should respect selectedByDefault in recently added columns', () => {
             const settings: TableSettingsData = [
-                {
-                    id: 'id',
-                    isSelected: true,
-                },
-                {
-                    id: 'name',
-                    isSelected: false,
-                },
-                {
-                    id: 'description',
-                    isSelected: true,
-                },
+                {id: 'id', isSelected: true},
+                {id: 'name', isSelected: false},
+                {id: 'description', isSelected: true},
             ];
             const updatedColumns = [
                 ...columns,
-                {
-                    id: 'os',
-                    meta: {
-                        selectedByDefault: true,
-                    },
-                },
-                {
-                    id: 'osx',
-                    meta: {
-                        selectedByDefault: false,
-                    },
-                },
+                {id: 'os', meta: {selectedByDefault: true}},
+                {id: 'osx', meta: {selectedByDefault: false}},
             ];
             const osSettings = getActualItems(updatedColumns, settings).find(({id}) => id === 'os');
             const osxSettings = getActualItems(updatedColumns, settings).find(
@@ -157,22 +120,10 @@ describe('withTableSettings', () => {
 
         it('should ignore settings which is not exists in columns', () => {
             const settings: TableSettingsData = [
-                {
-                    id: 'description',
-                    isSelected: true,
-                },
-                {
-                    id: 'name',
-                    isSelected: true,
-                },
-                {
-                    id: 'id',
-                    isSelected: true,
-                },
-                {
-                    id: 'removed',
-                    isSelected: true,
-                },
+                {id: 'description', isSelected: true},
+                {id: 'name', isSelected: true},
+                {id: 'id', isSelected: true},
+                {id: 'removed', isSelected: true},
             ];
             expect(ids(getActualItems(columns, settings))).toEqual(
                 ids([settings[0], settings[1], settings[2]]),
@@ -183,61 +134,28 @@ describe('withTableSettings', () => {
     describe('filterColumns', () => {
         it('should return only selected columns from settings', () => {
             const settings: TableSettingsData = [
-                {
-                    id: 'id',
-                    isSelected: true,
-                },
-                {
-                    id: 'name',
-                    isSelected: false,
-                },
-                {
-                    id: 'description',
-                    isSelected: true,
-                },
+                {id: 'id', isSelected: true},
+                {id: 'name', isSelected: false},
+                {id: 'description', isSelected: true},
             ];
             expect(filterColumns(columns, settings)).toEqual([columns[0], columns[2]]);
         });
 
         it('should use columns order from settings', () => {
             const settings: TableSettingsData = [
-                {
-                    id: 'description',
-                    isSelected: true,
-                },
-                {
-                    id: 'name',
-                    isSelected: true,
-                },
-                {
-                    id: 'id',
-                    isSelected: true,
-                },
+                {id: 'description', isSelected: true},
+                {id: 'name', isSelected: true},
+                {id: 'id', isSelected: true},
             ];
             expect(filterColumns(columns, settings)).toEqual([columns[2], columns[1], columns[0]]);
         });
 
         it('should ignore system column for selection', () => {
-            const enhancedColumns = [
-                {
-                    id: '_selection',
-                    name: 'for selection',
-                },
-                ...columns,
-            ];
+            const enhancedColumns = [{id: '_selection', name: 'for selection'}, ...columns];
             const settings: TableSettingsData = [
-                {
-                    id: 'description',
-                    isSelected: true,
-                },
-                {
-                    id: 'name',
-                    isSelected: true,
-                },
-                {
-                    id: 'id',
-                    isSelected: true,
-                },
+                {id: 'description', isSelected: true},
+                {id: 'name', isSelected: true},
+                {id: 'id', isSelected: true},
             ];
             expect(filterColumns(enhancedColumns, settings)).toEqual([
                 enhancedColumns[0],
@@ -250,18 +168,9 @@ describe('withTableSettings', () => {
         it('should not filter system columns when settings provided', () => {
             expect(
                 filterColumns(columnsWithSystem, [
-                    {
-                        id: 'id',
-                        isSelected: true,
-                    },
-                    {
-                        id: 'name',
-                        isSelected: false,
-                    },
-                    {
-                        id: 'description',
-                        isSelected: false,
-                    },
+                    {id: 'id', isSelected: true},
+                    {id: 'name', isSelected: false},
+                    {id: 'description', isSelected: false},
                 ]),
             ).toEqual([columnsWithSystem[0], columnsWithSystem[1], columnsWithSystem[4]]);
         });
@@ -287,18 +196,9 @@ describe('withTableSettings', () => {
             await userEvent.click(screen.getByRole('button', {name: 'Apply'}));
 
             expect(updateSettings).toHaveBeenCalledWith([
-                {
-                    id: 'id',
-                    isSelected: true,
-                },
-                {
-                    id: 'name',
-                    isSelected: true,
-                },
-                {
-                    id: 'description',
-                    isSelected: false,
-                },
+                {id: 'id', isSelected: true},
+                {id: 'name', isSelected: true},
+                {id: 'description', isSelected: false},
             ] as TableSetting[]);
         });
     });

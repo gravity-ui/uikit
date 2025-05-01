@@ -17,16 +17,16 @@ Default.args = {
 };
 
 export const AnimationsGradient = DefaultTemplate.bind({});
-AnimationsGradient.name = 'Animations/Gradient';
-AnimationsGradient.args = {animation: 'gradient'};
+AnimationsGradient.storyName = 'Animations/Gradient';
+AnimationsGradient.args = {...Default.args, animation: 'gradient'};
 
 export const AnimationsPulse = DefaultTemplate.bind({});
-AnimationsPulse.name = 'Animations/Pulse';
-AnimationsPulse.args = {animation: 'pulse'};
+AnimationsPulse.storyName = 'Animations/Pulse';
+AnimationsPulse.args = {...Default.args, animation: 'pulse'};
 
 export const AnimationsNone = DefaultTemplate.bind({});
-AnimationsNone.name = 'Animations/None';
-AnimationsNone.args = {animation: 'none'};
+AnimationsNone.storyName = 'Animations/None';
+AnimationsNone.args = {...Default.args, animation: 'none'};
 
 const ShowcaseTemplate: StoryFn = () => <SkeletonShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});

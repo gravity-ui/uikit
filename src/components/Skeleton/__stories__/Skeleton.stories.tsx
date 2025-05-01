@@ -16,23 +16,17 @@ Default.args = {
     style: {height: 30},
 };
 
-const AnimationsTemplate: StoryFn = () => (
-    <div style={{display: 'flex', flexDirection: 'column', gap: '20px'}}>
-        <div>
-            <div style={{marginBottom: '8px'}}>Gradient animation (default)</div>
-            <Skeleton style={{height: 30}} animation="gradient" />
-        </div>
-        <div>
-            <div style={{marginBottom: '8px'}}>Pulse animation</div>
-            <Skeleton style={{height: 30}} animation="pulse" />
-        </div>
-        <div>
-            <div style={{marginBottom: '8px'}}>No animation</div>
-            <Skeleton style={{height: 30}} animation="none" />
-        </div>
-    </div>
-);
-export const Animations = AnimationsTemplate.bind({});
+export const AnimationsGradient = DefaultTemplate.bind({});
+AnimationsGradient.name = 'Animations/Gradient';
+AnimationsGradient.args = {animation: 'gradient'};
+
+export const AnimationsPulse = DefaultTemplate.bind({});
+AnimationsPulse.name = 'Animations/Pulse';
+AnimationsPulse.args = {animation: 'pulse'};
+
+export const AnimationsNone = DefaultTemplate.bind({});
+AnimationsNone.name = 'Animations/None';
+AnimationsNone.args = {animation: 'none'};
 
 const ShowcaseTemplate: StoryFn = () => <SkeletonShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});

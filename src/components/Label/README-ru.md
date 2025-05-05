@@ -198,10 +198,7 @@ LANDING_BLOCK-->
 `Label` может иметь разные состояния:
 
 - `disabled` — взаимодействие с лейблом запрещено.
-- `interactive` — управляет интерактивным поведением лейбла:
-  - `true` — становится интерактивным по наведению на любую область лейбла
-  - `"hover"` — становится интерактивным по наведению на область контента или область иконки
-  - `"icon"` — становится интерактивным только по наведению на область иконки
+- `interactive` — лейбл становится интерактивным по ховеру.
 
 <!--LANDING_BLOCK
 
@@ -209,16 +206,12 @@ LANDING_BLOCK-->
     code={`
 <Label>Default</Label>
 <Label disabled>Disabled</Label>
-<Label interactive={true}>Interactive</Label>
-<Label interactive="hover">Interactive (hover only)</Label>
-<Label interactive="icon">Interactive (icon only)</Label>
+<Label interactive>Interactive</Label>
 `}
 >
     <UIKit.Label>Default</UIKit.Label>
     <UIKit.Label disabled>Disabled</UIKit.Label>
-    <UIKit.Label interactive={true}>Interactive</UIKit.Label>
-    <UIKit.Label interactive="hover">Interactive (hover only)</UIKit.Label>
-    <UIKit.Label interactive="icon">Interactive (icon only)</UIKit.Label>
+    <UIKit.Label interactive>Interactive</UIKit.Label>
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -263,22 +256,22 @@ LANDING_BLOCK-->
 
 ## Свойства
 
-| Имя              | Описание                                               |                   Тип                   | Значение по умолчанию |
-| :--------------- | :----------------------------------------------------- | :-------------------------------------: | :-------------------: |
-| children         | Содержимое.                                            |            `React.ReactNode`            |                       |
-| className        | HTML-атрибут `class`.                                  |                `string`                 |                       |
-| closeButtonLabel | `aria-label` кнопки закрытия.                          |                `string`                 |                       |
-| copyButtonLabel  | `aria-label` кнопки копирования.                       |                `string`                 |                       |
-| copyText         | Копируемый текст.                                      |                `string`                 |                       |
-| disabled         | Отключенное состояние.                                 |                `boolean`                |                       |
-| icon             | Иконка лейбла (слева).                                 |            `React.ReactNode`            |                       |
-| interactive      | Интерактивное поведение.                               |   `boolean` \| `"hover"` \| `"icon"`    |        `true`         |
-| onClick          | Обработчик события `click`.                            |               `Function`                |                       |
-| onCloseClick     | Обработчик события `click` по кнопке закрытия.         |               `Function`                |                       |
-| onCopy           | Обработчик события `copy`.                             |               `Function`                |                       |
-| size             | Размер лейбла.                                         |           `"xs"` `"s"` `"m"`            |         `"s"`         |
-| theme            | Тема лейбла.                                           |                `string`                 |      `"normal"`       |
-| type             | Тип лейбла.                                            | `"default"` `"copy"` `"close"` `"info"` |      `"default"`      |
-| value            | Значение лейбла (в виде `"children : value"`).         |                `string`                 |                       |
-| title            | HTML-атрибут `title`.                                  |                `string`                 |                       |
-| qa               | HTML-атрибут `data-qa`, используется для тестирования. |                `string`                 |                       |
+| Имя              | Описание                                               |              Тип               | Значение по умолчанию |
+| :--------------- | :----------------------------------------------------- | :----------------------------: | :-------------------: |
+| children         | Содержимое.                                            |       `React.ReactNode`        |                       |
+| className        | HTML-атрибут `class`.                                  |            `string`            |                       |
+| closeButtonLabel | `aria-label` кнопки закрытия.                          |            `string`            |                       |
+| copyButtonLabel  | `aria-label` кнопки копирования.                       |            `string`            |                       |
+| copyText         | Копируемый текст.                                      |            `string`            |                       |
+| disabled         | Отключенное состояние.                                 |           `boolean`            |                       |
+| icon             | Иконка лейбла (слева).                                 |       `React.ReactNode`        |                       |
+| interactive      | Включение эффекта ховера.                              |           `boolean`            |                       |
+| onClick          | Обработчик события `click`.                            |           `Function`           |                       |
+| onCloseClick     | Обработчик события `click` по кнопке закрытия.         |           `Function`           |                       |
+| onCopy           | Обработчик события `copy`.                             |           `Function`           |                       |
+| size             | Размер лейбла.                                         |       `"xs"` `"s"` `"m"`       |         `"s"`         |
+| theme            | Тема лейбла.                                           |            `string`            |      `"normal"`       |
+| type             | Тип лейбла.                                            | `"default"` `"copy"` `"close"` |      `"default"`      |
+| value            | Значение лейбла (в виде `"children : value"`).         |            `string`            |                       |
+| title            | HTML-атрибут `title`.                                  |            `string`            |                       |
+| qa               | HTML-атрибут `data-qa`, используется для тестирования. |            `string`            |                       |

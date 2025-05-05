@@ -107,14 +107,8 @@ export const Icon: Story = {
 export const Interactive: Story = {
     render: (args) => (
         <Showcase>
-            <Label {...args} interactive={true}>
-                Interactive (hover + icon)
-            </Label>
-            <Label {...args} interactive="hover">
-                Interactive (hover only)
-            </Label>
-            <Label {...args} interactive="icon">
-                Interactive (icon only)
+            <Label {...args} interactive>
+                Interactive
             </Label>
             <Label {...args} onClick={() => {}}>
                 With onClick
@@ -137,6 +131,13 @@ export const Close: Story = {
         ...Default.args,
         type: 'close',
         closeButtonLabel: 'Close',
+    },
+};
+
+export const Info: Story = {
+    args: {
+        ...Default.args,
+        type: 'info',
     },
 };
 

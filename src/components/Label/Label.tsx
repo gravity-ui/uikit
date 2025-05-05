@@ -46,13 +46,8 @@ export interface LabelProps extends QAProps {
     className?: string;
     /** Content */
     children?: React.ReactNode;
-    /**
-     * Interactive behavior:
-     * - true: shows hover effect on content and icon
-     * - "hover": shows hover effect on current hovered part of label
-     * - "icon": shows hover effect only on icon
-     */
-    interactive?: boolean | 'hover' | 'icon';
+    /** Display hover */
+    interactive?: boolean;
     /** Label value (shows as "children : value") */
     value?: string;
     /** Label color */
@@ -82,7 +77,7 @@ export const Label = React.forwardRef(function Label(
         copyText,
         closeButtonLabel,
         copyButtonLabel,
-        interactive = true,
+        interactive = false,
         value,
         onCopy,
         onClick,
@@ -96,14 +91,7 @@ export const Label = React.forwardRef(function Label(
 
     const hasOnClick = typeof onClick === 'function';
     const hasCopy = Boolean(typeCopy && copyText);
-
-    const interactiveClassNames = getInteractiveClasses({
-        interactive,
-        hasCopy,
-        typeInfo,
-        typeClose,
-        disabled,
-    });
+    const isInteractive = (hasOnClick || hasCopy || typeInfo || interactive) && !disabled;
 
     const {copyIconSize, closeIconSize, infoIconSize} = sizeMap[size];
 
@@ -181,7 +169,7 @@ export const Label = React.forwardRef(function Label(
                     {
                         theme,
                         size,
-                        ...interactiveClassNames,
+                        interactive: isInteractive,
                         disabled,
                     },
                     className,
@@ -218,37 +206,3 @@ export const Label = React.forwardRef(function Label(
 
     return renderLabel();
 });
-
-interface GetInteractiveClassesParams {
-    interactive?: LabelProps['interactive'];
-    hasCopy: boolean;
-    typeInfo: boolean;
-    typeClose: boolean;
-    disabled?: LabelProps['disabled'];
-}
-
-function getInteractiveClasses({
-    interactive,
-    hasCopy,
-    typeInfo,
-    typeClose,
-    disabled,
-}: GetInteractiveClassesParams): Record<string, boolean> {
-    if (disabled) {
-        return {};
-    }
-    if (hasCopy || typeInfo || interactive === true) {
-        return {interactive_full: true};
-    }
-    if (typeClose && !interactive) {
-        return {interactive_icon: true};
-    }
-    switch (interactive) {
-        case 'hover':
-            return {interactive_hover: true};
-        case 'icon':
-            return {interactive_icon: true};
-        default:
-            return {};
-    }
-}

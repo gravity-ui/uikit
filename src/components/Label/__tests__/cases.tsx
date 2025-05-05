@@ -13,4 +13,3 @@ export const themeCases: Cases<LabelProps['theme']> = [
     'clear',
 ];
 export const sizeCases: Cases<LabelProps['size']> = ['xs', 's', 'm'];
-export const interactiveCases: Cases<LabelProps['interactive']> = [true, 'hover', 'icon'];

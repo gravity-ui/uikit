@@ -4,7 +4,7 @@ import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-
 import type {LabelProps} from '../Label';
 import {Label} from '../Label';
 
-import {disabledCases, interactiveCases, sizeCases, themeCases} from './cases';
+import {disabledCases, sizeCases, themeCases} from './cases';
 import {LabelStories, TestLabelWithIcon} from './helpersPlaywright';
 
 const qa = 'label';
@@ -199,131 +199,6 @@ test.describe('Label', {tag: '@Label'}, () => {
         await mount(
             <div>
                 {smokeScenarios.map(([title, props]) => (
-                    <div key={title}>
-                        <h4>{title}</h4>
-                        <div>
-                            <Label {...props} />
-                        </div>
-                    </div>
-                ))}
-            </div>,
-        );
-
-        await expectScreenshot({});
-    });
-
-    smokeTest('with interactive options', async ({mount, expectScreenshot}) => {
-        const smokeScenarios = createSmokeScenarios<LabelProps>(
-            {
-                ...defaultProps,
-            },
-            {
-                interactive: interactiveCases,
-            },
-        );
-
-        await mount(
-            <div>
-                {smokeScenarios.map(([title, props]) => (
-                    <div key={title}>
-                        <h4>{title}</h4>
-                        <div>
-                            <Label {...props} />
-                        </div>
-                    </div>
-                ))}
-            </div>,
-        );
-
-        await expectScreenshot({});
-    });
-
-    smokeTest('with info interactive', async ({mount, expectScreenshot}) => {
-        const interactiveScenarios = interactiveCases.flatMap((interactive) =>
-            createSmokeScenarios<LabelProps>(
-                {
-                    ...defaultProps,
-                    type: 'info',
-                    interactive,
-                },
-                {
-                    interactive: interactiveCases,
-                },
-                {
-                    scenarioName: 'Interactive info label',
-                },
-            ),
-        );
-
-        await mount(
-            <div>
-                {interactiveScenarios.map(([title, props]) => (
-                    <div key={title}>
-                        <h4>{title}</h4>
-                        <div>
-                            <Label {...props} />
-                        </div>
-                    </div>
-                ))}
-            </div>,
-        );
-
-        await expectScreenshot({});
-    });
-
-    smokeTest('with copy interactive', async ({mount, expectScreenshot}) => {
-        const interactiveScenarios = interactiveCases.flatMap((interactive) =>
-            createSmokeScenarios<LabelProps>(
-                {
-                    ...defaultProps,
-                    type: 'copy',
-                    interactive,
-                },
-                {
-                    interactive: interactiveCases,
-                },
-                {
-                    scenarioName: 'Interactive copy label',
-                },
-            ),
-        );
-
-        await mount(
-            <div>
-                {interactiveScenarios.map(([title, props]) => (
-                    <div key={title}>
-                        <h4>{title}</h4>
-                        <div>
-                            <Label {...props} />
-                        </div>
-                    </div>
-                ))}
-            </div>,
-        );
-
-        await expectScreenshot({});
-    });
-
-    smokeTest('with close interactive', async ({mount, expectScreenshot}) => {
-        const interactiveScenarios = interactiveCases.flatMap((interactive) =>
-            createSmokeScenarios<LabelProps>(
-                {
-                    ...defaultProps,
-                    type: 'close',
-                    interactive,
-                },
-                {
-                    interactive: interactiveCases,
-                },
-                {
-                    scenarioName: 'Interactive close label',
-                },
-            ),
-        );
-
-        await mount(
-            <div>
-                {interactiveScenarios.map(([title, props]) => (
                     <div key={title}>
                         <h4>{title}</h4>
                         <div>

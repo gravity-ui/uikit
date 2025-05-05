@@ -198,10 +198,7 @@ LANDING_BLOCK-->
 A `label` can have different states:
 
 - `disabled`: No interactions allowed.
-- `interactive`: Controls the label's interactive behavior:
-  - `true`: Shows hover effect on content and icon parts
-  - `"hover"`: Shows hover effect on current hovered part
-  - `"icon"`: Shows hover effect only on icon part
+- `interactive`: Makes the label hoverable.
 
 <!--LANDING_BLOCK
 
@@ -209,16 +206,12 @@ A `label` can have different states:
     code={`
 <Label>Default</Label>
 <Label disabled>Disabled</Label>
-<Label interactive={true}>Interactive</Label>
-<Label interactive="hover">Interactive (hover only)</Label>
-<Label interactive="icon">Interactive (icon only)</Label>
+<Label interactive>Interactive</Label>
 `}
 >
     <UIKit.Label>Default</UIKit.Label>
     <UIKit.Label disabled>Disabled</UIKit.Label>
-    <UIKit.Label interactive={true}>Interactive</UIKit.Label>
-    <UIKit.Label interactive="hover">Interactive (hover only)</UIKit.Label>
-    <UIKit.Label interactive="icon">Interactive (icon only)</UIKit.Label>
+    <UIKit.Label interactive>Interactive</UIKit.Label>
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -263,22 +256,22 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name             | Description                                     |                  Type                   |   Default   |
-| :--------------- | :---------------------------------------------- | :-------------------------------------: | :---------: |
-| children         | Content                                         |            `React.ReactNode`            |             |
-| className        | `class` HTML attribute                          |                `string`                 |             |
-| closeButtonLabel | `aria-label` of the close button                |                `string`                 |             |
-| copyButtonLabel  | `aria-label` of the copy button                 |                `string`                 |             |
-| copyText         | Text to copy                                    |                `string`                 |             |
-| disabled         | Disabled state                                  |                `boolean`                |             |
-| icon             | Label icon (on the left)                        |            `React.ReactNode`            |             |
-| interactive      | Interactive behavior                            |   `boolean` \| `"hover"` \| `"icon"`    |   `true`    |
-| onClick          | `click` event handler                           |               `Function`                |             |
-| onCloseClick     | Close button `click` event handler              |               `Function`                |             |
-| onCopy           | `copy` event handler                            |               `Function`                |             |
-| size             | Label size                                      |           `"xs"` `"s"` `"m"`            |    `"s"`    |
-| theme            | Label theme                                     |                `string`                 | `"normal"`  |
-| type             | Label type                                      | `"default"` `"copy"` `"close"` `"info"` | `"default"` |
-| value            | Label value (displayed as `"children : value"`) |                `string`                 |             |
-| title            | `title` HTML attribute                          |                `string`                 |             |
-| qa               | `data-qa` HTML attribute, used for testing      |                `string`                 |             |
+| Name             | Description                                     |              Type              |   Default   |
+| :--------------- | :---------------------------------------------- | :----------------------------: | :---------: |
+| children         | Content                                         |       `React.ReactNode`        |             |
+| className        | `class` HTML attribute                          |            `string`            |             |
+| closeButtonLabel | `aria-label` of the close button                |            `string`            |             |
+| copyButtonLabel  | `aria-label` of the copy button                 |            `string`            |             |
+| copyText         | Text to copy                                    |            `string`            |             |
+| disabled         | Disabled state                                  |           `boolean`            |             |
+| icon             | Label icon (on the left)                        |       `React.ReactNode`        |             |
+| interactive      | Enables hover effect                            |           `boolean`            |             |
+| onClick          | `click` event handler                           |           `Function`           |             |
+| onCloseClick     | Close button `click` event handler              |           `Function`           |             |
+| onCopy           | `copy` event handler                            |           `Function`           |             |
+| size             | Label size                                      |       `"xs"` `"s"` `"m"`       |    `"s"`    |
+| theme            | Label theme                                     |            `string`            | `"normal"`  |
+| type             | Label type                                      | `"default"` `"copy"` `"close"` | `"default"` |
+| value            | Label value (displayed as `"children : value"`) |            `string`            |             |
+| title            | `title` HTML attribute                          |            `string`            |             |
+| qa               | `data-qa` HTML attribute, used for testing      |            `string`            |             |

@@ -137,6 +137,10 @@ $transition-timing-function: ease-in-out;
         pointer-events: none;
     }
 
+    &_interactive {
+        cursor: pointer;
+    }
+
     &_theme {
         &_normal {
             --_--bg-color: var(--g-color-base-misc-light);

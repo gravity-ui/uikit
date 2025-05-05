@@ -9,8 +9,25 @@ const b = block('skeleton');
 
 export interface SkeletonProps
     extends Pick<React.HTMLAttributes<HTMLDivElement>, 'className' | 'style'>,
-        QAProps {}
+        QAProps {
+    /**
+     * Animation type to apply to the skeleton
+     * @default 'gradient'
+     */
+    animation?: 'gradient' | 'pulse' | 'none';
+}
 
-export function Skeleton({className, style, qa}: SkeletonProps) {
-    return <div className={b(null, className)} style={style} data-qa={qa} />;
+export function Skeleton({className, style, qa, animation = 'gradient'}: SkeletonProps) {
+    return (
+        <div
+            className={b(
+                {
+                    animation,
+                },
+                className,
+            )}
+            style={style}
+            data-qa={qa}
+        />
+    );
 }

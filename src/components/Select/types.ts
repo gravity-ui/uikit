@@ -158,7 +158,7 @@ export type SelectProps<T = any> = AriaLabelingProps &
     };
 
 export type SelectOption<T = any> = QAProps &
-    ControlGroupOption & {
+    ControlGroupOption<T> & {
         text?: string;
         data?: T;
     };

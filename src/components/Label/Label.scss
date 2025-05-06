@@ -55,6 +55,7 @@ $transition-timing-function: ease-in-out;
         @include mixins.button-reset();
         border-radius: inherit;
         z-index: 1;
+        height: 100%;
 
         &:empty {
             position: absolute;

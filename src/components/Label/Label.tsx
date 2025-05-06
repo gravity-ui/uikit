@@ -17,12 +17,10 @@ import './Label.scss';
 
 const b = block('label');
 
-type SizeMapType = {copyIconSize: number; closeIconSize: number; infoIconSize: number};
-
-const sizeMap: Record<string, SizeMapType> = {
-    xs: {copyIconSize: 12, closeIconSize: 12, infoIconSize: 12},
-    s: {copyIconSize: 14, closeIconSize: 14, infoIconSize: 14},
-    m: {copyIconSize: 16, closeIconSize: 16, infoIconSize: 16},
+const sizeMap: Record<string, number> = {
+    xs: 12,
+    s: 14,
+    m: 16,
 };
 
 export interface LabelProps extends QAProps {
@@ -93,7 +91,7 @@ export const Label = React.forwardRef(function Label(
     const hasCopy = Boolean(typeCopy && copyText);
     const isInteractive = (hasOnClick || hasCopy || typeInfo || interactive) && !disabled;
 
-    const {copyIconSize, closeIconSize, infoIconSize} = sizeMap[size];
+    const iconSize = sizeMap[size];
 
     const startIcon = icon && (
         <div className={b('addon', {side: hasContent ? 'start' : undefined, type: 'icon'})}>
@@ -129,7 +127,7 @@ export const Label = React.forwardRef(function Label(
                     })}
                     data-qa={LabelQa.copyButton}
                 >
-                    <ClipboardIcon status={status || 'pending'} size={copyIconSize} />
+                    <ClipboardIcon status={status || 'pending'} size={iconSize} />
                 </button>
             );
         } else if (typeInfo) {
@@ -140,7 +138,7 @@ export const Label = React.forwardRef(function Label(
                         type: 'icon',
                     })}
                 >
-                    <Icon size={infoIconSize} data={CircleInfo} />
+                    <Icon size={iconSize} data={CircleInfo} />
                 </div>
             );
         } else if (typeClose) {
@@ -157,7 +155,7 @@ export const Label = React.forwardRef(function Label(
                     })}
                     data-qa={LabelQa.closeButton}
                 >
-                    <Icon size={closeIconSize} data={Xmark} />
+                    <Icon size={iconSize} data={Xmark} />
                 </button>
             );
         }

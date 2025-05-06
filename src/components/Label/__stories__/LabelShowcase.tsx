@@ -57,6 +57,12 @@ export function LabelShowcase(args: LabelProps) {
             },
             {children: 'Label', type: 'close', closeButtonLabel: 'Close'},
             {
+                children: 'Label',
+                icon: icons('TickIcon', props.size),
+                type: 'info',
+            },
+            {children: 'Label', type: 'info'},
+            {
                 children: 'Key',
                 value: 'Value',
                 icon: icons('TickIcon', props.size),
@@ -86,6 +92,13 @@ export function LabelShowcase(args: LabelProps) {
                 closeButtonLabel: 'Close',
             },
             {children: 'Key', value: 'Value', type: 'close', closeButtonLabel: 'Close'},
+            {
+                children: 'Key',
+                value: 'Value',
+                icon: icons('TickIcon', props.size),
+                type: 'info',
+            },
+            {children: 'Key', value: 'Value', type: 'info'},
             {icon: icons('TickIcon', props.size)},
         ];
         return cases.map((label, i) => getLabel({key: i, ...props, ...label}));

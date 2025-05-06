@@ -256,22 +256,22 @@ LANDING_BLOCK-->
 
 ## Свойства
 
-| Имя              | Описание                                               |              Тип               | Значение по умолчанию |
-| :--------------- | :----------------------------------------------------- | :----------------------------: | :-------------------: |
-| children         | Содержимое.                                            |       `React.ReactNode`        |                       |
-| className        | HTML-атрибут `class`.                                  |            `string`            |                       |
-| closeButtonLabel | `aria-label` кнопки закрытия.                          |            `string`            |                       |
-| copyButtonLabel  | `aria-label` кнопки копирования.                       |            `string`            |                       |
-| copyText         | Копируемый текст.                                      |            `string`            |                       |
-| disabled         | Отключенное состояние.                                 |           `boolean`            |                       |
-| icon             | Иконка лейбла (слева).                                 |       `React.ReactNode`        |                       |
-| interactive      | Включение эффекта ховера.                              |           `boolean`            |                       |
-| onClick          | Обработчик события `click`.                            |           `Function`           |                       |
-| onCloseClick     | Обработчик события `click` по кнопке закрытия.         |           `Function`           |                       |
-| onCopy           | Обработчик события `copy`.                             |           `Function`           |                       |
-| size             | Размер лейбла.                                         |       `"xs"` `"s"` `"m"`       |         `"s"`         |
-| theme            | Тема лейбла.                                           |            `string`            |      `"normal"`       |
-| type             | Тип лейбла.                                            | `"default"` `"copy"` `"close"` |      `"default"`      |
-| value            | Значение лейбла (в виде `"children : value"`).         |            `string`            |                       |
-| title            | HTML-атрибут `title`.                                  |            `string`            |                       |
-| qa               | HTML-атрибут `data-qa`, используется для тестирования. |            `string`            |                       |
+| Имя              | Описание                                               |                   Тип                   | Значение по умолчанию |
+| :--------------- | :----------------------------------------------------- | :-------------------------------------: | :-------------------: |
+| children         | Содержимое.                                            |            `React.ReactNode`            |                       |
+| className        | HTML-атрибут `class`.                                  |                `string`                 |                       |
+| closeButtonLabel | `aria-label` кнопки закрытия.                          |                `string`                 |                       |
+| copyButtonLabel  | `aria-label` кнопки копирования.                       |                `string`                 |                       |
+| copyText         | Копируемый текст.                                      |                `string`                 |                       |
+| disabled         | Отключенное состояние.                                 |                `boolean`                |                       |
+| icon             | Иконка лейбла (слева).                                 |            `React.ReactNode`            |                       |
+| interactive      | Включение эффекта ховера.                              |                `boolean`                |                       |
+| onClick          | Обработчик события `click`.                            |               `Function`                |                       |
+| onCloseClick     | Обработчик события `click` по кнопке закрытия.         |               `Function`                |                       |
+| onCopy           | Обработчик события `copy`.                             |               `Function`                |                       |
+| size             | Размер лейбла.                                         |           `"xs"` `"s"` `"m"`            |         `"s"`         |
+| theme            | Тема лейбла.                                           |                `string`                 |      `"normal"`       |
+| type             | Тип лейбла.                                            | `"default"` `"copy"` `"close"` `"info"` |      `"default"`      |
+| value            | Значение лейбла (в виде `"children : value"`).         |                `string`                 |                       |
+| title            | HTML-атрибут `title`.                                  |                `string`                 |                       |
+| qa               | HTML-атрибут `data-qa`, используется для тестирования. |                `string`                 |                       |

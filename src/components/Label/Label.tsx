@@ -17,11 +17,11 @@ import './Label.scss';
 
 const b = block('label');
 
-const sizeMap: Record<string, number> = {
+const iconSizeMap: Record<NonNullable<LabelProps['size']>, number> = {
     xs: 12,
     s: 14,
     m: 16,
-};
+} as const;
 
 export interface LabelProps extends QAProps {
     /** Label icon (at start) */
@@ -91,7 +91,7 @@ export const Label = React.forwardRef(function Label(
     const hasCopy = Boolean(typeCopy && copyText);
     const isInteractive = (hasOnClick || hasCopy || typeInfo || interactive) && !disabled;
 
-    const iconSize = sizeMap[size];
+    const iconSize = iconSizeMap[size];
 
     const startIcon = icon && (
         <div className={b('addon', {side: hasContent ? 'start' : undefined, type: 'icon'})}>

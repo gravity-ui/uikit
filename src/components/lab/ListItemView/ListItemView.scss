@@ -21,14 +21,14 @@ $block: '.#{variables.$ns}lab-list-item-view';
 */
 #{$block} {
     /* Sizes */
-    --_--min-height: var(--g-list-item-view-min-height, #{variables.$m-height});
+    --_--min-height: var(--g-list-item-view-min-height, 28px);
     --_--border-radius: var(--g-list-item-view-border-radius, var(--g-border-radius-m));
     --_--padding-inline: var(--g-list-item-view-padding-inline, var(--g-spacing-2));
     --_--padding-block: var(--g-list-item-view-padding-block, var(--g-spacing-1));
     --_--line-height: var(--g-list-item-view-line-height, 18px);
 
     --_--controls-gap: var(--g-list-item-view-controls-gap, var(--g-spacing-1));
-    --_--controls-size: var(--g-list-item-view-controls-size, #{variables.$s-height});
+    --_--controls-size: var(--g-list-item-view-controls-size, 20px);
     --_--controls-border-radius: var(
         --g-list-item-view-controls-border-radius,
         var(--g-border-radius-s)
@@ -170,48 +170,48 @@ $block: '.#{variables.$ns}lab-list-item-view';
 
     &_size {
         &_s {
-            --_--min-height: #{variables.$s-height};
+            --_--min-height: 24px;
             --_--border-radius: var(--g-border-radius-s);
             --_--padding-inline: var(--g-spacing-2);
             --_--padding-block: var(--g-spacing-half);
 
             --_--controls-gap: var(--g-spacing-2);
-            --_--controls-size: #{variables.$xs-height};
+            --_--controls-size: 20px;
             --_--controls-border-radius: var(--g-border-radius-xs);
             --_--controls-icon-size: 12px;
         }
 
         &_m {
-            --_--min-height: #{variables.$m-height};
+            --_--min-height: 28px;
             --_--border-radius: var(--g-border-radius-m);
             --_--padding-inline: var(--g-spacing-2);
             --_--padding-block: var(--g-spacing-1);
 
             --_--controls-gap: var(--g-spacing-2);
-            --_--controls-size: #{variables.$s-height};
+            --_--controls-size: 24px;
             --_--controls-border-radius: var(--g-border-radius-s);
             --_--controls-icon-size: 16px;
         }
 
         &_l {
-            --_--min-height: #{variables.$l-height};
+            --_--min-height: 32px;
             --_--border-radius: var(--g-border-radius-l);
             --_--padding-inline: var(--g-spacing-2);
             --_--padding-block: var(--g-spacing-2);
             --_--controls-gap: var(--g-spacing-2);
-            --_--controls-size: #{variables.$m-height};
+            --_--controls-size: 24px;
             --_--controls-border-radius: var(--g-border-radius-m);
             --_--controls-icon-size: 16px;
         }
 
         &_xl {
-            --_--min-height: #{variables.$xl-height};
+            --_--min-height: 36px;
             --_--border-radius: var(--g-border-radius-xl);
             --_--padding-inline: var(--g-spacing-2);
             --_--padding-block: var(--g-spacing-3);
 
             --_--controls-gap: var(--g-spacing-2);
-            --_--controls-size: #{variables.$l-height};
+            --_--controls-size: 24px;
             --_--controls-border-radius: var(--g-border-radius-l);
             --_--controls-icon-size: 16px;
 

@@ -1,14 +1,10 @@
 import type {Meta, StoryObj} from '@storybook/react';
 
 import {Showcase} from '../../../demo/Showcase';
-import {cn} from '../../utils/cn';
+import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {HelpMark} from '../HelpMark';
 
-import './HelpMark.stories.scss';
-
-const b = cn('help-mark-stories');
-
-export default {
+const meta: Meta<typeof HelpMark> = {
     title: 'Components/Utils/HelpMark',
     id: 'components/utils/HelpMark',
     component: HelpMark,
@@ -31,33 +27,31 @@ export default {
             },
         },
     },
-} as Meta;
+};
+
+export default meta;
 
 type Story = StoryObj<typeof HelpMark>;
 
-export const Default: Story = {};
+export const Default = {};
 
-export const Size: Story = {
-    render: (args) => (
-        <Showcase contentClassname={b('showcase')}>
-            <HelpMark
-                {...args}
-                iconProps={{
-                    size: 16,
-                }}
-            />
-            <HelpMark
-                {...args}
-                iconProps={{
-                    size: 24,
-                }}
-            />
-            <HelpMark
-                {...args}
-                iconProps={{
-                    size: 36,
-                }}
-            />
-        </Showcase>
-    ),
-};
+export const Size = {
+    render: (args) => {
+        return (
+            <Showcase>
+                <ShowcaseItem title="Size s">
+                    <HelpMark {...args} iconSize="s" />
+                </ShowcaseItem>
+                <ShowcaseItem title="Size m">
+                    <HelpMark {...args} iconSize="m" />
+                </ShowcaseItem>
+                <ShowcaseItem title="Size l">
+                    <HelpMark {...args} iconSize="l" />
+                </ShowcaseItem>
+                <ShowcaseItem title="Size xl">
+                    <HelpMark {...args} iconSize="xl" />
+                </ShowcaseItem>
+            </Showcase>
+        );
+    },
+} satisfies Story;

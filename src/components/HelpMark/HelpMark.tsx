@@ -2,25 +2,28 @@ import * as React from 'react';
 
 import {CircleQuestion} from '@gravity-ui/icons';
 
-import type {IconProps} from '../Icon';
 import {Icon} from '../Icon';
 import {Popover} from '../Popover';
 import type {PopoverProps} from '../Popover';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
+import {ICON_SIZE_MAP} from './constants';
+
 import './HelpMark.scss';
 
 const b = block('help-mark');
 
+type IconSize = keyof typeof ICON_SIZE_MAP;
+
 export interface HelpMarkProps extends QAProps, React.ButtonHTMLAttributes<HTMLButtonElement> {
-    iconProps?: Omit<IconProps, 'data'>;
+    iconSize?: IconSize;
     popoverProps?: Omit<PopoverProps, 'children'>;
     children?: React.ReactNode;
 }
 
 export const HelpMark = React.forwardRef<HTMLButtonElement, HelpMarkProps>(function HelpMark(
-    {children, qa, className, popoverProps, iconProps, ...restProps},
+    {children, qa, className, iconSize = 'm', popoverProps, ...restProps},
     ref,
 ) {
     return (
@@ -36,7 +39,7 @@ export const HelpMark = React.forwardRef<HTMLButtonElement, HelpMarkProps>(funct
                 className={b(null, className)}
                 data-qa={qa}
             >
-                <Icon data={CircleQuestion} className={b('icon')} {...iconProps} />
+                <Icon data={CircleQuestion} size={ICON_SIZE_MAP[iconSize]} className={b('icon')} />
             </button>
         </Popover>
     );

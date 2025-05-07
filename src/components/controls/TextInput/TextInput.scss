@@ -102,6 +102,10 @@ $block: '.#{variables.$ns}text-input';
             outline: none;
         }
 
+        &:not(:focus) {
+            caret-color: transparent;
+        }
+
         &[type='number'] {
             appearance: textfield;
         }

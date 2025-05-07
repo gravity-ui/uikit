@@ -25,13 +25,15 @@ $rail-m-size: 4px;
 $rail-l-size: 5px;
 $rail-xl-size: 6px;
 
+$track-border-radius: 4px;
+
 @mixin input-control($size) {
     position: absolute;
     content: '';
     background-color: #{slider-variables.$slider-color};
-    border-start-start-radius: 4px;
-    border-end-start-radius: 4px;
     $width: null;
+    border-start-start-radius: $track-border-radius;
+    border-end-start-radius: $track-border-radius;
 
     @if $size == 's' {
         $width: math.floor(calc($handle-s-size / 2));
@@ -51,7 +53,7 @@ $rail-xl-size: 6px;
     }
 
     width: $width;
-    inset-inline-start: calc($width * -1);
+    inset-inline: calc($width * -1);
 }
 
 @mixin slider-outer-style($size) {
@@ -286,6 +288,7 @@ $rail-xl-size: 6px;
     &__track {
         position: absolute;
         background-color: #{slider-variables.$slider-color};
+
         &_size {
             &_s {
                 height: $rail-s-size;
@@ -315,6 +318,15 @@ $rail-xl-size: 6px;
                 }
             }
         }
+
+        &_inverted::before {
+            inset-inline-start: unset;
+            border-start-start-radius: 0;
+            border-end-start-radius: 0;
+            border-end-end-radius: $track-border-radius;
+            border-start-end-radius: $track-border-radius;
+        }
+
         &_with-start-point {
             &::before {
                 display: none;

@@ -89,8 +89,9 @@ export const Slider = React.forwardRef(function Slider(
         'tooltip-display': innerState.tooltipDisplay,
         rtl: direction === 'rtl',
         'no-marks': Array.isArray(marks) ? marks.length === 0 : marks === 0,
-        inverted: Boolean(inverted),
-        'with-start-point': !inverted && startPoint !== undefined,
+        inverted: innerState.startPoint === innerState.max,
+        'with-start-point':
+            innerState.startPoint !== innerState.max && innerState.startPoint !== innerState.min,
     };
 
     const handleRender = (

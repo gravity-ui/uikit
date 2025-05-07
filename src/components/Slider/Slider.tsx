@@ -33,6 +33,7 @@ export const Slider = React.forwardRef(function Slider(
         validationState,
         disabled = false,
         startPoint,
+        inverted,
         onBlur,
         onUpdate,
         onUpdateComplete,
@@ -63,7 +64,7 @@ export const Slider = React.forwardRef(function Slider(
         marks,
         tooltipDisplay,
         tooltipFormat,
-        startPoint,
+        startPoint: inverted ? Math.max(min, max) : startPoint,
     });
     const [innerValue, setValue] = useControlledState(
         innerState.value,
@@ -88,6 +89,13 @@ export const Slider = React.forwardRef(function Slider(
         'tooltip-display': innerState.tooltipDisplay,
         rtl: direction === 'rtl',
         'no-marks': Array.isArray(marks) ? marks.length === 0 : marks === 0,
+        inverted: innerState.startPoint === innerState.max && !innerState.range,
+        'with-start-point': Boolean(
+            innerState.startPoint &&
+                !innerState.range &&
+                innerState.startPoint !== innerState.max &&
+                innerState.startPoint !== innerState.min,
+        ),
     };
 
     const handleRender = (

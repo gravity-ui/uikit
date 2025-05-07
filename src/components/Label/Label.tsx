@@ -123,6 +123,7 @@ export const Label = React.forwardRef(function Label(
                     className={b('addon', {
                         side: 'end',
                         type: 'button',
+                        action: hasOnClick ? 'click' : 'copy',
                     })}
                     data-qa={LabelQa.copyButton}
                 >
@@ -139,6 +140,7 @@ export const Label = React.forwardRef(function Label(
                     className={b('addon', {
                         side: 'end',
                         type: 'button',
+                        action: 'close',
                     })}
                     data-qa={LabelQa.closeButton}
                 >

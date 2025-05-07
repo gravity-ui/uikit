@@ -143,7 +143,7 @@ export const SliderShowcase = () => {
             </div>
             <div className={blockCn}></div>
             <div className={blockCn}>
-                <ShowcaseBlock title="inverted" inverted />
+                <ShowcaseBlock title="inverted" inverted defaultValue={50} />
             </div>
         </Showcase>
     );

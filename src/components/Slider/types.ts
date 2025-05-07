@@ -85,6 +85,7 @@ export type StateModifiers = {
     rtl: boolean;
     'tooltip-display': SliderProps['tooltipDisplay'];
     inverted: boolean;
+    'with-start-point': boolean;
 };
 
 export type BaseSliderRefType = RcSliderRef;

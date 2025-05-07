@@ -31,31 +31,27 @@ $rail-xl-size: 6px;
     background-color: #{slider-variables.$slider-color};
     border-start-start-radius: 4px;
     border-end-start-radius: 4px;
+    $width: null;
 
     @if $size == 's' {
         $width: math.floor(calc($handle-s-size / 2));
-        width: $width;
-        inset-inline-start: calc($width * -1);
         height: $rail-s-size;
     }
     @if $size == 'm' {
         $width: math.floor(calc($handle-m-size / 2));
-        width: $width;
-        inset-inline-start: calc($width * -1);
         height: $rail-m-size;
     }
     @if $size == 'l' {
         $width: math.floor(calc($handle-l-size / 2));
-        width: $width;
-        inset-inline-start: calc($width * -1);
         height: $rail-l-size;
     }
     @if $size == 'xl' {
         $width: math.floor(calc($handle-xl-size / 2));
-        width: $width;
-        inset-inline-start: calc($width * -1);
         height: $rail-xl-size;
     }
+
+    width: $width;
+    inset-inline-start: calc($width * -1);
 }
 
 @mixin slider-outer-style($size) {
@@ -317,6 +313,11 @@ $rail-xl-size: 6px;
                 &::before {
                     @include input-control(xl);
                 }
+            }
+        }
+        &_with-start-point {
+            &::before {
+                display: none;
             }
         }
         &_disabled,

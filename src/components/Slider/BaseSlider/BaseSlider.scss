@@ -319,12 +319,14 @@ $track-border-radius: 4px;
             }
         }
 
-        &_inverted::before {
-            inset-inline-start: unset;
-            border-start-start-radius: 0;
-            border-end-start-radius: 0;
-            border-end-end-radius: $track-border-radius;
-            border-start-end-radius: $track-border-radius;
+        &_inverted {
+            &::before {
+                inset-inline-start: unset;
+                border-start-start-radius: 0;
+                border-end-start-radius: 0;
+                border-end-end-radius: $track-border-radius;
+                border-start-end-radius: $track-border-radius;
+            }
         }
 
         &_with-start-point {

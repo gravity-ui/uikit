@@ -141,6 +141,10 @@ export const SliderShowcase = () => {
             <div className={blockCn}>
                 <ShowcaseBlock title="custom start point" startPoint={50} />
             </div>
+            <div className={blockCn}></div>
+            <div className={blockCn}>
+                <ShowcaseBlock title="inverted" inverted />
+            </div>
         </Showcase>
     );
 };

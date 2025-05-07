@@ -42,6 +42,8 @@ export type SliderProps<ValueType = number | [number, number]> = {
     validationState?: 'invalid';
     /** Start point of the track. Ignored for range slider */
     startPoint?: number;
+    /** Inverted view of the slider's track */
+    inverted?: boolean;
 
     /** Fires when the control gets focus. Provides focus event as a callback's argument */
     onFocus?: (e: React.FocusEvent<HTMLDivElement>) => void;
@@ -82,6 +84,7 @@ export type StateModifiers = {
     disabled: boolean;
     rtl: boolean;
     'tooltip-display': SliderProps['tooltipDisplay'];
+    inverted: boolean;
 };
 
 export type BaseSliderRefType = RcSliderRef;

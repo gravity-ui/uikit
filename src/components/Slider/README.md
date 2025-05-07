@@ -279,7 +279,7 @@ LANDING_BLOCK-->
 
 ## Start point
 
-The `startPoint` property allows you to set the start point of the track. It uses the minimal `Slider` value by default. It will be ignored if you use `Slider` with range values.
+The `startPoint` property allows you to set the start point of the track. It uses the minimal `Slider` value by default. It will be ignored if you use `Slider` with range values or if you set `inverted` property.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -295,6 +295,31 @@ LANDING_BLOCK-->
 
 ```tsx
 <Slider startPoint={50} />
+```
+
+<!--/GITHUB_BLOCK-->
+
+## Inverted
+
+The `inverted` property allows you to set the inverted view of the `Slider`'s track.
+By default (of `false`) `Slider` shows interval from `min` to handle.
+If `true` then it indicates interval from pin to `max`.
+Only for single `Slider`. Property `startPoint` will be ignored.
+
+<!--LANDING_BLOCK
+<ExampleBlock
+    code={`
+<Slider inverted />
+`}
+>
+    <UIKitExamples.SliderExample inverted />
+</ExampleBlock>
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<Slider inverted />
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -343,7 +368,8 @@ You are able to change display format of tooltip value by using `tooltipFormat` 
 | onFocus                          | Fires when the control gets focus. Provides focus event as a callback's argument                                                                                                         | `((e: FocusEvent<HTMLDivElement, Element>) => void)` |         |
 | [size](#size)                    | The size of the control                                                                                                                                                                  |               `"s"` `"m"` `"l"` `"xl"`               |  `"m"`  |
 | [step](#step)                    | Value to be added or subtracted on each step the slider makes. Can be set to `null` to make `marks` as steps.                                                                            |                   `number` `null`                    |   `1`   |
-| [startPoint](#start-point)       | Start point of the track. Ignored for range slider.                                                                                                                                      |                       `number`                       |         |
+| [startPoint](#start-point)       | Start point of the track. Ignored for range slider and for inverted slider.                                                                                                              |                       `number`                       |         |
+| [inverted](#inverted)            | Slider with inverted track (from handle to `max`).                                                                                                                                       |                      `boolean`                       |         |
 | tabIndex                         | The control's `tabIndex` attribute                                                                                                                                                       |             `number` `[number, number]`              |         |
 | [tooltipDisplay](#tooltip)       | The tooltip's display behaviour                                                                                                                                                          |                  `off` `on` `auto`                   |  `off`  |
 | [tooltipFormat](#tooltip)        | Formatter for the tooltip's displayed value. Uses `marksFormat` if not set                                                                                                               |             `(value: number) => string`              |         |

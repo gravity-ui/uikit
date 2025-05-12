@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import type {ResizeInfo} from 'src/hooks/useResizeObserver/useResizeObserver';
+
 import {useResizeObserver} from '../../useResizeObserver';
 
 export function useAnimateHeight({
@@ -20,7 +22,7 @@ export function useAnimateHeight({
     }, [enabled]);
 
     const handleResize = React.useCallback(
-        (observer?: ResizeObserver) => {
+        (resizeInfo: ResizeInfo) => {
             const node = ref?.current;
             if (!node || isTransitioningHeight.current || !enabled) {
                 return;
@@ -33,7 +35,7 @@ export function useAnimateHeight({
             }
 
             // Avoid "ResizeObserver loop completed with undelivered notifications" error
-            observer?.unobserve(node);
+            resizeInfo.observer?.unobserve(node);
 
             // Set previous height first for the transition to work, because it doesn't work with 'auto'
             node.style.height = `${previousHeight.current}px`;
@@ -59,7 +61,7 @@ export function useAnimateHeight({
             node.addEventListener('transitionend', handleTransitionEnd);
 
             requestAnimationFrame(() => {
-                observer?.observe(node);
+                resizeInfo.observer?.observe(node);
                 node.style.height = `${contentHeight}px`;
                 previousHeight.current = contentHeight;
             });

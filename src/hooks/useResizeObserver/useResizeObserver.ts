@@ -2,8 +2,12 @@ import * as React from 'react';
 
 interface UseResizeObserverProps<T> {
     ref: React.RefObject<T | null | undefined> | undefined;
-    onResize: (observer?: ResizeObserver) => void;
+    onResize: (info: ResizeInfo) => void;
     box?: ResizeObserverBoxOptions;
+}
+
+export interface ResizeInfo {
+    observer?: ResizeObserver;
 }
 
 export function useResizeObserver<T extends Element>({
@@ -19,7 +23,7 @@ export function useResizeObserver<T extends Element>({
 
         if (typeof window.ResizeObserver === 'undefined') {
             const handleResize = () => {
-                onResize();
+                onResize({});
             };
 
             window.addEventListener('resize', handleResize, false);
@@ -32,7 +36,7 @@ export function useResizeObserver<T extends Element>({
             if (!entries.length) {
                 return;
             }
-            onResize(observer);
+            onResize({observer});
         });
 
         observer.observe(element, {box});

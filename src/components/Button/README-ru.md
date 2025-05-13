@@ -266,7 +266,7 @@ LANDING_BLOCK-->
 
 `loading` — когда в фоновом режиме выполняются асинхронные процессы.
 
-`selected` — когда пользователь может может включить (**Enable**) или отключить (**Disable**) кнопку.
+`selected` — когда пользователь может включить (**Enable**) или отключить (**Disable**) кнопку.
 
 <!--LANDING_BLOCK
 
@@ -290,6 +290,32 @@ LANDING_BLOCK-->
 <Button size="l" disabled>Disabled</Button>
 <Button size="l" loading>Loading</Button>
 <Button size="l" selected>Selected</Button>
+```
+
+<!--/GITHUB_BLOCK-->
+
+### Переключатель меню
+
+`Button` автоматически меняет свой внешний вид при передаче специальных aria-атрибутов (`aria-haspopup`, `aria-expanded`):
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Button aria-haspopup="menu" aria-expanded="true">Menu</Button>
+`}
+>
+    <UIKit.Button aria-haspopup="menu" aria-expanded="true">Menu</UIKit.Button>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<Button aria-haspopup="menu" aria-expanded="true">
+  Menu
+</Button>
 ```
 
 <!--/GITHUB_BLOCK-->

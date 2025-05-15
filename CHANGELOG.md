@@ -1,5 +1,24 @@
 # Changelog
 
+## [7.11.0](https://github.com/gravity-ui/uikit/compare/v7.10.0...v7.11.0) (2025-05-07)
+
+
+### Features
+
+* **HelpMark:** add size prop ([#2257](https://github.com/gravity-ui/uikit/issues/2257)) ([7e5cd7f](https://github.com/gravity-ui/uikit/commit/7e5cd7f807c45913c3880c6fcb705344d11c5b9a))
+* **Label:** added "info" type label ([#2256](https://github.com/gravity-ui/uikit/issues/2256)) ([e5f5d8e](https://github.com/gravity-ui/uikit/commit/e5f5d8e40d52170655d4a9dd1f1a123faeb8936b))
+* new Menu implementation ([#2106](https://github.com/gravity-ui/uikit/issues/2106)) ([07c9bd8](https://github.com/gravity-ui/uikit/commit/07c9bd8d29a71ea7027b4f60c1fea01437d3f589))
+* **Skeleton:** add `animation` property ([#2205](https://github.com/gravity-ui/uikit/issues/2205)) ([15ff59d](https://github.com/gravity-ui/uikit/commit/15ff59d5101bffa5c92111a67482a27a5fb70239))
+
+
+### Bug Fixes
+
+* **DropdownMenu:** make submenu items inherit size ([#2248](https://github.com/gravity-ui/uikit/issues/2248)) ([6730977](https://github.com/gravity-ui/uikit/commit/6730977ff44643468873497c2e3ca8cfe4f83423))
+* **Label:** adjust interactive label button height ([#2259](https://github.com/gravity-ui/uikit/issues/2259)) ([e0ac7d1](https://github.com/gravity-ui/uikit/commit/e0ac7d1c5a9eaf00424aa899c0b8edef2affc21a))
+* **Label:** fixed hover state for Label with type "copy" ([#2260](https://github.com/gravity-ui/uikit/issues/2260)) ([1743a02](https://github.com/gravity-ui/uikit/commit/1743a02d6e403141d89e54315984e37754e9a102))
+* **Select:** fix closing inside Dialog ([#2252](https://github.com/gravity-ui/uikit/issues/2252)) ([2dab74c](https://github.com/gravity-ui/uikit/commit/2dab74c381eff764f15cb4d8c9898c521672590e))
+* smaller textinput icons for storybook ([#2250](https://github.com/gravity-ui/uikit/issues/2250)) ([e2b91bf](https://github.com/gravity-ui/uikit/commit/e2b91bf0c6e20f9e2ca7a14539342cc69885ad07))
+
 ## [7.10.0](https://github.com/gravity-ui/uikit/compare/v7.9.1...v7.10.0) (2025-04-23)
 
 

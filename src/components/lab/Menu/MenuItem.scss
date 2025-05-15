@@ -1,0 +1,102 @@
+@use '../../variables';
+@use '../../../../styles/mixins';
+
+$b: '.#{variables.$ns}lab-menu-item';
+
+#{$b} {
+    --_--padding-block: 0;
+    --_--padding-inline: 0;
+    --_--icon-size: 0;
+    --_--icon-offset: 0;
+    --_--submenu-icon-shift: 0;
+
+    display: flex;
+    align-items: center;
+    padding: var(--_--padding-block) var(--_--padding-inline);
+
+    &::before,
+    &__icon {
+        position: relative;
+        inset-inline-end: var(--_--icon-offset);
+        min-width: var(--_--icon-size);
+        height: var(--_--icon-size);
+    }
+
+    &::after,
+    &__arrow {
+        display: flex;
+        align-items: center;
+        position: relative;
+        inset-inline-start: var(--_--submenu-icon-shift);
+        margin-inline-start: auto;
+        min-width: var(--_--icon-size);
+        height: var(--_--icon-size);
+        color: var(--g-color-text-secondary);
+    }
+
+    @at-root #{$b}:not(:has(> #{$b}__icon)):has(~ #{$b} > #{$b}__icon)::before,
+        #{$b}:has(> #{$b}__icon) ~ #{$b}:not(:has(> #{$b}__icon))::before {
+        content: '';
+    }
+
+    @at-root #{$b}:not(:has(> #{$b}__arrow)):has(~ #{$b} > #{$b}__arrow)::after,
+        #{$b}:has(> #{$b}__arrow) ~ #{$b}:not(:has(> #{$b}__arrow))::after {
+        content: '';
+    }
+
+    &_theme {
+        &_info {
+            --g-list-item-view-text-color: var(--g-color-text-info);
+        }
+
+        &_success {
+            --g-list-item-view-text-color: var(--g-color-text-positive);
+        }
+
+        &_warning {
+            --g-list-item-view-text-color: var(--g-color-text-warning);
+        }
+
+        &_danger {
+            --g-list-item-view-text-color: var(--g-color-text-danger);
+        }
+
+        &_utility {
+            --g-list-item-view-text-color: var(--g-color-text-utility);
+        }
+    }
+
+    &_size {
+        &_s {
+            --_--padding-block: 2px;
+            --_--padding-inline: 8px;
+            --_--icon-size: 14px;
+            --_--icon-offset: 4px;
+            --_--submenu-icon-shift: 7px;
+        }
+
+        &_m {
+            --_--padding-block: 4px;
+            --_--padding-inline: 12px;
+            --_--icon-size: 16px;
+            --_--icon-offset: 6px;
+            --_--submenu-icon-shift: 8px;
+        }
+
+        &_l {
+            --_--padding-block: 6px;
+            --_--padding-inline: 12px;
+            --_--icon-size: 16px;
+            --_--icon-offset: 6px;
+            --_--submenu-icon-shift: 8px;
+        }
+
+        &_xl {
+            --_--padding-block: 8px;
+            --_--padding-inline: 16px;
+            --_--icon-size: 20px;
+            --_--icon-offset: 6px;
+            --_--submenu-icon-shift: 10px;
+        }
+    }
+}

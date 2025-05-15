@@ -1,0 +1,7 @@
+@use '../../variables';
+
+$b: '.#{variables.$ns}lab-menu';
+
+#{$b} {
+    padding: 4px;
+}

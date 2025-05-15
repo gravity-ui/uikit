@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import type {ResizeInfo} from 'src/hooks/useResizeObserver/useResizeObserver';
+
 import {useResizeObserver} from '../../useResizeObserver';
 
 export function useAnimateHeight({
@@ -19,46 +21,53 @@ export function useAnimateHeight({
         }
     }, [enabled]);
 
-    const handleResize = React.useCallback(() => {
-        const node = ref?.current;
-        if (!node || isTransitioningHeight.current || !enabled) {
-            return;
-        }
-
-        const contentHeight = node.clientHeight;
-        if (!previousHeight.current || previousHeight.current === contentHeight) {
-            previousHeight.current = contentHeight;
-            return;
-        }
-
-        // Set previous height first for the transition to work, because it doesn't work with 'auto'
-        node.style.height = `${previousHeight.current}px`;
-        isTransitioningHeight.current = true;
-        const overflowY = node.style.overflowY;
-        node.style.overflowY = 'clip';
-
-        const handleTransitionEnd = (event: TransitionEvent) => {
-            if (event.propertyName !== 'height') {
+    const handleResize = React.useCallback(
+        (resizeInfo: ResizeInfo) => {
+            const node = ref?.current;
+            if (!node || isTransitioningHeight.current || !enabled) {
                 return;
             }
 
-            node.removeEventListener('transitionend', handleTransitionEnd);
+            const contentHeight = node.clientHeight;
+            if (!previousHeight.current || previousHeight.current === contentHeight) {
+                previousHeight.current = contentHeight;
+                return;
+            }
 
-            // ResizeObserver final resize event fires before this, so we have to delay with timeout
-            setTimeout(() => {
-                node.style.height = 'auto';
-                node.style.overflowY = overflowY;
-                isTransitioningHeight.current = false;
-            }, 0);
-        };
+            // Avoid "ResizeObserver loop completed with undelivered notifications" error
+            resizeInfo.observer?.unobserve(node);
 
-        node.addEventListener('transitionend', handleTransitionEnd);
+            // Set previous height first for the transition to work, because it doesn't work with 'auto'
+            node.style.height = `${previousHeight.current}px`;
+            isTransitioningHeight.current = true;
+            const overflowY = node.style.overflowY;
+            node.style.overflowY = 'clip';
 
-        requestAnimationFrame(() => {
-            node.style.height = `${contentHeight}px`;
-            previousHeight.current = contentHeight;
-        });
-    }, [ref, enabled]);
+            const handleTransitionEnd = (event: TransitionEvent) => {
+                if (event.propertyName !== 'height') {
+                    return;
+                }
+
+                node.removeEventListener('transitionend', handleTransitionEnd);
+
+                // ResizeObserver final resize event fires before this, so we have to delay with timeout
+                setTimeout(() => {
+                    node.style.height = 'auto';
+                    node.style.overflowY = overflowY;
+                    isTransitioningHeight.current = false;
+                }, 0);
+            };
+
+            node.addEventListener('transitionend', handleTransitionEnd);
+
+            requestAnimationFrame(() => {
+                resizeInfo.observer?.observe(node);
+                node.style.height = `${contentHeight}px`;
+                previousHeight.current = contentHeight;
+            });
+        },
+        [ref, enabled],
+    );
 
     useResizeObserver({ref: enabled ? ref : undefined, onResize: handleResize});
 }

@@ -13,6 +13,35 @@ export function useAnimateHeight({
 }): void {
     const previousHeight = React.useRef<number | null>(null);
     const isTransitioningHeight = React.useRef(false);
+    const overflowY = React.useRef<string>('');
+    const animationFrame = React.useRef<number>(-1);
+
+    React.useEffect(() => {
+        let mutationObserver: MutationObserver | undefined;
+        const node = ref?.current;
+
+        if (node && enabled) {
+            mutationObserver = new MutationObserver((mutations) => {
+                if (!mutations.length || !isTransitioningHeight.current) return;
+
+                // If node content changes mid animation, we reset height to immediately animate towards the new height
+                previousHeight.current = node.clientHeight;
+                isTransitioningHeight.current = false;
+                node.style.height = '';
+                node.style.overflowY = overflowY.current;
+                cancelAnimationFrame(animationFrame.current);
+            });
+
+            mutationObserver.observe(node, {
+                childList: true,
+                subtree: true,
+            });
+        }
+
+        return () => {
+            mutationObserver?.disconnect();
+        };
+    }, [ref, enabled]);
 
     React.useEffect(() => {
         if (!enabled) {
@@ -29,8 +58,9 @@ export function useAnimateHeight({
             }
 
             const contentHeight = node.clientHeight;
-            if (!previousHeight.current || previousHeight.current === contentHeight) {
+            if (!previousHeight.current && !overflowY.current) {
                 previousHeight.current = contentHeight;
+                overflowY.current = node.style.overflowY;
                 return;
             }
 
@@ -40,7 +70,6 @@ export function useAnimateHeight({
             // Set previous height first for the transition to work, because it doesn't work with 'auto'
             node.style.height = `${previousHeight.current}px`;
             isTransitioningHeight.current = true;
-            const overflowY = node.style.overflowY;
             node.style.overflowY = 'clip';
 
             const handleTransitionEnd = (event: TransitionEvent) => {
@@ -52,15 +81,15 @@ export function useAnimateHeight({
 
                 // ResizeObserver final resize event fires before this, so we have to delay with timeout
                 setTimeout(() => {
-                    node.style.height = 'auto';
-                    node.style.overflowY = overflowY;
+                    node.style.height = '';
+                    node.style.overflowY = overflowY.current;
                     isTransitioningHeight.current = false;
                 }, 0);
             };
 
             node.addEventListener('transitionend', handleTransitionEnd);
 
-            requestAnimationFrame(() => {
+            animationFrame.current = requestAnimationFrame(() => {
                 resizeInfo.observer?.observe(node);
                 node.style.height = `${contentHeight}px`;
                 previousHeight.current = contentHeight;

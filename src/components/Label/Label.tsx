@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import {Xmark} from '@gravity-ui/icons';
+import {CircleInfo, Xmark} from '@gravity-ui/icons';
 
 import {ClipboardIcon} from '../ClipboardIcon';
 import {CopyToClipboard} from '../CopyToClipboard';
@@ -17,13 +17,11 @@ import './Label.scss';
 
 const b = block('label');
 
-type SizeMapType = {copyIconSize: number; closeIconSize: number};
-
-const sizeMap: Record<string, SizeMapType> = {
-    xs: {copyIconSize: 12, closeIconSize: 12},
-    s: {copyIconSize: 14, closeIconSize: 14},
-    m: {copyIconSize: 16, closeIconSize: 16},
-};
+const iconSizeMap: Record<NonNullable<LabelProps['size']>, number> = {
+    xs: 12,
+    s: 14,
+    m: 16,
+} as const;
 
 export interface LabelProps extends QAProps {
     /** Label icon (at start) */
@@ -52,8 +50,8 @@ export interface LabelProps extends QAProps {
     value?: string;
     /** Label color */
     theme?: 'normal' | 'info' | 'danger' | 'warning' | 'success' | 'utility' | 'unknown' | 'clear';
-    /** Label type (plain, with copy text button or with close button) */
-    type?: 'default' | 'copy' | 'close';
+    /** Label type (plain, with copy text button, with close button, or with info icon) */
+    type?: 'default' | 'copy' | 'close' | 'info';
     /** Label size */
     size?: 'xs' | 's' | 'm';
     /** Browser title for Label */
@@ -87,11 +85,13 @@ export const Label = React.forwardRef(function Label(
 
     const typeClose = type === 'close' && hasContent;
     const typeCopy = type === 'copy' && hasContent;
+    const typeInfo = type === 'info';
 
     const hasOnClick = typeof onClick === 'function';
     const hasCopy = Boolean(typeCopy && copyText);
-    const isInteractive = (hasOnClick || hasCopy || interactive) && !disabled;
-    const {copyIconSize, closeIconSize} = sizeMap[size];
+    const isInteractive = (hasOnClick || hasCopy || typeInfo || interactive) && !disabled;
+
+    const iconSize = iconSizeMap[size];
 
     const startIcon = icon && (
         <div className={b('addon', {side: hasContent ? 'start' : undefined, type: 'icon'})}>
@@ -123,11 +123,23 @@ export const Label = React.forwardRef(function Label(
                     className={b('addon', {
                         side: 'end',
                         type: 'button',
+                        action: hasOnClick ? 'click' : 'copy',
                     })}
                     data-qa={LabelQa.copyButton}
                 >
-                    <ClipboardIcon status={status || 'pending'} size={copyIconSize} />
+                    <ClipboardIcon status={status || 'pending'} size={iconSize} />
                 </button>
+            );
+        } else if (typeInfo) {
+            actionButton = (
+                <div
+                    className={b('addon', {
+                        side: 'end',
+                        type: 'icon',
+                    })}
+                >
+                    <Icon size={iconSize} data={CircleInfo} />
+                </div>
             );
         } else if (typeClose) {
             actionButton = (
@@ -139,10 +151,11 @@ export const Label = React.forwardRef(function Label(
                     className={b('addon', {
                         side: 'end',
                         type: 'button',
+                        action: 'close',
                     })}
                     data-qa={LabelQa.closeButton}
                 >
-                    <Icon size={closeIconSize} data={Xmark} />
+                    <Icon size={iconSize} data={Xmark} />
                 </button>
             );
         }

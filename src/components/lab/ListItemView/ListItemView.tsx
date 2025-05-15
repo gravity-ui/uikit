@@ -21,6 +21,7 @@ export interface ListItemViewProps<T extends React.ElementType = 'div'> extends 
     size?: 's' | 'm' | 'l' | 'xl';
     selected?: boolean;
     active?: boolean;
+    hovered?: boolean;
     onClick?: (e: React.MouseEvent) => void;
     disabled?: boolean;
     selectionStyle?: 'check' | 'highlight' | 'none';
@@ -34,6 +35,7 @@ export interface ListItemViewProps<T extends React.ElementType = 'div'> extends 
     endContent?: React.ReactNode;
     isContainer?: boolean;
     component?: T;
+    componentProps?: React.ComponentProps<T>;
 }
 
 export const ListItemView = React.forwardRef(ListItemViewComponent) as <
@@ -50,6 +52,7 @@ export function ListItemViewComponent(
         size,
         active,
         selected,
+        hovered,
         disabled,
         onClick,
         selectionStyle,
@@ -60,20 +63,20 @@ export function ListItemViewComponent(
         children,
         isContainer = false,
         component: Component = 'div',
+        componentProps,
         collapsible: _collapsible,
         description,
         draggable: _draggable,
         startContent: _startContent,
         endContent: _endContent,
         nestedLevel: _nestedLevel,
-        ...restProps
     } = props;
     const containerRef = React.useRef(null);
     const componentRef = useForkRef(containerRef, ref);
     return (
         <Component
             ref={componentRef}
-            {...restProps}
+            {...componentProps}
             {...filterDOMProps(props)}
             className={b(
                 {
@@ -81,12 +84,13 @@ export function ListItemViewComponent(
                     selected: selected && selectionStyle === 'highlight',
                     disabled,
                     active,
+                    hovered: typeof hovered === 'boolean' && (hovered ? 'yes' : 'no'),
                     'is-container': isContainer,
                     'has-description': Boolean(description),
                 },
-                className,
+                componentProps?.className ?? className,
             )}
-            style={style}
+            style={componentProps?.style ?? style}
             onClick={(e) => {
                 if (disabled) {
                     e.preventDefault();
@@ -101,15 +105,19 @@ export function ListItemViewComponent(
                     return;
                 }
 
-                if (typeof onClick === 'function') {
-                    onClick(e);
+                if (
+                    typeof onClick === 'function' ||
+                    typeof componentProps?.onClick === 'function'
+                ) {
+                    onClick?.(e);
+                    componentProps?.onClick?.(e);
                 } else if (typeof onCollapseChange === 'function') {
                     onCollapseChange(!collapsed);
                 }
             }}
         >
             {isContainer ? (
-                <Slot name="container">{children}</Slot>
+                children
             ) : (
                 <ListItemViewContent {...props}>{children}</ListItemViewContent>
             )}

@@ -70,6 +70,21 @@ export function SkeletonShowcase() {
             <SkeletonListShowcase />
             <h2>Styled with inline prop</h2>
             <Skeleton style={{height: 100, width: 200}} />
+            <h2>Animation Types</h2>
+            <div style={{display: 'flex', gap: '20px'}}>
+                <div>
+                    <div style={{marginBottom: '8px'}}>Gradient (default)</div>
+                    <Skeleton style={{height: 100, width: 200}} animation="gradient" />
+                </div>
+                <div>
+                    <div style={{marginBottom: '8px'}}>Pulse</div>
+                    <Skeleton style={{height: 100, width: 200}} animation="pulse" />
+                </div>
+                <div>
+                    <div style={{marginBottom: '8px'}}>None</div>
+                    <Skeleton style={{height: 100, width: 200}} animation="none" />
+                </div>
+            </div>
         </React.Fragment>
     );
 }

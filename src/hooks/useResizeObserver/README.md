@@ -12,7 +12,7 @@ Custom hook that observes the change of the size of an element using the [Resize
 
 ## Properties
 
-| Name    | Description                                               |       Type        | Default |
-| :------ | :-------------------------------------------------------- | :---------------: | :-----: |
-| ref     | Ref-link to target of observation                         | `React.RefObject` |         |
-| handler | Callback when a size of the observation target is changed |   `() => void`    |         |
+| Name    | Description                                               |             Type             | Default |
+| :------ | :-------------------------------------------------------- | :--------------------------: | :-----: |
+| ref     | Ref-link to target of observation                         |      `React.RefObject`       |         |
+| handler | Callback when a size of the observation target is changed | `(info: ResizeInfo) => void` |         |

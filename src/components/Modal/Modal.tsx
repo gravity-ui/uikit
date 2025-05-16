@@ -26,6 +26,7 @@ import {KeyCode} from '../../constants';
 import {useForkRef} from '../../hooks';
 import {useAnimateHeight, usePrevious} from '../../hooks/private';
 import {Portal} from '../Portal';
+import type {PortalProps} from '../Portal';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
@@ -37,7 +38,11 @@ import './Modal.scss';
 
 export type ModalCloseReason = 'outsideClick' | 'escapeKeyDown' | string | undefined;
 
-export interface ModalProps extends DOMProps, AriaLabelingProps, QAProps {
+export interface ModalProps
+    extends Pick<PortalProps, 'container' | 'disablePortal'>,
+        DOMProps,
+        AriaLabelingProps,
+        QAProps {
     open?: boolean;
     /** Callback for open state changes, when dismiss happens for example */
     onOpenChange?: (open: boolean, event?: Event, reason?: OpenChangeReason) => void;
@@ -60,20 +65,17 @@ export interface ModalProps extends DOMProps, AriaLabelingProps, QAProps {
      * This callback will be called when Escape key pressed on keyboard, or click outside was made
      * This behaviour could be disabled with `disableEscapeKeyDown`
      * and `disableOutsideClick` options
-     *
      * @deprecated Use `onOpenChange` instead
      */
     onClose?: (event: MouseEvent | KeyboardEvent, reason: ModalCloseReason) => void;
     /**
      * This callback will be called when Escape key pressed on keyboard
      * This behaviour could be disabled with `disableEscapeKeyDown` option
-     *
      * @deprecated Use `onOpenChange` instead
      */
     onEscapeKeyDown?: (event: KeyboardEvent) => void;
     /**
      * This callback will be called when Enter key is pressed on keyboard
-     *
      * @deprecated It is not recommended to use this callback.
      * Consider using the submit event in case of a form content or using initialFocus property on the confirm button in case of non-interactive content
      */
@@ -81,7 +83,6 @@ export interface ModalProps extends DOMProps, AriaLabelingProps, QAProps {
     /**
      * This callback will be called when click is outside of elements of "top layer"
      * This behaviour could be disabled with `disableOutsideClick` option
-     *
      * @deprecated Use `onOpenChange` instead
      */
     onOutsideClick?: (event: MouseEvent) => void;
@@ -89,7 +90,6 @@ export interface ModalProps extends DOMProps, AriaLabelingProps, QAProps {
     disableEscapeKeyDown?: boolean;
     /** Do not dismiss on outside click */
     disableOutsideClick?: boolean;
-    container?: HTMLElement;
     contentClassName?: string;
     /** Callback called when `Modal` is opened and "in" transition is started */
     onTransitionIn?: () => void;
@@ -132,6 +132,7 @@ function ModalComponent({
     className,
     contentClassName,
     container,
+    disablePortal,
     qa,
     floatingRef,
     disableHeightTransition = false,
@@ -261,7 +262,7 @@ function ModalComponent({
     return (
         <FloatingNode id={floatingNodeId}>
             {isMounted || keepMounted ? (
-                <Portal container={container}>
+                <Portal container={container} disablePortal={disablePortal}>
                     <FloatingOverlay
                         style={style}
                         className={b({open}, className)}

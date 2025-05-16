@@ -34,6 +34,7 @@ import type {
 import {useForkRef} from '../../hooks';
 import {usePrevious} from '../../hooks/private';
 import {Portal} from '../Portal';
+import type {PortalProps} from '../Portal';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
@@ -49,7 +50,11 @@ import './Popup.scss';
 
 export type PopupCloseReason = 'outsideClick' | 'escapeKeyDown' | string | undefined;
 
-export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
+export interface PopupProps
+    extends Pick<PortalProps, 'container' | 'disablePortal'>,
+        DOMProps,
+        AriaLabelingProps,
+        QAProps {
     children?: React.ReactNode;
     /** Manages `Popup` visibility */
     open?: boolean;
@@ -69,9 +74,8 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
     anchorElement?: PopupAnchorElement | null;
     /**
      * floating element anchor ref object
-     *
      * @deprecated Use `anchorElement` instead
-     * */
+     */
     anchorRef?: PopupAnchorRef;
     /** Floating UI middlewares. If set, they will completely overwrite the default middlewares. */
     floatingMiddlewares?: Middleware[];
@@ -99,21 +103,18 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
      * This callback will be called when Escape key pressed on keyboard, or click outside was made
      * This behaviour could be disabled with `disableEscapeKeyDown`
      * and `disableOutsideClick` options
-     *
      * @deprecated Use `onOpenChange` instead
      */
     onClose?: (event: MouseEvent | KeyboardEvent, reason: PopupCloseReason) => void;
     /**
      * This callback will be called when Escape key pressed on keyboard
      * This behaviour could be disabled with `disableEscapeKeyDown` option
-     *
      * @deprecated Use `onOpenChange` instead
      */
     onEscapeKeyDown?: (event: KeyboardEvent) => void;
     /**
      * This callback will be called when click is outside of elements of "top layer"
      * This behaviour could be disabled with `disableOutsideClick` option
-     *
      * @deprecated Use `onOpenChange` instead
      */
     onOutsideClick?: (event: MouseEvent) => void;
@@ -123,8 +124,6 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
     disableOutsideClick?: boolean;
     /** Do not dismiss on focusout */
     disableFocusOut?: boolean;
-    /** Do not use `Portal` for children */
-    disablePortal?: boolean;
     /**
      * Do not use as layer
      */
@@ -179,6 +178,7 @@ function PopupComponent({
     style,
     className,
     children,
+    container,
     disablePortal = false,
     disableLayer = false,
     disableTransition = false,
@@ -332,7 +332,7 @@ function PopupComponent({
     return (
         <FloatingNode id={floatingNodeId}>
             {isMounted || keepMounted ? (
-                <Portal disablePortal={disablePortal}>
+                <Portal container={container} disablePortal={disablePortal}>
                     <FloatingFocusManager
                         context={context}
                         disabled={!isMounted}

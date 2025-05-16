@@ -1,5 +1,18 @@
 # Changelog
 
+## [7.12.0](https://github.com/gravity-ui/uikit/compare/v7.11.0...v7.12.0) (2025-05-16)
+
+
+### Features
+
+* **Slider:** add inverted property ([#2263](https://github.com/gravity-ui/uikit/issues/2263)) ([62c3c6f](https://github.com/gravity-ui/uikit/commit/62c3c6f9be285769522703580cc8470af021e543))
+
+
+### Bug Fixes
+
+* **Dialog:** handle height change mid animation ([#2265](https://github.com/gravity-ui/uikit/issues/2265)) ([6b6ddfc](https://github.com/gravity-ui/uikit/commit/6b6ddfc1b70b916f51e738fc9d1cae33382a80d1))
+* **Dialog:** handle ResizeObserver loop error ([#2247](https://github.com/gravity-ui/uikit/issues/2247)) ([f024aad](https://github.com/gravity-ui/uikit/commit/f024aad833b5816487eca105ffbe708574226bb3))
+
 ## [7.11.0](https://github.com/gravity-ui/uikit/compare/v7.10.0...v7.11.0) (2025-05-07)
 
 

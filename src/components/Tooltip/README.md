@@ -45,23 +45,25 @@ Pass your state to the `open` prop and change it from `onOpenChange` callback.
 
 ## Properties
 
-| Name         | Description                                                                 |                       Type                       |   Default   |
-| :----------- | --------------------------------------------------------------------------- | :----------------------------------------------: | :---------: |
-| children     | Anchor element for the `Tooltip`                                            |         `React.ReactElement` `Function`          |             |
-| className    | `class` HTML attribute                                                      |                     `string`                     |             |
-| closeDelay   | Number of ms to delay hiding the `Tooltip` after the hover ends             |                     `number`                     |     `0`     |
-| content      | Content that will be shown in the `Tooltip`                                 |                `React.ReactNode`                 |             |
-| disabled     | Prevent the `Tooltip` from opening                                          |                    `boolean`                     |             |
-| offset       | `Tooltip` offset from its anchor                                            |                     `number`                     |     `4`     |
-| onOpenChange | Callback to handle open state change                                        |                    `Function`                    |             |
-| open         | Controlled open state                                                       |                    `boolean`                     |             |
-| openDelay    | Number of ms to delay showing the `Tooltip` after the hover begins          |                     `number`                     |   `1000`    |
-| placement    | `Tooltip` position relative to its anchor                                   | [`PopupPlacement`](../Popup/README.md#placement) |  `bottom`   |
-| qa           | `data-qa` HTML attribute, used for testing                                  |                     `string`                     |             |
-| role         | The role `Tooltip` is used for                                              |              `"tooltip"` `"label"`               | `"tooltip"` |
-| strategy     | The type of CSS position property to use.                                   |                `absolute` `fixed`                | `absolute`  |
-| style        | `style` HTML attribute                                                      |              `React.CSSProperties`               |             |
-| trigger      | Event type that should trigger opening. By default both hover and focus do. |                    `"focus"`                     |             |
+| Name          | Description                                                                 |                       Type                       |     Default     |
+| :------------ | --------------------------------------------------------------------------- | :----------------------------------------------: | :-------------: |
+| children      | Anchor element for the `Tooltip`                                            |         `React.ReactElement` `Function`          |                 |
+| className     | `class` HTML attribute                                                      |                     `string`                     |                 |
+| closeDelay    | Number of ms to delay hiding the `Tooltip` after the hover ends             |                     `number`                     |       `0`       |
+| container     | DOM element to which component is mounted via `Portal`                      |                  `HTMLElement`                   | `document.body` |
+| content       | Content that will be shown in the `Tooltip`                                 |                `React.ReactNode`                 |                 |
+| disabled      | Prevent the `Tooltip` from opening                                          |                    `boolean`                     |                 |
+| disablePortal | Disables using `Portal`                                                     |                    `boolean`                     |     `false`     |
+| offset        | `Tooltip` offset from its anchor                                            |                     `number`                     |       `4`       |
+| onOpenChange  | Callback to handle open state change                                        |                    `Function`                    |                 |
+| open          | Controlled open state                                                       |                    `boolean`                     |                 |
+| openDelay     | Number of ms to delay showing the `Tooltip` after the hover begins          |                     `number`                     |     `1000`      |
+| placement     | `Tooltip` position relative to its anchor                                   | [`PopupPlacement`](../Popup/README.md#placement) |    `bottom`     |
+| qa            | `data-qa` HTML attribute, used for testing                                  |                     `string`                     |                 |
+| role          | The role `Tooltip` is used for                                              |              `"tooltip"` `"label"`               |   `"tooltip"`   |
+| strategy      | The type of CSS position property to use.                                   |                `absolute` `fixed`                |   `absolute`    |
+| style         | `style` HTML attribute                                                      |              `React.CSSProperties`               |                 |
+| trigger       | Event type that should trigger opening. By default both hover and focus do. |                    `"focus"`                     |                 |
 
 ## CSS API
 

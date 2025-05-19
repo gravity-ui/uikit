@@ -25,6 +25,8 @@ export interface PopoverProps
         DOMProps,
         Pick<
             PopupProps,
+            | 'container'
+            | 'disablePortal'
             | 'open'
             | 'onOpenChange'
             | 'strategy'

@@ -33,7 +33,7 @@ const [open, setOpen] = useState(false);
 | autoFocus             | В открытом состоянии фокус будет установлен на первый интерактивный элемент в содержимом.                  |     `boolean`     |        `true`         |
 | children              | Любое содержимое React.                                                                                    | `React.ReactNode` |                       |
 | className             | HTML-атрибут `class` для корневого узла.                                                                   |     `string`      |                       |
-| container             | DOM-элемент, в который монтируются компонент через `Portal`.                                               |   `HTMLElement`   |    `document.body`    |
+| container             | DOM-элемент, в который монтируется компонент через `Portal`.                                               |   `HTMLElement`   |    `document.body`    |
 | contentClassName      | Атрибут `class` в HTML для узла с содержимым.                                                              |     `string`      |                       |
 | disableBodyScrollLock | Отключает блокировку прокрутки, пока модальное окно открыто.                                               |     `boolean`     |        `false`        |
 | disableEscapeKeyDown  | Отключает закрытие при нажатии на клавишу `Esc`.                                                           |     `boolean`     |        `false`        |

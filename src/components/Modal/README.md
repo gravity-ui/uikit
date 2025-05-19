@@ -34,7 +34,7 @@ const [open, setOpen] = useState(false);
 | children              | Any React content                                                                            | `React.ReactNode` |                 |
 | className             | `class` HTML attribute for the root node                                                     |     `string`      |                 |
 | container             | DOM element to which component is mounted via `Portal`                                       |   `HTMLElement`   | `document.body` |
-| contentClassName      | `class` HTML atribute for the content node                                                   |     `string`      |                 |
+| contentClassName      | `class` HTML attribute for the content node                                                  |     `string`      |                 |
 | disableBodyScrollLock | Disables locking scroll while open                                                           |     `boolean`     |     `false`     |
 | disableEscapeKeyDown  | Disables triggering close on `Esc`                                                           |     `boolean`     |     `false`     |
 | disableOutsideClick   | Disables triggering close on outside clicks                                                  |     `boolean`     |     `false`     |

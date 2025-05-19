@@ -39,7 +39,7 @@ const SheetExample = () => {
 | allowHideOnContentScroll    | Включает возможность закрытия при свайпе вниз, если контент не прокручивается или прокручен до верха (`content Node.scrollTop === 0`). |   `boolean`   |        `true`         |
 | alwaysFullHeight            | Высота `Sheet` всегда будет максимальной                                                                                               |   `boolean`   |      `undefined`      |
 | className                   | HTML-атрибут `class`.                                                                                                                  |   `string`    |      `undefined`      |
-| container                   | DOM-элемент, в который монтируются компонент через `Portal`.                                                                           | `HTMLElement` |    `document.body`    |
+| container                   | DOM-элемент, в который монтируется компонент через `Portal`.                                                                           | `HTMLElement` |    `document.body`    |
 | contentClassName            | HTML-атрибут `class` для контента шторки.                                                                                              |   `string`    |      `undefined`      |
 | disablePortal               | Отключает использование `Portal`                                                                                                       |   `boolean`   |        `false`        |
 | hideTopBar                  | Скрывает верхнюю панель с элементом для изменения размера.                                                                             |   `boolean`   |                       |

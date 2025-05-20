@@ -22,7 +22,7 @@ const b = block('clipboard-button');
 
 export interface ClipboardButtonProps
     extends Omit<CopyToClipboardProps, 'children'>,
-        Omit<ClipboardButtonComponentProps, 'status' | 'closeDelay' | 'onClick'> {}
+        Omit<ClipboardButtonComponentProps, 'status' | 'closeDelay'> {}
 
 interface ClipboardButtonComponentProps extends Omit<ButtonButtonProps, 'onCopy'> {
     status: CopyToClipboardStatus;
@@ -58,8 +58,6 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
         children,
         iconPosition = 'start',
         closeDelay,
-        onMouseEnter,
-        onFocus,
         ...rest
     } = props;
 
@@ -75,14 +73,7 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
             disabled={!hasTooltip}
             closeDelay={closeDelay}
         >
-            <Button
-                view={view}
-                size={size}
-                onMouseEnter={onMouseEnter}
-                onFocus={onFocus}
-                aria-label={tooltipInitialText}
-                {...rest}
-            >
+            <Button view={view} size={size} aria-label={tooltipInitialText} {...rest}>
                 {iconPosition === 'start' ? buttonIcon : null}
                 {children}
                 {iconPosition === 'end' ? buttonIcon : null}

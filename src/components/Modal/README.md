@@ -33,11 +33,12 @@ const [open, setOpen] = useState(false);
 | autoFocus             | While open, the focus will be set to the first interactive element in the content            |     `boolean`     |     `true`      |
 | children              | Any React content                                                                            | `React.ReactNode` |                 |
 | className             | `class` HTML attribute for the root node                                                     |     `string`      |                 |
-| container             | DOM element to which children are mounted                                                    |   `HTMLElement`   | `document.body` |
-| contentClassName      | `class` HTML atribute for the content node                                                   |     `string`      |                 |
+| container             | DOM element to which component is mounted via `Portal`                                       |   `HTMLElement`   | `document.body` |
+| contentClassName      | `class` HTML attribute for the content node                                                  |     `string`      |                 |
 | disableBodyScrollLock | Disables locking scroll while open                                                           |     `boolean`     |     `false`     |
 | disableEscapeKeyDown  | Disables triggering close on `Esc`                                                           |     `boolean`     |     `false`     |
 | disableOutsideClick   | Disables triggering close on outside clicks                                                  |     `boolean`     |     `false`     |
+| disablePortal         | Disables using `Portal`                                                                      |     `boolean`     |     `false`     |
 | focusTrap             | Enables focus trapping behavior                                                              |     `boolean`     |     `true`      |
 | keepMounted           | `Modal` will not be removed from the DOM upon hiding                                         |     `boolean`     |     `false`     |
 | onClose               | Handles `Modal` close event                                                                  |    `Function`     |                 |

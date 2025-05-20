@@ -10,10 +10,16 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - name: Generate token
+        id: generate-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.GRAVITY_UI_APP_ID }}
+          private-key: ${{ secrets.GRAVITY_UI_APP_PRIVATE_KEY }}
       - name: Release from ${{ github.ref_name }}
         uses: gravity-ui/release-action@v1
         with:
-          github-token: ${{ secrets.GRAVITY_UI_BOT_GITHUB_TOKEN }}
+          github-token: ${{ steps.generate-token.outputs.token }}
           npm-token: ${{ secrets.GRAVITY_UI_BOT_NPM_TOKEN }}
           node-version: 20
           default-branch: ${{ github.ref_name != 'main' && github.ref_name || null }}

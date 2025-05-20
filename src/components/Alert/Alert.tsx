@@ -4,7 +4,6 @@ import {Button} from '../Button';
 import {Card} from '../Card';
 import {Icon} from '../Icon';
 import {colorText} from '../Text';
-import {Flex, spacing} from '../layout';
 
 import {AlertAction} from './AlertAction';
 import {AlertActions} from './AlertActions';
@@ -13,69 +12,82 @@ import {AlertIcon} from './AlertIcon';
 import {AlertTitle} from './AlertTitle';
 import {DEFAULT_ICON_SIZE, bAlert} from './constants';
 import i18n from './i18n';
-import type {AlertProps} from './types';
+import type {AlertProps, AlertSize} from './types';
+
+function alertSizeToIconSize(alertSize: AlertSize): number {
+    switch (alertSize) {
+        case 's':
+            return 16;
+        case 'm':
+            return 18;
+        case 'l':
+        default:
+            return 22;
+    }
+}
 
 export const Alert = (props: AlertProps) => {
     const {
         theme = 'normal',
         view = 'filled',
+        size = 'm',
         layout = 'vertical',
+        closeButttonSize = 'm',
         message,
         className,
         corners,
         style,
         onClose,
-        align,
+        align = 'baseline',
         qa,
     } = props;
 
     return (
-        <AlertContextProvider layout={layout} view={view}>
+        <AlertContextProvider layout={layout} view={view} size={size}>
             <Card
                 style={style}
-                className={bAlert({corners}, spacing({py: 4, px: 5}, className))}
+                className={bAlert({corners, size, align: align}, className)}
                 theme={theme}
                 view={view}
                 qa={qa}
             >
-                <Flex gap="3" alignItems={align}>
-                    {typeof props.icon === 'undefined' ? (
-                        <Alert.Icon theme={theme} view={view} />
-                    ) : (
-                        props.icon // ability to pass `null` as `icon` prop value
-                    )}
-                    <Flex direction={layout === 'vertical' ? 'column' : 'row'} gap="5" grow>
-                        <Flex gap="2" grow className={bAlert('text-content')}>
-                            <Flex direction="column" gap="1" grow justifyContent={align}>
-                                {typeof props.title === 'string' ? (
-                                    <Alert.Title text={props.title} />
-                                ) : (
-                                    props.title
-                                )}
-                                {message}
-                            </Flex>
-                        </Flex>
-                        {Array.isArray(props.actions) ? (
-                            <Alert.Actions items={props.actions} />
+                {typeof props.icon === 'undefined' ? (
+                    <Alert.Icon theme={theme} view={view} size={alertSizeToIconSize(size)} />
+                ) : (
+                    props.icon && ( // ability to pass `null` as `icon` prop value
+                        <div className={bAlert('icon-wrapper')}>{props.icon}</div>
+                    )
+                )}
+                <div className={bAlert('main', {layout})}>
+                    <div className={bAlert('text-content')}>
+                        {typeof props.title === 'string' ? (
+                            <Alert.Title text={props.title} />
                         ) : (
-                            props.actions
+                            props.title
                         )}
-                    </Flex>
-                    {onClose && (
-                        <Button
-                            view="flat"
-                            className={bAlert('close-btn')}
-                            onClick={onClose}
-                            aria-label={i18n('label_close')}
-                        >
-                            <Icon
-                                data={Xmark}
-                                size={DEFAULT_ICON_SIZE}
-                                className={colorText({color: 'secondary'})}
-                            />
-                        </Button>
+                        <div className={bAlert('message')}>{message}</div>
+                    </div>
+                    {Array.isArray(props.actions) ? (
+                        <Alert.Actions items={props.actions} />
+                    ) : (
+                        props.actions
                     )}
-                </Flex>
+                </div>
+                {onClose && (
+                    <Button
+                        view="flat"
+                        className={bAlert('close-btn')}
+                        onClick={onClose}
+                        aria-label={i18n('label_close')}
+                        size={closeButttonSize}
+                    >
+                        <Icon
+                            data={Xmark}
+                            size={DEFAULT_ICON_SIZE}
+                            className={colorText({color: 'secondary'})}
+                        />
+                    </Button>
+                )}
             </Card>
         </AlertContextProvider>
     );

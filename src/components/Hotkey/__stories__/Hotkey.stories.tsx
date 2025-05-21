@@ -26,7 +26,7 @@ const examples = [
     'alt+s+alt+s',
     'mod+[ mod+]',
     'mod+plus',
-    'mod+-',
+    'mod+minus',
 ];
 
 export const Examples: StoryFn = () => (

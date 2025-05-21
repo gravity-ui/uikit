@@ -6,6 +6,7 @@ $block: '.#{variables.$ns}avatar';
 #{$block} {
     --_--size: #{avatar-variables.$default-size};
     --_--border-width: 2px;
+    --_--border-radius: 50%;
     --_--inner-border-width: 3px;
     --_--border-color: currentColor;
     --_--background-color: var(--g-color-base-misc-light);
@@ -20,7 +21,7 @@ $block: '.#{variables.$ns}avatar';
     align-items: center;
     width: var(--g-avatar-size, var(--_--size));
     height: var(--g-avatar-size, var(--_--size));
-    border-radius: 50%;
+    border-radius: var(--_--border-radius);
     background-color: var(--g-avatar-background-color, var(--_--background-color));
 
     &_with-border,
@@ -33,7 +34,7 @@ $block: '.#{variables.$ns}avatar';
             z-index: 1;
             position: absolute;
             inset: 0;
-            border-radius: 50%;
+            border-radius: var(--_--border-radius);
         }
 
         &::before {
@@ -44,6 +45,38 @@ $block: '.#{variables.$ns}avatar';
         &::after {
             border: var(--g-avatar-border-width, var(--_--border-width)) solid
                 var(--g-avatar-border-color, var(--_--border-color));
+        }
+    }
+
+    &_shape {
+        &_circle {
+            --_--border-radius: 50%;
+        }
+
+        &_square {
+            &#{$block}_size {
+                &_3xs,
+                &_2xs,
+                &_xs {
+                    --_--border-radius: var(--g-border-radius-xs);
+                }
+
+                &_s {
+                    --_--border-radius: var(--g-border-radius-s);
+                }
+
+                &_m {
+                    --_--border-radius: var(--g-border-radius-m);
+                }
+
+                &_l {
+                    --_--border-radius: var(--g-border-radius-l);
+                }
+
+                &_xl {
+                    --_--border-radius: var(--g-border-radius-xl);
+                }
+            }
         }
     }
 

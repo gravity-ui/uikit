@@ -15,6 +15,7 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref)
         size = DEFAULT_AVATAR_SIZE,
         theme = 'normal',
         view = 'filled',
+        shape = 'circle',
         backgroundColor,
         borderColor,
         title,
@@ -54,7 +55,10 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref)
 
     return (
         <div
-            className={bAvatar({size, theme, view, 'with-border': Boolean(borderColor)}, className)}
+            className={bAvatar(
+                {size, theme, view, shape, 'with-border': Boolean(borderColor)},
+                className,
+            )}
             title={title}
             role="img"
             style={style}

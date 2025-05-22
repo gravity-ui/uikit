@@ -148,7 +148,14 @@ export function Menu({
         onNavigate: setActiveIndex,
         rtl: isRTL,
     });
-    const middlewares = [offset({mainAxis: 4, alignmentAxis: isNested ? -4 : 0}), flip(), shift()];
+    const detectOverflowOptions = {
+        padding: 4,
+    };
+    const middlewares = [
+        offset({mainAxis: isNested ? 3 : 4, alignmentAxis: isNested ? -4 : 0}),
+        flip({...detectOverflowOptions}),
+        shift({...detectOverflowOptions}),
+    ];
     const interactions = [hover, click, dismiss, role, listNavigation];
     const {getReferenceProps, getItemProps} = useInteractions(interactions);
 

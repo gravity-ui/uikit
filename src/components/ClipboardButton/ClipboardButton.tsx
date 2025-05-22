@@ -34,18 +34,12 @@ interface ClipboardButtonComponentProps extends Omit<ButtonButtonProps, 'onCopy'
     /** Text shown after copy */
     tooltipSuccessText?: string;
     /** Position of clipboard icon */
-    iconPosition?: 'start' | 'end';
+    iconPosition?: 'start' | 'end' | 'never';
 }
 
 const DEFAULT_TIMEOUT = 1200;
 
-const ButtonSizeToIconSize: Record<ButtonSize, number> = {
-    xs: 12,
-    s: 16,
-    m: 16,
-    l: 16,
-    xl: 20,
-};
+const ButtonSizeToIconSize: Record<ButtonSize, number> = {xs: 12, s: 16, m: 16, l: 16, xl: 20};
 
 const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
     const {

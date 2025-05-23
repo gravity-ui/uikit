@@ -166,6 +166,24 @@ Use the `size` property to manage the `Avatar` size. The default size is `m`. Th
 
 LANDING_BLOCK-->
 
+### Shape
+
+Use the `shape` property to manage the `Avatar` shape. The default shape is `circle`. The possible values are `circle` and `square`.
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Avatar text="Charles Darwin" theme="brand" shape="circle" />
+<Avatar text="Charles Darwin" theme="brand" shape="square" />
+`}
+>
+    <UIKit.Avatar text="Charles Darwin" theme="brand" shape="circle" />
+    <UIKit.Avatar text="Charles Darwin" theme="brand" shape="square" />
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
 ## Properties
 
 ### Common
@@ -175,6 +193,7 @@ LANDING_BLOCK-->
 | size             | Avatar size                                | `'3xs'` `'2xs'` `'xs'` `'s'` `'m'` `'l'` `'xl'` |   `m`    |
 | theme            | Avatar theme                               |              `'normal'` `'brand'`               | `normal` |
 | view             | Avatar filling and outlining options       |             `'filled'` `'outlined'`             | `filled` |
+| shape            | Avatar shape                               |              `'circle'` `'square'`              | `circle` |
 | backgroundColor  | Custom background color                    |                    `string`                     |          |
 | borderColor      | Custom border color                        |                    `string`                     |          |
 | title            | `title` HTML attribute                     |                    `string`                     |          |

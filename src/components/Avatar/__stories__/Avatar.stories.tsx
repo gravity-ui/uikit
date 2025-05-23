@@ -70,6 +70,13 @@ const textProps = {
     color: 'var(--g-color-text-primary)',
 };
 
+const squareProps = {
+    backgroundColor: 'var(--g-color-base-generic-medium)',
+    text: 'Charles Darwin',
+    color: 'var(--g-color-text-primary)',
+    shape: 'square' as const,
+};
+
 const BORDER_COLOR = 'var(--g-color-line-misc)';
 
 export const Image: Story = {
@@ -341,6 +348,85 @@ export const AvatarShowcase: Story = {
                     <ShowcaseItem title="xl">
                         <Avatar
                             {...textProps}
+                            size="xl"
+                            borderColor={BORDER_COLOR}
+                            aria-label="CD"
+                        />
+                    </ShowcaseItem>
+                </Showcase>
+                <Showcase title="Square">
+                    <ShowcaseItem title="3xs">
+                        <Avatar {...squareProps} size="3xs" aria-label="CD" />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="2xs">
+                        <Avatar {...squareProps} size="2xs" aria-label="CD" />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="xs">
+                        <Avatar {...squareProps} size="xs" aria-label="CD" />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="s">
+                        <Avatar {...squareProps} size="s" aria-label="CD" />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="m">
+                        <Avatar {...squareProps} size="m" aria-label="CD" />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="l">
+                        <Avatar {...squareProps} size="l" aria-label="CD" />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="xl">
+                        <Avatar {...squareProps} size="xl" aria-label="CD" />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="3xs">
+                        <Avatar
+                            {...squareProps}
+                            size="3xs"
+                            borderColor={BORDER_COLOR}
+                            aria-label="CD"
+                        />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="2xs">
+                        <Avatar
+                            {...squareProps}
+                            size="2xs"
+                            borderColor={BORDER_COLOR}
+                            aria-label="CD"
+                        />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="xs">
+                        <Avatar
+                            {...squareProps}
+                            size="xs"
+                            borderColor={BORDER_COLOR}
+                            aria-label="CD"
+                        />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="s">
+                        <Avatar
+                            {...squareProps}
+                            size="s"
+                            borderColor={BORDER_COLOR}
+                            aria-label="CD"
+                        />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="m">
+                        <Avatar
+                            {...squareProps}
+                            size="m"
+                            borderColor={BORDER_COLOR}
+                            aria-label="CD"
+                        />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="l">
+                        <Avatar
+                            {...squareProps}
+                            size="l"
+                            borderColor={BORDER_COLOR}
+                            aria-label="CD"
+                        />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="xl">
+                        <Avatar
+                            {...squareProps}
                             size="xl"
                             borderColor={BORDER_COLOR}
                             aria-label="CD"

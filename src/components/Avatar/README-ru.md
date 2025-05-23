@@ -162,6 +162,24 @@ LANDING_BLOCK-->
 
 LANDING_BLOCK-->
 
+### Форма
+
+Форму `Avatar` можно настроить с помощью свойства `shape`. Форма по умолчанию — `circle`. Возможные значения: `circle` и `square`.
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Avatar text="Charles Darwin" theme="brand" shape="circle" />
+<Avatar text="Charles Darwin" theme="brand" shape="square" />
+`}
+>
+    <UIKit.Avatar text="Charles Darwin" theme="brand" shape="circle" />
+    <UIKit.Avatar text="Charles Darwin" theme="brand" shape="square" />
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
 ## Свойства
 
 ### Общие
@@ -171,6 +189,7 @@ LANDING_BLOCK-->
 | size            | Размер аватара.                                        | `'xs'` `'s'` `'m'` `'l'` `'xl'` |          `m`          |
 | theme           | Тема аватара.                                          |      `'normal'` `'brand'`       |       `normal`        |
 | view            | Варианты заполнения и обводки аватара.                 |     `'filled'` `'outlined'`     |       `filled`        |
+| shape           | Форма аватара.                                         |      `'circle'` `'square'`      |       `circle`        |
 | backgroundColor | Пользовательский цвет фона.                            |            `string`             |                       |
 | borderColor     | Пользовательский цвет границы.                         |            `string`             |                       |
 | title           | HTML-атрибут `title`.                                  |            `string`             |                       |

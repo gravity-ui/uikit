@@ -65,6 +65,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         renderSelectedOption,
         renderEmptyOptions,
         renderPopup = DEFAULT_RENDER_POPUP,
+        renderTop,
         getOptionHeight,
         getOptionGroupHeight,
         filterOption,
@@ -311,6 +312,18 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         return <EmptyOptions filter={filter} renderEmptyOptions={renderEmptyOptions} />;
     };
 
+    const _renderPopupFilter = () => {
+        if (renderTop && mobile) {
+            return () => null;
+        }
+
+        if (renderTop) {
+            return () => renderTop({renderFilter: _renderFilter});
+        }
+
+        return _renderFilter;
+    };
+
     return (
         <div
             ref={controlWrapRef}
@@ -372,8 +385,12 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                           }
                         : undefined
                 }
+                topContent={renderTop?.({renderFilter: _renderFilter})}
             >
-                {renderPopup({renderFilter: _renderFilter, renderList: _renderList})}
+                {renderPopup({
+                    renderFilter: _renderPopupFilter(),
+                    renderList: _renderList,
+                })}
             </SelectPopup>
             <OuterAdditionalContent
                 errorMessage={isErrorMsgVisible ? errorMessage : null}

@@ -97,9 +97,16 @@ test.describe('TabList', {tag: '@TabList'}, () => {
         },
     ).forEach(([title, props]) => {
         smokeTest(title, async ({mount, page, expectScreenshot}) => {
-            const root = await mount(<TestCollapsedTabList title={title} {...props} />);
+            const listToOpenQa = 'collapsed-tab-list-to-open-qa';
 
-            await root.locator('button.g-tab-list-dd-menu__button').nth(1).click();
+            const root = await mount(
+                <TestCollapsedTabList title={title} listToOpenQa={listToOpenQa} {...props} />,
+            );
+
+            await root
+                .getByTestId(listToOpenQa)
+                .locator('button.g-tab-list-dd-menu__button')
+                .click();
 
             await expect(page.locator(`div[role="menu"]`)).toBeVisible();
 

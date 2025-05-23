@@ -63,6 +63,10 @@ export function TabsDropdownMenu({children}: TabsDropdownMenuProps) {
     const interactions = [click, dismiss, listNavigation, role];
     const {getReferenceProps, getItemProps} = useInteractions(interactions);
 
+    if (!React.Children.count(children)) {
+        return null;
+    }
+
     return (
         <div className={bTabListDropdownMenu({hidden: !React.Children.count(children)})}>
             <Button

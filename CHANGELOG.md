@@ -1,5 +1,21 @@
 # Changelog
 
+## [7.12.0](https://github.com/gravity-ui/uikit/compare/v7.11.0...v7.12.0) (2025-05-22)
+
+
+### Features
+
+* add Portal props to more components ([#2267](https://github.com/gravity-ui/uikit/issues/2267)) ([37c383c](https://github.com/gravity-ui/uikit/commit/37c383ced33923c10b9aed7f20b93b733fd90171))
+* **Slider:** add inverted property ([#2263](https://github.com/gravity-ui/uikit/issues/2263)) ([62c3c6f](https://github.com/gravity-ui/uikit/commit/62c3c6f9be285769522703580cc8470af021e543))
+
+
+### Bug Fixes
+
+* **ClipboardButton:** correct types ([#2273](https://github.com/gravity-ui/uikit/issues/2273)) ([c7baeb6](https://github.com/gravity-ui/uikit/commit/c7baeb6e60ea1157f5080e2a58cc0e4aa33bcf53))
+* **Dialog:** handle height change mid animation ([#2265](https://github.com/gravity-ui/uikit/issues/2265)) ([6b6ddfc](https://github.com/gravity-ui/uikit/commit/6b6ddfc1b70b916f51e738fc9d1cae33382a80d1))
+* **Dialog:** handle ResizeObserver loop error ([#2247](https://github.com/gravity-ui/uikit/issues/2247)) ([f024aad](https://github.com/gravity-ui/uikit/commit/f024aad833b5816487eca105ffbe708574226bb3))
+* **unstable_Menu:** tweak paddings and offsets ([#2276](https://github.com/gravity-ui/uikit/issues/2276)) ([0d5d026](https://github.com/gravity-ui/uikit/commit/0d5d026480ebb56731a875824f0f009c69e4ccec))
+
 ## [7.11.0](https://github.com/gravity-ui/uikit/compare/v7.10.0...v7.11.0) (2025-05-07)
 
 

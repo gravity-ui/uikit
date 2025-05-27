@@ -7,6 +7,7 @@ export const CSS_SIZE_EXCEPTION = {
 
 export const DEFAULT_LAYOUT_THEME: LayoutTheme = {
     breakpoints: {
+        xs: 0,
         s: 576,
         m: 768,
         l: 1080,

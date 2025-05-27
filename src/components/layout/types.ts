@@ -50,7 +50,7 @@ export type Space =
     | 9
     | 10;
 
-export type MediaType = 's' | 'm' | 'l' | 'xl' | 'xxl' | 'xxxl';
+export type MediaType = 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl' | 'xxxl';
 
 export type MediaProps<T> = Record<MediaType, T>;
 

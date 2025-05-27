@@ -73,14 +73,14 @@ interface ComputedMediaContext {
  * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#uselayoutcontext
  */
 export const useLayoutContext = (): ComputedMediaContext => {
-    const {activeMediaQuery, theme} = React.useContext(LayoutContext);
+    const {activeMediaQuery, theme, fixBreakpoints} = React.useContext(LayoutContext);
 
     const {isMediaActive, getClosestMediaProps} = React.useMemo(
         () => ({
-            isMediaActive: isMediaActiveFactory(activeMediaQuery),
-            getClosestMediaProps: getClosestMediaPropsFactory(activeMediaQuery),
+            isMediaActive: isMediaActiveFactory(activeMediaQuery, fixBreakpoints),
+            getClosestMediaProps: getClosestMediaPropsFactory(activeMediaQuery, fixBreakpoints),
         }),
-        [activeMediaQuery],
+        [activeMediaQuery, fixBreakpoints],
     );
 
     return {

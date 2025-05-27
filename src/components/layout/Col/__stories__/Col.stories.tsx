@@ -23,10 +23,22 @@ export default {
             },
         },
     },
+    argTypes: {
+        fixBreakpoints: {
+            type: 'boolean',
+            name: 'Fix Breakpoints',
+        },
+    },
 } as Meta;
 
-const StaticTemplate: StoryFn<{space?: Space; spaceRow?: Space}> = ({space = '3', spaceRow}) => (
-    <LayoutPresenter>
+interface StoryArgs {
+    space?: Space;
+    spaceRow?: Space;
+    fixBreakpoints?: boolean;
+}
+
+const StaticTemplate: StoryFn<StoryArgs> = ({space = '3', spaceRow, fixBreakpoints}) => (
+    <LayoutPresenter fixBreakpoints={fixBreakpoints}>
         <Row {...{space, spaceRow}}>
             {new Array(12).fill('1').map((s, i) => (
                 <ColPresenter s={s} key={i} />
@@ -64,8 +76,8 @@ Static.args = {
     space: 3,
 };
 
-const DynamicTemplate: StoryFn<{space?: Space; spaceRow?: Space}> = ({space = '2', spaceRow}) => (
-    <LayoutPresenter>
+const DynamicTemplate: StoryFn<StoryArgs> = ({space = '2', spaceRow, fixBreakpoints}) => (
+    <LayoutPresenter fixBreakpoints={fixBreakpoints}>
         <Container spaceRow="8">
             <Row {...{space, spaceRow}}>
                 <ColPresenter s="1" l="12" />
@@ -116,11 +128,12 @@ const theme = {
     },
 };
 
-const DynamicWithOverriddenBreakpointsTemplate: StoryFn<{space?: Space; spaceRow?: Space}> = ({
+const DynamicWithOverriddenBreakpointsTemplate: StoryFn<StoryArgs> = ({
     space = '2',
     spaceRow,
+    fixBreakpoints,
 }) => (
-    <LayoutPresenter theme={theme}>
+    <LayoutPresenter theme={theme} fixBreakpoints={fixBreakpoints}>
         <Container spaceRow="8">
             <Row {...{space, spaceRow}}>
                 <ColPresenter s="1" l="12" />
@@ -160,12 +173,16 @@ DynamicWithOverriddenBreakpoints.args = {
     space: '2',
 };
 
-const AllModsTemplate: StoryFn<ColProps & {space?: Space; spaceRow?: Space}> = ({
+const AllModsTemplate: StoryFn<ColProps & StoryArgs> = ({
     space = '3',
     spaceRow,
+    fixBreakpoints,
     ...args
 }) => (
-    <LayoutPresenter title="Change props values to see different behavior depending on different screen resolutions">
+    <LayoutPresenter
+        title="Change props values to see different behavior depending on different screen resolutions"
+        fixBreakpoints={fixBreakpoints}
+    >
         <Row {...{space, spaceRow}}>
             {new Array(12).fill('_').map((_, i) => (
                 <ColPresenter {...args} key={i} />

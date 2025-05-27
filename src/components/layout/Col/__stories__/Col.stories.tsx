@@ -1,13 +1,23 @@
-import type {Meta, StoryFn} from '@storybook/react-webpack5';
+import * as React from 'react';
+
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Container} from '../../Container/Container';
 import {Row} from '../../Row/Row';
+import {DEFAULT_LAYOUT_THEME} from '../../constants';
 import {ColPresenter, LayoutPresenter} from '../../demo';
-import type {Space} from '../../types';
+import type {LayoutTheme, Space} from '../../types';
 import {Col} from '../Col';
-import type {ColProps} from '../Col';
 
-export default {
+type CustomArgs = {
+    theme?: LayoutTheme;
+    space?: Space;
+    spaceRow?: Space;
+};
+
+type ColPropsAndCustomArgs = React.ComponentProps<typeof Col> & CustomArgs;
+
+const meta = {
     title: 'Components/Layout/Col',
     component: Col,
     parameters: {
@@ -22,165 +32,102 @@ export default {
                 ],
             },
         },
+        controls: {
+            exclude: ['xs', 's', 'm', 'l', 'xl', 'xxl', 'xxxl'],
+        },
     },
-} as Meta;
-
-const StaticTemplate: StoryFn<{space?: Space; spaceRow?: Space}> = ({space = '3', spaceRow}) => (
-    <LayoutPresenter>
-        <Row {...{space, spaceRow}}>
-            {new Array(12).fill('1').map((s, i) => (
-                <ColPresenter s={s} key={i} />
-            ))}
-            {new Array(6).fill('2').map((s, i) => (
-                <ColPresenter s={s} key={i} />
-            ))}
-            {new Array(4).fill('3').map((s, i) => (
-                <ColPresenter s={s} key={i} />
-            ))}
-            {new Array(3).fill('4').map((s, i) => (
-                <ColPresenter s={s} key={i} />
-            ))}
-            {new Array(2).fill('6').map((s, i) => (
-                <ColPresenter s={s} key={i} />
-            ))}
-            <ColPresenter s="7" />
-            <ColPresenter s="5" />
-            <ColPresenter s="8" />
-            <ColPresenter s="4" />
-            <ColPresenter s="9" />
-            <ColPresenter s="3" />
-            <ColPresenter s="10" />
-            <ColPresenter s="2" />
-            <ColPresenter s="11" />
-            <ColPresenter s="1" />
-            <ColPresenter s="12" />
-        </Row>
-    </LayoutPresenter>
-);
-
-export const Static = StaticTemplate.bind({});
-
-Static.args = {
-    space: 3,
-};
-
-const DynamicTemplate: StoryFn<{space?: Space; spaceRow?: Space}> = ({space = '2', spaceRow}) => (
-    <LayoutPresenter>
-        <Container spaceRow="8">
-            <Row {...{space, spaceRow}}>
-                <ColPresenter s="1" l="12" />
-                <ColPresenter s="1" l="12" />
-                <ColPresenter s="1" l="11" />
-                <ColPresenter s="1" l="1" />
-                <ColPresenter s="1" l="10" />
-                <ColPresenter s="1" l="2" />
-                <ColPresenter s="1" l="9" />
-                <ColPresenter s="1" l="3" />
-                <ColPresenter s="1" l="8" />
-                <ColPresenter s="1" l="4" />
-                <ColPresenter s="1" l="7" />
-                <ColPresenter s="1" l="5" />
-            </Row>
-            <Row {...{space, spaceRow}}>
-                <ColPresenter s="7" l="1" />
-                <ColPresenter s="5" l="1" />
-                <ColPresenter s="8" l="1" />
-                <ColPresenter s="4" l="1" />
-                <ColPresenter s="9" l="1" />
-                <ColPresenter s="3" l="1" />
-                <ColPresenter s="10" l="1" />
-                <ColPresenter s="2" l="1" />
-                <ColPresenter s="11" l="1" />
-                <ColPresenter s="1" l="1" />
-                <ColPresenter s="12" l="1" />
-                <ColPresenter s="12" l="1" />
-            </Row>
-        </Container>
-    </LayoutPresenter>
-);
-
-export const Dynamic = DynamicTemplate.bind({});
-
-Dynamic.args = {
-    space: '2',
-};
-
-const theme = {
-    breakpoints: {
-        s: 500,
-        m: 500,
-        l: 1200,
-        xl: 1200,
-        xxl: 1900,
-        xxxl: 1900,
+    args: {
+        theme: DEFAULT_LAYOUT_THEME,
+        space: 3,
     },
-};
+} satisfies Meta<ColPropsAndCustomArgs>;
+export default meta;
 
-const DynamicWithOverriddenBreakpointsTemplate: StoryFn<{space?: Space; spaceRow?: Space}> = ({
-    space = '2',
-    spaceRow,
-}) => (
-    <LayoutPresenter theme={theme}>
-        <Container spaceRow="8">
+type Story = StoryObj<CustomArgs>;
+
+export const Static = {
+    render: ({space, spaceRow}) => (
+        <LayoutPresenter>
             <Row {...{space, spaceRow}}>
-                <ColPresenter s="1" l="12" />
-                <ColPresenter s="1" l="12" />
-                <ColPresenter s="1" l="11" />
-                <ColPresenter s="1" l="1" />
-                <ColPresenter s="1" l="10" />
-                <ColPresenter s="1" l="2" />
-                <ColPresenter s="1" l="9" />
-                <ColPresenter s="1" l="3" />
-                <ColPresenter s="1" l="8" />
-                <ColPresenter s="1" l="4" />
-                <ColPresenter s="1" l="7" />
-                <ColPresenter s="1" l="5" />
+                {new Array(12).fill('1').map((s, i) => (
+                    <ColPresenter size={s} key={i} />
+                ))}
+                {new Array(6).fill('2').map((s, i) => (
+                    <ColPresenter size={s} key={i} />
+                ))}
+                {new Array(4).fill('3').map((s, i) => (
+                    <ColPresenter size={s} key={i} />
+                ))}
+                {new Array(3).fill('4').map((s, i) => (
+                    <ColPresenter size={s} key={i} />
+                ))}
+                {new Array(2).fill('6').map((s, i) => (
+                    <ColPresenter size={s} key={i} />
+                ))}
+                <ColPresenter size="7" />
+                <ColPresenter size="5" />
+                <ColPresenter size="8" />
+                <ColPresenter size="4" />
+                <ColPresenter size="9" />
+                <ColPresenter size="3" />
+                <ColPresenter size="10" />
+                <ColPresenter size="2" />
+                <ColPresenter size="11" />
+                <ColPresenter size="1" />
+                <ColPresenter size="12" />
             </Row>
+        </LayoutPresenter>
+    ),
+} satisfies Story;
+
+export const Dynamic = {
+    render: ({space, spaceRow}) => (
+        <LayoutPresenter>
+            <Container spaceRow="5" gutters={false}>
+                <Row {...{space, spaceRow}}>
+                    <ColPresenter size={[1, {l: 12}]} />
+                    <ColPresenter size={[1, {l: 12}]} />
+                    <ColPresenter size={[1, {l: 11}]} />
+                    <ColPresenter size={[1, {l: 1}]} />
+                    <ColPresenter size={[1, {l: 10}]} />
+                    <ColPresenter size={[1, {l: 2}]} />
+                    <ColPresenter size={[1, {l: 9}]} />
+                    <ColPresenter size={[1, {l: 3}]} />
+                    <ColPresenter size={[1, {l: 8}]} />
+                    <ColPresenter size={[1, {l: 4}]} />
+                    <ColPresenter size={[1, {l: 7}]} />
+                    <ColPresenter size={[1, {l: 5}]} />
+                </Row>
+                <Row {...{space, spaceRow}}>
+                    <ColPresenter size={[7, {l: 1}]} />
+                    <ColPresenter size={[5, {l: 1}]} />
+                    <ColPresenter size={[8, {l: 1}]} />
+                    <ColPresenter size={[4, {l: 1}]} />
+                    <ColPresenter size={[9, {l: 1}]} />
+                    <ColPresenter size={[3, {l: 1}]} />
+                    <ColPresenter size={[10, {l: 1}]} />
+                    <ColPresenter size={[2, {l: 1}]} />
+                    <ColPresenter size={[11, {l: 1}]} />
+                    <ColPresenter size={[1, {l: 1}]} />
+                    <ColPresenter size={[12, {l: 1}]} />
+                    <ColPresenter size={[12, {l: 1}]} />
+                </Row>
+            </Container>
+        </LayoutPresenter>
+    ),
+} satisfies Story;
+
+export const AllMods = {
+    render: ({space, spaceRow, ...args}) => (
+        <LayoutPresenter title="Change size prop to see different behavior depending on different screen resolutions">
             <Row {...{space, spaceRow}}>
-                <ColPresenter s="7" l="1" />
-                <ColPresenter s="5" l="1" />
-                <ColPresenter s="8" l="1" />
-                <ColPresenter s="4" l="1" />
-                <ColPresenter s="9" l="1" />
-                <ColPresenter s="3" l="1" />
-                <ColPresenter s="10" l="1" />
-                <ColPresenter s="2" l="1" />
-                <ColPresenter s="11" l="1" />
-                <ColPresenter s="1" l="1" />
-                <ColPresenter s="12" l="1" />
-                <ColPresenter s="12" l="1" />
+                {new Array(12).fill('_').map((_, i) => (
+                    <ColPresenter {...args} key={i} />
+                ))}
             </Row>
-        </Container>
-    </LayoutPresenter>
-);
-
-export const DynamicWithOverriddenBreakpoints = DynamicWithOverriddenBreakpointsTemplate.bind({});
-
-DynamicWithOverriddenBreakpoints.args = {
-    space: '2',
-};
-
-const AllModsTemplate: StoryFn<ColProps & {space?: Space; spaceRow?: Space}> = ({
-    space = '3',
-    spaceRow,
-    ...args
-}) => (
-    <LayoutPresenter title="Change props values to see different behavior depending on different screen resolutions">
-        <Row {...{space, spaceRow}}>
-            {new Array(12).fill('_').map((_, i) => (
-                <ColPresenter {...args} key={i} />
-            ))}
-        </Row>
-    </LayoutPresenter>
-);
-
-export const AllMods = AllModsTemplate.bind({});
-
-AllMods.args = {
-    xxl: '1',
-    xl: '2',
-    l: '4',
-    m: '6',
-    s: '12',
-    space: 3,
-};
+        </LayoutPresenter>
+    ),
+    args: {
+        size: [12, {s: 6, m: 4, l: 3, xl: 2, xxl: 1}],
+    },
+} satisfies StoryObj<ColPropsAndCustomArgs>;

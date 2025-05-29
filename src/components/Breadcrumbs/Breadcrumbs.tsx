@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import {useForkRef, useResizeObserver} from '../../hooks';
+import {useCollapseElementVisibleChildrenCount} from '../../hooks/private/useCollapseElementVisibleChildrenCount';
 import type {PopupPlacement} from '../Popup';
 import type {AriaLabelingProps, DOMProps, Key, QAProps} from '../types';
 import {filterDOMProps} from '../utils/filterDOMProps';
@@ -47,102 +48,80 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
         }
     });
 
-    const [visibleItemsCount, setVisibleItemsCount] = React.useState(items.length);
-    const [calculated, setCalculated] = React.useState(false);
-    const recalculate = (visibleItems: number) => {
-        const list = listRef.current;
-        if (!list) {
-            return;
-        }
-        const listItems = Array.from(list.children) as HTMLElement[];
-        const endElement = endContentRef.current;
-        if (endElement) {
-            listItems.pop();
-        }
-        if (listItems.length === 0) {
-            setCalculated(true);
-            return;
-        }
-        const containerWidth = list.offsetWidth - (endElement?.offsetWidth ?? 0);
-        let newVisibleItemsCount = 0;
-        let calculatedWidth = 0;
-        let maxItems = props.maxItems || Infinity;
-
-        let rootWidth = 0;
-        if (props.showRoot) {
-            const item = listItems.shift();
-            if (item) {
-                rootWidth = item.scrollWidth;
-                calculatedWidth += rootWidth;
+    const {
+        visibleChildrenCount: visibleItemsCount,
+        calculated,
+        handleResize,
+    } = useCollapseElementVisibleChildrenCount({
+        children: props.children,
+        elementRef: listRef,
+        calculateVisibleChildrenCount: ({prevVisibleChildrenCount: visibleItems}) => {
+            const list = listRef.current;
+            if (!list) {
+                return 0;
             }
-            newVisibleItemsCount++;
-        }
-
-        const hasMenu = items.length > visibleItems;
-        if (hasMenu) {
-            const item = listItems.shift();
-            if (item) {
-                calculatedWidth += item.offsetWidth;
+            const listItems = Array.from(list.children) as HTMLElement[];
+            const endElement = endContentRef.current;
+            if (endElement) {
+                listItems.pop();
             }
-            maxItems--;
-        }
+            if (listItems.length === 0) {
+                return visibleItems;
+            }
+            const containerWidth = list.offsetWidth - (endElement?.offsetWidth ?? 0);
+            let newVisibleItemsCount = 0;
+            let calculatedWidth = 0;
+            let maxItems = props.maxItems || Infinity;
 
-        if (props.showRoot && calculatedWidth >= containerWidth) {
-            calculatedWidth -= rootWidth;
-            newVisibleItemsCount--;
-        }
-
-        const lastItem = listItems.pop();
-        if (lastItem) {
-            calculatedWidth += Math.min(lastItem.offsetWidth, 200);
-            if (calculatedWidth < containerWidth) {
+            let rootWidth = 0;
+            if (props.showRoot) {
+                const item = listItems.shift();
+                if (item) {
+                    rootWidth = item.scrollWidth;
+                    calculatedWidth += rootWidth;
+                }
                 newVisibleItemsCount++;
             }
-        }
 
-        for (let i = listItems.length - 1; i >= 0; i--) {
-            const item = listItems[i];
-            calculatedWidth += item.offsetWidth;
-            if (calculatedWidth >= containerWidth) {
-                break;
+            const hasMenu = items.length > visibleItems;
+            if (hasMenu) {
+                const item = listItems.shift();
+                if (item) {
+                    calculatedWidth += item.offsetWidth;
+                }
+                maxItems--;
             }
-            newVisibleItemsCount++;
-        }
 
-        newVisibleItemsCount = Math.max(Math.min(maxItems, newVisibleItemsCount), 1);
-        if (newVisibleItemsCount === visibleItemsCount) {
-            setCalculated(true);
-        } else {
-            setVisibleItemsCount(newVisibleItemsCount);
-        }
-    };
+            if (props.showRoot && calculatedWidth >= containerWidth) {
+                calculatedWidth -= rootWidth;
+                newVisibleItemsCount--;
+            }
 
-    const handleResize = React.useCallback(() => {
-        setCalculated(false);
-        setVisibleItemsCount(items.length);
-    }, [items.length]);
-    useResizeObserver({
-        ref: listRef,
-        onResize: handleResize,
+            const lastItem = listItems.pop();
+            if (lastItem) {
+                calculatedWidth += Math.min(lastItem.offsetWidth, 200);
+                if (calculatedWidth < containerWidth) {
+                    newVisibleItemsCount++;
+                }
+            }
+
+            for (let i = listItems.length - 1; i >= 0; i--) {
+                const item = listItems[i];
+                calculatedWidth += item.offsetWidth;
+                if (calculatedWidth >= containerWidth) {
+                    break;
+                }
+                newVisibleItemsCount++;
+            }
+
+            newVisibleItemsCount = Math.max(Math.min(maxItems, newVisibleItemsCount), 1);
+            return newVisibleItemsCount;
+        },
     });
+
     useResizeObserver({
         ref: props.endContent ? endContentRef : undefined,
         onResize: handleResize,
-    });
-
-    const lastChildren = React.useRef<typeof props.children | null>(null);
-    React.useLayoutEffect(() => {
-        if (calculated && props.children !== lastChildren.current) {
-            lastChildren.current = props.children;
-            setCalculated(false);
-            setVisibleItemsCount(items.length);
-        }
-    }, [calculated, items.length, props.children]);
-
-    React.useLayoutEffect(() => {
-        if (!calculated) {
-            recalculate(visibleItemsCount);
-        }
     });
 
     let contents = items;

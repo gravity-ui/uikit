@@ -17,7 +17,7 @@ export interface RowProps extends QAProps {
     /**
      * Vertical and horizontal `space` between children `<Col />` components.
      */
-    space: Space | MediaPartial<Space>;
+    space?: Space | MediaPartial<Space>;
     /**
      * Override default (space) vertical gaps between children if it wrap on next line
      */

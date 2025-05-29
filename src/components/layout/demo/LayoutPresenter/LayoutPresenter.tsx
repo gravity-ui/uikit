@@ -11,6 +11,7 @@ interface LayoutPresenterProps {
     children?: React.ReactNode;
     title?: string;
     theme?: LayoutTheme;
+    fixBreakpoints?: boolean;
 }
 
 function Title({title}: {title?: string}) {
@@ -33,9 +34,14 @@ function Title({title}: {title?: string}) {
     );
 }
 
-export const LayoutPresenter = ({children, title, theme: config}: LayoutPresenterProps) => {
+export const LayoutPresenter = ({
+    children,
+    title,
+    theme: config,
+    fixBreakpoints,
+}: LayoutPresenterProps) => {
     return (
-        <ThemeProvider layout={{config}}>
+        <ThemeProvider layout={{config, fixBreakpoints}}>
             <Title title={title} />
             <div
                 style={{

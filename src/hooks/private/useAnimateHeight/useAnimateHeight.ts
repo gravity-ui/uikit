@@ -25,7 +25,7 @@ export function useAnimateHeight({
                 if (!mutations.length || !isTransitioningHeight.current) return;
 
                 // If node content changes mid animation, we reset height to immediately animate towards the new height
-                previousHeight.current = node.clientHeight;
+                previousHeight.current = calculateNodeHeight(node);
                 isTransitioningHeight.current = false;
                 node.style.height = '';
                 node.style.overflowY = overflowY.current;
@@ -57,7 +57,7 @@ export function useAnimateHeight({
                 return;
             }
 
-            const contentHeight = node.clientHeight;
+            const contentHeight = calculateNodeHeight(node);
             if (!previousHeight.current && !overflowY.current) {
                 previousHeight.current = contentHeight;
                 overflowY.current = node.style.overflowY;
@@ -99,4 +99,16 @@ export function useAnimateHeight({
     );
 
     useResizeObserver({ref: enabled ? ref : undefined, onResize: handleResize});
+}
+
+function calculateNodeHeight(node: HTMLElement) {
+    const computedStyle = window.getComputedStyle(node, null);
+    if (computedStyle.getPropertyValue('box-sizing') === 'border-box') {
+        return node.clientHeight;
+    }
+
+    const paddingTop = parseFloat(computedStyle.getPropertyValue('padding-top'));
+    const paddingBottom = parseFloat(computedStyle.getPropertyValue('padding-bottom'));
+
+    return node.clientHeight - paddingTop - paddingBottom;
 }

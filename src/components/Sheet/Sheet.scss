@@ -70,6 +70,11 @@ $block: '.#{variables.$ns}sheet';
         background-color: var(--g-color-line-generic);
     }
 
+    &__sheet-top-container {
+        background-color: var(--g-sheet-background-color, var(--g-color-base-float));
+        padding: var(--g-sheet-content-padding, 0 10px);
+    }
+
     &__sheet-scroll-container {
         box-sizing: border-box;
         max-height: calc(100% - #{$top-height});

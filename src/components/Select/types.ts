@@ -63,6 +63,10 @@ export type SelectRenderPopup = (popupItems: {
     renderList: () => React.JSX.Element;
 }) => React.ReactElement;
 
+export type SelectRenderTop = (popupItems: {
+    renderFilter: () => React.JSX.Element | null;
+}) => React.ReactElement;
+
 export type SelectFilterInputProps = {value: string} & Pick<
     React.InputHTMLAttributes<HTMLInputElement>,
     | 'placeholder'
@@ -103,6 +107,7 @@ export type SelectProps<T = any> = AriaLabelingProps &
         renderSelectedOption?: (option: SelectOption<T>, index: number) => React.ReactElement;
         renderEmptyOptions?: ({filter}: {filter: string}) => React.ReactElement;
         renderPopup?: SelectRenderPopup;
+        renderTop?: SelectRenderTop;
         renderCounter?: SelectRenderCounter;
         getOptionHeight?: (option: SelectOption<T>, index: number) => number;
         getOptionGroupHeight?: (option: SelectOptionGroup<T>, index: number) => number;

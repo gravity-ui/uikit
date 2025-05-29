@@ -107,10 +107,8 @@ function calculateNodeHeight(node: HTMLElement) {
         return node.clientHeight;
     }
 
-    const paddingTop = Number(computedStyle.getPropertyValue('padding-top').replace('px', ''));
-    const paddingBottom = Number(
-        computedStyle.getPropertyValue('padding-bottom').replace('px', ''),
-    );
+    const paddingTop = parseFloat(computedStyle.getPropertyValue('padding-top'));
+    const paddingBottom = parseFloat(computedStyle.getPropertyValue('padding-bottom'));
 
     return node.clientHeight - paddingTop - paddingBottom;
 }

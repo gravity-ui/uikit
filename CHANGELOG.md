@@ -1,5 +1,17 @@
 # Changelog
 
+## [7.13.0](https://github.com/gravity-ui/uikit/compare/v7.12.0...v7.13.0) (2025-05-29)
+
+
+### Features
+
+* **Avatar:** add square shape ([#2275](https://github.com/gravity-ui/uikit/issues/2275)) ([60b9655](https://github.com/gravity-ui/uikit/commit/60b9655a75a5d1884eeb6c69761e8d0f44654331))
+
+
+### Bug Fixes
+
+* **Dialog:** remove Dialog.Body content node ([#2283](https://github.com/gravity-ui/uikit/issues/2283)) ([e6c43a2](https://github.com/gravity-ui/uikit/commit/e6c43a2ecc02cb333b849b978ba32e49b7f1aee9))
+
 ## [7.12.0](https://github.com/gravity-ui/uikit/compare/v7.11.0...v7.12.0) (2025-05-22)
 
 

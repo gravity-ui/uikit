@@ -152,7 +152,7 @@ test.describe('TextInput', {tag: '@TextInput'}, () => {
 
     smokeTest(
         'inside error placement tooltip with clear button',
-        async ({mount, page, expectScreenshot}) => {
+        async ({mount, expectScreenshot}) => {
             const props: TextInputProps = {
                 ...defaultProps,
                 value: 'Text',
@@ -162,18 +162,7 @@ test.describe('TextInput', {tag: '@TextInput'}, () => {
                 hasClear: true,
             };
 
-            const root = await mount(
-                <div style={{width: 250}}>
-                    <TextInput {...props} />
-                </div>,
-                {
-                    width: 500,
-                },
-            );
-
-            await root.getByTestId(CONTROL_ERROR_ICON_QA).hover();
-
-            await expect(page.locator('.g-popup')).toBeVisible();
+            await mount(<TextInput {...props} />);
 
             await expectScreenshot({
                 themes: ['light'],

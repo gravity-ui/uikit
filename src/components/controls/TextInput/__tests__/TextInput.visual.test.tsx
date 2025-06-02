@@ -149,4 +149,35 @@ test.describe('TextInput', {tag: '@TextInput'}, () => {
             themes: ['light'],
         });
     });
+
+    smokeTest(
+        'inside error placement tooltip with clear button',
+        async ({mount, page, expectScreenshot}) => {
+            const props: TextInputProps = {
+                ...defaultProps,
+                value: 'Text',
+                validationState: 'invalid',
+                errorMessage: 'Test error message',
+                errorPlacement: 'inside',
+                hasClear: true,
+            };
+
+            const root = await mount(
+                <div style={{width: 250}}>
+                    <TextInput {...props} />
+                </div>,
+                {
+                    width: 500,
+                },
+            );
+
+            await root.getByTestId(CONTROL_ERROR_ICON_QA).hover();
+
+            await expect(page.locator('.g-popup')).toBeVisible();
+
+            await expectScreenshot({
+                themes: ['light'],
+            });
+        },
+    );
 });

@@ -192,7 +192,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
                         pin: view === 'clear' ? undefined : pin,
                         'has-clear': isClearControlVisible,
                         'has-start-content': isStartContentVisible,
-                        'has-end-content': isClearControlVisible || isEndContentVisible,
+                        'has-end-content': isEndContentVisible,
                     },
                     className,
                 )}

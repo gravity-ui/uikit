@@ -132,6 +132,7 @@
     "@gravity-ui/icons": "^2.13.0",
     "@tanstack/react-virtual": "^3.13.9",
     "blueimp-md5": "^2.19.0",
+        "colorjs.io": "^0.5.2",
     "lodash": "^4.17.21",
     "rc-slider": "^11.1.8",
     "react-beautiful-dnd": "^13.1.1",

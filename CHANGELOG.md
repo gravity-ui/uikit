@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.13.1](https://github.com/gravity-ui/uikit/compare/v7.13.0...v7.13.1) (2025-06-02)
+
+
+### Bug Fixes
+
+* **TextInput:** separate inline padding for error icon ([#2285](https://github.com/gravity-ui/uikit/issues/2285)) ([75cf80d](https://github.com/gravity-ui/uikit/commit/75cf80d323317d2606686b560b25b15376d6558b))
+
 ## [7.13.0](https://github.com/gravity-ui/uikit/compare/v7.12.0...v7.13.0) (2025-06-02)
 
 

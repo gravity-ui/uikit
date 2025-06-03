@@ -1,4 +1,6 @@
 /* eslint-disable no-bitwise */
+import Color from 'colorjs.io';
+
 import {BLACK_COLOR, WHITE_COLOR, colorOptions} from './constants';
 import type {ColorProps, HslColorProps} from './types';
 import {getHue, hashFnv32a, normalizeHash} from './utils';
@@ -62,14 +64,15 @@ const generateHSLColor = ({hash, intensity, theme}: HslColorProps) => {
     const saturation = normalizeHash(hash, saturationRange[0], saturationRange[1]);
     const lightness = normalizeHash(hash, lightnessRange[0], lightnessRange[1]);
 
-    const color = `hsl(${hue}deg ${saturation}% ${lightness}%)`;
+    const oklchStr = `oklch(${lightness / 100} ${saturation / 100} ${hue})`;
+    const color = new Color(oklchStr).to('hsl');
 
     return {color, hue, saturation, lightness};
 };
 
-export const getPersistentColor = ({seed, intensity = 'light', theme}: ColorProps) => {
+export const getPersistentColor = ({seed, intensity = 'light', theme, oklch}: ColorProps) => {
     const hash = getHash(seed);
-    const values = generateHSLColor({hash, intensity, theme});
+    const values = generateHSLColor({hash, intensity, theme, oklch});
 
     return values;
 };

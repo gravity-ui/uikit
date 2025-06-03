@@ -24,10 +24,8 @@ export function DialogBody(props: DialogBodyProps) {
     });
 
     return (
-        <div className={b({'has-borders': hasBorders})}>
-            <div ref={contentRef} className={b('content', className)}>
-                {props.children}
-            </div>
+        <div ref={contentRef} className={b({'has-borders': hasBorders}, className)}>
+            {props.children}
         </div>
     );
 }

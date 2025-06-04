@@ -30,9 +30,7 @@ export const randomIndex = (seed: string, max: number) => {
 
     const hash = getHash(seed);
 
-    const number = Math.abs(hash) % max;
-
-    return number;
+    return Math.abs(hash) % max;
 };
 
 const MASK = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';

@@ -12,14 +12,14 @@ The `useColorGenerator` hook generates a unique (but consistent) background colo
 
 ## Properties
 
-| Name      | Description                                            | Type                     | Default |     |     |
-| :-------- | :----------------------------------------------------- | :----------------------- | :-----: | --- | --- |
-| intensity | Value to control color saturation                      | `light` `medium` `heavy` | `light` |
-| seed      | Unique attribute of the entity (e.g., name, id, email) | `string`                 |         |     |     |
+| Name      | Description                                                          | Type                     | Default |     |     |
+| :-------- | :------------------------------------------------------------------- | :----------------------- | :-----: | --- | --- |
+| intensity | Value to control color saturation                                    | `light` `medium` `heavy` | `light` |
+| seed      | Unique attribute of the entity (e.g., name, id, email) **Required.** | `string`                 |         |     |     |
 
 ## Result
 
 `useColorGenerator` returns an object with exactly two values:
 
-1. color - unique color from a token.
-2. textColor - text color (dark or light), ensurring higher contrast on generated color.
+1. color - unique color generated from seed.
+2. textColor - text color (dark or light), ensuring higher contrast on generated color.

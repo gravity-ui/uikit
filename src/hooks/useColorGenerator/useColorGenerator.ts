@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {useThemeType} from '../../components/theme/useThemeType';
 
@@ -39,7 +39,7 @@ import type {UseColorGeneratorProps, UseColorGeneratorResult} from './types';
 export function useColorGenerator(props: UseColorGeneratorProps): UseColorGeneratorResult {
     const theme = useThemeType();
 
-    const {color, hue, saturation, lightness} = React.useMemo(
+    const color = React.useMemo(
         () =>
             getPersistentColor({
                 ...props,
@@ -48,10 +48,7 @@ export function useColorGenerator(props: UseColorGeneratorProps): UseColorGenera
         [props, theme],
     );
 
-    const textColor = React.useMemo(
-        () => getTextColor(hue, saturation, lightness),
-        [hue, lightness, saturation],
-    );
+    const textColor = React.useMemo(() => getTextColor(props.intensity), [props.intensity]);
 
     return {color, textColor};
 }

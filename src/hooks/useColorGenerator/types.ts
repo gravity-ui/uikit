@@ -1,6 +1,6 @@
 export type ColorOptions = {
     lightness: [number, number];
-    situration: [number, number];
+    saturation: [number, number];
 };
 
 export type ThemeColorSettings = {

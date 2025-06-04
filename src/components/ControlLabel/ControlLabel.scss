@@ -30,7 +30,11 @@ $block: '.#{variables.$ns}control-label';
 
     &_size_xl {
         font-size: var(--g-text-body-2-font-size);
-        line-height: 25px;
+        line-height: var(--g-text-body-2-line-height);
+
+        #{$block}__text {
+            padding: 2px 0;
+        }
     }
 
     &__indicator {

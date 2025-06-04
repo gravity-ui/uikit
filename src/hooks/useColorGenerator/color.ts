@@ -46,9 +46,7 @@ const oklchToRgb = (l: number, c: number, h: number) => {
 };
 
 const getHash = (seed: string) => {
-    const hash = hashFnv32a(seed, 0x73_6f_6d_65) ^ hashFnv32a(seed, 0x64_6f_72_61);
-
-    return hash;
+    return hashFnv32a(seed, 0x73_6f_6d_65) ^ hashFnv32a(seed, 0x64_6f_72_61);
 };
 
 const generateColor = ({hash, intensity, theme}: HslColorProps) => {

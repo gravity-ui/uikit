@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {Pencil} from '@gravity-ui/icons';
+import {CircleChevronDownFill, Pencil} from '@gravity-ui/icons';
 import {action} from '@storybook/addon-actions';
 import type {Meta, StoryFn} from '@storybook/react';
 import _cloneDeep from 'lodash/cloneDeep';
@@ -183,6 +183,16 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
                     );
                 }}
             />
+            <br />
+            <h3>{'with rowActionsIcon property'}</h3>
+            <TableWithAction
+                {...args}
+                getRowActions={getRowActions}
+                rowActionsIcon={CircleChevronDownFill}
+            />
+            <br />
+            <h3>{'without rowActionsIcon property'}</h3>
+            <TableWithAction {...args} getRowActions={getRowActions} />
         </React.Fragment>
     );
 };

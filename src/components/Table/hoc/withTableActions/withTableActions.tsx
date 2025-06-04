@@ -76,6 +76,7 @@ export interface WithTableActionsProps<I> {
     getRowActions?: (item: I, index: number) => TableActionConfig<I>[];
     renderRowActions?: (props: RenderRowActionsProps<I>) => React.ReactNode;
     rowActionsSize?: TableRowActionsSize;
+    rowActionsIcon?: (props: React.SVGProps<SVGSVGElement>) => React.JSX.Element;
 }
 
 interface WithTableActionsState<I> {
@@ -101,7 +102,7 @@ const DEFAULT_PLACEMENT: PopupPlacement = ['bottom-end', 'top-end'];
 
 type DefaultRowActionsProps<I extends TableDataItem> = Pick<
     WithTableActionsProps<I>,
-    'getRowActions' | 'rowActionsSize'
+    'getRowActions' | 'rowActionsSize' | 'rowActionsIcon'
 > &
     Pick<TableProps<I>, 'isRowDisabled' | 'getRowDescriptor'> & {
         item: I;
@@ -115,6 +116,7 @@ const DefaultRowActions = <I extends TableDataItem>({
     getRowActions,
     getRowDescriptor,
     rowActionsSize,
+    rowActionsIcon,
     isRowDisabled,
     tableQa,
 }: DefaultRowActionsProps<I>) => {
@@ -190,7 +192,7 @@ const DefaultRowActions = <I extends TableDataItem>({
                 aria-expanded={isPopupOpen}
                 aria-controls={rowId}
             >
-                <Icon data={Ellipsis} />
+                <Icon data={rowActionsIcon || Ellipsis} />
             </Button>
         </div>
     );
@@ -235,6 +237,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
             const {
                 getRowActions,
                 rowActionsSize,
+                rowActionsIcon,
                 renderRowActions,
                 isRowDisabled,
                 getRowDescriptor,
@@ -251,6 +254,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
                     item={item}
                     getRowActions={getRowActions}
                     rowActionsSize={rowActionsSize}
+                    rowActionsIcon={rowActionsIcon}
                     getRowDescriptor={getRowDescriptor}
                     isRowDisabled={isRowDisabled}
                     tableQa={qa}

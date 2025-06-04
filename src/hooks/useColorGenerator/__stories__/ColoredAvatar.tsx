@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import {Avatar} from '../../../components/Avatar';
 import type {AvatarProps} from '../../../components/Avatar';
 import type {UseColorGeneratorProps} from '../types';
@@ -27,7 +25,7 @@ export const ColoredAvatar = ({
         <Avatar
             {...avatarProps}
             theme={theme}
-            text={withText ? seed : undefined}
+            text={withText ? seed : ''}
             color={withText ? textColor : undefined}
             title={color}
             backgroundColor={color}

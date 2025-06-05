@@ -5,6 +5,7 @@ import * as React from 'react';
 import {KeyCode} from '../../constants';
 import {useControlledState, useFocusWithin, useForkRef, useSelect, useUniqId} from '../../hooks';
 import type {List} from '../List';
+import type {SheetRenderContent} from '../Sheet/SheetContent';
 import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
 import {errorPropsMapper} from '../controls/utils';
 import {useMobile} from '../mobile';
@@ -65,7 +66,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         renderSelectedOption,
         renderEmptyOptions,
         renderPopup = DEFAULT_RENDER_POPUP,
-        renderTop,
+        renderMobilePopup,
         getOptionHeight,
         getOptionGroupHeight,
         filterOption,
@@ -312,17 +313,16 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         return <EmptyOptions filter={filter} renderEmptyOptions={renderEmptyOptions} />;
     };
 
-    const _renderPopupFilter = () => {
-        if (renderTop && mobile) {
-            return () => null;
-        }
+    const _renderPopup = () => renderPopup({renderFilter: _renderFilter, renderList: _renderList});
 
-        if (renderTop) {
-            return () => renderTop({renderFilter: _renderFilter});
-        }
-
-        return _renderFilter;
-    };
+    const _renderMobilePopup: SheetRenderContent | undefined = renderMobilePopup
+        ? ({renderScrollContainer}) =>
+              renderMobilePopup?.({
+                  renderScrollContainer,
+                  renderFilter: _renderFilter,
+                  renderList: _renderList,
+              })
+        : _renderPopup;
 
     return (
         <div
@@ -385,12 +385,9 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                           }
                         : undefined
                 }
-                topContent={renderTop?.({renderFilter: _renderFilter})}
+                renderMobilePopup={_renderMobilePopup}
             >
-                {renderPopup({
-                    renderFilter: _renderPopupFilter(),
-                    renderList: _renderList,
-                })}
+                {_renderPopup()}
             </SelectPopup>
             <OuterAdditionalContent
                 errorMessage={isErrorMsgVisible ? errorMessage : null}

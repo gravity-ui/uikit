@@ -33,7 +33,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             virtualized,
             mobile,
             id,
-            topContent,
+            renderMobilePopup,
         },
         ref,
     ) =>
@@ -43,7 +43,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
                 className={className}
                 visible={Boolean(open)}
                 onClose={handleClose}
-                topContent={topContent}
+                renderContent={renderMobilePopup}
             >
                 {children}
             </Sheet>

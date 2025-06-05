@@ -399,55 +399,25 @@ export const WithVirtualizedListAndCustomPopup: Story = {
                 value={value}
                 onUpdate={(values) => setArgs({value: values})}
                 popupWidth={args.multiple ? 120 : undefined}
-                renderPopup={({renderFilter, renderList}) => {
+                renderMobilePopup={({renderScrollContainer, renderFilter, renderList}) => {
                     return (
                         <React.Fragment>
                             <div>{'---- Before Filter ----'}</div>
                             {renderFilter()}
-                            <div>{'---- After Filter, Before List ----'}</div>
-                            {renderList()}
-                            <div>{'---- After List ----'}</div>
-                        </React.Fragment>
-                    );
-                }}
-            >
-                {Array.from(new Array(100)).map((_, index) => (
-                    <Select.Option key={index} value={`val${index + 1}`}>
-                        Value {index + 1}
-                    </Select.Option>
-                ))}
-            </Select>
-        );
-    },
-};
-
-export const WithTopContent: Story = {
-    tags: ['!dev'],
-    decorators: [WithTitle],
-    args: {
-        ...showcaseArgs,
-        filterable: true,
-    },
-    render: (args) => {
-        const [{value}, setArgs] = useArgs<typeof args>();
-
-        return (
-            <Select
-                {...args}
-                value={value}
-                onUpdate={(values) => setArgs({value: values})}
-                popupWidth={args.multiple ? 120 : undefined}
-                renderTop={({renderFilter}) => {
-                    return (
-                        <React.Fragment>
-                            <div>{'---- Before Filter ----'}</div>
-                            {renderFilter()}
+                            {renderScrollContainer(
+                                <React.Fragment>
+                                    <div>{'---- After Filter, Before List ----'}</div>
+                                    {renderList()}
+                                    <div>{'---- After List ----'}</div>
+                                </React.Fragment>,
+                            )}
                         </React.Fragment>
                     );
                 }}
                 renderPopup={({renderFilter, renderList}) => {
                     return (
                         <React.Fragment>
+                            <div>{'---- Before Filter ----'}</div>
                             {renderFilter()}
                             <div>{'---- After Filter, Before List ----'}</div>
                             {renderList()}

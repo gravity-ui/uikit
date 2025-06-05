@@ -46,6 +46,7 @@ const typeToIcon: Record<
         outlined: Thunderbolt,
     },
     normal: null,
+    clear: null,
 };
 
 export const AlertIcon = ({
@@ -64,7 +65,7 @@ export const AlertIcon = ({
 
     if (theme === 'success') {
         color = 'positive';
-    } else if (theme !== 'normal') {
+    } else if (theme !== 'normal' && theme !== 'clear') {
         color = theme;
     }
 

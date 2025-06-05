@@ -22,7 +22,7 @@ import {Alert} from '@gravity-ui/uikit';
 
 `utility`: Used for useful tips.
 
-`clear`: No styles, suitable for use in other components (for example, as `content` in `Popover`)
+`clear`: No styles, suitable for usage in other components (for example, as `content` in `Popover`)
 
 <!--LANDING_BLOCK
 <ExampleBlock

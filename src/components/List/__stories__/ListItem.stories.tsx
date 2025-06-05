@@ -1,6 +1,6 @@
 import type * as React from 'react';
 
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {ListItem} from '../components';
 import type {ListItemProps, ListSortHandleAlign} from '../types';
@@ -40,7 +40,7 @@ export default {
     ],
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

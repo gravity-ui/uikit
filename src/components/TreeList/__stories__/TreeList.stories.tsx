@@ -1,4 +1,4 @@
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {TreeList} from '../TreeList';
 
@@ -21,7 +21,7 @@ export const Default: DefaultStoryObj = {
     render: DefaultStory,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {
@@ -49,7 +49,7 @@ export const InfinityScroll: InfinityScrollStoryObj = {
     render: InfinityScrollStory,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {
@@ -83,7 +83,7 @@ export const WithDndList: WithDndListStoryObj = {
         // https://github.com/atlassian/react-beautiful-dnd/issues/2350
         disableStrictMode: true,
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {
@@ -120,7 +120,7 @@ export const WithFiltrationAndControls: WithFiltrationAndControlsStoryObj = {
     render: WithFiltrationAndControlsStory,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {
@@ -154,7 +154,7 @@ export const WithGroupSelectionAndCustomIcon: WithGroupSelectionAndCustomIconSto
     render: WithGroupSelectionAndCustomIconStory,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {
@@ -186,7 +186,7 @@ export const WithItemLinksAndActions: WithItemLinksAndActionsStoryObj = {
     render: WithItemLinksAndActionsStory,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {
@@ -221,7 +221,7 @@ export const WithDisabledElements: WithDisabledElementsStoryObj = {
     render: WithDisabledElementsStory,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

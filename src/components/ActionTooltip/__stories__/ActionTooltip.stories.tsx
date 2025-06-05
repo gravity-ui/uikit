@@ -1,5 +1,5 @@
 import {FloppyDisk} from '@gravity-ui/icons';
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
@@ -11,7 +11,7 @@ const meta: Meta<typeof ActionTooltip> = {
     parameters: {
         layout: 'centered',
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

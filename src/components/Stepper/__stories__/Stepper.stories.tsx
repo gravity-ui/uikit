@@ -1,5 +1,5 @@
 import {Gear} from '@gravity-ui/icons';
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Text} from '../../Text';
 import {Tooltip} from '../../Tooltip';
@@ -12,7 +12,7 @@ export default {
     component: Stepper,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

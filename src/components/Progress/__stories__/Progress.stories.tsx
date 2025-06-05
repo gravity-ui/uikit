@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {Progress} from '../Progress';
 import type {ProgressTheme} from '../types';
@@ -10,7 +10,7 @@ export default {
     component: Progress,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

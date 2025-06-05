@@ -1,4 +1,4 @@
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {TextInput} from '../TextInput';
 import type {TextInputProps} from '../TextInput';
@@ -11,7 +11,7 @@ export default {
     component: TextInput,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

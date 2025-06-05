@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {Check as CheckIcon} from '@gravity-ui/icons';
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Showcase} from '../../../demo/Showcase';
 import {Card} from '../../Card';
@@ -15,7 +15,7 @@ const meta: Meta<typeof Divider> = {
     component: Divider,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

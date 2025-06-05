@@ -1,4 +1,4 @@
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {RenderFonts} from '../demo/typography/Fonts';
 import {RenderVariants} from '../demo/typography/Variants';
@@ -7,7 +7,7 @@ export default {
     title: 'Typography',
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

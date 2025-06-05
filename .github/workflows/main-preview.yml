@@ -20,7 +20,7 @@ jobs:
         run: npm ci
         shell: bash
       - name: Build Storybook
-        run: npx sb build
+        run: npx storybook build
         shell: bash
       - name: Upload to S3
         uses: gravity-ui/preview-upload-to-s3-action@v1

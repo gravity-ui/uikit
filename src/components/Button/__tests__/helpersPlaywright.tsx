@@ -1,5 +1,5 @@
 import {ChevronDown, Globe} from '@gravity-ui/icons';
-import {composeStories} from '@storybook/react';
+import {composeStories} from '@storybook/react-webpack5';
 
 import {Button} from '..';
 import {Showcase} from '../../../demo/Showcase';

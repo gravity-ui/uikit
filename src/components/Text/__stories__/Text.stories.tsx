@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Button} from '../../Button';
 import {TextInput} from '../../controls';
@@ -12,7 +12,7 @@ const meta: Meta<typeof Text> = {
     component: Text,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

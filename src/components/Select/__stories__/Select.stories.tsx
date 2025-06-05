@@ -1,10 +1,9 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import * as React from 'react';
 
 import {Plus, TrashBin} from '@gravity-ui/icons';
-import {useArgs} from '@storybook/preview-api';
-import type {Decorator, Meta, StoryObj} from '@storybook/react';
+import type {Decorator, Meta, StoryObj} from '@storybook/react-webpack5';
 import {escapeRegExp} from 'lodash';
+import {useArgs} from 'storybook/preview-api';
 
 import {Select} from '..';
 import {Button} from '../../Button';
@@ -32,7 +31,7 @@ const meta: Meta<typeof Select> = {
     },
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

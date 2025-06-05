@@ -1,4 +1,4 @@
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {BrandingConfigurator} from './BrandingConfugurator/BrandingConfigurator';
 
@@ -6,7 +6,7 @@ export default {
     title: 'Branding/Example',
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

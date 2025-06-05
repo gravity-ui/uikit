@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {composeStories} from '@storybook/react';
+import {composeStories} from '@storybook/react-webpack5';
 
 import type {TableColumnConfig, TableProps} from '../Table';
 import {Table} from '../Table';

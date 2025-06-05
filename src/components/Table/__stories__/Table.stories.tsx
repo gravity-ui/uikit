@@ -1,10 +1,10 @@
 import * as React from 'react';
 
 import {Pencil} from '@gravity-ui/icons';
-import {action} from '@storybook/addon-actions';
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
 import _cloneDeep from 'lodash/cloneDeep';
 import _isEqual from 'lodash/isEqual';
+import {action} from 'storybook/actions';
 
 import type {TableAction, TableSettingsData} from '..';
 import {Icon} from '../../Icon';
@@ -36,7 +36,7 @@ export default {
     },
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

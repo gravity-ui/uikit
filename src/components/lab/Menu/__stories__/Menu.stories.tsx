@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import type {VirtualElement} from '@floating-ui/react';
 import {Envelope, LayoutColumns3, LayoutRows3, LogoTelegram, Smartphone} from '@gravity-ui/icons';
-import {action} from '@storybook/addon-actions';
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
+import {action} from 'storybook/actions';
 
 import {BUTTON_ICON_SIZE_MAP} from '../../../Button/constants';
 import {Icon} from '../../../Icon';
@@ -21,7 +21,7 @@ const meta: Meta<typeof Menu> = {
     parameters: {
         layout: 'centered',
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {
@@ -74,7 +74,6 @@ export const FullFeatured = {
 export const Context = {
     ...Default,
     render: (args) => {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
         const [anchor, setAnchor] = React.useState<VirtualElement | null>(null);
 
         const handleContextMenu = (event: React.MouseEvent) => {
@@ -136,7 +135,6 @@ export const InsideSheet = {
 export const Selection = {
     ...Default,
     render: (args) => {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
         const [value, setValue] = React.useState('row');
         const items = [
             {

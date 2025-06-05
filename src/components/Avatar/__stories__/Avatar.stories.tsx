@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import {faker} from '@faker-js/faker/locale/en';
 import {FaceRobot} from '@gravity-ui/icons';
-import {useArgs} from '@storybook/preview-api';
-import type {Meta, StoryFn, StoryObj} from '@storybook/react';
+import type {Meta, StoryFn, StoryObj} from '@storybook/react-webpack5';
+import {useArgs} from 'storybook/preview-api';
 
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
@@ -16,7 +16,7 @@ const meta: Meta<typeof Avatar> = {
     component: Avatar,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

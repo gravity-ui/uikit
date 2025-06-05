@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import type {API} from '@storybook/manager-api';
-import {addons, types, useGlobals} from '@storybook/manager-api';
+import type {API} from 'storybook/manager-api';
+import {addons, types, useGlobals} from 'storybook/manager-api';
 
 import {getThemeType} from '../../src/components/theme/getThemeType';
 import {themes} from '../theme';

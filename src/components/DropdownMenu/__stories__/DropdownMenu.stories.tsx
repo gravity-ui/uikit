@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {Bars} from '@gravity-ui/icons';
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {Icon} from '../../Icon';
 import {Label} from '../../Label';
@@ -28,7 +28,7 @@ export default {
     args: {},
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

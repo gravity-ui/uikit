@@ -1,4 +1,4 @@
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {InfinityScrollList as InfinityScrollListExample} from './components/InfinityScrollList';
 import type {InfinityScrollListProps} from './components/InfinityScrollList';
@@ -8,7 +8,7 @@ export default {
     component: InfinityScrollListExample,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

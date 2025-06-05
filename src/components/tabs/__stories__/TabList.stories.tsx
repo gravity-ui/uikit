@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Tooltip} from '../../Tooltip';
 import {Tab} from '../Tab';
@@ -15,7 +15,7 @@ export default {
     component: TabList,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {
@@ -42,7 +42,6 @@ type Story = StoryObj<typeof TabList>;
 
 export const Default: Story = {
     render: (args) => {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
         const [tab, setTab] = React.useState(getTabsMock({})[0].value);
         return <TabList {...args} value={tab} onUpdate={setTab} />;
     },
@@ -127,9 +126,9 @@ export const TooltipWrap: Story = {
 export const Panels: Story = {
     render: (args) => {
         const tabs = getTabsMock({});
-        // eslint-disable-next-line react-hooks/rules-of-hooks
+
         const [tab, setTab] = React.useState(tabs[0].value);
-        // eslint-disable-next-line react-hooks/rules-of-hooks
+
         const panels = React.useMemo(
             () =>
                 tabs.map((props, i) => (

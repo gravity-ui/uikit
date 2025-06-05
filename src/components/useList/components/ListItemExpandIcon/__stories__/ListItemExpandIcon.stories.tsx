@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Button} from '../../../../Button';
 import type {ListItemExpandIconProps} from '../ListItemExpandIcon';

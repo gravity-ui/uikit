@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import type {Decorator} from '@storybook/react';
+import type {Decorator} from '@storybook/react-webpack5';
 
 export const WithStrictMode: Decorator = (Story, context) => {
     const children = <Story {...context} />;

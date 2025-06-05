@@ -4,6 +4,7 @@ import clientConfig from '@gravity-ui/eslint-config/client';
 import importOrderConfig from '@gravity-ui/eslint-config/import-order';
 import prettierConfig from '@gravity-ui/eslint-config/prettier';
 import {defineConfig} from 'eslint/config';
+import storybookPlugin from 'eslint-plugin-storybook';
 import testingLibraryPlugin from 'eslint-plugin-testing-library';
 import globals from 'globals';
 
@@ -13,6 +14,7 @@ export default defineConfig([
     ...prettierConfig,
     ...importOrderConfig,
     ...a11yConfig,
+    ...storybookPlugin.configs['flat/recommended'],
     {
         rules: {
             'react/jsx-fragments': ['error', 'element'],

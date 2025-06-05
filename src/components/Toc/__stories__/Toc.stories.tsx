@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {block} from '../../utils/cn';
 import {Toc} from '../Toc';
@@ -16,7 +16,7 @@ export default {
     argTypes: {},
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

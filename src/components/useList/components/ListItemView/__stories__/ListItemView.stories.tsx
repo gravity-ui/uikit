@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {Avatar} from '../../../../Avatar';
 import {Button} from '../../../../Button';
@@ -18,7 +18,7 @@ export default {
     component: ListItemViewComponent,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

@@ -1,4 +1,4 @@
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Disclosure} from '../../../Disclosure';
 import {TextArea} from '../TextArea';
@@ -10,7 +10,7 @@ const meta: Meta<typeof TextArea> = {
     component: TextArea,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

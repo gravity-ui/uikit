@@ -33,7 +33,7 @@ $block: '.#{variables.$ns}control-label';
         line-height: var(--g-text-body-2-line-height);
 
         #{$block}__text {
-            padding: 2px 0;
+            padding: 2px 0 0;
         }
     }
 

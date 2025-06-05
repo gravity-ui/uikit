@@ -34,19 +34,23 @@ import type {UseColorGeneratorProps, UseColorGeneratorResult} from './types';
  * - color: unique color from a token.
  * - textColor: text color (dark or light), ensurring higher contrast on generated color.
  */
-export function useColorGenerator(props: UseColorGeneratorProps): UseColorGeneratorResult {
+export function useColorGenerator({
+    intensity,
+    seed,
+}: UseColorGeneratorProps): UseColorGeneratorResult {
     const theme = useThemeType();
 
     const color = React.useMemo(
         () =>
             getPersistentColor({
-                ...props,
+                intensity,
+                seed,
                 theme,
             }),
-        [props, theme],
+        [intensity, seed, theme],
     );
 
-    const textColor = React.useMemo(() => getTextColor(props.intensity), [props.intensity]);
+    const textColor = React.useMemo(() => getTextColor(intensity), [intensity]);
 
     return {color, textColor};
 }

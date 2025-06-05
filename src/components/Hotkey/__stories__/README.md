@@ -18,6 +18,8 @@ The sequence of key combinations can be separated by a space: `<shortcut> <short
 
 You can use `mod` as a shorthand for `cmd` on Mac and `ctrl` for other platforms. For example, `mod+v` is rendered as ⌘+A for Mac and Ctrl+A for PC.
 
+To render plus or minus literal use `plus` or `minus` keyword, e.q. `mod+plus mod+minus`
+
 ### View
 
 `light`: Used if the component is displayed on a light background (used by default).

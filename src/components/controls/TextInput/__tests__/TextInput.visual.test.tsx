@@ -149,4 +149,24 @@ test.describe('TextInput', {tag: '@TextInput'}, () => {
             themes: ['light'],
         });
     });
+
+    smokeTest(
+        'inside error placement tooltip with clear button',
+        async ({mount, expectScreenshot}) => {
+            const props: TextInputProps = {
+                ...defaultProps,
+                value: 'Text',
+                validationState: 'invalid',
+                errorMessage: 'Test error message',
+                errorPlacement: 'inside',
+                hasClear: true,
+            };
+
+            await mount(<TextInput {...props} />);
+
+            await expectScreenshot({
+                themes: ['light'],
+            });
+        },
+    );
 });

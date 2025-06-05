@@ -1,9 +1,6 @@
-import * as React from 'react';
-
 import {action} from '@storybook/addon-actions';
 import type {Meta, StoryObj} from '@storybook/react';
 
-import {Alert} from '../../Alert';
 import {Button} from '../../Button';
 import {Link} from '../../Link';
 import {Flex} from '../../layout';
@@ -28,7 +25,7 @@ export const Default: Story = {
         </Popover>
     ),
     args: {
-        content: <Alert theme="clear" message="Content" />,
+        content: <div style={{padding: 10}}>Content</div>,
         onOpenChange: action('onOpenChange'),
     },
 };
@@ -96,14 +93,9 @@ export const FocusManagement: Story = {
     args: {
         ...Default.args,
         content: (
-            <Alert
-                theme="clear"
-                message={
-                    <React.Fragment>
-                        Content with <Link href="#">Link</Link> and <Button>Button</Button>
-                    </React.Fragment>
-                }
-            />
+            <div style={{padding: 10}}>
+                Content with <Link href="#">Link</Link> and <Button>Button</Button>
+            </div>
         ),
     },
 };

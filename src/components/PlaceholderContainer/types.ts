@@ -30,4 +30,5 @@ export interface PlaceholderContainerProps extends QAProps {
     actions?: PlaceholderContainerActionProps[] | React.ReactNode;
     className?: string;
     image: PlaceholderContainerImageNodeProps | PlaceholderContainerImageProps;
+    maxWidth?: number | string;
 }

@@ -219,3 +219,4 @@
 | image       | Задает изображение через `src` или передает узел React.                                          | `PlaceholderContainerImageNodeProps`<br/> `\| PlaceholderContainerImageProps` |                       |
 | content     | Используется для рендеринга элемента ReactNode вместо контента (заголовка, описания и действий). |                               `React.ReactNode`                               |                       |
 | actions     | Используется для рендеринга массива кнопок или элемента ReactNode.                               |     `PlaceholderContainerActionProps[]`<br/> `\|        React.ReactNode `     |                       |
+| maxWidth    | Используется для переопределения стандартной максимальной ширины контейнера.                     |                               `number` `string`                               |                       |

@@ -11,7 +11,7 @@ export const descriptionCases: CasesWithName<PlaceholderContainerProps['descript
 export const contentCases: CasesWithName<PlaceholderContainerProps['content']> = [
     ['has', 'Content'],
 ];
-export const maxWidthCases: CasesWithName<PlaceholderContainerProps['contentMaxWidth']> = [
+export const maxWidthCases: CasesWithName<PlaceholderContainerProps['maxWidth']> = [
     ['custom', 800],
 ];
 export const actionsCases: CasesWithName<PlaceholderContainerProps['actions']> = [

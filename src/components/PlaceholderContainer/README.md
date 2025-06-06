@@ -208,15 +208,15 @@ To manage the alignment of the content inside the parent container, use the `ali
 
 ## Properties
 
-| Name            | Description                                                                                |                                     Type                                      |  Default   |
-| :-------------- | :----------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------: | :--------: |
-| className       | `class` HTML attribute (optional)                                                          |                                   `string`                                    |            |
-| direction       | Used to set the content layout direction. The possible values are `"row"` and `"column"`.  |                                   `string`                                    |  `"row"`   |
-| size            | Component size. The possible values are `"s"`, `"m"`, `"l"`, and `"promo"`.                |                                   `string`                                    |   `"l"`    |
-| align           | Used to set content horizontal alignment. The possible values are `"center"` and `"left"`. |                                   `string`                                    | `"center"` |
-| title           | Content title text                                                                         |                                   `string`                                    |            |
-| description     | Content description text                                                                   |                                   `string`                                    |            |
-| image           | Used to set an image by `src` or provide a React node                                      | `PlaceholderContainerImageNodeProps`<br/> `\| PlaceholderContainerImageProps` |            |
-| content         | Used to render a node instead of content (title, description, and actions)                 |                               `React.ReactNode`                               |            |
-| actions         | Used to render an array of button controls or a custom node                                |     `PlaceholderContainerActionProps[]`<br/> `\|        React.ReactNode `     |            |
-| contentMaxWidth | Used to override the default max-width of the content                                      |                               `number` `string`                               |            |
+| Name        | Description                                                                                |                                     Type                                      |  Default   |
+| :---------- | :----------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------: | :--------: |
+| className   | `class` HTML attribute (optional)                                                          |                                   `string`                                    |            |
+| direction   | Used to set the content layout direction. The possible values are `"row"` and `"column"`.  |                                   `string`                                    |  `"row"`   |
+| size        | Component size. The possible values are `"s"`, `"m"`, `"l"`, and `"promo"`.                |                                   `string`                                    |   `"l"`    |
+| align       | Used to set content horizontal alignment. The possible values are `"center"` and `"left"`. |                                   `string`                                    | `"center"` |
+| title       | Content title text                                                                         |                                   `string`                                    |            |
+| description | Content description text                                                                   |                                   `string`                                    |            |
+| image       | Used to set an image by `src` or provide a React node                                      | `PlaceholderContainerImageNodeProps`<br/> `\| PlaceholderContainerImageProps` |            |
+| content     | Used to render a node instead of content (title, description, and actions)                 |                               `React.ReactNode`                               |            |
+| actions     | Used to render an array of button controls or a custom node                                |     `PlaceholderContainerActionProps[]`<br/> `\|        React.ReactNode `     |            |
+| maxWidth    | Used to override the default max-width of the content                                      |                               `number` `string`                               |            |

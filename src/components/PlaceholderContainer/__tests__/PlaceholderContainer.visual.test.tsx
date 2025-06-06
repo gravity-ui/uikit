@@ -60,7 +60,7 @@ test.describe('PlaceholderContainer', {tag: '@PlaceholderContainer'}, () => {
         description: descriptionCases,
         content: contentCases,
         actions: actionsCases,
-        contentMaxWidth: maxWidthCases,
+        maxWidth: maxWidthCases,
     } as const;
 
     smokeTest('', async ({mount, expectScreenshot}) => {

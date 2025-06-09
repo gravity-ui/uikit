@@ -20,7 +20,7 @@ $block: '.#{variables.$ns}control-label';
     &_size_s,
     &_size_m {
         font-size: var(--g-text-body-1-font-size);
-        line-height: 15px;
+        line-height: var(--g-text-body-1-line-height);
     }
 
     &_size_l {

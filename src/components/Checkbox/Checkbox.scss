@@ -87,6 +87,7 @@ $block: '.#{variables.$ns}checkbox';
             #{$block}__indicator {
                 width: 14px;
                 height: 14px;
+                margin: 2px 0;
             }
         }
 

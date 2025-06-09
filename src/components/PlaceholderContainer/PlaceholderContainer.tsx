@@ -31,6 +31,7 @@ export const PlaceholderContainer = ({
     image,
     content,
     actions,
+    maxWidth,
     qa,
 }: PlaceholderContainerProps) => {
     const renderTitle = () => {
@@ -92,7 +93,7 @@ export const PlaceholderContainer = ({
 
     return (
         <div className={b({direction, align, size}, className || '')} data-qa={qa}>
-            <div className={b('body')}>
+            <div className={b('body')} style={maxWidth ? {maxWidth} : undefined}>
                 <div className={b('image', {size})}>{renderImage()}</div>
                 {renderContent()}
             </div>

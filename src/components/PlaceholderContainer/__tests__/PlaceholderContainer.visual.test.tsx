@@ -8,6 +8,7 @@ import {
     contentCases,
     descriptionCases,
     directionCases,
+    maxWidthCases,
     sizeCases,
     titleCases,
 } from './cases';
@@ -45,6 +46,12 @@ test.describe('PlaceholderContainer', {tag: '@PlaceholderContainer'}, () => {
         await expectScreenshot();
     });
 
+    test('render story: <CustomMaxWidth>', async ({mount, expectScreenshot}) => {
+        await mount(<PlaceholderContainerStories.CustomMaxWidth />);
+
+        await expectScreenshot();
+    });
+
     const commonPropsCases = {
         size: sizeCases,
         direction: directionCases,
@@ -53,6 +60,7 @@ test.describe('PlaceholderContainer', {tag: '@PlaceholderContainer'}, () => {
         description: descriptionCases,
         content: contentCases,
         actions: actionsCases,
+        maxWidth: maxWidthCases,
     } as const;
 
     smokeTest('', async ({mount, expectScreenshot}) => {

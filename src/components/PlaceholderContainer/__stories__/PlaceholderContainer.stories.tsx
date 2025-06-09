@@ -187,3 +187,21 @@ export const Actions: Story = {
         ...Default.args,
     },
 };
+
+export const CustomMaxWidth: Story = {
+    render: (args) => (
+        <React.Fragment>
+            <Showcase>
+                <PlaceholderContainer {...args} title="Default max-width" />
+            </Showcase>
+            <Showcase>
+                <PlaceholderContainer {...args} title="Custom max-width: 800" maxWidth={800} />
+            </Showcase>
+        </React.Fragment>
+    ),
+    args: {
+        ...Default.args,
+        description:
+            'This example demonstrates how to override the default max-width of the content using the maxWidth prop.',
+    },
+};

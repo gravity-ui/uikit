@@ -78,6 +78,7 @@ $discMarginXLSize: 8px;
             #{$block}__indicator {
                 width: 14px;
                 height: 14px;
+                margin: 2px 0;
             }
 
             #{$block}__disc::before {

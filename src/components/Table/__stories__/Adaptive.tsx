@@ -1,4 +1,4 @@
-import type {StoryFn} from '@storybook/react';
+import type {StoryFn} from '@storybook/react-webpack5';
 import _cloneDeep from 'lodash/cloneDeep';
 
 import {Table} from '../Table';

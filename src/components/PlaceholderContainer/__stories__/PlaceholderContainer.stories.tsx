@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {ChevronDown} from '@gravity-ui/icons';
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Showcase} from '../../../demo/Showcase';
 import {Button} from '../../Button';
@@ -18,7 +18,7 @@ export default {
     component: PlaceholderContainer,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

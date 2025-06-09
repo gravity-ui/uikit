@@ -1,4 +1,4 @@
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Label} from '../../Label';
 import {Link} from '../../Link';
@@ -148,7 +148,7 @@ export default {
     },
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

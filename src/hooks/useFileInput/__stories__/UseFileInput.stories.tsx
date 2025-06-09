@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {Button} from '../../../components/Button';
 import {useFileInput} from '../useFileInput';

@@ -31,18 +31,10 @@ const config: StorybookConfig = {
                 ],
             },
         },
-        {name: '@storybook/addon-essentials', options: {backgrounds: false}},
         './theme-addon/register.tsx',
         '@storybook/addon-a11y',
         '@storybook/addon-webpack5-compiler-babel',
-        {
-            name: '@storybook/addon-storysource',
-            options: {
-                loaderOptions: {
-                    injectStoryParameters: false,
-                },
-            },
-        },
+        '@storybook/addon-docs',
     ],
     typescript: {
         check: false, // `false` is default value, but `checked` field is required in types.

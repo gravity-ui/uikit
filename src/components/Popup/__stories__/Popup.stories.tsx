@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {useVirtualElement} from '../../../hooks';
 import {Button} from '../../Button';
@@ -13,7 +13,7 @@ const meta: Meta<typeof Popup> = {
     component: Popup,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

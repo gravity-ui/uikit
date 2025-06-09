@@ -1,4 +1,4 @@
-import {composeStories} from '@storybook/react';
+import {composeStories} from '@storybook/react-webpack5';
 
 import {PlaceholderContainer} from '../PlaceholderContainer';
 import * as stories from '../__stories__/PlaceholderContainer.stories';

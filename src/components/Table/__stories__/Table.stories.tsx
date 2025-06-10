@@ -7,6 +7,7 @@ import _cloneDeep from 'lodash/cloneDeep';
 import _isEqual from 'lodash/isEqual';
 
 import type {TableAction, TableSettingsData} from '..';
+import {CheckboxDashIcon} from '../../Checkbox/CheckboxDashIcon';
 import {Icon} from '../../Icon';
 import {TreeSelect} from '../../TreeSelect/TreeSelect';
 import {Table} from '../Table';
@@ -184,15 +185,22 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
                 }}
             />
             <br />
-            <h3>{'with rowActionsIcon property'}</h3>
+            <h3>{'with rowActionsIcon propert as a SVG sprite'}</h3>
             <TableWithAction
                 {...args}
                 getRowActions={getRowActions}
-                rowActionsIcon={CircleChevronDownFill}
+                rowActionsIcon={<CheckboxDashIcon />}
             />
             <br />
-            <h3>{'without rowActionsIcon property'}</h3>
-            <TableWithAction {...args} getRowActions={getRowActions} />
+            <h3>{'with rowActionsIcon property as a string'}</h3>
+            <TableWithAction {...args} getRowActions={getRowActions} rowActionsIcon="⭐" />
+
+            <h3>{'with rowActionsIcon property as a react component'}</h3>
+            <TableWithAction
+                {...args}
+                getRowActions={getRowActions}
+                rowActionsIcon={<Icon data={CircleChevronDownFill} size={12} />}
+            />
         </React.Fragment>
     );
 };

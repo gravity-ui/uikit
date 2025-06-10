@@ -76,7 +76,7 @@ export interface WithTableActionsProps<I> {
     getRowActions?: (item: I, index: number) => TableActionConfig<I>[];
     renderRowActions?: (props: RenderRowActionsProps<I>) => React.ReactNode;
     rowActionsSize?: TableRowActionsSize;
-    rowActionsIcon?: (props: React.SVGProps<SVGSVGElement>) => React.JSX.Element;
+    rowActionsIcon?: React.ReactNode;
 }
 
 interface WithTableActionsState<I> {
@@ -192,7 +192,7 @@ const DefaultRowActions = <I extends TableDataItem>({
                 aria-expanded={isPopupOpen}
                 aria-controls={rowId}
             >
-                <Icon data={rowActionsIcon || Ellipsis} />
+                {rowActionsIcon || <Icon data={Ellipsis} />}
             </Button>
         </div>
     );

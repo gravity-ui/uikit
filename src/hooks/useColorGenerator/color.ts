@@ -1,8 +1,6 @@
-/* eslint-disable no-bitwise */
-
 import {colorOptions} from './constants';
 import type {ColorProps, HslColorProps, Intensity} from './types';
-import {getHue, hashFnv32a, normalizeHash} from './utils';
+import {getHash, getHue, normalizeHash} from './utils';
 
 const linearToSrgb = (channel: number): number => {
     if (channel <= 0.0031308) {
@@ -43,10 +41,6 @@ const oklchToRgb = (l: number, c: number, h: number) => {
 
     // Return clamped values directly
     return [red, green, blue];
-};
-
-const getHash = (seed: string) => {
-    return hashFnv32a(seed, 0x73_6f_6d_65) ^ hashFnv32a(seed, 0x64_6f_72_61);
 };
 
 const generateColor = ({hash, intensity, theme}: HslColorProps) => {

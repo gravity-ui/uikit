@@ -3,10 +3,7 @@
 export const mathFrac = (x: number) => x - ~~x;
 
 export const getHue = (hash: number) => {
-    const sin = Math.sin(hash); // 0.12345678910 or -0.12345678910
-    const fr = sin < 0 ? mathFrac(sin * 1000) : mathFrac(sin * 10_000); // 5678910
-
-    return ~~(Math.abs(fr) * 360);
+    return Math.abs(hash) % 360;
 };
 
 export const normalizeHash = (hash: number, min: number, max: number) => {

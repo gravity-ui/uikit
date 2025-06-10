@@ -26,10 +26,10 @@ type Story = StoryObj<typeof ColoredAvatar>;
 
 const views = ['light', 'medium', 'heavy'] as const;
 const states = ['view', 'colors'] as const;
+const tokens = Array.from({length: 10}, () => randomString(16));
 
 const Template = (args: React.ComponentProps<typeof ColoredAvatar>) => {
     const items = [];
-    const tokens = Array.from({length: 10}, () => randomString(16));
 
     for (const view of views) {
         for (const state of states) {

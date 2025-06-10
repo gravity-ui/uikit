@@ -133,7 +133,6 @@
     "@hello-pangea/dnd": "^18.0.1",
     "@tanstack/react-virtual": "^3.13.9",
     "blueimp-md5": "^2.19.0",
-        "colorjs.io": "^0.5.2",
     "lodash": "^4.17.21",
     "rc-slider": "^11.1.8",
     "react-transition-group": "^4.4.5",

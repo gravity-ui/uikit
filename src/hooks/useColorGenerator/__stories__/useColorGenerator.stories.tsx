@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {block} from '../../../components/utils/cn';
 import {randomString} from '../../../components/utils/common';

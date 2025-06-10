@@ -12,10 +12,10 @@ The `useColorGenerator` hook generates a unique (but consistent) background colo
 
 ## Properties
 
-| Name      | Description                                                          |           Type           | Default |     |     |
-| :-------- | :------------------------------------------------------------------- | :----------------------: | :-----: | --- | --- |
-| intensity | Value to control color saturation                                    | `light` `medium` `heavy` | `light` |
-| seed      | Unique attribute of the entity (e.g., name, id, email) **Required.** |         `string`         |         |     |     |
+| Name      | Description                                                          |              Type              |  Default  |     |     |
+| :-------- | :------------------------------------------------------------------- | :----------------------------: | :-------: | --- | --- |
+| intensity | Value to control color saturation                                    | `"light"` `"medium"` `"heavy"` | `"light"` |
+| seed      | Unique attribute of the entity (e.g., name, id, email) **Required.** |            `string`            |           |     |     |
 
 ## Result
 

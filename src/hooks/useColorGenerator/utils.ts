@@ -1,15 +1,7 @@
 /* eslint-disable no-bitwise */
 
-export const mathFrac = (x: number) => x - ~~x;
-
 export const getHue = (hash: number) => {
     return Math.abs(hash) % 360;
-};
-
-export const normalizeHash = (hash: number, min: number, max: number) => {
-    hash = Math.abs(hash);
-
-    return Math.floor((hash % (max - min + 1)) + min);
 };
 
 export const hashFnv32a = (seed: string, start: number) => {
@@ -21,4 +13,14 @@ export const hashFnv32a = (seed: string, start: number) => {
     }
 
     return hval >>> 0;
+};
+
+export const getHash = (seed: string) => {
+    return hashFnv32a(seed, 0x73_6f_6d_65) ^ hashFnv32a(seed, 0x64_6f_72_61);
+};
+
+export const normalizeHash = (hash: number, min: number, max: number) => {
+    const absHash = Math.abs(hash);
+
+    return Math.floor((absHash % (max - min + 1)) + min);
 };

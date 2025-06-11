@@ -56,6 +56,7 @@ export interface LabelProps extends QAProps {
     size?: 'xs' | 's' | 'm';
     /** Browser title for Label */
     title?: string;
+    animation?: 'gradient';
 }
 
 export const Label = React.forwardRef(function Label(
@@ -80,6 +81,7 @@ export const Label = React.forwardRef(function Label(
         onCopy,
         onClick,
         qa,
+        animation,
     } = props;
     const hasContent = Boolean(children !== '' && React.Children.count(children) > 0);
 
@@ -169,6 +171,7 @@ export const Label = React.forwardRef(function Label(
                         size,
                         interactive: isInteractive,
                         disabled,
+                        animation,
                     },
                     className,
                 )}

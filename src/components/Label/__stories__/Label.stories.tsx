@@ -165,6 +165,13 @@ export const LinkWrapper: Story = {
     },
 };
 
+export const Animation: Story = {
+    render: (args) => <Label {...args} animation="gradient" />,
+    args: {
+        ...Default.args,
+    },
+};
+
 export const ShowcaseStory: Story = {
     render: () => <LabelShowcase />,
     name: 'Showcase',

@@ -1,0 +1,30 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}tab-list-dd-menu';
+
+#{$block} {
+    align-self: baseline;
+    margin-inline-start: auto;
+
+    --g-button-height: var(--g-tabs-list-dd-menu-button-height);
+
+    &_hidden {
+        position: absolute;
+        width: 0;
+        height: 0;
+        visibility: hidden;
+        opacity: 0;
+    }
+
+    &__popup {
+        --g-list-item-view-spacer-size: 8px;
+        max-width: 320px;
+        padding: var(--g-spacing-1) var(--g-spacing-2);
+
+        & > * {
+            display: block;
+            height: #{variables.$m-height};
+            line-height: #{variables.$m-height};
+        }
+    }
+}

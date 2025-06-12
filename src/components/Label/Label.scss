@@ -28,9 +28,12 @@ $transition-timing-function: ease-in-out;
     box-sizing: border-box;
     /* make new stacking context to isolate z-indexes */
     isolation: isolate;
-    overflow: hidden;
 
-    &_animation_gradient {
+    &__animation-container {
+        overflow: hidden;
+        position: absolute;
+        inset: 0;
+
         &::after {
             position: absolute;
             inset: 0;

@@ -212,9 +212,9 @@ test.describe('Label', {tag: '@Label'}, () => {
         await expectScreenshot({});
     });
 
-    smokeTest('with gradient animation', async ({mount, expectScreenshot}) => {
+    smokeTest('with gradient loading', async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<LabelProps>(
-            {...defaultProps, animation: 'gradient'},
+            {...defaultProps, loading: true},
             {
                 theme: themeCases,
                 size: sizeCases,

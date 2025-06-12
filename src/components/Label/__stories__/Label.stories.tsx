@@ -165,8 +165,8 @@ export const LinkWrapper: Story = {
     },
 };
 
-export const Animation: Story = {
-    render: (args) => <Label {...args} animation="gradient" />,
+export const Loading: Story = {
+    render: (args) => <Label {...args} loading />,
     args: {
         ...Default.args,
     },

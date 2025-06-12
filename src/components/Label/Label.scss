@@ -42,7 +42,7 @@ $transition-timing-function: ease-in-out;
                 var(--_--gradient-mask-end-color)
             );
 
-            animation: #{variables.$ns}label 2s ease-out infinite;
+            animation: #{variables.$ns}label 2s linear infinite;
         }
     }
 

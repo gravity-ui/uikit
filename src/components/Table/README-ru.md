@@ -77,7 +77,7 @@ import {Table} from '@gravity-ui/uikit';
 | getRowActions    | Массив конфигураций действий для каждой строки.       |   `(item: any, index: number) => TableActionConfig[]`    |
 | renderRowActions | Функция рендеринга ячейки с действиями.               | `(props: {item: any; index: number}) => React.ReactNode` |
 | rowActionsSize   | Размер кнопки действия и элементов всплывающего меню. |                 `"s"` `"m"` `"l"` `"xl"`                 |
-| rowActionsIcon   | Пользовательский значок для действий deystviy         |                    `React.ReactNode`                     |
+| rowActionsIcon   | Пользовательский значок для действий                  |                    `React.ReactNode`                     |
 
 ### TableActionConfig
 

@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import get from 'lodash/get';
 import memoize from 'lodash/memoize';
 
 import {createOnKeyDownHandler} from '../../../../hooks/useActionHandlers/useActionHandlers';
@@ -47,10 +48,10 @@ export function withTableSorting<I extends TableDataItem, E extends {} = {}>(
     const displayName = `withTableSorting(${componentName})`;
 
     function defaultCompareFunction(itemA: I, itemB: I, columnId: string) {
-        if (itemA?.[columnId] === itemB?.[columnId]) {
+        if (get(itemA, columnId) === get(itemB, columnId)) {
             return 0;
         } else {
-            return itemA?.[columnId] > itemB?.[columnId] ? 1 : -1;
+            return get(itemA, columnId) > get(itemB, columnId) ? 1 : -1;
         }
     }
 

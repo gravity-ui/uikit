@@ -2,6 +2,9 @@
 
 import * as React from 'react';
 
+import get from 'lodash/get';
+import has from 'lodash/has';
+
 import type {AriaLabelingProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
@@ -240,9 +243,9 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
         if (typeof template === 'function') {
             value = template(item, rowIndex);
         } else if (typeof template === 'string') {
-            value = item?.[template];
-        } else if (item?.[id]) {
-            value = item[id];
+            value = get(item, template);
+        } else if (has(item, id)) {
+            value = get(item, id);
         }
         if (EMPTY_VALUES.includes(value as any) && placeholderValue) {
             return placeholderValue;

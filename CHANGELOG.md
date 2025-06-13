@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.14.1](https://github.com/gravity-ui/uikit/compare/v7.14.0...v7.14.1) (2025-06-13)
+
+
+### Bug Fixes
+
+* **layout:** add prop to fix breakpoints behavior on "s" media ([#2281](https://github.com/gravity-ui/uikit/issues/2281)) ([b1cd654](https://github.com/gravity-ui/uikit/commit/b1cd65431d6ab1c4b12fc7dce5a52e80ed8feecc))
+
 ## [7.14.0](https://github.com/gravity-ui/uikit/compare/v7.13.1...v7.14.0) (2025-06-09)
 
 

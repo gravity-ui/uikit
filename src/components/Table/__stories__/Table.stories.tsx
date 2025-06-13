@@ -196,7 +196,7 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
                 }}
             />
             <br />
-            <h3>{'with rowActionsIcon property as an SVG'}</h3>Add commentMore actions
+            <h3>{'with rowActionsIcon property as an SVG'}</h3>
             <TableWithAction
                 {...args}
                 getRowActions={getRowActions}

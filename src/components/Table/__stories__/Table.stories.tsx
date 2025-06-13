@@ -116,6 +116,20 @@ Adaptive.args = {
     data: data.slice(0, 2),
 };
 
+const svgIconTest = () => {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 17 17"
+            width="16"
+            height="16"
+            fill="currentColor"
+        >
+            <path d="M4 7h9v3H4z" />
+        </svg>
+    );
+};
+
 // ---------------------------------
 const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
     const getRowActions = (item: DataItem, index: number): TableAction<DataItem>[] => [
@@ -188,17 +202,7 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
             <TableWithAction
                 {...args}
                 getRowActions={getRowActions}
-                rowActionsIcon={
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 17 17"
-                        width="16"
-                        height="16"
-                        fill="currentColor"
-                    >
-                        <path d="M4 7h9v3H4z" />
-                    </svg>
-                }
+                rowActionsIcon={svgIconTest()}
             />
             <br />
             <h3>{'with rowActionsIcon property as a string'}</h3>

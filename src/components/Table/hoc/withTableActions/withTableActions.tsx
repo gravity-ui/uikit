@@ -192,7 +192,7 @@ const DefaultRowActions = <I extends TableDataItem>({
                 aria-expanded={isPopupOpen}
                 aria-controls={rowId}
             >
-                {rowActionsIcon || <Icon data={Ellipsis} />}
+                {rowActionsIcon ?? <Icon data={Ellipsis} />}
             </Button>
         </div>
     );

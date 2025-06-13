@@ -202,7 +202,7 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
             <TableWithAction
                 {...args}
                 getRowActions={getRowActions}
-                rowActionsIcon={svgIconTest()}
+                rowActionsIcon={<SvgIconTest />}
             />
             <br />
             <h3>{'with rowActionsIcon property as a string'}</h3>

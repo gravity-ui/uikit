@@ -1,10 +1,10 @@
 import * as React from 'react';
 
 import {CircleChevronDownFill, Pencil} from '@gravity-ui/icons';
-import {action} from '@storybook/addon-actions';
 import type {Meta, StoryFn} from '@storybook/react';
 import _cloneDeep from 'lodash/cloneDeep';
 import _isEqual from 'lodash/isEqual';
+import {action} from 'storybook/actions';
 
 import type {TableAction, TableSettingsData} from '..';
 import {Icon} from '../../Icon';
@@ -36,7 +36,7 @@ export default {
     },
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {
@@ -202,7 +202,7 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
             <TableWithAction
                 {...args}
                 getRowActions={getRowActions}
-                rowActionsIcon={<SvgIconTest />}
+                rowActionsIcon={svgIconTest()}
             />
             <br />
             <h3>{'with rowActionsIcon property as a string'}</h3>

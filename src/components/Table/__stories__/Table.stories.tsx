@@ -7,7 +7,6 @@ import _cloneDeep from 'lodash/cloneDeep';
 import _isEqual from 'lodash/isEqual';
 
 import type {TableAction, TableSettingsData} from '..';
-import {CheckboxDashIcon} from '../../Checkbox/CheckboxDashIcon';
 import {Icon} from '../../Icon';
 import {TreeSelect} from '../../TreeSelect/TreeSelect';
 import {Table} from '../Table';
@@ -185,11 +184,21 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
                 }}
             />
             <br />
-            <h3>{'with rowActionsIcon propert as a SVG sprite'}</h3>
+            <h3>{'with rowActionsIcon propert as a SVG'}</h3>
             <TableWithAction
                 {...args}
                 getRowActions={getRowActions}
-                rowActionsIcon={<CheckboxDashIcon />}
+                rowActionsIcon={
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 17 17"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                    >
+                        <path d="M4 7h9v3H4z" />
+                    </svg>
+                }
             />
             <br />
             <h3>{'with rowActionsIcon property as a string'}</h3>

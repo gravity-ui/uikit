@@ -77,6 +77,7 @@ This HOC adds a special column with actions to table columns.
 | getRowActions    | Array of action configs for each row           |   `(item: any, index: number) => TableActionConfig[]`    |
 | renderRowActions | Render function for Actions Cell               | `(props: {item: any; index: number}) => React.ReactNode` |
 | rowActionsSize   | Size of the action button and popup menu items |                 `"s"` `"m"` `"l"` `"xl"`                 |
+| rowActionsIcon   | Custom Icon for Actions Cell                   |                    `React.ReactNode`                     |
 
 ### TableActionConfig
 

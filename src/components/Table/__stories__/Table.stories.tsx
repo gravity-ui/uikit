@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {Pencil} from '@gravity-ui/icons';
+import {CircleChevronDownFill, Pencil} from '@gravity-ui/icons';
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
 import _cloneDeep from 'lodash/cloneDeep';
 import _isEqual from 'lodash/isEqual';
@@ -102,6 +102,18 @@ threeColumns[0].width = '33%';
 threeColumns[1].width = '33%';
 threeColumns[2].width = '33%';
 
+const CustomIconTestSVG = (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 17 17"
+        width="16"
+        height="16"
+        fill="currentColor"
+    >
+        <path d="M4 7h9v3H4z" />
+    </svg>
+);
+
 const AdaptiveTemplate: StoryFn<TableProps<DataItem>> = (args) => {
     return (
         <div>
@@ -182,6 +194,23 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
                         />
                     );
                 }}
+            />
+            <br />
+            <h3>{'with rowActionsIcon property as an SVG'}</h3>Add commentMore actions
+            <TableWithAction
+                {...args}
+                getRowActions={getRowActions}
+                rowActionsIcon={CustomIconTestSVG}
+            />
+            <br />
+            <h3>{'with rowActionsIcon property as a string'}</h3>
+            <TableWithAction {...args} getRowActions={getRowActions} rowActionsIcon="⭐" />
+            <br />
+            <h3>{'with rowActionsIcon property as a react component'}</h3>
+            <TableWithAction
+                {...args}
+                getRowActions={getRowActions}
+                rowActionsIcon={<Icon data={CircleChevronDownFill} size={12} />}
             />
         </React.Fragment>
     );

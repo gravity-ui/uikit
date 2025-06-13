@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 
-import _range from 'lodash/range';
 import type {DroppableProvided} from 'react-beautiful-dnd';
 
 import type {ListItem} from './ListItem';
@@ -20,10 +19,10 @@ export type SimpleContainerState = {
 };
 
 function getRefs(count: number) {
-    return _range(count).reduce((acc, index) => {
+    return Array.from({length: count}).reduce<RefsList>((acc, _, index) => {
         acc[index] = React.createRef();
         return acc;
-    }, {} as RefsList);
+    }, {});
 }
 
 export class SimpleContainer extends React.Component<SimpleContainerProps, SimpleContainerState> {

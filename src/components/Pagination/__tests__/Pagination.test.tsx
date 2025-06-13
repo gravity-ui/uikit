@@ -1,11 +1,11 @@
-import {noop} from 'lodash';
-
 import {render, screen} from '../../../../test-utils/utils';
 import {MobileProvider} from '../../mobile';
 import {Pagination} from '../Pagination';
 import {PaginationQa, getPaginationPageQa} from '../constants';
 import type {PaginationSize} from '../types';
 import {getSize} from '../utils';
+
+const noop = () => {};
 
 describe('Pagination component', () => {
     test('Single page', () => {

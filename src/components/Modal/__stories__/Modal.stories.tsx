@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import {faker} from '@faker-js/faker/locale/en';
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
-import range from 'lodash/range';
 
 import {Button} from '../../Button';
 import {Loader} from '../../Loader';
@@ -30,7 +29,9 @@ export const Default: StoryFn<ModalProps> = (props) => {
     const [openWithModal, setOpenWithModal] = React.useState(false);
     const [openWithDynamicContent, setOpenWithDynamicContent] = React.useState(false);
 
-    const [textLines] = React.useState(() => range(50).map(() => faker.lorem.sentences()));
+    const [textLines] = React.useState(() =>
+        Array.from({length: 50}, () => faker.lorem.sentences()),
+    );
 
     return (
         <Flex gap={5} direction="column" wrap>

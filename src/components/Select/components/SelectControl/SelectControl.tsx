@@ -3,7 +3,6 @@
 import * as React from 'react';
 
 import {ChevronDown, TriangleExclamation} from '@gravity-ui/icons';
-import isEmpty from 'lodash/isEmpty';
 
 import {useUniqId} from '../../../../hooks';
 import {Icon} from '../../../Icon';
@@ -81,7 +80,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
     } = props;
     const showOptionsText = Boolean(selectedOptionsContent);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
-    const hasValue = Array.isArray(value) && !isEmpty(value.filter(Boolean));
+    const hasValue = Array.isArray(value) && value.filter(Boolean).length > 0;
     const errorTooltipId = useUniqId();
 
     const [isDisabledButtonAnimation, setIsDisabledButtonAnimation] = React.useState(false);

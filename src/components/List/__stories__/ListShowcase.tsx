@@ -1,8 +1,5 @@
 import * as React from 'react';
 
-import _random from 'lodash/random';
-import _range from 'lodash/range';
-
 import {Button} from '../../Button';
 import {TextInput} from '../../controls';
 import {cn} from '../../utils/cn';
@@ -24,14 +21,14 @@ function getRandomName(length: number) {
 }
 
 function getRandomItems(count: number) {
-    return _range(1, count).map((index) => {
-        const title = getRandomName(_random(1, 30));
+    return Array.from({length: count}, (_, index) => {
+        const title = getRandomName(Math.floor(Math.random() * 30) + 1);
 
         return {
             title,
-            key: `${title}__${index}`,
+            key: `${title}__${index + 1}`,
             value: `val_${title}`,
-            meta: `description ${index}`,
+            meta: `description ${index + 1}`,
         };
     });
 }

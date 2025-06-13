@@ -2,8 +2,8 @@
 
 import * as React from 'react';
 
-import _get from 'lodash/get';
-import _memoize from 'lodash/memoize';
+import get from 'lodash/get';
+import memoize from 'lodash/memoize';
 
 import {createOnKeyDownHandler} from '../../../../hooks/useActionHandlers/useActionHandlers';
 import {block} from '../../../utils/cn';
@@ -48,10 +48,10 @@ export function withTableSorting<I extends TableDataItem, E extends {} = {}>(
     const displayName = `withTableSorting(${componentName})`;
 
     function defaultCompareFunction(itemA: I, itemB: I, columnId: string) {
-        if (_get(itemA, columnId) === _get(itemB, columnId)) {
+        if (get(itemA, columnId) === get(itemB, columnId)) {
             return 0;
         } else {
-            return _get(itemA, columnId) > _get(itemB, columnId) ? 1 : -1;
+            return get(itemA, columnId) > get(itemB, columnId) ? 1 : -1;
         }
     }
 
@@ -111,7 +111,7 @@ export function withTableSorting<I extends TableDataItem, E extends {} = {}>(
         }
 
         // eslint-disable-next-line @typescript-eslint/member-ordering
-        private enhanceColumns = _memoize((columns: TableColumnConfig<I>[]) => {
+        private enhanceColumns = memoize((columns: TableColumnConfig<I>[]) => {
             return columns.map((column) => {
                 const meta = column.meta;
 

@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import {faker} from '@faker-js/faker/locale/en';
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
-import range from 'lodash/range';
 
 import {useUniqId} from '../../../hooks';
 import {Button} from '../../Button';
@@ -25,7 +24,7 @@ export default {
     },
 } as Meta<DialogProps>;
 
-const largeTextLines = range(30).map(() => faker.lorem.sentences());
+const largeTextLines = Array.from({length: 30}, () => faker.lorem.sentences());
 
 function DialogComponent({
     buttonText,

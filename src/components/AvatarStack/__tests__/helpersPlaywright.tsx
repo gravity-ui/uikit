@@ -1,5 +1,4 @@
 import {FaceRobot} from '@gravity-ui/icons';
-import times from 'lodash/times';
 
 import {Avatar} from '../../Avatar';
 import {AvatarStack} from '../AvatarStack';
@@ -10,8 +9,8 @@ const DEFAULT_AVATAR_COUNT = 6;
 export const TestAvatarStack = (props: AvatarStackProps & {avatarCount?: number}) => {
     const {avatarCount, ...restProps} = props;
 
-    const avatarNodes = times(avatarCount || DEFAULT_AVATAR_COUNT, (number) => {
-        return <Avatar key={number} icon={FaceRobot} />;
+    const avatarNodes = Array.from({length: avatarCount || DEFAULT_AVATAR_COUNT}, (_, index) => {
+        return <Avatar key={index} icon={FaceRobot} />;
     });
 
     return <AvatarStack {...restProps}>{...avatarNodes}</AvatarStack>;

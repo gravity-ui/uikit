@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import _memoize from 'lodash/memoize';
+import memoize from 'lodash/memoize';
 
 import {ClipboardButton} from '../../../ClipboardButton';
 import {block} from '../../../utils/cn';
@@ -38,7 +38,7 @@ export function withTableCopy<I extends TableDataItem, E extends {} = {}>(
         }
 
         // eslint-disable-next-line @typescript-eslint/member-ordering
-        private enhanceColumns = _memoize((columns: TableColumnConfig<I>[]) => {
+        private enhanceColumns = memoize((columns: TableColumnConfig<I>[]) => {
             return columns.map((column) => {
                 const meta = column.meta;
 
@@ -91,7 +91,7 @@ export function withTableCopy<I extends TableDataItem, E extends {} = {}>(
         });
 
         // eslint-disable-next-line @typescript-eslint/member-ordering
-        private enhanceOnRowClick = _memoize(
+        private enhanceOnRowClick = memoize(
             (
                 onRowClick?: (
                     item: I,

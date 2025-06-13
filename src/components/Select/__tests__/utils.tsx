@@ -1,7 +1,5 @@
 import * as React from 'react';
 
-import range from 'lodash/range';
-
 import {Select} from '..';
 import type {SelectOption, SelectOptionGroup, SelectProps, SelectRenderControlProps} from '..';
 import {act, render} from '../../../../test-utils/utils';
@@ -73,7 +71,7 @@ export const timeout = (ms: number) => {
 
 export function generateOptions(args: number | [string, string][]): SelectOption[] {
     if (typeof args === 'number') {
-        return range(0, args).map((i) => ({
+        return Array.from({length: args}, (_, i) => ({
             value: `val${i + 1}`,
             content: `Value ${i + 1}`,
         }));
@@ -86,7 +84,7 @@ export const generateOptionsGroups = (
     groupsCount: number,
     optionsCount: number,
 ): SelectOptionGroup[] => {
-    return range(0, groupsCount).map((i) => ({
+    return Array.from({length: groupsCount}, (_, i) => ({
         label: `Group ${i + 1}`,
         options: generateOptions(optionsCount),
     }));

@@ -1,7 +1,5 @@
 import * as React from 'react';
 
-import get from 'lodash/get';
-
 import {TextInput} from '../../../controls';
 import {Flex} from '../../../layout';
 import {ListContainerView} from '../../components/ListContainerView';
@@ -25,7 +23,7 @@ export interface FlattenListProps {
 export const FlattenList = ({itemsCount, size}: FlattenListProps) => {
     const containerRef = React.useRef(null);
     const items = React.useMemo(
-        () => createRandomizedData<{title: string}>({num: itemsCount}),
+        () => createRandomizedData<{title: string; subtitle?: string}>({num: itemsCount}),
         [itemsCount],
     );
 
@@ -57,12 +55,8 @@ export const FlattenList = ({itemsCount, size}: FlattenListProps) => {
                         computeItemSize(
                             size,
                             Boolean(
-                                get(
-                                    list.structure.itemsById[
-                                        list.structure.visibleFlattenIds[index]
-                                    ],
-                                    'subtitle',
-                                ),
+                                list.structure.itemsById[list.structure.visibleFlattenIds[index]]
+                                    ?.subtitle,
                             ),
                         )
                     }

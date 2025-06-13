@@ -2,10 +2,6 @@
 
 import * as React from 'react';
 
-import _get from 'lodash/get';
-import _has from 'lodash/has';
-import _isNumber from 'lodash/isNumber';
-
 import type {AriaLabelingProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
@@ -111,13 +107,11 @@ export interface TableProps<I> extends AriaLabelingProps, QAProps {
      * Horizontal sticky scroll.
      * Note: table cannot be with fixed height and with sticky scroll at the same time.
      * Sticky scroll wont work if table has overflow.
-     *
      * @default false
      */
     stickyHorizontalScroll?: boolean;
     /**
      * Threshold when sticky scroll is enabled.
-     *
      *  @default 0
      */
     stickyHorizontalScrollBreakpoint?: number;
@@ -133,13 +127,13 @@ export interface TableProps<I> extends AriaLabelingProps, QAProps {
      * @deprecated Use getRowDescriptor instead
      *
      * Row CSS classes.
-     * */
+     */
     getRowClassNames?: (item: I, index: number) => string[];
     /**
      * @deprecated Use getRowDescriptor instead
      *
      * Condition for disabling columns.
-     * */
+     */
     isRowDisabled?: (item: I, index: number) => boolean;
 
     /**
@@ -246,9 +240,9 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
         if (typeof template === 'function') {
             value = template(item, rowIndex);
         } else if (typeof template === 'string') {
-            value = _get(item, template);
-        } else if (_has(item, id)) {
-            value = _get(item, id);
+            value = item?.[template];
+        } else if (item?.[id]) {
+            value = item[id];
         }
         if (EMPTY_VALUES.includes(value as any) && placeholderValue) {
             return placeholderValue;
@@ -624,7 +618,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                 ? 'insetInlineStart'
                 : 'insetInlineEnd';
         style[styleName] = filteredColumns.reduce<number>((start, width) => {
-            return _isNumber(width) ? start + width : start;
+            return typeof width === 'number' ? start + width : start;
         }, 0);
 
         return style;

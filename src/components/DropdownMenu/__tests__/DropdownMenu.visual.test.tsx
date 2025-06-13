@@ -1,5 +1,3 @@
-import noop from 'lodash/noop';
-
 import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
@@ -16,15 +14,15 @@ test.describe('DropdownMenu', {tag: '@DropdownMenu'}, () => {
                 items: [
                     {
                         text: 'level 0',
-                        action: noop,
+                        action: () => {},
                         items: [
                             {
                                 text: 'level 1',
-                                action: noop,
+                                action: () => {},
                                 items: [
                                     {
                                         text: 'level 2',
-                                        action: noop,
+                                        action: () => {},
                                     },
                                 ],
                             },

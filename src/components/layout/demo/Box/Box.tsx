@@ -1,5 +1,6 @@
 import type * as React from 'react';
 
+import {Text} from '../../../Text/Text';
 import {Flex} from '../../Flex/Flex';
 import type {FlexProps} from '../../Flex/Flex';
 
@@ -10,7 +11,7 @@ interface BoxProps extends FlexProps<'div'> {
     w?: number | string;
     h?: number | string;
     grow?: true;
-    bc?: React.CSSProperties['backgroundColor'];
+    bc?: React.CSSProperties['borderColor'];
     bgc?: React.CSSProperties['backgroundColor'];
 }
 
@@ -36,7 +37,9 @@ export function Box({
                 backgroundColor: bgc,
             }}
         >
-            {children}
+            <Text variant="code-1" color="complementary">
+                {children}
+            </Text>
         </Flex>
     );
 }

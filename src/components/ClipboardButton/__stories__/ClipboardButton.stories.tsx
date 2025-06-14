@@ -14,7 +14,11 @@ export default {
 
 type Story = StoryObj<typeof ClipboardButton>;
 
-export const Default: Story = {};
+export const Default: Story = {
+    args: {
+        text: 'Clipboard text from `<ClipboardButton/>` 1111 2222',
+    },
+};
 
 export const Size: Story = {
     render: (args) => (

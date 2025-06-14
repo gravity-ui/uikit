@@ -19,6 +19,7 @@ export async function copyText(text: string) {
 }
 
 function copyTextFallback(text: string) {
+    const activeElement = document.activeElement as HTMLElement;
     const input = document.createElement('input');
     // Make invisible for screen readers
     input.ariaHidden = 'true';
@@ -32,11 +33,11 @@ function copyTextFallback(text: string) {
     input.style.userSelect = 'text';
     input.value = text;
     document.body.append(input);
-
-    // Select text without focusing input
-    input.setSelectionRange(0, input.value.length);
+    input.select();
     const success = document.execCommand('copy');
     document.body.removeChild(input);
+    // Restore focus to the previously focused element
+    activeElement?.focus();
 
     return success;
 }

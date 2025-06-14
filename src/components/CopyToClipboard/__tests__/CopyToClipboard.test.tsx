@@ -11,10 +11,18 @@ describe('CopyToClipboard', () => {
             },
             configurable: true,
         });
+        Object.defineProperty(document, 'execCommand', {
+            value: jest.fn().mockReturnValue(true),
+            configurable: true,
+        });
     });
 
     afterEach(() => {
         Object.defineProperty(navigator, 'clipboard', {
+            value: undefined,
+            configurable: true,
+        });
+        Object.defineProperty(document, 'execCommand', {
             value: undefined,
             configurable: true,
         });
@@ -73,7 +81,7 @@ describe('CopyToClipboard', () => {
         });
     });
 
-    test('handles copy failure', async () => {
+    test('handles navigator.clipboard.writeText failure', async () => {
         const onCopy = jest.fn();
         const error = new Error('Copy failed');
         (navigator.clipboard.writeText as jest.Mock).mockRejectedValue(error);
@@ -88,6 +96,26 @@ describe('CopyToClipboard', () => {
 
         await waitFor(() => {
             expect(onCopy).toHaveBeenCalledWith('text', false);
+        });
+    });
+
+    test('should handle copy via fallback', async () => {
+        const onCopy = jest.fn();
+        Object.defineProperty(navigator, 'clipboard', {
+            value: undefined,
+            configurable: true,
+        });
+
+        render(
+            <CopyToClipboard text="text" onCopy={onCopy}>
+                <button>Copy</button>
+            </CopyToClipboard>,
+        );
+
+        fireEvent.click(screen.getByText('Copy'));
+
+        await waitFor(() => {
+            expect(onCopy).toHaveBeenCalledWith('text', true);
         });
     });
 });

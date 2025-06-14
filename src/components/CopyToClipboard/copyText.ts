@@ -1,4 +1,4 @@
-export async function copyText(text: string) {
+export function copyText(text: string) {
     if (navigator?.clipboard?.writeText) {
         return navigator.clipboard.writeText(text);
     }

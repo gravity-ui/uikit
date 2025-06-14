@@ -254,6 +254,28 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
+## Animation
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Label animation="gradient">Content</Label>
+`}
+>
+    <UIKit.Label animation="gradient">Content</UIKit.Label>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<Label animation="gradient">Content</Label>
+```
+
+<!--/GITHUB_BLOCK-->
+
 ## Properties
 
 | Name             | Description                                     |                  Type                   |   Default   |
@@ -275,3 +297,4 @@ LANDING_BLOCK-->
 | value            | Label value (displayed as `"children : value"`) |                `string`                 |             |
 | title            | `title` HTML attribute                          |                `string`                 |             |
 | qa               | `data-qa` HTML attribute, used for testing      |                `string`                 |             |
+| animation        | Animation type to apply to the label            |              `'gradient'`               |             |

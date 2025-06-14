@@ -165,6 +165,13 @@ export const LinkWrapper: Story = {
     },
 };
 
+export const Loading: Story = {
+    render: (args) => <Label {...args} loading />,
+    args: {
+        ...Default.args,
+    },
+};
+
 export const ShowcaseStory: Story = {
     render: () => <LabelShowcase />,
     name: 'Showcase',

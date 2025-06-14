@@ -211,4 +211,30 @@ test.describe('Label', {tag: '@Label'}, () => {
 
         await expectScreenshot({});
     });
+
+    smokeTest('with gradient loading', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<LabelProps>(
+            {...defaultProps, loading: true},
+            {
+                theme: themeCases,
+                size: sizeCases,
+                disabled: disabledCases,
+            },
+        );
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Label {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({});
+    });
 });

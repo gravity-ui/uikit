@@ -99,6 +99,13 @@ export function LabelShowcase(args: LabelProps) {
                 type: 'info',
             },
             {children: 'Key', value: 'Value', type: 'info'},
+            {
+                children: 'Loading',
+                icon: icons('TickIcon', props.size),
+                type: 'info',
+                loading: true,
+            },
+            {children: 'Loading', type: 'info', loading: true},
             {icon: icons('TickIcon', props.size)},
         ];
         return cases.map((label, i) => getLabel({key: i, ...props, ...label}));

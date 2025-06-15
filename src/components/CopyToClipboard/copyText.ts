@@ -3,7 +3,7 @@ export function copyText(text: string) {
         return navigator.clipboard.writeText(text);
     }
 
-    if (document) {
+    if (typeof document !== 'undefined') {
         const success = copyTextFallback(text);
 
         if (success) {
@@ -20,22 +20,22 @@ export function copyText(text: string) {
 
 function copyTextFallback(text: string) {
     const activeElement = document.activeElement as HTMLElement;
-    const input = document.createElement('input');
+    const textarea = document.createElement('textarea');
     // Make invisible for screen readers
-    input.ariaHidden = 'true';
-    // Reset possible styles for input
-    input.style.all = 'unset';
-    input.style.position = 'absolute';
-    input.style.left = '1000%';
+    textarea.setAttribute('aria-hidden', 'true');
+    // Reset possible styles for textarea
+    textarea.style.all = 'unset';
+    textarea.style.position = 'absolute';
+    textarea.style.left = '1000%';
     // Preserve spaces and line breaks
-    input.style.whiteSpace = 'pre';
+    textarea.style.whiteSpace = 'pre';
     // Do not inherit user-select (it may be `none`)
-    input.style.userSelect = 'text';
-    input.value = text;
-    document.body.append(input);
-    input.select();
+    textarea.style.userSelect = 'text';
+    textarea.value = text;
+    document.body.append(textarea);
+    textarea.select();
     const success = document.execCommand('copy');
-    document.body.removeChild(input);
+    document.body.removeChild(textarea);
     // Restore focus to the previously focused element
     activeElement?.focus();
 

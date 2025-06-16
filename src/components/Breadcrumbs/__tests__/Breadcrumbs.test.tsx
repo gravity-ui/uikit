@@ -212,7 +212,7 @@ it('supports custom props', function () {
 
 it('should support links', async function () {
     render(
-        <Breadcrumbs>
+        <Breadcrumbs maxItems={4}>
             <Breadcrumbs.Item href="https://example.com">Example.com</Breadcrumbs.Item>
             <Breadcrumbs.Item href="https://example.com/foo">Foo</Breadcrumbs.Item>
             <Breadcrumbs.Item href="https://example.com/foo/bar">Bar</Breadcrumbs.Item>
@@ -254,7 +254,7 @@ it('should support custom item component', async () => {
         );
     }
     render(
-        <Breadcrumbs itemComponent={RouterLink}>
+        <Breadcrumbs maxItems={4} itemComponent={RouterLink}>
             <RouterLink href="/" routerOptions={{foo: 'bar'}} disabled>
                 Example.com
             </RouterLink>

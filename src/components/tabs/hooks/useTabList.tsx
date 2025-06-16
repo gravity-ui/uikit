@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import {KeyCode} from '../../../constants';
 import {useDirection} from '../../theme';
+import {TabListCollapsedChildren} from '../TabListCollapsedChildren';
 import {TAB_DATA_ATTRIBUTE, bTabList} from '../constants';
 import {TabContext} from '../contexts/TabContext';
 import type {TabListProps} from '../types';
@@ -72,6 +73,7 @@ const focusFurthestTab = (event: React.KeyboardEvent, isInverse: boolean): HTMLE
 
 export function useTabList(
     tabListProps: TabListProps,
+    ref: React.RefObject<HTMLDivElement> = {current: null},
 ): React.HTMLAttributes<HTMLDivElement> & {[key: `data-${string}`]: string | undefined} {
     const tabContext = React.useContext(TabContext);
     const isRTL = useDirection() === 'rtl';
@@ -112,12 +114,23 @@ export function useTabList(
         tabListProps.onKeyDown?.(event);
     };
 
+    let children = tabListProps.children;
+
+    if (tabListProps.contentOverflow === 'collapse') {
+        children = (
+            <TabListCollapsedChildren tabsListContainerRef={ref}>
+                {tabListProps.children}
+            </TabListCollapsedChildren>
+        );
+    }
+
     const {
         value: _value,
         onUpdate: _onUpdate,
         size: _size,
         activateOnFocus: _activateOnFocus,
         qa: _qa,
+        contentOverflow: _contentOverflow,
         ...htmlProps
     } = tabListProps;
 
@@ -126,7 +139,14 @@ export function useTabList(
         role: 'tablist',
         'aria-orientation': 'horizontal' as const,
         onKeyDown,
-        className: bTabList({size: tabListProps.size ?? 'm'}, tabListProps.className),
+        className: bTabList(
+            {
+                size: tabListProps.size ?? 'm',
+                overflow: tabListProps.contentOverflow,
+            },
+            tabListProps.className,
+        ),
         'data-qa': tabListProps.qa,
+        children,
     };
 }

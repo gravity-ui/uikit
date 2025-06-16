@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import {Tab, TabList, TabPanel, TabProvider} from '..';
+import {Box} from '../../layout';
 import {getTabsMock} from '../__stories__/getTabsMock';
 import type {TabListProps} from '../types';
 
@@ -46,4 +47,28 @@ export const TestTabListWithCustomTabs = (props: Partial<TabListProps>) => {
     );
 
     return <TabList {...props}>{items}</TabList>;
+};
+
+export const TestCollapsedTabList = ({
+    title,
+    listToOpenQa,
+    ...props
+}: Partial<TabListProps> & {title: string; listToOpenQa: string}) => {
+    return (
+        <Box width={800} spacing={{px: 4, py: 10}}>
+            <h4>{title}</h4>
+
+            <Box spacing={{mb: 2}}>
+                <TestTabList {...props} />
+            </Box>
+
+            <Box style={{width: 500}} spacing={{mb: 2}}>
+                <TestTabList {...props} qa={listToOpenQa} />
+            </Box>
+
+            <Box style={{width: 150}}>
+                <TestTabList {...props} />
+            </Box>
+        </Box>
+    );
 };

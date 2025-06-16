@@ -177,7 +177,7 @@ export const Label = React.forwardRef(function Label(
                 title={title}
                 data-qa={qa}
             >
-                {loading && <div className={b('animation-container')} />}
+                {!disabled && loading && <div className={b('animation-container')} />}
                 {startIcon}
                 {hasOnClick ? (
                     <button

@@ -272,6 +272,6 @@ LANDING_BLOCK-->
 | size             | Размер лейбла.                                         |           `"xs"` `"s"` `"m"`            |         `"s"`         |
 | theme            | Тема лейбла.                                           |                `string`                 |      `"normal"`       |
 | type             | Тип лейбла.                                            | `"default"` `"copy"` `"close"` `"info"` |      `"default"`      |
-| value            | Значение лейбла (в виде `"children : value"`).         |                `string`                 |                       |
+| value            | Значение лейбла (в виде `"children : value"`).         |            `React.ReactNode`            |                       |
 | title            | HTML-атрибут `title`.                                  |                `string`                 |                       |
 | qa               | HTML-атрибут `data-qa`, используется для тестирования. |                `string`                 |                       |

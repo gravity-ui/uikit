@@ -254,16 +254,16 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
-## Animation
+## Loading state
 
 <!--LANDING_BLOCK
 
 <ExampleBlock
     code={`
-<Label animation="gradient">Content</Label>
+<Label loading>Content</Label>
 `}
 >
-    <UIKit.Label animation="gradient">Content</UIKit.Label>
+    <UIKit.Label loading>Content</UIKit.Label>
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -271,7 +271,7 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<Label animation="gradient">Content</Label>
+<Label loading>Content</Label>
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -297,4 +297,4 @@ LANDING_BLOCK-->
 | value            | Label value (displayed as `"children : value"`) |                `string`                 |             |
 | title            | `title` HTML attribute                          |                `string`                 |             |
 | qa               | `data-qa` HTML attribute, used for testing      |                `string`                 |             |
-| animation        | Animation type to apply to the label            |              `'gradient'`               |             |
+| loading          | Loading state                                   |                `boolean`                |   `false`   |

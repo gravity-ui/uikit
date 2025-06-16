@@ -37,6 +37,7 @@ $transition-timing-function: ease-in-out;
 
         &::after {
             position: absolute;
+            z-index: -1;
             inset: 0;
             content: '';
             background-color: var(--_--gradient-bg-color, var(--_--bg-color));

@@ -1,3 +1,4 @@
+'use client';
 import * as React from 'react';
 
 import {useFloatingTree, useListItem} from '@floating-ui/react';

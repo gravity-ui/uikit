@@ -33,6 +33,7 @@ $transition-timing-function: ease-in-out;
         overflow: hidden;
         position: absolute;
         inset: 0;
+        border-radius: inherit;
 
         &::after {
             position: absolute;

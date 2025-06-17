@@ -47,7 +47,7 @@ export interface LabelProps extends QAProps {
     /** Display hover */
     interactive?: boolean;
     /** Label value (shows as "children : value") */
-    value?: string;
+    value?: React.ReactNode;
     /** Label color */
     theme?: 'normal' | 'info' | 'danger' | 'warning' | 'success' | 'utility' | 'unknown' | 'clear';
     /** Label type (plain, with copy text button, with close button, or with info icon) */

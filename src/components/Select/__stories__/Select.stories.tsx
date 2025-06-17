@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {Plus, TrashBin} from '@gravity-ui/icons';
 import type {Decorator, Meta, StoryObj} from '@storybook/react-webpack5';
-import {escapeRegExp} from 'lodash';
+import escapeRegExp from 'lodash/escapeRegExp';
 import {useArgs} from 'storybook/preview-api';
 
 import {Select} from '..';

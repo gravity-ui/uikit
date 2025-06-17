@@ -1,6 +1,6 @@
 import {CircleExclamation, Link, Xmark} from '@gravity-ui/icons';
-import {action} from '@storybook/addon-actions';
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
+import {action} from 'storybook/actions';
 
 import {Icon} from '../../Icon';
 import {Text} from '../../Text';
@@ -16,7 +16,7 @@ export default {
     component: FilePreview,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

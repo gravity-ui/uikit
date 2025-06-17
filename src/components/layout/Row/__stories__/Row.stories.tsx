@@ -1,16 +1,14 @@
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
-import {Col} from '../../Col/Col';
-import {Box, LayoutPresenter} from '../../demo';
+import {ColPresenter, LayoutPresenter} from '../../demo';
 import {Row} from '../Row';
-import type {RowProps} from '../Row';
 
-export default {
+const meta = {
     title: 'Components/Layout/Row',
     component: Row,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {
@@ -21,46 +19,44 @@ export default {
             },
         },
     },
-} as Meta;
+    decorators: [
+        (Story) => (
+            <LayoutPresenter title="Change screen size to see changes">
+                <Story />
+            </LayoutPresenter>
+        ),
+    ],
+} satisfies Meta<typeof Row>;
+export default meta;
 
-const DefaultTemplate: StoryFn<RowProps> = (args) => (
-    <LayoutPresenter title="Change screen size to see changes">
-        <Row {...args} space={{s: 1, m: '5'}} spaceRow={{s: 5, m: '1'}}>
-            <Col s="12" m="6" l="2" xl="3">
-                <Box>s-12 m-6 l-2 xl-3</Box>
-            </Col>
-            <Col s="12" m="6" l="2" xl="3">
-                <Box>s-12 m-6 l-2 xl-3</Box>
-            </Col>
-            <Col s="6" m="12" xl="3">
-                <Box>s-6 m-12 xl-3</Box>
-            </Col>
-            <Col s="6" m="12" xl="3">
-                <Box>s-6 m-12 xl-3</Box>
-            </Col>
+type Story = StoryObj<typeof meta>;
+
+export const Default = {
+    render: (args) => (
+        <Row {...args}>
+            <ColPresenter size={[12, {s: 6, l: 8, xl: 3}]} />
+            <ColPresenter size={[12, {s: 6, l: 4, xl: 3}]} />
+            <ColPresenter size={[6, {m: 12, xl: 3}]} />
+            <ColPresenter size={[6, {m: 12, xl: 3}]} />
         </Row>
-    </LayoutPresenter>
-);
+    ),
+    args: {
+        space: {xs: 1, m: 5},
+        spaceRow: {xs: 5, m: 1},
+    },
+} satisfies Story;
 
-export const Default = DefaultTemplate.bind({});
-
-const ZeroSpacingsTemplate: StoryFn<RowProps> = (args) => (
-    <LayoutPresenter title="Change screen size to see changes">
-        <Row {...args} space={{s: 0.5, m: 2}} spaceRow={{s: 5, m: '0'}}>
-            <Col s="12" m="6" l="2" xl="3">
-                <Box>s-12 m-6 l-2 xl-3</Box>
-            </Col>
-            <Col s="12" m="6" l="2" xl="3">
-                <Box>s-12 m-6 l-2 xl-3</Box>
-            </Col>
-            <Col s="6" m="12" xl="3">
-                <Box>s-6 m-12 xl-3</Box>
-            </Col>
-            <Col s="6" m="12" xl="3">
-                <Box>s-6 m-12 xl-3</Box>
-            </Col>
+export const ZeroSpacings = {
+    render: (args) => (
+        <Row {...args}>
+            <ColPresenter size={[12, {s: 6, l: 8, xl: 3}]} />
+            <ColPresenter size={[12, {s: 6, l: 4, xl: 3}]} />
+            <ColPresenter size={[6, {m: 12, xl: 3}]} />
+            <ColPresenter size={[6, {m: 12, xl: 3}]} />
         </Row>
-    </LayoutPresenter>
-);
-
-export const ZeroSpacings = ZeroSpacingsTemplate.bind({});
+    ),
+    args: {
+        space: {xs: 0, m: 2},
+        spaceRow: {xs: 5, m: 0},
+    },
+} satisfies Story;

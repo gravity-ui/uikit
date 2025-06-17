@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {faker} from '@faker-js/faker/locale/en';
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
 import range from 'lodash/range';
 
 import {Button} from '../../Button';

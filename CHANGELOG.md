@@ -1,5 +1,19 @@
 # Changelog
 
+## [7.14.0](https://github.com/gravity-ui/uikit/compare/v7.13.1...v7.14.0) (2025-06-09)
+
+
+### Features
+
+* add prop 'maxWidth' to PlaceholderContainer component ([#2296](https://github.com/gravity-ui/uikit/issues/2296)) ([40b9973](https://github.com/gravity-ui/uikit/commit/40b997305a4d7f9c39ad119231a2a6e2f1eab76b))
+* **Alert:** add `clear` theme ([#2241](https://github.com/gravity-ui/uikit/issues/2241)) ([3f3fcb6](https://github.com/gravity-ui/uikit/commit/3f3fcb62c2f98dc195ee636a12de95bfa24d5c51))
+
+
+### Bug Fixes
+
+* **Hotkey:** fix styles ([#2274](https://github.com/gravity-ui/uikit/issues/2274)) ([09dcbdf](https://github.com/gravity-ui/uikit/commit/09dcbdf4b4c7dc87727250e6d77f96f8bf82575a))
+* **ThemeProvider:** do not set direction in case of null body ([#2289](https://github.com/gravity-ui/uikit/issues/2289)) ([c4f8e1c](https://github.com/gravity-ui/uikit/commit/c4f8e1c59138ed1baa3c41ef7d947186f77803e2))
+
 ## [7.13.1](https://github.com/gravity-ui/uikit/compare/v7.13.0...v7.13.1) (2025-06-02)
 
 

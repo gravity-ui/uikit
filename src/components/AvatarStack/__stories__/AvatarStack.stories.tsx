@@ -1,7 +1,7 @@
 import type * as React from 'react';
 
 import {faker} from '@faker-js/faker/locale/en';
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import type {AvatarSize} from '../../Avatar';
 import {AVATAR_SIZES, Avatar, DEFAULT_AVATAR_SIZE} from '../../Avatar';
@@ -64,7 +64,7 @@ const meta: Meta<ComponentType> = {
     },
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

@@ -1,4 +1,4 @@
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {RenderBackgrounds} from '../demo/colors/Base';
 import {RenderEffects} from '../demo/colors/Effects';
@@ -11,7 +11,7 @@ export default {
     title: 'Colors',
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

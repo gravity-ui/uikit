@@ -2,12 +2,13 @@ import {CSS_SIZE_EXCEPTION} from '../constants';
 import type {ColSize, IsMediaActive, MediaPartial, MediaProps, MediaType, Space} from '../types';
 
 const mediaByOrder: MediaProps<number> = {
-    s: 0,
-    m: 1,
-    l: 2,
-    xl: 3,
-    xxl: 4,
-    xxxl: 5,
+    xs: 0,
+    s: 1,
+    m: 2,
+    l: 3,
+    xl: 4,
+    xxl: 5,
+    xxxl: 6,
 };
 
 export const isMediaActiveFactory =
@@ -18,7 +19,7 @@ export const isMediaActiveFactory =
             : false;
     };
 
-const mediaOrder = ['s', 'm', 'l', 'xl', 'xxl', 'xxxl'] as const;
+const mediaOrder = ['xs', 's', 'm', 'l', 'xl', 'xxl', 'xxxl'] as const;
 
 export const getClosestMediaPropsFactory =
     (currentActive: MediaType) =>
@@ -30,7 +31,7 @@ export const getClosestMediaPropsFactory =
         let candidate = currentActive;
 
         while (candidate) {
-            if (medias[candidate]) {
+            if (typeof medias[candidate] !== 'undefined') {
                 return medias[candidate];
             }
 

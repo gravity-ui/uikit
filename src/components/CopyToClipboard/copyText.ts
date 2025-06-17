@@ -15,7 +15,7 @@ export function copyText(text: string) {
 }
 
 async function copyTextFallback(text: string) {
-    const activeElement = document.activeElement as HTMLElement;
+    const activeElement = document.activeElement;
 
     try {
         const textarea = document.createElement('textarea');
@@ -32,12 +32,21 @@ async function copyTextFallback(text: string) {
         textarea.value = text;
         document.body.append(textarea);
         textarea.select();
-        document.execCommand('copy');
+        const success = document.execCommand('copy');
+
+        if (!success) {
+            throw new Error('Failed to copy text with document.execCommand("copy")');
+        }
+
         document.body.removeChild(textarea);
-    } catch {
-        throw new Error('Failed to copy text with document.execCommand("copy")');
     } finally {
         // Restore focus to the previously focused element
-        activeElement?.focus();
+        if (
+            activeElement &&
+            'focus' in activeElement &&
+            typeof activeElement.focus === 'function'
+        ) {
+            activeElement.focus();
+        }
     }
 }

@@ -10,6 +10,7 @@ import {
     availableValuesCases,
     disabledCases,
     hasTooltipCases,
+    invertedCases,
     marksCases,
     sizeCases,
     startPointCases,
@@ -40,6 +41,7 @@ test.describe('Slider', {tag: '@Slider'}, () => {
             marks: marksCases,
             step: stepCases,
             startPoint: startPointCases,
+            inverted: invertedCases,
         });
 
         const availableValuesScenarios = createSmokeScenarios(

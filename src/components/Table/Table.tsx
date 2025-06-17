@@ -179,6 +179,8 @@ interface TableDefaultProps {
 
 const b = block('table');
 
+const EMPTY_VALUES = [undefined, null, ''];
+
 export class Table<I extends TableDataItem = Record<string, string>> extends React.Component<
     TableProps<I>,
     TableState
@@ -248,7 +250,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
         } else if (_has(item, id)) {
             value = _get(item, id);
         }
-        if ([undefined, null, ''].includes(value as any) && placeholderValue) {
+        if (EMPTY_VALUES.includes(value as any) && placeholderValue) {
             return placeholderValue;
         }
 

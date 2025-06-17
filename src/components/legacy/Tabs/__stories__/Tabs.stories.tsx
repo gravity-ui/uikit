@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import {useArgs} from '@storybook/preview-api';
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
+import {useArgs} from 'storybook/preview-api';
 
 import {Tabs, TabsDirection} from '../Tabs';
 import type {TabsItemProps, TabsProps} from '../Tabs';
@@ -24,7 +24,7 @@ const meta: Meta<typeof Tabs> = {
     },
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

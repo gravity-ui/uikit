@@ -1,4 +1,4 @@
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {Link} from '../Link';
 import type {LinkProps} from '../Link';
@@ -45,7 +45,7 @@ export default {
     parameters: {
         order: -100,
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

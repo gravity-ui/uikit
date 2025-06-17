@@ -1,5 +1,101 @@
 # Changelog
 
+## [7.14.0](https://github.com/gravity-ui/uikit/compare/v7.13.1...v7.14.0) (2025-06-09)
+
+
+### Features
+
+* add prop 'maxWidth' to PlaceholderContainer component ([#2296](https://github.com/gravity-ui/uikit/issues/2296)) ([40b9973](https://github.com/gravity-ui/uikit/commit/40b997305a4d7f9c39ad119231a2a6e2f1eab76b))
+* **Alert:** add `clear` theme ([#2241](https://github.com/gravity-ui/uikit/issues/2241)) ([3f3fcb6](https://github.com/gravity-ui/uikit/commit/3f3fcb62c2f98dc195ee636a12de95bfa24d5c51))
+
+
+### Bug Fixes
+
+* **Hotkey:** fix styles ([#2274](https://github.com/gravity-ui/uikit/issues/2274)) ([09dcbdf](https://github.com/gravity-ui/uikit/commit/09dcbdf4b4c7dc87727250e6d77f96f8bf82575a))
+* **ThemeProvider:** do not set direction in case of null body ([#2289](https://github.com/gravity-ui/uikit/issues/2289)) ([c4f8e1c](https://github.com/gravity-ui/uikit/commit/c4f8e1c59138ed1baa3c41ef7d947186f77803e2))
+
+## [7.13.1](https://github.com/gravity-ui/uikit/compare/v7.13.0...v7.13.1) (2025-06-02)
+
+
+### Bug Fixes
+
+* **TextInput:** separate inline padding for error icon ([#2285](https://github.com/gravity-ui/uikit/issues/2285)) ([75cf80d](https://github.com/gravity-ui/uikit/commit/75cf80d323317d2606686b560b25b15376d6558b))
+
+## [7.13.0](https://github.com/gravity-ui/uikit/compare/v7.12.0...v7.13.0) (2025-06-02)
+
+
+### Features
+
+* **Avatar:** add square shape ([#2275](https://github.com/gravity-ui/uikit/issues/2275)) ([60b9655](https://github.com/gravity-ui/uikit/commit/60b9655a75a5d1884eeb6c69761e8d0f44654331))
+
+
+### Bug Fixes
+
+* **Dialog:** remove Dialog.Body content node ([#2283](https://github.com/gravity-ui/uikit/issues/2283)) ([e6c43a2](https://github.com/gravity-ui/uikit/commit/e6c43a2ecc02cb333b849b978ba32e49b7f1aee9))
+* **TextInput:** padding for error icon when can clear ([#2284](https://github.com/gravity-ui/uikit/issues/2284)) ([c2718d7](https://github.com/gravity-ui/uikit/commit/c2718d7d08558d6e7b913dec01dbe04ed7b7a2d3))
+
+## [7.12.0](https://github.com/gravity-ui/uikit/compare/v7.11.0...v7.12.0) (2025-05-22)
+
+
+### Features
+
+* add Portal props to more components ([#2267](https://github.com/gravity-ui/uikit/issues/2267)) ([37c383c](https://github.com/gravity-ui/uikit/commit/37c383ced33923c10b9aed7f20b93b733fd90171))
+* **Slider:** add inverted property ([#2263](https://github.com/gravity-ui/uikit/issues/2263)) ([62c3c6f](https://github.com/gravity-ui/uikit/commit/62c3c6f9be285769522703580cc8470af021e543))
+
+
+### Bug Fixes
+
+* **ClipboardButton:** correct types ([#2273](https://github.com/gravity-ui/uikit/issues/2273)) ([c7baeb6](https://github.com/gravity-ui/uikit/commit/c7baeb6e60ea1157f5080e2a58cc0e4aa33bcf53))
+* **Dialog:** handle height change mid animation ([#2265](https://github.com/gravity-ui/uikit/issues/2265)) ([6b6ddfc](https://github.com/gravity-ui/uikit/commit/6b6ddfc1b70b916f51e738fc9d1cae33382a80d1))
+* **Dialog:** handle ResizeObserver loop error ([#2247](https://github.com/gravity-ui/uikit/issues/2247)) ([f024aad](https://github.com/gravity-ui/uikit/commit/f024aad833b5816487eca105ffbe708574226bb3))
+* **unstable_Menu:** tweak paddings and offsets ([#2276](https://github.com/gravity-ui/uikit/issues/2276)) ([0d5d026](https://github.com/gravity-ui/uikit/commit/0d5d026480ebb56731a875824f0f009c69e4ccec))
+
+## [7.11.0](https://github.com/gravity-ui/uikit/compare/v7.10.0...v7.11.0) (2025-05-07)
+
+
+### Features
+
+* **HelpMark:** add size prop ([#2257](https://github.com/gravity-ui/uikit/issues/2257)) ([7e5cd7f](https://github.com/gravity-ui/uikit/commit/7e5cd7f807c45913c3880c6fcb705344d11c5b9a))
+* **Label:** added "info" type label ([#2256](https://github.com/gravity-ui/uikit/issues/2256)) ([e5f5d8e](https://github.com/gravity-ui/uikit/commit/e5f5d8e40d52170655d4a9dd1f1a123faeb8936b))
+* new Menu implementation ([#2106](https://github.com/gravity-ui/uikit/issues/2106)) ([07c9bd8](https://github.com/gravity-ui/uikit/commit/07c9bd8d29a71ea7027b4f60c1fea01437d3f589))
+* **Skeleton:** add `animation` property ([#2205](https://github.com/gravity-ui/uikit/issues/2205)) ([15ff59d](https://github.com/gravity-ui/uikit/commit/15ff59d5101bffa5c92111a67482a27a5fb70239))
+
+
+### Bug Fixes
+
+* **DropdownMenu:** make submenu items inherit size ([#2248](https://github.com/gravity-ui/uikit/issues/2248)) ([6730977](https://github.com/gravity-ui/uikit/commit/6730977ff44643468873497c2e3ca8cfe4f83423))
+* **Label:** adjust interactive label button height ([#2259](https://github.com/gravity-ui/uikit/issues/2259)) ([e0ac7d1](https://github.com/gravity-ui/uikit/commit/e0ac7d1c5a9eaf00424aa899c0b8edef2affc21a))
+* **Label:** fixed hover state for Label with type "copy" ([#2260](https://github.com/gravity-ui/uikit/issues/2260)) ([1743a02](https://github.com/gravity-ui/uikit/commit/1743a02d6e403141d89e54315984e37754e9a102))
+* **Select:** fix closing inside Dialog ([#2252](https://github.com/gravity-ui/uikit/issues/2252)) ([2dab74c](https://github.com/gravity-ui/uikit/commit/2dab74c381eff764f15cb4d8c9898c521672590e))
+* smaller textinput icons for storybook ([#2250](https://github.com/gravity-ui/uikit/issues/2250)) ([e2b91bf](https://github.com/gravity-ui/uikit/commit/e2b91bf0c6e20f9e2ca7a14539342cc69885ad07))
+
+## [7.10.0](https://github.com/gravity-ui/uikit/compare/v7.9.1...v7.10.0) (2025-04-23)
+
+
+### Features
+
+* **Popover:** add zIndex to Popover props ([#2239](https://github.com/gravity-ui/uikit/issues/2239)) ([459459e](https://github.com/gravity-ui/uikit/commit/459459e99fb6e830faf18083dce8593441015dcd))
+* **Sheet:** add alwaysFullHeight prop ([#2088](https://github.com/gravity-ui/uikit/issues/2088)) ([2c65f8a](https://github.com/gravity-ui/uikit/commit/2c65f8a1c20f3d56f32bece326251906db120f2c))
+* **Sheet:** add maxContentHeightCoefficient prop ([#2225](https://github.com/gravity-ui/uikit/issues/2225)) ([f3c307f](https://github.com/gravity-ui/uikit/commit/f3c307f21dcf68b70d0adb768e462e70b4a861e3))
+* **Table:** add `meta.displayName` column property ([#2238](https://github.com/gravity-ui/uikit/issues/2238)) ([3fd66c0](https://github.com/gravity-ui/uikit/commit/3fd66c0602310191769c12b1a65ba3fecd4c8236))
+* update dependencies ([#2224](https://github.com/gravity-ui/uikit/issues/2224)) ([0e7bef8](https://github.com/gravity-ui/uikit/commit/0e7bef8fc655d5376ce83bc2bafb8f55c6e744b9))
+
+
+### Bug Fixes
+
+* **Breadcrumbs:** change more button border radius to default --g-border-radius-m ([#2231](https://github.com/gravity-ui/uikit/issues/2231)) ([8a48f52](https://github.com/gravity-ui/uikit/commit/8a48f529b3e7d4b55bd45181a0f1fec5e89a9f07))
+* **Dialog:** pass className to `DialogBody` content ([#2242](https://github.com/gravity-ui/uikit/issues/2242)) ([8dd8ed7](https://github.com/gravity-ui/uikit/commit/8dd8ed7e21b1d446f20a008b30a92c18e64ce937))
+* **Popover:** remove force safePolygon workaround ([#2228](https://github.com/gravity-ui/uikit/issues/2228)) ([5c6fa9c](https://github.com/gravity-ui/uikit/commit/5c6fa9ccdd251a25faba35e97b4d641a2da87894))
+* **Popover:** reuse props types from Popup ([#2227](https://github.com/gravity-ui/uikit/issues/2227)) ([57f66e1](https://github.com/gravity-ui/uikit/commit/57f66e153b832c8d70839c6518fb65456c9154d0))
+* replace custom icons examples (stepper, breadcrumbs) to uikit-examples in README for landing ([#2234](https://github.com/gravity-ui/uikit/issues/2234)) ([7df747f](https://github.com/gravity-ui/uikit/commit/7df747ff5162bc6ff2a89a8b30b74a4fb15ca07d))
+* **Select:** fix default control hitbox area during scale animation ([#2230](https://github.com/gravity-ui/uikit/issues/2230)) ([44224a3](https://github.com/gravity-ui/uikit/commit/44224a32a4be7dee11f651e945a2b796677b7ea0))
+* tree shaking when using configure ([#2232](https://github.com/gravity-ui/uikit/issues/2232)) ([56d73af](https://github.com/gravity-ui/uikit/commit/56d73afa23e82094a6ff1307514e82a5b921da3e))
+
+
+### Performance Improvements
+
+* **Table:** do not create empty values array in getBodyCellContent ([#2243](https://github.com/gravity-ui/uikit/issues/2243)) ([02cc9f8](https://github.com/gravity-ui/uikit/commit/02cc9f8e32dcb61b37cfd11ea839915f430cc449))
+
 ## [7.9.1](https://github.com/gravity-ui/uikit/compare/v7.9.0...v7.9.1) (2025-04-08)
 
 

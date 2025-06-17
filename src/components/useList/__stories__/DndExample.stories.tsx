@@ -1,4 +1,4 @@
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {Flex} from '../../layout';
 
@@ -13,7 +13,7 @@ export default {
         // https://github.com/atlassian/react-beautiful-dnd/issues/2350
         disableStrictMode: true,
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

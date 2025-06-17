@@ -4,60 +4,60 @@ import {Meta} from '@storybook/addon-docs';
 
 # Layout Components
 
-Components to describe relations between elements on the page.
+Components to build responsive layouts on the page.
 
 ```tsx
 import {Container, Row, Col, Flex} from '@gravity-ui/uikit';
 
 <Container>
     <Row space="5">
-        <Col s="12" l="6">
+        <Col size={[12, {l: 4}]}>
             <Flex space>...</Flex>
         </Col>
-        <Col s="12" l="8">
+        <Col size={[12, {l: 4}]}>
             ...
         </Col>
     </Row>
 </Container>;
 ```
 
-> boolean prop here in `Flex` component means that there is spacing between child components with default value taken from LayoutTheme
+> Boolean prop `space` in `Flex` component means that there is spacing between child components with default value taken from LayoutTheme
 
-**All components supports `jsdoc` on hover feature. Just hover over the component or components prop in you favorite editor to see documentation**
+**All components support `jsdoc` on hover feature. Just hover over the component or components prop in your favorite editor to see documentation**
 
 ### Base concepts:
 
--   [Spacing](#spacing)
--   [Screen sizes](#screen-sizes)
+- [Spacing](#spacing)
+- [Screen sizes](#screen-sizes)
 
 ### Components:
 
--   [Layout Grid](#layout-grid)
-    -   [Row](#row)
-    -   [Col](#col)
--   [Container](#container)
--   [Flex](#flex)
--   [Box](#box)
+- [Layout Grid](#layout-grid)
+    - [Row](#row)
+    - [Col](#col)
+- [Container](#container)
+- [Flex](#flex)
+- [Box](#box)
 
 ### Hooks
 
--   [useLayoutContext](#uselayoutcontext)
+- [useLayoutContext](#uselayoutcontext)
 
 ## Spacing
 
--   0.5 - 2px;
--   1 - 4px;
--   2 - 8px;
--   3 - 12px;
--   4 - 16px;
--   5 - 20px;
--   6 - 24px;
--   7 - 28px;
--   8 - 32px;
--   9 - 36px;
--   10 - 40px;
+- 0.5 - 2px;
+- 1 - 4px;
+- 2 - 8px;
+- 3 - 12px;
+- 4 - 16px;
+- 5 - 20px;
+- 6 - 24px;
+- 7 - 28px;
+- 8 - 32px;
+- 9 - 36px;
+- 10 - 40px;
 
-These `tokens` are also available in project during css custom properties:
+These `tokens` are also available via css custom properties:
 
 ```css
 .example-class {
@@ -82,16 +82,16 @@ const config: LayoutTheme = {
 
 export const App = () => {
     return (
-        <ThemeProvider layout={{config}}>
+        <ThemeProvider layout={{config, fixBreakpoints: true}}>
             {...}
         </ThemeProvider>
     );
 };
 ```
 
-### spacing utility
+### Spacing utility
 
-Very often during developing process you have to specify relative position between components. Inventing class names for such elements carries a very large overhead.
+Frequently during the developing process you have to specify relative position between components. Generating class names for such elements carries a large overhead.
 
 For such purposes, you can use `spacing` utility to generate predefined class names:
 
@@ -108,16 +108,18 @@ import {spacing} from '@gravity-ui/uikit';
 
 ## Screen sizes:
 
-We use `mobile-first` approach. It means that you should adapt you app to desktop after complete developing mobile version.
+We use **mobile-first** approach. It means that you should adapt your app for desktop after completing development of mobile version.
+The default breakpoints are:
 
--   `s` - 576px;
--   `m` - 768px;
--   `l` - 1080px;
--   `xl` - 1200px;
--   `xxl` - 1400px;
--   `xxxl` - 1920px;
+- `xs` - < 576px
+- `s` - ≥ 576px;
+- `m` - ≥ 768px;
+- `l` - ≥ 1080px;
+- `xl` - ≥ 1200px;
+- `xxl` - ≥ 1400px;
+- `xxxl` - ≥ 1920px;
 
-> To override breakpoint use `theme` breakpoints property;
+> To override breakpoint use `breakpoints` property in the layout config:
 
     ```tsx
     const APP_LAYOUT_THEME: LayoutTheme = {
@@ -153,50 +155,46 @@ It is mainly used as a base unit for other components such as `Flex` and `Card`.
 It is also well suited for use as a base for data loading containers, for example:
 
 ```tsx
-import React, {Suspence} from 'react';
+import React, {Suspense} from 'react';
 
 // `Flex` extended from `Box` component and enriched flexbox model properties
 <Flex centerContent width="100%" height="100%">
-    <Suspence fallback={<Loader size="m" />}>
-        <LazyLoadedCompepnet>
-    </Suspence>
-</Flex>
+    <Suspense fallback={<Loader size="m" />}>
+        <LazyLoadedComponent />
+    </Suspense>
+</Flex>;
 ```
 
 ## Layout Grid
 
-Base components to describe 12-th column layout grid for you app.
+Main components to describe 12-th column grid layout for your app.
 Supports nested grids. This should be used when you have mobile and desktop app versions.
 
 ```tsx
 import {Row, Col} from '@gravity-ui/uikit';
 
 <Row space="5">
-    <Col s="4">...</Col>
-    <Col s="4">...</Col>
-    <Col s="4">...</Col>
+    <Col size="4">...</Col>
+    <Col size="4">...</Col>
+    <Col size="4">...</Col>
 </Row>;
 ```
 
 ### Row
 
-props:
+**Props**
 
--   `space` - sets spacings between child `Col` components;
--   `spaceRow` - specify `y` axis spacing between `Col` components. By default it takes values from `space` props.
-
-_`space` is a required prop to exclude implicit behavior of code. You need to specify _
+- `space` - specify horizontal spacing between child `Col` components;
+- `spaceRow` - specify vertical spacing between child `Col` components. By default, it takes values from the `space` prop.
 
 ### Col
 
 How many columns of your 12-th column layout will take content.
-Must be used as a child inside `Row` component.
+Must be used as a child of `Row` component.
 
-props:
+**Props**
 
--   as props takes [screen size](#screen-sizes) (`s`, `m`, `l`,`xl`, `xxl`, `xxxl`) and column size to take corresponding to `mobile-first` approach
-
-> To specify col value to all screen sizes use `s` (`small` - also you can think about this props as a `size`) prop
+- `size` - column width in column number (if omitted the column will occupy all free space in the row)
 
 ```tsx
 import {Row, Col} from '@gravity-ui/uikit';
@@ -210,35 +208,35 @@ import {Row, Col} from '@gravity-ui/uikit';
     space="5"
 >
     <Col
-        // will be apply for `s` and `m` breakpoint
-        s="12"
-        // will be apply for `l`, `xl` ...
-        l="6"
-    >
-        ...
-    </Col>
-</Row>;
+        // Will be:
+        // 12 for "xs" and "s"
+        // 6 for "m" and "l"
+        // 4 for "xl" and "xxl"
+        size={[12, {m: 6, xl: 4}]}
+    />
+</Row>
 ```
 
-> Grid system use negative margins under the hood. So you can specify background-color css property directly in `Col` components. Use wrapper components in such situations.
+> Grid system use negative margins under the hood. So you can specify background-color css property directly in `Col` components. Use wrapper components in such cases.
 
 ## Container
 
 Center you content. Almost always it should be one per page. Manage max width corresponding to current screen size
 
-props:
+**Props**
 
--   `gutters` - left and right content padding. Needed when you content width equals screen width;
--   `maxWidth` - limits screen width for specific screen size;
--   `spaceRow` - ability to specify spacing between children `Row` components
+- `gutters` - left and right content padding. Needed when you content width equals screen width;
+- `maxWidth` - limits screen width for specific screen size;
+- `spaceRow` - ability to specify spacing between children `Row` components
 
 ## Flex
 
-Css `Flexbox` model representation in `jsx` world. Has build in `spacing` to manage space between children's. All flex properties are available during props. For most used properties it supports object syntax config to override behavior in different screen sizes.
+CSS `Flexbox` model representation in `jsx` world. Has built-in `spacing` to manage space between children. All flex properties are available in props.
+For most used properties it supports object syntax config to override behavior in different screen sizes.
 
 #### Examples
 
--   space between children components in row direction
+_Space between children components in row direction_
 
 ```jsx
 import {Row, Col} from '@gravity-ui/uikit';
@@ -249,7 +247,7 @@ import {Row, Col} from '@gravity-ui/uikit';
 </Flex>;
 ```
 
--   nested `Flex` example
+_Nested `Flex` example_
 
 ```jsx
 import {Row, Col} from '@gravity-ui/uikit';
@@ -263,7 +261,7 @@ import {Row, Col} from '@gravity-ui/uikit';
 </Flex>;
 ```
 
--   responsible example
+_Responsible example_
 
 ```jsx
 import {Row, Col} from '@gravity-ui/uikit';
@@ -284,11 +282,10 @@ import {Row, Col} from '@gravity-ui/uikit';
 
 Hook `useLayoutContext` provide ability to use `LayoutTheme` and helper functions to work with media queries.
 
-returns the following methods and objects:
+It returns the following methods and objects:
 
--   `theme` - `LayoutTheme` object;
--   `activeMediaQuery` - returns current [Screen sizes](#screen-sizes) keys.
-    > Note: `s` breakpoint starts from `0px` and and's with `m (768px) - 1px`
+- `theme` - `LayoutTheme` object;
+- `activeMediaQuery` - returns current [Screen sizes](#screen-sizes) keys.
 
 ```tsx
 import {useLayoutContext} from '@gravity-ui/uikit';
@@ -297,44 +294,40 @@ const Component = () => {
     const {activeMediaQuery} = useLayoutContext();
 
     return (
-        <>
-            {activeMediaQuery === 'l' ? (
-                <Text>I am rendering only on screen resolution - "l"</Text>
-            ) : null}
-        </>
+        <>{activeMediaQuery === 'l' ? <Text>I render only on screen resolution "l"</Text> : null}</>
     );
 };
 ```
 
--   `isMediaActive` - returns a boolean value if the passed value is equal to or greater than the currently active media expression. It is necessary to describe the logic of adaptive behavior of elements taking into account the mobile-first approach
+- `isMediaActive` - returns `true` if passed value is equal to or greater than the current active media. It is necessary to implement logic of adaptive elements for **mobile-first** approach.
 
-```tsx
-import {useLayoutContext} from '@gravity-ui/uikit';
+    ```tsx
+    import {useLayoutContext} from '@gravity-ui/uikit';
 
-// this example of code will be shown on l, xl, xxl and xxxl screen sizes
-const Component = () => {
-    const {isMediaActive} = useLayoutContext();
+    // this example will be shown on xl, xxl and xxxl screen sizes
+    const Component = () => {
+        const {isMediaActive} = useLayoutContext();
 
-    return (
-        <>{isMediaActive('xl') ? <Text>i'm rendering on "l", "xl", "xxl" and "xxxl" screen sizes</Text> : null}</>;
-    )
-};
-```
+        return (
+            <>{isMediaActive('xl') ? <Text>I render on "xl", "xxl" and "xxxl" screen sizes</Text> : null}</>;
+        )
+    };
+    ```
 
--   `getClosestMediaProps` - it works in a similar way to is Media Active, only it takes map as an argument in the keys of screen resolutions. Returns the nearest available key value taking into account the mobile first approach.
+- `getClosestMediaProps` - it works in a similar way as `isMediaActive`, but takes a map with screen media as an argument. Returns the nearest available value in the map taking into account the **mobile-first** approach.
 
-```tsx
-import {useLayoutContext} from '@gravity-ui/uikit';
+    ```tsx
+    import {useLayoutContext} from '@gravity-ui/uikit';
 
-const mapOfPropsByScreen = {
-    s: "i'm will be shown on 's' and 'n' screen size",
-    l: "i'm will be shown on 'l' and 'xl' screen size",
-    xxl: "i'm will be shown on 'xxl' and 'xxxl' screen size",
-};
+    const mapOfPropsByScreen = {
+        s: "i'm will be shown on 's' and 'n' screen size",
+        l: "i'm will be shown on 'l' and 'xl' screen size",
+        xxl: "i'm will be shown on 'xxl' and 'xxxl' screen size",
+    };
 
-const Component = () => {
-    const {getClosestMediaProps} = useLayoutContext();
+    const Component = () => {
+        const {getClosestMediaProps} = useLayoutContext();
 
-    return <Text>{mapOfPropsByScreen(mapOfPropsByScreen)}</Text>;
-};
-```
+        return <Text>{getClosestMediaProps(mapOfPropsByScreen)}</Text>;
+    };
+    ```

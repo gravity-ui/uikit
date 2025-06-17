@@ -13,8 +13,17 @@ test.describe('Skeleton', {tag: '@Skeleton'}, () => {
                 height: '30px',
             },
         };
-
-        const smokeScenarios = createSmokeScenarios(defaultProps, {});
+        const smokeScenarios = createSmokeScenarios(
+            defaultProps,
+            {
+                animation: [
+                    ['gradient', 'gradient'],
+                    ['pulse', 'pulse'],
+                    ['none', 'none'],
+                ],
+            },
+            {scenarioName: 'smoke'},
+        );
 
         await mount(
             <div style={{width: 400}}>

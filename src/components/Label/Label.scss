@@ -55,6 +55,7 @@ $transition-timing-function: ease-in-out;
         @include mixins.button-reset();
         border-radius: inherit;
         z-index: 1;
+        height: 100%;
 
         &:empty {
             position: absolute;
@@ -201,8 +202,10 @@ $transition-timing-function: ease-in-out;
     }
 
     // hover styles
-    &_interactive:hover:not(:has(#{$block}__addon_type_button:hover)),
-    &__addon_type_button:hover {
+    &_interactive:hover:not(
+            :has(#{$block}__addon_type_button:not(#{$block}__addon_action_copy):hover)
+        ),
+    &__addon_type_button:not(#{$block}__addon_action_copy):hover {
         background-color: var(--_--bg-color-hover);
     }
 

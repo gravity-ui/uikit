@@ -2,16 +2,14 @@
 
 #{v.$colBlock} {
     // by default col takes all available space
-    flex-grow: 1;
-    flex-basis: 0;
-    max-width: 100%;
+    flex: 1 0 0;
+    width: 100%;
 
     @each $size, $value in v.$COL_SIZE {
         &_size_#{$size} {
             box-sizing: border-box;
-            flex-grow: 0;
-            flex-basis: $value;
-            max-width: $value;
+            flex: 0 0 auto;
+            width: $value;
         }
     }
 }

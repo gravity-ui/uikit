@@ -1,4 +1,4 @@
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {Table} from '../../Table';
 import {Hotkey} from '../Hotkey';
@@ -26,7 +26,7 @@ const examples = [
     'alt+s+alt+s',
     'mod+[ mod+]',
     'mod+plus',
-    'mod+-',
+    'mod+minus',
 ];
 
 export const Examples: StoryFn = () => (

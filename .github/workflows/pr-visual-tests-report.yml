@@ -12,10 +12,16 @@ jobs:
     if: github.event.workflow_run.event == 'pull_request'
     runs-on: ubuntu-latest
     steps:
+      - name: Generate token
+        id: generate-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.GRAVITY_UI_APP_ID }}
+          private-key: ${{ secrets.GRAVITY_UI_APP_PRIVATE_KEY }}
       - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
-          github-token: ${{ secrets.GRAVITY_UI_BOT_GITHUB_TOKEN }}
+          github-token: ${{ steps.generate-token.outputs.token }}
           run-id: ${{ github.event.workflow_run.id }}
       - name: Extract PR Number
         id: pr
@@ -37,7 +43,7 @@ jobs:
       - name: Create Comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
-          GITHUB_TOKEN: ${{ secrets.GRAVITY_UI_BOT_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
           number: ${{ steps.pr.outputs.id }}
           header: visual tests report
           message: '[Visual Tests Report](https://storage.yandexcloud.net/playwright-reports/uikit/pulls/${{ steps.pr.outputs.id }}/index.html) is ready.'

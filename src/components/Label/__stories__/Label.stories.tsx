@@ -1,21 +1,26 @@
 import {Check} from '@gravity-ui/icons';
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Showcase} from '../../../demo/Showcase';
 import {Icon as IconComponent} from '../../Icon';
 import {Link} from '../../Link';
 import {Label} from '../Label';
+import type {LabelProps} from '../Label';
 
 import {LabelShowcase} from './LabelShowcase';
 
-const iconSizeMap = {xs: 12, s: 14, m: 16} as const;
+const iconSizeMap: Record<NonNullable<LabelProps['size']>, number> = {
+    xs: 12,
+    s: 14,
+    m: 16,
+} as const;
 
 const meta: Meta<typeof Label> = {
     title: 'Components/Data Display/Label',
     component: Label,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {
@@ -131,6 +136,13 @@ export const Close: Story = {
         ...Default.args,
         type: 'close',
         closeButtonLabel: 'Close',
+    },
+};
+
+export const Info: Story = {
+    args: {
+        ...Default.args,
+        type: 'info',
     },
 };
 

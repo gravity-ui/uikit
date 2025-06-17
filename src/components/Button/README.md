@@ -294,6 +294,32 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
+### Menu trigger
+
+`Button` automatically changes its appearance when corresponding aria-attributes (`aria-haspopup`, `aria-expanded`) are passed:
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Button aria-haspopup="menu" aria-expanded="true">Menu</Button>
+`}
+>
+    <UIKit.Button aria-haspopup="menu" aria-expanded="true">Menu</UIKit.Button>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<Button aria-haspopup="menu" aria-expanded="true">
+  Menu
+</Button>
+```
+
+<!--/GITHUB_BLOCK-->
+
 ## Size
 
 Use the `size` property to manage the `Button` size. The default size is `m`.

@@ -1,4 +1,4 @@
-import {composeStories} from '@storybook/react';
+import {composeStories} from '@storybook/react-webpack5';
 
 import * as DefaultPasswordInputStories from '../__stories__/PasswordInput.stories';
 

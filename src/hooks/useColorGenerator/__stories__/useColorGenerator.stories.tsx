@@ -26,7 +26,7 @@ type Story = StoryObj<typeof ColoredAvatar>;
 
 const views = ['light', 'medium', 'heavy'] as const;
 const states = ['view', 'colors'] as const;
-const tokens = Array.from({length: 10}, () => randomString(16));
+const tokens = Array.from({length: 20}, () => randomString(32));
 
 const Template = (args: React.ComponentProps<typeof ColoredAvatar>) => {
     const items = [];

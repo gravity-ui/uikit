@@ -122,6 +122,27 @@ export const Layout: Story = {
     },
 };
 
+export const ActionsLayout: Story = {
+    render: (args) => (
+        <Showcase>
+            {layoutCases.map((layout, layoutIdx) =>
+                layoutCases.map((actionsLayout, actionsLayoutIdx) => (
+                    <ShowcaseItem
+                        title={`Layout: ${layout}, Actions layout: ${actionsLayout}`}
+                        key={layoutIdx + actionsLayoutIdx}
+                    >
+                        <Alert {...args} layout={layout} actionsLayout={actionsLayout} />
+                    </ShowcaseItem>
+                )),
+            )}
+        </Showcase>
+    ),
+    args: {
+        ...Default.args,
+        actions: [{text: 'First action'}, {text: 'Second action'}],
+    },
+};
+
 const rightActionText = 'To the right (lose the horse)';
 const centerActionText = 'Straight (find a wife)';
 const leftActionText = 'To the left (CC 235.2)';

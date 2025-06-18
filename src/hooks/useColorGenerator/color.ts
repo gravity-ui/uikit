@@ -1,8 +1,10 @@
+// import {randomString} from '../../components/utils/common';
+
 import {colorOptions} from './constants';
 import type {ColorProps, HslColorProps, Intensity} from './types';
-import {getHash, getHue, normalizeHash} from './utils';
+import {extractHashPart, getHash, getHue, normalizeHash} from './utils';
 
-const linearToSrgb = (channel: number): number => {
+export const linearToSrgb = (channel: number): number => {
     if (channel <= 0.0031308) {
         return 12.92 * channel;
     } else {
@@ -10,7 +12,7 @@ const linearToSrgb = (channel: number): number => {
     }
 };
 
-const oklchToRgb = (l: number, c: number, h: number) => {
+export const oklchToRgb = (l: number, c: number, h: number): [number, number, number] => {
     // 1. Convert OKLCH to OKLab
     // Convert hue to radians
     const hRadians = (h * Math.PI) / 180;
@@ -35,27 +37,38 @@ const oklchToRgb = (l: number, c: number, h: number) => {
     const linearB = -0.0041960863 * lCubed - 0.7034186147 * mCubed + 1.707614701 * sCubed;
 
     // 3. Convert linear RGB to sRGB (with gamma correction)
-    const red = Math.round(255 * linearToSrgb(linearR));
-    const green = Math.round(255 * linearToSrgb(linearG));
-    const blue = Math.round(255 * linearToSrgb(linearB));
+    const red = Math.max(0, Math.min(255, Math.round(255 * linearToSrgb(linearR))));
+    const green = Math.max(0, Math.min(255, Math.round(255 * linearToSrgb(linearG))));
+    const blue = Math.max(0, Math.min(255, Math.round(255 * linearToSrgb(linearB))));
 
-    // Return clamped values directly
+    // Return clamped values in valid RGB range [0, 255]
     return [red, green, blue];
 };
 
 const generateColor = ({hash, intensity, theme}: HslColorProps) => {
     const hue = getHue(hash);
+    // console.log('hue', hue);
     const themeOptions = colorOptions[theme];
     const lightnessRange = themeOptions[intensity].lightness;
     const saturationRange = themeOptions[intensity].saturation;
 
-    const saturation = normalizeHash(hash, saturationRange[0], saturationRange[1]);
-    const lightness = normalizeHash(hash, lightnessRange[0], lightnessRange[1]);
+    // Используем разные части хэша для разных параметров цвета
+    // чтобы избежать корреляции между насыщенностью и яркостью
+    const saturationHash = extractHashPart(hash, 0); // младшие биты
+    const lightnessHash = extractHashPart(hash, 1); // средние биты
+
+    const saturation = normalizeHash(saturationHash, saturationRange[0], saturationRange[1]);
+    const lightness = normalizeHash(lightnessHash, lightnessRange[0], lightnessRange[1]);
 
     const [red, green, blue] = oklchToRgb(lightness / 100, saturation / 100, hue);
 
     return `rgb(${red}, ${green}, ${blue})`;
 };
+
+// Debug code for testing color generation
+// const tokens = Array.from({length: 30}, () => randomString(16));
+// const x = tokens.map((t) => getHue(getHash(t)));
+// console.info('Hue distribution:', Object.keys(countOccurrences(x)).length);
 
 export const getTextColor = (intensity: Intensity = 'light') => {
     if (intensity === 'heavy') {
@@ -69,3 +82,14 @@ export const getPersistentColor = ({seed, intensity = 'light', theme}: ColorProp
     const hash = getHash(seed);
     return generateColor({hash, intensity, theme});
 };
+
+// Debug utility function
+// function countOccurrences<T extends string | number>(array: T[]): Record<T, number> {
+//     const counts = {} as Record<T, number>;
+//
+//     for (const item of array) {
+//         counts[item] = (counts[item] || 0) + 1;
+//     }
+//
+//     return counts;
+// }

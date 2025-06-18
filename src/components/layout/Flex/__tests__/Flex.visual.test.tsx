@@ -20,7 +20,7 @@ test.describe('Flex', {tag: '@Flex'}, () => {
                     const size = page.viewportSize();
                     if (size) {
                         await page.setViewportSize({
-                            width: breakpointWidthPx + RESERVE_SPACING_PX,
+                            width: Math.max(breakpointWidthPx, 320) + RESERVE_SPACING_PX,
                             height: size.height,
                         });
                     }
@@ -43,7 +43,7 @@ test.describe('Flex', {tag: '@Flex'}, () => {
                     const size = page.viewportSize();
                     if (size) {
                         await page.setViewportSize({
-                            width: breakpointWidthPx + RESERVE_SPACING_PX,
+                            width: Math.max(breakpointWidthPx, 320) + RESERVE_SPACING_PX,
                             height: size.height,
                         });
                     }
@@ -67,7 +67,7 @@ test.describe('Flex', {tag: '@Flex'}, () => {
                     const size = page.viewportSize();
                     if (size) {
                         await page.setViewportSize({
-                            width: breakpointWidthPx + RESERVE_SPACING_PX,
+                            width: Math.max(breakpointWidthPx, 320) + RESERVE_SPACING_PX,
                             height: size.height,
                         });
                     }
@@ -86,7 +86,7 @@ test.describe('Flex', {tag: '@Flex'}, () => {
                     const size = page.viewportSize();
                     if (size) {
                         await page.setViewportSize({
-                            width: breakpointWidthPx + RESERVE_SPACING_PX,
+                            width: Math.max(breakpointWidthPx, 320) + RESERVE_SPACING_PX,
                             height: size.height,
                         });
                     }
@@ -105,7 +105,7 @@ test.describe('Flex', {tag: '@Flex'}, () => {
                     const size = page.viewportSize();
                     if (size) {
                         await page.setViewportSize({
-                            width: breakpointWidthPx + RESERVE_SPACING_PX,
+                            width: Math.max(breakpointWidthPx, 320) + RESERVE_SPACING_PX,
                             height: size.height,
                         });
                     }

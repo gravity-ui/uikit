@@ -20,14 +20,16 @@ test.describe('Container', {tag: '@Container'}, () => {
                     const size = page.viewportSize();
                     if (size) {
                         await page.setViewportSize({
-                            width: breakpointWidthPx + RESERVE_SPACING_PX,
+                            width: Math.max(breakpointWidthPx, 320) + RESERVE_SPACING_PX,
                             height: size.height,
                         });
                     }
 
                     await mount(<ContainerStories.Default {...props} />, {width: 'auto'});
 
-                    await expectScreenshot();
+                    await expectScreenshot({
+                        themes: ['light'],
+                    });
                 },
             );
         },

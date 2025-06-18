@@ -25,6 +25,7 @@ export interface ContainerProps extends QAProps {
      * Width of container will never be larger then specified media type width
      */
     maxWidth?: MediaType;
+    // TODO BREAKING CHANGE: remove false value, 0 has the same effect
     /**
      * Right and left paddings between content
      *
@@ -91,7 +92,7 @@ export const Container = ({
         if (propsCandidate) {
             sr = makeCssMod(propsCandidate);
         }
-    } else if (spaceRow) {
+    } else if (typeof spaceRow !== 'undefined') {
         sr = makeCssMod(spaceRow);
     }
 
@@ -106,7 +107,7 @@ export const Container = ({
                     ? className
                     : sp(
                           {
-                              px: gutters || containerThemeProps.gutters,
+                              px: gutters ?? containerThemeProps.gutters,
                           },
                           className,
                       ),

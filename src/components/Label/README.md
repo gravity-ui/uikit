@@ -254,6 +254,28 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
+## Loading state
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Label loading>Content</Label>
+`}
+>
+    <UIKit.Label loading>Content</UIKit.Label>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<Label loading>Content</Label>
+```
+
+<!--/GITHUB_BLOCK-->
+
 ## Properties
 
 | Name             | Description                                     |                  Type                   |   Default   |
@@ -272,6 +294,7 @@ LANDING_BLOCK-->
 | size             | Label size                                      |           `"xs"` `"s"` `"m"`            |    `"s"`    |
 | theme            | Label theme                                     |                `string`                 | `"normal"`  |
 | type             | Label type                                      | `"default"` `"copy"` `"close"` `"info"` | `"default"` |
-| value            | Label value (displayed as `"children : value"`) |                `string`                 |             |
+| value            | Label value (displayed as `"children : value"`) |            `React.ReactNode`            |             |
 | title            | `title` HTML attribute                          |                `string`                 |             |
 | qa               | `data-qa` HTML attribute, used for testing      |                `string`                 |             |
+| loading          | Loading state                                   |                `boolean`                |   `false`   |

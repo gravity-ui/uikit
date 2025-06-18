@@ -56,6 +56,7 @@ export interface LabelProps extends QAProps {
     size?: 'xs' | 's' | 'm';
     /** Browser title for Label */
     title?: string;
+    loading?: boolean;
 }
 
 export const Label = React.forwardRef(function Label(
@@ -80,6 +81,7 @@ export const Label = React.forwardRef(function Label(
         onCopy,
         onClick,
         qa,
+        loading = false,
     } = props;
     const hasContent = Boolean(children !== '' && React.Children.count(children) > 0);
 
@@ -175,6 +177,7 @@ export const Label = React.forwardRef(function Label(
                 title={title}
                 data-qa={qa}
             >
+                {!disabled && loading && <div className={b('animation-container')} />}
                 {startIcon}
                 {hasOnClick ? (
                     <button

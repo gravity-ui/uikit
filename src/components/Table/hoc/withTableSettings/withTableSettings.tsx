@@ -3,10 +3,6 @@
 import * as React from 'react';
 
 import {Gear} from '@gravity-ui/icons';
-import _get from 'lodash/get';
-import _isEqual from 'lodash/isEqual';
-import _isString from 'lodash/isString';
-import _last from 'lodash/last';
 
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
@@ -43,7 +39,7 @@ export function filterColumns<I>(
     if (columns[0] && columns[0].id === selectionColumnId) {
         filteredColumns.unshift(columns[0]);
     }
-    const lastColumn = _last(columns);
+    const lastColumn = columns.at(-1);
     if (lastColumn && lastColumn.id === actionsColumnId) {
         filteredColumns.push(lastColumn);
     }
@@ -52,15 +48,15 @@ export function filterColumns<I>(
 }
 
 export function getColumnStringTitle<Data>(column: TableColumnConfig<Data>) {
-    const displayName = _get(column, ['meta', 'displayName']);
-    if (_isString(displayName)) {
+    const displayName = column.meta?.displayName;
+    if (typeof displayName === 'string') {
         return displayName;
     }
-    if (_isString(column.name)) {
+    if (typeof column.name === 'string') {
         return column.name;
     }
-    const originalName = _get(column, ['meta', '_originalName']);
-    if (_isString(originalName)) {
+    const originalName = column.meta?._originalName;
+    if (typeof originalName === 'string') {
         return originalName;
     }
     return column.id;

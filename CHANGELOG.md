@@ -1,5 +1,19 @@
 # Changelog
 
+## [7.15.0](https://github.com/gravity-ui/uikit/compare/v7.14.0...v7.15.0) (2025-06-17)
+
+
+### Features
+
+* **CopyToClipboard:** add fallback for copyText ([#2304](https://github.com/gravity-ui/uikit/issues/2304)) ([2fcefd7](https://github.com/gravity-ui/uikit/commit/2fcefd7bea8dcf6e1120625ab8ba8717aa444cfc))
+* **Label:** allow ReactNode as value ([#2306](https://github.com/gravity-ui/uikit/issues/2306)) ([6c41e0d](https://github.com/gravity-ui/uikit/commit/6c41e0dee0f33574af257cffb54732afc7dc3dad))
+
+
+### Bug Fixes
+
+* **layout:** add prop to fix breakpoints behavior on "s" media ([#2281](https://github.com/gravity-ui/uikit/issues/2281)) ([b1cd654](https://github.com/gravity-ui/uikit/commit/b1cd65431d6ab1c4b12fc7dce5a52e80ed8feecc))
+* next.js RSC ([#2308](https://github.com/gravity-ui/uikit/issues/2308)) ([7e4d3bb](https://github.com/gravity-ui/uikit/commit/7e4d3bb700e403e0f6f7e71837fc094a41b37032))
+
 ## [7.14.0](https://github.com/gravity-ui/uikit/compare/v7.13.1...v7.14.0) (2025-06-09)
 
 

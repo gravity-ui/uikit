@@ -8,6 +8,7 @@ on:
 jobs:
   test_storybook:
     runs-on: ubuntu-latest
+    if: github.repository == 'gravity-ui/uikit'
     steps:
       - name: Checkout
         uses: actions/checkout@v4

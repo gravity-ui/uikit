@@ -112,18 +112,19 @@ $block: '.#{variables.$ns}alert';
 
     &__actions {
         display: flex;
-        align-items: flex-start;
-        flex-wrap: wrap;
 
         gap: var(--g-alert-actions-gap, var(--g-spacing-3));
 
-        &_center {
+        &_horizontal {
+            flex-direction: row;
             align-items: center;
         }
-    }
 
-    &__actions_minContent {
-        width: min-content;
+        &_vertical {
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
     }
 
     &__close-btn {

@@ -6,16 +6,10 @@ import type {AlertActionsProps} from './types';
 import {useAlertContext} from './useAlertContext';
 
 export const AlertActions = ({items, children, className}: AlertActionsProps) => {
-    const {layout} = useAlertContext();
+    const {actionsLayout} = useAlertContext();
 
     return (
-        <div
-            className={bAlert(
-                'actions',
-                {minContent: layout === 'horizontal', center: layout === 'horizontal'},
-                className,
-            )}
-        >
+        <div className={bAlert('actions', {[actionsLayout]: true}, className)}>
             {items?.map(({handler, text}, i) => (
                 <AlertAction key={i} onClick={handler}>
                     {text}

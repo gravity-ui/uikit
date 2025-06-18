@@ -35,6 +35,7 @@ export const Alert = (props: AlertProps) => {
         size = 'm',
         layout = 'vertical',
         closeButttonSize = 'm',
+        actionsLayout = layout === 'vertical' ? 'horizontal' : 'vertical',
         message,
         className,
         corners,
@@ -93,7 +94,7 @@ export const Alert = (props: AlertProps) => {
     );
 
     return (
-        <AlertContextProvider layout={layout} view={view} size={size}>
+        <AlertContextProvider layout={layout} view={view} size={size} actionsLayout={actionsLayout}>
             {theme === 'clear' ? (
                 <div {...commonProps}>{content}</div>
             ) : (

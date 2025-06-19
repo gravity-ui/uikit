@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import {Ellipsis} from '@gravity-ui/icons';
-import _memoize from 'lodash/memoize';
+import memoize from 'lodash/memoize';
 
 import {useUniqId} from '../../../../hooks';
 import {useBoolean} from '../../../../hooks/private';
@@ -263,14 +263,14 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
         };
 
         // eslint-disable-next-line @typescript-eslint/member-ordering
-        private enhanceColumns = _memoize((columns: TableColumnConfig<I>[]) =>
+        private enhanceColumns = memoize((columns: TableColumnConfig<I>[]) =>
             enhanceSystemColumn(columns, (systemColumn) => {
                 systemColumn.template = this.renderBodyCell;
             }),
         );
 
         // eslint-disable-next-line @typescript-eslint/member-ordering
-        private enhanceOnRowClick = _memoize(
+        private enhanceOnRowClick = memoize(
             (
                 onRowClick?: (
                     item: I,

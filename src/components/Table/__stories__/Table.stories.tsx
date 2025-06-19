@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import {CircleChevronDownFill, Pencil} from '@gravity-ui/icons';
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
-import _cloneDeep from 'lodash/cloneDeep';
-import _isEqual from 'lodash/isEqual';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
 import {action} from 'storybook/actions';
 
 import type {TableAction, TableSettingsData} from '..';
@@ -90,14 +90,14 @@ RowInteractive.args = {
 };
 
 // ---------------------------------
-const oneColumn = _cloneDeep(columns);
+const oneColumn = cloneDeep(columns);
 oneColumn[1].width = '100%';
 
-const twoColumns = _cloneDeep(columns);
+const twoColumns = cloneDeep(columns);
 twoColumns[1].width = '50%';
 twoColumns[2].width = '50%';
 
-const threeColumns = _cloneDeep(columns);
+const threeColumns = cloneDeep(columns);
 threeColumns[0].width = '33%';
 threeColumns[1].width = '33%';
 threeColumns[2].width = '33%';
@@ -221,7 +221,7 @@ HOCWithTableActions.args = {
 };
 
 // ---------------------------------
-const columnsWithCopy = _cloneDeep(columns);
+const columnsWithCopy = cloneDeep(columns);
 columnsWithCopy[0].meta = {copy: true};
 const WithTableCopyTemplate: StoryFn<TableProps<DataItem>> = (args) => <TableWithCopy {...args} />;
 export const HOCWithTableCopy = WithTableCopyTemplate.bind({});
@@ -262,7 +262,7 @@ HOCWithTableSettings.parameters = {
     // https://github.com/atlassian/react-beautiful-dnd/issues/2350
     disableStrictMode: true,
 };
-const columnsWithSettings = _cloneDeep(columns);
+const columnsWithSettings = cloneDeep(columns);
 const markColumnAsSelectedAlways = (idx: number) => {
     const column = columnsWithSettings[idx];
     column.meta = column.meta || {};
@@ -312,7 +312,7 @@ const WithTableSettingsWithResetTemplate: StoryFn<TableProps<DataItem>> = (args)
             settings={settings}
             updateSettings={setSettings}
             defaultSettings={DEFAULT_SETTINGS}
-            showResetButton={!_isEqual(DEFAULT_SETTINGS, settings)}
+            showResetButton={!isEqual(DEFAULT_SETTINGS, settings)}
         />
     );
 };
@@ -346,7 +346,7 @@ HOCWithTableSettingsCustomActions.parameters = {
 };
 
 // ---------------------------------
-const columnsWithSorting = _cloneDeep(columns);
+const columnsWithSorting = cloneDeep(columns);
 columnsWithSorting[0].meta = {sort: true};
 columnsWithSorting[2].meta = {sort: true};
 columnsWithSorting[3].meta = {sort: true};

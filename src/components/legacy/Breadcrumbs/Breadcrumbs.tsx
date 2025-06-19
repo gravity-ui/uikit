@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import _throttle from 'lodash/throttle';
+import throttle from 'lodash/throttle';
 
 import type {PopupPlacement} from '../../Popup';
 import type {QAProps} from '../../types';
@@ -116,7 +116,7 @@ export class Breadcrumbs<T extends BreadcrumbsItem = BreadcrumbsItem> extends Re
     constructor(props: BreadcrumbsProps<T>) {
         super(props);
 
-        this.handleResize = _throttle(this.handleResize, RESIZE_THROTTLE);
+        this.handleResize = throttle(this.handleResize, RESIZE_THROTTLE);
         if (typeof window !== 'undefined') {
             this.resizeObserver = new ResizeObserver(this.handleResize);
         }

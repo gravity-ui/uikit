@@ -47,13 +47,10 @@ export const oklchToRgb = (l: number, c: number, h: number): [number, number, nu
 
 const generateColor = ({hash, intensity, theme}: HslColorProps) => {
     const hue = getHue(hash);
-    // console.log('hue', hue);
     const themeOptions = colorOptions[theme];
     const lightnessRange = themeOptions[intensity].lightness;
     const saturationRange = themeOptions[intensity].saturation;
 
-    // Используем разные части хэша для разных параметров цвета
-    // чтобы избежать корреляции между насыщенностью и яркостью
     const saturationHash = extractHashPart(hash, 0); // младшие биты
     const lightnessHash = extractHashPart(hash, 1); // средние биты
 
@@ -64,11 +61,6 @@ const generateColor = ({hash, intensity, theme}: HslColorProps) => {
 
     return `rgb(${red}, ${green}, ${blue})`;
 };
-
-// Debug code for testing color generation
-// const tokens = Array.from({length: 30}, () => randomString(16));
-// const x = tokens.map((t) => getHue(getHash(t)));
-// console.info('Hue distribution:', Object.keys(countOccurrences(x)).length);
 
 export const getTextColor = (intensity: Intensity = 'light') => {
     if (intensity === 'heavy') {
@@ -82,14 +74,3 @@ export const getPersistentColor = ({seed, intensity = 'light', theme}: ColorProp
     const hash = getHash(seed);
     return generateColor({hash, intensity, theme});
 };
-
-// Debug utility function
-// function countOccurrences<T extends string | number>(array: T[]): Record<T, number> {
-//     const counts = {} as Record<T, number>;
-//
-//     for (const item of array) {
-//         counts[item] = (counts[item] || 0) + 1;
-//     }
-//
-//     return counts;
-// }

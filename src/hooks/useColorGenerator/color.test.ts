@@ -1,4 +1,4 @@
-import {getPersistentColor, getTextColor, linearToSrgb, oklchToRgb} from '../color';
+import {getPersistentColor, getTextColor, linearToSrgb, oklchToRgb} from './color';
 
 describe('color utilities', () => {
     describe('linearToSrgb', () => {

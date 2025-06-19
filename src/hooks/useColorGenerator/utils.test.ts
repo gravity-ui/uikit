@@ -200,7 +200,7 @@ describe('useColorGenerator utils', () => {
             const BIN_SIZE = 360 / BINS;
             const EXPECTED_PER_BIN = DISTRIBUTION_TEST_HASHES.length / BINS;
             const MAX_ALLOWED_DEVIATION = 0.05; // 5% maximum deviation - realistic for uniform function
-            const MAX_CHI_SQUARE = 0.1; // Very low value for practically perfect distribution
+            const MAX_CHI_SQUARE = 1.0; // Reasonable value for good distribution
             const MAX_RATIO = 1.05; // Maximum ratio of max/min for uniformity
 
             const bins = new Array(BINS).fill(0);

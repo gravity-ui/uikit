@@ -27,7 +27,7 @@ export const getHash = (seed: string) => {
     hash = Math.imul(hash, 0x27d4eb2d);
     hash ^= hash >>> 15;
 
-    return hash >>> 0;
+    return hash | 0;
 };
 
 export const normalizeHash = (hash: number, min: number, max: number) => {

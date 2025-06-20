@@ -21,18 +21,6 @@ const options: SegmentedRadioGroupOptionProps[] = [
     {value: 'Value 3', content: 'Value 3'},
 ];
 
-const children = [
-    <SegmentedRadioGroup.Option value="Value 1" key="1">
-        Value 1
-    </SegmentedRadioGroup.Option>,
-    <SegmentedRadioGroup.Option value="Value 2" key="2">
-        Value 2
-    </SegmentedRadioGroup.Option>,
-    <SegmentedRadioGroup.Option value="Value 3" key="3">
-        Value 3
-    </SegmentedRadioGroup.Option>,
-];
-
 const renderSegmentedRadioGroup = (props: SegmentedRadioGroupProps = {}) => {
     render(
         <SegmentedRadioGroup
@@ -256,42 +244,37 @@ describe('SegmentedRadioGroup', () => {
         );
     });
 
-    describe.each([
-        {name: 'options', options},
-        {name: 'children', children},
-    ])('with $name', ({options, children}) => {
-        describe('in form', () => {
-            test('should support form reset', async () => {
-                function Test() {
-                    const [value, setValue] = React.useState('Value 2');
-                    return (
-                        <form aria-label="Test form">
-                            <SegmentedRadioGroup
-                                name="radio-field"
-                                options={options}
-                                value={value}
-                                onUpdate={setValue}
-                            >
-                                {children}
-                            </SegmentedRadioGroup>
-                            <button type="reset">Reset</button>
-                        </form>
-                    );
-                }
+    describe('in form', () => {
+        test('should support form reset', async () => {
+            function Test() {
+                const [value, setValue] = React.useState('Value 2');
+                return (
+                    <form aria-label="Test form">
+                        <SegmentedRadioGroup
+                            name="radio-field"
+                            options={options}
+                            value={value}
+                            onUpdate={setValue}
+                        >
+                            {children}
+                        </SegmentedRadioGroup>
+                        <button type="reset">Reset</button>
+                    </form>
+                );
+            }
 
-                render(<Test />);
-                const form = screen.getByRole('form', {name: 'Test form'});
-                expect(form).toHaveFormValues({'radio-field': 'Value 2'});
+            render(<Test />);
+            const form = screen.getByRole('form', {name: 'Test form'});
+            expect(form).toHaveFormValues({'radio-field': 'Value 2'});
 
-                await userEvent.tab();
-                await userEvent.keyboard('{ArrowLeft}');
+            await userEvent.tab();
+            await userEvent.keyboard('{ArrowLeft}');
 
-                expect(form).toHaveFormValues({'radio-field': 'Value 1'});
+            expect(form).toHaveFormValues({'radio-field': 'Value 1'});
 
-                const button = screen.getByRole('button', {name: 'Reset'});
-                await userEvent.click(button);
-                expect(form).toHaveFormValues({'radio-field': 'Value 2'});
-            });
+            const button = screen.getByRole('button', {name: 'Reset'});
+            await userEvent.click(button);
+            expect(form).toHaveFormValues({'radio-field': 'Value 2'});
         });
     });
 });

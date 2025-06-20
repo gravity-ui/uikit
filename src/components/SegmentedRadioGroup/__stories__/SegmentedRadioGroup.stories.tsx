@@ -79,7 +79,7 @@ export const Disabled: Story = {
     },
 };
 
-export const ChildrenMap: Story = {
+export const WithTooltip: Story = {
     args: {
         ...Default.args,
         children: [

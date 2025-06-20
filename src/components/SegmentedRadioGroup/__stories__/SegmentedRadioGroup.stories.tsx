@@ -83,11 +83,15 @@ export const WithTooltip: Story = {
     args: {
         ...Default.args,
         children: [
-            <SegmentedRadioGroup.Option key="Value 1" value="Value 1" content="Value 1" />,
+            <Tooltip key="Value 1" content="First option">
+                <SegmentedRadioGroup.Option value="Value 1" content="Value 1" />
+            </Tooltip>,
             <Tooltip key="Value 2" content="Second option">
                 <SegmentedRadioGroup.Option value="Value 2" content="Value 2" />
             </Tooltip>,
-            <SegmentedRadioGroup.Option key="Value 3" value="Value 3" content="Value 3" />,
+            <Tooltip key="Value 3" content="Third option">
+                <SegmentedRadioGroup.Option value="Value 3" content="Value 3" />
+            </Tooltip>,
         ],
     },
 };

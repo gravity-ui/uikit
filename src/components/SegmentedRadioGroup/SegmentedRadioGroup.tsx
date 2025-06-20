@@ -40,7 +40,7 @@ export const SegmentedRadioGroup = React.forwardRef(function SegmentedRadioGroup
     const {size = 'm', width, style, className, qa, children} = props;
     const options = props.options;
 
-    const {containerProps, contextProps} = useRadioGroup({...props, options});
+    const {containerProps, optionsProps, contextProps} = useRadioGroup({...props, options});
 
     return (
         <RadioGroupContext.Provider value={contextProps}>
@@ -52,7 +52,7 @@ export const SegmentedRadioGroup = React.forwardRef(function SegmentedRadioGroup
                 data-qa={qa}
             >
                 {children ||
-                    options?.map((optionProps) => (
+                    optionsProps?.map((optionProps) => (
                         <Option {...optionProps} key={optionProps.value} />
                     ))}
             </div>

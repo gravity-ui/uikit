@@ -64,13 +64,11 @@ export function useRadioGroup<ValueType extends string = string>(
     };
 
     const contextProps = {
-        stable: {
-            name: name || controlId,
-            disabled: Boolean(disabled),
-            ref: fieldRef,
-            onChange: handleChange,
-        },
-        value: {currentValue},
+        name: name || controlId,
+        currentValue,
+        disabled: Boolean(disabled),
+        ref: fieldRef,
+        onChange: handleChange,
     };
 
     const containerProps = {

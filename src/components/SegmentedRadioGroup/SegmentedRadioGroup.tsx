@@ -6,10 +6,7 @@ import {useRadioGroup} from '../../hooks/private';
 import type {ControlGroupOption, ControlGroupProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 
-import {
-    SegmentedRadioGroupContextStable,
-    SegmentedRadioGroupContextValue,
-} from './SegmentedRadioGroupContext';
+import {SegmentedRadioGroupContext} from './SegmentedRadioGroupContext';
 import {SegmentedRadioGroupOption as Option} from './SegmentedRadioGroupOption';
 
 import './SegmentedRadioGroup.scss';
@@ -47,22 +44,20 @@ export const SegmentedRadioGroup = React.forwardRef(function SegmentedRadioGroup
     const {containerProps, contextProps} = useRadioGroup({...props, options});
 
     return (
-        <SegmentedRadioGroupContextStable.Provider value={contextProps.stable}>
-            <SegmentedRadioGroupContextValue.Provider value={contextProps.value}>
-                <div
-                    {...containerProps}
-                    ref={ref}
-                    style={style}
-                    className={b({size, width}, className)}
-                    data-qa={qa}
-                >
-                    {children ||
-                        options?.map((optionProps) => (
-                            <Option {...optionProps} key={optionProps.value} />
-                        ))}
-                </div>
-            </SegmentedRadioGroupContextValue.Provider>
-        </SegmentedRadioGroupContextStable.Provider>
+        <SegmentedRadioGroupContext.Provider value={contextProps}>
+            <div
+                {...containerProps}
+                ref={ref}
+                style={style}
+                className={b({size, width}, className)}
+                data-qa={qa}
+            >
+                {children ||
+                    options?.map((optionProps) => (
+                        <Option {...optionProps} key={optionProps.value} />
+                    ))}
+            </div>
+        </SegmentedRadioGroupContext.Provider>
     );
 }) as unknown as SegmentedRadioGroupComponentType;
 

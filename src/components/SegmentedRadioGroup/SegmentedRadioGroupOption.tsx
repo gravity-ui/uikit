@@ -8,10 +8,7 @@ import type {ControlProps} from '../types';
 import {block} from '../utils/cn';
 import {isIcon, isSvg} from '../utils/common';
 
-import {
-    SegmentedRadioGroupContextStable,
-    SegmentedRadioGroupContextValue,
-} from './SegmentedRadioGroupContext';
+import {SegmentedRadioGroupContext} from './SegmentedRadioGroupContext';
 
 const b = block('segmented-radio-group');
 
@@ -32,11 +29,11 @@ export const SegmentedRadioGroupOption = React.forwardRef(function SegmentedRadi
 >(props: SegmentedRadioGroupOptionProps<T>, ref: React.ForwardedRef<HTMLLabelElement>) {
     const {
         name,
+        currentValue,
         disabled: disabledContext,
         ref: contextRef,
         onChange,
-    } = React.useContext(SegmentedRadioGroupContextStable);
-    const {currentValue} = React.useContext(SegmentedRadioGroupContextValue);
+    } = React.useContext(SegmentedRadioGroupContext);
     const {disabled: disabledProp, content, children, title, value} = props;
     const disabled = disabledProp || disabledContext;
     const {checked, inputProps} = useRadio({

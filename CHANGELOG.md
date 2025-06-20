@@ -1,5 +1,14 @@
 # Changelog
 
+## [7.16.0](https://github.com/gravity-ui/uikit/compare/v7.15.0...v7.16.0) (2025-06-20)
+
+
+### Features
+
+* **Label:** add loading property ([#2297](https://github.com/gravity-ui/uikit/issues/2297)) ([605fb64](https://github.com/gravity-ui/uikit/commit/605fb646614ad57a5b6c9f4549ed4f965c5ee725))
+* **SegmentedRadioGroup:** allow `children` composition ([#2310](https://github.com/gravity-ui/uikit/issues/2310)) ([0f808f7](https://github.com/gravity-ui/uikit/commit/0f808f7f10a6eacab5258d0e94235539823ccbbd))
+* **Table:** add `rowActionsIcon` prop ([#2301](https://github.com/gravity-ui/uikit/issues/2301)) ([6fde26d](https://github.com/gravity-ui/uikit/commit/6fde26d47f89649a711959d861c1b90cc5bfbf9f))
+
 ## [7.15.0](https://github.com/gravity-ui/uikit/compare/v7.14.0...v7.15.0) (2025-06-17)
 
 

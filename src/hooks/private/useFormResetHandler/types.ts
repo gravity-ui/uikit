@@ -1,5 +1,1 @@
-export type UseFormResetHandlerParams =
-    | HTMLInputElement
-    | HTMLTextAreaElement
-    | HTMLSelectElement
-    | HTMLLabelElement;
+export type UseFormResetHandlerParams = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;

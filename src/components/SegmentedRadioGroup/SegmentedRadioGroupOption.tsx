@@ -2,10 +2,16 @@
 
 import * as React from 'react';
 
+import {useForkRef} from '../../hooks';
 import {useRadio} from '../../hooks/private';
 import type {ControlProps} from '../types';
 import {block} from '../utils/cn';
 import {isIcon, isSvg} from '../utils/common';
+
+import {
+    SegmentedRadioGroupContextStable,
+    SegmentedRadioGroupContextValue,
+} from './SegmentedRadioGroupContext';
 
 const b = block('segmented-radio-group');
 
@@ -24,10 +30,25 @@ type SegmentedRadioGroupOptionComponentType = <T extends string = string>(
 export const SegmentedRadioGroupOption = React.forwardRef(function SegmentedRadioGroupOption<
     T extends string,
 >(props: SegmentedRadioGroupOptionProps<T>, ref: React.ForwardedRef<HTMLLabelElement>) {
-    const {disabled = false, content, children, title} = props;
-    const {checked, inputProps} = useRadio(props);
+    const {
+        name,
+        disabled: contextDisabled,
+        ref: contextRef,
+        onChange,
+    } = React.useContext(SegmentedRadioGroupContextStable);
+    const {currentValue} = React.useContext(SegmentedRadioGroupContextValue);
+    const {disabled = contextDisabled, content, children, title, value} = props;
+    const {checked, inputProps} = useRadio({
+        ...props,
+        name,
+        disabled: contextDisabled,
+        checked: value === currentValue,
+        onChange,
+    });
     const inner = content || children;
     const icon = isIcon(inner) || isSvg(inner);
+
+    const labelRef = useForkRef(ref, contextRef);
 
     return (
         <label
@@ -35,7 +56,7 @@ export const SegmentedRadioGroupOption = React.forwardRef(function SegmentedRadi
                 disabled,
                 checked,
             })}
-            ref={ref}
+            ref={labelRef}
             title={title}
         >
             <input {...inputProps} className={b('option-control')} />

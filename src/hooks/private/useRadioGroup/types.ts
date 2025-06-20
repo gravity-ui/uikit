@@ -2,7 +2,7 @@ type UseRadioGroupContextPropsStable = {
     /** Input name */
     name: string;
     disabled: boolean;
-    ref: (node: HTMLInputElement) => void;
+    ref: (node: HTMLLabelElement | HTMLInputElement | null) => void;
     onChange: React.ChangeEventHandler<HTMLInputElement>;
 };
 

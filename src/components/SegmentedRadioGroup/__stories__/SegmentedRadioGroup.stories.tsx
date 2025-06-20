@@ -5,6 +5,7 @@ import {action} from 'storybook/actions';
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {Icon} from '../../Icon';
+import {Tooltip} from '../../Tooltip';
 import {SegmentedRadioGroup} from '../SegmentedRadioGroup';
 
 import {SegmentedRadioGroupShowcase} from './SegmentedRadioGroupShowcase';
@@ -75,6 +76,19 @@ export const Disabled: Story = {
     args: {
         ...Default.args,
         disabled: true,
+    },
+};
+
+export const ChildrenMap: Story = {
+    args: {
+        ...Default.args,
+        children: [
+            <SegmentedRadioGroup.Option key="Value 1" value="Value 1" content="Value 1" />,
+            <Tooltip key="Value 2" content="Second option">
+                <SegmentedRadioGroup.Option value="Value 2" content="Value 2" />
+            </Tooltip>,
+            <SegmentedRadioGroup.Option key="Value 3" value="Value 3" content="Value 3" />,
+        ],
     },
 };
 

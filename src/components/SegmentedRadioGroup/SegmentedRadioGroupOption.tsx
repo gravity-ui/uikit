@@ -32,13 +32,13 @@ export const SegmentedRadioGroupOption = React.forwardRef(function SegmentedRadi
 >(props: SegmentedRadioGroupOptionProps<T>, ref: React.ForwardedRef<HTMLLabelElement>) {
     const {
         name,
-        disabled: contextDisabled,
+        disabled: disabledContext,
         ref: contextRef,
         onChange,
     } = React.useContext(SegmentedRadioGroupContextStable);
     const {currentValue} = React.useContext(SegmentedRadioGroupContextValue);
-    const {disabled: propsDisabled, content, children, title, value} = props;
-    const disabled = propsDisabled || contextDisabled;
+    const {disabled: disabledProp, content, children, title, value} = props;
+    const disabled = disabledProp || disabledContext;
     const {checked, inputProps} = useRadio({
         ...props,
         name,

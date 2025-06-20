@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import {useControlledState, useFocusWithin, useUniqId} from '../..';
 import type {ControlGroupOption, ControlGroupProps} from '../../../components/types';
 import {filterDOMProps} from '../../../components/utils/filterDOMProps';
@@ -55,21 +57,27 @@ export function useRadioGroup<ValueType extends string = string>(
 
     const {focusWithinProps} = useFocusWithin({onFocusWithin: onFocus, onBlurWithin: onBlur});
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValueState(event.target.value as ValueType);
+    const handleChange = React.useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            setValueState(event.target.value as ValueType);
 
-        if (onChange) {
-            onChange(event);
-        }
-    };
+            if (onChange) {
+                onChange(event);
+            }
+        },
+        [onChange, setValueState],
+    );
 
-    const contextProps = {
-        name: name || controlId,
-        currentValue,
-        disabled: Boolean(disabled),
-        ref: fieldRef,
-        onChange: handleChange,
-    };
+    const contextProps = React.useMemo(
+        () => ({
+            name: name || controlId,
+            currentValue,
+            disabled: Boolean(disabled),
+            ref: fieldRef,
+            onChange: handleChange,
+        }),
+        [controlId, currentValue, disabled, fieldRef, handleChange, name],
+    );
 
     const containerProps = {
         ...filterDOMProps(props, {labelable: true}),

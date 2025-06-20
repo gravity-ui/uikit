@@ -24,12 +24,14 @@ type SegmentedRadioGroupOptionComponentType = <T extends string = string>(
 export const SegmentedRadioGroupOption = React.forwardRef(function SegmentedRadioGroupOption<
     T extends string,
 >(props: SegmentedRadioGroupOptionProps<T>, ref: React.ForwardedRef<HTMLLabelElement>) {
-    const {
-        name,
-        currentValue,
-        disabled: disabledContext,
-        onChange,
-    } = React.useContext(RadioGroupContext);
+    const radioGroupContext = React.useContext(RadioGroupContext);
+
+    if (!radioGroupContext) {
+        throw new Error('<SegmentedRadioGroup.Option> must be used within <SegmentedRadioGroup>');
+    }
+
+    const {name, currentValue, disabled: disabledContext, onChange} = radioGroupContext;
+
     const {disabled: disabledProp, content, children, title, value} = props;
     const disabled = disabledProp || disabledContext;
     const {checked, inputProps} = useRadio({

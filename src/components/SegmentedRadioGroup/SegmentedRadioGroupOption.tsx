@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 
-import {useForkRef} from '../../hooks';
 import {useRadio} from '../../hooks/private';
 import type {ControlProps} from '../types';
 import {block} from '../utils/cn';
@@ -31,7 +30,6 @@ export const SegmentedRadioGroupOption = React.forwardRef(function SegmentedRadi
         name,
         currentValue,
         disabled: disabledContext,
-        ref: contextRef,
         onChange,
     } = React.useContext(SegmentedRadioGroupContext);
     const {disabled: disabledProp, content, children, title, value} = props;
@@ -46,15 +44,13 @@ export const SegmentedRadioGroupOption = React.forwardRef(function SegmentedRadi
     const inner = content || children;
     const icon = isIcon(inner) || isSvg(inner);
 
-    const labelRef = useForkRef(ref, contextRef);
-
     return (
         <label
             className={b('option', {
                 disabled,
                 checked,
             })}
-            ref={labelRef}
+            ref={ref}
             title={title}
         >
             <input {...inputProps} className={b('option-control')} />

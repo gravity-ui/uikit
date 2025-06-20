@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import type {UseRadioGroupContextProps} from './types';
+import type {RadioGroupContextProps} from './types';
 
-export const RadioGroupContext = React.createContext<UseRadioGroupContextProps | null>(null);
+export const RadioGroupContext = React.createContext<RadioGroupContextProps | null>(null);
 
 RadioGroupContext.displayName = 'RadioGroup.Context';

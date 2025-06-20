@@ -1,6 +1,6 @@
 import type {UseFormResetHandlerParams} from '../useFormResetHandler/types';
 
-export type UseRadioGroupContextProps = {
+export type RadioGroupContextProps = {
     /** Input name */
     name: string;
     currentValue: string | null;

@@ -5,7 +5,7 @@ import type {ControlGroupOption, ControlGroupProps} from '../../../components/ty
 import {filterDOMProps} from '../../../components/utils/filterDOMProps';
 import {useFormResetHandler} from '../useFormResetHandler';
 
-import type {UseRadioGroupContextProps} from './types';
+import type {RadioGroupContextProps} from './types';
 
 interface OptionsProps<ValueType extends string = string>
     extends Omit<
@@ -25,7 +25,7 @@ export type UseRadioGroupResult<ValueType extends string = string> = {
         'aria-disabled': ControlGroupProps['disabled'];
     };
     optionsProps: OptionsProps<ValueType>[];
-    contextProps: UseRadioGroupContextProps;
+    contextProps: RadioGroupContextProps;
 };
 
 export function useRadioGroup<ValueType extends string = string>(

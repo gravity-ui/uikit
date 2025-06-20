@@ -1,8 +1,10 @@
+import type {UseFormResetHandlerParams} from '../useFormResetHandler/types';
+
 type UseRadioGroupContextPropsStable = {
     /** Input name */
     name: string;
     disabled: boolean;
-    ref: (node: HTMLLabelElement | HTMLInputElement | null) => void;
+    ref: (node: UseFormResetHandlerParams | null) => void;
     onChange: React.ChangeEventHandler<HTMLInputElement>;
 };
 

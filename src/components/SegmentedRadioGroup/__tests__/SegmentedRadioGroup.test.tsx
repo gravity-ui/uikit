@@ -255,9 +255,7 @@ describe('SegmentedRadioGroup', () => {
                             options={options}
                             value={value}
                             onUpdate={setValue}
-                        >
-                            {children}
-                        </SegmentedRadioGroup>
+                        />
                         <button type="reset">Reset</button>
                     </form>
                 );

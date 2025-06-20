@@ -20,23 +20,23 @@ const isTabElement = (el: HTMLElement) => {
     return el.classList.contains(bTab());
 };
 
+const isChildDOMElementCollapsible = (el: HTMLElement) => {
+    return isTabElement(el) && el.ariaSelected !== 'true';
+};
+
+const getChildDOMElementWidth = (el: HTMLElement) => {
+    if (isTabElement(el)) {
+        return getTabWidth(el);
+    }
+
+    return el.offsetWidth;
+};
+
 export const TabListCollapsedChildren = ({
     children,
     tabsListContainerRef,
 }: TabListCollapsedChildrenProps) => {
     const tabContext = React.useContext(TabContext);
-
-    const {visibleChildrenCount} = useElementChildrenCollapse(children, tabsListContainerRef, {
-        recalculateDeps: [tabContext?.value],
-        isChildDOMElementCollapsible: (el) => isTabElement(el) && el.ariaSelected !== 'true',
-        getChildDOMElementWidth: (el) => {
-            if (isTabElement(el)) {
-                return getTabWidth(el);
-            }
-
-            return el.offsetWidth;
-        },
-    });
 
     const isReactChildNodeCollapsible = React.useCallback(
         (child: React.ReactNode) =>
@@ -46,30 +46,16 @@ export const TabListCollapsedChildren = ({
         [tabContext?.value],
     );
 
-    const childrenList = React.Children.map(children, (child) => child) || [];
-
-    const shownChildren: typeof childrenList = [];
-    const collapsedChildren: typeof childrenList = [];
-
-    const notCollapsibleChildren = childrenList.filter(
-        (child) => !isReactChildNodeCollapsible(child),
+    const {shownChildren, collapsedChildren} = useElementChildrenCollapse(
+        children,
+        tabsListContainerRef,
+        {
+            recalculateDeps: [tabContext?.value],
+            isReactChildNodeCollapsible,
+            isChildDOMElementCollapsible,
+            getChildDOMElementWidth,
+        },
     );
-
-    let reservedShownChildrenCount = notCollapsibleChildren.length;
-
-    childrenList.forEach((child) => {
-        if (!isReactChildNodeCollapsible(child)) {
-            shownChildren.push(child);
-            reservedShownChildrenCount--;
-            return;
-        }
-
-        if (shownChildren.length < visibleChildrenCount - reservedShownChildrenCount + 1) {
-            shownChildren.push(child);
-        } else {
-            collapsedChildren.push(child);
-        }
-    });
 
     return (
         <React.Fragment>

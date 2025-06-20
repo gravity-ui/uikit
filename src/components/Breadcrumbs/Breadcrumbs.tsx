@@ -30,6 +30,93 @@ export interface BreadcrumbsProps extends DOMProps, AriaLabelingProps, QAProps {
     endContent?: React.ReactNode;
 }
 
+const isReactChildNodeCollapsible = (
+    child: React.ReactNode,
+    childIndex: number,
+    children: Array<React.ReactNode>,
+) => {
+    return (
+        React.isValidElement(child) &&
+        // not last item
+        childIndex !== children.length - 1
+    );
+};
+
+const renderBreadcrumbsMenuItem = ({
+    children,
+    ...props
+}: {children: React.ReactElement[]} & Pick<
+    BreadcrumbsProps,
+    'disabled' | 'popupPlacement' | 'popupStyle' | 'itemComponent' | 'onAction'
+>) => {
+    if (!children.length) {
+        return null;
+    }
+
+    return (
+        <BreadcrumbsDropdownMenu
+            disabled={props.disabled}
+            popupPlacement={props.popupPlacement}
+            popupStyle={props.popupStyle}
+            data-breadcrumbs-menu-item={true}
+        >
+            {children.map((child, index) => {
+                const Component = props.itemComponent ?? BreadcrumbsItem;
+                const key = child.key ?? index;
+                const handleAction = () => {
+                    if (typeof props.onAction === 'function') {
+                        props.onAction(key);
+                    }
+                };
+                const innerProps: BreadcrumbsItemInnerProps = {
+                    __index: index,
+                    __disabled: props.disabled || child.props.disabled,
+                    __onAction: handleAction,
+                };
+                return (
+                    <Component {...child.props} key={key} {...innerProps}>
+                        {child.props.children}
+                    </Component>
+                );
+            })}
+        </BreadcrumbsDropdownMenu>
+    );
+};
+
+const getBreadcrumbsChildrenAfterCollapsing = ({
+    props,
+    shownChildren,
+    collapsedChildren,
+}: {
+    props: BreadcrumbsProps;
+    shownChildren: React.ReactElement[];
+    collapsedChildren: React.ReactElement[];
+}) => {
+    if (!collapsedChildren.length) {
+        return shownChildren;
+    }
+
+    if (!props.showRoot || shownChildren.length <= 1) {
+        const menuItem = renderBreadcrumbsMenuItem({
+            ...props,
+            children: collapsedChildren,
+        }) as JSX.Element;
+
+        return [menuItem, ...shownChildren];
+    }
+
+    const rootChild = collapsedChildren[0];
+    const newShownChildren = shownChildren.slice(1);
+    const newCollapsedChildren = [shownChildren[0], ...collapsedChildren.slice(1)];
+
+    const menuItem = renderBreadcrumbsMenuItem({
+        ...props,
+        children: newCollapsedChildren,
+    }) as JSX.Element;
+
+    return [rootChild, menuItem, ...newShownChildren];
+};
+
 export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
     props: BreadcrumbsProps,
     ref: React.Ref<HTMLOListElement>,
@@ -38,91 +125,43 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
     const containerRef = useForkRef(ref, listRef);
     const endContentRef = React.useRef<HTMLLIElement>(null);
 
-    const items: React.ReactElement<any>[] = [];
-    React.Children.forEach(props.children, (child, index) => {
-        if (React.isValidElement(child)) {
-            if (child.key === undefined || child.key === null) {
-                child = React.cloneElement(child, {key: index});
-            }
-            items.push(child);
+    const isChildDOMElementCollapsible = React.useCallback((el: HTMLElement) => {
+        if (!el.classList.contains(b('item'))) {
+            return false;
         }
-    });
 
-    const {visibleChildrenCount, calculated, recalculate} = useElementChildrenCollapse(
+        if (el.classList.contains(b('item') + '_current')) {
+            return false;
+        }
+
+        if (el === endContentRef.current) {
+            return false;
+        }
+
+        return !Array.from(el.children).find((child) => child.classList.contains(b('menu')));
+    }, []);
+
+    const {shownChildren, collapsedChildren, calculated, recalculate} = useElementChildrenCollapse(
         props.children,
         listRef,
         {
             maxItems: props.maxItems,
-            isChildDOMElementCollapsible: (el) => {
-                if (!el.classList.contains(b('item'))) {
-                    return false;
-                }
-
-                if (props.endContent && !el.nextElementSibling) {
-                    return false;
-                }
-
-                return !Array.from(el.children).find((child) =>
-                    child.classList.contains(b('menu')),
-                );
-            },
+            reversedCollapsing: true,
+            isReactChildNodeCollapsible,
+            isChildDOMElementCollapsible,
         },
     );
+
+    const contents = getBreadcrumbsChildrenAfterCollapsing({
+        props,
+        shownChildren,
+        collapsedChildren,
+    });
 
     useResizeObserver({
         ref: props.endContent ? endContentRef : undefined,
         onResize: recalculate,
     });
-
-    let contents = items;
-    if (items.length > visibleChildrenCount) {
-        contents = [];
-        const breadcrumbs = [...items];
-        let endItems = visibleChildrenCount;
-        if (props.showRoot && visibleChildrenCount > 1) {
-            const rootItem = breadcrumbs.shift();
-            if (rootItem) {
-                contents.push(rootItem);
-            }
-            endItems--;
-        }
-
-        endItems = endItems || 1;
-
-        const hiddenItems = breadcrumbs.slice(0, -endItems);
-
-        const menuItem = (
-            <BreadcrumbsDropdownMenu
-                disabled={props.disabled}
-                popupPlacement={props.popupPlacement}
-                popupStyle={props.popupStyle}
-                data-breadcrumbs-menu-item={true}
-            >
-                {hiddenItems.map((child, index) => {
-                    const Component = props.itemComponent ?? BreadcrumbsItem;
-                    const key = child.key ?? index;
-                    const handleAction = () => {
-                        if (typeof props.onAction === 'function') {
-                            props.onAction(key);
-                        }
-                    };
-                    const innerProps: BreadcrumbsItemInnerProps = {
-                        __index: index,
-                        __disabled: props.disabled || child.props.disabled,
-                        __onAction: handleAction,
-                    };
-                    return (
-                        <Component {...child.props} key={key} {...innerProps}>
-                            {child.props.children}
-                        </Component>
-                    );
-                })}
-            </BreadcrumbsDropdownMenu>
-        );
-
-        contents.push(menuItem);
-        contents.push(...breadcrumbs.slice(-endItems));
-    }
 
     const lastIndex = contents.length - 1;
     const breadcrumbsItems = contents.map((child, index) => {
@@ -161,6 +200,7 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
             </li>
         );
     });
+
     if (props.endContent) {
         breadcrumbsItems.push(
             <li key="end-content" ref={endContentRef} className={b('item')}>
@@ -168,6 +208,7 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
             </li>,
         );
     }
+
     return (
         <ol
             ref={containerRef}

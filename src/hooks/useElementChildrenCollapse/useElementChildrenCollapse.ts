@@ -4,15 +4,22 @@ import {useResizeObserver} from '../useResizeObserver';
 
 export type UseElementChildrenCollapseOptions = {
     maxItems?: number;
+    reversedCollapsing?: boolean;
     recalculateDeps?: React.DependencyList;
     isChildDOMElementCollapsible?: (element: HTMLElement) => boolean;
     getChildDOMElementWidth?: (element: HTMLElement) => number;
+    isReactChildNodeCollapsible?: (
+        child: React.ReactNode,
+        childIndex: number,
+        children: Array<React.ReactNode>,
+    ) => boolean;
 };
 
 export type UseElementChildrenCollapseResult = {
-    visibleChildrenCount: number;
     calculated: boolean;
     recalculate: () => void;
+    shownChildren: React.ReactElement[];
+    collapsedChildren: React.ReactElement[];
 };
 
 export const useElementChildrenCollapse = (
@@ -22,12 +29,14 @@ export const useElementChildrenCollapse = (
 ): UseElementChildrenCollapseResult => {
     const {
         maxItems = Infinity,
+        reversedCollapsing = false,
         recalculateDeps = [],
         isChildDOMElementCollapsible = () => true,
         getChildDOMElementWidth = (e) => e.offsetWidth,
+        isReactChildNodeCollapsible = () => true,
     } = options;
 
-    const items: React.ReactElement<unknown>[] = [];
+    const childrenList: React.ReactElement<unknown>[] = [];
 
     React.Children.forEach(children, (child, index) => {
         if (!React.isValidElement(child)) {
@@ -35,17 +44,21 @@ export const useElementChildrenCollapse = (
         }
 
         if (child.key === undefined || child.key === null) {
-            items.push(React.cloneElement(child, {key: index}));
+            childrenList.push(React.cloneElement(child, {key: index}));
             return;
         }
 
-        items.push(child);
+        childrenList.push(child);
     });
 
-    const [visibleChildrenCount, setVisibleChildrenCount] = React.useState(items.length);
+    const notCollapsibleChildren = childrenList.filter(
+        (child, index, arr) => !isReactChildNodeCollapsible(child, index, arr),
+    );
+
+    const [visibleChildrenCount, setVisibleChildrenCount] = React.useState(childrenList.length);
     const [calculated, setCalculated] = React.useState(false);
 
-    const calculateVisibleChildrenCount = () => {
+    const calculateVisibleChildrenCount = React.useCallback(() => {
         const listEl = elementRef.current;
 
         if (!listEl) {
@@ -53,7 +66,7 @@ export const useElementChildrenCollapse = (
         }
 
         const dirtyChildrenList = Array.from(listEl.children) as Array<HTMLElement>;
-        const childrenList: typeof dirtyChildrenList = [];
+        const collapsibleChildrenList: typeof dirtyChildrenList = [];
 
         let listWidth = listEl.offsetWidth;
         let visibleElementsCount = 0;
@@ -61,7 +74,7 @@ export const useElementChildrenCollapse = (
 
         dirtyChildrenList.forEach((element) => {
             if (isChildDOMElementCollapsible(element)) {
-                childrenList.push(element);
+                collapsibleChildrenList.push(element);
                 return;
             }
 
@@ -69,8 +82,8 @@ export const useElementChildrenCollapse = (
             maxItemsLeft--;
         });
 
-        for (let index = 0; index < childrenList.length; index++) {
-            const el = childrenList[index];
+        for (let index = 0; index < collapsibleChildrenList.length; index++) {
+            const el = collapsibleChildrenList[index];
             const elWidth = getChildDOMElementWidth(el);
 
             listWidth -= elWidth;
@@ -83,23 +96,19 @@ export const useElementChildrenCollapse = (
             visibleElementsCount++;
         }
 
-        return visibleElementsCount;
-    };
-
-    const recalculate = () => {
-        const newVisibleChildrenCount = calculateVisibleChildrenCount();
-
-        if (newVisibleChildrenCount === visibleChildrenCount) {
-            setCalculated(true);
-        } else {
-            setVisibleChildrenCount(newVisibleChildrenCount);
-        }
-    };
+        return visibleElementsCount + notCollapsibleChildren.length;
+    }, [
+        elementRef,
+        getChildDOMElementWidth,
+        isChildDOMElementCollapsible,
+        maxItems,
+        notCollapsibleChildren.length,
+    ]);
 
     const handleResize = React.useCallback(() => {
         setCalculated(false);
-        setVisibleChildrenCount(items.length);
-    }, [items.length]);
+        setVisibleChildrenCount(childrenList.length);
+    }, [childrenList.length]);
 
     useResizeObserver({
         ref: elementRef,
@@ -113,19 +122,60 @@ export const useElementChildrenCollapse = (
             lastChildren.current = children;
             handleResize();
         }
-    }, [calculated, items.length, children, handleResize]);
+    }, [calculated, childrenList.length, children, handleResize]);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     React.useLayoutEffect(() => handleResize(), [handleResize, ...recalculateDeps]);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     React.useLayoutEffect(() => {
-        if (!calculated) {
-            recalculate();
+        if (calculated) {
+            return;
+        }
+
+        const newVisibleChildrenCount = calculateVisibleChildrenCount();
+
+        if (newVisibleChildrenCount === visibleChildrenCount) {
+            setCalculated(true);
+        } else {
+            setVisibleChildrenCount(newVisibleChildrenCount);
         }
     });
 
+    const shownChildren: typeof childrenList = [];
+    const collapsedChildren: typeof childrenList = [];
+
+    let reservedShownChildrenCount = notCollapsibleChildren.length;
+
+    if (reversedCollapsing) {
+        childrenList.reverse();
+    }
+
+    childrenList.forEach((child, index, arr) => {
+        const realIndex = reversedCollapsing ? arr.length - index - 1 : index;
+
+        if (!isReactChildNodeCollapsible(child, realIndex, arr)) {
+            shownChildren.push(child);
+            reservedShownChildrenCount--;
+            return;
+        }
+
+        if (shownChildren.length < visibleChildrenCount - reservedShownChildrenCount) {
+            shownChildren.push(child);
+        } else {
+            collapsedChildren.push(child);
+        }
+    });
+
+    if (reversedCollapsing) {
+        shownChildren.reverse();
+        collapsedChildren.reverse();
+    }
+
     return {
-        visibleChildrenCount,
         calculated,
-        recalculate,
+        recalculate: handleResize,
+        shownChildren,
+        collapsedChildren,
     };
 };

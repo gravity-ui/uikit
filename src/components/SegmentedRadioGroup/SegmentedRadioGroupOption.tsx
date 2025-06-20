@@ -2,12 +2,10 @@
 
 import * as React from 'react';
 
-import {useRadio} from '../../hooks/private';
+import {RadioGroupContext, useRadio} from '../../hooks/private';
 import type {ControlProps} from '../types';
 import {block} from '../utils/cn';
 import {isIcon, isSvg} from '../utils/common';
-
-import {SegmentedRadioGroupContext} from './SegmentedRadioGroupContext';
 
 const b = block('segmented-radio-group');
 
@@ -31,7 +29,7 @@ export const SegmentedRadioGroupOption = React.forwardRef(function SegmentedRadi
         currentValue,
         disabled: disabledContext,
         onChange,
-    } = React.useContext(SegmentedRadioGroupContext);
+    } = React.useContext(RadioGroupContext);
     const {disabled: disabledProp, content, children, title, value} = props;
     const disabled = disabledProp || disabledContext;
     const {checked, inputProps} = useRadio({

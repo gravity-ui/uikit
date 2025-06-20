@@ -2,11 +2,10 @@
 
 import * as React from 'react';
 
-import {useRadioGroup} from '../../hooks/private';
+import {RadioGroupContext, useRadioGroup} from '../../hooks/private';
 import type {ControlGroupOption, ControlGroupProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 
-import {SegmentedRadioGroupContext} from './SegmentedRadioGroupContext';
 import {SegmentedRadioGroupOption as Option} from './SegmentedRadioGroupOption';
 
 import './SegmentedRadioGroup.scss';
@@ -44,7 +43,7 @@ export const SegmentedRadioGroup = React.forwardRef(function SegmentedRadioGroup
     const {containerProps, contextProps} = useRadioGroup({...props, options});
 
     return (
-        <SegmentedRadioGroupContext.Provider value={contextProps}>
+        <RadioGroupContext.Provider value={contextProps}>
             <div
                 {...containerProps}
                 ref={ref}
@@ -57,7 +56,7 @@ export const SegmentedRadioGroup = React.forwardRef(function SegmentedRadioGroup
                         <Option {...optionProps} key={optionProps.value} />
                     ))}
             </div>
-        </SegmentedRadioGroupContext.Provider>
+        </RadioGroupContext.Provider>
     );
 }) as unknown as SegmentedRadioGroupComponentType;
 

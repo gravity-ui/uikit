@@ -37,11 +37,12 @@ export const SegmentedRadioGroupOption = React.forwardRef(function SegmentedRadi
         onChange,
     } = React.useContext(SegmentedRadioGroupContextStable);
     const {currentValue} = React.useContext(SegmentedRadioGroupContextValue);
-    const {disabled = contextDisabled, content, children, title, value} = props;
+    const {disabled: propsDisabled, content, children, title, value} = props;
+    const disabled = propsDisabled || contextDisabled;
     const {checked, inputProps} = useRadio({
         ...props,
         name,
-        disabled: contextDisabled,
+        disabled,
         checked: value === currentValue,
         onChange,
     });

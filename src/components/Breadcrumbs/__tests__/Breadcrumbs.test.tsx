@@ -12,7 +12,7 @@ beforeEach(() => {
         this: Element,
     ) {
         if (this instanceof HTMLOListElement) {
-            return 500;
+            return 480;
         }
         return 100;
     });
@@ -212,7 +212,7 @@ it('supports custom props', function () {
 
 it('should support links', async function () {
     render(
-        <Breadcrumbs maxItems={4}>
+        <Breadcrumbs>
             <Breadcrumbs.Item href="https://example.com">Example.com</Breadcrumbs.Item>
             <Breadcrumbs.Item href="https://example.com/foo">Foo</Breadcrumbs.Item>
             <Breadcrumbs.Item href="https://example.com/foo/bar">Bar</Breadcrumbs.Item>
@@ -254,7 +254,7 @@ it('should support custom item component', async () => {
         );
     }
     render(
-        <Breadcrumbs maxItems={4} itemComponent={RouterLink}>
+        <Breadcrumbs itemComponent={RouterLink}>
             <RouterLink href="/" routerOptions={{foo: 'bar'}} disabled>
                 Example.com
             </RouterLink>

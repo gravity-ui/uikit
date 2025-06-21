@@ -265,24 +265,25 @@ LANDING_BLOCK-->
 
 ### Свойства
 
-| Имя        | Описание                                                 |            Тип            | Значение по умолчанию |
-| :--------- | :------------------------------------------------------- | :-----------------------: | :-------------------: |
-| iconStart  | Иконка меню перед текстом элемента.                      |        `ReactNode`        |                       |
-| iconEnd    | Иконка меню после текста элемента.                       |        `ReactNode`        |                       |
-| selected   | Флаг выбранного элемента меню.                           |         `boolean`         |        `false`        |
-| disabled   | Флаг отключенного элемента меню.                         |         `boolean`         |        `false`        |
-| active     | Флаг активного элемента меню.                            |         `boolean`         |        `false`        |
-| href       | URL-адрес.                                               |         `string`          |                       |
-| title      | Атрибут заголовка.                                       |         `string`          |                       |
-| target     | Атрибут целевого ресурса.                                |         `string`          |                       |
-| rel        | Атрибут `rel`.                                           |         `string`          |                       |
-| onClick    | Обработчик события клика.                                | `React.MouseEventHandler` |                       |
-| theme      | Тема элемента меню.                                      |   `"normal"` `"danger"`   |      `"normal"`       |
-| children   | Дочерний элемент.                                        |     `React.ReactNode`     |                       |
-| className  | HTML-атрибут `class`.                                    |         `string`          |                       |
-| style      | HTML-атрибут `style`.                                    |   `React.CSSProperties`   |                       |
-| qa         | Атрибут `data-qa` в HTML, используется для тестирования. |         `string`          |                       |
-| extraProps | Дополнительные HTML-атрибуты.                            |         `Record`          |                       |
+| Имя              | Описание                                                 |            Тип            | Значение по умолчанию |
+| :--------------- | :------------------------------------------------------- | :-----------------------: | :-------------------: |
+| iconStart        | Иконка меню перед текстом элемента.                      |        `ReactNode`        |                       |
+| iconEnd          | Иконка меню после текста элемента.                       |        `ReactNode`        |                       |
+| selected         | Флаг выбранного элемента меню.                           |         `boolean`         |        `false`        |
+| disabled         | Флаг отключенного элемента меню.                         |         `boolean`         |        `false`        |
+| active           | Флаг активного элемента меню.                            |         `boolean`         |        `false`        |
+| href             | URL-адрес.                                               |         `string`          |                       |
+| title            | Атрибут заголовка.                                       |         `string`          |                       |
+| target           | Атрибут целевого ресурса.                                |         `string`          |                       |
+| rel              | Атрибут `rel`.                                           |         `string`          |                       |
+| onClick          | Обработчик события клика.                                | `React.MouseEventHandler` |                       |
+| theme            | Тема элемента меню.                                      |   `"normal"` `"danger"`   |      `"normal"`       |
+| children         | Дочерний элемент.                                        |     `React.ReactNode`     |                       |
+| className        | HTML-атрибут `class`.                                    |         `string`          |                       |
+| classNameContent | HTML-атрибут `class`.                                    |         `string`          |                       |
+| style            | HTML-атрибут `style`.                                    |   `React.CSSProperties`   |                       |
+| qa               | Атрибут `data-qa` в HTML, используется для тестирования. |         `string`          |                       |
+| extraProps       | Дополнительные HTML-атрибуты.                            |         `Record`          |                       |
 
 ## Menu.Group
 

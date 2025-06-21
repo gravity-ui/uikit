@@ -150,7 +150,7 @@ const DefaultRowActions = <I extends TableDataItem>({
                 }}
                 href={typeof href === 'function' ? href(item, index) : href}
                 iconStart={icon}
-                className={menuItemCn}
+                classNameContent={menuItemCn}
                 {...restProps}
             >
                 {text}

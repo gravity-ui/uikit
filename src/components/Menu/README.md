@@ -265,25 +265,25 @@ LANDING_BLOCK-->
 
 ### Properties
 
-| Name             | Description                                |           Type            |  Default   |
-| :--------------- | :----------------------------------------- | :-----------------------: | :--------: |
-| iconStart        | Menu icon before item text                 |        `ReactNode`        |            |
-| iconEnd          | Menu icon after item text                  |        `ReactNode`        |            |
-| selected         | Menu item selected flag                    |         `boolean`         |  `false`   |
-| disabled         | Menu item disabled flag                    |         `boolean`         |  `false`   |
-| active           | Menu item active flag                      |         `boolean`         |  `false`   |
-| href             | URL                                        |         `string`          |            |
-| title            | Title attribute                            |         `string`          |            |
-| target           | Target attribute                           |         `string`          |            |
-| rel              | Rel attribute                              |         `string`          |            |
-| onClick          | Handler for onclick event                  | `React.MouseEventHandler` |            |
-| theme            | Menu item theme                            |   `"normal"` `"danger"`   | `"normal"` |
-| children         | Child element                              |     `React.ReactNode`     |            |
-| className        | `class` HTML attribute                     |         `string`          |            |
-| classNameContent | `class` HTML attribute                     |         `string`          |            |
-| style            | `style` HTML attribute                     |   `React.CSSProperties`   |            |
-| qa               | `data-qa` HTML attribute, used for testing |         `string`          |            |
-| extraProps       | Additional HTML attributes                 |         `Record`          |            |
+| Name             | Description                                    |           Type            |  Default   |
+| :--------------- | :--------------------------------------------- | :-----------------------: | :--------: |
+| iconStart        | Menu icon before item text                     |        `ReactNode`        |            |
+| iconEnd          | Menu icon after item text                      |        `ReactNode`        |            |
+| selected         | Menu item selected flag                        |         `boolean`         |  `false`   |
+| disabled         | Menu item disabled flag                        |         `boolean`         |  `false`   |
+| active           | Menu item active flag                          |         `boolean`         |  `false`   |
+| href             | URL                                            |         `string`          |            |
+| title            | Title attribute                                |         `string`          |            |
+| target           | Target attribute                               |         `string`          |            |
+| rel              | Rel attribute                                  |         `string`          |            |
+| onClick          | Handler for onclick event                      | `React.MouseEventHandler` |            |
+| theme            | Menu item theme                                |   `"normal"` `"danger"`   | `"normal"` |
+| children         | Child element                                  |     `React.ReactNode`     |            |
+| className        | `class` HTML attribute for the root element    |         `string`          |            |
+| contentClassName | `class` HTML attribute for the content element |         `string`          |            |
+| style            | `style` HTML attribute                         |   `React.CSSProperties`   |            |
+| qa               | `data-qa` HTML attribute, used for testing     |         `string`          |            |
+| extraProps       | Additional HTML attributes                     |         `Record`          |            |
 
 ## Menu.Group
 

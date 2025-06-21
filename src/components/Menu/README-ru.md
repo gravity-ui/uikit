@@ -279,8 +279,8 @@ LANDING_BLOCK-->
 | onClick          | Обработчик события клика.                                | `React.MouseEventHandler` |                       |
 | theme            | Тема элемента меню.                                      |   `"normal"` `"danger"`   |      `"normal"`       |
 | children         | Дочерний элемент.                                        |     `React.ReactNode`     |                       |
-| className        | HTML-атрибут `class`.                                    |         `string`          |                       |
-| classNameContent | HTML-атрибут `class`.                                    |         `string`          |                       |
+| className        | HTML-атрибут `class` для корневого элемента.             |         `string`          |                       |
+| contentClassName | HTML-атрибут `class` для элемента контента.              |         `string`          |                       |
 | style            | HTML-атрибут `style`.                                    |   `React.CSSProperties`   |                       |
 | qa               | Атрибут `data-qa` в HTML, используется для тестирования. |         `string`          |                       |
 | extraProps       | Дополнительные HTML-атрибуты.                            |         `Record`          |                       |

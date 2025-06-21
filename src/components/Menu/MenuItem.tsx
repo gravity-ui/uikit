@@ -18,7 +18,7 @@ export interface MenuItemProps extends DOMProps, QAProps {
     selected?: boolean;
     href?: string;
     target?: string;
-    classNameContent?: string;
+    contentClassName?: string;
     rel?: string;
     onClick?: React.MouseEventHandler<HTMLDivElement | HTMLAnchorElement>;
     theme?: 'normal' | 'danger';
@@ -42,7 +42,7 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
         onClick,
         style,
         className,
-        classNameContent,
+        contentClassName,
         theme,
         extraProps,
         children,
@@ -84,7 +84,7 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
                 {iconStart}
             </div>
         ),
-        <div key="content" className={b('item-content', classNameContent)}>
+        <div key="content" className={b('item-content', contentClassName)}>
             {children}
         </div>,
         iconEnd && (

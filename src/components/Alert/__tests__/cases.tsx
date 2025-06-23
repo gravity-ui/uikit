@@ -9,6 +9,7 @@ export const themeCases: Array<NonNullable<AlertProps['theme']>> = [
     'warning',
     'danger',
     'utility',
+    'clear',
 ];
 
 export const viewCases: Cases<AlertProps['view']> = ['filled', 'outlined'];

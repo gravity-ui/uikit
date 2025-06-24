@@ -94,6 +94,14 @@ $block: '.#{variables.$ns}alert';
         flex-grow: 1;
 
         gap: var(--g-alert-message-margin, var(--_--text-content-gap));
+
+        &_align_center {
+            justify-content: center;
+        }
+
+        &_align_baseline {
+            justify-content: baseline;
+        }
     }
 
     &__title {

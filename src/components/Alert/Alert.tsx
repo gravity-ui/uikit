@@ -61,7 +61,7 @@ export const Alert = (props: AlertProps) => {
                 )
             )}
             <div className={bAlert('main', {layout})}>
-                <div className={bAlert('text-content')}>
+                <div className={bAlert('text-content', {align})}>
                     {typeof props.title === 'string' ? (
                         <Alert.Title text={props.title} />
                     ) : (

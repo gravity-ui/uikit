@@ -16,6 +16,12 @@ test.describe('HelpMark', {tag: '@HelpMark'}, () => {
         await expectScreenshot();
     });
 
+    test('render story: <InsideText>', async ({mount, expectScreenshot}) => {
+        await mount(<HelpMarkStories.InsideText />);
+
+        await expectScreenshot();
+    });
+
     createSmokeScenarios<NonNullable<HelpMarkProps['popoverProps']>>(
         {
             qa: 'popover',

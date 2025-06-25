@@ -106,8 +106,8 @@ export const useElementChildrenCollapse = (
     ]);
 
     const handleResize = React.useCallback(() => {
-        setCalculated(false);
         setVisibleChildrenCount(childrenList.length);
+        setCalculated(false);
     }, [childrenList.length]);
 
     useResizeObserver({

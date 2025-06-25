@@ -44,7 +44,7 @@ export interface FlexProps<T extends React.ElementType = 'div'> extends BoxProps
     justifySelf?: AdaptiveProp<'justifySelf'>;
     /**
      * Shortcut for:
-     * 
+     *
      * ```css
      *  justify-content: center;
         align-items: center;
@@ -173,13 +173,22 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
             : property;
 
     const gapSpaceSize = applyMediaProps(gap);
-    const columnGap = gapSpaceSize ? spaceBaseSize * Number(gapSpaceSize) : undefined;
+    const columnGap =
+        typeof gapSpaceSize === 'undefined' ? undefined : spaceBaseSize * Number(gapSpaceSize);
 
     const gapRowSpaceSize = applyMediaProps(gapRow) || gapSpaceSize;
-    const rowGap = gapRowSpaceSize ? spaceBaseSize * Number(gapRowSpaceSize) : undefined;
+    const rowGap =
+        typeof gapRowSpaceSize === 'undefined'
+            ? undefined
+            : spaceBaseSize * Number(gapRowSpaceSize);
 
     const spaceSize = applyMediaProps(space);
-    const s = !gap && !gapRow && spaceSize ? makeCssMod(spaceSize) : undefined;
+    const s =
+        typeof gap === 'undefined' &&
+        typeof gapRow === 'undefined' &&
+        typeof spaceSize !== 'undefined'
+            ? makeCssMod(spaceSize)
+            : undefined;
 
     return (
         <Box

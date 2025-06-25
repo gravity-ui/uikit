@@ -1,5 +1,47 @@
 # Changelog
 
+## [7.16.0](https://github.com/gravity-ui/uikit/compare/v7.15.0...v7.16.0) (2025-06-24)
+
+
+### Features
+
+* **Label:** add loading property ([#2297](https://github.com/gravity-ui/uikit/issues/2297)) ([605fb64](https://github.com/gravity-ui/uikit/commit/605fb646614ad57a5b6c9f4549ed4f965c5ee725))
+* **SegmentedRadioGroup:** allow `children` composition ([#2310](https://github.com/gravity-ui/uikit/issues/2310)) ([0f808f7](https://github.com/gravity-ui/uikit/commit/0f808f7f10a6eacab5258d0e94235539823ccbbd))
+* **Table:** add `rowActionsIcon` prop ([#2301](https://github.com/gravity-ui/uikit/issues/2301)) ([6fde26d](https://github.com/gravity-ui/uikit/commit/6fde26d47f89649a711959d861c1b90cc5bfbf9f))
+
+
+### Bug Fixes
+
+* **Breadcrumbs:** сollapsing crumbs for the react 17 ([#2313](https://github.com/gravity-ui/uikit/issues/2313)) ([451c3ec](https://github.com/gravity-ui/uikit/commit/451c3ec212c0701146c3272b8e3f65fef5e00eed))
+
+## [7.15.0](https://github.com/gravity-ui/uikit/compare/v7.14.0...v7.15.0) (2025-06-17)
+
+
+### Features
+
+* **CopyToClipboard:** add fallback for copyText ([#2304](https://github.com/gravity-ui/uikit/issues/2304)) ([2fcefd7](https://github.com/gravity-ui/uikit/commit/2fcefd7bea8dcf6e1120625ab8ba8717aa444cfc))
+* **Label:** allow ReactNode as value ([#2306](https://github.com/gravity-ui/uikit/issues/2306)) ([6c41e0d](https://github.com/gravity-ui/uikit/commit/6c41e0dee0f33574af257cffb54732afc7dc3dad))
+
+
+### Bug Fixes
+
+* **layout:** add prop to fix breakpoints behavior on "s" media ([#2281](https://github.com/gravity-ui/uikit/issues/2281)) ([b1cd654](https://github.com/gravity-ui/uikit/commit/b1cd65431d6ab1c4b12fc7dce5a52e80ed8feecc))
+* next.js RSC ([#2308](https://github.com/gravity-ui/uikit/issues/2308)) ([7e4d3bb](https://github.com/gravity-ui/uikit/commit/7e4d3bb700e403e0f6f7e71837fc094a41b37032))
+
+## [7.14.0](https://github.com/gravity-ui/uikit/compare/v7.13.1...v7.14.0) (2025-06-09)
+
+
+### Features
+
+* add prop 'maxWidth' to PlaceholderContainer component ([#2296](https://github.com/gravity-ui/uikit/issues/2296)) ([40b9973](https://github.com/gravity-ui/uikit/commit/40b997305a4d7f9c39ad119231a2a6e2f1eab76b))
+* **Alert:** add `clear` theme ([#2241](https://github.com/gravity-ui/uikit/issues/2241)) ([3f3fcb6](https://github.com/gravity-ui/uikit/commit/3f3fcb62c2f98dc195ee636a12de95bfa24d5c51))
+
+
+### Bug Fixes
+
+* **Hotkey:** fix styles ([#2274](https://github.com/gravity-ui/uikit/issues/2274)) ([09dcbdf](https://github.com/gravity-ui/uikit/commit/09dcbdf4b4c7dc87727250e6d77f96f8bf82575a))
+* **ThemeProvider:** do not set direction in case of null body ([#2289](https://github.com/gravity-ui/uikit/issues/2289)) ([c4f8e1c](https://github.com/gravity-ui/uikit/commit/c4f8e1c59138ed1baa3c41ef7d947186f77803e2))
+
 ## [7.13.1](https://github.com/gravity-ui/uikit/compare/v7.13.0...v7.13.1) (2025-06-02)
 
 

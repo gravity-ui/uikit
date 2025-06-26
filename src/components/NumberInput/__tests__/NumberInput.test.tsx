@@ -568,5 +568,19 @@ describe('NumberInput input', () => {
             await userEvent.click(button);
             expect(inputs[0]).toHaveValue('123');
         });
+
+        test('should submit decimal value', async () => {
+            const handleSubmit = jest.fn();
+            render(
+                <form data-qa="form" onSubmit={handleSubmit}>
+                    <NumberInput allowDecimal name="numeric-field" value={123.45} />
+                    <button type="submit" data-qa="submit">
+                        submit
+                    </button>
+                </form>,
+            );
+            await userEvent.click(screen.getByTestId('submit'));
+            expect(handleSubmit).toHaveBeenCalledTimes(1);
+        });
     });
 });

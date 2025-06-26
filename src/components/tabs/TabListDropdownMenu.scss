@@ -1,0 +1,10 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}tab-list-dd-menu';
+
+#{$block} {
+    align-self: baseline;
+    margin-inline-start: auto;
+
+    --g-button-height: var(--g-tabs-list-dd-menu-button-height);
+}

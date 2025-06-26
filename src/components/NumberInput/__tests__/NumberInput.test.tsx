@@ -34,6 +34,24 @@ describe('NumberInput input', () => {
             expect(handleChange).toHaveBeenCalled();
         });
 
+        it('updates displayed input value when value prop changes', async () => {
+            const handleUpdate = jest.fn();
+            const {rerender} = render(<NumberInput value={1} onUpdate={handleUpdate} />);
+
+            expect(getInput()).toHaveValue('1');
+
+            rerender(<NumberInput value={123} onUpdate={handleUpdate} />);
+            expect(getInput()).toHaveValue('123');
+        });
+
+        it('updates displayed input value when value prop does not change after input change', async () => {
+            render(<NumberInput value={1} />);
+
+            fireEvent.change(getInput(), {target: {value: '123'}});
+
+            expect(getInput()).toHaveValue('1');
+        });
+
         it('calls onUpdate and onChange on input paste', async () => {
             const handleUpdate = jest.fn();
             const handleChange = jest.fn();

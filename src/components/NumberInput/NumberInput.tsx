@@ -128,13 +128,10 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
 
     React.useEffect(() => {
         const stringPropsValue = getStringValue(value);
-        setInputValue((currentInputValue) => {
-            if (!areStringRepresentationOfNumbersEqual(currentInputValue, stringPropsValue)) {
-                return stringPropsValue;
-            }
-            return currentInputValue;
-        });
-    }, [value]);
+        if (!areStringRepresentationOfNumbersEqual(inputValue, stringPropsValue)) {
+            setInputValue(stringPropsValue);
+        }
+    }, [value, inputValue]);
 
     const clamp = !(allowDecimal && !externalStep);
 

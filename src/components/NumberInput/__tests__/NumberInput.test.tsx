@@ -570,11 +570,11 @@ describe('NumberInput input', () => {
         });
 
         test('should submit decimal value', async () => {
+            let value;
             const handleSubmit = jest.fn((e) => {
                 e.preventDefault();
-                // Collect form data for assertion
-                const formData = new FormData(e.target);
-                handleSubmit.formData = formData;
+                const formData = new FormData(e.currentTarget);
+                value = [...formData.entries()];
             });
             render(
                 <form data-qa="form" onSubmit={handleSubmit}>
@@ -586,10 +586,7 @@ describe('NumberInput input', () => {
             );
             await userEvent.click(screen.getByTestId('submit'));
             expect(handleSubmit).toHaveBeenCalledTimes(1);
-
-            // Assert the submitted value
-            const submittedValue = handleSubmit.formData.get('numeric-field');
-            expect(submittedValue).toBe('123.45');
+            expect(value).toEqual([['numeric-field', '123.45']]);
         });
     });
 });

@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.16.2](https://github.com/gravity-ui/uikit/compare/v7.16.1...v7.16.2) (2025-06-28)
+
+
+### Bug Fixes
+
+* **build:** treeshaking ([#2324](https://github.com/gravity-ui/uikit/issues/2324)) ([479815a](https://github.com/gravity-ui/uikit/commit/479815a5098e878c94b21907cd0c70262e8854d2))
+
 ## [7.16.1](https://github.com/gravity-ui/uikit/compare/v7.16.0...v7.16.1) (2025-06-26)
 
 

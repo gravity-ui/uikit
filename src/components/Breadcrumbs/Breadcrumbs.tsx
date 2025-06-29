@@ -118,8 +118,8 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
     };
 
     const handleResize = React.useCallback(() => {
-        setCalculated(false);
         setVisibleItemsCount(items.length);
+        setCalculated(false);
     }, [items.length]);
     useResizeObserver({
         ref: listRef,
@@ -134,8 +134,8 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
     React.useLayoutEffect(() => {
         if (calculated && props.children !== lastChildren.current) {
             lastChildren.current = props.children;
-            setCalculated(false);
             setVisibleItemsCount(items.length);
+            setCalculated(false);
         }
     }, [calculated, items.length, props.children]);
 

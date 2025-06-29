@@ -22,9 +22,6 @@ const preview: Preview = {
             container: DocsDecorator,
             codePanel: true,
         },
-        actions: {
-            argTypesRegex: '^on.*',
-        },
         jsx: {showFunctions: true}, // To show functions in sources
         backgrounds: {disable: true},
         viewport: {

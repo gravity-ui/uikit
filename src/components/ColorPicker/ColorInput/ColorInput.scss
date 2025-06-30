@@ -1,0 +1,36 @@
+@use '../../variables';
+
+$block: '.#{variables.$ns}color-input';
+
+#{$block} {
+    &__control {
+        flex: 1 1 auto;
+        display: inline-block;
+        width: 100%;
+        position: relative;
+        border-radius: var(--g-border-radius-m);
+
+        border-style: solid;
+        border-width: 1px;
+        border-color: var(--g-color-line-generic);
+
+        color: var(--g-color-text-primary);
+        padding: 5px 8px;
+    }
+
+    &__control:hover {
+        border-color: var(--g-color-line-generic-hover);
+    }
+
+    &__control:focus {
+        outline: none;
+    }
+
+    &__control:focus-within {
+        border-color: var(--g-color-line-generic-active);
+        box-shadow: 0 0 0 2px var(--g-text-input-focus-outline-color);
+        outline: none;
+        box-sizing: border-box;
+        z-index: 1;
+    }
+}

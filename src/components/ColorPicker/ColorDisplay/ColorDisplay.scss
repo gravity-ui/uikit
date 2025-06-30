@@ -1,0 +1,8 @@
+@use '../../variables';
+
+$block: '.#{variables.$ns}color-display';
+
+#{$block} {
+    width: 18px;
+    height: 18px;
+}

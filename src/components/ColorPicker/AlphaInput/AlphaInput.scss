@@ -1,0 +1,13 @@
+@use '../../variables';
+
+$block: '.#{variables.$ns}alpha-input';
+
+#{$block} {
+    width: 54px;
+    flex: 0 0 auto;
+
+    &__percent {
+        padding-inline-end: 5px;
+        color: var(--g-color-text-secondary);
+    }
+}

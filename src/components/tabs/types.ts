@@ -18,7 +18,7 @@ export interface TabListProps
     onUpdate?: (value: string) => void;
     value?: string;
     size?: TabSize;
-    // contentOverflow?: 'wrap';
+    contentOverflow?: 'wrap' | 'scroll' | 'collapse';
     activateOnFocus?: boolean;
     children?: React.ReactNode;
 }
@@ -68,4 +68,13 @@ export interface TabPanelProps
         Omit<React.HTMLAttributes<HTMLDivElement>, 'style'> {
     value: string;
     children?: React.ReactNode;
+}
+
+export interface TabListCollapsedChildrenProps {
+    children: React.ReactNode;
+    tabsListContainerRef: React.RefObject<HTMLElement>;
+}
+
+export interface TabsDropdownMenuProps {
+    children: React.ReactNode;
 }

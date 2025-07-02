@@ -31,7 +31,10 @@ export interface NumberInputProps
         'error' | 'value' | 'defaultValue' | 'onUpdate'
     > {
     /** The control's html attributes */
-    controlProps?: Omit<React.InputHTMLAttributes<HTMLInputElement>, 'min' | 'max' | 'onChange'>;
+    controlProps?: Omit<
+        React.InputHTMLAttributes<HTMLInputElement>,
+        'min' | 'max' | 'onChange' | 'onInput'
+    >;
     /** Help text rendered to the left of the input node */
     label?: string;
     /** Indicates that the user cannot change control's value */
@@ -128,13 +131,10 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
 
     React.useEffect(() => {
         const stringPropsValue = getStringValue(value);
-        setInputValue((currentInputValue) => {
-            if (!areStringRepresentationOfNumbersEqual(currentInputValue, stringPropsValue)) {
-                return stringPropsValue;
-            }
-            return currentInputValue;
-        });
-    }, [value]);
+        if (!areStringRepresentationOfNumbersEqual(inputValue, stringPropsValue)) {
+            setInputValue(stringPropsValue);
+        }
+    }, [value, inputValue]);
 
     const clamp = !(allowDecimal && !externalStep);
 
@@ -241,11 +241,11 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
             {...props}
             className={b({size, view, state}, className)}
             controlProps={{
-                onInput: handleInput,
                 ...props.controlProps,
+                onInput: handleInput,
                 role: 'spinbutton',
                 inputMode: allowDecimal ? 'decimal' : 'numeric',
-                pattern: props.controlProps?.pattern ?? getInputPattern(allowDecimal, false),
+                pattern: props.controlProps?.pattern ?? getInputPattern(!allowDecimal, false),
                 'aria-valuemin': props.min,
                 'aria-valuemax': props.max,
                 'aria-valuenow': value === null ? undefined : value,

@@ -55,3 +55,17 @@ export const Size = {
         );
     },
 } satisfies Story;
+
+export const InsideText = {
+    render: (args) => {
+        return (
+            <div>
+                Lorem ipsum
+                <br />
+                dolor <HelpMark {...args} /> sit
+                <br />
+                amet
+            </div>
+        );
+    },
+} satisfies Story;

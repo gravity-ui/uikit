@@ -1,5 +1,22 @@
 # Changelog
 
+## [7.16.2](https://github.com/gravity-ui/uikit/compare/v7.16.1...v7.16.2) (2025-06-28)
+
+
+### Bug Fixes
+
+* **build:** treeshaking ([#2324](https://github.com/gravity-ui/uikit/issues/2324)) ([479815a](https://github.com/gravity-ui/uikit/commit/479815a5098e878c94b21907cd0c70262e8854d2))
+
+## [7.16.1](https://github.com/gravity-ui/uikit/compare/v7.16.0...v7.16.1) (2025-06-26)
+
+
+### Bug Fixes
+
+* **HelpMark:** fix component alignment within the text ([#2316](https://github.com/gravity-ui/uikit/issues/2316)) ([ca692d2](https://github.com/gravity-ui/uikit/commit/ca692d2e6a45454a727909c27ba504e18a5f9000))
+* **NumberInput:** controlled behaviour with changed input and unchanged value prop ([#2317](https://github.com/gravity-ui/uikit/issues/2317)) ([8bab288](https://github.com/gravity-ui/uikit/commit/8bab2883b0245da6f439a353338865008b47de30))
+* **NumberInput:** fix input pattern in case of using allowDecimal ([#2322](https://github.com/gravity-ui/uikit/issues/2322)) ([4f9dabf](https://github.com/gravity-ui/uikit/commit/4f9dabf2b63c197ddfd10571bb7a1ccae440b4f6))
+* **NumberInput:** restrict redefining onInput prop ([#2323](https://github.com/gravity-ui/uikit/issues/2323)) ([f8f45db](https://github.com/gravity-ui/uikit/commit/f8f45db568656c8381473ef4f685e90e002d14b5))
+
 ## [7.16.0](https://github.com/gravity-ui/uikit/compare/v7.15.0...v7.16.0) (2025-06-24)
 
 

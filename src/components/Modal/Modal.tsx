@@ -11,6 +11,7 @@ import {
     useFloating,
     useFloatingNodeId,
     useFloatingParentNodeId,
+    useFloatingTree,
     useInteractions,
     useRole,
     useTransitionStatus,
@@ -102,6 +103,8 @@ export interface ModalProps
     contentOverflow?: 'visible' | 'auto';
     floatingRef?: React.RefObject<HTMLDivElement>;
     disableHeightTransition?: boolean;
+    enableLogging?: boolean;
+    parentId?: string;
 }
 
 const b = block('modal');
@@ -136,6 +139,8 @@ function ModalComponent({
     qa,
     floatingRef,
     disableHeightTransition = false,
+    enableLogging = false,
+    parentId,
     ...restProps
 }: ModalProps) {
     useLayer({open, type: 'modal'});
@@ -170,7 +175,10 @@ function ModalComponent({
         [onOpenChange, onEscapeKeyDown, onOutsideClick, onClose],
     );
 
-    const floatingNodeId = useFloatingNodeId();
+    const floatingNodeId = useFloatingNodeId(parentId);
+    if (enableLogging) {
+        console.log('floatingNodeId in component', floatingNodeId);
+    }
 
     const {refs, elements, context} = useFloating({
         nodeId: floatingNodeId,
@@ -178,12 +186,17 @@ function ModalComponent({
         onOpenChange: handleOpenChange,
     });
 
+    if (enableLogging) {
+        console.log('elements', elements);
+    }
+
     const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
 
     const dismiss = useDismiss(context, {
         enabled: !disableOutsideClick || !disableEscapeKeyDown,
         outsidePress: !disableOutsideClick,
         escapeKey: !disableEscapeKeyDown,
+        bubbles: false,
     });
 
     const role = useRole(context, {role: 'dialog'});
@@ -309,7 +322,22 @@ function ModalComponent({
 }
 
 export function Modal(props: ModalProps) {
-    const parentId = useFloatingParentNodeId();
+    let parentId = useFloatingParentNodeId();
+    const tree = useFloatingTree();
+
+    if (props.enableLogging) {
+        console.log('parentId', parentId);
+        console.log('tree', tree?.nodesRef.current);
+
+        const prevElement = tree?.nodesRef.current[0];
+
+        console.log('prevElement', prevElement);
+
+        if (tree?.nodesRef.current && tree?.nodesRef.current.length >= 1 && prevElement && prevElement.context?.open) {
+            parentId = prevElement.id as string;
+            console.log('new parentId', prevElement.id);
+        }
+    }
 
     if (parentId === null) {
         return (
@@ -319,5 +347,5 @@ export function Modal(props: ModalProps) {
         );
     }
 
-    return <ModalComponent {...props} />;
+    return <ModalComponent {...props} parentId={parentId} />;
 }

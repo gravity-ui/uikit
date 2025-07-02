@@ -1,8 +1,10 @@
 import * as React from 'react';
 
 import {faker} from '@faker-js/faker/locale/en';
+import {FloatingNode, FloatingTree, useFloatingNodeId} from '@floating-ui/react';
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
+import {PortalProvider} from '../../../hooks';
 import {Button} from '../../Button';
 import {Loader} from '../../Loader';
 import {Popup} from '../../Popup';
@@ -121,18 +123,48 @@ function ModalWithPopup(props: ModalProps) {
     );
 }
 
-function ModalWithModal(props: ModalProps) {
+function Content(props: ModalProps) {
     const [innerModalOpen, setInnerModalOpen] = React.useState(false);
+    const [thirdModalOpen, setThirdModalOpen] = React.useState(false);
+
+    const id = useFloatingNodeId();
 
     return (
-        <Modal {...props}>
-            <div style={{padding: 100}}>
-                <Button onClick={() => setInnerModalOpen(true)}>Open modal</Button>
-                <Modal open={innerModalOpen} onOpenChange={setInnerModalOpen}>
+        <FloatingNode id={id}>
+            <Modal {...props}>
+                <div style={{padding: 100}}>
+                    <Button onClick={() => setInnerModalOpen(true)}>Open modal</Button>
+                </div>
+            </Modal>
+            {innerModalOpen && (
+                <Modal open={innerModalOpen} onOpenChange={setInnerModalOpen} enableLogging>
+                    <div style={{padding: 10}}>
+                        Modal content
+                        <Button onClick={() => setThirdModalOpen(true)}>Open third modal</Button>
+                    </div>
+                </Modal>
+            )}
+            {thirdModalOpen && (
+                <Modal open={thirdModalOpen} onOpenChange={setThirdModalOpen}>
                     <div style={{padding: 10}}>Modal content</div>
                 </Modal>
-            </div>
-        </Modal>
+            )}
+        </FloatingNode>
+    );
+}
+
+function ModalWithModal(props: ModalProps) {
+    const customPortalRef = React.useRef<HTMLDivElement>(null);
+
+    return (
+        <React.Fragment>
+            <div ref={customPortalRef} />
+            <PortalProvider container={customPortalRef}>
+                <FloatingTree>
+                    <Content {...props} />
+                </FloatingTree>
+            </PortalProvider>
+        </React.Fragment>
     );
 }
 

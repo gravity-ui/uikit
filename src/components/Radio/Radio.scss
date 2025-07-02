@@ -75,8 +75,9 @@ $discMarginXLSize: 8px;
     &_size {
         &_m {
             #{$block}__indicator {
-                width: 14px;
-                height: 14px;
+                width: 15px;
+                height: 15px;
+                margin: 2px 0;
             }
 
             #{$block}__disc::before {
@@ -86,8 +87,8 @@ $discMarginXLSize: 8px;
 
         &_l {
             #{$block}__indicator {
-                width: 17px;
-                height: 17px;
+                width: 18px;
+                height: 18px;
             }
 
             #{$block}__disc::before {

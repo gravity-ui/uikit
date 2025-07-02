@@ -170,3 +170,30 @@ export const Position: Story = {
         layout: 'centered',
     },
 };
+
+export const ScrollAutoFocus: Story = {
+    render: (args) => {
+        const [anchor, setAnchor] = React.useState<HTMLButtonElement | null>(null);
+        const [open, setOpen] = React.useState(false);
+
+        return (
+            <div className="content">
+                <div>Scroll down ↓</div>
+                <div style={{height: '1000px'}}></div>
+                <Button ref={setAnchor} size="m" onClick={() => setOpen(!open)} view="action">
+                    Click me
+                </Button>
+                <Popup
+                    {...args}
+                    anchorElement={anchor}
+                    open={open}
+                    initialFocus={0}
+                    modal={true}
+                    onOpenChange={setOpen}
+                >
+                    <Button>Button in a Popup</Button>
+                </Popup>
+            </div>
+        );
+    },
+};

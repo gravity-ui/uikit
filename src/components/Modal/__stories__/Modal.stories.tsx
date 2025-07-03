@@ -124,32 +124,34 @@ function ModalWithPopup(props: ModalProps) {
 }
 
 function Content(props: ModalProps) {
-    const [innerModalOpen, setInnerModalOpen] = React.useState(false);
+    const [secondModalOpen, setSecondModalOpen] = React.useState(false);
     const [thirdModalOpen, setThirdModalOpen] = React.useState(false);
 
-    const id = useFloatingNodeId();
-
     return (
-        <FloatingNode id={id}>
+        <React.Fragment>
+            {thirdModalOpen && (
+                <Modal open={thirdModalOpen} onOpenChange={setThirdModalOpen} logginPrefix="third">
+                    <div style={{padding: 10}}>Modal content</div>
+                </Modal>
+            )}
             <Modal {...props}>
                 <div style={{padding: 100}}>
-                    <Button onClick={() => setInnerModalOpen(true)}>Open modal</Button>
+                    <Button onClick={() => setSecondModalOpen(true)}>Open second modal</Button>
                 </div>
             </Modal>
-            {innerModalOpen && (
-                <Modal open={innerModalOpen} onOpenChange={setInnerModalOpen} enableLogging>
+            {secondModalOpen && (
+                <Modal
+                    open={secondModalOpen}
+                    onOpenChange={setSecondModalOpen}
+                    logginPrefix="second"
+                >
                     <div style={{padding: 10}}>
                         Modal content
                         <Button onClick={() => setThirdModalOpen(true)}>Open third modal</Button>
                     </div>
                 </Modal>
             )}
-            {thirdModalOpen && (
-                <Modal open={thirdModalOpen} onOpenChange={setThirdModalOpen}>
-                    <div style={{padding: 10}}>Modal content</div>
-                </Modal>
-            )}
-        </FloatingNode>
+        </React.Fragment>
     );
 }
 

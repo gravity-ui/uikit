@@ -6,7 +6,7 @@ import {
     FloatingFocusManager,
     FloatingNode,
     FloatingOverlay,
-    FloatingTree,
+    FloatingPortal,
     useDismiss,
     useFloating,
     useFloatingNodeId,
@@ -18,15 +18,15 @@ import {
 } from '@floating-ui/react';
 import type {
     FloatingFocusManagerProps,
+    FloatingNodeType,
     OpenChangeReason,
     UseFloatingOptions,
 } from '@floating-ui/react';
 import {isTabbable} from 'tabbable';
 
 import {KeyCode} from '../../constants';
-import {useForkRef} from '../../hooks';
+import {useForkRef, usePortalContainer} from '../../hooks';
 import {useAnimateHeight, usePrevious} from '../../hooks/private';
-import {Portal} from '../Portal';
 import type {PortalProps} from '../Portal';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
@@ -103,7 +103,7 @@ export interface ModalProps
     contentOverflow?: 'visible' | 'auto';
     floatingRef?: React.RefObject<HTMLDivElement>;
     disableHeightTransition?: boolean;
-    enableLogging?: boolean;
+    logginPrefix?: string;
     parentId?: string;
 }
 
@@ -139,7 +139,7 @@ function ModalComponent({
     qa,
     floatingRef,
     disableHeightTransition = false,
-    enableLogging = false,
+    logginPrefix,
     parentId,
     ...restProps
 }: ModalProps) {
@@ -176,8 +176,8 @@ function ModalComponent({
     );
 
     const floatingNodeId = useFloatingNodeId(parentId);
-    if (enableLogging) {
-        console.log('floatingNodeId in component', floatingNodeId);
+    if (logginPrefix) {
+        console.log(logginPrefix, 'floatingNodeId in component', floatingNodeId);
     }
 
     const {refs, elements, context} = useFloating({
@@ -186,8 +186,8 @@ function ModalComponent({
         onOpenChange: handleOpenChange,
     });
 
-    if (enableLogging) {
-        console.log('elements', elements);
+    if (logginPrefix) {
+        console.log(logginPrefix, 'elements', elements);
     }
 
     const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
@@ -272,10 +272,13 @@ function ModalComponent({
         [elements.floating, onEnterKeyDown],
     );
 
+    const defaultPortalRoot = usePortalContainer();
+    const portalRoot = container ?? defaultPortalRoot;
+
     return (
         <FloatingNode id={floatingNodeId}>
             {isMounted || keepMounted ? (
-                <Portal container={container} disablePortal={disablePortal}>
+                <FloatingPortal root={portalRoot}>
                     <FloatingOverlay
                         style={style}
                         className={b({open}, className)}
@@ -315,30 +318,52 @@ function ModalComponent({
                             </div>
                         </div>
                     </FloatingOverlay>
-                </Portal>
+                </FloatingPortal>
             ) : null}
         </FloatingNode>
     );
+}
+
+function findLastNodeInTree(nodes: FloatingNodeType[]): FloatingNodeType | undefined {
+    const root = nodes.find((e) => e.parentId === null);
+
+    if (!root) {
+        return undefined;
+    }
+
+    let last = root;
+    while (true) {
+        console.log(last.id, 'last.id');
+        const next = nodes.find((e) => e.parentId === last.id);
+        if (!next) break;
+        last = next;
+    }
+
+    return last;
 }
 
 export function Modal(props: ModalProps) {
     let parentId = useFloatingParentNodeId();
     const tree = useFloatingTree();
 
-    if (props.enableLogging) {
-        console.log('parentId', parentId);
-        console.log('tree', tree?.nodesRef.current);
+    const alreadyCalculated = React.useRef(false);
+    const calculatedParentId = React.useRef<string | null>(null);
 
-        const prevElement = tree?.nodesRef.current[0];
+    if (!alreadyCalculated.current) {
+        const lastNode = findLastNodeInTree(tree?.nodesRef.current ?? []);
 
-        console.log('prevElement', prevElement);
-
-        if (tree?.nodesRef.current && tree?.nodesRef.current.length >= 1 && prevElement && prevElement.context?.open) {
-            parentId = prevElement.id as string;
-            console.log('new parentId', prevElement.id);
+        if (lastNode) {
+            parentId = lastNode.id as string;
+            calculatedParentId.current = parentId;
+            console.log(props.logginPrefix, 'new parentId', parentId, lastNode);
         }
+
+        alreadyCalculated.current = true;
     }
 
+    parentId = calculatedParentId.current ?? parentId;
+
+    /*
     if (parentId === null) {
         return (
             <FloatingTree>
@@ -346,6 +371,7 @@ export function Modal(props: ModalProps) {
             </FloatingTree>
         );
     }
+        */
 
     return <ModalComponent {...props} parentId={parentId} />;
 }

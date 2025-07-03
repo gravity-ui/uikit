@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {faker} from '@faker-js/faker/locale/en';
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {toaster} from '../../../toaster-singleton';
 import type {ButtonView} from '../../Button';
@@ -129,10 +129,8 @@ export const ToastPlayground: Story = {
         removeCallback: disabledControl,
     },
     render: (args, context) => {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
         const toaster = useToaster();
 
-        // eslint-disable-next-line react-hooks/rules-of-hooks
         React.useEffect(() => {
             const toastId = 'demo-toast';
             toaster.add({

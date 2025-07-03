@@ -41,6 +41,7 @@ export function TextAreaShowcase() {
                     />
                     <TextArea
                         {...textAreaProps}
+                        rows={1}
                         placeholder="333px height from className"
                         className={b('custom-height')}
                     />
@@ -54,7 +55,8 @@ export function TextAreaShowcase() {
                         <TextArea
                             {...textAreaProps}
                             placeholder="error with message"
-                            error={isErrorMessageVisible ? 'A validation error has occurred' : true}
+                            validationState={isErrorMessageVisible ? 'invalid' : undefined}
+                            errorMessage={'A validation error has occurred'}
                         />
                         <Checkbox
                             onUpdate={setErrorMessageVisibility}
@@ -87,7 +89,8 @@ export function TextAreaShowcase() {
                         placeholder="with counter and long error message"
                         rows={4}
                         note={<Text color="secondary">Additional</Text>}
-                        error={
+                        validationState="invalid"
+                        errorMessage={
                             'It happened a very very very very very very very very very very very very very very very very very very very very very long validation error'
                         }
                     />
@@ -112,6 +115,7 @@ export function TextAreaCustomShowcase() {
                 <h3 className={b('section-header')}>Normal</h3>
                 <TextArea
                     {...textAreaProps}
+                    value={undefined}
                     defaultValue={`
 multi
 line
@@ -127,12 +131,17 @@ value`.trim()}
                     readOnly
                     rows={2}
                 />
-                <TextArea {...textAreaProps} error="Error message" />
+                <TextArea
+                    {...textAreaProps}
+                    validationState="invalid"
+                    errorMessage="Error message"
+                />
             </div>
             <div className={b('custom-theme')}>
                 <h3 className={b('section-header')}>Custom theme</h3>
                 <TextArea
                     {...textAreaProps}
+                    value={undefined}
                     defaultValue={`
 multi
 line
@@ -148,7 +157,11 @@ value`.trim()}
                     readOnly
                     rows={2}
                 />
-                <TextArea {...textAreaProps} error="Error message" />
+                <TextArea
+                    {...textAreaProps}
+                    validationState="invalid"
+                    errorMessage="Error message"
+                />
             </div>
         </div>
     );

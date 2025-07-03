@@ -3,7 +3,7 @@ import type * as React from 'react';
 import type {ButtonProps} from '../Button';
 import type {QAProps} from '../types';
 
-export type AlertTheme = 'normal' | 'info' | 'success' | 'warning' | 'danger' | 'utility';
+export type AlertTheme = 'clear' | 'normal' | 'info' | 'success' | 'warning' | 'danger' | 'utility';
 export type AlertView = 'filled' | 'outlined';
 export type AlertLayout = 'vertical' | 'horizontal';
 export type AlertCorners = 'rounded' | 'square';

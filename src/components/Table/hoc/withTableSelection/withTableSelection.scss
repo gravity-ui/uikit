@@ -27,7 +27,8 @@ $checkboxWidth: 17px;
 
         #{variables.$block}__cell_sticky_start,
         #{variables.$block}__cell_sticky_end {
-            background: linear-gradient(
+            background:
+                linear-gradient(
                     to right,
                     var(--g-color-base-selection),
                     var(--g-color-base-selection)
@@ -44,7 +45,8 @@ $checkboxWidth: 17px;
 
             #{variables.$block}__cell_sticky_start,
             #{variables.$block}__cell_sticky_end {
-                background: linear-gradient(
+                background:
+                    linear-gradient(
                         to right,
                         var(--g-color-base-selection-hover),
                         var(--g-color-base-selection-hover)

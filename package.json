@@ -1,229 +1,226 @@
 {
-    "name": "@gravity-ui/uikit",
-    "version": "7.5.1",
-    "description": "Gravity UI base styling and components",
-    "keywords": [
-        "component",
-        "design-system",
-        "gravity-ui",
-        "react",
-        "react-component",
-        "ui",
-        "uikit",
-        "web"
+  "name": "@gravity-ui/uikit",
+  "version": "7.16.2",
+  "description": "Gravity UI base styling and components",
+  "keywords": [
+    "component",
+    "design-system",
+    "gravity-ui",
+    "react",
+    "react-component",
+    "ui",
+    "uikit",
+    "web"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 20",
+    "npm": ">= 9",
+    "yarn": "Please use npm instead of yarn to install dependencies",
+    "pnpm": "Please use npm instead of pnpm to install dependencies"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gravity-ui/uikit"
+  },
+  "type": "commonjs",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./build/esm/index.d.ts",
+        "default": "./build/esm/index.js"
+      },
+      "require": {
+        "types": "./build/cjs/index.d.ts",
+        "default": "./build/cjs/index.js"
+      }
+    },
+    "./toaster-singleton": {
+      "import": {
+        "types": "./build/esm/toaster-singleton.d.ts",
+        "default": "./build/esm/toaster-singleton.js"
+      },
+      "require": {
+        "types": "./build/cjs/toaster-singleton.d.ts",
+        "default": "./build/cjs/toaster-singleton.js"
+      }
+    },
+    "./i18n": {
+      "import": {
+        "types": "./build/esm/i18n/index.d.ts",
+        "default": "./build/esm/i18n/index.js"
+      },
+      "require": {
+        "types": "./build/cjs/i18n/index.d.ts",
+        "default": "./build/cjs/i18n/index.js"
+      }
+    },
+    "./legacy": {
+      "import": {
+        "types": "./build/esm/legacy.d.ts",
+        "default": "./build/esm/legacy.js"
+      },
+      "require": {
+        "types": "./build/cjs/legacy.d.ts",
+        "default": "./build/cjs/legacy.js"
+      }
+    },
+    "./unstable": {
+      "import": {
+        "types": "./build/esm/unstable.d.ts",
+        "default": "./build/esm/unstable.js"
+      },
+      "require": {
+        "types": "./build/cjs/unstable.d.ts",
+        "default": "./build/cjs/unstable.js"
+      }
+    },
+    "./server": {
+      "import": {
+        "types": "./build/esm/server.d.ts",
+        "default": "./build/esm/server.js"
+      },
+      "require": {
+        "types": "./build/cjs/server.d.ts",
+        "default": "./build/cjs/server.js"
+      }
+    },
+    "./styles/*": "./styles/*"
+  },
+  "main": "./build/cjs/index.js",
+  "types": "./build/cjs/index.d.ts",
+  "module": "./build/esm/index.js",
+  "sideEffects": [
+    "*.css",
+    "*.scss"
+  ],
+  "files": [
+    "build",
+    "styles"
+  ],
+  "scripts": {
+    "prepare": "husky",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watchAll",
+    "clean": "gulp clean",
+    "build": "gulp",
+    "start": "storybook dev -p 7007",
+    "build-storybook": "storybook build -c .storybook -o storybook-static",
+    "test-storybook": "test-storybook",
+    "lint:js": "eslint",
+    "lint:js:fix": "npm run lint:js -- --fix",
+    "lint:styles": "cross-env stylelint '{styles,src}/**/*.scss'",
+    "lint:styles:fix": "cross-env npm run lint:styles -- --fix",
+    "lint:prettier": "cross-env prettier --check '**/*.md'",
+    "lint:prettier:fix": "cross-env prettier --write '**/*.md'",
+    "lint": "run-p lint:*",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build && npm pkg delete engines",
+    "playwright:install": "playwright install chromium webkit --with-deps",
+    "playwright": "playwright test --config=playwright/playwright.config.ts",
+    "playwright:update": "npm run playwright -- -u",
+    "playwright:clear-cache": "rm -rf ./playwright/.cache",
+    "playwright:docker": "./playwright/run-docker-command.sh npm run playwright --",
+    "playwright:docker:update": "./playwright/run-docker-command.sh npm run playwright:update --",
+    "playwright:docker:clear-cache": "./playwright/run-docker-command.sh clear-cache"
+  },
+  "dependencies": {
+    "@bem-react/classname": "^1.6.0",
+    "@floating-ui/react": "^0.27.12",
+    "@gravity-ui/i18n": "^1.8.0",
+    "@gravity-ui/icons": "^2.13.0",
+    "@tanstack/react-virtual": "^3.13.9",
+    "blueimp-md5": "^2.19.0",
+    "lodash": "^4.17.21",
+    "rc-slider": "^11.1.8",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-transition-group": "^4.4.5",
+    "react-virtualized-auto-sizer": "^1.0.26",
+    "react-window": "^1.8.11",
+    "tabbable": "^6.2.0",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.27.2",
+    "@babel/preset-react": "^7.27.1",
+    "@babel/preset-typescript": "^7.27.1",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@faker-js/faker": "^9.8.0",
+    "@gravity-ui/eslint-config": "^4.1.0",
+    "@gravity-ui/gulp-utils": "^1.0.3",
+    "@gravity-ui/prettier-config": "^1.1.0",
+    "@gravity-ui/stylelint-config": "^5.0.0",
+    "@gravity-ui/tsconfig": "^1.0.0",
+    "@playwright/experimental-ct-react": "^1.52.0",
+    "@playwright/test": "^1.52.0",
+    "@storybook/addon-a11y": "^9.0.5",
+    "@storybook/addon-docs": "^9.0.5",
+    "@storybook/addon-styling-webpack": "^2.0.0",
+    "@storybook/addon-webpack5-compiler-babel": "^3.0.6",
+    "@storybook/cli": "^9.0.5",
+    "@storybook/react-webpack5": "^9.0.5",
+    "@storybook/test-runner": "^0.22.0",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/blueimp-md5": "^2.18.2",
+    "@types/chroma-js": "^3.1.1",
+    "@types/jest": "^29.5.14",
+    "@types/lodash": "^4.17.17",
+    "@types/react": "^18.3.23",
+    "@types/react-beautiful-dnd": "^13.1.8",
+    "@types/react-dom": "^18.3.7",
+    "@types/react-transition-group": "^4.4.12",
+    "@types/react-virtualized-auto-sizer": "^1.0.8",
+    "@types/react-window": "^1.8.8",
+    "@vitejs/plugin-react": "^4.5.1",
+    "axe-playwright": "^2.1.0",
+    "chroma-js": "^3.1.2",
+    "cross-env": "^7.0.3",
+    "eslint": "^9.28.0",
+    "eslint-plugin-storybook": "^9.0.5",
+    "eslint-plugin-testing-library": "^7.4.0",
+    "globals": "^16.2.0",
+    "gulp": "^5.0.1",
+    "gulp-cli": "^3.1.0",
+    "gulp-sass": "^6.0.1",
+    "gulp-sourcemaps": "^3.0.0",
+    "husky": "^9.1.7",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-transform-css": "^6.0.3",
+    "nano-staged": "^0.8.0",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.5.4",
+    "prettier": "^3.5.3",
+    "react": "^18.3.1",
+    "react-docgen-typescript": "^2.2.2",
+    "react-dom": "^18.3.1",
+    "rimraf": "^6.0.1",
+    "sass": "^1.89.1",
+    "sass-loader": "^16.0.5",
+    "storybook": "^9.0.5",
+    "stylelint": "^16.20.0",
+    "stylelint-use-logical": "^2.1.2",
+    "ts-jest": "^29.3.4",
+    "typescript": "^5.8.3"
+  },
+  "peerDependencies": {
+    "react": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
+  },
+  "nano-staged": {
+    "*.{scss}": [
+      "stylelint --fix --quiet"
     ],
-    "license": "MIT",
-    "engines": {
-        "node": ">= 20",
-        "npm": ">= 9",
-        "yarn": "Please use npm instead of yarn to install dependencies",
-        "pnpm": "Please use npm instead of pnpm to install dependencies"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/gravity-ui/uikit"
-    },
-    "type": "commonjs",
-    "exports": {
-        ".": {
-            "import": {
-                "types": "./build/esm/index.d.ts",
-                "default": "./build/esm/index.js"
-            },
-            "require": {
-                "types": "./build/cjs/index.d.ts",
-                "default": "./build/cjs/index.js"
-            }
-        },
-        "./toaster-singleton": {
-            "import": {
-                "types": "./build/esm/toaster-singleton.d.ts",
-                "default": "./build/esm/toaster-singleton.js"
-            },
-            "require": {
-                "types": "./build/cjs/toaster-singleton.d.ts",
-                "default": "./build/cjs/toaster-singleton.js"
-            }
-        },
-        "./i18n": {
-            "import": {
-                "types": "./build/esm/i18n/index.d.ts",
-                "default": "./build/esm/i18n/index.js"
-            },
-            "require": {
-                "types": "./build/cjs/i18n/index.d.ts",
-                "default": "./build/cjs/i18n/index.js"
-            }
-        },
-        "./legacy": {
-            "import": {
-                "types": "./build/esm/legacy.d.ts",
-                "default": "./build/esm/legacy.js"
-            },
-            "require": {
-                "types": "./build/cjs/legacy.d.ts",
-                "default": "./build/cjs/legacy.js"
-            }
-        },
-        "./unstable": {
-            "import": {
-                "types": "./build/esm/unstable.d.ts",
-                "default": "./build/esm/unstable.js"
-            },
-            "require": {
-                "types": "./build/cjs/unstable.d.ts",
-                "default": "./build/cjs/unstable.js"
-            }
-        },
-        "./server": {
-            "import": {
-                "types": "./build/esm/server.d.ts",
-                "default": "./build/esm/server.js"
-            },
-            "require": {
-                "types": "./build/cjs/server.d.ts",
-                "default": "./build/cjs/server.js"
-            }
-        },
-        "./styles/*": "./styles/*"
-    },
-    "main": "./build/cjs/index.js",
-    "types": "./build/cjs/index.d.ts",
-    "module": "./build/esm/index.js",
-    "sideEffects": [
-        "*.css",
-        "*.scss"
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix --quiet"
     ],
-    "files": [
-        "build",
-        "styles"
-    ],
-    "scripts": {
-        "prepare": "husky",
-        "test": "jest",
-        "test-storybook": "test-storybook --url ${PR_PREVIEW_URL:-http://localhost:7007}",
-        "test:coverage": "jest --coverage",
-        "test:watch": "jest --watchAll",
-        "clean": "gulp clean",
-        "build": "gulp",
-        "start": "storybook dev -p 7007",
-        "build-storybook": "storybook build -c .storybook -o storybook-static",
-        "lint:js": "eslint --ext .js,.jsx,.ts,.tsx .",
-        "lint:js:fix": "npm run lint:js -- --fix",
-        "lint:styles": "cross-env stylelint '{styles,src}/**/*.scss'",
-        "lint:styles:fix": "cross-env npm run lint:styles -- --fix",
-        "lint:prettier": "cross-env prettier --check '**/*.md'",
-        "lint:prettier:fix": "cross-env prettier --write '**/*.md'",
-        "lint": "run-p lint:*",
-        "typecheck": "tsc --noEmit",
-        "prepublishOnly": "npm run build && npm pkg delete engines",
-        "playwright:install": "playwright install chromium webkit --with-deps",
-        "playwright": "playwright test --config=playwright/playwright.config.ts",
-        "playwright:update": "npm run playwright -- -u",
-        "playwright:clear-cache": "rm -rf ./playwright/.cache",
-        "playwright:docker": "./scripts/playwright-docker.sh 'npm run playwright'",
-        "playwright:docker:update": "./scripts/playwright-docker.sh 'npm run playwright:update'",
-        "playwright:docker:clear-cache": "./scripts/playwright-docker.sh clear-cache"
-    },
-    "dependencies": {
-        "@bem-react/classname": "^1.6.0",
-        "@floating-ui/react": "^0.27.3",
-        "@gravity-ui/i18n": "^1.7.0",
-        "@gravity-ui/icons": "^2.12.0",
-        "@tanstack/react-virtual": "^3.11.2",
-        "blueimp-md5": "^2.19.0",
-        "colord": "^2.9.3",
-        "lodash": "^4.17.21",
-        "rc-slider": "^11.1.8",
-        "react-beautiful-dnd": "^13.1.1",
-        "react-colorful": "^5.6.1",
-        "react-transition-group": "^4.4.5",
-        "react-virtualized-auto-sizer": "^1.0.25",
-        "react-window": "^1.8.11",
-        "tabbable": "^6.2.0",
-        "tslib": "^2.8.1"
-    },
-    "devDependencies": {
-        "@babel/preset-env": "^7.26.0",
-        "@babel/preset-react": "^7.26.3",
-        "@babel/preset-typescript": "^7.26.0",
-        "@commitlint/cli": "^19.6.1",
-        "@commitlint/config-conventional": "^19.6.0",
-        "@faker-js/faker": "^9.4.0",
-        "@gravity-ui/eslint-config": "^3.3.0",
-        "@gravity-ui/gulp-utils": "^1.0.1",
-        "@gravity-ui/prettier-config": "^1.1.0",
-        "@gravity-ui/stylelint-config": "^4.0.1",
-        "@gravity-ui/tsconfig": "^1.0.0",
-        "@playwright/experimental-ct-react": "^1.49.0",
-        "@playwright/test": "^1.49.0",
-        "@storybook/addon-a11y": "^8.5.0",
-        "@storybook/addon-essentials": "^8.5.0",
-        "@storybook/addon-storysource": "^8.5.0",
-        "@storybook/addon-styling-webpack": "^1.0.1",
-        "@storybook/addon-webpack5-compiler-babel": "^3.0.5",
-        "@storybook/cli": "^8.5.0",
-        "@storybook/manager-api": "^8.5.0",
-        "@storybook/preview-api": "^8.5.0",
-        "@storybook/react-webpack5": "^8.5.0",
-        "@storybook/test-runner": "^0.21.0",
-        "@testing-library/dom": "^10.4.0",
-        "@testing-library/jest-dom": "^6.6.3",
-        "@testing-library/react": "^16.2.0",
-        "@testing-library/user-event": "^14.6.0",
-        "@types/blueimp-md5": "^2.18.2",
-        "@types/chroma-js": "^3.1.0",
-        "@types/jest": "^29.5.14",
-        "@types/lodash": "^4.17.14",
-        "@types/react": "^18.3.18",
-        "@types/react-beautiful-dnd": "^13.1.8",
-        "@types/react-dom": "^18.3.5",
-        "@types/react-transition-group": "^4.4.12",
-        "@types/react-virtualized-auto-sizer": "^1.0.4",
-        "@types/react-window": "^1.8.8",
-        "@vitejs/plugin-react": "^4.3.4",
-        "axe-playwright": "^2.0.3",
-        "chroma-js": "^3.1.2",
-        "cross-env": "^7.0.3",
-        "eslint": "^8.57.1",
-        "eslint-plugin-testing-library": "^6.5.0",
-        "gulp": "^5.0.0",
-        "gulp-cli": "^3.0.0",
-        "gulp-sass": "^6.0.0",
-        "gulp-sourcemaps": "^3.0.0",
-        "husky": "^9.1.7",
-        "jest": "^29.7.0",
-        "jest-environment-jsdom": "^29.7.0",
-        "jest-transform-css": "^6.0.2",
-        "nano-staged": "^0.8.0",
-        "npm-run-all": "^4.1.5",
-        "postcss": "^8.5.1",
-        "prettier": "^3.4.2",
-        "react": "^18.3.1",
-        "react-docgen-typescript": "^2.2.2",
-        "react-dom": "^18.3.1",
-        "rimraf": "^6.0.1",
-        "sass": "^1.83.4",
-        "sass-loader": "^16.0.4",
-        "storybook": "^8.5.0",
-        "stylelint": "^15.11.0",
-        "stylelint-use-logical": "^2.1.2",
-        "ts-jest": "^29.2.5",
-        "typescript": "^5.7.3"
-    },
-    "peerDependencies": {
-        "react": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
-        "react-dom": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
-    },
-    "nano-staged": {
-        "*.{scss}": [
-            "stylelint --fix --quiet"
-        ],
-        "*.{js,jsx,ts,tsx}": [
-            "eslint --fix --quiet"
-        ],
-        "*.{md,mdx}": [
-            "prettier --write"
-        ]
-    }
+    "*.{md,mdx}": [
+      "prettier --write"
+    ]
+  }
 }

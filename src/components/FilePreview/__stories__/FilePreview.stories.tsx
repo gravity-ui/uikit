@@ -1,19 +1,22 @@
 import {CircleExclamation, Link, Xmark} from '@gravity-ui/icons';
-import {action} from '@storybook/addon-actions';
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
+import {action} from 'storybook/actions';
 
 import {Icon} from '../../Icon';
+import {Text} from '../../Text';
 import {Flex} from '../../layout/Flex/Flex';
 import type {FilePreviewProps} from '../FilePreview';
 import {FilePreview} from '../FilePreview';
 import {FILE_TYPES} from '../types';
+
+import {CompactMenuWithActionsShowcase} from './CompactFilePreviewWithActionsShowcase/CompactFilePreviewWithActionsShowcase';
 
 export default {
     title: 'Components/Data Display/FilePreview',
     component: FilePreview,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {
@@ -135,6 +138,43 @@ const NoClickableTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> = () => {
 
 export const NoClickable = NoClickableTemplate.bind({});
 
+const SelectedTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> = () => {
+    return (
+        <div
+            style={{
+                display: 'grid',
+                justifyItems: 'center',
+                alignItems: 'center',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gridGap: 8,
+                width: 400,
+            }}
+        >
+            <Text>File</Text>
+            <FilePreview selected file={{name: 'file', type: 'text/docs'} as File} />
+            <FilePreview
+                selected
+                view="compact"
+                file={{name: 'Size s file', type: 'text/docs'} as File}
+            />
+            <Text>Image</Text>
+            <FilePreview
+                selected
+                file={{name: 'image', type: 'image/png'} as File}
+                imageSrc="https://storage.yandexcloud.net/uikit-storybook-assets/changelog-dialog-picture-2.png"
+            />
+            <FilePreview
+                selected
+                view="compact"
+                file={{name: 'image', type: 'image/png'} as File}
+                imageSrc="https://storage.yandexcloud.net/uikit-storybook-assets/changelog-dialog-picture-2.png"
+            />
+        </div>
+    );
+};
+
+export const Selected = SelectedTemplate.bind({});
+
 const withoutActionTooltipTemplateActions = [
     {
         icon: <Xmark width={14} height={14} />,
@@ -159,3 +199,59 @@ const WithoutActionTooltipTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> =
 };
 
 export const WithoutActionTooltip = WithoutActionTooltipTemplate.bind({});
+
+const ViewTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> = () => {
+    return (
+        <div
+            style={{
+                display: 'grid',
+                justifyItems: 'center',
+                alignItems: 'center',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gridGap: 8,
+                width: 400,
+            }}
+        >
+            <Text>Default</Text>
+            <FilePreview file={{name: 'file', type: 'text/docs'} as File} />
+            <FilePreview
+                file={{name: 'image', type: 'image/png'} as File}
+                imageSrc="https://storage.yandexcloud.net/uikit-storybook-assets/changelog-dialog-picture-2.png"
+            />
+            <Text>Compact</Text>
+            <FilePreview view="compact" file={{name: 'Size s file', type: 'text/docs'} as File} />
+            <FilePreview
+                view="compact"
+                file={{name: 'image', type: 'image/png'} as File}
+                imageSrc="https://storage.yandexcloud.net/uikit-storybook-assets/changelog-dialog-picture-2.png"
+            />
+        </div>
+    );
+};
+
+export const View = ViewTemplate.bind({});
+
+const compactMenuActions = [
+    {
+        iconStart: <Link width={14} height={14} />,
+        text: 'open on drive',
+        action: () => action('onLink'),
+    },
+    {
+        iconStart: <Icon data={Xmark} width={14} height={14} />,
+        text: 'delete a file',
+        action: () => action('onClose'),
+    },
+];
+
+const CustomMenuInDesktopCompactModeTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> = () => {
+    return (
+        <CompactMenuWithActionsShowcase
+            file={{name: 'image with actions', type: 'image/png'} as File}
+            imageSrc="https://storage.yandexcloud.net/uikit-storybook-assets/changelog-dialog-picture-2.png"
+            actions={compactMenuActions}
+        />
+    );
+};
+
+export const CustomMenuInDesktopCompactMode = CustomMenuInDesktopCompactModeTemplate.bind({});

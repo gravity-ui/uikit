@@ -1,6 +1,6 @@
 import type * as React from 'react';
 
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {ListItem} from '../components';
 import type {ListItemProps, ListSortHandleAlign} from '../types';
@@ -40,7 +40,7 @@ export default {
     ],
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {
@@ -78,9 +78,7 @@ export default {
 
 const getComponentTemplate = <
     T extends React.JSXElementConstructor<ListItemProps<any>> = typeof ListItem,
->(): StoryFn<T> =>
-    // eslint-disable-next-line react/display-name
-    ((args: any) => <ListItem {...args} />) as any;
+>(): StoryFn<T> => ((args: any) => <ListItem {...args} />) as any;
 
 const Template = getComponentTemplate();
 

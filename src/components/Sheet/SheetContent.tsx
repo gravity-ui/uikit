@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import {Platform, withMobile} from '../mobile';
 import type {History, Location, MobileContextProps} from '../mobile';
+import {warnOnce} from '../utils/warn';
 
 import {SheetQa, sheetBlock} from './constants';
 import {VelocityTracker} from './utils';
@@ -14,11 +15,16 @@ const TRANSITION_DURATION = '0.3s';
 const HIDE_THRESHOLD = 50;
 const ACCELERATION_Y_MAX = 0.08;
 const ACCELERATION_Y_MIN = -0.02;
-// 90% from viewport
-const MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT = 0.9;
+const DEFAULT_MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT = 0.9;
 const WINDOW_RESIZE_TIMEOUT = 50;
 
 let hashHistory: string[] = [];
+
+function warnAboutOutOfRange() {
+    warnOnce(
+        '[Sheet] The value of the "maxContentHeightCoefficient" property must be between 0 and 1',
+    );
+}
 
 type Status = 'showing' | 'hiding';
 
@@ -31,6 +37,8 @@ interface SheetContentBaseProps {
     contentClassName?: string;
     swipeAreaClassName?: string;
     hideTopBar?: boolean;
+    maxContentHeightCoefficient?: number;
+    alwaysFullHeight?: boolean;
 }
 
 interface SheetContentDefaultProps {
@@ -71,7 +79,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     veilRef = React.createRef<HTMLDivElement>();
     sheetRef = React.createRef<HTMLDivElement>();
     sheetTopRef = React.createRef<HTMLDivElement>();
-    sheetContentBoxRef = React.createRef<HTMLDivElement>();
+    sheetMarginBoxRef = React.createRef<HTMLDivElement>();
     sheetScrollContainerRef = React.createRef<HTMLDivElement>();
     velocityTracker = new VelocityTracker();
     observer: ResizeObserver | null = null;
@@ -139,6 +147,10 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
             'without-scroll': (deltaY > 0 && contentTouched) || swipeAreaTouched,
         };
 
+        const marginBoxMod = {
+            'always-full-height': this.props.alwaysFullHeight,
+        };
+
         return (
             <React.Fragment>
                 <div
@@ -178,10 +190,10 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
                         onTransitionEnd={this.onContentTransitionEnd}
                     >
                         <div
-                            ref={this.sheetContentBoxRef}
-                            className={sheetBlock('sheet-content-box')}
+                            ref={this.sheetMarginBoxRef}
+                            className={sheetBlock('sheet-margin-box', marginBoxMod)}
                         >
-                            <div className={sheetBlock('sheet-content-box-border-compensation')}>
+                            <div className={sheetBlock('sheet-margin-box-border-compensation')}>
                                 <div className={sheetBlock('sheet-content', contentClassName)}>
                                     {title && (
                                         <div className={sheetBlock('sheet-content-title')}>
@@ -215,11 +227,11 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     }
 
     private get sheetContentHeight() {
-        return this.sheetContentBoxRef.current?.getBoundingClientRect().height || 0;
+        return this.sheetMarginBoxRef.current?.getBoundingClientRect().height || 0;
     }
 
     private setInitialStyles(initialHeight: number) {
-        if (this.sheetScrollContainerRef.current && this.sheetContentBoxRef.current) {
+        if (this.sheetScrollContainerRef.current && this.sheetMarginBoxRef.current) {
             this.sheetScrollContainerRef.current.style.height = `${initialHeight}px`;
         }
     }
@@ -246,8 +258,24 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     };
 
     private getAvailableContentHeight = (sheetHeight: number) => {
+        let heightCoefficient = DEFAULT_MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT;
+
+        if (
+            typeof this.props.maxContentHeightCoefficient === 'number' &&
+            this.props.maxContentHeightCoefficient >= 0 &&
+            this.props.maxContentHeightCoefficient <= 1
+        ) {
+            heightCoefficient = this.props.maxContentHeightCoefficient;
+        } else if (typeof this.props.maxContentHeightCoefficient === 'number') {
+            warnAboutOutOfRange();
+        }
+
         const availableViewportHeight =
-            window.innerHeight * MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT - this.sheetTopHeight;
+            window.innerHeight * heightCoefficient - this.sheetTopHeight;
+
+        if (this.props.alwaysFullHeight) {
+            return availableViewportHeight;
+        }
 
         const availableContentHeight =
             sheetHeight >= availableViewportHeight ? availableViewportHeight : sheetHeight;
@@ -466,13 +494,13 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     private addListeners() {
         window.addEventListener('resize', this.onResizeWindow);
 
-        if (this.sheetContentBoxRef.current) {
+        if (this.sheetMarginBoxRef.current) {
             this.observer = new ResizeObserver(() => {
                 if (!this.state.inWindowResizeScope) {
                     this.onResize();
                 }
             });
-            this.observer.observe(this.sheetContentBoxRef.current);
+            this.observer.observe(this.sheetMarginBoxRef.current);
         }
     }
 

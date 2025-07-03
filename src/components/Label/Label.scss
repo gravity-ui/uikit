@@ -9,6 +9,11 @@ $transition-timing-function: ease-in-out;
     --_--bg-color: none;
     --_--bg-color-hover: none;
     --_--text-color: none;
+    --_--animation-from: calc(-100% * var(--g-flow-direction));
+    --_--animation-to: calc(100% * var(--g-flow-direction));
+    --_--gradient-deg: calc(90deg * var(--g-flow-direction));
+    --_--gradient-mask-begin-color: rgba(233, 233, 233, 0);
+    --_--gradient-mask-end-color: rgba(233, 233, 233, 1);
 
     display: inline-flex;
     align-items: center;
@@ -24,13 +29,34 @@ $transition-timing-function: ease-in-out;
     /* make new stacking context to isolate z-indexes */
     isolation: isolate;
 
+    &__animation-container {
+        overflow: hidden;
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+
+        &::after {
+            position: absolute;
+            z-index: -1;
+            inset: 0;
+            content: '';
+            background-color: var(--_--gradient-bg-color, var(--_--bg-color));
+            mask-image: linear-gradient(
+                var(--_--gradient-deg),
+                var(--_--gradient-mask-begin-color),
+                var(--_--gradient-mask-end-color)
+            );
+
+            animation: #{variables.$ns}label 2s linear infinite;
+        }
+    }
+
     &__text {
-        @include mixins.text-body-1();
+        @include mixins.text-body-short();
         display: flex;
         align-items: baseline;
         margin: 0 var(--_--margin-inline);
         width: 100%;
-        line-height: var(--_--height);
         text-align: center;
         white-space: nowrap;
         overflow: hidden;
@@ -56,6 +82,7 @@ $transition-timing-function: ease-in-out;
         @include mixins.button-reset();
         border-radius: inherit;
         z-index: 1;
+        height: 100%;
 
         &:empty {
             position: absolute;
@@ -188,6 +215,7 @@ $transition-timing-function: ease-in-out;
             --_--bg-color: transparent;
             --_--bg-color-hover: var(--g-color-base-simple-hover);
             --_--text-color: var(--g-color-text-complementary);
+            --_--gradient-bg-color: var(--g-color-base-neutral-light);
 
             box-shadow: inset 0 0 0 1px var(--g-color-line-generic);
         }
@@ -202,8 +230,10 @@ $transition-timing-function: ease-in-out;
     }
 
     // hover styles
-    &_interactive:hover:not(:has(#{$block}__addon_type_button:hover)),
-    &__addon_type_button:hover {
+    &_interactive:hover:not(
+            :has(#{$block}__addon_type_button:not(#{$block}__addon_action_copy):hover)
+        ),
+    &__addon_type_button:not(#{$block}__addon_action_copy):hover {
         background-color: var(--_--bg-color-hover);
     }
 
@@ -211,5 +241,15 @@ $transition-timing-function: ease-in-out;
     &__main-button:focus-visible,
     &__addon_type_button:focus-visible {
         outline: 2px solid var(--g-color-line-focus);
+    }
+}
+
+@keyframes #{variables.$ns}label {
+    0% {
+        transform: translateX(var(--_--animation-from));
+    }
+
+    100% {
+        transform: translateX(var(--_--animation-to));
     }
 }

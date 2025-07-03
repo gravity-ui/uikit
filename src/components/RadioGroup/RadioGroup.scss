@@ -21,6 +21,14 @@ $block: '.#{variables.$ns}radio-group';
                         margin-inline-end: 15px;
                     }
                 }
+
+                &_xl {
+                    line-height: 24px;
+
+                    #{$block}__option:not(:last-child) {
+                        margin-inline-end: 15px;
+                    }
+                }
             }
         }
 
@@ -38,6 +46,14 @@ $block: '.#{variables.$ns}radio-group';
                 &_l {
                     #{$block}__option:not(:last-child) {
                         margin-block-end: 12px;
+                    }
+                }
+
+                &_xl {
+                    line-height: 24px;
+
+                    #{$block}__option:not(:last-child) {
+                        margin-block-end: 18px;
                     }
                 }
             }

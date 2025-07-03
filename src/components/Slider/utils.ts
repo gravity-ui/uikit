@@ -13,6 +13,21 @@ function prepareSingleValue({value, min, max}: {value?: number; min: number; max
     return value;
 }
 
+function prepareStartPoint({
+    min,
+    max,
+    startPoint,
+}: {
+    min: number;
+    max: number;
+    startPoint?: number;
+}) {
+    if (startPoint === undefined) {
+        return undefined;
+    }
+    return prepareSingleValue({min, max, value: startPoint});
+}
+
 function prepareArrayValue({
     value = [],
     min = 0,
@@ -91,16 +106,24 @@ export function prepareSliderInnerState({
     marks,
     tooltipDisplay,
     tooltipFormat,
+    startPoint,
 }: {
     max: number;
     min: number;
 } & Pick<
     SliderProps,
-    'defaultValue' | 'step' | 'value' | 'markFormat' | 'marks' | 'tooltipDisplay' | 'tooltipFormat'
+    | 'defaultValue'
+    | 'step'
+    | 'value'
+    | 'markFormat'
+    | 'marks'
+    | 'tooltipDisplay'
+    | 'tooltipFormat'
+    | 'startPoint'
 >): SliderInnerState {
     const state: SliderInnerState = {
         value,
-        defaultValue,
+        defaultValue: defaultValue ?? min,
         range: false,
         max,
         min,
@@ -128,19 +151,25 @@ export function prepareSliderInnerState({
                   });
     }
 
+    state.startPoint = prepareStartPoint({min: state.min, max: state.max, startPoint});
+
+    if (defaultValue === undefined) {
+        state.defaultValue = state.startPoint === undefined ? state.min : state.startPoint;
+    }
+
     if (value === undefined) {
-        const isArray = Array.isArray(defaultValue);
+        const isArray = Array.isArray(state.defaultValue);
         state.range = isArray;
         state.defaultValue = isArray
             ? prepareArrayValue({
                   min: state.min,
                   max: state.max,
-                  value: defaultValue,
+                  value: state.defaultValue as [number, number],
               })
             : prepareSingleValue({
                   min: state.min,
                   max: state.max,
-                  value: defaultValue,
+                  value: state.defaultValue as number,
               });
     } else {
         const isArray = Array.isArray(value);

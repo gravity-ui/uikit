@@ -21,6 +21,7 @@ import type {PopupOffset, PopupPlacement} from '../Popup';
 import {OVERFLOW_PADDING} from '../Popup/constants';
 import {getPlacementOptions} from '../Popup/utils';
 import {Portal} from '../Portal';
+import type {PortalProps} from '../Portal';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
@@ -28,7 +29,11 @@ import {getElementRef} from '../utils/getElementRef';
 
 import './Tooltip.scss';
 
-export interface TooltipProps extends AriaLabelingProps, QAProps, DOMProps {
+export interface TooltipProps
+    extends Pick<PortalProps, 'container' | 'disablePortal'>,
+        AriaLabelingProps,
+        QAProps,
+        DOMProps {
     /** Anchor node */
     children:
         | ((props: Record<string, unknown>, ref: React.Ref<HTMLElement>) => React.ReactElement)
@@ -76,6 +81,8 @@ export function Tooltip({
     role: roleProp = 'tooltip',
     openDelay = DEFAULT_OPEN_DELAY,
     closeDelay = DEFAULT_CLOSE_DELAY,
+    container,
+    disablePortal,
     className,
     style,
     qa,
@@ -106,11 +113,11 @@ export function Tooltip({
     });
 
     const hover = useHover(context, {
-        enabled: !disabled && trigger !== 'focus',
+        enabled: trigger !== 'focus',
         delay: {open: openDelay, close: closeDelay},
         move: false,
     });
-    const focus = useFocus(context, {enabled: !disabled});
+    const focus = useFocus(context);
     const role = useRole(context, {
         role: roleProp,
     });
@@ -129,8 +136,8 @@ export function Tooltip({
         : getReferenceProps();
     const anchorNode = React.isValidElement<any>(children)
         ? React.cloneElement(children, {
-              ref: anchorRef,
               ...anchorProps,
+              ref: anchorRef,
           })
         : children(anchorProps, anchorRef);
 
@@ -138,7 +145,7 @@ export function Tooltip({
         <React.Fragment>
             {anchorNode}
             {isOpen && !disabled ? (
-                <Portal>
+                <Portal container={container} disablePortal={disablePortal}>
                     <div
                         ref={refs.setFloating}
                         style={{

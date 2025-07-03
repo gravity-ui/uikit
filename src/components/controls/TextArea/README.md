@@ -157,7 +157,8 @@ LANDING_BLOCK-->
 
 ## Row management
 
-The row count of the `TextArea` is controlled by the `rows`, `minRows` and `maxRows` properties.
+The row count of the `TextArea` is controlled by the `rows`, `minRows` and `maxRows` properties. The `rows` property disables automatic height calculation.
+To set the desired height of the `TextArea`, use the `className` or `style` property with the `rows` property set to 1.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -177,12 +178,16 @@ The row count of the `TextArea` is controlled by the `rows`, `minRows` and `maxR
         maxRows = 2
         <UIKit.TextArea placeholder="Placeholder" maxRows={2} />
     </div>
+    <div>
+        height = 200px
+        <UIKit.TextArea placeholder="Placeholder" rows={1} style={{height: 200px}}/>
+    </div>
 </ExampleBlock>
 LANDING_BLOCK-->
 
 ## Resizable TextArea
 
-You can get resizable behaviour by providing `resize` style to `controlProps` property.
+You can get resizable behaviour by providing `resize` style to `controlProps` property. Be sure to specify the `rows` property if you allow the text area height to be resized, otherwise resizing will conflict with the automatic height calculation.
 
 <!--LANDING_BLOCK
 <ExampleBlock

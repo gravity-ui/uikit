@@ -64,7 +64,7 @@ Additional features are enabled through HOCs:
 | sticky      | Sticky column                                                                                                      |                     `"start"` `"end"`                      |                                                         |
 | primary     | Identifies a column as primary as opposed to others                                                                |                         `boolean`                          |                                                         |
 | width       | Column's content width in pixels                                                                                   |                     `number` `string`                      |                                                         |
-| meta        | Miscellaneous data including the HOC settings                                                                      |                   `Record<string, any>`                    |                                                         |
+| meta        | _displayName_: name to be shown in Table Settings widget; other miscellaneous data including the HOC settings      |                   `Record<string, any>`                    |                                                         |
 
 ## Using `Table` with the `withTableActions` HOC
 
@@ -77,6 +77,7 @@ This HOC adds a special column with actions to table columns.
 | getRowActions    | Array of action configs for each row           |   `(item: any, index: number) => TableActionConfig[]`    |
 | renderRowActions | Render function for Actions Cell               | `(props: {item: any; index: number}) => React.ReactNode` |
 | rowActionsSize   | Size of the action button and popup menu items |                 `"s"` `"m"` `"l"` `"xl"`                 |
+| rowActionsIcon   | Custom Icon for Actions Cell                   |                    `React.ReactNode`                     |
 
 ### TableActionConfig
 

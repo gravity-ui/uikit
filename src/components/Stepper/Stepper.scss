@@ -1,0 +1,61 @@
+@use '../variables';
+@use '../../../styles/mixins';
+
+$block: '.#{variables.$ns}stepper';
+
+#{$block} {
+    --_--text-max-width: 180px;
+    --_--step-gap: var(--g-stepper-gap, var(--g-spacing-2));
+
+    list-style: none;
+    display: flex;
+    gap: var(--_--step-gap);
+
+    &__list-item {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: var(--_--step-gap);
+        align-items: center;
+    }
+
+    &__item {
+        max-width: var(--g-stepper-item-text-max-width, var(--_--text-max-width));
+
+        &_selected:not(&_disabled) {
+            --g-button-border-color: var(--g-color-line-brand);
+        }
+
+        &_disabled {
+            cursor: default;
+
+            #{$block}__item-text {
+                color: var(--g-color-text-hint);
+            }
+        }
+    }
+
+    &__item-icon {
+        width: 16px;
+        height: 16px;
+
+        &_view {
+            &_idle {
+                color: var(--g-color-text-secondary);
+            }
+
+            &_error {
+                color: var(--g-color-text-danger);
+            }
+
+            &_success {
+                color: var(--g-color-text-positive);
+            }
+        }
+    }
+
+    &__separator {
+        display: flex;
+        align-items: center;
+        color: var(--g-color-text-secondary);
+    }
+}

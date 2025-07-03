@@ -4,9 +4,13 @@ import * as React from 'react';
 
 import {
     FloatingFocusManager,
+    FloatingNode,
     FloatingOverlay,
+    FloatingTree,
     useDismiss,
     useFloating,
+    useFloatingNodeId,
+    useFloatingParentNodeId,
     useInteractions,
     useRole,
     useTransitionStatus,
@@ -20,8 +24,9 @@ import {isTabbable} from 'tabbable';
 
 import {KeyCode} from '../../constants';
 import {useForkRef} from '../../hooks';
-import {usePrevious} from '../../hooks/private';
+import {useAnimateHeight, usePrevious} from '../../hooks/private';
 import {Portal} from '../Portal';
+import type {PortalProps} from '../Portal';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
@@ -31,9 +36,13 @@ import i18n from './i18n';
 
 import './Modal.scss';
 
-export type ModalCloseReason = 'outsideClick' | 'escapeKeyDown';
+export type ModalCloseReason = 'outsideClick' | 'escapeKeyDown' | string | undefined;
 
-export interface ModalProps extends DOMProps, AriaLabelingProps, QAProps {
+export interface ModalProps
+    extends Pick<PortalProps, 'container' | 'disablePortal'>,
+        DOMProps,
+        AriaLabelingProps,
+        QAProps {
     open?: boolean;
     /** Callback for open state changes, when dismiss happens for example */
     onOpenChange?: (open: boolean, event?: Event, reason?: OpenChangeReason) => void;
@@ -56,20 +65,17 @@ export interface ModalProps extends DOMProps, AriaLabelingProps, QAProps {
      * This callback will be called when Escape key pressed on keyboard, or click outside was made
      * This behaviour could be disabled with `disableEscapeKeyDown`
      * and `disableOutsideClick` options
-     *
      * @deprecated Use `onOpenChange` instead
      */
     onClose?: (event: MouseEvent | KeyboardEvent, reason: ModalCloseReason) => void;
     /**
      * This callback will be called when Escape key pressed on keyboard
      * This behaviour could be disabled with `disableEscapeKeyDown` option
-     *
      * @deprecated Use `onOpenChange` instead
      */
     onEscapeKeyDown?: (event: KeyboardEvent) => void;
     /**
      * This callback will be called when Enter key is pressed on keyboard
-     *
      * @deprecated It is not recommended to use this callback.
      * Consider using the submit event in case of a form content or using initialFocus property on the confirm button in case of non-interactive content
      */
@@ -77,7 +83,6 @@ export interface ModalProps extends DOMProps, AriaLabelingProps, QAProps {
     /**
      * This callback will be called when click is outside of elements of "top layer"
      * This behaviour could be disabled with `disableOutsideClick` option
-     *
      * @deprecated Use `onOpenChange` instead
      */
     onOutsideClick?: (event: MouseEvent) => void;
@@ -85,7 +90,6 @@ export interface ModalProps extends DOMProps, AriaLabelingProps, QAProps {
     disableEscapeKeyDown?: boolean;
     /** Do not dismiss on outside click */
     disableOutsideClick?: boolean;
-    container?: HTMLElement;
     contentClassName?: string;
     /** Callback called when `Modal` is opened and "in" transition is started */
     onTransitionIn?: () => void;
@@ -96,15 +100,15 @@ export interface ModalProps extends DOMProps, AriaLabelingProps, QAProps {
     /** Callback called when `Popup` is closed and "out" transition is completed */
     onTransitionOutComplete?: () => void;
     contentOverflow?: 'visible' | 'auto';
-
     floatingRef?: React.RefObject<HTMLDivElement>;
+    disableHeightTransition?: boolean;
 }
 
 const b = block('modal');
 
 const TRANSITION_DURATION = 150;
 
-export function Modal({
+function ModalComponent({
     open = false,
     onOpenChange,
     keepMounted = false,
@@ -128,8 +132,10 @@ export function Modal({
     className,
     contentClassName,
     container,
+    disablePortal,
     qa,
     floatingRef,
+    disableHeightTransition = false,
     ...restProps
 }: ModalProps) {
     useLayer({open, type: 'modal'});
@@ -142,7 +148,14 @@ export function Modal({
                 return;
             }
 
-            const closeReason = reason === 'escape-key' ? 'escapeKeyDown' : 'outsideClick';
+            let closeReason;
+            if (reason === 'escape-key') {
+                closeReason = 'escapeKeyDown';
+            } else if (reason === 'outside-press') {
+                closeReason = 'outsideClick';
+            } else {
+                closeReason = reason;
+            }
 
             if (closeReason === 'escapeKeyDown' && onEscapeKeyDown) {
                 onEscapeKeyDown(event as KeyboardEvent);
@@ -157,17 +170,15 @@ export function Modal({
         [onOpenChange, onEscapeKeyDown, onOutsideClick, onClose],
     );
 
+    const floatingNodeId = useFloatingNodeId();
+
     const {refs, elements, context} = useFloating({
+        nodeId: floatingNodeId,
         open,
         onOpenChange: handleOpenChange,
     });
 
-    const initialFocusRef = React.useRef<HTMLDivElement>(null);
-    const handleFloatingRef = useForkRef<HTMLDivElement>(
-        refs.setFloating,
-        initialFocusRef,
-        floatingRef,
-    );
+    const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
 
     const dismiss = useDismiss(context, {
         enabled: !disableOutsideClick || !disableEscapeKeyDown,
@@ -182,6 +193,11 @@ export function Modal({
     const {isMounted, status} = useTransitionStatus(context, {duration: TRANSITION_DURATION});
     const previousStatus = usePrevious(status);
 
+    useAnimateHeight({
+        ref: refs.floating,
+        enabled: status === 'open' && !disableHeightTransition,
+    });
+
     React.useEffect(() => {
         if (status === 'initial' && previousStatus === 'unmounted') {
             onTransitionIn?.();
@@ -195,7 +211,7 @@ export function Modal({
     }, [previousStatus, status, onTransitionIn, onTransitionOut, onTransitionOutComplete]);
 
     const handleTransitionEnd = React.useCallback(
-        (event: React.TransitionEvent) => {
+        (event: React.TransitionEvent<HTMLDivElement>) => {
             // There are two simultaneous transitions running at the same time
             // Use specific name to only notify once
             if (
@@ -243,47 +259,65 @@ export function Modal({
         [elements.floating, onEnterKeyDown],
     );
 
-    return isMounted || keepMounted ? (
-        <Portal container={container}>
-            <FloatingOverlay
-                style={style}
-                className={b({open}, className)}
-                data-qa={qa}
-                data-floating-ui-status={status}
-                lockScroll={!disableBodyScrollLock}
-            >
-                <div className={b('content-aligner')}>
-                    <div className={b('content-wrapper')}>
-                        <FloatingFocusManager
-                            context={context}
-                            disabled={!isMounted}
-                            modal={isMounted}
-                            initialFocus={initialFocus ?? initialFocusRef}
-                            returnFocus={returnFocus}
-                            visuallyHiddenDismiss={
-                                disableVisuallyHiddenDismiss ? false : i18n('close')
-                            }
-                            restoreFocus={true}
-                        >
-                            <div
-                                {...filterDOMProps(restProps, {labelable: true})}
-                                className={b(
-                                    'content',
-                                    {'has-scroll': contentOverflow === 'auto'},
-                                    contentClassName,
-                                )}
-                                ref={handleFloatingRef}
-                                {...getFloatingProps({
-                                    onTransitionEnd: handleTransitionEnd,
-                                    onKeyDown: handleKeyDown,
-                                })}
-                            >
-                                {children}
+    return (
+        <FloatingNode id={floatingNodeId}>
+            {isMounted || keepMounted ? (
+                <Portal container={container} disablePortal={disablePortal}>
+                    <FloatingOverlay
+                        style={style}
+                        className={b({open}, className)}
+                        data-qa={qa}
+                        data-floating-ui-status={status}
+                        lockScroll={!disableBodyScrollLock}
+                    >
+                        <div className={b('content-aligner')}>
+                            <div className={b('content-wrapper')}>
+                                <FloatingFocusManager
+                                    context={context}
+                                    disabled={!isMounted}
+                                    modal={isMounted}
+                                    initialFocus={initialFocus ?? refs.floating}
+                                    returnFocus={returnFocus}
+                                    visuallyHiddenDismiss={
+                                        disableVisuallyHiddenDismiss ? false : i18n('close')
+                                    }
+                                    restoreFocus={true}
+                                >
+                                    <div
+                                        {...filterDOMProps(restProps, {labelable: true})}
+                                        className={b(
+                                            'content',
+                                            {'has-scroll': contentOverflow === 'auto'},
+                                            contentClassName,
+                                        )}
+                                        ref={handleFloatingRef}
+                                        {...getFloatingProps({
+                                            onTransitionEnd: handleTransitionEnd,
+                                            onKeyDown: handleKeyDown,
+                                        })}
+                                    >
+                                        {children}
+                                    </div>
+                                </FloatingFocusManager>
                             </div>
-                        </FloatingFocusManager>
-                    </div>
-                </div>
-            </FloatingOverlay>
-        </Portal>
-    ) : null;
+                        </div>
+                    </FloatingOverlay>
+                </Portal>
+            ) : null}
+        </FloatingNode>
+    );
+}
+
+export function Modal(props: ModalProps) {
+    const parentId = useFloatingParentNodeId();
+
+    if (parentId === null) {
+        return (
+            <FloatingTree>
+                <ModalComponent {...props} />
+            </FloatingTree>
+        );
+    }
+
+    return <ModalComponent {...props} />;
 }

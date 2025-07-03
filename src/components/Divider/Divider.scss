@@ -4,10 +4,15 @@ $block: '.#{variables.$ns}divider';
 
 #{$block} {
     --_--content-gap: 8px;
-    --_--size: 1px;
+    --_--size: var(--g-divider-size, 1px);
+    --_--background: var(--g-divider-color, var(--g-color-line-generic));
+
+    background: var(--_--background);
 
     &:not(:empty) {
-        border: none;
+        background: none;
+        width: auto;
+        height: auto;
         display: flex;
         align-items: center;
 
@@ -20,11 +25,12 @@ $block: '.#{variables.$ns}divider';
     &::before,
     &::after {
         flex-grow: 1;
-        background: var(--g-divider-color, var(--g-color-line-generic));
+        background: var(--_--background);
     }
 
     &_orientation {
         &_vertical {
+            width: var(--_--size);
             flex-direction: column;
 
             &::before,
@@ -39,11 +45,11 @@ $block: '.#{variables.$ns}divider';
             &::after {
                 margin-block-start: var(--_--content-gap);
             }
-
-            border-inline-start: 1px solid var(--g-divider-color, var(--g-color-line-generic));
         }
 
         &_horizontal {
+            height: var(--_--size);
+
             &::before,
             &::after {
                 height: var(--_--size);
@@ -56,8 +62,6 @@ $block: '.#{variables.$ns}divider';
             &::after {
                 margin-inline-start: var(--_--content-gap);
             }
-
-            border-block-start: 1px solid var(--g-divider-color, var(--g-color-line-generic));
         }
     }
 

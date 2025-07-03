@@ -61,7 +61,10 @@ export const Disclosure: React.FunctionComponent<DisclosureProps> & DisclosureCo
             qa,
         } = props;
 
-        const [summaryContent, detailsContent] = prepareChildren(children);
+        const [summaryContent, detailsContent] = prepareChildren(children, {
+            disclosureQa: qa,
+        });
+
         return (
             <DisclosureProvider
                 disabled={disabled}
@@ -81,7 +84,11 @@ export const Disclosure: React.FunctionComponent<DisclosureProps> & DisclosureCo
         );
     });
 
-function prepareChildren(children: React.ReactNode) {
+interface PrepareParams {
+    disclosureQa?: string;
+}
+
+function prepareChildren(children: React.ReactNode, {disclosureQa}: PrepareParams) {
     const items = React.Children.toArray(children);
 
     let summary, details;
@@ -100,11 +107,15 @@ function prepareChildren(children: React.ReactNode) {
         content.push(item);
     }
     if (content.length > 0) {
-        details = <DisclosureDetails>{content}</DisclosureDetails>;
+        details = (
+            <DisclosureDetails qa={disclosureQa && `${disclosureQa}-details`}>
+                {content}
+            </DisclosureDetails>
+        );
     }
     if (!summary) {
         summary = (
-            <DisclosureSummary>
+            <DisclosureSummary qa={disclosureQa && `${disclosureQa}-summary`}>
                 {(props) => <DefaultDisclosureSummary {...props} />}
             </DisclosureSummary>
         );

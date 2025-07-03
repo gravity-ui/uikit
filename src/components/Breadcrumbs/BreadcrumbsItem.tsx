@@ -39,11 +39,6 @@ function BreadcrumbsItem(props: BreadcrumbsItemProps, ref: React.ForwardedRef<HT
         ...restProps
     } = props as BreadcrumbsItemProps & BreadcrumbsItemInnerProps;
 
-    let title = props.title;
-    if (!title && typeof children === 'string') {
-        title = children;
-    }
-
     const handleAction = (event: React.MouseEvent<HTMLAnchorElement>) => {
         if (disabled) {
             event.preventDefault();
@@ -60,7 +55,6 @@ function BreadcrumbsItem(props: BreadcrumbsItemProps, ref: React.ForwardedRef<HT
     };
 
     const linkProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
-        title,
         onClick: handleAction,
         'aria-disabled': disabled ? true : undefined,
     };
@@ -106,22 +100,21 @@ function BreadcrumbsItem(props: BreadcrumbsItemProps, ref: React.ForwardedRef<HT
         const active = !disabled && activeIndex === index;
         return (
             <ListItemView
-                {...getItemProps({
-                    ...restProps,
-                    ...domProps,
-                    ...linkProps,
-                    role: 'menuitem',
-                    active,
-                })}
                 ref={(node: HTMLElement | null) => {
                     listItemsRef.current[index ?? 0] = node;
                 }}
                 nestedLevel={popupStyle === 'staircase' ? index : undefined}
-                tabIndex={active ? 0 : -1}
                 active={active}
                 size="m"
                 className={b('menu-link', props.className)}
                 component={Element}
+                componentProps={getItemProps({
+                    ...restProps,
+                    ...domProps,
+                    ...linkProps,
+                    role: 'menuitem',
+                    tabIndex: active ? 0 : -1,
+                })}
                 disabled={disabled}
             >
                 {children}
@@ -131,10 +124,10 @@ function BreadcrumbsItem(props: BreadcrumbsItemProps, ref: React.ForwardedRef<HT
 
     return (
         <Element
-            ref={ref}
             {...restProps}
             {...domProps}
             {...linkProps}
+            ref={ref}
             className={b(
                 'link',
                 {

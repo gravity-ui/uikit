@@ -20,7 +20,7 @@ const b = block('slider');
 export const Slider = React.forwardRef(function Slider(
     {
         value,
-        defaultValue = 0,
+        defaultValue,
         size = 'm',
         min = 0,
         max = 100,
@@ -32,6 +32,8 @@ export const Slider = React.forwardRef(function Slider(
         errorMessage,
         validationState,
         disabled = false,
+        startPoint,
+        inverted,
         onBlur,
         onUpdate,
         onUpdateComplete,
@@ -62,10 +64,11 @@ export const Slider = React.forwardRef(function Slider(
         marks,
         tooltipDisplay,
         tooltipFormat,
+        startPoint: inverted ? Math.max(min, max) : startPoint,
     });
     const [innerValue, setValue] = useControlledState(
         innerState.value,
-        innerState.defaultValue ?? min,
+        innerState.defaultValue,
         onUpdate,
     );
 
@@ -86,6 +89,13 @@ export const Slider = React.forwardRef(function Slider(
         'tooltip-display': innerState.tooltipDisplay,
         rtl: direction === 'rtl',
         'no-marks': Array.isArray(marks) ? marks.length === 0 : marks === 0,
+        inverted: innerState.startPoint === innerState.max && !innerState.range,
+        'with-start-point': Boolean(
+            innerState.startPoint &&
+                !innerState.range &&
+                innerState.startPoint !== innerState.max &&
+                innerState.startPoint !== innerState.min,
+        ),
     };
 
     const handleRender = (
@@ -134,6 +144,7 @@ export const Slider = React.forwardRef(function Slider(
                 range={innerState.range}
                 disabled={disabled}
                 marks={innerState.marks}
+                startPoint={innerState.startPoint}
                 onBlur={onBlur}
                 onFocus={onFocus}
                 onChange={setValue}

@@ -1198,7 +1198,7 @@ LANDING_BLOCK-->
 | errorMessage                                              | Error text                                                                                                                       | `string`                                 |                                                          |
 | errorPlacement                                            | Error position                                                                                                                   | `outside` `inside`                       | `outside`                                                |
 | validationState                                           | Validation state                                                                                                                 | `"invalid"`                              |                                                          |
-| [hasCounter](#counter)                                    | Shows the selected option count. The counter appears only when the [multiple](#selecting-multiple-options) selection is enabled. | `boolean`                                |
+| [hasCounter](#counter)                                    | Shows the selected option count. The counter appears only when the [multiple](#selecting-multiple-options) selection is enabled. | `boolean`                                |                                                          |
 
 ## CSS API
 

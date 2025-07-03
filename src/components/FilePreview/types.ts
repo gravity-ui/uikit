@@ -16,7 +16,7 @@ export const FILE_TYPES = [
 
 export type FileType = (typeof FILE_TYPES)[number];
 
-export type FilePreviewActionProps = {
+export type FilePreviewAction = {
     id?: string;
     icon: React.ReactNode;
     title: string;

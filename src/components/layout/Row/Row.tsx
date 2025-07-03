@@ -1,6 +1,5 @@
 'use client';
 
-/* eslint-disable valid-jsdoc */
 import type * as React from 'react';
 
 import type {QAProps} from '../../types';
@@ -18,7 +17,7 @@ export interface RowProps extends QAProps {
     /**
      * Vertical and horizontal `space` between children `<Col />` components.
      */
-    space: Space | MediaPartial<Space>;
+    space?: Space | MediaPartial<Space>;
     /**
      * Override default (space) vertical gaps between children if it wrap on next line
      */
@@ -41,7 +40,7 @@ export interface RowProps extends QAProps {
  * </Row>
  * ```
  * ---
- * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#row
+ * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/components-layout--docs#row
  */
 export const Row = ({children, style, className, space, spaceRow, qa}: RowProps) => {
     const {getClosestMediaProps} = useLayoutContext();
@@ -52,20 +51,20 @@ export const Row = ({children, style, className, space, spaceRow, qa}: RowProps)
     if (typeof space === 'object') {
         const res = getClosestMediaProps(space);
 
-        if (res) {
+        if (typeof res !== 'undefined') {
             s = makeCssMod(res);
         }
-    } else if (space) {
+    } else if (typeof space !== 'undefined') {
         s = makeCssMod(space);
     }
 
     if (typeof spaceRow === 'object') {
         const res = getClosestMediaProps(spaceRow);
 
-        if (res) {
+        if (typeof res !== 'undefined') {
             sr = makeCssMod(res);
         }
-    } else if (spaceRow) {
+    } else if (typeof spaceRow !== 'undefined') {
         sr = String(spaceRow);
     }
 

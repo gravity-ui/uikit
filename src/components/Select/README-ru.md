@@ -1164,7 +1164,7 @@ LANDING_BLOCK-->
 | errorMessage                                              | Текст ошибки.                                                                                                                                 | `string`                                 |                                                          |
 | errorPlacement                                            | Положение отображения ошибки.                                                                                                                 | `outside` `inside`                       | `outside`                                                |
 | validationState                                           | Состояние валидации.                                                                                                                          | `"invalid"`                              |                                                          |
-| [hasCounter](#counter)                                    | Показывает количество выбранных вариантов. Счетчик появляется только тогда, когда включен [множественный](#selecting-multiple-options) выбор. | `boolean`                                |
+| [hasCounter](#counter)                                    | Показывает количество выбранных вариантов. Счетчик появляется только тогда, когда включен [множественный](#selecting-multiple-options) выбор. | `boolean`                                |                                                          |
 
 ## API CSS
 

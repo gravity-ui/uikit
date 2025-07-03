@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import type {QAProps} from '../types';
+import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {eventBroker} from '../utils/event-broker';
 
@@ -10,7 +10,10 @@ import './Link.scss';
 
 export type LinkView = 'normal' | 'primary' | 'secondary';
 
-export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement>, QAProps {
+export interface LinkProps
+    extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'style'>,
+        QAProps,
+        DOMProps {
     view?: LinkView;
     visitable?: boolean;
     underline?: boolean;
@@ -33,6 +36,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
         children,
         extraProps,
         qa,
+        onClickCapture,
         ...props
     },
     ref,
@@ -45,11 +49,11 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
                 domEvent: event,
             });
 
-            if (props.onClickCapture) {
-                props.onClickCapture(event);
+            if (onClickCapture) {
+                onClickCapture(event);
             }
         },
-        [props.onClickCapture],
+        [onClickCapture],
     );
 
     return (

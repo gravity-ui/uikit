@@ -16,7 +16,10 @@ export const BreadcrumbsRootContext = () => <Canvas of={Stories.RootContext} sou
 export const BreadcrumbsSeparator = () => <Canvas of={Stories.Separator} sourceState="none" />;
 export const BreadcrumbsWithIcons = () => <Canvas of={Stories.WithIcons} sourceState="none" />;
 export const BreadcrumbsLandmarks = () => <Canvas of={Stories.Landmarks} sourceState="none" />;
-export const BreadcrumbsClientNavigation = () => <Canvas of={Stories.ClientNavigation} sourceState="none" />;
+export const BreadcrumbsEndContent = () => <Canvas of={Stories.EndContent} sourceState="none" />;
+export const BreadcrumbsClientNavigation = () => (
+    <Canvas of={Stories.ClientNavigation} sourceState="none" />
+);
 export const BreadcrumbsDisabledItems = () => (
     <Canvas of={Stories.DisabledItems} sourceState="none" />
 );
@@ -37,6 +40,7 @@ export const BreadcrumbsDisabledItems = () => (
             BreadcrumbsWithIcons,
             BreadcrumbsLandmarks,
             BreadcrumbsDisabledItems,
+            BreadcrumbsEndContent,
             BreadcrumbsClientNavigation,
         },
     }}

@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import {Ellipsis} from '@gravity-ui/icons';
-import _memoize from 'lodash/memoize';
+import memoize from 'lodash/memoize';
 
 import {useUniqId} from '../../../../hooks';
 import {useBoolean} from '../../../../hooks/private';
@@ -56,6 +56,7 @@ export interface TableAction<I> {
     disabled?: boolean;
     theme?: MenuItemProps['theme'];
     icon?: MenuItemProps['iconStart'];
+    qa?: string;
 }
 
 export interface TableActionGroup<I> {
@@ -75,6 +76,7 @@ export interface WithTableActionsProps<I> {
     getRowActions?: (item: I, index: number) => TableActionConfig<I>[];
     renderRowActions?: (props: RenderRowActionsProps<I>) => React.ReactNode;
     rowActionsSize?: TableRowActionsSize;
+    rowActionsIcon?: React.ReactNode;
 }
 
 interface WithTableActionsState<I> {
@@ -100,11 +102,12 @@ const DEFAULT_PLACEMENT: PopupPlacement = ['bottom-end', 'top-end'];
 
 type DefaultRowActionsProps<I extends TableDataItem> = Pick<
     WithTableActionsProps<I>,
-    'getRowActions' | 'rowActionsSize'
+    'getRowActions' | 'rowActionsSize' | 'rowActionsIcon'
 > &
     Pick<TableProps<I>, 'isRowDisabled' | 'getRowDescriptor'> & {
         item: I;
         index: number;
+        tableQa?: string;
     };
 
 const DefaultRowActions = <I extends TableDataItem>({
@@ -113,7 +116,9 @@ const DefaultRowActions = <I extends TableDataItem>({
     getRowActions,
     getRowDescriptor,
     rowActionsSize,
+    rowActionsIcon,
     isRowDisabled,
+    tableQa,
 }: DefaultRowActionsProps<I>) => {
     const [isPopupOpen, , closePopup, togglePopup] = useBoolean(false);
     const anchorRef = React.useRef<HTMLButtonElement>(null);
@@ -169,6 +174,7 @@ const DefaultRowActions = <I extends TableDataItem>({
                 placement={DEFAULT_PLACEMENT}
                 onOutsideClick={closePopup}
                 id={rowId}
+                qa={tableQa && `${tableQa}-actions-popup`}
             >
                 <Menu className={menuCn} size={rowActionsSize}>
                     {actions.map(renderPopupMenuItem)}
@@ -181,11 +187,12 @@ const DefaultRowActions = <I extends TableDataItem>({
                 size={rowActionsSize}
                 ref={anchorRef}
                 disabled={disabled}
+                qa={tableQa && `${tableQa}-actions-trigger-${index}`}
                 aria-label={i18n('label-actions')}
                 aria-expanded={isPopupOpen}
                 aria-controls={rowId}
             >
-                <Icon data={Ellipsis} />
+                {rowActionsIcon ?? <Icon data={Ellipsis} />}
             </Button>
         </div>
     );
@@ -231,8 +238,10 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
                 getRowActions,
                 rowActionsSize,
                 renderRowActions,
+                rowActionsIcon,
                 isRowDisabled,
                 getRowDescriptor,
+                qa,
             } = this.props;
 
             if (renderRowActions) {
@@ -245,21 +254,23 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
                     item={item}
                     getRowActions={getRowActions}
                     rowActionsSize={rowActionsSize}
+                    rowActionsIcon={rowActionsIcon}
                     getRowDescriptor={getRowDescriptor}
                     isRowDisabled={isRowDisabled}
+                    tableQa={qa}
                 />
             );
         };
 
         // eslint-disable-next-line @typescript-eslint/member-ordering
-        private enhanceColumns = _memoize((columns: TableColumnConfig<I>[]) =>
+        private enhanceColumns = memoize((columns: TableColumnConfig<I>[]) =>
             enhanceSystemColumn(columns, (systemColumn) => {
                 systemColumn.template = this.renderBodyCell;
             }),
         );
 
         // eslint-disable-next-line @typescript-eslint/member-ordering
-        private enhanceOnRowClick = _memoize(
+        private enhanceOnRowClick = memoize(
             (
                 onRowClick?: (
                     item: I,

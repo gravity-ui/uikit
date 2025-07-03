@@ -6,10 +6,10 @@ import {DefinitionContent} from './DefinitionContent';
 import {useDefinitionListAttributes} from './DefinitionListContext';
 import {TermContent} from './TermContent';
 
-export function DefinitionListItem({name, children, copyText, note}: DefinitionListItemProps) {
+export function DefinitionListItem({name, children, copyText, note, qa}: DefinitionListItemProps) {
     const {direction, keyStyle, valueStyle} = useDefinitionListAttributes();
     return (
-        <div className={b('item')}>
+        <div className={b('item')} data-qa={qa}>
             <dt className={b('term-container')} style={keyStyle}>
                 <TermContent direction={direction} name={name} note={note} />
             </dt>

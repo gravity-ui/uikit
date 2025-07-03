@@ -9,7 +9,8 @@ node_modules
 /storybook-static
 /build
 /styles/**/*.css
+
 /coverage
-.cache*
-playwright-report*
-/test-results
+/playwright/.cache*
+/playwright/report*
+/playwright/test-results

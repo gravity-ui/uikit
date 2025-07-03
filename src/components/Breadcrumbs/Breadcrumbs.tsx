@@ -26,6 +26,7 @@ export interface BreadcrumbsProps extends DOMProps, AriaLabelingProps, QAProps {
     children: React.ReactNode;
     disabled?: boolean;
     onAction?: (key: Key) => void;
+    endContent?: React.ReactNode;
 }
 
 export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
@@ -34,8 +35,9 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
 ) {
     const listRef = React.useRef<HTMLOListElement>(null);
     const containerRef = useForkRef(ref, listRef);
+    const endContentRef = React.useRef<HTMLLIElement>(null);
 
-    const items: React.ReactElement[] = [];
+    const items: React.ReactElement<any>[] = [];
     React.Children.forEach(props.children, (child, index) => {
         if (React.isValidElement(child)) {
             if (child.key === undefined || child.key === null) {
@@ -53,10 +55,15 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
             return;
         }
         const listItems = Array.from(list.children) as HTMLElement[];
+        const endElement = endContentRef.current;
+        if (endElement) {
+            listItems.pop();
+        }
         if (listItems.length === 0) {
+            setCalculated(true);
             return;
         }
-        const containerWidth = list.offsetWidth;
+        const containerWidth = list.offsetWidth - (endElement?.offsetWidth ?? 0);
         let newVisibleItemsCount = 0;
         let calculatedWidth = 0;
         let maxItems = props.maxItems || Infinity;
@@ -111,11 +118,15 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
     };
 
     const handleResize = React.useCallback(() => {
-        setCalculated(false);
         setVisibleItemsCount(items.length);
+        setCalculated(false);
     }, [items.length]);
     useResizeObserver({
         ref: listRef,
+        onResize: handleResize,
+    });
+    useResizeObserver({
+        ref: props.endContent ? endContentRef : undefined,
         onResize: handleResize,
     });
 
@@ -123,8 +134,8 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
     React.useLayoutEffect(() => {
         if (calculated && props.children !== lastChildren.current) {
             lastChildren.current = props.children;
-            setCalculated(false);
             setVisibleItemsCount(items.length);
+            setCalculated(false);
         }
     }, [calculated, items.length, props.children]);
 
@@ -184,11 +195,6 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
     const breadcrumbsItems = contents.map((child, index) => {
         const isCurrent = index === lastIndex;
         const key = child.key ?? index;
-        const handleAction = () => {
-            if (typeof props.onAction === 'function') {
-                props.onAction(key);
-            }
-        };
 
         const {'data-breadcrumbs-menu-item': isMenu, ...childProps} = child.props;
         let item: React.ReactNode;
@@ -196,6 +202,11 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
             item = child;
         } else {
             const Component = props.itemComponent ?? BreadcrumbsItem;
+            const handleAction = () => {
+                if (typeof props.onAction === 'function') {
+                    props.onAction(key);
+                }
+            };
             const innerProps: BreadcrumbsItemInnerProps = {
                 __current: isCurrent,
                 __disabled: props.disabled || childProps.disabled,
@@ -208,12 +219,22 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
             );
         }
         return (
-            <li key={index} className={b('item', {calculating: !calculated})}>
+            <li
+                key={isMenu ? 'menu' : `item-${key}`}
+                className={b('item', {calculating: isCurrent && !calculated, current: isCurrent})}
+            >
                 {item}
                 {isCurrent ? null : <BreadcrumbsSeparator separator={props.separator} />}
             </li>
         );
     });
+    if (props.endContent) {
+        breadcrumbsItems.push(
+            <li key="end-content" ref={endContentRef} className={b('item')}>
+                {props.endContent}
+            </li>,
+        );
+    }
     return (
         <ol
             ref={containerRef}

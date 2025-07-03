@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import type {QAProps} from '../types';
+import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {isIcon, isSvg} from '../utils/common';
 import {eventBroker} from '../utils/event-broker';
@@ -35,7 +35,7 @@ export type ButtonPin =
 
 export type ButtonWidth = 'auto' | 'max';
 
-interface ButtonCommonProps extends QAProps {
+interface ButtonCommonProps extends QAProps, DOMProps {
     view?: ButtonView;
     size?: ButtonSize;
     pin?: ButtonPin;
@@ -48,7 +48,7 @@ interface ButtonCommonProps extends QAProps {
 
 export interface ButtonButtonProps
     extends ButtonCommonProps,
-        Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'> {
+        Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'disabled' | 'style'> {
     component?: never;
     href?: never;
     /**
@@ -59,7 +59,7 @@ export interface ButtonButtonProps
 
 export interface ButtonLinkProps
     extends ButtonCommonProps,
-        React.AnchorHTMLAttributes<HTMLAnchorElement> {
+        Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'style'> {
     component?: never;
     href: string;
     /**
@@ -78,7 +78,7 @@ export type ButtonComponentProps<T extends Exclude<ButtonCustomElementType, unde
             extraProps?: React.ComponentPropsWithoutRef<T>;
         };
 
-function isButtonComoponentProps<T extends ButtonCustomElementType>(
+function isButtonComponentProps<T extends ButtonCustomElementType>(
     p: ButtonProps<T>,
 ): p is ButtonComponentProps<Exclude<T, undefined>> {
     return p.component !== undefined;
@@ -111,6 +111,7 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
         children,
         extraProps,
         qa,
+        onClickCapture,
         ...rest
     } = props;
 
@@ -126,11 +127,11 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
                 },
             });
 
-            if (props.onClickCapture) {
-                props.onClickCapture(event);
+            if (onClickCapture) {
+                onClickCapture(event);
             }
         },
-        [view, props.onClickCapture],
+        [view, onClickCapture],
     );
 
     const commonProps = {
@@ -150,7 +151,7 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
         'data-qa': qa,
     };
 
-    if (isButtonComoponentProps(props)) {
+    if (isButtonComponentProps(props)) {
         return React.createElement(
             props.component,
             {

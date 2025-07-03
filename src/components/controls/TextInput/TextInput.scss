@@ -136,7 +136,8 @@ $block: '.#{variables.$ns}text-input';
         box-sizing: content-box;
         color: var(--g-color-text-danger);
         padding-block: var(--_--error-icon-padding-block);
-        padding-inline: var(--_--error-icon-padding-inline);
+        padding-inline: var(--_--error-icon-padding-inline-start)
+            var(--_--error-icon-padding-inline-end);
     }
 
     &__additional-content {
@@ -171,7 +172,8 @@ $block: '.#{variables.$ns}text-input';
             }
 
             --_--error-icon-padding-block: 5px;
-            --_--error-icon-padding-inline: 0 5px;
+            --_--error-icon-padding-inline-start: 0;
+            --_--error-icon-padding-inline-end: 5px;
 
             --_--border-radius: var(--g-border-radius-s);
         }
@@ -202,7 +204,8 @@ $block: '.#{variables.$ns}text-input';
             }
 
             --_--error-icon-padding-block: 5px;
-            --_--error-icon-padding-inline: 0 5px;
+            --_--error-icon-padding-inline-start: 0;
+            --_--error-icon-padding-inline-end: 5px;
 
             --_--border-radius: var(--g-border-radius-m);
         }
@@ -233,7 +236,8 @@ $block: '.#{variables.$ns}text-input';
             }
 
             --_--error-icon-padding-block: 9px;
-            --_--error-icon-padding-inline: 0 9px;
+            --_--error-icon-padding-inline-start: 0;
+            --_--error-icon-padding-inline-end: 9px;
 
             --_--border-radius: var(--g-border-radius-l);
         }
@@ -264,7 +268,8 @@ $block: '.#{variables.$ns}text-input';
             }
 
             --_--error-icon-padding-block: 13px;
-            --_--error-icon-padding-inline: 0 13px;
+            --_--error-icon-padding-inline-start: 0;
+            --_--error-icon-padding-inline-end: 13px;
 
             --_--border-radius: var(--g-border-radius-xl);
         }
@@ -321,7 +326,8 @@ $block: '.#{variables.$ns}text-input';
     }
 
     &_has-end-content {
-        --_--error-icon-padding-inline: 0;
+        --_--error-icon-padding-inline-start: 0;
+        --_--error-icon-padding-inline-end: 0;
 
         #{$block}__control {
             padding-inline-end: 2px;

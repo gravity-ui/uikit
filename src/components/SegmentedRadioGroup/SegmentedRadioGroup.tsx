@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import {useRadioGroup} from '../../hooks/private';
+import {RadioGroupContext, useRadioGroup} from '../../hooks/private';
 import type {ControlGroupOption, ControlGroupProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 
@@ -38,33 +38,25 @@ export const SegmentedRadioGroup = React.forwardRef(function SegmentedRadioGroup
     ref: React.ForwardedRef<HTMLDivElement>,
 ) {
     const {size = 'm', width, style, className, qa, children} = props;
-    let options = props.options;
+    const options = props.options;
 
-    if (!options) {
-        options = (
-            React.Children.toArray(children) as React.ReactElement<ControlGroupOption<T>>[]
-        ).map(({props: optionProps}) => ({
-            value: optionProps.value,
-            content: optionProps.content || optionProps.children,
-            disabled: optionProps.disabled,
-            title: optionProps.title,
-        }));
-    }
-
-    const {containerProps, optionsProps} = useRadioGroup({...props, options});
+    const {containerProps, optionsProps, contextProps} = useRadioGroup({...props, options});
 
     return (
-        <div
-            {...containerProps}
-            ref={ref}
-            style={style}
-            className={b({size, width}, className)}
-            data-qa={qa}
-        >
-            {optionsProps.map((optionProps) => (
-                <Option {...optionProps} key={optionProps.value} />
-            ))}
-        </div>
+        <RadioGroupContext.Provider value={contextProps}>
+            <div
+                {...containerProps}
+                ref={ref}
+                style={style}
+                className={b({size, width}, className)}
+                data-qa={qa}
+            >
+                {children ||
+                    optionsProps?.map((optionProps) => (
+                        <Option {...optionProps} key={optionProps.value} />
+                    ))}
+            </div>
+        </RadioGroupContext.Provider>
     );
 }) as unknown as SegmentedRadioGroupComponentType;
 

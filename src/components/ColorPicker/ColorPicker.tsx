@@ -30,6 +30,7 @@ export const ColorPicker = (props: ColorPickerProps) => {
     const {
         className,
         withAlpha = true,
+        withValue = true,
         color = DEFAULT_COLOR,
         mode = ColorPickerMode.HEX,
         onChange,
@@ -38,6 +39,10 @@ export const ColorPicker = (props: ColorPickerProps) => {
     const [anchor, setAnchor] = React.useState<HTMLDivElement | null>(null);
     const [open, setOpen] = React.useState(false);
     const [modeValue, setModeValue] = React.useState<ColorPickerMode>(mode);
+
+    React.useEffect(() => {
+        setModeValue(mode);
+    }, [mode]);
 
     const handleColorChange = React.useCallback(
         (newColor: string) => {
@@ -48,18 +53,20 @@ export const ColorPicker = (props: ColorPickerProps) => {
     );
 
     const handleInputBlur = React.useCallback(() => {
-        const normalizedValue = normalizeHex(color);
-        if (normalizedValue !== color) {
-            onChange?.(normalizedValue);
+        if (modeValue === ColorPickerMode.HEX) {
+            const normalizedValue = normalizeHex(color);
+            if (normalizedValue !== color) {
+                onChange?.(normalizedValue);
+            }
         }
-    }, [color, onChange]);
+    }, [color, onChange, modeValue]);
 
     const alpha = React.useMemo(() => hexToOpacity(color), [color]);
 
     const handleAlphaChange = React.useCallback(
-        (alpha: number | null) => {
-            if (alpha !== null) {
-                const newColor = opacityToHex(color, alpha);
+        (alphaValue: number | null) => {
+            if (alphaValue !== null) {
+                const newColor = opacityToHex(color, alphaValue);
                 onChange?.(newColor);
             }
         },
@@ -78,7 +85,7 @@ export const ColorPicker = (props: ColorPickerProps) => {
         <Flex>
             <Flex className={b(null, className)} alignItems={'center'} gap={2} ref={setAnchor}>
                 <ColorDisplay color={color} withAlpha={withAlpha} onClick={() => setOpen(!open)} />
-                <Text style={{width: '50px'}}>{getDisplayHex(color)}</Text>
+                {withValue && <Text className={b('color-value')}>{getDisplayHex(color)}</Text>}
             </Flex>
             <Popup
                 className={b('popup', {mode: modeValue, alpha: withAlpha})}

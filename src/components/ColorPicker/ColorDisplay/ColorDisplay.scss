@@ -5,4 +5,16 @@ $block: '.#{variables.$ns}color-display';
 #{$block} {
     width: 18px;
     height: 18px;
+    padding: 0;
+    overflow: hidden;
+
+    &__color-box {
+        width: 100%;
+        height: 100%;
+
+        &_alpha {
+            width: 50%;
+            height: 100%;
+        }
+    }
 }

@@ -18,33 +18,24 @@ export const ColorDisplay = ({color, withAlpha, onClick}: ColorDisplayProps) => 
         <Button
             className={b()}
             style={{
-                padding: 0,
                 border: `1px solid ${adjust(applyFullOpacity(color), -40)}`,
-                overflow: 'hidden',
             }}
             onClick={onClick}
             size={'s'}
             view={'flat'}
         >
-            <Flex
-                style={{
-                    width: '100%',
-                    height: '100%',
-                }}
-            >
+            <Flex width={'100%'} height={'100%'}>
                 <div
+                    className={b('color-box', {alpha: withAlpha})}
                     style={{
-                        width: withAlpha ? '50%' : '100%',
                         backgroundColor: applyFullOpacity(color),
-                        height: '100%',
                     }}
                 ></div>
                 {withAlpha && (
                     <div
+                        className={b('color-box', {alpha: withAlpha})}
                         style={{
-                            width: withAlpha ? '50%' : '100%',
                             backgroundColor: color,
-                            height: '100%',
                         }}
                     ></div>
                 )}

@@ -7,7 +7,7 @@ import type {ColorPickerProps} from '../types';
 import {ColorPickerMode} from '../types';
 
 export default {
-    title: 'Components/Inputs/ColorPicker',
+    title: 'Lab/ColorPicker',
     component: ColorPicker,
     argTypes: {
         color: {
@@ -60,6 +60,7 @@ RGBMode.args = {
 export const AllModes: StoryFn<ColorPickerProps> = () => {
     const [hexColor, setHexColor] = React.useState('#5282ff');
     const [rgbColor, setRgbColor] = React.useState('#ff5252');
+    const [hex2Color, setHex2Color] = React.useState('#30aa6e');
 
     return (
         <div style={{display: 'flex', gap: '20px', flexDirection: 'column'}}>
@@ -79,6 +80,16 @@ export const AllModes: StoryFn<ColorPickerProps> = () => {
                     onChange={setRgbColor}
                     mode={ColorPickerMode.RGB}
                     withAlpha={true}
+                />
+            </div>
+            <div>
+                <h3>Compact mode</h3>
+                <ColorPicker
+                    color={hex2Color}
+                    onChange={setHex2Color}
+                    mode={ColorPickerMode.HEX}
+                    withAlpha={true}
+                    withValue={false}
                 />
             </div>
         </div>

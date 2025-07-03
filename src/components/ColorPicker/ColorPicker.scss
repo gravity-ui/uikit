@@ -15,6 +15,10 @@ $block: '.#{variables.$ns}color-picker';
         height: 18px;
     }
 
+    &__color-value {
+        width: 60px;
+    }
+
     &__alpha {
         width: 54px;
         flex: 0 0 auto;

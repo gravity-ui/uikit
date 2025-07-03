@@ -27,6 +27,7 @@ export interface ColorPickerProps {
     onChange: (color: string) => void;
     className?: string;
     withAlpha?: boolean;
+    withValue?: boolean;
     mode?: ColorPickerMode;
 }
 

@@ -15,6 +15,21 @@ global.ResizeObserver = class implements ResizeObserver {
     unobserve(_target: Element) {}
 };
 
+global.matchMedia = function matchMedia(media: string) {
+    return {
+        matches: false,
+        media,
+        addEventListener() {},
+        removeEventListener() {},
+        onchange() {},
+        dispatchEvent() {
+            return true;
+        },
+        addListener() {},
+        removeListener() {},
+    } satisfies MediaQueryList;
+};
+
 // mock AutoSizer to properly test functionality related to virtualization
 // 400 x 400 is a random size and might be changed if needed
 jest.mock(

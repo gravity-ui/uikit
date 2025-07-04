@@ -13,7 +13,6 @@ import {
     useFloatingParentNodeId,
     useInteractions,
     useRole,
-    useTransitionStatus,
 } from '@floating-ui/react';
 import type {
     FloatingFocusManagerProps,
@@ -24,7 +23,8 @@ import {isTabbable} from 'tabbable';
 
 import {KeyCode} from '../../constants';
 import {useForkRef} from '../../hooks';
-import {useAnimateHeight, usePrevious} from '../../hooks/private';
+import {useAnimateHeight} from '../../hooks/private';
+import {useFloatingTransition} from '../../hooks/private/useFloatingTransition';
 import {Portal} from '../Portal';
 import type {PortalProps} from '../Portal';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
@@ -190,40 +190,19 @@ function ModalComponent({
 
     const {getFloatingProps} = useInteractions([dismiss, role]);
 
-    const {isMounted, status} = useTransitionStatus(context, {duration: TRANSITION_DURATION});
-    const previousStatus = usePrevious(status);
+    const {isMounted, status, handleTransitionEnd} = useFloatingTransition({
+        context,
+        duration: TRANSITION_DURATION,
+        onTransitionIn,
+        onTransitionInComplete,
+        onTransitionOut,
+        onTransitionOutComplete,
+    });
 
     useAnimateHeight({
         ref: refs.floating,
         enabled: status === 'open' && !disableHeightTransition,
     });
-
-    React.useEffect(() => {
-        if (status === 'initial' && previousStatus === 'unmounted') {
-            onTransitionIn?.();
-        }
-        if (status === 'close' && previousStatus === 'open') {
-            onTransitionOut?.();
-        }
-        if (status === 'unmounted' && previousStatus === 'close') {
-            onTransitionOutComplete?.();
-        }
-    }, [previousStatus, status, onTransitionIn, onTransitionOut, onTransitionOutComplete]);
-
-    const handleTransitionEnd = React.useCallback(
-        (event: React.TransitionEvent<HTMLDivElement>) => {
-            // There are two simultaneous transitions running at the same time
-            // Use specific name to only notify once
-            if (
-                status === 'open' &&
-                event.propertyName === 'transform' &&
-                event.target === elements.floating
-            ) {
-                onTransitionInComplete?.();
-            }
-        },
-        [status, onTransitionInComplete, elements.floating],
-    );
 
     const handleKeyDown = React.useCallback(
         (event: React.KeyboardEvent) => {

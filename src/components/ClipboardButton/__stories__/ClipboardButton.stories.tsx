@@ -1,7 +1,9 @@
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
+import {Gear} from '@gravity-ui/icons';
 
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
+import {Icon} from '../../Icon';
 import {ClipboardButton} from '../ClipboardButton';
 
 export default {
@@ -48,6 +50,11 @@ export const WithCustomIconPosition: Story = {
             </ShowcaseItem>
             <ShowcaseItem title="end">
                 <ClipboardButton {...args} size="xs" iconPosition="end">
+                    Copy
+                </ClipboardButton>
+            </ShowcaseItem>
+            <ShowcaseItem title="custom">
+                <ClipboardButton {...args} size="xs" icon={<Icon data={Gear} size={16} />}>
                     Copy
                 </ClipboardButton>
             </ShowcaseItem>

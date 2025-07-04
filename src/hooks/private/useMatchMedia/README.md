@@ -6,4 +6,4 @@ The `useMatchMedia` hook listens for a passed media query and returns whether it
 
 | Name  | Description                |   Type   | Default |
 | :---- | :------------------------- | :------: | :-----: |
-| query | Media query to be listened | `string` |         |
+| media | Media query to be listened | `string` |         |

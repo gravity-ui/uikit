@@ -33,7 +33,7 @@ export function useFloatingTransition({
     onTransitionOut,
     onTransitionOutComplete,
 }: UseFloatingTransitionProps): UseFloatingTransitionResult {
-    const isPrefersReducedMotion = useMatchMedia({query: '(prefers-reduced-motion: reduce)'});
+    const isPrefersReducedMotion = useMatchMedia({media: '(prefers-reduced-motion: reduce)'});
     const enabled = enabledProp && !isPrefersReducedMotion;
     const {isMounted, status} = useTransitionStatus(context, {
         duration: enabled ? duration : 0,

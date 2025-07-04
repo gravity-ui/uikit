@@ -1,24 +1,24 @@
 import * as React from 'react';
 
 export interface UseMatchMediaProps {
-    query: string;
+    media: string;
 }
 
-export function useMatchMedia({query}: UseMatchMediaProps) {
-    const media = React.useMemo(
-        () => (typeof window === 'undefined' ? null : window.matchMedia(query)),
-        [query],
+export function useMatchMedia({media}: UseMatchMediaProps) {
+    const mql = React.useMemo(
+        () => (typeof window === 'undefined' ? null : window.matchMedia(media)),
+        [media],
     );
-    const [matches, setMatches] = React.useState(Boolean(media?.matches));
+    const [matches, setMatches] = React.useState(Boolean(mql?.matches));
 
     React.useEffect(() => {
         const handleChange = (event: MediaQueryListEvent) => {
             setMatches(event.matches);
         };
 
-        media?.addEventListener('change', handleChange);
-        return () => media?.removeEventListener('change', handleChange);
-    }, [media]);
+        mql?.addEventListener('change', handleChange);
+        return () => mql?.removeEventListener('change', handleChange);
+    }, [mql]);
 
     return matches;
 }

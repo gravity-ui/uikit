@@ -15,10 +15,10 @@ global.ResizeObserver = class implements ResizeObserver {
     unobserve(_target: Element) {}
 };
 
-global.matchMedia = function matchMedia() {
+global.matchMedia = function matchMedia(media: string) {
     return {
         matches: false,
-        media: '',
+        media,
         addEventListener() {},
         removeEventListener() {},
         onchange() {},
@@ -27,7 +27,7 @@ global.matchMedia = function matchMedia() {
         },
         addListener() {},
         removeListener() {},
-    } as MediaQueryList;
+    } satisfies MediaQueryList;
 };
 
 // mock AutoSizer to properly test functionality related to virtualization

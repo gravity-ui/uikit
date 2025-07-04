@@ -49,7 +49,6 @@ export function useFloatingTransition({
             // There are two simultaneous transitions running at the same time
             // Use specific name to only notify once
             if (status === 'open' && event.propertyName === transitionProperty) {
-                console.log('TransitionInComplete');
                 onTransitionInComplete?.();
             }
         },
@@ -59,22 +58,18 @@ export function useFloatingTransition({
     // Cannot use transitionend event for these callbacks due to unmounting from the DOM
     React.useEffect(() => {
         if (status === 'open' && previousStatus === 'initial') {
-            console.log('TransitionIn');
             onTransitionIn?.();
 
             if (!enabled) {
                 requestAnimationFrame(() => {
-                    console.log('TransitionInComplete');
                     onTransitionInComplete?.();
                 });
             }
         }
         if (status === 'close' && previousStatus === 'open') {
-            console.log('TransitionOut');
             onTransitionOut?.();
         }
         if (status === 'unmounted' && previousStatus === 'close') {
-            console.log('TransitionOutComplete');
             onTransitionOutComplete?.();
         }
     }, [

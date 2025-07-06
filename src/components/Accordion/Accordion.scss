@@ -1,0 +1,41 @@
+@use '../variables';
+@use '../../../styles/mixins';
+
+$block: '.#{variables.$ns}accordion';
+
+@mixin accordion-border-radius($size) {
+    @if $size == 's' or $size == 'm' {
+        border-radius: var(--g-border-radius-s);
+    }
+    @if $size == 'l' or $size == 'xl' {
+        border-radius: var(--g-border-radius-l);
+    }
+}
+
+#{$block} {
+    box-sizing: border-box;
+    border: 1px solid var(--g-color-line-generic);
+    height: fit-content;
+
+    &_size_s {
+        @include accordion-border-radius('s');
+    }
+
+    &_size_m {
+        @include accordion-border-radius('m');
+    }
+
+    &_size_l {
+        @include accordion-border-radius('l');
+    }
+
+    &_size_xl {
+        @include accordion-border-radius('xl');
+    }
+
+    &_view_top-bottom {
+        border-radius: 0;
+        border-inline-start: 0;
+        border-inline-end: 0;
+    }
+}

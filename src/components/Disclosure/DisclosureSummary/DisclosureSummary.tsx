@@ -19,12 +19,14 @@ function warnAboutPhysicalValues() {
     );
 }
 
-interface DisclosureSummaryRenderFunctionProps extends QAProps {
+export interface DisclosureSummaryRenderFunctionProps extends QAProps {
     onClick: (e: React.SyntheticEvent) => void;
     ariaControls: string;
     id: string;
     expanded: boolean;
+    onKeyDown?: (e: React.KeyboardEvent<HTMLButtonElement>) => void;
     disabled?: boolean;
+    className?: string;
 }
 
 export interface DisclosureSummaryProps extends QAProps {
@@ -36,8 +38,14 @@ export interface DisclosureSummaryProps extends QAProps {
 
 export function DisclosureSummary({children: renderFunction, qa}: DisclosureSummaryProps) {
     const handleToggle = useToggleDisclosure();
-    const {ariaControls, ariaLabelledby: id, expanded, disabled} = useDisclosureAttributes();
-    const props = {onClick: handleToggle, ariaControls, id, expanded, disabled, qa};
+    const {
+        ariaControls,
+        ariaLabelledby: id,
+        expanded,
+        disabled,
+        onKeyDown,
+    } = useDisclosureAttributes();
+    const props = {onClick: handleToggle, ariaControls, id, expanded, disabled, qa, onKeyDown};
 
     return renderFunction(props, <DefaultDisclosureSummary {...props} />);
 }
@@ -49,6 +57,8 @@ export function DefaultDisclosureSummary({
     expanded,
     disabled,
     qa,
+    onKeyDown,
+    className,
 }: DisclosureSummaryRenderFunctionProps) {
     const {size, summary, arrowPosition} = useDisclosureAttributes();
     let arrowMod = arrowPosition;
@@ -65,12 +75,13 @@ export function DefaultDisclosureSummary({
         <button
             type="button"
             aria-expanded={expanded}
-            className={b('trigger', {disabled, arrow: arrowMod})}
+            className={b('trigger', {disabled, arrow: arrowMod}, className)}
             aria-controls={ariaControls}
             id={id}
             onClick={onClick}
             disabled={disabled}
             data-qa={qa || DisclosureQa.SUMMARY}
+            onKeyDown={onKeyDown}
         >
             <ArrowToggle
                 size={ComponentSizeToIconSizeMap[size]}

@@ -16,7 +16,9 @@ export function useMatchMedia({media}: UseMatchMediaProps) {
             setMatches(event.matches);
         };
 
+        setMatches(Boolean(mql?.matches));
         mql?.addEventListener('change', handleChange);
+
         return () => mql?.removeEventListener('change', handleChange);
     }, [mql]);
 

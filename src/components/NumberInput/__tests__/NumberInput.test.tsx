@@ -34,6 +34,24 @@ describe('NumberInput input', () => {
             expect(handleChange).toHaveBeenCalled();
         });
 
+        it('updates displayed input value when value prop changes', async () => {
+            const handleUpdate = jest.fn();
+            const {rerender} = render(<NumberInput value={1} onUpdate={handleUpdate} />);
+
+            expect(getInput()).toHaveValue('1');
+
+            rerender(<NumberInput value={123} onUpdate={handleUpdate} />);
+            expect(getInput()).toHaveValue('123');
+        });
+
+        it('updates displayed input value when value prop does not change after input change', async () => {
+            render(<NumberInput value={1} />);
+
+            fireEvent.change(getInput(), {target: {value: '123'}});
+
+            expect(getInput()).toHaveValue('1');
+        });
+
         it('calls onUpdate and onChange on input paste', async () => {
             const handleUpdate = jest.fn();
             const handleChange = jest.fn();
@@ -549,6 +567,26 @@ describe('NumberInput input', () => {
             const button = screen.getByTestId('reset');
             await userEvent.click(button);
             expect(inputs[0]).toHaveValue('123');
+        });
+
+        test('should submit decimal value', async () => {
+            let value;
+            const handleSubmit = jest.fn((e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                value = [...formData.entries()];
+            });
+            render(
+                <form data-qa="form" onSubmit={handleSubmit}>
+                    <NumberInput allowDecimal name="numeric-field" value={123.45} />
+                    <button type="submit" data-qa="submit">
+                        submit
+                    </button>
+                </form>,
+            );
+            await userEvent.click(screen.getByTestId('submit'));
+            expect(handleSubmit).toHaveBeenCalledTimes(1);
+            expect(value).toEqual([['numeric-field', '123.45']]);
         });
     });
 });

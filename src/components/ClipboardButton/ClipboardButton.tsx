@@ -54,8 +54,6 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
         children,
         iconPosition = 'start',
         closeDelay,
-        onMouseEnter,
-        onFocus,
         icon,
         ...rest
     } = props;

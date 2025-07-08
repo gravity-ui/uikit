@@ -1,0 +1,77 @@
+@use '../../variables';
+@use '../../../../styles/mixins';
+
+$block: '.#{variables.$ns}accordion-item';
+
+@mixin accordion-item-trigger($size) {
+    .g-disclosure__trigger {
+        @if $size == 's' or $size == 'm' {
+            @include mixins.text-subheader-1();
+        }
+        @if $size == 'l' or $size == 'xl' {
+            @include mixins.text-subheader-2();
+        }
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+}
+
+@mixin accordion-border-radius($size) {
+    @if $size == 's' or $size == 'm' {
+        border-radius: var(--g-border-radius-s);
+    }
+    @if $size == 'l' or $size == 'xl' {
+        border-radius: var(--g-border-radius-l);
+    }
+}
+
+@mixin accordion-item-content($size) {
+    .g-disclosure__content {
+        @if $size == 's' {
+            padding: var(--g-spacing-0) var(--g-spacing-3) var(--g-spacing-3) var(--g-spacing-3);
+        }
+        @if $size == 'm' {
+            padding: var(--g-spacing-0) var(--g-spacing-4) var(--g-spacing-4) var(--g-spacing-4);
+        }
+        @if $size == 'l' {
+            padding: var(--g-spacing-0) var(--g-spacing-5) var(--g-spacing-5) var(--g-spacing-5);
+        }
+        @if $size == 'xl' {
+            padding: var(--g-spacing-0) var(--g-spacing-5) var(--g-spacing-5) var(--g-spacing-5);
+        }
+    }
+}
+
+#{$block} {
+    &_disabled {
+        .g-disclosure__trigger {
+            color: var(--g-color-text-hint);
+        }
+        pointer-events: none;
+        background-color: var(--g-color-base-generic-accent-disabled);
+    }
+
+    &_size {
+        &_s {
+            @include accordion-item-trigger('s');
+            @include accordion-item-content('s');
+        }
+        &_m {
+            @include accordion-item-trigger('m');
+            @include accordion-item-content('m');
+        }
+        &_l {
+            @include accordion-item-trigger('l');
+            @include accordion-item-content('l');
+        }
+        &_xl {
+            @include accordion-item-trigger('xl');
+            @include accordion-item-content('xl');
+        }
+    }
+
+    &:not(:first-child) {
+        border-block-start: 1px solid var(--g-color-line-generic);
+    }
+}

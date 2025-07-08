@@ -49,3 +49,40 @@ export const Size: Story = {
         </Showcase>
     ),
 };
+
+export const Color: Story = {
+    render: (args) => (
+        <Showcase>
+            <div style={{display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap'}}>
+                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px'}}>
+                    <Icon {...args} size={32} color="#ff0000" />
+                    <span style={{fontSize: '12px', color: '#666'}}>Hex: #ff0000</span>
+                </div>
+                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px'}}>
+                    <Icon {...args} size={32} color="blue" />
+                    <span style={{fontSize: '12px', color: '#666'}}>Named: blue</span>
+                </div>
+                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px'}}>
+                    <Icon {...args} size={32} color="rgb(255, 165, 0)" />
+                    <span style={{fontSize: '12px', color: '#666'}}>RGB: rgb(255, 165, 0)</span>
+                </div>
+                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px'}}>
+                    <Icon {...args} size={32} />
+                    <span style={{fontSize: '12px', color: '#666'}}>Default (currentColor)</span>
+                </div>
+                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px'}}>
+                    <div style={{color: 'red'}}>
+                        <Icon {...args} size={32} />
+                    </div>
+                    <span style={{fontSize: '12px', color: '#666'}}>Parent color: red</span>
+                </div>
+                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px'}}>
+                    <div style={{color: 'red'}}>
+                        <Icon {...args} size={32} color="green" />
+                    </div>
+                    <span style={{fontSize: '12px', color: '#666'}}>Override parent</span>
+                </div>
+            </div>
+        </Showcase>
+    ),
+};

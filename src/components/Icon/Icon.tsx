@@ -29,6 +29,7 @@ export interface IconProps extends QAProps {
     size?: number | string;
     fill?: string;
     stroke?: string;
+    color?: string;
     className?: string;
 }
 
@@ -36,7 +37,7 @@ const b = block('icon');
 
 export const Icon: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<SVGSVGElement>> &
     IconComposition = React.forwardRef<SVGSVGElement, IconProps>(
-    ({data, width, height, size, className, fill = 'currentColor', stroke = 'none', qa}, ref) => {
+    ({data, width, height, size, className, fill = 'currentColor', stroke = 'none', color, qa}, ref) => {
         // This component supports four different ways to load and use icons:
         // - svg-react-loader
         // - svg-sprite-loader
@@ -98,6 +99,7 @@ export const Icon: React.ForwardRefExoticComponent<IconProps & React.RefAttribut
             fill,
             stroke,
             'data-qa': qa,
+            ...(color && { style: { color } }),
             ...a11yHiddenSvgProps,
         };
 

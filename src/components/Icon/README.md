@@ -59,4 +59,5 @@ import CheckIcon from './check.svg';
 | size      | Both `width` and `height` SVG attributes | `number` `string` |                  |
 | fill      | `fill` SVG attribute                     |     `string`      | `"currentColor"` |
 | stroke    | `stroke` SVG attribute                   |     `string`      |     `"none"`     |
+| color     | Icon color (any valid CSS color value)  |     `string`      |                  |
 | className | Custom CSS class for the root element    |     `string`      |                  |

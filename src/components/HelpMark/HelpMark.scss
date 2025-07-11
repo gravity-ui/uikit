@@ -11,6 +11,7 @@ $block: '.#{variables.$ns}help-mark';
     width: var(--_--size);
     height: var(--_--size);
     color: var(--g-color-text-hint);
+    line-height: 0;
 
     &::after {
         content: '\00a0';

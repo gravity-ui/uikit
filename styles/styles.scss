@@ -42,6 +42,8 @@
     color-scheme: dark;
 }
 
+// TODO BREAKING CHANGE: We should only disable "motion" animations and transitions but no all
+
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -49,9 +51,9 @@
         /* stylelint-disable-next-line declaration-no-important */
         scroll-behavior: auto !important;
         /* stylelint-disable-next-line declaration-no-important */
-        transition-duration: 0.001ms !important;
+        transition-duration: 0ms !important;
         /* stylelint-disable-next-line declaration-no-important */
-        animation-duration: 0.001ms !important;
+        animation-duration: 0ms !important;
         /* stylelint-disable-next-line declaration-no-important */
         animation-iteration-count: 1 !important;
     }

@@ -149,9 +149,6 @@ function ModalWithDynamicContent(props: ModalProps) {
             timers[1] = window.setTimeout(() => {
                 setIsSecondDynamicPartOpen(true);
             }, 4000);
-        } else {
-            setIsFirstDynamicPartOpen(false);
-            setIsSecondDynamicPartOpen(false);
         }
         return () => {
             timers.forEach((t) => {
@@ -161,7 +158,13 @@ function ModalWithDynamicContent(props: ModalProps) {
     }, [props.open]);
 
     return (
-        <Modal {...props}>
+        <Modal
+            {...props}
+            onTransitionOutComplete={() => {
+                setIsFirstDynamicPartOpen(false);
+                setIsSecondDynamicPartOpen(false);
+            }}
+        >
             <div style={{padding: 40, width: '200px'}}>
                 <div style={{marginBottom: '24px'}}>This is a dynamic modal content</div>
                 {isFirstDynamicPartOpen && (

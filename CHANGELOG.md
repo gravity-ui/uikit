@@ -1,5 +1,17 @@
 # Changelog
 
+## [7.17.0](https://github.com/gravity-ui/uikit/compare/v7.16.2...v7.17.0) (2025-07-11)
+
+
+### Features
+
+* **ClipboardButton:** add `icon` prop ([#2237](https://github.com/gravity-ui/uikit/issues/2237)) ([a6f00a3](https://github.com/gravity-ui/uikit/commit/a6f00a31cf2ac0abeef3b5422d92e867b80fa345))
+
+
+### Bug Fixes
+
+* **HelpMark:** fix alignment inside bigger texts ([#2339](https://github.com/gravity-ui/uikit/issues/2339)) ([f40da24](https://github.com/gravity-ui/uikit/commit/f40da2404c4f77332d65ff3823aa5a109d3ea61c))
+
 ## [7.16.2](https://github.com/gravity-ui/uikit/compare/v7.16.1...v7.16.2) (2025-06-28)
 
 

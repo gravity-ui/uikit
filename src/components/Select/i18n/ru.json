@@ -1,7 +1,5 @@
 {
   "label_clear": "Очистить",
   "label_show-error-info": "Показать попап с информацей об ошибке",
-  "label_filter": "Фильтр",
-  "action_apply": "Применить",
-  "action_cancel": "Отмена"
+  "label_filter": "Фильтр"
 }

@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import {Button} from '../../Button';
 import {Flex} from '../../layout';
-import i18n from '../i18n';
 import {Select} from '../index';
+import type {SelectProps} from '../index';
 
 const options = [
     {value: 'val1', content: 'Value 1'},
@@ -12,38 +12,43 @@ const options = [
     {value: 'val4', content: 'Value 4'},
 ];
 
-const noop = () => {};
-
 const SelectWithCustomPopup = ({
+    args,
     onApply,
-    onCancel,
+    showCancel,
 }: {
-    onApply?: () => void;
-    onCancel?: () => void;
+    args?: SelectProps;
+    onApply: (val: string[]) => void;
+    showCancel?: boolean;
 }) => {
     const [value, setValue] = React.useState<string[]>([]);
+
+    const [tempValue, setTempValue] = React.useState<string[]>(value);
     const [open, onOpenChange] = React.useState(false);
 
     const handleCancel = () => {
-        onCancel?.();
+        setTempValue(value);
         onOpenChange(false);
     };
 
     const handleApply = () => {
-        onApply?.();
+        setValue(tempValue);
+        onApply(tempValue);
         onOpenChange(false);
     };
 
     return (
         <Select
+            {...args}
             title="Popup with action buttons"
-            value={value}
+            value={tempValue}
             options={options}
             filterable
-            hasClear
             className="select-example select-width-300"
             multiple={true}
-            onUpdate={setValue}
+            hasClear={false}
+            onClose={handleCancel}
+            onUpdate={setTempValue}
             onOpenChange={onOpenChange}
             open={open}
             renderPopup={({renderList, renderFilter}) => {
@@ -51,17 +56,23 @@ const SelectWithCustomPopup = ({
                     <React.Fragment>
                         {renderFilter()}
                         {renderList()}
-                        <div className="popup-actions">
-                            {onCancel && (
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '8px',
+                                padding: '8px',
+                                borderBlockStart: '1px solid var(--g-color-line-generic)',
+                            }}
+                        >
+                            {showCancel && (
                                 <Button size="l" view="normal" onClick={handleCancel} width="max">
-                                    {i18n('action_cancel')}
+                                    Cancel
                                 </Button>
                             )}
-                            {onApply && (
-                                <Button size="l" view="action" onClick={handleApply} width="max">
-                                    {i18n('action_apply')}
-                                </Button>
-                            )}
+                            <Button size="l" view="action" onClick={handleApply} width="max">
+                                Apply
+                            </Button>
                         </div>
                     </React.Fragment>
                 );
@@ -70,11 +81,15 @@ const SelectWithCustomPopup = ({
     );
 };
 
-export const CustomPopupShowcase = () => {
+export const WithActionButtonsShowcase = (args?: SelectProps) => {
+    const handleApply = (value: string[]) => {
+        alert(JSON.stringify(value));
+    };
+
     return (
         <Flex gap={10}>
-            <SelectWithCustomPopup onApply={noop} />
-            <SelectWithCustomPopup onApply={noop} onCancel={noop} />
+            <SelectWithCustomPopup args={args} onApply={handleApply} />
+            <SelectWithCustomPopup args={args} onApply={handleApply} showCancel />
         </Flex>
     );
 };

@@ -5,7 +5,7 @@ $block: '.#{variables.$ns}dialog-body';
 #{$block} {
     padding: 10px var(--_--side-padding);
     flex: 1 1 auto;
-    overflow-y: auto;
+    overflow: auto;
     transition: height 0.35s ease-in-out;
 
     &_has-borders {

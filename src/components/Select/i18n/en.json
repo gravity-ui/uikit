@@ -1,5 +1,7 @@
 {
   "label_clear": "Clear",
   "label_show-error-info": "Show popup with error info",
-  "label_filter": "Filter"
+  "label_filter": "Filter",
+  "action_apply": "Apply",
+  "action_cancel": "Cancel"
 }

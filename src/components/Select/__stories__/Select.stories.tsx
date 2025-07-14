@@ -14,6 +14,7 @@ import {TextInput} from '../../controls';
 import {Flex} from '../../layout';
 import {block} from '../../utils/cn';
 
+import {CustomPopupShowcase} from './CustomPopupShowcase';
 import {SelectPopupWidthShowcase} from './SelectPopupWidthShowcase';
 import {UseSelectOptionsShowcase} from './UseSelectOptionsShowcase';
 
@@ -96,6 +97,15 @@ export const Form = {
             </div>
         </form>
     ),
+} satisfies Story;
+
+export const CustomPopup = {
+    render: () => <CustomPopupShowcase />,
+    parameters: {
+        controls: {
+            disabled: true,
+        },
+    },
 } satisfies Story;
 
 const WithTitle: Decorator<StoryArgs> = (Story, context) => {

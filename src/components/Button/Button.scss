@@ -254,7 +254,7 @@ $block: '.#{variables.$ns}button';
 
     @include mixins.pin(
         $block,
-        (&, '::before', '::after'),
+        ('::before', '::after'),
         var(--g-button-border-radius, var(--_--border-radius))
     );
 

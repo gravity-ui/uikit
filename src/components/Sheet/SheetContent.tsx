@@ -136,7 +136,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         const {deltaY, swipeAreaTouched, contentTouched, veilTouched} = this.state;
 
         const veilTransitionMod = {
-            'with-transition': !deltaY || veilTouched,
+            'with-transition': !this.isPrefersReducedMotion() && (!deltaY || veilTouched),
         };
 
         const sheetTransitionMod = {
@@ -284,17 +284,27 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     };
 
     private show = () => {
-        this.setState({isAnimating: true}, () => {
+        if (this.isPrefersReducedMotion()) {
             this.setStyles({status: 'showing'});
             this.setHash();
-        });
+        } else {
+            this.setState({isAnimating: true}, () => {
+                this.setStyles({status: 'showing'});
+                this.setHash();
+            });
+        }
     };
 
     private hide = () => {
-        this.setState({isAnimating: true}, () => {
-            this.setStyles({status: 'hiding'});
+        if (this.isPrefersReducedMotion()) {
+            this.props.hideSheet();
             this.removeHash();
-        });
+        } else {
+            this.setState({isAnimating: true}, () => {
+                this.setStyles({status: 'hiding'});
+                this.removeHash();
+            });
+        }
     };
 
     private onSwipeAreaTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -560,6 +570,10 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
             prevProps.location.hash !== location.hash &&
             location.hash !== `#${id}`
         );
+    }
+
+    private isPrefersReducedMotion() {
+        return Boolean(window?.matchMedia('(prefers-reduced-motion: reduce)').matches);
     }
 }
 

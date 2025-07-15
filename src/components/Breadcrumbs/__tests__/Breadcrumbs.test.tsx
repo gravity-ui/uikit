@@ -12,7 +12,7 @@ beforeEach(() => {
         this: Element,
     ) {
         if (this instanceof HTMLOListElement) {
-            return 500;
+            return 480;
         }
         return 100;
     });

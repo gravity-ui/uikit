@@ -199,6 +199,7 @@ A `label` can have different states:
 
 - `disabled`: No interactions allowed.
 - `interactive`: Makes the label hoverable.
+- `loading`: Shows a loading state.
 
 <!--LANDING_BLOCK
 
@@ -207,11 +208,13 @@ A `label` can have different states:
 <Label>Default</Label>
 <Label disabled>Disabled</Label>
 <Label interactive>Interactive</Label>
+<Label loading>Loading</Label>
 `}
 >
     <UIKit.Label>Default</UIKit.Label>
     <UIKit.Label disabled>Disabled</UIKit.Label>
     <UIKit.Label interactive>Interactive</UIKit.Label>
+    <UIKit.Label loading>Loading</UIKit.Label>
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -222,6 +225,7 @@ LANDING_BLOCK-->
 <Label>Default</Label>
 <Label disabled>Disabled</Label>
 <Label interactive>Interactive</Label>
+<Label loading>Loading</Label>
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -250,28 +254,6 @@ LANDING_BLOCK-->
 <Label size="xs">XS size</Label>
 <Label size="s">S size</Label>
 <Label size="m">M size</Label>
-```
-
-<!--/GITHUB_BLOCK-->
-
-## Loading state
-
-<!--LANDING_BLOCK
-
-<ExampleBlock
-    code={`
-<Label loading>Content</Label>
-`}
->
-    <UIKit.Label loading>Content</UIKit.Label>
-</ExampleBlock>
-
-LANDING_BLOCK-->
-
-<!--GITHUB_BLOCK-->
-
-```tsx
-<Label loading>Content</Label>
 ```
 
 <!--/GITHUB_BLOCK-->

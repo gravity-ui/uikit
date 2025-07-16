@@ -123,6 +123,7 @@ export function Tooltip({
     });
     const dismiss = useDismiss(context, {
         outsidePress: false,
+        ancestorScroll: true,
     });
 
     const {getReferenceProps, getFloatingProps} = useInteractions([hover, focus, role, dismiss]);

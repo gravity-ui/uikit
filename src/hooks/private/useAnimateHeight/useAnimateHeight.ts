@@ -1,8 +1,7 @@
 import * as React from 'react';
 
-import type {ResizeInfo} from 'src/hooks/useResizeObserver/useResizeObserver';
-
 import {useResizeObserver} from '../../useResizeObserver';
+import type {ResizeInfo} from '../../useResizeObserver/useResizeObserver';
 
 export function useAnimateHeight({
     ref,

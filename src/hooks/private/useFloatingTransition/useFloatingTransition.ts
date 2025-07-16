@@ -42,12 +42,8 @@ export function useFloatingTransition({
 
     const handleTransitionEnd = React.useCallback(
         (event: React.TransitionEvent) => {
-            if (!enabled) {
-                return;
-            }
-
-            // There are two simultaneous transitions running at the same time
-            // Use specific name to only notify once
+            // If there are several simultaneous transitions running at the same time
+            // use specific property to only notify once
             if (status === 'open' && event.propertyName === transitionProperty) {
                 onTransitionInComplete?.();
             }
@@ -59,12 +55,6 @@ export function useFloatingTransition({
     React.useEffect(() => {
         if (status === 'open' && previousStatus === 'initial') {
             onTransitionIn?.();
-
-            if (!enabled) {
-                requestAnimationFrame(() => {
-                    onTransitionInComplete?.();
-                });
-            }
         }
         if (status === 'close' && previousStatus === 'open') {
             onTransitionOut?.();

@@ -1,0 +1,41 @@
+.drawer-showcase {
+    --g-drawer-item-position: absolute;
+
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    &__header {
+        padding: 20px;
+        border-block-end: 1px solid var(--g-color-line-generic);
+    }
+
+    &__drawer {
+        width: 300px;
+        height: 300px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    &__item-1 {
+        height: 100%;
+        width: 120px;
+        background-color: var(--g-color-base-info-heavy);
+    }
+
+    &__item-1_vertical {
+        height: 72px;
+        width: 100%;
+    }
+
+    &__item-2 {
+        height: 100%;
+        width: 100px;
+        background-color: var(--g-color-base-positive-heavy);
+    }
+
+    &__item-2_vertical {
+        height: 56px;
+        width: 100%;
+    }
+}

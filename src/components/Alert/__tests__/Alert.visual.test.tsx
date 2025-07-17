@@ -65,6 +65,12 @@ test.describe('Alert', {tag: '@Alert'}, () => {
         await expectScreenshot();
     });
 
+    test('render story: <ActionsLayout>', async ({mount, expectScreenshot}) => {
+        await mount(<AlertStories.ActionsLayout />);
+
+        await expectScreenshot();
+    });
+
     test('render story: <Actions>', async ({mount, expectScreenshot}) => {
         await mount(<AlertStories.Actions />);
 

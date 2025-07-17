@@ -19,6 +19,7 @@ export * from './DefinitionList';
 export * from './Dialog';
 export * from './Disclosure';
 export * from './Divider';
+export * from './Drawer';
 export * from './DropdownMenu';
 export * from './FilePreview';
 export * from './HelpMark';

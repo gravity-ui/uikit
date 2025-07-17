@@ -1,0 +1,42 @@
+.hide-veil {
+    --g-drawer-item-position: absolute;
+
+    width: 100dvw;
+    height: 100dvh;
+
+    display: flex;
+    flex-direction: column;
+
+    &__header {
+        padding: 20px;
+        border-block-end: 1px solid var(--g-color-line-generic);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    &__container {
+        position: relative;
+        flex-grow: 1;
+        padding: 16px;
+    }
+
+    &__drawer {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+    }
+
+    &__item {
+        width: 400px;
+        height: 100%;
+        overflow-x: hidden;
+    }
+
+    &__item-content {
+        box-sizing: border-box;
+        padding: 8px 16px;
+        height: 100%;
+        overflow-y: scroll;
+    }
+}

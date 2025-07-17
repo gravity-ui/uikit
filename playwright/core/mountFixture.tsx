@@ -9,7 +9,7 @@ export const mountFixture: PlaywrightFixture<MountFixture> = async ({mount: base
                     // When we set width we didn't expect that paddings for better screenshots would be included
                     boxSizing: options?.width ? 'content-box' : undefined,
                     width: options?.width ? options.width : 'fit-content',
-                    height: 'fit-content',
+                    height: options?.height ? options.height : 'fit-content',
                     ...options?.rootStyle,
                 }}
                 className="playwright-wrapper-test"

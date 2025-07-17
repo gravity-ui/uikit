@@ -1,0 +1,24 @@
+.use-portal {
+    &__header {
+        padding: 20px;
+        border-block-end: 1px solid var(--g-color-line-generic);
+    }
+
+    &__container {
+        padding: 20px;
+    }
+
+    &__item {
+        --g-drawer-item-position: absolute;
+        overflow-y: auto;
+    }
+
+    &__item-content {
+        width: 600px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}

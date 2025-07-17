@@ -17,6 +17,7 @@ interface ComponentFixtures {
         component: React.JSX.Element,
         options?: MountOptions<HooksConfig> & {
             width?: number | string;
+            height?: number | string;
             rootStyle?: React.CSSProperties;
         },
     ): Promise<MountResult>;
@@ -30,6 +31,7 @@ export type PlaywrightFixture<T> = TestFixture<T, PlaywrightFixtures>;
 export type Fixtures = {
     mount: MountFixture;
     expectScreenshot: ExpectScreenshotFixture;
+    defaultDelay: () => Promise<void>;
 };
 
 export type MountFixture = ComponentFixtures['mount'];

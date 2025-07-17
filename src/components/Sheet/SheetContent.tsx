@@ -255,6 +255,11 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         this.veilRef.current.style.opacity = String(opacity);
 
         this.sheetRef.current.style.transform = translate;
+
+        if (this.isPrefersReducedMotion) {
+            this.sheetRef.current.style.opacity = String(opacity);
+            this.sheetRef.current.style.transform = `translate3d(0, -${visibleHeight}px, 0)`;
+        }
     };
 
     private getAvailableContentHeight = (sheetHeight: number) => {
@@ -560,6 +565,10 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
             prevProps.location.hash !== location.hash &&
             location.hash !== `#${id}`
         );
+    }
+
+    private get isPrefersReducedMotion() {
+        return Boolean(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     }
 }
 

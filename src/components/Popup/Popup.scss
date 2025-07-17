@@ -76,6 +76,13 @@ $transition-distance: 10px;
         transform: translateX($transition-distance);
     }
 
+    @media (prefers-reduced-motion: reduce) {
+        @at-root [data-floating-ui-status][data-floating-ui-placement] > & {
+            transform: none;
+            transition-property: opacity;
+        }
+    }
+
     &__arrow {
         position: absolute;
     }

@@ -76,4 +76,10 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
     &[data-floating-ui-status='close'] #{$block}__content {
         transition: $modal-height-transition, $modal-transform-transition;
     }
+
+    @media (prefers-reduced-motion: reduce) {
+        &[data-floating-ui-status] #{$block}__content {
+            transition: none;
+        }
+    }
 }

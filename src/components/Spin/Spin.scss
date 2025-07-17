@@ -44,6 +44,10 @@ $block: '.#{variables.$ns}spin';
             height: 36px;
         }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+        animation: none;
+    }
 }
 
 @keyframes #{variables.$ns}spin {

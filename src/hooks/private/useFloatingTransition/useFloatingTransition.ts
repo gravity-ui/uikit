@@ -3,7 +3,6 @@ import * as React from 'react';
 import {useTransitionStatus} from '@floating-ui/react';
 import type {FloatingContext, UseTransitionStatusProps} from '@floating-ui/react';
 
-import {useMatchMedia} from '../useMatchMedia';
 import {usePrevious} from '../usePrevious';
 
 export interface UseFloatingTransitionProps {
@@ -24,7 +23,7 @@ export interface UseFloatingTransitionResult {
 }
 
 export function useFloatingTransition({
-    enabled: enabledProp = true,
+    enabled = true,
     context,
     duration,
     transitionProperty = 'transform',
@@ -33,8 +32,6 @@ export function useFloatingTransition({
     onTransitionOut,
     onTransitionOutComplete,
 }: UseFloatingTransitionProps): UseFloatingTransitionResult {
-    const isPrefersReducedMotion = useMatchMedia({media: '(prefers-reduced-motion: reduce)'});
-    const enabled = enabledProp && !isPrefersReducedMotion;
     const {isMounted, status} = useTransitionStatus(context, {
         duration: enabled ? duration : 0,
     });
@@ -42,6 +39,10 @@ export function useFloatingTransition({
 
     const handleTransitionEnd = React.useCallback(
         (event: React.TransitionEvent) => {
+            if (!enabled) {
+                return;
+            }
+
             // If there are several simultaneous transitions running at the same time
             // use specific property to only notify once
             if (status === 'open' && event.propertyName === transitionProperty) {
@@ -55,6 +56,12 @@ export function useFloatingTransition({
     React.useEffect(() => {
         if (status === 'open' && previousStatus === 'initial') {
             onTransitionIn?.();
+
+            if (!enabled) {
+                requestAnimationFrame(() => {
+                    onTransitionInComplete?.();
+                });
+            }
         }
         if (status === 'close' && previousStatus === 'open') {
             onTransitionOut?.();

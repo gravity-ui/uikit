@@ -241,6 +241,7 @@ function PopupComponent({
         middlewareData,
         context,
         update,
+        isPositioned,
     } = useFloating({
         rootContext: floatingContext,
         nodeId: floatingNodeId,
@@ -301,7 +302,7 @@ function PopupComponent({
     const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
 
     let initialFocus = initialFocusProp;
-    if (initialFocus === undefined) {
+    if (typeof initialFocus === 'undefined') {
         if (modal) {
             initialFocus = refs.floating;
         } else {
@@ -315,7 +316,7 @@ function PopupComponent({
                 <Portal container={container} disablePortal={disablePortal}>
                     <FloatingFocusManager
                         context={context}
-                        disabled={!isMounted}
+                        disabled={!isMounted || !isPositioned}
                         modal={modal}
                         initialFocus={initialFocus}
                         returnFocus={returnFocus}

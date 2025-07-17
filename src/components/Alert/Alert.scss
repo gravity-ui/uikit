@@ -90,7 +90,6 @@ $block: '.#{variables.$ns}alert';
     &__text-content {
         display: flex;
         flex-direction: column;
-        width: 100%;
         flex-grow: 1;
 
         gap: var(--g-alert-message-margin, var(--_--text-content-gap));
@@ -100,7 +99,7 @@ $block: '.#{variables.$ns}alert';
         }
 
         &_align_baseline {
-            justify-content: baseline;
+            justify-content: start;
         }
     }
 
@@ -124,7 +123,7 @@ $block: '.#{variables.$ns}alert';
         gap: var(--g-alert-actions-gap, var(--g-spacing-3));
 
         &_horizontal {
-            flex-direction: row;
+            flex-flow: row wrap;
             align-items: center;
         }
 

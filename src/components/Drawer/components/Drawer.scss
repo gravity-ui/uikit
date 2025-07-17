@@ -1,0 +1,174 @@
+@use '../../variables';
+
+$block: '.#{variables.$ns}drawer';
+$drawer-resizer-width: 8px;
+
+#{$block} {
+    outline: none;
+
+    position: absolute;
+    z-index: 990;
+    inset: 0;
+
+    background-color: var(--g-color-sfx-veil);
+
+    pointer-events: initial;
+
+    &__item {
+        position: absolute;
+        inset-inline-start: 0;
+        inset-block: 0;
+
+        height: 100%;
+
+        background-color: var(--g-color-base-background);
+
+        pointer-events: initial;
+        outline: none;
+        will-change: transform;
+    }
+
+    &_placement_right &__item {
+        inset-inline: auto 0;
+    }
+
+    &_placement_top &__item {
+        inset-block-end: auto;
+        inset-inline-end: 0;
+
+        width: 100%;
+    }
+
+    &_placement_bottom &__item {
+        inset-block-start: auto;
+        inset-inline-end: 0;
+
+        width: 100%;
+    }
+
+    &_placement_left &__item_resizable {
+        padding-inline-end: $drawer-resizer-width;
+    }
+
+    &_placement_right &__item_resizable {
+        padding-inline-start: $drawer-resizer-width;
+    }
+
+    &_placement_top &__item_resizable {
+        padding-block-end: $drawer-resizer-width;
+    }
+
+    &_placement_bottom &__item_resizable {
+        padding-block-start: $drawer-resizer-width;
+    }
+
+    &[data-floating-ui-status='unmounted'] &__item {
+        visibility: hidden;
+    }
+
+    &[data-floating-ui-status='initial'] &__item,
+    &[data-floating-ui-status='close'] &__item {
+        transform: translate(0, 0);
+    }
+
+    &[data-floating-ui-status='open'] &__item,
+    &[data-floating-ui-status='close'] &__item {
+        transition: transform 300ms;
+    }
+
+    &_placement_left[data-floating-ui-status='initial'] &__item,
+    &_placement_left[data-floating-ui-status='close'] &__item {
+        transform: translate(-100%, 0);
+    }
+
+    &_placement_right[data-floating-ui-status='initial'] &__item,
+    &_placement_right[data-floating-ui-status='close'] &__item {
+        transform: translate(100%, 0);
+    }
+
+    &_placement_top[data-floating-ui-status='initial'] &__item,
+    &_placement_top[data-floating-ui-status='close'] &__item {
+        transform: translate(0, -100%);
+    }
+
+    &_placement_bottom[data-floating-ui-status='initial'] &__item,
+    &_placement_bottom[data-floating-ui-status='close'] &__item {
+        transform: translate(0, 100%);
+    }
+
+    &[data-floating-ui-status='open'],
+    &[data-floating-ui-status='close'] {
+        transition: background-color 300ms;
+    }
+
+    &[data-floating-ui-status='initial'],
+    &[data-floating-ui-status='close'] {
+        background-color: transparent;
+    }
+
+    &[data-floating-ui-status='unmounted'] {
+        visibility: hidden;
+    }
+
+    &__resizer-handle {
+        width: 2px;
+        height: 28px;
+
+        background: var(--g-color-line-generic);
+        border-radius: 2px;
+    }
+
+    &_placement_top &__resizer-handle,
+    &_placement_bottom &__resizer-handle {
+        width: 28px;
+        height: 2px;
+    }
+
+    &__resizer {
+        position: absolute;
+        inset-block-start: 0;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        width: $drawer-resizer-width;
+        height: 100%;
+
+        cursor: col-resize;
+
+        background: var(--g-color-base-generic);
+    }
+
+    &_placement_right &__resizer {
+        inset-inline-start: 0;
+        inset-block-start: 0;
+    }
+
+    &_placement_left &__resizer {
+        inset-inline-end: 0;
+        inset-block-start: 0;
+    }
+
+    &_placement_top &__resizer {
+        inset-block: auto 0;
+        inset-inline-start: 0;
+    }
+
+    &_placement_bottom &__resizer {
+        inset-inline-start: 0;
+        inset-block-start: 0;
+    }
+
+    &_placement_top &__resizer,
+    &_placement_bottom &__resizer {
+        cursor: row-resize;
+        width: 100%;
+        height: $drawer-resizer-width;
+    }
+
+    &__resizer:hover &__resizer-handle {
+        background: var(--g-color-line-generic-hover);
+    }
+}

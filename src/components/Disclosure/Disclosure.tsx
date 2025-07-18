@@ -40,6 +40,8 @@ export interface DisclosureProps extends QAProps {
     keepMounted?: boolean;
     /** Callback fired when the expand/collapse state is changed  */
     onUpdate?: (expanded: boolean) => void;
+    /** Callback fires on keyboard events when summary is focused */
+    onKeyDown?: (e: React.KeyboardEvent<HTMLButtonElement>) => void;
 }
 
 const isDisclosureSummaryComponent = isOfType(DisclosureSummary);
@@ -57,6 +59,7 @@ export const Disclosure: React.FunctionComponent<DisclosureProps> & DisclosureCo
             keepMounted = true,
             children,
             onUpdate = () => {},
+            onKeyDown = () => {},
             expanded,
             qa,
         } = props;
@@ -75,6 +78,7 @@ export const Disclosure: React.FunctionComponent<DisclosureProps> & DisclosureCo
                 summary={summary}
                 arrowPosition={arrowPosition}
                 onUpdate={onUpdate}
+                onKeyDown={onKeyDown}
             >
                 <section ref={ref} className={b({size}, className)} data-qa={qa}>
                     {summaryContent}

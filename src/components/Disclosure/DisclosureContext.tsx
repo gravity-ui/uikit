@@ -34,6 +34,7 @@ export function DisclosureProvider(props: DisclosureProviderProps) {
         summary,
         keepMounted,
         onUpdate,
+        onKeyDown,
         expanded: controlledExpanded,
     } = props;
     const [expanded, setExpanded] = React.useState(() => Boolean(defaultExpanded));
@@ -59,6 +60,7 @@ export function DisclosureProvider(props: DisclosureProviderProps) {
                 expanded: controlledMode ? controlledExpanded : expanded,
                 ariaControls,
                 ariaLabelledby,
+                onKeyDown,
             }}
         >
             <DisclosureToggleContext.Provider value={handleToggle}>

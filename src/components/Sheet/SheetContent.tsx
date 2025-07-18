@@ -568,7 +568,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     }
 
     private get isPrefersReducedMotion() {
-        return Boolean(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+        return Boolean(window?.matchMedia('(prefers-reduced-motion: reduce)').matches);
     }
 }
 

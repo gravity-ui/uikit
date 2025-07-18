@@ -282,10 +282,9 @@ function PopupComponent({
 
     const {getFloatingProps} = useInteractions(floatingInteractions ?? [role, dismiss]);
 
-    const {isMounted, status, handleTransitionEnd} = useFloatingTransition({
-        enabled: !disableTransition,
+    const {isMounted, status} = useFloatingTransition({
         context,
-        duration: TRANSITION_DURATION,
+        duration: disableTransition ? 0 : TRANSITION_DURATION,
         onTransitionIn,
         onTransitionInComplete,
         onTransitionOut,
@@ -316,7 +315,7 @@ function PopupComponent({
                 <Portal container={container} disablePortal={disablePortal}>
                     <FloatingFocusManager
                         context={context}
-                        disabled={!isMounted || !isPositioned}
+                        disabled={!isPositioned}
                         modal={modal}
                         initialFocus={initialFocus}
                         returnFocus={returnFocus}
@@ -355,7 +354,6 @@ function PopupComponent({
                                 )}
                                 style={style}
                                 data-qa={qa}
-                                onTransitionEnd={handleTransitionEnd}
                                 {...filterDOMProps(restProps)}
                             >
                                 {hasArrow && (

@@ -6,10 +6,8 @@ import type {FloatingContext, UseTransitionStatusProps} from '@floating-ui/react
 import {usePrevious} from '../usePrevious';
 
 export interface UseFloatingTransitionProps {
-    enabled?: boolean;
     context: FloatingContext;
     duration: NonNullable<UseTransitionStatusProps['duration']>;
-    transitionProperty?: string;
     onTransitionIn?: () => void;
     onTransitionInComplete?: () => void;
     onTransitionOut?: () => void;
@@ -19,65 +17,62 @@ export interface UseFloatingTransitionProps {
 export interface UseFloatingTransitionResult {
     isMounted: boolean;
     status: 'unmounted' | 'initial' | 'open' | 'close';
-    handleTransitionEnd: (event: React.TransitionEvent) => void;
 }
 
 export function useFloatingTransition({
-    enabled = true,
     context,
     duration,
-    transitionProperty = 'transform',
     onTransitionIn,
     onTransitionInComplete,
     onTransitionOut,
     onTransitionOutComplete,
 }: UseFloatingTransitionProps): UseFloatingTransitionResult {
     const {isMounted, status} = useTransitionStatus(context, {
-        duration: enabled ? duration : 0,
+        duration,
     });
     const previousStatus = usePrevious(status);
+    const openDuration = (typeof duration === 'number' ? duration : duration.open) ?? 0;
+    const timerIdRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    const handleTransitionEnd = React.useCallback(
-        (event: React.TransitionEvent) => {
-            if (!enabled) {
-                return;
-            }
-
-            // If there are several simultaneous transitions running at the same time
-            // use specific property to only notify once
-            if (status === 'open' && event.propertyName === transitionProperty) {
-                onTransitionInComplete?.();
-            }
-        },
-        [enabled, status, transitionProperty, onTransitionInComplete],
-    );
-
-    // Cannot use transitionend event for these callbacks due to unmounting from the DOM
     React.useEffect(() => {
         if (status === 'open' && previousStatus === 'initial') {
             onTransitionIn?.();
 
-            if (!enabled) {
-                requestAnimationFrame(() => {
-                    onTransitionInComplete?.();
-                });
-            }
+            timerIdRef.current = setTimeout(() => {
+                onTransitionInComplete?.();
+                timerIdRef.current = null;
+            }, openDuration);
         }
         if (status === 'close' && previousStatus === 'open') {
+            if (timerIdRef.current) {
+                clearTimeout(timerIdRef.current);
+                timerIdRef.current = null;
+            }
+
             onTransitionOut?.();
         }
         if (status === 'unmounted' && previousStatus === 'close') {
             onTransitionOutComplete?.();
         }
     }, [
-        enabled,
         status,
         previousStatus,
+        openDuration,
         onTransitionIn,
         onTransitionInComplete,
         onTransitionOut,
         onTransitionOutComplete,
     ]);
 
-    return {isMounted, status, handleTransitionEnd};
+    React.useEffect(
+        () => () => {
+            if (timerIdRef.current) {
+                clearTimeout(timerIdRef.current);
+                timerIdRef.current = null;
+            }
+        },
+        [],
+    );
+
+    return {isMounted, status};
 }

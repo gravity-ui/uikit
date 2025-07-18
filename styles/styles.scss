@@ -41,20 +41,3 @@
 :root:has(body.g-root_theme_dark-hc) {
     color-scheme: dark;
 }
-
-// TODO BREAKING CHANGE: We should only disable "motion" animations and transitions but no all
-
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        /* stylelint-disable-next-line declaration-no-important */
-        scroll-behavior: auto !important;
-        /* stylelint-disable-next-line declaration-no-important */
-        transition-duration: 1ms !important;
-        /* stylelint-disable-next-line declaration-no-important */
-        animation-duration: 1ms !important;
-        /* stylelint-disable-next-line declaration-no-important */
-        animation-iteration-count: 1 !important;
-    }
-}

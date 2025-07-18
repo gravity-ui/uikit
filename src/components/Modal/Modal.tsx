@@ -190,7 +190,7 @@ function ModalComponent({
 
     const {getFloatingProps} = useInteractions([dismiss, role]);
 
-    const {isMounted, status, handleTransitionEnd} = useFloatingTransition({
+    const {isMounted, status} = useFloatingTransition({
         context,
         duration: TRANSITION_DURATION,
         onTransitionIn,
@@ -271,7 +271,6 @@ function ModalComponent({
                                         )}
                                         ref={handleFloatingRef}
                                         {...getFloatingProps({
-                                            onTransitionEnd: handleTransitionEnd,
                                             onKeyDown: handleKeyDown,
                                         })}
                                     >

@@ -16,6 +16,7 @@ import {block} from '../../utils/cn';
 
 import {SelectPopupWidthShowcase} from './SelectPopupWidthShowcase';
 import {UseSelectOptionsShowcase} from './UseSelectOptionsShowcase';
+import {WithActionButtonsShowcase} from './WithActionButtonsShowcase';
 
 import './SelectShowcase.scss';
 
@@ -96,6 +97,10 @@ export const Form = {
             </div>
         </form>
     ),
+} satisfies Story;
+
+export const WithActionButtons = {
+    render: (args) => <WithActionButtonsShowcase {...args} />,
 } satisfies Story;
 
 const WithTitle: Decorator<StoryArgs> = (Story, context) => {

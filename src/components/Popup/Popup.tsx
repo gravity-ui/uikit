@@ -17,7 +17,6 @@ import {
     useFloatingParentNodeId,
     useInteractions,
     useRole,
-    useTransitionStatus,
 } from '@floating-ui/react';
 import type {
     ElementProps,
@@ -32,7 +31,7 @@ import type {
 } from '@floating-ui/react';
 
 import {useForkRef} from '../../hooks';
-import {usePrevious} from '../../hooks/private';
+import {useFloatingTransition} from '../../hooks/private/useFloatingTransition';
 import {Portal} from '../Portal';
 import type {PortalProps} from '../Portal';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
@@ -242,6 +241,7 @@ function PopupComponent({
         middlewareData,
         context,
         update,
+        isPositioned,
     } = useFloating({
         rootContext: floatingContext,
         nodeId: floatingNodeId,
@@ -282,10 +282,14 @@ function PopupComponent({
 
     const {getFloatingProps} = useInteractions(floatingInteractions ?? [role, dismiss]);
 
-    const {isMounted, status} = useTransitionStatus(context, {
+    const {isMounted, status} = useFloatingTransition({
+        context,
         duration: disableTransition ? 0 : TRANSITION_DURATION,
+        onTransitionIn,
+        onTransitionInComplete,
+        onTransitionOut,
+        onTransitionOutComplete,
     });
-    const previousStatus = usePrevious(status);
 
     React.useEffect(() => {
         if (isMounted && elements.reference && elements.floating) {
@@ -296,32 +300,8 @@ function PopupComponent({
 
     const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
 
-    const handleTransitionEnd = React.useCallback(
-        (event: React.TransitionEvent) => {
-            // There are two simultaneous transitions running at the same time
-            // Use specific name to only notify once
-            if (status === 'open' && event.propertyName === 'transform') {
-                onTransitionInComplete?.();
-            }
-        },
-        [status, onTransitionInComplete],
-    );
-
-    // Cannot use transitionend event for these callbacks due to unmounting from the DOM
-    React.useEffect(() => {
-        if (status === 'initial' && previousStatus === 'unmounted') {
-            onTransitionIn?.();
-        }
-        if (status === 'close' && previousStatus === 'open') {
-            onTransitionOut?.();
-        }
-        if (status === 'unmounted' && previousStatus === 'close') {
-            onTransitionOutComplete?.();
-        }
-    }, [status, previousStatus, onTransitionIn, onTransitionOut, onTransitionOutComplete]);
-
     let initialFocus = initialFocusProp;
-    if (initialFocus === undefined) {
+    if (typeof initialFocus === 'undefined') {
         if (modal) {
             initialFocus = refs.floating;
         } else {
@@ -335,7 +315,7 @@ function PopupComponent({
                 <Portal container={container} disablePortal={disablePortal}>
                     <FloatingFocusManager
                         context={context}
-                        disabled={!isMounted}
+                        disabled={!isPositioned}
                         modal={modal}
                         initialFocus={initialFocus}
                         returnFocus={returnFocus}
@@ -361,9 +341,7 @@ function PopupComponent({
                             data-floating-ui-placement={finalPlacement}
                             data-floating-ui-status={status}
                             aria-modal={modal && isMounted ? true : undefined}
-                            {...getFloatingProps({
-                                onTransitionEnd: handleTransitionEnd,
-                            })}
+                            {...getFloatingProps()}
                         >
                             <div
                                 ref={contentRef}

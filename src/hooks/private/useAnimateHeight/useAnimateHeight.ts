@@ -1,16 +1,18 @@
 import * as React from 'react';
 
-import type {ResizeInfo} from 'src/hooks/useResizeObserver/useResizeObserver';
-
 import {useResizeObserver} from '../../useResizeObserver';
+import type {ResizeInfo} from '../../useResizeObserver/useResizeObserver';
+import {useMatchMedia} from '../useMatchMedia';
 
 export function useAnimateHeight({
     ref,
-    enabled,
+    enabled: enabledProp,
 }: {
     ref?: React.RefObject<HTMLElement | null | undefined>;
     enabled: boolean;
 }): void {
+    const isPrefersReducedMotion = useMatchMedia({media: '(prefers-reduced-motion: reduce)'});
+    const enabled = enabledProp && !isPrefersReducedMotion;
     const previousHeight = React.useRef<number | null>(null);
     const isTransitioningHeight = React.useRef(false);
     const overflowY = React.useRef<string>('');

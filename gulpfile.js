@@ -9,6 +9,8 @@ const {rimrafSync} = require('rimraf');
 
 const {sassFunctions} = require('./build-utils/sass-functions');
 
+const {version} = require('./package.json');
+
 const BUILD_DIR = path.resolve('build');
 
 task('clean', (done) => {
@@ -56,6 +58,7 @@ async function compileTs(modules = false) {
                 utils.addVirtualFile({
                     fileName: 'package.json',
                     text: JSON.stringify({
+                        version,
                         type: modules ? 'module' : 'commonjs',
                         sideEffects: ['*.css', '*.scss'],
                     }),

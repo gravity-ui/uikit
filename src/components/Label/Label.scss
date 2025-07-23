@@ -18,7 +18,6 @@ $transition-timing-function: ease-in-out;
     display: inline-flex;
     align-items: center;
     position: relative;
-    max-width: 100%;
     height: var(--_--height);
     border-radius: var(--_--border-radius);
     color: var(--_--text-color);
@@ -167,6 +166,10 @@ $transition-timing-function: ease-in-out;
 
     &_interactive {
         cursor: pointer;
+    }
+
+    &_width_auto {
+        max-width: 100%;
     }
 
     &_theme {

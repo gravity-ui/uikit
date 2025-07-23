@@ -70,8 +70,8 @@ test.describe('Label', {tag: '@Label'}, () => {
         await expectScreenshot();
     });
 
-    test('render story: <OverflowParent>', async ({mount, expectScreenshot}) => {
-        await mount(<LabelStories.OverflowParent />);
+    test('render story: <Width>', async ({mount, expectScreenshot}) => {
+        await mount(<LabelStories.Width />);
 
         await expectScreenshot();
     });

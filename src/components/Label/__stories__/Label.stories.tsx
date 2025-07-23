@@ -172,6 +172,18 @@ export const Loading: Story = {
     },
 };
 
+export const OverflowParent: Story = {
+    render: (args) => (
+        <div style={{width: 120}}>
+            <Label {...args} />
+        </div>
+    ),
+    args: {
+        ...Default.args,
+        children: 'Very Long Content',
+    },
+};
+
 export const ShowcaseStory: Story = {
     render: () => <LabelShowcase />,
     name: 'Showcase',

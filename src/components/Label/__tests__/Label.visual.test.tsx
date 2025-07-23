@@ -70,6 +70,12 @@ test.describe('Label', {tag: '@Label'}, () => {
         await expectScreenshot();
     });
 
+    test('render story: <OverflowParent>', async ({mount, expectScreenshot}) => {
+        await mount(<LabelStories.OverflowParent />);
+
+        await expectScreenshot();
+    });
+
     const defaultProps: LabelProps = {
         children: 'Label',
         qa,

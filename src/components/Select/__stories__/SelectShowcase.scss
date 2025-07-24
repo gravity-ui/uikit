@@ -74,3 +74,11 @@ $blockSelectClear: '.#{variables.$ns}select-clear';
         }
     }
 }
+
+.popup-actions {
+    display: flex;
+    gap: var(--g-spacing-2);
+    align-items: center;
+    padding: var(--g-spacing-2);
+    border-block-start: 1px solid var(--g-color-line-generic);
+}

@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import {useFocusWithin, useUniqId} from '../../hooks';
+import {useFocusWithin, useForkRef, useUniqId} from '../../hooks';
 
 import {TabContext} from './contexts/TabContext';
 import {useTabList} from './hooks/useTabList';
@@ -13,7 +13,12 @@ import './TabList.scss';
 export const TabList = React.forwardRef<HTMLDivElement, TabListProps>((props, ref) => {
     const tabContext = React.useContext(TabContext);
     const id = useUniqId();
-    const tabListProps = useTabList(props);
+
+    const listRef = React.useRef<HTMLDivElement>(null);
+    const containerRef = useForkRef(ref, listRef);
+
+    const {children, ...tabListProps} = useTabList(props, listRef);
+
     const [isFocused, setIsFocused] = React.useState(false);
 
     const {focusWithinProps} = useFocusWithin({
@@ -33,8 +38,8 @@ export const TabList = React.forwardRef<HTMLDivElement, TabListProps>((props, re
 
     return (
         <TabContext.Provider value={innerContextValue}>
-            <div ref={ref} {...tabListProps} {...focusWithinProps}>
-                {props.children}
+            <div ref={containerRef} {...tabListProps} {...focusWithinProps}>
+                {children}
             </div>
         </TabContext.Provider>
     );

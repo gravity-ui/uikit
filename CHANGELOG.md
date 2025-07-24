@@ -1,5 +1,23 @@
 # Changelog
 
+## [7.17.0](https://github.com/gravity-ui/uikit/compare/v7.16.2...v7.17.0) (2025-07-18)
+
+
+### Features
+
+* **ClipboardButton:** add `icon` prop ([#2237](https://github.com/gravity-ui/uikit/issues/2237)) ([a6f00a3](https://github.com/gravity-ui/uikit/commit/a6f00a31cf2ac0abeef3b5422d92e867b80fa345))
+* **CopyToClipboard:** reexport copyText function ([#2340](https://github.com/gravity-ui/uikit/issues/2340)) ([eb5a007](https://github.com/gravity-ui/uikit/commit/eb5a0075bf37b3c162ddf70437e68ae8fd47cccf))
+* selectively handle reduced motion setting ([#2345](https://github.com/gravity-ui/uikit/issues/2345)) ([621adf4](https://github.com/gravity-ui/uikit/commit/621adf4f4ca7efd31fdc0b07e9b344e901c1d5bc))
+* **Tooltip:** dismiss on ancestor scroll by default ([#2344](https://github.com/gravity-ui/uikit/issues/2344)) ([2dee62f](https://github.com/gravity-ui/uikit/commit/2dee62f16d2f0e85fd1ec596e4dbc3be6d6922e2))
+
+
+### Bug Fixes
+
+* fix pin mixin generating extra CSS ([#2341](https://github.com/gravity-ui/uikit/issues/2341)) ([4d068a9](https://github.com/gravity-ui/uikit/commit/4d068a9d2bf6390970c904e15bb646ddc7438e1a))
+* fix reduced motion behavior ([#2332](https://github.com/gravity-ui/uikit/issues/2332)) ([8075214](https://github.com/gravity-ui/uikit/commit/80752145ce50d914c208b47f551b6a8577534f3d))
+* **HelpMark:** fix alignment inside bigger texts ([#2339](https://github.com/gravity-ui/uikit/issues/2339)) ([f40da24](https://github.com/gravity-ui/uikit/commit/f40da2404c4f77332d65ff3823aa5a109d3ea61c))
+* **Modal:** fix transition and overflow styles ([#2333](https://github.com/gravity-ui/uikit/issues/2333)) ([bd1b5ba](https://github.com/gravity-ui/uikit/commit/bd1b5ba8b8529dd349124e0be642e9a47324a1a6))
+
 ## [7.16.2](https://github.com/gravity-ui/uikit/compare/v7.16.1...v7.16.2) (2025-06-28)
 
 

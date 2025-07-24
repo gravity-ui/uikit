@@ -27,6 +27,10 @@ $block: '.#{variables.$ns}skeleton';
                 var(--g-color-base-generic)
             );
             animation: #{variables.$ns}skeleton 1.2s ease-out infinite;
+
+            @media (prefers-reduced-motion: reduce) {
+                animation: none;
+            }
         }
     }
 

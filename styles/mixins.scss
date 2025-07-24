@@ -328,6 +328,10 @@
 
     // stylelint-disable-next-line no-unknown-animations
     animation: g-loading-animation 0.5s linear infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+        animation: none;
+    }
 }
 
 @mixin scrollbar() {

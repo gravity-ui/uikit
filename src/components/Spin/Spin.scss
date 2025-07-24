@@ -7,6 +7,10 @@ $block: '.#{variables.$ns}spin';
     backface-visibility: hidden;
     animation: #{variables.$ns}spin 1s linear infinite;
 
+    @media (prefers-reduced-motion: reduce) {
+        animation: none;
+    }
+
     &__inner {
         box-sizing: border-box;
         height: 100%;

@@ -41,18 +41,3 @@
 :root:has(body.g-root_theme_dark-hc) {
     color-scheme: dark;
 }
-
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        /* stylelint-disable-next-line declaration-no-important */
-        scroll-behavior: auto !important;
-        /* stylelint-disable-next-line declaration-no-important */
-        transition-duration: 0.001ms !important;
-        /* stylelint-disable-next-line declaration-no-important */
-        animation-duration: 0.001ms !important;
-        /* stylelint-disable-next-line declaration-no-important */
-        animation-iteration-count: 1 !important;
-    }
-}

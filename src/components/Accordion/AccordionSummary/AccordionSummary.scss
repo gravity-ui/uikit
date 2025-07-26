@@ -1,0 +1,43 @@
+@use '../../variables';
+@use '../../../../styles/mixins';
+
+$block: '.#{variables.$ns}accordion-summary';
+
+@mixin accordion-item-trigger-header($size) {
+    #{$block}__trigger {
+        @if $size == 's' or $size == 'm' {
+            @include mixins.text-subheader-1();
+        }
+        @if $size == 'l' or $size == 'xl' {
+            @include mixins.text-subheader-2();
+        }
+    }
+}
+
+#{$block} {
+    &_size_s {
+        padding: var(--g-spacing-1) var(--g-spacing-3);
+        @include accordion-item-trigger-header('s');
+    }
+
+    &_size_m {
+        padding: var(--g-spacing-2) var(--g-spacing-4);
+        @include accordion-item-trigger-header('m');
+    }
+
+    &_size_l {
+        padding: var(--g-spacing-3) var(--g-spacing-5);
+        @include accordion-item-trigger-header('l');
+    }
+
+    &_size_xl {
+        padding: var(--g-spacing-5) var(--g-spacing-5);
+        @include accordion-item-trigger-header('xl');
+    }
+
+    &__trigger {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+}

@@ -29,7 +29,7 @@ $block: '.#{variables.$ns}drawer';
         background-color: var(--g-color-base-background);
         pointer-events: initial;
         box-shadow: var(--_--item-shadow, none);
-        z-index: var(--g-drawer-item-z-index);
+        z-index: var(--g-drawer-item-z-index, 110);
 
         &_direction_right {
             inset-inline: auto 0;
@@ -184,12 +184,12 @@ $block: '.#{variables.$ns}drawer';
 
         &_direction_right {
             inset-inline-start: 0;
-            inset-block-start: var(--g-drawer-item-top-offset, 0);
+            inset-block-start: var(--gn-top-alert-height, 0);
         }
 
         &_direction_left {
             inset-inline-end: 0;
-            inset-block-start: var(--g-drawer-item-top-offset, 0);
+            inset-block-start: var(--gn-top-alert-height, 0);
         }
 
         &_direction_top {

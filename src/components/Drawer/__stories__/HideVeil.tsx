@@ -28,7 +28,6 @@ export function HideVeilShowcase() {
                 <Drawer
                     className={b('drawer')}
                     hideVeil={hideVeil}
-                    disablePortal
                     onVeilClick={() => setVisible(false)}
                 >
                     <DrawerItem id="item" className={b('item')} direction="right" visible={visible}>

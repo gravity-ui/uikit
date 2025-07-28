@@ -32,7 +32,7 @@ export function ScrollLockShowcase() {
                 <Drawer
                     className={b('drawer')}
                     hideVeil={true}
-                    disablePortal={false}
+                    usePortal
                     scrollLock={scrollLock}
                     onVeilClick={() => setVisible(false)}
                 >

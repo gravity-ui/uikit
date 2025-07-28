@@ -39,12 +39,7 @@ export function ResizableItemShowcase() {
             </div>
             <div className={b('container')}>
                 <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. In, quidem.</p>
-                <Drawer
-                    qa="drawer"
-                    className={b('drawer')}
-                    disablePortal
-                    onVeilClick={() => setVisible(false)}
-                >
+                <Drawer qa="drawer" className={b('drawer')} onVeilClick={() => setVisible(false)}>
                     <DrawerItem
                         id="item"
                         qa="drawer-item"

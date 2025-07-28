@@ -7,7 +7,7 @@ import {useForkRef} from '../../hooks';
 import {Portal} from '../Portal';
 import {block} from '../utils/cn';
 
-import {useResizableDrawerItem, useScrollLock} from './utils';
+import {useIsSomeItemVisible, useResizableDrawerItem, useScrollLock} from './utils';
 import type {DrawerDirection, OnResizeContinueHandler, OnResizeHandler} from './utils';
 
 import './Drawer.scss';
@@ -171,7 +171,7 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
     },
 );
 
-type DrawerChild = React.ReactElement<DrawerItemProps>;
+export type DrawerChild = React.ReactElement<DrawerItemProps>;
 
 export interface DrawerProps {
     /** Child components to be rendered within the drawer. This can be a single child or an array of children. */
@@ -195,8 +195,11 @@ export interface DrawerProps {
     /** Optional flag to hide the background darkening */
     hideVeil?: boolean;
 
-    /** Optional flag to doesn't use `Portal` for drawer */
-    disablePortal?: boolean;
+    /**
+     * Optional flag to use `Portal` for drawer
+     * @default false
+     */
+    usePortal?: boolean;
 
     /**
      * Keep child components mounted when closed
@@ -206,7 +209,7 @@ export interface DrawerProps {
 
     /**
      * Whether to lock page scroll when drawer is open.
-     * Applied only when hideVeil=true and disablePortal=false.
+     * Applied only when hideVeil=true and usePortal=true.
      * @default false
      */
     scrollLock?: boolean;
@@ -223,20 +226,12 @@ export const Drawer = ({
     onVeilClick,
     onEscape,
     hideVeil,
-    disablePortal = true,
+    usePortal = false,
     keepMounted = false,
     scrollLock = false,
     qa,
 }: DrawerProps) => {
-    let someItemVisible = false;
-    React.Children.forEach(children, (child) => {
-        if (React.isValidElement<DrawerItemProps>(child) && child.type === DrawerItem) {
-            const childVisible = Boolean(child.props.visible);
-            if (childVisible) {
-                someItemVisible = true;
-            }
-        }
-    });
+    const someItemVisible = useIsSomeItemVisible(children);
 
     React.useEffect(() => {
         const onKeyDown = (event: KeyboardEvent) => {
@@ -255,7 +250,7 @@ export const Drawer = ({
     const containerRef = React.useRef<HTMLDivElement>(null);
     const veilRef = React.useRef<HTMLDivElement>(null);
 
-    const shouldApplyScrollLock = scrollLock && someItemVisible && hideVeil && !disablePortal;
+    const shouldApplyScrollLock = Boolean(scrollLock && someItemVisible && hideVeil && usePortal);
     useScrollLock(shouldApplyScrollLock);
 
     return (
@@ -307,7 +302,7 @@ export const Drawer = ({
                     </div>
                 );
 
-                if (disablePortal) {
+                if (!usePortal) {
                     return content;
                 }
 

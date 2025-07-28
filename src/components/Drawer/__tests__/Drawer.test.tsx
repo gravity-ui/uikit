@@ -1,6 +1,7 @@
 import {render, screen} from '../../../../test-utils/utils';
 import {block} from '../../utils/cn';
-import {Drawer, DrawerItem} from '../Drawer';
+import {Drawer} from '../components/Drawer';
+import {DrawerItem} from '../components/DrawerItem';
 
 const b = block('custom-drawer');
 const qa = 'drawer';

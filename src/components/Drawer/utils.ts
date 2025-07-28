@@ -1,7 +1,8 @@
 import * as React from 'react';
 
-import {DrawerItem} from './Drawer';
-import type {DrawerChild, DrawerItemProps} from './Drawer';
+import type {DrawerChild} from './components/Drawer';
+import {DrawerItem} from './components/DrawerItem';
+import type {DrawerItemProps} from './components/DrawerItem';
 
 export const DRAWER_ITEM_MIN_RESIZE_WIDTH = 200;
 export const DRAWER_ITEM_MAX_RESIZE_WIDTH = 800;

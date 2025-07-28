@@ -114,4 +114,4 @@ The Drawer module consists of two primary components: `Drawer` and `DrawerItem`.
 | `--g-drawer-item-resizer-handle-color-hover` | The color of the resizer handle when the resizer is hovered |     `--g-color-line-generic-hover`      |
 | `--g-drawer-item-resizer-z-index`            | z-index of the resizer element                              |                   100                   |
 | `--g-drawer-veil-z-index`                    | z-index of the veil                                         |                `"auto"`                 |
-| `--g-drawer-item-z-index`                    | z-index of the drawer item                                  |                `"auto"`                 |
+| `--g-drawer-item-z-index`                    | z-index of the drawer item                                  |                   110                   |

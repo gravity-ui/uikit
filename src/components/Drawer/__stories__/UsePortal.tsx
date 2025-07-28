@@ -23,11 +23,7 @@ export function UsePortalShowcase() {
             </div>
             <div className={b('container')}>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, quos!</p>
-                <Drawer
-                    className={b('drawer')}
-                    disablePortal={false}
-                    onVeilClick={() => setVisible(false)}
-                >
+                <Drawer className={b('drawer')} usePortal onVeilClick={() => setVisible(false)}>
                     <DrawerItem id="item" className={b('item')} direction="right" visible={visible}>
                         <div className={b('item-content')}>
                             {Array.from({length: placeholderCount}).map((_, i) => (

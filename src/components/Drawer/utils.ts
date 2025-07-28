@@ -1,5 +1,8 @@
 import * as React from 'react';
 
+import {DrawerItem} from './Drawer';
+import type {DrawerChild, DrawerItemProps} from './Drawer';
+
 export const DRAWER_ITEM_MIN_RESIZE_WIDTH = 200;
 export const DRAWER_ITEM_MAX_RESIZE_WIDTH = 800;
 export const DRAWER_ITEM_INITIAL_RESIZE_WIDTH = 400;
@@ -36,6 +39,22 @@ export function useResizeHandlers({
 }: UseResizeHandlersParams) {
     const startRef = React.useRef(0);
 
+    const handleMove = React.useCallback(
+        (evt: PointerEvent) => {
+            const current = direction === 'horizontal' ? evt.clientX : evt.clientY;
+            onMove(startRef.current - current);
+        },
+        [direction, onMove],
+    );
+
+    const handleUp = React.useCallback(
+        (evt: PointerEvent) => {
+            window.removeEventListener('pointermove', handleMove);
+            onEnd(startRef.current - (direction === 'horizontal' ? evt.clientX : evt.clientY), evt);
+        },
+        [direction, handleMove, onEnd],
+    );
+
     const onPointerDown = React.useCallback(
         (e: React.PointerEvent) => {
             e.preventDefault();
@@ -43,24 +62,18 @@ export function useResizeHandlers({
             startRef.current = axisPos;
             onStart();
 
-            const handleMove = (evt: PointerEvent) => {
-                const current = direction === 'horizontal' ? evt.clientX : evt.clientY;
-                onMove(startRef.current - current);
-            };
-
-            const handleUp = (evt: PointerEvent) => {
-                window.removeEventListener('pointermove', handleMove);
-                onEnd(
-                    startRef.current - (direction === 'horizontal' ? evt.clientX : evt.clientY),
-                    evt,
-                );
-            };
-
             window.addEventListener('pointermove', handleMove);
             window.addEventListener('pointerup', handleUp, {once: true});
         },
-        [onStart, onMove, onEnd, direction],
+        [onStart, direction, handleMove, handleUp],
     );
+
+    React.useEffect(() => {
+        return () => {
+            window.removeEventListener('pointermove', handleMove);
+            window.removeEventListener('pointerup', handleUp);
+        };
+    }, [handleMove, handleUp]);
 
     return {
         onPointerDown,
@@ -148,4 +161,20 @@ export function useResizableDrawerItem(params: UseResizableDrawerItemParams) {
     });
 
     return {resizedWidth: displayWidth, resizerHandlers: handlers, isResizing};
+}
+
+export function useIsSomeItemVisible(children: DrawerChild | DrawerChild[]) {
+    return React.useMemo(() => {
+        let someItemVisible = false;
+        React.Children.forEach(children, (child) => {
+            if (React.isValidElement<DrawerItemProps>(child) && child.type === DrawerItem) {
+                const childVisible = Boolean(child.props.visible);
+                if (childVisible) {
+                    someItemVisible = true;
+                }
+            }
+        });
+
+        return someItemVisible;
+    }, [children]);
 }

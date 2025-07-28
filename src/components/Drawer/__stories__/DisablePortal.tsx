@@ -44,7 +44,7 @@ export function DisablePortalShowcase() {
                 <p>Container area for drawer with disablePortal</p>
                 <Drawer
                     className={b('drawer')}
-                    disablePortal={disablePortal}
+                    usePortal={!disablePortal}
                     onVeilClick={() => setVisible(false)}
                 >
                     <DrawerItem

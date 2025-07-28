@@ -4,7 +4,8 @@ import {Button} from '../../Button';
 import {Checkbox} from '../../Checkbox';
 import {SegmentedRadioGroup} from '../../SegmentedRadioGroup';
 import {cn} from '../../utils/cn';
-import {Drawer, DrawerItem} from '../Drawer';
+import {Drawer} from '../components/Drawer';
+import {DrawerItem} from '../components/DrawerItem';
 import type {DrawerDirection} from '../utils';
 
 import {PlaceholderText} from './mock';

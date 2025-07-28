@@ -3,8 +3,9 @@ import * as React from 'react';
 import {Button} from '../../Button';
 import {SegmentedRadioGroup} from '../../SegmentedRadioGroup';
 import {cn} from '../../utils/cn';
-import type {DrawerItemProps} from '../Drawer';
-import {Drawer, DrawerItem} from '../Drawer';
+import {Drawer} from '../components/Drawer';
+import {DrawerItem} from '../components/DrawerItem';
+import type {DrawerItemProps} from '../components/DrawerItem';
 
 import './DrawerShowcase.scss';
 

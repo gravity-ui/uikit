@@ -2,7 +2,8 @@ import * as React from 'react';
 
 import {Button} from '../../Button';
 import {cn} from '../../utils/cn';
-import {Drawer, DrawerItem} from '../Drawer';
+import {Drawer} from '../components/Drawer';
+import {DrawerItem} from '../components/DrawerItem';
 
 import {PlaceholderText} from './mock';
 

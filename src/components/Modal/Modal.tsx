@@ -140,6 +140,8 @@ function ModalComponent({
 }: ModalProps) {
     useLayer({open, type: 'modal'});
 
+    const overlayRef = React.useRef<HTMLDivElement>(null);
+
     const handleOpenChange = React.useCallback<NonNullable<UseFloatingOptions['onOpenChange']>>(
         (isOpen, event, reason) => {
             onOpenChange?.(isOpen, event, reason);
@@ -182,7 +184,18 @@ function ModalComponent({
 
     const dismiss = useDismiss(context, {
         enabled: !disableOutsideClick || !disableEscapeKeyDown,
-        outsidePress: !disableOutsideClick,
+        outsidePress: (event) => {
+            if (disableOutsideClick) {
+                return false;
+            }
+
+            // Prevent closing parent modals if they aren't nested in the React tree
+            if ((event.target as HTMLElement).closest(`.${b()}`) !== overlayRef.current) {
+                return false;
+            }
+
+            return true;
+        },
         escapeKey: !disableEscapeKeyDown,
     });
 
@@ -243,6 +256,7 @@ function ModalComponent({
             {isMounted || keepMounted ? (
                 <Portal container={container} disablePortal={disablePortal}>
                     <FloatingOverlay
+                        ref={overlayRef}
                         style={style}
                         className={b({open}, className)}
                         data-qa={qa}

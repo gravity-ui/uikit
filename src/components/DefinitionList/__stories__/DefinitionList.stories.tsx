@@ -169,6 +169,62 @@ type Story = StoryObj<typeof DefinitionList>;
 
 export const Default: Story = {args: {contentMaxWidth: 480}};
 
-export const ResponsiveList: Story = {args: {responsive: true}};
+/**
+ * @deprecated Use `nameWidth="max"` instead
+ */
+export const ResponsiveList: Story = {
+    args: {responsive: true},
+    parameters: {
+        docs: {
+            description: {
+                story: '⚠️ **Deprecated**: Use `nameWidth="max"` instead. This will be removed in the next major version.',
+            },
+        },
+    },
+};
 
 export const VerticalList: Story = {args: {direction: 'vertical'}};
+
+export const NameWidthMax: Story = {
+    args: {nameWidth: 'max'},
+    parameters: {
+        docs: {
+            description: {
+                story: 'Names grow to fill available space.',
+            },
+        },
+    },
+};
+
+export const DefinitionWidthMax: Story = {
+    args: {definitionWidth: 'max'},
+    parameters: {
+        docs: {
+            description: {
+                story: 'Definitions grow to fill remaining space (most useful for long content).',
+            },
+        },
+    },
+};
+
+export const WithNameMaxWidth: Story = {
+    render: (args) => (
+        <DefinitionList {...args}>
+            <DefinitionList.Item name="Short">
+                Terms are constrained by nameMaxWidth
+            </DefinitionList.Item>
+            <DefinitionList.Item name="Very Long Term Name">
+                Long terms get truncated with overflow hidden
+            </DefinitionList.Item>
+            <DefinitionList.Item name="Mid">Medium length term</DefinitionList.Item>
+        </DefinitionList>
+    ),
+    args: {nameMaxWidth: 120},
+    parameters: {
+        docs: {
+            description: {
+                story: 'Demonstrates how `nameMaxWidth` constrains all terms to the specified width.',
+            },
+        },
+    },
+};

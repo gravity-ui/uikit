@@ -67,4 +67,28 @@ test.describe.skip('DefinitionList', {tag: '@DefinitionList'}, () => {
             });
         });
     });
+
+    createSmokeScenarios<Omit<DefinitionListProps, 'children'>>(
+        {},
+        {
+            nameWidth: ['max'],
+            definitionWidth: ['max'],
+        },
+        {
+            scenarioName: 'width-modifiers',
+        },
+    ).forEach(([title, props]) => {
+        smokeTest(title, async ({mount, expectScreenshot}) => {
+            await mount(
+                <div>
+                    <h4>{title}</h4>
+                    <DefinitionListStories.Default {...props} />
+                </div>,
+            );
+
+            await expectScreenshot({
+                themes: ['light'],
+            });
+        });
+    });
 });

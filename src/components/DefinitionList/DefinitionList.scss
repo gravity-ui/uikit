@@ -52,6 +52,26 @@ $block: '.#{variables.$ns}definition-list';
             flex: 1 0 min-content;
         }
     }
+
+    // Name width modifiers
+    // nameWidth="auto" uses default behavior (no additional CSS needed)
+
+    &_name-width_max {
+        #{$block}__term-container {
+            --_--term-width: auto;
+            flex: 1 0 min-content;
+        }
+    }
+
+    // Definition width modifiers
+    // definitionWidth="auto" uses default behavior (no additional CSS needed)
+
+    &_definition-width_max {
+        #{$block}__definition {
+            flex: 1 1 auto;
+        }
+    }
+
     &_vertical {
         --_--item-block-start: var(--g-spacing-3);
         --_--term-width: auto;

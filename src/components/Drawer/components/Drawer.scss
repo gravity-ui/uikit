@@ -22,8 +22,9 @@ $block: '.#{variables.$ns}drawer';
 
     &__item {
         position: var(--g-drawer-item-position, var(--_--item-position));
-        inset-inline-start: var(--g-drawer-item-left-offset, 0);
-        inset-block: var(--g-drawer-item-top-offset, 0) 0;
+        left: var(--g-drawer-item-left-offset, 0);
+        top: var(--g-drawer-item-top-offset, 0);
+        bottom: 0;
         height: 100%;
         will-change: transform;
         background-color: var(--g-color-base-background);
@@ -32,17 +33,18 @@ $block: '.#{variables.$ns}drawer';
         z-index: var(--g-drawer-item-z-index, 110);
 
         &_direction_right {
-            inset-inline: auto 0;
+            left: auto;
+            right: 0;
         }
 
         &_direction_top {
-            inset-block-end: auto;
-            inset-inline-end: 0;
+            bottom: auto;
+            right: 0;
         }
 
         &_direction_bottom {
-            inset-block-start: auto;
-            inset-inline-end: 0;
+            top: auto;
+            right: 0;
         }
     }
 
@@ -167,7 +169,7 @@ $block: '.#{variables.$ns}drawer';
 
     &__resizer {
         position: absolute;
-        inset-block-start: 0;
+        top: 0;
         z-index: var(--g-drawer-item-resizer-z-index, var(--_--resizer-z-index));
 
         display: flex;
@@ -183,23 +185,24 @@ $block: '.#{variables.$ns}drawer';
         background: var(--g-drawer-item-resizer-color, var(--_--resizer-color));
 
         &_direction_right {
-            inset-inline-start: 0;
-            inset-block-start: var(--gn-top-alert-height, 0);
+            left: 0;
+            top: var(--g-drawer-item-top-offset, 0);
         }
 
         &_direction_left {
-            inset-inline-end: 0;
-            inset-block-start: var(--gn-top-alert-height, 0);
+            right: 0;
+            top: var(--g-drawer-item-top-offset, 0);
         }
 
         &_direction_top {
-            inset-block: unset 0;
-            inset-inline-start: 0;
+            top: unset;
+            left: 0;
+            bottom: 0;
         }
 
         &_direction_bottom {
-            inset-inline-start: 0;
-            inset-block-start: 0;
+            left: 0;
+            top: 0;
         }
 
         &_direction_top,

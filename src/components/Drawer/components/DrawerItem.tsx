@@ -6,7 +6,7 @@ import {useForkRef} from '../../../hooks';
 import {block} from '../../utils/cn';
 import {DRAWER_ANIMATION_DURATION_MS} from '../constants';
 import {useResizableDrawerItem} from '../utils';
-import type {DrawerDirection, OnResizeContinueHandler, OnResizeHandler} from '../utils';
+import type {DrawerDirection, OnResizeHandler} from '../utils';
 
 const b = block('drawer');
 
@@ -20,7 +20,7 @@ export interface DrawerItemProps {
     children?: React.ReactNode;
 
     /** Determines whether the drawer item is visible or hidden. */
-    visible: boolean;
+    visible?: boolean;
 
     /**
      * Specifies the direction from which the drawer should slide in, `left` by default.
@@ -41,7 +41,7 @@ export interface DrawerItemProps {
     width?: number;
 
     /** Called at the start of resizing. */
-    onResizeStart?: VoidFunction;
+    onResizeStart?: OnResizeHandler;
 
     /**
      * Called at the end of resizing. Can be used to save the new width.
@@ -55,7 +55,7 @@ export interface DrawerItemProps {
      * Do not use it to store the new width for DrawerItem `width` prop. Use `onResize` instead.
      * @param width The new width of the drawer item
      */
-    onResizeContinue?: OnResizeContinueHandler;
+    onResizeContinue?: OnResizeHandler;
 
     /** The minimum width of the resizable drawer item */
     minResizeWidth?: number;

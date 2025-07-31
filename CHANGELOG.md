@@ -1,5 +1,20 @@
 # Changelog
 
+## [7.18.0](https://github.com/gravity-ui/uikit/compare/v7.17.0...v7.18.0) (2025-07-31)
+
+
+### Features
+
+* **Popup:** add `--g-popup-border-radius` CSS API ([#2363](https://github.com/gravity-ui/uikit/issues/2363)) ([43de219](https://github.com/gravity-ui/uikit/commit/43de2199d742ba3f79711a5ba48c5449e442cffe))
+
+
+### Bug Fixes
+
+* **Breadcrumbs:** use offsetWidth to measure root element ([#2352](https://github.com/gravity-ui/uikit/issues/2352)) ([5d1b0eb](https://github.com/gravity-ui/uikit/commit/5d1b0ebf1775bf2182df7dfec7a67296f4d30b12))
+* **Button:** raised button has incorrect background color apperance ([#2355](https://github.com/gravity-ui/uikit/issues/2355)) ([7c34534](https://github.com/gravity-ui/uikit/commit/7c3453452a308826d191490d0175425995f6a049))
+* **Modal:** fix closing not nested parent Modals ([#2351](https://github.com/gravity-ui/uikit/issues/2351)) ([f795fbc](https://github.com/gravity-ui/uikit/commit/f795fbce64795d9be627dda6dc6c2d5c772835a6))
+* **Toaster:** add vertical gap for wrapped actions ([#2362](https://github.com/gravity-ui/uikit/issues/2362)) ([58ac8b6](https://github.com/gravity-ui/uikit/commit/58ac8b6848a1f905b837a4bb55b9ff19ac97fe2e))
+
 ## [7.17.0](https://github.com/gravity-ui/uikit/compare/v7.16.2...v7.17.0) (2025-07-18)
 
 

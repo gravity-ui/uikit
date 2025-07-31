@@ -1,16 +1,11 @@
 import * as React from 'react';
 
-import type {DrawerChild} from './components/Drawer';
-import {DrawerItem} from './components/DrawerItem';
-import type {DrawerItemProps} from './components/DrawerItem';
-
 export const DRAWER_ITEM_MIN_RESIZE_WIDTH = 200;
 export const DRAWER_ITEM_MAX_RESIZE_WIDTH = 800;
 export const DRAWER_ITEM_INITIAL_RESIZE_WIDTH = 400;
 
 export type DrawerDirection = 'right' | 'left' | 'top' | 'bottom';
-export type OnResizeHandler = (width: number, event: MouseEvent | TouchEvent) => void;
-export type OnResizeContinueHandler = (width: number) => void;
+export type OnResizeHandler = (width: number) => void;
 
 export function useScrollLock(enabled: boolean) {
     React.useEffect(() => {
@@ -86,9 +81,9 @@ export interface UseResizableDrawerItemParams {
     width?: number;
     minResizeWidth?: number;
     maxResizeWidth?: number;
-    onResizeStart?: VoidFunction;
+    onResizeStart?: OnResizeHandler;
     onResize?: OnResizeHandler;
-    onResizeContinue?: OnResizeContinueHandler;
+    onResizeContinue?: OnResizeHandler;
 }
 
 export function useResizableDrawerItem(params: UseResizableDrawerItemParams) {
@@ -125,8 +120,8 @@ export function useResizableDrawerItem(params: UseResizableDrawerItemParams) {
     const onStart = React.useCallback(() => {
         setIsResizing(true);
         setResizeDelta(0);
-        onResizeStart?.();
-    }, [onResizeStart]);
+        onResizeStart?.(getResizedWidth(0));
+    }, [onResizeStart, getResizedWidth]);
 
     const onMove = React.useCallback(
         (delta: number) => {
@@ -137,14 +132,14 @@ export function useResizableDrawerItem(params: UseResizableDrawerItemParams) {
     );
 
     const onEnd = React.useCallback(
-        (delta: number, event: MouseEvent | TouchEvent) => {
+        (delta: number) => {
             const newWidth = getResizedWidth(delta);
             setIsResizing(false);
             setInternalWidth(newWidth);
 
             const prevWidth = width ?? internalWidth;
             if (newWidth !== prevWidth) {
-                onResize?.(newWidth, event);
+                onResize?.(newWidth);
             }
         },
         [getResizedWidth, onResize, width, internalWidth],
@@ -162,20 +157,4 @@ export function useResizableDrawerItem(params: UseResizableDrawerItemParams) {
     });
 
     return {resizedWidth: displayWidth, resizerHandlers: handlers, isResizing};
-}
-
-export function useIsSomeItemVisible(children: DrawerChild | DrawerChild[]) {
-    return React.useMemo(() => {
-        let someItemVisible = false;
-        React.Children.forEach(children, (child) => {
-            if (React.isValidElement<DrawerItemProps>(child) && child.type === DrawerItem) {
-                const childVisible = Boolean(child.props.visible);
-                if (childVisible) {
-                    someItemVisible = true;
-                }
-            }
-        });
-
-        return someItemVisible;
-    }, [children]);
 }

@@ -72,7 +72,7 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
         if (props.showRoot) {
             const item = listItems.shift();
             if (item) {
-                rootWidth = item.scrollWidth;
+                rootWidth = item.offsetWidth;
                 calculatedWidth += rootWidth;
             }
             newVisibleItemsCount++;

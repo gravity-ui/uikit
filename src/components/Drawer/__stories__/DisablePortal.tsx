@@ -5,7 +5,6 @@ import {Checkbox} from '../../Checkbox';
 import {SegmentedRadioGroup} from '../../SegmentedRadioGroup';
 import {cn} from '../../utils/cn';
 import {Drawer} from '../components/Drawer';
-import {DrawerItem} from '../components/DrawerItem';
 import type {DrawerDirection} from '../utils';
 
 import {PlaceholderText} from './mock';
@@ -47,17 +46,13 @@ export function DisablePortalShowcase() {
                     className={b('drawer')}
                     usePortal={!disablePortal}
                     onVeilClick={() => setVisible(false)}
+                    direction={direction}
+                    contentClassName={b('item', {vertical: ['top', 'bottom'].includes(direction)})}
+                    open={visible}
                 >
-                    <DrawerItem
-                        id="item"
-                        direction={direction}
-                        className={b('item', {vertical: ['top', 'bottom'].includes(direction)})}
-                        visible={visible}
-                    >
-                        <div className={b('item-content')}>
-                            <PlaceholderText />
-                        </div>
-                    </DrawerItem>
+                    <div className={b('item-content')}>
+                        <PlaceholderText />
+                    </div>
                 </Drawer>
             </div>
         </div>

@@ -6,7 +6,8 @@ import {CSSTransition, Transition} from 'react-transition-group';
 import {Portal} from '../../Portal';
 import {block} from '../../utils/cn';
 import {DRAWER_ANIMATION_DURATION_MS} from '../constants';
-import {useIsSomeItemVisible, useScrollLock} from '../utils';
+import {useScrollLock} from '../utils';
+import type {DrawerDirection, OnResizeHandler} from '../utils';
 
 import {DrawerItem} from './DrawerItem';
 import type {DrawerItemProps} from './DrawerItem';
@@ -18,8 +19,36 @@ const b = block('drawer');
 export type DrawerChild = React.ReactElement<DrawerItemProps>;
 
 export interface DrawerProps {
-    /** Child components to be rendered within the drawer. This can be a single child or an array of children. */
-    children: DrawerChild | DrawerChild[];
+    open?: boolean;
+
+    /**
+     * Specifies the direction from which the drawer should slide in, `left` by default.
+     * @default left
+     */
+    direction?: DrawerDirection;
+
+    /** Content to be displayed within the drawer item, preferable over the deprecated `content`. */
+    children?: React.ReactNode;
+
+    contentClassName?: string;
+
+    resizable?: boolean;
+
+    size?: number;
+
+    minSize?: number;
+
+    maxSize?: number;
+
+    onResizeStart?: OnResizeHandler;
+
+    onResize?: OnResizeHandler;
+
+    onResizeEnd?: OnResizeHandler;
+
+    ///////////////////////
+    /////////// ModalProps
+    ///////////////////////
 
     /** Optional additional class names to style the drawer component. */
     className?: string;
@@ -63,9 +92,21 @@ export interface DrawerProps {
 }
 
 export const Drawer = ({
+    open,
+    direction = 'left',
+    children,
+    contentClassName,
+    resizable,
+    size,
+    minSize,
+    maxSize,
+    onResizeStart,
+    onResize,
+    ///////////////////////
+    /////////// ModalProps
+    ///////////////////////
     className,
     veilClassName,
-    children,
     style,
     onVeilClick,
     onEscape,
@@ -75,38 +116,36 @@ export const Drawer = ({
     scrollLock = false,
     qa,
 }: DrawerProps) => {
-    const someItemVisible = useIsSomeItemVisible(children);
-
     React.useEffect(() => {
         const onKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
                 onEscape?.(event);
             }
         };
-        if (someItemVisible) {
+        if (open) {
             window.addEventListener('keydown', onKeyDown);
         }
         return () => {
             window.removeEventListener('keydown', onKeyDown);
         };
-    }, [onEscape, someItemVisible]);
+    }, [onEscape, open]);
 
     const containerRef = React.useRef<HTMLDivElement>(null);
     const veilRef = React.useRef<HTMLDivElement>(null);
 
-    const shouldApplyScrollLock = Boolean(scrollLock && someItemVisible && hideVeil && usePortal);
+    const shouldApplyScrollLock = Boolean(scrollLock && open && hideVeil && usePortal);
     useScrollLock(shouldApplyScrollLock);
 
     return (
         <Transition
-            in={someItemVisible}
+            in={open}
             timeout={{enter: 0, exit: DRAWER_ANIMATION_DURATION_MS}}
             mountOnEnter={!keepMounted}
             unmountOnExit={!keepMounted}
             nodeRef={containerRef}
         >
             {(state) => {
-                const childrenVisible = someItemVisible && state === 'entered';
+                const childrenVisible = open && state === 'entered';
 
                 const content = (
                     <div
@@ -129,20 +168,21 @@ export const Drawer = ({
                                 role="presentation"
                             />
                         </CSSTransition>
-                        {React.Children.map(children, (child) => {
-                            if (
-                                React.isValidElement<DrawerItemProps>(child) &&
-                                child.type === DrawerItem
-                            ) {
-                                const childVisible = Boolean(child.props.visible);
-                                return React.cloneElement(child, {
-                                    keepMounted,
-                                    ...child.props,
-                                    visible: childVisible && childrenVisible,
-                                });
-                            }
-                            return child;
-                        })}
+                        <DrawerItem
+                            id="test"
+                            visible={open && childrenVisible}
+                            keepMounted={keepMounted}
+                            direction={direction}
+                            className={contentClassName}
+                            resizable={resizable}
+                            width={size}
+                            onResize={onResize}
+                            onResizeStart={onResizeStart}
+                            minResizeWidth={minSize}
+                            maxResizeWidth={maxSize}
+                        >
+                            {children}
+                        </DrawerItem>
                     </div>
                 );
 

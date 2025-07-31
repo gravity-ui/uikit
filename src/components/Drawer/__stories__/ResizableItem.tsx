@@ -5,7 +5,6 @@ import {Checkbox} from '../../Checkbox';
 import {SegmentedRadioGroup} from '../../SegmentedRadioGroup';
 import {cn} from '../../utils/cn';
 import {Drawer} from '../components/Drawer';
-import {DrawerItem} from '../components/DrawerItem';
 import type {DrawerDirection} from '../utils';
 
 import {PlaceholderText} from './mock';
@@ -40,25 +39,24 @@ export function ResizableItemShowcase() {
             </div>
             <div className={b('container')}>
                 <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. In, quidem.</p>
-                <Drawer qa="drawer" className={b('drawer')} onVeilClick={() => setVisible(false)}>
-                    <DrawerItem
-                        id="item"
-                        qa="drawer-item"
-                        direction={direction}
-                        className={b('item', {
-                            vertical: ['top', 'bottom'].includes(direction),
-                        })}
-                        visible={visible}
-                        resizable={resizable}
-                        width={width}
-                        onResize={setWidth}
-                        minResizeWidth={300}
-                        maxResizeWidth={800}
-                    >
-                        <div className={b('item-content')}>
-                            <PlaceholderText />
-                        </div>
-                    </DrawerItem>
+                <Drawer
+                    open={visible}
+                    direction={direction}
+                    resizable={resizable}
+                    size={width}
+                    onResize={setWidth}
+                    minSize={300}
+                    maxSize={800}
+                    qa="drawer"
+                    className={b('drawer')}
+                    onVeilClick={() => setVisible(false)}
+                    contentClassName={b('item', {
+                        vertical: ['top', 'bottom'].includes(direction),
+                    })}
+                >
+                    <div className={b('item-content')}>
+                        <PlaceholderText />
+                    </div>
                 </Drawer>
             </div>
         </div>

@@ -4,7 +4,6 @@ import {Button} from '../../Button';
 import {Checkbox} from '../../Checkbox';
 import {cn} from '../../utils/cn';
 import {Drawer} from '../components/Drawer';
-import {DrawerItem} from '../components/DrawerItem';
 
 import {PlaceholderText} from './mock';
 
@@ -27,15 +26,16 @@ export function HideVeilShowcase() {
             <div className={b('container')}>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, quos!</p>
                 <Drawer
+                    open={visible}
+                    direction="right"
                     className={b('drawer')}
                     hideVeil={hideVeil}
                     onVeilClick={() => setVisible(false)}
+                    contentClassName={b('item')}
                 >
-                    <DrawerItem id="item" className={b('item')} direction="right" visible={visible}>
-                        <div className={b('item-content')}>
-                            <PlaceholderText />
-                        </div>
-                    </DrawerItem>
+                    <div className={b('item-content')}>
+                        <PlaceholderText />
+                    </div>
                 </Drawer>
             </div>
         </div>

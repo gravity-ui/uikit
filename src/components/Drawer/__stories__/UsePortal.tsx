@@ -3,7 +3,6 @@ import * as React from 'react';
 import {Button} from '../../Button';
 import {cn} from '../../utils/cn';
 import {Drawer} from '../components/Drawer';
-import {DrawerItem} from '../components/DrawerItem';
 
 import {PlaceholderText} from './mock';
 
@@ -24,22 +23,27 @@ export function UsePortalShowcase() {
             </div>
             <div className={b('container')}>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, quos!</p>
-                <Drawer className={b('drawer')} usePortal onVeilClick={() => setVisible(false)}>
-                    <DrawerItem id="item" className={b('item')} direction="right" visible={visible}>
-                        <div className={b('item-content')}>
-                            {Array.from({length: placeholderCount}).map((_, i) => (
-                                <div key={i}>
-                                    <PlaceholderText />
-                                </div>
-                            ))}
-                            <Button
-                                view="action"
-                                onClick={() => setPlaceholderCount((prev) => prev + 1)}
-                            >
-                                Add text block
-                            </Button>
-                        </div>
-                    </DrawerItem>
+                <Drawer
+                    open={visible}
+                    direction="right"
+                    contentClassName={b('item')}
+                    className={b('drawer')}
+                    usePortal
+                    onVeilClick={() => setVisible(false)}
+                >
+                    <div className={b('item-content')}>
+                        {Array.from({length: placeholderCount}).map((_, i) => (
+                            <div key={i}>
+                                <PlaceholderText />
+                            </div>
+                        ))}
+                        <Button
+                            view="action"
+                            onClick={() => setPlaceholderCount((prev) => prev + 1)}
+                        >
+                            Add text block
+                        </Button>
+                    </div>
                 </Drawer>
             </div>
         </div>

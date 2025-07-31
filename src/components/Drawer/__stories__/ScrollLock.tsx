@@ -4,7 +4,6 @@ import {Button} from '../../Button';
 import {Checkbox} from '../../Checkbox';
 import {cn} from '../../utils/cn';
 import {Drawer} from '../components/Drawer';
-import {DrawerItem} from '../components/DrawerItem';
 
 import {PlaceholderText} from './mock';
 
@@ -31,17 +30,18 @@ export function ScrollLockShowcase() {
                     </p>
                 ))}
                 <Drawer
+                    open={visible}
+                    direction="right"
+                    contentClassName={b('item')}
                     className={b('drawer')}
                     hideVeil={true}
                     usePortal
                     scrollLock={scrollLock}
                     onVeilClick={() => setVisible(false)}
                 >
-                    <DrawerItem id="item" className={b('item')} direction="right" visible={visible}>
-                        <div className={b('item-content')}>
-                            <PlaceholderText />
-                        </div>
-                    </DrawerItem>
+                    <div className={b('item-content')}>
+                        <PlaceholderText />
+                    </div>
                 </Drawer>
             </div>
         </div>

@@ -43,19 +43,14 @@ export interface DrawerItemProps {
     /** Called at the start of resizing. */
     onResizeStart?: OnResizeHandler;
 
+    /** Called at the end of resizing. */
+    onResizeEnd?: OnResizeHandler;
+
     /**
      * Called at the end of resizing. Can be used to save the new width.
      * @param width The new width of the drawer item
-     * @param event The original event
      */
     onResize?: OnResizeHandler;
-
-    /**
-     * Callback function called each time when the drawer item is resizing.
-     * Do not use it to store the new width for DrawerItem `width` prop. Use `onResize` instead.
-     * @param width The new width of the drawer item
-     */
-    onResizeContinue?: OnResizeHandler;
 
     /** The minimum width of the resizable drawer item */
     minResizeWidth?: number;
@@ -88,7 +83,7 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
             minResizeWidth,
             maxResizeWidth,
             onResizeStart,
-            onResizeContinue,
+            onResizeEnd,
             onResize,
             keepMounted = false,
             style = {},
@@ -101,14 +96,14 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
 
         const cssDirection = direction === 'left' ? undefined : direction;
 
-        const {resizedWidth, resizerHandlers, isResizing} = useResizableDrawerItem({
+        const {resizedWidth, onResizerPointerDown, isResizing} = useResizableDrawerItem({
             direction,
             width,
             minResizeWidth,
             maxResizeWidth,
             onResizeStart,
+            onResizeEnd,
             onResize,
-            onResizeContinue,
         });
 
         const innerStyle = React.useMemo(() => {
@@ -128,9 +123,12 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
             setInitialRender(true);
         }, [direction]);
 
-        const currentResizerHandlers = visible && resizable ? resizerHandlers : {};
         const resizerElement = resizable ? (
-            <div className={b('resizer', {direction})} {...currentResizerHandlers}>
+            <div
+                className={b('resizer', {direction})}
+                onPointerDown={visible && resizable ? onResizerPointerDown : undefined}
+                role="presentation"
+            >
                 <div className={b('resizer-handle', {direction})} />
             </div>
         ) : null;

@@ -85,9 +85,9 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
             onResizeStart,
             onResizeEnd,
             onResize,
-            keepMounted = false,
             style = {},
             qa,
+            ...rest
         } = props;
 
         const [isInitialRender, setInitialRender] = React.useState(true);
@@ -134,34 +134,24 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
         ) : null;
 
         return (
-            <CSSTransition
-                in={visible}
-                timeout={DRAWER_ANIMATION_DURATION_MS}
-                mountOnEnter={!keepMounted}
-                unmountOnExit={!keepMounted}
-                classNames={b('item-transition', {direction: cssDirection})}
-                nodeRef={itemRef}
-                onEnter={() => setInitialRender(false)}
-                onExit={() => setInitialRender(false)}
+            <div
+                ref={handleRef}
+                className={b(
+                    'item',
+                    {
+                        direction: cssDirection,
+                        hidden: isInitialRender && !visible,
+                        resize: isResizing,
+                    },
+                    [className],
+                )}
+                style={innerStyle}
+                data-qa={qa}
+                {...rest}
             >
-                <div
-                    ref={handleRef}
-                    className={b(
-                        'item',
-                        {
-                            direction: cssDirection,
-                            hidden: isInitialRender && !visible,
-                            resize: isResizing,
-                        },
-                        [className],
-                    )}
-                    style={innerStyle}
-                    data-qa={qa}
-                >
-                    {resizerElement}
-                    {children}
-                </div>
-            </CSSTransition>
+                {resizerElement}
+                {children}
+            </div>
         );
     },
 );

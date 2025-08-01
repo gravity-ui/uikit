@@ -47,12 +47,22 @@ $block: '.#{variables.$ns}drawer';
             right: 0;
         }
     }
+    
+    &[data-floating-ui-status='unmounted'] &__item {
+        visibility: hidden;
+    }
+
+    &[data-floating-ui-status='open'] &__item,
+    &[data-floating-ui-status='close'] &__item {
+        transition: transform 300ms;
+    }
 
     &__item-transition-enter {
         transform: translate(-100%, 0);
     }
 
-    &__item-transition_direction_right-enter {
+    &[data-floating-ui-status='initial'] &__item_direction_right,
+    &[data-floating-ui-status='close'] &__item_direction_right {
         transform: translate(100%, 0);
     }
 
@@ -99,24 +109,12 @@ $block: '.#{variables.$ns}drawer';
         transform: translate(-100%, 0);
     }
 
-    &__item-transition_direction_right-exit-active {
-        transform: translate(100%, 0);
-    }
-
     &__item-transition_direction_top-exit-active {
         transform: translate(0, -100%);
     }
 
     &__item-transition_direction_bottom-exit-active {
         transform: translate(0, 100%);
-    }
-
-    &__item-transition-exit-done,
-    &__item-transition_direction_right-exit-done,
-    &__item-transition_direction_top-exit-done,
-    &__item-transition_direction_bottom-exit-done,
-    &__item_hidden {
-        visibility: hidden;
     }
 
     &__veil {
@@ -131,26 +129,21 @@ $block: '.#{variables.$ns}drawer';
         }
     }
 
-    &__veil-transition-enter {
-        opacity: 0;
-    }
-
-    &__veil-transition-enter-active {
-        opacity: 1;
+    &[data-floating-ui-status='open'] &__veil,
+    &[data-floating-ui-status='close'] &__veil {
         transition: opacity 300ms;
     }
 
-    &__veil-transition-exit {
-        opacity: 1;
-    }
-
-    &__veil-transition-exit-active {
-        opacity: 0;
-        transition: opacity 300ms;
-    }
-
-    &__veil-transition-exit-done {
+    &[data-floating-ui-status='unmounted'] &__veil {
         visibility: hidden;
+    }
+
+    &[data-floating-ui-status='close'] &__veil {
+        opacity: 0;
+    }
+
+    &[data-floating-ui-status='open'] &__veil {
+        opacity: 1;
     }
 
     &__resizer-handle {

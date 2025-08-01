@@ -37,6 +37,7 @@ interface Props {
     showCloseIcon: boolean;
     setTimeout: boolean;
     allowAutoHiding: boolean;
+    animation: 'default' | 'alternate';
     setTitle: boolean;
     setContent: boolean;
     setActions: boolean;
@@ -51,6 +52,7 @@ export const ToasterDemo = ({
     showCloseIcon,
     setTimeout,
     allowAutoHiding,
+    animation,
     setTitle,
     setContent,
     setActions,
@@ -388,7 +390,10 @@ export const ToasterDemo = ({
         </Button>
     );
 
-    const component = React.useMemo(() => <ToasterComponent />, []);
+    const component = React.useMemo(
+        () => <ToasterComponent alternateAnimationFunction={animation === 'alternate'} />,
+        [animation],
+    );
 
     return (
         <React.Fragment>

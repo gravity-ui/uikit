@@ -32,14 +32,16 @@ const views: ButtonView[] = [
     'contrast-dark',
 ];
 
-function viewSelect(name: string) {
+function selectControl<T>(name: string, options: T[]) {
     return {
         name,
         control: 'select' as const,
-        defaultValue: 'outlined',
-        options: views,
-        if: {arg: 'setActions'},
+        options,
     };
+}
+
+function viewSelect(name: string) {
+    return {...selectControl(name, views), defaultValue: 'outlined', if: {arg: 'setActions'}};
 }
 
 const disabledControl = {
@@ -96,6 +98,7 @@ export const Default: Story = {
         allowAutoHiding: booleanControl('Allow auto hiding'),
         setTitle: booleanControl('Add title'),
         setContent: booleanControl('Add content'),
+        animation: selectControl('Animation', ['default', 'alternate']),
         setActions: booleanControl('Add action'),
         action1View: viewSelect('Action 1 view'),
         action2View: viewSelect('Action 2 view'),
@@ -124,6 +127,7 @@ export const ToastPlayground: Story = {
         actions: faker.helpers.uniqueArray(getAction, faker.number.int({min: 1, max: 2})),
     },
     argTypes: {
+        animation: selectControl('Animation', ['default', 'alternate']),
         name: disabledControl,
         addedAt: disabledControl,
         renderIcon: disabledControl,
@@ -146,6 +150,7 @@ export const ToastPlayground: Story = {
             <ToasterComponent
                 mobile={args.mobile}
                 hasPortal={context.globals.screenshotTests !== true}
+                alternateAnimationFunction={args.animation === 'alternate'}
             />
         );
     },

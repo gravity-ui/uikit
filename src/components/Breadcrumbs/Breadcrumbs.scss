@@ -23,6 +23,7 @@ $block: '.#{variables.$ns}breadcrumbs';
         color: var(--g-color-text-primary);
 
         &_current {
+            box-sizing: content-box;
             font-weight: var(--g-text-accent-font-weight);
             overflow: hidden;
             margin: -2px;

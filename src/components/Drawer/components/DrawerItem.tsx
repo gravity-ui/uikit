@@ -1,10 +1,7 @@
 import * as React from 'react';
 
-import {CSSTransition} from 'react-transition-group';
-
 import {useForkRef} from '../../../hooks';
 import {block} from '../../utils/cn';
-import {DRAWER_ANIMATION_DURATION_MS} from '../constants';
 import {useResizableDrawerItem} from '../utils';
 import type {DrawerDirection, OnResizeHandler} from '../utils';
 
@@ -66,9 +63,6 @@ export interface DrawerItemProps {
 
     /** Optional inline styles to be applied to the DrawerItem component. */
     style?: React.CSSProperties;
-
-    /** `data-qa` HTML attribute, used for testing. */
-    qa?: string;
 }
 
 export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
@@ -86,7 +80,6 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
             onResizeEnd,
             onResize,
             style = {},
-            qa,
             ...rest
         } = props;
 
@@ -146,7 +139,6 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
                     [className],
                 )}
                 style={innerStyle}
-                data-qa={qa}
                 {...rest}
             >
                 {resizerElement}

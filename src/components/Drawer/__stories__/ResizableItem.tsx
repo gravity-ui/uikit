@@ -44,7 +44,7 @@ export function ResizableItemShowcase() {
                     direction={direction}
                     resizable={resizable}
                     size={width}
-                    onResize={setWidth}
+                    onResizeEnd={setWidth}
                     minSize={300}
                     maxSize={800}
                     qa="drawer"

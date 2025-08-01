@@ -101,6 +101,7 @@ export const Drawer = ({
     minSize,
     maxSize,
     onResizeStart,
+    onResizeEnd,
     onResize,
     ///////////////////////
     /////////// ModalProps
@@ -178,6 +179,7 @@ export const Drawer = ({
                             width={size}
                             onResize={onResize}
                             onResizeStart={onResizeStart}
+                            onResizeEnd={onResizeEnd}
                             minResizeWidth={minSize}
                             maxResizeWidth={maxSize}
                         >

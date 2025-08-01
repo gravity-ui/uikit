@@ -1,12 +1,22 @@
 import * as React from 'react';
 
-import {FloatingOverlay} from '@floating-ui/react';
-import {CSSTransition, Transition} from 'react-transition-group';
+import {
+    FloatingFocusManager,
+    FloatingNode,
+    FloatingOverlay,
+    useDismiss,
+    useFloating,
+    useFloatingNodeId,
+    useInteractions,
+    useRole,
+} from '@floating-ui/react';
+import type {FloatingFocusManagerProps, OpenChangeReason} from '@floating-ui/react';
 
+import {useForkRef} from '../../../hooks';
+import {useFloatingTransition} from '../../../hooks/private/useFloatingTransition';
 import {Portal} from '../../Portal';
 import {block} from '../../utils/cn';
 import {DRAWER_ANIMATION_DURATION_MS} from '../constants';
-import {useScrollLock} from '../utils';
 import type {DrawerDirection, OnResizeHandler} from '../utils';
 
 import {DrawerItem} from './DrawerItem';
@@ -20,6 +30,8 @@ export type DrawerChild = React.ReactElement<DrawerItemProps>;
 
 export interface DrawerProps {
     open?: boolean;
+
+    onOpenChange?: (open: boolean, event?: Event, reason?: OpenChangeReason) => void;
 
     /**
      * Specifies the direction from which the drawer should slide in, `left` by default.
@@ -46,9 +58,11 @@ export interface DrawerProps {
 
     onResizeEnd?: OnResizeHandler;
 
-    ///////////////////////
-    /////////// ModalProps
-    ///////////////////////
+    /** Optional additional class names to style the background veil element. */
+    veilClassName?: string;
+
+    /** `data-qa` HTML attribute, used for testing. */
+    qa?: string;
 
     /** Optional additional class names to style the drawer component. */
     className?: string;
@@ -56,23 +70,38 @@ export interface DrawerProps {
     /** Optional inline styles to be applied to the drawer component. */
     style?: React.CSSProperties;
 
-    /** Optional additional class names to style the background veil element. */
-    veilClassName?: string;
+    /** Do not dismiss on escape key press */
+    disableEscapeKeyDown?: boolean;
 
-    /** Optional callback function that is called when the veil (overlay) is clicked. */
-    onVeilClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+    /** Do not dismiss on outside click */
+    disableOutsideClick?: boolean;
 
-    /** Optional callback function that is called when the escape key is pressed if the drawer is open. */
-    onEscape?: (event: KeyboardEvent) => void;
-
-    /** Optional flag to hide the background darkening */
-    hideVeil?: boolean;
+    disableBodyScrollLock?: boolean;
 
     /**
-     * Optional flag to use `Portal` for drawer
-     * @default false
+     * FloatingFocusManager `initialFocus` property
      */
-    usePortal?: boolean;
+    initialFocus?: FloatingFocusManagerProps['initialFocus'];
+    /**
+     * FloatingFocusManager `returnFocus` property
+     */
+    returnFocus?: FloatingFocusManagerProps['returnFocus'];
+
+    /** Do not add a11y dismiss buttons when managing focus */
+    disableVisuallyHiddenDismiss?: boolean;
+
+    /** Callback called when `Modal` is opened and "in" transition is started */
+    onTransitionIn?: () => void;
+    /** Callback called when `Modal` is opened and "in" transition is completed */
+    onTransitionInComplete?: () => void;
+    /** Callback called when `Modal` is closed and "out" transition is started */
+    onTransitionOut?: () => void;
+    /** Callback called when `Popup` is closed and "out" transition is completed */
+    onTransitionOutComplete?: () => void;
+
+    floatingRef?: React.RefObject<HTMLDivElement>;
+
+    disablePortal?: boolean;
 
     /**
      * Keep child components mounted when closed
@@ -80,19 +109,13 @@ export interface DrawerProps {
      */
     keepMounted?: boolean;
 
-    /**
-     * Whether to lock page scroll when drawer is open.
-     * Applied only when hideVeil=true and usePortal=true.
-     * @default false
-     */
-    scrollLock?: boolean;
-
-    /** `data-qa` HTML attribute, used for testing. */
-    qa?: string;
+    /** Optional flag to hide the background darkening */
+    hideVeil?: boolean;
 }
 
 export const Drawer = ({
     open,
+    onOpenChange,
     direction = 'left',
     children,
     contentClassName,
@@ -103,106 +126,112 @@ export const Drawer = ({
     onResizeStart,
     onResizeEnd,
     onResize,
-    ///////////////////////
-    /////////// ModalProps
-    ///////////////////////
-    className,
     veilClassName,
+    className,
     style,
-    onVeilClick,
-    onEscape,
-    hideVeil,
-    usePortal = false,
-    keepMounted = false,
-    scrollLock = false,
     qa,
+    disableEscapeKeyDown,
+    disableOutsideClick,
+    initialFocus,
+    returnFocus,
+    disableBodyScrollLock,
+    disableVisuallyHiddenDismiss,
+    onTransitionIn,
+    onTransitionInComplete,
+    onTransitionOut,
+    onTransitionOutComplete,
+    floatingRef,
+    disablePortal,
+    hideVeil,
+    keepMounted = false,
 }: DrawerProps) => {
-    React.useEffect(() => {
-        const onKeyDown = (event: KeyboardEvent) => {
-            if (event.key === 'Escape') {
-                onEscape?.(event);
-            }
-        };
-        if (open) {
-            window.addEventListener('keydown', onKeyDown);
-        }
-        return () => {
-            window.removeEventListener('keydown', onKeyDown);
-        };
-    }, [onEscape, open]);
+    const floatingNodeId = useFloatingNodeId();
 
-    const containerRef = React.useRef<HTMLDivElement>(null);
+    const handleOpenChange = React.useCallback(
+        (isOpen: boolean, event?: Event, reason?: OpenChangeReason) => {
+            onOpenChange?.(isOpen, event, reason);
+        },
+        [onOpenChange],
+    );
+
+    const {refs, context} = useFloating({
+        nodeId: floatingNodeId,
+        open,
+        onOpenChange: handleOpenChange,
+    });
+
+    const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
+
+    const dismiss = useDismiss(context, {
+        enabled: !disableOutsideClick || !disableEscapeKeyDown,
+        outsidePress: !disableOutsideClick,
+        escapeKey: !disableEscapeKeyDown,
+    });
+
+    const role = useRole(context, {role: 'dialog'});
+    const {getFloatingProps} = useInteractions([dismiss, role]);
+
+    const {isMounted, status} = useFloatingTransition({
+        context,
+        duration: DRAWER_ANIMATION_DURATION_MS,
+        onTransitionIn,
+        onTransitionInComplete,
+        onTransitionOut,
+        onTransitionOutComplete,
+    });
+
     const veilRef = React.useRef<HTMLDivElement>(null);
 
-    const shouldApplyScrollLock = Boolean(scrollLock && open && hideVeil && usePortal);
-    useScrollLock(shouldApplyScrollLock);
+    // const shouldApplyScrollLock = Boolean(scrollLock && open && hideVeil && usePortal);
+    // useScrollLock(shouldApplyScrollLock);
+
+    const content = (
+        <FloatingFocusManager
+            context={context}
+            disabled={!isMounted}
+            modal={isMounted}
+            initialFocus={initialFocus ?? refs.floating}
+            returnFocus={returnFocus}
+            visuallyHiddenDismiss={disableVisuallyHiddenDismiss ? false : 'Close'}
+            restoreFocus={true}
+        >
+            <FloatingOverlay
+                style={style}
+                className={b({open, hideVeil}, className)}
+                data-qa={qa}
+                data-floating-ui-status={status}
+                lockScroll={!disableBodyScrollLock}
+            >
+                <div
+                    ref={veilRef}
+                    className={b('veil', {hidden: hideVeil}, veilClassName)}
+                    role="presentation"
+                />
+                <DrawerItem
+                    id="test"
+                    ref={handleFloatingRef}
+                    visible={open}
+                    keepMounted={keepMounted}
+                    direction={direction}
+                    className={contentClassName}
+                    resizable={resizable}
+                    width={size}
+                    onResize={onResize}
+                    onResizeStart={onResizeStart}
+                    onResizeEnd={onResizeEnd}
+                    minResizeWidth={minSize}
+                    maxResizeWidth={maxSize}
+                    {...getFloatingProps()}
+                >
+                    {children}
+                </DrawerItem>
+            </FloatingOverlay>
+        </FloatingFocusManager>
+    );
 
     return (
-        <Transition
-            in={open}
-            timeout={{enter: 0, exit: DRAWER_ANIMATION_DURATION_MS}}
-            mountOnEnter={!keepMounted}
-            unmountOnExit={!keepMounted}
-            nodeRef={containerRef}
-        >
-            {(state) => {
-                const childrenVisible = open && state === 'entered';
-
-                const content = (
-                    <div
-                        ref={containerRef}
-                        className={b({hideVeil}, className)}
-                        style={style}
-                        data-qa={qa}
-                    >
-                        <CSSTransition
-                            in={childrenVisible}
-                            timeout={DRAWER_ANIMATION_DURATION_MS}
-                            unmountOnExit
-                            classNames={b('veil-transition')}
-                            nodeRef={veilRef}
-                        >
-                            <div
-                                ref={veilRef}
-                                className={b('veil', {hidden: hideVeil}, veilClassName)}
-                                onClick={onVeilClick}
-                                role="presentation"
-                            />
-                        </CSSTransition>
-                        <DrawerItem
-                            id="test"
-                            visible={open && childrenVisible}
-                            keepMounted={keepMounted}
-                            direction={direction}
-                            className={contentClassName}
-                            resizable={resizable}
-                            width={size}
-                            onResize={onResize}
-                            onResizeStart={onResizeStart}
-                            onResizeEnd={onResizeEnd}
-                            minResizeWidth={minSize}
-                            maxResizeWidth={maxSize}
-                        >
-                            {children}
-                        </DrawerItem>
-                    </div>
-                );
-
-                if (!usePortal) {
-                    return content;
-                }
-
-                // When hideVeil=true, we don't use FloatingOverlay to avoid blocking mouse events
-                if (hideVeil) {
-                    return <Portal>{content}</Portal>;
-                }
-
-                return (
-                    <Portal>
-                        <FloatingOverlay lockScroll={true}>{content}</FloatingOverlay>
-                    </Portal>
-                );
-            }}
-        </Transition>
+        <FloatingNode id={floatingNodeId}>
+            <Portal disablePortal={disablePortal}>{content}</Portal>
+        </FloatingNode>
     );
 };

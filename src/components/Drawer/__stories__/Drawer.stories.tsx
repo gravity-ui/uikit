@@ -1,7 +1,6 @@
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {DisablePortalShowcase} from './DisablePortal';
-import {DrawerShowcase} from './DrawerShowcase';
 import {HideVeilShowcase} from './HideVeil';
 import {ResizableItemShowcase} from './ResizableItem';
 import {ScrollLockShowcase} from './ScrollLock';
@@ -9,11 +8,8 @@ import {UsePortalShowcase} from './UsePortal';
 
 export default {
     title: 'Components/Overlays/Drawer',
-    component: DrawerShowcase,
+    component: ResizableItemShowcase,
 } as Meta;
-
-const ShowcaseTemplate: StoryFn = () => <DrawerShowcase />;
-export const Showcase = ShowcaseTemplate.bind({});
 
 const ResizableItemTemplate: StoryFn = () => <ResizableItemShowcase />;
 export const ResizableItem = ResizableItemTemplate.bind({});

@@ -10,7 +10,9 @@ import {
     useInteractions,
     useRole,
 } from '@floating-ui/react';
-import type {FloatingFocusManagerProps, OpenChangeReason} from '@floating-ui/react';
+import type {OpenChangeReason} from '@floating-ui/react';
+
+import type {ModalProps} from 'src/components/Modal';
 
 import {useForkRef} from '../../../hooks';
 import {useFloatingTransition} from '../../../hooks/private/useFloatingTransition';
@@ -28,21 +30,20 @@ const b = block('drawer');
 
 export type DrawerChild = React.ReactElement<DrawerItemProps>;
 
-export interface DrawerProps {
-    open?: boolean;
-
-    onOpenChange?: (open: boolean, event?: Event, reason?: OpenChangeReason) => void;
-
+export interface DrawerProps
+    extends Omit<
+        ModalProps,
+        | 'disableHeightTransition'
+        | 'onClose'
+        | 'onEscapeKeyDown'
+        | 'onEnterKeyDown'
+        | 'onOutsideClick'
+    > {
     /**
      * Specifies the direction from which the drawer should slide in, `left` by default.
      * @default left
      */
     direction?: DrawerDirection;
-
-    /** Content to be displayed within the drawer item, preferable over the deprecated `content`. */
-    children?: React.ReactNode;
-
-    contentClassName?: string;
 
     resizable?: boolean;
 
@@ -61,58 +62,8 @@ export interface DrawerProps {
     /** Optional additional class names to style the background veil element. */
     veilClassName?: string;
 
-    /** `data-qa` HTML attribute, used for testing. */
-    qa?: string;
-
-    /** Optional additional class names to style the drawer component. */
-    className?: string;
-
-    /** Optional inline styles to be applied to the drawer component. */
-    style?: React.CSSProperties;
-
-    /** Do not dismiss on escape key press */
-    disableEscapeKeyDown?: boolean;
-
-    /** Do not dismiss on outside click */
-    disableOutsideClick?: boolean;
-
-    disableBodyScrollLock?: boolean;
-
-    /**
-     * FloatingFocusManager `initialFocus` property
-     */
-    initialFocus?: FloatingFocusManagerProps['initialFocus'];
-    /**
-     * FloatingFocusManager `returnFocus` property
-     */
-    returnFocus?: FloatingFocusManagerProps['returnFocus'];
-
-    /** Do not add a11y dismiss buttons when managing focus */
-    disableVisuallyHiddenDismiss?: boolean;
-
-    /** Callback called when `Modal` is opened and "in" transition is started */
-    onTransitionIn?: () => void;
-    /** Callback called when `Modal` is opened and "in" transition is completed */
-    onTransitionInComplete?: () => void;
-    /** Callback called when `Modal` is closed and "out" transition is started */
-    onTransitionOut?: () => void;
-    /** Callback called when `Popup` is closed and "out" transition is completed */
-    onTransitionOutComplete?: () => void;
-
-    floatingRef?: React.RefObject<HTMLDivElement>;
-
-    disablePortal?: boolean;
-
-    /**
-     * Keep child components mounted when closed
-     * @default false
-     */
-    keepMounted?: boolean;
-
     /** Optional flag to hide the background darkening */
     hideVeil?: boolean;
-
-    container?: HTMLElement;
 }
 
 export const Drawer = ({
@@ -136,7 +87,7 @@ export const Drawer = ({
     disableOutsideClick,
     initialFocus,
     returnFocus,
-    disableBodyScrollLock,
+    disableBodyScrollLock = false,
     disableVisuallyHiddenDismiss,
     onTransitionIn,
     onTransitionInComplete,
@@ -207,22 +158,29 @@ export const Drawer = ({
     // const shouldApplyScrollLock = Boolean(scrollLock && open && hideVeil && usePortal);
     // useScrollLock(shouldApplyScrollLock);
 
+    const currentStyle = React.useMemo(() => {
+        const positionProp = {
+            position: (disablePortal ? 'absolute' : 'fixed') as 'fixed' | 'absolute',
+        };
+
+        return {
+            ...positionProp,
+            ...style,
+        };
+    }, [style, disablePortal]);
+
     const portal =
         isMounted || keepMounted ? (
             <Portal container={container} disablePortal={disablePortal}>
                 <FloatingOverlay
-                    style={style}
+                    style={currentStyle}
                     className={b({open, hideVeil}, className)}
                     data-qa={qa}
                     data-floating-ui-status={status}
                     data-transiting={isTransitionInProgress}
                     lockScroll={!disableBodyScrollLock}
                 >
-                    <div
-                        ref={veilRef}
-                        className={b('veil', {hidden: hideVeil}, veilClassName)}
-                        role="presentation"
-                    />
+                    <div ref={veilRef} className={b('veil', {hidden: hideVeil}, veilClassName)} />
                     <FloatingFocusManager
                         context={context}
                         disabled={!isMounted}
@@ -236,7 +194,7 @@ export const Drawer = ({
                             id="test"
                             ref={handleFloatingRef}
                             visible={open}
-                            keepMounted={keepMounted}
+                            disablePortal={disablePortal}
                             direction={direction}
                             className={contentClassName}
                             resizable={resizable}

@@ -17,6 +17,7 @@ export function DisablePortalShowcase() {
     const [visible, setVisible] = React.useState(true);
     const [direction, setDirection] = React.useState<DrawerDirection>('right');
     const [disablePortal, setDisablePortal] = React.useState(true);
+    const containerRef = React.useRef<HTMLDivElement>(null);
 
     return (
         <div className={b()}>
@@ -40,12 +41,13 @@ export function DisablePortalShowcase() {
                     onUpdate={(v) => setDisablePortal(v)}
                 />
             </div>
-            <div className={b('container')}>
+            <div className={b('container')} ref={containerRef}>
                 <p>Container area for drawer with disablePortal</p>
                 <Drawer
                     className={b('drawer')}
-                    usePortal={!disablePortal}
-                    onVeilClick={() => setVisible(false)}
+                    disablePortal
+                    container={containerRef.current ?? undefined}
+                    onOpenChange={setVisible}
                     direction={direction}
                     contentClassName={b('item', {vertical: ['top', 'bottom'].includes(direction)})}
                     open={visible}

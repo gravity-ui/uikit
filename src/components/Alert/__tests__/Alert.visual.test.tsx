@@ -29,8 +29,20 @@ test.describe('Alert', {tag: '@Alert'}, () => {
         await expectScreenshot();
     });
 
+    test('render story: <Size>', async ({mount, expectScreenshot}) => {
+        await mount(<AlertStories.Size />);
+
+        await expectScreenshot();
+    });
+
     test('render story: <CustomIcon>', async ({mount, expectScreenshot}) => {
         await mount(<AlertStories.CustomIcon />);
+
+        await expectScreenshot();
+    });
+
+    test('render story: <WithoutCloseBtn>', async ({mount, expectScreenshot}) => {
+        await mount(<AlertStories.WithoutCloseBtn />);
 
         await expectScreenshot();
     });
@@ -49,6 +61,12 @@ test.describe('Alert', {tag: '@Alert'}, () => {
 
     test('render story: <Layout>', async ({mount, expectScreenshot}) => {
         await mount(<AlertStories.Layout />);
+
+        await expectScreenshot();
+    });
+
+    test('render story: <ActionsLayout>', async ({mount, expectScreenshot}) => {
+        await mount(<AlertStories.ActionsLayout />);
 
         await expectScreenshot();
     });

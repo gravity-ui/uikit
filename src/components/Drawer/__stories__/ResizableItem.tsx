@@ -49,7 +49,7 @@ export function ResizableItemShowcase() {
                     maxSize={800}
                     qa="drawer"
                     className={b('drawer')}
-                    onVeilClick={() => setVisible(false)}
+                    onOpenChange={setVisible}
                     contentClassName={b('item', {
                         vertical: ['top', 'bottom'].includes(direction),
                     })}

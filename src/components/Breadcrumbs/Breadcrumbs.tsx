@@ -179,7 +179,11 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
                         __onAction: handleAction,
                     };
                     return (
-                        <Component {...child.props} key={key} {...innerProps}>
+                        <Component
+                            {...child.props}
+                            key={key}
+                            {...(props.itemComponent ? {} : innerProps)}
+                        >
                             {child.props.children}
                         </Component>
                     );
@@ -213,7 +217,7 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
                 __onAction: handleAction,
             };
             item = (
-                <Component {...childProps} key={key} {...innerProps}>
+                <Component {...childProps} key={key} {...(props.itemComponent ? {} : innerProps)}>
                     {childProps.children}
                 </Component>
             );

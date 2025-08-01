@@ -55,11 +55,7 @@ export interface DrawerItemProps {
     /** The maximum width of the resizable drawer item */
     maxResizeWidth?: number;
 
-    /**
-     * Keep child components mounted when closed, prioritized over Drawer.keepMounted property
-     * @default false
-     */
-    keepMounted?: boolean;
+    disablePortal?: boolean;
 
     /** Optional inline styles to be applied to the DrawerItem component. */
     style?: React.CSSProperties;
@@ -80,6 +76,7 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
             onResizeEnd,
             onResize,
             style = {},
+            disablePortal,
             ...rest
         } = props;
 
@@ -135,6 +132,7 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
                         direction: cssDirection,
                         hidden: isInitialRender && !visible,
                         resize: isResizing,
+                        disablePortal,
                     },
                     [className],
                 )}

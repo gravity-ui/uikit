@@ -46,6 +46,10 @@ $block: '.#{variables.$ns}drawer';
             top: auto;
             right: 0;
         }
+
+        &_disablePortal {
+            --_--item-position: static;
+        }
     }
     
     &[data-floating-ui-status='unmounted'] &__item {

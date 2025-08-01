@@ -52,68 +52,43 @@ $block: '.#{variables.$ns}drawer';
         visibility: hidden;
     }
 
+    &[data-floating-ui-status='intial'] &__item,
+    &[data-floating-ui-status='close'] &__item {
+        transform: translate(0, 0);
+    }
+
     &[data-floating-ui-status='open'] &__item,
     &[data-floating-ui-status='close'] &__item {
         transition: transform 300ms;
     }
 
-    &__item-transition-enter {
-        transform: translate(-100%, 0);
-    }
-
-    &[data-floating-ui-status='initial'] &__item_direction_right,
-    &[data-floating-ui-status='close'] &__item_direction_right {
-        transform: translate(100%, 0);
-    }
-
-    &__item-transition_direction_top-enter {
-        transform: translate(0, -100%);
-    }
-
-    &__item-transition_direction_bottom-enter {
-        transform: translate(0, 100%);
-    }
-
-    &__item-transition-enter-active,
-    &__item-transition_direction_right-enter-active,
-    &__item-transition_direction_top-enter-active,
-    &__item-transition_direction_bottom-enter-active {
-        transform: translate(0, 0);
-        transition: transform 300ms;
-    }
-
-    &__item-transition-enter-done,
-    &__item-transition_direction_right-enter-done,
-    &__item-transition_direction_top-enter-done,
-    &__item-transition_direction_bottom-enter-done {
+    &[data-transiting='false'] &__item {
         // Hack for some browsers so text won't be blurred after animation
         filter: blur(0px);
         transform: translateZ(0);
     }
 
-    &__item-transition-exit,
-    &__item-transition_direction_right-exit,
-    &__item-transition_direction_top-exit,
-    &__item-transition_direction_bottom-exit {
-        transform: translate(0, 0);
-    }
-
-    &__item-transition-exit-active,
-    &__item-transition_direction_right-exit-active,
-    &__item-transition_direction_top-exit-active,
-    &__item-transition_direction_bottom-exit-active {
-        transition: transform 300ms;
-    }
-
-    &__item-transition-exit-active {
+    /* left */
+    &[data-floating-ui-status='initial'] &__item,
+    &[data-floating-ui-status='close'] &__item {
         transform: translate(-100%, 0);
     }
 
-    &__item-transition_direction_top-exit-active {
+    /* right */
+    &[data-floating-ui-status='initial'] &__item_direction_right,
+    &[data-floating-ui-status='close'] &__item_direction_right {
+        transform: translate(100%, 0);
+    }
+
+    /* top */
+    &[data-floating-ui-status='initial'] &__item_direction_top,
+    &[data-floating-ui-status='close'] &__item_direction_top {
         transform: translate(0, -100%);
     }
 
-    &__item-transition_direction_bottom-exit-active {
+    /* bottom */
+    &[data-floating-ui-status='initial'] &__item_direction_bottom,
+    &[data-floating-ui-status='close'] &__item_direction_bottom {
         transform: translate(0, 100%);
     }
 
@@ -134,12 +109,13 @@ $block: '.#{variables.$ns}drawer';
         transition: opacity 300ms;
     }
 
-    &[data-floating-ui-status='unmounted'] &__veil {
-        visibility: hidden;
-    }
-
+    &[data-floating-ui-status='initial'] &__veil,
     &[data-floating-ui-status='close'] &__veil {
         opacity: 0;
+    }
+
+    &[data-floating-ui-status='unmounted'] &__veil {
+        visibility: hidden;
     }
 
     &[data-floating-ui-status='open'] &__veil {

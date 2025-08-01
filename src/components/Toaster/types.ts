@@ -46,3 +46,11 @@ export interface ToasterContextMethods {
 }
 
 export interface ToasterPublicMethods extends ToasterContextMethods {}
+
+export type ToastListProps = {
+    removeCallback: (name: string) => void;
+    toasts: InternalToastProps[];
+    mobile?: boolean;
+    /** Experimental animation timing function */
+    alternateAnimationFunction?: boolean;
+};

@@ -55,6 +55,27 @@ describe('DefinitionList', () => {
         const component = screen.getByTestId(qaAttribute);
         expect(component).toHaveClass(b({responsive: true}));
     });
+    it('should apply nameWidth="max" modifier', () => {
+        const items = [{name: 'test1', children: 'value1'}];
+        getComponent({items, nameWidth: 'max'});
+
+        const component = screen.getByTestId(qaAttribute);
+        expect(component).toHaveClass(b({'name-width': 'max'}));
+    });
+    it('should apply definitionWidth="max" modifier', () => {
+        const items = [{name: 'test1', children: 'value1'}];
+        getComponent({items, definitionWidth: 'max'});
+
+        const component = screen.getByTestId(qaAttribute);
+        expect(component).toHaveClass(b({'definition-width': 'max'}));
+    });
+    it('should map responsive prop to nameWidth="max"', () => {
+        const items = [{name: 'test1', children: 'value1'}];
+        getComponent({items, responsive: true});
+
+        const component = screen.getByTestId(qaAttribute);
+        expect(component).toHaveClass(b({'name-width': 'max', responsive: true}));
+    });
     it('should render vertical view', () => {
         getComponent({direction: 'vertical'});
         const component = screen.getByTestId(qaAttribute);

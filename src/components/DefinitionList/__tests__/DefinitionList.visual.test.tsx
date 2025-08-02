@@ -1,18 +1,25 @@
 import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {DefinitionList} from '../DefinitionList';
 import type {DefinitionListProps} from '../types';
 
-import {DefinitionListStories} from './stories';
+import {extendedSkeletonItems, skeletonItems} from './test-data';
 
-// Test is flaky. Screenshot height randomly changes by 6px.
-test.describe.skip('DefinitionList', {tag: '@DefinitionList'}, () => {
+test.describe('DefinitionList', {tag: '@DefinitionList'}, () => {
     test('render story <Default>', async ({mount, expectScreenshot}) => {
-        await mount(<DefinitionListStories.Default />);
+        await mount(
+            <DefinitionList contentMaxWidth={480}>
+                {extendedSkeletonItems.map((item, index) => (
+                    <DefinitionList.Item key={index} {...item} />
+                ))}
+            </DefinitionList>,
+        );
 
         await expectScreenshot();
     });
 
+    // Smoke tests with skeleton data
     createSmokeScenarios<Omit<DefinitionListProps, 'children'>>(
         {},
         {
@@ -23,7 +30,11 @@ test.describe.skip('DefinitionList', {tag: '@DefinitionList'}, () => {
             await mount(
                 <div>
                     <h4>{title}</h4>
-                    <DefinitionListStories.Default {...props} />
+                    <DefinitionList {...props}>
+                        {skeletonItems.map((item, index) => (
+                            <DefinitionList.Item key={index} {...item} />
+                        ))}
+                    </DefinitionList>
                 </div>,
             );
 
@@ -57,9 +68,41 @@ test.describe.skip('DefinitionList', {tag: '@DefinitionList'}, () => {
             await mount(
                 <div>
                     <h4>{title}</h4>
-                    <DefinitionListStories.Default {...props} />
+                    <DefinitionList {...props}>
+                        {skeletonItems.slice(0, 5).map((item, index) => (
+                            <DefinitionList.Item key={index} {...item} />
+                        ))}
+                    </DefinitionList>
                 </div>,
                 {width: 'auto'},
+            );
+
+            await expectScreenshot({
+                themes: ['light'],
+            });
+        });
+    });
+
+    createSmokeScenarios<Omit<DefinitionListProps, 'children'>>(
+        {},
+        {
+            nameWidth: ['max'],
+            definitionWidth: ['max'],
+        },
+        {
+            scenarioName: 'width-modifiers',
+        },
+    ).forEach(([title, props]) => {
+        smokeTest(title, async ({mount, expectScreenshot}) => {
+            await mount(
+                <div>
+                    <h4>{title}</h4>
+                    <DefinitionList {...props}>
+                        {skeletonItems.slice(0, 6).map((item, index) => (
+                            <DefinitionList.Item key={index} {...item} />
+                        ))}
+                    </DefinitionList>
+                </div>,
             );
 
             await expectScreenshot({

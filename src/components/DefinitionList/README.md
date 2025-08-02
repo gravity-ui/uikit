@@ -45,14 +45,41 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name               | Description                                                                                         |              Type              |   Default    |
-| :----------------- | :-------------------------------------------------------------------------------------------------- | :----------------------------: | :----------: |
-| [children](#items) | Items of the list                                                                                   |       `React.ReactNode`        |              |
-| responsive         | If set to `true` list will take 100% width of its parent                                            |           `boolean`            |              |
-| direction          | If set to `vertical` content will be located under name and list will take 100% width of its parent | `'horizontal'` \| `'vertical'` | 'horizontal' |
-| nameMaxWidth       | Maximum width of term                                                                               |            `number`            |              |
-| contentMaxWidth    | Maximum width of definition                                                                         |            `number`            |              |
-| className          | Class name for the definition list                                                                  |            `string`            |              |
+| Name               | Description                                                                                                                          |              Type              |   Default    |
+| :----------------- | :----------------------------------------------------------------------------------------------------------------------------------- | :----------------------------: | :----------: |
+| [children](#items) | Items of the list                                                                                                                    |       `React.ReactNode`        |              |
+| nameWidth          | Controls the width behavior of the name column: `auto` - use default 300px width, `max` - grow to fill available space               |      `'auto'` \| `'max'`       |              |
+| definitionWidth    | Controls the width behavior of the definition column: `auto` - size naturally based on content, `max` - grow to fill remaining space |      `'auto'` \| `'max'`       |              |
+| ~~responsive~~     | **⚠️ Deprecated**: Use `nameWidth="max"` instead. Will be removed in next major version                                              |           `boolean`            |              |
+| direction          | If set to `vertical` content will be located under name and list will take 100% width of its parent                                  | `'horizontal'` \| `'vertical'` | 'horizontal' |
+| nameMaxWidth       | Maximum width of name                                                                                                                |            `number`            |              |
+| contentMaxWidth    | Maximum width of definition                                                                                                          |            `number`            |              |
+| className          | Class name for the definition list                                                                                                   |            `string`            |              |
+
+### Width Control
+
+The `nameWidth` and `definitionWidth` props allow fine-grained control over how space is distributed:
+
+- **`auto`**: Uses default sizing behavior
+  - For names: 300px fixed width (respects `nameMaxWidth` if provided)
+  - For definitions: Natural content size
+- **`max`**: Element grows to fill available space
+
+**Common usage patterns:**
+
+```tsx
+// Default: Fixed 300px names, definitions take remaining space
+<DefinitionList />
+
+// Names grow to fill space (equivalent to deprecated responsive={true})
+<DefinitionList nameWidth="max" />
+
+// Definitions fill remaining space (recommended for long content)
+<DefinitionList definitionWidth="max" />
+
+// Custom name width with definitions filling space
+<DefinitionList nameMaxWidth={200} definitionWidth="max" />
+```
 
 ### Items
 

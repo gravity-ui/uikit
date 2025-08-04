@@ -36,5 +36,4 @@ export const endContentCases: CasesWithName<TextInputProps['endContent']> = [[''
 export const noteCases: CasesWithName<TextInputProps['note']> = [['', <div>note</div>]];
 
 export const labelCases: CasesWithName<TextInputProps['label']> = [['', 'label']];
-
 /* eslint-enable react/jsx-key */

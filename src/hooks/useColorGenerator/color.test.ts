@@ -1,4 +1,10 @@
-import {getPersistentColor, getTextColor, linearToSrgb, oklchToRgb} from './color';
+import {
+    getPersistentColor,
+    getPersistentColorDetails,
+    getTextColor,
+    linearToSrgb,
+    oklchToRgb,
+} from './color';
 
 describe('color utilities', () => {
     describe('linearToSrgb', () => {
@@ -277,6 +283,71 @@ describe('color utilities', () => {
 
             // We should get significantly more than 6 unique colors (the old correlated version)
             expect(uniqueColors).toBeGreaterThan(20);
+        });
+    });
+
+    describe('getPersistentColorDetails', () => {
+        it('should return detailed color information', () => {
+            const details = getPersistentColorDetails({
+                seed: 'test-seed',
+                intensity: 'light',
+                theme: 'light',
+            });
+
+            expect(details).toMatchObject({
+                hash: expect.any(Number),
+                hue: expect.any(Number),
+                lightness: expect.any(Number),
+                saturation: expect.any(Number),
+                oklch: {
+                    l: expect.any(Number),
+                    c: expect.any(Number),
+                    h: expect.any(Number),
+                },
+                rgb: {
+                    r: expect.any(Number),
+                    g: expect.any(Number),
+                    b: expect.any(Number),
+                },
+                rgbString: expect.stringMatching(/^rgb\(\d+, \d+, \d+\)$/),
+            });
+
+            // Verify OKLCH values match raw values
+            expect(details.oklch.l).toBe(details.lightness);
+            expect(details.oklch.c).toBe(details.saturation);
+            expect(details.oklch.h).toBe(details.hue);
+
+            // Verify RGB string matches RGB values
+            expect(details.rgbString).toBe(
+                `rgb(${details.rgb.r}, ${details.rgb.g}, ${details.rgb.b})`,
+            );
+        });
+
+        it('should return consistent details for same seed', () => {
+            const details1 = getPersistentColorDetails({
+                seed: 'consistent-seed',
+                intensity: 'medium',
+                theme: 'dark',
+            });
+
+            const details2 = getPersistentColorDetails({
+                seed: 'consistent-seed',
+                intensity: 'medium',
+                theme: 'dark',
+            });
+
+            expect(details1).toEqual(details2);
+        });
+
+        it('should match getPersistentColor output', () => {
+            const seed = 'test-seed';
+            const intensity = 'heavy';
+            const theme = 'light';
+
+            const color = getPersistentColor({seed, intensity, theme});
+            const details = getPersistentColorDetails({seed, intensity, theme});
+
+            expect(details.rgbString).toBe(color);
         });
     });
 });

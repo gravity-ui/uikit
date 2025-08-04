@@ -5,29 +5,32 @@ import type {AvatarProps} from '../../../components/Avatar';
 import {Popover} from '../../../components/Popover';
 import {useThemeType} from '../../../components/theme/useThemeType';
 import {getColorInfo} from '../colorInfoUtils';
-import type {UseColorGeneratorProps} from '../types';
-import {useColorGenerator} from '../useColorGenerator';
+import type {ThemeColorSettings, UseColorGeneratorProps} from '../types';
 
 import {ColorInfoPopup} from './ColorInfoPopup';
+import {useCustomColorGenerator} from './useCustomColorGenerator';
 
 import './ColorInfoPopup.scss';
 
-type ColoredAvatarProps = AvatarProps & {
+type CustomColoredAvatarProps = AvatarProps & {
     withText: boolean;
     intensity: UseColorGeneratorProps['intensity'];
     seed: UseColorGeneratorProps['seed'];
+    colorOptions: ThemeColorSettings;
 };
 
-export const ColoredAvatar = ({
+export const CustomColoredAvatar = ({
     intensity,
     theme,
     seed,
     withText,
+    colorOptions,
     ...avatarProps
-}: ColoredAvatarProps) => {
-    const {color, textColor} = useColorGenerator({
+}: CustomColoredAvatarProps) => {
+    const {color, textColor} = useCustomColorGenerator({
         seed,
         intensity,
+        colorOptions,
     });
 
     const currentTheme = useThemeType();

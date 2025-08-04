@@ -1,5 +1,7 @@
 @use '../../../components/variables.scss';
 
+@import './ColorInfoPopup.scss';
+
 $block: '.#{variables.$ns}color-generator-stories';
 
 #{$block} {
@@ -24,5 +26,88 @@ $block: '.#{variables.$ns}color-generator-stories';
                 justify-self: end;
             }
         }
+
+        margin: 0 16px;
+    }
+
+    &__color-generator-controls {
+        margin-block-end: 32px;
+        padding: 0 24px;
+    }
+
+    &__controls-grid {
+        display: grid;
+        padding: 16px;
+        gap: 12px;
+    }
+
+    &__control-group {
+        max-width: 200px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__control-label {
+        font-weight: 600;
+        margin-block-end: 2px;
+    }
+
+    &__range-input {
+        width: 100%;
+    }
+
+    &__regenerate-button {
+        align-self: flex-start;
+        margin-block-start: 8px;
+    }
+
+    &__color-options-section {
+        margin-block-end: 32px;
+        padding: 0 24px;
+    }
+
+    &__color-options-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-block-end: 16px;
+    }
+
+    &__color-options-controls {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+    }
+
+    &__color-options-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 24px;
+        padding: 16px;
+    }
+
+    &__intensity-group {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px;
+        border: 1px solid var(--g-color-line-generic);
+        border-radius: 8px;
+        background: var(--g-color-base-background);
+    }
+
+    &__intensity-title {
+        font-weight: 600;
+        margin-block-end: 8px;
+    }
+
+    &__range-slider-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    &__range-slider {
+        width: 100%;
     }
 }

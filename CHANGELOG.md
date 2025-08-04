@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.18.1](https://github.com/gravity-ui/uikit/compare/v7.18.0...v7.18.1) (2025-08-04)
+
+
+### Bug Fixes
+
+* **Breadcrumbs:** fix current item box-sizing ([#2370](https://github.com/gravity-ui/uikit/issues/2370)) ([cdeb3fa](https://github.com/gravity-ui/uikit/commit/cdeb3fa4ac96119a49e221864cd138c98b0908bf))
+* **DefinitionList:** fix styles of note alignment ([#2366](https://github.com/gravity-ui/uikit/issues/2366)) ([a959bbc](https://github.com/gravity-ui/uikit/commit/a959bbc55b658a716abebffefbf6535c5e1734da))
+
 ## [7.18.0](https://github.com/gravity-ui/uikit/compare/v7.17.0...v7.18.0) (2025-07-31)
 
 

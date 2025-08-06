@@ -28,8 +28,7 @@ export function UsePortalShowcase() {
                     direction="right"
                     contentClassName={b('item')}
                     className={b('drawer')}
-                    usePortal
-                    onVeilClick={() => setVisible(false)}
+                    onOpenChange={setVisible}
                 >
                     <div className={b('item-content')}>
                         {Array.from({length: placeholderCount}).map((_, i) => (

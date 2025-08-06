@@ -38,6 +38,7 @@ export interface DrawerProps
         | 'onEscapeKeyDown'
         | 'onEnterKeyDown'
         | 'onOutsideClick'
+        | 'contentOverflow'
     > {
     /**
      * Specifies the direction from which the drawer should slide in, `left` by default.
@@ -117,8 +118,8 @@ export const Drawer = ({
     const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
 
     const dismiss = useDismiss(context, {
-        enabled: !disableOutsideClick || !disableEscapeKeyDown,
-        outsidePress: !disableOutsideClick,
+        enabled: !disableEscapeKeyDown,
+        outsidePress: false,
         escapeKey: !disableEscapeKeyDown,
     });
 
@@ -155,8 +156,13 @@ export const Drawer = ({
 
     const veilRef = React.useRef<HTMLDivElement>(null);
 
-    // const shouldApplyScrollLock = Boolean(scrollLock && open && hideVeil && usePortal);
-    // useScrollLock(shouldApplyScrollLock);
+    const handleVeilClick = React.useCallback(() => {
+        if (disableOutsideClick) {
+            return;
+        }
+
+        onOpenChange?.(false);
+    }, [disableOutsideClick, onOpenChange]);
 
     const currentStyle = React.useMemo(() => {
         const positionProp = {
@@ -180,7 +186,12 @@ export const Drawer = ({
                     data-transiting={isTransitionInProgress}
                     lockScroll={!disableBodyScrollLock}
                 >
-                    <div ref={veilRef} className={b('veil', {hidden: hideVeil}, veilClassName)} />
+                    <div
+                        ref={veilRef}
+                        className={b('veil', {hidden: hideVeil}, veilClassName)}
+                        role="presentation"
+                        onClick={handleVeilClick}
+                    />
                     <FloatingFocusManager
                         context={context}
                         disabled={!isMounted}

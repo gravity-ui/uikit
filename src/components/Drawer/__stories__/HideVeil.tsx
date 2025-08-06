@@ -30,7 +30,7 @@ export function HideVeilShowcase() {
                     direction="right"
                     className={b('drawer')}
                     hideVeil={hideVeil}
-                    onVeilClick={() => setVisible(false)}
+                    onOpenChange={setVisible}
                     contentClassName={b('item')}
                 >
                     <div className={b('item-content')}>

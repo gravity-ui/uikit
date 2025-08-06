@@ -4,6 +4,7 @@ $block: '.#{variables.$ns}drawer';
 
 #{$block} {
     pointer-events: none;
+    outline: none;
 
     --_--item-shadow-default: 0 1px 5px 0 var(--g-color-sfx-shadow);
     --_--item-position: fixed;
@@ -22,15 +23,19 @@ $block: '.#{variables.$ns}drawer';
 
     &__item {
         position: var(--g-drawer-item-position, var(--_--item-position));
+        z-index: var(--g-drawer-item-z-index, 110);
         left: var(--g-drawer-item-left-offset, 0);
         top: var(--g-drawer-item-top-offset, 0);
         bottom: 0;
+
         height: 100%;
-        will-change: transform;
+
         background-color: var(--g-color-base-background);
+
         pointer-events: initial;
         box-shadow: var(--_--item-shadow, none);
-        z-index: var(--g-drawer-item-z-index, 110);
+        outline: none;
+        will-change: transform;
 
         &_direction_right {
             left: auto;
@@ -98,10 +103,12 @@ $block: '.#{variables.$ns}drawer';
 
     &__veil {
         position: absolute;
-        pointer-events: initial;
-        inset: 0;
-        background-color: var(--g-drawer-veil-background-color, var(--_--veil-background-color));
         z-index: var(--g-drawer-veil-z-index);
+        inset: 0;
+
+        background-color: var(--g-drawer-veil-background-color, var(--_--veil-background-color));
+
+        pointer-events: initial;
 
         &_hidden {
             display: none;

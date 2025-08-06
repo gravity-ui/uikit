@@ -13,6 +13,8 @@ import './DefinitionList.scss';
 
 export function DefinitionList({
     responsive,
+    nameWidth,
+    definitionWidth,
     direction = 'horizontal',
     nameMaxWidth,
     contentMaxWidth,
@@ -22,6 +24,17 @@ export function DefinitionList({
     ...restProps
 }: DefinitionListProps) {
     const normalizedChildren = prepareChildren(children);
+
+    // Deprecation warning
+    if (responsive) {
+        warnOnce(
+            '[DefinitionList] The "responsive" prop is deprecated. Use nameWidth="max" instead.',
+        );
+    }
+
+    // Handle backward compatibility: responsive maps to nameWidth="max"
+    const effectiveNameWidth = nameWidth || (responsive ? 'max' : undefined);
+
     return (
         <DefinitionListProvider
             direction={direction}
@@ -30,7 +43,15 @@ export function DefinitionList({
         >
             <dl
                 {...filterDOMProps(restProps, {labelable: true})}
-                className={b({responsive, vertical: direction === 'vertical'}, className)}
+                className={b(
+                    {
+                        responsive,
+                        'name-width': effectiveNameWidth,
+                        'definition-width': definitionWidth,
+                        vertical: direction === 'vertical',
+                    },
+                    className,
+                )}
                 data-qa={qa}
             >
                 {normalizedChildren}

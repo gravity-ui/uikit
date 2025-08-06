@@ -7,19 +7,6 @@ export const DRAWER_ITEM_INITIAL_RESIZE_WIDTH = 400;
 export type DrawerDirection = 'right' | 'left' | 'top' | 'bottom';
 export type OnResizeHandler = (width: number) => void;
 
-export function useScrollLock(enabled: boolean) {
-    React.useEffect(() => {
-        if (!enabled) return;
-
-        const originalStyle = window.getComputedStyle(document.body).overflow;
-        document.body.style.overflow = 'hidden';
-
-        return () => {
-            document.body.style.overflow = originalStyle;
-        };
-    }, [enabled]);
-}
-
 export interface UseResizeHandlersParams {
     onStart: () => void;
     onMove: (delta: number) => void;

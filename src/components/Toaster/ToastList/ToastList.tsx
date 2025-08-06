@@ -1,26 +1,31 @@
 'use client';
 
+import * as React from 'react';
+
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 
 import {block} from '../../utils/cn';
 import {getCSSTransitionClassNames} from '../../utils/transition';
 import {Toast} from '../Toast/Toast';
-import type {InternalToastProps} from '../types';
+import type {InternalToastProps, ToastListProps} from '../types';
 
 import './ToastAnimation.scss';
 import './ToastList.scss';
 
-const desktopTransitionClassNames = getCSSTransitionClassNames(block('toast-animation-desktop'));
-const mobileTransitionClassNames = getCSSTransitionClassNames(block('toast-animation-mobile'));
-
-type ToastListProps = {
-    removeCallback: (name: string) => void;
-    toasts: InternalToastProps[];
-    mobile?: boolean;
-};
-
 export function ToastList(props: ToastListProps) {
-    const {toasts, mobile, removeCallback} = props;
+    const {toasts, mobile, alternateAnimationFunction, removeCallback} = props;
+
+    const classNames = React.useMemo(
+        () =>
+            mobile
+                ? getCSSTransitionClassNames(block('toast-animation-mobile'), {
+                      feature: alternateAnimationFunction ? 'alternate-animation-timing-fn' : false,
+                  })
+                : getCSSTransitionClassNames(block('toast-animation-desktop'), {
+                      feature: alternateAnimationFunction ? 'alternate-animation-timing-fn' : false,
+                  }),
+        [alternateAnimationFunction, mobile],
+    );
 
     return (
         <TransitionGroup component={null}>
@@ -28,7 +33,7 @@ export function ToastList(props: ToastListProps) {
                 <CSSTransition
                     key={`${toast.name}_${toast.addedAt}`}
                     nodeRef={toast.ref}
-                    classNames={mobile ? mobileTransitionClassNames : desktopTransitionClassNames}
+                    classNames={classNames}
                     addEndListener={(done) =>
                         toast.ref?.current?.addEventListener('animationend', done)
                     }

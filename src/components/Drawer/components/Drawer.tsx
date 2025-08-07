@@ -17,9 +17,9 @@ import type {ModalProps} from 'src/components/Modal';
 import {useForkRef} from '../../../hooks';
 import {Portal} from '../../Portal';
 import {block} from '../../utils/cn';
+import {useDrawerFloating} from '../hooks/useDrawerFloating';
+import type {DrawerDirection, OnResizeHandler} from '../hooks/useResizeHandlers';
 import i18n from '../i18n';
-import {useDrawerFloating} from '../utils';
-import type {DrawerDirection, OnResizeHandler} from '../utils';
 
 import {DrawerItem} from './DrawerItem';
 import type {DrawerItemProps} from './DrawerItem';

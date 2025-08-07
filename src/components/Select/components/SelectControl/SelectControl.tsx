@@ -216,6 +216,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                         <button
                             aria-label={i18n('label_show-error-info')}
                             aria-describedby={errorTooltipId}
+                            type={'button'}
                             className={selectControlBlock('error-icon')}
                         >
                             <Icon data={TriangleExclamation} size={size === 's' ? 12 : 16} />

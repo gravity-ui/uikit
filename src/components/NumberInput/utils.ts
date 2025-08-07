@@ -138,7 +138,7 @@ function normalizeDecimalScale(decimalScale: number) {
 }
 
 export function truncateExtraDecimalNumbers(value: string, decimalScale?: number) {
-    if (!isNumber(decimalScale)) {
+    if (!isNumber(decimalScale) || decimalScale < 0) {
         return value;
     }
 
@@ -147,13 +147,11 @@ export function truncateExtraDecimalNumbers(value: string, decimalScale?: number
         return value;
     }
 
-    const currentDecimalScale = value.slice(dotIndex + 1);
-    if (currentDecimalScale.length > decimalScale) {
-        const multiplier = Math.pow(10, decimalScale);
-        return String(Math.trunc(parseFloat(value) * multiplier) / multiplier);
+    if (decimalScale === 0) {
+        return value.substring(0, dotIndex);
     }
 
-    return value;
+    return value.substring(0, dotIndex + decimalScale + 1);
 }
 
 export function clampToNearestStepValue({

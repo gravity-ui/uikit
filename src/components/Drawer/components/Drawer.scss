@@ -59,7 +59,7 @@ $block: '.#{variables.$ns}drawer';
         visibility: hidden;
     }
 
-    &[data-floating-ui-status='intial'] &__item,
+    &[data-floating-ui-status='initial'] &__item,
     &[data-floating-ui-status='close'] &__item {
         transform: translate(0, 0);
     }

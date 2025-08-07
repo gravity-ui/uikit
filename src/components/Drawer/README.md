@@ -36,41 +36,41 @@ export default App;
 
 ## Properties
 
-| Name                  | Description                                                                                 |       Type        |     Default     |
-| :-------------------- | :------------------------------------------------------------------------------------------ | :---------------: | :-------------: |
-| veilClassName         | Optional additional class names to style the veil (overlay) element.                        |     `string`      |                 |
-| className             | `class` HTML attribute for the root node                                                    |     `string`      |                 |
-| qa                    | Test attribute (`data-qa`)                                                                  |     `string`      |                 |
-| style                 | `style` HTML attribute for the root node                                                    |     `string`      |                 |
-| aria-label            | `aria-label` HTML attribute to describe `Drawer`                                            |     `string`      |                 |
-| aria-labelledby       | ID of the visible `Drawer` caption element                                                  |     `string`      |                 |
-| direction             | Specifies the direction from which the drawer should slide in                               |     `string`      |     `left`      |
-| contentClassName      | `class` HTML attribute for the content node                                                 |     `string`      |                 |
-| restoreFocusRef       | Element the focus will be restored to                                                       | `React.RefObject` |                 |
-| children              | Any React content                                                                           | `React.ReactNode` |                 |
-| container             | DOM element to which component is mounted via `Portal`                                      |   `HTMLElement`   | `document.body` |
-| hideVeil              | Optional flag to hide the background darkening                                              |     `boolean`     |                 |
-| autoFocus             | While open, the focus will be set to the first interactive element in the content           |     `boolean`     |     `true`      |
-| focusTrap             | Enables focus trapping behavior                                                             |     `boolean`     |     `true`      |
-| disableBodyScrollLock | Disables locking scroll while open                                                          |     `boolean`     |     `false`     |
-| disableEscapeKeyDown  | Disables triggering close on `Esc`                                                          |     `boolean`     |     `false`     |
-| disableOutsideClick   | Disables triggering close on outside clicks                                                 |     `boolean`     |     `false`     |
-| disablePortal         | Disables using `Portal`                                                                     |     `boolean`     |     `false`     |
-| keepMounted           | `Drawer` will not be removed from the DOM upon hiding                                       |     `boolean`     |     `false`     |
-| resizable             | Enables resizing of the drawer via pointer                                                  |     `boolean`     |     `false`     |
-| open                  | Manages `Drawer` visibility                                                                 |     `boolean`     |     `false`     |
-| showInitialAnimation  | Option that enables first opening animation if the Drawer is being rendered with open state |     `boolean`     |     `false`     |
-| onOpenChange          | Callback called at the moment of open state change                                          |    `Function`     |                 |
-| onTransitionEnter     | Open transition start event handler                                                         |    `Function`     |                 |
-| onTransitionExit      | Close transition start event handler                                                        |    `Function`     |                 |
-| onTransitionEntered   | Open transition end event handler                                                           |    `Function`     |                 |
-| onTransitionExited    | Close transition end event handler                                                          |    `Function`     |                 |
-| onResizeEnd           | Callback called at the end of resizing                                                      |    `Function`     |                 |
-| onResize              | Callback called when the drawer is being resized                                            |    `Function`     |                 |
-| onResizeStart         | Callback called at the start of resizing                                                    |    `Function`     |                 |
-| maxSize               | Max width of the drawer in pixels                                                           |     `number`      |                 |
-| minSize               | Min width of the drawer in pixels                                                           |     `number`      |                 |
-| size                  | Width of the drawer in pixels                                                               |     `number`      |                 |
+| Name                  | Description                                                                                 |         Type          |     Default     |
+| :-------------------- | :------------------------------------------------------------------------------------------ | :-------------------: | :-------------: |
+| veilClassName         | Optional additional class names to style the veil (overlay) element.                        |       `string`        |                 |
+| className             | `class` HTML attribute for the root node                                                    |       `string`        |                 |
+| qa                    | Test attribute (`data-qa`)                                                                  |       `string`        |                 |
+| style                 | `style` HTML attribute for the root node                                                    | `React.CSSProperties` |                 |
+| aria-label            | `aria-label` HTML attribute to describe `Drawer`                                            |       `string`        |                 |
+| aria-labelledby       | ID of the visible `Drawer` caption element                                                  |       `string`        |                 |
+| direction             | Specifies the direction from which the drawer should slide in                               |       `string`        |     `left`      |
+| contentClassName      | `class` HTML attribute for the content node                                                 |       `string`        |                 |
+| restoreFocusRef       | Element the focus will be restored to                                                       |   `React.RefObject`   |                 |
+| children              | Any React content                                                                           |   `React.ReactNode`   |                 |
+| container             | DOM element to which component is mounted via `Portal`                                      |     `HTMLElement`     | `document.body` |
+| hideVeil              | Optional flag to hide the background darkening                                              |       `boolean`       |                 |
+| autoFocus             | While open, the focus will be set to the first interactive element in the content           |       `boolean`       |     `true`      |
+| focusTrap             | Enables focus trapping behavior                                                             |       `boolean`       |     `true`      |
+| disableBodyScrollLock | Disables locking scroll while open                                                          |       `boolean`       |     `false`     |
+| disableEscapeKeyDown  | Disables triggering close on `Esc`                                                          |       `boolean`       |     `false`     |
+| disableOutsideClick   | Disables triggering close on outside clicks                                                 |       `boolean`       |     `false`     |
+| disablePortal         | Disables using `Portal`                                                                     |       `boolean`       |     `false`     |
+| keepMounted           | `Drawer` will not be removed from the DOM upon hiding                                       |       `boolean`       |     `false`     |
+| resizable             | Enables resizing of the drawer via pointer                                                  |       `boolean`       |     `false`     |
+| open                  | Manages `Drawer` visibility                                                                 |       `boolean`       |     `false`     |
+| showInitialAnimation  | Option that enables first opening animation if the Drawer is being rendered with open state |       `boolean`       |     `false`     |
+| onOpenChange          | Callback called at the moment of open state change                                          |      `Function`       |                 |
+| onTransitionEnter     | Open transition start event handler                                                         |      `Function`       |                 |
+| onTransitionExit      | Close transition start event handler                                                        |      `Function`       |                 |
+| onTransitionEntered   | Open transition end event handler                                                           |      `Function`       |                 |
+| onTransitionExited    | Close transition end event handler                                                          |      `Function`       |                 |
+| onResizeEnd           | Callback called at the end of resizing                                                      |      `Function`       |                 |
+| onResize              | Callback called when the drawer is being resized                                            |      `Function`       |                 |
+| onResizeStart         | Callback called at the start of resizing                                                    |      `Function`       |                 |
+| maxSize               | Max width of the drawer in pixels                                                           |       `number`        |                 |
+| minSize               | Min width of the drawer in pixels                                                           |       `number`        |                 |
+| size                  | Width of the drawer in pixels                                                               |       `number`        |                 |
 
 ## CSS API
 

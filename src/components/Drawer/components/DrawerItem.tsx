@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import {useForkRef} from '../../../hooks';
 import {block} from '../../utils/cn';
-import {useResizableDrawerItem} from '../utils';
-import type {DrawerDirection, OnResizeHandler} from '../utils';
+import {useResizableDrawerItem} from '../hooks/useResizableDrawerItem';
+import type {DrawerDirection, OnResizeHandler} from '../hooks/useResizeHandlers';
 
 const b = block('drawer');
 

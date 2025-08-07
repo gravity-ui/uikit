@@ -5,7 +5,7 @@ import {Checkbox} from '../../Checkbox';
 import {SegmentedRadioGroup} from '../../SegmentedRadioGroup';
 import {cn} from '../../utils/cn';
 import {Drawer} from '../components/Drawer';
-import type {DrawerDirection} from '../utils';
+import type {DrawerDirection} from '../hooks/useResizeHandlers';
 
 import {PlaceholderText} from './mock';
 

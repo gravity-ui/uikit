@@ -183,6 +183,11 @@ describe('NumberInput input', () => {
 
             expect(handleUpdate).not.toHaveBeenCalled();
         });
+
+        it('rounds float number down if not allowDecimal prop', () => {
+            render(<NumberInput value={100.8} />);
+            expect(getInput()).toHaveValue('100');
+        });
     });
 
     describe('min/max', () => {
@@ -325,6 +330,208 @@ describe('NumberInput input', () => {
             const user = userEvent.setup();
             await user.click(customContent);
             expect(handleFocus).toHaveBeenCalled();
+        });
+    });
+
+    describe('decimalScale', () => {
+        it('adds decimal places to integer number', () => {
+            render(<NumberInput allowDecimal decimalScale={2} value={100} />);
+            expect(getInput()).toHaveValue('100.00');
+        });
+
+        it('not adds decimal places to integer number without allowDecimal prop', () => {
+            render(<NumberInput decimalScale={2} value={100} />);
+            expect(getInput()).toHaveValue('100');
+        });
+
+        it('adds decimal places to float number', () => {
+            render(<NumberInput allowDecimal decimalScale={4} value={100.12} />);
+            expect(getInput()).toHaveValue('100.1200');
+        });
+
+        it('not adds decimal places to float number without allowDecimal prop', () => {
+            render(<NumberInput decimalScale={4} value={100.12} />);
+            expect(getInput()).toHaveValue('100');
+        });
+
+        it('empty input when not value prop', async () => {
+            render(<NumberInput allowDecimal decimalScale={2} />);
+            expect(getInput()).toHaveValue('');
+        });
+
+        it('render correct origin float', async () => {
+            render(<NumberInput allowDecimal decimalScale={2} value={100.12} />);
+            expect(getInput()).toHaveValue('100.12');
+        });
+
+        it('shows a correctly rounded number', async () => {
+            const {rerender} = render(
+                <NumberInput allowDecimal decimalScale={2} value={100.124} />,
+            );
+            expect(getInput()).toHaveValue('100.12');
+
+            rerender(<NumberInput allowDecimal decimalScale={2} value={100.125} />);
+            expect(getInput()).toHaveValue('100.13');
+        });
+
+        it('calls onUpdate on change', async () => {
+            const handleUpdate = jest.fn();
+            render(<NumberInput allowDecimal decimalScale={2} onUpdate={handleUpdate} />);
+
+            fireEvent.change(getInput(), {target: {value: '1.50'}});
+
+            expect(handleUpdate).toHaveBeenLastCalledWith(1.5);
+            expect(getInput()).toHaveValue('1.50');
+        });
+
+        it('calls onUpdate with a truncated number', async () => {
+            const handleUpdate = jest.fn();
+
+            render(<NumberInput allowDecimal decimalScale={2} onUpdate={handleUpdate} />);
+
+            fireEvent.change(getInput(), {target: {value: '100.348'}});
+
+            expect(handleUpdate).toHaveBeenLastCalledWith(100.34);
+        });
+
+        it('restricts input of extra decimal digits', async () => {
+            const user = userEvent.setup();
+            const handleUpdate = jest.fn();
+
+            render(<NumberInput allowDecimal decimalScale={2} onUpdate={handleUpdate} />);
+
+            await user.type(getInput(), '1.1284');
+            expect(handleUpdate).toHaveBeenLastCalledWith(1.12);
+            expect(getInput()).toHaveValue('1.12');
+        });
+
+        it('shows correct value after blur', async () => {
+            const user = userEvent.setup();
+            const handleUpdate = jest.fn();
+
+            render(<NumberInput allowDecimal decimalScale={2} onUpdate={handleUpdate} />);
+
+            await user.type(getInput(), '1.1');
+            act(() => {
+                getInput().blur();
+            });
+
+            expect(handleUpdate).toHaveBeenLastCalledWith(1.1);
+            expect(getInput()).toHaveValue('1.10');
+        });
+
+        it('normalizes invalid decimalScale values to 0', () => {
+            const {rerender} = render(<NumberInput allowDecimal decimalScale={-2} value={100} />);
+            expect(getInput()).toHaveValue('100');
+
+            rerender(<NumberInput allowDecimal decimalScale={Infinity} value={100} />);
+            expect(getInput()).toHaveValue('100');
+
+            rerender(<NumberInput allowDecimal decimalScale={-Infinity} value={100} />);
+            expect(getInput()).toHaveValue('100');
+
+            rerender(<NumberInput allowDecimal decimalScale={NaN} value={100} />);
+            expect(getInput()).toHaveValue('100');
+        });
+    });
+
+    describe('decimalScale and step', () => {
+        it('increases value by an integer on arrowUp button click', async () => {
+            const user = userEvent.setup();
+            const handleUpdate = jest.fn();
+            render(
+                <NumberInput value={2.456} allowDecimal decimalScale={2} onUpdate={handleUpdate} />,
+            );
+
+            await user.click(getUpButton());
+            expect(handleUpdate).toHaveBeenLastCalledWith(3.46);
+        });
+
+        it('decreases value by an integer on arrowDown button click', async () => {
+            const user = userEvent.setup();
+            const handleUpdate = jest.fn();
+            render(
+                <NumberInput value={2.456} allowDecimal decimalScale={2} onUpdate={handleUpdate} />,
+            );
+
+            await user.click(getDownButton());
+            expect(handleUpdate).toHaveBeenLastCalledWith(1.46);
+        });
+
+        it('increases value by an float on arrowUp button click', async () => {
+            const user = userEvent.setup();
+            const handleUpdate = jest.fn();
+            render(
+                <NumberInput
+                    step={0.001}
+                    value={2.456}
+                    allowDecimal
+                    decimalScale={3}
+                    onUpdate={handleUpdate}
+                />,
+            );
+
+            await user.click(getUpButton());
+            expect(handleUpdate).toHaveBeenLastCalledWith(2.457);
+        });
+
+        it('decreases value by an float on arrowUp button click', async () => {
+            const user = userEvent.setup();
+            const handleUpdate = jest.fn();
+            render(
+                <NumberInput
+                    step={0.001}
+                    value={2.456}
+                    allowDecimal
+                    decimalScale={3}
+                    onUpdate={handleUpdate}
+                />,
+            );
+
+            await user.click(getDownButton());
+            expect(handleUpdate).toHaveBeenLastCalledWith(2.455);
+        });
+
+        it('adds decimal places after arrowUp button click', async () => {
+            const user = userEvent.setup();
+            render(<NumberInput step={0.1} defaultValue={-0.1} allowDecimal decimalScale={2} />);
+
+            await user.click(getUpButton());
+            expect(getInput()).toHaveValue('0.00');
+        });
+
+        it('rounds up step value', async () => {
+            const user = userEvent.setup();
+            const handleUpdate = jest.fn();
+            render(
+                <NumberInput
+                    onUpdate={handleUpdate}
+                    step={0.09}
+                    value={1}
+                    allowDecimal
+                    decimalScale={1}
+                />,
+            );
+
+            await user.click(getUpButton());
+            expect(handleUpdate).toHaveBeenLastCalledWith(1.1);
+        });
+
+        it('rounds down step value', async () => {
+            const user = userEvent.setup();
+            const handleUpdate = jest.fn();
+            render(
+                <NumberInput
+                    onUpdate={handleUpdate}
+                    step={0.01}
+                    value={1}
+                    allowDecimal
+                    decimalScale={1}
+                />,
+            );
+
+            await user.click(getUpButton());
+            expect(handleUpdate).toHaveBeenLastCalledWith(2);
         });
     });
 
@@ -579,6 +786,31 @@ describe('NumberInput input', () => {
             render(
                 <form data-qa="form" onSubmit={handleSubmit}>
                     <NumberInput allowDecimal name="numeric-field" value={123.45} />
+                    <button type="submit" data-qa="submit">
+                        submit
+                    </button>
+                </form>,
+            );
+            await userEvent.click(screen.getByTestId('submit'));
+            expect(handleSubmit).toHaveBeenCalledTimes(1);
+            expect(value).toEqual([['numeric-field', '123.45']]);
+        });
+
+        test('should submit decimal value with custom decimal scale', async () => {
+            let value;
+            const handleSubmit = jest.fn((e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                value = [...formData.entries()];
+            });
+            render(
+                <form data-qa="form" onSubmit={handleSubmit}>
+                    <NumberInput
+                        allowDecimal
+                        decimalScale={2}
+                        name="numeric-field"
+                        value={123.4512}
+                    />
                     <button type="submit" data-qa="submit">
                         submit
                     </button>

@@ -129,4 +129,5 @@ LANDING_BLOCK-->
 | :--------------------------- | :--------------- |
 | `--g-popup-background-color` | Background color |
 | `--g-popup-border-color`     | Border color     |
+| `--g-popup-border-radius`    | Border radius    |
 | `--g-popup-border-width`     | Border width     |

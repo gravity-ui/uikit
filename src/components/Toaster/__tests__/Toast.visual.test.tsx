@@ -10,7 +10,9 @@ const wrapperOptions = {
     width: 312,
 };
 
-function getToastActions(contrastButton = true): React.ComponentProps<typeof Toast>['actions'] {
+function getToastActions(
+    contrastButton = true,
+): Required<React.ComponentProps<typeof Toast>>['actions'] {
     return [
         {onClick() {}, label: 'Action', view: contrastButton ? 'normal-contrast' : 'normal'},
         {onClick() {}, label: 'Something More', view: 'outlined'},
@@ -79,6 +81,23 @@ test.describe('Toast', {tag: '@Toaster'}, () => {
     test('render story: <ToastPlayground> (utility)', async ({mount, expectScreenshot}) => {
         await mount(
             <ToastStories.ToastPlayground {...simpleToastProps} theme="utility" />,
+            wrapperOptions,
+        );
+
+        await expectScreenshot();
+    });
+
+    test('actions wrap', async ({mount, expectScreenshot}) => {
+        const actions = getToastActions();
+
+        actions[0].label = 'Really long button text that cause buttons to wrap';
+
+        await mount(
+            <ToastStories.ToastPlayground
+                {...simpleToastProps}
+                actions={actions}
+                theme="utility"
+            />,
             wrapperOptions,
         );
 

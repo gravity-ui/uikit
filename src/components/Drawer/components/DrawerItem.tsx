@@ -10,9 +10,6 @@ const b = block('drawer');
 import './Drawer.scss';
 
 export interface DrawerItemProps {
-    /** Unique identifier for the drawer item. */
-    id: string;
-
     /** Content to be displayed within the drawer item. */
     children?: React.ReactNode;
 

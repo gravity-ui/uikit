@@ -17,6 +17,7 @@ export function DisablePortalShowcase() {
     const [visible, setVisible] = React.useState(true);
     const [direction, setDirection] = React.useState<DrawerDirection>('right');
     const [disablePortal, setDisablePortal] = React.useState(true);
+    const [placeholderCount, setPlaceholderCount] = React.useState(1);
     const containerRef = React.useRef<HTMLDivElement>(null);
 
     return (
@@ -45,7 +46,7 @@ export function DisablePortalShowcase() {
                 <p>Container area for drawer with disablePortal</p>
                 <Drawer
                     className={b('drawer')}
-                    disablePortal
+                    disablePortal={disablePortal}
                     container={containerRef.current ?? undefined}
                     onOpenChange={setVisible}
                     direction={direction}
@@ -53,7 +54,17 @@ export function DisablePortalShowcase() {
                     open={visible}
                 >
                     <div className={b('item-content')}>
-                        <PlaceholderText />
+                        {Array.from({length: placeholderCount}).map((_, i) => (
+                            <div key={i}>
+                                <PlaceholderText />
+                            </div>
+                        ))}
+                        <Button
+                            view="action"
+                            onClick={() => setPlaceholderCount((prev) => prev + 1)}
+                        >
+                            Add text block
+                        </Button>
                     </div>
                 </Drawer>
             </div>

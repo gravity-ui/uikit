@@ -49,6 +49,7 @@ export interface DrawerProps
     direction?: DrawerDirection;
     /**
      * Enables resizing of the drawer via pointer.
+     * @default false
      */
     resizable?: boolean;
     /**
@@ -92,7 +93,7 @@ export const Drawer = ({
     direction = 'left',
     children,
     contentClassName,
-    resizable,
+    resizable = false,
     size,
     minSize,
     maxSize,
@@ -227,7 +228,6 @@ export const Drawer = ({
                         restoreFocus={true}
                     >
                         <DrawerItem
-                            id="test"
                             ref={handleFloatingRef}
                             visible={open}
                             disablePortal={disablePortal}

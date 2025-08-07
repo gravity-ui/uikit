@@ -15,11 +15,10 @@ import type {OpenChangeReason} from '@floating-ui/react';
 import type {ModalProps} from 'src/components/Modal';
 
 import {useForkRef} from '../../../hooks';
-import {useFloatingTransition} from '../../../hooks/private/useFloatingTransition';
 import {Portal} from '../../Portal';
 import {block} from '../../utils/cn';
-import {DRAWER_ANIMATION_DURATION_MS} from '../constants';
 import i18n from '../i18n';
+import {useDrawerFloating} from '../utils';
 import type {DrawerDirection, OnResizeHandler} from '../utils';
 
 import {DrawerItem} from './DrawerItem';
@@ -135,7 +134,13 @@ export const Drawer = ({
         onOpenChange: handleOpenChange,
     });
 
-    const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
+    const {isInitialRender, isMounted, status, isTransitionInProgress} = useDrawerFloating({
+        onTransitionIn,
+        onTransitionInComplete,
+        onTransitionOut,
+        onTransitionOutComplete,
+        context,
+    });
 
     const dismiss = useDismiss(context, {
         enabled: !disableEscapeKeyDown,
@@ -145,41 +150,8 @@ export const Drawer = ({
 
     const role = useRole(context, {role: 'dialog'});
     const {getFloatingProps} = useInteractions([dismiss, role]);
-
-    const [isTransitionInProgress, setIsTransitionInProgress] = React.useState(false);
-    const [isInitialRender, setInitialRender] = React.useState(true);
-
-    const handleTransitionIn = React.useCallback(() => {
-        setInitialRender(false);
-        setIsTransitionInProgress(true);
-        onTransitionIn?.();
-    }, [onTransitionIn]);
-    const handleTransitionInComplete = React.useCallback(() => {
-        setInitialRender(false);
-        setIsTransitionInProgress(false);
-        onTransitionInComplete?.();
-    }, [onTransitionInComplete]);
-    const handleTransitionOut = React.useCallback(() => {
-        setInitialRender(false);
-        setIsTransitionInProgress(true);
-        onTransitionOut?.();
-    }, [onTransitionOut]);
-    const handleTransitionOutComplete = React.useCallback(() => {
-        setInitialRender(false);
-        setIsTransitionInProgress(false);
-        onTransitionOutComplete?.();
-    }, [onTransitionOutComplete]);
-
-    const {isMounted, status} = useFloatingTransition({
-        context,
-        duration: DRAWER_ANIMATION_DURATION_MS,
-        onTransitionIn: handleTransitionIn,
-        onTransitionInComplete: handleTransitionInComplete,
-        onTransitionOut: handleTransitionOut,
-        onTransitionOutComplete: handleTransitionOutComplete,
-    });
-
     const veilRef = React.useRef<HTMLDivElement>(null);
+    const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
 
     const handleVeilClick = React.useCallback(() => {
         if (disableOutsideClick) {
@@ -205,6 +177,7 @@ export const Drawer = ({
             <Portal container={container} disablePortal={disablePortal}>
                 <FloatingOverlay
                     style={currentStyle}
+                    aria-modal="true"
                     className={b(
                         {
                             open,

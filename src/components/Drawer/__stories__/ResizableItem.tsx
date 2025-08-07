@@ -17,7 +17,6 @@ export function ResizableItemShowcase() {
     const [visible, setVisible] = React.useState(true);
     const [direction, setDirection] = React.useState<DrawerDirection>('right');
     const [resizable, setResizable] = React.useState(true);
-    const [width, setWidth] = React.useState(400);
 
     return (
         <div className={b()}>
@@ -43,8 +42,6 @@ export function ResizableItemShowcase() {
                     open={visible}
                     direction={direction}
                     resizable={resizable}
-                    size={width}
-                    onResizeEnd={setWidth}
                     minSize={300}
                     maxSize={800}
                     qa="drawer"
@@ -54,7 +51,7 @@ export function ResizableItemShowcase() {
                         vertical: ['top', 'bottom'].includes(direction),
                     })}
                 >
-                    <div className={b('item-content')}>
+                    <div className={b('item-content')} data-qa="drawer-item">
                         <PlaceholderText />
                     </div>
                 </Drawer>

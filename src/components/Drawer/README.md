@@ -60,6 +60,7 @@ export default App;
 | resizable             | Enables resizing of the drawer via pointer                                                  |     `boolean`     |     `false`     |
 | open                  | Manages `Drawer` visibility                                                                 |     `boolean`     |     `false`     |
 | showInitialAnimation  | Option that enables first opening animation if the Drawer is being rendered with open state |     `boolean`     |     `false`     |
+| onOpenChange          | Callback called at the moment of open state change                                          |    `Function`     |                 |
 | onTransitionEnter     | Open transition start event handler                                                         |    `Function`     |                 |
 | onTransitionExit      | Close transition start event handler                                                        |    `Function`     |                 |
 | onTransitionEntered   | Open transition end event handler                                                           |    `Function`     |                 |

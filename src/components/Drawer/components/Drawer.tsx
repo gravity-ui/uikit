@@ -19,12 +19,11 @@ import {useFloatingTransition} from '../../../hooks/private/useFloatingTransitio
 import {Portal} from '../../Portal';
 import {block} from '../../utils/cn';
 import {DRAWER_ANIMATION_DURATION_MS} from '../constants';
+import i18n from '../i18n';
 import type {DrawerDirection, OnResizeHandler} from '../utils';
 
 import {DrawerItem} from './DrawerItem';
 import type {DrawerItemProps} from './DrawerItem';
-
-import i18n from '../i18n';
 
 import './Drawer.scss';
 
@@ -206,7 +205,14 @@ export const Drawer = ({
             <Portal container={container} disablePortal={disablePortal}>
                 <FloatingOverlay
                     style={currentStyle}
-                    className={b({open, 'hide-veil': hideVeil, 'skip-animation': !showInitialAnimation && isInitialRender}, className)}
+                    className={b(
+                        {
+                            open,
+                            'hide-veil': hideVeil,
+                            'skip-animation': !showInitialAnimation && isInitialRender,
+                        },
+                        className,
+                    )}
                     data-qa={qa}
                     data-floating-ui-status={status}
                     data-transiting={isTransitionInProgress}

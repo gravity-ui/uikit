@@ -24,6 +24,8 @@ import type {DrawerDirection, OnResizeHandler} from '../utils';
 import {DrawerItem} from './DrawerItem';
 import type {DrawerItemProps} from './DrawerItem';
 
+import i18n from '../i18n';
+
 import './Drawer.scss';
 
 const b = block('drawer');
@@ -45,26 +47,43 @@ export interface DrawerProps
      * @default left
      */
     direction?: DrawerDirection;
-
+    /**
+     * Enables resizing of the drawer via pointer.
+     */
     resizable?: boolean;
-
+    /**
+     * Width of the drawer in pixels.
+     */
     size?: number;
-
+    /**
+     * Min width of the drawer in pixels.
+     */
     minSize?: number;
-
+    /**
+     * Max width of the drawer in pixels.
+     */
     maxSize?: number;
-
+    /**
+     * Callback called at the start of resizing.
+     */
     onResizeStart?: OnResizeHandler;
-
+    /**
+     * Callback called when the drawer is being resized.
+     */
     onResize?: OnResizeHandler;
-
+    /**
+     * Callback called at the end of resizing.
+     */
     onResizeEnd?: OnResizeHandler;
-
     /** Optional additional class names to style the background veil element. */
     veilClassName?: string;
-
     /** Optional flag to hide the background darkening */
     hideVeil?: boolean;
+    /**
+     * Option that enables first opening animation if the Drawer is being rendered with open state.
+     * @default false
+     */
+    showInitialAnimation?: boolean;
 }
 
 export const Drawer = ({
@@ -99,6 +118,7 @@ export const Drawer = ({
     hideVeil,
     keepMounted = false,
     container,
+    showInitialAnimation = false,
 }: DrawerProps) => {
     const floatingNodeId = useFloatingNodeId();
 
@@ -127,20 +147,25 @@ export const Drawer = ({
     const {getFloatingProps} = useInteractions([dismiss, role]);
 
     const [isTransitionInProgress, setIsTransitionInProgress] = React.useState(false);
+    const [isInitialRender, setInitialRender] = React.useState(true);
 
     const handleTransitionIn = React.useCallback(() => {
+        setInitialRender(false);
         setIsTransitionInProgress(true);
         onTransitionIn?.();
     }, [onTransitionIn]);
     const handleTransitionInComplete = React.useCallback(() => {
+        setInitialRender(false);
         setIsTransitionInProgress(false);
         onTransitionInComplete?.();
     }, [onTransitionInComplete]);
     const handleTransitionOut = React.useCallback(() => {
+        setInitialRender(false);
         setIsTransitionInProgress(true);
         onTransitionOut?.();
     }, [onTransitionOut]);
     const handleTransitionOutComplete = React.useCallback(() => {
+        setInitialRender(false);
         setIsTransitionInProgress(false);
         onTransitionOutComplete?.();
     }, [onTransitionOutComplete]);
@@ -180,7 +205,7 @@ export const Drawer = ({
             <Portal container={container} disablePortal={disablePortal}>
                 <FloatingOverlay
                     style={currentStyle}
-                    className={b({open, hideVeil}, className)}
+                    className={b({open, 'hide-veil': hideVeil, 'skip-animation': !showInitialAnimation && isInitialRender}, className)}
                     data-qa={qa}
                     data-floating-ui-status={status}
                     data-transiting={isTransitionInProgress}
@@ -198,7 +223,7 @@ export const Drawer = ({
                         modal={isMounted}
                         initialFocus={initialFocus ?? refs.floating}
                         returnFocus={returnFocus}
-                        visuallyHiddenDismiss={disableVisuallyHiddenDismiss ? false : 'Close'}
+                        visuallyHiddenDismiss={disableVisuallyHiddenDismiss ? false : i18n('close')}
                         restoreFocus={true}
                     >
                         <DrawerItem

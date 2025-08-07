@@ -17,7 +17,7 @@ $block: '.#{variables.$ns}drawer';
 
     --_--veil-background-color: var(--g-color-sfx-veil);
 
-    &_hideVeil {
+    &_hide-veil {
         --_--item-shadow: var(--g-drawer-item-shadow, var(--_--item-shadow-default));
     }
 
@@ -52,7 +52,7 @@ $block: '.#{variables.$ns}drawer';
             right: 0;
         }
 
-        &_disablePortal {
+        &_disable-portal {
             --_--item-position: static;
         }
     }
@@ -66,8 +66,8 @@ $block: '.#{variables.$ns}drawer';
         transform: translate(0, 0);
     }
 
-    &[data-floating-ui-status='open'] &__item,
-    &[data-floating-ui-status='close'] &__item {
+    &:not(&_skip-animation)[data-floating-ui-status='open'] &__item,
+    &:not(&_skip-animation)[data-floating-ui-status='close'] &__item {
         transition: transform 300ms;
     }
 
@@ -115,8 +115,8 @@ $block: '.#{variables.$ns}drawer';
         }
     }
 
-    &[data-floating-ui-status='open'] &__veil,
-    &[data-floating-ui-status='close'] &__veil {
+    &:not(&_skip-animation)[data-floating-ui-status='open'] &__veil,
+    &:not(&_skip-animation)[data-floating-ui-status='close'] &__veil {
         transition: opacity 300ms;
     }
 

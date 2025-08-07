@@ -132,7 +132,7 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
                         direction: cssDirection,
                         hidden: isInitialRender && !visible,
                         resize: isResizing,
-                        disablePortal,
+                        'disable-portal': disablePortal,
                     },
                     [className],
                 )}

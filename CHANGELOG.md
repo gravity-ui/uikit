@@ -1,5 +1,18 @@
 # Changelog
 
+## [7.19.0](https://github.com/gravity-ui/uikit/compare/v7.18.1...v7.19.0) (2025-08-08)
+
+
+### Features
+
+* **PlaceholderContainer:** add pin to props of action ([#2358](https://github.com/gravity-ui/uikit/issues/2358)) ([b25eca1](https://github.com/gravity-ui/uikit/commit/b25eca1c73f4735e6884c46436de7aa64860477e))
+
+
+### Bug Fixes
+
+* **Select:** add `type=button` in error message button ([#2374](https://github.com/gravity-ui/uikit/issues/2374)) ([723396b](https://github.com/gravity-ui/uikit/commit/723396bf18098754f0f51c918f7abf5d2acb695d))
+* **Select:** fix pin styles ([#2371](https://github.com/gravity-ui/uikit/issues/2371)) ([7151ac5](https://github.com/gravity-ui/uikit/commit/7151ac5000a9101f6305fe2393a4d4e482a3c5eb))
+
 ## [7.18.1](https://github.com/gravity-ui/uikit/compare/v7.18.0...v7.18.1) (2025-08-04)
 
 

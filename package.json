@@ -134,6 +134,7 @@
     "@tanstack/react-virtual": "^3.13.12",
     "@uiw/react-color": "^2.9.2",
     "blueimp-md5": "^2.19.0",
+    "i": "^0.3.7",
     "lodash": "^4.17.21",
     "rc-slider": "^11.1.9",
     "react-transition-group": "^4.4.5",

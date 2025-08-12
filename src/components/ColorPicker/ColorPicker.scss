@@ -1,0 +1,89 @@
+@use '../variables';
+/* stylelint-disable declaration-no-important */
+
+$block: '.#{variables.$ns}color-picker';
+
+#{$block} {
+    &__text {
+        padding: 0 var(--g-spacing-1);
+    }
+
+    &__input {
+        width: 50px;
+    }
+
+    &__color-display {
+        display: inline-block;
+        position: relative;
+    }
+
+    &__underlay {
+        width: 20px;
+        height: 20px;
+        background-image:
+            linear-gradient(45deg, #ccc 25%, transparent 25%),
+            linear-gradient(-45deg, #ccc 25%, transparent 25%),
+            linear-gradient(45deg, transparent 75%, #ccc 75%),
+            linear-gradient(-45deg, transparent 75%, #ccc 75%);
+        background-size: 10px 10px;
+        background-position:
+            0 0,
+            0 5px,
+            5px -5px,
+            -5px 0px;
+        position: relative;
+    }
+
+    &__overlay {
+        width: 20px;
+        height: 20px;
+
+        position: absolute;
+        inset-block-start: 0;
+        inset-inline-start: 0;
+        border-radius: var(--g-border-radius-m);
+    }
+
+    &__picker-wrapper {
+        padding: 4px;
+        width: 100px;
+    }
+
+    &__hex-input {
+        width: 100px;
+    }
+
+    &__popup {
+        padding: 4px;
+
+        .w-color-editable-input {
+            margin-inline-start: 0 !important;
+        }
+    }
+
+    &__hex-input {
+        width: 200px;
+
+        &_withAlpha {
+            width: 150px;
+        }
+    }
+
+    &__saturation {
+        width: 100% !important;
+        cursor: default !important;
+    }
+
+    &__slider {
+        height: 8px !important;
+    }
+
+    &__pointer {
+        .w-color-alpha-fill {
+            width: 16px !important;
+            height: 16px !important;
+            inset-block-start: 8px !important;
+            transform: translate(-9px, -4px) !important;
+        }
+    }
+}

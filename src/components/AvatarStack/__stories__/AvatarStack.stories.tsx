@@ -33,7 +33,6 @@ function getChildren({
                 size={avatarSize}
                 borderColor={'var(--g-color-line-generic-solid)'}
                 aria-label={'For tests'}
-                alt={'For tests'}
             />
         ),
         count,

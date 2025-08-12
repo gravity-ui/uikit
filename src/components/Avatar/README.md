@@ -207,15 +207,14 @@ LANDING_BLOCK-->
 
 ### Image-specific
 
-| Name            | Description                               |        Type        |   Default   |
-| :-------------- | :---------------------------------------- | :----------------: | :---------: |
-| imgUrl          | `img` `src` HTML attribute                |      `string`      |             |
-| fallbackImgUrl  | Fallback image shown if an error occurred |      `string`      |             |
-| sizes           | `img` `sizes` HTML attribute              |      `string`      |             |
-| srcSet          | `img` `srcSet` HTML attribute             |      `string`      |             |
-| alt             | `img` `alt` HTML attribute                |      `string`      | props.title |
-| loading         | `img` `loading` HTML attribute            | `'eager'` `'lazy'` |             |
-| withImageBorder | Add default border for the image          |     `boolean`      |             |
+| Name            | Description                               |        Type        | Default |
+| :-------------- | :---------------------------------------- | :----------------: | :-----: |
+| imgUrl          | `img` `src` HTML attribute                |      `string`      |         |
+| fallbackImgUrl  | Fallback image shown if an error occurred |      `string`      |         |
+| sizes           | `img` `sizes` HTML attribute              |      `string`      |         |
+| srcSet          | `img` `srcSet` HTML attribute             |      `string`      |         |
+| loading         | `img` `loading` HTML attribute            | `'eager'` `'lazy'` |         |
+| withImageBorder | Add default border for the image          |     `boolean`      |         |
 
 ### Icon-specific
 

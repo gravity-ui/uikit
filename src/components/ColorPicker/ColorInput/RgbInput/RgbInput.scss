@@ -1,0 +1,13 @@
+@use '../../../variables';
+
+$block: '.#{variables.$ns}rgb-input';
+
+#{$block} {
+    &__text {
+        padding: 0 var(--g-spacing-1);
+    }
+
+    &__input {
+        width: 50px;
+    }
+}

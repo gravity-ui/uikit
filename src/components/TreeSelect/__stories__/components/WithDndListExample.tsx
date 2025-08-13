@@ -1,14 +1,14 @@
 import * as React from 'react';
 
 import {Grip} from '@gravity-ui/icons';
-import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
+import {DragDropContext, Draggable, Droppable} from '@hello-pangea/dnd';
 import type {
     DraggableProvided,
     DraggableRubric,
     DraggableStateSnapshot,
     DroppableProvided,
     OnDragEndResponder,
-} from 'react-beautiful-dnd';
+} from '@hello-pangea/dnd';
 
 import {Icon} from '../../../Icon';
 import {Flex} from '../../../layout';

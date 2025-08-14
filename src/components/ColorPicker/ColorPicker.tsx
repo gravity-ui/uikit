@@ -99,6 +99,7 @@ export const ColorPicker = ({
             <ColorDisplay
                 hsva={hsva}
                 onClick={() => setState((prev) => ({...prev, open: true}))}
+                onColorChange={updateHsva}
                 ref={setAnchor}
             />
 

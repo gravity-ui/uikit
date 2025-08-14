@@ -3,13 +3,13 @@
 import * as React from 'react';
 
 import {Gear, Grip, Lock} from '@gravity-ui/icons';
-import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
+import {DragDropContext, Draggable, Droppable} from '@hello-pangea/dnd';
 import type {
     DraggableChildrenFn,
     DraggableProvided,
     DraggableStateSnapshot,
     OnDragEndResponder,
-} from 'react-beautiful-dnd';
+} from '@hello-pangea/dnd';
 
 import {useUniqId} from '../../../../../hooks';
 import {createOnKeyDownHandler} from '../../../../../hooks/useActionHandlers/useActionHandlers';

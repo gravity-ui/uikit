@@ -32,16 +32,12 @@ $block: '.#{variables.$ns}color-picker';
             5px -5px,
             -5px 0px;
         position: relative;
+        overflow: hidden;
     }
 
     &__overlay {
         width: 20px;
         height: 20px;
-
-        position: absolute;
-        inset-block-start: 0;
-        inset-inline-start: 0;
-        border-radius: var(--g-border-radius-m);
     }
 
     &__picker-wrapper {

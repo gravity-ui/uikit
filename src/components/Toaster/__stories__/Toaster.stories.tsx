@@ -80,6 +80,7 @@ export const Default: Story = {
         setTitle: true,
         showCloseIcon: true,
         allowAutoHiding: true,
+        animation: 'default',
     },
     argTypes: {
         mobile: disabledControl,

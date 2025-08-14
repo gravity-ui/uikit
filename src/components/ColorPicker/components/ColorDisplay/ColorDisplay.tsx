@@ -18,12 +18,7 @@ export const ColorDisplay = React.forwardRef<HTMLDivElement, ColorDisplayProps>(
     ({hsva, onClick}, ref) => (
         <Card view={'outlined'} className={b('picker-wrapper')} ref={ref}>
             <Flex alignItems={'center'} gap={2}>
-                <Button
-                    size={'s'}
-                    className={b('underlay')}
-                    style={{width: 20, height: 20}}
-                    onClick={onClick}
-                >
+                <Button size={'s'} className={b('underlay')} onClick={onClick}>
                     <div
                         className={b('overlay')}
                         style={{

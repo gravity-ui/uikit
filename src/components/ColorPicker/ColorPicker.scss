@@ -82,4 +82,13 @@ $block: '.#{variables.$ns}color-picker';
             transform: translate(-9px, -4px) !important;
         }
     }
+
+    &__color-pointer {
+        border: 4px solid #fff;
+        border-radius: 50%;
+        width: 8px;
+        height: 8px;
+        position: absolute;
+        box-shadow: 0 1px 5px 0 var(--g-color-sfx-shadow);
+    }
 }

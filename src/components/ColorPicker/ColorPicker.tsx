@@ -1,147 +1,162 @@
 import * as React from 'react';
 
-import type {HsvaColor, RgbaColor} from '@uiw/react-color';
-import {
-    Alpha,
-    EditableInput,
-    EditableInputRGBA,
-    Hue,
-    Saturation,
-    hexToHsva,
-    hsvaToHex,
-    hsvaToHexa,
-    hsvaToRgbString,
-    hsvaToRgba,
-    hsvaToRgbaString,
-    rgbStringToHsva,
-    rgbaStringToHsva,
-} from '@uiw/react-color';
+import type {HsvaColor} from '@uiw/react-color';
+import {Alpha, Hue, Saturation} from '@uiw/react-color';
 
-import {Button} from '../Button';
-import {Card} from '../Card';
 import {Popup} from '../Popup';
 import {Select} from '../Select';
-import {Text} from '../Text';
-import {TextInput} from '../controls';
 import {Flex} from '../layout';
-import {block} from '../utils/cn';
 
-import './ColorPicker.scss';
-enum Modes {
-    Hex = 'HEX',
-    Rgb = 'RGB',
+import {ColorDisplay, ColorPointer, HexInputs, RgbInputs} from './components';
+import {DEFAULT_COLOR, b} from './constants';
+import {Modes} from './types';
+import {useColorPickerState} from './useColorPickerState';
+import {convertSelectedModeColorToHsva, getTextValueByMode} from './utils';
+
+interface ColorPickerProps {
+    withAlpha?: boolean;
+    mode?: Modes;
+    defaultColor?: HsvaColor;
+    onChange?: (color: HsvaColor) => void;
+    onClose?: () => void;
 }
 
-const b = block('color-picker');
-
-const convertHsvaColorToHex = (hsva: HsvaColor, alpha: boolean): string => {
-    return alpha ? hsvaToHexa(hsva) : hsvaToHex(hsva);
-};
-
-const convertSelectedModeColorToHsva = (value: string, mode: Modes, alpha: boolean) => {
-    switch (mode) {
-        case Modes.Hex: {
-            return hexToHsva(value);
-        }
-        case Modes.Rgb: {
-            return alpha ? rgbaStringToHsva(value) : rgbStringToHsva(value);
-        }
-    }
-};
-
-function formatRgbaString(hsvaResult: RgbaColor) {
-    const {r, g, b, a} = hsvaResult;
-
-    const roundedA = Math.round(a * 100) / 100;
-
-    return `rgba(${r},${g},${b},${roundedA})`;
-}
-
-const getTextValueByMode = (hsva: HsvaColor, mode: Modes, alpha: boolean) => {
-    switch (mode) {
-        case Modes.Rgb: {
-            return alpha ? formatRgbaString(hsvaToRgba(hsva)) : hsvaToRgbString(hsva);
-        }
-        case Modes.Hex: {
-            return alpha ? hsvaToHexa(hsva) : hsvaToHex(hsva);
-        }
-    }
-};
 export const ColorPicker = ({
     withAlpha = true,
     mode = Modes.Hex,
-}: {
-    withAlpha: boolean;
-    mode: Modes;
-}) => {
-    const [open, setOpen] = React.useState(false);
-    const [hsva, setHsva] = React.useState<HsvaColor>({h: 0, s: 0, v: 68, a: 1});
-    const [modeState, setModeState] = React.useState(mode);
+    defaultColor = DEFAULT_COLOR,
+    onChange,
+    onClose,
+}: ColorPickerProps) => {
+    const [state, setState] = useColorPickerState(defaultColor, mode, withAlpha);
     const [anchor, setAnchor] = React.useState<HTMLDivElement | null>(null);
-    const [inputValue, setInputValue] = React.useState<string>(
-        convertHsvaColorToHex(hsva, withAlpha),
-    );
+
+    const {open, hsva, modeState, inputValue} = state;
 
     React.useEffect(() => {
-        setInputValue(convertHsvaColorToHex(hsva, withAlpha));
-    }, [hsva, modeState]);
+        setState((prev) => ({
+            ...prev,
+            inputValue: getTextValueByMode(
+                hsva,
+                modeState,
+                modeState === Modes.Hex ? false : withAlpha,
+            ),
+        }));
+    }, [hsva, modeState, withAlpha]);
+
+    React.useEffect(() => {
+        onChange?.(hsva);
+    }, [hsva, onChange]);
+
+    const updateHsva = (updates: Partial<HsvaColor>) => {
+        setState((prev) => ({
+            ...prev,
+            hsva: {...prev.hsva, ...updates},
+        }));
+    };
+
+    const handleOpenChange = React.useCallback(
+        (newOpen: boolean) => {
+            setState((prev) => ({...prev, open: newOpen}));
+            if (!newOpen) {
+                onClose?.();
+            }
+        },
+        [onClose],
+    );
+
+    const handleModeChange = (newMode: Modes) => {
+        setState((prev) => ({...prev, modeState: newMode}));
+    };
+
+    const handleInputChange = (value: string) => {
+        setState((prev) => ({...prev, inputValue: value}));
+    };
 
     const applyInputValue = React.useCallback(() => {
-        setHsva(convertSelectedModeColorToHsva(inputValue, modeState, withAlpha));
-    }, [modeState, inputValue, withAlpha]);
+        const newHsva = convertSelectedModeColorToHsva(
+            inputValue,
+            modeState,
+            modeState === Modes.Hex ? false : withAlpha,
+        );
+
+        if (modeState === Modes.Hex) {
+            updateHsva({...newHsva, a: hsva.a});
+        } else {
+            updateHsva(newHsva);
+        }
+    }, [modeState, inputValue, withAlpha, hsva.a, updateHsva]);
+
+    const handleAlphaChange = React.useCallback(
+        (alpha: number) => {
+            updateHsva({a: alpha});
+        },
+        [updateHsva],
+    );
 
     return (
         <React.Fragment>
-            <Card view={'outlined'} ref={setAnchor} className={b('picker-wrapper')}>
-                <Flex alignItems={'center'} gap={2}>
-                    <Button
-                        size={'s'}
-                        className={b('underlay')}
-                        style={{width: 20, height: 20}}
-                        onClick={() => setOpen(true)}
-                    >
-                        <div
-                            className={b('overlay')}
-                            style={{
-                                backgroundColor: hsvaToRgbaString(hsva),
-                            }}
-                        ></div>
-                    </Button>
+            <ColorDisplay
+                hsva={hsva}
+                onClick={() => setState((prev) => ({...prev, open: true}))}
+                ref={setAnchor}
+            />
 
-                    <div>{getTextValueByMode(hsva, Modes.Hex, false)}</div>
-                </Flex>
-            </Card>
             <Popup
                 open={open}
                 className={b('popup')}
                 placement={'bottom-end'}
                 anchorElement={anchor}
-                onOpenChange={setOpen}
+                onOpenChange={handleOpenChange}
             >
                 <Flex direction={'column'} gap={2}>
                     <Saturation
                         hsva={hsva}
-                        onChange={(newColor) => {
-                            setHsva({...hsva, ...newColor, a: hsva.a});
-                        }}
+                        onChange={(newColor) => updateHsva({...newColor, a: hsva.a})}
                         className={b('saturation')}
+                        radius={4}
+                        pointer={(props) => (
+                            <div {...props}>
+                                <ColorPointer
+                                    left={props.left}
+                                    top={props.top}
+                                    transform="translate(-8px, -8px)"
+                                />
+                            </div>
+                        )}
                     />
+
                     <Hue
                         className={b('slider')}
                         hue={hsva.h}
-                        onChange={(newHue) => {
-                            setHsva({...hsva, ...newHue});
-                        }}
+                        onChange={(newHue) => updateHsva(newHue)}
                         pointerProps={{className: b('pointer')}}
+                        radius={4}
+                        pointer={(props) => (
+                            <ColorPointer
+                                left={props.left}
+                                top={props.top}
+                                transform="translate(-4px, -4px)"
+                            />
+                        )}
                     />
+
                     {withAlpha && (
                         <Alpha
                             hsva={hsva}
-                            onChange={(newAlpha) => {
-                                setHsva({...hsva, ...newAlpha});
-                            }}
+                            onChange={(newAlpha) => updateHsva(newAlpha)}
                             className={b('slider')}
                             pointerProps={{className: b('pointer')}}
+                            radius={4}
+                            pointer={(props) => (
+                                <div {...props}>
+                                    <ColorPointer
+                                        left={props.left}
+                                        top={props.top}
+                                        transform="translate(-12px, -4px)"
+                                    />
+                                </div>
+                            )}
                         />
                     )}
 
@@ -153,166 +168,25 @@ export const ColorPicker = ({
                             }))}
                             multiple={false}
                             value={[modeState]}
-                            onUpdate={(val) => {
-                                setModeState(val[0] as Modes);
-                            }}
+                            onUpdate={(val) => handleModeChange(val[0] as Modes)}
                         />
+
                         {modeState === Modes.Hex && (
-                            <Flex>
-                                <EditableInput
-                                    value={inputValue}
-                                    onChange={(e) => setInputValue(e.target.value)}
-                                    onBlur={applyInputValue}
-                                    className={b('hex-input', {withAlpha})}
-                                    renderInput={(props) => (
-                                        <TextInput
-                                            value={String(props.value)}
-                                            onChange={props.onChange}
-                                            onBlur={props.onBlur}
-                                            pin={withAlpha ? 'round-brick' : 'round-round'}
-                                        />
-                                    )}
-                                />
-                                {withAlpha && (
-                                    <EditableInput
-                                        className={b('input')}
-                                        value={Math.round(hsva.a * 100)}
-                                        style={{marginTop: 0}}
-                                        onChange={(_, value) => {
-                                            const percentValue =
-                                                Number(value) > 100
-                                                    ? 100
-                                                    : Number(value) < 0
-                                                      ? 0
-                                                      : Number(value);
-
-                                            const alphaValue = percentValue / 100;
-
-                                            setHsva({...hsva, a: alphaValue});
-                                        }}
-                                        onBlur={(evn) => {
-                                            const v = Number(evn.target.value);
-
-                                            if (v > 100) {
-                                                evn.target.value = '100';
-                                            } else if (v < 0) {
-                                                evn.target.value = '0';
-                                            }
-                                        }}
-                                        label={undefined}
-                                        renderInput={(props) => {
-                                            return (
-                                                <TextInput
-                                                    onChange={props.onChange}
-                                                    value={String(props.value)}
-                                                    onBlur={props.onBlur}
-                                                    pin="clear-round"
-                                                    startContent={
-                                                        <Text
-                                                            className={b('text')}
-                                                            color={'secondary'}
-                                                            variant={'caption-1'}
-                                                        >
-                                                            A
-                                                        </Text>
-                                                    }
-                                                />
-                                            );
-                                        }}
-                                    />
-                                )}
-                            </Flex>
-                        )}
-                        {modeState === Modes.Rgb && (
-                            <EditableInputRGBA
+                            <HexInputs
+                                inputValue={inputValue}
                                 hsva={hsva}
-                                aProps={
-                                    withAlpha
-                                        ? {
-                                              renderInput: (props) => (
-                                                  <TextInput
-                                                      value={String(props.value)}
-                                                      className={b('input')}
-                                                      onChange={props.onChange}
-                                                      startContent={
-                                                          <Text
-                                                              className={b('text')}
-                                                              color={'secondary'}
-                                                              variant={'caption-1'}
-                                                          >
-                                                              A
-                                                          </Text>
-                                                      }
-                                                      pin={'clear-round'}
-                                                  />
-                                              ),
-                                              label: undefined,
-                                          }
-                                        : false
-                                }
-                                rProps={{
-                                    renderInput: (props) => (
-                                        <TextInput
-                                            value={String(props.value)}
-                                            onChange={props.onChange}
-                                            className={b('input')}
-                                            startContent={
-                                                <Text
-                                                    className={b('text')}
-                                                    color={'secondary'}
-                                                    variant={'caption-1'}
-                                                >
-                                                    R
-                                                </Text>
-                                            }
-                                            pin={'round-brick'}
-                                        />
-                                    ),
-                                    label: undefined,
-                                }}
-                                gProps={{
-                                    renderInput: (props) => (
-                                        <TextInput
-                                            value={String(props.value)}
-                                            onChange={props.onChange}
-                                            className={b('input')}
-                                            startContent={
-                                                <Text
-                                                    className={b('text')}
-                                                    color={'secondary'}
-                                                    variant={'caption-1'}
-                                                >
-                                                    G
-                                                </Text>
-                                            }
-                                            pin={'clear-clear'}
-                                        />
-                                    ),
-                                    label: undefined,
-                                }}
-                                bProps={{
-                                    renderInput: (props) => (
-                                        <TextInput
-                                            value={String(props.value)}
-                                            onChange={props.onChange}
-                                            className={b('input')}
-                                            startContent={
-                                                <Text
-                                                    className={b('text')}
-                                                    color={'secondary'}
-                                                    variant={'caption-1'}
-                                                >
-                                                    B
-                                                </Text>
-                                            }
-                                            pin={withAlpha ? 'brick-brick' : 'brick-round'}
-                                        />
-                                    ),
-                                    label: undefined,
-                                }}
-                                onChange={(color) => {
-                                    setHsva({...hsva, ...color.hsva});
-                                }}
+                                withAlpha={withAlpha}
+                                onInputChange={handleInputChange}
+                                onInputBlur={applyInputValue}
+                                onAlphaChange={handleAlphaChange}
+                            />
+                        )}
+
+                        {modeState === Modes.Rgb && (
+                            <RgbInputs
+                                hsva={hsva}
+                                withAlpha={withAlpha}
+                                onChange={(color) => updateHsva(color.hsva)}
                             />
                         )}
                     </Flex>

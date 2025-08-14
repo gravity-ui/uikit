@@ -73,9 +73,6 @@ $block: '.#{variables.$ns}definition-list';
         position: relative;
         display: inline-flex;
         align-items: center;
-        padding-inline-end: var(--_--copy-button);
-
-        margin-inline-end: calc(-1 * var(--_--copy-button));
 
         &:hover {
             #{$block}__copy-button {
@@ -87,8 +84,7 @@ $block: '.#{variables.$ns}definition-list';
     &__copy-button {
         position: absolute;
         display: inline-block;
-        inset-inline-end: 0;
-        margin-inline-start: 10px;
+        inset-inline-end: calc(-1 * var(--_--copy-button));
         opacity: 0;
         &:focus-visible {
             opacity: 1;

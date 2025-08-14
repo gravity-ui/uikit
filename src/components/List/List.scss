@@ -52,7 +52,7 @@ $block: '.#{variables.$ns}list';
             }
         }
 
-        // https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/preset-styles.md#phase-dragging-droppable-element
+        // https://github.com/hello-pangea/dnd/blob/master/docs/guides/preset-styles.md#phase-dragging-droppable-element
         &_sortable[data-rbd-drag-handle-context-id]:active {
             cursor: grabbing;
         }

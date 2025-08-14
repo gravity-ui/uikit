@@ -257,11 +257,6 @@ const WithTableSettingsTemplate: StoryFn<TableProps<DataItem>> = (args, context)
     }
 };
 export const HOCWithTableSettings = WithTableSettingsTemplate.bind({});
-HOCWithTableSettings.parameters = {
-    // Strict mode ruins sortable list due to this react-beautiful-dnd issue
-    // https://github.com/atlassian/react-beautiful-dnd/issues/2350
-    disableStrictMode: true,
-};
 const columnsWithSettings = cloneDeep(columns);
 const markColumnAsSelectedAlways = (idx: number) => {
     const column = columnsWithSettings[idx];
@@ -290,17 +285,10 @@ const WithFilterableSettingsTemplate: StoryFn<TableProps<DataItem>> = (args) => 
 };
 
 export const HOCWithFilterableTableSettings = WithFilterableSettingsTemplate.bind({});
-HOCWithFilterableTableSettings.parameters = {
-    disableStrictMode: true,
-};
 
 export const HOCWithTableSettingsFactory = WithTableSettingsTemplate.bind({});
 HOCWithTableSettingsFactory.parameters = {
     isFactory: true,
-
-    // Strict mode ruins sortable list due to this react-beautiful-dnd issue
-    // https://github.com/atlassian/react-beautiful-dnd/issues/2350
-    disableStrictMode: true,
 };
 
 const WithTableSettingsWithResetTemplate: StoryFn<TableProps<DataItem>> = (args) => {
@@ -318,11 +306,6 @@ const WithTableSettingsWithResetTemplate: StoryFn<TableProps<DataItem>> = (args)
 };
 
 export const HOCWithTableSettingsWithReset = WithTableSettingsWithResetTemplate.bind({});
-HOCWithTableSettingsWithReset.parameters = {
-    // Strict mode ruins sortable list due to this react-beautiful-dnd issue
-    // https://github.com/atlassian/react-beautiful-dnd/issues/2350
-    disableStrictMode: true,
-};
 
 const WithTableSettingsCustomActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
     const settings = React.useMemo(() => {
@@ -339,11 +322,6 @@ const WithTableSettingsCustomActionsTemplate: StoryFn<TableProps<DataItem>> = (a
     return <WithTableSettingsCustomActionsShowcase {...args} defaultSettings={settings} />;
 };
 export const HOCWithTableSettingsCustomActions = WithTableSettingsCustomActionsTemplate.bind({});
-HOCWithTableSettingsCustomActions.parameters = {
-    // Strict mode ruins sortable list due to this react-beautiful-dnd issue
-    // https://github.com/atlassian/react-beautiful-dnd/issues/2350
-    disableStrictMode: true,
-};
 
 // ---------------------------------
 const columnsWithSorting = cloneDeep(columns);

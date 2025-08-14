@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import type {DroppableProvided} from 'react-beautiful-dnd';
+import type {DroppableProvided} from '@hello-pangea/dnd';
 
 import type {ListItem} from './ListItem';
 

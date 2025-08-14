@@ -79,9 +79,6 @@ type WithDndListStoryObj = StoryObj<typeof WithDndListStory>;
 
 export const WithDndList: WithDndListStoryObj = {
     parameters: {
-        // Strict mode ruins sortable list due to this react-beautiful-dnd issue
-        // https://github.com/atlassian/react-beautiful-dnd/issues/2350
-        disableStrictMode: true,
         a11y: {
             context: '#storybook-root',
             config: {

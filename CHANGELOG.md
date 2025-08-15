@@ -1,5 +1,18 @@
 # Changelog
 
+## [7.20.0](https://github.com/gravity-ui/uikit/compare/v7.19.0...v7.20.0) (2025-08-15)
+
+
+### Features
+
+* use `@hello-pangea/dnd` instead of `react-beautiful-dnd` ([#2380](https://github.com/gravity-ui/uikit/issues/2380)) ([eec8953](https://github.com/gravity-ui/uikit/commit/eec8953b5a472a1d21dfc1fafd67b700781ac089))
+
+
+### Bug Fixes
+
+* **DefinitionList:** should not overflow parent container ([#2384](https://github.com/gravity-ui/uikit/issues/2384)) ([a82e5d2](https://github.com/gravity-ui/uikit/commit/a82e5d2dee9c46b06ab0a3b63a0460bd1eee26d7))
+* fix line-height style in font variables ([#2382](https://github.com/gravity-ui/uikit/issues/2382)) ([c4d2769](https://github.com/gravity-ui/uikit/commit/c4d2769bedd0f08ba3afa7af50dae84a6fe20bbc))
+
 ## [7.19.0](https://github.com/gravity-ui/uikit/compare/v7.18.1...v7.19.0) (2025-08-08)
 
 

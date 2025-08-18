@@ -18,6 +18,8 @@ import {
 } from './constants';
 import {updateBodyClassName, updateBodyDirection} from './dom-helpers';
 import type {Direction, RealTheme, Theme, ThemeContextProps} from './types';
+import type {LangOptions} from './useLang';
+import {LangContext, defaultLangOptions} from './useLang';
 import {useSystemTheme} from './useSystemTheme';
 
 const b = block(ROOT_CLASSNAME);
@@ -30,6 +32,7 @@ export interface ThemeProviderProps extends React.PropsWithChildren<{}> {
     scoped?: boolean;
     rootClassName?: string;
     layout?: Omit<PrivateLayoutProviderProps, 'children'>;
+    langOptions?: Partial<LangOptions>;
 }
 
 export function ThemeProvider({
@@ -41,9 +44,11 @@ export function ThemeProvider({
     rootClassName = '',
     children,
     layout,
+    langOptions,
 }: ThemeProviderProps) {
     const parentThemeState = React.useContext(ThemeContext);
     const systemThemeState = React.useContext(ThemeSettingsContext);
+    const langOptionsState = React.useContext(LangContext);
 
     const hasParentProvider = parentThemeState !== undefined;
     const scoped = hasParentProvider || scopedProp;
@@ -89,17 +94,22 @@ export function ThemeProvider({
         [systemLightTheme, systemDarkTheme],
     );
 
+    const langOptionsFinal = langOptions
+        ? {...defaultLangOptions, ...langOptionsState, ...langOptions}
+        : langOptionsState;
     return (
         <PrivateLayoutProvider {...layout}>
             <ThemeContext.Provider value={contextValue}>
                 <ThemeSettingsContext.Provider value={themeSettingsContext}>
-                    {scoped ? (
-                        <div className={b({theme: themeValue}, rootClassName)} dir={direction}>
-                            {children}
-                        </div>
-                    ) : (
-                        children
-                    )}
+                    <LangContext.Provider value={langOptionsFinal}>
+                        {scoped ? (
+                            <div className={b({theme: themeValue}, rootClassName)} dir={direction}>
+                                {children}
+                            </div>
+                        ) : (
+                            children
+                        )}
+                    </LangContext.Provider>
                 </ThemeSettingsContext.Provider>
             </ThemeContext.Provider>
         </PrivateLayoutProvider>

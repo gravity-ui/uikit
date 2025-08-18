@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
+import {addComponentKeysets} from '../../../i18n';
 import {Button} from '../../Button';
 import {Dialog} from '../../Dialog';
 import {Select} from '../../Select';
@@ -25,8 +26,31 @@ export default meta;
 
 type Story = StoryObj<typeof ThemeProvider>;
 
+const i18n = addComponentKeysets(
+    {
+        en: {
+            one: 'One',
+            two: 'Two',
+            three: 'Three',
+            'dialog.header': 'Dialog Header',
+            'dialog.body': 'Dialog Body',
+            'current direction': 'current direction',
+        },
+        ru: {
+            one: 'Один',
+            two: 'Два',
+            three: 'Три',
+            'dialog.header': 'Заголовок диалога',
+            'dialog.body': 'Тело диалога',
+            'current direction': 'текущее направление',
+        },
+    },
+    'provider_stories',
+);
+
 function ScopedComponent() {
     const [open, setOpen] = React.useState(false);
+    const {t} = i18n.useTranslation();
     return (
         <div>
             <Tooltip content="tooltip">
@@ -34,16 +58,16 @@ function ScopedComponent() {
                     onClick={() => {
                         setOpen(!open);
                     }}
-                >{`current direction: ${useDirection()}`}</Button>
+                >{`${t('current direction')}: ${useDirection()}`}</Button>
             </Tooltip>
             <Dialog open={open} onClose={() => setOpen(false)}>
-                <Dialog.Header caption="Dialog.Header" />
+                <Dialog.Header caption={t('dialog.header')} />
                 <Dialog.Body>
-                    Dialog.Body
+                    {t('dialog.body')}
                     <Select>
-                        <Select.Option value="one">One</Select.Option>
-                        <Select.Option value="two">Two</Select.Option>
-                        <Select.Option value="three">Three</Select.Option>
+                        <Select.Option value="one">{t('one')}</Select.Option>
+                        <Select.Option value="two">{t('two')}</Select.Option>
+                        <Select.Option value="three">{t('three')}</Select.Option>
                     </Select>
                 </Dialog.Body>
             </Dialog>
@@ -68,7 +92,7 @@ export const Scoped: Story = {
             <div
                 style={{
                     display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
+                    gridTemplateColumns: '1fr 1fr 1fr',
                     gridTemplateRows: '300px 300px',
                     gap: 10,
                 }}
@@ -94,6 +118,18 @@ export const Scoped: Story = {
                 <ThemeProvider {...props} theme="dark-hc" direction="rtl">
                     <div style={style}>
                         <Text>Inside scoped theme provider (dark-hc)</Text>
+                        <ScopedComponent />
+                    </div>
+                </ThemeProvider>
+                <ThemeProvider {...props} langOptions={{lang: 'en'}}>
+                    <div style={style}>
+                        <Text>Inside scoped theme provider (en)</Text>
+                        <ScopedComponent />
+                    </div>
+                </ThemeProvider>
+                <ThemeProvider {...props} langOptions={{lang: 'ru'}}>
+                    <div style={style}>
+                        <Text>Inside scoped theme provider (ru)</Text>
                         <ScopedComponent />
                     </div>
                 </ThemeProvider>

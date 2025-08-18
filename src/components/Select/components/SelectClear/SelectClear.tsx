@@ -9,6 +9,7 @@ import './SelectClear.scss';
 
 export const SelectClear = (props: SelectClearProps) => {
     const {size, onClick, onMouseEnter, onMouseLeave, renderIcon} = props;
+    const {t} = i18n.useTranslation();
     const icon = renderIcon ? (
         renderIcon()
     ) : (
@@ -17,7 +18,7 @@ export const SelectClear = (props: SelectClearProps) => {
     return (
         <button
             className={selectClearBlock({size})}
-            aria-label={i18n('label_clear')}
+            aria-label={t('label_clear')}
             onClick={onClick}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}

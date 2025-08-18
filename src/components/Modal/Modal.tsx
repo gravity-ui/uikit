@@ -251,6 +251,8 @@ function ModalComponent({
         [elements.floating, onEnterKeyDown],
     );
 
+    const {t} = i18n.useTranslation();
+
     return (
         <FloatingNode id={floatingNodeId}>
             {isMounted || keepMounted ? (
@@ -272,7 +274,7 @@ function ModalComponent({
                                     initialFocus={initialFocus ?? refs.floating}
                                     returnFocus={returnFocus}
                                     visuallyHiddenDismiss={
-                                        disableVisuallyHiddenDismiss ? false : i18n('close')
+                                        disableVisuallyHiddenDismiss ? false : t('close')
                                     }
                                     restoreFocus={true}
                                 >

@@ -35,6 +35,7 @@ const i18n = addComponentKeysets(
             'dialog.header': 'Dialog Header',
             'dialog.body': 'Dialog Body',
             'current direction': 'current direction',
+            tooltip: 'tooltip',
         },
         ru: {
             one: 'Один',
@@ -43,6 +44,7 @@ const i18n = addComponentKeysets(
             'dialog.header': 'Заголовок диалога',
             'dialog.body': 'Тело диалога',
             'current direction': 'текущее направление',
+            tooltip: 'подсказка',
         },
     },
     'provider_stories',
@@ -53,7 +55,7 @@ function ScopedComponent() {
     const {t} = i18n.useTranslation();
     return (
         <div>
-            <Tooltip content="tooltip">
+            <Tooltip content={t('tooltip')}>
                 <Button
                     onClick={() => {
                         setOpen(!open);
@@ -93,7 +95,7 @@ export const Scoped: Story = {
                 style={{
                     display: 'grid',
                     gridTemplateColumns: '1fr 1fr 1fr',
-                    gridTemplateRows: '300px 300px',
+                    gridTemplateRows: '300px 300px 300px',
                     gap: 10,
                 }}
             >
@@ -121,15 +123,27 @@ export const Scoped: Story = {
                         <ScopedComponent />
                     </div>
                 </ThemeProvider>
-                <ThemeProvider {...props} langOptions={{lang: 'en'}}>
+                <ThemeProvider {...props} lang="en">
                     <div style={style}>
                         <Text>Inside scoped theme provider (en)</Text>
                         <ScopedComponent />
                     </div>
                 </ThemeProvider>
-                <ThemeProvider {...props} langOptions={{lang: 'ru'}}>
+                <ThemeProvider {...props} lang="ru">
                     <div style={style}>
                         <Text>Inside scoped theme provider (ru)</Text>
+                        <ScopedComponent />
+                    </div>
+                </ThemeProvider>
+                <ThemeProvider {...props} lang="unknown" fallbackLang="en">
+                    <div style={style}>
+                        <Text>Inside scoped theme provider (fallback - en)</Text>
+                        <ScopedComponent />
+                    </div>
+                </ThemeProvider>
+                <ThemeProvider {...props} lang="unknown" fallbackLang="ru">
+                    <div style={style}>
+                        <Text>Inside scoped theme provider (fallback - ru)</Text>
                         <ScopedComponent />
                     </div>
                 </ThemeProvider>

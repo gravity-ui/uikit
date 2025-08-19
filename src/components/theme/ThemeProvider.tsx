@@ -24,7 +24,7 @@ import {useSystemTheme} from './useSystemTheme';
 
 const b = block(ROOT_CLASSNAME);
 
-export interface ThemeProviderProps extends React.PropsWithChildren<{}> {
+export interface ThemeProviderProps extends React.PropsWithChildren<{}>, Partial<LangOptions> {
     theme?: Theme;
     systemLightTheme?: RealTheme;
     systemDarkTheme?: RealTheme;
@@ -32,7 +32,6 @@ export interface ThemeProviderProps extends React.PropsWithChildren<{}> {
     scoped?: boolean;
     rootClassName?: string;
     layout?: Omit<PrivateLayoutProviderProps, 'children'>;
-    langOptions?: Partial<LangOptions>;
 }
 
 export function ThemeProvider({
@@ -44,7 +43,8 @@ export function ThemeProvider({
     rootClassName = '',
     children,
     layout,
-    langOptions,
+    lang,
+    fallbackLang,
 }: ThemeProviderProps) {
     const parentThemeState = React.useContext(ThemeContext);
     const systemThemeState = React.useContext(ThemeSettingsContext);
@@ -94,9 +94,15 @@ export function ThemeProvider({
         [systemLightTheme, systemDarkTheme],
     );
 
-    const langOptionsFinal = langOptions
-        ? {...defaultLangOptions, ...langOptionsState, ...langOptions}
-        : langOptionsState;
+    const langOptionsFinal =
+        lang || fallbackLang
+            ? {
+                  ...defaultLangOptions,
+                  ...langOptionsState,
+                  ...(lang ? {lang} : undefined),
+                  ...(fallbackLang ? {fallbackLang} : undefined),
+              }
+            : langOptionsState;
     return (
         <PrivateLayoutProvider {...layout}>
             <ThemeContext.Provider value={contextValue}>

@@ -34,7 +34,6 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref)
                     fallbackImgUrl={props.fallbackImgUrl}
                     sizes={props.sizes}
                     srcSet={props.srcSet}
-                    alt={props.alt || title}
                     loading={props.loading}
                     withImageBorder={props.withImageBorder}
                     size={size}

@@ -16,10 +16,7 @@ export const defaultLangOptions: LangOptions = {lang: 'en', fallbackLang: 'en'};
 export const LangContext = React.createContext<LangOptions | undefined>(undefined);
 
 export function useLang(): LangOptions {
-    const config = useSyncExternalStore(
-        (onChange) => subscribeConfigure(onChange),
-        () => getConfig(),
-    );
+    const config = useSyncExternalStore(subscribeConfigure, getConfig, getConfig);
 
     const context = React.useContext(LangContext);
 

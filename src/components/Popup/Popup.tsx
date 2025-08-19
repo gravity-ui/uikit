@@ -201,6 +201,8 @@ function PopupComponent({
         disablePortal,
     );
 
+    const {t} = i18n.useTranslation();
+
     const handleOpenChange = React.useCallback<NonNullable<UseFloatingOptions['onOpenChange']>>(
         (isOpen, event, reason) => {
             onOpenChange?.(isOpen, event, reason);
@@ -320,7 +322,7 @@ function PopupComponent({
                         initialFocus={initialFocus}
                         returnFocus={returnFocus}
                         closeOnFocusOut={!disableFocusOut}
-                        visuallyHiddenDismiss={disableVisuallyHiddenDismiss ? false : i18n('close')}
+                        visuallyHiddenDismiss={disableVisuallyHiddenDismiss ? false : t('close')}
                         guards={modal || !disablePortal}
                         order={focusOrder}
                     >

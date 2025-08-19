@@ -61,10 +61,12 @@ export const PaginationInput = ({numberOfPages, size, pageSize, onUpdate, classN
         }
     };
 
+    const {t} = i18n.useTranslation();
+
     return (
         <TextInput
             className={b({size}, className)}
-            placeholder={i18n('label_input-placeholder')}
+            placeholder={t('label_input-placeholder')}
             size={size}
             value={value}
             onUpdate={handleUpdateValue}

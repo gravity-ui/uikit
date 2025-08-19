@@ -44,11 +44,12 @@ const DEFAULT_TIMEOUT = 1200;
 const ButtonSizeToIconSize: Record<ButtonSize, number> = {xs: 12, s: 16, m: 16, l: 16, xl: 20};
 
 const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
+    const {t} = i18n.useTranslation();
     const {
         size = 'm',
         hasTooltip = true,
-        tooltipInitialText = i18n('startCopy'),
-        tooltipSuccessText = i18n('endCopy'),
+        tooltipInitialText = t('startCopy'),
+        tooltipSuccessText = t('endCopy'),
         status,
         view = 'flat',
         children,

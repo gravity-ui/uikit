@@ -19,6 +19,7 @@ export interface ButtonCloseProps {
 }
 
 export function ButtonClose({onClose}: ButtonCloseProps) {
+    const {t} = i18n.useTranslation();
     return (
         <div className={b()}>
             <Button
@@ -26,7 +27,7 @@ export function ButtonClose({onClose}: ButtonCloseProps) {
                 size="l"
                 className={b('btn')}
                 onClick={(event) => onClose(event, {isOutsideClick: false})}
-                aria-label={i18n('close')}
+                aria-label={t('close')}
             >
                 <Icon data={Xmark} size={20} />
             </Button>

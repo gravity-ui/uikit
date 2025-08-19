@@ -31,6 +31,7 @@ export const PaginationButton = ({
 }: Props) => {
     let button: React.ReactNode = null;
     const {disabled} = item;
+    const {t} = i18n.useTranslation();
 
     switch (item.action) {
         case 'first':
@@ -40,12 +41,12 @@ export const PaginationButton = ({
                     view="outlined"
                     className={className}
                     onClick={() => onUpdate(1, pageSize)}
-                    title={compact ? i18n('button_first') : undefined}
+                    title={compact ? t('button_first') : undefined}
                     disabled={disabled}
                     qa={PaginationQa.PaginationButtonFirst}
                 >
                     <Icon data={ChevronsLeft} size="16" />
-                    {compact ? undefined : i18n('button_first')}
+                    {compact ? undefined : t('button_first')}
                 </Button>
             );
             break;
@@ -56,12 +57,12 @@ export const PaginationButton = ({
                     view="outlined"
                     className={className}
                     onClick={() => onUpdate(page - 1, pageSize)}
-                    title={compact ? i18n('button_previous') : undefined}
+                    title={compact ? t('button_previous') : undefined}
                     disabled={disabled}
                     qa={PaginationQa.PaginationButtonPrevious}
                 >
                     <Icon data={ChevronLeft} size="16" />
-                    {compact ? undefined : i18n('button_previous')}
+                    {compact ? undefined : t('button_previous')}
                 </Button>
             );
             break;
@@ -72,12 +73,12 @@ export const PaginationButton = ({
                     view="outlined"
                     className={className}
                     onClick={() => onUpdate(page + 1, pageSize)}
-                    title={compact ? i18n('button_next') : undefined}
+                    title={compact ? t('button_next') : undefined}
                     disabled={disabled}
                     qa={PaginationQa.PaginationButtonNext}
                 >
                     <Icon data={ChevronRight} size="16" />
-                    {compact ? undefined : i18n('button_next')}
+                    {compact ? undefined : t('button_next')}
                 </Button>
             );
             break;

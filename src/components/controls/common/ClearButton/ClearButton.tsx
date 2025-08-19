@@ -53,13 +53,15 @@ export const ClearButton = (props: Props) => {
         event.preventDefault();
     };
 
+    const {t} = i18n.useTranslation();
+
     return (
         <Button
             size={size}
             className={b(null, className)}
             onClick={onClick}
             onMouseDown={preventDefaultHandler}
-            aria-label={i18n('label_clear-button')}
+            aria-label={t('label_clear-button')}
         >
             <Icon data={Xmark} size={ICON_SIZE} />
         </Button>

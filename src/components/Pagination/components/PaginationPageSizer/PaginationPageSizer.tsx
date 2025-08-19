@@ -50,6 +50,8 @@ export const PaginationPageSizer = ({
         onUpdate(newPage, newPageSize);
     };
 
+    const {t} = i18n.useTranslation();
+
     return (
         <Select
             qa={PaginationQa.PaginationPageSizer}
@@ -58,7 +60,7 @@ export const PaginationPageSizer = ({
             onUpdate={handleUpdate}
             options={options}
             value={[String(pageSize)]}
-            title={i18n('label_select_size')}
+            title={t('label_select_size')}
         />
     );
 };

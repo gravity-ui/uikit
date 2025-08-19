@@ -16,7 +16,6 @@ import './UserLabel.scss';
 const b = block('user-label');
 
 export const UserLabel = React.forwardRef<HTMLDivElement, UserLabelProps>(
-    // eslint-disable-next-line complexity
     (
         {
             type = 'person',
@@ -76,6 +75,8 @@ export const UserLabel = React.forwardRef<HTMLDivElement, UserLabelProps>(
 
         const showDescription = Boolean(description && !COMPACT_SIZES.has(size));
 
+        const {t} = i18n.useTranslation();
+
         return (
             <div
                 className={b(
@@ -109,7 +110,7 @@ export const UserLabel = React.forwardRef<HTMLDivElement, UserLabelProps>(
                     <button
                         className={b('close')}
                         type="button"
-                        aria-label={i18n('label_remove-button')}
+                        aria-label={t('label_remove-button')}
                         onClick={onCloseClick}
                     >
                         <Icon className={b('close-icon')} data={Xmark} size={ICON_SIZES[size]} />

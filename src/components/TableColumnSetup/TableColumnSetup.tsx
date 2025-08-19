@@ -68,6 +68,8 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         onUpdate: propsOnUpdate,
     } = props;
 
+    const {t} = i18n.useTranslation();
+
     const renderStatus = () => {
         if (!showStatus) {
             return null;
@@ -86,7 +88,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
             switcher || (
                 <Button disabled={disabled} onClick={switcherProps.onClick}>
                     <Icon data={Gear} />
-                    {i18n('button_switcher')}
+                    {t('button_switcher')}
                     {renderStatus()}
                 </Button>
             )

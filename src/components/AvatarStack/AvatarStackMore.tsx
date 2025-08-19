@@ -21,16 +21,19 @@ export const AvatarStackMore = React.forwardRef<HTMLDivElement, AvatarStackMoreP
             size = DEFAULT_AVATAR_SIZE,
         },
         ref,
-    ) => (
-        <div
-            ref={ref}
-            className={b('more', {size, 'has-border': Boolean(borderColor)}, className)}
-            aria-label={ariaLabel || i18n('more', {count})}
-            style={{borderColor}}
-        >
-            +{count}
-        </div>
-    ),
+    ) => {
+        const {t} = i18n.useTranslation();
+        return (
+            <div
+                ref={ref}
+                className={b('more', {size, 'has-border': Boolean(borderColor)}, className)}
+                aria-label={ariaLabel || t('more', {count})}
+                style={{borderColor}}
+            >
+                +{count}
+            </div>
+        );
+    },
 );
 
 AvatarStackMore.displayName = 'AvatarStack.More';

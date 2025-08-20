@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import {Pencil} from '@gravity-ui/icons';
+import {CircleChevronDownFill, Pencil} from '@gravity-ui/icons';
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
-import _cloneDeep from 'lodash/cloneDeep';
-import _isEqual from 'lodash/isEqual';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
 import {action} from 'storybook/actions';
 
 import type {TableAction, TableSettingsData} from '..';
@@ -90,17 +90,29 @@ RowInteractive.args = {
 };
 
 // ---------------------------------
-const oneColumn = _cloneDeep(columns);
+const oneColumn = cloneDeep(columns);
 oneColumn[1].width = '100%';
 
-const twoColumns = _cloneDeep(columns);
+const twoColumns = cloneDeep(columns);
 twoColumns[1].width = '50%';
 twoColumns[2].width = '50%';
 
-const threeColumns = _cloneDeep(columns);
+const threeColumns = cloneDeep(columns);
 threeColumns[0].width = '33%';
 threeColumns[1].width = '33%';
 threeColumns[2].width = '33%';
+
+const CustomIconTestSVG = (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 17 17"
+        width="16"
+        height="16"
+        fill="currentColor"
+    >
+        <path d="M4 7h9v3H4z" />
+    </svg>
+);
 
 const AdaptiveTemplate: StoryFn<TableProps<DataItem>> = (args) => {
     return (
@@ -183,6 +195,23 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
                     );
                 }}
             />
+            <br />
+            <h3>{'with rowActionsIcon property as an SVG'}</h3>
+            <TableWithAction
+                {...args}
+                getRowActions={getRowActions}
+                rowActionsIcon={CustomIconTestSVG}
+            />
+            <br />
+            <h3>{'with rowActionsIcon property as a string'}</h3>
+            <TableWithAction {...args} getRowActions={getRowActions} rowActionsIcon="⭐" />
+            <br />
+            <h3>{'with rowActionsIcon property as a react component'}</h3>
+            <TableWithAction
+                {...args}
+                getRowActions={getRowActions}
+                rowActionsIcon={<Icon data={CircleChevronDownFill} size={12} />}
+            />
         </React.Fragment>
     );
 };
@@ -192,7 +221,7 @@ HOCWithTableActions.args = {
 };
 
 // ---------------------------------
-const columnsWithCopy = _cloneDeep(columns);
+const columnsWithCopy = cloneDeep(columns);
 columnsWithCopy[0].meta = {copy: true};
 const WithTableCopyTemplate: StoryFn<TableProps<DataItem>> = (args) => <TableWithCopy {...args} />;
 export const HOCWithTableCopy = WithTableCopyTemplate.bind({});
@@ -228,12 +257,7 @@ const WithTableSettingsTemplate: StoryFn<TableProps<DataItem>> = (args, context)
     }
 };
 export const HOCWithTableSettings = WithTableSettingsTemplate.bind({});
-HOCWithTableSettings.parameters = {
-    // Strict mode ruins sortable list due to this react-beautiful-dnd issue
-    // https://github.com/atlassian/react-beautiful-dnd/issues/2350
-    disableStrictMode: true,
-};
-const columnsWithSettings = _cloneDeep(columns);
+const columnsWithSettings = cloneDeep(columns);
 const markColumnAsSelectedAlways = (idx: number) => {
     const column = columnsWithSettings[idx];
     column.meta = column.meta || {};
@@ -261,17 +285,10 @@ const WithFilterableSettingsTemplate: StoryFn<TableProps<DataItem>> = (args) => 
 };
 
 export const HOCWithFilterableTableSettings = WithFilterableSettingsTemplate.bind({});
-HOCWithFilterableTableSettings.parameters = {
-    disableStrictMode: true,
-};
 
 export const HOCWithTableSettingsFactory = WithTableSettingsTemplate.bind({});
 HOCWithTableSettingsFactory.parameters = {
     isFactory: true,
-
-    // Strict mode ruins sortable list due to this react-beautiful-dnd issue
-    // https://github.com/atlassian/react-beautiful-dnd/issues/2350
-    disableStrictMode: true,
 };
 
 const WithTableSettingsWithResetTemplate: StoryFn<TableProps<DataItem>> = (args) => {
@@ -283,17 +300,12 @@ const WithTableSettingsWithResetTemplate: StoryFn<TableProps<DataItem>> = (args)
             settings={settings}
             updateSettings={setSettings}
             defaultSettings={DEFAULT_SETTINGS}
-            showResetButton={!_isEqual(DEFAULT_SETTINGS, settings)}
+            showResetButton={!isEqual(DEFAULT_SETTINGS, settings)}
         />
     );
 };
 
 export const HOCWithTableSettingsWithReset = WithTableSettingsWithResetTemplate.bind({});
-HOCWithTableSettingsWithReset.parameters = {
-    // Strict mode ruins sortable list due to this react-beautiful-dnd issue
-    // https://github.com/atlassian/react-beautiful-dnd/issues/2350
-    disableStrictMode: true,
-};
 
 const WithTableSettingsCustomActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
     const settings = React.useMemo(() => {
@@ -310,14 +322,9 @@ const WithTableSettingsCustomActionsTemplate: StoryFn<TableProps<DataItem>> = (a
     return <WithTableSettingsCustomActionsShowcase {...args} defaultSettings={settings} />;
 };
 export const HOCWithTableSettingsCustomActions = WithTableSettingsCustomActionsTemplate.bind({});
-HOCWithTableSettingsCustomActions.parameters = {
-    // Strict mode ruins sortable list due to this react-beautiful-dnd issue
-    // https://github.com/atlassian/react-beautiful-dnd/issues/2350
-    disableStrictMode: true,
-};
 
 // ---------------------------------
-const columnsWithSorting = _cloneDeep(columns);
+const columnsWithSorting = cloneDeep(columns);
 columnsWithSorting[0].meta = {sort: true};
 columnsWithSorting[2].meta = {sort: true};
 columnsWithSorting[3].meta = {sort: true};

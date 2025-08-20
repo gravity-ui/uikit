@@ -243,4 +243,36 @@ describe('SegmentedRadioGroup', () => {
             },
         );
     });
+
+    describe('in form', () => {
+        test('should support form reset', async () => {
+            function Test() {
+                const [value, setValue] = React.useState('Value 2');
+                return (
+                    <form aria-label="Test form">
+                        <SegmentedRadioGroup
+                            name="radio-field"
+                            options={options}
+                            value={value}
+                            onUpdate={setValue}
+                        />
+                        <button type="reset">Reset</button>
+                    </form>
+                );
+            }
+
+            render(<Test />);
+            const form = screen.getByRole('form', {name: 'Test form'});
+            expect(form).toHaveFormValues({'radio-field': 'Value 2'});
+
+            await userEvent.tab();
+            await userEvent.keyboard('{ArrowLeft}');
+
+            expect(form).toHaveFormValues({'radio-field': 'Value 1'});
+
+            const button = screen.getByRole('button', {name: 'Reset'});
+            await userEvent.click(button);
+            expect(form).toHaveFormValues({'radio-field': 'Value 2'});
+        });
+    });
 });

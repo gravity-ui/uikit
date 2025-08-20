@@ -13,10 +13,11 @@ $transition-distance: 10px;
 #{$block} {
     --_--background-color: var(--g-popup-background-color, var(--g-color-base-float));
     --_--border-color: var(--g-popup-border-color, var(--g-color-line-generic-solid));
+    --_--border-radius: var(--g-popup-border-radius, 4px);
     --_--border-width: var(--g-popup-border-width, 1px);
 
     position: relative;
-    border-radius: 4px;
+    border-radius: var(--_--border-radius);
     background-color: var(--_--background-color);
     box-shadow:
         0 0 0 var(--_--border-width) var(--_--border-color),
@@ -74,6 +75,13 @@ $transition-distance: 10px;
     @at-root [data-floating-ui-status='initial'][data-floating-ui-placement*='right'] > &,
         [data-floating-ui-status='close'][data-floating-ui-placement*='right'] > & {
         transform: translateX($transition-distance);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        @at-root [data-floating-ui-status][data-floating-ui-placement] > & {
+            transform: none;
+            transition-property: opacity;
+        }
     }
 
     &__arrow {

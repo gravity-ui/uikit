@@ -39,6 +39,14 @@ $block: '.#{variables.$ns}sheet';
         &_with-transition {
             transition: transform $transition-duration ease;
         }
+
+        @media (prefers-reduced-motion: reduce) {
+            opacity: 0;
+
+            &_with-transition {
+                transition: opacity $transition-duration ease;
+            }
+        }
     }
 
     &__sheet-swipe-area {
@@ -81,6 +89,10 @@ $block: '.#{variables.$ns}sheet';
 
         &_without-scroll {
             overflow: hidden;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            transition-duration: 1ms;
         }
     }
 

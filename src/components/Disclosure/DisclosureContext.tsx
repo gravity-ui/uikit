@@ -7,17 +7,22 @@ import {useUniqId} from '../../hooks';
 import type {DisclosureProps} from './Disclosure';
 
 interface DisclosureProviderProps
-    extends Required<Omit<DisclosureProps, 'className' | 'expanded' | 'qa'>> {
+    extends Required<Omit<DisclosureProps, 'className' | 'expanded' | 'qa' | 'onSummaryKeyDown'>> {
     expanded: DisclosureProps['expanded'];
+    onSummaryKeyDown?: DisclosureProps['onSummaryKeyDown'];
 }
 
 export const DisclosureAttributesContext = React.createContext<
     | (Required<
-          Omit<DisclosureProps, 'defaultExpanded' | 'className' | 'children' | 'onUpdate' | 'qa'>
+          Omit<
+              DisclosureProps,
+              'defaultExpanded' | 'className' | 'children' | 'onUpdate' | 'qa' | 'onSummaryKeyDown'
+          >
       > & {
           expanded: boolean;
           ariaControls: string;
           ariaLabelledby: string;
+          onSummaryKeyDown?: DisclosureProps['onSummaryKeyDown'];
       })
     | undefined
 >(undefined);
@@ -34,6 +39,7 @@ export function DisclosureProvider(props: DisclosureProviderProps) {
         summary,
         keepMounted,
         onUpdate,
+        onSummaryKeyDown,
         expanded: controlledExpanded,
     } = props;
     const [expanded, setExpanded] = React.useState(() => Boolean(defaultExpanded));
@@ -59,6 +65,7 @@ export function DisclosureProvider(props: DisclosureProviderProps) {
                 expanded: controlledMode ? controlledExpanded : expanded,
                 ariaControls,
                 ariaLabelledby,
+                onSummaryKeyDown,
             }}
         >
             <DisclosureToggleContext.Provider value={handleToggle}>

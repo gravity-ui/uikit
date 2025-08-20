@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {Plus, TrashBin} from '@gravity-ui/icons';
 import type {Decorator, Meta, StoryObj} from '@storybook/react-webpack5';
-import {escapeRegExp} from 'lodash';
+import escapeRegExp from 'lodash/escapeRegExp';
 import {useArgs} from 'storybook/preview-api';
 
 import {Select} from '..';
@@ -16,6 +16,7 @@ import {block} from '../../utils/cn';
 
 import {SelectPopupWidthShowcase} from './SelectPopupWidthShowcase';
 import {UseSelectOptionsShowcase} from './UseSelectOptionsShowcase';
+import {WithActionButtonsShowcase} from './WithActionButtonsShowcase';
 
 import './SelectShowcase.scss';
 
@@ -96,6 +97,10 @@ export const Form = {
             </div>
         </form>
     ),
+} satisfies Story;
+
+export const WithActionButtons = {
+    render: (args) => <WithActionButtonsShowcase {...args} />,
 } satisfies Story;
 
 const WithTitle: Decorator<StoryArgs> = (Story, context) => {

@@ -73,38 +73,38 @@
 
 @mixin pin($block, $selectors, $radius, $append: true) {
     @each $selector in $selectors {
-        &#{get-pin-selector(#{$block}_pin_round-round, $selector, $append)} {
+        @at-root #{get-pin-selector(#{$block}_pin_round-round, $selector, $append)} {
             border-radius: $radius;
         }
 
-        &#{get-pin-selector(#{$block}_pin_brick-brick, $selector, $append)} {
+        @at-root #{get-pin-selector(#{$block}_pin_brick-brick, $selector, $append)} {
             border-radius: 0;
         }
 
-        &#{get-pin-selector(#{$block}_pin_clear-clear, $selector, $append)} {
+        @at-root #{get-pin-selector(#{$block}_pin_clear-clear, $selector, $append)} {
             border-radius: 0;
             border-inline: 0;
         }
 
-        &#{get-pin-selector(#{$block}_pin_circle-circle, $selector, $append)} {
+        @at-root #{get-pin-selector(#{$block}_pin_circle-circle, $selector, $append)} {
             border-radius: 100px;
         }
 
-        &#{get-pin-selector(#{$block}_pin_round-brick, $selector, $append)} {
+        @at-root #{get-pin-selector(#{$block}_pin_round-brick, $selector, $append)} {
             border-start-start-radius: $radius;
             border-start-end-radius: 0;
             border-end-start-radius: $radius;
             border-end-end-radius: 0;
         }
 
-        &#{get-pin-selector(#{$block}_pin_brick-round, $selector, $append)} {
+        @at-root #{get-pin-selector(#{$block}_pin_brick-round, $selector, $append)} {
             border-start-start-radius: 0;
             border-start-end-radius: $radius;
             border-end-start-radius: 0;
             border-end-end-radius: $radius;
         }
 
-        &#{get-pin-selector(#{$block}_pin_round-clear, $selector, $append)} {
+        @at-root #{get-pin-selector(#{$block}_pin_round-clear, $selector, $append)} {
             border-start-start-radius: $radius;
             border-start-end-radius: 0;
             border-end-start-radius: $radius;
@@ -112,7 +112,7 @@
             border-inline-end: 0;
         }
 
-        &#{get-pin-selector(#{$block}_pin_clear-round, $selector, $append)} {
+        @at-root #{get-pin-selector(#{$block}_pin_clear-round, $selector, $append)} {
             border-start-start-radius: 0;
             border-start-end-radius: $radius;
             border-end-start-radius: 0;
@@ -120,31 +120,31 @@
             border-inline-start: 0;
         }
 
-        &#{get-pin-selector(#{$block}_pin_brick-clear, $selector, $append)} {
+        @at-root #{get-pin-selector(#{$block}_pin_brick-clear, $selector, $append)} {
             border-radius: 0;
             border-inline-end: 0;
         }
 
-        &#{get-pin-selector(#{$block}_pin_clear-brick, $selector, $append)} {
+        @at-root #{get-pin-selector(#{$block}_pin_clear-brick, $selector, $append)} {
             border-radius: 0;
             border-inline-start: 0;
         }
 
-        &#{get-pin-selector(#{$block}_pin_circle-brick, $selector, $append)} {
+        @at-root #{get-pin-selector(#{$block}_pin_circle-brick, $selector, $append)} {
             border-start-start-radius: 100px;
             border-start-end-radius: 0;
             border-end-start-radius: 100px;
             border-end-end-radius: 0;
         }
 
-        &#{get-pin-selector(#{$block}_pin_brick-circle, $selector, $append)} {
+        @at-root #{get-pin-selector(#{$block}_pin_brick-circle, $selector, $append)} {
             border-start-start-radius: 0;
             border-start-end-radius: 100px;
             border-end-start-radius: 0;
             border-end-end-radius: 100px;
         }
 
-        &#{get-pin-selector(#{$block}_pin_circle-clear, $selector, $append)} {
+        @at-root #{get-pin-selector(#{$block}_pin_circle-clear, $selector, $append)} {
             border-start-start-radius: 100px;
             border-start-end-radius: 0;
             border-end-start-radius: 100px;
@@ -152,7 +152,7 @@
             border-inline-end: 0;
         }
 
-        &#{get-pin-selector(#{$block}_pin_clear-circle, $selector, $append)} {
+        @at-root #{get-pin-selector(#{$block}_pin_clear-circle, $selector, $append)} {
             border-start-start-radius: 0;
             border-start-end-radius: 100px;
             border-end-start-radius: 0;
@@ -328,6 +328,10 @@
 
     // stylelint-disable-next-line no-unknown-animations
     animation: g-loading-animation 0.5s linear infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+        animation: none;
+    }
 }
 
 @mixin scrollbar() {

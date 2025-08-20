@@ -6,6 +6,7 @@ $block: '.#{variables.$ns}definition-list';
 #{$block} {
     --_--item-block-start: var(--g-spacing-4);
     --_--term-width: 300px;
+    --_--copy-button: var(--g-spacing-7);
     margin: 0;
 
     &__item {
@@ -46,6 +47,9 @@ $block: '.#{variables.$ns}definition-list';
         margin: 0;
     }
 
+    &_with-copy {
+        padding-inline-end: var(--_--copy-button);
+    }
     &_responsive {
         #{$block}__term-container {
             --_--term-width: auto;
@@ -69,9 +73,6 @@ $block: '.#{variables.$ns}definition-list';
         position: relative;
         display: inline-flex;
         align-items: center;
-        padding-inline-end: var(--g-spacing-7);
-
-        margin-inline-end: calc(-1 * var(--g-spacing-7));
 
         &:hover {
             #{$block}__copy-button {
@@ -83,15 +84,10 @@ $block: '.#{variables.$ns}definition-list';
     &__copy-button {
         position: absolute;
         display: inline-block;
-        inset-inline-end: 0;
-        margin-inline-start: 10px;
+        inset-inline-end: calc(-1 * var(--_--copy-button));
         opacity: 0;
         &:focus-visible {
             opacity: 1;
         }
-    }
-
-    &__note {
-        vertical-align: middle;
     }
 }

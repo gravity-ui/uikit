@@ -35,17 +35,13 @@ interface ClipboardButtonComponentProps extends Omit<ButtonButtonProps, 'onCopy'
     tooltipSuccessText?: string;
     /** Position of clipboard icon */
     iconPosition?: 'start' | 'end';
+    /** Custom icon */
+    icon?: React.ReactNode;
 }
 
 const DEFAULT_TIMEOUT = 1200;
 
-const ButtonSizeToIconSize: Record<ButtonSize, number> = {
-    xs: 12,
-    s: 16,
-    m: 16,
-    l: 16,
-    xl: 20,
-};
+const ButtonSizeToIconSize: Record<ButtonSize, number> = {xs: 12, s: 16, m: 16, l: 16, xl: 20};
 
 const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
     const {
@@ -58,12 +54,13 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
         children,
         iconPosition = 'start',
         closeDelay,
+        icon,
         ...rest
     } = props;
 
     const buttonIcon = (
         <Button.Icon className={b('icon')}>
-            <ClipboardIcon size={ButtonSizeToIconSize[size]} status={status} />
+            {icon ?? <ClipboardIcon size={ButtonSizeToIconSize[size]} status={status} />}
         </Button.Icon>
     );
 

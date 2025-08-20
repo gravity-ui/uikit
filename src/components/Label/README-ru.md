@@ -199,6 +199,7 @@ LANDING_BLOCK-->
 
 - `disabled` — взаимодействие с лейблом запрещено.
 - `interactive` — лейбл становится интерактивным по ховеру.
+- `loading` — отображает состояние загрузки.
 
 <!--LANDING_BLOCK
 
@@ -207,11 +208,13 @@ LANDING_BLOCK-->
 <Label>Default</Label>
 <Label disabled>Disabled</Label>
 <Label interactive>Interactive</Label>
+<Label loading>Loading</Label>
 `}
 >
     <UIKit.Label>Default</UIKit.Label>
     <UIKit.Label disabled>Disabled</UIKit.Label>
     <UIKit.Label interactive>Interactive</UIKit.Label>
+    <UIKit.Label loading>Loading</UIKit.Label>
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -222,6 +225,7 @@ LANDING_BLOCK-->
 <Label>Default</Label>
 <Label disabled>Disabled</Label>
 <Label interactive>Interactive</Label>
+<Label loading>Loading</Label>
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -275,3 +279,4 @@ LANDING_BLOCK-->
 | value            | Значение лейбла (в виде `"children : value"`).         |            `React.ReactNode`            |                       |
 | title            | HTML-атрибут `title`.                                  |                `string`                 |                       |
 | qa               | HTML-атрибут `data-qa`, используется для тестирования. |                `string`                 |                       |
+| loading          | Состояние загрузки.                                    |                `boolean`                |        `false`        |

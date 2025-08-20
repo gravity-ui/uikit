@@ -1,5 +1,4 @@
 import userEvent from '@testing-library/user-event';
-import _ from 'lodash';
 
 import {fireEvent, render, screen, waitFor} from '../../../../test-utils/utils';
 import {Button} from '../../Button';

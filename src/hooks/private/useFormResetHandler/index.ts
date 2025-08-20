@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import type {UseFormResetHandlerParams} from './types';
+
 export function useFormResetHandler<T>({
     initialValue,
     onReset,
@@ -26,12 +28,9 @@ export function useFormResetHandler<T>({
         };
     }, [formElement, onReset]);
 
-    const ref = React.useCallback(
-        (node: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null) => {
-            setFormElement(node?.form ?? null);
-        },
-        [],
-    );
+    const ref = React.useCallback((node: UseFormResetHandlerParams | null) => {
+        setFormElement(node?.form ?? null);
+    }, []);
 
     return ref;
 }

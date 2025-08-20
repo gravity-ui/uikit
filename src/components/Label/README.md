@@ -199,6 +199,7 @@ A `label` can have different states:
 
 - `disabled`: No interactions allowed.
 - `interactive`: Makes the label hoverable.
+- `loading`: Shows a loading state.
 
 <!--LANDING_BLOCK
 
@@ -207,11 +208,13 @@ A `label` can have different states:
 <Label>Default</Label>
 <Label disabled>Disabled</Label>
 <Label interactive>Interactive</Label>
+<Label loading>Loading</Label>
 `}
 >
     <UIKit.Label>Default</UIKit.Label>
     <UIKit.Label disabled>Disabled</UIKit.Label>
     <UIKit.Label interactive>Interactive</UIKit.Label>
+    <UIKit.Label loading>Loading</UIKit.Label>
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -222,6 +225,7 @@ LANDING_BLOCK-->
 <Label>Default</Label>
 <Label disabled>Disabled</Label>
 <Label interactive>Interactive</Label>
+<Label loading>Loading</Label>
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -275,3 +279,4 @@ LANDING_BLOCK-->
 | value            | Label value (displayed as `"children : value"`) |            `React.ReactNode`            |             |
 | title            | `title` HTML attribute                          |                `string`                 |             |
 | qa               | `data-qa` HTML attribute, used for testing      |                `string`                 |             |
+| loading          | Loading state                                   |                `boolean`                |   `false`   |

@@ -11,9 +11,10 @@ import {DisclosureQa, b} from '../constants';
 
 export interface DisclosureDetailsProps extends QAProps {
     children: React.ReactNode;
+    className?: string;
 }
 
-export function DisclosureDetails({children, qa}: DisclosureDetailsProps) {
+export function DisclosureDetails({children, qa, className}: DisclosureDetailsProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
     const {ariaControls, ariaLabelledby, keepMounted, expanded} = useDisclosureAttributes();
 
@@ -32,7 +33,7 @@ export function DisclosureDetails({children, qa}: DisclosureDetailsProps) {
                 id={ariaControls}
                 role="region"
                 aria-labelledby={ariaLabelledby}
-                className={b('content', {visible: expanded})}
+                className={b('content', {visible: expanded}, className)}
                 data-qa={qa || DisclosureQa.DETAILS}
             >
                 {children}

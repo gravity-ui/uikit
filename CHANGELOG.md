@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.21.0](https://github.com/gravity-ui/uikit/compare/v7.20.0...v7.21.0) (2025-08-28)
+
+
+### Features
+
+* add `Accordion` component ([#2334](https://github.com/gravity-ui/uikit/issues/2334)) ([9e71e64](https://github.com/gravity-ui/uikit/commit/9e71e6479c44a121678fbd4ac592ebc85b1db12f))
+* **Label:** add `width` property ([#2348](https://github.com/gravity-ui/uikit/issues/2348)) ([0dd70b8](https://github.com/gravity-ui/uikit/commit/0dd70b8de1184f9ea0e26e5e5e3815d11e2ea547))
+
 ## [7.20.0](https://github.com/gravity-ui/uikit/compare/v7.19.0...v7.20.0) (2025-08-15)
 
 

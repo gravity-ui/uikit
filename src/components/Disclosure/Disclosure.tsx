@@ -43,6 +43,8 @@ export interface DisclosureProps extends QAProps {
     onUpdate?: (expanded: boolean) => void;
     /** Callback fires on keyboard events when summary is focused */
     onSummaryKeyDown?: (e: React.KeyboardEvent<HTMLButtonElement>) => void;
+    /** Disable animations */
+    disableAnimations?: boolean;
 }
 
 const isDisclosureSummaryComponent = isOfType(DisclosureSummary);
@@ -58,6 +60,7 @@ export const Disclosure: React.FunctionComponent<DisclosureProps> & DisclosureCo
             summary = '',
             className,
             keepMounted = true,
+            disableAnimations = false,
             children,
             onUpdate = () => {},
             onSummaryKeyDown,
@@ -80,6 +83,7 @@ export const Disclosure: React.FunctionComponent<DisclosureProps> & DisclosureCo
                 arrowPosition={arrowPosition}
                 onUpdate={onUpdate}
                 onSummaryKeyDown={onSummaryKeyDown}
+                disableAnimations={disableAnimations}
             >
                 <section ref={ref} className={b({size}, className)} data-qa={qa}>
                     {summaryContent}

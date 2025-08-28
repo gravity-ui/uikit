@@ -69,6 +69,7 @@ export const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps
                     view: attributes?.view,
                     disabled,
                 })}
+                disableAnimations={true}
             >
                 {preparedSummary}
                 <Disclosure.Details className={accordionDetailsBlock}>{details}</Disclosure.Details>

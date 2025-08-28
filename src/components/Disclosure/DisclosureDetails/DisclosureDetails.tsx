@@ -16,14 +16,17 @@ export interface DisclosureDetailsProps extends QAProps {
 
 export function DisclosureDetails({children, qa, className}: DisclosureDetailsProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
-    const {ariaControls, ariaLabelledby, keepMounted, expanded} = useDisclosureAttributes();
+    const {ariaControls, ariaLabelledby, keepMounted, expanded, disableAnimations} =
+        useDisclosureAttributes();
+
+    const classNames = disableAnimations ? {} : getCSSTransitionClassNames(b);
 
     return (
         <CSSTransition
             nodeRef={containerRef}
             in={expanded}
             addEndListener={(done) => containerRef.current?.addEventListener('animationend', done)}
-            classNames={getCSSTransitionClassNames(b)}
+            classNames={classNames}
             mountOnEnter={!keepMounted}
             unmountOnExit={!keepMounted}
             appear={true}

@@ -41,6 +41,7 @@ export function DisclosureProvider(props: DisclosureProviderProps) {
         onUpdate,
         onSummaryKeyDown,
         expanded: controlledExpanded,
+        disableAnimations,
     } = props;
     const [expanded, setExpanded] = React.useState(() => Boolean(defaultExpanded));
     const controlledMode = controlledExpanded !== undefined;
@@ -66,6 +67,7 @@ export function DisclosureProvider(props: DisclosureProviderProps) {
                 ariaControls,
                 ariaLabelledby,
                 onSummaryKeyDown,
+                disableAnimations,
             }}
         >
             <DisclosureToggleContext.Provider value={handleToggle}>

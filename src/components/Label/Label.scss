@@ -168,6 +168,10 @@ $transition-timing-function: ease-in-out;
         cursor: pointer;
     }
 
+    &_width_auto {
+        max-width: 100%;
+    }
+
     &_theme {
         &_normal {
             --_--bg-color: var(--g-color-base-misc-light);

@@ -171,6 +171,8 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         disabled,
     };
 
+    const {t} = i18n.useTranslation();
+
     if (renderControl) {
         return renderControl(
             {
@@ -214,7 +216,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                 {errorMessage && (
                     <Popover content={errorMessage} tooltipId={errorTooltipId}>
                         <button
-                            aria-label={i18n('label_show-error-info')}
+                            aria-label={t('label_show-error-info')}
                             aria-describedby={errorTooltipId}
                             type={'button'}
                             className={selectControlBlock('error-icon')}

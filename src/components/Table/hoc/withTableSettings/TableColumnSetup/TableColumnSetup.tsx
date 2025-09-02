@@ -328,6 +328,8 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         setItems(propsItems);
     }
 
+    const {t} = i18n.useTranslation();
+
     const filterState = useListFilter({items, filterItem: filterSettings, debounceTimeout: 0});
 
     const onApply = () => {
@@ -338,7 +340,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     const DefaultApplyButton = () => (
         <Button view="action" width="max" onClick={onApply}>
-            {i18n('button_apply')}
+            {t('button_apply')}
         </Button>
     );
 
@@ -369,7 +371,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
                             }}
                             width="max"
                         >
-                            {i18n('button_reset')}
+                            {t('button_reset')}
                         </Button>
                     )}
                     <DefaultApplyButton />
@@ -386,7 +388,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
             renderSwitcher?.({onClick: toggleOpen, onKeyDown}) || (
                 <Button onClick={toggleOpen} onKeyDown={onKeyDown}>
                     <Icon data={Gear} />
-                    {i18n('button_switcher')}
+                    {t('button_switcher')}
                 </Button>
             )
         );

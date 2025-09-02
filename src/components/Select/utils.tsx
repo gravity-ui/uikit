@@ -120,12 +120,12 @@ export const getSelectedOptionsContent = (
         (opt) => !isSelectGroupTitle(opt),
     ) as SelectOption[];
 
-    const selectedOptions = value.reduce((acc, val) => {
-        const selectedOption = flattenSimpleOptions.find((opt) => opt.value === val);
+    const optionsMap = new Map<string, SelectOption>();
+    flattenSimpleOptions.forEach((opt) => optionsMap.set(opt.value, opt));
 
-        acc.push(selectedOption || {value: val});
-        return acc;
-    }, [] as SelectOption[]);
+    const selectedOptions = value.map((val) => {
+        return optionsMap.get(val) || {value: val};
+    });
 
     if (renderSelectedOption) {
         return selectedOptions.map((option, index) => {

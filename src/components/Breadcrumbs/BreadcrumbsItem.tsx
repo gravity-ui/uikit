@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import {KeyCode} from '../../constants';
 import {ListItemView} from '../lab/ListItemView/ListItemView';
 import {filterDOMProps} from '../utils/filterDOMProps';
 
@@ -81,7 +82,7 @@ function BreadcrumbsItem(props: BreadcrumbsItemProps, ref: React.ForwardedRef<HT
                 restProps.onKeyDown(event);
             }
 
-            if (event.key === 'Enter') {
+            if (event.key === KeyCode.ENTER) {
                 if (typeof onAction === 'function') {
                     onAction();
                 }

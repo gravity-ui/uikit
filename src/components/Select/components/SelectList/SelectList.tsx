@@ -5,8 +5,8 @@ import * as React from 'react';
 import {List} from '../../../List';
 import {SelectQa, selectListBlock} from '../../constants';
 import type {SelectOption, SelectProps} from '../../types';
-import type {FlattenOption, GroupTitleItem} from '../../utils';
 import {getOptionsHeight, getPopupItemHeight, scrollToItem} from '../../utils';
+import type {FlattenOption, GroupTitleItem} from '../../utils';
 
 import {GroupLabel} from './GroupLabel';
 import {OptionWrap} from './OptionWrap';

@@ -120,8 +120,9 @@ export const getSelectedOptionsContent = (
         (opt) => !isSelectGroupTitle(opt),
     ) as SelectOption[];
 
-    const optionsMap = new Map<string, SelectOption>();
-    flattenSimpleOptions.forEach((opt) => optionsMap.set(opt.value, opt));
+    const optionsMap = new Map<string, SelectOption>(
+        flattenSimpleOptions.map((opt) => [opt.value, opt]),
+    );
 
     const selectedOptions = value.map((val) => {
         return optionsMap.get(val) || {value: val};

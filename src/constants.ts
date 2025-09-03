@@ -3,6 +3,7 @@ export const KeyCode = {
     ENTER: 'Enter',
     TAB: 'Tab',
     // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values#whitespace_keys
+    SPACE: 'Space',
     SPACEBAR: ' ',
     SPACEBAR_OLD: 'Spacebar',
     ESCAPE: 'Escape',

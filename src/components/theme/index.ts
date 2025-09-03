@@ -10,4 +10,5 @@ export * from './withTheme';
 export * from './withThemeValue';
 export * from './withDirection';
 export * from './getThemeType';
+export {useLang} from './useLang';
 export type {Theme, RealTheme, ThemeType, Direction, ThemeContextProps} from './types';

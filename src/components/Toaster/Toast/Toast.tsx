@@ -116,6 +116,8 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
     const hasTitle = Boolean(title);
     const hasContent = Boolean(content);
 
+    const {t} = i18n.useTranslation();
+
     const icon = renderIcon ? renderIcon(props) : renderIconByType({theme});
     return (
         <div ref={ref} className={b(mods, className)} {...closeOnTimeoutProps} data-toast>
@@ -128,7 +130,7 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
                         view="flat"
                         className={b('btn-close')}
                         onClick={handleClose}
-                        aria-label={i18n('label_close-button')}
+                        aria-label={t('label_close-button')}
                     >
                         <Icon data={Xmark} />
                     </Button>

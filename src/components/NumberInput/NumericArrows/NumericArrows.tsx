@@ -42,6 +42,7 @@ export function NumericArrows({
         width: 'max',
         'aria-hidden': 'true',
     };
+    const {t} = i18n.useTranslation();
 
     return (
         <Flex
@@ -55,7 +56,7 @@ export function NumericArrows({
                 qa={INCREMENT_BUTTON_QA}
                 {...commonBtnProps}
                 onClick={onUpClick}
-                aria-label={i18n('label_increment')}
+                aria-label={t('label_increment')}
             >
                 <Icon data={ChevronUp} size={12} />
             </Button>
@@ -65,7 +66,7 @@ export function NumericArrows({
                 qa={DECREMENT_BUTTON_QA}
                 {...commonBtnProps}
                 onClick={onDownClick}
-                aria-label={i18n('label_decrement')}
+                aria-label={t('label_decrement')}
             >
                 <Icon data={ChevronDown} size={12} />
             </Button>

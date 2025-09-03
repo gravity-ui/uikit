@@ -12,6 +12,9 @@ export const KeyCode = {
     ARROW_LEFT: 'ArrowLeft',
     ARROW_RIGHT: 'ArrowRight',
 
+    PAGE_UP: 'PageUp',
+    PAGE_DOWN: 'PageDown',
+
     SHIFT: 'Shift',
 
     HOME: 'Home',

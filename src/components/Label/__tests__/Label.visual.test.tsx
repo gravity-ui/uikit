@@ -70,6 +70,12 @@ test.describe('Label', {tag: '@Label'}, () => {
         await expectScreenshot();
     });
 
+    test('render story: <Width>', async ({mount, expectScreenshot}) => {
+        await mount(<LabelStories.Width />);
+
+        await expectScreenshot();
+    });
+
     const defaultProps: LabelProps = {
         children: 'Label',
         qa,

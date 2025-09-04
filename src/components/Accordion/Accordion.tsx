@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 
 import {AccordionProvider} from './AccordionContext';
@@ -13,6 +15,7 @@ export const Accordion = React.forwardRef(function Accordion<Multiple extends bo
     props: AccordionProps<Multiple>,
     ref: React.ForwardedRef<HTMLDivElement>,
 ) {
+    const {t} = i18n.useTranslation();
     const {
         size = 'm',
         view = 'solid',
@@ -25,7 +28,7 @@ export const Accordion = React.forwardRef(function Accordion<Multiple extends bo
         children,
         ariaLevel = 3,
         value,
-        ariaLabel = i18n('label'),
+        ariaLabel = t('label'),
     } = props;
 
     return (

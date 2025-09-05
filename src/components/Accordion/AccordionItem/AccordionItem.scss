@@ -11,13 +11,13 @@ $block: '.#{variables.$ns}accordion-item';
     }
 
     &_size_s &__details {
-        padding: var(--g-spacing-0) var(--g-spacing-3) var(--g-spacing-3) var(--g-spacing-3);
+        padding: var(--g-spacing-half) var(--g-spacing-3) var(--g-spacing-3) var(--g-spacing-3);
     }
     &_size_m &__details {
-        padding: var(--g-spacing-0) var(--g-spacing-4) var(--g-spacing-4) var(--g-spacing-4);
+        padding: var(--g-spacing-half) var(--g-spacing-4) var(--g-spacing-4) var(--g-spacing-4);
     }
     &_size_l &__details {
-        padding: var(--g-spacing-0) var(--g-spacing-5) var(--g-spacing-5) var(--g-spacing-5);
+        padding: var(--g-spacing-half) var(--g-spacing-5) var(--g-spacing-5) var(--g-spacing-5);
     }
     &_size_xl &__details {
         padding: var(--g-spacing-0) var(--g-spacing-5) var(--g-spacing-5) var(--g-spacing-5);

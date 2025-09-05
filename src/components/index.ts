@@ -2,7 +2,8 @@ export * from './types';
 export * from './mobile';
 export * from './theme';
 
-export * from './Accordion';
+// TODO: return after https://github.com/gravity-ui/uikit/pull/2390
+// export * from './Accordion';
 export * from './ActionTooltip';
 export * from './ActionsPanel';
 export * from './Alert';

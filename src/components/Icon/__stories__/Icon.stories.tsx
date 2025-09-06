@@ -14,6 +14,9 @@ const meta: Meta<typeof Icon> = {
             options: Object.keys(icons),
             mapping: icons,
         },
+        style: {
+            control: 'object',
+        },
     },
     args: {
         data: 'Gear',
@@ -41,6 +44,10 @@ type Story = StoryObj<typeof Icon>;
 export const Default: Story = {};
 
 export const Size: Story = {
+    args: {
+        style: {},
+    },
+
     render: (args) => (
         <Showcase>
             <Icon {...args} size={16} />

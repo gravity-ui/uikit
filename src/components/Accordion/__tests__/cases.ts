@@ -2,7 +2,6 @@ import type {CasesWithName} from '../../../stories/tests-factory/models';
 import type {AccordionProps} from '../types';
 
 export const sizeCases: CasesWithName<AccordionProps['size']> = [
-    ['s', 's'],
     ['m', 'm'],
     ['l', 'l'],
     ['xl', 'xl'],

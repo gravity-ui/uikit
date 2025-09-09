@@ -29,7 +29,7 @@ export default {
     argTypes: {
         size: {
             control: 'select',
-            options: ['s', 'm', 'l', 'xl'],
+            options: ['m', 'l', 'xl'],
             description: 'Size of the accordion',
         },
         view: {

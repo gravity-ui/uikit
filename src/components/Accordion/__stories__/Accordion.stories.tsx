@@ -127,16 +127,6 @@ export const Size: Story = {
     render: () => {
         return (
             <Flex direction="column" gap={4}>
-                <Text variant="body-3">Size S</Text>
-                <Accordion size="s">
-                    <Accordion.Item summary="Settings Configuration">
-                        <Text>Configure your application settings and preferences.</Text>
-                    </Accordion.Item>
-                    <Accordion.Item summary="User Management">
-                        <Text>Manage users, roles, and permissions.</Text>
-                    </Accordion.Item>
-                </Accordion>
-
                 <Text variant="body-3">Size M</Text>
                 <Accordion size="m">
                     <Accordion.Item summary="Settings Configuration">

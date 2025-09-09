@@ -19,7 +19,7 @@ $block: '.#{variables.$ns}accordion-summary';
         @include mixins.text-subheader-2();
     }
 
-    &__trigger {
+    &_arrow_position_end &__trigger {
         display: flex;
         justify-content: space-between;
         width: 100%;

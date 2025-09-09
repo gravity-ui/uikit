@@ -123,12 +123,16 @@ export const Disabled: Story = {
 };
 
 export const Size: Story = {
-    args: {},
-    render: () => {
+    args: {
+        view: 'solid',
+        arrowPosition: 'end',
+        multiple: false,
+    },
+    render: (args) => {
         return (
             <Flex direction="column" gap={4}>
                 <Text variant="body-3">Size M</Text>
-                <Accordion size="m">
+                <Accordion {...args} size="m">
                     <Accordion.Item summary="Settings Configuration">
                         <Text>Configure your application settings and preferences.</Text>
                     </Accordion.Item>
@@ -138,7 +142,7 @@ export const Size: Story = {
                 </Accordion>
 
                 <Text variant="body-3">Size L</Text>
-                <Accordion size="l">
+                <Accordion {...args} size="l">
                     <Accordion.Item summary="Settings Configuration">
                         <Text>Configure your application settings and preferences.</Text>
                     </Accordion.Item>
@@ -148,7 +152,7 @@ export const Size: Story = {
                 </Accordion>
 
                 <Text variant="body-3">Size XL</Text>
-                <Accordion size="xl">
+                <Accordion {...args} size="xl">
                     <Accordion.Item summary="Settings Configuration">
                         <Text>Configure your application settings and preferences.</Text>
                     </Accordion.Item>
@@ -165,7 +169,7 @@ export const Multiple: Story = {
     args: {},
     render: () => {
         return (
-            <Accordion multiple view={'solid'}>
+            <Accordion view={'solid'} multiple>
                 <Accordion.Item summary="Item 1">Item 1</Accordion.Item>
                 <Accordion.Item summary="Item 2">Item 2</Accordion.Item>
                 <Accordion.Item summary="Item 3">Item 3</Accordion.Item>
@@ -176,17 +180,20 @@ export const Multiple: Story = {
 };
 
 export const View: Story = {
-    args: {},
-    render: () => {
+    args: {
+        arrowPosition: 'end',
+        multiple: false,
+    },
+    render: (args) => {
         return (
             <Flex direction={'row'} gap={10}>
-                <Accordion multiple view={'solid'} size={'l'}>
+                <Accordion {...args} view={'solid'} size={'l'}>
                     <Accordion.Item summary="Item 1">Item 1</Accordion.Item>
                     <Accordion.Item summary="Item 2">Item 2</Accordion.Item>
                     <Accordion.Item summary="Item 3">Item 3</Accordion.Item>
                     <Accordion.Item summary="Item 4">Item 4</Accordion.Item>
                 </Accordion>
-                <Accordion multiple view={'top-bottom'} size={'l'}>
+                <Accordion {...args} view={'top-bottom'} size={'l'}>
                     <Accordion.Item summary="Item 1">Item 1</Accordion.Item>
                     <Accordion.Item summary="Item 2">Item 2</Accordion.Item>
                     <Accordion.Item summary="Item 3">Item 3</Accordion.Item>

@@ -9,7 +9,7 @@ $block: '.#{variables.$ns}accordion';
     height: fit-content;
 
     // FIX: remove it with https://github.com/gravity-ui/uikit/issues/2402
-    .#{variables.$ns}disclosure_exit_active {
+    .#{variables.$ns}disclosure__content.#{variables.$ns}disclosure_exit_active {
         // Disable exit animations for accordion disclosure elements
         animation: none;
 
@@ -28,7 +28,7 @@ $block: '.#{variables.$ns}accordion';
     }
 
     // FIX: remove it with https://github.com/gravity-ui/uikit/issues/2402
-    .#{variables.$ns}disclosure_enter_active {
+    .#{variables.$ns}disclosure__content.#{variables.$ns}disclosure_enter_active {
         animation: none;
     }
 

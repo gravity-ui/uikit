@@ -1,5 +1,17 @@
 # Changelog
 
+## [7.22.0](https://github.com/gravity-ui/uikit/compare/v7.21.0...v7.22.0) (2025-09-09)
+
+
+### Features
+
+* **Icon:** add `style` prop ([#2406](https://github.com/gravity-ui/uikit/issues/2406)) ([51a9e1f](https://github.com/gravity-ui/uikit/commit/51a9e1ff97380b6e62166d3203690766ee96fd1f))
+
+
+### Bug Fixes
+
+* **Accordion:** disable disclosure animations ([#2390](https://github.com/gravity-ui/uikit/issues/2390)) ([04e5baf](https://github.com/gravity-ui/uikit/commit/04e5baf425dd22f7c48d5a80edacf1a7c81739a5))
+
 ## [7.21.0](https://github.com/gravity-ui/uikit/compare/v7.20.0...v7.21.0) (2025-09-05)
 
 

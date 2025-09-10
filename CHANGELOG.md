@@ -5,19 +5,14 @@
 
 ### Features
 
+* add `Accordion` component ([#2334](https://github.com/gravity-ui/uikit/issues/2334)) ([9e71e64](https://github.com/gravity-ui/uikit/commit/9e71e6479c44a121678fbd4ac592ebc85b1db12f))
 * **Icon:** add `style` prop ([#2406](https://github.com/gravity-ui/uikit/issues/2406)) ([51a9e1f](https://github.com/gravity-ui/uikit/commit/51a9e1ff97380b6e62166d3203690766ee96fd1f))
-
-
-### Bug Fixes
-
-* **Accordion:** disable disclosure animations ([#2390](https://github.com/gravity-ui/uikit/issues/2390)) ([04e5baf](https://github.com/gravity-ui/uikit/commit/04e5baf425dd22f7c48d5a80edacf1a7c81739a5))
 
 ## [7.21.0](https://github.com/gravity-ui/uikit/compare/v7.20.0...v7.21.0) (2025-09-05)
 
 
 ### Features
 
-* add `Accordion` component ([#2334](https://github.com/gravity-ui/uikit/issues/2334)) ([9e71e64](https://github.com/gravity-ui/uikit/commit/9e71e6479c44a121678fbd4ac592ebc85b1db12f))
 * add max-width to popup table action ([#2311](https://github.com/gravity-ui/uikit/issues/2311)) ([3aeb886](https://github.com/gravity-ui/uikit/commit/3aeb886661cf48f615adf4a272dcf84c23e6828a))
 * add useLang hook, allow pass lang via ThemeProvider ([#2387](https://github.com/gravity-ui/uikit/issues/2387)) ([0966e86](https://github.com/gravity-ui/uikit/commit/0966e865fe7486302350dccd330cbda5f74d066d))
 * **Label:** add `width` property ([#2348](https://github.com/gravity-ui/uikit/issues/2348)) ([0dd70b8](https://github.com/gravity-ui/uikit/commit/0dd70b8de1184f9ea0e26e5e5e3815d11e2ea547))

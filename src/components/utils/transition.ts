@@ -1,16 +1,18 @@
+import type {NoStrictEntityMods} from '@bem-react/classname';
+
 import {modsClassName} from './cn';
 import type {CnBlock} from './cn';
 
-export function getCSSTransitionClassNames(b: CnBlock) {
+export function getCSSTransitionClassNames(b: CnBlock, mods?: NoStrictEntityMods) {
     return {
-        appear: modsClassName(b({appear: true})),
-        appearActive: modsClassName(b({appear: 'active'})),
-        appearDone: modsClassName(b({appear: 'done'})),
-        enter: modsClassName(b({enter: true})),
-        enterActive: modsClassName(b({enter: 'active'})),
-        enterDone: modsClassName(b({enter: 'done'})),
-        exit: modsClassName(b({exit: true})),
-        exitActive: modsClassName(b({exit: 'active'})),
-        exitDone: modsClassName(b({exit: 'done'})),
+        appear: modsClassName(b({...mods, appear: true})),
+        appearActive: modsClassName(b({...mods, appear: 'active'})),
+        appearDone: modsClassName(b({...mods, appear: 'done'})),
+        enter: modsClassName(b({...mods, enter: true})),
+        enterActive: modsClassName(b({...mods, enter: 'active'})),
+        enterDone: modsClassName(b({...mods, enter: 'done'})),
+        exit: modsClassName(b({...mods, exit: true})),
+        exitActive: modsClassName(b({...mods, exit: 'active'})),
+        exitDone: modsClassName(b({...mods, exit: 'done'})),
     };
 }

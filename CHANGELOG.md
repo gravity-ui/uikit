@@ -17,11 +17,6 @@
 * add useLang hook, allow pass lang via ThemeProvider ([#2387](https://github.com/gravity-ui/uikit/issues/2387)) ([0966e86](https://github.com/gravity-ui/uikit/commit/0966e865fe7486302350dccd330cbda5f74d066d))
 * **Label:** add `width` property ([#2348](https://github.com/gravity-ui/uikit/issues/2348)) ([0dd70b8](https://github.com/gravity-ui/uikit/commit/0dd70b8de1184f9ea0e26e5e5e3815d11e2ea547))
 
-
-### Bug Fixes
-
-* **Accordion:** issues [#2399](https://github.com/gravity-ui/uikit/issues/2399) and [#2400](https://github.com/gravity-ui/uikit/issues/2400) by adding 'use client' directives ([#2401](https://github.com/gravity-ui/uikit/issues/2401)) ([cdf0498](https://github.com/gravity-ui/uikit/commit/cdf04983470045cd6e72e1de21da4a9585b51dad))
-
 ## [7.20.0](https://github.com/gravity-ui/uikit/compare/v7.19.0...v7.20.0) (2025-08-15)
 
 

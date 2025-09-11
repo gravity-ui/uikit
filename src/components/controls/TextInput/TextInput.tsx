@@ -8,6 +8,7 @@ import {useControlledState, useForkRef, useUniqId} from '../../../hooks';
 import {useElementSize, useFormResetHandler} from '../../../hooks/private';
 import {Icon} from '../../Icon';
 import {Popover} from '../../legacy';
+import type {PopoverProps} from '../../legacy';
 import {block} from '../../utils/cn';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
 import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';
@@ -44,6 +45,8 @@ export type TextInputProps = BaseInputControlProps<HTMLInputElement> & {
     endContent?: React.ReactNode;
     /** An optional element displayed under the lower right corner of the control and sharing the place with the error container */
     note?: React.ReactNode;
+    /** Popover props for error message */
+    errorPopoverProps?: Omit<PopoverProps, 'content'>;
 };
 export type TextInputPin = InputControlPin;
 export type TextInputSize = InputControlSize;
@@ -78,6 +81,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
             note,
             onUpdate,
             onChange,
+            errorPopoverProps,
         } = props;
 
         const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
@@ -233,7 +237,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
                         />
                     )}
                     {isErrorIconVisible && (
-                        <Popover content={errorMessage}>
+                        <Popover {...errorPopoverProps} content={errorMessage}>
                             <span data-qa={CONTROL_ERROR_ICON_QA}>
                                 <Icon
                                     data={TriangleExclamation}

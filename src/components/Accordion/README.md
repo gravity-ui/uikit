@@ -464,7 +464,7 @@ LANDING_BLOCK-->
 | view          | Accordion appearance                               |    `"solid"` `"top-bottom"`     | `"solid"` |
 | multiple      | Allow multiple items to be expanded simultaneously |            `boolean`            |  `false`  |
 | arrowPosition | Arrow indicator position                           |        `"start"` `"end"`        |  `"end"`  |
-| defaultValue  | Default value for uncontrolled state               | `string` `string[]` `undefined` |           |
+| defaultValue  | Default value for uncontrolled state               | `string` `string[]` `null`      |           |
 | value         | Current value for controlled state                 | `string` `string[]` `undefined` |           |
 | onUpdate      | Callback function called when state changes        |           `Function`            |           |
 | ariaLevel     | Heading level for accessibility                    |            `number`             |    `3`    |

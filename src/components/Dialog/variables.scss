@@ -1,0 +1,10 @@
+@forward '../variables';
+
+@use '../variables';
+
+$block: '.#{variables.$ns}dialog';
+$headerBlock: '.#{variables.$ns}dialog-header';
+$bodyBlock: '.#{variables.$ns}dialog-body';
+$footerBlock: '.#{variables.$ns}dialog-footer';
+$dividerBlock: '.#{variables.$ns}dialog-divider';
+$closeBtnBlock: '.#{variables.$ns}dialog-btn-close';

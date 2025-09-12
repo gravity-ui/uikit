@@ -2,9 +2,9 @@ import * as React from 'react';
 
 import {useSyncExternalStore} from 'use-sync-external-store/shim';
 
-import type {StringWithSuggest} from '../../types/utils';
 import type {Lang} from '../../utils/configure';
 import {getConfig, subscribeConfigure} from '../../utils/configure';
+import type {StringWithSuggest} from '../../utils/types';
 
 export interface LangOptions {
     lang: StringWithSuggest<Lang>;

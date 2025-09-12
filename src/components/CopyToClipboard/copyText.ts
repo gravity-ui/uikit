@@ -1,7 +1,7 @@
 export function copyText(text: string) {
     if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
         try {
-            return navigator.clipboard.writeText(text);
+            navigator.clipboard.writeText(text);
         } catch (error) {
             return typeof document === 'undefined' ? Promise.reject(error) : copyTextFallback(text);
         }

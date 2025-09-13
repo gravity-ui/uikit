@@ -46,7 +46,7 @@ const AvatarStackComponent = React.forwardRef<HTMLUListElement, AvatarStackProps
             const item = <AvatarStackItem key={visibleItems.length}>{child}</AvatarStackItem>;
 
             if (visibleItems.length < normalizedMax) {
-                visibleItems.unshift(item);
+                visibleItems.push(item);
             }
         });
 

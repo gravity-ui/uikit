@@ -69,8 +69,8 @@ const generateColorDetails = ({hash, intensity, theme}: HslColorProps): ColorDet
     const lightnessRange = themeOptions[intensity].lightness;
     const saturationRange = themeOptions[intensity].saturation;
 
-    const saturationHash = extractHashPart(hash, 0); // младшие биты
-    const lightnessHash = extractHashPart(hash, 1); // средние биты
+    const saturationHash = extractHashPart(hash, 0);
+    const lightnessHash = extractHashPart(hash, 1);
 
     const saturation = normalizeHash(saturationHash, saturationRange[0], saturationRange[1]);
     const lightness = normalizeHash(lightnessHash, lightnessRange[0], lightnessRange[1]);
@@ -121,75 +121,4 @@ export const getPersistentColorDetails = ({
 }: ColorProps): ColorDetails => {
     const hash = getHash(seed);
     return generateColorDetails({hash, intensity, theme});
-};
-
-/**
- * Calculates relative luminance of a color according to WCAG 2.1
- * @param r Red component (0-255)
- * @param g Green component (0-255)
- * @param b Blue component (0-255)
- * @returns Relative luminance value
- */
-const calculateRelativeLuminance = (r: number, g: number, b: number): number => {
-    // Convert sRGB to linear RGB
-    const linearR = r / 255 <= 0.03928 ? r / 255 / 12.92 : Math.pow((r / 255 + 0.055) / 1.055, 2.4);
-    const linearG = g / 255 <= 0.03928 ? g / 255 / 12.92 : Math.pow((g / 255 + 0.055) / 1.055, 2.4);
-    const linearB = b / 255 <= 0.03928 ? b / 255 / 12.92 : Math.pow((b / 255 + 0.055) / 1.055, 2.4);
-
-    // Calculate relative luminance
-    return 0.2126 * linearR + 0.7152 * linearG + 0.0722 * linearB;
-};
-
-/**
- * Calculates WCAG contrast ratio between two colors
- * @param luminance1 Luminance of first color
- * @param luminance2 Luminance of second color
- * @returns Contrast ratio
- */
-const calculateContrastRatio = (luminance1: number, luminance2: number): number => {
-    const lighter = Math.max(luminance1, luminance2);
-    const darker = Math.min(luminance1, luminance2);
-    return (lighter + 0.05) / (darker + 0.05);
-};
-
-/**
- * Overlays a color with 90% transparency on a background and calculates WCAG contrast between original and overlaid colors
- * @param r Red component (0-255)
- * @param g Green component (0-255)
- * @param b Blue component (0-255)
- * @param backgroundR Background red component (0-255), defaults to white
- * @param backgroundG Background green component (0-255), defaults to white
- * @param backgroundB Background blue component (0-255), defaults to white
- * @returns Object with overlaid color and contrast ratio
- */
-export const overlayColorAndCalculateContrast = (
-    r: number,
-    g: number,
-    b: number,
-    backgroundR = 255,
-    backgroundG = 255,
-    backgroundB = 255,
-): {overlaidColor: {r: number; g: number; b: number}; contrastRatio: number} => {
-    // Overlay color with 90% transparency (10% opacity of overlay) on background
-    // Formula: result = background * (1 - alpha) + overlay * alpha
-    const alpha = 0.15; // 10% opacity of overlay (90% transparency)
-    const overlaidR = Math.round(backgroundR * (1 - alpha) + r * alpha);
-    const overlaidG = Math.round(backgroundG * (1 - alpha) + g * alpha);
-    const overlaidB = Math.round(backgroundB * (1 - alpha) + b * alpha);
-
-    // Calculate relative luminances
-    const originalLuminance = calculateRelativeLuminance(r, g, b);
-    const overlaidLuminance = calculateRelativeLuminance(overlaidR, overlaidG, overlaidB);
-
-    // Calculate contrast ratio between original color and overlaid color
-    const contrastRatio = calculateContrastRatio(originalLuminance, overlaidLuminance);
-
-    return {
-        overlaidColor: {
-            r: overlaidR,
-            g: overlaidG,
-            b: overlaidB,
-        },
-        contrastRatio,
-    };
 };

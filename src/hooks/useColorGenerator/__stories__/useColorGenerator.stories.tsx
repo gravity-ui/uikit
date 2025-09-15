@@ -65,37 +65,6 @@ const Template = ({withText}: TemplateProps) => {
         setColorOptions(defaultColorOptions[theme]);
     }, []);
 
-    const items = [];
-
-    for (const view of VIEWS) {
-        for (const state of STATES) {
-            const key = `${view}_${state}`;
-
-            if (state === 'view') {
-                items.push(
-                    <div key={key} className={b('grid-cell', {head: 'left'})}>
-                        <strong>{view}</strong>
-                    </div>,
-                );
-            } else {
-                items.push(
-                    <div key={key} className={b('color-items')}>
-                        {tokens.map((token) => (
-                            <CustomColoredAvatar
-                                key={token}
-                                seed={token}
-                                intensity={view}
-                                withText={withText || false}
-                                text={withText ? token.slice(0, 2) : ''}
-                                colorOptions={colorOptions}
-                            />
-                        ))}
-                    </div>,
-                );
-            }
-        }
-    }
-
     return (
         <div className={b()}>
             <TokenControls
@@ -125,7 +94,72 @@ const Template = ({withText}: TemplateProps) => {
                 </div>
             )}
 
-            <div className={b('grid')}>{items}</div>
+            <div className={b('grid')}>
+                {VIEWS.map((view) => (
+                    <React.Fragment key={view}>
+                        <div key={view} className={b('grid-cell', {head: 'left'})}>
+                            <strong>{view}</strong>
+                        </div>
+                        <div key={view} className={b('color-items')}>
+                            {tokens.map((token) => (
+                                <CustomColoredAvatar
+                                    key={token}
+                                    seed={token}
+                                    intensity={view}
+                                    interfaceTheme={currentTheme}
+                                    withText={withText || false}
+                                    text={withText ? token.slice(0, 2) : ''}
+                                    storyAvatarStyle="filled"
+                                />
+                            ))}
+                        </div>
+                    </React.Fragment>
+                ))}
+            </div>
+
+            <div className={b('grid')}>
+                {VIEWS.map((view) => (
+                    <React.Fragment key={view}>
+                        <div key={view} className={b('grid-cell', {head: 'left'})}>
+                            <strong>{view}</strong>
+                        </div>
+                        <div key={view} className={b('color-items')}>
+                            {tokens.map((token) => (
+                                <CustomColoredAvatar
+                                    key={token}
+                                    seed={token}
+                                    intensity={view}
+                                    interfaceTheme={currentTheme}
+                                    shape="square"
+                                    withText={withText || false}
+                                    text={withText ? token.slice(0, 2) : ''}
+                                    storyAvatarStyle="outline"
+                                />
+                            ))}
+                        </div>
+                    </React.Fragment>
+                ))}
+            </div>
+
+            <div className={b('grid')}>
+                <div className={b('grid-cell', {head: 'left'})}>
+                    <strong>{'heavy'}</strong>
+                </div>
+                <div key="heavy" className={b('color-items')}>
+                    {tokens.map((token) => (
+                        <CustomColoredAvatar
+                            key={token}
+                            seed={token}
+                            intensity="heavy"
+                            shape="square"
+                            interfaceTheme={currentTheme}
+                            withText
+                            text={withText ? token.slice(0, 2) : ''}
+                            storyAvatarStyle="transparent"
+                        />
+                    ))}
+                </div>
+            </div>
         </div>
     );
 };

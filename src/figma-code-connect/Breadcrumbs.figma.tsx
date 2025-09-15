@@ -1,8 +1,6 @@
 import figma from '@figma/code-connect';
 import {ChevronRight} from '@gravity-ui/icons';
 
-import {BreadcrumbsItem} from 'src/components/Breadcrumbs/BreadcrumbsItem';
-
 import {Breadcrumbs} from '../components/Breadcrumbs/Breadcrumbs';
 
 const figmaUrl =
@@ -17,10 +15,5 @@ figma.connect(Breadcrumbs, figmaUrl, {
             Shevron: <ChevronRight />,
         }),
     },
-    example: (props) => (
-        <Breadcrumbs separator={props.separator}>
-            <BreadcrumbsItem>Page</BreadcrumbsItem>
-            {props.children}
-        </Breadcrumbs>
-    ),
+    example: (props) => <Breadcrumbs separator={props.separator}>{props.children}</Breadcrumbs>,
 });

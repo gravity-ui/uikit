@@ -7,14 +7,17 @@ const figmaUrl =
 
 figma.connect(Tab, figmaUrl, {
     props: {
-        icon: figma.instance('↳ Icon'),
         disabled: figma.enum('State', {
             Disabled: true,
         }),
         text: figma.string('↳ Text'),
+        icon: figma.boolean('Start icon', {
+            true: figma.instance('↳ Icon'),
+            false: undefined,
+        }),
     },
     example: (props) => (
-        <Tab value={props.text} disabled={props.disabled}>
+        <Tab value={props.text} disabled={props.disabled} icon={props.icon}>
             {props.text}
         </Tab>
     ),

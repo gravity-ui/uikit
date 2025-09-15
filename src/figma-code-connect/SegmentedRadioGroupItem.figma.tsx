@@ -15,6 +15,10 @@ figma.connect(SegmentedRadioGroupOption, figmaUrl, {
             false: figma.string('↳ Text'),
             true: undefined,
         }),
+        icon: figma.boolean('Icon', {
+            true: figma.instance('↳ Icon'),
+            false: undefined,
+        }),
     },
     example: (props) => (
         <SegmentedRadioGroupOption
@@ -23,6 +27,9 @@ figma.connect(SegmentedRadioGroupOption, figmaUrl, {
             disabled={props.disabled}
             checked={props.selected}
             value={'value'}
-        />
+        >
+            {props.icon}
+            {props.name}
+        </SegmentedRadioGroupOption>
     ),
 });

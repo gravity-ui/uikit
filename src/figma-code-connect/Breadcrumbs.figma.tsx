@@ -8,7 +8,7 @@ const figmaUrl =
 
 figma.connect(Breadcrumbs, figmaUrl, {
     props: {
-        children: figma.children('↳ Page*'),
+        children: figma.children('↳*'),
         separator: figma.enum('Separator', {
             Slash: 'slash',
             Hyphen: 'hyphen',

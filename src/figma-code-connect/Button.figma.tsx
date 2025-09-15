@@ -106,6 +106,14 @@ figma.connect(Button, legacyFigmaUrl, {
             Loading: true,
         }),
         content: figma.string('Content'),
+        startIcon: figma.boolean('Start icon', {
+            true: figma.instance('↳ Start icon'),
+            false: undefined,
+        }),
+        endIcon: figma.boolean('End icon', {
+            true: figma.instance('↳ End icon'),
+            false: undefined,
+        }),
     },
     example: (props) => (
         <Button
@@ -115,7 +123,9 @@ figma.connect(Button, legacyFigmaUrl, {
             loading={props.loading}
             size={props.size}
         >
+            {props.startIcon}
             {props.content}
+            {props.endIcon}
         </Button>
     ),
 });

@@ -27,9 +27,13 @@ figma.connect(Label, figmaUrl, {
             false: undefined,
         }),
         keyText: figma.string('Key text'),
+        icon: figma.boolean('Icon', {
+            true: figma.instance('↳ Icon'),
+            false: undefined,
+        }),
     },
     example: (props) => (
-        <Label theme={props.theme} size={props.size} value={props.value}>
+        <Label theme={props.theme} size={props.size} value={props.value} icon={props.icon}>
             {props.keyText}
         </Label>
     ),

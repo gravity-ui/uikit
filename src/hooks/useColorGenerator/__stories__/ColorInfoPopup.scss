@@ -1,0 +1,68 @@
+@use '../../../components/variables';
+
+$block: '.#{variables.$ns}color-info-popup';
+
+#{$block} {
+    min-width: 300px;
+    max-width: 400px;
+    padding: 16px;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-block-end: 16px;
+        gap: 12px;
+    }
+
+    &__color-preview {
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+        border: 1px solid var(--g-color-line-generic);
+        flex-shrink: 0;
+    }
+
+    &__info-section {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-block-end: 16px;
+    }
+
+    &__info-row {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    &__label {
+        font-weight: 500;
+    }
+
+    &__value-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background-color: var(--g-color-base-generic);
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid var(--g-color-line-generic);
+    }
+
+    &__value {
+        flex: 1;
+        word-break: break-all;
+        font-family: var(--g-text-code-font-family);
+        font-size: var(--g-text-code-1-font-size);
+        line-height: var(--g-text-code-1-line-height);
+    }
+
+    &__details {
+        padding-block-start: 12px;
+        border-block-start: 1px solid var(--g-color-line-generic);
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+}

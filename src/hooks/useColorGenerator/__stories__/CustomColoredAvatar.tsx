@@ -5,38 +5,61 @@ import type {AvatarProps} from '../../../components/Avatar';
 import {Popover} from '../../../components/Popover';
 import {useThemeType} from '../../../components/theme/useThemeType';
 import {getColorInfo} from '../colorInfoUtils';
+import {useColorGenerator} from '../useColorGenerator';
 import type {ThemeColorSettings, UseColorGeneratorProps} from '../types';
 
 import {ColorInfoPopup} from './ColorInfoPopup';
-import {useCustomColorGenerator} from './useCustomColorGenerator';
 
 import './ColorInfoPopup.scss';
+import {getPersistentColorDetails, getTextColor} from '../color';
 
 type CustomColoredAvatarProps = AvatarProps & {
     withText: boolean;
     intensity: UseColorGeneratorProps['intensity'];
     seed: UseColorGeneratorProps['seed'];
-    colorOptions: ThemeColorSettings;
+    withTransparentBackground?: boolean;
+    interfaceTheme: 'light' | 'dark';
+    storyAvatarStyle: 'filled' | 'outline' | 'transparent';
 };
 
 export const CustomColoredAvatar = ({
     intensity,
-    theme,
+    interfaceTheme,
     seed,
     withText,
-    colorOptions,
+    storyAvatarStyle,
     ...avatarProps
 }: CustomColoredAvatarProps) => {
-    const {color, textColor} = useCustomColorGenerator({
+    const colorInfo = getPersistentColorDetails({
         seed,
         intensity,
-        colorOptions,
+        theme: interfaceTheme,
     });
 
-    const currentTheme = useThemeType();
-    const colorInfo = React.useMemo(() => {
-        return getColorInfo(seed, intensity, theme || currentTheme);
-    }, [seed, intensity, theme, currentTheme]);
+    const {r, g, b} = colorInfo.rgb;
+
+    const textColor = getTextColor(intensity);
+    const color = colorInfo.rgbString;
+
+    let colors: Record<string, string> = {
+        color: textColor,
+        backgroundColor: color,
+    };
+
+    if (storyAvatarStyle === 'transparent') {
+        colors = {
+            color: color,
+            backgroundColor: `rgba(${r}, ${g}, ${b}, 0.1)`,
+        };
+    }
+
+    if (storyAvatarStyle === 'outline') {
+        colors = {
+            color: color,
+            borderColor: color,
+            backgroundColor: 'transparent',
+        };
+    }
 
     return (
         <Popover
@@ -60,12 +83,10 @@ export const CustomColoredAvatar = ({
                 >
                     <Avatar
                         {...avatarProps}
-                        theme={theme}
                         text={withText ? seed : ''}
-                        color={withText ? textColor : undefined}
                         title={`Click for color info: ${color}`}
-                        backgroundColor={color}
                         size="l"
+                        {...colors}
                     />
                 </div>
             )}

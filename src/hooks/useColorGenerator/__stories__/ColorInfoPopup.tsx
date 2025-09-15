@@ -1,7 +1,5 @@
-import {ClipboardButton} from '../../../components/ClipboardButton';
 import {Text} from '../../../components/Text';
 import {block} from '../../../components/utils/cn';
-import {overlayColorAndCalculateContrast} from '../color';
 import type {ColorInfo} from '../colorInfoUtils';
 import {formatColorInfo} from '../colorInfoUtils';
 
@@ -14,11 +12,6 @@ interface ColorInfoPopupProps {
 
 export const ColorInfoPopup = ({colorInfo, seed}: ColorInfoPopupProps) => {
     const formattedInfo = formatColorInfo(colorInfo);
-    const contrastInfo = overlayColorAndCalculateContrast(
-        colorInfo.rgb.r,
-        colorInfo.rgb.g,
-        colorInfo.rgb.b,
-    );
 
     return (
         <div className={b()}>
@@ -39,7 +32,6 @@ export const ColorInfoPopup = ({colorInfo, seed}: ColorInfoPopupProps) => {
                         <Text variant="code-1" className={b('value')}>
                             {seed}
                         </Text>
-                        <ClipboardButton text={seed} size="s" />
                     </div>
                 </div>
 
@@ -51,7 +43,6 @@ export const ColorInfoPopup = ({colorInfo, seed}: ColorInfoPopupProps) => {
                         <Text variant="code-1" className={b('value')}>
                             {formattedInfo.hash}
                         </Text>
-                        <ClipboardButton text={formattedInfo.hash} size="s" />
                     </div>
                 </div>
 
@@ -63,7 +54,6 @@ export const ColorInfoPopup = ({colorInfo, seed}: ColorInfoPopupProps) => {
                         <Text variant="code-1" className={b('value')}>
                             {formattedInfo.oklch}
                         </Text>
-                        <ClipboardButton text={formattedInfo.oklch} size="s" />
                     </div>
                 </div>
 
@@ -75,19 +65,17 @@ export const ColorInfoPopup = ({colorInfo, seed}: ColorInfoPopupProps) => {
                         <Text variant="code-1" className={b('value')}>
                             {formattedInfo.rgb}
                         </Text>
-                        <ClipboardButton text={formattedInfo.rgb} size="s" />
                     </div>
                 </div>
 
                 <div className={b('info-row')}>
                     <Text variant="body-2" className={b('label')}>
-                        WCAG Contrast:
+                        HEX:
                     </Text>
                     <div className={b('value-container')}>
                         <Text variant="code-1" className={b('value')}>
-                            {contrastInfo.contrastRatio.toFixed(2)}:1
+                            {formattedInfo.hex}
                         </Text>
-                        <ClipboardButton text={contrastInfo.contrastRatio.toFixed(2)} size="s" />
                     </div>
                 </div>
             </div>
@@ -99,10 +87,6 @@ export const ColorInfoPopup = ({colorInfo, seed}: ColorInfoPopupProps) => {
                 </Text>
                 <Text variant="caption-2" color="secondary">
                     RGB: {colorInfo.rgb.r}, {colorInfo.rgb.g}, {colorInfo.rgb.b}
-                </Text>
-                <Text variant="caption-2" color="secondary">
-                    Overlaid RGB: {contrastInfo.overlaidColor.r}, {contrastInfo.overlaidColor.g},{' '}
-                    {contrastInfo.overlaidColor.b}
                 </Text>
             </div>
         </div>

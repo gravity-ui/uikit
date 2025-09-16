@@ -26,16 +26,14 @@ figma.connect(Alert, figmaUrl, {
         nested: figma.nestedProps('Content', {
             text: figma.string('Content text'),
             title: figma.boolean('Title', {
-                true: figma.nestedProps('Content', {
-                    titleText: figma.string('↳ Title text'),
-                }),
-                false: {titleText: undefined},
+                true: figma.string('↳ Title text'),
+                false: undefined,
             }),
         }),
     },
     example: (props) => (
         <Alert
-            title={props.nested.title.titleText}
+            title={props.nested.title}
             theme={props.theme}
             corners={props.corners}
             view={props.view}

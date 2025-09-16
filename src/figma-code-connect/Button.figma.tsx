@@ -38,7 +38,7 @@ figma.connect(Button, figmaUrl, {
         loading: figma.enum('State', {
             Loading: true,
         }),
-        nested: figma.nestedProps('ButtonInner', {
+        nested: figma.nestedProps('.ButtonItem', {
             size: figma.enum('Size', {
                 XS: 'xs',
                 S: 's',
@@ -46,7 +46,18 @@ figma.connect(Button, figmaUrl, {
                 L: 'l',
                 XL: 'xl',
             }),
-            content: figma.string('Content'),
+            content: figma.boolean('Icon only', {
+                true: undefined,
+                false: figma.string('Content'),
+            }),
+            startIcon: figma.boolean('Start icon', {
+                true: figma.instance('↳ Start icon'),
+                false: undefined,
+            }),
+            endIcon: figma.boolean('End icon', {
+                true: figma.instance('↳ End icon'),
+                false: undefined,
+            }),
         }),
     },
     example: (props) => (
@@ -57,7 +68,9 @@ figma.connect(Button, figmaUrl, {
             loading={props.loading}
             size={props.nested.size}
         >
+            {props.nested.startIcon}
             {props.nested.content}
+            {props.nested.endIcon}
         </Button>
     ),
 });

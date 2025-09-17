@@ -11,7 +11,7 @@ import type {
     OnDragEndResponder,
 } from '@hello-pangea/dnd';
 
-import {useUniqId} from '../../../../../hooks';
+import {useControlledState, useUniqId} from '../../../../../hooks';
 import {createOnKeyDownHandler} from '../../../../../hooks/useActionHandlers/useActionHandlers';
 import {Button} from '../../../../Button';
 import {Icon} from '../../../../Icon';
@@ -268,11 +268,14 @@ export type RenderControls = (params: {
     onApply: () => void;
 }) => React.ReactNode;
 
+export type TableColumnSetupApplyMode = 'immediate' | 'manual';
+
 export interface TableColumnSetupProps {
     renderSwitcher?: (props: SwitcherProps) => React.JSX.Element;
 
     items: TableColumnSetupItem[];
     sortable?: boolean;
+    applyMode?: TableColumnSetupApplyMode;
 
     onUpdate: (newSettings: TableSetting[]) => void;
     popupWidth?: TreeSelectProps<unknown>['popupWidth'];
@@ -310,6 +313,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         filterPlaceholder,
         filterEmptyMessage,
         filterSettings = defaultFilterSettingsFn,
+        applyMode = 'manual',
     } = props;
 
     const [open, setOpen] = React.useState(false);
@@ -320,12 +324,21 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         setSortingEnabled(sortable);
     }
 
-    const [items, setItems] = React.useState(propsItems);
+    const isImmediate = applyMode === 'immediate';
+    const isManual = applyMode === 'manual';
+    const [items, setItems] = useControlledState<TableColumnSetupItem[]>(
+        isImmediate ? propsItems : undefined,
+        propsItems,
+        isImmediate ? propsOnUpdate : undefined,
+    );
+
+    // Track changes to propsItems in manual mode
     const [prevPropsItems, setPrevPropsItems] = React.useState(propsItems);
     if (propsItems !== prevPropsItems) {
         setPrevPropsItems(propsItems);
-
-        setItems(propsItems);
+        if (isManual) {
+            setItems(propsItems);
+        }
     }
 
     const {t} = i18n.useTranslation();
@@ -346,9 +359,8 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     const onDragEnd: OnDragEndResponder = ({destination, source}) => {
         if (destination?.index !== undefined && destination?.index !== source.index) {
-            setItems((prevItems) => {
-                return reorderArray(prevItems, source.index, destination.index);
-            });
+            const reorderedItems = reorderArray(items, source.index, destination.index);
+            setItems(reorderedItems);
         }
     };
 
@@ -367,6 +379,9 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
                     {showResetButton && (
                         <Button
                             onClick={() => {
+                                if (isImmediate) {
+                                    propsOnUpdate(defaultItems);
+                                }
                                 setItems(defaultItems);
                             }}
                             width="max"
@@ -374,7 +389,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
                             {t('button_reset')}
                         </Button>
                     )}
-                    <DefaultApplyButton />
+                    {isManual && <DefaultApplyButton />}
                 </Flex>
             ),
     });
@@ -404,12 +419,12 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
     };
 
     const onUpdate = (selectedItemsIds: string[]) => {
-        setItems((prevItems) => {
-            return prevItems.map((item) => ({
-                ...item,
-                isSelected: item.isRequired || selectedItemsIds.includes(item.id),
-            }));
-        });
+        const newItems = items.map((item) => ({
+            ...item,
+            isSelected: item.isRequired || selectedItemsIds.includes(item.id),
+        }));
+
+        setItems(newItems);
     };
 
     const value = React.useMemo(() => prepareValue(items), [items]);

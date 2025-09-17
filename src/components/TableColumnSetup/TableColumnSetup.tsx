@@ -8,7 +8,10 @@ import {Button} from '../Button';
 import {Icon} from '../Icon';
 import type {PopupPlacement} from '../Popup';
 import type {TableColumnConfig} from '../Table/Table';
-import type {TableColumnSetupItem as NewTableColumnSetupItem} from '../Table/hoc/withTableSettings/TableColumnSetup/TableColumnSetup';
+import type {
+    TableColumnSetupItem as NewTableColumnSetupItem,
+    TableColumnSetupApplyMode,
+} from '../Table/hoc/withTableSettings/TableColumnSetup/TableColumnSetup';
 import {TableColumnSetup as NewTableColumnSetup} from '../Table/hoc/withTableSettings/TableColumnSetup/TableColumnSetup';
 import type {TableSetting} from '../Table/hoc/withTableSettings/withTableSettings';
 import {block} from '../utils/cn';
@@ -45,6 +48,7 @@ export interface TableColumnSetupProps {
 
     items: Item[];
     sortable?: boolean;
+    applyMode?: TableColumnSetupApplyMode;
 
     onUpdate: (updated: Item[]) => void;
     popupWidth?: number | 'fit' | undefined;
@@ -53,6 +57,8 @@ export interface TableColumnSetupProps {
     showStatus?: boolean;
     className?: string;
 }
+
+export type {TableColumnSetupApplyMode};
 
 export const TableColumnSetup = (props: TableColumnSetupProps) => {
     const {
@@ -66,6 +72,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         sortable = true,
         showStatus,
         onUpdate: propsOnUpdate,
+        applyMode,
     } = props;
 
     const {t} = i18n.useTranslation();
@@ -122,6 +129,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     return (
         <NewTableColumnSetup
+            applyMode={applyMode}
             items={items}
             onUpdate={onUpdate}
             popupPlacement={popupPlacement}

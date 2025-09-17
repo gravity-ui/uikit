@@ -1,15 +1,16 @@
-@use '../variables';
+@use './variables';
 
-$block: '.#{variables.$ns}dialog';
-
-#{$block} {
+#{variables.$block} {
     --_--side-padding: 32px;
+    --_--block-start-padding: 20px;
+    --_--block-end-padding: 24px;
     --_--close-button-space: 0px;
 
     position: relative;
     display: flex;
     flex-direction: column;
     width: var(--g-dialog-width, var(--_--width));
+    padding-block: var(--_--block-start-padding) var(--_--block-end-padding);
 
     &_has-scroll {
         overflow-y: auto;
@@ -32,7 +33,15 @@ $block: '.#{variables.$ns}dialog';
         }
     }
 
-    &_has-close {
-        --_--close-button-space: 24px;
+    &:has(#{variables.$closeBtnBlock}) {
+        --_--close-button-space: 26px;
+    }
+
+    &:has(#{variables.$headerBlock}) {
+        padding-block-start: 0;
+    }
+
+    &:has(#{variables.$footerBlock}) {
+        padding-block-end: 0;
     }
 }

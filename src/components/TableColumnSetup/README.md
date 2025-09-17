@@ -90,10 +90,10 @@ LANDING_BLOCK-->
 
 ## Apply modes
 
-Control when changes are applied using the `applyMode` property:
+Control when changes are applied using the `hideApplyButton` property:
 
-- `immediate` - Changes are applied immediately when user toggles columns
-- `manual` - Changes are applied only when user clicks the Apply button
+- `true` - Changes are applied immediately when user toggles columns
+- `false` - Changes are applied only when user clicks the Apply button
 
 <!--LANDING_BLOCK
 
@@ -101,7 +101,7 @@ Control when changes are applied using the `applyMode` property:
     code={`
 <TableColumnSetup
     items={items}
-    applyMode="immediate"
+    hideApplyButton
     onUpdate={(updatedItems) => console.log(updatedItems)}
 />
 `}
@@ -112,7 +112,7 @@ Control when changes are applied using the `applyMode` property:
             {id: 'email', title: 'Email', selected: true},
             {id: 'phone', title: 'Phone', selected: false},
         ]}
-        applyMode="immediate"
+        hideApplyButton
         onUpdate={(updatedItems) => console.log(updatedItems)}
     />
 </ExampleBlock>
@@ -124,7 +124,7 @@ LANDING_BLOCK-->
 ```tsx
 <TableColumnSetup
   items={items}
-  applyMode="immediate"
+  hideApplyButton
   onUpdate={(updatedItems) => console.log(updatedItems)}
 />
 ```
@@ -225,20 +225,20 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name           | Description                                                     |                            Type                             | Default |
-| :------------- | :-------------------------------------------------------------- | :---------------------------------------------------------: | :-----: |
-| items          | Array of column configuration items                             |                  `TableColumnSetupItem[]`                   |         |
-| onUpdate       | Callback fired when column configuration changes                |          `(items: TableColumnSetupItem[]) => void`          |         |
-| disabled       | Disables the switcher button                                    |                          `boolean`                          | `false` |
-| sortable       | Enables drag and drop sorting of columns                        |                          `boolean`                          | `true`  |
-| applyMode      | When to apply changes: immediately or manually via Apply button |                  `'immediate' \| 'manual'`                  |         |
-| showStatus     | Shows selected/total columns count in switcher button           |                          `boolean`                          | `false` |
-| popupWidth     | Width of the popup                                              |                      `number \| 'fit'`                      |         |
-| popupPlacement | Popup placement relative to trigger                             |      [`PopupPlacement`](../Popup/README.md#properties)      |         |
-| renderSwitcher | Custom render function for the switcher button                  | `(props: SwitcherProps) => React.ReactElement \| undefined` |         |
-| switcher       | **Deprecated.** Use `renderSwitcher` instead                    |              `React.ReactElement \| undefined`              |         |
-| getItemTitle   | Function to get item title                                      |      `(item: TableColumnSetupItem) => React.ReactNode`      |         |
-| className      | Custom CSS class for the root element                           |                          `string`                           |         |
+| Name            | Description                                                     |                            Type                             | Default |
+| :-------------- | :-------------------------------------------------------------- | :---------------------------------------------------------: | :-----: |
+| items           | Array of column configuration items                             |                  `TableColumnSetupItem[]`                   |         |
+| onUpdate        | Callback fired when column configuration changes                |          `(items: TableColumnSetupItem[]) => void`          |         |
+| disabled        | Disables the switcher button                                    |                          `boolean`                          | `false` |
+| sortable        | Enables drag and drop sorting of columns                        |                          `boolean`                          | `true`  |
+| hideApplyButton | When to apply changes: immediately or manually via Apply button |                          `boolean`                          | `false` |
+| showStatus      | Shows selected/total columns count in switcher button           |                          `boolean`                          | `false` |
+| popupWidth      | Width of the popup                                              |                      `number \| 'fit'`                      |         |
+| popupPlacement  | Popup placement relative to trigger                             |      [`PopupPlacement`](../Popup/README.md#properties)      |         |
+| renderSwitcher  | Custom render function for the switcher button                  | `(props: SwitcherProps) => React.ReactElement \| undefined` |         |
+| switcher        | **Deprecated.** Use `renderSwitcher` instead                    |              `React.ReactElement \| undefined`              |         |
+| getItemTitle    | Function to get item title                                      |      `(item: TableColumnSetupItem) => React.ReactNode`      |         |
+| className       | Custom CSS class for the root element                           |                          `string`                           |         |
 
 ### TableColumnSetupItem
 

@@ -87,10 +87,10 @@ LANDING_BLOCK-->
 
 ## Режимы применения
 
-Управляйте тем, когда изменения применяются, используя свойство `applyMode`:
+Управляйте тем, когда изменения применяются, используя свойство `hideApplyButton`:
 
-- `immediate` - Изменения применяются немедленно при переключении колонок пользователем
-- `manual` - Изменения применяются только при нажатии кнопки "Применить"
+- `true` - Изменения применяются немедленно при переключении колонок пользователем
+- `false` - Изменения применяются только при нажатии кнопки "Применить"
 
 <!--LANDING_BLOCK
 
@@ -98,7 +98,7 @@ LANDING_BLOCK-->
     code={`
 <TableColumnSetup
     items={items}
-    applyMode="immediate"
+    hideApplyButton
     onUpdate={(updatedItems) => console.log(updatedItems)}
 />
 `}
@@ -109,7 +109,7 @@ LANDING_BLOCK-->
             {id: 'email', title: 'Email', selected: true},
             {id: 'phone', title: 'Телефон', selected: false},
         ]}
-        applyMode="immediate"
+        hideApplyButton
         onUpdate={(updatedItems) => console.log(updatedItems)}
     />
 </ExampleBlock>
@@ -121,7 +121,7 @@ LANDING_BLOCK-->
 ```tsx
 <TableColumnSetup
   items={items}
-  applyMode="immediate"
+  hideApplyButton
   onUpdate={(updatedItems) => console.log(updatedItems)}
 />
 ```
@@ -222,20 +222,20 @@ LANDING_BLOCK-->
 
 ## Свойства
 
-| Имя            | Описание                                                                   |                             Тип                             | Значение по умолчанию |
-| :------------- | :------------------------------------------------------------------------- | :---------------------------------------------------------: | :-------------------: |
-| items          | Массив элементов конфигурации колонок                                      |                  `TableColumnSetupItem[]`                   |                       |
-| onUpdate       | Обратный вызов, срабатывающий при изменении конфигурации колонок           |          `(items: TableColumnSetupItem[]) => void`          |                       |
-| disabled       | Отключает кнопку переключения                                              |                          `boolean`                          |        `false`        |
-| sortable       | Включает сортировку колонок перетаскиванием                                |                          `boolean`                          |        `true`         |
-| applyMode      | Когда применять изменения: немедленно или вручную через кнопку "Применить" |                  `'immediate' \| 'manual'`                  |                       |
-| showStatus     | Показывает количество выбранных/общих колонок в кнопке переключения        |                          `boolean`                          |        `false`        |
-| popupWidth     | Ширина всплывающего окна                                                   |                      `number \| 'fit'`                      |                       |
-| popupPlacement | Размещение всплывающего окна относительно триггера                         |    [`PopupPlacement`](../Popup/README-ru.md#properties)     |                       |
-| renderSwitcher | Пользовательская функция рендеринга для кнопки переключения                | `(props: SwitcherProps) => React.ReactElement \| undefined` |                       |
-| switcher       | **Устарело.** Используйте `renderSwitcher` вместо этого                    |              `React.ReactElement \| undefined`              |                       |
-| getItemTitle   | Функция для получения заголовка элемента                                   |      `(item: TableColumnSetupItem) => React.ReactNode`      |                       |
-| className      | Пользовательский CSS-класс для корневого элемента                          |                          `string`                           |                       |
+| Имя             | Описание                                                                   |                             Тип                             | Значение по умолчанию |
+| :-------------- | :------------------------------------------------------------------------- | :---------------------------------------------------------: | :-------------------: |
+| items           | Массив элементов конфигурации колонок                                      |                  `TableColumnSetupItem[]`                   |                       |
+| onUpdate        | Обратный вызов, срабатывающий при изменении конфигурации колонок           |          `(items: TableColumnSetupItem[]) => void`          |                       |
+| disabled        | Отключает кнопку переключения                                              |                          `boolean`                          |        `false`        |
+| sortable        | Включает сортировку колонок перетаскиванием                                |                          `boolean`                          |        `true`         |
+| hideApplyButton | Когда применять изменения: немедленно или вручную через кнопку "Применить" |                          `boolean`                          |        `false`        |
+| showStatus      | Показывает количество выбранных/общих колонок в кнопке переключения        |                          `boolean`                          |        `false`        |
+| popupWidth      | Ширина всплывающего окна                                                   |                      `number \| 'fit'`                      |                       |
+| popupPlacement  | Размещение всплывающего окна относительно триггера                         |    [`PopupPlacement`](../Popup/README-ru.md#properties)     |                       |
+| renderSwitcher  | Пользовательская функция рендеринга для кнопки переключения                | `(props: SwitcherProps) => React.ReactElement \| undefined` |                       |
+| switcher        | **Устарело.** Используйте `renderSwitcher` вместо этого                    |              `React.ReactElement \| undefined`              |                       |
+| getItemTitle    | Функция для получения заголовка элемента                                   |      `(item: TableColumnSetupItem) => React.ReactNode`      |                       |
+| className       | Пользовательский CSS-класс для корневого элемента                          |                          `string`                           |                       |
 
 ### TableColumnSetupItem
 

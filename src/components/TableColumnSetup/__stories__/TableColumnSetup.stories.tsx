@@ -26,10 +26,9 @@ export default {
             control: 'boolean',
             description: 'Enable drag and drop sorting of columns',
         },
-        applyMode: {
-            control: 'select',
-            options: ['immediate', 'manual'],
-            description: 'When to apply changes: immediately or manually via Apply button',
+        hideApplyButton: {
+            control: 'boolean',
+            description: 'When to apply changes: via Apply button or immediately',
         },
         showStatus: {
             control: 'boolean',
@@ -190,7 +189,7 @@ export const ImmediateMode: Story = {
                 <TableColumnSetup
                     {...args}
                     items={items}
-                    applyMode="immediate"
+                    hideApplyButton
                     onUpdate={(updatedItems) => {
                         action('onUpdate')(updatedItems);
                         setItems(updatedItems);
@@ -288,7 +287,7 @@ export const Playground: Story = {
         items: manyItems,
         sortable: true,
         showStatus: true,
-        applyMode: 'manual',
+        hideApplyButton: false,
         popupWidth: 280,
         onUpdate: action('onUpdate'),
     },

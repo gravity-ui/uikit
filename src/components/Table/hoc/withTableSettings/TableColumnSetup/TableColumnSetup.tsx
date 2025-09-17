@@ -268,14 +268,12 @@ export type RenderControls = (params: {
     onApply: () => void;
 }) => React.ReactNode;
 
-export type TableColumnSetupApplyMode = 'immediate' | 'manual';
-
 export interface TableColumnSetupProps {
     renderSwitcher?: (props: SwitcherProps) => React.JSX.Element;
 
     items: TableColumnSetupItem[];
     sortable?: boolean;
-    applyMode?: TableColumnSetupApplyMode;
+    hideApplyButton?: boolean;
 
     onUpdate: (newSettings: TableSetting[]) => void;
     popupWidth?: TreeSelectProps<unknown>['popupWidth'];
@@ -313,7 +311,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         filterPlaceholder,
         filterEmptyMessage,
         filterSettings = defaultFilterSettingsFn,
-        applyMode = 'manual',
+        hideApplyButton,
     } = props;
 
     const [open, setOpen] = React.useState(false);
@@ -324,19 +322,17 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         setSortingEnabled(sortable);
     }
 
-    const isImmediate = applyMode === 'immediate';
-    const isManual = applyMode === 'manual';
     const [items, setItems] = useControlledState<TableColumnSetupItem[]>(
-        isImmediate ? propsItems : undefined,
+        hideApplyButton ? propsItems : undefined,
         propsItems,
-        isImmediate ? propsOnUpdate : undefined,
+        hideApplyButton ? propsOnUpdate : undefined,
     );
 
     // Track changes to propsItems in manual mode
     const [prevPropsItems, setPrevPropsItems] = React.useState(propsItems);
     if (propsItems !== prevPropsItems) {
         setPrevPropsItems(propsItems);
-        if (isManual) {
+        if (!hideApplyButton) {
             setItems(propsItems);
         }
     }
@@ -379,7 +375,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
                     {showResetButton && (
                         <Button
                             onClick={() => {
-                                if (isImmediate) {
+                                if (hideApplyButton) {
                                     propsOnUpdate(defaultItems);
                                 }
                                 setItems(defaultItems);
@@ -389,7 +385,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
                             {t('button_reset')}
                         </Button>
                     )}
-                    {isManual && <DefaultApplyButton />}
+                    {!hideApplyButton && <DefaultApplyButton />}
                 </Flex>
             ),
     });

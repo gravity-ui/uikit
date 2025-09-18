@@ -4,7 +4,6 @@ import * as React from 'react';
 
 import {useCheckbox} from '../../hooks/private';
 import {ControlLabel} from '../ControlLabel';
-import type {ControlLabelSize} from '../ControlLabel';
 import type {ControlProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 
@@ -12,17 +11,28 @@ import './Switch.scss';
 
 const b = block('switch');
 
-export type SwitchSize = ControlLabelSize;
+export type SwitchSize = 's' | 'm' | 'l';
 
 export interface SwitchProps extends ControlProps, DOMProps, QAProps {
     size?: SwitchSize;
+    loading?: boolean;
     content?: React.ReactNode;
     children?: React.ReactNode;
     title?: string;
 }
 
 export const Switch = React.forwardRef<HTMLLabelElement, SwitchProps>(function Switch(props, ref) {
-    const {size = 'm', disabled = false, content, children, title, style, className, qa} = props;
+    const {
+        size = 'm',
+        disabled = false,
+        loading = false,
+        content,
+        children,
+        title,
+        style,
+        className,
+        qa,
+    } = props;
     const {checked, inputProps} = useCheckbox({
         ...props,
         controlProps: {...props.controlProps, role: 'switch'},
@@ -49,6 +59,7 @@ export const Switch = React.forwardRef<HTMLLabelElement, SwitchProps>(function S
                     size,
                     disabled,
                     checked,
+                    loading,
                 },
                 className,
             )}

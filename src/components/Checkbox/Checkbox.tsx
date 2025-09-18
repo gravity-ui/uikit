@@ -4,7 +4,6 @@ import * as React from 'react';
 
 import {useCheckbox} from '../../hooks/private';
 import {ControlLabel} from '../ControlLabel';
-import type {ControlLabelSize} from '../ControlLabel';
 import type {ControlProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 
@@ -13,7 +12,7 @@ import {CheckboxTickIcon} from './CheckboxTickIcon';
 
 import './Checkbox.scss';
 
-export type CheckboxSize = ControlLabelSize;
+export type CheckboxSize = 'm' | 'l' | 'xl';
 
 export interface CheckboxProps extends ControlProps, DOMProps, QAProps {
     size?: CheckboxSize;

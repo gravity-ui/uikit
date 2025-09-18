@@ -127,6 +127,7 @@
   },
   "dependencies": {
     "@bem-react/classname": "^1.6.0",
+    "@figma/code-connect": "^1.3.5",
     "@floating-ui/react": "^0.27.12",
     "@gravity-ui/i18n": "^1.8.0",
     "@gravity-ui/icons": "^2.13.0",

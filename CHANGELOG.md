@@ -1,5 +1,18 @@
 # Changelog
 
+## [7.23.0](https://github.com/gravity-ui/uikit/compare/v7.22.0...v7.23.0) (2025-09-18)
+
+
+### Features
+
+* **TableColumnSetup:** add hideApplyButton property ([#2435](https://github.com/gravity-ui/uikit/issues/2435)) ([a0e5c1a](https://github.com/gravity-ui/uikit/commit/a0e5c1abb9075b47aa55261b230324138783e6e6))
+
+
+### Bug Fixes
+
+* **Accordion:** disclosure animation override specificity ([#2412](https://github.com/gravity-ui/uikit/issues/2412)) ([6b71c28](https://github.com/gravity-ui/uikit/commit/6b71c288dc6c5fc93bf431d8df8337c0615ece2a))
+* remove [@ts-ignore](https://github.com/ts-ignore) from Menu ([#2427](https://github.com/gravity-ui/uikit/issues/2427)) ([6e7d511](https://github.com/gravity-ui/uikit/commit/6e7d511853d38c9ee58e1686d4495c376630a5c9))
+
 ## [7.22.0](https://github.com/gravity-ui/uikit/compare/v7.21.0...v7.22.0) (2025-09-09)
 
 

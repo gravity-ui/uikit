@@ -42,11 +42,27 @@ export const Checked: Story = {
 export const Size: Story = {
     render: (args) => (
         <Showcase>
+            <Switch {...args} size="s">
+                Size s
+            </Switch>
             <Switch {...args} size="m">
                 Size m
             </Switch>
             <Switch {...args} size="l">
                 Size l
+            </Switch>
+        </Showcase>
+    ),
+};
+
+export const Loading: Story = {
+    render: (args) => (
+        <Showcase>
+            <Switch {...args} checked={false} loading size="l">
+                Loading...
+            </Switch>
+            <Switch {...args} checked loading size="l">
+                Loading...
             </Switch>
         </Showcase>
     ),

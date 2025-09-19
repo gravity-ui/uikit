@@ -1,4 +1,4 @@
 export {RgbInputs} from './RgbInputs';
-export {HexInputs} from './HexInputs';
+export {HexInput} from './HexInput';
 export {ColorDisplay} from './ColorDisplay';
 export {ColorPointer} from './ColorPointer';

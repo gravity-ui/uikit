@@ -20,16 +20,8 @@ export const HexInput = ({value, withAlpha, onChange, onBlur}: HexInputProps) =>
         [onChange],
     );
 
-    const renderInput = React.useCallback(
-        (props: any) => (
-            <TextInput
-                value={String(props.value)}
-                onChange={props.onChange}
-                onBlur={props.onBlur}
-                pin={withAlpha ? 'round-brick' : 'round-round'}
-            />
-        ),
-        [withAlpha],
+    const renderInput = (props: React.InputHTMLAttributes<HTMLInputElement>) => (
+        <TextInput value={String(props.value)} onChange={props.onChange} onBlur={props.onBlur} />
     );
 
     return (

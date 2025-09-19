@@ -17,32 +17,70 @@ $block: '.#{variables.$ns}color-picker';
         position: relative;
     }
 
-    &__underlay {
-        width: 20px;
+    &__color-swatch {
+        box-sizing: border-box;
+
+        /* Color swatch specific styles */
+        min-width: 20px;
         height: 20px;
-        background-image:
-            linear-gradient(45deg, #ccc 25%, transparent 25%),
-            linear-gradient(-45deg, #ccc 25%, transparent 25%),
-            linear-gradient(45deg, transparent 75%, #ccc 75%),
-            linear-gradient(-45deg, transparent 75%, #ccc 75%);
-        background-size: 10px 10px;
-        background-position:
-            0 0,
-            0 5px,
-            5px -5px,
-            -5px 0px;
+        border-radius: var(--g-border-radius-s);
+        cursor: pointer;
         position: relative;
         overflow: hidden;
+        border: none;
+
+        /* Proper checkerboard pattern */
+        background: conic-gradient(#ccc 25%, #fff 25% 50%, #ccc 50% 75%, #fff 75%);
+        background-size: 8px 8px;
+
+        /* Color overlay using ::after pseudo-element */
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: inherit;
+            pointer-events: none;
+        }
+
+        /* Focus and hover states */
+        &:hover {
+            border-color: var(--g-color-line-hover);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--g-color-line-focus);
+            outline-offset: 1px;
+        }
+
+        &:active {
+            transform: scale(0.95);
+        }
     }
 
-    &__overlay {
-        width: 20px;
-        height: 20px;
+    &__handlers-container {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    &__inputs {
+        display: flex;
+        gap: 8px;
+    }
+
+    &__picker-handlers {
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 
     &__picker-wrapper {
         padding: 4px;
         width: 100px;
+
+        &_withAlpha {
+            width: 110px;
+        }
     }
 
     &__hex-input {

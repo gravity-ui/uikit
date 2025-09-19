@@ -5,15 +5,14 @@ import {Alpha, Hue, Saturation} from '@uiw/react-color';
 
 import {Popup} from '../Popup';
 import {Select} from '../Select';
-import {Flex} from '../layout';
 
-import {ColorDisplay, ColorPointer, HexInputs, RgbInputs} from './components';
+import {ColorDisplay, ColorPointer, HexInput, RgbInputs} from './components';
 import {DEFAULT_COLOR, b} from './constants';
 import {Modes} from './types';
 import {useColorPickerState} from './useColorPickerState';
 import {convertSelectedModeColorToHsva, getTextValueByMode} from './utils';
 
-interface ColorPickerProps {
+export interface ColorPickerProps {
     withAlpha?: boolean;
     mode?: Modes;
     defaultColor?: HsvaColor;
@@ -36,11 +35,7 @@ export const ColorPicker = ({
     React.useEffect(() => {
         setState((prev) => ({
             ...prev,
-            inputValue: getTextValueByMode(
-                hsva,
-                modeState,
-                modeState === Modes.Hex ? false : withAlpha,
-            ),
+            inputValue: getTextValueByMode(hsva, modeState, withAlpha),
         }));
     }, [hsva, modeState, withAlpha]);
 
@@ -74,30 +69,16 @@ export const ColorPicker = ({
     };
 
     const applyInputValue = React.useCallback(() => {
-        const newHsva = convertSelectedModeColorToHsva(
-            inputValue,
-            modeState,
-            modeState === Modes.Hex ? false : withAlpha,
-        );
+        const newHsva = convertSelectedModeColorToHsva(inputValue, modeState, withAlpha);
 
-        if (modeState === Modes.Hex) {
-            updateHsva({...newHsva, a: hsva.a});
-        } else {
-            updateHsva(newHsva);
-        }
-    }, [modeState, inputValue, withAlpha, hsva.a, updateHsva]);
-
-    const handleAlphaChange = React.useCallback(
-        (alpha: number) => {
-            updateHsva({a: alpha});
-        },
-        [updateHsva],
-    );
+        updateHsva(newHsva);
+    }, [modeState, inputValue, withAlpha, updateHsva]);
 
     return (
         <React.Fragment>
             <ColorDisplay
                 hsva={hsva}
+                withAlpha={withAlpha}
                 onClick={() => setState((prev) => ({...prev, open: true}))}
                 onColorChange={updateHsva}
                 ref={setAnchor}
@@ -106,11 +87,11 @@ export const ColorPicker = ({
             <Popup
                 open={open}
                 className={b('popup')}
-                placement={'bottom-end'}
+                placement={['bottom-start', 'bottom-end']}
                 anchorElement={anchor}
                 onOpenChange={handleOpenChange}
             >
-                <Flex direction={'column'} gap={2}>
+                <div className={b('handlers-container')}>
                     <Saturation
                         hsva={hsva}
                         onChange={(newColor) => updateHsva({...newColor, a: hsva.a})}
@@ -161,7 +142,7 @@ export const ColorPicker = ({
                         />
                     )}
 
-                    <Flex gap={2}>
+                    <div className={b('inputs')}>
                         <Select
                             options={Object.values(Modes).map((val) => ({
                                 content: val,
@@ -173,13 +154,11 @@ export const ColorPicker = ({
                         />
 
                         {modeState === Modes.Hex && (
-                            <HexInputs
-                                inputValue={inputValue}
-                                hsva={hsva}
+                            <HexInput
+                                value={inputValue}
                                 withAlpha={withAlpha}
-                                onInputChange={handleInputChange}
-                                onInputBlur={applyInputValue}
-                                onAlphaChange={handleAlphaChange}
+                                onChange={handleInputChange}
+                                onBlur={applyInputValue}
                             />
                         )}
 
@@ -190,8 +169,8 @@ export const ColorPicker = ({
                                 onChange={(color) => updateHsva(color.hsva)}
                             />
                         )}
-                    </Flex>
-                </Flex>
+                    </div>
+                </div>
             </Popup>
         </React.Fragment>
     );

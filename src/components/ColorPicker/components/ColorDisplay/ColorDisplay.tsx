@@ -3,28 +3,27 @@ import * as React from 'react';
 import {hsvaToRgbaString} from '@uiw/react-color';
 import type {HsvaColor} from '@uiw/react-color';
 
-import {Button} from '../../../Button';
 import {Card} from '../../../Card';
 import {TextInput} from '../../../controls';
-import {Flex} from '../../../layout';
 import {b} from '../../constants';
 import {Modes} from '../../types';
 import {convertSelectedModeColorToHsva, getTextValueByMode} from '../../utils';
 
 type ColorDisplayProps = {
     hsva: HsvaColor;
+    withAlpha: boolean;
     onClick: () => void;
     onColorChange?: (color: HsvaColor) => void;
 };
 export const ColorDisplay = React.forwardRef<HTMLDivElement, ColorDisplayProps>(
-    ({hsva, onClick, onColorChange}, ref) => {
+    ({hsva, withAlpha, onClick, onColorChange}, ref) => {
         const [inputValue, setInputValue] = React.useState(() =>
-            getTextValueByMode(hsva, Modes.Hex, false),
+            getTextValueByMode(hsva, Modes.Hex, withAlpha),
         );
 
         React.useEffect(() => {
-            setInputValue(getTextValueByMode(hsva, Modes.Hex, false));
-        }, [hsva]);
+            setInputValue(getTextValueByMode(hsva, Modes.Hex, withAlpha));
+        }, [hsva, withAlpha]);
 
         const handleInputChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
             setInputValue(e.target.value);
@@ -32,26 +31,25 @@ export const ColorDisplay = React.forwardRef<HTMLDivElement, ColorDisplayProps>(
 
         const handleInputBlur = React.useCallback(() => {
             try {
-                const newHsva = convertSelectedModeColorToHsva(inputValue, Modes.Hex, false);
-                const updatedHsva = {...newHsva, a: hsva.a};
+                const newHsva = convertSelectedModeColorToHsva(inputValue, Modes.Hex, withAlpha);
 
-                onColorChange?.(updatedHsva);
+                onColorChange?.(newHsva);
             } catch {
-                setInputValue(getTextValueByMode(hsva, Modes.Hex, false));
+                setInputValue(getTextValueByMode(hsva, Modes.Hex, withAlpha));
             }
-        }, [inputValue, hsva.a, onColorChange, hsva]);
+        }, [inputValue, withAlpha, onColorChange, hsva]);
 
         return (
-            <Card view={'outlined'} className={b('picker-wrapper')} ref={ref}>
-                <Flex alignItems={'center'} gap={2}>
-                    <Button size={'s'} className={b('underlay')} onClick={onClick}>
-                        <div
-                            className={b('overlay')}
-                            style={{
-                                backgroundColor: hsvaToRgbaString(hsva),
-                            }}
-                        />
-                    </Button>
+            <Card view={'outlined'} className={b('picker-wrapper', {withAlpha})} ref={ref}>
+                <div className={b('picker-handlers')}>
+                    <button
+                        type="button"
+                        className={b('color-swatch')}
+                        onClick={onClick}
+                        style={{
+                            backgroundColor: hsvaToRgbaString(hsva),
+                        }}
+                    />
                     <TextInput
                         value={inputValue}
                         onChange={handleInputChange}
@@ -59,7 +57,7 @@ export const ColorDisplay = React.forwardRef<HTMLDivElement, ColorDisplayProps>(
                         size="s"
                         view={'clear'}
                     />
-                </Flex>
+                </div>
             </Card>
         );
     },

@@ -14,7 +14,7 @@ export interface DrawerItemProps {
     children?: React.ReactNode;
 
     /** Determines whether the drawer item is visible or hidden. */
-    visible?: boolean;
+    open?: boolean;
 
     /**
      * Specifies the direction from which the drawer should slide in, `left` by default.
@@ -30,9 +30,9 @@ export interface DrawerItemProps {
 
     /**
      * The width of the resizable drawer item.
-     * If not provided, the width will be stored internally.
+     * If not provided, the size will be stored internally.
      */
-    width?: number;
+    size?: number;
 
     /** Called at the start of resizing. */
     onResizeStart?: OnResizeHandler;
@@ -61,12 +61,12 @@ export interface DrawerItemProps {
 export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
     function DrawerItem(props, ref) {
         const {
-            visible,
+            open,
             children,
             direction = 'left',
             className,
             resizable,
-            width,
+            size,
             minResizeWidth,
             maxResizeWidth,
             onResizeStart,
@@ -77,15 +77,15 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
             ...rest
         } = props;
 
-        const [isInitialRender, setInitialRender] = React.useState(true);
+        const [isInitialRender, setIsInitialRender] = React.useState(true);
         const itemRef = React.useRef<HTMLDivElement>(null);
+        const resizerRef = React.useRef<HTMLDivElement>(null);
         const handleRef = useForkRef(ref, itemRef);
 
-        const cssDirection = direction === 'left' ? undefined : direction;
-
         const {resizedWidth, onResizerPointerDown, isResizing} = useResizableDrawerItem({
+            resizerRef,
             direction,
-            width,
+            size,
             minResizeWidth,
             maxResizeWidth,
             onResizeStart,
@@ -93,27 +93,18 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
             onResize,
         });
 
-        const innerStyle = React.useMemo(() => {
-            const css = {...style};
-            if (resizable) {
-                if (['left', 'right'].includes(direction)) {
-                    css.width = `${resizedWidth}px`;
-                } else {
-                    css.height = `${resizedWidth}px`;
-                }
-            }
-
-            return css;
-        }, [direction, resizable, resizedWidth, style]);
+        const isVerticalDirection = ['left', 'right'].includes(direction);
+        const isHorizontalDirection = !isVerticalDirection;
 
         React.useEffect(() => {
-            setInitialRender(true);
+            setIsInitialRender(true);
         }, [direction]);
 
         const resizerElement = resizable ? (
             <div
+                ref={resizerRef}
                 className={b('resizer', {direction})}
-                onPointerDown={visible && resizable ? onResizerPointerDown : undefined}
+                onPointerDown={open && resizable ? onResizerPointerDown : undefined}
                 role="presentation"
             >
                 <div className={b('resizer-handle', {direction})} />
@@ -126,14 +117,18 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
                 className={b(
                     'item',
                     {
-                        direction: cssDirection,
-                        hidden: isInitialRender && !visible,
+                        direction,
+                        hidden: isInitialRender && !open,
                         resize: isResizing,
                         'disable-portal': disablePortal,
                     },
                     [className],
                 )}
-                style={innerStyle}
+                style={{
+                    ...style,
+                    width: isVerticalDirection ? `${resizedWidth}px` : undefined,
+                    height: isHorizontalDirection ? `${resizedWidth}px` : undefined,
+                }}
                 {...rest}
             >
                 {resizerElement}

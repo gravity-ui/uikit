@@ -74,20 +74,20 @@ export default App;
 
 ## CSS API
 
-| Name                                         | Description                                                 |                 Default                 |
-| :------------------------------------------- | :---------------------------------------------------------- | :-------------------------------------: |
-| DrawerItem                                   |                                                             |                                         |
-| `--g-drawer-item-position`                   | The position of the drawer item on page                     |                 `fixed`                 |
-| `--g-drawer-item-shadow`                     | The box-shadow of the drawer item when the veil is hidden   | `0 1px 5px 0 var(--g-color-sfx-shadow)` |
-| `--g-drawer-item-left-offset`                | The left offset of the drawer item                          |                   `0`                   |
-| `--g-drawer-item-top-offset`                 | The top offset of the drawer item                           |                   `0`                   |
-| Veil                                         |                                                             |                                         |
-| `--g-drawer-veil-background-color`           | The color of the veil element                               |          `--g-color-sfx-veil`           |
-| Resizer                                      |                                                             |                                         |
-| `--g-drawer-item-resizer-width`              | The width of the resizer element                            |                   8px                   |
-| `--g-drawer-item-resizer-color`              | The color of the resizer element                            |        `--g-color-base-generic`         |
-| `--g-drawer-item-resizer-handle-color`       | The color of the resizer handle                             |        `--g-color-line-generic`         |
-| `--g-drawer-item-resizer-handle-color-hover` | The color of the resizer handle when the resizer is hovered |     `--g-color-line-generic-hover`      |
-| `--g-drawer-item-resizer-z-index`            | z-index of the resizer element                              |                   100                   |
-| `--g-drawer-veil-z-index`                    | z-index of the veil                                         |                `"auto"`                 |
-| `--g-drawer-item-z-index`                    | z-index of the drawer item                                  |                   110                   |
+| Name                                         | Description                                                 |
+| :------------------------------------------- | :---------------------------------------------------------- |
+| DrawerItem                                   |                                                             |
+| `--g-drawer-item-position`                   | The position of the drawer item on page                     |
+| `--g-drawer-item-shadow`                     | The box-shadow of the drawer item when the veil is hidden   |
+| `--g-drawer-item-left-offset`                | The left offset of the drawer item                          |
+| `--g-drawer-item-top-offset`                 | The top offset of the drawer item                           |
+| Veil                                         |                                                             |
+| `--g-drawer-veil-background-color`           | The color of the veil element                               |
+| Resizer                                      |                                                             |
+| `--g-drawer-item-resizer-width`              | The width of the resizer element                            |
+| `--g-drawer-item-resizer-color`              | The color of the resizer element                            |
+| `--g-drawer-item-resizer-handle-color`       | The color of the resizer handle                             |
+| `--g-drawer-item-resizer-handle-color-hover` | The color of the resizer handle when the resizer is hovered |
+| `--g-drawer-item-resizer-z-index`            | z-index of the resizer element                              |
+| `--g-drawer-veil-z-index`                    | z-index of the veil                                         |
+| `--g-drawer-item-z-index`                    | z-index of the drawer item                                  |

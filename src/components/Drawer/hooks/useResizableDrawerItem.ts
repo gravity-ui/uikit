@@ -11,8 +11,9 @@ import type {OnResizeHandler} from './useResizeHandlers';
 import {useResizeHandlers} from './useResizeHandlers';
 
 export interface UseResizableDrawerItemParams {
+    resizerRef: React.RefObject<HTMLDivElement>;
     direction?: DrawerDirection;
-    width?: number;
+    size?: number;
     minResizeWidth?: number;
     maxResizeWidth?: number;
     onResizeStart?: OnResizeHandler;
@@ -22,8 +23,9 @@ export interface UseResizableDrawerItemParams {
 
 export function useResizableDrawerItem(params: UseResizableDrawerItemParams) {
     const {
+        resizerRef,
         direction = 'left',
-        width,
+        size,
         minResizeWidth = DRAWER_ITEM_MIN_RESIZE_WIDTH,
         maxResizeWidth = DRAWER_ITEM_MAX_RESIZE_WIDTH,
         onResizeStart,
@@ -34,7 +36,7 @@ export function useResizableDrawerItem(params: UseResizableDrawerItemParams) {
     const [isResizing, setIsResizing] = React.useState(false);
     const [resizeDelta, setResizeDelta] = React.useState(0);
     const [internalWidth, setInternalWidth] = React.useState(
-        width ?? DRAWER_ITEM_INITIAL_RESIZE_WIDTH,
+        size ?? DRAWER_ITEM_INITIAL_RESIZE_WIDTH,
     );
 
     const getClampedWidth = React.useCallback(
@@ -45,10 +47,10 @@ export function useResizableDrawerItem(params: UseResizableDrawerItemParams) {
     const getResizedWidth = React.useCallback(
         (delta: number) => {
             const signedDelta = ['right', 'bottom'].includes(direction) ? delta : -delta;
-            const newWidth = (width ?? internalWidth) + signedDelta;
+            const newWidth = (size ?? internalWidth) + signedDelta;
             return getClampedWidth(newWidth);
         },
-        [width, internalWidth, direction, getClampedWidth],
+        [size, internalWidth, direction, getClampedWidth],
     );
 
     const onStart = React.useCallback(() => {
@@ -71,19 +73,20 @@ export function useResizableDrawerItem(params: UseResizableDrawerItemParams) {
             setIsResizing(false);
             setInternalWidth(newWidth);
 
-            const prevWidth = width ?? internalWidth;
+            const prevWidth = size ?? internalWidth;
             if (newWidth !== prevWidth) {
                 onResizeEnd?.(newWidth);
             }
         },
-        [getResizedWidth, onResizeEnd, width, internalWidth],
+        [getResizedWidth, onResizeEnd, size, internalWidth],
     );
 
     const displayWidth = isResizing
         ? getResizedWidth(resizeDelta)
-        : getClampedWidth(width ?? internalWidth);
+        : getClampedWidth(size ?? internalWidth);
 
     const {onPointerDown} = useResizeHandlers({
+        resizerRef,
         onStart,
         onMove,
         onEnd,

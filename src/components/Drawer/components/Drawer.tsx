@@ -208,12 +208,12 @@ export const Drawer = ({
                     >
                         <DrawerItem
                             ref={handleFloatingRef}
-                            visible={open}
+                            open={open}
                             disablePortal={disablePortal}
                             direction={direction}
                             className={contentClassName}
                             resizable={resizable}
-                            width={size}
+                            size={size}
                             onResize={onResize}
                             onResizeStart={onResizeStart}
                             onResizeEnd={onResizeEnd}

@@ -65,29 +65,29 @@ export default App;
 | onTransitionExit      | Обработчик начала анимации закрытия                                                |      `Function`       |                       |
 | onTransitionEntered   | Обработчик завершения анимации открытия                                            |      `Function`       |                       |
 | onTransitionExited    | Обработчик завершения анимации закрытия                                            |      `Function`       |                       |
-| onResizeEnd           | Колбэк, вызываемый по окончании изменения размера                                  |      `Function`       |                       |
-| onResize              | Колбэк, вызываемый во время изменения размера                                      |      `Function`       |                       |
-| onResizeStart         | Колбэк, вызываемый в начале изменения размера                                      |      `Function`       |                       |
+| onResizeEnd           | Обработчик завершения изменения размера                                            |      `Function`       |                       |
+| onResize              | Обработчик изменения размера                                                       |      `Function`       |                       |
+| onResizeStart         | Обработчик начала изменения размера                                                |      `Function`       |                       |
 | maxSize               | Максимальная ширина контента в пикселях                                            |       `number`        |                       |
 | minSize               | Минимальная ширина контента в пикселях                                             |       `number`        |                       |
 | size                  | Ширина контента в пикселях                                                         |       `number`        |                       |
 
 ## CSS API
 
-| Имя                                          | Описание                                      |          Значение по умолчанию          |
-| :------------------------------------------- | :-------------------------------------------- | :-------------------------------------: |
-| Контент                                      |                                               |                                         |
-| `--g-drawer-item-position`                   | Позиция контента внутри Drawer на странице    |                 `fixed`                 |
-| `--g-drawer-item-shadow`                     | box-shadow у контента, когда шторка скрыта    | `0 1px 5px 0 var(--g-color-sfx-shadow)` |
-| `--g-drawer-item-left-offset`                | Отступ слева у контента                       |                   `0`                   |
-| `--g-drawer-item-top-offset`                 | Отступ сверху у контента                      |                   `0`                   |
-| Шторка                                       |                                               |                                         |
-| `--g-drawer-veil-background-color`           | Цвет фона шторки                              |          `--g-color-sfx-veil`           |
-| Ресайзер                                     |                                               |                                         |
-| `--g-drawer-item-resizer-width`              | Ширина ресайзера                              |                   8px                   |
-| `--g-drawer-item-resizer-color`              | Цвет ресайзера                                |        `--g-color-base-generic`         |
-| `--g-drawer-item-resizer-handle-color`       | Цвет контрола ресайзера                       |        `--g-color-line-generic`         |
-| `--g-drawer-item-resizer-handle-color-hover` | Цвет контрола ресайзера при наведении курсора |     `--g-color-line-generic-hover`      |
-| `--g-drawer-item-resizer-z-index`            | z-index ресайзера                             |                   100                   |
-| `--g-drawer-veil-z-index`                    | z-index шторки                                |                `"auto"`                 |
-| `--g-drawer-item-z-index`                    | z-index контента                              |                   110                   |
+| Имя                                          | Описание                                      |
+| :------------------------------------------- | :-------------------------------------------- |
+| Контент                                      |                                               |
+| `--g-drawer-item-position`                   | Позиция контента внутри Drawer на странице    |
+| `--g-drawer-item-shadow`                     | box-shadow у контента, когда шторка скрыта    |
+| `--g-drawer-item-left-offset`                | Отступ слева у контента                       |
+| `--g-drawer-item-top-offset`                 | Отступ сверху у контента                      |
+| Шторка                                       |                                               |
+| `--g-drawer-veil-background-color`           | Цвет фона шторки                              |
+| Ресайзер                                     |                                               |
+| `--g-drawer-item-resizer-width`              | Ширина ресайзера                              |
+| `--g-drawer-item-resizer-color`              | Цвет ресайзера                                |
+| `--g-drawer-item-resizer-handle-color`       | Цвет контрола ресайзера                       |
+| `--g-drawer-item-resizer-handle-color-hover` | Цвет контрола ресайзера при наведении курсора |
+| `--g-drawer-item-resizer-z-index`            | z-index ресайзера                             |
+| `--g-drawer-veil-z-index`                    | z-index шторки                                |
+| `--g-drawer-item-z-index`                    | z-index контента                              |

@@ -38,7 +38,6 @@ export default App;
 
 | Name                  | Description                                                                                 |         Type          |     Default     |
 | :-------------------- | :------------------------------------------------------------------------------------------ | :-------------------: | :-------------: |
-| veilClassName         | Optional additional class names to style the veil (overlay) element.                        |       `string`        |                 |
 | className             | `class` HTML attribute for the root node                                                    |       `string`        |                 |
 | qa                    | Test attribute (`data-qa`)                                                                  |       `string`        |                 |
 | style                 | `style` HTML attribute for the root node                                                    | `React.CSSProperties` |                 |

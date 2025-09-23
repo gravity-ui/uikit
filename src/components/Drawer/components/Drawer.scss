@@ -55,6 +55,18 @@ $block: '.#{variables.$ns}drawer';
         }
     }
 
+    &__item_resizable#{$block}__item_direction_left {
+        padding-inline-end: var(--_--resizer-width);
+    }
+
+    &__item_resizable#{$block}__item_direction_top {
+        padding-block-end: var(--_--resizer-width);
+    }
+
+    &__item_resizable#{$block}__item_direction_bottom {
+        padding-block-start: var(--_--resizer-width);
+    }
+
     &[data-floating-ui-status='unmounted'] &__item {
         visibility: hidden;
     }

@@ -11,7 +11,6 @@ import type {OnResizeHandler} from './useResizeHandlers';
 import {useResizeHandlers} from './useResizeHandlers';
 
 export interface UseResizableDrawerItemParams {
-    resizerRef: React.RefObject<HTMLDivElement>;
     direction?: DrawerDirection;
     size?: number;
     minResizeWidth?: number;
@@ -23,7 +22,6 @@ export interface UseResizableDrawerItemParams {
 
 export function useResizableDrawerItem(params: UseResizableDrawerItemParams) {
     const {
-        resizerRef,
         direction = 'left',
         size,
         minResizeWidth = DRAWER_ITEM_MIN_RESIZE_WIDTH,
@@ -85,8 +83,7 @@ export function useResizableDrawerItem(params: UseResizableDrawerItemParams) {
         ? getResizedWidth(resizeDelta)
         : getClampedWidth(size ?? internalWidth);
 
-    const {onPointerDown} = useResizeHandlers({
-        resizerRef,
+    const {onPointerDown: onResizerPointerDown} = useResizeHandlers({
         onStart,
         onMove,
         onEnd,
@@ -95,7 +92,6 @@ export function useResizableDrawerItem(params: UseResizableDrawerItemParams) {
 
     return {
         resizedWidth: displayWidth,
-        onResizerPointerDown: onPointerDown,
-        isResizing,
+        onResizerPointerDown,
     };
 }

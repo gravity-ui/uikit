@@ -1,9 +1,6 @@
 .disable-portal {
     --g-drawer-item-position: absolute;
 
-    width: 100dvw;
-    height: 100dvh;
-
     display: flex;
     flex-direction: column;
 
@@ -22,12 +19,6 @@
         width: 600px;
         height: 400px;
         border: 1px solid var(--g-color-line-brand);
-    }
-
-    &__drawer {
-        position: absolute;
-        inset: 0;
-        overflow: hidden;
     }
 
     &__item {
@@ -50,11 +41,10 @@
         box-sizing: border-box;
         padding: 8px 16px;
         height: 100%;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
 
     &__item_vertical &__item-content {
-        height: auto;
         width: 100%;
     }
 }

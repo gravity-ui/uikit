@@ -137,6 +137,7 @@ LANDING_BLOCK-->
 | children       | The content of the switch (usually, a label)                                                             |                  `ReactNode`                  |         |
 | content        | The content of the switch (alternative to children)                                                      |                  `ReactNode`                  |         |
 | disabled       | Toggles the `disabled` state of the switch                                                               |                   `boolean`                   | `false` |
+| loading        | Toggles the `loading` state of the switch                                                                |                   `boolean`                   | `false` |
 | checked        | Toggles the `checked` state of the switch                                                                |                   `boolean`                   | `false` |
 | defaultChecked | Sets the initial checked state when the component is mounted                                             |                   `boolean`                   | `false` |
 | onUpdate       | Fires when the switch state is changed by the user and provides the checked value as a callback argument |         `(checked: boolean) => void`          |         |

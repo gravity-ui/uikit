@@ -124,6 +124,13 @@ export const Drawer = ({
         },
         [onOpenChange],
     );
+    const handleVeilClick = React.useCallback(() => {
+        if (disableOutsideClick) {
+            return;
+        }
+
+        onOpenChange?.(false);
+    }, [disableOutsideClick, onOpenChange]);
 
     const {refs, context} = useFloating({
         nodeId: floatingNodeId,
@@ -149,14 +156,6 @@ export const Drawer = ({
     const {getFloatingProps} = useInteractions([dismiss, role]);
     const veilRef = React.useRef<HTMLDivElement>(null);
     const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
-
-    const handleVeilClick = React.useCallback(() => {
-        if (disableOutsideClick) {
-            return;
-        }
-
-        onOpenChange?.(false);
-    }, [disableOutsideClick, onOpenChange]);
 
     const currentStyle = React.useMemo(() => {
         const positionProp = {
@@ -206,7 +205,6 @@ export const Drawer = ({
                         <DrawerItem
                             ref={handleFloatingRef}
                             open={open}
-                            disablePortal={disablePortal}
                             direction={direction}
                             className={contentClassName}
                             resizable={resizable}

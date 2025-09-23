@@ -49,10 +49,6 @@ $block: '.#{variables.$ns}drawer';
             inset-block-start: auto;
             inset-inline-end: 0;
         }
-
-        &_disable-portal {
-            --_--item-position: static;
-        }
     }
 
     &__item_resizable#{$block}__item_direction_left {
@@ -121,7 +117,7 @@ $block: '.#{variables.$ns}drawer';
         pointer-events: initial;
 
         &_hidden {
-            display: none;
+            background-color: transparent;
         }
     }
 

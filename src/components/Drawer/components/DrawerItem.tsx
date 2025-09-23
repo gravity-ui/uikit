@@ -52,8 +52,6 @@ export interface DrawerItemProps {
     /** The maximum width of the resizable drawer item */
     maxResizeWidth?: number;
 
-    disablePortal?: boolean;
-
     /** Optional inline styles to be applied to the DrawerItem component. */
     style?: React.CSSProperties;
 }
@@ -73,17 +71,14 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
             onResizeEnd,
             onResize,
             style = {},
-            disablePortal,
             ...rest
         } = props;
 
         const [isInitialRender, setIsInitialRender] = React.useState(true);
         const itemRef = React.useRef<HTMLDivElement>(null);
-        const resizerRef = React.useRef<HTMLDivElement>(null);
         const handleRef = useForkRef(ref, itemRef);
 
-        const {resizedWidth, onResizerPointerDown, isResizing} = useResizableDrawerItem({
-            resizerRef,
+        const {resizedWidth, onResizerPointerDown} = useResizableDrawerItem({
             direction,
             size,
             minResizeWidth,
@@ -102,7 +97,6 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
 
         const resizerElement = resizable ? (
             <div
-                ref={resizerRef}
                 className={b('resizer', {direction})}
                 onPointerDown={open && resizable ? onResizerPointerDown : undefined}
                 role="presentation"
@@ -120,8 +114,6 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
                         direction,
                         resizable,
                         hidden: isInitialRender && !open,
-                        resize: isResizing,
-                        'disable-portal': disablePortal,
                     },
                     [className],
                 )}

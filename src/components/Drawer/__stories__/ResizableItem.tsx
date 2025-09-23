@@ -53,10 +53,6 @@ export function ResizableItemShowcase() {
                 >
                     <div className={b('item-content')} data-qa="drawer-item">
                         <PlaceholderText />
-                        <PlaceholderText />
-                        <PlaceholderText />
-                        <PlaceholderText />
-                        <PlaceholderText />
                     </div>
                 </Drawer>
             </div>

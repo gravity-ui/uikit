@@ -4,7 +4,6 @@ export type DrawerDirection = 'right' | 'left' | 'top' | 'bottom';
 export type OnResizeHandler = (width: number) => void;
 
 export interface UseResizeHandlersParams {
-    resizerRef: React.RefObject<HTMLDivElement>;
     onStart: () => void;
     onMove: (delta: number) => void;
     onEnd: (delta: number, event: MouseEvent | TouchEvent) => void;

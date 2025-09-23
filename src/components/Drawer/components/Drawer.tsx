@@ -74,8 +74,6 @@ export interface DrawerProps
      * Callback called at the end of resizing.
      */
     onResizeEnd?: OnResizeHandler;
-    /** Optional additional class names to style the background veil element. */
-    veilClassName?: string;
     /** Optional flag to hide the background darkening */
     hideVeil?: boolean;
     /**
@@ -98,7 +96,6 @@ export const Drawer = ({
     onResizeStart,
     onResizeEnd,
     onResize,
-    veilClassName,
     className,
     style,
     qa,
@@ -193,7 +190,7 @@ export const Drawer = ({
                 >
                     <div
                         ref={veilRef}
-                        className={b('veil', {hidden: hideVeil}, veilClassName)}
+                        className={b('veil', {hidden: hideVeil})}
                         role="presentation"
                         onClick={handleVeilClick}
                     />

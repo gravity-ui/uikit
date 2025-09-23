@@ -42,11 +42,10 @@
         box-sizing: border-box;
         padding: 8px 16px;
         height: 100%;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
 
     &__item_vertical &__item-content {
         width: 100%;
-        height: auto;
     }
 }

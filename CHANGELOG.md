@@ -1,5 +1,18 @@
 # Changelog
 
+## [7.24.0](https://github.com/gravity-ui/uikit/compare/v7.23.0...v7.24.0) (2025-09-24)
+
+
+### Features
+
+* add new hoc withPlatform ([#2431](https://github.com/gravity-ui/uikit/issues/2431)) ([b5e8841](https://github.com/gravity-ui/uikit/commit/b5e8841356f0d34f95ef9510ffcfceaea5ae9bef))
+* **Switch:** add 's' size option and loading state support ([#2438](https://github.com/gravity-ui/uikit/issues/2438)) ([77143ab](https://github.com/gravity-ui/uikit/commit/77143abf6d355517748e5d1b378104200a6be8c4))
+
+
+### Bug Fixes
+
+* **Button:** set a tabIndex so that Safari allows focusing buttons ([#2440](https://github.com/gravity-ui/uikit/issues/2440)) ([c60e58d](https://github.com/gravity-ui/uikit/commit/c60e58d1a5924f87c1c9380f45dd867ccd7a5106))
+
 ## [7.23.0](https://github.com/gravity-ui/uikit/compare/v7.22.0...v7.23.0) (2025-09-18)
 
 

@@ -2,11 +2,11 @@ import {expect} from '@playwright/experimental-ct-react';
 
 import {test} from '~playwright/core';
 
-import {DrawerStories} from './helpersPlaywright';
+import {HideVeilShowcase, ResizableItemShowcase} from './components';
 
 test.describe('Drawer', {tag: '@Drawer'}, () => {
-    test('render story: <ResizableItem>', async ({mount, page, expectScreenshot, defaultDelay}) => {
-        await mount(<DrawerStories.ResizableItem />, {width: 1200, height: 720});
+    test('render with resizable prop', async ({mount, page, expectScreenshot, defaultDelay}) => {
+        await mount(<ResizableItemShowcase />, {width: 1200, height: 720});
 
         await defaultDelay();
 
@@ -19,16 +19,8 @@ test.describe('Drawer', {tag: '@Drawer'}, () => {
         });
     });
 
-    test('render story: <HideVeil>', async ({mount, expectScreenshot, defaultDelay}) => {
-        await mount(<DrawerStories.HideVeil />, {width: 1200, height: 720});
-
-        await defaultDelay();
-
-        await expectScreenshot();
-    });
-
-    test('render story: <DisablePortal>', async ({mount, expectScreenshot, defaultDelay}) => {
-        await mount(<DrawerStories.DisablePortal />, {width: 1200, height: 720});
+    test('render with hideVeil prop', async ({mount, expectScreenshot, defaultDelay}) => {
+        await mount(<HideVeilShowcase />, {width: 1200, height: 720});
 
         await defaultDelay();
 

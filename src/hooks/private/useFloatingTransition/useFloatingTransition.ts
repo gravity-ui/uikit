@@ -17,6 +17,7 @@ export interface UseFloatingTransitionProps {
 export interface UseFloatingTransitionResult {
     isMounted: boolean;
     status: 'unmounted' | 'initial' | 'open' | 'close';
+    isTransitionInProgress: boolean;
 }
 
 export function useFloatingTransition({
@@ -27,6 +28,7 @@ export function useFloatingTransition({
     onTransitionOut,
     onTransitionOutComplete,
 }: UseFloatingTransitionProps): UseFloatingTransitionResult {
+    const [isTransitionInProgress, setIsTransitionInProgress] = React.useState(false);
     const {isMounted, status} = useTransitionStatus(context, {
         duration,
     });
@@ -37,9 +39,11 @@ export function useFloatingTransition({
     React.useEffect(() => {
         if (status === 'open' && previousStatus === 'initial') {
             onTransitionIn?.();
+            setIsTransitionInProgress(true);
 
             timerIdRef.current = setTimeout(() => {
                 onTransitionInComplete?.();
+                setIsTransitionInProgress(false);
                 timerIdRef.current = null;
             }, openDuration);
         }
@@ -50,9 +54,11 @@ export function useFloatingTransition({
             }
 
             onTransitionOut?.();
+            setIsTransitionInProgress(true);
         }
         if (status === 'unmounted' && previousStatus === 'close') {
             onTransitionOutComplete?.();
+            setIsTransitionInProgress(false);
         }
     }, [
         status,
@@ -74,5 +80,5 @@ export function useFloatingTransition({
         [],
     );
 
-    return {isMounted, status};
+    return {isMounted, status, isTransitionInProgress};
 }

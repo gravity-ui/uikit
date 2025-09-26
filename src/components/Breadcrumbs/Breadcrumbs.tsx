@@ -2,7 +2,8 @@
 
 import * as React from 'react';
 
-import {useForkRef, useLayoutEffect, useResizeObserver} from '../../hooks';
+import {useForkRef, useResizeObserver} from '../../hooks';
+import {useCollapseChildren} from '../../hooks/useCollapseChildren';
 import type {PopupPlacement} from '../Popup';
 import type {AriaLabelingProps, DOMProps, Key, QAProps} from '../types';
 import {filterDOMProps} from '../utils/filterDOMProps';
@@ -35,6 +36,7 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
 ) {
     const listRef = React.useRef<HTMLOListElement>(null);
     const containerRef = useForkRef(ref, listRef);
+    const menuRef = React.useRef<HTMLLIElement>(null);
     const endContentRef = React.useRef<HTMLLIElement>(null);
 
     const items: React.ReactElement<any>[] = [];
@@ -47,102 +49,24 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
         }
     });
 
-    const [visibleItemsCount, setVisibleItemsCount] = React.useState(items.length);
-    const [calculated, setCalculated] = React.useState(false);
-    const recalculate = (visibleItems: number) => {
-        const list = listRef.current;
-        if (!list) {
-            return;
-        }
-        const listItems = Array.from(list.children) as HTMLElement[];
-        const endElement = endContentRef.current;
-        if (endElement) {
-            listItems.pop();
-        }
-        if (listItems.length === 0) {
-            setCalculated(true);
-            return;
-        }
-        const containerWidth = list.offsetWidth - (endElement?.offsetWidth ?? 0);
-        let newVisibleItemsCount = 0;
-        let calculatedWidth = 0;
-        let maxItems = props.maxItems || Infinity;
-
-        let rootWidth = 0;
-        if (props.showRoot) {
-            const item = listItems.shift();
-            if (item) {
-                rootWidth = item.offsetWidth;
-                calculatedWidth += rootWidth;
-            }
-            newVisibleItemsCount++;
-        }
-
-        const hasMenu = items.length > visibleItems;
-        if (hasMenu) {
-            const item = listItems.shift();
-            if (item) {
-                calculatedWidth += item.offsetWidth;
-            }
-            maxItems--;
-        }
-
-        if (props.showRoot && calculatedWidth >= containerWidth) {
-            calculatedWidth -= rootWidth;
-            newVisibleItemsCount--;
-        }
-
-        const lastItem = listItems.pop();
-        if (lastItem) {
-            calculatedWidth += Math.min(lastItem.offsetWidth, 200);
-            if (calculatedWidth < containerWidth) {
-                newVisibleItemsCount++;
-            }
-        }
-
-        for (let i = listItems.length - 1; i >= 0; i--) {
-            const item = listItems[i];
-            calculatedWidth += item.offsetWidth;
-            if (calculatedWidth >= containerWidth) {
-                break;
-            }
-            newVisibleItemsCount++;
-        }
-
-        newVisibleItemsCount = Math.max(Math.min(maxItems, newVisibleItemsCount), 1);
-        if (newVisibleItemsCount === visibleItemsCount) {
-            setCalculated(true);
-        } else {
-            setVisibleItemsCount(newVisibleItemsCount);
-        }
-    };
-
-    const handleResize = React.useCallback(() => {
-        setVisibleItemsCount(items.length);
-        setCalculated(false);
-    }, [items.length]);
-    useResizeObserver({
-        ref: listRef,
-        onResize: handleResize,
+    const {
+        calculated,
+        recalculate,
+        visibleCount: visibleItemsCount,
+    } = useCollapseChildren({
+        containerRef: listRef,
+        preservedRefs: [menuRef, endContentRef],
+        direction: 'start',
+        minCount: 1,
+        maxCount:
+            typeof props.maxItems === 'number' && props.maxItems < items.length
+                ? props.maxItems - 1
+                : undefined,
     });
+
     useResizeObserver({
         ref: props.endContent ? endContentRef : undefined,
-        onResize: handleResize,
-    });
-
-    const lastChildren = React.useRef<typeof props.children | null>(null);
-    useLayoutEffect(() => {
-        if (calculated && props.children !== lastChildren.current) {
-            lastChildren.current = props.children;
-            setVisibleItemsCount(items.length);
-            setCalculated(false);
-        }
-    }, [calculated, items.length, props.children]);
-
-    useLayoutEffect(() => {
-        if (!calculated) {
-            recalculate(visibleItemsCount);
-        }
+        onResize: recalculate,
     });
 
     let contents = items;
@@ -220,6 +144,7 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
         }
         return (
             <li
+                ref={isMenu ? menuRef : undefined}
                 key={isMenu ? 'menu' : `item-${key}`}
                 className={b('item', {calculating: isCurrent && !calculated, current: isCurrent})}
             >

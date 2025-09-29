@@ -62,6 +62,11 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
             typeof props.maxItems === 'number' && props.maxItems < items.length
                 ? props.maxItems - 1
                 : undefined,
+        getChildWidth: (child) => {
+            const width = child.getBoundingClientRect().width;
+            const maxWidth = child.dataset.current ? 200 : Infinity;
+            return Math.min(maxWidth, width);
+        },
     });
 
     useResizeObserver({
@@ -147,6 +152,7 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
                 ref={isMenu ? menuRef : undefined}
                 key={isMenu ? 'menu' : `item-${key}`}
                 className={b('item', {calculating: isCurrent && !calculated, current: isCurrent})}
+                data-current={isCurrent ? isCurrent : undefined}
             >
                 {item}
                 {isCurrent ? null : <BreadcrumbsSeparator separator={props.separator} />}

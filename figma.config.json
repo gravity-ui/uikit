@@ -1,0 +1,10 @@
+{
+  "codeConnect": {
+    "include": ["src/**/*.{tsx,jsx}"],
+    "label": "React",
+    "importPaths": {
+      "src/components/*": "@gravity-ui/uikit"
+    },
+    "interactiveSetupFigmaFileUrl": "https://www.figma.com/design/LwOcKoxx9fpdYlUjqQhzzBb4/YC-Gravity-UI"
+  }
+}

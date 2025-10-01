@@ -2,7 +2,7 @@ import type {QAProps} from '../types';
 
 import type {AccordionItemProps} from './AccordionItem/AccordionItem';
 
-type AccordionSize = 's' | 'm' | 'l' | 'xl';
+type AccordionSize = 'm' | 'l' | 'xl';
 type AccordionView = 'solid' | 'top-bottom';
 type AccordionArrowPosition = 'start' | 'end';
 

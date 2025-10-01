@@ -1,5 +1,35 @@
 # Changelog
 
+## [7.23.0](https://github.com/gravity-ui/uikit/compare/v7.22.0...v7.23.0) (2025-09-18)
+
+
+### Features
+
+* **TableColumnSetup:** add hideApplyButton property ([#2435](https://github.com/gravity-ui/uikit/issues/2435)) ([a0e5c1a](https://github.com/gravity-ui/uikit/commit/a0e5c1abb9075b47aa55261b230324138783e6e6))
+
+
+### Bug Fixes
+
+* **Accordion:** disclosure animation override specificity ([#2412](https://github.com/gravity-ui/uikit/issues/2412)) ([6b71c28](https://github.com/gravity-ui/uikit/commit/6b71c288dc6c5fc93bf431d8df8337c0615ece2a))
+* remove [@ts-ignore](https://github.com/ts-ignore) from Menu ([#2427](https://github.com/gravity-ui/uikit/issues/2427)) ([6e7d511](https://github.com/gravity-ui/uikit/commit/6e7d511853d38c9ee58e1686d4495c376630a5c9))
+
+## [7.22.0](https://github.com/gravity-ui/uikit/compare/v7.21.0...v7.22.0) (2025-09-09)
+
+
+### Features
+
+* add `Accordion` component ([#2334](https://github.com/gravity-ui/uikit/issues/2334)) ([9e71e64](https://github.com/gravity-ui/uikit/commit/9e71e6479c44a121678fbd4ac592ebc85b1db12f))
+* **Icon:** add `style` prop ([#2406](https://github.com/gravity-ui/uikit/issues/2406)) ([51a9e1f](https://github.com/gravity-ui/uikit/commit/51a9e1ff97380b6e62166d3203690766ee96fd1f))
+
+## [7.21.0](https://github.com/gravity-ui/uikit/compare/v7.20.0...v7.21.0) (2025-09-05)
+
+
+### Features
+
+* add max-width to popup table action ([#2311](https://github.com/gravity-ui/uikit/issues/2311)) ([3aeb886](https://github.com/gravity-ui/uikit/commit/3aeb886661cf48f615adf4a272dcf84c23e6828a))
+* add useLang hook, allow pass lang via ThemeProvider ([#2387](https://github.com/gravity-ui/uikit/issues/2387)) ([0966e86](https://github.com/gravity-ui/uikit/commit/0966e865fe7486302350dccd330cbda5f74d066d))
+* **Label:** add `width` property ([#2348](https://github.com/gravity-ui/uikit/issues/2348)) ([0dd70b8](https://github.com/gravity-ui/uikit/commit/0dd70b8de1184f9ea0e26e5e5e3815d11e2ea547))
+
 ## [7.20.0](https://github.com/gravity-ui/uikit/compare/v7.19.0...v7.20.0) (2025-08-15)
 
 

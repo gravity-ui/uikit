@@ -4,7 +4,7 @@ import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-
 import type {RadioProps} from '../Radio';
 import {Radio} from '../Radio';
 
-import {sizeCases} from './cases';
+import {sizeCases, validationStateCases} from './cases';
 
 test.describe('Radio', {tag: '@Radio'}, () => {
     const defaultProps: RadioProps = {
@@ -14,6 +14,7 @@ test.describe('Radio', {tag: '@Radio'}, () => {
 
     const commonPropsCases = {
         size: sizeCases,
+        validationState: validationStateCases,
     } as const;
 
     smokeTest('', async ({mount, expectScreenshot}) => {

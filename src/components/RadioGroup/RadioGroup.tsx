@@ -5,7 +5,13 @@ import * as React from 'react';
 import {useRadioGroup} from '../../hooks/private';
 import {Radio} from '../Radio';
 import type {RadioProps, RadioSize} from '../Radio';
-import type {ControlGroupOption, ControlGroupProps, DOMProps, QAProps} from '../types';
+import type {
+    ControlGroupOption,
+    ControlGroupProps,
+    ControlGroupValidationProps,
+    DOMProps,
+    QAProps,
+} from '../types';
 import {block} from '../utils/cn';
 
 import './RadioGroup.scss';
@@ -16,7 +22,11 @@ export type RadioGroupOption = ControlGroupOption;
 export type RadioGroupSize = RadioSize;
 export type RadioGroupDirection = 'vertical' | 'horizontal';
 
-export interface RadioGroupProps extends ControlGroupProps, DOMProps, QAProps {
+export interface RadioGroupProps
+    extends ControlGroupProps,
+        ControlGroupValidationProps,
+        DOMProps,
+        QAProps {
     size?: RadioGroupSize;
     direction?: RadioGroupDirection;
     children?:
@@ -46,11 +56,11 @@ export const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
         if (!options) {
             options = (
                 React.Children.toArray(children) as React.ReactElement<RadioProps, typeof Radio>[]
-            ).map(({props}) => ({
-                value: props.value,
-                content: props.content || props.children,
-                disabled: props.disabled,
-                qa: props.qa,
+            ).map(({props: optionProps}) => ({
+                value: optionProps.value,
+                content: optionProps.content || optionProps.children,
+                disabled: optionProps.disabled,
+                qa: optionProps.qa,
             }));
         }
 

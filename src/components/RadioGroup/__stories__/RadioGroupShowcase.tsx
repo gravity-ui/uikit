@@ -36,6 +36,15 @@ export function RadioGroupShowcase() {
                 />
             </ShowcaseItem>
 
+            <ShowcaseItem title="invalid">
+                <RadioGroup
+                    name="group3"
+                    defaultValue={options[0].value}
+                    options={options}
+                    validationState="invalid"
+                />
+            </ShowcaseItem>
+
             <ShowcaseItem title="controlled">
                 <RadioGroup name="group4" value={options[0].value} options={options} />
             </ShowcaseItem>

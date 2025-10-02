@@ -28,10 +28,10 @@ $discMarginXLSize: 8px;
         }
     }
 
-    &__disc::before {
-        content: '';
+    &__disc {
         position: absolute;
 
+        overflow: hidden;
         border: none;
         background-color: var(--g-color-text-brand-contrast);
         border-radius: 50%;
@@ -39,6 +39,7 @@ $discMarginXLSize: 8px;
         transform: scale(0.1);
         transition:
             opacity 0.1s,
+            background-color 0.1s,
             transform 0.2s;
     }
 
@@ -79,7 +80,7 @@ $discMarginXLSize: 8px;
                 height: 14px;
             }
 
-            #{$block}__disc::before {
+            #{$block}__disc {
                 inset: $discMarginMSize;
             }
         }
@@ -90,7 +91,7 @@ $discMarginXLSize: 8px;
                 height: 17px;
             }
 
-            #{$block}__disc::before {
+            #{$block}__disc {
                 inset: $discMarginLSize;
             }
         }
@@ -101,7 +102,7 @@ $discMarginXLSize: 8px;
                 height: 24px;
             }
 
-            #{$block}__disc::before {
+            #{$block}__disc {
                 inset: $discMarginXLSize;
             }
         }
@@ -122,7 +123,7 @@ $discMarginXLSize: 8px;
                 border: transparent;
             }
 
-            #{$block}__disc::before {
+            #{$block}__disc {
                 opacity: 1;
                 transform: scale(1);
             }
@@ -138,8 +139,43 @@ $discMarginXLSize: 8px;
         }
 
         &#{$block}_checked {
-            #{$block}__disc::before {
+            #{$block}__disc {
                 background-color: var(--g-color-text-hint);
+            }
+        }
+    }
+
+    &_invalid {
+        #{$block}__indicator {
+            &::before {
+                border: 1px solid var(--g-color-line-danger);
+            }
+
+            #{$block}__disc {
+                background-color: var(--g-color-base-background);
+            }
+        }
+
+        &:hover {
+            #{$block}__indicator {
+                &::before {
+                    border: 1px solid var(--g-color-line-danger);
+                }
+            }
+        }
+
+        &#{$block}_checked {
+            #{$block}__indicator {
+                &::before {
+                    background-color: var(--g-color-line-danger);
+                    border: transparent;
+                }
+            }
+        }
+
+        &#{$block}_disabled {
+            #{$block}__disc {
+                background-color: var(--g-color-base-generic-accent-disabled-solid);
             }
         }
     }

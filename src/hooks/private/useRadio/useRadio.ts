@@ -1,11 +1,11 @@
 import * as React from 'react';
 
 import {useControlledState, useForkRef, useUniqId} from '../..';
-import type {ControlProps} from '../../../components/types';
+import type {ControlProps, ControlValidationProps} from '../../../components/types';
 import {eventBroker} from '../../../components/utils/event-broker';
 import {useFormResetHandler} from '../useFormResetHandler';
 
-export type UseRadioProps = ControlProps;
+export type UseRadioProps = ControlProps & ControlValidationProps;
 
 export type UseRadioResult = {
     checked: boolean;
@@ -18,6 +18,7 @@ export function useRadio({
     checked,
     defaultChecked,
     disabled,
+    validationState,
     controlRef,
     controlProps,
     onUpdate,
@@ -69,6 +70,7 @@ export function useRadio({
         checked,
         defaultChecked: defaultChecked,
         'aria-checked': isChecked,
+        'aria-invalid': validationState === 'invalid' || undefined,
         ref: handleRef,
     };
 

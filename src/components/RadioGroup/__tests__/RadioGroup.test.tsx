@@ -65,6 +65,33 @@ describe('RadioGroup', () => {
         });
     });
 
+    test('all children are invalid when validationState="invalid" prop is given', () => {
+        render(
+            <RadioGroup
+                defaultValue={options[0].value}
+                options={options}
+                validationState="invalid"
+                qa={qaId}
+            />,
+        );
+        const component = screen.getByTestId(qaId);
+        const radios = within(component).getAllByRole('radio');
+
+        radios.forEach((radio: HTMLElement) => {
+            expect(radio).toBeInvalid();
+        });
+    });
+
+    test('all children are valid when validationState prop is not given', () => {
+        render(<RadioGroup defaultValue={options[0].value} options={options} qa={qaId} />);
+        const component = screen.getByTestId(qaId);
+        const radios = within(component).getAllByRole('radio');
+
+        radios.forEach((radio: HTMLElement) => {
+            expect(radio).toBeValid();
+        });
+    });
+
     test('a proper radio is disabled when disabled=false prop is given to one of the option', () => {
         const customOptions: RadioGroupOption[] = [
             {value: 'Disabled', content: 'Disabled', disabled: true},

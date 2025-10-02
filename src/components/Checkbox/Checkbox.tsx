@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import {useCheckbox} from '../../hooks/private';
 import {ControlLabel} from '../ControlLabel';
-import type {ControlProps, DOMProps, QAProps} from '../types';
+import type {ControlProps, ControlValidationProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 
 import {CheckboxDashIcon} from './CheckboxDashIcon';
@@ -14,7 +14,7 @@ import './Checkbox.scss';
 
 export type CheckboxSize = 'm' | 'l' | 'xl';
 
-export interface CheckboxProps extends ControlProps, DOMProps, QAProps {
+export interface CheckboxProps extends ControlProps, ControlValidationProps, DOMProps, QAProps {
     size?: CheckboxSize;
     content?: React.ReactNode;
     children?: React.ReactNode;
@@ -29,6 +29,7 @@ export const Checkbox = React.forwardRef<HTMLLabelElement, CheckboxProps>(
             size = 'm',
             indeterminate,
             disabled = false,
+            validationState,
             content,
             children,
             title,
@@ -66,6 +67,7 @@ export const Checkbox = React.forwardRef<HTMLLabelElement, CheckboxProps>(
                         disabled,
                         indeterminate,
                         checked,
+                        invalid: validationState === 'invalid',
                     },
                     className,
                 )}

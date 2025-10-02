@@ -42,6 +42,20 @@ describe('Radio', () => {
         expect(radio).not.toBeDisabled();
     });
 
+    test('invalid when validationState="invalid" prop is given', () => {
+        render(<Radio value={value} validationState="invalid" />);
+        const radio = screen.getByRole('radio');
+
+        expect(radio).toBeInvalid();
+    });
+
+    test('valid when validationState prop is not given', () => {
+        render(<Radio value={value} />);
+        const radio = screen.getByRole('radio');
+
+        expect(radio).toBeValid();
+    });
+
     test('set given title to label', () => {
         const title = 'Some title';
 

@@ -42,12 +42,20 @@ export interface ControlProps
     controlRef?: React.Ref<HTMLInputElement>;
 }
 
+export interface ControlValidationProps {
+    validationState?: 'invalid';
+}
+
 export interface ControlGroupOption<ValueType extends string = string> {
     value: ValueType;
     content?: React.ReactNode;
     children?: React.ReactNode;
     disabled?: boolean;
     title?: string;
+}
+
+export interface ControlGroupValidationProps {
+    validationState?: 'invalid';
 }
 
 export interface ControlGroupProps<ValueType extends string = string> extends AriaLabelingProps {

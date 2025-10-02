@@ -42,6 +42,48 @@ export function RadioShowcase() {
                     />
                 </div>
             </ShowcaseItem>
+            <ShowcaseItem title="Invalid">
+                <div style={{marginBlock: '1em'}}>
+                    <Radio
+                        size="m"
+                        content="Unchecked"
+                        defaultChecked={false}
+                        value="value 1"
+                        validationState="invalid"
+                    />
+                </div>
+                <div style={{marginBlock: '1em'}}>
+                    <Radio
+                        size="m"
+                        content="Checked"
+                        defaultChecked={true}
+                        value="value 2"
+                        validationState="invalid"
+                    />
+                </div>
+            </ShowcaseItem>
+            <ShowcaseItem title="Disabled & Invalid">
+                <div style={{marginBlock: '1em'}}>
+                    <Radio
+                        size="m"
+                        content="Unchecked"
+                        defaultChecked={false}
+                        value="value 1"
+                        disabled
+                        validationState="invalid"
+                    />
+                </div>
+                <div style={{marginBlock: '1em'}}>
+                    <Radio
+                        size="m"
+                        content="Checked"
+                        defaultChecked={true}
+                        value="value 2"
+                        disabled
+                        validationState="invalid"
+                    />
+                </div>
+            </ShowcaseItem>
             <ShowcaseItem title="Uncontrolled">
                 <div style={{marginBlock: '1em'}}>
                     <Radio size="m" content="checked" defaultChecked={true} value="value 1" />

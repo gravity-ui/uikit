@@ -56,6 +56,19 @@ export const Disabled: Story = {
     ),
 };
 
+export const Invalid: Story = {
+    render: (args) => (
+        <Showcase>
+            <Radio {...args} validationState="invalid" checked={false}>
+                Unchecked
+            </Radio>
+            <Radio {...args} validationState="invalid" checked>
+                Checked
+            </Radio>
+        </Showcase>
+    ),
+};
+
 export const ShowcaseStory: Story = {
     render: () => <RadioShowcase />,
     name: 'Showcase',

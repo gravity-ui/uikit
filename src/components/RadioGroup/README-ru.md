@@ -48,6 +48,50 @@ const options: RadioGroupOption[] = [
 
 <!--/GITHUB_BLOCK-->
 
+### Состояние ошибки
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+  code={`
+const options: RadioGroupOption[] = [
+  {value: 'Value 1', content: 'Value 1'},
+  {value: 'Value 2', content: 'Value 2'},
+  {value: 'Value 3', content: 'Value 3'},
+];
+<RadioGroup name="group2" defaultValue={options[0].value} options={options} validationState="invalid" />
+`}
+>
+  <UIKit.RadioGroup name="group2" defaultValue="Value 1" options={
+    [
+      {value: 'Value 1', content: 'Value 1'},
+      {value: 'Value 2', content: 'Value 2'},
+      {value: 'Value 3', content: 'Value 3'},
+    ]
+  } validationState="invalid" />
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+const options: RadioGroupOption[] = [
+  {value: 'Value 1', content: 'Value 1'},
+  {value: 'Value 2', content: 'Value 2'},
+  {value: 'Value 3', content: 'Value 3'},
+];
+
+<RadioGroup
+  name="group2"
+  defaultValue={options[0].value}
+  options={options}
+  validationState="invalid"
+/>;
+```
+
+<!--/GITHUB_BLOCK-->
+
 ### Размер
 
 Размер `RadioGroup` можно настроить с помощью свойства `size`. Размер по умолчанию — `m`.
@@ -152,6 +196,7 @@ LANDING_BLOCK-->
 | :-------------- | :------------------------------------------------------------------------------------------------------------------ | :-----------------------: | :-------------------: |
 | children        | Содержимое радиогруппы.                                                                                             |        `ReactNode`        |                       |
 | disabled        | Включает или отключает состояние `disabled` у радиогруппы.                                                          |         `boolean`         |        `false`        |
+| validationState | Состояние валидации.                                                                                                |        `"invalid"`        |                       |
 | options         | Варианты для радиогруппы.                                                                                           |   `RadioGroupOption[]`    |                       |
 | optionClassName | HTML-атрибут `class` для дочерних элементов радиогруппы.                                                            |         `string`          |                       |
 | direction       | Определяет направление расположения радиогруппы.                                                                    |  `horizontal - vertical`  |    `"horizontal"`     |

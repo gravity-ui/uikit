@@ -15,21 +15,14 @@ test.describe('Checkbox', {tag: '@Checkbox'}, () => {
 
     const commonPropsCases = {
         size: sizeCases,
+        disabled: disabledCases,
         validationState: validationStateCases,
     } as const;
 
     smokeTest('', async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<CheckboxProps>(
-            {
-                name: '',
-                value: '',
-                content: 'Checkbox label',
-            },
-            {
-                size: sizeCases,
-                disabled: disabledCases,
-                validationState: validationStateCases,
-            },
+            defaultProps,
+            commonPropsCases,
             {},
         );
 
@@ -55,9 +48,7 @@ test.describe('Checkbox', {tag: '@Checkbox'}, () => {
                 ...defaultProps,
                 checked: true,
             },
-            {
-                ...commonPropsCases,
-            },
+            commonPropsCases,
         );
 
         await mount(
@@ -82,9 +73,7 @@ test.describe('Checkbox', {tag: '@Checkbox'}, () => {
                 ...defaultProps,
                 indeterminate: true,
             },
-            {
-                ...commonPropsCases,
-            },
+            commonPropsCases,
         );
 
         await mount(

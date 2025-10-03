@@ -45,6 +45,7 @@ export interface TableColumnSetupProps {
 
     items: Item[];
     sortable?: boolean;
+    hideApplyButton?: boolean;
 
     onUpdate: (updated: Item[]) => void;
     popupWidth?: number | 'fit' | undefined;
@@ -66,7 +67,10 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         sortable = true,
         showStatus,
         onUpdate: propsOnUpdate,
+        hideApplyButton,
     } = props;
+
+    const {t} = i18n.useTranslation();
 
     const renderStatus = () => {
         if (!showStatus) {
@@ -86,7 +90,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
             switcher || (
                 <Button disabled={disabled} onClick={switcherProps.onClick}>
                     <Icon data={Gear} />
-                    {i18n('button_switcher')}
+                    {t('button_switcher')}
                     {renderStatus()}
                 </Button>
             )
@@ -120,6 +124,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     return (
         <NewTableColumnSetup
+            hideApplyButton={hideApplyButton}
             items={items}
             onUpdate={onUpdate}
             popupPlacement={popupPlacement}

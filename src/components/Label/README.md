@@ -270,13 +270,14 @@ LANDING_BLOCK-->
 | disabled         | Disabled state                                  |                `boolean`                |             |
 | icon             | Label icon (on the left)                        |            `React.ReactNode`            |             |
 | interactive      | Enables hover effect                            |                `boolean`                |             |
+| loading          | Loading state                                   |                `boolean`                |   `false`   |
 | onClick          | `click` event handler                           |               `Function`                |             |
 | onCloseClick     | Close button `click` event handler              |               `Function`                |             |
 | onCopy           | `copy` event handler                            |               `Function`                |             |
-| size             | Label size                                      |           `"xs"` `"s"` `"m"`            |    `"s"`    |
+| qa               | `data-qa` HTML attribute, used for testing      |                `string`                 |             |
+| size             | Label size                                      |           `"xs"` `"s"` `"m"`            |   `"xs"`    |
 | theme            | Label theme                                     |                `string`                 | `"normal"`  |
+| title            | `title` HTML attribute                          |                `string`                 |             |
 | type             | Label type                                      | `"default"` `"copy"` `"close"` `"info"` | `"default"` |
 | value            | Label value (displayed as `"children : value"`) |            `React.ReactNode`            |             |
-| title            | `title` HTML attribute                          |                `string`                 |             |
-| qa               | `data-qa` HTML attribute, used for testing      |                `string`                 |             |
-| loading          | Loading state                                   |                `boolean`                |   `false`   |
+| width            | Controls how Label uses parent's space          |                `"auto"`                 |             |

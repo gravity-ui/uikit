@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import {KeyCode} from '../../constants';
+
 import {moveBack} from './moveBack';
 import {moveForward} from './moveForward';
 
@@ -66,7 +68,7 @@ export function useListNavigation<ItemType, AnchorType extends HTMLElement>({
             }
 
             switch (event.key) {
-                case 'ArrowDown': {
+                case KeyCode.ARROW_DOWN: {
                     event.preventDefault();
 
                     // Go 1 step forward
@@ -76,7 +78,7 @@ export function useListNavigation<ItemType, AnchorType extends HTMLElement>({
 
                     break;
                 }
-                case 'ArrowUp': {
+                case KeyCode.ARROW_UP: {
                     event.preventDefault();
 
                     // Go 1 step back
@@ -86,7 +88,7 @@ export function useListNavigation<ItemType, AnchorType extends HTMLElement>({
 
                     break;
                 }
-                case 'PageDown': {
+                case KeyCode.PAGE_DOWN: {
                     if (!pageSize) {
                         return;
                     }
@@ -100,7 +102,7 @@ export function useListNavigation<ItemType, AnchorType extends HTMLElement>({
 
                     break;
                 }
-                case 'PageUp': {
+                case KeyCode.PAGE_UP: {
                     if (!pageSize) {
                         return;
                     }
@@ -114,7 +116,7 @@ export function useListNavigation<ItemType, AnchorType extends HTMLElement>({
 
                     break;
                 }
-                case 'Home': {
+                case KeyCode.HOME: {
                     if (!processHomeKey) {
                         return;
                     }
@@ -128,7 +130,7 @@ export function useListNavigation<ItemType, AnchorType extends HTMLElement>({
 
                     break;
                 }
-                case 'End': {
+                case KeyCode.END: {
                     if (!processEndKey) {
                         return;
                     }

@@ -60,3 +60,4 @@ import CheckIcon from './check.svg';
 | fill      | `fill` SVG attribute                     |     `string`      | `"currentColor"` |
 | stroke    | `stroke` SVG attribute                   |     `string`      |     `"none"`     |
 | className | Custom CSS class for the root element    |     `string`      |                  |
+| style     | Custom styles for the root element       |  `CSSProperties`  |                  |

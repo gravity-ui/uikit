@@ -270,13 +270,14 @@ LANDING_BLOCK-->
 | disabled         | Отключенное состояние.                                 |                `boolean`                |                       |
 | icon             | Иконка лейбла (слева).                                 |            `React.ReactNode`            |                       |
 | interactive      | Включение эффекта ховера.                              |                `boolean`                |                       |
+| loading          | Состояние загрузки.                                    |                `boolean`                |        `false`        |
 | onClick          | Обработчик события `click`.                            |               `Function`                |                       |
 | onCloseClick     | Обработчик события `click` по кнопке закрытия.         |               `Function`                |                       |
 | onCopy           | Обработчик события `copy`.                             |               `Function`                |                       |
-| size             | Размер лейбла.                                         |           `"xs"` `"s"` `"m"`            |         `"s"`         |
+| qa               | HTML-атрибут `data-qa`, используется для тестирования. |                `string`                 |                       |
+| size             | Размер лейбла.                                         |           `"xs"` `"s"` `"m"`            |        `"xs"`         |
 | theme            | Тема лейбла.                                           |                `string`                 |      `"normal"`       |
+| title            | HTML-атрибут `title`.                                  |                `string`                 |                       |
 | type             | Тип лейбла.                                            | `"default"` `"copy"` `"close"` `"info"` |      `"default"`      |
 | value            | Значение лейбла (в виде `"children : value"`).         |            `React.ReactNode`            |                       |
-| title            | HTML-атрибут `title`.                                  |                `string`                 |                       |
-| qa               | HTML-атрибут `data-qa`, используется для тестирования. |                `string`                 |                       |
-| loading          | Состояние загрузки.                                    |                `boolean`                |        `false`        |
+| width            | Задает ширину лейбла.                                  |                `"auto"`                 |                       |

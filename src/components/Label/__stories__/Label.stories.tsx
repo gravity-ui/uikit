@@ -172,6 +172,36 @@ export const Loading: Story = {
     },
 };
 
+export const Width: Story = {
+    render: (args) => {
+        return (
+            <div style={{width: 100, border: '2px dashed gray', overflow: 'hidden', padding: 2}}>
+                <p>
+                    <Label {...args}>none none none</Label>
+                </p>
+                <p>
+                    <Label {...args} value="none none">
+                        none
+                    </Label>
+                </p>
+                <p>
+                    <Label {...args} width="auto">
+                        auto auto auto
+                    </Label>
+                </p>
+                <p>
+                    <Label {...args} width="auto" value="auto auto">
+                        auto
+                    </Label>
+                </p>
+            </div>
+        );
+    },
+    args: {
+        ...Default.args,
+    },
+};
+
 export const ShowcaseStory: Story = {
     render: () => <LabelShowcase />,
     name: 'Showcase',

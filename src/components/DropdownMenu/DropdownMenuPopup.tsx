@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import {KeyCode} from '../../constants';
 import {useListNavigation} from '../../hooks';
 import {Menu} from '../Menu';
 import type {MenuProps} from '../Menu';
@@ -77,7 +78,7 @@ export const DropdownMenuPopup = <T,>({
     const handleKeydown = React.useCallback(
         (activeItemIndex: number, event: KeyboardEvent) => {
             switch (event.key) {
-                case 'Escape': {
+                case KeyCode.ESCAPE: {
                     if (isSubmenu) {
                         event.stopPropagation();
                         activateParent?.();
@@ -85,8 +86,8 @@ export const DropdownMenuPopup = <T,>({
 
                     return false;
                 }
-                case 'Enter':
-                case ' ': {
+                case KeyCode.ENTER:
+                case KeyCode.SPACEBAR: {
                     const activeItem = items[activeItemIndex];
                     const isSubmenuToggleActive = activeItem?.items;
 

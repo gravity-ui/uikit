@@ -148,11 +148,6 @@ function ControlledAccordion() {
 
 <!--LANDING_BLOCK
 <ExampleBlock>
-    <UIKit.Accordion size="s">
-        <UIKit.Accordion.Item summary="Маленький размер">
-            <UIKit.Text>Содержимое для маленького аккордеона</UIKit.Text>
-        </UIKit.Accordion.Item>
-    </UIKit.Accordion>
     <UIKit.Accordion size="m">
         <UIKit.Accordion.Item summary="Средний размер">
             <UIKit.Text>Содержимое для среднего аккордеона</UIKit.Text>
@@ -174,11 +169,6 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<Accordion size="s">
-    <Accordion.Item summary="Маленький размер">
-        Содержимое для маленького аккордеона
-    </Accordion.Item>
-</Accordion>
 <Accordion size="m">
     <Accordion.Item summary="Средний размер">
         Содержимое для среднего аккордеона
@@ -474,7 +464,7 @@ LANDING_BLOCK-->
 
 | Название      | Описание                                                     |               Тип               | По умолчанию |
 | :------------ | :----------------------------------------------------------- | :-----------------------------: | :----------: |
-| size          | Размер аккордеона                                            |    `"s"` `"m"` `"l"` `"xl"`     |    `"m"`     |
+| size          | Размер аккордеона                                            |       `"m"` `"l"` `"xl"`        |    `"m"`     |
 | view          | Внешний вид аккордеона                                       |    `"solid"` `"top-bottom"`     |  `"solid"`   |
 | multiple      | Разрешить одновременное раскрытие нескольких элементов       |            `boolean`            |   `false`    |
 | arrowPosition | Позиция индикатора стрелки                                   |        `"start"` `"end"`        |   `"end"`    |

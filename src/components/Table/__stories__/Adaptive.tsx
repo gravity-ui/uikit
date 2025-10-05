@@ -1,5 +1,5 @@
 import type {StoryFn} from '@storybook/react-webpack5';
-import cloneDeep from 'lodash/cloneDeep';
+import {cloneDeep} from 'lodash-es';
 
 import {Table} from '../Table';
 import type {TableProps} from '../Table';

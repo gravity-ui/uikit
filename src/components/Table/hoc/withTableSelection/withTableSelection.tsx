@@ -2,10 +2,7 @@
 
 import * as React from 'react';
 
-import difference from 'lodash/difference';
-import memoize from 'lodash/memoize';
-import union from 'lodash/union';
-import without from 'lodash/without';
+import {difference, memoize, union, without} from 'lodash-es';
 
 import {Checkbox} from '../../../Checkbox';
 import {block} from '../../../utils/cn';

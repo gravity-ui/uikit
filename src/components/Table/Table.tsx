@@ -2,8 +2,7 @@
 
 import * as React from 'react';
 
-import get from 'lodash/get';
-import has from 'lodash/has';
+import {get, has} from 'lodash-es';
 
 import type {AriaLabelingProps, QAProps} from '../types';
 import {block} from '../utils/cn';

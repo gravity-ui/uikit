@@ -1,7 +1,6 @@
 import * as React from 'react';
 
-import round from 'lodash/round';
-import throttle from 'lodash/throttle';
+import {round, throttle} from 'lodash-es';
 
 const RESIZE_THROTTLE = 16;
 const ROUND_PRECISION = 2;

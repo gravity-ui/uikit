@@ -38,11 +38,11 @@ export interface UseFocusWithinResult<T extends Element = Element> {
 /**
  * Handles focus events for the target and its descendants.
  *
- * @param {Object} props
- * @param {boolean} [props.isDisabled=false] - whether the focus within events should be disabled.
- * @param {onFocusEventCallback} props.onFocusWithin - handler that is called when the target element or a descendant receives focus.
- * @param {onFocusEventCallback} props.onBlurWithin - handler that is called when the target element and all descendants lose focus.
- * @param {onFocusChangeCallback} props.onFocusChange - handler that is called when the the focus within state changes.
+ * @param {Object} optionProps
+ * @param {boolean} [optionProps.isDisabled=false] - whether the focus within events should be disabled.
+ * @param {onFocusEventCallback} optionProps.onFocusWithin - handler that is called when the target element or a descendant receives focus.
+ * @param {onFocusEventCallback} optionProps.onBlurWithin - handler that is called when the target element and all descendants lose focus.
+ * @param {onFocusChangeCallback} optionProps.onFocusChange - handler that is called when the the focus within state changes.
  *
  * @returns container props
  *

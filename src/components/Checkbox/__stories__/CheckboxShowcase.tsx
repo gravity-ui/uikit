@@ -39,6 +39,42 @@ export function CheckboxShowcase() {
                     <Checkbox checked={true} disabled content="checked" />
                 </div>
             </ShowcaseItem>
+            <ShowcaseItem title="Invalid">
+                <div style={{marginBlock: '1em'}}>
+                    <Checkbox checked={false} validationState="invalid" content="unchecked" />
+                </div>
+                <div style={{marginBlock: '1em'}}>
+                    <Checkbox
+                        indeterminate={true}
+                        validationState="invalid"
+                        content="indeterminate"
+                    />
+                </div>
+                <div style={{marginBlock: '1em'}}>
+                    <Checkbox checked={true} validationState="invalid" content="checked" />
+                </div>
+            </ShowcaseItem>
+            <ShowcaseItem title="Disabled & Invalid">
+                <div style={{marginBlock: '1em'}}>
+                    <Checkbox
+                        checked={false}
+                        disabled
+                        validationState="invalid"
+                        content="unchecked"
+                    />
+                </div>
+                <div style={{marginBlock: '1em'}}>
+                    <Checkbox
+                        indeterminate={true}
+                        disabled
+                        validationState="invalid"
+                        content="indeterminate"
+                    />
+                </div>
+                <div style={{marginBlock: '1em'}}>
+                    <Checkbox checked={true} disabled validationState="invalid" content="checked" />
+                </div>
+            </ShowcaseItem>
             <ShowcaseItem title="Uncontrolled">
                 <div style={{marginBlock: '1em'}}>
                     <Checkbox defaultChecked={false} content="unchecked" />

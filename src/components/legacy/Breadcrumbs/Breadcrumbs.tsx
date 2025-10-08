@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import throttle from 'lodash/throttle';
+import {throttle} from 'lodash-es';
 
 import type {PopupPlacement} from '../../Popup';
 import type {QAProps} from '../../types';

@@ -1,28 +1,41 @@
 import * as React from 'react';
 
-import type {Meta, StoryFn} from '@storybook/react-webpack5';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
+import {Showcase} from '../../../demo/Showcase';
+import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {Loader} from '../Loader';
-import type {LoaderProps} from '../Loader';
 
 export default {
     title: 'Components/Feedback/Loader',
     component: Loader,
 } as Meta;
 
-const DefaultTemplate: StoryFn<LoaderProps> = (args) => <Loader {...args} />;
-export const Default = DefaultTemplate.bind({});
+type Story = StoryObj<typeof Loader>;
 
-const SizeTemplate: StoryFn<LoaderProps> = (args) => {
-    return (
+const defaultDecorators = [
+    (Story) => (
+        <Showcase>
+            <Story />
+        </Showcase>
+    ),
+] satisfies Story['decorators'];
+
+export const Default: Story = {};
+
+export const Size: Story = {
+    decorators: defaultDecorators,
+    render: (args) => (
         <React.Fragment>
-            <Loader {...args} size="s" />
-            <span style={{margin: '16px'}} />
-            <Loader {...args} size="m" />
-            <span style={{margin: '16px'}} />
-            <Loader {...args} size="l" />
+            <ShowcaseItem title="Size s">
+                <Loader {...args} size="s" />
+            </ShowcaseItem>
+            <ShowcaseItem title="Size m">
+                <Loader {...args} size="m" />
+            </ShowcaseItem>
+            <ShowcaseItem title="Size l">
+                <Loader {...args} size="l" />
+            </ShowcaseItem>
         </React.Fragment>
-    );
+    ),
 };
-
-export const Size = SizeTemplate.bind({});

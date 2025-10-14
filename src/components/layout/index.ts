@@ -3,6 +3,7 @@ export * from './Col/Col';
 export * from './Row/Row';
 export * from './Flex/Flex';
 export * from './Box/Box';
+export * from './Grid/Grid';
 export * from './Container/Container';
 export * from './spacing/spacing';
 

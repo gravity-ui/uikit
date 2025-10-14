@@ -1,5 +1,13 @@
 import {CSS_SIZE_EXCEPTION} from '../constants';
-import type {ColSize, IsMediaActive, MediaPartial, MediaProps, MediaType, Space} from '../types';
+import type {
+    AdaptiveProp,
+    ColSize,
+    IsMediaActive,
+    MediaPartial,
+    MediaProps,
+    MediaType,
+    Space,
+} from '../types';
 
 const mediaByOrder: MediaProps<number> = {
     xs: 0,
@@ -23,22 +31,26 @@ const mediaOrder = ['xs', 's', 'm', 'l', 'xl', 'xxl', 'xxxl'] as const;
 
 export const getClosestMediaPropsFactory =
     (currentActive: MediaType) =>
-    <T>(medias: MediaPartial<T> = {}): T | undefined => {
-        if (!currentActive) {
-            return undefined;
-        }
-
-        let candidate = currentActive;
-
-        while (candidate) {
-            if (typeof medias[candidate] !== 'undefined') {
-                return medias[candidate];
+    <T>(prop?: AdaptiveProp<T> | undefined): T | undefined => {
+        if (prop && typeof prop === 'object' && !Array.isArray(prop)) {
+            if (!currentActive) {
+                return undefined;
             }
 
-            candidate = mediaOrder[mediaByOrder[candidate] - 1];
-        }
+            const medias = prop as MediaPartial<T>;
+            let candidate = currentActive;
 
-        return undefined;
+            while (candidate) {
+                if (medias[candidate] !== undefined) {
+                    return medias[candidate];
+                }
+
+                candidate = mediaOrder[mediaByOrder[candidate] - 1];
+            }
+
+            return undefined;
+        }
+        return prop;
     };
 
 export const makeCssMod = (space: Space | ColSize): string => {

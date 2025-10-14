@@ -1,5 +1,21 @@
 # Changelog
 
+## [7.24.0](https://github.com/gravity-ui/uikit/compare/v7.23.0...v7.24.0) (2025-10-14)
+
+
+### Features
+
+* add new hoc withPlatform ([#2431](https://github.com/gravity-ui/uikit/issues/2431)) ([b5e8841](https://github.com/gravity-ui/uikit/commit/b5e8841356f0d34f95ef9510ffcfceaea5ae9bef))
+* **Hotkey:** remove mac esc icon ([#2449](https://github.com/gravity-ui/uikit/issues/2449)) ([43c5e9f](https://github.com/gravity-ui/uikit/commit/43c5e9f66130d27e6a683c92f3f73294b0f74936))
+* **Switch:** add 's' size option and loading state support ([#2438](https://github.com/gravity-ui/uikit/issues/2438)) ([77143ab](https://github.com/gravity-ui/uikit/commit/77143abf6d355517748e5d1b378104200a6be8c4))
+
+
+### Bug Fixes
+
+* add 'use client' to lang context ([#2444](https://github.com/gravity-ui/uikit/issues/2444)) ([1d4fe5c](https://github.com/gravity-ui/uikit/commit/1d4fe5c1bb612c2806c28512591588858f5d1c8e))
+* **Breadcrumbs:** use disabled prop on BreadcrumbItem inside custom item ([#2454](https://github.com/gravity-ui/uikit/issues/2454)) ([5803cab](https://github.com/gravity-ui/uikit/commit/5803cab159976441934987d5b513459d6d0456ac))
+* **Button:** set a tabIndex so that Safari allows focusing buttons ([#2440](https://github.com/gravity-ui/uikit/issues/2440)) ([c60e58d](https://github.com/gravity-ui/uikit/commit/c60e58d1a5924f87c1c9380f45dd867ccd7a5106))
+
 ## [7.23.0](https://github.com/gravity-ui/uikit/compare/v7.22.0...v7.23.0) (2025-09-18)
 
 

@@ -15,7 +15,7 @@ test.describe('Col', {tag: '@Col'}, () => {
                     const size = page.viewportSize();
                     if (size) {
                         await page.setViewportSize({
-                            width: breakpointWidthPx + RESERVE_SPACING_PX,
+                            width: Math.max(breakpointWidthPx, 320) + RESERVE_SPACING_PX,
                             height: size.height,
                         });
                     }
@@ -34,7 +34,7 @@ test.describe('Col', {tag: '@Col'}, () => {
                     const size = page.viewportSize();
                     if (size) {
                         await page.setViewportSize({
-                            width: breakpointWidthPx + RESERVE_SPACING_PX,
+                            width: Math.max(breakpointWidthPx, 320) + RESERVE_SPACING_PX,
                             height: size.height,
                         });
                     }
@@ -48,36 +48,12 @@ test.describe('Col', {tag: '@Col'}, () => {
             );
 
             smokeTest(
-                `render story <DynamicWithOverriddenBreakpoints> - ${breakpointName}`,
-                async ({mount, expectScreenshot, page}) => {
-                    const size = page.viewportSize();
-                    if (size) {
-                        await page.setViewportSize({
-                            width: breakpointWidthPx + RESERVE_SPACING_PX,
-                            height: size.height,
-                        });
-                    }
-
-                    await mount(
-                        <div>
-                            <ColStories.DynamicWithOverriddenBreakpoints space={2} />
-                        </div>,
-                        {width: 'auto'},
-                    );
-
-                    await expectScreenshot({
-                        themes: ['light'],
-                    });
-                },
-            );
-
-            smokeTest(
                 `render story <AllMods> - ${breakpointName}`,
                 async ({mount, expectScreenshot, page}) => {
                     const size = page.viewportSize();
                     if (size) {
                         await page.setViewportSize({
-                            width: breakpointWidthPx + RESERVE_SPACING_PX,
+                            width: Math.max(breakpointWidthPx, 320) + RESERVE_SPACING_PX,
                             height: size.height,
                         });
                     }

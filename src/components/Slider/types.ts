@@ -40,6 +40,10 @@ export type SliderProps<ValueType = number | [number, number]> = {
     errorMessage?: string;
     /** Describes the validation state */
     validationState?: 'invalid';
+    /** Start point of the track. Ignored for range slider */
+    startPoint?: number;
+    /** Inverted view of the slider's track */
+    inverted?: boolean;
 
     /** Fires when the control gets focus. Provides focus event as a callback's argument */
     onFocus?: (e: React.FocusEvent<HTMLDivElement>) => void;
@@ -69,8 +73,8 @@ export type SliderInnerState = {
     max: number;
     min: number;
     value?: number | [number, number];
-    defaultValue?: number | [number, number];
-} & Pick<RcSliderProps, 'step' | 'range' | 'marks'> &
+    defaultValue: number | [number, number];
+} & Pick<RcSliderProps, 'step' | 'range' | 'marks' | 'startPoint'> &
     Pick<SliderProps, 'tooltipDisplay' | 'tooltipFormat'>;
 
 export type StateModifiers = {
@@ -80,6 +84,8 @@ export type StateModifiers = {
     disabled: boolean;
     rtl: boolean;
     'tooltip-display': SliderProps['tooltipDisplay'];
+    inverted: boolean;
+    'with-start-point': boolean;
 };
 
 export type BaseSliderRefType = RcSliderRef;

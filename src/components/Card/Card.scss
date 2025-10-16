@@ -149,7 +149,8 @@ $block: '.#{variables.$ns}card';
                 --_--box-shadow: 0px 1px 5px var(--g-color-sfx-shadow);
             }
             @at-root &#{$block}_size_l {
-                --_--box-shadow: 0px 1px 6px var(--g-color-sfx-shadow-light),
+                --_--box-shadow:
+                    0px 1px 6px var(--g-color-sfx-shadow-light),
                     1px 3px 13px var(--g-color-sfx-shadow-light);
             }
         }

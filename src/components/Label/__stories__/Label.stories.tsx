@@ -1,23 +1,28 @@
 import * as React from 'react';
 
 import {Check} from '@gravity-ui/icons';
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Showcase} from '../../../demo/Showcase';
 import {Icon as IconComponent} from '../../Icon';
 import {Link} from '../../Link';
 import {Label} from '../Label';
+import type {LabelProps} from '../Label';
 
 import {LabelShowcase} from './LabelShowcase';
 
-const iconSizeMap = {xs: 12, s: 14, m: 16} as const;
+const iconSizeMap: Record<NonNullable<LabelProps['size']>, number> = {
+    xs: 12,
+    s: 14,
+    m: 16,
+} as const;
 
 const meta: Meta<typeof Label> = {
     title: 'Components/Data Display/Label',
     component: Label,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {
@@ -136,6 +141,13 @@ export const Close: Story = {
     },
 };
 
+export const Info: Story = {
+    args: {
+        ...Default.args,
+        type: 'info',
+    },
+};
+
 export const Value: Story = {
     args: {
         ...Default.args,
@@ -150,6 +162,43 @@ export const LinkWrapper: Story = {
             <Label {...args} />
         </Link>
     ),
+    args: {
+        ...Default.args,
+    },
+};
+
+export const Loading: Story = {
+    render: (args) => <Label {...args} loading />,
+    args: {
+        ...Default.args,
+    },
+};
+
+export const Width: Story = {
+    render: (args) => {
+        return (
+            <div style={{width: 100, border: '2px dashed gray', overflow: 'hidden', padding: 2}}>
+                <p>
+                    <Label {...args}>none none none</Label>
+                </p>
+                <p>
+                    <Label {...args} value="none none">
+                        none
+                    </Label>
+                </p>
+                <p>
+                    <Label {...args} width="auto">
+                        auto auto auto
+                    </Label>
+                </p>
+                <p>
+                    <Label {...args} width="auto" value="auto auto">
+                        auto
+                    </Label>
+                </p>
+            </div>
+        );
+    },
     args: {
         ...Default.args,
     },

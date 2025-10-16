@@ -1,4 +1,4 @@
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Showcase} from '../../../demo/Showcase';
 import {Radio} from '../Radio';
@@ -28,12 +28,17 @@ export const Checked: Story = {
 export const Size: Story = {
     render: (args) => (
         <Showcase>
-            <Radio {...args} size="m">
-                Size m
-            </Radio>
-            <Radio {...args} size="l">
-                Size l
-            </Radio>
+            <div style={{display: 'flex', alignItems: 'center', gap: '16px'}}>
+                <Radio {...args} size="m">
+                    Size m
+                </Radio>
+                <Radio {...args} size="l">
+                    Size l
+                </Radio>
+                <Radio {...args} size="xl">
+                    Size xl
+                </Radio>
+            </div>
         </Showcase>
     ),
 };

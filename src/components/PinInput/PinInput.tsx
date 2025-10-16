@@ -266,6 +266,8 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>((props, 
         id = idProp;
     }
 
+    const {t} = i18n.useTranslation();
+
     return (
         <div
             ref={ref}
@@ -303,7 +305,7 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>((props, 
                                     pattern: type === 'numeric' ? '[0-9]*' : '[0-9a-zA-Z]*',
                                     className: b('control'),
                                     autoCapitalize: 'none',
-                                    'aria-label': i18n('label_one-of', {
+                                    'aria-label': t('label_one-of', {
                                         number: i + 1,
                                         count: length,
                                     }),

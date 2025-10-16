@@ -5,7 +5,7 @@ export const getAvatarDisplayText = (text: string, size: AvatarSize) => {
         return text[0].toUpperCase();
     }
 
-    const words = text.split(/[^a-zA-Z]+/);
+    const words = text.split(/[^\p{L}]+/u);
 
     if (words.length <= 1) {
         return text.slice(0, 2).toUpperCase();

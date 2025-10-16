@@ -1,0 +1,26 @@
+@use '../../variables';
+@use '../../../../styles/mixins';
+
+$block: '.#{variables.$ns}accordion-item';
+
+#{$block} {
+    &_disabled {
+        pointer-events: none;
+        background-color: var(--g-color-base-generic-accent-disabled);
+        --g-disclosure-text-color-disabled: var(--g-color-text-hint);
+    }
+
+    &_size_m &__details {
+        padding: var(--g-spacing-half) var(--g-spacing-2) var(--g-spacing-2) var(--g-spacing-2);
+    }
+    &_size_l &__details {
+        padding: var(--g-spacing-half) var(--g-spacing-3) var(--g-spacing-3) var(--g-spacing-3);
+    }
+    &_size_xl &__details {
+        padding: var(--g-spacing-0) var(--g-spacing-3) var(--g-spacing-3) var(--g-spacing-3);
+    }
+
+    &:not(:first-child) {
+        border-block-start: 1px solid var(--g-color-line-generic);
+    }
+}

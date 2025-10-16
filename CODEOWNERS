@@ -1,23 +1,24 @@
 * @amje @ValeraS @korvin89
+/src/components/Accordion @KostyaAvtushko
 /src/components/ActionsPanel @jhoncool
 /src/components/ActionTooltip @amje
 /src/components/Alert @IsaevAlexandr
 /src/components/ArrowToggle @Marginy605
 /src/components/Avatar @DakEnviy
 /src/components/AvatarStack @ogonkov
-#/src/components/Breadcrumbs
+/src/components/Breadcrumbs @ValeraS
 /src/components/Button @amje
 /src/components/Card @Lunory
 /src/components/Checkbox @zamkovskaya
 /src/components/ClipboardButton @Raubzeug
 /src/components/ClipboardIcon @Raubzeug
 /src/components/ControlLabel @korvin89
-/src/components/CopyToClipboard @SeqviriouM
+/src/components/CopyToClipboard @ogonkov
 /src/components/DefinitionList @Raubzeug
-#/src/components/Dialog
+/src/components/Dialog @Alutery
 /src/components/Disclosure @Raubzeug
 /src/components/Divider @v4dyar4
-/src/components/DropdownMenu @axtk
+#/src/components/DropdownMenu @axtk
 /src/components/FilePreview @mournfulCoroner
 /src/components/HelpMark @Raubzeug
 /src/components/Hotkey @d3m1d0v
@@ -25,7 +26,7 @@
 /src/components/Label @goshander
 /src/components/Link @Estasie
 /src/components/List @korvin89
-/src/components/Loader @SeqviriouM
+/src/components/Loader @ogonkov
 /src/components/Menu @NikitaCG
 /src/components/Modal @amje
 /src/components/NumberInput @DaryaLari
@@ -34,21 +35,23 @@
 /src/components/Palette @Ruminat
 /src/components/PinInput @amje
 /src/components/PlaceholderContainer @Marginy605
-/src/components/Popover @kseniya57
+/src/components/legacy/Popover @kseniya57
+/src/components/Popover @amje
 /src/components/Popup @amje
 /src/components/Portal @amje
 /src/components/Progress @Lunory
 /src/components/Radio @zamkovskaya
 /src/components/RadioGroup @zamkovskaya
 /src/components/SegmentedRadioGroup @zamkovskaya
+/src/components/Stepper @bityutskiyAO
 /src/components/User @DakEnviy
 /src/components/UserLabel @DakEnviy
 /src/components/useList @IsaevAlexandr
 /src/components/Select @korvin89
 /src/components/Sheet @mournfulCoroner
-/src/components/Skeleton @SeqviriouM
+/src/components/Skeleton @ogonkov
 /src/components/Slider @Arucard89
-/src/components/Spin @SeqviriouM
+/src/components/Spin @ogonkov
 /src/components/Stories @DarkGenius
 /src/components/Switch @zamkovskaya
 /src/components/Table @Raubzeug
@@ -65,7 +68,7 @@
 /src/hooks/useActionHandlers @ogonkov
 /src/hooks/useFileInput @korvin89
 /src/hooks/useForkRef @ValeraS
-/src/hooks/useIntersection @imechoim
+#/src/hooks/useIntersection @imechoim
 /src/hooks/useTimeout @ogonkov
 /src/hooks/useOutsideClick @NikitaCG
 /src/hooks/useViewportSize @NikitaCG

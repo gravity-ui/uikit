@@ -47,7 +47,7 @@ export interface TextBaseProps {
      * - subheader (font-family: var(--g-text-subheader-font-family); font-weight: 600):
      *      - 1: font-size: 13px; line-height: 18px;
      *      - 2: font-size: 15px; line-height: 20px;
-     *      - 2: font-size: 17px; line-height: 24px;
+     *      - 3: font-size: 17px; line-height: 24px;
      * - display (font-family: var(--g-text-display-font-family); font-weight: 600):
      *      - 1: font-size: 28px; line-height: 36px;
      *      - 2: font-size: 32px; line-height: 40px;

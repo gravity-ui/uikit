@@ -8,18 +8,23 @@ import type {PopoverProps} from '../Popover';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
+import {ICON_SIZE_MAP} from './constants';
+
 import './HelpMark.scss';
 
 const b = block('help-mark');
-const ICON_SIZE = 16;
+
+type IconSize = keyof typeof ICON_SIZE_MAP;
 
 export interface HelpMarkProps extends QAProps, React.ButtonHTMLAttributes<HTMLButtonElement> {
+    // TODO BREAKING CHANGE: Consider renaming to "size"
+    iconSize?: IconSize;
     popoverProps?: Omit<PopoverProps, 'children'>;
     children?: React.ReactNode;
 }
 
 export const HelpMark = React.forwardRef<HTMLButtonElement, HelpMarkProps>(function HelpMark(
-    {children, qa, className, popoverProps, ...restProps},
+    {children, qa, className, iconSize = 'm', popoverProps, ...restProps},
     ref,
 ) {
     return (
@@ -32,10 +37,10 @@ export const HelpMark = React.forwardRef<HTMLButtonElement, HelpMarkProps>(funct
                 {...restProps}
                 ref={ref}
                 type="button"
-                className={b(null, className)}
+                className={b({size: iconSize}, className)}
                 data-qa={qa}
             >
-                <Icon data={CircleQuestion} size={ICON_SIZE} />
+                <Icon data={CircleQuestion} size={ICON_SIZE_MAP[iconSize]} className={b('icon')} />
             </button>
         </Popover>
     );

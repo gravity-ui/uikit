@@ -22,6 +22,8 @@ import {Alert} from '@gravity-ui/uikit';
 
 `utility`: Used for useful tips.
 
+`clear`: No styles, suitable for usage in other components (for example, as `content` in `Popover`)
+
 <!--LANDING_BLOCK
 <ExampleBlock
     code={`
@@ -30,7 +32,8 @@ import {Alert} from '@gravity-ui/uikit';
 <Alert theme="success" title="Success" message="Success theme" />
 <Alert theme="warning" title="Warning" message="Warning theme" />
 <Alert theme="danger" title="Danger" message="Danger theme" />
-<Alert theme="utility" title="utility" message="Utility theme" />
+<Alert theme="utility" title="Utility" message="Utility theme" />
+<Alert theme="clear" title="Clear" message="Clear theme" />
 `}>
     <UIKit.Alert theme="normal" title="Normal" message="Normal theme" />
     <UIKit.Alert theme="info" title="Info" message="Info theme" />
@@ -38,6 +41,7 @@ import {Alert} from '@gravity-ui/uikit';
     <UIKit.Alert theme="warning" title="Warning" message="Warning theme" />
     <UIKit.Alert theme="danger" title="Danger" message="Danger theme" />
     <UIKit.Alert theme="utility" title="Utility" message="Utility theme" />
+    <UIKit.Alert theme="clear" title="Clear" message="Clear theme" />
 </ExampleBlock>
 LANDING_BLOCK-->
 
@@ -50,6 +54,7 @@ LANDING_BLOCK-->
 <Alert theme="warning" title="Warning" message="Warning theme"/>
 <Alert theme="danger" title="Danger" message="Danger theme"/>
 <Alert theme="utility" title="Utility" message="Utility theme"/>
+<Alert theme="clear" title="Clear" message="Clear theme"/>
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -216,18 +221,18 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name      | Description                                                                 |                                Type                                |   Default    |
-| :-------- | :-------------------------------------------------------------------------- | :----------------------------------------------------------------: | :----------: |
-| theme     | Alert appearance                                                            | `"normal"` `"info"` `"success"` `"warning"` `"danger"` `"utility"` |  `"normal"`  |
-| view      | Enable/disable background color of the alert                                |                      `"filled"` `"outlined"`                       |  `"filled"`  |
-| layout    | Used to direct users to content if there is property `actions` with buttons |                    `"vertical"` `"horizontal"`                     | `"vertical"` |
-| corners   | Used for round/square corners of the alert window                           |                       `"rounded"` `"square"`                       | `"rounded"`  |
-| title     | Title of the alert                                                          |                              `string`                              |              |
-| message   | Message of the alert                                                        |                         `React.ReactNode`                          |              |
-| onClose   | A callback function called when the user clicks the alert's close button    |                             `Function`                             |              |
-| actions   | Array of buttons or full custom components                                  |                 `React.ReactNode` `"AlertAction"`                  |              |
-| align     | Determines how content inside the Alert component is vertically aligned     |                      `"center"` `"baseline"`                       | `"baseline"` |
-| style     | HTML style attribute                                                        |                       `React.CSSProperties`                        |              |
-| className | Name of alert class                                                         |                              `string`                              |              |
-| icon      | Override default icon                                                       |                         `React.ReactNode`                          |              |
-| qa        | HTML `data-qa` attribute, used in tests.                                    |                              `string`                              |              |
+| Name      | Description                                                                 |                                     Type                                     |   Default    |
+| :-------- | :-------------------------------------------------------------------------- | :--------------------------------------------------------------------------: | :----------: |
+| theme     | Alert appearance                                                            | `"normal"` `"info"` `"success"` `"warning"` `"danger"` `"utility"` `"clear"` |  `"normal"`  |
+| view      | Enable/disable background color of the alert                                |                           `"filled"` `"outlined"`                            |  `"filled"`  |
+| layout    | Used to direct users to content if there is property `actions` with buttons |                         `"vertical"` `"horizontal"`                          | `"vertical"` |
+| corners   | Used for round/square corners of the alert window                           |                            `"rounded"` `"square"`                            | `"rounded"`  |
+| title     | Title of the alert                                                          |                                   `string`                                   |              |
+| message   | Message of the alert                                                        |                              `React.ReactNode`                               |              |
+| onClose   | A callback function called when the user clicks the alert's close button    |                                  `Function`                                  |              |
+| actions   | Array of buttons or full custom components                                  |                      `React.ReactNode` `"AlertAction"`                       |              |
+| align     | Determines how content inside the Alert component is vertically aligned     |                           `"center"` `"baseline"`                            | `"baseline"` |
+| style     | HTML style attribute                                                        |                            `React.CSSProperties`                             |              |
+| className | Name of alert class                                                         |                                   `string`                                   |              |
+| icon      | Override default icon                                                       |                              `React.ReactNode`                               |              |
+| qa        | HTML `data-qa` attribute, used in tests.                                    |                                   `string`                                   |              |

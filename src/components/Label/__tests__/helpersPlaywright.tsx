@@ -1,5 +1,5 @@
 import {Rocket} from '@gravity-ui/icons';
-import {composeStories} from '@storybook/react';
+import {composeStories} from '@storybook/react-webpack5';
 
 import {Icon} from '../../Icon';
 import type {LabelProps} from '../Label';

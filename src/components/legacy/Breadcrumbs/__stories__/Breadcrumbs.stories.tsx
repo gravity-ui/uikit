@@ -1,4 +1,4 @@
-import type {StoryFn} from '@storybook/react';
+import type {StoryFn} from '@storybook/react-webpack5';
 
 import {Breadcrumbs} from '../Breadcrumbs';
 import type {BreadcrumbsProps} from '../Breadcrumbs';
@@ -49,7 +49,7 @@ export default {
     },
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

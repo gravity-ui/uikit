@@ -17,6 +17,11 @@ export function updateBodyClassName({
 }) {
     const bodyEl = document.body;
 
+    // https://html.spec.whatwg.org/multipage/dom.html#dom-document-body-dev
+    if (!bodyEl) {
+        return;
+    }
+
     if (!bodyEl.classList.contains(rootClassName)) {
         bodyEl.classList.add(rootClassName);
     }
@@ -49,6 +54,11 @@ export function updateBodyClassName({
 
 export function updateBodyDirection(direction: Direction) {
     const bodyEl = document.body;
+
+    // https://html.spec.whatwg.org/multipage/dom.html#dom-document-body-dev
+    if (!bodyEl) {
+        return;
+    }
 
     if (direction === DEFAULT_DIRECTION) {
         bodyEl.removeAttribute('dir');

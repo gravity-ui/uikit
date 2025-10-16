@@ -1,5 +1,5 @@
-import {action} from '@storybook/addon-actions';
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
+import {action} from 'storybook/actions';
 
 import {Button} from '../../Button';
 import {Link} from '../../Link';
@@ -77,7 +77,10 @@ export const FocusManagement: Story = {
     render: (args) => (
         <Flex gap={3} justifyContent="center" wrap>
             <Popover {...args}>
-                <Button>Focus container (default)</Button>
+                <Button>Default</Button>
+            </Popover>
+            <Popover {...args} modal>
+                <Button>Modal (Focus container + trap)</Button>
             </Popover>
             <Popover {...args} initialFocus={0}>
                 <Button>Focus first tabbable</Button>

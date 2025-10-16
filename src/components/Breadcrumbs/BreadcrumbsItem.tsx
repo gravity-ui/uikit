@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import {KeyCode} from '../../constants';
 import {ListItemView} from '../lab/ListItemView/ListItemView';
 import {filterDOMProps} from '../utils/filterDOMProps';
 
@@ -32,17 +33,15 @@ function BreadcrumbsItem(props: BreadcrumbsItemProps, ref: React.ForwardedRef<HT
         ping,
         referrerPolicy,
         children,
-        __disabled: disabled,
+        disabled: disabledProp,
+        __disabled: disabledInner,
         __current: current,
         __onAction: onAction,
         __index: index,
         ...restProps
     } = props as BreadcrumbsItemProps & BreadcrumbsItemInnerProps;
 
-    let title = props.title;
-    if (!title && typeof children === 'string') {
-        title = children;
-    }
+    const disabled = disabledInner || disabledProp;
 
     const handleAction = (event: React.MouseEvent<HTMLAnchorElement>) => {
         if (disabled) {
@@ -60,7 +59,6 @@ function BreadcrumbsItem(props: BreadcrumbsItemProps, ref: React.ForwardedRef<HT
     };
 
     const linkProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
-        title,
         onClick: handleAction,
         'aria-disabled': disabled ? true : undefined,
     };
@@ -87,7 +85,7 @@ function BreadcrumbsItem(props: BreadcrumbsItemProps, ref: React.ForwardedRef<HT
                 restProps.onKeyDown(event);
             }
 
-            if (event.key === 'Enter') {
+            if (event.key === KeyCode.ENTER) {
                 if (typeof onAction === 'function') {
                     onAction();
                 }
@@ -106,22 +104,21 @@ function BreadcrumbsItem(props: BreadcrumbsItemProps, ref: React.ForwardedRef<HT
         const active = !disabled && activeIndex === index;
         return (
             <ListItemView
-                {...getItemProps({
-                    ...restProps,
-                    ...domProps,
-                    ...linkProps,
-                    role: 'menuitem',
-                    active,
-                })}
                 ref={(node: HTMLElement | null) => {
                     listItemsRef.current[index ?? 0] = node;
                 }}
                 nestedLevel={popupStyle === 'staircase' ? index : undefined}
-                tabIndex={active ? 0 : -1}
                 active={active}
                 size="m"
                 className={b('menu-link', props.className)}
                 component={Element}
+                componentProps={getItemProps({
+                    ...restProps,
+                    ...domProps,
+                    ...linkProps,
+                    role: 'menuitem',
+                    tabIndex: active ? 0 : -1,
+                })}
                 disabled={disabled}
             >
                 {children}
@@ -131,10 +128,10 @@ function BreadcrumbsItem(props: BreadcrumbsItemProps, ref: React.ForwardedRef<HT
 
     return (
         <Element
-            ref={ref}
             {...restProps}
             {...domProps}
             {...linkProps}
+            ref={ref}
             className={b(
                 'link',
                 {

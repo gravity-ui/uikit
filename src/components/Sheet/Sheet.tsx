@@ -5,6 +5,7 @@ import * as React from 'react';
 import {FloatingOverlay} from '@floating-ui/react';
 
 import {Portal} from '../Portal/Portal';
+import type {PortalProps} from '../Portal/Portal';
 import type {QAProps} from '../types';
 
 import {SheetContentContainer} from './SheetContent';
@@ -12,7 +13,7 @@ import {sheetBlock} from './constants';
 
 import './Sheet.scss';
 
-export interface SheetProps extends QAProps {
+export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePortal'>, QAProps {
     children?: React.ReactNode;
     onClose?: () => void;
     /** Show/hide sheet */
@@ -31,6 +32,10 @@ export interface SheetProps extends QAProps {
     allowHideOnContentScroll?: boolean;
     /** Hide top bar with resize handle */
     hideTopBar?: boolean;
+    /** Coefficient that determines the maximum height of the `Sheet` relative to the height of the viewport (range 0-1) */
+    maxContentHeightCoefficient?: number;
+    /** `Sheet` height will always have the maximum value */
+    alwaysFullHeight?: boolean;
 }
 
 export const Sheet = ({
@@ -44,6 +49,10 @@ export const Sheet = ({
     swipeAreaClassName,
     allowHideOnContentScroll,
     hideTopBar,
+    maxContentHeightCoefficient,
+    alwaysFullHeight,
+    container,
+    disablePortal,
     qa,
 }: SheetProps) => {
     const [open, setOpen] = React.useState(visible);
@@ -69,7 +78,7 @@ export const Sheet = ({
     }
 
     return (
-        <Portal>
+        <Portal container={container} disablePortal={disablePortal}>
             <FloatingOverlay
                 data-qa={qa}
                 className={sheetBlock(null, className)}
@@ -86,6 +95,8 @@ export const Sheet = ({
                     allowHideOnContentScroll={allowHideOnContentScroll}
                     hideTopBar={hideTopBar}
                     hideSheet={hideSheet}
+                    maxContentHeightCoefficient={maxContentHeightCoefficient}
+                    alwaysFullHeight={alwaysFullHeight}
                 />
             </FloatingOverlay>
         </Portal>

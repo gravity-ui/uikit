@@ -7,6 +7,10 @@ const sass = require('gulp-sass')(require('sass'));
 const sourcemaps = require('gulp-sourcemaps');
 const {rimrafSync} = require('rimraf');
 
+const {sassFunctions} = require('./build-utils/sass-functions');
+
+const {version} = require('./package.json');
+
 const BUILD_DIR = path.resolve('build');
 
 task('clean', (done) => {
@@ -53,7 +57,11 @@ async function compileTs(modules = false) {
             .pipe(
                 utils.addVirtualFile({
                     fileName: 'package.json',
-                    text: JSON.stringify({type: modules ? 'module' : 'commonjs'}),
+                    text: JSON.stringify({
+                        version,
+                        type: modules ? 'module' : 'commonjs',
+                        sideEffects: ['*.css', '*.scss'],
+                    }),
                 }),
             )
             .pipe(dest(path.resolve(BUILD_DIR, modules ? 'esm' : 'cjs')))
@@ -89,7 +97,7 @@ task('styles-global', () => {
 task('styles-components', () => {
     return src(['src/components/**/*.scss', '!src/components/**/__stories__/**/*'])
         .pipe(
-            sass.sync().on('error', function (error) {
+            sass.sync({functions: sassFunctions}).on('error', function (error) {
                 sass.logError.call(this, error);
                 process.exit(1);
             }),

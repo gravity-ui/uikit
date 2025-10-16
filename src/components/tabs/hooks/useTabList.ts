@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import {KeyCode} from '../../../constants';
 import {useDirection} from '../../theme';
-import {filterDOMProps} from '../../utils/filterDOMProps';
 import {TAB_DATA_ATTRIBUTE, bTabList} from '../constants';
 import {TabContext} from '../contexts/TabContext';
 import type {TabListProps} from '../types';
@@ -71,8 +70,10 @@ const focusFurthestTab = (event: React.KeyboardEvent, isInverse: boolean): HTMLE
     return lastFocusableTabElement;
 };
 
-export function useTabList(tabListProps: TabListProps) {
-    const tabContextProps = React.useContext(TabContext);
+export function useTabList(
+    tabListProps: TabListProps,
+): React.HTMLAttributes<HTMLDivElement> & {[key: `data-${string}`]: string | undefined} {
+    const tabContext = React.useContext(TabContext);
     const isRTL = useDirection() === 'rtl';
 
     const activateOnFocus = (tabElement: HTMLElement) => {
@@ -80,11 +81,11 @@ export function useTabList(tabListProps: TabListProps) {
 
         if (tabListProps.activateOnFocus && value) {
             tabListProps.onUpdate?.(value);
-            tabContextProps?.onUpdate?.(value);
+            tabContext?.onUpdate?.(value);
         }
     };
 
-    const onKeyDown = (event: React.KeyboardEvent) => {
+    const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
         switch (event.code) {
             case KeyCode.ARROW_LEFT: {
                 event.preventDefault();
@@ -107,15 +108,25 @@ export function useTabList(tabListProps: TabListProps) {
                 break;
             }
         }
+
+        tabListProps.onKeyDown?.(event);
     };
 
+    const {
+        value: _value,
+        onUpdate: _onUpdate,
+        size: _size,
+        activateOnFocus: _activateOnFocus,
+        qa: _qa,
+        ...htmlProps
+    } = tabListProps;
+
     return {
+        ...htmlProps,
         role: 'tablist',
         'aria-orientation': 'horizontal' as const,
         onKeyDown,
-        style: tabListProps.style,
         className: bTabList({size: tabListProps.size ?? 'm'}, tabListProps.className),
         'data-qa': tabListProps.qa,
-        ...filterDOMProps(tabListProps, {labelable: true}),
     };
 }

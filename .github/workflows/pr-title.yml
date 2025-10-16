@@ -8,11 +8,14 @@ on:
       - reopened
       - edited
 
+concurrency:
+  group: ${{github.workflow}}-${{github.ref}}
+  cancel-in-progress: true
+
 jobs:
   verify_title:
     name: Verify Title
     runs-on: ubuntu-latest
-    if: ${{github.event.action != 'edited' || github.event.changes.title}}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,4 +27,4 @@ jobs:
       - name: Install Packages
         run: npm ci
       - name: Run Commitlint
-        run: echo "${{github.event.pull_request.title}}" | npx commitlint
+        run: echo '${{github.event.pull_request.title}}' | npx commitlint

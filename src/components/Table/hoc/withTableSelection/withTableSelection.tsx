@@ -2,11 +2,10 @@
 
 import * as React from 'react';
 
-import _difference from 'lodash/difference';
-import _get from 'lodash/get';
-import _memoize from 'lodash/memoize';
-import _union from 'lodash/union';
-import _without from 'lodash/without';
+import difference from 'lodash/difference';
+import memoize from 'lodash/memoize';
+import union from 'lodash/union';
+import without from 'lodash/without';
 
 import {Checkbox} from '../../../Checkbox';
 import {block} from '../../../utils/cn';
@@ -120,19 +119,23 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
             indeterminate?: boolean; //only for header cell checkbox
         }) {
             return (
-                <Checkbox
-                    size="l"
-                    checked={checked}
-                    indeterminate={indeterminate}
-                    disabled={disabled}
-                    onChange={handler}
-                    className={b('selection-checkbox', {
-                        'vertical-align': this.props.verticalAlign,
-                    })}
-                    controlProps={{
-                        'aria-label': i18n('label-row-select'),
-                    }}
-                />
+                <i18n.Translation>
+                    {({t}) => (
+                        <Checkbox
+                            size="l"
+                            checked={checked}
+                            indeterminate={indeterminate}
+                            disabled={disabled}
+                            onChange={handler}
+                            className={b('selection-checkbox', {
+                                'vertical-align': this.props.verticalAlign,
+                            })}
+                            controlProps={{
+                                'aria-label': t('label-row-select'),
+                            }}
+                        />
+                    )}
+                </i18n.Translation>
             );
         }
 
@@ -160,10 +163,10 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                 );
 
                 onSelectionChange(
-                    checked ? _union(selectedIds, diffIds) : _without(selectedIds, ...diffIds),
+                    checked ? union(selectedIds, diffIds) : without(selectedIds, ...diffIds),
                 );
             } else {
-                onSelectionChange(checked ? [...selectedIds, id] : _without(selectedIds, id));
+                onSelectionChange(checked ? [...selectedIds, id] : without(selectedIds, id));
             }
 
             this.lastCheckedIndex = index;
@@ -178,27 +181,25 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
             );
 
             onSelectionChange(
-                checked
-                    ? _union(selectedIds, notDisabledItemIds)
-                    : _difference(selectedIds, dataIds),
+                checked ? union(selectedIds, notDisabledItemIds) : difference(selectedIds, dataIds),
             );
         };
 
         // eslint-disable-next-line @typescript-eslint/member-ordering, react/sort-comp
-        private enhanceColumns = _memoize((columns: TableColumnConfig<I>[]) => {
+        private enhanceColumns = memoize((columns: TableColumnConfig<I>[]) => {
             const selectionColumn: TableColumnConfig<I> = {
                 id: selectionColumnId,
                 name: this.renderHeadCell,
                 template: this.renderBodyCell,
                 className: b('checkbox_cell'),
-                sticky: _get(columns, [0, 'sticky']) === 'start' ? 'start' : undefined,
+                sticky: columns?.[0]?.sticky === 'start' ? 'start' : undefined,
             };
 
             return [selectionColumn, ...columns];
         });
 
         // eslint-disable-next-line @typescript-eslint/member-ordering
-        private enhanceOnRowClick = _memoize(
+        private enhanceOnRowClick = memoize(
             (
                 onRowClick?: (
                     item: I,
@@ -227,7 +228,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
         );
 
         // eslint-disable-next-line @typescript-eslint/member-ordering
-        private enhanceGetRowDescriptor = _memoize(
+        private enhanceGetRowDescriptor = memoize(
             (getRowDescriptor?: TableProps<I>['getRowDescriptor']) => {
                 const currentGetRowDescriptor: TableProps<I>['getRowDescriptor'] = (
                     item: I,

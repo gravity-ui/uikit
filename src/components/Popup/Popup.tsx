@@ -4,6 +4,8 @@ import * as React from 'react';
 
 import {
     FloatingFocusManager,
+    FloatingNode,
+    FloatingTree,
     arrow,
     autoUpdate,
     offset as floatingOffset,
@@ -11,9 +13,10 @@ import {
     shift,
     useDismiss,
     useFloating,
+    useFloatingNodeId,
+    useFloatingParentNodeId,
     useInteractions,
     useRole,
-    useTransitionStatus,
 } from '@floating-ui/react';
 import type {
     ElementProps,
@@ -28,8 +31,9 @@ import type {
 } from '@floating-ui/react';
 
 import {useForkRef} from '../../hooks';
-import {usePrevious} from '../../hooks/private';
+import {useFloatingTransition} from '../../hooks/private/useFloatingTransition';
 import {Portal} from '../Portal';
+import type {PortalProps} from '../Portal';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
@@ -43,9 +47,13 @@ import {arrowStylesMiddleware, getOffsetOptions, getPlacementOptions} from './ut
 
 import './Popup.scss';
 
-export type PopupCloseReason = 'outsideClick' | 'escapeKeyDown';
+export type PopupCloseReason = 'outsideClick' | 'escapeKeyDown' | string | undefined;
 
-export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
+export interface PopupProps
+    extends Pick<PortalProps, 'container' | 'disablePortal'>,
+        DOMProps,
+        AriaLabelingProps,
+        QAProps {
     children?: React.ReactNode;
     /** Manages `Popup` visibility */
     open?: boolean;
@@ -65,9 +73,8 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
     anchorElement?: PopupAnchorElement | null;
     /**
      * floating element anchor ref object
-     *
      * @deprecated Use `anchorElement` instead
-     * */
+     */
     anchorRef?: PopupAnchorRef;
     /** Floating UI middlewares. If set, they will completely overwrite the default middlewares. */
     floatingMiddlewares?: Middleware[];
@@ -95,21 +102,18 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
      * This callback will be called when Escape key pressed on keyboard, or click outside was made
      * This behaviour could be disabled with `disableEscapeKeyDown`
      * and `disableOutsideClick` options
-     *
      * @deprecated Use `onOpenChange` instead
      */
     onClose?: (event: MouseEvent | KeyboardEvent, reason: PopupCloseReason) => void;
     /**
      * This callback will be called when Escape key pressed on keyboard
      * This behaviour could be disabled with `disableEscapeKeyDown` option
-     *
      * @deprecated Use `onOpenChange` instead
      */
     onEscapeKeyDown?: (event: KeyboardEvent) => void;
     /**
      * This callback will be called when click is outside of elements of "top layer"
      * This behaviour could be disabled with `disableOutsideClick` option
-     *
      * @deprecated Use `onOpenChange` instead
      */
     onOutsideClick?: (event: MouseEvent) => void;
@@ -119,8 +123,6 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
     disableOutsideClick?: boolean;
     /** Do not dismiss on focusout */
     disableFocusOut?: boolean;
-    /** Do not use `Portal` for children */
-    disablePortal?: boolean;
     /**
      * Do not use as layer
      */
@@ -145,7 +147,7 @@ export interface PopupProps extends DOMProps, AriaLabelingProps, QAProps {
 
 const b = block('popup');
 
-export function Popup({
+function PopupComponent({
     keepMounted = false,
     hasArrow = false,
     open = false,
@@ -175,6 +177,7 @@ export function Popup({
     style,
     className,
     children,
+    container,
     disablePortal = false,
     disableLayer = false,
     disableTransition = false,
@@ -198,6 +201,8 @@ export function Popup({
         disablePortal,
     );
 
+    const {t} = i18n.useTranslation();
+
     const handleOpenChange = React.useCallback<NonNullable<UseFloatingOptions['onOpenChange']>>(
         (isOpen, event, reason) => {
             onOpenChange?.(isOpen, event, reason);
@@ -206,7 +211,14 @@ export function Popup({
                 return;
             }
 
-            const closeReason = reason === 'escape-key' ? 'escapeKeyDown' : 'outsideClick';
+            let closeReason;
+            if (reason === 'escape-key') {
+                closeReason = 'escapeKeyDown';
+            } else if (reason === 'outside-press') {
+                closeReason = 'outsideClick';
+            } else {
+                closeReason = reason;
+            }
 
             if (closeReason === 'escapeKeyDown' && onEscapeKeyDown) {
                 onEscapeKeyDown(event as KeyboardEvent);
@@ -221,6 +233,8 @@ export function Popup({
         [onOpenChange, onClose, onEscapeKeyDown, onOutsideClick],
     );
 
+    const floatingNodeId = useFloatingNodeId();
+
     const {
         refs,
         elements,
@@ -229,8 +243,10 @@ export function Popup({
         middlewareData,
         context,
         update,
+        isPositioned,
     } = useFloating({
         rootContext: floatingContext,
+        nodeId: floatingNodeId,
         strategy,
         placement: placement,
         open,
@@ -268,10 +284,14 @@ export function Popup({
 
     const {getFloatingProps} = useInteractions(floatingInteractions ?? [role, dismiss]);
 
-    const {isMounted, status} = useTransitionStatus(context, {
+    const {isMounted, status} = useFloatingTransition({
+        context,
         duration: disableTransition ? 0 : TRANSITION_DURATION,
+        onTransitionIn,
+        onTransitionInComplete,
+        onTransitionOut,
+        onTransitionOutComplete,
     });
-    const previousStatus = usePrevious(status);
 
     React.useEffect(() => {
         if (isMounted && elements.reference && elements.floating) {
@@ -282,32 +302,8 @@ export function Popup({
 
     const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
 
-    const handleTransitionEnd = React.useCallback(
-        (event: React.TransitionEvent) => {
-            // There are two simultaneous transitions running at the same time
-            // Use specific name to only notify once
-            if (status === 'open' && event.propertyName === 'transform') {
-                onTransitionInComplete?.();
-            }
-        },
-        [status, onTransitionInComplete],
-    );
-
-    // Cannot use transitionend event for these callbacks due to unmounting from the DOM
-    React.useEffect(() => {
-        if (status === 'initial' && previousStatus === 'unmounted') {
-            onTransitionIn?.();
-        }
-        if (status === 'close' && previousStatus === 'open') {
-            onTransitionOut?.();
-        }
-        if (status === 'unmounted' && previousStatus === 'close') {
-            onTransitionOutComplete?.();
-        }
-    }, [status, previousStatus, onTransitionIn, onTransitionOut, onTransitionOutComplete]);
-
     let initialFocus = initialFocusProp;
-    if (initialFocus === undefined) {
+    if (typeof initialFocus === 'undefined') {
         if (modal) {
             initialFocus = refs.floating;
         } else {
@@ -315,60 +311,79 @@ export function Popup({
         }
     }
 
-    return isMounted || keepMounted ? (
-        <Portal disablePortal={disablePortal}>
-            <FloatingFocusManager
-                context={context}
-                disabled={!isMounted}
-                modal={modal}
-                initialFocus={initialFocus}
-                returnFocus={returnFocus}
-                closeOnFocusOut={!disableFocusOut}
-                visuallyHiddenDismiss={disableVisuallyHiddenDismiss ? false : i18n('close')}
-                guards={modal || !disablePortal}
-                order={focusOrder}
-            >
-                <div
-                    ref={handleFloatingRef}
-                    className={floatingClassName}
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        zIndex,
-                        width: 'max-content',
-                        pointerEvents: isMounted ? 'auto' : 'none',
-                        outline: 'none',
-                        ...floatingStyles,
-                        ...floatingStylesProp,
-                    }}
-                    data-floating-ui-placement={finalPlacement}
-                    data-floating-ui-status={status}
-                    aria-modal={modal && isMounted ? true : undefined}
-                    {...getFloatingProps({
-                        onTransitionEnd: handleTransitionEnd,
-                    })}
-                >
-                    <div
-                        ref={contentRef}
-                        className={b(
-                            {
-                                open: isMounted,
-                                'disable-transition': disableTransition,
-                            },
-                            className,
-                        )}
-                        style={style}
-                        data-qa={qa}
-                        {...filterDOMProps(restProps)}
+    return (
+        <FloatingNode id={floatingNodeId}>
+            {isMounted || keepMounted ? (
+                <Portal container={container} disablePortal={disablePortal}>
+                    <FloatingFocusManager
+                        context={context}
+                        disabled={!isPositioned}
+                        modal={modal}
+                        initialFocus={initialFocus}
+                        returnFocus={returnFocus}
+                        closeOnFocusOut={!disableFocusOut}
+                        visuallyHiddenDismiss={disableVisuallyHiddenDismiss ? false : t('close')}
+                        guards={modal || !disablePortal}
+                        order={focusOrder}
                     >
-                        {hasArrow && (
-                            <PopupArrow ref={setArrowElement} styles={middlewareData.arrowStyles} />
-                        )}
-                        {children}
-                    </div>
-                </div>
-            </FloatingFocusManager>
-        </Portal>
-    ) : null;
+                        <div
+                            ref={handleFloatingRef}
+                            className={floatingClassName}
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                zIndex,
+                                width: 'max-content',
+                                pointerEvents: isMounted ? 'auto' : 'none',
+                                outline: 'none',
+                                ...floatingStyles,
+                                ...floatingStylesProp,
+                            }}
+                            data-floating-ui-placement={finalPlacement}
+                            data-floating-ui-status={status}
+                            aria-modal={modal && isMounted ? true : undefined}
+                            {...getFloatingProps()}
+                        >
+                            <div
+                                ref={contentRef}
+                                className={b(
+                                    {
+                                        open: isMounted,
+                                        'disable-transition': disableTransition,
+                                    },
+                                    className,
+                                )}
+                                style={style}
+                                data-qa={qa}
+                                {...filterDOMProps(restProps)}
+                            >
+                                {hasArrow && (
+                                    <PopupArrow
+                                        ref={setArrowElement}
+                                        styles={middlewareData.arrowStyles}
+                                    />
+                                )}
+                                {children}
+                            </div>
+                        </div>
+                    </FloatingFocusManager>
+                </Portal>
+            ) : null}
+        </FloatingNode>
+    );
+}
+
+export function Popup(props: PopupProps) {
+    const parentId = useFloatingParentNodeId();
+
+    if (parentId === null) {
+        return (
+            <FloatingTree>
+                <PopupComponent {...props} />
+            </FloatingTree>
+        );
+    }
+
+    return <PopupComponent {...props} />;
 }

@@ -1,0 +1,27 @@
+@use '../../variables';
+@use '../../../../styles/mixins';
+
+$block: '.#{variables.$ns}accordion-summary';
+
+#{$block} {
+    &_size_m &__trigger {
+        padding: 5px var(--g-spacing-2);
+        @include mixins.text-subheader-1();
+    }
+
+    &_size_l &__trigger {
+        padding: var(--g-spacing-2) var(--g-spacing-3);
+        @include mixins.text-subheader-2();
+    }
+
+    &_size_xl &__trigger {
+        padding: var(--g-spacing-3) var(--g-spacing-3);
+        @include mixins.text-subheader-2();
+    }
+
+    &_arrow_position_end &__trigger {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+}

@@ -96,6 +96,7 @@ export function BrandingConfigurator({theme}: BrandingConfiguratorProps) {
             '--g-color-base-selection-hover': colors[Math.abs(1 - offset)],
             '--g-color-line-brand': colors[7],
             '--g-color-text-brand': colors[Math.abs(10 - offset)],
+            '--g-color-text-brand-heavy': colors[Math.abs(12 - offset)],
             '--g-color-text-link': colors[Math.abs(10 - offset)],
             '--g-color-text-link-hover': colors[Math.abs(12 - offset)],
         });

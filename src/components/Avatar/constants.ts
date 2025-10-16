@@ -1,3 +1,5 @@
+import {block} from '../utils/cn';
+
 import type {AvatarSize} from './types/common';
 
 export const AVATAR_SIZES: Record<AvatarSize, number> = {
@@ -11,3 +13,5 @@ export const AVATAR_SIZES: Record<AvatarSize, number> = {
 };
 
 export const DEFAULT_AVATAR_SIZE: AvatarSize = 'm';
+
+export const bAvatar = block('avatar');

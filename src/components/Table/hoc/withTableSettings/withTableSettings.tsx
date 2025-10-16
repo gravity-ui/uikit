@@ -3,10 +3,6 @@
 import * as React from 'react';
 
 import {Gear} from '@gravity-ui/icons';
-import _get from 'lodash/get';
-import _isEqual from 'lodash/isEqual';
-import _isString from 'lodash/isString';
-import _last from 'lodash/last';
 
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
@@ -24,10 +20,7 @@ import i18n from './i18n';
 
 import './withTableSettings.scss';
 
-export type TableSetting = {
-    id: string;
-    isSelected?: boolean;
-};
+export type TableSetting = {id: string; isSelected?: boolean};
 
 export type TableSettingsData = TableSetting[];
 
@@ -46,7 +39,7 @@ export function filterColumns<I>(
     if (columns[0] && columns[0].id === selectionColumnId) {
         filteredColumns.unshift(columns[0]);
     }
-    const lastColumn = _last(columns);
+    const lastColumn = columns.at(-1);
     if (lastColumn && lastColumn.id === actionsColumnId) {
         filteredColumns.push(lastColumn);
     }
@@ -55,11 +48,15 @@ export function filterColumns<I>(
 }
 
 export function getColumnStringTitle<Data>(column: TableColumnConfig<Data>) {
-    if (_isString(column.name)) {
+    const displayName = column.meta?.displayName;
+    if (typeof displayName === 'string') {
+        return displayName;
+    }
+    if (typeof column.name === 'string') {
         return column.name;
     }
-    const originalName = _get(column, ['meta', '_originalName']);
-    if (_isString(originalName)) {
+    const originalName = column.meta?._originalName;
+    if (typeof originalName === 'string') {
         return originalName;
     }
     return column.id;
@@ -202,6 +199,8 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
                 return getActualItems(columns, defaultSettings);
             }, [columns, defaultSettings]);
 
+            const {t} = i18n.useTranslation();
+
             const enhancedColumns = React.useMemo(() => {
                 const actualItems = getActualItems(columns, settings || []);
                 return enhanceSystemColumn(filterColumns(columns, actualItems), (systemColumn) => {
@@ -221,7 +220,7 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
                                     <Button
                                         view="flat"
                                         className={b('settings-button')}
-                                        aria-label={i18n('label_settings')}
+                                        aria-label={t('label_settings')}
                                         onClick={onClick}
                                     >
                                         <Icon data={Gear} />
@@ -238,10 +237,14 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
                 columns,
                 settings,
                 settingsPopupWidth,
+                settingsFilterPlaceholder,
+                settingsFilterEmptyMessage,
+                filterSettings,
                 updateSettings,
                 renderControls,
                 defaultActualItems,
                 showResetButton,
+                t,
             ]);
 
             return (

@@ -3,8 +3,8 @@ import '../styles/fonts.scss';
 // eslint-disable-next-line import/order
 import '../styles/styles.scss';
 
-import {MINIMAL_VIEWPORTS} from '@storybook/addon-viewport';
-import type {Preview} from '@storybook/react';
+import type {Preview} from '@storybook/react-webpack5';
+import {MINIMAL_VIEWPORTS} from 'storybook/viewport';
 
 import {DocsDecorator} from '../src/demo/DocsDecorator/DocsDecorator';
 
@@ -20,12 +20,10 @@ const preview: Preview = {
         docs: {
             theme: themes.light,
             container: DocsDecorator,
+            codePanel: true,
         },
-        // FIXME: Disabled due to performance reasons. See https://github.com/storybookjs/storybook/issues/5551
-        // actions: {
-        //     argTypesRegex: '^on.*',
-        // },
         jsx: {showFunctions: true}, // To show functions in sources
+        backgrounds: {disable: true},
         viewport: {
             viewports: MINIMAL_VIEWPORTS,
         },
@@ -45,7 +43,6 @@ const preview: Preview = {
     },
     globalTypes: {
         theme: {
-            defaultValue: 'light',
             toolbar: {
                 title: 'Theme',
                 icon: 'mirror',
@@ -59,7 +56,6 @@ const preview: Preview = {
             },
         },
         lang: {
-            defaultValue: 'en',
             toolbar: {
                 title: 'Language',
                 icon: 'globe',
@@ -71,7 +67,6 @@ const preview: Preview = {
             },
         },
         direction: {
-            defaultValue: 'ltr',
             toolbar: {
                 title: 'Direction',
                 icon: 'menu',
@@ -83,7 +78,6 @@ const preview: Preview = {
             },
         },
         platform: {
-            defaultValue: 'desktop',
             toolbar: {
                 title: 'Platform',
                 items: [
@@ -93,6 +87,12 @@ const preview: Preview = {
                 dynamicTitle: true,
             },
         },
+    },
+    initialGlobals: {
+        theme: 'light',
+        lang: 'en',
+        direction: 'ltr',
+        platform: 'desktop',
     },
 };
 

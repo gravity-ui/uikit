@@ -5,7 +5,6 @@ export function warnOnce(msg: string) {
         return;
     }
 
-    // eslint-disable-next-line no-console
     console.error(msg);
     didWarn.set(msg, true);
 }

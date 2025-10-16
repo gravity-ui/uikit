@@ -1,3 +1,4 @@
+export * from './useAnimateHeight';
 export * from './useBoolean';
 export * from './useCheckbox';
 export * from './useCloseOnTimeout';
@@ -8,5 +9,4 @@ export * from './useHover';
 export * from './usePrevious';
 export * from './useRadio';
 export * from './useRadioGroup';
-export * from './useTooltipVisible';
 export * from './useUpdateEffect';

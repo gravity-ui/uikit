@@ -16,17 +16,26 @@ $block: '.#{variables.$ns}skeleton';
 
     background-color: var(--g-color-base-generic);
 
-    &::after {
-        position: absolute;
-        inset: 0;
+    &_animation_gradient {
+        &::after {
+            position: absolute;
+            inset: 0;
+            content: '';
+            background-image: linear-gradient(
+                var(--_--gradient-deg),
+                transparent,
+                var(--g-color-base-generic)
+            );
+            animation: #{variables.$ns}skeleton 1.2s ease-out infinite;
 
-        background-image: linear-gradient(
-            var(--_--gradient-deg),
-            transparent,
-            var(--g-color-base-generic)
-        );
-        animation: #{variables.$ns}skeleton 1.2s ease-out infinite;
-        content: '';
+            @media (prefers-reduced-motion: reduce) {
+                animation: none;
+            }
+        }
+    }
+
+    &_animation_pulse {
+        animation: #{variables.$ns}skeletonPulse 1.5s infinite linear;
     }
 }
 
@@ -37,5 +46,15 @@ $block: '.#{variables.$ns}skeleton';
 
     100% {
         transform: translateX(var(--_--animation-to));
+    }
+}
+
+@keyframes #{variables.$ns}skeletonPulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
     }
 }

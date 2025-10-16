@@ -1,5 +1,5 @@
-import {action} from '@storybook/addon-actions';
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
+import {action} from 'storybook/actions';
 
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
@@ -36,6 +36,9 @@ export const Size: Story = {
             </ShowcaseItem>
             <ShowcaseItem title="Size l">
                 <RadioGroup {...args} size="l" />
+            </ShowcaseItem>
+            <ShowcaseItem title="Size xl">
+                <RadioGroup {...args} size="xl" />
             </ShowcaseItem>
         </Showcase>
     ),

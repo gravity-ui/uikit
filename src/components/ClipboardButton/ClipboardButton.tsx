@@ -22,7 +22,7 @@ const b = block('clipboard-button');
 
 export interface ClipboardButtonProps
     extends Omit<CopyToClipboardProps, 'children'>,
-        Omit<ClipboardButtonComponentProps, 'status' | 'closeDelay' | 'onClick'> {}
+        Omit<ClipboardButtonComponentProps, 'status' | 'closeDelay'> {}
 
 interface ClipboardButtonComponentProps extends Omit<ButtonButtonProps, 'onCopy'> {
     status: CopyToClipboardStatus;
@@ -35,37 +35,33 @@ interface ClipboardButtonComponentProps extends Omit<ButtonButtonProps, 'onCopy'
     tooltipSuccessText?: string;
     /** Position of clipboard icon */
     iconPosition?: 'start' | 'end';
+    /** Custom icon */
+    icon?: React.ReactNode;
 }
 
 const DEFAULT_TIMEOUT = 1200;
 
-const ButtonSizeToIconSize: Record<ButtonSize, number> = {
-    xs: 12,
-    s: 16,
-    m: 16,
-    l: 16,
-    xl: 20,
-};
+const ButtonSizeToIconSize: Record<ButtonSize, number> = {xs: 12, s: 16, m: 16, l: 16, xl: 20};
 
 const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
+    const {t} = i18n.useTranslation();
     const {
         size = 'm',
         hasTooltip = true,
-        tooltipInitialText = i18n('startCopy'),
-        tooltipSuccessText = i18n('endCopy'),
+        tooltipInitialText = t('startCopy'),
+        tooltipSuccessText = t('endCopy'),
         status,
         view = 'flat',
         children,
         iconPosition = 'start',
         closeDelay,
-        onMouseEnter,
-        onFocus,
+        icon,
         ...rest
     } = props;
 
     const buttonIcon = (
         <Button.Icon className={b('icon')}>
-            <ClipboardIcon size={ButtonSizeToIconSize[size]} status={status} />
+            {icon ?? <ClipboardIcon size={ButtonSizeToIconSize[size]} status={status} />}
         </Button.Icon>
     );
 
@@ -75,14 +71,7 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
             disabled={!hasTooltip}
             closeDelay={closeDelay}
         >
-            <Button
-                view={view}
-                size={size}
-                onMouseEnter={onMouseEnter}
-                onFocus={onFocus}
-                aria-label={tooltipInitialText}
-                {...rest}
-            >
+            <Button view={view} size={size} aria-label={tooltipInitialText} {...rest}>
                 {iconPosition === 'start' ? buttonIcon : null}
                 {children}
                 {iconPosition === 'end' ? buttonIcon : null}

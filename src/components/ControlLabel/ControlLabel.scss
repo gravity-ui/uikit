@@ -17,6 +17,7 @@ $block: '.#{variables.$ns}control-label';
         pointer-events: none;
     }
 
+    &_size_s,
     &_size_m {
         font-size: var(--g-text-body-1-font-size);
         line-height: 15px;
@@ -25,6 +26,11 @@ $block: '.#{variables.$ns}control-label';
     &_size_l {
         font-size: var(--g-text-body-2-font-size);
         line-height: 18px;
+    }
+
+    &_size_xl {
+        font-size: var(--g-text-body-2-font-size);
+        line-height: 25px;
     }
 
     &__indicator {

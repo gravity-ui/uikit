@@ -1,4 +1,4 @@
-import {composeStories} from '@storybook/react';
+import {composeStories} from '@storybook/react-webpack5';
 
 import * as DefaultAlertStories from '../__stories__/Alert.stories';
 

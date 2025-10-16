@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {ArrowRotateLeft} from '@gravity-ui/icons';
-import _isEqual from 'lodash/isEqual';
+import isEqual from 'lodash/isEqual';
 
 import {Button} from '../../../Button';
 import type {ButtonButtonProps} from '../../../Button';
@@ -33,7 +33,7 @@ export const WithTableSettingsCustomActionsShowcase = ({
     );
 
     const showResetButton = React.useMemo(
-        () => !_isEqual(innerSettings, defaultSettings),
+        () => !isEqual(innerSettings, defaultSettings),
         [defaultSettings, innerSettings],
     );
 

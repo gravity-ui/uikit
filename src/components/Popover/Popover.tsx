@@ -25,6 +25,10 @@ export interface PopoverProps
         DOMProps,
         Pick<
             PopupProps,
+            | 'container'
+            | 'disablePortal'
+            | 'open'
+            | 'onOpenChange'
             | 'strategy'
             | 'placement'
             | 'offset'
@@ -34,12 +38,11 @@ export interface PopoverProps
             | 'initialFocus'
             | 'returnFocus'
             | 'disableVisuallyHiddenDismiss'
+            | 'zIndex'
         > {
     children:
         | ((props: Record<string, unknown>, ref: React.Ref<HTMLElement>) => React.ReactElement)
         | React.ReactElement;
-    open?: boolean;
-    onOpenChange?: (open: boolean) => void;
     disabled?: boolean;
     content?: React.ReactNode;
     trigger?: 'click';
@@ -59,7 +62,6 @@ export function Popover({
     disabled,
     content,
     trigger,
-    modal = true,
     openDelay = DEFAULT_OPEN_DELAY,
     closeDelay = DEFAULT_CLOSE_DELAY,
     enableSafePolygon,
@@ -81,18 +83,16 @@ export function Popover({
     });
 
     const hover = useHover(context, {
-        enabled: !disabled && trigger !== 'click',
+        enabled: trigger !== 'click',
         delay: {open: openDelay, close: closeDelay},
         move: false,
         handleClose: enableSafePolygon ? safePolygon() : undefined,
     });
-    const click = useClick(context, {enabled: !disabled});
+    const click = useClick(context);
     const role = useRole(context, {
         role: 'dialog',
     });
-    const dismiss = useDismiss(context, {
-        enabled: !disabled,
-    });
+    const dismiss = useDismiss(context);
 
     const interactions = [hover, click, role, dismiss];
     const {getReferenceProps} = useInteractions(interactions);
@@ -106,8 +106,8 @@ export function Popover({
         : getReferenceProps();
     const anchorNode = React.isValidElement<any>(children)
         ? React.cloneElement(children, {
-              ref: anchorRef,
               ...anchorProps,
+              ref: anchorRef,
           })
         : children(anchorProps, anchorRef);
 
@@ -120,7 +120,6 @@ export function Popover({
                 floatingContext={context}
                 floatingRef={setFloatingElement}
                 floatingInteractions={interactions}
-                modal={modal}
                 className={b(null, className)}
             >
                 {content}

@@ -56,6 +56,7 @@ LANDING_BLOCK-->
 
 `HelpMark` accepts any valid `button` element props in addition to these:
 
-| Name         | Description              |      Type      | Default |
-| :----------- | :----------------------- | :------------: | :-----: |
-| popoverProps | Override `Popover` props | `PopoverProps` |         |
+| Name         | Description              |           Type           | Default |
+| :----------- | :----------------------- | :----------------------: | :-----: |
+| iconSize     | Sets icon size           | `"s"` `"m"` `"l"` `"xl"` |  `"m"`  |
+| popoverProps | Override `Popover` props |      `PopoverProps`      |         |

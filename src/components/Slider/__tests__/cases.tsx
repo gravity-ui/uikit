@@ -10,3 +10,5 @@ export const stepCases: Cases<SliderProps['step']> = [5];
 export const availableValuesCases: CasesWithName<SliderProps['marks']> = [
     ['available values 10-20-50-55-65-80', [10, 20, 50, 55, 65, 80]],
 ];
+export const startPointCases: Cases<SliderProps['startPoint']> = [50];
+export const invertedCases: Cases<SliderProps['inverted']> = [true];

@@ -1,6 +1,6 @@
 import type * as React from 'react';
 
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {List, listDefaultProps} from '..';
 import type {ListProps} from '..';
@@ -18,7 +18,7 @@ export default {
     },
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {
@@ -66,11 +66,6 @@ Sortable.args = {
     sortable: true,
     itemsHeight: 150,
 };
-Sortable.parameters = {
-    // Strict mode ruins sortable list due to this react-beautiful-dnd issue
-    // https://github.com/atlassian/react-beautiful-dnd/issues/2350
-    disableStrictMode: true,
-};
 
 const RenderItemTemplate: StoryFn<ComponentType> = (args) => <List {...args} />;
 export const RenderItem = RenderItemTemplate.bind({});
@@ -96,8 +91,3 @@ WithLoadingMoreItems.args = {
 
 const ShowcaseTemplate: StoryFn<ComponentType> = () => <ListShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});
-Showcase.parameters = {
-    // Strict mode ruins sortable list due to this react-beautiful-dnd issue
-    // https://github.com/atlassian/react-beautiful-dnd/issues/2350
-    disableStrictMode: true,
-};

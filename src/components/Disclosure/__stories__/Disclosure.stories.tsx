@@ -1,5 +1,5 @@
 import {Check} from '@gravity-ui/icons';
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
@@ -19,6 +19,7 @@ export default {
         size: 'm',
         disabled: false,
         arrowPosition: 'start',
+        qa: 'disclosure',
     },
 } as Meta;
 

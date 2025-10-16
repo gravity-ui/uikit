@@ -105,10 +105,9 @@ $block: '.#{variables.$ns}toast';
 
     &__actions {
         margin-block-start: var(--g-spacing-3);
-    }
-
-    &__action {
-        margin-inline-end: 8px;
+        display: flex;
+        flex-flow: row wrap;
+        gap: var(--g-spacing-2);
     }
 
     & &__btn-close {

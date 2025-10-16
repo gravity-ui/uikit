@@ -27,7 +27,9 @@ test('should show tooltip on hover and hide on unhover', async () => {
 
     await user.hover(button);
 
-    const tooltip = await screen.findByRole('tooltip');
+    // Default timeout for findByRole is 1000ms, and it's the same time for Tooltip to be shown.
+    // Increase the timeout to ensure Tooltip is visible.
+    const tooltip = await screen.findByRole('tooltip', {}, {timeout: 2000});
 
     expect(tooltip).toBeVisible();
 

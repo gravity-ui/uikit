@@ -6,7 +6,7 @@ import type {UseFloatingOptions} from '@floating-ui/react';
 
 import {useForkRef} from '../../../hooks';
 import {Button} from '../../Button';
-import type {ButtonButtonProps, ButtonView} from '../../Button';
+import type {ButtonButtonProps, ButtonLinkProps, ButtonView} from '../../Button';
 import {Popup} from '../../Popup';
 import {block} from '../../utils/cn';
 import {DialogPrivateContext} from '../DialogPrivateContext';
@@ -22,8 +22,8 @@ interface DialogFooterOwnProps {
     onClickButtonCancel?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
     textButtonCancel?: string;
     textButtonApply?: string;
-    propsButtonCancel?: ButtonButtonProps;
-    propsButtonApply?: ButtonButtonProps;
+    propsButtonCancel?: ButtonButtonProps | ButtonLinkProps;
+    propsButtonApply?: ButtonButtonProps | ButtonLinkProps;
     loading?: boolean;
     children?: React.ReactNode;
     errorText?: string;

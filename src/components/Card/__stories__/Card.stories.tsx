@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import {action} from '@storybook/addon-actions';
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
+import {action} from 'storybook/actions';
 
 import {Showcase} from '../../../demo/Showcase';
 import {Card} from '../Card';

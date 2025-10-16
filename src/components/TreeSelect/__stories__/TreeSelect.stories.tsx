@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {Flex} from '../../layout';
 import {getListItemClickHandler} from '../../useList';
@@ -28,7 +28,7 @@ export default {
     component: TreeSelect,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {
@@ -118,11 +118,6 @@ export const WithDndList = WithDndListTemplate.bind({});
 
 WithDndList.args = {
     size: 'l',
-};
-WithDndList.parameters = {
-    // Strict mode ruins sortable list due to this react-beautiful-dnd issue
-    // https://github.com/atlassian/react-beautiful-dnd/issues/2350
-    disableStrictMode: true,
 };
 
 const ErrorStateTemplate: StoryFn<ErrorStateExampleProps> = (props) => {

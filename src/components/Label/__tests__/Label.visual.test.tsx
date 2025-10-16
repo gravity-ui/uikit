@@ -70,6 +70,12 @@ test.describe('Label', {tag: '@Label'}, () => {
         await expectScreenshot();
     });
 
+    test('render story: <Width>', async ({mount, expectScreenshot}) => {
+        await mount(<LabelStories.Width />);
+
+        await expectScreenshot();
+    });
+
     const defaultProps: LabelProps = {
         children: 'Label',
         qa,
@@ -160,6 +166,61 @@ test.describe('Label', {tag: '@Label'}, () => {
                 type: 'close',
                 onCloseClick: () => {},
             },
+            {
+                theme: themeCases,
+                size: sizeCases,
+                disabled: disabledCases,
+            },
+        );
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Label {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({});
+    });
+
+    smokeTest('with info', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<LabelProps>(
+            {
+                ...defaultProps,
+                type: 'info',
+            },
+            {
+                theme: themeCases,
+                size: sizeCases,
+                disabled: disabledCases,
+            },
+        );
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Label {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({});
+    });
+
+    smokeTest('with gradient loading', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<LabelProps>(
+            {...defaultProps, loading: true},
             {
                 theme: themeCases,
                 size: sizeCases,

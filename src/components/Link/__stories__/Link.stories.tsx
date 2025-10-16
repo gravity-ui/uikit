@@ -1,7 +1,7 @@
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
+import {Showcase as ShowcaseComponent} from '../../../demo/Showcase';
 import {Link} from '../Link';
-import type {LinkProps} from '../Link';
 import {LinkShowcase} from '../__stories__/LinkShowcase';
 
 export default {
@@ -9,7 +9,7 @@ export default {
     component: Link,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {
@@ -20,10 +20,31 @@ export default {
             },
         },
     },
+    args: {
+        children: 'Link',
+    },
 } as Meta;
 
-const DefaultTemplate: StoryFn<LinkProps> = (args) => <Link {...args}>Link</Link>;
-export const Default = DefaultTemplate.bind({});
+type Story = StoryObj<typeof Link>;
 
-const ShowcaseTemplate: StoryFn = () => <LinkShowcase />;
-export const Showcase = ShowcaseTemplate.bind({});
+export const Default: Story = {};
+
+export const Showcase: Story = {
+    render: () => <LinkShowcase />,
+};
+
+export const View: Story = {
+    render: (args) => (
+        <ShowcaseComponent>
+            <Link {...args} view="normal">
+                Normal
+            </Link>
+            <Link {...args} view="primary">
+                Primary
+            </Link>
+            <Link {...args} view="secondary">
+                Secondary
+            </Link>
+        </ShowcaseComponent>
+    ),
+};

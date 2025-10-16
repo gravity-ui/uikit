@@ -2,9 +2,8 @@
 
 import * as React from 'react';
 
-import _get from 'lodash/get';
-import _has from 'lodash/has';
-import _isNumber from 'lodash/isNumber';
+import get from 'lodash/get';
+import has from 'lodash/has';
 
 import type {AriaLabelingProps, QAProps} from '../types';
 import {block} from '../utils/cn';
@@ -111,13 +110,11 @@ export interface TableProps<I> extends AriaLabelingProps, QAProps {
      * Horizontal sticky scroll.
      * Note: table cannot be with fixed height and with sticky scroll at the same time.
      * Sticky scroll wont work if table has overflow.
-     *
      * @default false
      */
     stickyHorizontalScroll?: boolean;
     /**
      * Threshold when sticky scroll is enabled.
-     *
      *  @default 0
      */
     stickyHorizontalScrollBreakpoint?: number;
@@ -133,13 +130,13 @@ export interface TableProps<I> extends AriaLabelingProps, QAProps {
      * @deprecated Use getRowDescriptor instead
      *
      * Row CSS classes.
-     * */
+     */
     getRowClassNames?: (item: I, index: number) => string[];
     /**
      * @deprecated Use getRowDescriptor instead
      *
      * Condition for disabling columns.
-     * */
+     */
     isRowDisabled?: (item: I, index: number) => boolean;
 
     /**
@@ -178,6 +175,8 @@ interface TableDefaultProps {
 }
 
 const b = block('table');
+
+const EMPTY_VALUES = [undefined, null, ''];
 
 export class Table<I extends TableDataItem = Record<string, string>> extends React.Component<
     TableProps<I>,
@@ -244,11 +243,11 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
         if (typeof template === 'function') {
             value = template(item, rowIndex);
         } else if (typeof template === 'string') {
-            value = _get(item, template);
-        } else if (_has(item, id)) {
-            value = _get(item, id);
+            value = get(item, template);
+        } else if (has(item, id)) {
+            value = get(item, id);
         }
-        if ([undefined, null, ''].includes(value as any) && placeholderValue) {
+        if (EMPTY_VALUES.includes(value as any) && placeholderValue) {
             return placeholderValue;
         }
 
@@ -483,6 +482,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
             edgePadding,
             wordWrap,
             getRowDescriptor,
+            qa,
         } = this.props;
         const {columnsStyles} = this.state;
 
@@ -521,6 +521,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                     {disabled, interactive, 'vertical-align': verticalAlign},
                     additionalClassNames.join(' '),
                 )}
+                data-qa={qa && `${qa}-row-${rowIndex}`}
             >
                 {columns.map((column, colIndex) => {
                     const {id, align: rawAlign, primary, className, sticky: rawSticky} = column;
@@ -557,7 +558,9 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
         return (
             <tr className={b('row', {empty: true})}>
                 <td className={b('cell')} colSpan={columns.length}>
-                    {emptyMessage ? emptyMessage : i18n('label_empty')}
+                    <i18n.Translation>
+                        {({t}) => (emptyMessage ? emptyMessage : t('label_empty'))}
+                    </i18n.Translation>
                 </td>
             </tr>
         );
@@ -620,7 +623,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                 ? 'insetInlineStart'
                 : 'insetInlineEnd';
         style[styleName] = filteredColumns.reduce<number>((start, width) => {
-            return _isNumber(width) ? start + width : start;
+            return typeof width === 'number' ? start + width : start;
         }, 0);
 
         return style;

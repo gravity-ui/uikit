@@ -9,6 +9,7 @@ import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/
 import {errorPropsMapper} from '../controls/utils';
 import {useMobile} from '../mobile';
 import type {CnMods} from '../utils/cn';
+import {filterDOMProps} from '../utils/filterDOMProps';
 
 import {
     EmptyOptions,
@@ -139,7 +140,9 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         filterOption,
     });
     const filteredOptions = getSelectFilteredOptions(options) as FlattenOption[];
-    const selectedOptionsContent = getSelectedOptionsContent(options, value, renderSelectedOption);
+    const selectedOptionsContent = React.useMemo(() => {
+        return getSelectedOptionsContent(options, value, renderSelectedOption);
+    }, [options, value, renderSelectedOption]);
     const virtualized = filteredOptions.length >= virtualizationThreshold;
 
     const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
@@ -197,6 +200,9 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             if ([KeyCode.ARROW_DOWN, KeyCode.ARROW_UP].includes(e.key) && !open) {
                 e.preventDefault();
                 toggleOpen();
+            }
+            if (e.key === KeyCode.ESCAPE && open) {
+                toggleOpen(false);
             }
 
             listRef?.current?.onKeyDown(e);
@@ -316,6 +322,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             tabIndex={-1}
         >
             <SelectControl
+                {...filterDOMProps(props, {labelable: true})}
                 toggleOpen={toggleOpen}
                 hasClear={hasClear}
                 clearValue={handleClearValue}

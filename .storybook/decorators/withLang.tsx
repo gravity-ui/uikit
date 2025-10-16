@@ -1,4 +1,4 @@
-import type {Decorator} from '@storybook/react';
+import type {Decorator} from '@storybook/react-webpack5';
 
 import {configure} from '../../src';
 
@@ -7,5 +7,5 @@ export const WithLang: Decorator = (Story, context) => {
 
     configure({lang});
 
-    return <Story key={lang} {...context} />;
+    return <Story {...context} />;
 };

@@ -2,11 +2,12 @@
 
 $block: '.#{variables.$ns}modal';
 $modal-default-border-radius: 5px;
+$modal-transition-duration: 150ms;
+$modal-height-transition: height 350ms ease-in-out;
+$modal-opacity-transition: opacity $modal-transition-duration ease-out;
+$modal-transform-transition: transform $modal-transition-duration ease-out;
 
 #{$block} {
-    display: block;
-    visibility: visible;
-    margin: 0;
     position: fixed;
     inset: 0;
     z-index: 1000;
@@ -16,16 +17,6 @@ $modal-default-border-radius: 5px;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-
-    transition-property: opacity;
-    transition-timing-function: ease-out;
-    transition-duration: 150ms;
-
-    &[data-floating-ui-status='unmounted'] {
-        display: none;
-        visibility: hidden;
-        margin: -9999px 0 0 -9999px;
-    }
 
     &__content-aligner {
         min-width: 100%;
@@ -38,36 +29,57 @@ $modal-default-border-radius: 5px;
 
     &__content-wrapper {
         margin: var(--g-modal-margin, #{variables.$modal-default-margin});
-        border-radius: var(--g-modal-border-radius, #{$modal-default-border-radius});
-        overflow-x: hidden;
     }
 
     &__content {
+        height: var(--g-modal-height, auto);
+        width: var(--g-modal-width, auto);
+
         background-color: var(--g-color-base-modal);
         border-radius: var(--g-modal-border-radius, #{$modal-default-border-radius});
+        clip-path: inset(0 round var(--g-modal-border-radius, #{$modal-default-border-radius}));
         outline: none;
 
-        transition-property: transform;
-        transition-timing-function: ease-out;
-        transition-duration: 150ms;
+        transition: $modal-height-transition;
 
         &_has-scroll {
-            overflow-y: auto;
+            overflow: auto;
+            max-width: calc(
+                100vw - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2)
+            );
             max-height: calc(
                 100vh - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2)
             );
         }
     }
 
+    &[data-floating-ui-status='unmounted'] {
+        display: none;
+        visibility: hidden;
+        margin: -9999px 0 0 -9999px;
+    }
+
+    &[data-floating-ui-status='open'],
+    &[data-floating-ui-status='close'] {
+        transition: $modal-opacity-transition;
+    }
+
     &[data-floating-ui-status='initial'],
     &[data-floating-ui-status='close'] {
         opacity: 0;
     }
-    &[data-floating-ui-status='open'] {
-        opacity: 1;
-    }
 
     &[data-floating-ui-status='initial'] #{$block}__content {
         transform: scale(0.75);
+    }
+    &[data-floating-ui-status='open'] #{$block}__content,
+    &[data-floating-ui-status='close'] #{$block}__content {
+        transition: $modal-height-transition, $modal-transform-transition;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        &[data-floating-ui-status] #{$block}__content {
+            transition: none;
+        }
     }
 }

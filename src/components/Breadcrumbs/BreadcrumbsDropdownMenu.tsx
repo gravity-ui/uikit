@@ -76,14 +76,15 @@ export function BreadcrumbsDropdownMenu({
     const interactions = [click, dismiss, listNavigation, role];
     const {getReferenceProps, getItemProps} = useInteractions(interactions);
 
+    const {t} = i18n.useTranslation();
+
     return (
         <div className={b('menu')}>
             <Button
                 ref={setReference}
                 {...getReferenceProps()}
-                title={i18n('label_more')}
-                aria-label={i18n('label_more')}
-                className={b('more-button')}
+                title={t('label_more')}
+                aria-label={t('label_more')}
                 size="s"
                 view="flat"
                 disabled={disabled}

@@ -1,27 +1,47 @@
-import type {Meta, StoryFn} from '@storybook/react';
+import * as React from 'react';
 
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
+
+import {Showcase} from '../../../demo/Showcase';
+import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {Spin} from '../Spin';
-import type {SpinProps} from '../Spin';
 
 export default {
     title: 'Components/Feedback/Spin',
     component: Spin,
 } as Meta;
 
-const DefaultTemplate: StoryFn<SpinProps> = (args) => <Spin {...args} />;
-export const Default = DefaultTemplate.bind({});
+type Story = StoryObj<typeof Spin>;
 
-const SizeTemplate: StoryFn<SpinProps> = (args) => (
-    <div>
-        xs: <Spin {...args} size="xs" />
-        <span style={{margin: '16px'}} />
-        s: <Spin {...args} size="s" />
-        <span style={{margin: '16px'}} />
-        m: <Spin {...args} size="m" />
-        <span style={{margin: '16px'}} />
-        l: <Spin {...args} size="l" />
-        <span style={{margin: '16px'}} />
-        xl: <Spin {...args} size="xl" />
-    </div>
-);
-export const Size = SizeTemplate.bind({});
+const defaultDecorators = [
+    (Story) => (
+        <Showcase>
+            <Story />
+        </Showcase>
+    ),
+] satisfies Story['decorators'];
+
+export const Default: Story = {};
+
+export const Size: Story = {
+    decorators: defaultDecorators,
+    render: (args) => (
+        <React.Fragment>
+            <ShowcaseItem title="Size xs">
+                <Spin {...args} size="xs" />
+            </ShowcaseItem>
+            <ShowcaseItem title="Size s">
+                <Spin {...args} size="s" />
+            </ShowcaseItem>
+            <ShowcaseItem title="Size m">
+                <Spin {...args} size="m" />
+            </ShowcaseItem>
+            <ShowcaseItem title="Size l">
+                <Spin {...args} size="l" />
+            </ShowcaseItem>
+            <ShowcaseItem title="Size xl">
+                <Spin {...args} size="xl" />
+            </ShowcaseItem>
+        </React.Fragment>
+    ),
+};

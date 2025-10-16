@@ -17,6 +17,7 @@ export type DisclosureArrowPosition = 'left' | 'right' | 'start' | 'end';
 
 export interface DisclosureComposition {
     Summary: typeof DisclosureSummary;
+    Details: typeof DisclosureDetails;
 }
 
 export interface DisclosureProps extends QAProps {
@@ -40,6 +41,8 @@ export interface DisclosureProps extends QAProps {
     keepMounted?: boolean;
     /** Callback fired when the expand/collapse state is changed  */
     onUpdate?: (expanded: boolean) => void;
+    /** Callback fires on keyboard events when summary is focused */
+    onSummaryKeyDown?: (e: React.KeyboardEvent<HTMLButtonElement>) => void;
 }
 
 const isDisclosureSummaryComponent = isOfType(DisclosureSummary);
@@ -57,11 +60,15 @@ export const Disclosure: React.FunctionComponent<DisclosureProps> & DisclosureCo
             keepMounted = true,
             children,
             onUpdate = () => {},
+            onSummaryKeyDown,
             expanded,
             qa,
         } = props;
 
-        const [summaryContent, detailsContent] = prepareChildren(children);
+        const [summaryContent, detailsContent] = prepareChildren(children, {
+            disclosureQa: qa,
+        });
+
         return (
             <DisclosureProvider
                 disabled={disabled}
@@ -72,6 +79,7 @@ export const Disclosure: React.FunctionComponent<DisclosureProps> & DisclosureCo
                 summary={summary}
                 arrowPosition={arrowPosition}
                 onUpdate={onUpdate}
+                onSummaryKeyDown={onSummaryKeyDown}
             >
                 <section ref={ref} className={b({size}, className)} data-qa={qa}>
                     {summaryContent}
@@ -81,7 +89,11 @@ export const Disclosure: React.FunctionComponent<DisclosureProps> & DisclosureCo
         );
     });
 
-function prepareChildren(children: React.ReactNode) {
+interface PrepareParams {
+    disclosureQa?: string;
+}
+
+function prepareChildren(children: React.ReactNode, {disclosureQa}: PrepareParams) {
     const items = React.Children.toArray(children);
 
     let summary, details;
@@ -100,11 +112,15 @@ function prepareChildren(children: React.ReactNode) {
         content.push(item);
     }
     if (content.length > 0) {
-        details = <DisclosureDetails>{content}</DisclosureDetails>;
+        details = (
+            <DisclosureDetails qa={disclosureQa && `${disclosureQa}-details`}>
+                {content}
+            </DisclosureDetails>
+        );
     }
     if (!summary) {
         summary = (
-            <DisclosureSummary>
+            <DisclosureSummary qa={disclosureQa && `${disclosureQa}-summary`}>
                 {(props) => <DefaultDisclosureSummary {...props} />}
             </DisclosureSummary>
         );
@@ -114,4 +130,5 @@ function prepareChildren(children: React.ReactNode) {
 }
 
 Disclosure.Summary = DisclosureSummary;
+Disclosure.Details = DisclosureDetails;
 Disclosure.displayName = 'Disclosure';

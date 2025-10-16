@@ -1,20 +1,15 @@
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
-import {Container} from '../..';
 import {Button} from '../../../Button/Button';
-import {Text} from '../../../Text';
-import {Col} from '../../Col/Col';
-import {Row} from '../../Row/Row';
 import {Box, LayoutPresenter} from '../../demo';
 import {Flex} from '../Flex';
-import type {FlexProps} from '../Flex';
 
-export default {
+const meta = {
     title: 'Components/Layout/Flex',
     component: Flex,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {
@@ -25,121 +20,115 @@ export default {
             },
         },
     },
-} as Meta;
+} satisfies Meta<typeof Flex>;
+export default meta;
 
-const DefaultTemplate: StoryFn<FlexProps<'div'>> = (args) => (
-    <LayoutPresenter title="Change screen size to 's' to see result">
-        <Row space="1">
-            <Col>
-                <Flex direction={{s: 'column', m: 'row'}} space={{s: '1', m: '4'}} {...args}>
-                    <Box w={50} h={50}>
-                        Box 1
-                    </Box>
+type Story = StoryObj<typeof meta>;
 
-                    <Box w={100} h={70}>
-                        Box 2
-                    </Box>
-                    <Box w={200} h={150}>
-                        Box 3
-                    </Box>
-                    <Box w={100} h={40}>
-                        Box 4
-                    </Box>
-                </Flex>
-            </Col>
-        </Row>
-    </LayoutPresenter>
-);
+const defaultDecorators = [
+    (Story) => (
+        <LayoutPresenter title="Change screen size to 's' to see result">
+            <Story />
+        </LayoutPresenter>
+    ),
+] satisfies Story['decorators'];
 
-export const Default = DefaultTemplate.bind({});
-Default.args = {
-    alignItems: 'center',
-    justifyContent: 'center',
-};
+export const Default = {
+    render: (args) => (
+        <Flex {...args}>
+            <Box w={50} h={50}>
+                50x50
+            </Box>
 
-const FlexGapTemplate: StoryFn<FlexProps<'div'>> = (args) => (
-    <LayoutPresenter title="Change screen size to 's' to see result">
-        <Container>
-            <Row space="5">
-                <Col>
-                    <Flex {...args} wrap="wrap">
-                        {new Array(20).fill('_').map((_, i) => (
-                            <Box w={100} h={50} key={i}>
-                                <Text color="secondary">Fixed size 100x50</Text>
-                            </Box>
-                        ))}
-                    </Flex>
-                </Col>
-            </Row>
-        </Container>
-    </LayoutPresenter>
-);
+            <Box w={100} h={70}>
+                100x70
+            </Box>
+            <Box w={200} h={150}>
+                200x150
+            </Box>
+            <Box w={100} h={40}>
+                100x40
+            </Box>
+        </Flex>
+    ),
+    decorators: defaultDecorators,
+    args: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        direction: {xs: 'column', m: 'row'},
+        gap: {xs: 1, m: 4},
+    },
+} satisfies Story;
 
-export const FlexGap = FlexGapTemplate.bind({});
-FlexGap.args = {
-    gap: {s: '1', m: '6'},
-};
+export const FlexGap = {
+    render: (args) => (
+        <Flex {...args}>
+            {new Array(20).fill('_').map((_, i) => (
+                <Box w={100} h={50} key={i}>
+                    100x50
+                </Box>
+            ))}
+        </Flex>
+    ),
+    decorators: defaultDecorators,
+    args: {
+        wrap: 'wrap',
+        gap: {xs: 1, m: 6},
+    },
+} satisfies Story;
 
-const GapAndRowGapTemplate: StoryFn<FlexProps<'div'>> = (args) => (
-    <LayoutPresenter title="Change screen size to 's' to see result">
-        <Container>
-            <Row space="5">
-                <Col>
-                    <Flex {...args} wrap="wrap">
-                        {new Array(20).fill('_').map((_, i) => (
-                            <Box w={100} h={50} key={i}>
-                                <Text color="secondary">Fixed size 100x50</Text>
-                            </Box>
-                        ))}
-                    </Flex>
-                </Col>
-            </Row>
-        </Container>
-    </LayoutPresenter>
-);
+export const GapAndRowGap = {
+    render: (args) => (
+        <Flex {...args}>
+            {new Array(20).fill('_').map((_, i) => (
+                <Box w={100} h={50} key={i}>
+                    100x50
+                </Box>
+            ))}
+        </Flex>
+    ),
+    decorators: defaultDecorators,
+    args: {
+        wrap: 'wrap',
+        gap: {xs: 1, m: 6},
+        gapRow: {xs: 6, m: 1},
+    },
+} satisfies Story;
 
-export const GapAndRowGap = GapAndRowGapTemplate.bind({});
-GapAndRowGap.args = {
-    gap: {s: '1', m: '6'},
-    gapRow: {s: '6', m: '1'},
-};
+export const ChildrenWithBgColor = {
+    render: (args) => (
+        <Flex {...args}>
+            <Button>Some element with background</Button>
+            <Button>Some element with background</Button>
+        </Flex>
+    ),
+    decorators: defaultDecorators,
+    args: {
+        wrap: 'wrap',
+        gap: 5,
+    },
+} satisfies Story;
 
-const ChildrenWithBgColorTemplate: StoryFn<FlexProps<'div'>> = (args) => (
-    <LayoutPresenter title="Change screen size to 's' to see result">
-        <Container>
-            <Row space="5">
-                <Col>
-                    <Flex {...args} space="5" wrap>
-                        <Button>Some element with background</Button>
-                        <Button>Some element with background</Button>
-                    </Flex>
-                </Col>
-            </Row>
-        </Container>
-    </LayoutPresenter>
-);
-
-export const ChildrenWithBgColor = ChildrenWithBgColorTemplate.bind({});
-ChildrenWithBgColor.args = {};
-
-const WithNullChildrenTemplate: StoryFn<FlexProps<'div'>> = (args) => (
-    <LayoutPresenter title="Null elements don't affect spacings">
-        <Container>
-            <Row space="5">
-                <Col>
-                    <Flex {...args} space={5} direction="column">
-                        <Box>Box</Box>
-                        {null}
-                        {null}
-                        <Box>Box</Box>
-                        {null}
-                        <Box>Box</Box>
-                    </Flex>
-                </Col>
-            </Row>
-        </Container>
-    </LayoutPresenter>
-);
-
-export const WithNullChildren = WithNullChildrenTemplate.bind({});
-WithNullChildren.args = {};
+export const WithNullChildren = {
+    render: (args) => (
+        <Flex {...args}>
+            <Box>Box</Box>
+            {null}
+            {null}
+            <Box>Box</Box>
+            {null}
+            <Box>Box</Box>
+        </Flex>
+    ),
+    decorators: [
+        (Story) => (
+            <LayoutPresenter title="Null elements don't affect spacings">
+                <Story />
+            </LayoutPresenter>
+        ),
+    ],
+    args: {
+        direction: 'column',
+        gap: 5,
+    },
+} satisfies Story;

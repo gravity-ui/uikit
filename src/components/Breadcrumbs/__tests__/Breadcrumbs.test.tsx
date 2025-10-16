@@ -41,7 +41,7 @@ it('handles multiple items', () => {
 it('should handle forward ref', function () {
     let ref: React.RefObject<any> | undefined;
     const Component = () => {
-        ref = React.useRef();
+        ref = React.useRef(null);
         return (
             <Breadcrumbs ref={ref} aria-label="breadcrumbs-test">
                 <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
@@ -108,7 +108,7 @@ it('shows less than 4 items if they do not fit', () => {
     jest.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockImplementation(function (
         this: Element,
     ) {
-        if (this instanceof HTMLUListElement) {
+        if (this instanceof HTMLOListElement) {
             return 300;
         }
 
@@ -134,11 +134,44 @@ it('shows less than 4 items if they do not fit', () => {
     expect(screen.getByText('Folder 5')).toBeTruthy();
 });
 
+it('shows other items if the last item is too long', () => {
+    jest.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockImplementation(function (
+        this: Element,
+    ) {
+        if (this instanceof HTMLOListElement) {
+            return 401;
+        }
+
+        if (this.getAttribute('class')?.includes('__item_current')) {
+            return 300;
+        }
+        return 100;
+    });
+
+    render(
+        <Breadcrumbs maxItems={4}>
+            <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 2</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 3</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 4</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 5</Breadcrumbs.Item>
+        </Breadcrumbs>,
+    );
+
+    const {children} = screen.getByRole('list');
+    expect(within(children[0] as HTMLElement).getByRole('button')).toBeTruthy();
+    expect(() => screen.getByText('Folder 1')).toThrow();
+    expect(() => screen.getByText('Folder 2')).toThrow();
+    expect(() => screen.getByText('Folder 3')).toThrow();
+    expect(screen.getByText('Folder 4')).toBeTruthy();
+    expect(screen.getByText('Folder 5')).toBeTruthy();
+});
+
 it('collapses root item if it does not fit', () => {
     jest.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockImplementation(function (
         this: Element,
     ) {
-        if (this instanceof HTMLUListElement) {
+        if (this instanceof HTMLOListElement) {
             return 300;
         }
 
@@ -250,7 +283,14 @@ it('should support custom item component', async () => {
         routerOptions: {foo: string};
     } & Omit<BreadcrumbsItemProps, 'href' | 'onClick'>) {
         return (
-            <BreadcrumbsItem {...rest} href={href} onClick={() => navigate(href, routerOptions)} />
+            <BreadcrumbsItem
+                {...rest}
+                href={href}
+                onClick={(e) => {
+                    e.preventDefault();
+                    navigate(href, routerOptions);
+                }}
+            />
         );
     }
     render(

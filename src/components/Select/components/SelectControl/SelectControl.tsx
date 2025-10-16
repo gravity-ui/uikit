@@ -3,12 +3,13 @@
 import * as React from 'react';
 
 import {ChevronDown, TriangleExclamation} from '@gravity-ui/icons';
-import isEmpty from 'lodash/isEmpty';
 
 import {useUniqId} from '../../../../hooks';
 import {Icon} from '../../../Icon';
 import {Popover} from '../../../legacy';
+import type {AriaLabelingProps} from '../../../types';
 import type {CnMods} from '../../../utils/cn';
+import {filterDOMProps} from '../../../utils/filterDOMProps';
 import {selectControlBlock, selectControlButtonBlock} from '../../constants';
 import i18n from '../../i18n';
 import type {
@@ -48,7 +49,7 @@ type ControlProps = {
     popupId: string;
     selectId: string;
     activeIndex?: number;
-};
+} & AriaLabelingProps;
 
 export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((props, ref) => {
     const {
@@ -79,7 +80,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
     } = props;
     const showOptionsText = Boolean(selectedOptionsContent);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
-    const hasValue = Array.isArray(value) && !isEmpty(value.filter(Boolean));
+    const hasValue = Array.isArray(value) && value.filter(Boolean).length > 0;
     const errorTooltipId = useUniqId();
 
     const [isDisabledButtonAnimation, setIsDisabledButtonAnimation] = React.useState(false);
@@ -157,6 +158,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
     };
 
     const triggerProps: SelectRenderTriggerProps = {
+        ...filterDOMProps(props, {labelable: true}),
         id: selectId,
         role: 'combobox',
         'aria-controls': open ? popupId : undefined,
@@ -168,6 +170,8 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         onKeyDown,
         disabled,
     };
+
+    const {t} = i18n.useTranslation();
 
     if (renderControl) {
         return renderControl(
@@ -212,8 +216,9 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                 {errorMessage && (
                     <Popover content={errorMessage} tooltipId={errorTooltipId}>
                         <button
-                            aria-label={i18n('label_show-error-info')}
+                            aria-label={t('label_show-error-info')}
                             aria-describedby={errorTooltipId}
+                            type={'button'}
                             className={selectControlBlock('error-icon')}
                         >
                             <Icon data={TriangleExclamation} size={size === 's' ? 12 : 16} />

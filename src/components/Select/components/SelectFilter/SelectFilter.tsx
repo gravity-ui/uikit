@@ -41,6 +41,8 @@ export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>
         [],
     );
 
+    const {t} = i18n.useTranslation();
+
     const inputProps: SelectFilterInputProps = {
         value,
         placeholder,
@@ -49,7 +51,7 @@ export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>
         onChange: (e) => {
             onChange(e.target.value);
         },
-        'aria-label': i18n('label_filter'),
+        'aria-label': t('label_filter'),
         'aria-controls': popupId,
         'aria-activedescendant':
             activeIndex === undefined ? undefined : `${popupId}-item-${activeIndex}`,

@@ -1,5 +1,5 @@
 import {Envelope, Gear, Rocket} from '@gravity-ui/icons';
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Showcase} from '../../../demo/Showcase';
 import {Icon} from '../Icon';
@@ -14,13 +14,16 @@ const meta: Meta<typeof Icon> = {
             options: Object.keys(icons),
             mapping: icons,
         },
+        style: {
+            control: 'object',
+        },
     },
     args: {
         data: 'Gear',
     },
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {
@@ -41,6 +44,10 @@ type Story = StoryObj<typeof Icon>;
 export const Default: Story = {};
 
 export const Size: Story = {
+    args: {
+        style: {},
+    },
+
     render: (args) => (
         <Showcase>
             <Icon {...args} size={16} />

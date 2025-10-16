@@ -1,6 +1,6 @@
 import type {DOMProps, QAProps} from '../types';
 
-export type Size = 'm' | 'l';
+export type Size = 's' | 'm' | 'l' | 'xl';
 
 export type Props = React.PropsWithChildren<{
     labelClassName?: string;

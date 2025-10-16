@@ -162,6 +162,24 @@ LANDING_BLOCK-->
 
 LANDING_BLOCK-->
 
+### Форма
+
+Форму `Avatar` можно настроить с помощью свойства `shape`. Форма по умолчанию — `circle`. Возможные значения: `circle` и `square`.
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Avatar text="Charles Darwin" theme="brand" shape="circle" />
+<Avatar text="Charles Darwin" theme="brand" shape="square" />
+`}
+>
+    <UIKit.Avatar text="Charles Darwin" theme="brand" shape="circle" />
+    <UIKit.Avatar text="Charles Darwin" theme="brand" shape="square" />
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
 ## Свойства
 
 ### Общие
@@ -171,6 +189,7 @@ LANDING_BLOCK-->
 | size            | Размер аватара.                                        | `'xs'` `'s'` `'m'` `'l'` `'xl'` |          `m`          |
 | theme           | Тема аватара.                                          |      `'normal'` `'brand'`       |       `normal`        |
 | view            | Варианты заполнения и обводки аватара.                 |     `'filled'` `'outlined'`     |       `filled`        |
+| shape           | Форма аватара.                                         |      `'circle'` `'square'`      |       `circle`        |
 | backgroundColor | Пользовательский цвет фона.                            |            `string`             |                       |
 | borderColor     | Пользовательский цвет границы.                         |            `string`             |                       |
 | title           | HTML-атрибут `title`.                                  |            `string`             |                       |
@@ -182,14 +201,15 @@ LANDING_BLOCK-->
 
 ### Свойства изображений
 
-| Имя            | Описание                                             |        Тип         | Значение по умолчанию |
-| :------------- | :--------------------------------------------------- | :----------------: | :-------------------: |
-| imgUrl         | HTML-атрибут `src` для `img`.                        |      `string`      |                       |
-| fallbackImgUrl | Резервное изображение, отображаемое в случае ошибки. |      `string`      |                       |
-| sizes          | HTML-атрибут `sizes` для `img`.                      |      `string`      |                       |
-| srcSet         | HTML-атрибут `srcSet` для `img`.                     |      `string`      |                       |
-| alt            | HTML-атрибут `alt` для `img`.                        |      `string`      |      props.title      |
-| loading        | HTML-атрибут `loading` для `img`.                    | `'eager'` `'lazy'` |                       |
+| Имя             | Описание                                             |        Тип         | Значение по умолчанию |
+| :-------------- | :--------------------------------------------------- | :----------------: | :-------------------: |
+| imgUrl          | HTML-атрибут `src` для `img`.                        |      `string`      |                       |
+| fallbackImgUrl  | Резервное изображение, отображаемое в случае ошибки. |      `string`      |                       |
+| sizes           | HTML-атрибут `sizes` для `img`.                      |      `string`      |                       |
+| srcSet          | HTML-атрибут `srcSet` для `img`.                     |      `string`      |                       |
+| alt             | HTML-атрибут `alt` для `img`.                        |      `string`      |      props.title      |
+| loading         | HTML-атрибут `loading` для `img`.                    | `'eager'` `'lazy'` |                       |
+| withImageBorder | Добавляет обводку по умолчанию для изображения       |     `boolean`      |                       |
 
 ### Свойства иконки
 

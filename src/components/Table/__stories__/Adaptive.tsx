@@ -1,19 +1,19 @@
-import type {StoryFn} from '@storybook/react';
-import _cloneDeep from 'lodash/cloneDeep';
+import type {StoryFn} from '@storybook/react-webpack5';
+import cloneDeep from 'lodash/cloneDeep';
 
 import {Table} from '../Table';
 import type {TableProps} from '../Table';
 
 import {columns as defaultColumns} from './utils';
 
-const oneColumn = _cloneDeep(defaultColumns);
+const oneColumn = cloneDeep(defaultColumns);
 oneColumn[1].width = '100%';
 
-const twoColumns = _cloneDeep(defaultColumns);
+const twoColumns = cloneDeep(defaultColumns);
 twoColumns[1].width = '50%';
 twoColumns[2].width = '50%';
 
-const threeColumns = _cloneDeep(defaultColumns);
+const threeColumns = cloneDeep(defaultColumns);
 threeColumns[0].width = '33%';
 threeColumns[1].width = '33%';
 threeColumns[2].width = '33%';

@@ -281,3 +281,23 @@ LANDING_BLOCK-->
 | type             | Тип лейбла.                                            | `"default"` `"copy"` `"close"` `"info"` |      `"default"`      |
 | value            | Значение лейбла (в виде `"children : value"`).         |            `React.ReactNode`            |                       |
 | width            | Задает ширину лейбла.                                  |                `"auto"`                 |                       |
+
+## CSS API
+
+| Название                           | Описание                  |
+| :--------------------------------- | :------------------------ |
+| `--g-label-text-color`             | Цвет текста               |
+| `--g-label-background-color`       | Цвет фона                 |
+| `--g-label-background-color-hover` | Цвет фона при наведении   |
+| `--g-label-border-width`           | Ширина бордера            |
+| `--g-label-border-color`           | Цвет бордера              |
+| `--g-label-focus-outline-width`    | Ширина обводки при фокусе |
+| `--g-label-focus-outline-color`    | Цвет обводки при фокусе   |
+| `--g-label-focus-outline-style`    | Стиль обводки при фокусе  |
+| `--g-label-focus-outline-offset`   | Отступ обводки при фокусе |
+| `--g-label-height`                 | Высота, line-height       |
+| `--g-label-border-radius`          | Радиус скругления бордера |
+| `--g-label-font-size`              | Размер шрифта текста      |
+| `--g-label-margin-inline`          | Отступ по горизонтали     |
+| `--g-label-addon-margin-start`     | Отступ начала дополнения  |
+| `--g-label-addon-margin-end`       | Отступ конца дополнения   |

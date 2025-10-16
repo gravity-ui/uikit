@@ -143,7 +143,7 @@ $transition-timing-function: ease-in-out;
         &_xs {
             --_--height: 20px;
             --_--border-radius: var(--g-border-radius-xs);
-            --_--padding-inline: 8px;
+            --_--margin-inline: 8px;
             --_--margin-addon-start: 24px;
             --_--margin-addon-end: 22px;
         }
@@ -151,7 +151,7 @@ $transition-timing-function: ease-in-out;
         &_s {
             --_--height: 24px;
             --_--border-radius: var(--g-border-radius-s);
-            --_--padding-inline: 10px;
+            --_--margin-inline: 10px;
             --_--margin-addon-start: 28px;
             --_--margin-addon-end: 26px;
         }
@@ -159,7 +159,7 @@ $transition-timing-function: ease-in-out;
         &_m {
             --_--height: 28px;
             --_--border-radius: var(--g-border-radius-m);
-            --_--padding-inline: 12px;
+            --_--margin-inline: 12px;
             --_--margin-addon-start: 32px;
             --_--margin-addon-end: 32px;
         }

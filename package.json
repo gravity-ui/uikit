@@ -180,7 +180,7 @@
     "axe-playwright": "^2.2.2",
     "chroma-js": "^3.1.2",
     "cross-env": "^7.0.3",
-    "eslint": "^9.37.0",
+    "eslint": "^9.38.0",
     "eslint-plugin-storybook": "^9.0.5",
     "eslint-plugin-testing-library": "^7.13.3",
     "globals": "^16.4.0",

@@ -46,7 +46,10 @@ $transition-timing-function: ease-in-out;
             z-index: -1;
             inset: 0;
             content: '';
-            background-color: var(--_--gradient-bg-color, var(--_--bg-color));
+            background-color: var(
+                --g-label-background-color,
+                var(--_--gradient-bg-color, var(--_--bg-color))
+            );
             mask-image: linear-gradient(
                 var(--_--gradient-deg),
                 var(--_--gradient-mask-begin-color),
@@ -244,7 +247,7 @@ $transition-timing-function: ease-in-out;
             :has(#{$block}__addon_type_button:not(#{$block}__addon_action_copy):hover)
         ),
     &__addon_type_button:not(#{$block}__addon_action_copy):hover {
-        background-color: var(--_--bg-color-hover);
+        background-color: var(--g-label-background-color-hover, --_--bg-color-hover);
     }
 
     // focus styles

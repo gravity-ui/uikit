@@ -60,7 +60,7 @@ function renderActions({actions, onClose}: RenderActionsProps) {
                   </Button>
               );
           })
-        : actions();
+        : actions?.();
 
     if (!actions || !actions.length || !component) {
         return null;

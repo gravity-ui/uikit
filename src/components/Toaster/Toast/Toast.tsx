@@ -55,7 +55,6 @@ function renderActions({actions, onClose}: RenderActionsProps) {
                 return (
                     <Button
                         key={`${label}__${index}`}
-                        className={b('action')}
                         onClick={onActionClick}
                         type="button"
                         size="l"

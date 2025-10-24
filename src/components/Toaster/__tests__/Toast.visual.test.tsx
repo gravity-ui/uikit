@@ -11,9 +11,15 @@ const wrapperOptions = {
     width: 312,
 };
 
-function getToastActions(contrastButton = true): ToastAction[] {
+function getToastActions({
+    contrastButton = true,
+    firstLabel = 'Action',
+}: {
+    contrastButton?: boolean;
+    firstLabel?: string;
+} = {}): ToastAction[] {
     return [
-        {onClick() {}, label: 'Action', view: contrastButton ? 'normal-contrast' : 'normal'},
+        {onClick() {}, label: firstLabel, view: contrastButton ? 'normal-contrast' : 'normal'},
         {onClick() {}, label: 'Something More', view: 'outlined'},
     ];
 }
@@ -32,7 +38,7 @@ test.describe('Toast', {tag: '@Toaster'}, () => {
         await mount(
             <ToastStories.ToastPlayground
                 {...simpleToastProps}
-                actions={getToastActions(false)}
+                actions={getToastActions({contrastButton: false})}
                 theme="normal"
             />,
             wrapperOptions,
@@ -87,9 +93,9 @@ test.describe('Toast', {tag: '@Toaster'}, () => {
     });
 
     test('actions wrap', async ({mount, expectScreenshot}) => {
-        const actions = getToastActions();
-
-        actions[0].label = 'Really long button text that cause buttons to wrap';
+        const actions = getToastActions({
+            firstLabel: 'Really long button text that cause buttons to wrap',
+        });
 
         await mount(
             <ToastStories.ToastPlayground

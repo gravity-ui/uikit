@@ -38,7 +38,7 @@ interface RenderActionsProps {
 }
 
 function renderActions({actions, onClose}: RenderActionsProps) {
-    let component: React.ReactElement | React.ReactElement[];
+    let component: React.ReactElement | React.ReactElement[] | undefined;
 
     if (Array.isArray(actions)) {
         component = actions.map(

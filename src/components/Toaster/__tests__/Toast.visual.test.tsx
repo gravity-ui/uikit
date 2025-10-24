@@ -3,6 +3,7 @@ import type * as React from 'react';
 import {test} from '~playwright/core';
 
 import type {Toast} from '../Toast/Toast';
+import type {ToastAction} from '../types';
 
 import {ToastStories} from './helpersPlaywright';
 
@@ -10,9 +11,7 @@ const wrapperOptions = {
     width: 312,
 };
 
-function getToastActions(
-    contrastButton = true,
-): Required<React.ComponentProps<typeof Toast>>['actions'] {
+function getToastActions(contrastButton = true): ToastAction[] {
     return [
         {onClick() {}, label: 'Action', view: contrastButton ? 'normal-contrast' : 'normal'},
         {onClick() {}, label: 'Something More', view: 'outlined'},

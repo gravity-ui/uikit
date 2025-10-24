@@ -33,7 +33,7 @@ interface ToastInnerProps {
 interface ToastUnitedProps extends InternalToastProps, ToastInnerProps {}
 
 interface RenderActionsProps {
-    actions?: ToastAction[];
+    actions?: (() => React.ReactElement) | ToastAction[];
     onClose: VoidFunction;
 }
 
@@ -42,31 +42,31 @@ function renderActions({actions, onClose}: RenderActionsProps) {
         return null;
     }
 
-    return (
-        <div className={b('actions')}>
-            {actions.map(({label, onClick, view = 'outlined', removeAfterClick = true}, index) => {
-                const onActionClick = () => {
-                    onClick();
-                    if (removeAfterClick) {
-                        onClose();
-                    }
-                };
+    const component = Array.isArray(actions)
+        ? actions.map(({label, onClick, view = 'outlined', removeAfterClick = true}, index) => {
+              const onActionClick = () => {
+                  onClick();
+                  if (removeAfterClick) {
+                      onClose();
+                  }
+              };
 
-                return (
-                    <Button
-                        key={`${label}__${index}`}
-                        onClick={onActionClick}
-                        type="button"
-                        size="l"
-                        view={view}
-                        width="auto"
-                    >
-                        {label}
-                    </Button>
-                );
-            })}
-        </div>
-    );
+              return (
+                  <Button
+                      key={`${label}__${index}`}
+                      onClick={onActionClick}
+                      type="button"
+                      size="l"
+                      view={view}
+                      width="auto"
+                  >
+                      {label}
+                  </Button>
+              );
+          })
+        : actions();
+
+    return <div className={b('actions')}>{component}</div>;
 }
 
 interface RenderIconProps {

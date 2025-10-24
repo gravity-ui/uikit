@@ -38,32 +38,42 @@ interface RenderActionsProps {
 }
 
 function renderActions({actions, onClose}: RenderActionsProps) {
-    const component = Array.isArray(actions)
-        ? actions.map(({label, onClick, view = 'outlined', removeAfterClick = true}, index) => {
-              const onActionClick = () => {
-                  onClick();
-                  if (removeAfterClick) {
-                      onClose();
-                  }
-              };
+    let component: React.ReactElement | React.ReactElement[];
 
-              return (
-                  <Button
-                      key={`${label}__${index}`}
-                      onClick={onActionClick}
-                      type="button"
-                      size="l"
-                      view={view}
-                      width="auto"
-                  >
-                      {label}
-                  </Button>
-              );
-          })
-        : actions?.();
+    if (Array.isArray(actions)) {
+        component = actions.map(
+            ({label, onClick, view = 'outlined', removeAfterClick = true}, index) => {
+                const onActionClick = () => {
+                    onClick();
+                    if (removeAfterClick) {
+                        onClose();
+                    }
+                };
 
-    if (!actions || !actions.length || !component) {
-        return null;
+                return (
+                    <Button
+                        key={`${label}__${index}`}
+                        onClick={onActionClick}
+                        type="button"
+                        size="l"
+                        view={view}
+                        width="auto"
+                    >
+                        {label}
+                    </Button>
+                );
+            },
+        );
+
+        if (!actions.length) {
+            return null;
+        }
+    } else {
+        component = actions?.();
+
+        if (!component) {
+            return null;
+        }
     }
 
     return <div className={b('actions')}>{component}</div>;

@@ -38,10 +38,6 @@ interface RenderActionsProps {
 }
 
 function renderActions({actions, onClose}: RenderActionsProps) {
-    if (!actions || !actions.length) {
-        return null;
-    }
-
     const component = Array.isArray(actions)
         ? actions.map(({label, onClick, view = 'outlined', removeAfterClick = true}, index) => {
               const onActionClick = () => {
@@ -65,6 +61,10 @@ function renderActions({actions, onClose}: RenderActionsProps) {
               );
           })
         : actions();
+
+    if (!actions || !actions.length || !component) {
+        return null;
+    }
 
     return <div className={b('actions')}>{component}</div>;
 }

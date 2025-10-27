@@ -4,7 +4,7 @@ import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-
 import type {RadioGroupOption, RadioGroupProps} from '../RadioGroup';
 import {RadioGroup} from '../RadioGroup';
 
-import {directionCases, sizeCases} from './cases';
+import {directionCases, sizeCases, validationStateCases} from './cases';
 
 test.describe('RadioGroup', {tag: '@RadioGroup'}, () => {
     const options: RadioGroupOption[] = [
@@ -21,6 +21,7 @@ test.describe('RadioGroup', {tag: '@RadioGroup'}, () => {
     smokeTest('', async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<RadioGroupProps>(defaultProps, {
             size: sizeCases,
+            validationState: validationStateCases,
             direction: directionCases,
         });
 

@@ -5,6 +5,4 @@ export const sizeCases: Array<CheckboxProps['size']> = ['m', 'l'];
 
 export const disabledCases: Cases<CheckboxProps['disabled']> = [true];
 
-export const checkedCases: Cases<CheckboxProps['checked']> = [true];
-
-export const indeterminateCases: Cases<CheckboxProps['indeterminate']> = [true];
+export const validationStateCases: Cases<CheckboxProps['validationState']> = ['invalid'];

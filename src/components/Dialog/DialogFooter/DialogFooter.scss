@@ -1,15 +1,13 @@
-@use '../../variables';
+@use '../variables';
 
-$block: '.#{variables.$ns}dialog-footer';
-
-#{$block} {
-    padding: 28px var(--_--side-padding);
+#{variables.$footerBlock} {
+    padding: 24px var(--_--side-padding) 28px;
     display: flex;
     align-items: center;
 
     &__bts-wrapper {
         display: flex;
-        gap: 10px;
+        gap: var(--g-spacing-2);
     }
 
     &__children {

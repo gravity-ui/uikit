@@ -1,4 +1,4 @@
-type EventListener<T> = (data: T) => void;
+import type {EventListener} from './types';
 
 export class EventEmitter<T> {
     private listeners: EventListener<T>[];

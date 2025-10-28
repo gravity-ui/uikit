@@ -1,5 +1,6 @@
+import {EventEmitter} from '../../utils/EventEmitter/EventEmitter';
+
 import type {InternalToastProps, ToastProps} from './types';
-import {EventEmitter} from './utilities/EventEmitter';
 import {getToastIndex} from './utilities/getToastIndex';
 import {hasToast} from './utilities/hasToast';
 import {removeToast} from './utilities/removeToast';

@@ -1,2 +1,2 @@
 export {EventEmitter} from './EventEmitter';
-export type {EventListener} from './types';
+export type {EventListeners} from './types';

@@ -1,35 +1,35 @@
-import type {EventListener} from './types';
+import type {EventListeners} from './types';
 
-export class EventEmitter<T> {
-    private listeners: EventListener<T>[];
+export class EventEmitter<T extends Record<string, unknown[]>> {
+    private listeners: EventListeners<T>;
 
     constructor() {
-        this.listeners = [];
+        this.listeners = {};
     }
 
     destroy() {
-        this.listeners = [];
+        this.listeners = {};
     }
 
-    subscribe(listener: EventListener<T>) {
+    subscribe<Event extends keyof T>(event: Event, listener: (...args: T[Event]) => void) {
         if (typeof listener === 'function') {
-            this.listeners.push(listener);
+            this.listeners[event] = (this.listeners[event] || []).concat(listener);
         }
 
         return () => {
-            this.listeners = this.listeners.filter(
+            this.listeners[event] = this.listeners[event]?.filter(
                 (currentListener) => listener !== currentListener,
             );
         };
     }
 
-    notify(data: T) {
-        if (this.listeners.length === 0) {
+    notify<Event extends keyof T>(event: Event, data: T[Event]) {
+        if (!this.listeners[event]?.length) {
             return false;
         }
 
-        for (const listener of this.listeners) {
-            listener(data);
+        for (const listener of this.listeners[event]) {
+            listener(...data);
         }
 
         return true;

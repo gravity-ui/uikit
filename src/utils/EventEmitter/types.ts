@@ -1,1 +1,3 @@
-export type EventListener<T> = (data: T) => void;
+export type EventListeners<T extends Record<string, unknown[]>> = {
+    [Event in keyof T]?: ((...args: T[Event]) => void)[];
+};

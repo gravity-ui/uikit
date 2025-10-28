@@ -9,7 +9,7 @@ import type {EventListeners} from './types';
  *   foobar: [string, number]
  * }>();
  *
- * emitter.notify('foobar', ['foo', 0]); // returns "false", because there is no listeners yet
+ * emitter.notify('foobar', ['foo', 0]); // returns "false", because there is no attached listeners yet
  *
  * const unsubscribe = emitter.subscribe('foobar', (a, b) => {
  *   console.log(a, b);

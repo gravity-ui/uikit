@@ -8,13 +8,13 @@ import {BreadcrumbsItem} from '../BreadcrumbsItem';
 import type {BreadcrumbsItemProps} from '../BreadcrumbsItem';
 
 beforeEach(() => {
-    jest.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockImplementation(function (
+    jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (
         this: Element,
     ) {
         if (this instanceof HTMLOListElement) {
-            return 500;
+            return {width: 499} as DOMRect;
         }
-        return 100;
+        return {width: 100} as DOMRect;
     });
 });
 
@@ -105,14 +105,14 @@ it('shows a maximum of 3 items with showRoot', () => {
 });
 
 it('shows less than 4 items if they do not fit', () => {
-    jest.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockImplementation(function (
+    jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (
         this: Element,
     ) {
         if (this instanceof HTMLOListElement) {
-            return 300;
+            return {width: 299} as DOMRect;
         }
 
-        return 100;
+        return {width: 100} as DOMRect;
     });
 
     render(
@@ -135,17 +135,17 @@ it('shows less than 4 items if they do not fit', () => {
 });
 
 it('shows other items if the last item is too long', () => {
-    jest.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockImplementation(function (
+    jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (
         this: Element,
     ) {
         if (this instanceof HTMLOListElement) {
-            return 401;
+            return {width: 401} as DOMRect;
         }
 
         if (this.getAttribute('class')?.includes('__item_current')) {
-            return 300;
+            return {width: 300} as DOMRect;
         }
-        return 100;
+        return {width: 100} as DOMRect;
     });
 
     render(
@@ -168,14 +168,14 @@ it('shows other items if the last item is too long', () => {
 });
 
 it('collapses root item if it does not fit', () => {
-    jest.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockImplementation(function (
+    jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (
         this: Element,
     ) {
         if (this instanceof HTMLOListElement) {
-            return 300;
+            return {width: 299} as DOMRect;
         }
 
-        return 100;
+        return {width: 100} as DOMRect;
     });
 
     render(

@@ -66,6 +66,11 @@ export function useAnimateHeight({
                 return;
             }
 
+            // Skip animation if height hasn't changed meaningfully (avoid heading margin collapsing issues)
+            if (previousHeight.current && Math.abs(contentHeight - previousHeight.current) < 1) {
+                return;
+            }
+
             // Avoid "ResizeObserver loop completed with undelivered notifications" error
             resizeInfo.observer?.unobserve(node);
 

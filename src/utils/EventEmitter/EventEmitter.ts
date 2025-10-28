@@ -1,5 +1,22 @@
 import type {EventListeners} from './types';
 
+/**
+ * Class for emitting events
+ * @example
+ * import {EventEmitter} from '@gravity-ui/uikit';
+ *
+ * const emitter = new EventEmitter<{
+ *   foobar: [string, number]
+ * }>();
+ *
+ * emitter.notify('foobar', ['foo', 0]); // returns "false", because there is no listeners yet
+ *
+ * const unsubscribe = emitter.subscribe('foobar', (a, b) => {
+ *   console.log(a, b);
+ * });
+ *
+ * emitter.notify('foobar', ['foo', 1]); // returns "true", because listener is appeared
+ */
 export class EventEmitter<T extends Record<string, unknown[]>> {
     private listeners: EventListeners<T>;
 

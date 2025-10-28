@@ -66,8 +66,8 @@ export function useAnimateHeight({
                 return;
             }
 
-            // Skip animation if height hasn't changed meaningfully (avoid heading margin collapsing issues)
-            if (previousHeight.current && Math.abs(contentHeight - previousHeight.current) < 1) {
+            // Skip animation if height hasn't changed (avoids heading margin collapsing issues)
+            if (previousHeight.current && contentHeight === previousHeight.current) {
                 return;
             }
 
@@ -114,8 +114,8 @@ function calculateNodeHeight(node: HTMLElement) {
         return node.clientHeight;
     }
 
-    const paddingTop = parseFloat(computedStyle.getPropertyValue('padding-top'));
-    const paddingBottom = parseFloat(computedStyle.getPropertyValue('padding-bottom'));
+    const paddingTop = parseInt(computedStyle.getPropertyValue('padding-top'), 10);
+    const paddingBottom = parseInt(computedStyle.getPropertyValue('padding-bottom'), 10);
 
     return node.clientHeight - paddingTop - paddingBottom;
 }

@@ -13,22 +13,41 @@ import {Modes} from './types';
 import {convertSelectedModeColorToHsva, getTextValueByMode} from './utils';
 
 export interface ColorPickerProps {
-    // Same size as in the `TextInput`
+    /*
+     * Picker size
+     */
     size?: 's' | 'm' | 'l' | 'xl';
-    // if controlled value
+    /*
+     * Color value for controlled state
+     */
     value?: string;
-    // if uncontrolled value
+    /*
+     * Default color value
+     */
     defaultValue?: string;
-    // onChange naming is reserved for native event handlers
+    /*
+     * Picker value update handler
+     */
     onUpdate?: (value: string) => void;
-    // if controlled open state
+    /*
+     * Open popup for controlled state
+     */
     open?: boolean;
-    // if uncontrolled open state
+    /*
+     * Open popup by default
+     */
     defaultOpen?: boolean;
+    /*
+     * Open popup handler
+     */
     onOpenChange?: (open: boolean) => void;
-    // it should be false by default (common case)
+    /*
+     * Flag of use of alpha channel
+     */
     withAlpha?: boolean;
-    // render only picker button without value
+    /*
+     * Render only picker button without value
+     */
     onlyPicker?: boolean;
 }
 
@@ -38,9 +57,9 @@ export const ColorPicker = ({
     defaultValue = DEFAULT_COLOR,
     onUpdate,
     open,
-    defaultOpen = false,
     onOpenChange,
-    withAlpha = true,
+    defaultOpen = false,
+    withAlpha = false,
     onlyPicker = false,
 }: ColorPickerProps) => {
     const [anchor, setAnchor] = React.useState<HTMLDivElement | null>(null);

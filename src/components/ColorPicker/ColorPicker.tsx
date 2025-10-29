@@ -3,6 +3,7 @@ import * as React from 'react';
 import type {HsvaColor} from '@uiw/react-color';
 import {Alpha, Hue, Saturation, hsvaToHex, hsvaToHexa} from '@uiw/react-color';
 
+import {usePrevious, useUpdateEffect} from '../../hooks/private';
 import {useControlledState} from '../../hooks/useControlledState';
 import {Popup} from '../Popup';
 import {Select} from '../Select';
@@ -26,7 +27,7 @@ export interface ColorPickerProps {
      */
     defaultValue?: string;
     /*
-     * Picker value update handler
+     * Called when user updates the color manually or via UI. Receives a HEX(A) string.
      */
     onUpdate?: (value: string) => void;
     /*
@@ -42,7 +43,7 @@ export interface ColorPickerProps {
      */
     onOpenChange?: (open: boolean) => void;
     /*
-     * Flag of use of alpha channel
+     *Enables alpha channel support for HEXA/RGBA mode and transparency slider.
      */
     withAlpha?: boolean;
     /*
@@ -65,13 +66,28 @@ export const ColorPicker = ({
     const [anchor, setAnchor] = React.useState<HTMLDivElement | null>(null);
     const [modeState, setModeState] = React.useState<Modes>(Modes.Hex);
 
-    const [hexValue, setHexValue] = useControlledState(value, defaultValue, onUpdate);
+    const isControlled = value !== undefined;
+    const initialHexValue = value ?? defaultValue;
+
+    const [hsva, setHsva] = React.useState<HsvaColor>(() =>
+        convertSelectedModeColorToHsva(initialHexValue, Modes.Hex, withAlpha),
+    );
+
+    const prevValue = usePrevious(value);
+    const isInternalUpdateRef = React.useRef(false);
+
+    useUpdateEffect(() => {
+        if (isInternalUpdateRef.current) {
+            isInternalUpdateRef.current = false;
+            return;
+        }
+
+        if (isControlled && value && value !== prevValue) {
+            setHsva(convertSelectedModeColorToHsva(value, Modes.Hex, withAlpha));
+        }
+    }, [value]);
 
     const [isOpen, setIsOpen] = useControlledState(open, defaultOpen, onOpenChange);
-
-    const hsva = React.useMemo(() => {
-        return convertSelectedModeColorToHsva(hexValue, Modes.Hex, withAlpha);
-    }, [hexValue, withAlpha]);
 
     const [inputValue, setInputValue] = React.useState(() =>
         getTextValueByMode(hsva, modeState, withAlpha),
@@ -84,10 +100,15 @@ export const ColorPicker = ({
     const updateHsva = React.useCallback(
         (updates: Partial<HsvaColor>) => {
             const newHsva = {...hsva, ...updates};
-            const newHexValue = withAlpha ? hsvaToHexa(newHsva) : hsvaToHex(newHsva);
-            setHexValue(newHexValue);
+            setHsva(newHsva);
+
+            if (onUpdate) {
+                const newHexValue = withAlpha ? hsvaToHexa(newHsva) : hsvaToHex(newHsva);
+                isInternalUpdateRef.current = true;
+                onUpdate(newHexValue);
+            }
         },
-        [hsva, withAlpha, setHexValue],
+        [hsva, withAlpha, onUpdate],
     );
 
     const handleModeChange = (newMode: Modes) => {
@@ -100,9 +121,14 @@ export const ColorPicker = ({
 
     const applyInputValue = React.useCallback(() => {
         const newHsva = convertSelectedModeColorToHsva(inputValue, modeState, withAlpha);
-        const newHexValue = withAlpha ? hsvaToHexa(newHsva) : hsvaToHex(newHsva);
-        setHexValue(newHexValue);
-    }, [modeState, inputValue, withAlpha, setHexValue]);
+        setHsva(newHsva);
+
+        if (onUpdate) {
+            const newHexValue = withAlpha ? hsvaToHexa(newHsva) : hsvaToHex(newHsva);
+            isInternalUpdateRef.current = true;
+            onUpdate(newHexValue);
+        }
+    }, [modeState, inputValue, withAlpha, onUpdate]);
 
     return (
         <React.Fragment>

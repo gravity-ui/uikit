@@ -15,13 +15,10 @@ type Story = StoryObj<typeof ColorPicker>;
 
 export const Default: Story = {
     render: function ColorPickerStory(props) {
+        const [value, setValue] = React.useState('#eeeeee');
         return (
             <div style={{padding: 20}}>
-                <ColorPicker
-                    {...props}
-                    defaultValue="#ffbe5c"
-                    onUpdate={(color) => console.log('Color changed:', color)}
-                />
+                <ColorPicker {...props} value={value} defaultValue="#ffbe5c" onUpdate={setValue} />
             </div>
         );
     },

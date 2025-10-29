@@ -149,11 +149,7 @@ $block: '.#{variables.$ns}color-picker';
     }
 
     &__hex-input {
-        width: 200px;
-
-        &_withAlpha {
-            width: 150px;
-        }
+        width: 150px;
     }
 
     &__saturation {

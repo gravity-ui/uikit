@@ -1,5 +1,19 @@
 # Changelog
 
+## [7.25.0](https://github.com/gravity-ui/uikit/compare/v7.24.0...v7.25.0) (2025-10-29)
+
+
+### Features
+
+* **Toaster:** add support for rendering user component in actions ([#2462](https://github.com/gravity-ui/uikit/issues/2462)) ([94ad2d0](https://github.com/gravity-ui/uikit/commit/94ad2d069424ec9c3af6e45a6efe9fc4065fca68))
+
+
+### Bug Fixes
+
+* **Dialog:** fix broken animation with header tags ([#2465](https://github.com/gravity-ui/uikit/issues/2465)) ([3c9ed9b](https://github.com/gravity-ui/uikit/commit/3c9ed9b8a6c6b8ad334edf4a77c34d6239545870))
+* replace usages of `React.useId` with `useUniqId` ([#2472](https://github.com/gravity-ui/uikit/issues/2472)) ([fbeef03](https://github.com/gravity-ui/uikit/commit/fbeef035dbfa7ef820568ca187e794c0bec89ee8))
+* **TabList:** respect event default prevention ([#2463](https://github.com/gravity-ui/uikit/issues/2463)) ([3237f1f](https://github.com/gravity-ui/uikit/commit/3237f1f285a7f6cabca4c72020645ef0ddf81e3f))
+
 ## [7.24.0](https://github.com/gravity-ui/uikit/compare/v7.23.0...v7.24.0) (2025-10-14)
 
 

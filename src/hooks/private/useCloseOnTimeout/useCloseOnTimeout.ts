@@ -13,11 +13,9 @@ export interface UseCloseOnTimeoutResult {
 
 /**
  * Invokes callback after given amount of time unless mouse is on the element
- *
  * @param onClose
  * @param timeout
- *
- * @return mouse event handlers
+ * @returns mouse event handlers
  */
 export function useCloseOnTimeout<T = Element>({onClose, timeout}: UseCloseOnTimeoutProps) {
     const [onMouseOver, onMouseLeave, isHovering] = useHover<T>();

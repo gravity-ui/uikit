@@ -21,18 +21,44 @@ $block: '.#{variables.$ns}color-picker';
         box-sizing: border-box;
 
         /* Color swatch specific styles */
-        min-width: 20px;
-        height: 20px;
+        min-width: var(--g-button-height, var(--_--height));
+        height: var(--g-button-height, var(--_--height));
         border-radius: var(--g-border-radius-s);
         cursor: pointer;
         position: relative;
         overflow: hidden;
         border: none;
 
-        /* Proper checkerboard pattern */
+        /* Checkerboard pattern */
         background: conic-gradient(#ccc 25%, #fff 25% 50%, #ccc 50% 75%, #fff 75%);
         background-size: 8px 8px;
 
+        &_size {
+            &_xs {
+                --_--height: 16px;
+                --_--border-radius: var(--g-border-radius-xs);
+            }
+
+            &_s {
+                --_--height: 20px;
+                --_--border-radius: var(--g-border-radius-s);
+            }
+
+            &_m {
+                --_--height: 24px;
+                --_--border-radius: var(--g-border-radius-m);
+            }
+
+            &_l {
+                --_--height: 28px;
+                --_--border-radius: var(--g-border-radius-l);
+            }
+
+            &_xl {
+                --_--height: 36px;
+                --_--border-radius: var(--g-border-radius-xl);
+            }
+        }
         /* Color overlay using ::after pseudo-element */
         &::after {
             content: '';
@@ -75,11 +101,38 @@ $block: '.#{variables.$ns}color-picker';
     }
 
     &__picker-wrapper {
-        padding: 4px;
-        width: 100px;
+        --_--base-picker-wrapper-width: 100px;
+        --__--picker-wrapper-padding: 2px var(--g-spacing-1);
+        padding: var(--__--picker-wrapper-padding);
+        width: var(--_--base-picker-wrapper-width);
 
         &_withAlpha {
-            width: 110px;
+            width: calc(--_--base-picker-wrapper-width + 10px);
+        }
+
+        &_size {
+            &_s {
+                --_--base-picker-wrapper-width: 110px;
+            }
+
+            &_m {
+                --_--base-picker-wrapper-width: 120px;
+            }
+
+            &_l {
+                --__--picker-wrapper-padding: 0px var(--g-spacing-1);
+                --_--base-picker-wrapper-width: 130px;
+            }
+
+            &_xl {
+                --__--picker-wrapper-padding: 0px var(--g-spacing-1);
+                --_--base-picker-wrapper-width: 140px;
+            }
+        }
+
+        &_onlyPicker {
+            --_--base-picker-wrapper-width: fit-content;
+            --__--picker-wrapper-padding: var(--g-spacing-1);
         }
     }
 

@@ -132,7 +132,7 @@
     "@gravity-ui/icons": "^2.16.0",
     "@hello-pangea/dnd": "^18.0.1",
     "@tanstack/react-virtual": "^3.13.12",
-    "@uiw/react-color": "^2.7.3",
+    "@uiw/react-color": "^2.9.2",
     "blueimp-md5": "^2.19.0",
     "lodash": "^4.17.21",
     "rc-slider": "^11.1.9",

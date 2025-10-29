@@ -1,95 +1,108 @@
 import * as React from 'react';
 
 import type {HsvaColor} from '@uiw/react-color';
-import {Alpha, Hue, Saturation} from '@uiw/react-color';
+import {Alpha, Hue, Saturation, hsvaToHex, hsvaToHexa} from '@uiw/react-color';
 
+import {useControlledState} from '../../hooks/useControlledState';
 import {Popup} from '../Popup';
 import {Select} from '../Select';
 
 import {ColorDisplay, ColorPointer, HexInput, RgbInputs} from './components';
 import {DEFAULT_COLOR, b} from './constants';
 import {Modes} from './types';
-import {useColorPickerState} from './useColorPickerState';
 import {convertSelectedModeColorToHsva, getTextValueByMode} from './utils';
 
 export interface ColorPickerProps {
+    // Same size as in the `TextInput`
+    size?: 's' | 'm' | 'l' | 'xl';
+    // if controlled value
+    value?: string;
+    // if uncontrolled value
+    defaultValue?: string;
+    // onChange naming is reserved for native event handlers
+    onUpdate?: (value: string) => void;
+    // if controlled open state
+    open?: boolean;
+    // if uncontrolled open state
+    defaultOpen?: boolean;
+    onOpenChange?: (open: boolean) => void;
+    // it should be false by default (common case)
     withAlpha?: boolean;
-    mode?: Modes;
-    defaultColor?: HsvaColor;
-    onChange?: (color: HsvaColor) => void;
-    onClose?: () => void;
+    // render only picker button without value
+    onlyPicker?: boolean;
 }
 
 export const ColorPicker = ({
+    size,
+    value,
+    defaultValue = DEFAULT_COLOR,
+    onUpdate,
+    open,
+    defaultOpen = false,
+    onOpenChange,
     withAlpha = true,
-    mode = Modes.Hex,
-    defaultColor = DEFAULT_COLOR,
-    onChange,
-    onClose,
+    onlyPicker = false,
 }: ColorPickerProps) => {
-    const [state, setState] = useColorPickerState(defaultColor, mode, withAlpha);
     const [anchor, setAnchor] = React.useState<HTMLDivElement | null>(null);
+    const [modeState, setModeState] = React.useState<Modes>(Modes.Hex);
 
-    const {open, hsva, modeState, inputValue} = state;
+    const [hexValue, setHexValue] = useControlledState(value, defaultValue, onUpdate);
+
+    const [isOpen, setIsOpen] = useControlledState(open, defaultOpen, onOpenChange);
+
+    const hsva = React.useMemo(() => {
+        return convertSelectedModeColorToHsva(hexValue, Modes.Hex, withAlpha);
+    }, [hexValue, withAlpha]);
+
+    const [inputValue, setInputValue] = React.useState(() =>
+        getTextValueByMode(hsva, modeState, withAlpha),
+    );
 
     React.useEffect(() => {
-        setState((prev) => ({
-            ...prev,
-            inputValue: getTextValueByMode(hsva, modeState, withAlpha),
-        }));
+        setInputValue(getTextValueByMode(hsva, modeState, withAlpha));
     }, [hsva, modeState, withAlpha]);
 
-    React.useEffect(() => {
-        onChange?.(hsva);
-    }, [hsva, onChange]);
-
-    const updateHsva = (updates: Partial<HsvaColor>) => {
-        setState((prev) => ({
-            ...prev,
-            hsva: {...prev.hsva, ...updates},
-        }));
-    };
-
-    const handleOpenChange = React.useCallback(
-        (newOpen: boolean) => {
-            setState((prev) => ({...prev, open: newOpen}));
-            if (!newOpen) {
-                onClose?.();
-            }
+    const updateHsva = React.useCallback(
+        (updates: Partial<HsvaColor>) => {
+            const newHsva = {...hsva, ...updates};
+            const newHexValue = withAlpha ? hsvaToHexa(newHsva) : hsvaToHex(newHsva);
+            setHexValue(newHexValue);
         },
-        [onClose],
+        [hsva, withAlpha, setHexValue],
     );
 
     const handleModeChange = (newMode: Modes) => {
-        setState((prev) => ({...prev, modeState: newMode}));
+        setModeState(newMode);
     };
 
     const handleInputChange = (value: string) => {
-        setState((prev) => ({...prev, inputValue: value}));
+        setInputValue(value);
     };
 
     const applyInputValue = React.useCallback(() => {
         const newHsva = convertSelectedModeColorToHsva(inputValue, modeState, withAlpha);
-
-        updateHsva(newHsva);
-    }, [modeState, inputValue, withAlpha, updateHsva]);
+        const newHexValue = withAlpha ? hsvaToHexa(newHsva) : hsvaToHex(newHsva);
+        setHexValue(newHexValue);
+    }, [modeState, inputValue, withAlpha, setHexValue]);
 
     return (
         <React.Fragment>
             <ColorDisplay
                 hsva={hsva}
                 withAlpha={withAlpha}
-                onClick={() => setState((prev) => ({...prev, open: true}))}
+                onClick={() => setIsOpen(true)}
                 onColorChange={updateHsva}
                 ref={setAnchor}
+                size={size}
+                onlyPicker={onlyPicker}
             />
 
             <Popup
-                open={open}
+                open={isOpen}
                 className={b('popup')}
                 placement={['bottom-start', 'bottom-end']}
                 anchorElement={anchor}
-                onOpenChange={handleOpenChange}
+                onOpenChange={setIsOpen}
             >
                 <div className={b('handlers-container')}>
                     <Saturation

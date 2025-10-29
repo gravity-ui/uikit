@@ -3,10 +3,9 @@ import * as React from 'react';
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 import {action} from 'storybook/actions';
 
-import {useUniqId} from 'src/hooks';
-
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
+import {useUniqId} from '../../../hooks';
 import {Flex} from '../../layout';
 import type {PinInputApi, PinInputProps} from '../PinInput';
 import {PinInput} from '../PinInput';

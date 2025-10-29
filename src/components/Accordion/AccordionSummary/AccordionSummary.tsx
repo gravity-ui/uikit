@@ -2,9 +2,8 @@
 
 import * as React from 'react';
 
-import {useUniqId} from 'src/hooks';
-
 import {KeyCode} from '../../../constants';
+import {useUniqId} from '../../../hooks';
 import {Disclosure} from '../../Disclosure';
 import type {DisclosureSummaryRenderFunctionProps} from '../../Disclosure/DisclosureSummary/DisclosureSummary';
 import type {QAProps} from '../../types';

@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import {Ellipsis} from '@gravity-ui/icons';
-import memoize from 'lodash/memoize';
+import {memoize} from 'lodash-es';
 
 import {useUniqId} from '../../../../hooks';
 import {useBoolean} from '../../../../hooks/private';

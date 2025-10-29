@@ -2,8 +2,7 @@ import * as React from 'react';
 
 import {CircleChevronDownFill, Pencil} from '@gravity-ui/icons';
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
-import cloneDeep from 'lodash/cloneDeep';
-import isEqual from 'lodash/isEqual';
+import {cloneDeep, isEqual} from 'lodash-es';
 import {action} from 'storybook/actions';
 
 import type {TableAction, TableSettingsData} from '..';

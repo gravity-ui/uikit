@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {ArrowRotateLeft} from '@gravity-ui/icons';
-import isEqual from 'lodash/isEqual';
+import {isEqual} from 'lodash-es';
 
 import {Button} from '../../../Button';
 import type {ButtonButtonProps} from '../../../Button';

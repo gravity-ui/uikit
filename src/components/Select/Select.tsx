@@ -5,6 +5,7 @@ import * as React from 'react';
 import {KeyCode} from '../../constants';
 import {useControlledState, useFocusWithin, useForkRef, useSelect, useUniqId} from '../../hooks';
 import type {List} from '../List';
+import type {SheetRenderContent} from '../Sheet/SheetContent';
 import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
 import {errorPropsMapper} from '../controls/utils';
 import {useMobile} from '../mobile';
@@ -65,6 +66,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         renderSelectedOption,
         renderEmptyOptions,
         renderPopup = DEFAULT_RENDER_POPUP,
+        renderMobilePopup,
         getOptionHeight,
         getOptionGroupHeight,
         filterOption,
@@ -313,6 +315,17 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         return <EmptyOptions filter={filter} renderEmptyOptions={renderEmptyOptions} />;
     };
 
+    const _renderPopup = () => renderPopup({renderFilter: _renderFilter, renderList: _renderList});
+
+    const _renderMobilePopup: SheetRenderContent | undefined = renderMobilePopup
+        ? ({renderScrollContainer}) =>
+              renderMobilePopup?.({
+                  renderScrollContainer,
+                  renderFilter: _renderFilter,
+                  renderList: _renderList,
+              })
+        : _renderPopup;
+
     return (
         <div
             ref={controlWrapRef}
@@ -374,8 +387,9 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                           }
                         : undefined
                 }
+                renderMobilePopup={_renderMobilePopup}
             >
-                {renderPopup({renderFilter: _renderFilter, renderList: _renderList})}
+                {_renderPopup()}
             </SelectPopup>
             <OuterAdditionalContent
                 errorMessage={isErrorMsgVisible ? errorMessage : null}

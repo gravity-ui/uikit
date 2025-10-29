@@ -9,6 +9,7 @@ import type {PortalProps} from '../Portal/Portal';
 import type {QAProps} from '../types';
 
 import {SheetContentContainer} from './SheetContent';
+import type {SheetRenderContent} from './SheetContent';
 import {sheetBlock} from './constants';
 
 import './Sheet.scss';
@@ -16,6 +17,7 @@ import './Sheet.scss';
 export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePortal'>, QAProps {
     children?: React.ReactNode;
     onClose?: () => void;
+    renderContent?: SheetRenderContent;
     /** Show/hide sheet */
     visible: boolean;
     /** ID of the sheet, used as hash in URL. It's important to specify different `id` values if there can be more than one sheet on the page */
@@ -41,6 +43,7 @@ export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePort
 export const Sheet = ({
     children,
     onClose,
+    renderContent,
     visible,
     id,
     title,
@@ -88,6 +91,7 @@ export const Sheet = ({
                 <SheetContentContainer
                     id={id}
                     content={children}
+                    renderContent={renderContent}
                     contentClassName={contentClassName}
                     swipeAreaClassName={swipeAreaClassName}
                     title={title}

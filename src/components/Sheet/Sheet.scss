@@ -78,14 +78,26 @@ $block: '.#{variables.$ns}sheet';
         background-color: var(--g-color-line-generic);
     }
 
-    &__sheet-scroll-container {
-        box-sizing: border-box;
-        max-height: calc(100% - #{$top-height});
-        overflow: hidden auto;
-        overscroll-behavior-y: contain;
+    &__sheet-top-container {
+        background-color: var(--g-sheet-background-color, var(--g-color-base-float));
+        padding: var(--g-sheet-content-padding, 0 10px);
+    }
+
+    &__content-container {
+        display: flex;
+        flex-direction: column;
+
         background-color: var(--g-sheet-background-color, var(--g-color-base-float));
 
+        box-sizing: border-box;
+        width: 100%;
+        max-height: calc(100% - #{$top-height});
         transition: height $transition-duration ease;
+    }
+
+    &__sheet-scroll-container {
+        overflow: hidden auto;
+        overscroll-behavior-y: contain;
 
         &_without-scroll {
             overflow: hidden;
@@ -116,8 +128,6 @@ $block: '.#{variables.$ns}sheet';
     }
 
     &__sheet-content {
-        box-sizing: border-box;
-        width: 100%;
         padding: var(--g-sheet-content-padding, 0 10px);
     }
 

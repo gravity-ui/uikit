@@ -53,6 +53,60 @@ export const Default: StoryFn<SheetProps> = ({
     const [withExtraInnerContentMoreThenViewport, setWithExtraInnerContentMoreThenViewport] =
         React.useState(false);
     const [withTitle, setWithTitle] = React.useState(false);
+    const [withCustomContent, setWithCustomContent] = React.useState(false);
+
+    const textInput = (
+        <div className={b('content-item')}>
+            <TextInput />
+        </div>
+    );
+
+    const content = (
+        <React.Fragment>
+            <div className={b('content-item', b('checkbox'))}>
+                <Checkbox
+                    content="Extra content"
+                    onUpdate={() => {
+                        setWithExtraInnerContent(!withExtraInnerContent);
+                        setWithExtraInnerContentMoreThenViewport(false);
+                    }}
+                    checked={withExtraInnerContent}
+                />
+            </div>
+            <div className={b('content-item', b('checkbox'))}>
+                <Checkbox
+                    content="Extra content more then viewport"
+                    onUpdate={() => {
+                        setWithExtraInnerContentMoreThenViewport(
+                            !withExtraInnerContentMoreThenViewport,
+                        );
+                        setWithExtraInnerContent(false);
+                    }}
+                    checked={withExtraInnerContentMoreThenViewport}
+                />
+            </div>
+            {withExtraInnerContent && (
+                <div className={b('content-item', b('extra-content'))}>{EXTRA_INNER_CONTENT}</div>
+            )}
+            {withExtraInnerContentMoreThenViewport && (
+                <div className={b('content-item', b('extra-content'))}>
+                    {EXTRA_INNER_CONTENT_MORE_THAN_VIEWPORT}
+                </div>
+            )}
+        </React.Fragment>
+    );
+
+    const action = (
+        <Button
+            view="action"
+            size="s"
+            width="max"
+            onClick={() => setVisible(false)}
+            className={b('content-item')}
+        >
+            Action
+        </Button>
+    );
 
     return (
         <div className={b()}>
@@ -73,6 +127,13 @@ export const Default: StoryFn<SheetProps> = ({
                     checked={withTitle}
                 />
             </div>
+            <div className={b('content-item', b('checkbox'))}>
+                <Checkbox
+                    content="With custom content"
+                    onUpdate={() => setWithCustomContent(!withCustomContent)}
+                    checked={withCustomContent}
+                />
+            </div>
             {withExtraOuterContent && (
                 <div className={b('extra-content')}>{EXTRA_OUTER_CONTENT}</div>
             )}
@@ -83,51 +144,21 @@ export const Default: StoryFn<SheetProps> = ({
                 onClose={() => setVisible(false)}
                 title={withTitle ? 'Sheet title' : undefined}
                 qa={DEFAULT_SHEET_QA}
+                renderContent={
+                    withCustomContent
+                        ? ({renderScrollContainer}) => (
+                              <React.Fragment>
+                                  {textInput}
+                                  {renderScrollContainer(content)}
+                                  {action}
+                              </React.Fragment>
+                          )
+                        : undefined
+                }
             >
-                <div className={b('content-item')}>
-                    <TextInput />
-                </div>
-                <div className={b('content-item', b('checkbox'))}>
-                    <Checkbox
-                        content="Extra content"
-                        onUpdate={() => {
-                            setWithExtraInnerContent(!withExtraInnerContent);
-                            setWithExtraInnerContentMoreThenViewport(false);
-                        }}
-                        checked={withExtraInnerContent}
-                    />
-                </div>
-                <div className={b('content-item', b('checkbox'))}>
-                    <Checkbox
-                        content="Extra content more then viewport"
-                        onUpdate={() => {
-                            setWithExtraInnerContentMoreThenViewport(
-                                !withExtraInnerContentMoreThenViewport,
-                            );
-                            setWithExtraInnerContent(false);
-                        }}
-                        checked={withExtraInnerContentMoreThenViewport}
-                    />
-                </div>
-                {withExtraInnerContent && (
-                    <div className={b('content-item', b('extra-content'))}>
-                        {EXTRA_INNER_CONTENT}
-                    </div>
-                )}
-                {withExtraInnerContentMoreThenViewport && (
-                    <div className={b('content-item', b('extra-content'))}>
-                        {EXTRA_INNER_CONTENT_MORE_THAN_VIEWPORT}
-                    </div>
-                )}
-                <Button
-                    view="action"
-                    size="s"
-                    width="max"
-                    onClick={() => setVisible(false)}
-                    className={b('content-item')}
-                >
-                    Action
-                </Button>
+                {textInput}
+                {content}
+                {action}
             </Sheet>
         </div>
     );

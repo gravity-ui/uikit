@@ -59,9 +59,15 @@ export type SelectRenderOptionGroup<T> = (
 ) => React.ReactElement;
 
 export type SelectRenderPopup = (popupItems: {
-    renderFilter: () => React.JSX.Element | null;
-    renderList: () => React.JSX.Element;
-}) => React.ReactElement;
+    renderFilter: () => React.ReactNode;
+    renderList: () => React.ReactNode;
+}) => React.ReactNode;
+
+export type SelectRenderMobilePopup = (popupItems: {
+    renderFilter: () => React.ReactNode;
+    renderList: () => React.ReactNode;
+    renderScrollContainer: (content: React.ReactNode) => React.ReactNode;
+}) => React.ReactNode;
 
 export type SelectFilterInputProps = {value: string} & Pick<
     React.InputHTMLAttributes<HTMLInputElement>,
@@ -103,6 +109,7 @@ export type SelectProps<T = any> = AriaLabelingProps &
         renderSelectedOption?: (option: SelectOption<T>, index: number) => React.ReactElement;
         renderEmptyOptions?: ({filter}: {filter: string}) => React.ReactElement;
         renderPopup?: SelectRenderPopup;
+        renderMobilePopup?: SelectRenderMobilePopup;
         renderCounter?: SelectRenderCounter;
         getOptionHeight?: (option: SelectOption<T>, index: number) => number;
         getOptionGroupHeight?: (option: SelectOptionGroup<T>, index: number) => number;
@@ -164,8 +171,10 @@ export type SelectOption<T = any> = QAProps &
     };
 
 export type SelectOptionGroup<T = any> = {
-    /** Label is a string which displayed above the options group.
-     * If label is empty string, group item height will be 0 and only border will be displayed */
+    /**
+     * Label is a string which displayed above the options group.
+     * If label is empty string, group item height will be 0 and only border will be displayed
+     */
     label: string;
     data?: T;
     options?: SelectOption<T>[];

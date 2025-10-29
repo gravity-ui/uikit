@@ -34,21 +34,22 @@ const SheetExample = () => {
 
 ## Свойства
 
-| Имя                         | Описание                                                                                                                               |      Тип      | Значение по умолчанию |
-| :-------------------------- | :------------------------------------------------------------------------------------------------------------------------------------- | :-----------: | :-------------------: |
-| allowHideOnContentScroll    | Включает возможность закрытия при свайпе вниз, если контент не прокручивается или прокручен до верха (`content Node.scrollTop === 0`). |   `boolean`   |        `true`         |
-| alwaysFullHeight            | Высота `Sheet` всегда будет максимальной                                                                                               |   `boolean`   |      `undefined`      |
-| className                   | HTML-атрибут `class`.                                                                                                                  |   `string`    |      `undefined`      |
-| container                   | DOM-элемент, в который монтируется компонент через `Portal`.                                                                           | `HTMLElement` |    `document.body`    |
-| contentClassName            | HTML-атрибут `class` для контента шторки.                                                                                              |   `string`    |      `undefined`      |
-| disablePortal               | Отключает использование `Portal`                                                                                                       |   `boolean`   |        `false`        |
-| hideTopBar                  | Скрывает верхнюю панель с элементом для изменения размера.                                                                             |   `boolean`   |                       |
-| id                          | Идентификатор `Sheet`, используемый как хеш в URL. Необходимо задать разные значения `id`, если на странице несколько `Sheet`.         |   `string`    |        `modal`        |
-| maxContentHeightCoefficient | Коэффициент, определающий максимальную высоту шторки относительно высоты окна (диапазон 0-1)                                           |   `number`    |         `0.9`         |
-| onClose                     | Обработчик события закрытия.                                                                                                           |  `function`   |      `undefined`      |
-| swipeAreaClassName          | HTML-атрибут `class` для области свайпа.                                                                                               |   `string`    |      `undefined`      |
-| title                       | Заголовок окна `Sheet`.                                                                                                                |   `string`    |      `undefined`      |
-| visible                     | Управляет видимостью `Sheet`.                                                                                                          |   `boolean`   |        `false`        |
+| Имя                         | Описание                                                                                                                               |         Тип          | Значение по умолчанию |
+| :-------------------------- | :------------------------------------------------------------------------------------------------------------------------------------- | :------------------: | :-------------------: |
+| allowHideOnContentScroll    | Включает возможность закрытия при свайпе вниз, если контент не прокручивается или прокручен до верха (`content Node.scrollTop === 0`). |      `boolean`       |        `true`         |
+| alwaysFullHeight            | Высота `Sheet` всегда будет максимальной                                                                                               |      `boolean`       |      `undefined`      |
+| renderContent               | Используется для рендеринга контента `Sheet`                                                                                           | `SheetRenderContent` |      `undefined`      |
+| className                   | HTML-атрибут `class`.                                                                                                                  |       `string`       |      `undefined`      |
+| container                   | DOM-элемент, в который монтируется компонент через `Portal`.                                                                           |    `HTMLElement`     |    `document.body`    |
+| contentClassName            | HTML-атрибут `class` для контента шторки.                                                                                              |       `string`       |      `undefined`      |
+| disablePortal               | Отключает использование `Portal`                                                                                                       |      `boolean`       |        `false`        |
+| hideTopBar                  | Скрывает верхнюю панель с элементом для изменения размера.                                                                             |      `boolean`       |                       |
+| id                          | Идентификатор `Sheet`, используемый как хеш в URL. Необходимо задать разные значения `id`, если на странице несколько `Sheet`.         |       `string`       |        `modal`        |
+| maxContentHeightCoefficient | Коэффициент, определающий максимальную высоту шторки относительно высоты окна (диапазон 0-1)                                           |       `number`       |         `0.9`         |
+| onClose                     | Обработчик события закрытия.                                                                                                           |      `function`      |      `undefined`      |
+| swipeAreaClassName          | HTML-атрибут `class` для области свайпа.                                                                                               |       `string`       |      `undefined`      |
+| title                       | Заголовок окна `Sheet`.                                                                                                                |       `string`       |      `undefined`      |
+| visible                     | Управляет видимостью `Sheet`.                                                                                                          |      `boolean`       |        `false`        |
 
 ## API CSS
 

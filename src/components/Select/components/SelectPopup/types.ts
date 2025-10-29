@@ -1,5 +1,7 @@
 import type * as React from 'react';
 
+import type {SheetRenderContent} from 'src/components/Sheet/SheetContent';
+
 import type {PopupPlacement} from '../../../Popup';
 import type {SelectProps} from '../../types';
 
@@ -17,4 +19,5 @@ export type SelectPopupProps = {
     id?: string;
     onAfterOpen?: () => void;
     onAfterClose?: () => void;
+    renderMobilePopup?: SheetRenderContent;
 };

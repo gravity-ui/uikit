@@ -28,6 +28,10 @@ function warnAboutOutOfRange() {
 
 type Status = 'showing' | 'hiding';
 
+export type SheetRenderContent = (contentItems: {
+    renderScrollContainer: (content: React.ReactNode) => React.ReactNode;
+}) => React.ReactNode;
+
 interface SheetContentBaseProps {
     hideSheet: () => void;
     content: React.ReactNode;
@@ -39,6 +43,7 @@ interface SheetContentBaseProps {
     hideTopBar?: boolean;
     maxContentHeightCoefficient?: number;
     alwaysFullHeight?: boolean;
+    renderContent?: SheetRenderContent;
 }
 
 interface SheetContentDefaultProps {
@@ -81,6 +86,8 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     sheetTopRef = React.createRef<HTMLDivElement>();
     sheetMarginBoxRef = React.createRef<HTMLDivElement>();
     sheetScrollContainerRef = React.createRef<HTMLDivElement>();
+    sheetContentContainerRef = React.createRef<HTMLDivElement>();
+    sheetTopContainerRef = React.createRef<HTMLDivElement>();
     velocityTracker = new VelocityTracker();
     observer: ResizeObserver | null = null;
     resizeWindowTimer: number | null = null;
@@ -131,9 +138,9 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     }
 
     render() {
-        const {content, contentClassName, swipeAreaClassName, hideTopBar, title} = this.props;
+        const {swipeAreaClassName, hideTopBar, title, renderContent, content} = this.props;
 
-        const {deltaY, swipeAreaTouched, contentTouched, veilTouched} = this.state;
+        const {deltaY, veilTouched} = this.state;
 
         const veilTransitionMod = {
             'with-transition': !deltaY || veilTouched,
@@ -141,14 +148,6 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
 
         const sheetTransitionMod = {
             'with-transition': veilTransitionMod['with-transition'],
-        };
-
-        const contentMod = {
-            'without-scroll': (deltaY > 0 && contentTouched) || swipeAreaTouched,
-        };
-
-        const marginBoxMod = {
-            'always-full-height': this.props.alwaysFullHeight,
         };
 
         return (
@@ -180,33 +179,57 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
                         onTouchMove={this.onSwipeAriaTouchMove}
                         onTouchEnd={this.onSwipeAriaTouchEnd}
                     />
-                    {/* TODO: extract to external component ContentArea */}
                     <div
-                        ref={this.sheetScrollContainerRef}
-                        className={sheetBlock('sheet-scroll-container', contentMod)}
-                        onTouchStart={this.onContentTouchStart}
-                        onTouchMove={this.onContentTouchMove}
-                        onTouchEnd={this.onContentTouchEnd}
-                        onTransitionEnd={this.onContentTransitionEnd}
+                        ref={this.sheetContentContainerRef} // TODO custom style
+                        className={sheetBlock('content-container', swipeAreaClassName)}
                     >
-                        <div
-                            ref={this.sheetMarginBoxRef}
-                            className={sheetBlock('sheet-margin-box', marginBoxMod)}
-                        >
-                            <div className={sheetBlock('sheet-margin-box-border-compensation')}>
-                                <div className={sheetBlock('sheet-content', contentClassName)}>
-                                    {title && (
-                                        <div className={sheetBlock('sheet-content-title')}>
-                                            {title}
-                                        </div>
-                                    )}
-                                    {content}
-                                </div>
-                            </div>
-                        </div>
+                        {renderContent
+                            ? renderContent?.({
+                                  renderScrollContainer: this.renderScrollContainer.bind(this),
+                              })
+                            : this.renderScrollContainer(content)}
                     </div>
                 </div>
             </React.Fragment>
+        );
+    }
+
+    private renderScrollContainer(content: React.ReactNode) {
+        const {contentClassName, title} = this.props;
+
+        const {deltaY, swipeAreaTouched, contentTouched} = this.state;
+
+        const contentMod = {
+            'without-scroll': (deltaY > 0 && contentTouched) || swipeAreaTouched,
+        };
+
+        const marginBoxMod = {
+            'always-full-height': this.props.alwaysFullHeight,
+        };
+
+        return (
+            <div
+                ref={this.sheetScrollContainerRef}
+                className={sheetBlock('sheet-scroll-container', contentMod)}
+                onTouchStart={this.onContentTouchStart}
+                onTouchMove={this.onContentTouchMove}
+                onTouchEnd={this.onContentTouchEnd}
+                onTransitionEnd={this.onContentTransitionEnd}
+            >
+                <div
+                    ref={this.sheetMarginBoxRef}
+                    className={sheetBlock('sheet-margin-box', marginBoxMod)}
+                >
+                    <div className={sheetBlock('sheet-margin-box-border-compensation')}>
+                        <div className={sheetBlock('sheet-content', contentClassName)}>
+                            {title && (
+                                <div className={sheetBlock('sheet-content-title')}>{title}</div>
+                            )}
+                            {content}
+                        </div>
+                    </div>
+                </div>
+            </div>
         );
     }
 
@@ -226,13 +249,23 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         return this.sheetScrollContainerRef.current?.scrollTop || 0;
     }
 
+    private get sheetContentGap() {
+        return (
+            (this.sheetContentContainerRef.current?.getBoundingClientRect().height || 0) -
+            (this.sheetScrollContainerRef.current?.getBoundingClientRect().height || 0)
+        );
+    }
+
     private get sheetContentHeight() {
-        return this.sheetMarginBoxRef.current?.getBoundingClientRect().height || 0;
+        return (
+            (this.sheetMarginBoxRef.current?.getBoundingClientRect().height || 0) +
+            this.sheetContentGap
+        );
     }
 
     private setInitialStyles(initialHeight: number) {
-        if (this.sheetScrollContainerRef.current && this.sheetMarginBoxRef.current) {
-            this.sheetScrollContainerRef.current.style.height = `${initialHeight}px`;
+        if (this.sheetContentContainerRef.current && this.sheetMarginBoxRef.current) {
+            this.sheetContentContainerRef.current.style.height = `${initialHeight}px`;
         }
     }
 
@@ -242,6 +275,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         }
 
         const visibleHeight = this.sheetHeight - deltaHeight;
+
         const translate =
             status === 'showing'
                 ? `translate3d(0, -${visibleHeight}px, 0)`
@@ -450,8 +484,8 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
 
     private onContentTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
         if (e.propertyName === 'height') {
-            if (this.sheetScrollContainerRef.current) {
-                this.sheetScrollContainerRef.current.style.transition = 'none';
+            if (this.sheetContentContainerRef.current) {
+                this.sheetContentContainerRef.current.style.transition = 'none';
             }
         }
     };
@@ -474,7 +508,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     };
 
     private onResize = () => {
-        if (!this.sheetRef.current || !this.sheetScrollContainerRef.current) {
+        if (!this.sheetRef.current || !this.sheetContentContainerRef.current) {
             return;
         }
 
@@ -486,12 +520,12 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
 
         const availableContentHeight = this.getAvailableContentHeight(sheetContentHeight);
 
-        this.sheetScrollContainerRef.current.style.transition =
+        this.sheetContentContainerRef.current.style.transition =
             this.state.prevSheetHeight > sheetContentHeight
                 ? `height 0s ease ${TRANSITION_DURATION}`
                 : 'none';
 
-        this.sheetScrollContainerRef.current.style.height = `${availableContentHeight}px`;
+        this.sheetContentContainerRef.current.style.height = `${availableContentHeight}px`;
         this.sheetRef.current.style.transform = `translate3d(0, -${availableContentHeight + this.sheetTopHeight}px, 0)`;
         this.setState({prevSheetHeight: sheetContentHeight, inWindowResizeScope: false});
     };

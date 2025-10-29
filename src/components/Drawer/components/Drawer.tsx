@@ -22,13 +22,10 @@ import type {DrawerDirection, OnResizeHandler} from '../hooks/useResizeHandlers'
 import i18n from '../i18n';
 
 import {DrawerItem} from './DrawerItem';
-import type {DrawerItemProps} from './DrawerItem';
 
 import './Drawer.scss';
 
 const b = block('drawer');
-
-export type DrawerChild = React.ReactElement<DrawerItemProps>;
 
 export interface DrawerProps
     extends Omit<
@@ -40,6 +37,11 @@ export interface DrawerProps
         | 'onOutsideClick'
         | 'contentOverflow'
     > {
+    /**
+     * Specifies the default open state of the component.
+     * @default false
+     */
+    defaultOpen?: boolean;
     /**
      * Specifies the direction from which the drawer should slide in, `left` by default.
      * @default left
@@ -85,6 +87,7 @@ export interface DrawerProps
 
 export const Drawer = ({
     open,
+    defaultOpen = false,
     onOpenChange,
     direction = 'left',
     children,
@@ -115,7 +118,9 @@ export const Drawer = ({
     keepMounted = false,
     container,
     showInitialAnimation = false,
+    ...restProps
 }: DrawerProps) => {
+    const isDrawerOpen = open ?? defaultOpen;
     const floatingNodeId = useFloatingNodeId();
 
     const handleOpenChange = React.useCallback(
@@ -134,7 +139,7 @@ export const Drawer = ({
 
     const {refs, context} = useFloating({
         nodeId: floatingNodeId,
-        open,
+        open: isDrawerOpen,
         onOpenChange: handleOpenChange,
     });
 
@@ -176,7 +181,7 @@ export const Drawer = ({
                     aria-modal="true"
                     className={b(
                         {
-                            open,
+                            open: isDrawerOpen,
                             'hide-veil': hideVeil,
                             'skip-animation': !showInitialAnimation && isInitialRender,
                         },
@@ -204,7 +209,7 @@ export const Drawer = ({
                     >
                         <DrawerItem
                             ref={handleFloatingRef}
-                            open={open}
+                            open={isDrawerOpen}
                             direction={direction}
                             className={contentClassName}
                             resizable={resizable}
@@ -215,6 +220,7 @@ export const Drawer = ({
                             minResizeWidth={minSize}
                             maxResizeWidth={maxSize}
                             {...getFloatingProps()}
+                            {...restProps}
                         >
                             {children}
                         </DrawerItem>

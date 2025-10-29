@@ -3,6 +3,8 @@ import * as React from 'react';
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 import {action} from 'storybook/actions';
 
+import {useUniqId} from 'src/hooks';
+
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {Flex} from '../../layout';
@@ -140,7 +142,7 @@ export const Responsive: Story = {
 export const WithLabel = {
     render: function WithLabel(args) {
         const id = args.id ?? 'pin-input';
-        const labelId = React.useId();
+        const labelId = useUniqId();
         const refApi = React.useRef<PinInputApi>(null);
         /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */
         return (

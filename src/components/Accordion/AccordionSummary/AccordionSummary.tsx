@@ -2,6 +2,8 @@
 
 import * as React from 'react';
 
+import {useUniqId} from 'src/hooks';
+
 import {KeyCode} from '../../../constants';
 import {Disclosure} from '../../Disclosure';
 import type {DisclosureSummaryRenderFunctionProps} from '../../Disclosure/DisclosureSummary/DisclosureSummary';
@@ -24,7 +26,7 @@ export function AccordionSummary(props: AccordionSummaryProps) {
     const {registerSummary, unregisterSummary, getSummaryRefs, arrowPosition, size, ariaLevel} =
         useAccordion();
 
-    const summaryId = React.useId();
+    const summaryId = useUniqId();
     const [buttonElement, setButtonElement] = React.useState<HTMLButtonElement | null>(null);
 
     React.useEffect(() => {

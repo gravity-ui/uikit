@@ -9,11 +9,9 @@ type UseOutsideClickType = <K extends HTMLElement>(props: UseOutsideClickProps<K
 
 /**
  * Hook for observing clicks outside a given target
- *
  * @param ref - purpose of observation
  * @param handler - callback when a click is triggered outside the observation target
- *
- * @return - nothing
+ * @returns - nothing
  */
 export const useOutsideClick: UseOutsideClickType = ({ref, handler}) => {
     React.useEffect(() => {

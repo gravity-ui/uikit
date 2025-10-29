@@ -4,11 +4,9 @@ import {i18n} from './i18n';
 
 /**
  * Add component's keysets data
- *
  * @param data - keysets data by languages
  * @param componentName - name of the component
  * @returns function to get keys' translations for current language
- *
  * @example
  * ```
  * import {addComponentKeysets} from '@gravity-ui/uikit/i18n';

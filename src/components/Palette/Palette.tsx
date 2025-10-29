@@ -26,7 +26,6 @@ export type PaletteOption = Pick<ButtonProps, 'disabled' | 'title'> & {
      * Content inside the option (emoji/image/GIF/symbol etc).
      *
      * Uses `value` as default, if `value` is a number, then it is treated as a unicode symbol (emoji for example).
-     *
      * @default props.value
      */
     content?: React.ReactNode;
@@ -39,7 +38,6 @@ export interface PaletteProps
         QAProps {
     /**
      * Allows selecting multiple options.
-     *
      * @default true
      */
     multiple?: boolean;
@@ -57,7 +55,6 @@ export interface PaletteProps
     options?: PaletteOption[];
     /**
      * How many options are there per row.
-     *
      * @default 6
      */
     columns?: number;

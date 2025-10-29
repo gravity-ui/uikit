@@ -12,11 +12,13 @@ import {convertSelectedModeColorToHsva, getTextValueByMode} from '../../utils';
 type ColorDisplayProps = {
     hsva: HsvaColor;
     withAlpha: boolean;
+    size?: 's' | 'm' | 'l' | 'xl';
+    onlyPicker?: boolean;
     onClick: () => void;
     onColorChange?: (color: HsvaColor) => void;
 };
 export const ColorDisplay = React.forwardRef<HTMLDivElement, ColorDisplayProps>(
-    ({hsva, withAlpha, onClick, onColorChange}, ref) => {
+    ({hsva, withAlpha, size = 'm', onlyPicker, onClick, onColorChange}, ref) => {
         const [inputValue, setInputValue] = React.useState(() =>
             getTextValueByMode(hsva, Modes.Hex, withAlpha),
         );
@@ -40,23 +42,29 @@ export const ColorDisplay = React.forwardRef<HTMLDivElement, ColorDisplayProps>(
         }, [inputValue, withAlpha, onColorChange, hsva]);
 
         return (
-            <Card view={'outlined'} className={b('picker-wrapper', {withAlpha})} ref={ref}>
+            <Card
+                view={'outlined'}
+                className={b('picker-wrapper', {withAlpha, size, onlyPicker})}
+                ref={ref}
+            >
                 <div className={b('picker-handlers')}>
                     <button
                         type="button"
-                        className={b('color-swatch')}
+                        className={b('color-swatch', {size})}
                         onClick={onClick}
                         style={{
                             backgroundColor: hsvaToRgbaString(hsva),
                         }}
                     />
-                    <TextInput
-                        value={inputValue}
-                        onChange={handleInputChange}
-                        onBlur={handleInputBlur}
-                        size="s"
-                        view={'clear'}
-                    />
+                    {!onlyPicker && (
+                        <TextInput
+                            value={inputValue}
+                            onChange={handleInputChange}
+                            onBlur={handleInputBlur}
+                            size={size}
+                            view={'clear'}
+                        />
+                    )}
                 </div>
             </Card>
         );

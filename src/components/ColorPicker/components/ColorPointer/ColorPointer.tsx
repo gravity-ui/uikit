@@ -3,8 +3,8 @@ import * as React from 'react';
 import {b} from '../../constants';
 
 type ColorPointerProps = {
-    left?: string;
-    top?: string;
+    left?: string | number;
+    top?: string | number;
     transform: string;
 } & React.HTMLAttributes<HTMLDivElement>;
 

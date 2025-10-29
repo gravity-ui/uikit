@@ -16,7 +16,6 @@ import './UserLabel.scss';
 const b = block('user-label');
 
 export const UserLabel = React.forwardRef<HTMLDivElement, UserLabelProps>(
-    // eslint-disable-next-line complexity
     (
         {
             type = 'person',

@@ -3,7 +3,6 @@ import * as React from 'react';
 import type {HsvaColor} from '@uiw/react-color';
 import {Alpha, Hue, Saturation, hsvaToHex, hsvaToHexa} from '@uiw/react-color';
 
-import {usePrevious, useUpdateEffect} from '../../hooks/private';
 import {useControlledState} from '../../hooks/useControlledState';
 import {Popup} from '../Popup';
 import {Select} from '../Select';
@@ -66,26 +65,21 @@ export const ColorPicker = ({
     const [anchor, setAnchor] = React.useState<HTMLDivElement | null>(null);
     const [modeState, setModeState] = React.useState<Modes>(Modes.Hex);
 
-    const isControlled = value !== undefined;
-    const initialHexValue = value ?? defaultValue;
+    const [color, setColor] = useControlledState(value, defaultValue, onUpdate);
 
-    const [hsva, setHsva] = React.useState<HsvaColor>(() =>
-        convertSelectedModeColorToHsva(initialHexValue, Modes.Hex, withAlpha),
-    );
-
-    const prevValue = usePrevious(value);
     const isInternalUpdateRef = React.useRef(false);
 
-    useUpdateEffect(() => {
+    const [hsva, setHsva] = React.useState<HsvaColor>(() =>
+        convertSelectedModeColorToHsva(color, Modes.Hex, withAlpha),
+    );
+
+    React.useEffect(() => {
         if (isInternalUpdateRef.current) {
             isInternalUpdateRef.current = false;
             return;
         }
-
-        if (isControlled && value && value !== prevValue) {
-            setHsva(convertSelectedModeColorToHsva(value, Modes.Hex, withAlpha));
-        }
-    }, [value]);
+        setHsva(convertSelectedModeColorToHsva(color, Modes.Hex, withAlpha));
+    }, [color, withAlpha]);
 
     const [isOpen, setIsOpen] = useControlledState(open, defaultOpen, onOpenChange);
 
@@ -102,33 +96,30 @@ export const ColorPicker = ({
             const newHsva = {...hsva, ...updates};
             setHsva(newHsva);
 
-            if (onUpdate) {
-                const newHexValue = withAlpha ? hsvaToHexa(newHsva) : hsvaToHex(newHsva);
-                isInternalUpdateRef.current = true;
-                onUpdate(newHexValue);
-            }
+            const newHexValue = withAlpha ? hsvaToHexa(newHsva) : hsvaToHex(newHsva);
+
+            isInternalUpdateRef.current = true;
+            setColor(newHexValue);
         },
-        [hsva, withAlpha, onUpdate],
+        [hsva, setColor, withAlpha],
     );
 
     const handleModeChange = (newMode: Modes) => {
         setModeState(newMode);
     };
 
-    const handleInputChange = (value: string) => {
-        setInputValue(value);
+    const handleInputChange = (val: string) => {
+        setInputValue(val);
     };
 
     const applyInputValue = React.useCallback(() => {
         const newHsva = convertSelectedModeColorToHsva(inputValue, modeState, withAlpha);
         setHsva(newHsva);
 
-        if (onUpdate) {
-            const newHexValue = withAlpha ? hsvaToHexa(newHsva) : hsvaToHex(newHsva);
-            isInternalUpdateRef.current = true;
-            onUpdate(newHexValue);
-        }
-    }, [modeState, inputValue, withAlpha, onUpdate]);
+        const newHexValue = withAlpha ? hsvaToHexa(newHsva) : hsvaToHex(newHsva);
+        isInternalUpdateRef.current = true;
+        setColor(newHexValue);
+    }, [inputValue, modeState, withAlpha, setColor]);
 
     return (
         <React.Fragment>

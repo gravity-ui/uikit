@@ -1,15 +1,18 @@
 import * as React from 'react';
 
+import type {AriaLabelingProps} from 'src/components/types';
+
 import {useForkRef} from '../../../hooks';
 import {block} from '../../utils/cn';
+import {filterDOMProps} from '../../utils/filterDOMProps';
 import {useResizableDrawerItem} from '../hooks/useResizableDrawerItem';
 import type {DrawerDirection, OnResizeHandler} from '../hooks/useResizeHandlers';
 
-const b = block('drawer');
-
 import './Drawer.scss';
 
-export interface DrawerItemProps {
+const b = block('drawer');
+
+export interface DrawerItemProps extends AriaLabelingProps {
     /** Content to be displayed within the drawer item. */
     children?: React.ReactNode;
 
@@ -71,7 +74,7 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
             onResizeEnd,
             onResize,
             style = {},
-            ...rest
+            ...restProps
         } = props;
 
         const [isInitialRender, setIsInitialRender] = React.useState(true);
@@ -93,7 +96,7 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
 
         React.useEffect(() => {
             setIsInitialRender(true);
-        }, [direction]);
+        }, []);
 
         const resizerElement = resizable ? (
             <div
@@ -122,7 +125,7 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
                     width: isVerticalDirection ? `${resizedWidth}px` : undefined,
                     height: isHorizontalDirection ? `${resizedWidth}px` : undefined,
                 }}
-                {...rest}
+                {...filterDOMProps(restProps, {labelable: true})}
             >
                 {resizerElement}
                 {children}

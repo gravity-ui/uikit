@@ -45,12 +45,9 @@ export default App;
 | aria-labelledby       | ID элемента с видимым заголовком для Drawer                                        |       `string`        |                       |
 | direction             | Направление, откуда выезжает Drawer                                                |       `string`        |        `left`         |
 | contentClassName      | Атрибут `class` для элемента с контентом                                           |       `string`        |                       |
-| restoreFocusRef       | Элемент, на который вернётся фокус после закрытия                                  |   `React.RefObject`   |                       |
 | children              | React-контент                                                                      |   `React.ReactNode`   |                       |
 | container             | DOM-элемент, в который монтируется компонент через `Portal`                        |     `HTMLElement`     |    `document.body`    |
 | hideVeil              | Скрывает шторку с фоном                                                            |       `boolean`       |                       |
-| autoFocus             | Устанавливает фокус на первый интерактивный элемент при открытии                   |       `boolean`       |        `true`         |
-| focusTrap             | Включает захват фокуса внутри компонента                                           |       `boolean`       |        `true`         |
 | disableBodyScrollLock | Отключает блокировку скролла страницы при открытии                                 |       `boolean`       |        `false`        |
 | disableEscapeKeyDown  | Отключает закрытие по клавише `Esc`                                                |       `boolean`       |        `false`        |
 | disableOutsideClick   | Отключает закрытие при клике снаружи                                               |       `boolean`       |        `false`        |
@@ -58,6 +55,7 @@ export default App;
 | keepMounted           | Не удаляет компонент из DOM при скрытии                                            |       `boolean`       |        `false`        |
 | resizable             | Включает возможность изменения размера через курсор                                |       `boolean`       |        `false`        |
 | open                  | Управляет видимостью компонента                                                    |       `boolean`       |        `false`        |
+| defaultOpen           | Управялет `Drawer` видимостью компонента по умолчанию                              |       `boolean`       |        `false`        |
 | showInitialAnimation  | Включает анимацию при первом открытии, если Drawer рендерится в открытом состоянии |       `boolean`       |        `false`        |
 | onOpenChange          | Обработчик, вызываемый при изменении состояния видимости                           |      `Function`       |                       |
 | onTransitionEnter     | Обработчик начала анимации открытия                                                |      `Function`       |                       |
@@ -73,20 +71,26 @@ export default App;
 
 ## CSS API
 
-| Имя                                          | Описание                                      |
+Переменные для **контента**:
+| Имя | Описание |
 | :------------------------------------------- | :-------------------------------------------- |
-| Контент                                      |                                               |
-| `--g-drawer-item-position`                   | Позиция контента внутри Drawer на странице    |
-| `--g-drawer-item-shadow`                     | box-shadow у контента, когда шторка скрыта    |
-| `--g-drawer-item-left-offset`                | Отступ слева у контента                       |
-| `--g-drawer-item-top-offset`                 | Отступ сверху у контента                      |
-| Шторка                                       |                                               |
-| `--g-drawer-veil-background-color`           | Цвет фона шторки                              |
-| Ресайзер                                     |                                               |
-| `--g-drawer-item-resizer-width`              | Ширина ресайзера                              |
-| `--g-drawer-item-resizer-color`              | Цвет ресайзера                                |
-| `--g-drawer-item-resizer-handle-color`       | Цвет контрола ресайзера                       |
+| `--g-drawer-item-position` | Позиция контента внутри Drawer на странице |
+| `--g-drawer-item-shadow` | box-shadow у контента, когда шторка скрыта |
+| `--g-drawer-item-left-offset` | Отступ слева у контента |
+| `--g-drawer-item-top-offset` | Отступ сверху у контента |
+
+Переменные для **шторки**:
+| Имя | Описание |
+| :------------------------------------------- | :-------------------------------------------- |
+| `--g-drawer-veil-background-color` | Цвет фона шторки |
+
+Переменные для **рессайзера**:
+| Имя | Описание |
+| :------------------------------------------- | :-------------------------------------------- |
+| `--g-drawer-item-resizer-width` | Ширина ресайзера |
+| `--g-drawer-item-resizer-color` | Цвет ресайзера |
+| `--g-drawer-item-resizer-handle-color` | Цвет контрола ресайзера |
 | `--g-drawer-item-resizer-handle-color-hover` | Цвет контрола ресайзера при наведении курсора |
-| `--g-drawer-item-resizer-z-index`            | z-index ресайзера                             |
-| `--g-drawer-veil-z-index`                    | z-index шторки                                |
-| `--g-drawer-item-z-index`                    | z-index контента                              |
+| `--g-drawer-item-resizer-z-index` | z-index ресайзера |
+| `--g-drawer-veil-z-index` | z-index шторки |
+| `--g-drawer-item-z-index` | z-index контента |

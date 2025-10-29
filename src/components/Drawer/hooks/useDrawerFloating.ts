@@ -21,25 +21,30 @@ export function useDrawerFloating({
     context,
 }: UseDrawerFloatingParams) {
     const [isInitialRender, setInitialRender] = React.useState(true);
+    const [isTransitionInProgress, setIsTransitionInProgress] = React.useState(false);
 
     const handleTransitionIn = React.useCallback(() => {
         setInitialRender(false);
         onTransitionIn?.();
+        setIsTransitionInProgress(true);
     }, [onTransitionIn]);
     const handleTransitionInComplete = React.useCallback(() => {
         setInitialRender(false);
         onTransitionInComplete?.();
+        setIsTransitionInProgress(false);
     }, [onTransitionInComplete]);
     const handleTransitionOut = React.useCallback(() => {
         setInitialRender(false);
         onTransitionOut?.();
+        setIsTransitionInProgress(true);
     }, [onTransitionOut]);
     const handleTransitionOutComplete = React.useCallback(() => {
         setInitialRender(false);
         onTransitionOutComplete?.();
+        setIsTransitionInProgress(false);
     }, [onTransitionOutComplete]);
 
-    const {isMounted, status, isTransitionInProgress} = useFloatingTransition({
+    const {isMounted, status} = useFloatingTransition({
         context,
         duration: DRAWER_ANIMATION_DURATION_MS,
         onTransitionIn: handleTransitionIn,

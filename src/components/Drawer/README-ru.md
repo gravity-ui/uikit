@@ -1,0 +1,96 @@
+<!--GITHUB_BLOCK-->
+
+# Drawer
+
+<!--/GITHUB_BLOCK-->
+
+```tsx
+import {Drawer} from '@gravity-ui/uikit';
+```
+
+`Drawer` - компонент, который позволяет отображать содержимое в виде боковой панели. Он может быть использован для отображения навигации, инструментов или дополнительного контента. Компонент реализован с помощью React и включает CSS-переходы для плавных анимаций.
+
+## Использование
+
+Ниже приводится простой пример использования компонента `Drawer`:
+
+```tsx
+import React from 'react';
+import {Drawer} from '@gravity-ui/uikit';
+
+const App = () => {
+  const [isVisible, setVisible] = React.useState(false);
+
+  return (
+    <div>
+      <button onClick={() => setVisible(true)}>Open Drawer</button>
+      <Drawer onOpenChange={setVisible} open={isVisible}>
+        <p>Content of the drawer</p>
+      </Drawer>
+    </div>
+  );
+};
+
+export default App;
+```
+
+## Свойства
+
+| Имя                   | Описание                                                                           |          Тип          | Значение по умолчанию |
+| :-------------------- | :--------------------------------------------------------------------------------- | :-------------------: | :-------------------: |
+| className             | Атрибут `class` для корневого элемента                                             |       `string`        |                       |
+| qa                    | Атрибут для тестирования (`data-qa`)                                               |       `string`        |                       |
+| style                 | Атрибут `style` для корневого элемента                                             | `React.CSSProperties` |                       |
+| aria-label            | Атрибут `aria-label` для описания компонента Drawer                                |       `string`        |                       |
+| aria-labelledby       | ID элемента с видимым заголовком для Drawer                                        |       `string`        |                       |
+| direction             | Направление, откуда выезжает Drawer                                                |       `string`        |        `left`         |
+| contentClassName      | Атрибут `class` для элемента с контентом                                           |       `string`        |                       |
+| children              | React-контент                                                                      |   `React.ReactNode`   |                       |
+| container             | DOM-элемент, в который монтируется компонент через `Portal`                        |     `HTMLElement`     |    `document.body`    |
+| hideVeil              | Скрывает шторку с фоном                                                            |       `boolean`       |                       |
+| disableBodyScrollLock | Отключает блокировку скролла страницы при открытии                                 |       `boolean`       |        `false`        |
+| disableEscapeKeyDown  | Отключает закрытие по клавише `Esc`                                                |       `boolean`       |        `false`        |
+| disableOutsideClick   | Отключает закрытие при клике снаружи                                               |       `boolean`       |        `false`        |
+| disablePortal         | Отключает использование `Portal`                                                   |       `boolean`       |        `false`        |
+| keepMounted           | Не удаляет компонент из DOM при скрытии                                            |       `boolean`       |        `false`        |
+| resizable             | Включает возможность изменения размера через курсор                                |       `boolean`       |        `false`        |
+| open                  | Управляет видимостью компонента                                                    |       `boolean`       |        `false`        |
+| defaultOpen           | Управялет `Drawer` видимостью компонента по умолчанию                              |       `boolean`       |        `false`        |
+| showInitialAnimation  | Включает анимацию при первом открытии, если Drawer рендерится в открытом состоянии |       `boolean`       |        `false`        |
+| onOpenChange          | Обработчик, вызываемый при изменении состояния видимости                           |      `Function`       |                       |
+| onTransitionEnter     | Обработчик начала анимации открытия                                                |      `Function`       |                       |
+| onTransitionExit      | Обработчик начала анимации закрытия                                                |      `Function`       |                       |
+| onTransitionEntered   | Обработчик завершения анимации открытия                                            |      `Function`       |                       |
+| onTransitionExited    | Обработчик завершения анимации закрытия                                            |      `Function`       |                       |
+| onResizeEnd           | Обработчик завершения изменения размера                                            |      `Function`       |                       |
+| onResize              | Обработчик изменения размера                                                       |      `Function`       |                       |
+| onResizeStart         | Обработчик начала изменения размера                                                |      `Function`       |                       |
+| maxSize               | Максимальная ширина контента в пикселях                                            |       `number`        |                       |
+| minSize               | Минимальная ширина контента в пикселях                                             |       `number`        |                       |
+| size                  | Ширина контента в пикселях                                                         |       `number`        |                       |
+
+## CSS API
+
+Переменные для **контента**:
+| Имя | Описание |
+| :------------------------------------------- | :-------------------------------------------- |
+| `--g-drawer-item-position` | Позиция контента внутри Drawer на странице |
+| `--g-drawer-item-shadow` | box-shadow у контента, когда шторка скрыта |
+| `--g-drawer-item-left-offset` | Отступ слева у контента |
+| `--g-drawer-item-top-offset` | Отступ сверху у контента |
+
+Переменные для **шторки**:
+| Имя | Описание |
+| :------------------------------------------- | :-------------------------------------------- |
+| `--g-drawer-veil-background-color` | Цвет фона шторки |
+
+Переменные для **рессайзера**:
+| Имя | Описание |
+| :------------------------------------------- | :-------------------------------------------- |
+| `--g-drawer-item-resizer-width` | Ширина ресайзера |
+| `--g-drawer-item-resizer-color` | Цвет ресайзера |
+| `--g-drawer-item-resizer-handle-color` | Цвет контрола ресайзера |
+| `--g-drawer-item-resizer-handle-color-hover` | Цвет контрола ресайзера при наведении курсора |
+| `--g-drawer-item-resizer-z-index` | z-index ресайзера |
+| `--g-drawer-veil-z-index` | z-index шторки |
+| `--g-drawer-item-z-index` | z-index контента |

@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import {List} from '../../../List';
+import type {QAProps} from '../../../types';
 import {SelectQa, selectListBlock} from '../../constants';
 import type {SelectOption, SelectProps} from '../../types';
 import {getOptionsHeight, getPopupItemHeight, scrollToItem} from '../../utils';
@@ -31,7 +32,7 @@ type SelectListProps = {
     id: string;
     activeIndex?: number;
     onChangeActive: (index?: number) => void;
-};
+} & QAProps;
 
 const loadingOption = {value: '__SELECT_LIST_ITEM_LOADING__', disabled: true};
 
@@ -53,6 +54,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
         id,
         activeIndex,
         onChangeActive,
+        qa,
     } = props;
     const items = React.useMemo(
         () => (loading ? [...flattenOptions, loadingOption] : flattenOptions),
@@ -139,7 +141,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
         <List
             ref={ref}
             className={selectListBlock({size, virtualized, mobile})}
-            qa={SelectQa.LIST}
+            qa={qa ? `${qa}-list` : SelectQa.LIST}
             itemClassName={selectListBlock('item')}
             itemHeight={getItemHeight}
             itemsHeight={virtualized ? optionsHeight : undefined}

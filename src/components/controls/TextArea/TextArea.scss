@@ -77,7 +77,9 @@ $block: '.#{variables.$ns}text-area';
     }
 
     &__clear {
-        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         &_size_s,
         &_size_m {
@@ -92,6 +94,28 @@ $block: '.#{variables.$ns}text-area';
         }
     }
 
+    &__actions {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-end;
+    }
+
+    &__error-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--g-color-text-danger);
+        padding-block: var(--_--error-icon-padding-block);
+        padding-inline: var(--_--error-icon-padding-inline-start)
+            var(--_--error-icon-padding-inline-end);
+    }
+
+    &__clear {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     &_size {
         &_s {
             #{$block}__control {
@@ -101,6 +125,10 @@ $block: '.#{variables.$ns}text-area';
             &#{$block}_has-clear #{$block}__control {
                 padding-inline-end: 26px;
             }
+
+            --_--error-icon-padding-block: 5px;
+            --_--error-icon-padding-inline-start: 0;
+            --_--error-icon-padding-inline-end: 5px;
 
             --_--border-radius: var(--g-border-radius-s);
         }
@@ -114,6 +142,10 @@ $block: '.#{variables.$ns}text-area';
                 padding-inline-end: 26px;
             }
 
+            --_--error-icon-padding-block: 6px;
+            --_--error-icon-padding-inline-start: 0;
+            --_--error-icon-padding-inline-end: 6px;
+
             --_--border-radius: var(--g-border-radius-m);
         }
 
@@ -126,6 +158,10 @@ $block: '.#{variables.$ns}text-area';
                 padding-inline-end: 36px;
             }
 
+            --_--error-icon-padding-block: 9px;
+            --_--error-icon-padding-inline-start: 0;
+            --_--error-icon-padding-inline-end: 9px;
+
             --_--border-radius: var(--g-border-radius-l);
         }
 
@@ -137,6 +173,10 @@ $block: '.#{variables.$ns}text-area';
             &#{$block}_has-clear #{$block}__control {
                 padding-inline-end: 36px;
             }
+
+            --_--error-icon-padding-block: 13px;
+            --_--error-icon-padding-inline-start: 0;
+            --_--error-icon-padding-inline-end: 13px;
 
             --_--border-radius: var(--g-border-radius-xl);
         }

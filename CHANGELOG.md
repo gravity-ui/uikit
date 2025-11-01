@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.26.0](https://github.com/gravity-ui/uikit/compare/v7.25.0...v7.26.0) (2025-11-01)
+
+
+### Features
+
+* add focus-outline mixin ([#2475](https://github.com/gravity-ui/uikit/issues/2475)) ([3b49eaa](https://github.com/gravity-ui/uikit/commit/3b49eaa8c0559e97378fb08dcb2b288841993966))
+
 ## [7.25.0](https://github.com/gravity-ui/uikit/compare/v7.24.0...v7.25.0) (2025-10-29)
 
 

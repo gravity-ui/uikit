@@ -4,10 +4,16 @@ import {block} from '../utils/cn';
 
 const b = block('avatar-stack');
 
-type Props = React.PropsWithChildren<{}>;
+type Props = React.PropsWithChildren<{
+    style?: React.CSSProperties;
+}>;
 
-export const AvatarStackItem = ({children}: Props) => {
-    return <li className={b('item')}>{children}</li>;
+export const AvatarStackItem = ({children, style}: Props) => {
+    return (
+        <li className={b('item')} style={style}>
+            {children}
+        </li>
+    );
 };
 
 AvatarStackItem.displayName = 'AvatarStack.Item';

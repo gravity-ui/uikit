@@ -8,7 +8,7 @@ import type {SelectClearProps} from '../../types';
 import './SelectClear.scss';
 
 export const SelectClear = (props: SelectClearProps) => {
-    const {size, onClick, onMouseEnter, onMouseLeave, renderIcon} = props;
+    const {size, onClick, onMouseEnter, onMouseLeave, renderIcon, qa} = props;
     const {t} = i18n.useTranslation();
     const icon = renderIcon ? (
         renderIcon()
@@ -22,7 +22,7 @@ export const SelectClear = (props: SelectClearProps) => {
             onClick={onClick}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
-            data-qa={SelectQa.CLEAR}
+            data-qa={qa ? `${qa}-clear` : SelectQa.CLEAR}
             type="button"
         >
             {icon}

@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import {TextInput} from '../../../controls';
+import type {QAProps} from '../../../types';
 import {block} from '../../../utils/cn';
 import {SelectQa} from '../../constants';
 import i18n from '../../i18n';
@@ -22,14 +23,14 @@ type SelectFilterProps = {
     placeholder?: string;
     popupId: string;
     activeIndex?: number;
-};
+} & QAProps;
 
 const style = {
     padding: '4px 4px 0',
 };
 
 export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>((props, ref) => {
-    const {onChange, onKeyDown, renderFilter, size, value, placeholder, popupId, activeIndex} =
+    const {onChange, onKeyDown, renderFilter, size, value, placeholder, popupId, activeIndex, qa} =
         props;
     const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -77,7 +78,7 @@ export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>
                 placeholder={placeholder}
                 onUpdate={onChange}
                 onKeyDown={onKeyDown}
-                qa={SelectQa.FILTER_INPUT}
+                qa={qa ? `${qa}-filter-input` : SelectQa.FILTER_INPUT}
             />
         </div>
     );

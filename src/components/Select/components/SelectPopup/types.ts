@@ -1,6 +1,7 @@
 import type * as React from 'react';
 
 import type {PopupPlacement} from '../../../Popup';
+import type {QAProps} from '../../../types';
 import type {SelectProps} from '../../types';
 
 export type SelectPopupProps = {
@@ -17,4 +18,4 @@ export type SelectPopupProps = {
     id?: string;
     onAfterOpen?: () => void;
     onAfterClose?: () => void;
-};
+} & QAProps;

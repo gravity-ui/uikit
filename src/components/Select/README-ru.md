@@ -1013,6 +1013,115 @@ const MyComponent = () => {
 
 <!--/GITHUB_BLOCK-->
 
+### Отображение пользовательского счетчика
+
+Для отображения пользовательского счетчика используйте свойство `renderCounter`. Счетчик отображается только при включенном множественном выборе (`multiple={true}`) и `hasCounter={true}`.
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Select
+  multiple={true}
+  hasCounter={true}
+  renderCounter={(_, {count, disabled}) => {
+    if (count === 0) {
+      return null;
+    }
+    if (count >= 2) {
+      return (
+        <div
+          style={{
+            padding: '0 8px',
+            color: disabled ? '#999' : '#027bf3',
+            fontWeight: 'bold',
+          }}
+        >
+          +{count}
+        </div>
+      );
+    }
+    return count;
+  }}
+>
+  <Select.Option value="val_1">Value 1</Select.Option>
+  <Select.Option value="val_2">Value 2</Select.Option>
+  <Select.Option value="val_3">Value 3</Select.Option>
+  <Select.Option value="val_4">Value 4</Select.Option>
+</Select>
+`}
+>
+  <UIKit.Select
+    multiple={true}
+    hasCounter={true}
+    renderCounter={(_, {count, disabled}) => {
+      if (count === 0) {
+        return null;
+      }
+      if (count >= 2) {
+        return (
+          <div
+            style={{
+              padding: '0 8px',
+              color: disabled ? '#999' : '#027bf3',
+              fontWeight: 'bold',
+            }}
+          >
+            +{count}
+          </div>
+        );
+      }
+      return count;
+    }}
+  >
+    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
+  </UIKit.Select>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+import type {SelectProps} from '@gravity-ui/uikit';
+
+const MyComponent = () => {
+  const renderCounter: SelectProps['renderCounter'] = (_, {count, disabled}) => {
+    if (count === 0) {
+      return null;
+    }
+    if (count >= 2) {
+      return (
+        <div
+          style={{
+            padding: '0 8px',
+            color: disabled ? '#999' : '#027bf3',
+            fontWeight: 'bold',
+          }}
+        >
+          +{count}
+        </div>
+      );
+    }
+    return count;
+  };
+
+  return (
+    <Select multiple={true} hasCounter={true} renderCounter={renderCounter}>
+      <Select.Option value="val_1">Value 1</Select.Option>
+      <Select.Option value="val_2">Value 2</Select.Option>
+      <Select.Option value="val_3">Value 3</Select.Option>
+      <Select.Option value="val_4">Value 4</Select.Option>
+    </Select>
+  );
+};
+```
+
+<!--/GITHUB_BLOCK-->
+
 ### Отображение пользовательских всплывающих окон
 
 Для отображения пользовательских всплывающих окон используйте свойство `renderPopup`.
@@ -1150,6 +1259,7 @@ LANDING_BLOCK-->
 | [popupWidth](#popup-width)                                | Ширина всплывающего окна.                                                                                                                     | `number \| 'fit' \| 'outfit'`            | `'outfit'`                                               |
 | qa                                                        | Атрибут идентификатора для тестирования (`data-qa`).                                                                                          | `string`                                 |                                                          |
 | [renderControl](#render-custom-control)                   | Используется для рендеринга пользовательского контрола.                                                                                       | `function`                               |                                                          |
+| [renderCounter](#render-custom-counter)                   | Используется для рендеринга пользовательского счетчика. Работает только с [hasCounter](#counter).                                             | `function`                               |                                                          |
 | renderEmptyOptions                                        | Используется для рендеринга узла для пустого списка вариантов.                                                                                | `function`                               |                                                          |
 | [renderFilter](#render-custom-filter-section)             | Используется для рендеринга секции пользовательской фильтрации.                                                                               | `function`                               |                                                          |
 | [renderOption](#render-custom-options)                    | Используется для рендеринга пользовательских вариантов.                                                                                       | `function`                               |                                                          |

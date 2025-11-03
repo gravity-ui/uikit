@@ -109,7 +109,7 @@ $block: '.#{variables.$ns}drawer';
         --_--veil-background-color: var(--g-color-sfx-veil);
 
         position: absolute;
-        z-index: var(--g-drawer-veil-z-index);
+        z-index: var(--g-drawer-veil-z-index, 100);
         inset: 0;
 
         background-color: var(--g-drawer-veil-background-color, var(--_--veil-background-color));
@@ -121,21 +121,21 @@ $block: '.#{variables.$ns}drawer';
         }
     }
 
-    &__veil:has(&:not(&_skip-animation)[data-floating-ui-status='open']),
-    &__veil:has(&:not(&_skip-animation)[data-floating-ui-status='close']) {
+    &:not(&_skip-animation)[data-floating-ui-status='open'] &__veil,
+    &:not(&_skip-animation)[data-floating-ui-status='close'] &__veil {
         transition: opacity 300ms;
     }
 
-    &__veil:has(&[data-floating-ui-status='initial']),
-    &__veil:has(&[data-floating-ui-status='close']) {
+    &[data-floating-ui-status='initial'] &__veil,
+    &[data-floating-ui-status='close'] &__veil {
         opacity: 0;
     }
 
-    &__veil:has(&[data-floating-ui-status='unmounted']) {
+    &[data-floating-ui-status='unmounted'] &__veil {
         visibility: hidden;
     }
 
-    &__veil:has(&[data-floating-ui-status='open']) {
+    &[data-floating-ui-status='open'] &__veil {
         opacity: 1;
     }
 

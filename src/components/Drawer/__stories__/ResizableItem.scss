@@ -21,12 +21,6 @@
         flex-grow: 1;
     }
 
-    &__drawer {
-        position: absolute;
-        inset: 0;
-        overflow: hidden;
-    }
-
     &__item {
         width: 400px;
         height: 100%;

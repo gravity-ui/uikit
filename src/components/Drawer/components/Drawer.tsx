@@ -10,11 +10,10 @@ import {
     useInteractions,
     useRole,
 } from '@floating-ui/react';
-import type {OpenChangeReason} from '@floating-ui/react';
 
 import type {ModalProps} from 'src/components/Modal';
 
-import {useForkRef} from '../../../hooks';
+import {useControlledState, useForkRef} from '../../../hooks';
 import {Portal} from '../../Portal';
 import {block} from '../../utils/cn';
 import {useDrawerFloating} from '../hooks/useDrawerFloating';
@@ -120,21 +119,15 @@ export const Drawer = ({
     showInitialAnimation = false,
     ...restProps
 }: DrawerProps) => {
-    const isDrawerOpen = open ?? defaultOpen;
+    const [isOpen, setIsOpen] = useControlledState(open, defaultOpen ?? false, onOpenChange);
     const floatingNodeId = useFloatingNodeId();
-
-    const handleOpenChange = React.useCallback(
-        (isOpen: boolean, event?: Event, reason?: OpenChangeReason) => {
-            onOpenChange?.(isOpen, event, reason);
-        },
-        [onOpenChange],
-    );
 
     const {refs, context} = useFloating({
         nodeId: floatingNodeId,
-        open: isDrawerOpen,
-        onOpenChange: handleOpenChange,
+        open: isOpen,
+        onOpenChange: setIsOpen,
     });
+    const overlayRef = React.useRef(null);
 
     const {isInitialRender, isMounted, status, isTransitionInProgress} = useDrawerFloating({
         onTransitionIn,
@@ -145,9 +138,16 @@ export const Drawer = ({
     });
 
     const dismiss = useDismiss(context, {
-        enabled: !disableEscapeKeyDown,
-        outsidePress: () => {
+        enabled: !disableEscapeKeyDown || !disableOutsideClick,
+        outsidePress: (event) => {
             if (disableOutsideClick) {
+                return false;
+            }
+
+            const isOwnOutsideClick =
+                (event.target as HTMLElement).closest(`.${b()}`) === overlayRef.current;
+
+            if (!isOwnOutsideClick) {
                 return false;
             }
 
@@ -160,37 +160,27 @@ export const Drawer = ({
     const {getFloatingProps} = useInteractions([dismiss, role]);
     const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
 
-    const currentStyle = React.useMemo(() => {
-        const positionProp = {
-            position: (disablePortal ? 'absolute' : 'fixed') as 'fixed' | 'absolute',
-        };
-
-        return {
-            ...positionProp,
-            ...style,
-        };
-    }, [style, disablePortal]);
-
     const portal =
         isMounted || keepMounted ? (
             <Portal container={container} disablePortal={disablePortal}>
-                <div className={b('veil', {hidden: hideVeil})}>
-                    <FloatingOverlay
-                        style={currentStyle}
-                        aria-modal="true"
-                        className={b(
-                            {
-                                open: isDrawerOpen,
-                                'hide-veil': hideVeil,
-                                'skip-animation': !showInitialAnimation && isInitialRender,
-                            },
-                            className,
-                        )}
-                        data-qa={qa}
-                        data-floating-ui-status={status}
-                        data-transiting={isTransitionInProgress}
-                        lockScroll={!disableBodyScrollLock}
-                    >
+                <FloatingOverlay
+                    style={style}
+                    ref={overlayRef}
+                    aria-modal="true"
+                    className={b(
+                        {
+                            open: isOpen,
+                            'hide-veil': hideVeil,
+                            'skip-animation': !showInitialAnimation && isInitialRender,
+                        },
+                        className,
+                    )}
+                    data-qa={qa}
+                    data-floating-ui-status={status}
+                    data-transiting={isTransitionInProgress}
+                    lockScroll={!disableBodyScrollLock}
+                >
+                    <div className={b('veil', {hidden: hideVeil})}>
                         <FloatingFocusManager
                             context={context}
                             disabled={!isMounted}
@@ -204,7 +194,7 @@ export const Drawer = ({
                         >
                             <DrawerItem
                                 ref={handleFloatingRef}
-                                open={isDrawerOpen}
+                                open={isOpen}
                                 direction={direction}
                                 className={contentClassName}
                                 resizable={resizable}
@@ -220,8 +210,8 @@ export const Drawer = ({
                                 {children}
                             </DrawerItem>
                         </FloatingFocusManager>
-                    </FloatingOverlay>
-                </div>
+                    </div>
+                </FloatingOverlay>
             </Portal>
         ) : null;
 

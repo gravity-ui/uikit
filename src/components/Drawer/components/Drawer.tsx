@@ -129,13 +129,6 @@ export const Drawer = ({
         },
         [onOpenChange],
     );
-    const handleVeilClick = React.useCallback(() => {
-        if (disableOutsideClick) {
-            return;
-        }
-
-        onOpenChange?.(false);
-    }, [disableOutsideClick, onOpenChange]);
 
     const {refs, context} = useFloating({
         nodeId: floatingNodeId,
@@ -153,13 +146,18 @@ export const Drawer = ({
 
     const dismiss = useDismiss(context, {
         enabled: !disableEscapeKeyDown,
-        outsidePress: false,
+        outsidePress: () => {
+            if (disableOutsideClick) {
+                return false;
+            }
+
+            return true;
+        },
         escapeKey: !disableEscapeKeyDown,
     });
 
     const role = useRole(context, {role: 'dialog'});
     const {getFloatingProps} = useInteractions([dismiss, role]);
-    const veilRef = React.useRef<HTMLDivElement>(null);
     const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
 
     const currentStyle = React.useMemo(() => {
@@ -176,56 +174,54 @@ export const Drawer = ({
     const portal =
         isMounted || keepMounted ? (
             <Portal container={container} disablePortal={disablePortal}>
-                <FloatingOverlay
-                    style={currentStyle}
-                    aria-modal="true"
-                    className={b(
-                        {
-                            open: isDrawerOpen,
-                            'hide-veil': hideVeil,
-                            'skip-animation': !showInitialAnimation && isInitialRender,
-                        },
-                        className,
-                    )}
-                    data-qa={qa}
-                    data-floating-ui-status={status}
-                    data-transiting={isTransitionInProgress}
-                    lockScroll={!disableBodyScrollLock}
-                >
-                    <div
-                        ref={veilRef}
-                        className={b('veil', {hidden: hideVeil})}
-                        role="presentation"
-                        onClick={handleVeilClick}
-                    />
-                    <FloatingFocusManager
-                        context={context}
-                        disabled={!isMounted}
-                        modal={isMounted}
-                        initialFocus={initialFocus ?? refs.floating}
-                        returnFocus={returnFocus}
-                        visuallyHiddenDismiss={disableVisuallyHiddenDismiss ? false : i18n('close')}
-                        restoreFocus={true}
+                <div className={b('veil', {hidden: hideVeil})}>
+                    <FloatingOverlay
+                        style={currentStyle}
+                        aria-modal="true"
+                        className={b(
+                            {
+                                open: isDrawerOpen,
+                                'hide-veil': hideVeil,
+                                'skip-animation': !showInitialAnimation && isInitialRender,
+                            },
+                            className,
+                        )}
+                        data-qa={qa}
+                        data-floating-ui-status={status}
+                        data-transiting={isTransitionInProgress}
+                        lockScroll={!disableBodyScrollLock}
                     >
-                        <DrawerItem
-                            ref={handleFloatingRef}
-                            open={isDrawerOpen}
-                            direction={direction}
-                            className={contentClassName}
-                            resizable={resizable}
-                            size={size}
-                            onResize={onResize}
-                            onResizeStart={onResizeStart}
-                            onResizeEnd={onResizeEnd}
-                            minResizeWidth={minSize}
-                            maxResizeWidth={maxSize}
-                            {...getFloatingProps()}
-                            {...restProps}
+                        <FloatingFocusManager
+                            context={context}
+                            disabled={!isMounted}
+                            modal={isMounted}
+                            initialFocus={initialFocus ?? refs.floating}
+                            returnFocus={returnFocus}
+                            visuallyHiddenDismiss={
+                                disableVisuallyHiddenDismiss ? false : i18n('close')
+                            }
+                            restoreFocus={true}
                         >
-                            {children}
-                        </DrawerItem>
-                    </FloatingFocusManager>
-                </FloatingOverlay>
+                            <DrawerItem
+                                ref={handleFloatingRef}
+                                open={isDrawerOpen}
+                                direction={direction}
+                                className={contentClassName}
+                                resizable={resizable}
+                                size={size}
+                                onResize={onResize}
+                                onResizeStart={onResizeStart}
+                                onResizeEnd={onResizeEnd}
+                                minResizeWidth={minSize}
+                                maxResizeWidth={maxSize}
+                                {...getFloatingProps()}
+                                {...restProps}
+                            >
+                                {children}
+                            </DrawerItem>
+                        </FloatingFocusManager>
+                    </FloatingOverlay>
+                </div>
             </Portal>
         ) : null;
 

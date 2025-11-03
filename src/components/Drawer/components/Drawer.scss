@@ -15,8 +15,6 @@ $block: '.#{variables.$ns}drawer';
     --_--resizer-handle-color-hover: var(--g-color-line-generic-hover);
     --_--resizer-z-index: 100;
 
-    --_--veil-background-color: var(--g-color-sfx-veil);
-
     &_hide-veil {
         --_--item-shadow: var(--g-drawer-item-shadow, var(--_--item-shadow-default));
     }
@@ -108,6 +106,8 @@ $block: '.#{variables.$ns}drawer';
     }
 
     &__veil {
+        --_--veil-background-color: var(--g-color-sfx-veil);
+
         position: absolute;
         z-index: var(--g-drawer-veil-z-index);
         inset: 0;
@@ -121,21 +121,21 @@ $block: '.#{variables.$ns}drawer';
         }
     }
 
-    &:not(&_skip-animation)[data-floating-ui-status='open'] &__veil,
-    &:not(&_skip-animation)[data-floating-ui-status='close'] &__veil {
+    &__veil:has(&:not(&_skip-animation)[data-floating-ui-status='open']),
+    &__veil:has(&:not(&_skip-animation)[data-floating-ui-status='close']) {
         transition: opacity 300ms;
     }
 
-    &[data-floating-ui-status='initial'] &__veil,
-    &[data-floating-ui-status='close'] &__veil {
+    &__veil:has(&[data-floating-ui-status='initial']),
+    &__veil:has(&[data-floating-ui-status='close']) {
         opacity: 0;
     }
 
-    &[data-floating-ui-status='unmounted'] &__veil {
+    &__veil:has(&[data-floating-ui-status='unmounted']) {
         visibility: hidden;
     }
 
-    &[data-floating-ui-status='open'] &__veil {
+    &__veil:has(&[data-floating-ui-status='open']) {
         opacity: 1;
     }
 

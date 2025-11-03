@@ -46,11 +46,11 @@ export function ResizableItemShowcase() {
                 style={{
                     height: '100%',
                 }}
-                qa="drawer"
+                qa="test-drawer"
             >
                 <div
                     style={{height: '100%', overflow: 'auto', padding: '20px'}}
-                    data-qa="drawer-item"
+                    data-qa="test-drawer-item"
                 >
                     <PlaceholderText />
                 </div>
@@ -62,7 +62,7 @@ export function ResizableItemShowcase() {
 export function HideVeilShowcase() {
     return (
         <div style={{display: 'flex', flexDirection: 'column', width: '100%', height: '100%'}}>
-            <Drawer open direction="right" hideVeil style={{padding: '10px'}}>
+            <Drawer open direction="right" hideVeil style={{padding: '10px'}} qa="test-drawer">
                 <div style={{height: '100%', overflow: 'auto', padding: '20px'}}>
                     <PlaceholderText />
                 </div>

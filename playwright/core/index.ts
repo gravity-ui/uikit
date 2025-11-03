@@ -1,6 +1,5 @@
 import {test as base} from '@playwright/experimental-ct-react';
 
-import {defaultDelayFixture} from './defaultDelayFixture';
 import {expectScreenshotFixture} from './expectScreenshotFixture';
 import {mountFixture} from './mountFixture';
 import type {Fixtures} from './types';
@@ -8,7 +7,6 @@ import type {Fixtures} from './types';
 export const test = base.extend<Fixtures>({
     mount: mountFixture,
     expectScreenshot: expectScreenshotFixture,
-    defaultDelay: defaultDelayFixture,
 });
 
 export {expect} from '@playwright/experimental-ct-react';

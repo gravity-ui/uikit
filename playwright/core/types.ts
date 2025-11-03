@@ -31,7 +31,6 @@ export type PlaywrightFixture<T> = TestFixture<T, PlaywrightFixtures>;
 export type Fixtures = {
     mount: MountFixture;
     expectScreenshot: ExpectScreenshotFixture;
-    defaultDelay: () => Promise<void>;
 };
 
 export type MountFixture = ComponentFixtures['mount'];

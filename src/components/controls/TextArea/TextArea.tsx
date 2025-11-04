@@ -60,7 +60,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
             hasClear = false,
             error,
             errorMessage: errorMessageProp,
-            errorPlacement: errorPlacementProp,
+            errorPlacement: errorPlacementProp = 'outside',
             validationState: validationStateProp,
             autoComplete,
             id: idProp,

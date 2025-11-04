@@ -17,7 +17,12 @@ import type {
     InputControlSize,
     InputControlView,
 } from '../types';
-import {errorPropsMapper, getInputControlState, prepareAutoComplete} from '../utils';
+import {
+    CONTROL_ERROR_ICON_QA,
+    errorPropsMapper,
+    getInputControlState,
+    prepareAutoComplete,
+} from '../utils';
 
 import {TextAreaControl} from './TextAreaControl';
 
@@ -172,26 +177,23 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
             >
                 <span className={b('content')}>
                     <TextAreaControl {...props} {...commonProps} controlRef={handleRef} />
-                    {(isErrorIconVisible || isClearControlVisible) && (
-                        <span className={b('actions')}>
-                            {isClearControlVisible && (
-                                <ClearButton
-                                    className={b('clear', {size})}
-                                    size={mapTextInputSizeToButtonSize(size)}
-                                    onClick={handleClear}
+                    {isClearControlVisible && (
+                        <ClearButton
+                            size={mapTextInputSizeToButtonSize(size)}
+                            onClick={handleClear}
+                            className={b('clear', {size})}
+                        />
+                    )}
+                    {isErrorIconVisible && (
+                        <Popover content={errorMessage}>
+                            <span data-qa={CONTROL_ERROR_ICON_QA}>
+                                <Icon
+                                    data={TriangleExclamation}
+                                    className={b('error-icon')}
+                                    size={size === 's' ? 12 : 16}
                                 />
-                            )}
-                            {isErrorIconVisible && (
-                                <Popover content={errorMessage}>
-                                    <span className={b('error-icon')}>
-                                        <Icon
-                                            data={TriangleExclamation}
-                                            size={size === 's' ? 12 : 16}
-                                        />
-                                    </span>
-                                </Popover>
-                            )}
-                        </span>
+                            </span>
+                        </Popover>
                     )}
                 </span>
                 <OuterAdditionalContent

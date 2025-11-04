@@ -13,6 +13,8 @@ export const hasClearCases: Array<TextAreaProps['hasClear']> = [true];
 
 export const validationStateCases: Array<TextAreaProps['validationState']> = ['invalid'];
 
+export const errorPlacementCases: Cases<TextAreaProps['errorPlacement']> = ['outside', 'inside'];
+
 export const pinCases: Cases<TextAreaProps['pin']> = [
     'round-round',
     'brick-brick',

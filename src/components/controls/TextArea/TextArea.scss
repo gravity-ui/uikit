@@ -10,9 +10,7 @@ $block: '.#{variables.$ns}text-area';
     --_--placeholder-color: var(--g-color-text-hint);
     --_--background-color: transparent;
     --_--border-width: #{control-variables.$border-width};
-    --_--clear-offset: calc(
-        var(--g-text-area-border-width, #{control-variables.$border-width}) + 1px
-    );
+    --_--clear-offset: calc(var(--g-text-area-border-width, #{control-variables.$border-width}));
     --_--focus-outline-color: var(--g-text-area-focus-outline-color);
 
     display: inline-block;
@@ -77,10 +75,6 @@ $block: '.#{variables.$ns}text-area';
     }
 
     &__clear {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
         &_size_s,
         &_size_m {
             inset-inline-end: var(--_--clear-offset);
@@ -122,6 +116,10 @@ $block: '.#{variables.$ns}text-area';
                 @include control-mixins.input-control(s);
             }
 
+            &#{$block}_has-clear #{$block}__control {
+                padding-inline-end: 0;
+            }
+
             --_--error-icon-padding-block: 5px;
             --_--error-icon-padding-inline-start: 0;
             --_--error-icon-padding-inline-end: 5px;
@@ -132,6 +130,10 @@ $block: '.#{variables.$ns}text-area';
         &_m {
             #{$block}__control {
                 @include control-mixins.input-control(m);
+            }
+
+            &#{$block}_has-clear #{$block}__control {
+                padding-inline-end: 0;
             }
 
             --_--error-icon-padding-block: 6px;
@@ -146,6 +148,10 @@ $block: '.#{variables.$ns}text-area';
                 @include control-mixins.input-control(l);
             }
 
+            &#{$block}_has-clear #{$block}__control {
+                padding-inline-end: 0;
+            }
+
             --_--error-icon-padding-block: 9px;
             --_--error-icon-padding-inline-start: 0;
             --_--error-icon-padding-inline-end: 9px;
@@ -156,6 +162,10 @@ $block: '.#{variables.$ns}text-area';
         &_xl {
             #{$block}__control {
                 @include control-mixins.input-control(xl);
+            }
+
+            &#{$block}_has-clear #{$block}__control {
+                padding-inline-end: 0;
             }
 
             --_--error-icon-padding-block: 13px;

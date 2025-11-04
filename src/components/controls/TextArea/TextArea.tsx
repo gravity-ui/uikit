@@ -26,10 +26,15 @@ import './TextArea.scss';
 const b = block('text-area');
 
 export type TextAreaProps = BaseInputControlProps<HTMLTextAreaElement> & {
+    /** The control's html attributes */
     controlProps?: React.TextareaHTMLAttributes<HTMLTextAreaElement>;
+    /** The number of visible text lines for the control. If not specified, the hight will be automatically calculated based on the content */
     rows?: number;
+    /** The number of minimum visible text lines for the control. Ignored if `rows` is specified */
     minRows?: number;
+    /** The number of maximum visible text lines for the control. Ignored if `rows` is specified */
     maxRows?: number;
+    /** An optional element displayed under the lower right corner of the control and sharing the place with the error container */
     note?: React.ReactNode;
 };
 
@@ -138,8 +143,10 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
 
         React.useEffect(() => {
             const control = innerControlRef.current;
+
             if (control) {
                 const currHasVerticalScrollbar = control.scrollHeight > control.clientHeight;
+
                 if (hasVerticalScrollbar !== currHasVerticalScrollbar) {
                     setHasVerticalScrollbar(currHasVerticalScrollbar);
                 }

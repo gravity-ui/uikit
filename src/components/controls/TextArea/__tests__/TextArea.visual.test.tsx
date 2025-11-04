@@ -68,7 +68,7 @@ test.describe('TextArea', {tag: '@TextArea'}, () => {
         );
 
         await mount(
-            <div style={{width: 522}}>
+            <div>
                 {smokeScenarios.map(([title, props]) => (
                     <div key={title}>
                         <h4>{title}</h4>

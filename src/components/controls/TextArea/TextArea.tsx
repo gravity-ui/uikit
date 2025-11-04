@@ -31,8 +31,6 @@ export type TextAreaProps = BaseInputControlProps<HTMLTextAreaElement> & {
     minRows?: number;
     maxRows?: number;
     note?: React.ReactNode;
-    /** Controls where error message is displayed */
-    errorPlacement?: 'inside' | 'outside';
 };
 
 export type TextAreaPin = InputControlPin;

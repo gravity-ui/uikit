@@ -2,8 +2,12 @@
 
 import * as React from 'react';
 
+import {TriangleExclamation} from '@gravity-ui/icons';
+
 import {useControlledState, useForkRef, useUniqId} from '../../../hooks';
 import {useFormResetHandler} from '../../../hooks/private';
+import {Icon} from '../../Icon';
+import {Popover} from '../../legacy';
 import {block} from '../../utils/cn';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
 import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';
@@ -51,6 +55,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
             hasClear = false,
             error,
             errorMessage: errorMessageProp,
+            errorPlacement: errorPlacementProp,
             validationState: validationStateProp,
             autoComplete,
             id: idProp,
@@ -64,9 +69,10 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
             onChange,
         } = props;
 
-        const {errorMessage, validationState} = errorPropsMapper({
+        const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
             error,
             errorMessage: errorMessageProp,
+            errorPlacement: errorPlacementProp,
             validationState: validationStateProp,
         });
 
@@ -78,7 +84,10 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
         const state = getInputControlState(validationState);
         const innerId = useUniqId();
 
-        const isErrorMsgVisible = validationState === 'invalid' && Boolean(errorMessage);
+        const isErrorMsgVisible =
+            validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'outside';
+        const isErrorIconVisible =
+            validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'inside';
         const isClearControlVisible = Boolean(hasClear && !disabled && !readOnly && inputValue);
         const id = idProp || innerId;
 
@@ -154,6 +163,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
                         state,
                         pin: view === 'clear' ? undefined : pin,
                         'has-clear': isClearControlVisible,
+                        'has-error-icon': isErrorIconVisible,
                         'has-scrollbar': hasVerticalScrollbar,
                     },
                     className,
@@ -162,12 +172,26 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
             >
                 <span className={b('content')}>
                     <TextAreaControl {...props} {...commonProps} controlRef={handleRef} />
-                    {isClearControlVisible && (
-                        <ClearButton
-                            className={b('clear', {size})}
-                            size={mapTextInputSizeToButtonSize(size)}
-                            onClick={handleClear}
-                        />
+                    {(isErrorIconVisible || isClearControlVisible) && (
+                        <span className={b('actions')}>
+                            {isClearControlVisible && (
+                                <ClearButton
+                                    className={b('clear', {size})}
+                                    size={mapTextInputSizeToButtonSize(size)}
+                                    onClick={handleClear}
+                                />
+                            )}
+                            {isErrorIconVisible && (
+                                <Popover content={errorMessage}>
+                                    <span className={b('error-icon')}>
+                                        <Icon
+                                            data={TriangleExclamation}
+                                            size={size === 's' ? 12 : 16}
+                                        />
+                                    </span>
+                                </Popover>
+                            )}
+                        </span>
                     )}
                 </span>
                 <OuterAdditionalContent

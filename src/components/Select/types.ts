@@ -90,7 +90,7 @@ export type SelectSize = InputControlSize;
 export type SelectRenderCounter = (
     originalComponent: React.ReactElement<SelectCounterProps>,
     counterProps: SelectCounterProps,
-) => React.ReactElement;
+) => React.ReactNode;
 
 export type SelectProps<T = any> = AriaLabelingProps &
     QAProps &

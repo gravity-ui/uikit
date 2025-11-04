@@ -33,18 +33,16 @@ interface ToastInnerProps {
 interface ToastUnitedProps extends InternalToastProps, ToastInnerProps {}
 
 interface RenderActionsProps {
-    actions?: ToastAction[];
+    actions?: (() => React.ReactElement) | ToastAction[];
     onClose: VoidFunction;
 }
 
 function renderActions({actions, onClose}: RenderActionsProps) {
-    if (!actions || !actions.length) {
-        return null;
-    }
+    let component: React.ReactElement | React.ReactElement[] | undefined;
 
-    return (
-        <div className={b('actions')}>
-            {actions.map(({label, onClick, view = 'outlined', removeAfterClick = true}, index) => {
+    if (Array.isArray(actions)) {
+        component = actions.map(
+            ({label, onClick, view = 'outlined', removeAfterClick = true}, index) => {
                 const onActionClick = () => {
                     onClick();
                     if (removeAfterClick) {
@@ -55,7 +53,6 @@ function renderActions({actions, onClose}: RenderActionsProps) {
                 return (
                     <Button
                         key={`${label}__${index}`}
-                        className={b('action')}
                         onClick={onActionClick}
                         type="button"
                         size="l"
@@ -65,9 +62,21 @@ function renderActions({actions, onClose}: RenderActionsProps) {
                         {label}
                     </Button>
                 );
-            })}
-        </div>
-    );
+            },
+        );
+
+        if (!actions.length) {
+            return null;
+        }
+    } else {
+        component = actions?.();
+
+        if (!component) {
+            return null;
+        }
+    }
+
+    return <div className={b('actions')}>{component}</div>;
 }
 
 interface RenderIconProps {

@@ -45,6 +45,7 @@ export interface TableColumnSetupProps {
 
     items: Item[];
     sortable?: boolean;
+    hideApplyButton?: boolean;
 
     onUpdate: (updated: Item[]) => void;
     popupWidth?: number | 'fit' | undefined;
@@ -66,6 +67,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         sortable = true,
         showStatus,
         onUpdate: propsOnUpdate,
+        hideApplyButton,
     } = props;
 
     const {t} = i18n.useTranslation();
@@ -122,6 +124,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     return (
         <NewTableColumnSetup
+            hideApplyButton={hideApplyButton}
             items={items}
             onUpdate={onUpdate}
             popupPlacement={popupPlacement}

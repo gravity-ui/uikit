@@ -268,8 +268,7 @@ export function Menu({
                     orientation="vertical"
                     loop={false}
                     rtl={isRTL}
-                    // @ts-expect-error
-                    activeIndex={activeIndex}
+                    activeIndex={activeIndex ?? undefined}
                     onNavigate={setActiveIndex}
                 >
                     {preparedChildren}

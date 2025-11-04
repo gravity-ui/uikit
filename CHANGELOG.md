@@ -1,19 +1,64 @@
 # Changelog
 
-## [7.21.0](https://github.com/gravity-ui/uikit/compare/v7.20.0...v7.21.0) (2025-09-05)
+## [7.25.0](https://github.com/gravity-ui/uikit/compare/v7.24.0...v7.25.0) (2025-10-29)
+
+
+### Features
+
+* **Toaster:** add support for rendering user component in actions ([#2462](https://github.com/gravity-ui/uikit/issues/2462)) ([94ad2d0](https://github.com/gravity-ui/uikit/commit/94ad2d069424ec9c3af6e45a6efe9fc4065fca68))
+
+
+### Bug Fixes
+
+* **Dialog:** fix broken animation with header tags ([#2465](https://github.com/gravity-ui/uikit/issues/2465)) ([3c9ed9b](https://github.com/gravity-ui/uikit/commit/3c9ed9b8a6c6b8ad334edf4a77c34d6239545870))
+* replace usages of `React.useId` with `useUniqId` ([#2472](https://github.com/gravity-ui/uikit/issues/2472)) ([fbeef03](https://github.com/gravity-ui/uikit/commit/fbeef035dbfa7ef820568ca187e794c0bec89ee8))
+* **TabList:** respect event default prevention ([#2463](https://github.com/gravity-ui/uikit/issues/2463)) ([3237f1f](https://github.com/gravity-ui/uikit/commit/3237f1f285a7f6cabca4c72020645ef0ddf81e3f))
+
+## [7.24.0](https://github.com/gravity-ui/uikit/compare/v7.23.0...v7.24.0) (2025-10-14)
+
+
+### Features
+
+* add new hoc withPlatform ([#2431](https://github.com/gravity-ui/uikit/issues/2431)) ([b5e8841](https://github.com/gravity-ui/uikit/commit/b5e8841356f0d34f95ef9510ffcfceaea5ae9bef))
+* **Hotkey:** remove mac esc icon ([#2449](https://github.com/gravity-ui/uikit/issues/2449)) ([43c5e9f](https://github.com/gravity-ui/uikit/commit/43c5e9f66130d27e6a683c92f3f73294b0f74936))
+* **Switch:** add 's' size option and loading state support ([#2438](https://github.com/gravity-ui/uikit/issues/2438)) ([77143ab](https://github.com/gravity-ui/uikit/commit/77143abf6d355517748e5d1b378104200a6be8c4))
+
+
+### Bug Fixes
+
+* add 'use client' to lang context ([#2444](https://github.com/gravity-ui/uikit/issues/2444)) ([1d4fe5c](https://github.com/gravity-ui/uikit/commit/1d4fe5c1bb612c2806c28512591588858f5d1c8e))
+* **Breadcrumbs:** use disabled prop on BreadcrumbItem inside custom item ([#2454](https://github.com/gravity-ui/uikit/issues/2454)) ([5803cab](https://github.com/gravity-ui/uikit/commit/5803cab159976441934987d5b513459d6d0456ac))
+* **Button:** set a tabIndex so that Safari allows focusing buttons ([#2440](https://github.com/gravity-ui/uikit/issues/2440)) ([c60e58d](https://github.com/gravity-ui/uikit/commit/c60e58d1a5924f87c1c9380f45dd867ccd7a5106))
+
+## [7.23.0](https://github.com/gravity-ui/uikit/compare/v7.22.0...v7.23.0) (2025-09-18)
+
+
+### Features
+
+* **TableColumnSetup:** add hideApplyButton property ([#2435](https://github.com/gravity-ui/uikit/issues/2435)) ([a0e5c1a](https://github.com/gravity-ui/uikit/commit/a0e5c1abb9075b47aa55261b230324138783e6e6))
+
+
+### Bug Fixes
+
+* **Accordion:** disclosure animation override specificity ([#2412](https://github.com/gravity-ui/uikit/issues/2412)) ([6b71c28](https://github.com/gravity-ui/uikit/commit/6b71c288dc6c5fc93bf431d8df8337c0615ece2a))
+* remove [@ts-ignore](https://github.com/ts-ignore) from Menu ([#2427](https://github.com/gravity-ui/uikit/issues/2427)) ([6e7d511](https://github.com/gravity-ui/uikit/commit/6e7d511853d38c9ee58e1686d4495c376630a5c9))
+
+## [7.22.0](https://github.com/gravity-ui/uikit/compare/v7.21.0...v7.22.0) (2025-09-09)
 
 
 ### Features
 
 * add `Accordion` component ([#2334](https://github.com/gravity-ui/uikit/issues/2334)) ([9e71e64](https://github.com/gravity-ui/uikit/commit/9e71e6479c44a121678fbd4ac592ebc85b1db12f))
+* **Icon:** add `style` prop ([#2406](https://github.com/gravity-ui/uikit/issues/2406)) ([51a9e1f](https://github.com/gravity-ui/uikit/commit/51a9e1ff97380b6e62166d3203690766ee96fd1f))
+
+## [7.21.0](https://github.com/gravity-ui/uikit/compare/v7.20.0...v7.21.0) (2025-09-05)
+
+
+### Features
+
 * add max-width to popup table action ([#2311](https://github.com/gravity-ui/uikit/issues/2311)) ([3aeb886](https://github.com/gravity-ui/uikit/commit/3aeb886661cf48f615adf4a272dcf84c23e6828a))
 * add useLang hook, allow pass lang via ThemeProvider ([#2387](https://github.com/gravity-ui/uikit/issues/2387)) ([0966e86](https://github.com/gravity-ui/uikit/commit/0966e865fe7486302350dccd330cbda5f74d066d))
 * **Label:** add `width` property ([#2348](https://github.com/gravity-ui/uikit/issues/2348)) ([0dd70b8](https://github.com/gravity-ui/uikit/commit/0dd70b8de1184f9ea0e26e5e5e3815d11e2ea547))
-
-
-### Bug Fixes
-
-* **Accordion:** issues [#2399](https://github.com/gravity-ui/uikit/issues/2399) and [#2400](https://github.com/gravity-ui/uikit/issues/2400) by adding 'use client' directives ([#2401](https://github.com/gravity-ui/uikit/issues/2401)) ([cdf0498](https://github.com/gravity-ui/uikit/commit/cdf04983470045cd6e72e1de21da4a9585b51dad))
 
 ## [7.20.0](https://github.com/gravity-ui/uikit/compare/v7.19.0...v7.20.0) (2025-08-15)
 

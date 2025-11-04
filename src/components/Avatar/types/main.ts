@@ -1,4 +1,4 @@
-import type {DistributiveOmit} from '../../../types/utils';
+import type {DistributiveOmit} from '../../../utils/types';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../../types';
 import type {AvatarIconProps} from '../AvatarIcon';
 import type {AvatarImageProps} from '../AvatarImage';

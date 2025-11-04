@@ -148,11 +148,6 @@ Use the `size` property to control the `Accordion` size. The default size is `m`
 
 <!--LANDING_BLOCK
 <ExampleBlock>
-    <UIKit.Accordion size="s">
-        <UIKit.Accordion.Item summary="Small Size">
-            <UIKit.Text>Content for small accordion</UIKit.Text>
-        </UIKit.Accordion.Item>
-    </UIKit.Accordion>
     <UIKit.Accordion size="m">
         <UIKit.Accordion.Item summary="Medium Size">
             <UIKit.Text>Content for medium accordion</UIKit.Text>
@@ -174,11 +169,6 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<Accordion size="s">
-    <Accordion.Item summary="Small Size">
-        Content for small accordion
-    </Accordion.Item>
-</Accordion>
 <Accordion size="m">
     <Accordion.Item summary="Medium Size">
         Content for medium accordion
@@ -470,7 +460,7 @@ LANDING_BLOCK-->
 
 | Name          | Description                                        |              Type               |  Default  |
 | :------------ | :------------------------------------------------- | :-----------------------------: | :-------: |
-| size          | Accordion size                                     |    `"s"` `"m"` `"l"` `"xl"`     |   `"m"`   |
+| size          | Accordion size                                     |       `"m"` `"l"` `"xl"`        |   `"m"`   |
 | view          | Accordion appearance                               |    `"solid"` `"top-bottom"`     | `"solid"` |
 | multiple      | Allow multiple items to be expanded simultaneously |            `boolean`            |  `false`  |
 | arrowPosition | Arrow indicator position                           |        `"start"` `"end"`        |  `"end"`  |

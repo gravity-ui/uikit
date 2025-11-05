@@ -34,6 +34,35 @@ const App = () => {
 export default App;
 ```
 
+## Direction
+
+To control the direction of the `Drawer`, you can pass the `direction` prop. The possible values are `left`, `right`, `top`, and `bottom`.
+
+```tsx
+<Drawer onOpenChange={setVisible} open={isVisible} direction="left">
+  <p>Content of the drawer</p>
+</Drawer>
+<Drawer onOpenChange={setVisible} open={isVisible} direction="right">
+  <p>Content of the drawer</p>
+</Drawer>
+<Drawer onOpenChange={setVisible} open={isVisible} direction="top">
+  <p>Content of the drawer</p>
+</Drawer>
+<Drawer onOpenChange={setVisible} open={isVisible} direction="bottom">
+  <p>Content of the drawer</p>
+</Drawer>
+```
+
+## Resizable
+
+A `Drawer` can be resizable by passing the `resizable` prop.
+
+```tsx
+<Drawer onOpenChange={setVisible} open={isVisible} resizable>
+  <p>Content of the drawer</p>
+</Drawer>
+```
+
 ## Properties
 
 | Name                  | Description                                                                                 |         Type          |     Default     |

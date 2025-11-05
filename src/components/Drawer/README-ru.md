@@ -34,6 +34,35 @@ const App = () => {
 export default App;
 ```
 
+## Направление (`direction`)
+
+Чтобы управлять направлением `Drawer`, вы можете передать свойство `direction` в компонент. Возможные значения: `left`, `right`, `top`, и `bottom`.
+
+```tsx
+<Drawer onOpenChange={setVisible} open={isVisible} direction="left">
+  <p>Content of the drawer</p>
+</Drawer>
+<Drawer onOpenChange={setVisible} open={isVisible} direction="right">
+  <p>Content of the drawer</p>
+</Drawer>
+<Drawer onOpenChange={setVisible} open={isVisible} direction="top">
+  <p>Content of the drawer</p>
+</Drawer>
+<Drawer onOpenChange={setVisible} open={isVisible} direction="bottom">
+  <p>Content of the drawer</p>
+</Drawer>
+```
+
+## Изменяемый размер (`resizable`)
+
+Компонент `Drawer` может быть изменяемым размером, передав свойство `resizable`.
+
+```tsx
+<Drawer onOpenChange={setVisible} open={isVisible} resizable>
+  <p>Content of the drawer</p>
+</Drawer>
+```
+
 ## Свойства
 
 | Имя                   | Описание                                                                           |          Тип          | Значение по умолчанию |

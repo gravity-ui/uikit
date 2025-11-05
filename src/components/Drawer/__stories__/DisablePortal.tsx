@@ -19,6 +19,7 @@ export function DisablePortalShowcase() {
     const [disablePortal, setDisablePortal] = React.useState(true);
     const [placeholderCount, setPlaceholderCount] = React.useState(1);
     const containerRef = React.useRef<HTMLDivElement>(null);
+    const isVertical = ['top', 'bottom'].includes(direction);
 
     return (
         <div className={b()}>
@@ -51,7 +52,8 @@ export function DisablePortalShowcase() {
                     container={containerRef.current ?? undefined}
                     onOpenChange={setVisible}
                     direction={direction}
-                    contentClassName={b('item', {vertical: ['top', 'bottom'].includes(direction)})}
+                    size={isVertical ? 300 : undefined}
+                    contentClassName={b('item', {vertical: isVertical})}
                     open={visible}
                 >
                     <div className={b('item-content')}>

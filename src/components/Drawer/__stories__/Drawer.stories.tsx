@@ -5,7 +5,6 @@ import {Drawer} from '../components/Drawer';
 
 import {DisablePortalShowcase} from './DisablePortal';
 import {HideVeilShowcase} from './HideVeil';
-import {ResizableItemShowcase} from './ResizableItem';
 import {PlaceholderText} from './mock';
 
 export default {
@@ -57,9 +56,6 @@ export const Default: Story = {
         onTransitionOutComplete: action('onTransitionOutComplete'),
     },
 };
-
-const ResizableItemTemplate: StoryFn = () => <ResizableItemShowcase />;
-export const ResizableItem = ResizableItemTemplate.bind({});
 
 const DisablePortalTemplate: StoryFn = () => <DisablePortalShowcase />;
 export const DisablePortal = DisablePortalTemplate.bind({});

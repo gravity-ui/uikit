@@ -41,11 +41,15 @@ $block: '.#{variables.$ns}drawer';
         &_direction_top {
             inset-block-end: auto;
             inset-inline-end: 0;
+
+            width: 100%;
         }
 
         &_direction_bottom {
             inset-block-start: auto;
             inset-inline-end: 0;
+
+            width: 100%;
         }
     }
 

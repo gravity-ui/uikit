@@ -180,37 +180,34 @@ export const Drawer = ({
                     data-transiting={isTransitionInProgress}
                     lockScroll={!disableBodyScrollLock}
                 >
-                    <div className={b('veil', {hidden: hideVeil})}>
-                        <FloatingFocusManager
-                            context={context}
-                            disabled={!isMounted}
-                            modal={isMounted}
-                            initialFocus={initialFocus ?? refs.floating}
-                            returnFocus={returnFocus}
-                            visuallyHiddenDismiss={
-                                disableVisuallyHiddenDismiss ? false : i18n('close')
-                            }
-                            restoreFocus={true}
+                    <div className={b('veil', {hidden: hideVeil})} />
+                    <FloatingFocusManager
+                        context={context}
+                        disabled={!isMounted}
+                        modal={isMounted}
+                        initialFocus={initialFocus ?? refs.floating}
+                        returnFocus={returnFocus}
+                        visuallyHiddenDismiss={disableVisuallyHiddenDismiss ? false : i18n('close')}
+                        restoreFocus={true}
+                    >
+                        <DrawerItem
+                            ref={handleFloatingRef}
+                            open={isOpen}
+                            direction={direction}
+                            className={contentClassName}
+                            resizable={resizable}
+                            size={size}
+                            onResize={onResize}
+                            onResizeStart={onResizeStart}
+                            onResizeEnd={onResizeEnd}
+                            minResizeWidth={minSize}
+                            maxResizeWidth={maxSize}
+                            {...getFloatingProps()}
+                            {...restProps}
                         >
-                            <DrawerItem
-                                ref={handleFloatingRef}
-                                open={isOpen}
-                                direction={direction}
-                                className={contentClassName}
-                                resizable={resizable}
-                                size={size}
-                                onResize={onResize}
-                                onResizeStart={onResizeStart}
-                                onResizeEnd={onResizeEnd}
-                                minResizeWidth={minSize}
-                                maxResizeWidth={maxSize}
-                                {...getFloatingProps()}
-                                {...restProps}
-                            >
-                                {children}
-                            </DrawerItem>
-                        </FloatingFocusManager>
-                    </div>
+                            {children}
+                        </DrawerItem>
+                    </FloatingFocusManager>
                 </FloatingOverlay>
             </Portal>
         ) : null;

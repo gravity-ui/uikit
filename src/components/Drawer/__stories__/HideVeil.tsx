@@ -24,7 +24,6 @@ export function HideVeilShowcase() {
                 <Checkbox content="Hide veil" checked={hideVeil} onUpdate={setHideVeil} />
             </div>
             <div className={b('container')}>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, quos!</p>
                 <Drawer
                     open={visible}
                     direction="right"

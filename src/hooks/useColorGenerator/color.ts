@@ -1,7 +1,5 @@
-// import {randomString} from '../../components/utils/common';
-
 import {colorOptions} from './constants';
-import type {ColorProps, HslColorProps, Intensity} from './types';
+import type {ColorDetailsProps, ColorProps} from './types';
 import {extractHashPart, getHash, getHue, normalizeHash} from './utils';
 
 export const linearToSrgb = (channel: number): number => {
@@ -49,7 +47,7 @@ export interface ColorDetails {
     hash: number;
     hue: number;
     lightness: number;
-    saturation: number;
+    chroma: number;
     oklch: {
         l: number;
         c: number;
@@ -63,28 +61,26 @@ export interface ColorDetails {
     rgbString: string;
 }
 
-const generateColorDetails = ({hash, intensity, theme}: HslColorProps): ColorDetails => {
+const generateColorDetails = ({hash, theme}: ColorDetailsProps): ColorDetails => {
     const hue = getHue(hash);
-    const themeOptions = colorOptions[theme];
-    const lightnessRange = themeOptions[intensity].lightness;
-    const saturationRange = themeOptions[intensity].saturation;
+    const {lightness: lightnessRange, chroma: chromaRange} = colorOptions[theme];
 
     const saturationHash = extractHashPart(hash, 0);
     const lightnessHash = extractHashPart(hash, 1);
 
-    const saturation = normalizeHash(saturationHash, saturationRange[0], saturationRange[1]);
+    const chroma = normalizeHash(saturationHash, chromaRange[0], chromaRange[1]);
     const lightness = normalizeHash(lightnessHash, lightnessRange[0], lightnessRange[1]);
 
-    const [red, green, blue] = oklchToRgb(lightness / 100, saturation / 100, hue);
+    const [red, green, blue] = oklchToRgb(lightness / 100, chroma / 100, hue);
 
     return {
         hash,
         hue,
         lightness,
-        saturation,
+        chroma,
         oklch: {
             l: lightness,
-            c: saturation,
+            c: chroma,
             h: hue,
         },
         rgb: {
@@ -96,29 +92,17 @@ const generateColorDetails = ({hash, intensity, theme}: HslColorProps): ColorDet
     };
 };
 
-const generateColor = ({hash, intensity, theme}: HslColorProps) => {
-    const details = generateColorDetails({hash, intensity, theme});
+const generateColor = ({hash, theme}: ColorDetailsProps) => {
+    const details = generateColorDetails({hash, theme});
     return details.rgbString;
 };
 
-export const getTextColor = (intensity: Intensity = 'light') => {
-    if (intensity === 'heavy') {
-        return 'var(--g-color-text-inverted-primary)';
-    }
-
-    return 'var(--g-color-text-primary)';
+export const getPersistentColor = ({seed, theme}: ColorProps) => {
+    const hash = getHash(seed);
+    return generateColor({hash, theme});
 };
 
-export const getPersistentColor = ({seed, intensity = 'light', theme}: ColorProps) => {
+export const getPersistentColorDetails = ({seed, theme}: ColorProps): ColorDetails => {
     const hash = getHash(seed);
-    return generateColor({hash, intensity, theme});
-};
-
-export const getPersistentColorDetails = ({
-    seed,
-    intensity = 'light',
-    theme,
-}: ColorProps): ColorDetails => {
-    const hash = getHash(seed);
-    return generateColorDetails({hash, intensity, theme});
+    return generateColorDetails({hash, theme});
 };

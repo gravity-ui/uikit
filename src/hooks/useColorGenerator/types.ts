@@ -1,12 +1,6 @@
 export type ColorOptions = {
     lightness: [number, number];
-    saturation: [number, number];
-};
-
-export type ThemeColorSettings = {
-    light: ColorOptions;
-    medium: ColorOptions;
-    heavy: ColorOptions;
+    chroma: [number, number];
 };
 
 export type Intensity = 'light' | 'medium' | 'heavy';
@@ -27,8 +21,7 @@ export type UseColorGeneratorResult = {
     textColor: string;
 };
 
-export type HslColorProps = {
+export type ColorDetailsProps = {
     hash: number;
-    intensity: Intensity;
     theme: string;
 };

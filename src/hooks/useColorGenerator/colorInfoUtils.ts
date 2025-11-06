@@ -1,12 +1,4 @@
 import type {ColorDetails} from './color';
-import {getPersistentColorDetails} from './color';
-import type {Intensity} from './types';
-
-export type ColorInfo = ColorDetails;
-
-export const getColorInfo = (seed: string, intensity: Intensity = 'light', theme: string) => {
-    return getPersistentColorDetails({seed, intensity, theme});
-};
 
 const rgbToHex = (r: number, g: number, b: number): string => {
     const toHex = (value: number) => {
@@ -16,7 +8,7 @@ const rgbToHex = (r: number, g: number, b: number): string => {
     return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 };
 
-export const formatColorInfo = (colorInfo: ColorInfo) => {
+export const formatColorInfo = (colorInfo: ColorDetails) => {
     return {
         hash: colorInfo.hash.toString(),
         oklch: `oklch(${colorInfo.oklch.l.toFixed(1)}% ${colorInfo.oklch.c.toFixed(1)}% ${colorInfo.oklch.h.toFixed(1)}°)`,

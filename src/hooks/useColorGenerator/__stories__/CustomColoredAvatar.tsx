@@ -1,48 +1,46 @@
 import * as React from 'react';
 
+import {FaceRobot} from '@gravity-ui/icons';
+
 import {Avatar} from '../../../components/Avatar';
 import type {AvatarProps} from '../../../components/Avatar';
 import {Popover} from '../../../components/Popover';
-import {useThemeType} from '../../../components/theme/useThemeType';
-import {getColorInfo} from '../colorInfoUtils';
-import {useColorGenerator} from '../useColorGenerator';
-import type {ThemeColorSettings, UseColorGeneratorProps} from '../types';
+import {useTheme} from '../../../components/theme/useTheme';
+import {getPersistentColorDetails} from '../color';
+import type {UseColorGeneratorProps} from '../types';
 
 import {ColorInfoPopup} from './ColorInfoPopup';
+import {getBackgroundColor, mixColors} from './utils';
 
 import './ColorInfoPopup.scss';
-import {getPersistentColorDetails, getTextColor} from '../color';
 
 type CustomColoredAvatarProps = AvatarProps & {
-    withText: boolean;
-    intensity: UseColorGeneratorProps['intensity'];
+    content?: 'text' | 'icon' | 'empty';
     seed: UseColorGeneratorProps['seed'];
     withTransparentBackground?: boolean;
-    interfaceTheme: 'light' | 'dark';
     storyAvatarStyle: 'filled' | 'outline' | 'transparent';
 };
 
 export const CustomColoredAvatar = ({
-    intensity,
-    interfaceTheme,
     seed,
-    withText,
+    content,
     storyAvatarStyle,
     ...avatarProps
 }: CustomColoredAvatarProps) => {
+    const theme = useTheme();
     const colorInfo = getPersistentColorDetails({
         seed,
-        intensity,
-        theme: interfaceTheme,
+        theme,
     });
 
     const {r, g, b} = colorInfo.rgb;
 
-    const textColor = getTextColor(intensity);
     const color = colorInfo.rgbString;
+    let colorToGetContrast = colorInfo.rgbString;
+    const backgroundColor = getBackgroundColor();
 
     let colors: Record<string, string> = {
-        color: textColor,
+        color: 'var(--g-color-text-inverted-primary)',
         backgroundColor: color,
     };
 
@@ -51,6 +49,7 @@ export const CustomColoredAvatar = ({
             color: color,
             backgroundColor: `rgba(${r}, ${g}, ${b}, 0.1)`,
         };
+        colorToGetContrast = mixColors(`rgba(${r}, ${g}, ${b}, 0.1)`, backgroundColor);
     }
 
     if (storyAvatarStyle === 'outline') {
@@ -58,6 +57,23 @@ export const CustomColoredAvatar = ({
             color: color,
             borderColor: color,
             backgroundColor: 'transparent',
+        };
+        colorToGetContrast = mixColors(color, backgroundColor);
+    }
+
+    console.log('targetColor', colorToGetContrast);
+
+    let contentProps = {};
+
+    if (content === 'icon') {
+        contentProps = {
+            icon: FaceRobot,
+        };
+    }
+
+    if (content === 'text') {
+        contentProps = {
+            text: seed,
         };
     }
 
@@ -83,9 +99,8 @@ export const CustomColoredAvatar = ({
                 >
                     <Avatar
                         {...avatarProps}
-                        text={withText ? seed : ''}
                         title={`Click for color info: ${color}`}
-                        size="l"
+                        {...contentProps}
                         {...colors}
                     />
                 </div>

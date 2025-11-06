@@ -1,21 +1,11 @@
 @use '../../variables';
 
 $block: '.#{variables.$ns}drawer';
+$drawer-resizer-width: 8px;
 
 #{$block} {
     pointer-events: none;
     outline: none;
-
-    --_--item-shadow-default: 0 1px 5px 0 var(--g-color-sfx-shadow);
-
-    --_--resizer-width: 8px;
-    --_--resizer-color: var(--g-color-base-generic);
-    --_--resizer-handle-color: var(--g-color-line-generic);
-    --_--resizer-handle-color-hover: var(--g-color-line-generic-hover);
-
-    &_hide-veil {
-        --_--item-shadow: var(--_--item-shadow-default);
-    }
 
     &__item {
         position: absolute;
@@ -28,7 +18,6 @@ $block: '.#{variables.$ns}drawer';
         background-color: var(--g-color-base-background);
 
         pointer-events: initial;
-        box-shadow: var(--_--item-shadow, none);
         outline: none;
         will-change: transform;
 
@@ -51,16 +40,20 @@ $block: '.#{variables.$ns}drawer';
         }
     }
 
+    &_hide-veil &__item {
+        box-shadow: 0 1px 5px 0 var(--g-color-sfx-shadow);
+    }
+
     &__item_resizable#{$block}__item_direction_left {
-        padding-inline-end: var(--_--resizer-width);
+        padding-inline-end: $drawer-resizer-width;
     }
 
     &__item_resizable#{$block}__item_direction_top {
-        padding-block-end: var(--_--resizer-width);
+        padding-block-end: $drawer-resizer-width;
     }
 
     &__item_resizable#{$block}__item_direction_bottom {
-        padding-block-start: var(--_--resizer-width);
+        padding-block-start: $drawer-resizer-width;
     }
 
     &[data-floating-ui-status='unmounted'] &__item {
@@ -133,7 +126,7 @@ $block: '.#{variables.$ns}drawer';
         width: 2px;
         height: 28px;
 
-        background: var(--_--resizer-handle-color);
+        background: var(--g-color-line-generic);
         border-radius: 2px;
 
         &_direction_top,
@@ -153,12 +146,12 @@ $block: '.#{variables.$ns}drawer';
         justify-content: center;
         align-items: center;
 
-        width: var(--_--resizer-width);
+        width: $drawer-resizer-width;
         height: 100%;
 
         cursor: col-resize;
 
-        background: var(--_--resizer-color);
+        background: var(--g-color-base-generic);
 
         &_direction_right {
             inset-inline-start: 0;
@@ -184,11 +177,11 @@ $block: '.#{variables.$ns}drawer';
         &_direction_bottom {
             cursor: row-resize;
             width: 100%;
-            height: var(--_--resizer-width);
+            height: $drawer-resizer-width;
         }
     }
 
     &__resizer:hover &__resizer-handle {
-        background: var(--_--resizer-handle-color-hover);
+        background: var(--g-color-line-generic-hover);
     }
 }

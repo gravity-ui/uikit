@@ -44,7 +44,6 @@ const b = block('lab-menu');
 function MenuPopupContent({
     open,
     onRequestClose,
-    parentId,
     children,
     className,
     style,
@@ -52,10 +51,10 @@ function MenuPopupContent({
 }: Pick<MenuProps, 'children' | 'className' | 'style' | 'qa'> & {
     open: boolean;
     onRequestClose: () => void;
-    parentId: string | null;
 }) {
     const tree = useFloatingTree();
     const nodeId = useFloatingParentNodeId();
+    const parentId = React.useContext(MenuContext)?.floatingParentId;
 
     React.useEffect(() => {
         if (!tree) return;
@@ -120,8 +119,8 @@ export function Menu({
     const itemsRef = React.useRef<Array<HTMLElement | null>>([]);
     const parentMenu = React.useContext(MenuContext);
 
-    const parentId = useFloatingParentNodeId();
-    const isNested = Boolean(parentId);
+    const floatingParentId = useFloatingParentNodeId();
+    const isNested = Boolean(parentMenu);
 
     const floatingContext = useFloatingRootContext({
         open: isOpen && !disabled,
@@ -224,9 +223,10 @@ export function Menu({
             inline: parentMenu?.inline ?? inline,
             size: parentMenu?.size ?? size,
             activeIndex,
+            floatingParentId: floatingParentId,
             getItemProps: inline ? getItemPropsInline : getItemProps,
         }),
-        [parentMenu, inline, size, activeIndex, getItemPropsInline, getItemProps],
+        [parentMenu, inline, size, activeIndex, floatingParentId, getItemPropsInline, getItemProps],
     );
 
     React.useEffect(() => {
@@ -296,7 +296,6 @@ export function Menu({
                         <MenuPopupContent
                             open={isOpen}
                             onRequestClose={handleContentRequestClose}
-                            parentId={parentId}
                             className={className}
                             style={style}
                             qa={qa}

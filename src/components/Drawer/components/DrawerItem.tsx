@@ -32,7 +32,7 @@ export interface DrawerItemProps extends AriaLabelingProps {
     resizable?: boolean;
 
     /**
-     * The width of the resizable drawer item.
+     * The width or height of the resizable drawer item.
      * If not provided, the size will be stored internally.
      */
     size?: number;
@@ -44,16 +44,16 @@ export interface DrawerItemProps extends AriaLabelingProps {
     onResizeEnd?: OnResizeHandler;
 
     /**
-     * Called at the end of resizing. Can be used to save the new width.
-     * @param width The new width of the drawer item
+     * Called at the end of resizing. Can be used to save the new size.
+     * @param size The new size of the drawer item
      */
     onResize?: OnResizeHandler;
 
-    /** The minimum width of the resizable drawer item */
-    minResizeWidth?: number;
+    /** The minimum size of the resizable drawer item */
+    minSize?: number;
 
-    /** The maximum width of the resizable drawer item */
-    maxResizeWidth?: number;
+    /** The maximum size of the resizable drawer item */
+    maxSize?: number;
 
     /** Optional inline styles to be applied to the DrawerItem component. */
     style?: React.CSSProperties;
@@ -68,8 +68,8 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
             className,
             resizable,
             size,
-            minResizeWidth,
-            maxResizeWidth,
+            minSize,
+            maxSize,
             onResizeStart,
             onResizeEnd,
             onResize,
@@ -77,15 +77,14 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
             ...restProps
         } = props;
 
-        const [isInitialRender, setIsInitialRender] = React.useState(true);
         const itemRef = React.useRef<HTMLDivElement>(null);
         const handleRef = useForkRef(ref, itemRef);
 
-        const {resizedWidth, onResizerPointerDown} = useResizableDrawerItem({
+        const {resizedSize, onResizerPointerDown} = useResizableDrawerItem({
             direction,
             size,
-            minResizeWidth,
-            maxResizeWidth,
+            minSize,
+            maxSize,
             onResizeStart,
             onResizeEnd,
             onResize,
@@ -93,10 +92,6 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
 
         const isVerticalDirection = ['left', 'right'].includes(direction);
         const isHorizontalDirection = !isVerticalDirection;
-
-        React.useEffect(() => {
-            setIsInitialRender(true);
-        }, []);
 
         const resizerElement = resizable ? (
             <div
@@ -116,14 +111,14 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
                     {
                         direction,
                         resizable,
-                        hidden: isInitialRender && !open,
+                        hidden: !open,
                     },
                     [className],
                 )}
                 style={{
                     ...style,
-                    width: isVerticalDirection ? `${resizedWidth}px` : undefined,
-                    height: isHorizontalDirection ? `${resizedWidth}px` : undefined,
+                    width: isVerticalDirection ? `${resizedSize}px` : undefined,
+                    height: isHorizontalDirection ? `${resizedSize}px` : undefined,
                 }}
                 {...filterDOMProps(restProps, {labelable: true})}
             >

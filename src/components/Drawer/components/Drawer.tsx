@@ -78,10 +78,10 @@ export interface DrawerProps
     /** Optional flag to hide the background darkening */
     hideVeil?: boolean;
     /**
-     * Option that enables first opening animation if the Drawer is being rendered with open state.
+     * Option that disables first opening animation if the Drawer is being rendered with open state.
      * @default false
      */
-    showInitialAnimation?: boolean;
+    skipInitialAnimation?: boolean;
 }
 
 export const Drawer = ({
@@ -116,7 +116,7 @@ export const Drawer = ({
     hideVeil,
     keepMounted = false,
     container,
-    showInitialAnimation = false,
+    skipInitialAnimation = false,
     ...restProps
 }: DrawerProps) => {
     const [isOpen, setIsOpen] = useControlledState(open, defaultOpen ?? false, onOpenChange);
@@ -129,7 +129,7 @@ export const Drawer = ({
     });
     const overlayRef = React.useRef(null);
 
-    const {isInitialRender, isMounted, status, isTransitionInProgress} = useDrawerFloating({
+    const {isInitialRender, isMounted, status} = useDrawerFloating({
         onTransitionIn,
         onTransitionInComplete,
         onTransitionOut,
@@ -166,18 +166,16 @@ export const Drawer = ({
                 <FloatingOverlay
                     style={style}
                     ref={overlayRef}
-                    aria-modal="true"
                     className={b(
                         {
                             open: isOpen,
                             'hide-veil': hideVeil,
-                            'skip-animation': !showInitialAnimation && isInitialRender,
+                            'skip-animation': skipInitialAnimation && isInitialRender,
                         },
                         className,
                     )}
                     data-qa={qa}
                     data-floating-ui-status={status}
-                    data-transiting={isTransitionInProgress}
                     lockScroll={!disableBodyScrollLock}
                 >
                     <div className={b('veil', {hidden: hideVeil})} />
@@ -200,8 +198,8 @@ export const Drawer = ({
                             onResize={onResize}
                             onResizeStart={onResizeStart}
                             onResizeEnd={onResizeEnd}
-                            minResizeWidth={minSize}
-                            maxResizeWidth={maxSize}
+                            minSize={minSize}
+                            maxSize={maxSize}
                             {...getFloatingProps()}
                             {...restProps}
                         >

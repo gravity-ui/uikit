@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export type DrawerDirection = 'right' | 'left' | 'top' | 'bottom';
-export type OnResizeHandler = (width: number) => void;
+export type OnResizeHandler = (size: number) => void;
 
 export interface UseResizeHandlersParams {
     onStart: () => void;

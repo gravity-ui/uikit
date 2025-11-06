@@ -7,23 +7,21 @@ $block: '.#{variables.$ns}drawer';
     outline: none;
 
     --_--item-shadow-default: 0 1px 5px 0 var(--g-color-sfx-shadow);
-    --_--item-position: fixed;
 
     --_--resizer-width: 8px;
     --_--resizer-color: var(--g-color-base-generic);
     --_--resizer-handle-color: var(--g-color-line-generic);
     --_--resizer-handle-color-hover: var(--g-color-line-generic-hover);
-    --_--resizer-z-index: 100;
 
     &_hide-veil {
-        --_--item-shadow: var(--g-drawer-item-shadow, var(--_--item-shadow-default));
+        --_--item-shadow: var(--_--item-shadow-default);
     }
 
     &__item {
-        position: var(--g-drawer-item-position, var(--_--item-position));
-        z-index: var(--g-drawer-item-z-index, 110);
-        inset-inline-start: var(--g-drawer-item-left-offset, 0);
-        inset-block: var(--g-drawer-item-top-offset, 0) 0;
+        position: absolute;
+        z-index: 110;
+        inset-inline-start: 0;
+        inset-block: 0;
 
         height: 100%;
 
@@ -79,44 +77,32 @@ $block: '.#{variables.$ns}drawer';
         transition: transform 300ms;
     }
 
-    &[data-transiting='false'] &__item {
-        // Hack for some browsers so text won't be blurred after animation
-        filter: blur(0px);
-        transform: translateZ(0);
-    }
-
-    /* left */
-    &[data-floating-ui-status='initial'] &__item,
-    &[data-floating-ui-status='close'] &__item {
+    &[data-floating-ui-status='initial'] &__item_direction_left,
+    &[data-floating-ui-status='close'] &__item_direction_left {
         transform: translate(-100%, 0);
     }
 
-    /* right */
     &[data-floating-ui-status='initial'] &__item_direction_right,
     &[data-floating-ui-status='close'] &__item_direction_right {
         transform: translate(100%, 0);
     }
 
-    /* top */
     &[data-floating-ui-status='initial'] &__item_direction_top,
     &[data-floating-ui-status='close'] &__item_direction_top {
         transform: translate(0, -100%);
     }
 
-    /* bottom */
     &[data-floating-ui-status='initial'] &__item_direction_bottom,
     &[data-floating-ui-status='close'] &__item_direction_bottom {
         transform: translate(0, 100%);
     }
 
     &__veil {
-        --_--veil-background-color: var(--g-color-sfx-veil);
-
         position: absolute;
-        z-index: var(--g-drawer-veil-z-index, 100);
+        z-index: 100;
         inset: 0;
 
-        background-color: var(--g-drawer-veil-background-color, var(--_--veil-background-color));
+        background-color: var(--g-drawer-veil-background-color, var(--g-color-sfx-veil));
 
         pointer-events: initial;
 
@@ -147,7 +133,7 @@ $block: '.#{variables.$ns}drawer';
         width: 2px;
         height: 28px;
 
-        background: var(--g-drawer-item-resizer-handle-color, var(--_--resizer-handle-color));
+        background: var(--_--resizer-handle-color);
         border-radius: 2px;
 
         &_direction_top,
@@ -160,28 +146,28 @@ $block: '.#{variables.$ns}drawer';
     &__resizer {
         position: absolute;
         inset-block-start: 0;
-        z-index: var(--g-drawer-item-resizer-z-index, var(--_--resizer-z-index));
+        z-index: 110;
 
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
 
-        width: var(--g-drawer-item-resizer-width, var(--_--resizer-width));
+        width: var(--_--resizer-width);
         height: 100%;
 
         cursor: col-resize;
 
-        background: var(--g-drawer-item-resizer-color, var(--_--resizer-color));
+        background: var(--_--resizer-color);
 
         &_direction_right {
             inset-inline-start: 0;
-            inset-block-start: var(--g-drawer-item-top-offset, 0);
+            inset-block-start: 0;
         }
 
         &_direction_left {
             inset-inline-end: 0;
-            inset-block-start: var(--g-drawer-item-top-offset, 0);
+            inset-block-start: 0;
         }
 
         &_direction_top {
@@ -198,14 +184,11 @@ $block: '.#{variables.$ns}drawer';
         &_direction_bottom {
             cursor: row-resize;
             width: 100%;
-            height: var(--g-drawer-item-resizer-width, var(--_--resizer-width));
+            height: var(--_--resizer-width);
         }
     }
 
     &__resizer:hover &__resizer-handle {
-        background: var(
-            --g-drawer-item-resizer-handle-color-hover,
-            var(--_--resizer-handle-color-hover)
-        );
+        background: var(--_--resizer-handle-color-hover);
     }
 }

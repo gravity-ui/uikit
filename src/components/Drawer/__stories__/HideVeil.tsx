@@ -31,6 +31,7 @@ export function HideVeilShowcase() {
                     hideVeil={hideVeil}
                     onOpenChange={setVisible}
                     contentClassName={b('item')}
+                    skipInitialAnimation
                 >
                     <div className={b('item-content')}>
                         <PlaceholderText />

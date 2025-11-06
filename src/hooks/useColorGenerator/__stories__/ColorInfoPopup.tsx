@@ -1,7 +1,8 @@
 import {Text} from '../../../components/Text';
 import {block} from '../../../components/utils/cn';
-import type {ColorInfo} from '../colorInfoUtils';
 import {formatColorInfo} from '../colorInfoUtils';
+
+import {calculateWCAGContrast, mixColors} from './utils';
 
 const b = block('color-info-popup');
 
@@ -12,6 +13,9 @@ interface ColorInfoPopupProps {
 
 export const ColorInfoPopup = ({colorInfo, seed}: ColorInfoPopupProps) => {
     const formattedInfo = formatColorInfo(colorInfo);
+
+    const backgroundColor = '#FFFFFF';
+    const targetColor = mixColors(formattedInfo.hex, backgroundColor);
 
     return (
         <div className={b()}>
@@ -75,6 +79,17 @@ export const ColorInfoPopup = ({colorInfo, seed}: ColorInfoPopupProps) => {
                     <div className={b('value-container')}>
                         <Text variant="code-1" className={b('value')}>
                             {formattedInfo.hex}
+                        </Text>
+                    </div>
+                </div>
+
+                <div className={b('info-row')}>
+                    <Text variant="body-2" className={b('label')}>
+                        WCAG contrast:
+                    </Text>
+                    <div className={b('value-container')}>
+                        <Text variant="code-1" className={b('value')}>
+                            {calculateWCAGContrast(targetColor.hex(), backgroundColor)}
                         </Text>
                     </div>
                 </div>

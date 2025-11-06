@@ -18,14 +18,12 @@ interface TokenControlsProps {
     tokenCount: number;
     customTokens: string;
     showTokensList: boolean;
-    showColorOptions: boolean;
     tokens: string[];
     onTokenSourceChange: (source: TokenSource) => void;
     onTokenCountChange: (count: number) => void;
     onCustomTokensChange: (tokens: string) => void;
     onRegenerateTokens: () => void;
     onToggleTokensList: () => void;
-    onToggleColorOptions: () => void;
 }
 
 export const TokenControls = ({
@@ -33,14 +31,12 @@ export const TokenControls = ({
     tokenCount,
     customTokens,
     showTokensList,
-    showColorOptions,
     tokens,
     onTokenSourceChange,
     onTokenCountChange,
     onCustomTokensChange,
     onRegenerateTokens,
     onToggleTokensList,
-    onToggleColorOptions,
 }: TokenControlsProps) => {
     return (
         <React.Fragment>
@@ -100,17 +96,6 @@ export const TokenControls = ({
                                 className={b('toggle-list-switch')}
                             >
                                 Show Tokens List
-                            </Switch>
-                        </div>
-
-                        <div className={b('control-group')}>
-                            <Switch
-                                checked={showColorOptions}
-                                onUpdate={onToggleColorOptions}
-                                size="m"
-                                className={b('toggle-color-options-switch')}
-                            >
-                                Show Color Options
                             </Switch>
                         </div>
 

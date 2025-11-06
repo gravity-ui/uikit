@@ -53,5 +53,4 @@ export const TOKEN_SOURCE_OPTIONS = [
 
 export const DEFAULT_CUSTOM_TOKENS = 'user_123\nadmin_456\ntest_789\ngamma_pro\nbeta_dev';
 
-export const VIEWS = ['light', 'medium', 'heavy'] as const;
 export const STATES = ['view', 'colors'] as const;

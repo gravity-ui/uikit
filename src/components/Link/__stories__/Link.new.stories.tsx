@@ -1,5 +1,6 @@
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
+import {Showcase as ShowcaseComponent} from '../../../demo/Showcase';
 import {Link} from '../Link';
 import type {LinkProps} from '../Link';
 
@@ -62,3 +63,19 @@ export const Playground: StoryFn<LinkProps> = (args) => {
     return <Link {...args} />;
 };
 Playground.storyName = 'Link';
+
+export const View: StoryFn<LinkProps> = (args) => {
+    return (
+        <ShowcaseComponent>
+            <Link {...args} view="normal">
+                Normal
+            </Link>
+            <Link {...args} view="primary">
+                Primary
+            </Link>
+            <Link {...args} view="secondary">
+                Secondary
+            </Link>
+        </ShowcaseComponent>
+    );
+};

@@ -3,6 +3,7 @@ import * as React from 'react';
 export type UseFileInputProps = {
     onUpdate?: (files: File[]) => void;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    multiple?: boolean;
 };
 
 export type UseFileInputResult = {
@@ -36,7 +37,11 @@ export type UseFileInputResult = {
     };
 ```
  */
-export function useFileInput({onUpdate, onChange}: UseFileInputProps): UseFileInputResult {
+export function useFileInput({
+    onUpdate,
+    onChange,
+    multiple,
+}: UseFileInputProps): UseFileInputResult {
     const ref = React.useRef<HTMLInputElement>(null);
 
     const handleChange = React.useCallback(
@@ -60,6 +65,7 @@ export function useFileInput({onUpdate, onChange}: UseFileInputProps): UseFileIn
                 type: 'file',
                 tabIndex: -1,
                 style: {opacity: 0, position: 'absolute', width: 1, height: 1},
+                multiple,
                 onChange: handleChange,
                 'aria-hidden': true,
             },
@@ -67,7 +73,7 @@ export function useFileInput({onUpdate, onChange}: UseFileInputProps): UseFileIn
                 onClick: openDeviceStorage,
             },
         }),
-        [handleChange, openDeviceStorage],
+        [handleChange, multiple, openDeviceStorage],
     );
 
     return result;

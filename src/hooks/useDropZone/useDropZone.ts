@@ -12,6 +12,7 @@ export interface UseDropZoneParams {
 const DROP_ZONE_BASE_ATTRIBUTES = {
     'aria-dropeffect': 'copy' as DataTransfer['dropEffect'],
     tabIndex: 0,
+    role: 'button',
 };
 
 export interface DroppableProps extends Required<typeof DROP_ZONE_BASE_ATTRIBUTES> {
@@ -61,12 +62,15 @@ function eventItemTypesAcceptable(accept: UseDropZoneAccept, event: DragEvent): 
 
 export function useDropZone({accept, disabled, onDrop, ref}: UseDropZoneParams): UseDropZoneState {
     const [isDraggingOver, setIsDraggingOver] = React.useState(false);
+    const nestingCounterRef = React.useRef<number>(0);
 
     const handleDragEnterNative = React.useCallback(
         (event: DragEvent) => {
             if (disabled || !event.dataTransfer || !eventItemTypesAcceptable(accept, event)) {
                 return;
             }
+
+            nestingCounterRef.current++;
 
             event.dataTransfer.dropEffect = DROP_ZONE_BASE_ATTRIBUTES['aria-dropeffect'];
 
@@ -105,6 +109,12 @@ export function useDropZone({accept, disabled, onDrop, ref}: UseDropZoneParams):
     const handleDragLeaveNative = React.useCallback(
         (event: DragEvent) => {
             if (disabled || !eventItemTypesAcceptable(accept, event)) {
+                return;
+            }
+
+            nestingCounterRef.current--;
+
+            if (nestingCounterRef.current !== 0) {
                 return;
             }
 

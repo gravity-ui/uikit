@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import {useRadio} from '../../hooks/private';
 import {ControlLabel} from '../ControlLabel';
-import type {ControlProps, DOMProps, QAProps} from '../types';
+import type {ControlProps, ControlValidationProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 
 import './Radio.scss';
@@ -13,7 +13,7 @@ const b = block('radio');
 
 export type RadioSize = 'm' | 'l' | 'xl';
 
-export interface RadioProps extends ControlProps, DOMProps, QAProps {
+export interface RadioProps extends ControlProps, ControlValidationProps, DOMProps, QAProps {
     value: string;
     size?: RadioSize;
     content?: React.ReactNode;
@@ -22,7 +22,17 @@ export interface RadioProps extends ControlProps, DOMProps, QAProps {
 }
 
 export const Radio = React.forwardRef<HTMLLabelElement, RadioProps>(function Radio(props, ref) {
-    const {size = 'm', disabled = false, content, children, title, style, className, qa} = props;
+    const {
+        size = 'm',
+        disabled = false,
+        validationState,
+        content,
+        children,
+        title,
+        style,
+        className,
+        qa,
+    } = props;
     const {checked, inputProps} = useRadio(props);
     const text = content || children;
 
@@ -46,6 +56,7 @@ export const Radio = React.forwardRef<HTMLLabelElement, RadioProps>(function Rad
                     size,
                     disabled,
                     checked,
+                    invalid: validationState === 'invalid',
                 },
                 className,
             )}

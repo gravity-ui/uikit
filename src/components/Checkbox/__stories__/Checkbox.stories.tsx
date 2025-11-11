@@ -66,6 +66,22 @@ export const Disabled: Story = {
     ),
 };
 
+export const Invalid: Story = {
+    render: (args) => (
+        <Showcase>
+            <Checkbox {...args} validationState="invalid" checked={false}>
+                Unchecked
+            </Checkbox>
+            <Checkbox {...args} validationState="invalid" checked>
+                Checked
+            </Checkbox>
+            <Checkbox {...args} validationState="invalid" indeterminate>
+                Indeterminate
+            </Checkbox>
+        </Showcase>
+    ),
+};
+
 export const ShowcaseStory: Story = {
     render: () => <CheckboxShowcase />,
     name: 'Showcase',

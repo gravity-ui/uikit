@@ -1,7 +1,12 @@
 import * as React from 'react';
 
 import {useControlledState, useFocusWithin, useUniqId} from '../..';
-import type {ControlGroupOption, ControlGroupProps} from '../../../components/types';
+import type {
+    ControlGroupOption,
+    ControlGroupProps,
+    ControlGroupValidationProps,
+    ControlValidationProps,
+} from '../../../components/types';
 import {filterDOMProps} from '../../../components/utils/filterDOMProps';
 import {useFormResetHandler} from '../useFormResetHandler';
 
@@ -9,15 +14,17 @@ import type {RadioGroupContextProps} from './types';
 
 interface OptionsProps<ValueType extends string = string>
     extends Omit<
-        ControlGroupProps<ValueType>,
-        'options' | 'defaultValue' | 'aria-label' | 'aria-labelledby' | 'onUpdate' | 'value'
-    > {
+            ControlGroupProps<ValueType>,
+            'options' | 'defaultValue' | 'aria-label' | 'aria-labelledby' | 'onUpdate' | 'value'
+        >,
+        ControlValidationProps {
     value: ValueType;
     checked: boolean;
     content: ControlGroupOption['content'];
 }
 
-export type UseRadioGroupProps<ValueType extends string = string> = ControlGroupProps<ValueType>;
+export type UseRadioGroupProps<ValueType extends string = string> = ControlGroupProps<ValueType> &
+    ControlGroupValidationProps;
 
 export type UseRadioGroupResult<ValueType extends string = string> = {
     containerProps: Pick<ControlGroupProps, 'aria-label' | 'aria-labelledby'> & {
@@ -37,6 +44,7 @@ export function useRadioGroup<ValueType extends string = string>(
         defaultValue,
         options = [],
         disabled,
+        validationState,
         onUpdate,
         onChange,
         onFocus,
@@ -44,6 +52,7 @@ export function useRadioGroup<ValueType extends string = string>(
     } = props;
 
     const controlId = useUniqId();
+
     const [currentValue, setValueState] = useControlledState<string | null, ValueType>(
         value,
         defaultValue ?? null,
@@ -93,6 +102,7 @@ export function useRadioGroup<ValueType extends string = string>(
         title: option.title,
         checked: currentValue === String(option.value),
         disabled: disabled || option.disabled,
+        validationState,
         onChange: handleChange,
         ref: fieldRef,
     }));

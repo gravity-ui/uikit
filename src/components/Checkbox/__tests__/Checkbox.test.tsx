@@ -39,6 +39,20 @@ describe('Checkbox', () => {
         expect(checkbox).not.toBeDisabled();
     });
 
+    test('invalid when validationState="invalid" prop is given', () => {
+        render(<Checkbox validationState="invalid" />);
+        const checkbox = screen.getByRole('checkbox');
+
+        expect(checkbox).toBeInvalid();
+    });
+
+    test('valid when validationState prop is not given', () => {
+        render(<Checkbox />);
+        const checkbox = screen.getByRole('checkbox');
+
+        expect(checkbox).toBeValid();
+    });
+
     test('render with indeterminate', () => {
         render(<Checkbox indeterminate={true} />);
         const checkbox = screen.getByRole('checkbox');

@@ -129,25 +129,26 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name           | Description                                                                                              |                     Type                      | Default |
-| :------------- | :------------------------------------------------------------------------------------------------------- | :-------------------------------------------: | :-----: |
-| children       | The content of the radio (usually, a label).                                                             |                  `ReactNode`                  |         |
-| content        | The content of the radio (alternative to children).                                                      |                  `ReactNode`                  |         |
-| disabled       | Toggles the `disabled` state of the radio.                                                               |                   `boolean`                   | `false` |
-| checked        | Toggles the `checked` state of the radio.                                                                |                   `boolean`                   | `false` |
-| defaultChecked | Sets the initial checked state when the component is mounted                                             |                   `boolean`                   | `false` |
-| onUpdate       | Fires when the radio state is changed by the user and provides the checked value as a callback argument. |         `(checked: boolean) => void`          |         |
-| onChange       | Fires when the radio state is changed by the user and provides the change event as a callback argument.  |                  `Function`                   |         |
-| onFocus        | Event handler to use when the radio input element receives focus.                                        |                  `Function`                   |         |
-| onBlur         | Event handler to use when the radio input element loses focus.                                           |                  `Function`                   |         |
-| size           | Sets the size of the radio.                                                                              |                    `m` `l`                    |   `m`   |
-| id             | `id` HTML attribute                                                                                      |                   `string`                    |         |
-| qa             | `data-qa` HTML attribute, used for testing.                                                              |                   `string`                    |         |
-| style          | `style` HTML attribute                                                                                   |             `React.CSSProperties`             |         |
-| className      | `class` HTML attribute                                                                                   |                   `string`                    |         |
-| title          | `title` HTML attribute                                                                                   |                   `string`                    |         |
-| name           | `name` HTML attribute for the input element                                                              |                   `string`                    |         |
-| value          | Control value                                                                                            |                   `string`                    |         |
-| indeterminate  | Toggles the indeterminate state of the radio.                                                            |                   `boolean`                   | `false` |
-| controlProps   | Additional propeties for the underlying input element                                                    | `React.InputHTMLAttributes<HTMLInputElement>` |         |
-| controlRef     | Ref to the underlying input element                                                                      |         `React.Ref<HTMLInputElement>`         |         |
+| Name            | Description                                                                                              |                     Type                      | Default |
+| :-------------- | :------------------------------------------------------------------------------------------------------- | :-------------------------------------------: | :-----: |
+| children        | The content of the radio (usually, a label).                                                             |                  `ReactNode`                  |         |
+| content         | The content of the radio (alternative to children).                                                      |                  `ReactNode`                  |         |
+| disabled        | Toggles the `disabled` state of the radio.                                                               |                   `boolean`                   | `false` |
+| validationState | Validation state.                                                                                        |                  `"invalid"`                  |         |
+| checked         | Toggles the `checked` state of the radio.                                                                |                   `boolean`                   | `false` |
+| defaultChecked  | Sets the initial checked state when the component is mounted                                             |                   `boolean`                   | `false` |
+| onUpdate        | Fires when the radio state is changed by the user and provides the checked value as a callback argument. |         `(checked: boolean) => void`          |         |
+| onChange        | Fires when the radio state is changed by the user and provides the change event as a callback argument.  |                  `Function`                   |         |
+| onFocus         | Event handler to use when the radio input element receives focus.                                        |                  `Function`                   |         |
+| onBlur          | Event handler to use when the radio input element loses focus.                                           |                  `Function`                   |         |
+| size            | Sets the size of the radio.                                                                              |                    `m` `l`                    |   `m`   |
+| id              | `id` HTML attribute                                                                                      |                   `string`                    |         |
+| qa              | `data-qa` HTML attribute, used for testing.                                                              |                   `string`                    |         |
+| style           | `style` HTML attribute                                                                                   |             `React.CSSProperties`             |         |
+| className       | `class` HTML attribute                                                                                   |                   `string`                    |         |
+| title           | `title` HTML attribute                                                                                   |                   `string`                    |         |
+| name            | `name` HTML attribute for the input element                                                              |                   `string`                    |         |
+| value           | Control value                                                                                            |                   `string`                    |         |
+| indeterminate   | Toggles the indeterminate state of the radio.                                                            |                   `boolean`                   | `false` |
+| controlProps    | Additional propeties for the underlying input element                                                    | `React.InputHTMLAttributes<HTMLInputElement>` |         |
+| controlRef      | Ref to the underlying input element                                                                      |         `React.Ref<HTMLInputElement>`         |         |

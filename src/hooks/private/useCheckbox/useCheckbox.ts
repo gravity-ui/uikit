@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-import {useControlledState, useForkRef} from '../..';
-import type {ControlProps} from '../../../components/types';
+import type {ControlProps, ControlValidationProps} from '../../../components/types';
 import {eventBroker} from '../../../components/utils/event-broker';
+import {useControlledState, useForkRef} from '../../../hooks';
 import {useFormResetHandler} from '../useFormResetHandler';
 
-export type UseCheckboxProps = ControlProps;
+export type UseCheckboxProps = ControlProps & ControlValidationProps;
 
 export type UseCheckboxResult = {
     checked: boolean;
@@ -19,6 +19,7 @@ export function useCheckbox({
     defaultChecked,
     checked,
     indeterminate,
+    validationState,
     onUpdate,
     onChange,
     controlRef,
@@ -84,6 +85,7 @@ export function useCheckbox({
         defaultChecked: defaultChecked,
         checked: inputChecked,
         'aria-checked': inputAriaChecked,
+        'aria-invalid': validationState === 'invalid' || undefined,
         ref: handleRef,
     };
 

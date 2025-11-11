@@ -4,23 +4,76 @@ import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-
 import type {CheckboxProps} from '../Checkbox';
 import {Checkbox} from '../Checkbox';
 
-import {checkedCases, disabledCases, indeterminateCases, sizeCases} from './cases';
+import {disabledCases, sizeCases, validationStateCases} from './cases';
 
 test.describe('Checkbox', {tag: '@Checkbox'}, () => {
+    const defaultProps: CheckboxProps = {
+        name: '',
+        value: '',
+        content: 'Checkbox label',
+    };
+
+    const commonPropsCases = {
+        size: sizeCases,
+        disabled: disabledCases,
+        validationState: validationStateCases,
+    } as const;
+
     smokeTest('', async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<CheckboxProps>(
-            {
-                name: '',
-                value: '',
-                content: 'Checkbox label',
-            },
-            {
-                size: sizeCases,
-                disabled: disabledCases,
-                checked: checkedCases,
-                indeterminate: indeterminateCases,
-            },
+            defaultProps,
+            commonPropsCases,
             {},
+        );
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Checkbox {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({});
+    });
+
+    smokeTest('checked', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<CheckboxProps>(
+            {
+                ...defaultProps,
+                checked: true,
+            },
+            commonPropsCases,
+        );
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Checkbox {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({});
+    });
+
+    smokeTest('indeterminate', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<CheckboxProps>(
+            {
+                ...defaultProps,
+                indeterminate: true,
+            },
+            commonPropsCases,
         );
 
         await mount(

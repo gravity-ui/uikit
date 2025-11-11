@@ -54,6 +54,13 @@ export const Disabled: Story = {
     },
 };
 
+export const Invalid: Story = {
+    args: {
+        ...Default.args,
+        validationState: 'invalid',
+    },
+};
+
 export const Direction: Story = {
     args: {
         ...Default.args,

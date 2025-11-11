@@ -2,8 +2,6 @@ import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {SelectQa} from '../constants';
-
 import {DEFAULT_OPTIONS, TEST_QA, setup} from './utils';
 
 const QA = 'SELECT_RENDER_POPUP_TEST_QA';
@@ -29,10 +27,10 @@ describe('Select renderPopup', () => {
         // open select popup
         await user.click(selectControl);
 
-        const filterInput = getByTestId(SelectQa.FILTER_INPUT);
+        const filterInput = getByTestId(`${TEST_QA}-filter-input`);
         expect(filterInput).toBeVisible();
 
-        const list = getByTestId(SelectQa.LIST);
+        const list = getByTestId(`${TEST_QA}-list`);
         expect(list).toBeVisible();
 
         const customPopupDiv = getByTestId(QA);

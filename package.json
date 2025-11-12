@@ -118,11 +118,11 @@
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "npm run build && npm pkg delete engines",
     "playwright:install": "playwright install chromium webkit --with-deps",
-    "playwright": "playwright test --config=playwright/playwright.config.ts src/components/TableColumnSetup/__tests__/TableColumnSetup.visual.test.tsx",
+    "playwright": "playwright test --config=playwright/playwright.config.ts",
     "playwright:update": "npm run playwright -- -u",
     "playwright:clear-cache": "rm -rf ./playwright/.cache",
     "playwright:docker": "./playwright/run-docker-command.sh npm run playwright --",
-    "playwright:docker:update": "./playwright/run-docker-command.sh npm run playwright:update -- ",
+    "playwright:docker:update": "./playwright/run-docker-command.sh npm run playwright:update --",
     "playwright:docker:clear-cache": "./playwright/run-docker-command.sh clear-cache"
   },
   "dependencies": {

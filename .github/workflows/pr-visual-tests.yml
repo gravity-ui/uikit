@@ -12,7 +12,6 @@ jobs:
     steps:
       - uses: gravity-ui/component-tests-run-action@v1
         with:
-          node-version: 20
           command: npm run playwright
           report-path: ./playwright/report
           node-version-file: '.nvmrc'

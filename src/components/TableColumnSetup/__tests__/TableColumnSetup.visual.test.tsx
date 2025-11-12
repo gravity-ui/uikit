@@ -11,15 +11,15 @@ import {disabledCases, showStatusCases} from './cases';
 
 const defaultProps: TableColumnSetupProps = {
     items: [
-        {id: 'name', title: 'Имя', selected: true, required: true},
+        {id: 'name', title: 'Name', selected: true, required: true},
         {id: 'email', title: 'Email', selected: true},
-        {id: 'phone', title: 'Телефон', selected: false},
+        {id: 'phone', title: 'Phone', selected: false},
     ],
     onUpdate: noop,
 };
 
 test.describe('TableColumnSetup', {tag: '@TableColumnSetup'}, () => {
-    smokeTest('with custom width popup', async ({mount, expectScreenshot}) => {
+    smokeTest('', async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(defaultProps, {
             disabled: disabledCases,
             showStatus: showStatusCases,
@@ -58,7 +58,6 @@ test.describe('TableColumnSetup', {tag: '@TableColumnSetup'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
-            nameSuffix: 'with opened popup',
         });
     });
 
@@ -78,7 +77,6 @@ test.describe('TableColumnSetup', {tag: '@TableColumnSetup'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
-            nameSuffix: 'with hide apply popup',
         });
     });
 
@@ -98,7 +96,7 @@ test.describe('TableColumnSetup', {tag: '@TableColumnSetup'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
-            nameSuffix: 'with custom popupPlacement',
+            nameSuffix: 'left-end',
         });
     });
 
@@ -118,7 +116,6 @@ test.describe('TableColumnSetup', {tag: '@TableColumnSetup'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
-            nameSuffix: 'with custom width',
         });
     });
 });

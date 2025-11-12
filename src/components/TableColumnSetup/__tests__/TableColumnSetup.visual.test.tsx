@@ -94,7 +94,7 @@ test.describe('TableColumnSetup', {tag: '@TableColumnSetup'}, () => {
                 <div
                     style={{
                         width: 250,
-                        height: 200,
+                        height: 250,
                         paddingInline: 60,
                     }}
                 >

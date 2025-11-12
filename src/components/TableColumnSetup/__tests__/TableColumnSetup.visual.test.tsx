@@ -7,7 +7,7 @@ import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-
 import {TableColumnSetup} from '../TableColumnSetup';
 import type {TableColumnSetupProps} from '../TableColumnSetup';
 
-import {disabledCases, showStatusCases} from './cases';
+import {disabledCases, popupPlacementCases, showStatusCases} from './cases';
 
 const defaultProps: TableColumnSetupProps = {
     items: [
@@ -80,23 +80,34 @@ test.describe('TableColumnSetup', {tag: '@TableColumnSetup'}, () => {
         });
     });
 
-    smokeTest('with custom popupPlacement', async ({mount, expectScreenshot}) => {
-        const root = await mount(
-            <div
-                style={{
-                    width: 400,
-                    height: 200,
-                }}
-            >
-                <TableColumnSetup {...defaultProps} popupPlacement="left-end" />
-            </div>,
-        );
+    createSmokeScenarios(
+        defaultProps,
+        {
+            popupPlacement: popupPlacementCases,
+        },
+        {
+            scenarioName: 'placement',
+        },
+    ).forEach(([title, props]) => {
+        smokeTest(title, async ({mount, expectScreenshot}) => {
+            const root = await mount(
+                <div
+                    style={{
+                        width: 250,
+                        height: 200,
+                        paddingInline: 60,
+                    }}
+                >
+                    <h4>{title}</h4>
+                    <TableColumnSetup {...props} />
+                </div>,
+            );
 
-        await root.locator("button[type='button']").click();
+            await root.locator("button[type='button']").click();
 
-        await expectScreenshot({
-            themes: ['light'],
-            nameSuffix: 'left-end',
+            await expectScreenshot({
+                themes: ['light'],
+            });
         });
     });
 

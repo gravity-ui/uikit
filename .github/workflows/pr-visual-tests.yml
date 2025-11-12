@@ -10,8 +10,9 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.52.0-jammy
     steps:
-      - uses: gravity-ui/component-tests-run-action@d806f3f6a08960adb2887fb23689d1980ecc9178
+      - uses: gravity-ui/component-tests-run-action@v1
         with:
           node-version: 20
           command: npm run playwright
           report-path: ./playwright/report
+          node-version-file: '.nvmrc'

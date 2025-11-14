@@ -58,4 +58,36 @@ test.describe('DropdownMenu', {tag: '@DropdownMenu'}, () => {
             });
         });
     });
+
+    smokeTest('menu with empty groups', async ({page, mount, expectScreenshot}) => {
+        const props = {
+            open: true,
+            items: [
+                [
+                    {
+                        text: 'level 0',
+                        action: () => {},
+                    },
+                ],
+                [],
+            ],
+        };
+        const component = await mount(
+            <div
+                style={{
+                    width: '300px',
+                    height: '150px',
+                }}
+            >
+                <DropdownMenu {...props} />
+            </div>,
+        );
+
+        await page.getByText('level 0').hover();
+
+        await expectScreenshot({
+            component,
+            themes: ['light'],
+        });
+    });
 });

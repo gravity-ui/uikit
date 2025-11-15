@@ -31,7 +31,9 @@ $block: '.#{variables.$ns}avatar-stack';
         display: flex;
         z-index: 0;
         border-radius: 100%;
-        margin-inline-end: calc(-1 * var(--_--overlap));
+        &:not(:last-child) {
+            margin-inline-end: calc(-1 * var(--_--overlap));
+        }
     }
 
     &__more-button,

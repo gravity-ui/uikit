@@ -12,6 +12,9 @@ import './AvatarStack.scss';
 
 const b = block('avatar-stack');
 
+// Default style for more button item
+const DEFAULT_MORE_BUTTON_STYLE = {zIndex: 0};
+
 const AvatarStackComponent = React.forwardRef<HTMLUListElement, AvatarStackProps>(
     (
         {
@@ -66,7 +69,7 @@ const AvatarStackComponent = React.forwardRef<HTMLUListElement, AvatarStackProps
             <ul className={b({'overlap-size': overlapSize}, className)} role={'list'} ref={ref}>
                 {visibleItems}
                 {hasMoreButton ? (
-                    <AvatarStackItem key="more-button" style={{zIndex: 0}}>
+                    <AvatarStackItem key="more-button" style={DEFAULT_MORE_BUTTON_STYLE}>
                         {renderMore ? (
                             renderMore({count: moreItems})
                         ) : (

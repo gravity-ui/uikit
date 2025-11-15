@@ -4,9 +4,7 @@ import {block} from '../utils/cn';
 
 const b = block('avatar-stack');
 
-type Props = React.PropsWithChildren<{
-    style?: React.CSSProperties;
-}>;
+type Props = React.PropsWithChildren<Pick<React.HTMLAttributes<HTMLLIElement>, 'style'>>;
 
 export const AvatarStackItem = ({children, style}: Props) => {
     return (

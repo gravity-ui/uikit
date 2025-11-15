@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.26.1](https://github.com/gravity-ui/uikit/compare/v7.26.0...v7.26.1) (2025-11-15)
+
+
+### Bug Fixes
+
+* **DropdownMenu:** remove separators in case of empty groups ([#2495](https://github.com/gravity-ui/uikit/issues/2495)) ([6794780](https://github.com/gravity-ui/uikit/commit/67947808535aa593fa64c4369ef7a9d6905d2e4c))
+* fix initial render of AvatarStack stories in StrictMode ([#2497](https://github.com/gravity-ui/uikit/issues/2497)) ([69249df](https://github.com/gravity-ui/uikit/commit/69249dfd2fbae08508a151f550712444f69f69c3))
+
 ## [7.26.0](https://github.com/gravity-ui/uikit/compare/v7.25.0...v7.26.0) (2025-11-07)
 
 

@@ -1,0 +1,187 @@
+@use '../../variables';
+
+$block: '.#{variables.$ns}drawer';
+$drawer-resizer-width: 8px;
+
+#{$block} {
+    pointer-events: none;
+    outline: none;
+
+    &__item {
+        position: absolute;
+        z-index: 110;
+        inset-inline-start: 0;
+        inset-block: 0;
+
+        height: 100%;
+
+        background-color: var(--g-color-base-background);
+
+        pointer-events: initial;
+        outline: none;
+        will-change: transform;
+
+        &_direction_right {
+            inset-inline: auto 0;
+        }
+
+        &_direction_top {
+            inset-block-end: auto;
+            inset-inline-end: 0;
+
+            width: 100%;
+        }
+
+        &_direction_bottom {
+            inset-block-start: auto;
+            inset-inline-end: 0;
+
+            width: 100%;
+        }
+    }
+
+    &_hide-veil &__item {
+        box-shadow: 0 1px 5px 0 var(--g-color-sfx-shadow);
+    }
+
+    &__item_resizable#{$block}__item_direction_left {
+        padding-inline-end: $drawer-resizer-width;
+    }
+
+    &__item_resizable#{$block}__item_direction_top {
+        padding-block-end: $drawer-resizer-width;
+    }
+
+    &__item_resizable#{$block}__item_direction_bottom {
+        padding-block-start: $drawer-resizer-width;
+    }
+
+    &[data-floating-ui-status='unmounted'] &__item {
+        visibility: hidden;
+    }
+
+    &[data-floating-ui-status='initial'] &__item,
+    &[data-floating-ui-status='close'] &__item {
+        transform: translate(0, 0);
+    }
+
+    &:not(&_skip-animation)[data-floating-ui-status='open'] &__item,
+    &:not(&_skip-animation)[data-floating-ui-status='close'] &__item {
+        transition: transform 300ms;
+    }
+
+    &[data-floating-ui-status='initial'] &__item_direction_left,
+    &[data-floating-ui-status='close'] &__item_direction_left {
+        transform: translate(-100%, 0);
+    }
+
+    &[data-floating-ui-status='initial'] &__item_direction_right,
+    &[data-floating-ui-status='close'] &__item_direction_right {
+        transform: translate(100%, 0);
+    }
+
+    &[data-floating-ui-status='initial'] &__item_direction_top,
+    &[data-floating-ui-status='close'] &__item_direction_top {
+        transform: translate(0, -100%);
+    }
+
+    &[data-floating-ui-status='initial'] &__item_direction_bottom,
+    &[data-floating-ui-status='close'] &__item_direction_bottom {
+        transform: translate(0, 100%);
+    }
+
+    &__veil {
+        position: absolute;
+        z-index: 100;
+        inset: 0;
+
+        background-color: var(--g-drawer-veil-background-color, var(--g-color-sfx-veil));
+
+        pointer-events: initial;
+
+        &_hidden {
+            background-color: transparent;
+        }
+    }
+
+    &:not(&_skip-animation)[data-floating-ui-status='open'] &__veil,
+    &:not(&_skip-animation)[data-floating-ui-status='close'] &__veil {
+        transition: opacity 300ms;
+    }
+
+    &[data-floating-ui-status='initial'] &__veil,
+    &[data-floating-ui-status='close'] &__veil {
+        opacity: 0;
+    }
+
+    &[data-floating-ui-status='unmounted'] &__veil {
+        visibility: hidden;
+    }
+
+    &[data-floating-ui-status='open'] &__veil {
+        opacity: 1;
+    }
+
+    &__resizer-handle {
+        width: 2px;
+        height: 28px;
+
+        background: var(--g-color-line-generic);
+        border-radius: 2px;
+
+        &_direction_top,
+        &_direction_bottom {
+            width: 28px;
+            height: 2px;
+        }
+    }
+
+    &__resizer {
+        position: absolute;
+        inset-block-start: 0;
+        z-index: 110;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        width: $drawer-resizer-width;
+        height: 100%;
+
+        cursor: col-resize;
+
+        background: var(--g-color-base-generic);
+
+        &_direction_right {
+            inset-inline-start: 0;
+            inset-block-start: 0;
+        }
+
+        &_direction_left {
+            inset-inline-end: 0;
+            inset-block-start: 0;
+        }
+
+        &_direction_top {
+            inset-block: auto 0;
+            inset-inline-start: 0;
+        }
+
+        &_direction_bottom {
+            inset-inline-start: 0;
+            inset-block-start: 0;
+        }
+
+        &_direction_top,
+        &_direction_bottom {
+            cursor: row-resize;
+            width: 100%;
+            height: $drawer-resizer-width;
+        }
+    }
+
+    &__resizer:hover &__resizer-handle {
+        background: var(--g-color-line-generic-hover);
+    }
+}

@@ -26,18 +26,19 @@ function getChildren({
     avatarSize: AvatarSize;
     randomAvatar: boolean;
 }) {
-    return faker.helpers.uniqueArray(
-        () => (
+    return faker.helpers.uniqueArray(() => {
+        const imageUrl = randomAvatar ? faker.image.avatar() : imgUrl;
+        return (
             <Avatar
-                imgUrl={randomAvatar ? faker.image.avatar() : imgUrl}
+                imgUrl={imageUrl}
                 size={avatarSize}
                 borderColor={'var(--g-color-line-generic-solid)'}
                 aria-label={'For tests'}
                 alt={'For tests'}
+                key={imageUrl}
             />
-        ),
-        count,
-    );
+        );
+    }, count);
 }
 
 const meta: Meta<ComponentType> = {

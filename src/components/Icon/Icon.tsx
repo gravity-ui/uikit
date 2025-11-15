@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import type {DOMProps, QAProps} from '../types';
+import type {CSSProperties, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {a11yHiddenSvgProps} from '../utils/svg';
 
@@ -29,6 +29,7 @@ export interface IconProps extends QAProps, DOMProps {
     size?: number | string;
     fill?: string;
     stroke?: string;
+    color?: CSSProperties['color'] | string;
 }
 
 const b = block('icon');
@@ -36,7 +37,18 @@ const b = block('icon');
 export const Icon: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<SVGSVGElement>> &
     IconComposition = React.forwardRef<SVGSVGElement, IconProps>(
     (
-        {data, width, height, size, className, style, fill = 'currentColor', stroke = 'none', qa},
+        {
+            data,
+            width,
+            height,
+            size,
+            className,
+            style,
+            color,
+            fill = 'currentColor',
+            stroke = 'none',
+            qa,
+        },
         ref,
     ) => {
         // This component supports four different ways to load and use icons:
@@ -91,13 +103,21 @@ export const Icon: React.ForwardRefExoticComponent<IconProps & React.RefAttribut
             }
         }
 
+        const svgStyle =
+            color && style?.color === undefined
+                ? {
+                      ...style,
+                      color,
+                  }
+                : style;
+
         const props = {
             xmlns: 'http://www.w3.org/2000/svg',
             xmlnsXlink: 'http://www.w3.org/1999/xlink',
             width: w,
             height: h,
             className: b(null, className),
-            style,
+            style: svgStyle,
             fill,
             stroke,
             'data-qa': qa,

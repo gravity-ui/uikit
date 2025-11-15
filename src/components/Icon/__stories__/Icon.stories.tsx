@@ -14,6 +14,9 @@ const meta: Meta<typeof Icon> = {
             options: Object.keys(icons),
             mapping: icons,
         },
+        color: {
+            control: 'text',
+        },
         style: {
             control: 'object',
         },

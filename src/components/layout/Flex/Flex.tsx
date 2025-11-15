@@ -62,6 +62,19 @@ export interface FlexProps<T extends React.ElementType = 'div'> extends BoxProps
      */
     inline?: boolean;
     gap?: Space | MediaPartial<Space>;
+
+    /** `row-gap` property */
+    rowGap?: Space | MediaPartial<Space>;
+
+    /** `column-gap` property */
+    columnGap?: Space | MediaPartial<Space>;
+
+    /**
+     * @deprecated Use `rowGap` instead.
+     *
+     * Legacy prop for setting vertical spacing between children.
+     * Works similarly to CSS `row-gap`,
+     */
     gapRow?: Space | MediaPartial<Space>;
     /**
      * @deprecated - use native gap property
@@ -151,6 +164,8 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
         wrap,
         inline,
         gap,
+        rowGap: _rowGap,
+        columnGap: _columnGap,
         gapRow,
         className,
         space,
@@ -173,10 +188,15 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
             : property;
 
     const gapSpaceSize = applyMediaProps(gap);
-    const columnGap =
-        typeof gapSpaceSize === 'undefined' ? undefined : spaceBaseSize * Number(gapSpaceSize);
 
-    const gapRowSpaceSize = applyMediaProps(gapRow) || gapSpaceSize;
+    const gapRowSpaceSize = applyMediaProps(_rowGap) || applyMediaProps(gapRow) || gapSpaceSize;
+    const gapColumnSpaceSize = applyMediaProps(_columnGap) || gapSpaceSize;
+
+    const columnGap =
+        typeof gapColumnSpaceSize === 'undefined'
+            ? undefined
+            : spaceBaseSize * Number(gapColumnSpaceSize);
+
     const rowGap =
         typeof gapRowSpaceSize === 'undefined'
             ? undefined

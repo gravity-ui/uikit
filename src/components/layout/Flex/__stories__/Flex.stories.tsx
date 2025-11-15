@@ -95,6 +95,40 @@ export const GapAndRowGap = {
     },
 } satisfies Story;
 
+export const ColumnGap = {
+    render: (args) => (
+        <Flex {...args}>
+            {new Array(20).fill('_').map((_, i) => (
+                <Box w={100} h={50} key={i}>
+                    100x50
+                </Box>
+            ))}
+        </Flex>
+    ),
+    decorators: defaultDecorators,
+    args: {
+        wrap: 'wrap',
+        columnGap: {xs: 1, m: 6},
+    },
+} satisfies Story;
+
+export const RowGap = {
+    render: (args) => (
+        <Flex {...args}>
+            {new Array(20).fill('_').map((_, i) => (
+                <Box w={100} h={50} key={i}>
+                    100x50
+                </Box>
+            ))}
+        </Flex>
+    ),
+    decorators: defaultDecorators,
+    args: {
+        wrap: 'wrap',
+        rowGap: {xs: 6, m: 1},
+    },
+} satisfies Story;
+
 export const ChildrenWithBgColor = {
     render: (args) => (
         <Flex {...args}>

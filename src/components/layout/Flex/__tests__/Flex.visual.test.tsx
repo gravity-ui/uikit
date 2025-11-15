@@ -34,6 +34,52 @@ test.describe('Flex', {tag: '@Flex'}, () => {
             );
 
             smokeTest(
+                `render story <ColumnGap> - ${breakpointName}`,
+                async ({mount, expectScreenshot, page}) => {
+                    const props = {
+                        columnGap: {xs: '1', m: '6'},
+                    } as const;
+
+                    const size = page.viewportSize();
+                    if (size) {
+                        await page.setViewportSize({
+                            width: Math.max(breakpointWidthPx, 320) + RESERVE_SPACING_PX,
+                            height: size.height,
+                        });
+                    }
+
+                    await mount(<FlexStories.ColumnGap {...props} />, {width: 'auto'});
+
+                    await expectScreenshot({
+                        themes: ['light'],
+                    });
+                },
+            );
+
+            smokeTest(
+                `render story <RowGap> - ${breakpointName}`,
+                async ({mount, expectScreenshot, page}) => {
+                    const props = {
+                        rowGap: {xs: '6', m: '1'},
+                    } as const;
+
+                    const size = page.viewportSize();
+                    if (size) {
+                        await page.setViewportSize({
+                            width: Math.max(breakpointWidthPx, 320) + RESERVE_SPACING_PX,
+                            height: size.height,
+                        });
+                    }
+
+                    await mount(<FlexStories.RowGap {...props} />, {width: 'auto'});
+
+                    await expectScreenshot({
+                        themes: ['light'],
+                    });
+                },
+            );
+
+            smokeTest(
                 `render story <FlexGap> - ${breakpointName}`,
                 async ({mount, expectScreenshot, page}) => {
                     const props = {
@@ -79,6 +125,30 @@ test.describe('Flex', {tag: '@Flex'}, () => {
                     });
                 },
             );
+
+            // smokeTest(
+            //     `render story <ColumnGap> - ${breakpointName}`,
+            //     async ({mount, expectScreenshot, page}) => {
+            //         const props = {
+            //             gap: {s: '1', m: '6'},
+            //             gapRow: {s: '6', m: '1'},
+            //         } as const;
+
+            //         const size = page.viewportSize();
+            //         if (size) {
+            //             await page.setViewportSize({
+            //                 width: Math.max(breakpointWidthPx, 320) + RESERVE_SPACING_PX,
+            //                 height: size.height,
+            //             });
+            //         }
+
+            //         await mount(<FlexStories.GapAndRowGap {...props} />, {width: 'auto'});
+
+            //         await expectScreenshot({
+            //             themes: ['light'],
+            //         });
+            //     },
+            // );
 
             smokeTest(
                 `render story <ChildrenWithBgColor>- ${breakpointName}`,

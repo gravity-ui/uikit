@@ -10,7 +10,7 @@ $block: '.#{variables.$ns}avatar-stack';
 
     display: inline-flex;
     justify-content: flex-end;
-    flex-direction: row-reverse;
+    flex-direction: row;
 
     margin: 0;
     padding: 0;
@@ -31,8 +31,7 @@ $block: '.#{variables.$ns}avatar-stack';
         display: flex;
         z-index: 0;
         border-radius: 100%;
-
-        &:not(:first-child) {
+        &:not(:last-child) {
             margin-inline-end: calc(-1 * var(--_--overlap));
         }
     }

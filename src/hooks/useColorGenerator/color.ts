@@ -1,6 +1,6 @@
-import {colorOptions} from './constants';
-import type {ColorDetailsProps, ColorProps} from './types';
-import {extractHashPart, getHash, getHue, normalizeHash} from './utils';
+import {colorOptions, textColorVarName} from './constants';
+import {extractHashPart, getHash, getHue, normalizeHash} from './hash-utils';
+import type {ColorDetails, GenerateColorProps} from './types';
 
 export const linearToSrgb = (channel: number): number => {
     if (channel <= 0.0031308) {
@@ -43,27 +43,17 @@ export const oklchToRgb = (l: number, c: number, h: number): [number, number, nu
     return [red, green, blue];
 };
 
-export interface ColorDetails {
-    hash: number;
-    hue: number;
-    lightness: number;
-    chroma: number;
-    oklch: {
-        l: number;
-        c: number;
-        h: number;
-    };
-    rgb: {
-        r: number;
-        g: number;
-        b: number;
-    };
-    rgbString: string;
-}
+export const getTextColor = () => {
+    return 'var(--g-color-text-inverted-primary)';
+};
 
-const generateColorDetails = ({hash, theme}: ColorDetailsProps): ColorDetails => {
+const generateColorFromRanges = (
+    seed: string,
+    lightnessRange: [number, number],
+    chromaRange: [number, number],
+): ColorDetails => {
+    const hash = getHash(seed);
     const hue = getHue(hash);
-    const {lightness: lightnessRange, chroma: chromaRange} = colorOptions[theme];
 
     const saturationHash = extractHashPart(hash, 0);
     const lightnessHash = extractHashPart(hash, 1);
@@ -75,9 +65,6 @@ const generateColorDetails = ({hash, theme}: ColorDetailsProps): ColorDetails =>
 
     return {
         hash,
-        hue,
-        lightness,
-        chroma,
         oklch: {
             l: lightness,
             c: chroma,
@@ -89,20 +76,23 @@ const generateColorDetails = ({hash, theme}: ColorDetailsProps): ColorDetails =>
             b: blue,
         },
         rgbString: `rgb(${red}, ${green}, ${blue})`,
+        textColor: `var(${textColorVarName})`,
     };
 };
 
-const generateColor = ({hash, theme}: ColorDetailsProps) => {
-    const details = generateColorDetails({hash, theme});
-    return details.rgbString;
+export const generateColor = ({seed, theme}: GenerateColorProps): ColorDetails => {
+    const {lightness: lightnessRange, chroma: chromaRange} = colorOptions[theme];
+    return generateColorFromRanges(seed, lightnessRange, chromaRange);
 };
 
-export const getPersistentColor = ({seed, theme}: ColorProps) => {
-    const hash = getHash(seed);
-    return generateColor({hash, theme});
-};
-
-export const getPersistentColorDetails = ({seed, theme}: ColorProps): ColorDetails => {
-    const hash = getHash(seed);
-    return generateColorDetails({hash, theme});
+export const generateCustomColor = ({
+    seed,
+    lightnessRange,
+    chromaRange,
+}: {
+    seed: string;
+    lightnessRange: [number, number];
+    chromaRange: [number, number];
+}): ColorDetails => {
+    return generateColorFromRanges(seed, lightnessRange, chromaRange);
 };

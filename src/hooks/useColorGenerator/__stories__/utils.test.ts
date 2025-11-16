@@ -19,10 +19,18 @@ describe('Data Format', () => {
         });
 
         it('invalid color format -> throws error', () => {
-            expect(() => getRelativeLuminance('invalid')).toThrow('Color must be in hex (#RRGGBB) or rgb(r, g, b) format');
-            expect(() => getRelativeLuminance('rgba(255, 255, 255, 1)')).toThrow('Color must be in hex (#RRGGBB) or rgb(r, g, b) format');
-            expect(() => getRelativeLuminance('#FF')).toThrow('Color must be in hex (#RRGGBB) or rgb(r, g, b) format');
-            expect(() => getRelativeLuminance('#GG0000')).toThrow('Color must be in hex (#RRGGBB) or rgb(r, g, b) format');
+            expect(() => getRelativeLuminance('invalid')).toThrow(
+                'Color must be in hex (#RRGGBB) or rgb(r, g, b) format',
+            );
+            expect(() => getRelativeLuminance('rgba(255, 255, 255, 1)')).toThrow(
+                'Color must be in hex (#RRGGBB) or rgb(r, g, b) format',
+            );
+            expect(() => getRelativeLuminance('#FF')).toThrow(
+                'Color must be in hex (#RRGGBB) or rgb(r, g, b) format',
+            );
+            expect(() => getRelativeLuminance('#GG0000')).toThrow(
+                'Color must be in hex (#RRGGBB) or rgb(r, g, b) format',
+            );
         });
 
         it('rgb with out-of-range values -> no error', () => {
@@ -60,7 +68,7 @@ describe('Value Accuracy', () => {
             // 50% gray
             const gray50Luminance = getRelativeLuminance('#808080');
             expect(gray50Luminance).toBeCloseTo(0.2158605, 6);
-            
+
             // Light gray
             const lightGrayLuminance = getRelativeLuminance('#C0C0C0');
             expect(lightGrayLuminance).toBeCloseTo(0.5271151, 6);
@@ -70,11 +78,11 @@ describe('Value Accuracy', () => {
             // Pure red
             const redLuminance = getRelativeLuminance('#FF0000');
             expect(redLuminance).toBeCloseTo(0.2126, 4);
-            
+
             // Pure green
             const greenLuminance = getRelativeLuminance('#00FF00');
             expect(greenLuminance).toBeCloseTo(0.7152, 4);
-            
+
             // Pure blue
             const blueLuminance = getRelativeLuminance('#0000FF');
             expect(blueLuminance).toBeCloseTo(0.0722, 4);

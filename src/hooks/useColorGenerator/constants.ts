@@ -10,3 +10,5 @@ export const colorOptions: Record<string, ColorOptions> = {
         chroma: [12, 17],
     },
 };
+
+export const textColorVarName = '--g-color-text-inverted-primary';

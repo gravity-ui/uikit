@@ -36,12 +36,11 @@ const meta: Meta = {
         },
         avatarShape: {
             control: 'select',
-            options: ['circle', 'square'],
+            options: ['square', 'circle'],
             description: 'Avatar shape',
         },
     },
 };
-console.log('12');
 
 export default meta;
 
@@ -115,7 +114,7 @@ const Template = ({content = 'text', avatarSize = 'l', avatarShape = 'circle'}: 
             <div>
                 <strong>{'Filled'}</strong>
             </div>
-            <div key="heavy" className={b('color-items')}>
+            <div className={b('color-items')}>
                 {tokens.map((token) => (
                     <CustomColoredAvatar
                         key={token}

@@ -1,2 +1,3 @@
 export {useColorGenerator} from './useColorGenerator';
-export type {UseColorGeneratorProps, UseColorGeneratorResult} from './types';
+export {generateColor, generateCustomColor} from './color';
+export type {GenerateColorProps, ColorDetails} from './types';

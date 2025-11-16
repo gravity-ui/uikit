@@ -1,10 +1,4 @@
-import {
-    getPersistentColor,
-    getPersistentColorDetails,
-    getTextColor,
-    linearToSrgb,
-    oklchToRgb,
-} from './color';
+import {generateColor, getTextColor, linearToSrgb, oklchToRgb} from './color';
 
 describe('color utilities', () => {
     describe('linearToSrgb', () => {
@@ -113,109 +107,62 @@ describe('color utilities', () => {
     });
 
     describe('getTextColor', () => {
-        it('should return inverted color for heavy intensity', () => {
-            const color = getTextColor('heavy');
-            expect(color).toBe('var(--g-color-text-inverted-primary)');
-        });
-
-        it('should return primary color for light intensity', () => {
-            const color = getTextColor('light');
-            expect(color).toBe('var(--g-color-text-primary)');
-        });
-
-        it('should return primary color for medium intensity', () => {
-            const color = getTextColor('medium');
-            expect(color).toBe('var(--g-color-text-primary)');
-        });
-
-        it('should return primary color by default', () => {
+        it('should return inverted color', () => {
             const color = getTextColor();
-            expect(color).toBe('var(--g-color-text-primary)');
+            expect(color).toBe('var(--g-color-text-inverted-primary)');
         });
     });
 
-    describe('getPersistentColor', () => {
+    describe('generateColor', () => {
         it('should return a valid RGB color string', () => {
-            const color = getPersistentColor({
+            const result = generateColor({
                 seed: 'test-seed',
-                intensity: 'light',
                 theme: 'light',
             });
 
-            expect(color).toMatch(/^rgb\(\d+, \d+, \d+\)$/);
+            expect(result.rgbString).toMatch(/^rgb\(\d+, \d+, \d+\)$/);
         });
 
         it('should return consistent colors for same seed', () => {
-            const color1 = getPersistentColor({
+            const color1 = generateColor({
                 seed: 'consistent-seed',
-                intensity: 'medium',
                 theme: 'light',
             });
 
-            const color2 = getPersistentColor({
+            const color2 = generateColor({
                 seed: 'consistent-seed',
-                intensity: 'medium',
                 theme: 'light',
             });
 
-            expect(color1).toBe(color2);
+            expect(color1.rgbString).toBe(color2.rgbString);
         });
 
         it('should return different colors for different seeds', () => {
-            const color1 = getPersistentColor({
+            const color1 = generateColor({
                 seed: 'seed-1',
-                intensity: 'light',
                 theme: 'light',
             });
 
-            const color2 = getPersistentColor({
+            const color2 = generateColor({
                 seed: 'seed-2',
-                intensity: 'light',
                 theme: 'light',
             });
 
-            expect(color1).not.toBe(color2);
-        });
-
-        it('should return different colors for different intensities', () => {
-            const lightColor = getPersistentColor({
-                seed: 'same-seed',
-                intensity: 'light',
-                theme: 'light',
-            });
-
-            const heavyColor = getPersistentColor({
-                seed: 'same-seed',
-                intensity: 'heavy',
-                theme: 'light',
-            });
-
-            expect(lightColor).not.toBe(heavyColor);
+            expect(color1.rgbString).not.toBe(color2.rgbString);
         });
 
         it('should return different colors for different themes', () => {
-            const lightTheme = getPersistentColor({
+            const lightTheme = generateColor({
                 seed: 'same-seed',
-                intensity: 'light',
                 theme: 'light',
             });
 
-            const darkTheme = getPersistentColor({
+            const darkTheme = generateColor({
                 seed: 'same-seed',
-                intensity: 'light',
                 theme: 'dark',
             });
 
-            expect(lightTheme).not.toBe(darkTheme);
-        });
-
-        it('should handle default intensity', () => {
-            const color = getPersistentColor({
-                seed: 'test-seed',
-                theme: 'light',
-            });
-
-            expect(color).toMatch(/^rgb\(\d+, \d+, \d+\)$/);
+            expect(lightTheme.rgbString).not.toBe(darkTheme.rgbString);
         });
 
         it('should produce valid RGB values even with extreme inputs', () => {
@@ -229,12 +176,12 @@ describe('color utilities', () => {
             ];
 
             extremeSeeds.forEach((seed) => {
-                const color = getPersistentColor({
+                const result = generateColor({
                     seed,
-                    intensity: 'heavy',
                     theme: 'dark',
                 });
 
+                const color = result.rgbString;
                 expect(color).toMatch(/^rgb\(\d+, \d+, \d+\)$/);
 
                 // Extract RGB values and verify they're in valid range
@@ -258,24 +205,26 @@ describe('color utilities', () => {
             const colors = new Map<string, {count: number; rgb: string}>();
             const samples = 1000;
 
-            // Generate colors with same intensity and theme to isolate the test
+            // Generate colors with same theme to isolate the test
             for (let i = 0; i < samples; i++) {
-                const color = getPersistentColor({
+                const result = generateColor({
                     seed: `test-seed-${i}-${Math.random()}`,
-                    intensity: 'medium',
                     theme: 'dark',
                 });
 
+                const color = result.rgbString;
+
                 // Simple hash of the color to track unique values
-                if (colors.has(color)) {
-                    colors.get(color)!.count++;
+                const existing = colors.get(color);
+                if (existing) {
+                    existing.count++;
                 } else {
                     colors.set(color, {count: 1, rgb: color});
                 }
             }
 
             // With the fix, we should get many more unique colors
-            // For dark-medium: saturation [12, 17] (6 values), lightness [50, 55] (6 values)
+            // For dark: saturation [12, 17] (6 values), lightness [75, 80] (6 values)
             // Maximum possible unique combinations: 6 * 6 = 36
             // But due to OKLCH->RGB conversion, we might get fewer unique RGB values
 
@@ -286,19 +235,15 @@ describe('color utilities', () => {
         });
     });
 
-    describe('getPersistentColorDetails', () => {
+    describe('generateColor (details)', () => {
         it('should return detailed color information', () => {
-            const details = getPersistentColorDetails({
+            const details = generateColor({
                 seed: 'test-seed',
-                intensity: 'light',
                 theme: 'light',
             });
 
             expect(details).toMatchObject({
                 hash: expect.any(Number),
-                hue: expect.any(Number),
-                lightness: expect.any(Number),
-                saturation: expect.any(Number),
                 oklch: {
                     l: expect.any(Number),
                     c: expect.any(Number),
@@ -310,12 +255,8 @@ describe('color utilities', () => {
                     b: expect.any(Number),
                 },
                 rgbString: expect.stringMatching(/^rgb\(\d+, \d+, \d+\)$/),
+                textColor: expect.any(String),
             });
-
-            // Verify OKLCH values match raw values
-            expect(details.oklch.l).toBe(details.lightness);
-            expect(details.oklch.c).toBe(details.saturation);
-            expect(details.oklch.h).toBe(details.hue);
 
             // Verify RGB string matches RGB values
             expect(details.rgbString).toBe(
@@ -324,30 +265,28 @@ describe('color utilities', () => {
         });
 
         it('should return consistent details for same seed', () => {
-            const details1 = getPersistentColorDetails({
+            const details1 = generateColor({
                 seed: 'consistent-seed',
-                intensity: 'medium',
                 theme: 'dark',
             });
 
-            const details2 = getPersistentColorDetails({
+            const details2 = generateColor({
                 seed: 'consistent-seed',
-                intensity: 'medium',
                 theme: 'dark',
             });
 
             expect(details1).toEqual(details2);
         });
 
-        it('should match getPersistentColor output', () => {
+        it('should have rgbString matching RGB values', () => {
             const seed = 'test-seed';
-            const intensity = 'heavy';
             const theme = 'light';
 
-            const color = getPersistentColor({seed, intensity, theme});
-            const details = getPersistentColorDetails({seed, intensity, theme});
+            const details = generateColor({seed, theme});
 
-            expect(details.rgbString).toBe(color);
+            expect(details.rgbString).toBe(
+                `rgb(${details.rgb.r}, ${details.rgb.g}, ${details.rgb.b})`,
+            );
         });
     });
 });

@@ -1,11 +1,19 @@
 import chroma from 'chroma-js';
 
 import {randomString} from '../../../components/utils/common';
+import {textColorVarName} from '../constants';
+import type {ColorDetails} from '../types';
 
 import {USERNAME_PREFIXES, USERNAME_SUFFIXES} from './constants';
 
 export type StringType = 'random' | 'username' | 'id';
 export type TokenSource = 'random' | 'usernames' | 'ids' | 'mixed' | 'custom';
+
+export const getPageTextColor = () => {
+    const fallbackColor = '#000000';
+
+    return getComputedStyle(document.body).getPropertyValue(textColorVarName) || fallbackColor;
+};
 
 export const getBackgroundColor = () => {
     const fallbackColor = '#ffffff';
@@ -16,10 +24,8 @@ export const getBackgroundColor = () => {
     );
 };
 
-export const mixColors = (color1: string, color2: string) => {
-    console.log('color1', color1);
-    console.log('color2', color2);
-    return chroma(color1).mix(color2).hex();
+export const mixColors = (color1: string, color2: string, percent: number) => {
+    return chroma.mix(color1, color2, percent).hex();
 };
 
 /**
@@ -122,8 +128,7 @@ export const generateTokens = (
         return customTokens
             .split('\n')
             .map((token) => token.trim())
-            .filter((token) => token.length > 0)
-            .slice(0, count);
+            .filter((token) => token.length > 0);
     }
 
     const tokens: string[] = [];
@@ -150,4 +155,21 @@ export const generateTokens = (
     }
 
     return tokens;
+};
+
+export const getHexColor = ({rgb: {r, g, b}}: ColorDetails): string => {
+    const rClamped = Math.max(0, Math.min(255, Math.round(r)));
+    const rHex = rClamped.toString(16).padStart(2, '0');
+
+    const gClamped = Math.max(0, Math.min(255, Math.round(g)));
+    const gHex = gClamped.toString(16).padStart(2, '0');
+
+    const bClamped = Math.max(0, Math.min(255, Math.round(b)));
+    const bHex = bClamped.toString(16).padStart(2, '0');
+
+    return `#${rHex}${gHex}${bHex}`;
+};
+
+export const formatOklchColor = (colorDetails: ColorDetails) => {
+    return `oklch(${colorDetails.oklch.l.toFixed(1)}% ${colorDetails.oklch.c.toFixed(1)}% ${colorDetails.oklch.h.toFixed(1)}°)`;
 };

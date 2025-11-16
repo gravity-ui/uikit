@@ -1,27 +1,27 @@
+import type {ThemeType} from 'src/components';
+
 export type ColorOptions = {
     lightness: [number, number];
     chroma: [number, number];
 };
 
-export type Intensity = 'light' | 'medium' | 'heavy';
-
-export type ColorProps = {
-    intensity?: Intensity;
+export type GenerateColorProps = {
     seed: string;
-    theme: string;
+    theme: ThemeType;
 };
 
-export type UseColorGeneratorProps = {
-    intensity?: Intensity;
-    seed: string;
-};
-
-export type UseColorGeneratorResult = {
-    color: string;
-    textColor: string;
-};
-
-export type ColorDetailsProps = {
+export interface ColorDetails {
     hash: number;
-    theme: string;
-};
+    oklch: {
+        l: number;
+        c: number;
+        h: number;
+    };
+    rgb: {
+        r: number;
+        g: number;
+        b: number;
+    };
+    rgbString: string;
+    textColor: string;
+}

@@ -5,18 +5,18 @@ import {FaceRobot} from '@gravity-ui/icons';
 import {Avatar} from '../../../components/Avatar';
 import type {AvatarProps} from '../../../components/Avatar';
 import {Popover} from '../../../components/Popover';
-import {useTheme} from '../../../components/theme/useTheme';
-import {getPersistentColorDetails} from '../color';
-import type {UseColorGeneratorProps} from '../types';
+import {useThemeType} from '../../../components/theme/useThemeType';
+import {generateColor} from '../color';
+import type {GenerateColorProps} from '../types';
 
 import {ColorInfoPopup} from './ColorInfoPopup';
-import {getBackgroundColor, mixColors} from './utils';
+import {calculateWCAGContrast, getBackgroundColor, getPageTextColor, mixColors} from './utils';
 
 import './ColorInfoPopup.scss';
 
 type CustomColoredAvatarProps = AvatarProps & {
     content?: 'text' | 'icon' | 'empty';
-    seed: UseColorGeneratorProps['seed'];
+    seed: GenerateColorProps['seed'];
     withTransparentBackground?: boolean;
     storyAvatarStyle: 'filled' | 'outline' | 'transparent';
 };
@@ -27,41 +27,52 @@ export const CustomColoredAvatar = ({
     storyAvatarStyle,
     ...avatarProps
 }: CustomColoredAvatarProps) => {
-    const theme = useTheme();
-    const colorInfo = getPersistentColorDetails({
+    const theme = useThemeType();
+    const colorDetails = generateColor({
         seed,
         theme,
     });
 
-    const {r, g, b} = colorInfo.rgb;
+    const {r, g, b} = colorDetails.rgb;
 
-    const color = colorInfo.rgbString;
-    let colorToGetContrast = colorInfo.rgbString;
-    const backgroundColor = getBackgroundColor();
+    const generatedColor = colorDetails.rgbString;
+    const pageBackgroundColor = getBackgroundColor();
+
+    // default for storyAvatarStyle = 'filled'
+    const calculateContrastColors = {
+        foreground: getPageTextColor(),
+        background: generatedColor,
+    };
 
     let colors: Record<string, string> = {
-        color: 'var(--g-color-text-inverted-primary)',
-        backgroundColor: color,
+        color: colorDetails.textColor,
+        backgroundColor: generatedColor,
     };
 
     if (storyAvatarStyle === 'transparent') {
         colors = {
-            color: color,
+            color: generatedColor,
             backgroundColor: `rgba(${r}, ${g}, ${b}, 0.1)`,
         };
-        colorToGetContrast = mixColors(`rgba(${r}, ${g}, ${b}, 0.1)`, backgroundColor);
+
+        calculateContrastColors.foreground = generatedColor;
+        calculateContrastColors.background = mixColors(
+            colorDetails.rgbString,
+            pageBackgroundColor,
+            0.9,
+        );
     }
 
     if (storyAvatarStyle === 'outline') {
         colors = {
-            color: color,
-            borderColor: color,
+            color: generatedColor,
+            borderColor: generatedColor,
             backgroundColor: 'transparent',
         };
-        colorToGetContrast = mixColors(color, backgroundColor);
-    }
 
-    console.log('targetColor', colorToGetContrast);
+        calculateContrastColors.foreground = generatedColor;
+        calculateContrastColors.background = pageBackgroundColor;
+    }
 
     let contentProps = {};
 
@@ -77,9 +88,14 @@ export const CustomColoredAvatar = ({
         };
     }
 
+    const contrast = calculateWCAGContrast(
+        calculateContrastColors.foreground,
+        calculateContrastColors.background,
+    );
+
     return (
         <Popover
-            content={<ColorInfoPopup colorInfo={colorInfo} seed={seed} />}
+            content={<ColorInfoPopup colorDetails={colorDetails} seed={seed} contrast={contrast} />}
             trigger="click"
             enableSafePolygon
             hasArrow
@@ -99,7 +115,7 @@ export const CustomColoredAvatar = ({
                 >
                     <Avatar
                         {...avatarProps}
-                        title={`Click for color info: ${color}`}
+                        title={`Click for color info: ${generatedColor}`}
                         {...contentProps}
                         {...colors}
                     />

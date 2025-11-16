@@ -1,5 +1,5 @@
 /* eslint-disable no-bitwise */
-import {extractHashPart, getHash, getHue, normalizeHash} from './utils';
+import {extractHashPart, getHash, getHue, normalizeHash} from './hash-utils';
 
 // Deterministic set of hash values for testing
 const createTestHashSet = (size: number): number[] => {

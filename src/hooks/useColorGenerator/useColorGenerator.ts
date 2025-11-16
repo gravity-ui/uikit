@@ -2,14 +2,13 @@ import * as React from 'react';
 
 import {useThemeType} from '../../components/theme/useThemeType';
 
-import {getPersistentColor, getTextColor} from './color';
-import type {UseColorGeneratorProps, UseColorGeneratorResult} from './types';
+import {generateColor} from './color';
+import type {ColorDetails, GenerateColorProps} from './types';
 
 /**
  * The `useColorGenerator` hook generates a unique (but consistent) background color based on some unique attribute (e.g., name, id, email).
  * The background color remains unchanged with each update.
  * @param {object} props
- * @param {string} [props.intensity] - value to control color saturation.
  * @param {string} props.seed - unique attribute of the entity (e.g., name, id, email).
  * @example
  *
@@ -17,7 +16,7 @@ import type {UseColorGeneratorProps, UseColorGeneratorResult} from './types';
  *  import {Avatar} from '@gravity-ui/uikit';
  *
  *  const Component = ({ token, text, ...avatarProps }) => {
- *      const {color, textColor} = useColorGenerator({
+ *      const {rgbString, textColor} = useColorGenerator({
  *          seed,
  *      });
  *
@@ -26,31 +25,26 @@ import type {UseColorGeneratorProps, UseColorGeneratorResult} from './types';
  *              {...avatarProps}
  *              text={text}
  *              color={text ? textColor : undefined}
- *              backgroundColor={color}
+ *              backgroundColor={rgbString}
  *          />
  *      );
  *  };
-@returns {object} returns an object with exactly two values:
- * - color: unique color from a token.
- * - textColor: text color (dark or light), ensurring higher contrast on generated color.
+ * @returns {ColorDetails} returns an object with color details:
+ * - hash: number - hash value generated from seed
+ * - oklch: object with lightness (l), chroma (c), and hue (h) values
+ * - rgb: object with red (r), green (g), and blue (b) values
+ * - rgbString: string - RGB color string (e.g., "rgb(255, 0, 0)")
+ * - textColor: string - text color (dark or light), ensuring higher contrast on generated color
  */
-export function useColorGenerator({
-    intensity,
-    seed,
-}: UseColorGeneratorProps): UseColorGeneratorResult {
+export function useColorGenerator({seed}: GenerateColorProps): ColorDetails {
     const theme = useThemeType();
 
-    const color = React.useMemo(
-        () =>
-            getPersistentColor({
-                intensity,
-                seed,
-                theme,
-            }),
-        [intensity, seed, theme],
-    );
+    const colorDetails = React.useMemo(() => {
+        return generateColor({
+            seed,
+            theme,
+        });
+    }, [seed, theme]);
 
-    const textColor = React.useMemo(() => getTextColor(intensity), [intensity]);
-
-    return {color, textColor};
+    return colorDetails;
 }

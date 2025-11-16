@@ -1,21 +1,19 @@
 import {Text} from '../../../components/Text';
 import {block} from '../../../components/utils/cn';
-import {formatColorInfo} from '../colorInfoUtils';
+import type {ColorDetails} from '../types';
 
-import {calculateWCAGContrast, mixColors} from './utils';
+import {formatOklchColor, getHexColor} from './utils';
 
 const b = block('color-info-popup');
 
 interface ColorInfoPopupProps {
-    colorInfo: ColorInfo;
+    colorDetails: ColorDetails;
     seed: string;
+    contrast: number;
 }
 
-export const ColorInfoPopup = ({colorInfo, seed}: ColorInfoPopupProps) => {
-    const formattedInfo = formatColorInfo(colorInfo);
-
-    const backgroundColor = '#FFFFFF';
-    const targetColor = mixColors(formattedInfo.hex, backgroundColor);
+export const ColorInfoPopup = ({colorDetails, seed, contrast}: ColorInfoPopupProps) => {
+    const hex = getHexColor(colorDetails);
 
     return (
         <div className={b()}>
@@ -23,7 +21,7 @@ export const ColorInfoPopup = ({colorInfo, seed}: ColorInfoPopupProps) => {
                 <Text variant="subheader-3">Color Information</Text>
                 <div
                     className={b('color-preview')}
-                    style={{backgroundColor: colorInfo.rgbString}}
+                    style={{backgroundColor: colorDetails.rgbString}}
                 />
             </div>
 
@@ -45,7 +43,7 @@ export const ColorInfoPopup = ({colorInfo, seed}: ColorInfoPopupProps) => {
                     </Text>
                     <div className={b('value-container')}>
                         <Text variant="code-1" className={b('value')}>
-                            {formattedInfo.hash}
+                            {colorDetails.hash}
                         </Text>
                     </div>
                 </div>
@@ -56,7 +54,7 @@ export const ColorInfoPopup = ({colorInfo, seed}: ColorInfoPopupProps) => {
                     </Text>
                     <div className={b('value-container')}>
                         <Text variant="code-1" className={b('value')}>
-                            {formattedInfo.oklch}
+                            {formatOklchColor(colorDetails)}
                         </Text>
                     </div>
                 </div>
@@ -67,7 +65,7 @@ export const ColorInfoPopup = ({colorInfo, seed}: ColorInfoPopupProps) => {
                     </Text>
                     <div className={b('value-container')}>
                         <Text variant="code-1" className={b('value')}>
-                            {formattedInfo.rgb}
+                            {colorDetails.rgbString}
                         </Text>
                     </div>
                 </div>
@@ -78,7 +76,7 @@ export const ColorInfoPopup = ({colorInfo, seed}: ColorInfoPopupProps) => {
                     </Text>
                     <div className={b('value-container')}>
                         <Text variant="code-1" className={b('value')}>
-                            {formattedInfo.hex}
+                            {hex}
                         </Text>
                     </div>
                 </div>
@@ -89,7 +87,7 @@ export const ColorInfoPopup = ({colorInfo, seed}: ColorInfoPopupProps) => {
                     </Text>
                     <div className={b('value-container')}>
                         <Text variant="code-1" className={b('value')}>
-                            {calculateWCAGContrast(targetColor.hex(), backgroundColor)}
+                            {contrast}
                         </Text>
                     </div>
                 </div>
@@ -97,11 +95,11 @@ export const ColorInfoPopup = ({colorInfo, seed}: ColorInfoPopupProps) => {
 
             <div className={b('details')}>
                 <Text variant="caption-2" color="secondary">
-                    L: {colorInfo.oklch.l.toFixed(1)}% • C: {colorInfo.oklch.c.toFixed(1)}% • H:{' '}
-                    {colorInfo.oklch.h.toFixed(1)}°
+                    L: {colorDetails.oklch.l.toFixed(1)}% • C: {colorDetails.oklch.c.toFixed(1)}% •
+                    H: {colorDetails.oklch.h.toFixed(1)}°
                 </Text>
                 <Text variant="caption-2" color="secondary">
-                    RGB: {colorInfo.rgb.r}, {colorInfo.rgb.g}, {colorInfo.rgb.b}
+                    RGB: {colorDetails.rgb.r}, {colorDetails.rgb.g}, {colorDetails.rgb.b}
                 </Text>
             </div>
         </div>

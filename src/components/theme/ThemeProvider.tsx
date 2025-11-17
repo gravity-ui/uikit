@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import {useIsomorphicLayoutEffect} from '../../hooks/private';
 import {PrivateLayoutProvider} from '../layout/LayoutProvider/LayoutProvider';
 import type {PrivateLayoutProviderProps} from '../layout/LayoutProvider/LayoutProvider';
 import {block} from '../utils/cn';
@@ -66,7 +67,7 @@ export function ThemeProvider({
 
     const prevRootClassName = React.useRef('');
 
-    React.useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
         if (!scoped) {
             updateBodyClassName({
                 theme: themeValue,

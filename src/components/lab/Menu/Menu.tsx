@@ -44,6 +44,7 @@ const b = block('lab-menu');
 function MenuPopupContent({
     open,
     onRequestClose,
+    isNested,
     children,
     className,
     style,
@@ -51,6 +52,7 @@ function MenuPopupContent({
 }: Pick<MenuProps, 'children' | 'className' | 'style' | 'qa'> & {
     open: boolean;
     onRequestClose: () => void;
+    isNested: boolean;
 }) {
     const tree = useFloatingTree();
     const nodeId = useFloatingParentNodeId();
@@ -61,7 +63,7 @@ function MenuPopupContent({
 
         function handleTreeClick() {
             // Closing only the root Menu so the closing animation runs once for all menus due to shared portal container
-            if (!parentId) {
+            if (!isNested) {
                 onRequestClose();
             }
         }
@@ -80,7 +82,7 @@ function MenuPopupContent({
             tree.events.off('click', handleTreeClick);
             tree.events.off('menuopen', handleSubMenuOpen);
         };
-    }, [onRequestClose, tree, nodeId, parentId]);
+    }, [onRequestClose, tree, nodeId, parentId, isNested]);
 
     React.useEffect(() => {
         if (open && tree) {
@@ -296,6 +298,7 @@ export function Menu({
                         <MenuPopupContent
                             open={isOpen}
                             onRequestClose={handleContentRequestClose}
+                            isNested={isNested}
                             className={className}
                             style={style}
                             qa={qa}

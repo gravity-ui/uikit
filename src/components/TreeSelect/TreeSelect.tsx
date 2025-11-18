@@ -2,6 +2,8 @@
 
 import * as React from 'react';
 
+import {useLayoutEffect} from 'src/hooks/private';
+
 import {useFocusWithin, useForkRef, useUniqId} from '../../hooks';
 import {useOpenState} from '../../hooks/useSelect/useOpenState';
 import {SelectControl} from '../Select/components';
@@ -147,7 +149,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T, P extends {} =
     }, [onItemClick, list, multiple, toggleOpen]);
 
     // restoring focus when popup opens
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         if (open) {
             // for some reason popup position on page may be wrong calculated. `preventScroll` prevent page gap in that cases
             containerRef.current?.focus({preventScroll: true});

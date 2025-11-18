@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import {useLayoutEffect} from 'src/hooks/private';
+
 export interface Loadable {
     /** Whether the items are currently loading. */
     loading?: boolean;
@@ -11,7 +13,6 @@ export interface LoadMoreOptions extends Loadable {
     /**
      * The amount of offset from bottom that should trigger load more.
      * The value is multiplied to the size of the visible area.
-     *
      * @default 1
      */
     scrollOffset?: number;
@@ -50,7 +51,7 @@ export function useLoadMore(
     }, [scrollContainerRef, onLoadMore, scrollOffset]);
 
     const prevLoadingPropRef = React.useRef(loading);
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         if (loading !== prevLoadingPropRef.current) {
             isLoadingRef.current = loading;
             prevLoadingPropRef.current = loading;

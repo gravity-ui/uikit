@@ -1,1 +1,1 @@
-export {useIsomorphicLayoutEffect} from './useIsomorphicLayoutEffect';
+export {useLayoutEffect} from './useIsomorphicLayoutEffect';

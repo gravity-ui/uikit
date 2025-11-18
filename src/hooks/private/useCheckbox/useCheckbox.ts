@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import {useLayoutEffect} from 'src/hooks/private';
+
 import {useControlledState, useForkRef} from '../..';
 import type {ControlProps} from '../../../components/types';
 import {eventBroker} from '../../../components/utils/event-broker';
@@ -41,7 +43,7 @@ export function useCheckbox({
 
     const handleRef = useForkRef(controlRef, innerControlRef, fieldRef);
 
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         if (innerControlRef.current) {
             innerControlRef.current.indeterminate = Boolean(indeterminate);
         }

@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import {useLayoutEffect} from 'src/hooks/private';
+
 import {KeyCode} from '../../constants';
 
 import {moveBack} from './moveBack';
@@ -46,7 +48,7 @@ export function useListNavigation<ItemType, AnchorType extends HTMLElement>({
         }
     }, [items, reset]);
 
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         if (disabled) {
             return undefined;
         }

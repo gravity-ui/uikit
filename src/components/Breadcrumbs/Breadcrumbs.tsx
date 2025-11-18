@@ -2,6 +2,8 @@
 
 import * as React from 'react';
 
+import {useLayoutEffect} from 'src/hooks/private';
+
 import {useForkRef, useResizeObserver} from '../../hooks';
 import type {PopupPlacement} from '../Popup';
 import type {AriaLabelingProps, DOMProps, Key, QAProps} from '../types';
@@ -131,7 +133,7 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
     });
 
     const lastChildren = React.useRef<typeof props.children | null>(null);
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         if (calculated && props.children !== lastChildren.current) {
             lastChildren.current = props.children;
             setVisibleItemsCount(items.length);
@@ -139,7 +141,7 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
         }
     }, [calculated, items.length, props.children]);
 
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         if (!calculated) {
             recalculate(visibleItemsCount);
         }

@@ -1,6 +1,8 @@
 import * as React from 'react';
 
-import type {CSSProperties, DOMProps, QAProps} from '../types';
+import type {ColorTextBaseProps} from '../Text/colorText/colorText';
+import {colorText} from '../Text/colorText/colorText';
+import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {a11yHiddenSvgProps} from '../utils/svg';
 
@@ -22,14 +24,13 @@ interface IconComposition {
     prefix?: string;
 }
 
-export interface IconProps extends QAProps, DOMProps {
+export interface IconProps extends QAProps, DOMProps, ColorTextBaseProps {
     data: IconData;
     width?: number | string;
     height?: number | string;
     size?: number | string;
     fill?: string;
     stroke?: string;
-    color?: CSSProperties['color'] | string;
 }
 
 const b = block('icon');
@@ -103,21 +104,18 @@ export const Icon: React.ForwardRefExoticComponent<IconProps & React.RefAttribut
             }
         }
 
-        const svgStyle =
-            color && style?.color === undefined
-                ? {
-                      ...style,
-                      color,
-                  }
-                : style;
+        const hasStyleColor = style?.color !== undefined;
+
+        const svgClassName =
+            color && !hasStyleColor ? colorText({color}, b(null, className)) : b(null, className);
 
         const props = {
             xmlns: 'http://www.w3.org/2000/svg',
             xmlnsXlink: 'http://www.w3.org/1999/xlink',
             width: w,
             height: h,
-            className: b(null, className),
-            style: svgStyle,
+            className: svgClassName,
+            style,
             fill,
             stroke,
             'data-qa': qa,

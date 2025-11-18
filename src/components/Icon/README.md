@@ -51,14 +51,14 @@ import CheckIcon from './check.svg';
 
 ## Properties
 
-| Name      | Description                              |       Type        |     Default      |
-| :-------- | :--------------------------------------- | :---------------: | :--------------: |
-| data      | Source of SVG icon                       |    `IconData`     |                  |
-| width     | `width` SVG attribute                    | `number` `string` |                  |
-| height    | `height` SVG attribute                   | `number` `string` |                  |
-| size      | Both `width` and `height` SVG attributes | `number` `string` |                  |
-| fill      | `fill` SVG attribute                     |     `string`      | `"currentColor"` |
-| stroke    | `stroke` SVG attribute                   |     `string`      |     `"none"`     |
-| color     | Text color applied to the SVG icon       |     `string`      |                  |
-| className | Custom CSS class for the root element    |     `string`      |                  |
-| style     | Custom styles for the root element       |  `CSSProperties`  |                  |
+| Name      | Description                              |                             Type                             |     Default      |
+| :-------- | :--------------------------------------- | :----------------------------------------------------------: | :--------------: |
+| data      | Source of SVG icon                       |                          `IconData`                          |                  |
+| width     | `width` SVG attribute                    |                      `number` `string`                       |                  |
+| height    | `height` SVG attribute                   |                      `number` `string`                       |                  |
+| size      | Both `width` and `height` SVG attributes |                      `number` `string`                       |                  |
+| fill      | `fill` SVG attribute                     |                           `string`                           | `"currentColor"` |
+| stroke    | `stroke` SVG attribute                   |                           `string`                           |     `"none"`     |
+| color     | Text color applied to the SVG icon       | `string` (see the values in the **Color** section of `Text`) |                  |
+| className | Custom CSS class for the root element    |                           `string`                           |                  |
+| style     | Custom styles for the root element       |                       `CSSProperties`                        |                  |

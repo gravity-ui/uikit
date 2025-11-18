@@ -1,5 +1,19 @@
 # Changelog
 
+## [7.26.0](https://github.com/gravity-ui/uikit/compare/v7.25.0...v7.26.0) (2025-11-07)
+
+
+### Features
+
+* add focus-outline mixin ([#2475](https://github.com/gravity-ui/uikit/issues/2475)) ([3b49eaa](https://github.com/gravity-ui/uikit/commit/3b49eaa8c0559e97378fb08dcb2b288841993966))
+* **Select:** extend return type of `renderCounter` prop ([#2476](https://github.com/gravity-ui/uikit/issues/2476)) ([b79f0b0](https://github.com/gravity-ui/uikit/commit/b79f0b0842c399ae639401570ca340b69f0a9ccf))
+
+
+### Bug Fixes
+
+* **Popover:** ignore click trigger if hover also enabled ([#2485](https://github.com/gravity-ui/uikit/issues/2485)) ([6caddab](https://github.com/gravity-ui/uikit/commit/6caddabfc543426de3edecd1c772abb52c55632e))
+* **unstable_Menu:** fix behavior inside floating components ([#2489](https://github.com/gravity-ui/uikit/issues/2489)) ([190ed32](https://github.com/gravity-ui/uikit/commit/190ed322d58d45d5bdc7ba9e010a69bb5ae87a47))
+
 ## [7.25.0](https://github.com/gravity-ui/uikit/compare/v7.24.0...v7.25.0) (2025-10-29)
 
 

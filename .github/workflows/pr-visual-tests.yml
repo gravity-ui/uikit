@@ -10,33 +10,8 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.56.0-jammy
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: gravity-ui/component-tests-run-action@v1
         with:
-          node-version: 20
-          cache: npm
-      - name: Install Packages
-        run: npm ci
-      - name: Run Visual Tests
-        run: npm run playwright
-        env:
-          CI: 'true'
-      - name: Upload Playwright Report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report
-          path: ./playwright/report
-          retention-days: 1
-      - name: Save PR ID
-        if: always()
-        run: |
-          pr="${{ github.event.pull_request.number }}"
-          echo $pr > ./pr-id.txt
-        shell: bash
-      - name: Create PR Artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: pr
-          path: ./pr-id.txt
+          command: npm run playwright
+          report-path: ./playwright/report
+          node-version-file: '.nvmrc'

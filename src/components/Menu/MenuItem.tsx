@@ -121,7 +121,7 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
     }
 
     return (
-        <li ref={ref as React.ForwardedRef<HTMLLIElement>} className={b('list-item')}>
+        <li ref={ref as React.ForwardedRef<HTMLLIElement>} className={b('list-item')} role="none">
             {item}
         </li>
     );

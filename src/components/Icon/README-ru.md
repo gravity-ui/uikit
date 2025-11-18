@@ -59,6 +59,6 @@ import CheckIcon from './check.svg';
 | size      | Атрибуты `width` и `height` для SVG.           |                      `number` `string`                       |                       |
 | fill      | Атрибут `fill` для SVG.                        |                           `string`                           |   `"currentColor"`    |
 | stroke    | Атрибут `stroke` для SVG.                      |                           `string`                           |       `"none"`        |
-| color     | Цвет текста иконки.                            | `string` (см. значения в разделе **Цвет** компонента `Text`) |
+| color     | Цвет текста иконки.                            | `string` (см. значения в разделе **Цвет** компонента `Text`) |                       |
 | className | Пользовательский CSS-класс корневого элемента. |                           `string`                           |                       |
 | style     | Пользовательские стили для корневого элемента. |                       `CSSProperties`                        |                       |

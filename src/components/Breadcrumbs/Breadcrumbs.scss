@@ -37,6 +37,10 @@ $block: '.#{variables.$ns}breadcrumbs';
 
         &_calculating {
             overflow: visible;
+
+            #{$block}__link {
+                overflow: visible;
+            }
         }
     }
 

@@ -172,29 +172,29 @@ export interface SpacingProps {
     /** The margin for both the left and right sides of the element. */
     marginInline?: AdaptiveProp<React.CSSProperties['marginInline'] | SpacingValue>;
     /** The margin for the logical start side of the element. */
-    marginStart?: AdaptiveProp<React.CSSProperties['marginInlineStart'] | SpacingValue>;
+    marginInlineStart?: AdaptiveProp<React.CSSProperties['marginInlineStart'] | SpacingValue>;
     /** The margin for the logical end side of the element. */
-    marginEnd?: AdaptiveProp<React.CSSProperties['marginInlineEnd'] | SpacingValue>;
+    marginInlineEnd?: AdaptiveProp<React.CSSProperties['marginInlineEnd'] | SpacingValue>;
     /** The margin for both the top and bottom sides of the element. */
     marginBlock?: AdaptiveProp<React.CSSProperties['marginBlock'] | SpacingValue>;
     /** The margin for the logical top side of the element. */
-    marginTop?: AdaptiveProp<React.CSSProperties['marginBlockStart'] | SpacingValue>;
+    marginBlockStart?: AdaptiveProp<React.CSSProperties['marginBlockStart'] | SpacingValue>;
     /** The margin for for the logical bottom side of the element. */
-    marginBottom?: AdaptiveProp<React.CSSProperties['marginBlockEnd'] | SpacingValue>;
+    marginBlockEnd?: AdaptiveProp<React.CSSProperties['marginBlockEnd'] | SpacingValue>;
     /** The padding for all four sides of the element. */
     padding?: AdaptiveProp<React.CSSProperties['padding'] | SpacingValue>;
     /** The padding for both the left and right sides of the element. */
     paddingInline?: AdaptiveProp<React.CSSProperties['paddingInline'] | SpacingValue>;
     /** The padding for the logical start side of the element. */
-    paddingStart?: AdaptiveProp<React.CSSProperties['paddingInlineStart'] | SpacingValue>;
+    paddingInlineStart?: AdaptiveProp<React.CSSProperties['paddingInlineStart'] | SpacingValue>;
     /** The padding for the logical end side of the element. */
-    paddingEnd?: AdaptiveProp<React.CSSProperties['paddingInlineEnd'] | SpacingValue>;
+    paddingInlineEnd?: AdaptiveProp<React.CSSProperties['paddingInlineEnd'] | SpacingValue>;
     /** The padding for both the top and bottom sides of the element. */
-    paddingBlock?: AdaptiveProp<React.CSSProperties['paddingInline'] | SpacingValue>;
+    paddingBlock?: AdaptiveProp<React.CSSProperties['paddingBlock'] | SpacingValue>;
     /** The padding for the logical top side of the element. */
-    paddingTop?: AdaptiveProp<React.CSSProperties['paddingBlockStart'] | SpacingValue>;
+    paddingBlockStart?: AdaptiveProp<React.CSSProperties['paddingBlockStart'] | SpacingValue>;
     /** The padding for for the logical bottom side of the element. */
-    paddingBottom?: AdaptiveProp<React.CSSProperties['paddingBlockEnd'] | SpacingValue>;
+    paddingBlockEnd?: AdaptiveProp<React.CSSProperties['paddingBlockEnd'] | SpacingValue>;
 }
 
 export interface PositioningProps {
@@ -202,14 +202,18 @@ export interface PositioningProps {
     position?: AdaptiveProp<React.CSSProperties['position']>;
     /** The position for all four sides of the element. */
     inset?: AdaptiveProp<React.CSSProperties['inset'] | SpacingValue>;
+    /** The logical vertical position for the element. */
+    insetBlock?: AdaptiveProp<React.CSSProperties['insetBlock'] | SpacingValue>;
     /** The top position for the element. */
-    top?: AdaptiveProp<React.CSSProperties['insetBlockStart'] | SpacingValue>;
+    insetBlockStart?: AdaptiveProp<React.CSSProperties['insetBlockStart'] | SpacingValue>;
     /** The bottom position for the element. */
-    bottom?: AdaptiveProp<React.CSSProperties['insetBlockEnd'] | SpacingValue>;
+    insetBlockEnd?: AdaptiveProp<React.CSSProperties['insetBlockEnd'] | SpacingValue>;
+    /** The logical horizontal position for the element. */
+    insetInline?: AdaptiveProp<React.CSSProperties['insetInline'] | SpacingValue>;
     /** The logical start position for the element. */
-    start?: AdaptiveProp<React.CSSProperties['insetInlineStart'] | SpacingValue>;
+    insetInlineStart?: AdaptiveProp<React.CSSProperties['insetInlineStart'] | SpacingValue>;
     /** The logical end position for the element. */
-    end?: AdaptiveProp<React.CSSProperties['insetInlineEnd'] | SpacingValue>;
+    insetInlineEnd?: AdaptiveProp<React.CSSProperties['insetInlineEnd'] | SpacingValue>;
     /** The stacking order for the element. */
     zIndex?: AdaptiveProp<React.CSSProperties['zIndex']>;
 }
@@ -332,24 +336,24 @@ export interface StylingProps {
     borderWidth?: AdaptiveProp<React.CSSProperties['borderWidth']>;
     borderInlineWidth?: AdaptiveProp<React.CSSProperties['borderInlineWidth']>;
     borderBlockWidth?: AdaptiveProp<React.CSSProperties['borderBlockWidth']>;
-    borderStartWidth?: AdaptiveProp<React.CSSProperties['borderInlineStartWidth']>;
-    borderEndWidth?: AdaptiveProp<React.CSSProperties['borderInlineEndWidth']>;
-    borderTopWidth?: AdaptiveProp<React.CSSProperties['borderBlockStartWidth']>;
-    borderBottomWidth?: AdaptiveProp<React.CSSProperties['borderBlockEndWidth']>;
+    borderInlineStartWidth?: AdaptiveProp<React.CSSProperties['borderInlineStartWidth']>;
+    borderInlineEndWidth?: AdaptiveProp<React.CSSProperties['borderInlineEndWidth']>;
+    borderBlockStartWidth?: AdaptiveProp<React.CSSProperties['borderBlockStartWidth']>;
+    borderBlockEndWidth?: AdaptiveProp<React.CSSProperties['borderBlockEndWidth']>;
 
     borderColor?: AdaptiveProp<LineColorValue>;
     borderInlineColor?: AdaptiveProp<LineColorValue>;
     borderBlockColor?: AdaptiveProp<LineColorValue>;
-    borderStartColor?: AdaptiveProp<LineColorValue>;
-    borderEndColor?: AdaptiveProp<LineColorValue>;
-    borderTopColor?: AdaptiveProp<LineColorValue>;
-    borderBottomColor?: AdaptiveProp<LineColorValue>;
+    borderInlineStartColor?: AdaptiveProp<LineColorValue>;
+    borderInlineEndColor?: AdaptiveProp<LineColorValue>;
+    borderBlockStartColor?: AdaptiveProp<LineColorValue>;
+    borderBlockEndColor?: AdaptiveProp<LineColorValue>;
 
     borderRadius?: AdaptiveProp<BorderRadiusValue>;
-    borderTopStartRadius?: AdaptiveProp<BorderRadiusValue>;
-    borderTopEndRadius?: AdaptiveProp<BorderRadiusValue>;
-    borderBottomStartRadius?: AdaptiveProp<BorderRadiusValue>;
-    borderBottomEndRadius?: AdaptiveProp<BorderRadiusValue>;
+    borderStartStartRadius?: AdaptiveProp<BorderRadiusValue>;
+    borderStartEndRadius?: AdaptiveProp<BorderRadiusValue>;
+    borderEndStartRadius?: AdaptiveProp<BorderRadiusValue>;
+    borderEndEndRadius?: AdaptiveProp<BorderRadiusValue>;
 }
 
 export type LayoutComponentProps<T extends React.ElementType, P = {}> = P &

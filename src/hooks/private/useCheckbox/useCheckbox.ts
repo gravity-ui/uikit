@@ -36,7 +36,6 @@ export function useCheckbox({
     );
 
     const inputChecked = indeterminate ? false : checked;
-    const inputAriaChecked = indeterminate ? 'mixed' : isChecked;
 
     const fieldRef = useFormResetHandler({initialValue: isChecked, onReset: setCheckedState});
 
@@ -84,7 +83,6 @@ export function useCheckbox({
         onClickCapture: handleClickCapture,
         defaultChecked: defaultChecked,
         checked: inputChecked,
-        'aria-checked': inputAriaChecked,
         ref: handleRef,
     };
 

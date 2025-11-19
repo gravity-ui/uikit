@@ -278,6 +278,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                     renderFilter={renderFilter}
                     popupId={popupId}
                     activeIndex={activeIndex}
+                    qa={qa}
                 />
             );
         }
@@ -306,6 +307,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                     id={popupId}
                     activeIndex={activeIndex}
                     onChangeActive={setActiveIndex}
+                    qa={qa}
                 />
             );
         }

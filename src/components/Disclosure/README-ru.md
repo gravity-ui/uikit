@@ -115,24 +115,14 @@ LANDING_BLOCK-->
 
 ## Позиция стрелки
 
-`left`: Стрелка расположена слева от заголовка (используется по умолчанию).
+`start`: Стрелка расположена в начале заголовка (используется по умолчанию).
 
-`right`: Стрелка расположена справа от заголовка.
-
-`start`: Стрелка расположена в начале заголовка (отличается от `left` при использовании RTL).
-
-`end`: Стрелка расположена в конце заголовка (отличается от `right` при использовании RTL).
+`end`: Стрелка расположена в конце заголовка.
 
 <!--LANDING_BLOCK
 
 <ExampleBlock
 code={`
-<Disclosure summary="Summary with left arrow" arrowPosition="left">
-  Content
-</Disclosure>
-<Disclosure summary="Summary with right arrow" arrowPosition="right">
-  Content
-</Disclosure>
 <Disclosure summary="Summary with start arrow" arrowPosition="start">
   Content
 </Disclosure>
@@ -141,23 +131,13 @@ code={`
 </Disclosure>
 `}
 >
-  <UIKit.Flex gap={4} alignItems="flex-start">
-    <UIKit.Flex gap={4} direction="column">
-      <UIKit.Disclosure summary="Summary with left arrow" arrowPosition="left">
-        Content
-      </UIKit.Disclosure>
-      <UIKit.Disclosure summary="Summary with start arrow" arrowPosition="start">
-        Content
-      </UIKit.Disclosure>
-    </UIKit.Flex>
-    <UIKit.Flex gap={4} direction="column">
-      <UIKit.Disclosure summary="Summary with right arrow" arrowPosition="right">
-        Content
-      </UIKit.Disclosure>
-      <UIKit.Disclosure summary="Summary with end arrow" arrowPosition="end">
-        Content
-      </UIKit.Disclosure>
-    </UIKit.Flex>
+  <UIKit.Flex gap={4} alignItems="center">
+    <UIKit.Disclosure summary="Summary with start arrow" arrowPosition="start">
+      Content
+    </UIKit.Disclosure>
+    <UIKit.Disclosure summary="Summary with end arrow" arrowPosition="end">
+      Content
+    </UIKit.Disclosure>
   </UIKit.Flex>
 </ExampleBlock>
 
@@ -166,12 +146,6 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<Disclosure summary="Summary with left arrow" arrowPosition="left">
-  Content
-</Disclosure>
-<Disclosure summary="Summary with right arrow" arrowPosition="right">
-  Content
-</Disclosure>
 <Disclosure summary="Summary with start arrow" arrowPosition="start">
   Content
 </Disclosure>
@@ -334,14 +308,14 @@ LANDING_BLOCK-->
 
 | Имя              | Описание                                                        | Тип                                                   | Значение по умолчанию |
 | :--------------- | :-------------------------------------------------------------- | :---------------------------------------------------- | :-------------------- |
-| size             | Размер раскрытия                                                | `"m"` `"l"` `"xl"`                                    | `"m"`                 |
+| size             | Размер компонента                                               | `"m"` `"l"` `"xl"`                                    | `"m"`                 |
 | className        | Имя CSS-класса корневого элемента                               | `string`                                              |                       |
 | disabled         | Отключенное состояние                                           | `boolean`                                             | `false`               |
 | defaultExpanded  | Состояние раскрытия по умолчанию                                | `boolean`                                             | `false`               |
 | expanded         | Контролируемое состояние раскрытия                              | `boolean`                                             |                       |
-| arrowPosition    | Положение контрола                                              | `"start"` `"end"` `"left"` `"right"`                  | `"left"`              |
+| arrowPosition    | Положение контрола                                              | `"start"` `"end"`                                     | `"start"`             |
 | summary          | Краткое описание контента                                       | `React.ReactNode`                                     |                       |
-| keepMounted      | Сохранение контента в DOM                                       | `boolean`                                             | `true`                |
+| keepMounted      | Сохранение контента в DOM при скрытии                           | `boolean`                                             | `true`                |
 | onUpdate         | Обратный вызов, срабатывающий при изменении состояния раскрытия | `(expanded: boolean) => void`                         |                       |
 | onSummaryKeyDown | Обратный вызов, срабатывающий при фокусе заголовка              | `(e: React.KeyboardEvent<HTMLButtonElement>) => void` |                       |
 | children         | Контент                                                         | `React.ReactNode`                                     |                       |
@@ -363,7 +337,7 @@ LANDING_BLOCK-->
 
 ## CSS API
 
-| Имя                                  | Описание                               |
-| :----------------------------------- | :------------------------------------- |
-| `--g-disclosure-text-color`          | Цвет текста заголовка trigger          |
-| `--g-disclosure-text-color-disabled` | Цвет текста заблокированного заголовка |
+| Имя                                  | Описание                                                           |
+| :----------------------------------- | :----------------------------------------------------------------- |
+| `--g-disclosure-text-color`          | Цвет текста краткого описания контента                             |
+| `--g-disclosure-text-color-disabled` | Цвет текста краткого описания контента в заблокированном состоянии |

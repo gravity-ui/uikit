@@ -115,24 +115,14 @@ LANDING_BLOCK-->
 
 ## Arrow Position
 
-`left`: Arrow is positioned on the left of the header (used by default).
+`start`: Arrow is positioned at the start of the header (used by default).
 
-`right`: Arrow is positioned on the right of the header.
-
-`start`: Arrow is positioned at the start of the header (differs from `left` when using RTL).
-
-`end`: Arrow is positioned at the end of the header (differs from `right` when using RTL).
+`end`: Arrow is positioned at the end of the header.
 
 <!--LANDING_BLOCK
 
 <ExampleBlock
 code={`
-<Disclosure summary="Summary with left arrow" arrowPosition="left">
-  Content
-</Disclosure>
-<Disclosure summary="Summary with right arrow" arrowPosition="right">
-  Content
-</Disclosure>
 <Disclosure summary="Summary with start arrow" arrowPosition="start">
   Content
 </Disclosure>
@@ -141,23 +131,13 @@ code={`
 </Disclosure>
 `}
 >
-  <UIKit.Flex gap={4} alignItems="flex-start">
-    <UIKit.Flex gap={4} direction="column">
-      <UIKit.Disclosure summary="Summary with left arrow" arrowPosition="left">
-        Content
-      </UIKit.Disclosure>
-      <UIKit.Disclosure summary="Summary with start arrow" arrowPosition="start">
-        Content
-      </UIKit.Disclosure>
-    </UIKit.Flex>
-    <UIKit.Flex gap={4} direction="column">
-      <UIKit.Disclosure summary="Summary with right arrow" arrowPosition="right">
-        Content
-      </UIKit.Disclosure>
-      <UIKit.Disclosure summary="Summary with end arrow" arrowPosition="end">
-        Content
-      </UIKit.Disclosure>
-    </UIKit.Flex>
+  <UIKit.Flex gap={4} alignItems="center">
+    <UIKit.Disclosure summary="Summary with start arrow" arrowPosition="start">
+      Content
+    </UIKit.Disclosure>
+    <UIKit.Disclosure summary="Summary with end arrow" arrowPosition="end">
+      Content
+    </UIKit.Disclosure>
   </UIKit.Flex>
 </ExampleBlock>
 
@@ -166,12 +146,6 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<Disclosure summary="Summary with left arrow" arrowPosition="left">
-  Content
-</Disclosure>
-<Disclosure summary="Summary with right arrow" arrowPosition="right">
-  Content
-</Disclosure>
 <Disclosure summary="Summary with start arrow" arrowPosition="start">
   Content
 </Disclosure>
@@ -332,20 +306,20 @@ LANDING_BLOCK-->
 
 ### Disclosure
 
-| Name             | Description                                                  | Type                                                  | Default  |
-| :--------------- | :----------------------------------------------------------- | :---------------------------------------------------- | :------- |
-| size             | Disclosure size                                              | `"m"` `"l"` `"xl"`                                    | `"m"`    |
-| className        | CSS class name of the root element                           | `string`                                              |          |
-| disabled         | Disabled state                                               | `boolean`                                             | `false`  |
-| defaultExpanded  | Default opening state                                        | `boolean`                                             | `false`  |
-| expanded         | Controlled opening state                                     | `boolean`                                             |          |
-| arrowPosition    | Control position                                             | `"start"` `"end"` `"left"` `"right"`                  | `"left"` |
-| summary          | Content summary                                              | `React.ReactNode`                                     |          |
-| keepMounted      | Keep content in DOM                                          | `boolean`                                             | `true`   |
-| onUpdate         | Callback is fired when the expand/collapse state is changed. | `(expanded: boolean) => void`                         |          |
-| onSummaryKeyDown | Callback fires on keyboard events when summary is focused.   | `(e: React.KeyboardEvent<HTMLButtonElement>) => void` |          |
-| children         | Content                                                      | `React.ReactNode`                                     |          |
-| qa               | Test identifier                                              | `string`                                              |          |
+| Name             | Description                                                  | Type                                                  | Default   |
+| :--------------- | :----------------------------------------------------------- | :---------------------------------------------------- | :-------- |
+| size             | Component size                                               | `"m"` `"l"` `"xl"`                                    | `"m"`     |
+| className        | CSS class name of the root element                           | `string`                                              |           |
+| disabled         | Disabled state                                               | `boolean`                                             | `false`   |
+| defaultExpanded  | Default opening state                                        | `boolean`                                             | `false`   |
+| expanded         | Controlled opening state                                     | `boolean`                                             |           |
+| arrowPosition    | Control position                                             | `"start"` `"end"`                                     | `"start"` |
+| summary          | Content summary                                              | `React.ReactNode`                                     |           |
+| keepMounted      | Keep content in DOM even when collapsed                      | `boolean`                                             | `true`    |
+| onUpdate         | Callback is fired when the expand/collapse state is changed. | `(expanded: boolean) => void`                         |           |
+| onSummaryKeyDown | Callback fires on keyboard events when summary is focused.   | `(e: React.KeyboardEvent<HTMLButtonElement>) => void` |           |
+| children         | Content                                                      | `React.ReactNode`                                     |           |
+| qa               | Test identifier                                              | `string`                                              |           |
 
 ### Disclosure.Summary
 
@@ -363,7 +337,7 @@ LANDING_BLOCK-->
 
 ## CSS API
 
-| Name                                 | Description                                 |
-| :----------------------------------- | :------------------------------------------ |
-| `--g-disclosure-text-color`          | Text color for the summary trigger          |
-| `--g-disclosure-text-color-disabled` | Text color for the disabled summary trigger |
+| Name                                 | Description                                          |
+| :----------------------------------- | :--------------------------------------------------- |
+| `--g-disclosure-text-color`          | Text color for the content summary                   |
+| `--g-disclosure-text-color-disabled` | Text color for the content summary in disabled state |

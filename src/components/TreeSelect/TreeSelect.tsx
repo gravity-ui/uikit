@@ -2,9 +2,8 @@
 
 import * as React from 'react';
 
-import {useLayoutEffect} from 'src/hooks/private';
-
 import {useFocusWithin, useForkRef, useUniqId} from '../../hooks';
+import {useLayoutEffect} from '../../hooks/private';
 import {useOpenState} from '../../hooks/useSelect/useOpenState';
 import {SelectControl} from '../Select/components';
 import {SelectPopup} from '../Select/components/SelectPopup/SelectPopup';

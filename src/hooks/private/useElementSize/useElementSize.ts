@@ -3,7 +3,7 @@ import * as React from 'react';
 import round from 'lodash/round';
 import throttle from 'lodash/throttle';
 
-import {useLayoutEffect} from 'src/hooks/private';
+import {useLayoutEffect} from '../';
 
 const RESIZE_THROTTLE = 16;
 const ROUND_PRECISION = 2;

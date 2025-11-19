@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {useLayoutEffect} from '../../../hooks/private';
+import {useLayoutEffect} from '../../../hooks/';
 
 export interface Loadable {
     /** Whether the items are currently loading. */

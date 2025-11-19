@@ -1,7 +1,6 @@
 import * as React from 'react';
 
-import {useLayoutEffect} from '../';
-import {useControlledState, useForkRef} from '../..';
+import {useControlledState, useForkRef, useLayoutEffect} from '../..';
 import type {ControlProps} from '../../../components/types';
 import {eventBroker} from '../../../components/utils/event-broker';
 import {useFormResetHandler} from '../useFormResetHandler';

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {useLayoutEffect} from '../../../hooks/private';
+import {useLayoutEffect} from '../../../hooks';
 import type {MediaProps, MediaType} from '../types';
 
 export const mockMediaQueryList: MediaQueryList = {

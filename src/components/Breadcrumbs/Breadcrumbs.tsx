@@ -2,8 +2,7 @@
 
 import * as React from 'react';
 
-import {useForkRef, useResizeObserver} from '../../hooks';
-import {useLayoutEffect} from '../../hooks/private';
+import {useForkRef, useLayoutEffect, useResizeObserver} from '../../hooks';
 import type {PopupPlacement} from '../Popup';
 import type {AriaLabelingProps, DOMProps, Key, QAProps} from '../types';
 import {filterDOMProps} from '../utils/filterDOMProps';

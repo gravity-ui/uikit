@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import {useLayoutEffect} from '../../hooks/private';
+import {useLayoutEffect} from '../../hooks';
 import {PrivateLayoutProvider} from '../layout/LayoutProvider/LayoutProvider';
 import type {PrivateLayoutProviderProps} from '../layout/LayoutProvider/LayoutProvider';
 import {block} from '../utils/cn';

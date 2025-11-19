@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {KeyCode} from '../../../constants';
-import {useLayoutEffect} from '../../../hooks/private';
+import {useLayoutEffect} from '../../../hooks';
 import type {ListOnItemClick, UseListResult} from '../types';
 import {findNextIndex} from '../utils/findNextIndex';
 import {scrollToListItem} from '../utils/scrollToListItem';

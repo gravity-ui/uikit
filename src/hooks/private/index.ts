@@ -10,4 +10,3 @@ export * from './usePrevious';
 export * from './useRadio';
 export * from './useRadioGroup';
 export * from './useUpdateEffect';
-export * from './useIsomorphicLayoutEffect';

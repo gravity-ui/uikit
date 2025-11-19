@@ -2,8 +2,7 @@
 
 import * as React from 'react';
 
-import {useFocusWithin, useForkRef, useUniqId} from '../../hooks';
-import {useLayoutEffect} from '../../hooks/private';
+import {useFocusWithin, useForkRef, useLayoutEffect, useUniqId} from '../../hooks';
 import {useOpenState} from '../../hooks/useSelect/useOpenState';
 import {SelectControl} from '../Select/components';
 import {SelectPopup} from '../Select/components/SelectPopup/SelectPopup';

@@ -1,7 +1,7 @@
 import * as React from 'react';
 
+import {useLayoutEffect} from '../..';
 import {KeyCode} from '../../constants';
-import {useLayoutEffect} from '../private';
 
 import {moveBack} from './moveBack';
 import {moveForward} from './moveForward';

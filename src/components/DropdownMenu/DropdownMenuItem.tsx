@@ -66,16 +66,12 @@ export const DropdownMenuItem = <T,>({
             event: React.MouseEvent<HTMLElement, MouseEvent> &
                 React.MouseEvent<HTMLAnchorElement, MouseEvent>,
         ) => {
-            event.preventDefault();
-
             props.extraProps?.onClick?.(
                 event as React.MouseEvent<HTMLDivElement, MouseEvent> &
                     React.MouseEvent<HTMLAnchorElement, MouseEvent>,
             );
 
             if (hasSubmenu) {
-                event.stopPropagation();
-
                 if (isSubmenuOpen) {
                     closeSubmenu();
                 } else {

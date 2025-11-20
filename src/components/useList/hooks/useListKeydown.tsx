@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import {KeyCode} from '../../../constants';
+import {useLayoutEffect} from '../../../hooks';
 import type {ListOnItemClick, UseListResult} from '../types';
 import {findNextIndex} from '../utils/findNextIndex';
 import {scrollToListItem} from '../utils/scrollToListItem';
@@ -58,7 +59,7 @@ export const useListKeydown = ({containerRef, onItemClick, enabled, list}: UseLi
         ],
     );
 
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         const anchor = containerRef?.current;
 
         if (enabled || !anchor) {

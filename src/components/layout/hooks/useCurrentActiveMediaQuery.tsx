@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import {useLayoutEffect} from '../../../hooks';
 import type {MediaProps, MediaType} from '../types';
 
 export const mockMediaQueryList: MediaQueryList = {
@@ -88,7 +89,7 @@ export const useCurrentActiveMediaQuery = (
         initialMediaQuery ?? (fixBreakpoints ? 'xs' : 's'),
     );
 
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         const queries = new Queries(breakpointsMap, fixBreakpoints);
 
         const setState = () => {

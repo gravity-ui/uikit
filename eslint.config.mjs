@@ -38,6 +38,11 @@ export default defineConfig([
                     selector: "MemberExpression[object.name='React'][property.name='useId']",
                     message: "Please use 'src/hooks/useUniqId' instead.",
                 },
+                {
+                    selector:
+                        "MemberExpression[object.name='React'][property.name='useLayoutEffect']",
+                    message: "Please use 'src/hooks/useLayoutEffect' instead.",
+                },
             ],
             'jsx-a11y/no-autofocus': 'off',
             'import/no-extraneous-dependencies': 'off',

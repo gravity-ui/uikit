@@ -17,6 +17,7 @@ interface ComponentFixtures {
         component: React.JSX.Element,
         options?: MountOptions<HooksConfig> & {
             width?: number | string;
+            height?: number | string;
             rootStyle?: React.CSSProperties;
         },
     ): Promise<MountResult>;

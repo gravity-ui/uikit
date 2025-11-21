@@ -3,16 +3,6 @@
 ## [7.26.1](https://github.com/gravity-ui/uikit/compare/v7.26.0...v7.26.1) (2025-11-21)
 
 
-### chore
-
-* override release version ([c6f17d0](https://github.com/gravity-ui/uikit/commit/c6f17d0adccf17746ebcc99875df0955d995716c))
-
-
-### Features
-
-* added landing docs for Disclosure component ([#2510](https://github.com/gravity-ui/uikit/issues/2510)) ([28eb623](https://github.com/gravity-ui/uikit/commit/28eb62306ecd790d2871f106c1147008581a44b7))
-
-
 ### Bug Fixes
 
 * **a11y:** add accessibility for dropdown submenu via tab ([#2508](https://github.com/gravity-ui/uikit/issues/2508)) ([aca867d](https://github.com/gravity-ui/uikit/commit/aca867dbe2c6af99cc2bfa9685ee7b69cbb1dcca))

@@ -1,5 +1,29 @@
 # Changelog
 
+## [7.26.1](https://github.com/gravity-ui/uikit/compare/v7.26.0...v7.26.1) (2025-11-21)
+
+
+### chore
+
+* override release version ([c6f17d0](https://github.com/gravity-ui/uikit/commit/c6f17d0adccf17746ebcc99875df0955d995716c))
+
+
+### Features
+
+* added landing docs for Disclosure component ([#2510](https://github.com/gravity-ui/uikit/issues/2510)) ([28eb623](https://github.com/gravity-ui/uikit/commit/28eb62306ecd790d2871f106c1147008581a44b7))
+
+
+### Bug Fixes
+
+* **a11y:** add accessibility for dropdown submenu via tab ([#2508](https://github.com/gravity-ui/uikit/issues/2508)) ([aca867d](https://github.com/gravity-ui/uikit/commit/aca867dbe2c6af99cc2bfa9685ee7b69cbb1dcca))
+* **a11y:** remove redundant aria-checked attribute ([#2505](https://github.com/gravity-ui/uikit/issues/2505)) ([6881c99](https://github.com/gravity-ui/uikit/commit/6881c999648fa672f07995ec4b2fe094cd17d968))
+* add isomorphic version of `useLayoutEffect` hook to fix SSR warnings ([#2503](https://github.com/gravity-ui/uikit/issues/2503)) ([f59d098](https://github.com/gravity-ui/uikit/commit/f59d098acd6b3891f27cbef6b147d88ad5c2cbe1))
+* **AvatarStack:** change ordering algorithm for correct logical order li ([#2480](https://github.com/gravity-ui/uikit/issues/2480)) ([b9ec168](https://github.com/gravity-ui/uikit/commit/b9ec16871630ad21ba6e81f83881f57ac1331752))
+* **DropdownMenu:** remove separators in case of empty groups ([#2495](https://github.com/gravity-ui/uikit/issues/2495)) ([6794780](https://github.com/gravity-ui/uikit/commit/67947808535aa593fa64c4369ef7a9d6905d2e4c))
+* fix initial render of AvatarStack stories in StrictMode ([#2497](https://github.com/gravity-ui/uikit/issues/2497)) ([69249df](https://github.com/gravity-ui/uikit/commit/69249dfd2fbae08508a151f550712444f69f69c3))
+* **Menu:** fix role for MenuItem ([#2506](https://github.com/gravity-ui/uikit/issues/2506)) ([71cf5cf](https://github.com/gravity-ui/uikit/commit/71cf5cf26d5222fa7b93a159e854e700e87e07c0))
+* **unstable_Menu:** close menu after clicking inside Popup/Modal ([#2504](https://github.com/gravity-ui/uikit/issues/2504)) ([52fafbd](https://github.com/gravity-ui/uikit/commit/52fafbdf8dec47266cc2b5308d184db4769a9a50))
+
 ## [7.26.0](https://github.com/gravity-ui/uikit/compare/v7.25.0...v7.26.0) (2025-11-07)
 
 

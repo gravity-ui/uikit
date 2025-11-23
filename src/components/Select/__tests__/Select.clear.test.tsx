@@ -4,7 +4,7 @@ import {cleanup} from '../../../../test-utils/utils';
 import {SelectQa} from '../constants';
 import type {SelectProps} from '../types';
 
-import {DEFAULT_OPTIONS, renderControl, setup} from './utils';
+import {DEFAULT_OPTIONS, TEST_QA, renderControl, setup} from './utils';
 
 afterEach(() => {
     cleanup();
@@ -27,7 +27,7 @@ describe('Select clear', () => {
         ['multiple', {hasClear: true, multiple: true}],
     ])('display clear icon with hasClear and with selected value', async () => {
         const {getByTestId} = setup({hasClear: true, value: [DEFAULT_OPTIONS[0].value]});
-        getByTestId(SelectQa.CLEAR);
+        getByTestId(`${TEST_QA}-clear`);
     });
 
     test.each<[string, Partial<SelectProps>]>([
@@ -53,7 +53,7 @@ describe('Select clear', () => {
         });
 
         const user = userEvent.setup();
-        await user.click(getByTestId(SelectQa.CLEAR));
+        await user.click(getByTestId(`${TEST_QA}-clear`));
         expect(onUpdate).toHaveBeenCalledWith([]);
     });
 

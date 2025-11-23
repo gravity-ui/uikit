@@ -340,7 +340,7 @@ describe('Select base actions', () => {
             const user = userEvent.setup();
             const selectControl = getByTestId(TEST_QA);
             await user.click(selectControl);
-            const selectList = getByTestId(SelectQa.LIST);
+            const selectList = getByTestId(`${TEST_QA}-list`);
             expect(selectList).not.toHaveClass(SELECT_LIST_VIRTUALIZED_CLASS);
         },
     );
@@ -356,7 +356,7 @@ describe('Select base actions', () => {
         const user = userEvent.setup();
         const selectControl = getByTestId(TEST_QA);
         await user.click(selectControl);
-        const selectList = getByTestId(SelectQa.LIST);
+        const selectList = getByTestId(`${TEST_QA}-list`);
         expect(selectList).toHaveClass(SELECT_LIST_VIRTUALIZED_CLASS);
     });
 });

@@ -8,18 +8,22 @@
 import {useColorGenerator} from '@gravity-ui/uikit';
 ```
 
-The `useColorGenerator` hook generates a unique (but consistent) background color based on some unique attribute (e.g., name, id, email). The background color remains unchanged with each update.
+The `useColorGenerator` hook generates a unique (but consistent) background color based on some unique attribute (e.g., name, id, email). The background color remains unchanged with each update. The hook automatically adapts to the current theme (light/dark).
 
 ## Properties
 
-| Name      | Description                                                          |              Type              |  Default  |     |     |
-| :-------- | :------------------------------------------------------------------- | :----------------------------: | :-------: | --- | --- |
-| intensity | Value to control color saturation                                    | `"light"` `"medium"` `"heavy"` | `"light"` |
-| seed      | Unique attribute of the entity (e.g., name, id, email) **Required.** |            `string`            |           |     |     |
+| Name | Description                                                          |   Type   | Default |
+| :--- | :------------------------------------------------------------------- | :------: | :-----: |
+| seed | Unique attribute of the entity (e.g., name, id, email) **Required.** | `string` |         |
 
 ## Result
 
-`useColorGenerator` returns an object with exactly two values:
+`useColorGenerator` returns an object with color details:
 
-1. color - unique color generated from seed.
-2. textColor - text color (dark or light), ensuring higher contrast on generated color.
+| Name      | Description                                                             |   Type   |
+| :-------- | :---------------------------------------------------------------------- | :------: |
+| hash      | Hash value generated from seed                                          | `number` |
+| oklch     | OKLCH color values (lightness, chroma, hue)                             | `object` |
+| rgb       | RGB color values (red, green, blue)                                     | `object` |
+| rgbString | RGB color string (e.g., "rgb(255, 0, 0)")                               | `string` |
+| textColor | Text color (dark or light), ensuring higher contrast on generated color | `string` |

@@ -108,6 +108,31 @@ test('should call onUpdate on tab click', async () => {
     expect(onUpdateFn).toHaveBeenCalledWith(tab1.value);
 });
 
+test('should not call onUpdate if default prevented', async () => {
+    const onUpdateFn = jest.fn();
+    const user = userEvent.setup();
+
+    render(
+        <TabList onUpdate={onUpdateFn}>
+            <Tab value={tab1.value} qa={tab1.qa} onClick={(e) => e.preventDefault()}>
+                {tab1.title}
+            </Tab>
+            <Tab value={tab2.value} qa={tab2.qa}>
+                {tab2.title}
+            </Tab>
+        </TabList>,
+    );
+
+    const tabComponent1 = screen.getByTestId(tab1.qa);
+    const tabComponent2 = screen.getByTestId(tab2.qa);
+
+    await user.click(tabComponent1);
+    await user.click(tabComponent2);
+
+    expect(onUpdateFn).toBeCalledTimes(1);
+    expect(onUpdateFn).toHaveBeenCalledWith(tab2.value);
+});
+
 test('should wrap tabs', () => {
     const wrapQaId = 'wrap';
 

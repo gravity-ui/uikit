@@ -119,19 +119,23 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
             indeterminate?: boolean; //only for header cell checkbox
         }) {
             return (
-                <Checkbox
-                    size="l"
-                    checked={checked}
-                    indeterminate={indeterminate}
-                    disabled={disabled}
-                    onChange={handler}
-                    className={b('selection-checkbox', {
-                        'vertical-align': this.props.verticalAlign,
-                    })}
-                    controlProps={{
-                        'aria-label': i18n('label-row-select'),
-                    }}
-                />
+                <i18n.Translation>
+                    {({t}) => (
+                        <Checkbox
+                            size="l"
+                            checked={checked}
+                            indeterminate={indeterminate}
+                            disabled={disabled}
+                            onChange={handler}
+                            className={b('selection-checkbox', {
+                                'vertical-align': this.props.verticalAlign,
+                            })}
+                            controlProps={{
+                                'aria-label': t('label-row-select'),
+                            }}
+                        />
+                    )}
+                </i18n.Translation>
             );
         }
 

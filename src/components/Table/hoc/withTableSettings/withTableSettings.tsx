@@ -199,6 +199,8 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
                 return getActualItems(columns, defaultSettings);
             }, [columns, defaultSettings]);
 
+            const {t} = i18n.useTranslation();
+
             const enhancedColumns = React.useMemo(() => {
                 const actualItems = getActualItems(columns, settings || []);
                 return enhanceSystemColumn(filterColumns(columns, actualItems), (systemColumn) => {
@@ -218,7 +220,7 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
                                     <Button
                                         view="flat"
                                         className={b('settings-button')}
-                                        aria-label={i18n('label_settings')}
+                                        aria-label={t('label_settings')}
                                         onClick={onClick}
                                     >
                                         <Icon data={Gear} />
@@ -235,10 +237,14 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
                 columns,
                 settings,
                 settingsPopupWidth,
+                settingsFilterPlaceholder,
+                settingsFilterEmptyMessage,
+                filterSettings,
                 updateSettings,
                 renderControls,
                 defaultActualItems,
                 showResetButton,
+                t,
             ]);
 
             return (

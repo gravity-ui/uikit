@@ -1,5 +1,5 @@
 @use '../../variables';
-@use '../../../../styles/mixins.scss';
+@use '../../../../styles/mixins';
 
 $block: '.#{variables.$ns}toc';
 

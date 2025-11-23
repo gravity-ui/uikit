@@ -91,7 +91,7 @@ export const TreeList = <T, P extends {} = {}>({
         return <ListItemView {...renderState.props} {...renderContainerProps} />;
     };
 
-    // not JSX decl here is from weird `react-beautiful-dnd` render bug
+    // not JSX decl here is from weird `@hello-pangea/dnd` render bug
     return renderContainer({
         qa,
         id: `list-${treeListId}`,

@@ -117,7 +117,7 @@ class LayerManager {
             }
         }
 
-        if (event.code === 'Enter') {
+        if (event.code === KeyCode.ENTER) {
             const topLayer = this.getTopLayer();
             topLayer.onEnterKeyDown?.(event);
         }

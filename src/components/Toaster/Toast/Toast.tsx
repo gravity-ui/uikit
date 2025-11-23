@@ -33,18 +33,16 @@ interface ToastInnerProps {
 interface ToastUnitedProps extends InternalToastProps, ToastInnerProps {}
 
 interface RenderActionsProps {
-    actions?: ToastAction[];
+    actions?: (() => React.ReactElement) | ToastAction[];
     onClose: VoidFunction;
 }
 
 function renderActions({actions, onClose}: RenderActionsProps) {
-    if (!actions || !actions.length) {
-        return null;
-    }
+    let component: React.ReactElement | React.ReactElement[] | undefined;
 
-    return (
-        <div className={b('actions')}>
-            {actions.map(({label, onClick, view = 'outlined', removeAfterClick = true}, index) => {
+    if (Array.isArray(actions)) {
+        component = actions.map(
+            ({label, onClick, view = 'outlined', removeAfterClick = true}, index) => {
                 const onActionClick = () => {
                     onClick();
                     if (removeAfterClick) {
@@ -55,7 +53,6 @@ function renderActions({actions, onClose}: RenderActionsProps) {
                 return (
                     <Button
                         key={`${label}__${index}`}
-                        className={b('action')}
                         onClick={onActionClick}
                         type="button"
                         size="l"
@@ -65,9 +62,21 @@ function renderActions({actions, onClose}: RenderActionsProps) {
                         {label}
                     </Button>
                 );
-            })}
-        </div>
-    );
+            },
+        );
+
+        if (!actions.length) {
+            return null;
+        }
+    } else {
+        component = actions?.();
+
+        if (!component) {
+            return null;
+        }
+    }
+
+    return <div className={b('actions')}>{component}</div>;
 }
 
 interface RenderIconProps {
@@ -116,6 +125,8 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
     const hasTitle = Boolean(title);
     const hasContent = Boolean(content);
 
+    const {t} = i18n.useTranslation();
+
     const icon = renderIcon ? renderIcon(props) : renderIconByType({theme});
     return (
         <div ref={ref} className={b(mods, className)} {...closeOnTimeoutProps} data-toast>
@@ -128,7 +139,7 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
                         view="flat"
                         className={b('btn-close')}
                         onClick={handleClose}
-                        aria-label={i18n('label_close-button')}
+                        aria-label={t('label_close-button')}
                     >
                         <Icon data={Xmark} />
                     </Button>

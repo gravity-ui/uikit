@@ -51,10 +51,12 @@ Use the `size` property to manage the `Switch` size. The default size is `m`.
 
 <ExampleBlock
     code={`
+<Switch size="s">S Size</Switch>
 <Switch size="m">M Size</Switch>
 <Switch size="l">L Size</Switch>
 `}
 >
+    <UIKit.Switch size="s">S Size</UIKit.Switch>
     <UIKit.Switch size="m">M Size</UIKit.Switch>
     <UIKit.Switch size="l">L Size</UIKit.Switch>
 </ExampleBlock>
@@ -64,6 +66,7 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
+<Switch size="s">S Size</Switch>
 <Switch size="m">M Size</Switch>
 <Switch size="l">L Size</Switch>
 ```
@@ -134,13 +137,14 @@ LANDING_BLOCK-->
 | children       | The content of the switch (usually, a label)                                                             |                  `ReactNode`                  |         |
 | content        | The content of the switch (alternative to children)                                                      |                  `ReactNode`                  |         |
 | disabled       | Toggles the `disabled` state of the switch                                                               |                   `boolean`                   | `false` |
+| loading        | Toggles the `loading` state of the switch                                                                |                   `boolean`                   | `false` |
 | checked        | Toggles the `checked` state of the switch                                                                |                   `boolean`                   | `false` |
 | defaultChecked | Sets the initial checked state when the component is mounted                                             |                   `boolean`                   | `false` |
 | onUpdate       | Fires when the switch state is changed by the user and provides the checked value as a callback argument |         `(checked: boolean) => void`          |         |
 | onChange       | Fires when the switch state is changed by the user and provides the change event as a callback argument  |                  `Function`                   |         |
 | onFocus        | Event handler to use when the switch input element receives focus                                        |                  `Function`                   |         |
 | onBlur         | Event handler to use when the switch input element loses focus                                           |                  `Function`                   |         |
-| size           | Sets the size of the switch                                                                              |                    `m` `l`                    |   `m`   |
+| size           | Sets the size of the switch                                                                              |                  `s` `m` `l`                  |   `m`   |
 | id             | `id` HTML attribute                                                                                      |                   `string`                    |         |
 | qa             | `data-qa` HTML attribute, used for testing                                                               |                   `string`                    |         |
 | style          | `style` HTML attribute                                                                                   |             `React.CSSProperties`             |         |

@@ -1,3 +1,4 @@
+import {KeyCode} from '../../constants';
 import {useFocusWithin} from '../../hooks/useFocusWithin/useFocusWithin';
 import {useDirection} from '../theme/useDirection';
 
@@ -39,27 +40,27 @@ export function usePaletteGrid(props: PaletteGridProps): React.HTMLAttributes<HT
     return {
         ...base,
         onKeyDown: (event) => {
-            if (event.code === 'ArrowRight') {
+            if (event.code === KeyCode.ARROW_RIGHT) {
                 event.preventDefault();
                 if (direction === 'ltr') {
                     whenFocused.nextItem();
                 } else {
                     whenFocused.previousItem();
                 }
-            } else if (event.code === 'ArrowLeft') {
+            } else if (event.code === KeyCode.ARROW_LEFT) {
                 event.preventDefault();
                 if (direction === 'ltr') {
                     whenFocused.previousItem();
                 } else {
                     whenFocused.nextItem();
                 }
-            } else if (event.code === 'ArrowDown') {
+            } else if (event.code === KeyCode.ARROW_DOWN) {
                 event.preventDefault();
                 whenFocused.nextRow();
-            } else if (event.code === 'ArrowUp') {
+            } else if (event.code === KeyCode.ARROW_UP) {
                 event.preventDefault();
                 whenFocused.previousRow();
-            } else if (event.code === 'Space' || event.code === 'Enter') {
+            } else if (event.code === KeyCode.SPACE || event.code === KeyCode.ENTER) {
                 event.preventDefault();
                 whenFocused.selectItem();
             }

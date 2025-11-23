@@ -14,7 +14,7 @@ export type PlaceholderContainerImageProps = {
 
 export type PlaceholderContainerActionProps = Pick<
     ButtonProps,
-    'disabled' | 'loading' | 'view' | 'size' | 'onClick'
+    'disabled' | 'loading' | 'view' | 'size' | 'onClick' | 'pin'
 > & {
     href?: string;
     text: string;

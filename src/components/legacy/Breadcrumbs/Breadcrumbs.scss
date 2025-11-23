@@ -18,7 +18,7 @@ $block: '.#{variables.$ns}breadcrumbs-legacy';
         color: var(--g-color-text-secondary);
 
         &:focus-visible {
-            outline: 2px solid var(--g-color-line-focus);
+            @include mixins.focus-outline();
         }
     }
 
@@ -31,7 +31,7 @@ $block: '.#{variables.$ns}breadcrumbs-legacy';
         text-overflow: ellipsis;
 
         &:focus-visible {
-            outline: 2px solid var(--g-color-line-focus);
+            @include mixins.focus-outline();
             border-radius: var(--g-focus-border-radius);
         }
     }

@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import {useLayoutEffect} from '../../hooks';
 import {PrivateLayoutProvider} from '../layout/LayoutProvider/LayoutProvider';
 import type {PrivateLayoutProviderProps} from '../layout/LayoutProvider/LayoutProvider';
 import {block} from '../utils/cn';
@@ -18,11 +19,13 @@ import {
 } from './constants';
 import {updateBodyClassName, updateBodyDirection} from './dom-helpers';
 import type {Direction, RealTheme, Theme, ThemeContextProps} from './types';
+import type {LangOptions} from './useLang';
+import {LangContext, defaultLangOptions} from './useLang';
 import {useSystemTheme} from './useSystemTheme';
 
 const b = block(ROOT_CLASSNAME);
 
-export interface ThemeProviderProps extends React.PropsWithChildren<{}> {
+export interface ThemeProviderProps extends React.PropsWithChildren<{}>, Partial<LangOptions> {
     theme?: Theme;
     systemLightTheme?: RealTheme;
     systemDarkTheme?: RealTheme;
@@ -41,9 +44,12 @@ export function ThemeProvider({
     rootClassName = '',
     children,
     layout,
+    lang,
+    fallbackLang,
 }: ThemeProviderProps) {
     const parentThemeState = React.useContext(ThemeContext);
     const systemThemeState = React.useContext(ThemeSettingsContext);
+    const langOptionsState = React.useContext(LangContext);
 
     const hasParentProvider = parentThemeState !== undefined;
     const scoped = hasParentProvider || scopedProp;
@@ -61,7 +67,7 @@ export function ThemeProvider({
 
     const prevRootClassName = React.useRef('');
 
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         if (!scoped) {
             updateBodyClassName({
                 theme: themeValue,
@@ -89,17 +95,28 @@ export function ThemeProvider({
         [systemLightTheme, systemDarkTheme],
     );
 
+    const langOptionsFinal =
+        lang || fallbackLang
+            ? {
+                  ...defaultLangOptions,
+                  ...langOptionsState,
+                  ...(lang ? {lang} : undefined),
+                  ...(fallbackLang ? {fallbackLang} : undefined),
+              }
+            : langOptionsState;
     return (
         <PrivateLayoutProvider {...layout}>
             <ThemeContext.Provider value={contextValue}>
                 <ThemeSettingsContext.Provider value={themeSettingsContext}>
-                    {scoped ? (
-                        <div className={b({theme: themeValue}, rootClassName)} dir={direction}>
-                            {children}
-                        </div>
-                    ) : (
-                        children
-                    )}
+                    <LangContext.Provider value={langOptionsFinal}>
+                        {scoped ? (
+                            <div className={b({theme: themeValue}, rootClassName)} dir={direction}>
+                                {children}
+                            </div>
+                        ) : (
+                            children
+                        )}
+                    </LangContext.Provider>
                 </ThemeSettingsContext.Provider>
             </ThemeContext.Provider>
         </PrivateLayoutProvider>

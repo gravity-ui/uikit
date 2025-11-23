@@ -7,5 +7,5 @@ export const WithLang: Decorator = (Story, context) => {
 
     configure({lang});
 
-    return <Story key={lang} {...context} />;
+    return <Story {...context} />;
 };

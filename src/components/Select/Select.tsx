@@ -140,7 +140,9 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         filterOption,
     });
     const filteredOptions = getSelectFilteredOptions(options) as FlattenOption[];
-    const selectedOptionsContent = getSelectedOptionsContent(options, value, renderSelectedOption);
+    const selectedOptionsContent = React.useMemo(() => {
+        return getSelectedOptionsContent(options, value, renderSelectedOption);
+    }, [options, value, renderSelectedOption]);
     const virtualized = filteredOptions.length >= virtualizationThreshold;
 
     const {errorMessage, errorPlacement, validationState} = errorPropsMapper({

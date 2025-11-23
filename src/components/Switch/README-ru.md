@@ -51,10 +51,12 @@ LANDING_BLOCK-->
 
 <ExampleBlock
     code={`
+<Switch size="s">S Size</Switch>
 <Switch size="m">M Size</Switch>
 <Switch size="l">L Size</Switch>
 `}
 >
+    <UIKit.Switch size="s">S Size</UIKit.Switch>
     <UIKit.Switch size="m">M Size</UIKit.Switch>
     <UIKit.Switch size="l">L Size</UIKit.Switch>
 </ExampleBlock>
@@ -64,6 +66,7 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
+<Switch size="s">S Size</Switch>
 <Switch size="m">M Size</Switch>
 <Switch size="l">L Size</Switch>
 ```
@@ -134,13 +137,14 @@ LANDING_BLOCK-->
 | children       | Содержимое переключателя (как правило, лейбл).                                                                               |                  `ReactNode`                  |                       |
 | content        | Содержимое переключателя (альтернатива `children`).                                                                          |                  `ReactNode`                  |                       |
 | disabled       | Включает или отключает состояние `disabled` у переключателя.                                                                 |                   `boolean`                   |        `false`        |
+| loading        | Включает или отключает состояние загрузки у переключателя.                                                                   |                   `boolean`                   |        `false`        |
 | checked        | Включает или отключает состояние `checked` у переключателя.                                                                  |                   `boolean`                   |        `false`        |
 | defaultChecked | Задает начальное состояние `checked` при монтировании компонента.                                                            |                   `boolean`                   |        `false`        |
 | onUpdate       | Срабатывает при изменении состояния переключателя пользователем и передает значение `checked` как аргумент обратного вызова. |         `(checked: boolean) => void`          |                       |
 | onChange       | Срабатывает при изменении состояния переключателя пользователем и передает событие изменения как аргумент обратного вызова.  |                  `Function`                   |                       |
 | onFocus        | Обработчик события, вызываемый, когда элемент ввода переключателя получает фокус.                                            |                  `Function`                   |                       |
 | onBlur         | Обработчик события, вызываемый, когда элемент ввода переключателя теряет фокус.                                              |                  `Function`                   |                       |
-| size           | Определяет размер переключателя.                                                                                             |                    `m` `l`                    |          `m`          |
+| size           | Определяет размер переключателя.                                                                                             |                  `s` `m` `l`                  |          `m`          |
 | id             | HTML-атрибут `id`.                                                                                                           |                   `string`                    |                       |
 | qa             | HTML-атрибут `data-qa`, используется для тестирования.                                                                       |                   `string`                    |                       |
 | style          | HTML-атрибут `style`.                                                                                                        |             `React.CSSProperties`             |                       |

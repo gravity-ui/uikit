@@ -119,11 +119,6 @@ export const WithDndList = WithDndListTemplate.bind({});
 WithDndList.args = {
     size: 'l',
 };
-WithDndList.parameters = {
-    // Strict mode ruins sortable list due to this react-beautiful-dnd issue
-    // https://github.com/atlassian/react-beautiful-dnd/issues/2350
-    disableStrictMode: true,
-};
 
 const ErrorStateTemplate: StoryFn<ErrorStateExampleProps> = (props) => {
     return <ErrorStateExample {...props} />;

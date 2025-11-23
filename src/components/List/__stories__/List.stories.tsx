@@ -66,11 +66,6 @@ Sortable.args = {
     sortable: true,
     itemsHeight: 150,
 };
-Sortable.parameters = {
-    // Strict mode ruins sortable list due to this react-beautiful-dnd issue
-    // https://github.com/atlassian/react-beautiful-dnd/issues/2350
-    disableStrictMode: true,
-};
 
 const RenderItemTemplate: StoryFn<ComponentType> = (args) => <List {...args} />;
 export const RenderItem = RenderItemTemplate.bind({});
@@ -96,8 +91,3 @@ WithLoadingMoreItems.args = {
 
 const ShowcaseTemplate: StoryFn<ComponentType> = () => <ListShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});
-Showcase.parameters = {
-    // Strict mode ruins sortable list due to this react-beautiful-dnd issue
-    // https://github.com/atlassian/react-beautiful-dnd/issues/2350
-    disableStrictMode: true,
-};

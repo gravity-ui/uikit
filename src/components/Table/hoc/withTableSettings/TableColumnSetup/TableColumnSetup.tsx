@@ -3,15 +3,15 @@
 import * as React from 'react';
 
 import {Gear, Grip, Lock} from '@gravity-ui/icons';
-import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
+import {DragDropContext, Draggable, Droppable} from '@hello-pangea/dnd';
 import type {
     DraggableChildrenFn,
     DraggableProvided,
     DraggableStateSnapshot,
     OnDragEndResponder,
-} from 'react-beautiful-dnd';
+} from '@hello-pangea/dnd';
 
-import {useUniqId} from '../../../../../hooks';
+import {useControlledState, useUniqId} from '../../../../../hooks';
 import {createOnKeyDownHandler} from '../../../../../hooks/useActionHandlers/useActionHandlers';
 import {Button} from '../../../../Button';
 import {Icon} from '../../../../Icon';
@@ -273,6 +273,7 @@ export interface TableColumnSetupProps {
 
     items: TableColumnSetupItem[];
     sortable?: boolean;
+    hideApplyButton?: boolean;
 
     onUpdate: (newSettings: TableSetting[]) => void;
     popupWidth?: TreeSelectProps<unknown>['popupWidth'];
@@ -310,6 +311,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         filterPlaceholder,
         filterEmptyMessage,
         filterSettings = defaultFilterSettingsFn,
+        hideApplyButton,
     } = props;
 
     const [open, setOpen] = React.useState(false);
@@ -320,13 +322,22 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         setSortingEnabled(sortable);
     }
 
-    const [items, setItems] = React.useState(propsItems);
+    const [items, setItems] = useControlledState<TableColumnSetupItem[]>(
+        hideApplyButton ? propsItems : undefined,
+        propsItems,
+        hideApplyButton ? propsOnUpdate : undefined,
+    );
+
+    // Track changes to propsItems in manual mode
     const [prevPropsItems, setPrevPropsItems] = React.useState(propsItems);
     if (propsItems !== prevPropsItems) {
         setPrevPropsItems(propsItems);
-
-        setItems(propsItems);
+        if (!hideApplyButton) {
+            setItems(propsItems);
+        }
     }
+
+    const {t} = i18n.useTranslation();
 
     const filterState = useListFilter({items, filterItem: filterSettings, debounceTimeout: 0});
 
@@ -338,15 +349,14 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     const DefaultApplyButton = () => (
         <Button view="action" width="max" onClick={onApply}>
-            {i18n('button_apply')}
+            {t('button_apply')}
         </Button>
     );
 
     const onDragEnd: OnDragEndResponder = ({destination, source}) => {
         if (destination?.index !== undefined && destination?.index !== source.index) {
-            setItems((prevItems) => {
-                return reorderArray(prevItems, source.index, destination.index);
-            });
+            const reorderedItems = reorderArray(items, source.index, destination.index);
+            setItems(reorderedItems);
         }
     };
 
@@ -365,14 +375,17 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
                     {showResetButton && (
                         <Button
                             onClick={() => {
+                                if (hideApplyButton) {
+                                    propsOnUpdate(defaultItems);
+                                }
                                 setItems(defaultItems);
                             }}
                             width="max"
                         >
-                            {i18n('button_reset')}
+                            {t('button_reset')}
                         </Button>
                     )}
-                    <DefaultApplyButton />
+                    {!hideApplyButton && <DefaultApplyButton />}
                 </Flex>
             ),
     });
@@ -386,7 +399,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
             renderSwitcher?.({onClick: toggleOpen, onKeyDown}) || (
                 <Button onClick={toggleOpen} onKeyDown={onKeyDown}>
                     <Icon data={Gear} />
-                    {i18n('button_switcher')}
+                    {t('button_switcher')}
                 </Button>
             )
         );
@@ -402,12 +415,12 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
     };
 
     const onUpdate = (selectedItemsIds: string[]) => {
-        setItems((prevItems) => {
-            return prevItems.map((item) => ({
-                ...item,
-                isSelected: item.isRequired || selectedItemsIds.includes(item.id),
-            }));
-        });
+        const newItems = items.map((item) => ({
+            ...item,
+            isSelected: item.isRequired || selectedItemsIds.includes(item.id),
+        }));
+
+        setItems(newItems);
     };
 
     const value = React.useMemo(() => prepareValue(items), [items]);

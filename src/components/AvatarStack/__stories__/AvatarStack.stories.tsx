@@ -34,6 +34,7 @@ function getChildren({
                 borderColor={'var(--g-color-line-generic-solid)'}
                 aria-label={'For tests'}
                 alt={'For tests'}
+                key={faker.string.uuid()}
             />
         ),
         count,

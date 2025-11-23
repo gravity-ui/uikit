@@ -1,6 +1,6 @@
 import type * as React from 'react';
 
-import type {DraggableProvided} from 'react-beautiful-dnd';
+import type {DraggableProvided} from '@hello-pangea/dnd';
 
 import type {TextInputSize} from '../controls';
 import type {QAProps} from '../types';

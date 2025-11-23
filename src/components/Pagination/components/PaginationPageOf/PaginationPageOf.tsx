@@ -12,5 +12,6 @@ type Props = {
 };
 
 export const PaginationPageOf = ({size, className}: Props) => {
-    return <div className={b({size}, className)}>{i18n('label_page-of')}</div>;
+    const {t} = i18n.useTranslation();
+    return <div className={b({size}, className)}>{t('label_page-of')}</div>;
 };

@@ -6,19 +6,10 @@ import {Label} from '../Label';
 
 import {bTab} from './constants';
 import {useTab} from './hooks/useTab';
-import type {TabComponentElementType, TabComponentProps, TabLinkProps, TabProps} from './types';
+import type {TabComponentElementType, TabProps} from './types';
+import {isTabComponentProps, isTabLinkProps} from './utils';
 
 import './Tab.scss';
-
-function isTabComponentProps<T extends TabComponentElementType>(
-    p: TabProps<T>,
-): p is TabComponentProps<Exclude<T, undefined>> {
-    return p.component !== undefined;
-}
-
-function isTabLinkProps<T extends TabComponentElementType>(p: TabProps<T>): p is TabLinkProps {
-    return p.href !== undefined;
-}
 
 export const Tab = React.forwardRef<HTMLAnchorElement | HTMLButtonElement, TabProps>(function Tab<
     T extends TabComponentElementType,

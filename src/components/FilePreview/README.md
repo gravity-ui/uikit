@@ -83,9 +83,10 @@ LANDING_BLOCK-->
 
 | Name                | Description                                                                                                      | Type                  | Required | Default   |
 | :------------------ | :--------------------------------------------------------------------------------------------------------------- | :-------------------- | :------: | :-------- |
-| file                | The File interface provides information about files and allows JavaScript in a web page to access their content. | `File`                |   yes    |           |
+| file                | The File interface provides information about files and allows JavaScript in a web page to access their content. | `File`                |    ✓     |           |
 | imageSrc            | source for image preview                                                                                         | `string`              |          |           |
 | description         | Description displayed under the file name                                                                        | `string`              |          |           |
+| selected            | Enable or disable selected styles                                                                                | `boolean`             |          | `false`   |
 | className           | Class name for the file container                                                                                | `string`              |          |           |
 | onClick             | Click handler for the file container                                                                             | `function`            |          |           |
 | [actions](#actions) | An array of interactive actions                                                                                  | `FilePreviewAction[]` |          | `[]`      |
@@ -95,11 +96,13 @@ LANDING_BLOCK-->
 
 For a file, you can prescribe actions that will be visible when you hover over it.
 
-| Name       | Description                    | Type                                                                                                                                                       | Required | Default |
-| ---------- | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------- | --- |
-| id         | Action id                      | `String`                                                                                                                                                   |          |         |
-| icon       | Action icon                    | `String`                                                                                                                                                   | ✓        |         |
-| title      | Action hint on hover           | `String`                                                                                                                                                   | ✓        |         |
-| onClick    | Action click handler           | `React.MouseEventHandler<HTMLElement>` for default view and `(event: React.MouseEvent<HTMLElement, MouseEvent> or KeyboardEvent) => void` for compact view |          |         |
-| href       | Action button href             | `String`                                                                                                                                                   |          |         |
-| extraProps | Additional action button props | `ButtonHTMLAttributes<HTMLButtonElement> or AnchorHTMLAttributes<HTMLAnchorElement>` (works only for the default desktop view)                             |          |         |     |
+| Name              | Description                     | Type                                                                                                                                                       | Required | Default |
+| ----------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: | ------- |
+| id                | Action id                       | `String`                                                                                                                                                   |          |         |
+| icon              | Action icon                     | `React.ReactNode`                                                                                                                                          |    ✓     |         |
+| title             | Action hint on hover            | `String`                                                                                                                                                   |    ✓     |         |
+| onClick           | Action click handler            | `React.MouseEventHandler<HTMLElement>` for default view and `(event: React.MouseEvent<HTMLElement, MouseEvent> or KeyboardEvent) => void` for compact view |          |         |
+| href              | Action button href              | `String`                                                                                                                                                   |          |         |
+| disabled          | Action disabled                 | `boolean`                                                                                                                                                  |          |         |
+| extraProps        | Additional action button props  | `ButtonButtonProps or ButtonLinkProps` (works only for the default desktop view)                                                                           |          |         |
+| tooltipExtraProps | Additional action tooltip props | `Omit<ActionTooltipProps, 'title' or 'children'>` (works only for the default desktop view)                                                                |          |         |

@@ -23,16 +23,33 @@ export function useTab<T extends TabComponentElementType>(
     const isFocused = tabContext.isFocused;
 
     const onClick = (event: React.MouseEvent) => {
-        if (!tabProps.disabled) {
+        if (tabProps.disabled) {
+            return;
+        }
+
+        if (tabProps.onClick) {
+            tabProps.onClick(event);
+        }
+
+        if (!event.defaultPrevented) {
             tabContext.onUpdate?.(tabProps.value);
-            tabProps.onClick?.(event);
         }
     };
 
     const onKeyDown = (event: React.KeyboardEvent) => {
-        if ((event.key === KeyCode.SPACEBAR || event.key === KeyCode.ENTER) && !tabProps.disabled) {
+        if (tabProps.disabled) {
+            return;
+        }
+
+        if (tabProps.onKeyDown) {
+            tabProps.onKeyDown(event);
+        }
+
+        if (
+            !event.defaultPrevented &&
+            (event.key === KeyCode.SPACEBAR || event.key === KeyCode.ENTER)
+        ) {
             tabContext.onUpdate?.(tabProps.value);
-            tabProps.onKeyDown?.(event);
         }
     };
 

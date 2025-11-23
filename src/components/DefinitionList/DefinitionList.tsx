@@ -22,6 +22,8 @@ export function DefinitionList({
     ...restProps
 }: DefinitionListProps) {
     const normalizedChildren = prepareChildren(children);
+    const withCopy = normalizedChildren.some((item) => item.props.copyText);
+
     return (
         <DefinitionListProvider
             direction={direction}
@@ -30,7 +32,10 @@ export function DefinitionList({
         >
             <dl
                 {...filterDOMProps(restProps, {labelable: true})}
-                className={b({responsive, vertical: direction === 'vertical'}, className)}
+                className={b(
+                    {responsive, vertical: direction === 'vertical', 'with-copy': withCopy},
+                    className,
+                )}
                 data-qa={qa}
             >
                 {normalizedChildren}

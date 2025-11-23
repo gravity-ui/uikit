@@ -14,6 +14,7 @@ interface NoteElementsProps {
 }
 
 function NoteElement({note}: NoteElementsProps) {
+    const {t} = i18n.useTranslation();
     if (!note) {
         return null;
     }
@@ -22,7 +23,7 @@ function NoteElement({note}: NoteElementsProps) {
             <HelpMark
                 className={b('note')}
                 popoverProps={{placement: ['bottom', 'top']}}
-                aria-label={i18n('label_note')}
+                aria-label={t('label_note')}
             >
                 {note}
             </HelpMark>
@@ -35,7 +36,7 @@ function NoteElement({note}: NoteElementsProps) {
                 {...note}
                 className={b('note', note.className)}
                 popoverProps={{placement: ['bottom', 'top'], ...note.popoverProps}}
-                aria-label={i18n('label_note')}
+                aria-label={t('label_note')}
             />
         );
     }

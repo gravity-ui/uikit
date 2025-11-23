@@ -1,0 +1,52 @@
+@use '../variables';
+@use '../../../styles/mixins';
+
+$block: '.#{variables.$ns}accordion';
+
+#{$block} {
+    box-sizing: border-box;
+    border: 1px solid var(--g-color-line-generic);
+    height: fit-content;
+
+    // FIX: remove it with https://github.com/gravity-ui/uikit/issues/2402
+    .#{variables.$ns}disclosure__content.#{variables.$ns}disclosure_exit_active {
+        // Disable exit animations for accordion disclosure elements
+        animation: none;
+
+        /**
+         * Override display property for disclosure exit states.
+         *
+         * Context: In the base Disclosure component, elements with
+         * `disclosure_exit_active` class maintain `display: block` during
+         * exit animations and are hidden via `animationend` event.
+         *
+         * Since animations are disabled in Accordion context for performance
+         * and UX consistency, we immediately hide exiting elements to prevent
+         * visual artifacts and ensure proper accordion behavior.
+         */
+        display: none;
+    }
+
+    // FIX: remove it with https://github.com/gravity-ui/uikit/issues/2402
+    .#{variables.$ns}disclosure__content.#{variables.$ns}disclosure_enter_active {
+        animation: none;
+    }
+
+    &_size_m {
+        border-radius: var(--g-border-radius-m);
+    }
+
+    &_size_l {
+        border-radius: var(--g-border-radius-l);
+    }
+
+    &_size_xl {
+        border-radius: var(--g-border-radius-xl);
+    }
+
+    &_view_top-bottom {
+        border-radius: 0;
+        border-inline-start: 0;
+        border-inline-end: 0;
+    }
+}

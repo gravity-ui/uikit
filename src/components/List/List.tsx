@@ -2,21 +2,22 @@
 
 import * as React from 'react';
 
-import isEqual from 'lodash/isEqual';
-import isObject from 'lodash/isObject';
 import type {
     DraggableProvided,
     DraggableRubric,
     DraggableStateSnapshot,
     DropResult,
     DroppableProvided,
-} from 'react-beautiful-dnd';
-import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
+} from '@hello-pangea/dnd';
+import {DragDropContext, Draggable, Droppable} from '@hello-pangea/dnd';
+import isEqual from 'lodash/isEqual';
+import isObject from 'lodash/isObject';
 import type {Size} from 'react-virtualized-auto-sizer';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import type {VariableSizeListProps} from 'react-window';
 import {VariableSizeList} from 'react-window';
 
+import {KeyCode} from '../../constants';
 import {TextInput} from '../controls';
 import {MobileContext} from '../mobile';
 import {useDirection} from '../theme';
@@ -216,23 +217,23 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         const isInputTarget = event.target instanceof HTMLInputElement;
 
         switch (event.key) {
-            case 'ArrowDown': {
+            case KeyCode.ARROW_DOWN: {
                 this.handleKeyMove(event, 1, -1);
                 break;
             }
-            case 'ArrowUp': {
+            case KeyCode.ARROW_UP: {
                 this.handleKeyMove(event, -1);
                 break;
             }
-            case 'PageDown': {
+            case KeyCode.PAGE_DOWN: {
                 this.handleKeyMove(event, pageSize ?? DEFAULT_PAGE_SIZE);
                 break;
             }
-            case 'PageUp': {
+            case KeyCode.PAGE_UP: {
                 this.handleKeyMove(event, -(pageSize ?? DEFAULT_PAGE_SIZE));
                 break;
             }
-            case 'Home': {
+            case KeyCode.HOME: {
                 // https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
                 // ... if the combobox is editable, returns focus to the combobox and places the cursor on the first character (c)
                 if (isInputTarget) {
@@ -242,7 +243,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                 this.handleKeyMove(event, this.state.items.length - (activeItem || 0));
                 break;
             }
-            case 'End': {
+            case KeyCode.END: {
                 // https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
                 // ... if the combobox is editable, returns focus to the combobox and places the cursor after the last character (c)
                 if (isInputTarget) {
@@ -252,7 +253,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                 this.handleKeyMove(event, -(activeItem || 0) - 1);
                 break;
             }
-            case 'Enter': {
+            case KeyCode.ENTER: {
                 if (typeof activeItem === 'number' && this.props.onItemClick) {
                     this.props.onItemClick(this.state.items[activeItem], activeItem, true, event);
                 }

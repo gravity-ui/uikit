@@ -1,24 +1,26 @@
 import userEvent from '@testing-library/user-event';
 
 import {act, getAllByRole, render, screen, waitFor} from '../../../../../test-utils/utils';
+import {Modal} from '../../../Modal';
+import {Popup} from '../../../Popup';
 import {Menu} from '../Menu';
 
 const TRIGGER_QA = 'trigger';
 const MENU_QA = 'menu';
 const SUBMENU_QA = 'submenu';
 
-function renderSimpleMenu() {
-    return render(
+function SimpleMenu() {
+    return (
         <Menu trigger={<Menu.Trigger qa={TRIGGER_QA} />} qa={MENU_QA}>
             <Menu.Item>Item 1</Menu.Item>
             <Menu.Item>Item 2</Menu.Item>
             <Menu.Item>Item 3</Menu.Item>
-        </Menu>,
+        </Menu>
     );
 }
 
-function renderComplexMenu() {
-    return render(
+function ComplexMenu() {
+    return (
         <Menu trigger={<Menu.Trigger qa={TRIGGER_QA} />} qa={MENU_QA}>
             <Menu.Item>Item 1</Menu.Item>
             <Menu.Item>Item 2</Menu.Item>
@@ -29,20 +31,20 @@ function renderComplexMenu() {
                     <Menu.Item>Item 4</Menu.Item>
                 </Menu>
             </Menu.Item>
-        </Menu>,
+        </Menu>
     );
 }
 
 describe('Menu', () => {
     test('should render default trigger', () => {
-        renderSimpleMenu();
+        render(<SimpleMenu />);
         const trigger = screen.getByTestId(TRIGGER_QA);
 
         expect(trigger).toBeVisible();
     });
 
     test('should open menu by click', async () => {
-        renderSimpleMenu();
+        render(<SimpleMenu />);
         const user = userEvent.setup();
         const trigger = screen.getByTestId(TRIGGER_QA);
 
@@ -57,7 +59,7 @@ describe('Menu', () => {
     test.each(['{Space}', '{Enter}', '{ArrowDown}', '{ArrowUp}'])(
         'should open menu by keyboard %s',
         async (key) => {
-            renderSimpleMenu();
+            render(<SimpleMenu />);
             const user = userEvent.setup();
             const trigger = screen.getByTestId(TRIGGER_QA);
 
@@ -80,7 +82,55 @@ describe('Menu', () => {
     );
 
     test('should close menu by selecting an item', async () => {
-        renderSimpleMenu();
+        render(<SimpleMenu />);
+        const user = userEvent.setup();
+        const trigger = screen.getByTestId(TRIGGER_QA);
+
+        expect(screen.queryByTestId(MENU_QA)).not.toBeInTheDocument();
+
+        await user.click(trigger);
+        await waitFor(() => {
+            expect(screen.getByTestId(MENU_QA)).toBeVisible();
+        });
+
+        const items = screen.getAllByRole('menuitem');
+
+        await user.click(items[1]);
+        await waitFor(() => {
+            expect(screen.queryByTestId(MENU_QA)).not.toBeInTheDocument();
+        });
+    });
+
+    test('should close menu by selecting an item inside Popup', async () => {
+        render(
+            <Popup open>
+                <SimpleMenu />
+            </Popup>,
+        );
+        const user = userEvent.setup();
+        const trigger = screen.getByTestId(TRIGGER_QA);
+
+        expect(screen.queryByTestId(MENU_QA)).not.toBeInTheDocument();
+
+        await user.click(trigger);
+        await waitFor(() => {
+            expect(screen.getByTestId(MENU_QA)).toBeVisible();
+        });
+
+        const items = screen.getAllByRole('menuitem');
+
+        await user.click(items[1]);
+        await waitFor(() => {
+            expect(screen.queryByTestId(MENU_QA)).not.toBeInTheDocument();
+        });
+    });
+
+    test('should close menu by selecting an item inside Modal', async () => {
+        render(
+            <Modal open>
+                <SimpleMenu />
+            </Modal>,
+        );
         const user = userEvent.setup();
         const trigger = screen.getByTestId(TRIGGER_QA);
 
@@ -100,7 +150,7 @@ describe('Menu', () => {
     });
 
     test('should have correct keyboard navigation', async () => {
-        renderSimpleMenu();
+        render(<SimpleMenu />);
         const user = userEvent.setup();
         const trigger = screen.getByTestId(TRIGGER_QA);
 
@@ -130,7 +180,7 @@ describe('Menu', () => {
     });
 
     test('should open submenu by hover', async () => {
-        renderComplexMenu();
+        render(<ComplexMenu />);
         const user = userEvent.setup();
         const trigger = screen.getByTestId(TRIGGER_QA);
 
@@ -152,7 +202,7 @@ describe('Menu', () => {
     });
 
     test('should open/close submenu by keyboard', async () => {
-        renderComplexMenu();
+        render(<ComplexMenu />);
         const user = userEvent.setup();
         const trigger = screen.getByTestId(TRIGGER_QA);
 
@@ -185,5 +235,33 @@ describe('Menu', () => {
             expect(screen.queryByTestId(SUBMENU_QA)).not.toBeInTheDocument();
         });
         expect(items[2]).toHaveClass(/active/);
+    });
+
+    test('should not open by hover inside Popup', async () => {
+        render(
+            <Popup open>
+                <SimpleMenu />
+            </Popup>,
+        );
+        const user = userEvent.setup();
+        const trigger = screen.getByTestId(TRIGGER_QA);
+
+        await user.hover(trigger);
+
+        expect(screen.queryByTestId(MENU_QA)).not.toBeInTheDocument();
+    });
+
+    test('should not open by hover inside Modal', async () => {
+        render(
+            <Modal open>
+                <SimpleMenu />
+            </Modal>,
+        );
+        const user = userEvent.setup();
+        const trigger = screen.getByTestId(TRIGGER_QA);
+
+        await user.hover(trigger);
+
+        expect(screen.queryByTestId(MENU_QA)).not.toBeInTheDocument();
     });
 });

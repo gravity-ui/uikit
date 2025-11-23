@@ -4,11 +4,8 @@ import {i18n} from './i18n';
 
 /**
  * Add keysets data for a specific language
- *
  * @param language - language code
  * @param data - keyset data
- * @returns void
- *
  * @example
  * import {addLanguageKeysets} from '@gravity-ui/uikit/i18n';
  * import type {Keysets, PartialKeysets} from '@gravity-ui/uikit/i18n';
@@ -28,7 +25,6 @@ import {i18n} from './i18n';
  *         label_close: 'Затвори',
  *     },
  * });
- *
  */
 export function addLanguageKeysets<Keyset extends KeysetData>(language: string, data: Keyset) {
     i18n.registerKeysets(language, data);

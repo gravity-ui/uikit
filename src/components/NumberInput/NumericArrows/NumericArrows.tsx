@@ -15,7 +15,7 @@ import './NumericArrows.scss';
 
 const b = block('numeric-arrows');
 
-interface NumericArrowsProps extends React.HTMLAttributes<'div'> {
+interface NumericArrowsProps extends React.HTMLAttributes<HTMLDivElement> {
     className?: string;
     size: InputControlSize;
     disabled?: boolean;

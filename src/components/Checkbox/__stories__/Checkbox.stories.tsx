@@ -50,28 +50,29 @@ export const Size: Story = {
     ),
 };
 
-export const Fonts: Story = {
+export const WithText: Story = {
     render: (args) => (
         <Showcase>
-            <div style={{display: 'flex', alignItems: 'center', gap: '16px'}}>
-                <Checkbox {...args} size="m" style={{fontFamily: 'Arial'}}>
-                    Arial
+            <div>
+                before
+                <Checkbox {...args} size="m">
+                    Label
                 </Checkbox>
-                <Checkbox {...args} size="m" style={{fontFamily: 'Times New Roman'}}>
-                    Times New Roman
+                after
+            </div>
+            <div>
+                before
+                <Checkbox {...args} size="l">
+                    Label
                 </Checkbox>
-                <Checkbox {...args} size="m" style={{fontFamily: 'Inter'}}>
-                    Inter
+                after
+            </div>
+            <div>
+                before
+                <Checkbox {...args} size="xl">
+                    Label
                 </Checkbox>
-                <Checkbox {...args} size="m" style={{fontFamily: 'Georgia'}}>
-                    Georgia
-                </Checkbox>
-                <Checkbox {...args} size="m" style={{fontFamily: 'Verdana'}}>
-                    Verdana
-                </Checkbox>
-                <Checkbox {...args} size="m" style={{fontFamily: 'Impact'}}>
-                    Impact
-                </Checkbox>
+                after
             </div>
         </Showcase>
     ),

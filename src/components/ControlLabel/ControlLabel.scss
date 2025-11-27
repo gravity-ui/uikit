@@ -21,6 +21,11 @@ $block: '.#{variables.$ns}control-label';
     &_size_m {
         font-size: var(--g-text-body-1-font-size);
         line-height: var(--g-text-body-1-line-height);
+
+        #{$block}__control-container {
+            padding: 2px 0;
+            display: inline-flex;
+        }
     }
 
     &_size_l {
@@ -32,8 +37,8 @@ $block: '.#{variables.$ns}control-label';
         font-size: var(--g-text-body-2-font-size);
         line-height: var(--g-text-body-2-line-height);
 
-        #{$block}__text {
-            padding: 2px 0 0;
+        #{$block}__control-container {
+            padding: 1px 0;
         }
     }
 

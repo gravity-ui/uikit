@@ -3,7 +3,7 @@ import {smokeTest, test} from '~playwright/core';
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {IconProps} from '../Icon';
 
-import {sizeCases} from './cases';
+import {colorCases, sizeCases, styleCases} from './cases';
 import {TestIcon} from './helpersPlaywright';
 
 test.describe('Icon', {tag: '@Icon'}, () => {
@@ -12,6 +12,8 @@ test.describe('Icon', {tag: '@Icon'}, () => {
             {},
             {
                 size: sizeCases,
+                color: colorCases,
+                style: styleCases,
             },
         );
 

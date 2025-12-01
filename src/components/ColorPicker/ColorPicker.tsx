@@ -151,7 +151,7 @@ export const ColorPicker = ({
                                 <ColorPointer
                                     left={props.left}
                                     top={props.top}
-                                    transform="translate(-8px, -8px)"
+                                    transform={'translate(-50%, -50%)'}
                                 />
                             </div>
                         )}
@@ -167,7 +167,7 @@ export const ColorPicker = ({
                             <ColorPointer
                                 left={props.left}
                                 top={props.top}
-                                transform="translate(-4px, -4px)"
+                                transform={'translate(-50%, -25%)'}
                             />
                         )}
                     />
@@ -180,13 +180,11 @@ export const ColorPicker = ({
                             pointerProps={{className: b('pointer')}}
                             radius={4}
                             pointer={(props) => (
-                                <div {...props}>
-                                    <ColorPointer
-                                        left={props.left}
-                                        top={props.top}
-                                        transform="translate(-12px, -4px)"
-                                    />
-                                </div>
+                                <ColorPointer
+                                    left={props.left}
+                                    top={props.top}
+                                    transform={'translate(-50%, -25%)'}
+                                />
                             )}
                         />
                     )}

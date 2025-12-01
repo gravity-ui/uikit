@@ -1,27 +1,18 @@
-import * as React from 'react';
-
 import {b} from '../../constants';
 
 type ColorPointerProps = {
     left?: string | number;
     top?: string | number;
-    transform: string;
-} & React.HTMLAttributes<HTMLDivElement>;
+    transform?: string;
+};
 
-export const ColorPointer = React.forwardRef<HTMLDivElement, ColorPointerProps>(
-    ({left, top, transform, ...props}, ref) => (
-        <div
-            {...props}
-            ref={ref}
-            className={b('color-pointer')}
-            style={{
-                left,
-                top,
-                transform,
-                ...props.style,
-            }}
-        />
-    ),
+export const ColorPointer = ({left, top, transform}: ColorPointerProps) => (
+    <button
+        className={b('color-pointer')}
+        style={{
+            left,
+            top,
+            transform,
+        }}
+    />
 );
-
-ColorPointer.displayName = 'ColorPointer';

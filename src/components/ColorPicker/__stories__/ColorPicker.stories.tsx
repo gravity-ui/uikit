@@ -24,6 +24,23 @@ export const Default: Story = {
     },
 };
 
+export const WithAlpha: Story = {
+    render: function ColorPickerStory(props) {
+        const [value, setValue] = React.useState('#eeeeee');
+        return (
+            <div style={{padding: 20}}>
+                <ColorPicker
+                    {...props}
+                    value={value}
+                    defaultValue="#ffbe5c"
+                    onUpdate={setValue}
+                    withAlpha
+                />
+            </div>
+        );
+    },
+};
+
 export const Sizes: Story = {
     render: function ColorPickerStory(props) {
         return (

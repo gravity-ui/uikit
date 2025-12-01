@@ -166,15 +166,18 @@ $block: '.#{variables.$ns}color-picker';
             width: 16px !important;
             height: 16px !important;
             inset-block-start: 8px !important;
-            transform: translate(-9px, -4px) !important;
         }
     }
 
     &__color-pointer {
         border: 4px solid #fff;
         border-radius: 50%;
-        width: 8px;
-        height: 8px;
+        font-size: 0;
+        line-height: 0;
+        padding: 0;
+        width: 16px;
+        height: 16px;
+        background-color: transparent;
         position: absolute;
         box-shadow: 0 1px 5px 0 var(--g-color-sfx-shadow);
     }

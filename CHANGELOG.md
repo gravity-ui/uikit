@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.26.2](https://github.com/gravity-ui/uikit/compare/v7.26.1...v7.26.2) (2025-12-01)
+
+
+### Bug Fixes
+
+* use sort icon as draggable handler in List ([#2518](https://github.com/gravity-ui/uikit/issues/2518)) ([ff04de8](https://github.com/gravity-ui/uikit/commit/ff04de83fbee82e3924f8a7cdc010c6995a225d8))
+
 ## [7.26.1](https://github.com/gravity-ui/uikit/compare/v7.26.0...v7.26.1) (2025-11-21)
 
 

@@ -155,10 +155,32 @@ $block: '.#{variables.$ns}color-picker';
     &__saturation {
         width: 100% !important;
         cursor: default !important;
+
+        &:focus {
+            outline: none !important;
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--g-color-line-focus) !important;
+            outline-offset: 2px !important;
+        }
     }
 
     &__slider {
         height: 8px !important;
+
+        // Hide outline on internal Interactive element
+        .w-color-interactive {
+            &:focus {
+                outline: none !important;
+            }
+        }
+
+        // Apply outline to parent slider when internal element has keyboard focus
+        &:has(.w-color-interactive:focus-visible) {
+            outline: 2px solid var(--g-color-line-focus) !important;
+            outline-offset: 2px !important;
+        }
     }
 
     &__pointer {
@@ -180,5 +202,6 @@ $block: '.#{variables.$ns}color-picker';
         background-color: transparent;
         position: absolute;
         box-shadow: 0 1px 5px 0 var(--g-color-sfx-shadow);
+        cursor: pointer;
     }
 }

@@ -147,13 +147,11 @@ export const ColorPicker = ({
                         className={b('saturation')}
                         radius={4}
                         pointer={(props) => (
-                            <div {...props}>
-                                <ColorPointer
-                                    left={props.left}
-                                    top={props.top}
-                                    transform={'translate(-50%, -50%)'}
-                                />
-                            </div>
+                            <ColorPointer
+                                left={props.left}
+                                top={props.top}
+                                transform={'translate(-50%, -50%)'}
+                            />
                         )}
                     />
 

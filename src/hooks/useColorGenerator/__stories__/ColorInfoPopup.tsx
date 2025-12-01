@@ -10,9 +10,17 @@ interface ColorInfoPopupProps {
     colorDetails: ColorDetails;
     seed: string;
     contrast: number;
+    foreground: string;
+    background: string;
 }
 
-export const ColorInfoPopup = ({colorDetails, seed, contrast}: ColorInfoPopupProps) => {
+export const ColorInfoPopup = ({
+    colorDetails,
+    seed,
+    contrast,
+    foreground,
+    background,
+}: ColorInfoPopupProps) => {
     const hex = getHexColor(colorDetails);
 
     return (
@@ -87,7 +95,7 @@ export const ColorInfoPopup = ({colorDetails, seed, contrast}: ColorInfoPopupPro
                     </Text>
                     <div className={b('value-container')}>
                         <Text variant="code-1" className={b('value')}>
-                            {contrast}
+                            {contrast} ({foreground} / {background})
                         </Text>
                     </div>
                 </div>

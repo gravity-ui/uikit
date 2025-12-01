@@ -47,7 +47,7 @@ export default meta;
 type Story = StoryObj<TemplateProps>;
 
 const Template = ({content = 'text', avatarSize = 'l', avatarShape = 'circle'}: TemplateProps) => {
-    const [tokenSource, setTokenSource] = React.useState<TokenSource>('random');
+    const [tokenSource, setTokenSource] = React.useState<TokenSource>('strings');
     const [tokenCount, setTokenCount] = React.useState(20);
     const [customTokens, setCustomTokens] = React.useState(DEFAULT_CUSTOM_TOKENS);
     const [showTokensList, setShowTokensList] = React.useState(false);
@@ -77,9 +77,7 @@ const Template = ({content = 'text', avatarSize = 'l', avatarShape = 'circle'}: 
                 onToggleTokensList={() => setShowTokensList(!showTokensList)}
             />
 
-            <div>
-                <strong>{'Normal'}</strong>
-            </div>
+            <h2 className={b('section-title')}>{'Normal'}</h2>
             <div className={b('color-items')}>
                 {tokens.map((token) => (
                     <CustomColoredAvatar
@@ -94,9 +92,7 @@ const Template = ({content = 'text', avatarSize = 'l', avatarShape = 'circle'}: 
                 ))}
             </div>
 
-            <div>
-                <strong>{'Outlined'}</strong>
-            </div>
+            <h2 className={b('section-title')}>{'Outlined'}</h2>
             <div className={b('color-items')}>
                 {tokens.map((token) => (
                     <CustomColoredAvatar
@@ -111,9 +107,7 @@ const Template = ({content = 'text', avatarSize = 'l', avatarShape = 'circle'}: 
                 ))}
             </div>
 
-            <div>
-                <strong>{'Filled'}</strong>
-            </div>
+            <h2 className={b('section-title')}>{'Filled'}</h2>
             <div className={b('color-items')}>
                 {tokens.map((token) => (
                     <CustomColoredAvatar
@@ -143,7 +137,7 @@ export const Default: Story = {
     parameters: {
         docs: {
             description: {
-                story: 'Color generator with embedded controls for token configuration. Test different token sources (Random, Usernames, IDs, Mixed, Custom) and see how they affect color generation patterns. Click on any color to view detailed information including the original hash, OKLCH values, and RGB values.',
+                story: 'Color generator with embedded controls for token configuration. Test different token sources (UIDs, Strings, Numbers, Usernames, Custom) and see how they affect color generation patterns. Click on any color to view detailed information including the original hash, OKLCH values, and RGB values.',
             },
         },
     },

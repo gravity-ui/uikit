@@ -10,7 +10,7 @@ import {generateColor} from '../color';
 import type {GenerateColorProps} from '../types';
 
 import {ColorInfoPopup} from './ColorInfoPopup';
-import {calculateWCAGContrast, getBackgroundColor, getPageTextColor, mixColors} from './utils';
+import {calculateAvatarContrast, getBackgroundColor} from './utils';
 
 import './ColorInfoPopup.scss';
 
@@ -25,9 +25,11 @@ export const CustomColoredAvatar = ({
     seed,
     content,
     storyAvatarStyle,
+    text,
     ...avatarProps
 }: CustomColoredAvatarProps) => {
     const theme = useThemeType();
+    const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
     const colorDetails = generateColor({
         seed,
         theme,
@@ -36,13 +38,6 @@ export const CustomColoredAvatar = ({
     const {r, g, b} = colorDetails.rgb;
 
     const generatedColor = colorDetails.rgbString;
-    const pageBackgroundColor = getBackgroundColor();
-
-    // default for storyAvatarStyle = 'filled'
-    const calculateContrastColors = {
-        foreground: getPageTextColor(),
-        background: generatedColor,
-    };
 
     let colors: Record<string, string> = {
         color: colorDetails.textColor,
@@ -54,13 +49,6 @@ export const CustomColoredAvatar = ({
             color: generatedColor,
             backgroundColor: `rgba(${r}, ${g}, ${b}, 0.1)`,
         };
-
-        calculateContrastColors.foreground = generatedColor;
-        calculateContrastColors.background = mixColors(
-            colorDetails.rgbString,
-            pageBackgroundColor,
-            0.9,
-        );
     }
 
     if (storyAvatarStyle === 'outline') {
@@ -69,9 +57,6 @@ export const CustomColoredAvatar = ({
             borderColor: generatedColor,
             backgroundColor: 'transparent',
         };
-
-        calculateContrastColors.foreground = generatedColor;
-        calculateContrastColors.background = pageBackgroundColor;
     }
 
     let contentProps = {};
@@ -84,18 +69,33 @@ export const CustomColoredAvatar = ({
 
     if (content === 'text') {
         contentProps = {
-            text: seed,
+            text: text || seed,
         };
     }
 
-    const contrast = calculateWCAGContrast(
-        calculateContrastColors.foreground,
-        calculateContrastColors.background,
-    );
+    const contrastResult = React.useMemo(() => {
+        if (!isPopoverOpen) {
+            return null;
+        }
+        const pageBackgroundColor = getBackgroundColor();
+        return calculateAvatarContrast(colorDetails, storyAvatarStyle, pageBackgroundColor);
+    }, [isPopoverOpen, colorDetails, storyAvatarStyle]);
+
+    const popoverContent = contrastResult ? (
+        <ColorInfoPopup
+            colorDetails={colorDetails}
+            seed={seed}
+            contrast={contrastResult.contrast}
+            foreground={contrastResult.foreground}
+            background={contrastResult.background}
+        />
+    ) : null;
 
     return (
         <Popover
-            content={<ColorInfoPopup colorDetails={colorDetails} seed={seed} contrast={contrast} />}
+            content={popoverContent}
+            open={isPopoverOpen}
+            onOpenChange={setIsPopoverOpen}
             trigger="click"
             enableSafePolygon
             hasArrow

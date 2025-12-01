@@ -37,10 +37,15 @@ export const normalizeHash = (hash: number, min: number, max: number) => {
 };
 
 export const extractHashPart = (hash: number, offset: number): number => {
-    let part = hash >>> (offset * 10);
+    // mix hash with offset to get independent values
+    let part = hash ^ (offset * 0x9e3779b9);
+
+    // mix to improve distribution
     part ^= part >>> 16;
     part = Math.imul(part, 0x85ebca6b);
     part ^= part >>> 13;
+    part = Math.imul(part, 0xc2b2ae35);
+    part ^= part >>> 16;
 
     return part >>> 0;
 };

@@ -18,18 +18,21 @@ describe('Data Format', () => {
             expect(getRelativeLuminance('rgb(255,   0,   0)')).toBeCloseTo(0.2126, 4);
         });
 
+        it('rgba format -> correct luminance value', () => {
+            expect(getRelativeLuminance('rgba(255, 255, 255, 1)')).toBe(1);
+            expect(getRelativeLuminance('rgba(0, 0, 0, 0.5)')).toBe(0);
+            expect(getRelativeLuminance('rgba(255, 0, 0, 0.8)')).toBeCloseTo(0.2126, 4);
+        });
+
         it('invalid color format -> throws error', () => {
             expect(() => getRelativeLuminance('invalid')).toThrow(
-                'Color must be in hex (#RRGGBB) or rgb(r, g, b) format',
-            );
-            expect(() => getRelativeLuminance('rgba(255, 255, 255, 1)')).toThrow(
-                'Color must be in hex (#RRGGBB) or rgb(r, g, b) format',
+                'Color must be in hex (#RRGGBB), rgb(r, g, b), or rgba(r, g, b, a) format',
             );
             expect(() => getRelativeLuminance('#FF')).toThrow(
-                'Color must be in hex (#RRGGBB) or rgb(r, g, b) format',
+                'Color must be in hex (#RRGGBB), rgb(r, g, b), or rgba(r, g, b, a) format',
             );
             expect(() => getRelativeLuminance('#GG0000')).toThrow(
-                'Color must be in hex (#RRGGBB) or rgb(r, g, b) format',
+                'Color must be in hex (#RRGGBB), rgb(r, g, b), or rgba(r, g, b, a) format',
             );
         });
 

@@ -1,36 +1,62 @@
+import {faker} from '@faker-js/faker/locale/en';
 import chroma from 'chroma-js';
 
-import {randomString} from '../../../components/utils/common';
 import {textColorVarName} from '../constants';
 import type {ColorDetails} from '../types';
 
-import {USERNAME_PREFIXES, USERNAME_SUFFIXES} from './constants';
+export type TokenSource = 'uids' | 'strings' | 'numbers' | 'usernames' | 'custom';
 
-export type StringType = 'random' | 'username' | 'id';
-export type TokenSource = 'random' | 'usernames' | 'ids' | 'mixed' | 'custom';
+const resolveCSSVariable = (
+    varName: string,
+    fallbackColor: string,
+    property: 'color' | 'backgroundColor' = 'color',
+): string => {
+    // Resolve CSS variable by creating a temporary element
+    const tempEl = document.createElement('div');
+    tempEl.classList.add('xxx');
+    if (property === 'color') {
+        tempEl.style.color = `var(${varName})`;
+    } else {
+        tempEl.style.backgroundColor = `var(${varName})`;
+    }
+    tempEl.style.position = 'absolute';
+    tempEl.style.visibility = 'hidden';
+    tempEl.style.pointerEvents = 'none';
+    document.body.appendChild(tempEl);
+
+    const computedColor = getComputedStyle(tempEl)[property];
+    // document.body.removeChild(tempEl);
+
+    // Check if we got a valid color (not transparent or invalid)
+    if (
+        computedColor &&
+        computedColor !== 'rgba(0, 0, 0, 0)' &&
+        computedColor !== 'transparent' &&
+        computedColor !== ''
+    ) {
+        return computedColor;
+    }
+
+    return fallbackColor;
+};
 
 export const getPageTextColor = () => {
     const fallbackColor = '#000000';
-
-    return getComputedStyle(document.body).getPropertyValue(textColorVarName) || fallbackColor;
+    return resolveCSSVariable(textColorVarName, fallbackColor, 'color');
 };
 
 export const getBackgroundColor = () => {
     const fallbackColor = '#ffffff';
-
-    return (
-        getComputedStyle(document.body).getPropertyValue('--g-color-base-background') ||
-        fallbackColor
-    );
+    return resolveCSSVariable('--g-color-base-background', fallbackColor, 'backgroundColor');
 };
 
 export const mixColors = (color1: string, color2: string, percent: number) => {
-    return chroma.mix(color1, color2, percent).hex();
+    return chroma.mix(color1, color2, percent, 'rgb').hex();
 };
 
 /**
- * Convert color from hex or rgb to luminance value
- * @param color Color in hex (#RRGGBB) or rgb(r, g, b) format
+ * Convert color from hex, rgb, or rgba to luminance value
+ * @param color Color in hex (#RRGGBB), rgb(r, g, b), or rgba(r, g, b, a) format
  * @returns Relative luminance value (0-1)
  */
 export const getRelativeLuminance = (color: string): number => {
@@ -40,23 +66,29 @@ export const getRelativeLuminance = (color: string): number => {
     if (color.startsWith('#')) {
         const hex = color.slice(1);
         if (hex.length !== 6 || !/^[0-9A-Fa-f]+$/.test(hex)) {
-            throw new Error('Color must be in hex (#RRGGBB) or rgb(r, g, b) format');
+            throw new Error(
+                'Color must be in hex (#RRGGBB), rgb(r, g, b), or rgba(r, g, b, a) format',
+            );
         }
         r = parseInt(hex.slice(0, 2), 16) / 255;
         g = parseInt(hex.slice(2, 4), 16) / 255;
         b = parseInt(hex.slice(4, 6), 16) / 255;
     }
-    // Parse rgb color
+    // Parse rgb or rgba color
     else if (color.startsWith('rgb')) {
-        const match = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+        const rgbMatch = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+        const rgbaMatch = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*[\d.]+)?\)/);
+        const match = rgbMatch || rgbaMatch;
         if (!match) {
-            throw new Error('Color must be in hex (#RRGGBB) or rgb(r, g, b) format');
+            throw new Error(
+                'Color must be in hex (#RRGGBB), rgb(r, g, b), or rgba(r, g, b, a) format',
+            );
         }
         r = parseInt(match[1], 10) / 255;
         g = parseInt(match[2], 10) / 255;
         b = parseInt(match[3], 10) / 255;
     } else {
-        throw new Error('Color must be in hex (#RRGGBB) or rgb(r, g, b) format');
+        throw new Error('Color must be in hex (#RRGGBB), rgb(r, g, b), or rgba(r, g, b, a) format');
     }
 
     // Apply gamma correction
@@ -93,30 +125,20 @@ export const calculateWCAGContrast = (color1: string, color2: string): number =>
     return Math.round(contrast * 100) / 100;
 };
 
+export const generateUid = (): string => {
+    return faker.string.uuid();
+};
+
+export const generateString = (): string => {
+    return faker.lorem.word();
+};
+
+export const generateNumber = (): string => {
+    return faker.number.int({min: 1, max: 999999999}).toString();
+};
+
 export const generateUsername = (): string => {
-    const prefix = USERNAME_PREFIXES[Math.floor(Math.random() * USERNAME_PREFIXES.length)];
-    const suffix = USERNAME_SUFFIXES[Math.floor(Math.random() * USERNAME_SUFFIXES.length)];
-    const separator = Math.random() > 0.5 ? '_' : '';
-    return `${prefix}${separator}${suffix}`;
-};
-
-export const generateId = (): string => {
-    const timestamp = Date.now().toString(36);
-    const randomPart = randomString(6).toLowerCase();
-    return `${timestamp}_${randomPart}`;
-};
-
-export const generateByType = (type: StringType, length = 16): string => {
-    switch (type) {
-        case 'username':
-            return generateUsername();
-        case 'id':
-            return generateId();
-        case 'random':
-            return randomString(length);
-        default:
-            return randomString(16);
-    }
+    return faker.internet.username();
 };
 
 export const generateTokens = (
@@ -135,21 +157,20 @@ export const generateTokens = (
 
     for (let i = 0; i < count; i++) {
         switch (source) {
+            case 'uids':
+                tokens.push(generateUid());
+                break;
+            case 'strings':
+                tokens.push(generateString());
+                break;
+            case 'numbers':
+                tokens.push(generateNumber());
+                break;
             case 'usernames':
                 tokens.push(generateUsername());
                 break;
-            case 'ids':
-                tokens.push(generateId());
-                break;
-            case 'mixed': {
-                const types: StringType[] = ['random', 'username', 'id'];
-                const randomType = types[Math.floor(Math.random() * types.length)];
-                tokens.push(generateByType(randomType));
-                break;
-            }
-            case 'random':
             default:
-                tokens.push(randomString(32));
+                tokens.push(generateString());
                 break;
         }
     }
@@ -172,4 +193,99 @@ export const getHexColor = ({rgb: {r, g, b}}: ColorDetails): string => {
 
 export const formatOklchColor = (colorDetails: ColorDetails) => {
     return `oklch(${colorDetails.oklch.l.toFixed(1)}% ${colorDetails.oklch.c.toFixed(1)}% ${colorDetails.oklch.h.toFixed(1)}°)`;
+};
+
+export type ContrastCalculationResult = {
+    contrast: number;
+    foreground: string;
+    background: string;
+};
+
+/**
+ * Blend a color with alpha channel over a background color
+ * @param foregroundColor Color with possible alpha channel (rgba)
+ * @param backgroundColor Background color to blend with
+ * @returns Absolute color value as hex string
+ */
+const blendColorWithBackground = (foregroundColor: string, backgroundColor: string): string => {
+    try {
+        const foreground = chroma(foregroundColor);
+        const background = chroma(backgroundColor);
+
+        // Get alpha channel from foreground color
+        const alpha = foreground.alpha();
+
+        // If alpha is 1 (fully opaque), no blending needed
+        if (alpha === 1) {
+            return foreground.hex();
+        }
+
+        // Blend colors using alpha compositing: result = foreground * alpha + background * (1 - alpha)
+        // chroma.mix(color1, color2, ratio, mode) where ratio is the amount of color2
+        // So for foreground * alpha + background * (1 - alpha), we need ratio = 1 - alpha
+        // But we need to ensure foreground alpha is ignored, so we create a new color without alpha
+        const foregroundRgb = foreground.rgb();
+        const foregroundWithoutAlpha = chroma.rgb(
+            foregroundRgb[0],
+            foregroundRgb[1],
+            foregroundRgb[2],
+        );
+        const blended = chroma.mix(foregroundWithoutAlpha, background, 1 - alpha, 'rgb');
+
+        return blended.hex();
+    } catch {
+        // Fallback: try to convert directly to hex
+        try {
+            return chroma(foregroundColor).hex();
+        } catch {
+            return foregroundColor;
+        }
+    }
+};
+
+/**
+ * Calculate contrast for avatar based on style
+ * @param colorDetails Color details from generateColor
+ * @param storyAvatarStyle Avatar style ('filled' | 'outline' | 'transparent')
+ * @param pageBackgroundColor Background color of the page
+ * @returns Object with contrast ratio, foreground and background colors
+ */
+export const calculateAvatarContrast = (
+    colorDetails: ColorDetails,
+    storyAvatarStyle: 'filled' | 'outline' | 'transparent',
+    pageBackgroundColor: string,
+): ContrastCalculationResult => {
+    const generatedColor = colorDetails.rgbString;
+
+    // default for storyAvatarStyle = 'filled'
+    let foreground = getPageTextColor();
+    let background = generatedColor;
+
+    if (storyAvatarStyle === 'transparent') {
+        foreground = generatedColor;
+        background = mixColors(colorDetails.rgbString, pageBackgroundColor, 0.9);
+    }
+
+    if (storyAvatarStyle === 'outline') {
+        foreground = generatedColor;
+        background = pageBackgroundColor;
+    }
+
+    // For 'filled' style, blend foreground color with background if foreground has transparency
+    let foregroundHex: string;
+    if (storyAvatarStyle === 'filled') {
+        foregroundHex = blendColorWithBackground(foreground, background);
+    } else {
+        foregroundHex = chroma(foreground).hex();
+    }
+
+    const backgroundHex = chroma(background).hex();
+
+    const contrast = calculateWCAGContrast(foregroundHex, backgroundHex);
+
+    return {
+        contrast,
+        foreground: foregroundHex,
+        background: backgroundHex,
+    };
 };

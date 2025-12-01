@@ -5,20 +5,22 @@ $block: '.#{variables.$ns}color-info-popup';
 #{$block} {
     min-width: 300px;
     max-width: 400px;
-    padding: 16px;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: var(--g-spacing-3);
 
     &__header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-block-end: 16px;
-        gap: 12px;
+        margin-block-end: var(--g-spacing-3);
+        gap: var(--g-spacing-2);
     }
 
     &__color-preview {
-        width: 32px;
-        height: 32px;
-        border-radius: 6px;
+        width: var(--g-spacing-6);
+        height: var(--g-spacing-6);
+        border-radius: var(--g-border-radius-m);
         border: 1px solid var(--g-color-line-generic);
         flex-shrink: 0;
     }
@@ -26,27 +28,27 @@ $block: '.#{variables.$ns}color-info-popup';
     &__info-section {
         display: flex;
         flex-direction: column;
-        gap: 12px;
-        margin-block-end: 16px;
+        gap: var(--g-spacing-2);
+        margin-block-end: var(--g-spacing-3);
     }
 
     &__info-row {
         display: flex;
         flex-direction: column;
-        gap: 6px;
+        gap: 4px;
     }
 
     &__label {
-        font-weight: 500;
+        font-weight: var(--g-text-accent-font-weight);
     }
 
     &__value-container {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: var(--g-spacing-1);
         background-color: var(--g-color-base-generic);
-        padding: 8px;
-        border-radius: 4px;
+        padding: var(--g-spacing-1) var(--g-spacing-2);
+        border-radius: var(--g-border-radius-xs);
         border: 1px solid var(--g-color-line-generic);
     }
 
@@ -59,10 +61,10 @@ $block: '.#{variables.$ns}color-info-popup';
     }
 
     &__details {
-        padding-block-start: 12px;
+        padding-block-start: var(--g-spacing-2);
         border-block-start: 1px solid var(--g-color-line-generic);
         display: flex;
         flex-direction: column;
-        gap: 4px;
+        gap: var(--g-spacing-1);
     }
 }

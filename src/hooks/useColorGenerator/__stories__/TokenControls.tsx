@@ -44,15 +44,24 @@ export const TokenControls = ({
                 <Card>
                     <div className={b('controls-grid')}>
                         <div className={b('control-group')}>
-                            <Text variant="body-2" className={b('control-label')}>
+                            <Text
+                                id="token-source-label"
+                                variant="body-2"
+                                className={b('control-label')}
+                            >
                                 Token Source:
                             </Text>
                             <Select
+                                aria-labelledby="token-source-label"
+                                aria-label="Token Source"
                                 value={[tokenSource]}
                                 onUpdate={(value) => {
                                     const newSource = value[0] as TokenSource;
                                     if (newSource === 'custom' && tokenSource !== 'custom') {
                                         onCustomTokensChange(tokens.join('\n'));
+                                        if (!showTokensList) {
+                                            onToggleTokensList();
+                                        }
                                     }
                                     onTokenSourceChange(newSource);
                                 }}
@@ -63,10 +72,11 @@ export const TokenControls = ({
                         </div>
 
                         <div className={b('control-group')}>
-                            <Text variant="body-2" className={b('control-label')}>
-                                Token Count: {tokenCount}
-                            </Text>
+                            <label htmlFor="token-count-range" className={b('control-label')}>
+                                <Text variant="body-2">Token Count: {tokenCount}</Text>
+                            </label>
                             <input
+                                id="token-count-range"
                                 type="range"
                                 min="5"
                                 max="50"
@@ -74,19 +84,22 @@ export const TokenControls = ({
                                 value={tokenCount}
                                 onChange={(e) => onTokenCountChange(Number(e.target.value))}
                                 className={b('range-input')}
+                                aria-label={`Token count: ${tokenCount}`}
                             />
                         </div>
 
-                        <div className={b('control-group')}>
-                            <Button
-                                onClick={onRegenerateTokens}
-                                size="m"
-                                view="outlined"
-                                className={b('regenerate-button')}
-                            >
-                                Regenerate Tokens
-                            </Button>
-                        </div>
+                        {tokenSource !== 'custom' && (
+                            <div className={b('control-group')}>
+                                <Button
+                                    onClick={onRegenerateTokens}
+                                    size="m"
+                                    view="outlined"
+                                    className={b('regenerate-button')}
+                                >
+                                    Regenerate Tokens
+                                </Button>
+                            </div>
+                        )}
 
                         <div className={b('control-group')}>
                             <Switch

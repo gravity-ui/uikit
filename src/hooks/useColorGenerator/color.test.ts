@@ -1,4 +1,4 @@
-import {generateColor, getTextColor, linearToSrgb, oklchToRgb} from './color';
+import {generateColor, linearToSrgb, oklchToRgb} from './color';
 
 describe('color utilities', () => {
     describe('linearToSrgb', () => {
@@ -103,13 +103,6 @@ describe('color utilities', () => {
                 expect(b).toBeGreaterThanOrEqual(0);
                 expect(b).toBeLessThanOrEqual(255);
             });
-        });
-    });
-
-    describe('getTextColor', () => {
-        it('should return inverted color', () => {
-            const color = getTextColor();
-            expect(color).toBe('var(--g-color-text-inverted-primary)');
         });
     });
 

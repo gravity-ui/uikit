@@ -43,10 +43,6 @@ export const oklchToRgb = (l: number, c: number, h: number): [number, number, nu
     return [red, green, blue];
 };
 
-export const getTextColor = () => {
-    return 'var(--g-color-text-inverted-primary)';
-};
-
 const generateColorFromRanges = (
     seed: string,
     lightnessRange: [number, number],

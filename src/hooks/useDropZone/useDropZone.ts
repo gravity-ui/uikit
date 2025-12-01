@@ -15,7 +15,7 @@ const DROP_ZONE_BASE_ATTRIBUTES = {
     role: 'button',
 };
 
-export interface DroppableProps extends Required<typeof DROP_ZONE_BASE_ATTRIBUTES> {
+export interface UseDropZoneDroppableProps extends Required<typeof DROP_ZONE_BASE_ATTRIBUTES> {
     onDragEnter: (e: React.DragEvent) => void;
     onDragOver: (e: React.DragEvent) => void;
     onDragLeave: (e: React.DragEvent) => void;
@@ -24,7 +24,7 @@ export interface DroppableProps extends Required<typeof DROP_ZONE_BASE_ATTRIBUTE
 
 export interface UseDropZoneState {
     isDraggingOver: boolean;
-    getDroppableProps: () => DroppableProps;
+    getDroppableProps: () => UseDropZoneDroppableProps;
 }
 
 function typeMatchesPattern(actualMimeType: string, expectedMimeTypePattern: string): boolean {

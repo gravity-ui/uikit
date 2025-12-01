@@ -12,11 +12,11 @@ import {FileDropZone} from '@gravity-ui/uikit';
 
 ```tsx
 const accept = ['image/*'];
-const handleAdd = (files: File[]) => {
+const handleUpdate = (files: File[]) => {
   // Do something with files
 };
 
-<FileDropZone accept={accept} onAdd={handleAdd} />;
+<FileDropZone accept={accept} onUpdate={handleUpdate} />;
 ```
 
 ### Custom Texts And Icons
@@ -25,13 +25,13 @@ const handleAdd = (files: File[]) => {
 import {DatabaseFill, HeartCrack} from '@gravity-ui/icons';
 
 const accept = ['image/*'];
-const handleAdd = (files: File[]) => {
+const handleUpdate = (files: File[]) => {
   // Do something with files
 };
 
 <FileDropZone
   accept={accept}
-  onAdd={handleAdd}
+  onUpdate={handleUpdate}
   title="Lorem ipsum dolor sit amet"
   description="Duis consequat commodo eros sit"
   buttonText="Upload"
@@ -46,13 +46,13 @@ The Compound Component pattern allows rendering of an arbitrary layout. All prop
 
 ```tsx
 const accept = ['image/*'];
-const handleAdd = (files: File[]) => {
+const handleUpdate = (files: File[]) => {
   // Do something with files
 };
 
 <FileDropZone
   accept={accept}
-  onAdd={handleAdd}
+  onUpdate={handleUpdate}
   title="Lorem ipsum dolor sit amet"
   description="Duis consequat commodo eros sit"
   buttonText="Upload"
@@ -94,7 +94,7 @@ const handleAdd = (files: File[]) => {
 | Name         | Description                                                                                                 |             Type             |                  Default                   |
 | :----------- | :---------------------------------------------------------------------------------------------------------- | :--------------------------: | :----------------------------------------: |
 | accept       | A list of MIME types for allowed files                                                                      |          `string[]`          |                                            |
-| onAdd        | A callback invoked when files are added. Won't be called if a type is not acceptable                        |  `(files: File[]) => void`   |                                            |
+| onUpdate     | A callback invoked when files are added. Won't be called if a type is not acceptable                        |  `(files: File[]) => void`   |                                            |
 | title        | A title displayed under the icon                                                                            |           `string`           | "Drag the file(s) here or select it(them)" |
 | description  | A description displayed under the title                                                                     |           `string`           |                                            |
 | buttonText   | An upload button label                                                                                      |           `string`           |             "Select a file(s)"             |

@@ -14,7 +14,7 @@ export default {
     },
 } as Meta;
 
-const handleAdd = (files: File[]) => {
+const handleUpdate = (files: File[]) => {
     const msg = `Files: ${files.map(({name}) => name).join(', ')}`;
 
     alert(msg);
@@ -22,7 +22,7 @@ const handleAdd = (files: File[]) => {
 
 const BASE_ARGS = {
     accept: ['image/*'],
-    onAdd: handleAdd,
+    onUpdate: handleUpdate,
 };
 
 const DefaultTemplate: StoryFn<typeof FileDropZone> = (args) => {

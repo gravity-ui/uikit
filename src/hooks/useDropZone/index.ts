@@ -2,6 +2,6 @@ export {useDropZone} from './useDropZone';
 export type {
     UseDropZoneAccept,
     UseDropZoneParams,
-    DroppableProps,
+    UseDropZoneDroppableProps,
     UseDropZoneState,
 } from './useDropZone';

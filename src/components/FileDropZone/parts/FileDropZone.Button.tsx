@@ -22,7 +22,7 @@ export const FileDropZoneButton = ({className}: FileDropZoneButtonProps) => {
             <Button {...triggerProps} className={cnFileDropZone('button', className)}>
                 {displayLabel}
             </Button>
-            <input {...controlProps} />
+            <input {...controlProps} multiple={multiple} />
         </React.Fragment>
     );
 };

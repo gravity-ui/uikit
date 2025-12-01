@@ -12,11 +12,11 @@ import {FileDropZone} from '@gravity-ui/uikit';
 
 ```tsx
 const accept = ['image/*'];
-const handleAdd = (files: File[]) => {
+const handleUpdate = (files: File[]) => {
   // Do something with files
 };
 
-<FileDropZone accept={accept} onAdd={handleAdd} />;
+<FileDropZone accept={accept} onUpdate={handleUpdate} />;
 ```
 
 ### Кастомные тексты и иконки
@@ -25,13 +25,13 @@ const handleAdd = (files: File[]) => {
 import {DatabaseFill, HeartCrack} from '@gravity-ui/icons';
 
 const accept = ['image/*'];
-const handleAdd = (files: File[]) => {
+const handleUpdate = (files: File[]) => {
   // Do something with files
 };
 
 <FileDropZone
   accept={accept}
-  onAdd={handleAdd}
+  onUpdate={handleUpdate}
   title="Lorem ipsum dolor sit amet"
   description="Duis consequat commodo eros sit"
   buttonText="Upload"
@@ -46,13 +46,13 @@ const handleAdd = (files: File[]) => {
 
 ```tsx
 const accept = ['image/*'];
-const handleAdd = (files: File[]) => {
+const handleUpdate = (files: File[]) => {
   // Do something with files
 };
 
 <FileDropZone
   accept={accept}
-  onAdd={handleAdd}
+  onUpdate={handleUpdate}
   title="Lorem ipsum dolor sit amet"
   description="Duis consequat commodo eros sit"
   buttonText="Upload"
@@ -94,7 +94,7 @@ const handleAdd = (files: File[]) => {
 | Name         | Description                                                                                                          |             Type             |                  Default                   |
 | :----------- | :------------------------------------------------------------------------------------------------------------------- | :--------------------------: | :----------------------------------------: |
 | accept       | Список допустимых MIME-типов                                                                                         |          `string[]`          |                                            |
-| onAdd        | Коллбэк, вызываемый при добавлении файлов. Не вызывается, если тип файла недопустим.                                 |  `(files: File[]) => void`   |                                            |
+| onUpdate     | Коллбэк, вызываемый при добавлении файлов. Не вызывается, если тип файла недопустим.                                 |  `(files: File[]) => void`   |                                            |
 | title        | Заголовок, отображаемый под иконкой                                                                                  |           `string`           | "Drag the file(s) here or select it(them)" |
 | description  | Описание, отображаемое под заголовком                                                                                |           `string`           |                                            |
 | buttonText   | Подпись кнопки загрузки                                                                                              |           `string`           |             "Select a file(s)"             |

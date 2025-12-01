@@ -25,7 +25,7 @@ const FileDropZoneContext = React.createContext<FileDropZoneContextValue | null>
 
 export const FileDropZoneProvider = ({
     accept,
-    onAdd,
+    onUpdate,
     title,
     description,
     buttonText,
@@ -52,9 +52,9 @@ export const FileDropZoneProvider = ({
                 files.push(file);
             }
 
-            onAdd(files);
+            onUpdate(files);
         },
-        [onAdd],
+        [onUpdate],
     );
 
     const {isDraggingOver, getDroppableProps} = useDropZone({
@@ -63,14 +63,14 @@ export const FileDropZoneProvider = ({
         onDrop: handleDrop,
     });
 
-    const onUpdate = React.useCallback(
+    const onFileInputUpdate = React.useCallback(
         (files: File[]) => {
-            onAdd(files);
+            onUpdate(files);
         },
-        [onAdd],
+        [onUpdate],
     );
 
-    const {controlProps, triggerProps} = useFileInput({onUpdate, multiple});
+    const {controlProps, triggerProps} = useFileInput({onUpdate: onFileInputUpdate});
 
     const {onKeyDown} = useActionHandlers(triggerProps.onClick);
 

@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import {Grip} from '@gravity-ui/icons';
-import type {DraggableProvided} from 'react-beautiful-dnd';
+import type {DraggableProvided} from '@hello-pangea/dnd';
 
 import {Icon} from '../../Icon';
 import {block} from '../../utils/cn';
@@ -75,7 +75,6 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
                     itemClassName,
                 )}
                 {...this.props.provided?.draggableProps}
-                {...this.props.provided?.dragHandleProps}
                 style={getStyle(this.props.provided, fixedStyle)}
                 onClick={item.disabled ? undefined : this.onClick}
                 onClickCapture={item.disabled ? undefined : this.onClickCapture}
@@ -99,7 +98,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
     private renderSortIcon() {
         const {sortable} = this.props;
         return sortable ? (
-            <div className={b('item-sort-icon')}>
+            <div {...this.props.provided?.dragHandleProps} className={b('item-sort-icon')}>
                 <Icon data={Grip} size={12} />
             </div>
         ) : null;

@@ -123,6 +123,7 @@ const DefaultRowActions = <I extends TableDataItem>({
     const [isPopupOpen, , closePopup, togglePopup] = useBoolean(false);
     const anchorRef = React.useRef<HTMLButtonElement>(null);
     const rowId = useUniqId();
+    const {t} = i18n.useTranslation();
 
     if (getRowActions === undefined) {
         return null;
@@ -150,7 +151,7 @@ const DefaultRowActions = <I extends TableDataItem>({
                 }}
                 href={typeof href === 'function' ? href(item, index) : href}
                 iconStart={icon}
-                className={menuItemCn}
+                contentClassName={menuItemCn}
                 {...restProps}
             >
                 {text}
@@ -188,7 +189,7 @@ const DefaultRowActions = <I extends TableDataItem>({
                 ref={anchorRef}
                 disabled={disabled}
                 qa={tableQa && `${tableQa}-actions-trigger-${index}`}
-                aria-label={i18n('label-actions')}
+                aria-label={t('label-actions')}
                 aria-expanded={isPopupOpen}
                 aria-controls={rowId}
             >

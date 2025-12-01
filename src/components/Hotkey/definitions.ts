@@ -101,7 +101,7 @@ const MacDisplayName: Record<MacKeys, string> = {
     down: '▼',
     left: '◀',
     right: '▶',
-    escape: '⎋',
+    escape: 'esc',
 
     plus: '＋',
     minus: '－',

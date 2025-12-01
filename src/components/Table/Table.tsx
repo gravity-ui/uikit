@@ -558,7 +558,9 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
         return (
             <tr className={b('row', {empty: true})}>
                 <td className={b('cell')} colSpan={columns.length}>
-                    {emptyMessage ? emptyMessage : i18n('label_empty')}
+                    <i18n.Translation>
+                        {({t}) => (emptyMessage ? emptyMessage : t('label_empty'))}
+                    </i18n.Translation>
                 </td>
             </tr>
         );

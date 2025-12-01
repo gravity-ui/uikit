@@ -60,3 +60,4 @@ import CheckIcon from './check.svg';
 | fill      | Атрибут `fill` для SVG.                        |     `string`      |   `"currentColor"`    |
 | stroke    | Атрибут `stroke` для SVG.                      |     `string`      |       `"none"`        |
 | className | Пользовательский CSS-класс корневого элемента. |     `string`      |                       |
+| style     | Пользовательские стили для корневого элемента. |  `CSSProperties`  |                       |

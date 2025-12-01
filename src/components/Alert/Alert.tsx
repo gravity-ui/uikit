@@ -35,6 +35,8 @@ export const Alert = (props: AlertProps) => {
         qa,
     };
 
+    const {t} = i18n.useTranslation();
+
     const content = (
         <Flex gap="3" alignItems={align}>
             {typeof props.icon === 'undefined' ? (
@@ -64,7 +66,7 @@ export const Alert = (props: AlertProps) => {
                     view="flat"
                     className={bAlert('close-btn')}
                     onClick={onClose}
-                    aria-label={i18n('label_close')}
+                    aria-label={t('label_close')}
                 >
                     <Icon
                         data={Xmark}

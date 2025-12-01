@@ -1,5 +1,6 @@
+import {EventEmitter} from '../../utils/EventEmitter';
+
 import type {InternalToastProps, ToastProps} from './types';
-import {EventEmitter} from './utilities/EventEmitter';
 import {getToastIndex} from './utilities/getToastIndex';
 import {hasToast} from './utilities/hasToast';
 import {removeToast} from './utilities/removeToast';
@@ -8,7 +9,8 @@ export class Toaster {
     /** We were tried to notify about toaster changes, but no one were listened */
     private hasUndelivered = false;
     private toasts: InternalToastProps[] = [];
-    private eventEmitter: EventEmitter<InternalToastProps[]> = new EventEmitter();
+    private eventEmitter: EventEmitter<{'toasts-change': [InternalToastProps[]]}> =
+        new EventEmitter();
 
     destroy() {
         this.removeAll();
@@ -70,7 +72,7 @@ export class Toaster {
     }
 
     subscribe(listener: (toasts: InternalToastProps[]) => void) {
-        const unsubscribe = this.eventEmitter.subscribe(listener);
+        const unsubscribe = this.eventEmitter.subscribe('toasts-change', listener);
 
         if (this.hasUndelivered) {
             this.notify();
@@ -80,7 +82,7 @@ export class Toaster {
     }
 
     private notify() {
-        const isDelivered = this.eventEmitter.notify(this.toasts);
+        const isDelivered = this.eventEmitter.notify('toasts-change', [this.toasts]);
 
         this.hasUndelivered = !isDelivered;
     }

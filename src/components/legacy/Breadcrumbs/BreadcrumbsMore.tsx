@@ -12,6 +12,7 @@ interface Props extends Pick<BreadcrumbsProps, 'popupPlacement' | 'popupStyle' |
 const b = block('breadcrumbs-legacy');
 
 export function BreadcrumbsMore({popupStyle, popupPlacement, items}: Props) {
+    const {t} = i18n.useTranslation();
     return (
         <DropdownMenu
             items={items}
@@ -22,7 +23,7 @@ export function BreadcrumbsMore({popupStyle, popupPlacement, items}: Props) {
                 placement: popupPlacement,
             }}
             renderSwitcher={({onClick}) => (
-                <BreadcrumbsButton title={i18n('label_more')} onClick={onClick}>
+                <BreadcrumbsButton title={t('label_more')} onClick={onClick}>
                     ...
                 </BreadcrumbsButton>
             )}

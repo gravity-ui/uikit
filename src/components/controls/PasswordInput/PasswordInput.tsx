@@ -62,6 +62,8 @@ export const PasswordInput = (props: PasswordInputProps) => {
 
     const {actionButtonSize, iconSize} = getActionButtonSizeAndIconSize(size);
 
+    const {t} = i18n.useTranslation();
+
     const additionalEndContent = (
         <React.Fragment>
             {endContent}
@@ -78,7 +80,7 @@ export const PasswordInput = (props: PasswordInputProps) => {
             {hideRevealButton ? null : (
                 <ActionTooltip
                     disabled={!showRevealTooltip}
-                    title={revealValue ? i18n('label_hide-password') : i18n('label_show-password')}
+                    title={revealValue ? t('label_hide-password') : t('label_show-password')}
                 >
                     <Button
                         qa={PasswordInputQa.revealButton}
@@ -86,9 +88,9 @@ export const PasswordInput = (props: PasswordInputProps) => {
                         disabled={props.disabled}
                         onClick={() => setRevealValue(!revealValue)}
                         size={actionButtonSize}
-                        onMouseDown={(event: React.SyntheticEvent) => event.preventDefault()}
+                        onMouseDown={(event) => event.preventDefault()}
                         aria-label={
-                            revealValue ? i18n('label_hide-password') : i18n('label_show-password')
+                            revealValue ? t('label_hide-password') : t('label_show-password')
                         }
                     >
                         <Icon data={revealValue ? EyeSlash : Eye} size={iconSize} />

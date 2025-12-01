@@ -26,6 +26,8 @@ export const CollapseActions = ({actions, maxRowActions}: Props) => {
     const {buttonActions, dropdownItems, parentRef, offset, visibilityMap, showDropdown} =
         useCollapseActions(actions, maxRowActions);
 
+    const {t} = i18n.useTranslation();
+
     return (
         <div className={b()}>
             <div className={b('container')} ref={parentRef}>
@@ -69,7 +71,7 @@ export const CollapseActions = ({actions, maxRowActions}: Props) => {
                                 <Button
                                     view="flat-contrast"
                                     size="m"
-                                    aria-label={i18n('label_more')}
+                                    aria-label={t('label_more')}
                                     onClick={onClick}
                                 >
                                     <Icon data={Ellipsis} />

@@ -15,7 +15,7 @@ import './FileDropZone.scss';
 
 export interface FileDropZoneProps extends Pick<BaseInputControlProps, 'validationState'> {
     accept: UseDropZoneAccept;
-    onAdd: (files: File[]) => void;
+    onUpdate: (files: File[]) => void;
     title?: string;
     description?: string;
     buttonText?: string;

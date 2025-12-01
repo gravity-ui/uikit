@@ -58,6 +58,8 @@ const Template = ({content = 'text', avatarSize = 'l', avatarShape = 'circle'}: 
         // eslint-disable-next-line react-hooks/exhaustive-deps -- regenerateKey is intentionally included to force regeneration
     }, [tokenSource, tokenCount, customTokens, regenerateKey]);
 
+    console.log('tokens', tokens);
+
     const handleRegenerateTokens = React.useCallback(() => {
         setRegenerateKey((prev) => prev + 1);
     }, []);
@@ -79,9 +81,9 @@ const Template = ({content = 'text', avatarSize = 'l', avatarShape = 'circle'}: 
 
             <h2 className={b('section-title')}>{'Normal'}</h2>
             <div className={b('color-items')}>
-                {tokens.map((token) => (
+                {tokens.map((token, index) => (
                     <CustomColoredAvatar
-                        key={token}
+                        key={index}
                         seed={token}
                         shape={avatarShape}
                         content={content}
@@ -94,9 +96,9 @@ const Template = ({content = 'text', avatarSize = 'l', avatarShape = 'circle'}: 
 
             <h2 className={b('section-title')}>{'Outlined'}</h2>
             <div className={b('color-items')}>
-                {tokens.map((token) => (
+                {tokens.map((token, index) => (
                     <CustomColoredAvatar
-                        key={token}
+                        key={index}
                         seed={token}
                         shape={avatarShape}
                         content={content}
@@ -109,9 +111,9 @@ const Template = ({content = 'text', avatarSize = 'l', avatarShape = 'circle'}: 
 
             <h2 className={b('section-title')}>{'Filled'}</h2>
             <div className={b('color-items')}>
-                {tokens.map((token) => (
+                {tokens.map((token, index) => (
                     <CustomColoredAvatar
-                        key={token}
+                        key={index}
                         seed={token}
                         content={content}
                         text={token.slice(0, 2)}

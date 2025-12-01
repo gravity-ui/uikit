@@ -14,9 +14,10 @@ import {calculateAvatarContrast, getBackgroundColor} from './utils';
 
 import './ColorInfoPopup.scss';
 
-type CustomColoredAvatarProps = AvatarProps & {
+type CustomColoredAvatarProps = Omit<AvatarProps, 'text'> & {
     content?: 'text' | 'icon' | 'empty';
     seed: GenerateColorProps['seed'];
+    text?: string;
     withTransparentBackground?: boolean;
     storyAvatarStyle: 'filled' | 'outline' | 'transparent';
 };
@@ -59,7 +60,7 @@ export const CustomColoredAvatar = ({
         };
     }
 
-    let contentProps = {};
+    let contentProps: Partial<AvatarProps> = {};
 
     if (content === 'icon') {
         contentProps = {
@@ -70,7 +71,7 @@ export const CustomColoredAvatar = ({
     if (content === 'text') {
         contentProps = {
             text: text || seed,
-        };
+        } as AvatarProps;
     }
 
     const contrastResult = React.useMemo(() => {
@@ -114,9 +115,9 @@ export const CustomColoredAvatar = ({
                     aria-label={`Color info for ${seed}. Click to view details`}
                 >
                     <Avatar
-                        {...avatarProps}
+                        {...(avatarProps as AvatarProps)}
                         title={`Click for color info: ${generatedColor}`}
-                        {...contentProps}
+                        {...(contentProps as AvatarProps)}
                         {...colors}
                     />
                 </div>

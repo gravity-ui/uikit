@@ -44,7 +44,7 @@ export interface PinInputProps extends DOMProps, AriaLabelingProps, QAProps, Foc
     note?: TextInputProps['note'];
     validationState?: TextInputProps['validationState'];
     errorMessage?: TextInputProps['errorMessage'];
-    apiRef?: React.RefObject<PinInputApi>;
+    apiRef?: React.RefObject<PinInputApi | null>;
 }
 
 const b = block('pin-input');

@@ -95,7 +95,7 @@ export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
                     }}
                 >
                     {(droppableProvided: DroppableProvided) => (
-                        <ListContainerView ref={containerRef} id={id}>
+                        <ListContainerView ref={containerRef as React.Ref<HTMLDivElement>} id={id}>
                             <div
                                 {...droppableProvided.droppableProps}
                                 ref={droppableProvided.innerRef}

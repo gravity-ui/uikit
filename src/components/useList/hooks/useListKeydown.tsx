@@ -8,7 +8,7 @@ import {scrollToListItem} from '../utils/scrollToListItem';
 
 interface UseListKeydownProps<T = unknown> {
     onItemClick?: ListOnItemClick;
-    containerRef?: React.RefObject<HTMLDivElement>;
+    containerRef?: React.RefObject<HTMLDivElement | null>;
     enabled?: boolean;
     list: UseListResult<T>;
 }

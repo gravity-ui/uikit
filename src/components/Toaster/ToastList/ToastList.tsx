@@ -27,7 +27,7 @@ export function ToastList(props: ToastListProps) {
             {toasts.map((toast) => (
                 <CSSTransition
                     key={`${toast.name}_${toast.addedAt}`}
-                    nodeRef={toast.ref}
+                    nodeRef={toast.ref as React.Ref<HTMLElement>}
                     classNames={mobile ? mobileTransitionClassNames : desktopTransitionClassNames}
                     addEndListener={(done) =>
                         toast.ref?.current?.addEventListener('animationend', done)
@@ -35,7 +35,12 @@ export function ToastList(props: ToastListProps) {
                     onEnter={() => updateToastHeightCssProperty(toast)}
                     onExit={() => updateToastHeightCssProperty(toast)}
                 >
-                    <Toast {...toast} mobile={mobile} removeCallback={removeCallback} />
+                    <Toast
+                        {...toast}
+                        ref={toast.ref as React.Ref<HTMLDivElement>}
+                        mobile={mobile}
+                        removeCallback={removeCallback}
+                    />
                 </CSSTransition>
             ))}
         </TransitionGroup>

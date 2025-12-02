@@ -67,7 +67,7 @@ export interface PopoverExternalProps {
     /** If true, focus will be transferred to the first element when the popover opens */
     autoFocus?: boolean;
     /** Focused element when the popover closes */
-    restoreFocusRef?: React.RefObject<HTMLElement>;
+    restoreFocusRef?: React.RefObject<HTMLElement | null>;
 }
 
 export type PopoverBehaviorProps = {

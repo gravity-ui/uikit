@@ -3,9 +3,9 @@ import * as React from 'react';
 import type {HsvaColor} from '@uiw/react-color';
 import {Alpha, Hue, Saturation, hsvaToHex, hsvaToHexa} from '@uiw/react-color';
 
-import {useControlledState} from '../../hooks/useControlledState';
-import {Popup} from '../Popup';
-import {Select} from '../Select';
+import {useControlledState} from '../../../hooks/useControlledState';
+import {Popup} from '../../Popup';
+import {Select} from '../../Select';
 
 import {ColorDisplay, ColorPointer, HexInput, RgbInputs} from './components';
 import {DEFAULT_COLOR, b} from './constants';
@@ -48,7 +48,7 @@ export interface ColorPickerProps {
     /*
      * Render only picker button without value
      */
-    onlyPicker?: boolean;
+    compact?: boolean;
 }
 
 export const ColorPicker = ({
@@ -60,7 +60,7 @@ export const ColorPicker = ({
     onOpenChange,
     defaultOpen = false,
     withAlpha = false,
-    onlyPicker = false,
+    compact = false,
 }: ColorPickerProps) => {
     const [anchor, setAnchor] = React.useState<HTMLDivElement | null>(null);
     const [modeState, setModeState] = React.useState<Modes>(Modes.Hex);
@@ -130,7 +130,7 @@ export const ColorPicker = ({
                 onColorChange={updateHsva}
                 ref={setAnchor}
                 size={size}
-                onlyPicker={onlyPicker}
+                compact={compact}
             />
 
             <Popup

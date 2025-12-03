@@ -3,8 +3,8 @@ import * as React from 'react';
 import {hsvaToRgbaString} from '@uiw/react-color';
 import type {HsvaColor} from '@uiw/react-color';
 
-import {Card} from '../../../Card';
-import {TextInput} from '../../../controls';
+import {Card} from '../../../../Card';
+import {TextInput} from '../../../../controls';
 import {b} from '../../constants';
 import {Modes} from '../../types';
 import {convertSelectedModeColorToHsva, getTextValueByMode} from '../../utils';
@@ -13,12 +13,12 @@ type ColorDisplayProps = {
     hsva: HsvaColor;
     withAlpha: boolean;
     size?: 's' | 'm' | 'l' | 'xl';
-    onlyPicker?: boolean;
+    compact?: boolean;
     onClick: () => void;
     onColorChange?: (color: HsvaColor) => void;
 };
 export const ColorDisplay = React.forwardRef<HTMLDivElement, ColorDisplayProps>(
-    ({hsva, withAlpha, size = 'm', onlyPicker, onClick, onColorChange}, ref) => {
+    ({hsva, withAlpha, size = 'm', compact, onClick, onColorChange}, ref) => {
         const [inputValue, setInputValue] = React.useState(() =>
             getTextValueByMode(hsva, Modes.Hex, withAlpha),
         );
@@ -44,7 +44,7 @@ export const ColorDisplay = React.forwardRef<HTMLDivElement, ColorDisplayProps>(
         return (
             <Card
                 view={'outlined'}
-                className={b('picker-wrapper', {withAlpha, size, onlyPicker})}
+                className={b('picker-wrapper', {alpha: withAlpha, size, compact})}
                 ref={ref}
             >
                 <div className={b('picker-handlers')}>
@@ -56,7 +56,7 @@ export const ColorDisplay = React.forwardRef<HTMLDivElement, ColorDisplayProps>(
                             backgroundColor: hsvaToRgbaString(hsva),
                         }}
                     />
-                    {!onlyPicker && (
+                    {!compact && (
                         <TextInput
                             value={inputValue}
                             onChange={handleInputChange}

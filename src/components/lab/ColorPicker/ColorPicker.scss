@@ -1,4 +1,4 @@
-@use '../variables';
+@use '../../variables';
 /* stylelint-disable declaration-no-important */
 
 $block: '.#{variables.$ns}color-picker';
@@ -21,8 +21,8 @@ $block: '.#{variables.$ns}color-picker';
         box-sizing: border-box;
 
         /* Color swatch specific styles */
-        min-width: var(--g-button-height, var(--_--height));
-        height: var(--g-button-height, var(--_--height));
+        min-width: var(--_--height);
+        height: var(--_--height);
         border-radius: var(--g-border-radius-s);
         cursor: pointer;
         position: relative;
@@ -106,7 +106,7 @@ $block: '.#{variables.$ns}color-picker';
         padding: var(--__--picker-wrapper-padding);
         width: var(--_--base-picker-wrapper-width);
 
-        &_withAlpha {
+        &_alpha {
             width: calc(--_--base-picker-wrapper-width + 10px);
         }
 
@@ -130,7 +130,7 @@ $block: '.#{variables.$ns}color-picker';
             }
         }
 
-        &_onlyPicker {
+        &_compact {
             --_--base-picker-wrapper-width: fit-content;
             --__--picker-wrapper-padding: var(--g-spacing-1);
         }

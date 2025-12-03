@@ -13,35 +13,46 @@ export default meta;
 
 type Story = StoryObj<typeof ColorPicker>;
 
-export const Default: Story = {
-    render: function ColorPickerStory(props) {
-        const [value, setValue] = React.useState('#eeeeee');
-        return (
-            <div style={{padding: 20}}>
-                <ColorPicker {...props} value={value} defaultValue="#ffbe5c" onUpdate={setValue} />
-            </div>
-        );
+const parameters = {
+    a11y: {
+        context: '#storybook-root',
+        config: {
+            rules: [
+                {
+                    id: 'color-contrast',
+                    enabled: false,
+                },
+            ],
+        },
     },
 };
-
-export const WithAlpha: Story = {
-    render: function ColorPickerStory(props) {
-        const [value, setValue] = React.useState('#eeeeee');
-        return (
-            <div style={{padding: 20}}>
-                <ColorPicker
-                    {...props}
-                    value={value}
-                    defaultValue="#ffbe5c"
-                    onUpdate={setValue}
-                    withAlpha
-                />
-            </div>
-        );
+export const Default = {
+    args: {
+        value: '#000000',
+        onUpdate: (color) => console.log('Color changed:', color),
     },
-};
+    parameters,
+} satisfies Story;
 
-export const Sizes: Story = {
+export const Compact = {
+    args: {
+        value: '#000000',
+        onUpdate: (color) => console.log('Color changed:', color),
+        compact: true,
+    },
+    parameters,
+} satisfies Story;
+
+export const WithAlpha = {
+    args: {
+        value: '#000000FF',
+        onUpdate: (color) => console.log('Color changed:', color),
+        withAlpha: true,
+    },
+    parameters,
+} satisfies Story;
+
+export const Sizes = {
     render: function ColorPickerStory(props) {
         return (
             <React.Fragment>
@@ -80,4 +91,4 @@ export const Sizes: Story = {
             </React.Fragment>
         );
     },
-};
+} satisfies Story;

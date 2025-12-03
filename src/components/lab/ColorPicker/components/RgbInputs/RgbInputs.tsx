@@ -3,9 +3,9 @@ import * as React from 'react';
 import {EditableInputRGBA} from '@uiw/react-color';
 import type {HsvaColor} from '@uiw/react-color';
 
-import {Text} from '../../../Text';
-import {TextInput} from '../../../controls';
-import type {InputControlPin} from '../../../controls';
+import {Text} from '../../../../Text';
+import {TextInput} from '../../../../controls';
+import type {InputControlPin} from '../../../../controls';
 import {b} from '../../constants';
 
 type RgbInputsProps = {
@@ -20,8 +20,20 @@ type ChannelConfig = {
 };
 
 const createChannelInput = ({label, pin}: ChannelConfig) => ({
-    renderInput: (props: any) => (
+    renderInput: (
+        props: React.InputHTMLAttributes<HTMLInputElement>,
+        ref: React.Ref<HTMLInputElement>,
+    ) => (
         <TextInput
+            {...props}
+            /*
+             * @uiw/react-color: disable EditableInput styles settings
+             */
+            style={undefined}
+            ref={ref}
+            defaultValue={props.defaultValue ? String(props.defaultValue) : ''}
+            size={'m'}
+            type={'text'}
             value={String(props.value)}
             onChange={props.onChange}
             className={b('input')}

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {EditableInput} from '@uiw/react-color';
 
-import {TextInput} from '../../../controls';
+import {TextInput} from '../../../../controls';
 import {b} from '../../constants';
 
 type HexInputProps = {
@@ -20,8 +20,24 @@ export const HexInput = ({value, withAlpha, onChange, onBlur}: HexInputProps) =>
         [onChange],
     );
 
-    const renderInput = (props: React.InputHTMLAttributes<HTMLInputElement>) => (
-        <TextInput value={String(props.value)} onChange={props.onChange} onBlur={props.onBlur} />
+    const renderInput = (
+        props: React.InputHTMLAttributes<HTMLInputElement>,
+        ref: React.Ref<HTMLInputElement>,
+    ) => (
+        <TextInput
+            {...props}
+            /*
+             * @uiw/react-color: disable EditableInput styles settings
+             */
+            style={undefined}
+            ref={ref}
+            defaultValue={props.defaultValue ? String(props.defaultValue) : ''}
+            size={'m'}
+            type={'text'}
+            value={String(props.value)}
+            onChange={props.onChange}
+            onBlur={props.onBlur}
+        />
     );
 
     return (

@@ -47,18 +47,22 @@ $drawer-resizer-width: 8px;
     }
 
     &_placement_left &__item_resizable {
+        max-width: calc(100% - $drawer-resizer-width);
         padding-inline-end: $drawer-resizer-width;
     }
 
     &_placement_right &__item_resizable {
+        max-width: calc(100% - $drawer-resizer-width);
         padding-inline-start: $drawer-resizer-width;
     }
 
     &_placement_top &__item_resizable {
+        max-height: calc(100% - $drawer-resizer-width);
         padding-block-end: $drawer-resizer-width;
     }
 
     &_placement_bottom &__item_resizable {
+        max-height: calc(100% - $drawer-resizer-width);
         padding-block-start: $drawer-resizer-width;
     }
 

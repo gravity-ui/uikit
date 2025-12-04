@@ -185,6 +185,7 @@ export const Drawer = ({
                             onResizeEnd={onResizeEnd}
                             minSize={minSize}
                             maxSize={maxSize}
+                            overlayRef={overlayRef}
                             {...filterDOMProps(restProps, {labelable: true})}
                             {...getFloatingProps()}
                         >

@@ -14,6 +14,7 @@ export interface UseResizableDrawerItemParams {
     onResizeStart?: OnResizeHandler;
     onResizeEnd?: OnResizeHandler;
     onResize?: OnResizeHandler;
+    overlayRef: React.RefObject<HTMLElement>;
 }
 
 export function useResizableDrawerItem(params: UseResizableDrawerItemParams) {
@@ -25,7 +26,15 @@ export function useResizableDrawerItem(params: UseResizableDrawerItemParams) {
         onResizeStart,
         onResizeEnd,
         onResize,
+        overlayRef,
     } = params;
+
+    const isHorizontal = ['left', 'right'].includes(placement);
+    const getOverlayMaxSize = React.useCallback(() => {
+        return isHorizontal
+            ? (overlayRef.current?.clientWidth ?? 0)
+            : (overlayRef.current?.clientHeight ?? 0);
+    }, [isHorizontal, overlayRef]);
 
     const [isResizing, setIsResizing] = React.useState(false);
     const [resizeDelta, setResizeDelta] = React.useState(0);
@@ -39,10 +48,11 @@ export function useResizableDrawerItem(params: UseResizableDrawerItemParams) {
     const getResizedSize = React.useCallback(
         (delta: number) => {
             const signedDelta = ['right', 'bottom'].includes(placement) ? delta : -delta;
-            const newSize = (size ?? internalSize) + signedDelta;
+            const overlaySize = getOverlayMaxSize();
+            const newSize = Math.min(internalSize + signedDelta, overlaySize);
             return getClampedSize(newSize);
         },
-        [size, internalSize, placement, getClampedSize],
+        [internalSize, placement, getClampedSize, getOverlayMaxSize],
     );
 
     const onStart = React.useCallback(() => {
@@ -65,12 +75,9 @@ export function useResizableDrawerItem(params: UseResizableDrawerItemParams) {
             setIsResizing(false);
             setInternalSize(newSize);
 
-            const prevSize = size ?? internalSize;
-            if (newSize !== prevSize) {
-                onResizeEnd?.(newSize);
-            }
+            onResizeEnd?.(newSize);
         },
-        [getResizedSize, onResizeEnd, size, internalSize],
+        [getResizedSize, onResizeEnd],
     );
 
     const displaySize = isResizing
@@ -81,11 +88,31 @@ export function useResizableDrawerItem(params: UseResizableDrawerItemParams) {
         onStart,
         onMove,
         onEnd,
-        arrangement: ['left', 'right'].includes(placement) ? 'horizontal' : 'vertical',
+        arrangement: isHorizontal ? 'horizontal' : 'vertical',
     });
 
+    const handleCommonResize = React.useCallback(() => {
+        const overlaySize = getOverlayMaxSize();
+
+        if (overlaySize >= internalSize) {
+            return;
+        }
+
+        setInternalSize(Math.max(minSize, overlaySize));
+        onResize?.(overlaySize);
+        onResizeEnd?.(overlaySize);
+    }, [getOverlayMaxSize, minSize, internalSize, onResize, onResizeEnd]);
+
+    React.useEffect(() => {
+        window.addEventListener('resize', handleCommonResize);
+
+        return () => {
+            window.removeEventListener('resize', handleCommonResize);
+        };
+    }, [handleCommonResize]);
+
     return {
-        resizedSize: displaySize,
+        currentSize: displaySize,
         onResizerPointerDown,
     };
 }

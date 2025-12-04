@@ -38,7 +38,7 @@ export const CustomColoredAvatar = ({
 
     const {r, g, b} = colorDetails.rgb;
 
-    const generatedColor = colorDetails.rgbString;
+    const generatedColor = `rgb(${r}, ${g}, ${b})`;
 
     let colors: Record<string, string> = {
         color: colorDetails.textColor,

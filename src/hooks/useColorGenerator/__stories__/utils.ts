@@ -255,7 +255,8 @@ export const calculateAvatarContrast = (
     storyAvatarStyle: 'filled' | 'outline' | 'transparent',
     pageBackgroundColor: string,
 ): ContrastCalculationResult => {
-    const generatedColor = colorDetails.rgbString;
+    const {r, g, b} = colorDetails.rgb;
+    const generatedColor = `rgb(${r}, ${g}, ${b})`;
 
     // default for storyAvatarStyle = 'filled'
     let foreground = getPageTextColor();
@@ -263,7 +264,7 @@ export const calculateAvatarContrast = (
 
     if (storyAvatarStyle === 'transparent') {
         foreground = generatedColor;
-        background = mixColors(colorDetails.rgbString, pageBackgroundColor, 0.9);
+        background = mixColors(generatedColor, pageBackgroundColor, 0.9);
     }
 
     if (storyAvatarStyle === 'outline') {

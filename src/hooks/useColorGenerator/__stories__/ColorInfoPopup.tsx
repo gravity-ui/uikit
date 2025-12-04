@@ -29,7 +29,9 @@ export const ColorInfoPopup = ({
                 <Text variant="subheader-3">Color Information</Text>
                 <div
                     className={b('color-preview')}
-                    style={{backgroundColor: colorDetails.rgbString}}
+                    style={{
+                        backgroundColor: `rgb(${colorDetails.rgb.r}, ${colorDetails.rgb.g}, ${colorDetails.rgb.b})`,
+                    }}
                 />
             </div>
 
@@ -73,7 +75,7 @@ export const ColorInfoPopup = ({
                     </Text>
                     <div className={b('value-container')}>
                         <Text variant="code-1" className={b('value')}>
-                            {colorDetails.rgbString}
+                            {`rgb(${colorDetails.rgb.r}, ${colorDetails.rgb.g}, ${colorDetails.rgb.b})`}
                         </Text>
                     </div>
                 </div>

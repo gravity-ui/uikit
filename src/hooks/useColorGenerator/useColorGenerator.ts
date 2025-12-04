@@ -16,7 +16,7 @@ import type {ColorDetails, GenerateColorProps} from './types';
  *  import {Avatar} from '@gravity-ui/uikit';
  *
  *  const Component = ({ token, text, ...avatarProps }) => {
- *      const {rgbString, textColor} = useColorGenerator({
+ *      const {rgb, textColor} = useColorGenerator({
  *          seed,
  *      });
  *
@@ -25,7 +25,7 @@ import type {ColorDetails, GenerateColorProps} from './types';
  *              {...avatarProps}
  *              text={text}
  *              color={text ? textColor : undefined}
- *              backgroundColor={rgbString}
+ *              backgroundColor={`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`}
  *          />
  *      );
  *  };
@@ -33,7 +33,6 @@ import type {ColorDetails, GenerateColorProps} from './types';
  * - hash: number - hash value generated from seed
  * - oklch: object with lightness (l), chroma (c), and hue (h) values
  * - rgb: object with red (r), green (g), and blue (b) values
- * - rgbString: string - RGB color string (e.g., "rgb(255, 0, 0)")
  * - textColor: string - text color (dark or light), ensuring higher contrast on generated color
  */
 export function useColorGenerator({seed}: GenerateColorProps): ColorDetails {

@@ -113,7 +113,8 @@ describe('color utilities', () => {
                 theme: 'light',
             });
 
-            expect(result.rgbString).toMatch(/^rgb\(\d+, \d+, \d+\)$/);
+            const rgbString = `rgb(${result.rgb.r}, ${result.rgb.g}, ${result.rgb.b})`;
+            expect(rgbString).toMatch(/^rgb\(\d+, \d+, \d+\)$/);
         });
 
         it('should return consistent colors for same seed', () => {
@@ -127,7 +128,9 @@ describe('color utilities', () => {
                 theme: 'light',
             });
 
-            expect(color1.rgbString).toBe(color2.rgbString);
+            const rgbString1 = `rgb(${color1.rgb.r}, ${color1.rgb.g}, ${color1.rgb.b})`;
+            const rgbString2 = `rgb(${color2.rgb.r}, ${color2.rgb.g}, ${color2.rgb.b})`;
+            expect(rgbString1).toBe(rgbString2);
         });
 
         it('should return different colors for different seeds', () => {
@@ -141,7 +144,9 @@ describe('color utilities', () => {
                 theme: 'light',
             });
 
-            expect(color1.rgbString).not.toBe(color2.rgbString);
+            const rgbString1 = `rgb(${color1.rgb.r}, ${color1.rgb.g}, ${color1.rgb.b})`;
+            const rgbString2 = `rgb(${color2.rgb.r}, ${color2.rgb.g}, ${color2.rgb.b})`;
+            expect(rgbString1).not.toBe(rgbString2);
         });
 
         it('should return different colors for different themes', () => {
@@ -155,7 +160,9 @@ describe('color utilities', () => {
                 theme: 'dark',
             });
 
-            expect(lightTheme.rgbString).not.toBe(darkTheme.rgbString);
+            const lightRgbString = `rgb(${lightTheme.rgb.r}, ${lightTheme.rgb.g}, ${lightTheme.rgb.b})`;
+            const darkRgbString = `rgb(${darkTheme.rgb.r}, ${darkTheme.rgb.g}, ${darkTheme.rgb.b})`;
+            expect(lightRgbString).not.toBe(darkRgbString);
         });
 
         it('should produce valid RGB values even with extreme inputs', () => {
@@ -174,22 +181,16 @@ describe('color utilities', () => {
                     theme: 'dark',
                 });
 
-                const color = result.rgbString;
+                const color = `rgb(${result.rgb.r}, ${result.rgb.g}, ${result.rgb.b})`;
                 expect(color).toMatch(/^rgb\(\d+, \d+, \d+\)$/);
 
-                // Extract RGB values and verify they're in valid range
-                const matches = color.match(/rgb\((\d+), (\d+), (\d+)\)/);
-                expect(matches).not.toBeNull();
-
-                if (matches) {
-                    const [, r, g, b] = matches;
-                    expect(parseInt(r, 10)).toBeGreaterThanOrEqual(0);
-                    expect(parseInt(r, 10)).toBeLessThanOrEqual(255);
-                    expect(parseInt(g, 10)).toBeGreaterThanOrEqual(0);
-                    expect(parseInt(g, 10)).toBeLessThanOrEqual(255);
-                    expect(parseInt(b, 10)).toBeGreaterThanOrEqual(0);
-                    expect(parseInt(b, 10)).toBeLessThanOrEqual(255);
-                }
+                // Verify RGB values are in valid range
+                expect(result.rgb.r).toBeGreaterThanOrEqual(0);
+                expect(result.rgb.r).toBeLessThanOrEqual(255);
+                expect(result.rgb.g).toBeGreaterThanOrEqual(0);
+                expect(result.rgb.g).toBeLessThanOrEqual(255);
+                expect(result.rgb.b).toBeGreaterThanOrEqual(0);
+                expect(result.rgb.b).toBeLessThanOrEqual(255);
             });
         });
 
@@ -205,7 +206,7 @@ describe('color utilities', () => {
                     theme: 'dark',
                 });
 
-                const color = result.rgbString;
+                const color = `rgb(${result.rgb.r}, ${result.rgb.g}, ${result.rgb.b})`;
 
                 // Simple hash of the color to track unique values
                 const existing = colors.get(color);
@@ -247,14 +248,12 @@ describe('color utilities', () => {
                     g: expect.any(Number),
                     b: expect.any(Number),
                 },
-                rgbString: expect.stringMatching(/^rgb\(\d+, \d+, \d+\)$/),
                 textColor: expect.any(String),
             });
 
-            // Verify RGB string matches RGB values
-            expect(details.rgbString).toBe(
-                `rgb(${details.rgb.r}, ${details.rgb.g}, ${details.rgb.b})`,
-            );
+            // Verify RGB values are valid
+            const rgbString = `rgb(${details.rgb.r}, ${details.rgb.g}, ${details.rgb.b})`;
+            expect(rgbString).toMatch(/^rgb\(\d+, \d+, \d+\)$/);
         });
 
         it('should return consistent details for same seed', () => {
@@ -271,15 +270,14 @@ describe('color utilities', () => {
             expect(details1).toEqual(details2);
         });
 
-        it('should have rgbString matching RGB values', () => {
+        it('should have RGB values that can be formatted as rgb string', () => {
             const seed = 'test-seed';
             const theme = 'light';
 
             const details = generateColor({seed, theme});
 
-            expect(details.rgbString).toBe(
-                `rgb(${details.rgb.r}, ${details.rgb.g}, ${details.rgb.b})`,
-            );
+            const rgbString = `rgb(${details.rgb.r}, ${details.rgb.g}, ${details.rgb.b})`;
+            expect(rgbString).toMatch(/^rgb\(\d+, \d+, \d+\)$/);
         });
     });
 });

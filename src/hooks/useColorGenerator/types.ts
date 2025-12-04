@@ -22,6 +22,5 @@ export interface ColorDetails {
         g: number;
         b: number;
     };
-    rgbString: string;
     textColor: string;
 }

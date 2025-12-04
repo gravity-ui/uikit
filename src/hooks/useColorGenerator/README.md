@@ -25,5 +25,4 @@ The `useColorGenerator` hook generates a unique (but consistent) background colo
 | hash      | Hash value generated from seed                                          | `number` |
 | oklch     | OKLCH color values (lightness, chroma, hue)                             | `object` |
 | rgb       | RGB color values (red, green, blue)                                     | `object` |
-| rgbString | RGB color string (e.g., "rgb(255, 0, 0)")                               | `string` |
 | textColor | Text color (dark or light), ensuring higher contrast on generated color | `string` |

@@ -71,7 +71,6 @@ const generateColorFromRanges = (
             g: green,
             b: blue,
         },
-        rgbString: `rgb(${red}, ${green}, ${blue})`,
         textColor: `var(${textColorVarName})`,
     };
 };

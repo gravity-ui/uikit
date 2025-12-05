@@ -192,6 +192,7 @@ $block: '.#{variables.$ns}color-picker';
     }
 
     &__color-pointer {
+        pointer-events: none;
         border: 4px solid #fff;
         border-radius: 50%;
         font-size: 0;
@@ -202,6 +203,5 @@ $block: '.#{variables.$ns}color-picker';
         background-color: transparent;
         position: absolute;
         box-shadow: 0 1px 5px 0 var(--g-color-sfx-shadow);
-        cursor: pointer;
     }
 }

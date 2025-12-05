@@ -42,14 +42,16 @@ interface VirtualizerProps extends Loadable, React.HTMLAttributes<HTMLDivElement
     disableVirtualization?: boolean;
     /** Renders the row of the list. */
     renderRow: (
-        /** The item of the row.
+        /**
+         * The item of the row.
          * @param item.index The index of the item in current level.
          * @param item.key The key of the item in the list.
          */
         item: Item,
         /** The key of the parent item in the list. */
         parentKey: Key | undefined,
-        /** Renders the children of the row.
+        /**
+         * Renders the children of the row.
          * @param options.count The number of children items.
          * @param options.height The self height of the row.
          */

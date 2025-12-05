@@ -46,26 +46,32 @@ export interface NumberInputProps
     /** An optional element displayed under the lower right corner of the control and sharing the place with the error container */
     note?: React.ReactNode;
 
-    /** Hides increment/decrement buttons at the end of control
+    /**
+      Hides increment/decrement buttons at the end of control
      */
     hiddenControls?: boolean;
-    /** min allowed value. It is used for clamping entered value to allowed range
+    /**
+     * min allowed value. It is used for clamping entered value to allowed range
      * @default Number.MAX_SAFE_INTEGER
      */
     min?: number;
-    /** max allowed value. It is used for clamping entered value to allowed range
+    /**
+     * max allowed value. It is used for clamping entered value to allowed range
      * @default Number.MIN_SAFE_INTEGER
      */
     max?: number;
-    /** Delta for incrementing/decrementing entered value with arrow keyboard buttons or component controls
+    /**
+     * Delta for incrementing/decrementing entered value with arrow keyboard buttons or component controls
      * @default 1
      */
     step?: number;
-    /** Step multiplier when shift button is pressed
+    /**
+     * Step multiplier when shift button is pressed
      * @default 10
      */
     shiftMultiplier?: number;
-    /** Enables ability to enter decimal numbers
+    /**
+     * Enables ability to enter decimal numbers
      * @default false
      */
     allowDecimal?: boolean;

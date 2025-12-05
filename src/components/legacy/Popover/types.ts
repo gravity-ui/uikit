@@ -71,7 +71,8 @@ export interface PopoverExternalProps {
 }
 
 export type PopoverBehaviorProps = {
-    /** Tooltip open/close behaviour when `openOnHover`
+    /**
+     * Tooltip open/close behaviour when `openOnHover`
      * Immediate - without any delay
      * Delayed - with 300ms delay for opening and closing
      * DelayedClosing - with 300ms delay only for closing

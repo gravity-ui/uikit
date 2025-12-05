@@ -65,6 +65,8 @@
 /src/components/Tooltip @amje
 /src/components/layout @IsaevAlexandr
 
+/src/components/lab/ColorPicker @Estasie
+
 /src/hooks/useActionHandlers @ogonkov
 /src/hooks/useFileInput @korvin89
 /src/hooks/useForkRef @ValeraS

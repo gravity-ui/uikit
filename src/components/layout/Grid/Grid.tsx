@@ -19,7 +19,7 @@ import './Grid.scss';
 
 const b = block('grid');
 
-interface GridStyleProps extends BoxAlignmentStyleProps {
+export interface GridStyleProps extends BoxAlignmentStyleProps {
     /** Defines named grid areas. */
     areas?: AdaptiveProp<string[]>;
     /** Defines the sizes of each row in the grid. */
@@ -34,7 +34,7 @@ interface GridStyleProps extends BoxAlignmentStyleProps {
     autoFlow?: AdaptiveProp<React.CSSProperties['gridAutoFlow']>;
 }
 
-const gridStyleHandlers: StyleHandlers<keyof GridStyleProps> = {
+export const gridStyleHandlers: StyleHandlers<keyof GridStyleProps> = {
     areas: [
         'gridArea',
         (value: unknown) =>

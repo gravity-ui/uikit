@@ -24,7 +24,7 @@ const b = block('flex');
 interface DeprecatedProps {
     /**
      * `flex-grow` property
-     * @deprecated use flexGrow instead
+     * @deprecated use flex for boolean values and flexGrow for other values instead.
      */
     grow?: true | React.CSSProperties['flexGrow'];
     /**
@@ -79,14 +79,15 @@ interface DeprecatedProps {
     space?: AdaptiveProp<Space>;
 }
 
-interface FlexStyleProps
+export interface FlexStyleProps
     extends Omit<BoxAlignmentStyleProps, 'gap' | 'justifyItems' | 'placeItems'> {
     /** The direction in which to layout children. */
     direction?: AdaptiveProp<React.CSSProperties['flexDirection']>;
     /** Whether to wrap items onto multiple lines. */
     wrap?: AdaptiveProp<boolean | React.CSSProperties['flexWrap']>;
+    // TODO: use gap from BoxAlignmentStyleProps.
     /**
-     * TODO: use gap from BoxAlignmentStyleProps
+     * Using numbers as spacing values is deprecated, use `spacing-${number}` instead.
      */
     gap?: AdaptiveProp<Space | SpacingValue>;
 }
@@ -101,7 +102,7 @@ export interface FlexProps<T extends React.ElementType = 'div'>
     inline?: boolean;
 }
 
-const flexStyleHandlers: StyleHandlers<keyof FlexStyleProps> = {
+export const flexStyleHandlers: StyleHandlers<keyof FlexStyleProps> = {
     direction: ['flexDirection'],
     wrap: [
         'flexWrap',

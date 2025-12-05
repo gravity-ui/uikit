@@ -29,9 +29,10 @@ export const isMediaActiveFactory =
 
 const mediaOrder = ['xs', 's', 'm', 'l', 'xl', 'xxl', 'xxxl'] as const;
 
+export type GetClosestMediaProps = ReturnType<typeof getClosestMediaPropsFactory>;
 export const getClosestMediaPropsFactory =
     (currentActive: MediaType) =>
-    <T>(prop?: AdaptiveProp<T> | undefined): T | undefined => {
+    <T>(prop: AdaptiveProp<T> | undefined): T | undefined => {
         if (prop && typeof prop === 'object' && !Array.isArray(prop)) {
             if (!currentActive) {
                 return undefined;

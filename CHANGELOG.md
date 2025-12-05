@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.27.0](https://github.com/gravity-ui/uikit/compare/v7.26.2...v7.27.0) (2025-12-04)
+
+
+### Features
+
+* added a hook for generating a unique color with oklch color space ([#2288](https://github.com/gravity-ui/uikit/issues/2288)) ([96568a8](https://github.com/gravity-ui/uikit/commit/96568a80795de6816abab7f588afd8ef662c4d26))
+
 ## [7.26.2](https://github.com/gravity-ui/uikit/compare/v7.26.1...v7.26.2) (2025-12-01)
 
 

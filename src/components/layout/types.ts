@@ -148,17 +148,17 @@ export interface LayoutProps {
 
 export interface SizingProps {
     /** The width of the element */
-    width?: AdaptiveProp<React.CSSProperties['width'] | SpacingValue>;
+    inlineSize?: AdaptiveProp<React.CSSProperties['inlineSize'] | SpacingValue>;
     /** The minimum width of the element */
-    minWidth?: AdaptiveProp<React.CSSProperties['minWidth'] | SpacingValue>;
+    minInlineSize?: AdaptiveProp<React.CSSProperties['minInlineSize'] | SpacingValue>;
     /** The maximum width of the element */
-    maxWidth?: AdaptiveProp<React.CSSProperties['maxWidth'] | SpacingValue>;
+    maxInlineSize?: AdaptiveProp<React.CSSProperties['maxInlineSize'] | SpacingValue>;
     /** The height of the element */
-    height?: AdaptiveProp<React.CSSProperties['height'] | SpacingValue>;
+    blockSize?: AdaptiveProp<React.CSSProperties['blockSize'] | SpacingValue>;
     /** The minimum height of the element */
-    minHeight?: AdaptiveProp<React.CSSProperties['minHeight'] | SpacingValue>;
+    minBlockSize?: AdaptiveProp<React.CSSProperties['minBlockSize'] | SpacingValue>;
     /** The maximum height of the element */
-    maxHeight?: AdaptiveProp<React.CSSProperties['maxHeight'] | SpacingValue>;
+    maxBlockSize?: AdaptiveProp<React.CSSProperties['maxBlockSize'] | SpacingValue>;
 }
 
 export type SpacingValue =

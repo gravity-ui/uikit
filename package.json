@@ -131,6 +131,7 @@
     "@gravity-ui/i18n": "^1.8.0",
     "@gravity-ui/icons": "^2.16.0",
     "@hello-pangea/dnd": "^18.0.1",
+    "@uiw/react-color": "^2.9.2",
     "@tanstack/react-virtual": "^3.13.12",
     "blueimp-md5": "^2.19.0",
     "lodash": "^4.17.21",

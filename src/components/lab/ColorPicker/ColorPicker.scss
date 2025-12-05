@@ -1,0 +1,207 @@
+@use '../../variables';
+/* stylelint-disable declaration-no-important */
+
+$block: '.#{variables.$ns}color-picker';
+
+#{$block} {
+    &__text {
+        padding: 0 var(--g-spacing-1);
+    }
+
+    &__input {
+        width: 50px;
+    }
+
+    &__color-display {
+        display: inline-block;
+        position: relative;
+    }
+
+    &__color-swatch {
+        box-sizing: border-box;
+
+        /* Color swatch specific styles */
+        min-width: var(--_--height);
+        height: var(--_--height);
+        border-radius: var(--g-border-radius-s);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        border: none;
+
+        /* Checkerboard pattern */
+        background: conic-gradient(#ccc 25%, #fff 25% 50%, #ccc 50% 75%, #fff 75%);
+        background-size: 8px 8px;
+
+        &_size {
+            &_xs {
+                --_--height: 16px;
+                --_--border-radius: var(--g-border-radius-xs);
+            }
+
+            &_s {
+                --_--height: 20px;
+                --_--border-radius: var(--g-border-radius-s);
+            }
+
+            &_m {
+                --_--height: 24px;
+                --_--border-radius: var(--g-border-radius-m);
+            }
+
+            &_l {
+                --_--height: 28px;
+                --_--border-radius: var(--g-border-radius-l);
+            }
+
+            &_xl {
+                --_--height: 36px;
+                --_--border-radius: var(--g-border-radius-xl);
+            }
+        }
+        /* Color overlay using ::after pseudo-element */
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: inherit;
+            pointer-events: none;
+        }
+
+        /* Focus and hover states */
+        &:hover {
+            border-color: var(--g-color-line-hover);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--g-color-line-focus);
+            outline-offset: 1px;
+        }
+
+        &:active {
+            transform: scale(0.95);
+        }
+    }
+
+    &__handlers-container {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    &__inputs {
+        display: flex;
+        gap: 8px;
+    }
+
+    &__picker-handlers {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    &__picker-wrapper {
+        --_--base-picker-wrapper-width: 100px;
+        --__--picker-wrapper-padding: 2px var(--g-spacing-1);
+        padding: var(--__--picker-wrapper-padding);
+        width: var(--_--base-picker-wrapper-width);
+
+        &_alpha {
+            width: calc(--_--base-picker-wrapper-width + 10px);
+        }
+
+        &_size {
+            &_s {
+                --_--base-picker-wrapper-width: 110px;
+            }
+
+            &_m {
+                --_--base-picker-wrapper-width: 120px;
+            }
+
+            &_l {
+                --__--picker-wrapper-padding: 0px var(--g-spacing-1);
+                --_--base-picker-wrapper-width: 130px;
+            }
+
+            &_xl {
+                --__--picker-wrapper-padding: 0px var(--g-spacing-1);
+                --_--base-picker-wrapper-width: 140px;
+            }
+        }
+
+        &_compact {
+            --_--base-picker-wrapper-width: fit-content;
+            --__--picker-wrapper-padding: var(--g-spacing-1);
+        }
+    }
+
+    &__hex-input {
+        width: 100px;
+    }
+
+    &__popup {
+        padding: 4px;
+
+        .w-color-editable-input {
+            margin-inline-start: 0 !important;
+        }
+    }
+
+    &__hex-input {
+        width: 150px;
+    }
+
+    &__saturation {
+        width: 100% !important;
+        cursor: default !important;
+
+        &:focus {
+            outline: none !important;
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--g-color-line-focus) !important;
+            outline-offset: 2px !important;
+        }
+    }
+
+    &__slider {
+        height: 8px !important;
+
+        // Hide outline on internal Interactive element
+        .w-color-interactive {
+            &:focus {
+                outline: none !important;
+            }
+        }
+
+        // Apply outline to parent slider when internal element has keyboard focus
+        &:has(.w-color-interactive:focus-visible) {
+            outline: 2px solid var(--g-color-line-focus) !important;
+            outline-offset: 2px !important;
+        }
+    }
+
+    &__pointer {
+        .w-color-alpha-fill {
+            width: 16px !important;
+            height: 16px !important;
+            inset-block-start: 8px !important;
+        }
+    }
+
+    &__color-pointer {
+        pointer-events: none;
+        border: 4px solid #fff;
+        border-radius: 50%;
+        font-size: 0;
+        line-height: 0;
+        padding: 0;
+        width: 16px;
+        height: 16px;
+        background-color: transparent;
+        position: absolute;
+        box-shadow: 0 1px 5px 0 var(--g-color-sfx-shadow);
+    }
+}

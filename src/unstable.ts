@@ -46,3 +46,8 @@ export {
     type MenuItemComponentElementType as unstable_MenuItemComponentElementType,
     type MenuTriggerProps as unstable_MenuTriggerProps,
 } from './components/lab/Menu';
+
+export {
+    ColorPicker as unstable_ColorPicker,
+    type ColorPickerProps as unstable_ColorPickerProps,
+} from './components/lab/ColorPicker';

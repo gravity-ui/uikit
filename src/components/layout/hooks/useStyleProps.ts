@@ -6,6 +6,7 @@ import type {
     SpacingProps,
     StylingProps,
 } from '../types';
+import type {GetClosestMediaProps} from '../utils';
 
 import {useLayoutContext} from './useLayoutContext';
 
@@ -17,15 +18,15 @@ export type StyleHandlers<T extends keyof any = string> = {
     [key in T]: [StyleName, StyleHandler?];
 };
 
-type BaseStyleProperties =
-    | keyof LayoutProps
-    | keyof SizingProps
-    | keyof SpacingProps
-    | keyof PositioningProps
-    | keyof StylingProps;
+export interface BaseStyleProps
+    extends LayoutProps,
+        SizingProps,
+        SpacingProps,
+        PositioningProps,
+        StylingProps {}
 
-const baseStyleHandlers: StyleHandlers<BaseStyleProperties> = {
-    flex: ['flex'],
+export const baseStyleHandlers: StyleHandlers<keyof BaseStyleProps> = {
+    flex: ['flex', getFlexValue],
     flexGrow: ['flexGrow'],
     flexBasis: ['flexBasis'],
     flexShrink: ['flexShrink'],
@@ -41,12 +42,12 @@ const baseStyleHandlers: StyleHandlers<BaseStyleProperties> = {
     gridRowStart: ['gridRowStart'],
     gridRowEnd: ['gridRowEnd'],
     overflow: ['overflow', getOverflowValue],
-    width: ['width', getSpacingValue],
-    minWidth: ['minWidth', getSpacingValue],
-    maxWidth: ['maxWidth', getSpacingValue],
-    height: ['height', getSpacingValue],
-    minHeight: ['minHeight', getSpacingValue],
-    maxHeight: ['maxHeight', getSpacingValue],
+    inlineSize: ['inlineSize', getSpacingValue],
+    minInlineSize: ['minInlineSize', getSpacingValue],
+    maxInlineSize: ['maxInlineSize', getSpacingValue],
+    blockSize: ['blockSize', getSpacingValue],
+    minBlockSize: ['minBlockSize', getSpacingValue],
+    maxBlockSize: ['maxBlockSize', getSpacingValue],
     position: ['position'],
     inset: ['inset', getSpacingValue],
     insetBlock: ['insetBlock', getSpacingValue],
@@ -95,27 +96,28 @@ const baseStyleHandlers: StyleHandlers<BaseStyleProperties> = {
 
 const borderStyleProps = {
     borderWidth: 'borderStyle',
-    borderStartWidth: 'borderInlineStartStyle',
-    borderEndWidth: 'borderInlineEndStyle',
-    borderTopWidth: 'borderBlockStartStyle',
-    borderBottomWidth: 'borderBlockEndStyle',
+    borderInlineWidth: 'borderInlineStyle',
+    borderInlineStartWidth: 'borderInlineStartStyle',
+    borderInlineEndWidth: 'borderInlineEndStyle',
+    borderBlockWidth: 'borderBlockStyle',
+    borderBlockStartWidth: 'borderBlockStartStyle',
+    borderBlockEndWidth: 'borderBlockEndStyle',
 } as const;
 
-export function useStyleProps<
-    T extends DOMProps,
-    S extends StyleHandlers = typeof baseStyleHandlers,
->(props: T, handlers?: S): {style: CSSProperties} & Omit<T, keyof S> {
-    const {getClosestMediaProps} = useLayoutContext();
-    const styleHandlers = handlers ?? baseStyleHandlers;
-
+export function convertStyleProps<T extends DOMProps, S extends StyleHandlers>(
+    props: T,
+    handlers: S,
+    getClosestMediaProps: GetClosestMediaProps,
+): {style: CSSProperties} & Omit<T, keyof S> {
     const style: CSSProperties = {};
     const otherProps: Record<string, any> = {};
     for (const [key, value] of Object.entries(props)) {
-        const styleProp = styleHandlers[key as keyof typeof styleHandlers];
+        const styleProp = handlers[key as keyof typeof handlers];
         if (!styleProp) {
             otherProps[key] = value;
+            continue;
         }
-        if (!styleProp || value === undefined || value === null) {
+        if (value === undefined || value === null) {
             continue;
         }
 
@@ -132,7 +134,7 @@ export function useStyleProps<
     }
 
     for (const [key, value] of Object.entries(borderStyleProps)) {
-        if (style[key as CSSKey]) {
+        if (style[key as keyof typeof borderStyleProps]) {
             style[value] = 'solid';
             style.boxSizing = 'border-box';
         }
@@ -142,6 +144,16 @@ export function useStyleProps<
         ...(otherProps as Omit<T, keyof S>),
         style: {...props.style, ...style},
     };
+}
+
+export function useStyleProps<
+    T extends DOMProps,
+    S extends StyleHandlers = typeof baseStyleHandlers,
+>(props: T, handlers?: S): {style: CSSProperties} & Omit<T, keyof S> {
+    const {getClosestMediaProps} = useLayoutContext();
+    const styleHandlers = handlers ?? (baseStyleHandlers as S);
+
+    return convertStyleProps(props, styleHandlers, getClosestMediaProps);
 }
 
 function getOverflowValue(v: unknown) {
@@ -188,6 +200,14 @@ export function getSpacingValue(value: unknown) {
 
     if (typeof value === 'number') {
         return `${value}px`;
+    }
+
+    return `${value}`;
+}
+
+function getFlexValue(value: unknown): string | undefined {
+    if (typeof value === 'boolean') {
+        return value ? '1' : undefined;
     }
 
     return `${value}`;

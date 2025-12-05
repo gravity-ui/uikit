@@ -5,27 +5,17 @@ import * as React from 'react';
 import type {DOMProps, QAProps} from '../../types';
 import {block} from '../../utils/cn';
 import {useStyleProps} from '../hooks/useStyleProps';
+import type {BaseStyleProps} from '../hooks/useStyleProps';
 import type {SpacingProps as SpacingPropsDeprecated} from '../spacing/spacing';
 import {sp} from '../spacing/spacing';
-import type {
-    LayoutComponentProps,
-    LayoutProps,
-    PositioningProps,
-    SizingProps,
-    SpacingProps,
-    StylingProps,
-} from '../types';
+import type {LayoutComponentProps} from '../types';
 
 const b = block('box');
 
 export interface BoxProps<T extends React.ElementType = 'div'>
     extends QAProps,
         DOMProps,
-        LayoutProps,
-        SpacingProps,
-        SizingProps,
-        PositioningProps,
-        StylingProps {
+        BaseStyleProps {
     as?: T;
     /**
      * All spacing shortcut properties available here.

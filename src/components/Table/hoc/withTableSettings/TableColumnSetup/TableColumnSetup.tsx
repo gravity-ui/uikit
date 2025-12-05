@@ -154,7 +154,11 @@ const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContaine
 
         return (
             <React.Fragment>
-                <ListContainerView ref={containerRef} id={id} className={className}>
+                <ListContainerView
+                    ref={containerRef as React.Ref<HTMLDivElement>}
+                    id={id}
+                    className={className}
+                >
                     {stickyStartItemList}
                     <DragDropContext onDragEnd={onDragEnd}>
                         <Droppable droppableId={uniqId} renderClone={renderDndActiveItem}>

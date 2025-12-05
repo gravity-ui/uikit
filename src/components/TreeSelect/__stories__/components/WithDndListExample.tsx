@@ -85,7 +85,11 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
                     }}
                 >
                     {(droppableProvided: DroppableProvided) => (
-                        <ListContainerView ref={containerRef} id={id} className={className}>
+                        <ListContainerView
+                            ref={containerRef as React.Ref<HTMLDivElement>}
+                            id={id}
+                            className={className}
+                        >
                             <div
                                 {...droppableProvided.droppableProps}
                                 ref={droppableProvided.innerRef}

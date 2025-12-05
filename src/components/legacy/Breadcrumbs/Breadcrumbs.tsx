@@ -110,7 +110,7 @@ export class Breadcrumbs<T extends BreadcrumbsItem = BreadcrumbsItem> extends Re
         return null;
     }
 
-    private container: React.RefObject<HTMLDivElement>;
+    private container: React.RefObject<HTMLDivElement | null>;
     private resizeObserver?: ResizeObserver;
 
     constructor(props: BreadcrumbsProps<T>) {
@@ -145,7 +145,7 @@ export class Breadcrumbs<T extends BreadcrumbsItem = BreadcrumbsItem> extends Re
 
         return (
             <div className={b({calculated: calculated ? 'yes' : 'no'}, className)} data-qa={qa}>
-                <div className={b('inner')} ref={this.container}>
+                <div className={b('inner')} ref={this.container as React.Ref<HTMLDivElement>}>
                     {this.renderRootItem()}
                     {this.renderMoreItem()}
                     {this.renderVisibleItems()}

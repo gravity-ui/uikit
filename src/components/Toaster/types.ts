@@ -34,7 +34,7 @@ export type ToastProps = {
 
 export type InternalToastProps = ToastProps & {
     addedAt?: number;
-    ref?: React.RefObject<HTMLDivElement>;
+    ref?: React.RefObject<HTMLDivElement | null>;
 };
 
 export interface ToasterContextMethods {

@@ -7,7 +7,7 @@ import {ListItemRecursiveRenderer} from '../ListRecursiveRenderer/ListRecursiveR
 
 export type ListContainerProps<T, P extends {} = {}> = Omit<ListContainerViewProps, 'children'> & {
     list: UseListResult<T>;
-    containerRef?: React.RefObject<HTMLDivElement>;
+    containerRef?: React.RefObject<HTMLDivElement | null>;
     renderItem(
         id: ListItemId,
         index: number,
@@ -25,7 +25,7 @@ export function ListContainer<T, P extends {} = {}>({
     ...props
 }: ListContainerProps<T, P>) {
     return (
-        <ListContainerView ref={containerRef} {...props}>
+        <ListContainerView ref={containerRef as React.Ref<HTMLDivElement>} {...props}>
             {list.structure.items.map((item, index) => (
                 <ListItemRecursiveRenderer
                     key={index}

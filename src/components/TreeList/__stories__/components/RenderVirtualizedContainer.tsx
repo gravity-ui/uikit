@@ -17,7 +17,7 @@ export const RenderVirtualizedContainer = <T,>({
             qa={qa}
             fixedHeight
             id={id}
-            ref={containerRef}
+            ref={containerRef as React.Ref<HTMLDivElement>}
             className={className}
             extraProps={{style: {padding: 0}}}
         >

@@ -21,7 +21,7 @@ import {stringifyNavigationPath} from './utils/stringifyNavigationPath';
 export type DropdownMenuPopupProps<T> = {
     items: DropdownMenuListItem<T>[];
     open: boolean;
-    anchorRef: React.RefObject<HTMLDivElement>;
+    anchorRef: React.RefObject<HTMLDivElement | null>;
     onClose?: () => void;
     size?: DropdownMenuSize;
     menuProps?: MenuProps;

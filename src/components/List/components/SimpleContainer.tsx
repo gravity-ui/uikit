@@ -12,7 +12,7 @@ export type SimpleContainerProps = React.PropsWithChildren<{
     onScrollToItem?: (node: HTMLElement) => boolean;
 }>;
 
-type RefsList = Record<number, React.RefObject<ListItem>>;
+type RefsList = Record<number, React.RefObject<ListItem | null>>;
 
 export type SimpleContainerState = {
     refsList: RefsList;

@@ -48,7 +48,7 @@ interface TableState {
     // without that page will wobble on scrolling
     activeScrollElement: ActiveScrollElementType;
     columnsStyles: React.CSSProperties[];
-    columnHeaderRefs: React.RefObject<HTMLTableCellElement>[];
+    columnHeaderRefs: React.RefObject<HTMLTableCellElement | null>[];
 }
 
 export interface TableColumnConfig<I> {
@@ -422,7 +422,11 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                         return (
                             <th
                                 key={id}
-                                ref={this.state.columnHeaderRefs[index]}
+                                ref={
+                                    this.state.columnHeaderRefs[
+                                        index
+                                    ] as React.Ref<HTMLTableCellElement>
+                                }
                                 style={columnsStyles[index]}
                                 className={b(
                                     'cell',

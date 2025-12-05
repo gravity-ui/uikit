@@ -100,7 +100,7 @@ export interface ModalProps
     /** Callback called when `Popup` is closed and "out" transition is completed */
     onTransitionOutComplete?: () => void;
     contentOverflow?: 'visible' | 'auto';
-    floatingRef?: React.RefObject<HTMLDivElement>;
+    floatingRef?: React.RefObject<HTMLDivElement | null>;
     disableHeightTransition?: boolean;
 }
 
@@ -180,7 +180,10 @@ function ModalComponent({
         onOpenChange: handleOpenChange,
     });
 
-    const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
+    const handleFloatingRef = useForkRef<HTMLDivElement>(
+        refs.setFloating,
+        floatingRef as React.Ref<HTMLDivElement>,
+    );
 
     const dismiss = useDismiss(context, {
         enabled: !disableOutsideClick || !disableEscapeKeyDown,

@@ -33,12 +33,13 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             virtualized,
             mobile,
             id,
+            qa,
         },
         ref,
     ) =>
         mobile ? (
             <Sheet
-                qa={SelectQa.SHEET}
+                qa={qa ? `${qa}-sheet` : SelectQa.SHEET}
                 className={className}
                 visible={Boolean(open)}
                 onClose={handleClose}
@@ -48,7 +49,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
         ) : (
             <Popup
                 className={b(null, className)}
-                qa={SelectQa.POPUP}
+                qa={qa ? `${qa}-popup` : SelectQa.POPUP}
                 anchorRef={ref as React.RefObject<HTMLDivElement>}
                 placement={placement}
                 open={open}

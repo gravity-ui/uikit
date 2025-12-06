@@ -181,17 +181,18 @@ type SelectClearIconProps = {
     renderIcon: SelectRenderClearArgs['renderIcon'];
 };
 
-export type SelectClearProps = SelectClearIconProps & {
-    onClick: (e: React.MouseEvent) => void;
-    /**
-     * select control (button) has styles on focus, focus-in with animation on click event
-     * to prevent this on click by clear icon need to set class on button
-     * with disabling animation on button
-     * @param e
-     */
-    onMouseEnter: (e: React.MouseEvent) => void;
-    onMouseLeave: (e: React.MouseEvent) => void;
-};
+export type SelectClearProps = SelectClearIconProps &
+    QAProps & {
+        onClick: (e: React.MouseEvent) => void;
+        /**
+         * select control (button) has styles on focus, focus-in with animation on click event
+         * to prevent this on click by clear icon need to set class on button
+         * with disabling animation on button
+         * @param e
+         */
+        onMouseEnter: (e: React.MouseEvent) => void;
+        onMouseLeave: (e: React.MouseEvent) => void;
+    };
 
 export type SelectCounterProps = {
     /** amount of selected elements to show */

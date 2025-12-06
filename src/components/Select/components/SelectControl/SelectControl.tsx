@@ -153,6 +153,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                 onMouseEnter={disableButtonAnimation}
                 onMouseLeave={enableButtonAnimation}
                 renderIcon={args.renderIcon}
+                qa={qa}
             />
         );
     };

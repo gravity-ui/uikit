@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.28.0](https://github.com/gravity-ui/uikit/compare/v7.27.0...v7.28.0) (2025-12-05)
+
+
+### Features
+
+* add ColorPicker component ([#2386](https://github.com/gravity-ui/uikit/issues/2386)) ([6890288](https://github.com/gravity-ui/uikit/commit/6890288b88d9c52b3a223c31cef5f048a3167c02))
+* move Drawer from navigation to uikit ([#2350](https://github.com/gravity-ui/uikit/issues/2350)) ([6fab23c](https://github.com/gravity-ui/uikit/commit/6fab23ca671c8e5b7f68857d2d09540656a3d0fd))
+
 ## [7.27.0](https://github.com/gravity-ui/uikit/compare/v7.26.2...v7.27.0) (2025-12-04)
 
 

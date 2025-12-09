@@ -13,11 +13,11 @@ describe('getClosestMediaPropsFactory', () => {
         expect(getClosestMediaPropsFactory('l')({xl: 'xl'})).toEqual(undefined);
     });
     test('should return `undefined` if no object passed', () => {
-        expect(getClosestMediaPropsFactory('l')()).toEqual(undefined);
+        expect(getClosestMediaPropsFactory('l')(undefined)).toEqual(undefined);
     });
     test('should return right value on age cases', () => {
         expect(getClosestMediaPropsFactory('xxxl')({s: 's'})).toEqual('s');
-        expect(getClosestMediaPropsFactory('xxxl')()).toEqual(undefined);
+        expect(getClosestMediaPropsFactory('xxxl')(undefined)).toEqual(undefined);
         expect(getClosestMediaPropsFactory('xxxl')({xxxl: 'xxxl'})).toEqual('xxxl');
     });
 });

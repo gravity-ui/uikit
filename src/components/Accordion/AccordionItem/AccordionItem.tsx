@@ -7,7 +7,10 @@ import {Disclosure} from '../../Disclosure';
 import {DefaultDisclosureSummary} from '../../Disclosure/DisclosureSummary/DisclosureSummary';
 import type {QAProps} from '../../types';
 import {useAccordion} from '../AccordionContext';
-import {AccordionSummary, isAccordionSummaryComponent} from '../AccordionSummary/AccordionSummary';
+import {
+    AccordionSummaryContent,
+    isAccordionSummaryComponent,
+} from '../AccordionSummary/AccordionSummary';
 import type {AccordionSummaryProps} from '../AccordionSummary/AccordionSummary';
 import {
     accordionDetailsBlock,
@@ -125,16 +128,17 @@ function useAccordionItemState({
 
 function prepareChildren(children: React.ReactNode, qa?: string) {
     const items = React.Children.toArray(children);
-    let summary: React.ReactElement<AccordionSummaryProps> | undefined, details: React.ReactNode;
+    let accordionSummaryElement: React.ReactElement<AccordionSummaryProps> | undefined;
+    let details: React.ReactNode;
 
     const content: React.ReactNode[] = [];
     for (const item of items) {
         const isAccordionSummary = isAccordionSummaryComponent(item);
         if (isAccordionSummary) {
-            if (summary) {
+            if (accordionSummaryElement) {
                 throw new Error('Only one <Accordion.Summary> component is allowed');
             }
-            summary = item;
+            accordionSummaryElement = item;
             continue;
         }
         content.push(item);
@@ -146,19 +150,28 @@ function prepareChildren(children: React.ReactNode, qa?: string) {
 
     const summaryQa = qa ? `${qa}-summary` : undefined;
 
-    if (!summary) {
-        summary = (
-            <AccordionSummary>
-                {(props) => (
-                    <DefaultDisclosureSummary
-                        {...props}
-                        qa={summaryQa}
-                        className={accordionSummaryTriggerBlock}
-                    />
-                )}
-            </AccordionSummary>
-        );
-    }
+    const summaryChildren =
+        accordionSummaryElement?.props?.children ??
+        ((props) => (
+            <DefaultDisclosureSummary
+                {...props}
+                qa={summaryQa}
+                className={accordionSummaryTriggerBlock}
+            />
+        ));
+
+    const summary = (
+        <Disclosure.Summary qa={accordionSummaryElement?.props?.qa ?? summaryQa}>
+            {(disclosureProps, defaultSummary) => (
+                <AccordionSummaryContent
+                    disclosureProps={disclosureProps}
+                    defaultSummary={defaultSummary}
+                >
+                    {summaryChildren}
+                </AccordionSummaryContent>
+            )}
+        </Disclosure.Summary>
+    );
 
     return [summary, details];
 }

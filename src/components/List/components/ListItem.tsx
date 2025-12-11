@@ -78,6 +78,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
                 style={getStyle(this.props.provided, fixedStyle)}
                 onClick={item.disabled ? undefined : this.onClick}
                 onClickCapture={item.disabled ? undefined : this.onClickCapture}
+                onMouseDown={this.onMouseDown}
                 onMouseEnter={this.onMouseEnter}
                 ref={this.setRef}
                 id={`${this.props.listId}-item-${this.props.itemIndex}`}
@@ -122,7 +123,13 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
             eventId: 'click',
         });
     };
-
+    private onMouseDown: React.MouseEventHandler<HTMLDivElement> = (event) => {
+        if (event.button === 1) {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+        }
+    };
     private onMouseEnter = () =>
         !this.props.item.disabled && this.props.onActivate(this.props.itemIndex);
 }

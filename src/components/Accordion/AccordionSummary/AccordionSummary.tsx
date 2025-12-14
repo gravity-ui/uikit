@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import {KeyCode} from '../../../constants';
+import {useUniqId} from '../../../hooks';
 import {Disclosure} from '../../Disclosure';
 import type {DisclosureSummaryRenderFunctionProps} from '../../Disclosure/DisclosureSummary/DisclosureSummary';
 import type {QAProps} from '../../types';
@@ -21,9 +22,10 @@ export type AccordionSummaryProps = QAProps & {
 
 export function AccordionSummary(props: AccordionSummaryProps) {
     const {children, qa} = props;
-    const {registerSummary, unregisterSummary, getSummaryRefs, ...attributes} = useAccordion();
+    const {registerSummary, unregisterSummary, getSummaryRefs, arrowPosition, size, ariaLevel} =
+        useAccordion();
 
-    const summaryId = React.useId();
+    const summaryId = useUniqId();
     const [buttonElement, setButtonElement] = React.useState<HTMLButtonElement | null>(null);
 
     React.useEffect(() => {
@@ -82,8 +84,8 @@ export function AccordionSummary(props: AccordionSummaryProps) {
     return (
         <div
             role={'heading'}
-            aria-level={attributes?.ariaLevel}
-            className={accordionSummaryBlock({size: attributes?.size})}
+            aria-level={ariaLevel}
+            className={accordionSummaryBlock({size, arrow_position: arrowPosition})}
         >
             <Disclosure.Summary qa={qa}>
                 {(disclosureProps, defaultSummary) => {

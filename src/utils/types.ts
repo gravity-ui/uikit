@@ -4,7 +4,6 @@ export type DistributiveOmit<T, K extends keyof any> = T extends any ? Omit<T, K
 /**
  * The final type is string but IDE will suggest values from T
  * Use (string & {}) for better autocomplete https://github.com/Microsoft/TypeScript/issues/29729#issuecomment-505826972
- *
  * @example
  * ```
  * type Lang = StringWithSuggest<'en' | 'rs'>;

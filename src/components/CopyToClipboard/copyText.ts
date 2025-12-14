@@ -1,3 +1,27 @@
+/**
+ * Copies text to the browser's clipboard.
+ * Uses the modern `navigator.clipboard` API, with a fallback to `document.execCommand` when unavailable.
+ *
+ * @param {string} text Text to copy to the clipboard
+ * @returns {Promise<void>} Promise that resolves on successful copy or rejects on error
+ * @throws {Error} Throws an error if neither `navigator.clipboard` nor `document` is available
+ *
+ * @example
+ * ```typescript
+ * // Copy simple text
+ * copyText('Hello, World!')
+ *   .then(() => console.log('Text copied'))
+ *   .catch(error => console.error('Copy error:', error));
+ *
+ * // Using with async/await
+ * try {
+ *   await copyText('Text to copy');
+ *   console.log('Successfully copied');
+ * } catch (error) {
+ *   console.error('Failed to copy:', error);
+ * }
+ * ```
+ */
 export function copyText(text: string) {
     if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
         try {

@@ -82,13 +82,17 @@ export function Popover({
         },
     });
 
+    const isHoverEnabled = trigger !== 'click';
+
     const hover = useHover(context, {
-        enabled: trigger !== 'click',
+        enabled: isHoverEnabled,
         delay: {open: openDelay, close: closeDelay},
         move: false,
         handleClose: enableSafePolygon ? safePolygon() : undefined,
     });
-    const click = useClick(context);
+    const click = useClick(context, {
+        ignoreMouse: isHoverEnabled,
+    });
     const role = useRole(context, {
         role: 'dialog',
     });

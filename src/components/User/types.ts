@@ -1,6 +1,6 @@
 import type * as React from 'react';
 
-import type {DistributiveOmit} from '../../types/utils';
+import type {DistributiveOmit} from '../../utils/types';
 import type {AvatarProps} from '../Avatar';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 

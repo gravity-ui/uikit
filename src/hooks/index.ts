@@ -1,6 +1,7 @@
 export * from './useActionHandlers';
 export * from './useAsyncActionHandler';
 export * from './useControlledState';
+export * from './useColorGenerator';
 export * from './useFileInput';
 export * from './useFocusWithin';
 export * from './useForkRef';
@@ -14,3 +15,4 @@ export * from './useTimeout';
 export * from './useViewportSize';
 export * from './useVirtualElementRef';
 export * from './useUniqId';
+export * from './useLayoutEffect';

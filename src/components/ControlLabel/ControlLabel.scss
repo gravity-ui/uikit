@@ -17,6 +17,7 @@ $block: '.#{variables.$ns}control-label';
         pointer-events: none;
     }
 
+    &_size_s,
     &_size_m {
         font-size: var(--g-text-body-1-font-size);
         line-height: 15px;

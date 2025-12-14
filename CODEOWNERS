@@ -1,11 +1,12 @@
 * @amje @ValeraS @korvin89
+/src/components/Accordion @KostyaAvtushko
 /src/components/ActionsPanel @jhoncool
 /src/components/ActionTooltip @amje
 /src/components/Alert @IsaevAlexandr
 /src/components/ArrowToggle @Marginy605
 /src/components/Avatar @DakEnviy
 /src/components/AvatarStack @ogonkov
-#/src/components/Breadcrumbs
+/src/components/Breadcrumbs @ValeraS
 /src/components/Button @amje
 /src/components/Card @Lunory
 /src/components/Checkbox @zamkovskaya
@@ -14,7 +15,7 @@
 /src/components/ControlLabel @korvin89
 /src/components/CopyToClipboard @ogonkov
 /src/components/DefinitionList @Raubzeug
-#/src/components/Dialog
+/src/components/Dialog @Alutery
 /src/components/Disclosure @Raubzeug
 /src/components/Divider @v4dyar4
 #/src/components/DropdownMenu @axtk
@@ -42,6 +43,7 @@
 /src/components/Radio @zamkovskaya
 /src/components/RadioGroup @zamkovskaya
 /src/components/SegmentedRadioGroup @zamkovskaya
+/src/components/Stepper @bityutskiyAO
 /src/components/User @DakEnviy
 /src/components/UserLabel @DakEnviy
 /src/components/useList @IsaevAlexandr
@@ -62,6 +64,8 @@
 /src/components/Toaster @ogonkov
 /src/components/Tooltip @amje
 /src/components/layout @IsaevAlexandr
+
+/src/components/lab/ColorPicker @Estasie
 
 /src/hooks/useActionHandlers @ogonkov
 /src/hooks/useFileInput @korvin89

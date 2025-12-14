@@ -149,12 +149,15 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
             rest.className,
         ),
         'data-qa': qa,
+        // Always set a tabIndex so that Safari allows focusing native buttons
+        tabIndex: rest.tabIndex ?? extraProps?.tabIndex ?? (disabled ? undefined : 0),
     };
 
     if (isButtonComponentProps(props)) {
         return React.createElement(
             props.component,
             {
+                role: 'button',
                 ...rest,
                 ...extraProps,
                 ...commonProps,

@@ -10,6 +10,7 @@ import type {
     OnDragEndResponder,
 } from '@hello-pangea/dnd';
 
+import {useLayoutEffect} from '../../../../hooks';
 import {Icon} from '../../../Icon';
 import {ListContainerView, ListItemView, useList} from '../../../useList';
 import type {ListItemViewProps} from '../../../useList';
@@ -54,7 +55,7 @@ export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
         getItemId: ({id}) => id,
     });
 
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         containerRef?.current?.focus();
     }, []);
 

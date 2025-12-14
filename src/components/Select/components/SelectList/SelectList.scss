@@ -26,6 +26,16 @@ $xl-right-padding: '12px';
         max-height: 100%;
     }
 
+    &_multiple#{$listBlock} {
+        #{$listBlock}__item_selected {
+            background: none;
+        }
+
+        #{$listBlock}__item_active {
+            background: var(--g-color-base-simple-hover);
+        }
+    }
+
     &__group-label,
     &__group-label-custom {
         box-sizing: border-box;
@@ -85,20 +95,6 @@ $xl-right-padding: '12px';
         @include mixins.text-accent;
 
         width: 100%;
-    }
-
-    &__item#{$listBlock} {
-        &__item_selected {
-            background: none;
-
-            &:hover {
-                background: var(--g-color-base-simple-hover);
-            }
-        }
-
-        &__item_active {
-            background: var(--g-color-base-simple-hover);
-        }
     }
 
     &__option {
@@ -169,10 +165,6 @@ $xl-right-padding: '12px';
             & #{$block}__tick-icon {
                 padding-inline-end: calc(#{select-css-variables.$l-hor-padding} / 2);
             }
-        }
-
-        &_colored {
-            background-color: var(--g-color-base-selection);
         }
 
         &_disabled {

@@ -75,7 +75,7 @@ $xl-right-padding: '12px';
             font-size: var(--g-text-body-2-font-size);
         }
 
-        #{$block}__item:not(:first-child) & {
+        #{$listBlock}__item:not(:first-child) & {
             margin-block-start: 5px;
 
             &::before {

@@ -233,12 +233,12 @@ test.describe('Select', {tag: '@Select'}, () => {
 
     test.describe('option states', () => {
         const render = (mount: MountFixture, props?: SelectProps) => {
-            const {options: propsOptions} = props || {};
+            const {options: propsOptions, ...restProps} = props || {};
             const options = (propsOptions || baseOptions) as SelectOption[];
 
             return mount(
                 <div style={{height: 120}}>
-                    <Select open={true} value={[options?.[1].value]} {...props}>
+                    <Select open={true} value={[options?.[1].value]} {...restProps}>
                         {options.map((option) => {
                             return (
                                 <Select.Option
@@ -303,7 +303,7 @@ test.describe('Select', {tag: '@Select'}, () => {
                 page,
             }) => {
                 await render(mount);
-                const unselectedOption = page.getByText(baseOptions[0].content as string);
+                const unselectedOption = page.getByText(baseOptions[2].content as string);
                 await unselectedOption.hover();
                 await expectScreenshot({
                     themes: ['light'],
@@ -375,7 +375,7 @@ test.describe('Select', {tag: '@Select'}, () => {
                 page,
             }) => {
                 await render(mount, {multiple: true});
-                const unselectedOption = page.getByText(baseOptions[0].content as string);
+                const unselectedOption = page.getByText(baseOptions[2].content as string);
                 await unselectedOption.hover();
                 await expectScreenshot({
                     themes: ['light'],

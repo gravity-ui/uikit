@@ -57,6 +57,10 @@ export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>
             activeIndex === undefined ? undefined : `${popupId}-item-${activeIndex}`,
     };
 
+    if (placeholder) {
+        inputProps['aria-label'] += ` ${placeholder}`;
+    }
+
     if (renderFilter) {
         return renderFilter({onChange, onKeyDown, value, ref: inputRef, style, inputProps});
     }

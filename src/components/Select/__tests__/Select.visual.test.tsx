@@ -231,7 +231,7 @@ test.describe('Select', {tag: '@Select'}, () => {
         });
     });
 
-    test.describe.only('option states', () => {
+    test.describe('option states', () => {
         const render = (mount: MountFixture, props?: SelectProps) => {
             const {options: propsOptions} = props || {};
             const options = (propsOptions || baseOptions) as SelectOption[];

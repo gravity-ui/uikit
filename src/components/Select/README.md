@@ -1127,9 +1127,9 @@ const MyComponent = () => {
 
 <!--/GITHUB_BLOCK-->
 
-### Rendering custom popup
+### Rendering options list
 
-To render custom popup, use the `renderPopup` property.
+The `renderPopup` property allows you to control the content of the options list: change the order of standard elements (filter, list), hide them, or add custom elements between, before, or after them.
 
 <!--LANDING_BLOCK
 
@@ -1299,7 +1299,7 @@ LANDING_BLOCK-->
 | [renderOption](#render-custom-options)                    | Used to render user options                                                                                                      | `function`                               |                                                          |
 | renderOptionGroup                                         | Used to render user option groups                                                                                                | `function`                               |                                                          |
 | [renderSelectedOption](#render-custom-selected-options)   | Used to render user selected options                                                                                             | `function`                               |                                                          |
-| [renderPopup](#render-custom-popup)                       | Used to render user popup content                                                                                                | `function`                               |                                                          |
+| [renderPopup](#rendering-options-list)                    | Used to render options list content                                                                                              | `function`                               |                                                          |
 | [size](#size)                                             | Control / options size                                                                                                           | `string`                                 | `'m'`                                                    |
 | value                                                     | Values that represent selected options                                                                                           | `string[]`                               |                                                          |
 | view                                                      | Control view                                                                                                                     | `string`                                 | `'normal'`                                               |

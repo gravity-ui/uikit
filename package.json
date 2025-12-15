@@ -14,7 +14,7 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">= 20",
+    "node": ">= 20.19",
     "npm": ">= 9",
     "yarn": "Please use npm instead of yarn to install dependencies",
     "pnpm": "Please use npm instead of pnpm to install dependencies"

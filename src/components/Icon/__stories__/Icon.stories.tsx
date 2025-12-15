@@ -2,6 +2,7 @@ import {Envelope, Gear, Rocket} from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Showcase} from '../../../demo/Showcase';
+import {TEXT_COLORS} from '../../Text/colorText/colorText';
 import {Icon} from '../Icon';
 
 const icons = {Gear, Envelope, Rocket};
@@ -13,6 +14,10 @@ const meta: Meta<typeof Icon> = {
         data: {
             options: Object.keys(icons),
             mapping: icons,
+        },
+        color: {
+            control: 'select',
+            options: TEXT_COLORS,
         },
         style: {
             control: 'object',

@@ -24,13 +24,14 @@ interface IconComposition {
     prefix?: string;
 }
 
-export interface IconProps extends QAProps, DOMProps, ColorTextBaseProps {
+export interface IconProps extends QAProps, DOMProps {
     data: IconData;
     width?: number | string;
     height?: number | string;
     size?: number | string;
     fill?: string;
     stroke?: string;
+    color?: ColorTextBaseProps['color'];
 }
 
 const b = block('icon');

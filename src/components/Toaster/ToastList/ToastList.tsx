@@ -27,6 +27,9 @@ export function ToastList(props: ToastListProps) {
             {toasts.map((toast) => (
                 <CSSTransition
                     key={`${toast.name}_${toast.addedAt}`}
+                    /*
+                     * TODO: Remove casting in React 19 (https://github.com/gravity-ui/uikit/issues/2537)
+                     */
                     nodeRef={toast.ref as React.Ref<HTMLElement>}
                     classNames={mobile ? mobileTransitionClassNames : desktopTransitionClassNames}
                     addEndListener={(done) =>
@@ -37,6 +40,9 @@ export function ToastList(props: ToastListProps) {
                 >
                     <Toast
                         {...toast}
+                        /*
+                         * TODO: Remove casting in React 19 (https://github.com/gravity-ui/uikit/issues/2537)
+                         */
                         ref={toast.ref as React.Ref<HTMLDivElement>}
                         mobile={mobile}
                         removeCallback={removeCallback}

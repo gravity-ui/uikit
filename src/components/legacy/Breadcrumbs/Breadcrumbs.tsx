@@ -142,7 +142,9 @@ export class Breadcrumbs<T extends BreadcrumbsItem = BreadcrumbsItem> extends Re
     render() {
         const {className, qa} = this.props;
         const {calculated} = this.state;
-
+        /*
+         *  TODO: Remove casting in React 19 (https://github.com/gravity-ui/uikit/issues/2537)
+         */
         return (
             <div className={b({calculated: calculated ? 'yes' : 'no'}, className)} data-qa={qa}>
                 <div className={b('inner')} ref={this.container as React.Ref<HTMLDivElement>}>

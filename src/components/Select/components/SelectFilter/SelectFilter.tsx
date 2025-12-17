@@ -51,15 +51,11 @@ export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>
         onChange: (e) => {
             onChange(e.target.value);
         },
-        'aria-label': t('label_filter'),
+        'aria-label': placeholder || t('label_filter'),
         'aria-controls': popupId,
         'aria-activedescendant':
             activeIndex === undefined ? undefined : `${popupId}-item-${activeIndex}`,
     };
-
-    if (placeholder) {
-        inputProps['aria-label'] += ` ${placeholder}`;
-    }
 
     if (renderFilter) {
         return renderFilter({onChange, onKeyDown, value, ref: inputRef, style, inputProps});

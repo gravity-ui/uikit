@@ -1,6 +1,12 @@
-[readme](#readme)
+<!--GITHUB_BLOCK-->
 
 ## Dialog
+
+<!--/GITHUB_BLOCK-->
+
+```tsx
+import {Dialog} from '@gravity-ui/uikit';
+```
 
 `Dialog` — компонент, используемый для диалоговых окон.
 

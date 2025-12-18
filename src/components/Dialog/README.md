@@ -10,11 +10,9 @@ import {Dialog} from '@gravity-ui/uikit';
 
 This is a component used for dialogs.
 
-<!--GITHUB_BLOCK-->
+## Usage
 
-## Base example
-
-```js
+```tsx
 const [open, setOpen] = useState(false);
 const dialogTitleId = 'app-confirmation-dialog-title';
 
@@ -36,8 +34,6 @@ const dialogTitleId = 'app-confirmation-dialog-title';
   />
 </Dialog>;
 ```
-
-<!--/GITHUB_BLOCK-->
 
 ## Properties
 
@@ -63,7 +59,7 @@ const dialogTitleId = 'app-confirmation-dialog-title';
 | restoreFocusRef       | `React.RefObject`                                                                              |          |           | Element to receive focus when the dialog is closed                                            |
 | keepMounted           | `Boolean`                                                                                      |          | `False`   | Toggles whether the dialog is kept in the mounted state                                       |
 | hasCloseButton        | `Boolean`                                                                                      |          | `True`    | Toggles whether there is a cross icon in the top-right corner of the dialog                   |
-| aria-labelledby       | `String`                                                                                       |          |           | <Dialog/> caption ID. Use the `id` property of `<Dialog.Header/>` to set the ID for caption   |
+| aria-labelledby       | `String`                                                                                       |          |           | `<Dialog/>` caption ID. Use the `id` property of `<Dialog.Header/>` to set the ID for caption |
 | aria-label            | `String`                                                                                       |          |           | Dialog label for a11y. Set `aria-labelledby` if the caption is visible to the user            |
 | container             | `HTMLElement`                                                                                  |          |           | Container element for the dialog box                                                          |
 | qa                    | `String`                                                                                       |          |           | `Data-qa` attribute value of the modal box in which the dialog is embedded                    |

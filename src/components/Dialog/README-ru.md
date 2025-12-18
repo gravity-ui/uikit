@@ -10,11 +10,9 @@ import {Dialog} from '@gravity-ui/uikit';
 
 `Dialog` — компонент, используемый для диалоговых окон.
 
-<!--GITHUB_BLOCK-->
+## Использование
 
-## Базовый пример
-
-```js
+```tsx
 const [open, setOpen] = useState(false);
 const dialogTitleId = 'app-confirmation-dialog-title';
 
@@ -36,8 +34,6 @@ const dialogTitleId = 'app-confirmation-dialog-title';
   />
 </Dialog>;
 ```
-
-<!--/GITHUB_BLOCK-->
 
 ## Свойства
 
@@ -63,7 +59,7 @@ const dialogTitleId = 'app-confirmation-dialog-title';
 | restoreFocusRef       | `React.RefObject`                                                                              |              |                       | Элемент, получающий фокус при закрытии диалога.                                                                         |
 | keepMounted           | `Boolean`                                                                                      |              | `False`               | Определяет, остается ли диалог смонтированным при закрытии.                                                             |
 | hasCloseButton        | `Boolean`                                                                                      |              | `True`                | Включает или отключает иконку крестика в правом верхнем углу диалога.                                                   |
-| aria-labelledby       | `String`                                                                                       |              |                       | Идентификатор заголовка для <Dialog/>. Установите его с помощью свойства `id` элемента `<Dialog.Header/>`.              |
+| aria-labelledby       | `String`                                                                                       |              |                       | Идентификатор заголовка для `<Dialog/>`. Установите его с помощью свойства `id` элемента `<Dialog.Header/>`.            |
 | aria-label            | `String`                                                                                       |              |                       | Лейбл диалога для обеспечения доступности (a11y). Укажите `aria-labelledby`, если заголовок диалога виден пользователю. |
 | container             | `HTMLElement`                                                                                  |              |                       | Элемент-контейнер для диалогового окна.                                                                                 |
 | qa                    | `String`                                                                                       |              |                       | Значение атрибута `data-qa` модального окна, в которое вложен диалог.                                                   |

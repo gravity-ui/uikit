@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-## Dialog
+# Dialog
 
 <!--/GITHUB_BLOCK-->
 
@@ -10,7 +10,36 @@ import {Dialog} from '@gravity-ui/uikit';
 
 This is a component used for dialogs.
 
-### PropTypes
+<!--GITHUB_BLOCK-->
+
+## Base example
+
+```js
+const [open, setOpen] = useState(false);
+const dialogTitleId = 'app-confirmation-dialog-title';
+
+<Dialog
+  onClose={() => setOpen(false)}
+  open={open}
+  onEnterKeyDown={() => {
+    alert('onEnterKeyDown');
+  }}
+  aria-labelledby={dialogTitleId}
+>
+  <Dialog.Header caption="Caption" id={dialogTitleId} />
+  <Dialog.Body>Dialog.Body</Dialog.Body>
+  <Dialog.Footer
+    onClickButtonCancel={() => setOpen(false)}
+    onClickButtonApply={() => alert('onApply')}
+    textButtonApply="Apply"
+    textButtonCancel="Cancel"
+  />
+</Dialog>;
+```
+
+<!--/GITHUB_BLOCK-->
+
+## Properties
 
 | Name                  | Type                                                                                           | Required | Default   | Description                                                                                   |
 | :-------------------- | :--------------------------------------------------------------------------------------------- | :------: | :-------- | :-------------------------------------------------------------------------------------------- |
@@ -39,28 +68,3 @@ This is a component used for dialogs.
 | container             | `HTMLElement`                                                                                  |          |           | Container element for the dialog box                                                          |
 | qa                    | `String`                                                                                       |          |           | `Data-qa` attribute value of the modal box in which the dialog is embedded                    |
 | contentOverflow       | `visible` `auto`                                                                               |          | `visible` | Determines whether the `Dialog` has a scroll indicator inside or gets larger with the content |
-
-### Examples
-
-```js
-const [open, setOpen] = useState(false);
-const dialogTitleId = 'app-confirmation-dialog-title';
-
-<Dialog
-  onClose={() => setOpen(false)}
-  open={open}
-  onEnterKeyDown={() => {
-    alert('onEnterKeyDown');
-  }}
-  aria-labelledby={dialogTitleId}
->
-  <Dialog.Header caption="Caption" id={dialogTitleId} />
-  <Dialog.Body>Dialog.Body</Dialog.Body>
-  <Dialog.Footer
-    onClickButtonCancel={() => setOpen(false)}
-    onClickButtonApply={() => alert('onApply')}
-    textButtonApply="Apply"
-    textButtonCancel="Cancel"
-  />
-</Dialog>;
-```

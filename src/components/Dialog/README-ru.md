@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-## Dialog
+# Dialog
 
 <!--/GITHUB_BLOCK-->
 
@@ -10,7 +10,36 @@ import {Dialog} from '@gravity-ui/uikit';
 
 `Dialog` — компонент, используемый для диалоговых окон.
 
-### Свойства
+<!--GITHUB_BLOCK-->
+
+## Базовый пример
+
+```js
+const [open, setOpen] = useState(false);
+const dialogTitleId = 'app-confirmation-dialog-title';
+
+<Dialog
+  onClose={() => setOpen(false)}
+  open={open}
+  onEnterKeyDown={() => {
+    alert('onEnterKeyDown');
+  }}
+  aria-labelledby={dialogTitleId}
+>
+  <Dialog.Header caption="Caption" id={dialogTitleId} />
+  <Dialog.Body>Dialog.Body</Dialog.Body>
+  <Dialog.Footer
+    onClickButtonCancel={() => setOpen(false)}
+    onClickButtonApply={() => alert('onApply')}
+    textButtonApply="Apply"
+    textButtonCancel="Cancel"
+  />
+</Dialog>;
+```
+
+<!--/GITHUB_BLOCK-->
+
+## Свойства
 
 | Имя                   | Тип                                                                                            | Обязательное | Значение по умолчанию | Описание                                                                                                                |
 | :-------------------- | :--------------------------------------------------------------------------------------------- | :----------: | :-------------------- | :---------------------------------------------------------------------------------------------------------------------- |
@@ -39,28 +68,3 @@ import {Dialog} from '@gravity-ui/uikit';
 | container             | `HTMLElement`                                                                                  |              |                       | Элемент-контейнер для диалогового окна.                                                                                 |
 | qa                    | `String`                                                                                       |              |                       | Значение атрибута `data-qa` модального окна, в которое вложен диалог.                                                   |
 | contentOverflow       | `visible` `auto`                                                                               |              | `visible`             | Определяет, имеет ли `Dialog` внутреннюю полосу прокрутки или увеличивается в размерах вместе с содержимым.             |
-
-### Примеры
-
-```js
-const [open, setOpen] = useState(false);
-const dialogTitleId = 'app-confirmation-dialog-title';
-
-<Dialog
-  onClose={() => setOpen(false)}
-  open={open}
-  onEnterKeyDown={() => {
-    alert('onEnterKeyDown');
-  }}
-  aria-labelledby={dialogTitleId}
->
-  <Dialog.Header caption="Caption" id={dialogTitleId} />
-  <Dialog.Body>Dialog.Body</Dialog.Body>
-  <Dialog.Footer
-    onClickButtonCancel={() => setOpen(false)}
-    onClickButtonApply={() => alert('onApply')}
-    textButtonApply="Apply"
-    textButtonCancel="Cancel"
-  />
-</Dialog>;
-```

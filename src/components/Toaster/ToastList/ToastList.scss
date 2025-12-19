@@ -1,4 +1,5 @@
 @use '../../variables';
+@use './variables' as toastList;
 
 $block: '.#{variables.$ns}toaster';
 
@@ -7,7 +8,7 @@ $block: '.#{variables.$ns}toaster';
 
     position: fixed;
     inset-block-end: 0;
-    inset-inline-end: 10px;
+    inset-inline-end: toastList.$list-inset-end-position;
     width: var(--g-toaster-width, var(--_--width));
     z-index: 100000;
     display: flex;

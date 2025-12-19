@@ -50,6 +50,34 @@ export const Size: Story = {
     ),
 };
 
+export const WithText: Story = {
+    render: (args) => (
+        <Showcase>
+            <div>
+                before
+                <Checkbox {...args} size="m">
+                    Label
+                </Checkbox>
+                after
+            </div>
+            <div>
+                before
+                <Checkbox {...args} size="l">
+                    Label
+                </Checkbox>
+                after
+            </div>
+            <div>
+                before
+                <Checkbox {...args} size="xl">
+                    Label
+                </Checkbox>
+                after
+            </div>
+        </Showcase>
+    ),
+};
+
 export const Disabled: Story = {
     render: (args) => (
         <Showcase>

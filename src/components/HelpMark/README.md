@@ -8,11 +8,9 @@
 import {HelpMark} from '@gravity-ui/uikit';
 ```
 
-Component to display help icon with popover
+Interactive help icon that displays contextual information in a popover when hovered or clicked. Useful for providing additional explanations, tips, or documentation without cluttering the main interface.
 
 ## Examples
-
-Component with rendered raw html and close on mouse leave:
 
 <!--LANDING_BLOCK
 
@@ -59,4 +57,5 @@ LANDING_BLOCK-->
 | Name         | Description              |           Type           | Default |
 | :----------- | :----------------------- | :----------------------: | :-----: |
 | iconSize     | Sets icon size           | `"s"` `"m"` `"l"` `"xl"` |  `"m"`  |
-| popoverProps | Override `Popover` props |      `PopoverProps`      |         |
+| popoverProps | Override `Popover` props |      `PopoverProps`      | :-----: |
+| children     | Content inside popover   |    `React.ReactNode`     | :-----: |

@@ -4,18 +4,30 @@
 $block: '.#{variables.$ns}accordion-summary';
 
 #{$block} {
+    &_size_m {
+        --_--padding-inline: var(--g-spacing-2);
+    }
+
+    &_size_l {
+        --_--padding-inline: var(--g-spacing-3);
+    }
+
+    &_size_xl {
+        --_--padding-inline: var(--g-spacing-3);
+    }
+
     &_size_m &__trigger {
-        padding: 5px var(--g-spacing-2);
+        padding: 5px var(--g-accordion-padding-inline, var(--_--padding-inline));
         @include mixins.text-subheader-1();
     }
 
     &_size_l &__trigger {
-        padding: var(--g-spacing-2) var(--g-spacing-3);
+        padding: var(--g-spacing-2) var(--g-accordion-padding-inline, var(--_--padding-inline));
         @include mixins.text-subheader-2();
     }
 
     &_size_xl &__trigger {
-        padding: var(--g-spacing-3) var(--g-spacing-3);
+        padding: var(--g-spacing-3) var(--g-accordion-padding-inline, var(--_--padding-inline));
         @include mixins.text-subheader-2();
     }
 

@@ -1,13 +1,13 @@
 @use '../variables';
 
 #{variables.$footerBlock} {
-    padding: 28px var(--_--side-padding);
+    padding: 24px var(--_--side-padding) 28px;
     display: flex;
     align-items: center;
 
     &__bts-wrapper {
         display: flex;
-        gap: 10px;
+        gap: var(--g-spacing-2);
     }
 
     &__children {

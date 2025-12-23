@@ -1,8 +1,6 @@
-@use '../../variables';
+@use '../variables';
 
-$block: '.#{variables.$ns}dialog-body';
-
-#{$block} {
+#{variables.$bodyBlock} {
     padding: 10px var(--_--side-padding);
     flex: 1 1 auto;
     overflow: auto;

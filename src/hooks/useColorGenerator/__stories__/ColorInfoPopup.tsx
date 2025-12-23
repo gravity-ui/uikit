@@ -4,6 +4,8 @@ import type {ColorDetails} from '../types';
 
 import {formatOklchColor, getHexColor} from './utils';
 
+import './ColorInfoPopup.scss';
+
 const b = block('color-info-popup');
 
 interface ColorInfoPopupProps {

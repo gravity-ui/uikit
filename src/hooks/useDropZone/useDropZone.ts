@@ -66,11 +66,11 @@ export function useDropZone({accept, disabled, onDrop, ref}: UseDropZoneParams):
 
     const handleDragEnterNative = React.useCallback(
         (event: DragEvent) => {
+            nestingCounterRef.current++;
+
             if (disabled || !event.dataTransfer || !eventItemTypesAcceptable(accept, event)) {
                 return;
             }
-
-            nestingCounterRef.current++;
 
             event.dataTransfer.dropEffect = DROP_ZONE_BASE_ATTRIBUTES['aria-dropeffect'];
 
@@ -106,22 +106,15 @@ export function useDropZone({accept, disabled, onDrop, ref}: UseDropZoneParams):
         [handleDragOverNative],
     );
 
-    const handleDragLeaveNative = React.useCallback(
-        (event: DragEvent) => {
-            if (disabled || !eventItemTypesAcceptable(accept, event)) {
-                return;
-            }
+    const handleDragLeaveNative = React.useCallback((_event: DragEvent) => {
+        nestingCounterRef.current--;
 
-            nestingCounterRef.current--;
+        if (nestingCounterRef.current !== 0) {
+            return;
+        }
 
-            if (nestingCounterRef.current !== 0) {
-                return;
-            }
-
-            setIsDraggingOver(false);
-        },
-        [accept, disabled],
-    );
+        setIsDraggingOver(false);
+    }, []);
 
     const handleDragLeave = React.useCallback(
         (event: React.DragEvent) => {
@@ -132,11 +125,14 @@ export function useDropZone({accept, disabled, onDrop, ref}: UseDropZoneParams):
 
     const handleDropNative = React.useCallback(
         (event: DragEvent) => {
+            setIsDraggingOver(false);
+            nestingCounterRef.current = 0;
+
             if (disabled || !eventItemTypesAcceptable(accept, event)) {
                 return;
             }
 
-            setIsDraggingOver(false);
+            event.preventDefault();
 
             const items = event.dataTransfer?.items;
 
@@ -159,33 +155,42 @@ export function useDropZone({accept, disabled, onDrop, ref}: UseDropZoneParams):
     React.useEffect(() => {
         const dropZoneElement = ref?.current;
 
-        dropZoneElement?.addEventListener('dragenter', handleDragEnterNative);
-        dropZoneElement?.addEventListener('dragover', handleDragOverNative);
-        dropZoneElement?.addEventListener('dragleave', handleDragLeaveNative);
-        dropZoneElement?.addEventListener('drop', handleDropNative);
+        if (!dropZoneElement) {
+            return undefined;
+        }
+
+        dropZoneElement.addEventListener('dragenter', handleDragEnterNative);
+        dropZoneElement.addEventListener('dragover', handleDragOverNative);
+        dropZoneElement.addEventListener('dragleave', handleDragLeaveNative);
+        dropZoneElement.addEventListener('drop', handleDropNative);
 
         for (const [attribute, value] of Object.entries(DROP_ZONE_BASE_ATTRIBUTES)) {
-            dropZoneElement?.setAttribute(attribute, value.toString());
+            dropZoneElement.setAttribute(attribute, value.toString());
         }
 
         return () => {
-            dropZoneElement?.removeEventListener('dragenter', handleDragEnterNative);
-            dropZoneElement?.removeEventListener('dragover', handleDragOverNative);
-            dropZoneElement?.removeEventListener('dragleave', handleDragLeaveNative);
-            dropZoneElement?.removeEventListener('drop', handleDropNative);
+            dropZoneElement.removeEventListener('dragenter', handleDragEnterNative);
+            dropZoneElement.removeEventListener('dragover', handleDragOverNative);
+            dropZoneElement.removeEventListener('dragleave', handleDragLeaveNative);
+            dropZoneElement.removeEventListener('drop', handleDropNative);
         };
     }, [handleDragEnterNative, handleDragLeaveNative, handleDragOverNative, handleDropNative, ref]);
 
+    const droppableProps = React.useMemo<UseDropZoneDroppableProps>(
+        () => ({
+            ...DROP_ZONE_BASE_ATTRIBUTES,
+            onDragEnter: handleDragEnter,
+            onDragOver: handleDragOver,
+            onDragLeave: handleDragLeave,
+            onDrop: handleDrop,
+        }),
+        [handleDragEnter, handleDragOver, handleDragLeave, handleDrop],
+    );
+
+    const getDroppableProps = React.useCallback(() => droppableProps, [droppableProps]);
+
     return {
         isDraggingOver,
-        getDroppableProps: () => {
-            return {
-                ...DROP_ZONE_BASE_ATTRIBUTES,
-                onDragEnter: handleDragEnter,
-                onDragOver: handleDragOver,
-                onDragLeave: handleDragLeave,
-                onDrop: handleDrop,
-            };
-        },
+        getDroppableProps,
     };
 }

@@ -4,7 +4,6 @@ import {useActionHandlers, useDropZone, useFileInput} from '../../hooks';
 import type {UseDropZoneState, UseFileInputResult} from '../../hooks';
 
 import type {FileDropZoneProps} from './FileDropZone';
-import {cnFileDropZone} from './FileDropZone.classname';
 
 interface FileDropZoneContextValue
     extends Pick<
@@ -17,11 +16,31 @@ interface FileDropZoneContextValue
             | 'errorIcon'
             | 'errorMessage'
             | 'validationState'
+            | 'disabled'
         >,
         UseFileInputResult,
-        UseDropZoneState {}
+        UseDropZoneState {
+    onKeyDown: React.KeyboardEventHandler;
+}
 
 const FileDropZoneContext = React.createContext<FileDropZoneContextValue | null>(null);
+
+export interface FileDropZoneProviderProps
+    extends Pick<
+        FileDropZoneProps,
+        | 'accept'
+        | 'onUpdate'
+        | 'title'
+        | 'description'
+        | 'buttonText'
+        | 'icon'
+        | 'errorIcon'
+        | 'multiple'
+        | 'disabled'
+        | 'errorMessage'
+        | 'validationState'
+        | 'children'
+    > {}
 
 export const FileDropZoneProvider = ({
     accept,
@@ -33,11 +52,10 @@ export const FileDropZoneProvider = ({
     errorIcon,
     multiple,
     disabled,
-    className,
     errorMessage,
     validationState,
     children,
-}: FileDropZoneProps) => {
+}: FileDropZoneProviderProps) => {
     const handleDrop = React.useCallback(
         (items: DataTransferItemList): void => {
             const files: File[] = [];
@@ -80,6 +98,7 @@ export const FileDropZoneProvider = ({
             description,
             buttonText,
             multiple,
+            disabled,
             icon,
             errorIcon,
             errorMessage,
@@ -88,12 +107,14 @@ export const FileDropZoneProvider = ({
             triggerProps,
             isDraggingOver,
             getDroppableProps,
+            onKeyDown,
         }),
         [
             title,
             description,
             buttonText,
             multiple,
+            disabled,
             icon,
             errorIcon,
             errorMessage,
@@ -102,31 +123,13 @@ export const FileDropZoneProvider = ({
             triggerProps,
             isDraggingOver,
             getDroppableProps,
+            onKeyDown,
         ],
     );
 
-    const hasError = Boolean(errorMessage);
-
-    /* eslint-disable jsx-a11y/no-static-element-interactions */
     return (
-        <FileDropZoneContext.Provider value={contextValue}>
-            <div
-                {...getDroppableProps()}
-                onKeyDown={onKeyDown}
-                className={cnFileDropZone(
-                    {
-                        'drag-hover': isDraggingOver,
-                        disabled: disabled,
-                        error: hasError || validationState === 'invalid',
-                    },
-                    className,
-                )}
-            >
-                {children}
-            </div>
-        </FileDropZoneContext.Provider>
+        <FileDropZoneContext.Provider value={contextValue}>{children}</FileDropZoneContext.Provider>
     );
-    /* eslint-enable jsx-a11y/no-static-element-interactions */
 };
 
 export const useFileZoneContext = (): FileDropZoneContextValue => {

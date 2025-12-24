@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {useActionHandlers, useDropZone, useFileInput} from '../../hooks';
-import type {UseDropZoneState, UseFileInputResult} from '../../hooks';
+import type {UseDropZoneStateWithoutRef, UseFileInputResult} from '../../hooks';
 
 import type {FileDropZoneProps} from './FileDropZone';
 
@@ -19,7 +19,7 @@ interface FileDropZoneContextValue
             | 'disabled'
         >,
         UseFileInputResult,
-        UseDropZoneState {
+        UseDropZoneStateWithoutRef {
     onKeyDown: React.KeyboardEventHandler;
 }
 

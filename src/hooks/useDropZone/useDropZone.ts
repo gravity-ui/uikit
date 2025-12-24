@@ -2,12 +2,21 @@ import * as React from 'react';
 
 export type UseDropZoneAccept = string[];
 
-export interface UseDropZoneParams {
+interface UseDropZoneBaseParams {
     accept: UseDropZoneAccept;
-    ref?: React.RefObject<HTMLElement>;
     disabled?: boolean;
     onDrop: (items: DataTransferItemList) => void;
 }
+
+export interface UseDropZoneParamsWithRef extends UseDropZoneBaseParams {
+    ref: React.RefObject<HTMLElement>;
+}
+
+export interface UseDropZoneParamsWithoutRef extends UseDropZoneBaseParams {
+    ref?: undefined;
+}
+
+export type UseDropZoneParams = UseDropZoneParamsWithRef | UseDropZoneParamsWithoutRef;
 
 const DROP_ZONE_BASE_ATTRIBUTES = {
     'aria-dropeffect': 'copy' as DataTransfer['dropEffect'],
@@ -22,10 +31,16 @@ export interface UseDropZoneDroppableProps extends Required<typeof DROP_ZONE_BAS
     onDrop: (e: React.DragEvent) => void;
 }
 
-export interface UseDropZoneState {
+export interface UseDropZoneStateWithRef {
+    isDraggingOver: boolean;
+}
+
+export interface UseDropZoneStateWithoutRef {
     isDraggingOver: boolean;
     getDroppableProps: () => UseDropZoneDroppableProps;
 }
+
+export type UseDropZoneState = UseDropZoneStateWithRef | UseDropZoneStateWithoutRef;
 
 function typeMatchesPattern(actualMimeType: string, expectedMimeTypePattern: string): boolean {
     const actualMimeTypeParts = actualMimeType.split('/');
@@ -60,6 +75,8 @@ function eventItemTypesAcceptable(accept: UseDropZoneAccept, event: DragEvent): 
     return false;
 }
 
+export function useDropZone(params: UseDropZoneParamsWithRef): UseDropZoneStateWithRef;
+export function useDropZone(params: UseDropZoneParamsWithoutRef): UseDropZoneStateWithoutRef;
 export function useDropZone({accept, disabled, onDrop, ref}: UseDropZoneParams): UseDropZoneState {
     const [isDraggingOver, setIsDraggingOver] = React.useState(false);
     const nestingCounterRef = React.useRef<number>(0);
@@ -188,6 +205,12 @@ export function useDropZone({accept, disabled, onDrop, ref}: UseDropZoneParams):
     );
 
     const getDroppableProps = React.useCallback(() => droppableProps, [droppableProps]);
+
+    if (ref) {
+        return {
+            isDraggingOver,
+        };
+    }
 
     return {
         isDraggingOver,

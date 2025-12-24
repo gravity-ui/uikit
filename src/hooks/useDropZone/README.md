@@ -72,10 +72,10 @@ const ExmapleDropZoneWithRef = () => {
 | :------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------: | :-----: |
 | accept   | A list of MIME types that will be accepted by the drop zone (e.g., `['text/*', 'image/png']`)                                                                |               `string[]`                |         |
 | disabled | Disables the drop zone                                                                                                                                       |                `boolean`                |         |
-| ref      | A ref object pointing to the element that will be provided with drop zone behavior                                                                           |     `React.RefObject<HTMLElement>`      |         |
+| ref      | An optional ref object pointing to the element that will be provided with drop zone behavior                                                                 |     `React.RefObject<HTMLElement>`      |         |
 | onDrop   | A callback triggered when something is successfully dropped into the drop zone. Won't be called if the item's type does not match those provided in `accept` | `(items: DataTransferItemList) => void` |         |
 
 ## Result
 
-- `getDroppableProps` - returns props to provide an element with drop zone behavior
+- `getDroppableProps` - returns props to provide an element with drop zone behavior (not returned if `ref` provided)
 - `isDraggingOver` - returns `true` when an element is being dragged over the zone, and `false` otherwise

@@ -1,15 +1,16 @@
-@use '../../variables';
+@use '../variables';
 
-$block: '.#{variables.$ns}dialog-body';
-
-#{$block} {
+#{variables.$bodyBlock} {
     padding: 10px var(--_--side-padding);
     flex: 1 1 auto;
-    overflow: auto;
     transition: height 0.35s ease-in-out;
 
     &_has-borders {
         border-block-start: 1px solid var(--g-color-line-generic);
         border-block-end: 1px solid var(--g-color-line-generic);
+    }
+
+    #{variables.$block}_has-scroll & {
+        overflow: auto;
     }
 }

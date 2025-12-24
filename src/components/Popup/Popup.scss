@@ -15,6 +15,11 @@ $transition-distance: 10px;
     --_--border-color: var(--g-popup-border-color, var(--g-color-line-generic-solid));
     --_--border-radius: var(--g-popup-border-radius, 4px);
     --_--border-width: var(--g-popup-border-width, 1px);
+    --_--arrow-box-shadow: var(
+        --g-popup-arrow-box-shadow,
+        inset 0 0 0 calc(#{$arrow-border} - var(--_--border-width)) var(--_--background-color),
+        inset 0 0 0 #{$arrow-border} var(--_--border-color)
+    );
 
     position: relative;
     border-radius: var(--_--border-radius);
@@ -107,9 +112,7 @@ $transition-distance: 10px;
     &__arrow-circle {
         box-sizing: border-box;
         border-radius: 50%;
-        box-shadow:
-            inset 0 0 0 calc(#{$arrow-border} - var(--_--border-width)) var(--_--background-color),
-            inset 0 0 0 $arrow-border var(--_--border-color);
+        box-shadow: var(--_--arrow-box-shadow);
         width: $arrow-circle-width;
         height: $arrow-circle-height;
         position: absolute;

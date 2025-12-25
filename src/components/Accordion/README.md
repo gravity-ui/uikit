@@ -491,3 +491,9 @@ LANDING_BLOCK-->
 | :------- | :-------------------------------------------------------------------------------------- | :---------------------------------------------: | :---------------------------------------------------------------------------------------: |
 | children | Custom summary render function                                                          | `(props, defaultSummary) => React.ReactElement` |                                                                                           |
 | qa       | HTML `data-qa` attribute, used for testing. Works only if `qa` passed in Accordion.Item |                    `string`                     | `${accordion-item}-summary` if `qa` passed in Accordion.Item, `disclosure-summary` if not |
+
+## CSS API
+
+| Name                           | Description                                       |
+| :----------------------------- | :------------------------------------------------ |
+| `--g-accordion-padding-inline` | Inline (horizontal) padding for accordion summary |

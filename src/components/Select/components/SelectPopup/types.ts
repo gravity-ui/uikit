@@ -17,4 +17,5 @@ export type SelectPopupProps = {
     id?: string;
     onAfterOpen?: () => void;
     onAfterClose?: () => void;
+    modal?: boolean;
 };

@@ -4,6 +4,8 @@ import {expectScreenshotFixture} from './expectScreenshotFixture';
 import {mountFixture} from './mountFixture';
 import type {Fixtures} from './types';
 
+export type {MountFixture} from './types';
+
 export const test = base.extend<Fixtures>({
     mount: mountFixture,
     expectScreenshot: expectScreenshotFixture,

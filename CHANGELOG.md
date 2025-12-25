@@ -1,5 +1,20 @@
 # Changelog
 
+## [7.29.0](https://github.com/gravity-ui/uikit/compare/v7.28.0...v7.29.0) (2025-12-24)
+
+
+### Features
+
+* **Icon:** add `color` prop ([#2499](https://github.com/gravity-ui/uikit/issues/2499)) ([bfe401b](https://github.com/gravity-ui/uikit/commit/bfe401bef5ebf8b15e6998b636be2c9631838694))
+
+
+### Bug Fixes
+
+* constrain the minimum Node.js version to 20.19 ([#2535](https://github.com/gravity-ui/uikit/issues/2535)) ([9992707](https://github.com/gravity-ui/uikit/commit/999270797b66a6bc2849418519534325f6c36351))
+* **Dialog:** remove unnecessary overflow on body ([#2540](https://github.com/gravity-ui/uikit/issues/2540)) ([59bc12f](https://github.com/gravity-ui/uikit/commit/59bc12f45d80814ac379660b208b2cd72905d72d))
+* **Select:** fix selected option styles ([#2530](https://github.com/gravity-ui/uikit/issues/2530)) ([66807d7](https://github.com/gravity-ui/uikit/commit/66807d7be2b7fcd5a941573156d15de636f26c24))
+* update types for React 19 compatibility ([#2522](https://github.com/gravity-ui/uikit/issues/2522)) ([2f16669](https://github.com/gravity-ui/uikit/commit/2f16669e2ffac1f3d32661730cf2eae433dcda48))
+
 ## [7.28.0](https://github.com/gravity-ui/uikit/compare/v7.27.0...v7.28.0) (2025-12-05)
 
 

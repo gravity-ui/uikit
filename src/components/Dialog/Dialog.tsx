@@ -137,16 +137,7 @@ export function Dialog({
             qa={qa}
             disableHeightTransition
         >
-            <div
-                className={b(
-                    {
-                        size,
-                        'has-close': hasCloseButton,
-                        'has-scroll': contentOverflow === 'auto',
-                    },
-                    className,
-                )}
-            >
+            <div className={b({size, 'has-scroll': contentOverflow === 'auto'}, className)}>
                 <DialogPrivateContext.Provider value={privateContextProps}>
                     {children}
                 </DialogPrivateContext.Provider>

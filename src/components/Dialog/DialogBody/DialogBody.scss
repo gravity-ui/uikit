@@ -1,7 +1,8 @@
 @use '../variables';
 
 #{variables.$bodyBlock} {
-    padding: 10px var(--_--side-padding);
+    min-height: 24px;
+    padding: 4px var(--_--side-padding);
     flex: 1 1 auto;
     transition: height 0.35s ease-in-out;
 

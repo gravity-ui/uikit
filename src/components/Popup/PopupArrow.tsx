@@ -14,16 +14,5 @@ export const PopupArrow = React.forwardRef<HTMLDivElement, PopupArrowProps>(func
     {styles},
     ref,
 ) {
-    return (
-        <div ref={ref} className={b('arrow')} style={styles}>
-            <div className={b('arrow-content')}>
-                <div className={b('arrow-circle-wrapper')}>
-                    <div className={b('arrow-circle', {left: true})} />
-                </div>
-                <div className={b('arrow-circle-wrapper')}>
-                    <div className={b('arrow-circle', {right: true})} />
-                </div>
-            </div>
-        </div>
-    );
+    return <div ref={ref} className={b('arrow')} style={styles} />;
 });

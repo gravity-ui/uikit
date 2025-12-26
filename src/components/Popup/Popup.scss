@@ -4,9 +4,6 @@ $block: '.#{variables.$ns}popup';
 
 $arrow-size: 18px;
 $arrow-offset: 9px;
-$arrow-border: 5px;
-$arrow-circle-width: 28px;
-$arrow-circle-height: 30px;
 $transition-duration: 100ms;
 $transition-distance: 10px;
 
@@ -86,42 +83,20 @@ $transition-distance: 10px;
 
     &__arrow {
         position: absolute;
-    }
-
-    &__arrow-content {
         width: $arrow-size;
         height: $arrow-size;
-        position: relative;
-        overflow: hidden;
-        display: flex;
-    }
+        pointer-events: none;
 
-    &__arrow-circle-wrapper {
-        background-color: transparent;
-        overflow: hidden;
-        width: 9px;
-        height: 9px;
-        position: relative;
-    }
-
-    &__arrow-circle {
-        box-sizing: border-box;
-        border-radius: 50%;
-        box-shadow:
-            inset 0 0 0 calc(#{$arrow-border} - var(--_--border-width)) var(--_--background-color),
-            inset 0 0 0 $arrow-border var(--_--border-color);
-        width: $arrow-circle-width;
-        height: $arrow-circle-height;
-        position: absolute;
-
-        &_left {
-            inset-inline-end: -5px;
-            inset-block-end: -4px;
-        }
-
-        &_right {
-            inset-inline-start: -5px;
-            inset-block-end: -4px;
+        &::before {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--_--background-color);
+            border: var(--_--border-width) solid var(--_--border-color);
+            transform: rotate(45deg);
+            inset-inline-start: 4px;
+            inset-block-start: 4px;
         }
     }
 
@@ -132,8 +107,8 @@ $transition-distance: 10px;
     @at-root [data-floating-ui-placement*='top'] #{$block}__arrow {
         inset-block-end: -$arrow-offset;
 
-        &-content {
-            transform: rotate(180deg);
+        &::before {
+            transform: rotate(225deg);
         }
     }
 
@@ -141,8 +116,8 @@ $transition-distance: 10px;
         // stylelint-disable-next-line csstools/use-logical
         right: -$arrow-offset;
 
-        &-content {
-            transform: rotate(90deg);
+        &::before {
+            transform: rotate(135deg);
         }
     }
 
@@ -150,8 +125,8 @@ $transition-distance: 10px;
         // stylelint-disable-next-line csstools/use-logical
         left: -$arrow-offset;
 
-        &-content {
-            transform: rotate(-90deg);
+        &::before {
+            transform: rotate(315deg);
         }
     }
 }

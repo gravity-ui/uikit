@@ -170,3 +170,56 @@ export const Position: Story = {
         layout: 'centered',
     },
 };
+
+export const WithArrow: Story = {
+    render: function PopupStory(props) {
+        const [anchor, setAnchor] = React.useState<HTMLDivElement | null>(null);
+        const [open, setOpen] = React.useState(true);
+        const contentStyle = {padding: 10};
+        const placements: PopupPlacement = [
+            'top-start',
+            'top',
+            'top-end',
+            'right-start',
+            'right',
+            'right-end',
+            'bottom-end',
+            'bottom',
+            'bottom-start',
+            'left-end',
+            'left',
+            'left-start',
+        ];
+
+        return (
+            <div
+                ref={setAnchor}
+                style={{
+                    width: 300,
+                    height: 200,
+                    border: '2px dashed black',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <Button onClick={() => setOpen(!open)}>Toggle open</Button>
+                {placements.map((placement) => (
+                    <Popup
+                        key={placement}
+                        {...props}
+                        open={open}
+                        anchorElement={anchor}
+                        placement={placement}
+                        hasArrow
+                    >
+                        <div style={contentStyle}>{placement}</div>
+                    </Popup>
+                ))}
+            </div>
+        );
+    },
+    parameters: {
+        layout: 'centered',
+    },
+};

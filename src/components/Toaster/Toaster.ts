@@ -1,11 +1,11 @@
 import {EventEmitter} from '../../utils/EventEmitter';
 
-import type {InternalToastProps, ToastProps} from './types';
+import type {InternalToastProps, ToastProps, ToasterPublicClass} from './types';
 import {getToastIndex} from './utilities/getToastIndex';
 import {hasToast} from './utilities/hasToast';
 import {removeToast} from './utilities/removeToast';
 
-export class Toaster {
+export class Toaster implements ToasterPublicClass {
     /** We were tried to notify about toaster changes, but no one were listened */
     private hasUndelivered = false;
     private toasts: InternalToastProps[] = [];

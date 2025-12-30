@@ -46,3 +46,7 @@ export interface ToasterContextMethods {
 }
 
 export interface ToasterPublicMethods extends ToasterContextMethods {}
+
+export interface ToasterPublicClass extends ToasterContextMethods {
+    subscribe(callback: (toasts: InternalToastProps[]) => void): VoidFunction;
+}

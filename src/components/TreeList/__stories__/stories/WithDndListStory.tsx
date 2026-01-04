@@ -95,7 +95,10 @@ export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
                     }}
                 >
                     {(droppableProvided: DroppableProvided) => (
-                        <ListContainerView ref={containerRef} id={id}>
+                        /*
+                         *TODO: Remove casting in React 19 (https://github.com/gravity-ui/uikit/issues/2537)
+                         */
+                        <ListContainerView ref={containerRef as React.Ref<HTMLDivElement>} id={id}>
                             <div
                                 {...droppableProvided.droppableProps}
                                 ref={droppableProvided.innerRef}

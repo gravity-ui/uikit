@@ -14,7 +14,7 @@ export type UseListNavigationProps<ItemType, AnchorType> = {
     processEndKey?: boolean;
     disabled?: boolean;
     initialValue?: number;
-    anchorRef?: React.RefObject<AnchorType>;
+    anchorRef?: React.RefObject<AnchorType | null>;
     onAnchorKeyDown?: (activeItemIndex: number, event: KeyboardEvent) => void | boolean;
 };
 

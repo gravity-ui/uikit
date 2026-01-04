@@ -1,8 +1,6 @@
-@use '../../variables';
+@use '../variables';
 
-$block: '.#{variables.$ns}dialog-btn-close';
-
-#{$block} {
+#{variables.$closeBtnBlock} {
     position: absolute;
     // Offset from icon to the edges should be 20px (36px is Button's size, 8px is half of Button's padding)
     // Icon size = 20px

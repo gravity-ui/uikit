@@ -1,7 +1,5 @@
 @use '../../../components/variables.scss';
 
-@import './ColorInfoPopup.scss';
-
 $block: '.#{variables.$ns}color-generator-stories';
 
 #{$block} {

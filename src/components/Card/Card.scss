@@ -65,7 +65,6 @@ $block: '.#{variables.$ns}card';
         --_--border-color: var(--g-color-line-generic);
 
         --_--background-color: var(--g-color-base-float);
-        --_--box-shadow: 0px 1px 5px var(--g-color-sfx-shadow);
 
         &::after {
             position: absolute;
@@ -86,6 +85,10 @@ $block: '.#{variables.$ns}card';
                 @include mixins.focus-outline();
                 content: '';
             }
+        }
+
+        @at-root &#{$block}_size_m {
+            --_--box-shadow: 0px 1px 5px var(--g-color-sfx-shadow);
         }
 
         @at-root &#{$block}_size_l {

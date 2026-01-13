@@ -50,6 +50,6 @@ export interface ToasterPublicMethods extends ToasterContextMethods {}
 /**
  * Toaster implementation for usage in `<Toaster.Provider/>`
  */
-export interface ToasterPublicClass extends ToasterContextMethods {
+export interface ToasterImplementation extends ToasterContextMethods {
     subscribe(callback: (toasts: InternalToastProps[]) => void): VoidFunction;
 }

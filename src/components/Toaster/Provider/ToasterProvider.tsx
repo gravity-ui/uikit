@@ -2,13 +2,13 @@
 
 import * as React from 'react';
 
-import type {InternalToastProps, ToasterPublicClass} from '../types';
+import type {InternalToastProps, ToasterImplementation} from '../types';
 
 import {ToasterContext} from './ToasterContext';
 import {ToastsContext} from './ToastsContext';
 
 type Props = React.PropsWithChildren<{
-    toaster: ToasterPublicClass;
+    toaster: ToasterImplementation;
 }>;
 
 export const ToasterProvider = ({toaster, children}: Props) => {

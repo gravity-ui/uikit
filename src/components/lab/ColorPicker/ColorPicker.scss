@@ -28,25 +28,23 @@ $block: '.#{variables.$ns}color-picker';
         position: relative;
         overflow: hidden;
         border: none;
+        margin-inline-end: var(--g-spacing-1);
 
         /* Checkerboard pattern */
         background: conic-gradient(#ccc 25%, #fff 25% 50%, #ccc 50% 75%, #fff 75%);
         background-size: 8px 8px;
 
         &_size {
-            &_xs {
-                --_--height: 16px;
-                --_--border-radius: var(--g-border-radius-xs);
-            }
-
             &_s {
-                --_--height: 20px;
+                --_--height: 18px;
                 --_--border-radius: var(--g-border-radius-s);
+                margin-inline-start: 1px;
             }
 
             &_m {
-                --_--height: 24px;
+                --_--height: 22px;
                 --_--border-radius: var(--g-border-radius-m);
+                margin-inline-start: 1px;
             }
 
             &_l {
@@ -102,37 +100,38 @@ $block: '.#{variables.$ns}color-picker';
 
     &__picker-wrapper {
         --_--base-picker-wrapper-width: 100px;
-        --__--picker-wrapper-padding: 2px var(--g-spacing-1);
-        padding: var(--__--picker-wrapper-padding);
         width: var(--_--base-picker-wrapper-width);
+        min-width: var(--_--base-picker-wrapper-width);
 
         &_alpha {
-            width: calc(--_--base-picker-wrapper-width + 10px);
+            width: calc(var(--_--base-picker-wrapper-width) + 14px);
         }
 
         &_size {
             &_s {
-                --_--base-picker-wrapper-width: 110px;
+                --_--base-picker-wrapper-width: 94px;
             }
 
             &_m {
-                --_--base-picker-wrapper-width: 120px;
+                --_--base-picker-wrapper-width: 100px;
             }
 
             &_l {
-                --__--picker-wrapper-padding: 0px var(--g-spacing-1);
-                --_--base-picker-wrapper-width: 130px;
+                --_--base-picker-wrapper-width: 110px;
             }
 
             &_xl {
-                --__--picker-wrapper-padding: 0px var(--g-spacing-1);
-                --_--base-picker-wrapper-width: 140px;
+                --_--base-picker-wrapper-width: 126px;
             }
         }
 
         &_compact {
             --_--base-picker-wrapper-width: fit-content;
             --__--picker-wrapper-padding: var(--g-spacing-1);
+
+            #{$block}__color-swatch {
+                margin-inline: 0;
+            }
         }
     }
 

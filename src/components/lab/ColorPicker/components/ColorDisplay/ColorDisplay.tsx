@@ -26,10 +26,6 @@ export const ColorDisplay = React.forwardRef<HTMLDivElement, ColorDisplayProps>(
             setInputValue(getTextValueByMode(hsva, Modes.Hex, withAlpha));
         }, [hsva, withAlpha]);
 
-        const handleInputChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-            setInputValue(e.target.value);
-        }, []);
-
         const handleInputBlur = React.useCallback(() => {
             try {
                 const newHsva = convertSelectedModeColorToHsva(inputValue, Modes.Hex, withAlpha);
@@ -40,33 +36,26 @@ export const ColorDisplay = React.forwardRef<HTMLDivElement, ColorDisplayProps>(
             }
         }, [inputValue, withAlpha, onColorChange, hsva]);
 
+        const swatch = (
+            <button
+                type="button"
+                className={b('color-swatch', {size})}
+                onClick={onClick}
+                style={{backgroundColor: hsvaToRgbaString(hsva)}}
+            />
+        );
+
         return (
             <div className={b('picker-wrapper', {compact, size, alpha: withAlpha})} ref={ref}>
                 <div className={b('picker-handlers')}>
                     {compact ? (
-                        <button
-                            type="button"
-                            className={b('color-swatch', {size})}
-                            onClick={onClick}
-                            style={{
-                                backgroundColor: hsvaToRgbaString(hsva),
-                            }}
-                        />
+                        swatch
                     ) : (
                         <TextInput
                             size={size}
-                            startContent={
-                                <button
-                                    type="button"
-                                    className={b('color-swatch', {size})}
-                                    onClick={onClick}
-                                    style={{
-                                        backgroundColor: hsvaToRgbaString(hsva),
-                                    }}
-                                />
-                            }
+                            startContent={swatch}
                             value={inputValue}
-                            onChange={handleInputChange}
+                            onChange={(e) => setInputValue(e.target.value)}
                             onBlur={handleInputBlur}
                         />
                     )}

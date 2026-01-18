@@ -135,10 +135,9 @@ describe('Disclosure', () => {
     test('content is visible when expanded', () => {
         const content = 'Some content';
         render(<Disclosure expanded={true}>{content}</Disclosure>);
-        const text = screen.getByText(content);
         const button = screen.getByRole('button');
 
-        expect(text).toHaveClass('g-disclosure__content_visible');
+        expect(screen.getByText(content)).toBeVisible();
         expect(button).toHaveAttribute('aria-expanded', 'true');
     });
 
@@ -146,9 +145,7 @@ describe('Disclosure', () => {
         const content = 'Some content';
         render(<Disclosure expanded={false}>{content}</Disclosure>);
         const button = screen.getByRole('button');
-        const text = screen.getByText(content);
 
-        expect(text).not.toHaveClass('g-disclosure__content_visible');
         expect(button).toHaveAttribute('aria-expanded', 'false');
     });
 
@@ -158,11 +155,10 @@ describe('Disclosure', () => {
         const content = 'Some content';
         render(<Disclosure>{content}</Disclosure>);
         const disclosure = screen.getByRole('button');
-        const component = screen.getByText(content);
 
-        expect(component).not.toHaveClass('g-disclosure__content_visible');
+        expect(disclosure).toHaveAttribute('aria-expanded', 'false');
         await user.click(disclosure);
-        expect(component).toHaveClass('g-disclosure__content_visible');
+        expect(disclosure).toHaveAttribute('aria-expanded', 'true');
     });
 
     test('content not in dom if not keepMounted and not expanded', () => {

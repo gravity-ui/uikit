@@ -3,6 +3,8 @@
 
 $block: '.#{variables.$ns}disclosure';
 $gap: 8px;
+$transition-duration: 0.2s;
+$transition-easing: linear;
 
 #{$block} {
     --_--text-color: var(--g-color-text-primary);
@@ -41,38 +43,19 @@ $gap: 8px;
         color: var(--g-disclosure-text-color-disabled, var(--_--text-color-disabled));
         cursor: auto;
     }
+
     &__content {
-        display: none;
+        display: block;
+        max-height: 0;
+        overflow: hidden;
+        transition:
+            max-height $transition-duration $transition-easing,
+            opacity $transition-duration $transition-easing;
+        opacity: 0;
     }
+
     &__content_visible {
-        display: block;
-    }
-    &__content#{$block}_exit_active {
-        display: block;
-        animation-name: #{variables.$ns}disclosure-collapsed;
-        animation-duration: 0.1s;
-        opacity: 0;
-    }
-    &__content#{$block}_enter_active {
-        animation-name: #{variables.$ns}disclosure-expanded;
-        animation-duration: 0.2s;
-    }
-}
-
-@keyframes #{variables.$ns}disclosure-expanded {
-    0% {
-        opacity: 0.4;
-    }
-    100% {
+        max-height: var(--_--disclosure-content-height, 99999px);
         opacity: 1;
-    }
-}
-
-@keyframes #{variables.$ns}disclosure-collapsed {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
     }
 }

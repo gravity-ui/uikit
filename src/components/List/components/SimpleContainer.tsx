@@ -54,7 +54,11 @@ export class SimpleContainer extends React.Component<SimpleContainerProps, Simpl
             React.cloneElement(child as React.ReactElement, {ref: this.state.refsList[index]}),
         );
 
-        return <div ref={this.setRef}>{children}</div>;
+        return (
+            <div ref={this.setRef} role="list">
+                {children}
+            </div>
+        );
     }
 
     scrollToItem(index: number) {

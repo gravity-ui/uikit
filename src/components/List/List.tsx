@@ -26,6 +26,7 @@ import {getUniqId} from '../utils/common';
 
 import {ListLoadingIndicator} from './ListLoadingIndicator';
 import {ListItem, SimpleContainer, defaultRenderItem} from './components';
+import {VariableSizeListElementType} from './components/VariableSizeListElementType';
 import {listNavigationIgnoredKeys} from './constants';
 import type {ListItemData, ListItemProps, ListProps} from './types';
 
@@ -61,7 +62,14 @@ const reorder = <T extends unknown>(list: T[], startIndex: number, endIndex: num
 };
 
 const ListContainer = React.forwardRef<VariableSizeList, VariableSizeListProps>((props, ref) => {
-    return <VariableSizeList ref={ref} {...props} direction={useDirection()} />;
+    return (
+        <VariableSizeList
+            ref={ref}
+            {...props}
+            direction={useDirection()}
+            innerElementType={VariableSizeListElementType}
+        />
+    );
 });
 ListContainer.displayName = 'ListContainer';
 
@@ -362,6 +370,10 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                     hasClear={true}
                     onUpdate={this.onFilterUpdate}
                     autoFocus={autoFocus}
+                    controlProps={{
+                        role: 'combobox',
+                        'aria-activedescendant': `${this.props.id ?? this.uniqId}-item-${this.state.activeItem}`,
+                    }}
                 />
             </div>
         );
@@ -557,6 +569,8 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
 
     private handleKeyMove(event: React.KeyboardEvent, step: number, defaultItemIndex = 0) {
         const {activeItem = defaultItemIndex} = this.state;
+
+        // console.log(activeItem);
 
         event.preventDefault();
 

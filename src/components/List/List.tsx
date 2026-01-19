@@ -570,8 +570,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     private handleKeyMove(event: React.KeyboardEvent, step: number, defaultItemIndex = 0) {
         const {activeItem = defaultItemIndex} = this.state;
 
-        // console.log(activeItem);
-
         event.preventDefault();
 
         const items = this.getItemsWithLoading();

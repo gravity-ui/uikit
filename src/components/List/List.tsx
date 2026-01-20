@@ -25,6 +25,7 @@ import {block} from '../utils/cn';
 import {getUniqId} from '../utils/common';
 
 import {ListLoadingIndicator} from './ListLoadingIndicator';
+import type {VariableSizeListElementTypeProps} from './components';
 import {
     ListItem,
     SimpleContainer,
@@ -68,7 +69,7 @@ const reorder = <T extends unknown>(list: T[], startIndex: number, endIndex: num
 
 const ListContainer = React.forwardRef<
     VariableSizeList,
-    VariableSizeListProps & {role: string; listId: string}
+    VariableSizeListProps & VariableSizeListElementTypeProps
 >((props, ref) => {
     const {role, listId, ...restProps} = props;
 

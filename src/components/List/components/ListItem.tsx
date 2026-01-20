@@ -60,7 +60,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events
             <div
                 role={role}
-                aria-selected={selected}
+                aria-selected={role === 'option' ? selected : undefined}
                 aria-disabled={item.disabled}
                 data-qa={active ? ListQa.ACTIVE_ITEM : undefined}
                 className={b(

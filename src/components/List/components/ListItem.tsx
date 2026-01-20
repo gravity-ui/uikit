@@ -10,6 +10,7 @@ import {block} from '../../utils/cn';
 import {eventBroker} from '../../utils/event-broker';
 import {ListQa} from '../constants';
 import type {ListItemProps} from '../types';
+import {getElementId} from '../utils';
 
 const b = block('list');
 
@@ -80,7 +81,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
                 onClickCapture={item.disabled ? undefined : this.onClickCapture}
                 onMouseEnter={this.onMouseEnter}
                 ref={this.setRef}
-                id={`${this.props.listId}-item-${this.props.itemIndex}`}
+                id={getElementId(this.props.listId, this.props.itemIndex)}
             >
                 {this.renderSortIcon()}
                 {this.renderContent()}

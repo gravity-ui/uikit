@@ -10,6 +10,8 @@ export type SimpleContainerProps = React.PropsWithChildren<{
     itemCount: number;
     provided?: DroppableProvided;
     onScrollToItem?: (node: HTMLElement) => boolean;
+    role: React.AriaRole;
+    id: string;
 }>;
 
 type RefsList = Record<number, React.RefObject<ListItem | null>>;
@@ -55,7 +57,7 @@ export class SimpleContainer extends React.Component<SimpleContainerProps, Simpl
         );
 
         return (
-            <div ref={this.setRef} role="list">
+            <div ref={this.setRef} role={this.props.role} id={this.props.id}>
                 {children}
             </div>
         );

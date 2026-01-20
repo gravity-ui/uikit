@@ -76,9 +76,9 @@ const ListContainer = React.forwardRef<
     return (
         <VariableSizeList
             ref={ref}
-            {...restProps}
             direction={useDirection()}
             innerElementType={createVariableSizeListElementType(role, listId)}
+            {...restProps}
         />
     );
 });

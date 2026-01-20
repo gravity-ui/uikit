@@ -2,14 +2,14 @@
 
 import * as React from 'react';
 
-export interface VariableSizeListElementTypeProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface VariableSizeListElementTypeProps {
     role: string;
     listId: string;
 }
 
 export const VariableSizeListElementType = React.forwardRef<
     HTMLDivElement,
-    VariableSizeListElementTypeProps
+    VariableSizeListElementTypeProps & React.HTMLAttributes<HTMLDivElement>
 >(({style, role, listId, ...rest}, ref) => (
     <div ref={ref} style={style} role={role} id={listId} {...rest} />
 ));

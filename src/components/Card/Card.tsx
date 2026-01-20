@@ -3,8 +3,8 @@
 import * as React from 'react';
 
 import {useActionHandlers} from '../../hooks';
-import {Box} from '../layout';
 import type {BoxProps} from '../layout';
+import {Box} from '../layout';
 import {block} from '../utils/cn';
 
 import './Card.scss';
@@ -37,6 +37,11 @@ export interface CardProps extends Omit<BoxProps<'div'>, 'as' | 'onClick'> {
     size?: CardSize;
 }
 
+const roles = {
+    selection: 'radio',
+    action: 'button',
+};
+
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(props, ref) {
     const {
         type = 'container',
@@ -59,6 +64,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
     const hasAction = isTypeAction || isTypeSelection;
     const isClickable = hasAction && Boolean(onClick) && !disabled;
 
+    const role = isClickable ? roles[type] : undefined;
     /* Theme only with type 'container' */
     const defaultTheme = isTypeContainer ? 'normal' : undefined;
     /* View only with type 'container' and 'selection' */
@@ -70,7 +76,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
     return (
         <Box
             ref={ref}
-            role={isClickable ? 'button' : undefined}
+            role={role}
             className={b(
                 {
                     theme: theme || defaultTheme,
@@ -86,6 +92,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
             onClick={handleClick as BoxProps['onClick']}
             onKeyDown={isClickable ? onKeyDown : undefined}
             tabIndex={isClickable ? 0 : undefined}
+            aria-checked={isTypeSelection ? selected : undefined}
             {...restProps}
         >
             {children}

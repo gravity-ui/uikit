@@ -1,5 +1,56 @@
 # Changelog
 
+## [7.29.0](https://github.com/gravity-ui/uikit/compare/v7.28.0...v7.29.0) (2025-12-24)
+
+
+### Features
+
+* **Icon:** add `color` prop ([#2499](https://github.com/gravity-ui/uikit/issues/2499)) ([bfe401b](https://github.com/gravity-ui/uikit/commit/bfe401bef5ebf8b15e6998b636be2c9631838694))
+
+
+### Bug Fixes
+
+* constrain the minimum Node.js version to 20.19 ([#2535](https://github.com/gravity-ui/uikit/issues/2535)) ([9992707](https://github.com/gravity-ui/uikit/commit/999270797b66a6bc2849418519534325f6c36351))
+* **Dialog:** remove unnecessary overflow on body ([#2540](https://github.com/gravity-ui/uikit/issues/2540)) ([59bc12f](https://github.com/gravity-ui/uikit/commit/59bc12f45d80814ac379660b208b2cd72905d72d))
+* **Select:** fix selected option styles ([#2530](https://github.com/gravity-ui/uikit/issues/2530)) ([66807d7](https://github.com/gravity-ui/uikit/commit/66807d7be2b7fcd5a941573156d15de636f26c24))
+* update types for React 19 compatibility ([#2522](https://github.com/gravity-ui/uikit/issues/2522)) ([2f16669](https://github.com/gravity-ui/uikit/commit/2f16669e2ffac1f3d32661730cf2eae433dcda48))
+
+## [7.28.0](https://github.com/gravity-ui/uikit/compare/v7.27.0...v7.28.0) (2025-12-05)
+
+
+### Features
+
+* add ColorPicker component ([#2386](https://github.com/gravity-ui/uikit/issues/2386)) ([6890288](https://github.com/gravity-ui/uikit/commit/6890288b88d9c52b3a223c31cef5f048a3167c02))
+* move Drawer from navigation to uikit ([#2350](https://github.com/gravity-ui/uikit/issues/2350)) ([6fab23c](https://github.com/gravity-ui/uikit/commit/6fab23ca671c8e5b7f68857d2d09540656a3d0fd))
+
+## [7.27.0](https://github.com/gravity-ui/uikit/compare/v7.26.2...v7.27.0) (2025-12-04)
+
+
+### Features
+
+* added a hook for generating a unique color with oklch color space ([#2288](https://github.com/gravity-ui/uikit/issues/2288)) ([96568a8](https://github.com/gravity-ui/uikit/commit/96568a80795de6816abab7f588afd8ef662c4d26))
+
+## [7.26.2](https://github.com/gravity-ui/uikit/compare/v7.26.1...v7.26.2) (2025-12-01)
+
+
+### Bug Fixes
+
+* use sort icon as draggable handler in List ([#2518](https://github.com/gravity-ui/uikit/issues/2518)) ([ff04de8](https://github.com/gravity-ui/uikit/commit/ff04de83fbee82e3924f8a7cdc010c6995a225d8))
+
+## [7.26.1](https://github.com/gravity-ui/uikit/compare/v7.26.0...v7.26.1) (2025-11-21)
+
+
+### Bug Fixes
+
+* **a11y:** add accessibility for dropdown submenu via tab ([#2508](https://github.com/gravity-ui/uikit/issues/2508)) ([aca867d](https://github.com/gravity-ui/uikit/commit/aca867dbe2c6af99cc2bfa9685ee7b69cbb1dcca))
+* **a11y:** remove redundant aria-checked attribute ([#2505](https://github.com/gravity-ui/uikit/issues/2505)) ([6881c99](https://github.com/gravity-ui/uikit/commit/6881c999648fa672f07995ec4b2fe094cd17d968))
+* add isomorphic version of `useLayoutEffect` hook to fix SSR warnings ([#2503](https://github.com/gravity-ui/uikit/issues/2503)) ([f59d098](https://github.com/gravity-ui/uikit/commit/f59d098acd6b3891f27cbef6b147d88ad5c2cbe1))
+* **AvatarStack:** change ordering algorithm for correct logical order li ([#2480](https://github.com/gravity-ui/uikit/issues/2480)) ([b9ec168](https://github.com/gravity-ui/uikit/commit/b9ec16871630ad21ba6e81f83881f57ac1331752))
+* **DropdownMenu:** remove separators in case of empty groups ([#2495](https://github.com/gravity-ui/uikit/issues/2495)) ([6794780](https://github.com/gravity-ui/uikit/commit/67947808535aa593fa64c4369ef7a9d6905d2e4c))
+* fix initial render of AvatarStack stories in StrictMode ([#2497](https://github.com/gravity-ui/uikit/issues/2497)) ([69249df](https://github.com/gravity-ui/uikit/commit/69249dfd2fbae08508a151f550712444f69f69c3))
+* **Menu:** fix role for MenuItem ([#2506](https://github.com/gravity-ui/uikit/issues/2506)) ([71cf5cf](https://github.com/gravity-ui/uikit/commit/71cf5cf26d5222fa7b93a159e854e700e87e07c0))
+* **unstable_Menu:** close menu after clicking inside Popup/Modal ([#2504](https://github.com/gravity-ui/uikit/issues/2504)) ([52fafbd](https://github.com/gravity-ui/uikit/commit/52fafbdf8dec47266cc2b5308d184db4769a9a50))
+
 ## [7.26.0](https://github.com/gravity-ui/uikit/compare/v7.25.0...v7.26.0) (2025-11-07)
 
 

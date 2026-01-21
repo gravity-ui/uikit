@@ -1,8 +1,9 @@
 import {createSmokeScenarios} from 'src/stories/tests-factory/create-smoke-scenarios';
 import {smokeTest, test} from '~playwright/core';
+import type {MountFixture} from '~playwright/core';
 
 import {Select} from '../Select';
-import type {SelectProps} from '../types';
+import type {SelectOption, SelectProps} from '../types';
 
 import {
     baseOptions,
@@ -227,6 +228,173 @@ test.describe('Select', {tag: '@Select'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
+        });
+    });
+
+    test.describe('option states', () => {
+        const render = (mount: MountFixture, props?: SelectProps) => {
+            const {options: propsOptions, ...restProps} = props || {};
+            const options = (propsOptions || baseOptions) as SelectOption[];
+
+            return mount(
+                <div style={{height: 120}}>
+                    <Select open={true} value={[options?.[1].value]} {...restProps}>
+                        {options.map((option) => {
+                            return (
+                                <Select.Option
+                                    key={option.value}
+                                    value={option.value}
+                                    content={option.content}
+                                />
+                            );
+                        })}
+                    </Select>
+                </div>,
+            );
+        };
+
+        test.describe('single', () => {
+            test('should activate selected option by default', async ({
+                expectScreenshot,
+                mount,
+                page,
+            }) => {
+                await render(mount);
+                const selectedOption = page.locator('[aria-selected="true"]');
+                await selectedOption.hover();
+                await expectScreenshot({
+                    themes: ['light'],
+                });
+            });
+
+            test('should activate selected option on hover', async ({
+                expectScreenshot,
+                mount,
+                page,
+            }) => {
+                await render(mount);
+                const unselectedOption = page.getByText(baseOptions[0].content as string);
+                await unselectedOption.hover();
+                const selectedOption = page.locator('[aria-selected="true"]');
+                await selectedOption.hover();
+                await expectScreenshot({
+                    themes: ['light'],
+                });
+            });
+
+            test('should activate selected option on navigation', async ({
+                expectScreenshot,
+                mount,
+                page,
+            }) => {
+                await render(mount);
+                const control = page.getByRole('combobox');
+                await control.click();
+                await control.press('ArrowDown');
+                await control.press('ArrowUp');
+                await expectScreenshot({
+                    themes: ['light'],
+                });
+            });
+
+            test('should activate unselected option on hover', async ({
+                expectScreenshot,
+                mount,
+                page,
+            }) => {
+                await render(mount);
+                const unselectedOption = page.getByText(baseOptions[2].content as string);
+                await unselectedOption.hover();
+                await expectScreenshot({
+                    themes: ['light'],
+                });
+            });
+
+            test('should activate unselected option on navigation', async ({
+                expectScreenshot,
+                mount,
+                page,
+            }) => {
+                await render(mount);
+                const control = page.getByRole('combobox');
+                await control.click();
+                await control.press('ArrowDown');
+                await expectScreenshot({
+                    themes: ['light'],
+                });
+            });
+        });
+
+        test.describe('multiple', () => {
+            test('should activate first selected option by default', async ({
+                expectScreenshot,
+                mount,
+                page,
+            }) => {
+                await render(mount, {multiple: true});
+                const selectedOption = page.locator('[aria-selected="true"]');
+                await selectedOption.hover();
+                await expectScreenshot({
+                    themes: ['light'],
+                });
+            });
+
+            test('should activate selected option on hover', async ({
+                expectScreenshot,
+                mount,
+                page,
+            }) => {
+                await render(mount, {multiple: true});
+                const unselectedOption = page.getByText(baseOptions[0].content as string);
+                await unselectedOption.hover();
+                const selectedOption = page.locator('[aria-selected="true"]');
+                await selectedOption.hover();
+                await expectScreenshot({
+                    themes: ['light'],
+                });
+            });
+
+            test('should activate selected option on navigation', async ({
+                expectScreenshot,
+                mount,
+                page,
+            }) => {
+                await render(mount, {multiple: true});
+                const control = page.getByRole('combobox');
+                await control.click();
+                await control.press('ArrowDown');
+                await control.press('ArrowUp');
+                await expectScreenshot({
+                    themes: ['light'],
+                });
+            });
+
+            test('should activate unselected option on hover', async ({
+                expectScreenshot,
+                mount,
+                page,
+            }) => {
+                await render(mount, {multiple: true});
+                const unselectedOption = page.getByText(baseOptions[2].content as string);
+                await unselectedOption.hover();
+                await expectScreenshot({
+                    themes: ['light'],
+                });
+            });
+
+            test('should activate unselected option on navigation', async ({
+                expectScreenshot,
+                mount,
+                page,
+            }) => {
+                await render(mount, {multiple: true});
+                const control = page.getByRole('combobox');
+                await control.click();
+                await control.press('ArrowDown');
+                await expectScreenshot({
+                    themes: ['light'],
+                });
+            });
         });
     });
 });

@@ -14,6 +14,8 @@ import {getElementId} from '../utils';
 
 const b = block('list');
 
+const ROLES_WITH_ARIA_SELECTED = new Set(['option', 'gridcell', 'row', 'tab']);
+
 export const defaultRenderItem = <T extends unknown>(item: T) => String(item);
 
 function getStyle(provided?: DraggableProvided, style?: React.CSSProperties) {
@@ -60,7 +62,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events
             <div
                 role={role}
-                aria-selected={role === 'option' ? selected : undefined}
+                aria-selected={ROLES_WITH_ARIA_SELECTED.has(role) ? selected : undefined}
                 aria-disabled={item.disabled}
                 data-qa={active ? ListQa.ACTIVE_ITEM : undefined}
                 className={b(

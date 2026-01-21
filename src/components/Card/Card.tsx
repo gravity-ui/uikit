@@ -40,6 +40,7 @@ export interface CardProps extends Omit<BoxProps<'div'>, 'as' | 'onClick'> {
 const roles = {
     selection: 'radio',
     action: 'button',
+    container: undefined,
 };
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(props, ref) {
@@ -64,7 +65,6 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
     const hasAction = isTypeAction || isTypeSelection;
     const isClickable = hasAction && Boolean(onClick) && !disabled;
 
-    const role = isClickable ? roles[type] : undefined;
     /* Theme only with type 'container' */
     const defaultTheme = isTypeContainer ? 'normal' : undefined;
     /* View only with type 'container' and 'selection' */
@@ -76,7 +76,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
     return (
         <Box
             ref={ref}
-            role={role}
+            role={roles[type]}
             className={b(
                 {
                     theme: theme || defaultTheme,

@@ -50,8 +50,9 @@ export interface DrawerProps
     resizable?: boolean;
     /**
      * Width of the drawer in pixels.
+     * @default 400
      */
-    size?: number;
+    size?: number | 'auto';
     /**
      * Min width of the drawer in pixels.
      */
@@ -72,6 +73,11 @@ export interface DrawerProps
      * Callback called at the end of resizing.
      */
     onResizeEnd?: OnResizeHandler;
+    /**
+     * Removes the drawer's veil.
+     * @default false
+     */
+    hideVeil?: boolean;
 }
 
 export const Drawer = ({
@@ -81,7 +87,7 @@ export const Drawer = ({
     children,
     contentClassName,
     resizable = false,
-    size,
+    size = 400,
     minSize,
     maxSize,
     onResizeStart,
@@ -91,7 +97,6 @@ export const Drawer = ({
     style,
     qa,
     disableEscapeKeyDown,
-    disableOutsideClick,
     initialFocus,
     returnFocus,
     disableBodyScrollLock = false,
@@ -104,9 +109,11 @@ export const Drawer = ({
     disablePortal,
     keepMounted = false,
     container,
+    hideVeil = false,
     ...restProps
 }: DrawerProps) => {
     const floatingNodeId = useFloatingNodeId();
+    const disableOutsideClick = hideVeil || restProps.disableOutsideClick;
 
     const {refs, context} = useFloating({
         nodeId: floatingNodeId,
@@ -163,6 +170,7 @@ export const Drawer = ({
                         {
                             open,
                             placement,
+                            'hide-veil': hideVeil,
                         },
                         className,
                     )}

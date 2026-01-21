@@ -87,6 +87,7 @@ export default App;
 | keepMounted             | Не удаляет компонент из DOM при скрытии                                                              |             `boolean`              |        `false`        |
 | resizable               | Включает возможность изменения размера через курсор                                                  |             `boolean`              |        `false`        |
 | open                    | Управляет видимостью компонента                                                                      |             `boolean`              |        `false`        |
+| hideVeil                | Скрывает шторку компонента                                                                           |             `boolean`              |        `false`        |
 | onOpenChange            | Обработчик изменения состояния видимости                                                             |             `Function`             |                       |
 | onTransitionIn          | Обработчик начала анимации открытия                                                                  |             `Function`             |                       |
 | onTransitionOut         | Обработчик начала анимации закрытия                                                                  |             `Function`             |                       |

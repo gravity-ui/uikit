@@ -87,6 +87,7 @@ A `Drawer` can be resizable by passing the `resizable` prop.
 | keepMounted             | `Drawer` will not be removed from the DOM upon hiding                            |             `boolean`              |     `false`     |
 | resizable               | Enables resizing of the drawer via pointer                                       |             `boolean`              |     `false`     |
 | open                    | Manages `Drawer` visibility                                                      |             `boolean`              |     `false`     |
+| hideVeil                | Removes the `Drawer`'s veil                                                      |             `boolean`              |     `false`     |
 | onOpenChange            | Callback called at the moment of open state change                               |             `Function`             |                 |
 | onTransitionIn          | The callback fired on transition "in" start                                      |             `Function`             |                 |
 | onTransitionInComplete  | The callback fired on transition "in" complete                                   |             `Function`             |                 |

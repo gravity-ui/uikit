@@ -9,15 +9,18 @@
 
     &__item-content {
         box-sizing: border-box;
-        height: 100%;
         padding: 8px 16px;
     }
 
-    &__drawer_hide-veil {
-        --g-color-sfx-veil: transparent;
+    &__drawer_placement_right &__item-content,
+    &__drawer_placement_left &__item-content {
+        width: 400px;
+        height: 100%;
     }
 
-    &__drawer_hide-veil &__item-content {
-        box-shadow: 0 1px 5px 0 var(--g-color-sfx-shadow);
+    &__drawer_placement_top &__item-content,
+    &__drawer_placement_bottom &__item-content {
+        width: 100%;
+        height: 300px;
     }
 }

@@ -32,17 +32,11 @@ export function ResizableItemShowcase() {
 export function HideVeilShowcase() {
     return (
         <div style={{display: 'flex', flexDirection: 'column', width: '1200px', height: '600px'}}>
-            <Drawer
-                open
-                placement="right"
-                qa="test-drawer"
-                style={{'--g-color-sfx-veil': 'transparent'}}
-            >
+            <Drawer open placement="right" qa="test-drawer" hideVeil>
                 <div
                     style={{
                         height: '100%',
                         padding: '20px',
-                        boxShadow: '0 1px 5px 0 var(--g-color-sfx-shadow)',
                     }}
                 >
                     {mockText}

@@ -3,7 +3,6 @@ import * as React from 'react';
 import {hsvaToRgbaString} from '@uiw/react-color';
 import type {HsvaColor} from '@uiw/react-color';
 
-import {Card} from '../../../../Card';
 import {TextInput} from '../../../../controls';
 import {b} from '../../constants';
 import {Modes} from '../../types';
@@ -27,10 +26,6 @@ export const ColorDisplay = React.forwardRef<HTMLDivElement, ColorDisplayProps>(
             setInputValue(getTextValueByMode(hsva, Modes.Hex, withAlpha));
         }, [hsva, withAlpha]);
 
-        const handleInputChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-            setInputValue(e.target.value);
-        }, []);
-
         const handleInputBlur = React.useCallback(() => {
             try {
                 const newHsva = convertSelectedModeColorToHsva(inputValue, Modes.Hex, withAlpha);
@@ -41,32 +36,31 @@ export const ColorDisplay = React.forwardRef<HTMLDivElement, ColorDisplayProps>(
             }
         }, [inputValue, withAlpha, onColorChange, hsva]);
 
+        const swatch = (
+            <button
+                type="button"
+                className={b('color-swatch', {size})}
+                onClick={onClick}
+                style={{backgroundColor: hsvaToRgbaString(hsva)}}
+            />
+        );
+
         return (
-            <Card
-                view={'outlined'}
-                className={b('picker-wrapper', {alpha: withAlpha, size, compact})}
-                ref={ref}
-            >
+            <div className={b('picker-wrapper', {compact, size, alpha: withAlpha})} ref={ref}>
                 <div className={b('picker-handlers')}>
-                    <button
-                        type="button"
-                        className={b('color-swatch', {size})}
-                        onClick={onClick}
-                        style={{
-                            backgroundColor: hsvaToRgbaString(hsva),
-                        }}
-                    />
-                    {!compact && (
+                    {compact ? (
+                        swatch
+                    ) : (
                         <TextInput
-                            value={inputValue}
-                            onChange={handleInputChange}
-                            onBlur={handleInputBlur}
                             size={size}
-                            view={'clear'}
+                            startContent={swatch}
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
+                            onBlur={handleInputBlur}
                         />
                     )}
                 </div>
-            </Card>
+            </div>
         );
     },
 );

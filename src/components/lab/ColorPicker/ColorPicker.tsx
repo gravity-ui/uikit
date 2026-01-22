@@ -126,7 +126,7 @@ export const ColorPicker = ({
             <ColorDisplay
                 hsva={hsva}
                 withAlpha={withAlpha}
-                onClick={() => setIsOpen(true)}
+                onClick={() => setIsOpen(!isOpen)}
                 onColorChange={updateHsva}
                 ref={setAnchor}
                 size={size}
@@ -136,9 +136,17 @@ export const ColorPicker = ({
             <Popup
                 open={isOpen}
                 className={b('popup')}
-                placement={['bottom-start', 'bottom-end']}
+                placement={[
+                    'bottom-start',
+                    'bottom-end',
+                    'left-start',
+                    'left-end',
+                    'top-start',
+                    'top-end',
+                ]}
                 anchorElement={anchor}
                 onOpenChange={setIsOpen}
+                disableTransition
             >
                 <div className={b('handlers-container')}>
                     <Saturation

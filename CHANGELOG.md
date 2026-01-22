@@ -1,5 +1,21 @@
 # Changelog
 
+## [7.30.0](https://github.com/gravity-ui/uikit/compare/v7.29.0...v7.30.0) (2026-01-22)
+
+
+### Features
+
+* **Card:** added aria-checked state and changed role ([#2555](https://github.com/gravity-ui/uikit/issues/2555)) ([7e17e76](https://github.com/gravity-ui/uikit/commit/7e17e762f2e41572a512cf401c1716844cbb1f25))
+* **Checkbox:** add hover to checked state ([#2548](https://github.com/gravity-ui/uikit/issues/2548)) ([f8bfda7](https://github.com/gravity-ui/uikit/commit/f8bfda77ddd6181f9b9e0a07e10922a22a2e6b00))
+* some improvements at color picker ([#2547](https://github.com/gravity-ui/uikit/issues/2547)) ([74c22e9](https://github.com/gravity-ui/uikit/commit/74c22e9eaef59220a8a7b12818d0a4b1c99a9db6))
+* **Toaster:** simplify required interface for provider ([#2544](https://github.com/gravity-ui/uikit/issues/2544)) ([0d6fe60](https://github.com/gravity-ui/uikit/commit/0d6fe60aea322dddb0ae559a307ed0d70685fb47))
+
+
+### Bug Fixes
+
+* **List:** add aria attributes ([#2553](https://github.com/gravity-ui/uikit/issues/2553)) ([d840707](https://github.com/gravity-ui/uikit/commit/d8407073b3292a24ec107237aec22b43f43b8147))
+* replace barrel imports for useLayoutEffect ([#2550](https://github.com/gravity-ui/uikit/issues/2550)) ([618b1bb](https://github.com/gravity-ui/uikit/commit/618b1bb9e4d48505bf7327c66992b80fe869ed3c))
+
 ## [7.29.0](https://github.com/gravity-ui/uikit/compare/v7.28.0...v7.29.0) (2025-12-24)
 
 

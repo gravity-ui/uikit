@@ -20,9 +20,9 @@ export function DialogHeader(props: DialogHeaderProps) {
     return (
         <div className={b(null, className)}>
             {insertBefore}
-            <div className={b('caption')} id={id}>
+            <h2 className={b('caption')} id={id}>
                 {caption}
-            </div>
+            </h2>
             {insertAfter}
         </div>
     );

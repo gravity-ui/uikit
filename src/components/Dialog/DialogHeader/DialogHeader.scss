@@ -18,5 +18,7 @@ $block: '.#{variables.$ns}dialog-header';
 
     &__caption {
         @include mixins.text-subheader-3();
+
+        margin: 0;
     }
 }

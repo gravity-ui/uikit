@@ -1,5 +1,6 @@
 import type * as React from 'react';
 
+import {Text} from '../../Text';
 import {block} from '../../utils/cn';
 
 import './DialogHeader.scss';
@@ -11,18 +12,19 @@ export interface DialogHeaderProps {
     insertBefore?: React.ReactNode;
     insertAfter?: React.ReactNode;
     className?: string;
+    as?: React.ElementType;
     id?: string;
 }
 
 export function DialogHeader(props: DialogHeaderProps) {
-    const {caption = '', insertBefore, insertAfter, className, id} = props;
+    const {caption = '', as = 'div', insertBefore, insertAfter, className, id} = props;
 
     return (
         <div className={b(null, className)}>
             {insertBefore}
-            <h2 className={b('caption')} id={id}>
+            <Text as={as} className={b('caption')} id={id}>
                 {caption}
-            </h2>
+            </Text>
             {insertAfter}
         </div>
     );

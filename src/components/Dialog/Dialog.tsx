@@ -2,8 +2,8 @@
 
 import * as React from 'react';
 
-import {Modal} from '../Modal';
 import type {ModalCloseReason, ModalProps} from '../Modal';
+import {Modal} from '../Modal';
 import type {AriaLabelingProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
@@ -13,8 +13,8 @@ import {DialogBody} from './DialogBody/DialogBody';
 import {DialogDivider} from './DialogDivider/DialogDivider';
 import {DialogFooter} from './DialogFooter/DialogFooter';
 import {DialogHeader} from './DialogHeader/DialogHeader';
-import {DialogPrivateContext} from './DialogPrivateContext';
 import type {DialogPrivateContextProps} from './DialogPrivateContext';
+import {DialogPrivateContext} from './DialogPrivateContext';
 
 import './Dialog.scss';
 
@@ -148,11 +148,11 @@ export function Dialog({
                     className,
                 )}
             >
+                {hasCloseButton && <ButtonClose onClose={handleCloseButtonClick} />}
+
                 <DialogPrivateContext.Provider value={privateContextProps}>
                     {children}
                 </DialogPrivateContext.Provider>
-
-                {hasCloseButton && <ButtonClose onClose={handleCloseButtonClick} />}
             </div>
         </Modal>
     );

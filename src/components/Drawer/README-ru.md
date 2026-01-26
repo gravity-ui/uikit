@@ -63,6 +63,21 @@ export default App;
 </Drawer>
 ```
 
+Дополнительно, вы можете использовать свойство `size`, чтобы управлять размером `Drawer` и передать обработчик `onResize`, чтобы сохранить измененное значение.
+
+```tsx
+const [size, setSize] = useState(500);
+
+<Drawer
+  onOpenChange={setVisible}
+  open={isVisible}
+  resizable
+  size={size}
+  onResize={setSize}
+>
+  <p>Content of the drawer</p>
+</Drawer>
+
 ## Свойства
 
 | Имя                     | Описание                                                                                                     |                Тип                 | Значение по умолчанию |
@@ -99,3 +114,4 @@ export default App;
 | maxSize                 | Максимальная ширина или высота контента в пикселях                                                           |              `number`              |                       |
 | minSize                 | Минимальная ширина или высота контента в пикселях                                                            |              `number`              |                       |
 | size                    | Ширина или высота контента в пикселях. Когда передано значение `fit`, Drawer подстроится под размер контента |         `number \| 'fit'`          |                       |
+```

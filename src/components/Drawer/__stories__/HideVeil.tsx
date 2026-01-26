@@ -44,7 +44,6 @@ export function HideVeilShowcase() {
                     placement={placement}
                     onOpenChange={setVisible}
                     hideVeil={hideVeil}
-                    className={b('drawer')}
                 >
                     <div className={b('item-content')}>
                         <Flex direction="column" gap={4}>

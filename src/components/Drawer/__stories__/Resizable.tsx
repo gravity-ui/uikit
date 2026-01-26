@@ -18,6 +18,7 @@ export function ResizableDrawerShowcase() {
     const [visible, setVisible] = React.useState(true);
     const [resizable, setResizable] = React.useState(true);
     const [placement, setPlacement] = React.useState<DrawerPlacement>('right');
+    const [size, setSize] = React.useState(500);
 
     return (
         <div className={b()}>
@@ -44,6 +45,8 @@ export function ResizableDrawerShowcase() {
                     onOpenChange={setVisible}
                     resizable={resizable}
                     className={b('drawer', {placement, resizable})}
+                    size={resizable ? size : undefined}
+                    onResize={setSize}
                 >
                     <div className={b('item-content')}>{mockText}</div>
                 </Drawer>

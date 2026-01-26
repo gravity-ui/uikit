@@ -63,6 +63,16 @@ A `Drawer` can be resizable by passing the `resizable` prop.
 </Drawer>
 ```
 
+Additionally, you can use the `size` prop to control the size of the `Drawer` and pass the `onResize` handler to store the resized value.
+
+```tsx
+const [size, setSize] = useState(500);
+
+<Drawer onOpenChange={setVisible} open={isVisible} resizable size={size} onResize={setSize}>
+  <p>Content of the drawer</p>
+</Drawer>;
+```
+
 ## Properties
 
 | Name                    | Description                                                                                                                     |                Type                |     Default     |

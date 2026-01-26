@@ -65,37 +65,37 @@ export default App;
 
 ## Свойства
 
-| Имя                     | Описание                                                                                             |                Тип                 | Значение по умолчанию |
-| :---------------------- | :--------------------------------------------------------------------------------------------------- | :--------------------------------: | :-------------------: |
-| className               | Атрибут `class` для корневого элемента                                                               |              `string`              |                       |
-| qa                      | Атрибут для тестирования (`data-qa`)                                                                 |              `string`              |                       |
-| style                   | Атрибут `style` для корневого элемента                                                               |       `React.CSSProperties`        |                       |
-| aria-label              | Атрибут `aria-label` для описания компонента Drawer                                                  |              `string`              |                       |
-| aria-labelledby         | ID элемента с видимым заголовком для Drawer                                                          |              `string`              |                       |
-| aria-describedby        | Атрибут`aria-describedby` для описания компонента `Drawer`                                           |              `string`              |                       |
-| aria-details            | Атрибут `aria-details` для описания компонента `Drawer`                                              |              `string`              |                       |
-| returnFocus             | Element to be focused on closing                                                                     | `boolean` `React.Ref<HTMLElement>` |        `true`         |
-| initialFocus            | Начальный элемент для установки фокуса. Положительное число является индексом кликабельного элемента | `number` `React.Ref<HTMLElement>`  |                       |
-| placement               | Сторона, откуда выезжает Drawer                                                                      |              `string`              |        `left`         |
-| contentClassName        | Атрибут `class` для элемента с контентом                                                             |              `string`              |                       |
-| children                | React-контент                                                                                        |         `React.ReactNode`          |                       |
-| container               | DOM-элемент, в который монтируется компонент через `Portal`                                          |           `HTMLElement`            |    `document.body`    |
-| disableBodyScrollLock   | Отключает блокировку скролла страницы при открытии                                                   |             `boolean`              |        `false`        |
-| disableEscapeKeyDown    | Отключает закрытие по клавише `Esc`                                                                  |             `boolean`              |        `false`        |
-| disableOutsideClick     | Отключает закрытие при клике снаружи                                                                 |             `boolean`              |        `false`        |
-| disablePortal           | Отключает использование `Portal`                                                                     |             `boolean`              |        `false`        |
-| keepMounted             | Не удаляет компонент из DOM при скрытии                                                              |             `boolean`              |        `false`        |
-| resizable               | Включает возможность изменения размера через курсор                                                  |             `boolean`              |        `false`        |
-| open                    | Управляет видимостью компонента                                                                      |             `boolean`              |        `false`        |
-| hideVeil                | Скрывает шторку компонента                                                                           |             `boolean`              |        `false`        |
-| onOpenChange            | Обработчик изменения состояния видимости                                                             |             `Function`             |                       |
-| onTransitionIn          | Обработчик начала анимации открытия                                                                  |             `Function`             |                       |
-| onTransitionOut         | Обработчик начала анимации закрытия                                                                  |             `Function`             |                       |
-| onTransitionInComplete  | Обработчик завершения анимации открытия                                                              |             `Function`             |                       |
-| onTransitionOutComplete | Обработчик завершения анимации закрытия                                                              |             `Function`             |                       |
-| onResizeEnd             | Обработчик завершения изменения размера                                                              |             `Function`             |                       |
-| onResize                | Обработчик изменения размера                                                                         |             `Function`             |                       |
-| onResizeStart           | Обработчик начала изменения размера                                                                  |             `Function`             |                       |
-| maxSize                 | Максимальная ширина или высота контента в пикселях                                                   |              `number`              |                       |
-| minSize                 | Минимальная ширина или высота контента в пикселях                                                    |              `number`              |                       |
-| size                    | Ширина или высота контента в пикселях                                                                |              `number`              |                       |
+| Имя                     | Описание                                                                                                     |                Тип                 | Значение по умолчанию |
+| :---------------------- | :----------------------------------------------------------------------------------------------------------- | :--------------------------------: | :-------------------: |
+| className               | Атрибут `class` для корневого элемента                                                                       |              `string`              |                       |
+| qa                      | Атрибут для тестирования (`data-qa`)                                                                         |              `string`              |                       |
+| style                   | Атрибут `style` для корневого элемента                                                                       |       `React.CSSProperties`        |                       |
+| aria-label              | Атрибут `aria-label` для описания компонента Drawer                                                          |              `string`              |                       |
+| aria-labelledby         | ID элемента с видимым заголовком для Drawer                                                                  |              `string`              |                       |
+| aria-describedby        | Атрибут`aria-describedby` для описания компонента `Drawer`                                                   |              `string`              |                       |
+| aria-details            | Атрибут `aria-details` для описания компонента `Drawer`                                                      |              `string`              |                       |
+| returnFocus             | Element to be focused on closing                                                                             | `boolean` `React.Ref<HTMLElement>` |        `true`         |
+| initialFocus            | Начальный элемент для установки фокуса. Положительное число является индексом кликабельного элемента         | `number` `React.Ref<HTMLElement>`  |                       |
+| placement               | Сторона, откуда выезжает Drawer                                                                              |              `string`              |        `left`         |
+| contentClassName        | Атрибут `class` для элемента с контентом                                                                     |              `string`              |                       |
+| children                | React-контент                                                                                                |         `React.ReactNode`          |                       |
+| container               | DOM-элемент, в который монтируется компонент через `Portal`                                                  |           `HTMLElement`            |    `document.body`    |
+| disableBodyScrollLock   | Отключает блокировку скролла страницы при открытии                                                           |             `boolean`              |        `false`        |
+| disableEscapeKeyDown    | Отключает закрытие по клавише `Esc`                                                                          |             `boolean`              |        `false`        |
+| disableOutsideClick     | Отключает закрытие при клике снаружи                                                                         |             `boolean`              |        `false`        |
+| disablePortal           | Отключает использование `Portal`                                                                             |             `boolean`              |        `false`        |
+| keepMounted             | Не удаляет компонент из DOM при скрытии                                                                      |             `boolean`              |        `false`        |
+| resizable               | Включает возможность изменения размера через курсор                                                          |             `boolean`              |        `false`        |
+| open                    | Управляет видимостью компонента                                                                              |             `boolean`              |        `false`        |
+| hideVeil                | Скрывает шторку компонента                                                                                   |             `boolean`              |        `false`        |
+| onOpenChange            | Обработчик изменения состояния видимости                                                                     |             `Function`             |                       |
+| onTransitionIn          | Обработчик начала анимации открытия                                                                          |             `Function`             |                       |
+| onTransitionOut         | Обработчик начала анимации закрытия                                                                          |             `Function`             |                       |
+| onTransitionInComplete  | Обработчик завершения анимации открытия                                                                      |             `Function`             |                       |
+| onTransitionOutComplete | Обработчик завершения анимации закрытия                                                                      |             `Function`             |                       |
+| onResizeEnd             | Обработчик завершения изменения размера                                                                      |             `Function`             |                       |
+| onResize                | Обработчик изменения размера                                                                                 |             `Function`             |                       |
+| onResizeStart           | Обработчик начала изменения размера                                                                          |             `Function`             |                       |
+| maxSize                 | Максимальная ширина или высота контента в пикселях                                                           |              `number`              |                       |
+| minSize                 | Минимальная ширина или высота контента в пикселях                                                            |              `number`              |                       |
+| size                    | Ширина или высота контента в пикселях. Когда передано значение `fit`, Drawer подстроится под размер контента |         `number \| 'fit'`          |                       |

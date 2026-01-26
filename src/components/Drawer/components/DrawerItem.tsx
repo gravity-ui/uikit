@@ -32,7 +32,7 @@ export interface DrawerItemProps extends AriaLabelingProps {
     /**
      * The width or height of the resizable drawer item.
      */
-    size?: number | 'auto';
+    size?: number | 'fit';
 
     /** Called at the start of resizing. */
     onResizeStart?: OnResizeHandler;
@@ -92,8 +92,12 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
 
         const isHorizontalArrangement = ['left', 'right'].includes(placement);
         const isVerticalArrangement = !isHorizontalArrangement;
-        const width = isHorizontalArrangement ? `${currentSize}px` : undefined;
-        const height = isVerticalArrangement ? `${currentSize}px` : undefined;
+        const width =
+            isHorizontalArrangement && (resizable || size !== 'fit')
+                ? `${currentSize}px`
+                : undefined;
+        const height =
+            isVerticalArrangement && (resizable || size !== 'fit') ? `${currentSize}px` : undefined;
 
         const resizerElement = resizable ? (
             <div
@@ -117,8 +121,8 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
                 )}
                 style={{
                     ...style,
-                    width: resizable || userCustomSize ? width : undefined,
-                    height: resizable || userCustomSize ? height : undefined,
+                    width,
+                    height,
                 }}
                 {...restProps}
             >

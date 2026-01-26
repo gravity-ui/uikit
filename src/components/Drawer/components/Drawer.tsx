@@ -49,10 +49,10 @@ export interface DrawerProps
      */
     resizable?: boolean;
     /**
-     * Width of the drawer in pixels.
-     * @default 400
+     * Width or size of the drawer in pixels.
+     * When the 'fit' option is passed, the Drawer's width or height will fit to its content.
      */
-    size?: number | 'auto';
+    size?: number | 'fit';
     /**
      * Min width of the drawer in pixels.
      */
@@ -87,7 +87,7 @@ export const Drawer = ({
     children,
     contentClassName,
     resizable = false,
-    size = 400,
+    size,
     minSize,
     maxSize,
     onResizeStart,

@@ -41,7 +41,6 @@ export const Default: Story = {
                 style={{
                     boxSizing: 'border-box',
                     padding: '8px 16px',
-                    width: '400px',
                     height: '100%',
                     overflowY: 'auto',
                 }}

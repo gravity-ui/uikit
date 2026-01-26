@@ -53,7 +53,7 @@ export function DisablePortalShowcase() {
                     container={containerRef.current ?? undefined}
                     onOpenChange={setVisible}
                     placement={placement}
-                    size="auto"
+                    size="fit"
                     contentClassName={b('item', {vertical: isVertical})}
                     open={visible}
                 >

@@ -47,13 +47,13 @@ export function DisablePortalShowcase() {
             <div className={b('container', {disablePortal})} ref={containerRef}>
                 <p>Container area for drawer with disablePortal</p>
                 <Drawer
-                    className={b('drawer', {placement})}
+                    className={b('drawer')}
                     disablePortal={disablePortal}
                     style={{position: disablePortal ? 'absolute' : 'fixed'}}
                     container={containerRef.current ?? undefined}
                     onOpenChange={setVisible}
                     placement={placement}
-                    size="fit"
+                    size={isVertical ? 300 : undefined}
                     contentClassName={b('item', {vertical: isVertical})}
                     open={visible}
                 >

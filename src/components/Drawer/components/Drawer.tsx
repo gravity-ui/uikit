@@ -50,7 +50,7 @@ export interface DrawerProps
     resizable?: boolean;
     /**
      * Width or size of the drawer in pixels.
-     * When the 'auto' option is passed, the Drawer's width or height will auto to its content.
+     * When the 'auto' option is passed, the Drawer's width or height will adjust to fit its content.
      */
     size?: number | 'auto';
     /**

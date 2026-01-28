@@ -10,6 +10,7 @@ import type {LabelProps} from '../Label';
 import {LabelShowcase} from './LabelShowcase';
 
 const iconSizeMap: Record<NonNullable<LabelProps['size']>, number> = {
+    xxs: 12,
     xs: 12,
     s: 14,
     m: 16,
@@ -46,6 +47,9 @@ export const Default: Story = {
 export const Size: Story = {
     render: (args) => (
         <Showcase>
+            <Label {...args} size="xxs">
+                Size xxs
+            </Label>
             <Label {...args} size="xs">
                 Size xs
             </Label>

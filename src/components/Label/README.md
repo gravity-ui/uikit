@@ -236,11 +236,13 @@ LANDING_BLOCK-->
 
 <ExampleBlock
     code={`
+<Label size="xxs">XXS size</Label>
 <Label size="xs">XS size</Label>
 <Label size="s">S size</Label>
 <Label size="m">M size</Label>
 `}
 >
+    <UIKit.Label size="xxs">XXS size</UIKit.Label>
     <UIKit.Label size="xs">XS size</UIKit.Label>
     <UIKit.Label size="s">S size</UIKit.Label>
     <UIKit.Label size="m">M size</UIKit.Label>
@@ -251,6 +253,7 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
+<Label size="xxs">XXS size</Label>
 <Label size="xs">XS size</Label>
 <Label size="s">S size</Label>
 <Label size="m">M size</Label>
@@ -275,7 +278,7 @@ LANDING_BLOCK-->
 | onCloseClick     | Close button `click` event handler              |               `Function`                |             |
 | onCopy           | `copy` event handler                            |               `Function`                |             |
 | qa               | `data-qa` HTML attribute, used for testing      |                `string`                 |             |
-| size             | Label size                                      |           `"xs"` `"s"` `"m"`            |   `"xs"`    |
+| size             | Label size                                      |       `"xxs"` `"xs"` `"s"` `"m"`        |   `"xs"`    |
 | theme            | Label theme                                     |                `string`                 | `"normal"`  |
 | title            | `title` HTML attribute                          |                `string`                 |             |
 | type             | Label type                                      | `"default"` `"copy"` `"close"` `"info"` | `"default"` |

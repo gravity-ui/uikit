@@ -237,3 +237,25 @@ export const Custom: Story = {
         />
     ),
 };
+
+/** Story for testing icon shrink with text overflow */
+export const TestIconTextOverflow: Story = {
+    tags: ['!dev'],
+    args: {
+        ...Default.args,
+        width: 'max',
+    },
+    decorators: (Story) => (
+        <div style={{width: '625px'}}>
+            <Story />
+        </div>
+    ),
+    render: (args) => (
+        <Button {...args}>
+            <IconWithSize data={Heart} size={args.size} />
+            {
+                'AwacsEasyUpstream "cdp-api.metrika.foobar.net-cdp-api-heavy-upstream-retriable": DEPLOYING: AwacsUpstream "metrika-java/cdp-api.metrika.foobar.net-cdp-api-heavy-upstream-retriable" is still in progress: metrika-java/cdp-api.metrika.foobar.net-cdp-api-heavy-upstream-retriable is still in progress'
+            }
+        </Button>
+    ),
+};

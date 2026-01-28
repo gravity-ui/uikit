@@ -87,6 +87,12 @@ test.describe('Button', {tag: '@Button'}, () => {
         await expectScreenshot();
     });
 
+    test('render story: <TestIconTextOverflow>', async ({mount, expectScreenshot}) => {
+        await mount(<ButtonStories.TestIconTextOverflow />);
+
+        await expectScreenshot();
+    });
+
     const qa = 'test-button';
 
     smokeTest('', async ({mount, expectScreenshot}) => {

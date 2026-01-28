@@ -6,6 +6,7 @@ import {Drawer} from '../components/Drawer';
 
 import {DisablePortalShowcase} from './DisablePortal';
 import {HideVeilShowcase} from './HideVeil';
+import {ResizableDrawerShowcase} from './Resizable';
 
 const mockText = faker.lorem.sentences(10);
 
@@ -64,3 +65,6 @@ export const DisablePortal = DisablePortalTemplate.bind({});
 
 const HideVeilTemplate: StoryFn = () => <HideVeilShowcase />;
 export const HideVeil = HideVeilTemplate.bind({});
+
+const ResizableTemplate: StoryFn = () => <ResizableDrawerShowcase />;
+export const Resizable = ResizableTemplate.bind({});

@@ -1,16 +1,17 @@
 import * as React from 'react';
 
 import type {HsvaColor} from '@uiw/react-color';
-import {Alpha, Hue, Saturation, hsvaToHex, hsvaToHexa} from '@uiw/react-color';
+import {Alpha, Hue, Saturation, hsvaToHex, hsvaToHexa, validHex} from '@uiw/react-color';
 
 import {useControlledState} from '../../../hooks/useControlledState';
 import {Popup} from '../../Popup';
+import type {PopupPlacement} from '../../Popup';
 import {Select} from '../../Select';
 
 import {ColorDisplay, ColorPointer, HexInput, RgbInputs} from './components';
 import {DEFAULT_COLOR, b} from './constants';
 import {Modes} from './types';
-import {convertSelectedModeColorToHsva, getTextValueByMode} from './utils';
+import {convertSelectedModeColorToHsva, getTextValueByMode, isValidHsva} from './utils';
 
 export interface ColorPickerProps {
     /*
@@ -50,6 +51,20 @@ export interface ColorPickerProps {
      */
     compact?: boolean;
 }
+
+const POPUP_PLACEMENTS: PopupPlacement = [
+    'bottom-start',
+    'bottom-end',
+    'left-start',
+    'left-end',
+    'top-start',
+    'top-end',
+];
+
+const MODE_OPTIONS = Object.values(Modes).map((val) => ({
+    content: val,
+    value: val,
+}));
 
 export const ColorPicker = ({
     size,
@@ -94,9 +109,20 @@ export const ColorPicker = ({
     const updateHsva = React.useCallback(
         (updates: Partial<HsvaColor>) => {
             const newHsva = {...hsva, ...updates};
+
+            // Validate HSVA before applying
+            if (!isValidHsva(newHsva)) {
+                return;
+            }
+
             setHsva(newHsva);
 
             const newHexValue = withAlpha ? hsvaToHexa(newHsva) : hsvaToHex(newHsva);
+
+            // Validate HEX before calling onUpdate
+            if (!validHex(newHexValue)) {
+                return;
+            }
 
             isInternalUpdateRef.current = true;
             setColor(newHexValue);
@@ -113,20 +139,42 @@ export const ColorPicker = ({
     };
 
     const applyInputValue = React.useCallback(() => {
-        const newHsva = convertSelectedModeColorToHsva(inputValue, modeState, withAlpha);
-        setHsva(newHsva);
+        const raw = inputValue.trim();
+
+        if (!raw) {
+            setInputValue(color);
+            return;
+        }
+
+        if (modeState === Modes.Hex && !validHex(raw)) {
+            setInputValue(color);
+            return;
+        }
+        const newHsva = convertSelectedModeColorToHsva(raw, modeState, withAlpha);
+
+        if (!isValidHsva(newHsva)) {
+            setInputValue(color);
+            return;
+        }
 
         const newHexValue = withAlpha ? hsvaToHexa(newHsva) : hsvaToHex(newHsva);
+
+        if (!validHex(newHexValue)) {
+            setInputValue(color);
+            return;
+        }
+
         isInternalUpdateRef.current = true;
+        setHsva(newHsva);
         setColor(newHexValue);
-    }, [inputValue, modeState, withAlpha, setColor]);
+    }, [inputValue, modeState, withAlpha, setColor, color]);
 
     return (
         <React.Fragment>
             <ColorDisplay
                 hsva={hsva}
                 withAlpha={withAlpha}
-                onClick={() => setIsOpen(true)}
+                onClick={() => setIsOpen(!isOpen)}
                 onColorChange={updateHsva}
                 ref={setAnchor}
                 size={size}
@@ -136,9 +184,10 @@ export const ColorPicker = ({
             <Popup
                 open={isOpen}
                 className={b('popup')}
-                placement={['bottom-start', 'bottom-end']}
+                placement={POPUP_PLACEMENTS}
                 anchorElement={anchor}
                 onOpenChange={setIsOpen}
+                disableTransition
             >
                 <div className={b('handlers-container')}>
                     <Saturation
@@ -189,10 +238,7 @@ export const ColorPicker = ({
 
                     <div className={b('inputs')}>
                         <Select
-                            options={Object.values(Modes).map((val) => ({
-                                content: val,
-                                value: val,
-                            }))}
+                            options={MODE_OPTIONS}
                             multiple={false}
                             value={[modeState]}
                             onUpdate={(val) => handleModeChange(val[0] as Modes)}

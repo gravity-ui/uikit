@@ -5,20 +5,20 @@ import {faker} from '@faker-js/faker/locale/en';
 import {Button} from '../../Button';
 import {Checkbox} from '../../Checkbox';
 import {SegmentedRadioGroup} from '../../SegmentedRadioGroup';
-import {Flex} from '../../layout';
 import {cn} from '../../utils/cn';
 import {Drawer} from '../components/Drawer';
 import type {DrawerPlacement} from '../hooks/useResizeHandlers';
 
-import './HideVeil.scss';
+import './Resizable.scss';
 
-const b = cn('hide-veil');
+const b = cn('resizable-showcase');
 const mockText = faker.lorem.sentences(10);
 
-export function HideVeilShowcase() {
+export function ResizableDrawerShowcase() {
     const [visible, setVisible] = React.useState(true);
-    const [hideVeil, setHideVeil] = React.useState(true);
+    const [resizable, setResizable] = React.useState(true);
     const [placement, setPlacement] = React.useState<DrawerPlacement>('right');
+    const [size, setSize] = React.useState(500);
 
     return (
         <div className={b()}>
@@ -36,23 +36,19 @@ export function HideVeilShowcase() {
                     ]}
                     onUpdate={setPlacement}
                 />
-                <Checkbox content="Hide veil" checked={hideVeil} onUpdate={setHideVeil} />
+                <Checkbox content="Resizable" checked={resizable} onUpdate={setResizable} />
             </div>
             <div className={b('container')}>
                 <Drawer
                     open={visible}
                     placement={placement}
                     onOpenChange={setVisible}
-                    hideVeil={hideVeil}
+                    resizable={resizable}
+                    className={b('drawer', {placement, resizable})}
+                    size={resizable ? size : undefined}
+                    onResize={setSize}
                 >
-                    <div className={b('item-content')}>
-                        <Flex direction="column" gap={4}>
-                            <div>{mockText}</div>
-                            <Button view="action" onClick={() => setVisible(false)}>
-                                Hide drawer
-                            </Button>
-                        </Flex>
-                    </div>
+                    <div className={b('item-content')}>{mockText}</div>
                 </Drawer>
             </div>
         </div>

@@ -3,7 +3,6 @@ import * as React from 'react';
 import type {AriaLabelingProps} from 'src/components/types';
 
 import {block} from '../../utils/cn';
-import {DRAWER_ITEM_MIN_SIZE} from '../constants';
 import {useResizableDrawerItem} from '../hooks/useResizableDrawerItem';
 import type {DrawerPlacement, OnResizeHandler} from '../hooks/useResizeHandlers';
 
@@ -32,9 +31,8 @@ export interface DrawerItemProps extends AriaLabelingProps {
 
     /**
      * The width or height of the resizable drawer item.
-     * If not provided, the size will be stored internally.
      */
-    size?: number;
+    size?: number | 'auto';
 
     /** Called at the start of resizing. */
     onResizeStart?: OnResizeHandler;
@@ -80,9 +78,10 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
             ...restProps
         } = props;
 
+        const userCustomSize = typeof size === 'number' ? size : undefined;
         const {currentSize, onResizerPointerDown} = useResizableDrawerItem({
             placement,
-            size,
+            size: userCustomSize,
             minSize,
             maxSize,
             onResizeStart,
@@ -93,7 +92,14 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
 
         const isHorizontalArrangement = ['left', 'right'].includes(placement);
         const isVerticalArrangement = !isHorizontalArrangement;
-        const calculatedMinSize = minSize ?? DRAWER_ITEM_MIN_SIZE;
+        const width =
+            isHorizontalArrangement && (resizable || size !== 'auto')
+                ? `${currentSize}px`
+                : undefined;
+        const height =
+            isVerticalArrangement && (resizable || size !== 'auto')
+                ? `${currentSize}px`
+                : undefined;
 
         const resizerElement = resizable ? (
             <div
@@ -117,10 +123,8 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
                 )}
                 style={{
                     ...style,
-                    minWidth: isHorizontalArrangement ? `${calculatedMinSize}px` : undefined,
-                    minHeight: isVerticalArrangement ? `${calculatedMinSize}px` : undefined,
-                    width: isHorizontalArrangement ? `${currentSize}px` : undefined,
-                    height: isVerticalArrangement ? `${currentSize}px` : undefined,
+                    width,
+                    height,
                 }}
                 {...restProps}
             >

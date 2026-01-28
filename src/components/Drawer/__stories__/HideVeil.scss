@@ -12,12 +12,4 @@
         height: 100%;
         padding: 8px 16px;
     }
-
-    &__drawer_hide-veil {
-        --g-color-sfx-veil: transparent;
-    }
-
-    &__drawer_hide-veil &__item-content {
-        box-shadow: 0 1px 5px 0 var(--g-color-sfx-shadow);
-    }
 }

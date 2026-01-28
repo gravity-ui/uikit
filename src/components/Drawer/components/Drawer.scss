@@ -6,7 +6,6 @@ $drawer-resizer-width: 8px;
 #{$block} {
     outline: none;
 
-    position: absolute;
     z-index: 990;
     inset: 0;
 
@@ -19,13 +18,21 @@ $drawer-resizer-width: 8px;
         inset-inline-start: 0;
         inset-block: 0;
 
-        height: 100%;
-
         background-color: var(--g-color-base-background);
 
         pointer-events: initial;
         outline: none;
         will-change: transform;
+    }
+
+    &_hide-veil {
+        background-color: transparent;
+
+        pointer-events: none;
+
+        #{$block}__item {
+            box-shadow: 0 1px 5px 0 var(--g-color-sfx-shadow);
+        }
     }
 
     &_placement_right &__item {

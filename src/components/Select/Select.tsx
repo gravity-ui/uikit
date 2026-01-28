@@ -368,7 +368,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                         : undefined
                 }
                 onAfterClose={
-                    filterable
+                    filterable && !propsFilter
                         ? () => {
                               setFilter('');
                           }

@@ -9,9 +9,7 @@ on:
 jobs:
   comment:
     name: Deploy Report
-    if: >
-      github.event.workflow_run.event == 'pull_request' &&
-      github.event.workflow_run.conclusion == 'success'
+    if: github.event.workflow_run.event == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - name: Generate token

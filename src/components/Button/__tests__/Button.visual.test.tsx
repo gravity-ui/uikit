@@ -12,7 +12,7 @@ import {
     sizeCases,
     viewsCases,
 } from './cases';
-import {ButtonStories, CustomIconSizeButton} from './helpersPlaywright';
+import {ButtonStories, CustomIconSizeButton, ShrinkIconButton} from './helpersPlaywright';
 
 test.describe('Button', {tag: '@Button'}, () => {
     test('render story: <Default>', async ({mount, expectScreenshot}) => {
@@ -83,6 +83,12 @@ test.describe('Button', {tag: '@Button'}, () => {
 
     test('render custom Icon size', async ({mount, expectScreenshot}) => {
         await mount(<CustomIconSizeButton />);
+
+        await expectScreenshot();
+    });
+
+    test('shrink icon button', async ({mount, expectScreenshot}) => {
+        await mount(<ShrinkIconButton />, {width: 150});
 
         await expectScreenshot();
     });

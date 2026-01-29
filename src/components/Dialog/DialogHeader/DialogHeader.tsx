@@ -22,7 +22,7 @@ export function DialogHeader(props: DialogHeaderProps) {
     return (
         <div className={b(null, className)}>
             {insertBefore}
-            <Text as={as} className={b('caption')} id={id}>
+            <Text as={as} variant="subheader-3" className={b('caption')} id={id}>
                 {caption}
             </Text>
             {insertAfter}

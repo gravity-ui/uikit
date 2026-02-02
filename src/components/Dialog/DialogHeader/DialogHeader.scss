@@ -15,8 +15,4 @@ $block: '.#{variables.$ns}dialog-header';
     align-items: center;
     justify-content: flex-start;
     color: var(--g-color-text-primary);
-
-    &__caption {
-        @include mixins.text-subheader-3();
-    }
 }

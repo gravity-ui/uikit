@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import {Button} from '../../../components/Button';
 import {Dialog} from '../../../components/Dialog/Dialog';
-import {Loader} from '../../../components/Loader';
 import {Select} from '../../../components/Select';
 import {TextInput} from '../../controls';
 import {Flex} from '../../layout/Flex/Flex';
@@ -124,95 +123,6 @@ function OtherDialog() {
     );
 }
 
-function DynamicHeightDialog() {
-    const [open, setOpen] = React.useState(false);
-    const [isFirstDynamicPartOpen, setIsFirstDynamicPartOpen] = React.useState(false);
-    const [isSecondDynamicPartOpen, setIsSecondDynamicPartOpen] = React.useState(false);
-
-    const switchVisibility = () => {
-        setOpen((prevOpen) => !prevOpen);
-    };
-
-    React.useEffect(() => {
-        const timers: number[] = [];
-        if (open) {
-            timers[0] = window.setTimeout(() => {
-                setIsFirstDynamicPartOpen(true);
-            }, 2000);
-            timers[1] = window.setTimeout(() => {
-                setIsSecondDynamicPartOpen(true);
-            }, 4000);
-        } else {
-            setIsFirstDynamicPartOpen(false);
-            setIsSecondDynamicPartOpen(false);
-        }
-        return () => {
-            timers.forEach((t) => {
-                window.clearTimeout(t);
-            });
-        };
-    }, [open]);
-
-    return (
-        <div>
-            <Button view="outlined" size="l" onClick={switchVisibility}>
-                dialog with dynamic height transition
-            </Button>
-            <Dialog
-                open={open}
-                onClose={switchVisibility}
-                className="my-custom-class-for-dialog"
-                hasCloseButton
-                keepMounted
-                qa="dynamicHeight"
-            >
-                <Dialog.Body>
-                    <div>
-                        <div style={{marginTop: '24px', marginBottom: '24px'}}>
-                            This is a dialog with dynamic height
-                        </div>
-                        {isFirstDynamicPartOpen && (
-                            <div style={{display: 'flex', flexDirection: 'column', gap: '24px'}}>
-                                <div>Content loaded</div>
-                                <div>This is the description</div>
-                                <div>More content to come</div>
-                            </div>
-                        )}
-                        {(!isFirstDynamicPartOpen || !isSecondDynamicPartOpen) && (
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    marginTop: '24px',
-                                }}
-                            >
-                                <Loader />
-                            </div>
-                        )}
-                        {isSecondDynamicPartOpen && (
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: '24px',
-                                    marginTop: '24px',
-                                }}
-                            >
-                                <div>Second part loaded</div>
-                                <div>This is the description part 1</div>
-                                <div>This is the description part 2</div>
-                                <div>This is the description part 3</div>
-                                <div>No more content to load</div>
-                            </div>
-                        )}
-                    </div>
-                </Dialog.Body>
-                <Dialog.Footer preset="default" textButtonApply="Yes" textButtonCancel="No" />
-            </Dialog>
-        </div>
-    );
-}
-
 export function DialogShowcase() {
     const buttonRef = React.useRef<HTMLButtonElement>(null);
     const [open, setOpen] = React.useState(false);
@@ -300,9 +210,6 @@ export function DialogShowcase() {
             </Dialog>
             <div>
                 <OtherDialog />
-            </div>
-            <div style={{marginTop: 10}}>
-                <DynamicHeightDialog />
             </div>
         </div>
     );

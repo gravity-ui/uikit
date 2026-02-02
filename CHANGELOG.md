@@ -1,5 +1,21 @@
 # Changelog
 
+## [7.31.0](https://github.com/gravity-ui/uikit/compare/v7.30.0...v7.31.0) (2026-02-02)
+
+
+### Features
+
+* add FileDropZone component ([#2487](https://github.com/gravity-ui/uikit/issues/2487)) ([97a78af](https://github.com/gravity-ui/uikit/commit/97a78af75fdd3e7684d4958acec97ac76f40b1ba))
+* add hideVeil prop to Drawer component ([#2556](https://github.com/gravity-ui/uikit/issues/2556)) ([4d559cf](https://github.com/gravity-ui/uikit/commit/4d559cf3ab3a451ce7db374b74fde49b16bf01ee))
+* **ColorPicker:** add validation for colors while changing ([#2558](https://github.com/gravity-ui/uikit/issues/2558)) ([c612c35](https://github.com/gravity-ui/uikit/commit/c612c35d6611e9168412dea2845389b646c5ac54))
+* **Label:** add new value for prop size ([#2549](https://github.com/gravity-ui/uikit/issues/2549)) ([d48efdc](https://github.com/gravity-ui/uikit/commit/d48efdce997cd5d7a95798d40d4a63ede2af6200))
+
+
+### Bug Fixes
+
+* **Button:** avoid icon shrink ([#2563](https://github.com/gravity-ui/uikit/issues/2563)) ([98da73e](https://github.com/gravity-ui/uikit/commit/98da73e30020dbe62aa2e1341a6acd2b37714a51))
+* **Select:** stop clearing filter value if filterProp is used ([#2562](https://github.com/gravity-ui/uikit/issues/2562)) ([f447583](https://github.com/gravity-ui/uikit/commit/f4475830b2effd604600941761a6eb588c6fd2b0))
+
 ## [7.30.0](https://github.com/gravity-ui/uikit/compare/v7.29.0...v7.30.0) (2026-01-22)
 
 

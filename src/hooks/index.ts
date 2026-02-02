@@ -16,4 +16,3 @@ export * from './useViewportSize';
 export * from './useVirtualElementRef';
 export * from './useUniqId';
 export * from './useLayoutEffect';
-export * from './useDropZone';

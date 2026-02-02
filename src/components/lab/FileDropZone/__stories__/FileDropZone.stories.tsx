@@ -1,7 +1,7 @@
 import {DatabaseFill, FolderOpenFill, HeartCrack} from '@gravity-ui/icons';
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
-import {Text} from '../..';
+import {Text} from '../../../';
 import {FileDropZone} from '../FileDropZone';
 import type {FileDropZoneProps} from '../FileDropZone';
 

@@ -1,7 +1,9 @@
 import * as React from 'react';
 
-import {useActionHandlers, useDropZone, useFileInput} from '../../hooks';
-import type {UseDropZoneStateWithoutRef, UseFileInputResult} from '../../hooks';
+import type {UseFileInputResult} from '../../../hooks';
+import {useActionHandlers, useFileInput} from '../../../hooks';
+import {useDropZone} from '../../../hooks/lab/useDropZone';
+import type {UseDropZoneStateWithoutRef} from '../../../hooks/lab/useDropZone';
 
 import type {FileDropZoneProps} from './FileDropZone';
 

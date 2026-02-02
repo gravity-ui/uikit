@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {Button} from '../..';
+import {Button} from '../../../../';
 import {useFileZoneContext} from '../FileDropZone.Provider';
 import {cnFileDropZone} from '../FileDropZone.classname';
 import i18n from '../i18n';

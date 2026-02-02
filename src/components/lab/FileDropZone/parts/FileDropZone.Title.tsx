@@ -1,4 +1,4 @@
-import {Text} from '../..';
+import {Text} from '../../../';
 import {useFileZoneContext} from '../FileDropZone.Provider';
 import i18n from '../i18n';
 

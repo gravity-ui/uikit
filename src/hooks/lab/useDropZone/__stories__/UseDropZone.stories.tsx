@@ -1,7 +1,7 @@
 import {FileArrowDown} from '@gravity-ui/icons';
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
-import {Icon, Text} from '../../../components';
+import {Icon, Text} from '../../../../components';
 import {useDropZone} from '../useDropZone';
 import type {UseDropZoneParams} from '../useDropZone';
 

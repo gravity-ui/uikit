@@ -51,3 +51,16 @@ export {
     ColorPicker as unstable_ColorPicker,
     type ColorPickerProps as unstable_ColorPickerProps,
 } from './components/lab/ColorPicker';
+
+export {
+    FileDropZone as unstable_FileDropZone,
+    type FileDropZoneProps,
+} from './components/lab/FileDropZone';
+
+export {
+    type UseDropZoneAccept,
+    type UseDropZoneParams,
+    type UseDropZoneDroppableProps,
+    type UseDropZoneState,
+    useDropZone as unstable_useDropZone,
+} from './hooks/lab/useDropZone';

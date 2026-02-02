@@ -5,7 +5,7 @@ import {
     CloudArrowUpIn as DefaultIcon,
 } from '@gravity-ui/icons';
 
-import {Icon} from '../..';
+import {Icon} from '../../../';
 import {useFileZoneContext} from '../FileDropZone.Provider';
 import {cnFileDropZone} from '../FileDropZone.classname';
 

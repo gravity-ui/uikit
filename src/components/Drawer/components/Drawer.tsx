@@ -160,11 +160,19 @@ export const Drawer = ({
         floatingRef as React.Ref<HTMLDivElement>,
     );
 
+    const composedStyle = React.useMemo(
+        () => ({
+            position: 'absolute' as React.CSSProperties['position'],
+            ...style,
+        }),
+        [style],
+    );
+
     const portal =
         isMounted || keepMounted ? (
             <Portal container={container} disablePortal={disablePortal}>
                 <FloatingOverlay
-                    style={style}
+                    style={composedStyle}
                     ref={overlayRef}
                     className={b(
                         {

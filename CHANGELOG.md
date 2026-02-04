@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.31.1](https://github.com/gravity-ui/uikit/compare/v7.31.0...v7.31.1) (2026-02-04)
+
+
+### Bug Fixes
+
+* **Dialog:** moved close button to the top of dialog in dom, add "as" prop to DialogHeader ([0e56abc](https://github.com/gravity-ui/uikit/commit/0e56abce2ed73d7b12c39d195f4bd4a7be813812))
+* revert [#2553](https://github.com/gravity-ui/uikit/issues/2553) ([#2568](https://github.com/gravity-ui/uikit/issues/2568)) ([5c34925](https://github.com/gravity-ui/uikit/commit/5c349257a47c6a469c8e51bc9d21d3857fd1632c))
+
 ## [7.31.0](https://github.com/gravity-ui/uikit/compare/v7.30.0...v7.31.0) (2026-02-02)
 
 

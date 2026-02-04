@@ -39,7 +39,6 @@ export interface DialogProps extends AriaLabelingProps, QAProps {
     modalClassName?: string;
     size?: 's' | 'm' | 'l';
     container?: HTMLElement;
-    // TODO: Remove from readme disableFocusTrap disableAutoFocus
     initialFocus?: ModalProps['initialFocus'] | 'cancel' | 'apply';
     returnFocus?: ModalProps['returnFocus'];
     contentOverflow?: 'visible' | 'auto';

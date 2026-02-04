@@ -10,8 +10,11 @@ import {block} from '../../utils/cn';
 import {eventBroker} from '../../utils/event-broker';
 import {ListQa} from '../constants';
 import type {ListItemProps} from '../types';
+import {getElementId} from '../utils';
 
 const b = block('list');
+
+const ROLES_WITH_ARIA_SELECTED = new Set(['option', 'gridcell', 'row', 'tab']);
 
 export const defaultRenderItem = <T extends unknown>(item: T) => String(item);
 
@@ -59,7 +62,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events
             <div
                 role={role}
-                aria-selected={selected}
+                aria-selected={ROLES_WITH_ARIA_SELECTED.has(role) ? selected : undefined}
                 aria-disabled={item.disabled}
                 data-qa={active ? ListQa.ACTIVE_ITEM : undefined}
                 className={b(
@@ -75,13 +78,12 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
                     itemClassName,
                 )}
                 {...this.props.provided?.draggableProps}
-                {...this.props.provided?.dragHandleProps}
                 style={getStyle(this.props.provided, fixedStyle)}
                 onClick={item.disabled ? undefined : this.onClick}
                 onClickCapture={item.disabled ? undefined : this.onClickCapture}
                 onMouseEnter={this.onMouseEnter}
                 ref={this.setRef}
-                id={`${this.props.listId}-item-${this.props.itemIndex}`}
+                id={getElementId(this.props.listId, this.props.itemIndex)}
             >
                 {this.renderSortIcon()}
                 {this.renderContent()}
@@ -99,7 +101,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
     private renderSortIcon() {
         const {sortable} = this.props;
         return sortable ? (
-            <div className={b('item-sort-icon')}>
+            <div {...this.props.provided?.dragHandleProps} className={b('item-sort-icon')}>
                 <Icon data={Grip} size={12} />
             </div>
         ) : null;

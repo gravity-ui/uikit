@@ -1,0 +1,70 @@
+@use '../../variables';
+
+$block: '.#{variables.$ns}file-drop-zone';
+
+#{$block} {
+    background-color: var(--g-color-base-background);
+    border: 1px dashed var(--g-color-line-generic-active);
+    border-radius: 8px;
+    box-sizing: border-box;
+    padding: 16px;
+
+    cursor: pointer;
+    outline: none;
+
+    &_default-layout {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+
+        #{$block}__button {
+            margin-block-start: 10px;
+        }
+    }
+
+    &:hover {
+        border-color: var(--g-color-text-info);
+    }
+
+    &:focus {
+        border-color: var(--g-color-text-info);
+    }
+
+    &:focus:not(:focus-visible) {
+        border-color: none;
+    }
+
+    &_drag-hover {
+        background-color: var(--g-color-base-info-light);
+        border-color: var(--g-color-text-info);
+    }
+
+    &_error {
+        border-color: var(--g-color-line-danger);
+
+        &:hover {
+            border-color: var(--g-color-line-danger);
+        }
+
+        #{$block}__icon {
+            color: var(--g-color-text-danger);
+        }
+    }
+
+    &_disabled {
+        cursor: not-allowed;
+        pointer-events: none;
+
+        #{$block}__icon {
+            color: var(--g-color-text-hint);
+        }
+    }
+
+    &__icon {
+        flex-shrink: 0;
+        color: var(--g-color-text-info);
+        margin-block-end: 5px;
+    }
+}

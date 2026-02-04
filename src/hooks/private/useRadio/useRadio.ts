@@ -68,7 +68,6 @@ export function useRadio({
         onChangeCapture: onChangeCapture,
         checked,
         defaultChecked: defaultChecked,
-        'aria-checked': isChecked,
         ref: handleRef,
     };
 

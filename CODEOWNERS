@@ -18,6 +18,7 @@
 /src/components/Dialog @Alutery
 /src/components/Disclosure @Raubzeug
 /src/components/Divider @v4dyar4
+/src/components/Drawer @igor0226
 #/src/components/DropdownMenu @axtk
 /src/components/FilePreview @mournfulCoroner
 /src/components/HelpMark @Raubzeug
@@ -64,6 +65,8 @@
 /src/components/Toaster @ogonkov
 /src/components/Tooltip @amje
 /src/components/layout @IsaevAlexandr
+
+/src/components/lab/ColorPicker @Estasie
 
 /src/hooks/useActionHandlers @ogonkov
 /src/hooks/useFileInput @korvin89

@@ -1,8 +1,6 @@
-@use '../../variables';
+@use '../variables';
 
-$block: '.#{variables.$ns}dialog-footer';
-
-#{$block} {
+#{variables.$footerBlock} {
     padding: 28px var(--_--side-padding);
     display: flex;
     align-items: center;

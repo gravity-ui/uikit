@@ -166,7 +166,7 @@ describe('Select filter', () => {
         expect(onFilterChange).toHaveBeenCalledTimes(0);
     });
 
-    test('should not clear filter onClose', async () => {
+    test('should clear filter onClose', async () => {
         const onClose = jest.fn();
         render(
             <MobileProvider mobile>
@@ -200,5 +200,27 @@ describe('Select filter', () => {
 
         expect(onClose).toHaveBeenCalledTimes(1);
         expect(onFilterChange).toHaveBeenCalledTimes(1);
+    });
+
+    test('should not clear controlled filter onClose', async () => {
+        const onClose = jest.fn();
+        const {getByTestId, getByPlaceholderText} = setup({
+            options: generateOptions(40),
+            filterPlaceholder: FILTER_PLACEHOLDER,
+            filterable: true,
+            filter: 'controlled value',
+            onFilterChange,
+            onClose,
+        });
+        const user = userEvent.setup();
+        const selectControl = getByTestId(TEST_QA);
+
+        await user.click(selectControl);
+        expect(getByPlaceholderText(FILTER_PLACEHOLDER)).toHaveFocus();
+
+        await user.keyboard('[Escape]');
+
+        expect(onFilterChange).not.toHaveBeenCalled();
+        expect(onClose).toHaveBeenCalledTimes(1);
     });
 });

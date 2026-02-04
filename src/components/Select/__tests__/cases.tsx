@@ -1,6 +1,6 @@
 import type {Cases, CasesWithName} from 'src/stories/tests-factory/models';
 
-import type {SelectProps} from '../types';
+import type {SelectOption, SelectOptionGroup, SelectProps} from '../types';
 
 export const sizeCases: Cases<SelectProps['size']> = ['s', 'm', 'l', 'xl'];
 
@@ -34,13 +34,13 @@ export const filterPlaceholderCases: Cases<SelectProps['filterPlaceholder']> = [
 
 export const validationStateCases: Cases<SelectProps['validationState']> = ['invalid'];
 
-export const baseOptions: NonNullable<SelectProps['options']> = [
+export const baseOptions: SelectOption[] = [
     {value: 'value-1', content: 'First option'},
     {value: 'value-2', content: 'Second option'},
     {value: 'value-3', content: 'Third option'},
 ];
 
-const groupedOptions: NonNullable<SelectProps['options']> = [
+const groupedOptions: SelectOptionGroup[] = [
     {
         label: 'Group 1',
         options: [

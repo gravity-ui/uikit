@@ -25,6 +25,7 @@ import {getSelectFilteredOptions, useSelectOptions} from './hooks-public';
 import {Option, OptionGroup} from './tech-components';
 import type {SelectProps, SelectRenderPopup} from './types';
 import type {SelectFilterRef} from './types-misc';
+import type {FlattenOption} from './utils';
 import {
     findItemIndexByQuickSearch,
     getActiveItem,
@@ -32,7 +33,6 @@ import {
     getOptionsFromChildren,
     getSelectedOptionsContent,
 } from './utils';
-import type {FlattenOption} from './utils';
 
 import './Select.scss';
 

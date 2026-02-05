@@ -1,5 +1,3 @@
-import _ from 'react-virtualized-auto-sizer';
-
 import {setupIntersectionObserverMock} from '../../../../test-utils/setupIntersectionObserverMock';
 import {cleanup, render, screen} from '../../../../test-utils/utils';
 import {List} from '../List';

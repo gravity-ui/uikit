@@ -25,16 +25,9 @@ import {block} from '../utils/cn';
 import {getUniqId} from '../utils/common';
 
 import {ListLoadingIndicator} from './ListLoadingIndicator';
-import type {VariableSizeListElementTypeProps} from './components';
-import {
-    ListItem,
-    SimpleContainer,
-    createVariableSizeListElementType,
-    defaultRenderItem,
-} from './components';
+import {ListItem, SimpleContainer, defaultRenderItem} from './components';
 import {listNavigationIgnoredKeys} from './constants';
 import type {ListItemData, ListItemProps, ListProps} from './types';
-import {getElementId} from './utils';
 
 import './List.scss';
 
@@ -67,20 +60,8 @@ const reorder = <T extends unknown>(list: T[], startIndex: number, endIndex: num
     return result;
 };
 
-const ListContainer = React.forwardRef<
-    VariableSizeList,
-    VariableSizeListProps & VariableSizeListElementTypeProps
->((props, ref) => {
-    const {role, listId, ...restProps} = props;
-
-    return (
-        <VariableSizeList
-            ref={ref}
-            direction={useDirection()}
-            innerElementType={createVariableSizeListElementType(role, listId)}
-            {...restProps}
-        />
-    );
+const ListContainer = React.forwardRef<VariableSizeList, VariableSizeListProps>((props, ref) => {
+    return <VariableSizeList ref={ref} {...props} direction={useDirection()} />;
 });
 ListContainer.displayName = 'ListContainer';
 
@@ -158,7 +139,15 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     }
 
     render() {
-        const {id, emptyPlaceholder, virtualized, className, itemsClassName, qa} = this.props;
+        const {
+            id,
+            emptyPlaceholder,
+            virtualized,
+            className,
+            itemsClassName,
+            qa,
+            role = 'list',
+        } = this.props;
 
         const {items} = this.state;
 
@@ -181,6 +170,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                             className={b('items', {virtualized}, itemsClassName)}
                             style={this.getItemsStyle()}
                             onMouseLeave={this.onMouseLeave}
+                            role={role}
                         >
                             {this.renderItems()}
                             {items.length === 0 && Boolean(emptyPlaceholder) && (
@@ -372,23 +362,13 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                     hasClear={true}
                     onUpdate={this.onFilterUpdate}
                     autoFocus={autoFocus}
-                    controlProps={{
-                        role: 'combobox',
-                        'aria-activedescendant': getElementId(
-                            this.props.id ?? this.uniqId,
-                            this.state.activeItem,
-                        ),
-                        'aria-autocomplete': 'list',
-                        'aria-controls': this.props.id ?? this.uniqId,
-                        'aria-expanded': true,
-                    }}
                 />
             </div>
         );
     }
 
     private renderSimpleContainer() {
-        const {sortable, role = 'list'} = this.props;
+        const {sortable} = this.props;
         const items = this.getItemsWithLoading();
 
         if (sortable) {
@@ -414,8 +394,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                                 itemCount={items.length}
                                 provided={droppableProvided}
                                 onScrollToItem={this.props.onScrollToItem}
-                                role={role}
-                                id={this.props.id ?? this.uniqId}
                             >
                                 {items.map((_item, index) => {
                                     return (
@@ -450,8 +428,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                 itemCount={items.length}
                 ref={this.refContainer}
                 onScrollToItem={this.props.onScrollToItem}
-                role={role}
-                id={this.props.id ?? this.uniqId}
             >
                 {items.map((_item, index) =>
                     this.renderItem({index, height: this.getItemHeight(index)}),
@@ -461,7 +437,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     }
 
     private renderVirtualizedContainer() {
-        const {role = 'list'} = this.props;
         // Otherwise, react-window will not update the list items
         const items = [...this.getItemsWithLoading()];
 
@@ -496,8 +471,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                                         itemCount={items.length}
                                         overscanCount={10}
                                         onItemsRendered={this.onItemsRendered}
-                                        role={role}
-                                        listId={this.props.id ?? this.uniqId}
                                         // this property used to rerender items in viewport
                                         // must be last, typescript skips checks for all props behind ts-ignore/ts-expect-error
                                         // @ts-expect-error
@@ -525,8 +498,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                         itemCount={items.length}
                         overscanCount={10}
                         onItemsRendered={this.onItemsRendered}
-                        role={role}
-                        listId={this.props.id ?? this.uniqId}
                         // this property used to rerender items in viewport
                         // must be last, typescript skips checks for all props behind ts-ignore/ts-expect-error
                         // @ts-expect-error

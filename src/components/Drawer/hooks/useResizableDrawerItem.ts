@@ -40,6 +40,13 @@ export function useResizableDrawerItem(params: UseResizableDrawerItemParams) {
     const [resizeDelta, setResizeDelta] = React.useState(0);
     const [internalSize, setInternalSize] = React.useState(size ?? DRAWER_ITEM_INITIAL_SIZE);
 
+    // Sync internalSize with size prop when it changes
+    React.useEffect(() => {
+        if (size !== undefined && !isResizing) {
+            setInternalSize(size);
+        }
+    }, [size, isResizing]);
+
     const getClampedSize = React.useCallback(
         (curSize: number) => Math.min(Math.max(curSize, minSize), maxSize),
         [minSize, maxSize],

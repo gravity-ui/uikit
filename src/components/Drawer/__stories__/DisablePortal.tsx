@@ -49,7 +49,6 @@ export function DisablePortalShowcase() {
                 <Drawer
                     className={b('drawer')}
                     disablePortal={disablePortal}
-                    style={{position: disablePortal ? 'absolute' : 'fixed'}}
                     container={containerRef.current ?? undefined}
                     onOpenChange={setVisible}
                     placement={placement}

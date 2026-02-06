@@ -1,6 +1,6 @@
 import {createSmokeScenarios} from 'src/stories/tests-factory/create-smoke-scenarios';
-import {smokeTest, test} from '~playwright/core';
 import type {MountFixture} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {Select} from '../Select';
 import type {SelectOption, SelectProps} from '../types';
@@ -394,6 +394,45 @@ test.describe('Select', {tag: '@Select'}, () => {
                 await expectScreenshot({
                     themes: ['light'],
                 });
+            });
+
+            test('should select option and display it', async ({mount, page}) => {
+                const options = [
+                    {value: 'option-1', content: 'First Option'},
+                    {value: 'option-2', content: 'Second Option'},
+                    {value: 'option-3', content: 'Third Option'},
+                    {value: 'option-4', content: 'Fourth Option'},
+                    {value: 'option-5', content: 'Fifth Option'},
+                    {value: 'option-6', content: 'Sixth Option'},
+                    {value: 'option-7', content: 'Seventh Option'},
+                    {value: 'option-8', content: 'Eighth Option'},
+                    {value: 'option-9', content: 'Ninth Option'},
+                    {value: 'option-10', content: 'Tenth Option'},
+                ];
+
+                await mount(
+                    <div style={{padding: 20, height: 300}}>
+                        <Select
+                            placeholder="Choose an option"
+                            options={options}
+                            virtualizationThreshold={5}
+                            width={200}
+                        />
+                    </div>,
+                );
+
+                await page.click('[class*="g-select-control"]');
+
+                await page.waitForSelector('[class*="g-select-list"]');
+
+                await page.click('text=Second Option');
+
+                await page.waitForTimeout(100);
+
+                const selectedText = await page.textContent('[class*="g-select-control"]');
+                if (!selectedText?.includes('Second Option')) {
+                    throw new Error('Selected option is not displayed in the control');
+                }
             });
         });
     });

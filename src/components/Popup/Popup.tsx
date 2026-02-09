@@ -43,7 +43,12 @@ import {PopupArrow} from './PopupArrow';
 import {OVERFLOW_PADDING, TRANSITION_DURATION} from './constants';
 import i18n from './i18n';
 import type {PopupAnchorElement, PopupAnchorRef, PopupOffset, PopupPlacement} from './types';
-import {arrowStylesMiddleware, getOffsetOptions, getPlacementOptions} from './utils';
+import {
+    arrowStylesMiddleware,
+    getOffsetOptions,
+    getPlacementOptions,
+    roundByDPRMiddleware,
+} from './utils';
 
 import './Popup.scss';
 
@@ -262,6 +267,7 @@ function PopupComponent({
             placementMiddleware,
             hasArrow && arrow({element: arrowElement, padding: 4}),
             hasArrow && arrowStylesMiddleware(),
+            roundByDPRMiddleware(),
         ],
     });
 

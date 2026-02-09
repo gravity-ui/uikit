@@ -1,13 +1,14 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {ArrowToggleProps} from '../ArrowToggle';
 import {ArrowToggle} from '../ArrowToggle';
 
 import {directionCases, sizeCases} from './cases';
 
 test.describe('ArrowToggle', {tag: '@ArrowToggle'}, () => {
-    smokeTest('smoke', async ({mount, expectScreenshot}) => {
+    test('smoke smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const defaultProps: ArrowToggleProps = {};
 
         const smokeScenarios = createSmokeScenarios(defaultProps, {

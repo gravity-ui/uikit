@@ -51,6 +51,9 @@ const config: PlaywrightTestConfig = {
         headless: true,
         screenshot: 'only-on-failure',
         timezoneId: 'UTC',
+        contextOptions: {
+            reducedMotion: 'reduce',
+        },
         ctCacheDir: process.env.IS_DOCKER ? '.cache-docker' : '.cache',
         ctViteConfig: {
             plugins: [react()],
@@ -69,13 +72,9 @@ const config: PlaywrightTestConfig = {
             name: 'chromium',
             use: {
                 ...devices['Desktop Chrome'],
-                deviceScaleFactor: 2,
-            },
-        },
-        {
-            name: 'webkit',
-            use: {
-                ...devices['Desktop Safari'],
+                launchOptions: {
+                    args: ['--disable-font-subpixel-positioning'],
+                },
                 deviceScaleFactor: 2,
             },
         },

@@ -1,6 +1,7 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {LoaderProps} from '../Loader';
 import {Loader} from '../Loader';
 
@@ -9,7 +10,7 @@ import {sizeCases} from './cases';
 test.describe('Loader', {tag: '@Loader'}, () => {
     const defaultProps: LoaderProps = {};
 
-    smokeTest('', async ({mount, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(defaultProps, {
             size: sizeCases,
         });

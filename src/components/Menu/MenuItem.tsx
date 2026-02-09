@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import {useActionHandlers} from '../../hooks';
+import {Link} from '../Link';
 import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {eventBroker} from '../utils/event-broker';
@@ -97,7 +98,7 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
 
     if (href) {
         item = (
-            <a
+            <Link
                 {...defaultProps}
                 {...(extraProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
                 {...commonProps}
@@ -106,7 +107,7 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
                 rel={rel}
             >
                 {content}
-            </a>
+            </Link>
         );
     } else {
         item = (

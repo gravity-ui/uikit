@@ -1,8 +1,8 @@
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 import {expect} from '@playwright/experimental-ct-react';
 
-import {smokeTest, test} from '~playwright/core';
+import {test} from '~playwright/core';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {ActionTooltipProps} from '../ActionTooltip';
 import {ActionTooltip} from '../ActionTooltip';
 
@@ -21,7 +21,7 @@ test.describe('ActionTooltip', {tag: '@ActionTooltip'}, () => {
     });
 
     smokeScenarios.forEach(([title, props]) => {
-        smokeTest(title, async ({mount, page, expectScreenshot}) => {
+        test(`smoke ${title}`, {tag: ['@smoke']}, async ({mount, page, expectScreenshot}) => {
             const root = await mount(
                 <div>
                     <h4>{title}</h4>

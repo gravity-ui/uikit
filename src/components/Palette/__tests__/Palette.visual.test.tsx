@@ -1,6 +1,7 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {PaletteProps} from '../Palette';
 
 import {columnsCases, disabledCases, sizeCases} from './cases';
@@ -9,21 +10,21 @@ import {TestPalette} from './helpersPlaywright';
 test.describe('Palette', {tag: '@Palette'}, () => {
     const defaultProps: PaletteProps = {};
 
-    smokeTest('hover', async ({mount, expectScreenshot}) => {
+    test('smoke hover', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const root = await mount(<TestPalette {...defaultProps} />);
 
         await expectScreenshot();
 
         await root.locator('button').locator('nth=0').focus();
 
-        await expectScreenshot({nameSuffix: 'after focus'});
+        await expectScreenshot({name: 'after focus'});
 
         await root.locator('button').locator('nth=0').click();
 
-        await expectScreenshot({nameSuffix: 'after click'});
+        await expectScreenshot({name: 'after click'});
     });
 
-    smokeTest('smoke', async ({mount, expectScreenshot}) => {
+    test('smoke smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(
             defaultProps,
             {

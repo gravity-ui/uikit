@@ -46,8 +46,8 @@ $transition-distance: 10px;
         border-end-end-radius: inherit;
     }
 
-    @at-root [data-floating-ui-status='open'] > &,
-        [data-floating-ui-status='close'] > & {
+    @at-root [data-floating-ui-status='open'] > &:not(&_disable-transition),
+        [data-floating-ui-status='close'] > &:not(&_disable-transition) {
         transition-duration: $transition-duration;
     }
 

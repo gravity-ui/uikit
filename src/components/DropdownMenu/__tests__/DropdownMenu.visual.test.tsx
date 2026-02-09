@@ -1,6 +1,7 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import {DropdownMenu} from '../DropdownMenu';
 import type {DropdownMenuProps} from '../DropdownMenu';
 
@@ -36,7 +37,7 @@ test.describe('DropdownMenu', {tag: '@DropdownMenu'}, () => {
         );
 
         smokeScenarios.forEach(([title, props]) => {
-            smokeTest(title, async ({page, mount, expectScreenshot}) => {
+            test(`smoke ${title}`, {tag: ['@smoke']}, async ({page, mount, expectScreenshot}) => {
                 const component = await mount(
                     <div
                         style={{
@@ -52,42 +53,46 @@ test.describe('DropdownMenu', {tag: '@DropdownMenu'}, () => {
                 await page.getByText('level 1').hover();
 
                 await expectScreenshot({
-                    component,
+                    locator: component,
                     themes: ['light'],
                 });
             });
         });
     });
 
-    smokeTest('menu with empty groups', async ({page, mount, expectScreenshot}) => {
-        const props = {
-            open: true,
-            items: [
-                [
-                    {
-                        text: 'level 0',
-                        action: () => {},
-                    },
+    test(
+        'smoke menu with empty groups',
+        {tag: ['@smoke']},
+        async ({page, mount, expectScreenshot}) => {
+            const props = {
+                open: true,
+                items: [
+                    [
+                        {
+                            text: 'level 0',
+                            action: () => {},
+                        },
+                    ],
+                    [],
                 ],
-                [],
-            ],
-        };
-        const component = await mount(
-            <div
-                style={{
-                    width: '300px',
-                    height: '150px',
-                }}
-            >
-                <DropdownMenu {...props} />
-            </div>,
-        );
+            };
+            const component = await mount(
+                <div
+                    style={{
+                        width: '300px',
+                        height: '150px',
+                    }}
+                >
+                    <DropdownMenu {...props} />
+                </div>,
+            );
 
-        await page.getByText('level 0').hover();
+            await page.getByText('level 0').hover();
 
-        await expectScreenshot({
-            component,
-            themes: ['light'],
-        });
-    });
+            await expectScreenshot({
+                locator: component,
+                themes: ['light'],
+            });
+        },
+    );
 });

@@ -1,6 +1,7 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import {Alert} from '../Alert';
 import type {AlertProps} from '../types';
 
@@ -65,7 +66,7 @@ test.describe('Alert', {tag: '@Alert'}, () => {
         await expectScreenshot();
     });
 
-    smokeTest('smoke', async ({mount, expectScreenshot}) => {
+    test('smoke smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const defaultProps: AlertProps = {
             title: 'Title',
             message: 'Message',

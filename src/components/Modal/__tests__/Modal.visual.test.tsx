@@ -1,13 +1,13 @@
 import {expect} from '@playwright/experimental-ct-react';
 
-import {smokeTest, test} from '~playwright/core';
+import {test} from '~playwright/core';
 
 import {Modal} from '../Modal';
 
 import {ModalQa} from './constants';
 
 test.describe('Modal', {tag: '@Modal'}, () => {
-    smokeTest('', async ({mount, page, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, page, expectScreenshot}) => {
         await page.setViewportSize({width: 500, height: 500});
 
         await mount(
@@ -22,7 +22,7 @@ test.describe('Modal', {tag: '@Modal'}, () => {
         await expect(page.getByTestId(ModalQa.content)).toBeVisible();
 
         await expectScreenshot({
-            component: page,
+            locator: page,
         });
     });
 });

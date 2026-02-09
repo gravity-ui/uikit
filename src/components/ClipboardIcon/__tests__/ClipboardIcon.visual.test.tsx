@@ -1,13 +1,14 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {ClipboardIconProps} from '../ClipboardIcon';
 import {ClipboardIcon} from '../ClipboardIcon';
 
 import {sizeCases, statusCases} from './cases';
 
 test.describe('ClipboardIcon', {tag: '@ClipboardIcon'}, () => {
-    smokeTest('smoke', async ({mount, expectScreenshot}) => {
+    test('smoke smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const defaultProps: ClipboardIconProps = {
             status: 'success',
         };

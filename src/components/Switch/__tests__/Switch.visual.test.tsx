@@ -1,6 +1,7 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {SwitchProps} from '../Switch';
 import {Switch} from '../Switch';
 
@@ -11,7 +12,7 @@ test.describe('Switch', {tag: '@Switch'}, () => {
         content: 'label',
     };
 
-    smokeTest('', async ({mount, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(defaultProps, {
             size: sizeCases,
             disabled: disabledCases,
@@ -34,7 +35,7 @@ test.describe('Switch', {tag: '@Switch'}, () => {
         await expectScreenshot({});
     });
 
-    smokeTest('checked', async ({mount, expectScreenshot}) => {
+    test('smoke checked', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(
             {
                 ...defaultProps,

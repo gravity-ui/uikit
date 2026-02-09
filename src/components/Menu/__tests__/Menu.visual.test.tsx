@@ -1,6 +1,7 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {MenuItemProps, MenuProps} from '../Menu';
 import type {MenuGroupProps} from '../MenuGroup';
 
@@ -16,7 +17,7 @@ import {TestMenu, TestMenuGroup, TestMenuItem, TestMenuItemWithIcons} from './he
 test.describe('Menu', {tag: '@Menu'}, () => {
     const defaultMenuProps: MenuProps = {};
 
-    smokeTest('', async ({mount, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<TestMenuProps>(defaultMenuProps, {
             size: sizeCases,
         });
@@ -41,7 +42,7 @@ test.describe('Menu', {tag: '@Menu'}, () => {
         label: 'Group title',
     };
 
-    smokeTest('menu group', async ({mount, expectScreenshot}) => {
+    test('smoke menu group', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<TestMenuGroupProps>(defaultMenuGroupProps, {});
 
         await mount(
@@ -67,7 +68,7 @@ test.describe('Menu', {tag: '@Menu'}, () => {
         children: 'Menu item content',
     };
 
-    smokeTest('menu item', async ({mount, expectScreenshot}) => {
+    test('smoke menu item', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<TestMenuItemProps>(defaultMenuItemProps, {
             disabled: disabledCases,
             active: activeCases,
@@ -91,7 +92,7 @@ test.describe('Menu', {tag: '@Menu'}, () => {
         await expectScreenshot({});
     });
 
-    smokeTest('menu item with icons', async ({mount, expectScreenshot}) => {
+    test('smoke menu item with icons', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<TestMenuItemWithIconsProps>(
             defaultMenuItemProps,
             {

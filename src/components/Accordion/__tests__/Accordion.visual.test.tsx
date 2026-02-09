@@ -1,6 +1,7 @@
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
+
 import {smokeTest, test} from '~playwright/core';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import {Text} from '../../Text';
 import {Accordion} from '../Accordion';
 import type {AccordionProps} from '../types';
@@ -96,7 +97,7 @@ test.describe('Accordion', {tag: '@Accordion'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
-            nameSuffix: 'expanded',
+            name: 'expanded',
         });
     });
 });

@@ -1,8 +1,8 @@
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 import {expect} from '@playwright/experimental-ct-react';
 
 import {smokeTest, test} from '~playwright/core';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import {ActionsPanel} from '../ActionsPanel';
 import type {ActionsPanelProps} from '../types';
 
@@ -175,7 +175,7 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
-            nameSuffix: 'opened',
+            name: 'opened',
         });
     });
 
@@ -250,7 +250,7 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
-            nameSuffix: 'opened submenu',
+            name: 'opened submenu',
         });
     });
 });

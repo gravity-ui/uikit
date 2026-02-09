@@ -1,8 +1,8 @@
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 import {expect} from '@playwright/experimental-ct-react';
 
 import {smokeTest, test} from '~playwright/core';
 
-import {createSmokeScenarios} from '../../../../stories/tests-factory/create-smoke-scenarios';
 import {CONTROL_ERROR_ICON_QA} from '../../utils';
 import type {PasswordInputProps} from '../PasswordInput';
 import {PasswordInput} from '../PasswordInput';

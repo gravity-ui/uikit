@@ -1,6 +1,7 @@
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
+
 import {smokeTest, test} from '~playwright/core';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {ArrowToggleProps} from '../ArrowToggle';
 import {ArrowToggle} from '../ArrowToggle';
 

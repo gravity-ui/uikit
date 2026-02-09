@@ -1,4 +1,5 @@
-import type {Cases, CasesWithName} from '../../../stories/tests-factory/models';
+import type {Cases, CasesWithName} from '@gravity-ui/playwright-tools/component-tests';
+
 import type {IconProps} from '../Icon';
 
 export const sizeCases: Cases<IconProps['size']> = [10, 20, 30];

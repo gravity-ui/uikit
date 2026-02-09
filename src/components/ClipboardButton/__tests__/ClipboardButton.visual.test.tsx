@@ -31,14 +31,14 @@ test.describe('ClipboardButton', {tag: '@ClipboardButton'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
-            nameSuffix: 'after hover',
+            name: 'after hover',
         });
 
         await root.locator("button[type='button']").click();
 
         await expectScreenshot({
             themes: ['light'],
-            nameSuffix: 'after copy',
+            name: 'after copy',
         });
     });
 
@@ -61,14 +61,14 @@ test.describe('ClipboardButton', {tag: '@ClipboardButton'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
-            nameSuffix: 'after hover',
+            name: 'after hover',
         });
 
         await root.locator("button[type='button']").click();
 
         await expectScreenshot({
             themes: ['light'],
-            nameSuffix: 'after copy',
+            name: 'after copy',
         });
     });
 });

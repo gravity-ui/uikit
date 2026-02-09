@@ -1,6 +1,7 @@
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
+
 import {smokeTest, test} from '~playwright/core';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {ButtonProps} from '../Button';
 import {Button} from '../Button';
 
@@ -144,7 +145,7 @@ test.describe('Button', {tag: '@Button'}, () => {
 
             await expectScreenshot({
                 themes: ['light'],
-                nameSuffix: 'hovered',
+                name: 'hovered',
             });
         });
     });

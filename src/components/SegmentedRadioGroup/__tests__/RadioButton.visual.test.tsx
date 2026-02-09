@@ -1,6 +1,7 @@
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
+
 import {smokeTest, test} from '~playwright/core';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {SegmentedRadioGroupProps} from '../SegmentedRadioGroup';
 import {SegmentedRadioGroup} from '../SegmentedRadioGroup';
 import type {SegmentedRadioGroupOptionProps} from '../SegmentedRadioGroupOption';

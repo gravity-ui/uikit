@@ -1,4 +1,5 @@
-import type {Cases} from '../../../stories/tests-factory/models';
+import type {Cases} from '@gravity-ui/playwright-tools/component-tests';
+
 import type {AvatarStackProps} from '../types';
 
 export const sizeCases: Cases<AvatarStackProps['size']> = ['xs', 's', 'm', 'l', 'xl'];

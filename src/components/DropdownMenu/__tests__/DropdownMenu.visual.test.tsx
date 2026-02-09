@@ -1,6 +1,7 @@
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
+
 import {smokeTest, test} from '~playwright/core';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import {DropdownMenu} from '../DropdownMenu';
 import type {DropdownMenuProps} from '../DropdownMenu';
 
@@ -52,7 +53,7 @@ test.describe('DropdownMenu', {tag: '@DropdownMenu'}, () => {
                 await page.getByText('level 1').hover();
 
                 await expectScreenshot({
-                    component,
+                    locator: component,
                     themes: ['light'],
                 });
             });
@@ -86,7 +87,7 @@ test.describe('DropdownMenu', {tag: '@DropdownMenu'}, () => {
         await page.getByText('level 0').hover();
 
         await expectScreenshot({
-            component,
+            locator: component,
             themes: ['light'],
         });
     });

@@ -1,8 +1,7 @@
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 import {expect} from '@playwright/experimental-ct-react';
 
 import {smokeTest, test} from '~playwright/core';
-
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 
 import type {TestTableColumnConfig} from './cases';
 import {
@@ -159,7 +158,7 @@ test.describe('Table', {tag: '@Table'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
-            component: page.locator('body'),
+            locator: page.locator('body'),
         });
     });
 
@@ -179,7 +178,7 @@ test.describe('Table', {tag: '@Table'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
-            component: root,
+            locator: root,
         });
     });
 
@@ -191,7 +190,7 @@ test.describe('Table', {tag: '@Table'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
-            component: root,
+            locator: root,
         });
     });
 
@@ -207,7 +206,7 @@ test.describe('Table', {tag: '@Table'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
-            component: root,
+            locator: root,
         });
     });
 });

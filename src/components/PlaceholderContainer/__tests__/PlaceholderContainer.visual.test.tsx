@@ -1,6 +1,6 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {smokeTest, test} from '~playwright/core';
 
 import {
     actionsCases,

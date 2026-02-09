@@ -1,6 +1,7 @@
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
+
 import {expect, smokeTest, test} from '~playwright/core';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {SheetProps} from '../Sheet';
 import {DEFAULT_SHEET_QA} from '../__stories__/constants';
 
@@ -20,8 +21,8 @@ test.describe('Sheet', {tag: '@Sheet'}, () => {
         await expect(sheetLocator).toBeVisible();
 
         await expectScreenshot({
-            animations: 'disabled',
-            component: sheetLocator,
+            locator: sheetLocator,
+            options: {animations: 'disabled'},
         });
     });
 

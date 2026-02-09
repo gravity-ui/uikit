@@ -1,6 +1,7 @@
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
+
 import {smokeTest, test} from '~playwright/core';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import {Stepper} from '../Stepper';
 import type {StepperProps} from '../Stepper';
 import type {StepperItemProps} from '../StepperItem';

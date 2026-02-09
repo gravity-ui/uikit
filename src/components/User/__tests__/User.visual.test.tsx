@@ -1,6 +1,7 @@
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
+
 import {smokeTest, test} from '~playwright/core';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {UserProps} from '../types';
 
 import {avatarCases, descriptionCases, nameCases, sizeCases} from './cases';
@@ -10,12 +11,12 @@ import {UserStories} from './stories';
 test.describe('User', {tag: '@User'}, () => {
     test('render story: <Default>', async ({mount, expectScreenshot}) => {
         const component = await mount(<UserStories.Default />);
-        await expectScreenshot({component});
+        await expectScreenshot({locator: component});
     });
 
     test('render story: <Showcase>', async ({mount, expectScreenshot}) => {
         const component = await mount(<UserStories.UserShowcase />);
-        await expectScreenshot({component});
+        await expectScreenshot({locator: component});
     });
 
     smokeTest('', async ({mount, expectScreenshot}) => {

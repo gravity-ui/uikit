@@ -22,7 +22,7 @@ test.describe('Modal', {tag: '@Modal'}, () => {
         await expect(page.getByTestId(ModalQa.content)).toBeVisible();
 
         await expectScreenshot({
-            component: page,
+            locator: page,
         });
     });
 });

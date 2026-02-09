@@ -1,6 +1,7 @@
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
+
 import {smokeTest, test} from '~playwright/core';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import {Dialog} from '../Dialog';
 import type {DialogProps} from '../Dialog';
 import type {DialogBodyProps} from '../DialogBody/DialogBody';
@@ -106,7 +107,7 @@ test.describe('Dialog', {tag: '@Dialog'}, () => {
             );
 
             await expectScreenshot({
-                component: page,
+                locator: page,
                 themes: ['light'],
             });
         });

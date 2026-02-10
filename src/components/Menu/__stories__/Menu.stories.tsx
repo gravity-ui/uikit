@@ -131,14 +131,11 @@ export const CustomRenderLink: StoryFn<MenuProps> = (args) => (
             gravity-ui.com
         </Menu.Item>
         <Menu.Item
-            render={({className, children}) => {
-                console.log(className);
-                return (
-                    <Link href="https://gravity-ui.com" target="_blank" className={className}>
-                        {children}
-                    </Link>
-                );
-            }}
+            render={({className, children}) => (
+                <Link href="https://gravity-ui.com" target="_blank" className={className}>
+                    {children}
+                </Link>
+            )}
         >
             custom rendered gravity-ui.com
         </Menu.Item>

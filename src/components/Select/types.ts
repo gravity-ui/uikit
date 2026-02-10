@@ -46,6 +46,7 @@ export type SelectRenderControl<T extends HTMLElement = HTMLElement> = (
 
 export type SelectRenderOptionViewParams = {
     itemHeight: number;
+    isItemActive: boolean;
 };
 
 export type SelectRenderOption<T> = (

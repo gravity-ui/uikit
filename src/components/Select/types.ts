@@ -46,6 +46,7 @@ export type SelectRenderControl<T extends HTMLElement = HTMLElement> = (
 
 export type SelectRenderOptionViewParams = {
     itemHeight: number;
+    isItemActive?: boolean; // FIXME: make this field required in the next major
 };
 
 export type SelectRenderOption<T> = (

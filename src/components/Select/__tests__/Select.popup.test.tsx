@@ -148,6 +148,48 @@ describe('Select popup', () => {
         );
     });
 
+    test('should pass isItemActive to renderOption', async () => {
+        const renderOption = jest.fn();
+
+        const {getByTestId} = setup({
+            renderOption,
+            onUpdate,
+            options: DEFAULT_OPTIONS,
+        });
+
+        const user = userEvent.setup();
+        const selectControl = getByTestId(TEST_QA);
+        await user.click(selectControl);
+
+        const activeCall = renderOption.mock.calls.find(
+            (call) => call[1] && (call[1] as {isItemActive?: boolean}).isItemActive,
+        );
+        const inactiveCall = renderOption.mock.calls.find(
+            (call) => call[1] && !(call[1] as {isItemActive?: boolean}).isItemActive,
+        );
+        expect(activeCall).toBeDefined();
+        expect(inactiveCall).toBeDefined();
+    });
+
+    test('should pass isItemActive to renderOptionGroup', async () => {
+        const renderOptionGroup = jest.fn();
+
+        const {getByTestId} = setup({
+            renderOptionGroup,
+            onUpdate,
+            options: GROUPED_OPTIONS,
+        });
+
+        const user = userEvent.setup();
+        const selectControl = getByTestId(TEST_QA);
+        await user.click(selectControl);
+
+        expect(renderOptionGroup).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({isItemActive: expect.any(Boolean)}),
+        );
+    });
+
     test('should close select popup on Escape key press', async () => {
         const {getByTestId, queryByTestId} = setup({
             options: DEFAULT_OPTIONS,

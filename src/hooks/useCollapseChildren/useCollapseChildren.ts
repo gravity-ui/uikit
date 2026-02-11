@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import isEqual from 'lodash/isEqual';
+
 import {useLayoutEffect} from '../useLayoutEffect';
 import {useResizeObserver} from '../useResizeObserver';
 
@@ -51,8 +53,18 @@ export interface UseCollapseChildrenProps {
 }
 
 export interface UseCollapseChildrenResult {
+    /**
+     * Whether calculation is complete.
+     * Your items should be in measurable state when it's not calculated.
+     */
     calculated: boolean;
+    /**
+     * Trigger recalculation manually.
+     */
     recalculate: () => void;
+    /**
+     * Number of items that can be visible in the container, excluding preserved items.
+     */
     visibleCount: number;
 }
 
@@ -67,6 +79,8 @@ export function useCollapseChildren({
     childSelector = '*',
     getChildWidth = (child) => child.getBoundingClientRect().width,
 }: UseCollapseChildrenProps): UseCollapseChildrenResult {
+    const exertedProps = [minCount, maxCount, direction, gap, childSelector];
+    const [exertedPropsState, setExertedPropsState] = React.useState(exertedProps);
     const [calculated, setCalculated] = React.useState(false);
     const [visibleCount, setVisibleCount] = React.useState<number>(maxCount);
 
@@ -76,7 +90,7 @@ export function useCollapseChildren({
 
         // Batch elements measurement to optimize performance
         const containerChildren = Array.from(
-            container.querySelectorAll<HTMLElement>(`:scope > ${childSelector}`),
+            container.querySelectorAll<HTMLElement>(`:scope > :where(${childSelector})`),
         );
         const containerWidth = container.getBoundingClientRect().width;
         const childWidthMap = new WeakMap<HTMLElement, number>(
@@ -127,16 +141,16 @@ export function useCollapseChildren({
         }
     }, [enabled, maxCount]);
 
+    // Recalculate on changing props
+    if (!isEqual(exertedProps, exertedPropsState)) {
+        recalculate();
+        setExertedPropsState(exertedProps);
+    }
+
     useResizeObserver({
         ref: containerRef,
         onResize: recalculate,
     });
-
-    // Recalculate on changing props
-    // Should be placed before the main hook so it won't override the state
-    useLayoutEffect(() => {
-        recalculate();
-    }, [recalculate, minCount, maxCount, direction, gap, childSelector]);
 
     useLayoutEffect(() => {
         if (calculated) {

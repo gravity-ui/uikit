@@ -23,7 +23,8 @@ $block: '.#{variables.$ns}control-label';
         line-height: var(--g-text-body-1-line-height);
 
         #{$block}__control-container {
-            padding: 2px 0;
+            position: relative;
+            inset-block-start: 2px;
             display: inline-flex;
         }
     }

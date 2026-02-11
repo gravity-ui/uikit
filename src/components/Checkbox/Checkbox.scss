@@ -4,6 +4,8 @@
 $block: '.#{variables.$ns}checkbox';
 
 #{$block} {
+    align-items: baseline;
+
     &__indicator {
         display: inline-block;
         position: relative;

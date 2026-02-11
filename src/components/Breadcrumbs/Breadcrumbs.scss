@@ -4,13 +4,17 @@
 $block: '.#{variables.$ns}breadcrumbs';
 
 #{$block} {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
+    position: relative;
 
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+    &__list {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
 
     &__item {
         position: relative;
@@ -105,5 +109,22 @@ $block: '.#{variables.$ns}breadcrumbs';
 
     &__item:first-child &__menu {
         margin-inline-start: 0;
+    }
+
+    &__measurer {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        opacity: 0;
+        visibility: hidden;
+        overflow: hidden;
+
+        #{$block}__list {
+            display: inline-flex;
+        }
+
+        #{$block}__item {
+            flex-shrink: 0;
+        }
     }
 }

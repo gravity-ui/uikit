@@ -160,7 +160,15 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         isErrorStateVisible && Boolean(errorMessage) && errorPlacement === 'inside';
 
     const handleOptionClick = React.useCallback(
-        (option?: FlattenOption) => {
+        (
+            option?: FlattenOption,
+            _index?: number,
+            _fromKeyboard?: boolean,
+            event?: React.MouseEvent<HTMLDivElement, MouseEvent> | React.KeyboardEvent<HTMLElement>,
+        ) => {
+            event?.preventDefault();
+            event?.stopPropagation();
+
             if (!option || option?.disabled || 'label' in option) {
                 return;
             }

@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import {List} from '../../../List';
+import type {ItemClickHandler} from '../../../List';
 import {SelectQa, selectListBlock} from '../../constants';
 import type {SelectOption, SelectProps} from '../../types';
 import {getOptionsHeight, getPopupItemHeight, scrollToItem} from '../../utils';
@@ -16,7 +17,7 @@ import './SelectList.scss';
 
 type SelectListProps = {
     mobile: boolean;
-    onOptionClick: (option: FlattenOption) => void;
+    onOptionClick: ItemClickHandler<FlattenOption>;
     renderOption?: SelectProps['renderOption'];
     renderOptionGroup?: SelectProps['renderOptionGroup'];
     getOptionHeight?: SelectProps['getOptionHeight'];

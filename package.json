@@ -152,7 +152,7 @@
     "@faker-js/faker": "^9.8.0",
     "@gravity-ui/eslint-config": "^4.2.0",
     "@gravity-ui/gulp-utils": "^1.0.3",
-    "@gravity-ui/playwright-tools": "^1.1.4-beta.a8bc365a40c5314f0576a6b47a9dce58a5920132.0",
+    "@gravity-ui/playwright-tools": "^2.0.0",
     "@gravity-ui/prettier-config": "^1.1.0",
     "@gravity-ui/stylelint-config": "^5.0.0",
     "@gravity-ui/tsconfig": "^1.0.0",

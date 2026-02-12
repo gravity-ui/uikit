@@ -3,7 +3,6 @@
 import * as React from 'react';
 
 import {List} from '../../../List';
-import type {ItemClickHandler} from '../../../List';
 import {SelectQa, selectListBlock} from '../../constants';
 import type {SelectOption, SelectProps} from '../../types';
 import {getOptionsHeight, getPopupItemHeight, scrollToItem} from '../../utils';
@@ -17,7 +16,7 @@ import './SelectList.scss';
 
 type SelectListProps = {
     mobile: boolean;
-    onOptionClick: ItemClickHandler<FlattenOption>;
+    onOptionClick: (option: FlattenOption) => void;
     renderOption?: SelectProps['renderOption'];
     renderOptionGroup?: SelectProps['renderOptionGroup'];
     getOptionHeight?: SelectProps['getOptionHeight'];
@@ -138,6 +137,17 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
         [renderOption, renderOptionGroup, value, multiple, getItemHeight, onLoadMore],
     );
 
+    const handleItemClick = (
+        option: FlattenOption,
+        _index?: number,
+        _fromKeyboard?: boolean,
+        event?: React.MouseEvent<HTMLDivElement, MouseEvent> | React.KeyboardEvent<HTMLElement>,
+    ) => {
+        event?.stopPropagation();
+        event?.preventDefault();
+        onOptionClick?.(option);
+    };
+
     return (
         <List
             ref={ref}
@@ -149,7 +159,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
             filterable={false}
             virtualized={virtualized}
             renderItem={renderItem}
-            onItemClick={onOptionClick}
+            onItemClick={handleItemClick}
             selectedItemIndex={selectedIndexes}
             id={id}
             role="listbox"

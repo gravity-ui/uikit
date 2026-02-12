@@ -11,7 +11,7 @@ export type ListSortParams = {oldIndex: number; newIndex: number};
 
 export type ListItemData<T> = T & {disabled?: boolean};
 
-export type ItemClickHandler<T> = (
+type ItemClickHandler<T> = (
     item: ListItemData<T>,
     index: number,
     fromKeyboard?: boolean,

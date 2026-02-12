@@ -270,6 +270,8 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
             }
             case KeyCode.ENTER: {
                 if (typeof activeItem === 'number' && this.props.onItemClick) {
+                    event.preventDefault();
+                    event.stopPropagation();
                     this.props.onItemClick(this.state.items[activeItem], activeItem, true, event);
                 }
                 break;

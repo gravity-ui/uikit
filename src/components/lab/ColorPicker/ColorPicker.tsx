@@ -66,6 +66,9 @@ const MODE_OPTIONS = Object.values(Modes).map((val) => ({
     value: val,
 }));
 
+const COLOR_POINTER_TRANSLATE = 'translate(-50%, -50%)';
+const SLIDERS_TRANSLATE = 'translate(-50%, -25%)';
+
 export const ColorPicker = ({
     size,
     value,
@@ -108,26 +111,29 @@ export const ColorPicker = ({
 
     const updateHsva = React.useCallback(
         (updates: Partial<HsvaColor>) => {
-            const newHsva = {...hsva, ...updates};
+            setHsva((prevHsva) => {
+                const newHsva = {...prevHsva, ...updates};
 
-            // Validate HSVA before applying
-            if (!isValidHsva(newHsva)) {
-                return;
-            }
+                if (!isValidHsva(newHsva)) return prevHsva;
 
-            setHsva(newHsva);
+                if (
+                    newHsva.h === prevHsva.h &&
+                    newHsva.s === prevHsva.s &&
+                    newHsva.v === prevHsva.v &&
+                    newHsva.a === prevHsva.a
+                ) {
+                    return prevHsva;
+                }
 
-            const newHexValue = withAlpha ? hsvaToHexa(newHsva) : hsvaToHex(newHsva);
+                const newHexValue = withAlpha ? hsvaToHexa(newHsva) : hsvaToHex(newHsva);
 
-            // Validate HEX before calling onUpdate
-            if (!validHex(newHexValue)) {
-                return;
-            }
+                isInternalUpdateRef.current = true;
+                setColor(newHexValue);
 
-            isInternalUpdateRef.current = true;
-            setColor(newHexValue);
+                return newHsva;
+            });
         },
-        [hsva, setColor, withAlpha],
+        [setColor, withAlpha],
     );
 
     const handleModeChange = (newMode: Modes) => {
@@ -199,7 +205,8 @@ export const ColorPicker = ({
                             <ColorPointer
                                 left={props.left}
                                 top={props.top}
-                                transform={'translate(-50%, -50%)'}
+                                transform={COLOR_POINTER_TRANSLATE}
+                                color={hsvaToHex(hsva)}
                             />
                         )}
                     />
@@ -214,7 +221,8 @@ export const ColorPicker = ({
                             <ColorPointer
                                 left={props.left}
                                 top={props.top}
-                                transform={'translate(-50%, -25%)'}
+                                transform={SLIDERS_TRANSLATE}
+                                color={hsvaToHex({h: hsva.h, s: 100, v: 100, a: 1})}
                             />
                         )}
                     />
@@ -230,7 +238,7 @@ export const ColorPicker = ({
                                 <ColorPointer
                                     left={props.left}
                                     top={props.top}
-                                    transform={'translate(-50%, -25%)'}
+                                    transform={SLIDERS_TRANSLATE}
                                 />
                             )}
                         />

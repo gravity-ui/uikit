@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.31.2](https://github.com/gravity-ui/uikit/compare/v7.31.1...v7.31.2) (2026-02-06)
+
+
+### Bug Fixes
+
+* avoid layout shifts of Drawer if size prop changes ([#2566](https://github.com/gravity-ui/uikit/issues/2566)) ([62320f0](https://github.com/gravity-ui/uikit/commit/62320f03400267edabedfffb5fef114738050dec))
+* **Select:** fixed selecting item in virtualized list ([#2571](https://github.com/gravity-ui/uikit/issues/2571)) ([6aa3dc0](https://github.com/gravity-ui/uikit/commit/6aa3dc05829a022008db5c175662ad0c4f23ad61))
+
 ## [7.31.1](https://github.com/gravity-ui/uikit/compare/v7.31.0...v7.31.1) (2026-02-04)
 
 

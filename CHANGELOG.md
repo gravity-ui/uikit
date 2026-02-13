@@ -1,5 +1,18 @@
 # Changelog
 
+## [7.32.0](https://github.com/gravity-ui/uikit/compare/v7.31.2...v7.32.0) (2026-02-13)
+
+
+### Features
+
+* **ColorPicker:** add bg color for pointers ([#2584](https://github.com/gravity-ui/uikit/issues/2584)) ([2fa9035](https://github.com/gravity-ui/uikit/commit/2fa9035147cc7f188005af6b01f3355d9bd5717f))
+
+
+### Bug Fixes
+
+* **Accordion:** passed classname prop from AccordionItem to Disclosure ([#2583](https://github.com/gravity-ui/uikit/issues/2583)) ([f74324e](https://github.com/gravity-ui/uikit/commit/f74324eb43f31dbebac4f5b95e579cb40e6bde4b))
+* **Select:** close popup after selecting option via keyboard in single filterable select ([#2582](https://github.com/gravity-ui/uikit/issues/2582)) ([8679944](https://github.com/gravity-ui/uikit/commit/86799441d8a8aa4e2bb86d1c4122600fca187df6))
+
 ## [7.31.2](https://github.com/gravity-ui/uikit/compare/v7.31.1...v7.31.2) (2026-02-06)
 
 

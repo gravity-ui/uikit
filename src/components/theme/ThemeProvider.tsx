@@ -30,7 +30,7 @@ export interface ThemeProviderProps extends React.PropsWithChildren<{}>, Partial
     systemLightTheme?: RealTheme;
     systemDarkTheme?: RealTheme;
     direction?: Direction;
-    scoped?: boolean;
+    scoped?: boolean | 'no-wrap';
     rootClassName?: string;
     layout?: Omit<PrivateLayoutProviderProps, 'children'>;
 }
@@ -68,7 +68,8 @@ export function ThemeProvider({
     const prevRootClassName = React.useRef('');
 
     useLayoutEffect(() => {
-        if (!scoped) {
+        const shouldApplyTheme = scoped !== 'no-wrap';
+        if (shouldApplyTheme) {
             updateBodyClassName({
                 theme: themeValue,
                 className: rootClassName,
@@ -109,7 +110,9 @@ export function ThemeProvider({
             <ThemeContext.Provider value={contextValue}>
                 <ThemeSettingsContext.Provider value={themeSettingsContext}>
                     <LangContext.Provider value={langOptionsFinal}>
-                        {scoped ? (
+                        {scoped === 'no-wrap' ? (
+                            children
+                        ) : scoped ? (
                             <div className={b({theme: themeValue}, rootClassName)} dir={direction}>
                                 {children}
                             </div>

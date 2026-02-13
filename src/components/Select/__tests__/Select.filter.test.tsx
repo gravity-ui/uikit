@@ -9,12 +9,20 @@ import {MobileProvider} from '../../mobile';
 import {Select} from '../Select';
 import type {SelectOption, SelectProps, SelectRenderPopup} from '../types';
 
-import {TEST_QA, generateOptions, generateOptionsGroups, setup, timeout} from './utils';
+import {
+    DEFAULT_OPTIONS,
+    TEST_QA,
+    generateOptions,
+    generateOptionsGroups,
+    setup,
+    timeout,
+} from './utils';
 
 afterEach(() => {
     jest.clearAllMocks();
 });
 
+const onUpdate = jest.fn();
 const onFilterChange = jest.fn();
 const FILTER_PLACEHOLDER = 'Filter placeholder';
 const EMPTY_OPTIONS_QA = 'empty-options';
@@ -71,6 +79,25 @@ describe('Select filter', () => {
         // empty
         expect(queryAllByRole('option').length).toBe(0);
         expect(onFilterChange).toBeCalledTimes(3);
+    });
+
+    test('should select active option on Enter key when filter is focused and popup is open', async () => {
+        const options = DEFAULT_OPTIONS;
+        const {getByTestId, getByPlaceholderText} = setup({
+            options,
+            filterable: true,
+            filterPlaceholder: FILTER_PLACEHOLDER,
+            onUpdate,
+        });
+        const user = userEvent.setup();
+        const selectControl = getByTestId(TEST_QA);
+        await user.click(selectControl);
+        const filterInput = getByPlaceholderText(FILTER_PLACEHOLDER);
+        expect(filterInput).toHaveFocus();
+
+        await user.keyboard('[Enter]');
+
+        expect(onUpdate).toHaveBeenCalledWith([options[0].value]);
     });
 
     test('should render node with renderEmptyOptions', async () => {

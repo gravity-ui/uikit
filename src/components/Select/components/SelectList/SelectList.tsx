@@ -137,17 +137,6 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
         [renderOption, renderOptionGroup, value, multiple, getItemHeight, onLoadMore],
     );
 
-    const handleItemClick = (
-        option: FlattenOption,
-        _index?: number,
-        _fromKeyboard?: boolean,
-        event?: React.MouseEvent<HTMLDivElement, MouseEvent> | React.KeyboardEvent<HTMLElement>,
-    ) => {
-        event?.stopPropagation();
-        event?.preventDefault();
-        onOptionClick?.(option);
-    };
-
     return (
         <List
             ref={ref}
@@ -159,7 +148,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
             filterable={false}
             virtualized={virtualized}
             renderItem={renderItem}
-            onItemClick={handleItemClick}
+            onItemClick={onOptionClick}
             selectedItemIndex={selectedIndexes}
             id={id}
             role="listbox"

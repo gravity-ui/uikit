@@ -44,6 +44,7 @@ export const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps
             summary,
             onUpdate,
             qa,
+            className,
         } = props;
 
         const attributes = useAccordion();
@@ -69,11 +70,14 @@ export const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps
                 summary={summary}
                 disabled={disabled}
                 qa={qa}
-                className={accordionItemBlock({
-                    size: attributes?.size,
-                    view: attributes?.view,
-                    disabled,
-                })}
+                className={accordionItemBlock(
+                    {
+                        size: attributes?.size,
+                        view: attributes?.view,
+                        disabled,
+                    },
+                    className,
+                )}
             >
                 {preparedSummary}
                 <Disclosure.Details className={accordionDetailsBlock}>{details}</Disclosure.Details>

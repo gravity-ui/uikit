@@ -11,6 +11,7 @@ import type {SelectOption, SelectProps, SelectRenderPopup} from '../types';
 
 import {
     DEFAULT_OPTIONS,
+    SELECT_CONTROL_BUTTON_OPEN_CLASS,
     TEST_QA,
     generateOptions,
     generateOptionsGroups,
@@ -98,6 +99,47 @@ describe('Select filter', () => {
         await user.keyboard('[Enter]');
 
         expect(onUpdate).toHaveBeenCalledWith([options[0].value]);
+        expect(selectControl).not.toHaveClass(SELECT_CONTROL_BUTTON_OPEN_CLASS);
+    });
+
+    test('should select option after ArrowDown when filter is focused', async () => {
+        const options = DEFAULT_OPTIONS;
+        const {getByTestId, getByPlaceholderText} = setup({
+            options,
+            filterable: true,
+            filterPlaceholder: FILTER_PLACEHOLDER,
+            onUpdate,
+        });
+        const user = userEvent.setup();
+        const selectControl = getByTestId(TEST_QA);
+        await user.click(selectControl);
+        getByPlaceholderText(FILTER_PLACEHOLDER);
+
+        await user.keyboard('[ArrowDown]');
+        await user.keyboard('[Enter]');
+
+        expect(onUpdate).toHaveBeenCalledWith([options[1].value]);
+        expect(selectControl).not.toHaveClass(SELECT_CONTROL_BUTTON_OPEN_CLASS);
+    });
+
+    test('should select option after ArrowUp when filter is focused', async () => {
+        const options = DEFAULT_OPTIONS;
+        const {getByTestId, getByPlaceholderText} = setup({
+            options,
+            filterable: true,
+            filterPlaceholder: FILTER_PLACEHOLDER,
+            onUpdate,
+        });
+        const user = userEvent.setup();
+        const selectControl = getByTestId(TEST_QA);
+        await user.click(selectControl);
+        getByPlaceholderText(FILTER_PLACEHOLDER);
+
+        await user.keyboard('[ArrowUp]');
+        await user.keyboard('[Enter]');
+
+        expect(onUpdate).toHaveBeenCalledWith([options[options.length - 1].value]);
+        expect(selectControl).not.toHaveClass(SELECT_CONTROL_BUTTON_OPEN_CLASS);
     });
 
     test('should render node with renderEmptyOptions', async () => {

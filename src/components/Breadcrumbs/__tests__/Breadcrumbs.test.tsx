@@ -2,10 +2,17 @@ import * as React from 'react';
 
 import {userEvent} from '@testing-library/user-event';
 
-import {render, screen, within} from '../../../../test-utils/utils';
+import type {SelectorMatcherOptions} from '../../../../test-utils/utils';
+import {getByText, render, screen, within} from '../../../../test-utils/utils';
 import {Breadcrumbs} from '../Breadcrumbs';
 import {BreadcrumbsItem} from '../BreadcrumbsItem';
 import type {BreadcrumbsItemProps} from '../BreadcrumbsItem';
+
+const getByVisibleText = (text: string, options?: SelectorMatcherOptions) => {
+    const container = screen.getByRole('list');
+    // eslint-disable-next-line testing-library/prefer-screen-queries
+    return getByText(container, text, options);
+};
 
 beforeEach(() => {
     jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (
@@ -26,13 +33,13 @@ it('handles multiple items', () => {
             <Breadcrumbs.Item disabled>Folder 3</Breadcrumbs.Item>
         </Breadcrumbs>,
     );
-    const item1 = screen.getByText('Folder 1');
+    const item1 = getByVisibleText('Folder 1');
     expect(item1.tabIndex).toBe(0);
     expect(item1).not.toHaveAttribute('aria-current');
-    const item2 = screen.getByText('Folder 2');
+    const item2 = getByVisibleText('Folder 2');
     expect(item2.tabIndex).toBe(0);
     expect(item2).not.toHaveAttribute('aria-current');
-    const item3 = screen.getByText('Folder 3');
+    const item3 = getByVisibleText('Folder 3');
     expect(item3.tabIndex).toBe(-1);
     expect(item3).toHaveAttribute('aria-disabled', 'true');
     expect(item3).toHaveAttribute('aria-current', 'page');
@@ -64,10 +71,10 @@ it('shows four items with no menu', () => {
     );
     const {children} = screen.getByRole('list');
     expect(within(children[0] as HTMLElement).queryByRole('button')).toBeNull();
-    expect(screen.getByText('Folder 1')).toBeTruthy();
-    expect(screen.getByText('Folder 2')).toBeTruthy();
-    expect(screen.getByText('Folder 3')).toBeTruthy();
-    expect(screen.getByText('Folder 4')).toBeTruthy();
+    expect(getByVisibleText('Folder 1')).toBeTruthy();
+    expect(getByVisibleText('Folder 2')).toBeTruthy();
+    expect(getByVisibleText('Folder 3')).toBeTruthy();
+    expect(getByVisibleText('Folder 4')).toBeTruthy();
 });
 
 it('shows a maximum of 3 items', () => {
@@ -81,10 +88,10 @@ it('shows a maximum of 3 items', () => {
     );
     const {children} = screen.getByRole('list');
     expect(within(children[0] as HTMLElement).getByRole('button')).toBeTruthy();
-    expect(() => screen.getByText('Folder 1')).toThrow();
-    expect(() => screen.getByText('Folder 2')).toThrow();
-    expect(screen.getByText('Folder 3')).toBeTruthy();
-    expect(screen.getByText('Folder 4')).toBeTruthy();
+    expect(() => getByVisibleText('Folder 1')).toThrow();
+    expect(() => getByVisibleText('Folder 2')).toThrow();
+    expect(getByVisibleText('Folder 3')).toBeTruthy();
+    expect(getByVisibleText('Folder 4')).toBeTruthy();
 });
 
 it('shows a maximum of 3 items with showRoot', () => {
@@ -97,11 +104,11 @@ it('shows a maximum of 3 items with showRoot', () => {
         </Breadcrumbs>,
     );
     const {children} = screen.getByRole('list');
-    expect(screen.getByText('Folder 1')).toBeTruthy();
+    expect(getByVisibleText('Folder 1')).toBeTruthy();
     expect(within(children[1] as HTMLElement).getByRole('button')).toBeTruthy();
-    expect(() => screen.getByText('Folder 2')).toThrow();
-    expect(() => screen.getByText('Folder 3')).toThrow();
-    expect(screen.getByText('Folder 4')).toBeTruthy();
+    expect(() => getByVisibleText('Folder 2')).toThrow();
+    expect(() => getByVisibleText('Folder 3')).toThrow();
+    expect(getByVisibleText('Folder 4')).toBeTruthy();
 });
 
 it('shows less than 4 items if they do not fit', () => {
@@ -127,11 +134,11 @@ it('shows less than 4 items if they do not fit', () => {
 
     const {children} = screen.getByRole('list');
     expect(within(children[0] as HTMLElement).getByRole('button')).toBeTruthy();
-    expect(() => screen.getByText('Folder 1')).toThrow();
-    expect(() => screen.getByText('Folder 2')).toThrow();
-    expect(() => screen.getByText('Folder 3')).toThrow();
-    expect(() => screen.getByText('Folder 4')).toThrow();
-    expect(screen.getByText('Folder 5')).toBeTruthy();
+    expect(() => getByVisibleText('Folder 1')).toThrow();
+    expect(() => getByVisibleText('Folder 2')).toThrow();
+    expect(() => getByVisibleText('Folder 3')).toThrow();
+    expect(() => getByVisibleText('Folder 4')).toThrow();
+    expect(getByVisibleText('Folder 5')).toBeTruthy();
 });
 
 it('shows other items if the last item is too long', () => {
@@ -160,11 +167,11 @@ it('shows other items if the last item is too long', () => {
 
     const {children} = screen.getByRole('list');
     expect(within(children[0] as HTMLElement).getByRole('button')).toBeTruthy();
-    expect(() => screen.getByText('Folder 1')).toThrow();
-    expect(() => screen.getByText('Folder 2')).toThrow();
-    expect(() => screen.getByText('Folder 3')).toThrow();
-    expect(screen.getByText('Folder 4')).toBeTruthy();
-    expect(screen.getByText('Folder 5')).toBeTruthy();
+    expect(() => getByVisibleText('Folder 1')).toThrow();
+    expect(() => getByVisibleText('Folder 2')).toThrow();
+    expect(() => getByVisibleText('Folder 3')).toThrow();
+    expect(getByVisibleText('Folder 4')).toBeTruthy();
+    expect(getByVisibleText('Folder 5')).toBeTruthy();
 });
 
 it('collapses root item if it does not fit', () => {
@@ -189,12 +196,12 @@ it('collapses root item if it does not fit', () => {
     );
 
     const {children} = screen.getByRole('list');
-    expect(() => screen.getByText('Folder 1')).toThrow();
+    expect(() => getByVisibleText('Folder 1')).toThrow();
     expect(within(children[0] as HTMLElement).getByRole('button')).toBeTruthy();
-    expect(() => screen.getByText('Folder 2')).toThrow();
-    expect(() => screen.getByText('Folder 3')).toThrow();
-    expect(() => screen.getByText('Folder 4')).toThrow();
-    expect(screen.getByText('Folder 5')).toBeTruthy();
+    expect(() => getByVisibleText('Folder 2')).toThrow();
+    expect(() => getByVisibleText('Folder 3')).toThrow();
+    expect(() => getByVisibleText('Folder 4')).toThrow();
+    expect(getByVisibleText('Folder 5')).toBeTruthy();
 });
 
 it('supports aria-label', function () {

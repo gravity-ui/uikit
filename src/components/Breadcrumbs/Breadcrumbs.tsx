@@ -186,7 +186,7 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
             >
                 {breadcrumbsItems}
             </ol>
-            <div className={b('measurer')}>
+            <div className={b('measurer')} aria-hidden="true">
                 <ol ref={measurerListRef} className={b('list')} style={props.style}>
                     {items.map((child, index) =>
                         renderChild(child, index, index === items.length - 1, false),

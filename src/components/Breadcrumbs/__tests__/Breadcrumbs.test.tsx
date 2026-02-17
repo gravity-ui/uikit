@@ -11,7 +11,7 @@ import type {BreadcrumbsItemProps} from '../BreadcrumbsItem';
 const getByVisibleText = (text: string, options?: SelectorMatcherOptions) => {
     const container = screen.getByRole('list');
     // eslint-disable-next-line testing-library/prefer-screen-queries
-    return getByText(container, text, options);
+    return getByText(container, text, {...options, ignore: '[aria-hidden] *'});
 };
 
 beforeEach(() => {

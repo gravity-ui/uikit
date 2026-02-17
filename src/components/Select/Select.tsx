@@ -216,10 +216,9 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
             if (e.key === KeyCode.ENTER && open) {
                 e.preventDefault();
-                handleOptionClick(getActiveItem(listRef));
             }
         },
-        [handleOptionClick, open],
+        [open],
     );
 
     const handleQuickSearchChange = React.useCallback((search: string) => {

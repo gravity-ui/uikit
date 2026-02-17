@@ -1,4 +1,4 @@
-import type {Cases, CasesWithName} from 'src/stories/tests-factory/models';
+import type {Cases, CasesWithName} from '@gravity-ui/playwright-tools/component-tests';
 
 import type {SelectOption, SelectOptionGroup, SelectProps} from '../types';
 

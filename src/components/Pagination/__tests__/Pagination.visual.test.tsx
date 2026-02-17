@@ -1,6 +1,7 @@
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
+
 import {smokeTest, test} from '~playwright/core';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import {PaginationQa, getPaginationPageQa, getPaginationPageSizeOptionQa} from '../constants';
 import type {PaginationProps} from '../types';
 
@@ -24,28 +25,28 @@ test.describe('Pagination', {tag: '@Pagination'}, () => {
             await root.locator(`button[data-qa="${getPaginationPageQa(2)}"]`).hover();
 
             await expectScreenshot({
-                nameSuffix: 'hover on page 2 button',
+                name: 'hover on page 2 button',
                 themes: ['light'],
             });
 
             await root.locator(`button[data-qa="${getPaginationPageQa(2)}"]`).click();
 
             await expectScreenshot({
-                nameSuffix: 'click on page 2 button',
+                name: 'click on page 2 button',
                 themes: ['light'],
             });
 
             await root.locator(`button[data-qa="${getPaginationPageQa(10)}"]`).hover();
 
             await expectScreenshot({
-                nameSuffix: 'hover on page 10 button',
+                name: 'hover on page 10 button',
                 themes: ['light'],
             });
 
             await root.locator(`button[data-qa="${getPaginationPageQa(10)}"]`).click();
 
             await expectScreenshot({
-                nameSuffix: 'click on page 10 button',
+                name: 'click on page 10 button',
                 themes: ['light'],
             });
         });
@@ -68,28 +69,28 @@ test.describe('Pagination', {tag: '@Pagination'}, () => {
             await root.locator(`button[data-qa="${getPaginationPageQa(2)}"]`).hover();
 
             await expectScreenshot({
-                nameSuffix: 'hover on page 2 button',
+                name: 'hover on page 2 button',
                 themes: ['light'],
             });
 
             await root.locator(`button[data-qa="${getPaginationPageQa(2)}"]`).click();
 
             await expectScreenshot({
-                nameSuffix: 'click on page 2 button',
+                name: 'click on page 2 button',
                 themes: ['light'],
             });
 
             await root.locator(`button[data-qa="${getPaginationPageQa(10)}"]`).hover();
 
             await expectScreenshot({
-                nameSuffix: 'hover on page 10 button',
+                name: 'hover on page 10 button',
                 themes: ['light'],
             });
 
             await root.locator(`button[data-qa="${getPaginationPageQa(10)}"]`).click();
 
             await expectScreenshot({
-                nameSuffix: 'click on page 10 button',
+                name: 'click on page 10 button',
                 themes: ['light'],
             });
         });
@@ -112,14 +113,14 @@ test.describe('Pagination', {tag: '@Pagination'}, () => {
             await root.locator(`button[data-qa="${PaginationQa.PaginationButtonNext}"]`).hover();
 
             await expectScreenshot({
-                nameSuffix: 'hover on next page button',
+                name: 'hover on next page button',
                 themes: ['light'],
             });
 
             await root.locator(`button[data-qa="${PaginationQa.PaginationButtonNext}"]`).click();
 
             await expectScreenshot({
-                nameSuffix: 'click on next page button',
+                name: 'click on next page button',
                 themes: ['light'],
             });
         });
@@ -145,21 +146,21 @@ test.describe('Pagination', {tag: '@Pagination'}, () => {
                 .focus();
 
             await expectScreenshot({
-                nameSuffix: 'focus on input',
+                name: 'focus on input',
                 themes: ['light'],
             });
 
             await page.keyboard.type('10');
 
             await expectScreenshot({
-                nameSuffix: 'after type page number',
+                name: 'after type page number',
                 themes: ['light'],
             });
 
             await page.keyboard.press('Enter');
 
             await expectScreenshot({
-                nameSuffix: 'after type enter',
+                name: 'after type enter',
                 themes: ['light'],
             });
         });
@@ -188,21 +189,21 @@ test.describe('Pagination', {tag: '@Pagination'}, () => {
             await root.locator(`button[data-qa="${PaginationQa.PaginationPageSizer}"]`).click();
 
             await expectScreenshot({
-                nameSuffix: 'after click on page size select',
+                name: 'after click on page size select',
                 themes: ['light'],
             });
 
             await page.locator(`[data-qa="${getPaginationPageSizeOptionQa(50)}"]`).hover();
 
             await expectScreenshot({
-                nameSuffix: 'after hover option',
+                name: 'after hover option',
                 themes: ['light'],
             });
 
             await page.locator(`[data-qa="${getPaginationPageSizeOptionQa(50)}"]`).click();
 
             await expectScreenshot({
-                nameSuffix: 'after select option',
+                name: 'after select option',
                 themes: ['light'],
             });
         });

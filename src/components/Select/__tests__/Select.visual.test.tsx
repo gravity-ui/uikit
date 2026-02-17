@@ -1,4 +1,5 @@
-import {createSmokeScenarios} from 'src/stories/tests-factory/create-smoke-scenarios';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
+
 import type {MountFixture} from '~playwright/core';
 import {smokeTest, test} from '~playwright/core';
 

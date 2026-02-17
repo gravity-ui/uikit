@@ -1,8 +1,9 @@
 import type * as React from 'react';
 
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
+
 import {smokeTest, test} from '~playwright/core';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import {Slider} from '../Slider';
 import type {SliderProps} from '../types';
 

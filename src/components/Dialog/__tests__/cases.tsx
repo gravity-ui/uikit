@@ -1,4 +1,5 @@
-import type {Cases, CasesWithName} from '../../../stories/tests-factory/models';
+import type {Cases, CasesWithName} from '@gravity-ui/playwright-tools/component-tests';
+
 import type {DialogProps} from '../Dialog';
 import type {DialogBodyProps} from '../DialogBody/DialogBody';
 import type {DialogFooterProps} from '../DialogFooter/DialogFooter';

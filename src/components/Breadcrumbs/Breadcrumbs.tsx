@@ -63,6 +63,7 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
             typeof props.maxItems === 'number' && props.maxItems < items.length
                 ? props.maxItems - 1
                 : undefined,
+        childSelector: `.${b('item')}`,
         getChildWidth: (child) => {
             const width = child.getBoundingClientRect().width;
             const maxWidth = child.dataset.current ? 200 : Infinity;
@@ -176,29 +177,28 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
         );
     }
     return (
-        <div className={b(null, props.className)}>
-            <ol
-                ref={containerRef}
-                {...filterDOMProps(props, {labelable: true})}
-                data-qa={props.qa}
-                className={b('list')}
-                style={props.style}
-            >
-                {breadcrumbsItems}
-            </ol>
-            <div className={b('measurer')} aria-hidden="true">
+        <ol
+            ref={containerRef}
+            {...filterDOMProps(props, {labelable: true})}
+            data-qa={props.qa}
+            className={b(null, props.className)}
+            style={props.style}
+        >
+            {breadcrumbsItems}
+            {/* @ts-expect-error */}
+            <div className={b('measurer')} aria-hidden="true" inert="">
                 <ol ref={measurerListRef} className={b('list')} style={props.style}>
                     {items.map((child, index) =>
                         renderChild(child, index, index === items.length - 1, false),
                     )}
                     {props.endContent && (
-                        <li key="end-content" ref={endContentRef} className={b('item')}>
+                        <li key="end-content" className={b('item')}>
                             {props.endContent}
                         </li>
                     )}
                 </ol>
             </div>
-        </div>
+        </ol>
     );
 }) as unknown as BreadcrumbsComponent;
 

@@ -210,16 +210,13 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         [handleOptionClick, open, toggleOpen],
     );
 
-    const handleFilterKeyDown = React.useCallback(
-        (e: React.KeyboardEvent<HTMLElement>) => {
-            listRef?.current?.onKeyDown(e);
+    const handleFilterKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLElement>) => {
+        listRef?.current?.onKeyDown(e);
 
-            if (e.key === KeyCode.ENTER && open) {
-                e.preventDefault();
-            }
-        },
-        [open],
-    );
+        if (e.key === KeyCode.ENTER) {
+            e.preventDefault();
+        }
+    }, []);
 
     const handleQuickSearchChange = React.useCallback((search: string) => {
         if (search) {

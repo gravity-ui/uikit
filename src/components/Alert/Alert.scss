@@ -3,19 +3,124 @@
 $block: '.#{variables.$ns}alert';
 
 #{$block} {
+    --_--icon-margin: var(--g-spacing-2);
+    --_--close-btn-margin: 2px;
+    --_--title-font-weight: var(--g-text-subheader-font-weight);
+    --_--message-font-weight: var(--g-text-body-font-weight);
+    --_--message-font-size: var(--g-text-body-1-font-size);
+    --_--message-line-height: var(--g-text-body-1-line-height);
+
+    padding: var(--g-alert-padding, var(--_--padding));
+    --g-card-border-radius: var(--g-alert-border-radius, var(--_--border-radius));
+
+    display: flex;
+    align-items: var(--_--align);
+
+    &_align_baseline {
+        --_--align: baseline;
+
+        #{$block}__close-btn {
+            align-self: flex-start;
+        }
+    }
+
+    &_align_center {
+        --_--align: center;
+    }
+
     &_corners_square {
         --g-card-border-radius: 0;
     }
 
-    &__text-content {
-        width: 100%;
+    &_size {
+        &_s {
+            --_--padding: 11px var(--g-spacing-3);
+            --_--border-radius: var(--g-border-radius-m);
+            --_--alert-message-margin: 0;
+            --_--content-gap: var(--g-spacing-2);
+            --_--title-font-size: var(--g-text-subheader-1-font-size);
+            --_--title-line-height: var(--g-text-subheader-1-line-height);
+        }
+
+        &_m {
+            --_--padding: var(--g-spacing-4) var(--g-spacing-5);
+            --_--icon-margin: var(--g-spacing-3);
+            --_--border-radius: var(--g-border-radius-l);
+            --_--alert-message-margin: var(--g-spacing-1);
+            --_--content-gap: var(--g-spacing-3);
+            --_--title-font-size: var(--g-text-subheader-2-font-size);
+            --_--title-line-height: var(--g-text-subheader-2-line-height);
+        }
+
+        &_l {
+            --_--padding: var(--g-spacing-6);
+            --_--border-radius: 12px;
+            --_--icon-margin: var(--g-spacing-4);
+            --_--close-btn-margin: 6px;
+            --_--alert-message-margin: var(--g-spacing-2);
+            --_--content-gap: var(--g-spacing-5);
+            --_--title-font-size: var(--g-text-subheader-3-font-size);
+            --_--title-line-height: var(--g-text-subheader-3-line-height);
+            --_--message-font-size: var(--g-text-body-2-font-size);
+            --_--message-line-height: var(--g-text-body-2-line-height);
+        }
     }
 
-    &__actions_minContent {
-        width: min-content;
+    &__icon-wrapper {
+        margin-inline-end: var(--g-alert-icon-margin, var(--_--icon-margin));
+    }
+
+    &__main {
+        flex-grow: 1;
+        display: flex;
+        gap: var(--g-alert-actions-margin, var(--_--content-gap));
+
+        &_layout_vertical {
+            flex-direction: column;
+        }
+
+        &_layout_horizontal {
+            flex-direction: row;
+        }
+    }
+
+    &__title {
+        color: var(--g-alert-title-text-color, var(--g-color-text-primary));
+        font-size: var(--g-alert-title-font-size, var(--_--title-font-size));
+        font-weight: var(--_--title-font-weight);
+        line-height: var(--g-alert-title-line-height, var(--_--title-line-height));
+    }
+
+    &__message {
+        color: var(--g-alert-message-text-color, var(--g-color-text-complementary));
+        font-size: var(--g-alert-message-font-size, var(--_--message-font-size));
+        font-weight: var(--_--message-font-weight);
+        line-height: var(--g-alert-message-line-height, var(--_--message-line-height));
+
+        &_with-top-margin {
+            margin-block-start: var(--g-alert-message-margin, var(--_--alert-message-margin));
+        }
+    }
+
+    &__actions {
+        display: flex;
+
+        gap: var(--g-alert-actions-gap, var(--g-spacing-3));
+
+        &_horizontal {
+            flex-flow: row wrap;
+            align-items: center;
+        }
+
+        &_vertical {
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
     }
 
     &__close-btn {
         flex-shrink: 0;
+        margin-inline-start: var(--g-alert-close-btn-margin, var(--_--close-btn-margin));
     }
 }

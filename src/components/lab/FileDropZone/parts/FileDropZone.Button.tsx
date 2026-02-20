@@ -10,7 +10,7 @@ type FileDropZoneButtonProps = {
 };
 
 export const FileDropZoneButton = ({className}: FileDropZoneButtonProps) => {
-    const {buttonText, triggerProps, controlProps, multiple} = useFileZoneContext();
+    const {accept, buttonText, triggerProps, controlProps, multiple} = useFileZoneContext();
 
     const {t} = i18n.useTranslation();
 
@@ -22,7 +22,7 @@ export const FileDropZoneButton = ({className}: FileDropZoneButtonProps) => {
             <Button {...triggerProps} className={cnFileDropZone('button', className)}>
                 {displayLabel}
             </Button>
-            <input {...controlProps} multiple={multiple} />
+            <input {...controlProps} multiple={multiple} accept={accept.join(',')} />
         </React.Fragment>
     );
 };

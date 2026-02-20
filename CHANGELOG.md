@@ -1,5 +1,18 @@
 # Changelog
 
+## [7.33.0](https://github.com/gravity-ui/uikit/compare/v7.32.0...v7.33.0) (2026-02-20)
+
+
+### Features
+
+* add `useCollapseChildren` hook ([#2443](https://github.com/gravity-ui/uikit/issues/2443)) ([dadb9ad](https://github.com/gravity-ui/uikit/commit/dadb9ada8fa0827298f6ee79037cdb2273980ea8))
+
+
+### Bug Fixes
+
+* **Select:** remove doubled invocation of onUpdate in case of single selection by enter ([#2590](https://github.com/gravity-ui/uikit/issues/2590)) ([0a21f5e](https://github.com/gravity-ui/uikit/commit/0a21f5e9bea6133e8e7f80514b9ad93432073b68))
+* **Slider:** fix text color in tooltip ([#2588](https://github.com/gravity-ui/uikit/issues/2588)) ([a0492dc](https://github.com/gravity-ui/uikit/commit/a0492dce7be557ad83ac7385cc0d9310b8ac68cc))
+
 ## [7.32.0](https://github.com/gravity-ui/uikit/compare/v7.31.2...v7.32.0) (2026-02-13)
 
 

@@ -33,7 +33,7 @@ $block: '.#{variables.$ns}file-drop-zone';
     }
 
     &:focus:not(:focus-visible) {
-        border-color: none;
+        border-color: unset;
     }
 
     &_drag-hover {

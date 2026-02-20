@@ -10,6 +10,7 @@ import type {FileDropZoneProps} from './FileDropZone';
 interface FileDropZoneContextValue
     extends Pick<
             FileDropZoneProps,
+            | 'accept'
             | 'title'
             | 'description'
             | 'buttonText'
@@ -72,9 +73,9 @@ export const FileDropZoneProvider = ({
                 files.push(file);
             }
 
-            onUpdate(files);
+            onUpdate(multiple ? files : files.slice(0, 1));
         },
-        [onUpdate],
+        [multiple, onUpdate],
     );
 
     const {isDraggingOver, getDroppableProps} = useDropZone({
@@ -96,6 +97,7 @@ export const FileDropZoneProvider = ({
 
     const contextValue = React.useMemo(
         () => ({
+            accept,
             title,
             description,
             buttonText,
@@ -112,6 +114,7 @@ export const FileDropZoneProvider = ({
             onKeyDown,
         }),
         [
+            accept,
             title,
             description,
             buttonText,

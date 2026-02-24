@@ -67,6 +67,7 @@
 /src/components/layout @IsaevAlexandr
 
 /src/components/lab/ColorPicker @Estasie
+/src/components/lab/FileDropZone @dvortsovs
 
 /src/hooks/useActionHandlers @ogonkov
 /src/hooks/useFileInput @korvin89
@@ -76,6 +77,8 @@
 /src/hooks/useOutsideClick @NikitaCG
 /src/hooks/useViewportSize @NikitaCG
 /src/hooks/useUniqId @ValeraS
+
+/src/hooks/lab/useDropZone @dvortsovs
 
 # Allow everyone to update dependencies
 

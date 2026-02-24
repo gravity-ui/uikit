@@ -73,7 +73,7 @@ export const FileDropZoneProvider = ({
                 files.push(file);
             }
 
-            onUpdate(multiple ? files : files.slice(0, 1));
+            onUpdate(multiple ? files : [files[0]]);
         },
         [multiple, onUpdate],
     );

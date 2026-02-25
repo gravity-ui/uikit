@@ -1,2 +1,8 @@
 export * from './Icon';
-export * from './types';
+export type {
+    SVGIconData as IconData,
+    SVGIconComponentData,
+    SVGIconSpriteData,
+    SVGIconSvgrData,
+    SVGIconStringData
+} from './types';

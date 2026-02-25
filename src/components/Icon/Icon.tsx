@@ -6,7 +6,6 @@ import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {a11yHiddenSvgProps} from '../utils/svg';
 
-import type {SVGIconData} from './types';
 import {
     getStringViewBox,
     isComponentSvgData,

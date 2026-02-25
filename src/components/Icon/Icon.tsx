@@ -6,6 +6,7 @@ import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {a11yHiddenSvgProps} from '../utils/svg';
 
+import type {SVGIconData} from './types';
 import {
     getStringViewBox,
     isComponentSvgData,
@@ -22,7 +23,7 @@ interface IconComposition {
 }
 
 export interface IconProps extends QAProps, DOMProps {
-    data: IconData;
+    data: SVGIconData;
     width?: number | string;
     height?: number | string;
     size?: number | string;

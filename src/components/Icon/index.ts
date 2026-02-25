@@ -4,5 +4,5 @@ export type {
     SVGIconComponentData,
     SVGIconSpriteData,
     SVGIconSvgrData,
-    SVGIconStringData
+    SVGIconStringData,
 } from './types';

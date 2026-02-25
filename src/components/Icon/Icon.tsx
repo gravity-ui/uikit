@@ -18,8 +18,6 @@ import {
 
 import './Icon.scss';
 
-export type IconData = SVGIconData;
-
 interface IconComposition {
     prefix?: string;
 }

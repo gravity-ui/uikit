@@ -67,13 +67,6 @@ function SuggestInner<T>(
         return {};
     }, [inputElement, popupWidth]);
 
-    const handleBlur = React.useCallback(
-        (event: React.FocusEvent<HTMLInputElement>) => {
-            setOpen(false);
-            fragmentProps?.propsTextInput?.onBlur?.(event);
-        },
-        [fragmentProps?.propsTextInput],
-    );
     const handleClick = React.useCallback(
         (event: React.MouseEvent<HTMLInputElement>) => {
             setOpen(true);
@@ -110,7 +103,6 @@ function SuggestInner<T>(
             <TextInput
                 autoComplete={false}
                 controlProps={{onClick: handleClick}}
-                onBlur={handleBlur}
                 onKeyDown={handleKeyDown}
                 onUpdate={onFilterUpdate}
                 ref={handleRef}

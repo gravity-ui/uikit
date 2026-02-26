@@ -11,6 +11,28 @@ const ITEMS: Item[] = [
     {value: 'durian', content: 'Durian', disabled: true},
 ];
 
+function renderSuggest(props?: Partial<React.ComponentProps<typeof Suggest<Item>>>) {
+    return render(
+        <Suggest<Item>
+            filter={undefined}
+            onFilterUpdate={() => {}}
+            items={ITEMS}
+            renderItem={(item) => <div>{item.content}</div>}
+            fragmentProps={{
+                propsTextInput: {id: 'suggest-input', qa: 'suggest-input', placeholder: 'Search…'},
+                popupProps: {qa: 'suggest-popup'},
+                listProps: {
+                    qa: 'suggest-list',
+                    id: 'suggest-list',
+                    role: 'listbox',
+                    items: ITEMS,
+                },
+            }}
+            {...props}
+        />,
+    );
+}
+
 describe('Suggest', () => {
     afterEach(() => {
         jest.clearAllMocks();
@@ -20,15 +42,7 @@ describe('Suggest', () => {
         const onFilterUpdate = jest.fn();
         const user = userEvent.setup();
 
-        render(
-            <Suggest<Item>
-                filter={undefined}
-                onFilterUpdate={onFilterUpdate}
-                items={ITEMS}
-                fragmentProps={{propsTextInput: {placeholder: 'Search…'}}}
-                renderItem={(item) => <div>{item.content}</div>}
-            />,
-        );
+        renderSuggest({onFilterUpdate});
 
         const input = screen.getByRole('textbox', {name: ''});
         await user.type(input, 'ap');
@@ -40,15 +54,7 @@ describe('Suggest', () => {
     test('opens popup on focus and renders items', async () => {
         const user = userEvent.setup();
 
-        render(
-            <Suggest<Item>
-                filter={undefined}
-                onFilterUpdate={() => {}}
-                items={ITEMS}
-                fragmentProps={{propsTextInput: {placeholder: 'Search…'}}}
-                renderItem={(item) => <div>{item.content}</div>}
-            />,
-        );
+        renderSuggest();
 
         expect(screen.queryByText('Apple')).not.toBeInTheDocument();
 
@@ -63,16 +69,7 @@ describe('Suggest', () => {
         const onItemClick = jest.fn();
         const user = userEvent.setup();
 
-        render(
-            <Suggest<Item>
-                filter={undefined}
-                onFilterUpdate={() => {}}
-                items={ITEMS}
-                onItemClick={onItemClick}
-                fragmentProps={{propsTextInput: {placeholder: 'Search…'}}}
-                renderItem={(item) => <div>{item.content}</div>}
-            />,
-        );
+        renderSuggest({onItemClick});
 
         const input = screen.getByRole('textbox');
         await user.click(input);
@@ -92,16 +89,7 @@ describe('Suggest', () => {
         const onItemClick = jest.fn();
         const user = userEvent.setup();
 
-        render(
-            <Suggest<Item>
-                filter={undefined}
-                onFilterUpdate={() => {}}
-                items={ITEMS}
-                onItemClick={onItemClick}
-                fragmentProps={{propsTextInput: {placeholder: 'Search…'}}}
-                renderItem={(item) => <div>{item.content}</div>}
-            />,
-        );
+        renderSuggest({onItemClick});
 
         const input = screen.getByRole('textbox');
         await user.click(input);

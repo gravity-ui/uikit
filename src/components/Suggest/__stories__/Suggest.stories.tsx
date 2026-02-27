@@ -52,10 +52,10 @@ const baseFilter = (filter: string) => {
 
 export const Default: Story = {
     render: () => {
-        const [filter, setFilter] = React.useState('');
-        const items = React.useMemo(() => baseFilter(filter), [filter]);
+        const [value, setValue] = React.useState('');
+        const items = React.useMemo(() => baseFilter(value), [value]);
         const handelItemClick = React.useCallback((item: TItem) => {
-            setFilter(item.content);
+            setValue(item.content);
             console.log('onItemClick', item);
         }, []);
 
@@ -63,9 +63,10 @@ export const Default: Story = {
             <Flex gap={2}>
                 <Suggest<TItem>
                     items={items}
-                    filter={filter}
-                    onFilterUpdate={setFilter}
                     onItemClick={handelItemClick}
+                    onUpdate={setValue}
+                    placeholder="Search astronomical bodies…"
+                    value={value}
                     renderItem={(item, isActive) => (
                         <Flex width="100%" direction="column" gap={0.5} spacing={{p: 1}}>
                             <Text color={item.disabled ? 'hint' : 'primary'}>
@@ -79,10 +80,6 @@ export const Default: Story = {
                             ) : null}
                         </Flex>
                     )}
-                    fragmentProps={{
-                        listProps: {emptyPlaceholder: <Flex spacing={{p: 1}}>No matches</Flex>},
-                        textInputProps: {placeholder: 'Search astronomical bodies…'},
-                    }}
                 />
             </Flex>
         );
@@ -91,49 +88,43 @@ export const Default: Story = {
 
 export const PopupWidth: Story = {
     render: () => {
-        const [filter, setFilter] = React.useState('');
+        const [value, setValue] = React.useState('');
         return (
             <Flex direction="column" gap={4}>
                 <Text variant="subheader-2">{`popupWidth="fit"`}</Text>
                 <Suggest<TItem>
-                    filter={filter}
-                    items={baseItems.map((item) => ({...item, disabled: item.value === 'pluto'}))}
-                    onFilterUpdate={setFilter}
-                    onItemClick={(item) => setFilter(item.content)}
+                    items={baseItems}
+                    onItemClick={(item) => setValue(item.content)}
+                    onUpdate={setValue}
+                    placeholder="Search..."
+                    popupPlacement="auto-start"
                     popupWidth="fit"
                     renderItem={(item) => <div>{item.content}</div>}
-                    fragmentProps={{
-                        popupProps: {placement: 'auto-start'},
-                        textInputProps: {placeholder: 'Open to see items'},
-                    }}
+                    value={value}
                 />
 
                 <Text variant="subheader-2">{`popupWidth="auto"`}</Text>
                 <Suggest<TItem>
-                    filter={filter}
-                    items={baseItems.map((item) => ({...item, disabled: item.value === 'pluto'}))}
-                    onFilterUpdate={setFilter}
-                    onItemClick={(item) => setFilter(item.content)}
+                    value={value}
+                    items={baseItems}
+                    onUpdate={setValue}
+                    onItemClick={(item) => setValue(item.content)}
                     popupWidth="auto"
                     renderItem={(item) => <div>{item.content}</div>}
-                    fragmentProps={{
-                        popupProps: {placement: 'auto-start'},
-                        textInputProps: {placeholder: 'Open to see items'},
-                    }}
+                    popupPlacement="auto-start"
+                    placeholder="Search..."
                 />
 
                 <Text variant="subheader-2">{`popupWidth="512px"`}</Text>
                 <Suggest<TItem>
-                    filter={filter}
-                    items={baseItems.map((item) => ({...item, disabled: item.value === 'pluto'}))}
-                    onFilterUpdate={setFilter}
-                    onItemClick={(item) => setFilter(item.content)}
+                    value={value}
+                    items={baseItems}
+                    onUpdate={setValue}
+                    onItemClick={(item) => setValue(item.content)}
                     popupWidth={240}
                     renderItem={(item) => <div>{item.content}</div>}
-                    fragmentProps={{
-                        popupProps: {placement: 'auto-start'},
-                        textInputProps: {placeholder: 'Open to see items'},
-                    }}
+                    popupPlacement="auto-start"
+                    placeholder="Search..."
                 />
             </Flex>
         );
@@ -142,20 +133,16 @@ export const PopupWidth: Story = {
 
 export const CustomPopupContent: Story = {
     render: () => {
-        const [filter, setFilter] = React.useState('');
-        const items = React.useMemo(
-            () => baseItems.map((item) => ({...item, disabled: item.value === 'pluto'})),
-            [],
-        );
+        const [value, setValue] = React.useState('');
 
         return (
             <Suggest<TItem>
-                items={items}
-                filter={filter}
-                onFilterUpdate={setFilter}
-                onItemClick={(item) => setFilter(item.content)}
+                items={baseItems}
+                onItemClick={(item) => setValue(item.content)}
+                onUpdate={setValue}
+                placeholder="Search..."
                 renderItem={(item) => <div>{item.content}</div>}
-                fragmentProps={{textInputProps: {placeholder: 'Popup with header & footer'}}}
+                value={value}
                 renderPopupContent={({list}) => {
                     return (
                         <Flex maxHeight="300px" direction="column" gap={1} spacing={{p: 1}}>
@@ -163,7 +150,7 @@ export const CustomPopupContent: Story = {
                                 Before list
                             </Text>
                             <Text as="div" variant="body-1">
-                                Filter: {filter ? `"${filter}"` : '—'}
+                                Filter: {value ? `"${value}"` : '—'}
                             </Text>
 
                             {list}

@@ -8,11 +8,13 @@
 import {Suggest} from '@gravity-ui/uikit';
 ```
 
-`Suggest` is a lightweight building block for “type to filter + popup list” scenarios. It renders a `TextInput` and a `Popup` with a `List`.
+`Suggest` is a lightweight building block for “type to filter + popup list” scenarios. It renders a `TextInput` and a
+`Popup` with a `List`.
 
 ## Basic usage
 
-The component is controlled via `filter` + `onFilterUpdate`.
+`Suggest` supports all `TextInput` props (like `value`, `onUpdate`, `placeholder`, `size`, `pin`, etc.) and adds a popup
+with a list of items.
 
 <!--LANDING_BLOCK
 
@@ -26,29 +28,29 @@ const items: Item[] = [
     {value: 'jupiter', content: 'Jupiter'},
 ];
 
-const [filter, setFilter] = React.useState('');
+const [value, setValue] = React.useState('');
 
 <Suggest<Item>
     items={items}
-    filter={filter}
-    onFilterUpdate={setFilter}
-    onItemClick={(item) => setFilter(item.content)}
+    value={value}
+    onUpdate={setValue}
+    placeholder="Search…"
+    onItemClick={(item) => setValue(item.content)}
     renderItem={(item) => <div>{item.content}</div>}
-    fragmentProps={{ textInputProps: {placeholder: 'Search…'} }}
 />;
 `}
 >
-  <UIKit.Suggest
-    filter={''}
-    onFilterUpdate={() => {}}
-    items={[
-        {value: 'earth', content: 'Earth'},
-        {value: 'europa', content: 'Europa'},
-        {value: 'jupiter', content: 'Jupiter'},
-    ]}
-    renderItem={(item) => <div>{item.content}</div>}
-    fragmentProps={{ textInputProps: {placeholder: 'Search…'} }}
-  />
+    <UIKit.Suggest
+        value=""
+        onUpdate={() => {}}
+        placeholder="Search…"
+        items={[
+            {value: 'earth', content: 'Earth'},
+            {value: 'europa', content: 'Europa'},
+            {value: 'jupiter', content: 'Jupiter'},
+        ]}
+        renderItem={(item) => <div>{item.content}</div>}
+    />
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -64,15 +66,15 @@ const items: Item[] = [
   {value: 'jupiter', content: 'Jupiter'},
 ];
 
-const [filter, setFilter] = React.useState('');
+const [value, setValue] = React.useState('');
 
 <Suggest<Item>
   items={items}
-  filter={filter}
-  onFilterUpdate={setFilter}
-  onItemClick={(item) => setFilter(item.content)}
+  value={value}
+  onUpdate={setValue}
+  placeholder="Search…"
+  onItemClick={(item) => setValue(item.content)}
   renderItem={(item) => <div>{item.content}</div>}
-  fragmentProps={{textInputProps: {placeholder: 'Search…'}}}
 />;
 ```
 
@@ -91,29 +93,30 @@ Use `popupWidth` to control the popup width:
 <ExampleBlock
     code={`
 <Suggest
-  filter=""
-  onFilterUpdate={() => {}}
-  onItemClick={(item) => {}}
   items={[
     {value: 'earth', content: 'Earth'},
     {value: 'europa', content: 'Europa'},
     {value: 'jupiter', content: 'Jupiter'},
   ]}
+  value=""
+  onUpdate={() => {}}
+  popupWidth="fit"
+  placeholder='Search...'
   renderItem={(item) => <div>{item.content}</div>}
-  fragmentProps={{ textInputProps: {placeholder: 'Search...'} }}
 />
 `}
 >
   <UIKit.Suggest
-    filter=""
-    onFilterUpdate={() => {}}
     items={[
         {value: 'earth', content: 'Earth'},
         {value: 'europa', content: 'Europa'},
         {value: 'jupiter', content: 'Jupiter'},
     ]}
+    value=""
+    onUpdate={() => {}}
+    popupWidth="fit"
+    placeholder='Search...'
     renderItem={(item) => <div>{item.content}</div>}
-    fragmentProps={{ textInputProps: {placeholder: 'Search...'} }}
   />
 </ExampleBlock>
 
@@ -121,24 +124,25 @@ LANDING_BLOCK-->
 
 ## Customizing input / popup / list
 
-Use `fragmentProps` to pass props down to the underlying components:
+You can customize:
 
-- `fragmentProps.textInputProps`: forwarded to `TextInput`
-- `fragmentProps.popupProps`: forwarded to `Popup`
-- `fragmentProps.listProps`: forwarded to `List`
+- **`TextInput`**: by passing regular `TextInput` props (`className`, `disabled`, `hasClear`, `controlProps`, etc.)
+- **`Popup`**: with `popupClassName`, `popupPlacement`, `popupQa`
+- **`List`**: with `renderItem`, `items`, `onItemClick`
 
 ## Custom popup content
 
-Use `renderPopupContent` to render custom content around the list (before/after) while still reusing the default list node.
+Use `renderPopupContent` to render custom content around the list (before/after) while still reusing the default list
+node.
 
 <!--GITHUB_BLOCK-->
 
 ```tsx
 <Suggest
   items={items}
-  filter={filter}
-  onFilterUpdate={setFilter}
-  onItemClick={(item) => setFilter(item.content)}
+  value={value}
+  onUpdate={setValue}
+  onItemClick={(item) => setValue(item.content)}
   renderItem={(item) => <div>{item.content}</div>}
   renderPopupContent={({list}) => {
     return (
@@ -156,13 +160,15 @@ Use `renderPopupContent` to render custom content around the list (before/after)
 
 ## Properties
 
-| Name               | Description                                         | Type                                             |
-| :----------------- | :-------------------------------------------------- | :----------------------------------------------- |
-| filter             | Controlled input value                              | `string`                                         |
-| onFilterUpdate     | Fires when the input value changes                  | `(filter: string) => void`                       |
-| items              | Items rendered by `List`                            | `Array<ListItemData<T>>`                         |
-| onItemClick        | Fires when list item is clicked                     | `ListProps<T>['onItemClick']`                    |
-| popupWidth         | Popup width mode                                    | `'fit' \| 'auto' \| number`                      |
-| renderItem         | Item renderer                                       | `ListProps<T>['renderItem']`                     |
-| renderPopupContent | Custom popup content renderer (wraps the list node) | `({list}: {list: React.ReactNode}) => ReactNode` |
-| fragmentProps      | Props for underlying `TextInput` / `Popup` / `List` | `FragmentProps<T>`                               |
+`Suggest` supports all `TextInput` props. The table below lists the props specific to `Suggest`:
+
+| Name               | Description                                         | Default | Type                                                   |
+| :----------------- | :-------------------------------------------------- | :------ | :----------------------------------------------------- |
+| items              | Items rendered by `List`                            |         | `Array<ListItemData<T>>`                               |
+| onItemClick        | Fires when list item is clicked                     |         | `ListProps<T>['onItemClick']`                          |
+| popupClassName     | Popup `className`                                   |         | `PopupProps['className']`                              |
+| popupPlacement     | Popup placement                                     |         | `PopupProps['placement']`                              |
+| popupQa            | Test id attribute (`data-qa`) for popup content     |         | `PopupProps['qa']`                                     |
+| popupWidth         | Popup width mode                                    | `'fit'` | `'fit' \| 'auto' \| number`                            |
+| renderItem         | Item renderer                                       |         | `ListProps<T>['renderItem']`                           |
+| renderPopupContent | Custom popup content renderer (wraps the list node) |         | `({list}: {list: React.ReactNode}) => React.ReactNode` |

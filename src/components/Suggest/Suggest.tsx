@@ -10,18 +10,12 @@ import type {TextInputProps} from '../controls';
 import {TextInput} from '../controls';
 import {Flex} from '../layout';
 
-type FragmentProps<T> = {
-    listProps?: Partial<ListProps<T>>;
-    popupProps?: Partial<PopupProps>;
-    textInputProps?: Partial<TextInputProps>;
-};
-
-export type SuggestProps<T> = {
-    filter?: string;
-    fragmentProps?: FragmentProps<T>;
+export type SuggestProps<T> = TextInputProps & {
     items?: ListItemData<T>[];
-    onFilterUpdate?: (filter: string) => void;
     onItemClick?: ListProps<T>['onItemClick'];
+    popupClassName?: PopupProps['className'];
+    popupPlacement?: PopupProps['placement'];
+    popupQa?: PopupProps['qa'];
     popupWidth?: 'fit' | 'auto' | number;
     renderItem?: ListProps<T>['renderItem'];
     renderPopupContent?: (props: {list: React.ReactNode}) => React.ReactNode;
@@ -33,14 +27,15 @@ export const Suggest = React.forwardRef(SuggestInner) as <T>(
 
 function SuggestInner<T>(
     {
-        filter,
-        fragmentProps,
         items,
-        onFilterUpdate,
         onItemClick,
-        renderItem,
+        popupClassName,
+        popupPlacement,
+        popupQa,
         popupWidth = 'fit',
+        renderItem,
         renderPopupContent = defaultRenderPopupContent,
+        ...textInputProps
     }: SuggestProps<T>,
     ref: React.Ref<HTMLSpanElement>,
 ) {
@@ -70,9 +65,9 @@ function SuggestInner<T>(
     const handleClick = React.useCallback(
         (event: React.MouseEvent<HTMLInputElement>) => {
             setOpen(true);
-            fragmentProps?.textInputProps?.controlProps?.onClick?.(event);
+            textInputProps?.controlProps?.onClick?.(event);
         },
-        [fragmentProps?.textInputProps],
+        [textInputProps],
     );
 
     const handleKeyDown = React.useCallback(
@@ -85,9 +80,9 @@ function SuggestInner<T>(
                 listRef?.current?.onKeyDown(event);
             }
 
-            fragmentProps?.textInputProps?.onKeyDown?.(event);
+            textInputProps?.onKeyDown?.(event);
         },
-        [fragmentProps?.textInputProps, open],
+        [textInputProps, open],
     );
 
     const handleItemClick = React.useCallback(
@@ -104,17 +99,17 @@ function SuggestInner<T>(
                 autoComplete={false}
                 controlProps={{onClick: handleClick}}
                 onKeyDown={handleKeyDown}
-                onUpdate={onFilterUpdate}
                 ref={handleRef}
-                value={filter}
-                {...fragmentProps?.textInputProps}
+                {...textInputProps}
             />
             <Popup
                 anchorElement={inputElement}
-                onOpenChange={(nextOpen) => setOpen(nextOpen)}
+                className={popupClassName}
+                onOpenChange={setOpen}
                 open={open}
+                placement={popupPlacement}
+                qa={popupQa}
                 style={getPopupWidth}
-                {...fragmentProps?.popupProps}
             >
                 {renderPopupContent({
                     list: (
@@ -126,7 +121,6 @@ function SuggestInner<T>(
                                 ref={listRef}
                                 renderItem={renderItem}
                                 virtualized={false}
-                                {...fragmentProps?.listProps}
                             />
                         </Flex>
                     ),

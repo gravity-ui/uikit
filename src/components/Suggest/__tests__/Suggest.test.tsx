@@ -12,7 +12,6 @@ const ITEMS: Item[] = [
     {value: 'jupiter', content: 'Jupiter'},
 ];
 
-const QA_SUGGEST_LIST = 'qa-suggest-list';
 const QA_SUGGEST_POPUP = 'qa-suggest-popup';
 const QA_SUGGEST_TEXT_INPUT = 'qa-suggest-text-input';
 
@@ -20,15 +19,12 @@ function renderSuggest(props?: Partial<SuggestProps<Item>>) {
     return render(
         <Suggest<Item>
             items={ITEMS}
-            filter={undefined}
             onItemClick={() => {}}
-            onFilterUpdate={() => {}}
+            onUpdate={() => {}}
+            popupQa={QA_SUGGEST_POPUP}
+            qa={QA_SUGGEST_TEXT_INPUT}
             renderItem={(item) => <div>{item.content}</div>}
-            fragmentProps={{
-                listProps: {qa: QA_SUGGEST_LIST},
-                popupProps: {qa: QA_SUGGEST_POPUP},
-                textInputProps: {qa: QA_SUGGEST_TEXT_INPUT, placeholder: 'Search…'},
-            }}
+            value={undefined}
             {...props}
         />,
     );
@@ -42,15 +38,15 @@ describe('Suggest', () => {
     test('renders input and calls onFilterUpdate', async () => {
         const testStr = 'test-str';
         const user = userEvent.setup();
-        const onFilterUpdate = jest.fn();
+        const onUpdate = jest.fn();
 
-        renderSuggest({onFilterUpdate});
+        renderSuggest({onUpdate});
 
         const input = within(screen.getByTestId(QA_SUGGEST_TEXT_INPUT)).getByRole('textbox');
         await user.type(input, testStr);
 
-        expect(onFilterUpdate).toHaveBeenCalled();
-        expect(onFilterUpdate).toHaveBeenLastCalledWith(testStr);
+        expect(onUpdate).toHaveBeenCalled();
+        expect(onUpdate).toHaveBeenLastCalledWith(testStr);
     });
 
     test('opens popup on focus and renders items', async () => {
@@ -64,7 +60,6 @@ describe('Suggest', () => {
         await user.click(input);
 
         expect(screen.getByTestId(QA_SUGGEST_POPUP)).toBeVisible();
-        expect(screen.getByTestId(QA_SUGGEST_LIST)).toBeVisible();
         expect(screen.getByText('Europa')).toBeInTheDocument();
     });
 

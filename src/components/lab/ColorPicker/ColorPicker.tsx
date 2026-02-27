@@ -43,13 +43,17 @@ export interface ColorPickerProps {
      */
     onOpenChange?: (open: boolean) => void;
     /*
-     *Enables alpha channel support for HEXA/RGBA mode and transparency slider.
+     * Enables alpha channel support for HEXA/RGBA mode and transparency slider.
      */
     withAlpha?: boolean;
     /*
      * Render only picker button without value
      */
     compact?: boolean;
+    /**
+     * Disable picker
+     */
+    disabled?: boolean;
 }
 
 const POPUP_PLACEMENTS: PopupPlacement = [
@@ -79,6 +83,7 @@ export const ColorPicker = ({
     defaultOpen = false,
     withAlpha = false,
     compact = false,
+    disabled = false,
 }: ColorPickerProps) => {
     const [anchor, setAnchor] = React.useState<HTMLDivElement | null>(null);
     const [modeState, setModeState] = React.useState<Modes>(Modes.Hex);
@@ -87,8 +92,10 @@ export const ColorPicker = ({
 
     const isInternalUpdateRef = React.useRef(false);
 
+    const effectiveColor = color && color.trim() !== '' ? color : DEFAULT_COLOR;
+
     const [hsva, setHsva] = React.useState<HsvaColor>(() =>
-        convertSelectedModeColorToHsva(color, Modes.Hex, withAlpha),
+        convertSelectedModeColorToHsva(effectiveColor, Modes.Hex, withAlpha),
     );
 
     React.useEffect(() => {
@@ -96,7 +103,7 @@ export const ColorPicker = ({
             isInternalUpdateRef.current = false;
             return;
         }
-        setHsva(convertSelectedModeColorToHsva(color, Modes.Hex, withAlpha));
+        setHsva(convertSelectedModeColorToHsva(effectiveColor, Modes.Hex, withAlpha));
     }, [color, withAlpha]);
 
     const [isOpen, setIsOpen] = useControlledState(open, defaultOpen, onOpenChange);
@@ -185,6 +192,7 @@ export const ColorPicker = ({
                 ref={setAnchor}
                 size={size}
                 compact={compact}
+                disabled={disabled}
             />
 
             <Popup

@@ -13,10 +13,10 @@ import {Flex} from '../layout';
 type FragmentProps<T> = {
     listProps?: Partial<ListProps<T>>;
     popupProps?: Partial<PopupProps>;
-    propsTextInput?: Partial<TextInputProps>;
+    textInputProps?: Partial<TextInputProps>;
 };
 
-type SuggestProps<T> = {
+export type SuggestProps<T> = {
     filter?: string;
     fragmentProps?: FragmentProps<T>;
     items?: ListItemData<T>[];
@@ -70,9 +70,9 @@ function SuggestInner<T>(
     const handleClick = React.useCallback(
         (event: React.MouseEvent<HTMLInputElement>) => {
             setOpen(true);
-            fragmentProps?.propsTextInput?.controlProps?.onClick?.(event);
+            fragmentProps?.textInputProps?.controlProps?.onClick?.(event);
         },
-        [fragmentProps?.propsTextInput],
+        [fragmentProps?.textInputProps],
     );
 
     const handleKeyDown = React.useCallback(
@@ -85,9 +85,9 @@ function SuggestInner<T>(
                 listRef?.current?.onKeyDown(event);
             }
 
-            fragmentProps?.propsTextInput?.onKeyDown?.(event);
+            fragmentProps?.textInputProps?.onKeyDown?.(event);
         },
-        [fragmentProps?.propsTextInput, open],
+        [fragmentProps?.textInputProps, open],
     );
 
     const handleItemClick = React.useCallback(
@@ -107,7 +107,7 @@ function SuggestInner<T>(
                 onUpdate={onFilterUpdate}
                 ref={handleRef}
                 value={filter}
-                {...fragmentProps?.propsTextInput}
+                {...fragmentProps?.textInputProps}
             />
             <Popup
                 anchorElement={inputElement}

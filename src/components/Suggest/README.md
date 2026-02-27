@@ -34,7 +34,7 @@ const [filter, setFilter] = React.useState('');
     onFilterUpdate={setFilter}
     onItemClick={(item) => setFilter(item.content)}
     renderItem={(item) => <div>{item.content}</div>}
-    fragmentProps={{ propsTextInput: {placeholder: 'Search…'} }}
+    fragmentProps={{ textInputProps: {placeholder: 'Search…'} }}
 />;
 `}
 >
@@ -47,7 +47,7 @@ const [filter, setFilter] = React.useState('');
         {value: 'jupiter', content: 'Jupiter'},
     ]}
     renderItem={(item) => <div>{item.content}</div>}
-    fragmentProps={{ propsTextInput: {placeholder: 'Search…'} }}
+    fragmentProps={{ textInputProps: {placeholder: 'Search…'} }}
   />
 </ExampleBlock>
 
@@ -72,7 +72,7 @@ const [filter, setFilter] = React.useState('');
   onFilterUpdate={setFilter}
   onItemClick={(item) => setFilter(item.content)}
   renderItem={(item) => <div>{item.content}</div>}
-  fragmentProps={{propsTextInput: {placeholder: 'Search…'}}}
+  fragmentProps={{textInputProps: {placeholder: 'Search…'}}}
 />;
 ```
 
@@ -100,7 +100,7 @@ Use `popupWidth` to control the popup width:
     {value: 'jupiter', content: 'Jupiter'},
   ]}
   renderItem={(item) => <div>{item.content}</div>}
-  fragmentProps={{ propsTextInput: {placeholder: 'Search...'} }}
+  fragmentProps={{ textInputProps: {placeholder: 'Search...'} }}
 />
 `}
 >
@@ -113,7 +113,7 @@ Use `popupWidth` to control the popup width:
         {value: 'jupiter', content: 'Jupiter'},
     ]}
     renderItem={(item) => <div>{item.content}</div>}
-    fragmentProps={{ propsTextInput: {placeholder: 'Search...'} }}
+    fragmentProps={{ textInputProps: {placeholder: 'Search...'} }}
   />
 </ExampleBlock>
 
@@ -123,7 +123,7 @@ LANDING_BLOCK-->
 
 Use `fragmentProps` to pass props down to the underlying components:
 
-- `fragmentProps.propsTextInput`: forwarded to `TextInput`
+- `fragmentProps.textInputProps`: forwarded to `TextInput`
 - `fragmentProps.popupProps`: forwarded to `Popup`
 - `fragmentProps.listProps`: forwarded to `List`
 

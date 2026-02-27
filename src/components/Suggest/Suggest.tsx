@@ -11,9 +11,9 @@ import {TextInput} from '../controls';
 import {Flex} from '../layout';
 
 type FragmentProps<T> = {
-    listProps?: ListProps<T>;
-    popupProps?: PopupProps;
-    propsTextInput?: TextInputProps;
+    listProps?: Partial<ListProps<T>>;
+    popupProps?: Partial<PopupProps>;
+    propsTextInput?: Partial<TextInputProps>;
 };
 
 type SuggestProps<T> = {
@@ -38,8 +38,8 @@ function SuggestInner<T>(
         items,
         onFilterUpdate,
         onItemClick,
-        popupWidth,
         renderItem,
+        popupWidth = 'fit',
         renderPopupContent = defaultRenderPopupContent,
     }: SuggestProps<T>,
     ref: React.Ref<HTMLSpanElement>,

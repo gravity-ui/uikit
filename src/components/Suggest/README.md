@@ -21,22 +21,20 @@ The component is controlled via `filter` + `onFilterUpdate`.
 type Item = {value: string; content: string};
 
 const items: Item[] = [
-  {value: 'apple', content: 'Apple'},
-  {value: 'banana', content: 'Banana'},
-  {value: 'carrot', content: 'Carrot'},
+    {value: 'earth', content: 'Earth'},
+    {value: 'europa', content: 'Europa'},
+    {value: 'jupiter', content: 'Jupiter'},
 ];
 
 const [filter, setFilter] = React.useState('');
 
 <Suggest<Item>
-  filter={filter}
-  onFilterUpdate={setFilter}
-  items={items}
-  renderItem={(item) => <div>{item.content}</div>}
-  onItemClick={(item) => setFilter(item.content)}
-  fragmentProps={{
-    propsTextInput: {placeholder: 'Search…'},
-  }}
+    items={items}
+    filter={filter}
+    onFilterUpdate={setFilter}
+    onItemClick={(item) => setFilter(item.content)}
+    renderItem={(item) => <div>{item.content}</div>}
+    fragmentProps={{ propsTextInput: {placeholder: 'Search…'} }}
 />;
 `}
 >
@@ -44,14 +42,12 @@ const [filter, setFilter] = React.useState('');
     filter={''}
     onFilterUpdate={() => {}}
     items={[
-      {value: 'apple', content: 'Apple'},
-      {value: 'banana', content: 'Banana'},
-      {value: 'carrot', content: 'Carrot'},
+        {value: 'earth', content: 'Earth'},
+        {value: 'europa', content: 'Europa'},
+        {value: 'jupiter', content: 'Jupiter'},
     ]}
     renderItem={(item) => <div>{item.content}</div>}
-    fragmentProps={{
-      propsTextInput: {placeholder: 'Search…'},
-    }}
+    fragmentProps={{ propsTextInput: {placeholder: 'Search…'} }}
   />
 </ExampleBlock>
 
@@ -63,19 +59,19 @@ LANDING_BLOCK-->
 type Item = {value: string; content: string};
 
 const items: Item[] = [
-  {value: 'apple', content: 'Apple'},
-  {value: 'banana', content: 'Banana'},
-  {value: 'carrot', content: 'Carrot'},
+  {value: 'earth', content: 'Earth'},
+  {value: 'europa', content: 'Europa'},
+  {value: 'jupiter', content: 'Jupiter'},
 ];
 
 const [filter, setFilter] = React.useState('');
 
 <Suggest<Item>
+  items={items}
   filter={filter}
   onFilterUpdate={setFilter}
-  items={items}
-  renderItem={(item) => <div>{item.content}</div>}
   onItemClick={(item) => setFilter(item.content)}
+  renderItem={(item) => <div>{item.content}</div>}
   fragmentProps={{propsTextInput: {placeholder: 'Search…'}}}
 />;
 ```
@@ -86,9 +82,9 @@ const [filter, setFilter] = React.useState('');
 
 Use `popupWidth` to control the popup width:
 
+- `number`: width in pixels (applied only for finite positive numbers)
 - `'fit'`: match the input wrapper width
 - `'auto'`: use `width: auto`
-- `number`: width in pixels (applied only for finite positive numbers)
 
 <!--LANDING_BLOCK
 
@@ -97,14 +93,14 @@ Use `popupWidth` to control the popup width:
 <Suggest
   filter=""
   onFilterUpdate={() => {}}
+  onItemClick={(item) => {}}
   items={[
-    {value: 'apple', content: 'Apple'},
-    {value: 'banana', content: 'Banana'},
-    {value: 'carrot', content: 'Carrot'},
+    {value: 'earth', content: 'Earth'},
+    {value: 'europa', content: 'Europa'},
+    {value: 'jupiter', content: 'Jupiter'},
   ]}
-  popupWidth="fit"
   renderItem={(item) => <div>{item.content}</div>}
-  fragmentProps={{propsTextInput: {placeholder: 'popupWidth="fit"'}}}
+  fragmentProps={{ propsTextInput: {placeholder: 'Search...'} }}
 />
 `}
 >
@@ -112,13 +108,12 @@ Use `popupWidth` to control the popup width:
     filter=""
     onFilterUpdate={() => {}}
     items={[
-      {value: 'apple', content: 'Apple'},
-      {value: 'banana', content: 'Banana'},
-      {value: 'carrot', content: 'Carrot'},
+        {value: 'earth', content: 'Earth'},
+        {value: 'europa', content: 'Europa'},
+        {value: 'jupiter', content: 'Jupiter'},
     ]}
-    popupWidth="fit"
     renderItem={(item) => <div>{item.content}</div>}
-    fragmentProps={{propsTextInput: {placeholder: 'popupWidth="fit"'}}}
+    fragmentProps={{ propsTextInput: {placeholder: 'Search...'} }}
   />
 </ExampleBlock>
 
@@ -140,9 +135,10 @@ Use `renderPopupContent` to render custom content around the list (before/after)
 
 ```tsx
 <Suggest
+  items={items}
   filter={filter}
   onFilterUpdate={setFilter}
-  items={items}
+  onItemClick={(item) => setFilter(item.content)}
   renderItem={(item) => <div>{item.content}</div>}
   renderPopupContent={({list}) => {
     return (
@@ -160,13 +156,13 @@ Use `renderPopupContent` to render custom content around the list (before/after)
 
 ## Properties
 
-| Name               | Description                                         | Type                                             | Default |
-| :----------------- | :-------------------------------------------------- | :----------------------------------------------- | :------ |
-| filter             | Controlled input value                              | `string`                                         |         |
-| onFilterUpdate     | Fires when the input value changes                  | `(filter: string) => void`                       |         |
-| items              | Items rendered by `List`                            | `Array<ListItemData<T>>`                         |         |
-| onItemClick        | Fires when list item is clicked                     | `ListProps<T>['onItemClick']`                    |         |
-| popupWidth         | Popup width mode                                    | `'fit' \| 'auto' \| number`                      |         |
-| renderItem         | Item renderer                                       | `ListProps<T>['renderItem']`                     |         |
-| renderPopupContent | Custom popup content renderer (wraps the list node) | `({list}: {list: React.ReactNode}) => ReactNode` |         |
-| fragmentProps      | Props for underlying `TextInput` / `Popup` / `List` | `FragmentProps<T>`                               |         |
+| Name               | Description                                         | Type                                             |
+| :----------------- | :-------------------------------------------------- | :----------------------------------------------- |
+| filter             | Controlled input value                              | `string`                                         |
+| onFilterUpdate     | Fires when the input value changes                  | `(filter: string) => void`                       |
+| items              | Items rendered by `List`                            | `Array<ListItemData<T>>`                         |
+| onItemClick        | Fires when list item is clicked                     | `ListProps<T>['onItemClick']`                    |
+| popupWidth         | Popup width mode                                    | `'fit' \| 'auto' \| number`                      |
+| renderItem         | Item renderer                                       | `ListProps<T>['renderItem']`                     |
+| renderPopupContent | Custom popup content renderer (wraps the list node) | `({list}: {list: React.ReactNode}) => ReactNode` |
+| fragmentProps      | Props for underlying `TextInput` / `Popup` / `List` | `FragmentProps<T>`                               |

@@ -132,7 +132,7 @@ You can customize:
 
 ## Custom popup content
 
-Use `renderPopupContent` to render custom content around the list (before/after) while still reusing the default list
+Use `renderPopup` to render custom content around the list (before/after) while still reusing the default list
 node.
 
 <!--GITHUB_BLOCK-->
@@ -144,7 +144,7 @@ node.
   onUpdate={setValue}
   onItemClick={(item) => setValue(item.content)}
   renderItem={(item) => <div>{item.content}</div>}
-  renderPopupContent={({list}) => {
+  renderPopup={({list}) => {
     return (
       <div style={{padding: 8}}>
         <div style={{marginBottom: 8}}>Before list</div>
@@ -162,13 +162,13 @@ node.
 
 `Suggest` supports all `TextInput` props. The table below lists the props specific to `Suggest`:
 
-| Name               | Description                                         | Default | Type                                                   |
-| :----------------- | :-------------------------------------------------- | :------ | :----------------------------------------------------- |
-| items              | Items rendered by `List`                            |         | `Array<ListItemData<T>>`                               |
-| onItemClick        | Fires when list item is clicked                     |         | `ListProps<T>['onItemClick']`                          |
-| popupClassName     | Popup `className`                                   |         | `PopupProps['className']`                              |
-| popupPlacement     | Popup placement                                     |         | `PopupProps['placement']`                              |
-| popupQa            | Test id attribute (`data-qa`) for popup content     |         | `PopupProps['qa']`                                     |
-| popupWidth         | Popup width mode                                    | `'fit'` | `'fit' \| 'auto' \| number`                            |
-| renderItem         | Item renderer                                       |         | `ListProps<T>['renderItem']`                           |
-| renderPopupContent | Custom popup content renderer (wraps the list node) |         | `({list}: {list: React.ReactNode}) => React.ReactNode` |
+| Name           | Description                                         | Default | Type                                                   |
+| :------------- | :-------------------------------------------------- | :------ | :----------------------------------------------------- |
+| items          | Items rendered by `List`                            |         | `Array<ListItemData<T>>`                               |
+| onItemClick    | Fires when list item is clicked                     |         | `ListProps<T>['onItemClick']`                          |
+| popupClassName | Popup `className`                                   |         | `PopupProps['className']`                              |
+| popupPlacement | Popup placement                                     |         | `PopupProps['placement']`                              |
+| popupQa        | Test id attribute (`data-qa`) for popup content     |         | `PopupProps['qa']`                                     |
+| popupWidth     | Popup width mode                                    | `'fit'` | `'fit' \| 'auto' \| number`                            |
+| renderItem     | Item renderer                                       |         | `ListProps<T>['renderItem']`                           |
+| renderPopup    | Custom popup content renderer (wraps the list node) |         | `({list}: {list: React.ReactNode}) => React.ReactNode` |

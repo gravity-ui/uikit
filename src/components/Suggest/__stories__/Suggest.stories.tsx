@@ -62,6 +62,7 @@ export const Default: Story = {
         return (
             <Flex gap={2}>
                 <Suggest<TItem>
+                    autoFocus
                     items={items}
                     onItemClick={handelItemClick}
                     onUpdate={setValue}
@@ -93,6 +94,7 @@ export const PopupWidth: Story = {
             <Flex direction="column" gap={4}>
                 <Text variant="subheader-2">{`popupWidth="fit"`}</Text>
                 <Suggest<TItem>
+                    autoFocus
                     items={baseItems}
                     onItemClick={(item) => setValue(item.content)}
                     onUpdate={setValue}
@@ -137,13 +139,14 @@ export const CustomPopupContent: Story = {
 
         return (
             <Suggest<TItem>
+                autoFocus
                 items={baseItems}
                 onItemClick={(item) => setValue(item.content)}
                 onUpdate={setValue}
                 placeholder="Search..."
                 renderItem={(item) => <div>{item.content}</div>}
                 value={value}
-                renderPopupContent={({list}) => {
+                renderPopup={({list}) => {
                     return (
                         <Flex maxHeight="300px" direction="column" gap={1} spacing={{p: 1}}>
                             <Text as="div" variant="subheader-2">

@@ -95,7 +95,7 @@ export function TestSuggest(props: TestSuggestProps) {
                         </div>
                     );
                 }}
-                renderPopupContent={
+                renderPopup={
                     customPopup
                         ? ({list}) => (
                               <div style={{padding: 8}}>

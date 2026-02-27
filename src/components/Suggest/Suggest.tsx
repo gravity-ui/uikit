@@ -18,7 +18,7 @@ export type SuggestProps<T> = TextInputProps & {
     popupQa?: PopupProps['qa'];
     popupWidth?: 'fit' | 'auto' | number;
     renderItem?: ListProps<T>['renderItem'];
-    renderPopupContent?: (props: {list: React.ReactNode}) => React.ReactNode;
+    renderPopup?: (props: {list: React.ReactNode}) => React.ReactNode;
 };
 
 export const Suggest = React.forwardRef(SuggestInner) as <T>(
@@ -34,7 +34,7 @@ function SuggestInner<T>(
         popupQa,
         popupWidth = 'fit',
         renderItem,
-        renderPopupContent = defaultRenderPopupContent,
+        renderPopup = defaultRenderPopupContent,
         ...textInputProps
     }: SuggestProps<T>,
     ref: React.Ref<HTMLSpanElement>,
@@ -97,7 +97,7 @@ function SuggestInner<T>(
         <React.Fragment>
             <TextInput
                 autoComplete={false}
-                controlProps={{onClick: handleClick}}
+                controlProps={{...textInputProps.controlProps, onClick: handleClick}}
                 onKeyDown={handleKeyDown}
                 ref={handleRef}
                 {...textInputProps}
@@ -111,7 +111,7 @@ function SuggestInner<T>(
                 qa={popupQa}
                 style={getPopupWidth}
             >
-                {renderPopupContent({
+                {renderPopup({
                     list: (
                         <Flex spacing={{px: 2, py: 1}}>
                             <List<T>

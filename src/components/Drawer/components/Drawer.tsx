@@ -162,7 +162,7 @@ export const Drawer = ({
 
     const composedStyle = React.useMemo(
         () => ({
-            position: 'absolute' as React.CSSProperties['position'],
+            position: (disablePortal ? 'absolute' : 'fixed') as React.CSSProperties['position'],
             ...style,
         }),
         [style],

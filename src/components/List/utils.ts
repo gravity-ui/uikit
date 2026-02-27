@@ -1,5 +1,5 @@
 export function getElementId(id?: string, activeItem?: number) {
-    if (id === null || activeItem === null) {
+    if (typeof id !== 'string' || typeof activeItem !== 'number') {
         return undefined;
     }
 

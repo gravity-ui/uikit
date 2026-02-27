@@ -1,6 +1,7 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {ListProps} from '../types';
 
 import {
@@ -17,7 +18,7 @@ test.describe('List', {tag: '@List'}, () => {
         items: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'],
     };
 
-    smokeTest('', async ({mount, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<ListProps<string>>(defaultProps, {
             size: sizeCases,
             filterPlaceholder: filterPlaceholderCases,
@@ -43,7 +44,7 @@ test.describe('List', {tag: '@List'}, () => {
         });
     });
 
-    smokeTest('empty', async ({mount, expectScreenshot}) => {
+    test('smoke empty', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<ListProps<string>>(
             {
                 ...defaultProps,
@@ -74,7 +75,7 @@ test.describe('List', {tag: '@List'}, () => {
         });
     });
 
-    smokeTest('custom render item', async ({mount, expectScreenshot}) => {
+    test('smoke custom render item', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<ListProps<string>>(defaultProps, {
             size: sizeCases,
             filterPlaceholder: filterPlaceholderCases,
@@ -100,7 +101,7 @@ test.describe('List', {tag: '@List'}, () => {
         });
     });
 
-    smokeTest('virtualized', async ({mount, expectScreenshot}) => {
+    test('smoke virtualized', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const props: ListProps<string> = {
             ...defaultProps,
             itemHeight: 30,

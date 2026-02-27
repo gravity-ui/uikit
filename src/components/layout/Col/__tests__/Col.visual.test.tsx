@@ -1,4 +1,4 @@
-import {smokeTest, test} from '~playwright/core';
+import {test} from '~playwright/core';
 
 import {DEFAULT_LAYOUT_THEME} from '../../constants';
 
@@ -9,8 +9,9 @@ test.describe('Col', {tag: '@Col'}, () => {
 
     Object.entries(DEFAULT_LAYOUT_THEME.breakpoints).forEach(
         ([breakpointName, breakpointWidthPx]) => {
-            smokeTest(
-                `render story <Static> - ${breakpointName}`,
+            test(
+                `smoke render story <Static> - ${breakpointName}`,
+                {tag: ['@smoke']},
                 async ({mount, expectScreenshot, page}) => {
                     const size = page.viewportSize();
                     if (size) {
@@ -28,8 +29,9 @@ test.describe('Col', {tag: '@Col'}, () => {
                 },
             );
 
-            smokeTest(
-                `render story <Dynamic> - ${breakpointName}`,
+            test(
+                `smoke render story <Dynamic> - ${breakpointName}`,
+                {tag: ['@smoke']},
                 async ({mount, expectScreenshot, page}) => {
                     const size = page.viewportSize();
                     if (size) {
@@ -47,8 +49,9 @@ test.describe('Col', {tag: '@Col'}, () => {
                 },
             );
 
-            smokeTest(
-                `render story <AllMods> - ${breakpointName}`,
+            test(
+                `smoke render story <AllMods> - ${breakpointName}`,
+                {tag: ['@smoke']},
                 async ({mount, expectScreenshot, page}) => {
                     const size = page.viewportSize();
                     if (size) {

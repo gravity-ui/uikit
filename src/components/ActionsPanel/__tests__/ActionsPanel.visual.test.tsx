@@ -1,8 +1,8 @@
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 import {expect} from '@playwright/experimental-ct-react';
 
-import {smokeTest, test} from '~playwright/core';
+import {test} from '~playwright/core';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import {ActionsPanel} from '../ActionsPanel';
 import type {ActionsPanelProps} from '../types';
 
@@ -92,7 +92,7 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
         actions: actionsWithNoteAndGroups,
     };
 
-    smokeTest('', async ({mount, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<ActionsPanelProps>(defaultProps, {
             maxRowActions: [2],
             onClose: [['closable', noop]],
@@ -122,7 +122,7 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
         });
     });
 
-    smokeTest('with note', async ({mount, expectScreenshot}) => {
+    test('smoke with note', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<ActionsPanelProps>(defaultProps, {
             maxRowActions: [2],
             onClose: [['closable', noop]],
@@ -152,7 +152,7 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
         });
     });
 
-    smokeTest('group', async ({mount, page, expectScreenshot}) => {
+    test('smoke group', {tag: ['@smoke']}, async ({mount, page, expectScreenshot}) => {
         const root = await mount(
             <div
                 style={{
@@ -175,11 +175,11 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
-            nameSuffix: 'opened',
+            name: 'opened',
         });
     });
 
-    smokeTest('with submenu', async ({mount, page, expectScreenshot}) => {
+    test('smoke with submenu', {tag: ['@smoke']}, async ({mount, page, expectScreenshot}) => {
         const actionsSubmenu: ActionsPanelProps['actions'] = [
             {
                 id: 'button-with-sub-menu',
@@ -250,7 +250,7 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
-            nameSuffix: 'opened submenu',
+            name: 'opened submenu',
         });
     });
 });

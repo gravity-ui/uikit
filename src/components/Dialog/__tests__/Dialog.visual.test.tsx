@@ -1,6 +1,7 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import {Dialog} from '../Dialog';
 import type {DialogProps} from '../Dialog';
 import type {DialogBodyProps} from '../DialogBody/DialogBody';
@@ -67,7 +68,7 @@ test.describe('Dialog', {tag: '@Dialog'}, () => {
             footerTextButtonApply: footerTextButtonApplyCases,
         },
     ).forEach(([title, props]) => {
-        smokeTest(title, async ({page, mount, expectScreenshot}) => {
+        test(`smoke ${title}`, {tag: ['@smoke']}, async ({page, mount, expectScreenshot}) => {
             await page.setViewportSize({width: 1000, height: 600});
 
             const {
@@ -106,7 +107,7 @@ test.describe('Dialog', {tag: '@Dialog'}, () => {
             );
 
             await expectScreenshot({
-                component: page,
+                locator: page,
                 themes: ['light'],
             });
         });

@@ -1,6 +1,7 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import {sizeCases} from '../../Button/__tests__/cases';
 import type {AvatarStackProps} from '../types';
 
@@ -35,7 +36,7 @@ test.describe('AvatarStack', () => {
 
     const defaultProps: AvatarStackProps & {avatarCount?: number} = {};
 
-    smokeTest('', async ({mount, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(defaultProps, {
             size: sizeCases,
             overlapSize: overlapSizeCases,
@@ -61,7 +62,7 @@ test.describe('AvatarStack', () => {
         });
     });
 
-    smokeTest('with custom more', async ({mount, expectScreenshot}) => {
+    test('smoke with custom more', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(defaultProps, {});
 
         await mount(

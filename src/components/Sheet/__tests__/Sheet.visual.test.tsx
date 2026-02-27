@@ -1,6 +1,7 @@
-import {expect, smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {expect, test} from '~playwright/core';
+
 import type {SheetProps} from '../Sheet';
 import {DEFAULT_SHEET_QA} from '../__stories__/constants';
 
@@ -20,8 +21,8 @@ test.describe('Sheet', {tag: '@Sheet'}, () => {
         await expect(sheetLocator).toBeVisible();
 
         await expectScreenshot({
-            animations: 'disabled',
-            component: sheetLocator,
+            locator: sheetLocator,
+            options: {animations: 'disabled'},
         });
     });
 
@@ -32,7 +33,7 @@ test.describe('Sheet', {tag: '@Sheet'}, () => {
             title: titleCases,
         },
     ).forEach(([title, props]) => {
-        smokeTest(title, async ({mount, page, expectScreenshot}) => {
+        test(`smoke ${title}`, {tag: ['@smoke']}, async ({mount, page, expectScreenshot}) => {
             await page.setViewportSize({width: 500, height: 500});
 
             const root = await mount(<TestSheet {...props} />, {

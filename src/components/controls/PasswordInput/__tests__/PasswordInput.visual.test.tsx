@@ -1,8 +1,8 @@
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 import {expect} from '@playwright/experimental-ct-react';
 
-import {smokeTest, test} from '~playwright/core';
+import {test} from '~playwright/core';
 
-import {createSmokeScenarios} from '../../../../stories/tests-factory/create-smoke-scenarios';
 import {CONTROL_ERROR_ICON_QA} from '../../utils';
 import type {PasswordInputProps} from '../PasswordInput';
 import {PasswordInput} from '../PasswordInput';
@@ -53,7 +53,7 @@ test.describe('PasswordInput', () => {
         revealValue: revealValueCases,
     } as const;
 
-    smokeTest('empty', async ({mount, expectScreenshot}) => {
+    test('smoke empty', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<PasswordInputProps>(
             {
                 ...defaultProps,
@@ -79,7 +79,7 @@ test.describe('PasswordInput', () => {
         });
     });
 
-    smokeTest('', async ({mount, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<PasswordInputProps>(
             {
                 ...defaultProps,
@@ -106,7 +106,7 @@ test.describe('PasswordInput', () => {
         });
     });
 
-    smokeTest('with error', async ({mount, expectScreenshot}) => {
+    test('smoke with error', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(
             {
                 ...defaultProps,
@@ -137,74 +137,86 @@ test.describe('PasswordInput', () => {
         });
     });
 
-    smokeTest('inside error placement tooltip', async ({mount, page, expectScreenshot}) => {
-        const props: PasswordInputProps = {
-            ...defaultProps,
-            value: 'Text',
-            validationState: 'invalid',
-            errorMessage: 'Test error message',
-            errorPlacement: 'inside',
-        };
+    test(
+        'smoke inside error placement tooltip',
+        {tag: ['@smoke']},
+        async ({mount, page, expectScreenshot}) => {
+            const props: PasswordInputProps = {
+                ...defaultProps,
+                value: 'Text',
+                validationState: 'invalid',
+                errorMessage: 'Test error message',
+                errorPlacement: 'inside',
+            };
 
-        const root = await mount(
-            <div style={{width: 250}}>
-                <PasswordInput {...props} />
-            </div>,
-            {
-                width: 500,
-            },
-        );
+            const root = await mount(
+                <div style={{width: 250}}>
+                    <PasswordInput {...props} />
+                </div>,
+                {
+                    width: 500,
+                },
+            );
 
-        await root.getByTestId(CONTROL_ERROR_ICON_QA).hover();
+            await root.getByTestId(CONTROL_ERROR_ICON_QA).hover();
 
-        await expect(page.locator('.g-popup')).toBeVisible();
+            await expect(page.locator('.g-popup')).toBeVisible();
 
-        await expectScreenshot({
-            themes: ['light'],
-        });
-    });
+            await expectScreenshot({
+                themes: ['light'],
+            });
+        },
+    );
 
-    smokeTest('reveal button tooltip', async ({mount, page, expectScreenshot}) => {
-        const props: PasswordInputProps = {
-            ...defaultProps,
-            value: 'Text',
-            showRevealTooltip: true,
-        };
+    test(
+        'smoke reveal button tooltip',
+        {tag: ['@smoke']},
+        async ({mount, page, expectScreenshot}) => {
+            const props: PasswordInputProps = {
+                ...defaultProps,
+                value: 'Text',
+                showRevealTooltip: true,
+            };
 
-        const root = await mount(
-            <div style={{paddingBottom: 50, paddingRight: 50}}>
-                <PasswordInput {...props} />
-            </div>,
-        );
+            const root = await mount(
+                <div style={{paddingBottom: 50, paddingRight: 50}}>
+                    <PasswordInput {...props} />
+                </div>,
+            );
 
-        await root.getByTestId(PasswordInputQa.revealButton).hover();
+            await root.getByTestId(PasswordInputQa.revealButton).hover();
 
-        await expect(page.locator('.g-tooltip')).toBeVisible();
+            await expect(page.locator('.g-tooltip')).toBeVisible();
 
-        await expectScreenshot({
-            themes: ['light'],
-        });
-    });
+            await expectScreenshot({
+                themes: ['light'],
+            });
+        },
+    );
 
-    smokeTest('copy button tooltip', async ({mount, page, expectScreenshot}) => {
-        const props: PasswordInputProps = {
-            ...defaultProps,
-            value: 'Text',
-            showCopyTooltip: true,
-        };
+    test(
+        'smoke copy button tooltip',
+        {tag: ['@smoke']},
+        async ({mount, page, expectScreenshot}) => {
+            const props: PasswordInputProps = {
+                ...defaultProps,
+                value: 'Text',
+                showCopyTooltip: true,
+            };
 
-        const root = await mount(
-            <div style={{paddingBottom: 50, paddingRight: 50}}>
-                <PasswordInput {...props} />
-            </div>,
-        );
+            const root = await mount(
+                <div style={{paddingBottom: 50, paddingRight: 50}}>
+                    <PasswordInput {...props} />
+                </div>,
+            );
 
-        await root.getByTestId(PasswordInputQa.copyButton).hover();
+            await root.getByTestId(PasswordInputQa.copyButton).hover();
 
-        await expect(page.locator('.g-tooltip')).toBeVisible();
+            await expect(page.locator('.g-tooltip')).toBeVisible();
 
-        await expectScreenshot({
-            themes: ['light'],
-        });
-    });
+            await expectScreenshot({
+                themes: ['light'],
+            });
+        },
+    );
 });

@@ -80,12 +80,8 @@ export const Default: Story = {
                         </Flex>
                     )}
                     fragmentProps={{
-                        propsTextInput: {
-                            placeholder: 'Search astronomical bodies…',
-                        },
-                        listProps: {
-                            emptyPlaceholder: <div style={{padding: 8}}>No matches</div>,
-                        },
+                        listProps: {emptyPlaceholder: <Flex spacing={{p: 1}}>No matches</Flex>},
+                        textInputProps: {placeholder: 'Search astronomical bodies…'},
                     }}
                 />
             </Flex>
@@ -107,8 +103,8 @@ export const PopupWidth: Story = {
                     popupWidth="fit"
                     renderItem={(item) => <div>{item.content}</div>}
                     fragmentProps={{
-                        propsTextInput: {placeholder: 'Open to see items'},
                         popupProps: {placement: 'auto-start'},
+                        textInputProps: {placeholder: 'Open to see items'},
                     }}
                 />
 
@@ -121,8 +117,8 @@ export const PopupWidth: Story = {
                     popupWidth="auto"
                     renderItem={(item) => <div>{item.content}</div>}
                     fragmentProps={{
-                        propsTextInput: {placeholder: 'Open to see items'},
                         popupProps: {placement: 'auto-start'},
+                        textInputProps: {placeholder: 'Open to see items'},
                     }}
                 />
 
@@ -135,8 +131,8 @@ export const PopupWidth: Story = {
                     popupWidth={240}
                     renderItem={(item) => <div>{item.content}</div>}
                     fragmentProps={{
-                        propsTextInput: {placeholder: 'Open to see items'},
                         popupProps: {placement: 'auto-start'},
+                        textInputProps: {placeholder: 'Open to see items'},
                     }}
                 />
             </Flex>
@@ -159,7 +155,7 @@ export const CustomPopupContent: Story = {
                 onFilterUpdate={setFilter}
                 onItemClick={(item) => setFilter(item.content)}
                 renderItem={(item) => <div>{item.content}</div>}
-                fragmentProps={{propsTextInput: {placeholder: 'Popup with header & footer'}}}
+                fragmentProps={{textInputProps: {placeholder: 'Popup with header & footer'}}}
                 renderPopupContent={({list}) => {
                     return (
                         <Flex maxHeight="300px" direction="column" gap={1} spacing={{p: 1}}>

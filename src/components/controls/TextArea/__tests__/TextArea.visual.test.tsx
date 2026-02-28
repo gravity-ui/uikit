@@ -6,6 +6,7 @@ import {TextArea} from '../TextArea';
 
 import {
     disabledCases,
+    errorPlacementCases,
     hasClearCases,
     maxRowsCases,
     minRowsCases,
@@ -94,6 +95,7 @@ test.describe('TextArea', {tag: '@TextArea'}, () => {
             } as const,
             {
                 value: valueCases,
+                errorPlacement: errorPlacementCases,
             },
         );
 

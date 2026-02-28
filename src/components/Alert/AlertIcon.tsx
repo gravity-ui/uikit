@@ -70,8 +70,8 @@ export const AlertIcon = ({
     }
 
     return (
-        <div className={bAlert('icon', colorText({color}, className))}>
-            <Icon data={iconByTheme[view] as IconData} size={size} />
+        <div className={bAlert('icon-wrapper', colorText({color}, className))}>
+            <Icon className={bAlert('icon')} data={iconByTheme[view] as IconData} size={size} />
         </div>
     );
 };

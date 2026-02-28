@@ -71,14 +71,14 @@ describe('useOpenState', () => {
             });
             rerender(props);
 
-            expect(onOpenChange).toHaveBeenCalledWith(true);
+            expect(onOpenChange).toHaveBeenCalledWith(true, {reason: 'outside-click'});
 
             act(() => {
                 result.current.toggleOpen();
             });
             rerender(props);
 
-            expect(onOpenChange).toHaveBeenCalledWith(false);
+            expect(onOpenChange).toHaveBeenCalledWith(false, {reason: 'outside-click'});
         });
         test('if the same value is set, the onOpenChange will not be called', () => {
             const onOpenChange = jest.fn();
@@ -150,7 +150,20 @@ describe('useOpenState', () => {
             });
             rerender(props);
 
-            expect(onOpenChange).toHaveBeenCalledWith(false);
+            expect(onOpenChange).toHaveBeenCalledWith(false, {reason: 'outside-click'});
+        });
+
+        test('onOpenChange is called with reason', () => {
+            const onOpenChange = jest.fn();
+            const props = {open: true, onOpenChange};
+            const {result, rerender} = renderUseOpenStateHook(props);
+
+            act(() => {
+                result.current.toggleOpen(false, {reason: 'selection'});
+            });
+            rerender(props);
+
+            expect(onOpenChange).toHaveBeenCalledWith(false, {reason: 'selection'});
         });
 
         test('if the same value is set, the onOpenChange will not be called', () => {

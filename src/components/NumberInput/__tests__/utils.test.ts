@@ -1,4 +1,9 @@
-import {clampToNearestStepValue, getParsedValue, getPossibleNumberSubstring} from '../utils';
+import {
+    clampToNearestStepValue,
+    getParsedValue,
+    getPossibleNumberSubstring,
+    truncateExtraDecimalNumbers,
+} from '../utils';
 
 describe('NumberInput utils', () => {
     describe('getPossibleNumberSubstring', () => {
@@ -187,6 +192,34 @@ describe('NumberInput utils', () => {
             expect(
                 clampToNearestStepValue({value: 1.25, step: 8.25, min: -1, max: undefined}),
             ).toBe(1.25);
+        });
+    });
+    describe('truncateExtraDecimalNumbers', () => {
+        it('no adds missing decimal places', () => {
+            expect(truncateExtraDecimalNumbers('1.1', 2)).toBe('1.1');
+            expect(truncateExtraDecimalNumbers('1.1', 8)).toBe('1.1');
+        });
+
+        it('returns original value when decimalScale is negative', () => {
+            expect(truncateExtraDecimalNumbers('1.11', -1)).toBe('1.11');
+        });
+
+        it('returns integer part only when decimalScale is 0', () => {
+            expect(truncateExtraDecimalNumbers('1.11', 0)).toBe('1');
+        });
+
+        it('returns original value', () => {
+            expect(truncateExtraDecimalNumbers('1.1')).toBe('1.1');
+        });
+
+        it('truncates extra decimal places', () => {
+            expect(truncateExtraDecimalNumbers('1.1111', 1)).toBe('1.1');
+            expect(truncateExtraDecimalNumbers('1.1111', 2)).toBe('1.11');
+            expect(truncateExtraDecimalNumbers('1.100', 2)).toBe('1.10');
+        });
+
+        it('not rounds', () => {
+            expect(truncateExtraDecimalNumbers('1.18', 1)).toBe('1.1');
         });
     });
 });

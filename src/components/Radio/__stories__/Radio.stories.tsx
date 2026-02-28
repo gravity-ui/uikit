@@ -43,6 +43,33 @@ export const Size: Story = {
     ),
 };
 
+export const Fonts: Story = {
+    render: (args) => (
+        <Showcase>
+            <div style={{display: 'flex', alignItems: 'center', gap: '16px'}}>
+                <Radio {...args} size="m" style={{fontFamily: 'Arial'}}>
+                    Arial
+                </Radio>
+                <Radio {...args} size="m" style={{fontFamily: 'Times New Roman'}}>
+                    Times New Roman
+                </Radio>
+                <Radio {...args} size="m" style={{fontFamily: 'Inter'}}>
+                    Inter
+                </Radio>
+                <Radio {...args} size="m" style={{fontFamily: 'Georgia'}}>
+                    Georgia
+                </Radio>
+                <Radio {...args} size="m" style={{fontFamily: 'Verdana'}}>
+                    Verdana
+                </Radio>
+                <Radio {...args} size="m" style={{fontFamily: 'Impact'}}>
+                    Impact
+                </Radio>
+            </div>
+        </Showcase>
+    ),
+};
+
 export const Disabled: Story = {
     render: (args) => (
         <Showcase>

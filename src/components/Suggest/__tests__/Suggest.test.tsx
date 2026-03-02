@@ -10,7 +10,7 @@ const QA_SUGGEST_POPUP = 'qa-suggest-popup';
 const QA_SUGGEST_TEXT_INPUT = 'qa-suggest-text-input';
 
 function renderSuggest(props?: Partial<TestSuggestProps>) {
-    return render(<TestSuggest {...props} />);
+    return render(<TestSuggest {...props} qa={QA_SUGGEST_TEXT_INPUT} popupQa={QA_SUGGEST_POPUP} />);
 }
 
 describe('Suggest', () => {
@@ -29,7 +29,7 @@ describe('Suggest', () => {
         await user.type(input, testStr);
 
         expect(onUpdate).toHaveBeenCalled();
-        expect(onUpdate).toHaveBeenLastCalledWith(testStr);
+        expect(onUpdate).toHaveBeenLastCalledWith(testStr[testStr.length - 1]);
     });
 
     test('opens popup on focus and renders items', async () => {

@@ -1,5 +1,22 @@
 # Changelog
 
+## [7.33.0](https://github.com/gravity-ui/uikit/compare/v7.32.0...v7.33.0) (2026-02-27)
+
+
+### Features
+
+* add `useCollapseChildren` hook ([#2443](https://github.com/gravity-ui/uikit/issues/2443)) ([dadb9ad](https://github.com/gravity-ui/uikit/commit/dadb9ada8fa0827298f6ee79037cdb2273980ea8))
+
+
+### Bug Fixes
+
+* **Bug:** fixed positioning in Drawer ([#2598](https://github.com/gravity-ui/uikit/issues/2598)) ([bc092dc](https://github.com/gravity-ui/uikit/commit/bc092dcc3d2de27b6e137602752f6596756498ae))
+* **FileDropZone:** pass `accept` prop to file input and respect `multiple` in drop handler ([#2594](https://github.com/gravity-ui/uikit/issues/2594)) ([9f24780](https://github.com/gravity-ui/uikit/commit/9f24780583628dde4835ca9c3c4938fd093ca0a7))
+* **List:** correctly handle first item index in getElementId for screen readers ([#2601](https://github.com/gravity-ui/uikit/issues/2601)) ([48e536a](https://github.com/gravity-ui/uikit/commit/48e536a1be8a8c8434231ba610c1e43bca14df8d))
+* **Select:** remove doubled invocation of onUpdate in case of single selection by enter ([#2590](https://github.com/gravity-ui/uikit/issues/2590)) ([0a21f5e](https://github.com/gravity-ui/uikit/commit/0a21f5e9bea6133e8e7f80514b9ad93432073b68))
+* **Slider:** fix text color in tooltip ([#2588](https://github.com/gravity-ui/uikit/issues/2588)) ([a0492dc](https://github.com/gravity-ui/uikit/commit/a0492dce7be557ad83ac7385cc0d9310b8ac68cc))
+* **TextInput:** hide default "x" icon in search ([#2599](https://github.com/gravity-ui/uikit/issues/2599)) ([238ecc3](https://github.com/gravity-ui/uikit/commit/238ecc3dddef22d907f76add99481a6a2b1d6cba))
+
 ## [7.32.0](https://github.com/gravity-ui/uikit/compare/v7.31.2...v7.32.0) (2026-02-13)
 
 

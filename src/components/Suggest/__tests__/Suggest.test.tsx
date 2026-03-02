@@ -1,34 +1,16 @@
 import userEvent from '@testing-library/user-event';
 
-import {Suggest} from '..';
 import {render, screen, waitFor, within} from '../../../../test-utils/utils';
 import {ListQa} from '../../List';
-import type {SuggestProps} from '../Suggest';
 
-type Item = {value: string; content: string; disabled?: boolean};
-
-const ITEMS: Item[] = [
-    {value: 'earth', content: 'Earth'},
-    {value: 'europa', content: 'Europa'},
-    {value: 'jupiter', content: 'Jupiter'},
-];
+import type {TestSuggestProps} from './TestSuggest';
+import {ITEMS, TestSuggest} from './TestSuggest';
 
 const QA_SUGGEST_POPUP = 'qa-suggest-popup';
 const QA_SUGGEST_TEXT_INPUT = 'qa-suggest-text-input';
 
-function renderSuggest(props?: Partial<SuggestProps<Item>>) {
-    return render(
-        <Suggest<Item>
-            items={ITEMS}
-            onItemClick={() => {}}
-            onUpdate={() => {}}
-            popupQa={QA_SUGGEST_POPUP}
-            qa={QA_SUGGEST_TEXT_INPUT}
-            renderItem={(item) => <div>{item.content}</div>}
-            value={undefined}
-            {...props}
-        />,
-    );
+function renderSuggest(props?: Partial<TestSuggestProps>) {
+    return render(<TestSuggest {...props} />);
 }
 
 describe('Suggest', () => {

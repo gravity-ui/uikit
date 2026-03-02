@@ -1,8 +1,8 @@
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 import {expect} from '@playwright/experimental-ct-react';
 
-import {smokeTest, test} from '~playwright/core';
+import {test} from '~playwright/core';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {PopupProps} from '../Popup';
 
 import {offsetCases, placementCases, strategyCases} from './cases';
@@ -16,7 +16,7 @@ test.describe('Popup', {tag: '@Popup'}, () => {
         offset: offsetCases,
         strategy: strategyCases,
     }).forEach(([title, props]) => {
-        smokeTest(title, async ({mount, page, expectScreenshot}) => {
+        test(`smoke ${title}`, {tag: ['@smoke']}, async ({mount, page, expectScreenshot}) => {
             await mount(
                 <div>
                     <h4>{title}</h4>
@@ -41,7 +41,7 @@ test.describe('Popup', {tag: '@Popup'}, () => {
             scenarioName: 'placement',
         },
     ).forEach(([title, props]) => {
-        smokeTest(title, async ({mount, page, expectScreenshot}) => {
+        test(`smoke ${title}`, {tag: ['@smoke']}, async ({mount, page, expectScreenshot}) => {
             await mount(
                 <div>
                     <h4>{title}</h4>
@@ -69,7 +69,7 @@ test.describe('Popup', {tag: '@Popup'}, () => {
             scenarioName: 'placement with arrow',
         },
     ).forEach(([title, props]) => {
-        smokeTest(title, async ({mount, page, expectScreenshot}) => {
+        test(`smoke ${title}`, {tag: ['@smoke']}, async ({mount, page, expectScreenshot}) => {
             await mount(
                 <div>
                     <h4>{title}</h4>

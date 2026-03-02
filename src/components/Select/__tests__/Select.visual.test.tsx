@@ -1,6 +1,7 @@
-import {createSmokeScenarios} from 'src/stories/tests-factory/create-smoke-scenarios';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
+
 import type {MountFixture} from '~playwright/core';
-import {smokeTest, test} from '~playwright/core';
+import {test} from '~playwright/core';
 
 import {Select} from '../Select';
 import type {SelectOption, SelectProps} from '../types';
@@ -29,7 +30,7 @@ test.describe('Select', {tag: '@Select'}, () => {
         placeholder: 'Placeholder',
     };
 
-    smokeTest('empty', async ({mount, expectScreenshot}) => {
+    test('smoke empty', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<SelectProps>(
             {
                 ...defaultProps,
@@ -64,7 +65,7 @@ test.describe('Select', {tag: '@Select'}, () => {
         });
     });
 
-    smokeTest('non-empty single', async ({mount, expectScreenshot}) => {
+    test('smoke non-empty single', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<SelectProps>(
             {
                 ...defaultProps,
@@ -97,7 +98,7 @@ test.describe('Select', {tag: '@Select'}, () => {
         });
     });
 
-    smokeTest('non-empty multiple', async ({mount, expectScreenshot}) => {
+    test('smoke non-empty multiple', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<SelectProps>(
             {
                 ...defaultProps,
@@ -132,7 +133,7 @@ test.describe('Select', {tag: '@Select'}, () => {
         });
     });
 
-    smokeTest('with opened popup', async ({mount, expectScreenshot}) => {
+    test('smoke with opened popup', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<SelectProps>(
             {
                 ...defaultProps,
@@ -166,7 +167,7 @@ test.describe('Select', {tag: '@Select'}, () => {
         });
     });
 
-    smokeTest('with filter', async ({mount, expectScreenshot}) => {
+    test('smoke with filter', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<SelectProps>(
             {
                 ...defaultProps,
@@ -202,7 +203,7 @@ test.describe('Select', {tag: '@Select'}, () => {
         });
     });
 
-    smokeTest('with options', async ({mount, expectScreenshot}) => {
+    test('smoke with options', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<SelectProps>(
             {
                 ...defaultProps,

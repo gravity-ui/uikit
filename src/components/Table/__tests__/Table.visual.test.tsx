@@ -1,8 +1,7 @@
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 import {expect} from '@playwright/experimental-ct-react';
 
-import {smokeTest, test} from '~playwright/core';
-
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
 
 import type {TestTableColumnConfig} from './cases';
 import {
@@ -84,7 +83,7 @@ test.describe('Table', {tag: '@Table'}, () => {
         });
     });
 
-    smokeTest('', async ({mount, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<TestTableProps>(
             {},
             {
@@ -113,7 +112,7 @@ test.describe('Table', {tag: '@Table'}, () => {
         });
     });
 
-    smokeTest('column config', async ({mount, expectScreenshot}) => {
+    test('smoke column config', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<TestTableColumnConfig>(
             {},
             {
@@ -142,7 +141,7 @@ test.describe('Table', {tag: '@Table'}, () => {
         });
     });
 
-    smokeTest('with copy', async ({mount, expectScreenshot}) => {
+    test('smoke with copy', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const root = await mount(<TableStories.HOCWithTableCopy />);
 
         await root.locator('.g-table__copy').locator('nth=0').hover();
@@ -152,18 +151,18 @@ test.describe('Table', {tag: '@Table'}, () => {
         });
     });
 
-    smokeTest('with actions', async ({mount, page, expectScreenshot}) => {
+    test('smoke with actions', {tag: ['@smoke']}, async ({mount, page, expectScreenshot}) => {
         const root = await mount(<TableStories.HOCWithTableActions />);
 
         await root.locator('button').locator('nth=0').click();
 
         await expectScreenshot({
             themes: ['light'],
-            component: page.locator('body'),
+            locator: page.locator('body'),
         });
     });
 
-    smokeTest('with checkbox', async ({mount, expectScreenshot}) => {
+    test('smoke with checkbox', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         await mount(<TableStories.HOCWithTableSelection />);
 
         await expectScreenshot({
@@ -171,7 +170,7 @@ test.describe('Table', {tag: '@Table'}, () => {
         });
     });
 
-    smokeTest('with settings', async ({mount, page, expectScreenshot}) => {
+    test('smoke with settings', {tag: ['@smoke']}, async ({mount, page, expectScreenshot}) => {
         const root = await mount(<TestTableWithSettings />);
 
         await root.locator('button').locator('nth=0').click();
@@ -179,35 +178,43 @@ test.describe('Table', {tag: '@Table'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
-            component: root,
+            locator: root,
         });
     });
 
-    smokeTest('with table settings', async ({mount, page, expectScreenshot}) => {
-        const root = await mount(<TableStories.HOCWithTableSettingsFactory />);
+    test(
+        'smoke with table settings',
+        {tag: ['@smoke']},
+        async ({mount, page, expectScreenshot}) => {
+            const root = await mount(<TableStories.HOCWithTableSettingsFactory />);
 
-        await root.locator('button').locator('nth=0').click();
-        await expect(page.locator('.g-popup')).toBeVisible();
+            await root.locator('button').locator('nth=0').click();
+            await expect(page.locator('.g-popup')).toBeVisible();
 
-        await expectScreenshot({
-            themes: ['light'],
-            component: root,
-        });
-    });
+            await expectScreenshot({
+                themes: ['light'],
+                locator: root,
+            });
+        },
+    );
 
-    smokeTest('with filterable settings', async ({mount, page, expectScreenshot}) => {
-        const root = await mount(
-            <div style={{minHeight: 600}}>
-                <TableStories.HOCWithFilterableTableSettings />
-            </div>,
-        );
+    test(
+        'smoke with filterable settings',
+        {tag: ['@smoke']},
+        async ({mount, page, expectScreenshot}) => {
+            const root = await mount(
+                <div style={{minHeight: 600}}>
+                    <TableStories.HOCWithFilterableTableSettings />
+                </div>,
+            );
 
-        await root.locator('button').locator('nth=0').click();
-        await expect(page.locator('.g-popup')).toBeVisible();
+            await root.locator('button').locator('nth=0').click();
+            await expect(page.locator('.g-popup')).toBeVisible();
 
-        await expectScreenshot({
-            themes: ['light'],
-            component: root,
-        });
-    });
+            await expectScreenshot({
+                themes: ['light'],
+                locator: root,
+            });
+        },
+    );
 });

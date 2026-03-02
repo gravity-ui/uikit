@@ -1,4 +1,4 @@
-import {smokeTest, test} from '~playwright/core';
+import {test} from '~playwright/core';
 
 import type {ClipboardButtonProps} from '../ClipboardButton';
 import {ClipboardButton} from '../ClipboardButton';
@@ -13,7 +13,7 @@ test.describe('ClipboardButton', {tag: '@ClipboardButton'}, () => {
         onCopy: () => {},
     };
 
-    smokeTest('with string text', async ({mount, page, expectScreenshot}) => {
+    test('smoke with string text', {tag: ['@smoke']}, async ({mount, page, expectScreenshot}) => {
         const root = await mount(
             <div style={{padding: '100px'}}>
                 <ClipboardButton {...defaultProps} hasTooltip />
@@ -31,18 +31,18 @@ test.describe('ClipboardButton', {tag: '@ClipboardButton'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
-            nameSuffix: 'after hover',
+            name: 'after hover',
         });
 
         await root.locator("button[type='button']").click();
 
         await expectScreenshot({
             themes: ['light'],
-            nameSuffix: 'after copy',
+            name: 'after copy',
         });
     });
 
-    smokeTest('with function text', async ({mount, page, expectScreenshot}) => {
+    test('smoke with function text', {tag: ['@smoke']}, async ({mount, page, expectScreenshot}) => {
         const getText = () => 'Dynamic Text';
         const root = await mount(
             <div style={{padding: '100px'}}>
@@ -61,14 +61,14 @@ test.describe('ClipboardButton', {tag: '@ClipboardButton'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
-            nameSuffix: 'after hover',
+            name: 'after hover',
         });
 
         await root.locator("button[type='button']").click();
 
         await expectScreenshot({
             themes: ['light'],
-            nameSuffix: 'after copy',
+            name: 'after copy',
         });
     });
 });

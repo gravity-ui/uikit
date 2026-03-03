@@ -25,6 +25,11 @@ reporter.push(
  * See https://playwright.dev/docs/test-configuration.
  */
 const config: PlaywrightTestConfig = {
+    expect: {
+        toHaveScreenshot: {
+            scale: 'device',
+        },
+    },
     outputDir: resolve(__dirname, 'test-results'),
     testDir: pathFromRoot('src'),
     testMatch: '**/__tests__/*.visual.test.tsx',

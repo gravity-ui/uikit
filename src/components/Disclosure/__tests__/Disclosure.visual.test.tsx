@@ -1,13 +1,14 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {DisclosureProps} from '../Disclosure';
 import {Disclosure} from '../Disclosure';
 
 import {arrowPositionCases, disabledCases, sizeCases} from './cases';
 
 test.describe('Disclosure', {tag: '@Disclosure'}, () => {
-    smokeTest('smoke, collapsed', async ({mount, expectScreenshot}) => {
+    test('smoke smoke, collapsed', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const defaultProps: DisclosureProps = {
             summary: <div>Summary</div>,
             children: <div>Content</div>,
@@ -38,7 +39,7 @@ test.describe('Disclosure', {tag: '@Disclosure'}, () => {
         });
     });
 
-    smokeTest('smoke, expanded', async ({mount, expectScreenshot}) => {
+    test('smoke smoke, expanded', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const defaultProps: DisclosureProps = {
             summary: <div>Summary</div>,
             children: <div>Content</div>,

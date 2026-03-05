@@ -221,18 +221,38 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name      | Description                                                                 |                                     Type                                     |   Default    |
-| :-------- | :-------------------------------------------------------------------------- | :--------------------------------------------------------------------------: | :----------: |
-| theme     | Alert appearance                                                            | `"normal"` `"info"` `"success"` `"warning"` `"danger"` `"utility"` `"clear"` |  `"normal"`  |
-| view      | Enable/disable background color of the alert                                |                           `"filled"` `"outlined"`                            |  `"filled"`  |
-| layout    | Used to direct users to content if there is property `actions` with buttons |                         `"vertical"` `"horizontal"`                          | `"vertical"` |
-| corners   | Used for round/square corners of the alert window                           |                            `"rounded"` `"square"`                            | `"rounded"`  |
-| title     | Title of the alert                                                          |                                   `string`                                   |              |
-| message   | Message of the alert                                                        |                              `React.ReactNode`                               |              |
-| onClose   | A callback function called when the user clicks the alert's close button    |                                  `Function`                                  |              |
-| actions   | Array of buttons or full custom components                                  |                      `React.ReactNode` `"AlertAction"`                       |              |
-| align     | Determines how content inside the Alert component is vertically aligned     |                           `"center"` `"baseline"`                            | `"baseline"` |
-| style     | HTML style attribute                                                        |                            `React.CSSProperties`                             |              |
-| className | Name of alert class                                                         |                                   `string`                                   |              |
-| icon      | Override default icon                                                       |                              `React.ReactNode`                               |              |
-| qa        | HTML `data-qa` attribute, used in tests.                                    |                                   `string`                                   |              |
+| Name          | Description                                                                 |                                     Type                                     |   Default    |
+| :------------ | :-------------------------------------------------------------------------- | :--------------------------------------------------------------------------: | :----------: |
+| theme         | Alert appearance                                                            | `"normal"` `"info"` `"success"` `"warning"` `"danger"` `"utility"` `"clear"` |  `"normal"`  |
+| size          | Alert size                                                                  |                              `"s"` `"m"` `"l"`                               |    `"m"`     |
+| view          | Enable/disable background color of the alert                                |                           `"filled"` `"outlined"`                            |  `"filled"`  |
+| layout        | Used to direct users to content if there is property `actions` with buttons |                         `"vertical"` `"horizontal"`                          | `"vertical"` |
+| actionsLayout | Used to control the direction of the action buttons.                        |                         `"vertical"` `"horizontal"`                          | `"vertical"` |
+| corners       | Used for round/square corners of the alert window                           |                            `"rounded"` `"square"`                            | `"rounded"`  |
+| title         | Title of the alert                                                          |                                   `string`                                   |              |
+| message       | Message of the alert                                                        |                              `React.ReactNode`                               |              |
+| onClose       | A callback function called when the user clicks the alert's close button    |                                  `Function`                                  |              |
+| actions       | Array of buttons or full custom components                                  |                      `React.ReactNode` `"AlertAction"`                       |              |
+| align         | Determines how content inside the Alert component is vertically aligned     |                           `"center"` `"baseline"`                            | `"baseline"` |
+| style         | HTML style attribute                                                        |                            `React.CSSProperties`                             |              |
+| className     | Name of alert class                                                         |                                   `string`                                   |              |
+| icon          | Override default icon                                                       |                              `React.ReactNode`                               |              |
+| qa            | HTML `data-qa` attribute, used in tests.                                    |                                   `string`                                   |              |
+
+## CSS API
+
+| Name                            | Description                                                                    |
+| :------------------------------ | :----------------------------------------------------------------------------- |
+| `--g-alert-padding`             | Side paddings.                                                                 |
+| `--g-alert-border-radius`       | Border radius.                                                                 |
+| `--g-alert-icon-margin`         | The indentation between icon and content part (text content + actions)         |
+| `--g-alert-close-btn-margin`    | The indentation between content part (text content + actions) and close button |
+| `--g-alert-actions-margin`      | Gap between text content and actions.                                          |
+| `--g-alert-message-margin`      | Gap between title and message.                                                 |
+| `--g-alert-actions-gap`         | Gap between action buttons.                                                    |
+| `--g-alert-title-text-color`    | Title color.                                                                   |
+| `--g-alert-title-font-size`     | Title font size.                                                               |
+| `--g-alert-title-line-height`   | Title line height.                                                             |
+| `--g-alert-message-text-color`  | Message color.                                                                 |
+| `--g-alert-message-font-size`   | Message font size.                                                             |
+| `--g-alert-message-line-height` | Message line height.                                                           |

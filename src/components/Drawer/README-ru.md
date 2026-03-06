@@ -77,6 +77,7 @@ const [size, setSize] = useState(500);
 >
   <p>Content of the drawer</p>
 </Drawer>
+```
 
 ## Свойства
 
@@ -114,4 +115,3 @@ const [size, setSize] = useState(500);
 | maxSize                 | Максимальная ширина или высота контента в пикселях                                                           |              `number`              |                       |
 | minSize                 | Минимальная ширина или высота контента в пикселях                                                            |              `number`              |                       |
 | size                    | Ширина или высота контента в пикселях. Когда передано значение `auto`, Drawer подстроится под размер контента |         `number \| 'auto'`          |                       |
-```

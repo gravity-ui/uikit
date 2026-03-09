@@ -2,6 +2,7 @@
   "button_previous": "Предыдущая",
   "button_next": "Следующая",
   "button_first": "Первая",
+  "button_last": "Последняя",
   "label_input-placeholder": "Стр.",
   "label_page-of": "из",
   "label_select_size": "Выбрать размер страницы"

@@ -1,7 +1,7 @@
 import type {PaginationItem, PaginationProps} from '../types';
 import {getNumberOfPages, getNumerationList} from '../utils';
 
-type UsePaginationArgs = Pick<PaginationProps, 'page' | 'pageSize' | 'total'> & {
+type UsePaginationArgs = Pick<PaginationProps, 'page' | 'pageSize' | 'total' | 'lastPage'> & {
     mobile: boolean;
 };
 
@@ -14,11 +14,12 @@ export function usePagination({
     page,
     pageSize,
     total,
+    lastPage,
     mobile,
 }: UsePaginationArgs): UsePaginationReturn {
     const numberOfPages = getNumberOfPages(pageSize, total);
-    const hasTotal = numberOfPages !== 0;
-    const isNextDisabled = (hasTotal && page === numberOfPages) || total === 0;
+    const hasTotal = total !== undefined;
+    const isNextDisabled = Boolean((hasTotal && page === numberOfPages) || total === 0 || lastPage);
 
     let items: PaginationItem[];
 
@@ -62,6 +63,14 @@ export function usePagination({
         action: 'next',
         disabled: isNextDisabled,
     });
+
+    if (hasTotal) {
+        items.push({
+            type: 'button',
+            action: 'last',
+            disabled: isNextDisabled,
+        });
+    }
 
     return {items, numberOfPages};
 }

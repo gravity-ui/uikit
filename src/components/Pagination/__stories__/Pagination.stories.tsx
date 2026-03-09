@@ -47,6 +47,35 @@ TotalUnknown.args = {
     showInput: true,
     compact: false,
 };
+TotalUnknown.parameters = {
+    docs: {
+        description: {
+            story: 'When `total` is undefined, the page input is hidden even if `showInput` is true.',
+        },
+    },
+};
+
+const LastPageTemplate: StoryFn<PaginationProps> = (args) => {
+    const state = useState(args);
+    return <Pagination {...state} />;
+};
+
+export const LastPage = LastPageTemplate.bind({});
+LastPage.args = {
+    page: 10,
+    pageSize: 100,
+    total: 1000,
+    lastPage: true,
+    showInput: true,
+    compact: false,
+};
+LastPage.parameters = {
+    docs: {
+        description: {
+            story: 'When `lastPage` is true, the "next" and "last" buttons are disabled.',
+        },
+    },
+};
 
 const CompactTemplate: StoryFn<PaginationProps> = (args) => {
     const state = useState(args);

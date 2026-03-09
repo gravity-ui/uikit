@@ -1,6 +1,6 @@
 import type {QAProps} from '../types';
 
-export type ActionName = 'previous' | 'next' | 'first';
+export type ActionName = 'previous' | 'next' | 'first' | 'last';
 
 export type PaginationSize = 's' | 'm' | 'l' | 'xl';
 
@@ -44,6 +44,11 @@ export type PaginationProps = {
      * Default true.
      */
     showPages?: boolean;
+    /**
+     * Whether the current page is the last one.
+     * If true, the "next" button will be disabled.
+     */
+    lastPage?: boolean;
     /**
      * ClassName of element
      */

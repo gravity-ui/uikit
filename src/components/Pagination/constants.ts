@@ -6,6 +6,7 @@ export const PaginationQa = {
     PaginationButtonFirst: 'pagination-button-first',
     PaginationButtonPrevious: 'pagination-button-previous',
     PaginationButtonNext: 'pagination-button-next',
+    PaginationButtonLast: 'pagination-button-last',
 };
 
 export const getPaginationPageQa = (pageNumber: number) => {

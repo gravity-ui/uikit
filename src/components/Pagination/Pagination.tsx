@@ -29,6 +29,7 @@ export const Pagination = ({
     pageSizeOptions,
     showPages = true,
     showInput = false,
+    lastPage,
     className,
     qa,
 }: PaginationProps) => {
@@ -48,6 +49,7 @@ export const Pagination = ({
         page: resultPage,
         pageSize,
         total: resultTotal,
+        lastPage,
         mobile,
     });
 
@@ -95,6 +97,7 @@ export const Pagination = ({
                             item={item}
                             page={resultPage}
                             pageSize={pageSize}
+                            numberOfPages={numberOfPages}
                             onUpdate={onUpdate}
                             compact={compact}
                             className={b('pagination-item')}
@@ -109,7 +112,7 @@ export const Pagination = ({
     return (
         <div className={b(null, className)} data-qa={qa}>
             {pagination}
-            {showInput && (
+            {showInput && total !== undefined && (
                 <PaginationInput
                     numberOfPages={numberOfPages}
                     pageSize={pageSize}

@@ -19,6 +19,9 @@ describe('Pagination component', () => {
 
         const nextButton = screen.getByTestId(PaginationQa.PaginationButtonNext);
         expect(nextButton).toBeDisabled();
+
+        const lastButton = screen.getByTestId(PaginationQa.PaginationButtonLast);
+        expect(lastButton).toBeDisabled();
     });
 
     describe('Two pages', () => {
@@ -47,6 +50,9 @@ describe('Pagination component', () => {
 
             const nextButton = screen.getByTestId(PaginationQa.PaginationButtonNext);
             expect(nextButton).not.toBeDisabled();
+
+            const lastButton = screen.getByTestId(PaginationQa.PaginationButtonLast);
+            expect(lastButton).not.toBeDisabled();
         });
 
         test('Second page is current', () => {
@@ -73,15 +79,40 @@ describe('Pagination component', () => {
 
             const nextButton = screen.getByTestId(PaginationQa.PaginationButtonNext);
             expect(nextButton).toBeDisabled();
+
+            const lastButton = screen.getByTestId(PaginationQa.PaginationButtonLast);
+            expect(lastButton).toBeDisabled();
         });
     });
 
     test('Total property undefined', () => {
-        render(<Pagination pageSize={20} onUpdate={noop} page={0} total={undefined} />);
+        render(<Pagination pageSize={20} onUpdate={noop} page={1} total={undefined} showInput />);
 
         const nextButton = screen.getByTestId(PaginationQa.PaginationButtonNext);
-
         expect(nextButton).not.toBeDisabled();
+
+        const lastButton = screen.queryByTestId(PaginationQa.PaginationButtonLast);
+        expect(lastButton).not.toBeInTheDocument();
+
+        const input = screen.queryByTestId(PaginationQa.PaginationInput);
+        expect(input).not.toBeInTheDocument();
+    });
+
+    test('Last page property', () => {
+        render(<Pagination pageSize={20} onUpdate={noop} page={1} total={100} lastPage />);
+
+        const nextButton = screen.getByTestId(PaginationQa.PaginationButtonNext);
+        expect(nextButton).toBeDisabled();
+
+        const lastButton = screen.getByTestId(PaginationQa.PaginationButtonLast);
+        expect(lastButton).toBeDisabled();
+    });
+
+    test('Last page property', () => {
+        render(<Pagination pageSize={20} onUpdate={noop} page={1} total={undefined} lastPage />);
+
+        const nextButton = screen.getByTestId(PaginationQa.PaginationButtonNext);
+        expect(nextButton).toBeDisabled();
     });
 
     test.each(new Array<PaginationSize | undefined>('m', 'l', undefined))(
@@ -100,6 +131,9 @@ describe('Pagination component', () => {
 
             const nextButton = screen.getByTestId(PaginationQa.PaginationButtonNext);
             expect(nextButton).toHaveClass(expectedClass);
+
+            const lastButton = screen.getByTestId(PaginationQa.PaginationButtonLast);
+            expect(lastButton).toHaveClass(expectedClass);
         },
     );
 
@@ -123,6 +157,9 @@ describe('Pagination component', () => {
 
             const nextButton = screen.getByTestId(PaginationQa.PaginationButtonNext);
             expect(nextButton).toHaveClass(expectedClass);
+
+            const lastButton = screen.getByTestId(PaginationQa.PaginationButtonLast);
+            expect(lastButton).toHaveClass(expectedClass);
         },
     );
 });

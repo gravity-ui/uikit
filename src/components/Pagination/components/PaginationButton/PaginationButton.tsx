@@ -2,7 +2,7 @@
 
 import type * as React from 'react';
 
-import {ChevronLeft, ChevronRight, ChevronsLeft} from '@gravity-ui/icons';
+import {ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight} from '@gravity-ui/icons';
 
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
@@ -15,6 +15,7 @@ type Props = {
     size: PaginationSize;
     page: NonNullable<PaginationProps['page']>;
     pageSize: NonNullable<PaginationProps['pageSize']>;
+    numberOfPages: number;
     onUpdate: NonNullable<PaginationProps['onUpdate']>;
     compact: NonNullable<PaginationProps['compact']>;
     className?: string;
@@ -26,6 +27,7 @@ export const PaginationButton = ({
     className,
     page,
     pageSize,
+    numberOfPages,
     onUpdate,
     compact,
 }: Props) => {
@@ -79,6 +81,22 @@ export const PaginationButton = ({
                 >
                     <Icon data={ChevronRight} size="16" />
                     {compact ? undefined : t('button_next')}
+                </Button>
+            );
+            break;
+        case 'last':
+            button = (
+                <Button
+                    size={size}
+                    view="outlined"
+                    className={className}
+                    onClick={() => onUpdate(numberOfPages, pageSize)}
+                    title={compact ? t('button_last') : undefined}
+                    disabled={disabled}
+                    qa={PaginationQa.PaginationButtonLast}
+                >
+                    <Icon data={ChevronsRight} size="16" />
+                    {compact ? undefined : t('button_last')}
                 </Button>
             );
             break;

@@ -49,6 +49,7 @@ const meta: Meta<ComponentType> = {
         overlapSize: 's',
         avatarSize: DEFAULT_AVATAR_SIZE,
         randomAvatar: true,
+        moreVariant: 'counter',
     },
     argTypes: {
         avatarSize: {

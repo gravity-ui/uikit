@@ -1,29 +1,13 @@
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 import {expect} from '@playwright/experimental-ct-react';
 
-import {createSmokeScenarios} from 'src/stories/tests-factory/create-smoke-scenarios';
-import {smokeTest, test} from '~playwright/core';
-
-import type {Cases, CasesWithName} from '../../../stories/tests-factory/models';
+import {test} from '~playwright/core';
 
 import type {TestSuggestProps} from './TestSuggest';
 import {TestSuggest} from './TestSuggest';
 
 const QA_SUGGEST_POPUP = 'qa-suggest-popup';
 const QA_SUGGEST_TEXT_INPUT = 'qa-suggest-text-input';
-
-const sizeCases: Cases<TestSuggestProps['size']> = ['s', 'm', 'l', 'xl'];
-
-const disabledCases: Cases<TestSuggestProps['disabled']> = [true];
-
-const hasClearCases: Cases<TestSuggestProps['hasClear']> = [true];
-
-const popupWidthCases: CasesWithName<TestSuggestProps['popupWidth']> = [
-    ['fit', 'fit'],
-    ['auto', 'auto'],
-    ['number', 256],
-];
-
-const customPopupCases: Cases<TestSuggestProps['customPopup']> = [true];
 
 test.describe('Suggest', {tag: '@Suggest'}, () => {
     const defaultProps: TestSuggestProps = {
@@ -32,62 +16,72 @@ test.describe('Suggest', {tag: '@Suggest'}, () => {
         popupQa: QA_SUGGEST_POPUP,
     };
 
-    createSmokeScenarios<TestSuggestProps>(defaultProps, {
-        disabled: disabledCases,
-        hasClear: hasClearCases,
-        size: sizeCases,
-    }).forEach(([title, props]) => {
-        smokeTest(title, async ({mount, page, expectScreenshot}) => {
-            await mount(
-                <div style={{height: 512}}>
-                    <h4>{title}</h4>
-                    <TestSuggest {...props} />
-                </div>,
-            );
-
-            await expect(page.getByTestId(QA_SUGGEST_TEXT_INPUT)).toBeVisible();
-
-            await expectScreenshot({themes: ['light']});
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<TestSuggestProps>(defaultProps, {
+            size: ['s', 'm', 'l', 'xl'],
+            disabled: [true],
+            hasClear: [true],
         });
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <TestSuggest {...props} />
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({themes: ['light']});
     });
 
-    createSmokeScenarios<TestSuggestProps>(
-        defaultProps,
-        {popupWidth: popupWidthCases},
-        {scenarioName: 'opened'},
-    ).forEach(([title, props]) => {
-        smokeTest(title, async ({mount, page, expectScreenshot}) => {
-            await mount(
-                <div style={{height: 512}}>
-                    <h4>{title}</h4>
-                    <TestSuggest {...props} />
-                </div>,
-            );
-
-            await page.getByRole('textbox').click();
-            await expect(page.getByTestId(QA_SUGGEST_POPUP)).toBeVisible();
-
-            await expectScreenshot({themes: ['light']});
+    test('smoke opened', {tag: ['@smoke']}, async ({mount, page, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<TestSuggestProps>(defaultProps, {
+            popupWidth: [
+                ['fit', 'fit'],
+                ['auto', 'auto'],
+                ['number', 256],
+            ],
         });
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title} style={{height: 200}}>
+                        <h4>{title}</h4>
+                        <TestSuggest {...props} />
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await page.getByRole('textbox').first().click();
+        await expect(page.getByTestId(QA_SUGGEST_POPUP).first()).toBeVisible();
+
+        await expectScreenshot({themes: ['light']});
     });
 
-    createSmokeScenarios<TestSuggestProps>(
-        defaultProps,
-        {customPopup: customPopupCases},
-        {scenarioName: 'customPopup'},
-    ).forEach(([title, props]) => {
-        smokeTest(title, async ({mount, page, expectScreenshot}) => {
-            await mount(
-                <div style={{height: 512}}>
-                    <h4>{title}</h4>
-                    <TestSuggest {...props} />
-                </div>,
-            );
-
-            await page.getByRole('textbox').click();
-            await expect(page.getByTestId(QA_SUGGEST_POPUP)).toBeVisible();
-
-            await expectScreenshot({themes: ['light']});
+    test('smoke customPopup', {tag: ['@smoke']}, async ({mount, page, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<TestSuggestProps>(defaultProps, {
+            customPopup: [true],
         });
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title} style={{height: 200}}>
+                        <h4>{title}</h4>
+                        <TestSuggest {...props} />
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await page.getByRole('textbox').first().click();
+        await expect(page.getByTestId(QA_SUGGEST_POPUP).first()).toBeVisible();
+
+        await expectScreenshot({themes: ['light']});
     });
 });

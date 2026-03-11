@@ -25,6 +25,7 @@ const AvatarStackComponent = React.forwardRef<HTMLUListElement, AvatarStackProps
             children,
             className,
             renderMore,
+            moreVariant,
         },
         ref,
     ) => {
@@ -73,7 +74,7 @@ const AvatarStackComponent = React.forwardRef<HTMLUListElement, AvatarStackProps
                         {renderMore ? (
                             renderMore({count: moreItems})
                         ) : (
-                            <AvatarStackMore count={moreItems} size={size} />
+                            <AvatarStackMore count={moreItems} size={size} variant={moreVariant} />
                         )}
                     </AvatarStackItem>
                 ) : null}

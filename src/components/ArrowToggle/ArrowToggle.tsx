@@ -1,5 +1,6 @@
-import {ChevronDown} from '@gravity-ui/icons';
 import type * as React from 'react';
+
+import {ChevronDown} from '@gravity-ui/icons';
 
 import {Icon} from '../Icon';
 import type {QAProps} from '../types';
@@ -24,9 +25,9 @@ export function ArrowToggle({
     qa,
 }: ArrowToggleProps) {
     const style: React.CSSProperties =
-        transitionDuration !== undefined
-            ? {width: size, height: size, transitionDuration: `${transitionDuration}ms`}
-            : {width: size, height: size};
+        transitionDuration === undefined
+            ? {width: size, height: size}
+            : {width: size, height: size, transitionDuration: `${transitionDuration}ms`};
 
     return (
         <span style={style} className={b({direction}, className)} data-qa={qa}>

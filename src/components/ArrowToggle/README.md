@@ -115,9 +115,10 @@ return (
 
 ## Properties
 
-| Name      | Description                                |   Type   |  Default   |
-| :-------- | :----------------------------------------- | :------: | :--------: |
-| className | `class` HTML attribute                     | `string` |            |
-| direction | Used to set the `arrowToggle` direction    | `string` | `"bottom"` |
-| size      | `arrowToggle` size (in pixels)             | `number` |    `16`    |
-| qa        | `data-qa` HTML attribute, used for testing | `string` |            |
+| Name               | Description                                   |   Type   |  Default   |
+| :----------------- | :-------------------------------------------- | :------: | :--------: |
+| className          | `class` HTML attribute                        | `string` |            |
+| direction          | Used to set the `arrowToggle` direction       | `string` | `"bottom"` |
+| size               | `arrowToggle` size (in pixels)                | `number` |    `16`    |
+| transitionDuration | Transition duration (in milliseconds)         | `number` |   `100`    |
+| qa                 | `data-qa` HTML attribute, used for testing    | `string` |            |

@@ -59,7 +59,6 @@ $block: '.#{variables.$ns}color-picker';
         }
 
         &_disabled {
-            cursor: default;
             pointer-events: none;
         }
 

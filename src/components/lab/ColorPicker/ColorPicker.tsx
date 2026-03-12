@@ -92,7 +92,7 @@ export const ColorPicker = ({
 
     const isInternalUpdateRef = React.useRef(false);
 
-    const effectiveColor = color && color.trim() !== '' ? color : DEFAULT_COLOR;
+    const effectiveColor = color?.trim() || DEFAULT_COLOR;
 
     const [hsva, setHsva] = React.useState<HsvaColor>(() =>
         convertSelectedModeColorToHsva(effectiveColor, Modes.Hex, withAlpha),

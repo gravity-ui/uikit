@@ -1,11 +1,9 @@
 /**
  * Copies text to the browser's clipboard.
  * Uses the modern `navigator.clipboard` API, with a fallback to `document.execCommand` when unavailable.
- *
  * @param {string} text Text to copy to the clipboard
  * @returns {Promise<void>} Promise that resolves on successful copy or rejects on error
  * @throws {Error} Throws an error if neither `navigator.clipboard` nor `document` is available
- *
  * @example
  * ```typescript
  * // Copy simple text

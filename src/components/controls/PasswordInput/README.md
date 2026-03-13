@@ -61,4 +61,4 @@ function MyComponent() {
 }
 ```
 
-<!--GITHUB_BLOCK-->
+<!--/GITHUB_BLOCK-->

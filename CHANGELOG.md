@@ -1,5 +1,18 @@
 # Changelog
 
+## [7.34.0](https://github.com/gravity-ui/uikit/compare/v7.33.0...v7.34.0) (2026-03-13)
+
+
+### Features
+
+* **AvatarStack:** add moreVariant prop and fix 2xs and 3xs size ([#2608](https://github.com/gravity-ui/uikit/issues/2608)) ([cfa96d8](https://github.com/gravity-ui/uikit/commit/cfa96d8ee5fc07ac1a175874ee73748ec8a84bbb))
+* **ColorPicker:** add optional prop disabled state ([#2602](https://github.com/gravity-ui/uikit/issues/2602)) ([b5271f2](https://github.com/gravity-ui/uikit/commit/b5271f2cf714706784a4679a61a0ed12faa22b52))
+
+
+### Bug Fixes
+
+* fix types for React 19 ([#2603](https://github.com/gravity-ui/uikit/issues/2603)) ([7af9600](https://github.com/gravity-ui/uikit/commit/7af9600a8fff30d977b4ffd50b39f12ac1f07be2))
+
 ## [7.33.0](https://github.com/gravity-ui/uikit/compare/v7.32.0...v7.33.0) (2026-02-27)
 
 

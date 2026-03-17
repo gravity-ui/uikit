@@ -27,7 +27,13 @@ export const isValidHsva = (hsva: HsvaColor): boolean => {
     );
 };
 
+const DEFAULT_HSVA: HsvaColor = {h: 0, s: 0, v: 0, a: 1};
+
 export const convertSelectedModeColorToHsva = (value: string, mode: Modes, alpha: boolean) => {
+    if (!value || value.trim() === '') {
+        return {...DEFAULT_HSVA};
+    }
+
     switch (mode) {
         case Modes.Hex: {
             // If alpha is disabled, strip alpha channel from hex value

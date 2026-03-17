@@ -13,7 +13,7 @@ test.describe('Drawer', {tag: '@Drawer'}, () => {
         await expect(drawer).toBeVisible();
         expect(drawer).toHaveAttribute('data-floating-ui-status', 'open');
 
-        await expectScreenshot({component: drawer});
+        await expectScreenshot({locator: drawer});
 
         const drawerItem = page.getByTestId('test-drawer-item');
         await expect(drawerItem).toBeVisible();
@@ -31,6 +31,6 @@ test.describe('Drawer', {tag: '@Drawer'}, () => {
         await expect(drawer).toBeVisible();
         expect(drawer).toHaveAttribute('data-floating-ui-status', 'open');
 
-        await expectScreenshot({component: drawer});
+        await expectScreenshot({locator: drawer});
     });
 });

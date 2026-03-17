@@ -1,4 +1,4 @@
-import {smokeTest, test} from '~playwright/core';
+import {test} from '~playwright/core';
 
 import {DEFAULT_LAYOUT_THEME} from '../../constants';
 
@@ -9,8 +9,9 @@ test.describe('Flex', {tag: '@Flex'}, () => {
 
     Object.entries(DEFAULT_LAYOUT_THEME.breakpoints).forEach(
         ([breakpointName, breakpointWidthPx]) => {
-            smokeTest(
-                `render story <Default> - ${breakpointName}`,
+            test(
+                `smoke render story <Default> - ${breakpointName}`,
+                {tag: ['@smoke']},
                 async ({mount, expectScreenshot, page}) => {
                     const props = {
                         alignItems: 'center',
@@ -33,8 +34,9 @@ test.describe('Flex', {tag: '@Flex'}, () => {
                 },
             );
 
-            smokeTest(
-                `render story <FlexGap> - ${breakpointName}`,
+            test(
+                `smoke render story <FlexGap> - ${breakpointName}`,
+                {tag: ['@smoke']},
                 async ({mount, expectScreenshot, page}) => {
                     const props = {
                         gap: {s: '1', m: '6'},
@@ -56,8 +58,9 @@ test.describe('Flex', {tag: '@Flex'}, () => {
                 },
             );
 
-            smokeTest(
-                `render story <GapAndRowGap> - ${breakpointName}`,
+            test(
+                `smoke render story <GapAndRowGap> - ${breakpointName}`,
+                {tag: ['@smoke']},
                 async ({mount, expectScreenshot, page}) => {
                     const props = {
                         gap: {s: '1', m: '6'},
@@ -80,8 +83,9 @@ test.describe('Flex', {tag: '@Flex'}, () => {
                 },
             );
 
-            smokeTest(
-                `render story <ChildrenWithBgColor>- ${breakpointName}`,
+            test(
+                `smoke render story <ChildrenWithBgColor>- ${breakpointName}`,
+                {tag: ['@smoke']},
                 async ({mount, expectScreenshot, page}) => {
                     const size = page.viewportSize();
                     if (size) {
@@ -99,8 +103,9 @@ test.describe('Flex', {tag: '@Flex'}, () => {
                 },
             );
 
-            smokeTest(
-                `render story <WithNullChildren>- ${breakpointName}`,
+            test(
+                `smoke render story <WithNullChildren>- ${breakpointName}`,
+                {tag: ['@smoke']},
                 async ({mount, expectScreenshot, page}) => {
                     const size = page.viewportSize();
                     if (size) {

@@ -1,13 +1,14 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {LinkProps} from '../Link';
 import {Link} from '../Link';
 
 import {underlineCases, viewCases, visitableCases} from './cases';
 
 test.describe('Link', {tag: '@Link'}, () => {
-    smokeTest('', async ({mount, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const defaultProps: LinkProps = {
             href: '#',
             target: '_blank',

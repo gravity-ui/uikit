@@ -1,13 +1,14 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {TabsProps} from '../Tabs';
 
 import {directionCases, sizeCases} from './cases';
 import {TestTabs, TestTabsWithCustomTabs} from './helpers';
 
 test.describe('Tabs', {tag: '@Tabs'}, () => {
-    smokeTest('', async ({mount, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<TabsProps>(
             {
                 activeTab: 'active',
@@ -36,7 +37,7 @@ test.describe('Tabs', {tag: '@Tabs'}, () => {
         });
     });
 
-    smokeTest('allow not selected', async ({mount, expectScreenshot}) => {
+    test('smoke allow not selected', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<TabsProps>(
             {
                 allowNotSelected: true,
@@ -62,7 +63,7 @@ test.describe('Tabs', {tag: '@Tabs'}, () => {
         });
     });
 
-    smokeTest('with custom tab', async ({mount, expectScreenshot}) => {
+    test('smoke with custom tab', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<TabsProps>(
             {
                 activeTab: 'active',

@@ -4,6 +4,7 @@ $block: '.#{variables.$ns}control-label';
 
 #{$block} {
     display: inline-flex;
+    align-items: baseline;
     font-family: var(--g-text-body-font-family);
     font-weight: var(--g-text-body-font-weight);
     color: var(--g-color-text-primary);
@@ -20,7 +21,13 @@ $block: '.#{variables.$ns}control-label';
     &_size_s,
     &_size_m {
         font-size: var(--g-text-body-1-font-size);
-        line-height: 15px;
+        line-height: var(--g-text-body-1-line-height);
+
+        #{$block}__control-container {
+            position: relative;
+            inset-block-start: 2px;
+            display: inline-flex;
+        }
     }
 
     &_size_l {
@@ -31,6 +38,10 @@ $block: '.#{variables.$ns}control-label';
     &_size_xl {
         font-size: var(--g-text-body-2-font-size);
         line-height: 25px;
+
+        #{$block}__text {
+            line-height: var(--g-text-body-2-line-height);
+        }
     }
 
     &__indicator {

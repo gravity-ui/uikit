@@ -18,16 +18,30 @@ const ExmapleDropZone = () => {
     // do something with the dropped items
   };
 
-  const {isDraggingOver, getDroppableProps} = useDropZone({
+  const handleDropAccepted = (items: DataTransferItem[]) => {
+    // do something with accepted items
+  };
+
+  const handleDropRejected = (items: DataTransferItem[]) => {
+    // do something with rejected items
+  };
+
+  const {isDraggingOver, isInvalidDrag, getDroppableProps} = useDropZone({
     accept: ACCEPT,
     onDrop: handleDrop,
+    onDropAccepted: handleDropAccepted,
+    onDropRejected: handleDropRejected,
   });
 
   return (
     <div
       {...getDroppableProps()}
       style={{
-        border: isDraggingOver ? '4px dashed blue' : '4px dashed black',
+        border: isInvalidDrag
+          ? '4px dashed red'
+          : isDraggingOver
+            ? '4px dashed blue'
+            : '4px dashed black',
       }}
     >
       Drop Something Here!
@@ -48,7 +62,7 @@ const ExmapleDropZoneWithRef = () => {
     // do something with the dropped items
   };
 
-  const {isDraggingOver} = useDropZone({
+  const {isDraggingOver, isInvalidDrag} = useDropZone({
     ref,
     accept: ACCEPT,
     onDrop: handleDrop,
@@ -58,7 +72,11 @@ const ExmapleDropZoneWithRef = () => {
     <SomeFancyComponent
       ref={ref}
       style={{
-        border: isDraggingOver ? '4px dashed blue' : '4px dashed black',
+        border: isInvalidDrag
+          ? '4px dashed red'
+          : isDraggingOver
+            ? '4px dashed blue'
+            : '4px dashed black',
       }}
       text=" Drop Something Here!"
     />
@@ -68,14 +86,17 @@ const ExmapleDropZoneWithRef = () => {
 
 ## Properties
 
-| Name     | Description                                                                                                                                                  |                  Type                   | Default |
-| :------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------: | :-----: |
-| accept   | A list of MIME types that will be accepted by the drop zone (e.g., `['text/*', 'image/png']`)                                                                |               `string[]`                |         |
-| disabled | Disables the drop zone                                                                                                                                       |                `boolean`                |         |
-| ref      | An optional ref object pointing to the element that will be provided with drop zone behavior                                                                 |     `React.RefObject<HTMLElement>`      |         |
-| onDrop   | A callback triggered when something is successfully dropped into the drop zone. Won't be called if the item's type does not match those provided in `accept` | `(items: DataTransferItemList) => void` |         |
+| Name           | Description                                                                                                                                                  |                  Type                   | Default |
+| :------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------: | :-----: |
+| accept         | A list of MIME types that will be accepted by the drop zone (e.g., `['text/*', 'image/png']`)                                                                |               `string[]`                |         |
+| disabled       | Disables the drop zone                                                                                                                                       |                `boolean`                |         |
+| ref            | An optional ref object pointing to the element that will be provided with drop zone behavior                                                                 |     `React.RefObject<HTMLElement>`      |         |
+| onDrop         | A callback triggered when something is successfully dropped into the drop zone. Won't be called if the item's type does not match those provided in `accept` | `(items: DataTransferItemList) => void` |         |
+| onDropAccepted | A callback triggered with items whose types match those provided in `accept`                                                                                 |  `(items: DataTransferItem[]) => void`  |         |
+| onDropRejected | A callback triggered with items whose types do not match those provided in `accept`                                                                          |  `(items: DataTransferItem[]) => void`  |         |
 
 ## Result
 
 - `getDroppableProps` - returns props to provide an element with drop zone behavior (not returned if `ref` provided)
 - `isDraggingOver` - returns `true` when an element is being dragged over the zone, and `false` otherwise
+- `isInvalidDrag` - returns `true` when a dragged element does not match any of the accepted MIME types, and `false` otherwise

@@ -1,85 +1,16 @@
 import * as React from 'react';
 
-export type UseDropZoneAccept = string[];
-
-interface UseDropZoneBaseParams {
-    accept: UseDropZoneAccept;
-    disabled?: boolean;
-    onDrop: (items: DataTransferItemList) => void;
-    onDropAccepted?: (items: DataTransferItem[]) => void;
-    onDropRejected?: (items: DataTransferItem[]) => void;
-}
-
-export interface UseDropZoneParamsWithRef extends UseDropZoneBaseParams {
-    ref: React.RefObject<HTMLElement>;
-}
-
-export interface UseDropZoneParamsWithoutRef extends UseDropZoneBaseParams {
-    ref?: undefined;
-}
-
-export type UseDropZoneParams = UseDropZoneParamsWithRef | UseDropZoneParamsWithoutRef;
-
-const DROP_ZONE_BASE_ATTRIBUTES = {
-    'aria-dropeffect': 'copy' as DataTransfer['dropEffect'],
-    tabIndex: 0,
-    role: 'button',
-};
-
-export interface UseDropZoneDroppableProps extends Required<typeof DROP_ZONE_BASE_ATTRIBUTES> {
-    onDragEnter: (e: React.DragEvent) => void;
-    onDragOver: (e: React.DragEvent) => void;
-    onDragLeave: (e: React.DragEvent) => void;
-    onDrop: (e: React.DragEvent) => void;
-}
-
-export interface UseDropZoneStateWithRef {
-    isDraggingOver: boolean;
-    isInvalidDrag: boolean;
-}
-
-export interface UseDropZoneStateWithoutRef {
-    isDraggingOver: boolean;
-    isInvalidDrag: boolean;
-    getDroppableProps: () => UseDropZoneDroppableProps;
-}
-
-export type UseDropZoneState = UseDropZoneStateWithRef | UseDropZoneStateWithoutRef;
-
-function typeMatchesPattern(actualMimeType: string, expectedMimeTypePattern: string): boolean {
-    const actualMimeTypeParts = actualMimeType.split('/');
-
-    if (actualMimeTypeParts.length !== 2) {
-        return false;
-    }
-
-    const [actualType] = actualMimeTypeParts;
-    const [expectedType, expectedSubtype] = expectedMimeTypePattern.split('/');
-
-    if (expectedSubtype === '*') {
-        return actualType === expectedType;
-    }
-
-    return actualMimeType === expectedMimeTypePattern;
-}
-
-function getSeparatedItems(accept: UseDropZoneAccept, dataTransfer: DataTransfer) {
-    const items = dataTransfer.items;
-    const accepted: DataTransferItem[] = [];
-    const rejected: DataTransferItem[] = [];
-
-    for (const item of items) {
-        if (
-            accept.some((acceptedTypePattern) => typeMatchesPattern(item.type, acceptedTypePattern))
-        ) {
-            accepted.push(item);
-        } else {
-            rejected.push(item);
-        }
-    }
-
-    return {accepted, rejected};
-}
+import {DROP_ZONE_BASE_ATTRIBUTES} from './constants';
+import type {
+    UseDropZoneDroppableProps,
+    UseDropZoneParams,
+    UseDropZoneParamsWithRef,
+    UseDropZoneParamsWithoutRef,
+    UseDropZoneState,
+    UseDropZoneStateWithRef,
+    UseDropZoneStateWithoutRef,
+} from './types';
+import {getSeparatedItems, normalizeMaxFilesCount} from './utils';
 
 export function useDropZone(params: UseDropZoneParamsWithRef): UseDropZoneStateWithRef;
 export function useDropZone(params: UseDropZoneParamsWithoutRef): UseDropZoneStateWithoutRef;
@@ -90,10 +21,13 @@ export function useDropZone({
     onDropRejected,
     onDropAccepted,
     ref,
+    multiple,
+    maxFilesCount,
 }: UseDropZoneParams): UseDropZoneState {
     const [isDraggingOver, setIsDraggingOver] = React.useState(false);
     const [isInvalidDrag, setIsInvalidDrag] = React.useState(false);
     const nestingCounterRef = React.useRef<number>(0);
+    const normalizedMaxFiles = multiple ? normalizeMaxFilesCount(maxFilesCount) : 1;
 
     const handleDragEnterNative = React.useCallback(
         (event: DragEvent) => {
@@ -103,10 +37,14 @@ export function useDropZone({
             if (disabled || !dataTransfer) {
                 return;
             }
-            const {accepted} = getSeparatedItems(accept, dataTransfer);
+            const {accepted} = getSeparatedItems(dataTransfer, {
+                accept,
+                maxFilesCount: normalizedMaxFiles,
+            });
 
             if (accepted.length < 1) {
                 setIsInvalidDrag(true);
+                setIsDraggingOver(true);
                 return;
             }
 
@@ -114,7 +52,7 @@ export function useDropZone({
 
             setIsDraggingOver(true);
         },
-        [accept, disabled],
+        [accept, disabled, normalizedMaxFiles],
     );
 
     const handleDragEnter = React.useCallback(
@@ -184,16 +122,22 @@ export function useDropZone({
                 return;
             }
 
-            const {accepted, rejected} = getSeparatedItems(accept, dataTransfer);
+            const {accepted, rejected} = getSeparatedItems(dataTransfer, {
+                accept,
+                maxFilesCount: normalizedMaxFiles,
+            });
 
-            onDropAccepted?.(accepted);
-            onDropRejected?.(rejected);
-
-            if (accepted.length > 0) {
-                onDrop(dataTransfer.items);
+            if (onDrop) {
+                onDrop(accepted, rejected);
+            }
+            if (onDropAccepted && accepted.length > 0) {
+                onDropAccepted(accepted);
+            }
+            if (onDropRejected && rejected.length > 0) {
+                onDropRejected(rejected);
             }
         },
-        [accept, disabled, onDrop, onDropAccepted, onDropRejected],
+        [accept, disabled, onDropAccepted, onDropRejected, normalizedMaxFiles, onDrop],
     );
 
     const handleDrop = React.useCallback(

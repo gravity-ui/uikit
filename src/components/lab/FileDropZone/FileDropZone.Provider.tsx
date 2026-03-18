@@ -2,10 +2,10 @@ import * as React from 'react';
 
 import type {UseFileInputResult} from '../../../hooks';
 import {useActionHandlers, useFileInput} from '../../../hooks';
-import {useDropZone} from '../../../hooks/lab/useDropZone';
-import type {UseDropZoneStateWithoutRef} from '../../../hooks/lab/useDropZone';
+import {FILE_REJECTION_REASONS, useDropZone} from '../../../hooks/lab/useDropZone';
+import type {FileRejection, UseDropZoneStateWithoutRef} from '../../../hooks/lab/useDropZone';
 
-import type {FileDropZoneProps} from './FileDropZone';
+import type {DropZoneFileRejection, FileDropZoneProps} from './FileDropZone';
 
 interface FileDropZoneContextValue
     extends Pick<
@@ -14,7 +14,6 @@ interface FileDropZoneContextValue
             | 'title'
             | 'description'
             | 'buttonText'
-            | 'multiple'
             | 'icon'
             | 'errorIcon'
             | 'errorMessage'
@@ -24,6 +23,7 @@ interface FileDropZoneContextValue
         UseFileInputResult,
         UseDropZoneStateWithoutRef {
     onKeyDown: React.KeyboardEventHandler;
+    maxFilesCount: number;
 }
 
 const FileDropZoneContext = React.createContext<FileDropZoneContextValue | null>(null);
@@ -33,6 +33,7 @@ export interface FileDropZoneProviderProps
         FileDropZoneProps,
         | 'accept'
         | 'onUpdate'
+        | 'onReject'
         | 'title'
         | 'description'
         | 'buttonText'
@@ -43,11 +44,14 @@ export interface FileDropZoneProviderProps
         | 'errorMessage'
         | 'validationState'
         | 'children'
-    > {}
+    > {
+    maxFilesCount: number;
+}
 
 export const FileDropZoneProvider = ({
     accept,
     onUpdate,
+    onReject,
     title,
     description,
     buttonText,
@@ -58,9 +62,10 @@ export const FileDropZoneProvider = ({
     errorMessage,
     validationState,
     children,
+    maxFilesCount,
 }: FileDropZoneProviderProps) => {
     const handleDrop = React.useCallback(
-        (items: DataTransferItemList): void => {
+        (items: DataTransferItem[]): void => {
             const files: File[] = [];
 
             for (const item of items) {
@@ -73,22 +78,59 @@ export const FileDropZoneProvider = ({
                 files.push(file);
             }
 
-            onUpdate(multiple ? files : [files[0]]);
+            onUpdate(files);
         },
-        [multiple, onUpdate],
+        [onUpdate],
     );
 
-    const {isDraggingOver, getDroppableProps} = useDropZone({
+    const handleRejectDrop = React.useCallback(
+        (items: FileRejection[]): void => {
+            if (onReject) {
+                const fileRejection: DropZoneFileRejection[] = [];
+
+                for (const rejectionObject of items) {
+                    const {item, reasons} = rejectionObject;
+                    const file = item.getAsFile();
+
+                    if (!file) {
+                        continue;
+                    }
+
+                    fileRejection.push({file, reasons});
+                }
+                onReject(fileRejection);
+            }
+        },
+        [onReject],
+    );
+
+    const {isDraggingOver, isInvalidDrag, getDroppableProps} = useDropZone({
         accept,
         disabled,
-        onDrop: handleDrop,
+        multiple,
+        maxFilesCount,
+        onDropRejected: handleRejectDrop,
+        onDropAccepted: handleDrop,
     });
 
     const onFileInputUpdate = React.useCallback(
         (files: File[]) => {
-            onUpdate(files);
+            if (files.length > maxFilesCount) {
+                const acceptedFiles = files.slice(0, maxFilesCount);
+                onUpdate(acceptedFiles);
+
+                if (onReject) {
+                    const rejectedFiles = files.slice(maxFilesCount).map((file) => ({
+                        file,
+                        reasons: [FILE_REJECTION_REASONS.TOO_MANY_FILES],
+                    }));
+                    onReject(rejectedFiles);
+                }
+            } else {
+                onUpdate(files);
+            }
         },
-        [onUpdate],
+        [onUpdate, onReject, maxFilesCount],
     );
 
     const {controlProps, triggerProps} = useFileInput({onUpdate: onFileInputUpdate});
@@ -101,7 +143,7 @@ export const FileDropZoneProvider = ({
             title,
             description,
             buttonText,
-            multiple,
+            maxFilesCount,
             disabled,
             icon,
             errorIcon,
@@ -110,6 +152,7 @@ export const FileDropZoneProvider = ({
             controlProps,
             triggerProps,
             isDraggingOver,
+            isInvalidDrag,
             getDroppableProps,
             onKeyDown,
         }),
@@ -118,7 +161,7 @@ export const FileDropZoneProvider = ({
             title,
             description,
             buttonText,
-            multiple,
+            maxFilesCount,
             disabled,
             icon,
             errorIcon,
@@ -127,6 +170,7 @@ export const FileDropZoneProvider = ({
             controlProps,
             triggerProps,
             isDraggingOver,
+            isInvalidDrag,
             getDroppableProps,
             onKeyDown,
         ],

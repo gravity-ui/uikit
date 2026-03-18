@@ -9,7 +9,7 @@ $progress-xs-height: 4px;
 
 @mixin progress-text {
     font-size: var(--g-text-body-short-font-size);
-    font-weight: var(--g-text-body-font-weight);
+    font-weight: var(--g-text-body-short-font-weight);
     font-family: var(--g-text-body-font-family);
     padding: 0 10px;
     box-sizing: border-box;

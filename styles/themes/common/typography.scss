@@ -11,128 +11,144 @@
     --g-text-display-font-family: var(--g-font-family-sans);
     --g-text-code-font-family: var(--g-font-family-monospace);
 
-    --g-text-body-font-weight: 400;
-    --g-text-caption-font-weight: 400;
-    --g-text-header-font-weight: 600;
-    --g-text-subheader-font-weight: 600;
-    --g-text-display-font-weight: 600;
-    --g-text-code-font-weight: 400;
     --g-text-accent-font-weight: 600;
 
     --g-text-body-1-font-size: 13px;
     --g-text-body-1-line-height: 18px;
+    --g-text-body-1-font-weight: 400;
 
     --g-text-body-2-font-size: 15px;
     --g-text-body-2-line-height: 20px;
+    --g-text-body-2-font-weight: 400;
 
     --g-text-body-3-font-size: 17px;
     --g-text-body-3-line-height: 24px;
+    --g-text-body-3-font-weight: 400;
 
     --g-text-body-short-font-size: 13px;
     --g-text-body-short-line-height: 16px;
+    --g-text-body-short-font-weight: 400;
 
     --g-text-caption-1-font-size: 9px;
     --g-text-caption-1-line-height: 12px;
+    --g-text-caption-1-font-weight: 400;
 
     --g-text-caption-2-font-size: 11px;
     --g-text-caption-2-line-height: 16px;
+    --g-text-caption-2-font-weight: 400;
 
     --g-text-header-1-font-size: 20px;
     --g-text-header-1-line-height: 24px;
+    --g-text-header-1-font-weight: 600;
 
     --g-text-header-2-font-size: 24px;
     --g-text-header-2-line-height: 28px;
+    --g-text-header-2-font-weight: 600;
 
     --g-text-subheader-1-font-size: 13px;
     --g-text-subheader-1-line-height: 18px;
+    --g-text-subheader-1-font-weight: 600;
 
     --g-text-subheader-2-font-size: 15px;
     --g-text-subheader-2-line-height: 20px;
+    --g-text-subheader-2-font-weight: 600;
 
     --g-text-subheader-3-font-size: 17px;
     --g-text-subheader-3-line-height: 24px;
+    --g-text-subheader-3-font-weight: 600;
 
     --g-text-display-1-font-size: 28px;
     --g-text-display-1-line-height: 36px;
+    --g-text-display-1-font-weight: 600;
 
     --g-text-display-2-font-size: 32px;
     --g-text-display-2-line-height: 40px;
+    --g-text-display-2-font-weight: 600;
 
     --g-text-display-3-font-size: 40px;
     --g-text-display-3-line-height: 48px;
+    --g-text-display-3-font-weight: 600;
 
     --g-text-display-4-font-size: 48px;
     --g-text-display-4-line-height: 52px;
+    --g-text-display-4-font-weight: 600;
 
     --g-text-code-1-font-size: 12px;
     --g-text-code-1-line-height: 18px;
+    --g-text-code-1-font-weight: 400;
 
     --g-text-code-2-font-size: 14px;
     --g-text-code-2-line-height: 20px;
+    --g-text-code-2-font-weight: 400;
 
     --g-text-code-3-font-size: 16px;
     --g-text-code-3-line-height: 24px;
+    --g-text-code-3-font-weight: 400;
 
     --g-text-code-inline-1-font-size: 12px;
     --g-text-code-inline-1-line-height: 14px;
+    --g-text-code-inline-1-font-weight: 400;
 
     --g-text-code-inline-2-font-size: 14px;
     --g-text-code-inline-2-line-height: 16px;
+    --g-text-code-inline-2-font-weight: 400;
 
     --g-text-code-inline-3-font-size: 16px;
     --g-text-code-inline-3-line-height: 20px;
+    --g-text-code-inline-3-font-weight: 400;
 
-    --g-text-body-1-font: var(--g-text-body-font-weight) var(--g-text-body-1-font-size) /
+    --g-text-body-1-font: var(--g-text-body-1-font-weight) var(--g-text-body-1-font-size) /
         var(--g-text-body-1-line-height) var(--g-text-body-font-family);
-    --g-text-body-2-font: var(--g-text-body-font-weight) var(--g-text-body-2-font-size) /
+    --g-text-body-2-font: var(--g-text-body-2-font-weight) var(--g-text-body-2-font-size) /
         var(--g-text-body-2-line-height) var(--g-text-body-font-family);
-    --g-text-body-3-font: var(--g-text-body-font-weight) var(--g-text-body-3-font-size) /
+    --g-text-body-3-font: var(--g-text-body-3-font-weight) var(--g-text-body-3-font-size) /
         var(--g-text-body-3-line-height) var(--g-text-body-font-family);
-    --g-text-body-short-font: var(--g-text-body-font-weight) var(--g-text-body-short-font-size) /
-        var(--g-text-body-short-line-height) var(--g-text-body-font-family);
-    --g-text-caption-1-font: var(--g-text-caption-font-weight) var(--g-text-caption-1-font-size) /
+    --g-text-body-short-font: var(--g-text-body-short-font-weight)
+        var(--g-text-body-short-font-size) / var(--g-text-body-short-line-height)
+        var(--g-text-body-font-family);
+    --g-text-caption-1-font: var(--g-text-caption-1-font-weight) var(--g-text-caption-1-font-size) /
         var(--g-text-caption-1-line-height) var(--g-text-caption-font-family);
-    --g-text-caption-2-font: var(--g-text-caption-font-weight) var(--g-text-caption-2-font-size) /
+    --g-text-caption-2-font: var(--g-text-caption-2-font-weight) var(--g-text-caption-2-font-size) /
         var(--g-text-caption-2-line-height) var(--g-text-caption-font-family);
-    --g-text-header-1-font: var(--g-text-header-font-weight) var(--g-text-header-1-font-size) /
+    --g-text-header-1-font: var(--g-text-header-1-font-weight) var(--g-text-header-1-font-size) /
         var(--g-text-header-1-line-height) var(--g-text-header-font-family);
-    --g-text-header-2-font: var(--g-text-header-font-weight) var(--g-text-header-2-font-size) /
+    --g-text-header-2-font: var(--g-text-header-2-font-weight) var(--g-text-header-2-font-size) /
         var(--g-text-header-2-line-height) var(--g-text-header-font-family);
-    --g-text-subheader-1-font: var(--g-text-subheader-font-weight)
+    --g-text-subheader-1-font: var(--g-text-subheader-1-font-weight)
         var(--g-text-subheader-1-font-size) / var(--g-text-subheader-1-line-height)
         var(--g-text-subheader-font-family);
-    --g-text-subheader-2-font: var(--g-text-subheader-font-weight)
+    --g-text-subheader-2-font: var(--g-text-subheader-2-font-weight)
         var(--g-text-subheader-2-font-size) / var(--g-text-subheader-2-line-height)
         var(--g-text-subheader-font-family);
-    --g-text-subheader-3-font: var(--g-text-subheader-font-weight)
+    --g-text-subheader-3-font: var(--g-text-subheader-3-font-weight)
         var(--g-text-subheader-3-font-size) / var(--g-text-subheader-3-line-height)
         var(--g-text-subheader-font-family);
-    --g-text-display-1-font: var(--g-text-display-font-weight) var(--g-text-display-1-font-size) /
+    --g-text-display-1-font: var(--g-text-display-1-font-weight) var(--g-text-display-1-font-size) /
         var(--g-text-display-1-line-height) var(--g-text-display-font-family);
-    --g-text-display-2-font: var(--g-text-display-font-weight) var(--g-text-display-2-font-size) /
+    --g-text-display-2-font: var(--g-text-display-2-font-weight) var(--g-text-display-2-font-size) /
         var(--g-text-display-2-line-height) var(--g-text-display-font-family);
-    --g-text-display-3-font: var(--g-text-display-font-weight) var(--g-text-display-3-font-size) /
+    --g-text-display-3-font: var(--g-text-display-3-font-weight) var(--g-text-display-3-font-size) /
         var(--g-text-display-3-line-height) var(--g-text-display-font-family);
-    --g-text-display-4-font: var(--g-text-display-font-weight) var(--g-text-display-4-font-size) /
+    --g-text-display-4-font: var(--g-text-display-4-font-weight) var(--g-text-display-4-font-size) /
         var(--g-text-display-4-line-height) var(--g-text-display-font-family);
-    --g-text-code-1-font: var(--g-text-code-font-weight) var(--g-text-code-1-font-size) /
+    --g-text-code-1-font: var(--g-text-code-1-font-weight) var(--g-text-code-1-font-size) /
         var(--g-text-code-1-line-height) var(--g-text-code-font-family);
-    --g-text-code-2-font: var(--g-text-code-font-weight) var(--g-text-code-2-font-size) /
+    --g-text-code-2-font: var(--g-text-code-2-font-weight) var(--g-text-code-2-font-size) /
         var(--g-text-code-2-line-height) var(--g-text-code-font-family);
-    --g-text-code-3-font: var(--g-text-code-font-weight) var(--g-text-code-3-font-size) /
+    --g-text-code-3-font: var(--g-text-code-3-font-weight) var(--g-text-code-3-font-size) /
         var(--g-text-code-3-line-height) var(--g-text-code-font-family);
-    --g-text-code-inline-1-font: var(--g-text-code-inline-font-weight)
+    --g-text-code-inline-1-font: var(--g-text-code-inline-1-font-weight)
         var(--g-text-code-inline-1-font-size) / var(--g-text-code-inline-1-line-height)
         var(--g-text-code-inline-font-family);
-    --g-text-code-inline-2-font: var(--g-text-code-inline-font-weight)
+    --g-text-code-inline-2-font: var(--g-text-code-inline-2-font-weight)
         var(--g-text-code-inline-2-font-size) / var(--g-text-code-inline-2-line-height)
         var(--g-text-code-inline-font-family);
-    --g-text-code-inline-3-font: var(--g-text-code-inline-font-weight)
+    --g-text-code-inline-3-font: var(--g-text-code-inline-3-font-weight)
         var(--g-text-code-inline-3-font-size) / var(--g-text-code-inline-3-line-height)
         var(--g-text-code-inline-font-family);
 
     font-family: var(--g-text-body-font-family);
-    font-weight: var(--g-text-body-font-weight);
+    font-weight: var(--g-text-body-1-font-weight);
     font-size: var(--g-text-body-1-font-size);
     line-height: var(--g-text-body-1-line-height);
 }

@@ -28,7 +28,8 @@ const parameters = {
 };
 export const Default = {
     args: {
-        value: '#000000',
+        value: undefined,
+        defaultValue: 'rgb(100,10,20)',
         onUpdate: (color) => console.log('Color changed:', color),
     },
     parameters,

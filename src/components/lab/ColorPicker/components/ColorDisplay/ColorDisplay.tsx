@@ -6,7 +6,7 @@ import type {HsvaColor} from '@uiw/react-color';
 import {TextInput} from '../../../../controls';
 import {b} from '../../constants';
 import {Modes} from '../../types';
-import {convertSelectedModeColorToHsva, getTextValueByMode} from '../../utils';
+import {getTextValueByMode, normalizeInputColorForMode} from '../../utils';
 
 type ColorDisplayProps = {
     hsva: HsvaColor;
@@ -29,7 +29,7 @@ export const ColorDisplay = React.forwardRef<HTMLDivElement, ColorDisplayProps>(
 
         const handleInputBlur = React.useCallback(() => {
             try {
-                const newHsva = convertSelectedModeColorToHsva(inputValue, Modes.Hex, withAlpha);
+                const newHsva = normalizeInputColorForMode(inputValue, Modes.Hex, withAlpha).hsva;
 
                 onColorChange?.(newHsva);
             } catch {

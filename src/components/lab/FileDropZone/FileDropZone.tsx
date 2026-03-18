@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 import type {IconData} from '../..';
-import type {UseDropZoneAccept} from '../../../hooks/lab/useDropZone';
+import type {UseDropZoneAccept, FileRejection} from '../../../hooks/lab/useDropZone';
+import {normalizeMaxFilesCount} from '../../../hooks/lab/useDropZone/utils';
 import type {BaseInputControlProps} from '../../controls/types';
 
 import {FileDropZoneProvider, useFileZoneContext} from './FileDropZone.Provider';
@@ -13,9 +14,14 @@ import {FileDropZoneTitle} from './parts/FileDropZone.Title';
 
 import './FileDropZone.scss';
 
+export type DropZoneFileRejection = Pick<FileRejection, 'reasons'> & {
+    file: File;
+};
+
 export interface FileDropZoneProps extends Pick<BaseInputControlProps, 'validationState'> {
     accept: UseDropZoneAccept;
     onUpdate: (files: File[]) => void;
+    onReject?: (items: DropZoneFileRejection[]) => void;
     title?: string;
     description?: string;
     buttonText?: string;
@@ -23,6 +29,7 @@ export interface FileDropZoneProps extends Pick<BaseInputControlProps, 'validati
     errorIcon?: IconData | null;
     className?: string;
     multiple?: boolean;
+    maxFilesCount?: number;
     disabled?: boolean;
     errorMessage?: string;
     children?: React.ReactNode;
@@ -34,8 +41,15 @@ interface FileDropZoneContainerProps {
 }
 
 const FileDropZoneContent = ({className, children}: FileDropZoneContainerProps) => {
-    const {isDraggingOver, disabled, errorMessage, validationState, getDroppableProps, onKeyDown} =
-        useFileZoneContext();
+    const {
+        isDraggingOver,
+        isInvalidDrag,
+        disabled,
+        errorMessage,
+        validationState,
+        getDroppableProps,
+        onKeyDown,
+    } = useFileZoneContext();
 
     const hasError = Boolean(errorMessage);
 
@@ -62,6 +76,7 @@ const FileDropZoneContent = ({className, children}: FileDropZoneContainerProps) 
             className={cnFileDropZone(
                 {
                     'drag-hover': isDraggingOver,
+                    'invalid-drag': isInvalidDrag,
                     disabled: disabled,
                     error: hasError || validationState === 'invalid',
                     'default-layout': typeof children === 'undefined',
@@ -76,9 +91,14 @@ const FileDropZoneContent = ({className, children}: FileDropZoneContainerProps) 
 };
 
 const BaseFileDropZone = React.memo<FileDropZoneProps>(
-    ({children, className, ...restProps}: FileDropZoneProps) => {
+    ({children, className, maxFilesCount, multiple, ...restProps}: FileDropZoneProps) => {
+        const normalizedMaxFiles = multiple ? normalizeMaxFilesCount(maxFilesCount) : 1;
         return (
-            <FileDropZoneProvider {...restProps}>
+            <FileDropZoneProvider
+                maxFilesCount={normalizedMaxFiles}
+                multiple={multiple}
+                {...restProps}
+            >
                 <FileDropZoneContent className={className}>{children}</FileDropZoneContent>
             </FileDropZoneProvider>
         );

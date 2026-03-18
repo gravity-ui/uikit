@@ -2,6 +2,7 @@ import {FileArrowDown} from '@gravity-ui/icons';
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {Icon, Text} from '../../../../components';
+import type {FileRejection} from '../types';
 import {useDropZone} from '../useDropZone';
 
 export default {title: 'Hooks/useDropZone'} as Meta;
@@ -9,29 +10,41 @@ export default {title: 'Hooks/useDropZone'} as Meta;
 const ACCEPT = ['image/*'];
 
 const DefaultTemplate: StoryFn = () => {
-    const getHandler =
-        (rejected: boolean) => (items: DataTransferItemList | DataTransferItem[]) => {
-            for (const item of items) {
-                if (item.kind === 'string') {
-                    item.getAsString((text) => {
-                        alert(`String: ${text}`);
-                    });
-                }
-
-                if (item.kind === 'file') {
-                    const file = item.getAsFile();
-
-                    alert(
-                        `File${rejected ? ' REJECT' : ''}: name: ${file?.name}, size: ${file?.size}, type: ${file?.type}`,
-                    );
-                }
+    const handleDrop = (items: DataTransferItem[]) => {
+        for (const item of items) {
+            if (item.kind === 'string') {
+                item.getAsString((text) => {
+                    alert(`String: ${text}`);
+                });
             }
-        };
+
+            if (item.kind === 'file') {
+                const file = item.getAsFile();
+
+                alert(`File: name: ${file?.name}, size: ${file?.size}, type: ${file?.type}`);
+            }
+        }
+    };
+
+    const handleDropReject = (items: FileRejection[]) => {
+        for (const fileRejection of items) {
+            const {item, reasons} = fileRejection;
+            if (item.kind === 'file') {
+                const file = item.getAsFile();
+
+                alert(
+                    `File rejected with reasons ${reasons.join(', ')}: name: ${file?.name}, size: ${file?.size}, type: ${file?.type}`,
+                );
+            }
+        }
+    };
 
     const {isDraggingOver, isInvalidDrag, getDroppableProps} = useDropZone({
         accept: ACCEPT,
-        onDrop: getHandler(false),
-        onDropRejected: getHandler(true),
+        multiple: true,
+        maxFilesCount: 3,
+        onDropAccepted: handleDrop,
+        onDropRejected: handleDropReject,
     });
     const getBorder = () => {
         if (isInvalidDrag) {

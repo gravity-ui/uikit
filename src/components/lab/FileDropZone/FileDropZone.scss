@@ -9,7 +9,6 @@ $block: '.#{variables.$ns}file-drop-zone';
     box-sizing: border-box;
     padding: 16px;
 
-    cursor: pointer;
     outline: none;
 
     &_default-layout {
@@ -32,13 +31,17 @@ $block: '.#{variables.$ns}file-drop-zone';
         border-color: var(--g-color-text-info);
     }
 
-    &:focus:not(:focus-visible) {
-        border-color: unset;
-    }
-
     &_drag-hover {
         background-color: var(--g-color-base-info-light);
         border-color: var(--g-color-text-info);
+    }
+
+    &_invalid-drag {
+        background-color: var(--g-color-base-danger-light);
+        border-color: var(--g-color-text-danger);
+        &:hover {
+            border-color: var(--g-color-text-danger);
+        }
     }
 
     &_error {

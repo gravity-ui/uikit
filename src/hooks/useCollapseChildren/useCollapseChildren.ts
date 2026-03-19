@@ -82,6 +82,7 @@ export function useCollapseChildren({
     const exertedProps = [minCount, maxCount, direction, gap, childSelector];
     const [exertedPropsState, setExertedPropsState] = React.useState(exertedProps);
     const [calculated, setCalculated] = React.useState(false);
+    const isCalculatingRef = React.useRef(true);
     const [visibleCount, setVisibleCount] = React.useState<number>(maxCount);
 
     const calculate = (desiredVisibleCount: number) => {
@@ -135,7 +136,8 @@ export function useCollapseChildren({
     };
 
     const recalculate = React.useCallback(() => {
-        if (enabled) {
+        if (enabled && !isCalculatingRef.current) {
+            isCalculatingRef.current = true;
             setVisibleCount(maxCount);
             setCalculated(false);
         }
@@ -154,6 +156,7 @@ export function useCollapseChildren({
 
     useLayoutEffect(() => {
         if (calculated) {
+            isCalculatingRef.current = false;
             return;
         }
 

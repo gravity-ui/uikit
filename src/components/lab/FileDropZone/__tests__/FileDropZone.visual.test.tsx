@@ -1,10 +1,28 @@
 import {test} from '~playwright/core';
 
+import {FileDropZoneQA} from '../__stories__/constants';
+
 import {FileDropZoneStories} from './helpersPlaywright';
 
 test.describe('FileDropZone', {tag: '@FileDropZone'}, () => {
     test('render story: <Default>', async ({mount, expectScreenshot}) => {
         await mount(<FileDropZoneStories.Default />);
+
+        await expectScreenshot();
+    });
+
+    test('render story: <Default> clicked', async ({mount, expectScreenshot}) => {
+        const root = await mount(<FileDropZoneStories.Default />);
+
+        await root.click();
+
+        await expectScreenshot();
+    });
+
+    test('render story: <Default> focused', async ({mount, expectScreenshot}) => {
+        const root = await mount(<FileDropZoneStories.Default />);
+
+        await root.locator(`[data-qa=${FileDropZoneQA}]`).focus();
 
         await expectScreenshot();
     });

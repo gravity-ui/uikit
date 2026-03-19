@@ -5,7 +5,7 @@ import {useActionHandlers, useFileInput} from '../../../hooks';
 import {FILE_REJECTION_REASONS, useDropZone} from '../../../hooks/lab/useDropZone';
 import type {FileRejection, UseDropZoneStateWithoutRef} from '../../../hooks/lab/useDropZone';
 
-import type {DropZoneFileRejection, FileDropZoneProps} from './FileDropZone';
+import type {DropZoneFileRejection, FileDropZoneProps} from './types';
 
 interface FileDropZoneContextValue
     extends Pick<

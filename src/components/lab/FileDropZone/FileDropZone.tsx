@@ -1,9 +1,5 @@
 import * as React from 'react';
 
-import type {BaseInputControlProps} from 'src/components/controls/types';
-import type {FileRejection, UseDropZoneAccept} from 'src/hooks/lab/useDropZone';
-
-import type {IconData} from '../..';
 import {normalizeMaxFilesCount} from '../../../hooks/lab/useDropZone/utils';
 
 import {FileDropZoneProvider, useFileZoneContext} from './FileDropZone.Provider';
@@ -12,36 +8,11 @@ import {FileDropZoneButton} from './parts/FileDropZone.Button';
 import {FileDropZoneDescription} from './parts/FileDropZone.Description';
 import {FileDropZoneIcon} from './parts/FileDropZone.Icon';
 import {FileDropZoneTitle} from './parts/FileDropZone.Title';
+import type {FileDropZoneContainerProps, FileDropZoneProps} from './types';
 
 import './FileDropZone.scss';
 
-export type DropZoneFileRejection = Pick<FileRejection, 'reasons'> & {
-    file: File;
-};
-
-export interface FileDropZoneProps extends Pick<BaseInputControlProps, 'validationState'> {
-    accept: UseDropZoneAccept;
-    onUpdate: (files: File[]) => void;
-    onReject?: (items: DropZoneFileRejection[]) => void;
-    title?: string;
-    description?: string;
-    buttonText?: string;
-    icon?: IconData | null;
-    errorIcon?: IconData | null;
-    className?: string;
-    multiple?: boolean;
-    maxFilesCount?: number;
-    disabled?: boolean;
-    errorMessage?: string;
-    children?: React.ReactNode;
-}
-
-interface FileDropZoneContainerProps {
-    className?: string;
-    children: React.ReactNode;
-}
-
-const FileDropZoneContent = ({className, children}: FileDropZoneContainerProps) => {
+const FileDropZoneContent = ({className, children, qa}: FileDropZoneContainerProps) => {
     const {
         isDraggingOver,
         isInvalidDrag,
@@ -73,6 +44,7 @@ const FileDropZoneContent = ({className, children}: FileDropZoneContainerProps) 
     return (
         <div
             {...getDroppableProps()}
+            data-qa={qa}
             onKeyDown={onKeyDown}
             className={cnFileDropZone(
                 {
@@ -92,7 +64,7 @@ const FileDropZoneContent = ({className, children}: FileDropZoneContainerProps) 
 };
 
 const BaseFileDropZone = React.memo<FileDropZoneProps>(
-    ({children, className, maxFilesCount, multiple, ...restProps}: FileDropZoneProps) => {
+    ({children, className, maxFilesCount, multiple, qa, ...restProps}: FileDropZoneProps) => {
         const normalizedMaxFiles = multiple ? normalizeMaxFilesCount(maxFilesCount) : 1;
         return (
             <FileDropZoneProvider
@@ -100,7 +72,9 @@ const BaseFileDropZone = React.memo<FileDropZoneProps>(
                 multiple={multiple}
                 {...restProps}
             >
-                <FileDropZoneContent className={className}>{children}</FileDropZoneContent>
+                <FileDropZoneContent className={className} qa={qa}>
+                    {children}
+                </FileDropZoneContent>
             </FileDropZoneProvider>
         );
     },

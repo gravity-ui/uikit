@@ -3,7 +3,9 @@ import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {Text} from '../../../';
 import {FileDropZone} from '../FileDropZone';
-import type {FileDropZoneProps} from '../FileDropZone';
+import type {FileDropZoneProps} from '../types';
+
+import {FileDropZoneQA} from './constants';
 
 export default {
     title: 'Components/Inputs/FileDropZone',
@@ -30,6 +32,7 @@ const BASE_ARGS: Partial<FileDropZoneProps> = {
     accept: ['image/*'],
     onReject: handleReject,
     onUpdate: handleUpdate,
+    qa: FileDropZoneQA,
 };
 
 const DefaultTemplate: StoryFn<typeof FileDropZone> = (args) => {

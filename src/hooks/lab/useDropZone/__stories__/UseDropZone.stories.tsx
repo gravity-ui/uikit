@@ -2,15 +2,15 @@ import {FileArrowDown} from '@gravity-ui/icons';
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {Icon, Text} from '../../../../components';
+import type {FileRejection} from '../types';
 import {useDropZone} from '../useDropZone';
-import type {UseDropZoneParams} from '../useDropZone';
 
 export default {title: 'Hooks/useDropZone'} as Meta;
 
-const ACCEPT = ['text/plain', 'image/*'];
+const ACCEPT = ['image/*'];
 
 const DefaultTemplate: StoryFn = () => {
-    const handleDrop: UseDropZoneParams['onDrop'] = (items) => {
+    const handleDrop = (items: DataTransferItem[]) => {
         for (const item of items) {
             if (item.kind === 'string') {
                 item.getAsString((text) => {
@@ -26,11 +26,34 @@ const DefaultTemplate: StoryFn = () => {
         }
     };
 
-    const {isDraggingOver, getDroppableProps} = useDropZone({
-        accept: ACCEPT,
-        onDrop: handleDrop,
-    });
+    const handleDropReject = (items: FileRejection[]) => {
+        for (const fileRejection of items) {
+            const {item, reasons} = fileRejection;
+            if (item.kind === 'file') {
+                const file = item.getAsFile();
 
+                alert(
+                    `File rejected with reasons ${reasons.join(', ')}: name: ${file?.name}, size: ${file?.size}, type: ${file?.type}`,
+                );
+            }
+        }
+    };
+
+    const {isDraggingOver, isInvalidDrag, getDroppableProps} = useDropZone({
+        accept: ACCEPT,
+        multiple: true,
+        maxFilesCount: 3,
+        onDropAccepted: handleDrop,
+        onDropRejected: handleDropReject,
+    });
+    const getBorder = () => {
+        if (isInvalidDrag) {
+            return '4px dashed var(--g-color-line-danger)';
+        }
+        return isDraggingOver
+            ? '4px dashed var(--g-color-line-info)'
+            : '4px dashed var(--g-color-line-misc)';
+    };
     return (
         <div
             style={{
@@ -41,9 +64,7 @@ const DefaultTemplate: StoryFn = () => {
                 alignItems: 'center',
                 flexDirection: 'column',
                 gap: '16px',
-                border: isDraggingOver
-                    ? '4px dashed var(--g-color-line-info)'
-                    : '4px dashed var(--g-color-line-misc)',
+                border: getBorder(),
             }}
             {...getDroppableProps()}
         >

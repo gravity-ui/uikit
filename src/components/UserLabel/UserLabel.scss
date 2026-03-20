@@ -13,10 +13,10 @@ $block: '.#{variables.$ns}user-label';
     --_--border-radius: 25px;
     --_--padding: var(--g-spacing-3);
     --_--gap: calc(var(--g-spacing-base) * 1.5);
-    --_--text-font-weight: var(--g-text-body-font-weight);
+    --_--text-font-weight: var(--g-text-body-short-font-weight);
     --_--text-font-size: var(--g-text-body-short-font-size);
     --_--text-line-height: var(--g-text-body-short-line-height);
-    --_--description-font-weight: var(--g-text-body-font-weight);
+    --_--description-font-weight: var(--g-text-body-short-font-weight);
     --_--description-font-size: var(--g-text-body-short-font-size);
     --_--description-line-height: var(--g-text-body-short-line-height);
 
@@ -87,7 +87,7 @@ $block: '.#{variables.$ns}user-label';
         &_3xs,
         &_2xs,
         &_xs {
-            --_--text-font-weight: var(--g-text-caption-font-weight);
+            --_--text-font-weight: var(--g-text-caption-2-font-weight);
             --_--text-font-size: var(--g-text-caption-2-font-size);
             --_--text-line-height: var(--g-text-caption-2-line-height);
         }
@@ -95,13 +95,13 @@ $block: '.#{variables.$ns}user-label';
         &_s,
         &_m,
         &_l {
-            --_--text-font-weight: var(--g-text-body-font-weight);
+            --_--text-font-weight: var(--g-text-body-short-font-weight);
             --_--text-font-size: var(--g-text-body-short-font-size);
             --_--text-line-height: var(--g-text-body-short-line-height);
         }
 
         &_xl {
-            --_--text-font-weight: var(--g-text-body-font-weight);
+            --_--text-font-weight: var(--g-text-body-2-font-weight);
             --_--text-font-size: var(--g-text-body-2-font-size);
             --_--text-line-height: var(--g-text-body-2-line-height);
         }

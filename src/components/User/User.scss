@@ -5,10 +5,10 @@ $block: '.#{variables.$ns}user';
 
 #{$block} {
     --_--avatar-offset: var(--g-spacing-2);
-    --_--name-font-weight: var(--g-text-body-font-weight);
+    --_--name-font-weight: var(--g-text-body-short-font-weight);
     --_--name-font-size: var(--g-text-body-short-font-size);
     --_--name-line-height: var(--g-text-body-short-line-height);
-    --_--description-font-weight: var(--g-text-body-font-weight);
+    --_--description-font-weight: var(--g-text-body-short-font-weight);
     --_--description-font-size: var(--g-text-body-short-font-size);
     --_--description-line-height: var(--g-text-body-short-line-height);
 
@@ -39,11 +39,13 @@ $block: '.#{variables.$ns}user';
         &_s,
         &_m,
         &_l {
+            --_--name-font-weight: var(--g-text-body-short-font-weight);
             --_--name-font-size: var(--g-text-body-short-font-size);
             --_--name-line-height: var(--g-text-body-short-line-height);
         }
 
         &_xl {
+            --_--name-font-weight: var(--g-text-body-2-font-weight);
             --_--name-font-size: var(--g-text-body-2-font-size);
             --_--name-line-height: var(--g-text-body-2-line-height);
         }

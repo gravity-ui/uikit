@@ -5,7 +5,6 @@ $block: '.#{variables.$ns}control-label';
 #{$block} {
     display: inline-flex;
     font-family: var(--g-text-body-font-family);
-    font-weight: var(--g-text-body-font-weight);
     color: var(--g-color-text-primary);
     user-select: none;
     touch-action: manipulation;
@@ -20,16 +19,19 @@ $block: '.#{variables.$ns}control-label';
     &_size_s,
     &_size_m {
         font-size: var(--g-text-body-1-font-size);
+        font-weight: var(--g-text-body-1-font-weight);
         line-height: 15px;
     }
 
     &_size_l {
         font-size: var(--g-text-body-2-font-size);
+        font-weight: var(--g-text-body-2-font-weight);
         line-height: 18px;
     }
 
     &_size_xl {
         font-size: var(--g-text-body-2-font-size);
+        font-weight: var(--g-text-body-2-font-weight);
         line-height: 25px;
     }
 

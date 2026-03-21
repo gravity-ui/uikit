@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.35.1](https://github.com/gravity-ui/uikit/compare/v7.35.0...v7.35.1) (2026-03-21)
+
+
+### Bug Fixes
+
+* **unstable_Menu:** use correct hover color ([#2620](https://github.com/gravity-ui/uikit/issues/2620)) ([b8b032d](https://github.com/gravity-ui/uikit/commit/b8b032d8df12ed200afa4af7090be3797db5443f))
+
 ## [7.35.0](https://github.com/gravity-ui/uikit/compare/v7.34.0...v7.35.0) (2026-03-19)
 
 

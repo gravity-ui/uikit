@@ -1,5 +1,19 @@
 # Changelog
 
+## [7.35.0](https://github.com/gravity-ui/uikit/compare/v7.34.0...v7.35.0) (2026-03-19)
+
+
+### Features
+
+* **ArrowToggle:** add --g-arrow-toggle-transition-duration CSS token ([#2611](https://github.com/gravity-ui/uikit/issues/2611)) ([0a4d562](https://github.com/gravity-ui/uikit/commit/0a4d5628e39485858b0de14f51bd3a6051ea9153))
+
+
+### Bug Fixes
+
+* **ColorPicker:** accept default value not only at hex format ([#2615](https://github.com/gravity-ui/uikit/issues/2615)) ([e448773](https://github.com/gravity-ui/uikit/commit/e448773bee192fdef6f2f60a8cbe64f23abf9eee))
+* **Table:** add ability to redefine max height for menu popup ([#2612](https://github.com/gravity-ui/uikit/issues/2612)) ([35a98cb](https://github.com/gravity-ui/uikit/commit/35a98cb9c620d4ae74a02ce48d2bdcee447b9905))
+* **useCollapseChildren:** avoid reset running calculation ([#2618](https://github.com/gravity-ui/uikit/issues/2618)) ([cd316e8](https://github.com/gravity-ui/uikit/commit/cd316e81c3d836f49419d425597ccfc75b4ed675))
+
 ## [7.34.0](https://github.com/gravity-ui/uikit/compare/v7.33.0...v7.34.0) (2026-03-13)
 
 

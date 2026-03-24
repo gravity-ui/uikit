@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.35.2](https://github.com/gravity-ui/uikit/compare/v7.35.1...v7.35.2) (2026-03-24)
+
+
+### Bug Fixes
+
+* **Table:** add missing class to menu popup ([#2624](https://github.com/gravity-ui/uikit/issues/2624)) ([18a1953](https://github.com/gravity-ui/uikit/commit/18a1953d291c53e6774e4e73e2af3962805f1c75))
+
 ## [7.35.1](https://github.com/gravity-ui/uikit/compare/v7.35.0...v7.35.1) (2026-03-21)
 
 

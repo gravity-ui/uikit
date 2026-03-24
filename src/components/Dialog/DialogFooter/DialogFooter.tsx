@@ -146,7 +146,12 @@ export function DialogFooter(props: DialogFooterProps) {
             return null;
         }
 
-        return [buttonCancel, buttonApply];
+        return (
+            <React.Fragment>
+                {textButtonCancel && buttonCancel}
+                {textButtonApply && buttonApply}
+            </React.Fragment>
+        );
     })();
 
     if (!buttons && !children) {

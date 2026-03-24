@@ -13,10 +13,8 @@
 $popupBlock: '#{variables.$block}-action-popup';
 
 #{$popupBlock} {
-    --_--menu-max-height: 200px;
-
     &__menu {
-        max-height: var(--g-table-action-popup-menu-max-height, var(--_--menu-max-height));
+        max-height: var(--g-table-action-popup-menu-max-height, 200px);
         overflow-y: auto;
 
         &-item {

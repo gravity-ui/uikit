@@ -40,6 +40,12 @@ const config: StorybookConfig = {
         check: false, // `false` is default value, but `checked` field is required in types.
         reactDocgen: 'react-docgen-typescript',
     },
+    webpackFinal: (webpackConfig, {configType}) => {
+        if (configType === 'DEVELOPMENT') {
+            webpackConfig.devtool = 'source-map';
+        }
+        return webpackConfig;
+    },
 };
 
 export default config;

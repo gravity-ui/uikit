@@ -15,7 +15,7 @@ const getAllTabElements = (tabElement: HTMLElement): HTMLElement[] => {
 };
 
 const isTabDisabled = (tabElement: HTMLElement) => {
-    return Boolean(tabElement.getAttribute('aria-disabled'));
+    return tabElement.getAttribute('aria-disabled') === 'true';
 };
 
 const getTabValue = (tabElement: HTMLElement) => {

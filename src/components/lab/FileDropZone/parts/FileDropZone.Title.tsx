@@ -1,5 +1,6 @@
 import {Text} from '../../../';
 import {useFileZoneContext} from '../FileDropZone.Provider';
+import {FileDropZoneQa} from '../constants';
 import i18n from '../i18n';
 
 type FileDropZoneTitleProps = {
@@ -18,7 +19,7 @@ export const FileDropZoneTitle = ({className}: FileDropZoneTitleProps) => {
     const displayTitle = isError ? errorMessage : defaultTitle;
 
     return (
-        <Text variant="subheader-1" className={className}>
+        <Text variant="subheader-1" className={className} qa={FileDropZoneQa.TITLE}>
             {displayTitle}
         </Text>
     );

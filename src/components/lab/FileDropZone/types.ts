@@ -1,7 +1,6 @@
-import type {BaseInputControlProps} from 'src/components/controls/types';
-import type {FileRejection, UseDropZoneAccept} from 'src/hooks/lab/useDropZone';
-
-import type {IconData} from '../..';
+import type {FileRejection, UseDropZoneAccept} from '../../../hooks/lab/useDropZone';
+import type {IconData} from '../../Icon';
+import type {BaseInputControlProps} from '../../controls/types';
 import type {QAProps} from '../../types';
 
 export type DropZoneFileRejection = Pick<FileRejection, 'reasons'> & {

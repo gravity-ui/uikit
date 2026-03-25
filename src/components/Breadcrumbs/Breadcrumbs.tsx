@@ -190,11 +190,6 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
                     {items.map((child, index) =>
                         renderChild(child, index, index === items.length - 1, false),
                     )}
-                    {props.endContent && (
-                        <li key="end-content" className={b('item')}>
-                            {props.endContent}
-                        </li>
-                    )}
                 </ol>
             </div>
         </ol>

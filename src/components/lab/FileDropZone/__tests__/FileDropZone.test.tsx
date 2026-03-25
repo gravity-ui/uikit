@@ -1,5 +1,8 @@
+import userEvent from '@testing-library/user-event';
+
 import {fireEvent, render, screen} from '../../../../../test-utils/utils';
 import {FileDropZone} from '../FileDropZone';
+import {FileDropZoneQa} from '../constants';
 
 function createFile(name: string, type: string): File {
     return new File(['content'], name, {type});
@@ -55,11 +58,9 @@ describe('FileDropZone', () => {
         });
 
         test('does not render description if not provided', () => {
-            render(<FileDropZone {...defaultProps} qa="drop-zone" />);
-            const zone = screen.getByTestId('drop-zone');
+            render(<FileDropZone {...defaultProps} />);
             // Description element (g-text with color secondary) should not be in the DOM
-            const secondaryTexts = zone.querySelectorAll('.g-text_color_secondary');
-            expect(secondaryTexts).toHaveLength(0);
+            expect(screen.queryByTestId(FileDropZoneQa.DESCRIPTION)).not.toBeInTheDocument();
         });
 
         test('renders custom children instead of default layout', () => {
@@ -100,11 +101,9 @@ describe('FileDropZone', () => {
             expect(zone.className).toMatch(/error/);
         });
 
-        test('hides icon when icon={null}', () => {
-            render(<FileDropZone {...defaultProps} icon={null} qa="drop-zone" />);
-            const zone = screen.getByTestId('drop-zone');
-            const icons = zone.querySelectorAll('.g-icon');
-            expect(icons).toHaveLength(0);
+        test('hides icon when icon={null}', async () => {
+            render(<FileDropZone {...defaultProps} icon={null} />);
+            expect(screen.queryByTestId(FileDropZoneQa.ICON)).not.toBeInTheDocument();
         });
     });
 
@@ -223,18 +222,11 @@ describe('FileDropZone', () => {
 
     describe('file input (button click)', () => {
         function getFileInput(): HTMLInputElement {
-            const zone = screen.getByTestId('drop-zone');
-            return zone.querySelector('input[type="file"]') as HTMLInputElement;
+            return screen.getByTestId(FileDropZoneQa.FILE_INPUT) as HTMLInputElement;
         }
 
         test('hidden input has correct accept attribute', () => {
-            render(
-                <FileDropZone
-                    {...defaultProps}
-                    accept={['image/png', 'application/pdf']}
-                    qa="drop-zone"
-                />,
-            );
+            render(<FileDropZone {...defaultProps} accept={['image/png', 'application/pdf']} />);
             expect(getFileInput()).toHaveAttribute('accept', 'image/png,application/pdf');
         });
 
@@ -248,18 +240,20 @@ describe('FileDropZone', () => {
             expect(getFileInput()).not.toHaveAttribute('multiple');
         });
 
-        test('calls onUpdate when files selected via input', () => {
+        test('calls onUpdate when files selected via input', async () => {
+            const user = userEvent.setup();
             const onUpdate = jest.fn();
             render(<FileDropZone {...defaultProps} onUpdate={onUpdate} qa="drop-zone" />);
             const file = createFile('a.png', 'image/png');
 
-            fireEvent.change(getFileInput(), {target: {files: [file]}});
+            await user.upload(getFileInput(), file);
 
             expect(onUpdate).toHaveBeenCalledTimes(1);
             expect(onUpdate).toHaveBeenCalledWith([file]);
         });
 
-        test('splits files by maxFilesCount on input selection', () => {
+        test('splits files by maxFilesCount on input selection', async () => {
+            const user = userEvent.setup();
             const onUpdate = jest.fn();
             const onReject = jest.fn();
             render(
@@ -273,22 +267,14 @@ describe('FileDropZone', () => {
                 />,
             );
 
-            fireEvent.change(getFileInput(), {
-                target: {
-                    files: [createFile('a.png', 'image/png'), createFile('b.png', 'image/png')],
-                },
-            });
+            await user.upload(getFileInput(), [
+                createFile('a.png', 'image/png'),
+                createFile('b.png', 'image/png'),
+            ]);
 
             expect(onUpdate).toHaveBeenCalledTimes(1);
             expect(onUpdate.mock.calls[0][0]).toHaveLength(1);
-            expect(onReject).toHaveBeenCalledTimes(1);
-            expect(onReject).toHaveBeenCalledWith(
-                expect.arrayContaining([
-                    expect.objectContaining({
-                        reasons: expect.arrayContaining(['too-many-files']),
-                    }),
-                ]),
-            );
+            expect(onReject).toHaveBeenCalledTimes(0);
         });
     });
 

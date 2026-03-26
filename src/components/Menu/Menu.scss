@@ -1,4 +1,3 @@
-@use '../../../styles/mixins';
 @use '../variables';
 
 $block: '.#{variables.$ns}menu';
@@ -86,7 +85,7 @@ $block: '.#{variables.$ns}menu';
     }
 
     &__group-label {
-        @include mixins.text-accent();
+        font-weight: var(--g-text-body-accent-font-weight);
         color: var(--g-color-text-hint);
     }
 

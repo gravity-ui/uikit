@@ -1,6 +1,6 @@
 import {Meta} from '@storybook/addon-docs';
 
-<Meta title="Branding/Overview"/>
+<Meta title="Branding/Overview" />
 
 # Branding
 
@@ -13,45 +13,48 @@ you should provide values for each theme individually.
 ## Basic customization
 
 #### Typography
+
 There are 2 font families, `sans-serif` and `monospace`, which can be configured via `--g-font-family-sans`
 and `--g-font-family-monospace`. Also, there are a lot of different text variants: `body-1` `body-2` `caption-1`
 `caption-2` `header-1` `header-2` and others. Full list of variants you can find [here](?path=/story/typography--default).
 Each of these variants has a specific `font-size` and `line-height` properties which can be configured via variables
 `--g-text-{variantName}-font-size` and `--g-text-{variantName}-line-height`. Root node uses `body-1` variant. A `font-weight` property can be set
 for each of the variant group (`body` `header` `subheader` `display` `caption` `code`) via `--g-text-{variantGroupName}-font-weight` variable.
-There is one specific variable, `--g-text-accent-font-weight`, which can be used separately from text variant.
-
+There are also accent variables for each of the variant group `--g-text-{variantGroupName}-accent-font-weight.
 
 #### Accent
+
 To give a unique look for components you can provide several variables that controls accent color. Here is the
 list of such variables:
-* `--g-color-base-brand` - Color for background (action button, active controls)
-* `--g-color-base-brand-hover` - Hover color for background
-* `--g-color-line-brand` - Color for lines (active tab underline)
-* `--g-color-text-brand` - Text color
-* `--g-color-text-brand-heavy` - Text color over background
-* `--g-color-text-brand-contrast` - Text color over brand background
-* `--g-color-base-selection` - Lighter version for background (List selection, Table row selection)
-* `--g-color-base-selection-hover` - Hover lighter version for background
-* `--g-color-text-link` - Color for links
-* `--g-color-text-link-hover` - Hover color for links
-* `--g-color-text-link-visited` - Color for visited links
-* `--g-color-text-link-visited-hover` - Hover color for visited links
+
+- `--g-color-base-brand` - Color for background (action button, active controls)
+- `--g-color-base-brand-hover` - Hover color for background
+- `--g-color-line-brand` - Color for lines (active tab underline)
+- `--g-color-text-brand` - Text color
+- `--g-color-text-brand-heavy` - Text color over background
+- `--g-color-text-brand-contrast` - Text color over brand background
+- `--g-color-base-selection` - Lighter version for background (List selection, Table row selection)
+- `--g-color-base-selection-hover` - Hover lighter version for background
+- `--g-color-text-link` - Color for links
+- `--g-color-text-link-hover` - Hover color for links
+- `--g-color-text-link-visited` - Color for visited links
+- `--g-color-text-link-visited-hover` - Hover color for visited links
 
 #### Shape
+
 Controls share border radius sizes that can be configured via `--g-border-radius-{size}`, where size is one of xs, s, m, l or xl
 
 ### Example
 
 ```css
-
 .g-root {
     --g-font-family-sans: 'Inter', sans-serif;
 
+    --g-text-body-accent-font-weight: 600;
+    --g-text-caption-accent-font-weight: 600;
     --g-text-header-font-weight: 600;
     --g-text-subheader-font-weight: 600;
     --g-text-display-font-weight: 600;
-    --g-text-accent-font-weight: 600;
 
     --g-color-base-brand: rgb(117, 155, 255);
     --g-color-base-brand-hover: rgb(99, 143, 255);
@@ -59,7 +62,7 @@ Controls share border radius sizes that can be configured via `--g-border-radius
     --g-color-base-selection-hover: rgba(82, 130, 255, 0.1);
     --g-color-line-brand: rgb(117, 155, 255);
     --g-color-text-brand: rgb(117, 155, 255);
-    --g-color-text-brand-contrast: rgb(255, 255 ,255);
+    --g-color-text-brand-contrast: rgb(255, 255, 255);
     --g-color-text-link: rgb(117, 155, 255);
     --g-color-text-link-hover: rgb(82, 130, 255);
 }

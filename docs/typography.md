@@ -57,8 +57,8 @@ when styling a non-`Text` element that must match the scale.
 ## Font weight
 
 `font-weight` is set per variant **group** (`body`, `header`, `subheader`, `display`, `caption`,
-`code`) via `--g-text-{group}-font-weight`. There is also a standalone `--g-text-accent-font-weight`
-usable independently of any variant.
+`code`) via `--g-text-{group}-font-weight` and `--g-text-{group}-accent-font-weight` (for accent texts).
+There is also a standalone, deprecated, `--g-text-accent-font-weight` usable independently of any variant.
 
 ## Customization
 

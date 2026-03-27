@@ -99,4 +99,27 @@ test.describe('Accordion', {tag: '@Accordion'}, () => {
             themes: ['light'],
         });
     });
+
+    const accordionPaddingInlineStyle = {
+        '--g-accordion-padding-inline': '48px',
+    } as React.CSSProperties;
+
+    test('custom --g-accordion-padding-inline: expanded', async ({mount, expectScreenshot}) => {
+        await mount(
+            <div style={accordionPaddingInlineStyle}>
+                <Accordion qa={qa} size="m" view="solid" defaultValue="item1">
+                    <Accordion.Item summary="First Item" value="item1">
+                        <Text>Content of the first item</Text>
+                    </Accordion.Item>
+                    <Accordion.Item summary="Second Item" value="item2">
+                        <Text>Content of the second item</Text>
+                    </Accordion.Item>
+                </Accordion>
+            </div>,
+        );
+
+        await expectScreenshot({
+            themes: ['light'],
+        });
+    });
 });

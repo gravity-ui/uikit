@@ -329,6 +329,10 @@ $block: '.#{variables.$ns}button';
         }
 
         &#{$block}_view {
+            &_flat-secondary {
+                --_--text-color-hover: var(--g-color-text-brand-heavy);
+            }
+
             &_outlined-info,
             &_flat-info {
                 --_--text-color: var(--g-color-text-info-heavy);

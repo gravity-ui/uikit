@@ -105,6 +105,14 @@ $block: '.#{variables.$ns}text-input';
         &[type='number'] {
             appearance: textfield;
         }
+
+        &[type='search'] {
+            appearance: textfield;
+
+            &::-webkit-search-cancel-button {
+                appearance: none;
+            }
+        }
     }
 
     &__label {

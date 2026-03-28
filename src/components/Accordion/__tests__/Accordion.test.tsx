@@ -36,6 +36,20 @@ describe('Accordion', () => {
         expect(accordion).toHaveClass(className);
     });
 
+    test('render accordion item with custom className', () => {
+        const className = 'custom-accordion-item';
+        render(
+            <Accordion>
+                <Accordion.Item summary="Item 1" qa={qaId} className={className}>
+                    Content 1
+                </Accordion.Item>
+            </Accordion>,
+        );
+
+        const accordionItem = screen.getByTestId(qaId);
+        expect(accordionItem).toHaveClass(className);
+    });
+
     test('expand/collapse items on click', async () => {
         const user = userEvent.setup();
 

@@ -1018,9 +1018,118 @@ const MyComponent = () => {
 
 <!--/GITHUB_BLOCK-->
 
-### Rendering custom popup
+### Rendering custom counter
 
-To render custom popup, use the `renderPopup` property.
+To render a custom counter, use the `renderCounter` property. The counter is only displayed when multiple selection is enabled (`multiple={true}`) and `hasCounter={true}`.
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Select
+  multiple={true}
+  hasCounter={true}
+  renderCounter={(_, {count, disabled}) => {
+    if (count === 0) {
+      return null;
+    }
+    if (count >= 2) {
+      return (
+        <div
+          style={{
+            padding: '0 8px',
+            color: disabled ? '#999' : '#027bf3',
+            fontWeight: 'bold',
+          }}
+        >
+          +{count}
+        </div>
+      );
+    }
+    return count;
+  }}
+>
+  <Select.Option value="val_1">Value 1</Select.Option>
+  <Select.Option value="val_2">Value 2</Select.Option>
+  <Select.Option value="val_3">Value 3</Select.Option>
+  <Select.Option value="val_4">Value 4</Select.Option>
+</Select>
+`}
+>
+  <UIKit.Select
+    multiple={true}
+    hasCounter={true}
+    renderCounter={(_, {count, disabled}) => {
+      if (count === 0) {
+        return null;
+      }
+      if (count >= 2) {
+        return (
+          <div
+            style={{
+              padding: '0 8px',
+              color: disabled ? '#999' : '#027bf3',
+              fontWeight: 'bold',
+            }}
+          >
+            +{count}
+          </div>
+        );
+      }
+      return count;
+    }}
+  >
+    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
+  </UIKit.Select>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+import type {SelectProps} from '@gravity-ui/uikit';
+
+const MyComponent = () => {
+  const renderCounter: SelectProps['renderCounter'] = (_, {count, disabled}) => {
+    if (count === 0) {
+      return null;
+    }
+    if (count >= 2) {
+      return (
+        <div
+          style={{
+            padding: '0 8px',
+            color: disabled ? '#999' : '#027bf3',
+            fontWeight: 'bold',
+          }}
+        >
+          +{count}
+        </div>
+      );
+    }
+    return count;
+  };
+
+  return (
+    <Select multiple={true} hasCounter={true} renderCounter={renderCounter}>
+      <Select.Option value="val_1">Value 1</Select.Option>
+      <Select.Option value="val_2">Value 2</Select.Option>
+      <Select.Option value="val_3">Value 3</Select.Option>
+      <Select.Option value="val_4">Value 4</Select.Option>
+    </Select>
+  );
+};
+```
+
+<!--/GITHUB_BLOCK-->
+
+### Rendering options list
+
+The `renderPopup` property allows you to control the content of the options list: change the order of standard elements (filter, list), hide them, or add custom elements between, before, or after them.
 
 <!--LANDING_BLOCK
 
@@ -1184,12 +1293,13 @@ LANDING_BLOCK-->
 | [popupWidth](#popup-width)                                | Popup width                                                                                                                      | `number \| 'fit' \| 'outfit'`            | `'outfit'`                                               |
 | qa                                                        | Test id attribute (`data-qa`)                                                                                                    | `string`                                 |                                                          |
 | [renderControl](#render-custom-control)                   | Used to render user control                                                                                                      | `function`                               |                                                          |
+| [renderCounter](#rendering-custom-counter)                | Used to render user counter. Works only with [hasCounter](#counter).                                                             | `function`                               |                                                          |
 | renderEmptyOptions                                        | Used to render a node for an empty option list                                                                                   | `function`                               |                                                          |
 | [renderFilter](#render-custom-filter-section)             | Used to render user filter section                                                                                               | `function`                               |                                                          |
 | [renderOption](#render-custom-options)                    | Used to render user options                                                                                                      | `function`                               |                                                          |
 | renderOptionGroup                                         | Used to render user option groups                                                                                                | `function`                               |                                                          |
 | [renderSelectedOption](#render-custom-selected-options)   | Used to render user selected options                                                                                             | `function`                               |                                                          |
-| [renderPopup](#render-custom-popup)                       | Used to render user popup content                                                                                                | `function`                               |                                                          |
+| [renderPopup](#rendering-options-list)                    | Used to render options list content                                                                                              | `function`                               |                                                          |
 | [size](#size)                                             | Control / options size                                                                                                           | `string`                                 | `'m'`                                                    |
 | value                                                     | Values that represent selected options                                                                                           | `string[]`                               |                                                          |
 | view                                                      | Control view                                                                                                                     | `string`                                 | `'normal'`                                               |

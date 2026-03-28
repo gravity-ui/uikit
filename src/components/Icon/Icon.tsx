@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import type {ColorTextBaseProps} from '../Text/colorText/colorText';
+import {colorText} from '../Text/colorText/colorText';
 import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {a11yHiddenSvgProps} from '../utils/svg';
@@ -29,6 +31,7 @@ export interface IconProps extends QAProps, DOMProps {
     size?: number | string;
     fill?: string;
     stroke?: string;
+    color?: ColorTextBaseProps['color'];
 }
 
 const b = block('icon');
@@ -36,7 +39,18 @@ const b = block('icon');
 export const Icon: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<SVGSVGElement>> &
     IconComposition = React.forwardRef<SVGSVGElement, IconProps>(
     (
-        {data, width, height, size, className, style, fill = 'currentColor', stroke = 'none', qa},
+        {
+            data,
+            width,
+            height,
+            size,
+            className,
+            style,
+            color,
+            fill = 'currentColor',
+            stroke = 'none',
+            qa,
+        },
         ref,
     ) => {
         // This component supports four different ways to load and use icons:
@@ -91,12 +105,17 @@ export const Icon: React.ForwardRefExoticComponent<IconProps & React.RefAttribut
             }
         }
 
+        const hasStyleColor = style?.color !== undefined;
+
+        const svgClassName =
+            color && !hasStyleColor ? colorText({color}, b(null, className)) : b(null, className);
+
         const props = {
             xmlns: 'http://www.w3.org/2000/svg',
             xmlnsXlink: 'http://www.w3.org/1999/xlink',
             width: w,
             height: h,
-            className: b(null, className),
+            className: svgClassName,
             style,
             fill,
             stroke,

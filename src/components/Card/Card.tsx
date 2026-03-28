@@ -3,8 +3,8 @@
 import * as React from 'react';
 
 import {useActionHandlers} from '../../hooks';
-import {Box} from '../layout';
 import type {BoxProps} from '../layout';
+import {Box} from '../layout';
 import {block} from '../utils/cn';
 
 import './Card.scss';
@@ -36,6 +36,12 @@ export interface CardProps extends Omit<BoxProps<'div'>, 'as' | 'onClick'> {
     /** Card's size affects on available properties*/
     size?: CardSize;
 }
+
+const roles = {
+    selection: 'radio',
+    action: 'button',
+    container: undefined,
+};
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(props, ref) {
     const {
@@ -70,7 +76,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
     return (
         <Box
             ref={ref}
-            role={isClickable ? 'button' : undefined}
+            role={roles[type]}
             className={b(
                 {
                     theme: theme || defaultTheme,
@@ -86,6 +92,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
             onClick={handleClick as BoxProps['onClick']}
             onKeyDown={isClickable ? onKeyDown : undefined}
             tabIndex={isClickable ? 0 : undefined}
+            aria-checked={isTypeSelection ? selected : undefined}
             {...restProps}
         >
             {children}

@@ -1,0 +1,32 @@
+.disable-portal {
+    &__header {
+        width: 100%;
+        padding: 20px;
+        border-block-end: 1px solid var(--g-color-line-generic);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    &__container {
+        padding: 16px;
+        width: 600px;
+        height: 400px;
+        border: 1px solid var(--g-color-line-brand);
+
+        &_disablePortal {
+            position: relative;
+        }
+    }
+
+    &__item-content {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        box-sizing: border-box;
+        padding: 8px 16px;
+        height: 100%;
+        overflow-y: auto;
+    }
+}

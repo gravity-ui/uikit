@@ -4,10 +4,10 @@ import * as React from 'react';
 
 import {KeyCode} from '../../constants';
 import {useListNavigation} from '../../hooks';
-import {Menu} from '../Menu';
 import type {MenuProps} from '../Menu';
-import {Popup} from '../Popup';
+import {Menu} from '../Menu';
 import type {PopupProps} from '../Popup';
+import {Popup} from '../Popup';
 
 import {cnDropdownMenu} from './DropdownMenu.classname';
 import {DropdownMenuContext} from './DropdownMenuContext';
@@ -21,7 +21,7 @@ import {stringifyNavigationPath} from './utils/stringifyNavigationPath';
 export type DropdownMenuPopupProps<T> = {
     items: DropdownMenuListItem<T>[];
     open: boolean;
-    anchorRef: React.RefObject<HTMLDivElement>;
+    anchorRef: React.RefObject<HTMLDivElement | null>;
     onClose?: () => void;
     size?: DropdownMenuSize;
     menuProps?: MenuProps;
@@ -161,6 +161,7 @@ export const DropdownMenuPopup = <T,>({
 
                             const extraProps = {
                                 ...item.extraProps,
+                                onClick: activate,
                                 onMouseEnter: activate,
                             };
 

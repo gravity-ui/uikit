@@ -1,9 +1,7 @@
-@use '../../variables';
+@use '../variables';
 @use '../../../../styles/mixins';
 
-$block: '.#{variables.$ns}dialog-header';
-
-#{$block} {
+#{variables.$headerBlock} {
     padding-block: 20px 10px;
     padding-inline: var(--_--side-padding)
         calc(
@@ -15,8 +13,4 @@ $block: '.#{variables.$ns}dialog-header';
     align-items: center;
     justify-content: flex-start;
     color: var(--g-color-text-primary);
-
-    &__caption {
-        @include mixins.text-subheader-3();
-    }
 }

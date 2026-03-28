@@ -277,6 +277,7 @@ $block: '.#{variables.$ns}button';
             );
         width: var(--g-button-height, var(--_--height));
         height: var(--g-button-height, var(--_--height));
+        flex-shrink: 0;
 
         &::after {
             content: '\00a0';

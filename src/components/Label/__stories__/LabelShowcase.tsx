@@ -12,8 +12,8 @@ import './LabelShowcase.scss';
 const b = cn('label-showcase');
 type WithKey<T> = T & {key: React.Key};
 
-const icons = (id: 'TickIcon' | 'GearIcon' | '-', size: 'xs' | 's' | 'm' = 'xs') => {
-    const sizes = {xs: 12, s: 14, m: 16} as const;
+const icons = (id: 'TickIcon' | 'GearIcon' | '-', size: 'xxs' | 'xs' | 's' | 'm' = 'xs') => {
+    const sizes = {xxs: 12, xs: 12, s: 14, m: 16} as const;
 
     return {
         '-': undefined,
@@ -33,7 +33,7 @@ export function LabelShowcase(args: LabelProps) {
         'unknown',
         'clear',
     ] as const;
-    const sizes = ['xs', 's', 'm'] as const;
+    const sizes = ['xxs', 'xs', 's', 'm'] as const;
 
     const getLabel = ({...props}: WithKey<LabelProps>) => <Label {...props} />;
 

@@ -64,7 +64,6 @@ export interface AlertProps extends QAProps, Partial<AlertContextType> {
      * Center all content in vertical direction,
      * useful if for some reason you actions takes more space then text
      * or needed icon to be on the middle of the card
-     *
      * @default - 'baseline'
      */
     align?: 'center' | 'baseline';

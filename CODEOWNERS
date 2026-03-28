@@ -18,6 +18,7 @@
 /src/components/Dialog @Alutery
 /src/components/Disclosure @Raubzeug
 /src/components/Divider @v4dyar4
+/src/components/Drawer @igor0226
 #/src/components/DropdownMenu @axtk
 /src/components/FilePreview @mournfulCoroner
 /src/components/HelpMark @Raubzeug
@@ -33,6 +34,7 @@
 /src/components/Overlay @Vladeeg
 /src/components/Pagination @jhoncool
 /src/components/Palette @Ruminat
+/src/components/controls/PasswordInput @NasgulNexus
 /src/components/PinInput @amje
 /src/components/PlaceholderContainer @Marginy605
 /src/components/legacy/Popover @kseniya57
@@ -65,6 +67,9 @@
 /src/components/Tooltip @amje
 /src/components/layout @IsaevAlexandr
 
+/src/components/lab/ColorPicker @Estasie
+/src/components/lab/FileDropZone @dvortsovs
+
 /src/hooks/useActionHandlers @ogonkov
 /src/hooks/useFileInput @korvin89
 /src/hooks/useForkRef @ValeraS
@@ -73,6 +78,8 @@
 /src/hooks/useOutsideClick @NikitaCG
 /src/hooks/useViewportSize @NikitaCG
 /src/hooks/useUniqId @ValeraS
+
+/src/hooks/lab/useDropZone @dvortsovs
 
 # Allow everyone to update dependencies
 

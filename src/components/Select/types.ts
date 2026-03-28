@@ -46,6 +46,7 @@ export type SelectRenderControl<T extends HTMLElement = HTMLElement> = (
 
 export type SelectRenderOptionViewParams = {
     itemHeight: number;
+    isItemActive?: boolean; // FIXME: make this field required in the next major
 };
 
 export type SelectRenderOption<T> = (
@@ -90,7 +91,7 @@ export type SelectSize = InputControlSize;
 export type SelectRenderCounter = (
     originalComponent: React.ReactElement<SelectCounterProps>,
     counterProps: SelectCounterProps,
-) => React.ReactElement;
+) => React.ReactNode;
 
 export type SelectProps<T = any> = AriaLabelingProps &
     QAProps &
@@ -164,8 +165,10 @@ export type SelectOption<T = any> = QAProps &
     };
 
 export type SelectOptionGroup<T = any> = {
-    /** Label is a string which displayed above the options group.
-     * If label is empty string, group item height will be 0 and only border will be displayed */
+    /**
+     * Label is a string which displayed above the options group.
+     * If label is empty string, group item height will be 0 and only border will be displayed
+     */
     label: string;
     data?: T;
     options?: SelectOption<T>[];

@@ -1,13 +1,14 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {TabListProps} from '../types';
 
 import {sizeCases} from './cases';
 import {TestTabList, TestTabListWithCustomTabs} from './helpers';
 
 test.describe('TabList', {tag: '@TabList'}, () => {
-    smokeTest('', async ({mount, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<TabListProps>(
             {
                 value: 'active',
@@ -35,7 +36,7 @@ test.describe('TabList', {tag: '@TabList'}, () => {
         });
     });
 
-    smokeTest('without value', async ({mount, expectScreenshot}) => {
+    test('smoke without value', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<TabListProps>({}, {});
 
         await mount(
@@ -56,7 +57,7 @@ test.describe('TabList', {tag: '@TabList'}, () => {
         });
     });
 
-    smokeTest('with custom tab', async ({mount, expectScreenshot}) => {
+    test('smoke with custom tab', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<TabListProps>(
             {
                 value: 'active',

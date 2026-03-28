@@ -1,8 +1,9 @@
 import type * as React from 'react';
 
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import {Slider} from '../Slider';
 import type {SliderProps} from '../types';
 
@@ -32,7 +33,7 @@ test.describe('Slider', {tag: '@Slider'}, () => {
         onUpdate: () => {},
     };
 
-    smokeTest('', async ({mount, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(defaultProps, {
             size: sizeCases,
             disabled: disabledCases,
@@ -76,7 +77,7 @@ test.describe('Slider', {tag: '@Slider'}, () => {
         });
     });
 
-    smokeTest('with error', async ({mount, expectScreenshot}) => {
+    test('smoke with error', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<SliderProps>(
             {
                 ...defaultProps,
@@ -115,7 +116,7 @@ test.describe('Slider', {tag: '@Slider'}, () => {
         onUpdate: () => {},
     };
 
-    smokeTest('range value', async ({mount, expectScreenshot}) => {
+    test('smoke range value', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<SliderProps>(defaultRangeProps, {
             size: sizeCases,
             disabled: disabledCases,
@@ -157,7 +158,7 @@ test.describe('Slider', {tag: '@Slider'}, () => {
         });
     });
 
-    smokeTest('range value with error', async ({mount, expectScreenshot}) => {
+    test('smoke range value with error', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<SliderProps>(
             {
                 ...defaultRangeProps,

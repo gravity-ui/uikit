@@ -1,6 +1,7 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {ButtonProps} from '../Button';
 import {Button} from '../Button';
 
@@ -12,7 +13,7 @@ import {
     sizeCases,
     viewsCases,
 } from './cases';
-import {ButtonStories, CustomIconSizeButton} from './helpersPlaywright';
+import {ButtonStories, CustomIconSizeButton, ShrinkIconButton} from './helpersPlaywright';
 
 test.describe('Button', {tag: '@Button'}, () => {
     test('render story: <Default>', async ({mount, expectScreenshot}) => {
@@ -87,9 +88,15 @@ test.describe('Button', {tag: '@Button'}, () => {
         await expectScreenshot();
     });
 
+    test('shrink icon button', async ({mount, expectScreenshot}) => {
+        await mount(<ShrinkIconButton />, {width: 150});
+
+        await expectScreenshot();
+    });
+
     const qa = 'test-button';
 
-    smokeTest('', async ({mount, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<ButtonProps>(
             {
                 children: 'Text',
@@ -131,14 +138,13 @@ test.describe('Button', {tag: '@Button'}, () => {
             pin: pinsCases,
         },
     ).forEach(([title, props]) => {
-        smokeTest(title, async ({mount, expectScreenshot}) => {
+        test(`smoke ${title}`, {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
             const root = await mount(<Button {...props} />);
 
             await root.getByTestId(qa).hover();
 
             await expectScreenshot({
                 themes: ['light'],
-                nameSuffix: 'hovered',
             });
         });
     });

@@ -1,6 +1,7 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import {Stepper} from '../Stepper';
 import type {StepperProps} from '../Stepper';
 import type {StepperItemProps} from '../StepperItem';
@@ -69,7 +70,7 @@ test.describe('Stepper', {tag: '@Stepper'}, () => {
             scenarioName: 'with different sizes',
         },
     ).forEach(([title, props]) => {
-        smokeTest(title, async ({mount, expectScreenshot}) => {
+        test(`smoke ${title}`, {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
             await mount(
                 <div style={{width: '600px'}}>
                     <Stepper {...props}>
@@ -95,7 +96,7 @@ test.describe('Stepper', {tag: '@Stepper'}, () => {
             scenarioName: 'with different views',
         },
     ).forEach(([title, props]) => {
-        smokeTest(title, async ({mount, expectScreenshot}) => {
+        test(`smoke ${title}`, {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
             await mount(
                 <div style={{width: '200px'}}>
                     <Stepper>

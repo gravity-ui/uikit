@@ -12,7 +12,7 @@ export interface ListContainerViewProps extends QAProps {
     /**
      * Ability to override default html tag
      */
-    as?: keyof JSX.IntrinsicElements;
+    as?: keyof React.JSX.IntrinsicElements;
     id?: string;
     role?: React.AriaRole;
     className?: string;

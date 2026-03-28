@@ -1,13 +1,14 @@
 import * as React from 'react';
 
 import {KeyCode} from '../../../constants';
+import {useLayoutEffect} from '../../../hooks';
 import type {ListOnItemClick, UseListResult} from '../types';
 import {findNextIndex} from '../utils/findNextIndex';
 import {scrollToListItem} from '../utils/scrollToListItem';
 
 interface UseListKeydownProps<T = unknown> {
     onItemClick?: ListOnItemClick;
-    containerRef?: React.RefObject<HTMLDivElement>;
+    containerRef?: React.RefObject<HTMLDivElement | null>;
     enabled?: boolean;
     list: UseListResult<T>;
 }
@@ -58,7 +59,7 @@ export const useListKeydown = ({containerRef, onItemClick, enabled, list}: UseLi
         ],
     );
 
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         const anchor = containerRef?.current;
 
         if (enabled || !anchor) {

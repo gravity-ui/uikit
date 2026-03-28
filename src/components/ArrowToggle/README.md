@@ -121,3 +121,9 @@ return (
 | direction | Used to set the `arrowToggle` direction    | `string` | `"bottom"` |
 | size      | `arrowToggle` size (in pixels)             | `number` |    `16`    |
 | qa        | `data-qa` HTML attribute, used for testing | `string` |            |
+
+## CSS API
+
+| Name                                   | Description         |
+| :------------------------------------- | :------------------ |
+| `--g-arrow-toggle-transition-duration` | Transition duration |

@@ -236,11 +236,13 @@ LANDING_BLOCK-->
 
 <ExampleBlock
     code={`
+<Label size="xxs">XXS size</Label>
 <Label size="xs">XS size</Label>
 <Label size="s">S size</Label>
 <Label size="m">M size</Label>
 `}
 >
+    <UIKit.Label size="xxs">XXS size</UIKit.Label>
     <UIKit.Label size="xs">XS size</UIKit.Label>
     <UIKit.Label size="s">S size</UIKit.Label>
     <UIKit.Label size="m">M size</UIKit.Label>
@@ -251,6 +253,7 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
+<Label size="xxs">XXS size</Label>
 <Label size="xs">XS size</Label>
 <Label size="s">S size</Label>
 <Label size="m">M size</Label>
@@ -275,7 +278,7 @@ LANDING_BLOCK-->
 | onCloseClick     | Обработчик события `click` по кнопке закрытия.         |               `Function`                |                       |
 | onCopy           | Обработчик события `copy`.                             |               `Function`                |                       |
 | qa               | HTML-атрибут `data-qa`, используется для тестирования. |                `string`                 |                       |
-| size             | Размер лейбла.                                         |           `"xs"` `"s"` `"m"`            |        `"xs"`         |
+| size             | Размер лейбла.                                         |       `"xxs"` `"xs"` `"s"` `"m"`        |        `"xs"`         |
 | theme            | Тема лейбла.                                           |                `string`                 |      `"normal"`       |
 | title            | HTML-атрибут `title`.                                  |                `string`                 |                       |
 | type             | Тип лейбла.                                            | `"default"` `"copy"` `"close"` `"info"` |      `"default"`      |

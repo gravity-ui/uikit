@@ -34,6 +34,7 @@ function getChildren({
                 borderColor={'var(--g-color-line-generic-solid)'}
                 aria-label={'For tests'}
                 alt={'For tests'}
+                key={faker.string.uuid()}
             />
         ),
         count,
@@ -48,6 +49,7 @@ const meta: Meta<ComponentType> = {
         overlapSize: 's',
         avatarSize: DEFAULT_AVATAR_SIZE,
         randomAvatar: true,
+        moreVariant: 'counter',
     },
     argTypes: {
         avatarSize: {

@@ -34,7 +34,7 @@ export type ToastProps = {
 
 export type InternalToastProps = ToastProps & {
     addedAt?: number;
-    ref?: React.RefObject<HTMLDivElement>;
+    ref?: React.RefObject<HTMLDivElement | null>;
 };
 
 export interface ToasterContextMethods {
@@ -46,3 +46,10 @@ export interface ToasterContextMethods {
 }
 
 export interface ToasterPublicMethods extends ToasterContextMethods {}
+
+/**
+ * Toaster implementation for usage in `<Toaster.Provider/>`
+ */
+export interface ToasterImplementation extends ToasterContextMethods {
+    subscribe(callback: (toasts: InternalToastProps[]) => void): VoidFunction;
+}

@@ -9,12 +9,21 @@ import {MobileProvider} from '../../mobile';
 import {Select} from '../Select';
 import type {SelectOption, SelectProps, SelectRenderPopup} from '../types';
 
-import {TEST_QA, generateOptions, generateOptionsGroups, setup, timeout} from './utils';
+import {
+    DEFAULT_OPTIONS,
+    SELECT_CONTROL_BUTTON_OPEN_CLASS,
+    TEST_QA,
+    generateOptions,
+    generateOptionsGroups,
+    setup,
+    timeout,
+} from './utils';
 
 afterEach(() => {
     jest.clearAllMocks();
 });
 
+const onUpdate = jest.fn();
 const onFilterChange = jest.fn();
 const FILTER_PLACEHOLDER = 'Filter placeholder';
 const EMPTY_OPTIONS_QA = 'empty-options';
@@ -71,6 +80,66 @@ describe('Select filter', () => {
         // empty
         expect(queryAllByRole('option').length).toBe(0);
         expect(onFilterChange).toBeCalledTimes(3);
+    });
+
+    test('should select active option on Enter key when filter is focused and popup is open', async () => {
+        const options = DEFAULT_OPTIONS;
+        const {getByTestId, getByPlaceholderText} = setup({
+            options,
+            filterable: true,
+            filterPlaceholder: FILTER_PLACEHOLDER,
+            onUpdate,
+        });
+        const user = userEvent.setup();
+        const selectControl = getByTestId(TEST_QA);
+        await user.click(selectControl);
+        const filterInput = getByPlaceholderText(FILTER_PLACEHOLDER);
+        expect(filterInput).toHaveFocus();
+
+        await user.keyboard('[Enter]');
+
+        expect(onUpdate).toHaveBeenCalledWith([options[0].value]);
+        expect(selectControl).not.toHaveClass(SELECT_CONTROL_BUTTON_OPEN_CLASS);
+    });
+
+    test('should select option after ArrowDown when filter is focused', async () => {
+        const options = DEFAULT_OPTIONS;
+        const {getByTestId, getByPlaceholderText} = setup({
+            options,
+            filterable: true,
+            filterPlaceholder: FILTER_PLACEHOLDER,
+            onUpdate,
+        });
+        const user = userEvent.setup();
+        const selectControl = getByTestId(TEST_QA);
+        await user.click(selectControl);
+        getByPlaceholderText(FILTER_PLACEHOLDER);
+
+        await user.keyboard('[ArrowDown]');
+        await user.keyboard('[Enter]');
+
+        expect(onUpdate).toHaveBeenCalledWith([options[1].value]);
+        expect(selectControl).not.toHaveClass(SELECT_CONTROL_BUTTON_OPEN_CLASS);
+    });
+
+    test('should select option after ArrowUp when filter is focused', async () => {
+        const options = DEFAULT_OPTIONS;
+        const {getByTestId, getByPlaceholderText} = setup({
+            options,
+            filterable: true,
+            filterPlaceholder: FILTER_PLACEHOLDER,
+            onUpdate,
+        });
+        const user = userEvent.setup();
+        const selectControl = getByTestId(TEST_QA);
+        await user.click(selectControl);
+        getByPlaceholderText(FILTER_PLACEHOLDER);
+
+        await user.keyboard('[ArrowUp]');
+        await user.keyboard('[Enter]');
+
+        expect(onUpdate).toHaveBeenCalledWith([options[options.length - 1].value]);
+        expect(selectControl).not.toHaveClass(SELECT_CONTROL_BUTTON_OPEN_CLASS);
     });
 
     test('should render node with renderEmptyOptions', async () => {
@@ -166,7 +235,7 @@ describe('Select filter', () => {
         expect(onFilterChange).toHaveBeenCalledTimes(0);
     });
 
-    test('should not clear filter onClose', async () => {
+    test('should clear filter onClose', async () => {
         const onClose = jest.fn();
         render(
             <MobileProvider mobile>
@@ -200,5 +269,27 @@ describe('Select filter', () => {
 
         expect(onClose).toHaveBeenCalledTimes(1);
         expect(onFilterChange).toHaveBeenCalledTimes(1);
+    });
+
+    test('should not clear controlled filter onClose', async () => {
+        const onClose = jest.fn();
+        const {getByTestId, getByPlaceholderText} = setup({
+            options: generateOptions(40),
+            filterPlaceholder: FILTER_PLACEHOLDER,
+            filterable: true,
+            filter: 'controlled value',
+            onFilterChange,
+            onClose,
+        });
+        const user = userEvent.setup();
+        const selectControl = getByTestId(TEST_QA);
+
+        await user.click(selectControl);
+        expect(getByPlaceholderText(FILTER_PLACEHOLDER)).toHaveFocus();
+
+        await user.keyboard('[Escape]');
+
+        expect(onFilterChange).not.toHaveBeenCalled();
+        expect(onClose).toHaveBeenCalledTimes(1);
     });
 });

@@ -4,6 +4,10 @@
 
 <!--/GITHUB_BLOCK-->
 
+```tsx
+import {DefinitionList} from '@gravity-ui/uikit';
+```
+
 The component to display definition list with term and definition separated by dots.
 
 ## Examples
@@ -25,7 +29,7 @@ The component to display definition list with term and definition separated by d
         <strong>value with copy</strong>
     </UIKit.DefinitionListItem>
     <UIKit.DefinitionListItem name="Empty value with copy" copyText="nothing to copy" />
-</UIKit.DefinitionList>;
+</UIKit.DefinitionList>
 </ExampleBlock>
 
 LANDING_BLOCK-->

@@ -25,6 +25,7 @@ import {getSelectFilteredOptions, useSelectOptions} from './hooks-public';
 import {Option, OptionGroup} from './tech-components';
 import type {SelectProps, SelectRenderPopup} from './types';
 import type {SelectFilterRef} from './types-misc';
+import type {FlattenOption} from './utils';
 import {
     findItemIndexByQuickSearch,
     getActiveItem,
@@ -32,7 +33,6 @@ import {
     getOptionsFromChildren,
     getSelectedOptionsContent,
 } from './utils';
-import type {FlattenOption} from './utils';
 
 import './Select.scss';
 
@@ -212,6 +212,10 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
     const handleFilterKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLElement>) => {
         listRef?.current?.onKeyDown(e);
+
+        if (e.key === KeyCode.ENTER) {
+            e.preventDefault();
+        }
     }, []);
 
     const handleQuickSearchChange = React.useCallback((search: string) => {
@@ -368,7 +372,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                         : undefined
                 }
                 onAfterClose={
-                    filterable
+                    filterable && !propsFilter
                         ? () => {
                               setFilter('');
                           }

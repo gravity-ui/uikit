@@ -11,7 +11,7 @@ import {Accordion} from '../Accordion';
 import type {AccordionProps} from '../types';
 
 export default {
-    title: 'Components/Utils/Accordion',
+    title: 'Components/Data Display/Accordion',
     component: Accordion,
     parameters: {
         a11y: {

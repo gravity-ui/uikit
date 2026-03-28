@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import {KeyCode} from '../../constants';
+import {useLayoutEffect} from '../useLayoutEffect';
 
 import {moveBack} from './moveBack';
 import {moveForward} from './moveForward';
@@ -13,7 +14,7 @@ export type UseListNavigationProps<ItemType, AnchorType> = {
     processEndKey?: boolean;
     disabled?: boolean;
     initialValue?: number;
-    anchorRef?: React.RefObject<AnchorType>;
+    anchorRef?: React.RefObject<AnchorType | null>;
     onAnchorKeyDown?: (activeItemIndex: number, event: KeyboardEvent) => void | boolean;
 };
 
@@ -46,7 +47,7 @@ export function useListNavigation<ItemType, AnchorType extends HTMLElement>({
         }
     }, [items, reset]);
 
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         if (disabled) {
             return undefined;
         }

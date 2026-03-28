@@ -17,7 +17,10 @@ export const RenderVirtualizedContainer = <T,>({
             qa={qa}
             fixedHeight
             id={id}
-            ref={containerRef}
+            /*
+             *  TODO: Remove casting in React 19 (https://github.com/gravity-ui/uikit/issues/2537)
+             */
+            ref={containerRef as React.Ref<HTMLDivElement>}
             className={className}
             extraProps={{style: {padding: 0}}}
         >

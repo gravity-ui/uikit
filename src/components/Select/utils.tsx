@@ -227,11 +227,11 @@ export const findItemIndexByQuickSearch = (
     });
 };
 
-export const getListItems = (listRef: React.RefObject<List<FlattenOption>>) => {
+export const getListItems = (listRef: React.RefObject<List<FlattenOption> | null>) => {
     return listRef?.current?.getItems() || [];
 };
 
-export const getActiveItem = (listRef: React.RefObject<List<FlattenOption>>) => {
+export const getActiveItem = (listRef: React.RefObject<List<FlattenOption> | null>) => {
     const items = getListItems(listRef);
     const activeItemIndex = listRef?.current?.getActiveItem();
 

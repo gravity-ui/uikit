@@ -62,15 +62,38 @@ export const DropdownMenuItem = <T,>({
     }, [closeMenu, closeSubmenu, hasSubmenu, toggle]);
 
     const handleMenuItemClick = React.useCallback(
-        (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+        (
+            event: React.MouseEvent<HTMLElement, MouseEvent> &
+                React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+        ) => {
+            props.extraProps?.onClick?.(
+                event as React.MouseEvent<HTMLDivElement, MouseEvent> &
+                    React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+            );
+
             if (hasSubmenu) {
+                if (isSubmenuOpen) {
+                    closeSubmenu();
+                } else {
+                    openSubmenu();
+                }
+
                 return;
             }
 
             action?.(event, data as unknown as T);
             handleCloseMenu();
         },
-        [action, data, handleCloseMenu, hasSubmenu],
+        [
+            action,
+            data,
+            handleCloseMenu,
+            hasSubmenu,
+            isSubmenuOpen,
+            openSubmenu,
+            closeSubmenu,
+            props.extraProps,
+        ],
     );
 
     const extraProps = React.useMemo(() => {

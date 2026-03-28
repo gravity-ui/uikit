@@ -1,6 +1,7 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {LabelProps} from '../Label';
 import {Label} from '../Label';
 
@@ -82,7 +83,7 @@ test.describe('Label', {tag: '@Label'}, () => {
         type: 'default',
     };
 
-    smokeTest('', async ({mount, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<LabelProps>(defaultProps, {
             theme: themeCases,
             size: sizeCases,
@@ -105,7 +106,7 @@ test.describe('Label', {tag: '@Label'}, () => {
         await expectScreenshot({});
     });
 
-    smokeTest('with custom icon', async ({mount, expectScreenshot}) => {
+    test('smoke with custom icon', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<LabelProps>(defaultProps, {
             theme: themeCases,
             size: sizeCases,
@@ -128,7 +129,7 @@ test.describe('Label', {tag: '@Label'}, () => {
         await expectScreenshot({});
     });
 
-    smokeTest('with copy', async ({mount, expectScreenshot}) => {
+    test('smoke with copy', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<LabelProps>(
             {
                 ...defaultProps,
@@ -159,7 +160,7 @@ test.describe('Label', {tag: '@Label'}, () => {
         await expectScreenshot({});
     });
 
-    smokeTest('with close', async ({mount, expectScreenshot}) => {
+    test('smoke with close', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<LabelProps>(
             {
                 ...defaultProps,
@@ -189,7 +190,7 @@ test.describe('Label', {tag: '@Label'}, () => {
         await expectScreenshot({});
     });
 
-    smokeTest('with info', async ({mount, expectScreenshot}) => {
+    test('smoke with info', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<LabelProps>(
             {
                 ...defaultProps,
@@ -218,7 +219,7 @@ test.describe('Label', {tag: '@Label'}, () => {
         await expectScreenshot({});
     });
 
-    smokeTest('with gradient loading', async ({mount, expectScreenshot}) => {
+    test('smoke with gradient loading', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<LabelProps>(
             {...defaultProps, loading: true},
             {

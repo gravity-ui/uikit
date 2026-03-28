@@ -1,5 +1,189 @@
 # Changelog
 
+## [7.35.2](https://github.com/gravity-ui/uikit/compare/v7.35.1...v7.35.2) (2026-03-24)
+
+
+### Bug Fixes
+
+* **Table:** add missing class to menu popup ([#2624](https://github.com/gravity-ui/uikit/issues/2624)) ([18a1953](https://github.com/gravity-ui/uikit/commit/18a1953d291c53e6774e4e73e2af3962805f1c75))
+
+## [7.35.1](https://github.com/gravity-ui/uikit/compare/v7.35.0...v7.35.1) (2026-03-21)
+
+
+### Bug Fixes
+
+* **unstable_Menu:** use correct hover color ([#2620](https://github.com/gravity-ui/uikit/issues/2620)) ([b8b032d](https://github.com/gravity-ui/uikit/commit/b8b032d8df12ed200afa4af7090be3797db5443f))
+
+## [7.35.0](https://github.com/gravity-ui/uikit/compare/v7.34.0...v7.35.0) (2026-03-19)
+
+
+### Features
+
+* **ArrowToggle:** add --g-arrow-toggle-transition-duration CSS token ([#2611](https://github.com/gravity-ui/uikit/issues/2611)) ([0a4d562](https://github.com/gravity-ui/uikit/commit/0a4d5628e39485858b0de14f51bd3a6051ea9153))
+
+
+### Bug Fixes
+
+* **ColorPicker:** accept default value not only at hex format ([#2615](https://github.com/gravity-ui/uikit/issues/2615)) ([e448773](https://github.com/gravity-ui/uikit/commit/e448773bee192fdef6f2f60a8cbe64f23abf9eee))
+* **Table:** add ability to redefine max height for menu popup ([#2612](https://github.com/gravity-ui/uikit/issues/2612)) ([35a98cb](https://github.com/gravity-ui/uikit/commit/35a98cb9c620d4ae74a02ce48d2bdcee447b9905))
+* **useCollapseChildren:** avoid reset running calculation ([#2618](https://github.com/gravity-ui/uikit/issues/2618)) ([cd316e8](https://github.com/gravity-ui/uikit/commit/cd316e81c3d836f49419d425597ccfc75b4ed675))
+
+## [7.34.0](https://github.com/gravity-ui/uikit/compare/v7.33.0...v7.34.0) (2026-03-13)
+
+
+### Features
+
+* **AvatarStack:** add moreVariant prop and fix 2xs and 3xs size ([#2608](https://github.com/gravity-ui/uikit/issues/2608)) ([cfa96d8](https://github.com/gravity-ui/uikit/commit/cfa96d8ee5fc07ac1a175874ee73748ec8a84bbb))
+* **ColorPicker:** add optional prop disabled state ([#2602](https://github.com/gravity-ui/uikit/issues/2602)) ([b5271f2](https://github.com/gravity-ui/uikit/commit/b5271f2cf714706784a4679a61a0ed12faa22b52))
+
+
+### Bug Fixes
+
+* fix types for React 19 ([#2603](https://github.com/gravity-ui/uikit/issues/2603)) ([7af9600](https://github.com/gravity-ui/uikit/commit/7af9600a8fff30d977b4ffd50b39f12ac1f07be2))
+
+## [7.33.0](https://github.com/gravity-ui/uikit/compare/v7.32.0...v7.33.0) (2026-02-27)
+
+
+### Features
+
+* add `useCollapseChildren` hook ([#2443](https://github.com/gravity-ui/uikit/issues/2443)) ([dadb9ad](https://github.com/gravity-ui/uikit/commit/dadb9ada8fa0827298f6ee79037cdb2273980ea8))
+
+
+### Bug Fixes
+
+* **Bug:** fixed positioning in Drawer ([#2598](https://github.com/gravity-ui/uikit/issues/2598)) ([bc092dc](https://github.com/gravity-ui/uikit/commit/bc092dcc3d2de27b6e137602752f6596756498ae))
+* **FileDropZone:** pass `accept` prop to file input and respect `multiple` in drop handler ([#2594](https://github.com/gravity-ui/uikit/issues/2594)) ([9f24780](https://github.com/gravity-ui/uikit/commit/9f24780583628dde4835ca9c3c4938fd093ca0a7))
+* **List:** correctly handle first item index in getElementId for screen readers ([#2601](https://github.com/gravity-ui/uikit/issues/2601)) ([48e536a](https://github.com/gravity-ui/uikit/commit/48e536a1be8a8c8434231ba610c1e43bca14df8d))
+* **Select:** remove doubled invocation of onUpdate in case of single selection by enter ([#2590](https://github.com/gravity-ui/uikit/issues/2590)) ([0a21f5e](https://github.com/gravity-ui/uikit/commit/0a21f5e9bea6133e8e7f80514b9ad93432073b68))
+* **Slider:** fix text color in tooltip ([#2588](https://github.com/gravity-ui/uikit/issues/2588)) ([a0492dc](https://github.com/gravity-ui/uikit/commit/a0492dce7be557ad83ac7385cc0d9310b8ac68cc))
+* **TextInput:** hide default "x" icon in search ([#2599](https://github.com/gravity-ui/uikit/issues/2599)) ([238ecc3](https://github.com/gravity-ui/uikit/commit/238ecc3dddef22d907f76add99481a6a2b1d6cba))
+
+## [7.32.0](https://github.com/gravity-ui/uikit/compare/v7.31.2...v7.32.0) (2026-02-13)
+
+
+### Features
+
+* **ColorPicker:** add bg color for pointers ([#2584](https://github.com/gravity-ui/uikit/issues/2584)) ([2fa9035](https://github.com/gravity-ui/uikit/commit/2fa9035147cc7f188005af6b01f3355d9bd5717f))
+
+
+### Bug Fixes
+
+* **Accordion:** passed classname prop from AccordionItem to Disclosure ([#2583](https://github.com/gravity-ui/uikit/issues/2583)) ([f74324e](https://github.com/gravity-ui/uikit/commit/f74324eb43f31dbebac4f5b95e579cb40e6bde4b))
+* **Select:** close popup after selecting option via keyboard in single filterable select ([#2582](https://github.com/gravity-ui/uikit/issues/2582)) ([8679944](https://github.com/gravity-ui/uikit/commit/86799441d8a8aa4e2bb86d1c4122600fca187df6))
+
+## [7.31.2](https://github.com/gravity-ui/uikit/compare/v7.31.1...v7.31.2) (2026-02-06)
+
+
+### Bug Fixes
+
+* avoid layout shifts of Drawer if size prop changes ([#2566](https://github.com/gravity-ui/uikit/issues/2566)) ([62320f0](https://github.com/gravity-ui/uikit/commit/62320f03400267edabedfffb5fef114738050dec))
+* **Select:** fixed selecting item in virtualized list ([#2571](https://github.com/gravity-ui/uikit/issues/2571)) ([6aa3dc0](https://github.com/gravity-ui/uikit/commit/6aa3dc05829a022008db5c175662ad0c4f23ad61))
+
+## [7.31.1](https://github.com/gravity-ui/uikit/compare/v7.31.0...v7.31.1) (2026-02-04)
+
+
+### Bug Fixes
+
+* **Dialog:** moved close button to the top of dialog in dom, add "as" prop to DialogHeader ([0e56abc](https://github.com/gravity-ui/uikit/commit/0e56abce2ed73d7b12c39d195f4bd4a7be813812))
+* revert [#2553](https://github.com/gravity-ui/uikit/issues/2553) ([#2568](https://github.com/gravity-ui/uikit/issues/2568)) ([5c34925](https://github.com/gravity-ui/uikit/commit/5c349257a47c6a469c8e51bc9d21d3857fd1632c))
+
+## [7.31.0](https://github.com/gravity-ui/uikit/compare/v7.30.0...v7.31.0) (2026-02-02)
+
+
+### Features
+
+* add FileDropZone component ([#2487](https://github.com/gravity-ui/uikit/issues/2487)) ([97a78af](https://github.com/gravity-ui/uikit/commit/97a78af75fdd3e7684d4958acec97ac76f40b1ba))
+* add hideVeil prop to Drawer component ([#2556](https://github.com/gravity-ui/uikit/issues/2556)) ([4d559cf](https://github.com/gravity-ui/uikit/commit/4d559cf3ab3a451ce7db374b74fde49b16bf01ee))
+* **ColorPicker:** add validation for colors while changing ([#2558](https://github.com/gravity-ui/uikit/issues/2558)) ([c612c35](https://github.com/gravity-ui/uikit/commit/c612c35d6611e9168412dea2845389b646c5ac54))
+* **Label:** add new value for prop size ([#2549](https://github.com/gravity-ui/uikit/issues/2549)) ([d48efdc](https://github.com/gravity-ui/uikit/commit/d48efdce997cd5d7a95798d40d4a63ede2af6200))
+
+
+### Bug Fixes
+
+* **Button:** avoid icon shrink ([#2563](https://github.com/gravity-ui/uikit/issues/2563)) ([98da73e](https://github.com/gravity-ui/uikit/commit/98da73e30020dbe62aa2e1341a6acd2b37714a51))
+* **Select:** stop clearing filter value if filterProp is used ([#2562](https://github.com/gravity-ui/uikit/issues/2562)) ([f447583](https://github.com/gravity-ui/uikit/commit/f4475830b2effd604600941761a6eb588c6fd2b0))
+
+## [7.30.0](https://github.com/gravity-ui/uikit/compare/v7.29.0...v7.30.0) (2026-01-22)
+
+
+### Features
+
+* **Card:** added aria-checked state and changed role ([#2555](https://github.com/gravity-ui/uikit/issues/2555)) ([7e17e76](https://github.com/gravity-ui/uikit/commit/7e17e762f2e41572a512cf401c1716844cbb1f25))
+* **Checkbox:** add hover to checked state ([#2548](https://github.com/gravity-ui/uikit/issues/2548)) ([f8bfda7](https://github.com/gravity-ui/uikit/commit/f8bfda77ddd6181f9b9e0a07e10922a22a2e6b00))
+* some improvements at color picker ([#2547](https://github.com/gravity-ui/uikit/issues/2547)) ([74c22e9](https://github.com/gravity-ui/uikit/commit/74c22e9eaef59220a8a7b12818d0a4b1c99a9db6))
+* **Toaster:** simplify required interface for provider ([#2544](https://github.com/gravity-ui/uikit/issues/2544)) ([0d6fe60](https://github.com/gravity-ui/uikit/commit/0d6fe60aea322dddb0ae559a307ed0d70685fb47))
+
+
+### Bug Fixes
+
+* **List:** add aria attributes ([#2553](https://github.com/gravity-ui/uikit/issues/2553)) ([d840707](https://github.com/gravity-ui/uikit/commit/d8407073b3292a24ec107237aec22b43f43b8147))
+* replace barrel imports for useLayoutEffect ([#2550](https://github.com/gravity-ui/uikit/issues/2550)) ([618b1bb](https://github.com/gravity-ui/uikit/commit/618b1bb9e4d48505bf7327c66992b80fe869ed3c))
+
+## [7.29.0](https://github.com/gravity-ui/uikit/compare/v7.28.0...v7.29.0) (2025-12-24)
+
+
+### Features
+
+* **Icon:** add `color` prop ([#2499](https://github.com/gravity-ui/uikit/issues/2499)) ([bfe401b](https://github.com/gravity-ui/uikit/commit/bfe401bef5ebf8b15e6998b636be2c9631838694))
+
+
+### Bug Fixes
+
+* constrain the minimum Node.js version to 20.19 ([#2535](https://github.com/gravity-ui/uikit/issues/2535)) ([9992707](https://github.com/gravity-ui/uikit/commit/999270797b66a6bc2849418519534325f6c36351))
+* **Dialog:** remove unnecessary overflow on body ([#2540](https://github.com/gravity-ui/uikit/issues/2540)) ([59bc12f](https://github.com/gravity-ui/uikit/commit/59bc12f45d80814ac379660b208b2cd72905d72d))
+* **Select:** fix selected option styles ([#2530](https://github.com/gravity-ui/uikit/issues/2530)) ([66807d7](https://github.com/gravity-ui/uikit/commit/66807d7be2b7fcd5a941573156d15de636f26c24))
+* update types for React 19 compatibility ([#2522](https://github.com/gravity-ui/uikit/issues/2522)) ([2f16669](https://github.com/gravity-ui/uikit/commit/2f16669e2ffac1f3d32661730cf2eae433dcda48))
+
+## [7.28.0](https://github.com/gravity-ui/uikit/compare/v7.27.0...v7.28.0) (2025-12-05)
+
+
+### Features
+
+* add ColorPicker component ([#2386](https://github.com/gravity-ui/uikit/issues/2386)) ([6890288](https://github.com/gravity-ui/uikit/commit/6890288b88d9c52b3a223c31cef5f048a3167c02))
+* move Drawer from navigation to uikit ([#2350](https://github.com/gravity-ui/uikit/issues/2350)) ([6fab23c](https://github.com/gravity-ui/uikit/commit/6fab23ca671c8e5b7f68857d2d09540656a3d0fd))
+
+## [7.27.0](https://github.com/gravity-ui/uikit/compare/v7.26.2...v7.27.0) (2025-12-04)
+
+
+### Features
+
+* added a hook for generating a unique color with oklch color space ([#2288](https://github.com/gravity-ui/uikit/issues/2288)) ([96568a8](https://github.com/gravity-ui/uikit/commit/96568a80795de6816abab7f588afd8ef662c4d26))
+
+## [7.26.2](https://github.com/gravity-ui/uikit/compare/v7.26.1...v7.26.2) (2025-12-01)
+
+
+### Bug Fixes
+
+* use sort icon as draggable handler in List ([#2518](https://github.com/gravity-ui/uikit/issues/2518)) ([ff04de8](https://github.com/gravity-ui/uikit/commit/ff04de83fbee82e3924f8a7cdc010c6995a225d8))
+
+## [7.26.1](https://github.com/gravity-ui/uikit/compare/v7.26.0...v7.26.1) (2025-11-21)
+
+
+### Bug Fixes
+
+* **a11y:** add accessibility for dropdown submenu via tab ([#2508](https://github.com/gravity-ui/uikit/issues/2508)) ([aca867d](https://github.com/gravity-ui/uikit/commit/aca867dbe2c6af99cc2bfa9685ee7b69cbb1dcca))
+* **a11y:** remove redundant aria-checked attribute ([#2505](https://github.com/gravity-ui/uikit/issues/2505)) ([6881c99](https://github.com/gravity-ui/uikit/commit/6881c999648fa672f07995ec4b2fe094cd17d968))
+* add isomorphic version of `useLayoutEffect` hook to fix SSR warnings ([#2503](https://github.com/gravity-ui/uikit/issues/2503)) ([f59d098](https://github.com/gravity-ui/uikit/commit/f59d098acd6b3891f27cbef6b147d88ad5c2cbe1))
+* **AvatarStack:** change ordering algorithm for correct logical order li ([#2480](https://github.com/gravity-ui/uikit/issues/2480)) ([b9ec168](https://github.com/gravity-ui/uikit/commit/b9ec16871630ad21ba6e81f83881f57ac1331752))
+* **DropdownMenu:** remove separators in case of empty groups ([#2495](https://github.com/gravity-ui/uikit/issues/2495)) ([6794780](https://github.com/gravity-ui/uikit/commit/67947808535aa593fa64c4369ef7a9d6905d2e4c))
+* fix initial render of AvatarStack stories in StrictMode ([#2497](https://github.com/gravity-ui/uikit/issues/2497)) ([69249df](https://github.com/gravity-ui/uikit/commit/69249dfd2fbae08508a151f550712444f69f69c3))
+* **Menu:** fix role for MenuItem ([#2506](https://github.com/gravity-ui/uikit/issues/2506)) ([71cf5cf](https://github.com/gravity-ui/uikit/commit/71cf5cf26d5222fa7b93a159e854e700e87e07c0))
+* **unstable_Menu:** close menu after clicking inside Popup/Modal ([#2504](https://github.com/gravity-ui/uikit/issues/2504)) ([52fafbd](https://github.com/gravity-ui/uikit/commit/52fafbdf8dec47266cc2b5308d184db4769a9a50))
+
+## [7.26.0](https://github.com/gravity-ui/uikit/compare/v7.25.0...v7.26.0) (2025-11-07)
+
+
+### Features
+
+* add focus-outline mixin ([#2475](https://github.com/gravity-ui/uikit/issues/2475)) ([3b49eaa](https://github.com/gravity-ui/uikit/commit/3b49eaa8c0559e97378fb08dcb2b288841993966))
+* **Select:** extend return type of `renderCounter` prop ([#2476](https://github.com/gravity-ui/uikit/issues/2476)) ([b79f0b0](https://github.com/gravity-ui/uikit/commit/b79f0b0842c399ae639401570ca340b69f0a9ccf))
+
+
+### Bug Fixes
+
+* **Popover:** ignore click trigger if hover also enabled ([#2485](https://github.com/gravity-ui/uikit/issues/2485)) ([6caddab](https://github.com/gravity-ui/uikit/commit/6caddabfc543426de3edecd1c772abb52c55632e))
+* **unstable_Menu:** fix behavior inside floating components ([#2489](https://github.com/gravity-ui/uikit/issues/2489)) ([190ed32](https://github.com/gravity-ui/uikit/commit/190ed322d58d45d5bdc7ba9e010a69bb5ae87a47))
+
 ## [7.25.0](https://github.com/gravity-ui/uikit/compare/v7.24.0...v7.25.0) (2025-10-29)
 
 

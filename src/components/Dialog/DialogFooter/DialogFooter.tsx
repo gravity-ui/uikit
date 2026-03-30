@@ -137,19 +137,31 @@ export function DialogFooter(props: DialogFooterProps) {
         </div>
     );
 
+    const buttons = (() => {
+        if (renderButtons) {
+            return renderButtons(buttonApply, buttonCancel);
+        }
+
+        if (!textButtonCancel && !textButtonApply) {
+            return null;
+        }
+
+        return (
+            <React.Fragment>
+                {textButtonCancel && buttonCancel}
+                {textButtonApply && buttonApply}
+            </React.Fragment>
+        );
+    })();
+
+    if (!buttons && !children) {
+        return null;
+    }
+
     return (
         <div className={b(null, className)}>
-            <div className={b('children')}>{children}</div>
-            <div className={b('bts-wrapper')}>
-                {renderButtons ? (
-                    renderButtons(buttonApply, buttonCancel)
-                ) : (
-                    <React.Fragment>
-                        {textButtonCancel && buttonCancel}
-                        {textButtonApply && buttonApply}
-                    </React.Fragment>
-                )}
-            </div>
+            {children && <div className={b('children')}>{children}</div>}
+            {buttons && <div className={b('bts-wrapper')}>{buttons}</div>}
         </div>
     );
 }

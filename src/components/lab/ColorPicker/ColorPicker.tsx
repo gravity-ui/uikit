@@ -3,6 +3,7 @@ import * as React from 'react';
 import type {HsvaColor} from '@uiw/react-color';
 import {Alpha, Hue, Saturation, hsvaToHex, hsvaToHexa} from '@uiw/react-color';
 
+import {useUpdateEffect} from '../../../hooks/private';
 import {useControlledState} from '../../../hooks/useControlledState';
 import {Popup} from '../../Popup';
 import type {PopupPlacement} from '../../Popup';
@@ -153,7 +154,7 @@ export const ColorPicker = ({
         });
     }, []);
 
-    React.useEffect(() => {
+    useUpdateEffect(() => {
         const nextHexValue = withAlpha ? hsvaToHexa(hsva) : hsvaToHex(hsva);
 
         if (nextHexValue !== color) {

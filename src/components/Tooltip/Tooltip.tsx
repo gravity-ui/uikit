@@ -53,18 +53,21 @@ export interface TooltipProps
     /** Floating element content */
     content?: React.ReactNode;
     /** Event that should trigger opening */
-    trigger?: 'focus';
+    trigger?: 'all' | 'focus';
     /** Role applied to the floating element */
     role?: 'tooltip' | 'label';
     /** Delay in ms before open */
     openDelay?: number;
     /** Delay in ms before close */
     closeDelay?: number;
+    /** How much time in ms the cursor must be rest before open */
+    rest?: number;
 }
 
 const b = block('tooltip');
 const DEFAULT_OPEN_DELAY = 1000;
 const DEFAULT_CLOSE_DELAY = 0;
+const DEFAULT_REST = 0;
 const DEFAULT_PLACEMENT: PopupPlacement = 'bottom';
 const DEFAULT_OFFSET = 4;
 
@@ -77,10 +80,11 @@ export function Tooltip({
     offset: offsetProp = DEFAULT_OFFSET,
     disabled,
     content,
-    trigger,
+    trigger = 'all',
     role: roleProp = 'tooltip',
     openDelay = DEFAULT_OPEN_DELAY,
     closeDelay = DEFAULT_CLOSE_DELAY,
+    rest = DEFAULT_REST,
     container,
     disablePortal,
     className,
@@ -113,8 +117,9 @@ export function Tooltip({
     });
 
     const hover = useHover(context, {
-        enabled: trigger !== 'focus',
+        enabled: trigger === 'all',
         delay: {open: openDelay, close: closeDelay},
+        restMs: rest,
         move: false,
     });
     const focus = useFocus(context);

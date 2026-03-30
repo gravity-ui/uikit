@@ -1,5 +1,20 @@
 # Changelog
 
+## [7.36.0](https://github.com/gravity-ui/uikit/compare/v7.35.2...v7.36.0) (2026-03-30)
+
+
+### Features
+
+* **Accordion:** add CSS token for summary inline padding ([#2539](https://github.com/gravity-ui/uikit/issues/2539)) ([8dbb5a3](https://github.com/gravity-ui/uikit/commit/8dbb5a30cbdd65eefd13a4da044e914b332a3265))
+* **DialogFooter:** render contents only if they exist ([#2625](https://github.com/gravity-ui/uikit/issues/2625)) ([f1a0e3f](https://github.com/gravity-ui/uikit/commit/f1a0e3f18475d8d9d4f0664abe21a66409b42e74))
+
+
+### Bug Fixes
+
+* **ColorPicker:** prevent unnecessary color update on mount ([#2633](https://github.com/gravity-ui/uikit/issues/2633)) ([32cdf34](https://github.com/gravity-ui/uikit/commit/32cdf3473899acb0e4c4ad2c50c99bcd1270791b))
+* **Table:** fix --_--menu-max-height variable declaration ([#2628](https://github.com/gravity-ui/uikit/issues/2628)) ([4f4ddce](https://github.com/gravity-ui/uikit/commit/4f4ddce1a66f960f77596dd58bcfe79805405c98))
+* **TabList:** fix navigation via keyboard ([#2629](https://github.com/gravity-ui/uikit/issues/2629)) ([7e725f3](https://github.com/gravity-ui/uikit/commit/7e725f370139f7562925aa715d0773bf95e4f213))
+
 ## [7.35.2](https://github.com/gravity-ui/uikit/compare/v7.35.1...v7.35.2) (2026-03-24)
 
 

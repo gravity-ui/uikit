@@ -50,46 +50,6 @@ export const Size: Story = {
     ),
 };
 
-export const WithText: Story = {
-    render: (args) => (
-        <Showcase>
-            <div>
-                before before before before before before before before before before before before
-                before before before before before before before before before before before before
-                before
-                <Checkbox {...args} size="m">
-                    Label
-                </Checkbox>
-                after after after after after after after after after after after after after after
-                after after after after after after after after after after after after after after
-                after after
-            </div>
-            <div>
-                before before before before before before before before before before before before
-                before before before before before before before before before before before before
-                before before
-                <Checkbox {...args} size="l">
-                    Label
-                </Checkbox>
-                after after after after after after after after after after after after after after
-                after after after after after after after after after after after after after after
-                after after
-            </div>
-            <div>
-                before before before before before before before before before before before before
-                before before before before before before before before before before before before
-                before before
-                <Checkbox {...args} size="xl">
-                    Label
-                </Checkbox>
-                after after after after after after after after after after after after after after
-                after after after after after after after after after after after after after after
-                after after
-            </div>
-        </Showcase>
-    ),
-};
-
 export const Disabled: Story = {
     render: (args) => (
         <Showcase>

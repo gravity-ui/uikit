@@ -16,13 +16,9 @@ export function flattenItems<T>({
     expandedById = {},
 }: FlattenItemsProps<T>): ParsedFlattenState {
     const rootIds: ListItemId[] = [];
+    const visibleFlattenIds: ListItemId[] = [];
 
-    const getNestedIds = (
-        order: string[],
-        item: ListItemType<T>,
-        index: number,
-        parentId?: string,
-    ) => {
+    const visit = (item: ListItemType<T>, index: number, parentId?: string) => {
         const groupedId = getGroupItemId(index, parentId);
         const id = getListItemId({groupedId, item, getItemId});
 
@@ -31,32 +27,27 @@ export function flattenItems<T>({
             rootIds.push(id);
         }
 
-        order.push(id);
+        visibleFlattenIds.push(id);
 
         if (isTreeItemGuard(item) && item.children) {
             // don't include collapsed groups
-            if (!(id in expandedById && !expandedById[id])) {
-                order.push(
-                    ...item.children.reduce<string[]>(
-                        (acc, item, idx) => getNestedIds(acc, item, idx, id),
-                        [],
-                    ),
-                );
+            const isCollapsed = id in expandedById && !expandedById[id];
+            if (!isCollapsed) {
+                for (let i = 0; i < item.children.length; i++) {
+                    visit(item.children[i], i, id);
+                }
             }
         }
-
-        return order;
     };
 
-    const visibleFlattenIds = items.reduce<string[]>(
-        (acc, item, index) => getNestedIds(acc, item, index),
-        [],
-    );
+    for (let i = 0; i < items.length; i++) {
+        visit(items[i], i);
+    }
 
     const idToFlattenIndex: Record<ListItemId, number> = {};
 
-    for (const [item, index] of visibleFlattenIds.entries()) {
-        idToFlattenIndex[index] = item;
+    for (let i = 0; i < visibleFlattenIds.length; i++) {
+        idToFlattenIndex[visibleFlattenIds[i]] = i;
     }
 
     return {

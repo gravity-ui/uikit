@@ -1,5 +1,5 @@
-import type {ParsedFlattenState} from '../../types';
-import {flattenItems} from '../flattenItems';
+import type {ParsedFlattenState} from './../types';
+import {flattenItems} from './flattenItems';
 
 const data = [
     {

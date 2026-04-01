@@ -129,7 +129,7 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
                 {...restProps}
             >
                 {resizerElement}
-                {children}
+                <div className={b('item-content')}>{children}</div>
             </div>
         );
     },

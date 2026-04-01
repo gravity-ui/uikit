@@ -6,7 +6,7 @@ import type {HsvaColor} from '@uiw/react-color';
 import {TextInput} from '../../../../controls';
 import {b} from '../../constants';
 import {Modes} from '../../types';
-import {convertSelectedModeColorToHsva, getTextValueByMode} from '../../utils';
+import {getTextValueByMode, normalizeInputColorForMode} from '../../utils';
 
 type ColorDisplayProps = {
     hsva: HsvaColor;
@@ -15,9 +15,10 @@ type ColorDisplayProps = {
     compact?: boolean;
     onClick: () => void;
     onColorChange?: (color: HsvaColor) => void;
+    disabled?: boolean;
 };
 export const ColorDisplay = React.forwardRef<HTMLDivElement, ColorDisplayProps>(
-    ({hsva, withAlpha, size = 'm', compact, onClick, onColorChange}, ref) => {
+    ({hsva, withAlpha, size = 'm', compact, disabled, onClick, onColorChange}, ref) => {
         const [inputValue, setInputValue] = React.useState(() =>
             getTextValueByMode(hsva, Modes.Hex, withAlpha),
         );
@@ -28,7 +29,7 @@ export const ColorDisplay = React.forwardRef<HTMLDivElement, ColorDisplayProps>(
 
         const handleInputBlur = React.useCallback(() => {
             try {
-                const newHsva = convertSelectedModeColorToHsva(inputValue, Modes.Hex, withAlpha);
+                const newHsva = normalizeInputColorForMode(inputValue, Modes.Hex, withAlpha).hsva;
 
                 onColorChange?.(newHsva);
             } catch {
@@ -39,7 +40,8 @@ export const ColorDisplay = React.forwardRef<HTMLDivElement, ColorDisplayProps>(
         const swatch = (
             <button
                 type="button"
-                className={b('color-swatch', {size})}
+                disabled={disabled}
+                className={b('color-swatch', {size, disabled})}
                 onClick={onClick}
                 style={{backgroundColor: hsvaToRgbaString(hsva)}}
             />
@@ -52,6 +54,7 @@ export const ColorDisplay = React.forwardRef<HTMLDivElement, ColorDisplayProps>(
                         swatch
                     ) : (
                         <TextInput
+                            disabled={disabled}
                             size={size}
                             startContent={swatch}
                             value={inputValue}

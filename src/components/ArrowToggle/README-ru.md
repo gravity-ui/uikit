@@ -121,3 +121,9 @@ return (
 | direction | Задает направление `arrowToggle`.                      | `string` |      `"bottom"`       |
 | size      | Размер `arrowToggle` (в пикселях).                     | `number` |         `16`          |
 | qa        | HTML-атрибут `data-qa`, используется для тестирования. | `string` |                       |
+
+## API CSS
+
+| Имя                                    | Описание              |
+| :------------------------------------- | :-------------------- |
+| `--g-arrow-toggle-transition-duration` | Длительность анимации |

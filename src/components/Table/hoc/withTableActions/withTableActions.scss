@@ -14,7 +14,8 @@ $popupBlock: '#{variables.$block}-action-popup';
 
 #{$popupBlock} {
     &__menu {
-        @include mixins.max-height(200px);
+        max-height: var(--g-table-action-popup-menu-max-height, 200px);
+        overflow-y: auto;
 
         &-item {
             @include mixins.max-text-width(250px);

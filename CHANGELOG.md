@@ -1,5 +1,61 @@
 # Changelog
 
+## [7.36.0](https://github.com/gravity-ui/uikit/compare/v7.35.2...v7.36.0) (2026-03-30)
+
+
+### Features
+
+* **Accordion:** add CSS token for summary inline padding ([#2539](https://github.com/gravity-ui/uikit/issues/2539)) ([8dbb5a3](https://github.com/gravity-ui/uikit/commit/8dbb5a30cbdd65eefd13a4da044e914b332a3265))
+* **DialogFooter:** render contents only if they exist ([#2625](https://github.com/gravity-ui/uikit/issues/2625)) ([f1a0e3f](https://github.com/gravity-ui/uikit/commit/f1a0e3f18475d8d9d4f0664abe21a66409b42e74))
+
+
+### Bug Fixes
+
+* **ColorPicker:** prevent unnecessary color update on mount ([#2633](https://github.com/gravity-ui/uikit/issues/2633)) ([32cdf34](https://github.com/gravity-ui/uikit/commit/32cdf3473899acb0e4c4ad2c50c99bcd1270791b))
+* **Table:** fix --_--menu-max-height variable declaration ([#2628](https://github.com/gravity-ui/uikit/issues/2628)) ([4f4ddce](https://github.com/gravity-ui/uikit/commit/4f4ddce1a66f960f77596dd58bcfe79805405c98))
+* **TabList:** fix navigation via keyboard ([#2629](https://github.com/gravity-ui/uikit/issues/2629)) ([7e725f3](https://github.com/gravity-ui/uikit/commit/7e725f370139f7562925aa715d0773bf95e4f213))
+
+## [7.35.2](https://github.com/gravity-ui/uikit/compare/v7.35.1...v7.35.2) (2026-03-24)
+
+
+### Bug Fixes
+
+* **Table:** add missing class to menu popup ([#2624](https://github.com/gravity-ui/uikit/issues/2624)) ([18a1953](https://github.com/gravity-ui/uikit/commit/18a1953d291c53e6774e4e73e2af3962805f1c75))
+
+## [7.35.1](https://github.com/gravity-ui/uikit/compare/v7.35.0...v7.35.1) (2026-03-21)
+
+
+### Bug Fixes
+
+* **unstable_Menu:** use correct hover color ([#2620](https://github.com/gravity-ui/uikit/issues/2620)) ([b8b032d](https://github.com/gravity-ui/uikit/commit/b8b032d8df12ed200afa4af7090be3797db5443f))
+
+## [7.35.0](https://github.com/gravity-ui/uikit/compare/v7.34.0...v7.35.0) (2026-03-19)
+
+
+### Features
+
+* **ArrowToggle:** add --g-arrow-toggle-transition-duration CSS token ([#2611](https://github.com/gravity-ui/uikit/issues/2611)) ([0a4d562](https://github.com/gravity-ui/uikit/commit/0a4d5628e39485858b0de14f51bd3a6051ea9153))
+
+
+### Bug Fixes
+
+* **ColorPicker:** accept default value not only at hex format ([#2615](https://github.com/gravity-ui/uikit/issues/2615)) ([e448773](https://github.com/gravity-ui/uikit/commit/e448773bee192fdef6f2f60a8cbe64f23abf9eee))
+* **Table:** add ability to redefine max height for menu popup ([#2612](https://github.com/gravity-ui/uikit/issues/2612)) ([35a98cb](https://github.com/gravity-ui/uikit/commit/35a98cb9c620d4ae74a02ce48d2bdcee447b9905))
+* **useCollapseChildren:** avoid reset running calculation ([#2618](https://github.com/gravity-ui/uikit/issues/2618)) ([cd316e8](https://github.com/gravity-ui/uikit/commit/cd316e81c3d836f49419d425597ccfc75b4ed675))
+
+## [7.34.0](https://github.com/gravity-ui/uikit/compare/v7.33.0...v7.34.0) (2026-03-13)
+
+
+### Features
+
+* **AvatarStack:** add moreVariant prop and fix 2xs and 3xs size ([#2608](https://github.com/gravity-ui/uikit/issues/2608)) ([cfa96d8](https://github.com/gravity-ui/uikit/commit/cfa96d8ee5fc07ac1a175874ee73748ec8a84bbb))
+* **ColorPicker:** add optional prop disabled state ([#2602](https://github.com/gravity-ui/uikit/issues/2602)) ([b5271f2](https://github.com/gravity-ui/uikit/commit/b5271f2cf714706784a4679a61a0ed12faa22b52))
+
+
+### Bug Fixes
+
+* fix types for React 19 ([#2603](https://github.com/gravity-ui/uikit/issues/2603)) ([7af9600](https://github.com/gravity-ui/uikit/commit/7af9600a8fff30d977b4ffd50b39f12ac1f07be2))
+
 ## [7.33.0](https://github.com/gravity-ui/uikit/compare/v7.32.0...v7.33.0) (2026-02-27)
 
 

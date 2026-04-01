@@ -2,10 +2,9 @@ import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests
 
 import {test} from '~playwright/core';
 
-import {sizeCases} from '../../Button/__tests__/cases';
 import type {AvatarStackProps} from '../types';
 
-import {maxCases, overlapSizeCases} from './cases';
+import {maxCases, moreVariantCases, overlapSizeCases, sizeCases} from './cases';
 import {TestAvatarStack, TestAvatarStackWithCustomMore} from './helpersPlaywright';
 import {AvatarStackStories} from './stories';
 
@@ -42,6 +41,7 @@ test.describe('AvatarStack', () => {
             overlapSize: overlapSizeCases,
             max: maxCases,
             avatarCount: [1],
+            moreVariant: moreVariantCases,
         });
 
         await mount(

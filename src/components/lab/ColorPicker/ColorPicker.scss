@@ -57,6 +57,11 @@ $block: '.#{variables.$ns}color-picker';
                 --_--border-radius: var(--g-border-radius-xl);
             }
         }
+
+        &_disabled {
+            pointer-events: none;
+        }
+
         /* Color overlay using ::after pseudo-element */
         &::after {
             content: '';

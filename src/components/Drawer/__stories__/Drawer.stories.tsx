@@ -4,6 +4,7 @@ import {action} from 'storybook/actions';
 
 import {Drawer} from '../components/Drawer';
 
+import {ContentOverflowDrawerShowcase} from './ContentOverflow';
 import {DisablePortalShowcase} from './DisablePortal';
 import {HideVeilShowcase} from './HideVeil';
 import {ResizableDrawerShowcase} from './Resizable';
@@ -68,3 +69,6 @@ export const HideVeil = HideVeilTemplate.bind({});
 
 const ResizableTemplate: StoryFn = () => <ResizableDrawerShowcase />;
 export const Resizable = ResizableTemplate.bind({});
+
+const ContentOverflowTemplate: StoryFn = () => <ContentOverflowDrawerShowcase />;
+export const ContentOverflow = ContentOverflowTemplate.bind({});

@@ -90,7 +90,7 @@ const [size, setSize] = useState(500);
 | contentClassName        | Атрибут `class` для элемента с контентом                                                                      |              `string`              |                       |
 | children                | React-контент                                                                                                 |         `React.ReactNode`          |                       |
 | container               | DOM-элемент, в который монтируется компонент через `Portal`                                                   |           `HTMLElement`            |    `document.body`    |
-| contentOverflow         | Определяет, имеет ли `Modal` внутреннюю полосу прокрутки или увеличивается в размерах вместе с содержимым.    |          `visible` `auto`          |       `visible`       |
+| contentOverflow         | Определяет, имеет ли `Drawer` свою полосу прокрутки. По умолчанию не имеет                                    |          `visible` `auto`          |       `visible`       |
 | disableBodyScrollLock   | Отключает блокировку скролла страницы при открытии                                                            |             `boolean`              |        `false`        |
 | disableEscapeKeyDown    | Отключает закрытие по клавише `Esc`                                                                           |             `boolean`              |        `false`        |
 | disableOutsideClick     | Отключает закрытие при клике снаружи                                                                          |             `boolean`              |        `false`        |

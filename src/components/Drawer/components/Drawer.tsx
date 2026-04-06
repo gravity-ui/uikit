@@ -36,7 +36,6 @@ export interface DrawerProps
         | 'onEscapeKeyDown'
         | 'onEnterKeyDown'
         | 'onOutsideClick'
-        | 'contentOverflow'
     > {
     /**
      * Specifies the side from which the drawer should slide in, `left` by default.
@@ -100,6 +99,7 @@ export const Drawer = ({
     initialFocus,
     returnFocus,
     disableBodyScrollLock = false,
+    contentOverflow = 'visible',
     disableVisuallyHiddenDismiss,
     onTransitionIn,
     onTransitionInComplete,
@@ -200,6 +200,7 @@ export const Drawer = ({
                             open={open}
                             placement={placement}
                             className={contentClassName}
+                            contentOverflow={contentOverflow}
                             resizable={resizable}
                             size={size}
                             onResize={onResize}

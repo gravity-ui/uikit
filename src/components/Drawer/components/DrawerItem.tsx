@@ -55,6 +55,9 @@ export interface DrawerItemProps extends AriaLabelingProps {
     /** Optional inline styles to be applied to the DrawerItem component. */
     style?: React.CSSProperties;
 
+    /** Controls content overflow behavior inside Drawer item. */
+    contentOverflow?: 'visible' | 'auto';
+
     /** FloatingOverlay's ref */
     overlayRef: React.RefObject<HTMLElement>;
 }
@@ -74,6 +77,7 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
             onResizeEnd,
             onResize,
             style = {},
+            contentOverflow = 'visible',
             overlayRef,
             ...restProps
         } = props;
@@ -129,7 +133,9 @@ export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(
                 {...restProps}
             >
                 {resizerElement}
-                <div className={b('item-content')}>{children}</div>
+                <div className={b('item-content', {'has-scroll': contentOverflow === 'auto'})}>
+                    {children}
+                </div>
             </div>
         );
     },

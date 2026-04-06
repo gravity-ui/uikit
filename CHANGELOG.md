@@ -1,5 +1,14 @@
 # Changelog
 
+## [7.36.1](https://github.com/gravity-ui/uikit/compare/v7.36.0...v7.36.1) (2026-04-02)
+
+
+### Bug Fixes
+
+* **Button:** fix flat-secondary hover text color ([#2632](https://github.com/gravity-ui/uikit/issues/2632)) ([1d5fe54](https://github.com/gravity-ui/uikit/commit/1d5fe54300008dedf688a51a27e7a0eb7a4cf3df))
+* **ClipboardButton:** correctly call own click callback ([#2637](https://github.com/gravity-ui/uikit/issues/2637)) ([3b529bc](https://github.com/gravity-ui/uikit/commit/3b529bcabbbffad650b571951d32c448777a598c))
+* **useList:** replace push spread with direct iteration in flattenItems ([#2639](https://github.com/gravity-ui/uikit/issues/2639)) ([105779f](https://github.com/gravity-ui/uikit/commit/105779f525a92d65016ece62ed748e9101d071e5))
+
 ## [7.36.0](https://github.com/gravity-ui/uikit/compare/v7.35.2...v7.36.0) (2026-03-30)
 
 

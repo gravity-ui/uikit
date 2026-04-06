@@ -83,17 +83,18 @@ You can also control the open state of the picker popup:
 
 ## Properties
 
-| Name         | Description                                                              |           Type            |   Default   |
-| :----------- | :----------------------------------------------------------------------- | :-----------------------: | :---------: |
-| size         | The `unstable_ColorPicker` size                                          | `"s"` `"m"` `"l"` `"xl"`  |    `"m"`    |
-| value        | Color value for controlled state (HEX or HEXA string)                    |         `string`          |             |
-| defaultValue | Default color value for uncontrolled state                               |         `string`          | `"#000000"` |
-| onUpdate     | Callback when user updates the color. Receives a HEX(A) string.          | `(value: string) => void` |             |
-| open         | Controlled state for popup open/close                                    |         `boolean`         |             |
-| defaultOpen  | Default state for popup open/close                                       |         `boolean`         |   `false`   |
-| onOpenChange | Callback for popup open/close state change                               | `(open: boolean) => void` |             |
-| withAlpha    | Enables alpha channel support for HEXA/RGBA mode and transparency slider |         `boolean`         |   `false`   |
-| compact      | Renders only the picker button without displaying the color value text   |         `boolean`         |   `false`   |
+| Name           | Description                                                              |           Type            |                                      Default                                       |
+| :------------- | :----------------------------------------------------------------------- | :-----------------------: | :--------------------------------------------------------------------------------: |
+| size           | The `unstable_ColorPicker` size                                          | `"s"` `"m"` `"l"` `"xl"`  |                                       `"m"`                                        |
+| value          | Color value for controlled state (HEX or HEXA string)                    |         `string`          |                                                                                    |
+| defaultValue   | Default color value for uncontrolled state                               |         `string`          |                                    `"#000000"`                                     |
+| onUpdate       | Callback when user updates the color. Receives a HEX(A) string.          | `(value: string) => void` |                                                                                    |
+| popupPlacement | Placement of the popup                                                   |     `PopupPlacement`      | `['bottom-start', 'bottom-end', 'left-start', 'left-end', 'top-start', 'top-end']` |
+| open           | Controlled state for popup open/close                                    |         `boolean`         |                                                                                    |
+| defaultOpen    | Default state for popup open/close                                       |         `boolean`         |                                      `false`                                       |
+| onOpenChange   | Callback for popup open/close state change                               | `(open: boolean) => void` |                                                                                    |
+| withAlpha      | Enables alpha channel support for HEXA/RGBA mode and transparency slider |         `boolean`         |                                      `false`                                       |
+| compact        | Renders only the picker button without displaying the color value text   |         `boolean`         |                                      `false`                                       |
 
 ## Color formats
 

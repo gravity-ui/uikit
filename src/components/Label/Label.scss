@@ -128,7 +128,7 @@ $transition-timing-function: ease-in-out;
                 variables.$button-shrink-transition;
 
             &:active {
-                transform: variables.$button-shrink-transform;
+                transform: scale(variables.$button-shrink-scale);
             }
         }
     }

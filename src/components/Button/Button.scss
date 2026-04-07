@@ -78,11 +78,32 @@ $block: '.#{variables.$ns}button';
 
     &:active {
         transition: none;
-        transform: variables.$button-shrink-transform;
+        transform: scale(variables.$button-shrink-scale);
     }
 
     &:active::after {
-        transform: scale(1.042);
+        transform: scale(1 / variables.$button-shrink-scale);
+    }
+
+    @supports (container-type: inline-size) {
+        $dynamic-shrink-threshold: 150px;
+        $max-shrink-distance: $dynamic-shrink-threshold -
+            ($dynamic-shrink-threshold * variables.$button-shrink-scale);
+        $scale-x: calc(
+            (max(100cqw, #{$dynamic-shrink-threshold}) - #{$max-shrink-distance}) /
+                max(100cqw, #{$dynamic-shrink-threshold})
+        );
+        $scale-y: variables.$button-shrink-scale;
+
+        container-type: inline-size;
+
+        &:active {
+            transform: scaleX(#{$scale-x}) scaleY(#{$scale-y});
+        }
+
+        &:active::after {
+            transform: scaleX(calc(1 / #{$scale-x})) scaleY(calc(1 / #{$scale-y}));
+        }
     }
 
     &_size {

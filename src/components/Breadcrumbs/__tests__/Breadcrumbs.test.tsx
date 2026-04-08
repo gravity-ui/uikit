@@ -279,6 +279,18 @@ it('should support links', async function () {
     expect(items[1]).toHaveAttribute('href', 'https://example.com/foo');
 });
 
+it('renders endContent only once in the DOM', () => {
+    render(
+        <Breadcrumbs endContent={<button>Action</button>}>
+            <Breadcrumbs.Item>Folder 1</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Folder 2</Breadcrumbs.Item>
+        </Breadcrumbs>,
+    );
+
+    const buttons = screen.getAllByRole('button', {name: 'Action'});
+    expect(buttons).toHaveLength(1);
+});
+
 it('should support custom item component', async () => {
     const navigate = jest.fn();
     function RouterLink({

@@ -2,15 +2,15 @@ import * as React from 'react';
 
 import type {HsvaColor} from '@uiw/react-color';
 import {Alpha, Hue, Saturation, hsvaToHex, hsvaToHexa} from '@uiw/react-color';
+import debounce from 'lodash/debounce';
 
-import {useUpdateEffect} from '../../../hooks/private';
 import {useControlledState} from '../../../hooks/useControlledState';
 import {Popup} from '../../Popup';
 import type {PopupPlacement} from '../../Popup';
 import {Select} from '../../Select';
 
 import {ColorDisplay, ColorPointer, HexInput, RgbInputs} from './components';
-import {DEFAULT_COLOR, b} from './constants';
+import {DEFAULT_COLOR, UPDATE_COLOR_DEBOUNCE_TIME, b} from './constants';
 import {Modes} from './types';
 import {
     getTextValueByMode,
@@ -99,80 +99,59 @@ export const ColorPicker = ({
     disabled = false,
 }: ColorPickerProps) => {
     const [anchor, setAnchor] = React.useState<HTMLDivElement | null>(null);
-    const [modeState, setModeState] = React.useState<Modes>(Modes.Hex);
 
     const [color, setColor] = useControlledState(value, defaultValue, onUpdate);
-
     const [isOpen, setIsOpen] = useControlledState(open, defaultOpen, onOpenChange);
 
-    const isInternalUpdateRef = React.useRef(false);
-
-    const effectiveColor = color?.trim() || DEFAULT_COLOR;
-
-    const initialColor = (value ?? defaultValue)?.trim() || DEFAULT_COLOR;
+    const effectiveColor = color.trim() || DEFAULT_COLOR;
 
     const [hsva, setHsva] = React.useState<HsvaColor>(() => {
-        const parsed = parseColorToHsva(initialColor, withAlpha);
+        const parsed = parseColorToHsva(effectiveColor, withAlpha);
         return parsed.isValid ? parsed.hsva : parseColorToHsva(DEFAULT_COLOR, withAlpha).hsva;
     });
 
+    React.useEffect(() => {
+        const parsed = parseColorToHsva(effectiveColor, withAlpha);
+
+        if (parsed.isValid) {
+            setHsva((prevHsva) => {
+                const prevColor = withAlpha ? hsvaToHexa(prevHsva) : hsvaToHex(prevHsva);
+                return prevColor === effectiveColor ? prevHsva : parsed.hsva;
+            });
+        }
+    }, [effectiveColor, withAlpha]);
+
+    const [modeState, setModeState] = React.useState<Modes>(Modes.Hex);
     const [inputValue, setInputValue] = React.useState(() =>
         getTextValueByMode(hsva, modeState, withAlpha),
     );
 
     React.useEffect(() => {
-        if (isInternalUpdateRef.current) {
-            isInternalUpdateRef.current = false;
-            return;
-        }
-
-        const parsed = parseColorToHsva(effectiveColor, withAlpha);
-
-        if (parsed.isValid) {
-            setHsva((prev) => (isSameHsva(prev, parsed.hsva) ? prev : parsed.hsva));
-        }
-    }, [effectiveColor, withAlpha]);
-
-    React.useEffect(() => {
-        const nextValue = getTextValueByMode(hsva, modeState, withAlpha);
-        setInputValue((prev) => (prev === nextValue ? prev : nextValue));
+        setInputValue(getTextValueByMode(hsva, modeState, withAlpha));
     }, [hsva, modeState, withAlpha]);
 
-    const updateHsva = React.useCallback((updates: Partial<HsvaColor>) => {
-        setHsva((prevHsva) => {
-            const nextHsva = {...prevHsva, ...updates};
+    const updateColorByHsva = React.useMemo(() => {
+        return debounce((nextHsva: HsvaColor) => {
+            setColor(withAlpha ? hsvaToHexa(nextHsva) : hsvaToHex(nextHsva));
+        }, UPDATE_COLOR_DEBOUNCE_TIME);
+    }, [setColor, withAlpha]);
 
-            if (!isValidHsva(nextHsva)) {
-                return prevHsva;
-            }
+    const updateHsva = React.useCallback(
+        (updates: Partial<HsvaColor>) => {
+            setHsva((prevHsva) => {
+                const nextHsva = {...prevHsva, ...updates};
 
-            if (
-                nextHsva.h === prevHsva.h &&
-                nextHsva.s === prevHsva.s &&
-                nextHsva.v === prevHsva.v &&
-                nextHsva.a === prevHsva.a
-            ) {
-                return prevHsva;
-            }
+                if (!isValidHsva(nextHsva) || isSameHsva(prevHsva, nextHsva)) {
+                    return prevHsva;
+                }
 
-            return nextHsva;
-        });
-    }, []);
+                updateColorByHsva(nextHsva);
 
-    useUpdateEffect(() => {
-        const nextHexValue = withAlpha ? hsvaToHexa(hsva) : hsvaToHex(hsva);
-
-        if (nextHexValue !== color) {
-            isInternalUpdateRef.current = true;
-            setColor(nextHexValue);
-        }
-    }, [hsva, withAlpha, color, setColor]);
-
-    const handleModeChange = (newMode: Modes) => setModeState(newMode);
-
-    const handleInputChange = (val: string) => {
-        setInputValue(val);
-    };
+                return nextHsva;
+            });
+        },
+        [updateColorByHsva],
+    );
 
     const resetInputValue = React.useCallback(() => {
         setInputValue(getTextValueByMode(hsva, modeState, withAlpha));
@@ -196,7 +175,6 @@ export const ColorPicker = ({
         const nextHsva = normalized.hsva;
         const nextHexValue = withAlpha ? hsvaToHexa(nextHsva) : hsvaToHex(nextHsva);
 
-        isInternalUpdateRef.current = true;
         setHsva(nextHsva);
         setColor(nextHexValue);
         setInputValue(normalized.formattedValue);
@@ -285,7 +263,7 @@ export const ColorPicker = ({
                             onUpdate={(val) => {
                                 const nextMode = val[0];
                                 if (nextMode && nextMode !== modeState) {
-                                    handleModeChange(nextMode as Modes);
+                                    setModeState(nextMode as Modes);
                                 }
                             }}
                         />
@@ -294,7 +272,7 @@ export const ColorPicker = ({
                             <HexInput
                                 value={inputValue}
                                 withAlpha={withAlpha}
-                                onChange={handleInputChange}
+                                onChange={setInputValue}
                                 onBlur={applyInputValue}
                             />
                         )}

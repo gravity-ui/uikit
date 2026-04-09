@@ -11,7 +11,7 @@ import {BreadcrumbsDropdownMenu} from './BreadcrumbsDropdownMenu';
 import {BreadcrumbsItem} from './BreadcrumbsItem';
 import type {BreadcrumbsItemInnerProps} from './BreadcrumbsItem';
 import {BreadcrumbsSeparator} from './BreadcrumbsSeparator';
-import {b} from './utils';
+import {b, getReactNodeHash} from './utils';
 
 import './Breadcrumbs.scss';
 
@@ -36,7 +36,6 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
     const listRef = React.useRef<HTMLOListElement>(null);
     const containerRef = useForkRef(ref, listRef);
     const menuRef = React.useRef<HTMLLIElement>(null);
-    const measurerListRef = React.useRef<HTMLOListElement>(null);
     const endContentRef = React.useRef<HTMLLIElement>(null);
 
     const items: React.ReactElement<any>[] = [];
@@ -71,52 +70,16 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
     });
 
     useResizeObserver({
-        ref: measurerListRef,
+        ref: endContentRef,
         onResize: recalculate,
     });
 
-    const renderChild = (
-        child: React.ReactElement,
-        index: number,
-        isCurrent: boolean,
-        isCalculated: boolean,
-    ) => {
-        const key = child.key ?? index;
-
-        const {'data-breadcrumbs-menu-item': isMenu, ...childProps} = child.props;
-        let item: React.ReactNode;
-        if (isMenu) {
-            item = child;
-        } else {
-            const Component = props.itemComponent ?? BreadcrumbsItem;
-            const handleAction = () => {
-                if (typeof props.onAction === 'function') {
-                    props.onAction(key);
-                }
-            };
-            const innerProps: BreadcrumbsItemInnerProps = {
-                __current: isCurrent,
-                __disabled: props.disabled || childProps.disabled,
-                __onAction: handleAction,
-            };
-            item = (
-                <Component {...childProps} key={key} {...innerProps}>
-                    {childProps.children}
-                </Component>
-            );
-        }
-        return (
-            <li
-                ref={isMenu ? menuRef : undefined}
-                key={isMenu ? 'menu' : `item-${key}`}
-                className={b('item', {calculating: isCurrent && !isCalculated, current: isCurrent})}
-                data-current={isCurrent ? isCurrent : undefined}
-            >
-                {item}
-                {isCurrent ? null : <BreadcrumbsSeparator separator={props.separator} />}
-            </li>
-        );
-    };
+    const childrenHash = getReactNodeHash(props.children);
+    const separatorHash = getReactNodeHash(props.separator);
+    React.useEffect(() => {
+        recalculate();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [childrenHash, separatorHash, props.itemComponent]);
 
     let contents = items;
     if (items.length > visibleItemsCount) {
@@ -164,17 +127,6 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
         contents.push(...breadcrumbs.slice(-endItems));
     }
 
-    const lastIndex = contents.length - 1;
-    const breadcrumbsItems = contents.map((child, index) =>
-        renderChild(child, index, index === lastIndex, calculated),
-    );
-    if (props.endContent) {
-        breadcrumbsItems.push(
-            <li key="end-content" ref={endContentRef} className={b('item')}>
-                {props.endContent}
-            </li>,
-        );
-    }
     return (
         <ol
             ref={containerRef}
@@ -183,20 +135,52 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
             className={b(null, props.className)}
             style={props.style}
         >
-            {breadcrumbsItems}
-            {/* @ts-expect-error */}
-            <div className={b('measurer')} aria-hidden="true" inert="">
-                <ol ref={measurerListRef} className={b('list')} style={props.style}>
-                    {items.map((child, index) =>
-                        renderChild(child, index, index === items.length - 1, false),
-                    )}
-                    {props.endContent && (
-                        <li key="end-content" className={b('item')}>
-                            {props.endContent}
-                        </li>
-                    )}
-                </ol>
-            </div>
+            {contents.map((child, index) => {
+                const key = child.key ?? index;
+                const isCurrent = index === contents.length - 1;
+
+                const {'data-breadcrumbs-menu-item': isMenu, ...childProps} = child.props;
+                let item: React.ReactNode;
+                if (isMenu) {
+                    item = child;
+                } else {
+                    const Component = props.itemComponent ?? BreadcrumbsItem;
+                    const handleAction = () => {
+                        if (typeof props.onAction === 'function') {
+                            props.onAction(key);
+                        }
+                    };
+                    const innerProps: BreadcrumbsItemInnerProps = {
+                        __current: isCurrent,
+                        __disabled: props.disabled || childProps.disabled,
+                        __onAction: handleAction,
+                    };
+                    item = (
+                        <Component {...childProps} key={key} {...innerProps}>
+                            {childProps.children}
+                        </Component>
+                    );
+                }
+                return (
+                    <li
+                        ref={isMenu ? menuRef : undefined}
+                        key={isMenu ? 'menu' : `item-${key}`}
+                        className={b('item', {
+                            calculating: isCurrent && !calculated,
+                            current: isCurrent,
+                        })}
+                        data-current={isCurrent ? isCurrent : undefined}
+                    >
+                        {item}
+                        {isCurrent ? null : <BreadcrumbsSeparator separator={props.separator} />}
+                    </li>
+                );
+            })}
+            {props.endContent && (
+                <li ref={endContentRef} className={b('item')}>
+                    {props.endContent}
+                </li>
+            )}
         </ol>
     );
 }) as unknown as BreadcrumbsComponent;

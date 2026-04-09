@@ -1,5 +1,18 @@
 # Changelog
 
+## [7.37.0](https://github.com/gravity-ui/uikit/compare/v7.36.1...v7.37.0) (2026-04-09)
+
+
+### Features
+
+* **ColorPicker:** add popupPlacement prop ([#2644](https://github.com/gravity-ui/uikit/issues/2644)) ([b8472b8](https://github.com/gravity-ui/uikit/commit/b8472b86d300f15b69c8540fa5c8559ecec6a12a))
+* **Drawer:** allow DrawerItem to be scrollable ([#2640](https://github.com/gravity-ui/uikit/issues/2640)) ([389093e](https://github.com/gravity-ui/uikit/commit/389093e2def42bb789e2926e2d1a60d255f99ee4))
+
+
+### Bug Fixes
+
+* **ColorPicker:** fix state updates for react 19 ([#2646](https://github.com/gravity-ui/uikit/issues/2646)) ([add88fd](https://github.com/gravity-ui/uikit/commit/add88fdb85423476270e88f2a149f6f95925f680))
+
 ## [7.36.1](https://github.com/gravity-ui/uikit/compare/v7.36.0...v7.36.1) (2026-04-02)
 
 

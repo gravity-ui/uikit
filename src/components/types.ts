@@ -1,5 +1,11 @@
 import type * as React from 'react';
 
+export type ComponentRenderFn<Props> = (props: Props) => React.ReactElement<unknown>;
+
+export interface ComponentCommonProps<RenderFunctionProps> {
+    render?: ComponentRenderFn<RenderFunctionProps> | undefined;
+}
+
 export interface DOMProps {
     style?: CSSProperties;
     className?: string;

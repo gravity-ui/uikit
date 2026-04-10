@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.37.1](https://github.com/gravity-ui/uikit/compare/v7.37.0...v7.37.1) (2026-04-10)
+
+
+### Bug Fixes
+
+* **Breadcrumbs:** use hash instead of measurer element for recalculation ([#2647](https://github.com/gravity-ui/uikit/issues/2647)) ([f7c67c5](https://github.com/gravity-ui/uikit/commit/f7c67c56f4c4ca676c45a04c78cfe3ba557d54ba))
+
 ## [7.37.0](https://github.com/gravity-ui/uikit/compare/v7.36.1...v7.37.0) (2026-04-09)
 
 

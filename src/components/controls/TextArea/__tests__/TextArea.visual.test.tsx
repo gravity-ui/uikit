@@ -83,6 +83,7 @@ test.describe('TextArea', {tag: '@TextArea'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
+            clip: {width: 522}
         });
     });
 

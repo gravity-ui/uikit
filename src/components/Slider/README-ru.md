@@ -16,15 +16,13 @@ import {Slider} from '@gravity-ui/uikit';
 
 Представляет собой слайдер с одним ползунком для выбора одного значения. Используется по умолчанию.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Slider />
-`}
->
-    <UIKitExamples.SliderExample />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Slider} from '@gravity-ui/uikit';
+
+export default function () {
+    return <Slider />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -38,15 +36,13 @@ LANDING_BLOCK-->
 
 Представляет собой слайдер с двумя ползунками для выбора диапазона. Для его использования необходимо задать `defaultValue` (для неконтролируемого компонента) или `value` (для контролируемого компонента) в виде массива.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Slider defaultValue={[20, 40]} />
-`}
->
-    <UIKitExamples.SliderExample defaultValue={[20, 40]} />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Slider} from '@gravity-ui/uikit';
+
+export default function () {
+    return <Slider defaultValue={[20, 40]} />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -62,15 +58,13 @@ LANDING_BLOCK-->
 
 Состояние `Slider`, при котором пользователь не может взаимодействовать с компонентом.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Slider disabled={true} />
-`}
->
-    <UIKitExamples.SliderExample disabled={true} />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Slider} from '@gravity-ui/uikit';
+
+export default function () {
+    return <Slider disabled />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -84,17 +78,18 @@ LANDING_BLOCK-->
 
 Состояние `Slider`, которое указывает на некорректный ввод данных пользователем. Для изменения внешнего представления `Slider` примените свойство `validationState`, задав ему значение `"invalid"`. Дополнительно через свойство `errorMessage` можно добавить текст сообщения, который будет отображаться под компонентом.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Slider validationState={"invalid"} />
-<Slider validationState={"invalid"} errorMessage="Error message" />
-`}
->
-    <UIKitExamples.SliderExample validationState={"invalid"} />
-    <UIKitExamples.SliderExample validationState={"invalid"} errorMessage="Error message" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Slider} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <Slider validationState="invalid" />
+            <Slider validationState="invalid" errorMessage="Error message" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -109,21 +104,20 @@ LANDING_BLOCK-->
 
 Для изменения размера `Slider` используйте свойство `size`. Размер по умолчанию — `m`.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Slider size="s" />
-<Slider size="m" />
-<Slider size="l" />
-<Slider size="xl" />
-`}
->
-    <UIKitExamples.SliderExample size="s" />
-    <UIKitExamples.SliderExample size="m" />
-    <UIKitExamples.SliderExample size="l" />
-    <UIKitExamples.SliderExample size="xl" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Slider} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <Slider size="s" />
+            <Slider size="m" />
+            <Slider size="l" />
+            <Slider size="xl" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -142,19 +136,19 @@ LANDING_BLOCK-->
 
 Свойства `min` и `max` определяют пределы диапазона, который может обрабатывать `Slider`. Эти свойства необходимы для установки границ выбираемых значений.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Slider min={10} />
-<Slider max={50} />
-<Slider min={20} max={60} />
-`}
->
-    <UIKitExamples.SliderExample min={10} />
-    <UIKitExamples.SliderExample max={50} />
-    <UIKitExamples.SliderExample min={20} max={60} />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Slider} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <Slider min={10} />
+            <Slider max={50} />
+            <Slider min={20} max={60} />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -170,15 +164,13 @@ LANDING_BLOCK-->
 
 Свойство `step` компонента `Slider` задает величину шага между минимальным и максимальным значениями. Оно контролирует изменение значения при перемещении ползунка.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Slider step={10} />
-`}
->
-    <UIKitExamples.SliderExample step={10} />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Slider} from '@gravity-ui/uikit';
+
+export default function () {
+    return <Slider step={10} />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -193,15 +185,13 @@ LANDING_BLOCK-->
 Свойство `marks` задает количество визуальных меток компонента `Slider`, указывающих на разные значения в диапазоне от минимума до максимума. Данное свойство делает слайдер более удобным для пользователя и улучшает его визуальное оформление, особенно в тех случаях, когда необходимо обозначить конкретные интервалы. Значение по умолчанию — 2 (`min` и `max`). Его можно использовать двумя способами:
 
 - Для задания количества визуальных меток на слайдере:
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Slider marks={11} />
-`}
->
-    <UIKitExamples.SliderExample marks={11} />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Slider} from '@gravity-ui/uikit';
+
+export default function () {
+    return <Slider marks={11} />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -213,15 +203,13 @@ LANDING_BLOCK-->
 
 - Для указания массива значений меток на слайдере:
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Slider marks={[0, 50, 100]} />
-`}
->
-    <UIKitExamples.SliderExample marks={[0, 50, 100]} />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Slider} from '@gravity-ui/uikit';
+
+export default function () {
+    return <Slider marks={[0, 50, 100]} />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -233,15 +221,13 @@ LANDING_BLOCK-->
 
 Если в свойстве `marks` указать `0` или пустой массив (`[]`), то все метки компонента `Slider` будут скрыты.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Slider marks={0} />
-`}
->
-    <UIKitExamples.SliderExample marks={0} />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Slider} from '@gravity-ui/uikit';
+
+export default function () {
+    return <Slider marks={0} />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -259,15 +245,13 @@ LANDING_BLOCK-->
 
 Установка свойства `step` в `null` позволяет задать конкретные значения, которые будут доступны на слайдере, вместо непрерывного диапазона. Это особенно полезно в случаях, когда выбор возможен только из заранее определенных дискретных значений. При такой настройке свойства `min`, `max` и `marks` позволяют задать массив чисел, представляющих собой те значения, которые пользователи могут выбрать при работе с компонентом `Slider`.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Slider marks={[10, 20, 50, 55, 65, 80]} step={null}/>
-`}
->
-    <UIKitExamples.SliderExample marks={[10, 20, 50, 55, 65, 80]} step={null}/>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Slider} from '@gravity-ui/uikit';
+
+export default function () {
+    return <Slider marks={[10, 20, 50, 55, 65, 80]} step={null} />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -281,15 +265,13 @@ LANDING_BLOCK-->
 
 Свойство `startPoint` позволяет задать стартовое значение, относительно которого будет заполняться трек слайдера. При использовании слайдера диапазона либо при использовании инвертированного слайдера, это свойство игнорируется.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Slider startPoint={50} />
-`}
->
-    <UIKitExamples.SliderExample startPoint={50} />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Slider} from '@gravity-ui/uikit';
+
+export default function () {
+    return <Slider startPoint={50} />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -307,15 +289,13 @@ LANDING_BLOCK-->
 Данное свойство игнорируется для слайдера диапазона.
 При установке значения данного свойства в `true` значение свойства `startPoint` будет проигнорировано.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Slider inverted />
-`}
->
-    <UIKitExamples.SliderExample inverted />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Slider} from '@gravity-ui/uikit';
+
+export default function () {
+    return <Slider inverted />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -329,15 +309,13 @@ LANDING_BLOCK-->
 
 Свойство `tooltipDisplay` в компоненте `Slider` управляет поведением отображения тултипа с текущим значением при взаимодействии пользователя со слайдером. Значение `auto` позволяет отображать тултип только при наведении курсора на ползунок компонента `Slider` или получении компонентом фокуса.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Slider tooltipDisplay="on" />
-`}
->
-    <UIKitExamples.SliderExample tooltipDisplay="on" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Slider} from '@gravity-ui/uikit';
+
+export default function () {
+    return <Slider tooltipDisplay="on" />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

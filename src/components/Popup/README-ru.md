@@ -15,24 +15,26 @@ The `Popup` child components are rendered inside the [`Portal`](../Portal) compo
 
 To specify the anchor of a floating element, you can use the `anchorElement` property.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {useState} from 'react';
+import {Button, Popup} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-const [buttonElement, setButtonElement] = React.useState(null);
-const [open, setOpen] = React.useState(false);
+export default function () {
+    const [buttonElement, setButtonElement] = useState<HTMLButtonElement | null>(null);
+    const [open, setOpen] = useState(false);
 
-<Button ref={setButtonElement} onClick={() => setOpen((prevOpen) => !prevOpen)}>
-  Toggle Popup
-</Button>
-<Popup anchorElement={buttonElement} open={open} placement="bottom">
-  Content
-</Popup>
-`}>
-    <UIKitExamples.PopupAnchorExample/>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+    return (
+        <>
+            <Button ref={setButtonElement} onClick={() => setOpen((prevOpen) => !prevOpen)}>
+                Toggle Popup
+            </Button>
+            <Popup anchorElement={buttonElement} open={open} placement="bottom">
+                Content
+            </Popup>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -57,30 +59,55 @@ By default, `Popup` uses [flip middleware](https://floating-ui.com/docs/flip) to
 If the property is set to an array, the first element will be used as the default placement value, the rest will be used as [fallback placements](https://floating-ui.com/docs/flip#fallbackplacements).
 It is also acceptable to use the values `auto`, `auto-start`, `auto-end` to use [autoPlacement middleware](https://floating-ui.com/docs/autoPlacement) instead of flip.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {useState} from 'react';
+import {Popup} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-const [boxElement, setBoxElement] = React.useState(null);
+export default function () {
+    const [boxElement, setBoxElement] = useState<HTMLDivElement | null>(null);
 
-<div ref={setBoxElement} />
-<Popup open anchorElement={boxElement} placement="top-start">Top Start</Popup>
-<Popup open anchorElement={boxElement} placement="top">Top</Popup>
-<Popup open anchorElement={boxElement} placement="top-end">Top End</Popup>
-<Popup open anchorElement={boxElement} placement="right-start">Right Start</Popup>
-<Popup open anchorElement={boxElement} placement="right">Right</Popup>
-<Popup open anchorElement={boxElement} placement="right-end">Right End</Popup>
-<Popup open anchorElement={boxElement} placement="bottom-end">Bottom End</Popup>
-<Popup open anchorElement={boxElement} placement="bottom">Bottom</Popup>
-<Popup open anchorElement={boxElement} placement="bottom-start">Bottom Start</Popup>
-<Popup open anchorElement={boxElement} placement="left-end">Left End</Popup>
-<Popup open anchorElement={boxElement} placement="left">Left</Popup>
-<Popup open anchorElement={boxElement} placement="left-start">Left Start</Popup>
-`}>
-    <UIKitExamples.PopupPlacementExample/>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+    return (
+        <div ref={setBoxElement}>
+            <Popup open anchorElement={boxElement} placement="top-start">
+                Top Start
+            </Popup>
+            <Popup open anchorElement={boxElement} placement="top">
+                Top
+            </Popup>
+            <Popup open anchorElement={boxElement} placement="top-end">
+                Top End
+            </Popup>
+            <Popup open anchorElement={boxElement} placement="right-start">
+                Right Start
+            </Popup>
+            <Popup open anchorElement={boxElement} placement="right">
+                Right
+            </Popup>
+            <Popup open anchorElement={boxElement} placement="right-end">
+                Right End
+            </Popup>
+            <Popup open anchorElement={boxElement} placement="bottom-end">
+                Bottom End
+            </Popup>
+            <Popup open anchorElement={boxElement} placement="bottom">
+                Bottom
+            </Popup>
+            <Popup open anchorElement={boxElement} placement="bottom-start">
+                Bottom Start
+            </Popup>
+            <Popup open anchorElement={boxElement} placement="left-end">
+                Left End
+            </Popup>
+            <Popup open anchorElement={boxElement} placement="left">
+                Left
+            </Popup>
+            <Popup open anchorElement={boxElement} placement="left-start">
+                Left Start
+            </Popup>
+        </div>
+    );
+}
+SANDBOX-->
 
 ## Properties
 

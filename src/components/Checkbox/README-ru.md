@@ -18,23 +18,20 @@ import {Checkbox} from '@gravity-ui/uikit';
 - `Disabled` — чекбокс недоступен.
 - `Indeterminate` — чекбокс находится в промежуточном состоянии между отмеченным и неотмеченным.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Checkbox} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Checkbox size="l" checked={false}>Unchecked</Checkbox>
-<Checkbox size="l" checked>Checked</Checkbox>
-<Checkbox size="l" disabled>Disabled</Checkbox>
-<Checkbox size="l" indeterminate>Indeterminate</Checkbox>
-`}
->
-    <UIKit.Checkbox size="l" checked={false}>Unchecked</UIKit.Checkbox>
-    <UIKit.Checkbox size="l" checked>Checked</UIKit.Checkbox>
-    <UIKit.Checkbox size="l" disabled>Disabled</UIKit.Checkbox>
-    <UIKit.Checkbox size="l" indeterminate>Indeterminate</UIKit.Checkbox>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <Checkbox size="l" checked={false}>Unchecked</Checkbox>
+            <Checkbox size="l" checked>Checked</Checkbox>
+            <Checkbox size="l" disabled>Disabled</Checkbox>
+            <Checkbox size="l" indeterminate>Indeterminate</Checkbox>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -51,21 +48,19 @@ LANDING_BLOCK-->
 
 Размер `Checkbox` можно настроить с помощью свойства `size`. Размер по умолчанию — `m`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Checkbox} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Checkbox size="m">M Size</Checkbox>
-<Checkbox size="l">L Size</Checkbox>
-<Checkbox size="xl">XL Size</Checkbox>
-`}
->
-    <UIKit.Checkbox size="m">M Size</UIKit.Checkbox>
-    <UIKit.Checkbox size="l">L Size</UIKit.Checkbox>
-    <UIKit.Checkbox size="xl">XL Size</UIKit.Checkbox>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <Checkbox size="m">M Size</Checkbox>
+            <Checkbox size="l">L Size</Checkbox>
+            <Checkbox size="xl">XL Size</Checkbox>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -81,39 +76,22 @@ LANDING_BLOCK-->
 
 Лейбл для `Checkbox` можно задать через свойство `content` или передать его как дочерний элемент.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Checkbox} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
- <div>
-  <Checkbox content="Content" size="l" />
-  <div
-      style={{
-          marginTop: 10,
-      }}
-  >
-      <Checkbox size="l">
-          <span>Content as children</span>
-      </Checkbox>
-  </div>
-</div>
-`}
->
- <div>
-  <UIKit.Checkbox content="Content" size="l" />
-  <div
-      style={{
-          marginTop: 10,
-      }}
-  >
-      <UIKit.Checkbox size="l">
-          <span>Content as children</span>
-      </UIKit.Checkbox>
-  </div>
-</div>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <div>
+            <Checkbox content="Content" size="l" />
+            <div style={{marginTop: 10}}>
+                <Checkbox size="l">
+                    <span>Content as children</span>
+                </Checkbox>
+            </div>
+        </div>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

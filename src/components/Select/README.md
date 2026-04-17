@@ -20,50 +20,36 @@ You can define options as an array of objects or as the children of a component.
 
 #### Flat list
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Select} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select
-  placeholder="value"
-  options={[
+const options = [
     {value: 'val_1', content: 'Value 1'},
     {value: 'val_2', content: 'Value 2'},
     {value: 'val_3', content: 'Value 3'},
     {value: 'val_4', content: 'Value 4'},
-  ]}
-/>
-<Select placeholder="value">
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-`}
->
-  <div>
-    Array of objects
-    <UIKit.Select placeholder="value"
-      options={[
-        {value: 'val_1', content: 'Value 1'},
-        {value: 'val_2', content: 'Value 2'},
-        {value: 'val_3', content: 'Value 3'},
-        {value: 'val_4', content: 'Value 4'},
-      ]}
-    />
-  </div>
-  <div>
-    Child nodes
-    <UIKit.Select placeholder="value">
-      <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-    </UIKit.Select>
-  </div>
-</ExampleBlock>
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <div>
+                Array of objects
+                <Select placeholder="value" options={options} />
+            </div>
+            <div>
+                Child nodes
+                <Select placeholder="value">
+                    <Select.Option value="val_1">Value 1</Select.Option>
+                    <Select.Option value="val_2">Value 2</Select.Option>
+                    <Select.Option value="val_3">Value 3</Select.Option>
+                    <Select.Option value="val_4">Value 4</Select.Option>
+                </Select>
+            </div>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -91,79 +77,50 @@ LANDING_BLOCK-->
 
 #### Grouped list
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Select} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select
-  placeholder="value"
-  options={[
+const groupedOptions = [
     {
-      label: 'Group 1',
-      options: [
-        {value: 'val_1', content: 'Value 1'},
-        {value: 'val_2', content: 'Value 2'},
-      ],
-    },
-    {
-      label: 'Group 2',
-      options: [
-        {value: 'val_3', content: 'Value 3'},
-        {value: 'val_4', content: 'Value 4'},
-      ],
-    },
-  ]}
-/>
-<Select placeholder="value">
-  <Select.OptionGroup label="Group 1">
-    <Select.Option value="val_1" content="Value 1" />
-    <Select.Option value="val_2" content="Value 2" />
-  </Select.OptionGroup>
-  <Select.OptionGroup label="Group 2">
-    <Select.Option value="val_3" content="Value 3" />
-    <Select.Option value="val_4" content="Value 4" />
-  </Select.OptionGroup>
-</Select>
-`}
->
-  <div>
-    Array of objects
-    <UIKit.Select
-      placeholder="value"
-      options={[
-        {
-          label: 'Group 1',
-          options: [
+        label: 'Group 1',
+        options: [
             {value: 'val_1', content: 'Value 1'},
             {value: 'val_2', content: 'Value 2'},
-          ],
-        },
-        {
-          label: 'Group 2',
-          options: [
+        ],
+    },
+    {
+        label: 'Group 2',
+        options: [
             {value: 'val_3', content: 'Value 3'},
             {value: 'val_4', content: 'Value 4'},
-          ],
-        },
-      ]}
-    />
-  </div>
-  <div>
-    Child nodes
-    <UIKit.Select placeholder="value">
-      <UIKit.Select.OptionGroup label="Group 1">
-        <UIKit.Select.Option value="val_1" content="Value 1" />
-        <UIKit.Select.Option value="val_2" content="Value 2" />
-      </UIKit.Select.OptionGroup>
-      <UIKit.Select.OptionGroup label="Group 2">
-        <UIKit.Select.Option value="val_3" content="Value 3" />
-        <UIKit.Select.Option value="val_4" content="Value 4" />
-      </UIKit.Select.OptionGroup>
-    </UIKit.Select>
-  </div>
-</ExampleBlock>
+        ],
+    },
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <div>
+                Array of objects
+                <Select placeholder="value" options={groupedOptions} />
+            </div>
+            <div>
+                Child nodes
+                <Select placeholder="value">
+                    <Select.OptionGroup label="Group 1">
+                        <Select.Option value="val_1" content="Value 1" />
+                        <Select.Option value="val_2" content="Value 2" />
+                    </Select.OptionGroup>
+                    <Select.OptionGroup label="Group 2">
+                        <Select.Option value="val_3" content="Value 3" />
+                        <Select.Option value="val_4" content="Value 4" />
+                    </Select.OptionGroup>
+                </Select>
+            </div>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -211,27 +168,20 @@ You can define and store unique data in each option by using the `option.data` p
 
 To enable multiple selection, use the `multiple` property. Its default value is `false`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Select} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select multiple={true} placeholder="values">
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select multiple={true} placeholder="values">
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Select multiple placeholder="values">
+            <Select.Option value="val_1">Value 1</Select.Option>
+            <Select.Option value="val_2">Value 2</Select.Option>
+            <Select.Option value="val_3">Value 3</Select.Option>
+            <Select.Option value="val_4">Value 4</Select.Option>
+        </Select>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -250,27 +200,20 @@ LANDING_BLOCK-->
 
 You can add a counter of the selected items to the component using the `hasCounter` property.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Select} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select multiple={true} hasCounter={true} placeholder="values">
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select multiple={true} hasCounter={true} placeholder="values">
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Select multiple hasCounter placeholder="values">
+            <Select.Option value="val_1">Value 1</Select.Option>
+            <Select.Option value="val_2">Value 2</Select.Option>
+            <Select.Option value="val_3">Value 3</Select.Option>
+            <Select.Option value="val_4">Value 4</Select.Option>
+        </Select>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -289,27 +232,20 @@ LANDING_BLOCK-->
 
 To enable filter section, use the `filterable` property. Its default value is `false`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Select} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select filterable={true} placeholder="Filterable">
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select filterable={true} placeholder="Filterable">
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Select filterable placeholder="Filterable">
+            <Select.Option value="val_1">Value 1</Select.Option>
+            <Select.Option value="val_2">Value 2</Select.Option>
+            <Select.Option value="val_3">Value 3</Select.Option>
+            <Select.Option value="val_4">Value 4</Select.Option>
+        </Select>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -328,39 +264,28 @@ LANDING_BLOCK-->
 
 To manage the default control and option size, use the `size` property. Its default size is `m`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Select} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select size="s" placeholder="S Size">
-  <Select.Option value="val_1">Value 1</Select.Option>
-</Select>
-<Select size="m" placeholder="M Size">
-  <Select.Option value="val_1">Value 1</Select.Option>
-</Select>
-<Select size="l" placeholder="L Size">
-  <Select.Option value="val_1">Value 1</Select.Option>
-</Select>
-<Select size="xl" placeholder="XL Size">
-  <Select.Option value="val_1">Value 1</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select size="s" placeholder="S Size">
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-  </UIKit.Select>
-  <UIKit.Select size="m" placeholder="M Size">
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-  </UIKit.Select>
-  <UIKit.Select size="l" placeholder="L Size">
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-  </UIKit.Select>
-  <UIKit.Select size="xl" placeholder="XL Size">
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <Select size="s" placeholder="S Size">
+                <Select.Option value="val_1">Value 1</Select.Option>
+            </Select>
+            <Select size="m" placeholder="M Size">
+                <Select.Option value="val_1">Value 1</Select.Option>
+            </Select>
+            <Select size="l" placeholder="L Size">
+                <Select.Option value="val_1">Value 1</Select.Option>
+            </Select>
+            <Select size="xl" placeholder="XL Size">
+                <Select.Option value="val_1">Value 1</Select.Option>
+            </Select>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -389,60 +314,43 @@ By default, the control width stretches to match the width of the content of the
 
 `number`: Applies width in pixels.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Select} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select>
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-<Select width="max">
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-<Select width={150}>
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-`}
->
-  <div style={{width: 150, border: '2px dashed gray', textAlign: 'center'}}>
-    <h4 style={{textAlign: 'center'}}>Default</h4>
-    <UIKit.Select multiple={true}>
-      <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-    </UIKit.Select>
-  </div>
-  <div style={{width: 150, border: '2px dashed gray', textAlign: 'center'}}>
-    <h4 style={{textAlign: 'center'}}>Max</h4>
-    <UIKit.Select width="max" multiple={true}>
-      <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-    </UIKit.Select>
-  </div>
-  <div style={{width: 150, border: '2px dashed gray', textAlign: 'center'}}>
-    <h4 style={{textAlign: 'center'}}>In pixels</h4>
-    <UIKit.Select width={110} multiple={true}>
-      <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-    </UIKit.Select>
-  </div>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <div style={{width: 150, border: '2px dashed gray', textAlign: 'center'}}>
+                <h4 style={{textAlign: 'center'}}>Default</h4>
+                <Select multiple>
+                    <Select.Option value="val_1">Value 1</Select.Option>
+                    <Select.Option value="val_2">Value 2</Select.Option>
+                    <Select.Option value="val_3">Value 3</Select.Option>
+                    <Select.Option value="val_4">Value 4</Select.Option>
+                </Select>
+            </div>
+            <div style={{width: 150, border: '2px dashed gray', textAlign: 'center'}}>
+                <h4 style={{textAlign: 'center'}}>Max</h4>
+                <Select width="max" multiple>
+                    <Select.Option value="val_1">Value 1</Select.Option>
+                    <Select.Option value="val_2">Value 2</Select.Option>
+                    <Select.Option value="val_3">Value 3</Select.Option>
+                    <Select.Option value="val_4">Value 4</Select.Option>
+                </Select>
+            </div>
+            <div style={{width: 150, border: '2px dashed gray', textAlign: 'center'}}>
+                <h4 style={{textAlign: 'center'}}>In pixels</h4>
+                <Select width={110} multiple>
+                    <Select.Option value="val_1">Value 1</Select.Option>
+                    <Select.Option value="val_2">Value 2</Select.Option>
+                    <Select.Option value="val_3">Value 3</Select.Option>
+                    <Select.Option value="val_4">Value 4</Select.Option>
+                </Select>
+            </div>
+        </>
+    );
+}
+SANDBOX-->
 
 ## Popup width
 
@@ -458,112 +366,79 @@ Points to note about the default behavior:
 
 - Narrow options are stretched to fit the width of the control.
 
-<!--LANDING_BLOCK
-
+<!--
 ### Non-virtualized list
 
 A regular list when all the elements are in the dom tree at once.
+-->
 
-<ExampleBlock
-    code={`
-<Select>
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-<Select>
-  <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
-  <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
-  <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
-  <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
-</Select>
-<Select popupWidth="fit">
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-<Select popupWidth="fit">
-  <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
-  <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
-  <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
-  <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
-</Select>
-<Select popupWidth={80}>
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-<Select popupWidth={80}>
-  <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
-  <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
-  <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
-  <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
-</Select>
-`}
->
-  <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
-    <h4 style={{textAlign: 'center'}}>Default</h4>
-    <p>
-      <UIKit.Select placeholder="Short value">
-        <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-      </UIKit.Select>
-    </p>
-    <p>
-      <UIKit.Select placeholder="Long value">
-        <UIKit.Select.Option value="val_1">Loooooooooooooooooooong Value 1</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_2">Loooooooooooooooooooong Value 2</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_3">Loooooooooooooooooooong Value 3</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_4">Loooooooooooooooooooong Value 4</UIKit.Select.Option>
-      </UIKit.Select>
-    </p>
-  </div>
-  <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
-    <h4 style={{textAlign: 'center'}}>Fit</h4>
-    <p>
-      <UIKit.Select placeholder="Short value" popupWidth="fit">
-        <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-      </UIKit.Select>
-    </p>
-    <p>
-      <UIKit.Select placeholder="Long value" popupWidth="fit">
-        <UIKit.Select.Option value="val_1">Loooooooooooooooooooong Value 1</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_2">Loooooooooooooooooooong Value 2</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_3">Loooooooooooooooooooong Value 3</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_4">Loooooooooooooooooooong Value 4</UIKit.Select.Option>
-      </UIKit.Select>
-    </p>
-  </div>
-  <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
-    <h4 style={{textAlign: 'center'}}>In pixels</h4>
-    <p>
-      <UIKit.Select placeholder="Short value" popupWidth={80}>
-        <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-      </UIKit.Select>
-    </p>
-    <p>
-      <UIKit.Select placeholder="Long value" popupWidth={80}>
-        <UIKit.Select.Option value="val_1">Loooooooooooooooooooong Value 1</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_2">Loooooooooooooooooooong Value 2</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_3">Loooooooooooooooooooong Value 3</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_4">Loooooooooooooooooooong Value 4</UIKit.Select.Option>
-      </UIKit.Select>
-    </p>
-  </div>
-</ExampleBlock>
+<!--SANDBOX
+import {Select} from '@gravity-ui/uikit';
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
+                <h4 style={{textAlign: 'center'}}>Default</h4>
+                <p>
+                    <Select placeholder="Short value">
+                        <Select.Option value="val_1">Value 1</Select.Option>
+                        <Select.Option value="val_2">Value 2</Select.Option>
+                        <Select.Option value="val_3">Value 3</Select.Option>
+                        <Select.Option value="val_4">Value 4</Select.Option>
+                    </Select>
+                </p>
+                <p>
+                    <Select placeholder="Long value">
+                        <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
+                        <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
+                        <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
+                        <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
+                    </Select>
+                </p>
+            </div>
+            <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
+                <h4 style={{textAlign: 'center'}}>Fit</h4>
+                <p>
+                    <Select placeholder="Short value" popupWidth="fit">
+                        <Select.Option value="val_1">Value 1</Select.Option>
+                        <Select.Option value="val_2">Value 2</Select.Option>
+                        <Select.Option value="val_3">Value 3</Select.Option>
+                        <Select.Option value="val_4">Value 4</Select.Option>
+                    </Select>
+                </p>
+                <p>
+                    <Select placeholder="Long value" popupWidth="fit">
+                        <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
+                        <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
+                        <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
+                        <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
+                    </Select>
+                </p>
+            </div>
+            <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
+                <h4 style={{textAlign: 'center'}}>In pixels</h4>
+                <p>
+                    <Select placeholder="Short value" popupWidth={80}>
+                        <Select.Option value="val_1">Value 1</Select.Option>
+                        <Select.Option value="val_2">Value 2</Select.Option>
+                        <Select.Option value="val_3">Value 3</Select.Option>
+                        <Select.Option value="val_4">Value 4</Select.Option>
+                    </Select>
+                </p>
+                <p>
+                    <Select placeholder="Long value" popupWidth={80}>
+                        <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
+                        <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
+                        <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
+                        <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
+                    </Select>
+                </p>
+            </div>
+        </>
+    );
+}
+SANDBOX-->
 
 ### Virtualized list
 
@@ -575,85 +450,44 @@ When using virtualization, some restrictions apply to the popup element:
 
 - The minimum width of the popup is equal to the width of the control, or `100px` if the control is shorter.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Select} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select>
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-<Select>
-  <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
-  <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
-  <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
-  <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
-</Select>
-<Select popupWidth="fit">
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-<Select popupWidth="fit">
-  <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
-  <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
-  <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
-  <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
-</Select>
-<Select popupWidth={80}>
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-<Select popupWidth={80}>
-  <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
-  <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
-  <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
-  <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
-</Select>
-`}
->
-  <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
-    <h4 style={{textAlign: 'center'}}>Default</h4>
-    <p>
-      <UIKit.Select placeholder="Short value">
-        {Array.from({length: 1000}, (_, index) => index)
-          .map((value) => <UIKit.Select.Option value={value}>{`Value ${value}`}</UIKit.Select.Option>)
-        }
-      </UIKit.Select>
-    </p>
-    <p>
-      <UIKit.Select placeholder="Long value">
-        {Array.from({length: 1000}, (_, index) => index)
-          .map((value) => <UIKit.Select.Option value={value}>{`Loooooooooooooooooooong Value ${value}`}</UIKit.Select.Option>)
-        }
-      </UIKit.Select>
-    </p>
-  </div>
-  <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
-    <h4 style={{textAlign: 'center'}}>In pixels</h4>
-    <p>
-      <UIKit.Select placeholder="Short value" popupWidth={80}>
-        {Array.from({length: 1000}, (_, index) => index)
-          .map((value) => <UIKit.Select.Option value={value}>{`Value ${value}`}</UIKit.Select.Option>)
-        }
-      </UIKit.Select>
-    </p>
-    <p>
-      <UIKit.Select placeholder="Long value" popupWidth={80}>
-        {Array.from({length: 1000}, (_, index) => index)
-          .map((value) => <UIKit.Select.Option value={value}>{`Loooooooooooooooooooong Value ${value}`}</UIKit.Select.Option>)
-        }
-      </UIKit.Select>
-    </p>
-  </div>
-</ExampleBlock>
+const shortOptions = Array.from({length: 1000}, (_, index) => ({
+    value: String(index),
+    content: `Value ${index}`,
+}));
 
-LANDING_BLOCK-->
+const longOptions = Array.from({length: 1000}, (_, index) => ({
+    value: String(index),
+    content: `Loooooooooooooooooooong Value ${index}`,
+}));
+
+export default function () {
+    return (
+        <>
+            <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
+                <h4 style={{textAlign: 'center'}}>Default</h4>
+                <p>
+                    <Select placeholder="Short value" options={shortOptions} />
+                </p>
+                <p>
+                    <Select placeholder="Long value" options={longOptions} />
+                </p>
+            </div>
+            <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
+                <h4 style={{textAlign: 'center'}}>In pixels</h4>
+                <p>
+                    <Select placeholder="Short value" popupWidth={80} options={shortOptions} />
+                </p>
+                <p>
+                    <Select placeholder="Long value" popupWidth={80} options={longOptions} />
+                </p>
+            </div>
+        </>
+    );
+}
+SANDBOX-->
 
 ## Advanced usage
 
@@ -664,33 +498,26 @@ There are many ways to customize your `Select`.
 To render a custom control, use the `renderControl` property.
 Note: You should forward all arguments to your node in order to enable consistent behavior, just as when using the default control.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Button, Select} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select
-  renderControl={({onClick, onKeyDown, ref}) => {
-    return <button ref={ref} onClick={onClick} extraProps={{onKeyDown}}>Custom control</button>
-  }}
->
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select renderControl={({onClick, onKeyDown, ref}) => {
-    return <button ref={ref} onClick={onClick} extraProps={{onKeyDown}}>Custom control</button>
-  }}>
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Select
+            renderControl={({onClick, onKeyDown, ref}) => (
+                <Button ref={ref} onClick={onClick} extraProps={{onKeyDown}}>
+                    Custom control
+                </Button>
+            )}
+        >
+            <Select.Option value="val_1">Value 1</Select.Option>
+            <Select.Option value="val_2">Value 2</Select.Option>
+            <Select.Option value="val_3">Value 3</Select.Option>
+            <Select.Option value="val_4">Value 4</Select.Option>
+        </Select>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -723,58 +550,38 @@ const MyComponent = () => {
 To render a custom filter section, use the `renderFilter` property and set the `filterable` property to `true`.
 Note: You need to forward all arguments to your node in order to enable a properly working filter, just as when using the default configuration.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {SelectProps} from '@gravity-ui/uikit';
+import {Button, Select, TextInput} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select
-  placeholder="Custom filter"
-  filterable={true}
-  renderFilter={({onChange, onKeyDown, ref, value}) => {
+const renderFilter: SelectProps['renderFilter'] = (props) => {
+    const {value, ref, onChange, onKeyDown} = props;
+
     return (
-      <div style={{display: 'flex', flexDirection: 'column'}}>
-        <input
-          ref={ref}
-          value={value}
-          size="1"
-          onKeyDown={onKeyDown}
-          onChange={(e) => onChange(e.target.value)}
-        />
-        <button>Do smth</button>
-      </div>
-    );
-  }}
->
-  <Select.Option value="val_1">Value 1</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select
-    placeholder="Custom filter"
-    filterable={true}
-    renderFilter={({onChange, onKeyDown, ref, value}) => {
-      return (
-        <div style={{display: 'flex', flexDirection: 'column'}}>
-          <input
-            ref={ref}
-            value={value}
-            size="1"
-            onKeyDown={onKeyDown}
-            onChange={(e) => onChange(e.target.value)}
-          />
-          <button>Do smth</button>
+        <div>
+            <TextInput
+                controlRef={ref}
+                controlProps={{size: 1}}
+                value={value}
+                onUpdate={onChange}
+                onKeyDown={onKeyDown}
+            />
+            <Button>Do smth</Button>
         </div>
-      );
-    }}
-  >
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
+    );
+};
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Select placeholder="Custom filter" filterable renderFilter={renderFilter}>
+            <Select.Option value="val_1">Value 1</Select.Option>
+            <Select.Option value="val_2">Value 2</Select.Option>
+            <Select.Option value="val_3">Value 3</Select.Option>
+            <Select.Option value="val_4">Value 4</Select.Option>
+        </Select>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -814,44 +621,33 @@ const MyComponent = () => {
 
 To render custom options, use the `renderOption` property:
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {SelectProps} from '@gravity-ui/uikit';
+import {Select} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select
-  renderOption={(option) => {
+const renderOption: SelectProps['renderOption'] = (option) => {
+    return <div style={{color: option.data.color}}>{option.children}</div>;
+};
+
+export default function () {
     return (
-      <div style={{color: option.data.color}}>
-        {option.children}
-      </div>
+        <Select placeholder="Custom options" renderOption={renderOption}>
+            <Select.Option value="val_1" data={{color: '#8FE1A1'}}>
+                Value 1
+            </Select.Option>
+            <Select.Option value="val_2" data={{color: '#38C0A8'}}>
+                Value 2
+            </Select.Option>
+            <Select.Option value="val_3" data={{color: '#3A7AC3'}}>
+                Value 3
+            </Select.Option>
+            <Select.Option value="val_4" data={{color: '#534581'}}>
+                Value 4
+            </Select.Option>
+        </Select>
     );
-  }}
->
-  <Select.Option value="val_1" data={{color: '#8FE1A1'}}>Value 1</Select.Option>
-  <Select.Option value="val_2" data={{color: '#38C0A8'}}>Value 2</Select.Option>
-  <Select.Option value="val_3" data={{color: '#3A7AC3'}}>Value 3</Select.Option>
-  <Select.Option value="val_4" data={{color: '#534581'}}>Value 4</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select
-    placeholder="Custom options"
-    renderOption={(option) => {
-      return (
-        <div style={{color: option.data.color}}>
-          {option.children}
-        </div>
-      );
-    }}
-  >
-    <UIKit.Select.Option value="val_1" data={{color: '#8FE1A1'}}>Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2" data={{color: '#38C0A8'}}>Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3" data={{color: '#3A7AC3'}}>Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4" data={{color: '#534581'}}>Value 4</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -888,44 +684,33 @@ const MyComponent = () => {
 
 To render custom selected options, use the `renderSelectedOption` property:
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {SelectProps} from '@gravity-ui/uikit';
+import {Select} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select
-  renderSelectedOption={(option) => {
+const renderSelectedOption: SelectProps['renderSelectedOption'] = (option) => {
+    return <div style={{color: option.data.color}}>{option.children}</div>;
+};
+
+export default function () {
     return (
-      <div style={{color: option.data.color}}>
-        {option.children}
-      </div>
+        <Select placeholder="Custom selected options" renderSelectedOption={renderSelectedOption}>
+            <Select.Option value="val_1" data={{color: '#8FE1A1'}}>
+                Value 1
+            </Select.Option>
+            <Select.Option value="val_2" data={{color: '#38C0A8'}}>
+                Value 2
+            </Select.Option>
+            <Select.Option value="val_3" data={{color: '#3A7AC3'}}>
+                Value 3
+            </Select.Option>
+            <Select.Option value="val_4" data={{color: '#534581'}}>
+                Value 4
+            </Select.Option>
+        </Select>
     );
-  }}
->
-  <Select.Option value="val_1" data={{color: '#8FE1A1'}}>Value 1</Select.Option>
-  <Select.Option value="val_2" data={{color: '#38C0A8'}}>Value 2</Select.Option>
-  <Select.Option value="val_3" data={{color: '#3A7AC3'}}>Value 3</Select.Option>
-  <Select.Option value="val_4" data={{color: '#534581'}}>Value 4</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select
-    placeholder="Custom selected options"
-    renderSelectedOption={(option) => {
-      return (
-        <div style={{color: option.data.color}}>
-          {option.children}
-        </div>
-      );
-    }}
-  >
-    <UIKit.Select.Option value="val_1" data={{color: '#8FE1A1'}}>Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2" data={{color: '#38C0A8'}}>Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3" data={{color: '#3A7AC3'}}>Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4" data={{color: '#534581'}}>Value 4</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -962,32 +747,31 @@ const MyComponent = () => {
 
 Options have a fixed height according to the `size` property. If you need to render options with different heights, you can use the `option.data` property. It will store information about what height you need to set for the options, as well as the `getOptionHeight` property to set this value.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {SelectProps} from '@gravity-ui/uikit';
+import {Select} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select
-  getOptionHeight={(option) => option.data.height}
->
-  <Select.Option value="val_1" data={{height: 20}}>Value 1</Select.Option>
-  <Select.Option value="val_2" data={{height: 40}}>Value 2</Select.Option>
-  <Select.Option value="val_3" data={{height: 60}}>Value 3</Select.Option>
-  <Select.Option value="val_4" data={{height: 80}}>Value 4</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select
-    placeholder="Different heights"
-    getOptionHeight={(option) => option.data.height}
-  >
-    <UIKit.Select.Option value="val_1" data={{height: 20}}>Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2" data={{height: 40}}>Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3" data={{height: 60}}>Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4" data={{height: 80}}>Value 4</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
+const getOptionHeight: SelectProps['getOptionHeight'] = (option) => option.data.height;
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Select placeholder="Different heights" getOptionHeight={getOptionHeight}>
+            <Select.Option value="val_1" data={{height: 20}}>
+                Value 1
+            </Select.Option>
+            <Select.Option value="val_2" data={{height: 40}}>
+                Value 2
+            </Select.Option>
+            <Select.Option value="val_3" data={{height: 60}}>
+                Value 3
+            </Select.Option>
+            <Select.Option value="val_4" data={{height: 80}}>
+                Value 4
+            </Select.Option>
+        </Select>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -1022,71 +806,43 @@ const MyComponent = () => {
 
 To render a custom counter, use the `renderCounter` property. The counter is only displayed when multiple selection is enabled (`multiple={true}`) and `hasCounter={true}`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {SelectProps} from '@gravity-ui/uikit';
+import {Select} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select
-  multiple={true}
-  hasCounter={true}
-  renderCounter={(_, {count, disabled}) => {
+const renderCounter: SelectProps['renderCounter'] = (_, {count, disabled}) => {
     if (count === 0) {
-      return null;
-    }
-    if (count >= 2) {
-      return (
-        <div
-          style={{
-            padding: '0 8px',
-            color: disabled ? '#999' : '#027bf3',
-            fontWeight: 'bold',
-          }}
-        >
-          +{count}
-        </div>
-      );
-    }
-    return count;
-  }}
->
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select
-    multiple={true}
-    hasCounter={true}
-    renderCounter={(_, {count, disabled}) => {
-      if (count === 0) {
         return null;
-      }
-      if (count >= 2) {
-        return (
-          <div
-            style={{
-              padding: '0 8px',
-              color: disabled ? '#999' : '#027bf3',
-              fontWeight: 'bold',
-            }}
-          >
-            +{count}
-          </div>
-        );
-      }
-      return count;
-    }}
-  >
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
+    }
 
-LANDING_BLOCK-->
+    if (count >= 2) {
+        return (
+            <div
+                style={{
+                    padding: '0 8px',
+                    color: disabled ? '#999' : '#027bf3',
+                    fontWeight: 'bold',
+                }}
+            >
+                +{count}
+            </div>
+        );
+    }
+
+    return count;
+};
+
+export default function () {
+    return (
+        <Select multiple hasCounter renderCounter={renderCounter}>
+            <Select.Option value="val_1">Value 1</Select.Option>
+            <Select.Option value="val_2">Value 2</Select.Option>
+            <Select.Option value="val_3">Value 3</Select.Option>
+            <Select.Option value="val_4">Value 4</Select.Option>
+        </Select>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -1131,51 +887,39 @@ const MyComponent = () => {
 
 The `renderPopup` property allows you to control the content of the options list: change the order of standard elements (filter, list), hide them, or add custom elements between, before, or after them.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {SelectProps} from '@gravity-ui/uikit';
+import {Select} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select
-  filterable
-  placeholder="Custom popup"
-  renderPopup={({renderList, renderFilter}) => {
+const renderPopup: SelectProps['renderPopup'] = ({renderList, renderFilter}) => {
     return (
-      <React.Fragment>
-        {renderFilter()}
-        <div style={{width: "100%", height: "20px", backgroundColor: "tomato"}} />
-        {renderList()}
-      </React.Fragment>
+        <>
+            {renderFilter()}
+            <div style={{width: '100%', height: 20, backgroundColor: 'tomato'}} />
+            {renderList()}
+        </>
     );
-  }}
->
-  <Select.Option value="val_1" data={{color: '#8FE1A1'}}>Value 1</Select.Option>
-  <Select.Option value="val_2" data={{color: '#38C0A8'}}>Value 2</Select.Option>
-  <Select.Option value="val_3" data={{color: '#3A7AC3'}}>Value 3</Select.Option>
-  <Select.Option value="val_4" data={{color: '#534581'}}>Value 4</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select
-    filterable
-    placeholder="Custom popup"
-    renderPopup={({renderList, renderFilter}) => {
-      return (
-        <React.Fragment>
-          {renderFilter()}
-          <div style={{width: "100%", height: "20px", backgroundColor: "tomato"}} />
-          {renderList()}
-        </React.Fragment>
-  );
-}}
-  >
-    <UIKit.Select.Option value="val_1" data={{color: '#8FE1A1'}}>Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2" data={{color: '#38C0A8'}}>Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3" data={{color: '#3A7AC3'}}>Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4" data={{color: '#534581'}}>Value 4</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
+};
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Select filterable placeholder="Custom popup" renderPopup={renderPopup}>
+            <Select.Option value="val_1" data={{color: '#8FE1A1'}}>
+                Value 1
+            </Select.Option>
+            <Select.Option value="val_2" data={{color: '#38C0A8'}}>
+                Value 2
+            </Select.Option>
+            <Select.Option value="val_3" data={{color: '#3A7AC3'}}>
+                Value 3
+            </Select.Option>
+            <Select.Option value="val_4" data={{color: '#534581'}}>
+                Value 4
+            </Select.Option>
+        </Select>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -1219,46 +963,33 @@ const MyComponent = () => {
 This `Select` state is for incorrect user input. To change the `Select` appearance, use the `validationState` property with the `"invalid"` value. Optionally, you can provide an error message through the `errorMessage` property. By default, the message text is rendered outside the component.
 You can change this with the `errorPlacement` property.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Select
-    placeholder="Placeholder"
-    errorMessage="Error message"
-    validationState="invalid"
->
-    <Select.Option value="val_1">Value 1</Select.Option>
-    <Select.Option value="val_2">Value 2</Select.Option>
-    <Select.Option value="val_3">Value 3</Select.Option>
-    <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-<Select
-    placeholder="Placeholder"
-    errorPlacement="inside"
-    errorMessage="Error message"
-    validationState="invalid"
->
-    <Select.Option value="val_1">Value 1</Select.Option>
-    <Select.Option value="val_2">Value 2</Select.Option>
-    <Select.Option value="val_3">Value 3</Select.Option>
-    <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-`}
->
-    <UIKit.Select placeholder="Placeholder" errorMessage="Error message" validationState="invalid">
-        <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-    </UIKit.Select>
-    <UIKit.Select placeholder="Placeholder" errorPlacement="inside" errorMessage="Error message" validationState="invalid">
-        <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-    </UIKit.Select>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Select} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <Select placeholder="Placeholder" errorMessage="Error message" validationState="invalid">
+                <Select.Option value="val_1">Value 1</Select.Option>
+                <Select.Option value="val_2">Value 2</Select.Option>
+                <Select.Option value="val_3">Value 3</Select.Option>
+                <Select.Option value="val_4">Value 4</Select.Option>
+            </Select>
+            <Select
+                placeholder="Placeholder"
+                errorPlacement="inside"
+                errorMessage="Error message"
+                validationState="invalid"
+            >
+                <Select.Option value="val_1">Value 1</Select.Option>
+                <Select.Option value="val_2">Value 2</Select.Option>
+                <Select.Option value="val_3">Value 3</Select.Option>
+                <Select.Option value="val_4">Value 4</Select.Option>
+            </Select>
+        </>
+    );
+}
+SANDBOX-->
 
 ## Properties
 

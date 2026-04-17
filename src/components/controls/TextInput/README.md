@@ -18,19 +18,23 @@ The appearance of `TextInput` is controlled by the `view` and `pin` properties.
 
 `normal` - the main view of `TextInput` (used by default).
 
-<!--LANDING_BLOCK
-<ExampleBlock code={`<TextInput placeholder="Placeholder" />`}>
-    <UIKit.TextInput placeholder="Placeholder" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {TextInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return <TextInput placeholder="Placeholder" />;
+}
+SANDBOX-->
 
 `clear` - can be used with a custom wrapper for `TextInput`.
 
-<!--LANDING_BLOCK
-<ExampleBlock code={`<TextInput view="clear" placeholder="Placeholder" />`}>
-    <UIKit.TextInput view="clear" placeholder="Placeholder" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {TextInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return <TextInput view="clear" placeholder="Placeholder" />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -45,19 +49,19 @@ LANDING_BLOCK-->
 
 Allows you to control view of right and left edges of `TextInput`'s border.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<TextInput placeholder="Placeholder" pin="round-brick" />
-<TextInput placeholder="Placeholder" pin="brick-brick" />
-<TextInput placeholder="Placeholder" pin="brick-round" />
-`}
->
-    <UIKit.TextInput placeholder="Placeholder" pin="round-brick" />
-    <UIKit.TextInput placeholder="Placeholder" pin="brick-brick" />
-    <UIKit.TextInput placeholder="Placeholder" pin="brick-round" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {TextInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <TextInput placeholder="Placeholder" pin="round-brick" />
+            <TextInput placeholder="Placeholder" pin="brick-brick" />
+            <TextInput placeholder="Placeholder" pin="brick-round" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -75,15 +79,13 @@ LANDING_BLOCK-->
 
 The state of the `TextInput` where you don't want the user to be able to interact with the component.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<TextInput placeholder="Placeholder" disabled={true} />
-`}
->
-    <UIKit.TextInput placeholder="Placeholder" disabled={true} />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {TextInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return <TextInput placeholder="Placeholder" disabled />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -98,17 +100,27 @@ LANDING_BLOCK-->
 The state of the `TextInput` in which you want to indicate incorrect user input. To change `TextInput` appearance, use the `validationState` property with the `"invalid"` value. An optional message text can be added via the `errorMessage` property. By default, message text is rendered outside the component.
 This behaviour can be changed with the `errorPlacement` property.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<TextInput placeholder="Placeholder" errorMessage="Error message" validationState="invalid" />
-<TextInput placeholder="Placeholder" errorPlacement="inside" errorMessage="Error message" validationState="invalid" />
-`}
->
-    <UIKit.TextInput placeholder="Placeholder" errorMessage="Error message" validationState="invalid" />
-    <UIKit.TextInput placeholder="Placeholder" errorPlacement="inside" errorMessage="Error message" validationState="invalid" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {TextInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <TextInput
+                placeholder="Placeholder"
+                errorMessage="Error message"
+                validationState="invalid"
+            />
+            <TextInput
+                placeholder="Placeholder"
+                errorPlacement="inside"
+                errorMessage="Error message"
+                validationState="invalid"
+            />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -129,21 +141,20 @@ LANDING_BLOCK-->
 
 `xl` – Used on promo and landing pages.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<TextInput placeholder="Placeholder" size="s" />
-<TextInput placeholder="Placeholder" size="m" />
-<TextInput placeholder="Placeholder" size="l" />
-<TextInput placeholder="Placeholder" size="xl" />
-`}
->
-    <UIKit.TextInput placeholder="Placeholder" size="s" />
-    <UIKit.TextInput placeholder="Placeholder" size="m" />
-    <UIKit.TextInput placeholder="Placeholder" size="l" />
-    <UIKit.TextInput placeholder="Placeholder" size="xl" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {TextInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <TextInput placeholder="Placeholder" size="s" />
+            <TextInput placeholder="Placeholder" size="m" />
+            <TextInput placeholder="Placeholder" size="l" />
+            <TextInput placeholder="Placeholder" size="xl" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -163,17 +174,18 @@ Allows you to set the label to the left of control.
 - label occupies the leftmost position relative to the control. That is, the elements added via `startContent` property will be located to the right.
 - label can take up no more than half the width of the entire TextInput's space.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<TextInput placeholder="Placeholder" label="Label" />
-<TextInput placeholder="Placeholder" label="Very long label with huge amount of symbols" />
-`}
->
-    <UIKit.TextInput placeholder="Placeholder" label="Label" />
-    <UIKit.TextInput placeholder="Placeholder" label="Very long label with huge amount of symbols" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {TextInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <TextInput placeholder="Placeholder" label="Label" />
+            <TextInput placeholder="Placeholder" label="Very long label with huge amount of symbols" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -189,17 +201,19 @@ LANDING_BLOCK-->
 
 Allows you to add content to the left of the control (or to the right in case of using [rtl](https://developer.mozilla.org/en-US/docs/Glossary/RTL)). Located to the left (or to the right in case of using rtl) of the label added via `label` property.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`<TextInput placeholder="Placeholder" label="Label" startContent={<Label size="s">Left</Label>} />`}
->
-    <UIKit.TextInput
-        placeholder="Search"
-        label="Label"
-        startContent={<UIKit.Label size="s">Left</UIKit.Label>}
-    />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Label, TextInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <TextInput
+            placeholder="Search"
+            label="Label"
+            startContent={<Label size="s">Left</Label>}
+        />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -213,17 +227,19 @@ LANDING_BLOCK-->
 
 Allows you to add content to the right (or to the left in case of using [rtl](https://developer.mozilla.org/en-US/docs/Glossary/RTL)) of the control. Located to the right (or to the left in case of using rtl) of the clear button added via `hasClear` property.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`<TextInput placeholder="Placeholder" endContent={<Label size="s">Right</Label>} hasClear/>`}
->
-    <UIKit.TextInput
-        hasClear
-        placeholder="Placeholder"
-        endContent={<UIKit.Label size="s">Right</UIKit.Label>}
-    />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Label, TextInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <TextInput
+            hasClear
+            placeholder="Placeholder"
+            endContent={<Label size="s">Right</Label>}
+        />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

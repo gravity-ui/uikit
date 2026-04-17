@@ -10,30 +10,19 @@ import {TableColumnSetup} from '@gravity-ui/uikit';
 
 Компонент `TableColumnSetup` предоставляет пользовательский интерфейс для настройки видимости и порядка колонок таблицы. Он отображает кнопку, которая открывает всплывающее окно со списком доступных колонок, позволяя пользователям показывать/скрывать колонки и при необходимости изменять их порядок с помощью перетаскивания.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {TableColumnSetup} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
 const items = [
-  {id: 'name', title: 'Имя', selected: true, required: true},
-  {id: 'email', title: 'Email', selected: true},
-  {id: 'phone', title: 'Телефон', selected: false},
+    {id: 'name', title: 'Имя', selected: true, required: true},
+    {id: 'email', title: 'Email', selected: true},
+    {id: 'phone', title: 'Телефон', selected: false},
 ];
 
-<TableColumnSetup items={items} onUpdate={(updatedItems) => console.log(updatedItems)} />;
-`}
->
-    <UIKit.TableColumnSetup
-        items={[
-            {id: 'name', title: 'Имя', selected: true, required: true},
-            {id: 'email', title: 'Email', selected: true},
-            {id: 'phone', title: 'Телефон', selected: false},
-        ]}
-        onUpdate={(updatedItems) => console.log(updatedItems)}
-    />
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return <TableColumnSetup items={items} onUpdate={(updatedItems) => console.log(updatedItems)} />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -53,29 +42,25 @@ const items = [
 
 Включите функциональность перетаскивания, чтобы позволить пользователям изменять порядок колонок, установив свойство `sortable` в `true`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {TableColumnSetup} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<TableColumnSetup
-    items={items}
-    sortable
-    onUpdate={(updatedItems) => console.log(updatedItems)}
-/>
-`}
->
-    <UIKit.TableColumnSetup
-        items={[
-            {id: 'name', title: 'Имя', selected: true, required: true},
-            {id: 'email', title: 'Email', selected: true},
-            {id: 'phone', title: 'Телефон', selected: false},
-        ]}
-        sortable
-        onUpdate={(updatedItems) => console.log(updatedItems)}
-    />
-</ExampleBlock>
+const items = [
+    {id: 'name', title: 'Имя', selected: true, required: true},
+    {id: 'email', title: 'Email', selected: true},
+    {id: 'phone', title: 'Телефон', selected: false},
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <TableColumnSetup
+            items={items}
+            sortable
+            onUpdate={(updatedItems) => console.log(updatedItems)}
+        />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -92,29 +77,25 @@ LANDING_BLOCK-->
 - `true` - Изменения применяются немедленно при переключении колонок пользователем
 - `false` - Изменения применяются только при нажатии кнопки "Применить"
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {TableColumnSetup} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<TableColumnSetup
-    items={items}
-    hideApplyButton
-    onUpdate={(updatedItems) => console.log(updatedItems)}
-/>
-`}
->
-    <UIKit.TableColumnSetup
-        items={[
-            {id: 'name', title: 'Имя', selected: true, required: true},
-            {id: 'email', title: 'Email', selected: true},
-            {id: 'phone', title: 'Телефон', selected: false},
-        ]}
-        hideApplyButton
-        onUpdate={(updatedItems) => console.log(updatedItems)}
-    />
-</ExampleBlock>
+const items = [
+    {id: 'name', title: 'Имя', selected: true, required: true},
+    {id: 'email', title: 'Email', selected: true},
+    {id: 'phone', title: 'Телефон', selected: false},
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <TableColumnSetup
+            items={items}
+            hideApplyButton
+            onUpdate={(updatedItems) => console.log(updatedItems)}
+        />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -132,29 +113,19 @@ LANDING_BLOCK-->
 
 Показывайте количество выбранных колонок в кнопке переключения, включив свойство `showStatus`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {TableColumnSetup} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<TableColumnSetup
-    items={items}
-    showStatus={true}
-    onUpdate={(updatedItems) => console.log(updatedItems)}
-/>
-`}
->
-    <UIKit.TableColumnSetup
-        items={[
-            {id: 'name', title: 'Имя', selected: true, required: true},
-            {id: 'email', title: 'Email', selected: true},
-            {id: 'phone', title: 'Телефон', selected: false},
-        ]}
-        showStatus={true}
-        onUpdate={(updatedItems) => console.log(updatedItems)}
-    />
-</ExampleBlock>
+const items = [
+    {id: 'name', title: 'Имя', selected: true, required: true},
+    {id: 'email', title: 'Email', selected: true},
+    {id: 'phone', title: 'Телефон', selected: false},
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return <TableColumnSetup items={items} showStatus onUpdate={(updatedItems) => console.log(updatedItems)} />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -172,37 +143,29 @@ LANDING_BLOCK-->
 
 Настройте кнопку-триггер, используя свойство `renderSwitcher`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Button, TableColumnSetup} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<TableColumnSetup
-    items={items}
-    renderSwitcher={({onClick, onKeyDown}) => (
-        <Button onClick={onClick} onKeyDown={onKeyDown} view="outlined">
-            Настроить колонки
-        </Button>
-    )}
-    onUpdate={(updatedItems) => console.log(updatedItems)}
-/>
-`}
->
-    <UIKit.TableColumnSetup
-        items={[
-            {id: 'name', title: 'Имя', selected: true, required: true},
-            {id: 'email', title: 'Email', selected: true},
-            {id: 'phone', title: 'Телефон', selected: false},
-        ]}
-        renderSwitcher={({onClick, onKeyDown}) => (
-            <UIKit.Button onClick={onClick} onKeyDown={onKeyDown} view="outlined">
-                Настроить колонки
-            </UIKit.Button>
-        )}
-        onUpdate={(updatedItems) => console.log(updatedItems)}
-    />
-</ExampleBlock>
+const items = [
+    {id: 'name', title: 'Имя', selected: true, required: true},
+    {id: 'email', title: 'Email', selected: true},
+    {id: 'phone', title: 'Телефон', selected: false},
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <TableColumnSetup
+            items={items}
+            renderSwitcher={({onClick, onKeyDown}) => (
+                <Button onClick={onClick} onKeyDown={onKeyDown} view="outlined">
+                    Настроить колонки
+                </Button>
+            )}
+            onUpdate={(updatedItems) => console.log(updatedItems)}
+        />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

@@ -12,29 +12,21 @@ import {Breadcrumbs} from '@gravity-ui/uikit';
 
 ## Пример
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Breadcrumbs} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Breadcrumbs>
-    <Breadcrumbs.Item>Region</Breadcrumbs.Item>
-    <Breadcrumbs.Item>Country</Breadcrumbs.Item>
-    <Breadcrumbs.Item>City</Breadcrumbs.Item>
-    <Breadcrumbs.Item>District</Breadcrumbs.Item>
-    <Breadcrumbs.Item>Street</Breadcrumbs.Item>
-</Breadcrumbs>
-`}
->
-    <UIKit.Breadcrumbs>
-        <UIKit.Breadcrumbs.Item>Region</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>Country</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>City</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>District</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>Street</UIKit.Breadcrumbs.Item>
-    </UIKit.Breadcrumbs>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Breadcrumbs>
+            <Breadcrumbs.Item>Region</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Country</Breadcrumbs.Item>
+            <Breadcrumbs.Item>City</Breadcrumbs.Item>
+            <Breadcrumbs.Item>District</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Street</Breadcrumbs.Item>
+        </Breadcrumbs>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -58,29 +50,33 @@ LANDING_BLOCK-->
 
 Используйте свойство `onAction` как обратный вызов для обработки событий клика по элементам.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {useState} from 'react';
+import {Breadcrumbs} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Breadcrumbs onAction={(id) => alert(id)}>
-    <Breadcrumbs.Item key={1}>Region</Breadcrumbs.Item>
-    <Breadcrumbs.Item key={2}>Country</Breadcrumbs.Item>
-    <Breadcrumbs.Item key={3}>City</Breadcrumbs.Item>
-    <Breadcrumbs.Item key={4}>District</Breadcrumbs.Item>
-    <Breadcrumbs.Item key={5}>Street</Breadcrumbs.Item>
-</Breadcrumbs>
-`}
->
-    <UIKit.Breadcrumbs onAction={(id) => alert(id)}>
-        <UIKit.Breadcrumbs.Item key={1}>Region</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item key={2}>Country</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item key={3}>City</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item key={4}>District</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item key={5}>Street</UIKit.Breadcrumbs.Item>
-    </UIKit.Breadcrumbs>
-</ExampleBlock>
+const items = [
+    {id: 1, label: 'Region'},
+    {id: 2, label: 'Country'},
+    {id: 3, label: 'City'},
+    {id: 4, label: 'District'},
+    {id: 5, label: 'Street'},
+];
 
-LANDING_BLOCK-->
+export default function () {
+    const [currentId, setCurrentId] = useState<number>();
+
+    return (
+        <div>
+            <Breadcrumbs onAction={setCurrentId}>
+                {items.map((item) => (
+                    <Breadcrumbs.Item key={item.id}>{item.label}</Breadcrumbs.Item>
+                ))}
+            </Breadcrumbs>
+            <p>You clicked item ID: {currentId}</p>
+        </div>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -111,25 +107,19 @@ const items = [
 
 В компоненте `Breadcrumbs` клик по элементу обычно вызывает `onAction`. Однако вы также можете использовать его в качестве ссылки на другую страницу или сайт. Для этого добавьте свойство `href` в компонент `<Breadcrumbs.Item>`:
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Breadcrumbs} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Breadcrumbs>
-    <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
-    <Breadcrumbs.Item href="/components">Components</Breadcrumbs.Item>
-    <Breadcrumbs.Item href="/components/uikit/breadcrumbs">Breadcrumbs</Breadcrumbs.Item>
-</Breadcrumbs>
-`}
->
-    <UIKit.Breadcrumbs>
-        <UIKit.Breadcrumbs.Item href="/">Home</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item href="/components">Components</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item href="/components/uikit/breadcrumbs">Breadcrumbs</UIKit.Breadcrumbs.Item>
-    </UIKit.Breadcrumbs>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Breadcrumbs>
+            <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
+            <Breadcrumbs.Item href="/components">Components</Breadcrumbs.Item>
+            <Breadcrumbs.Item href="/components/uikit/breadcrumbs">Breadcrumbs</Breadcrumbs.Item>
+        </Breadcrumbs>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -151,33 +141,23 @@ LANDING_BLOCK-->
 
 Для лучшего понимания пользователем общей структуры некоторые приложения всегда отображают начальную точку (корневой элемент) хлебных крошек, даже если другие элементы скрыты из-за ограничений пространства.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Box, Breadcrumbs} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Box overflow="hidden" width={200}>
-    <Breadcrumbs showRoot>
-        <Breadcrumbs.Item key="home">Home</Breadcrumbs.Item>
-        <Breadcrumbs.Item key="trendy">Trendy</Breadcrumbs.Item>
-        <Breadcrumbs.Item key="2020 assets">March 2020 Assets</Breadcrumbs.Item>
-        <Breadcrumbs.Item key="winter">Winter</Breadcrumbs.Item>
-        <Breadcrumbs.Item key="holiday">Holiday</Breadcrumbs.Item>
-    </Breadcrumbs>
-</Box>
-`}
->
-<UIKit.Box overflow="hidden" width={200}>
-    <UIKit.Breadcrumbs>
-        <UIKit.Breadcrumbs.Item key="home">Home</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item key="trendy">Trendy</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item key="2020 assets">March 2020 Assets</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item key="winter">Winter</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item key="holiday">Holiday</UIKit.Breadcrumbs.Item>
-    </UIKit.Breadcrumbs>
-</UIKit.Box>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Box overflow="hidden" width={200}>
+            <Breadcrumbs showRoot>
+                <Breadcrumbs.Item key="home">Home</Breadcrumbs.Item>
+                <Breadcrumbs.Item key="trendy">Trendy</Breadcrumbs.Item>
+                <Breadcrumbs.Item key="2020 assets">March 2020 Assets</Breadcrumbs.Item>
+                <Breadcrumbs.Item key="winter">Winter</Breadcrumbs.Item>
+                <Breadcrumbs.Item key="holiday">Holiday</Breadcrumbs.Item>
+            </Breadcrumbs>
+        </Box>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -201,29 +181,30 @@ LANDING_BLOCK-->
 
 ### Разделитель
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {ChevronRight} from '@gravity-ui/icons';
+import {Breadcrumbs, Icon} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Breadcrumbs separator=">">
-    <Breadcrumbs.Item>Region</Breadcrumbs.Item>
-    <Breadcrumbs.Item>Country</Breadcrumbs.Item>
-    <Breadcrumbs.Item>City</Breadcrumbs.Item>
-    <Breadcrumbs.Item>District</Breadcrumbs.Item>
-    <Breadcrumbs.Item>Street</Breadcrumbs.Item>
-</Breadcrumbs>
-`}
->
-    <UIKit.Breadcrumbs separator=">">
-        <UIKit.Breadcrumbs.Item>Region</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>Country</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>City</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>District</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>Street</UIKit.Breadcrumbs.Item>
-    </UIKit.Breadcrumbs>
-</ExampleBlock>
+const breadcrumbs = (
+    <>
+        <Breadcrumbs.Item>Region</Breadcrumbs.Item>
+        <Breadcrumbs.Item>Country</Breadcrumbs.Item>
+        <Breadcrumbs.Item>City</Breadcrumbs.Item>
+        <Breadcrumbs.Item>District</Breadcrumbs.Item>
+        <Breadcrumbs.Item>Street</Breadcrumbs.Item>
+    </>
+);
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <Breadcrumbs separator=">">{breadcrumbs}</Breadcrumbs>
+            <Breadcrumbs separator="—">{breadcrumbs}</Breadcrumbs>
+            <Breadcrumbs separator={<Icon data={ChevronRight} size={16} />}>{breadcrumbs}</Breadcrumbs>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -247,36 +228,37 @@ LANDING_BLOCK-->
 
 ### Хлебные крошки с иконками
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Flame, House, Rocket} from '@gravity-ui/icons';
+import {Breadcrumbs, Flex, Icon, Text} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Breadcrumbs>
-  <Breadcrumbs.Item>
-    <Flex alignItems="center" gap={1}>
-      <House /> uikit
-    </Flex>
-  </Breadcrumbs.Item>
-  <Breadcrumbs.Item>
-    <Flex alignItems="center" gap={1}>
-      <Flame /> components
-    </Flex>
-  </Breadcrumbs.Item>
-  <Breadcrumbs.Item>
-    <Flex alignItems="center" gap={1}>
-      <Rocket style={{minWidth: 16}} />
-      <Text ellipsis variant="inherit">
-        Breadcrumbs
-      </Text>
-    </Flex>
-  </Breadcrumbs.Item>
-</Breadcrumbs>
-`}
->
-    <UIKitExamples.BreadcrumbsCustomIconExample />
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Breadcrumbs>
+            <Breadcrumbs.Item>
+                <Flex alignItems="center" gap={1}>
+                    <Icon data={House} size={16} />
+                    uikit
+                </Flex>
+            </Breadcrumbs.Item>
+            <Breadcrumbs.Item>
+                <Flex alignItems="center" gap={1}>
+                    <Icon data={Flame} size={16} />
+                    components
+                </Flex>
+            </Breadcrumbs.Item>
+            <Breadcrumbs.Item>
+                <Flex alignItems="center" gap={1}>
+                    <Icon data={Rocket} size={16} style={{minWidth: 16}} />
+                    <Text ellipsis variant="inherit">
+                        Breadcrumbs
+                    </Text>
+                </Flex>
+            </Breadcrumbs.Item>
+        </Breadcrumbs>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -390,29 +372,21 @@ function Navigation() {
 
 Когда хлебные крошки используются в качестве основного навигационного элемента на странице, их можно поместить в [область навигации](https://www.w3.org/WAI/ARIA/apg/patterns/landmarks/examples/navigation.html). Такие области помогают пользователям вспомогательных технологий быстро находить основные разделы страницы. Для создания области навигации поместите хлебные крошки внутрь элемента `<nav>` с атрибутом `aria-label`:
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Breadcrumbs} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<nav aria-label="Breadcrumbs">
-  <Breadcrumbs>
-      <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
-      <Breadcrumbs.Item href="/components">Components</Breadcrumbs.Item>
-      <Breadcrumbs.Item href="/components/uikit/breadcrumbs">Breadcrumbs</Breadcrumbs.Item>
-  </Breadcrumbs>
-</nav>
-`}
->
-    <nav aria-label="Breadcrumbs">
-        <UIKit.Breadcrumbs>
-            <UIKit.Breadcrumbs.Item href="/">Home</UIKit.Breadcrumbs.Item>
-            <UIKit.Breadcrumbs.Item href="/components">Components</UIKit.Breadcrumbs.Item>
-            <UIKit.Breadcrumbs.Item href="/components/uikit/breadcrumbs">Breadcrumbs</UIKit.Breadcrumbs.Item>
-        </UIKit.Breadcrumbs>
-    </nav>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <nav aria-label="Breadcrumbs">
+            <Breadcrumbs>
+                <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
+                <Breadcrumbs.Item href="/components">Components</Breadcrumbs.Item>
+                <Breadcrumbs.Item href="/components/uikit/breadcrumbs">Breadcrumbs</Breadcrumbs.Item>
+            </Breadcrumbs>
+        </nav>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -434,37 +408,25 @@ LANDING_BLOCK-->
 
 ### Неактивные элементы
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Breadcrumbs} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Breadcrumbs>
-    <Breadcrumbs.Item href="#Region">Region</Breadcrumbs.Item>
-    <Breadcrumbs.Item href="#Country" disabled>
-        Country
-    </Breadcrumbs.Item>
-    <Breadcrumbs.Item href="#City">City</Breadcrumbs.Item>
-    <Breadcrumbs.Item href="#District">District</Breadcrumbs.Item>
-    <Breadcrumbs.Item href="#Street" disabled>
-        Street
-    </Breadcrumbs.Item>
-</Breadcrumbs>
-`}
->
-    <UIKit.Breadcrumbs>
-        <UIKit.Breadcrumbs.Item href="#Region">Region</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item href="#Country" disabled>
-            Country
-        </UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item href="#City">City</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item href="#District">District</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item href="#Street" disabled>
-            Street
-        </UIKit.Breadcrumbs.Item>
-    </UIKit.Breadcrumbs>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Breadcrumbs>
+            <Breadcrumbs.Item href="#Region">Region</Breadcrumbs.Item>
+            <Breadcrumbs.Item href="#Country" disabled>
+                Country
+            </Breadcrumbs.Item>
+            <Breadcrumbs.Item href="#City">City</Breadcrumbs.Item>
+            <Breadcrumbs.Item href="#District">District</Breadcrumbs.Item>
+            <Breadcrumbs.Item href="#Street" disabled>
+                Street
+            </Breadcrumbs.Item>
+        </Breadcrumbs>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -490,29 +452,21 @@ LANDING_BLOCK-->
 
 ### Пользовательский контент после последней крошки
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Breadcrumbs, Button} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Breadcrumbs endContent={<div style={{paddingInlineStart: 4}}><Button>Push</Button></div>}>
-    <Breadcrumbs.Item>Region</Breadcrumbs.Item>
-    <Breadcrumbs.Item>Country</Breadcrumbs.Item>
-    <Breadcrumbs.Item>City</Breadcrumbs.Item>
-    <Breadcrumbs.Item>District</Breadcrumbs.Item>
-    <Breadcrumbs.Item>Street</Breadcrumbs.Item>
-</Breadcrumbs>
-`}
->
-    <UIKit.Breadcrumbs endContent={<div style={{paddingInlineStart: 4}}><UIKit.Button>Push</UIKit.Button></div>}>
-        <UIKit.Breadcrumbs.Item>Region</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>Country</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>City</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>District</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>Street</UIKit.Breadcrumbs.Item>
-    </UIKit.Breadcrumbs>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Breadcrumbs endContent={<div style={{paddingInlineStart: 4}}><Button>Push</Button></div>}>
+            <Breadcrumbs.Item>Region</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Country</Breadcrumbs.Item>
+            <Breadcrumbs.Item>City</Breadcrumbs.Item>
+            <Breadcrumbs.Item>District</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Street</Breadcrumbs.Item>
+        </Breadcrumbs>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

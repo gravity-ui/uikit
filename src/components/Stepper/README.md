@@ -12,27 +12,20 @@ import {Stepper} from '@gravity-ui/uikit';
 
 ## Example
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Stepper} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Stepper>
-  <Stepper.Item>Step 1</Stepper.Item>
-  <Stepper.Item>Step 2</Stepper.Item>
-  <Stepper.Item>Step 3</Stepper.Item>
-  <Stepper.Item>Step 4 with very long title</Stepper.Item>
-</Stepper>
-`}
->
-    <UIKit.Stepper>
-        <UIKit.Stepper.Item>Step 1</UIKit.Stepper.Item>
-        <UIKit.Stepper.Item>Step 2</UIKit.Stepper.Item>
-        <UIKit.Stepper.Item>Step 3</UIKit.Stepper.Item>
-        <UIKit.Stepper.Item>Step 4 with very long title</UIKit.Stepper.Item>
-    </UIKit.Stepper>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Stepper>
+            <Stepper.Item>Step 1</Stepper.Item>
+            <Stepper.Item>Step 2</Stepper.Item>
+            <Stepper.Item>Step 3</Stepper.Item>
+            <Stepper.Item>Step 4 with very long title</Stepper.Item>
+        </Stepper>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -55,27 +48,23 @@ LANDING_BLOCK-->
 
 Use `onUpdate` and `value` props with custom state to manipulate steps
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {useState} from 'react';
+import {Stepper} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-  <Stepper value={0} onUpdate={(id) => alert(id)}>
-    <Stepper.Item>Step 1</Stepper.Item>
-    <Stepper.Item>Step 2</Stepper.Item>
-    <Stepper.Item>Step 3</Stepper.Item>
-    <Stepper.Item>Step 4 with very long title</Stepper.Item>
-  </Stepper>
-`}
->
-    <UIKit.Stepper value={0} onUpdate={(id) => alert(id)}>
-        <UIKit.Stepper.Item>Step 1</UIKit.Stepper.Item>
-        <UIKit.Stepper.Item>Step 2</UIKit.Stepper.Item>
-        <UIKit.Stepper.Item>Step 3</UIKit.Stepper.Item>
-        <UIKit.Stepper.Item>Step 4 with very long title</UIKit.Stepper.Item>
-    </UIKit.Stepper>
-</ExampleBlock>
+export default function () {
+    const [value, setValue] = useState(0);
 
-LANDING_BLOCK-->
+    return (
+        <Stepper value={value} onUpdate={setValue}>
+            <Stepper.Item>Step 1</Stepper.Item>
+            <Stepper.Item>Step 2</Stepper.Item>
+            <Stepper.Item>Step 3</Stepper.Item>
+            <Stepper.Item>Step 4 with very long title</Stepper.Item>
+        </Stepper>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -100,27 +89,20 @@ return (
 
 ### Different views
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Stepper} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Stepper>
-  <Stepper.Item>Step 1</Stepper.Item>
-  <Stepper.Item view="error">Step 2</Stepper.Item>
-  <Stepper.Item view="error">Step 3</Stepper.Item>
-  <Stepper.Item view="success">Step 4</Stepper.Item>
-</Stepper>
-`}
->
-    <UIKit.Stepper>
-        <UIKit.Stepper.Item>Step 1</UIKit.Stepper.Item>
-        <UIKit.Stepper.Item view="error">Step 2</UIKit.Stepper.Item>
-        <UIKit.Stepper.Item view="error">Step 3</UIKit.Stepper.Item>
-        <UIKit.Stepper.Item view="success">Step 4 with very long title</UIKit.Stepper.Item>
-    </UIKit.Stepper>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Stepper>
+            <Stepper.Item>Step 1</Stepper.Item>
+            <Stepper.Item view="error">Step 2</Stepper.Item>
+            <Stepper.Item view="error">Step 3</Stepper.Item>
+            <Stepper.Item view="success">Step 4 with very long title</Stepper.Item>
+        </Stepper>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -141,27 +123,20 @@ LANDING_BLOCK-->
 
 ### Different sizes
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Stepper} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Stepper size="l">
-  <Stepper.Item>Step 1</Stepper.Item>
-  <Stepper.Item>Step 2</Stepper.Item>
-  <Stepper.Item>Step 3</Stepper.Item>
-  <Stepper.Item>Step 4</Stepper.Item>
-</Stepper>
-`}
->
-    <UIKit.Stepper size="l">
-        <UIKit.Stepper.Item>Step 1</UIKit.Stepper.Item>
-        <UIKit.Stepper.Item>Step 2</UIKit.Stepper.Item>
-        <UIKit.Stepper.Item>Step 3</UIKit.Stepper.Item>
-        <UIKit.Stepper.Item>Step 4 with very long title</UIKit.Stepper.Item>
-    </UIKit.Stepper>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Stepper size="l">
+            <Stepper.Item>Step 1</Stepper.Item>
+            <Stepper.Item>Step 2</Stepper.Item>
+            <Stepper.Item>Step 3</Stepper.Item>
+            <Stepper.Item>Step 4 with very long title</Stepper.Item>
+        </Stepper>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -195,27 +170,20 @@ LANDING_BLOCK-->
 
 ### Disabled steps
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Stepper} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Stepper>
-  <Stepper.Item>Step 1</Stepper.Item>
-  <Stepper.Item disabled>Step 2</Stepper.Item>
-  <Stepper.Item disabled>Step 3</Stepper.Item>
-  <Stepper.Item disabled>Step 4 with very long title</Stepper.Item>
-</Stepper>
-`}
->
-    <UIKit.Stepper>
-        <UIKit.Stepper.Item>Step 1</UIKit.Stepper.Item>
-        <UIKit.Stepper.Item disabled>Step 2</UIKit.Stepper.Item>
-        <UIKit.Stepper.Item disabled>Step 3</UIKit.Stepper.Item>
-        <UIKit.Stepper.Item disabled>Step 4 with very long title</UIKit.Stepper.Item>
-    </UIKit.Stepper>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Stepper>
+            <Stepper.Item>Step 1</Stepper.Item>
+            <Stepper.Item disabled>Step 2</Stepper.Item>
+            <Stepper.Item disabled>Step 3</Stepper.Item>
+            <Stepper.Item disabled>Step 4 with very long title</Stepper.Item>
+        </Stepper>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -236,22 +204,21 @@ LANDING_BLOCK-->
 
 ### Custom icons
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Cloud, Gear, Hammer, Rocket} from '@gravity-ui/icons';
+import {Icon, Stepper} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Stepper>
-  <Stepper.Item icon={<Icon data={Gear} />}>Step 1</Stepper.Item>
-  <Stepper.Item icon={<Icon data={Rocket} />}>Step 2</Stepper.Item>
-  <Stepper.Item icon={<Icon data={Cloud} />}>Step 3</Stepper.Item>
-  <Stepper.Item icon={<Icon data={Hammer} />}>Step 4 with very long title</Stepper.Item>
-</Stepper>
-`}
->
-    <UIKitExamples.StepperCustomIconExample />
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Stepper>
+            <Stepper.Item icon={<Icon data={Gear} />}>Step 1</Stepper.Item>
+            <Stepper.Item icon={<Icon data={Rocket} />}>Step 2</Stepper.Item>
+            <Stepper.Item icon={<Icon data={Cloud} />}>Step 3</Stepper.Item>
+            <Stepper.Item icon={<Icon data={Hammer} />}>Step 4 with very long title</Stepper.Item>
+        </Stepper>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -276,27 +243,24 @@ LANDING_BLOCK-->
 
 ### Custom step separator
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Stepper, Text} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Stepper separator=">">
-  <Stepper.Item>Step 1</Stepper.Item>
-  <Stepper.Item view="error">Step 2</Stepper.Item>
-  <Stepper.Item view="success">Step 3</Stepper.Item>
-  <Stepper.Item>Step 4 with very long title</Stepper.Item>
-</Stepper>
-`}
->
-    <UIKit.Stepper separator=">">
-        <UIKit.Stepper.Item>Step 1</UIKit.Stepper.Item>
-        <UIKit.Stepper.Item view="error">Step 2</UIKit.Stepper.Item>
-        <UIKit.Stepper.Item view="success">Step 3</UIKit.Stepper.Item>
-        <UIKit.Stepper.Item>Step 4 with very long title</UIKit.Stepper.Item>
-    </UIKit.Stepper>
-</ExampleBlock>
+const Separator = () => {
+    return <Text color="secondary">{'->'}</Text>;
+};
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Stepper separator={<Separator />}>
+            <Stepper.Item>Step 1</Stepper.Item>
+            <Stepper.Item view="error">Step 2</Stepper.Item>
+            <Stepper.Item view="success">Step 3</Stepper.Item>
+            <Stepper.Item>Step 4 with very long title</Stepper.Item>
+        </Stepper>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -321,31 +285,22 @@ const Separator = () => {
 
 ### Step with floating element
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Stepper, Tooltip} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Stepper>
-  <Tooltip content="fancy step with tooltip">
-    <Stepper.Item>Step 1</Stepper.Item>
-  </Tooltip>
-  <Stepper.Item view="error">Step 2</Stepper.Item>
-  <Stepper.Item view="success">Step 3</Stepper.Item>
-  <Stepper.Item>Step 4 with very long title</Stepper.Item>
-</Stepper>
-`}
->
-    <UIKit.Stepper>
-        <UIKit.Tooltip content="fancy step with tooltip">
-          <UIKit.Stepper.Item>Step 1</UIKit.Stepper.Item>
-        </UIKit.Tooltip>
-        <UIKit.Stepper.Item view="error">Step 2</UIKit.Stepper.Item>
-        <UIKit.Stepper.Item view="success">Step 3</UIKit.Stepper.Item>
-        <UIKit.Stepper.Item>Step 4 with very long title</UIKit.Stepper.Item>
-    </UIKit.Stepper>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Stepper>
+            <Tooltip content="fancy step with tooltip">
+                <Stepper.Item>Step 1</Stepper.Item>
+            </Tooltip>
+            <Stepper.Item view="error">Step 2</Stepper.Item>
+            <Stepper.Item view="success">Step 3</Stepper.Item>
+            <Stepper.Item>Step 4 with very long title</Stepper.Item>
+        </Stepper>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

@@ -85,7 +85,7 @@ export default function () {
 
     return (
         <Button onClick={() => setDirectionIndex(directionIndex + 1)} view="flat">
-            <ArrowToggle direction={direction} /> <h3>{direction}</h3>
+            <ArrowToggle direction={direction} /> <span>{direction}</span>
         </Button>
     );
 }
@@ -100,7 +100,7 @@ const direction = directions[directionIndex % directions.length];
 
 return (
   <Button onClick={() => setDirectionIndex(directionIndex + 1)} view="flat">
-    <ArrowToggle {...args} direction={direction} /> <h3>{direction}</h3>
+    <ArrowToggle {...args} direction={direction} /> <span>{direction}</span>
   </Button>
 );
 ```

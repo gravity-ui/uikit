@@ -140,6 +140,8 @@ import {Button} from '@gravity-ui/uikit'
 import {type CSSProperties} from 'react';
 
 const containerStyle: CSSProperties = {
+    display: 'flex',
+    gap: 16,
     backgroundColor: 'rgb(68, 38, 204)',
     padding: '20px',
     borderRadius: '8px'

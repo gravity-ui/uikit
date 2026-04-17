@@ -35,7 +35,7 @@ import {useState} from 'react';
 import {Accordion} from '@gravity-ui/uikit';
 
 export default function () {
-    const [value, setValue] = useState('item1');
+    const [value, setValue] = useState<string | null>('item1');
 
     return (
         <Accordion value={value} onUpdate={setValue}>

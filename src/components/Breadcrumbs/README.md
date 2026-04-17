@@ -51,29 +51,17 @@ SANDBOX-->
 Use the `onAction` property as a callback to handle click events on items.
 
 <!--SANDBOX
-import {useState} from 'react';
 import {Breadcrumbs} from '@gravity-ui/uikit';
 
-const items = [
-    {id: 1, label: 'Region'},
-    {id: 2, label: 'Country'},
-    {id: 3, label: 'City'},
-    {id: 4, label: 'District'},
-    {id: 5, label: 'Street'},
-];
-
 export default function () {
-    const [currentId, setCurrentId] = useState<number>();
-
     return (
-        <div>
-            <Breadcrumbs onAction={setCurrentId}>
-                {items.map((item) => (
-                    <Breadcrumbs.Item key={item.id}>{item.label}</Breadcrumbs.Item>
-                ))}
-            </Breadcrumbs>
-            <p>You clicked item ID: {currentId}</p>
-        </div>
+        <Breadcrumbs onAction={(id) => alert(id)}>
+            <Breadcrumbs.Item>Region</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Country</Breadcrumbs.Item>
+            <Breadcrumbs.Item>City</Breadcrumbs.Item>
+            <Breadcrumbs.Item>District</Breadcrumbs.Item>
+            <Breadcrumbs.Item>Street</Breadcrumbs.Item>
+        </Breadcrumbs>
     );
 }
 SANDBOX-->
@@ -185,22 +173,20 @@ SANDBOX-->
 import {ChevronRight} from '@gravity-ui/icons';
 import {Breadcrumbs, Icon} from '@gravity-ui/uikit';
 
-const breadcrumbs = (
-    <>
-        <Breadcrumbs.Item>Region</Breadcrumbs.Item>
-        <Breadcrumbs.Item>Country</Breadcrumbs.Item>
-        <Breadcrumbs.Item>City</Breadcrumbs.Item>
-        <Breadcrumbs.Item>District</Breadcrumbs.Item>
-        <Breadcrumbs.Item>Street</Breadcrumbs.Item>
-    </>
-);
+const breadcrumbsItems = [
+    <Breadcrumbs.Item key="region">Region</Breadcrumbs.Item>,
+    <Breadcrumbs.Item key="country">Country</Breadcrumbs.Item>,
+    <Breadcrumbs.Item key="city">City</Breadcrumbs.Item>,
+    <Breadcrumbs.Item key="district">District</Breadcrumbs.Item>,
+    <Breadcrumbs.Item key="street">Street</Breadcrumbs.Item>,
+];
 
 export default function () {
     return (
         <>
-            <Breadcrumbs separator=">">{breadcrumbs}</Breadcrumbs>
-            <Breadcrumbs separator="—">{breadcrumbs}</Breadcrumbs>
-            <Breadcrumbs separator={<Icon data={ChevronRight} size={16} />}>{breadcrumbs}</Breadcrumbs>
+            <Breadcrumbs separator=">">{breadcrumbsItems}</Breadcrumbs>
+            <Breadcrumbs separator="—">{breadcrumbsItems}</Breadcrumbs>
+            <Breadcrumbs separator={<Icon data={ChevronRight} size={16} />}>{breadcrumbsItems}</Breadcrumbs>
         </>
     );
 }
@@ -209,15 +195,17 @@ SANDBOX-->
 <!--GITHUB_BLOCK-->
 
 ```jsx
-<Breadcrumbs separator="›">
-  {breadcrumbs}
-</Breadcrumbs>
-<Breadcrumbs separator="—">
-  {breadcrumbs}
-</Breadcrumbs>
-<Breadcrumbs separator={<ChevronRight />}>
-  {breadcrumbs}
-</Breadcrumbs>
+const breadcrumbsItems = [
+  <Breadcrumbs.Item key="region">Region</Breadcrumbs.Item>,
+  <Breadcrumbs.Item key="country">Country</Breadcrumbs.Item>,
+  <Breadcrumbs.Item key="city">City</Breadcrumbs.Item>,
+  <Breadcrumbs.Item key="district">District</Breadcrumbs.Item>,
+  <Breadcrumbs.Item key="street">Street</Breadcrumbs.Item>,
+];
+
+<Breadcrumbs separator="›">{breadcrumbsItems}</Breadcrumbs>
+<Breadcrumbs separator="—">{breadcrumbsItems}</Breadcrumbs>
+<Breadcrumbs separator={<ChevronRight />}>{breadcrumbsItems}</Breadcrumbs>
 ```
 
 <!-- Storybook example -->

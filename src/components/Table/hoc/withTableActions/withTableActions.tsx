@@ -12,7 +12,7 @@ import {Icon} from '../../../Icon';
 import {Menu} from '../../../Menu';
 import type {MenuItemProps} from '../../../Menu';
 import {Popup} from '../../../Popup';
-import type {PopupPlacement} from '../../../Popup';
+import type {PopupPlacement, PopupProps} from '../../../Popup';
 import {block} from '../../../utils/cn';
 import {getComponentName} from '../../../utils/getComponentName';
 import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
@@ -73,6 +73,10 @@ export type TableRowActionsSize = 's' | 'm' | 'l' | 'xl';
 
 export type RenderRowActionsProps<I> = {item: I; index: number};
 export interface WithTableActionsProps<I> {
+    popupProps?: Omit<
+        PopupProps,
+        'open' | 'anchorRef' | 'onOutsideClick' | 'id' | 'className' | 'qa'
+    >;
     getRowActions?: (item: I, index: number) => TableActionConfig<I>[];
     renderRowActions?: (props: RenderRowActionsProps<I>) => React.ReactNode;
     rowActionsSize?: TableRowActionsSize;
@@ -102,7 +106,7 @@ const DEFAULT_PLACEMENT: PopupPlacement = ['bottom-end', 'top-end'];
 
 type DefaultRowActionsProps<I extends TableDataItem> = Pick<
     WithTableActionsProps<I>,
-    'getRowActions' | 'rowActionsSize' | 'rowActionsIcon'
+    'getRowActions' | 'rowActionsSize' | 'rowActionsIcon' | 'popupProps'
 > &
     Pick<TableProps<I>, 'isRowDisabled' | 'getRowDescriptor'> & {
         item: I;
@@ -119,6 +123,7 @@ const DefaultRowActions = <I extends TableDataItem>({
     rowActionsIcon,
     isRowDisabled,
     tableQa,
+    popupProps,
 }: DefaultRowActionsProps<I>) => {
     const [isPopupOpen, , closePopup, togglePopup] = useBoolean(false);
     const anchorRef = React.useRef<HTMLButtonElement>(null);
@@ -170,6 +175,7 @@ const DefaultRowActions = <I extends TableDataItem>({
     return (
         <div className={actionsCn}>
             <Popup
+                {...popupProps}
                 open={isPopupOpen}
                 anchorRef={anchorRef}
                 placement={DEFAULT_PLACEMENT}
@@ -221,6 +227,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
             const {
                 renderRowActions, // eslint-disable-line @typescript-eslint/no-unused-vars
                 getRowActions, // eslint-disable-line @typescript-eslint/no-unused-vars
+                popupProps, // eslint-disable-line @typescript-eslint/no-unused-vars
                 columns,
                 onRowClick,
                 ...restTableProps
@@ -240,6 +247,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
                 getRowActions,
                 rowActionsSize,
                 renderRowActions,
+                popupProps,
                 rowActionsIcon,
                 isRowDisabled,
                 getRowDescriptor,
@@ -259,6 +267,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
                     rowActionsIcon={rowActionsIcon}
                     getRowDescriptor={getRowDescriptor}
                     isRowDisabled={isRowDisabled}
+                    popupProps={popupProps}
                     tableQa={qa}
                 />
             );

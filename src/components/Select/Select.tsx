@@ -84,6 +84,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         width,
         popupWidth,
         popupPlacement,
+        popupContainer,
         error,
         virtualizationThreshold = DEFAULT_VIRTUALIZATION_THRESHOLD,
         view = 'normal',
@@ -364,6 +365,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 virtualized={virtualized}
                 mobile={mobile}
                 placement={popupPlacement}
+                container={popupContainer}
                 onAfterOpen={
                     filterable
                         ? () => {

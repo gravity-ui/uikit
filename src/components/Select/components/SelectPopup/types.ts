@@ -9,6 +9,7 @@ export type SelectPopupProps = {
     width?: SelectProps['popupWidth'];
     open?: boolean;
     placement?: PopupPlacement;
+    container?: HTMLElement;
     controlRef?: React.RefObject<HTMLElement | null>;
     children?: React.ReactNode;
     className?: string;

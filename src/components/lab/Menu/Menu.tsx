@@ -104,6 +104,7 @@ export function Menu({
     open,
     onOpenChange,
     placement = 'bottom-start',
+    container,
     disabled,
     children,
     size = 'm',
@@ -292,6 +293,7 @@ export function Menu({
                 floatingRef={setFloatingElement}
                 floatingMiddlewares={middlewares}
                 floatingInteractions={interactions}
+                container={container}
             >
                 <MenuContext.Provider value={contextValue}>
                     <FloatingList elementsRef={itemsRef}>

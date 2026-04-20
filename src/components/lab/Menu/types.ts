@@ -10,7 +10,7 @@ export type MenuSize = 's' | 'm' | 'l' | 'xl';
 export type MenuItemTheme = 'normal' | 'info' | 'success' | 'warning' | 'danger' | 'utility';
 
 export interface MenuProps
-    extends Pick<PopupProps, 'open' | 'onOpenChange' | 'placement'>,
+    extends Pick<PopupProps, 'open' | 'onOpenChange' | 'placement' | 'container'>,
         DOMProps,
         QAProps {
     size?: MenuSize;

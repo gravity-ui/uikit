@@ -23,6 +23,7 @@ interface DropdownMenuProps {
     children: React.ReactNode;
     disabled?: boolean;
     popupPlacement?: PopupPlacement;
+    popupContainer?: HTMLElement;
     popupStyle?: 'staircase';
 }
 
@@ -46,6 +47,7 @@ export function BreadcrumbsDropdownMenu({
     children,
     disabled,
     popupPlacement,
+    popupContainer,
     popupStyle,
 }: DropdownMenuProps) {
     const [reference, setReference] = React.useState<HTMLButtonElement | null>(null);
@@ -96,6 +98,7 @@ export function BreadcrumbsDropdownMenu({
                 floatingRef={setFloating}
                 floatingInteractions={interactions}
                 placement={popupPlacement}
+                container={popupContainer}
                 className={b('menu-popup')}
             >
                 <menuContext.Provider

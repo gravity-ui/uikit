@@ -22,6 +22,7 @@ export interface BreadcrumbsProps extends DOMProps, AriaLabelingProps, QAProps {
     maxItems?: number;
     popupStyle?: 'staircase';
     popupPlacement?: PopupPlacement;
+    popupContainer?: HTMLElement;
     itemComponent?: React.ElementType;
     children: React.ReactNode;
     disabled?: boolean;
@@ -98,6 +99,7 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
             <BreadcrumbsDropdownMenu
                 disabled={props.disabled}
                 popupPlacement={props.popupPlacement}
+                popupContainer={props.popupContainer}
                 popupStyle={props.popupStyle}
                 data-breadcrumbs-menu-item={true}
             >

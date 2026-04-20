@@ -41,6 +41,10 @@ export interface ColorPickerProps {
      */
     popupPlacement?: PopupPlacement;
     /*
+     * Container for the popup
+     */
+    popupContainer?: HTMLElement;
+    /*
      * Open popup for controlled state
      */
     open?: boolean;
@@ -91,6 +95,7 @@ export const ColorPicker = ({
     defaultValue = DEFAULT_COLOR,
     onUpdate,
     popupPlacement = DEFAULT_POPUP_PLACEMENT,
+    popupContainer,
     open,
     onOpenChange,
     defaultOpen = false,
@@ -202,6 +207,7 @@ export const ColorPicker = ({
                 open={isOpen}
                 className={b('popup')}
                 placement={popupPlacement}
+                container={popupContainer}
                 anchorElement={anchor}
                 onOpenChange={setIsOpen}
                 disableTransition

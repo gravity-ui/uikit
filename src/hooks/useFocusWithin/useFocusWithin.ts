@@ -137,6 +137,7 @@ function useFocusEvents<T extends Element = Element>({
 }) {
     const capturedRef = React.useRef(false);
     const targetRef = React.useRef<EventTarget | null>(null);
+    const pendingBlurRef = React.useRef<{cancel: () => void} | null>(null);
 
     React.useEffect(() => {
         if (isDisabled) {
@@ -170,9 +171,42 @@ function useFocusEvents<T extends Element = Element>({
         // implementations fire focusin events after focus event
         window.addEventListener('focusin', handleFocusIn);
 
+        // When portals are rendered in window.parent.document, listen to focusin there
+        // to distinguish "focus moved to our portal" from "focus left the component".
+        let cleanupParentListener: (() => void) | undefined;
+        if (window !== window.parent) {
+            try {
+                const parentWindow = window.parent;
+                const handleParentFocusIn = (_event: FocusEvent) => {
+                    if (!targetRef.current) {
+                        return;
+                    }
+                    // Always cancel the deferred blur
+                    pendingBlurRef.current?.cancel();
+                    pendingBlurRef.current = null;
+
+                    // Focus landed outside our portals → fire blur now.
+                    const nativeBlur = new FocusEvent('blur', {bubbles: false, cancelable: false});
+                    onBlur(
+                        new SyntheticFocusEvent('blur', nativeBlur, {
+                            target: targetRef.current,
+                            currentTarget: targetRef.current,
+                        }),
+                    );
+                    targetRef.current = null;
+                };
+                parentWindow.addEventListener('focusin', handleParentFocusIn);
+                cleanupParentListener = () =>
+                    parentWindow.removeEventListener('focusin', handleParentFocusIn);
+            } catch {
+                // Cross-origin parent — cross-document portal scenario is not supported.
+            }
+        }
+
         return () => {
             window.removeEventListener('focus', handleFocus, {capture: true});
             window.removeEventListener('focusin', handleFocusIn);
+            cleanupParentListener?.();
         };
     }, [isDisabled, onBlur]);
 
@@ -184,6 +218,27 @@ function useFocusEvents<T extends Element = Element>({
                     event.relatedTarget === document.body ||
                     event.relatedTarget === (document as EventTarget))
             ) {
+                // When relatedTarget is null and we have parent-window portals, the blur may be
+                // caused by focus moving into one of those portals. Defer the call so that the
+                // window.parent focusin listener fires first and can cancel it if needed.
+                if (event.relatedTarget === null && window !== window.parent) {
+                    const savedTarget = targetRef.current;
+                    let cancelled = false;
+                    const timerId = setTimeout(() => {
+                        if (!cancelled && savedTarget) {
+                            onBlur(event);
+                            targetRef.current = null;
+                        }
+                    }, 0);
+                    pendingBlurRef.current = {
+                        cancel: () => {
+                            cancelled = true;
+                            clearTimeout(timerId);
+                        },
+                    };
+                    return;
+                }
+
                 onBlur(event);
                 targetRef.current = null;
             }

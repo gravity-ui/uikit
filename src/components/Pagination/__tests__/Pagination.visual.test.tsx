@@ -14,6 +14,13 @@ test.describe('Pagination', {tag: '@Pagination'}, () => {
         total: 950,
     };
 
+    const viewProps: Omit<PaginationProps, 'page' | 'pageSize' | 'onUpdate'> = {
+        view: 'clear',
+        pageSizeOptions: [10],
+        showInput: true,
+        showPages: true,
+    };
+
     createSmokeScenarios(defaultProps, {}).forEach(([title, props]) => {
         test(`smoke regular ${title}`, {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
             const root = await mount(<PaginationStateWrap {...props} />);
@@ -201,6 +208,38 @@ test.describe('Pagination', {tag: '@Pagination'}, () => {
                 });
 
                 await page.locator(`[data-qa="${getPaginationPageSizeOptionQa(50)}"]`).click();
+
+                await expectScreenshot({
+                    themes: ['light'],
+                });
+            },
+        );
+    });
+
+    createSmokeScenarios(
+        {
+            ...defaultProps,
+            ...viewProps,
+        },
+        {},
+    ).forEach(([title, props]) => {
+        test(
+            `smoke with view clear ${title}`,
+            {tag: ['@smoke']},
+            async ({mount, expectScreenshot}) => {
+                const root = await mount(<PaginationStateWrap {...props} />);
+
+                await expectScreenshot({
+                    themes: ['light'],
+                });
+
+                await root.locator(`button[data-qa="${getPaginationPageQa(2)}"]`).hover();
+
+                await expectScreenshot({
+                    themes: ['light'],
+                });
+
+                await root.locator(`button[data-qa="${getPaginationPageQa(2)}"]`).click();
 
                 await expectScreenshot({
                     themes: ['light'],

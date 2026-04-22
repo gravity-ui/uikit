@@ -1,6 +1,9 @@
 import uniq from 'lodash/uniq';
 
-import type {PaginationSize} from './types';
+import type {ButtonView} from '../Button';
+import type {InputControlView} from '../controls';
+
+import type {PaginationSize, PaginationView} from './types';
 
 export function getNumerationList({
     page,
@@ -84,4 +87,32 @@ export function getResultPage({
     return page > 0 && (total === undefined || page <= getNumberOfPages(pageSize, total))
         ? page
         : 1;
+}
+
+export function getButtonView(paginationView: PaginationView): ButtonView {
+    if (paginationView === 'clear') {
+        return 'flat';
+    }
+
+    return paginationView;
+}
+
+export function getPageSizerView(paginationView: PaginationView): InputControlView {
+    if (paginationView === 'outlined') {
+        return 'normal';
+    }
+
+    return paginationView;
+}
+
+export function getViews({propView, mobile}: {propView: PaginationView; mobile: boolean}): {
+    buttonView: ButtonView;
+    inputView: InputControlView;
+    pageSizerView: InputControlView;
+} {
+    const buttonView = propView === 'clear' ? 'flat' : 'outlined';
+    const inputView = mobile && propView === 'clear' ? 'clear' : 'normal';
+    const pageSizerView = propView === 'outlined' ? 'normal' : 'clear';
+
+    return {buttonView, inputView, pageSizerView};
 }

@@ -119,3 +119,26 @@ const PagesSetTemplate: StoryFn<PaginationProps> = (args) => {
 };
 
 export const PagesSet = PagesSetTemplate.bind({});
+
+const ViewTemplate: StoryFn<PaginationProps> = (args) => {
+    const outlinedState = useState({...args, view: 'outlined'});
+    const clearState = useState({...args, view: 'clear'});
+
+    return (
+        <React.Fragment>
+            <Pagination {...outlinedState} />
+            <br />
+            <Pagination {...clearState} />
+        </React.Fragment>
+    );
+};
+
+export const View = ViewTemplate.bind({});
+View.args = {
+    page: 1,
+    pageSize: 100,
+    total: 950,
+    pageSizeOptions: [10],
+    showInput: true,
+    showPages: true,
+};

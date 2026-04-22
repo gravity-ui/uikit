@@ -123,6 +123,15 @@ export const TooltipWrap: Story = {
     },
 };
 
+export const WithCollapsing: Story = {
+    ...Default,
+    args: {
+        ...Default.args,
+        contentOverflow: 'collapse',
+        style: {width: 600},
+    },
+};
+
 export const Panels: Story = {
     render: (args) => {
         const tabs = getTabsMock({});
@@ -138,6 +147,7 @@ export const Panels: Story = {
                         >{`Content of ${props.value} tab panel`}</div>
                     </TabPanel>
                 )),
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             [],
         );
 

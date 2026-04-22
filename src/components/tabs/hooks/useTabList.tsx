@@ -2,9 +2,12 @@ import * as React from 'react';
 
 import {KeyCode} from '../../../constants';
 import {useDirection} from '../../theme';
+import {TabListCollapseItem} from '../TabListCollapseItem/TabListCollapseItem';
 import {TAB_DATA_ATTRIBUTE, bTabList} from '../constants';
 import {TabContext} from '../contexts/TabContext';
 import type {TabListProps} from '../types';
+
+import {useTabListCollapsedChildren} from './useTabListCollapsedChildren';
 
 const getAllTabElements = (tabElement: HTMLElement): HTMLElement[] => {
     return [
@@ -72,9 +75,20 @@ const focusFurthestTab = (event: React.KeyboardEvent, isInverse: boolean): HTMLE
 
 export function useTabList(
     tabListProps: TabListProps,
+    tabListValue: string | undefined,
+    ref: React.RefObject<HTMLDivElement>,
 ): React.HTMLAttributes<HTMLDivElement> & {[key: `data-${string}`]: string | undefined} {
     const tabContext = React.useContext(TabContext);
     const isRTL = useDirection() === 'rtl';
+
+    const collapseEnabled = tabListProps.contentOverflow === 'collapse';
+
+    const collapsedChildrenResult = useTabListCollapsedChildren(
+        tabListProps.children,
+        tabListValue,
+        ref,
+        collapseEnabled,
+    );
 
     const activateOnFocus = (tabElement: HTMLElement) => {
         const value = getTabValue(tabElement);
@@ -112,12 +126,27 @@ export function useTabList(
         tabListProps.onKeyDown?.(event);
     };
 
+    let children = tabListProps.children;
+
+    if (collapseEnabled) {
+        const {shownChildren, collapsedChildren, collapseItemRef} = collapsedChildrenResult;
+
+        children = (
+            <React.Fragment>
+                {shownChildren}
+
+                <TabListCollapseItem ref={collapseItemRef}>{collapsedChildren}</TabListCollapseItem>
+            </React.Fragment>
+        );
+    }
+
     const {
         value: _value,
         onUpdate: _onUpdate,
         size: _size,
         activateOnFocus: _activateOnFocus,
         qa: _qa,
+        contentOverflow: _contentOverflow,
         ...htmlProps
     } = tabListProps;
 
@@ -126,7 +155,14 @@ export function useTabList(
         role: 'tablist',
         'aria-orientation': 'horizontal' as const,
         onKeyDown,
-        className: bTabList({size: tabListProps.size ?? 'm'}, tabListProps.className),
+        className: bTabList(
+            {
+                size: tabListProps.size ?? 'm',
+                overflow: tabListProps.contentOverflow,
+            },
+            tabListProps.className,
+        ),
         'data-qa': tabListProps.qa,
+        children,
     };
 }

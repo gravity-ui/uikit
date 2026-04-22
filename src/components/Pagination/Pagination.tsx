@@ -13,7 +13,7 @@ import {
 } from './components';
 import {usePagination} from './hooks/usePagination';
 import type {PaginationProps} from './types';
-import {getResultPage, getResultTotal, getSize} from './utils';
+import {getResultPage, getResultTotal, getSize, getViews} from './utils';
 
 import './Pagination.scss';
 
@@ -29,6 +29,7 @@ export const Pagination = ({
     pageSizeOptions,
     showPages = true,
     showInput = false,
+    view: propView = 'outlined',
     className,
     qa,
 }: PaginationProps) => {
@@ -43,6 +44,8 @@ export const Pagination = ({
         total: resultTotal,
         pageSize,
     });
+
+    const {buttonView, inputView, pageSizerView} = getViews({propView, mobile});
 
     const {items, numberOfPages} = usePagination({
         page: resultPage,
@@ -98,6 +101,7 @@ export const Pagination = ({
                             onUpdate={onUpdate}
                             compact={compact}
                             className={b('pagination-item')}
+                            view={buttonView}
                         />
                     );
                 default:
@@ -116,6 +120,7 @@ export const Pagination = ({
                     size={size}
                     onUpdate={onUpdate}
                     className={b('input')}
+                    view={inputView}
                 />
             )}
             {pageSizeOptions && (
@@ -127,6 +132,7 @@ export const Pagination = ({
                     size={size}
                     total={resultTotal}
                     className={b('page-sizer')}
+                    view={pageSizerView}
                 />
             )}
         </div>

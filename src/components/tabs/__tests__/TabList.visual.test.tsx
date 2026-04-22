@@ -1,11 +1,11 @@
 import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {test} from '~playwright/core';
+import {expect, test} from '~playwright/core';
 
 import type {TabListProps} from '../types';
 
-import {sizeCases} from './cases';
-import {TestTabList, TestTabListWithCustomTabs} from './helpers';
+import {sizeCases, valueCases} from './cases';
+import {TestCollapsedTabList, TestTabList, TestTabListWithCustomTabs} from './helpers';
 
 test.describe('TabList', {tag: '@TabList'}, () => {
     test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
@@ -82,6 +82,35 @@ test.describe('TabList', {tag: '@TabList'}, () => {
 
         await expectScreenshot({
             themes: ['light'],
+        });
+    });
+
+    createSmokeScenarios<TabListProps>(
+        {
+            contentOverflow: 'collapse',
+            defaultValue: 'active',
+        },
+        {
+            value: valueCases,
+        },
+        {
+            scenarioName: 'with contentOverflow="collapse"',
+        },
+    ).forEach(([title, props]) => {
+        test('smoke ' + title, {tag: ['@smoke']}, async ({mount, page, expectScreenshot}) => {
+            const listToOpenQa = 'collapsed-tab-list-to-open-qa';
+
+            const root = await mount(
+                <TestCollapsedTabList title={title} listToOpenQa={listToOpenQa} {...props} />,
+            );
+
+            await root.getByTestId(listToOpenQa).locator('button.g-tab-list-collapse-item').click();
+
+            await expect(page.locator(`div[role="menu"]`)).toBeVisible();
+
+            await expectScreenshot({
+                themes: ['light'],
+            });
         });
     });
 });

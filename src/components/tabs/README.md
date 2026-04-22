@@ -157,15 +157,16 @@ LANDING_BLOCK-->
 
 `TabList` accepts any valid `div` element props in addition to these:
 
-| Name            | Description                                                                          |           Type            | Default |
-| :-------------- | :----------------------------------------------------------------------------------- | :-----------------------: | :-----: |
-| children        | List of tabs, probably with some wrappers                                            |     `React.ReactNode`     |         |
-| value           | Active tab value                                                                     |         `string`          |         |
-| onUpdate        | Update tab handler                                                                   | `(value: string) => void` |         |
-| className       | CSS-class of element                                                                 |         `string`          |         |
-| activateOnFocus | Activate tab on focus. Use this only if panel's content can be displayed immediately |         `boolean`         | `false` |
-| size            | Element size                                                                         |    `"m"` `"l"` `"xl"`     |  `"m"`  |
-| qa              | HTML `data-qa` attribute, used in tests                                              |         `string`          |         |
+| Name            | Description                                                                            |               Type               | Default  |
+| :-------------- | :------------------------------------------------------------------------------------- | :------------------------------: | :------: |
+| children        | List of tabs, probably with some wrappers                                              |        `React.ReactNode`         |          |
+| value           | Active tab value                                                                       |             `string`             |          |
+| onUpdate        | Update tab handler                                                                     |    `(value: string) => void`     |          |
+| className       | CSS-class of element                                                                   |             `string`             |          |
+| activateOnFocus | Activate tab on focus. Use this only if panel's content can be displayed immediately   |            `boolean`             | `false`  |
+| size            | Element size                                                                           |        `"m"` `"l"` `"xl"`        |  `"m"`   |
+| contentOverflow | How to deal with items that do not fit horizontally (wrap, scroll, or a **More** menu) | `"wrap"` `"scroll"` `"collapse"` | `"wrap"` |
+| qa              | HTML `data-qa` attribute, used in tests                                                |             `string`             |          |
 
 ## Tab
 
@@ -316,6 +317,46 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
+### Сontent overflow
+
+Used if you need to collapse tabs item.
+
+<!--LANDING_BLOCK
+<ExampleBlock
+    code={`
+<TabList value="first" contentOverflow="collapse" style={{maxWidth: 320}}>
+    <Tab value="first">First Tab</Tab>
+    <Tab value="second">Second Tab</Tab>
+    <Tab value="third">Third Tab</Tab>
+    <Tab value="fourth">Fourth Tab</Tab>
+    <Tab value="fifth">Fifth Tab</Tab>
+</TabList>
+`}
+>
+    <UIKit.TabList value="first" contentOverflow="collapse" style={{maxWidth: 320}}>
+        <UIKit.Tab value="first">First Tab</UIKit.Tab>
+        <UIKit.Tab value="second">Second Tab</UIKit.Tab>
+        <UIKit.Tab value="third">Third Tab</UIKit.Tab>
+        <UIKit.Tab value="fourth">Fourth Tab</UIKit.Tab>
+        <UIKit.Tab value="fifth">Fifth Tab</UIKit.Tab>
+    </UIKit.TabList>
+</ExampleBlock>
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<TabList value="first" contentOverflow="collapse" style={{maxWidth: 320}}>
+  <Tab value="first">First Tab</Tab>
+  <Tab value="second">Second Tab</Tab>
+  <Tab value="third">Third Tab</Tab>
+  <Tab value="fourth">Fourth Tab</Tab>
+  <Tab value="fifth">Fifth Tab</Tab>
+</TabList>
+```
+
+<!--/GITHUB_BLOCK-->
+
 ### Properties
 
 `Tab` accepts any valid `button` or `a` element props in addition to these:
@@ -349,11 +390,12 @@ Is a container element for content associated with a tab
 
 ## CSS API
 
-| Name                             | Description                |
-| :------------------------------- | :------------------------- |
-| `--g-tabs-border-width`          | Tabs border width          |
-| `--g-tabs-item-height`           | Tabs item height           |
-| `--g-tabs-item-border-width`     | Tabs item border width     |
-| `--g-tabs-item-gap`              | Distance between tabs      |
-| `--g-tabs-vertical-item-height`  | Tabs vertical item height  |
-| `--g-tabs-vertical-item-padding` | Tabs vertical item padding |
+| Name                                        | Description                |
+| :------------------------------------------ | :------------------------- |
+| `--g-tabs-border-width`                     | Tabs border width          |
+| `--g-tabs-item-height`                      | Tabs item height           |
+| `--g-tabs-item-border-width`                | Tabs item border width     |
+| `--g-tabs-item-gap`                         | Distance between tabs      |
+| `--g-tabs-vertical-item-height`             | Tabs vertical item height  |
+| `--g-tabs-vertical-item-padding`            | Tabs vertical item padding |
+| `--g-tabs-list-collapse-item-button-height` | Tabs collapse item height  |

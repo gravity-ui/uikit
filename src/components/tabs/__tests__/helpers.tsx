@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import {Tab, TabList, TabPanel, TabProvider} from '..';
+import {Box, Flex} from '../../layout';
 import {getTabsMock} from '../__stories__/getTabsMock';
 import type {TabListProps} from '../types';
 
@@ -31,7 +32,7 @@ export const ControlledTabs = ({value}: {value?: string}) => {
 
 export const TestTabList = (props: Partial<TabListProps>) => {
     const items = React.useMemo(
-        () => getTabsMock({})?.map((props, i) => <Tab key={i} {...props} />),
+        () => getTabsMock({})?.map((itemProps, i) => <Tab key={i} {...itemProps} />),
         [],
     );
 
@@ -41,9 +42,31 @@ export const TestTabList = (props: Partial<TabListProps>) => {
 export const TestTabListWithCustomTabs = (props: Partial<TabListProps>) => {
     const items = React.useMemo(
         () =>
-            getTabsMock({withCustomChildren: true})?.map((props, i) => <Tab key={i} {...props} />),
+            getTabsMock({withCustomChildren: true})?.map((itemProps, i) => (
+                <Tab key={i} {...itemProps} />
+            )),
         [],
     );
 
     return <TabList {...props}>{items}</TabList>;
+};
+
+export const TestCollapsedTabList = ({
+    title,
+    listToOpenQa,
+    ...props
+}: Partial<TabListProps> & {title: string; listToOpenQa: string}) => {
+    return (
+        <Flex direction="column" gap="3" width={800} spacing={{py: 10}}>
+            <h4>{title}</h4>
+
+            <Box>
+                <TestTabList {...props} contentOverflow="collapse" />
+            </Box>
+
+            <Box style={{width: 500}}>
+                <TestTabList {...props} contentOverflow="collapse" qa={listToOpenQa} />
+            </Box>
+        </Flex>
+    );
 };

@@ -89,22 +89,6 @@ export function getResultPage({
         : 1;
 }
 
-export function getButtonView(paginationView: PaginationView): ButtonView {
-    if (paginationView === 'clear') {
-        return 'flat';
-    }
-
-    return paginationView;
-}
-
-export function getPageSizerView(paginationView: PaginationView): InputControlView {
-    if (paginationView === 'outlined') {
-        return 'normal';
-    }
-
-    return paginationView;
-}
-
 export function getViews({propView, mobile}: {propView: PaginationView; mobile: boolean}): {
     buttonView: ButtonView;
     inputView: InputControlView;

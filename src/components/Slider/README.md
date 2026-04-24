@@ -17,10 +17,14 @@ The slider is a customizable and responsive React component that allows users to
 This is a slider with one handle to select a single value. It is used by default.
 
 <!--SANDBOX
-import {Slider} from '@gravity-ui/uikit';
+import {Box, Slider} from '@gravity-ui/uikit';
 
 export default function () {
-    return <Slider />;
+    return (
+        <Box width="100%" maxWidth={300}>
+            <Slider />
+        </Box>
+    );
 }
 SANDBOX-->
 
@@ -37,10 +41,14 @@ SANDBOX-->
 This is slider with two handles to select a range. To use it, set `defaultValue` (for an uncontrolled slider) or `value` (for a controlled one) for the array.
 
 <!--SANDBOX
-import {Slider} from '@gravity-ui/uikit';
+import {Box, Slider} from '@gravity-ui/uikit';
 
 export default function () {
-    return <Slider defaultValue={[20, 40]} />;
+    return (
+        <Box width="100%" maxWidth={300}>
+            <Slider defaultValue={[20, 40]} />
+        </Box>
+    );
 }
 SANDBOX-->
 
@@ -59,10 +67,14 @@ SANDBOX-->
 This is a state of a `Slider` where you do not want to allow the user to work with this component.
 
 <!--SANDBOX
-import {Slider} from '@gravity-ui/uikit';
+import {Box, Slider} from '@gravity-ui/uikit';
 
 export default function () {
-    return <Slider disabled />;
+    return (
+        <Box width="100%" maxWidth={300}>
+            <Slider disabled />
+        </Box>
+    );
 }
 SANDBOX-->
 
@@ -79,13 +91,17 @@ SANDBOX-->
 This `Slider` state is for incorrect user input. To change the `Slider` appearance, use the `validationState` property with the `"invalid"` value. Optionally, you can provide an error message through the `errorMessage` property. This message text will be rendered under the slider.
 
 <!--SANDBOX
-import {Slider} from '@gravity-ui/uikit';
+import {Box, Slider} from '@gravity-ui/uikit';
 
 export default function () {
     return (
         <>
-            <Slider validationState="invalid" />
-            <Slider validationState="invalid" errorMessage="Error message" />
+            <Box width="100%" maxWidth={300}>
+                <Slider validationState="invalid" />
+            </Box>
+            <Box width="100%" maxWidth={300}>
+                <Slider validationState="invalid" errorMessage="Error message" />
+            </Box>
         </>
     );
 }
@@ -105,15 +121,23 @@ SANDBOX-->
 Use the `size` property to manage the `Slider` size. The default size is `m`.
 
 <!--SANDBOX
-import {Slider} from '@gravity-ui/uikit';
+import {Box, Slider} from '@gravity-ui/uikit';
 
 export default function () {
     return (
         <>
-            <Slider size="s" />
-            <Slider size="m" />
-            <Slider size="l" />
-            <Slider size="xl" />
+            <Box width="100%" maxWidth={300}>
+                <Slider size="s" />
+            </Box>
+            <Box width="100%" maxWidth={300}>
+                <Slider size="m" />
+            </Box>
+            <Box width="100%" maxWidth={300}>
+                <Slider size="l" />
+            </Box>
+            <Box width="100%" maxWidth={300}>
+                <Slider size="xl" />
+            </Box>
         </>
     );
 }
@@ -137,14 +161,20 @@ SANDBOX-->
 The `min` and `max` properties define the limits of the range the `Slider` can handle. These properties are essential for setting the boundaries of the selectable values.
 
 <!--SANDBOX
-import {Slider} from '@gravity-ui/uikit';
+import {Box, Slider} from '@gravity-ui/uikit';
 
 export default function () {
     return (
         <>
-            <Slider min={10} />
-            <Slider max={50} />
-            <Slider min={20} max={60} />
+            <Box width="100%" maxWidth={300}>
+                <Slider min={10} />
+            </Box>
+            <Box width="100%" maxWidth={300}>
+                <Slider max={50} />
+            </Box>
+            <Box width="100%" maxWidth={300}>
+                <Slider min={20} max={60} />
+            </Box>
         </>
     );
 }
@@ -165,10 +195,14 @@ SANDBOX-->
 The `step` property determines the increments within the minimum and maximum value range. This means how much the value changes with a single slider move.
 
 <!--SANDBOX
-import {Slider} from '@gravity-ui/uikit';
+import {Box, Slider} from '@gravity-ui/uikit';
 
 export default function () {
-    return <Slider step={10} />;
+    return (
+        <Box width="100%" maxWidth={300}>
+            <Slider step={10} />
+        </Box>
+    );
 }
 SANDBOX-->
 
@@ -186,10 +220,14 @@ The `marks` property is utilized in `Slider` component to specify visual markers
 
 - the amount of visual markers along the slider
 <!--SANDBOX
-import {Slider} from '@gravity-ui/uikit';
+import {Box, Slider} from '@gravity-ui/uikit';
 
 export default function () {
-    return <Slider marks={11} />;
+    return (
+        <Box width="100%" maxWidth={300}>
+            <Slider marks={11} />
+        </Box>
+    );
 }
 SANDBOX-->
 
@@ -204,10 +242,14 @@ SANDBOX-->
 - the array of marker values along the slider
 
 <!--SANDBOX
-import {Slider} from '@gravity-ui/uikit';
+import {Box, Slider} from '@gravity-ui/uikit';
 
 export default function () {
-    return <Slider marks={[0, 50, 100]} />;
+    return (
+        <Box width="100%" maxWidth={300}>
+            <Slider marks={[0, 50, 100]} />
+        </Box>
+    );
 }
 SANDBOX-->
 
@@ -222,10 +264,14 @@ SANDBOX-->
 `0` or empty array `[]` value in `marks` property hide all marks from `Slider`.
 
 <!--SANDBOX
-import {Slider} from '@gravity-ui/uikit';
+import {Box, Slider} from '@gravity-ui/uikit';
 
 export default function () {
-    return <Slider marks={0} />;
+    return (
+        <Box width="100%" maxWidth={300}>
+            <Slider marks={0} />
+        </Box>
+    );
 }
 SANDBOX-->
 
@@ -246,10 +292,14 @@ You are able to change display format of marks values by using `marksFormat` pro
 You can set `step` property to `null` to define a set of specific values that the slider can handle, as opposed to a continuous range. This is particularly useful when only certain discrete values are valid for selection. In that case properties `min`, `max` and `marks` allows specifying an array of numbers representing the exact values that users are allowed to select using the `Slider`.
 
 <!--SANDBOX
-import {Slider} from '@gravity-ui/uikit';
+import {Box, Slider} from '@gravity-ui/uikit';
 
 export default function () {
-    return <Slider marks={[10, 20, 50, 55, 65, 80]} step={null} />;
+    return (
+        <Box width="100%" maxWidth={300}>
+            <Slider marks={[10, 20, 50, 55, 65, 80]} step={null} />
+        </Box>
+    );
 }
 SANDBOX-->
 
@@ -266,10 +316,14 @@ SANDBOX-->
 The `startPoint` property allows you to set the start point of the track. It uses the minimal `Slider` value by default. It will be ignored if you use `Slider` with range values or if you set `inverted` property.
 
 <!--SANDBOX
-import {Slider} from '@gravity-ui/uikit';
+import {Box, Slider} from '@gravity-ui/uikit';
 
 export default function () {
-    return <Slider startPoint={50} />;
+    return (
+        <Box width="100%" maxWidth={300}>
+            <Slider startPoint={50} />
+        </Box>
+    );
 }
 SANDBOX-->
 
@@ -289,10 +343,14 @@ If `true` then it indicates interval from pin to `max`.
 Only for single `Slider`. Property `startPoint` will be ignored.
 
 <!--SANDBOX
-import {Slider} from '@gravity-ui/uikit';
+import {Box, Slider} from '@gravity-ui/uikit';
 
 export default function () {
-    return <Slider inverted />;
+    return (
+        <Box width="100%" maxWidth={300}>
+            <Slider inverted />
+        </Box>
+    );
 }
 SANDBOX-->
 
@@ -309,10 +367,14 @@ SANDBOX-->
 The `tooltipDisplay` property is used in `Slider` component to control the display behaviour of a tooltip that shows the current value as the user interacts with the slider. `auto` value shows tooltip only when `Slider`'s handle are hovered by cursor or focused.
 
 <!--SANDBOX
-import {Slider} from '@gravity-ui/uikit';
+import {Box, Slider} from '@gravity-ui/uikit';
 
 export default function () {
-    return <Slider tooltipDisplay="on" />;
+    return (
+        <Box width="100%" maxWidth={300}>
+            <Slider tooltipDisplay="on" />
+        </Box>
+    );
 }
 SANDBOX-->
 

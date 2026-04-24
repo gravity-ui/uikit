@@ -35,6 +35,12 @@ $block: '.#{variables.$ns}sheet';
         width: 100%;
         max-height: 100%;
         will-change: transform;
+        background-color: var(--g-sheet-background-color, var(--g-color-base-float));
+
+        &:has(> #{$block}__sheet-top) {
+            border-start-start-radius: 20px;
+            border-start-end-radius: 20px;
+        }
 
         &_with-transition {
             transition: transform $transition-duration ease;
@@ -61,9 +67,6 @@ $block: '.#{variables.$ns}sheet';
     &__sheet-top {
         position: relative;
         height: $top-height;
-        border-start-start-radius: 20px;
-        border-start-end-radius: 20px;
-        background-color: var(--g-sheet-background-color, var(--g-color-base-float));
     }
 
     &__sheet-top-resizer {
@@ -83,7 +86,6 @@ $block: '.#{variables.$ns}sheet';
         max-height: calc(100% - #{$top-height});
         overflow: hidden auto;
         overscroll-behavior-y: contain;
-        background-color: var(--g-sheet-background-color, var(--g-color-base-float));
 
         transition: height $transition-duration ease;
 

@@ -15,11 +15,11 @@ import {Progress} from '@gravity-ui/uikit';
 С помощью свойства `theme` можно настроить цвет всего прогресса или его составной части:
 
 <!--SANDBOX
-import {Box, Flex, Progress} from '@gravity-ui/uikit';
+import {Box, Progress} from '@gravity-ui/uikit';
 
 export default function () {
     return (
-        <Flex gap={4}>
+        <>
             <Box width={'30%'}>
                 <Progress text="default" value={50} />
                 <Box height={4} />
@@ -35,7 +35,7 @@ export default function () {
                 <Box height={4} />
                 <Progress text="misc" theme="misc" value={50} />
             </Box>
-        </Flex>
+        </>
     );
 }
 SANDBOX-->
@@ -80,11 +80,11 @@ SANDBOX-->
 Размер `Progress` можно настроить с помощью свойства `size`. Возможные значения: `"xs"`, `"s"` и `"m"`. Свойство `text` поддерживает только размер `"m"`.
 
 <!--SANDBOX
-import {Box, Flex, Progress} from '@gravity-ui/uikit';
+import {Box, Progress} from '@gravity-ui/uikit';
 
 export default function () {
     return (
-        <Flex gap={4}>
+        <>
             <Box width={'30%'}>
                 <Progress theme="success" value={60} size="xs" />
             </Box>
@@ -94,7 +94,7 @@ export default function () {
             <Box width={'30%'}>
                 <Progress theme="danger" value={80} size="m" />
             </Box>
-        </Flex>
+        </>
     );
 }
 SANDBOX-->
@@ -114,7 +114,7 @@ SANDBOX-->
 Для установки брейкпоинтов в компоненте `Progress` используется свойство `colorStops`.
 
 <!--SANDBOX
-import {Box, Flex, Progress} from '@gravity-ui/uikit';
+import {Box, Progress} from '@gravity-ui/uikit';
 
 const colorStops = [
     {theme: 'danger', stop: 20},
@@ -124,7 +124,7 @@ const colorStops = [
 
 export default function () {
     return (
-        <Flex gap={4}>
+        <>
             <Box width={'30%'}>
                 <Progress value={10} colorStops={colorStops} />
             </Box>
@@ -134,7 +134,7 @@ export default function () {
             <Box width={'30%'}>
                 <Progress value={60} colorStops={colorStops} />
             </Box>
-        </Flex>
+        </>
     );
 }
 SANDBOX-->
@@ -153,7 +153,7 @@ SANDBOX-->
 
 <!--SANDBOX
 import type {Stack} from '@gravity-ui/uikit';
-import {Box, Flex, Progress} from '@gravity-ui/uikit';
+import {Box, Progress} from '@gravity-ui/uikit';
 
 const defaultStack: Stack[] = [
     {theme: 'default', content: 'First', value: 25},
@@ -170,14 +170,14 @@ const customColorStack: Stack[] = [
 
 export default function () {
     return (
-        <Flex gap={4}>
+        <>
             <Box width={'30%'}>
                 <Progress stack={defaultStack} />
             </Box>
             <Box width={'30%'}>
                 <Progress text="Progress with custom colors" stack={customColorStack} />
             </Box>
-        </Flex>
+        </>
     );
 }
 SANDBOX-->

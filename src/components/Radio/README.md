@@ -18,7 +18,7 @@ The `Radio` component allows the users to select a single option from a list of 
 - Disabled: Radio is unavailable for selection.
 
 <!--SANDBOX
-import {Box, Radio} from '@gravity-ui/uikit';
+import {Radio} from '@gravity-ui/uikit';
 
 export default function () {
     return (
@@ -72,14 +72,14 @@ SANDBOX-->
 You can assign a label to a `Radio` using the `content` property or provide it as a child property.
 
 <!--SANDBOX
-import {Radio} from '@gravity-ui/uikit';
+import {Box, Radio} from '@gravity-ui/uikit';
 
 export default function () {
     return (
         <div>
-            <Radio content="Content" size="l" />
+            <Radio value="option-1" content="Content" size="l" />
             <Box spacing={{mt: 2}}>
-                <Radio size="l">
+                <Radio value="option-2" size="l">
                     <span>Content as children</span>
                 </Radio>
             </Box>

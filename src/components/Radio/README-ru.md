@@ -74,7 +74,7 @@ SANDBOX-->
 Лейбл для `Radio` можно задать через свойство `content` или передать его как дочерний элемент.
 
 <!--SANDBOX
-import {Radio} from '@gravity-ui/uikit';
+import {Box, Radio} from '@gravity-ui/uikit';
 
 export default function () {
     return (

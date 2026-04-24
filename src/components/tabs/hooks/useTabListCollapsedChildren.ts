@@ -6,6 +6,10 @@ import {getReactNodeHash} from '../../Breadcrumbs/utils';
 import {bTab, bTabListCollapseItem} from '../constants';
 import {getTabNodePropsFromReactNode} from '../utils';
 
+import {useTabListGapFromContainer} from './useTabListGapFromContainer';
+
+const TAB_LIST_COLLAPSE_CHILD_SELECTOR = `.${bTab()},.${bTabListCollapseItem()}`;
+
 export type UseTabListCollapsedChildrenResult = {
     shownChildren: React.ReactElement[];
     collapsedChildren: React.ReactElement[];
@@ -21,17 +25,23 @@ export const useTabListCollapsedChildren = (
     const collapseItemRef = React.useRef<HTMLButtonElement>(null);
     const activeTabElementRef = React.useRef<HTMLElement | null>(null);
 
+    const childrenHash = getReactNodeHash(children);
+
+    const listGap = useTabListGapFromContainer(containerRef, {
+        enabled,
+        childrenHash,
+        childSelector: TAB_LIST_COLLAPSE_CHILD_SELECTOR,
+    });
+
     const {recalculate, visibleCount: visibleChildrenCount} = useCollapseChildren({
         enabled,
         containerRef,
         preservedRefs: [collapseItemRef, activeTabElementRef],
         direction: 'end',
         minCount: 1,
-        gap: 24,
-        childSelector: `.${bTab()},.${bTabListCollapseItem()}`,
+        gap: listGap,
+        childSelector: TAB_LIST_COLLAPSE_CHILD_SELECTOR,
     });
-
-    const childrenHash = getReactNodeHash(children);
 
     React.useEffect(() => {
         if (enabled) {

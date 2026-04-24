@@ -23,7 +23,6 @@ export const useTabListCollapsedChildren = (
     enabled: boolean,
 ): UseTabListCollapsedChildrenResult => {
     const collapseItemRef = React.useRef<HTMLButtonElement>(null);
-    const activeTabElementRef = React.useRef<HTMLElement | null>(null);
 
     const childrenHash = getReactNodeHash(children);
 
@@ -36,7 +35,7 @@ export const useTabListCollapsedChildren = (
     const {recalculate, visibleCount: visibleChildrenCount} = useCollapseChildren({
         enabled,
         containerRef,
-        preservedRefs: [collapseItemRef, activeTabElementRef],
+        preservedRefs: [collapseItemRef],
         direction: 'end',
         minCount: 1,
         gap: listGap,
@@ -47,7 +46,6 @@ export const useTabListCollapsedChildren = (
         if (enabled) {
             recalculate();
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [childrenHash, enabled]);
 
     useResizeObserver({

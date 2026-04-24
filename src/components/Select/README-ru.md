@@ -365,12 +365,6 @@ SANDBOX-->
 
 - Узкие опции растягиваются до ширины контрола.
 
-<!--
-### Non-virtualized list
-
-A regular list when all the elements are in the dom tree at once.
--->
-
 <!--SANDBOX
 import {Select} from '@gravity-ui/uikit';
 

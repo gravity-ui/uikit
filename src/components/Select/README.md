@@ -366,12 +366,6 @@ Points to note about the default behavior:
 
 - Narrow options are stretched to fit the width of the control.
 
-<!--
-### Non-virtualized list
-
-A regular list when all the elements are in the dom tree at once.
--->
-
 <!--SANDBOX
 import {Select} from '@gravity-ui/uikit';
 

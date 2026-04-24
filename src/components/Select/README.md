@@ -21,7 +21,7 @@ You can define options as an array of objects or as the children of a component.
 #### Flat list
 
 <!--SANDBOX
-import {Select} from '@gravity-ui/uikit';
+import {Flex, Select} from '@gravity-ui/uikit';
 
 const options = [
     {value: 'val_1', content: 'Value 1'},
@@ -33,11 +33,11 @@ const options = [
 export default function () {
     return (
         <>
-            <div>
+            <Flex gap={1} alignItems="center">
                 Array of objects
                 <Select placeholder="value" options={options} />
-            </div>
-            <div>
+            </Flex>
+            <Flex gap={1} alignItems="center">
                 Child nodes
                 <Select placeholder="value">
                     <Select.Option value="val_1">Value 1</Select.Option>
@@ -45,7 +45,7 @@ export default function () {
                     <Select.Option value="val_3">Value 3</Select.Option>
                     <Select.Option value="val_4">Value 4</Select.Option>
                 </Select>
-            </div>
+            </Flex>
         </>
     );
 }
@@ -78,7 +78,7 @@ SANDBOX-->
 #### Grouped list
 
 <!--SANDBOX
-import {Select} from '@gravity-ui/uikit';
+import {Flex, Select} from '@gravity-ui/uikit';
 
 const groupedOptions = [
     {
@@ -100,11 +100,11 @@ const groupedOptions = [
 export default function () {
     return (
         <>
-            <div>
+            <Flex gap={1} alignItems="center">
                 Array of objects
                 <Select placeholder="value" options={groupedOptions} />
-            </div>
-            <div>
+            </Flex>
+            <Flex gap={1} alignItems="center">
                 Child nodes
                 <Select placeholder="value">
                     <Select.OptionGroup label="Group 1">
@@ -116,7 +116,7 @@ export default function () {
                         <Select.Option value="val_4" content="Value 4" />
                     </Select.OptionGroup>
                 </Select>
-            </div>
+            </Flex>
         </>
     );
 }
@@ -315,37 +315,40 @@ By default, the control width stretches to match the width of the content of the
 `number`: Applies width in pixels.
 
 <!--SANDBOX
-import {Select} from '@gravity-ui/uikit';
+import {Select, SelectProps} from '@gravity-ui/uikit';
+import {type CSSProperties} from 'react';
+
+const containerStyle: CSSProperties = {
+    width: 150,
+    border: '2px dashed gray',
+    textAlign: 'center',
+};
+
+function SelectExample(props: SelectProps) {
+    return (
+        <Select {...props}>
+            <Select.Option value="val_1">Value 1</Select.Option>
+            <Select.Option value="val_2">Value 2</Select.Option>
+            <Select.Option value="val_3">Value 3</Select.Option>
+            <Select.Option value="val_4">Value 4</Select.Option>
+        </Select>
+    );
+}
 
 export default function () {
     return (
         <>
-            <div style={{width: 150, border: '2px dashed gray', textAlign: 'center'}}>
-                <h4 style={{textAlign: 'center'}}>Default</h4>
-                <Select multiple>
-                    <Select.Option value="val_1">Value 1</Select.Option>
-                    <Select.Option value="val_2">Value 2</Select.Option>
-                    <Select.Option value="val_3">Value 3</Select.Option>
-                    <Select.Option value="val_4">Value 4</Select.Option>
-                </Select>
+            <div style={containerStyle}>
+                <h4>Default</h4>
+                <SelectExample multiple />
             </div>
-            <div style={{width: 150, border: '2px dashed gray', textAlign: 'center'}}>
-                <h4 style={{textAlign: 'center'}}>Max</h4>
-                <Select width="max" multiple>
-                    <Select.Option value="val_1">Value 1</Select.Option>
-                    <Select.Option value="val_2">Value 2</Select.Option>
-                    <Select.Option value="val_3">Value 3</Select.Option>
-                    <Select.Option value="val_4">Value 4</Select.Option>
-                </Select>
+            <div style={containerStyle}>
+                <h4>Max</h4>
+                <SelectExample width="max" multiple />
             </div>
-            <div style={{width: 150, border: '2px dashed gray', textAlign: 'center'}}>
-                <h4 style={{textAlign: 'center'}}>In pixels</h4>
-                <Select width={110} multiple>
-                    <Select.Option value="val_1">Value 1</Select.Option>
-                    <Select.Option value="val_2">Value 2</Select.Option>
-                    <Select.Option value="val_3">Value 3</Select.Option>
-                    <Select.Option value="val_4">Value 4</Select.Option>
-                </Select>
+            <div style={containerStyle}>
+                <h4>In pixels</h4>
+                <SelectExample width={110} multiple />
             </div>
         </>
     );
@@ -367,67 +370,66 @@ Points to note about the default behavior:
 - Narrow options are stretched to fit the width of the control.
 
 <!--SANDBOX
-import {Select} from '@gravity-ui/uikit';
+import {Box, Select, SelectProps} from '@gravity-ui/uikit';
+import {type CSSProperties} from 'react';
+
+const containerStyle: CSSProperties = {
+    width: 200,
+    border: '2px dashed gray',
+    textAlign: 'center',
+};
+
+function ShortValueSelect(props: SelectProps) {
+    return (
+        <Select placeholder="Short value" {...props}>
+            <Select.Option value="val_1">Value 1</Select.Option>
+            <Select.Option value="val_2">Value 2</Select.Option>
+            <Select.Option value="val_3">Value 3</Select.Option>
+            <Select.Option value="val_4">Value 4</Select.Option>
+        </Select>
+    );
+}
+
+function LongValueSelect(props: SelectProps) {
+    return (
+        <Select placeholder="Long value" {...props}>
+            <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
+            <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
+            <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
+            <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
+        </Select>
+    );
+}
 
 export default function () {
     return (
         <>
-            <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
-                <h4 style={{textAlign: 'center'}}>Default</h4>
-                <p>
-                    <Select placeholder="Short value">
-                        <Select.Option value="val_1">Value 1</Select.Option>
-                        <Select.Option value="val_2">Value 2</Select.Option>
-                        <Select.Option value="val_3">Value 3</Select.Option>
-                        <Select.Option value="val_4">Value 4</Select.Option>
-                    </Select>
-                </p>
-                <p>
-                    <Select placeholder="Long value">
-                        <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
-                        <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
-                        <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
-                        <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
-                    </Select>
-                </p>
+            <div style={containerStyle}>
+                <h4>Default</h4>
+                <Box spacing={{my: 3}}>
+                    <ShortValueSelect />
+                </Box>
+                <Box spacing={{my: 3}}>
+                    <LongValueSelect />
+                </Box>
             </div>
-            <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
-                <h4 style={{textAlign: 'center'}}>Fit</h4>
-                <p>
-                    <Select placeholder="Short value" popupWidth="fit">
-                        <Select.Option value="val_1">Value 1</Select.Option>
-                        <Select.Option value="val_2">Value 2</Select.Option>
-                        <Select.Option value="val_3">Value 3</Select.Option>
-                        <Select.Option value="val_4">Value 4</Select.Option>
-                    </Select>
-                </p>
-                <p>
-                    <Select placeholder="Long value" popupWidth="fit">
-                        <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
-                        <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
-                        <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
-                        <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
-                    </Select>
-                </p>
+            <div style={containerStyle}>
+                <h4>Fit</h4>
+                <Box spacing={{my: 3}}>
+                    <ShortValueSelect popupWidth="fit" />
+                </Box>
+                <Box spacing={{my: 3}}>
+                    <LongValueSelect popupWidth="fit" />
+                </Box>
             </div>
-            <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
-                <h4 style={{textAlign: 'center'}}>In pixels</h4>
-                <p>
-                    <Select placeholder="Short value" popupWidth={80}>
-                        <Select.Option value="val_1">Value 1</Select.Option>
-                        <Select.Option value="val_2">Value 2</Select.Option>
-                        <Select.Option value="val_3">Value 3</Select.Option>
-                        <Select.Option value="val_4">Value 4</Select.Option>
-                    </Select>
-                </p>
-                <p>
-                    <Select placeholder="Long value" popupWidth={80}>
-                        <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
-                        <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
-                        <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
-                        <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
-                    </Select>
-                </p>
+            <div style={containerStyle}>
+                <h4>In pixels</h4>
+                <Box spacing={{my: 3}}>
+                    <ShortValueSelect popupWidth={80} />
+                </Box>
+                <Box spacing={{my: 3}}>
+                    <LongValueSelect popupWidth={80} />
+                </Box>
             </div>
         </>
     );
@@ -445,7 +447,14 @@ When using virtualization, some restrictions apply to the popup element:
 - The minimum width of the popup is equal to the width of the control, or `100px` if the control is shorter.
 
 <!--SANDBOX
-import {Select} from '@gravity-ui/uikit';
+import {Box, Select} from '@gravity-ui/uikit';
+import {type CSSProperties} from 'react';
+
+const containerStyle: CSSProperties = {
+    width: 200,
+    border: '2px dashed gray',
+    textAlign: 'center',
+};
 
 const shortOptions = Array.from({length: 1000}, (_, index) => ({
     value: String(index),
@@ -460,23 +469,23 @@ const longOptions = Array.from({length: 1000}, (_, index) => ({
 export default function () {
     return (
         <>
-            <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
-                <h4 style={{textAlign: 'center'}}>Default</h4>
-                <p>
+            <div style={containerStyle}>
+                <h4>Default</h4>
+                <Box spacing={{my: 3}}>
                     <Select placeholder="Short value" options={shortOptions} />
-                </p>
-                <p>
+                </Box>
+                <Box spacing={{my: 3}}>
                     <Select placeholder="Long value" options={longOptions} />
-                </p>
+                </Box>
             </div>
-            <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
-                <h4 style={{textAlign: 'center'}}>In pixels</h4>
-                <p>
+            <div style={containerStyle}>
+                <h4>In pixels</h4>
+                <Box spacing={{my: 3}}>
                     <Select placeholder="Short value" popupWidth={80} options={shortOptions} />
-                </p>
-                <p>
+                </Box>
+                <Box spacing={{my: 3}}>
                     <Select placeholder="Long value" popupWidth={80} options={longOptions} />
-                </p>
+                </Box>
             </div>
         </>
     );
@@ -546,13 +555,13 @@ Note: You need to forward all arguments to your node in order to enable a proper
 
 <!--SANDBOX
 import type {SelectProps} from '@gravity-ui/uikit';
-import {Button, Select, TextInput} from '@gravity-ui/uikit';
+import {Button, Flex, Select, TextInput} from '@gravity-ui/uikit';
 
 const renderFilter: SelectProps['renderFilter'] = (props) => {
     const {value, ref, onChange, onKeyDown} = props;
 
     return (
-        <div>
+        <Flex direction="column" gap={1}>
             <TextInput
                 controlRef={ref}
                 controlProps={{size: 1}}
@@ -560,8 +569,8 @@ const renderFilter: SelectProps['renderFilter'] = (props) => {
                 onUpdate={onChange}
                 onKeyDown={onKeyDown}
             />
-            <Button>Do smth</Button>
-        </div>
+            <Button size="xs">Do smth</Button>
+        </Flex>
     );
 };
 

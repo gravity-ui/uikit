@@ -13,7 +13,7 @@ import {SegmentedRadioGroup} from '@gravity-ui/uikit';
 ### Отключенное состояние
 
 <!--SANDBOX
-import {Flex, SegmentedRadioGroup} from '@gravity-ui/uikit';
+import {SegmentedRadioGroup} from '@gravity-ui/uikit';
 
 export default function () {
     return (
@@ -43,31 +43,21 @@ SANDBOX-->
 Размер `SegmentedRadioGroup` можно настроить с помощью свойства `size`. Размер по умолчанию — `m`.
 
 <!--SANDBOX
-import {SegmentedRadioGroup} from '@gravity-ui/uikit';
+import {Flex, SegmentedRadioGroup} from '@gravity-ui/uikit';
+
+const options = [
+    <SegmentedRadioGroup.Option key="Value 1" value="Value 1">Value 1</SegmentedRadioGroup.Option>,
+    <SegmentedRadioGroup.Option key="Value 2" value="Value 2">Value 2</SegmentedRadioGroup.Option>,
+    <SegmentedRadioGroup.Option key="Value 3" value="Value 3">Value 3</SegmentedRadioGroup.Option>,
+];
 
 export default function () {
     return (
         <Flex direction="column" alignItems="center" gap={2}>
-            <SegmentedRadioGroup name="group1" defaultValue="Value 1" size="s">
-                <SegmentedRadioGroup.Option value="Value 1">Value 1</SegmentedRadioGroup.Option>
-                <SegmentedRadioGroup.Option value="Value 2">Value 2</SegmentedRadioGroup.Option>
-                <SegmentedRadioGroup.Option value="Value 3">Value 3</SegmentedRadioGroup.Option>
-            </SegmentedRadioGroup>
-            <SegmentedRadioGroup name="group2" defaultValue="Value 1" size="m">
-                <SegmentedRadioGroup.Option value="Value 1">Value 1</SegmentedRadioGroup.Option>
-                <SegmentedRadioGroup.Option value="Value 2">Value 2</SegmentedRadioGroup.Option>
-                <SegmentedRadioGroup.Option value="Value 3">Value 3</SegmentedRadioGroup.Option>
-            </SegmentedRadioGroup>
-            <SegmentedRadioGroup name="group3" defaultValue="Value 1" size="l">
-                <SegmentedRadioGroup.Option value="Value 1">Value 1</SegmentedRadioGroup.Option>
-                <SegmentedRadioGroup.Option value="Value 2">Value 2</SegmentedRadioGroup.Option>
-                <SegmentedRadioGroup.Option value="Value 3">Value 3</SegmentedRadioGroup.Option>
-            </SegmentedRadioGroup>
-            <SegmentedRadioGroup name="group4" defaultValue="Value 1" size="xl">
-                <SegmentedRadioGroup.Option value="Value 1">Value 1</SegmentedRadioGroup.Option>
-                <SegmentedRadioGroup.Option value="Value 2">Value 2</SegmentedRadioGroup.Option>
-                <SegmentedRadioGroup.Option value="Value 3">Value 3</SegmentedRadioGroup.Option>
-            </SegmentedRadioGroup>
+            <SegmentedRadioGroup name="group1" defaultValue="Value 1" size="s">{options}</SegmentedRadioGroup>
+            <SegmentedRadioGroup name="group2" defaultValue="Value 1" size="m">{options}</SegmentedRadioGroup>
+            <SegmentedRadioGroup name="group3" defaultValue="Value 1" size="l">{options}</SegmentedRadioGroup>
+            <SegmentedRadioGroup name="group4" defaultValue="Value 1" size="xl">{options}</SegmentedRadioGroup>
         </Flex>
     );
 }

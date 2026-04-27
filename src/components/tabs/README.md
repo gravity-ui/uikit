@@ -166,6 +166,7 @@ LANDING_BLOCK-->
 | activateOnFocus | Activate tab on focus. Use this only if panel's content can be displayed immediately |         `boolean`         | `false` |
 | size            | Element size                                                                         |    `"m"` `"l"` `"xl"`     |  `"m"`  |
 | qa              | HTML `data-qa` attribute, used in tests                                              |         `string`          |         |
+| allowScroll     | Allows content to overflow container with scroll instead of wrap to next line        |         `string`          |         |
 
 ## Tab
 

@@ -150,6 +150,11 @@ $block: '.#{variables.$ns}tabs-legacy';
         }
     }
 
+    &_with-scroll {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+    }
+
     &_direction_vertical {
         display: flex;
         flex-direction: column;

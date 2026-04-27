@@ -48,6 +48,9 @@ export interface TabsProps extends AriaLabelingProps, QAProps {
      * Ignored when tabs rendered via `children`
      */
     wrapTo?(item: TabsItemProps, node: React.ReactNode, index: number): React.ReactNode;
+
+    /** Allow tab items to overflow container and enables scroll: auto for horizontal direction  */
+    allowScroll?: boolean;
 }
 
 const getActiveTabId = (
@@ -81,6 +84,7 @@ const TabsComponent = React.forwardRef<HTMLDivElement, TabsProps>(
             onSelectTab,
             wrapTo,
             qa,
+            allowScroll,
             ...restProps
         },
         ref,
@@ -111,7 +115,7 @@ const TabsComponent = React.forwardRef<HTMLDivElement, TabsProps>(
             <div
                 {...filterDOMProps(restProps, {labelable: true})}
                 role="tablist"
-                className={b({direction, size}, className)}
+                className={b({direction, size, 'with-scroll': allowScroll}, className)}
                 data-qa={qa}
                 ref={ref}
             >

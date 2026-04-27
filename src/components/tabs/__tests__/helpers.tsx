@@ -51,7 +51,33 @@ export const TestTabListWithCustomTabs = (props: Partial<TabListProps>) => {
     return <TabList {...props}>{items}</TabList>;
 };
 
-export const TestCollapsedTabList = ({
+export const TestTabListScroll = () => {
+    const [value, setValue] = React.useState('active');
+
+    return (
+        <Flex direction="column" gap="3" width={800} spacing={{py: 10}}>
+            <h4>contentOverflow scroll</h4>
+            <Box style={{width: 450}}>
+                <TestTabList value={value} onUpdate={setValue} contentOverflow="scroll" />
+            </Box>
+        </Flex>
+    );
+};
+
+export const TestTabListCollapse = () => {
+    const [value, setValue] = React.useState('active');
+
+    return (
+        <Flex direction="column" gap="3" width={800} spacing={{py: 10}}>
+            <h4>contentOverflow collapse</h4>
+            <Box style={{width: 450}}>
+                <TestTabList value={value} onUpdate={setValue} contentOverflow="collapse" />
+            </Box>
+        </Flex>
+    );
+};
+
+export const TestTabListContentOverflow = ({
     title,
     listToOpenQa,
     ...props
@@ -60,8 +86,12 @@ export const TestCollapsedTabList = ({
         <Flex direction="column" gap="3" width={800} spacing={{py: 10}}>
             <h4>{title}</h4>
 
-            <Box>
-                <TestTabList {...props} contentOverflow="collapse" />
+            <Box style={{width: 500}}>
+                <TestTabList {...props} contentOverflow="wrap" qa={listToOpenQa} />
+            </Box>
+
+            <Box style={{width: 500}}>
+                <TestTabList {...props} contentOverflow="scroll" qa={listToOpenQa} />
             </Box>
 
             <Box style={{width: 500}}>

@@ -390,12 +390,11 @@ Is a container element for content associated with a tab
 
 ## CSS API
 
-| Name                                        | Description                |
-| :------------------------------------------ | :------------------------- |
-| `--g-tabs-border-width`                     | Tabs border width          |
-| `--g-tabs-item-height`                      | Tabs item height           |
-| `--g-tabs-item-border-width`                | Tabs item border width     |
-| `--g-tabs-item-gap`                         | Distance between tabs      |
-| `--g-tabs-vertical-item-height`             | Tabs vertical item height  |
-| `--g-tabs-vertical-item-padding`            | Tabs vertical item padding |
-| `--g-tabs-list-collapse-item-button-height` | Tabs collapse item height  |
+| Name                             | Description                |
+| :------------------------------- | :------------------------- |
+| `--g-tabs-border-width`          | Tabs border width          |
+| `--g-tabs-item-height`           | Tabs item height           |
+| `--g-tabs-item-border-width`     | Tabs item border width     |
+| `--g-tabs-item-gap`              | Distance between tabs      |
+| `--g-tabs-vertical-item-height`  | Tabs vertical item height  |
+| `--g-tabs-vertical-item-padding` | Tabs vertical item padding |

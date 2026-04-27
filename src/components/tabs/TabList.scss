@@ -12,8 +12,6 @@ $tabListCollapseItemBlock: '.#{variables.$ns}tab-list-collapse-item';
     box-shadow: inset 0 calc(var(--g-tabs-border-width, 1px) * -1) 0 0 var(--g-color-line-generic);
     overflow: hidden;
 
-    --g-tabs-list-collapse-item-button-height: var(--g-tabs-item-height, var(--_--item-height));
-
     $tabsItemsGap: var(--g-tabs-item-gap, var(--_--item-gap));
 
     &_size {
@@ -24,8 +22,7 @@ $tabListCollapseItemBlock: '.#{variables.$ns}tab-list-collapse-item';
 
             #{$tabBlock}__title,
             #{$tabBlock}__counter,
-            #{$tabListCollapseItemBlock}__text,
-            #{$tabListCollapseItemBlock}__count {
+            #{$tabListCollapseItemBlock} {
                 @include mixins.text-body-1();
             }
         }
@@ -37,8 +34,7 @@ $tabListCollapseItemBlock: '.#{variables.$ns}tab-list-collapse-item';
 
             #{$tabBlock}__title,
             #{$tabBlock}__counter,
-            #{$tabListCollapseItemBlock}__text,
-            #{$tabListCollapseItemBlock}__count {
+            #{$tabListCollapseItemBlock} {
                 @include mixins.text-body-2();
             }
         }
@@ -50,8 +46,7 @@ $tabListCollapseItemBlock: '.#{variables.$ns}tab-list-collapse-item';
 
             #{$tabBlock}__title,
             #{$tabBlock}__counter,
-            #{$tabListCollapseItemBlock}__text,
-            #{$tabListCollapseItemBlock}__count {
+            #{$tabListCollapseItemBlock} {
                 @include mixins.text-subheader-3();
             }
         }
@@ -59,10 +54,6 @@ $tabListCollapseItemBlock: '.#{variables.$ns}tab-list-collapse-item';
 
     &_overflow_collapse {
         flex-wrap: nowrap;
-
-        & > *:not(#{$tabListCollapseItemBlock}) {
-            max-width: calc(100% - var(--g-tabs-list-dd-menu-button-height) - $tabsItemsGap);
-        }
     }
 
     &_overflow_scroll {

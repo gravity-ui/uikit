@@ -21,6 +21,7 @@ export const TabListCollapseItem = React.forwardRef<HTMLButtonElement, TabListCo
 
         return (
             <Menu
+                placement={['bottom-start', 'bottom-end']}
                 trigger={
                     <Flex
                         ref={ref}
@@ -29,8 +30,12 @@ export const TabListCollapseItem = React.forwardRef<HTMLButtonElement, TabListCo
                         gap="2"
                         className={bTabListCollapseItem()}
                     >
-                        <Text className={bTabListCollapseItem('text')}>More</Text>
-                        <Text className={bTabListCollapseItem('count')}>{childrenCount}</Text>
+                        <Text variant="inherit" className={bTabListCollapseItem('text')}>
+                            More
+                        </Text>
+                        <Text variant="inherit" className={bTabListCollapseItem('count')}>
+                            {childrenCount}
+                        </Text>
                         <Icon data={ChevronDown} />
                     </Flex>
                 }

@@ -16,18 +16,6 @@ function getTabListGapFromContainer(container: HTMLElement, childSelector: strin
         return parseFloat(getComputedStyle(child).marginInlineEnd) || 0;
     }
 
-    const style = getComputedStyle(container);
-
-    const fromUserVar = style.getPropertyValue('--g-tabs-item-gap').trim();
-    if (fromUserVar) {
-        return parseFloat(fromUserVar) || 0;
-    }
-
-    const fromSizeVar = style.getPropertyValue('--_--item-gap').trim();
-    if (fromSizeVar) {
-        return parseFloat(fromSizeVar) || 0;
-    }
-
     return 0;
 }
 

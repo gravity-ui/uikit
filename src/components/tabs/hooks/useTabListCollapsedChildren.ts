@@ -43,10 +43,9 @@ export const useTabListCollapsedChildren = (
     });
 
     React.useEffect(() => {
-        if (enabled) {
-            recalculate();
-        }
-    }, [childrenHash, enabled]);
+        recalculate();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [childrenHash, tabListValue]);
 
     useResizeObserver({
         ref: collapseItemRef,

@@ -5,7 +5,13 @@ import {expect, test} from '~playwright/core';
 import type {TabListProps} from '../types';
 
 import {sizeCases, valueCases} from './cases';
-import {TestCollapsedTabList, TestTabList, TestTabListWithCustomTabs} from './helpers';
+import {
+    TestTabList,
+    TestTabListCollapse,
+    TestTabListContentOverflow,
+    TestTabListScroll,
+    TestTabListWithCustomTabs,
+} from './helpers';
 
 test.describe('TabList', {tag: '@TabList'}, () => {
     test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
@@ -85,6 +91,55 @@ test.describe('TabList', {tag: '@TabList'}, () => {
         });
     });
 
+    test(
+        'smoke with contentOverflow scroll',
+        {tag: ['@smoke']},
+        async ({mount, page, expectScreenshot}) => {
+            await mount(<TestTabListScroll />);
+
+            await expectScreenshot({
+                name: 'with-contentOverflow-scroll-value-active',
+                themes: ['light'],
+            });
+
+            await page.getByRole('tab', {name: 'One More Long Text Tab To Show'}).click();
+
+            await expectScreenshot({
+                name: 'with-contentOverflow-scroll-value-fifth',
+                themes: ['light'],
+            });
+        },
+    );
+
+    test(
+        'smoke with contentOverflow collapse',
+        {tag: ['@smoke']},
+        async ({mount, page, expectScreenshot}) => {
+            await mount(<TestTabListCollapse />);
+
+            await expectScreenshot({
+                name: 'with-contentOverflow-collapse-initial',
+                themes: ['light'],
+            });
+
+            await page.locator('button.g-tab-list-collapse-item').click();
+
+            await expect(page.locator('div[role="menu"]')).toBeVisible();
+
+            await expectScreenshot({
+                name: 'with-contentOverflow-collapse-menu-open',
+                themes: ['light'],
+            });
+
+            await page.getByRole('menuitem', {name: 'One More Long Text Tab To Show'}).click();
+
+            await expectScreenshot({
+                name: 'with-contentOverflow-collapse-value-fifth',
+                themes: ['light'],
+            });
+        },
+    );
+
     createSmokeScenarios<TabListProps>(
         {
             contentOverflow: 'collapse',
@@ -94,14 +149,14 @@ test.describe('TabList', {tag: '@TabList'}, () => {
             value: valueCases,
         },
         {
-            scenarioName: 'with contentOverflow="collapse"',
+            scenarioName: 'with contentOverflow',
         },
     ).forEach(([title, props]) => {
         test('smoke ' + title, {tag: ['@smoke']}, async ({mount, page, expectScreenshot}) => {
             const listToOpenQa = 'collapsed-tab-list-to-open-qa';
 
             const root = await mount(
-                <TestCollapsedTabList title={title} listToOpenQa={listToOpenQa} {...props} />,
+                <TestTabListContentOverflow title={title} listToOpenQa={listToOpenQa} {...props} />,
             );
 
             await root.getByTestId(listToOpenQa).locator('button.g-tab-list-collapse-item').click();

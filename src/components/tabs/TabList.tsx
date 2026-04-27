@@ -4,8 +4,10 @@ import * as React from 'react';
 
 import {useFocusWithin, useForkRef, useUniqId} from '../../hooks';
 
+import {TabListCollapseItem} from './TabListCollapseItem/TabListCollapseItem';
 import {TabContext} from './contexts/TabContext';
 import {useTabList} from './hooks/useTabList';
+import {useTabListCollapsedChildren} from './hooks/useTabListCollapsedChildren';
 import type {TabListProps} from './types';
 
 import './TabList.scss';
@@ -19,7 +21,16 @@ export const TabList = React.forwardRef<HTMLDivElement, TabListProps>((props, re
 
     const value = tabContext?.value ?? props.value;
 
-    const {children, ...tabListProps} = useTabList(props, value, listRef);
+    const tabListProps = useTabList(props);
+
+    const collapseEnabled = props.contentOverflow === 'collapse';
+
+    const collapsedChildrenResults = useTabListCollapsedChildren(
+        props.children,
+        value,
+        listRef,
+        collapseEnabled,
+    );
 
     const [isFocused, setIsFocused] = React.useState(false);
 
@@ -41,7 +52,16 @@ export const TabList = React.forwardRef<HTMLDivElement, TabListProps>((props, re
     return (
         <TabContext.Provider value={innerContextValue}>
             <div ref={containerRef} {...tabListProps} {...focusWithinProps}>
-                {children}
+                {collapseEnabled ? (
+                    <React.Fragment>
+                        {collapsedChildrenResults.shownChildren}
+                        <TabListCollapseItem ref={collapsedChildrenResults.collapseItemRef}>
+                            {collapsedChildrenResults.collapsedChildren}
+                        </TabListCollapseItem>
+                    </React.Fragment>
+                ) : (
+                    props.children
+                )}
             </div>
         </TabContext.Provider>
     );

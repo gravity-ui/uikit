@@ -3,46 +3,14 @@ import * as React from 'react';
 import {useCollapseChildren} from '../../../hooks/useCollapseChildren';
 import {useResizeObserver} from '../../../hooks/useResizeObserver';
 import {getReactNodeHash} from '../../Breadcrumbs/utils';
-import {Tab} from '../Tab';
 import {bTab, bTabListCollapseItem} from '../constants';
-import type {TabProps} from '../types';
+import {getTabNodePropsFromReactNode} from '../utils';
 
 export type UseTabListCollapsedChildrenResult = {
     shownChildren: React.ReactElement[];
     collapsedChildren: React.ReactElement[];
     collapseItemRef: React.RefObject<HTMLButtonElement>;
 };
-
-const getChildWidth = (el: HTMLElement) => {
-    return el.offsetWidth || 0;
-};
-
-/**
- * Finds the first Tab in the subtree (e.g. Tab wrapped in Tooltip) and returns its value.
- */
-function getTabValueFromReactNode(node: React.ReactNode): unknown | undefined {
-    if (!React.isValidElement(node)) {
-        return undefined;
-    }
-
-    if (node.type === Tab) {
-        return (node.props as TabProps)['value'];
-    }
-
-    const props = node.props as {children?: React.ReactNode};
-    if (props.children === null) {
-        return undefined;
-    }
-
-    for (const child of React.Children.toArray(props.children)) {
-        const nested = getTabValueFromReactNode(child);
-        if (nested !== undefined) {
-            return nested;
-        }
-    }
-
-    return undefined;
-}
 
 export const useTabListCollapsedChildren = (
     children: React.ReactNode,
@@ -61,7 +29,6 @@ export const useTabListCollapsedChildren = (
         minCount: 1,
         gap: 24,
         childSelector: `.${bTab()},.${bTabListCollapseItem()}`,
-        getChildWidth: getChildWidth,
     });
 
     const childrenHash = getReactNodeHash(children);
@@ -81,13 +48,13 @@ export const useTabListCollapsedChildren = (
     // Don't collapse selected tab
     const isReactNodeCollapsible = React.useCallback(
         (child: React.ReactNode) => {
-            const tabValue = getTabValueFromReactNode(child);
+            const tabProps = getTabNodePropsFromReactNode(child);
 
-            if (tabValue === undefined) {
+            if (tabProps === undefined) {
                 return true;
             }
 
-            return tabListValue !== tabValue;
+            return tabListValue !== tabProps['value'];
         },
         [tabListValue],
     );

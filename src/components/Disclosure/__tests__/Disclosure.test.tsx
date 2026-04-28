@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event';
 
-import {render, screen} from '../../../../test-utils/utils';
+import {fireEvent, render, screen} from '../../../../test-utils/utils';
 import {Disclosure} from '../Disclosure';
 import type {DisclosureSize} from '../Disclosure';
 import {DisclosureQa} from '../constants';
@@ -141,12 +141,67 @@ describe('Disclosure', () => {
         expect(button).toHaveAttribute('aria-expanded', 'true');
     });
 
+    test('expanded content is available in accessibility tree', () => {
+        render(
+            <Disclosure summary="Summary" expanded={true}>
+                <button type="button">Visible action</button>
+            </Disclosure>,
+        );
+
+        const details = screen.getByTestId(DisclosureQa.DETAILS);
+
+        expect(details).not.toHaveAttribute('aria-hidden');
+        expect(details).not.toHaveAttribute('inert');
+        expect(screen.getByRole('button', {name: 'Visible action'})).toBeVisible();
+    });
+
     test('content is not visible when not expanded', () => {
         const content = 'Some content';
         render(<Disclosure expanded={false}>{content}</Disclosure>);
         const button = screen.getByRole('button');
 
         expect(button).toHaveAttribute('aria-expanded', 'false');
+    });
+
+    test('collapsed keepMounted content is hidden from accessibility tree', () => {
+        render(
+            <Disclosure summary="Summary" expanded={false} keepMounted={true}>
+                <button type="button">Hidden action</button>
+            </Disclosure>,
+        );
+
+        const details = screen.getByTestId(DisclosureQa.DETAILS);
+
+        expect(details).toHaveAttribute('aria-hidden', 'true');
+        expect(details).toHaveAttribute('inert');
+        expect(screen.queryByRole('button', {name: 'Hidden action'})).not.toBeInTheDocument();
+        expect(
+            screen.getByRole('button', {name: 'Hidden action', hidden: true}),
+        ).toBeInTheDocument();
+    });
+
+    test('content is hidden from accessibility tree while collapsing before unmount', async () => {
+        const user = userEvent.setup();
+
+        render(
+            <Disclosure summary="Summary" defaultExpanded={true} keepMounted={false}>
+                <button type="button">Collapsing action</button>
+            </Disclosure>,
+        );
+
+        await user.click(screen.getByRole('button', {name: 'Summary'}));
+
+        const details = screen.getByTestId(DisclosureQa.DETAILS);
+
+        expect(details).toHaveAttribute('aria-hidden', 'true');
+        expect(details).toHaveAttribute('inert');
+        expect(screen.queryByRole('button', {name: 'Collapsing action'})).not.toBeInTheDocument();
+
+        fireEvent.transitionEnd(details);
+
+        expect(
+            screen.queryByRole('button', {name: 'Collapsing action', hidden: true}),
+        ).not.toBeInTheDocument();
     });
 
     test('content visibility toggles when clicked', async () => {

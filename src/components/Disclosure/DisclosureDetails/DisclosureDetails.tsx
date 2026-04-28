@@ -66,9 +66,12 @@ export function DisclosureDetails({children, qa, className}: DisclosureDetailsPr
 
     const visible = keepMounted ? expanded : animVisible;
     const style = height ? {'--_--disclosure-content-height': `${height}px`} : undefined;
+    const hiddenAttributes = expanded ? {} : {inert: ''};
 
     return (
         <div
+            {...hiddenAttributes}
+            aria-hidden={expanded ? undefined : true}
             id={ariaControls}
             role="region"
             aria-labelledby={ariaLabelledby}

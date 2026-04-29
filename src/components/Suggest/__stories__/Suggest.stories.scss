@@ -1,0 +1,75 @@
+@use '../../variables';
+
+$block: '.#{variables.$ns}suggest-story';
+$async-blur-keyframes: '#{variables.$ns}suggest-story-async-blur-pulse';
+
+#{$block} {
+    &__layout {
+        box-sizing: border-box;
+        margin: 0 auto;
+        padding: 40px 28px 56px;
+        max-width: 840px;
+    }
+
+    &__inline-card-inner {
+        padding: 20px 24px 28px;
+    }
+
+    &__inline-field-block {
+        padding-block: 16px 12px;
+    }
+
+    &__inline-below {
+        margin-block-start: 4px;
+        padding: 28px 24px;
+        border-radius: 12px;
+        background: var(--g-color-base-generic);
+        border: 1px solid var(--g-color-line-generic);
+    }
+
+    &__grouped-wrap {
+        max-width: 420px;
+    }
+
+    &__async-wrap {
+        box-sizing: border-box;
+        margin: 0 auto;
+        padding: 32px 24px 48px;
+        max-width: 720px;
+    }
+
+    &__async-card-inner {
+        padding: 20px 24px 28px;
+    }
+
+    &__async-field-wrap {
+        position: relative;
+        border-radius: var(--g-popup-border-radius, 6px);
+
+        &_refreshing::after {
+            content: '';
+            position: absolute;
+            z-index: 1;
+            inset: 0;
+            pointer-events: none;
+            border-radius: inherit;
+            background: var(--g-color-base-background);
+            opacity: 0.35;
+            backdrop-filter: blur(2px);
+            animation: #{$async-blur-keyframes} 1.1s ease-in-out infinite;
+        }
+    }
+}
+
+@keyframes #{$async-blur-keyframes} {
+    0%,
+    100% {
+        opacity: 0.28;
+        backdrop-filter: blur(1px);
+    }
+
+    50% {
+        opacity: 0.48;
+        backdrop-filter: blur(6px);
+    }
+}

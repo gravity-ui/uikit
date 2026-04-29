@@ -46,6 +46,7 @@ export * from './Radio';
 export * from './RadioGroup';
 export * from './SegmentedRadioGroup';
 export * from './Select';
+export * from './Suggest';
 export * from './Sheet';
 export * from './Skeleton';
 export * from './Slider';

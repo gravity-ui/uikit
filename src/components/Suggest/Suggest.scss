@@ -1,0 +1,39 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}suggest';
+
+#{$block} {
+    box-sizing: border-box;
+
+    &_layout_inline {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        min-width: 0;
+    }
+
+    /**
+     * In-flow results (not a floating popup): stacks under the field and fills the root width.
+     * Virtualization is disabled for inline layout so the list stays normal document flow.
+     */
+    &__inline-results {
+        box-sizing: border-box;
+        flex: 0 1 auto;
+        margin-block-start: 6px;
+        width: 100%;
+        min-width: 0;
+        max-height: min(280px, 55vh);
+        overflow: hidden;
+        position: relative;
+        z-index: auto;
+        border-radius: var(--g-popup-border-radius, 6px);
+        border: 1px solid var(--g-color-line-generic);
+        background-color: var(--g-color-base-background);
+
+        .#{variables.$ns}select-list {
+            margin: 4px 0;
+            max-height: calc(min(280px, 55vh) - 8px);
+        }
+    }
+}

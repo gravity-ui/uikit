@@ -3,6 +3,7 @@
 
 $block: '.#{variables.$ns}tab-list';
 $tabBlock: '.#{variables.$ns}tab';
+$tabListCollapseItemBlock: '.#{variables.$ns}tab-list-collapse-item';
 
 #{$block} {
     display: flex;
@@ -11,6 +12,8 @@ $tabBlock: '.#{variables.$ns}tab';
     box-shadow: inset 0 calc(var(--g-tabs-border-width, 1px) * -1) 0 0 var(--g-color-line-generic);
     overflow: hidden;
 
+    $tabsItemsGap: var(--g-tabs-item-gap, var(--_--item-gap));
+
     &_size {
         &_m {
             --_--item-height: 36px;
@@ -18,7 +21,8 @@ $tabBlock: '.#{variables.$ns}tab';
             --_--item-border-width: 2px;
 
             #{$tabBlock}__title,
-            #{$tabBlock}__counter {
+            #{$tabBlock}__counter,
+            #{$tabListCollapseItemBlock} {
                 @include mixins.text-body-1();
             }
         }
@@ -29,7 +33,8 @@ $tabBlock: '.#{variables.$ns}tab';
             --_--item-border-width: 2px;
 
             #{$tabBlock}__title,
-            #{$tabBlock}__counter {
+            #{$tabBlock}__counter,
+            #{$tabListCollapseItemBlock} {
                 @include mixins.text-body-2();
             }
         }
@@ -40,13 +45,23 @@ $tabBlock: '.#{variables.$ns}tab';
             --_--item-border-width: 3px;
 
             #{$tabBlock}__title,
-            #{$tabBlock}__counter {
+            #{$tabBlock}__counter,
+            #{$tabListCollapseItemBlock} {
                 @include mixins.text-subheader-3();
             }
         }
     }
 
+    &_overflow_collapse {
+        flex-wrap: nowrap;
+    }
+
+    &_overflow_scroll {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+
     #{$tabBlock}:not(:last-child) {
-        margin-inline-end: var(--g-tabs-item-gap, var(--_--item-gap));
+        margin-inline-end: $tabsItemsGap;
     }
 }

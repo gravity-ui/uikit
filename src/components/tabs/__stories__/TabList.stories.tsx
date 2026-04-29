@@ -2,11 +2,14 @@ import * as React from 'react';
 
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
+import {Text} from '../../Text';
 import {Tooltip} from '../../Tooltip';
+import {Flex} from '../../layout/Flex/Flex';
 import {Tab} from '../Tab';
 import {TabList} from '../TabList';
 import {TabPanel} from '../TabPanel';
 import {TabProvider} from '../TabProvider';
+import type {TabListProps} from '../types';
 
 import {getTabsMock} from './getTabsMock';
 
@@ -40,11 +43,13 @@ export default {
 
 type Story = StoryObj<typeof TabList>;
 
+const DefaultRender = (args: TabListProps) => {
+    const [tab, setTab] = React.useState(getTabsMock({})[0].value);
+    return <TabList {...args} value={tab} onUpdate={setTab} />;
+};
+
 export const Default: Story = {
-    render: (args) => {
-        const [tab, setTab] = React.useState(getTabsMock({})[0].value);
-        return <TabList {...args} value={tab} onUpdate={setTab} />;
-    },
+    render: DefaultRender,
     args: {
         children: getTabsMock({})?.map((props, i) => <Tab key={i} {...props} />),
     },
@@ -123,6 +128,26 @@ export const TooltipWrap: Story = {
     },
 };
 
+const contentOverflowValues: Array<TabListProps['contentOverflow']> = [
+    'wrap',
+    'collapse',
+    'scroll',
+];
+
+export const ContentOverflow: Story = {
+    ...Default,
+    render: (args) => (
+        <Flex direction="column" gap="6">
+            {contentOverflowValues.map((value) => (
+                <Flex key={value} direction="column" gap="2">
+                    <Text variant="subheader-1">Content Overflow: {value}</Text>
+                    <DefaultRender style={{maxWidth: 600}} {...args} contentOverflow={value} />
+                </Flex>
+            ))}
+        </Flex>
+    ),
+};
+
 export const Panels: Story = {
     render: (args) => {
         const tabs = getTabsMock({});
@@ -138,6 +163,7 @@ export const Panels: Story = {
                         >{`Content of ${props.value} tab panel`}</div>
                     </TabPanel>
                 )),
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             [],
         );
 

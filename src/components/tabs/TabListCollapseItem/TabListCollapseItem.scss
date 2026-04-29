@@ -1,0 +1,39 @@
+@use '../../../../styles/mixins';
+@use '../../variables';
+
+$block: '.#{variables.$ns}tab-list-collapse-item';
+
+#{$block} {
+    @include mixins.button-reset();
+
+    align-self: center;
+    height: var(--g-tabs-item-height, var(--_--item-height));
+    padding-block-start: var(--_--item-border-width);
+    border-block-end: var(--g-tabs-item-border-width, var(--_--item-border-width)) solid transparent;
+    color: var(--_--text-color);
+
+    --_--text-color: var(--g-color-text-secondary);
+    --_--count-color: var(--g-color-text-hint);
+
+    &:hover {
+        --_--text-color: var(--g-color-text-primary);
+        --_--count-color: var(--g-color-text-secondary);
+    }
+
+    &__text {
+        color: var(--_--text-color);
+    }
+
+    &__count {
+        color: var(--_--count-color);
+    }
+
+    &__menu-item {
+        padding: 0;
+
+        & > * {
+            width: 100%;
+            padding: var(--_--padding-block) var(--_--padding-inline);
+        }
+    }
+}

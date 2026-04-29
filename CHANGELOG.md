@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.38.1](https://github.com/gravity-ui/uikit/compare/v7.38.0...v7.38.1) (2026-04-29)
+
+
+### Bug Fixes
+
+* **Sheet:** remove veil seam ([#2658](https://github.com/gravity-ui/uikit/issues/2658)) ([aaef441](https://github.com/gravity-ui/uikit/commit/aaef441c3e44a25dfa1c8d3be441dbce6b2662d3))
+
 ## [7.38.0](https://github.com/gravity-ui/uikit/compare/v7.37.0...v7.38.0) (2026-04-22)
 
 

@@ -206,15 +206,15 @@ SANDBOX-->
 
 <!--SANDBOX
 import {Cloud, Gear, Hammer, Rocket} from '@gravity-ui/icons';
-import {Icon, Stepper} from '@gravity-ui/uikit';
+import {Stepper} from '@gravity-ui/uikit';
 
 export default function () {
     return (
         <Stepper>
-            <Stepper.Item icon={<Icon data={Gear} />}>Step 1</Stepper.Item>
-            <Stepper.Item icon={<Icon data={Rocket} />}>Step 2</Stepper.Item>
-            <Stepper.Item icon={<Icon data={Cloud} />}>Step 3</Stepper.Item>
-            <Stepper.Item icon={<Icon data={Hammer} />}>Step 4 with very long title</Stepper.Item>
+            <Stepper.Item icon={Gear}>Step 1</Stepper.Item>
+            <Stepper.Item icon={Rocket}>Step 2</Stepper.Item>
+            <Stepper.Item icon={Cloud}>Step 3</Stepper.Item>
+            <Stepper.Item icon={Hammer}>Step 4 with very long title</Stepper.Item>
         </Stepper>
     );
 }
@@ -224,11 +224,11 @@ SANDBOX-->
 
 ```jsx
 <Stepper>
-  <Stepper.Item icon={<Icon data={Rocket} />}>Step 1</Stepper.Item>
-  <Stepper.Item view="error" icon={<Icon data={CreditCard} />}>
+  <Stepper.Item icon={Rocket}>Step 1</Stepper.Item>
+  <Stepper.Item view="error" icon={CreditCard}>
     Step 2
   </Stepper.Item>
-  <Stepper.Item view="success" icon={<Icon data={Cloud} />}>
+  <Stepper.Item view="success" icon={Cloud}>
     Step 3
   </Stepper.Item>
   <Stepper.Item>Step 4 with very long title</Stepper.Item>

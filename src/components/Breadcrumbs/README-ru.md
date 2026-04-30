@@ -13,17 +13,19 @@ import {Breadcrumbs} from '@gravity-ui/uikit';
 ## Пример
 
 <!--SANDBOX
-import {Breadcrumbs} from '@gravity-ui/uikit';
+import {Box, Breadcrumbs} from '@gravity-ui/uikit';
 
 export default function () {
     return (
-        <Breadcrumbs>
-            <Breadcrumbs.Item>Region</Breadcrumbs.Item>
-            <Breadcrumbs.Item>Country</Breadcrumbs.Item>
-            <Breadcrumbs.Item>City</Breadcrumbs.Item>
-            <Breadcrumbs.Item>District</Breadcrumbs.Item>
-            <Breadcrumbs.Item>Street</Breadcrumbs.Item>
-        </Breadcrumbs>
+        <Box width="100%">
+            <Breadcrumbs>
+                <Breadcrumbs.Item>Region</Breadcrumbs.Item>
+                <Breadcrumbs.Item>Country</Breadcrumbs.Item>
+                <Breadcrumbs.Item>City</Breadcrumbs.Item>
+                <Breadcrumbs.Item>District</Breadcrumbs.Item>
+                <Breadcrumbs.Item>Street</Breadcrumbs.Item>
+            </Breadcrumbs>
+        </Box>
     );
 }
 SANDBOX-->
@@ -51,17 +53,19 @@ SANDBOX-->
 Используйте свойство `onAction` как обратный вызов для обработки событий клика по элементам.
 
 <!--SANDBOX
-import {Breadcrumbs} from '@gravity-ui/uikit';
+import {Box, Breadcrumbs} from '@gravity-ui/uikit';
 
 export default function () {
     return (
-        <Breadcrumbs onAction={(id) => alert(id)}>
-            <Breadcrumbs.Item>Region</Breadcrumbs.Item>
-            <Breadcrumbs.Item>Country</Breadcrumbs.Item>
-            <Breadcrumbs.Item>City</Breadcrumbs.Item>
-            <Breadcrumbs.Item>District</Breadcrumbs.Item>
-            <Breadcrumbs.Item>Street</Breadcrumbs.Item>
-        </Breadcrumbs>
+        <Box width="100%">
+            <Breadcrumbs onAction={(id) => alert(id)}>
+                <Breadcrumbs.Item>Region</Breadcrumbs.Item>
+                <Breadcrumbs.Item>Country</Breadcrumbs.Item>
+                <Breadcrumbs.Item>City</Breadcrumbs.Item>
+                <Breadcrumbs.Item>District</Breadcrumbs.Item>
+                <Breadcrumbs.Item>Street</Breadcrumbs.Item>
+            </Breadcrumbs>
+        </Box>
     );
 }
 SANDBOX-->
@@ -96,15 +100,17 @@ const items = [
 В компоненте `Breadcrumbs` клик по элементу обычно вызывает `onAction`. Однако вы также можете использовать его в качестве ссылки на другую страницу или сайт. Для этого добавьте свойство `href` в компонент `<Breadcrumbs.Item>`:
 
 <!--SANDBOX
-import {Breadcrumbs} from '@gravity-ui/uikit';
+import {Box, Breadcrumbs} from '@gravity-ui/uikit';
 
 export default function () {
     return (
-        <Breadcrumbs>
-            <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/components">Components</Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/components/uikit/breadcrumbs">Breadcrumbs</Breadcrumbs.Item>
-        </Breadcrumbs>
+        <Box width="100%">
+            <Breadcrumbs>
+                <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
+                <Breadcrumbs.Item href="/components">Components</Breadcrumbs.Item>
+                <Breadcrumbs.Item href="/components/uikit/breadcrumbs">Breadcrumbs</Breadcrumbs.Item>
+            </Breadcrumbs>
+        </Box>
     );
 }
 SANDBOX-->
@@ -134,14 +140,16 @@ import {Box, Breadcrumbs} from '@gravity-ui/uikit';
 
 export default function () {
     return (
-        <Box overflow="hidden" width={200}>
-            <Breadcrumbs showRoot>
-                <Breadcrumbs.Item key="home">Home</Breadcrumbs.Item>
-                <Breadcrumbs.Item key="trendy">Trendy</Breadcrumbs.Item>
-                <Breadcrumbs.Item key="2020 assets">March 2020 Assets</Breadcrumbs.Item>
-                <Breadcrumbs.Item key="winter">Winter</Breadcrumbs.Item>
-                <Breadcrumbs.Item key="holiday">Holiday</Breadcrumbs.Item>
-            </Breadcrumbs>
+        <Box width="100%">
+            <Box overflow="hidden" width={200}>
+                <Breadcrumbs showRoot>
+                    <Breadcrumbs.Item key="home">Home</Breadcrumbs.Item>
+                    <Breadcrumbs.Item key="trendy">Trendy</Breadcrumbs.Item>
+                    <Breadcrumbs.Item key="2020 assets">March 2020 Assets</Breadcrumbs.Item>
+                    <Breadcrumbs.Item key="winter">Winter</Breadcrumbs.Item>
+                    <Breadcrumbs.Item key="holiday">Holiday</Breadcrumbs.Item>
+                </Breadcrumbs>
+            </Box>
         </Box>
     );
 }
@@ -171,7 +179,7 @@ SANDBOX-->
 
 <!--SANDBOX
 import {ChevronRight} from '@gravity-ui/icons';
-import {Breadcrumbs, Icon} from '@gravity-ui/uikit';
+import {Box, Breadcrumbs, Icon} from '@gravity-ui/uikit';
 
 const breadcrumbsItems = [
     <Breadcrumbs.Item key="region">Region</Breadcrumbs.Item>,
@@ -183,11 +191,13 @@ const breadcrumbsItems = [
 
 export default function () {
     return (
-        <>
+        <Box width="100%">
             <Breadcrumbs separator=">">{breadcrumbsItems}</Breadcrumbs>
             <Breadcrumbs separator="—">{breadcrumbsItems}</Breadcrumbs>
-            <Breadcrumbs separator={<Icon data={ChevronRight} size={16} />}>{breadcrumbsItems}</Breadcrumbs>
-        </>
+            <Breadcrumbs separator={<Icon data={ChevronRight} size={16} />}>
+                {breadcrumbsItems}
+            </Breadcrumbs>
+        </Box>
     );
 }
 SANDBOX-->
@@ -218,32 +228,34 @@ const breadcrumbsItems = [
 
 <!--SANDBOX
 import {Flame, House, Rocket} from '@gravity-ui/icons';
-import {Breadcrumbs, Flex, Icon, Text} from '@gravity-ui/uikit';
+import {Box, Breadcrumbs, Flex, Icon, Text} from '@gravity-ui/uikit';
 
 export default function () {
     return (
-        <Breadcrumbs>
-            <Breadcrumbs.Item>
-                <Flex alignItems="center" gap={1}>
-                    <Icon data={House} size={16} />
-                    uikit
-                </Flex>
-            </Breadcrumbs.Item>
-            <Breadcrumbs.Item>
-                <Flex alignItems="center" gap={1}>
-                    <Icon data={Flame} size={16} />
-                    components
-                </Flex>
-            </Breadcrumbs.Item>
-            <Breadcrumbs.Item>
-                <Flex alignItems="center" gap={1}>
-                    <Icon data={Rocket} size={16} style={{minWidth: 16}} />
-                    <Text ellipsis variant="inherit">
-                        Breadcrumbs
-                    </Text>
-                </Flex>
-            </Breadcrumbs.Item>
-        </Breadcrumbs>
+        <Box width="100%">
+            <Breadcrumbs>
+                <Breadcrumbs.Item>
+                    <Flex alignItems="center" gap={1}>
+                        <Icon data={House} size={16} />
+                        uikit
+                    </Flex>
+                </Breadcrumbs.Item>
+                <Breadcrumbs.Item>
+                    <Flex alignItems="center" gap={1}>
+                        <Icon data={Flame} size={16} />
+                        components
+                    </Flex>
+                </Breadcrumbs.Item>
+                <Breadcrumbs.Item>
+                    <Flex alignItems="center" gap={1}>
+                        <Icon data={Rocket} size={16} style={{minWidth: 16}} />
+                        <Text ellipsis variant="inherit">
+                            Breadcrumbs
+                        </Text>
+                    </Flex>
+                </Breadcrumbs.Item>
+            </Breadcrumbs>
+        </Box>
     );
 }
 SANDBOX-->
@@ -361,17 +373,19 @@ function Navigation() {
 Когда хлебные крошки используются в качестве основного навигационного элемента на странице, их можно поместить в [область навигации](https://www.w3.org/WAI/ARIA/apg/patterns/landmarks/examples/navigation.html). Такие области помогают пользователям вспомогательных технологий быстро находить основные разделы страницы. Для создания области навигации поместите хлебные крошки внутрь элемента `<nav>` с атрибутом `aria-label`:
 
 <!--SANDBOX
-import {Breadcrumbs} from '@gravity-ui/uikit';
+import {Box, Breadcrumbs} from '@gravity-ui/uikit';
 
 export default function () {
     return (
-        <nav aria-label="Breadcrumbs">
-            <Breadcrumbs>
-                <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
-                <Breadcrumbs.Item href="/components">Components</Breadcrumbs.Item>
-                <Breadcrumbs.Item href="/components/uikit/breadcrumbs">Breadcrumbs</Breadcrumbs.Item>
-            </Breadcrumbs>
-        </nav>
+        <Box width="100%">
+            <nav aria-label="Breadcrumbs">
+                <Breadcrumbs>
+                    <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
+                    <Breadcrumbs.Item href="/components">Components</Breadcrumbs.Item>
+                    <Breadcrumbs.Item href="/components/uikit/breadcrumbs">Breadcrumbs</Breadcrumbs.Item>
+                </Breadcrumbs>
+            </nav>
+        </Box>
     );
 }
 SANDBOX-->
@@ -397,21 +411,23 @@ SANDBOX-->
 ### Неактивные элементы
 
 <!--SANDBOX
-import {Breadcrumbs} from '@gravity-ui/uikit';
+import {Box, Breadcrumbs} from '@gravity-ui/uikit';
 
 export default function () {
     return (
-        <Breadcrumbs>
-            <Breadcrumbs.Item href="#Region">Region</Breadcrumbs.Item>
-            <Breadcrumbs.Item href="#Country" disabled>
-                Country
-            </Breadcrumbs.Item>
-            <Breadcrumbs.Item href="#City">City</Breadcrumbs.Item>
-            <Breadcrumbs.Item href="#District">District</Breadcrumbs.Item>
-            <Breadcrumbs.Item href="#Street" disabled>
-                Street
-            </Breadcrumbs.Item>
-        </Breadcrumbs>
+        <Box width="100%">
+            <Breadcrumbs>
+                <Breadcrumbs.Item href="#Region">Region</Breadcrumbs.Item>
+                <Breadcrumbs.Item href="#Country" disabled>
+                    Country
+                </Breadcrumbs.Item>
+                <Breadcrumbs.Item href="#City">City</Breadcrumbs.Item>
+                <Breadcrumbs.Item href="#District">District</Breadcrumbs.Item>
+                <Breadcrumbs.Item href="#Street" disabled>
+                    Street
+                </Breadcrumbs.Item>
+            </Breadcrumbs>
+        </Box>
     );
 }
 SANDBOX-->
@@ -441,17 +457,19 @@ SANDBOX-->
 ### Пользовательский контент после последней крошки
 
 <!--SANDBOX
-import {Breadcrumbs, Button} from '@gravity-ui/uikit';
+import {Box, Breadcrumbs, Button} from '@gravity-ui/uikit';
 
 export default function () {
     return (
-        <Breadcrumbs endContent={<div style={{paddingInlineStart: 4}}><Button>Push</Button></div>}>
-            <Breadcrumbs.Item>Region</Breadcrumbs.Item>
-            <Breadcrumbs.Item>Country</Breadcrumbs.Item>
-            <Breadcrumbs.Item>City</Breadcrumbs.Item>
-            <Breadcrumbs.Item>District</Breadcrumbs.Item>
-            <Breadcrumbs.Item>Street</Breadcrumbs.Item>
-        </Breadcrumbs>
+        <Box width="100%">
+            <Breadcrumbs endContent={<div style={{paddingInlineStart: 4}}><Button>Push</Button></div>}>
+                <Breadcrumbs.Item>Region</Breadcrumbs.Item>
+                <Breadcrumbs.Item>Country</Breadcrumbs.Item>
+                <Breadcrumbs.Item>City</Breadcrumbs.Item>
+                <Breadcrumbs.Item>District</Breadcrumbs.Item>
+                <Breadcrumbs.Item>Street</Breadcrumbs.Item>
+            </Breadcrumbs>
+        </Box>
     );
 }
 SANDBOX-->

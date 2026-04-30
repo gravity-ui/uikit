@@ -1,0 +1,50 @@
+@use '../../variables';
+
+$block: '.#{variables.$ns}skeleton-user';
+
+#{$block} {
+    display: flex;
+    align-items: center;
+
+    --_--avatar-offset: var(--g-spacing-2);
+
+    gap: var(--g-user-avatar-offset, var(--_--avatar-offset));
+
+    &_size {
+        &_3xs,
+        &_2xs,
+        &_xs,
+        &_s {
+            --_--avatar-offset: calc(var(--g-spacing-base) * 1.5);
+        }
+
+        &_m {
+            --_--avatar-offset: var(--g-spacing-2);
+        }
+
+        &_l,
+        &_xl {
+            --_--avatar-offset: var(--g-spacing-3);
+        }
+    }
+
+    &__info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        gap: var(--g-spacing-1);
+    }
+
+    &__name {
+        width: 60%;
+        height: 1em;
+        border-radius: 3px;
+    }
+
+    &__description {
+        width: 40%;
+        height: 1em;
+        border-radius: 3px;
+    }
+}

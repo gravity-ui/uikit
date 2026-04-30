@@ -1,0 +1,40 @@
+@use '../../variables';
+@use '../../Text/variables' as text-variables;
+
+$block: '.#{variables.$ns}skeleton-text';
+
+#{$block} {
+    border-radius: 3px;
+
+    &_variant {
+        @each $variant in text-variables.$variants {
+            &_#{$variant} {
+                height: var(--g-text-#{$variant}-line-height);
+                font-size: var(--g-text-#{$variant}-font-size);
+                line-height: var(--g-text-#{$variant}-line-height);
+            }
+        }
+
+        &_inherit {
+            height: 1em;
+        }
+    }
+
+    &_multiline {
+        height: auto;
+        background-color: transparent;
+        border-radius: 0;
+    }
+
+    &__lines {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        width: 100%;
+
+        .#{variables.$ns}skeleton {
+            height: 1em;
+            margin-block: calc((1lh - 1em) / 2);
+        }
+    }
+}

@@ -1,0 +1,16 @@
+@use 'sass:map';
+@use '../../variables';
+@use '../../Label/variables' as label-variables;
+
+$block: '.#{variables.$ns}skeleton-label';
+
+#{$block} {
+    &_size {
+        @each $size-name, $size-values in label-variables.$sizes {
+            &_#{$size-name} {
+                height: #{map.get($size-values, 'height')};
+                border-radius: #{map.get($size-values, 'border-radius')};
+            }
+        }
+    }
+}

@@ -1,5 +1,7 @@
+@use 'sass:map';
 @use '../variables';
 @use '../../../styles/mixins';
+@use './variables' as label-variables;
 
 $block: '.#{variables.$ns}label';
 $transition-duration: 0.15s;
@@ -134,33 +136,32 @@ $transition-timing-function: ease-in-out;
     }
 
     &_size {
+        @each $size-name, $size-values in label-variables.$sizes {
+            &_#{$size-name} {
+                --_--height: #{map.get($size-values, 'height')};
+                --_--border-radius: #{map.get($size-values, 'border-radius')};
+            }
+        }
+
         &_xxs {
-            --_--height: 18px;
-            --_--border-radius: var(--g-border-radius-xs);
             --_--margin-inline: 6px;
             --_--margin-addon-start: 22px;
             --_--margin-addon-end: 20px;
         }
 
         &_xs {
-            --_--height: 20px;
-            --_--border-radius: var(--g-border-radius-xs);
             --_--margin-inline: 8px;
             --_--margin-addon-start: 24px;
             --_--margin-addon-end: 22px;
         }
 
         &_s {
-            --_--height: 24px;
-            --_--border-radius: var(--g-border-radius-s);
             --_--margin-inline: 10px;
             --_--margin-addon-start: 28px;
             --_--margin-addon-end: 26px;
         }
 
         &_m {
-            --_--height: 28px;
-            --_--border-radius: var(--g-border-radius-m);
             --_--margin-inline: 12px;
             --_--margin-addon-start: 32px;
             --_--margin-addon-end: 32px;

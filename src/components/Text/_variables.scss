@@ -1,0 +1,27 @@
+// All Text variant names — mirrors TEXT_VARIANTS in text/text.ts.
+// Used by SkeletonText.scss to generate variant modifiers without duplicating
+// the token map in JS. The line-height token for each variant follows the
+// predictable pattern: var(--g-text-{variant}-line-height).
+$variants: (
+    'display-4',
+    'display-3',
+    'display-2',
+    'display-1',
+    'header-2',
+    'header-1',
+    'subheader-3',
+    'subheader-2',
+    'subheader-1',
+    'body-3',
+    'body-2',
+    'body-1',
+    'body-short',
+    'caption-2',
+    'caption-1',
+    'code-3',
+    'code-inline-3',
+    'code-2',
+    'code-inline-2',
+    'code-1',
+    'code-inline-1'
+);

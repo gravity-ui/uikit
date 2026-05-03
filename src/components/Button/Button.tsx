@@ -183,6 +183,11 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
         );
     }
 
+    const ariaPressed =
+        extraProps && 'aria-pressed' in extraProps
+            ? (extraProps as React.ButtonHTMLAttributes<HTMLButtonElement>)['aria-pressed']
+            : selected;
+
     return (
         <button
             {...(rest as Pick<typeof props, keyof typeof rest>)}
@@ -191,7 +196,7 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
             ref={ref as React.Ref<HTMLButtonElement>}
             type={props.type || 'button'}
             disabled={disabled || loading}
-            aria-pressed={selected}
+            aria-pressed={ariaPressed}
         >
             {prepareChildren(children)}
         </button>

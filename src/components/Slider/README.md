@@ -219,6 +219,7 @@ SANDBOX-->
 The `marks` property is utilized in `Slider` component to specify visual markers along the slider that help to indicate various points between the minimum and maximum value. This property enhances the usability and visual interface of the slider, especially for denoting specific intervals. By default it is 2 (`min` and `max` values). You can use it in 2 different ways:
 
 - the amount of visual markers along the slider
+
 <!--SANDBOX
 import {Box, Slider} from '@gravity-ui/uikit';
 

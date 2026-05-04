@@ -14,6 +14,17 @@ const useState = (args: PaginationProps) => {
     return {...state, onUpdate};
 };
 
+type FakeRouterLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {to?: string};
+
+const FakeRouterLink = React.forwardRef<HTMLAnchorElement, FakeRouterLinkProps>(
+    ({to, children, ...props}, ref) => (
+        <a ref={ref} {...props} href={to}>
+            {children}
+        </a>
+    ),
+);
+FakeRouterLink.displayName = 'FakeRouterLink';
+
 export default {
     title: 'Components/Navigation/Pagination',
     component: Pagination,
@@ -141,4 +152,34 @@ View.args = {
     pageSizeOptions: [10],
     showInput: true,
     showPages: true,
+};
+
+const WithCustomComponentTemplate: StoryFn<PaginationProps> = (args) => {
+    const state = useState(args);
+
+    const getItemProps: PaginationProps['getItemProps'] = (item) => {
+        if (item.type === 'page') {
+            return {to: `?page=${item.page}`};
+        }
+        switch (item.action) {
+            case 'first':
+                return {to: '?page=1'};
+            case 'previous':
+                return {to: `?page=${Math.max(1, state.page - 1)}`};
+            case 'next':
+                return {to: `?page=${state.page + 1}`};
+            default:
+                return {};
+        }
+    };
+
+    return <Pagination {...state} component={FakeRouterLink} getItemProps={getItemProps} />;
+};
+
+export const WithCustomComponent = WithCustomComponentTemplate.bind({});
+WithCustomComponent.args = {
+    page: 1,
+    pageSize: 100,
+    total: 1000,
+    compact: false,
 };

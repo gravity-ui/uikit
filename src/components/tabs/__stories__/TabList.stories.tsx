@@ -2,9 +2,9 @@ import * as React from 'react';
 
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
-import {Text} from '../../Text';
+import {Showcase} from '../../../demo/Showcase';
+import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {Tooltip} from '../../Tooltip';
-import {Flex} from '../../layout/Flex/Flex';
 import {Tab} from '../Tab';
 import {TabList} from '../TabList';
 import {TabPanel} from '../TabPanel';
@@ -137,14 +137,13 @@ const contentOverflowValues: Array<TabListProps['contentOverflow']> = [
 export const ContentOverflow: Story = {
     ...Default,
     render: (args) => (
-        <Flex direction="column" gap="6">
+        <Showcase direction="column">
             {contentOverflowValues.map((value) => (
-                <Flex key={value} direction="column" gap="2">
-                    <Text variant="subheader-1">Content Overflow: {value}</Text>
+                <ShowcaseItem key={value} title={`Content Overflow: ${value}`}>
                     <DefaultRender style={{maxWidth: 600}} {...args} contentOverflow={value} />
-                </Flex>
+                </ShowcaseItem>
             ))}
-        </Flex>
+        </Showcase>
     ),
 };
 

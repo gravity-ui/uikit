@@ -7,7 +7,6 @@ import type {TabComponentElementType, TabProps} from '../types';
 
 export type TabElementProps = React.HTMLAttributes<HTMLElement> & {
     [key: `data-${string}`]: string | undefined;
-    selected: boolean;
 };
 
 export function useTab<T extends TabComponentElementType>(tabProps: TabProps<T>): TabElementProps {
@@ -88,6 +87,5 @@ export function useTab<T extends TabComponentElementType>(tabProps: TabProps<T>)
         className: bTab({active: isSelected, disabled: isDisabled}, tabProps.className),
         'data-qa': tabProps.qa,
         [TAB_DATA_ATTRIBUTE]: tabProps.value,
-        selected: isSelected,
     };
 }

@@ -10,6 +10,7 @@ import {Icon} from '../../../Icon';
 import {PaginationQa} from '../../constants';
 import i18n from '../../i18n';
 import type {ButtonItem, PaginationProps, PaginationSize} from '../../types';
+import {buildComponentProps} from '../../utils';
 
 type Props = {
     item: ButtonItem;
@@ -20,6 +21,8 @@ type Props = {
     compact: NonNullable<PaginationProps['compact']>;
     className?: string;
     view: ButtonView;
+    component?: PaginationProps['component'];
+    getItemProps?: PaginationProps['getItemProps'];
 };
 
 export const PaginationButton = ({
@@ -31,15 +34,19 @@ export const PaginationButton = ({
     onUpdate,
     compact,
     view,
+    component,
+    getItemProps,
 }: Props) => {
     let button: React.ReactNode = null;
     const {disabled} = item;
     const {t} = i18n.useTranslation();
+    const componentProps = buildComponentProps(component, item, getItemProps);
 
     switch (item.action) {
         case 'first':
             button = (
                 <Button
+                    {...componentProps}
                     size={size}
                     view={view}
                     className={className}
@@ -56,6 +63,7 @@ export const PaginationButton = ({
         case 'previous':
             button = (
                 <Button
+                    {...componentProps}
                     size={size}
                     view={view}
                     className={className}
@@ -72,6 +80,7 @@ export const PaginationButton = ({
         case 'next':
             button = (
                 <Button
+                    {...componentProps}
                     size={size}
                     view={view}
                     className={className}

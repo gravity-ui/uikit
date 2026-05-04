@@ -1,9 +1,15 @@
 import uniq from 'lodash/uniq';
 
-import type {ButtonView} from '../Button';
+import type {ButtonCustomElementType, ButtonView} from '../Button';
 import type {InputControlView} from '../controls';
 
-import type {PaginationSize, PaginationView} from './types';
+import type {
+    ButtonItem,
+    GetPaginationItemProps,
+    PageItem,
+    PaginationSize,
+    PaginationView,
+} from './types';
 
 export function getNumerationList({
     page,
@@ -99,4 +105,38 @@ export function getViews({propView, mobile}: {propView: PaginationView; mobile: 
     const pageSizerView = propView === 'outlined' ? 'normal' : 'clear';
 
     return {buttonView, inputView, pageSizerView};
+}
+
+const PAGINATION_MANAGED_PROPS = new Set([
+    'onClick',
+    'className',
+    'size',
+    'view',
+    'selected',
+    'disabled',
+    'qa',
+    'aria-current',
+    'extraProps',
+    'children',
+]);
+
+export function buildComponentProps(
+    component: ButtonCustomElementType,
+    item: PageItem | ButtonItem,
+    getItemProps?: GetPaginationItemProps,
+): Record<string, unknown> {
+    if (!component) {
+        return {};
+    }
+    const userProps = getItemProps?.(item);
+    if (!userProps) {
+        return {component};
+    }
+    const filtered: Record<string, unknown> = {};
+    for (const key of Object.keys(userProps)) {
+        if (!PAGINATION_MANAGED_PROPS.has(key)) {
+            filtered[key] = userProps[key];
+        }
+    }
+    return {component, ...filtered};
 }

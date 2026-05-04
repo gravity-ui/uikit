@@ -1,4 +1,5 @@
-import {getNumerationList, getSize, getViews} from './utils';
+import type {PageItem} from './types';
+import {buildComponentProps, getNumerationList, getSize, getViews} from './utils';
 
 describe('Pagination utils', () => {
     describe('[desktop]: getNumerationList', () => {
@@ -391,6 +392,64 @@ describe('Pagination utils', () => {
                 buttonView: 'outlined',
                 inputView: 'normal',
                 pageSizerView: 'normal',
+            });
+        });
+    });
+
+    describe('buildComponentProps', () => {
+        const pageItem: PageItem = {
+            type: 'page',
+            current: false,
+            page: 2,
+            simple: false,
+            key: 2,
+        };
+
+        it('returns empty object when component is undefined', () => {
+            expect(buildComponentProps(undefined, pageItem)).toEqual({});
+        });
+
+        it('returns empty object when component is undefined even with getItemProps', () => {
+            const getItemProps = jest.fn(() => ({to: '/foo'}));
+            expect(buildComponentProps(undefined, pageItem, getItemProps)).toEqual({});
+            expect(getItemProps).not.toHaveBeenCalled();
+        });
+
+        it('returns {component} when getItemProps is not provided', () => {
+            const Custom = () => null;
+            expect(buildComponentProps(Custom, pageItem)).toEqual({component: Custom});
+        });
+
+        it('merges getItemProps result with component', () => {
+            const Custom = () => null;
+            const getItemProps = jest.fn(() => ({to: '?page=2', 'data-x': '1'}));
+            expect(buildComponentProps(Custom, pageItem, getItemProps)).toEqual({
+                component: Custom,
+                to: '?page=2',
+                'data-x': '1',
+            });
+            expect(getItemProps).toHaveBeenCalledWith(pageItem);
+        });
+
+        it('strips Pagination-managed keys from getItemProps result', () => {
+            const Custom = () => null;
+            const hijack = () => {};
+            const getItemProps = jest.fn(() => ({
+                to: '?page=2',
+                onClick: hijack,
+                className: 'evil',
+                size: 'xl',
+                view: 'normal',
+                selected: true,
+                disabled: true,
+                qa: 'hijacked',
+                'aria-current': 'date',
+                extraProps: {onClick: hijack},
+                children: 'pwned',
+            }));
+            expect(buildComponentProps(Custom, pageItem, getItemProps)).toEqual({
+                component: Custom,
+                to: '?page=2',
             });
         });
     });

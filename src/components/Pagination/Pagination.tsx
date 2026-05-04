@@ -32,6 +32,8 @@ export const Pagination = ({
     view: propView = 'outlined',
     className,
     qa,
+    component,
+    getItemProps,
 }: PaginationProps) => {
     const mobile = useMobile();
 
@@ -67,6 +69,8 @@ export const Pagination = ({
                                 item={item}
                                 onUpdate={onUpdate}
                                 className={b('pagination-item')}
+                                component={component}
+                                getItemProps={getItemProps}
                             />
                         )
                     );
@@ -102,6 +106,8 @@ export const Pagination = ({
                             compact={compact}
                             className={b('pagination-item')}
                             view={buttonView}
+                            component={component}
+                            getItemProps={getItemProps}
                         />
                     );
                 default:

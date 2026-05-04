@@ -122,7 +122,7 @@
     "playwright:update": "npm run playwright -- -u all",
     "playwright:clear-cache": "rm -rf ./playwright/.cache",
     "playwright:docker": "./playwright/run-docker-command.sh npm run playwright --",
-    "playwright:docker:update": "./playwright/run-docker-command.sh npm run playwright:update --",
+    "playwright:docker:update": "./playwright/run-docker-command.sh npm run playwright:update src/components/Alert/__tests__/Alert.visual.test.tsx --",
     "playwright:docker:clear-cache": "./playwright/run-docker-command.sh clear-cache"
   },
   "dependencies": {

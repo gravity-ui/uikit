@@ -16,15 +16,13 @@ Each input collects one character at a time. When a value is accepted, the focus
 
 By default, the inputs only accept numeric values. To allow alphanumeric values, set the `type` property to `"alphanumeric"`:
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<PinInput type="alphanumeric" />
-`}
->
-    <UIKit.PinInput type="alphanumeric" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {PinInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return <PinInput type="alphanumeric" />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -38,21 +36,20 @@ LANDING_BLOCK-->
 
 This component comes in four sizes: `s`, `m`, `l`, and `xl`. The default size is `m`.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<PinInput size="s" />
-<PinInput size="m" />
-<PinInput size="l" />
-<PinInput size="xl" />
-`}
->
-    <UIKit.PinInput size="s" />
-    <UIKit.PinInput size="m" />
-    <UIKit.PinInput size="l" />
-    <UIKit.PinInput size="xl" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {PinInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <PinInput size="s" />
+            <PinInput size="m" />
+            <PinInput size="l" />
+            <PinInput size="xl" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -69,15 +66,13 @@ LANDING_BLOCK-->
 
 If you do not want the user to interact with the component, set the `disabled` property:
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<PinInput disabled />
-`}
->
-    <UIKit.PinInput disabled />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {PinInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return <PinInput disabled />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -89,15 +84,13 @@ LANDING_BLOCK-->
 
 To show an invalid state of the component, use the `validationState` property with the `"invalid"` value. Optionally, you can set an error message text with the `errorMessage` property:
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<PinInput validationState="invalid" errorMessage="Incorrect PIN" />
-`}
->
-    <UIKit.PinInput validationState="invalid" errorMessage="Incorrect PIN" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {PinInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return <PinInput validationState="invalid" errorMessage="Incorrect PIN" />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -111,15 +104,13 @@ LANDING_BLOCK-->
 
 By default, there is no placeholder for inputs. You can set it with the `placeholder` property:
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<PinInput placeholder="😎" />
-`}
->
-    <UIKit.PinInput placeholder="😎" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {PinInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return <PinInput placeholder="😎" />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -133,15 +124,13 @@ LANDING_BLOCK-->
 
 If you need to mask entered values, use the `mask` property. It is similar to the `<input type="password"/>` behavior.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<PinInput mask />
-`}
->
-    <UIKit.PinInput mask />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {PinInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return <PinInput mask />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

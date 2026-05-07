@@ -16,14 +16,15 @@ Determines the item list height (or a function that returns the height value for
 
 Provides an array of items for a list:
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<List items={["one", "two", "three", "four", "five", "six", "seven"]} itemsHeight={160} />
-`}>
-    <UIKit.List items={["one", "two", "three", "four", "five", "six", "seven"]} itemsHeight={160} />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {List} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <List items={['one', 'two', 'three', 'four', 'five', 'six', 'seven']} itemsHeight={160} />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -42,76 +43,61 @@ The special `item.disabled` field disables an item.
 The render and height customization provides plenty of room for experimenting.
 For example, the code below allows you to emulate groups:
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<List items={[{title: 'one', group: true,disabled: true}, {title: 'two'},
+<!--SANDBOX
+import type {ListProps} from '@gravity-ui/uikit';
+import {List} from '@gravity-ui/uikit';
+
+type Item = {
+    title: string;
+    group?: boolean;
+};
+
+const items: ListProps<Item>['items'] = [
     {
-      title: 'three',
-      group: true,
-      disabled: true,
+        title: 'one',
+        group: true,
+        disabled: true,
     },
     {
-      title: 'four',
+        title: 'two',
     },
-  ]} onItemClick={(value) => console.log(value)}
-  renderItem={(item) => {
-    if (item.group) {
-      return (
-        <div className={'group'}>
-          <div className={'select-text'}>{item.title}</div>
-        </div>
-      );
-    }
+    {
+        title: 'three',
+        group: true,
+        disabled: true,
+    },
+    {
+        title: 'four',
+    },
+];
+
+export default function () {
     return (
-      <div className={'select'}>
-        <div className={'select-text'}>{item.title}</div>
-      </div>
+        <List
+            items={items}
+            onItemClick={(value) => console.log(value)}
+            renderItem={(item) => {
+                if (item.group) {
+                    return (
+                        <div className={'group'}>
+                            <div className={'select-text'}>{item.title}</div>
+                        </div>
+                    );
+                }
+
+                return (
+                    <div className={'select'}>
+                        <div className={'select-text'}>{item.title}</div>
+                    </div>
+                );
+            }}
+            itemHeight={(item) => (item.group ? 24 : 36)}
+            itemsHeight={160}
+            filterItem={(filter) => (item) => item.title.includes(filter)}
+        />
     );
-  }}
-  itemHeight={(item) => (item.group ? 24 : 36)}
-  itemsHeight={160}
-  filterItem={(filter) => (item) => item.title.includes(filter)}
-/>
-`}>
-    <UIKit.List items={[
-    {
-      title: 'one',
-      group: true,
-      disabled: true,
-    },
-    {
-      title: 'two',
-    },
-    {
-      title: 'three',
-      group: true,
-      disabled: true,
-    },
-    {
-      title: 'four',
-    },
-  ]} onItemClick={(value) => console.log(value)}
-  renderItem={(item) => {
-    if (item.group) {
-      return (
-        <div className={'group'}>
-          <div className={'select-text'}>{item.title}</div>
-        </div>
-      );
-    }
-    return (
-      <div className={'select'}>
-        <div className={'select-text'}>{item.title}</div>
-      </div>
-    );
-  }}
-  itemHeight={(item) => (item.group ? 24 : 36)}
-  itemsHeight={160}
-  filterItem={(filter) => (item) => item.title.includes(filter)}
-/>
-</ExampleBlock>
-LANDING_BLOCK-->
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -162,14 +148,19 @@ LANDING_BLOCK-->
 
 The `filterable` property disables the input to search for an item if its value is `false`. Its default value is `true`.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<List items={["one", "two", "three", "four", "five", "six", "seven"]} itemsHeight={160} filterable={false} />
-`}>
-    <UIKit.List items={["one", "two", "three", "four", "five", "six", "seven"]} itemsHeight={160} filterable={false} />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {List} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <List
+            items={['one', 'two', 'three', 'four', 'five', 'six', 'seven']}
+            itemsHeight={160}
+            filterable={false}
+        />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -187,14 +178,19 @@ LANDING_BLOCK-->
 
 The `sortable` property enables swapping list items if its value is `true`. Its default value is `false`.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<List items={["one", "two", "three", "four", "five", "six", "seven"]} itemsHeight={160} sortable={true} />
-`}>
-    <UIKit.List items={["one", "two", "three", "four", "five", "six", "seven"]} itemsHeight={160} sortable={true} />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {List} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <List
+            items={['one', 'two', 'three', 'four', 'five', 'six', 'seven']}
+            itemsHeight={160}
+            sortable
+        />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

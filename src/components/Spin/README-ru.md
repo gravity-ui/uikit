@@ -12,23 +12,21 @@ import {Spin} from '@gravity-ui/uikit';
 
 ### Размер
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Spin size="xs" />
-<Spin size="s" />
-<Spin size="m" />
-<Spin size="l" />
-<Spin size="xl" />
-`}
->
-    <UIKit.Spin size="xs" />
-    <UIKit.Spin size="s" />
-    <UIKit.Spin size="m" />
-    <UIKit.Spin size="l" />
-    <UIKit.Spin size="xl" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Spin} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <Spin size="xs" />
+            <Spin size="s" />
+            <Spin size="m" />
+            <Spin size="l" />
+            <Spin size="xl" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

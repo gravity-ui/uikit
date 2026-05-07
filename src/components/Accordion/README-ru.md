@@ -30,11 +30,12 @@ import {Accordion} from '@gravity-ui/uikit';
 
 Пример управления состоянием из корневого компонента:
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-function ControlledAccordion() {
-    const [value, setValue] = React.useState('item1');
+<!--SANDBOX
+import {useState} from 'react';
+import {Accordion} from '@gravity-ui/uikit';
+
+export default function () {
+    const [value, setValue] = useState<string | null>('item1');
 
     return (
         <Accordion value={value} onUpdate={setValue}>
@@ -47,17 +48,7 @@ function ControlledAccordion() {
         </Accordion>
     );
 }
-`}>
-    <UIKit.Accordion defaultValue="item1">
-        <UIKit.Accordion.Item summary="Настройки" value="item1">
-            <UIKit.Text>Настройте параметры вашего приложения</UIKit.Text>
-        </UIKit.Accordion.Item>
-        <UIKit.Accordion.Item summary="Уведомления" value="item2">
-            <UIKit.Text>Управляйте настройками уведомлений</UIKit.Text>
-        </UIKit.Accordion.Item>
-    </UIKit.Accordion>
-</ExampleBlock>
-LANDING_BLOCK-->
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -82,12 +73,14 @@ function ControlledAccordion() {
 
 Пример управления состоянием для каждого элемента через свойство expanded:
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-function ControlledAccordion() {
-    const [item1, setItem1] = React.useState(true);
-    const [item2, setItem2] = React.useState(false);
+<!--SANDBOX
+import {useState} from 'react';
+import {Accordion} from '@gravity-ui/uikit';
+
+export default function () {
+    const [item1, setItem1] = useState(true);
+    const [item2, setItem2] = useState(false);
+
     return (
         <Accordion>
             <Accordion.Item
@@ -109,17 +102,7 @@ function ControlledAccordion() {
         </Accordion>
     );
 }
-`}>
-    <UIKit.Accordion defaultValue="item1">
-        <UIKit.Accordion.Item summary="Настройки" value="item1">
-            <UIKit.Text>Настройте параметры вашего приложения</UIKit.Text>
-        </UIKit.Accordion.Item>
-        <UIKit.Accordion.Item summary="Уведомления" value="item2">
-            <UIKit.Text>Управляйте настройками уведомлений</UIKit.Text>
-        </UIKit.Accordion.Item>
-    </UIKit.Accordion>
-</ExampleBlock>
-LANDING_BLOCK-->
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -146,25 +129,31 @@ function ControlledAccordion() {
 
 Используйте свойство `size` для управления размером `Accordion`. Размер по умолчанию — `m`.
 
-<!--LANDING_BLOCK
-<ExampleBlock>
-    <UIKit.Accordion size="m">
-        <UIKit.Accordion.Item summary="Средний размер">
-            <UIKit.Text>Содержимое для среднего аккордеона</UIKit.Text>
-        </UIKit.Accordion.Item>
-    </UIKit.Accordion>
-    <UIKit.Accordion size="l">
-        <UIKit.Accordion.Item summary="Большой размер">
-            <UIKit.Text>Содержимое для большого аккордеона</UIKit.Text>
-        </UIKit.Accordion.Item>
-    </UIKit.Accordion>
-    <UIKit.Accordion size="xl">
-        <UIKit.Accordion.Item summary="Очень большой размер">
-            <UIKit.Text>Содержимое для очень большого аккордеона</UIKit.Text>
-        </UIKit.Accordion.Item>
-    </UIKit.Accordion>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Accordion} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <Accordion size="m">
+                <Accordion.Item summary="Средний размер">
+                    Содержимое для среднего аккордеона
+                </Accordion.Item>
+            </Accordion>
+            <Accordion size="l">
+                <Accordion.Item summary="Большой размер">
+                    Содержимое для большого аккордеона
+                </Accordion.Item>
+            </Accordion>
+            <Accordion size="xl">
+                <Accordion.Item summary="Очень большой размер">
+                    Содержимое для очень большого аккордеона
+                </Accordion.Item>
+            </Accordion>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -194,44 +183,28 @@ LANDING_BLOCK-->
 
 `top-bottom`: Вид с верхней и нижней границами.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Accordion view="solid">
-    <Accordion.Item summary="Сплошной вид">
-        Содержимое со сплошным фоном
-    </Accordion.Item>
-    <Accordion.Item summary="Другой элемент">
-        Больше содержимого
-    </Accordion.Item>
-</Accordion>
-<Accordion view="top-bottom">
-    <Accordion.Item summary="Вид с границами">
-        Содержимое с верхней и нижней границами
-    </Accordion.Item>
-    <Accordion.Item summary="Другой элемент">
-        Больше содержимого
-    </Accordion.Item>
-</Accordion>
-`}>
-    <UIKit.Accordion view="solid">
-        <UIKit.Accordion.Item summary="Сплошной вид">
-            <UIKit.Text>Содержимое со сплошным фоном</UIKit.Text>
-        </UIKit.Accordion.Item>
-        <UIKit.Accordion.Item summary="Другой элемент">
-            <UIKit.Text>Больше содержимого</UIKit.Text>
-        </UIKit.Accordion.Item>
-    </UIKit.Accordion>
-    <UIKit.Accordion view="top-bottom">
-        <UIKit.Accordion.Item summary="Вид с границами">
-            <UIKit.Text>Содержимое с верхней и нижней границами</UIKit.Text>
-        </UIKit.Accordion.Item>
-        <UIKit.Accordion.Item summary="Другой элемент">
-            <UIKit.Text>Больше содержимого</UIKit.Text>
-        </UIKit.Accordion.Item>
-    </UIKit.Accordion>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Accordion} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <Accordion view="solid">
+                <Accordion.Item summary="Сплошной вид">
+                    Содержимое со сплошным фоном
+                </Accordion.Item>
+                <Accordion.Item summary="Другой элемент">Больше содержимого</Accordion.Item>
+            </Accordion>
+            <Accordion view="top-bottom">
+                <Accordion.Item summary="Вид с границами">
+                    Содержимое с верхней и нижней границами
+                </Accordion.Item>
+                <Accordion.Item summary="Другой элемент">Больше содержимого</Accordion.Item>
+            </Accordion>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -262,32 +235,26 @@ LANDING_BLOCK-->
 
 `start`: Стрелка расположена в начале заголовка.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Accordion arrowPosition="end">
-    <Accordion.Item summary="Стрелка в конце">
-        Содержимое со стрелкой в конце
-    </Accordion.Item>
-</Accordion>
-<Accordion arrowPosition="start">
-    <Accordion.Item summary="Стрелка в начале">
-        Содержимое со стрелкой в начале
-    </Accordion.Item>
-</Accordion>
-`}>
-    <UIKit.Accordion arrowPosition="end">
-        <UIKit.Accordion.Item summary="Стрелка в конце">
-            <UIKit.Text>Содержимое со стрелкой в конце</UIKit.Text>
-        </UIKit.Accordion.Item>
-    </UIKit.Accordion>
-    <UIKit.Accordion arrowPosition="start">
-        <UIKit.Accordion.Item summary="Стрелка в начале">
-            <UIKit.Text>Содержимое со стрелкой в начале</UIKit.Text>
-        </UIKit.Accordion.Item>
-    </UIKit.Accordion>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Accordion} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <Accordion arrowPosition="end">
+                <Accordion.Item summary="Стрелка в конце">
+                    Содержимое со стрелкой в конце
+                </Accordion.Item>
+            </Accordion>
+            <Accordion arrowPosition="start">
+                <Accordion.Item summary="Стрелка в начале">
+                    Содержимое со стрелкой в начале
+                </Accordion.Item>
+            </Accordion>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -310,34 +277,19 @@ LANDING_BLOCK-->
 
 Свойство `multiple` позволяет одновременно раскрывать несколько элементов аккордеона.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Accordion multiple>
-    <Accordion.Item summary="Первый элемент">
-        Содержимое первого элемента
-    </Accordion.Item>
-    <Accordion.Item summary="Второй элемент">
-        Содержимое второго элемента
-    </Accordion.Item>
-    <Accordion.Item summary="Третий элемент">
-        Содержимое третьего элемента
-    </Accordion.Item>
-</Accordion>
-`}>
-    <UIKit.Accordion multiple>
-        <UIKit.Accordion.Item summary="Первый элемент">
-            <UIKit.Text>Содержимое первого элемента</UIKit.Text>
-        </UIKit.Accordion.Item>
-        <UIKit.Accordion.Item summary="Второй элемент">
-            <UIKit.Text>Содержимое второго элемента</UIKit.Text>
-        </UIKit.Accordion.Item>
-        <UIKit.Accordion.Item summary="Третий элемент">
-            <UIKit.Text>Содержимое третьего элемента</UIKit.Text>
-        </UIKit.Accordion.Item>
-    </UIKit.Accordion>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Accordion} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <Accordion multiple>
+            <Accordion.Item summary="Первый элемент">Содержимое первого элемента</Accordion.Item>
+            <Accordion.Item summary="Второй элемент">Содержимое второго элемента</Accordion.Item>
+            <Accordion.Item summary="Третий элемент">Содержимое третьего элемента</Accordion.Item>
+        </Accordion>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -355,43 +307,29 @@ LANDING_BLOCK-->
 
 Используйте компонент `Accordion.Summary` для создания пользовательского заголовка.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Accordion>
-    <Accordion.Item value="custom">
-        <Accordion.Summary>
-            {(props) => (
-                <Button {...props} view="flat" width="max">
-                    <Icon data={Settings} size={16} />
-                    Пользовательская кнопка заголовка
-                </Button>
-            )}
-        </Accordion.Summary>
-        Содержимое с пользовательским компонентом заголовка
-    </Accordion.Item>
-    <Accordion.Item summary="Обычный заголовок">
-        Содержимое с обычным свойством заголовка
-    </Accordion.Item>
-</Accordion>
-`}>
-    <UIKit.Accordion>
-        <UIKit.Accordion.Item value="custom">
-            <UIKit.Accordion.Summary>
-                {(props) => (
-                    <UIKit.Button {...props} view="flat" width="max">
-                        Пользовательская кнопка заголовка
-                    </UIKit.Button>
-                )}
-            </UIKit.Accordion.Summary>
-            <UIKit.Text>Содержимое с пользовательским компонентом заголовка</UIKit.Text>
-        </UIKit.Accordion.Item>
-        <UIKit.Accordion.Item summary="Обычный заголовок">
-            <UIKit.Text>Содержимое с обычным свойством заголовка</UIKit.Text>
-        </UIKit.Accordion.Item>
-    </UIKit.Accordion>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Accordion, Button} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <Accordion>
+            <Accordion.Item value="custom">
+                <Accordion.Summary>
+                    {(props) => (
+                        <Button {...props} view="flat" width="max">
+                            Пользовательская кнопка заголовка
+                        </Button>
+                    )}
+                </Accordion.Summary>
+                Содержимое с пользовательским компонентом заголовка
+            </Accordion.Item>
+            <Accordion.Item summary="Обычный заголовок">
+                Содержимое с обычным свойством заголовка
+            </Accordion.Item>
+        </Accordion>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -420,28 +358,22 @@ LANDING_BLOCK-->
 
 Отдельные элементы аккордеона могут быть отключены с помощью свойства `disabled`.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Accordion>
-    <Accordion.Item summary="Активный элемент">
-        Этот элемент активен и может быть раскрыт
-    </Accordion.Item>
-    <Accordion.Item summary="Отключенный элемент" disabled>
-        Этот элемент отключен и не может быть раскрыт
-    </Accordion.Item>
-</Accordion>
-`}>
-    <UIKit.Accordion>
-        <UIKit.Accordion.Item summary="Активный элемент">
-            <UIKit.Text>Этот элемент активен и может быть раскрыт</UIKit.Text>
-        </UIKit.Accordion.Item>
-        <UIKit.Accordion.Item summary="Отключенный элемент" disabled>
-            <UIKit.Text>Этот элемент отключен и не может быть раскрыт</UIKit.Text>
-        </UIKit.Accordion.Item>
-    </UIKit.Accordion>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Accordion} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <Accordion>
+            <Accordion.Item summary="Активный элемент">
+                Этот элемент активен и может быть раскрыт
+            </Accordion.Item>
+            <Accordion.Item summary="Отключенный элемент" disabled>
+                Этот элемент отключен и не может быть раскрыт
+            </Accordion.Item>
+        </Accordion>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

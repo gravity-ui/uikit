@@ -24,26 +24,23 @@ import {Alert} from '@gravity-ui/uikit';
 
 `clear` — подходит для использования Alert как часть других компонентов (например, в качестве `content` в `Popover`)
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Alert theme="normal" title="Normal" message="Normal theme" />
-<Alert theme="info" title="Info" message="Info theme" />
-<Alert theme="success" title="Success" message="Success theme" />
-<Alert theme="warning" title="Warning" message="Warning theme" />
-<Alert theme="danger" title="Danger" message="Danger theme" />
-<Alert theme="utility" title="Utility" message="Utility theme" />
-<Alert theme="clear" title="Clear" message="Clear theme" />
-`}>
-    <UIKit.Alert theme="normal" title="Normal" message="Normal theme" />
-    <UIKit.Alert theme="info" title="Info" message="Info theme" />
-    <UIKit.Alert theme="success" title="Success" message="Success theme" />
-    <UIKit.Alert theme="warning" title="Warning" message="Warning theme" />
-    <UIKit.Alert theme="danger" title="Danger" message="Danger theme" />
-    <UIKit.Alert theme="utility" title="Utility" message="Utility theme" />
-    <UIKit.Alert theme="clear" title="Clear" message="Clear theme" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Alert} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <Alert theme="normal" title="Normal" message="Normal theme" />
+            <Alert theme="info" title="Info" message="Info theme" />
+            <Alert theme="success" title="Success" message="Success theme" />
+            <Alert theme="warning" title="Warning" message="Warning theme" />
+            <Alert theme="danger" title="Danger" message="Danger theme" />
+            <Alert theme="utility" title="Utility" message="Utility theme" />
+            <Alert theme="clear" title="Clear" message="Clear theme" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -65,17 +62,18 @@ LANDING_BLOCK-->
 
 `outlined` — используется для настройки цвета границ алерта.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Alert title="Filled" message="Filled view" view="filled" />
-<Alert title="Outlined" message="Outlined theme" view="outlined" />
-`}
->
-    <UIKit.Alert title="Filled" message="Filled view" view="filled" />
-    <UIKit.Alert title="Outlined" message="Outlined theme" view="outlined" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Alert} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <Alert title="Filled" message="Filled view" view="filled" />
+            <Alert title="Outlined" message="Outlined theme" view="outlined" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -92,16 +90,28 @@ LANDING_BLOCK-->
 
 `horizontal` — используется для привлечения внимания пользователей к контенту, если задано свойство `actions` с кнопками. Кнопки отображаются справа от текста.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Alert layout="vertical" title="Vertical" message="Vertical direction" actions={<Alert.Action>button</Alert.Action>} />
-<Alert layout="horizontal" title="Horizontal" message="Horizontal direction" actions={<Alert.Action>button</Alert.Action>} />
-`}>
-    <UIKit.Alert layout="vertical" title="Vertical" message="Vertical direction" actions={<UIKit.Alert.Action>button</UIKit.Alert.Action>} />
-    <UIKit.Alert layout="horizontal" title="Horizontal" message="Horizontal direction" actions={<UIKit.Alert.Action>button</UIKit.Alert.Action>} />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Alert} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <Alert
+                layout="vertical"
+                title="Vertical"
+                message="Vertical direction"
+                actions={<Alert.Action>button</Alert.Action>}
+            />
+            <Alert
+                layout="horizontal"
+                title="Horizontal"
+                message="Horizontal direction"
+                actions={<Alert.Action>button</Alert.Action>}
+            />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -118,17 +128,18 @@ LANDING_BLOCK-->
 
 `square` — включает прямые углы окна алерта.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Alert title="Rounded" message="Rounded corners" corners="rounded"  />
-<Alert title="Square" message="Square corners" corners="square" />
-`}
->
-    <UIKit.Alert title="Rounded" message="Rounded corners" corners="rounded"  />
-    <UIKit.Alert title="Square" message="Square corners" corners="square" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Alert} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <Alert title="Rounded" message="Rounded corners" corners="rounded" />
+            <Alert title="Square" message="Square corners" corners="square" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -143,15 +154,13 @@ LANDING_BLOCK-->
 
 `title` — заголовок алерта. Имеет более низкий приоритет, чем у параметра `Alert.Title`.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Alert title={<Alert.Title className={'some-class'} text="some text"></Alert.Title>} />
-`}
->
-    <UIKit.Alert title={<UIKit.Alert.Title className={'some-class'} text="some text"></UIKit.Alert.Title>} />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Alert} from '@gravity-ui/uikit';
+
+export default function () {
+    return <Alert title={<Alert.Title className={'some-class'} text="some text" />} />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -169,15 +178,19 @@ LANDING_BLOCK-->
 
 `onClose` — функция обратного вызова, которая срабатывает, когда пользователь нажимает на кнопку закрытия алерта. Если это свойство задано, кнопка закрытия видима.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Alert onClose={() => alert('Close button pressed')} title="Alert has close" message="Alert has close" />
-`}
->
-    <UIKit.Alert onClose={() => alert('Close button pressed')} title="Alert has close" message="Alert has close" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Alert} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <Alert
+            onClose={() => alert('Close button pressed')}
+            title="Alert has close"
+            message="Alert has close"
+        />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -199,16 +212,30 @@ LANDING_BLOCK-->
 
 `center` — содержимое вертикально центрируется внутри компонента `Alert`. Может быть полезно, если элементы управления занимают больше пространства, чем текст, или если иконка должна располагаться посередине содержимого.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Alert align="baseline" theme="info" title="Baseline" message="Baseline align" actions={<Alert.Action>button</Alert.Action>} />
-<Alert align="center" theme="info" title="Center" message="Center align" actions={<Alert.Action>button</Alert.Action>} align="center"/>
-`}>
-    <UIKit.Alert align="baseline" theme="info" title="Baseline" message="Baseline align" actions={<UIKit.Alert.Action>button</UIKit.Alert.Action>} />
-    <UIKit.Alert align="center" theme="info" title="Center" message="Center align" actions={<UIKit.Alert.Action>button</UIKit.Alert.Action>} align="center"/>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Alert} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <Alert
+                align="baseline"
+                theme="info"
+                title="Baseline"
+                message="Baseline align"
+                actions={<Alert.Action>button</Alert.Action>}
+            />
+            <Alert
+                align="center"
+                theme="info"
+                title="Center"
+                message="Center align"
+                actions={<Alert.Action>button</Alert.Action>}
+            />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

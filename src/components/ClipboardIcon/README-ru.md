@@ -14,20 +14,19 @@ import {ClipboardIcon} from '@gravity-ui/uikit';
 
 Иконка будет изменяться в зависимости от значения свойства `status`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {ClipboardIcon} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<UIKit.ClipboardIcon size={24} />
-<UIKit.ClipboardIcon size={24} status="success"} />
-<UIKit.ClipboardIcon size={24} status="error" />
-`}>
-    <UIKit.ClipboardIcon size={24} />
-    <UIKit.ClipboardIcon size={24} status="success" />
-    <UIKit.ClipboardIcon size={24} status="error" />
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <ClipboardIcon size={24} />
+            <ClipboardIcon size={24} status="success" />
+            <ClipboardIcon size={24} status="error" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

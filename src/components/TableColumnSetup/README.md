@@ -10,33 +10,19 @@ import {TableColumnSetup} from '@gravity-ui/uikit';
 
 The `TableColumnSetup` component provides a user interface for configuring table column visibility and order. It displays a button that opens a popup with a list of available columns, allowing users to show/hide columns and optionally reorder them via drag and drop.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {TableColumnSetup} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
 const items = [
     {id: 'name', title: 'Name', selected: true, required: true},
     {id: 'email', title: 'Email', selected: true},
     {id: 'phone', title: 'Phone', selected: false},
 ];
 
-<TableColumnSetup
-    items={items}
-    onUpdate={(updatedItems) => console.log(updatedItems)}
-/>
-`}
->
-    <UIKit.TableColumnSetup
-        items={[
-            {id: 'name', title: 'Name', selected: true, required: true},
-            {id: 'email', title: 'Email', selected: true},
-            {id: 'phone', title: 'Phone', selected: false},
-        ]}
-        onUpdate={(updatedItems) => console.log(updatedItems)}
-    />
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return <TableColumnSetup items={items} onUpdate={(updatedItems) => console.log(updatedItems)} />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -56,29 +42,25 @@ const items = [
 
 Enable drag and drop functionality to allow users to reorder columns by setting the `sortable` property to `true`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {TableColumnSetup} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<TableColumnSetup
-    items={items}
-    sortable
-    onUpdate={(updatedItems) => console.log(updatedItems)}
-/>
-`}
->
-    <UIKit.TableColumnSetup
-        items={[
-            {id: 'name', title: 'Name', selected: true, required: true},
-            {id: 'email', title: 'Email', selected: true},
-            {id: 'phone', title: 'Phone', selected: false},
-        ]}
-        sortable
-        onUpdate={(updatedItems) => console.log(updatedItems)}
-    />
-</ExampleBlock>
+const items = [
+    {id: 'name', title: 'Name', selected: true, required: true},
+    {id: 'email', title: 'Email', selected: true},
+    {id: 'phone', title: 'Phone', selected: false},
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <TableColumnSetup
+            items={items}
+            sortable
+            onUpdate={(updatedItems) => console.log(updatedItems)}
+        />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -95,29 +77,25 @@ Control when changes are applied using the `hideApplyButton` property:
 - `true` - Changes are applied immediately when user toggles columns
 - `false` - Changes are applied only when user clicks the Apply button
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {TableColumnSetup} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<TableColumnSetup
-    items={items}
-    hideApplyButton
-    onUpdate={(updatedItems) => console.log(updatedItems)}
-/>
-`}
->
-    <UIKit.TableColumnSetup
-        items={[
-            {id: 'name', title: 'Name', selected: true, required: true},
-            {id: 'email', title: 'Email', selected: true},
-            {id: 'phone', title: 'Phone', selected: false},
-        ]}
-        hideApplyButton
-        onUpdate={(updatedItems) => console.log(updatedItems)}
-    />
-</ExampleBlock>
+const items = [
+    {id: 'name', title: 'Name', selected: true, required: true},
+    {id: 'email', title: 'Email', selected: true},
+    {id: 'phone', title: 'Phone', selected: false},
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <TableColumnSetup
+            items={items}
+            hideApplyButton
+            onUpdate={(updatedItems) => console.log(updatedItems)}
+        />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -135,29 +113,19 @@ LANDING_BLOCK-->
 
 Show the count of selected columns in the switcher button by enabling the `showStatus` property.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {TableColumnSetup} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<TableColumnSetup
-    items={items}
-    showStatus={true}
-    onUpdate={(updatedItems) => console.log(updatedItems)}
-/>
-`}
->
-    <UIKit.TableColumnSetup
-        items={[
-            {id: 'name', title: 'Name', selected: true, required: true},
-            {id: 'email', title: 'Email', selected: true},
-            {id: 'phone', title: 'Phone', selected: false},
-        ]}
-        showStatus={true}
-        onUpdate={(updatedItems) => console.log(updatedItems)}
-    />
-</ExampleBlock>
+const items = [
+    {id: 'name', title: 'Name', selected: true, required: true},
+    {id: 'email', title: 'Email', selected: true},
+    {id: 'phone', title: 'Phone', selected: false},
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return <TableColumnSetup items={items} showStatus onUpdate={(updatedItems) => console.log(updatedItems)} />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -175,37 +143,29 @@ LANDING_BLOCK-->
 
 Customize the trigger button using the `renderSwitcher` property.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Button, TableColumnSetup} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<TableColumnSetup
-    items={items}
-    renderSwitcher={({onClick, onKeyDown}) => (
-        <Button onClick={onClick} onKeyDown={onKeyDown} view="outlined">
-            Configure Columns
-        </Button>
-    )}
-    onUpdate={(updatedItems) => console.log(updatedItems)}
-/>
-`}
->
-    <UIKit.TableColumnSetup
-        items={[
-            {id: 'name', title: 'Name', selected: true, required: true},
-            {id: 'email', title: 'Email', selected: true},
-            {id: 'phone', title: 'Phone', selected: false},
-        ]}
-        renderSwitcher={({onClick, onKeyDown}) => (
-            <UIKit.Button onClick={onClick} onKeyDown={onKeyDown} view="outlined">
-                Configure Columns
-            </UIKit.Button>
-        )}
-        onUpdate={(updatedItems) => console.log(updatedItems)}
-    />
-</ExampleBlock>
+const items = [
+    {id: 'name', title: 'Name', selected: true, required: true},
+    {id: 'email', title: 'Email', selected: true},
+    {id: 'phone', title: 'Phone', selected: false},
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <TableColumnSetup
+            items={items}
+            renderSwitcher={({onClick, onKeyDown}) => (
+                <Button onClick={onClick} onKeyDown={onKeyDown} view="outlined">
+                    Configure Columns
+                </Button>
+            )}
+            onUpdate={(updatedItems) => console.log(updatedItems)}
+        />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

@@ -20,14 +20,13 @@ import {Link} from '@gravity-ui/uikit';
 
 Это наиболее привычный и общепринятый шаблон компонента `link`. Применяется для визуального выделения элемента внутри текста или таблицы, а также для навигации. Можно использовать его для перехода как на внутренние страницы, так и на внешние источники, включая документацию. Кроме того, этот тип используется для страниц с ошибками и нулевых состояний.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Link view="normal" href="#">Link</Link>
-`}>
-    <UIKit.Link view="normal" href="#">Link</UIKit.Link>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Link} from '@gravity-ui/uikit';
+
+export default function () {
+    return <Link view="normal" href="#">Link</Link>;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -43,14 +42,13 @@ LANDING_BLOCK-->
 
 Этот тип используется, когда очевидно, что элемент является кликабельным, но использование коричневого компонента `Link` будет перегружать интерфейс и мешать выделению ключевых моментов на странице.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Link view="primary" href="#">Link</Link>
-`}>
-    <UIKit.Link view="primary" href="#">Link</UIKit.Link>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Link} from '@gravity-ui/uikit';
+
+export default function () {
+    return <Link view="primary" href="#">Link</Link>;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -66,14 +64,13 @@ LANDING_BLOCK-->
 
 Как и `primary`, этот тип `Link` используется, когда пользователю очевидно, что элемент кликабелен, но навигация по нему не является обязательной и затрагивает лишь небольшое количество сценариев. Его основная цель — не отвлекать пользователя от ключевых моментов на странице. Тип `secondary` чаще всего используется в хлебных крошках или при отображении вторичных атрибутов.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Link view="secondary" href="#">Link</Link>
-`}>
-    <UIKit.Link view="secondary" href="#">Link</UIKit.Link>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Link} from '@gravity-ui/uikit';
+
+export default function () {
+    return <Link view="secondary" href="#">Link</Link>;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -89,14 +86,13 @@ LANDING_BLOCK-->
 
 Это свойство используется, чтобы показать, что на `Link` уже нажимали.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Link href="https://gravity-ui.com/" visitable>Link</Link>
-`}>
-    <UIKit.Link href="https://gravity-ui.com/" visitable>Link</UIKit.Link>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Link} from '@gravity-ui/uikit';
+
+export default function () {
+    return <Link href="https://gravity-ui.com/" visitable>Link</Link>;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -112,14 +108,13 @@ LANDING_BLOCK-->
 
 Свойство `href` является обязательным.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Link href="#">Link with href</Link>
-`}>
-    <UIKit.Link href="#">Link with href</UIKit.Link>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Link} from '@gravity-ui/uikit';
+
+export default function () {
+    return <Link href="#">Link with href</Link>;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -133,24 +128,23 @@ LANDING_BLOCK-->
 
 `Link` можно использовать и как независимый текстовый элемент, и как часть текста.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Text>
-    <Link href="#">what roles are active in the service</Link>
-</Text>
-<Text>
-    Currently, this role can only be assigned to a <Link href="#">folder</Link> or <Link href="#">cloud</Link>
-</Text>
-`}>
-    <UIKit.Text>
-        <UIKit.Link href="#">what roles are active in the service</UIKit.Link>
-    </UIKit.Text>
-    <UIKit.Text>
-        Currently, this role can only be assigned to a <UIKit.Link href="#">folder</UIKit.Link> or <UIKit.Link href="#">cloud</UIKit.Link>
-    </UIKit.Text>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Link, Text} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <Text>
+                <Link href="#">what roles are active in the service</Link>
+            </Text>
+            <Text>
+                Currently, this role can only be assigned to a{' '}
+                <Link href="#">folder</Link> or <Link href="#">cloud</Link>
+            </Text>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

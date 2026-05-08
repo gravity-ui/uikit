@@ -7,8 +7,10 @@ import type {ListItemType} from '../../../useList';
 import {TreeList} from '../../TreeList';
 import type {TreeListProps} from '../../types';
 
-export interface WithDisabledElementsStoryProps
-    extends Omit<TreeListProps<{text: string}>, 'items' | 'mapItemDataToContentProps'> {}
+export interface WithDisabledElementsStoryProps extends Omit<
+    TreeListProps<{text: string}>,
+    'items' | 'mapItemDataToContentProps'
+> {}
 
 const items: ListItemType<{text: string}>[] = [
     {

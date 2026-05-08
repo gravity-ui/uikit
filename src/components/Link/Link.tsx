@@ -11,9 +11,7 @@ import './Link.scss';
 export type LinkView = 'normal' | 'primary' | 'secondary';
 
 export interface LinkProps
-    extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'style'>,
-        QAProps,
-        DOMProps {
+    extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'style'>, QAProps, DOMProps {
     view?: LinkView;
     visitable?: boolean;
     underline?: boolean;

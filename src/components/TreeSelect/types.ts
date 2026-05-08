@@ -51,7 +51,8 @@ interface TreeSelectBehavioralProps<T> extends UseListParsedStateProps<T> {
 }
 
 export interface TreeSelectProps<T, P extends {} = {}>
-    extends Omit<TreeListProps<T, P>, 'list' | 'renderContainer' | 'multiple'>,
+    extends
+        Omit<TreeListProps<T, P>, 'list' | 'renderContainer' | 'multiple'>,
         Pick<
             TreeSelectRenderControlProps<T>,
             | 'title'

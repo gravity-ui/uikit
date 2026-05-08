@@ -92,9 +92,9 @@ export const Slider = React.forwardRef(function Slider(
         inverted: innerState.startPoint === innerState.max && !innerState.range,
         'with-start-point': Boolean(
             innerState.startPoint &&
-                !innerState.range &&
-                innerState.startPoint !== innerState.max &&
-                innerState.startPoint !== innerState.min,
+            !innerState.range &&
+            innerState.startPoint !== innerState.max &&
+            innerState.startPoint !== innerState.min,
         ),
     };
 

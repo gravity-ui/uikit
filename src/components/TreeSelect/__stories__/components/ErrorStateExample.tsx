@@ -7,8 +7,10 @@ import type {TreeSelectProps} from '../../types';
 
 type Entity = string;
 
-export interface ErrorStateExampleProps
-    extends Omit<TreeSelectProps<Entity>, 'items' | 'mapItemDataToContentProps'> {}
+export interface ErrorStateExampleProps extends Omit<
+    TreeSelectProps<Entity>,
+    'items' | 'mapItemDataToContentProps'
+> {}
 
 const items: ListItemType<Entity>[] = ['one', 'two', 'free'];
 const errorMessage = 'A validation error has occurred';

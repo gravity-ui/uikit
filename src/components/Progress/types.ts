@@ -38,8 +38,7 @@ export interface ProgressDefaultProps {
 }
 
 export interface ProgressWithValueProps
-    extends ProgressGeneralProps,
-        Partial<ProgressDefaultProps> {
+    extends ProgressGeneralProps, Partial<ProgressDefaultProps> {
     /** Current progress value. Available range is from 0 to 100. If `stack` property is passed `value` is not required and behaves as maxValue. */
     value: ProgressValue;
     /** ProgressTheme breakpoints. [Details](#colorstops) */
@@ -49,8 +48,7 @@ export interface ProgressWithValueProps
 }
 
 export interface ProgressWithStackProps
-    extends ProgressGeneralProps,
-        Partial<ProgressDefaultProps> {
+    extends ProgressGeneralProps, Partial<ProgressDefaultProps> {
     /** Configuration of composite progress bar. Not required if a `value` property is passed. [Details](#stack) */
     stack: Stack[];
     value?: ProgressValue;

@@ -9,8 +9,10 @@ interface Entity {
     id: string;
 }
 
-export interface WithDisabledElementsExampleProps
-    extends Omit<TreeSelectProps<Entity>, 'items' | 'mapItemDataToContentProps'> {}
+export interface WithDisabledElementsExampleProps extends Omit<
+    TreeSelectProps<Entity>,
+    'items' | 'mapItemDataToContentProps'
+> {}
 
 const items: ListItemType<Entity>[] = [
     {

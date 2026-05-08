@@ -21,8 +21,10 @@ export enum TabsDirection {
 
 export type TabsSize = 'm' | 'l' | 'xl';
 
-export interface TabsItemProps
-    extends Omit<TabsItemInternalProps, 'active' | 'direction' | 'onClick'> {}
+export interface TabsItemProps extends Omit<
+    TabsItemInternalProps,
+    'active' | 'direction' | 'onClick'
+> {}
 
 export interface TabsProps extends AriaLabelingProps, QAProps {
     /**

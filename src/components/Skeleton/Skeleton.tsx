@@ -8,8 +8,7 @@ import './Skeleton.scss';
 const b = block('skeleton');
 
 export interface SkeletonProps
-    extends Pick<React.HTMLAttributes<HTMLDivElement>, 'className' | 'style'>,
-        QAProps {
+    extends Pick<React.HTMLAttributes<HTMLDivElement>, 'className' | 'style'>, QAProps {
     /**
      * Animation type to apply to the skeleton
      * @default 'gradient'

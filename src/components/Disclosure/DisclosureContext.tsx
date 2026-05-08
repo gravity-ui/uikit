@@ -6,8 +6,9 @@ import {useUniqId} from '../../hooks';
 
 import type {DisclosureProps} from './Disclosure';
 
-interface DisclosureProviderProps
-    extends Required<Omit<DisclosureProps, 'className' | 'expanded' | 'qa' | 'onSummaryKeyDown'>> {
+interface DisclosureProviderProps extends Required<
+    Omit<DisclosureProps, 'className' | 'expanded' | 'qa' | 'onSummaryKeyDown'>
+> {
     expanded: DisclosureProps['expanded'];
     onSummaryKeyDown?: DisclosureProps['onSummaryKeyDown'];
 }

@@ -4,13 +4,12 @@ import {useControlledState} from '../../../src/hooks';
 
 import type {AccordionProps, AccordionValue} from './types';
 
-interface AccordionProviderProps<Multiple extends boolean>
-    extends Required<
-        Omit<
-            AccordionProps<Multiple>,
-            'qa' | 'className' | 'value' | 'defaultValue' | 'multiple' | 'ariaLabel'
-        >
-    > {
+interface AccordionProviderProps<Multiple extends boolean> extends Required<
+    Omit<
+        AccordionProps<Multiple>,
+        'qa' | 'className' | 'value' | 'defaultValue' | 'multiple' | 'ariaLabel'
+    >
+> {
     multiple: Multiple;
     value: AccordionValue<Multiple>;
     defaultValue: AccordionValue<Multiple>;

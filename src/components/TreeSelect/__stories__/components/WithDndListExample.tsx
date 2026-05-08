@@ -35,11 +35,10 @@ const DraggableListItem = ({
 
 type CustomDataType = {someRandomKey: string; id: string};
 
-export interface WithDndListExampleProps
-    extends Omit<
-        TreeSelectProps<CustomDataType>,
-        'value' | 'onUpdate' | 'items' | 'mapItemDataToContentProps'
-    > {}
+export interface WithDndListExampleProps extends Omit<
+    TreeSelectProps<CustomDataType>,
+    'value' | 'onUpdate' | 'items' | 'mapItemDataToContentProps'
+> {}
 
 const randomItems: CustomDataType[] = createRandomizedData({
     num: 10,

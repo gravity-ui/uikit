@@ -8,7 +8,8 @@ import type {UseDropZoneStateWithoutRef} from '../../../hooks/lab/useDropZone';
 import type {FileDropZoneProps} from './FileDropZone';
 
 interface FileDropZoneContextValue
-    extends Pick<
+    extends
+        Pick<
             FileDropZoneProps,
             | 'accept'
             | 'title'
@@ -28,22 +29,21 @@ interface FileDropZoneContextValue
 
 const FileDropZoneContext = React.createContext<FileDropZoneContextValue | null>(null);
 
-export interface FileDropZoneProviderProps
-    extends Pick<
-        FileDropZoneProps,
-        | 'accept'
-        | 'onUpdate'
-        | 'title'
-        | 'description'
-        | 'buttonText'
-        | 'icon'
-        | 'errorIcon'
-        | 'multiple'
-        | 'disabled'
-        | 'errorMessage'
-        | 'validationState'
-        | 'children'
-    > {}
+export interface FileDropZoneProviderProps extends Pick<
+    FileDropZoneProps,
+    | 'accept'
+    | 'onUpdate'
+    | 'title'
+    | 'description'
+    | 'buttonText'
+    | 'icon'
+    | 'errorIcon'
+    | 'multiple'
+    | 'disabled'
+    | 'errorMessage'
+    | 'validationState'
+    | 'children'
+> {}
 
 export const FileDropZoneProvider = ({
     accept,

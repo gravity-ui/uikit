@@ -1,7 +1,9 @@
 import {create} from 'storybook/theming';
 import type {ThemeVarsPartial} from 'storybook/theming';
 
-const UIKIT_VERSION = process.env.npm_package_version ?? '';
+import packageJson from '../package.json' with {type: 'json'};
+
+const UIKIT_VERSION = packageJson.version;
 
 function renderBrandTitle(theme: 'light' | 'dark') {
     const titleColor = theme === 'light' ? 'rgba(0, 0, 0, 0.85)' : 'rgba(255, 255, 255, 0.85)';

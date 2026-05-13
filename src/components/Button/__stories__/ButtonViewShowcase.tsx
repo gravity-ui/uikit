@@ -11,7 +11,7 @@ import './ButtonViewShowcase.scss';
 const b = cn('button-view-showcase');
 
 export function ButtonViewShowcase(args: ButtonProps) {
-    const contrastColor = '#027bf3';
+    const contrastColor = '#000000';
     const views = [
         '-',
         'normal',

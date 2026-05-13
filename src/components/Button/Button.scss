@@ -314,19 +314,10 @@ $block: '.#{variables.$ns}button';
     }
 
     &_selected {
-        &:not(#{$block}_view_outlined-contrast) {
-            --_--border-width: 0;
-        }
-
-        &:not(
-                #{$block}_view_normal-contrast,
-                #{$block}_view_flat-contrast,
-                #{$block}_view_outlined-contrast
-            ) {
-            --_--text-color: var(--g-color-text-brand-heavy);
-            --_--background-color: var(--g-color-base-selection);
-            --_--background-color-hover: var(--g-color-base-selection-hover);
-        }
+        --_--border-width: 0;
+        --_--text-color: var(--g-color-text-brand-heavy);
+        --_--background-color: var(--g-color-base-selection);
+        --_--background-color-hover: var(--g-color-base-selection-hover);
 
         &#{$block}_view {
             &_flat-secondary {

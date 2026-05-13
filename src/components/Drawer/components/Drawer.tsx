@@ -19,6 +19,7 @@ import {Portal} from '../../Portal';
 import {block} from '../../utils/cn';
 import {filterDOMProps} from '../../utils/filterDOMProps';
 import {DRAWER_ANIMATION_DURATION_MS} from '../constants';
+import {useInitialFocus} from '../hooks/useInitialFocus';
 import type {DrawerPlacement, OnResizeHandler} from '../hooks/useResizeHandlers';
 import i18n from '../i18n';
 
@@ -131,6 +132,8 @@ export const Drawer = ({
         onTransitionOutComplete,
     });
 
+    useInitialFocus({open, initialFocus, floatingRef: refs.floating});
+
     const dismiss = useDismiss(context, {
         enabled: !disableEscapeKeyDown || !disableOutsideClick,
         outsidePress: (event) => {
@@ -190,7 +193,7 @@ export const Drawer = ({
                         context={context}
                         disabled={!isMounted}
                         modal={isMounted}
-                        initialFocus={initialFocus ?? refs.floating}
+                        initialFocus={refs.floating}
                         returnFocus={returnFocus}
                         visuallyHiddenDismiss={disableVisuallyHiddenDismiss ? false : i18n('close')}
                         restoreFocus={true}

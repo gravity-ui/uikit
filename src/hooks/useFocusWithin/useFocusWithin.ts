@@ -165,14 +165,21 @@ function useFocusEvents<T extends Element = Element>({
             }
         };
 
-        window.addEventListener('focus', handleFocus, {capture: true});
+        const controller = new AbortController();
+        window.addEventListener('focus', handleFocus, {capture: true, signal: controller.signal});
         // use focusin because a focus event does not bubble and current browser
         // implementations fire focusin events after focus event
-        window.addEventListener('focusin', handleFocusIn);
-
+        window.addEventListener('focusin', handleFocusIn, {signal: controller.signal});
+        if (window.parent !== window) {
+            try {
+                window.parent.addEventListener('focus', handleFocus, {capture: true, signal: controller.signal});
+                window.parent.addEventListener('focusin', handleFocusIn, {signal: controller.signal});
+            } catch {
+                // cross-origin/parent-access is not supported.
+            }
+        }
         return () => {
-            window.removeEventListener('focus', handleFocus, {capture: true});
-            window.removeEventListener('focusin', handleFocusIn);
+            controller.abort();
         };
     }, [isDisabled, onBlur]);
 
@@ -184,8 +191,18 @@ function useFocusEvents<T extends Element = Element>({
                     event.relatedTarget === document.body ||
                     event.relatedTarget === (document as EventTarget))
             ) {
-                onBlur(event);
-                targetRef.current = null;
+                if (event.relatedTarget === null && window.parent !== window) {
+                    capturedRef.current = false;
+                    setTimeout(() => {
+                        if (!capturedRef.current) {
+                            onBlur(event);
+                            targetRef.current = null;
+                        }
+                    }, 0);
+                } else {
+                    onBlur(event);
+                    targetRef.current = null;
+                }
             }
         },
         [onBlur],

@@ -1131,6 +1131,8 @@ const MyComponent = () => {
 
 The `renderPopup` property allows you to control the content of the options list: change the order of standard elements (filter, list), hide them, or add custom elements between, before, or after them.
 
+**`renderLabel`**: on **mobile** — `label` in the sheet header, on desktop — `null`; call when needed. The default header is **`position: sticky`**.
+
 <!--LANDING_BLOCK
 
 <ExampleBlock
@@ -1138,9 +1140,10 @@ The `renderPopup` property allows you to control the content of the options list
 <Select
   filterable
   placeholder="Custom popup"
-  renderPopup={({renderList, renderFilter}) => {
+  renderPopup={({renderList, renderFilter, renderLabel}) => {
     return (
       <React.Fragment>
+        {renderLabel()}
         {renderFilter()}
         <div style={{width: "100%", height: "20px", backgroundColor: "tomato"}} />
         {renderList()}
@@ -1158,9 +1161,10 @@ The `renderPopup` property allows you to control the content of the options list
   <UIKit.Select
     filterable
     placeholder="Custom popup"
-    renderPopup={({renderList, renderFilter}) => {
+    renderPopup={({renderList, renderFilter, renderLabel}) => {
       return (
         <React.Fragment>
+          {renderLabel()}
           {renderFilter()}
           <div style={{width: "100%", height: "20px", backgroundColor: "tomato"}} />
           {renderList()}
@@ -1182,9 +1186,10 @@ LANDING_BLOCK-->
 ```tsx
 import type {SelectProps} from '@gravity-ui/uikit';
 
-const renderPopup: SelectProps['renderPopup'] = ({renderList, renderFilter}) => {
+const renderPopup: SelectProps['renderPopup'] = ({renderList, renderFilter, renderLabel}) => {
   return (
     <React.Fragment>
+      {renderLabel()}
       {renderFilter()}
       <div className="CustomElement" />
       {renderList()}

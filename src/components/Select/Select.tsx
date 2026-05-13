@@ -19,7 +19,7 @@ import {
     SelectList,
     SelectPopup,
 } from './components';
-import {DEFAULT_VIRTUALIZATION_THRESHOLD, selectBlock} from './constants';
+import {DEFAULT_VIRTUALIZATION_THRESHOLD, SelectQa, selectBlock} from './constants';
 import {useActiveItemIndex, useQuickSearch} from './hooks';
 import {getSelectFilteredOptions, useSelectOptions} from './hooks-public';
 import {Option, OptionGroup} from './tech-components';
@@ -41,9 +41,14 @@ type SelectComponent = (<T = any>(
     p: SelectProps<T> & {ref?: React.Ref<HTMLButtonElement>},
 ) => React.ReactElement) & {Option: typeof Option} & {OptionGroup: typeof OptionGroup};
 
-export const DEFAULT_RENDER_POPUP: SelectRenderPopup = ({renderFilter, renderList}) => {
+export const DEFAULT_RENDER_POPUP: SelectRenderPopup = ({
+    renderFilter,
+    renderList,
+    renderLabel,
+}) => {
     return (
         <React.Fragment>
+            {renderLabel()}
             {renderFilter()}
             {renderList()}
         </React.Fragment>
@@ -317,6 +322,18 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         return <EmptyOptions filter={filter} renderEmptyOptions={renderEmptyOptions} />;
     };
 
+    const _renderLabel = React.useCallback(() => {
+        if (!mobile || !label) {
+            return null;
+        }
+
+        return (
+            <div className={selectBlock('sheet-label')} data-qa={SelectQa.SHEET_LABEL}>
+                {label}
+            </div>
+        );
+    }, [mobile, label]);
+
     return (
         <div
             ref={controlWrapRef}
@@ -379,7 +396,11 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                         : undefined
                 }
             >
-                {renderPopup({renderFilter: _renderFilter, renderList: _renderList})}
+                {renderPopup({
+                    renderFilter: _renderFilter,
+                    renderList: _renderList,
+                    renderLabel: _renderLabel,
+                })}
             </SelectPopup>
             <OuterAdditionalContent
                 errorMessage={isErrorMsgVisible ? errorMessage : null}

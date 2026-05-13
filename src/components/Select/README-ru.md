@@ -1126,6 +1126,8 @@ const MyComponent = () => {
 
 Свойство `renderPopup` позволяет управлять содержимым списка опций: изменять порядок стандартных элементов (фильтр, список), скрывать их или добавлять собственные элементы между ними, до или после них.
 
+**`renderLabel`**: на **мобиле** — `label` в шапке шторки, на десктопе — `null`; вызывайте при необходимости. Шапка по умолчанию — **`position: sticky`**.
+
 <!--LANDING_BLOCK
 
 <ExampleBlock
@@ -1133,9 +1135,10 @@ const MyComponent = () => {
 <Select
   filterable
   placeholder="Custom popup"
-  renderPopup={({renderList, renderFilter}) => {
+  renderPopup={({renderList, renderFilter, renderLabel}) => {
     return (
       <React.Fragment>
+        {renderLabel()}
         {renderFilter()}
         <div style={{width: "100%", height: "20px", backgroundColor: "tomato"}} />
         {renderList()}
@@ -1153,9 +1156,10 @@ const MyComponent = () => {
   <UIKit.Select
     filterable
     placeholder="Custom popup"
-    renderPopup={({renderList, renderFilter}) => {
+    renderPopup={({renderList, renderFilter, renderLabel}) => {
       return (
         <React.Fragment>
+          {renderLabel()}
           {renderFilter()}
           <div style={{width: "100%", height: "20px", backgroundColor: "tomato"}} />
           {renderList()}
@@ -1177,9 +1181,10 @@ LANDING_BLOCK-->
 ```tsx
 import type {SelectProps} from '@gravity-ui/uikit';
 
-const renderPopup: SelectProps['renderPopup'] = ({renderList, renderFilter}) => {
+const renderPopup: SelectProps['renderPopup'] = ({renderList, renderFilter, renderLabel}) => {
   return (
     <React.Fragment>
+      {renderLabel()}
       {renderFilter()}
       <div className="CustomElement" />
       {renderList()}

@@ -2,6 +2,7 @@
 
 $block: '.#{variables.$ns}select-showcase';
 $blockSelectClear: '.#{variables.$ns}select-clear';
+$listBlock: '.#{variables.$ns}list';
 
 .select-width-50 {
     width: 50px;
@@ -71,6 +72,14 @@ $blockSelectClear: '.#{variables.$ns}select-clear';
         .g-list__item {
             margin: 4px;
             border-radius: 12px;
+        }
+    }
+
+    &__custom-select-popup {
+        #{$listBlock}__item_selected,
+        #{$listBlock}__item_active,
+        #{$listBlock}__item_active#{$listBlock}__item_selected {
+            background: transparent;
         }
     }
 }

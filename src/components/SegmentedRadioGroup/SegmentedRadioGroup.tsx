@@ -17,9 +17,7 @@ export type SegmentedRadioGroupSize = 's' | 'm' | 'l' | 'xl';
 export type SegmentedRadioGroupWidth = 'auto' | 'max';
 
 export interface SegmentedRadioGroupProps<T extends string = string>
-    extends ControlGroupProps<T>,
-        DOMProps,
-        QAProps {
+    extends ControlGroupProps<T>, DOMProps, QAProps {
     size?: SegmentedRadioGroupSize;
     width?: SegmentedRadioGroupWidth;
     children?:

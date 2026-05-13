@@ -9,8 +9,7 @@ import {useListState} from './useListState';
 import type {UseListStateProps} from './useListState';
 
 interface UseListProps<T>
-    extends UseListParsedStateProps<T>,
-        Omit<UseListStateProps, 'initialState'> {
+    extends UseListParsedStateProps<T>, Omit<UseListStateProps, 'initialState'> {
     initialState?: Partial<InitialListParsedState>;
     controlledState?: Partial<ListState>;
 }

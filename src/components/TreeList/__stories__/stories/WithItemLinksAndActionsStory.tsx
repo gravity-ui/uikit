@@ -20,8 +20,10 @@ function identity<T>(value: T): T {
     return value;
 }
 
-export interface WithItemLinksAndActionsStoryProps
-    extends Omit<TreeListProps<{title: string}>, 'items' | 'size' | 'mapItemDataToContentProps'> {}
+export interface WithItemLinksAndActionsStoryProps extends Omit<
+    TreeListProps<{title: string}>,
+    'items' | 'size' | 'mapItemDataToContentProps'
+> {}
 
 export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStoryProps) => {
     const items = React.useMemo(() => createRandomizedData({num: 10, depth: 1}), []);

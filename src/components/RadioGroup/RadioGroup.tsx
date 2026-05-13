@@ -25,8 +25,9 @@ export interface RadioGroupProps extends ControlGroupProps, DOMProps, QAProps {
     optionClassName?: string;
 }
 
-interface RadioGroupComponent
-    extends React.ForwardRefExoticComponent<RadioGroupProps & React.RefAttributes<HTMLDivElement>> {
+interface RadioGroupComponent extends React.ForwardRefExoticComponent<
+    RadioGroupProps & React.RefAttributes<HTMLDivElement>
+> {
     Option: typeof Radio;
 }
 

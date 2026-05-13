@@ -21,11 +21,10 @@ interface CustomDataStructure {
     a: string;
 }
 
-export interface WithGroupSelectionAndCustomIconStoryProps
-    extends Omit<
-        TreeListProps<CustomDataStructure>,
-        'value' | 'onUpdate' | 'items' | 'cantainerRef' | 'size' | 'mapItemDataToContentProps'
-    > {
+export interface WithGroupSelectionAndCustomIconStoryProps extends Omit<
+    TreeListProps<CustomDataStructure>,
+    'value' | 'onUpdate' | 'items' | 'cantainerRef' | 'size' | 'mapItemDataToContentProps'
+> {
     itemsCount?: number;
 }
 

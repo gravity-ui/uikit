@@ -39,10 +39,7 @@ import './Modal.scss';
 export type ModalCloseReason = 'outsideClick' | 'escapeKeyDown' | string | undefined;
 
 export interface ModalProps
-    extends Pick<PortalProps, 'container' | 'disablePortal'>,
-        DOMProps,
-        AriaLabelingProps,
-        QAProps {
+    extends Pick<PortalProps, 'container' | 'disablePortal'>, DOMProps, AriaLabelingProps, QAProps {
     open?: boolean;
     /** Callback for open state changes, when dismiss happens for example */
     onOpenChange?: (open: boolean, event?: Event, reason?: OpenChangeReason) => void;

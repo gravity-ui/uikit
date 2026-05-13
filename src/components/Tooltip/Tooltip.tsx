@@ -30,10 +30,7 @@ import {getElementRef} from '../utils/getElementRef';
 import './Tooltip.scss';
 
 export interface TooltipProps
-    extends Pick<PortalProps, 'container' | 'disablePortal'>,
-        AriaLabelingProps,
-        QAProps,
-        DOMProps {
+    extends Pick<PortalProps, 'container' | 'disablePortal'>, AriaLabelingProps, QAProps, DOMProps {
     /** Anchor node */
     children:
         | ((props: Record<string, unknown>, ref: React.Ref<HTMLElement>) => React.ReactElement)

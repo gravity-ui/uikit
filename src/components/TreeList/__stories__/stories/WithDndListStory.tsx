@@ -42,8 +42,10 @@ const randomItems: CustomDataType[] = createRandomizedData({
     getData: (title) => title,
 }).map(({data}, idx) => ({someRandomKey: data, id: String(idx)}));
 
-export interface WithDndListStoryProps
-    extends Omit<TreeListProps<CustomDataType>, 'items' | 'mapItemDataToContentProps'> {}
+export interface WithDndListStoryProps extends Omit<
+    TreeListProps<CustomDataType>,
+    'items' | 'mapItemDataToContentProps'
+> {}
 
 export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
     const [items, setItems] = React.useState(randomItems);

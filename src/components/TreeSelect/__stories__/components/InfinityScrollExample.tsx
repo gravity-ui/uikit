@@ -20,11 +20,10 @@ function identity<T>(value: T): T {
     return value;
 }
 
-export interface InfinityScrollExampleProps
-    extends Omit<
-        TreeSelectProps<Entity>,
-        'value' | 'onUpdate' | 'items' | 'mapItemDataToContentProps' | 'multiple' | 'defaultValue'
-    > {
+export interface InfinityScrollExampleProps extends Omit<
+    TreeSelectProps<Entity>,
+    'value' | 'onUpdate' | 'items' | 'mapItemDataToContentProps' | 'multiple' | 'defaultValue'
+> {
     itemsCount?: number;
 }
 

@@ -13,11 +13,10 @@ function identity<T>(value: T): T {
     return value;
 }
 
-export interface WithFiltrationAndControlsExampleProps
-    extends Omit<
-        TreeSelectProps<{title: string}>,
-        'value' | 'onUpdate' | 'items' | 'mapItemDataToContentProps' | 'defaultValue' | 'multiple'
-    > {
+export interface WithFiltrationAndControlsExampleProps extends Omit<
+    TreeSelectProps<{title: string}>,
+    'value' | 'onUpdate' | 'items' | 'mapItemDataToContentProps' | 'defaultValue' | 'multiple'
+> {
     itemsCount?: number;
 }
 

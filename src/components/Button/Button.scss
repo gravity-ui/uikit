@@ -319,10 +319,10 @@ $block: '.#{variables.$ns}button';
         }
 
         &:not(
-                #{$block}_view_normal-contrast,
-                #{$block}_view_flat-contrast,
-                #{$block}_view_outlined-contrast
-            ) {
+            #{$block}_view_normal-contrast,
+            #{$block}_view_flat-contrast,
+            #{$block}_view_outlined-contrast
+        ) {
             --_--text-color: var(--g-color-text-brand-heavy);
             --_--background-color: var(--g-color-base-selection);
             --_--background-color-hover: var(--g-color-base-selection-hover);
@@ -387,16 +387,16 @@ $block: '.#{variables.$ns}button';
             }
 
             &:is(
-                    #{$block}_view_flat,
-                    #{$block}_view_flat-secondary,
-                    #{$block}_view_flat-info,
-                    #{$block}_view_flat-success,
-                    #{$block}_view_flat-warning,
-                    #{$block}_view_flat-danger,
-                    #{$block}_view_flat-utility,
-                    #{$block}_view_flat-action,
-                    #{$block}_view_flat-contrast
-                ) {
+                #{$block}_view_flat,
+                #{$block}_view_flat-secondary,
+                #{$block}_view_flat-info,
+                #{$block}_view_flat-success,
+                #{$block}_view_flat-warning,
+                #{$block}_view_flat-danger,
+                #{$block}_view_flat-utility,
+                #{$block}_view_flat-action,
+                #{$block}_view_flat-contrast
+            ) {
                 --_--text-color: var(--g-color-text-hint);
                 --_--background-color: transparent;
                 --_--background-color-hover: transparent;

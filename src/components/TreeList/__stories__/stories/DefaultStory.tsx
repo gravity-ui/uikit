@@ -11,8 +11,10 @@ function identity<T>(value: T): T {
     return value;
 }
 
-export interface DefaultStoryProps
-    extends Omit<TreeListProps<{title: string}>, 'items' | 'mapItemDataToContentProps'> {
+export interface DefaultStoryProps extends Omit<
+    TreeListProps<{title: string}>,
+    'items' | 'mapItemDataToContentProps'
+> {
     itemsCount?: number;
 }
 

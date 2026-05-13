@@ -21,7 +21,8 @@ import './ClipboardButton.scss';
 const b = block('clipboard-button');
 
 export interface ClipboardButtonProps
-    extends Omit<CopyToClipboardProps, 'children'>,
+    extends
+        Omit<CopyToClipboardProps, 'children'>,
         Omit<ClipboardButtonComponentProps, 'status' | 'closeDelay'> {}
 
 interface ClipboardButtonComponentProps extends Omit<ButtonButtonProps, 'onCopy'> {

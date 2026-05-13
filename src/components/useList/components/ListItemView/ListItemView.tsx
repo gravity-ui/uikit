@@ -29,8 +29,10 @@ export interface ListItemViewCommonProps<T extends React.ElementType = 'li'> ext
     content: ListItemViewContentType;
 }
 
-export interface ListItemViewProps<T extends React.ElementType = 'li'>
-    extends Omit<ListItemViewCommonProps<T>, 'content'> {
+export interface ListItemViewProps<T extends React.ElementType = 'li'> extends Omit<
+    ListItemViewCommonProps<T>,
+    'content'
+> {
     /**
      * Ability to override default html tag
      */

@@ -54,9 +54,7 @@ export const UseSelectOptionsShowcase = () => {
         );
         const allVisibleOptionsSelected = Boolean(
             value.length &&
-                filteredOptionsWithoutGroupLabels
-                    .map((o) => o.value)
-                    .every((o) => value.includes(o)),
+            filteredOptionsWithoutGroupLabels.map((o) => o.value).every((o) => value.includes(o)),
         );
 
         const handleAllOptionsButtonClick = () => {

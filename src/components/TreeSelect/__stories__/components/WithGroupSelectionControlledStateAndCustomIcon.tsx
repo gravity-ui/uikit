@@ -18,11 +18,10 @@ interface CustomDataStructure {
     a: string;
 }
 
-export interface WithGroupSelectionControlledStateAndCustomIconExampleProps
-    extends Omit<
-        TreeSelectProps<CustomDataStructure>,
-        'value' | 'onUpdate' | 'items' | 'mapItemDataToContentProps' | 'size'
-    > {
+export interface WithGroupSelectionControlledStateAndCustomIconExampleProps extends Omit<
+    TreeSelectProps<CustomDataStructure>,
+    'value' | 'onUpdate' | 'items' | 'mapItemDataToContentProps' | 'size'
+> {
     itemsCount?: number;
 }
 

@@ -1,6 +1,6 @@
 import type {StorybookConfig} from '@storybook/react-webpack5';
 
-import {sassFunctions} from '../build-utils/sass-functions';
+import {sassFunctions} from '../build-utils/sass-functions.js';
 
 const config: StorybookConfig = {
     framework: '@storybook/react-webpack5',
@@ -9,28 +9,6 @@ const config: StorybookConfig = {
         defaultName: 'Docs',
     },
     addons: [
-        {
-            name: '@storybook/addon-styling-webpack',
-            options: {
-                rules: [
-                    {
-                        test: /\.(css|scss)$/i,
-                        use: [
-                            'style-loader',
-                            'css-loader',
-                            {
-                                loader: 'sass-loader',
-                                options: {
-                                    sassOptions: {
-                                        functions: sassFunctions,
-                                    },
-                                },
-                            },
-                        ],
-                    },
-                ],
-            },
-        },
         './theme-addon/register.tsx',
         '@storybook/addon-a11y',
         '@storybook/addon-webpack5-compiler-babel',
@@ -41,6 +19,30 @@ const config: StorybookConfig = {
         reactDocgen: 'react-docgen-typescript',
     },
     webpackFinal: (webpackConfig, {configType}) => {
+        webpackConfig.resolve = webpackConfig.resolve ?? {};
+        webpackConfig.resolve.alias = {
+            ...(webpackConfig.resolve.alias ?? {}),
+            '@storybook/addon-docs$': '@storybook/addon-docs/blocks',
+        };
+
+        webpackConfig.module = webpackConfig.module ?? {rules: []};
+        webpackConfig.module.rules = webpackConfig.module.rules ?? [];
+        webpackConfig.module.rules.push({
+            test: /\.(css|scss)$/i,
+            use: [
+                'style-loader',
+                'css-loader',
+                {
+                    loader: 'sass-loader',
+                    options: {
+                        sassOptions: {
+                            functions: sassFunctions,
+                        },
+                    },
+                },
+            ],
+        });
+
         if (configType === 'DEVELOPMENT') {
             webpackConfig.devtool = 'source-map';
         }

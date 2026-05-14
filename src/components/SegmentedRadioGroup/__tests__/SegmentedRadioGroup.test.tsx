@@ -160,18 +160,25 @@ describe('SegmentedRadioGroup', () => {
         });
 
         test('call onFocus/onBlur', async () => {
+            const user = userEvent.setup();
+
             const handleOnFocus = jest.fn();
             const handleOnBlur = jest.fn();
             renderSegmentedRadioGroup({onBlur: handleOnBlur, onFocus: handleOnFocus});
 
             const component = screen.getByTestId(qaId);
             const radios = within(component).getAllByRole('radio');
-            const secondRadio = radios[1];
 
-            secondRadio.focus();
+            await user.tab();
+            expect(radios[0]).toHaveFocus();
             expect(handleOnFocus).toHaveBeenCalledTimes(1);
 
-            secondRadio.blur();
+            await user.keyboard('{ArrowRight}');
+            expect(radios[1]).toHaveFocus();
+
+            await user.tab();
+
+            expect(handleOnFocus).toHaveBeenCalledTimes(1);
             expect(handleOnBlur).toHaveBeenCalledTimes(1);
         });
 

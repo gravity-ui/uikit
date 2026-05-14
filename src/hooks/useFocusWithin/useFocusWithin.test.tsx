@@ -1,7 +1,9 @@
+import * as React from 'react';
+
 import userEvent from '@testing-library/user-event';
 import ReactDom from 'react-dom';
 
-import {act, render, screen, waitFor} from '../../../test-utils/utils';
+import {render, screen, waitFor} from '../../../test-utils/utils';
 
 import {useFocusWithin} from './useFocusWithin';
 
@@ -80,21 +82,21 @@ describe('useFocusWithin', () => {
 
             return (
                 <div>
-                    <button {...focusWithinProps} data-qa="btn-1" />
-                    <button data-qa="btn-2" />
+                    <button {...focusWithinProps}>first</button>
+                    <button>second</button>
                 </div>
             );
         };
 
         render(<Component />);
 
-        const button = screen.getByTestId('btn-1');
+        const button = screen.getByRole('button', {name: 'first'});
 
         await user.tab();
         expect(button).toHaveFocus();
 
         await user.tab();
-        expect(screen.getByTestId('btn-2')).toHaveFocus();
+        expect(screen.getByRole('button', {name: 'second'})).toHaveFocus();
 
         expect(events).toEqual([
             {type: 'focus', target: button},
@@ -105,81 +107,108 @@ describe('useFocusWithin', () => {
     });
 
     it('should handle focus events on children', async () => {
+        const user = userEvent.setup();
+
         const events: any[] = [];
         const Component = () => {
             const {focusWithinProps} = useFocusWithin({
-                onFocusWithin: (e) => events.push({type: e.type, target: e.target}),
-                onBlurWithin: (e) => events.push({type: e.type, target: e.target}),
+                onFocusWithin: (e) =>
+                    events.push({type: e.type, target: e.target, currentTarget: e.currentTarget}),
+                onBlurWithin: (e) => {
+                    events.push({type: e.type, target: e.target, currentTarget: e.currentTarget});
+                },
                 onFocusWithinChange: (isFocused) => events.push({type: 'focuschange', isFocused}),
             });
 
             return (
-                <div {...focusWithinProps} tabIndex={-1} data-qa="component">
-                    <button />
+                <div>
+                    <div {...focusWithinProps} data-qa="container">
+                        <button>first</button>
+                        <button>second</button>
+                    </div>
+                    <button>outside</button>
                 </div>
             );
         };
 
         render(<Component />);
 
-        const el = screen.getByTestId('component');
-        const child = screen.getByRole('button');
+        const container = screen.getByTestId('container');
+        const firstButton = screen.getByRole('button', {name: 'first'});
+        const secondButton = screen.getByRole('button', {name: 'second'});
+        const outsideButton = screen.getByRole('button', {name: 'outside'});
 
-        act(() => {
-            child.focus();
-        });
+        await user.tab();
+        expect(firstButton).toHaveFocus();
 
-        el.focus();
-        child.focus();
+        await user.tab();
+        expect(secondButton).toHaveFocus();
 
-        act(() => {
-            child.blur();
-        });
+        await user.tab();
+        expect(outsideButton).toHaveFocus();
 
         expect(events).toEqual([
-            {type: 'focus', target: child},
+            {type: 'focus', target: firstButton, currentTarget: container},
             {type: 'focuschange', isFocused: true},
-            {type: 'blur', target: child},
+            {type: 'blur', target: secondButton, currentTarget: container},
             {type: 'focuschange', isFocused: false},
         ]);
     });
 
     it('should handle focus events on children within portal', async () => {
+        const user = userEvent.setup();
         const events: any[] = [];
         const Component = () => {
             const {focusWithinProps} = useFocusWithin({
-                onFocusWithin: (e) => events.push({type: e.type, target: e.target}),
-                onBlurWithin: (e) => events.push({type: e.type, target: e.target}),
+                onFocusWithin: (e) =>
+                    events.push({type: e.type, target: e.target, currentTarget: e.currentTarget}),
+                onBlurWithin: (e) => {
+                    events.push({type: e.type, target: e.target, currentTarget: e.currentTarget});
+                },
                 onFocusWithinChange: (isFocused) => events.push({type: 'focuschange', isFocused}),
             });
 
+            const [portal, setPortal] = React.useState<HTMLDivElement | null>(null);
+
             return (
-                <div {...focusWithinProps} tabIndex={-1} data-qa="component">
-                    {ReactDom.createPortal(<button />, document.body)}
+                <div>
+                    <div ref={setPortal} />
+                    <div {...focusWithinProps} data-qa="container">
+                        {portal
+                            ? ReactDom.createPortal(
+                                  <div>
+                                      <button>first</button>
+                                      <button>second</button>
+                                  </div>,
+                                  portal,
+                              )
+                            : null}
+                    </div>
+                    <button>outside</button>
                 </div>
             );
         };
 
         render(<Component />);
 
-        const el = screen.getByTestId('component');
-        const child = screen.getByRole('button');
+        const container = screen.getByTestId('container');
+        const firstButton = screen.getByRole('button', {name: 'first'});
+        const secondButton = screen.getByRole('button', {name: 'second'});
+        const outsideButton = screen.getByRole('button', {name: 'outside'});
 
-        act(() => {
-            child.focus();
-        });
+        await user.tab();
+        expect(firstButton).toHaveFocus();
 
-        el.focus();
-        child.focus();
+        await user.tab();
+        expect(secondButton).toHaveFocus();
 
-        act(() => {
-            child.blur();
-        });
+        await user.tab();
+        expect(outsideButton).toHaveFocus();
 
         expect(events).toEqual([
-            {type: 'focus', target: child},
+            {type: 'focus', target: firstButton, currentTarget: container},
             {type: 'focuschange', isFocused: true},
-            {type: 'blur', target: child},
+            {type: 'blur', target: secondButton, currentTarget: container},
             {type: 'focuschange', isFocused: false},
         ]);
     });
@@ -196,8 +225,8 @@ describe('useFocusWithin', () => {
             });
             return (
                 <div {...focusWithinProps}>
-                    <button data-qa="btn-1" />
-                    <button disabled={props.disabled} data-qa="btn-2" />
+                    <button>first</button>
+                    <button disabled={props.disabled}>second</button>
                 </div>
             );
         }
@@ -205,9 +234,9 @@ describe('useFocusWithin', () => {
         const {rerender} = render(<Component />);
 
         await user.tab();
-        expect(screen.getByTestId('btn-1')).toHaveFocus();
+        expect(screen.getByRole('button', {name: 'first'})).toHaveFocus();
         await user.tab();
-        expect(screen.getByTestId('btn-2')).toHaveFocus();
+        expect(screen.getByRole('button', {name: 'second'})).toHaveFocus();
 
         expect(onFocus).toHaveBeenCalledTimes(1);
         expect(onBlur).not.toHaveBeenCalled();
@@ -218,7 +247,9 @@ describe('useFocusWithin', () => {
         expect(onFocus).toHaveBeenCalledTimes(1);
     });
 
-    it('should not handle focus events if disabled', () => {
+    it('should not handle focus events if disabled', async () => {
+        const user = userEvent.setup();
+
         const events: any[] = [];
         const Component = () => {
             const {focusWithinProps} = useFocusWithin({
@@ -235,13 +266,11 @@ describe('useFocusWithin', () => {
 
         const button = screen.getByRole('button');
 
-        act(() => {
-            button.focus();
-        });
+        await user.tab();
+        expect(button).toHaveFocus();
 
-        act(() => {
-            button.blur();
-        });
+        await user.tab();
+        expect(button).not.toHaveFocus();
 
         expect(events).toEqual([]);
     });

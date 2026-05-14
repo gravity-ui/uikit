@@ -7,12 +7,16 @@ import {useArgs} from 'storybook/preview-api';
 
 import {Select} from '..';
 import {Button} from '../../Button';
+import {Checkbox} from '../../Checkbox';
 import {Icon} from '../../Icon';
+import {Radio} from '../../Radio';
 import {Text} from '../../Text';
 import {Tooltip} from '../../Tooltip';
 import {TextInput} from '../../controls';
 import {Flex} from '../../layout';
+import {useMobile} from '../../mobile';
 import {block} from '../../utils/cn';
+import type {SelectOption, SelectRenderOption, SelectRenderOptionViewParams} from '../types';
 
 import {SelectPopupWidthShowcase} from './SelectPopupWidthShowcase';
 import {UseSelectOptionsShowcase} from './UseSelectOptionsShowcase';
@@ -272,6 +276,105 @@ export const WithUserSelectedOptions: Story = {
     },
 };
 
+const renderOptionLayout = (
+    option: SelectOption,
+    {itemHeight}: SelectRenderOptionViewParams,
+    control: React.ReactNode,
+) => (
+    <Flex
+        justifyContent="space-between"
+        alignItems="center"
+        gap={3}
+        style={{width: '100%', minHeight: itemHeight}}
+    >
+        <Text variant="body-1" ellipsis>
+            {option.content}
+        </Text>
+        {control}
+    </Flex>
+);
+
+export const WithUserOptionRadio: Story = {
+    tags: ['!dev'],
+    decorators: [WithTitle],
+    args: {
+        ...showcaseArgs,
+        value: ['val1'],
+    },
+    render: (args) => {
+        const mobile = useMobile();
+        const [{value}, setArgs] = useArgs<typeof args>();
+
+        const renderOption: SelectRenderOption<any> | undefined = mobile
+            ? (option, params) =>
+                  renderOptionLayout(
+                      option,
+                      params,
+                      <Radio
+                          size="l"
+                          name="select-story-portfolio-primary"
+                          value={option.value}
+                          checked={params.selected}
+                          disabled={option.disabled}
+                      />,
+                  )
+            : undefined;
+
+        return (
+            <Select
+                {...args}
+                value={value ?? []}
+                onUpdate={(values) => setArgs({value: values})}
+                renderOption={renderOption}
+                popupClassName={mobile ? b('custom-select-popup') : undefined}
+            >
+                <Select.Option value="val1" content="Value1" />
+                <Select.Option value="val2" content="Value2" />
+                <Select.Option value="val3" content="Value3" />
+                <Select.Option value="val4" content="Value4" />
+            </Select>
+        );
+    },
+};
+
+export const WithUserOptionCheckboxes: Story = {
+    tags: ['!dev'],
+    decorators: [WithTitle],
+    args: {
+        ...showcaseArgs,
+        multiple: true,
+        value: ['val1', 'val2', 'val3'],
+    },
+    render: (args) => {
+        const mobile = useMobile();
+        const [{value}, setArgs] = useArgs<typeof args>();
+
+        const renderOption: SelectRenderOption<any> | undefined = mobile
+            ? (option, params) =>
+                  renderOptionLayout(
+                      option,
+                      params,
+                      <Checkbox size="l" checked={params.selected} disabled={option.disabled} />,
+                  )
+            : undefined;
+
+        return (
+            <Select
+                {...args}
+                value={value ?? []}
+                onUpdate={(values) => setArgs({value: values})}
+                renderOption={renderOption}
+                popupClassName={mobile ? b('custom-select-popup') : undefined}
+            >
+                <Select.Option value="val1" content="Value1" />
+                <Select.Option value="val2" content="Value2" />
+                <Select.Option value="val3" content="Value3" />
+                <Select.Option value="val4" content="Value4" />
+            </Select>
+        );
+    },
+};
+
 export const WithUserControlAndNativeCustomIcon: Story = {
     tags: ['!dev'],
     decorators: [WithTitle],
@@ -499,6 +602,7 @@ export const WithCustomPopup: Story = {
     args: {
         ...showcaseArgs,
         filterable: true,
+        label: 'Custom select label',
     },
     render: (args) => {
         const [{value}, setArgs] = useArgs<typeof args>();
@@ -508,9 +612,10 @@ export const WithCustomPopup: Story = {
                 {...args}
                 value={value}
                 onUpdate={(values) => setArgs({value: values})}
-                renderPopup={({renderFilter, renderList}) => {
+                renderPopup={({renderLabel, renderFilter, renderList}) => {
                     return (
                         <React.Fragment>
+                            {renderLabel()}
                             <div>{'---- Before Filter ----'}</div>
                             {renderFilter()}
                             <div>{'---- After Filter, Before List ----'}</div>

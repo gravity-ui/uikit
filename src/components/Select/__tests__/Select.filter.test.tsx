@@ -42,9 +42,10 @@ const RENDER_CUSTOM_FILTER: SelectProps['renderFilter'] = (props) => {
     );
 };
 
-const RENDER_POPUP: SelectRenderPopup = ({renderList, renderFilter}) => {
+const RENDER_POPUP: SelectRenderPopup = ({renderList, renderFilter, renderLabel}) => {
     return (
         <React.Fragment>
+            {renderLabel()}
             {renderFilter()}
             {renderList()}
         </React.Fragment>

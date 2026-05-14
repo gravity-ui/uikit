@@ -2,7 +2,13 @@
 
 import * as React from 'react';
 
-import {CircleCheck, CircleInfo, Thunderbolt, TriangleExclamation, Xmark} from '@gravity-ui/icons';
+import {
+    CircleCheckFill,
+    CircleInfoFill,
+    ThunderboltFill,
+    TriangleExclamationFill,
+    Xmark,
+} from '@gravity-ui/icons';
 
 import {useCloseOnTimeout} from '../../../hooks/private';
 import {Button} from '../../Button';
@@ -18,11 +24,11 @@ const b = block('toast');
 const DEFAULT_TIMEOUT = 5000;
 const TITLE_ICONS: Record<ToastTheme, IconProps['data'] | null> = {
     normal: null,
-    info: CircleInfo,
-    success: CircleCheck,
-    warning: TriangleExclamation,
-    danger: TriangleExclamation,
-    utility: Thunderbolt,
+    info: CircleInfoFill,
+    success: CircleCheckFill,
+    warning: TriangleExclamationFill,
+    danger: TriangleExclamationFill,
+    utility: ThunderboltFill,
 };
 
 interface ToastInnerProps {

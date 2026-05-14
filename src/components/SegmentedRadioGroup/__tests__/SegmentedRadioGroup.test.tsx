@@ -2,15 +2,15 @@ import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {SegmentedRadioGroup} from '../';
+import {SegmentedRadioGroup} from '..';
 import type {
     SegmentedRadioGroupOptionProps,
     SegmentedRadioGroupProps,
     SegmentedRadioGroupSize,
     SegmentedRadioGroupWidth,
-} from '../';
+} from '..';
 import {render, screen, within} from '../../../../test-utils/utils';
-import {block} from '../../../components/utils/cn';
+import {block} from '../../utils/cn';
 
 const qaId = 'segmented-radio-group-component';
 const b = block('segmented-radio-group');

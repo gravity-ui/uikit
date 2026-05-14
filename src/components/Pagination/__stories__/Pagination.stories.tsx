@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
-import {Pagination} from '../../Pagination';
-import type {PaginationProps} from '../../Pagination';
+import {Pagination} from '..';
+import type {PaginationProps} from '..';
 
 const useState = (args: PaginationProps) => {
     const [state, setState] = React.useState({...args});

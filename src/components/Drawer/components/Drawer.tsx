@@ -11,10 +11,9 @@ import {
     useRole,
 } from '@floating-ui/react';
 
-import type {ModalProps} from 'src/components/Modal';
-
 import {useForkRef} from '../../../hooks';
 import {useFloatingTransition} from '../../../hooks/private/useFloatingTransition';
+import type {ModalProps} from '../../Modal';
 import {Portal} from '../../Portal';
 import {block} from '../../utils/cn';
 import {filterDOMProps} from '../../utils/filterDOMProps';

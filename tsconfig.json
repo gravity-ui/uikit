@@ -7,13 +7,12 @@
         "module": "esnext",
         "moduleResolution": "bundler",
         "jsx": "react-jsx",
-        "baseUrl": ".",
         "resolveJsonModule": true,
         "importHelpers": true,
         "verbatimModuleSyntax": true,
         "paths": {
             "~playwright/*": [
-                "playwright/*"
+                "./playwright/*"
             ]
         }
     },

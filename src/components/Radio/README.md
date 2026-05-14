@@ -17,21 +17,19 @@ The `Radio` component allows the users to select a single option from a list of 
 - Checked: Radio is selected.
 - Disabled: Radio is unavailable for selection.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Radio} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Radio value="option 1" content="Unchecked" size="l" checked={false}/>
-<Radio value="option 2" content="Checked" size="l" checked/>
-<Radio value="option 3" content="Disabled" size="l" disabled/>
-`}
->
-    <UIKit.Radio value="option 1" content="Unchecked" size="l" checked={false}/>
-    <UIKit.Radio value="option 2" content="Checked" size="l" checked/>
-    <UIKit.Radio value="option 3" content="Disabled" size="l" disabled/>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <Radio value="option 1" content="Unchecked" size="l" checked={false} />
+            <Radio value="option 2" content="Checked" size="l" checked />
+            <Radio value="option 3" content="Disabled" size="l" disabled />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -47,19 +45,18 @@ LANDING_BLOCK-->
 
 To manage the `Radio` size, use the `size` property. The default size is `m`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Radio} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Radio value="option 1" content="M Size" size="m"/>
-<Radio value="option 2" content="L Size" size="l"/>
-`}
->
-    <UIKit.Radio value="option 1" content="M Size" size="m"/>
-    <UIKit.Radio value="option 2" content="L Size" size="l"/>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <Radio value="option 1" content="M Size" size="m" />
+            <Radio value="option 2" content="L Size" size="l" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -74,39 +71,22 @@ LANDING_BLOCK-->
 
 You can assign a label to a `Radio` using the `content` property or provide it as a child property.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Box, Radio} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<div>
-  <Radio content="Content" size="l" />
-  <div
-    style={{
-      marginTop: 10,
-    }}
-  >
-    <Radio size="l">
-      <span>Content as children</span>
-    </Radio>
-  </div>
-</div>
-`}
->
-<div>
-  <UIKit.Radio content="Content" size="l" />
-  <div
-    style={{
-      marginTop: 10,
-    }}
-  >
-    <UIKit.Radio size="l">
-      <span>Content as children</span>
-    </UIKit.Radio>
-  </div>
-</div>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <div>
+            <Radio value="option-1" content="Content" size="l" />
+            <Box spacing={{mt: 2}}>
+                <Radio value="option-2" size="l">
+                    <span>Content as children</span>
+                </Radio>
+            </Box>
+        </div>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

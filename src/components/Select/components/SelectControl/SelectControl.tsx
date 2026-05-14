@@ -164,6 +164,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         'aria-controls': open ? popupId : undefined,
         'aria-haspopup': 'listbox',
         'aria-expanded': open,
+        'aria-invalid': isErrorVisible || undefined,
         'aria-activedescendant':
             activeIndex === undefined ? undefined : `${popupId}-item-${activeIndex}`,
         onClick: handleControlClick,

@@ -1,0 +1,20 @@
+@use 'sass:map';
+@use '../../variables';
+@use '../../Button/variables' as button-variables;
+@use '../../../../styles/mixins';
+
+$block: '.#{variables.$ns}skeleton-button';
+
+#{$block} {
+    &_size {
+        @each $size-name, $size-values in button-variables.$sizes {
+            &_#{$size-name} {
+                --_--border-radius: #{map.get($size-values, 'border-radius')};
+
+                height: #{map.get($size-values, 'height')};
+            }
+        }
+    }
+
+    @include mixins.pin($block, $block, var(--_--border-radius));
+}

@@ -1,0 +1,16 @@
+@use '../../variables';
+@use '../../Avatar/variables' as avatar-variables;
+
+$block: '.#{variables.$ns}skeleton-user-label';
+
+#{$block} {
+    border-radius: var(--g-user-label-border-radius, 25px);
+
+    &_size {
+        @each $size-name, $size-value in avatar-variables.$sizes {
+            &_#{$size-name} {
+                height: var(--g-user-label-size, #{$size-value});
+            }
+        }
+    }
+}

@@ -1,0 +1,25 @@
+// Size map for Button component.
+// Each entry: (height, border-radius-token)
+// Used by Button.scss and SkeletonButton.scss as the single source of truth.
+$sizes: (
+    'xs': (
+        height: 20px,
+        border-radius: var(--g-border-radius-xs),
+    ),
+    's': (
+        height: 24px,
+        border-radius: var(--g-border-radius-s),
+    ),
+    'm': (
+        height: 28px,
+        border-radius: var(--g-border-radius-m),
+    ),
+    'l': (
+        height: 36px,
+        border-radius: var(--g-border-radius-l),
+    ),
+    'xl': (
+        height: 44px,
+        border-radius: var(--g-border-radius-xl),
+    ),
+);

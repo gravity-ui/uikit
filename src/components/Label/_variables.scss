@@ -1,0 +1,21 @@
+// Size map for Label component.
+// Each entry: (height, border-radius-token)
+// Used by Label.scss and SkeletonLabel.scss as the single source of truth.
+$sizes: (
+    'xxs': (
+        height: 18px,
+        border-radius: var(--g-border-radius-xs),
+    ),
+    'xs': (
+        height: 20px,
+        border-radius: var(--g-border-radius-xs),
+    ),
+    's': (
+        height: 24px,
+        border-radius: var(--g-border-radius-s),
+    ),
+    'm': (
+        height: 28px,
+        border-radius: var(--g-border-radius-m),
+    ),
+);

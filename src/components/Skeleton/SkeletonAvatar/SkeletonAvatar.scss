@@ -1,0 +1,47 @@
+@use '../../variables';
+@use '../../Avatar/variables' as avatar-variables;
+
+$block: '.#{variables.$ns}skeleton-avatar';
+
+#{$block} {
+    flex-shrink: 0;
+
+    &_size {
+        @each $size-name, $size-value in avatar-variables.$sizes {
+            &_#{$size-name} {
+                width: #{$size-value};
+                height: #{$size-value};
+            }
+        }
+    }
+
+    &_shape_circle {
+        border-radius: 50%;
+    }
+
+    &_shape_square {
+        &#{$block}_size {
+            &_3xs,
+            &_2xs,
+            &_xs {
+                border-radius: var(--g-border-radius-xs);
+            }
+
+            &_s {
+                border-radius: var(--g-border-radius-s);
+            }
+
+            &_m {
+                border-radius: var(--g-border-radius-m);
+            }
+
+            &_l {
+                border-radius: var(--g-border-radius-l);
+            }
+
+            &_xl {
+                border-radius: var(--g-border-radius-xl);
+            }
+        }
+    }
+}

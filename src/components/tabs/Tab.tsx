@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import {Label} from '../Label';
+import {MenuItem} from '../lab/Menu';
 
 import {bTab} from './constants';
 import {useTab} from './hooks/useTab';
@@ -36,19 +37,46 @@ export const Tab = React.forwardRef<HTMLAnchorElement | HTMLButtonElement, TabPr
     );
 
     if (isTabComponentProps(props)) {
-        return React.createElement(props.component, {...tabProps, ref});
+        return React.createElement(props.component, {
+            ...tabProps,
+            ref,
+            isMenuItem: props.isMenuItem || false,
+        });
     }
 
     if (isTabLinkProps(props)) {
+        const rel = props.target === '_blank' && !props.rel ? 'noopener noreferrer' : props.rel;
+
+        if (props.isMenuItem) {
+            return (
+                <MenuItem
+                    {...tabProps}
+                    ref={ref as React.Ref<HTMLAnchorElement>}
+                    href={props.href}
+                    rel={rel}
+                >
+                    {content}
+                </MenuItem>
+            );
+        }
+
         return (
-            <a
-                {...tabProps}
-                ref={ref as React.Ref<HTMLAnchorElement>}
-                href={props.href}
-                rel={props.target === '_blank' && !props.rel ? 'noopener noreferrer' : props.rel}
-            >
+            <a {...tabProps} ref={ref as React.Ref<HTMLAnchorElement>} href={props.href} rel={rel}>
                 {content}
             </a>
+        );
+    }
+
+    if (props.isMenuItem) {
+        return (
+            <MenuItem
+                {...tabProps}
+                ref={ref as React.Ref<HTMLButtonElement>}
+                type={props.type || 'button'}
+                disabled={props.disabled}
+            >
+                {content}
+            </MenuItem>
         );
     }
 

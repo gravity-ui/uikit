@@ -193,4 +193,4 @@ import {Divider, Flex, Container} from '@gravity-ui/uikit';
 | Имя                 | Описание            |
 | :------------------ | :------------------ |
 | `--g-divider-color` | Цвет разделителя.   |
-| `--g-divider-size`  | Размер разделителя. |
+| `--g-divider-size`  | Размер разделителя. Для горизонтальной ориентации — `height`, для вертикальной — `width`. |

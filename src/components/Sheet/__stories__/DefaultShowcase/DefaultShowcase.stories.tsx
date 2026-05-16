@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
-import {Button, Checkbox, TextInput} from '../../../';
+import {Button, Checkbox, TextInput} from '../../..';
 import {cn} from '../../../utils/cn';
 import {Sheet} from '../../Sheet';
 import type {SheetProps} from '../../Sheet';

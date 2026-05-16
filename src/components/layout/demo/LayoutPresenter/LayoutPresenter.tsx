@@ -1,7 +1,7 @@
 import type * as React from 'react';
 
+import type {LayoutTheme} from '../..';
 import {Text} from '../../../Text';
-import type {LayoutTheme} from '../../../layout';
 import {ThemeProvider} from '../../../theme';
 import {Flex} from '../../Flex/Flex';
 import {useLayoutContext} from '../../hooks/useLayoutContext';

@@ -1,5 +1,19 @@
 # Changelog
 
+## [7.39.0](https://github.com/gravity-ui/uikit/compare/v7.38.0...v7.39.0) (2026-05-16)
+
+
+### Features
+
+* **useFocusWithin:** simplify detection of blur events ([#2677](https://github.com/gravity-ui/uikit/issues/2677)) ([2e771a1](https://github.com/gravity-ui/uikit/commit/2e771a1bfbc9c785457bd78fb955c3ca414ce703))
+
+
+### Bug Fixes
+
+* **palette:** update pallete icons size ([#2672](https://github.com/gravity-ui/uikit/issues/2672)) ([e03082b](https://github.com/gravity-ui/uikit/commit/e03082bf85d39f012986988ba7effe4bf5bac68f))
+* **Select:** aria-invalid attribute passing ([#2667](https://github.com/gravity-ui/uikit/issues/2667)) ([4469f06](https://github.com/gravity-ui/uikit/commit/4469f06e57e074aa6f6c19bcac1f8b4681252866))
+* **Sheet:** remove veil seam ([#2658](https://github.com/gravity-ui/uikit/issues/2658)) ([aaef441](https://github.com/gravity-ui/uikit/commit/aaef441c3e44a25dfa1c8d3be441dbce6b2662d3))
+
 ## [7.38.0](https://github.com/gravity-ui/uikit/compare/v7.37.0...v7.38.0) (2026-04-22)
 
 

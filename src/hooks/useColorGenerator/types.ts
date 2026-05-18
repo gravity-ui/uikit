@@ -1,4 +1,4 @@
-import type {ThemeType} from 'src/components';
+import type {ThemeType} from '../../components';
 
 export type ColorOptions = {
     lightness: [number, number];

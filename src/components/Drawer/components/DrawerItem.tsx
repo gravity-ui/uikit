@@ -1,7 +1,6 @@
 import * as React from 'react';
 
-import type {AriaLabelingProps} from 'src/components/types';
-
+import type {AriaLabelingProps} from '../../types';
 import {block} from '../../utils/cn';
 import {useResizableDrawerItem} from '../hooks/useResizableDrawerItem';
 import type {DrawerPlacement, OnResizeHandler} from '../hooks/useResizeHandlers';

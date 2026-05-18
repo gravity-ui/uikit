@@ -1,6 +1,6 @@
 import {Flame} from '@gravity-ui/icons';
 
-import {Tab, TabList} from '../';
+import {Tab, TabList} from '..';
 import {render, screen} from '../../../../test-utils/utils';
 
 import {tab1} from './constants';

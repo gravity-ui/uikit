@@ -12,27 +12,20 @@ import {DefinitionList} from '@gravity-ui/uikit';
 
 ## Примеры
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {DefinitionList} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<DefinitionList nameMaxWidth={100} contentMaxWidth={100}>
-    <DefinitionList.Item name="Node value with copy" copyText="value">
-        <strong>value with copy</strong>
-    </DefinitionList.Item>
-    <DefinitionList.Item name="Empty value with copy" copyText="nothing to copy" />
-</DefinitionList>
-`}
->
-<UIKit.DefinitionList nameMaxWidth={100} contentMaxWidth={100}>
-    <UIKit.DefinitionListItem name="Node value with copy" copyText="value">
-        <strong>value with copy</strong>
-    </UIKit.DefinitionListItem>
-    <UIKit.DefinitionListItem name="Empty value with copy" copyText="nothing to copy" />
-</UIKit.DefinitionList>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <DefinitionList nameMaxWidth={100} contentMaxWidth={100}>
+            <DefinitionList.Item name="Node value with copy" copyText="value">
+                <strong>value with copy</strong>
+            </DefinitionList.Item>
+            <DefinitionList.Item name="Empty value with copy" copyText="nothing to copy" />
+        </DefinitionList>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

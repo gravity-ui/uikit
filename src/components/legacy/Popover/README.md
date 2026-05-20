@@ -12,15 +12,13 @@ This component allows you to add a section with some pop-up content.
 
 ### Simple usage
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Popover content="Tooltip">Open a tooltip</Popover>
-`}
->
-    <UIKit.Popover content="Tooltip">Open a tooltip</UIKit.Popover>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Popover} from '@gravity-ui/uikit/legacy';
+
+export default function () {
+    return <Popover content="Tooltip">Open a tooltip</Popover>;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -32,15 +30,18 @@ LANDING_BLOCK-->
 
 ### With jsx content
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Popover content={<Loader size="s" />}>Open a tooltip</Popover>
-`}
->
-    <UIKit.Popover content={<UIKit.Loader size="s" />}>Open a tooltip</UIKit.Popover>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Loader} from '@gravity-ui/uikit';
+import {Popover} from '@gravity-ui/uikit/legacy';
+
+export default function () {
+    return (
+        <Popover content={<Loader size="s" />}>
+            Open a tooltip
+        </Popover>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -52,25 +53,21 @@ LANDING_BLOCK-->
 
 ### With html content
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Popover
-  htmlContent={
-    'Tooltip\'s <b>html</b> content. Learn more <a href="https://example.com" target="_blank">here</a>'
-  }
->
-  Open a tooltip
-</Popover>
-`}
->
-    <UIKit.Popover
-      htmlContent={
-        'Tooltip\'s <b>html</b> content. Learn more <a href="https://example.com" target="_blank">here</a>'
-      }
-    >Open a tooltip</UIKit.Popover>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Popover} from '@gravity-ui/uikit/legacy';
+
+export default function () {
+    return (
+        <Popover
+            htmlContent={
+                'Tooltip\'s <b>html</b> content. Learn more <a href="https://example.com" target="_blank">here</a>'
+            }
+        >
+            Open a tooltip
+        </Popover>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -88,30 +85,28 @@ LANDING_BLOCK-->
 
 ### With links
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Popover
-  links={[
-    {
-      text: 'Link with a href',
-      href: 'https://ya.ru',
-    },
-    {
-      text: 'Link with an onClick handler',
-      onClick: () => alert('The link is clicked'),
-    },
-  ]}
->
-  Open a tooltip
-</Popover>
-`}
->
-    <UIKit.Popover
-      links={[{text: 'Link with a href', href: 'https://ya.ru',},{text: 'Link with an onClick handler', onClick: () => alert('The link is clicked'),},]}
-    >Open a tooltip</UIKit.Popover>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Popover} from '@gravity-ui/uikit/legacy';
+
+export default function () {
+    return (
+        <Popover
+            links={[
+                {
+                    text: 'Link with a href',
+                    href: 'https://ya.ru',
+                },
+                {
+                    text: 'Link with an onClick handler',
+                    onClick: () => alert('The link is clicked'),
+                },
+            ]}
+        >
+            Open a tooltip
+        </Popover>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -136,27 +131,22 @@ LANDING_BLOCK-->
 
 ### With action button
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Popover
-  tooltipActionButton={{
-    text: 'Action',
-    onClick: () => console.log('Action button was clicked'),
-  }}
->
-  Open a tooltip
-</Popover>
-`}
->
-    <UIKit.Popover
-      tooltipActionButton={{
-        text: 'Action',
-        onClick: () => console.log('Action button was clicked'),
-      }}
-    >Open a tooltip</UIKit.Popover>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Popover} from '@gravity-ui/uikit/legacy';
+
+export default function () {
+    return (
+        <Popover
+            tooltipActionButton={{
+                text: 'Action',
+                onClick: () => console.log('Action button was clicked'),
+            }}
+        >
+            Open a tooltip
+        </Popover>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -175,15 +165,13 @@ LANDING_BLOCK-->
 
 ### With automatic closing when the cursor is outside for `delayClosing`
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Popover delayClosing={500}>Open a tooltip</Popover>
-`}
->
-    <UIKit.Popover delayClosing={500}>Open a tooltip</UIKit.Popover>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Popover} from '@gravity-ui/uikit/legacy';
+
+export default function () {
+    return <Popover delayClosing={500}>Open a tooltip</Popover>;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

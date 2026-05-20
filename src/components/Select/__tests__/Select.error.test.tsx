@@ -5,6 +5,20 @@ import {Select} from '../Select';
 import {SELECT_CONTROL_BUTTON_ERROR_CLASS, TEST_QA, setup} from './utils';
 
 describe('Select error', () => {
+    test('sets aria-invalid on the combobox when validationState is invalid', () => {
+        const {getByTestId} = setup({validationState: 'invalid'});
+        const selectControl = getByTestId(TEST_QA);
+
+        expect(selectControl).toHaveAttribute('aria-invalid', 'true');
+    });
+
+    test('does not set aria-invalid when validationState is not invalid', () => {
+        const {getByTestId} = setup({});
+        const selectControl = getByTestId(TEST_QA);
+
+        expect(selectControl).not.toHaveAttribute('aria-invalid');
+    });
+
     test('render error appearance with invalid state and without errorMessage', () => {
         const {getByTestId} = setup({validationState: 'invalid'});
         const selectControl = getByTestId(TEST_QA);

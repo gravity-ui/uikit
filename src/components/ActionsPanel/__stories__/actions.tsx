@@ -1,6 +1,6 @@
 import {ChevronDown, Files, PencilToSquare, TrashBin} from '@gravity-ui/icons';
 
-import type {ActionsPanelProps} from '../../ActionsPanel';
+import type {ActionsPanelProps} from '..';
 import {Icon} from '../../Icon';
 import {Flex} from '../../layout';
 

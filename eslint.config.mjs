@@ -47,6 +47,7 @@ export default defineConfig([
             'jsx-a11y/no-autofocus': 'off',
             'import/no-extraneous-dependencies': 'off',
             'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
+            'import/no-useless-path-segments': 'error',
             complexity: 'off',
         },
     },

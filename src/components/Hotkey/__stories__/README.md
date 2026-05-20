@@ -26,17 +26,18 @@ To render plus or minus literal use `plus` or `minus` keyword, e.q. `mod+plus mo
 
 `dark`: Used if the component is displayed on a dark background.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Hotkey view="light" value="mod+a mod+c mod+v" />
-<Hotkey view="dark" value="mod+a mod+c mod+v" />
-`}
->
-    <UIKit.Hotkey view="light" value="mod+a mod+c mod+v" />
-    <UIKit.Hotkey view="dark" value="mod+a mod+c mod+v" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Hotkey} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <Hotkey view="light" value="mod+a mod+c mod+v" />
+            <Hotkey view="dark" value="mod+a mod+c mod+v" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -55,19 +56,19 @@ LANDING_BLOCK-->
 
 By default, the platform is detected automatically.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Hotkey value="mod+a mod+c mod+v" />
-<Hotkey platform="pc" value="mod+a mod+c mod+v" />
-<Hotkey platform="mac" value="mod+a mod+c mod+v" />
-`}
->
-    <UIKit.Hotkey value="mod+a mod+c mod+v" />
-    <UIKit.Hotkey platform="pc" value="mod+a mod+c mod+v" />
-    <UIKit.Hotkey platform="mac" value="mod+a mod+c mod+v" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Hotkey} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <Hotkey value="mod+a mod+c mod+v" />
+            <Hotkey platform="pc" value="mod+a mod+c mod+v" />
+            <Hotkey platform="mac" value="mod+a mod+c mod+v" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

@@ -14,7 +14,7 @@ const TAB_LIST_COLLAPSE_CHILD_SELECTOR = `.${bTab()},.${bTabListCollapseItem()}`
 export type UseTabListCollapsedChildrenResult = {
     shownChildren: React.ReactElement[];
     collapsedChildren: React.ReactElement[];
-    selectedChild: React.ReactNode;
+    triggerChild: React.ReactNode;
     collapseItemRef: React.RefObject<HTMLButtonElement>;
 };
 
@@ -88,7 +88,7 @@ export const useTabListCollapsedChildren = (
             shownChildren: childrenList,
             collapsedChildren: [],
             collapseItemRef,
-            selectedChild: undefined,
+            triggerChild: undefined,
         };
     }
 
@@ -103,7 +103,7 @@ export const useTabListCollapsedChildren = (
                 shownChildren: selectedChild ? [selectedChild] : [],
                 collapsedChildren: [],
                 collapseItemRef,
-                selectedChild: undefined,
+                triggerChild: undefined,
             };
         }
 
@@ -123,7 +123,7 @@ export const useTabListCollapsedChildren = (
             shownChildren: hiddenSelectedChild ? [hiddenSelectedChild] : [],
             collapsedChildren: otherChildren,
             collapseItemRef,
-            selectedChild,
+            triggerChild: selectedChild,
         };
     }
 
@@ -148,5 +148,5 @@ export const useTabListCollapsedChildren = (
         }
     });
 
-    return {shownChildren, collapsedChildren, selectedChild: undefined, collapseItemRef};
+    return {shownChildren, collapsedChildren, triggerChild: undefined, collapseItemRef};
 };

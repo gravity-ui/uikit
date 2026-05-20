@@ -57,7 +57,7 @@ export const TabList = React.forwardRef<HTMLDivElement, TabListProps>((props, re
                         {collapsedChildrenResults.shownChildren}
                         <TabListCollapseItem
                             ref={collapsedChildrenResults.collapseItemRef}
-                            selectedChild={collapsedChildrenResults.selectedChild}
+                            triggerChild={collapsedChildrenResults.triggerChild}
                             size={props.size}
                         >
                             {collapsedChildrenResults.collapsedChildren}

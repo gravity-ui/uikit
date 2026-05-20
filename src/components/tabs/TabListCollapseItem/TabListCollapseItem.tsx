@@ -22,17 +22,17 @@ const CHEVRON_SIZE: Record<NonNullable<TabListCollapseItemProps['size']>, number
 
 export const TabListCollapseItem = React.forwardRef<HTMLButtonElement, TabListCollapseItemProps>(
     (
-        {children, selectedChild, size = 'm'}: TabListCollapseItemProps,
+        {children, triggerChild, size = 'm'}: TabListCollapseItemProps,
         ref: React.ForwardedRef<HTMLButtonElement>,
     ) => {
         const childrenCount = React.Children.count(children);
 
-        if (!childrenCount && !selectedChild) {
+        if (!childrenCount && !triggerChild) {
             return null;
         }
 
-        const selectedTabProps = selectedChild
-            ? getTabNodePropsFromReactNode(selectedChild)
+        const triggerChildTabProps = triggerChild
+            ? getTabNodePropsFromReactNode(triggerChild)
             : undefined;
 
         const trigger = (
@@ -42,21 +42,14 @@ export const TabListCollapseItem = React.forwardRef<HTMLButtonElement, TabListCo
                 alignItems="center"
                 gap="2"
                 className={[
-                    bTabListCollapseItem({lone: Boolean(selectedTabProps)}),
-                    selectedTabProps ? 'g-tab_active' : undefined,
+                    bTabListCollapseItem({lone: Boolean(triggerChildTabProps)}),
+                    triggerChildTabProps ? 'g-tab_active' : undefined,
                 ]
                     .filter(Boolean)
                     .join(' ')}
             >
-                {selectedTabProps ? (
-                    <TabContent
-                        icon={selectedTabProps.icon}
-                        value={selectedTabProps.value}
-                        counter={selectedTabProps.counter}
-                        label={selectedTabProps.label}
-                    >
-                        {selectedTabProps.children}
-                    </TabContent>
+                {triggerChildTabProps ? (
+                    <TabContent {...triggerChildTabProps} />
                 ) : (
                     <Text variant="inherit" className={bTabListCollapseItem('text')}>
                         More

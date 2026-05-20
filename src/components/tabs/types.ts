@@ -74,6 +74,6 @@ export interface TabPanelProps
 
 export interface TabListCollapseItemProps {
     children: React.ReactNode;
-    selectedChild?: React.ReactNode;
+    triggerChild?: React.ReactNode;
     size?: TabSize;
 }

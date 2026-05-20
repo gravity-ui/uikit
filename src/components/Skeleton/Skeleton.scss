@@ -11,10 +11,42 @@ $block: '.#{variables.$ns}skeleton';
     position: relative;
     z-index: 0;
     width: 100%;
-    border-radius: 5px;
     overflow: hidden;
 
     background-color: var(--g-color-base-generic);
+
+    &_children {
+        display: inline-flex;
+        width: unset;
+        height: unset;
+
+        > * {
+            /* stylelint-disable-next-line declaration-no-important */
+            opacity: 0 !important;
+        }
+    }
+
+    &_variant {
+        &_rounded {
+            border-radius: 5px;
+        }
+
+        &_square {
+            border-radius: 0;
+        }
+
+        &_circle {
+            border-radius: 50%;
+        }
+
+        &_text {
+            display: block;
+            width: 100%;
+            height: 1em;
+            margin-block: calc((1lh - 1em) / 2);
+            border-radius: 3px;
+        }
+    }
 
     &_animation_gradient {
         &::after {

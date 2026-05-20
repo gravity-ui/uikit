@@ -23,7 +23,6 @@ const preview: Preview = {
             codePanel: true,
         },
         jsx: {showFunctions: true}, // To show functions in sources
-        backgrounds: {disabled: true},
         viewport: {
             options: MINIMAL_VIEWPORTS,
         },

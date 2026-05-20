@@ -15,9 +15,15 @@ $block: '.#{variables.$ns}tab-list-collapse-item';
     --_--text-color: var(--g-color-text-secondary);
     --_--count-color: var(--g-color-text-hint);
 
-    &:hover {
+    &:hover,
+    &:focus-visible {
         --_--text-color: var(--g-color-text-primary);
         --_--count-color: var(--g-color-text-secondary);
+    }
+
+    &:focus-visible {
+        @include mixins.focus-outline();
+        outline-offset: -2px;
     }
 
     &__text {

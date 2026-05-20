@@ -35,7 +35,12 @@ export const TabListCollapseItem = React.forwardRef<HTMLButtonElement, TabListCo
                 as="button"
                 alignItems="center"
                 gap="2"
-                className={bTabListCollapseItem({lone: Boolean(selectedTabProps)})}
+                className={[
+                    bTabListCollapseItem({lone: Boolean(selectedTabProps)}),
+                    selectedTabProps ? 'g-tab_active' : undefined,
+                ]
+                    .filter(Boolean)
+                    .join(' ')}
             >
                 {selectedTabProps ? (
                     <TabContent

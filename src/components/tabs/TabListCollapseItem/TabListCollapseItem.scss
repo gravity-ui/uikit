@@ -30,6 +30,11 @@ $block: '.#{variables.$ns}tab-list-collapse-item';
 
     &_lone {
         flex-grow: 1;
+        border-block-end-color: var(--g-color-line-brand);
+
+        #{$block}__count {
+            margin-inline-start: auto;
+        }
     }
 
     &__menu-item {

@@ -22,12 +22,6 @@ const config: StorybookConfig = {
         reactDocgen: 'react-docgen-typescript',
     },
     webpackFinal: (webpackConfig, {configType}) => {
-        webpackConfig.resolve = webpackConfig.resolve ?? {};
-        webpackConfig.resolve.alias = {
-            ...(webpackConfig.resolve.alias ?? {}),
-            '@storybook/addon-docs$': '@storybook/addon-docs/blocks',
-        };
-
         webpackConfig.module = webpackConfig.module ?? {rules: []};
         webpackConfig.module.rules = webpackConfig.module.rules ?? [];
         webpackConfig.module.rules.push({

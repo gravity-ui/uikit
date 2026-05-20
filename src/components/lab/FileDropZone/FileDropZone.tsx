@@ -1,9 +1,8 @@
 import * as React from 'react';
 
-import type {BaseInputControlProps} from 'src/components/controls/types';
-import type {UseDropZoneAccept} from 'src/hooks/lab/useDropZone';
-
 import type {IconData} from '../..';
+import type {UseDropZoneAccept} from '../../../hooks/lab/useDropZone';
+import type {BaseInputControlProps} from '../../controls/types';
 
 import {FileDropZoneProvider, useFileZoneContext} from './FileDropZone.Provider';
 import {cnFileDropZone} from './FileDropZone.classname';

@@ -55,7 +55,10 @@ export const TabList = React.forwardRef<HTMLDivElement, TabListProps>((props, re
                 {collapseEnabled ? (
                     <React.Fragment>
                         {collapsedChildrenResults.shownChildren}
-                        <TabListCollapseItem ref={collapsedChildrenResults.collapseItemRef}>
+                        <TabListCollapseItem
+                            ref={collapsedChildrenResults.collapseItemRef}
+                            selectedChild={collapsedChildrenResults.selectedChild}
+                        >
                             {collapsedChildrenResults.collapsedChildren}
                         </TabListCollapseItem>
                     </React.Fragment>

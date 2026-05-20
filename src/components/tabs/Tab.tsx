@@ -2,10 +2,9 @@
 
 import * as React from 'react';
 
-import {Label} from '../Label';
 import {MenuItem} from '../lab/Menu';
 
-import {bTab} from './constants';
+import {TabContent} from './TabContent';
 import {useTab} from './hooks/useTab';
 import type {TabComponentElementType, TabProps} from './types';
 import {isTabComponentProps, isTabLinkProps} from './utils';
@@ -24,16 +23,14 @@ export const Tab = React.forwardRef<HTMLAnchorElement | HTMLButtonElement, TabPr
     const tabProps = useTab(props);
 
     const content = (
-        <div className={bTab('content')}>
-            {props.icon && <div className={bTab('icon')}>{props.icon}</div>}
-            <div className={bTab('title')}>{props.children || props.value}</div>
-            {props.counter !== undefined && <div className={bTab('counter')}>{props.counter}</div>}
-            {props.label && (
-                <Label className={bTab('label')} theme={props.label.theme}>
-                    {props.label.content}
-                </Label>
-            )}
-        </div>
+        <TabContent
+            icon={props.icon}
+            value={props.value}
+            counter={props.counter}
+            label={props.label}
+        >
+            {props.children}
+        </TabContent>
     );
 
     if (isTabComponentProps(props)) {

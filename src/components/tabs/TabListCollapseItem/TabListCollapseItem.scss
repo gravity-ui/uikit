@@ -28,6 +28,10 @@ $block: '.#{variables.$ns}tab-list-collapse-item';
         color: var(--_--count-color);
     }
 
+    &_lone {
+        flex-grow: 1;
+    }
+
     &__menu-item {
         padding: 0;
 

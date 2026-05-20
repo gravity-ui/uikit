@@ -7,6 +7,7 @@ import {Text} from '../../Text';
 import {Menu} from '../../lab/Menu';
 import {Flex} from '../../layout';
 import {Tab} from '../Tab';
+import {TabContent} from '../TabContent';
 import {bTabListCollapseItem} from '../constants';
 import type {TabListCollapseItemProps, TabProps} from '../types';
 import {getTabNodePropsFromReactNode} from '../utils';
@@ -14,34 +15,51 @@ import {getTabNodePropsFromReactNode} from '../utils';
 import './TabListCollapseItem.scss';
 
 export const TabListCollapseItem = React.forwardRef<HTMLButtonElement, TabListCollapseItemProps>(
-    ({children}: TabListCollapseItemProps, ref: React.ForwardedRef<HTMLButtonElement>) => {
+    (
+        {children, selectedChild}: TabListCollapseItemProps,
+        ref: React.ForwardedRef<HTMLButtonElement>,
+    ) => {
         const childrenCount = React.Children.count(children);
 
-        if (!childrenCount) {
+        if (!childrenCount && !selectedChild) {
             return null;
         }
 
-        return (
-            <Menu
-                placement={['bottom-start', 'bottom-end']}
-                trigger={
-                    <Flex
-                        ref={ref}
-                        as="button"
-                        alignItems="center"
-                        gap="2"
-                        className={bTabListCollapseItem()}
-                    >
-                        <Text variant="inherit" className={bTabListCollapseItem('text')}>
-                            More
-                        </Text>
-                        <Text variant="inherit" className={bTabListCollapseItem('count')}>
-                            {childrenCount}
-                        </Text>
-                        <Icon data={ChevronDown} />
-                    </Flex>
-                }
+        const selectedTabProps = selectedChild
+            ? getTabNodePropsFromReactNode(selectedChild)
+            : undefined;
+
+        const trigger = (
+            <Flex
+                ref={ref}
+                as="button"
+                alignItems="center"
+                gap="2"
+                className={bTabListCollapseItem({lone: Boolean(selectedTabProps)})}
             >
+                {selectedTabProps ? (
+                    <TabContent
+                        icon={selectedTabProps.icon}
+                        value={selectedTabProps.value}
+                        counter={selectedTabProps.counter}
+                        label={selectedTabProps.label}
+                    >
+                        {selectedTabProps.children}
+                    </TabContent>
+                ) : (
+                    <Text variant="inherit" className={bTabListCollapseItem('text')}>
+                        More
+                    </Text>
+                )}
+                <Text variant="inherit" className={bTabListCollapseItem('count')}>
+                    {childrenCount}
+                </Text>
+                <Icon data={ChevronDown} className={bTabListCollapseItem('chevron')} />
+            </Flex>
+        );
+
+        return (
+            <Menu placement={['bottom-start', 'bottom-end']} trigger={trigger}>
                 {React.Children.map(children, (child, index) => {
                     if (!React.isValidElement<TabProps>(child)) {
                         return null;

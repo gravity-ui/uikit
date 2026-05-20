@@ -8,6 +8,7 @@ import {sizeCases, valueCases} from './cases';
 import {
     TestTabList,
     TestTabListCollapse,
+    TestTabListCollapseSelectedAsTrigger,
     TestTabListContentOverflow,
     TestTabListScroll,
     TestTabListWithCustomTabs,
@@ -135,6 +136,45 @@ test.describe('TabList', {tag: '@TabList'}, () => {
 
             await expectScreenshot({
                 name: 'with-contentOverflow-collapse-value-fifth',
+                themes: ['light'],
+            });
+        },
+    );
+
+    test(
+        'smoke with contentOverflow collapse selected as trigger',
+        {tag: ['@smoke']},
+        async ({mount, page, expectScreenshot}) => {
+            await mount(<TestTabListCollapseSelectedAsTrigger />);
+
+            // The collapse item should show active tab content as trigger (not "More")
+            const collapseItem = page.locator('button.g-tab-list-collapse-item');
+            await expect(collapseItem).toBeVisible();
+            await expect(collapseItem).not.toContainText('More');
+
+            await expectScreenshot({
+                name: 'with-contentOverflow-collapse-selected-as-trigger-initial',
+                themes: ['light'],
+            });
+
+            // Dropdown menu should open when collapse item is clicked
+            await collapseItem.click();
+            await expect(page.locator('div[role="menu"]')).toBeVisible();
+
+            await expectScreenshot({
+                name: 'with-contentOverflow-collapse-selected-as-trigger-menu-open',
+                themes: ['light'],
+            });
+
+            // Other tab should be selected and rendered as trigger (not "More")
+            await page.getByRole('menuitem', {name: 'First Tab'}).click();
+
+            const newCollapseItem = page.locator('button.g-tab-list-collapse-item');
+            await expect(newCollapseItem).toBeVisible();
+            await expect(newCollapseItem).not.toContainText('More');
+
+            await expectScreenshot({
+                name: 'with-contentOverflow-collapse-selected-as-trigger-after-select',
                 themes: ['light'],
             });
         },

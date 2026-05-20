@@ -77,6 +77,20 @@ export const TestTabListCollapse = () => {
     );
 };
 
+export const TestTabListCollapseSelectedAsTrigger = () => {
+    const [value, setValue] = React.useState('active');
+
+    return (
+        <Flex direction="column" gap="3" width={800} spacing={{py: 10}}>
+            <h4>contentOverflow collapse — selected tab as trigger</h4>
+            {/* Width is too narrow for even 1 tab + More button */}
+            <Box style={{width: 120}}>
+                <TestTabList value={value} onUpdate={setValue} contentOverflow="collapse" />
+            </Box>
+        </Flex>
+    );
+};
+
 export const TestTabListContentOverflow = ({
     title,
     listToOpenQa,

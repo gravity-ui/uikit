@@ -14,9 +14,15 @@ import {getTabNodePropsFromReactNode} from '../utils';
 
 import './TabListCollapseItem.scss';
 
+const CHEVRON_SIZE: Record<NonNullable<TabListCollapseItemProps['size']>, number> = {
+    m: 16,
+    l: 16,
+    xl: 20,
+};
+
 export const TabListCollapseItem = React.forwardRef<HTMLButtonElement, TabListCollapseItemProps>(
     (
-        {children, selectedChild}: TabListCollapseItemProps,
+        {children, selectedChild, size = 'm'}: TabListCollapseItemProps,
         ref: React.ForwardedRef<HTMLButtonElement>,
     ) => {
         const childrenCount = React.Children.count(children);
@@ -59,7 +65,11 @@ export const TabListCollapseItem = React.forwardRef<HTMLButtonElement, TabListCo
                 <Text variant="inherit" className={bTabListCollapseItem('count')}>
                     {childrenCount}
                 </Text>
-                <Icon data={ChevronDown} className={bTabListCollapseItem('chevron')} />
+                <Icon
+                    data={ChevronDown}
+                    size={CHEVRON_SIZE[size]}
+                    className={bTabListCollapseItem('chevron')}
+                />
             </Flex>
         );
 

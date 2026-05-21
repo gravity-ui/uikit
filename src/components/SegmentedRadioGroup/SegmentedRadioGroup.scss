@@ -144,8 +144,8 @@ $block: '.#{variables.$ns}segmented-radio-group';
             }
         }
 
-        &_checked ~ & {
-            &:not(&_checked ~ #{$block}__option ~ #{$block}__option)::before {
+        #{$block}__option_checked ~ & {
+            &:not(#{$block}__option_checked ~ #{$block}__option ~ #{$block}__option)::before {
                 background-color: transparent;
             }
         }

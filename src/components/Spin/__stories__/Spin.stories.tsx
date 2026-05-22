@@ -45,3 +45,20 @@ export const Size: Story = {
         </React.Fragment>
     ),
 };
+
+export const Custom: Story = {
+    decorators: defaultDecorators,
+
+    render: (args) => (
+        <React.Fragment>
+            <style>
+                {`.custom-spin {
+                  --g-spin-color: #ff3d64;
+                }`}
+            </style>
+            <ShowcaseItem title="Custom color">
+                <Spin {...args} className="custom-spin" />
+            </ShowcaseItem>
+        </React.Fragment>
+    ),
+};

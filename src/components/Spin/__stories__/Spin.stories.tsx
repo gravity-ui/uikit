@@ -21,6 +21,17 @@ const defaultDecorators = [
     ),
 ] satisfies Story['decorators'];
 
+const customColorDecorator = (Story: React.ComponentType) => (
+    <React.Fragment>
+        <style>
+            {`.custom-spin {
+                --g-spin-color: #ff3d64;
+            }`}
+        </style>
+        <Story />
+    </React.Fragment>
+);
+
 export const Default: Story = {};
 
 export const Size: Story = {
@@ -47,18 +58,11 @@ export const Size: Story = {
 };
 
 export const Custom: Story = {
-    decorators: defaultDecorators,
+    decorators: [...defaultDecorators, customColorDecorator],
 
     render: (args) => (
-        <React.Fragment>
-            <style>
-                {`.custom-spin {
-                  --g-spin-color: #ff3d64;
-                }`}
-            </style>
-            <ShowcaseItem title="Custom color">
-                <Spin {...args} className="custom-spin" />
-            </ShowcaseItem>
-        </React.Fragment>
+        <ShowcaseItem title="Custom color">
+            <Spin {...args} className="custom-spin" />
+        </ShowcaseItem>
     ),
 };

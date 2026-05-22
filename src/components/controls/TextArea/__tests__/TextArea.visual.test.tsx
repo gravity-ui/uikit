@@ -1,12 +1,15 @@
 import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
+import {expect} from '@playwright/experimental-ct-react';
 
 import {test} from '~playwright/core';
 
+import {CONTROL_ERROR_ICON_QA} from '../../utils';
 import type {TextAreaProps} from '../TextArea';
 import {TextArea} from '../TextArea';
 
 import {
     disabledCases,
+    errorPlacementCases,
     hasClearCases,
     maxRowsCases,
     minRowsCases,
@@ -95,6 +98,7 @@ test.describe('TextArea', {tag: '@TextArea'}, () => {
             } as const,
             {
                 value: valueCases,
+                errorPlacement: errorPlacementCases,
             },
         );
 
@@ -115,4 +119,56 @@ test.describe('TextArea', {tag: '@TextArea'}, () => {
             themes: ['light'],
         });
     });
+
+    test(
+        'smoke inside error placement tooltip',
+        {tag: ['@smoke']},
+        async ({mount, page, expectScreenshot}) => {
+            const props: TextAreaProps = {
+                ...defaultProps,
+                value: 'Text',
+                validationState: 'invalid',
+                errorMessage: 'Test error message',
+                errorPlacement: 'inside',
+            };
+
+            const root = await mount(
+                <div style={{width: 250}}>
+                    <TextArea {...props} />
+                </div>,
+                {
+                    width: 500,
+                },
+            );
+
+            await root.getByTestId(CONTROL_ERROR_ICON_QA).hover();
+
+            await expect(page.locator('.g-popup')).toBeVisible();
+
+            await expectScreenshot({
+                themes: ['light'],
+            });
+        },
+    );
+
+    test(
+        'smoke inside error placement tooltip with clear button',
+        {tag: ['@smoke']},
+        async ({mount, expectScreenshot}) => {
+            const props: TextAreaProps = {
+                ...defaultProps,
+                value: 'Text',
+                validationState: 'invalid',
+                errorMessage: 'Test error message',
+                errorPlacement: 'inside',
+                hasClear: true,
+            };
+
+            await mount(<TextArea {...props} />);
+
+            await expectScreenshot({
+                themes: ['light'],
+            });
+        },
+    );
 });

@@ -61,6 +61,6 @@ SANDBOX-->
 
 ### CSS API
 
-| Name             | Description |
-| :--------------- | :---------- |
-| `--g-spin-color` | Spin color  |
+| Name             | Description                     |
+| :--------------- | :------------------------------ |
+| `--g-spin-color` | The main color of the component |

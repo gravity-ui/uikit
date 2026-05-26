@@ -81,7 +81,7 @@ export const Sheet = ({
         <Portal container={container} disablePortal={disablePortal}>
             <FloatingOverlay
                 data-qa={qa}
-                className={sheetBlock(null, className)}
+                className={sheetBlock({'without-top-bar': hideTopBar}, className)}
                 lockScroll={open}
                 style={{overflow: undefined}}
             >

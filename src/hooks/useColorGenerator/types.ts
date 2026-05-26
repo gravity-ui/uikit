@@ -10,6 +10,12 @@ export type GenerateColorProps = {
     theme: ThemeType;
 };
 
+export type UseColorGeneratorProps = {
+    seed: string;
+    /** @deprecated Theme is resolved automatically from context. This field has no effect. */
+    theme?: ThemeType;
+};
+
 export interface ColorDetails {
     hash: number;
     oklch: {

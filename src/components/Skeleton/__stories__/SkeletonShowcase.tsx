@@ -1,37 +1,28 @@
 import * as React from 'react';
 
 import {Button} from '../../Button';
-import {cn} from '../../utils/cn';
+import {Card} from '../../Card';
+import {User} from '../../User';
+import {Flex} from '../../layout';
 import {Skeleton} from '../Skeleton';
-
-import './SkeletonShowcase.scss';
-
-const b = cn('skeleton-showcase');
 
 function PersonCard({info, info2}: {info: string; info2: string}) {
     return (
-        <div className={b('card')}>
-            <div className={b('avatar')} />
-            <div className={b('info')}>
-                <div>{info}</div>
-                <div className={b('meta')}>{info2}</div>
-            </div>
-        </div>
+        <Card style={{padding: '12px'}}>
+            <User avatar={{text: info}} name={info} description={info2} size="m" />
+        </Card>
     );
 }
 
 function PersonSkeleton() {
     return (
-        <div className={b('card')}>
-            <div className={b('avatar', {loader: true})}>
-                <Skeleton className={b('loader-avatar')} />
-                <Skeleton className={b('loader-person-name')} />
-            </div>
-            <div className={b('info', {loader: true})}>
-                <Skeleton className={b('loader-info')} />
-                <Skeleton className={b('loader-info', {meta: true})} />
-            </div>
-        </div>
+        <Card style={{padding: '12px'}}>
+            <User
+                avatar={<Skeleton shape="circle" style={{height: 32}} />}
+                name={<Skeleton isText size="s" style={{width: 80}} />}
+                description={<Skeleton isText size="s" style={{width: 120}} />}
+            />
+        </Card>
     );
 }
 
@@ -44,21 +35,22 @@ const persons = [
 function SkeletonListShowcase() {
     const [listVisible, setListVisible] = React.useState(false);
     return (
-        <div className={b()}>
-            {listVisible ? (
-                persons.map((props, index) => <PersonCard {...props} key={index} />)
-            ) : (
-                <React.Fragment>
-                    <PersonSkeleton />
-                    <PersonSkeleton />
-                    <PersonSkeleton />
-                </React.Fragment>
-            )}
-
+        <Flex direction="column" gap={3}>
+            <Flex direction="column" gap={2}>
+                {listVisible ? (
+                    persons.map((props, index) => <PersonCard {...props} key={index} />)
+                ) : (
+                    <React.Fragment>
+                        <PersonSkeleton />
+                        <PersonSkeleton />
+                        <PersonSkeleton />
+                    </React.Fragment>
+                )}
+            </Flex>
             <Button view="action" onClick={() => setListVisible(!listVisible)}>
                 Toggle list
             </Button>
-        </div>
+        </Flex>
     );
 }
 

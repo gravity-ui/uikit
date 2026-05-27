@@ -7,6 +7,8 @@ import './Skeleton.scss';
 
 const b = block('skeleton');
 
+export type SkeletonSize = 'xs' | 's' | 'm' | 'l' | 'xl';
+
 export interface SkeletonProps
     extends Pick<React.HTMLAttributes<HTMLElement>, 'className' | 'style'>,
         QAProps {
@@ -15,21 +17,11 @@ export interface SkeletonProps
      * @default 'gradient'
      */
     animation?: 'gradient' | 'pulse' | 'none';
-
-    /**
-     * Visual variant of the skeleton placeholder.
-     * - `'square'`  — sharp corners (border-radius: 0)
-     * - `'rounded'` — default slight rounding (border-radius: 5px) — **default**
-     * - `'circle'`  — circular; best for square elements (border-radius: 50%)
-     * - `'text'`    — inline text-line placeholder; clips height to cap-height within
-     *                 a line-height box. Inherits `font-size` and `line-height` from
-     *                 the parent context, so wrap with `<Text variant="...">` or any
-     *                 element that sets those.
-     * @default 'rounded'
-     */
-    variant?: 'square' | 'rounded' | 'circle' | 'text';
-
-    children?: React.ReactElement;
+    /** @default 'rounded' */
+    shape?: 'rounded' | 'sharp' | 'square' | 'circle';
+    isText?: boolean;
+    /** @default 'm' */
+    size?: SkeletonSize;
 }
 
 export function Skeleton({
@@ -37,21 +29,15 @@ export function Skeleton({
     style,
     qa,
     animation = 'gradient',
-    variant = 'rounded',
-    children,
+    shape = 'rounded',
+    isText,
+    size = 'm',
 }: SkeletonProps) {
-    if (children !== undefined) {
-        return (
-            <div
-                className={b({children: true, animation, variant}, className)}
-                style={style}
-                aria-hidden="true"
-                data-qa={qa}
-            >
-                {children}
-            </div>
-        );
-    }
-
-    return <div className={b({animation, variant}, className)} style={style} data-qa={qa} />;
+    return (
+        <div
+            className={b({animation, shape, text: isText, size}, className)}
+            style={style}
+            data-qa={qa}
+        />
+    );
 }

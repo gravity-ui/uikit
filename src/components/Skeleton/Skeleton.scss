@@ -6,6 +6,7 @@ $block: '.#{variables.$ns}skeleton';
     --_--animation-from: calc(-100% * var(--g-flow-direction));
     --_--animation-to: calc(100% * var(--g-flow-direction));
     --_--gradient-deg: calc(90deg * var(--g-flow-direction));
+    --_--border-radius: var(--g-border-radius-s);
 
     display: inline-block;
     position: relative;
@@ -15,37 +16,65 @@ $block: '.#{variables.$ns}skeleton';
 
     background-color: var(--g-color-base-generic);
 
-    &_children {
-        display: inline-flex;
-        width: unset;
-        height: unset;
+    &_size {
+        &_xs {
+            --_--border-radius: var(--g-border-radius-xs);
+            --_--size: #{variables.$xs-height};
+        }
 
-        > * {
-            /* stylelint-disable-next-line declaration-no-important */
-            opacity: 0 !important;
+        &_s {
+            --_--border-radius: var(--g-border-radius-s);
+            --_--size: #{variables.$s-height};
+        }
+
+        &_m {
+            --_--border-radius: var(--g-border-radius-m);
+            --_--size: #{variables.$m-height};
+        }
+
+        &_l {
+            --_--border-radius: var(--g-border-radius-l);
+            --_--size: #{variables.$l-height};
+        }
+
+        &_xl {
+            --_--border-radius: var(--g-border-radius-xl);
+            --_--size: #{variables.$xl-height};
         }
     }
 
-    &_variant {
+    // Apply height from the size token. Only has effect when a specific size
+    // modifier is present (i.e. --_--size is defined by one of the &_size_* rules above).
+    height: var(--_--size);
+
+    &_shape {
         &_rounded {
-            border-radius: 5px;
+            border-radius: var(--_--border-radius);
         }
 
-        &_square {
+        &_sharp {
             border-radius: 0;
         }
 
         &_circle {
+            width: auto;
+            aspect-ratio: 1;
             border-radius: 50%;
         }
 
-        &_text {
-            display: block;
-            width: 100%;
-            height: 1em;
-            margin-block: calc((1lh - 1em) / 2);
-            border-radius: 3px;
+        // square: square aspect ratio (width = height) with default border-radius; avatar-like placeholder.
+        &_square {
+            width: auto;
+            aspect-ratio: 1;
+            border-radius: var(--_--border-radius);
         }
+    }
+
+    &_text {
+        display: block;
+        width: 100%;
+        height: 1em;
+        margin-block: calc((1lh - 1em) / 2);
     }
 
     &_animation_gradient {

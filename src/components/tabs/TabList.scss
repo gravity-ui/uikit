@@ -46,6 +46,11 @@ $tabBlock: '.#{variables.$ns}tab';
         }
     }
 
+    &_with-scroll {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+
     #{$tabBlock}:not(:last-child) {
         margin-inline-end: var(--g-tabs-item-gap, var(--_--item-gap));
     }

@@ -21,6 +21,7 @@ export interface TabListProps
     // contentOverflow?: 'wrap';
     activateOnFocus?: boolean;
     children?: React.ReactNode;
+    allowScroll?: boolean;
 }
 
 interface TabCommonProps extends QAProps, DOMProps {

@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event';
 
-import {Tab, TabList} from '../';
+import {Tab, TabList} from '..';
 import {act, render, screen} from '../../../../test-utils/utils';
 import {KeyCode} from '../../../constants';
 import type {TabSize} from '../types';

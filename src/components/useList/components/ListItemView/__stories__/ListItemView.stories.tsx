@@ -7,7 +7,7 @@ import {Button} from '../../../../Button';
 import {DropdownMenu} from '../../../../DropdownMenu';
 import {Text} from '../../../../Text';
 import {Flex, sp} from '../../../../layout';
-import type {ListItemId} from '../../../../useList/types';
+import type {ListItemId} from '../../../types';
 import {ListItemExpandIcon} from '../../ListItemExpandIcon';
 import {ListItemView as ListItemViewComponent} from '../ListItemView';
 import type {ListItemViewProps} from '../ListItemView';

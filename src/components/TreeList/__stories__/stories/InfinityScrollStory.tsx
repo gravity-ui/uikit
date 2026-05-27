@@ -16,10 +16,11 @@ function identity<T>(value: T): T {
     return value;
 }
 
-export interface InfinityScrollStoryProps extends Omit<
-    TreeListProps<Entity>,
-    'value' | 'onUpdate' | 'items' | 'multiple' | 'size' | 'mapItemDataToContentProps'
-> {
+export interface InfinityScrollStoryProps
+    extends Omit<
+        TreeListProps<Entity>,
+        'value' | 'onUpdate' | 'items' | 'multiple' | 'size' | 'mapItemDataToContentProps'
+    > {
     itemsCount?: number;
 }
 

@@ -8,7 +8,10 @@ import {text} from './text/text';
 import type {TextBaseProps} from './text/text';
 
 export interface TextProps<C extends React.ElementType = 'span'>
-    extends Omit<TextBaseProps, 'ellipsisLines'>, ColorTextBaseProps, QAProps, DOMProps {
+    extends Omit<TextBaseProps, 'ellipsisLines'>,
+        ColorTextBaseProps,
+        QAProps,
+        DOMProps {
     /**
      * Ability to override default html tag
      */

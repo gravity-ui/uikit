@@ -3,10 +3,8 @@ import * as React from 'react';
 
 import type {DefinitionListProps} from '../types';
 
-interface DefinitionListProviderProps extends Pick<
-    DefinitionListProps,
-    'direction' | 'contentMaxWidth' | 'nameMaxWidth'
-> {
+interface DefinitionListProviderProps
+    extends Pick<DefinitionListProps, 'direction' | 'contentMaxWidth' | 'nameMaxWidth'> {
     children?: React.ReactNode;
 }
 

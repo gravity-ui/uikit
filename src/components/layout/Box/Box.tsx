@@ -10,8 +10,7 @@ import './Box.scss';
 const b = block('box');
 
 export interface BoxProps<T extends React.ElementType = 'div'>
-    extends
-        QAProps,
+    extends QAProps,
         React.HTMLAttributes<T>,
         React.PropsWithChildren<
             Pick<

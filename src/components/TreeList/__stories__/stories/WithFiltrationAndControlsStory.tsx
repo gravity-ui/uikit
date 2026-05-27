@@ -13,10 +13,11 @@ interface Entity {
     title: string;
 }
 
-export interface WithFiltrationAndControlsStoryProps extends Omit<
-    TreeListProps<Entity>,
-    'value' | 'onUpdate' | 'items' | 'mapItemDataToContentProps'
-> {
+export interface WithFiltrationAndControlsStoryProps
+    extends Omit<
+        TreeListProps<Entity>,
+        'value' | 'onUpdate' | 'items' | 'mapItemDataToContentProps'
+    > {
     itemsCount?: number;
 }
 

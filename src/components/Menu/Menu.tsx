@@ -24,9 +24,8 @@ export interface MenuProps extends AriaLabelingProps, DOMProps, QAProps {
 
 export type {MenuItemProps, MenuGroupProps};
 
-interface MenuComponent extends React.ForwardRefExoticComponent<
-    MenuProps & React.RefAttributes<HTMLUListElement>
-> {
+interface MenuComponent
+    extends React.ForwardRefExoticComponent<MenuProps & React.RefAttributes<HTMLUListElement>> {
     Item: typeof MenuItem;
     Group: typeof MenuGroup;
 }

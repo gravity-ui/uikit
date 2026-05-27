@@ -20,8 +20,7 @@ import {block} from '../utils/cn';
 import {getElementRef} from '../utils/getElementRef';
 
 export interface PopoverProps
-    extends
-        AriaLabelingProps,
+    extends AriaLabelingProps,
         QAProps,
         DOMProps,
         Pick<

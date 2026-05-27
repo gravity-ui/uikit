@@ -10,7 +10,9 @@ export type MenuSize = 's' | 'm' | 'l' | 'xl';
 export type MenuItemTheme = 'normal' | 'info' | 'success' | 'warning' | 'danger' | 'utility';
 
 export interface MenuProps
-    extends Pick<PopupProps, 'open' | 'onOpenChange' | 'placement'>, DOMProps, QAProps {
+    extends Pick<PopupProps, 'open' | 'onOpenChange' | 'placement'>,
+        DOMProps,
+        QAProps {
     size?: MenuSize;
     defaultOpen?: boolean;
     disabled?: boolean;
@@ -33,13 +35,15 @@ interface MenuItemCommonProps extends QAProps {
 }
 
 export interface MenuItemButtonProps
-    extends MenuItemCommonProps, Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'> {
+    extends MenuItemCommonProps,
+        Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'> {
     component?: never;
     href?: never;
 }
 
 export interface MenuItemLinkProps
-    extends MenuItemCommonProps, React.AnchorHTMLAttributes<HTMLAnchorElement> {
+    extends MenuItemCommonProps,
+        React.AnchorHTMLAttributes<HTMLAnchorElement> {
     component?: never;
     href: string;
 }

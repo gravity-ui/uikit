@@ -55,7 +55,10 @@ import './Popup.scss';
 export type PopupCloseReason = 'outsideClick' | 'escapeKeyDown' | string | undefined;
 
 export interface PopupProps
-    extends Pick<PortalProps, 'container' | 'disablePortal'>, DOMProps, AriaLabelingProps, QAProps {
+    extends Pick<PortalProps, 'container' | 'disablePortal'>,
+        DOMProps,
+        AriaLabelingProps,
+        QAProps {
     children?: React.ReactNode;
     /** Manages `Popup` visibility */
     open?: boolean;

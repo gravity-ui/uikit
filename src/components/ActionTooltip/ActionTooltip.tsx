@@ -12,7 +12,9 @@ import {block} from '../utils/cn';
 import './ActionTooltip.scss';
 
 export interface ActionTooltipProps
-    extends QAProps, DOMProps, Omit<TooltipProps, 'content' | 'role'> {
+    extends QAProps,
+        DOMProps,
+        Omit<TooltipProps, 'content' | 'role'> {
     /** Floating element title */
     title: string;
     /** Floating element description */

@@ -15,10 +15,17 @@ import type {TreeSelectProps} from '../../types';
 function identity<T>(value: T): T {
     return value;
 }
-export interface WithItemLinksAndActionsExampleProps extends Omit<
-    TreeSelectProps<{title: string}>,
-    'value' | 'onUpdate' | 'items' | 'mapItemDataToContentProps' | 'size' | 'open' | 'onOpenChange'
-> {}
+export interface WithItemLinksAndActionsExampleProps
+    extends Omit<
+        TreeSelectProps<{title: string}>,
+        | 'value'
+        | 'onUpdate'
+        | 'items'
+        | 'mapItemDataToContentProps'
+        | 'size'
+        | 'open'
+        | 'onOpenChange'
+    > {}
 
 export const WithItemLinksAndActionsExample = (storyProps: WithItemLinksAndActionsExampleProps) => {
     const [value, setValue] = React.useState<string[]>([]);

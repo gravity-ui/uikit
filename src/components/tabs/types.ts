@@ -12,7 +12,9 @@ export interface TabProviderProps {
 }
 
 export interface TabListProps
-    extends DOMProps, QAProps, Omit<React.HTMLAttributes<HTMLDivElement>, 'style'> {
+    extends DOMProps,
+        QAProps,
+        Omit<React.HTMLAttributes<HTMLDivElement>, 'style'> {
     onUpdate?: (value: string) => void;
     value?: string;
     size?: TabSize;
@@ -34,15 +36,15 @@ interface TabCommonProps extends QAProps, DOMProps {
 }
 
 export interface TabButtonProps
-    extends
-        TabCommonProps,
+    extends TabCommonProps,
         Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'value' | 'disabled' | 'style'> {
     component?: never;
     href?: never;
 }
 
 export interface TabLinkProps
-    extends TabCommonProps, Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'style'> {
+    extends TabCommonProps,
+        Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'style'> {
     component?: never;
     href: string;
 }
@@ -61,7 +63,9 @@ export type TabProps<T extends TabComponentElementType = undefined> =
     | TabComponentProps<Exclude<T, undefined>>;
 
 export interface TabPanelProps
-    extends DOMProps, QAProps, Omit<React.HTMLAttributes<HTMLDivElement>, 'style'> {
+    extends DOMProps,
+        QAProps,
+        Omit<React.HTMLAttributes<HTMLDivElement>, 'style'> {
     value: string;
     children?: React.ReactNode;
 }

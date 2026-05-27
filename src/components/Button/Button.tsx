@@ -47,8 +47,7 @@ interface ButtonCommonProps extends QAProps, DOMProps {
 }
 
 export interface ButtonButtonProps
-    extends
-        ButtonCommonProps,
+    extends ButtonCommonProps,
         Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'disabled' | 'style'> {
     component?: never;
     href?: never;
@@ -59,7 +58,8 @@ export interface ButtonButtonProps
 }
 
 export interface ButtonLinkProps
-    extends ButtonCommonProps, Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'style'> {
+    extends ButtonCommonProps,
+        Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'style'> {
     component?: never;
     href: string;
     /**

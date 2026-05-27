@@ -1,7 +1,6 @@
 @use '../../variables';
 
 $block: '.#{variables.$ns}suggest-story';
-$async-blur-keyframes: '#{variables.$ns}suggest-story-async-blur-pulse';
 
 #{$block} {
     &__layout {
@@ -40,36 +39,5 @@ $async-blur-keyframes: '#{variables.$ns}suggest-story-async-blur-pulse';
 
     &__async-card-inner {
         padding: 20px 24px 28px;
-    }
-
-    &__async-field-wrap {
-        position: relative;
-        border-radius: var(--g-popup-border-radius, 6px);
-
-        &_refreshing::after {
-            content: '';
-            position: absolute;
-            z-index: 1;
-            inset: 0;
-            pointer-events: none;
-            border-radius: inherit;
-            background: var(--g-color-base-background);
-            opacity: 0.35;
-            backdrop-filter: blur(2px);
-            animation: #{$async-blur-keyframes} 1.1s ease-in-out infinite;
-        }
-    }
-}
-
-@keyframes #{$async-blur-keyframes} {
-    0%,
-    100% {
-        opacity: 0.28;
-        backdrop-filter: blur(1px);
-    }
-
-    50% {
-        opacity: 0.48;
-        backdrop-filter: blur(6px);
     }
 }

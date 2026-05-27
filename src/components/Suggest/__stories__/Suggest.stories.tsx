@@ -138,12 +138,17 @@ function filterCatalog(query: string): SelectOption[] {
 function AsyncSuggestDemo() {
     const [query, setQuery] = React.useState('');
     const [options, setOptions] = React.useState<SelectOptions>([]);
-    const [loading, setLoading] = React.useState(false);
+    const [loading, setLoading] = React.useState(true);
+
+    const handleQueryUpdate = React.useCallback((value: string) => {
+        setQuery(value);
+        setLoading(true);
+        setOptions([]);
+    }, []);
 
     React.useEffect(() => {
         let cancelled = false;
         const timer = window.setTimeout(async () => {
-            setLoading(true);
             await delay(420);
             if (cancelled) {
                 return;
@@ -158,9 +163,6 @@ function AsyncSuggestDemo() {
         };
     }, [query]);
 
-    const showListLoader = loading && options.length === 0;
-    const showStaleBlur = loading && options.length > 0;
-
     return (
         <div className={b('async-wrap')}>
             <Card theme="normal" type="container" size="l">
@@ -168,29 +170,22 @@ function AsyncSuggestDemo() {
                     <Flex direction="column" gap={2}>
                         <Text variant="header-1">API directory</Text>
                         <Text variant="body-2" color="secondary">
-                            Async suggest: debounced fetch replaces options after a short delay.
-                            While new results load, the list keeps showing the previous matches with
-                            an animated blur; the inline loader appears only when there is nothing
-                            to show yet (initial load or empty result set).
+                            On each change the list clears right away and shows the loader. After a
+                            debounce the demo runs a fake request; when it finishes, options appear.
+                            That mirrors typing → spinner → results without stale rows in between.
                         </Text>
                     </Flex>
-                    <div
-                        className={b('async-field-wrap', {
-                            refreshing: showStaleBlur,
-                        })}
-                    >
-                        <Suggest
-                            inlineSuggest
-                            width="max"
-                            size="l"
-                            label="Search endpoints"
-                            placeholder="Try “auth”, “billing”, or “webhook”…"
-                            value={query}
-                            onUpdate={setQuery}
-                            options={options}
-                            loading={showListLoader}
-                        />
-                    </div>
+                    <Suggest
+                        inlineSuggest
+                        width="max"
+                        size="l"
+                        label="Search endpoints"
+                        placeholder="Try “auth”, “billing”, or “webhook”…"
+                        value={query}
+                        onUpdate={handleQueryUpdate}
+                        options={options}
+                        loading={loading}
+                    />
                 </Flex>
             </Card>
         </div>

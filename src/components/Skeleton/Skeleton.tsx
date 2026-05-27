@@ -1,4 +1,4 @@
-import * as React from 'react';
+import type * as React from 'react';
 
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
@@ -10,7 +10,7 @@ const b = block('skeleton');
 export type SkeletonSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 
 export interface SkeletonProps
-    extends Pick<React.HTMLAttributes<HTMLElement>, 'className' | 'style'>,
+    extends Pick<React.HTMLAttributes<HTMLDivElement>, 'className' | 'style'>,
         QAProps {
     /**
      * Animation type to apply to the skeleton

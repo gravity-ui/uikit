@@ -287,7 +287,7 @@ const renderOptionLayout = (
         gap={3}
         style={{width: '100%', minHeight: itemHeight}}
     >
-        <Text variant="body-1" ellipsis>
+        <Text variant="body-2" ellipsis>
             {option.content}
         </Text>
         {control}
@@ -311,7 +311,7 @@ export const WithUserOptionRadio: Story = {
                       option,
                       params,
                       <Radio
-                          size="l"
+                          size="xl"
                           name="select-story-portfolio-primary"
                           value={option.value}
                           checked={params.selected}
@@ -354,7 +354,7 @@ export const WithUserOptionCheckboxes: Story = {
                   renderOptionLayout(
                       option,
                       params,
-                      <Checkbox size="l" checked={params.selected} disabled={option.disabled} />,
+                      <Checkbox size="xl" checked={params.selected} disabled={option.disabled} />,
                   )
             : undefined;
 

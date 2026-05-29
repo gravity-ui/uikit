@@ -1,5 +1,20 @@
 # Changelog
 
+## [7.40.0](https://github.com/gravity-ui/uikit/compare/v7.39.0...v7.40.0) (2026-05-27)
+
+
+### Features
+
+* **TabList:** add overflow options ([#2277](https://github.com/gravity-ui/uikit/issues/2277)) ([68d70d1](https://github.com/gravity-ui/uikit/commit/68d70d1c5a61b93c8b9c5d25f10d02ff20a319e8))
+* **Toaster:** update default icons theme ([#2674](https://github.com/gravity-ui/uikit/issues/2674)) ([8d2eb2b](https://github.com/gravity-ui/uikit/commit/8d2eb2b6781de5cbf8641ccb9cebbb54a81016e6))
+
+
+### Bug Fixes
+
+* **Drawer:** fixed auto focus in drawer items ([#2673](https://github.com/gravity-ui/uikit/issues/2673)) ([ed5f08e](https://github.com/gravity-ui/uikit/commit/ed5f08eb549645ed483aaaa516092fe235924300))
+* **Sheet:** fix height of scroll container when top bar is hidden ([#2680](https://github.com/gravity-ui/uikit/issues/2680)) ([210c7f8](https://github.com/gravity-ui/uikit/commit/210c7f8e32f0cacce6e7d355ee67154f6a42fd37))
+* **useColorGenerator:** removed unused parameter from required ([#2682](https://github.com/gravity-ui/uikit/issues/2682)) ([f83fad8](https://github.com/gravity-ui/uikit/commit/f83fad89b4ba70c6ea7935fd1780913df1ea0a9f))
+
 ## [7.39.0](https://github.com/gravity-ui/uikit/compare/v7.38.0...v7.39.0) (2026-05-16)
 
 

@@ -634,6 +634,53 @@ export const WithCustomPopup: Story = {
     },
 };
 
+export const WithCustomMobilePopupLabel: Story = {
+    tags: ['!dev'],
+    decorators: [WithTitle],
+    parameters: {
+        globals: {
+            platform: 'mobile',
+        },
+    },
+    args: {
+        ...showcaseArgs,
+        filterable: true,
+        label: 'Category',
+    },
+    render: (args) => {
+        const mobile = useMobile();
+        const [{value}, setArgs] = useArgs<typeof args>();
+
+        return (
+            <Select
+                {...args}
+                value={value}
+                onUpdate={(values) => setArgs({value: values})}
+                popupClassName={b('custom-sheet-select-popup')}
+                renderPopup={({renderList}) => {
+                    return (
+                        <React.Fragment>
+                            {mobile && (
+                                <div className={b('custom-sheet-label')}>
+                                    <div className={b('custom-sheet-label-title')}>
+                                        <Text variant="subheader-2">Choose category</Text>
+                                    </div>
+                                </div>
+                            )}
+                            {renderList()}
+                        </React.Fragment>
+                    );
+                }}
+            >
+                <Select.Option value="val1" content="Value1" />
+                <Select.Option value="val2" content="Value2" />
+                <Select.Option value="val3" content="Value3" />
+                <Select.Option value="val4" content="Value4" />
+            </Select>
+        );
+    },
+};
+
 export const WithOutsideError: Story = {
     tags: ['!dev'],
     decorators: [WithTitle],

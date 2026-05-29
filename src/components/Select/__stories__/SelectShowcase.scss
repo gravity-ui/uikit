@@ -82,6 +82,32 @@ $listBlock: '.#{variables.$ns}list';
             background: transparent;
         }
     }
+
+    &__custom-sheet-select-popup {
+        --g-sheet-content-padding: 0 8px;
+
+        .g-select-list {
+            margin-block-start: 8px;
+        }
+    }
+
+    &__custom-sheet-label {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 12px 40px;
+    }
+
+    &__custom-sheet-label-title {
+        display: flex;
+        justify-content: center;
+        padding: 0 8px;
+
+        span {
+            font-family: 'YS Text';
+            font-weight: 500;
+        }
+    }
 }
 
 .popup-actions {

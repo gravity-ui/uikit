@@ -5,6 +5,7 @@ import {action} from 'storybook/actions';
 import {Drawer} from '../components/Drawer';
 
 import {ContentOverflowDrawerShowcase} from './ContentOverflow';
+import {DisableAnimationShowcase} from './DisableAnimation';
 import {DisablePortalShowcase} from './DisablePortal';
 import {HideVeilShowcase} from './HideVeil';
 import {InitialAutoFocusShowcase} from './InitialAutoFocus';
@@ -61,6 +62,9 @@ export const Default: Story = {
         onTransitionOutComplete: action('onTransitionOutComplete'),
     },
 };
+
+const DisableAnimationTemplate: StoryFn = () => <DisableAnimationShowcase />;
+export const DisableAnimation = DisableAnimationTemplate.bind({});
 
 const DisablePortalTemplate: StoryFn = () => <DisablePortalShowcase />;
 export const DisablePortal = DisablePortalTemplate.bind({});

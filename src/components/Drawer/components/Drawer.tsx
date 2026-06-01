@@ -171,9 +171,12 @@ export const Drawer = ({
     const composedStyle = React.useMemo(
         () => ({
             position: (disablePortal ? 'absolute' : 'fixed') as React.CSSProperties['position'],
+            '--drawer-animation-duration': disableAnimation
+                ? '0ms'
+                : `${DRAWER_ANIMATION_DURATION_MS}ms`,
             ...style,
         }),
-        [style],
+        [disablePortal, disableAnimation, style],
     );
 
     const portal =

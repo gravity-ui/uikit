@@ -89,7 +89,7 @@ $drawer-resizer-width: 8px;
 
     &:not(&_disable-animation)[data-floating-ui-status='open'] &__item,
     &:not(&_disable-animation)[data-floating-ui-status='close'] &__item {
-        transition: transform 300ms;
+        transition: transform var(--drawer-animation-duration, 300ms);
     }
 
     &_placement_left[data-floating-ui-status='initial'] &__item,
@@ -114,7 +114,7 @@ $drawer-resizer-width: 8px;
 
     &:not(&_disable-animation)[data-floating-ui-status='open'],
     &:not(&_disable-animation)[data-floating-ui-status='close'] {
-        transition: background-color 300ms;
+        transition: background-color var(--drawer-animation-duration, 300ms);
     }
 
     &[data-floating-ui-status='initial'],

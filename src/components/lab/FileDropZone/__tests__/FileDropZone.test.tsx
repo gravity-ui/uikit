@@ -220,10 +220,70 @@ describe('FileDropZone', () => {
         });
     });
 
-    describe('file input (button click)', () => {
+    describe('file input (container click)', () => {
         function getFileInput(): HTMLInputElement {
             return screen.getByTestId(FileDropZoneQa.FILE_INPUT) as HTMLInputElement;
         }
+
+        test('button is rendered as a decorative element', () => {
+            render(<FileDropZone {...defaultProps} />);
+            const button = screen.getByTestId(FileDropZoneQa.BUTTON);
+
+            expect(button.tagName).toBe('SPAN');
+            expect(button).not.toHaveAttribute('role', 'button');
+        });
+
+        test('opens file input when container is clicked', async () => {
+            const user = userEvent.setup();
+            render(<FileDropZone {...defaultProps} qa="drop-zone" />);
+            const input = getFileInput();
+            const clickSpy = jest.spyOn(input, 'click').mockImplementation(() => {});
+
+            await user.click(screen.getByTestId('drop-zone'));
+
+            expect(clickSpy).toHaveBeenCalledTimes(1);
+
+            clickSpy.mockRestore();
+        });
+
+        test('opens file input through container when decorative button is clicked', async () => {
+            const user = userEvent.setup();
+            render(<FileDropZone {...defaultProps} />);
+            const input = getFileInput();
+            const clickSpy = jest.spyOn(input, 'click').mockImplementation(() => {});
+
+            await user.click(screen.getByTestId(FileDropZoneQa.BUTTON));
+
+            expect(clickSpy).toHaveBeenCalledTimes(1);
+
+            clickSpy.mockRestore();
+        });
+
+        test('opens file input when Enter is pressed on container', () => {
+            render(<FileDropZone {...defaultProps} qa="drop-zone" />);
+            const input = getFileInput();
+            const clickSpy = jest.spyOn(input, 'click').mockImplementation(() => {});
+
+            fireEvent.keyDown(screen.getByTestId('drop-zone'), {key: 'Enter'});
+
+            expect(clickSpy).toHaveBeenCalledTimes(1);
+
+            clickSpy.mockRestore();
+        });
+
+        test('does not open file input when disabled', () => {
+            render(<FileDropZone {...defaultProps} disabled qa="drop-zone" />);
+            const input = getFileInput();
+            const clickSpy = jest.spyOn(input, 'click').mockImplementation(() => {});
+            const zone = screen.getByTestId('drop-zone');
+
+            fireEvent.click(zone);
+            fireEvent.keyDown(zone, {key: 'Enter'});
+
+            expect(clickSpy).not.toHaveBeenCalled();
+
+            clickSpy.mockRestore();
+        });
 
         test('hidden input has correct accept attribute', () => {
             render(<FileDropZone {...defaultProps} accept={['image/png', 'application/pdf']} />);

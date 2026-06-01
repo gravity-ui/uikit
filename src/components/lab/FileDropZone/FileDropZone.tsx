@@ -4,6 +4,7 @@ import {normalizeMaxFilesCount} from '../../../hooks/lab/useDropZone/utils';
 
 import {FileDropZoneProvider, useFileZoneContext} from './FileDropZone.Provider';
 import {cnFileDropZone} from './FileDropZone.classname';
+import {FileDropZoneQa} from './constants';
 import {FileDropZoneButton} from './parts/FileDropZone.Button';
 import {FileDropZoneDescription} from './parts/FileDropZone.Description';
 import {FileDropZoneIcon} from './parts/FileDropZone.Icon';
@@ -20,10 +21,28 @@ const FileDropZoneContent = ({className, children, qa}: FileDropZoneContainerPro
         errorMessage,
         validationState,
         getDroppableProps,
+        triggerProps,
+        controlProps,
+        accept,
+        maxFilesCount,
         onKeyDown,
     } = useFileZoneContext();
 
     const hasError = Boolean(errorMessage);
+    const multiple = maxFilesCount > 1;
+
+    const handleClick = React.useCallback(
+        (event: React.MouseEvent<HTMLDivElement>) => {
+            if (!disabled && !event.defaultPrevented) {
+                triggerProps.onClick();
+            }
+        },
+        [disabled, triggerProps],
+    );
+
+    const handleInputClick = React.useCallback((event: React.MouseEvent<HTMLInputElement>) => {
+        event.stopPropagation();
+    }, []);
 
     const content = React.useMemo(() => {
         if (typeof children !== 'undefined') {
@@ -45,6 +64,8 @@ const FileDropZoneContent = ({className, children, qa}: FileDropZoneContainerPro
         <div
             {...getDroppableProps()}
             data-qa={qa}
+            aria-disabled={disabled || undefined}
+            onClick={handleClick}
             onKeyDown={onKeyDown}
             className={cnFileDropZone(
                 {
@@ -58,6 +79,13 @@ const FileDropZoneContent = ({className, children, qa}: FileDropZoneContainerPro
             )}
         >
             {content}
+            <input
+                {...controlProps}
+                multiple={multiple}
+                accept={accept.join(',')}
+                data-qa={FileDropZoneQa.FILE_INPUT}
+                onClick={handleInputClick}
+            />
         </div>
     );
     /* eslint-enable jsx-a11y/no-static-element-interactions */

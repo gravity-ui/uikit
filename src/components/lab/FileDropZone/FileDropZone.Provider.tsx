@@ -135,7 +135,7 @@ export const FileDropZoneProvider = ({
 
     const {controlProps, triggerProps} = useFileInput({onUpdate: onFileInputUpdate});
 
-    const {onKeyDown} = useActionHandlers(triggerProps.onClick);
+    const {onKeyDown} = useActionHandlers(disabled ? undefined : triggerProps.onClick);
 
     const contextValue = React.useMemo(
         () => ({

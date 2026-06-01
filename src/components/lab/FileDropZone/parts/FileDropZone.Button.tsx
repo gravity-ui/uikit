@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import {Button} from '../../../..';
 import {useFileZoneContext} from '../FileDropZone.Provider';
 import {cnFileDropZone} from '../FileDropZone.classname';
@@ -11,7 +9,7 @@ type FileDropZoneButtonProps = {
 };
 
 export const FileDropZoneButton = ({className}: FileDropZoneButtonProps) => {
-    const {accept, buttonText, triggerProps, controlProps, maxFilesCount} = useFileZoneContext();
+    const {buttonText, maxFilesCount} = useFileZoneContext();
 
     const {t} = i18n.useTranslation();
 
@@ -20,20 +18,13 @@ export const FileDropZoneButton = ({className}: FileDropZoneButtonProps) => {
     const displayLabel = buttonText || t(`button_select-file-${postfix}`);
 
     return (
-        <React.Fragment>
-            <Button
-                {...triggerProps}
-                className={cnFileDropZone('button', className)}
-                qa={FileDropZoneQa.BUTTON}
-            >
-                {displayLabel}
-            </Button>
-            <input
-                {...controlProps}
-                multiple={multiple}
-                accept={accept.join(',')}
-                data-qa={FileDropZoneQa.FILE_INPUT}
-            />
-        </React.Fragment>
+        <Button
+            component="span"
+            role={undefined}
+            className={cnFileDropZone('button', className)}
+            qa={FileDropZoneQa.BUTTON}
+        >
+            {displayLabel}
+        </Button>
     );
 };

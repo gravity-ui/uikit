@@ -19,6 +19,8 @@ export interface TabListProps
     value?: string;
     size?: TabSize;
     contentOverflow?: 'wrap' | 'scroll' | 'collapse';
+    /** Label for the collapse overflow trigger when the active tab is visible in the list */
+    moreLabel?: React.ReactNode;
     activateOnFocus?: boolean;
     children?: React.ReactNode;
 }
@@ -75,5 +77,6 @@ export interface TabPanelProps
 export interface TabListCollapseItemProps {
     children: React.ReactNode;
     triggerChild?: React.ReactNode;
+    moreLabel?: React.ReactNode;
     size?: TabSize;
 }

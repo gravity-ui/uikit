@@ -340,6 +340,34 @@ test('contentOverflow collapse: shows More button when some tabs overflow', () =
     spy.mockRestore();
 });
 
+test('contentOverflow collapse: supports custom moreLabel', () => {
+    const spy = jest.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(function (
+        this: Element,
+    ) {
+        if (this.classList.contains('g-tab-list')) return makeDOMRect(280);
+        if (this.classList.contains('g-tab-list-collapse-item')) return makeDOMRect(80);
+        return makeDOMRect(100);
+    });
+
+    render(
+        <TabList contentOverflow="collapse" value={tab1.value} moreLabel="Ещё">
+            <Tab value={tab1.value} qa={tab1.qa}>
+                {tab1.title}
+            </Tab>
+            <Tab value={tab2.value} qa={tab2.qa}>
+                {tab2.title}
+            </Tab>
+            <Tab value={tab3.value} qa={tab3.qa}>
+                {tab3.title}
+            </Tab>
+        </TabList>,
+    );
+
+    expect(screen.getByRole('button', {name: /ещё/i})).toBeInTheDocument();
+
+    spy.mockRestore();
+});
+
 test('contentOverflow collapse: with narrow container shows selected tab as trigger', () => {
     const spy = mockNarrowContainer();
 

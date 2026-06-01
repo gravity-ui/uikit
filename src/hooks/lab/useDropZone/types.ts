@@ -1,32 +1,20 @@
-import type {DROP_ZONE_BASE_ATTRIBUTES, FILE_REJECTION_REASONS} from './constants';
+import type {DROP_ZONE_BASE_ATTRIBUTES} from './constants';
 
-export type UseDropZoneAccept = string[];
+export type UseDropZoneEventHandler = (event: DragEvent) => void;
 
 interface UseDropZoneBaseParams {
-    accept: UseDropZoneAccept;
-    maxFilesCount?: number;
     disabled?: boolean;
-    multiple?: boolean;
-    onDropRejected?: (items: FileRejection[]) => void;
+    onDragEnter?: UseDropZoneEventHandler;
+    onDragOver?: UseDropZoneEventHandler;
+    onDragLeave?: UseDropZoneEventHandler;
+    onDrop?: UseDropZoneEventHandler;
 }
 
-type UseDropZoneWithOnDrop = UseDropZoneBaseParams & {
-    onDrop: (acceptedFiles: DataTransferItem[], fileRejections: FileRejection[]) => void;
-    onDropAccepted?: (items: DataTransferItem[]) => void;
-};
-
-type UseDropZoneWithOnDropAccepted = UseDropZoneBaseParams & {
-    onDrop?: (acceptedFiles: DataTransferItem[], fileRejections: FileRejection[]) => void;
-    onDropAccepted: (items: DataTransferItem[]) => void;
-};
-
-export type UseDropZoneCommonParams = UseDropZoneWithOnDrop | UseDropZoneWithOnDropAccepted;
-
-export type UseDropZoneParamsWithRef = UseDropZoneCommonParams & {
+export type UseDropZoneParamsWithRef = UseDropZoneBaseParams & {
     ref: React.RefObject<HTMLElement>;
 };
 
-export type UseDropZoneParamsWithoutRef = UseDropZoneCommonParams & {
+export type UseDropZoneParamsWithoutRef = UseDropZoneBaseParams & {
     ref?: undefined;
 };
 
@@ -41,26 +29,11 @@ export interface UseDropZoneDroppableProps extends Required<typeof DROP_ZONE_BAS
 
 export interface UseDropZoneStateWithRef {
     isDraggingOver: boolean;
-    isInvalidDrag: boolean;
 }
 
 export interface UseDropZoneStateWithoutRef {
     isDraggingOver: boolean;
-    isInvalidDrag: boolean;
     getDroppableProps: () => UseDropZoneDroppableProps;
 }
 
-export type FileRejectionReason =
-    (typeof FILE_REJECTION_REASONS)[keyof typeof FILE_REJECTION_REASONS];
-
 export type UseDropZoneState = UseDropZoneStateWithRef | UseDropZoneStateWithoutRef;
-
-export interface FileRejection {
-    item: DataTransferItem;
-    reasons: FileRejectionReason[];
-}
-
-export interface ValidateOptions {
-    accept: UseDropZoneAccept;
-    maxFilesCount: number;
-}

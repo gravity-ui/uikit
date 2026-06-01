@@ -58,7 +58,7 @@ export {
 } from './components/lab/FileDropZone';
 
 export {
-    type UseDropZoneAccept,
+    type UseDropZoneEventHandler,
     type UseDropZoneParams,
     type UseDropZoneDroppableProps,
     type UseDropZoneState,

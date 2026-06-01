@@ -4,7 +4,7 @@ import {act, renderHook} from '../../../../../test-utils/utils';
 import {DROP_ZONE_BASE_ATTRIBUTES} from '../constants';
 import {useDropZone} from '../useDropZone';
 
-function createDragEvent(itemTypes: string[]): React.DragEvent {
+function createDragEvent(itemTypes: string[] = []): React.DragEvent {
     const items = itemTypes.map((type) => ({
         type,
         kind: 'file',
@@ -14,6 +14,7 @@ function createDragEvent(itemTypes: string[]): React.DragEvent {
         dataTransfer: {items, dropEffect: 'none'},
         preventDefault: jest.fn(),
     } as unknown as DragEvent;
+
     return {
         nativeEvent,
         preventDefault: jest.fn(),
@@ -21,8 +22,7 @@ function createDragEvent(itemTypes: string[]): React.DragEvent {
 }
 
 const defaultParams = {
-    accept: ['image/*'],
-    onDropAccepted: jest.fn(),
+    onDrop: jest.fn(),
 };
 
 describe('useDropZone', () => {
@@ -53,38 +53,56 @@ describe('useDropZone', () => {
             expect(typeof props.onDrop).toBe('function');
         });
 
-        test('initial values: isDraggingOver=false, isInvalidDrag=false', () => {
+        test('initial value: isDraggingOver=false', () => {
             const {result} = renderHook(() => useDropZone({...defaultParams}));
             expect(result.current.isDraggingOver).toBe(false);
-            expect(result.current.isInvalidDrag).toBe(false);
         });
     });
 
     describe('drag enter/leave lifecycle', () => {
-        test('dragEnter with valid files → isDraggingOver=true', () => {
-            const {result} = renderHook(() => useDropZone({...defaultParams}));
+        test('dragEnter sets isDraggingOver=true and calls onDragEnter with native event', () => {
+            const onDragEnter = jest.fn();
+            const {result} = renderHook(() => useDropZone({onDragEnter}));
             const props = result.current.getDroppableProps();
+            const event = createDragEvent(['image/png']);
 
             act(() => {
-                props.onDragEnter(createDragEvent(['image/png']));
+                props.onDragEnter(event);
             });
 
             expect(result.current.isDraggingOver).toBe(true);
-            expect(result.current.isInvalidDrag).toBe(false);
+            expect(onDragEnter).toHaveBeenCalledTimes(1);
+            expect(onDragEnter).toHaveBeenCalledWith(event.nativeEvent);
+            expect(event.nativeEvent.dataTransfer?.dropEffect).toBe('copy');
         });
 
-        test('dragLeave → isDraggingOver=false', () => {
+        test('dragEnter handles any file item type', () => {
             const {result} = renderHook(() => useDropZone({...defaultParams}));
             const props = result.current.getDroppableProps();
+
+            act(() => {
+                props.onDragEnter(createDragEvent(['application/pdf']));
+            });
+
+            expect(result.current.isDraggingOver).toBe(true);
+        });
+
+        test('dragLeave resets isDraggingOver=false', () => {
+            const onDragLeave = jest.fn();
+            const {result} = renderHook(() => useDropZone({onDragLeave}));
+            const props = result.current.getDroppableProps();
+            const event = createDragEvent(['image/png']);
 
             act(() => {
                 props.onDragEnter(createDragEvent(['image/png']));
             });
             act(() => {
-                props.onDragLeave(createDragEvent(['image/png']));
+                props.onDragLeave(event);
             });
 
             expect(result.current.isDraggingOver).toBe(false);
+            expect(onDragLeave).toHaveBeenCalledTimes(1);
+            expect(onDragLeave).toHaveBeenCalledWith(event.nativeEvent);
         });
 
         test('nested drag events: 2x enter + 1x leave → still dragging', () => {
@@ -104,110 +122,53 @@ describe('useDropZone', () => {
             expect(result.current.isDraggingOver).toBe(true);
         });
 
-        test('dragEnter with invalid type → isInvalidDrag=true, isDraggingOver=true', () => {
-            const {result} = renderHook(() => useDropZone({...defaultParams}));
+        test('dragOver calls preventDefault, updates dropEffect and calls onDragOver', () => {
+            const onDragOver = jest.fn();
+            const {result} = renderHook(() => useDropZone({onDragOver}));
             const props = result.current.getDroppableProps();
+            const event = createDragEvent(['image/png']);
 
             act(() => {
-                props.onDragEnter(createDragEvent(['application/pdf']));
+                props.onDragOver(event);
             });
 
-            expect(result.current.isInvalidDrag).toBe(true);
-            expect(result.current.isDraggingOver).toBe(true);
-        });
-
-        test('dragLeave after invalid drag → isInvalidDrag=false', () => {
-            const {result} = renderHook(() => useDropZone({...defaultParams}));
-            const props = result.current.getDroppableProps();
-
-            act(() => {
-                props.onDragEnter(createDragEvent(['application/pdf']));
-            });
-            act(() => {
-                props.onDragLeave(createDragEvent(['application/pdf']));
-            });
-
-            expect(result.current.isInvalidDrag).toBe(false);
-            expect(result.current.isDraggingOver).toBe(false);
+            expect(
+                (event.nativeEvent as unknown as {preventDefault: jest.Mock}).preventDefault,
+            ).toHaveBeenCalledTimes(1);
+            expect(event.nativeEvent.dataTransfer?.dropEffect).toBe('copy');
+            expect(onDragOver).toHaveBeenCalledTimes(1);
+            expect(onDragOver).toHaveBeenCalledWith(event.nativeEvent);
         });
     });
 
     describe('drop', () => {
-        test('calls onDropAccepted with accepted items', () => {
-            const onDropAccepted = jest.fn();
-            const {result} = renderHook(() => useDropZone({accept: ['image/*'], onDropAccepted}));
+        test('calls onDrop with native event', () => {
+            const onDrop = jest.fn();
+            const {result} = renderHook(() => useDropZone({onDrop}));
+            const props = result.current.getDroppableProps();
+            const event = createDragEvent(['image/png', 'application/pdf']);
+
+            act(() => {
+                props.onDrop(event);
+            });
+
+            expect(onDrop).toHaveBeenCalledTimes(1);
+            expect(onDrop.mock.calls[0]).toEqual([event.nativeEvent]);
+        });
+
+        test('resets isDraggingOver after drop', () => {
+            const {result} = renderHook(() => useDropZone({...defaultParams}));
             const props = result.current.getDroppableProps();
 
             act(() => {
                 props.onDragEnter(createDragEvent(['image/png']));
             });
+            expect(result.current.isDraggingOver).toBe(true);
+
             act(() => {
                 props.onDrop(createDragEvent(['image/png']));
             });
-
-            expect(onDropAccepted).toHaveBeenCalledTimes(1);
-            expect(onDropAccepted).toHaveBeenCalledWith(
-                expect.arrayContaining([expect.objectContaining({type: 'image/png'})]),
-            );
-        });
-
-        test('calls onDropRejected with rejected items', () => {
-            const onDropAccepted = jest.fn();
-            const onDropRejected = jest.fn();
-            const {result} = renderHook(() =>
-                useDropZone({accept: ['image/*'], onDropAccepted, onDropRejected}),
-            );
-            const props = result.current.getDroppableProps();
-
-            act(() => {
-                props.onDrop(createDragEvent(['application/pdf']));
-            });
-
-            expect(onDropRejected).toHaveBeenCalledTimes(1);
-            expect(onDropRejected).toHaveBeenCalledWith(
-                expect.arrayContaining([
-                    expect.objectContaining({
-                        reasons: expect.arrayContaining(['invalid-type']),
-                    }),
-                ]),
-            );
-        });
-
-        test('calls onDrop with both arrays', () => {
-            const onDrop = jest.fn();
-            const {result} = renderHook(() => useDropZone({accept: ['image/*'], onDrop}));
-            const props = result.current.getDroppableProps();
-
-            act(() => {
-                props.onDrop(createDragEvent(['image/png', 'application/pdf']));
-            });
-
-            expect(onDrop).toHaveBeenCalledTimes(1);
-            expect(onDrop).toHaveBeenCalledWith(
-                expect.arrayContaining([expect.objectContaining({type: 'image/png'})]),
-                expect.arrayContaining([
-                    expect.objectContaining({
-                        reasons: expect.arrayContaining(['invalid-type']),
-                    }),
-                ]),
-            );
-        });
-
-        test('resets isDraggingOver and isInvalidDrag after drop', () => {
-            const {result} = renderHook(() => useDropZone({...defaultParams}));
-            const props = result.current.getDroppableProps();
-
-            act(() => {
-                props.onDragEnter(createDragEvent(['application/pdf']));
-            });
-            expect(result.current.isDraggingOver).toBe(true);
-            expect(result.current.isInvalidDrag).toBe(true);
-
-            act(() => {
-                props.onDrop(createDragEvent(['application/pdf']));
-            });
             expect(result.current.isDraggingOver).toBe(false);
-            expect(result.current.isInvalidDrag).toBe(false);
         });
 
         test('resets nesting counter after drop', () => {
@@ -231,43 +192,14 @@ describe('useDropZone', () => {
             });
             expect(result.current.isDraggingOver).toBe(false);
         });
-
-        test('does not call onDropAccepted if no accepted items', () => {
-            const onDropAccepted = jest.fn();
-            const onDropRejected = jest.fn();
-            const {result} = renderHook(() =>
-                useDropZone({accept: ['image/*'], onDropAccepted, onDropRejected}),
-            );
-            const props = result.current.getDroppableProps();
-
-            act(() => {
-                props.onDrop(createDragEvent(['application/pdf']));
-            });
-
-            expect(onDropAccepted).not.toHaveBeenCalled();
-            expect(onDropRejected).toHaveBeenCalledTimes(1);
-        });
-
-        test('does not call onDropRejected if no rejected items', () => {
-            const onDropAccepted = jest.fn();
-            const onDropRejected = jest.fn();
-            const {result} = renderHook(() =>
-                useDropZone({accept: ['image/*'], onDropAccepted, onDropRejected}),
-            );
-            const props = result.current.getDroppableProps();
-
-            act(() => {
-                props.onDrop(createDragEvent(['image/png']));
-            });
-
-            expect(onDropRejected).not.toHaveBeenCalled();
-            expect(onDropAccepted).toHaveBeenCalledTimes(1);
-        });
     });
 
     describe('disabled', () => {
-        test('does not change isDraggingOver when disabled', () => {
-            const {result} = renderHook(() => useDropZone({...defaultParams, disabled: true}));
+        test('does not change isDraggingOver or call onDragEnter when disabled', () => {
+            const onDragEnter = jest.fn();
+            const {result} = renderHook(() =>
+                useDropZone({onDragEnter, onDrop: jest.fn(), disabled: true}),
+            );
             const props = result.current.getDroppableProps();
 
             act(() => {
@@ -275,21 +207,18 @@ describe('useDropZone', () => {
             });
 
             expect(result.current.isDraggingOver).toBe(false);
+            expect(onDragEnter).not.toHaveBeenCalled();
         });
 
         test('does not call callbacks on drop when disabled', () => {
-            const onDropAccepted = jest.fn();
             const onDrop = jest.fn();
-            const {result} = renderHook(() =>
-                useDropZone({accept: ['image/*'], onDropAccepted, onDrop, disabled: true}),
-            );
+            const {result} = renderHook(() => useDropZone({onDrop, disabled: true}));
             const props = result.current.getDroppableProps();
 
             act(() => {
                 props.onDrop(createDragEvent(['image/png']));
             });
 
-            expect(onDropAccepted).not.toHaveBeenCalled();
             expect(onDrop).not.toHaveBeenCalled();
         });
 
@@ -308,66 +237,6 @@ describe('useDropZone', () => {
         });
     });
 
-    describe('maxFilesCount', () => {
-        test('maxFilesCount: 1 + drop 2 valid files → 1 accepted, 1 rejected', () => {
-            const onDropAccepted = jest.fn();
-            const onDropRejected = jest.fn();
-            const {result} = renderHook(() =>
-                useDropZone({
-                    accept: ['image/*'],
-                    onDropAccepted,
-                    onDropRejected,
-                    multiple: true,
-                    maxFilesCount: 1,
-                }),
-            );
-            const props = result.current.getDroppableProps();
-
-            act(() => {
-                props.onDrop(createDragEvent(['image/png', 'image/jpeg']));
-            });
-
-            expect(onDropAccepted).toHaveBeenCalledWith(
-                expect.arrayContaining([expect.objectContaining({type: 'image/png'})]),
-            );
-            expect(onDropRejected).toHaveBeenCalledWith(
-                expect.arrayContaining([
-                    expect.objectContaining({
-                        reasons: expect.arrayContaining(['too-many-files']),
-                    }),
-                ]),
-            );
-        });
-
-        test('without multiple → normalizedMaxFiles is 1', () => {
-            const onDropAccepted = jest.fn();
-            const onDropRejected = jest.fn();
-            const {result} = renderHook(() =>
-                useDropZone({
-                    accept: ['image/*'],
-                    onDropAccepted,
-                    onDropRejected,
-                }),
-            );
-            const props = result.current.getDroppableProps();
-
-            act(() => {
-                props.onDrop(createDragEvent(['image/png', 'image/jpeg']));
-            });
-
-            expect(onDropAccepted).toHaveBeenCalledWith([
-                expect.objectContaining({type: 'image/png'}),
-            ]);
-            expect(onDropRejected).toHaveBeenCalledWith(
-                expect.arrayContaining([
-                    expect.objectContaining({
-                        reasons: expect.arrayContaining(['too-many-files']),
-                    }),
-                ]),
-            );
-        });
-    });
-
     describe('with ref', () => {
         test('does not return getDroppableProps', () => {
             const ref = {current: document.createElement('div')};
@@ -375,11 +244,10 @@ describe('useDropZone', () => {
             expect('getDroppableProps' in result.current).toBe(false);
         });
 
-        test('returns isDraggingOver and isInvalidDrag', () => {
+        test('returns isDraggingOver', () => {
             const ref = {current: document.createElement('div')};
             const {result} = renderHook(() => useDropZone({...defaultParams, ref}));
             expect(result.current.isDraggingOver).toBe(false);
-            expect(result.current.isInvalidDrag).toBe(false);
         });
 
         test('attaches native event listeners on ref element', () => {

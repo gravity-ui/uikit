@@ -1,8 +1,8 @@
-import type {BaseInputControlProps} from '../../controls/types';
-import type {FileRejection, UseDropZoneAccept} from '../../../hooks/lab/useDropZone';
-
 import type {IconData} from '../..';
+import type {BaseInputControlProps} from '../../controls/types';
 import type {QAProps} from '../../types';
+
+import type {FileDropZoneAccept, FileRejection} from './utils';
 
 export type DropZoneFileRejection = Pick<FileRejection, 'reasons'> & {
     file: File;
@@ -10,7 +10,7 @@ export type DropZoneFileRejection = Pick<FileRejection, 'reasons'> & {
 
 export type FileDropZoneProps = Pick<BaseInputControlProps, 'validationState'> &
     QAProps & {
-        accept: UseDropZoneAccept;
+        accept: FileDropZoneAccept;
         onUpdate: (files: File[]) => void;
         onReject?: (items: DropZoneFileRejection[]) => void;
         title?: string;

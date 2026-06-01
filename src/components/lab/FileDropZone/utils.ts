@@ -1,5 +1,22 @@
-import {FILE_REJECTION_REASONS} from './constants';
-import type {FileRejection, FileRejectionReason, ValidateOptions} from './types';
+export const FILE_REJECTION_REASONS = {
+    INVALID_TYPE: 'invalid-type',
+    TOO_MANY_FILES: 'too-many-files',
+} as const;
+
+export type FileDropZoneAccept = string[];
+
+export type FileRejectionReason =
+    (typeof FILE_REJECTION_REASONS)[keyof typeof FILE_REJECTION_REASONS];
+
+export interface FileRejection {
+    item: DataTransferItem;
+    reasons: FileRejectionReason[];
+}
+
+interface ValidateOptions {
+    accept: FileDropZoneAccept;
+    maxFilesCount: number;
+}
 
 function typeMatchesPattern(actualMimeType: string, expectedMimeTypePattern: string): boolean {
     const actualMimeTypeParts = actualMimeType.split('/');

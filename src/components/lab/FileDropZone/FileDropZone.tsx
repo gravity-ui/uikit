@@ -1,7 +1,5 @@
 import * as React from 'react';
 
-import {normalizeMaxFilesCount} from '../../../hooks/lab/useDropZone/utils';
-
 import {FileDropZoneProvider, useFileZoneContext} from './FileDropZone.Provider';
 import {cnFileDropZone} from './FileDropZone.classname';
 import {FileDropZoneQa} from './constants';
@@ -10,6 +8,7 @@ import {FileDropZoneDescription} from './parts/FileDropZone.Description';
 import {FileDropZoneIcon} from './parts/FileDropZone.Icon';
 import {FileDropZoneTitle} from './parts/FileDropZone.Title';
 import type {FileDropZoneContainerProps, FileDropZoneProps} from './types';
+import {normalizeMaxFilesCount} from './utils';
 
 import './FileDropZone.scss';
 

@@ -1,5 +1,4 @@
-import {FILE_REJECTION_REASONS} from '../constants';
-import {getSeparatedItems, normalizeMaxFilesCount} from '../utils';
+import {FILE_REJECTION_REASONS, getSeparatedItems, normalizeMaxFilesCount} from '../utils';
 
 function createMockDataTransfer(itemTypes: string[]): DataTransfer {
     const items = itemTypes.map((type) => ({type, kind: 'file'}));
@@ -7,15 +6,15 @@ function createMockDataTransfer(itemTypes: string[]): DataTransfer {
 }
 
 describe('normalizeMaxFilesCount', () => {
-    test('undefined → Infinity', () => {
+    test('undefined -> Infinity', () => {
         expect(normalizeMaxFilesCount(undefined)).toBe(Infinity);
     });
 
-    test('0 → Infinity', () => {
+    test('0 -> Infinity', () => {
         expect(normalizeMaxFilesCount(0)).toBe(Infinity);
     });
 
-    test('negative → Infinity', () => {
+    test('negative -> Infinity', () => {
         expect(normalizeMaxFilesCount(-5)).toBe(Infinity);
     });
 
@@ -29,7 +28,7 @@ describe('normalizeMaxFilesCount', () => {
 });
 
 describe('getSeparatedItems', () => {
-    test('all items pass validation → all in accepted', () => {
+    test('all items pass validation -> all in accepted', () => {
         const dt = createMockDataTransfer(['image/png', 'image/jpeg']);
         const {accepted, rejected} = getSeparatedItems(dt, {
             accept: ['image/*'],
@@ -39,7 +38,7 @@ describe('getSeparatedItems', () => {
         expect(rejected).toHaveLength(0);
     });
 
-    test('invalid MIME type → rejected with invalid-type', () => {
+    test('invalid MIME type -> rejected with invalid-type', () => {
         const dt = createMockDataTransfer(['application/pdf']);
         const {accepted, rejected} = getSeparatedItems(dt, {
             accept: ['image/*'],
@@ -50,7 +49,7 @@ describe('getSeparatedItems', () => {
         expect(rejected[0].reasons).toEqual([FILE_REJECTION_REASONS.INVALID_TYPE]);
     });
 
-    test('exceeding maxFilesCount → rejected with too-many-files', () => {
+    test('exceeding maxFilesCount -> rejected with too-many-files', () => {
         const dt = createMockDataTransfer(['image/png', 'image/png', 'image/png']);
         const {accepted, rejected} = getSeparatedItems(dt, {
             accept: ['image/*'],
@@ -77,7 +76,7 @@ describe('getSeparatedItems', () => {
         );
     });
 
-    test('empty items list → empty arrays', () => {
+    test('empty items list -> empty arrays', () => {
         const dt = createMockDataTransfer([]);
         const {accepted, rejected} = getSeparatedItems(dt, {
             accept: ['image/*'],
@@ -119,7 +118,7 @@ describe('getSeparatedItems', () => {
         expect(rejected[0].item).toBe(dt.items[2]);
     });
 
-    test('invalid MIME format (no slash) → rejected', () => {
+    test('invalid MIME format without slash -> rejected', () => {
         const dt = createMockDataTransfer(['invalidmime']);
         const {accepted, rejected} = getSeparatedItems(dt, {
             accept: ['image/*'],

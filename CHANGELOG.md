@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.41.0](https://github.com/gravity-ui/uikit/compare/v7.40.0...v7.41.0) (2026-06-01)
+
+
+### Features
+
+* **TabList:** add customization for "More" button ([#2693](https://github.com/gravity-ui/uikit/issues/2693)) ([56da693](https://github.com/gravity-ui/uikit/commit/56da6935d8a597c5d944d8da975177537f479df0))
+
 ## [7.40.0](https://github.com/gravity-ui/uikit/compare/v7.39.0...v7.40.0) (2026-05-27)
 
 

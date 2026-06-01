@@ -22,7 +22,7 @@ const CHEVRON_SIZE: Record<NonNullable<TabListCollapseItemProps['size']>, number
 
 export const TabListCollapseItem = React.forwardRef<HTMLButtonElement, TabListCollapseItemProps>(
     (
-        {children, triggerChild, size = 'm'}: TabListCollapseItemProps,
+        {children, triggerChild, moreLabel = 'More', size = 'm'}: TabListCollapseItemProps,
         ref: React.ForwardedRef<HTMLButtonElement>,
     ) => {
         const childrenCount = React.Children.count(children);
@@ -52,7 +52,7 @@ export const TabListCollapseItem = React.forwardRef<HTMLButtonElement, TabListCo
                     <TabContent {...triggerChildTabProps} />
                 ) : (
                     <Text variant="inherit" className={bTabListCollapseItem('text')}>
-                        More
+                        {moreLabel}
                     </Text>
                 )}
                 <Text variant="inherit" className={bTabListCollapseItem('count')}>

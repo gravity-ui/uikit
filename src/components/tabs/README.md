@@ -143,6 +143,7 @@ SANDBOX-->
 | activateOnFocus | Activate tab on focus. Use this only if panel's content can be displayed immediately   |            `boolean`             | `false`  |
 | size            | Element size                                                                           |        `"m"` `"l"` `"xl"`        |  `"m"`   |
 | contentOverflow | How to deal with items that do not fit horizontally (wrap, scroll, or a **More** menu) | `"wrap"` `"scroll"` `"collapse"` | `"wrap"` |
+| moreLabel       | Label for the collapse overflow trigger when the active tab is visible in the list     |        `React.ReactNode`         | `"More"` |
 | qa              | HTML `data-qa` attribute, used in tests                                                |             `string`             |          |
 
 ## Tab

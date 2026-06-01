@@ -119,6 +119,7 @@ export function useTabList(
         activateOnFocus: _activateOnFocus,
         qa: _qa,
         contentOverflow,
+        moreLabel: _moreLabel,
         ...htmlProps
     } = tabListProps;
 

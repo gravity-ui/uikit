@@ -58,3 +58,9 @@ SANDBOX-->
 | style     | Custom CSS styles for root element    |      `React.CSSProperties`      |         |
 | className | Custom CSS class for the root element |            `string`             |         |
 | qa        | Test attribute (`data-qa`)            |            `string`             |         |
+
+### CSS API
+
+| Name             | Description                     |
+| :--------------- | :------------------------------ |
+| `--g-spin-color` | The main color of the component |

@@ -8,14 +8,14 @@ import {Flex} from '../../layout';
 import {cn} from '../../utils/cn';
 import {Drawer} from '../components/Drawer';
 
-import './DisableAnimation.scss';
+import './DisableTransition.scss';
 
-const b = cn('disable-animation');
+const b = cn('disable-transition');
 const mockText = faker.lorem.sentences(10);
 
-export function DisableAnimationShowcase() {
+export function DisableTransitionShowcase() {
     const [visible, setVisible] = React.useState(true);
-    const [disableAnimation, setDisableAnimation] = React.useState(true);
+    const [disableTransition, setDisableTransition] = React.useState(true);
 
     return (
         <div className={b()}>
@@ -25,8 +25,8 @@ export function DisableAnimationShowcase() {
                 </Button>
                 <Checkbox
                     content="Disable animation"
-                    checked={disableAnimation}
-                    onUpdate={setDisableAnimation}
+                    checked={disableTransition}
+                    onUpdate={setDisableTransition}
                 />
             </div>
             <div className={b('container')}>
@@ -34,7 +34,7 @@ export function DisableAnimationShowcase() {
                     open={visible}
                     placement="right"
                     onOpenChange={setVisible}
-                    disableAnimation={disableAnimation}
+                    disableTransition={disableTransition}
                 >
                     <div className={b('item-content')}>
                         <Flex direction="column" gap={4}>

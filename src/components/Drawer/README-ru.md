@@ -53,12 +53,12 @@ export default App;
 </Drawer>
 ```
 
-## Анимация (`disableAnimation`)
+## Анимация (`disableTransition`)
 
-По умолчанию `Drawer` выезжает и скрывается с плавным переходом. Чтобы показывать или скрывать панель мгновенно, передайте свойство `disableAnimation`.
+По умолчанию `Drawer` выезжает и скрывается с плавным переходом. Чтобы показывать или скрывать панель мгновенно, передайте свойство `disableTransition`.
 
 ```tsx
-<Drawer onOpenChange={setVisible} open={isVisible} disableAnimation>
+<Drawer onOpenChange={setVisible} open={isVisible} disableTransition>
   <p>Content of the drawer</p>
 </Drawer>
 ```
@@ -104,7 +104,7 @@ const [size, setSize] = useState(500);
 | disableBodyScrollLock   | Отключает блокировку скролла страницы при открытии                                                            |             `boolean`              |        `false`        |
 | disableEscapeKeyDown    | Отключает закрытие по клавише `Esc`                                                                           |             `boolean`              |        `false`        |
 | disableOutsideClick     | Отключает закрытие при клике снаружи                                                                          |             `boolean`              |        `false`        |
-| disableAnimation        | Отключает анимацию компонента                                                                                 |             `boolean`              |        `false`        |
+| disableTransition       | Отключает анимацию компонента                                                                                 |             `boolean`              |        `false`        |
 | disablePortal           | Отключает использование `Portal`                                                                              |             `boolean`              |        `false`        |
 | keepMounted             | Не удаляет компонент из DOM при скрытии                                                                       |             `boolean`              |        `false`        |
 | resizable               | Включает возможность изменения размера через курсор                                                           |             `boolean`              |        `false`        |

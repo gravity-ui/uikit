@@ -87,8 +87,8 @@ $drawer-resizer-width: 8px;
         transform: translate(0, 0);
     }
 
-    &:not(&_disable-animation)[data-floating-ui-status='open'] &__item,
-    &:not(&_disable-animation)[data-floating-ui-status='close'] &__item {
+    &[data-floating-ui-status='open'] &__item,
+    &[data-floating-ui-status='close'] &__item {
         transition: transform var(--drawer-animation-duration, 300ms);
     }
 
@@ -112,8 +112,8 @@ $drawer-resizer-width: 8px;
         transform: translate(0, 100%);
     }
 
-    &:not(&_disable-animation)[data-floating-ui-status='open'],
-    &:not(&_disable-animation)[data-floating-ui-status='close'] {
+    &[data-floating-ui-status='open'],
+    &[data-floating-ui-status='close'] {
         transition: background-color var(--drawer-animation-duration, 300ms);
     }
 

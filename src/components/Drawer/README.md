@@ -55,10 +55,10 @@ To control the placement of the `Drawer`, you can pass the `placement` prop. The
 
 ## Animation
 
-By default, the `Drawer` slides in and out with a transition. To show or hide it instantly, pass the `disableAnimation` prop.
+By default, the `Drawer` slides in and out with a transition. To show or hide it instantly, pass the `disableTransition` prop.
 
 ```tsx
-<Drawer onOpenChange={setVisible} open={isVisible} disableAnimation>
+<Drawer onOpenChange={setVisible} open={isVisible} disableTransition>
   <p>Content of the drawer</p>
 </Drawer>
 ```
@@ -104,7 +104,7 @@ const [size, setSize] = useState(500);
 | disableBodyScrollLock   | Disables locking scroll while open                                                                                                      |             `boolean`              |     `false`     |
 | disableEscapeKeyDown    | Disables triggering close on `Esc`                                                                                                      |             `boolean`              |     `false`     |
 | disableOutsideClick     | Disables triggering close on outside clicks                                                                                             |             `boolean`              |     `false`     |
-| disableAnimation        | Disables the drawer's animation                                                                                                         |             `boolean`              |     `false`     |
+| disableTransition       | Disables the drawer's animation                                                                                                         |             `boolean`              |     `false`     |
 | disablePortal           | Disables using `Portal`                                                                                                                 |             `boolean`              |     `false`     |
 | keepMounted             | `Drawer` will not be removed from the DOM upon hiding                                                                                   |             `boolean`              |     `false`     |
 | resizable               | Enables resizing of the drawer via pointer                                                                                              |             `boolean`              |     `false`     |

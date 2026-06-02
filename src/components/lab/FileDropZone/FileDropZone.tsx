@@ -79,7 +79,7 @@ const FileDropZoneContent = ({className, children, qa}: FileDropZoneContainerPro
             <input
                 {...controlProps}
                 multiple={multiple}
-                accept={accept.join(',')}
+                accept={accept.length > 0 ? accept.join(',') : undefined}
                 data-qa={FileDropZoneQa.FILE_INPUT}
                 onClick={handleInputClick}
             />

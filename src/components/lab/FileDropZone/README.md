@@ -12,8 +12,8 @@ import {FileDropZone} from '@gravity-ui/uikit';
 
 ```tsx
 const accept = ['image/*'];
-const handleUpdate = (files: File[]) => {
-  // Do something with files
+const handleUpdate = (acceptedItems: File[], rejectedItems: DropZoneFileRejection[]) => {
+  // Do something with accepted and rejected files
 };
 
 <FileDropZone accept={accept} onUpdate={handleUpdate} />;
@@ -25,13 +25,13 @@ const handleUpdate = (files: File[]) => {
 import {DatabaseFill, HeartCrack} from '@gravity-ui/icons';
 
 const accept = ['image/*'];
-const handleUpdate = (files: File[]) => {
+const handleUpdateAccepted = (files: File[]) => {
   // Do something with files
 };
 
 <FileDropZone
   accept={accept}
-  onUpdate={handleUpdate}
+  onUpdateAccepted={handleUpdateAccepted}
   title="Lorem ipsum dolor sit amet"
   description="Duis consequat commodo eros sit"
   buttonText="Upload"
@@ -46,13 +46,13 @@ The Compound Component pattern allows rendering of an arbitrary layout. All prop
 
 ```tsx
 const accept = ['image/*'];
-const handleUpdate = (files: File[]) => {
+const handleUpdateAccepted = (files: File[]) => {
   // Do something with files
 };
 
 <FileDropZone
   accept={accept}
-  onUpdate={handleUpdate}
+  onUpdateAccepted={handleUpdateAccepted}
   title="Lorem ipsum dolor sit amet"
   description="Duis consequat commodo eros sit"
   buttonText="Upload"
@@ -91,18 +91,19 @@ const handleUpdate = (files: File[]) => {
 
 ## Properties
 
-| Name            | Description                                                                                                                                                                               |                    Type                    |                  Default                   |
-| :-------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------: | :----------------------------------------: |
-| accept          | A list of MIME types for allowed files                                                                                                                                                    |                 `string[]`                 |                                            |
-| onUpdate        | A callback invoked when accepted files are added                                                                                                                                          |         `(files: File[]) => void`          |                                            |
-| onReject        | A callback invoked when files are rejected because of a wrong type or because more than one file is provided in single-file mode. May be called together with `onUpdate` in a single drop | `(items: DropZoneFileRejection[]) => void` |                                            |
-| title           | A title displayed under the icon                                                                                                                                                          |                  `string`                  | "Drag the file(s) here or select it(them)" |
-| description     | A description displayed under the title                                                                                                                                                   |                  `string`                  |                                            |
-| buttonText      | An upload button label                                                                                                                                                                    |                  `string`                  |             "Select a file(s)"             |
-| icon            | A custom icon component from `@gravity-ui/icons`. When null is passed, the icon is not rendered                                                                                           |        `@gravity-ui/icons/IconData`        |                                            |
-| errorIcon       | A custom error icon component from `@gravity-ui/icons`. When null is passed, the error icon is not rendered                                                                               |        `@gravity-ui/icons/IconData`        |                                            |
-| className       | A root element className                                                                                                                                                                  |                  `string`                  |                                            |
-| multiple        | A boolean value that determines whether multiple files can be uploaded. When `false`, only one file is accepted                                                                           |                 `boolean`                  |                  `false`                   |
-| disabled        | A boolean value that determines whether file uploading is disabled                                                                                                                        |                 `boolean`                  |                                            |
-| errorMessage    | An error message. If provided, error styles are also rendered                                                                                                                             |                  `string`                  |                                            |
-| validationState | Validation state. If set to `"invalid"`, error styles are rendered                                                                                                                        |                `"invalid"`                 |                                            |
+| Name             | Description                                                                                                                      |                                   Type                                    |                  Default                   |
+| :--------------- | :------------------------------------------------------------------------------------------------------------------------------- | :-----------------------------------------------------------------------: | :----------------------------------------: |
+| accept           | A list of MIME types for allowed files                                                                                           |                                `string[]`                                 |                    `[]`                    |
+| onUpdate         | A callback invoked when files are added. Receives accepted and rejected files in a single call                                   | `(acceptedItems: File[], rejectedItems: DropZoneFileRejection[]) => void` |                                            |
+| onUpdateAccepted | A callback invoked when accepted files are added                                                                                 |                         `(items: File[]) => void`                         |                                            |
+| onUpdateRejected | A callback invoked when files are rejected because of a wrong type or because more than one file is provided in single-file mode |                `(items: DropZoneFileRejection[]) => void`                 |                                            |
+| title            | A title displayed under the icon                                                                                                 |                                 `string`                                  | "Drag the file(s) here or select it(them)" |
+| description      | A description displayed under the title                                                                                          |                                 `string`                                  |                                            |
+| buttonText       | An upload button label                                                                                                           |                                 `string`                                  |             "Select a file(s)"             |
+| icon             | A custom icon component from `@gravity-ui/icons`. When null is passed, the icon is not rendered                                  |                       `@gravity-ui/icons/IconData`                        |                                            |
+| errorIcon        | A custom error icon component from `@gravity-ui/icons`. When null is passed, the error icon is not rendered                      |                       `@gravity-ui/icons/IconData`                        |                                            |
+| className        | A root element className                                                                                                         |                                 `string`                                  |                                            |
+| multiple         | A boolean value that determines whether multiple files can be uploaded. When `false`, only one file is accepted                  |                                 `boolean`                                 |                  `false`                   |
+| disabled         | A boolean value that determines whether file uploading is disabled                                                               |                                 `boolean`                                 |                                            |
+| errorMessage     | An error message. If provided, error styles are also rendered                                                                    |                                 `string`                                  |                                            |
+| validationState  | Validation state. If set to `"invalid"`, error styles are rendered                                                               |                                `"invalid"`                                |                                            |

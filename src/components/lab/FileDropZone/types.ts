@@ -10,9 +10,10 @@ export type DropZoneFileRejection = Pick<FileRejection, 'reasons'> & {
 
 export type FileDropZoneProps = Pick<BaseInputControlProps, 'validationState'> &
     QAProps & {
-        accept: FileDropZoneAccept;
-        onUpdate: (files: File[]) => void;
-        onReject?: (items: DropZoneFileRejection[]) => void;
+        accept?: FileDropZoneAccept;
+        onUpdate?: (acceptedItems: File[], rejectedItems: DropZoneFileRejection[]) => void;
+        onUpdateAccepted?: (items: File[]) => void;
+        onUpdateRejected?: (items: DropZoneFileRejection[]) => void;
         title?: string;
         description?: string;
         buttonText?: string;

@@ -80,6 +80,11 @@ describe('FileDropZone', () => {
             expect(zone).toHaveAttribute('role', 'button');
             expect(zone).toHaveAttribute('tabindex', '0');
         });
+
+        test('renders without update callbacks', () => {
+            render(<FileDropZone qa="drop-zone" />);
+            expect(screen.getByTestId('drop-zone')).toBeInTheDocument();
+        });
     });
 
     describe('error state', () => {
@@ -146,28 +151,47 @@ describe('FileDropZone', () => {
             expect(zone.className).not.toMatch(/drag-hover/);
         });
 
-        test('calls onUpdate with File[] on valid drop', () => {
+        test('calls onUpdate and onUpdateAccepted on valid drop', () => {
             const onUpdate = jest.fn();
-            render(<FileDropZone {...defaultProps} onUpdate={onUpdate} qa="drop-zone" />);
+            const onUpdateAccepted = jest.fn();
+            render(
+                <FileDropZone
+                    {...defaultProps}
+                    onUpdate={onUpdate}
+                    onUpdateAccepted={onUpdateAccepted}
+                    qa="drop-zone"
+                />,
+            );
             const zone = screen.getByTestId('drop-zone');
             const file = createFile('a.png', 'image/png');
 
             fireEvent.drop(zone, createDropData([file]));
 
             expect(onUpdate).toHaveBeenCalledTimes(1);
-            expect(onUpdate).toHaveBeenCalledWith([file]);
+            expect(onUpdate).toHaveBeenCalledWith([file], []);
+            expect(onUpdateAccepted).toHaveBeenCalledTimes(1);
+            expect(onUpdateAccepted).toHaveBeenCalledWith([file]);
         });
 
-        test('calls onReject on drop with invalid type', () => {
-            const onReject = jest.fn();
-            render(<FileDropZone {...defaultProps} onReject={onReject} qa="drop-zone" />);
+        test('calls onUpdate and onUpdateRejected on drop with invalid type', () => {
+            const onUpdate = jest.fn();
+            const onUpdateRejected = jest.fn();
+            render(
+                <FileDropZone
+                    {...defaultProps}
+                    onUpdate={onUpdate}
+                    onUpdateRejected={onUpdateRejected}
+                    qa="drop-zone"
+                />,
+            );
             const zone = screen.getByTestId('drop-zone');
             const file = createFile('doc.pdf', 'application/pdf');
 
             fireEvent.drop(zone, createDropData([file]));
 
-            expect(onReject).toHaveBeenCalledTimes(1);
-            expect(onReject).toHaveBeenCalledWith(
+            expect(onUpdate).toHaveBeenCalledTimes(1);
+            expect(onUpdate.mock.calls[0][0]).toEqual([]);
+            expect(onUpdate.mock.calls[0][1]).toEqual(
                 expect.arrayContaining([
                     expect.objectContaining({
                         file,
@@ -175,6 +199,8 @@ describe('FileDropZone', () => {
                     }),
                 ]),
             );
+            expect(onUpdateRejected).toHaveBeenCalledTimes(1);
+            expect(onUpdateRejected).toHaveBeenCalledWith(onUpdate.mock.calls[0][1]);
         });
 
         test('applies invalid-drag modifier when dragging invalid files', () => {
@@ -203,16 +229,29 @@ describe('FileDropZone', () => {
 
             expect(onUpdate).toHaveBeenCalledTimes(1);
             expect(onUpdate.mock.calls[0][0]).toHaveLength(2);
+            expect(onUpdate.mock.calls[0][1]).toEqual([]);
+        });
+
+        test('accepts dropped files without accept prop', () => {
+            const onUpdate = jest.fn();
+            render(<FileDropZone onUpdate={onUpdate} qa="drop-zone" />);
+            const zone = screen.getByTestId('drop-zone');
+            const file = createFile('doc.pdf', 'application/pdf');
+
+            fireEvent.drop(zone, createDropData([file]));
+
+            expect(onUpdate).toHaveBeenCalledTimes(1);
+            expect(onUpdate).toHaveBeenCalledWith([file], []);
         });
 
         test('accepts only first valid dropped file in single-file mode', () => {
-            const onReject = jest.fn();
+            const onUpdateRejected = jest.fn();
             const onUpdate = jest.fn();
             render(
                 <FileDropZone
                     accept={['image/*']}
                     onUpdate={onUpdate}
-                    onReject={onReject}
+                    onUpdateRejected={onUpdateRejected}
                     qa="drop-zone"
                 />,
             );
@@ -223,8 +262,16 @@ describe('FileDropZone', () => {
             fireEvent.drop(zone, createDropData([firstFile, secondFile]));
 
             expect(onUpdate).toHaveBeenCalledTimes(1);
-            expect(onUpdate).toHaveBeenCalledWith([firstFile]);
-            expect(onReject).toHaveBeenCalledWith([
+            expect(onUpdate).toHaveBeenCalledWith(
+                [firstFile],
+                [
+                    {
+                        file: secondFile,
+                        reasons: ['too-many-files'],
+                    },
+                ],
+            );
+            expect(onUpdateRejected).toHaveBeenCalledWith([
                 {
                     file: secondFile,
                     reasons: ['too-many-files'],
@@ -303,6 +350,11 @@ describe('FileDropZone', () => {
             expect(getFileInput()).toHaveAttribute('accept', 'image/png,application/pdf');
         });
 
+        test('hidden input does not have accept attribute when accept is not provided', () => {
+            render(<FileDropZone onUpdate={jest.fn()} />);
+            expect(getFileInput()).not.toHaveAttribute('accept');
+        });
+
         test('input has multiple in multiple mode', () => {
             render(<FileDropZone {...defaultProps} multiple qa="drop-zone" />);
             expect(getFileInput()).toHaveAttribute('multiple');
@@ -322,7 +374,7 @@ describe('FileDropZone', () => {
             await user.upload(getFileInput(), file);
 
             expect(onUpdate).toHaveBeenCalledTimes(1);
-            expect(onUpdate).toHaveBeenCalledWith([file]);
+            expect(onUpdate).toHaveBeenCalledWith([file], []);
         });
 
         test('calls onUpdate with all files selected in multiple mode', async () => {
@@ -339,16 +391,17 @@ describe('FileDropZone', () => {
 
             expect(onUpdate).toHaveBeenCalledTimes(1);
             expect(onUpdate.mock.calls[0][0]).toHaveLength(2);
+            expect(onUpdate.mock.calls[0][1]).toEqual([]);
         });
 
         test('accepts only first selected file in single-file mode', () => {
             const onUpdate = jest.fn();
-            const onReject = jest.fn();
+            const onUpdateRejected = jest.fn();
             render(
                 <FileDropZone
                     accept={['image/*']}
                     onUpdate={onUpdate}
-                    onReject={onReject}
+                    onUpdateRejected={onUpdateRejected}
                     qa="drop-zone"
                 />,
             );
@@ -358,8 +411,16 @@ describe('FileDropZone', () => {
             fireEvent.change(getFileInput(), {target: {files: [firstFile, secondFile]}});
 
             expect(onUpdate).toHaveBeenCalledTimes(1);
-            expect(onUpdate).toHaveBeenCalledWith([firstFile]);
-            expect(onReject).toHaveBeenCalledWith([
+            expect(onUpdate).toHaveBeenCalledWith(
+                [firstFile],
+                [
+                    {
+                        file: secondFile,
+                        reasons: ['too-many-files'],
+                    },
+                ],
+            );
+            expect(onUpdateRejected).toHaveBeenCalledWith([
                 {
                     file: secondFile,
                     reasons: ['too-many-files'],

@@ -12,8 +12,8 @@ import {FileDropZone} from '@gravity-ui/uikit';
 
 ```tsx
 const accept = ['image/*'];
-const handleUpdate = (files: File[]) => {
-  // Do something with files
+const handleUpdate = (acceptedItems: File[], rejectedItems: DropZoneFileRejection[]) => {
+  // Do something with accepted and rejected files
 };
 
 <FileDropZone accept={accept} onUpdate={handleUpdate} />;
@@ -25,13 +25,13 @@ const handleUpdate = (files: File[]) => {
 import {DatabaseFill, HeartCrack} from '@gravity-ui/icons';
 
 const accept = ['image/*'];
-const handleUpdate = (files: File[]) => {
+const handleUpdateAccepted = (files: File[]) => {
   // Do something with files
 };
 
 <FileDropZone
   accept={accept}
-  onUpdate={handleUpdate}
+  onUpdateAccepted={handleUpdateAccepted}
   title="Lorem ipsum dolor sit amet"
   description="Duis consequat commodo eros sit"
   buttonText="Upload"
@@ -46,13 +46,13 @@ const handleUpdate = (files: File[]) => {
 
 ```tsx
 const accept = ['image/*'];
-const handleUpdate = (files: File[]) => {
+const handleUpdateAccepted = (files: File[]) => {
   // Do something with files
 };
 
 <FileDropZone
   accept={accept}
-  onUpdate={handleUpdate}
+  onUpdateAccepted={handleUpdateAccepted}
   title="Lorem ipsum dolor sit amet"
   description="Duis consequat commodo eros sit"
   buttonText="Upload"
@@ -91,18 +91,19 @@ const handleUpdate = (files: File[]) => {
 
 ## Properties
 
-| Name            | Description                                                                                                                                                                                                                                               |                    Type                    |                  Default                   |
-| :-------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------: | :----------------------------------------: |
-| accept          | Список допустимых MIME-типов                                                                                                                                                                                                                              |                 `string[]`                 |                                            |
-| onUpdate        | Коллбэк, вызываемый при добавлении принятых файлов                                                                                                                                                                                                        |         `(files: File[]) => void`          |                                            |
-| onReject        | Коллбэк, вызываемый при отклонении файлов из-за неподходящего типа или из-за передачи больше одного файла в режиме загрузки одного файла. Может быть вызван одновременно с `onUpdate` в рамках одного дропа, если часть файлов принята, а часть отклонена | `(items: DropZoneFileRejection[]) => void` |                                            |
-| title           | Заголовок, отображаемый под иконкой                                                                                                                                                                                                                       |                  `string`                  | "Drag the file(s) here or select it(them)" |
-| description     | Описание, отображаемое под заголовком                                                                                                                                                                                                                     |                  `string`                  |                                            |
-| buttonText      | Подпись кнопки загрузки                                                                                                                                                                                                                                   |                  `string`                  |             "Select a file(s)"             |
-| icon            | Пользовательский компонент иконки из `@gravity-ui/icons`. Если передан `null`, иконка не отображается.                                                                                                                                                    |        `@gravity-ui/icons/IconData`        |                                            |
-| errorIcon       | Пользовательский компонент иконки ошибки из `@gravity-ui/icons`. Если передан `null`, иконка ошибки не отображается.                                                                                                                                      |        `@gravity-ui/icons/IconData`        |                                            |
-| className       | Класс корневого элемента                                                                                                                                                                                                                                  |                  `string`                  |                                            |
-| multiple        | Булево значение, определяющее, можно ли загружать несколько файлов. Если `false`, принимается только один файл                                                                                                                                            |                 `boolean`                  |                  `false`                   |
-| disabled        | Булево значение, определяющее, отключена ли загрузка файлов                                                                                                                                                                                               |                 `boolean`                  |                                            |
-| errorMessage    | Сообщение об ошибке. Если указано, также применяются стили ошибки.                                                                                                                                                                                        |                  `string`                  |                                            |
-| validationState | Состояние валидации. Если установлено `"invalid"`, применяются стили ошибки                                                                                                                                                                               |                `"invalid"`                 |                                            |
+| Name             | Description                                                                                                                              |                                   Type                                    |                  Default                   |
+| :--------------- | :--------------------------------------------------------------------------------------------------------------------------------------- | :-----------------------------------------------------------------------: | :----------------------------------------: |
+| accept           | Список допустимых MIME-типов                                                                                                             |                                `string[]`                                 |                    `[]`                    |
+| onUpdate         | Коллбэк, вызываемый при добавлении файлов. Получает принятые и отклоненные файлы в одном вызове                                          | `(acceptedItems: File[], rejectedItems: DropZoneFileRejection[]) => void` |                                            |
+| onUpdateAccepted | Коллбэк, вызываемый при добавлении принятых файлов                                                                                       |                         `(items: File[]) => void`                         |                                            |
+| onUpdateRejected | Коллбэк, вызываемый при отклонении файлов из-за неподходящего типа или из-за передачи больше одного файла в режиме загрузки одного файла |                `(items: DropZoneFileRejection[]) => void`                 |                                            |
+| title            | Заголовок, отображаемый под иконкой                                                                                                      |                                 `string`                                  | "Drag the file(s) here or select it(them)" |
+| description      | Описание, отображаемое под заголовком                                                                                                    |                                 `string`                                  |                                            |
+| buttonText       | Подпись кнопки загрузки                                                                                                                  |                                 `string`                                  |             "Select a file(s)"             |
+| icon             | Пользовательский компонент иконки из `@gravity-ui/icons`. Если передан `null`, иконка не отображается.                                   |                       `@gravity-ui/icons/IconData`                        |                                            |
+| errorIcon        | Пользовательский компонент иконки ошибки из `@gravity-ui/icons`. Если передан `null`, иконка ошибки не отображается.                     |                       `@gravity-ui/icons/IconData`                        |                                            |
+| className        | Класс корневого элемента                                                                                                                 |                                 `string`                                  |                                            |
+| multiple         | Булево значение, определяющее, можно ли загружать несколько файлов. Если `false`, принимается только один файл                           |                                 `boolean`                                 |                  `false`                   |
+| disabled         | Булево значение, определяющее, отключена ли загрузка файлов                                                                              |                                 `boolean`                                 |                                            |
+| errorMessage     | Сообщение об ошибке. Если указано, также применяются стили ошибки.                                                                       |                                 `string`                                  |                                            |
+| validationState  | Состояние валидации. Если установлено `"invalid"`, применяются стили ошибки                                                              |                                `"invalid"`                                |                                            |

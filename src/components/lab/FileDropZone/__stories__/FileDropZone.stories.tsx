@@ -16,13 +16,13 @@ export default {
     },
 } as Meta;
 
-const handleUpdate: FileDropZoneProps['onUpdate'] = (files) => {
+const handleUpdateAccepted: FileDropZoneProps['onUpdateAccepted'] = (files) => {
     const msg = `Files: ${files.map(({name}) => name).join(', ')}`;
 
     alert(msg);
 };
 
-const handleReject: FileDropZoneProps['onReject'] = (files) => {
+const handleUpdateRejected: FileDropZoneProps['onUpdateRejected'] = (files) => {
     const msg = `Files: ${files.map(({file, reasons}) => `${file.name} rejected, reasons: ${reasons.join(', ')}`).join('. ')}`;
 
     alert(msg);
@@ -30,8 +30,8 @@ const handleReject: FileDropZoneProps['onReject'] = (files) => {
 
 const BASE_ARGS: Partial<FileDropZoneProps> = {
     accept: ['image/*'],
-    onReject: handleReject,
-    onUpdate: handleUpdate,
+    onUpdateAccepted: handleUpdateAccepted,
+    onUpdateRejected: handleUpdateRejected,
     qa: FileDropZoneQA,
 };
 

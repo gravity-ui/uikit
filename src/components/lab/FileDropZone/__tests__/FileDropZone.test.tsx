@@ -186,18 +186,10 @@ describe('FileDropZone', () => {
             expect(zone.className).toMatch(/invalid-drag/);
         });
 
-        test('calls onReject with too-many-files when exceeding maxFilesCount', () => {
-            const onReject = jest.fn();
+        test('calls onUpdate with all valid dropped files', () => {
             const onUpdate = jest.fn();
             render(
-                <FileDropZone
-                    accept={['image/*']}
-                    onUpdate={onUpdate}
-                    onReject={onReject}
-                    multiple
-                    maxFilesCount={1}
-                    qa="drop-zone"
-                />,
+                <FileDropZone accept={['image/*']} onUpdate={onUpdate} multiple qa="drop-zone" />,
             );
             const zone = screen.getByTestId('drop-zone');
 
@@ -210,13 +202,34 @@ describe('FileDropZone', () => {
             );
 
             expect(onUpdate).toHaveBeenCalledTimes(1);
-            expect(onReject).toHaveBeenCalledWith(
-                expect.arrayContaining([
-                    expect.objectContaining({
-                        reasons: expect.arrayContaining(['too-many-files']),
-                    }),
-                ]),
+            expect(onUpdate.mock.calls[0][0]).toHaveLength(2);
+        });
+
+        test('accepts only first valid dropped file in single-file mode', () => {
+            const onReject = jest.fn();
+            const onUpdate = jest.fn();
+            render(
+                <FileDropZone
+                    accept={['image/*']}
+                    onUpdate={onUpdate}
+                    onReject={onReject}
+                    qa="drop-zone"
+                />,
             );
+            const zone = screen.getByTestId('drop-zone');
+            const firstFile = createFile('a.png', 'image/png');
+            const secondFile = createFile('b.png', 'image/png');
+
+            fireEvent.drop(zone, createDropData([firstFile, secondFile]));
+
+            expect(onUpdate).toHaveBeenCalledTimes(1);
+            expect(onUpdate).toHaveBeenCalledWith([firstFile]);
+            expect(onReject).toHaveBeenCalledWith([
+                {
+                    file: secondFile,
+                    reasons: ['too-many-files'],
+                },
+            ]);
         });
     });
 
@@ -312,19 +325,11 @@ describe('FileDropZone', () => {
             expect(onUpdate).toHaveBeenCalledWith([file]);
         });
 
-        test('splits files by maxFilesCount on input selection', async () => {
+        test('calls onUpdate with all files selected in multiple mode', async () => {
             const user = userEvent.setup();
             const onUpdate = jest.fn();
-            const onReject = jest.fn();
             render(
-                <FileDropZone
-                    accept={['image/*']}
-                    onUpdate={onUpdate}
-                    onReject={onReject}
-                    multiple
-                    maxFilesCount={1}
-                    qa="drop-zone"
-                />,
+                <FileDropZone accept={['image/*']} onUpdate={onUpdate} multiple qa="drop-zone" />,
             );
 
             await user.upload(getFileInput(), [
@@ -333,8 +338,33 @@ describe('FileDropZone', () => {
             ]);
 
             expect(onUpdate).toHaveBeenCalledTimes(1);
-            expect(onUpdate.mock.calls[0][0]).toHaveLength(1);
-            expect(onReject).toHaveBeenCalledTimes(0);
+            expect(onUpdate.mock.calls[0][0]).toHaveLength(2);
+        });
+
+        test('accepts only first selected file in single-file mode', () => {
+            const onUpdate = jest.fn();
+            const onReject = jest.fn();
+            render(
+                <FileDropZone
+                    accept={['image/*']}
+                    onUpdate={onUpdate}
+                    onReject={onReject}
+                    qa="drop-zone"
+                />,
+            );
+            const firstFile = createFile('a.png', 'image/png');
+            const secondFile = createFile('b.png', 'image/png');
+
+            fireEvent.change(getFileInput(), {target: {files: [firstFile, secondFile]}});
+
+            expect(onUpdate).toHaveBeenCalledTimes(1);
+            expect(onUpdate).toHaveBeenCalledWith([firstFile]);
+            expect(onReject).toHaveBeenCalledWith([
+                {
+                    file: secondFile,
+                    reasons: ['too-many-files'],
+                },
+            ]);
         });
     });
 

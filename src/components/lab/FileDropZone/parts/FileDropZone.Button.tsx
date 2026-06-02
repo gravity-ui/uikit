@@ -9,11 +9,10 @@ type FileDropZoneButtonProps = {
 };
 
 export const FileDropZoneButton = ({className}: FileDropZoneButtonProps) => {
-    const {buttonText, maxFilesCount} = useFileZoneContext();
+    const {buttonText, multiple} = useFileZoneContext();
 
     const {t} = i18n.useTranslation();
 
-    const multiple = maxFilesCount > 1;
     const postfix = multiple ? 'multiple' : 'single';
     const displayLabel = buttonText || t(`button_select-file-${postfix}`);
 

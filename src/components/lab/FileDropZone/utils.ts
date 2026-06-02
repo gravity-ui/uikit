@@ -15,7 +15,7 @@ export interface FileRejection {
 
 interface ValidateOptions {
     accept: FileDropZoneAccept;
-    maxFilesCount: number;
+    multiple?: boolean;
 }
 
 function typeMatchesPattern(actualMimeType: string, expectedMimeTypePattern: string): boolean {
@@ -54,7 +54,7 @@ export function getSeparatedItems(dataTransfer: DataTransfer, options: ValidateO
 
     for (const item of items) {
         const invalidType = getItemInvalidType(item, options);
-        const tooManyFiles = accepted.length === options.maxFilesCount;
+        const tooManyFiles = !options.multiple && accepted.length === 1;
         if (invalidType.length || tooManyFiles) {
             const reasons: FileRejectionReason[] = [...invalidType];
 
@@ -72,8 +72,4 @@ export function getSeparatedItems(dataTransfer: DataTransfer, options: ValidateO
     }
 
     return {accepted, rejected};
-}
-
-export function normalizeMaxFilesCount(value?: number): number {
-    return value && value > 0 ? value : Infinity;
 }

@@ -8,11 +8,10 @@ type FileDropZoneTitleProps = {
 };
 
 export const FileDropZoneTitle = ({className}: FileDropZoneTitleProps) => {
-    const {title, maxFilesCount, errorMessage} = useFileZoneContext();
+    const {title, multiple, errorMessage} = useFileZoneContext();
 
     const {t} = i18n.useTranslation();
 
-    const multiple = maxFilesCount > 1;
     const postfix = multiple ? 'multiple' : 'single';
     const defaultTitle = title || t(`label_title-${postfix}`);
     const isError = Boolean(errorMessage);

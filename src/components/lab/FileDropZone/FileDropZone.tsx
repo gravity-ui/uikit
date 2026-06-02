@@ -8,7 +8,6 @@ import {FileDropZoneDescription} from './parts/FileDropZone.Description';
 import {FileDropZoneIcon} from './parts/FileDropZone.Icon';
 import {FileDropZoneTitle} from './parts/FileDropZone.Title';
 import type {FileDropZoneContainerProps, FileDropZoneProps} from './types';
-import {normalizeMaxFilesCount} from './utils';
 
 import './FileDropZone.scss';
 
@@ -23,12 +22,11 @@ const FileDropZoneContent = ({className, children, qa}: FileDropZoneContainerPro
         triggerProps,
         controlProps,
         accept,
-        maxFilesCount,
+        multiple,
         onKeyDown,
     } = useFileZoneContext();
 
     const hasError = Boolean(errorMessage);
-    const multiple = maxFilesCount > 1;
 
     const handleClick = React.useCallback(
         (event: React.MouseEvent<HTMLDivElement>) => {
@@ -91,14 +89,9 @@ const FileDropZoneContent = ({className, children, qa}: FileDropZoneContainerPro
 };
 
 const BaseFileDropZone = React.memo<FileDropZoneProps>(
-    ({children, className, maxFilesCount, multiple, qa, ...restProps}: FileDropZoneProps) => {
-        const normalizedMaxFiles = multiple ? normalizeMaxFilesCount(maxFilesCount) : 1;
+    ({children, className, qa, ...restProps}: FileDropZoneProps) => {
         return (
-            <FileDropZoneProvider
-                maxFilesCount={normalizedMaxFiles}
-                multiple={multiple}
-                {...restProps}
-            >
+            <FileDropZoneProvider {...restProps}>
                 <FileDropZoneContent className={className} qa={qa}>
                     {children}
                 </FileDropZoneContent>

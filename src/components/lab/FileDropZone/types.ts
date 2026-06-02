@@ -20,7 +20,6 @@ export type FileDropZoneProps = Pick<BaseInputControlProps, 'validationState'> &
         errorIcon?: IconData | null;
         className?: string;
         multiple?: boolean;
-        maxFilesCount?: number;
         disabled?: boolean;
         errorMessage?: string;
         children?: React.ReactNode;

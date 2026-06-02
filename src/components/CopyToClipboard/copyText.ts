@@ -23,7 +23,17 @@
 export function copyText(text: string) {
     if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
         try {
-            return navigator.clipboard.writeText(text);
+            const writeText = navigator.clipboard.writeText;
+            const writeResult = writeText.call(navigator.clipboard, text);
+
+            if (isNativeClipboardWriteText(writeText) || typeof document === 'undefined') {
+                return writeResult;
+            }
+
+            return writeResult.then(
+                () => copyTextFallback(text).catch(() => writeResult),
+                (error) => Promise.reject(error),
+            );
         } catch (error) {
             return typeof document === 'undefined' ? Promise.reject(error) : copyTextFallback(text);
         }
@@ -36,11 +46,16 @@ export function copyText(text: string) {
     return Promise.reject(new Error('Neither navigator.clipboard nor document is available'));
 }
 
+function isNativeClipboardWriteText(writeText: Clipboard['writeText']) {
+    return Function.prototype.toString.call(writeText).includes('[native code]');
+}
+
 async function copyTextFallback(text: string) {
     const activeElement = document.activeElement;
 
+    const textarea = document.createElement('textarea');
+
     try {
-        const textarea = document.createElement('textarea');
         // Make invisible for screen readers
         textarea.setAttribute('aria-hidden', 'true');
         // Reset possible styles for textarea
@@ -59,9 +74,8 @@ async function copyTextFallback(text: string) {
         if (!success) {
             throw new Error('Failed to copy text with document.execCommand("copy")');
         }
-
-        document.body.removeChild(textarea);
     } finally {
+        textarea.remove();
         // Restore focus to the previously focused element
         if (
             activeElement &&

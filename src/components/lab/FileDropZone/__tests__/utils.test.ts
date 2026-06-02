@@ -59,6 +59,16 @@ describe('getSeparatedItems', () => {
         expect(rejected).toHaveLength(0);
     });
 
+    test('empty accept list allows all item types', () => {
+        const dt = createMockDataTransfer(['image/png', 'application/pdf', 'text/plain']);
+        const {accepted, rejected} = getSeparatedItems(dt, {
+            accept: [],
+            multiple: true,
+        });
+        expect(accepted).toHaveLength(3);
+        expect(rejected).toHaveLength(0);
+    });
+
     test('exact MIME match without wildcard', () => {
         const dt = createMockDataTransfer(['image/png', 'image/jpeg']);
         const {accepted, rejected} = getSeparatedItems(dt, {

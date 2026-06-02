@@ -54,6 +54,7 @@ export {
 
 export {
     FileDropZone as unstable_FileDropZone,
+    type DropZoneFileRejection,
     type FileDropZoneProps,
 } from './components/lab/FileDropZone';
 

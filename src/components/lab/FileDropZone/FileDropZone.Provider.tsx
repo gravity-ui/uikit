@@ -6,7 +6,7 @@ import {useDropZone} from '../../../hooks/lab/useDropZone';
 import type {UseDropZoneStateWithoutRef} from '../../../hooks/lab/useDropZone';
 
 import type {DropZoneFileRejection, FileDropZoneProps} from './types';
-import {FILE_REJECTION_REASONS, getSeparatedItems} from './utils';
+import {getSeparatedItems} from './utils';
 import type {FileDropZoneAccept, FileRejection} from './utils';
 
 interface FileDropZoneContextValue
@@ -174,20 +174,9 @@ export const FileDropZoneProvider = ({
 
     const handleFileInputUpdate = React.useCallback(
         (files: File[]) => {
-            if (multiple || files.length <= 1) {
-                handleUpdate(files, []);
-                return;
-            }
-
-            handleUpdate(
-                files.slice(0, 1),
-                files.slice(1).map((file) => ({
-                    file,
-                    reasons: [FILE_REJECTION_REASONS.TOO_MANY_FILES],
-                })),
-            );
+            handleUpdate(files, []);
         },
-        [handleUpdate, multiple],
+        [handleUpdate],
     );
 
     const {controlProps, triggerProps} = useFileInput({onUpdate: handleFileInputUpdate});

@@ -4,4 +4,4 @@ export const FileDropZoneQa = {
     BUTTON: 'file_drop_zone-button',
     ICON: 'file_drop_zone-icon',
     FILE_INPUT: 'file_drop_zone-input',
-};
+} as const;

@@ -81,6 +81,14 @@ describe('FileDropZone', () => {
             expect(zone).toHaveAttribute('tabindex', '0');
         });
 
+        test('disabled zone is removed from tab order', () => {
+            render(<FileDropZone {...defaultProps} disabled qa="drop-zone" />);
+            const zone = screen.getByTestId('drop-zone');
+            expect(zone).toHaveAttribute('role', 'button');
+            expect(zone).toHaveAttribute('aria-disabled', 'true');
+            expect(zone).toHaveAttribute('tabindex', '-1');
+        });
+
         test('renders without update callbacks', () => {
             render(<FileDropZone qa="drop-zone" />);
             expect(screen.getByTestId('drop-zone')).toBeInTheDocument();
@@ -394,7 +402,7 @@ describe('FileDropZone', () => {
             expect(onUpdate.mock.calls[0][1]).toEqual([]);
         });
 
-        test('accepts only first selected file in single-file mode', () => {
+        test('passes selected input files through without additional validation', () => {
             const onUpdate = jest.fn();
             const onUpdateRejected = jest.fn();
             render(
@@ -411,21 +419,8 @@ describe('FileDropZone', () => {
             fireEvent.change(getFileInput(), {target: {files: [firstFile, secondFile]}});
 
             expect(onUpdate).toHaveBeenCalledTimes(1);
-            expect(onUpdate).toHaveBeenCalledWith(
-                [firstFile],
-                [
-                    {
-                        file: secondFile,
-                        reasons: ['too-many-files'],
-                    },
-                ],
-            );
-            expect(onUpdateRejected).toHaveBeenCalledWith([
-                {
-                    file: secondFile,
-                    reasons: ['too-many-files'],
-                },
-            ]);
+            expect(onUpdate).toHaveBeenCalledWith([firstFile, secondFile], []);
+            expect(onUpdateRejected).not.toHaveBeenCalled();
         });
     });
 

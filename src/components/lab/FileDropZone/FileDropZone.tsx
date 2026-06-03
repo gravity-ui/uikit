@@ -62,6 +62,7 @@ const FileDropZoneContent = ({className, children, qa}: FileDropZoneContainerPro
             {...getDroppableProps()}
             data-qa={qa}
             aria-disabled={disabled || undefined}
+            tabIndex={disabled ? -1 : 0}
             onClick={handleClick}
             onKeyDown={onKeyDown}
             className={cnFileDropZone(

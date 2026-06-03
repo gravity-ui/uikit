@@ -5,6 +5,18 @@ function createMockDataTransfer(itemTypes: string[]): DataTransfer {
     return {items} as unknown as DataTransfer;
 }
 
+function createNonIterableMockDataTransfer(itemTypes: string[]): DataTransfer {
+    const items = {length: itemTypes.length} as Record<number, {type: string; kind: string}> & {
+        length: number;
+    };
+
+    itemTypes.forEach((type, index) => {
+        items[index] = {type, kind: 'file'};
+    });
+
+    return {items} as unknown as DataTransfer;
+}
+
 describe('getSeparatedItems', () => {
     test('all items pass validation -> all in accepted', () => {
         const dt = createMockDataTransfer(['image/png', 'image/jpeg']);
@@ -57,6 +69,18 @@ describe('getSeparatedItems', () => {
         });
         expect(accepted).toHaveLength(0);
         expect(rejected).toHaveLength(0);
+    });
+
+    test('supports non-iterable DataTransferItemList', () => {
+        const dt = createNonIterableMockDataTransfer(['image/png', 'application/pdf']);
+        const {accepted, rejected} = getSeparatedItems(dt, {
+            accept: ['image/*'],
+            multiple: true,
+        });
+
+        expect(accepted).toHaveLength(1);
+        expect(rejected).toHaveLength(1);
+        expect(rejected[0].reasons).toEqual([FILE_REJECTION_REASONS.INVALID_TYPE]);
     });
 
     test('empty accept list allows all item types', () => {

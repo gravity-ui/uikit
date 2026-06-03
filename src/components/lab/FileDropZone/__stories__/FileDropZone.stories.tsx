@@ -5,7 +5,7 @@ import {Text} from '../../..';
 import {FileDropZone} from '../FileDropZone';
 import type {FileDropZoneProps} from '../types';
 
-import {FileDropZoneQA} from './constants';
+import {FILE_DROP_ZONE_STORY_QA} from './constants';
 
 export default {
     title: 'Components/Inputs/FileDropZone',
@@ -32,7 +32,7 @@ const BASE_ARGS: Partial<FileDropZoneProps> = {
     accept: ['image/*'],
     onUpdateAccepted: handleUpdateAccepted,
     onUpdateRejected: handleUpdateRejected,
-    qa: FileDropZoneQA,
+    qa: FILE_DROP_ZONE_STORY_QA,
 };
 
 const DefaultTemplate: StoryFn<typeof FileDropZone> = (args) => {

@@ -48,7 +48,7 @@ function getItemInvalidType(
 }
 
 export function getSeparatedItems(dataTransfer: DataTransfer, options: ValidateOptions) {
-    const items = dataTransfer.items;
+    const items = Array.from(dataTransfer.items);
     const accepted: DataTransferItem[] = [];
     const rejected: FileRejection[] = [];
 

@@ -79,7 +79,7 @@ export const RenderFonts = () => {
                 title={selectedGroup.title}
                 description={selectedGroup.description}
                 items={selectedGroup.items}
-                font
+                mode="font"
             />
         </Showcase>
     );

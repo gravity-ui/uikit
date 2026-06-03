@@ -168,7 +168,7 @@ export const RenderVariants = () => {
                 title={selectedGroup.title}
                 description={selectedGroup.description}
                 items={selectedGroup.items}
-                variant
+                mode="variant"
             />
         </Showcase>
     );

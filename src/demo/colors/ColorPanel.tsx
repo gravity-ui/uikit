@@ -2,8 +2,9 @@ import * as React from 'react';
 
 import {Bulb} from '@gravity-ui/icons';
 
-import {ActionTooltip, Button, ClipboardButton, Icon} from '../../components';
+import {ActionTooltip, Button, Icon} from '../../components';
 import {cn} from '../../components/utils/cn';
+import {CodeBlock} from '../CodeBlock/CodeBlock';
 
 import './ColorPanel.scss';
 
@@ -15,7 +16,7 @@ interface ColorInfo {
 
 interface ColorPanelProps {
     title: string;
-    description: string;
+    description?: string;
     colors: ColorInfo[];
     boxBorders?: boolean;
     defaultBackground?: 'normal' | 'brand' | 'dark';
@@ -34,9 +35,8 @@ function shouldColorizeTitle(name: string) {
 }
 
 export function ColorPanel(props: ColorPanelProps) {
-    const initialIndex = props.defaultBackground
-        ? BACKGROUND_LIST.indexOf(props.defaultBackground)
-        : 0;
+    const {title, description, colors, boxBorders, defaultBackground} = props;
+    const initialIndex = defaultBackground ? BACKGROUND_LIST.indexOf(defaultBackground) : 0;
     const [currentBackgroundIndex, setCurrentBackgroundIndex] = React.useState(
         initialIndex >= 0 ? initialIndex : 0,
     );
@@ -45,7 +45,7 @@ export function ColorPanel(props: ColorPanelProps) {
         setCurrentBackgroundIndex((index) => (index + 1) % BACKGROUND_LIST.length);
     }
 
-    function renderColors(colors: ColorInfo[]) {
+    function renderColors() {
         return colors.map((color) => {
             const varName = getColorVarName(color.name);
             const copyText = `var(${varName})`;
@@ -57,7 +57,7 @@ export function ColorPanel(props: ColorPanelProps) {
                 <div className={b('item')} key={color.name}>
                     <div className={b('item-content')}>
                         <div
-                            className={b('swatch', {bordered: props.boxBorders})}
+                            className={b('swatch', {bordered: boxBorders})}
                             style={{backgroundColor: `var(${varName})`}}
                         />
                         <div className={b('item-texts')}>
@@ -67,15 +67,7 @@ export function ColorPanel(props: ColorPanelProps) {
                             <div className={b('item-description')}>{color.description}</div>
                         </div>
                     </div>
-                    <div className={b('code-block')}>
-                        <pre className={b('code')}>{copyText}</pre>
-                        <ClipboardButton
-                            text={copyText}
-                            view="flat"
-                            size="xs"
-                            className={b('copy-button')}
-                        />
-                    </div>
+                    <CodeBlock code={copyText} />
                 </div>
             );
         });
@@ -88,10 +80,8 @@ export function ColorPanel(props: ColorPanelProps) {
         <div className={b({bg: currentBackground})}>
             <div className={b('header')}>
                 <div className={b('header-content')}>
-                    <div className={b('title')}>{props.title}</div>
-                    {props.description && (
-                        <div className={b('description')}>{props.description}</div>
-                    )}
+                    <div className={b('title')}>{title}</div>
+                    {description && <div className={b('description')}>{description}</div>}
                 </div>
                 <ActionTooltip title={switchBackgroundTitle}>
                     <Button
@@ -104,7 +94,7 @@ export function ColorPanel(props: ColorPanelProps) {
                     </Button>
                 </ActionTooltip>
             </div>
-            <div className={b('colors')}>{renderColors(props.colors)}</div>
+            <div className={b('colors')}>{renderColors()}</div>
         </div>
     );
 }

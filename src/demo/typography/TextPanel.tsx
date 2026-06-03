@@ -1,8 +1,9 @@
 import * as React from 'react';
 
 import type {TextProps} from '../../components';
-import {ClipboardButton, SegmentedRadioGroup, Text} from '../../components';
+import {SegmentedRadioGroup, Text} from '../../components';
 import {cn} from '../../components/utils/cn';
+import {CodeBlock} from '../CodeBlock/CodeBlock';
 
 import './TextPanel.scss';
 
@@ -12,12 +13,13 @@ interface TextItemInfo {
     description?: string;
 }
 
+type TextPanelMode = 'font' | 'variant';
+
 interface TextPanelProps {
     title: string;
-    description: string;
+    description?: string;
     items: TextItemInfo[];
-    variant?: boolean;
-    font?: boolean;
+    mode: TextPanelMode;
 }
 
 type CodeFormat = 'css' | 'scss';
@@ -73,17 +75,15 @@ function getFontCode(name: string) {
 }
 
 export function TextPanel(props: TextPanelProps) {
+    const {mode, title, description, items} = props;
     const [codeFormatByItem, setCodeFormatByItem] = React.useState<Record<string, CodeFormat>>({});
 
-    function renderTextItems(items: TextItemInfo[]) {
+    function renderTextItems() {
         return items.map((item) => {
-            const varName = props.variant ? item.name : `--g-${item.name}`;
             const textVariant = getTextVariant(item.name);
             const codeFormat = codeFormatByItem[item.name] ?? 'css';
-            const code = props.variant ? getCode(item.name, codeFormat) : varName;
-            const copyText = props.variant ? code : varName;
 
-            if (props.font) {
+            if (mode === 'font') {
                 const fontCode = getFontCode(item.name);
 
                 return (
@@ -106,35 +106,12 @@ export function TextPanel(props: TextPanelProps) {
                                 {SAMPLE_TEXT}
                             </Text>
                         </div>
-                        <div className={b('code-block')}>
-                            <pre className={b('code')}>{fontCode}</pre>
-                            <ClipboardButton
-                                text={fontCode}
-                                view="flat"
-                                size="xs"
-                                className={b('copy-button')}
-                            />
-                        </div>
+                        <CodeBlock code={fontCode} />
                     </div>
                 );
             }
 
-            if (!props.variant) {
-                return (
-                    <div className={b('card')} key={item.name}>
-                        <div className={b('card-texts')}>
-                            <div className={b('card-headline')}>
-                                <div className={b('card-title')}>{item.title}</div>
-                                <ClipboardButton text={copyText} view="flat" size="xs" />
-                            </div>
-                            <div className={b('card-var')}>{varName}</div>
-                            {item.description && (
-                                <div className={b('card-description')}>{item.description}</div>
-                            )}
-                        </div>
-                    </div>
-                );
-            }
+            const code = getCode(item.name, codeFormat);
 
             return (
                 <div className={b('variant')} key={item.name}>
@@ -158,15 +135,7 @@ export function TextPanel(props: TextPanelProps) {
                             options={codeFormatOptions}
                             size="s"
                         />
-                        <div className={b('code-block')}>
-                            <pre className={b('code')}>{code}</pre>
-                            <ClipboardButton
-                                text={copyText}
-                                view="flat"
-                                size="xs"
-                                className={b('copy-button')}
-                            />
-                        </div>
+                        <CodeBlock code={code} />
                     </div>
                 </div>
             );
@@ -174,18 +143,18 @@ export function TextPanel(props: TextPanelProps) {
     }
 
     return (
-        <div className={b({variant: props.variant || props.font})}>
+        <div className={b()}>
             <div className={b('header')}>
                 <Text as="div" variant="header-1" className={b('title')}>
-                    {props.title}
+                    {title}
                 </Text>
-                {props.description && (
+                {description && (
                     <Text as="div" variant="body-1" className={b('description')}>
-                        {props.description}
+                        {description}
                     </Text>
                 )}
             </div>
-            <div className={b('variants')}>{renderTextItems(props.items)}</div>
+            <div className={b('variants')}>{renderTextItems()}</div>
         </div>
     );
 }

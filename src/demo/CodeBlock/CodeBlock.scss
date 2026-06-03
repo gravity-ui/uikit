@@ -1,0 +1,24 @@
+@use '../../../styles/mixins';
+
+.code-block {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: var(--g-border-radius-xl);
+    padding: var(--g-spacing-4) 48px var(--g-spacing-4) var(--g-spacing-4);
+    background-color: var(--g-color-base-generic);
+
+    &__code {
+        @include mixins.text-code-2();
+
+        margin: 0;
+        color: var(--g-color-text-primary);
+        white-space: pre-wrap;
+    }
+
+    &__copy-button {
+        position: absolute;
+        inset-block-start: var(--g-spacing-4);
+        inset-inline-end: var(--g-spacing-4);
+    }
+}

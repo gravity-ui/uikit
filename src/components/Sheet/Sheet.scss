@@ -124,7 +124,11 @@ $block: '.#{variables.$ns}sheet';
     &__sheet-content {
         box-sizing: border-box;
         width: 100%;
-        padding: var(--g-sheet-content-padding, 0 10px);
+        padding: var(
+            --g-sheet-content-padding,
+            0 max(10px, env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0px)
+                max(10px, env(safe-area-inset-left, 0px))
+        );
     }
 
     &__sheet-content-title {

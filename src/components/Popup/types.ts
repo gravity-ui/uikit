@@ -4,7 +4,7 @@ import type {AUTO_PLACEMENTS} from './constants';
 
 export type AutoPlacement = (typeof AUTO_PLACEMENTS)[number];
 
-export type PopupPlacement = AutoPlacement | Placement | Placement[];
+export type PopupPlacement = AutoPlacement | Placement | ReadonlyArray<Placement>;
 
 export type PopupAnchorElement = Element | VirtualElement;
 

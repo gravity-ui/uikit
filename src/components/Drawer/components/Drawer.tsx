@@ -171,7 +171,7 @@ export const Drawer = ({
     const composedStyle = React.useMemo(
         () => ({
             position: (disablePortal ? 'absolute' : 'fixed') as React.CSSProperties['position'],
-            '--drawer-animation-duration': disableTransition
+            '--_--animation-duration': disableTransition
                 ? '0ms'
                 : `${DRAWER_ANIMATION_DURATION_MS}ms`,
             ...style,
@@ -190,7 +190,6 @@ export const Drawer = ({
                             open,
                             placement,
                             'hide-veil': hideVeil,
-                            'disable-animation': disableTransition,
                         },
                         className,
                     )}

@@ -77,6 +77,11 @@ export interface DrawerProps
      * @default false
      */
     hideVeil?: boolean;
+    /**
+     * Disables the drawer's animation.
+     * @default false
+     */
+    disableTransition?: boolean;
 }
 
 export const Drawer = ({
@@ -110,6 +115,7 @@ export const Drawer = ({
     keepMounted = false,
     container,
     hideVeil = false,
+    disableTransition = false,
     ...restProps
 }: DrawerProps) => {
     const floatingNodeId = useFloatingNodeId();
@@ -124,7 +130,7 @@ export const Drawer = ({
 
     const {isMounted, status} = useFloatingTransition({
         context,
-        duration: DRAWER_ANIMATION_DURATION_MS,
+        duration: disableTransition ? 0 : DRAWER_ANIMATION_DURATION_MS,
         onTransitionIn,
         onTransitionInComplete,
         onTransitionOut,
@@ -165,9 +171,12 @@ export const Drawer = ({
     const composedStyle = React.useMemo(
         () => ({
             position: (disablePortal ? 'absolute' : 'fixed') as React.CSSProperties['position'],
+            '--_--animation-duration': disableTransition
+                ? '0ms'
+                : `${DRAWER_ANIMATION_DURATION_MS}ms`,
             ...style,
         }),
-        [style],
+        [disablePortal, disableTransition, style],
     );
 
     const portal =

@@ -6,6 +6,7 @@ import {Drawer} from '../components/Drawer';
 
 import {ContentOverflowDrawerShowcase} from './ContentOverflow';
 import {DisablePortalShowcase} from './DisablePortal';
+import {DisableTransitionShowcase} from './DisableTransition';
 import {HideVeilShowcase} from './HideVeil';
 import {InitialAutoFocusShowcase} from './InitialAutoFocus';
 import {ResizableDrawerShowcase} from './Resizable';
@@ -61,6 +62,9 @@ export const Default: Story = {
         onTransitionOutComplete: action('onTransitionOutComplete'),
     },
 };
+
+const DisableTransitionTemplate: StoryFn = () => <DisableTransitionShowcase />;
+export const DisableTransition = DisableTransitionTemplate.bind({});
 
 const DisablePortalTemplate: StoryFn = () => <DisablePortalShowcase />;
 export const DisablePortal = DisablePortalTemplate.bind({});

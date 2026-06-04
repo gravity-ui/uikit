@@ -86,7 +86,7 @@ export function ColorPanel(props: ColorPanelProps) {
                 <ActionTooltip title={switchBackgroundTitle}>
                     <Button
                         view={switcherView}
-                        size="xs"
+                        size="s"
                         className={b('bg-switcher')}
                         onClick={rotateBackground}
                     >

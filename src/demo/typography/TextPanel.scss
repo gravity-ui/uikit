@@ -2,10 +2,13 @@
 
 .text-panel {
     position: relative;
+    display: flex;
+    flex-direction: column;
     width: min(100%, 760px);
+    gap: var(--g-spacing-3);
     border: 1px solid var(--g-color-line-generic);
     border-radius: var(--g-border-radius-l);
-    padding: var(--g-spacing-5) var(--g-spacing-6);
+    padding: var(--g-spacing-5);
     background-color: var(--g-color-base-background);
     transition: 0.15s linear;
     transition-property: color, background-color;
@@ -14,7 +17,7 @@
         display: flex;
         flex-direction: column;
         gap: var(--g-spacing-3);
-        padding-block-end: var(--g-spacing-4);
+        padding-block-end: var(--g-spacing-3);
         border-block-end: 1px solid var(--g-color-line-generic);
     }
 
@@ -29,14 +32,13 @@
     &__variants {
         display: flex;
         flex-direction: column;
-        gap: var(--g-spacing-7);
-        margin-block-start: var(--g-spacing-5);
+        gap: var(--g-spacing-5);
     }
 
     &__variant {
         display: flex;
         flex-direction: column;
-        gap: var(--g-spacing-4);
+        gap: var(--g-spacing-3);
     }
 
     &__variant-title,
@@ -48,7 +50,7 @@
         display: inline-flex;
         align-items: center;
         min-height: 28px;
-        padding-inline-start: var(--g-spacing-4);
+        padding-inline-start: var(--g-spacing-3);
         border-inline-start: 3px solid var(--g-color-line-generic);
     }
 
@@ -60,6 +62,6 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: var(--g-spacing-3);
+        gap: var(--g-spacing-2);
     }
 }

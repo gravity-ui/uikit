@@ -9,11 +9,11 @@
     }
 
     &__title {
-        @include mixins.text-header-2();
+        @include mixins.text-display-2();
     }
 
     &__description {
-        @include mixins.text-body-1();
+        @include mixins.text-body-2();
         margin-block-start: var(--g-spacing-2);
         color: var(--g-color-text-secondary);
     }

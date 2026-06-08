@@ -17,26 +17,32 @@ export interface SkeletonProps
      * @default 'gradient'
      */
     animation?: 'gradient' | 'pulse' | 'none';
-    /** @default 'rounded' */
-    shape?: 'rounded' | 'sharp' | 'square' | 'circle';
-    isText?: boolean;
+    /** @default 'rect' */
+    variant?: 'rect' | 'square' | 'circle' | 'text';
     /** @default 'm' */
     size?: SkeletonSize;
+    width?: number | string;
+    height?: number | string;
 }
 
 export function Skeleton({
     className,
     style,
+    width,
+    height,
     qa,
     animation = 'gradient',
-    shape = 'rounded',
-    isText,
+    variant = 'rect',
     size = 'm',
 }: SkeletonProps) {
     return (
         <div
-            className={b({animation, shape, text: isText, size}, className)}
-            style={style}
+            className={b({animation, variant, size}, className)}
+            style={{
+                ...(width !== undefined && {width}),
+                ...(height !== undefined && {height}),
+                ...style,
+            }}
             data-qa={qa}
         />
     );

@@ -47,13 +47,9 @@ $block: '.#{variables.$ns}skeleton';
     // modifier is present (i.e. --_--size is defined by one of the &_size_* rules above).
     height: var(--_--size);
 
-    &_shape {
-        &_rounded {
+    &_variant {
+        &_rect {
             border-radius: var(--_--border-radius);
-        }
-
-        &_sharp {
-            border-radius: 0;
         }
 
         &_circle {
@@ -68,13 +64,13 @@ $block: '.#{variables.$ns}skeleton';
             aspect-ratio: 1;
             border-radius: var(--_--border-radius);
         }
-    }
 
-    &_text {
-        display: block;
-        width: 100%;
-        height: 1em;
-        margin-block: calc((1lh - 1em) / 2);
+        &_text {
+            display: block;
+            width: 100%;
+            height: 1em;
+            margin-block: calc((1lh - 1em) / 2);
+        }
     }
 
     &_animation_gradient {

@@ -20,7 +20,7 @@ const DefaultTemplate: StoryFn<SkeletonProps> = (args) => <Skeleton {...args} />
 export const Default = DefaultTemplate.bind({});
 
 Default.args = {
-    style: {height: 30},
+    height: 30,
 };
 
 export const AnimationsGradient = DefaultTemplate.bind({});
@@ -47,31 +47,24 @@ export const Sizes: Story = {
     name: 'Sizes',
     render: () => (
         <React.Fragment>
-            <Showcase title="Rounded (default)">
+            <Showcase title="Rect (default)">
                 {SKELETON_SIZES.map((size) => (
                     <ShowcaseItem key={size} title={size}>
-                        <Skeleton size={size} style={{width: 200}} />
-                    </ShowcaseItem>
-                ))}
-            </Showcase>
-            <Showcase title="Sharp">
-                {SKELETON_SIZES.map((size) => (
-                    <ShowcaseItem key={size} title={size}>
-                        <Skeleton size={size} shape="sharp" style={{width: 200}} />
+                        <Skeleton size={size} width={200} />
                     </ShowcaseItem>
                 ))}
             </Showcase>
             <Showcase title="Square">
                 {SKELETON_SIZES.map((size) => (
                     <ShowcaseItem key={size} title={size}>
-                        <Skeleton size={size} shape="square" />
+                        <Skeleton size={size} variant="square" />
                     </ShowcaseItem>
                 ))}
             </Showcase>
             <Showcase title="Circle">
                 {SKELETON_SIZES.map((size) => (
                     <ShowcaseItem key={size} title={size}>
-                        <Skeleton size={size} shape="circle" />
+                        <Skeleton size={size} variant="circle" />
                     </ShowcaseItem>
                 ))}
             </Showcase>
@@ -97,7 +90,7 @@ export const TextShape: Story = {
                     <ShowcaseItem key={variant} title={variant}>
                         <Flex alignItems="center" gap={6}>
                             <Text variant={variant}>
-                                <Skeleton isText style={{width: 200}} />
+                                <Skeleton variant="text" width={200} />
                             </Text>
                             <Text variant={variant}>placeholder text</Text>
                         </Flex>
@@ -107,31 +100,31 @@ export const TextShape: Story = {
             <Showcase title="Multiline">
                 <ShowcaseItem title="body-1 × 3">
                     <Text variant="body-1">
-                        <Skeleton isText style={{width: 400}} />
-                        <Skeleton isText style={{width: 400}} />
-                        <Skeleton isText style={{width: 400}} />
+                        <Skeleton variant="text" width={400} />
+                        <Skeleton variant="text" width={400} />
+                        <Skeleton variant="text" width={400} />
                     </Text>
                 </ShowcaseItem>
                 <ShowcaseItem title="body-2 × 5 (with shorter last line)">
                     <Text variant="body-2">
-                        <Skeleton isText style={{width: 360}} />
-                        <Skeleton isText style={{width: 360}} />
-                        <Skeleton isText style={{width: 360}} />
-                        <Skeleton isText style={{width: 360}} />
-                        <Skeleton isText style={{width: 180}} />
+                        <Skeleton variant="text" width={360} />
+                        <Skeleton variant="text" width={360} />
+                        <Skeleton variant="text" width={360} />
+                        <Skeleton variant="text" width={360} />
+                        <Skeleton variant="text" width={180} />
                     </Text>
                 </ShowcaseItem>
                 <ShowcaseItem title="header-1 × 2 + body-1 × 4 (mixed)">
                     <Flex direction="column" gap={2}>
                         <Text variant="header-1">
-                            <Skeleton isText style={{width: 280}} />
-                            <Skeleton isText style={{width: 280}} />
+                            <Skeleton variant="text" width={280} />
+                            <Skeleton variant="text" width={280} />
                         </Text>
                         <Text variant="body-1">
-                            <Skeleton isText style={{width: 400}} />
-                            <Skeleton isText style={{width: 400}} />
-                            <Skeleton isText style={{width: 400}} />
-                            <Skeleton isText style={{width: 300}} />
+                            <Skeleton variant="text" width={400} />
+                            <Skeleton variant="text" width={400} />
+                            <Skeleton variant="text" width={400} />
+                            <Skeleton variant="text" width={300} />
                         </Text>
                     </Flex>
                 </ShowcaseItem>

@@ -18,9 +18,9 @@ function PersonSkeleton() {
     return (
         <Card style={{padding: '12px'}}>
             <User
-                avatar={<Skeleton shape="circle" style={{height: 32}} />}
-                name={<Skeleton isText size="s" style={{width: 80}} />}
-                description={<Skeleton isText size="s" style={{width: 120}} />}
+                avatar={<Skeleton variant="circle" height={32} />}
+                name={<Skeleton variant="text" size="s" width={80} />}
+                description={<Skeleton variant="text" size="s" width={120} />}
             />
         </Card>
     );
@@ -61,20 +61,20 @@ export function SkeletonShowcase() {
             <h2>List</h2>
             <SkeletonListShowcase />
             <h2>Styled with inline prop</h2>
-            <Skeleton style={{height: 100, width: 200}} />
+            <Skeleton height={100} width={200} />
             <h2>Animation Types</h2>
             <div style={{display: 'flex', gap: '20px'}}>
                 <div>
                     <div style={{marginBottom: '8px'}}>Gradient (default)</div>
-                    <Skeleton style={{height: 100, width: 200}} animation="gradient" />
+                    <Skeleton height={100} width={200} animation="gradient" />
                 </div>
                 <div>
                     <div style={{marginBottom: '8px'}}>Pulse</div>
-                    <Skeleton style={{height: 100, width: 200}} animation="pulse" />
+                    <Skeleton height={100} width={200} animation="pulse" />
                 </div>
                 <div>
                     <div style={{marginBottom: '8px'}}>None</div>
-                    <Skeleton style={{height: 100, width: 200}} animation="none" />
+                    <Skeleton height={100} width={200} animation="none" />
                 </div>
             </div>
         </React.Fragment>

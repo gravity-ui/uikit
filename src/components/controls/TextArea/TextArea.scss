@@ -94,13 +94,17 @@ $block: '.#{variables.$ns}text-area';
 
     &__error-icon-wrap {
         position: absolute;
-        inset-inline-end: var(--_--error-icon-offset-inline);
-        inset-block-start: var(--_--error-icon-offset-block);
+        display: inline-flex;
+        inset-inline-end: 0;
+        inset-block-start: 0;
     }
 
     &__error-icon {
         box-sizing: content-box;
         color: var(--g-color-text-danger);
+        padding-block: var(--_--error-icon-padding-block);
+        padding-inline: var(--_--error-icon-padding-inline-start)
+            var(--_--error-icon-padding-inline-end);
     }
 
     &_size {
@@ -109,17 +113,21 @@ $block: '.#{variables.$ns}text-area';
                 @include control-mixins.input-control(s);
             }
 
-            &#{$block}_has-clear #{$block}__control,
-            &#{$block}_has-error-icon #{$block}__control {
+            &#{$block}_view_normal#{$block}_has-clear #{$block}__control {
                 padding-inline-end: 26px;
             }
 
-            &#{$block}_has-clear#{$block}_has-error-icon #{$block}__control {
-                padding-inline-end: 46px;
+            &#{$block}_view_normal#{$block}_has-error-icon #{$block}__control {
+                padding-inline-end: 22px;
             }
 
-            --_--error-icon-offset-inline: 6px;
-            --_--error-icon-offset-block: 5px;
+            &#{$block}_view_normal#{$block}_has-clear#{$block}_has-error-icon #{$block}__control {
+                padding-inline-end: 42px;
+            }
+
+            --_--error-icon-padding-block: 5px;
+            --_--error-icon-padding-inline-start: 0;
+            --_--error-icon-padding-inline-end: 5px;
 
             --_--border-radius: var(--g-border-radius-s);
         }
@@ -129,17 +137,21 @@ $block: '.#{variables.$ns}text-area';
                 @include control-mixins.input-control(m);
             }
 
-            &#{$block}_has-clear #{$block}__control,
-            &#{$block}_has-error-icon #{$block}__control {
+            &#{$block}_view_normal#{$block}_has-clear #{$block}__control {
                 padding-inline-end: 26px;
             }
 
-            &#{$block}_has-clear#{$block}_has-error-icon #{$block}__control {
-                padding-inline-end: 46px;
+            &#{$block}_view_normal#{$block}_has-error-icon #{$block}__control {
+                padding-inline-end: 26px;
             }
 
-            --_--error-icon-offset-inline: 6px;
-            --_--error-icon-offset-block: 7px;
+            &#{$block}_view_normal#{$block}_has-clear#{$block}_has-error-icon #{$block}__control {
+                padding-inline-end: 48px;
+            }
+
+            --_--error-icon-padding-block: 5px;
+            --_--error-icon-padding-inline-start: 0;
+            --_--error-icon-padding-inline-end: 5px;
 
             --_--border-radius: var(--g-border-radius-m);
         }
@@ -149,17 +161,21 @@ $block: '.#{variables.$ns}text-area';
                 @include control-mixins.input-control(l);
             }
 
-            &#{$block}_has-clear #{$block}__control,
-            &#{$block}_has-error-icon #{$block}__control {
+            &#{$block}_view_normal#{$block}_has-clear #{$block}__control {
                 padding-inline-end: 36px;
             }
 
-            &#{$block}_has-clear#{$block}_has-error-icon #{$block}__control {
-                padding-inline-end: 60px;
+            &#{$block}_view_normal#{$block}_has-error-icon #{$block}__control {
+                padding-inline-end: 30px;
             }
 
-            --_--error-icon-offset-inline: 10px;
-            --_--error-icon-offset-block: 11px;
+            &#{$block}_view_normal#{$block}_has-clear#{$block}_has-error-icon #{$block}__control {
+                padding-inline-end: 62px;
+            }
+
+            --_--error-icon-padding-block: 9px;
+            --_--error-icon-padding-inline-start: 0;
+            --_--error-icon-padding-inline-end: 9px;
 
             --_--border-radius: var(--g-border-radius-l);
         }
@@ -169,17 +185,21 @@ $block: '.#{variables.$ns}text-area';
                 @include control-mixins.input-control(xl);
             }
 
-            &#{$block}_has-clear #{$block}__control,
-            &#{$block}_has-error-icon #{$block}__control {
+            &#{$block}_view_normal#{$block}_has-clear #{$block}__control {
                 padding-inline-end: 36px;
             }
 
-            &#{$block}_has-clear#{$block}_has-error-icon #{$block}__control {
-                padding-inline-end: 60px;
+            &#{$block}_view_normal#{$block}_has-error-icon #{$block}__control {
+                padding-inline-end: 38px;
             }
 
-            --_--error-icon-offset-inline: 10px;
-            --_--error-icon-offset-block: 15px;
+            &#{$block}_view_normal#{$block}_has-clear#{$block}_has-error-icon #{$block}__control {
+                padding-inline-end: 66px;
+            }
+
+            --_--error-icon-padding-block: 13px;
+            --_--error-icon-padding-inline-start: 0;
+            --_--error-icon-padding-inline-end: 13px;
 
             --_--border-radius: var(--g-border-radius-xl);
         }
@@ -234,12 +254,38 @@ $block: '.#{variables.$ns}text-area';
     }
 
     &_has-clear#{$block}_has-error-icon {
-        #{$block}__clear {
-            inset-inline-end: calc(var(--_--clear-offset) + 20px);
+        &#{$block}_size_s #{$block}__clear {
+            inset-inline-end: 18px;
         }
 
-        &#{$block}_has-scrollbar #{$block}__clear {
-            inset-inline-end: calc(var(--g-scrollbar-width) + 20px);
+        &#{$block}_size_m #{$block}__clear {
+            inset-inline-end: 22px;
+        }
+
+        &#{$block}_size_l #{$block}__clear {
+            inset-inline-end: 27px;
+        }
+
+        &#{$block}_size_xl #{$block}__clear {
+            inset-inline-end: 31px;
+        }
+
+        &#{$block}_has-scrollbar {
+            &#{$block}_size_s #{$block}__clear {
+                inset-inline-end: calc(var(--g-scrollbar-width) + 17px);
+            }
+
+            &#{$block}_size_m #{$block}__clear {
+                inset-inline-end: calc(var(--g-scrollbar-width) + 21px);
+            }
+
+            &#{$block}_size_l #{$block}__clear {
+                inset-inline-end: calc(var(--g-scrollbar-width) + 25px);
+            }
+
+            &#{$block}_size_xl #{$block}__clear {
+                inset-inline-end: calc(var(--g-scrollbar-width) + 29px);
+            }
         }
     }
 

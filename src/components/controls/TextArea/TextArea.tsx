@@ -185,15 +185,17 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
                         />
                     )}
                     {isErrorIconVisible && (
-                        <Popover className={b('error-icon-wrap')} content={errorMessage}>
-                            <span data-qa={CONTROL_ERROR_ICON_QA}>
-                                <Icon
-                                    data={TriangleExclamation}
-                                    className={b('error-icon')}
-                                    size={size === 's' ? 12 : 16}
-                                />
-                            </span>
-                        </Popover>
+                        <span className={b('error-icon-wrap')}>
+                            <Popover content={errorMessage}>
+                                <span data-qa={CONTROL_ERROR_ICON_QA}>
+                                    <Icon
+                                        data={TriangleExclamation}
+                                        className={b('error-icon')}
+                                        size={size === 's' ? 12 : 16}
+                                    />
+                                </span>
+                            </Popover>
+                        </span>
                     )}
                 </span>
                 <OuterAdditionalContent

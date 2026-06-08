@@ -171,4 +171,42 @@ test.describe('TextArea', {tag: '@TextArea'}, () => {
             });
         },
     );
+
+    test(
+        'smoke inside error placement with clear and sizes/views',
+        {tag: ['@smoke']},
+        async ({mount, expectScreenshot}) => {
+            const smokeScenarios = createSmokeScenarios(
+                {
+                    ...defaultProps,
+                    value: 'Text',
+                    validationState: 'invalid',
+                    errorMessage: 'Test error message',
+                    errorPlacement: 'inside',
+                    hasClear: true,
+                } as const,
+                {
+                    size: sizeCases,
+                    view: viewCases,
+                },
+            );
+
+            await mount(
+                <div>
+                    {smokeScenarios.map(([title, props]) => (
+                        <div key={title}>
+                            <h4>{title}</h4>
+                            <div>
+                                <TextArea {...props} />
+                            </div>
+                        </div>
+                    ))}
+                </div>,
+            );
+
+            await expectScreenshot({
+                themes: ['light'],
+            });
+        },
+    );
 });

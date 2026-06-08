@@ -15,6 +15,7 @@ $block: '.#{variables.$ns}skeleton';
     overflow: hidden;
 
     background-color: var(--g-color-base-generic);
+    border-radius: var(--_--border-radius);
 
     &_size {
         &_xs {
@@ -48,21 +49,16 @@ $block: '.#{variables.$ns}skeleton';
     height: var(--_--size);
 
     &_variant {
-        &_rect {
-            border-radius: var(--_--border-radius);
-        }
-
         &_circle {
             width: auto;
             aspect-ratio: 1;
             border-radius: 50%;
         }
 
-        // square: square aspect ratio (width = height) with default border-radius; avatar-like placeholder.
+        // square: square aspect ratio (width = height); avatar-like placeholder.
         &_square {
             width: auto;
             aspect-ratio: 1;
-            border-radius: var(--_--border-radius);
         }
 
         &_text {

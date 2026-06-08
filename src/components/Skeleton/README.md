@@ -33,15 +33,15 @@ Use the `variant` prop to choose a preset appearance. The default is `'rect'`.
 
 ## Size
 
-Use the `size` prop to set the skeleton height (and width for `'circle'` / `'square'` variants). The default is `'m'`. Each size also adjusts the border-radius token used by `'rect'` and `'square'` variants.
+Use the `size` prop to set a preset skeleton height (and width for `'circle'` / `'square'` variants). Each size also adjusts the border-radius token used by `'rect'` and `'square'` variants. When `size` is omitted, set dimensions with `width` and `height` instead.
 
-| Value  | Description          |
-| :----- | :------------------- |
-| `'xs'` | Extra small          |
-| `'s'`  | Small                |
-| `'m'`  | Medium — **default** |
-| `'l'`  | Large                |
-| `'xl'` | Extra large          |
+| Value  | Description |
+| :----- | :---------- |
+| `'xs'` | Extra small |
+| `'s'`  | Small       |
+| `'m'`  | Medium      |
+| `'l'`  | Large       |
+| `'xl'` | Extra large |
 
 <!--GITHUB_BLOCK-->
 
@@ -81,6 +81,6 @@ Use `variant="text"` to render a skeleton that inherits `font-size` and `line-he
 | `qa`        | `data-qa` HTML attribute, used for testing                                                                                   |                     `string`                     |            |
 | `animation` | Animation type to apply to the skeleton                                                                                      |      `'gradient'` \| `'pulse'` \| `'none'`       | `gradient` |
 | `variant`   | Preset appearance. `'circle'` and `'square'` enforce `aspect-ratio: 1`. `'text'` inherits typography from parent context.    | `'rect'` \| `'square'` \| `'circle'` \| `'text'` |   `rect`   |
-| `size`      | Preset height (and width for `'circle'`/`'square'` variants). Also controls the border-radius token for `'rect'`/`'square'`. |   `'xs'` \| `'s'` \| `'m'` \| `'l'` \| `'xl'`    |    `m`     |
+| `size`      | Preset height (and width for `'circle'`/`'square'` variants). Also controls the border-radius token for `'rect'`/`'square'`. |   `'xs'` \| `'s'` \| `'m'` \| `'l'` \| `'xl'`    |            |
 | `width`     | Custom width. Alias for `style.width`                                                                                        |               `number` \| `string`               |            |
 | `height`    | Custom height. Alias for `style.height`                                                                                      |               `number` \| `string`               |            |

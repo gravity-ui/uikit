@@ -19,7 +19,6 @@ export interface SkeletonProps
     animation?: 'gradient' | 'pulse' | 'none';
     /** @default 'rect' */
     variant?: 'rect' | 'square' | 'circle' | 'text';
-    /** @default 'm' */
     size?: SkeletonSize;
     width?: number | string;
     height?: number | string;
@@ -33,7 +32,7 @@ export function Skeleton({
     qa,
     animation = 'gradient',
     variant = 'rect',
-    size = 'm',
+    size,
 }: SkeletonProps) {
     return (
         <div

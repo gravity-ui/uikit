@@ -102,7 +102,7 @@ $block: '.#{variables.$ns}text-area';
     &__error-icon {
         box-sizing: content-box;
         color: var(--g-color-text-danger);
-        padding-block: var(--_--error-icon-padding-block);
+        padding-block-start: var(--_--error-icon-padding-block);
         padding-inline: var(--_--error-icon-padding-inline-start)
             var(--_--error-icon-padding-inline-end);
     }

@@ -18,6 +18,7 @@ import {Portal} from '../../Portal';
 import {block} from '../../utils/cn';
 import {filterDOMProps} from '../../utils/filterDOMProps';
 import {DRAWER_ANIMATION_DURATION_MS} from '../constants';
+import {useInitialFocus} from '../hooks/useInitialFocus';
 import type {DrawerPlacement, OnResizeHandler} from '../hooks/useResizeHandlers';
 import i18n from '../i18n';
 
@@ -76,6 +77,11 @@ export interface DrawerProps
      * @default false
      */
     hideVeil?: boolean;
+    /**
+     * Disables the drawer's animation.
+     * @default false
+     */
+    disableTransition?: boolean;
 }
 
 export const Drawer = ({
@@ -109,6 +115,7 @@ export const Drawer = ({
     keepMounted = false,
     container,
     hideVeil = false,
+    disableTransition = false,
     ...restProps
 }: DrawerProps) => {
     const floatingNodeId = useFloatingNodeId();
@@ -123,12 +130,14 @@ export const Drawer = ({
 
     const {isMounted, status} = useFloatingTransition({
         context,
-        duration: DRAWER_ANIMATION_DURATION_MS,
+        duration: disableTransition ? 0 : DRAWER_ANIMATION_DURATION_MS,
         onTransitionIn,
         onTransitionInComplete,
         onTransitionOut,
         onTransitionOutComplete,
     });
+
+    useInitialFocus({open, initialFocus, floatingRef: refs.floating});
 
     const dismiss = useDismiss(context, {
         enabled: !disableEscapeKeyDown || !disableOutsideClick,
@@ -162,9 +171,12 @@ export const Drawer = ({
     const composedStyle = React.useMemo(
         () => ({
             position: (disablePortal ? 'absolute' : 'fixed') as React.CSSProperties['position'],
+            '--_--animation-duration': disableTransition
+                ? '0ms'
+                : `${DRAWER_ANIMATION_DURATION_MS}ms`,
             ...style,
         }),
-        [style],
+        [disablePortal, disableTransition, style],
     );
 
     const portal =
@@ -189,7 +201,7 @@ export const Drawer = ({
                         context={context}
                         disabled={!isMounted}
                         modal={isMounted}
-                        initialFocus={initialFocus ?? refs.floating}
+                        initialFocus={refs.floating}
                         returnFocus={returnFocus}
                         visuallyHiddenDismiss={disableVisuallyHiddenDismiss ? false : i18n('close')}
                         restoreFocus={true}

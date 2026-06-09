@@ -6,7 +6,9 @@ import {Drawer} from '../components/Drawer';
 
 import {ContentOverflowDrawerShowcase} from './ContentOverflow';
 import {DisablePortalShowcase} from './DisablePortal';
+import {DisableTransitionShowcase} from './DisableTransition';
 import {HideVeilShowcase} from './HideVeil';
+import {InitialAutoFocusShowcase} from './InitialAutoFocus';
 import {ResizableDrawerShowcase} from './Resizable';
 
 const mockText = faker.lorem.sentences(10);
@@ -61,6 +63,9 @@ export const Default: Story = {
     },
 };
 
+const DisableTransitionTemplate: StoryFn = () => <DisableTransitionShowcase />;
+export const DisableTransition = DisableTransitionTemplate.bind({});
+
 const DisablePortalTemplate: StoryFn = () => <DisablePortalShowcase />;
 export const DisablePortal = DisablePortalTemplate.bind({});
 
@@ -72,3 +77,6 @@ export const Resizable = ResizableTemplate.bind({});
 
 const ContentOverflowTemplate: StoryFn = () => <ContentOverflowDrawerShowcase />;
 export const ContentOverflow = ContentOverflowTemplate.bind({});
+
+const InitialAutoFocusTemplate: StoryFn = () => <InitialAutoFocusShowcase />;
+export const InitialAutoFocus = InitialAutoFocusTemplate.bind({});

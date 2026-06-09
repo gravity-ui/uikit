@@ -134,15 +134,17 @@ SANDBOX-->
 
 `TabList` accepts any valid `div` element props in addition to these:
 
-| Name            | Description                                                                          |           Type            | Default |
-| :-------------- | :----------------------------------------------------------------------------------- | :-----------------------: | :-----: |
-| children        | List of tabs, probably with some wrappers                                            |     `React.ReactNode`     |         |
-| value           | Active tab value                                                                     |         `string`          |         |
-| onUpdate        | Update tab handler                                                                   | `(value: string) => void` |         |
-| className       | CSS-class of element                                                                 |         `string`          |         |
-| activateOnFocus | Activate tab on focus. Use this only if panel's content can be displayed immediately |         `boolean`         | `false` |
-| size            | Element size                                                                         |    `"m"` `"l"` `"xl"`     |  `"m"`  |
-| qa              | HTML `data-qa` attribute, used in tests                                              |         `string`          |         |
+| Name            | Description                                                                            |               Type               | Default  |
+| :-------------- | :------------------------------------------------------------------------------------- | :------------------------------: | :------: |
+| children        | List of tabs, probably with some wrappers                                              |        `React.ReactNode`         |          |
+| value           | Active tab value                                                                       |             `string`             |          |
+| onUpdate        | Update tab handler                                                                     |    `(value: string) => void`     |          |
+| className       | CSS-class of element                                                                   |             `string`             |          |
+| activateOnFocus | Activate tab on focus. Use this only if panel's content can be displayed immediately   |            `boolean`             | `false`  |
+| size            | Element size                                                                           |        `"m"` `"l"` `"xl"`        |  `"m"`   |
+| contentOverflow | How to deal with items that do not fit horizontally (wrap, scroll, or a **More** menu) | `"wrap"` `"scroll"` `"collapse"` | `"wrap"` |
+| moreLabel       | Label for the collapse overflow trigger when the active tab is visible in the list     |        `React.ReactNode`         | `"More"` |
+| qa              | HTML `data-qa` attribute, used in tests                                                |             `string`             |          |
 
 ## Tab
 
@@ -280,6 +282,46 @@ SANDBOX-->
   <Tab value="second" label={{content: 'Label 2'}}>
     Second Tab
   </Tab>
+</TabList>
+```
+
+<!--/GITHUB_BLOCK-->
+
+### Сontent overflow
+
+Used if you need to collapse tabs item.
+
+<!--LANDING_BLOCK
+<ExampleBlock
+    code={`
+<TabList value="first" contentOverflow="collapse" style={{maxWidth: 320}}>
+    <Tab value="first">First Tab</Tab>
+    <Tab value="second">Second Tab</Tab>
+    <Tab value="third">Third Tab</Tab>
+    <Tab value="fourth">Fourth Tab</Tab>
+    <Tab value="fifth">Fifth Tab</Tab>
+</TabList>
+`}
+>
+    <UIKit.TabList value="first" contentOverflow="collapse" style={{maxWidth: 320}}>
+        <UIKit.Tab value="first">First Tab</UIKit.Tab>
+        <UIKit.Tab value="second">Second Tab</UIKit.Tab>
+        <UIKit.Tab value="third">Third Tab</UIKit.Tab>
+        <UIKit.Tab value="fourth">Fourth Tab</UIKit.Tab>
+        <UIKit.Tab value="fifth">Fifth Tab</UIKit.Tab>
+    </UIKit.TabList>
+</ExampleBlock>
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<TabList value="first" contentOverflow="collapse" style={{maxWidth: 320}}>
+  <Tab value="first">First Tab</Tab>
+  <Tab value="second">Second Tab</Tab>
+  <Tab value="third">Third Tab</Tab>
+  <Tab value="fourth">Fourth Tab</Tab>
+  <Tab value="fifth">Fifth Tab</Tab>
 </TabList>
 ```
 

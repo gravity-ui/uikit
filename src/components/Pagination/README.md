@@ -90,4 +90,6 @@ const pagination = (
 );
 ```
 
-`getItemProps` is called for each clickable item (page buttons and navigation buttons). It is **not** called for ellipsis, the "page of" indicator, or the simple (current) page item in the mobile layout. Pagination-managed props (`onClick`, `className`, `size`, `view`, `selected`, `disabled`, `qa`, `aria-current`, `extraProps`, `children`) take precedence over values returned by `getItemProps`.
+`getItemProps` is called for each clickable item (page buttons and navigation buttons). It is **not** called for ellipsis, the "page of" indicator, the simple (current) page item in the mobile layout, or disabled navigation buttons (those always stay an inert native `<button disabled>` so they cannot be activated, including via keyboard). Pagination-managed props (`onClick`, `className`, `size`, `view`, `selected`, `disabled`, `qa`, `aria-current`, `extraProps`, `children`) take precedence over values returned by `getItemProps`.
+
+The return value defaults to a loose `Record<string, unknown>`. Provide the type parameter to type it explicitly under the chosen `component`, e.g. `GetPaginationItemProps<{to: string}>` for a router `Link`.

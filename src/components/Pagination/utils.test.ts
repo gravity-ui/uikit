@@ -1,6 +1,6 @@
 import * as warnModule from '../utils/warn';
 
-import type {PageItem} from './types';
+import type {ButtonItem, PageItem} from './types';
 import {buildComponentProps, getNumerationList, getSize, getViews} from './utils';
 
 const warnOnceMock = jest.spyOn(warnModule, 'warnOnce').mockImplementation(() => {});
@@ -480,6 +480,25 @@ describe('Pagination utils', () => {
                 component: Custom,
                 to: '?page=2',
             });
+        });
+
+        it('returns empty object and skips getItemProps for a disabled navigation button', () => {
+            const disabledButton: ButtonItem = {type: 'button', action: 'previous', disabled: true};
+            const getItemProps = jest.fn(() => ({href: '?action=previous'}));
+
+            expect(buildComponentProps('a', disabledButton, getItemProps)).toEqual({});
+            expect(getItemProps).not.toHaveBeenCalled();
+            expect(warnOnceMock).not.toHaveBeenCalled();
+        });
+
+        it('still forwards props for an enabled navigation button', () => {
+            const enabledButton: ButtonItem = {type: 'button', action: 'next', disabled: false};
+            const getItemProps = jest.fn(() => ({href: '?action=next'}));
+
+            expect(buildComponentProps('a', enabledButton, getItemProps)).toEqual({
+                href: '?action=next',
+            });
+            expect(getItemProps).toHaveBeenCalledWith(enabledButton);
         });
     });
 });

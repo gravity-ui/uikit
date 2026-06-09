@@ -127,9 +127,10 @@ export function buildComponentProps(
     item: PageItem | ButtonItem,
     getItemProps?: GetPaginationItemProps,
 ): Record<string, unknown> {
-    if (!component) {
+    if (!component || (item.type === 'button' && item.disabled)) {
         return {};
     }
+
     const userProps = getItemProps?.(item);
     const filtered: Record<string, unknown> = {};
     if (userProps) {

@@ -299,6 +299,43 @@ describe('Pagination component', () => {
             expect(page2).not.toHaveAttribute('role');
         });
 
+        test('disabled navigation buttons stay inert <button> even with component="a" and href', () => {
+            const getItemProps: PaginationProps['getItemProps'] = (item) => {
+                if (item.type === 'page') {
+                    return {href: `?page=${item.page}`};
+                }
+                return {href: `?action=${item.action}`};
+            };
+
+            render(
+                <Pagination
+                    pageSize={20}
+                    total={100}
+                    onUpdate={noop}
+                    page={1}
+                    component="a"
+                    getItemProps={getItemProps}
+                />,
+            );
+
+            // On the first page `first` and `previous` are disabled and must not
+            // become navigable anchors, otherwise they stay keyboard-activatable.
+            const first = screen.getByTestId(PaginationQa.PaginationButtonFirst);
+            expect(first.tagName).toBe('BUTTON');
+            expect(first).toBeDisabled();
+            expect(first).not.toHaveAttribute('href');
+
+            const prev = screen.getByTestId(PaginationQa.PaginationButtonPrevious);
+            expect(prev.tagName).toBe('BUTTON');
+            expect(prev).toBeDisabled();
+            expect(prev).not.toHaveAttribute('href');
+
+            // `next` is still enabled and renders as an anchor.
+            const next = screen.getByTestId(PaginationQa.PaginationButtonNext);
+            expect(next.tagName).toBe('A');
+            expect(next).toHaveAttribute('href', '?action=next');
+        });
+
         test('current page has aria-current="page" when rendered with component', () => {
             render(
                 <Pagination

@@ -2,6 +2,7 @@ import uniq from 'lodash/uniq';
 
 import type {ButtonView} from '../Button';
 import type {InputControlView} from '../controls';
+import {warnOnce} from '../utils/warn';
 
 import type {
     ButtonItem,
@@ -130,19 +131,24 @@ export function buildComponentProps(
         return {};
     }
     const userProps = getItemProps?.(item);
-    if (!userProps) {
-        if (component === 'a') {
-            return {};
-        }
-        return {component};
-    }
     const filtered: Record<string, unknown> = {};
-    for (const key of Object.keys(userProps)) {
-        if (!PAGINATION_MANAGED_PROPS.has(key)) {
-            filtered[key] = userProps[key];
+    if (userProps) {
+        for (const key of Object.keys(userProps)) {
+            if (!PAGINATION_MANAGED_PROPS.has(key)) {
+                filtered[key] = userProps[key];
+            }
         }
     }
+    // `'a'` is not a valid `Button` `component` (`Button` renders a native
+    // anchor only when it receives an `href`). So instead of forwarding
+    // `component`, we rely on `href` coming from `getItemProps`. Without it the
+    // item silently falls back to a `<button>`, so warn the developer.
     if (component === 'a') {
+        if (filtered.href === undefined) {
+            warnOnce(
+                '[Pagination] `component="a"` requires an `href` returned from `getItemProps` for every clickable item, otherwise the item falls back to a native `<button>`.',
+            );
+        }
         return filtered;
     }
     return {component, ...filtered};

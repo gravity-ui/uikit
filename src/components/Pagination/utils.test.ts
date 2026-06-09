@@ -1,5 +1,9 @@
+import * as warnModule from '../utils/warn';
+
 import type {PageItem} from './types';
 import {buildComponentProps, getNumerationList, getSize, getViews} from './utils';
+
+const warnOnceMock = jest.spyOn(warnModule, 'warnOnce').mockImplementation(() => {});
 
 describe('Pagination utils', () => {
     describe('[desktop]: getNumerationList', () => {
@@ -405,6 +409,10 @@ describe('Pagination utils', () => {
             key: 2,
         };
 
+        beforeEach(() => {
+            warnOnceMock.mockClear();
+        });
+
         it('returns empty object when component is undefined', () => {
             expect(buildComponentProps(undefined, pageItem)).toEqual({});
         });
@@ -420,8 +428,15 @@ describe('Pagination utils', () => {
             expect(buildComponentProps(Custom, pageItem)).toEqual({component: Custom});
         });
 
-        it('returns an empty object for component="a" when getItemProps is not provided', () => {
+        it('returns an empty object and warns for component="a" when getItemProps is not provided', () => {
             expect(buildComponentProps('a', pageItem)).toEqual({});
+            expect(warnOnceMock).toHaveBeenCalledTimes(1);
+        });
+
+        it('warns for component="a" when getItemProps returns no href', () => {
+            const getItemProps = jest.fn(() => ({target: '_blank'}));
+            expect(buildComponentProps('a', pageItem, getItemProps)).toEqual({target: '_blank'});
+            expect(warnOnceMock).toHaveBeenCalledTimes(1);
         });
 
         it('merges getItemProps result with component', () => {
@@ -435,13 +450,14 @@ describe('Pagination utils', () => {
             expect(getItemProps).toHaveBeenCalledWith(pageItem);
         });
 
-        it('returns anchor props without component for component="a"', () => {
+        it('returns anchor props without component for component="a" and does not warn', () => {
             const getItemProps = jest.fn(() => ({href: '?page=2', target: '_blank'}));
             expect(buildComponentProps('a', pageItem, getItemProps)).toEqual({
                 href: '?page=2',
                 target: '_blank',
             });
             expect(getItemProps).toHaveBeenCalledWith(pageItem);
+            expect(warnOnceMock).not.toHaveBeenCalled();
         });
 
         it('strips Pagination-managed keys from getItemProps result', () => {

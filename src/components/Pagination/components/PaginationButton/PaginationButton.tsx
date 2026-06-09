@@ -50,7 +50,7 @@ export const PaginationButton = ({
                     size={size}
                     view={view}
                     className={className}
-                    onClick={() => onUpdate(1, pageSize)}
+                    onClick={disabled ? undefined : () => onUpdate(1, pageSize)}
                     title={compact ? t('button_first') : undefined}
                     disabled={disabled}
                     qa={PaginationQa.PaginationButtonFirst}
@@ -67,7 +67,7 @@ export const PaginationButton = ({
                     size={size}
                     view={view}
                     className={className}
-                    onClick={() => onUpdate(page - 1, pageSize)}
+                    onClick={disabled ? undefined : () => onUpdate(page - 1, pageSize)}
                     title={compact ? t('button_previous') : undefined}
                     disabled={disabled}
                     qa={PaginationQa.PaginationButtonPrevious}
@@ -84,7 +84,7 @@ export const PaginationButton = ({
                     size={size}
                     view={view}
                     className={className}
-                    onClick={() => onUpdate(page + 1, pageSize)}
+                    onClick={disabled ? undefined : () => onUpdate(page + 1, pageSize)}
                     title={compact ? t('button_next') : undefined}
                     disabled={disabled}
                     qa={PaginationQa.PaginationButtonNext}

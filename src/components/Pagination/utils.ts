@@ -1,12 +1,13 @@
 import uniq from 'lodash/uniq';
 
-import type {ButtonCustomElementType, ButtonView} from '../Button';
+import type {ButtonView} from '../Button';
 import type {InputControlView} from '../controls';
 
 import type {
     ButtonItem,
     GetPaginationItemProps,
     PageItem,
+    PaginationComponent,
     PaginationSize,
     PaginationView,
 } from './types';
@@ -121,7 +122,7 @@ const PAGINATION_MANAGED_PROPS = new Set([
 ]);
 
 export function buildComponentProps(
-    component: ButtonCustomElementType,
+    component: PaginationComponent,
     item: PageItem | ButtonItem,
     getItemProps?: GetPaginationItemProps,
 ): Record<string, unknown> {
@@ -130,6 +131,9 @@ export function buildComponentProps(
     }
     const userProps = getItemProps?.(item);
     if (!userProps) {
+        if (component === 'a') {
+            return {};
+        }
         return {component};
     }
     const filtered: Record<string, unknown> = {};
@@ -137,6 +141,9 @@ export function buildComponentProps(
         if (!PAGINATION_MANAGED_PROPS.has(key)) {
             filtered[key] = userProps[key];
         }
+    }
+    if (component === 'a') {
+        return filtered;
     }
     return {component, ...filtered};
 }

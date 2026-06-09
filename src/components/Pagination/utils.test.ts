@@ -420,6 +420,10 @@ describe('Pagination utils', () => {
             expect(buildComponentProps(Custom, pageItem)).toEqual({component: Custom});
         });
 
+        it('returns an empty object for component="a" when getItemProps is not provided', () => {
+            expect(buildComponentProps('a', pageItem)).toEqual({});
+        });
+
         it('merges getItemProps result with component', () => {
             const Custom = () => null;
             const getItemProps = jest.fn(() => ({to: '?page=2', 'data-x': '1'}));
@@ -427,6 +431,15 @@ describe('Pagination utils', () => {
                 component: Custom,
                 to: '?page=2',
                 'data-x': '1',
+            });
+            expect(getItemProps).toHaveBeenCalledWith(pageItem);
+        });
+
+        it('returns anchor props without component for component="a"', () => {
+            const getItemProps = jest.fn(() => ({href: '?page=2', target: '_blank'}));
+            expect(buildComponentProps('a', pageItem, getItemProps)).toEqual({
+                href: '?page=2',
+                target: '_blank',
             });
             expect(getItemProps).toHaveBeenCalledWith(pageItem);
         });

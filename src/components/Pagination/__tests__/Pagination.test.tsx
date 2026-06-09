@@ -267,6 +267,38 @@ describe('Pagination component', () => {
             expect(page2).toHaveAttribute('data-custom-link', 'true');
         });
 
+        test('with component="a", items render as Button links', () => {
+            const getItemProps: PaginationProps['getItemProps'] = (item) => {
+                if (item.type === 'page') {
+                    return {href: `?page=${item.page}`, target: '_blank'};
+                }
+                return {href: `?action=${item.action}`, target: '_blank'};
+            };
+
+            render(
+                <Pagination
+                    pageSize={20}
+                    total={100}
+                    onUpdate={noop}
+                    page={2}
+                    component="a"
+                    getItemProps={getItemProps}
+                />,
+            );
+
+            const first = screen.getByTestId(PaginationQa.PaginationButtonFirst);
+            expect(first.tagName).toBe('A');
+            expect(first).toHaveAttribute('href', '?action=first');
+            expect(first).toHaveAttribute('rel', 'noopener noreferrer');
+            expect(first).not.toHaveAttribute('role');
+
+            const page2 = screen.getByTestId(getPaginationPageQa(2));
+            expect(page2.tagName).toBe('A');
+            expect(page2).toHaveAttribute('href', '?page=2');
+            expect(page2).toHaveAttribute('rel', 'noopener noreferrer');
+            expect(page2).not.toHaveAttribute('role');
+        });
+
         test('current page has aria-current="page" when rendered with component', () => {
             render(
                 <Pagination

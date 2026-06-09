@@ -5,6 +5,7 @@ export type ActionName = 'previous' | 'next' | 'first';
 
 export type PaginationSize = 's' | 'm' | 'l' | 'xl';
 export type PaginationView = 'outlined' | 'clear';
+export type PaginationComponent = ButtonCustomElementType | 'a';
 
 export type GetPaginationItemProps = (item: PageItem | ButtonItem) => Record<string, unknown>;
 
@@ -60,20 +61,12 @@ export type PaginationProps = {
     view?: PaginationView;
     /**
      * Overrides the root element for clickable pagination items
-     * (navigation buttons and page buttons). Useful for router-aware links
-     * such as `Link` from `react-router-dom` or `next/link`.
-     *
-     * Has no effect on ellipsis, "page of" indicator, simple page items,
-     * the input, or the page-size selector.
+     * (navigation buttons and page buttons).
      */
-    component?: ButtonCustomElementType;
+    component?: PaginationComponent;
     /**
      * Returns extra props per clickable item (e.g. `to` for a router `Link`).
      * Only applied when `component` is set; ignored otherwise.
-     *
-     * Pagination-managed keys are stripped from the returned object and
-     * cannot be overridden: `onClick`, `className`, `size`, `view`,
-     * `selected`, `disabled`, `qa`, `aria-current`, `extraProps`, `children`.
      */
     getItemProps?: GetPaginationItemProps;
 } & QAProps;

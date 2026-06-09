@@ -156,10 +156,14 @@ View.args = {
 
 const WithCustomComponentTemplate: StoryFn<PaginationProps> = (args) => {
     const state = useState(args);
+    const lastPage = state.total ? Math.ceil(state.total / state.pageSize) : undefined;
 
     const getItemProps: PaginationProps['getItemProps'] = (item) => {
         if (item.type === 'page') {
             return {to: `?page=${item.page}`};
+        }
+        if (item.disabled) {
+            return {};
         }
         switch (item.action) {
             case 'first':
@@ -167,7 +171,7 @@ const WithCustomComponentTemplate: StoryFn<PaginationProps> = (args) => {
             case 'previous':
                 return {to: `?page=${Math.max(1, state.page - 1)}`};
             case 'next':
-                return {to: `?page=${state.page + 1}`};
+                return {to: `?page=${Math.min(lastPage ?? state.page + 1, state.page + 1)}`};
             default:
                 return {};
         }
@@ -178,6 +182,40 @@ const WithCustomComponentTemplate: StoryFn<PaginationProps> = (args) => {
 
 export const WithCustomComponent = WithCustomComponentTemplate.bind({});
 WithCustomComponent.args = {
+    page: 1,
+    pageSize: 100,
+    total: 1000,
+    compact: false,
+};
+
+const WithAnchorComponentTemplate: StoryFn<PaginationProps> = (args) => {
+    const state = useState(args);
+    const lastPage = state.total ? Math.ceil(state.total / state.pageSize) : undefined;
+
+    const getItemProps: PaginationProps['getItemProps'] = (item) => {
+        if (item.type === 'page') {
+            return {href: `?page=${item.page}`};
+        }
+        if (item.disabled) {
+            return {};
+        }
+        switch (item.action) {
+            case 'first':
+                return {href: '?page=1'};
+            case 'previous':
+                return {href: `?page=${Math.max(1, state.page - 1)}`};
+            case 'next':
+                return {href: `?page=${Math.min(lastPage ?? state.page + 1, state.page + 1)}`};
+            default:
+                return {};
+        }
+    };
+
+    return <Pagination {...state} component="a" getItemProps={getItemProps} />;
+};
+
+export const WithAnchorComponent = WithAnchorComponentTemplate.bind({});
+WithAnchorComponent.args = {
     page: 1,
     pageSize: 100,
     total: 1000,

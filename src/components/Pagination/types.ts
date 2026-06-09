@@ -7,7 +7,9 @@ export type PaginationSize = 's' | 'm' | 'l' | 'xl';
 export type PaginationView = 'outlined' | 'clear';
 export type PaginationComponent = ButtonCustomElementType | 'a';
 
-export type GetPaginationItemProps = (item: PageItem | ButtonItem) => Record<string, unknown>;
+export type GetPaginationItemProps<P extends Record<string, unknown> = Record<string, unknown>> = (
+    item: PageItem | ButtonItem,
+) => P;
 
 export type PaginationProps = {
     /**

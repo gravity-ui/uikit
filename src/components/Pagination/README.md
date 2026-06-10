@@ -27,6 +27,8 @@ const pagination = <Pagination page={1} pageSize={100} total={1000} onUpdate={ha
 
 You can override the root element of clickable pagination items (navigation and page buttons) using the `component` prop. Pass `component="a"` and return `href` from `getItemProps` to use regular links. For router integrations, pass a router-aware component such as `Link` and return router-specific props, for example `to`.
 
+`getItemProps` is called for each clickable item (page buttons and navigation buttons). It is **not** called for ellipsis, the "page of" indicator, the simple (current) page item in the mobile layout, or disabled navigation buttons (those always stay an inert native `<button disabled>` so they cannot be activated, including via keyboard). Pagination-managed props (`onClick`, `className`, `size`, `view`, `selected`, `disabled`, `qa`, `aria-current`, `extraProps`, `children`) take precedence over values returned by `getItemProps`.
+
 ### Regular links (`component="a"`)
 
 ```jsx
@@ -72,9 +74,6 @@ const pagination = (
 
 ### Router links (e.g. `react-router`)
 
-Pass the router `Link` as `component` and return its props from `getItemProps`. Use the type
-parameter of `GetPaginationItemProps` to type the result explicitly.
-
 ```jsx
 import {Pagination} from '@gravity-ui/uikit';
 import type {PaginationProps, GetPaginationItemProps} from '@gravity-ui/uikit';
@@ -116,10 +115,6 @@ const pagination = (
   />
 );
 ```
-
-`getItemProps` is called for each clickable item (page buttons and navigation buttons). It is **not** called for ellipsis, the "page of" indicator, the simple (current) page item in the mobile layout, or disabled navigation buttons (those always stay an inert native `<button disabled>` so they cannot be activated, including via keyboard). Pagination-managed props (`onClick`, `className`, `size`, `view`, `selected`, `disabled`, `qa`, `aria-current`, `extraProps`, `children`) take precedence over values returned by `getItemProps`.
-
-The return value defaults to a loose `Record<string, unknown>`. Provide the type parameter to type it explicitly under the chosen `component`, e.g. `GetPaginationItemProps<{to: string}>` for a router `Link`.
 
 ## Properties
 

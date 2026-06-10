@@ -1,5 +1,15 @@
 # Changelog
 
+## [7.42.0](https://github.com/gravity-ui/uikit/compare/v7.41.0...v7.42.0) (2026-06-10)
+
+
+### Features
+
+* allow users to show Drawer without animations ([#2691](https://github.com/gravity-ui/uikit/issues/2691)) ([dbdd1a6](https://github.com/gravity-ui/uikit/commit/dbdd1a6245b04fef6a90eaaa79866d46c3156037))
+* **FileDropZone:** improve file rejection handling and drag feedback ([#2614](https://github.com/gravity-ui/uikit/issues/2614)) ([50985c3](https://github.com/gravity-ui/uikit/commit/50985c31b35b603de0670a6da02d5776c63b6c9f))
+* **Sheet:** support safe-area paddings ([#2699](https://github.com/gravity-ui/uikit/issues/2699)) ([c546e6e](https://github.com/gravity-ui/uikit/commit/c546e6eb16e23987a390f550e297b150fe98fbcc))
+* **Spin:** add color CSS variable ([#2688](https://github.com/gravity-ui/uikit/issues/2688)) ([460de54](https://github.com/gravity-ui/uikit/commit/460de54efd77fad51652967ceb91d238316159a3))
+
 ## [7.41.0](https://github.com/gravity-ui/uikit/compare/v7.40.0...v7.41.0) (2026-06-01)
 
 

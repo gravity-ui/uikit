@@ -112,6 +112,8 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
         extraProps,
         qa,
         onClickCapture,
+        // service prop, must not be forwarded to the rendered element via `...rest`
+        component: _component,
         ...rest
     } = props;
 

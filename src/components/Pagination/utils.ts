@@ -1,3 +1,5 @@
+import type * as React from 'react';
+
 import uniq from 'lodash/uniq';
 
 import type {ButtonView} from '../Button';
@@ -140,10 +142,8 @@ export function buildComponentProps(
             }
         }
     }
-    // `'a'` is not a valid `Button` `component` (`Button` renders a native
-    // anchor only when it receives an `href`). So instead of forwarding
-    // `component`, we rely on `href` coming from `getItemProps`. Without it the
-    // item silently falls back to a `<button>`, so warn the developer.
+
+    // `Button` renders a native anchor when it receives an `href`
     if (component === 'a') {
         if (filtered.href === undefined) {
             warnOnce(
@@ -153,4 +153,26 @@ export function buildComponentProps(
         return filtered;
     }
     return {component, ...filtered};
+}
+
+// Only plain current-tab clicks should update pagination state.
+export function shouldUpdateOnPaginationItemClick(
+    event: React.MouseEvent<HTMLElement>,
+    hasComponent: boolean,
+) {
+    if (!hasComponent) {
+        return true;
+    }
+
+    const target = event.currentTarget.getAttribute('target');
+
+    return (
+        !event.defaultPrevented &&
+        event.button === 0 &&
+        !event.metaKey &&
+        !event.ctrlKey &&
+        !event.shiftKey &&
+        !event.altKey &&
+        (!target || target === '_self')
+    );
 }

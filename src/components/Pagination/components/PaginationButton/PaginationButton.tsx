@@ -10,7 +10,7 @@ import {Icon} from '../../../Icon';
 import {PaginationQa} from '../../constants';
 import i18n from '../../i18n';
 import type {ButtonItem, PaginationProps, PaginationSize} from '../../types';
-import {buildComponentProps} from '../../utils';
+import {buildComponentProps, shouldUpdateOnPaginationItemClick} from '../../utils';
 
 type Props = {
     item: ButtonItem;
@@ -41,6 +41,11 @@ export const PaginationButton = ({
     const {disabled} = item;
     const {t} = i18n.useTranslation();
     const componentProps = buildComponentProps(component, item, getItemProps);
+    const handleUpdate = (event: React.MouseEvent<HTMLElement>, nextPage: number) => {
+        if (shouldUpdateOnPaginationItemClick(event, Boolean(component))) {
+            onUpdate(nextPage, pageSize);
+        }
+    };
 
     switch (item.action) {
         case 'first':
@@ -50,7 +55,7 @@ export const PaginationButton = ({
                     size={size}
                     view={view}
                     className={className}
-                    onClick={disabled ? undefined : () => onUpdate(1, pageSize)}
+                    onClick={disabled ? undefined : (event) => handleUpdate(event, 1)}
                     title={compact ? t('button_first') : undefined}
                     disabled={disabled}
                     qa={PaginationQa.PaginationButtonFirst}
@@ -67,7 +72,7 @@ export const PaginationButton = ({
                     size={size}
                     view={view}
                     className={className}
-                    onClick={disabled ? undefined : () => onUpdate(page - 1, pageSize)}
+                    onClick={disabled ? undefined : (event) => handleUpdate(event, page - 1)}
                     title={compact ? t('button_previous') : undefined}
                     disabled={disabled}
                     qa={PaginationQa.PaginationButtonPrevious}
@@ -84,7 +89,7 @@ export const PaginationButton = ({
                     size={size}
                     view={view}
                     className={className}
-                    onClick={disabled ? undefined : () => onUpdate(page + 1, pageSize)}
+                    onClick={disabled ? undefined : (event) => handleUpdate(event, page + 1)}
                     title={compact ? t('button_next') : undefined}
                     disabled={disabled}
                     qa={PaginationQa.PaginationButtonNext}

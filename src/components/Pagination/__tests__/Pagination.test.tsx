@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {render, screen} from '../../../../test-utils/utils';
+import {fireEvent, render, screen} from '../../../../test-utils/utils';
 import {MobileProvider} from '../../mobile';
 import {Pagination} from '../Pagination';
 import {PaginationQa, getPaginationPageQa} from '../constants';
@@ -530,6 +530,87 @@ describe('Pagination component', () => {
 
             await user.click(screen.getByTestId(getPaginationPageQa(3)));
             expect(onUpdate).toHaveBeenLastCalledWith(3, 20);
+        });
+
+        test('modified link clicks do not trigger onUpdate in the current page', () => {
+            const onUpdate = jest.fn();
+            const getItemProps: PaginationProps['getItemProps'] = (item) => {
+                if (item.type === 'page') {
+                    return {href: `?page=${item.page}`};
+                }
+                return {href: `?action=${item.action}`};
+            };
+
+            render(
+                <Pagination
+                    pageSize={20}
+                    total={100}
+                    onUpdate={onUpdate}
+                    page={2}
+                    component="a"
+                    getItemProps={getItemProps}
+                />,
+            );
+
+            fireEvent.click(screen.getByTestId(getPaginationPageQa(3)), {ctrlKey: true});
+            fireEvent.click(screen.getByTestId(PaginationQa.PaginationButtonNext), {
+                metaKey: true,
+            });
+
+            expect(onUpdate).not.toHaveBeenCalled();
+        });
+
+        test('links targeting a new browsing context do not trigger onUpdate', () => {
+            const onUpdate = jest.fn();
+            const getItemProps: PaginationProps['getItemProps'] = (item) => {
+                if (item.type === 'page') {
+                    return {href: `?page=${item.page}`, target: '_blank'};
+                }
+                return {href: `?action=${item.action}`, target: '_blank'};
+            };
+
+            render(
+                <Pagination
+                    pageSize={20}
+                    total={100}
+                    onUpdate={onUpdate}
+                    page={2}
+                    component="a"
+                    getItemProps={getItemProps}
+                />,
+            );
+
+            fireEvent.click(screen.getByTestId(getPaginationPageQa(3)));
+            fireEvent.click(screen.getByTestId(PaginationQa.PaginationButtonNext));
+
+            expect(onUpdate).not.toHaveBeenCalled();
+        });
+
+        test('plain link clicks still trigger onUpdate', () => {
+            const onUpdate = jest.fn();
+            const getItemProps: PaginationProps['getItemProps'] = (item) => {
+                if (item.type === 'page') {
+                    return {href: `?page=${item.page}`};
+                }
+                return {href: `?action=${item.action}`};
+            };
+
+            render(
+                <Pagination
+                    pageSize={20}
+                    total={100}
+                    onUpdate={onUpdate}
+                    page={2}
+                    component="a"
+                    getItemProps={getItemProps}
+                />,
+            );
+
+            fireEvent.click(screen.getByTestId(getPaginationPageQa(3)));
+            fireEvent.click(screen.getByTestId(PaginationQa.PaginationButtonNext));
+
+            expect(onUpdate).toHaveBeenNthCalledWith(1, 3, 20);
+            expect(onUpdate).toHaveBeenNthCalledWith(2, 3, 20);
         });
     });
 });

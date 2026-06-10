@@ -4,7 +4,7 @@ import {Button} from '../../../Button';
 import {block} from '../../../utils/cn';
 import {getPaginationPageQa} from '../../constants';
 import type {PageItem, PaginationProps, PaginationSize} from '../../types';
-import {buildComponentProps} from '../../utils';
+import {buildComponentProps, shouldUpdateOnPaginationItemClick} from '../../utils';
 
 import './PaginationPage.scss';
 
@@ -49,7 +49,11 @@ export const PaginationPage = ({
             view={view}
             selected={item.current}
             className={className}
-            onClick={() => onUpdate(item.page, pageSize)}
+            onClick={(event) => {
+                if (shouldUpdateOnPaginationItemClick(event, Boolean(component))) {
+                    onUpdate(item.page, pageSize);
+                }
+            }}
             qa={qa}
             aria-current={component && item.current ? 'page' : undefined}
         >

@@ -1,99 +1,47 @@
 import * as React from 'react';
 
-export type UseDropZoneAccept = string[];
-
-interface UseDropZoneBaseParams {
-    accept: UseDropZoneAccept;
-    disabled?: boolean;
-    onDrop: (items: DataTransferItemList) => void;
-}
-
-export interface UseDropZoneParamsWithRef extends UseDropZoneBaseParams {
-    ref: React.RefObject<HTMLElement>;
-}
-
-export interface UseDropZoneParamsWithoutRef extends UseDropZoneBaseParams {
-    ref?: undefined;
-}
-
-export type UseDropZoneParams = UseDropZoneParamsWithRef | UseDropZoneParamsWithoutRef;
-
-const DROP_ZONE_BASE_ATTRIBUTES = {
-    'aria-dropeffect': 'copy' as DataTransfer['dropEffect'],
-    tabIndex: 0,
-    role: 'button',
-};
-
-export interface UseDropZoneDroppableProps extends Required<typeof DROP_ZONE_BASE_ATTRIBUTES> {
-    onDragEnter: (e: React.DragEvent) => void;
-    onDragOver: (e: React.DragEvent) => void;
-    onDragLeave: (e: React.DragEvent) => void;
-    onDrop: (e: React.DragEvent) => void;
-}
-
-export interface UseDropZoneStateWithRef {
-    isDraggingOver: boolean;
-}
-
-export interface UseDropZoneStateWithoutRef {
-    isDraggingOver: boolean;
-    getDroppableProps: () => UseDropZoneDroppableProps;
-}
-
-export type UseDropZoneState = UseDropZoneStateWithRef | UseDropZoneStateWithoutRef;
-
-function typeMatchesPattern(actualMimeType: string, expectedMimeTypePattern: string): boolean {
-    const actualMimeTypeParts = actualMimeType.split('/');
-
-    if (actualMimeTypeParts.length !== 2) {
-        return false;
-    }
-
-    const [actualType] = actualMimeTypeParts;
-    const [expectedType, expectedSubtype] = expectedMimeTypePattern.split('/');
-
-    if (expectedSubtype === '*') {
-        return actualType === expectedType;
-    }
-
-    return actualMimeType === expectedMimeTypePattern;
-}
-
-function eventItemTypesAcceptable(accept: UseDropZoneAccept, event: DragEvent): boolean {
-    const items = event.dataTransfer?.items;
-
-    if (!items) {
-        return false;
-    }
-
-    for (const {type} of items) {
-        if (accept.some((acceptedTypePattern) => typeMatchesPattern(type, acceptedTypePattern))) {
-            return true;
-        }
-    }
-
-    return false;
-}
+import {DROP_ZONE_BASE_ATTRIBUTES} from './constants';
+import type {
+    UseDropZoneDroppableProps,
+    UseDropZoneParams,
+    UseDropZoneParamsWithRef,
+    UseDropZoneParamsWithoutRef,
+    UseDropZoneState,
+    UseDropZoneStateWithRef,
+    UseDropZoneStateWithoutRef,
+} from './types';
 
 export function useDropZone(params: UseDropZoneParamsWithRef): UseDropZoneStateWithRef;
 export function useDropZone(params: UseDropZoneParamsWithoutRef): UseDropZoneStateWithoutRef;
-export function useDropZone({accept, disabled, onDrop, ref}: UseDropZoneParams): UseDropZoneState {
+export function useDropZone({
+    disabled,
+    ref,
+    onDragEnter,
+    onDragOver,
+    onDragLeave,
+    onDrop,
+}: UseDropZoneParams): UseDropZoneState {
     const [isDraggingOver, setIsDraggingOver] = React.useState(false);
     const nestingCounterRef = React.useRef<number>(0);
 
     const handleDragEnterNative = React.useCallback(
         (event: DragEvent) => {
-            nestingCounterRef.current++;
-
-            if (disabled || !event.dataTransfer || !eventItemTypesAcceptable(accept, event)) {
+            if (disabled) {
                 return;
             }
 
-            event.dataTransfer.dropEffect = DROP_ZONE_BASE_ATTRIBUTES['aria-dropeffect'];
+            nestingCounterRef.current++;
+
+            const dataTransfer = event.dataTransfer;
+
+            if (dataTransfer) {
+                dataTransfer.dropEffect = DROP_ZONE_BASE_ATTRIBUTES['aria-dropeffect'];
+            }
 
             setIsDraggingOver(true);
+            onDragEnter?.(event);
         },
-        [accept, disabled],
+        [disabled, onDragEnter],
     );
 
     const handleDragEnter = React.useCallback(
@@ -105,15 +53,20 @@ export function useDropZone({accept, disabled, onDrop, ref}: UseDropZoneParams):
 
     const handleDragOverNative = React.useCallback(
         (event: DragEvent) => {
-            if (disabled || !event.dataTransfer || !eventItemTypesAcceptable(accept, event)) {
+            if (disabled) {
                 return;
             }
 
-            event.dataTransfer.dropEffect = DROP_ZONE_BASE_ATTRIBUTES['aria-dropeffect'];
+            const dataTransfer = event.dataTransfer;
+
+            if (dataTransfer) {
+                dataTransfer.dropEffect = DROP_ZONE_BASE_ATTRIBUTES['aria-dropeffect'];
+            }
 
             event.preventDefault();
+            onDragOver?.(event);
         },
-        [accept, disabled],
+        [disabled, onDragOver],
     );
 
     const handleDragOver = React.useCallback(
@@ -123,15 +76,22 @@ export function useDropZone({accept, disabled, onDrop, ref}: UseDropZoneParams):
         [handleDragOverNative],
     );
 
-    const handleDragLeaveNative = React.useCallback((_event: DragEvent) => {
-        nestingCounterRef.current--;
+    const handleDragLeaveNative = React.useCallback(
+        (event: DragEvent) => {
+            nestingCounterRef.current = Math.max(nestingCounterRef.current - 1, 0);
 
-        if (nestingCounterRef.current !== 0) {
-            return;
-        }
+            if (nestingCounterRef.current === 0) {
+                setIsDraggingOver(false);
+            }
 
-        setIsDraggingOver(false);
-    }, []);
+            if (disabled) {
+                return;
+            }
+
+            onDragLeave?.(event);
+        },
+        [disabled, onDragLeave],
+    );
 
     const handleDragLeave = React.useCallback(
         (event: React.DragEvent) => {
@@ -145,21 +105,14 @@ export function useDropZone({accept, disabled, onDrop, ref}: UseDropZoneParams):
             setIsDraggingOver(false);
             nestingCounterRef.current = 0;
 
-            if (disabled || !eventItemTypesAcceptable(accept, event)) {
+            if (disabled) {
                 return;
             }
 
             event.preventDefault();
-
-            const items = event.dataTransfer?.items;
-
-            if (!items) {
-                return;
-            }
-
-            onDrop(items);
+            onDrop?.(event);
         },
-        [accept, disabled, onDrop],
+        [disabled, onDrop],
     );
 
     const handleDrop = React.useCallback(

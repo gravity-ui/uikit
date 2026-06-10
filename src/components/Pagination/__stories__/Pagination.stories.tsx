@@ -17,8 +17,27 @@ const useState = (args: PaginationProps) => {
 type FakeRouterLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {to?: string};
 
 const FakeRouterLink = React.forwardRef<HTMLAnchorElement, FakeRouterLinkProps>(
-    ({to, children, ...props}, ref) => (
-        <a ref={ref} {...props} href={to}>
+    ({to, children, onClick, ...props}, ref) => (
+        <a
+            ref={ref}
+            {...props}
+            href={to}
+            onClick={(event) => {
+                // Let `Pagination` handle the click first (calls `onUpdate` for plain clicks).
+                onClick?.(event);
+                // Emulate a client-side router: handle plain left clicks in-place (no reload)
+                // and leave alternative clicks (new tab, etc.) to the browser.
+                const isPlainClick =
+                    event.button === 0 &&
+                    !event.metaKey &&
+                    !event.ctrlKey &&
+                    !event.shiftKey &&
+                    !event.altKey;
+                if (isPlainClick && !event.defaultPrevented) {
+                    event.preventDefault();
+                }
+            }}
+        >
             {children}
         </a>
     ),
@@ -170,27 +189,38 @@ const getPageHref = (page: number) => {
     }
 };
 
+// With link-based navigation the current page comes from the URL, not from `onUpdate`.
+const getInitialPage = (fallback: number) => {
+    if (typeof window === 'undefined') {
+        return fallback;
+    }
+    try {
+        const topWindow = window.top ?? window;
+        const page = Number(new URL(topWindow.location.href).searchParams.get('page'));
+        return Number.isInteger(page) && page > 0 ? page : fallback;
+    } catch {
+        return fallback;
+    }
+};
+
 const WithCustomComponentTemplate: StoryFn<PaginationProps> = (args) => {
-    const state = useState(args);
+    const state = useState({...args, page: getInitialPage(args.page)});
     const lastPage = state.total ? Math.ceil(state.total / state.pageSize) : undefined;
 
     const getItemProps: PaginationProps['getItemProps'] = (item) => {
         if (item.type === 'page') {
-            return {to: getPageHref(item.page), target: '_top'};
+            return {to: getPageHref(item.page)};
         }
         if (item.disabled) {
             return {};
         }
         switch (item.action) {
             case 'first':
-                return {to: getPageHref(1), target: '_top'};
+                return {to: getPageHref(1)};
             case 'previous':
-                return {to: getPageHref(Math.max(1, state.page - 1)), target: '_top'};
+                return {to: getPageHref(Math.max(1, state.page - 1))};
             case 'next':
-                return {
-                    to: getPageHref(Math.min(lastPage ?? state.page + 1, state.page + 1)),
-                    target: '_top',
-                };
+                return {to: getPageHref(Math.min(lastPage ?? state.page + 1, state.page + 1))};
             default:
                 return {};
         }
@@ -208,26 +238,23 @@ WithCustomComponent.args = {
 };
 
 const WithAnchorComponentTemplate: StoryFn<PaginationProps> = (args) => {
-    const state = useState(args);
+    const state = useState({...args, page: getInitialPage(args.page)});
     const lastPage = state.total ? Math.ceil(state.total / state.pageSize) : undefined;
 
     const getItemProps: PaginationProps['getItemProps'] = (item) => {
         if (item.type === 'page') {
-            return {href: getPageHref(item.page), target: '_top'};
+            return {href: getPageHref(item.page)};
         }
         if (item.disabled) {
             return {};
         }
         switch (item.action) {
             case 'first':
-                return {href: getPageHref(1), target: '_top'};
+                return {href: getPageHref(1)};
             case 'previous':
-                return {href: getPageHref(Math.max(1, state.page - 1)), target: '_top'};
+                return {href: getPageHref(Math.max(1, state.page - 1))};
             case 'next':
-                return {
-                    href: getPageHref(Math.min(lastPage ?? state.page + 1, state.page + 1)),
-                    target: '_top',
-                };
+                return {href: getPageHref(Math.min(lastPage ?? state.page + 1, state.page + 1))};
             default:
                 return {};
         }

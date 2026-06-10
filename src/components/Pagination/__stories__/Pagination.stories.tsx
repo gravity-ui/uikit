@@ -154,24 +154,43 @@ View.args = {
     showPages: true,
 };
 
+// Build an absolute URL against the top-level document so links work inside the Storybook iframe.
+const getPageHref = (page: number) => {
+    if (typeof window === 'undefined') {
+        return `?page=${page}`;
+    }
+    try {
+        const topWindow = window.top ?? window;
+        const url = new URL(topWindow.location.href);
+        url.searchParams.set('page', String(page));
+        return url.toString();
+    } catch {
+        // `window.top.location` may be inaccessible in a cross-origin iframe.
+        return `?page=${page}`;
+    }
+};
+
 const WithCustomComponentTemplate: StoryFn<PaginationProps> = (args) => {
     const state = useState(args);
     const lastPage = state.total ? Math.ceil(state.total / state.pageSize) : undefined;
 
     const getItemProps: PaginationProps['getItemProps'] = (item) => {
         if (item.type === 'page') {
-            return {to: `?page=${item.page}`};
+            return {to: getPageHref(item.page), target: '_top'};
         }
         if (item.disabled) {
             return {};
         }
         switch (item.action) {
             case 'first':
-                return {to: '?page=1'};
+                return {to: getPageHref(1), target: '_top'};
             case 'previous':
-                return {to: `?page=${Math.max(1, state.page - 1)}`};
+                return {to: getPageHref(Math.max(1, state.page - 1)), target: '_top'};
             case 'next':
-                return {to: `?page=${Math.min(lastPage ?? state.page + 1, state.page + 1)}`};
+                return {
+                    to: getPageHref(Math.min(lastPage ?? state.page + 1, state.page + 1)),
+                    target: '_top',
+                };
             default:
                 return {};
         }
@@ -194,18 +213,21 @@ const WithAnchorComponentTemplate: StoryFn<PaginationProps> = (args) => {
 
     const getItemProps: PaginationProps['getItemProps'] = (item) => {
         if (item.type === 'page') {
-            return {href: `?page=${item.page}`};
+            return {href: getPageHref(item.page), target: '_top'};
         }
         if (item.disabled) {
             return {};
         }
         switch (item.action) {
             case 'first':
-                return {href: '?page=1'};
+                return {href: getPageHref(1), target: '_top'};
             case 'previous':
-                return {href: `?page=${Math.max(1, state.page - 1)}`};
+                return {href: getPageHref(Math.max(1, state.page - 1)), target: '_top'};
             case 'next':
-                return {href: `?page=${Math.min(lastPage ?? state.page + 1, state.page + 1)}`};
+                return {
+                    href: getPageHref(Math.min(lastPage ?? state.page + 1, state.page + 1)),
+                    target: '_top',
+                };
             default:
                 return {};
         }

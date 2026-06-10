@@ -16,6 +16,7 @@ $block: '.#{variables.$ns}skeleton';
 
     background-color: var(--g-color-base-generic);
     border-radius: var(--_--border-radius);
+    height: var(--_--size, auto);
 
     &_size {
         &_xs {
@@ -43,10 +44,6 @@ $block: '.#{variables.$ns}skeleton';
             --_--size: #{variables.$xl-height};
         }
     }
-
-    // Apply height from the size token. Only has effect when a specific size
-    // modifier is present (i.e. --_--size is defined by one of the &_size_* rules above).
-    height: var(--_--size);
 
     &_variant {
         &_circle {

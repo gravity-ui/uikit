@@ -119,6 +119,14 @@ describe('Button', () => {
         expect(button).toBeVisible();
     });
 
+    test('should not forward "component" prop to the rendered element', () => {
+        render(<Button component="div" qa={qaId} />);
+        const button = screen.getByTestId(qaId);
+
+        expect(button.tagName).toBe('DIV');
+        expect(button).not.toHaveAttribute('component');
+    });
+
     test('should render icon in Button.Icon', () => {
         const iconQaId = 'icon-qa-id';
 

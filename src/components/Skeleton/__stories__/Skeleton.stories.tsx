@@ -1,7 +1,14 @@
-import type {Meta, StoryFn} from '@storybook/react-webpack5';
+import * as React from 'react';
 
+import type {Meta, StoryFn, StoryObj} from '@storybook/react-webpack5';
+
+import {Showcase} from '../../../demo/Showcase';
+import {ShowcaseItem} from '../../../demo/ShowcaseItem';
+import {Text} from '../../Text';
+import type {TextProps} from '../../Text';
+import {Flex} from '../../layout';
 import {Skeleton} from '../Skeleton';
-import type {SkeletonProps} from '../Skeleton';
+import type {SkeletonProps, SkeletonSize} from '../Skeleton';
 
 import {SkeletonShowcase} from './SkeletonShowcase';
 
@@ -13,7 +20,7 @@ const DefaultTemplate: StoryFn<SkeletonProps> = (args) => <Skeleton {...args} />
 export const Default = DefaultTemplate.bind({});
 
 Default.args = {
-    style: {height: 30},
+    height: 30,
 };
 
 export const AnimationsGradient = DefaultTemplate.bind({});
@@ -29,4 +36,99 @@ AnimationsNone.storyName = 'Animations/None';
 AnimationsNone.args = {...Default.args, animation: 'none'};
 
 const ShowcaseTemplate: StoryFn = () => <SkeletonShowcase />;
-export const Showcase = ShowcaseTemplate.bind({});
+export const SkeletonShowcaseStory = ShowcaseTemplate.bind({});
+SkeletonShowcaseStory.storyName = 'Showcase';
+
+type Story = StoryObj<typeof Skeleton>;
+
+const SKELETON_SIZES: SkeletonSize[] = ['xs', 's', 'm', 'l', 'xl'];
+
+export const Sizes: Story = {
+    name: 'Sizes',
+    render: () => (
+        <React.Fragment>
+            <Showcase title="Rect (default)">
+                {SKELETON_SIZES.map((size) => (
+                    <ShowcaseItem key={size} title={size}>
+                        <Skeleton size={size} width={200} />
+                    </ShowcaseItem>
+                ))}
+            </Showcase>
+            <Showcase title="Square">
+                {SKELETON_SIZES.map((size) => (
+                    <ShowcaseItem key={size} title={size}>
+                        <Skeleton size={size} variant="square" />
+                    </ShowcaseItem>
+                ))}
+            </Showcase>
+            <Showcase title="Circle">
+                {SKELETON_SIZES.map((size) => (
+                    <ShowcaseItem key={size} title={size}>
+                        <Skeleton size={size} variant="circle" />
+                    </ShowcaseItem>
+                ))}
+            </Showcase>
+        </React.Fragment>
+    ),
+};
+
+const TEXT_VARIANTS_SUBSET: NonNullable<TextProps['variant']>[] = [
+    'display-1',
+    'header-1',
+    'subheader-1',
+    'body-1',
+    'caption-1',
+    'code-1',
+];
+
+export const TextShape: Story = {
+    name: 'Text variant',
+    render: () => (
+        <React.Fragment>
+            <Showcase title="Single line — inherits from wrapping Text" direction="column">
+                {TEXT_VARIANTS_SUBSET.map((variant) => (
+                    <ShowcaseItem key={variant} title={variant}>
+                        <Flex alignItems="center" gap={6}>
+                            <Text variant={variant}>
+                                <Skeleton variant="text" width={200} />
+                            </Text>
+                            <Text variant={variant}>placeholder text</Text>
+                        </Flex>
+                    </ShowcaseItem>
+                ))}
+            </Showcase>
+            <Showcase title="Multiline">
+                <ShowcaseItem title="body-1 × 3">
+                    <Text variant="body-1">
+                        <Skeleton variant="text" width={400} />
+                        <Skeleton variant="text" width={400} />
+                        <Skeleton variant="text" width={400} />
+                    </Text>
+                </ShowcaseItem>
+                <ShowcaseItem title="body-2 × 5 (with shorter last line)">
+                    <Text variant="body-2">
+                        <Skeleton variant="text" width={360} />
+                        <Skeleton variant="text" width={360} />
+                        <Skeleton variant="text" width={360} />
+                        <Skeleton variant="text" width={360} />
+                        <Skeleton variant="text" width={180} />
+                    </Text>
+                </ShowcaseItem>
+                <ShowcaseItem title="header-1 × 2 + body-1 × 4 (mixed)">
+                    <Flex direction="column" gap={2}>
+                        <Text variant="header-1">
+                            <Skeleton variant="text" width={280} />
+                            <Skeleton variant="text" width={280} />
+                        </Text>
+                        <Text variant="body-1">
+                            <Skeleton variant="text" width={400} />
+                            <Skeleton variant="text" width={400} />
+                            <Skeleton variant="text" width={400} />
+                            <Skeleton variant="text" width={300} />
+                        </Text>
+                    </Flex>
+                </ShowcaseItem>
+            </Showcase>
+        </React.Fragment>
+    ),
+};

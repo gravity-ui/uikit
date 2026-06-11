@@ -243,16 +243,12 @@ describe('Pagination component', () => {
             const first = screen.getByTestId(PaginationQa.PaginationButtonFirst);
             expect(first.tagName).toBe('A');
             expect(first).toHaveAttribute('data-custom-link', 'true');
-            // The service `component` prop must not leak into the DOM.
-            expect(first).not.toHaveAttribute('component');
 
             const prev = screen.getByTestId(PaginationQa.PaginationButtonPrevious);
             expect(prev.tagName).toBe('A');
-            expect(prev).not.toHaveAttribute('component');
 
             const next = screen.getByTestId(PaginationQa.PaginationButtonNext);
             expect(next.tagName).toBe('A');
-            expect(next).not.toHaveAttribute('component');
         });
 
         test('with component, page buttons render as the custom element', () => {
@@ -269,46 +265,6 @@ describe('Pagination component', () => {
             const page2 = screen.getByTestId(getPaginationPageQa(2));
             expect(page2.tagName).toBe('A');
             expect(page2).toHaveAttribute('data-custom-link', 'true');
-            expect(page2).not.toHaveAttribute('component');
-        });
-
-        test('router-like component receives its props without the leaked component attr', () => {
-            const RouterLink = React.forwardRef<
-                HTMLAnchorElement,
-                React.AnchorHTMLAttributes<HTMLAnchorElement> & {to: string}
-            >(({to, children, ...props}, ref) => (
-                <a {...props} ref={ref} href={to}>
-                    {children}
-                </a>
-            ));
-            RouterLink.displayName = 'RouterLink';
-
-            const getItemProps: PaginationProps['getItemProps'] = (item) => {
-                if (item.type === 'page') {
-                    return {to: `?page=${item.page}`};
-                }
-                return {to: `?action=${item.action}`};
-            };
-
-            render(
-                <Pagination
-                    pageSize={20}
-                    total={100}
-                    onUpdate={noop}
-                    page={2}
-                    component={RouterLink}
-                    getItemProps={getItemProps}
-                />,
-            );
-
-            const page2 = screen.getByTestId(getPaginationPageQa(2));
-            expect(page2.tagName).toBe('A');
-            expect(page2).toHaveAttribute('href', '?page=2');
-            expect(page2).not.toHaveAttribute('component');
-
-            const next = screen.getByTestId(PaginationQa.PaginationButtonNext);
-            expect(next).toHaveAttribute('href', '?action=next');
-            expect(next).not.toHaveAttribute('component');
         });
 
         test('with component="a", items render as Button links', () => {

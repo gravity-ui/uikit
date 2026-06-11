@@ -1,7 +1,5 @@
 'use client';
 
-import * as React from 'react';
-
 import {useMobile} from '../mobile';
 import {useDefaultProps} from '../theme/useDefaultProps';
 import {block} from '../utils/cn';
@@ -41,22 +39,6 @@ export const Pagination = (rawProps: PaginationProps) => {
     } = useDefaultProps('Pagination', rawProps);
     const mobile = useMobile();
 
-    // Wrap a custom component to strip the `component` prop that `Button` leaks
-    // into the DOM. `'a'` goes through the `href` branch and needs no wrapping.
-    const itemComponent = React.useMemo<PaginationProps['component']>(() => {
-        if (!component || component === 'a') {
-            return component;
-        } else {
-            const Adapter = React.forwardRef<unknown, Record<string, unknown>>(
-                ({component: _ignored, ...rest}, ref) =>
-                    React.createElement(component, {ref, ...rest}),
-            );
-            Adapter.displayName = 'PaginationItemComponent';
-
-            return Adapter;
-        }
-    }, [component]);
-
     const size = getSize({propSize, mobile});
     const compact = mobile ? true : propCompact;
 
@@ -89,7 +71,7 @@ export const Pagination = (rawProps: PaginationProps) => {
                                 item={item}
                                 onUpdate={onUpdate}
                                 className={b('pagination-item')}
-                                component={itemComponent}
+                                component={component}
                                 getItemProps={getItemProps}
                             />
                         )
@@ -126,7 +108,7 @@ export const Pagination = (rawProps: PaginationProps) => {
                             compact={compact}
                             className={b('pagination-item')}
                             view={buttonView}
-                            component={itemComponent}
+                            component={component}
                             getItemProps={getItemProps}
                         />
                     );

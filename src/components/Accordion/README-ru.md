@@ -400,8 +400,8 @@ SANDBOX-->
 | view          | Внешний вид аккордеона                                       |    `"solid"` `"top-bottom"`     |  `"solid"`   |
 | multiple      | Разрешить одновременное раскрытие нескольких элементов       |            `boolean`            |   `false`    |
 | arrowPosition | Позиция индикатора стрелки                                   |        `"start"` `"end"`        |   `"end"`    |
-| defaultValue  | Значение по умолчанию для неконтролируемого состояния        | `string` `string[]` `undefined` |              |
-| value         | Текущее значение для контролируемого состояния               | `string` `string[]` `undefined` |              |
+| defaultValue  | Значение по умолчанию для неконтролируемого состояния        |   `string` `string[]` `null`   |              |
+| value         | Текущее значение для контролируемого состояния               |   `string` `string[]` `null`   |              |
 | onUpdate      | Функция обратного вызова, вызываемая при изменении состояния |           `Function`            |              |
 | ariaLevel     | Уровень заголовка для доступности                            |            `number`             |     `3`      |
 | className     | CSS класс                                                    |            `string`             |              |

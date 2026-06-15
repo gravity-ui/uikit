@@ -58,7 +58,7 @@ function getCssCode(name: string) {
 
 function getScssCode(name: string) {
     return [
-        "@use '~@gravity-ui/uikit/styles/mixins' as *;",
+        "@use '@gravity-ui/uikit/styles/mixins' as *;",
         '',
         '.text-container {',
         `  @include ${name}();`,
@@ -80,7 +80,6 @@ export function TextPanel(props: TextPanelProps) {
 
     function renderTextItems() {
         return items.map((item) => {
-            const textVariant = getTextVariant(item.name);
             const codeFormat = codeFormatByItem[item.name] ?? 'css';
 
             if (mode === 'font') {
@@ -111,6 +110,7 @@ export function TextPanel(props: TextPanelProps) {
                 );
             }
 
+            const textVariant = getTextVariant(item.name);
             const code = getCode(item.name, codeFormat);
 
             return (

@@ -35,6 +35,10 @@ const variantGroups: TypographyVariantGroup[] = [
                 name: 'text-body-3',
                 title: 'Body 3',
             },
+            {
+                name: 'text-body-short',
+                title: 'Body Short',
+            },
         ],
     },
     {

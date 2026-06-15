@@ -5,16 +5,15 @@ import './CodeBlock.scss';
 
 interface CodeBlockProps {
     code: string;
-    className?: string;
 }
 
 const b = cn('code-block');
 
-export function CodeBlock({code, className}: CodeBlockProps) {
+export function CodeBlock({code}: CodeBlockProps) {
     return (
-        <div className={b(null, className)}>
+        <div className={b()}>
             <pre className={b('code')}>{code}</pre>
-            <ClipboardButton text={code} view="flat" size="xs" className={b('copy-button')} />
+            <ClipboardButton text={code} view="flat" size="xs" />
         </div>
     );
 }

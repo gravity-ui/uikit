@@ -2,9 +2,8 @@ import * as React from 'react';
 
 import {Bulb} from '@gravity-ui/icons';
 
-import {ActionTooltip, Button, Icon} from '../../components';
+import {ActionTooltip, Button, Icon, Label} from '../../components';
 import {cn} from '../../components/utils/cn';
-import {CodeBlock} from '../CodeBlock/CodeBlock';
 
 import './ColorPanel.scss';
 
@@ -14,16 +13,18 @@ interface ColorInfo {
     description: string;
 }
 
+const BACKGROUND_LIST = ['normal', 'brand', 'dark'] as const;
+type Background = (typeof BACKGROUND_LIST)[number];
+
 interface ColorPanelProps {
     title: string;
     description?: string;
     colors: ColorInfo[];
     boxBorders?: boolean;
-    defaultBackground?: 'normal' | 'brand' | 'dark';
+    defaultBackground?: Background;
 }
 
 const b = cn('color-panel');
-const BACKGROUND_LIST = ['normal', 'brand', 'dark'];
 const switchBackgroundTitle = 'Switch background';
 
 function getColorVarName(name: string) {
@@ -61,13 +62,23 @@ export function ColorPanel(props: ColorPanelProps) {
                             style={{backgroundColor: `var(${varName})`}}
                         />
                         <div className={b('item-texts')}>
-                            <div className={b('item-title')} style={titleStyle}>
-                                {color.title}
+                            <div className={b('item-title-row')}>
+                                <div className={b('item-title')} style={titleStyle}>
+                                    {color.title}
+                                </div>
+                                <Label
+                                    type="copy"
+                                    copyText={copyText}
+                                    copyButtonLabel="Copy"
+                                    size="s"
+                                    theme="unknown"
+                                >
+                                    {copyText}
+                                </Label>
                             </div>
                             <div className={b('item-description')}>{color.description}</div>
                         </div>
                     </div>
-                    <CodeBlock code={copyText} />
                 </div>
             );
         });

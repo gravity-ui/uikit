@@ -40,7 +40,7 @@ import {filterDOMProps} from '../utils/filterDOMProps';
 import {useLayer} from '../utils/layer-manager';
 
 import {PopupArrow} from './PopupArrow';
-import {OVERFLOW_PADDING, TRANSITION_DURATION} from './constants';
+import {FLOATING_OFFSET, OVERFLOW_PADDING, TRANSITION_DURATION} from './constants';
 import i18n from './i18n';
 import type {PopupAnchorElement, PopupAnchorRef, PopupOffset, PopupPlacement} from './types';
 import {
@@ -159,7 +159,7 @@ function PopupComponent({
     onOpenChange,
     strategy,
     placement: placementProp,
-    offset: offsetProp = 4,
+    offset: offsetProp = FLOATING_OFFSET,
     anchorElement,
     anchorRef,
     floatingMiddlewares,

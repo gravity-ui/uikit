@@ -18,14 +18,12 @@ import {
 
 import './Icon.scss';
 
-export type IconData = SVGIconData;
-
 interface IconComposition {
     prefix?: string;
 }
 
 export interface IconProps extends QAProps, DOMProps {
-    data: IconData;
+    data: SVGIconData;
     width?: number | string;
     height?: number | string;
     size?: number | string;

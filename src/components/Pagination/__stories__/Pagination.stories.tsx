@@ -226,7 +226,9 @@ const WithCustomComponentTemplate: StoryFn<PaginationProps> = (args) => {
         }
     };
 
-    return <Pagination {...state} component={FakeRouterLink} getItemProps={getItemProps} />;
+    return (
+        <Pagination {...state} navigationComponent={FakeRouterLink} getItemProps={getItemProps} />
+    );
 };
 
 export const WithCustomComponent = WithCustomComponentTemplate.bind({});
@@ -260,7 +262,7 @@ const WithAnchorComponentTemplate: StoryFn<PaginationProps> = (args) => {
         }
     };
 
-    return <Pagination {...state} component="a" getItemProps={getItemProps} />;
+    return <Pagination {...state} navigationComponent="a" getItemProps={getItemProps} />;
 };
 
 export const WithAnchorComponent = WithAnchorComponentTemplate.bind({});

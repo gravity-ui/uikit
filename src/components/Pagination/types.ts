@@ -65,10 +65,10 @@ export type PaginationProps = {
      * Overrides the root element for clickable pagination items
      * (navigation buttons and page buttons).
      */
-    component?: PaginationComponent;
+    navigationComponent?: PaginationComponent;
     /**
      * Returns extra props per clickable item (e.g. `to` for a router `Link`).
-     * Only applied when `component` is set; ignored otherwise (and if disabled).
+     * Only applied when `navigationComponent` is set; ignored otherwise (and if disabled).
      */
     getItemProps?: GetPaginationItemProps;
 } & QAProps;

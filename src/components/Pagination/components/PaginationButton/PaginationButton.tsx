@@ -21,7 +21,7 @@ type Props = {
     compact: NonNullable<PaginationProps['compact']>;
     className?: string;
     view: ButtonView;
-    component?: PaginationProps['component'];
+    navigationComponent?: PaginationProps['navigationComponent'];
     getItemProps?: PaginationProps['getItemProps'];
 };
 
@@ -34,15 +34,15 @@ export const PaginationButton = ({
     onUpdate,
     compact,
     view,
-    component,
+    navigationComponent,
     getItemProps,
 }: Props) => {
     let button: React.ReactNode = null;
     const {disabled} = item;
     const {t} = i18n.useTranslation();
-    const componentProps = buildComponentProps(component, item, getItemProps);
+    const componentProps = buildComponentProps(navigationComponent, item, getItemProps);
     const handleUpdate = (event: React.MouseEvent<HTMLElement>, nextPage: number) => {
-        if (shouldUpdateOnPaginationItemClick(event, Boolean(component))) {
+        if (shouldUpdateOnPaginationItemClick(event, Boolean(navigationComponent))) {
             onUpdate(nextPage, pageSize);
         }
     };

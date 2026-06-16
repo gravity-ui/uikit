@@ -16,7 +16,7 @@ type Props = {
     pageSize: NonNullable<PaginationProps['pageSize']>;
     onUpdate: NonNullable<PaginationProps['onUpdate']>;
     className?: string;
-    component?: PaginationProps['component'];
+    navigationComponent?: PaginationProps['navigationComponent'];
     getItemProps?: PaginationProps['getItemProps'];
 };
 
@@ -26,7 +26,7 @@ export const PaginationPage = ({
     pageSize,
     className,
     onUpdate,
-    component,
+    navigationComponent,
     getItemProps,
 }: Props) => {
     const qa = getPaginationPageQa(item.page);
@@ -39,7 +39,7 @@ export const PaginationPage = ({
     }
 
     const view = item.current ? 'normal' : 'flat';
-    const componentProps = buildComponentProps(component, item, getItemProps);
+    const componentProps = buildComponentProps(navigationComponent, item, getItemProps);
 
     return (
         <Button
@@ -50,12 +50,12 @@ export const PaginationPage = ({
             selected={item.current}
             className={className}
             onClick={(event) => {
-                if (shouldUpdateOnPaginationItemClick(event, Boolean(component))) {
+                if (shouldUpdateOnPaginationItemClick(event, Boolean(navigationComponent))) {
                     onUpdate(item.page, pageSize);
                 }
             }}
             qa={qa}
-            aria-current={component && item.current ? 'page' : undefined}
+            aria-current={navigationComponent && item.current ? 'page' : undefined}
         >
             {item.page}
         </Button>

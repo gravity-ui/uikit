@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
-import {noop} from 'lodash';
 
 import {Pagination} from '..';
 import type {PaginationProps} from '..';
@@ -212,7 +211,12 @@ const WithCustomComponentTemplate: StoryFn<PaginationProps> = (args) => {
     });
 
     return (
-        <Pagination {...state} navigationComponent={FakeRouterLink} getItemProps={getItemProps} />
+        <Pagination
+            {...state}
+            navigationComponent={FakeRouterLink}
+            getItemProps={getItemProps}
+            showInput
+        />
     );
 };
 
@@ -227,15 +231,32 @@ WithCustomComponent.args = {
 const WithAnchorComponentTemplate: StoryFn<PaginationProps> = (args) => {
     const getItemProps: PaginationProps['getItemProps'] = ({page}) => ({
         href: getPageHref(page),
+        // Navigate the top-level document, not the Storybook canvas iframe.
+        target: '_top',
     });
+
+    // The page input is not a link, so it navigates through `onUpdate` to the same URL.
+    const onUpdate: PaginationProps['onUpdate'] = (page) => {
+        // `getPageHref` points at the top-level document, so navigation must target the top window
+        // too — assigning the Storybook canvas iframe's location would nest the page inside itself.
+        if (typeof window === 'undefined') {
+            return;
+        }
+        try {
+            (window.top ?? window).location.href = getPageHref(page);
+        } catch {
+            window.location.href = getPageHref(page);
+        }
+    };
 
     return (
         <Pagination
             {...args}
             page={getInitialPage(args.page)}
-            onUpdate={noop}
+            onUpdate={onUpdate}
             navigationComponent="a"
             getItemProps={getItemProps}
+            showInput
         />
     );
 };

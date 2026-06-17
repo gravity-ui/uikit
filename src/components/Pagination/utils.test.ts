@@ -414,49 +414,59 @@ describe('Pagination utils', () => {
         });
 
         it('returns empty object when component is undefined', () => {
-            expect(buildComponentProps(undefined, pageItem)).toEqual({});
+            expect(buildComponentProps({component: undefined, item: pageItem})).toEqual({});
         });
 
         it('returns empty object when component is undefined even with getItemProps', () => {
             const getItemProps = jest.fn(() => ({to: '/foo'}));
-            expect(buildComponentProps(undefined, pageItem, getItemProps)).toEqual({});
+            expect(
+                buildComponentProps({component: undefined, item: pageItem, getItemProps}),
+            ).toEqual({});
             expect(getItemProps).not.toHaveBeenCalled();
         });
 
         it('returns {component} when getItemProps is not provided', () => {
             const Custom = () => null;
-            expect(buildComponentProps(Custom, pageItem)).toEqual({component: Custom});
+            expect(buildComponentProps({component: Custom, item: pageItem})).toEqual({
+                component: Custom,
+            });
         });
 
         it('returns an empty object and warns for component="a" when getItemProps is not provided', () => {
-            expect(buildComponentProps('a', pageItem)).toEqual({});
+            expect(buildComponentProps({component: 'a', item: pageItem})).toEqual({});
             expect(warnOnceMock).toHaveBeenCalledTimes(1);
         });
 
         it('warns for component="a" when getItemProps returns no href', () => {
             const getItemProps = jest.fn(() => ({target: '_blank'}));
-            expect(buildComponentProps('a', pageItem, getItemProps)).toEqual({target: '_blank'});
+            expect(buildComponentProps({component: 'a', item: pageItem, getItemProps})).toEqual({
+                target: '_blank',
+            });
             expect(warnOnceMock).toHaveBeenCalledTimes(1);
         });
 
         it('merges getItemProps result with component', () => {
             const Custom = () => null;
             const getItemProps = jest.fn(() => ({to: '?page=2', 'data-x': '1'}));
-            expect(buildComponentProps(Custom, pageItem, getItemProps, 2)).toEqual({
+            expect(
+                buildComponentProps({component: Custom, item: pageItem, getItemProps, page: 2}),
+            ).toEqual({
                 component: Custom,
                 to: '?page=2',
                 'data-x': '1',
             });
-            expect(getItemProps).toHaveBeenCalledWith(pageItem, 2);
+            expect(getItemProps).toHaveBeenCalledWith({item: pageItem, page: 2});
         });
 
         it('returns anchor props without component for component="a" and does not warn', () => {
             const getItemProps = jest.fn(() => ({href: '?page=2', target: '_blank'}));
-            expect(buildComponentProps('a', pageItem, getItemProps, 2)).toEqual({
+            expect(
+                buildComponentProps({component: 'a', item: pageItem, getItemProps, page: 2}),
+            ).toEqual({
                 href: '?page=2',
                 target: '_blank',
             });
-            expect(getItemProps).toHaveBeenCalledWith(pageItem, 2);
+            expect(getItemProps).toHaveBeenCalledWith({item: pageItem, page: 2});
             expect(warnOnceMock).not.toHaveBeenCalled();
         });
 
@@ -476,7 +486,7 @@ describe('Pagination utils', () => {
                 extraProps: {onClick: hijack},
                 children: 'pwned',
             }));
-            expect(buildComponentProps(Custom, pageItem, getItemProps)).toEqual({
+            expect(buildComponentProps({component: Custom, item: pageItem, getItemProps})).toEqual({
                 component: Custom,
                 to: '?page=2',
             });
@@ -486,7 +496,9 @@ describe('Pagination utils', () => {
             const disabledButton: ButtonItem = {type: 'button', action: 'previous', disabled: true};
             const getItemProps = jest.fn(() => ({href: '?action=previous'}));
 
-            expect(buildComponentProps('a', disabledButton, getItemProps)).toEqual({});
+            expect(
+                buildComponentProps({component: 'a', item: disabledButton, getItemProps}),
+            ).toEqual({});
             expect(getItemProps).not.toHaveBeenCalled();
             expect(warnOnceMock).not.toHaveBeenCalled();
         });
@@ -495,10 +507,12 @@ describe('Pagination utils', () => {
             const enabledButton: ButtonItem = {type: 'button', action: 'next', disabled: false};
             const getItemProps = jest.fn(() => ({href: '?action=next'}));
 
-            expect(buildComponentProps('a', enabledButton, getItemProps, 3)).toEqual({
+            expect(
+                buildComponentProps({component: 'a', item: enabledButton, getItemProps, page: 3}),
+            ).toEqual({
                 href: '?action=next',
             });
-            expect(getItemProps).toHaveBeenCalledWith(enabledButton, 3);
+            expect(getItemProps).toHaveBeenCalledWith({item: enabledButton, page: 3});
         });
     });
 });

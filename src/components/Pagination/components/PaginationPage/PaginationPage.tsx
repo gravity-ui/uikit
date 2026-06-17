@@ -39,7 +39,12 @@ export const PaginationPage = ({
     }
 
     const view = item.current ? 'normal' : 'flat';
-    const componentProps = buildComponentProps(navigationComponent, item, getItemProps, item.page);
+    const componentProps = buildComponentProps({
+        component: navigationComponent,
+        item,
+        getItemProps,
+        page: item.page,
+    });
 
     return (
         <Button

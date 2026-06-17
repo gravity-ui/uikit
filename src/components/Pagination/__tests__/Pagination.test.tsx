@@ -268,7 +268,7 @@ describe('Pagination component', () => {
         });
 
         test('with navigationComponent="a", items render as Button links', () => {
-            const getItemProps: PaginationProps['getItemProps'] = (item) => {
+            const getItemProps: PaginationProps['getItemProps'] = ({item}) => {
                 if (item.type === 'page') {
                     return {href: `?page=${item.page}`, target: '_blank'};
                 }
@@ -300,7 +300,7 @@ describe('Pagination component', () => {
         });
 
         test('disabled navigation buttons stay inert <button> even with navigationComponent="a" and href', () => {
-            const getItemProps: PaginationProps['getItemProps'] = (item) => {
+            const getItemProps: PaginationProps['getItemProps'] = ({item}) => {
                 if (item.type === 'page') {
                     return {href: `?page=${item.page}`};
                 }
@@ -380,7 +380,7 @@ describe('Pagination component', () => {
         });
 
         test('getItemProps provides extra props per clickable item', () => {
-            const getItemProps: PaginationProps['getItemProps'] = (item) => {
+            const getItemProps: PaginationProps['getItemProps'] = ({item}) => {
                 if (item.type === 'page') {
                     return {'data-target': `page-${item.page}`};
                 }
@@ -490,7 +490,7 @@ describe('Pagination component', () => {
 
         test('modified link clicks do not trigger onUpdate in the current page', () => {
             const onUpdate = jest.fn();
-            const getItemProps: PaginationProps['getItemProps'] = (item) => {
+            const getItemProps: PaginationProps['getItemProps'] = ({item}) => {
                 if (item.type === 'page') {
                     return {href: `?page=${item.page}`};
                 }
@@ -518,7 +518,7 @@ describe('Pagination component', () => {
 
         test('links targeting a new browsing context do not trigger onUpdate', () => {
             const onUpdate = jest.fn();
-            const getItemProps: PaginationProps['getItemProps'] = (item) => {
+            const getItemProps: PaginationProps['getItemProps'] = ({item}) => {
                 if (item.type === 'page') {
                     return {href: `?page=${item.page}`, target: '_blank'};
                 }
@@ -544,7 +544,7 @@ describe('Pagination component', () => {
 
         test('plain link clicks still trigger onUpdate', () => {
             const onUpdate = jest.fn();
-            const getItemProps: PaginationProps['getItemProps'] = (item) => {
+            const getItemProps: PaginationProps['getItemProps'] = ({item}) => {
                 if (item.type === 'page') {
                     return {href: `?page=${item.page}`};
                 }

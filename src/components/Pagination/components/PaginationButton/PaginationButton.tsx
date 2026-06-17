@@ -41,7 +41,12 @@ export const PaginationButton = ({
     const {disabled} = item;
     const {t} = i18n.useTranslation();
     const nextPage = getPageNumber(page, item.action);
-    const componentProps = buildComponentProps(navigationComponent, item, getItemProps, nextPage);
+    const componentProps = buildComponentProps({
+        component: navigationComponent,
+        item,
+        getItemProps,
+        page: nextPage,
+    });
     const onClick = disabled
         ? undefined
         : (event: React.MouseEvent<HTMLElement>) => {

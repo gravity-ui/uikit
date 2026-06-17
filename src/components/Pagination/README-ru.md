@@ -41,7 +41,7 @@ const pageSize = 100;
 
 const noop: PaginationProps['onUpdate'] = () => {};
 
-const getItemProps: GetPaginationItemProps = (item, targetPage) => ({href: `?page=${targetPage}`});
+const getItemProps: GetPaginationItemProps = ({page}) => ({href: `?page=${page}`});
 
 const pagination = (
   <Pagination
@@ -68,8 +68,8 @@ const pageSize = 100;
 
 const noop: PaginationProps['onUpdate'] = () => {};
 
-const getItemProps: GetPaginationItemProps<{to: string}> = (item, targetPage) => ({
-  to: `?page=${targetPage}`,
+const getItemProps: GetPaginationItemProps<{to: string}> = ({page}) => ({
+  to: `?page=${page}`,
 });
 
 const pagination = (

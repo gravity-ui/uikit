@@ -124,17 +124,22 @@ const PAGINATION_MANAGED_PROPS = new Set([
     'children',
 ]);
 
-export function buildComponentProps(
-    component: PaginationComponent,
-    item: PageItem | ButtonItem,
-    getItemProps?: GetPaginationItemProps,
-    itemPage = 0,
-): Record<string, unknown> {
+export function buildComponentProps({
+    component,
+    item,
+    getItemProps,
+    page = 0,
+}: {
+    component?: PaginationComponent;
+    item: PageItem | ButtonItem;
+    getItemProps?: GetPaginationItemProps;
+    page?: number;
+}): Record<string, unknown> {
     if (!component || (item.type === 'button' && item.disabled)) {
         return {};
     }
 
-    const userProps = getItemProps?.(item, itemPage);
+    const userProps = getItemProps?.({item, page});
     const filtered: Record<string, unknown> = {};
     if (userProps) {
         for (const key of Object.keys(userProps)) {

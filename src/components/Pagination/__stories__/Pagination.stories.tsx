@@ -207,7 +207,7 @@ const getInitialPage = (fallback: number) => {
 const WithCustomComponentTemplate: StoryFn<PaginationProps> = (args) => {
     const state = useState({...args, page: getInitialPage(args.page)});
 
-    const getItemProps: PaginationProps['getItemProps'] = (_item, page) => ({
+    const getItemProps: PaginationProps['getItemProps'] = ({page}) => ({
         to: getPageHref(page),
     });
 
@@ -225,16 +225,14 @@ WithCustomComponent.args = {
 };
 
 const WithAnchorComponentTemplate: StoryFn<PaginationProps> = (args) => {
-    const page = getInitialPage(args.page);
-
-    const getItemProps: PaginationProps['getItemProps'] = (_item, itemPage) => ({
-        href: getPageHref(itemPage),
+    const getItemProps: PaginationProps['getItemProps'] = ({page}) => ({
+        href: getPageHref(page),
     });
 
     return (
         <Pagination
             {...args}
-            page={page}
+            page={getInitialPage(args.page)}
             onUpdate={noop}
             navigationComponent="a"
             getItemProps={getItemProps}

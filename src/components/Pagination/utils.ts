@@ -128,12 +128,13 @@ export function buildComponentProps(
     component: PaginationComponent,
     item: PageItem | ButtonItem,
     getItemProps?: GetPaginationItemProps,
+    itemPage = 0,
 ): Record<string, unknown> {
     if (!component || (item.type === 'button' && item.disabled)) {
         return {};
     }
 
-    const userProps = getItemProps?.(item);
+    const userProps = getItemProps?.(item, itemPage);
     const filtered: Record<string, unknown> = {};
     if (userProps) {
         for (const key of Object.keys(userProps)) {

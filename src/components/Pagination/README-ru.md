@@ -41,24 +41,7 @@ const pageSize = 100;
 
 const noop: PaginationProps['onUpdate'] = () => {};
 
-const getItemProps: GetPaginationItemProps = (item) => {
-  if (item.type === 'page') {
-    return {href: `?page=${item.page}`};
-  }
-
-  const lastPage = Math.ceil(total / pageSize);
-
-  switch (item.action) {
-    case 'first':
-      return {href: '?page=1'};
-    case 'previous':
-      return {href: `?page=${Math.max(1, page - 1)}`};
-    case 'next':
-      return {href: `?page=${Math.min(lastPage, page + 1)}`};
-    default:
-      return {};
-  }
-};
+const getItemProps: GetPaginationItemProps = (item, targetPage) => ({href: `?page=${targetPage}`});
 
 const pagination = (
   <Pagination
@@ -85,24 +68,9 @@ const pageSize = 100;
 
 const noop: PaginationProps['onUpdate'] = () => {};
 
-const getItemProps: GetPaginationItemProps<{to: string}> = (item) => {
-  if (item.type === 'page') {
-    return {to: `?page=${item.page}`};
-  }
-
-  const lastPage = Math.ceil(total / pageSize);
-
-  switch (item.action) {
-    case 'first':
-      return {to: '?page=1'};
-    case 'previous':
-      return {to: `?page=${Math.max(1, page - 1)}`};
-    case 'next':
-      return {to: `?page=${Math.min(lastPage, page + 1)}`};
-    default:
-      return {to: '?page=1'};
-  }
-};
+const getItemProps: GetPaginationItemProps<{to: string}> = (item, targetPage) => ({
+  to: `?page=${targetPage}`,
+});
 
 const pagination = (
   <Pagination

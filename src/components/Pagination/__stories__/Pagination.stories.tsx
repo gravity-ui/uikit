@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
+import {noop} from 'lodash';
 
 import {Pagination} from '..';
 import type {PaginationProps} from '..';
@@ -205,26 +206,10 @@ const getInitialPage = (fallback: number) => {
 
 const WithCustomComponentTemplate: StoryFn<PaginationProps> = (args) => {
     const state = useState({...args, page: getInitialPage(args.page)});
-    const lastPage = state.total ? Math.ceil(state.total / state.pageSize) : undefined;
 
-    const getItemProps: PaginationProps['getItemProps'] = (item) => {
-        if (item.type === 'page') {
-            return {to: getPageHref(item.page)};
-        }
-        if (item.disabled) {
-            return {};
-        }
-        switch (item.action) {
-            case 'first':
-                return {to: getPageHref(1)};
-            case 'previous':
-                return {to: getPageHref(Math.max(1, state.page - 1))};
-            case 'next':
-                return {to: getPageHref(Math.min(lastPage ?? state.page + 1, state.page + 1))};
-            default:
-                return {};
-        }
-    };
+    const getItemProps: PaginationProps['getItemProps'] = (_item, page) => ({
+        to: getPageHref(page),
+    });
 
     return (
         <Pagination {...state} navigationComponent={FakeRouterLink} getItemProps={getItemProps} />
@@ -240,29 +225,21 @@ WithCustomComponent.args = {
 };
 
 const WithAnchorComponentTemplate: StoryFn<PaginationProps> = (args) => {
-    const state = useState({...args, page: getInitialPage(args.page)});
-    const lastPage = state.total ? Math.ceil(state.total / state.pageSize) : undefined;
+    const page = getInitialPage(args.page);
 
-    const getItemProps: PaginationProps['getItemProps'] = (item) => {
-        if (item.type === 'page') {
-            return {href: getPageHref(item.page)};
-        }
-        if (item.disabled) {
-            return {};
-        }
-        switch (item.action) {
-            case 'first':
-                return {href: getPageHref(1)};
-            case 'previous':
-                return {href: getPageHref(Math.max(1, state.page - 1))};
-            case 'next':
-                return {href: getPageHref(Math.min(lastPage ?? state.page + 1, state.page + 1))};
-            default:
-                return {};
-        }
-    };
+    const getItemProps: PaginationProps['getItemProps'] = (_item, itemPage) => ({
+        href: getPageHref(itemPage),
+    });
 
-    return <Pagination {...state} navigationComponent="a" getItemProps={getItemProps} />;
+    return (
+        <Pagination
+            {...args}
+            page={page}
+            onUpdate={noop}
+            navigationComponent="a"
+            getItemProps={getItemProps}
+        />
+    );
 };
 
 export const WithAnchorComponent = WithAnchorComponentTemplate.bind({});

@@ -9,7 +9,7 @@ import type {ButtonView} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {PaginationQa} from '../../constants';
 import i18n from '../../i18n';
-import type {ButtonItem, PaginationProps, PaginationSize} from '../../types';
+import type {ActionName, ButtonItem, PaginationProps, PaginationSize} from '../../types';
 import {buildComponentProps, shouldUpdateOnPaginationItemClick} from '../../utils';
 
 type Props = {
@@ -40,12 +40,15 @@ export const PaginationButton = ({
     let button: React.ReactNode = null;
     const {disabled} = item;
     const {t} = i18n.useTranslation();
-    const componentProps = buildComponentProps(navigationComponent, item, getItemProps);
-    const handleUpdate = (event: React.MouseEvent<HTMLElement>, nextPage: number) => {
-        if (shouldUpdateOnPaginationItemClick(event, Boolean(navigationComponent))) {
-            onUpdate(nextPage, pageSize);
-        }
-    };
+    const nextPage = getPageNumber(page, item.action);
+    const componentProps = buildComponentProps(navigationComponent, item, getItemProps, nextPage);
+    const onClick = disabled
+        ? undefined
+        : (event: React.MouseEvent<HTMLElement>) => {
+              if (shouldUpdateOnPaginationItemClick(event, Boolean(navigationComponent))) {
+                  onUpdate(nextPage, pageSize);
+              }
+          };
 
     switch (item.action) {
         case 'first':
@@ -55,7 +58,7 @@ export const PaginationButton = ({
                     size={size}
                     view={view}
                     className={className}
-                    onClick={disabled ? undefined : (event) => handleUpdate(event, 1)}
+                    onClick={onClick}
                     title={compact ? t('button_first') : undefined}
                     disabled={disabled}
                     qa={PaginationQa.PaginationButtonFirst}
@@ -72,7 +75,7 @@ export const PaginationButton = ({
                     size={size}
                     view={view}
                     className={className}
-                    onClick={disabled ? undefined : (event) => handleUpdate(event, page - 1)}
+                    onClick={onClick}
                     title={compact ? t('button_previous') : undefined}
                     disabled={disabled}
                     qa={PaginationQa.PaginationButtonPrevious}
@@ -89,7 +92,7 @@ export const PaginationButton = ({
                     size={size}
                     view={view}
                     className={className}
-                    onClick={disabled ? undefined : (event) => handleUpdate(event, page + 1)}
+                    onClick={onClick}
                     title={compact ? t('button_next') : undefined}
                     disabled={disabled}
                     qa={PaginationQa.PaginationButtonNext}
@@ -103,3 +106,14 @@ export const PaginationButton = ({
 
     return button;
 };
+
+function getPageNumber(page: number, action: ActionName) {
+    switch (action) {
+        case 'next':
+            return page + 1;
+        case 'previous':
+            return page - 1;
+        default:
+            return 1;
+    }
+}

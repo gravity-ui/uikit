@@ -9,6 +9,7 @@ export type PaginationComponent = ButtonCustomElementType | 'a';
 
 export type GetPaginationItemProps<P extends Record<string, unknown> = Record<string, unknown>> = (
     item: PageItem | ButtonItem,
+    itemPage: number,
 ) => P;
 
 export type PaginationProps = {

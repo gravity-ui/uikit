@@ -442,21 +442,21 @@ describe('Pagination utils', () => {
         it('merges getItemProps result with component', () => {
             const Custom = () => null;
             const getItemProps = jest.fn(() => ({to: '?page=2', 'data-x': '1'}));
-            expect(buildComponentProps(Custom, pageItem, getItemProps)).toEqual({
+            expect(buildComponentProps(Custom, pageItem, getItemProps, 2)).toEqual({
                 component: Custom,
                 to: '?page=2',
                 'data-x': '1',
             });
-            expect(getItemProps).toHaveBeenCalledWith(pageItem);
+            expect(getItemProps).toHaveBeenCalledWith(pageItem, 2);
         });
 
         it('returns anchor props without component for component="a" and does not warn', () => {
             const getItemProps = jest.fn(() => ({href: '?page=2', target: '_blank'}));
-            expect(buildComponentProps('a', pageItem, getItemProps)).toEqual({
+            expect(buildComponentProps('a', pageItem, getItemProps, 2)).toEqual({
                 href: '?page=2',
                 target: '_blank',
             });
-            expect(getItemProps).toHaveBeenCalledWith(pageItem);
+            expect(getItemProps).toHaveBeenCalledWith(pageItem, 2);
             expect(warnOnceMock).not.toHaveBeenCalled();
         });
 
@@ -495,10 +495,10 @@ describe('Pagination utils', () => {
             const enabledButton: ButtonItem = {type: 'button', action: 'next', disabled: false};
             const getItemProps = jest.fn(() => ({href: '?action=next'}));
 
-            expect(buildComponentProps('a', enabledButton, getItemProps)).toEqual({
+            expect(buildComponentProps('a', enabledButton, getItemProps, 3)).toEqual({
                 href: '?action=next',
             });
-            expect(getItemProps).toHaveBeenCalledWith(enabledButton);
+            expect(getItemProps).toHaveBeenCalledWith(enabledButton, 3);
         });
     });
 });

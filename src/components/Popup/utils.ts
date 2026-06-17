@@ -4,6 +4,8 @@ import type {Alignment, Middleware, Placement} from '@floating-ui/react';
 import {ARROW_SIZE, AUTO_PLACEMENTS, OVERFLOW_PADDING} from './constants';
 import type {AutoPlacement, PopupOffset, PopupPlacement} from './types';
 
+const isArray = Array.isArray as <T>(value: T) => value is Extract<T, readonly unknown[]>;
+
 export function getOffsetOptions(offsetProp: PopupOffset, hasArrow: boolean | undefined) {
     let offset = offsetProp;
     if (hasArrow) {
@@ -25,7 +27,7 @@ export function getPlacementOptions(placementProp?: PopupPlacement, disablePorta
     let placement: Placement | undefined;
     let middleware: Middleware;
 
-    if (Array.isArray(placementProp)) {
+    if (isArray(placementProp)) {
         placement = placementProp[0];
         middleware = flip({
             padding: OVERFLOW_PADDING,

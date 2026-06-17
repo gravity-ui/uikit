@@ -6,6 +6,7 @@ import {FloatingOverlay} from '@floating-ui/react';
 
 import {Portal} from '../Portal/Portal';
 import type {PortalProps} from '../Portal/Portal';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {QAProps} from '../types';
 
 import {SheetContentContainer} from './SheetContent';
@@ -38,23 +39,24 @@ export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePort
     alwaysFullHeight?: boolean;
 }
 
-export const Sheet = ({
-    children,
-    onClose,
-    visible,
-    id,
-    title,
-    className,
-    contentClassName,
-    swipeAreaClassName,
-    allowHideOnContentScroll,
-    hideTopBar,
-    maxContentHeightCoefficient,
-    alwaysFullHeight,
-    container,
-    disablePortal,
-    qa,
-}: SheetProps) => {
+export const Sheet = (rawProps: SheetProps) => {
+    const {
+        children,
+        onClose,
+        visible,
+        id,
+        title,
+        className,
+        contentClassName,
+        swipeAreaClassName,
+        allowHideOnContentScroll,
+        hideTopBar,
+        maxContentHeightCoefficient,
+        alwaysFullHeight,
+        container,
+        disablePortal,
+        qa,
+    } = useDefaultProps('Sheet', rawProps);
     const [open, setOpen] = React.useState(visible);
     const [prevVisible, setPrevVisible] = React.useState(visible);
 

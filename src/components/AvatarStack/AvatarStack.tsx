@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import {useDefaultProps} from '../theme/useDefaultProps';
 import {block} from '../utils/cn';
 
 import {AvatarStackItem} from './AvatarStackItem';
@@ -16,8 +17,8 @@ const b = block('avatar-stack');
 const DEFAULT_MORE_BUTTON_STYLE = {zIndex: 0};
 
 const AvatarStackComponent = React.forwardRef<HTMLUListElement, AvatarStackProps>(
-    (
-        {
+    (rawProps, ref) => {
+        const {
             max = AVATAR_STACK_DEFAULT_MAX,
             total,
             overlapSize = 's',
@@ -26,9 +27,7 @@ const AvatarStackComponent = React.forwardRef<HTMLUListElement, AvatarStackProps
             className,
             renderMore,
             moreVariant,
-        },
-        ref,
-    ) => {
+        } = useDefaultProps('AvatarStack', rawProps);
         const visibleItems: React.ReactElement[] = [];
 
         /** All avatars amount */

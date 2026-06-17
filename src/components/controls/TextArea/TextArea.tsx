@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import {useControlledState, useForkRef, useUniqId} from '../../../hooks';
 import {useFormResetHandler} from '../../../hooks/private';
+import {useDefaultProps} from '../../theme/useDefaultProps';
 import {block} from '../../utils/cn';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
 import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';
@@ -38,7 +39,8 @@ export type TextAreaSize = InputControlSize;
 export type TextAreaView = InputControlView;
 
 export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
-    function TextArea(props, ref) {
+    function TextArea(rawProps, ref) {
+        const props = useDefaultProps('TextArea', rawProps);
         const {
             view = 'normal',
             size = 'm',

@@ -10,6 +10,7 @@ import {Alert} from '../../Alert';
 import {Icon} from '../../Icon';
 import {Popover} from '../../Popover';
 import {useDirection} from '../../theme';
+import {useDefaultProps} from '../../theme/useDefaultProps';
 import {block} from '../../utils/cn';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
 import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';
@@ -52,7 +53,8 @@ export type TextInputSize = InputControlSize;
 export type TextInputView = InputControlView;
 
 export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
-    function TextInput(props, ref) {
+    function TextInput(rawProps, ref) {
+        const props = useDefaultProps('TextInput', rawProps);
         const {
             view = 'normal',
             size = 'm',

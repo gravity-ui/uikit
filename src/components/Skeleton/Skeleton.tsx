@@ -1,5 +1,6 @@
 import type * as React from 'react';
 
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
@@ -24,16 +25,17 @@ export interface SkeletonProps
     height?: number | string;
 }
 
-export function Skeleton({
-    className,
-    style,
-    width,
-    height,
-    qa,
-    animation = 'gradient',
-    variant = 'rect',
-    size,
-}: SkeletonProps) {
+export function Skeleton(rawProps: SkeletonProps) {
+    const {
+        className,
+        style,
+        width,
+        height,
+        qa,
+        animation = 'gradient',
+        variant = 'rect',
+        size,
+    } = useDefaultProps('Skeleton', rawProps);
     return (
         <div
             className={b({animation, variant, size}, className)}

@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import {MenuItem} from '../lab/Menu';
+import {useDefaultProps} from '../theme/useDefaultProps';
 
 import {TabContent} from './TabContent';
 import {useTab} from './hooks/useTab';
@@ -14,12 +15,13 @@ import './Tab.scss';
 export const Tab = React.forwardRef<HTMLAnchorElement | HTMLButtonElement, TabProps>(function Tab<
     T extends TabComponentElementType,
 >(
-    props: TabProps<T>,
+    rawProps: TabProps<T>,
     ref:
         | React.Ref<HTMLButtonElement>
         | React.Ref<HTMLAnchorElement>
         | React.Ref<T extends string ? React.ComponentRef<T> : T>,
 ) {
+    const props = useDefaultProps('Tab', rawProps);
     const tabProps = useTab(props);
 
     const content = (

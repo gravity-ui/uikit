@@ -1,7 +1,0 @@
-{
-  "items_not_found": "No matches for the search string «{{value}}»",
-  "items_not_found_title": "Nothing found",
-  "fetch_error_title": "Error occurred",
-  "fetch_error_description": "Unable to load data. Please try again",
-  "retry": "Retry"
-}

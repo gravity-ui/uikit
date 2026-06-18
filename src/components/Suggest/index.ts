@@ -1,2 +1,2 @@
 export {Suggest} from './Suggest';
-export type {SuggestProps, RenderFallbackContentProps} from './types';
+export type {SuggestProps} from './types';

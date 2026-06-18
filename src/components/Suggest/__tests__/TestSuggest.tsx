@@ -1,34 +1,32 @@
-import type {ListItemData} from '../../List';
+import * as React from 'react';
+
 import {Suggest} from '../Suggest';
 import type {SuggestProps} from '../types';
 
-export type TestItem = {
-    value: string;
-    content: string;
-    description?: string;
-    disabled?: boolean;
-};
+type Planet = {value: string; content: string; disabled?: boolean};
 
-export const ITEMS: ListItemData<TestItem>[] = [
-    {value: 'earth', content: 'Earth', description: 'Our home planet'},
-    {value: 'mars', content: 'Mars', description: 'The red planet'},
-    {value: 'jupiter', content: 'Jupiter', description: 'Largest planet'},
-    {value: 'venus', content: 'Venus', description: 'Thick atmosphere'},
-    {value: 'saturn', content: 'Saturn', description: 'Prominent ring system'},
+export const ITEMS: Planet[] = [
+    {value: 'earth', content: 'Earth'},
+    {value: 'europa', content: 'Europa'},
+    {value: 'jupiter', content: 'Jupiter'},
 ];
 
-export interface TestSuggestProps extends Partial<SuggestProps<TestItem>> {
-    items?: ListItemData<TestItem>[];
-}
-
-export const TestSuggest = ({
-    items = ITEMS,
-    renderOption = (item) => <div>{item.content}</div>,
-    getOptions: getOptionsProp,
-    ...props
-}: TestSuggestProps) => {
-    // If getOptions is provided, use it; otherwise create one from items
-    const getOptions = getOptionsProp || (() => items);
-
-    return <Suggest<TestItem> getOptions={getOptions} renderOption={renderOption} {...props} />;
+export type TestSuggestProps = Omit<SuggestProps<Planet>, 'items'> & {
+    items?: SuggestProps<Planet>['items'];
 };
+
+export function TestSuggest({items = ITEMS, ...props}: TestSuggestProps) {
+    const [value, setValue] = React.useState('');
+
+    return (
+        <div style={{width: 512, padding: 16}}>
+            <Suggest<Planet>
+                value={value}
+                onUpdate={setValue}
+                items={items}
+                renderItem={(item) => <div>{item.content}</div>}
+                {...props}
+            />
+        </div>
+    );
+}

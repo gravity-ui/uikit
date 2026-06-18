@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import type {HsvaColor} from '@uiw/react-color';
 import {Alpha, Hue, Saturation, hsvaToHex, hsvaToHexa} from '@uiw/react-color';
-import debounce from 'lodash/debounce';
+import {debounce} from 'es-toolkit';
 
 import {useControlledState} from '../../../hooks/useControlledState';
 import {Popup} from '../../Popup';

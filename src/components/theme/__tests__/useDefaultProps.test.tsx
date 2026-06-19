@@ -54,6 +54,14 @@ describe('useDefaultProps', () => {
             expect(result.current).toEqual({view: 'normal', size: 'm'});
         });
 
+        it('use prop set to undefined does not override defaults', () => {
+            const {result} = renderHook(
+                () => useDefaultProps('Button', {view: undefined, size: 'm'}),
+                {wrapper: makeWrapper({Button: {view: 'outlined', size: 'l'}})},
+            );
+            expect(result.current).toEqual({view: 'outlined', size: 'm'});
+        });
+
         it('only overridden props win — unset props use context defaults', () => {
             const {result} = renderHook(() => useDefaultProps('Button', {size: 'm'}), {
                 wrapper: makeWrapper({Button: {view: 'outlined', size: 'l'}}),
@@ -69,51 +77,6 @@ describe('useDefaultProps', () => {
             expect(result.current).toBe(props);
         });
     });
-
-    describe('event handler merging', () => {
-        it('chains context default handler with user handler', () => {
-            const defaultHandler = jest.fn();
-            const userHandler = jest.fn();
-
-            const {result} = renderHook(() => useDefaultProps('Button', {onClick: userHandler}), {
-                // @ts-expect-error
-                wrapper: makeWrapper({Button: {onClick: defaultHandler}}),
-            });
-
-            (result.current as {onClick: () => void}).onClick();
-
-            expect(defaultHandler).toHaveBeenCalledTimes(1);
-            expect(userHandler).toHaveBeenCalledTimes(1);
-        });
-
-        it('calls only the user handler when no default handler is set', () => {
-            const userHandler = jest.fn();
-
-            const {result} = renderHook(() => useDefaultProps('Button', {onClick: userHandler}), {
-                wrapper: makeWrapper({Button: {size: 'l'}}),
-            });
-
-            (result.current as {onClick: () => void}).onClick();
-
-            expect(userHandler).toHaveBeenCalledTimes(1);
-        });
-    });
-
-    describe('className merging', () => {
-        it('concatenates className from context defaults and user props', () => {
-            const {result} = renderHook(() => useDefaultProps('Button', {className: 'user'}), {
-                wrapper: makeWrapper({Button: {className: 'default'}}),
-            });
-            expect((result.current as {className: string}).className).toBe('default user');
-        });
-
-        it('uses only context className when user does not pass className', () => {
-            const {result} = renderHook(() => useDefaultProps('Button', {}), {
-                wrapper: makeWrapper({Button: {className: 'default'}}),
-            });
-            expect((result.current as {className: string}).className).toBe('default');
-        });
-    });
 });
 
 // ---------------------------------------------------------------------------
@@ -123,7 +86,7 @@ describe('useDefaultProps', () => {
 describe('ThemeProvider defaultProps', () => {
     function Consumer({name, props}: {name: Parameters<typeof useDefaultProps>[0]; props: object}) {
         const merged = useDefaultProps(name, props);
-        return <output>{JSON.stringify(merged)}</output>;
+        return <output title={name}>{JSON.stringify(merged)}</output>;
     }
 
     it('passes defaultProps through to useDefaultProps', () => {
@@ -158,17 +121,23 @@ describe('ThemeProvider defaultProps', () => {
         });
     });
 
-    it('inner ThemeProvider defaultProps override outer', () => {
+    it('inner ThemeProvider defaultProps correctly override outer', () => {
         render(
-            <ThemeProvider defaultProps={{Button: {view: 'outlined', size: 'l'}}}>
+            <ThemeProvider
+                defaultProps={{Button: {view: 'outlined', size: 'l'}, Checkbox: {size: 'l'}}}
+            >
                 <ThemeProvider defaultProps={{Button: {view: 'action'}}}>
                     <Consumer name="Button" props={{}} />
+                    <Consumer name="Checkbox" props={{}} />
                 </ThemeProvider>
             </ThemeProvider>,
         );
-        // Inner ThemeProvider provides a fresh context — its value completely replaces the outer
-        expect(JSON.parse(screen.getByRole('status').textContent ?? '{}')).toEqual({
+        // Inner ThemeProvider provides replaces props per component not the whole context
+        expect(JSON.parse(screen.getByTitle('Button').textContent ?? '{}')).toEqual({
             view: 'action',
+        });
+        expect(JSON.parse(screen.getByTitle('Checkbox').textContent ?? '{}')).toEqual({
+            size: 'l',
         });
     });
 });

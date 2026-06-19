@@ -1,21 +1,30 @@
 import * as React from 'react';
 
-import {mergeProps} from '../utils/mergeProps';
-
 import type {ComponentDefaultPropsMap} from './PrivateDefaultPropsProvider';
 import {PrivateDefaultPropsContext} from './PrivateDefaultPropsProvider';
 
 export function useDefaultProps<K extends keyof ComponentDefaultPropsMap, T extends object>(
     componentName: K,
-    props: T,
+    componentProps: T,
 ): T {
     const ctx = React.useContext(PrivateDefaultPropsContext);
-    const defaults = ctx[componentName];
+    const defaultProps = ctx[componentName];
 
-    if (!defaults) {
-        return props;
+    if (!defaultProps) {
+        return componentProps;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return mergeProps(defaults as any, props as any) as unknown as T;
+    const cleanedProps: Record<string, unknown> = {};
+    for (const k in componentProps) {
+        if (componentProps[k as keyof T] !== undefined) {
+            cleanedProps[k] = componentProps[k as keyof T];
+        }
+    }
+
+    return [defaultProps, cleanedProps].reduce((acc: Record<string, unknown>, props) => {
+        for (const [key, value] of Object.entries(props)) {
+            acc[key] = value;
+        }
+        return acc;
+    }, {}) as unknown as T;
 }

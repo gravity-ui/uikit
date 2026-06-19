@@ -59,6 +59,10 @@ $tabListCollapseItemBlock: '.#{variables.$ns}tab-list-collapse-item';
         overflow-x: auto;
     }
 
+    button[data-rfd-placeholder-context-id] {
+        opacity: 0;
+    }
+
     #{$tabBlock}:not(:last-child) {
         margin-inline-end: var(--g-tabs-item-gap, var(--_--item-gap));
     }

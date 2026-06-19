@@ -406,3 +406,155 @@ test('contentOverflow collapse: with narrow container and single tab does not re
 
     spy.mockRestore();
 });
+
+test('does not render DragDropContext when sortable is not set', () => {
+    render(
+        <TabList value={tab1.value}>
+            <Tab value={tab1.value} qa={tab1.qa}>
+                {tab1.title}
+            </Tab>
+            <Tab value={tab2.value} qa={tab2.qa}>
+                {tab2.title}
+            </Tab>
+            <Tab disabled value={tab3.value} qa={tab3.qa}>
+                {tab3.title}
+            </Tab>
+        </TabList>,
+    );
+
+    screen.getAllByRole('tab').forEach((tab) => {
+        expect(tab).not.toHaveAttribute('data-rfd-draggable-id');
+    });
+});
+
+test('renders DragDropContext and Droppable when sortable is true', () => {
+    render(
+        <TabList value={tab1.value} sortable>
+            <Tab value={tab1.value} qa={tab1.qa}>
+                {tab1.title}
+            </Tab>
+            <Tab value={tab2.value} qa={tab2.qa}>
+                {tab2.title}
+            </Tab>
+            <Tab disabled value={tab3.value} qa={tab3.qa}>
+                {tab3.title}
+            </Tab>
+        </TabList>,
+    );
+
+    screen.getAllByRole('tab').forEach((tab) => {
+        expect(tab).toHaveAttribute('data-rfd-draggable-id');
+    });
+});
+
+test('preserves tablist role when sortable is true', () => {
+    render(
+        <TabList value={tab1.value} sortable>
+            <Tab value={tab1.value} qa={tab1.qa}>
+                {tab1.title}
+            </Tab>
+            <Tab value={tab2.value} qa={tab2.qa}>
+                {tab2.title}
+            </Tab>
+            <Tab disabled value={tab3.value} qa={tab3.qa}>
+                {tab3.title}
+            </Tab>
+        </TabList>,
+    );
+
+    expect(screen.getByRole('tablist')).toBeInTheDocument();
+});
+
+test('renders each visible tab inside a Draggable wrapper', () => {
+    render(
+        <TabList value={tab1.value} sortable>
+            <Tab value={tab1.value} qa={tab1.qa}>
+                {tab1.title}
+            </Tab>
+            <Tab value={tab2.value} qa={tab2.qa}>
+                {tab2.title}
+            </Tab>
+            <Tab disabled value={tab3.value} qa={tab3.qa}>
+                {tab3.title}
+            </Tab>
+        </TabList>,
+    );
+
+    expect(screen.getAllByRole('tab')).toHaveLength(3);
+    screen.getAllByRole('tab').forEach((tab) => {
+        expect(tab).toHaveAttribute('data-rfd-draggable-id');
+    });
+});
+
+test('adds dnd item class to each visible tab when sortable is true', () => {
+    render(
+        <TabList value={tab1.value} sortable>
+            <Tab value={tab1.value} qa={tab1.qa}>
+                {tab1.title}
+            </Tab>
+            <Tab value={tab2.value} qa={tab2.qa}>
+                {tab2.title}
+            </Tab>
+            <Tab disabled value={tab3.value} qa={tab3.qa}>
+                {tab3.title}
+            </Tab>
+        </TabList>,
+    );
+
+    const tabs = screen.getAllByRole('tab');
+
+    tabs.forEach((tab) => {
+        expect(tab).toHaveClass('g-tab-list__dnd-item');
+    });
+});
+
+test('move focus on LEFT/RIGHT arrows when sortable is true', async () => {
+    const user = userEvent.setup();
+
+    render(
+        <TabList value={tab2.value} sortable>
+            <Tab value={tab1.value} qa={tab1.qa}>
+                {tab1.title}
+            </Tab>
+            <Tab value={tab2.value} qa={tab2.qa}>
+                {tab2.title}
+            </Tab>
+            <Tab disabled value={tab3.value} qa={tab3.qa}>
+                {tab3.title}
+            </Tab>
+            <Tab value={tab4.value} qa={tab4.qa}>
+                {tab4.title}
+            </Tab>
+        </TabList>,
+    );
+
+    const tabs = screen.queryAllByRole('tab');
+
+    await user.keyboard(`{${KeyCode.TAB}}`);
+    // active tab
+    expect(tabs[1]).toHaveFocus();
+
+    await user.keyboard(`{${KeyCode.ARROW_RIGHT}}`);
+    expect(tabs[3]).toHaveFocus();
+    expect(tabs[3]).toHaveAttribute('aria-selected', 'false');
+
+    await user.keyboard(`{${KeyCode.ARROW_RIGHT}}`);
+    expect(tabs[0]).toHaveFocus();
+    expect(tabs[0]).toHaveAttribute('aria-selected', 'false');
+
+    await user.keyboard(`{${KeyCode.ARROW_RIGHT}}`);
+    expect(tabs[1]).toHaveFocus();
+    expect(tabs[1]).toHaveAttribute('aria-selected', 'true');
+
+    await user.keyboard(`{${KeyCode.ARROW_LEFT}}`);
+    expect(tabs[0]).toHaveFocus();
+
+    await user.keyboard(`{${KeyCode.ARROW_LEFT}}`);
+    expect(tabs[3]).toHaveFocus();
+
+    await user.keyboard(`{${KeyCode.ARROW_LEFT}}`);
+    expect(tabs[1]).toHaveFocus();
+
+    await user.keyboard(`{${KeyCode.ARROW_LEFT}}`);
+    expect(tabs[0]).toHaveFocus();
+});

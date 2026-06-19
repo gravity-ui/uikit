@@ -178,3 +178,54 @@ export const Panels: Story = {
         );
     },
 };
+
+const DragAndDropRender = (args: TabListProps) => {
+    const tabs = getTabsMock({});
+    const [tabOrder, setTabOrder] = React.useState(() => tabs.map((t) => t.value));
+    const [activeTab, setActiveTab] = React.useState(tabs[0].value);
+
+    const orderedTabs = tabOrder.map((slug) => tabs.find((t) => t.value === slug)!);
+
+    const panels = React.useMemo(
+        () =>
+            tabs.map((props, i) => (
+                <TabPanel key={i} value={props.value}>
+                    <div style={{marginTop: '10px'}}>{`Content of ${props.value} tab panel`}</div>
+                </TabPanel>
+            )),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [],
+    );
+
+    return (
+        <TabProvider value={activeTab} onUpdate={setActiveTab}>
+            <TabList
+                {...args}
+                sortable
+                onSortEnd={(slugs) => {
+                    setTabOrder(slugs);
+                }}
+            >
+                {orderedTabs.map((props) => (
+                    <Tab key={props.value} {...props} />
+                ))}
+            </TabList>
+            <div>{panels}</div>
+            <div style={{marginTop: 8, fontSize: 12, color: 'var(--g-color-text-secondary)'}}>
+                Order: {tabOrder.join(', ')}
+            </div>
+        </TabProvider>
+    );
+};
+
+export const WithDragAndDrop: Story = {
+    render: DragAndDropRender,
+};
+
+export const WithDragAndDropAndCollapse: Story = {
+    render: DragAndDropRender,
+    args: {
+        contentOverflow: 'collapse',
+        style: {maxWidth: 400},
+    },
+};

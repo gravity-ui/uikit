@@ -1,5 +1,7 @@
 import type * as React from 'react';
 
+import type {DraggableProvided} from '@hello-pangea/dnd';
+
 import type {LabelProps} from '../Label';
 import type {DOMProps, QAProps} from '../types';
 
@@ -23,6 +25,9 @@ export interface TabListProps
     moreLabel?: React.ReactNode;
     activateOnFocus?: boolean;
     children?: React.ReactNode;
+    sortable?: boolean;
+    onSortStart?: () => void;
+    onSortEnd?: (orderedSlugs: string[]) => void;
 }
 
 interface TabCommonProps extends QAProps, DOMProps {
@@ -37,6 +42,8 @@ interface TabCommonProps extends QAProps, DOMProps {
     children?: React.ReactNode;
     /** Tab was collapsed and rendered in `Menu` */
     isMenuItem?: boolean;
+    /** DnD provided object injected by `TabList` when sorting is enabled */
+    provided?: DraggableProvided;
 }
 
 export interface TabButtonProps

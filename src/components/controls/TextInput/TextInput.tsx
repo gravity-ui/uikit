@@ -6,8 +6,9 @@ import {TriangleExclamation} from '@gravity-ui/icons';
 
 import {useControlledState, useForkRef, useUniqId} from '../../../hooks';
 import {useElementSize, useFormResetHandler} from '../../../hooks/private';
+import {Alert} from '../../Alert';
 import {Icon} from '../../Icon';
-import {Popover} from '../../legacy';
+import {Popover} from '../../Popover';
 import {block} from '../../utils/cn';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
 import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';
@@ -233,7 +234,15 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
                         />
                     )}
                     {isErrorIconVisible && (
-                        <Popover content={errorMessage}>
+                        <Popover
+                            hasArrow
+                            content={
+                                <Alert
+                                    theme="clear"
+                                    message={<div role="presentation">{errorMessage}</div>}
+                                />
+                            }
+                        >
                             <span data-qa={CONTROL_ERROR_ICON_QA}>
                                 <Icon
                                     data={TriangleExclamation}

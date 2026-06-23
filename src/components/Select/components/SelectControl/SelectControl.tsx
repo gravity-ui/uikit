@@ -7,6 +7,7 @@ import {ChevronDown, TriangleExclamation} from '@gravity-ui/icons';
 import {Alert} from '../../../Alert';
 import {Icon} from '../../../Icon';
 import {Popover} from '../../../Popover';
+import {useDirection} from '../../../theme';
 import type {AriaLabelingProps} from '../../../types';
 import type {CnMods} from '../../../utils/cn';
 import {filterDOMProps} from '../../../utils/filterDOMProps';
@@ -81,6 +82,8 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
     const showOptionsText = Boolean(selectedOptionsContent);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
     const hasValue = Array.isArray(value) && value.filter(Boolean).length > 0;
+
+    const direction = useDirection();
 
     const [isDisabledButtonAnimation, setIsDisabledButtonAnimation] = React.useState(false);
 
@@ -215,6 +218,8 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
 
                 {errorMessage && (
                     <Popover
+                        placement={direction === 'rtl' ? ['left', 'bottom'] : ['right', 'bottom']}
+                        hasArrow
                         className={selectControlBlock('error-popover')}
                         content={
                             <Alert

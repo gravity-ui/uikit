@@ -215,8 +215,10 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
 
                 {errorMessage && (
                     <Popover
+                        className={selectControlBlock('error-popover')}
                         content={
                             <Alert
+                                className={selectControlBlock('error-popover-content')}
                                 theme="clear"
                                 message={<div role="presentation">{errorMessage}</div>}
                             />

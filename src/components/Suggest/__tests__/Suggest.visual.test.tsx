@@ -34,19 +34,6 @@ test.describe('Suggest', () => {
         await expectScreenshot();
     });
 
-    test('render story: <ShowOptionsOnEmptyValue>', async ({mount, expectScreenshot, page}) => {
-        await mount(
-            <div style={{height: 400}}>
-                <SuggestStories.ShowOptionsOnEmptyValue />
-            </div>,
-        );
-
-        const input = page.locator('input');
-        await input.click();
-
-        await expectScreenshot();
-    });
-
     test('render story: <PopupWidth> fit', async ({mount, expectScreenshot, page}) => {
         await mount(
             <div style={{height: 600}}>
@@ -56,6 +43,7 @@ test.describe('Suggest', () => {
 
         const inputs = page.locator('input');
         await inputs.first().click();
+        await inputs.first().fill('a');
 
         await expectScreenshot();
     });

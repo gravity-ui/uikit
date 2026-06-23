@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
+import {Checkbox} from '../../Checkbox';
 import {Label} from '../../Label';
 import {Text} from '../../Text';
 import {Flex} from '../../layout';
@@ -156,7 +157,6 @@ function PopupWidthExample({
             }}
             renderItem={(item) => <div>{item.content}</div>}
             popupWidth={popupWidth}
-            showOptionsOnEmptyValue
             inputProps={{placeholder}}
         />
     );
@@ -188,28 +188,6 @@ export const WithClearButton: Story = {
                 }}
                 renderItem={(item) => <div>{item.content}</div>}
                 inputProps={{hasClear: true, placeholder: 'Search…'}}
-            />
-        );
-    },
-};
-
-export const ShowOptionsOnEmptyValue: Story = {
-    render: () => {
-        const [value, setValue] = React.useState('');
-        const items = React.useMemo(() => filterPlanets(value), [value]);
-
-        return (
-            <Suggest<Planet>
-                value={value}
-                onUpdate={setValue}
-                items={items}
-                onItemClick={(item) => {
-                    setValue(item.content);
-                    return false;
-                }}
-                renderItem={renderPlanet}
-                showOptionsOnEmptyValue
-                inputProps={{placeholder: 'Click or focus to see all options…'}}
             />
         );
     },
@@ -298,17 +276,45 @@ export const CustomPopupContent: Story = {
 export const MultiSelect: Story = {
     render: () => {
         const [value, setValue] = React.useState('');
+        const [open, setOpen] = React.useState(false);
         const [selected, setSelected] = React.useState<Planet[]>([]);
-        const items = React.useMemo(() => {
-            const selectedValues = new Set(selected.map((p) => p.value));
-            return filterPlanets(value).filter((p) => !selectedValues.has(p.value));
-        }, [value, selected]);
+        const items = React.useMemo(() => filterPlanets(value), [value]);
+
+        const selectedValues = React.useMemo(
+            () => new Set(selected.map((p) => p.value)),
+            [selected],
+        );
+
+        const handleUpdate = React.useCallback((nextValue: string) => {
+            setValue(nextValue);
+            setOpen(true);
+        }, []);
 
         const handleItemClick = React.useCallback((item: Planet) => {
-            setSelected((prev) => [...prev, item]);
-            setValue('');
+            setSelected((prev) => {
+                const next = prev.filter((p) => p.value !== item.value);
+                return next.length === prev.length ? [...prev, item] : next;
+            });
             return true; // ← keep popup open for multi-select
         }, []);
+
+        const renderSelectableItem = React.useCallback(
+            (item: Planet) => (
+                <Flex alignItems="center" gap={2} spacing={{p: 1}}>
+                    <Checkbox
+                        checked={selectedValues.has(item.value)}
+                        style={{pointerEvents: 'none'}}
+                    />
+                    <Flex direction="column" gap={0.5}>
+                        <Text>{item.content}</Text>
+                        {item.description ? (
+                            <Text color="secondary">{item.description}</Text>
+                        ) : null}
+                    </Flex>
+                </Flex>
+            ),
+            [selectedValues],
+        );
 
         const handleRemove = React.useCallback((planet: Planet) => {
             setSelected((prev) => prev.filter((p) => p.value !== planet.value));
@@ -317,7 +323,8 @@ export const MultiSelect: Story = {
         return (
             <Flex direction="column" gap={2}>
                 <Text color="secondary">
-                    Select multiple items — popup stays open after each selection (
+                    Click an item to toggle it — selected items stay in the list with a checked box
+                    and the popup stays open (
                     <Text as="span" variant="code-inline-3">
                         onItemClick
                     </Text>{' '}
@@ -325,16 +332,20 @@ export const MultiSelect: Story = {
                     <Text as="span" variant="code-inline-3">
                         true
                     </Text>
-                    ).
+                    ). Open state is controlled, so focusing the empty input browses all options.
                 </Text>
                 <Suggest<Planet>
                     value={value}
-                    onUpdate={setValue}
+                    onUpdate={handleUpdate}
+                    open={open}
+                    onOpenChange={setOpen}
                     items={items}
                     onItemClick={handleItemClick}
-                    renderItem={renderPlanet}
-                    showOptionsOnEmptyValue
-                    inputProps={{placeholder: 'Add astronomical bodies…'}}
+                    renderItem={renderSelectableItem}
+                    inputProps={{
+                        onFocus: () => setOpen(true),
+                        placeholder: 'Add astronomical bodies…',
+                    }}
                 />
                 {selected.length > 0 && (
                     <Flex gap={1} wrap="wrap">

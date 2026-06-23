@@ -30,7 +30,6 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         virtualized = false,
         listHeight = 300,
         getOptionHeight,
-        getInitialActiveItemIndex,
         onLoadMore,
 
         inputProps,
@@ -39,7 +38,6 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         popupProps,
 
         loading = false,
-        showOptionsOnEmptyValue = false,
 
         open: openProp,
         defaultOpen,
@@ -83,15 +81,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     React.useEffect(() => {
         if (!open) {
             setActiveIndex(undefined);
-            return;
         }
-        if (items?.length && getInitialActiveItemIndex) {
-            const idx = getInitialActiveItemIndex(items);
-            if (idx >= 0 && idx < items.length) {
-                listRef.current?.activateItem(idx);
-            }
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open]);
 
     const popupStyle: React.CSSProperties = (() => {
@@ -112,33 +102,33 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     const handleValueChange = React.useCallback(
         (newValue: string) => {
             onUpdate?.(newValue);
-            if (newValue || showOptionsOnEmptyValue) {
+            if (newValue) {
                 toggleOpen(true);
             } else {
                 toggleOpen(false);
             }
         },
-        [onUpdate, showOptionsOnEmptyValue, toggleOpen],
+        [onUpdate, toggleOpen],
     );
 
     const handleInputFocus = React.useCallback(
         (e: React.FocusEvent<HTMLInputElement>) => {
-            if (value || showOptionsOnEmptyValue) {
+            if (value) {
                 toggleOpen(true);
             }
             inputProps?.onFocus?.(e);
         },
-        [value, showOptionsOnEmptyValue, toggleOpen, inputProps],
+        [value, toggleOpen, inputProps],
     );
 
     const handleInputClick = React.useCallback(
         (e: React.MouseEvent<HTMLInputElement>) => {
-            if (!open && (value || showOptionsOnEmptyValue)) {
+            if (!open && value) {
                 toggleOpen(true);
             }
             inputProps?.controlProps?.onClick?.(e);
         },
-        [open, value, showOptionsOnEmptyValue, toggleOpen, inputProps],
+        [open, value, toggleOpen, inputProps],
     );
 
     const handleInputKeyDown = React.useCallback(
@@ -158,7 +148,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
 
             if (!open && (key === 'ArrowDown' || key === 'ArrowUp')) {
                 e.preventDefault();
-                if (value || showOptionsOnEmptyValue) {
+                if (value) {
                     toggleOpen(true);
                 }
             }
@@ -169,7 +159,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
 
             inputProps?.onKeyDown?.(e);
         },
-        [open, value, showOptionsOnEmptyValue, toggleOpen, inputProps],
+        [open, value, toggleOpen, inputProps],
     );
 
     const handleItemClick = React.useCallback(

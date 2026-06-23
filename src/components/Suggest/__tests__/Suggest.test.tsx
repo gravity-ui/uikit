@@ -196,18 +196,6 @@ describe('Suggest', () => {
         });
     });
 
-    describe('showOptionsOnEmptyValue', () => {
-        test('opens popup on focus when enabled and items present', async () => {
-            const user = userEvent.setup();
-            renderSuggest({showOptionsOnEmptyValue: true});
-
-            const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
-            await user.click(input);
-
-            expect(screen.getByTestId(QA_POPUP)).toBeVisible();
-        });
-    });
-
     describe('inputProps', () => {
         test('passes placeholder to input', () => {
             renderSuggest({inputProps: {placeholder: 'Search here\u2026'}});

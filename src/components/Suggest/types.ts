@@ -58,8 +58,6 @@ export interface SuggestProps<T = any> extends QAProps {
 
     /** Show a loading indicator inside the popup (useful with async data via hooks) */
     loading?: boolean;
-    /** Open the popup even when the input value is empty */
-    showOptionsOnEmptyValue?: boolean;
 
     /** Control popup open state externally */
     open?: boolean;
@@ -68,8 +66,6 @@ export interface SuggestProps<T = any> extends QAProps {
     /** Callback when popup open state changes */
     onOpenChange?: (open: boolean, event?: Event, reason?: OpenChangeReason) => void;
 
-    /** Returns the index of the option that should be active when the list first appears */
-    getInitialActiveItemIndex?: (items: ListItemData<T>[]) => number;
     /**
      * Called when the keyboard-highlighted option index changes.
      * Use this to implement custom Tab-autocomplete or other behaviors

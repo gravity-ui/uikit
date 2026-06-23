@@ -107,20 +107,31 @@ All `TextInput` props (size, pin, hasClear, startContent, error, disabled, etc.)
 
 <!--/GITHUB_BLOCK-->
 
-## Show options on empty value
+## Show options on empty input
 
-Use `showOptionsOnEmptyValue` to keep the popup open even when the input is empty — useful for showing all available options on focus, or keeping a multi-select popup open after clearing the input:
+By default the popup opens once the input has a value. To also show options while
+the input is empty (browse-all-on-focus, or keeping a multi-select popup open after
+clearing), control the open state yourself:
 
 <!--GITHUB_BLOCK-->
 
 ```tsx
+const [open, setOpen] = React.useState(false);
+
 <Suggest
   value={value}
-  onUpdate={setValue}
+  onUpdate={(nextValue) => {
+    setValue(nextValue);
+    setOpen(true);
+  }}
+  open={open}
+  onOpenChange={setOpen}
   items={allItems}
-  showOptionsOnEmptyValue
-  inputProps={{placeholder: 'Click to browse all options…'}}
-/>
+  inputProps={{
+    onFocus: () => setOpen(true),
+    placeholder: 'Click to browse all options…',
+  }}
+/>;
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -177,16 +188,15 @@ Use `renderPopup` to wrap the list, add a header/footer, or render an empty stat
 
 ### Options
 
-| Name                        | Type                                                 | Default | Description                                                                       |
-| :-------------------------- | :--------------------------------------------------- | :------ | :-------------------------------------------------------------------------------- |
-| `items`                     | `ListItemData<T>[]`                                  |         | Options to display in the popup                                                   |
-| `onItemClick`               | `(item: T, index?: number) => boolean \| void`       |         | Called when an option is selected. Return `true` to keep popup open               |
-| `renderItem`                | `(item: ListItemData<T>) => ReactNode`               |         | Custom option renderer                                                            |
-| `virtualized`               | `boolean`                                            | `false` | Enable virtualization for long lists                                              |
-| `listHeight`                | `number`                                             | `300`   | Height (px) of the scrollable list viewport when `virtualized` is enabled         |
-| `getOptionHeight`           | `(option: ListItemData<T>, index: number) => number` |         | Row height function (enables variable-height rows)                                |
-| `getInitialActiveItemIndex` | `(items: ListItemData<T>[]) => number`               |         | Returns the index of the option that should be active when the list first appears |
-| `onLoadMore`                | `() => void`                                         |         | Called when the user scrolls to the bottom (pagination)                           |
+| Name              | Type                                                 | Default | Description                                                               |
+| :---------------- | :--------------------------------------------------- | :------ | :------------------------------------------------------------------------ |
+| `items`           | `ListItemData<T>[]`                                  |         | Options to display in the popup                                           |
+| `onItemClick`     | `(item: T, index?: number) => boolean \| void`       |         | Called when an option is selected. Return `true` to keep popup open       |
+| `renderItem`      | `(item: ListItemData<T>) => ReactNode`               |         | Custom option renderer                                                    |
+| `virtualized`     | `boolean`                                            | `false` | Enable virtualization for long lists                                      |
+| `listHeight`      | `number`                                             | `300`   | Height (px) of the scrollable list viewport when `virtualized` is enabled |
+| `getOptionHeight` | `(option: ListItemData<T>, index: number) => number` |         | Row height function (enables variable-height rows)                        |
+| `onLoadMore`      | `() => void`                                         |         | Called when the user scrolls to the bottom (pagination)                   |
 
 ### Input customization
 
@@ -203,14 +213,13 @@ Use `renderPopup` to wrap the list, add a header/footer, or render an empty stat
 
 ### Behavior
 
-| Name                      | Type                                                                | Default | Description                                               |
-| :------------------------ | :------------------------------------------------------------------ | :------ | :-------------------------------------------------------- |
-| `loading`                 | `boolean`                                                           | `false` | Show loading spinner in popup                             |
-| `showOptionsOnEmptyValue` | `boolean`                                                           | `false` | Open popup even when input is empty                       |
-| `open`                    | `boolean`                                                           |         | Control popup open state externally                       |
-| `defaultOpen`             | `boolean`                                                           |         | Initial open state (uncontrolled)                         |
-| `onOpenChange`            | `(open: boolean, event?: Event, reason?: OpenChangeReason) => void` |         | Called when popup open state changes                      |
-| `onActiveIndexChange`     | `(index: number \| undefined) => void`                              |         | Called when the keyboard-highlighted option index changes |
+| Name                  | Type                                                                | Default | Description                                               |
+| :-------------------- | :------------------------------------------------------------------ | :------ | :-------------------------------------------------------- |
+| `loading`             | `boolean`                                                           | `false` | Show loading spinner in popup                             |
+| `open`                | `boolean`                                                           |         | Control popup open state externally                       |
+| `defaultOpen`         | `boolean`                                                           |         | Initial open state (uncontrolled)                         |
+| `onOpenChange`        | `(open: boolean, event?: Event, reason?: OpenChangeReason) => void` |         | Called when popup open state changes                      |
+| `onActiveIndexChange` | `(index: number \| undefined) => void`                              |         | Called when the keyboard-highlighted option index changes |
 
 ### Rendering
 

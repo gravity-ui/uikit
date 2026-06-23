@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import {Popup} from '../../../Popup';
-import type {PopupPlacement} from '../../../Popup';
+import type {PopupCloseReason, PopupPlacement} from '../../../Popup';
 import {Sheet} from '../../../Sheet';
 import {block} from '../../../utils/cn';
 import {SelectQa} from '../../constants';
@@ -35,8 +35,18 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             id,
         },
         ref,
-    ) =>
-        mobile ? (
+    ) => {
+        const onPopupClose = React.useCallback(
+            (event: MouseEvent | KeyboardEvent, reason: PopupCloseReason) => {
+                if (reason === 'outsideClick') {
+                    event.preventDefault();
+                }
+                handleClose();
+            },
+            [handleClose],
+        );
+
+        return mobile ? (
             <Sheet
                 qa={SelectQa.SHEET}
                 className={className}
@@ -52,7 +62,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
                 anchorRef={ref as React.RefObject<HTMLDivElement>}
                 placement={placement}
                 open={open}
-                onClose={handleClose}
+                onClose={onPopupClose}
                 disablePortal={disablePortal}
                 returnFocus={controlRef}
                 floatingMiddlewares={getMiddlewares({width, disablePortal, virtualized})}
@@ -62,7 +72,8 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             >
                 {children}
             </Popup>
-        ),
+        );
+    },
 );
 
 SelectPopup.displayName = 'SelectPopup';

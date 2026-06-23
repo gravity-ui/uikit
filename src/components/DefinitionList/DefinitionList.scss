@@ -72,7 +72,7 @@ $block: '.#{variables.$ns}definition-list';
     &__copy-container {
         position: relative;
         display: inline-flex;
-        align-items: center;
+        align-items: baseline;
 
         &:hover {
             #{$block}__copy-button {

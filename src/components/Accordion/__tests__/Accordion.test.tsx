@@ -62,15 +62,14 @@ describe('Accordion', () => {
         );
 
         const summary = screen.getByTestId('item-summary');
-        const content = screen.getByText('Hidden content');
 
-        expect(content.className).not.toContain('g-disclosure__content_visible');
-
-        await user.click(summary);
-        expect(content.className).toContain('g-disclosure__content_visible');
+        expect(summary).toHaveAttribute('aria-expanded', 'false');
 
         await user.click(summary);
-        expect(content).not.toHaveClass('g-disclosure__content_visible');
+        expect(summary).toHaveAttribute('aria-expanded', 'true');
+
+        await user.click(summary);
+        expect(summary).toHaveAttribute('aria-expanded', 'false');
     });
 
     test('single mode: only one item can be expanded at a time', async () => {
@@ -91,14 +90,11 @@ describe('Accordion', () => {
         const item2 = screen.getByTestId('item-2-summary');
 
         await user.click(item1);
-        const content1 = screen.getByText('Content 1');
-        expect(content1.className).toContain('g-disclosure__content_visible');
+        expect(item1).toHaveAttribute('aria-expanded', 'true');
 
         await user.click(item2);
-        const content2 = screen.getByText('Content 2');
-        expect(content2.className).toContain('g-disclosure__content_visible');
-
-        expect(content1.className).not.toContain('g-disclosure__content_visible');
+        expect(item2).toHaveAttribute('aria-expanded', 'true');
+        expect(item1).toHaveAttribute('aria-expanded', 'false');
     });
 
     test('multiple mode: multiple items can be expanded simultaneously', async () => {
@@ -121,11 +117,8 @@ describe('Accordion', () => {
         await user.click(item1);
         await user.click(item2);
 
-        const content1 = screen.getByText('Content 1');
-        const content2 = screen.getByText('Content 2');
-
-        expect(content1.className).toContain('g-disclosure__content_visible');
-        expect(content2.className).toContain('g-disclosure__content_visible');
+        expect(item1).toHaveAttribute('aria-expanded', 'true');
+        expect(item2).toHaveAttribute('aria-expanded', 'true');
     });
 
     test('controlled mode: value prop controls expanded state', async () => {
@@ -140,47 +133,41 @@ describe('Accordion', () => {
             </Accordion>,
         );
 
-        const content1 = screen.getByText('Content 1');
-        const content2 = screen.getByText('Content 2');
+        const item1 = screen.getByTestId('item-1-summary');
+        const item2 = screen.getByTestId('item-2-summary');
 
-        expect(content1).toHaveClass('g-disclosure__content_visible');
-        expect(content2).not.toHaveClass('g-disclosure__content_visible');
+        expect(item1).toHaveAttribute('aria-expanded', 'true');
+        expect(item2).toHaveAttribute('aria-expanded', 'false');
 
         rerender(
             <Accordion value="item2">
-                <Accordion.Item summary="Item 1" value="item1">
+                <Accordion.Item qa={'item-1'} summary="Item 1" value="item1">
                     Content 1
                 </Accordion.Item>
-                <Accordion.Item summary="Item 2" value="item2">
+                <Accordion.Item qa={'item-2'} summary="Item 2" value="item2">
                     Content 2
                 </Accordion.Item>
             </Accordion>,
         );
 
-        const rerenderedContent1 = screen.getByText('Content 1');
-        const rerenderedContent2 = screen.getByText('Content 2');
-
-        expect(rerenderedContent1).not.toHaveClass('g-disclosure__content_visible');
-        expect(rerenderedContent2).toHaveClass('g-disclosure__content_visible');
+        expect(screen.getByTestId('item-1-summary')).toHaveAttribute('aria-expanded', 'false');
+        expect(screen.getByTestId('item-2-summary')).toHaveAttribute('aria-expanded', 'true');
     });
 
     test('defaultValue prop sets initial expanded state', () => {
         render(
             <Accordion defaultValue="item2">
-                <Accordion.Item summary="Item 1" value="item1">
+                <Accordion.Item qa={'item-1'} summary="Item 1" value="item1">
                     Content 1
                 </Accordion.Item>
-                <Accordion.Item summary="Item 2" value="item2">
+                <Accordion.Item qa={'item-2'} summary="Item 2" value="item2">
                     Content 2
                 </Accordion.Item>
             </Accordion>,
         );
 
-        const content1 = screen.getByText('Content 1');
-        const content2 = screen.getByText('Content 2');
-
-        expect(content1.className).not.toContain('g-disclosure__content_visible');
-        expect(content2.className).toContain('g-disclosure__content_visible');
+        expect(screen.getByTestId('item-1-summary')).toHaveAttribute('aria-expanded', 'false');
+        expect(screen.getByTestId('item-2-summary')).toHaveAttribute('aria-expanded', 'true');
     });
 
     test('onUpdate callback is called when state changes', async () => {
@@ -225,20 +212,17 @@ describe('Accordion', () => {
     test('defaultExpanded prop on AccordionItem', () => {
         render(
             <Accordion>
-                <Accordion.Item summary="Item 1" defaultExpanded>
+                <Accordion.Item qa={'item-1'} summary="Item 1" defaultExpanded>
                     Content 1
                 </Accordion.Item>
-                <Accordion.Item summary="Item 2" defaultExpanded={false}>
+                <Accordion.Item qa={'item-2'} summary="Item 2" defaultExpanded={false}>
                     Content 2
                 </Accordion.Item>
             </Accordion>,
         );
 
-        const content1 = screen.getByText('Content 1');
-        const content2 = screen.getByText('Content 2');
-
-        expect(content1.className).toContain('g-disclosure__content_visible');
-        expect(content2.className).not.toContain('g-disclosure__content_visible');
+        expect(screen.getByTestId('item-1-summary')).toHaveAttribute('aria-expanded', 'true');
+        expect(screen.getByTestId('item-2-summary')).toHaveAttribute('aria-expanded', 'false');
     });
 
     test('disabled AccordionItem cannot be expanded', async () => {

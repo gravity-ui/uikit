@@ -1,3 +1,6 @@
+import isFinite from 'lodash/isFinite';
+import isNumber from 'lodash/isNumber';
+
 export const INCREMENT_BUTTON_QA = 'increment-button-qa';
 export const DECREMENT_BUTTON_QA = 'decrement-button-qa';
 export const CONTROL_BUTTONS_QA = 'control-buttons-qa';
@@ -52,8 +55,16 @@ export function getParsedValue(value: string | undefined): {valid: boolean; valu
     return {valid: isValidValue, value: parsedValue};
 }
 
-function roundIfNecessary(value: number, allowDecimal: boolean) {
-    return allowDecimal ? value : Math.floor(value);
+function roundIfNecessary(value: number, allowDecimal: boolean, decimalScale?: number) {
+    if (!allowDecimal) {
+        return Math.floor(value);
+    }
+
+    if (allowDecimal && isNumber(decimalScale)) {
+        return parseFloat(value.toFixed(decimalScale));
+    }
+
+    return value;
 }
 
 interface VariablesProps {
@@ -64,6 +75,7 @@ interface VariablesProps {
     value: number | null | undefined;
     defaultValue: number | null | undefined;
     allowDecimal: boolean;
+    decimalScale?: number;
 }
 export function getInternalState(props: VariablesProps): {
     min: number | undefined;
@@ -72,6 +84,7 @@ export function getInternalState(props: VariablesProps): {
     shiftMultiplier: number;
     value: number | null | undefined;
     defaultValue: number | null | undefined;
+    decimalScale: number | undefined;
 } {
     const {
         min: externalMin,
@@ -80,6 +93,7 @@ export function getInternalState(props: VariablesProps): {
         shiftMultiplier: externalShiftMultiplier,
         value: externalValue,
         allowDecimal,
+        decimalScale: externalDecimalScale,
         defaultValue: externalDefaultValue,
     } = props;
 
@@ -96,14 +110,48 @@ export function getInternalState(props: VariablesProps): {
     const max =
         rangedMax !== undefined && rangedMax <= Number.MAX_SAFE_INTEGER ? rangedMax : undefined;
 
-    const step = roundIfNecessary(Math.abs(externalStep), allowDecimal) || 1;
-    const shiftMultiplier = roundIfNecessary(externalShiftMultiplier, allowDecimal) || 10;
-    const value = externalValue ? roundIfNecessary(externalValue, allowDecimal) : externalValue;
+    const decimalScale =
+        allowDecimal && typeof externalDecimalScale === 'number'
+            ? normalizeDecimalScale(externalDecimalScale)
+            : undefined;
+
+    const step = roundIfNecessary(Math.abs(externalStep), allowDecimal, decimalScale) || 1;
+    const shiftMultiplier =
+        roundIfNecessary(externalShiftMultiplier, allowDecimal, decimalScale) || 10;
+
+    const value = externalValue
+        ? roundIfNecessary(externalValue, allowDecimal, decimalScale)
+        : externalValue;
     const defaultValue = externalDefaultValue
-        ? roundIfNecessary(externalDefaultValue, allowDecimal)
+        ? roundIfNecessary(externalDefaultValue, allowDecimal, decimalScale)
         : externalDefaultValue;
 
-    return {min, max, step, shiftMultiplier, value, defaultValue};
+    return {min, max, step, shiftMultiplier, value, defaultValue, decimalScale};
+}
+
+function normalizeDecimalScale(decimalScale: number) {
+    if (!isFinite(decimalScale) || !isNumber(decimalScale)) {
+        return 0;
+    }
+
+    return decimalScale > 0 ? decimalScale : 0;
+}
+
+export function truncateExtraDecimalNumbers(value: string, decimalScale?: number) {
+    if (!isNumber(decimalScale) || decimalScale < 0) {
+        return value;
+    }
+
+    const dotIndex = value.indexOf('.');
+    if (dotIndex < 0) {
+        return value;
+    }
+
+    if (decimalScale === 0) {
+        return value.substring(0, dotIndex);
+    }
+
+    return value.substring(0, dotIndex + decimalScale + 1);
 }
 
 export function clampToNearestStepValue({
@@ -121,7 +169,7 @@ export function clampToNearestStepValue({
 }) {
     const base = originalMin || 0;
     const min = originalMin ?? Number.MIN_SAFE_INTEGER;
-    let clampedValue = toFixedNumber(value, step);
+    let clampedValue = value;
 
     if (clampedValue > max) {
         clampedValue = max;
@@ -154,7 +202,7 @@ export function clampToNearestStepValue({
         }
     }
 
-    return toFixedNumber(clampedValue, step);
+    return clampedValue;
 }
 
 export function updateCursorPosition(
@@ -204,9 +252,4 @@ export function areStringRepresentationOfNumbersEqual(v1: string, v2: string) {
         return true;
     }
     return false;
-}
-
-function toFixedNumber(value: number, baseStep: number): number {
-    const stepDecimalDigits = baseStep.toString().split('.')[1]?.length || 0;
-    return parseFloat(value.toFixed(stepDecimalDigits));
 }

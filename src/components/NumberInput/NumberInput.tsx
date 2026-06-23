@@ -2,6 +2,8 @@
 
 import * as React from 'react';
 
+import isNumber from 'lodash/isNumber';
+
 import {KeyCode} from '../../constants';
 import {useControlledState, useForkRef} from '../../hooks';
 import {useFormResetHandler} from '../../hooks/private';
@@ -18,6 +20,7 @@ import {
     getInternalState,
     getParsedValue,
     getPossibleNumberSubstring,
+    truncateExtraDecimalNumbers,
     updateCursorPosition,
 } from './utils';
 
@@ -75,6 +78,8 @@ export interface NumberInputProps
      * @default false
      */
     allowDecimal?: boolean;
+    /** Maximum number of digits allowed after the decimal point  */
+    decimalScale?: number;
     /** The control's value */
     value?: number | null;
     /** The control's default value. Use when the component is not controlled */
@@ -83,8 +88,20 @@ export interface NumberInputProps
     onUpdate?: (value: number | null) => void;
 }
 
-function getStringValue(value: number | null) {
-    return value === null ? '' : String(value);
+function getStringValue(value: number | null, isAllowDecimal: boolean, decimalScale?: number) {
+    if (!isNumber(value)) {
+        return '';
+    }
+
+    if (!isAllowDecimal) {
+        return String(Math.floor(value));
+    }
+
+    if (isNumber(decimalScale)) {
+        return value.toFixed(decimalScale);
+    }
+
+    return String(value);
 }
 
 export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(function NumberInput(
@@ -107,6 +124,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
         onBlur,
         onKeyDown,
         allowDecimal = false,
+        decimalScale: initialDecimalScale,
         className,
     } = props;
 
@@ -117,12 +135,14 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
         value: internalValue,
         defaultValue,
         shiftMultiplier,
+        decimalScale,
     } = getInternalState({
         min: externalMin,
         max: externalMax,
         step: externalStep,
         shiftMultiplier: externalShiftMultiplier,
         allowDecimal,
+        decimalScale: initialDecimalScale,
         value: externalValue,
         defaultValue: externalDefaultValue,
     });
@@ -133,14 +153,16 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
         externalOnUpdate,
     );
 
-    const [inputValue, setInputValue] = React.useState(getStringValue(value));
+    const [inputValue, setInputValue] = React.useState(
+        getStringValue(value, allowDecimal, decimalScale),
+    );
 
     React.useEffect(() => {
-        const stringPropsValue = getStringValue(value);
+        const stringPropsValue = getStringValue(value, allowDecimal, decimalScale);
         if (!areStringRepresentationOfNumbersEqual(inputValue, stringPropsValue)) {
             setInputValue(stringPropsValue);
         }
-    }, [value, inputValue]);
+    }, [value, inputValue, allowDecimal, decimalScale]);
 
     const clamp = !(allowDecimal && !externalStep);
 
@@ -177,7 +199,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
                 direction,
             });
             setValue?.(newValue);
-            setInputValue(newValue.toString());
+            setInputValue(getStringValue(newValue, allowDecimal, decimalScale));
         }
     };
 
@@ -222,15 +244,19 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
             if (value !== clampedValue) {
                 setValue?.(clampedValue);
             }
-            setInputValue(clampedValue.toString());
+            setInputValue(getStringValue(clampedValue, allowDecimal, decimalScale));
+        } else if (isNumber(value)) {
+            setInputValue(getStringValue(value, allowDecimal, decimalScale));
         }
+
         onBlur?.(e);
     };
 
     const handleUpdate = (v: string) => {
-        setInputValue(v);
-        const preparedStringValue = getPossibleNumberSubstring(v, allowDecimal);
-        updateCursorPosition(innerControlRef, v, preparedStringValue);
+        const formattedValue = truncateExtraDecimalNumbers(v, decimalScale);
+        setInputValue(formattedValue);
+        const preparedStringValue = getPossibleNumberSubstring(formattedValue, allowDecimal);
+        updateCursorPosition(innerControlRef, formattedValue, preparedStringValue);
         const {valid, value: parsedNumberValue} = getParsedValue(preparedStringValue);
         if (valid && parsedNumberValue !== value) {
             setValue?.(parsedNumberValue);

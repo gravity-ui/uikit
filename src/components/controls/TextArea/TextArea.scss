@@ -77,7 +77,7 @@ $block: '.#{variables.$ns}text-area';
     }
 
     &__clear {
-        position: absolute;
+        flex-shrink: 0;
 
         &_size_s,
         &_size_m {
@@ -92,6 +92,14 @@ $block: '.#{variables.$ns}text-area';
         }
     }
 
+    &__error-icon {
+        box-sizing: content-box;
+        color: var(--g-color-text-danger);
+        padding-block: var(--_--error-icon-padding-block);
+        padding-inline: var(--_--error-icon-padding-inline-start)
+            var(--_--error-icon-padding-inline-end);
+    }
+
     &_size {
         &_s {
             #{$block}__control {
@@ -101,6 +109,10 @@ $block: '.#{variables.$ns}text-area';
             &#{$block}_has-clear #{$block}__control {
                 padding-inline-end: 26px;
             }
+
+            --_--error-icon-padding-block: 5px;
+            --_--error-icon-padding-inline-start: 0;
+            --_--error-icon-padding-inline-end: 5px;
 
             --_--border-radius: var(--g-border-radius-s);
         }
@@ -114,6 +126,10 @@ $block: '.#{variables.$ns}text-area';
                 padding-inline-end: 26px;
             }
 
+            --_--error-icon-padding-block: 5px;
+            --_--error-icon-padding-inline-start: 0;
+            --_--error-icon-padding-inline-end: 5px;
+
             --_--border-radius: var(--g-border-radius-m);
         }
 
@@ -126,6 +142,10 @@ $block: '.#{variables.$ns}text-area';
                 padding-inline-end: 36px;
             }
 
+            --_--error-icon-padding-block: 9px;
+            --_--error-icon-padding-inline-start: 0;
+            --_--error-icon-padding-inline-end: 9px;
+
             --_--border-radius: var(--g-border-radius-l);
         }
 
@@ -137,6 +157,10 @@ $block: '.#{variables.$ns}text-area';
             &#{$block}_has-clear #{$block}__control {
                 padding-inline-end: 36px;
             }
+
+            --_--error-icon-padding-block: 13px;
+            --_--error-icon-padding-inline-start: 0;
+            --_--error-icon-padding-inline-end: 13px;
 
             --_--border-radius: var(--g-border-radius-xl);
         }

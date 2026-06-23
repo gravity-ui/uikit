@@ -22,36 +22,31 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref)
         className,
         style: styleProp,
         qa,
+        children,
     } = props;
 
     const style = {backgroundColor, color: borderColor, ...styleProp};
 
-    const renderContent = () => {
-        if ('imgUrl' in props && props.imgUrl) {
-            return (
-                <AvatarImage
-                    imgUrl={props.imgUrl}
-                    fallbackImgUrl={props.fallbackImgUrl}
-                    sizes={props.sizes}
-                    srcSet={props.srcSet}
-                    alt={props.alt || title}
-                    loading={props.loading}
-                    withImageBorder={props.withImageBorder}
-                    size={size}
-                />
-            );
-        }
+    let content: React.ReactNode = null;
 
-        if ('icon' in props && props.icon) {
-            return <AvatarIcon icon={props.icon} color={props.color} size={size} />;
-        }
-
-        if ('text' in props && props.text) {
-            return <AvatarText text={props.text} color={props.color} size={size} />;
-        }
-
-        return null;
-    };
+    if ('imgUrl' in props && props.imgUrl) {
+        content = (
+            <AvatarImage
+                imgUrl={props.imgUrl}
+                fallbackImgUrl={props.fallbackImgUrl}
+                sizes={props.sizes}
+                srcSet={props.srcSet}
+                alt={props.alt || title}
+                loading={props.loading}
+                withImageBorder={props.withImageBorder}
+                size={size}
+            />
+        );
+    } else if ('icon' in props && props.icon) {
+        content = <AvatarIcon icon={props.icon} color={props.color} size={size} />;
+    } else if ('text' in props && props.text) {
+        content = <AvatarText text={props.text} color={props.color} size={size} />;
+    }
 
     return (
         <div
@@ -66,7 +61,8 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref)
             ref={ref}
             {...filterDOMProps(props, {labelable: true})}
         >
-            {renderContent()}
+            {content}
+            {children}
         </div>
     );
 });

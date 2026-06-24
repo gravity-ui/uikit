@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import {mergeRefs} from '../../hooks/useForkRef';
 import {MenuItem} from '../lab/Menu';
 
 import {TabContent} from './TabContent';
@@ -11,16 +12,17 @@ import {isTabComponentProps, isTabLinkProps} from './utils';
 
 import './Tab.scss';
 
+type TabRef<T extends TabComponentElementType> =
+    | React.Ref<HTMLButtonElement>
+    | React.Ref<HTMLAnchorElement>
+    | React.Ref<T extends string ? React.ComponentRef<T> : T>;
+
 export const Tab = React.forwardRef<HTMLAnchorElement | HTMLButtonElement, TabProps>(function Tab<
     T extends TabComponentElementType,
->(
-    props: TabProps<T>,
-    ref:
-        | React.Ref<HTMLButtonElement>
-        | React.Ref<HTMLAnchorElement>
-        | React.Ref<T extends string ? React.ComponentRef<T> : T>,
-) {
+>(props: TabProps<T>, ref: TabRef<T>) {
+    const {provided} = props;
     const tabProps = useTab(props);
+    const mergedRef = provided ? mergeRefs(ref as React.Ref<HTMLElement>, provided.innerRef) : ref;
 
     const content = (
         <TabContent
@@ -36,7 +38,7 @@ export const Tab = React.forwardRef<HTMLAnchorElement | HTMLButtonElement, TabPr
     if (isTabComponentProps(props)) {
         return React.createElement(props.component, {
             ...tabProps,
-            ref,
+            ref: mergedRef,
             isMenuItem: props.isMenuItem || false,
         });
     }
@@ -48,7 +50,7 @@ export const Tab = React.forwardRef<HTMLAnchorElement | HTMLButtonElement, TabPr
             return (
                 <MenuItem
                     {...tabProps}
-                    ref={ref as React.Ref<HTMLAnchorElement>}
+                    ref={mergedRef as React.Ref<HTMLAnchorElement>}
                     href={props.href}
                     rel={rel}
                 >
@@ -58,7 +60,12 @@ export const Tab = React.forwardRef<HTMLAnchorElement | HTMLButtonElement, TabPr
         }
 
         return (
-            <a {...tabProps} ref={ref as React.Ref<HTMLAnchorElement>} href={props.href} rel={rel}>
+            <a
+                {...tabProps}
+                ref={mergedRef as React.Ref<HTMLAnchorElement>}
+                href={props.href}
+                rel={rel}
+            >
                 {content}
             </a>
         );
@@ -68,7 +75,7 @@ export const Tab = React.forwardRef<HTMLAnchorElement | HTMLButtonElement, TabPr
         return (
             <MenuItem
                 {...tabProps}
-                ref={ref as React.Ref<HTMLButtonElement>}
+                ref={mergedRef as React.Ref<HTMLButtonElement>}
                 type={props.type || 'button'}
                 disabled={props.disabled}
             >
@@ -80,7 +87,7 @@ export const Tab = React.forwardRef<HTMLAnchorElement | HTMLButtonElement, TabPr
     return (
         <button
             {...tabProps}
-            ref={ref as React.Ref<HTMLButtonElement>}
+            ref={mergedRef as React.Ref<HTMLButtonElement>}
             type={props.type || 'button'}
         >
             {content}

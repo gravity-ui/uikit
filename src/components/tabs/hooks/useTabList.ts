@@ -120,6 +120,9 @@ export function useTabList(
         qa: _qa,
         contentOverflow,
         moreLabel: _moreLabel,
+        sortable: _sortable,
+        onSortStart: _onSortStart,
+        onSortEnd: _onSortEnd,
         ...htmlProps
     } = tabListProps;
 

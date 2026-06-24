@@ -9,6 +9,20 @@ export type TabElementProps = React.HTMLAttributes<HTMLElement> & {
     [key: `data-${string}`]: string | undefined;
 };
 
+function getStyle(
+    provided: TabProps['provided'],
+    style: React.CSSProperties | undefined,
+): React.CSSProperties | undefined {
+    if (!style) {
+        return provided?.draggableProps.style;
+    }
+
+    return {
+        ...provided?.draggableProps.style,
+        ...style,
+    };
+}
+
 export function useTab<T extends TabComponentElementType>(tabProps: TabProps<T>): TabElementProps {
     const tabContext = React.useContext(TabContext);
 
@@ -65,6 +79,7 @@ export function useTab<T extends TabComponentElementType>(tabProps: TabProps<T>)
         component: _component,
         qa: _qa,
         isMenuItem: _isMenuItem,
+        provided,
         ...htmlProps
     } = tabProps;
 
@@ -75,7 +90,7 @@ export function useTab<T extends TabComponentElementType>(tabProps: TabProps<T>)
         tabIndex: isSelected && !isDisabled && !isFocused ? 0 : -1,
     };
 
-    return {
+    const elementProps = {
         ...htmlRest,
         ...(tabProps.isMenuItem ? {} : tabRoleProps),
         'aria-selected': isSelected,
@@ -87,5 +102,15 @@ export function useTab<T extends TabComponentElementType>(tabProps: TabProps<T>)
         className: bTab({active: isSelected, disabled: isDisabled}, tabProps.className),
         'data-qa': tabProps.qa,
         [TAB_DATA_ATTRIBUTE]: tabProps.value,
+    };
+
+    const {'aria-describedby': _ariaDescribedBy, ...restDragHandleProps} =
+        provided?.dragHandleProps ?? {};
+
+    return {
+        ...provided?.draggableProps,
+        ...restDragHandleProps,
+        ...elementProps,
+        style: getStyle(provided, elementProps.style),
     };
 }

@@ -6,6 +6,7 @@ import {Button} from '../Button';
 import {Card} from '../Card';
 import {Icon} from '../Icon';
 import {colorText} from '../Text';
+import {useDefaultProps} from '../theme/useDefaultProps';
 
 import {AlertAction} from './AlertAction';
 import {AlertActions} from './AlertActions';
@@ -28,7 +29,8 @@ function alertSizeToIconSize(alertSize: AlertSize): number {
     }
 }
 
-export const Alert = (props: AlertProps) => {
+export const Alert = (rawProps: AlertProps) => {
+    const props = useDefaultProps('Alert', rawProps);
     const {
         theme = 'normal',
         view = 'filled',

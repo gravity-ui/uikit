@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
@@ -31,10 +32,15 @@ interface MenuComponent
 }
 
 // TODO: keyboard navigation, Up/Down arrows and Enter
-export const Menu = React.forwardRef<HTMLUListElement, MenuProps>(function Menu(
-    {size = 'm', children, style, className, qa, ...restProps},
-    ref,
-) {
+export const Menu = React.forwardRef<HTMLUListElement, MenuProps>(function Menu(rawProps, ref) {
+    const {
+        size = 'm',
+        children,
+        style,
+        className,
+        qa,
+        ...restProps
+    } = useDefaultProps('Menu', rawProps);
     return (
         <ul
             {...filterDOMProps(restProps, {labelable: true})}

@@ -1,5 +1,22 @@
 # Changelog
 
+## [7.43.0](https://github.com/gravity-ui/uikit/compare/v7.42.0...v7.43.0) (2026-06-24)
+
+
+### Features
+
+* **Alert:** add size props; add css-api; refactor component ([#2146](https://github.com/gravity-ui/uikit/issues/2146)) ([65e2728](https://github.com/gravity-ui/uikit/commit/65e2728a609470040d9e768ecd7526e1064feacc))
+* default props provider ([#2708](https://github.com/gravity-ui/uikit/issues/2708)) ([f1f1a6a](https://github.com/gravity-ui/uikit/commit/f1f1a6a6405f99c179421efa132a6771c135da22))
+* enrich Popover and Tooltip API ([#2635](https://github.com/gravity-ui/uikit/issues/2635)) ([9fde213](https://github.com/gravity-ui/uikit/commit/9fde213b29a1f9bb2e62b939de8c6c36ab59923b))
+* **Skeleton:** adjustable skeleton ([#2684](https://github.com/gravity-ui/uikit/issues/2684)) ([8744e45](https://github.com/gravity-ui/uikit/commit/8744e458179076166e5306b6b6cd788423c5a9b7))
+
+
+### Bug Fixes
+
+* **Button:** do not forward service component prop to the rendered element ([#2703](https://github.com/gravity-ui/uikit/issues/2703)) ([8a1c31e](https://github.com/gravity-ui/uikit/commit/8a1c31e72f51c403739fb4d2f9c3bfce3276940a))
+* **Select:** replace legacy `Popover` with new one ([#2711](https://github.com/gravity-ui/uikit/issues/2711)) ([99236f2](https://github.com/gravity-ui/uikit/commit/99236f28bbd64969ab0577b68e1451463abe21ae))
+* **TextInput:** replace legacy `Popover` with new one ([#2710](https://github.com/gravity-ui/uikit/issues/2710)) ([2f2fcf9](https://github.com/gravity-ui/uikit/commit/2f2fcf9199ebff94e90efc38be7907a4914e80c1))
+
 ## [7.42.0](https://github.com/gravity-ui/uikit/compare/v7.41.0...v7.42.0) (2026-06-10)
 
 

@@ -6,6 +6,7 @@ import {getOffset, getTheme} from './utils';
 export function ProgressWithValue(props: ProgressWithValueProps) {
     const {value, loading, text} = props;
     const offset = getOffset(value);
+    const {theme, color} = getTheme(props);
 
     if (!Number.isFinite(value)) {
         return null;
@@ -13,8 +14,11 @@ export function ProgressWithValue(props: ProgressWithValueProps) {
 
     return (
         <div
-            className={progressBlock('item', {theme: getTheme(props), loading})}
-            style={{transform: `translateX(calc(var(--g-flow-direction) * ${offset}%))`}}
+            className={progressBlock('item', {theme, loading})}
+            style={{
+                transform: `translateX(calc(var(--g-flow-direction) * ${offset}%))`,
+                backgroundColor: color,
+            }}
         >
             <ProgressInnerText offset={offset} text={text} />
         </div>

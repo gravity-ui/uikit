@@ -1,3 +1,5 @@
+import type {CnMods} from '../utils/cn';
+
 import {ProgressInnerText} from './ProgressInnerText';
 import {progressBlock} from './constants';
 import type {ProgressWithValueProps} from './types';
@@ -8,19 +10,27 @@ export function ProgressWithValue(props: ProgressWithValueProps) {
     const offset = getOffset(value);
     const {theme, color} = getTheme(props);
 
-    if (!Number.isFinite(value)) {
-        return null;
+    const modifiers: CnMods = {
+        loading,
+    };
+
+    if (typeof color === 'undefined') {
+        modifiers.theme = theme || 'default';
     }
 
-    return (
-        <div
-            className={progressBlock('item', {theme, loading})}
-            style={{
-                transform: `translateX(calc(var(--g-flow-direction) * ${offset}%))`,
-                backgroundColor: color,
-            }}
-        >
-            <ProgressInnerText offset={offset} text={text} />
-        </div>
-    );
+    if (Number.isFinite(value)) {
+        return (
+            <div
+                className={progressBlock('item', modifiers)}
+                style={{
+                    transform: `translateX(calc(var(--g-flow-direction) * ${offset}%))`,
+                    backgroundColor: color,
+                }}
+            >
+                <ProgressInnerText offset={offset} text={text} />
+            </div>
+        );
+    }
+
+    return null;
 }

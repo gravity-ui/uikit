@@ -1,9 +1,10 @@
 import type {StringWithSuggest} from './types';
 
-export enum Lang {
-    Ru = 'ru',
-    En = 'en',
-}
+export const Lang = {
+    Ru: 'ru',
+    En: 'en',
+} as const;
+export type Lang = (typeof Lang)[keyof typeof Lang];
 
 interface Config {
     lang: StringWithSuggest<Lang>;

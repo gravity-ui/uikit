@@ -149,6 +149,44 @@ SANDBOX-->
 
 <!--/GITHUB_BLOCK-->
 
+Use the optional `color` property to override the theme color:
+
+<!--SANDBOX
+import {Box, Progress} from '@gravity-ui/uikit';
+
+const colorStops = [
+    {theme: 'danger', stop: 20, color: '#ff4444'},
+    {theme: 'warning', stop: 50, color: '#ffaa00'},
+    {theme: 'success', stop: 100, color: '#44ff44'},
+];
+
+export default function () {
+    return (
+        <>
+            <Box width={'30%'}>
+                <Progress value={10} colorStops={colorStops} />
+            </Box>
+            <Box width={'30%'}>
+                <Progress value={40} colorStops={colorStops} />
+            </Box>
+            <Box width={'30%'}>
+                <Progress value={60} colorStops={colorStops} />
+            </Box>
+        </>
+    );
+}
+SANDBOX-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<Progress value={10} colorStops={[{theme: 'danger', stop: 20, color: '#ff4444'}, {theme: 'warning', stop: 50, color: '#ffaa00'}, {theme: 'success', stop: 100, color: '#44ff44'}]} />
+<Progress value={40} colorStops={[{theme: 'danger', stop: 20, color: '#ff4444'}, {theme: 'warning', stop: 50, color: '#ffaa00'}, {theme: 'success', stop: 100, color: '#44ff44'}]} />
+<Progress value={60} colorStops={[{theme: 'danger', stop: 20, color: '#ff4444'}, {theme: 'warning', stop: 50, color: '#ffaa00'}, {theme: 'success', stop: 100, color: '#44ff44'}]} />
+```
+
+<!--/GITHUB_BLOCK-->
+
 ## Stack
 
 <!--SANDBOX
@@ -202,18 +240,18 @@ SANDBOX-->
 
 ## Properties
 
-| Name            | Description                                                                                                                         |                  Type                   |   Default   |
-| :-------------- | :---------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------: | :---------: |
-| className       | HTML `class` attribute                                                                                                              |                `string`                 |             |
-| colorStops      | Sets breakpoints with themes                                                                                                        | `Array<{theme: string; stop: number;}>` |             |
-| colorStopsValue | Sets the value for choosing the current stop or alternative value for colorStops. The available range is from 0 to 100.             |                `number`                 |             |
-| loading         | Toggles the `loading` state                                                                                                         |                `boolean`                |   `false`   |
-| size            | Sets the progress bar size. The progress bar text can only be displayed in `"m"` size.                                              |                `string`                 |    `"m"`    |
-| stack           | Configuration of composite progress bar. Not required if a `value` is provided.                                                     |             `Array<Stack>`              |             |
-| stackClassName  | HTML `class` attribute of stack                                                                                                     |                `string`                 |             |
-| text            | Text inside the progress bar                                                                                                        |               `ReactNode`               |             |
-| theme           | Sets progress color                                                                                                                 |                `string`                 | `"default"` |
-| value           | Current progress value. The available range is from 0 to 100. Using the `stack` property value is optional and is used as maxValue. |                `number`                 |             |
+| Name            | Description                                                                                                                         |                          Type                          |   Default   |
+| :-------------- | :---------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------: | :---------: |
+| className       | HTML `class` attribute                                                                                                              |                        `string`                        |             |
+| colorStops      | Sets breakpoints with themes                                                                                                        | `Array<{theme: string; stop: number; color?: string}>` |             |
+| colorStopsValue | Sets the value for choosing the current stop or alternative value for colorStops. The available range is from 0 to 100.             |                        `number`                        |             |
+| loading         | Toggles the `loading` state                                                                                                         |                       `boolean`                        |   `false`   |
+| size            | Sets the progress bar size. The progress bar text can only be displayed in `"m"` size.                                              |                        `string`                        |    `"m"`    |
+| stack           | Configuration of composite progress bar. Not required if a `value` is provided.                                                     |                     `Array<Stack>`                     |             |
+| stackClassName  | HTML `class` attribute of stack                                                                                                     |                        `string`                        |             |
+| text            | Text inside the progress bar                                                                                                        |                      `ReactNode`                       |             |
+| theme           | Sets progress color                                                                                                                 |                        `string`                        | `"default"` |
+| value           | Current progress value. The available range is from 0 to 100. Using the `stack` property value is optional and is used as maxValue. |                        `number`                        |             |
 
 ### `Stack`
 

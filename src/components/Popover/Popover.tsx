@@ -15,6 +15,7 @@ import {
 import {useControlledState, useForkRef} from '../../hooks';
 import {Popup} from '../Popup';
 import type {PopupProps} from '../Popup';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {getElementRef} from '../utils/getElementRef';
@@ -58,21 +59,22 @@ const DEFAULT_OPEN_DELAY = 500;
 const DEFAULT_CLOSE_DELAY = 250;
 const DEFAULT_REST = 0;
 
-export function Popover({
-    children,
-    open,
-    onOpenChange,
-    toggle = true,
-    disabled,
-    content,
-    trigger = 'all',
-    openDelay = DEFAULT_OPEN_DELAY,
-    closeDelay = DEFAULT_CLOSE_DELAY,
-    rest = DEFAULT_REST,
-    enableSafePolygon,
-    className,
-    ...restProps
-}: PopoverProps) {
+export function Popover(rawProps: PopoverProps) {
+    const {
+        children,
+        open,
+        onOpenChange,
+        toggle = true,
+        disabled,
+        content,
+        trigger = 'all',
+        openDelay = DEFAULT_OPEN_DELAY,
+        closeDelay = DEFAULT_CLOSE_DELAY,
+        rest = DEFAULT_REST,
+        enableSafePolygon,
+        className,
+        ...restProps
+    } = useDefaultProps('Popover', rawProps);
     const [anchorElement, setAnchorElement] = React.useState<HTMLElement | null>(null);
     const [floatingElement, setFloatingElement] = React.useState<HTMLDivElement | null>(null);
 

@@ -22,6 +22,7 @@ import {OVERFLOW_PADDING} from '../Popup/constants';
 import {getPlacementOptions} from '../Popup/utils';
 import {Portal} from '../Portal';
 import type {PortalProps} from '../Portal';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
@@ -71,27 +72,28 @@ const DEFAULT_REST = 0;
 const DEFAULT_PLACEMENT: PopupPlacement = 'bottom';
 const DEFAULT_OFFSET = 4;
 
-export function Tooltip({
-    children,
-    open,
-    onOpenChange,
-    strategy,
-    placement: placementProp = DEFAULT_PLACEMENT,
-    offset: offsetProp = DEFAULT_OFFSET,
-    disabled,
-    content,
-    trigger = 'all',
-    role: roleProp = 'tooltip',
-    openDelay = DEFAULT_OPEN_DELAY,
-    closeDelay = DEFAULT_CLOSE_DELAY,
-    rest = DEFAULT_REST,
-    container,
-    disablePortal,
-    className,
-    style,
-    qa,
-    ...restProps
-}: TooltipProps) {
+export function Tooltip(rawProps: TooltipProps) {
+    const {
+        children,
+        open,
+        onOpenChange,
+        strategy,
+        placement: placementProp = DEFAULT_PLACEMENT,
+        offset: offsetProp = DEFAULT_OFFSET,
+        disabled,
+        content,
+        trigger = 'all',
+        role: roleProp = 'tooltip',
+        openDelay = DEFAULT_OPEN_DELAY,
+        closeDelay = DEFAULT_CLOSE_DELAY,
+        rest = DEFAULT_REST,
+        container,
+        disablePortal,
+        className,
+        style,
+        qa,
+        ...restProps
+    } = useDefaultProps('Tooltip', rawProps);
     const [anchorElement, setAnchorElement] = React.useState<HTMLElement | null>(null);
     const {placement, middleware: placementMiddleware} = getPlacementOptions(placementProp, false);
 

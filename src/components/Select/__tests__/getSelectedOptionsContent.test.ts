@@ -29,6 +29,32 @@ describe('getSelectedOptionsContent', () => {
             expect(result).toEqual('content1, val3');
         });
     });
+    describe('generic values', () => {
+        test('number option presence. Should return content', async () => {
+            const result = getSelectedOptionsContent([{value: 42, content: 'Forty-two'}], [42]);
+
+            expect(result).toEqual('Forty-two');
+        });
+        test('number option without content. Should return serialized value', async () => {
+            const result = getSelectedOptionsContent([{value: 42}], [42]);
+
+            expect(result).toEqual('42');
+        });
+        test('object option presence. Should be resolved by reference', async () => {
+            const userValue = {id: 1, name: 'Alice'};
+            const result = getSelectedOptionsContent(
+                [{value: userValue, content: 'Alice'}],
+                [userValue],
+            );
+
+            expect(result).toEqual('Alice');
+        });
+        test('object value NOT presence. Should return serialized value', async () => {
+            const result = getSelectedOptionsContent([], [{id: 1}]);
+
+            expect(result).toEqual('{"id":1}');
+        });
+    });
     describe('renderSelectedOption callback', () => {
         const renderSelectedOptionPostfix = 'from callback';
         const renderSelectedOption = jest.fn(

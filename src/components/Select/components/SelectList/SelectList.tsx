@@ -22,7 +22,7 @@ type SelectListProps = {
     getOptionHeight?: SelectProps['getOptionHeight'];
     getOptionGroupHeight?: SelectProps['getOptionGroupHeight'];
     size: NonNullable<SelectProps['size']>;
-    value: NonNullable<SelectProps['value']>;
+    value: unknown[];
     flattenOptions: FlattenOption[];
     multiple?: boolean;
     virtualized?: boolean;
@@ -108,7 +108,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
 
                 return <GroupLabel option={option} renderOptionGroup={wrappedRenderOptionGroup} />;
             }
-            if (option.value === loadingOption.value) {
+            if (option === loadingOption) {
                 return (
                     <SelectLoadingIndicator
                         onIntersect={itemIndex === 0 ? undefined : onLoadMore}

@@ -3,17 +3,18 @@
 import * as React from 'react';
 
 import {useFormResetHandler} from '../../../../hooks/private';
+import {serializeOptionValue} from '../../utils';
 
-interface HiddenSelectProps {
+interface HiddenSelectProps<V> {
     name?: string;
-    value: string[];
+    value: V[];
     disabled?: boolean;
     form?: string;
-    onReset: (value: string[]) => void;
+    onReset: (value: V[]) => void;
 }
 //FIXME: current implementation is not accessible to screen readers and does not support browser autofill and
 // form validation
-export function HiddenSelect(props: HiddenSelectProps) {
+export function HiddenSelect<V>(props: HiddenSelectProps<V>) {
     const {name, value, disabled, form, onReset} = props;
 
     const ref = useFormResetHandler({onReset, initialValue: value});
@@ -24,30 +25,27 @@ export function HiddenSelect(props: HiddenSelectProps) {
 
     if (value.length === 0) {
         return (
-            <input
-                ref={ref}
-                type="hidden"
-                name={name}
-                value={value}
-                form={form}
-                disabled={disabled}
-            />
+            <input ref={ref} type="hidden" name={name} value="" form={form} disabled={disabled} />
         );
     }
 
     return (
         <React.Fragment>
-            {value.map((v, i) => (
-                <input
-                    key={v}
-                    ref={i === 0 ? ref : undefined}
-                    value={v}
-                    type="hidden"
-                    name={name}
-                    form={form}
-                    disabled={disabled}
-                />
-            ))}
+            {value.map((v, i) => {
+                const serializedValue = serializeOptionValue(v);
+
+                return (
+                    <input
+                        key={`${serializedValue}-${i}`}
+                        ref={i === 0 ? ref : undefined}
+                        value={serializedValue}
+                        type="hidden"
+                        name={name}
+                        form={form}
+                        disabled={disabled}
+                    />
+                );
+            })}
         </React.Fragment>
     );
 }

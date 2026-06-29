@@ -27,7 +27,7 @@ import './SelectControl.scss';
 
 type ControlProps = {
     toggleOpen: () => void;
-    renderControl?: SelectRenderControl;
+    renderControl?: SelectRenderControl<HTMLElement, unknown>;
     renderCounter?: SelectRenderCounter;
     view: NonNullable<SelectProps['view']>;
     size: NonNullable<SelectProps['size']>;
@@ -40,7 +40,7 @@ type ControlProps = {
     isErrorVisible?: boolean;
     errorMessage?: SelectProps['errorMessage'];
     disabled?: boolean;
-    value: NonNullable<SelectProps['value']>;
+    value: unknown[];
     clearValue: () => void;
     hasClear?: boolean;
     hasCounter?: boolean;
@@ -81,7 +81,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
     } = props;
     const showOptionsText = Boolean(selectedOptionsContent);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
-    const hasValue = Array.isArray(value) && value.filter(Boolean).length > 0;
+    const hasValue = Array.isArray(value) && value.some((v) => Boolean(v) || v === 0);
 
     const direction = useDirection();
 

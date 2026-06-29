@@ -5,7 +5,13 @@ import {useControlledState} from '../useControlledState';
 import type {UseSelectOption, UseSelectProps, UseSelectResult} from './types';
 import {useOpenState} from './useOpenState';
 
-export const useSelect = <T extends unknown>({
+export function useSelect<T extends unknown, V = string>(
+    props: UseSelectProps<V>,
+): UseSelectResult<T, V>;
+// Non-generic overload: keeps type utilities that do not go through inference
+// (e.g. ReturnType/Parameters of useSelect) resolving to string values
+export function useSelect(props: UseSelectProps): UseSelectResult<unknown>;
+export function useSelect<T extends unknown, V = string>({
     defaultOpen,
     onClose,
     onOpenChange,
@@ -15,7 +21,7 @@ export const useSelect = <T extends unknown>({
     multiple,
     onUpdate,
     disabled,
-}: UseSelectProps): UseSelectResult<T> => {
+}: UseSelectProps<V>): UseSelectResult<T, V> {
     const [value, setValueInner] = useControlledState(valueProps, defaultValue, onUpdate);
     const [activeIndex, setActiveIndex] = React.useState<number>();
     const {toggleOpen, ...openState} = useOpenState({
@@ -26,7 +32,7 @@ export const useSelect = <T extends unknown>({
     });
 
     const setValue = React.useCallback(
-        (v: string[]) => {
+        (v: V[]) => {
             if (!disabled) {
                 setValueInner(v);
             }
@@ -35,7 +41,7 @@ export const useSelect = <T extends unknown>({
     );
 
     const handleSingleSelection = React.useCallback(
-        (option: UseSelectOption<T>) => {
+        (option: UseSelectOption<T, V>) => {
             if (!value.includes(option.value)) {
                 const nextValue = [option.value];
                 setValue(nextValue);
@@ -47,7 +53,7 @@ export const useSelect = <T extends unknown>({
     );
 
     const handleMultipleSelection = React.useCallback(
-        (option: UseSelectOption<T>) => {
+        (option: UseSelectOption<T, V>) => {
             const alreadySelected = value.includes(option.value);
             const nextValue = alreadySelected
                 ? value.filter((iteratedVal) => iteratedVal !== option.value)
@@ -59,7 +65,7 @@ export const useSelect = <T extends unknown>({
     );
 
     const handleSelection = React.useCallback(
-        (option: UseSelectOption<T>) => {
+        (option: UseSelectOption<T, V>) => {
             if (multiple) {
                 handleMultipleSelection(option);
             } else {
@@ -83,4 +89,4 @@ export const useSelect = <T extends unknown>({
         setActiveIndex,
         ...openState,
     };
-};
+}

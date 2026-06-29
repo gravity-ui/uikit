@@ -21,7 +21,7 @@ import type {
 // "disable" property needs to deactivate group title item in List
 export type GroupTitleItem<T = any> = {label: string; disabled: true; data?: T};
 
-export type FlattenOption = SelectOption | GroupTitleItem;
+export type FlattenOption<T = any, V = any> = SelectOption<T, V> | GroupTitleItem<T>;
 
 export type FlattenOptions = FlattenOption[] & {
     [FLATTEN_KEY]: {
@@ -30,12 +30,12 @@ export type FlattenOptions = FlattenOption[] & {
 };
 
 export const isSelectGroupTitle = (
-    option?: SelectOption | SelectOptionGroup,
+    option?: SelectOption<unknown, unknown> | SelectOptionGroup<unknown, unknown>,
 ): option is GroupTitleItem => {
     return Boolean(option && 'label' in option);
 };
 
-export const getFlattenOptions = (options: SelectOptions): FlattenOptions => {
+export const getFlattenOptions = (options: SelectOptions<unknown, unknown>): FlattenOptions => {
     const flatten = options.reduce<FlattenOption[]>((acc, option) => {
         if ('label' in option) {
             acc.push({label: option.label, disabled: true, data: option.data});
@@ -91,7 +91,19 @@ export const getOptionsHeight = (args: {
     }, 0);
 };
 
-const getOptionText = (option: SelectOption): string => {
+export const serializeOptionValue = (value: unknown): string => {
+    if (typeof value === 'string') {
+        return value;
+    }
+
+    try {
+        return JSON.stringify(value) ?? String(value);
+    } catch {
+        return String(value);
+    }
+};
+
+const getOptionText = (option: SelectOption<unknown, unknown>): string => {
     if (typeof option.content === 'string') {
         return option.content;
     }
@@ -104,23 +116,24 @@ const getOptionText = (option: SelectOption): string => {
         return option.text;
     }
 
-    return option.value;
+    return serializeOptionValue(option.value);
 };
 
 export const getSelectedOptionsContent = (
-    options: SelectOptions,
-    value: string[],
-    renderSelectedOption?: SelectProps['renderSelectedOption'],
+    options: SelectOptions<unknown, unknown>,
+    value: unknown[],
+    renderSelectedOption?: SelectProps<any, any>['renderSelectedOption'],
 ): React.ReactNode => {
     if (value.length === 0) {
         return null;
     }
 
-    const flattenSimpleOptions = options.filter(
-        (opt) => !isSelectGroupTitle(opt),
-    ) as SelectOption[];
+    const flattenSimpleOptions = options.filter((opt) => !isSelectGroupTitle(opt)) as SelectOption<
+        unknown,
+        unknown
+    >[];
 
-    const optionsMap = new Map<string, SelectOption>(
+    const optionsMap = new Map<unknown, SelectOption<unknown, unknown>>(
         flattenSimpleOptions.map((opt) => [opt.value, opt]),
     );
 
@@ -131,7 +144,7 @@ export const getSelectedOptionsContent = (
     if (renderSelectedOption) {
         return selectedOptions.map((option, index) => {
             return (
-                <React.Fragment key={option.value}>
+                <React.Fragment key={`${serializeOptionValue(option.value)}-${index}`}>
                     {renderSelectedOption(option, index)}
                 </React.Fragment>
             );
@@ -145,26 +158,34 @@ export const getSelectedOptionsContent = (
     }
 };
 
-const getTypedChildrenArray = (children: SelectProps['children']) => {
+const getTypedChildrenArray = (children: SelectProps<unknown, unknown>['children']) => {
     return React.Children.toArray(children) as (
-        | React.ReactElement<SelectOption, typeof Option>
-        | React.ReactElement<SelectOptionGroup, typeof OptionGroup>
+        | React.ReactElement<SelectOption<unknown, unknown>, typeof Option>
+        | React.ReactElement<SelectOptionGroup<unknown, unknown>, typeof OptionGroup>
     )[];
 };
 
-const getOptionsFromOptgroupChildren = (children: SelectOptionGroup['children']) => {
+const getOptionsFromOptgroupChildren = (
+    children: SelectOptionGroup<unknown, unknown>['children'],
+) => {
     return (
-        React.Children.toArray(children) as React.ReactElement<SelectOption, typeof Option>[]
-    ).reduce((acc, {props}) => {
-        if ('value' in props) {
-            acc.push(props);
-        }
+        React.Children.toArray(children) as React.ReactElement<
+            SelectOption<unknown, unknown>,
+            typeof Option
+        >[]
+    ).reduce(
+        (acc, {props}) => {
+            if ('value' in props) {
+                acc.push(props);
+            }
 
-        return acc;
-    }, [] as SelectOption[]);
+            return acc;
+        },
+        [] as SelectOption<unknown, unknown>[],
+    );
 };
 
-export const getOptionsFromChildren = (children: SelectProps['children']) => {
+export const getOptionsFromChildren = (children: SelectProps<unknown, unknown>['children']) => {
     return getTypedChildrenArray(children).reduce(
         (acc, {props}) => {
             if ('label' in props) {
@@ -181,7 +202,7 @@ export const getOptionsFromChildren = (children: SelectProps['children']) => {
 
             return acc;
         },
-        [] as (SelectOption | SelectOptionGroup)[],
+        [] as (SelectOption<unknown, unknown> | SelectOptionGroup<unknown, unknown>)[],
     );
 };
 
@@ -248,7 +269,7 @@ const isOptionMatchedByFilter = (option: SelectOption, filter: string) => {
 export const getFilteredFlattenOptions = (args: {
     options: FlattenOption[];
     filter: string;
-    filterOption?: SelectProps['filterOption'];
+    filterOption?: SelectProps<any, any>['filterOption'];
 }) => {
     const {options, filter, filterOption} = args;
     const filteredOptions = options.filter((option) => {

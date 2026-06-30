@@ -3,10 +3,12 @@ import type * as React from 'react';
 import type {ButtonProps} from '../Button';
 import type {QAProps} from '../types';
 
+export type AlertSize = 's' | 'm' | 'l';
 export type AlertTheme = 'clear' | 'normal' | 'info' | 'success' | 'warning' | 'danger' | 'utility';
 export type AlertView = 'filled' | 'outlined';
 export type AlertLayout = 'vertical' | 'horizontal';
 export type AlertCorners = 'rounded' | 'square';
+export type AlertAlign = 'center' | 'baseline';
 
 export type AlertContextType = {
     /**
@@ -17,7 +19,9 @@ export type AlertContextType = {
      * - `horizontal` - right;
      */
     layout: AlertLayout;
+    actionsLayout: AlertLayout;
     view: AlertView;
+    size: AlertSize;
 };
 
 export type AlertContextProviderProps = React.PropsWithChildren<AlertContextType>;
@@ -26,6 +30,7 @@ export interface AlertProps extends QAProps, Partial<AlertContextType> {
     title?: React.ReactNode;
     message?: React.ReactNode;
     theme?: AlertTheme;
+    size?: AlertSize;
     /**
      * Override default icons
      */
@@ -64,10 +69,9 @@ export interface AlertProps extends QAProps, Partial<AlertContextType> {
      * Center all content in vertical direction,
      * useful if for some reason you actions takes more space then text
      * or needed icon to be on the middle of the card
-     *
      * @default - 'baseline'
      */
-    align?: 'center' | 'baseline';
+    align?: AlertAlign;
     style?: React.CSSProperties;
     className?: string;
 }
@@ -80,6 +84,7 @@ export interface AlertAction {
 export interface AlertIconProps {
     theme: AlertTheme;
     view?: AlertView;
+    align?: AlertAlign;
     size?: number;
     className?: string;
 }

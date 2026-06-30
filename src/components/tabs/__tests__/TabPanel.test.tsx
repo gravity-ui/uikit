@@ -1,4 +1,4 @@
-import {TabPanel, TabProvider} from '../';
+import {TabPanel, TabProvider} from '..';
 import {render, screen} from '../../../../test-utils/utils';
 
 import {tab1} from './constants';

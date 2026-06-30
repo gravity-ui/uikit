@@ -12,28 +12,22 @@ The `RadioGroup` component is used to create a group where users can select a si
 
 ### Disabled state
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {RadioGroupOption} from '@gravity-ui/uikit';
+import {RadioGroup} from '@gravity-ui/uikit';
 
-<ExampleBlock
-  code={`
 const options: RadioGroupOption[] = [
-  {value: 'Value 1', content: 'Value 1'},
-  {value: 'Value 2', content: 'Value 2'},
-  {value: 'Value 3', content: 'Value 3'},
+    {value: 'Value 1', content: 'Value 1'},
+    {value: 'Value 2', content: 'Value 2'},
+    {value: 'Value 3', content: 'Value 3'},
 ];
-<RadioGroup name="group2" defaultValue={options[0].value} options={options} disabled/>
-`}
->
-  <UIKit.RadioGroup name="group2" defaultValue="Value 1" options={
-    [
-      {value: 'Value 1', content: 'Value 1'},
-      {value: 'Value 2', content: 'Value 2'},
-      {value: 'Value 3', content: 'Value 3'},
-    ]
-  } disabled/>
-</ExampleBlock>
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <RadioGroup name="group2" defaultValue={options[0].value} options={options} disabled />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -52,44 +46,26 @@ const options: RadioGroupOption[] = [
 
 Use the `size` property to manage the `RadioGroup` size. The default size is `m`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {RadioGroupOption} from '@gravity-ui/uikit';
+import {RadioGroup} from '@gravity-ui/uikit';
 
-<ExampleBlock
-  code={`
 const options: RadioGroupOption[] = [
-  {value: 'Value 1', content: 'Value 1'},
-  {value: 'Value 2', content: 'Value 2'},
-  {value: 'Value 3', content: 'Value 3'},
+    {value: 'Value 1', content: 'Value 1'},
+    {value: 'Value 2', content: 'Value 2'},
+    {value: 'Value 3', content: 'Value 3'},
 ];
-<RadioGroup name="group1" defaultValue={options[0].value} options={options} size="m"/>
-<RadioGroup name="group2" defaultValue={options[0].value} options={options} size="l"/>
-<RadioGroup name="group3" defaultValue={options[0].value} options={options} size="xl"/>
-`}
->
-  <UIKit.RadioGroup name="group1" defaultValue="Value 1" options={
-    [
-      {value: 'Value 1', content: 'Value 1'},
-      {value: 'Value 2', content: 'Value 2'},
-      {value: 'Value 3', content: 'Value 3'},
-    ]
-  } size="m"/>
-  <UIKit.RadioGroup name="group2" defaultValue="Value 1" options={
-    [
-      {value: 'Value 1', content: 'Value 1'},
-      {value: 'Value 2', content: 'Value 2'},
-      {value: 'Value 3', content: 'Value 3'},
-    ]
-  } size="l"/>
-  <UIKit.RadioGroup name="group3" defaultValue="Value 1" options={
-    [
-      {value: 'Value 1', content: 'Value 1'},
-      {value: 'Value 2', content: 'Value 2'},
-      {value: 'Value 3', content: 'Value 3'},
-    ]
-  } size="xl"/>
-</ExampleBlock>
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <RadioGroup name="group1" defaultValue={options[0].value} options={options} size="m" />
+            <RadioGroup name="group2" defaultValue={options[0].value} options={options} size="l" />
+            <RadioGroup name="group3" defaultValue={options[0].value} options={options} size="xl" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -110,36 +86,35 @@ LANDING_BLOCK-->
 
 Use the `direction` property to manage the `RadioGroup` direction. The default direction is `horizontal`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {RadioGroupOption} from '@gravity-ui/uikit';
+import {RadioGroup} from '@gravity-ui/uikit';
 
-<ExampleBlock
-  code={`
 const options: RadioGroupOption[] = [
-  {value: 'Value 1', content: 'Value 1'},
-  {value: 'Value 2', content: 'Value 2'},
-  {value: 'Value 3', content: 'Value 3'},
+    {value: 'Value 1', content: 'Value 1'},
+    {value: 'Value 2', content: 'Value 2'},
+    {value: 'Value 3', content: 'Value 3'},
 ];
-<RadioGroup name="group1" defaultValue={options[0].value} options={options} direction="horizontal"/>
-<RadioGroup name="group2" defaultValue={options[0].value} options={options} direction="vertical"/>
-`}
->
-  <UIKit.RadioGroup name="group1" defaultValue="Value 1" options={
-    [
-      {value: 'Value 1', content: 'Value 1'},
-      {value: 'Value 2', content: 'Value 2'},
-      {value: 'Value 3', content: 'Value 3'},
-    ]
-  } direction="horizontal"/>
-  <UIKit.RadioGroup name="group2" defaultValue="Value 1" options={
-    [
-      {value: 'Value 1', content: 'Value 1'},
-      {value: 'Value 2', content: 'Value 2'},
-      {value: 'Value 3', content: 'Value 3'},
-    ]
-  } direction="vertical"/>
-</ExampleBlock>
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <RadioGroup
+                name="group1"
+                defaultValue={options[0].value}
+                options={options}
+                direction="horizontal"
+            />
+            <RadioGroup
+                name="group2"
+                defaultValue={options[0].value}
+                options={options}
+                direction="vertical"
+            />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -176,30 +151,26 @@ LANDING_BLOCK-->
 
 The `RadioGroup` component also exports a nested `Option` component equivalent to `Radio`, which can be used to create radio options within the `RadioGroup`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {RadioGroupOption} from '@gravity-ui/uikit';
+import {RadioGroup} from '@gravity-ui/uikit';
 
-<ExampleBlock
-  code={`
 const options: RadioGroupOption[] = [
-  {value: 'Value 1', content: 'Value 1'},
-  {value: 'Value 2', content: 'Value 2'},
-  {value: 'Value 3', content: 'Value 3'},
+    {value: 'Value 1', content: 'Value 1'},
+    {value: 'Value 2', content: 'Value 2'},
+    {value: 'Value 3', content: 'Value 3'},
 ];
-<RadioGroup name="group1" defaultValue={options[0].value}>
-  <RadioGroup.Option content={options[0].content} value={options[0].value} />
-  <RadioGroup.Option content={options[1].content} value={options[1].value} />
-  <RadioGroup.Option content={options[2].content} value={options[2].value} />
-</RadioGroup>
-`}
->
-<UIKit.RadioGroup name="group1" defaultValue="Value 1">
-  <UIKit.RadioGroup.Option content="Value 1" value="Value 1" />
-  <UIKit.RadioGroup.Option content="Value 2" value="Value 2" />
-  <UIKit.RadioGroup.Option content="Value 3" value="Value 3" />
-</UIKit.RadioGroup>
-</ExampleBlock>
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <RadioGroup name="group1" defaultValue={options[0].value}>
+            <RadioGroup.Option content={options[0].content} value={options[0].value} />
+            <RadioGroup.Option content={options[1].content} value={options[1].value} />
+            <RadioGroup.Option content={options[2].content} value={options[2].value} />
+        </RadioGroup>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

@@ -79,6 +79,12 @@ This HOC adds a special column with actions to table columns.
 | rowActionsSize   | Size of the action button and popup menu items |                 `"s"` `"m"` `"l"` `"xl"`                 |
 | rowActionsIcon   | Custom Icon for Actions Cell                   |                    `React.ReactNode`                     |
 
+### CSS API
+
+| Name                                     | Description                                                                             |
+| :--------------------------------------- | :-------------------------------------------------------------------------------------- |
+| `--g-table-action-popup-menu-max-height` | Max height of the actions popup menu. Default: `200px`. Use `none` to remove the limit. |
+
 ### TableActionConfig
 
 ```ts

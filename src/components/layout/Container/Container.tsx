@@ -38,7 +38,7 @@ export interface ContainerProps extends QAProps {
      * By default takes props via `LayoutContext`
      */
     spaceRow?: Space | MediaPartial<Space>;
-    as?: keyof JSX.IntrinsicElements;
+    as?: keyof React.JSX.IntrinsicElements;
 }
 
 /**

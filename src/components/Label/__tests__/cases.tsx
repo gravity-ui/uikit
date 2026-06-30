@@ -1,4 +1,5 @@
-import type {Cases} from '../../../stories/tests-factory/models';
+import type {Cases} from '@gravity-ui/playwright-tools/component-tests';
+
 import type {LabelProps} from '../Label';
 
 export const disabledCases: Cases<LabelProps['disabled']> = [true];
@@ -12,4 +13,4 @@ export const themeCases: Cases<LabelProps['theme']> = [
     'unknown',
     'clear',
 ];
-export const sizeCases: Cases<LabelProps['size']> = ['xs', 's', 'm'];
+export const sizeCases: Cases<LabelProps['size']> = ['xxs', 'xs', 's', 'm'];

@@ -1,6 +1,6 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
 
 import {
     actionsCases,
@@ -63,7 +63,7 @@ test.describe('PlaceholderContainer', {tag: '@PlaceholderContainer'}, () => {
         maxWidth: maxWidthCases,
     } as const;
 
-    smokeTest('', async ({mount, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<TestPlaceholderContainerProps>(
             {
                 title: 'Title',

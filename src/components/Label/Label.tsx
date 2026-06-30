@@ -8,6 +8,7 @@ import {ClipboardIcon} from '../ClipboardIcon';
 import {CopyToClipboard} from '../CopyToClipboard';
 import type {CopyToClipboardStatus} from '../CopyToClipboard';
 import {Icon} from '../Icon';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
@@ -18,6 +19,7 @@ import './Label.scss';
 const b = block('label');
 
 const iconSizeMap: Record<NonNullable<LabelProps['size']>, number> = {
+    xxs: 12,
     xs: 12,
     s: 14,
     m: 16,
@@ -53,7 +55,7 @@ export interface LabelProps extends QAProps {
     /** Label type (plain, with copy text button, with close button, or with info icon) */
     type?: 'default' | 'copy' | 'close' | 'info';
     /** Label size */
-    size?: 'xs' | 's' | 'm';
+    size?: 'xxs' | 'xs' | 's' | 'm';
     /** Container width behavior */
     width?: 'auto';
     /** Browser title for Label */
@@ -62,9 +64,10 @@ export interface LabelProps extends QAProps {
 }
 
 export const Label = React.forwardRef(function Label(
-    props: LabelProps,
+    rawProps: LabelProps,
     ref: React.Ref<HTMLDivElement>,
 ) {
+    const props = useDefaultProps('Label', rawProps);
     const {
         type = 'default',
         theme = 'normal',

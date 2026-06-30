@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import {useDefaultProps} from '../theme/useDefaultProps';
 import {filterDOMProps} from '../utils/filterDOMProps';
 import {isOfType} from '../utils/isOfType';
 import {warnOnce} from '../utils/warn';
@@ -11,16 +12,17 @@ import type {DefinitionListProps} from './types';
 
 import './DefinitionList.scss';
 
-export function DefinitionList({
-    responsive,
-    direction = 'horizontal',
-    nameMaxWidth,
-    contentMaxWidth,
-    className,
-    children,
-    qa,
-    ...restProps
-}: DefinitionListProps) {
+export function DefinitionList(rawProps: DefinitionListProps) {
+    const {
+        responsive,
+        direction = 'horizontal',
+        nameMaxWidth,
+        contentMaxWidth,
+        className,
+        children,
+        qa,
+        ...restProps
+    } = useDefaultProps('DefinitionList', rawProps);
     const normalizedChildren = prepareChildren(children);
     const withCopy = normalizedChildren.some((item) => item.props.copyText);
 

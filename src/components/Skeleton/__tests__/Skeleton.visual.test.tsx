@@ -1,11 +1,12 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {SkeletonProps} from '../Skeleton';
 import {Skeleton} from '../Skeleton';
 
 test.describe('Skeleton', {tag: '@Skeleton'}, () => {
-    smokeTest('', async ({mount, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const defaultProps: SkeletonProps = {
             className: '',
             style: {

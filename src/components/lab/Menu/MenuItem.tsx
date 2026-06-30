@@ -62,6 +62,7 @@ export const MenuItem = React.forwardRef(
         } = props;
         const [submenuOpen, setSubmenuOpen] = React.useState(false);
         const [hasFocusInside, setHasFocusInside] = React.useState(false);
+        const [isHovered, setIsHovered] = React.useState(false);
 
         const isRTL = useDirection() === 'rtl';
 
@@ -125,6 +126,14 @@ export const MenuItem = React.forwardRef(
             setHasFocusInside(false);
             menuItemContext?.setHasFocusInside(true);
         };
+        const handlePointerEnter = (event: React.PointerEvent) => {
+            props.onPointerEnter?.(event);
+            setIsHovered(true);
+        };
+        const handlePointerLeave = (event: React.PointerEvent) => {
+            props.onPointerLeave?.(event);
+            setIsHovered(false);
+        };
 
         let component: React.ElementType;
         let componentProps: React.ComponentProps<typeof component>;
@@ -143,6 +152,8 @@ export const MenuItem = React.forwardRef(
                 ...restComponentProps,
                 onClick: handleClick,
                 onFocus: handleFocus,
+                onPointerEnter: handlePointerEnter,
+                onPointerLeave: handlePointerLeave,
             }),
         };
 
@@ -178,8 +189,8 @@ export const MenuItem = React.forwardRef(
                 ref={handleRef}
                 size={menuContext.size}
                 disabled={disabled}
-                active={isActive && !hasFocusInside}
-                hovered={hasFocusInside || (!isActive && submenuOpen)}
+                active={isActive && !hasFocusInside && !isHovered}
+                hovered={hasFocusInside || (!isActive && submenuOpen) || isHovered}
                 selected={selected}
                 selectionStyle="highlight"
             >

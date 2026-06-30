@@ -1,12 +1,13 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import {Progress} from '../Progress';
 
 import {loadingCases, sizeCases, themeCases} from './cases';
 
 test.describe('Progress', {tag: '@Progress'}, () => {
-    smokeTest('smoke', async ({mount, expectScreenshot}) => {
+    test('smoke smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(
             {},
             {
@@ -34,7 +35,7 @@ test.describe('Progress', {tag: '@Progress'}, () => {
         });
     });
 
-    smokeTest('smoke, with color stops', async ({mount, expectScreenshot}) => {
+    test('smoke smoke, with color stops', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(
             {},
             {
@@ -73,7 +74,7 @@ test.describe('Progress', {tag: '@Progress'}, () => {
         });
     });
 
-    smokeTest('smoke, with stack', async ({mount, expectScreenshot}) => {
+    test('smoke smoke, with stack', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(
             {},
             {

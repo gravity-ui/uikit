@@ -1,6 +1,7 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {TextAreaProps} from '../TextArea';
 import {TextArea} from '../TextArea';
 
@@ -37,7 +38,7 @@ test.describe('TextArea', {tag: '@TextArea'}, () => {
         validationState: validationStateCases,
     } as const;
 
-    smokeTest('empty', async ({mount, expectScreenshot}) => {
+    test('smoke empty', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(defaultProps, commonPropCases);
 
         await mount(
@@ -58,7 +59,7 @@ test.describe('TextArea', {tag: '@TextArea'}, () => {
         });
     });
 
-    smokeTest('with value', async ({mount, expectScreenshot}) => {
+    test('smoke with value', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(
             {
                 ...defaultProps,
@@ -85,7 +86,7 @@ test.describe('TextArea', {tag: '@TextArea'}, () => {
         });
     });
 
-    smokeTest('with error', async ({mount, expectScreenshot}) => {
+    test('smoke with error', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(
             {
                 ...defaultProps,

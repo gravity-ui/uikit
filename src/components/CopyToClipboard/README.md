@@ -23,36 +23,27 @@ There are three available statuses: pending, success, and error.
 
 The `timeout` option sets the time in ms to restore the initial (`pending`) status after one of the result statuses (`success` or `error`).
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Button, CopyToClipboard} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
 const buttonText = {
-  pending: 'Click Me',
-  success: 'Copied!',
-  error: "Couldn't copy...",
+    pending: 'Click Me',
+    success: 'Copied!',
+    error: "Couldn't copy...",
 };
 
-<CopyToClipboard text="Some text to copy" timeout={500}>
-    {(status) => <Button view="normal" size="l">buttonText[status]</Button>
-</CopyToClipboard>
-`}>
-    <UIKit.CopyToClipboard
-        text="Some text to copy"
-        timeout={500}
-        children={(status) => {
-            const buttonText = {
-              pending: 'Click Me',
-              success: 'Copied!',
-              error: "Couldn't copy...",
-            };
-
-            return <UIKit.Button view="normal" size="l">{buttonText[status]}</UIKit.Button>;
-        }}
-    />
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <CopyToClipboard text="Some text to copy" timeout={500}>
+            {(status) => (
+                <Button view="normal" size="l">
+                    {buttonText[status]}
+                </Button>
+            )}
+        </CopyToClipboard>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

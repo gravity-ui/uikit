@@ -1,4 +1,4 @@
-import {smokeTest, test} from '~playwright/core';
+import {test} from '~playwright/core';
 
 import {DEFAULT_LAYOUT_THEME} from '../../constants';
 
@@ -9,8 +9,9 @@ test.describe('Container', {tag: '@Container'}, () => {
 
     Object.entries(DEFAULT_LAYOUT_THEME.breakpoints).forEach(
         ([breakpointName, breakpointWidthPx]) => {
-            smokeTest(
-                `render story <Default> - ${breakpointName}`,
+            test(
+                `smoke render story <Default> - ${breakpointName}`,
+                {tag: ['@smoke']},
                 async ({mount, expectScreenshot, page}) => {
                     const props = {
                         spaceRow: {m: '1'},

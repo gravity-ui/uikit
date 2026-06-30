@@ -27,6 +27,7 @@ import {useAnimateHeight} from '../../hooks/private';
 import {useFloatingTransition} from '../../hooks/private/useFloatingTransition';
 import {Portal} from '../Portal';
 import type {PortalProps} from '../Portal';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
@@ -100,7 +101,7 @@ export interface ModalProps
     /** Callback called when `Popup` is closed and "out" transition is completed */
     onTransitionOutComplete?: () => void;
     contentOverflow?: 'visible' | 'auto';
-    floatingRef?: React.RefObject<HTMLDivElement>;
+    floatingRef?: React.RefObject<HTMLDivElement | null>;
     disableHeightTransition?: boolean;
 }
 
@@ -108,36 +109,37 @@ const b = block('modal');
 
 const TRANSITION_DURATION = 150;
 
-function ModalComponent({
-    open = false,
-    onOpenChange,
-    keepMounted = false,
-    disableBodyScrollLock = false,
-    disableEscapeKeyDown,
-    disableOutsideClick,
-    initialFocus,
-    returnFocus,
-    disableVisuallyHiddenDismiss,
-    onEscapeKeyDown,
-    onOutsideClick,
-    onClose,
-    onEnterKeyDown,
-    onTransitionIn,
-    onTransitionInComplete,
-    onTransitionOut,
-    onTransitionOutComplete,
-    children,
-    style,
-    contentOverflow = 'visible',
-    className,
-    contentClassName,
-    container,
-    disablePortal,
-    qa,
-    floatingRef,
-    disableHeightTransition = false,
-    ...restProps
-}: ModalProps) {
+function ModalComponent(rawProps: ModalProps) {
+    const {
+        open = false,
+        onOpenChange,
+        keepMounted = false,
+        disableBodyScrollLock = false,
+        disableEscapeKeyDown,
+        disableOutsideClick,
+        initialFocus,
+        returnFocus,
+        disableVisuallyHiddenDismiss,
+        onEscapeKeyDown,
+        onOutsideClick,
+        onClose,
+        onEnterKeyDown,
+        onTransitionIn,
+        onTransitionInComplete,
+        onTransitionOut,
+        onTransitionOutComplete,
+        children,
+        style,
+        contentOverflow = 'visible',
+        className,
+        contentClassName,
+        container,
+        disablePortal,
+        qa,
+        floatingRef,
+        disableHeightTransition = false,
+        ...restProps
+    } = useDefaultProps('Modal', rawProps);
     useLayer({open, type: 'modal'});
 
     const overlayRef = React.useRef<HTMLDivElement>(null);
@@ -180,7 +182,13 @@ function ModalComponent({
         onOpenChange: handleOpenChange,
     });
 
-    const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
+    const handleFloatingRef = useForkRef<HTMLDivElement>(
+        refs.setFloating,
+        /*
+         *  TODO: Remove casting in React 19 (https://github.com/gravity-ui/uikit/issues/2537)
+         */
+        floatingRef as React.Ref<HTMLDivElement>,
+    );
 
     const dismiss = useDismiss(context, {
         enabled: !disableOutsideClick || !disableEscapeKeyDown,

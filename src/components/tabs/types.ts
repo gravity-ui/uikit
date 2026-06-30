@@ -18,7 +18,9 @@ export interface TabListProps
     onUpdate?: (value: string) => void;
     value?: string;
     size?: TabSize;
-    // contentOverflow?: 'wrap';
+    contentOverflow?: 'wrap' | 'scroll' | 'collapse';
+    /** Label for the collapse overflow trigger when the active tab is visible in the list */
+    moreLabel?: React.ReactNode;
     activateOnFocus?: boolean;
     children?: React.ReactNode;
 }
@@ -33,6 +35,8 @@ interface TabCommonProps extends QAProps, DOMProps {
     };
     disabled?: boolean;
     children?: React.ReactNode;
+    /** Tab was collapsed and rendered in `Menu` */
+    isMenuItem?: boolean;
 }
 
 export interface TabButtonProps
@@ -68,4 +72,11 @@ export interface TabPanelProps
         Omit<React.HTMLAttributes<HTMLDivElement>, 'style'> {
     value: string;
     children?: React.ReactNode;
+}
+
+export interface TabListCollapseItemProps {
+    children: React.ReactNode;
+    triggerChild?: React.ReactNode;
+    moreLabel?: React.ReactNode;
+    size?: TabSize;
 }

@@ -1,13 +1,14 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {CheckboxProps} from '../Checkbox';
 import {Checkbox} from '../Checkbox';
 
 import {checkedCases, disabledCases, indeterminateCases, sizeCases} from './cases';
 
 test.describe('Checkbox', {tag: '@Checkbox'}, () => {
-    smokeTest('', async ({mount, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<CheckboxProps>(
             {
                 name: '',

@@ -1,6 +1,7 @@
-import {expect, smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {expect, test} from '~playwright/core';
+
 import type {SheetProps} from '../Sheet';
 import {DEFAULT_SHEET_QA} from '../__stories__/constants';
 
@@ -8,6 +9,9 @@ import {hideTopBarCases, titleCases} from './cases';
 import {QASheet} from './constants';
 import {TestSheet} from './helpers';
 import {SheetStories} from './helpersPlaywright';
+
+// iPhone-like safe-area insets: sides wider than the 10px fallback, bottom > 0
+const NOTCH_DEVICE_SAFE_AREA_INSETS = {top: 50, left: 44, right: 44, bottom: 34};
 
 test.describe('Sheet', {tag: '@Sheet'}, () => {
     test('render story: <Default>', async ({page, mount, expectScreenshot}) => {
@@ -20,8 +24,37 @@ test.describe('Sheet', {tag: '@Sheet'}, () => {
         await expect(sheetLocator).toBeVisible();
 
         await expectScreenshot({
-            animations: 'disabled',
-            component: sheetLocator,
+            locator: sheetLocator,
+            options: {animations: 'disabled'},
+        });
+    });
+
+    test('safe-area: content padding on a device with a notch', async ({
+        page,
+        mount,
+        expectScreenshot,
+    }) => {
+        await page.setViewportSize({width: 390, height: 844});
+
+        // Set real env(safe-area-inset-*) via experimental CDP method
+        const cdpSession = await page.context().newCDPSession(page);
+        await cdpSession.send('Emulation.setSafeAreaInsetsOverride', {
+            insets: NOTCH_DEVICE_SAFE_AREA_INSETS,
+        });
+
+        const root = await mount(<TestSheet />, {
+            rootStyle: {
+                padding: 0,
+                width: '100%',
+                minHeight: '844px',
+            },
+        });
+
+        await root.locator('button').click();
+        await expect(page.locator(`[data-qa='${QASheet.content}']`)).toBeVisible();
+
+        await expectScreenshot({
+            themes: ['light'],
         });
     });
 
@@ -32,7 +65,7 @@ test.describe('Sheet', {tag: '@Sheet'}, () => {
             title: titleCases,
         },
     ).forEach(([title, props]) => {
-        smokeTest(title, async ({mount, page, expectScreenshot}) => {
+        test(`smoke ${title}`, {tag: ['@smoke']}, async ({mount, page, expectScreenshot}) => {
             await page.setViewportSize({width: 500, height: 500});
 
             const root = await mount(<TestSheet {...props} />, {

@@ -7,7 +7,7 @@ import {DisclosureQa} from '../constants';
 
 const qaId = 'disclosure-component';
 
-describe.only('Disclosure', () => {
+describe('Disclosure', () => {
     test('render disclosure by default', () => {
         render(<Disclosure />);
         const disclosure = screen.getByRole('button');

@@ -10,7 +10,7 @@ export const TestAvatarStack = (props: AvatarStackProps & {avatarCount?: number}
     const {avatarCount, ...restProps} = props;
 
     const avatarNodes = Array.from({length: avatarCount || DEFAULT_AVATAR_COUNT}, (_, index) => {
-        return <Avatar key={index} icon={FaceRobot} />;
+        return <Avatar key={index} icon={FaceRobot} size={restProps.size} />;
     });
 
     return <AvatarStack {...restProps}>{...avatarNodes}</AvatarStack>;

@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {isIcon, isSvg} from '../utils/common';
@@ -35,7 +36,7 @@ export type ButtonPin =
 
 export type ButtonWidth = 'auto' | 'max';
 
-interface ButtonCommonProps extends QAProps, DOMProps {
+export interface ButtonCommonProps extends QAProps, DOMProps {
     view?: ButtonView;
     size?: ButtonSize;
     pin?: ButtonPin;
@@ -94,12 +95,13 @@ export type ButtonProps<T extends ButtonCustomElementType = undefined> =
 const b = block('button');
 
 const _Button = React.forwardRef(function Button<T extends ButtonCustomElementType>(
-    props: ButtonProps<T>,
+    rawProps: ButtonProps<T>,
     ref:
         | React.Ref<HTMLButtonElement>
         | React.Ref<HTMLAnchorElement>
         | React.Ref<T extends string ? React.ComponentRef<T> : T>,
 ) {
+    const props = useDefaultProps('Button', rawProps);
     const {
         view = 'normal',
         size = 'm',
@@ -112,6 +114,8 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
         extraProps,
         qa,
         onClickCapture,
+        // service prop, must not be forwarded to the rendered element via `...rest`
+        component: _component,
         ...rest
     } = props;
 
@@ -149,12 +153,15 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
             rest.className,
         ),
         'data-qa': qa,
+        // Always set a tabIndex so that Safari allows focusing native buttons
+        tabIndex: rest.tabIndex ?? extraProps?.tabIndex ?? (disabled ? undefined : 0),
     };
 
     if (isButtonComponentProps(props)) {
         return React.createElement(
             props.component,
             {
+                role: 'button',
                 ...rest,
                 ...extraProps,
                 ...commonProps,

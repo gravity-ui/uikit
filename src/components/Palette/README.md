@@ -14,36 +14,26 @@ The `Palette` component is used to display a grid of icons, emojis, reactions, a
 
 You can disable every option using the `disabled` property. If you want to disable only certain options, you can change the `disabled` property of those `options` (`PaletteOption[]`).
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {PaletteOption} from '@gravity-ui/uikit';
+import {Palette} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
 const options: PaletteOption[] = [
     {content: '😎', value: 'ID-cool'},
     {content: '🥴', value: 'ID-woozy'},
 ];
-// disable the first item
-<Palette options={[{ ...options[0], disabled: true }, options[1]]} disabled={true} />
-// or disable all of them
-<Palette options={options} disabled={true} />
-`}
->
-    <UIKit.Palette
-        options={[
-            {content: '😎', value: 'ID-cool', disabled: true},
-            {content: '🥴', value: 'ID-woozy'},
-        ]}
-    />
-    <UIKit.Palette
-        options={[
-            {content: '😎', value: 'ID-cool'},
-            {content: '🥴', value: 'ID-woozy'},
-        ]}
-        disabled={true}
-    />
-</ExampleBlock>
 
-LANDING_BLOCK-->
+const disabledOptions: PaletteOption[] = [{...options[0], disabled: true}, options[1]];
+
+export default function () {
+    return (
+        <>
+            <Palette options={disabledOptions} />
+            <Palette options={options} disabled />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -63,59 +53,27 @@ const options: PaletteOption[] = [
 
 Use the `size` property to manage the `Palette` size. The default size is `s`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {PaletteOption} from '@gravity-ui/uikit';
+import {Palette} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
 const options: PaletteOption[] = [
     {content: '😎', value: 'ID-cool'},
     {content: '🥴', value: 'ID-woozy'},
 ];
-<Palette options={options} size={"xs"} />
-<Palette options={options} size={"s"} />
-<Palette options={options} size={"m"} />
-<Palette options={options} size={"l"} />
-<Palette options={options} size={"xl"} />
-`}
->
-    <UIKit.Palette
-        options={[
-            {content: '😎', value: 'ID-cool'},
-            {content: '🥴', value: 'ID-woozy'},
-        ]}
-        size="xs"
-    />
-    <UIKit.Palette
-        options={[
-            {content: '😎', value: 'ID-cool'},
-            {content: '🥴', value: 'ID-woozy'},
-        ]}
-        size="s"
-    />
-    <UIKit.Palette
-        options={[
-            {content: '😎', value: 'ID-cool'},
-            {content: '🥴', value: 'ID-woozy'},
-        ]}
-        size="m"
-    />
-    <UIKit.Palette
-        options={[
-            {content: '😎', value: 'ID-cool'},
-            {content: '🥴', value: 'ID-woozy'},
-        ]}
-        size="l"
-    />
-    <UIKit.Palette
-        options={[
-            {content: '😎', value: 'ID-cool'},
-            {content: '🥴', value: 'ID-woozy'},
-        ]}
-        size="xl"
-    />
-</ExampleBlock>
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <Palette options={options} size="xs" />
+            <Palette options={options} size="s" />
+            <Palette options={options} size="m" />
+            <Palette options={options} size="l" />
+            <Palette options={options} size="xl" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -137,27 +95,19 @@ const options: PaletteOption[] = [
 
 You can change the number of columns in the grid by changing the `columns` property (the default value is `6`).
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {PaletteOption} from '@gravity-ui/uikit';
+import {Palette} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
 const options: PaletteOption[] = [
     {content: '😎', value: 'ID-cool'},
     {content: '🥴', value: 'ID-woozy'},
 ];
-<Palette options={options} columns={1} />
-`}
->
-    <UIKit.Palette
-        options={[
-            {content: '😎', value: 'ID-cool'},
-            {content: '🥴', value: 'ID-woozy'},
-        ]}
-        columns={1}
-    />
-</ExampleBlock>
 
-LANDING_BLOCK-->
+export default function () {
+    return <Palette options={options} columns={1} />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -175,27 +125,19 @@ const options: PaletteOption[] = [
 
 By default, you can select and deselect multiple options. In case you only want to make a single option selectable, you can disable the `multiple` property.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {PaletteOption} from '@gravity-ui/uikit';
+import {Palette} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
 const options: PaletteOption[] = [
     {content: '😎', value: 'ID-cool'},
     {content: '🥴', value: 'ID-woozy'},
 ];
-<Palette options={options} multiple={false} />
-`}
->
-    <UIKit.Palette
-        options={[
-            {content: '😎', value: 'ID-cool'},
-            {content: '🥴', value: 'ID-woozy'},
-        ]}
-        multiple={false}
-    />
-</ExampleBlock>
 
-LANDING_BLOCK-->
+export default function () {
+    return <Palette options={options} multiple={false} />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

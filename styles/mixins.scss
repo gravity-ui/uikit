@@ -362,3 +362,7 @@
         background: var(--g-color-scroll-handle-hover);
     }
 }
+
+@mixin focus-outline() {
+    outline: 2px solid var(--g-color-line-focus);
+}

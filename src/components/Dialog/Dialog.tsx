@@ -2,8 +2,9 @@
 
 import * as React from 'react';
 
-import {Modal} from '../Modal';
 import type {ModalCloseReason, ModalProps} from '../Modal';
+import {Modal} from '../Modal';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
@@ -13,8 +14,8 @@ import {DialogBody} from './DialogBody/DialogBody';
 import {DialogDivider} from './DialogDivider/DialogDivider';
 import {DialogFooter} from './DialogFooter/DialogFooter';
 import {DialogHeader} from './DialogHeader/DialogHeader';
-import {DialogPrivateContext} from './DialogPrivateContext';
 import type {DialogPrivateContextProps} from './DialogPrivateContext';
+import {DialogPrivateContext} from './DialogPrivateContext';
 
 import './Dialog.scss';
 
@@ -39,7 +40,6 @@ export interface DialogProps extends AriaLabelingProps, QAProps {
     modalClassName?: string;
     size?: 's' | 'm' | 'l';
     container?: HTMLElement;
-    // TODO: Remove from readme disableFocusTrap disableAutoFocus
     initialFocus?: ModalProps['initialFocus'] | 'cancel' | 'apply';
     returnFocus?: ModalProps['returnFocus'];
     contentOverflow?: 'visible' | 'auto';
@@ -51,34 +51,35 @@ export interface DialogProps extends AriaLabelingProps, QAProps {
     disableHeightTransition?: boolean;
 }
 
-export function Dialog({
-    container,
-    children,
-    open,
-    disableBodyScrollLock = false,
-    disableEscapeKeyDown = false,
-    disableOutsideClick = false,
-    initialFocus,
-    returnFocus,
-    keepMounted = false,
-    size,
-    contentOverflow = 'visible',
-    className,
-    modalClassName,
-    hasCloseButton = true,
-    disableHeightTransition = false,
-    onEscapeKeyDown,
-    onEnterKeyDown,
-    onOpenChange,
-    onOutsideClick,
-    onClose,
-    onTransitionIn,
-    onTransitionInComplete,
-    onTransitionOut,
-    onTransitionOutComplete,
-    qa,
-    ...restProps
-}: DialogProps) {
+export function Dialog(rawProps: DialogProps) {
+    const {
+        container,
+        children,
+        open,
+        disableBodyScrollLock = false,
+        disableEscapeKeyDown = false,
+        disableOutsideClick = false,
+        initialFocus,
+        returnFocus,
+        keepMounted = false,
+        size,
+        contentOverflow = 'visible',
+        className,
+        modalClassName,
+        hasCloseButton = true,
+        disableHeightTransition = false,
+        onEscapeKeyDown,
+        onEnterKeyDown,
+        onOpenChange,
+        onOutsideClick,
+        onClose,
+        onTransitionIn,
+        onTransitionInComplete,
+        onTransitionOut,
+        onTransitionOutComplete,
+        qa,
+        ...restProps
+    } = useDefaultProps('Dialog', rawProps);
     const handleCloseButtonClick = React.useCallback(
         (event: React.MouseEvent) => {
             onClose(event.nativeEvent, 'closeButtonClick');
@@ -148,11 +149,11 @@ export function Dialog({
                     className,
                 )}
             >
+                {hasCloseButton && <ButtonClose onClose={handleCloseButtonClick} />}
+
                 <DialogPrivateContext.Provider value={privateContextProps}>
                     {children}
                 </DialogPrivateContext.Provider>
-
-                {hasCloseButton && <ButtonClose onClose={handleCloseButtonClick} />}
             </div>
         </Modal>
     );

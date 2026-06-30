@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event';
 
-import {Tab, TabList} from '../';
+import {Tab, TabList} from '..';
 import {act, render, screen} from '../../../../test-utils/utils';
 import {KeyCode} from '../../../constants';
 import type {TabSize} from '../types';
@@ -106,6 +106,31 @@ test('should call onUpdate on tab click', async () => {
 
     await user.click(tabComponent1);
     expect(onUpdateFn).toHaveBeenCalledWith(tab1.value);
+});
+
+test('should not call onUpdate if default prevented', async () => {
+    const onUpdateFn = jest.fn();
+    const user = userEvent.setup();
+
+    render(
+        <TabList onUpdate={onUpdateFn}>
+            <Tab value={tab1.value} qa={tab1.qa} onClick={(e) => e.preventDefault()}>
+                {tab1.title}
+            </Tab>
+            <Tab value={tab2.value} qa={tab2.qa}>
+                {tab2.title}
+            </Tab>
+        </TabList>,
+    );
+
+    const tabComponent1 = screen.getByTestId(tab1.qa);
+    const tabComponent2 = screen.getByTestId(tab2.qa);
+
+    await user.click(tabComponent1);
+    await user.click(tabComponent2);
+
+    expect(onUpdateFn).toBeCalledTimes(1);
+    expect(onUpdateFn).toHaveBeenCalledWith(tab2.value);
 });
 
 test('should wrap tabs', () => {
@@ -255,4 +280,129 @@ it('move focus to the first/last tab on HOME/END button', async () => {
 
     await user.keyboard(`{${KeyCode.HOME}}`);
     expect(tabs[0]).toHaveFocus();
+});
+
+function makeDOMRect(width: number): DOMRect {
+    return {
+        width,
+        height: 40,
+        x: 0,
+        y: 0,
+        top: 0,
+        right: width,
+        bottom: 40,
+        left: 0,
+        toJSON: () => ({}),
+    } as DOMRect;
+}
+
+function mockNarrowContainer() {
+    return jest.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(function (
+        this: Element,
+    ) {
+        if (this.classList.contains('g-tab-list')) return makeDOMRect(50);
+        if (this.classList.contains('g-tab-list-collapse-item')) return makeDOMRect(80);
+        return makeDOMRect(100); // tabs
+    });
+}
+
+test('contentOverflow collapse: shows More button when some tabs overflow', () => {
+    // Container 280px: More(80) + Tab1(100) + Tab2(100) = 280 fits, Tab3(100) would exceed
+    const spy = jest.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(function (
+        this: Element,
+    ) {
+        if (this.classList.contains('g-tab-list')) return makeDOMRect(280);
+        if (this.classList.contains('g-tab-list-collapse-item')) return makeDOMRect(80);
+        return makeDOMRect(100);
+    });
+
+    render(
+        <TabList contentOverflow="collapse" value={tab1.value}>
+            <Tab value={tab1.value} qa={tab1.qa}>
+                {tab1.title}
+            </Tab>
+            <Tab value={tab2.value} qa={tab2.qa}>
+                {tab2.title}
+            </Tab>
+            <Tab value={tab3.value} qa={tab3.qa}>
+                {tab3.title}
+            </Tab>
+        </TabList>,
+    );
+
+    const trigger = screen.getByRole('button', {name: /more/i});
+    expect(trigger).toHaveClass('g-tab-list-collapse-item');
+    expect(screen.getByTestId(tab1.qa)).toBeVisible();
+    expect(screen.getByTestId(tab2.qa)).toBeVisible();
+    // tab3 is collapsed into the closed menu — not mounted
+    expect(screen.queryByTestId(tab3.qa)).not.toBeInTheDocument();
+
+    spy.mockRestore();
+});
+
+test('contentOverflow collapse: supports custom moreLabel', () => {
+    const spy = jest.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(function (
+        this: Element,
+    ) {
+        if (this.classList.contains('g-tab-list')) return makeDOMRect(280);
+        if (this.classList.contains('g-tab-list-collapse-item')) return makeDOMRect(80);
+        return makeDOMRect(100);
+    });
+
+    render(
+        <TabList contentOverflow="collapse" value={tab1.value} moreLabel="Ещё">
+            <Tab value={tab1.value} qa={tab1.qa}>
+                {tab1.title}
+            </Tab>
+            <Tab value={tab2.value} qa={tab2.qa}>
+                {tab2.title}
+            </Tab>
+            <Tab value={tab3.value} qa={tab3.qa}>
+                {tab3.title}
+            </Tab>
+        </TabList>,
+    );
+
+    expect(screen.getByRole('button', {name: /ещё/i})).toBeInTheDocument();
+
+    spy.mockRestore();
+});
+
+test('contentOverflow collapse: with narrow container shows selected tab as trigger', () => {
+    const spy = mockNarrowContainer();
+
+    render(
+        <TabList contentOverflow="collapse" value={tab1.value}>
+            <Tab value={tab1.value} qa={tab1.qa}>
+                {tab1.title}
+            </Tab>
+            <Tab value={tab2.value} qa={tab2.qa}>
+                {tab2.title}
+            </Tab>
+        </TabList>,
+    );
+
+    const trigger = screen.getByRole('button', {name: new RegExp(tab1.title)});
+    expect(trigger).toHaveClass('g-tab-list-collapse-item');
+    expect(trigger).not.toHaveTextContent('More');
+    expect(trigger).toHaveTextContent(tab1.title);
+
+    spy.mockRestore();
+});
+
+test('contentOverflow collapse: with narrow container and single tab does not render collapse button', () => {
+    const spy = mockNarrowContainer();
+
+    render(
+        <TabList contentOverflow="collapse" value={tab1.value}>
+            <Tab value={tab1.value} qa={tab1.qa}>
+                {tab1.title}
+            </Tab>
+        </TabList>,
+    );
+
+    expect(screen.queryByRole('button', {name: /more/i})).not.toBeInTheDocument();
+    expect(screen.getByTestId(tab1.qa)).toBeVisible();
+
+    spy.mockRestore();
 });

@@ -1,8 +1,7 @@
-@use '../variables';
+@use '../variables' as globalVariables;
+@use './variables';
 
-$block: '.#{variables.$ns}dialog';
-
-#{$block} {
+#{variables.$block} {
     --_--side-padding: 32px;
     --_--close-button-space: 0px;
 
@@ -14,7 +13,7 @@ $block: '.#{variables.$ns}dialog';
     &_has-scroll {
         overflow-y: auto;
         max-height: calc(
-            100vh - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2)
+            100vh - calc(var(--g-modal-margin, #{globalVariables.$modal-default-margin}) * 2)
         );
     }
 

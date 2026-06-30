@@ -1,4 +1,4 @@
-import type {StringWithSuggest} from '../../types/utils';
+import type {StringWithSuggest} from '../../utils/types';
 
 export type RealTheme = StringWithSuggest<'light' | 'light-hc' | 'dark' | 'dark-hc'>;
 export type ThemeType = 'light' | 'dark';

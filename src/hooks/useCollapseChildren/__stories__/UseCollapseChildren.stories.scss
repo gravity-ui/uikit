@@ -1,0 +1,41 @@
+.use-collapse-children-story {
+    &__showcase {
+        width: 100%;
+    }
+
+    &__list {
+        display: flex;
+        overflow: hidden;
+    }
+
+    &__item {
+        box-sizing: border-box;
+        flex: 0 0 auto;
+        padding: 5px;
+        border: 2px dashed rgb(188 143 143);
+        background-color: rgb(221 190 225);
+        white-space: nowrap;
+        text-align: center;
+
+        &_root {
+            border-color: rgb(164, 63, 63);
+            background-color: rgb(236, 112, 112);
+        }
+
+        &_active {
+            border-color: rgb(63, 164, 74);
+            background-color: rgb(112, 236, 124);
+        }
+
+        &_more {
+            border-color: rgb(63, 107, 164);
+            background-color: rgb(112, 193, 236);
+        }
+
+        &_current:not(&_calculating) {
+            flex-shrink: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+}

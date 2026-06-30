@@ -149,6 +149,44 @@ SANDBOX-->
 
 <!--/GITHUB_BLOCK-->
 
+Используйте необязательное свойство `color`, чтобы переопределить цвет темы:
+
+<!--SANDBOX
+import {Box, Progress} from '@gravity-ui/uikit';
+
+const colorStops = [
+    {theme: 'danger', stop: 20, color: '#ff4444'},
+    {theme: 'warning', stop: 50, color: '#ffaa00'},
+    {theme: 'success', stop: 100, color: '#44ff44'},
+];
+
+export default function () {
+    return (
+        <>
+            <Box width={'30%'}>
+                <Progress value={10} colorStops={colorStops} />
+            </Box>
+            <Box width={'30%'}>
+                <Progress value={40} colorStops={colorStops} />
+            </Box>
+            <Box width={'30%'}>
+                <Progress value={60} colorStops={colorStops} />
+            </Box>
+        </>
+    );
+}
+SANDBOX-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<Progress value={10} colorStops={[{theme: 'danger', stop: 20, color: '#ff4444'}, {theme: 'warning', stop: 50, color: '#ffaa00'}, {theme: 'success', stop: 100, color: '#44ff44'}]} />
+<Progress value={40} colorStops={[{theme: 'danger', stop: 20, color: '#ff4444'}, {theme: 'warning', stop: 50, color: '#ffaa00'}, {theme: 'success', stop: 100, color: '#44ff44'}]} />
+<Progress value={60} colorStops={[{theme: 'danger', stop: 20, color: '#ff4444'}, {theme: 'warning', stop: 50, color: '#ffaa00'}, {theme: 'success', stop: 100, color: '#44ff44'}]} />
+```
+
+<!--/GITHUB_BLOCK-->
+
 ## Стек
 
 <!--SANDBOX
@@ -202,18 +240,18 @@ SANDBOX-->
 
 ## Свойства
 
-| Имя             | Описание                                                                                                                                       |                   Тип                    | Значение по умолчанию |
-| :-------------- | :--------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------: | :-------------------: |
-| className       | HTML-атрибут `class`.                                                                                                                          |                 `string`                 |                       |
-| colorStops      | Задает брейкпоинты с темами.                                                                                                                   | ` Array<{theme: string; stop: number;}>` |                       |
-| colorStopsValue | Устанавливает значение для выбора текущей точки остановки цвета или альтернативное значение для `colorStops`. Диапазон значений — от 0 до 100. |                 `number`                 |                       |
-| loading         | Включает или отключает состояние `loading`.                                                                                                    |                `boolean`                 |        `false`        |
-| size            | Задает размер прогресс-бара. Отображение текста доступно только при размере `"m"`.                                                             |                 `string`                 |         `"m"`         |
-| stack           | Конфигурация составного прогресс-бара. Необязательное свойство, если указано `value`.                                                          |             ` Array<Stack>`              |                       |
-| stackClassName  | HTML-атрибут `name` для стека.                                                                                                                 |                 `string`                 |                       |
-| text            | Текст внутри прогресс-бара.                                                                                                                    |                 `string`                 |                       |
-| theme           | Задает цвет прогресса.                                                                                                                         |                 `string`                 |      `"default"`      |
-| value           | Текущее значение прогресса. Диапазон значений — от 0 до 100. Свойство `stack` является необязательным и используется как `maxValue`.           |                 `number`                 |                       |
+| Имя             | Описание                                                                                                                                       |                           Тип                           | Значение по умолчанию |
+| :-------------- | :--------------------------------------------------------------------------------------------------------------------------------------------- | :-----------------------------------------------------: | :-------------------: |
+| className       | HTML-атрибут `class`.                                                                                                                          |                        `string`                         |                       |
+| colorStops      | Задает брейкпоинты с темами.                                                                                                                   | ` Array<{theme: string; stop: number; color?: string}>` |                       |
+| colorStopsValue | Устанавливает значение для выбора текущей точки остановки цвета или альтернативное значение для `colorStops`. Диапазон значений — от 0 до 100. |                        `number`                         |                       |
+| loading         | Включает или отключает состояние `loading`.                                                                                                    |                        `boolean`                        |        `false`        |
+| size            | Задает размер прогресс-бара. Отображение текста доступно только при размере `"m"`.                                                             |                        `string`                         |         `"m"`         |
+| stack           | Конфигурация составного прогресс-бара. Необязательное свойство, если указано `value`.                                                          |                     ` Array<Stack>`                     |                       |
+| stackClassName  | HTML-атрибут `name` для стека.                                                                                                                 |                        `string`                         |                       |
+| text            | Текст внутри прогресс-бара.                                                                                                                    |                        `string`                         |                       |
+| theme           | Задает цвет прогресса.                                                                                                                         |                        `string`                         |      `"default"`      |
+| value           | Текущее значение прогресса. Диапазон значений — от 0 до 100. Свойство `stack` является необязательным и используется как `maxValue`.           |                        `number`                         |                       |
 
 ### `Stack`
 

@@ -24,6 +24,12 @@ export function mergeProps(...propsList: (React.HTMLProps<HTMLElement> & {})[]) 
                             .find((v) => v !== undefined);
                     };
                 }
+            } else if (
+                (key === 'className' || key.endsWith('ClassName')) &&
+                typeof acc[key] === 'string' &&
+                typeof value === 'string'
+            ) {
+                acc[key] = `${acc[key]} ${value}`;
             } else {
                 acc[key] = value;
             }

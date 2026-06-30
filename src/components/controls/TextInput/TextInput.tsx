@@ -6,8 +6,11 @@ import {TriangleExclamation} from '@gravity-ui/icons';
 
 import {useControlledState, useForkRef, useUniqId} from '../../../hooks';
 import {useElementSize, useFormResetHandler} from '../../../hooks/private';
+import {Alert} from '../../Alert';
 import {Icon} from '../../Icon';
-import {Popover} from '../../legacy';
+import {Popover} from '../../Popover';
+import {useDirection} from '../../theme';
+import {useDefaultProps} from '../../theme/useDefaultProps';
 import {block} from '../../utils/cn';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
 import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';
@@ -50,7 +53,8 @@ export type TextInputSize = InputControlSize;
 export type TextInputView = InputControlView;
 
 export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
-    function TextInput(props, ref) {
+    function TextInput(rawProps, ref) {
+        const props = useDefaultProps('TextInput', rawProps);
         const {
             view = 'normal',
             size = 'm',
@@ -79,6 +83,8 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
             onUpdate,
             onChange,
         } = props;
+
+        const direction = useDirection();
 
         const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
             error,
@@ -233,7 +239,20 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
                         />
                     )}
                     {isErrorIconVisible && (
-                        <Popover content={errorMessage}>
+                        <Popover
+                            placement={
+                                direction === 'rtl' ? ['left', 'bottom'] : ['right', 'bottom']
+                            }
+                            className={b('error-popover')}
+                            hasArrow
+                            content={
+                                <Alert
+                                    className={b('error-popover-content')}
+                                    theme="clear"
+                                    message={<div role="presentation">{errorMessage}</div>}
+                                />
+                            }
+                        >
                             <span data-qa={CONTROL_ERROR_ICON_QA}>
                                 <Icon
                                     data={TriangleExclamation}

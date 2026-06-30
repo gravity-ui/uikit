@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import {useFocusWithin, useForkRef, useUniqId} from '../../hooks';
+import {useDefaultProps} from '../theme/useDefaultProps';
 
 import {TabListCollapseItem} from './TabListCollapseItem/TabListCollapseItem';
 import {TabContext} from './contexts/TabContext';
@@ -12,7 +13,8 @@ import type {TabListProps} from './types';
 
 import './TabList.scss';
 
-export const TabList = React.forwardRef<HTMLDivElement, TabListProps>((props, ref) => {
+export const TabList = React.forwardRef<HTMLDivElement, TabListProps>((rawProps, ref) => {
+    const props = useDefaultProps('TabList', rawProps);
     const tabContext = React.useContext(TabContext);
     const id = useUniqId();
 

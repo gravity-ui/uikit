@@ -1,4 +1,5 @@
-import type {CasesWithName} from '../../../stories/tests-factory/models';
+import type {CasesWithName} from '@gravity-ui/playwright-tools/component-tests';
+
 import type {AccordionProps} from '../types';
 
 export const sizeCases: CasesWithName<AccordionProps['size']> = [

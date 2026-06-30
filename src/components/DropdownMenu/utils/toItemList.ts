@@ -10,7 +10,7 @@ export function toItemList<
         if (Array.isArray(item)) {
             const groupItems = toItemList(item, separator, path, index);
 
-            if (updatedItems.length !== 0) {
+            if (updatedItems.length !== 0 && groupItems.length !== 0) {
                 updatedItems.push(separator);
             }
 

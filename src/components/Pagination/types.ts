@@ -3,6 +3,7 @@ import type {QAProps} from '../types';
 export type ActionName = 'previous' | 'next' | 'first';
 
 export type PaginationSize = 's' | 'm' | 'l' | 'xl';
+export type PaginationView = 'outlined' | 'clear';
 
 export type PaginationProps = {
     /**
@@ -48,6 +49,12 @@ export type PaginationProps = {
      * ClassName of element
      */
     className?: string;
+    /**
+     * Sets buttons' and controls' appearance.
+     * Affects pagination input's view in mobile.
+     * Default outlined.
+     */
+    view?: PaginationView;
 } & QAProps;
 
 type EllipsisItem = {

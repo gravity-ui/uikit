@@ -92,6 +92,7 @@ export function BreadcrumbsDropdownMenu({
                 <Button.Icon>...</Button.Icon>
             </Button>
             <Popup
+                open={open}
                 floatingContext={context}
                 floatingRef={setFloating}
                 floatingInteractions={interactions}

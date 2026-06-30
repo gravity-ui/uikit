@@ -1,4 +1,4 @@
-import {getNumerationList, getSize} from './utils';
+import {getNumerationList, getSize, getViews} from './utils';
 
 describe('Pagination utils', () => {
     describe('[desktop]: getNumerationList', () => {
@@ -358,6 +358,40 @@ describe('Pagination utils', () => {
         });
         it('size prop is accounted', () => {
             expect(getSize({mobile: false, propSize: 'm'})).toEqual('m');
+        });
+    });
+
+    describe('[desktop]: getViews', () => {
+        it('clear view', () => {
+            expect(getViews({propView: 'clear', mobile: false})).toEqual({
+                buttonView: 'flat',
+                inputView: 'normal',
+                pageSizerView: 'clear',
+            });
+        });
+        it('outlined view', () => {
+            expect(getViews({propView: 'outlined', mobile: false})).toEqual({
+                buttonView: 'outlined',
+                inputView: 'normal',
+                pageSizerView: 'normal',
+            });
+        });
+    });
+
+    describe('[mobile]: getViews', () => {
+        it('clear view', () => {
+            expect(getViews({propView: 'clear', mobile: true})).toEqual({
+                buttonView: 'flat',
+                inputView: 'clear',
+                pageSizerView: 'clear',
+            });
+        });
+        it('outlined view', () => {
+            expect(getViews({propView: 'outlined', mobile: true})).toEqual({
+                buttonView: 'outlined',
+                inputView: 'normal',
+                pageSizerView: 'normal',
+            });
         });
     });
 });

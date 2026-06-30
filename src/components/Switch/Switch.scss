@@ -1,4 +1,5 @@
 @use '../variables';
+@use '../../../styles/mixins';
 
 $block: '.#{variables.$ns}switch';
 
@@ -48,10 +49,56 @@ $block: '.#{variables.$ns}switch';
     }
 
     &__control:focus-visible + &__outline {
-        outline: 2px solid var(--g-color-line-focus);
+        @include mixins.focus-outline();
+    }
+
+    &_loading {
+        #{$block}__slider::after {
+            content: '';
+            position: absolute;
+            box-sizing: border-box;
+
+            border-radius: 50%;
+
+            inset-inline-start: 2px;
+            inset-block-start: 2px;
+
+            border-color: var(--g-color-base-generic-accent);
+            border-style: solid;
+            border-block-start-color: transparent;
+
+            animation: #{variables.$ns}spin 1s linear infinite;
+
+            @media (prefers-reduced-motion: reduce) {
+                animation: none;
+            }
+        }
     }
 
     &_size {
+        &_s {
+            #{$block}__indicator,
+            #{$block}__indicator::before,
+            #{$block}__outline {
+                width: 28px;
+                height: 16px;
+                border-radius: 10px;
+            }
+
+            #{$block}__slider {
+                inset-block-start: 2px;
+                inset-inline-start: 2px;
+                width: 12px;
+                height: 12px;
+
+                &::after {
+                    width: 8px;
+                    height: 8px;
+                    border-width: 2px;
+                }
+            }
+        }
+
         &_m {
             #{$block}__indicator,
             #{$block}__indicator::before,
@@ -66,6 +113,12 @@ $block: '.#{variables.$ns}switch';
                 inset-inline-start: 2px;
                 width: 16px;
                 height: 16px;
+
+                &::after {
+                    width: 12px;
+                    height: 12px;
+                    border-width: 2px;
+                }
             }
 
             #{$block}__text {
@@ -87,6 +140,12 @@ $block: '.#{variables.$ns}switch';
                 inset-inline-start: 3px;
                 width: 18px;
                 height: 18px;
+
+                &::after {
+                    width: 14px;
+                    height: 14px;
+                    border-width: 2px;
+                }
             }
 
             #{$block}__text {
@@ -104,6 +163,15 @@ $block: '.#{variables.$ns}switch';
     &_checked &__slider {
         --_--translate-x: calc(100% * var(--g-flow-direction));
         transform: translateX(var(--_--translate-x));
+    }
+
+    &_checked {
+        &#{$block}_loading {
+            #{$block}__slider::after {
+                border-color: var(--g-color-base-brand);
+                border-block-start-color: transparent;
+            }
+        }
     }
 
     &_checked,
@@ -124,5 +192,20 @@ $block: '.#{variables.$ns}switch';
                 opacity: 0.5;
             }
         }
+
+        #{$block}__slider {
+            &::after {
+                opacity: 0.5;
+            }
+        }
+    }
+}
+
+@keyframes #{variables.$ns}spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
     }
 }

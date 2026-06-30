@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import {KeyCode} from '../../../../constants';
 import {TextInput} from '../../../controls';
-import type {TextInputProps} from '../../../controls';
+import type {InputControlView, TextInputProps} from '../../../controls';
 import {block} from '../../../utils/cn';
 import {PaginationQa} from '../../constants';
 import i18n from '../../i18n';
@@ -20,9 +20,17 @@ type Props = {
     pageSize: NonNullable<PaginationProps['pageSize']>;
     size: PaginationSize;
     className?: string;
+    view: InputControlView;
 };
 
-export const PaginationInput = ({numberOfPages, size, pageSize, onUpdate, className}: Props) => {
+export const PaginationInput = ({
+    numberOfPages,
+    size,
+    pageSize,
+    onUpdate,
+    className,
+    view,
+}: Props) => {
     const [value, setValue] = React.useState('');
 
     const handleUpdateValue = (inputValue: string) => {
@@ -73,6 +81,7 @@ export const PaginationInput = ({numberOfPages, size, pageSize, onUpdate, classN
             onBlur={handleBlur}
             onKeyUp={handleKeyUp}
             qa={PaginationQa.PaginationInput}
+            view={view}
         />
     );
 };

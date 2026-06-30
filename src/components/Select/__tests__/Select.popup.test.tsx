@@ -148,6 +148,26 @@ describe('Select popup', () => {
         );
     });
 
+    test('should pass isItemActive to renderOption', async () => {
+        const renderOption = jest.fn();
+
+        const {getByTestId} = setup({
+            renderOption,
+            onUpdate,
+            options: DEFAULT_OPTIONS,
+        });
+
+        const user = userEvent.setup();
+        const selectControl = getByTestId(TEST_QA);
+        await user.click(selectControl);
+
+        const isItemActiveValues = renderOption.mock.calls.map(
+            (call) => (call[1] as {isItemActive?: boolean})?.isItemActive,
+        );
+        expect(isItemActiveValues).toContain(true);
+        expect(isItemActiveValues).toContain(false);
+    });
+
     test('should close select popup on Escape key press', async () => {
         const {getByTestId, queryByTestId} = setup({
             options: DEFAULT_OPTIONS,

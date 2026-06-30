@@ -67,11 +67,12 @@ export interface PopoverExternalProps {
     /** If true, focus will be transferred to the first element when the popover opens */
     autoFocus?: boolean;
     /** Focused element when the popover closes */
-    restoreFocusRef?: React.RefObject<HTMLElement>;
+    restoreFocusRef?: React.RefObject<HTMLElement | null>;
 }
 
 export type PopoverBehaviorProps = {
-    /** Tooltip open/close behaviour when `openOnHover`
+    /**
+     * Tooltip open/close behaviour when `openOnHover`
      * Immediate - without any delay
      * Delayed - with 300ms delay for opening and closing
      * DelayedClosing - with 300ms delay only for closing

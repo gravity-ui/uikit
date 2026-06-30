@@ -22,10 +22,8 @@ function isFlattenOptions(options: UseSelectOptionsProps['options']): options is
 
 /**
  * Helps to manage options data before passing it into `Select` component.
- *
  * @param {SelectOptions} options
  * @returns preprared options for `Select` component.
- *
  * @example
  *
  * import {Select, getSelectFilteredOptions, useSelectOptions} from '@gravity-ui/uikit';

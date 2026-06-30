@@ -175,6 +175,7 @@ const DefaultRowActions = <I extends TableDataItem>({
                 placement={DEFAULT_PLACEMENT}
                 onOutsideClick={closePopup}
                 id={rowId}
+                className={bPopup()}
                 qa={tableQa && `${tableQa}-actions-popup`}
             >
                 <Menu className={menuCn} size={rowActionsSize}>

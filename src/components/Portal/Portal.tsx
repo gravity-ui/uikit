@@ -6,6 +6,7 @@ import {FloatingPortal} from '@floating-ui/react';
 
 import {usePortalContainer} from '../../hooks';
 import {ThemeProvider} from '../theme';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import {useThemeContext} from '../theme/useThemeContext';
 import {block} from '../utils/cn';
 
@@ -19,7 +20,8 @@ export interface PortalProps {
     disablePortal?: boolean;
 }
 
-export function Portal({container, children, disablePortal}: PortalProps) {
+export function Portal(rawProps: PortalProps) {
+    const {container, children, disablePortal} = useDefaultProps('Portal', rawProps);
     const defaultContainer = usePortalContainer();
     const {scoped} = useThemeContext();
 

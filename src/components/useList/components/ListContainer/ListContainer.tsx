@@ -7,7 +7,7 @@ import {ListItemRecursiveRenderer} from '../ListRecursiveRenderer/ListRecursiveR
 
 export type ListContainerProps<T, P extends {} = {}> = Omit<ListContainerViewProps, 'children'> & {
     list: UseListResult<T>;
-    containerRef?: React.RefObject<HTMLDivElement>;
+    containerRef?: React.RefObject<HTMLDivElement | null>;
     renderItem(
         id: ListItemId,
         index: number,
@@ -25,7 +25,10 @@ export function ListContainer<T, P extends {} = {}>({
     ...props
 }: ListContainerProps<T, P>) {
     return (
-        <ListContainerView ref={containerRef} {...props}>
+        /*
+         * TODO: Remove casting in React 19 (https://github.com/gravity-ui/uikit/issues/2537)
+         */
+        <ListContainerView ref={containerRef as React.Ref<HTMLDivElement>} {...props}>
             {list.structure.items.map((item, index) => (
                 <ListItemRecursiveRenderer
                     key={index}

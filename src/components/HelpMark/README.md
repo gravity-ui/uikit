@@ -12,29 +12,23 @@ A help icon that reveals contextual information in a popover on hover or click. 
 
 ## Examples
 
-<!--LANDING_BLOCK
+Component with rendered raw html and close on mouse leave:
 
-<ExampleBlock
-    code={`
-<HelpMark onClick={() => console.log('just action happened')}>
-    <b>Lorem ipsum</b> dolor sit{' '}
-    <a href="https://example.com" target="_blank" rel="noreferrer">
-        amet
-    </a>
-    , at scelerisque suspendisse
-</HelpMark>
-`}
->
-<UIKit.HelpMark onClick={() => console.log('just action happened')}>
-    <b>Lorem ipsum</b> dolor sit{' '}
-    <a href="https://example.com" target="_blank" rel="noreferrer">
-        amet
-    </a>
-    , at scelerisque suspendisse
-</UIKit.HelpMark>
-</ExampleBlock>
+<!--SANDBOX
+import {HelpMark} from '@gravity-ui/uikit';
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <HelpMark onClick={() => console.log('just action happened')}>
+            <b>Lorem ipsum</b> dolor sit{' '}
+            <a href="https://example.com" target="_blank" rel="noreferrer">
+                amet
+            </a>
+            , at scelerisque suspendisse
+        </HelpMark>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

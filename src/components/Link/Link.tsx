@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {eventBroker} from '../utils/event-broker';
@@ -27,8 +28,8 @@ export interface LinkProps
 
 const b = block('link');
 
-export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(
-    {
+export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(rawProps, ref) {
+    const {
         view = 'normal',
         visitable = false,
         underline = false,
@@ -38,9 +39,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
         qa,
         onClickCapture,
         ...props
-    },
-    ref,
-) {
+    } = useDefaultProps('Link', rawProps);
     const handleClickCapture = React.useCallback(
         (event: React.MouseEvent<HTMLAnchorElement>) => {
             eventBroker.publish({

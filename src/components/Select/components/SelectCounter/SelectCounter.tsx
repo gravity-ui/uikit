@@ -1,5 +1,6 @@
 import {Text} from '../../../Text';
 import {block} from '../../../utils/cn';
+import {SelectQa} from '../../constants';
 import type {SelectCounterProps} from '../../types';
 
 import './SelectCounter.scss';
@@ -13,6 +14,7 @@ export function SelectCounter({count, size, disabled}: SelectCounterProps) {
                 variant={size === 'xl' ? 'body-2' : 'body-1'}
                 color={disabled ? 'hint' : 'primary'}
                 className={b('text')}
+                qa={SelectQa.COUNTER}
             >
                 {count}
             </Text>

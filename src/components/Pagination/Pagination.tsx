@@ -1,6 +1,7 @@
 'use client';
 
 import {useMobile} from '../mobile';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import {block} from '../utils/cn';
 
 import {
@@ -13,25 +14,27 @@ import {
 } from './components';
 import {usePagination} from './hooks/usePagination';
 import type {PaginationProps} from './types';
-import {getResultPage, getResultTotal, getSize} from './utils';
+import {getResultPage, getResultTotal, getSize, getViews} from './utils';
 
 import './Pagination.scss';
 
 const b = block('pagination');
 
-export const Pagination = ({
-    page,
-    pageSize,
-    total,
-    size: propSize,
-    onUpdate,
-    compact: propCompact = true,
-    pageSizeOptions,
-    showPages = true,
-    showInput = false,
-    className,
-    qa,
-}: PaginationProps) => {
+export const Pagination = (rawProps: PaginationProps) => {
+    const {
+        page,
+        pageSize,
+        total,
+        size: propSize,
+        onUpdate,
+        compact: propCompact = true,
+        pageSizeOptions,
+        showPages = true,
+        showInput = false,
+        view: propView = 'outlined',
+        className,
+        qa,
+    } = useDefaultProps('Pagination', rawProps);
     const mobile = useMobile();
 
     const size = getSize({propSize, mobile});
@@ -43,6 +46,8 @@ export const Pagination = ({
         total: resultTotal,
         pageSize,
     });
+
+    const {buttonView, inputView, pageSizerView} = getViews({propView, mobile});
 
     const {items, numberOfPages} = usePagination({
         page: resultPage,
@@ -98,6 +103,7 @@ export const Pagination = ({
                             onUpdate={onUpdate}
                             compact={compact}
                             className={b('pagination-item')}
+                            view={buttonView}
                         />
                     );
                 default:
@@ -116,6 +122,7 @@ export const Pagination = ({
                     size={size}
                     onUpdate={onUpdate}
                     className={b('input')}
+                    view={inputView}
                 />
             )}
             {pageSizeOptions && (
@@ -127,6 +134,7 @@ export const Pagination = ({
                     size={size}
                     total={resultTotal}
                     className={b('page-sizer')}
+                    view={pageSizerView}
                 />
             )}
         </div>

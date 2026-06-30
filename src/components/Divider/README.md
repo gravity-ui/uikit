@@ -20,41 +20,27 @@ Use the `direction` property to manage the `Divider` orientation. The default or
 
 #### Horizontal
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Container, Divider, Text} from '@gravity-ui/uikit';
 
-<ExampleBlock
-  code={`
-    <Container>
-        <Text>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, officiis! Fugit minus ea,
-            perferendis eum consectetur quae vitae. Aliquid, quam reprehenderit? Maiores sed pariatur
-            aliquid commodi atque sunt officiis natus?
-        </Text>
-        <Divider direction="horizontal"/>
-        <Text>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, officiis! Fugit minus ea,
-            perferendis eum consectetur quae vitae. Aliquid, quam reprehenderit? Maiores sed pariatur
-            aliquid commodi atque sunt officiis natus?
-        </Text>
-    </Container>
-`}
->
-    <UIKit.Container>
-        <UIKit.Text>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, officiis! Fugit minus ea,
-            perferendis eum consectetur quae vitae. Aliquid, quam reprehenderit? Maiores sed pariatur
-            aliquid commodi atque sunt officiis natus?
-        </UIKit.Text>
-        <UIKit.Divider direction="horizontal"/>
-        <UIKit.Text>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, officiis! Fugit minus ea,
-            perferendis eum consectetur quae vitae. Aliquid, quam reprehenderit? Maiores sed pariatur
-            aliquid commodi atque sunt officiis natus?
-        </UIKit.Text>
-    </UIKit.Container>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Container>
+            <Text>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, officiis! Fugit
+                minus ea, perferendis eum consectetur quae vitae. Aliquid, quam reprehenderit?
+                Maiores sed pariatur aliquid commodi atque sunt officiis natus?
+            </Text>
+            <Divider orientation="horizontal" />
+            <Text>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, officiis! Fugit
+                minus ea, perferendis eum consectetur quae vitae. Aliquid, quam reprehenderit?
+                Maiores sed pariatur aliquid commodi atque sunt officiis natus?
+            </Text>
+        </Container>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -80,37 +66,25 @@ import {Container, Text, Divider} from '@gravity-ui/uikit';
 
 #### Vertical
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Container, Divider, Flex, Label} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
+export default function () {
+    return (
         <Container>
             <Flex gap={3}>
                 <Label>Label</Label>
-                <Divider orientation="vertical"/>
+                <Divider orientation="vertical" />
                 <Label>Label</Label>
-                <Divider orientation="vertical"/>
+                <Divider orientation="vertical" />
                 <Label>Label</Label>
-                <Divider orientation="vertical"/>
+                <Divider orientation="vertical" />
                 <Label>Label</Label>
             </Flex>
         </Container>
-    `}
->
-    <UIKit.Container>
-        <UIKit.Flex gap={3}>
-            <UIKit.Label>Label</UIKit.Label>
-            <UIKit.Divider orientation="vertical"/>
-            <UIKit.Label>Label</UIKit.Label>
-            <UIKit.Divider orientation="vertical"/>
-            <UIKit.Label>Label</UIKit.Label>
-            <UIKit.Divider orientation="vertical"/>
-            <UIKit.Label>Label</UIKit.Label>
-        </UIKit.Flex>
-    </UIKit.Container>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -134,31 +108,22 @@ import {Flex, Label, Divider} from '@gravity-ui/uikit';
 
 ### Custom content
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Container, Divider, Flex} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
+export default function () {
+    return (
         <Container>
             <Flex gap={3}>
                 <Divider>Custom content</Divider>
                 <Divider align="center">
-                    <Icon data={CheckIcon} size={16} />
+                    <span>OK</span>
                 </Divider>
             </Flex>
         </Container>
-    `}
->
-    <UIKit.Container>
-        <UIKit.Flex gap={3}>
-            <UIKit.Divider>Custom content</UIKit.Divider>
-            <UIKit.Divider>
-                <Icon data={CheckIcon} size={16} />
-            </UIKit.Divider>
-        </UIKit.Flex>
-    </UIKit.Container>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -180,10 +145,11 @@ import {CheckIcon} from '@gravity-ui/icons';
 
 ### Alignment
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Container, Divider, Flex} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
+export default function () {
+    return (
         <Container>
             <Flex gap={3}>
                 <Divider align="start">Start content</Divider>
@@ -191,18 +157,9 @@ import {CheckIcon} from '@gravity-ui/icons';
                 <Divider align="end">End content</Divider>
             </Flex>
         </Container>
-    `}
->
-    <UIKit.Container>
-        <UIKit.Flex gap={3}>
-            <UIKit.Divider align="start">Start content</UIKit.Divider>
-            <UIKit.Divider align="center">Center content</UIKit.Divider>
-            <UIKit.Divider align="end">End content</UIKit.Divider>
-        </UIKit.Flex>
-    </Container>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

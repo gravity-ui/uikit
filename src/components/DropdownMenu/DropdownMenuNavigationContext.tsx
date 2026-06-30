@@ -5,7 +5,7 @@ import * as React from 'react';
 export type DropdownMenuNavigationContextType = {
     activeMenuPath: number[];
     setActiveMenuPath: (path: number[]) => void;
-    anchorRef: React.RefObject<HTMLDivElement>;
+    anchorRef: React.RefObject<HTMLDivElement | null>;
 };
 
 const rootMenuPath: number[] = [];
@@ -19,7 +19,7 @@ export const DropdownMenuNavigationContext = React.createContext<DropdownMenuNav
 );
 
 export type DropdownMenuNavigationContextProviderProps = {
-    anchorRef: React.RefObject<HTMLDivElement>;
+    anchorRef: React.RefObject<HTMLDivElement | null>;
     children: React.ReactNode;
     disabled: boolean;
 };

@@ -95,11 +95,12 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
     );
 
     const renderItem = React.useCallback(
-        (option: FlattenOption, _isItemActive: boolean, itemIndex: number) => {
+        (option: FlattenOption, isItemActive: boolean, itemIndex: number) => {
             if ('label' in option) {
                 const wrappedRenderOptionGroup = renderOptionGroup
                     ? (optionLocal: GroupTitleItem) => {
                           return renderOptionGroup(optionLocal, {
+                              isItemActive,
                               itemHeight: getItemHeight(optionLocal, itemIndex),
                           });
                       }
@@ -118,6 +119,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
             const wrappedRenderOption = renderOption
                 ? (optionLocal: SelectOption) => {
                       return renderOption(optionLocal, {
+                          isItemActive,
                           itemHeight: getItemHeight(optionLocal, itemIndex),
                       });
                   }
@@ -138,9 +140,8 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
     return (
         <List
             ref={ref}
-            className={selectListBlock({size, virtualized, mobile})}
+            className={selectListBlock({size, virtualized, mobile, multiple})}
             qa={SelectQa.LIST}
-            itemClassName={selectListBlock('item')}
             itemHeight={getItemHeight}
             itemsHeight={virtualized ? optionsHeight : undefined}
             items={items}

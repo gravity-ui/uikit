@@ -48,10 +48,12 @@ $block: '.#{variables.$ns}slider-tooltip';
 
     &_error &__card {
         background-color: #{slider-variables.$slider-error-color};
+        color: var(--g-color-text-light-primary);
     }
 
     &_disabled &__card {
         background-color: #{slider-variables.$slider-disabled-color};
+        color: var(--g-color-text-complementary);
     }
 
     //use this element to prevent crossing effect

@@ -8,6 +8,7 @@ import type {List} from '../List';
 import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
 import {errorPropsMapper} from '../controls/utils';
 import {useMobile} from '../mobile';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {CnMods} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
 
@@ -25,6 +26,7 @@ import {getSelectFilteredOptions, useSelectOptions} from './hooks-public';
 import {Option, OptionGroup} from './tech-components';
 import type {SelectProps, SelectRenderPopup} from './types';
 import type {SelectFilterRef} from './types-misc';
+import type {FlattenOption} from './utils';
 import {
     findItemIndexByQuickSearch,
     getActiveItem,
@@ -32,7 +34,6 @@ import {
     getOptionsFromChildren,
     getSelectedOptionsContent,
 } from './utils';
-import type {FlattenOption} from './utils';
 
 import './Select.scss';
 
@@ -51,9 +52,10 @@ export const DEFAULT_RENDER_POPUP: SelectRenderPopup = ({renderFilter, renderLis
 };
 
 export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function Select<T = any>(
-    props: SelectProps<T>,
+    rawProps: SelectProps<T>,
     ref: React.Ref<HTMLButtonElement>,
 ) {
+    const props = useDefaultProps('Select', rawProps);
     const {
         onUpdate,
         onOpenChange,
@@ -212,6 +214,10 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
     const handleFilterKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLElement>) => {
         listRef?.current?.onKeyDown(e);
+
+        if (e.key === KeyCode.ENTER) {
+            e.preventDefault();
+        }
     }, []);
 
     const handleQuickSearchChange = React.useCallback((search: string) => {
@@ -368,7 +374,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                         : undefined
                 }
                 onAfterClose={
-                    filterable
+                    filterable && !propsFilter
                         ? () => {
                               setFilter('');
                           }

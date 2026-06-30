@@ -17,6 +17,7 @@ import {Icon} from '../Icon';
 import type {IconData} from '../Icon';
 import {Text} from '../Text';
 import {useMobile} from '../mobile';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
@@ -64,7 +65,8 @@ interface CompactFilePreviewProps extends FilePreviewBaseProps {
 
 export type FilePreviewProps = DefaultFilePreviewProps | CompactFilePreviewProps;
 
-export function FilePreview(props: FilePreviewProps) {
+export function FilePreview(rawProps: FilePreviewProps) {
+    const props = useDefaultProps('FilePreview', rawProps);
     const {className, qa, file, imageSrc, description, onClick, view = 'default', selected} = props;
 
     const actions = view === 'default' && 'actions' in props ? props.actions : undefined;

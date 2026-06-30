@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
-import {Pagination} from '../../Pagination';
-import type {PaginationProps} from '../../Pagination';
+import {Pagination} from '..';
+import type {PaginationProps} from '..';
 
 const useState = (args: PaginationProps) => {
     const [state, setState] = React.useState({...args});
@@ -119,3 +119,26 @@ const PagesSetTemplate: StoryFn<PaginationProps> = (args) => {
 };
 
 export const PagesSet = PagesSetTemplate.bind({});
+
+const ViewTemplate: StoryFn<PaginationProps> = (args) => {
+    const outlinedState = useState({...args, view: 'outlined'});
+    const clearState = useState({...args, view: 'clear'});
+
+    return (
+        <React.Fragment>
+            <Pagination {...outlinedState} />
+            <br />
+            <Pagination {...clearState} />
+        </React.Fragment>
+    );
+};
+
+export const View = ViewTemplate.bind({});
+View.args = {
+    page: 1,
+    pageSize: 100,
+    total: 950,
+    pageSizeOptions: [10],
+    showInput: true,
+    showPages: true,
+};

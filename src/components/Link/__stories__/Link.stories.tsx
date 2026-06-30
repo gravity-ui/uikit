@@ -2,7 +2,8 @@ import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Showcase as ShowcaseComponent} from '../../../demo/Showcase';
 import {Link} from '../Link';
-import {LinkShowcase} from '../__stories__/LinkShowcase';
+
+import {LinkShowcase} from './LinkShowcase';
 
 export default {
     title: 'Components/Navigation/Link',

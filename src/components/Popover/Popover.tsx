@@ -15,6 +15,7 @@ import {
 import {useControlledState, useForkRef} from '../../hooks';
 import {Popup} from '../Popup';
 import type {PopupProps} from '../Popup';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {getElementRef} from '../utils/getElementRef';
@@ -43,31 +44,37 @@ export interface PopoverProps
     children:
         | ((props: Record<string, unknown>, ref: React.Ref<HTMLElement>) => React.ReactElement)
         | React.ReactElement;
+    toggle?: boolean;
     disabled?: boolean;
     content?: React.ReactNode;
-    trigger?: 'click';
+    trigger?: 'all' | 'click';
     openDelay?: number;
     closeDelay?: number;
+    rest?: number;
     enableSafePolygon?: boolean;
 }
 
 const b = block('popover');
 const DEFAULT_OPEN_DELAY = 500;
 const DEFAULT_CLOSE_DELAY = 250;
+const DEFAULT_REST = 0;
 
-export function Popover({
-    children,
-    open,
-    onOpenChange,
-    disabled,
-    content,
-    trigger,
-    openDelay = DEFAULT_OPEN_DELAY,
-    closeDelay = DEFAULT_CLOSE_DELAY,
-    enableSafePolygon,
-    className,
-    ...restProps
-}: PopoverProps) {
+export function Popover(rawProps: PopoverProps) {
+    const {
+        children,
+        open,
+        onOpenChange,
+        toggle = true,
+        disabled,
+        content,
+        trigger = 'all',
+        openDelay = DEFAULT_OPEN_DELAY,
+        closeDelay = DEFAULT_CLOSE_DELAY,
+        rest = DEFAULT_REST,
+        enableSafePolygon,
+        className,
+        ...restProps
+    } = useDefaultProps('Popover', rawProps);
     const [anchorElement, setAnchorElement] = React.useState<HTMLElement | null>(null);
     const [floatingElement, setFloatingElement] = React.useState<HTMLDivElement | null>(null);
 
@@ -82,13 +89,19 @@ export function Popover({
         },
     });
 
+    const isHoverEnabled = trigger === 'all';
+
     const hover = useHover(context, {
-        enabled: trigger !== 'click',
+        enabled: isHoverEnabled,
         delay: {open: openDelay, close: closeDelay},
+        restMs: rest,
         move: false,
         handleClose: enableSafePolygon ? safePolygon() : undefined,
     });
-    const click = useClick(context);
+    const click = useClick(context, {
+        toggle,
+        ignoreMouse: isHoverEnabled,
+    });
     const role = useRole(context, {
         role: 'dialog',
     });

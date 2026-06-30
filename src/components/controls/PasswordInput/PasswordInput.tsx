@@ -88,7 +88,7 @@ export const PasswordInput = (props: PasswordInputProps) => {
                         disabled={props.disabled}
                         onClick={() => setRevealValue(!revealValue)}
                         size={actionButtonSize}
-                        onMouseDown={(event: React.SyntheticEvent) => event.preventDefault()}
+                        onMouseDown={(event) => event.preventDefault()}
                         aria-label={
                             revealValue ? t('label_hide-password') : t('label_show-password')
                         }

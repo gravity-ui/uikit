@@ -5,6 +5,7 @@ import type * as React from 'react';
 import {ChevronLeft, ChevronRight, ChevronsLeft} from '@gravity-ui/icons';
 
 import {Button} from '../../../Button';
+import type {ButtonView} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {PaginationQa} from '../../constants';
 import i18n from '../../i18n';
@@ -18,6 +19,7 @@ type Props = {
     onUpdate: NonNullable<PaginationProps['onUpdate']>;
     compact: NonNullable<PaginationProps['compact']>;
     className?: string;
+    view: ButtonView;
 };
 
 export const PaginationButton = ({
@@ -28,6 +30,7 @@ export const PaginationButton = ({
     pageSize,
     onUpdate,
     compact,
+    view,
 }: Props) => {
     let button: React.ReactNode = null;
     const {disabled} = item;
@@ -38,7 +41,7 @@ export const PaginationButton = ({
             button = (
                 <Button
                     size={size}
-                    view="outlined"
+                    view={view}
                     className={className}
                     onClick={() => onUpdate(1, pageSize)}
                     title={compact ? t('button_first') : undefined}
@@ -54,7 +57,7 @@ export const PaginationButton = ({
             button = (
                 <Button
                     size={size}
-                    view="outlined"
+                    view={view}
                     className={className}
                     onClick={() => onUpdate(page - 1, pageSize)}
                     title={compact ? t('button_previous') : undefined}
@@ -70,7 +73,7 @@ export const PaginationButton = ({
             button = (
                 <Button
                     size={size}
-                    view="outlined"
+                    view={view}
                     className={className}
                     onClick={() => onUpdate(page + 1, pageSize)}
                     title={compact ? t('button_next') : undefined}

@@ -20,6 +20,7 @@ $block: '.#{variables.$ns}action-tooltip';
 
     &__hotkey {
         margin-inline-start: var(--g-spacing-2);
+        padding-block: var(--g-spacing-0);
     }
 
     &__description {

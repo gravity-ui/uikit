@@ -12,7 +12,6 @@ A help icon that reveals contextual information in a popover on hover or click. 
 
 ## Examples
 
-
 <!--LANDING_BLOCK
 
 <ExampleBlock
@@ -55,8 +54,8 @@ LANDING_BLOCK-->
 
 `HelpMark` accepts any valid `button` element props in addition to these:
 
-| Name         | Description                         |           Type           | Default |
-| :----------- | :---------------------------------  | :----------------------: | :-----: |
-| iconSize     | Sets icon size                      | `"s"` `"m"` `"l"` `"xl"` |  `"m"`  |
-| popoverProps | Override `Popover` props            |      `PopoverProps`      |         |
-| children     | Content displayed inside the popover | `React.ReactNode`        |         |
+| Name         | Description                          |           Type           | Default |
+| :----------- | :----------------------------------- | :----------------------: | :-----: |
+| iconSize     | Sets icon size                       | `"s"` `"m"` `"l"` `"xl"` |  `"m"`  |
+| popoverProps | Override `Popover` props             |      `PopoverProps`      |         |
+| children     | Content displayed inside the popover |    `React.ReactNode`     |         |

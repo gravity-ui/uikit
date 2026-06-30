@@ -45,7 +45,11 @@ Import components directly from the package:
 ```jsx
 import {Button} from '@gravity-ui/uikit';
 
-const SubmitButton = <Button view="action" size="l">Submit</Button>;
+const SubmitButton = (
+  <Button view="action" size="l">
+    Submit
+  </Button>
+);
 ```
 
 ### Styles

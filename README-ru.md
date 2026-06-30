@@ -45,7 +45,11 @@ npm install @gravity-ui/uikit
 ```jsx
 import {Button} from '@gravity-ui/uikit';
 
-const SubmitButton = <Button view="action" size="l">Отправить</Button>;
+const SubmitButton = (
+  <Button view="action" size="l">
+    Отправить
+  </Button>
+);
 ```
 
 ### Стили

@@ -886,15 +886,16 @@ const MyComponent = () => {
 
 ### Отображение списка опций
 
-Свойство `renderPopup` позволяет управлять содержимым списка опций: изменять порядок стандартных элементов (фильтр, список), скрывать их или добавлять собственные элементы между ними, до или после них.
+Свойство `renderPopup` позволяет управлять содержимым списка опций: изменять порядок стандартных элементов (заголовок, фильтр, список), скрывать их или добавлять собственные элементы между ними, до или после них.
 
 <!--SANDBOX
 import type {SelectProps} from '@gravity-ui/uikit';
 import {Select} from '@gravity-ui/uikit';
 
-const renderPopup: SelectProps['renderPopup'] = ({renderList, renderFilter}) => {
+const renderPopup: SelectProps['renderPopup'] = ({renderList, renderFilter, renderLabel}) => {
     return (
         <>
+            {renderLabel()}
             {renderFilter()}
             <div style={{width: '100%', height: 20, backgroundColor: 'tomato'}} />
             {renderList()}
@@ -927,9 +928,10 @@ SANDBOX-->
 ```tsx
 import type {SelectProps} from '@gravity-ui/uikit';
 
-const renderPopup: SelectProps['renderPopup'] = ({renderList, renderFilter}) => {
+const renderPopup: SelectProps['renderPopup'] = ({renderList, renderFilter, renderLabel}) => {
   return (
     <React.Fragment>
+      {renderLabel()}
       {renderFilter()}
       <div className="CustomElement" />
       {renderList()}

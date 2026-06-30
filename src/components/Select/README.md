@@ -888,15 +888,16 @@ const MyComponent = () => {
 
 ### Rendering options list
 
-The `renderPopup` property allows you to control the content of the options list: change the order of standard elements (filter, list), hide them, or add custom elements between, before, or after them.
+The `renderPopup` property allows you to control the content of the options list: change the order of standard elements (label,filter, list), hide them, or add custom elements between, before, or after them.
 
 <!--SANDBOX
 import type {SelectProps} from '@gravity-ui/uikit';
 import {Select} from '@gravity-ui/uikit';
 
-const renderPopup: SelectProps['renderPopup'] = ({renderList, renderFilter}) => {
+const renderPopup: SelectProps['renderPopup'] = ({renderList, renderFilter, renderLabel}) => {
     return (
         <>
+            {renderLabel()}
             {renderFilter()}
             <div style={{width: '100%', height: 20, backgroundColor: 'tomato'}} />
             {renderList()}
@@ -929,9 +930,10 @@ SANDBOX-->
 ```tsx
 import type {SelectProps} from '@gravity-ui/uikit';
 
-const renderPopup: SelectProps['renderPopup'] = ({renderList, renderFilter}) => {
+const renderPopup: SelectProps['renderPopup'] = ({renderList, renderFilter, renderLabel}) => {
   return (
     <React.Fragment>
+      {renderLabel()}
       {renderFilter()}
       <div className="CustomElement" />
       {renderList()}

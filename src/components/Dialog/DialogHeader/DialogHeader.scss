@@ -13,4 +13,8 @@
     align-items: center;
     justify-content: flex-start;
     color: var(--g-color-text-primary);
+
+    &_mobile {
+        padding-block: 22px 14px;
+    }
 }

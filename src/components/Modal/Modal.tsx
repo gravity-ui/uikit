@@ -27,6 +27,7 @@ import {useAnimateHeight} from '../../hooks/private';
 import {useFloatingTransition} from '../../hooks/private/useFloatingTransition';
 import {Portal} from '../Portal';
 import type {PortalProps} from '../Portal';
+import {MobileContext, useMobile} from '../mobile';
 import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
@@ -141,6 +142,8 @@ function ModalComponent(rawProps: ModalProps) {
         ...restProps
     } = useDefaultProps('Modal', rawProps);
     useLayer({open, type: 'modal'});
+    const mobileModals = React.useContext(MobileContext).__experimentalMobileModals;
+    const mobile = useMobile() && mobileModals;
 
     const overlayRef = React.useRef<HTMLDivElement>(null);
 
@@ -267,42 +270,40 @@ function ModalComponent(rawProps: ModalProps) {
                 <Portal container={container} disablePortal={disablePortal}>
                     <FloatingOverlay
                         ref={overlayRef}
-                        style={style}
-                        className={b({open}, className)}
+                        style={{...style, ...(mobile ? {overflow: 'hidden'} : {})}}
+                        className={b({open, mobile}, className)}
                         data-qa={qa}
                         data-floating-ui-status={status}
                         lockScroll={!disableBodyScrollLock}
                     >
-                        <div className={b('content-aligner')}>
-                            <div className={b('content-wrapper')}>
-                                <FloatingFocusManager
-                                    context={context}
-                                    disabled={!isMounted}
-                                    modal={isMounted}
-                                    initialFocus={initialFocus ?? refs.floating}
-                                    returnFocus={returnFocus}
-                                    visuallyHiddenDismiss={
-                                        disableVisuallyHiddenDismiss ? false : t('close')
-                                    }
-                                    restoreFocus={true}
+                        <FloatingFocusManager
+                            context={context}
+                            disabled={!isMounted}
+                            modal={isMounted}
+                            initialFocus={initialFocus ?? refs.floating}
+                            returnFocus={returnFocus}
+                            visuallyHiddenDismiss={
+                                disableVisuallyHiddenDismiss ? false : t('close')
+                            }
+                            restoreFocus={true}
+                        >
+                            <div className={b('content-aligner')}>
+                                <div
+                                    {...filterDOMProps(restProps, {labelable: true})}
+                                    className={b(
+                                        'content',
+                                        {'has-scroll': mobile ? true : contentOverflow === 'auto'},
+                                        contentClassName,
+                                    )}
+                                    ref={handleFloatingRef}
+                                    {...getFloatingProps({
+                                        onKeyDown: handleKeyDown,
+                                    })}
                                 >
-                                    <div
-                                        {...filterDOMProps(restProps, {labelable: true})}
-                                        className={b(
-                                            'content',
-                                            {'has-scroll': contentOverflow === 'auto'},
-                                            contentClassName,
-                                        )}
-                                        ref={handleFloatingRef}
-                                        {...getFloatingProps({
-                                            onKeyDown: handleKeyDown,
-                                        })}
-                                    >
-                                        {children}
-                                    </div>
-                                </FloatingFocusManager>
+                                    {children}
+                                </div>
                             </div>
-                        </div>
+                        </FloatingFocusManager>
                     </FloatingOverlay>
                 </Portal>
             ) : null}

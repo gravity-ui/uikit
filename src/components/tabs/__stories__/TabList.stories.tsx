@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import {DragDropContext, Draggable, Droppable} from '@hello-pangea/dnd';
+import type {DropResult} from '@hello-pangea/dnd';
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Showcase} from '../../../demo/Showcase';
@@ -9,7 +11,7 @@ import {Tab} from '../Tab';
 import {TabList} from '../TabList';
 import {TabPanel} from '../TabPanel';
 import {TabProvider} from '../TabProvider';
-import type {TabListProps} from '../types';
+import type {TabListProps, TabProps} from '../types';
 
 import {getTabsMock} from './getTabsMock';
 
@@ -145,6 +147,82 @@ export const ContentOverflow: Story = {
             ))}
         </Showcase>
     ),
+};
+
+function reorder<T>(list: T[], startIndex: number, endIndex: number): T[] {
+    const result = [...list];
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+    return result;
+}
+
+const DraggableRender = (args: TabListProps) => {
+    const [tabs, setTabs] = React.useState<TabProps[]>(() => getTabsMock({}));
+    const [value, setValue] = React.useState(tabs[0].value);
+
+    const onDragEnd = ({source, destination}: DropResult) => {
+        if (!destination) {
+            return;
+        }
+        setTabs((prev) => reorder(prev, source.index, destination.index));
+    };
+
+    return (
+        <div className="tabs-dnd-story">
+            {/*
+              dnd renders `provided.placeholder` with the same tag as the dragged item.
+              Tab is a button, so the placeholder is a button too and picks up the
+              browser's default button styling (grey box + border) — reset it.
+            */}
+            <style>{`
+                .tabs-dnd-story [data-rfd-placeholder-context-id] {
+                    -webkit-appearance: none;
+                    appearance: none;
+                    border: 0;
+                    background: transparent;
+                    padding: 0;
+                }
+            `}</style>
+            <DragDropContext onDragEnd={onDragEnd}>
+                <Droppable droppableId="tab-list" direction="horizontal">
+                    {(droppableProvided) => (
+                        <TabList
+                            {...args}
+                            ref={droppableProvided.innerRef}
+                            value={value}
+                            onUpdate={setValue}
+                            {...droppableProvided.droppableProps}
+                        >
+                            {tabs.map((tab, index) => (
+                                <Draggable
+                                    key={tab.value}
+                                    draggableId={tab.value}
+                                    index={index}
+                                    // Tab renders an interactive button/link, and dnd blocks
+                                    // drag start from interactive elements — opt out of that.
+                                    disableInteractiveElementBlocking
+                                >
+                                    {(draggableProvided) => (
+                                        <Tab
+                                            {...tab}
+                                            ref={draggableProvided.innerRef}
+                                            {...draggableProvided.draggableProps}
+                                            {...draggableProvided.dragHandleProps}
+                                        />
+                                    )}
+                                </Draggable>
+                            ))}
+                            {droppableProvided.placeholder}
+                        </TabList>
+                    )}
+                </Droppable>
+            </DragDropContext>
+        </div>
+    );
+};
+
+export const DragAndDrop: Story = {
+    render: DraggableRender,
 };
 
 export const Panels: Story = {

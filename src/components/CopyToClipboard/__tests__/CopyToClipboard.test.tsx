@@ -83,6 +83,7 @@ describe('CopyToClipboard', () => {
 
     test('should handle copy via fallback on missing Clipboard API', async () => {
         const onCopy = jest.fn();
+        const originalClipboardDescriptor = Object.getOwnPropertyDescriptor(navigator, 'clipboard');
         Object.defineProperty(navigator, 'clipboard', {
             value: undefined,
             configurable: true,
@@ -99,6 +100,10 @@ describe('CopyToClipboard', () => {
         await waitFor(() => {
             expect(onCopy).toHaveBeenCalledWith('text', true);
         });
+
+        if (originalClipboardDescriptor) {
+            Object.defineProperty(navigator, 'clipboard', originalClipboardDescriptor);
+        }
     });
 
     test('should handle copy via fallback on Clipboard API failure', async () => {

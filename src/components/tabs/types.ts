@@ -23,6 +23,15 @@ export interface TabListProps
     moreLabel?: React.ReactNode;
     activateOnFocus?: boolean;
     children?: React.ReactNode;
+    /**
+     * Wraps the already-computed visible tabs, e.g. to enable drag-and-drop with any library.
+     * Called in both `contentOverflow` modes with the post-collapse visible tabs; collapsed tabs
+     * are always rendered as raw `<Tab>` in the overflow menu and are NOT passed here.
+     *
+     * The returned tree MUST preserve each element's `key` and MUST NOT add wrapper DOM around a
+     * tab (a `.g-tab` must stay a direct child of the list, otherwise overflow measurement breaks).
+     */
+    renderTabs?: (tabs: React.ReactElement[]) => React.ReactNode;
 }
 
 interface TabCommonProps extends QAProps, DOMProps {

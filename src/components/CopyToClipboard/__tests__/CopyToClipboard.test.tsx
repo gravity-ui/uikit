@@ -122,5 +122,7 @@ describe('CopyToClipboard', () => {
         await waitFor(() => {
             expect(onCopy).toHaveBeenCalledWith('text', true);
         });
+
+        (navigator.clipboard.writeText as jest.Mock).mockRestore();
     });
 });

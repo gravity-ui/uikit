@@ -10,8 +10,8 @@ import type {
     DroppableProvided,
 } from '@hello-pangea/dnd';
 import {DragDropContext, Draggable, Droppable} from '@hello-pangea/dnd';
-import isEqual from 'lodash/isEqual';
-import isObject from 'lodash/isObject';
+import {isEqual} from 'es-toolkit';
+import {isObject} from 'es-toolkit/compat';
 import type {Size} from 'react-virtualized-auto-sizer';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import type {VariableSizeListProps} from 'react-window';

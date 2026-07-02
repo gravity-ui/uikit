@@ -1,7 +1,9 @@
+import * as React from 'react';
+
 import userEvent from '@testing-library/user-event';
 
 import {Tab, TabList} from '..';
-import {act, render, screen} from '../../../../test-utils/utils';
+import {act, render, screen, within} from '../../../../test-utils/utils';
 import {KeyCode} from '../../../constants';
 import type {TabSize} from '../types';
 
@@ -405,4 +407,124 @@ test('contentOverflow collapse: with narrow container and single tab does not re
     expect(screen.getByTestId(tab1.qa)).toBeVisible();
 
     spy.mockRestore();
+});
+
+// `renderTabs` wraps only the visible tabs (e.g. for drag-and-drop) while the collapse split
+// still runs on the raw <Tab> children. It appends an extra node (like a dnd placeholder) that
+// must NOT be counted as a tab.
+const withPlaceholder = (tabs: React.ReactElement[]) => (
+    <React.Fragment>
+        {tabs}
+        <button key="__placeholder" data-rfd-placeholder-context-id="test" aria-hidden />
+    </React.Fragment>
+);
+
+test('renderTabs: appended node is not counted, no phantom More when everything fits', () => {
+    const spy = jest.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(function (
+        this: Element,
+    ) {
+        if (this.classList.contains('g-tab-list')) return makeDOMRect(1000);
+        if (this.classList.contains('g-tab-list-collapse-item')) return makeDOMRect(80);
+        return makeDOMRect(100);
+    });
+
+    render(
+        <TabList contentOverflow="collapse" value={tab1.value} renderTabs={withPlaceholder}>
+            <Tab value={tab1.value} qa={tab1.qa}>
+                {tab1.title}
+            </Tab>
+            <Tab value={tab2.value} qa={tab2.qa}>
+                {tab2.title}
+            </Tab>
+            <Tab value={tab3.value} qa={tab3.qa}>
+                {tab3.title}
+            </Tab>
+        </TabList>,
+    );
+
+    expect(screen.queryByRole('button', {name: /more/i})).not.toBeInTheDocument();
+    expect(screen.getByTestId(tab1.qa)).toBeVisible();
+    expect(screen.getByTestId(tab3.qa)).toBeVisible();
+
+    spy.mockRestore();
+});
+
+test('renderTabs: overflow count excludes the appended node and menu keeps collapsed tabs', async () => {
+    const user = userEvent.setup();
+    // Container 280px: More(80) + Tab1(100) + Tab2(100) = 280 fits, Tab3 overflows.
+    const spy = jest.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(function (
+        this: Element,
+    ) {
+        if (this.classList.contains('g-tab-list')) return makeDOMRect(280);
+        if (this.classList.contains('g-tab-list-collapse-item')) return makeDOMRect(80);
+        return makeDOMRect(100);
+    });
+
+    render(
+        <TabList contentOverflow="collapse" value={tab1.value} renderTabs={withPlaceholder}>
+            <Tab value={tab1.value} qa={tab1.qa}>
+                {tab1.title}
+            </Tab>
+            <Tab value={tab2.value} qa={tab2.qa}>
+                {tab2.title}
+            </Tab>
+            <Tab value={tab3.value} qa={tab3.qa}>
+                {tab3.title}
+            </Tab>
+        </TabList>,
+    );
+
+    const trigger = screen.getByRole('button', {name: /more/i});
+    // Only Tab3 is collapsed — the appended placeholder is not counted.
+    expect(within(trigger).getByText('1')).toBeInTheDocument();
+
+    await user.click(trigger);
+    // The collapsed tab is rendered in the menu (raw <Tab> stays reachable through the split).
+    expect(await screen.findByText(tab3.title)).toBeVisible();
+
+    spy.mockRestore();
+});
+
+test('renderTabs: preserves tab a11y (role, aria-selected, roving tabIndex)', () => {
+    render(
+        <TabList value={tab2.value} renderTabs={(tabs) => tabs}>
+            <Tab value={tab1.value} qa={tab1.qa}>
+                {tab1.title}
+            </Tab>
+            <Tab value={tab2.value} qa={tab2.qa}>
+                {tab2.title}
+            </Tab>
+        </TabList>,
+    );
+
+    const t1 = screen.getByTestId(tab1.qa);
+    const t2 = screen.getByTestId(tab2.qa);
+
+    expect(t1).toHaveAttribute('role', 'tab');
+    expect(t2).toHaveAttribute('role', 'tab');
+    expect(t2).toHaveAttribute('aria-selected', 'true');
+    expect(t2).toHaveAttribute('tabindex', '0');
+    expect(t1).toHaveAttribute('tabindex', '-1');
+});
+
+test('renderTabs: warns in dev when a tab is wrapped in extra DOM', () => {
+    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    render(
+        <TabList
+            value={tab1.value}
+            renderTabs={(tabs) => tabs.map((tab, i) => <span key={tab.key ?? i}>{tab}</span>)}
+        >
+            <Tab value={tab1.value} qa={tab1.qa}>
+                {tab1.title}
+            </Tab>
+            <Tab value={tab2.value} qa={tab2.qa}>
+                {tab2.title}
+            </Tab>
+        </TabList>,
+    );
+
+    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining('renderTabs'));
+
+    errorSpy.mockRestore();
 });

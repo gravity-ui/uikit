@@ -130,21 +130,105 @@ SANDBOX-->
 
 <!--/GITHUB_BLOCK-->
 
+### Drag and drop
+
+`TabList` stays drag-and-drop-library agnostic. The `renderTabs` prop is a seam: `TabList` computes
+the visible tabs itself (respecting `contentOverflow`, keeping the overflow **More** menu working) and
+hands them to you to wrap in the DnD library of your choice. Collapsed tabs are always rendered as plain
+`<Tab>` in the overflow menu and are not passed to `renderTabs`.
+
+Example with [`@hello-pangea/dnd`](https://github.com/hello-pangea/dnd):
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+import {DragDropContext, Draggable, Droppable} from '@hello-pangea/dnd';
+
+// `renderTabs` receives only the visible tabs, so drag indexes are relative to them.
+// Capture the visible order and reorder by value on drop (works with `contentOverflow="collapse"` too).
+const shownValuesRef = React.useRef<string[]>([]);
+
+const onDragEnd = ({destination, draggableId}) => {
+  if (!destination) return;
+  const toValue = shownValuesRef.current[destination.index];
+  setTabs((prev) => reorder(prev, indexByValue(prev, draggableId), indexByValue(prev, toValue)));
+};
+
+<DragDropContext onDragEnd={onDragEnd}>
+  <Droppable droppableId="tabs" direction="horizontal">
+    {(droppableProvided) => (
+      <TabList
+        ref={droppableProvided.innerRef}
+        {...droppableProvided.droppableProps}
+        value={value}
+        onUpdate={setValue}
+        renderTabs={(shown) => {
+          shownValuesRef.current = shown.map((tab) => tab.props.value);
+          return (
+            <>
+              {shown.map((tab, index) => (
+                <Draggable
+                  key={tab.key}
+                  draggableId={String(tab.props.value)}
+                  index={index}
+                  // Tab renders an interactive <button>, and dnd blocks drag start from
+                  // interactive elements by default — opt out of that.
+                  disableInteractiveElementBlocking
+                >
+                  {(dragProvided) =>
+                    React.cloneElement(tab, {
+                      ref: dragProvided.innerRef,
+                      ...dragProvided.draggableProps,
+                      ...dragProvided.dragHandleProps,
+                    })
+                  }
+                </Draggable>
+              ))}
+              {droppableProvided.placeholder}
+            </>
+          );
+        }}
+      >
+        {tabs.map((tab) => (
+          <Tab key={tab.value} value={tab.value}>
+            {tab.title}
+          </Tab>
+        ))}
+      </TabList>
+    )}
+  </Droppable>
+</DragDropContext>;
+```
+
+<!--/GITHUB_BLOCK-->
+
+Notes:
+
+- `renderTabs` must return exactly one visible tab per received element, preserve each element's `key`,
+  and must not add extra DOM around a tab (a `.g-tab` must stay a direct child of the list). In
+  development, `TabList` warns if this contract is broken. This means only no-wrapper / render-prop DnD
+  libraries are supported (e.g. `@hello-pangea/dnd`, or `@dnd-kit`'s `useSortable` attached to the tab node).
+- `@hello-pangea/dnd` renders its placeholder with the same tag as the dragged item (a `<button>`), which
+  picks up default button styling. Reset it: `[data-rfd-placeholder-context-id] { appearance: none; border: 0; background: transparent; }`.
+- Reordering is pointer-driven; tab keyboard navigation (arrows / Home / End) is preserved. Keyboard-based
+  reordering is out of scope and would be owned by the DnD library.
+
 ### Properties
 
 `TabList` accepts any valid `div` element props in addition to these:
 
-| Name            | Description                                                                            |               Type               | Default  |
-| :-------------- | :------------------------------------------------------------------------------------- | :------------------------------: | :------: |
-| children        | List of tabs, probably with some wrappers                                              |        `React.ReactNode`         |          |
-| value           | Active tab value                                                                       |             `string`             |          |
-| onUpdate        | Update tab handler                                                                     |    `(value: string) => void`     |          |
-| className       | CSS-class of element                                                                   |             `string`             |          |
-| activateOnFocus | Activate tab on focus. Use this only if panel's content can be displayed immediately   |            `boolean`             | `false`  |
-| size            | Element size                                                                           |        `"m"` `"l"` `"xl"`        |  `"m"`   |
-| contentOverflow | How to deal with items that do not fit horizontally (wrap, scroll, or a **More** menu) | `"wrap"` `"scroll"` `"collapse"` | `"wrap"` |
-| moreLabel       | Label for the collapse overflow trigger when the active tab is visible in the list     |        `React.ReactNode`         | `"More"` |
-| qa              | HTML `data-qa` attribute, used in tests                                                |             `string`             |          |
+| Name            | Description                                                                            |                       Type                        | Default  |
+| :-------------- | :------------------------------------------------------------------------------------- | :-----------------------------------------------: | :------: |
+| children        | List of tabs, probably with some wrappers                                              |                 `React.ReactNode`                 |          |
+| value           | Active tab value                                                                       |                     `string`                      |          |
+| onUpdate        | Update tab handler                                                                     |             `(value: string) => void`             |          |
+| className       | CSS-class of element                                                                   |                     `string`                      |          |
+| activateOnFocus | Activate tab on focus. Use this only if panel's content can be displayed immediately   |                     `boolean`                     | `false`  |
+| size            | Element size                                                                           |                `"m"` `"l"` `"xl"`                 |  `"m"`   |
+| contentOverflow | How to deal with items that do not fit horizontally (wrap, scroll, or a **More** menu) |         `"wrap"` `"scroll"` `"collapse"`          | `"wrap"` |
+| moreLabel       | Label for the collapse overflow trigger when the active tab is visible in the list     |                 `React.ReactNode`                 | `"More"` |
+| renderTabs      | Wraps the visible tabs, e.g. to enable drag-and-drop with any library (see below)      | `(tabs: React.ReactElement[]) => React.ReactNode` |          |
+| qa              | HTML `data-qa` attribute, used in tests                                                |                     `string`                      |          |
 
 ## Tab
 

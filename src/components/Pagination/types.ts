@@ -1,9 +1,21 @@
+import type {ButtonCustomElementType} from '../Button';
 import type {QAProps} from '../types';
 
 export type ActionName = 'previous' | 'next' | 'first';
 
 export type PaginationSize = 's' | 'm' | 'l' | 'xl';
 export type PaginationView = 'outlined' | 'clear';
+export type PaginationComponent = ButtonCustomElementType | 'a';
+
+export type GetPaginationItemArgs = {
+    item: PageItem | ButtonItem;
+    /** Page the item navigates to (e.g. for building an `href`/`to`). */
+    page: number;
+};
+
+export type GetPaginationItemProps<P extends Record<string, unknown> = Record<string, unknown>> = (
+    args: GetPaginationItemArgs,
+) => P;
 
 export type PaginationProps = {
     /**
@@ -55,6 +67,16 @@ export type PaginationProps = {
      * Default outlined.
      */
     view?: PaginationView;
+    /**
+     * Overrides the root element for clickable pagination items
+     * (navigation buttons and page buttons).
+     */
+    navigationComponent?: PaginationComponent;
+    /**
+     * Returns extra props per clickable item (e.g. `to` for a router `Link`).
+     * Only applied when `navigationComponent` is set; ignored otherwise (and if disabled).
+     */
+    getItemProps?: GetPaginationItemProps;
 } & QAProps;
 
 type EllipsisItem = {

@@ -1,9 +1,19 @@
+import type * as React from 'react';
+
 import uniq from 'lodash/uniq';
 
 import type {ButtonView} from '../Button';
 import type {InputControlView} from '../controls';
+import {warnOnce} from '../utils/warn';
 
-import type {PaginationSize, PaginationView} from './types';
+import type {
+    ButtonItem,
+    GetPaginationItemProps,
+    PageItem,
+    PaginationComponent,
+    PaginationSize,
+    PaginationView,
+} from './types';
 
 export function getNumerationList({
     page,
@@ -99,4 +109,76 @@ export function getViews({propView, mobile}: {propView: PaginationView; mobile: 
     const pageSizerView = propView === 'outlined' ? 'normal' : 'clear';
 
     return {buttonView, inputView, pageSizerView};
+}
+
+const PAGINATION_MANAGED_PROPS = new Set([
+    'onClick',
+    'className',
+    'size',
+    'view',
+    'selected',
+    'disabled',
+    'qa',
+    'aria-current',
+    'extraProps',
+    'children',
+]);
+
+export function buildComponentProps({
+    component,
+    item,
+    getItemProps,
+    page = 0,
+}: {
+    component?: PaginationComponent;
+    item: PageItem | ButtonItem;
+    getItemProps?: GetPaginationItemProps;
+    page?: number;
+}): Record<string, unknown> {
+    if (!component || (item.type === 'button' && item.disabled)) {
+        return {};
+    }
+
+    const userProps = getItemProps?.({item, page});
+    const filtered: Record<string, unknown> = {};
+    if (userProps) {
+        for (const key of Object.keys(userProps)) {
+            if (!PAGINATION_MANAGED_PROPS.has(key)) {
+                filtered[key] = userProps[key];
+            }
+        }
+    }
+
+    // `Button` renders a native anchor when it receives an `href`
+    if (component === 'a') {
+        if (filtered.href === undefined) {
+            warnOnce(
+                '[Pagination] `component="a"` requires an `href` returned from `getItemProps` for every clickable item, otherwise the item falls back to a native `<button>`.',
+            );
+        }
+        return filtered;
+    }
+    return {component, ...filtered};
+}
+
+// Only plain current-tab clicks should update pagination state.
+export function shouldUpdateOnPaginationItemClick(
+    event: React.MouseEvent<HTMLElement>,
+    hasComponent: boolean,
+) {
+    if (!hasComponent) {
+        return true;
+    }
+
+    const target = event.currentTarget.getAttribute('target');
+
+    return (
+        !event.defaultPrevented &&
+        event.button === 0 &&
+        !event.metaKey &&
+        !event.ctrlKey &&
+        !event.shiftKey &&
+        !event.altKey &&
+        (!target || target === '_self')
+    );
 }

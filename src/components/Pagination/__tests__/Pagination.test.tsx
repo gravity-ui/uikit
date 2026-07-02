@@ -1,8 +1,12 @@
-import {render, screen} from '../../../../test-utils/utils';
+import * as React from 'react';
+
+import userEvent from '@testing-library/user-event';
+
+import {fireEvent, render, screen} from '../../../../test-utils/utils';
 import {MobileProvider} from '../../mobile';
 import {Pagination} from '../Pagination';
 import {PaginationQa, getPaginationPageQa} from '../constants';
-import type {PaginationSize, PaginationView} from '../types';
+import type {PaginationProps, PaginationSize, PaginationView} from '../types';
 import {getSize, getViews} from '../utils';
 
 const noop = () => {};
@@ -203,4 +207,366 @@ describe('Pagination component', () => {
             expect(pageSizer).toHaveClass(expectedPageSizerClass);
         },
     );
+
+    describe('navigationComponent prop', () => {
+        const CustomLink = React.forwardRef<
+            HTMLAnchorElement,
+            React.AnchorHTMLAttributes<HTMLAnchorElement>
+        >(({children, ...props}, ref) => (
+            <a {...props} ref={ref} data-custom-link="true">
+                {children}
+            </a>
+        ));
+        CustomLink.displayName = 'CustomLink';
+
+        test('without navigationComponent, navigation buttons render as <button>', () => {
+            render(<Pagination pageSize={20} total={100} onUpdate={noop} page={2} />);
+
+            expect(screen.getByTestId(PaginationQa.PaginationButtonFirst).tagName).toBe('BUTTON');
+            expect(screen.getByTestId(PaginationQa.PaginationButtonPrevious).tagName).toBe(
+                'BUTTON',
+            );
+            expect(screen.getByTestId(PaginationQa.PaginationButtonNext).tagName).toBe('BUTTON');
+        });
+
+        test('with navigationComponent, navigation buttons render as the custom element', () => {
+            render(
+                <Pagination
+                    pageSize={20}
+                    total={100}
+                    onUpdate={noop}
+                    page={2}
+                    navigationComponent={CustomLink}
+                />,
+            );
+
+            const first = screen.getByTestId(PaginationQa.PaginationButtonFirst);
+            expect(first.tagName).toBe('A');
+            expect(first).toHaveAttribute('data-custom-link', 'true');
+
+            const prev = screen.getByTestId(PaginationQa.PaginationButtonPrevious);
+            expect(prev.tagName).toBe('A');
+
+            const next = screen.getByTestId(PaginationQa.PaginationButtonNext);
+            expect(next.tagName).toBe('A');
+        });
+
+        test('with navigationComponent, page buttons render as the custom element', () => {
+            render(
+                <Pagination
+                    pageSize={20}
+                    total={100}
+                    onUpdate={noop}
+                    page={2}
+                    navigationComponent={CustomLink}
+                />,
+            );
+
+            const page2 = screen.getByTestId(getPaginationPageQa(2));
+            expect(page2.tagName).toBe('A');
+            expect(page2).toHaveAttribute('data-custom-link', 'true');
+        });
+
+        test('with navigationComponent="a", items render as Button links', () => {
+            const getItemProps: PaginationProps['getItemProps'] = ({item}) => {
+                if (item.type === 'page') {
+                    return {href: `?page=${item.page}`, target: '_blank'};
+                }
+                return {href: `?action=${item.action}`, target: '_blank'};
+            };
+
+            render(
+                <Pagination
+                    pageSize={20}
+                    total={100}
+                    onUpdate={noop}
+                    page={2}
+                    navigationComponent="a"
+                    getItemProps={getItemProps}
+                />,
+            );
+
+            const first = screen.getByTestId(PaginationQa.PaginationButtonFirst);
+            expect(first.tagName).toBe('A');
+            expect(first).toHaveAttribute('href', '?action=first');
+            expect(first).toHaveAttribute('rel', 'noopener noreferrer');
+            expect(first).not.toHaveAttribute('role');
+
+            const page2 = screen.getByTestId(getPaginationPageQa(2));
+            expect(page2.tagName).toBe('A');
+            expect(page2).toHaveAttribute('href', '?page=2');
+            expect(page2).toHaveAttribute('rel', 'noopener noreferrer');
+            expect(page2).not.toHaveAttribute('role');
+        });
+
+        test('disabled navigation buttons stay inert <button> even with navigationComponent="a" and href', () => {
+            const getItemProps: PaginationProps['getItemProps'] = ({item}) => {
+                if (item.type === 'page') {
+                    return {href: `?page=${item.page}`};
+                }
+                return {href: `?action=${item.action}`};
+            };
+
+            render(
+                <Pagination
+                    pageSize={20}
+                    total={100}
+                    onUpdate={noop}
+                    page={1}
+                    navigationComponent="a"
+                    getItemProps={getItemProps}
+                />,
+            );
+
+            // On the first page `first` and `previous` are disabled and must not
+            // become navigable anchors, otherwise they stay keyboard-activatable.
+            const first = screen.getByTestId(PaginationQa.PaginationButtonFirst);
+            expect(first.tagName).toBe('BUTTON');
+            expect(first).toBeDisabled();
+            expect(first).not.toHaveAttribute('href');
+
+            const prev = screen.getByTestId(PaginationQa.PaginationButtonPrevious);
+            expect(prev.tagName).toBe('BUTTON');
+            expect(prev).toBeDisabled();
+            expect(prev).not.toHaveAttribute('href');
+
+            // `next` is still enabled and renders as an anchor.
+            const next = screen.getByTestId(PaginationQa.PaginationButtonNext);
+            expect(next.tagName).toBe('A');
+            expect(next).toHaveAttribute('href', '?action=next');
+        });
+
+        test('current page has aria-current="page" when rendered with navigationComponent', () => {
+            render(
+                <Pagination
+                    pageSize={20}
+                    total={100}
+                    onUpdate={noop}
+                    page={2}
+                    navigationComponent={CustomLink}
+                />,
+            );
+
+            const currentPage = screen.getByTestId(getPaginationPageQa(2));
+            expect(currentPage).toHaveAttribute('aria-current', 'page');
+
+            const otherPage = screen.getByTestId(getPaginationPageQa(1));
+            expect(otherPage).not.toHaveAttribute('aria-current');
+        });
+
+        test('without navigationComponent, page buttons keep aria-pressed and have no aria-current', () => {
+            render(<Pagination pageSize={20} total={100} onUpdate={noop} page={2} />);
+
+            const currentPage = screen.getByTestId(getPaginationPageQa(2));
+            expect(currentPage).toHaveAttribute('aria-pressed', 'true');
+            expect(currentPage).not.toHaveAttribute('aria-current');
+        });
+
+        test('simple page item remains a <div> even with navigationComponent', () => {
+            render(
+                <MobileProvider mobile>
+                    <Pagination
+                        pageSize={20}
+                        total={100}
+                        onUpdate={noop}
+                        page={2}
+                        navigationComponent={CustomLink}
+                    />
+                </MobileProvider>,
+            );
+
+            const currentPage = screen.getByTestId(getPaginationPageQa(2));
+            expect(currentPage.tagName).toBe('DIV');
+        });
+
+        test('getItemProps provides extra props per clickable item', () => {
+            const getItemProps: PaginationProps['getItemProps'] = ({item}) => {
+                if (item.type === 'page') {
+                    return {'data-target': `page-${item.page}`};
+                }
+                return {'data-target': `action-${item.action}`};
+            };
+
+            render(
+                <Pagination
+                    pageSize={20}
+                    total={100}
+                    onUpdate={noop}
+                    page={2}
+                    navigationComponent={CustomLink}
+                    getItemProps={getItemProps}
+                />,
+            );
+
+            expect(screen.getByTestId(PaginationQa.PaginationButtonFirst)).toHaveAttribute(
+                'data-target',
+                'action-first',
+            );
+            expect(screen.getByTestId(PaginationQa.PaginationButtonPrevious)).toHaveAttribute(
+                'data-target',
+                'action-previous',
+            );
+            expect(screen.getByTestId(PaginationQa.PaginationButtonNext)).toHaveAttribute(
+                'data-target',
+                'action-next',
+            );
+            expect(screen.getByTestId(getPaginationPageQa(2))).toHaveAttribute(
+                'data-target',
+                'page-2',
+            );
+        });
+
+        test('getItemProps without navigationComponent is ignored', () => {
+            const getItemProps = jest.fn(() => ({'data-ignored': 'true'}));
+
+            render(
+                <Pagination
+                    pageSize={20}
+                    total={100}
+                    onUpdate={noop}
+                    page={2}
+                    getItemProps={getItemProps}
+                />,
+            );
+
+            expect(screen.getByTestId(PaginationQa.PaginationButtonFirst).tagName).toBe('BUTTON');
+            expect(screen.getByTestId(PaginationQa.PaginationButtonFirst)).not.toHaveAttribute(
+                'data-ignored',
+            );
+            expect(getItemProps).not.toHaveBeenCalled();
+        });
+
+        test('Pagination-managed props win over getItemProps on conflict', async () => {
+            const user = userEvent.setup();
+            const onUpdate = jest.fn();
+            const hijack = jest.fn();
+            const getItemProps: PaginationProps['getItemProps'] = () => ({
+                onClick: hijack,
+                qa: 'hijacked',
+                className: 'evil',
+            });
+
+            render(
+                <Pagination
+                    pageSize={20}
+                    total={100}
+                    onUpdate={onUpdate}
+                    page={2}
+                    navigationComponent={CustomLink}
+                    getItemProps={getItemProps}
+                />,
+            );
+
+            expect(screen.queryByTestId('hijacked')).toBeNull();
+
+            const firstButton = screen.getByTestId(PaginationQa.PaginationButtonFirst);
+            expect(firstButton).not.toHaveClass('evil');
+
+            await user.click(firstButton);
+            expect(onUpdate).toHaveBeenCalledWith(1, 20);
+            expect(hijack).not.toHaveBeenCalled();
+        });
+
+        test('clicking custom-rendered element triggers onUpdate', async () => {
+            const user = userEvent.setup();
+            const onUpdate = jest.fn();
+
+            render(
+                <Pagination
+                    pageSize={20}
+                    total={100}
+                    onUpdate={onUpdate}
+                    page={2}
+                    navigationComponent={CustomLink}
+                />,
+            );
+
+            await user.click(screen.getByTestId(PaginationQa.PaginationButtonFirst));
+            expect(onUpdate).toHaveBeenLastCalledWith(1, 20);
+
+            await user.click(screen.getByTestId(getPaginationPageQa(3)));
+            expect(onUpdate).toHaveBeenLastCalledWith(3, 20);
+        });
+
+        test('modified link clicks do not trigger onUpdate in the current page', () => {
+            const onUpdate = jest.fn();
+            const getItemProps: PaginationProps['getItemProps'] = ({item}) => {
+                if (item.type === 'page') {
+                    return {href: `?page=${item.page}`};
+                }
+                return {href: `?action=${item.action}`};
+            };
+
+            render(
+                <Pagination
+                    pageSize={20}
+                    total={100}
+                    onUpdate={onUpdate}
+                    page={2}
+                    navigationComponent="a"
+                    getItemProps={getItemProps}
+                />,
+            );
+
+            fireEvent.click(screen.getByTestId(getPaginationPageQa(3)), {ctrlKey: true});
+            fireEvent.click(screen.getByTestId(PaginationQa.PaginationButtonNext), {
+                metaKey: true,
+            });
+
+            expect(onUpdate).not.toHaveBeenCalled();
+        });
+
+        test('links targeting a new browsing context do not trigger onUpdate', () => {
+            const onUpdate = jest.fn();
+            const getItemProps: PaginationProps['getItemProps'] = ({item}) => {
+                if (item.type === 'page') {
+                    return {href: `?page=${item.page}`, target: '_blank'};
+                }
+                return {href: `?action=${item.action}`, target: '_blank'};
+            };
+
+            render(
+                <Pagination
+                    pageSize={20}
+                    total={100}
+                    onUpdate={onUpdate}
+                    page={2}
+                    navigationComponent="a"
+                    getItemProps={getItemProps}
+                />,
+            );
+
+            fireEvent.click(screen.getByTestId(getPaginationPageQa(3)));
+            fireEvent.click(screen.getByTestId(PaginationQa.PaginationButtonNext));
+
+            expect(onUpdate).not.toHaveBeenCalled();
+        });
+
+        test('plain link clicks still trigger onUpdate', () => {
+            const onUpdate = jest.fn();
+            const getItemProps: PaginationProps['getItemProps'] = ({item}) => {
+                if (item.type === 'page') {
+                    return {href: `?page=${item.page}`};
+                }
+                return {href: `?action=${item.action}`};
+            };
+
+            render(
+                <Pagination
+                    pageSize={20}
+                    total={100}
+                    onUpdate={onUpdate}
+                    page={2}
+                    navigationComponent="a"
+                    getItemProps={getItemProps}
+                />,
+            );
+
+            fireEvent.click(screen.getByTestId(getPaginationPageQa(3)));
+            fireEvent.click(screen.getByTestId(PaginationQa.PaginationButtonNext));
+
+            expect(onUpdate).toHaveBeenNthCalledWith(1, 3, 20);
+            expect(onUpdate).toHaveBeenNthCalledWith(2, 3, 20);
+        });
+    });
 });

@@ -1,2 +1,8 @@
 export * from './Pagination';
-export type {PaginationProps} from './types';
+export type {
+    ButtonItem as PaginationButtonItem,
+    GetPaginationItemProps,
+    PageItem as PaginationPageItem,
+    PaginationComponent,
+    PaginationProps,
+} from './types';

@@ -1,4 +1,9 @@
-import {getNumerationList, getSize, getViews} from './utils';
+import * as warnModule from '../utils/warn';
+
+import type {ButtonItem, PageItem} from './types';
+import {buildComponentProps, getNumerationList, getSize, getViews} from './utils';
+
+const warnOnceMock = jest.spyOn(warnModule, 'warnOnce').mockImplementation(() => {});
 
 describe('Pagination utils', () => {
     describe('[desktop]: getNumerationList', () => {
@@ -392,6 +397,122 @@ describe('Pagination utils', () => {
                 inputView: 'normal',
                 pageSizerView: 'normal',
             });
+        });
+    });
+
+    describe('buildComponentProps', () => {
+        const pageItem: PageItem = {
+            type: 'page',
+            current: false,
+            page: 2,
+            simple: false,
+            key: 2,
+        };
+
+        beforeEach(() => {
+            warnOnceMock.mockClear();
+        });
+
+        it('returns empty object when component is undefined', () => {
+            expect(buildComponentProps({component: undefined, item: pageItem})).toEqual({});
+        });
+
+        it('returns empty object when component is undefined even with getItemProps', () => {
+            const getItemProps = jest.fn(() => ({to: '/foo'}));
+            expect(
+                buildComponentProps({component: undefined, item: pageItem, getItemProps}),
+            ).toEqual({});
+            expect(getItemProps).not.toHaveBeenCalled();
+        });
+
+        it('returns {component} when getItemProps is not provided', () => {
+            const Custom = () => null;
+            expect(buildComponentProps({component: Custom, item: pageItem})).toEqual({
+                component: Custom,
+            });
+        });
+
+        it('returns an empty object and warns for component="a" when getItemProps is not provided', () => {
+            expect(buildComponentProps({component: 'a', item: pageItem})).toEqual({});
+            expect(warnOnceMock).toHaveBeenCalledTimes(1);
+        });
+
+        it('warns for component="a" when getItemProps returns no href', () => {
+            const getItemProps = jest.fn(() => ({target: '_blank'}));
+            expect(buildComponentProps({component: 'a', item: pageItem, getItemProps})).toEqual({
+                target: '_blank',
+            });
+            expect(warnOnceMock).toHaveBeenCalledTimes(1);
+        });
+
+        it('merges getItemProps result with component', () => {
+            const Custom = () => null;
+            const getItemProps = jest.fn(() => ({to: '?page=2', 'data-x': '1'}));
+            expect(
+                buildComponentProps({component: Custom, item: pageItem, getItemProps, page: 2}),
+            ).toEqual({
+                component: Custom,
+                to: '?page=2',
+                'data-x': '1',
+            });
+            expect(getItemProps).toHaveBeenCalledWith({item: pageItem, page: 2});
+        });
+
+        it('returns anchor props without component for component="a" and does not warn', () => {
+            const getItemProps = jest.fn(() => ({href: '?page=2', target: '_blank'}));
+            expect(
+                buildComponentProps({component: 'a', item: pageItem, getItemProps, page: 2}),
+            ).toEqual({
+                href: '?page=2',
+                target: '_blank',
+            });
+            expect(getItemProps).toHaveBeenCalledWith({item: pageItem, page: 2});
+            expect(warnOnceMock).not.toHaveBeenCalled();
+        });
+
+        it('strips Pagination-managed keys from getItemProps result', () => {
+            const Custom = () => null;
+            const hijack = () => {};
+            const getItemProps = jest.fn(() => ({
+                to: '?page=2',
+                onClick: hijack,
+                className: 'evil',
+                size: 'xl',
+                view: 'normal',
+                selected: true,
+                disabled: true,
+                qa: 'hijacked',
+                'aria-current': 'date',
+                extraProps: {onClick: hijack},
+                children: 'pwned',
+            }));
+            expect(buildComponentProps({component: Custom, item: pageItem, getItemProps})).toEqual({
+                component: Custom,
+                to: '?page=2',
+            });
+        });
+
+        it('returns empty object and skips getItemProps for a disabled navigation button', () => {
+            const disabledButton: ButtonItem = {type: 'button', action: 'previous', disabled: true};
+            const getItemProps = jest.fn(() => ({href: '?action=previous'}));
+
+            expect(
+                buildComponentProps({component: 'a', item: disabledButton, getItemProps}),
+            ).toEqual({});
+            expect(getItemProps).not.toHaveBeenCalled();
+            expect(warnOnceMock).not.toHaveBeenCalled();
+        });
+
+        it('still forwards props for an enabled navigation button', () => {
+            const enabledButton: ButtonItem = {type: 'button', action: 'next', disabled: false};
+            const getItemProps = jest.fn(() => ({href: '?action=next'}));
+
+            expect(
+                buildComponentProps({component: 'a', item: enabledButton, getItemProps, page: 3}),
+            ).toEqual({
+                href: '?action=next',
+            });
+            expect(getItemProps).toHaveBeenCalledWith({item: enabledButton, page: 3});
         });
     });
 });

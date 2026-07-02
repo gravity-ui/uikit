@@ -349,7 +349,9 @@ function PopupComponent(rawProps: PopupProps) {
                                 ...floatingStylesProp,
                             }}
                             data-floating-ui-placement={finalPlacement}
-                            data-floating-ui-status={status}
+                            data-floating-ui-status={
+                                status === 'open' && !isPositioned ? 'initial' : status
+                            }
                             aria-modal={modal && isMounted ? true : undefined}
                             {...getFloatingProps()}
                         >

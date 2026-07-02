@@ -1,0 +1,23 @@
+.g-suggest {
+    position: relative;
+    display: block;
+
+    &__popup {
+        max-height: 40vh;
+        overflow: hidden auto;
+    }
+
+    &__loader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: var(--g-spacing-3);
+        min-height: 60px;
+    }
+
+    &__list {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+    }
+}

@@ -1,5 +1,18 @@
 # Changelog
 
+## [7.44.0](https://github.com/gravity-ui/uikit/compare/v7.43.0...v7.44.0) (2026-07-02)
+
+
+### Features
+
+* **Progress:** add custom color to colorStop ([#2713](https://github.com/gravity-ui/uikit/issues/2713)) ([57f071b](https://github.com/gravity-ui/uikit/commit/57f071b73b56a547b8612ae992b24c3045fcb9df))
+
+
+### Bug Fixes
+
+* **CopyToClipboard:** correctly use fallback ([#2432](https://github.com/gravity-ui/uikit/issues/2432)) ([50b0612](https://github.com/gravity-ui/uikit/commit/50b0612f8b077dbe050fe71c7d0b0d706a50b697))
+* **Popup:** keep status as 'initial' until positioned to avoid open flash ([#2714](https://github.com/gravity-ui/uikit/issues/2714)) ([0974f1f](https://github.com/gravity-ui/uikit/commit/0974f1f9d37ca3e6f74daa0cae503596493f3246))
+
 ## [7.43.0](https://github.com/gravity-ui/uikit/compare/v7.42.0...v7.43.0) (2026-06-24)
 
 

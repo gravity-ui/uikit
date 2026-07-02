@@ -4,7 +4,7 @@ The legacy `Popover` (`@gravity-ui/uikit/legacy`) is a fully-styled tooltip/popo
 
 The new `Popover` (`@gravity-ui/uikit`) is a thin, headless wrapper around [`Popup`](../Popup/README.md) — it only handles trigger interactivity (hover/click, delays, dismiss, focus) and renders whatever `content` you pass it, without any built-in title/buttons/theme styling.
 
-To reproduce the old look, render an [`Alert`](../Alert/README.md) as `content`. `Alert`'s `theme="clear"` is designed for exactly this: no background/border of its own (the new `Popover`/`Popup` already provides the surface), just a title/message/actions/close-button layout.
+**`Popup` applies no styling to `content` at all — not even padding.** It only draws its own surface (background/border/shadow/border-radius); everything inside is rendered flush against that surface's edges. Because of this, `content` must always be wrapped in an [`Alert`](../Alert/README.md) (or another component that supplies its own padding/layout) — plain text or a bare `div` will visually stick to the popup's edges. Render an `Alert` as `content` even for a simple one-line message. `Alert`'s `theme="clear"` is designed for exactly this: no background/border of its own (the new `Popover`/`Popup` already provides the surface), just a title/message/actions/close-button layout with proper padding.
 
 ## Quick example
 
@@ -58,7 +58,7 @@ Note that `hasArrow` is set explicitly above.
 
 ## Content props → `Alert`
 
-Render `<Alert theme="clear" ... />` as `content`. `Popup` already supplies the background/border/shadow/border-radius surface, so an `Alert` with its own filled/outlined surface would double it up — `theme="clear"` gives just padding and layout.
+Render `<Alert theme="clear" ... />` as `content`. `Popup` already supplies the background/border/shadow/border-radius surface, so an `Alert` with its own filled/outlined surface would double it up — `theme="clear"` gives just padding and layout. This padding isn't optional cosmetics: `Popup` itself has none, so skipping `Alert` (or any other padding-providing wrapper) leaves `content` rendered flush against the popup's edges.
 
 | Legacy                                                               | `Alert` equivalent                                                                                                                                                                                                                                 |
 | -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

@@ -64,12 +64,12 @@ export function useListState<T>(props: UseListStateProps<T>): ListState<T> {
     // Depend on `index` alone so these accessors stay stable across expansion changes.
     const accessors = React.useMemo(
         () => ({
-            getItemById: (id: string) => index.itemById.get(id),
-            getLevel: (id: string) => index.levelById.get(id) ?? 0,
-            getParentId: (id: string) => index.parentById.get(id),
-            getChildrenIds: (id: string) => index.childrenIdsById.get(id),
-            getChildrenState: (id: string) => index.childrenStateById.get(id),
-            isDisabled: (id: string) => index.disabledById.get(id) ?? false,
+            getItemById: (id: string) => index.nodeById.get(id)?.item,
+            getLevel: (id: string) => index.nodeById.get(id)?.level ?? 0,
+            getParentId: (id: string) => index.nodeById.get(id)?.parentId,
+            getChildrenIds: (id: string) => index.nodeById.get(id)?.childrenIds,
+            getChildrenState: (id: string) => index.nodeById.get(id)?.childrenState,
+            isDisabled: (id: string) => index.nodeById.get(id)?.disabled ?? false,
         }),
         [index],
     );

@@ -1,11 +1,22 @@
 import type {ListChildrenState, ListItemGetters} from '../types';
 
+/** A single node record in the structural index. Treated as immutable once created. */
+export interface ListNode<T> {
+    item: T;
+    level: number;
+    parentId: string | undefined;
+    /** `undefined` = leaf or unloaded folder; `[]` = loaded empty folder */
+    childrenIds: string[] | undefined;
+    childrenState: ListChildrenState | undefined;
+    disabled: boolean;
+}
+
 /**
- * Precomputed structural index of the item forest. All per-node maps are keyed by item id.
+ * Precomputed structural index of the item forest — one `ListNode` record per id.
  * `visibleIds` is derived from this index plus the expansion set (see `computeVisibleIds`)
  * without touching the getters, so expanding a node never re-traverses the forest.
  *
- * The index is rebuilt into **fresh maps** on every `items` reference (see
+ * The index is rebuilt into a **fresh map** on every `items` reference (see
  * `reconcileListStateIndex`) — it never mutates a previously produced index, so it is safe to
  * compute during render under React concurrent mode. The previous index is used only as a
  * read-only source to reuse unchanged subtrees, which keeps *getter* work proportional to the
@@ -16,13 +27,7 @@ export interface ListStateIndex<T> {
     sourceItems: T[];
     /** Top-level item ids in order */
     rootIds: string[];
-    itemById: Map<string, T>;
-    levelById: Map<string, number>;
-    parentById: Map<string, string | undefined>;
-    /** `undefined` = leaf or unloaded folder; `[]` = loaded empty folder */
-    childrenIdsById: Map<string, string[] | undefined>;
-    childrenStateById: Map<string, ListChildrenState | undefined>;
-    disabledById: Map<string, boolean>;
+    nodeById: Map<string, ListNode<T>>;
 }
 
 type StructuralGetters<T> = Required<
@@ -58,18 +63,19 @@ function resolveStructuralGetters<T>(getters: ListItemGetters<T>): StructuralGet
 }
 
 /**
- * Rebuilds the structural index for a new `items` reference into fresh maps, reusing the
+ * Rebuilds the structural index for a new `items` reference into a fresh map, reusing the
  * previous index where possible:
  *
  * - a node whose item **reference** and position (`level`, `parentId`) are unchanged has its
- *   whole subtree copied over from `previous` — no getters are called for it;
+ *   whole subtree copied over from `previous` — the immutable node records are reused by
+ *   reference and no getters are called for it;
  * - a changed / new / moved node is rebuilt from its getters and its children reconciled
  *   recursively.
  *
- * Because the result is always a brand-new index (fresh maps, fresh wrapper), the previous
+ * Because the result is always a brand-new index (fresh map, fresh wrapper), the previous
  * index is never mutated: the function is a pure function of `items`/`getters`, and `previous`
  * only affects how much work is reused, never the result. Removed nodes simply never make it
- * into the new maps — no pruning step is needed. Reconciling the same `items` reference is a
+ * into the new map — no pruning step is needed. Reconciling the same `items` reference is a
  * no-op that returns `previous` unchanged.
  */
 export function reconcileListStateIndex<T>(
@@ -84,12 +90,7 @@ export function reconcileListStateIndex<T>(
     const {getItemId, getItemChildren, getItemDisabled, getItemChildrenState} =
         resolveStructuralGetters(getters);
 
-    const itemById = new Map<string, T>();
-    const levelById = new Map<string, number>();
-    const parentById = new Map<string, string | undefined>();
-    const childrenIdsById = new Map<string, string[] | undefined>();
-    const childrenStateById = new Map<string, ListChildrenState | undefined>();
-    const disabledById = new Map<string, boolean>();
+    const nodeById = new Map<string, ListNode<T>>();
 
     const seen = process.env.NODE_ENV === 'production' ? null : new Set<string>();
     const markSeen = (id: string) => {
@@ -103,21 +104,18 @@ export function reconcileListStateIndex<T>(
         }
     };
 
-    // Copies a whole unchanged subtree from `previous` into the fresh maps without calling any
-    // getters. `previous` is guaranteed non-null here (only reached from the reuse fast-path).
+    // Copies a whole unchanged subtree from `previous`, reusing its immutable node records by
+    // reference — no getters are called.
     const copyReusedSubtree = (id: string) => {
-        const prev = previous as ListStateIndex<T>;
+        const node = previous?.nodeById.get(id);
+        if (!node) {
+            return;
+        }
         markSeen(id);
-        itemById.set(id, prev.itemById.get(id) as T);
-        levelById.set(id, prev.levelById.get(id) as number);
-        parentById.set(id, prev.parentById.get(id));
-        childrenStateById.set(id, prev.childrenStateById.get(id));
-        disabledById.set(id, prev.disabledById.get(id) as boolean);
-        const childIds = prev.childrenIdsById.get(id);
-        childrenIdsById.set(id, childIds);
-        if (childIds) {
-            for (let i = 0; i < childIds.length; i++) {
-                copyReusedSubtree(childIds[i]);
+        nodeById.set(id, node);
+        if (node.childrenIds) {
+            for (let i = 0; i < node.childrenIds.length; i++) {
+                copyReusedSubtree(node.childrenIds[i]);
             }
         }
     };
@@ -126,22 +124,18 @@ export function reconcileListStateIndex<T>(
         const id = getItemId(item);
 
         // Unchanged reference at the same position ⇒ the whole subtree is intact; copy it over.
+        const prevNode = previous?.nodeById.get(id);
         if (
-            previous &&
-            previous.itemById.get(id) === item &&
-            previous.levelById.get(id) === level &&
-            previous.parentById.get(id) === parentId
+            prevNode &&
+            prevNode.item === item &&
+            prevNode.level === level &&
+            prevNode.parentId === parentId
         ) {
             copyReusedSubtree(id);
             return id;
         }
 
         markSeen(id);
-        itemById.set(id, item);
-        levelById.set(id, level);
-        parentById.set(id, parentId);
-        disabledById.set(id, getItemDisabled(item));
-        childrenStateById.set(id, getItemChildrenState(item));
 
         const childItems = getItemChildren(item);
         let childIds: string[] | undefined;
@@ -153,23 +147,22 @@ export function reconcileListStateIndex<T>(
                 childIds[i] = reconcileNode(childItems[i], level + 1, id);
             }
         }
-        childrenIdsById.set(id, childIds);
+
+        nodeById.set(id, {
+            item,
+            level,
+            parentId,
+            childrenIds: childIds,
+            childrenState: getItemChildrenState(item),
+            disabled: getItemDisabled(item),
+        });
 
         return id;
     };
 
     const rootIds = items.map((item) => reconcileNode(item, 0, undefined));
 
-    return {
-        sourceItems: items,
-        rootIds,
-        itemById,
-        levelById,
-        parentById,
-        childrenIdsById,
-        childrenStateById,
-        disabledById,
-    };
+    return {sourceItems: items, rootIds, nodeById};
 }
 
 /**
@@ -188,7 +181,7 @@ export function computeVisibleIds<T>(
             const id = ids[i];
             result.push(id);
 
-            const childIds = index.childrenIdsById.get(id);
+            const childIds = index.nodeById.get(id)?.childrenIds;
             if (childIds !== undefined && childIds.length > 0 && expandedIds.has(id)) {
                 walk(childIds);
             }

@@ -9,30 +9,6 @@ import {selectControlBlock} from '../constants';
 
 const selectListBlock = block('select-list');
 
-function getHasValueClass() {
-    const hasValueClass = selectControlBlock({'has-value': true})
-        .split(' ')
-        .find((className) => className.endsWith('_has-value'));
-
-    if (!hasValueClass) {
-        throw new Error('has-value modifier class not found');
-    }
-
-    return hasValueClass;
-}
-
-function getTickIconShownClass() {
-    const shownClass = selectListBlock('tick-icon', {shown: true})
-        .split(' ')
-        .find((className) => className.endsWith('_shown'));
-
-    if (!shownClass) {
-        throw new Error('shown modifier class not found');
-    }
-
-    return shownClass;
-}
-
 describe('Select with generic value types', () => {
     it('preserves number type in onUpdate', async () => {
         const onUpdate = jest.fn();
@@ -464,3 +440,27 @@ describe('Select with generic value types', () => {
         expect(mounts).toEqual(['a', 'b']);
     });
 });
+
+function getHasValueClass() {
+    const hasValueClass = selectControlBlock({'has-value': true})
+        .split(' ')
+        .find((className) => className.endsWith('_has-value'));
+
+    if (!hasValueClass) {
+        throw new Error('has-value modifier class not found');
+    }
+
+    return hasValueClass;
+}
+
+function getTickIconShownClass() {
+    const shownClass = selectListBlock('tick-icon', {shown: true})
+        .split(' ')
+        .find((className) => className.endsWith('_shown'));
+
+    if (!shownClass) {
+        throw new Error('shown modifier class not found');
+    }
+
+    return shownClass;
+}

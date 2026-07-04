@@ -5,6 +5,10 @@ import {useControlledState} from '../useControlledState';
 import type {UseSelectOption, UseSelectProps, UseSelectResult} from './types';
 import {useOpenState} from './useOpenState';
 
+const isSameValue = (a: unknown, b: unknown) =>
+    a === b ||
+    (typeof a === 'number' && typeof b === 'number' && Number.isNaN(a) && Number.isNaN(b));
+
 export function useSelect<T extends unknown, V = string>(
     props: UseSelectProps<V>,
 ): UseSelectResult<T, V>;
@@ -42,7 +46,7 @@ export function useSelect<T extends unknown, V = string>({
 
     const handleSingleSelection = React.useCallback(
         (option: UseSelectOption<T, V>) => {
-            if (!value.includes(option.value)) {
+            if (!value.some((v) => isSameValue(v, option.value))) {
                 const nextValue = [option.value];
                 setValue(nextValue);
             }
@@ -54,9 +58,9 @@ export function useSelect<T extends unknown, V = string>({
 
     const handleMultipleSelection = React.useCallback(
         (option: UseSelectOption<T, V>) => {
-            const alreadySelected = value.includes(option.value);
+            const alreadySelected = value.some((v) => isSameValue(v, option.value));
             const nextValue = alreadySelected
-                ? value.filter((iteratedVal) => iteratedVal !== option.value)
+                ? value.filter((iteratedVal) => !isSameValue(iteratedVal, option.value))
                 : [...value, option.value];
 
             setValue(nextValue);

@@ -81,7 +81,8 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
     } = props;
     const showOptionsText = Boolean(selectedOptionsContent);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
-    const hasValue = Array.isArray(value) && value.some((v) => Boolean(v) || v === 0);
+    const hasValue =
+        Array.isArray(value) && value.some((v) => v !== '' && v !== null && v !== undefined);
 
     const direction = useDirection();
 

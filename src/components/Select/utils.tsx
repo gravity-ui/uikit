@@ -21,7 +21,7 @@ import type {
 // "disable" property needs to deactivate group title item in List
 export type GroupTitleItem<T = any> = {label: string; disabled: true; data?: T};
 
-export type FlattenOption<T = any, V = any> = SelectOption<T, V> | GroupTitleItem<T>;
+export type FlattenOption = SelectOption<any, any> | GroupTitleItem;
 
 export type FlattenOptions = FlattenOption[] & {
     [FLATTEN_KEY]: {
@@ -96,6 +96,10 @@ export const serializeOptionValue = (value: unknown): string => {
         return value;
     }
 
+    if (typeof value === 'number') {
+        return String(value);
+    }
+
     try {
         return JSON.stringify(value) ?? String(value);
     } catch {
@@ -122,7 +126,7 @@ const getOptionText = (option: SelectOption<unknown, unknown>): string => {
 export const getSelectedOptionsContent = (
     options: SelectOptions<unknown, unknown>,
     value: unknown[],
-    renderSelectedOption?: SelectProps<any, any>['renderSelectedOption'],
+    renderSelectedOption?: SelectProps<unknown, unknown>['renderSelectedOption'],
 ): React.ReactNode => {
     if (value.length === 0) {
         return null;
@@ -259,7 +263,7 @@ export const getActiveItem = (listRef: React.RefObject<List<FlattenOption> | nul
     return typeof activeItemIndex === 'number' ? items[activeItemIndex] : undefined;
 };
 
-const isOptionMatchedByFilter = (option: SelectOption, filter: string) => {
+const isOptionMatchedByFilter = (option: SelectOption<unknown, unknown>, filter: string) => {
     const lowerOptionText = getOptionText(option).toLocaleLowerCase();
     const lowerFilter = filter.toLocaleLowerCase();
 

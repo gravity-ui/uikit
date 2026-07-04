@@ -359,4 +359,29 @@ describe('Select with generic value types', () => {
 
         expect(screen.getByRole('group')).not.toHaveClass(getHasValueClass());
     });
+
+    it('treats boolean false as a present value for control styling', () => {
+        render(<Select qa="select" value={[false]} options={[{value: false, content: 'No'}]} />);
+
+        expect(screen.getByRole('group')).toHaveClass(getHasValueClass());
+    });
+
+    it('deselects a NaN value in multiple mode', async () => {
+        const onUpdate = jest.fn();
+
+        render(
+            <Select
+                qa="select"
+                multiple
+                value={[NaN]}
+                options={[{value: NaN, content: 'NaN'}]}
+                onUpdate={onUpdate}
+            />,
+        );
+
+        await user.click(screen.getByTestId('select'));
+        await user.click(screen.getByRole('option', {name: 'NaN'}));
+
+        expect(onUpdate).toHaveBeenCalledWith([]);
+    });
 });

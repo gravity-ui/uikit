@@ -54,6 +54,10 @@ describe('getSelectedOptionsContent', () => {
 
             expect(result).toEqual('{"id":1}');
         });
+        test('non-finite number without content. Should serialize via String', async () => {
+            expect(getSelectedOptionsContent([{value: NaN}], [NaN])).toEqual('NaN');
+            expect(getSelectedOptionsContent([{value: Infinity}], [Infinity])).toEqual('Infinity');
+        });
     });
     describe('renderSelectedOption callback', () => {
         const renderSelectedOptionPostfix = 'from callback';

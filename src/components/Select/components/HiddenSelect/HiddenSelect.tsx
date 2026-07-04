@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import {useFormResetHandler} from '../../../../hooks/private';
-import {serializeOptionValue} from '../../utils';
+import {getOptionValueKey, serializeOptionValue} from '../../utils';
 
 interface HiddenSelectProps<V> {
     name?: string;
@@ -31,21 +31,17 @@ export function HiddenSelect<V>(props: HiddenSelectProps<V>) {
 
     return (
         <React.Fragment>
-            {value.map((v, i) => {
-                const serializedValue = serializeOptionValue(v);
-
-                return (
-                    <input
-                        key={`${serializedValue}-${i}`}
-                        ref={i === 0 ? ref : undefined}
-                        value={serializedValue}
-                        type="hidden"
-                        name={name}
-                        form={form}
-                        disabled={disabled}
-                    />
-                );
-            })}
+            {value.map((v, i) => (
+                <input
+                    key={getOptionValueKey(v)}
+                    ref={i === 0 ? ref : undefined}
+                    value={serializeOptionValue(v)}
+                    type="hidden"
+                    name={name}
+                    form={form}
+                    disabled={disabled}
+                />
+            ))}
         </React.Fragment>
     );
 }

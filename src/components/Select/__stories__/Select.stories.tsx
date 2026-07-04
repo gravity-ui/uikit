@@ -118,7 +118,7 @@ export const WithGenericValues: Story = {
 
         return (
             <Flex direction="column" gap={4}>
-                <Flex direction="column" gap={2}>
+                <Flex direction="column" gap={2} alignItems="start">
                     <Text variant="subheader-2">Number values</Text>
                     <Select
                         options={[
@@ -135,7 +135,7 @@ export const WithGenericValues: Story = {
                     </Text>
                 </Flex>
 
-                <Flex direction="column" gap={2}>
+                <Flex direction="column" gap={2} alignItems="start">
                     <Text variant="subheader-2">Object values (compared by reference)</Text>
                     <Select
                         options={USERS.map((u) => ({value: u, content: u.name}))}

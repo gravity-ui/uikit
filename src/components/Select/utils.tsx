@@ -106,7 +106,7 @@ export const serializeOptionValue = (value: unknown): string => {
     }
 };
 
-const getOptionValueKey = (() => {
+export const getOptionValueKey = (() => {
     const keys = new WeakMap<object, string>();
     let nextKey = 0;
 

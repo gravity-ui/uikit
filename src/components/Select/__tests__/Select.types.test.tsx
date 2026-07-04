@@ -3,6 +3,7 @@ import type * as React from 'react';
 import {render, screen} from '../../../../test-utils/utils';
 import type {UseSelectProps, useSelect} from '../../../hooks';
 import {Select} from '../Select';
+import {useSelectOptions} from '../hooks-public/useSelectOptions';
 import type {SelectOption, SelectProps} from '../types';
 
 /**
@@ -125,6 +126,57 @@ export function childrenApiAcceptsExplicitValueType() {
             <Select.Option value={user} content="Alice" />
         </Select>
     );
+}
+
+export function optionCallbacksReceiveTypedValue() {
+    return (
+        <Select<unknown, User>
+            options={[]}
+            renderOption={(_option) => {
+                const assertion: Equal<typeof _option.value, User> = true;
+                return <span>{String(assertion)}</span>;
+            }}
+            filterOption={(_option) => {
+                const assertion: Equal<typeof _option.value, User> = true;
+                return assertion;
+            }}
+            getOptionHeight={(_option) => {
+                const assertion: Equal<typeof _option.value, User> = true;
+                return assertion ? 28 : 0;
+            }}
+        />
+    );
+}
+
+export function useSelectOptionsPreservesValueType() {
+    const options = useSelectOptions({options: [{value: 1, content: 'One'}]});
+    return (
+        <Select
+            options={options}
+            onUpdate={(_value) => {
+                const assertion: Equal<typeof _value, number[]> = true;
+                return assertion;
+            }}
+        />
+    );
+}
+
+export function valueTypeIsInferredFromDefaultValueAlone() {
+    return (
+        <Select
+            options={[]}
+            defaultValue={[1]}
+            onUpdate={(_value) => {
+                const assertion: Equal<typeof _value, number[]> = true;
+                return assertion;
+            }}
+        />
+    );
+}
+
+export function inferredValueConflictIsRejected() {
+    // @ts-expect-error options infer V = number, string[] value must not widen the inference
+    return <Select options={[{value: 1, content: 'One'}]} value={['1']} />;
 }
 
 describe('Select generic value types (smoke)', () => {

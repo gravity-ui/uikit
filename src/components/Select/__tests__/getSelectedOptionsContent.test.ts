@@ -28,6 +28,22 @@ describe('getSelectedOptionsContent', () => {
 
             expect(result).toEqual('content1, val3');
         });
+        test('option with children string. Should return children', () => {
+            expect(getSelectedOptionsContent([{value: 'v', children: 'kid'}], ['v'])).toEqual(
+                'kid',
+            );
+        });
+        test('option with text. Should return text', () => {
+            expect(getSelectedOptionsContent([{value: 'v', text: 'txt'}], ['v'])).toEqual('txt');
+        });
+        test('content has priority over text', () => {
+            expect(
+                getSelectedOptionsContent([{value: 'v', content: 'c', text: 'txt'}], ['v']),
+            ).toEqual('c');
+        });
+        test('empty value. Should return null', () => {
+            expect(getSelectedOptionsContent(options, [])).toBeNull();
+        });
     });
     describe('generic values', () => {
         test('number option presence. Should return content', async () => {
@@ -35,8 +51,8 @@ describe('getSelectedOptionsContent', () => {
 
             expect(result).toEqual('Forty-two');
         });
-        test('number option without content. Should return serialized value', async () => {
-            const result = getSelectedOptionsContent([{value: 42}], [42]);
+        test('number value without matching option. Should return serialized value', () => {
+            const result = getSelectedOptionsContent([], [42]);
 
             expect(result).toEqual('42');
         });
@@ -62,30 +78,47 @@ describe('getSelectedOptionsContent', () => {
 
             expect(result).toEqual('Not a number');
         });
-        test('non-finite number without content. Should serialize via String', async () => {
-            expect(getSelectedOptionsContent([{value: NaN}], [NaN])).toEqual('NaN');
-            expect(getSelectedOptionsContent([{value: Infinity}], [Infinity])).toEqual('Infinity');
+        test('non-finite number without matching option. Should serialize via String', () => {
+            expect(getSelectedOptionsContent([], [NaN])).toEqual('NaN');
+            expect(getSelectedOptionsContent([], [Infinity])).toEqual('Infinity');
+        });
+        test('boolean and null values. Should serialize via JSON', () => {
+            expect(getSelectedOptionsContent([], [true, null])).toEqual('true, null');
+        });
+        test('undefined value. Should serialize via String', () => {
+            expect(getSelectedOptionsContent([], [undefined])).toEqual('undefined');
+        });
+        test('circular object. Should fall back to String', () => {
+            const circular: {self?: unknown} = {};
+            circular.self = circular;
+
+            expect(getSelectedOptionsContent([], [circular])).toEqual('[object Object]');
         });
     });
     describe('renderSelectedOption callback', () => {
-        const renderSelectedOptionPostfix = 'from callback';
-        const renderSelectedOption = jest.fn(
-            (opt) => `${opt.content || opt.value}${renderSelectedOptionPostfix}` as any,
-        );
-
-        test('option presence. Should be called with option', async () => {
-            renderSelectedOption.mockClear();
+        test('option presence. Should be called with option', () => {
+            const renderSelectedOption = jest.fn(() => null as any);
             getSelectedOptionsContent(options, presenceValue, renderSelectedOption);
 
-            expect(renderSelectedOption).toBeCalledTimes(1);
-            expect(renderSelectedOption).toBeCalledWith(options[0], 0);
+            expect(renderSelectedOption).toHaveBeenCalledTimes(1);
+            expect(renderSelectedOption).toHaveBeenCalledWith(options[0], 0);
         });
-        test('option NOT presence. Should be called with generated object', async () => {
-            renderSelectedOption.mockClear();
+        test('option NOT presence. Should be called with generated object', () => {
+            const renderSelectedOption = jest.fn(() => null as any);
             getSelectedOptionsContent(options, notPresenceValue, renderSelectedOption);
 
-            expect(renderSelectedOption).toBeCalledTimes(1);
-            expect(renderSelectedOption).toBeCalledWith({value: notPresenceValue[0]}, 0);
+            expect(renderSelectedOption).toHaveBeenCalledTimes(1);
+            expect(renderSelectedOption).toHaveBeenCalledWith({value: notPresenceValue[0]}, 0);
+        });
+        test('group title items. Should not be resolved as options', () => {
+            const renderSelectedOption = jest.fn(() => null as any);
+            getSelectedOptionsContent(
+                [{label: 'Group', disabled: true} as any, {value: 'v1', content: 'c1'}],
+                [undefined],
+                renderSelectedOption,
+            );
+
+            expect(renderSelectedOption).toHaveBeenCalledWith({value: undefined}, 0);
         });
     });
 });

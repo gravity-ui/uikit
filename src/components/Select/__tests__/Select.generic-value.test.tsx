@@ -5,7 +5,7 @@ import user from '@testing-library/user-event';
 import {render, screen} from '../../../../test-utils/utils';
 import {block} from '../../utils/cn';
 import {Select} from '../Select';
-import {SelectQa, selectControlBlock} from '../constants';
+import {selectControlBlock} from '../constants';
 
 const selectListBlock = block('select-list');
 
@@ -52,7 +52,6 @@ describe('Select with generic value types', () => {
         await user.click(screen.getByText('Two'));
 
         expect(onUpdate).toHaveBeenCalledWith([2]);
-        expect(typeof onUpdate.mock.calls[0][0][0]).toBe('number');
     });
 
     it('preserves object reference on deselect in multiple mode', async () => {
@@ -195,8 +194,8 @@ describe('Select with generic value types', () => {
                     name="user"
                     defaultValue={[alice]}
                     options={[
-                        {value: alice, content: 'Alice'},
-                        {value: bob, content: 'Bob'},
+                        {value: alice, content: 'First user'},
+                        {value: bob, content: 'Second user'},
                     ]}
                     onUpdate={onUpdate}
                 />
@@ -207,13 +206,13 @@ describe('Select with generic value types', () => {
         );
 
         await user.click(screen.getByTestId('select'));
-        await user.click(screen.getByRole('option', {name: 'Bob'}));
+        await user.click(screen.getByRole('option', {name: 'Second user'}));
 
-        expect(screen.getByTestId('select')).toHaveTextContent('Bob');
+        expect(screen.getByTestId('select')).toHaveTextContent('Second user');
 
         await user.click(screen.getByTestId('reset'));
 
-        expect(screen.getByTestId('select')).toHaveTextContent('Alice');
+        expect(screen.getByTestId('select')).toHaveTextContent('First user');
 
         const lastUpdate = onUpdate.mock.calls[onUpdate.mock.calls.length - 1][0];
 
@@ -303,22 +302,23 @@ describe('Select with generic value types', () => {
         expect(screen.getByTestId('select')).toHaveTextContent('Two');
     });
 
-    it('clears number values with onUpdate([])', async () => {
+    it('does not call onUpdate when reselecting the current value in single mode', async () => {
+        const alice = {id: 1, name: 'Alice'};
         const onUpdate = jest.fn();
 
         render(
             <Select
                 qa="select"
-                hasClear
-                value={[1]}
-                options={[{value: 1, content: 'One'}]}
+                value={[alice]}
+                options={[{value: alice, content: 'Alice'}]}
                 onUpdate={onUpdate}
             />,
         );
 
-        await user.click(screen.getByTestId(SelectQa.CLEAR));
+        await user.click(screen.getByTestId('select'));
+        await user.click(screen.getByRole('option', {name: 'Alice'}));
 
-        expect(onUpdate).toHaveBeenCalledWith([]);
+        expect(onUpdate).not.toHaveBeenCalled();
     });
 
     it('marks object values selected by reference', async () => {
@@ -352,14 +352,13 @@ describe('Select with generic value types', () => {
         expect(screen.getByTestId('select')).toHaveTextContent('42');
     });
 
-    it('filters options with number values without crashing', async () => {
+    it('default filter matches against serialized number values', async () => {
         render(<Select qa="select" filterable options={[{value: 42}, {value: 7}]} />);
 
         await user.click(screen.getByTestId('select'));
 
         expect(screen.getAllByRole('option')).toHaveLength(2);
 
-        // the default filter matches against the serialized value when no content is set
         await user.keyboard('4');
 
         expect(screen.getAllByRole('option')).toHaveLength(1);

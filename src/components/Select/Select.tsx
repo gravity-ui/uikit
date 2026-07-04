@@ -42,8 +42,7 @@ type SelectComponent = {
     <T = any, V = string>(
         p: SelectProps<T, V> & {ref?: React.Ref<HTMLButtonElement>},
     ): React.ReactElement;
-    // Non-generic overload: keeps type utilities that do not go through inference
-    // (e.g. React.ComponentProps<typeof Select>, Storybook Meta) resolving to string values
+    // React.ComponentProps and Storybook Meta ignore the V = string default; they resolve to the last signature.
     (p: SelectProps & {ref?: React.Ref<HTMLButtonElement>}): React.ReactElement;
     Option: typeof Option;
     OptionGroup: typeof OptionGroup;

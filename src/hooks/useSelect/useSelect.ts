@@ -5,15 +5,10 @@ import {useControlledState} from '../useControlledState';
 import type {UseSelectOption, UseSelectProps, UseSelectResult} from './types';
 import {useOpenState} from './useOpenState';
 
-const isSameValue = (a: unknown, b: unknown) =>
-    a === b ||
-    (typeof a === 'number' && typeof b === 'number' && Number.isNaN(a) && Number.isNaN(b));
-
 export function useSelect<T extends unknown, V = string>(
     props: UseSelectProps<V>,
 ): UseSelectResult<T, V>;
-// Non-generic overload: keeps type utilities that do not go through inference
-// (e.g. ReturnType/Parameters of useSelect) resolving to string values
+// ReturnType/Parameters ignore the V = string default; they resolve to the last overload.
 export function useSelect(props: UseSelectProps): UseSelectResult<unknown>;
 export function useSelect<T extends unknown, V = string>({
     defaultOpen,
@@ -93,4 +88,11 @@ export function useSelect<T extends unknown, V = string>({
         setActiveIndex,
         ...openState,
     };
+}
+
+function isSameValue(a: unknown, b: unknown) {
+    return (
+        a === b ||
+        (typeof a === 'number' && typeof b === 'number' && Number.isNaN(a) && Number.isNaN(b))
+    );
 }

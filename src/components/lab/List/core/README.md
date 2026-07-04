@@ -67,8 +67,9 @@ uncontrolled otherwise.
   (`isDisabled`) are skipped by every gesture; a range still spans their positions but never selects
   them. The `item` / `section` split is decided upstream via `getItemType`, so this hook needs no
   role of its own.
-- **Anchor** — `extendTo` builds an inclusive range from the anchor (set by the last `select` /
-  `toggle`) along `visibleIds`; in single mode it falls back to `select`.
+- **Anchor** — `extendTo` builds an inclusive range along `visibleIds` from the anchor (set by the
+  last `select` / `toggle`, or by `extendTo` itself when it has none); in single mode it falls back
+  to `select`.
 - **Controlled ids are taken as-is** — `selectedIds` / `defaultSelectedIds` are not filtered against
   selectability; a non-selectable id stays selected until the owner removes it.
 - **`trigger`** — labels the input source (`'keyboard'` / `'pointer'`) in `onSelectedUpdate`;

@@ -165,6 +165,11 @@ export function useListSelection<T>(
                     range.push(visibleId);
                 }
             }
+            // Nothing selectable in the range (e.g. the anchor turned non-selectable after a data
+            // change) — extend to nothing rather than wiping the current selection.
+            if (range.length === 0) {
+                return;
+            }
             commit(range, trigger);
         },
         [canSelect, commit],

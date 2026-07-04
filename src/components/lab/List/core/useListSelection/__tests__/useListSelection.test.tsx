@@ -263,6 +263,38 @@ describe('lab/List core: useListSelection', () => {
             // The range spans the `sec2` header; it is skipped, options are selected.
             expect(result.current.selection.selectedIds).toEqual(['a', 'b', 'c']);
         });
+
+        it('extends up to a section target, excluding the target itself', () => {
+            const {result} = setup(
+                sections,
+                {selectionMode: 'multiple'},
+                {defaultExpandedIds: ['sec1', 'sec2'], getItemType},
+            );
+
+            act(() => result.current.selection.select('a')); // anchor = a
+            act(() => result.current.selection.extendTo('sec2')); // target is a section label
+            expect(result.current.selection.selectedIds).toEqual(['a', 'b']);
+        });
+
+        it('keeps the selection when the anchor turned non-selectable and the range is empty', () => {
+            const {result, rerender} = renderHook(
+                ({items}: {items: Node[]}) => {
+                    const state = useListState({items, getItemType});
+                    const selection = useListSelection(state, {
+                        selectionMode: 'multiple',
+                    }) as ListSelection;
+                    return {selection};
+                },
+                {initialProps: {items: [{id: 'a'}, {id: 'b'}, {id: 'c'}] as Node[]}},
+            );
+
+            act(() => result.current.selection.select('a')); // anchor = a, selection ['a']
+            // `a` becomes disabled and `b` a section — the whole a..b range is now non-selectable.
+            rerender({items: [{id: 'a', disabled: true}, {id: 'b', group: true}, {id: 'c'}]});
+            act(() => result.current.selection.extendTo('b'));
+            // Empty range must not wipe the pre-existing selection.
+            expect(result.current.selection.selectedIds).toEqual(['a']);
+        });
     });
 
     describe('extendTo in single mode', () => {

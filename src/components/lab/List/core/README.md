@@ -53,3 +53,49 @@ and screen readers have no text to work with.
 | isExpanded       | Whether a node is expanded                                         | `(id: string) => boolean`                        |
 | setExpanded      | Expands or collapses a node; emits `onExpandedUpdate`              | `(id: string, expanded: boolean) => void`        |
 | visibleIds       | Ordered ids of the currently visible (expanded) nodes              | `string[]`                                       |
+
+## useListSelection
+
+Tracks which nodes of a `useListState` are selected and exposes the selection gestures
+(`select` / `toggle` / `extendTo` / `selectAll` / `clear`). Returns `undefined` when `selectionMode`
+is omitted, so the list has no selection. Selection is controlled when `selectedIds` is passed,
+uncontrolled otherwise.
+
+### Notes
+
+- **Selectable nodes** — only enabled `item`s. `section` labels (`getItemType`) and disabled rows
+  (`isDisabled`) are skipped by every gesture; a range still spans their positions but never selects
+  them. The `item` / `section` split is decided upstream via `getItemType`, so this hook needs no
+  role of its own.
+- **Anchor** — `extendTo` builds an inclusive range from the anchor (set by the last `select` /
+  `toggle`) along `visibleIds`; in single mode it falls back to `select`.
+- **Controlled ids are taken as-is** — `selectedIds` / `defaultSelectedIds` are not filtered against
+  selectability; a non-selectable id stays selected until the owner removes it.
+- **`trigger`** — labels the input source (`'keyboard'` / `'pointer'`) in `onSelectedUpdate`;
+  defaults to `'pointer'`.
+- **Serializable** — `selectedIds` is always a `string[]`, safe to persist to URL / storage /
+  external state.
+
+### Properties
+
+| Name               | Description                                                   | Type                                                                   | Default |
+| :----------------- | :------------------------------------------------------------ | :--------------------------------------------------------------------- | :------ |
+| defaultSelectedIds | Initially selected ids (uncontrolled)                         | `string[]`                                                             | `[]`    |
+| onSelectedUpdate   | Called when the selection changes                             | `(ids: string[], details: {trigger: 'keyboard' \| 'pointer'}) => void` |         |
+| selectedIds        | Selected ids (controlled)                                     | `string[]`                                                             |         |
+| selectionMode      | At most one selected node or many; omit to turn selection off | `'single' \| 'multiple'`                                               |         |
+
+### Returns
+
+`useListSelection` returns a `ListSelection` object, or `undefined` when `selectionMode` is omitted:
+
+| Name        | Description                                                                                  | Type                                                      |
+| :---------- | :------------------------------------------------------------------------------------------- | :-------------------------------------------------------- |
+| clear       | Clears the selection and resets the range anchor                                             | `(trigger?: 'keyboard' \| 'pointer') => void`             |
+| extendTo    | Extends the selection to a node as an inclusive range from the anchor along `visibleIds`     | `(id: string, trigger?: 'keyboard' \| 'pointer') => void` |
+| isSelected  | Whether a node is selected (`O(1)`)                                                          | `(id: string) => boolean`                                 |
+| mode        | The active selection mode                                                                    | `'single' \| 'multiple'`                                  |
+| select      | Selects a node, replacing the selection, and moves the anchor to it; a no-op if unselectable | `(id: string, trigger?: 'keyboard' \| 'pointer') => void` |
+| selectAll   | Selects every visible, selectable node; a no-op in single mode                               | `(trigger?: 'keyboard' \| 'pointer') => void`             |
+| selectedIds | Selected node ids, in selection order                                                        | `string[]`                                                |
+| toggle      | Toggles a node's selection and moves the anchor to it; a no-op if unselectable               | `(id: string, trigger?: 'keyboard' \| 'pointer') => void` |

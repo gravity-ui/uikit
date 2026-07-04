@@ -1,4 +1,4 @@
-import type {ListChildrenState, ListItemGetters} from '../types';
+import type {ListChildrenState, ListItemGetters, ListItemType} from '../types';
 
 /** A single node record in the structural index. Treated as immutable once created. */
 export interface ListNode<T> {
@@ -9,6 +9,7 @@ export interface ListNode<T> {
     childrenIds: string[] | undefined;
     childrenState: ListChildrenState | undefined;
     disabled: boolean;
+    type: ListItemType;
 }
 
 /**
@@ -33,7 +34,7 @@ export interface ListStateIndex<T> {
 type StructuralGetters<T> = Required<
     Pick<
         ListItemGetters<T>,
-        'getItemId' | 'getItemChildren' | 'getItemDisabled' | 'getItemChildrenState'
+        'getItemId' | 'getItemChildren' | 'getItemDisabled' | 'getItemChildrenState' | 'getItemType'
     >
 >;
 
@@ -59,6 +60,7 @@ function resolveStructuralGetters<T>(getters: ListItemGetters<T>): StructuralGet
                 isString(item)
                     ? undefined
                     : (item as {childrenState?: ListChildrenState}).childrenState),
+        getItemType: getters.getItemType ?? (() => 'item'),
     };
 }
 
@@ -87,7 +89,7 @@ export function reconcileListStateIndex<T>(
         return previous;
     }
 
-    const {getItemId, getItemChildren, getItemDisabled, getItemChildrenState} =
+    const {getItemId, getItemChildren, getItemDisabled, getItemChildrenState, getItemType} =
         resolveStructuralGetters(getters);
 
     const nodeById = new Map<string, ListNode<T>>();
@@ -155,6 +157,7 @@ export function reconcileListStateIndex<T>(
             childrenIds: childIds,
             childrenState: getItemChildrenState(item),
             disabled: getItemDisabled(item),
+            type: getItemType(item),
         });
 
         return id;

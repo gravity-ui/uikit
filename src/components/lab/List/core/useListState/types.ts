@@ -1,4 +1,4 @@
-import type {ListChildrenState, ListItemGetters} from '../types';
+import type {ListChildrenState, ListItemGetters, ListItemType} from '../types';
 
 export interface UseListStateProps<T> extends ListItemGetters<T> {
     /** The single source of data; the core never mutates it. */
@@ -37,6 +37,11 @@ export interface ListState<T> {
     isExpanded(id: string): boolean;
     /** Returns whether a node is disabled. */
     isDisabled(id: string): boolean;
+    /**
+     * Returns the structural role of a node — a selectable, navigable `item` or a non-interactive
+     * `section` label; `item` for unknown ids.
+     */
+    getItemType(id: string): ListItemType;
     /**
      * Expands or collapses a node and emits `onExpandedUpdate`; a no-op when the node is already
      * in the requested state.

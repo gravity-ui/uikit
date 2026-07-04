@@ -13,6 +13,19 @@
 export type ListChildrenState = 'loaded' | 'loading' | 'lazy' | 'canLoadMore';
 
 /**
+ * Structural role of a node.
+ *
+ * - `item` — a selectable, navigable row (the default);
+ * - `section` — a non-interactive group label: skipped by selection and keyboard navigation, but
+ * its children are laid out and expand like any other node.
+ *
+ * Marked explicitly by the list author (`getItemType`) rather than inferred, so the selection layer
+ * stays role-independent — a "leaf is an option, node with children is a section header" rule holds
+ * only for `listbox`, and would misclassify a `tree` folder.
+ */
+export type ListItemType = 'item' | 'section';
+
+/**
  * Data getters. Each has a "read from the item" default, so the minimal case needs none of them;
  * for primitive string items the defaults close over the string itself.
  */
@@ -45,6 +58,15 @@ export interface ListItemGetters<T, C = unknown> {
      * @default the item content, when it is a plain string
      */
     getItemTextValue?: (item: T) => string;
+    /**
+     * Derives the structural role of an item: a selectable, navigable `item` (the default) or a
+     * non-interactive `section` label. Governs selection and keyboard navigation — not disclosure:
+     * a `section` may still hold children and expand like any other node. Lets a list author mark
+     * group headers explicitly, so selection stays role-independent (a leaf-vs-header rule would be
+     * `listbox`-only, and the selection layer has no role).
+     * @default (item) => 'item'
+     */
+    getItemType?: (item: T) => ListItemType;
     /**
      * Derives the renderable content of an item. The only getter without a default, so data
      * fields never leak into rendering implicitly; `C` is inferred from the return value.

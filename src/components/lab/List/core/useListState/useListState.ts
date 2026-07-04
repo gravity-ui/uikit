@@ -70,6 +70,7 @@ export function useListState<T>(props: UseListStateProps<T>): ListState<T> {
             getChildrenIds: (id: string) => index.nodeById.get(id)?.childrenIds,
             getChildrenState: (id: string) => index.nodeById.get(id)?.childrenState,
             isDisabled: (id: string) => index.nodeById.get(id)?.disabled ?? false,
+            getItemType: (id: string) => index.nodeById.get(id)?.type ?? 'item',
         }),
         [index],
     );

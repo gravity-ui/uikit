@@ -5,6 +5,7 @@ import {useListState} from '../useListState';
 interface Node {
     id: string;
     disabled?: boolean;
+    group?: boolean;
     children?: Node[];
     childrenState?: ListChildrenState;
 }
@@ -56,6 +57,59 @@ describe('lab/List core: useListState', () => {
             expect(result.current.visibleIds).toEqual(['x', 'y']);
             expect(result.current.isDisabled('x')).toBe(true);
             expect(result.current.isDisabled('y')).toBe(false);
+        });
+    });
+
+    describe('item type (item / section)', () => {
+        it('defaults every node to item', () => {
+            const {result} = renderHook(() => useListState({items: tree}));
+            expect(result.current.getItemType('root')).toBe('item');
+            expect(result.current.getItemType('c1')).toBe('item');
+        });
+
+        it('defaults to item for primitive string items and unknown ids', () => {
+            const {result} = renderHook(() => useListState({items: ['Apple']}));
+            expect(result.current.getItemType('Apple')).toBe('item');
+            expect(result.current.getItemType('missing')).toBe('item');
+        });
+
+        it('honors a custom getItemType', () => {
+            const items: Node[] = [
+                {id: 'sec', group: true, children: [{id: 'opt'}]},
+                {id: 'plain'},
+            ];
+            const {result} = renderHook(() =>
+                useListState({
+                    items,
+                    defaultExpandedIds: ['sec'],
+                    getItemType: (node) => (node.group ? 'section' : 'item'),
+                }),
+            );
+
+            // A section keeps its structure and expansion — only its role differs.
+            expect(result.current.getItemType('sec')).toBe('section');
+            expect(result.current.getItemType('opt')).toBe('item');
+            expect(result.current.getItemType('plain')).toBe('item');
+            expect(result.current.getChildrenIds('sec')).toEqual(['opt']);
+            expect(result.current.visibleIds).toEqual(['sec', 'opt', 'plain']);
+        });
+
+        it('reuses type on an unchanged subtree without recomputing', () => {
+            const stable: Node = {id: 'sec', group: true, children: [{id: 'opt'}]};
+            const getItemType = jest.fn(
+                (node: Node) => (node.group ? 'section' : 'item') as 'item' | 'section',
+            );
+            const {result, rerender} = renderHook(
+                ({items}: {items: Node[]}) => useListState({items, getItemType}),
+                {initialProps: {items: [stable, {id: 'x'}] as Node[]}},
+            );
+
+            const callsAfterMount = getItemType.mock.calls.length;
+            rerender({items: [stable, {id: 'y'}]});
+
+            expect(result.current.getItemType('sec')).toBe('section');
+            // Only the new node `y` is rebuilt; the stable section subtree is copied by reference.
+            expect(getItemType.mock.calls.length - callsAfterMount).toBe(1);
         });
     });
 

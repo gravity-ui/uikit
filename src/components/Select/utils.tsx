@@ -18,6 +18,12 @@ import type {
     SelectSize,
 } from './types';
 
+// Internal views of the public types with the value/data generics erased
+type ErasedOption = SelectOption<unknown, unknown>;
+type ErasedOptionGroup = SelectOptionGroup<unknown, unknown>;
+type ErasedOptions = SelectOptions<unknown, unknown>;
+type ErasedProps = SelectProps<unknown, unknown>;
+
 // "disable" property needs to deactivate group title item in List
 export type GroupTitleItem<T = any> = {label: string; disabled: true; data?: T};
 
@@ -30,12 +36,12 @@ export type FlattenOptions = FlattenOption[] & {
 };
 
 export const isSelectGroupTitle = (
-    option?: SelectOption<unknown, unknown> | SelectOptionGroup<unknown, unknown>,
+    option?: ErasedOption | ErasedOptionGroup,
 ): option is GroupTitleItem => {
     return Boolean(option && 'label' in option);
 };
 
-export const getFlattenOptions = (options: SelectOptions<unknown, unknown>): FlattenOptions => {
+export const getFlattenOptions = (options: ErasedOptions): FlattenOptions => {
     const flatten = options.reduce<FlattenOption[]>((acc, option) => {
         if ('label' in option) {
             acc.push({label: option.label, disabled: true, data: option.data});
@@ -124,7 +130,7 @@ export const getOptionValueKey = (() => {
     };
 })();
 
-const getOptionText = (option: SelectOption<unknown, unknown>): string => {
+const getOptionText = (option: ErasedOption): string => {
     if (typeof option.content === 'string') {
         return option.content;
     }
@@ -141,9 +147,9 @@ const getOptionText = (option: SelectOption<unknown, unknown>): string => {
 };
 
 export const getSelectedOptionsContent = (
-    options: SelectOptions<unknown, unknown>,
+    options: ErasedOptions,
     value: unknown[],
-    renderSelectedOption?: SelectProps<unknown, unknown>['renderSelectedOption'],
+    renderSelectedOption?: ErasedProps['renderSelectedOption'],
 ): React.ReactNode => {
     if (value.length === 0) {
         return null;
@@ -154,7 +160,7 @@ export const getSelectedOptionsContent = (
         unknown
     >[];
 
-    const optionsMap = new Map<unknown, SelectOption<unknown, unknown>>(
+    const optionsMap = new Map<unknown, ErasedOption>(
         flattenSimpleOptions.map((opt) => [opt.value, opt]),
     );
 
@@ -179,34 +185,26 @@ export const getSelectedOptionsContent = (
     }
 };
 
-const getTypedChildrenArray = (children: SelectProps<unknown, unknown>['children']) => {
+const getTypedChildrenArray = (children: ErasedProps['children']) => {
     return React.Children.toArray(children) as (
-        | React.ReactElement<SelectOption<unknown, unknown>, typeof Option>
-        | React.ReactElement<SelectOptionGroup<unknown, unknown>, typeof OptionGroup>
+        | React.ReactElement<ErasedOption, typeof Option>
+        | React.ReactElement<ErasedOptionGroup, typeof OptionGroup>
     )[];
 };
 
-const getOptionsFromOptgroupChildren = (
-    children: SelectOptionGroup<unknown, unknown>['children'],
-) => {
+const getOptionsFromOptgroupChildren = (children: ErasedOptionGroup['children']) => {
     return (
-        React.Children.toArray(children) as React.ReactElement<
-            SelectOption<unknown, unknown>,
-            typeof Option
-        >[]
-    ).reduce(
-        (acc, {props}) => {
-            if ('value' in props) {
-                acc.push(props);
-            }
+        React.Children.toArray(children) as React.ReactElement<ErasedOption, typeof Option>[]
+    ).reduce((acc, {props}) => {
+        if ('value' in props) {
+            acc.push(props);
+        }
 
-            return acc;
-        },
-        [] as SelectOption<unknown, unknown>[],
-    );
+        return acc;
+    }, [] as ErasedOption[]);
 };
 
-export const getOptionsFromChildren = (children: SelectProps<unknown, unknown>['children']) => {
+export const getOptionsFromChildren = (children: ErasedProps['children']) => {
     return getTypedChildrenArray(children).reduce(
         (acc, {props}) => {
             if ('label' in props) {
@@ -223,7 +221,7 @@ export const getOptionsFromChildren = (children: SelectProps<unknown, unknown>['
 
             return acc;
         },
-        [] as (SelectOption<unknown, unknown> | SelectOptionGroup<unknown, unknown>)[],
+        [] as (ErasedOption | ErasedOptionGroup)[],
     );
 };
 
@@ -280,7 +278,7 @@ export const getActiveItem = (listRef: React.RefObject<List<FlattenOption> | nul
     return typeof activeItemIndex === 'number' ? items[activeItemIndex] : undefined;
 };
 
-const isOptionMatchedByFilter = (option: SelectOption<unknown, unknown>, filter: string) => {
+const isOptionMatchedByFilter = (option: ErasedOption, filter: string) => {
     const lowerOptionText = getOptionText(option).toLocaleLowerCase();
     const lowerFilter = filter.toLocaleLowerCase();
 

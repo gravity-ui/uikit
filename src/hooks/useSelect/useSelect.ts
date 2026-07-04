@@ -90,6 +90,7 @@ export function useSelect<T extends unknown, V = string>({
     };
 }
 
+// SameValueZero: like ===, except NaN equals NaN (NaN === NaN is false).
 function isSameValue(a: unknown, b: unknown) {
     return (
         a === b ||

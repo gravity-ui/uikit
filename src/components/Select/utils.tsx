@@ -92,18 +92,17 @@ export const getOptionsHeight = (args: {
 };
 
 export const serializeOptionValue = (value: unknown): string => {
-    if (typeof value === 'string') {
-        return value;
-    }
-
-    if (typeof value === 'number') {
-        return String(value);
-    }
-
-    try {
-        return JSON.stringify(value) ?? String(value);
-    } catch {
-        return String(value);
+    switch (typeof value) {
+        case 'string':
+            return value;
+        case 'object':
+            try {
+                return JSON.stringify(value) ?? String(value);
+            } catch {
+                return String(value); // circular structure
+            }
+        default:
+            return String(value);
     }
 };
 

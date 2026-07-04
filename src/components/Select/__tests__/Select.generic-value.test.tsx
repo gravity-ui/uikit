@@ -254,6 +254,69 @@ describe('Select with generic value types', () => {
         expect(JSON.parse(formDataRef.current?.get('object') as string)).toEqual(item);
     });
 
+    it('serializes multiple generic values in forms as separate entries', async () => {
+        const first = {id: 1};
+        const second = {id: 2};
+        const formDataRef: {current: FormData | null} = {current: null};
+
+        render(
+            <form
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    formDataRef.current = new FormData(e.currentTarget);
+                }}
+            >
+                <Select
+                    multiple
+                    name="objects"
+                    value={[first, second]}
+                    options={[
+                        {value: first, content: 'First'},
+                        {value: second, content: 'Second'},
+                    ]}
+                />
+                <Select
+                    multiple
+                    name="numbers"
+                    value={[1, 2]}
+                    options={[
+                        {value: 1, content: 'One'},
+                        {value: 2, content: 'Two'},
+                    ]}
+                />
+                <button type="submit" data-qa="submit">
+                    Submit
+                </button>
+            </form>,
+        );
+
+        await user.click(screen.getByTestId('submit'));
+
+        expect(formDataRef.current?.getAll('objects')).toEqual([
+            JSON.stringify(first),
+            JSON.stringify(second),
+        ]);
+        expect(formDataRef.current?.getAll('numbers')).toEqual(['1', '2']);
+    });
+
+    it('does not call onUpdate when reselecting NaN in single mode', async () => {
+        const onUpdate = jest.fn();
+
+        render(
+            <Select
+                qa="select"
+                value={[NaN]}
+                options={[{value: NaN, content: 'Not a number'}]}
+                onUpdate={onUpdate}
+            />,
+        );
+
+        await user.click(screen.getByTestId('select'));
+        await user.click(screen.getByRole('option', {name: 'Not a number'}));
+
+        expect(onUpdate).not.toHaveBeenCalled();
+    });
+
     it('selects and updates number values in single mode', async () => {
         const onUpdate = jest.fn();
 

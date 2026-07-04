@@ -107,6 +107,24 @@ export const serializeOptionValue = (value: unknown): string => {
     }
 };
 
+const getOptionValueKey = (() => {
+    const keys = new WeakMap<object, string>();
+    let nextKey = 0;
+
+    // selection works by reference for object values, so React keys follow identity too
+    return (value: unknown): string => {
+        if (typeof value === 'object' && value !== null) {
+            let key = keys.get(value);
+            if (key === undefined) {
+                key = `obj-${nextKey++}`;
+                keys.set(value, key);
+            }
+            return key;
+        }
+        return serializeOptionValue(value);
+    };
+})();
+
 const getOptionText = (option: SelectOption<unknown, unknown>): string => {
     if (typeof option.content === 'string') {
         return option.content;
@@ -148,7 +166,7 @@ export const getSelectedOptionsContent = (
     if (renderSelectedOption) {
         return selectedOptions.map((option, index) => {
             return (
-                <React.Fragment key={`${serializeOptionValue(option.value)}-${index}`}>
+                <React.Fragment key={getOptionValueKey(option.value)}>
                     {renderSelectedOption(option, index)}
                 </React.Fragment>
             );

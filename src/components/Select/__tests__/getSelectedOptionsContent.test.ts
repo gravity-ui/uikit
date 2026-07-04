@@ -54,6 +54,14 @@ describe('getSelectedOptionsContent', () => {
 
             expect(result).toEqual('{"id":1}');
         });
+        test('NaN option with content. Should resolve content via lookup', async () => {
+            const result = getSelectedOptionsContent(
+                [{value: NaN, content: 'Not a number'}],
+                [NaN],
+            );
+
+            expect(result).toEqual('Not a number');
+        });
         test('non-finite number without content. Should serialize via String', async () => {
             expect(getSelectedOptionsContent([{value: NaN}], [NaN])).toEqual('NaN');
             expect(getSelectedOptionsContent([{value: Infinity}], [Infinity])).toEqual('Infinity');

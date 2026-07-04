@@ -1,8 +1,13 @@
+import * as React from 'react';
+
 import user from '@testing-library/user-event';
 
 import {render, screen} from '../../../../test-utils/utils';
+import {block} from '../../utils/cn';
 import {Select} from '../Select';
 import {SelectQa, selectControlBlock} from '../constants';
+
+const selectListBlock = block('select-list');
 
 function getHasValueClass() {
     const hasValueClass = selectControlBlock({'has-value': true})
@@ -14,6 +19,18 @@ function getHasValueClass() {
     }
 
     return hasValueClass;
+}
+
+function getTickIconShownClass() {
+    const shownClass = selectListBlock('tick-icon', {shown: true})
+        .split(' ')
+        .find((className) => className.endsWith('_shown'));
+
+    if (!shownClass) {
+        throw new Error('shown modifier class not found');
+    }
+
+    return shownClass;
 }
 
 describe('Select with generic value types', () => {
@@ -383,5 +400,68 @@ describe('Select with generic value types', () => {
         await user.click(screen.getByRole('option', {name: 'NaN'}));
 
         expect(onUpdate).toHaveBeenCalledWith([]);
+    });
+
+    it('renders a NaN option as selected in multiple mode', async () => {
+        render(
+            <Select
+                qa="select"
+                multiple
+                value={[NaN]}
+                options={[
+                    {value: NaN, content: 'NaN'},
+                    {value: 1, content: 'One'},
+                ]}
+            />,
+        );
+
+        await user.click(screen.getByTestId('select'));
+
+        const shownClass = getTickIconShownClass();
+        // eslint-disable-next-line testing-library/no-node-access
+        const nanTick = screen.getByRole('option', {name: 'NaN'}).querySelector(`.${shownClass}`);
+        // eslint-disable-next-line testing-library/no-node-access
+        const oneTick = screen.getByRole('option', {name: 'One'}).querySelector(`.${shownClass}`);
+
+        expect(nanTick).not.toBeNull();
+        expect(oneTick).toBeNull();
+    });
+
+    it('keeps selected option renderers mounted when a preceding value is removed', () => {
+        const mounts: string[] = [];
+
+        function Chip({label}: {label: string}) {
+            React.useEffect(() => {
+                mounts.push(label);
+            }, [label]);
+
+            return <span>{label}</span>;
+        }
+
+        const options = [
+            {value: 'a', content: 'A'},
+            {value: 'b', content: 'B'},
+        ];
+
+        const {rerender} = render(
+            <Select
+                qa="select"
+                multiple
+                value={['a', 'b']}
+                options={options}
+                renderSelectedOption={(option) => <Chip label={String(option.value)} />}
+            />,
+        );
+        rerender(
+            <Select
+                qa="select"
+                multiple
+                value={['b']}
+                options={options}
+                renderSelectedOption={(option) => <Chip label={String(option.value)} />}
+            />,
+        );
+
+        expect(mounts).toEqual(['a', 'b']);
     });
 });

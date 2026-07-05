@@ -3,7 +3,7 @@ import * as React from 'react';
 import userEvent from '@testing-library/user-event';
 
 import {fireEvent, render, screen} from '../../../../test-utils/utils';
-import {SheetQa} from '../../../components/Sheet/constants';
+import {SheetQa} from '../../Sheet/constants';
 import {TextInput} from '../../controls';
 import {MobileProvider} from '../../mobile';
 import {Select} from '../Select';

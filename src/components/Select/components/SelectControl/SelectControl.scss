@@ -250,4 +250,12 @@ $blockButton: '.#{variables.$ns}select-control__button';
             outline: 0;
         }
     }
+
+    &__error-popover {
+        max-width: 300px;
+    }
+
+    &__error-popover-content {
+        padding: var(--g-spacing-5) var(--g-spacing-4);
+    }
 }

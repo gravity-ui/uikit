@@ -52,7 +52,7 @@ const SheetExample = () => {
 
 ## CSS API
 
-| Name                         | Description      |
-| :--------------------------- | :--------------- |
-| `--g-sheet-content-padding`  | Content padding  |
-| `--g-sheet-background-color` | Background color |
+| Name                         | Description                                                                                                                                                            |
+| :--------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--g-sheet-content-padding`  | Content padding. The default value automatically includes `env(safe-area-inset-bottom)` for the bottom and `max(10px, env(safe-area-inset-left/right))` for the sides. |
+| `--g-sheet-background-color` | Background color                                                                                                                                                       |

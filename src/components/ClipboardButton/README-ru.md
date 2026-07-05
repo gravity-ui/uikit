@@ -10,15 +10,13 @@ import {ClipboardButton} from '@gravity-ui/uikit';
 
 `ClipboardButton` — компонент, объединяющий [`CopyToClipboard`](../CopyToClipboard/README.md) и [`ClipboardIcon`](../ClipboardIcon/README.md). [`CopyToClipboard`](../CopyToClipboard/README.md) отправляет текст в буфер обмена и использует [`ClipboardIcon`](../ClipboardIcon/README.md) для отображения анимации во время копирования.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<ClipboardButton text="Some text to copy" />
-`}
->
-    <UIKit.ClipboardButton text="Some text to copy" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {ClipboardButton} from '@gravity-ui/uikit';
+
+export default function () {
+    return <ClipboardButton text="Some text to copy" />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

@@ -2,7 +2,8 @@ import * as React from 'react';
 
 import {Bulb} from '@gravity-ui/icons';
 
-import {ActionTooltip, Button, CopyToClipboard, Icon} from '../../components';
+import {ActionTooltip, Button, Icon, Label} from '../../components';
+import {cn} from '../../components/utils/cn';
 
 import './ColorPanel.scss';
 
@@ -12,68 +13,99 @@ interface ColorInfo {
     description: string;
 }
 
+const BACKGROUND_LIST = ['normal', 'brand', 'dark'] as const;
+type Background = (typeof BACKGROUND_LIST)[number];
+
 interface ColorPanelProps {
     title: string;
-    description: string;
+    description?: string;
     colors: ColorInfo[];
     boxBorders?: boolean;
+    defaultBackground?: Background;
 }
 
-const BACKGROUND_LIST = ['normal', 'brand', 'dark'];
+const b = cn('color-panel');
 const switchBackgroundTitle = 'Switch background';
 
+function getColorVarName(name: string) {
+    return `--g-color-${name}`;
+}
+
+function shouldColorizeTitle(name: string) {
+    return name.startsWith('text-') && name !== 'text-primary';
+}
+
 export function ColorPanel(props: ColorPanelProps) {
-    const [currentBackgroundIndex, setCurrentBackgroundIndex] = React.useState(0);
+    const {title, description, colors, boxBorders, defaultBackground} = props;
+    const initialIndex = defaultBackground ? BACKGROUND_LIST.indexOf(defaultBackground) : 0;
+    const [currentBackgroundIndex, setCurrentBackgroundIndex] = React.useState(
+        initialIndex >= 0 ? initialIndex : 0,
+    );
 
     function rotateBackground() {
         setCurrentBackgroundIndex((index) => (index + 1) % BACKGROUND_LIST.length);
     }
 
-    function renderColors(colors: ColorInfo[]) {
-        const boxBorders = props.boxBorders ? 'color-panel__card-box_bordered' : '';
+    function renderColors() {
         return colors.map((color) => {
-            const varName = `--g-color-${color.name}`;
+            const varName = getColorVarName(color.name);
             const copyText = `var(${varName})`;
+            const titleStyle = shouldColorizeTitle(color.name)
+                ? {color: `var(${varName})`}
+                : undefined;
+
             return (
-                <div className="color-panel__card" key={color.name}>
-                    <CopyToClipboard text={copyText}>
+                <div className={b('item')} key={color.name}>
+                    <div className={b('item-content')}>
                         <div
-                            className={`color-panel__card-box ${boxBorders}`}
-                            style={{background: `var(${varName})`}}
+                            className={b('swatch', {bordered: boxBorders})}
+                            style={{backgroundColor: `var(${varName})`}}
                         />
-                    </CopyToClipboard>
-                    <div className="color-panel__card-texts">
-                        <div className="color-panel__card-headline">
-                            <div className="color-panel__card-title">{color.title}</div>
-                            <CopyToClipboard text={copyText}>
-                                <div className="color-panel__card-var">{varName}</div>
-                            </CopyToClipboard>
+                        <div className={b('item-texts')}>
+                            <div className={b('item-title-row')}>
+                                <div className={b('item-title')} style={titleStyle}>
+                                    {color.title}
+                                </div>
+                                <Label
+                                    type="copy"
+                                    copyText={copyText}
+                                    copyButtonLabel="Copy"
+                                    size="s"
+                                    theme="unknown"
+                                >
+                                    {copyText}
+                                </Label>
+                            </div>
+                            <div className={b('item-description')}>{color.description}</div>
                         </div>
-                        <div className="color-panel__card-description">{color.description}</div>
                     </div>
                 </div>
             );
         });
     }
 
+    const currentBackground = BACKGROUND_LIST[currentBackgroundIndex];
+    const switcherView = currentBackground === 'normal' ? 'outlined' : 'outlined-contrast';
+
     return (
-        <div className={`color-panel color-panel_bg_${BACKGROUND_LIST[currentBackgroundIndex]}`}>
-            <ActionTooltip title={switchBackgroundTitle}>
-                <Button
-                    view={
-                        currentBackgroundIndex % BACKGROUND_LIST.length === 0
-                            ? 'outlined'
-                            : 'outlined-contrast'
-                    }
-                    className="color-panel__bg-switcher"
-                    onClick={() => rotateBackground()}
-                >
-                    <Icon data={Bulb} />
-                </Button>
-            </ActionTooltip>
-            <div className="color-panel__title">{props.title}</div>
-            <div className="color-panel__description">{props.description}</div>
-            <div className="color-panel__colors">{renderColors(props.colors)}</div>
+        <div className={b({bg: currentBackground})}>
+            <div className={b('header')}>
+                <div className={b('header-content')}>
+                    <div className={b('title')}>{title}</div>
+                    {description && <div className={b('description')}>{description}</div>}
+                </div>
+                <ActionTooltip title={switchBackgroundTitle}>
+                    <Button
+                        view={switcherView}
+                        size="s"
+                        className={b('bg-switcher')}
+                        onClick={rotateBackground}
+                    >
+                        <Icon data={Bulb} />
+                    </Button>
+                </ActionTooltip>
+            </div>
+            <div className={b('colors')}>{renderColors()}</div>
         </div>
     );
 }

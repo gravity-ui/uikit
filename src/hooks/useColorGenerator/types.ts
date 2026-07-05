@@ -1,4 +1,4 @@
-import type {ThemeType} from 'src/components';
+import type {ThemeType} from '../../components';
 
 export type ColorOptions = {
     lightness: [number, number];
@@ -8,6 +8,12 @@ export type ColorOptions = {
 export type GenerateColorProps = {
     seed: string;
     theme: ThemeType;
+};
+
+export type UseColorGeneratorProps = {
+    seed: string;
+    /** @deprecated Theme is resolved automatically from context. This field has no effect. */
+    theme?: ThemeType;
 };
 
 export interface ColorDetails {

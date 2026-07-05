@@ -1,5 +1,68 @@
 # Changelog
 
+## [7.43.0](https://github.com/gravity-ui/uikit/compare/v7.42.0...v7.43.0) (2026-06-24)
+
+
+### Features
+
+* **Alert:** add size props; add css-api; refactor component ([#2146](https://github.com/gravity-ui/uikit/issues/2146)) ([65e2728](https://github.com/gravity-ui/uikit/commit/65e2728a609470040d9e768ecd7526e1064feacc))
+* default props provider ([#2708](https://github.com/gravity-ui/uikit/issues/2708)) ([f1f1a6a](https://github.com/gravity-ui/uikit/commit/f1f1a6a6405f99c179421efa132a6771c135da22))
+* enrich Popover and Tooltip API ([#2635](https://github.com/gravity-ui/uikit/issues/2635)) ([9fde213](https://github.com/gravity-ui/uikit/commit/9fde213b29a1f9bb2e62b939de8c6c36ab59923b))
+* **Skeleton:** adjustable skeleton ([#2684](https://github.com/gravity-ui/uikit/issues/2684)) ([8744e45](https://github.com/gravity-ui/uikit/commit/8744e458179076166e5306b6b6cd788423c5a9b7))
+
+
+### Bug Fixes
+
+* **Button:** do not forward service component prop to the rendered element ([#2703](https://github.com/gravity-ui/uikit/issues/2703)) ([8a1c31e](https://github.com/gravity-ui/uikit/commit/8a1c31e72f51c403739fb4d2f9c3bfce3276940a))
+* **Select:** replace legacy `Popover` with new one ([#2711](https://github.com/gravity-ui/uikit/issues/2711)) ([99236f2](https://github.com/gravity-ui/uikit/commit/99236f28bbd64969ab0577b68e1451463abe21ae))
+* **TextInput:** replace legacy `Popover` with new one ([#2710](https://github.com/gravity-ui/uikit/issues/2710)) ([2f2fcf9](https://github.com/gravity-ui/uikit/commit/2f2fcf9199ebff94e90efc38be7907a4914e80c1))
+
+## [7.42.0](https://github.com/gravity-ui/uikit/compare/v7.41.0...v7.42.0) (2026-06-10)
+
+
+### Features
+
+* allow users to show Drawer without animations ([#2691](https://github.com/gravity-ui/uikit/issues/2691)) ([dbdd1a6](https://github.com/gravity-ui/uikit/commit/dbdd1a6245b04fef6a90eaaa79866d46c3156037))
+* **FileDropZone:** improve file rejection handling and drag feedback ([#2614](https://github.com/gravity-ui/uikit/issues/2614)) ([50985c3](https://github.com/gravity-ui/uikit/commit/50985c31b35b603de0670a6da02d5776c63b6c9f))
+* **Sheet:** support safe-area paddings ([#2699](https://github.com/gravity-ui/uikit/issues/2699)) ([c546e6e](https://github.com/gravity-ui/uikit/commit/c546e6eb16e23987a390f550e297b150fe98fbcc))
+* **Spin:** add color CSS variable ([#2688](https://github.com/gravity-ui/uikit/issues/2688)) ([460de54](https://github.com/gravity-ui/uikit/commit/460de54efd77fad51652967ceb91d238316159a3))
+
+## [7.41.0](https://github.com/gravity-ui/uikit/compare/v7.40.0...v7.41.0) (2026-06-01)
+
+
+### Features
+
+* **TabList:** add customization for "More" button ([#2693](https://github.com/gravity-ui/uikit/issues/2693)) ([56da693](https://github.com/gravity-ui/uikit/commit/56da6935d8a597c5d944d8da975177537f479df0))
+
+## [7.40.0](https://github.com/gravity-ui/uikit/compare/v7.39.0...v7.40.0) (2026-05-27)
+
+
+### Features
+
+* **TabList:** add overflow options ([#2277](https://github.com/gravity-ui/uikit/issues/2277)) ([68d70d1](https://github.com/gravity-ui/uikit/commit/68d70d1c5a61b93c8b9c5d25f10d02ff20a319e8))
+* **Toaster:** update default icons theme ([#2674](https://github.com/gravity-ui/uikit/issues/2674)) ([8d2eb2b](https://github.com/gravity-ui/uikit/commit/8d2eb2b6781de5cbf8641ccb9cebbb54a81016e6))
+
+
+### Bug Fixes
+
+* **Drawer:** fixed auto focus in drawer items ([#2673](https://github.com/gravity-ui/uikit/issues/2673)) ([ed5f08e](https://github.com/gravity-ui/uikit/commit/ed5f08eb549645ed483aaaa516092fe235924300))
+* **Sheet:** fix height of scroll container when top bar is hidden ([#2680](https://github.com/gravity-ui/uikit/issues/2680)) ([210c7f8](https://github.com/gravity-ui/uikit/commit/210c7f8e32f0cacce6e7d355ee67154f6a42fd37))
+* **useColorGenerator:** removed unused parameter from required ([#2682](https://github.com/gravity-ui/uikit/issues/2682)) ([f83fad8](https://github.com/gravity-ui/uikit/commit/f83fad89b4ba70c6ea7935fd1780913df1ea0a9f))
+
+## [7.39.0](https://github.com/gravity-ui/uikit/compare/v7.38.0...v7.39.0) (2026-05-16)
+
+
+### Features
+
+* **useFocusWithin:** simplify detection of blur events ([#2677](https://github.com/gravity-ui/uikit/issues/2677)) ([2e771a1](https://github.com/gravity-ui/uikit/commit/2e771a1bfbc9c785457bd78fb955c3ca414ce703))
+
+
+### Bug Fixes
+
+* **palette:** update pallete icons size ([#2672](https://github.com/gravity-ui/uikit/issues/2672)) ([e03082b](https://github.com/gravity-ui/uikit/commit/e03082bf85d39f012986988ba7effe4bf5bac68f))
+* **Select:** aria-invalid attribute passing ([#2667](https://github.com/gravity-ui/uikit/issues/2667)) ([4469f06](https://github.com/gravity-ui/uikit/commit/4469f06e57e074aa6f6c19bcac1f8b4681252866))
+* **Sheet:** remove veil seam ([#2658](https://github.com/gravity-ui/uikit/issues/2658)) ([aaef441](https://github.com/gravity-ui/uikit/commit/aaef441c3e44a25dfa1c8d3be441dbce6b2662d3))
+
 ## [7.38.0](https://github.com/gravity-ui/uikit/compare/v7.37.0...v7.38.0) (2026-04-22)
 
 

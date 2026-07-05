@@ -37,45 +37,31 @@ A component for displaying the file.
 
 <!--/GITHUB_BLOCK-->
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Link, Xmark} from '@gravity-ui/icons';
+import {FilePreview} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<UIKit.FilePreview
-  file={{name: 'my-file.docs', type: 'text/docs'} as File}
-  onClick={() => action('onClick')}
-  actions={[
-    {
-      icon: <Link width={14} height={14} />,
-      title: 'Link',
-      onClick: () => action('onLink'),
-    },
-    {
-      icon: <Xmark width={14} height={14} />,
-      title: 'Close',
-      onClick: () => action('onClose'),
-    },
-  ]}
-/>
-`}>
-  <UIKit.FilePreview
-    file={{name: 'my-file.docs', type: 'text/docs'} as File}
-    onClick={() => action('onClick')}
-    actions={[
-      {
-        icon: <Link width={14} height={14} />,
-        title: 'Link',
-        onClick: () => action('onLink'),
-      },
-      {
-        icon: <Xmark width={14} height={14} />,
-        title: 'Close',
-        onClick: () => action('onClose'),
-      },
-    ]}
-  />
-</ExampleBlock>
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <FilePreview
+            file={{name: 'my-file.docs', type: 'text/docs'} as File}
+            onClick={() => console.log('onClick')}
+            actions={[
+                {
+                    icon: <Link width={14} height={14} />,
+                    title: 'Link',
+                    onClick: () => console.log('onLink'),
+                },
+                {
+                    icon: <Xmark width={14} height={14} />,
+                    title: 'Close',
+                    onClick: () => console.log('onClose'),
+                },
+            ]}
+        />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

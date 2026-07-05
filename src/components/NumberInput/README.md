@@ -18,19 +18,23 @@ The appearance of `NumberInput` is controlled by the `view` and `pin` properties
 
 `normal` - the main view of `NumberInput` (used by default).
 
-<!--LANDING_BLOCK
-<ExampleBlock code={`<NumberInput placeholder="Placeholder" />`}>
-    <UIKit.NumberInput placeholder="Placeholder" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {NumberInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return <NumberInput placeholder="Placeholder" />;
+}
+SANDBOX-->
 
 `clear` - can be used with a custom wrapper for `NumberInput`.
 
-<!--LANDING_BLOCK
-<ExampleBlock code={`<NumberInput view="clear" placeholder="Placeholder" />`}>
-    <UIKit.NumberInput view="clear" placeholder="Placeholder" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {NumberInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return <NumberInput view="clear" placeholder="Placeholder" />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -45,19 +49,19 @@ LANDING_BLOCK-->
 
 Allows you to control view of right and left edges of `NumberInput`'s border.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<NumberInput placeholder="Placeholder" pin="round-brick" />
-<NumberInput placeholder="Placeholder" pin="brick-brick" />
-<NumberInput placeholder="Placeholder" pin="brick-round" />
-`}
->
-    <UIKit.NumberInput placeholder="Placeholder" pin="round-brick" />
-    <UIKit.NumberInput placeholder="Placeholder" pin="brick-brick" />
-    <UIKit.NumberInput placeholder="Placeholder" pin="brick-round" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {NumberInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <NumberInput placeholder="Placeholder" pin="round-brick" />
+            <NumberInput placeholder="Placeholder" pin="brick-brick" />
+            <NumberInput placeholder="Placeholder" pin="brick-round" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -75,15 +79,13 @@ LANDING_BLOCK-->
 
 The state of the `NumberInput` where you don't want the user to be able to interact with the component.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<NumberInput placeholder="Placeholder" disabled={true} />
-`}
->
-    <UIKit.NumberInput placeholder="Placeholder" disabled={true} />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {NumberInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return <NumberInput placeholder="Placeholder" disabled />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -98,17 +100,27 @@ LANDING_BLOCK-->
 The state of the `NumberInput` in which you want to indicate incorrect user input. To change `NumberInput` appearance, use the `validationState` property with the `"invalid"` value. An optional message text can be added via the `errorMessage` property. By default, message text is rendered outside the component.
 This behaviour can be changed with the `errorPlacement` property.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<NumberInput placeholder="Placeholder" errorMessage="Error message" validationState="invalid" />
-<NumberInput placeholder="Placeholder" errorPlacement="inside" errorMessage="Error message" validationState="invalid" />
-`}
->
-    <UIKit.NumberInput placeholder="Placeholder" errorMessage="Error message" validationState="invalid" />
-    <UIKit.NumberInput placeholder="Placeholder" errorPlacement="inside" errorMessage="Error message" validationState="invalid" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {NumberInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <NumberInput
+                placeholder="Placeholder"
+                errorMessage="Error message"
+                validationState="invalid"
+            />
+            <NumberInput
+                placeholder="Placeholder"
+                errorPlacement="inside"
+                errorMessage="Error message"
+                validationState="invalid"
+            />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -129,21 +141,20 @@ LANDING_BLOCK-->
 
 `xl` – Used on promo and landing pages.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<NumberInput placeholder="Placeholder" size="s" />
-<NumberInput placeholder="Placeholder" size="m" />
-<NumberInput placeholder="Placeholder" size="l" />
-<NumberInput placeholder="Placeholder" size="xl" />
-`}
->
-    <UIKit.NumberInput placeholder="Placeholder" size="s" />
-    <UIKit.NumberInput placeholder="Placeholder" size="m" />
-    <UIKit.NumberInput placeholder="Placeholder" size="l" />
-    <UIKit.NumberInput placeholder="Placeholder" size="xl" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {NumberInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <NumberInput placeholder="Placeholder" size="s" />
+            <NumberInput placeholder="Placeholder" size="m" />
+            <NumberInput placeholder="Placeholder" size="l" />
+            <NumberInput placeholder="Placeholder" size="xl" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -163,17 +174,21 @@ Allows you to set the label to the left of control.
 - label is located to the right of the elements added via `startContent` property.
 - label can take up no more than half the width of the entire NumberInput's space.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<NumberInput placeholder="Placeholder" label="Label" />
-<NumberInput placeholder="Placeholder" label="Very long label with huge amount of symbols" />
-`}
->
-    <UIKit.NumberInput placeholder="Placeholder" label="Label" />
-    <UIKit.NumberInput placeholder="Placeholder" label="Very long label with huge amount of symbols" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {NumberInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <NumberInput placeholder="Placeholder" label="Label" />
+            <NumberInput
+                placeholder="Placeholder"
+                label="Very long label with huge amount of symbols"
+            />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -189,17 +204,19 @@ LANDING_BLOCK-->
 
 Allows you to add content to the left of the control. Located to the left of the label added via `label` property.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`<NumberInput placeholder="Placeholder" label="Label" startContent={<Label size="s">Start</Label>} />`}
->
-    <UIKit.NumberInput
-        placeholder="Search"
-        label="Label"
-        startContent={<UIKit.Label size="s">Left</UIKit.Label>}
-    />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Label, NumberInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <NumberInput
+            placeholder="Search"
+            label="Label"
+            startContent={<Label size="s">Left</Label>}
+        />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -213,17 +230,19 @@ LANDING_BLOCK-->
 
 Allows you to add content to the right of the control. Located to the right of the clear button added via `hasClear` property and inside-placed error icon.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`<NumberInput placeholder="Placeholder" endContent={<Label size="s">Right</Label>} hasClear/>`}
->
-    <UIKit.NumberInput
-        hasClear
-        placeholder="Placeholder"
-        endContent={<UIKit.Label size="s">Right</UIKit.Label>}
-    />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Label, NumberInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <NumberInput
+            hasClear
+            placeholder="Placeholder"
+            endContent={<Label size="s">Right</Label>}
+        />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -237,17 +256,18 @@ LANDING_BLOCK-->
 
 Visibility of incrementing/decrementing arrow-controls in the rightmost position in the component can be managed by `hiddenControls` property.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-    <NumberInput/>
-    <NumberInput hiddenControls/>
-    `}
->
-    <UIKit.NumberInput/>
-    <UIKit.NumberInput hiddenControls/>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {NumberInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <NumberInput />
+            <NumberInput hiddenControls />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -264,16 +284,13 @@ LANDING_BLOCK-->
 
 Allow you to set minimum and maximum values, which can be entered to the input. Values which are not fit into defined range would be clamped on blur to the nearest allowed value.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`<NumberInput min={-100} max={100}/>`}
->
-    <UIKit.NumberInput
-        min={-100}
-        max={100}
-    />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {NumberInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return <NumberInput min={-100} max={100} />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -293,16 +310,13 @@ It also adds restrictions on allowed values and enabled clamping entered number 
 - if step is an integer number and min value is not defined, then allowed values are defined as a divisible by step;
 - if step or min values are decimal, then clamping is not applicable
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`<NumberInput min={-10} step={4}/>`}
->
-    <UIKit.NumberInput
-        min={-10}
-        step={4}
-    />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {NumberInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return <NumberInput min={-10} step={4} />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -316,22 +330,18 @@ LANDING_BLOCK-->
 
 Allows you to set the value by which the step value is multiplied when the Shift button on the keyboard is pressed by defining `shiftMultiplier` property.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-    <NumberInput shiftMultiplier={50}/>
-    <NumberInput shiftMultiplier={8} step={4}/>
-    `}
->
-    <UIKit.NumberInput
-        shiftMultiplier={50}
-    />
-    <UIKit.NumberInput
-        shiftMultiplier={8}
-        step={4}
-    />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {NumberInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <NumberInput shiftMultiplier={50} />
+            <NumberInput shiftMultiplier={8} step={4} />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -347,17 +357,18 @@ LANDING_BLOCK-->
 Allows you to switch ability to enter only integer or also decimal values by `allowDecimal` property.
 With `allowDecimal={false}` property a dot entered to the input would be ignored and pasted decimal values would be rounded down.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-    <NumberInput allowDecimal/>
-    <NumberInput allowDecimal={false}/>
-    `}
->
-    <UIKit.NumberInput allowDecimal/>
-    <UIKit.NumberInput allowDecimal={false}/>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {NumberInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <NumberInput allowDecimal />
+            <NumberInput allowDecimal={false} />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

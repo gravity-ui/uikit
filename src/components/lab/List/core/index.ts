@@ -7,4 +7,13 @@ export type {
     ListSelectionProps,
     ListSelectionTrigger,
 } from './useListSelection';
+export {useListBehavior} from './useListBehavior';
+export type {
+    ListApi,
+    ListBehavior,
+    ListItemContext,
+    ListRole,
+    ListVisibleItem,
+    UseListBehaviorProps,
+} from './useListBehavior';
 export type {ListChildrenState, ListItemGetters, ListItemType} from './types';

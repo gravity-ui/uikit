@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import {useResizeObserver} from '../../../hooks';
 import type {QAProps} from '../../types';
 import {useDisclosureAttributes} from '../DisclosureContext';
 import {DisclosureQa, b} from '../constants';
@@ -11,60 +12,81 @@ export interface DisclosureDetailsProps extends QAProps {
     className?: string;
 }
 
+type Visibility = 'hidden' | 'entering' | 'visible' | 'exiting';
+
 export function DisclosureDetails({children, qa, className}: DisclosureDetailsProps) {
     const {ariaControls, ariaLabelledby, keepMounted, expanded} = useDisclosureAttributes();
     const innerRef = React.useRef<HTMLDivElement>(null);
     const [height, setHeight] = React.useState<number | null>(null);
 
-    const [renderContent, setRenderContent] = React.useState(expanded);
-    const [animVisible, setAnimVisible] = React.useState(expanded);
+    const [visibility, setVisibility] = React.useState<Visibility>(expanded ? 'visible' : 'hidden');
 
     React.useEffect(() => {
-        if (keepMounted) return;
+        setVisibility((prev) => {
+            if (expanded) {
+                if (prev === 'visible') {
+                    return 'visible';
+                }
 
-        if (expanded) {
-            setRenderContent(true);
-        } else {
-            setAnimVisible(false);
-        }
+                return keepMounted ? 'visible' : 'entering';
+            }
+
+            if (keepMounted) {
+                return prev === 'hidden' ? 'hidden' : 'exiting';
+            }
+
+            return prev === 'hidden' ? 'hidden' : 'exiting';
+        });
     }, [expanded, keepMounted]);
 
     React.useEffect(() => {
-        if (keepMounted || !expanded || !renderContent) return;
-        setAnimVisible(true);
-    }, [keepMounted, expanded, renderContent]);
+        if (expanded && !keepMounted && visibility === 'entering') {
+            setVisibility('visible');
+        }
+    }, [expanded, keepMounted, visibility]);
 
     const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
-        if (!keepMounted && !expanded && e.target === e.currentTarget) {
-            setRenderContent(false);
+        if (e.target !== e.currentTarget) {
+            return;
         }
+
+        setVisibility((prev) => {
+            if (prev === 'entering') {
+                return 'visible';
+            }
+
+            if (prev === 'exiting') {
+                return 'hidden';
+            }
+
+            return prev;
+        });
     };
 
-    React.useEffect(() => {
+    const shouldRender = keepMounted || visibility !== 'hidden';
+
+    const updateHeight = React.useCallback(() => {
         const element = innerRef.current;
         if (!element) {
-            return undefined;
+            return;
         }
 
-        const updateHeight = () => {
-            setHeight(element.offsetHeight);
-        };
+        setHeight(element.offsetHeight);
+    }, []);
 
-        updateHeight();
+    React.useEffect(() => {
+        if (shouldRender) {
+            updateHeight();
+        }
+    }, [shouldRender, updateHeight]);
 
-        const observer = new ResizeObserver(updateHeight);
-        observer.observe(element);
-
-        return () => observer.disconnect();
-    }, [renderContent]);
-
-    const shouldRender = keepMounted || renderContent;
+    useResizeObserver({ref: shouldRender ? innerRef : undefined, onResize: updateHeight});
 
     if (!shouldRender) {
         return null;
     }
 
-    const visible = keepMounted ? expanded : animVisible;
+    const visible = visibility === 'visible';
     const style = height ? {'--_--disclosure-content-height': `${height}px`} : undefined;
     const hiddenAttributes = expanded ? {} : {inert: ''};
 

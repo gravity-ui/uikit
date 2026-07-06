@@ -31,7 +31,15 @@
         }
     }
 
-    &_has-close {
-        --_--close-button-space: 24px;
+    &:has(#{variables.$closeBtnBlock}) {
+        --_--close-button-space: 26px;
+    }
+
+    &:has(#{variables.$headerBlock}) {
+        padding-block-start: 0;
+    }
+
+    &:has(#{variables.$footerBlock}) {
+        padding-block-end: 0;
     }
 }

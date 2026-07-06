@@ -1,5 +1,22 @@
 # Changelog
 
+## [7.44.0](https://github.com/gravity-ui/uikit/compare/v7.43.0...v7.44.0) (2026-07-06)
+
+
+### Features
+
+* **Dialog:** introduce responsive size props ([#2721](https://github.com/gravity-ui/uikit/issues/2721)) ([2682904](https://github.com/gravity-ui/uikit/commit/2682904afb5ea96bc2066a5c412cd732f4e6d583))
+* **Progress:** add custom color to colorStop ([#2713](https://github.com/gravity-ui/uikit/issues/2713)) ([57f071b](https://github.com/gravity-ui/uikit/commit/57f071b73b56a547b8612ae992b24c3045fcb9df))
+
+
+### Bug Fixes
+
+* **Alert:** do not render message div when message is empty ([#2729](https://github.com/gravity-ui/uikit/issues/2729)) ([754551d](https://github.com/gravity-ui/uikit/commit/754551d4e51ec7e30fe3b22e0867fdc541c55ec7))
+* **CopyToClipboard:** correctly use fallback ([#2432](https://github.com/gravity-ui/uikit/issues/2432)) ([50b0612](https://github.com/gravity-ui/uikit/commit/50b0612f8b077dbe050fe71c7d0b0d706a50b697))
+* **Label:** type copy + onClick ([#2725](https://github.com/gravity-ui/uikit/issues/2725)) ([0fa2b24](https://github.com/gravity-ui/uikit/commit/0fa2b248b4bbcea74fa2c73a0d233bfbc087911b))
+* **NumberInput:** fix NumericArrows generic type ([#2728](https://github.com/gravity-ui/uikit/issues/2728)) ([02894f7](https://github.com/gravity-ui/uikit/commit/02894f7fa851530d498776cb22b68ea2235a50dc))
+* **Popup:** keep status as 'initial' until positioned to avoid open flash ([#2714](https://github.com/gravity-ui/uikit/issues/2714)) ([0974f1f](https://github.com/gravity-ui/uikit/commit/0974f1f9d37ca3e6f74daa0cae503596493f3246))
+
 ## [7.43.0](https://github.com/gravity-ui/uikit/compare/v7.42.0...v7.43.0) (2026-06-24)
 
 

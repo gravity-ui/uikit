@@ -88,7 +88,7 @@ export function Dialog(rawProps: DialogProps) {
         qa,
         ...restProps
     } = useDefaultProps('Dialog', rawProps);
-    const mobileModals = React.useContext(MobileContext).__experimentalMobileModals;
+    const mobileModals = React.useContext(MobileContext).__experimentalMobileModals ?? false;
     const mobile = useMobile() && mobileModals;
     const handleCloseButtonClick = React.useCallback(
         (event: React.MouseEvent) => {

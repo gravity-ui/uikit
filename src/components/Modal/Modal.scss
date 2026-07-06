@@ -43,11 +43,13 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
 
         &_has-scroll {
             overflow: auto;
-            max-width: calc(
-                100vw - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2)
+            max-width: var(
+                --g-modal-max-width,
+                calc(100vw - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2))
             );
-            max-height: calc(
-                100vh - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2)
+            max-height: var(
+                --g-modal-max-height,
+                calc(100vh - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2))
             );
         }
     }

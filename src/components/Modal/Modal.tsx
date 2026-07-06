@@ -142,10 +142,11 @@ function ModalComponent(rawProps: ModalProps) {
         ...restProps
     } = useDefaultProps('Modal', rawProps);
     useLayer({open, type: 'modal'});
-    const mobileModals = React.useContext(MobileContext).__experimentalMobileModals;
+    const mobileModals = React.useContext(MobileContext).__experimentalMobileModals ?? false;
     const mobile = useMobile() && mobileModals;
 
     const overlayRef = React.useRef<HTMLDivElement>(null);
+    const [isVisible, setIsVisible] = React.useState(false);
 
     const handleOpenChange = React.useCallback<NonNullable<UseFloatingOptions['onOpenChange']>>(
         (isOpen, event, reason) => {
@@ -193,6 +194,16 @@ function ModalComponent(rawProps: ModalProps) {
         floatingRef as React.Ref<HTMLDivElement>,
     );
 
+    const handleTransitionInComplete = React.useCallback(() => {
+        setIsVisible(true);
+        onTransitionInComplete?.();
+    }, [onTransitionInComplete]);
+
+    const handleTransitionOutComplete = React.useCallback(() => {
+        setIsVisible(false);
+        onTransitionOutComplete?.();
+    }, [onTransitionOutComplete]);
+
     const dismiss = useDismiss(context, {
         enabled: !disableOutsideClick || !disableEscapeKeyDown,
         outsidePress: (event) => {
@@ -218,9 +229,9 @@ function ModalComponent(rawProps: ModalProps) {
         context,
         duration: TRANSITION_DURATION,
         onTransitionIn,
-        onTransitionInComplete,
+        onTransitionInComplete: handleTransitionInComplete,
         onTransitionOut,
-        onTransitionOutComplete,
+        onTransitionOutComplete: handleTransitionOutComplete,
     });
 
     useAnimateHeight({
@@ -278,7 +289,7 @@ function ModalComponent(rawProps: ModalProps) {
                     >
                         <FloatingFocusManager
                             context={context}
-                            disabled={!isMounted}
+                            disabled={!isMounted || !isVisible}
                             modal={isMounted}
                             initialFocus={initialFocus ?? refs.floating}
                             returnFocus={returnFocus}

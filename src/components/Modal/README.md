@@ -64,4 +64,6 @@ const [open, setOpen] = useState(false);
 | `--g-modal-margin`        | Margin around the `Modal` content |
 | `--g-modal-border-radius` | `Modal` content border radius     |
 | `--g-modal-width`         | `Modal` content width             |
+| `--g-modal-max-width`     | `Modal` content max width         |
 | `--g-modal-height`        | `Modal` content height            |
+| `--g-modal-max-height`    | `Modal` content max height        |

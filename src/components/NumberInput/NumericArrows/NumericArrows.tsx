@@ -7,6 +7,7 @@ import type {ButtonProps} from '../../Button';
 import {Icon} from '../../Icon';
 import type {InputControlSize} from '../../controls/types';
 import {Flex} from '../../layout';
+import type {FlexProps} from '../../layout';
 import {block} from '../../utils/cn';
 import i18n from '../i18n';
 import {CONTROL_BUTTONS_QA, DECREMENT_BUTTON_QA, INCREMENT_BUTTON_QA} from '../utils';
@@ -15,7 +16,7 @@ import './NumericArrows.scss';
 
 const b = block('numeric-arrows');
 
-interface NumericArrowsProps extends React.HTMLAttributes<'div'> {
+interface NumericArrowsProps extends React.HTMLAttributes<HTMLDivElement> {
     className?: string;
     size: InputControlSize;
     disabled?: boolean;
@@ -49,7 +50,7 @@ export function NumericArrows({
             direction="column"
             className={b({size}, className)}
             qa={CONTROL_BUTTONS_QA}
-            {...restProps}
+            {...(restProps as FlexProps)}
         >
             <Button
                 className={b('arrow-btn')}

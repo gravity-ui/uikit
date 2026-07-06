@@ -204,7 +204,7 @@ export const Label = React.forwardRef(function Label(
         );
     };
 
-    if (hasCopy && copyText && !hasOnClick) {
+    if (hasCopy && copyText) {
         return (
             <CopyToClipboard text={copyText} onCopy={onCopy} timeout={1000}>
                 {(status) => renderLabel(status)}

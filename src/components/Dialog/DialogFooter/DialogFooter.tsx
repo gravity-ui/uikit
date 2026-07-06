@@ -72,7 +72,7 @@ export function DialogFooter(props: DialogFooterProps) {
         className,
     } = props;
 
-    const {initialFocusRef, initialFocusAction, onTooltipEscapeKeyDown} =
+    const {mobile, initialFocusRef, initialFocusAction, onTooltipEscapeKeyDown} =
         React.useContext(DialogPrivateContext);
 
     const errorTooltipRef = React.useRef<HTMLButtonElement>(null);
@@ -87,7 +87,7 @@ export function DialogFooter(props: DialogFooterProps) {
             <Button
                 ref={cancelBtnRef}
                 view={textButtonApply ? 'flat' : 'normal'}
-                size="l"
+                size={mobile ? 'xl' : 'l'}
                 width="max"
                 onClick={onClickButtonCancel}
                 disabled={loading}
@@ -113,7 +113,7 @@ export function DialogFooter(props: DialogFooterProps) {
                 ref={apllyBtnRef}
                 type="submit"
                 view={getButtonView(preset)}
-                size="l"
+                size={mobile ? 'xl' : 'l'}
                 width="max"
                 onClick={onClickButtonApply}
                 loading={loading}
@@ -159,7 +159,7 @@ export function DialogFooter(props: DialogFooterProps) {
     }
 
     return (
-        <div className={b(null, className)}>
+        <div className={b({mobile}, className)}>
             {children && <div className={b('children')}>{children}</div>}
             {buttons && <div className={b('bts-wrapper')}>{buttons}</div>}
         </div>

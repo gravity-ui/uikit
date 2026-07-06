@@ -16,7 +16,7 @@ import './NumericArrows.scss';
 
 const b = block('numeric-arrows');
 
-interface NumericArrowsProps extends FlexProps {
+interface NumericArrowsProps extends React.HTMLAttributes<HTMLDivElement> {
     className?: string;
     size: InputControlSize;
     disabled?: boolean;
@@ -50,7 +50,7 @@ export function NumericArrows({
             direction="column"
             className={b({size}, className)}
             qa={CONTROL_BUTTONS_QA}
-            {...restProps}
+            {...(restProps as FlexProps)}
         >
             <Button
                 className={b('arrow-btn')}

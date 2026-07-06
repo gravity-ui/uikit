@@ -31,6 +31,13 @@ export const Default: Story = {
     },
 };
 
+export const TitleOnly: Story = {
+    args: {
+        ...Default.args,
+        message: undefined,
+    },
+};
+
 export const Theme: Story = {
     render: (args) => (
         <Showcase>

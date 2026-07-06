@@ -75,9 +75,13 @@ export const Alert = (rawProps: AlertProps) => {
                     ) : (
                         props.title
                     )}
-                    <div className={bAlert('message', {'with-top-margin': Boolean(props.title)})}>
-                        {message}
-                    </div>
+                    {message ? (
+                        <div
+                            className={bAlert('message', {'with-top-margin': Boolean(props.title)})}
+                        >
+                            {message}
+                        </div>
+                    ) : null}
                 </div>
                 {Array.isArray(props.actions) ? (
                     <Alert.Actions items={props.actions} />

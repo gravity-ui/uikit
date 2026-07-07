@@ -100,5 +100,5 @@ const pagination = (
 | showPages       | Shows page numbering                                                                                                                             |          `boolean`          |    `true`    |
 | qa              | `data-qa` HTML attribute, used for testing                                                                                                       |          `string`           |              |
 | view            | Sets buttons' and controls' appearance. Affects pagination input's view in mobile.                                                               |   `"outlined" \| "clear"`   | `"outlined"` |
-| pageComponent   | Overrides the root element for clickable pagination items (navigation and page buttons). Use `"a"` for regular links or a router-aware component |    `PaginationComponent`    |              |
+| pageComponent   | Overrides the root element for clickable pagination items (navigation and page buttons). Use `"a"` for regular links or a router-aware component |  `PaginationPageComponent`  |              |
 | getPageProps    | Returns extra props per clickable item (e.g. `href` for `"a"` or `to` for a router `Link`). Only applied when `pageComponent` is set             | `PaginationPagePropsGetter` |              |

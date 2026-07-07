@@ -9,7 +9,7 @@ import {warnOnce} from '../utils/warn';
 import type {
     ButtonItem,
     PageItem,
-    PaginationComponent,
+    PaginationPageComponent,
     PaginationPagePropsGetter,
     PaginationProps,
     PaginationSize,
@@ -133,7 +133,7 @@ export function buildComponentProps({
     pageSize,
     onUpdate,
 }: {
-    component?: PaginationComponent;
+    component?: PaginationPageComponent;
     item: PageItem | ButtonItem;
     getPageProps?: PaginationPagePropsGetter;
     page?: number;

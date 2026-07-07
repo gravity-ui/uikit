@@ -5,7 +5,7 @@ export type ActionName = 'previous' | 'next' | 'first';
 
 export type PaginationSize = 's' | 'm' | 'l' | 'xl';
 export type PaginationView = 'outlined' | 'clear';
-export type PaginationComponent = ButtonCustomElementType | 'a';
+export type PaginationPageComponent = ButtonCustomElementType | 'a';
 
 export type PaginationPagePropsGetterArgs = {
     item: PageItem | ButtonItem;
@@ -70,7 +70,7 @@ export type PaginationProps = {
      * Overrides the root element for clickable pagination items
      * (navigation buttons and page buttons).
      */
-    pageComponent?: PaginationComponent;
+    pageComponent?: PaginationPageComponent;
     /**
      * Returns extra props per clickable item (e.g. `to` for a router `Link`).
      * Only applied when `pageComponent` is set; ignored otherwise (and if disabled).

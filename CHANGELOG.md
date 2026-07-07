@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.44.1](https://github.com/gravity-ui/uikit/compare/v7.44.0...v7.44.1) (2026-07-07)
+
+
+### Bug Fixes
+
+* **Alert:** fix alert align styles ([#2730](https://github.com/gravity-ui/uikit/issues/2730)) ([1e414d3](https://github.com/gravity-ui/uikit/commit/1e414d35c3990282d720c09dfb8a2e4eb1818636))
+
 ## [7.44.0](https://github.com/gravity-ui/uikit/compare/v7.43.0...v7.44.0) (2026-07-06)
 
 

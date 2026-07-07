@@ -7,15 +7,14 @@ export type PaginationSize = 's' | 'm' | 'l' | 'xl';
 export type PaginationView = 'outlined' | 'clear';
 export type PaginationComponent = ButtonCustomElementType | 'a';
 
-export type GetPaginationItemArgs = {
+export type PaginationPagePropsGetterArgs = {
     item: PageItem | ButtonItem;
     /** Page the item navigates to (e.g. for building an `href`/`to`). */
     page: number;
 };
 
-export type GetPaginationItemProps<P extends Record<string, unknown> = Record<string, unknown>> = (
-    args: GetPaginationItemArgs,
-) => P;
+export type PaginationPagePropsGetter<P extends Record<string, unknown> = Record<string, unknown>> =
+    (args: PaginationPagePropsGetterArgs) => P;
 
 export type PaginationProps = {
     /**
@@ -71,12 +70,12 @@ export type PaginationProps = {
      * Overrides the root element for clickable pagination items
      * (navigation buttons and page buttons).
      */
-    navigationComponent?: PaginationComponent;
+    pageComponent?: PaginationComponent;
     /**
      * Returns extra props per clickable item (e.g. `to` for a router `Link`).
-     * Only applied when `navigationComponent` is set; ignored otherwise (and if disabled).
+     * Only applied when `pageComponent` is set; ignored otherwise (and if disabled).
      */
-    getItemProps?: GetPaginationItemProps;
+    getPageProps?: PaginationPagePropsGetter;
 } & QAProps;
 
 type EllipsisItem = {

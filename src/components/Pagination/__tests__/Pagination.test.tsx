@@ -208,7 +208,7 @@ describe('Pagination component', () => {
         },
     );
 
-    describe('navigationComponent prop', () => {
+    describe('pageComponent prop', () => {
         const CustomLink = React.forwardRef<
             HTMLAnchorElement,
             React.AnchorHTMLAttributes<HTMLAnchorElement>
@@ -219,7 +219,7 @@ describe('Pagination component', () => {
         ));
         CustomLink.displayName = 'CustomLink';
 
-        test('without navigationComponent, navigation buttons render as <button>', () => {
+        test('without pageComponent, navigation buttons render as <button>', () => {
             render(<Pagination pageSize={20} total={100} onUpdate={noop} page={2} />);
 
             expect(screen.getByTestId(PaginationQa.PaginationButtonFirst).tagName).toBe('BUTTON');
@@ -229,14 +229,14 @@ describe('Pagination component', () => {
             expect(screen.getByTestId(PaginationQa.PaginationButtonNext).tagName).toBe('BUTTON');
         });
 
-        test('with navigationComponent, navigation buttons render as the custom element', () => {
+        test('with pageComponent, navigation buttons render as the custom element', () => {
             render(
                 <Pagination
                     pageSize={20}
                     total={100}
                     onUpdate={noop}
                     page={2}
-                    navigationComponent={CustomLink}
+                    pageComponent={CustomLink}
                 />,
             );
 
@@ -251,14 +251,14 @@ describe('Pagination component', () => {
             expect(next.tagName).toBe('A');
         });
 
-        test('with navigationComponent, page buttons render as the custom element', () => {
+        test('with pageComponent, page buttons render as the custom element', () => {
             render(
                 <Pagination
                     pageSize={20}
                     total={100}
                     onUpdate={noop}
                     page={2}
-                    navigationComponent={CustomLink}
+                    pageComponent={CustomLink}
                 />,
             );
 
@@ -267,8 +267,8 @@ describe('Pagination component', () => {
             expect(page2).toHaveAttribute('data-custom-link', 'true');
         });
 
-        test('with navigationComponent="a", items render as Button links', () => {
-            const getItemProps: PaginationProps['getItemProps'] = ({item}) => {
+        test('with pageComponent="a", items render as Button links', () => {
+            const getPageProps: PaginationProps['getPageProps'] = ({item}) => {
                 if (item.type === 'page') {
                     return {href: `?page=${item.page}`, target: '_blank'};
                 }
@@ -281,8 +281,8 @@ describe('Pagination component', () => {
                     total={100}
                     onUpdate={noop}
                     page={2}
-                    navigationComponent="a"
-                    getItemProps={getItemProps}
+                    pageComponent="a"
+                    getPageProps={getPageProps}
                 />,
             );
 
@@ -299,8 +299,8 @@ describe('Pagination component', () => {
             expect(page2).not.toHaveAttribute('role');
         });
 
-        test('disabled navigation buttons stay inert <button> even with navigationComponent="a" and href', () => {
-            const getItemProps: PaginationProps['getItemProps'] = ({item}) => {
+        test('disabled navigation buttons stay inert <button> even with pageComponent="a" and href', () => {
+            const getPageProps: PaginationProps['getPageProps'] = ({item}) => {
                 if (item.type === 'page') {
                     return {href: `?page=${item.page}`};
                 }
@@ -313,8 +313,8 @@ describe('Pagination component', () => {
                     total={100}
                     onUpdate={noop}
                     page={1}
-                    navigationComponent="a"
-                    getItemProps={getItemProps}
+                    pageComponent="a"
+                    getPageProps={getPageProps}
                 />,
             );
 
@@ -336,14 +336,14 @@ describe('Pagination component', () => {
             expect(next).toHaveAttribute('href', '?action=next');
         });
 
-        test('current page has aria-current="page" when rendered with navigationComponent', () => {
+        test('current page has aria-current="page" when rendered with pageComponent', () => {
             render(
                 <Pagination
                     pageSize={20}
                     total={100}
                     onUpdate={noop}
                     page={2}
-                    navigationComponent={CustomLink}
+                    pageComponent={CustomLink}
                 />,
             );
 
@@ -354,7 +354,7 @@ describe('Pagination component', () => {
             expect(otherPage).not.toHaveAttribute('aria-current');
         });
 
-        test('without navigationComponent, page buttons keep aria-pressed and have no aria-current', () => {
+        test('without pageComponent, page buttons keep aria-pressed and have no aria-current', () => {
             render(<Pagination pageSize={20} total={100} onUpdate={noop} page={2} />);
 
             const currentPage = screen.getByTestId(getPaginationPageQa(2));
@@ -362,7 +362,7 @@ describe('Pagination component', () => {
             expect(currentPage).not.toHaveAttribute('aria-current');
         });
 
-        test('simple page item remains a <div> even with navigationComponent', () => {
+        test('simple page item remains a <div> even with pageComponent', () => {
             render(
                 <MobileProvider mobile>
                     <Pagination
@@ -370,7 +370,7 @@ describe('Pagination component', () => {
                         total={100}
                         onUpdate={noop}
                         page={2}
-                        navigationComponent={CustomLink}
+                        pageComponent={CustomLink}
                     />
                 </MobileProvider>,
             );
@@ -379,8 +379,8 @@ describe('Pagination component', () => {
             expect(currentPage.tagName).toBe('DIV');
         });
 
-        test('getItemProps provides extra props per clickable item', () => {
-            const getItemProps: PaginationProps['getItemProps'] = ({item}) => {
+        test('getPageProps provides extra props per clickable item', () => {
+            const getPageProps: PaginationProps['getPageProps'] = ({item}) => {
                 if (item.type === 'page') {
                     return {'data-target': `page-${item.page}`};
                 }
@@ -393,8 +393,8 @@ describe('Pagination component', () => {
                     total={100}
                     onUpdate={noop}
                     page={2}
-                    navigationComponent={CustomLink}
-                    getItemProps={getItemProps}
+                    pageComponent={CustomLink}
+                    getPageProps={getPageProps}
                 />,
             );
 
@@ -416,8 +416,8 @@ describe('Pagination component', () => {
             );
         });
 
-        test('getItemProps without navigationComponent is ignored', () => {
-            const getItemProps = jest.fn(() => ({'data-ignored': 'true'}));
+        test('getPageProps without pageComponent is ignored', () => {
+            const getPageProps = jest.fn(() => ({'data-ignored': 'true'}));
 
             render(
                 <Pagination
@@ -425,7 +425,7 @@ describe('Pagination component', () => {
                     total={100}
                     onUpdate={noop}
                     page={2}
-                    getItemProps={getItemProps}
+                    getPageProps={getPageProps}
                 />,
             );
 
@@ -433,14 +433,14 @@ describe('Pagination component', () => {
             expect(screen.getByTestId(PaginationQa.PaginationButtonFirst)).not.toHaveAttribute(
                 'data-ignored',
             );
-            expect(getItemProps).not.toHaveBeenCalled();
+            expect(getPageProps).not.toHaveBeenCalled();
         });
 
-        test('Pagination-managed props win over getItemProps on conflict', async () => {
+        test('Pagination-managed props win over getPageProps on conflict', async () => {
             const user = userEvent.setup();
             const onUpdate = jest.fn();
             const hijack = jest.fn();
-            const getItemProps: PaginationProps['getItemProps'] = () => ({
+            const getPageProps: PaginationProps['getPageProps'] = () => ({
                 onClick: hijack,
                 qa: 'hijacked',
                 className: 'evil',
@@ -452,8 +452,8 @@ describe('Pagination component', () => {
                     total={100}
                     onUpdate={onUpdate}
                     page={2}
-                    navigationComponent={CustomLink}
-                    getItemProps={getItemProps}
+                    pageComponent={CustomLink}
+                    getPageProps={getPageProps}
                 />,
             );
 
@@ -477,7 +477,7 @@ describe('Pagination component', () => {
                     total={100}
                     onUpdate={onUpdate}
                     page={2}
-                    navigationComponent={CustomLink}
+                    pageComponent={CustomLink}
                 />,
             );
 
@@ -490,7 +490,7 @@ describe('Pagination component', () => {
 
         test('modified link clicks do not trigger onUpdate in the current page', () => {
             const onUpdate = jest.fn();
-            const getItemProps: PaginationProps['getItemProps'] = ({item}) => {
+            const getPageProps: PaginationProps['getPageProps'] = ({item}) => {
                 if (item.type === 'page') {
                     return {href: `?page=${item.page}`};
                 }
@@ -503,8 +503,8 @@ describe('Pagination component', () => {
                     total={100}
                     onUpdate={onUpdate}
                     page={2}
-                    navigationComponent="a"
-                    getItemProps={getItemProps}
+                    pageComponent="a"
+                    getPageProps={getPageProps}
                 />,
             );
 
@@ -518,7 +518,7 @@ describe('Pagination component', () => {
 
         test('links targeting a new browsing context do not trigger onUpdate', () => {
             const onUpdate = jest.fn();
-            const getItemProps: PaginationProps['getItemProps'] = ({item}) => {
+            const getPageProps: PaginationProps['getPageProps'] = ({item}) => {
                 if (item.type === 'page') {
                     return {href: `?page=${item.page}`, target: '_blank'};
                 }
@@ -531,8 +531,8 @@ describe('Pagination component', () => {
                     total={100}
                     onUpdate={onUpdate}
                     page={2}
-                    navigationComponent="a"
-                    getItemProps={getItemProps}
+                    pageComponent="a"
+                    getPageProps={getPageProps}
                 />,
             );
 
@@ -544,7 +544,7 @@ describe('Pagination component', () => {
 
         test('plain link clicks still trigger onUpdate', () => {
             const onUpdate = jest.fn();
-            const getItemProps: PaginationProps['getItemProps'] = ({item}) => {
+            const getPageProps: PaginationProps['getPageProps'] = ({item}) => {
                 if (item.type === 'page') {
                     return {href: `?page=${item.page}`};
                 }
@@ -557,8 +557,8 @@ describe('Pagination component', () => {
                     total={100}
                     onUpdate={onUpdate}
                     page={2}
-                    navigationComponent="a"
-                    getItemProps={getItemProps}
+                    pageComponent="a"
+                    getPageProps={getPageProps}
                 />,
             );
 

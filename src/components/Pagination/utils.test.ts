@@ -409,71 +409,113 @@ describe('Pagination utils', () => {
             key: 2,
         };
 
+        const pageSize = 10;
+        const onUpdate = jest.fn();
+
         beforeEach(() => {
             warnOnceMock.mockClear();
+            onUpdate.mockClear();
         });
 
-        it('returns empty object when component is undefined', () => {
-            expect(buildComponentProps({component: undefined, item: pageItem})).toEqual({});
-        });
-
-        it('returns empty object when component is undefined even with getItemProps', () => {
-            const getItemProps = jest.fn(() => ({to: '/foo'}));
+        it('returns only onClick when component is undefined', () => {
             expect(
-                buildComponentProps({component: undefined, item: pageItem, getItemProps}),
-            ).toEqual({});
-            expect(getItemProps).not.toHaveBeenCalled();
+                buildComponentProps({component: undefined, item: pageItem, pageSize, onUpdate}),
+            ).toEqual({onClick: expect.any(Function)});
         });
 
-        it('returns {component} when getItemProps is not provided', () => {
+        it('does not call getPageProps when component is undefined', () => {
+            const getPageProps = jest.fn(() => ({to: '/foo'}));
+            expect(
+                buildComponentProps({
+                    component: undefined,
+                    item: pageItem,
+                    getPageProps,
+                    pageSize,
+                    onUpdate,
+                }),
+            ).toEqual({onClick: expect.any(Function)});
+            expect(getPageProps).not.toHaveBeenCalled();
+        });
+
+        it('returns {component} when getPageProps is not provided', () => {
             const Custom = () => null;
-            expect(buildComponentProps({component: Custom, item: pageItem})).toEqual({
+            expect(
+                buildComponentProps({component: Custom, item: pageItem, pageSize, onUpdate}),
+            ).toEqual({
                 component: Custom,
+                onClick: expect.any(Function),
             });
         });
 
-        it('returns an empty object and warns for component="a" when getItemProps is not provided', () => {
-            expect(buildComponentProps({component: 'a', item: pageItem})).toEqual({});
+        it('warns for component="a" when getPageProps is not provided', () => {
+            expect(
+                buildComponentProps({component: 'a', item: pageItem, pageSize, onUpdate}),
+            ).toEqual({onClick: expect.any(Function)});
             expect(warnOnceMock).toHaveBeenCalledTimes(1);
         });
 
-        it('warns for component="a" when getItemProps returns no href', () => {
-            const getItemProps = jest.fn(() => ({target: '_blank'}));
-            expect(buildComponentProps({component: 'a', item: pageItem, getItemProps})).toEqual({
+        it('warns for component="a" when getPageProps returns no href', () => {
+            const getPageProps = jest.fn(() => ({target: '_blank'}));
+            expect(
+                buildComponentProps({
+                    component: 'a',
+                    item: pageItem,
+                    getPageProps,
+                    pageSize,
+                    onUpdate,
+                }),
+            ).toEqual({
+                onClick: expect.any(Function),
                 target: '_blank',
             });
             expect(warnOnceMock).toHaveBeenCalledTimes(1);
         });
 
-        it('merges getItemProps result with component', () => {
+        it('merges getPageProps result with component', () => {
             const Custom = () => null;
-            const getItemProps = jest.fn(() => ({to: '?page=2', 'data-x': '1'}));
+            const getPageProps = jest.fn(() => ({to: '?page=2', 'data-x': '1'}));
             expect(
-                buildComponentProps({component: Custom, item: pageItem, getItemProps, page: 2}),
+                buildComponentProps({
+                    component: Custom,
+                    item: pageItem,
+                    getPageProps,
+                    page: 2,
+                    pageSize,
+                    onUpdate,
+                }),
             ).toEqual({
                 component: Custom,
+                onClick: expect.any(Function),
                 to: '?page=2',
                 'data-x': '1',
             });
-            expect(getItemProps).toHaveBeenCalledWith({item: pageItem, page: 2});
+            expect(getPageProps).toHaveBeenCalledWith({item: pageItem, page: 2});
         });
 
         it('returns anchor props without component for component="a" and does not warn', () => {
-            const getItemProps = jest.fn(() => ({href: '?page=2', target: '_blank'}));
+            const getPageProps = jest.fn(() => ({href: '?page=2', target: '_blank'}));
             expect(
-                buildComponentProps({component: 'a', item: pageItem, getItemProps, page: 2}),
+                buildComponentProps({
+                    component: 'a',
+                    item: pageItem,
+                    getPageProps,
+                    page: 2,
+                    pageSize,
+                    onUpdate,
+                }),
             ).toEqual({
+                onClick: expect.any(Function),
                 href: '?page=2',
                 target: '_blank',
             });
-            expect(getItemProps).toHaveBeenCalledWith({item: pageItem, page: 2});
+            expect(getPageProps).toHaveBeenCalledWith({item: pageItem, page: 2});
             expect(warnOnceMock).not.toHaveBeenCalled();
         });
 
-        it('strips Pagination-managed keys from getItemProps result', () => {
+        it('strips Pagination-managed keys from getPageProps result', () => {
             const Custom = () => null;
             const hijack = () => {};
-            const getItemProps = jest.fn(() => ({
+            const getPageProps = jest.fn(() => ({
                 to: '?page=2',
                 onClick: hijack,
                 className: 'evil',
@@ -486,33 +528,68 @@ describe('Pagination utils', () => {
                 extraProps: {onClick: hijack},
                 children: 'pwned',
             }));
-            expect(buildComponentProps({component: Custom, item: pageItem, getItemProps})).toEqual({
+            const result = buildComponentProps({
                 component: Custom,
+                item: pageItem,
+                getPageProps,
+                pageSize,
+                onUpdate,
+            });
+            expect(result).toEqual({
+                component: Custom,
+                onClick: expect.any(Function),
                 to: '?page=2',
             });
+            expect(result.onClick).not.toBe(hijack);
         });
 
-        it('returns empty object and skips getItemProps for a disabled navigation button', () => {
+        it('returns no onClick and skips getPageProps for a disabled navigation button', () => {
             const disabledButton: ButtonItem = {type: 'button', action: 'previous', disabled: true};
-            const getItemProps = jest.fn(() => ({href: '?action=previous'}));
+            const getPageProps = jest.fn(() => ({href: '?action=previous'}));
 
             expect(
-                buildComponentProps({component: 'a', item: disabledButton, getItemProps}),
+                buildComponentProps({
+                    component: 'a',
+                    item: disabledButton,
+                    getPageProps,
+                    pageSize,
+                    onUpdate,
+                }),
             ).toEqual({});
-            expect(getItemProps).not.toHaveBeenCalled();
+            expect(getPageProps).not.toHaveBeenCalled();
             expect(warnOnceMock).not.toHaveBeenCalled();
         });
 
         it('still forwards props for an enabled navigation button', () => {
             const enabledButton: ButtonItem = {type: 'button', action: 'next', disabled: false};
-            const getItemProps = jest.fn(() => ({href: '?action=next'}));
+            const getPageProps = jest.fn(() => ({href: '?action=next'}));
 
             expect(
-                buildComponentProps({component: 'a', item: enabledButton, getItemProps, page: 3}),
+                buildComponentProps({
+                    component: 'a',
+                    item: enabledButton,
+                    getPageProps,
+                    page: 3,
+                    pageSize,
+                    onUpdate,
+                }),
             ).toEqual({
+                onClick: expect.any(Function),
                 href: '?action=next',
             });
-            expect(getItemProps).toHaveBeenCalledWith({item: enabledButton, page: 3});
+            expect(getPageProps).toHaveBeenCalledWith({item: enabledButton, page: 3});
+        });
+
+        it('onClick triggers onUpdate for the target page', () => {
+            const {onClick} = buildComponentProps({
+                component: undefined,
+                item: pageItem,
+                page: 2,
+                pageSize,
+                onUpdate,
+            });
+            (onClick as (event: unknown) => void)({});
+            expect(onUpdate).toHaveBeenCalledWith(2, pageSize);
         });
     });
 });

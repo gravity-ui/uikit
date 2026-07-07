@@ -206,15 +206,15 @@ const getInitialPage = (fallback: number) => {
 const WithCustomComponentTemplate: StoryFn<PaginationProps> = (args) => {
     const state = useState({...args, page: getInitialPage(args.page)});
 
-    const getItemProps: PaginationProps['getItemProps'] = ({page}) => ({
+    const getPageProps: PaginationProps['getPageProps'] = ({page}) => ({
         to: getPageHref(page),
     });
 
     return (
         <Pagination
             {...state}
-            navigationComponent={FakeRouterLink}
-            getItemProps={getItemProps}
+            pageComponent={FakeRouterLink}
+            getPageProps={getPageProps}
             showInput
         />
     );
@@ -229,7 +229,7 @@ WithCustomComponent.args = {
 };
 
 const WithAnchorComponentTemplate: StoryFn<PaginationProps> = (args) => {
-    const getItemProps: PaginationProps['getItemProps'] = ({page}) => ({
+    const getPageProps: PaginationProps['getPageProps'] = ({page}) => ({
         href: getPageHref(page),
         // Navigate the top-level document, not the Storybook canvas iframe.
         target: '_top',
@@ -254,8 +254,8 @@ const WithAnchorComponentTemplate: StoryFn<PaginationProps> = (args) => {
             {...args}
             page={getInitialPage(args.page)}
             onUpdate={onUpdate}
-            navigationComponent="a"
-            getItemProps={getItemProps}
+            pageComponent="a"
+            getPageProps={getPageProps}
             showInput
         />
     );

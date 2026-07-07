@@ -4,7 +4,7 @@ import {Button} from '../../../Button';
 import {block} from '../../../utils/cn';
 import {getPaginationPageQa} from '../../constants';
 import type {PageItem, PaginationProps, PaginationSize} from '../../types';
-import {buildComponentProps, shouldUpdateOnPaginationItemClick} from '../../utils';
+import {buildComponentProps} from '../../utils';
 
 import './PaginationPage.scss';
 
@@ -13,11 +13,11 @@ const b = block('pagination-page');
 type Props = {
     item: PageItem;
     size: PaginationSize;
-    pageSize: NonNullable<PaginationProps['pageSize']>;
-    onUpdate: NonNullable<PaginationProps['onUpdate']>;
+    pageSize: PaginationProps['pageSize'];
+    onUpdate: PaginationProps['onUpdate'];
     className?: string;
-    navigationComponent?: PaginationProps['navigationComponent'];
-    getItemProps?: PaginationProps['getItemProps'];
+    pageComponent?: PaginationProps['pageComponent'];
+    getPageProps?: PaginationProps['getPageProps'];
 };
 
 export const PaginationPage = ({
@@ -26,8 +26,8 @@ export const PaginationPage = ({
     pageSize,
     className,
     onUpdate,
-    navigationComponent,
-    getItemProps,
+    pageComponent,
+    getPageProps,
 }: Props) => {
     const qa = getPaginationPageQa(item.page);
     if (item.simple) {
@@ -40,10 +40,12 @@ export const PaginationPage = ({
 
     const view = item.current ? 'normal' : 'flat';
     const componentProps = buildComponentProps({
-        component: navigationComponent,
+        component: pageComponent,
         item,
-        getItemProps,
+        getPageProps,
         page: item.page,
+        pageSize,
+        onUpdate,
     });
 
     return (
@@ -54,13 +56,7 @@ export const PaginationPage = ({
             view={view}
             selected={item.current}
             className={className}
-            onClick={(event) => {
-                if (shouldUpdateOnPaginationItemClick(event, Boolean(navigationComponent))) {
-                    onUpdate(item.page, pageSize);
-                }
-            }}
             qa={qa}
-            aria-current={navigationComponent && item.current ? 'page' : undefined}
         >
             {item.page}
         </Button>

@@ -8,9 +8,10 @@ import {warnOnce} from '../utils/warn';
 
 import type {
     ButtonItem,
-    GetPaginationItemProps,
     PageItem,
     PaginationComponent,
+    PaginationPagePropsGetter,
+    PaginationProps,
     PaginationSize,
     PaginationView,
 } from './types';
@@ -127,19 +128,37 @@ const PAGINATION_MANAGED_PROPS = new Set([
 export function buildComponentProps({
     component,
     item,
-    getItemProps,
+    getPageProps,
     page = 0,
+    pageSize,
+    onUpdate,
 }: {
     component?: PaginationComponent;
     item: PageItem | ButtonItem;
-    getItemProps?: GetPaginationItemProps;
+    getPageProps?: PaginationPagePropsGetter;
     page?: number;
+    pageSize: number;
+    onUpdate: PaginationProps['onUpdate'];
 }): Record<string, unknown> {
-    if (!component || (item.type === 'button' && item.disabled)) {
-        return {};
+    const disabled = item.type === 'button' && item.disabled;
+
+    const onClick = disabled
+        ? undefined
+        : (event: React.MouseEvent<HTMLElement>) => {
+              if (shouldUpdateOnPaginationItemClick(event, Boolean(component))) {
+                  onUpdate(page, pageSize);
+              }
+          };
+
+    const ariaCurrent = component && item.type === 'page' && item.current ? 'page' : undefined;
+
+    const base: Record<string, unknown> = {onClick, 'aria-current': ariaCurrent};
+
+    if (!component || disabled) {
+        return base;
     }
 
-    const userProps = getItemProps?.({item, page});
+    const userProps = getPageProps?.({item, page});
     const filtered: Record<string, unknown> = {};
     if (userProps) {
         for (const key of Object.keys(userProps)) {
@@ -149,16 +168,15 @@ export function buildComponentProps({
         }
     }
 
-    // `Button` renders a native anchor when it receives an `href`
     if (component === 'a') {
         if (filtered.href === undefined) {
             warnOnce(
-                '[Pagination] `component="a"` requires an `href` returned from `getItemProps` for every clickable item, otherwise the item falls back to a native `<button>`.',
+                '[Pagination] `component="a"` requires an `href` returned from `getPageProps` for every clickable item, otherwise the item falls back to a native `<button>`.',
             );
         }
-        return filtered;
+        return {...base, ...filtered};
     }
-    return {component, ...filtered};
+    return {...base, component, ...filtered};
 }
 
 // Only plain current-tab clicks should update pagination state.

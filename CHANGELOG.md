@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.44.2](https://github.com/gravity-ui/uikit/compare/v7.44.1...v7.44.2) (2026-07-07)
+
+
+### Bug Fixes
+
+* **Alert:** fix actions block positioning in horizontal mode ([#2733](https://github.com/gravity-ui/uikit/issues/2733)) ([afa7133](https://github.com/gravity-ui/uikit/commit/afa713343e5672119bccebe40d351935ee3bdd94))
+
 ## [7.44.1](https://github.com/gravity-ui/uikit/compare/v7.44.0...v7.44.1) (2026-07-07)
 
 

@@ -32,6 +32,13 @@ export interface TabListProps
      * tab (a `.g-tab` must stay a direct child of the list, otherwise overflow measurement breaks).
      */
     renderTabs?: (tabs: React.ReactElement[]) => React.ReactNode;
+    /**
+     * Called when the number of visible (non-collapsed) tabs changes, e.g. on resize. Lets a
+     * consumer wrap only the currently visible tabs into a drag-and-drop library and render the
+     * rest as plain `<Tab>` (which `TabList` collapses into the overflow menu). Only fires when
+     * `contentOverflow="collapse"`.
+     */
+    onCollapseUpdate?: (payload: {visibleItemCount: number}) => void;
 }
 
 interface TabCommonProps extends QAProps, DOMProps {

@@ -258,6 +258,79 @@ export const DragAndDropCollapse: Story = {
     },
 };
 
+/**
+ * Alternative approach (option B): instead of `renderTabs`, `TabList` reports how many tabs are
+ * visible via `onCollapseUpdate`, and the consumer wraps only the first N (`slice(0, count)`) into
+ * DnD, passing the rest as plain `<Tab>`.
+ *
+ * Trade-off to observe: `onCollapseUpdate` makes the collapse STRICT-PREFIX, so the active tab is
+ * NOT kept visible. Open "More" and pick a collapsed tab — it becomes active but stays inside the
+ * menu, and the strip shows no active indicator. (Compare with `DragAndDropCollapse` above, where
+ * the active tab is always visible.) The dnd placeholder is omitted here because in this approach it
+ * would be counted as a collapsed tab and inflate the "More" counter.
+ */
+const OnCollapseUpdateRender = (args: TabListProps) => {
+    const [tabs, setTabs] = React.useState<TabProps[]>(() => getTabsMock({}));
+    const [value, setValue] = React.useState(tabs[0].value);
+    const [visibleItemCount, setVisibleItemCount] = React.useState(tabs.length);
+
+    const onDragEnd = ({source, destination}: DropResult) => {
+        if (!destination) {
+            return;
+        }
+        setTabs((prev) => reorder(prev, source.index, destination.index));
+    };
+
+    const visibleTabs = tabs.slice(0, visibleItemCount);
+    const collapsedTabs = tabs.slice(visibleItemCount);
+
+    return (
+        <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="tab-list" direction="horizontal">
+                {(droppableProvided) => (
+                    <TabList
+                        {...args}
+                        ref={droppableProvided.innerRef}
+                        value={value}
+                        onUpdate={setValue}
+                        {...droppableProvided.droppableProps}
+                        onCollapseUpdate={({visibleItemCount: count}) => setVisibleItemCount(count)}
+                    >
+                        {visibleTabs.map((tab, index) => (
+                            <Draggable
+                                key={tab.value}
+                                draggableId={tab.value}
+                                index={index}
+                                disableInteractiveElementBlocking
+                            >
+                                {(draggableProvided) => (
+                                    <Tab
+                                        {...tab}
+                                        ref={draggableProvided.innerRef}
+                                        {...draggableProvided.draggableProps}
+                                        {...draggableProvided.dragHandleProps}
+                                    />
+                                )}
+                            </Draggable>
+                        ))}
+                        {collapsedTabs.map((tab) => (
+                            <Tab key={tab.value} {...tab} />
+                        ))}
+                    </TabList>
+                )}
+            </Droppable>
+        </DragDropContext>
+    );
+};
+
+export const OnCollapseUpdateDragAndDrop: Story = {
+    render: OnCollapseUpdateRender,
+    args: {
+        contentOverflow: 'collapse',
+        style: {maxWidth: 320},
+    },
+};
+
 export const Panels: Story = {
     render: (args) => {
         const tabs = getTabsMock({});

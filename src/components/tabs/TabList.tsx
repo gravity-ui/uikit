@@ -34,6 +34,7 @@ export const TabList = React.forwardRef<HTMLDivElement, TabListProps>((rawProps,
         value,
         listRef,
         collapseEnabled,
+        Boolean(props.onCollapseUpdate),
     );
 
     const [isFocused, setIsFocused] = React.useState(false);
@@ -76,6 +77,14 @@ export const TabList = React.forwardRef<HTMLDivElement, TabListProps>((rawProps,
             );
         }
     });
+
+    const {onCollapseUpdate} = props;
+    const visibleItemCount = shownChildren.length;
+    React.useEffect(() => {
+        if (collapseEnabled) {
+            onCollapseUpdate?.({visibleItemCount});
+        }
+    }, [collapseEnabled, onCollapseUpdate, visibleItemCount]);
 
     return (
         <TabContext.Provider value={innerContextValue}>

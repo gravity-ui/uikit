@@ -4,6 +4,7 @@ $block: '.#{variables.$ns}control-label';
 
 #{$block} {
     display: inline-flex;
+    align-items: baseline;
     font-family: var(--g-text-body-font-family);
     font-weight: var(--g-text-body-font-weight);
     color: var(--g-color-text-primary);
@@ -35,6 +36,14 @@ $block: '.#{variables.$ns}control-label';
 
     &__indicator {
         flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &::after {
+            content: '\00a0';
+            visibility: hidden;
+        }
     }
 
     &__text {

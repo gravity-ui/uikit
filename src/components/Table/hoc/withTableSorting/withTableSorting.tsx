@@ -2,8 +2,8 @@
 
 import * as React from 'react';
 
-import get from 'lodash/get';
-import memoize from 'lodash/memoize';
+import {memoize} from 'es-toolkit';
+import {get} from 'es-toolkit/compat';
 
 import {createOnKeyDownHandler} from '../../../../hooks/useActionHandlers/useActionHandlers';
 import {block} from '../../../utils/cn';

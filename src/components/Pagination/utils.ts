@@ -1,4 +1,4 @@
-import uniq from 'lodash/uniq';
+import {uniq} from 'es-toolkit';
 
 import type {ButtonView} from '../Button';
 import type {InputControlView} from '../controls';

@@ -1048,6 +1048,8 @@ SANDBOX-->
 
 ## CSS API
 
-| Name                             | Description                                   |
-| :------------------------------- | :-------------------------------------------- |
-| `--g-select-focus-outline-color` | Outline color if focused (missing by default) |
+| Name                             | Description                                                                                                                |
+| :------------------------------- | :------------------------------------------------------------------------------------------------------------------------- |
+| `--g-select-focus-outline-color` | Outline color if focused (missing by default)                                                                              |
+| `--g-select-list-item-padding`   | Padding of the list row (`g-list__item`). Shifts hover/active/selected background. Default is `0`.                         |
+| `--g-select-list-option-padding` | Padding of the option element (`g-select-list__option`). Default depends on `size`: s/m — `0 8px`, l/xl/mobile — `0 12px`. |

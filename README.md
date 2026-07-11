@@ -136,3 +136,5 @@ The base React component and design-token library for Gravity UI apps — contro
 - **Components render unstyled without setup.** Wrap the app in `ThemeProvider` **and** import `@gravity-ui/uikit/styles/styles.css` (plus `fonts.css`) once at the entry point — both are required.
 - **`Icon` has no `name` prop.** Pass an imported icon component through `data`: `import {Gear} from '@gravity-ui/icons'; <Icon data={Gear} size={16} />`.
 - **`theme` values are `light | dark | light-hc | dark-hc`.** There is no `theme="default"`.
+
+**Required reading:** before generating UIKit code, read [EXTERNAL_AGENTS.md](EXTERNAL_AGENTS.md) — the required-reading manifest for agents consuming this package. It links the [layout-system guide](docs/layout.md) (grid, spacing tokens, breakpoints, `useLayoutContext`) that agents must follow.

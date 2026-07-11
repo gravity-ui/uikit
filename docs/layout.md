@@ -1,73 +1,107 @@
-# Layout Components
+# Layout components and spacings
 
-Components to build responsive layouts on the page.
-
-```tsx
-import {Container, Row, Col, Flex} from '@gravity-ui/uikit';
-
-<Container>
-    <Row space="5">
-        <Col size={[12, {l: 4}]}>
-            <Flex space>...</Flex>
-        </Col>
-        <Col size={[12, {l: 4}]}>
-            ...
-        </Col>
-    </Row>
-</Container>;
-```
-
-> Boolean prop `space` in `Flex` component means that there is spacing between child components with default value taken from LayoutTheme
-
-**All components support `jsdoc` on hover feature. Just hover over the component or components prop in your favorite editor to see documentation**
-
-### Base concepts:
-
-- [Spacing](#spacing)
-- [Screen sizes](#screen-sizes)
-
-### Components:
-
-- [Layout Grid](#layout-grid)
-    - [Row](#row)
-    - [Col](#col)
-- [Container](#container)
-- [Flex](#flex)
-- [Box](#box)
-
-### Hooks
-
-- [useLayoutContext](#uselayoutcontext)
+This guide covers UIKit's layout foundations: a shared **spacing** scale (`--g-spacing-*`, used
+everywhere via tokens and props) and a responsive **grid** (`Container`/`Row`/`Col`), plus the
+flexbox-based `Flex`/`Box` primitives built on top of them. Compose pages from these instead of
+raw `div`s and inline styles.
 
 ## Spacing
 
-- 0.5 - 2px;
-- 1 - 4px;
-- 2 - 8px;
-- 3 - 12px;
-- 4 - 16px;
-- 5 - 20px;
-- 6 - 24px;
-- 7 - 28px;
-- 8 - 32px;
-- 9 - 36px;
-- 10 - 40px;
+Spacing in UIKit is a **scale**, not free-form pixels. You reference a step (`1`, `2`, … `10`)
+and the design system turns it into a concrete size. Sticking to the scale is what keeps rhythm
+consistent across the whole app, and lets you rescale everything from a single variable.
 
-These `tokens` are also available via css custom properties:
+### The scale
+
+Every step is a multiple of a base unit (`--g-spacing-base`, `4px` by default), so `step × 4px`:
+
+| Step  | CSS variable        | Size |
+| ----- | ------------------- | ---- |
+| `0`   | `--g-spacing-0`     | 0    |
+| `0.5` | `--g-spacing-half`  | 2px  |
+| `1`   | `--g-spacing-1`     | 4px  |
+| `2`   | `--g-spacing-2`     | 8px  |
+| `3`   | `--g-spacing-3`     | 12px |
+| `4`   | `--g-spacing-4`     | 16px |
+| `5`   | `--g-spacing-5`     | 20px |
+| `6`   | `--g-spacing-6`     | 24px |
+| `7`   | `--g-spacing-7`     | 28px |
+| `8`   | `--g-spacing-8`     | 32px |
+| `9`   | `--g-spacing-9`     | 36px |
+| `10`  | `--g-spacing-10`    | 40px |
+
+Because every step is derived from `--g-spacing-base`, changing that one value rescales the
+entire spacing system proportionally (see [Customization](#customization)).
+
+### Ways to apply spacing
+
+There are three ways to consume the scale — pick by context:
+
+**1. Component props** — spacing **between** children of `Flex`/`Box`, via the `gap` prop:
+
+```tsx
+import {Flex} from '@gravity-ui/uikit';
+
+<Flex gap={5}>
+    <Button />
+    <Button />
+</Flex>; // 20px between children
+```
+
+**2. CSS custom properties** — the same steps as `--g-spacing-{step}` variables, for use in your
+own styles (e.g. `--g-spacing-half` for the `0.5` step):
 
 ```css
 .example-class {
-    margin-right: var(--g-spacing-5);
+    margin-right: var(--g-spacing-5); /* 20px */
+    padding: var(--g-spacing-2) var(--g-spacing-4);
 }
 ```
 
-_You can override default values on project level:_
+**3. The `spacing()` utility** — for one-off margins/paddings on any element without hand-writing
+class names. It returns a generated class name string:
+
+```tsx
+import {spacing} from '@gravity-ui/uikit';
+
+<>
+    <Button className={spacing({mr: 5})}>button 1</Button>
+    <Button className={spacing({mt: 2, px: 4})}>button 2</Button>
+</>;
+```
+
+`sp` is a shorter alias: `import {sp} from '@gravity-ui/uikit'` → `sp({mr: 5})`.
+
+Supported keys (each takes a scale step):
+
+| Key                | Property                          |
+| ------------------ | --------------------------------- |
+| `m`                | `margin`                          |
+| `mt` `mr` `mb` `ml`| `margin-top/right/bottom/left`    |
+| `mx`               | horizontal margin (left + right)  |
+| `my`               | vertical margin (top + bottom)    |
+| `p`                | `padding`                         |
+| `pt` `pr` `pb` `pl`| `padding-top/right/bottom/left`   |
+| `px`               | horizontal padding (left + right) |
+| `py`               | vertical padding (top + bottom)   |
+
+You can pass a second argument to merge extra class names: `spacing({mr: 5}, myClassName)`.
+
+> **Rule of thumb:** `gap` for spacing between siblings in a `Flex`/`Box`; the `spacing()`/`sp()`
+> utility for one-off offsets on an element; raw `--g-spacing-*` variables inside your own CSS.
+> Always use scale steps, never hard-coded pixels.
+
+### Customization
+
+Override the base unit to rescale the whole system. Do it via CSS at the project level:
 
 ```css
 :root {
-    --g-spacing-base: 5px;
+    --g-spacing-base: 5px; /* now step 5 = 25px, etc. */
 }
 ```
+
+Or through the layout theme, which keeps the JS `Space` values and CSS variables in sync:
 
 ```tsx
 import {ThemeProvider, LayoutTheme} from '@gravity-ui/uikit';
@@ -84,23 +118,6 @@ export const App = () => {
     );
 };
 ```
-
-### Spacing utility
-
-Frequently during the developing process you have to specify relative position between components. Generating class names for such elements carries a large overhead.
-
-For such purposes, you can use `spacing` utility to generate predefined class names:
-
-```tsx
-import {spacing} from '@gravity-ui/uikit';
-
-<>
-    <Button className={spacing({mr: 5})}>button 1</Button>
-    <Button>button 1</Button>
-</>;
-```
-
-> `mr` - means `margin-right`.
 
 ## Screen sizes:
 

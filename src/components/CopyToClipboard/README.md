@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+`CopyToClipboard` is a render-prop wrapper that copies text to the clipboard and exposes the copy status to its child, letting you render your own trigger; for a ready-made button use `ClipboardButton`.
+
 ```tsx
 import {CopyToClipboard} from '@gravity-ui/uikit';
 ```
-
-CopyToClipboard is a wrapper component that copies text to clipboard and can update its content depending on the returned status.
 
 ### Children (render function)
 

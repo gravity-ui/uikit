@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+Buttons act as a trigger for certain actions. While this is their main purpose, in some very rare cases, they can be used as links to navigate to other pages.
+
 ```tsx
 import {Button} from '@gravity-ui/uikit';
 ```
-
-Buttons act as a trigger for certain actions. While this is their main purpose, in some very rare cases, they can be used as links to navigate to other pages.
 
 ## Appearance
 

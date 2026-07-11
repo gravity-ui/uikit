@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+The `Palette` component is used to display a grid of icons, emojis, reactions, and symbols which you can select or deselect.
+
 ```tsx
 import {Palette} from '@gravity-ui/uikit';
 ```
-
-The `Palette` component is used to display a grid of icons, emojis, reactions, and symbols which you can select or deselect.
 
 ### Disabled state
 
@@ -151,7 +151,7 @@ const options: PaletteOption[] = [
 
 <!--/GITHUB_BLOCK-->
 
-### Properties
+## Properties
 
 `PaletteProps`:
 

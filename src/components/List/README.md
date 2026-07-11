@@ -4,6 +4,8 @@
 
 <!--/GITHUB_BLOCK-->
 
+The `List` component renders a filterable, sortable, and virtualized list of items with support for custom rendering and keyboard navigation.
+
 ```tsx
 import {List} from '@gravity-ui/uikit';
 ```
@@ -221,7 +223,7 @@ Likewise, you can forward `onFocus` and `onBlur` if you need to repeat the behav
 
 The `filter` property provides the filter value used with external sorting.
 
-### PropTypes
+## Properties
 
 | Name              | Description                                                                                                                                                                                                 | Type              | Default |
 | :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------- | :------ |

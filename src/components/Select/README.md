@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+`Select` is a control that provides a list of options that a user can select.
+
 ```tsx
 import {Select} from '@gravity-ui/uikit';
 ```
-
-`Select` is a control that provides a list of options that a user can select.
 
 ## Options
 

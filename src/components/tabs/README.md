@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+Tabs components is used to explore, organize content and switch between different views.
+
 ```tsx
 import {TabProvider, TabList, Tab, TabPanel} from '@gravity-ui/uikit';
 ```
-
-Tabs components is used to explore, organize content and switch between different views.
 
 <!--SANDBOX
 import {useState} from 'react';
@@ -72,7 +72,7 @@ return (
 
 A component that provides the tab selection functionality
 
-### Properties
+## Properties
 
 | Name     | Description                                              |           Type            | Default |
 | :------- | :------------------------------------------------------- | :-----------------------: | :-----: |

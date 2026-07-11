@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+`ClipboardButton` is a ready-made button that copies given text to the clipboard and plays a success animation. It combines [`CopyToClipboard`](../CopyToClipboard/README.md) (the copy behavior) with [`ClipboardIcon`](../ClipboardIcon/README.md) (the animated icon).
+
 ```tsx
 import {ClipboardButton} from '@gravity-ui/uikit';
 ```
-
-This component puts [`CopyToClipboard`](../CopyToClipboard/README.md) and [`ClipboardIcon`](../ClipboardIcon/README.md) together. [`CopyToClipboard`](../CopyToClipboard/README.md) sends a text to the clipboard and, as a wrapper, uses [`ClipboardIcon`](../ClipboardIcon/README.md) as content for itself to display animation when a copy-paste event happens.
 
 <!--SANDBOX
 import {ClipboardButton} from '@gravity-ui/uikit';

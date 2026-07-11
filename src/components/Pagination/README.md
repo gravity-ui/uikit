@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+`Pagination` renders page-navigation controls — page numbers with previous/next buttons and an optional page-size selector — used for splitting long lists or tables across pages.
+
 ```tsx
 import {Pagination} from '@gravity-ui/uikit';
 ```
-
-This component renders pagination.
 
 ## Usage
 

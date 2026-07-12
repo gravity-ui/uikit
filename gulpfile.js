@@ -7,6 +7,7 @@ const sass = require('gulp-sass')(require('sass'));
 const sourcemaps = require('gulp-sourcemaps');
 const {rimrafSync} = require('rimraf');
 
+const {buildDocs} = require('./build-utils/build-docs');
 const {sassFunctions} = require('./build-utils/sass-functions');
 
 const {version} = require('./package.json');
@@ -106,6 +107,11 @@ task('styles-components', () => {
         .pipe(dest(path.resolve(BUILD_DIR, 'cjs', 'components')));
 });
 
+task('copy-docs', (done) => {
+    buildDocs();
+    done();
+});
+
 task(
     'build',
     series([
@@ -113,6 +119,7 @@ task(
         parallel(['compile-to-esm', 'compile-to-cjs']),
         'copy-i18n',
         parallel(['styles-global', 'styles-components']),
+        'copy-docs',
     ]),
 );
 

@@ -49,7 +49,7 @@ export const Alert = (rawProps: AlertProps) => {
     const commonProps = {
         style,
         className: bAlert({corners, size, align: align}, className),
-        qa,
+        ...(theme === 'clear' ? {'data-qa': qa} : {qa}),
     };
 
     const {t} = i18n.useTranslation();

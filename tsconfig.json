@@ -24,5 +24,6 @@
     ],
     "exclude": [
         "src/**/*.figma.ts",
+        "src/**/*.figma.tsx",
     ]
 }

@@ -119,7 +119,7 @@
     "typecheck:code-connect": "npm run code-connect:check",
     "typecheck": "npm run typecheck:src && npm run typecheck:code-connect",
     "code-connect:create": "figma connect create --config figma.config.json",
-    "code-connect:check": "node --test tools/code-connect/check.test.mjs && node tools/code-connect/check.mjs && figma connect parse --config figma.config.json --exit-on-unreadable-files > /dev/null",
+    "code-connect:check": "tsc -p tsconfig.figma.json --noEmit && figma connect parse --config figma.config.json --exit-on-unreadable-files > /dev/null",
     "code-connect:publish:pilot:dry-run": "figma connect publish --config figma.config.json --label 'React (gravity-ui/uikit pilot)' --dry-run --exit-on-unreadable-files",
     "code-connect:publish:pilot": "figma connect publish --config figma.config.json --label 'React (gravity-ui/uikit pilot)' --exit-on-unreadable-files",
     "code-connect:publish:dry-run": "figma connect publish --config figma.config.json --label React --dry-run --exit-on-unreadable-files",

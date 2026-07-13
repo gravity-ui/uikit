@@ -3,8 +3,8 @@
     "compilerOptions": {
         "allowJs": false,
         "noEmit": true,
-        "types": ["@figma/code-connect/figma-types", "node"]
+        "types": ["node", "react"]
     },
-    "include": ["src/components/**/*.figma.ts"],
+    "include": ["src/components/**/*.figma.tsx"],
     "exclude": []
 }

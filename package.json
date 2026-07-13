@@ -151,7 +151,7 @@
     "@commitlint/config-conventional": "^19.8.1",
     "@faker-js/faker": "^9.8.0",
     "@gravity-ui/eslint-config": "^4.2.0",
-    "@gravity-ui/gulp-utils": "file:./vendor-gulp-utils.tgz",
+    "@gravity-ui/gulp-utils": "^1.1.0",
     "@gravity-ui/playwright-tools": "^2.0.0",
     "@gravity-ui/prettier-config": "^1.1.0",
     "@gravity-ui/stylelint-config": "^5.0.0",

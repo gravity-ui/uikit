@@ -7,7 +7,7 @@ type Props = Pick<CheckboxProps, 'size' | 'checked' | 'indeterminate' | 'disable
 
 figma.connect<Props>(
     Checkbox,
-    'https://www.figma.com/design/LwOcKoxx9fpdYlUjqQhzzBb4/YC-Gravity-UI?node-id=48571-15566',
+    'https://www.figma.com/design/LlrQIz4F2Y06FJRdB4iE9U/Gravity-UI-Design-System--Community-?node-id=53103-9376',
     {
         imports: ["import {Checkbox} from '@gravity-ui/uikit';"],
         props: {

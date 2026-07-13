@@ -5,7 +5,7 @@ import {Avatar} from './Avatar';
 import type {AvatarProps} from './types/main';
 
 const figmaNode =
-    'https://www.figma.com/design/LwOcKoxx9fpdYlUjqQhzzBb4/YC-Gravity-UI?node-id=41226-428847';
+    'https://www.figma.com/design/LlrQIz4F2Y06FJRdB4iE9U/Gravity-UI-Design-System--Community-?node-id=53348-563633';
 
 type CommonProps = Pick<AvatarProps, 'size' | 'view' | 'theme'>;
 type TextProps = CommonProps & Pick<Extract<AvatarProps, {text: string}>, 'text'>;

@@ -7,7 +7,7 @@ type Props = Pick<ButtonProps, 'view' | 'size' | 'disabled' | 'loading' | 'selec
 
 figma.connect<Props>(
     Button,
-    'https://www.figma.com/design/LwOcKoxx9fpdYlUjqQhzzBb4/YC-Gravity-UI?node-id=41899-462118',
+    'https://www.figma.com/design/LlrQIz4F2Y06FJRdB4iE9U/Gravity-UI-Design-System--Community-?node-id=53098-497062',
     {
         imports: ["import {Button} from '@gravity-ui/uikit';"],
         props: {
@@ -47,7 +47,6 @@ figma.connect<Props>(
                 Disabled: true,
                 Loading: false,
                 Selected: false,
-                'Selected hover': false,
             }),
             loading: figma.enum('State', {
                 Default: false,
@@ -55,7 +54,6 @@ figma.connect<Props>(
                 Disabled: false,
                 Loading: true,
                 Selected: false,
-                'Selected hover': false,
             }),
             selected: figma.enum('State', {
                 Default: false,
@@ -63,7 +61,6 @@ figma.connect<Props>(
                 Disabled: false,
                 Loading: false,
                 Selected: true,
-                'Selected hover': true,
             }),
             children: figma.string('Content'),
         },

@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+A help icon that reveals contextual information in a popover on hover or click. Ideal for showing tips, explanations, or supporting content without taking up extra space in the interface.
+
 ```tsx
 import {HelpMark} from '@gravity-ui/uikit';
 ```
-
-A help icon that reveals contextual information in a popover on hover or click. Ideal for showing tips, explanations, or supporting content without taking up extra space in the interface.
 
 ## Examples
 

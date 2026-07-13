@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+The `Drawer` component is a versatile interface element used in web applications to provide a sliding panel that emerges from the edge of the screen. This panel can house navigations, tools, or additional content. The component is implemented using React and CSS transitions for smooth animations.
+
 ```tsx
 import {Drawer} from '@gravity-ui/uikit';
 ```
-
-The `Drawer` component is a versatile interface element used in web applications to provide a sliding panel that emerges from the edge of the screen. This panel can house navigations, tools, or additional content. The component is implemented using React and CSS transitions for smooth animations.
 
 ## Usage
 

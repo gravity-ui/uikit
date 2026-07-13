@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+The `SegmentedRadioGroup` component is used to create a group of radio buttons where users can select a single option from multiple choices.
+
 ```tsx
 import {SegmentedRadioGroup} from '@gravity-ui/uikit';
 ```
-
-The `SegmentedRadioGroup` component is used to create a group of radio buttons where users can select a single option from multiple choices.
 
 ### Disabled state
 
@@ -136,7 +136,7 @@ SANDBOX-->
 
 <!--/GITHUB_BLOCK-->
 
-### Properties
+## Properties
 
 | Name         | Description                                                                                              |                Type                | Default |
 | :----------- | :------------------------------------------------------------------------------------------------------- | :--------------------------------: | :-----: |

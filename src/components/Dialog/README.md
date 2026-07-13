@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+`Dialog` is a modal window with a title, body, and footer actions, used for confirmations, forms, and prompts. It is built on top of `Modal`.
+
 ```tsx
 import {Dialog} from '@gravity-ui/uikit';
 ```
-
-This is a component used for dialogs.
 
 ## Usage
 

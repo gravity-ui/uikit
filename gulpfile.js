@@ -7,10 +7,10 @@ const sass = require('gulp-sass')(require('sass'));
 const sourcemaps = require('gulp-sourcemaps');
 const {rimrafSync} = require('rimraf');
 
-const {buildDocs} = require('./build-utils/build-docs');
+const {buildDocs, standardDocsConfig} = require('./build-utils/build-docs');
 const {sassFunctions} = require('./build-utils/sass-functions');
 
-const {version} = require('./package.json');
+const {name, version} = require('./package.json');
 
 const BUILD_DIR = path.resolve('build');
 
@@ -108,7 +108,7 @@ task('styles-components', () => {
 });
 
 task('copy-docs', (done) => {
-    buildDocs();
+    buildDocs(standardDocsConfig(path.resolve('.'), name));
     done();
 });
 

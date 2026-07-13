@@ -4,11 +4,45 @@ const path = require('path');
 
 const {cleanMarkdown, extractSummary, extractTitle} = require('./clean-markdown');
 
-const ROOT = path.resolve(__dirname, '..');
-const DOCS_DIR = path.join(ROOT, 'build', 'docs');
-
 // Story/test folders hold Storybook doc pages and fixtures, not API docs.
 const DEFAULT_EXCLUDE = ['__stories__', '__tests__', '__mocks__', '__snapshots__'];
+
+/**
+ * The layout shared by gravity-ui packages: component and hook READMEs plus any
+ * markdown dropped under the repo-level `docs/` folder. `exclude: ['legacy']`
+ * and an empty `docs/` are both harmless when a package lacks them, so the same
+ * config drives every package (uikit, navigation, …).
+ */
+function standardDocsConfig(rootDir, packageName) {
+    return {
+        rootDir,
+        packageName,
+        outDir: path.join(rootDir, 'build', 'docs'),
+        sources: [
+            {
+                title: 'Guides',
+                kind: 'markdown',
+                baseDir: 'docs',
+                outPrefix: 'guides',
+                nameFromTitle: true,
+            },
+            {
+                title: 'Components',
+                kind: 'readme',
+                baseDir: 'src/components',
+                outPrefix: 'components',
+                exclude: ['legacy'],
+            },
+            {
+                title: 'Hooks',
+                kind: 'readme',
+                baseDir: 'src/hooks',
+                outPrefix: 'hooks',
+                exclude: ['private'],
+            },
+        ],
+    };
+}
 
 /** Recursively collects `README.md` files under `dir`, skipping excluded segments. */
 function findReadmes(dir, {exclude = []} = {}) {
@@ -24,7 +58,8 @@ function findReadmes(dir, {exclude = []} = {}) {
                 continue;
             }
             result.push(...findReadmes(fullPath, {exclude}));
-        } else if (entry.name === 'README.md') {
+        } else if (/^readme\.md$/i.test(entry.name)) {
+            // Case-insensitive: some packages use `Readme.md` (e.g. navigation).
             result.push(fullPath);
         }
     }
@@ -54,19 +89,27 @@ function writeDoc(outPath, content) {
 }
 
 /**
- * Lists the READMEs under `baseDir` as `{source, outRel, name}` items, mirroring
- * the source folder layout so nested groups never collide (e.g.
- * `src/components/controls/TextInput/README.md` → `components/controls/TextInput.md`).
+ * Lists a source's docs as `{source, outRel, name}` items, mirroring the source
+ * folder layout so nested groups never collide (e.g.
+ * `src/components/controls/TextInput/README.md` → `components/controls/TextInput.md`,
+ * `docs/theming.md` → `guides/theming.md`).
  */
-function listReadmes({outPrefix, baseDir, exclude = []}) {
-    return findReadmes(baseDir, {exclude}).map((source) => {
-        const name = path.relative(baseDir, path.dirname(source)).split(path.sep).join('/');
-        return {source, name, outRel: path.posix.join(outPrefix, `${name}.md`)};
+function listSource(rootDir, {kind, baseDir, outPrefix, exclude = []}) {
+    const absBase = path.join(rootDir, baseDir);
+    if (kind === 'readme') {
+        return findReadmes(absBase, {exclude}).map((source) => {
+            const name = path.relative(absBase, path.dirname(source)).split(path.sep).join('/');
+            return {source, name, outRel: path.posix.join(outPrefix, `${name}.md`)};
+        });
+    }
+    return findMarkdown(absBase).map((source) => {
+        const rel = path.relative(absBase, source).split(path.sep).join('/');
+        return {source, name: rel.replace(/\.md$/, ''), outRel: path.posix.join(outPrefix, rel)};
     });
 }
 
 /**
- * Rewrites intra-repo `README.md` links so they resolve inside `build/docs/`.
+ * Rewrites intra-repo `README.md` links so they resolve inside the docs output.
  * Source links point at sibling source folders (`../CopyToClipboard/README.md`);
  * here every README maps to a flat `<name>.md`, so links are recomputed relative
  * to the current output file. Links to docs that aren't shipped (e.g. `legacy/`)
@@ -74,7 +117,7 @@ function listReadmes({outPrefix, baseDir, exclude = []}) {
  */
 function rewriteReadmeLinks(markdown, source, outRel, docMap) {
     return markdown.replace(/\[([^\]]*)\]\(([^)]+)\)/g, (whole, text, target) => {
-        if (!/README(\.md)?(#|$|\))/i.test(target) && !target.includes('README.md')) {
+        if (!/readme\.md/i.test(target)) {
             return whole;
         }
         if (/^[a-z]+:\/\//i.test(target)) {
@@ -99,69 +142,52 @@ function rewriteReadmeLinks(markdown, source, outRel, docMap) {
     });
 }
 
-/** Cleans a source doc, rewrites its links, writes it, and returns the cleaned text. */
-function emitDoc(source, outRel, docMap) {
-    const cleaned = rewriteReadmeLinks(cleanMarkdown(fs.readFileSync(source, 'utf8')), source, outRel, docMap);
-    writeDoc(path.join(DOCS_DIR, outRel), cleaned);
-    return cleaned;
-}
-
 /**
- * Builds `build/docs/` from the package's markdown sources:
- *   - component READMEs  → docs/components/<Name>.md
- *   - public hook READMEs → docs/hooks/<name>.md
- *   - top-level guides   → docs/guides/<relative path>
- *   - docs/INDEX.md      → compact index (name → summary → path) for agents
+ * Builds a package's `docs/` output for AI agents from its markdown sources.
+ *
+ * @param {object} config — usually `standardDocsConfig(rootDir, packageName)`.
+ * @param {string} config.rootDir — repo root.
+ * @param {string} config.outDir — directory to (re)generate.
+ * @param {string} config.packageName — shown in the generated INDEX.md header.
+ * @param {Array} config.sources — `{title, kind:'readme'|'markdown', baseDir,
+ *   outPrefix, exclude?, nameFromTitle?}`; INDEX sections follow this order.
+ * @returns {{sections: object[], total: number}}
  */
-function buildDocs() {
-    fs.rmSync(DOCS_DIR, {recursive: true, force: true});
+function buildDocs(config) {
+    const {rootDir, outDir, packageName, sources} = config;
 
-    // Component READMEs. Nested groups (lab/, controls/, sub-components) keep
-    // their relative path so names never collide. `legacy/` is deprecated and
-    // deliberately not shipped to the docs.
-    const componentItems = listReadmes({
-        outPrefix: 'components',
-        baseDir: path.join(ROOT, 'src', 'components'),
-        exclude: ['legacy'],
-    });
-    // Public hook READMEs (private helpers excluded).
-    const hookItems = listReadmes({
-        outPrefix: 'hooks',
-        baseDir: path.join(ROOT, 'src', 'hooks'),
-        exclude: ['private'],
-    });
-    // Guides: any markdown placed under the repo-level docs/ folder.
-    const guideItems = findMarkdown(path.join(ROOT, 'docs')).map((source) => {
-        const relSource = path.relative(path.join(ROOT, 'docs'), source).split(path.sep).join('/');
-        return {source, name: relSource.replace(/\.md$/, ''), outRel: path.posix.join('guides', relSource)};
-    });
+    fs.rmSync(outDir, {recursive: true, force: true});
 
-    // Map every shipped source doc to its output path first, so links between
-    // docs can be resolved in the second pass regardless of processing order.
-    const docMap = new Map(
-        [...componentItems, ...hookItems, ...guideItems].map((it) => [it.source, it.outRel]),
-    );
+    // Resolve every source's items first, so links between docs can be rewritten
+    // in the second pass regardless of processing order.
+    const listed = sources.map((source) => ({source, items: listSource(rootDir, source)}));
+    const docMap = new Map(listed.flatMap(({items}) => items.map((it) => [it.source, it.outRel])));
 
-    const index = {components: [], hooks: [], guides: []};
-
-    for (const {source, name, outRel} of componentItems) {
-        const cleaned = emitDoc(source, outRel, docMap);
-        index.components.push({name, rel: outRel, summary: extractSummary(cleaned)});
-    }
-    for (const {source, name, outRel} of hookItems) {
-        const cleaned = emitDoc(source, outRel, docMap);
-        index.hooks.push({name, rel: outRel, summary: extractSummary(cleaned)});
-    }
-    for (const {source, name, outRel} of guideItems) {
-        const cleaned = emitDoc(source, outRel, docMap);
-        // Guides are named by their heading; fall back to the file path.
-        index.guides.push({name: extractTitle(cleaned) || name, rel: outRel, summary: extractSummary(cleaned)});
+    const sections = [];
+    for (const {source, items} of listed) {
+        const entries = [];
+        for (const {source: file, name, outRel} of items) {
+            const cleaned = rewriteReadmeLinks(
+                cleanMarkdown(fs.readFileSync(file, 'utf8')),
+                file,
+                outRel,
+                docMap,
+            );
+            writeDoc(path.join(outDir, outRel), cleaned);
+            entries.push({
+                name: source.nameFromTitle ? extractTitle(cleaned) || name : name,
+                rel: outRel,
+                summary: extractSummary(cleaned),
+            });
+        }
+        sections.push({title: source.title, entries});
     }
 
-    writeDoc(path.join(DOCS_DIR, 'INDEX.md'), renderIndex(index));
+    const outRelToRoot = path.relative(rootDir, outDir).split(path.sep).join('/');
+    writeDoc(path.join(outDir, 'INDEX.md'), renderIndex(packageName, outRelToRoot, sections));
 
-    const total = index.components.length + index.hooks.length + index.guides.length;
-    return {...index, total};
+    const total = sections.reduce((sum, s) => sum + s.entries.length, 0);
+    return {sections, total};
 }
 
 function renderSection(title, entries) {
@@ -169,44 +195,40 @@ function renderSection(title, entries) {
         return '';
     }
     const rows = entries
+        .slice()
         .sort((a, b) => a.name.localeCompare(b.name))
-        .map(({name, rel, summary}) => {
-            const posixRel = rel.split(path.sep).join('/');
-            const suffix = summary ? ` — ${summary}` : '';
-            return `- [${name}](./${posixRel})${suffix}`;
-        })
+        .map(({name, rel, summary}) => `- [${name}](./${rel})${summary ? ` — ${summary}` : ''}`)
         .join('\n');
     return `## ${title}\n\n${rows}\n`;
 }
 
-function renderIndex(index) {
+function renderIndex(packageName, outRelToRoot, sections) {
+    // e.g. node_modules/@gravity-ui/uikit/build/docs
+    const installedPath = path.posix.join('node_modules', packageName, outRelToRoot);
     const header = [
-        '# @gravity-ui/uikit documentation',
+        `# ${packageName} documentation`,
         '',
-        'Documentation for the **installed** version of `@gravity-ui/uikit`.',
+        `Documentation for the **installed** version of \`${packageName}\`.`,
         'Your training data may be outdated — these files are the source of truth.',
         '',
-        'Paths are relative to this file (`node_modules/@gravity-ui/uikit/build/docs/`).',
+        `Paths are relative to this file (\`${installedPath}/\`).`,
         '',
     ].join('\n');
 
-    return [
-        header,
-        renderSection('Guides', index.guides),
-        renderSection('Components', index.components),
-        renderSection('Hooks', index.hooks),
-    ]
+    return [header, ...sections.map(({title, entries}) => renderSection(title, entries))]
         .filter(Boolean)
         .join('\n');
 }
 
-module.exports = {buildDocs};
+module.exports = {buildDocs, standardDocsConfig};
 
 if (require.main === module) {
-    const result = buildDocs();
+    const rootDir = process.argv[2] ? path.resolve(process.argv[2]) : path.resolve(__dirname, '..');
+    const {name} = require(path.join(rootDir, 'package.json'));
+    const result = buildDocs(standardDocsConfig(rootDir, name));
     // eslint-disable-next-line no-console
     console.log(
-        `Built build/docs: ${result.components.length} components, ` +
-            `${result.hooks.length} hooks, ${result.guides.length} guides.`,
+        `Built docs for ${name}: ` +
+            result.sections.map((s) => `${s.entries.length} ${s.title.toLowerCase()}`).join(', '),
     );
 }

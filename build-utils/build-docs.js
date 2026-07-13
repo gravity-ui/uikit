@@ -13,7 +13,7 @@ const DEFAULT_EXCLUDE = ['__stories__', '__tests__', '__mocks__', '__snapshots__
  * and an empty `docs/` are both harmless when a package lacks them, so the same
  * config drives every package (uikit, navigation, …).
  */
-function standardDocsConfig(rootDir = process.cwd(), packageName = readPackageName(rootDir)) {
+function createDefaultDocsConfig(rootDir = process.cwd(), packageName = readPackageName(rootDir)) {
     return {
         rootDir,
         packageName,
@@ -149,7 +149,7 @@ function rewriteReadmeLinks(markdown, source, outRel, docMap) {
 /**
  * Builds a package's `docs/` output for AI agents from its markdown sources.
  *
- * @param {object} config — usually `standardDocsConfig()`.
+ * @param {object} config — usually `createDefaultDocsConfig()`.
  * @param {string} [config.rootDir] — repo root; defaults to `process.cwd()`.
  * @param {string} config.outDir — directory to (re)generate.
  * @param {string} [config.packageName] — shown in the generated INDEX.md header;
@@ -158,7 +158,7 @@ function rewriteReadmeLinks(markdown, source, outRel, docMap) {
  *   outPrefix, exclude?, nameFromTitle?}`; INDEX sections follow this order.
  * @returns {{sections: object[], total: number}}
  */
-function buildDocs(config) {
+function buildDocs(config = createDefaultDocsConfig()) {
     const {outDir, sources} = config;
     const rootDir = config.rootDir || process.cwd();
     const packageName = config.packageName || readPackageName(rootDir);
@@ -227,15 +227,15 @@ function renderIndex(packageName, outRelToRoot, sections) {
         .join('\n');
 }
 
-module.exports = {buildDocs, standardDocsConfig};
+module.exports = {buildDocs, createDefaultDocsConfig};
 
 if (require.main === module) {
     const rootDir = process.argv[2] ? path.resolve(process.argv[2]) : path.resolve(__dirname, '..');
-    const {name} = require(path.join(rootDir, 'package.json'));
-    const result = buildDocs(standardDocsConfig(rootDir, name));
+    const config = createDefaultDocsConfig(rootDir);
+    const result = buildDocs(config);
     // eslint-disable-next-line no-console
     console.log(
-        `Built docs for ${name}: ` +
+        `Built docs for ${config.packageName}: ` +
             result.sections.map((s) => `${s.entries.length} ${s.title.toLowerCase()}`).join(', '),
     );
 }

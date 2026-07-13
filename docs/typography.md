@@ -8,7 +8,9 @@ tags or inline `font-size`. This keeps sizing consistent and theme-aware across 
 import {Text} from '@gravity-ui/uikit';
 
 <Text variant="header-1">Page title</Text>; // not <h1>
-<Text variant="body-2" color="secondary">Supporting copy</Text>;
+<Text variant="body-2" color="secondary">
+  Supporting copy
+</Text>;
 ```
 
 > Setup: import `@gravity-ui/uikit/styles/fonts.css` **before** `styles.css` at the app entry
@@ -16,14 +18,14 @@ import {Text} from '@gravity-ui/uikit';
 
 ## Text variants
 
-| Group     | Variants                                                          | Typical use                          |
-| --------- | ----------------------------------------------------------------- | ------------------------------------ |
-| Display   | `display-1`, `display-2`, `display-3`, `display-4`                | Hero / marketing headings            |
-| Header    | `header-1`, `header-2`                                            | Page and section titles              |
-| Subheader | `subheader-1`, `subheader-2`, `subheader-3`                      | Sub-sections, card titles            |
-| Body      | `body-1` (root default), `body-2`, `body-3`, `body-short`        | Running text, UI copy                |
-| Caption   | `caption-1`, `caption-2`                                          | Hints, labels, metadata              |
-| Code      | `code-1`…`code-3`, `code-inline-1`…`code-inline-3`               | Code blocks and inline code          |
+| Group     | Variants                                                  | Typical use                 |
+| --------- | --------------------------------------------------------- | --------------------------- |
+| Display   | `display-1`, `display-2`, `display-3`, `display-4`        | Hero / marketing headings   |
+| Header    | `header-1`, `header-2`                                    | Page and section titles     |
+| Subheader | `subheader-1`, `subheader-2`, `subheader-3`               | Sub-sections, card titles   |
+| Body      | `body-1` (root default), `body-2`, `body-3`, `body-short` | Running text, UI copy       |
+| Caption   | `caption-1`, `caption-2`                                  | Hints, labels, metadata     |
+| Code      | `code-1`…`code-3`, `code-inline-1`…`code-inline-3`        | Code blocks and inline code |
 
 The root node renders with the `body-1` variant.
 
@@ -44,8 +46,8 @@ Each variant exposes its metrics as CSS variables:
 ```css
 /* e.g. --g-text-header-1-font-size, --g-text-body-2-line-height */
 .custom-title {
-    font-size: var(--g-text-header-1-font-size);
-    line-height: var(--g-text-header-1-line-height);
+  font-size: var(--g-text-header-1-font-size);
+  line-height: var(--g-text-header-1-line-height);
 }
 ```
 
@@ -65,15 +67,15 @@ Override the font family, weights, or per-variant metrics on the root class (see
 
 ```css
 .g-root {
-    --g-font-family-sans: 'Inter', sans-serif;
+  --g-font-family-sans: 'Inter', sans-serif;
 
-    --g-text-header-font-weight: 600;
-    --g-text-subheader-font-weight: 600;
-    --g-text-display-font-weight: 600;
-    --g-text-accent-font-weight: 600;
+  --g-text-header-font-weight: 600;
+  --g-text-subheader-font-weight: 600;
+  --g-text-display-font-weight: 600;
+  --g-text-accent-font-weight: 600;
 
-    /* fine-tune a single variant's metrics */
-    --g-text-body-1-font-size: 15px;
-    --g-text-body-1-line-height: 20px;
+  /* fine-tune a single variant's metrics */
+  --g-text-body-1-font-size: 15px;
+  --g-text-body-1-line-height: 20px;
 }
 ```

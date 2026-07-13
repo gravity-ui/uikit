@@ -15,20 +15,20 @@ consistent across the whole app, and lets you rescale everything from a single v
 
 Every step is a multiple of a base unit (`--g-spacing-base`, `4px` by default), so `step × 4px`:
 
-| Step  | CSS variable        | Size |
-| ----- | ------------------- | ---- |
-| `0`   | `--g-spacing-0`     | 0    |
-| `0.5` | `--g-spacing-half`  | 2px  |
-| `1`   | `--g-spacing-1`     | 4px  |
-| `2`   | `--g-spacing-2`     | 8px  |
-| `3`   | `--g-spacing-3`     | 12px |
-| `4`   | `--g-spacing-4`     | 16px |
-| `5`   | `--g-spacing-5`     | 20px |
-| `6`   | `--g-spacing-6`     | 24px |
-| `7`   | `--g-spacing-7`     | 28px |
-| `8`   | `--g-spacing-8`     | 32px |
-| `9`   | `--g-spacing-9`     | 36px |
-| `10`  | `--g-spacing-10`    | 40px |
+| Step  | CSS variable       | Size |
+| ----- | ------------------ | ---- |
+| `0`   | `--g-spacing-0`    | 0    |
+| `0.5` | `--g-spacing-half` | 2px  |
+| `1`   | `--g-spacing-1`    | 4px  |
+| `2`   | `--g-spacing-2`    | 8px  |
+| `3`   | `--g-spacing-3`    | 12px |
+| `4`   | `--g-spacing-4`    | 16px |
+| `5`   | `--g-spacing-5`    | 20px |
+| `6`   | `--g-spacing-6`    | 24px |
+| `7`   | `--g-spacing-7`    | 28px |
+| `8`   | `--g-spacing-8`    | 32px |
+| `9`   | `--g-spacing-9`    | 36px |
+| `10`  | `--g-spacing-10`   | 40px |
 
 Because every step is derived from `--g-spacing-base`, changing that one value rescales the
 entire spacing system proportionally (see [Customization](#customization)).
@@ -43,8 +43,8 @@ There are three ways to consume the scale — pick by context:
 import {Flex} from '@gravity-ui/uikit';
 
 <Flex gap={5}>
-    <Button />
-    <Button />
+  <Button />
+  <Button />
 </Flex>; // 20px between children
 ```
 
@@ -53,8 +53,8 @@ own styles (e.g. `--g-spacing-half` for the `0.5` step):
 
 ```css
 .example-class {
-    margin-right: var(--g-spacing-5); /* 20px */
-    padding: var(--g-spacing-2) var(--g-spacing-4);
+  margin-right: var(--g-spacing-5); /* 20px */
+  padding: var(--g-spacing-2) var(--g-spacing-4);
 }
 ```
 
@@ -65,8 +65,8 @@ class names. It returns a generated class name string:
 import {spacing} from '@gravity-ui/uikit';
 
 <>
-    <Button className={spacing({mr: 5})}>button 1</Button>
-    <Button className={spacing({mt: 2, px: 4})}>button 2</Button>
+  <Button className={spacing({mr: 5})}>button 1</Button>
+  <Button className={spacing({mt: 2, px: 4})}>button 2</Button>
 </>;
 ```
 
@@ -74,16 +74,16 @@ import {spacing} from '@gravity-ui/uikit';
 
 Supported keys (each takes a scale step):
 
-| Key                | Property                          |
-| ------------------ | --------------------------------- |
-| `m`                | `margin`                          |
-| `mt` `mr` `mb` `ml`| `margin-top/right/bottom/left`    |
-| `mx`               | horizontal margin (left + right)  |
-| `my`               | vertical margin (top + bottom)    |
-| `p`                | `padding`                         |
-| `pt` `pr` `pb` `pl`| `padding-top/right/bottom/left`   |
-| `px`               | horizontal padding (left + right) |
-| `py`               | vertical padding (top + bottom)   |
+| Key                 | Property                          |
+| ------------------- | --------------------------------- |
+| `m`                 | `margin`                          |
+| `mt` `mr` `mb` `ml` | `margin-top/right/bottom/left`    |
+| `mx`                | horizontal margin (left + right)  |
+| `my`                | vertical margin (top + bottom)    |
+| `p`                 | `padding`                         |
+| `pt` `pr` `pb` `pl` | `padding-top/right/bottom/left`   |
+| `px`                | horizontal padding (left + right) |
+| `py`                | vertical padding (top + bottom)   |
 
 You can pass a second argument to merge extra class names: `spacing({mr: 5}, myClassName)`.
 
@@ -97,7 +97,7 @@ Override the base unit to rescale the whole system. Do it via CSS at the project
 
 ```css
 :root {
-    --g-spacing-base: 5px; /* now step 5 = 25px, etc. */
+  --g-spacing-base: 5px; /* now step 5 = 25px, etc. */
 }
 ```
 
@@ -173,9 +173,9 @@ import {Flex, Loader} from '@gravity-ui/uikit';
 
 // `Flex` extended from `Box` component and enriched flexbox model properties
 <Flex centerContent width="100%" height="100%">
-    <Suspense fallback={<Loader size="m" />}>
-        <LazyLoadedComponent />
-    </Suspense>
+  <Suspense fallback={<Loader size="m" />}>
+    <LazyLoadedComponent />
+  </Suspense>
 </Flex>;
 ```
 
@@ -188,9 +188,9 @@ Supports nested grids. This should be used when you have mobile and desktop app 
 import {Row, Col} from '@gravity-ui/uikit';
 
 <Row space="5">
-    <Col size="4">...</Col>
-    <Col size="4">...</Col>
-    <Col size="4">...</Col>
+  <Col size="4">...</Col>
+  <Col size="4">...</Col>
+  <Col size="4">...</Col>
 </Row>;
 ```
 
@@ -214,20 +214,20 @@ Must be used as a child of `Row` component.
 import {Row, Col} from '@gravity-ui/uikit';
 
 <Row
-    /**
-     * In this example we override default theme behavior.
-     *
-     * space={{s: '1', xl:'5'}}
-     */
-    space="5"
+  /**
+   * In this example we override default theme behavior.
+   *
+   * space={{s: '1', xl:'5'}}
+   */
+  space="5"
 >
-    <Col
-        // Will be:
-        // 12 for "xs" and "s"
-        // 6 for "m" and "l"
-        // 4 for "xl" and "xxl"
-        size={[12, {m: 6, xl: 4}]}
-    />
+  <Col
+    // Will be:
+    // 12 for "xs" and "s"
+    // 6 for "m" and "l"
+    // 4 for "xl" and "xxl"
+    size={[12, {m: 6, xl: 4}]}
+  />
 </Row>;
 ```
 
@@ -256,8 +256,8 @@ _Space between children components in row direction_
 import {Flex, TextInput, Button} from '@gravity-ui/uikit';
 
 <Flex space="5">
-    <TextInput />
-    <Button />
+  <TextInput />
+  <Button />
 </Flex>;
 ```
 
@@ -267,11 +267,11 @@ _Nested `Flex` example_
 import {Flex, TextInput, Button, Table} from '@gravity-ui/uikit';
 
 <Flex direction="column" space="5">
-    <Flex space="5">
-        <TextInput />
-        <Button />
-    </Flex>
-    <Table />
+  <Flex space="5">
+    <TextInput />
+    <Button />
+  </Flex>
+  <Table />
 </Flex>;
 ```
 
@@ -281,12 +281,12 @@ _Responsible example_
 import {Flex, TextInput, Button} from '@gravity-ui/uikit';
 
 <Flex
-    // direction: column will be applied to l, xl, xxl, xxxl screen sizes here
-    direction={{l: 'column'}}
-    space={{s: '5', m: '3'}}
+  // direction: column will be applied to l, xl, xxl, xxxl screen sizes here
+  direction={{l: 'column'}}
+  space={{s: '5', m: '3'}}
 >
-    <TextInput />
-    <Button />
+  <TextInput />
+  <Button />
 </Flex>;
 ```
 
@@ -305,11 +305,11 @@ It returns the following methods and objects:
 import {useLayoutContext} from '@gravity-ui/uikit';
 
 const Component = () => {
-    const {activeMediaQuery} = useLayoutContext();
+  const {activeMediaQuery} = useLayoutContext();
 
-    return (
-        <>{activeMediaQuery === 'l' ? <Text>I render only on screen resolution "l"</Text> : null}</>
-    );
+  return (
+    <>{activeMediaQuery === 'l' ? <Text>I render only on screen resolution "l"</Text> : null}</>
+  );
 };
 ```
 
@@ -320,9 +320,11 @@ import {useLayoutContext} from '@gravity-ui/uikit';
 
 // this example will be shown on xl, xxl and xxxl screen sizes
 const Component = () => {
-    const {isMediaActive} = useLayoutContext();
+  const {isMediaActive} = useLayoutContext();
 
-    return <>{isMediaActive('xl') ? <Text>I render on "xl", "xxl" and "xxxl" screen sizes</Text> : null}</>;
+  return (
+    <>{isMediaActive('xl') ? <Text>I render on "xl", "xxl" and "xxxl" screen sizes</Text> : null}</>
+  );
 };
 ```
 
@@ -332,14 +334,14 @@ const Component = () => {
 import {useLayoutContext} from '@gravity-ui/uikit';
 
 const mapOfPropsByScreen = {
-    s: "i'm will be shown on 's' and 'n' screen size",
-    l: "i'm will be shown on 'l' and 'xl' screen size",
-    xxl: "i'm will be shown on 'xxl' and 'xxxl' screen size",
+  s: "i'm will be shown on 's' and 'n' screen size",
+  l: "i'm will be shown on 'l' and 'xl' screen size",
+  xxl: "i'm will be shown on 'xxl' and 'xxxl' screen size",
 };
 
 const Component = () => {
-    const {getClosestMediaProps} = useLayoutContext();
+  const {getClosestMediaProps} = useLayoutContext();
 
-    return <Text>{getClosestMediaProps(mapOfPropsByScreen)}</Text>;
+  return <Text>{getClosestMediaProps(mapOfPropsByScreen)}</Text>;
 };
 ```

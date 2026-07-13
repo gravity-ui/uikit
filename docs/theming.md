@@ -10,9 +10,9 @@ import '@gravity-ui/uikit/styles/fonts.css';
 import '@gravity-ui/uikit/styles/styles.css';
 
 export const App = () => (
-    <ThemeProvider theme="system">
-        <Button view="action">Branded button</Button>
-    </ThemeProvider>
+  <ThemeProvider theme="system">
+    <Button view="action">Branded button</Button>
+  </ThemeProvider>
 );
 ```
 
@@ -77,15 +77,15 @@ Use `-solid` variants when a translucent color would let an underlying element b
 
 ### Semantic tokens
 
-`--g-color-{group}-{role}` describe *intent*, not a specific hue. This is the layer you consume.
+`--g-color-{group}-{role}` describe _intent_, not a specific hue. This is the layer you consume.
 
-| Group                | Purpose                                        | Examples                                                              |
-| -------------------- | ---------------------------------------------- | --------------------------------------------------------------------- |
-| `--g-color-base-*`   | Backgrounds & fills                            | `base-background`, `base-brand`, `base-generic`, `base-danger-medium` |
-| `--g-color-text-*`   | Text colors                                    | `text-primary`, `text-secondary`, `text-hint`, `text-brand`, `text-link` |
-| `--g-color-line-*`   | Borders, dividers, underlines                  | `line-generic`, `line-brand`, `line-focus`, `line-danger`             |
-| `--g-color-sfx-*`    | Effects — shadows, veils, fades                | `sfx-shadow`, `sfx-veil`, `sfx-fade`                                  |
-| `--g-color-infographics-*` / `--g-color-scroll-*` | Charts, scrollbars               | `infographics-axis`, `scroll-handle`                                  |
+| Group                                             | Purpose                         | Examples                                                                 |
+| ------------------------------------------------- | ------------------------------- | ------------------------------------------------------------------------ |
+| `--g-color-base-*`                                | Backgrounds & fills             | `base-background`, `base-brand`, `base-generic`, `base-danger-medium`    |
+| `--g-color-text-*`                                | Text colors                     | `text-primary`, `text-secondary`, `text-hint`, `text-brand`, `text-link` |
+| `--g-color-line-*`                                | Borders, dividers, underlines   | `line-generic`, `line-brand`, `line-focus`, `line-danger`                |
+| `--g-color-sfx-*`                                 | Effects — shadows, veils, fades | `sfx-shadow`, `sfx-veil`, `sfx-fade`                                     |
+| `--g-color-infographics-*` / `--g-color-scroll-*` | Charts, scrollbars              | `infographics-axis`, `scroll-handle`                                     |
 
 **Meaning conventions inside a group:**
 
@@ -100,8 +100,8 @@ Use `-solid` variants when a translucent color would let an underlying element b
 ```css
 /* status background + matching text */
 .alert-danger {
-    background: var(--g-color-base-danger-light);
-    color: var(--g-color-text-danger);
+  background: var(--g-color-base-danger-light);
+  color: var(--g-color-text-danger);
 }
 ```
 
@@ -115,32 +115,32 @@ like your product. In most cases you only need the accent color, fonts, and bord
 The accent color is what makes an app feel branded — action buttons, active controls, links, and
 selection highlights. Override this group (per theme):
 
-| Variable                             | Used for                                                |
-| ------------------------------------ | ------------------------------------------------------- |
-| `--g-color-base-brand`               | Brand background (action button, active controls)       |
-| `--g-color-base-brand-hover`         | Hover background                                        |
-| `--g-color-base-selection`           | Lighter brand tint (List/Table row selection)           |
-| `--g-color-base-selection-hover`     | Hover of the selection tint                             |
-| `--g-color-line-brand`               | Brand lines (active tab underline)                      |
-| `--g-color-text-brand`               | Brand text                                              |
-| `--g-color-text-brand-heavy`         | Brand text over a background                            |
-| `--g-color-text-brand-contrast`      | Text placed **on top of** a brand background            |
-| `--g-color-text-link`                | Links                                                   |
-| `--g-color-text-link-hover`          | Hover of links                                          |
-| `--g-color-text-link-visited`        | Visited links                                           |
-| `--g-color-text-link-visited-hover`  | Hover of visited links                                  |
+| Variable                            | Used for                                          |
+| ----------------------------------- | ------------------------------------------------- |
+| `--g-color-base-brand`              | Brand background (action button, active controls) |
+| `--g-color-base-brand-hover`        | Hover background                                  |
+| `--g-color-base-selection`          | Lighter brand tint (List/Table row selection)     |
+| `--g-color-base-selection-hover`    | Hover of the selection tint                       |
+| `--g-color-line-brand`              | Brand lines (active tab underline)                |
+| `--g-color-text-brand`              | Brand text                                        |
+| `--g-color-text-brand-heavy`        | Brand text over a background                      |
+| `--g-color-text-brand-contrast`     | Text placed **on top of** a brand background      |
+| `--g-color-text-link`               | Links                                             |
+| `--g-color-text-link-hover`         | Hover of links                                    |
+| `--g-color-text-link-visited`       | Visited links                                     |
+| `--g-color-text-link-visited-hover` | Hover of visited links                            |
 
 ```css
 .g-root {
-    --g-color-base-brand: rgb(117, 155, 255);
-    --g-color-base-brand-hover: rgb(99, 143, 255);
-    --g-color-base-selection: rgba(82, 130, 255, 0.05);
-    --g-color-base-selection-hover: rgba(82, 130, 255, 0.1);
-    --g-color-line-brand: rgb(117, 155, 255);
-    --g-color-text-brand: rgb(117, 155, 255);
-    --g-color-text-brand-contrast: rgb(255, 255, 255);
-    --g-color-text-link: rgb(117, 155, 255);
-    --g-color-text-link-hover: rgb(82, 130, 255);
+  --g-color-base-brand: rgb(117, 155, 255);
+  --g-color-base-brand-hover: rgb(99, 143, 255);
+  --g-color-base-selection: rgba(82, 130, 255, 0.05);
+  --g-color-base-selection-hover: rgba(82, 130, 255, 0.1);
+  --g-color-line-brand: rgb(117, 155, 255);
+  --g-color-text-brand: rgb(117, 155, 255);
+  --g-color-text-brand-contrast: rgb(255, 255, 255);
+  --g-color-text-link: rgb(117, 155, 255);
+  --g-color-text-link-hover: rgb(82, 130, 255);
 }
 ```
 
@@ -155,8 +155,8 @@ in the [**typography guide**](typography.md).
 
 ```css
 .g-root {
-    --g-font-family-sans: 'Inter', sans-serif;
-    --g-text-header-font-weight: 600;
+  --g-font-family-sans: 'Inter', sans-serif;
+  --g-text-header-font-weight: 600;
 }
 ```
 
@@ -168,7 +168,7 @@ Controls share a border-radius scale: `--g-border-radius-{size}` where size is o
 ```css
 /* your own component, in Gravity style */
 .my-card {
-    border-radius: var(--g-border-radius-m);
+  border-radius: var(--g-border-radius-m);
 }
 ```
 
@@ -179,8 +179,8 @@ tune one component without touching the global scale — e.g. `--g-button-border
 
 ```css
 .g-root {
-    --g-border-radius-m: 8px; /* whole scale step */
-    --g-button-border-radius: var(--g-border-radius-l); /* just buttons */
+  --g-border-radius-m: 8px; /* whole scale step */
+  --g-button-border-radius: var(--g-border-radius-l); /* just buttons */
 }
 ```
 
@@ -191,10 +191,10 @@ and component `view`/`theme` props over inline colors.
 
 ```css
 .card {
-    background: var(--g-color-base-generic);
-    color: var(--g-color-text-primary);
-    border: 1px solid var(--g-color-line-generic);
-    border-radius: var(--g-border-radius-l);
+  background: var(--g-color-base-generic);
+  color: var(--g-color-text-primary);
+  border: 1px solid var(--g-color-line-generic);
+  border-radius: var(--g-border-radius-l);
 }
 ```
 
@@ -216,10 +216,10 @@ Define a theme from scratch, or extend one of the built-ins with the SCSS mixins
 
 // Start from the light theme, then override
 .g-root_theme_custom {
-    @include themes.g-theme-light;
+  @include themes.g-theme-light;
 
-    // your overrides
-    --g-color-base-brand: rgb(117, 155, 255);
+  // your overrides
+  --g-color-base-brand: rgb(117, 155, 255);
 }
 ```
 
@@ -254,9 +254,9 @@ Practical ways to produce a complete, consistent token set:
 
   // Change a base color; private/dependent tokens are recalculated for you.
   const theme = updateBaseColor({
-      theme: DEFAULT_THEME,
-      colorToken: 'brand',
-      value: {light: '#007AFF', dark: '#007AFF'},
+    theme: DEFAULT_THEME,
+    colorToken: 'brand',
+    value: {light: '#007AFF', dark: '#007AFF'},
   });
 
   // Emit CSS with .g-root_theme_light / .g-root_theme_dark blocks.
@@ -266,6 +266,7 @@ Practical ways to produce a complete, consistent token set:
   It also exposes `generateJSON` / `parseCSS` / `parseJSON` and CSS↔JSON converters. Always use
   `updateBaseColor` (rather than editing tokens by hand) so the private palette regenerates and
   the theme stays internally consistent.
+
 - **SCSS mixins** — extend a built-in theme (above) and layer overrides on top.
 
 Whichever you use, **import the generated theme file _after_ `styles.css`** so it wins the
@@ -280,7 +281,7 @@ without polluting the global root:
 
 ```tsx
 <ThemeProvider scoped theme="dark">
-    <Toolbar />
+  <Toolbar />
 </ThemeProvider>
 ```
 

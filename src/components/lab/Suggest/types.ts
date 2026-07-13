@@ -2,10 +2,10 @@ import type * as React from 'react';
 
 import type {OpenChangeReason} from '@floating-ui/react';
 
-import type {ListItemData, ListProps} from '../List';
-import type {PopupProps} from '../Popup';
-import type {TextInputProps} from '../controls';
-import type {QAProps} from '../types';
+import type {ListItemData, ListProps} from '../../List';
+import type {PopupProps} from '../../Popup';
+import type {TextInputProps} from '../../controls';
+import type {QAProps} from '../../types';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface SuggestProps<T = any> extends QAProps {
@@ -17,14 +17,14 @@ export interface SuggestProps<T = any> extends QAProps {
     onUpdate?: (value: string) => void;
 
     /** List of options to display */
-    items?: ListItemData<T>[];
+    options?: ListItemData<T>[];
     /**
      * Callback when an option is clicked or selected via keyboard.
      * Return `true` to keep the popup open after selection.
      */
-    onItemClick?: (item: T, index?: number) => boolean | void;
+    onOptionClick?: (option: T, index?: number) => boolean | void;
     /** Custom option renderer */
-    renderItem?: ListProps<T>['renderItem'];
+    renderOption?: ListProps<T>['renderItem'];
     /** Enable virtualization for long lists */
     virtualized?: boolean;
     /**

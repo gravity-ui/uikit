@@ -2,15 +2,15 @@ import * as React from 'react';
 
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
-import {Checkbox} from '../../Checkbox';
-import {Label} from '../../Label';
-import {Text} from '../../Text';
-import {Flex} from '../../layout';
+import {Checkbox} from '../../../Checkbox';
+import {Label} from '../../../Label';
+import {Text} from '../../../Text';
+import {Flex} from '../../../layout';
 import {Suggest} from '../Suggest';
 import type {SuggestProps} from '../types';
 
 const meta: Meta<typeof Suggest> = {
-    title: 'Components/Inputs/Suggest',
+    title: 'Lab/Suggest',
     component: Suggest,
     parameters: {
         docs: {
@@ -73,12 +73,12 @@ export const Default: Story = {
             <Suggest<Planet>
                 value={value}
                 onUpdate={setValue}
-                items={items}
-                onItemClick={(item) => {
+                options={items}
+                onOptionClick={(item) => {
                     setValue(item.content);
                     return false;
                 }}
-                renderItem={renderPlanet}
+                renderOption={renderPlanet}
                 inputProps={{placeholder: 'Search astronomical bodies…', autoFocus: true}}
             />
         );
@@ -109,12 +109,12 @@ function SizeExample({size}: {size: 's' | 'm' | 'l' | 'xl'}) {
             <Suggest<Planet>
                 value={value}
                 onUpdate={setValue}
-                items={items}
-                onItemClick={(item) => {
+                options={items}
+                onOptionClick={(item) => {
                     setValue(item.content);
                     return false;
                 }}
-                renderItem={(item) => <div>{item.content}</div>}
+                renderOption={(item) => <div>{item.content}</div>}
                 inputProps={{size, placeholder: 'Search…'}}
             />
         </Flex>
@@ -150,12 +150,12 @@ function PopupWidthExample({
         <Suggest<Planet>
             value={value}
             onUpdate={setValue}
-            items={items}
-            onItemClick={(item) => {
+            options={items}
+            onOptionClick={(item) => {
                 setValue(item.content);
                 return false;
             }}
-            renderItem={(item) => <div>{item.content}</div>}
+            renderOption={(item) => <div>{item.content}</div>}
             popupWidth={popupWidth}
             inputProps={{placeholder}}
         />
@@ -166,7 +166,7 @@ export const Disabled: Story = {
     render: () => (
         <Suggest<Planet>
             value="Earth"
-            items={[]}
+            options={[]}
             inputProps={{disabled: true, placeholder: 'Disabled…'}}
         />
     ),
@@ -181,12 +181,12 @@ export const WithClearButton: Story = {
             <Suggest<Planet>
                 value={value}
                 onUpdate={setValue}
-                items={items}
-                onItemClick={(item) => {
+                options={items}
+                onOptionClick={(item) => {
                     setValue(item.content);
                     return false;
                 }}
-                renderItem={(item) => <div>{item.content}</div>}
+                renderOption={(item) => <div>{item.content}</div>}
                 inputProps={{hasClear: true, placeholder: 'Search…'}}
             />
         );
@@ -221,13 +221,13 @@ export const WithLoading: Story = {
                 <Suggest<Planet>
                     value={value}
                     onUpdate={handleUpdate}
-                    items={items}
+                    options={items}
                     loading={loading}
-                    onItemClick={(item) => {
+                    onOptionClick={(item) => {
                         setValue(item.content);
                         return false;
                     }}
-                    renderItem={renderPlanet}
+                    renderOption={renderPlanet}
                     inputProps={{placeholder: 'Type to trigger simulated fetch…'}}
                 />
             </Flex>
@@ -244,12 +244,12 @@ export const CustomPopupContent: Story = {
             <Suggest<Planet>
                 value={value}
                 onUpdate={setValue}
-                items={items}
-                onItemClick={(item) => {
+                options={items}
+                onOptionClick={(item) => {
                     setValue(item.content);
                     return false;
                 }}
-                renderItem={(item) => <div>{item.content}</div>}
+                renderOption={(item) => <div>{item.content}</div>}
                 renderPopup={({list}) => (
                     <Flex direction="column" gap={1} spacing={{p: 1}}>
                         <Text as="div" variant="subheader-2">
@@ -290,7 +290,7 @@ export const MultiSelect: Story = {
             setOpen(true);
         }, []);
 
-        const handleItemClick = React.useCallback((item: Planet) => {
+        const handleOptionClick = React.useCallback((item: Planet) => {
             setSelected((prev) => {
                 const next = prev.filter((p) => p.value !== item.value);
                 return next.length === prev.length ? [...prev, item] : next;
@@ -326,7 +326,7 @@ export const MultiSelect: Story = {
                     Click an item to toggle it — selected items stay in the list with a checked box
                     and the popup stays open (
                     <Text as="span" variant="code-inline-3">
-                        onItemClick
+                        onOptionClick
                     </Text>{' '}
                     returns{' '}
                     <Text as="span" variant="code-inline-3">
@@ -339,9 +339,9 @@ export const MultiSelect: Story = {
                     onUpdate={handleUpdate}
                     open={open}
                     onOpenChange={setOpen}
-                    items={items}
-                    onItemClick={handleItemClick}
-                    renderItem={renderSelectableItem}
+                    options={items}
+                    onOptionClick={handleOptionClick}
+                    renderOption={renderSelectableItem}
                     inputProps={{
                         onFocus: () => setOpen(true),
                         placeholder: 'Add astronomical bodies…',

@@ -1,18 +1,20 @@
 <!--GITHUB_BLOCK-->
 
-# Suggest
+# unstable_Suggest
 
 <!--/GITHUB_BLOCK-->
 
+> `Suggest` — экспериментальный компонент (`lab`); API может меняться в минорных релизах, пока не стабилизируется.
+
 ```tsx
-import {Suggest} from '@gravity-ui/uikit';
+import {unstable_Suggest as Suggest} from '@gravity-ui/uikit/unstable';
 ```
 
 `Suggest` — это текстовое поле ввода с выпадающим списком вариантов. Компонент берёт на себя навигацию с клавиатуры, ARIA-атрибуты и позиционирование попапа. Загрузка данных, дебаунс и пагинация реализуются снаружи.
 
 ## Базовое использование
 
-Передайте `items` (синхронный массив) и обновляйте его в `onUpdate`:
+Передайте `options` (синхронный массив) и обновляйте его в `onUpdate`:
 
 <!--GITHUB_BLOCK-->
 
@@ -34,12 +36,12 @@ const items = React.useMemo(
 <Suggest<Planet>
   value={value}
   onUpdate={setValue}
-  items={items}
-  onItemClick={(item) => {
+  options={items}
+  onOptionClick={(item) => {
     setValue(item.content);
     return false; // закрыть попап после выбора
   }}
-  renderItem={(item) => <div>{item.content}</div>}
+  renderOption={(item) => <div>{item.content}</div>}
   inputProps={{placeholder: 'Поиск…'}}
 />;
 ```
@@ -48,7 +50,7 @@ const items = React.useMemo(
 
 ## Асинхронная загрузка
 
-Используйте локальный флаг `loading` вместе с `items`. Пока `loading === true`, компонент автоматически показывает спиннер:
+Используйте локальный флаг `loading` вместе с `options`. Пока `loading === true`, компонент автоматически показывает спиннер:
 
 <!--GITHUB_BLOCK-->
 
@@ -71,13 +73,13 @@ const handleUpdate = async (query: string) => {
 <Suggest<Planet>
   value={value}
   onUpdate={handleUpdate}
-  items={items}
+  options={items}
   loading={loading}
-  onItemClick={(item) => {
+  onOptionClick={(item) => {
     setValue(item.content);
     return false;
   }}
-  renderItem={(item) => <div>{item.content}</div>}
+  renderOption={(item) => <div>{item.content}</div>}
   inputProps={{placeholder: 'Поиск…'}}
 />;
 ```
@@ -94,7 +96,7 @@ const handleUpdate = async (query: string) => {
 <Suggest
   value={value}
   onUpdate={setValue}
-  items={items}
+  options={items}
   inputProps={{
     size: 'xl',
     hasClear: true,
@@ -126,7 +128,7 @@ const [open, setOpen] = React.useState(false);
   }}
   open={open}
   onOpenChange={setOpen}
-  items={allItems}
+  options={allItems}
   inputProps={{
     onFocus: () => setOpen(true),
     placeholder: 'Нажмите, чтобы увидеть все варианты…',
@@ -146,7 +148,7 @@ const [open, setOpen] = React.useState(false);
 <Suggest
   value={value}
   onUpdate={setValue}
-  items={filteredItems}
+  options={filteredItems}
   renderPopup={({list}) => (
     <div>
       <div style={{padding: 8, fontWeight: 600}}>Результаты</div>
@@ -190,9 +192,9 @@ const [open, setOpen] = React.useState(false);
 
 | Название          | Тип                                                  | По умолчанию | Описание                                                                   |
 | :---------------- | :--------------------------------------------------- | :----------- | :------------------------------------------------------------------------- |
-| `items`           | `ListItemData<T>[]`                                  |              | Варианты для отображения в попапе                                          |
-| `onItemClick`     | `(item: T, index?: number) => boolean \| void`       |              | Вызывается при выборе опции. Верните `true`, чтобы оставить попап открытым |
-| `renderItem`      | `(item: ListItemData<T>) => ReactNode`               |              | Кастомный рендерер опции                                                   |
+| `options`         | `ListItemData<T>[]`                                  |              | Варианты для отображения в попапе                                          |
+| `onOptionClick`   | `(option: T, index?: number) => boolean \| void`     |              | Вызывается при выборе опции. Верните `true`, чтобы оставить попап открытым |
+| `renderOption`    | `(option: ListItemData<T>) => ReactNode`             |              | Кастомный рендерер опции                                                   |
 | `virtualized`     | `boolean`                                            | `false`      | Включить виртуализацию для длинных списков                                 |
 | `listHeight`      | `number`                                             | `300`        | Высота (px) области прокрутки списка при включённой виртуализации          |
 | `getOptionHeight` | `(option: ListItemData<T>, index: number) => number` |              | Высота строки (для переменных высот)                                       |

@@ -11,11 +11,11 @@ export const ITEMS: Planet[] = [
     {value: 'jupiter', content: 'Jupiter'},
 ];
 
-export type TestSuggestProps = Omit<SuggestProps<Planet>, 'items'> & {
-    items?: SuggestProps<Planet>['items'];
+export type TestSuggestProps = Omit<SuggestProps<Planet>, 'options'> & {
+    options?: SuggestProps<Planet>['options'];
 };
 
-export function TestSuggest({items = ITEMS, ...props}: TestSuggestProps) {
+export function TestSuggest({options = ITEMS, ...props}: TestSuggestProps) {
     const [value, setValue] = React.useState('');
 
     return (
@@ -23,8 +23,8 @@ export function TestSuggest({items = ITEMS, ...props}: TestSuggestProps) {
             <Suggest<Planet>
                 value={value}
                 onUpdate={setValue}
-                items={items}
-                renderItem={(item) => <div>{item.content}</div>}
+                options={options}
+                renderOption={(item) => <div>{item.content}</div>}
                 {...props}
             />
         </div>

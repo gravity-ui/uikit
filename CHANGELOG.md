@@ -1,5 +1,20 @@
 # Changelog
 
+## [7.45.0](https://github.com/gravity-ui/uikit/compare/v7.44.2...v7.45.0) (2026-07-13)
+
+
+### Features
+
+* **List:** add `itemKey` property ([#2739](https://github.com/gravity-ui/uikit/issues/2739)) ([24ba33d](https://github.com/gravity-ui/uikit/commit/24ba33ded73ad4e4a3e3b4587c69b2c8ac33e9f3))
+* **Pagination:** use custom component in pagination ([#2701](https://github.com/gravity-ui/uikit/issues/2701)) ([878b19e](https://github.com/gravity-ui/uikit/commit/878b19e5f9a20b872914ec5735cec8e38e1ca796))
+* ship component docs inside the npm tarball ([#2740](https://github.com/gravity-ui/uikit/issues/2740)) ([f348b10](https://github.com/gravity-ui/uikit/commit/f348b10a1561879a65193269631af4df3bce9da2))
+
+
+### Bug Fixes
+
+* **Accordion:** defaultExpanded=false open ([#2736](https://github.com/gravity-ui/uikit/issues/2736)) ([6377bf1](https://github.com/gravity-ui/uikit/commit/6377bf18a29dadca0a0288396ede274602f0cd9a))
+* use variables for button and label components ([#2694](https://github.com/gravity-ui/uikit/issues/2694)) ([7e7aee8](https://github.com/gravity-ui/uikit/commit/7e7aee8d642e46cc978e6754a6e882c5c91147f9))
+
 ## [7.44.2](https://github.com/gravity-ui/uikit/compare/v7.44.1...v7.44.2) (2026-07-07)
 
 

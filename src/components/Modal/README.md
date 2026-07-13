@@ -4,13 +4,13 @@
 
 <!--/GITHUB_BLOCK-->
 
-```tsx
-import {Modal} from '@gravity-ui/uikit';
-```
-
 The `Modal` component serves as base for creating pop-up windows with a backdrop above the rest of the content on a page.
 It disables scrolling while opening and manages focus for content. The `Modal` child components are rendered inside the [`Portal`](../Portal) component.
 With `Modal`, you can implement dialogs, alerts, confirmations, and more.
+
+```tsx
+import {Modal} from '@gravity-ui/uikit';
+```
 
 ## Usage
 
@@ -64,4 +64,6 @@ const [open, setOpen] = useState(false);
 | `--g-modal-margin`        | Margin around the `Modal` content |
 | `--g-modal-border-radius` | `Modal` content border radius     |
 | `--g-modal-width`         | `Modal` content width             |
+| `--g-modal-max-width`     | `Modal` content max width         |
 | `--g-modal-height`        | `Modal` content height            |
+| `--g-modal-max-height`    | `Modal` content max height        |

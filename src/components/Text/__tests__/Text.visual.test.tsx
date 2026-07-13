@@ -1,6 +1,7 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {TextProps} from '../Text';
 
 import {colorCases, ellipsisCases, variantCases, whiteSpaceCases, wordBreakCases} from './cases';
@@ -11,7 +12,7 @@ const longText =
     'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates asperiores accusamus est, ab rerum harum hic delectus fuga veniam! Hic, atque, quia sunt consectetur eius corrupti, expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam! Debitis eos unde, blanditiis ipsam adipisci, soluta incidunt architecto quidem, repellat commodi tempore! Enim assumenda nam esse laudantium sequi quaerat maiores, voluptatum quibusdam temporibus nulla perspiciatis! Corrupti error aliquid iure asperiores voluptate. Nisi temporibus nesciunt quasi animi, accusamus officia debitis voluptatum ratione ullam delectus, adipisci, repellendus vitae in amet sit magni iste impedit? Exercitationem rerum impedit sed earum iusto modi et officia aspernatur quibusdam? Fugit.';
 
 test.describe('Text', {tag: '@Text'}, () => {
-    smokeTest('regular', async ({mount, expectScreenshot}) => {
+    test('smoke regular', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<TextProps>(
             {},
             {
@@ -38,7 +39,7 @@ test.describe('Text', {tag: '@Text'}, () => {
         });
     });
 
-    smokeTest('long text', async ({mount, expectScreenshot}) => {
+    test('smoke long text', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<TextProps>(
             {},
             {
@@ -66,19 +67,27 @@ test.describe('Text', {tag: '@Text'}, () => {
         });
     });
 
-    smokeTest('render story <Ellipsis />', async ({mount, expectScreenshot}) => {
-        await mount(<TextStories.Ellipsis />);
+    test(
+        'smoke render story <Ellipsis />',
+        {tag: ['@smoke']},
+        async ({mount, expectScreenshot}) => {
+            await mount(<TextStories.Ellipsis />);
 
-        await expectScreenshot({
-            themes: ['light'],
-        });
-    });
+            await expectScreenshot({
+                themes: ['light'],
+            });
+        },
+    );
 
-    smokeTest('render story <WordBreak />', async ({mount, expectScreenshot}) => {
-        await mount(<TextStories.WordBreak />);
+    test(
+        'smoke render story <WordBreak />',
+        {tag: ['@smoke']},
+        async ({mount, expectScreenshot}) => {
+            await mount(<TextStories.WordBreak />);
 
-        await expectScreenshot({
-            themes: ['light'],
-        });
-    });
+            await expectScreenshot({
+                themes: ['light'],
+            });
+        },
+    );
 });

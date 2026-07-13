@@ -4,6 +4,8 @@
 
 <!--/GITHUB_BLOCK-->
 
+The `List` component renders a filterable, sortable, and virtualized list of items with support for custom rendering and keyboard navigation.
+
 ```tsx
 import {List} from '@gravity-ui/uikit';
 ```
@@ -16,14 +18,15 @@ Determines the item list height (or a function that returns the height value for
 
 Provides an array of items for a list:
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<List items={["one", "two", "three", "four", "five", "six", "seven"]} itemsHeight={160} />
-`}>
-    <UIKit.List items={["one", "two", "three", "four", "five", "six", "seven"]} itemsHeight={160} />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {List} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <List items={['one', 'two', 'three', 'four', 'five', 'six', 'seven']} itemsHeight={160} />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -42,76 +45,61 @@ The special `item.disabled` field disables an item.
 The render and height customization provides plenty of room for experimenting.
 For example, the code below allows you to emulate groups:
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<List items={[{title: 'one', group: true,disabled: true}, {title: 'two'},
+<!--SANDBOX
+import type {ListProps} from '@gravity-ui/uikit';
+import {List} from '@gravity-ui/uikit';
+
+type Item = {
+    title: string;
+    group?: boolean;
+};
+
+const items: ListProps<Item>['items'] = [
     {
-      title: 'three',
-      group: true,
-      disabled: true,
+        title: 'one',
+        group: true,
+        disabled: true,
     },
     {
-      title: 'four',
+        title: 'two',
     },
-  ]} onItemClick={(value) => console.log(value)}
-  renderItem={(item) => {
-    if (item.group) {
-      return (
-        <div className={'group'}>
-          <div className={'select-text'}>{item.title}</div>
-        </div>
-      );
-    }
+    {
+        title: 'three',
+        group: true,
+        disabled: true,
+    },
+    {
+        title: 'four',
+    },
+];
+
+export default function () {
     return (
-      <div className={'select'}>
-        <div className={'select-text'}>{item.title}</div>
-      </div>
+        <List
+            items={items}
+            onItemClick={(value) => console.log(value)}
+            renderItem={(item) => {
+                if (item.group) {
+                    return (
+                        <div className={'group'}>
+                            <div className={'select-text'}>{item.title}</div>
+                        </div>
+                    );
+                }
+
+                return (
+                    <div className={'select'}>
+                        <div className={'select-text'}>{item.title}</div>
+                    </div>
+                );
+            }}
+            itemHeight={(item) => (item.group ? 24 : 36)}
+            itemsHeight={160}
+            filterItem={(filter) => (item) => item.title.includes(filter)}
+        />
     );
-  }}
-  itemHeight={(item) => (item.group ? 24 : 36)}
-  itemsHeight={160}
-  filterItem={(filter) => (item) => item.title.includes(filter)}
-/>
-`}>
-    <UIKit.List items={[
-    {
-      title: 'one',
-      group: true,
-      disabled: true,
-    },
-    {
-      title: 'two',
-    },
-    {
-      title: 'three',
-      group: true,
-      disabled: true,
-    },
-    {
-      title: 'four',
-    },
-  ]} onItemClick={(value) => console.log(value)}
-  renderItem={(item) => {
-    if (item.group) {
-      return (
-        <div className={'group'}>
-          <div className={'select-text'}>{item.title}</div>
-        </div>
-      );
-    }
-    return (
-      <div className={'select'}>
-        <div className={'select-text'}>{item.title}</div>
-      </div>
-    );
-  }}
-  itemHeight={(item) => (item.group ? 24 : 36)}
-  itemsHeight={160}
-  filterItem={(filter) => (item) => item.title.includes(filter)}
-/>
-</ExampleBlock>
-LANDING_BLOCK-->
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -162,14 +150,19 @@ LANDING_BLOCK-->
 
 The `filterable` property disables the input to search for an item if its value is `false`. Its default value is `true`.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<List items={["one", "two", "three", "four", "five", "six", "seven"]} itemsHeight={160} filterable={false} />
-`}>
-    <UIKit.List items={["one", "two", "three", "four", "five", "six", "seven"]} itemsHeight={160} filterable={false} />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {List} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <List
+            items={['one', 'two', 'three', 'four', 'five', 'six', 'seven']}
+            itemsHeight={160}
+            filterable={false}
+        />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -187,14 +180,19 @@ LANDING_BLOCK-->
 
 The `sortable` property enables swapping list items if its value is `true`. Its default value is `false`.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<List items={["one", "two", "three", "four", "five", "six", "seven"]} itemsHeight={160} sortable={true} />
-`}>
-    <UIKit.List items={["one", "two", "three", "four", "five", "six", "seven"]} itemsHeight={160} sortable={true} />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {List} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <List
+            items={['one', 'two', 'three', 'four', 'five', 'six', 'seven']}
+            itemsHeight={160}
+            sortable
+        />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -225,32 +223,33 @@ Likewise, you can forward `onFocus` and `onBlur` if you need to repeat the behav
 
 The `filter` property provides the filter value used with external sorting.
 
-### PropTypes
+## Properties
 
-| Name              | Description                                                                                                                                                                                                 | Type              | Default |
-| :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------- | :------ |
-| [items](#items)   | List of items                                                                                                                                                                                               | `Array`           | []      |
-| itemHeight        | Item height in `px` or a function that returns the height value for an item: `(item: any) => number`.                                                                                                       | `Number/Function` | 28      |
-| itemsHeight       | Item list height or a function that returns the height value for a list. It can be helpful when setting the list height dynamically: `(items: []) => number`.                                               | `Number/Function` |         |
-| renderItem        | Render function with an item received as an input and a React node returned: `(item: any, isItemActive: bool, itemIndex: number) => React.ReactNode`.                                                       | `Function`        |         |
-| filterItem        | Filtering function that receives a specified string as a search or filter input and returns a function that receives an item as an input and outputs boolean: `(filter: string) => (item: any) => boolean`. | `Function`        |         |
-| filterable        | Flag that enables a filter field.                                                                                                                                                                           | `Boolean`         | true    |
-| filterPlaceholder | Placeholder for a filter field.                                                                                                                                                                             | `String`          |         |
-| filter            | Filter value (in case external sorting is used).                                                                                                                                                            | `String`          |         |
-| filterClassName   | Class for filter input styles.                                                                                                                                                                              | `String`          |         |
-| onChangeFilter    | Filter change handler (in case external sorting is used): `(filter: string) => void`.                                                                                                                       | `Function`        |         |
-| onFilterEnd       | Function invoked after internal filtering is complete: `({items}: {items: T[]}) => void`                                                                                                                    | `Function`        |         |
-| emptyPlaceholder  | Placeholder for an empty list.                                                                                                                                                                              | `React.ReactNode` |         |
-| sortable          | Flag that enables list sorting.                                                                                                                                                                             | `Boolean`         |         |
-| sortHandleAlign   | Sorting indicator alignment (left or right).                                                                                                                                                                | `left` `right`    |         |
-| onSortEnd         | Sorting event handler: `({oldIndex: number, newIndex: number}) => void`.                                                                                                                                    | `Function`        |         |
-| virtualized       | Flag that enables virtualization. If inactive, all items are rendered at once.                                                                                                                              | `Boolean`         | true    |
-| onItemClick       | Item click handler: `(item: any, index: number, fromKeyboard?: bool) => void`.                                                                                                                              | `Function`        |         |
-| deactivateOnLeave | If this flag is set, the item selection is deactivated once the cursor leaves the item or the list loses its focus. If not set, the last selected item will always be selected.                             | `Boolean`         | true    |
-| activeItemIndex   | If a value is set, an item with this index is rendered as active.                                                                                                                                           | `Number`          |         |
-| selectedItemIndex | If a value is set, an item with this index is rendered as selected (the background color is taken from `--g-color-base-selection`).                                                                         | `Number/Array`    |         |
-| itemClassName     | Custom class name to add to an item container.                                                                                                                                                              | `String`          |         |
-| itemsClassName    | Custom class name to add to an item list.                                                                                                                                                                   | `String`          |         |
-| role              | `role` HTML attribute                                                                                                                                                                                       | `String`          | list    |
-| id                | `id` HTML attribute                                                                                                                                                                                         | `string`          |         |
-| onChangeActive    | Fires when the index of an option in the listbox that is visually highlighted as having keyboard focus is changed: `(index?: number) => void`.                                                              | `Function`        |         |
+| Name              | Description                                                                                                                                                                                                         | Type              | Default    |
+| :---------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :---------------- | :--------- |
+| [items](#items)   | List of items                                                                                                                                                                                                       | `Array`           | []         |
+| itemHeight        | Item height in `px` or a function that returns the height value for an item: `(item: any) => number`.                                                                                                               | `Number/Function` | 28         |
+| itemKey           | Function that returns a stable unique key for an item: `(item: any) => string`. Using it preserves item component state when the list is filtered or reordered.                                                     | `Function`        | item index |
+| itemsHeight       | Item list height or a function that returns the height value for a list. It can be helpful when setting the list height dynamically: `(items: []) => number`.                                                       | `Number/Function` |            |
+| renderItem        | Render function with an item received as an input and a React node returned: `(item: any, isItemActive: bool, itemIndex: number) => React.ReactNode`.                                                               | `Function`        |            |
+| filterItem        | Filtering function that receives a specified string as a search or filter input and returns a function that receives an item as an input and returns a boolean value: `(filter: string) => (item: any) => boolean`. | `Function`        |            |
+| filterable        | Flag that enables a filter field.                                                                                                                                                                                   | `Boolean`         | true       |
+| filterPlaceholder | Placeholder for a filter field.                                                                                                                                                                                     | `String`          |            |
+| filter            | Filter value (in case external sorting is used).                                                                                                                                                                    | `String`          |            |
+| filterClassName   | Class for filter input styles.                                                                                                                                                                                      | `String`          |            |
+| onChangeFilter    | Filter change handler (in case external sorting is used): `(filter: string) => void`.                                                                                                                               | `Function`        |            |
+| onFilterEnd       | Function invoked after internal filtering is complete: `({items}: {items: T[]}) => void`                                                                                                                            | `Function`        |            |
+| emptyPlaceholder  | Placeholder for an empty list.                                                                                                                                                                                      | `React.ReactNode` |            |
+| sortable          | Flag that enables list sorting.                                                                                                                                                                                     | `Boolean`         |            |
+| sortHandleAlign   | Sorting indicator alignment (left or right).                                                                                                                                                                        | `left` `right`    |            |
+| onSortEnd         | Sorting event handler: `({oldIndex: number, newIndex: number}) => void`.                                                                                                                                            | `Function`        |            |
+| virtualized       | Flag that enables virtualization. If inactive, all items are rendered at once.                                                                                                                                      | `Boolean`         | true       |
+| onItemClick       | Item click handler: `(item: any, index: number, fromKeyboard?: bool) => void`.                                                                                                                                      | `Function`        |            |
+| deactivateOnLeave | If this flag is set, the item selection is deactivated once the cursor leaves the item or the list loses its focus. If not set, the last selected item will always be selected.                                     | `Boolean`         | true       |
+| activeItemIndex   | If a value is set, an item with this index is rendered as active.                                                                                                                                                   | `Number`          |            |
+| selectedItemIndex | If a value is set, an item with this index is rendered as selected (the background color is taken from `--g-color-base-selection`).                                                                                 | `Number/Array`    |            |
+| itemClassName     | Custom class name to add to an item container.                                                                                                                                                                      | `String`          |            |
+| itemsClassName    | Custom class name to add to an item list.                                                                                                                                                                           | `String`          |            |
+| role              | `role` HTML attribute                                                                                                                                                                                               | `String`          | list       |
+| id                | `id` HTML attribute                                                                                                                                                                                                 | `string`          |            |
+| onChangeActive    | Fires when the index of an option in the listbox that is visually highlighted as having keyboard focus is changed: `(index?: number) => void`.                                                                      | `Function`        |            |

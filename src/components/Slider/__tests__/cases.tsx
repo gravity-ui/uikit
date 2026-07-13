@@ -1,4 +1,5 @@
-import type {Cases, CasesWithName} from '../../../stories/tests-factory/models';
+import type {Cases, CasesWithName} from '@gravity-ui/playwright-tools/component-tests';
+
 import type {SliderProps} from '../types';
 
 export const sizeCases: Cases<SliderProps['size']> = ['s', 'm', 'l', 'xl'];

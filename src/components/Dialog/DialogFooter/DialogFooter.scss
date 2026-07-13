@@ -1,11 +1,10 @@
-@use '../../variables';
+@use '../variables';
 
-$block: '.#{variables.$ns}dialog-footer';
-
-#{$block} {
+#{variables.$footerBlock} {
     padding: 28px var(--_--side-padding);
     display: flex;
     align-items: center;
+    justify-content: flex-end;
 
     &__bts-wrapper {
         display: flex;
@@ -27,5 +26,21 @@ $block: '.#{variables.$ns}dialog-footer';
     &__error {
         padding: 10px;
         color: var(--g-color-text-danger);
+    }
+
+    &_mobile {
+        padding-block: 12px;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+    }
+
+    &_mobile &__bts-wrapper {
+        flex-direction: column-reverse;
+    }
+
+    &_mobile &__children {
+        flex-grow: 0;
+        height: auto;
     }
 }

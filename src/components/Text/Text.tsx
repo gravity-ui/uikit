@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {DOMProps, QAProps} from '../types';
 
 import {colorText} from './colorText/colorText';
@@ -51,7 +52,10 @@ type TextPropsWithTypedAttrs<T extends React.ElementType> = TextProps<T> &
  * ```
  */
 export const Text = React.forwardRef(function Text<C extends React.ElementType = 'span'>(
-    {
+    rawProps: TextPropsWithTypedAttrs<C>,
+    ref: React.ForwardedRef<C>,
+) {
+    const {
         as,
         children,
         variant,
@@ -64,9 +68,7 @@ export const Text = React.forwardRef(function Text<C extends React.ElementType =
         style: outerStyle,
         qa,
         ...rest
-    }: TextPropsWithTypedAttrs<C>,
-    ref: React.ForwardedRef<C>,
-) {
+    } = useDefaultProps('Text', rawProps);
     const Tag: React.ElementType = as || 'span';
 
     const style: React.CSSProperties = {

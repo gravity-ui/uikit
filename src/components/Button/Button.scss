@@ -87,7 +87,7 @@ $block: '.#{variables.$ns}button';
 
     &_size {
         &_xs {
-            --_--height: 20px;
+            --_--height: #{variables.$xs-height};
             --_--border-radius: var(--g-border-radius-xs);
             --_--padding: 6px;
             --_--icon-space: 12px;
@@ -95,7 +95,7 @@ $block: '.#{variables.$ns}button';
         }
 
         &_s {
-            --_--height: 24px;
+            --_--height: #{variables.$s-height};
             --_--border-radius: var(--g-border-radius-s);
             --_--padding: 8px;
             --_--icon-space: 16px;
@@ -103,7 +103,7 @@ $block: '.#{variables.$ns}button';
         }
 
         &_m {
-            --_--height: 28px;
+            --_--height: #{variables.$m-height};
             --_--border-radius: var(--g-border-radius-m);
             --_--padding: 12px;
             --_--icon-space: 16px;
@@ -111,7 +111,7 @@ $block: '.#{variables.$ns}button';
         }
 
         &_l {
-            --_--height: 36px;
+            --_--height: #{variables.$l-height};
             --_--border-radius: var(--g-border-radius-l);
             --_--padding: 16px;
             --_--icon-space: 16px;
@@ -119,7 +119,7 @@ $block: '.#{variables.$ns}button';
         }
 
         &_xl {
-            --_--height: 44px;
+            --_--height: #{variables.$xl-height};
             --_--border-radius: var(--g-border-radius-xl);
             --_--padding: 24px;
             --_--icon-space: 20px;
@@ -277,6 +277,7 @@ $block: '.#{variables.$ns}button';
             );
         width: var(--g-button-height, var(--_--height));
         height: var(--g-button-height, var(--_--height));
+        flex-shrink: 0;
 
         &::after {
             content: '\00a0';
@@ -328,6 +329,10 @@ $block: '.#{variables.$ns}button';
         }
 
         &#{$block}_view {
+            &_flat-secondary {
+                --_--text-color-hover: var(--g-color-text-brand-heavy);
+            }
+
             &_outlined-info,
             &_flat-info {
                 --_--text-color: var(--g-color-text-info-heavy);

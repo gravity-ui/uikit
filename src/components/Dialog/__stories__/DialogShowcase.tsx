@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-import {Button} from '../../../components/Button';
-import {Dialog} from '../../../components/Dialog/Dialog';
-import {Loader} from '../../../components/Loader';
-import {Select} from '../../../components/Select';
+import {Button} from '../../Button';
+import {Loader} from '../../Loader';
+import {Select} from '../../Select';
 import {TextInput} from '../../controls';
 import {Flex} from '../../layout/Flex/Flex';
+import {Dialog} from '../Dialog';
 
 const darthVader = String.raw`
                        .-.

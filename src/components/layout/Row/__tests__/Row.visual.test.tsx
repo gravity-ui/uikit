@@ -1,4 +1,4 @@
-import {smokeTest, test} from '~playwright/core';
+import {test} from '~playwright/core';
 
 import {DEFAULT_LAYOUT_THEME} from '../../constants';
 
@@ -9,8 +9,9 @@ test.describe('Row', {tag: '@Row'}, () => {
 
     Object.entries(DEFAULT_LAYOUT_THEME.breakpoints).forEach(
         ([breakpointName, breakpointWidthPx]) => {
-            smokeTest(
-                `render story <Default> - ${breakpointName}`,
+            test(
+                `smoke render story <Default> - ${breakpointName}`,
+                {tag: ['@smoke']},
                 async ({mount, expectScreenshot, page}) => {
                     const size = page.viewportSize();
                     if (size) {
@@ -28,8 +29,9 @@ test.describe('Row', {tag: '@Row'}, () => {
                 },
             );
 
-            smokeTest(
-                `render story <ZeroSpacings> - ${breakpointName}`,
+            test(
+                `smoke render story <ZeroSpacings> - ${breakpointName}`,
+                {tag: ['@smoke']},
                 async ({mount, expectScreenshot, page}) => {
                     const size = page.viewportSize();
                     if (size) {

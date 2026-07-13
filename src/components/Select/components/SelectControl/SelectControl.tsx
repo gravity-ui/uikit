@@ -4,9 +4,10 @@ import * as React from 'react';
 
 import {ChevronDown, TriangleExclamation} from '@gravity-ui/icons';
 
-import {useUniqId} from '../../../../hooks';
+import {Alert} from '../../../Alert';
 import {Icon} from '../../../Icon';
-import {Popover} from '../../../legacy';
+import {Popover} from '../../../Popover';
+import {useDirection} from '../../../theme';
 import type {AriaLabelingProps} from '../../../types';
 import type {CnMods} from '../../../utils/cn';
 import {filterDOMProps} from '../../../utils/filterDOMProps';
@@ -81,7 +82,8 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
     const showOptionsText = Boolean(selectedOptionsContent);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
     const hasValue = Array.isArray(value) && value.filter(Boolean).length > 0;
-    const errorTooltipId = useUniqId();
+
+    const direction = useDirection();
 
     const [isDisabledButtonAnimation, setIsDisabledButtonAnimation] = React.useState(false);
 
@@ -164,6 +166,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         'aria-controls': open ? popupId : undefined,
         'aria-haspopup': 'listbox',
         'aria-expanded': open,
+        'aria-invalid': isErrorVisible || undefined,
         'aria-activedescendant':
             activeIndex === undefined ? undefined : `${popupId}-item-${activeIndex}`,
         onClick: handleControlClick,
@@ -214,10 +217,20 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                 {renderClearIcon({})}
 
                 {errorMessage && (
-                    <Popover content={errorMessage} tooltipId={errorTooltipId}>
+                    <Popover
+                        placement={direction === 'rtl' ? ['left', 'bottom'] : ['right', 'bottom']}
+                        hasArrow
+                        className={selectControlBlock('error-popover')}
+                        content={
+                            <Alert
+                                className={selectControlBlock('error-popover-content')}
+                                theme="clear"
+                                message={<div role="presentation">{errorMessage}</div>}
+                            />
+                        }
+                    >
                         <button
                             aria-label={t('label_show-error-info')}
-                            aria-describedby={errorTooltipId}
                             type={'button'}
                             className={selectControlBlock('error-icon')}
                         >

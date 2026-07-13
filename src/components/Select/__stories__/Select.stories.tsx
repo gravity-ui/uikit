@@ -563,3 +563,72 @@ export const WithInsideError: Story = {
     },
     render: WithOutsideError.render,
 };
+
+export const WithCounter: Story = {
+    tags: ['!dev'],
+    decorators: [WithTitle],
+    args: {
+        ...showcaseArgs,
+        multiple: true,
+        hasCounter: true,
+        value: ['val1', 'val2'],
+    },
+    render: (args) => {
+        const [{value}, setArgs] = useArgs<typeof args>();
+
+        return (
+            <Select {...args} value={value} onUpdate={(values) => setArgs({value: values})}>
+                <Select.Option value="val1" content="Value1" />
+                <Select.Option value="val2" content="Value2" />
+                <Select.Option value="val3" content="Value3" />
+                <Select.Option value="val4" content="Value4" />
+            </Select>
+        );
+    },
+};
+
+export const WithCustomCounter: Story = {
+    tags: ['!dev'],
+    decorators: [WithTitle],
+    args: {
+        ...showcaseArgs,
+        multiple: true,
+        hasCounter: true,
+        value: ['val1', 'val2', 'val3'],
+    },
+    render: (args) => {
+        const [{value}, setArgs] = useArgs<typeof args>();
+
+        return (
+            <Select
+                {...args}
+                value={value}
+                onUpdate={(values) => setArgs({value: values})}
+                renderCounter={(_, {count, disabled}) => {
+                    if (count === 0) {
+                        return null;
+                    }
+                    if (count >= 2) {
+                        return (
+                            <div
+                                style={{
+                                    padding: '0 8px',
+                                    color: disabled ? '#999' : '#027bf3',
+                                    fontWeight: 'bold',
+                                }}
+                            >
+                                +{count}
+                            </div>
+                        );
+                    }
+                    return count;
+                }}
+            >
+                <Select.Option value="val1" content="Value1" />
+                <Select.Option value="val2" content="Value2" />
+                <Select.Option value="val3" content="Value3" />
+                <Select.Option value="val4" content="Value4" />
+            </Select>
+        );
+    },
+};

@@ -1,14 +1,14 @@
 <!--GITHUB_BLOCK-->
 
-## Table
+# Table
 
 <!--/GITHUB_BLOCK-->
+
+A `Table` allows selecting and sorting rows, as well as performing actions on a row.
 
 ```jsx
 import {Table} from '@gravity-ui/uikit';
 ```
-
-A `Table` allows selecting and sorting rows, as well as performing actions on a row.
 
 <!--GITHUB_BLOCK-->
 
@@ -78,6 +78,12 @@ This HOC adds a special column with actions to table columns.
 | renderRowActions | Render function for Actions Cell               | `(props: {item: any; index: number}) => React.ReactNode` |
 | rowActionsSize   | Size of the action button and popup menu items |                 `"s"` `"m"` `"l"` `"xl"`                 |
 | rowActionsIcon   | Custom Icon for Actions Cell                   |                    `React.ReactNode`                     |
+
+### CSS API
+
+| Name                                     | Description                                                                             |
+| :--------------------------------------- | :-------------------------------------------------------------------------------------- |
+| `--g-table-action-popup-menu-max-height` | Max height of the actions popup menu. Default: `200px`. Use `none` to remove the limit. |
 
 ### TableActionConfig
 

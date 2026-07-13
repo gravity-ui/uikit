@@ -1,10 +1,12 @@
+import * as React from 'react';
+
 import {Xmark} from '@gravity-ui/icons';
 
 import {Button} from '../Button';
 import {Card} from '../Card';
 import {Icon} from '../Icon';
 import {colorText} from '../Text';
-import {Flex, spacing} from '../layout';
+import {useDefaultProps} from '../theme/useDefaultProps';
 
 import {AlertAction} from './AlertAction';
 import {AlertActions} from './AlertActions';
@@ -13,60 +15,87 @@ import {AlertIcon} from './AlertIcon';
 import {AlertTitle} from './AlertTitle';
 import {DEFAULT_ICON_SIZE, bAlert} from './constants';
 import i18n from './i18n';
-import type {AlertProps} from './types';
+import type {AlertProps, AlertSize} from './types';
 
-export const Alert = (props: AlertProps) => {
+function alertSizeToIconSize(alertSize: AlertSize): number {
+    switch (alertSize) {
+        case 's':
+            return 16;
+        case 'm':
+            return 18;
+        case 'l':
+        default:
+            return 22;
+    }
+}
+
+export const Alert = (rawProps: AlertProps) => {
+    const props = useDefaultProps('Alert', rawProps);
     const {
         theme = 'normal',
         view = 'filled',
+        size = 'm',
         layout = 'vertical',
+        actionsLayout = layout === 'vertical' ? 'horizontal' : 'vertical',
         message,
         className,
         corners,
         style,
         onClose,
-        align,
+        align = 'baseline',
         qa,
     } = props;
 
     const commonProps = {
         style,
-        className: bAlert({corners}, spacing({py: 4, px: 5}, className)),
+        className: bAlert({corners, size, align: align}, className),
         qa,
     };
 
     const {t} = i18n.useTranslation();
 
     const content = (
-        <Flex gap="3" alignItems={align}>
+        <React.Fragment>
             {typeof props.icon === 'undefined' ? (
-                <Alert.Icon theme={theme} view={view} />
+                <Alert.Icon
+                    theme={theme}
+                    view={view}
+                    align={align}
+                    size={alertSizeToIconSize(size)}
+                />
             ) : (
-                props.icon // ability to pass `null` as `icon` prop value
+                props.icon && ( // ability to pass `null` as `icon` prop value
+                    <div className={bAlert('icon-wrapper', {align})}>{props.icon}</div>
+                )
             )}
-            <Flex direction={layout === 'vertical' ? 'column' : 'row'} gap="5" grow>
-                <Flex gap="2" grow className={bAlert('text-content')}>
-                    <Flex direction="column" gap="1" grow justifyContent={align}>
-                        {typeof props.title === 'string' ? (
-                            <Alert.Title text={props.title} />
-                        ) : (
-                            props.title
-                        )}
-                        {message}
-                    </Flex>
-                </Flex>
+            <div className={bAlert('main', {layout})}>
+                <div>
+                    {typeof props.title === 'string' ? (
+                        <Alert.Title text={props.title} />
+                    ) : (
+                        props.title
+                    )}
+                    {message ? (
+                        <div
+                            className={bAlert('message', {'with-top-margin': Boolean(props.title)})}
+                        >
+                            {message}
+                        </div>
+                    ) : null}
+                </div>
                 {Array.isArray(props.actions) ? (
                     <Alert.Actions items={props.actions} />
                 ) : (
                     props.actions
                 )}
-            </Flex>
+            </div>
             {onClose && (
                 <Button
                     view="flat"
                     className={bAlert('close-btn')}
                     onClick={onClose}
                     aria-label={t('label_close')}
+                    size={size}
                 >
                     <Icon
                         data={Xmark}
@@ -75,11 +104,11 @@ export const Alert = (props: AlertProps) => {
                     />
                 </Button>
             )}
-        </Flex>
+        </React.Fragment>
     );
 
     return (
-        <AlertContextProvider layout={layout} view={view}>
+        <AlertContextProvider layout={layout} view={view} size={size} actionsLayout={actionsLayout}>
             {theme === 'clear' ? (
                 <div {...commonProps}>{content}</div>
             ) : (

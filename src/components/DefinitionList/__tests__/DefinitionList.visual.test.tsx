@@ -1,6 +1,7 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {DefinitionListProps} from '../types';
 
 import {DefinitionListStories} from './stories';
@@ -19,7 +20,7 @@ test.describe.skip('DefinitionList', {tag: '@DefinitionList'}, () => {
             direction: ['vertical', 'horizontal'],
         },
     ).forEach(([title, props]) => {
-        smokeTest(title, async ({mount, expectScreenshot}) => {
+        test(`smoke ${title}`, {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
             await mount(
                 <div>
                     <h4>{title}</h4>
@@ -45,7 +46,7 @@ test.describe.skip('DefinitionList', {tag: '@DefinitionList'}, () => {
             scenarioName: 'responsive',
         },
     ).forEach(([title, props]) => {
-        smokeTest(title, async ({mount, page, expectScreenshot}) => {
+        test(`smoke ${title}`, {tag: ['@smoke']}, async ({mount, page, expectScreenshot}) => {
             const size = page.viewportSize();
             if (size) {
                 await page.setViewportSize({

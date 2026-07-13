@@ -16,8 +16,10 @@ function useUniqIdFallback() {
 }
 
 function useIdNative() {
+    // eslint-disable-next-line no-restricted-syntax
     return `${NAMESPACE}${React.useId()}`;
 }
 
 export const useUniqId: () => UseUniqIdResult =
+    // eslint-disable-next-line no-restricted-syntax
     typeof React.useId === 'function' ? useIdNative : useUniqIdFallback;

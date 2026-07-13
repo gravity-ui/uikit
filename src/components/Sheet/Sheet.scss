@@ -10,8 +10,12 @@ $block: '.#{variables.$ns}sheet';
     height: 100%;
     z-index: 100000;
 
-    $top-height: 20px;
+    --_--top-height: 20px;
     $transition-duration: 0.3s;
+
+    &_without-top-bar {
+        --_--top-height: 0;
+    }
 
     &__veil {
         position: absolute;
@@ -35,6 +39,12 @@ $block: '.#{variables.$ns}sheet';
         width: 100%;
         max-height: 100%;
         will-change: transform;
+        background-color: var(--g-sheet-background-color, var(--g-color-base-float));
+
+        &:has(> #{$block}__sheet-top) {
+            border-start-start-radius: 20px;
+            border-start-end-radius: 20px;
+        }
 
         &_with-transition {
             transition: transform $transition-duration ease;
@@ -60,10 +70,7 @@ $block: '.#{variables.$ns}sheet';
 
     &__sheet-top {
         position: relative;
-        height: $top-height;
-        border-start-start-radius: 20px;
-        border-start-end-radius: 20px;
-        background-color: var(--g-sheet-background-color, var(--g-color-base-float));
+        height: var(--_--top-height);
     }
 
     &__sheet-top-resizer {
@@ -80,10 +87,9 @@ $block: '.#{variables.$ns}sheet';
 
     &__sheet-scroll-container {
         box-sizing: border-box;
-        max-height: calc(100% - #{$top-height});
+        max-height: calc(100% - var(--_--top-height));
         overflow: hidden auto;
         overscroll-behavior-y: contain;
-        background-color: var(--g-sheet-background-color, var(--g-color-base-float));
 
         transition: height $transition-duration ease;
 
@@ -118,7 +124,11 @@ $block: '.#{variables.$ns}sheet';
     &__sheet-content {
         box-sizing: border-box;
         width: 100%;
-        padding: var(--g-sheet-content-padding, 0 10px);
+        padding: var(
+            --g-sheet-content-padding,
+            0 max(10px, env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0px)
+                max(10px, env(safe-area-inset-left, 0px))
+        );
     }
 
     &__sheet-content-title {

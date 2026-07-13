@@ -27,13 +27,12 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
         justify-content: center;
     }
 
-    &__content-wrapper {
-        margin: var(--g-modal-margin, #{variables.$modal-default-margin});
-    }
-
     &__content {
+        margin: var(--g-modal-margin, #{variables.$modal-default-margin});
         height: var(--g-modal-height, auto);
+        max-height: var(--g-modal-max-height, none);
         width: var(--g-modal-width, auto);
+        max-width: var(--g-modal-max-width, none);
 
         background-color: var(--g-color-base-modal);
         border-radius: var(--g-modal-border-radius, #{$modal-default-border-radius});
@@ -44,11 +43,13 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
 
         &_has-scroll {
             overflow: auto;
-            max-width: calc(
-                100vw - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2)
+            max-width: var(
+                --g-modal-max-width,
+                calc(100vw - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2))
             );
-            max-height: calc(
-                100vh - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2)
+            max-height: var(
+                --g-modal-max-height,
+                calc(100vh - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2))
             );
         }
     }
@@ -75,6 +76,21 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
     &[data-floating-ui-status='open'] #{$block}__content,
     &[data-floating-ui-status='close'] #{$block}__content {
         transition: $modal-height-transition, $modal-transform-transition;
+    }
+
+    &_mobile {
+        --g-modal-width: 100vw;
+        --g-modal-height: 100vh;
+        --g-modal-margin: 0px;
+        --g-modal-border-radius: 0px;
+
+        &[data-floating-ui-status='initial'] #{$block}__content,
+        &[data-floating-ui-status='close'] #{$block}__content {
+            transform: translateY(100%);
+        }
+        &[data-floating-ui-status='open'] #{$block}__content {
+            transform: translateY(0);
+        }
     }
 
     @media (prefers-reduced-motion: reduce) {

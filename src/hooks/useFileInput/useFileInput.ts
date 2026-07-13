@@ -22,11 +22,11 @@ export type UseFileInputResult = {
  ```tsx
     import * as React from 'react';
     import {Button, useFileInput} from '@gravity-ui/uikit';
-
+ 
     const Component = () => {
         const onUpdate = React.useCallback((files: File[]) => console.log(files), []);
         const {controlProps, triggerProps} = useFileInput({onUpdate});
-
+ 
         return (
             <React.Fragment>
                 <input {...controlProps} />
@@ -35,7 +35,7 @@ export type UseFileInputResult = {
         );
     };
 ```
-*/
+ */
 export function useFileInput({onUpdate, onChange}: UseFileInputProps): UseFileInputResult {
     const ref = React.useRef<HTMLInputElement>(null);
 

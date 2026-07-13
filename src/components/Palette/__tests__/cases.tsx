@@ -1,4 +1,5 @@
-import type {Cases} from '../../../stories/tests-factory/models';
+import type {Cases} from '@gravity-ui/playwright-tools/component-tests';
+
 import type {PaletteProps} from '../Palette';
 
 export const sizeCases: Cases<PaletteProps['size']> = ['xs', 's', 'm', 'l', 'xl'];

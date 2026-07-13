@@ -7,7 +7,10 @@ import {Disclosure} from '../../Disclosure';
 import {DefaultDisclosureSummary} from '../../Disclosure/DisclosureSummary/DisclosureSummary';
 import type {QAProps} from '../../types';
 import {useAccordion} from '../AccordionContext';
-import {AccordionSummary, isAccordionSummaryComponent} from '../AccordionSummary/AccordionSummary';
+import {
+    AccordionSummaryContent,
+    isAccordionSummaryComponent,
+} from '../AccordionSummary/AccordionSummary';
 import type {AccordionSummaryProps} from '../AccordionSummary/AccordionSummary';
 import {
     accordionDetailsBlock,
@@ -41,6 +44,7 @@ export const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps
             summary,
             onUpdate,
             qa,
+            className,
         } = props;
 
         const attributes = useAccordion();
@@ -50,6 +54,8 @@ export const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps
             value,
             onUpdate,
         });
+        const disclosureExpanded =
+            expanded !== undefined || defaultExpanded !== true ? isExpanded : undefined;
 
         const [preparedSummary, details] = React.useMemo(() => {
             return prepareChildren(children, qa);
@@ -61,16 +67,19 @@ export const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps
                 arrowPosition={attributes?.arrowPosition}
                 keepMounted={keepMounted}
                 onUpdate={handleUpdate}
-                expanded={defaultExpanded ? undefined : isExpanded}
+                expanded={disclosureExpanded}
                 defaultExpanded={defaultExpanded}
                 summary={summary}
                 disabled={disabled}
                 qa={qa}
-                className={accordionItemBlock({
-                    size: attributes?.size,
-                    view: attributes?.view,
-                    disabled,
-                })}
+                className={accordionItemBlock(
+                    {
+                        size: attributes?.size,
+                        view: attributes?.view,
+                        disabled,
+                    },
+                    className,
+                )}
             >
                 {preparedSummary}
                 <Disclosure.Details className={accordionDetailsBlock}>{details}</Disclosure.Details>
@@ -93,14 +102,14 @@ function useAccordionItemState({
     const id = useUniqId();
     const {items, updateItems} = useAccordion();
     const isControlledItem = expanded !== undefined;
-    const hasDefaultState = defaultExpanded !== undefined;
+    const hasDefaultExpanded = defaultExpanded === true;
 
     const isExpanded = React.useMemo(() => {
         if (isControlledItem) {
             return expanded;
         }
 
-        if (hasDefaultState) {
+        if (hasDefaultExpanded) {
             return false;
         }
 
@@ -109,32 +118,33 @@ function useAccordionItemState({
         }
 
         return items === (value ?? id);
-    }, [isControlledItem, expanded, hasDefaultState, items, value, id]);
+    }, [isControlledItem, expanded, hasDefaultExpanded, items, value, id]);
 
     const handleUpdate = React.useCallback(
         (next: boolean) => {
             onUpdate?.(next);
-            if (!isControlledItem && !hasDefaultState) {
+            if (!isControlledItem && !hasDefaultExpanded) {
                 updateItems(value ?? id);
             }
         },
-        [onUpdate, isControlledItem, hasDefaultState, updateItems, value, id],
+        [onUpdate, isControlledItem, hasDefaultExpanded, updateItems, value, id],
     );
     return {id, isExpanded, handleUpdate};
 }
 
 function prepareChildren(children: React.ReactNode, qa?: string) {
     const items = React.Children.toArray(children);
-    let summary: React.ReactElement<AccordionSummaryProps> | undefined, details: React.ReactNode;
+    let accordionSummaryElement: React.ReactElement<AccordionSummaryProps> | undefined;
+    let details: React.ReactNode;
 
     const content: React.ReactNode[] = [];
     for (const item of items) {
         const isAccordionSummary = isAccordionSummaryComponent(item);
         if (isAccordionSummary) {
-            if (summary) {
+            if (accordionSummaryElement) {
                 throw new Error('Only one <Accordion.Summary> component is allowed');
             }
-            summary = item;
+            accordionSummaryElement = item;
             continue;
         }
         content.push(item);
@@ -146,19 +156,28 @@ function prepareChildren(children: React.ReactNode, qa?: string) {
 
     const summaryQa = qa ? `${qa}-summary` : undefined;
 
-    if (!summary) {
-        summary = (
-            <AccordionSummary>
-                {(props) => (
-                    <DefaultDisclosureSummary
-                        {...props}
-                        qa={summaryQa}
-                        className={accordionSummaryTriggerBlock}
-                    />
-                )}
-            </AccordionSummary>
-        );
-    }
+    const summaryChildren =
+        accordionSummaryElement?.props?.children ??
+        ((props) => (
+            <DefaultDisclosureSummary
+                {...props}
+                qa={summaryQa}
+                className={accordionSummaryTriggerBlock}
+            />
+        ));
+
+    const summary = (
+        <Disclosure.Summary qa={accordionSummaryElement?.props?.qa ?? summaryQa}>
+            {(disclosureProps, defaultSummary) => (
+                <AccordionSummaryContent
+                    disclosureProps={disclosureProps}
+                    defaultSummary={defaultSummary}
+                >
+                    {summaryChildren}
+                </AccordionSummaryContent>
+            )}
+        </Disclosure.Summary>
+    );
 
     return [summary, details];
 }

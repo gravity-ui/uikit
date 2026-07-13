@@ -27,6 +27,8 @@ import {useAnimateHeight} from '../../hooks/private';
 import {useFloatingTransition} from '../../hooks/private/useFloatingTransition';
 import {Portal} from '../Portal';
 import type {PortalProps} from '../Portal';
+import {MobileContext, useMobile} from '../mobile';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
@@ -100,7 +102,7 @@ export interface ModalProps
     /** Callback called when `Popup` is closed and "out" transition is completed */
     onTransitionOutComplete?: () => void;
     contentOverflow?: 'visible' | 'auto';
-    floatingRef?: React.RefObject<HTMLDivElement>;
+    floatingRef?: React.RefObject<HTMLDivElement | null>;
     disableHeightTransition?: boolean;
 }
 
@@ -108,39 +110,43 @@ const b = block('modal');
 
 const TRANSITION_DURATION = 150;
 
-function ModalComponent({
-    open = false,
-    onOpenChange,
-    keepMounted = false,
-    disableBodyScrollLock = false,
-    disableEscapeKeyDown,
-    disableOutsideClick,
-    initialFocus,
-    returnFocus,
-    disableVisuallyHiddenDismiss,
-    onEscapeKeyDown,
-    onOutsideClick,
-    onClose,
-    onEnterKeyDown,
-    onTransitionIn,
-    onTransitionInComplete,
-    onTransitionOut,
-    onTransitionOutComplete,
-    children,
-    style,
-    contentOverflow = 'visible',
-    className,
-    contentClassName,
-    container,
-    disablePortal,
-    qa,
-    floatingRef,
-    disableHeightTransition = false,
-    ...restProps
-}: ModalProps) {
+function ModalComponent(rawProps: ModalProps) {
+    const {
+        open = false,
+        onOpenChange,
+        keepMounted = false,
+        disableBodyScrollLock = false,
+        disableEscapeKeyDown,
+        disableOutsideClick,
+        initialFocus,
+        returnFocus,
+        disableVisuallyHiddenDismiss,
+        onEscapeKeyDown,
+        onOutsideClick,
+        onClose,
+        onEnterKeyDown,
+        onTransitionIn,
+        onTransitionInComplete,
+        onTransitionOut,
+        onTransitionOutComplete,
+        children,
+        style,
+        contentOverflow = 'visible',
+        className,
+        contentClassName,
+        container,
+        disablePortal,
+        qa,
+        floatingRef,
+        disableHeightTransition = false,
+        ...restProps
+    } = useDefaultProps('Modal', rawProps);
     useLayer({open, type: 'modal'});
+    const mobileModals = React.useContext(MobileContext).__experimentalMobileModals ?? false;
+    const mobile = useMobile() && mobileModals;
 
     const overlayRef = React.useRef<HTMLDivElement>(null);
+    const [isVisible, setIsVisible] = React.useState(false);
 
     const handleOpenChange = React.useCallback<NonNullable<UseFloatingOptions['onOpenChange']>>(
         (isOpen, event, reason) => {
@@ -180,7 +186,23 @@ function ModalComponent({
         onOpenChange: handleOpenChange,
     });
 
-    const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
+    const handleFloatingRef = useForkRef<HTMLDivElement>(
+        refs.setFloating,
+        /*
+         *  TODO: Remove casting in React 19 (https://github.com/gravity-ui/uikit/issues/2537)
+         */
+        floatingRef as React.Ref<HTMLDivElement>,
+    );
+
+    const handleTransitionInComplete = React.useCallback(() => {
+        setIsVisible(true);
+        onTransitionInComplete?.();
+    }, [onTransitionInComplete]);
+
+    const handleTransitionOutComplete = React.useCallback(() => {
+        setIsVisible(false);
+        onTransitionOutComplete?.();
+    }, [onTransitionOutComplete]);
 
     const dismiss = useDismiss(context, {
         enabled: !disableOutsideClick || !disableEscapeKeyDown,
@@ -207,9 +229,9 @@ function ModalComponent({
         context,
         duration: TRANSITION_DURATION,
         onTransitionIn,
-        onTransitionInComplete,
+        onTransitionInComplete: handleTransitionInComplete,
         onTransitionOut,
-        onTransitionOutComplete,
+        onTransitionOutComplete: handleTransitionOutComplete,
     });
 
     useAnimateHeight({
@@ -259,42 +281,40 @@ function ModalComponent({
                 <Portal container={container} disablePortal={disablePortal}>
                     <FloatingOverlay
                         ref={overlayRef}
-                        style={style}
-                        className={b({open}, className)}
+                        style={{...style, ...(mobile ? {overflow: 'hidden'} : {})}}
+                        className={b({open, mobile}, className)}
                         data-qa={qa}
                         data-floating-ui-status={status}
                         lockScroll={!disableBodyScrollLock}
                     >
-                        <div className={b('content-aligner')}>
-                            <div className={b('content-wrapper')}>
-                                <FloatingFocusManager
-                                    context={context}
-                                    disabled={!isMounted}
-                                    modal={isMounted}
-                                    initialFocus={initialFocus ?? refs.floating}
-                                    returnFocus={returnFocus}
-                                    visuallyHiddenDismiss={
-                                        disableVisuallyHiddenDismiss ? false : t('close')
-                                    }
-                                    restoreFocus={true}
+                        <FloatingFocusManager
+                            context={context}
+                            disabled={!isMounted || !isVisible}
+                            modal={isMounted}
+                            initialFocus={initialFocus ?? refs.floating}
+                            returnFocus={returnFocus}
+                            visuallyHiddenDismiss={
+                                disableVisuallyHiddenDismiss ? false : t('close')
+                            }
+                            restoreFocus={true}
+                        >
+                            <div className={b('content-aligner')}>
+                                <div
+                                    {...filterDOMProps(restProps, {labelable: true})}
+                                    className={b(
+                                        'content',
+                                        {'has-scroll': mobile ? true : contentOverflow === 'auto'},
+                                        contentClassName,
+                                    )}
+                                    ref={handleFloatingRef}
+                                    {...getFloatingProps({
+                                        onKeyDown: handleKeyDown,
+                                    })}
                                 >
-                                    <div
-                                        {...filterDOMProps(restProps, {labelable: true})}
-                                        className={b(
-                                            'content',
-                                            {'has-scroll': contentOverflow === 'auto'},
-                                            contentClassName,
-                                        )}
-                                        ref={handleFloatingRef}
-                                        {...getFloatingProps({
-                                            onKeyDown: handleKeyDown,
-                                        })}
-                                    >
-                                        {children}
-                                    </div>
-                                </FloatingFocusManager>
+                                    {children}
+                                </div>
                             </div>
-                        </div>
+                        </FloatingFocusManager>
                     </FloatingOverlay>
                 </Portal>
             ) : null}

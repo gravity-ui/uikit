@@ -12,8 +12,7 @@ const getViewportSize = (): UseViewportSizeResult => ({
 
 /**
  * A hook to get the size of the viewport when resizing
- *
- * @return - {width, height}
+ * @returns - {width, height}
  */
 export const useViewportSize = (): UseViewportSizeResult => {
     const [size, setSize] = React.useState<UseViewportSizeResult>(getViewportSize());

@@ -1,18 +1,20 @@
 <!--GITHUB_BLOCK-->
 
-# Suggest
+# unstable_Suggest
 
 <!--/GITHUB_BLOCK-->
 
+> `Suggest` is experimental (`lab`) — its API may change in minor releases until it stabilizes.
+
 ```tsx
-import {Suggest} from '@gravity-ui/uikit';
+import {unstable_Suggest as Suggest} from '@gravity-ui/uikit/unstable';
 ```
 
 `Suggest` is a text input with a dropdown list of options. It handles keyboard navigation, ARIA attributes, and popup positioning. Data fetching, debouncing, and pagination are handled externally.
 
 ## Basic usage
 
-Pass `items` (sync array) and update them in `onUpdate`:
+Pass `options` (sync array) and update them in `onUpdate`:
 
 <!--GITHUB_BLOCK-->
 
@@ -34,12 +36,12 @@ const items = React.useMemo(
 <Suggest<Planet>
   value={value}
   onUpdate={setValue}
-  items={items}
-  onItemClick={(item) => {
+  options={items}
+  onOptionClick={(item) => {
     setValue(item.content);
     return false; // close popup after selection
   }}
-  renderItem={(item) => <div>{item.content}</div>}
+  renderOption={(item) => <div>{item.content}</div>}
   inputProps={{placeholder: 'Search…'}}
 />;
 ```
@@ -48,7 +50,7 @@ const items = React.useMemo(
 
 ## Async loading
 
-Use a local `loading` flag together with `items`. A spinner is shown automatically while `loading` is `true`:
+Use a local `loading` flag together with `options`. A spinner is shown automatically while `loading` is `true`:
 
 <!--GITHUB_BLOCK-->
 
@@ -71,13 +73,13 @@ const handleUpdate = async (query: string) => {
 <Suggest<Planet>
   value={value}
   onUpdate={handleUpdate}
-  items={items}
+  options={items}
   loading={loading}
-  onItemClick={(item) => {
+  onOptionClick={(item) => {
     setValue(item.content);
     return false;
   }}
-  renderItem={(item) => <div>{item.content}</div>}
+  renderOption={(item) => <div>{item.content}</div>}
   inputProps={{placeholder: 'Search…'}}
 />;
 ```
@@ -94,7 +96,7 @@ All `TextInput` props (size, pin, hasClear, startContent, error, disabled, etc.)
 <Suggest
   value={value}
   onUpdate={setValue}
-  items={items}
+  options={items}
   inputProps={{
     size: 'xl',
     hasClear: true,
@@ -126,7 +128,7 @@ const [open, setOpen] = React.useState(false);
   }}
   open={open}
   onOpenChange={setOpen}
-  items={allItems}
+  options={allItems}
   inputProps={{
     onFocus: () => setOpen(true),
     placeholder: 'Click to browse all options…',
@@ -146,7 +148,7 @@ Use `renderPopup` to wrap the list, add a header/footer, or render an empty stat
 <Suggest
   value={value}
   onUpdate={setValue}
-  items={filteredItems}
+  options={filteredItems}
   renderPopup={({list}) => (
     <div>
       <div style={{padding: 8, fontWeight: 600}}>Results</div>
@@ -190,9 +192,9 @@ Use `renderPopup` to wrap the list, add a header/footer, or render an empty stat
 
 | Name              | Type                                                 | Default | Description                                                               |
 | :---------------- | :--------------------------------------------------- | :------ | :------------------------------------------------------------------------ |
-| `items`           | `ListItemData<T>[]`                                  |         | Options to display in the popup                                           |
-| `onItemClick`     | `(item: T, index?: number) => boolean \| void`       |         | Called when an option is selected. Return `true` to keep popup open       |
-| `renderItem`      | `(item: ListItemData<T>) => ReactNode`               |         | Custom option renderer                                                    |
+| `options`         | `ListItemData<T>[]`                                  |         | Options to display in the popup                                           |
+| `onOptionClick`   | `(option: T, index?: number) => boolean \| void`     |         | Called when an option is selected. Return `true` to keep popup open       |
+| `renderOption`    | `(option: ListItemData<T>) => ReactNode`             |         | Custom option renderer                                                    |
 | `virtualized`     | `boolean`                                            | `false` | Enable virtualization for long lists                                      |
 | `listHeight`      | `number`                                             | `300`   | Height (px) of the scrollable list viewport when `virtualized` is enabled |
 | `getOptionHeight` | `(option: ListItemData<T>, index: number) => number` |         | Row height function (enables variable-height rows)                        |

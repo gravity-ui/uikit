@@ -1,12 +1,14 @@
 import * as React from 'react';
 
-import {useUniqId} from '../../hooks';
-import {useOpenState} from '../../hooks/useSelect/useOpenState';
-import {List} from '../List';
-import {Loader} from '../Loader';
-import {Popup} from '../Popup';
-import {TextInput} from '../controls';
-import {block} from '../utils/cn';
+import type {OpenChangeReason} from '@floating-ui/react';
+
+import {useLayoutEffect, useUniqId} from '../../../hooks';
+import {useOpenState} from '../../../hooks/useSelect/useOpenState';
+import {List} from '../../List';
+import {Loader} from '../../Loader';
+import {Popup} from '../../Popup';
+import {TextInput} from '../../controls';
+import {block} from '../../utils/cn';
 
 import type {SuggestProps} from './types';
 
@@ -20,13 +22,13 @@ type SuggestComponent = <T>(
 
 export const Suggest = React.forwardRef(function Suggest<T>(
     {
-        value = '',
+        value,
         defaultValue,
         onUpdate,
 
-        items,
-        onItemClick,
-        renderItem,
+        options,
+        onOptionClick,
+        renderOption,
         virtualized = false,
         listHeight = 300,
         getOptionHeight,
@@ -54,7 +56,8 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     }: SuggestProps<T>,
     ref: React.Ref<HTMLSpanElement>,
 ) {
-    const inputWrapperRef = React.useRef<HTMLDivElement>(null);
+    const [anchorElement, setAnchorElement] = React.useState<HTMLDivElement | null>(null);
+    const [fitWidth, setFitWidth] = React.useState<number>();
     const listRef = React.useRef<List<T>>(null);
 
     const autoId = useUniqId();
@@ -65,8 +68,19 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     const {open, toggleOpen} = useOpenState({
         open: openProp,
         defaultOpen,
-        onOpenChange,
     });
+
+    const isOpenControlled = openProp !== undefined;
+
+    const setOpen = React.useCallback(
+        (nextOpen: boolean, event?: Event, reason?: OpenChangeReason) => {
+            if (nextOpen !== open) {
+                onOpenChange?.(nextOpen, event, reason);
+            }
+            toggleOpen(nextOpen);
+        },
+        [open, toggleOpen, onOpenChange],
+    );
 
     const [activeIndex, setActiveIndex] = React.useState<number | undefined>();
 
@@ -84,9 +98,15 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         }
     }, [open]);
 
+    useLayoutEffect(() => {
+        if (popupWidth === 'fit' && anchorElement && open) {
+            setFitWidth(anchorElement.offsetWidth);
+        }
+    }, [popupWidth, anchorElement, open]);
+
     const popupStyle: React.CSSProperties = (() => {
-        if (popupWidth === 'fit' && inputWrapperRef.current) {
-            return {width: inputWrapperRef.current.offsetWidth};
+        if (popupWidth === 'fit') {
+            return fitWidth === undefined ? {} : {width: fitWidth};
         }
         if (popupWidth === 'auto') {
             return {width: 'auto'};
@@ -97,38 +117,36 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         return {};
     })();
 
-    const hasContent = loading || Boolean(items?.length);
+    const hasContent = loading || Boolean(options?.length) || Boolean(renderPopup);
 
     const handleValueChange = React.useCallback(
         (newValue: string) => {
             onUpdate?.(newValue);
-            if (newValue) {
-                toggleOpen(true);
-            } else {
-                toggleOpen(false);
+            if (!isOpenControlled) {
+                setOpen(Boolean(newValue));
             }
         },
-        [onUpdate, toggleOpen],
+        [onUpdate, isOpenControlled, setOpen],
     );
 
     const handleInputFocus = React.useCallback(
         (e: React.FocusEvent<HTMLInputElement>) => {
-            if (value) {
-                toggleOpen(true);
+            if (!isOpenControlled && value) {
+                setOpen(true);
             }
             inputProps?.onFocus?.(e);
         },
-        [value, toggleOpen, inputProps],
+        [value, isOpenControlled, setOpen, inputProps],
     );
 
     const handleInputClick = React.useCallback(
         (e: React.MouseEvent<HTMLInputElement>) => {
-            if (!open && value) {
-                toggleOpen(true);
+            if (!isOpenControlled && !open && value) {
+                setOpen(true);
             }
             inputProps?.controlProps?.onClick?.(e);
         },
-        [open, value, toggleOpen, inputProps],
+        [open, value, isOpenControlled, setOpen, inputProps],
     );
 
     const handleInputKeyDown = React.useCallback(
@@ -146,10 +164,10 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 listRef.current.onKeyDown(e as React.KeyboardEvent<HTMLDivElement>);
             }
 
-            if (!open && (key === 'ArrowDown' || key === 'ArrowUp')) {
+            if (!isOpenControlled && !open && (key === 'ArrowDown' || key === 'ArrowUp')) {
                 e.preventDefault();
                 if (value) {
-                    toggleOpen(true);
+                    setOpen(true);
                 }
             }
 
@@ -159,15 +177,15 @@ export const Suggest = React.forwardRef(function Suggest<T>(
 
             inputProps?.onKeyDown?.(e);
         },
-        [open, value, toggleOpen, inputProps],
+        [open, value, isOpenControlled, setOpen, inputProps],
     );
 
-    const handleItemClick = React.useCallback(
-        (item: T, index?: number) => {
-            const keepOpen = Boolean(onItemClick?.(item, index));
-            toggleOpen(keepOpen);
+    const handleOptionClick = React.useCallback(
+        (option: T, index?: number) => {
+            const keepOpen = Boolean(onOptionClick?.(option, index));
+            setOpen(keepOpen);
         },
-        [onItemClick, toggleOpen],
+        [onOptionClick, setOpen],
     );
 
     const renderPopupContent = () => {
@@ -179,13 +197,13 @@ export const Suggest = React.forwardRef(function Suggest<T>(
             );
         }
 
-        if (!items?.length) {
+        if (!options?.length && !renderPopup) {
             return null;
         }
 
         const virtualizedHeight = virtualized ? listHeight : undefined;
 
-        const list = (
+        const list = options?.length ? (
             <div
                 className={b('list')}
                 style={virtualizedHeight ? {height: virtualizedHeight} : undefined}
@@ -195,17 +213,17 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                     id={listId}
                     role="listbox"
                     filterable={false}
-                    items={items}
-                    renderItem={renderItem}
+                    items={options}
+                    renderItem={renderOption}
                     virtualized={virtualized}
                     itemHeight={getOptionHeight}
                     itemsHeight={virtualizedHeight}
-                    onItemClick={handleItemClick}
+                    onItemClick={handleOptionClick}
                     onChangeActive={handleActiveIndexChange}
                     onLoadMore={onLoadMore}
                 />
             </div>
-        );
+        ) : null;
 
         if (renderPopup) {
             return renderPopup({list});
@@ -215,7 +233,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     };
 
     return (
-        <div className={b(null, className)} style={style} ref={inputWrapperRef}>
+        <div className={b(null, className)} style={style} ref={setAnchorElement}>
             <TextInput
                 autoComplete={false}
                 {...inputProps}
@@ -245,11 +263,11 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 {...popupProps}
                 id={popupId}
                 open={hasContent && open}
-                onOpenChange={toggleOpen}
-                anchorElement={inputWrapperRef.current}
+                onOpenChange={setOpen}
+                anchorElement={anchorElement}
                 className={b('popup', popupProps?.className)}
                 style={popupStyle}
-                onEscapeKeyDown={() => toggleOpen(false)}
+                onEscapeKeyDown={() => setOpen(false)}
                 returnFocus={false}
             >
                 {renderPopupContent()}

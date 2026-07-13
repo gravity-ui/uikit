@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event';
 
-import {render, screen, waitFor, within} from '../../../../test-utils/utils';
-import {ListQa} from '../../List';
+import {render, screen, waitFor, within} from '../../../../../test-utils/utils';
+import {ListQa} from '../../../List';
 
 import type {TestSuggestProps} from './TestSuggest';
 import {ITEMS, TestSuggest} from './TestSuggest';
@@ -58,10 +58,10 @@ describe('Suggest', () => {
         expect(screen.getByText('Europa')).toBeInTheDocument();
     });
 
-    test('calls onItemClick and closes popup on item click', async () => {
-        const onItemClick = jest.fn(() => false);
+    test('calls onOptionClick and closes popup on item click', async () => {
+        const onOptionClick = jest.fn(() => false);
         const user = userEvent.setup();
-        renderSuggest({onItemClick});
+        renderSuggest({onOptionClick});
 
         const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
         await user.type(input, 'e');
@@ -69,16 +69,16 @@ describe('Suggest', () => {
         const earth = await screen.findByText('Earth');
         await user.click(earth);
 
-        expect(onItemClick).toHaveBeenCalledTimes(1);
+        expect(onOptionClick).toHaveBeenCalledTimes(1);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        expect((onItemClick.mock.calls as any)[0][0]).toMatchObject(ITEMS[0]);
+        expect((onOptionClick.mock.calls as any)[0][0]).toMatchObject(ITEMS[0]);
         await waitFor(() => expect(screen.queryByTestId(QA_POPUP)).not.toBeInTheDocument());
     });
 
-    test('keeps popup open when onItemClick returns true', async () => {
-        const onItemClick = jest.fn(() => true);
+    test('keeps popup open when onOptionClick returns true', async () => {
+        const onOptionClick = jest.fn(() => true);
         const user = userEvent.setup();
-        renderSuggest({onItemClick});
+        renderSuggest({onOptionClick});
 
         const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
         await user.type(input, 'e');
@@ -86,16 +86,16 @@ describe('Suggest', () => {
         const earth = await screen.findByText('Earth');
         await user.click(earth);
 
-        expect(onItemClick).toHaveBeenCalledTimes(1);
+        expect(onOptionClick).toHaveBeenCalledTimes(1);
         expect(screen.getByTestId(QA_POPUP)).toBeVisible();
     });
 
-    test('does not call onItemClick for disabled items', async () => {
-        const onItemClick = jest.fn();
+    test('does not call onOptionClick for disabled items', async () => {
+        const onOptionClick = jest.fn();
         const user = userEvent.setup();
         renderSuggest({
-            items: [{value: 'earth', content: 'Earth', disabled: true}],
-            onItemClick,
+            options: [{value: 'earth', content: 'Earth', disabled: true}],
+            onOptionClick,
         });
 
         const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
@@ -104,7 +104,7 @@ describe('Suggest', () => {
         const earth = await screen.findByText('Earth');
         await user.click(earth);
 
-        expect(onItemClick).not.toHaveBeenCalled();
+        expect(onOptionClick).not.toHaveBeenCalled();
     });
 
     test('closes popup on Escape', async () => {
@@ -121,12 +121,27 @@ describe('Suggest', () => {
 
     test('shows loading indicator when loading=true', async () => {
         const user = userEvent.setup();
-        renderSuggest({loading: true, items: []});
+        renderSuggest({loading: true, options: []});
 
         const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
         await user.type(input, 'e');
 
         expect(screen.getByTestId(QA_POPUP)).toBeVisible();
+    });
+
+    describe('controlled open', () => {
+        test('does not auto-toggle open when open is controlled', async () => {
+            const onOpenChange = jest.fn();
+            const user = userEvent.setup();
+            renderSuggest({open: false, onOpenChange});
+
+            const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
+            await user.type(input, 'e');
+
+            // The consumer owns `open`; typing must not request it (uncontrolled would
+            // auto-open here). Regression for auto-open/close overriding controlled state.
+            expect(onOpenChange).not.toHaveBeenCalled();
+        });
     });
 
     describe('keyboard navigation', () => {
@@ -158,16 +173,16 @@ describe('Suggest', () => {
         });
 
         test('Enter selects active item and closes popup', async () => {
-            const onItemClick = jest.fn(() => false);
+            const onOptionClick = jest.fn(() => false);
             const user = userEvent.setup();
-            renderSuggest({onItemClick, inputProps: {autoFocus: true}});
+            renderSuggest({onOptionClick, inputProps: {autoFocus: true}});
 
             const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
             await user.type(input, 'e');
             await user.keyboard('[ArrowDown]');
             await user.keyboard('[Enter]');
 
-            expect(onItemClick).toHaveBeenCalledTimes(1);
+            expect(onOptionClick).toHaveBeenCalledTimes(1);
             await waitFor(() => expect(screen.queryByTestId(QA_POPUP)).not.toBeInTheDocument());
         });
     });

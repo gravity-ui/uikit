@@ -54,6 +54,8 @@ export const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps
             value,
             onUpdate,
         });
+        const disclosureExpanded =
+            expanded !== undefined || defaultExpanded !== true ? isExpanded : undefined;
 
         const [preparedSummary, details] = React.useMemo(() => {
             return prepareChildren(children, qa);
@@ -65,7 +67,7 @@ export const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps
                 arrowPosition={attributes?.arrowPosition}
                 keepMounted={keepMounted}
                 onUpdate={handleUpdate}
-                expanded={defaultExpanded ? undefined : isExpanded}
+                expanded={disclosureExpanded}
                 defaultExpanded={defaultExpanded}
                 summary={summary}
                 disabled={disabled}
@@ -100,14 +102,14 @@ function useAccordionItemState({
     const id = useUniqId();
     const {items, updateItems} = useAccordion();
     const isControlledItem = expanded !== undefined;
-    const hasDefaultState = defaultExpanded !== undefined;
+    const hasDefaultExpanded = defaultExpanded === true;
 
     const isExpanded = React.useMemo(() => {
         if (isControlledItem) {
             return expanded;
         }
 
-        if (hasDefaultState) {
+        if (hasDefaultExpanded) {
             return false;
         }
 
@@ -116,16 +118,16 @@ function useAccordionItemState({
         }
 
         return items === (value ?? id);
-    }, [isControlledItem, expanded, hasDefaultState, items, value, id]);
+    }, [isControlledItem, expanded, hasDefaultExpanded, items, value, id]);
 
     const handleUpdate = React.useCallback(
         (next: boolean) => {
             onUpdate?.(next);
-            if (!isControlledItem && !hasDefaultState) {
+            if (!isControlledItem && !hasDefaultExpanded) {
                 updateItems(value ?? id);
             }
         },
-        [onUpdate, isControlledItem, hasDefaultState, updateItems, value, id],
+        [onUpdate, isControlledItem, hasDefaultExpanded, updateItems, value, id],
     );
     return {id, isExpanded, handleUpdate};
 }

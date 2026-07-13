@@ -13,7 +13,7 @@ const DEFAULT_EXCLUDE = ['__stories__', '__tests__', '__mocks__', '__snapshots__
  * and an empty `docs/` are both harmless when a package lacks them, so the same
  * config drives every package (uikit, navigation, …).
  */
-function standardDocsConfig(rootDir, packageName) {
+function standardDocsConfig(rootDir = process.cwd(), packageName = readPackageName(rootDir)) {
     return {
         rootDir,
         packageName,
@@ -42,6 +42,10 @@ function standardDocsConfig(rootDir, packageName) {
             },
         ],
     };
+}
+
+function readPackageName(rootDir) {
+    return JSON.parse(fs.readFileSync(path.join(rootDir, 'package.json'), 'utf8')).name || '';
 }
 
 /** Recursively collects `README.md` files under `dir`, skipping excluded segments. */
@@ -145,16 +149,19 @@ function rewriteReadmeLinks(markdown, source, outRel, docMap) {
 /**
  * Builds a package's `docs/` output for AI agents from its markdown sources.
  *
- * @param {object} config — usually `standardDocsConfig(rootDir, packageName)`.
- * @param {string} config.rootDir — repo root.
+ * @param {object} config — usually `standardDocsConfig()`.
+ * @param {string} [config.rootDir] — repo root; defaults to `process.cwd()`.
  * @param {string} config.outDir — directory to (re)generate.
- * @param {string} config.packageName — shown in the generated INDEX.md header.
+ * @param {string} [config.packageName] — shown in the generated INDEX.md header;
+ *   defaults to `rootDir`'s package name.
  * @param {Array} config.sources — `{title, kind:'readme'|'markdown', baseDir,
  *   outPrefix, exclude?, nameFromTitle?}`; INDEX sections follow this order.
  * @returns {{sections: object[], total: number}}
  */
 function buildDocs(config) {
-    const {rootDir, outDir, packageName, sources} = config;
+    const {outDir, sources} = config;
+    const rootDir = config.rootDir || process.cwd();
+    const packageName = config.packageName || readPackageName(rootDir);
 
     fs.rmSync(outDir, {recursive: true, force: true});
 

@@ -10,7 +10,7 @@ const {rimrafSync} = require('rimraf');
 const {buildDocs, standardDocsConfig} = require('./build-utils/build-docs');
 const {sassFunctions} = require('./build-utils/sass-functions');
 
-const {name, version} = require('./package.json');
+const {version} = require('./package.json');
 
 const BUILD_DIR = path.resolve('build');
 
@@ -108,7 +108,7 @@ task('styles-components', () => {
 });
 
 task('copy-docs', (done) => {
-    buildDocs(standardDocsConfig(path.resolve('.'), name));
+    buildDocs(standardDocsConfig());
     done();
 });
 

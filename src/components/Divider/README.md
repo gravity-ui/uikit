@@ -194,4 +194,3 @@ import {Divider, Flex, Container} from '@gravity-ui/uikit';
 | :------------------ | :------------------------------------------------------------------------------- |
 | `--g-divider-color` | Divider color                                                                    |
 | `--g-divider-size`  | Divider size (height for horizontal orientation, width for vertical orientation) |
-

@@ -382,18 +382,18 @@ SANDBOX-->
 
 ### Accordion
 
-| Name          | Description                                        |              Type               |  Default  |
-| :------------ | :------------------------------------------------- | :-----------------------------: | :-------: |
-| size          | Accordion size                                     |       `"m"` `"l"` `"xl"`        |   `"m"`   |
-| view          | Accordion appearance                               |    `"solid"` `"top-bottom"`     | `"solid"` |
-| multiple      | Allow multiple items to be expanded simultaneously |            `boolean`            |  `false`  |
-| arrowPosition | Arrow indicator position                           |        `"start"` `"end"`        |  `"end"`  |
-| defaultValue  | Default value for uncontrolled state               |   `string` `string[]` `null`   |           |
-| value         | Current value for controlled state                 |   `string` `string[]` `null`   |           |
-| onUpdate      | Callback function called when state changes        |           `Function`            |           |
-| ariaLevel     | Heading level for accessibility                    |            `number`             |    `3`    |
-| className     | CSS class name                                     |            `string`             |           |
-| qa            | HTML `data-qa` attribute, used for testing         |            `string`             |           |
+| Name          | Description                                        |            Type            |  Default  |
+| :------------ | :------------------------------------------------- | :------------------------: | :-------: |
+| size          | Accordion size                                     |     `"m"` `"l"` `"xl"`     |   `"m"`   |
+| view          | Accordion appearance                               |  `"solid"` `"top-bottom"`  | `"solid"` |
+| multiple      | Allow multiple items to be expanded simultaneously |         `boolean`          |  `false`  |
+| arrowPosition | Arrow indicator position                           |     `"start"` `"end"`      |  `"end"`  |
+| defaultValue  | Default value for uncontrolled state               | `string` `string[]` `null` |           |
+| value         | Current value for controlled state                 | `string` `string[]` `null` |           |
+| onUpdate      | Callback function called when state changes        |         `Function`         |           |
+| ariaLevel     | Heading level for accessibility                    |          `number`          |    `3`    |
+| className     | CSS class name                                     |          `string`          |           |
+| qa            | HTML `data-qa` attribute, used for testing         |          `string`          |           |
 
 ### Accordion.Item
 

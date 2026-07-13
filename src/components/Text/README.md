@@ -4,6 +4,8 @@
 
 <!--/GITHUB_BLOCK-->
 
+The `Text` component applies typography styles such as font variant, color, and text overflow handling to its content.
+
 ```tsx
 import {Text} from '@gravity-ui/uikit';
 ```

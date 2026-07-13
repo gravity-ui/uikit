@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+The Skeleton component displays a placeholder preview of your content before the data gets loaded. This preview is shown in order to reduce the loading time frustration.
+
 ```tsx
 import {Skeleton} from '@gravity-ui/uikit';
 ```
-
-The Skeleton component displays a placeholder preview of your content before the data gets loaded. This preview is shown in order to reduce the loading time frustration.
 
 ## Animation
 

@@ -34,6 +34,7 @@ import {useForkRef} from '../../hooks';
 import {useFloatingTransition} from '../../hooks/private/useFloatingTransition';
 import {Portal} from '../Portal';
 import type {PortalProps} from '../Portal';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
@@ -152,49 +153,50 @@ export interface PopupProps
 
 const b = block('popup');
 
-function PopupComponent({
-    keepMounted = false,
-    hasArrow = false,
-    open = false,
-    onOpenChange,
-    strategy,
-    placement: placementProp,
-    offset: offsetProp = 4,
-    anchorElement,
-    anchorRef,
-    floatingMiddlewares,
-    floatingContext,
-    floatingInteractions,
-    floatingRef,
-    floatingStyles: floatingStylesProp,
-    floatingClassName,
-    modal = false,
-    initialFocus: initialFocusProp,
-    returnFocus = true,
-    focusOrder,
-    disableVisuallyHiddenDismiss = !modal,
-    onClose,
-    onEscapeKeyDown,
-    onOutsideClick,
-    disableEscapeKeyDown = false,
-    disableOutsideClick = false,
-    disableFocusOut = false,
-    style,
-    className,
-    children,
-    container,
-    disablePortal = false,
-    disableLayer = false,
-    disableTransition = false,
-    qa,
-    role: roleProp,
-    zIndex = 1000,
-    onTransitionIn,
-    onTransitionOut,
-    onTransitionInComplete,
-    onTransitionOutComplete,
-    ...restProps
-}: PopupProps) {
+function PopupComponent(rawProps: PopupProps) {
+    const {
+        keepMounted = false,
+        hasArrow = false,
+        open = false,
+        onOpenChange,
+        strategy,
+        placement: placementProp,
+        offset: offsetProp = 4,
+        anchorElement,
+        anchorRef,
+        floatingMiddlewares,
+        floatingContext,
+        floatingInteractions,
+        floatingRef,
+        floatingStyles: floatingStylesProp,
+        floatingClassName,
+        modal = false,
+        initialFocus: initialFocusProp,
+        returnFocus = true,
+        focusOrder,
+        disableVisuallyHiddenDismiss = !modal,
+        onClose,
+        onEscapeKeyDown,
+        onOutsideClick,
+        disableEscapeKeyDown = false,
+        disableOutsideClick = false,
+        disableFocusOut = false,
+        style,
+        className,
+        children,
+        container,
+        disablePortal = false,
+        disableLayer = false,
+        disableTransition = false,
+        qa,
+        role: roleProp,
+        zIndex = 1000,
+        onTransitionIn,
+        onTransitionOut,
+        onTransitionInComplete,
+        onTransitionOutComplete,
+        ...restProps
+    } = useDefaultProps('Popup', rawProps);
     useLayer({open, type: 'popup', enabled: !disableLayer});
 
     const contentRef = React.useRef<HTMLDivElement>(null);
@@ -347,7 +349,9 @@ function PopupComponent({
                                 ...floatingStylesProp,
                             }}
                             data-floating-ui-placement={finalPlacement}
-                            data-floating-ui-status={status}
+                            data-floating-ui-status={
+                                status === 'open' && !isPositioned ? 'initial' : status
+                            }
                             aria-modal={modal && isMounted ? true : undefined}
                             {...getFloatingProps()}
                         >

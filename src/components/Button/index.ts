@@ -3,6 +3,7 @@ export type {
     ButtonButtonProps,
     ButtonLinkProps,
     ButtonComponentProps,
+    ButtonCustomElementType,
     ButtonView,
     ButtonSize,
     ButtonPin,

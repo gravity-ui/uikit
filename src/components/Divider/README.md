@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+The `Divider` component is used as a thin line for delimiting and grouping elements to reinforce visual hierarchy.
+
 ```tsx
 import {Divider} from '@gravity-ui/uikit';
 ```
-
-The `Divider` component is used as a thin line for delimiting and grouping elements to reinforce visual hierarchy.
 
 ```tsx
 <Divider className="custom-divider" direction="horizontal" />
@@ -177,7 +177,7 @@ import {Divider, Flex, Container} from '@gravity-ui/uikit';
 
 <!--/GITHUB_BLOCK-->
 
-### Properties
+## Properties
 
 | Name        | Description                                | Type                    | Default      |
 | :---------- | :----------------------------------------- | :---------------------- | :----------- |

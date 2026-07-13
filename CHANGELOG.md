@@ -1,5 +1,53 @@
 # Changelog
 
+## [7.44.2](https://github.com/gravity-ui/uikit/compare/v7.44.1...v7.44.2) (2026-07-07)
+
+
+### Bug Fixes
+
+* **Alert:** fix actions block positioning in horizontal mode ([#2733](https://github.com/gravity-ui/uikit/issues/2733)) ([afa7133](https://github.com/gravity-ui/uikit/commit/afa713343e5672119bccebe40d351935ee3bdd94))
+
+## [7.44.1](https://github.com/gravity-ui/uikit/compare/v7.44.0...v7.44.1) (2026-07-07)
+
+
+### Bug Fixes
+
+* **Alert:** fix alert align styles ([#2730](https://github.com/gravity-ui/uikit/issues/2730)) ([1e414d3](https://github.com/gravity-ui/uikit/commit/1e414d35c3990282d720c09dfb8a2e4eb1818636))
+
+## [7.44.0](https://github.com/gravity-ui/uikit/compare/v7.43.0...v7.44.0) (2026-07-06)
+
+
+### Features
+
+* **Dialog:** introduce responsive size props ([#2721](https://github.com/gravity-ui/uikit/issues/2721)) ([2682904](https://github.com/gravity-ui/uikit/commit/2682904afb5ea96bc2066a5c412cd732f4e6d583))
+* **Progress:** add custom color to colorStop ([#2713](https://github.com/gravity-ui/uikit/issues/2713)) ([57f071b](https://github.com/gravity-ui/uikit/commit/57f071b73b56a547b8612ae992b24c3045fcb9df))
+
+
+### Bug Fixes
+
+* **Alert:** do not render message div when message is empty ([#2729](https://github.com/gravity-ui/uikit/issues/2729)) ([754551d](https://github.com/gravity-ui/uikit/commit/754551d4e51ec7e30fe3b22e0867fdc541c55ec7))
+* **CopyToClipboard:** correctly use fallback ([#2432](https://github.com/gravity-ui/uikit/issues/2432)) ([50b0612](https://github.com/gravity-ui/uikit/commit/50b0612f8b077dbe050fe71c7d0b0d706a50b697))
+* **Label:** type copy + onClick ([#2725](https://github.com/gravity-ui/uikit/issues/2725)) ([0fa2b24](https://github.com/gravity-ui/uikit/commit/0fa2b248b4bbcea74fa2c73a0d233bfbc087911b))
+* **NumberInput:** fix NumericArrows generic type ([#2728](https://github.com/gravity-ui/uikit/issues/2728)) ([02894f7](https://github.com/gravity-ui/uikit/commit/02894f7fa851530d498776cb22b68ea2235a50dc))
+* **Popup:** keep status as 'initial' until positioned to avoid open flash ([#2714](https://github.com/gravity-ui/uikit/issues/2714)) ([0974f1f](https://github.com/gravity-ui/uikit/commit/0974f1f9d37ca3e6f74daa0cae503596493f3246))
+
+## [7.43.0](https://github.com/gravity-ui/uikit/compare/v7.42.0...v7.43.0) (2026-06-24)
+
+
+### Features
+
+* **Alert:** add size props; add css-api; refactor component ([#2146](https://github.com/gravity-ui/uikit/issues/2146)) ([65e2728](https://github.com/gravity-ui/uikit/commit/65e2728a609470040d9e768ecd7526e1064feacc))
+* default props provider ([#2708](https://github.com/gravity-ui/uikit/issues/2708)) ([f1f1a6a](https://github.com/gravity-ui/uikit/commit/f1f1a6a6405f99c179421efa132a6771c135da22))
+* enrich Popover and Tooltip API ([#2635](https://github.com/gravity-ui/uikit/issues/2635)) ([9fde213](https://github.com/gravity-ui/uikit/commit/9fde213b29a1f9bb2e62b939de8c6c36ab59923b))
+* **Skeleton:** adjustable skeleton ([#2684](https://github.com/gravity-ui/uikit/issues/2684)) ([8744e45](https://github.com/gravity-ui/uikit/commit/8744e458179076166e5306b6b6cd788423c5a9b7))
+
+
+### Bug Fixes
+
+* **Button:** do not forward service component prop to the rendered element ([#2703](https://github.com/gravity-ui/uikit/issues/2703)) ([8a1c31e](https://github.com/gravity-ui/uikit/commit/8a1c31e72f51c403739fb4d2f9c3bfce3276940a))
+* **Select:** replace legacy `Popover` with new one ([#2711](https://github.com/gravity-ui/uikit/issues/2711)) ([99236f2](https://github.com/gravity-ui/uikit/commit/99236f28bbd64969ab0577b68e1451463abe21ae))
+* **TextInput:** replace legacy `Popover` with new one ([#2710](https://github.com/gravity-ui/uikit/issues/2710)) ([2f2fcf9](https://github.com/gravity-ui/uikit/commit/2f2fcf9199ebff94e90efc38be7907a4914e80c1))
+
 ## [7.42.0](https://github.com/gravity-ui/uikit/compare/v7.41.0...v7.42.0) (2026-06-10)
 
 

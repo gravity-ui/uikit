@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+The Accordion component allows you to create collapsible content panels where users can show or hide sections of information. This is useful for organizing large amounts of content in a compact way.
+
 ```tsx
 import {Accordion} from '@gravity-ui/uikit';
 ```
-
-The Accordion component allows you to create collapsible content panels where users can show or hide sections of information. This is useful for organizing large amounts of content in a compact way.
 
 <!--GITHUB_BLOCK-->
 

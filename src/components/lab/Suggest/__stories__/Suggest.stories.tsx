@@ -7,7 +7,7 @@ import {Label} from '../../../Label';
 import {Text} from '../../../Text';
 import {Flex} from '../../../layout';
 import {Suggest} from '../Suggest';
-import type {SuggestProps} from '../types';
+import type {SuggestOption, SuggestProps} from '../types';
 
 const meta: Meta<typeof Suggest> = {
     title: 'Lab/Suggest',
@@ -25,39 +25,43 @@ type Story = StoryObj<typeof Suggest>;
 
 // ─── Shared data ─────────────────────────────────────────────────────────────
 
-type Planet = {value: string; content: string; description?: string};
+type PlanetData = {description: string};
+type PlanetOption = SuggestOption<PlanetData>;
 
-const ALL_PLANETS: Planet[] = [
-    {value: 'earth', content: 'Earth', description: 'Our home planet'},
-    {value: 'europa', content: 'Europa', description: 'Icy moon of Jupiter'},
-    {value: 'jupiter', content: 'Jupiter', description: 'Largest planet in the Solar System'},
-    {value: 'mars', content: 'Mars', description: 'The red planet'},
-    {value: 'mercury', content: 'Mercury', description: 'Closest planet to the Sun'},
-    {value: 'moon', content: 'Moon', description: "Earth's natural satellite"},
-    {value: 'neptune', content: 'Neptune', description: 'Farthest known planet'},
-    {value: 'pluto', content: 'Pluto', description: 'Dwarf planet in the Kuiper belt'},
-    {value: 'saturn', content: 'Saturn', description: 'Famous for its ring system'},
-    {value: 'sun', content: 'Sun', description: 'G-type main-sequence star'},
-    {value: 'uranus', content: 'Uranus', description: 'Ice giant with tilted axis'},
-    {value: 'venus', content: 'Venus', description: 'Hottest planet in the Solar System'},
+const ALL_PLANETS: PlanetOption[] = [
+    {value: 'Earth', content: 'Earth', data: {description: 'Our home planet'}},
+    {value: 'Europa', content: 'Europa', data: {description: 'Icy moon of Jupiter'}},
+    {
+        value: 'Jupiter',
+        content: 'Jupiter',
+        data: {description: 'Largest planet in the Solar System'},
+    },
+    {value: 'Mars', content: 'Mars', data: {description: 'The red planet'}},
+    {value: 'Mercury', content: 'Mercury', data: {description: 'Closest planet to the Sun'}},
+    {value: 'Moon', content: 'Moon', data: {description: "Earth's natural satellite"}},
+    {value: 'Neptune', content: 'Neptune', data: {description: 'Farthest known planet'}},
+    {value: 'Pluto', content: 'Pluto', data: {description: 'Dwarf planet in the Kuiper belt'}},
+    {value: 'Saturn', content: 'Saturn', data: {description: 'Famous for its ring system'}},
+    {value: 'Sun', content: 'Sun', data: {description: 'G-type main-sequence star'}},
+    {value: 'Uranus', content: 'Uranus', data: {description: 'Ice giant with tilted axis'}},
+    {value: 'Venus', content: 'Venus', data: {description: 'Hottest planet in the Solar System'}},
 ];
 
-function filterPlanets(query: string): Planet[] {
+function filterPlanets(query: string): PlanetOption[] {
     const q = query.trim().toLowerCase();
     if (!q) return ALL_PLANETS;
-    return ALL_PLANETS.filter(
-        (p) =>
-            p.content.toLowerCase().includes(q) ||
-            p.value.toLowerCase().includes(q) ||
-            p.description?.toLowerCase().includes(q),
+    return ALL_PLANETS.filter((p) =>
+        `${p.value} ${p.data?.description ?? ''}`.toLowerCase().includes(q),
     );
 }
 
-function renderPlanet(item: Planet) {
+function renderPlanet(option: PlanetOption) {
     return (
         <Flex direction="column" gap={0.5} spacing={{p: 1}}>
-            <Text>{item.content}</Text>
-            {item.description ? <Text color="secondary">{item.description}</Text> : null}
+            <Text>{option.content}</Text>
+            {option.data?.description ? (
+                <Text color="secondary">{option.data.description}</Text>
+            ) : null}
         </Flex>
     );
 }
@@ -70,12 +74,12 @@ export const Default: Story = {
         const items = React.useMemo(() => filterPlanets(value), [value]);
 
         return (
-            <Suggest<Planet>
+            <Suggest<PlanetData>
                 value={value}
                 onUpdate={setValue}
                 options={items}
-                onOptionClick={(item) => {
-                    setValue(item.content);
+                onOptionClick={(option) => {
+                    setValue(option.value);
                     return false;
                 }}
                 renderOption={renderPlanet}
@@ -85,6 +89,8 @@ export const Default: Story = {
     },
 };
 
+// Relies on the default option renderer (no `renderOption`) — the option's
+// `content` is rendered automatically.
 export const Sizes: Story = {
     render: () => {
         const sizes = ['s', 'm', 'l', 'xl'] as const;
@@ -106,15 +112,14 @@ function SizeExample({size}: {size: 's' | 'm' | 'l' | 'xl'}) {
     return (
         <Flex gap={2} alignItems="center">
             <Text style={{width: 60}}>{`Size: ${size}`}</Text>
-            <Suggest<Planet>
+            <Suggest<PlanetData>
                 value={value}
                 onUpdate={setValue}
                 options={items}
-                onOptionClick={(item) => {
-                    setValue(item.content);
+                onOptionClick={(option) => {
+                    setValue(option.value);
                     return false;
                 }}
-                renderOption={(item) => <div>{item.content}</div>}
                 inputProps={{size, placeholder: 'Search…'}}
             />
         </Flex>
@@ -140,22 +145,21 @@ function PopupWidthExample({
     popupWidth,
     placeholder,
 }: {
-    popupWidth: SuggestProps<Planet>['popupWidth'];
+    popupWidth: SuggestProps<PlanetData>['popupWidth'];
     placeholder: string;
 }) {
     const [value, setValue] = React.useState('');
     const items = React.useMemo(() => filterPlanets(value), [value]);
 
     return (
-        <Suggest<Planet>
+        <Suggest<PlanetData>
             value={value}
             onUpdate={setValue}
             options={items}
-            onOptionClick={(item) => {
-                setValue(item.content);
+            onOptionClick={(option) => {
+                setValue(option.value);
                 return false;
             }}
-            renderOption={(item) => <div>{item.content}</div>}
             popupWidth={popupWidth}
             inputProps={{placeholder}}
         />
@@ -164,7 +168,7 @@ function PopupWidthExample({
 
 export const Disabled: Story = {
     render: () => (
-        <Suggest<Planet>
+        <Suggest<PlanetData>
             value="Earth"
             options={[]}
             inputProps={{disabled: true, placeholder: 'Disabled…'}}
@@ -178,15 +182,14 @@ export const WithClearButton: Story = {
         const items = React.useMemo(() => filterPlanets(value), [value]);
 
         return (
-            <Suggest<Planet>
+            <Suggest<PlanetData>
                 value={value}
                 onUpdate={setValue}
                 options={items}
-                onOptionClick={(item) => {
-                    setValue(item.content);
+                onOptionClick={(option) => {
+                    setValue(option.value);
                     return false;
                 }}
-                renderOption={(item) => <div>{item.content}</div>}
                 inputProps={{hasClear: true, placeholder: 'Search…'}}
             />
         );
@@ -197,7 +200,7 @@ export const WithLoading: Story = {
     render: () => {
         const [value, setValue] = React.useState('');
         const [loading, setLoading] = React.useState(false);
-        const [items, setItems] = React.useState<Planet[]>([]);
+        const [items, setItems] = React.useState<PlanetOption[]>([]);
         const timerRef = React.useRef<ReturnType<typeof setTimeout>>();
 
         const handleUpdate = React.useCallback((newValue: string) => {
@@ -218,13 +221,13 @@ export const WithLoading: Story = {
                 <Text color="secondary">
                     Simulates async loading — results appear after 800 ms.
                 </Text>
-                <Suggest<Planet>
+                <Suggest<PlanetData>
                     value={value}
                     onUpdate={handleUpdate}
                     options={items}
                     loading={loading}
-                    onOptionClick={(item) => {
-                        setValue(item.content);
+                    onOptionClick={(option) => {
+                        setValue(option.value);
                         return false;
                     }}
                     renderOption={renderPlanet}
@@ -241,15 +244,14 @@ export const CustomPopupContent: Story = {
         const items = React.useMemo(() => filterPlanets(value), [value]);
 
         return (
-            <Suggest<Planet>
+            <Suggest<PlanetData>
                 value={value}
                 onUpdate={setValue}
                 options={items}
-                onOptionClick={(item) => {
-                    setValue(item.content);
+                onOptionClick={(option) => {
+                    setValue(option.value);
                     return false;
                 }}
-                renderOption={(item) => <div>{item.content}</div>}
                 renderPopup={({list}) => (
                     <Flex direction="column" gap={1} spacing={{p: 1}}>
                         <Text as="div" variant="subheader-2">
@@ -277,7 +279,7 @@ export const MultiSelect: Story = {
     render: () => {
         const [value, setValue] = React.useState('');
         const [open, setOpen] = React.useState(false);
-        const [selected, setSelected] = React.useState<Planet[]>([]);
+        const [selected, setSelected] = React.useState<PlanetOption[]>([]);
         const items = React.useMemo(() => filterPlanets(value), [value]);
 
         const selectedValues = React.useMemo(
@@ -290,25 +292,25 @@ export const MultiSelect: Story = {
             setOpen(true);
         }, []);
 
-        const handleOptionClick = React.useCallback((item: Planet) => {
+        const handleOptionClick = React.useCallback((option: PlanetOption) => {
             setSelected((prev) => {
-                const next = prev.filter((p) => p.value !== item.value);
-                return next.length === prev.length ? [...prev, item] : next;
+                const next = prev.filter((p) => p.value !== option.value);
+                return next.length === prev.length ? [...prev, option] : next;
             });
             return true; // ← keep popup open for multi-select
         }, []);
 
         const renderSelectableItem = React.useCallback(
-            (item: Planet) => (
+            (option: PlanetOption) => (
                 <Flex alignItems="center" gap={2} spacing={{p: 1}}>
                     <Checkbox
-                        checked={selectedValues.has(item.value)}
+                        checked={selectedValues.has(option.value)}
                         style={{pointerEvents: 'none'}}
                     />
                     <Flex direction="column" gap={0.5}>
-                        <Text>{item.content}</Text>
-                        {item.description ? (
-                            <Text color="secondary">{item.description}</Text>
+                        <Text>{option.content}</Text>
+                        {option.data?.description ? (
+                            <Text color="secondary">{option.data.description}</Text>
                         ) : null}
                     </Flex>
                 </Flex>
@@ -316,8 +318,8 @@ export const MultiSelect: Story = {
             [selectedValues],
         );
 
-        const handleRemove = React.useCallback((planet: Planet) => {
-            setSelected((prev) => prev.filter((p) => p.value !== planet.value));
+        const handleRemove = React.useCallback((option: PlanetOption) => {
+            setSelected((prev) => prev.filter((p) => p.value !== option.value));
         }, []);
 
         return (
@@ -334,7 +336,7 @@ export const MultiSelect: Story = {
                     </Text>
                     ). Open state is controlled, so focusing the empty input browses all options.
                 </Text>
-                <Suggest<Planet>
+                <Suggest<PlanetData>
                     value={value}
                     onUpdate={handleUpdate}
                     open={open}
@@ -349,13 +351,13 @@ export const MultiSelect: Story = {
                 />
                 {selected.length > 0 && (
                     <Flex gap={1} wrap="wrap">
-                        {selected.map((planet) => (
+                        {selected.map((option) => (
                             <Label
-                                key={planet.value}
+                                key={option.value}
                                 type="close"
-                                onCloseClick={() => handleRemove(planet)}
+                                onCloseClick={() => handleRemove(option)}
                             >
-                                {planet.content}
+                                {option.content}
                             </Label>
                         ))}
                     </Flex>

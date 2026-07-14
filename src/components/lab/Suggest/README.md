@@ -14,37 +14,36 @@ import {unstable_Suggest as Suggest} from '@gravity-ui/uikit/unstable';
 
 ## Basic usage
 
-Pass `options` (sync array) and update them in `onUpdate`:
+Each option follows a `Select`-like shape — `value`, `content` (rendered by default), optional `disabled`, and an optional generic `data` payload. Pass `options` (sync array) and update them in `onUpdate`:
 
 <!--GITHUB_BLOCK-->
 
 ```tsx
-type Planet = {value: string; content: string};
-
-const ALL_PLANETS: Planet[] = [
+const ALL_PLANETS = [
   {value: 'earth', content: 'Earth'},
   {value: 'europa', content: 'Europa'},
   {value: 'jupiter', content: 'Jupiter'},
 ];
 
 const [value, setValue] = React.useState('');
-const items = React.useMemo(
-  () => ALL_PLANETS.filter((p) => p.content.toLowerCase().includes(value.toLowerCase())),
+const options = React.useMemo(
+  () => ALL_PLANETS.filter((o) => o.value.toLowerCase().includes(value.toLowerCase())),
   [value],
 );
 
-<Suggest<Planet>
+<Suggest
   value={value}
   onUpdate={setValue}
-  options={items}
-  onOptionClick={(item) => {
-    setValue(item.content);
+  options={options}
+  onOptionClick={(option) => {
+    setValue(option.value);
     return false; // close popup after selection
   }}
-  renderOption={(item) => <div>{item.content}</div>}
   inputProps={{placeholder: 'Search…'}}
 />;
 ```
+
+By default an option's `content` is rendered; pass `renderOption` to customize the row.
 
 <!--/GITHUB_BLOCK-->
 
@@ -56,7 +55,7 @@ Use a local `loading` flag together with `options`. A spinner is shown automatic
 
 ```tsx
 const [value, setValue] = React.useState('');
-const [items, setItems] = React.useState<Planet[]>([]);
+const [options, setOptions] = React.useState([]);
 const [loading, setLoading] = React.useState(false);
 
 const handleUpdate = async (query: string) => {
@@ -64,22 +63,21 @@ const handleUpdate = async (query: string) => {
   setLoading(true);
   try {
     const results = await fetchPlanets(query);
-    setItems(results);
+    setOptions(results);
   } finally {
     setLoading(false);
   }
 };
 
-<Suggest<Planet>
+<Suggest
   value={value}
   onUpdate={handleUpdate}
-  options={items}
+  options={options}
   loading={loading}
-  onOptionClick={(item) => {
-    setValue(item.content);
+  onOptionClick={(option) => {
+    setValue(option.value);
     return false;
   }}
-  renderOption={(item) => <div>{item.content}</div>}
   inputProps={{placeholder: 'Search…'}}
 />;
 ```
@@ -190,15 +188,15 @@ Use `renderPopup` to wrap the list, add a header/footer, or render an empty stat
 
 ### Options
 
-| Name              | Type                                                 | Default | Description                                                               |
-| :---------------- | :--------------------------------------------------- | :------ | :------------------------------------------------------------------------ |
-| `options`         | `ListItemData<T>[]`                                  |         | Options to display in the popup                                           |
-| `onOptionClick`   | `(option: T, index?: number) => boolean \| void`     |         | Called when an option is selected. Return `true` to keep popup open       |
-| `renderOption`    | `(option: ListItemData<T>) => ReactNode`             |         | Custom option renderer                                                    |
-| `virtualized`     | `boolean`                                            | `false` | Enable virtualization for long lists                                      |
-| `listHeight`      | `number`                                             | `300`   | Height (px) of the scrollable list viewport when `virtualized` is enabled |
-| `getOptionHeight` | `(option: ListItemData<T>, index: number) => number` |         | Row height function (enables variable-height rows)                        |
-| `onLoadMore`      | `() => void`                                         |         | Called when the user scrolls to the bottom (pagination)                   |
+| Name              | Type                                                            | Default | Description                                                               |
+| :---------------- | :-------------------------------------------------------------- | :------ | :------------------------------------------------------------------------ |
+| `options`         | `SuggestOption<T>[]`                                            |         | Options to display (`value`, `content`, `disabled`, `data?`)              |
+| `onOptionClick`   | `(option: SuggestOption<T>, index?: number) => boolean \| void` |         | Called when an option is selected. Return `true` to keep popup open       |
+| `renderOption`    | `(option: SuggestOption<T>) => ReactNode`                       |         | Custom option renderer (defaults to rendering `content`)                  |
+| `virtualized`     | `boolean`                                                       | `false` | Enable virtualization for long lists                                      |
+| `listHeight`      | `number`                                                        | `300`   | Height (px) of the scrollable list viewport when `virtualized` is enabled |
+| `getOptionHeight` | `(option: SuggestOption<T>, index: number) => number`           |         | Row height function (enables variable-height rows)                        |
+| `onLoadMore`      | `() => void`                                                    |         | Called when the user scrolls to the bottom (pagination)                   |
 
 ### Input customization
 

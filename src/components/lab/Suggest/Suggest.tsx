@@ -10,11 +10,15 @@ import {Popup} from '../../Popup';
 import {TextInput} from '../../controls';
 import {block} from '../../utils/cn';
 
-import type {SuggestProps} from './types';
+import type {SuggestOption, SuggestProps} from './types';
 
 import './Suggest.scss';
 
 const b = block('suggest');
+
+function defaultRenderOption(option: SuggestOption): React.ReactNode {
+    return option.content ?? option.children ?? null;
+}
 
 type SuggestComponent = <T>(
     props: SuggestProps<T> & {ref?: React.Ref<HTMLSpanElement>},
@@ -58,7 +62,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
 ) {
     const [anchorElement, setAnchorElement] = React.useState<HTMLDivElement | null>(null);
     const [fitWidth, setFitWidth] = React.useState<number>();
-    const listRef = React.useRef<List<T>>(null);
+    const listRef = React.useRef<List<SuggestOption<T>>>(null);
 
     const autoId = useUniqId();
     const componentId = idProp || autoId;
@@ -181,7 +185,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     );
 
     const handleOptionClick = React.useCallback(
-        (option: T, index?: number) => {
+        (option: SuggestOption<T>, index?: number) => {
             const keepOpen = Boolean(onOptionClick?.(option, index));
             setOpen(keepOpen);
         },
@@ -208,13 +212,13 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 className={b('list')}
                 style={virtualizedHeight ? {height: virtualizedHeight} : undefined}
             >
-                <List<T>
+                <List<SuggestOption<T>>
                     ref={listRef}
                     id={listId}
                     role="listbox"
                     filterable={false}
                     items={options}
-                    renderItem={renderOption}
+                    renderItem={renderOption ?? defaultRenderOption}
                     virtualized={virtualized}
                     itemHeight={getOptionHeight}
                     itemsHeight={virtualizedHeight}

@@ -3,6 +3,9 @@
 .history
 .DS_Store
 *.log
+.env
+.env.*
+!.env.example
 
 node_modules
 

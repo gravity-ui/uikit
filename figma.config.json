@@ -1,0 +1,9 @@
+{
+    "codeConnect": {
+        "include": ["src/components/**/*.tsx"],
+        "parser": "react",
+        "label": "React",
+        "language": "tsx",
+        "defaultBranch": "main"
+    }
+}

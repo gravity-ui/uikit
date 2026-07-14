@@ -1,0 +1,10 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "allowJs": false,
+        "noEmit": true,
+        "types": ["node", "react"]
+    },
+    "include": ["src/components/**/*.figma.tsx"],
+    "exclude": []
+}

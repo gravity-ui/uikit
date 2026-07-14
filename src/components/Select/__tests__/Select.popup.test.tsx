@@ -47,7 +47,7 @@ describe('Select popup', () => {
         ['m', {mobile: false, size: 'm', height: 28}],
         ['l', {mobile: false, size: 'l', height: 32}],
         ['xl', {mobile: false, size: 'xl', height: 36}],
-        ['mobile', {mobile: true, size: undefined, height: 32}],
+        ['mobile', {mobile: true, size: undefined, height: 48}],
     ])(
         'should return correct height for option depends on size (%s)',
         async (_type, {size, height, mobile}) => {
@@ -75,7 +75,7 @@ describe('Select popup', () => {
         ['m', {mobile: false, size: 'm', height: 28}],
         ['l', {mobile: false, size: 'l', height: 32}],
         ['xl', {mobile: false, size: 'xl', height: 36}],
-        ['mobile', {mobile: true, size: undefined, height: 32}],
+        ['mobile', {mobile: true, size: undefined, height: 48}],
     ])(
         'should return correct height for option group depends on size (%s)',
         async (_type, {size, height, mobile}) => {

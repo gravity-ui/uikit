@@ -51,9 +51,10 @@ const SelectWithCustomPopup = ({
             onUpdate={setTempValue}
             onOpenChange={onOpenChange}
             open={open}
-            renderPopup={({renderList, renderFilter}) => {
+            renderPopup={({renderList, renderFilter, renderLabel}) => {
                 return (
                     <React.Fragment>
+                        {renderLabel()}
                         {renderFilter()}
                         {renderList()}
                         <div

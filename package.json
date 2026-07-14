@@ -153,7 +153,7 @@
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@faker-js/faker": "^9.8.0",
-    "@figma/code-connect": "^1.4.8",
+    "@figma/code-connect": "^1.4.9",
     "@gravity-ui/eslint-config": "^4.2.0",
     "@gravity-ui/gulp-utils": "^1.1.0",
     "@gravity-ui/playwright-tools": "^2.0.0",

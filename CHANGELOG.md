@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.45.1](https://github.com/gravity-ui/uikit/compare/v7.45.0...v7.45.1) (2026-07-14)
+
+
+### Bug Fixes
+
+* **ColorPicker:** set a tabIndex so that Safari allows focusing buttons ([#2746](https://github.com/gravity-ui/uikit/issues/2746)) ([5dd821f](https://github.com/gravity-ui/uikit/commit/5dd821f6a88b9f13424417c218d45323c471ca4f))
+
 ## [7.45.0](https://github.com/gravity-ui/uikit/compare/v7.44.2...v7.45.0) (2026-07-13)
 
 

@@ -14,37 +14,36 @@ import {unstable_Suggest as Suggest} from '@gravity-ui/uikit/unstable';
 
 ## Базовое использование
 
-Передайте `options` (синхронный массив) и обновляйте его в `onUpdate`:
+Опция повторяет форму как в `Select` — `value`, `content` (рендерится по умолчанию), опциональный `disabled` и опциональный дженерик-пейлоад `data`. Передайте `options` (синхронный массив) и обновляйте его в `onUpdate`:
 
 <!--GITHUB_BLOCK-->
 
 ```tsx
-type Planet = {value: string; content: string};
-
-const ALL_PLANETS: Planet[] = [
+const ALL_PLANETS = [
   {value: 'earth', content: 'Земля'},
   {value: 'europa', content: 'Европа'},
   {value: 'jupiter', content: 'Юпитер'},
 ];
 
 const [value, setValue] = React.useState('');
-const items = React.useMemo(
-  () => ALL_PLANETS.filter((p) => p.content.toLowerCase().includes(value.toLowerCase())),
+const options = React.useMemo(
+  () => ALL_PLANETS.filter((o) => o.value.toLowerCase().includes(value.toLowerCase())),
   [value],
 );
 
-<Suggest<Planet>
+<Suggest
   value={value}
   onUpdate={setValue}
-  options={items}
-  onOptionClick={(item) => {
-    setValue(item.content);
+  options={options}
+  onOptionClick={(option) => {
+    setValue(option.value);
     return false; // закрыть попап после выбора
   }}
-  renderOption={(item) => <div>{item.content}</div>}
   inputProps={{placeholder: 'Поиск…'}}
 />;
 ```
+
+По умолчанию рендерится `content` опции; для кастомизации строки передайте `renderOption`.
 
 <!--/GITHUB_BLOCK-->
 
@@ -56,7 +55,7 @@ const items = React.useMemo(
 
 ```tsx
 const [value, setValue] = React.useState('');
-const [items, setItems] = React.useState<Planet[]>([]);
+const [options, setOptions] = React.useState([]);
 const [loading, setLoading] = React.useState(false);
 
 const handleUpdate = async (query: string) => {
@@ -64,22 +63,21 @@ const handleUpdate = async (query: string) => {
   setLoading(true);
   try {
     const results = await fetchPlanets(query);
-    setItems(results);
+    setOptions(results);
   } finally {
     setLoading(false);
   }
 };
 
-<Suggest<Planet>
+<Suggest
   value={value}
   onUpdate={handleUpdate}
-  options={items}
+  options={options}
   loading={loading}
-  onOptionClick={(item) => {
-    setValue(item.content);
+  onOptionClick={(option) => {
+    setValue(option.value);
     return false;
   }}
-  renderOption={(item) => <div>{item.content}</div>}
   inputProps={{placeholder: 'Поиск…'}}
 />;
 ```
@@ -190,15 +188,15 @@ const [open, setOpen] = React.useState(false);
 
 ### Опции
 
-| Название          | Тип                                                  | По умолчанию | Описание                                                                   |
-| :---------------- | :--------------------------------------------------- | :----------- | :------------------------------------------------------------------------- |
-| `options`         | `ListItemData<T>[]`                                  |              | Варианты для отображения в попапе                                          |
-| `onOptionClick`   | `(option: T, index?: number) => boolean \| void`     |              | Вызывается при выборе опции. Верните `true`, чтобы оставить попап открытым |
-| `renderOption`    | `(option: ListItemData<T>) => ReactNode`             |              | Кастомный рендерер опции                                                   |
-| `virtualized`     | `boolean`                                            | `false`      | Включить виртуализацию для длинных списков                                 |
-| `listHeight`      | `number`                                             | `300`        | Высота (px) области прокрутки списка при включённой виртуализации          |
-| `getOptionHeight` | `(option: ListItemData<T>, index: number) => number` |              | Высота строки (для переменных высот)                                       |
-| `onLoadMore`      | `() => void`                                         |              | Вызывается при прокрутке до конца списка (пагинация)                       |
+| Название          | Тип                                                             | По умолчанию | Описание                                                                   |
+| :---------------- | :-------------------------------------------------------------- | :----------- | :------------------------------------------------------------------------- |
+| `options`         | `SuggestOption<T>[]`                                            |              | Варианты (`value`, `content`, `disabled`, `data?`)                         |
+| `onOptionClick`   | `(option: SuggestOption<T>, index?: number) => boolean \| void` |              | Вызывается при выборе опции. Верните `true`, чтобы оставить попап открытым |
+| `renderOption`    | `(option: SuggestOption<T>) => ReactNode`                       |              | Кастомный рендерер опции (по умолчанию рендерится `content`)               |
+| `virtualized`     | `boolean`                                                       | `false`      | Включить виртуализацию для длинных списков                                 |
+| `listHeight`      | `number`                                                        | `300`        | Высота (px) области прокрутки списка при включённой виртуализации          |
+| `getOptionHeight` | `(option: SuggestOption<T>, index: number) => number`           |              | Высота строки (для переменных высот)                                       |
+| `onLoadMore`      | `() => void`                                                    |              | Вызывается при прокрутке до конца списка (пагинация)                       |
 
 ### Кастомизация Input
 

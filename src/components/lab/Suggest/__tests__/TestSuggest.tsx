@@ -1,18 +1,16 @@
 import * as React from 'react';
 
 import {Suggest} from '../Suggest';
-import type {SuggestProps} from '../types';
+import type {SuggestOption, SuggestProps} from '../types';
 
-type Planet = {value: string; content: string; disabled?: boolean};
-
-export const ITEMS: Planet[] = [
+export const ITEMS: SuggestOption[] = [
     {value: 'earth', content: 'Earth'},
     {value: 'europa', content: 'Europa'},
     {value: 'jupiter', content: 'Jupiter'},
 ];
 
-export type TestSuggestProps = Omit<SuggestProps<Planet>, 'options'> & {
-    options?: SuggestProps<Planet>['options'];
+export type TestSuggestProps = Omit<SuggestProps, 'options'> & {
+    options?: SuggestProps['options'];
 };
 
 export function TestSuggest({options = ITEMS, ...props}: TestSuggestProps) {
@@ -20,13 +18,7 @@ export function TestSuggest({options = ITEMS, ...props}: TestSuggestProps) {
 
     return (
         <div style={{width: 512, padding: 16}}>
-            <Suggest<Planet>
-                value={value}
-                onUpdate={setValue}
-                options={options}
-                renderOption={(item) => <div>{item.content}</div>}
-                {...props}
-            />
+            <Suggest value={value} onUpdate={setValue} options={options} {...props} />
         </div>
     );
 }

@@ -2,10 +2,13 @@ import type * as React from 'react';
 
 import type {OpenChangeReason} from '@floating-ui/react';
 
-import type {ListItemData, ListProps} from '../../List';
+import type {ListProps} from '../../List';
 import type {PopupProps} from '../../Popup';
 import type {TextInputProps} from '../../controls';
-import type {QAProps} from '../../types';
+import type {ControlGroupOption, QAProps} from '../../types';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type SuggestOption<T = any> = QAProps & ControlGroupOption & {data?: T};
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface SuggestProps<T = any> extends QAProps {
@@ -17,14 +20,16 @@ export interface SuggestProps<T = any> extends QAProps {
     onUpdate?: (value: string) => void;
 
     /** List of options to display */
-    options?: ListItemData<T>[];
+    options?: SuggestOption<T>[];
     /**
      * Callback when an option is clicked or selected via keyboard.
      * Return `true` to keep the popup open after selection.
      */
-    onOptionClick?: (option: T, index?: number) => boolean | void;
-    /** Custom option renderer */
-    renderOption?: ListProps<T>['renderItem'];
+    onOptionClick?: (option: SuggestOption<T>, index?: number) => boolean | void;
+    /**
+     * Custom option renderer.
+     */
+    renderOption?: ListProps<SuggestOption<T>>['renderItem'];
     /** Enable virtualization for long lists */
     virtualized?: boolean;
     /**
@@ -33,7 +38,7 @@ export interface SuggestProps<T = any> extends QAProps {
      */
     listHeight?: number;
     /** Returns height for each option row (enables variable-height rows) */
-    getOptionHeight?: (option: ListItemData<T>, index: number) => number;
+    getOptionHeight?: (option: SuggestOption<T>, index: number) => number;
     /** Called when the user scrolls to the bottom of the list (for pagination) */
     onLoadMore?: () => void;
 

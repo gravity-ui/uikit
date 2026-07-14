@@ -49,7 +49,6 @@ export const Alert = (rawProps: AlertProps) => {
     const commonProps = {
         style,
         className: bAlert({corners, size, align: align}, className),
-        ...(theme === 'clear' ? {'data-qa': qa} : {qa}),
     };
 
     const {t} = i18n.useTranslation();
@@ -110,9 +109,11 @@ export const Alert = (rawProps: AlertProps) => {
     return (
         <AlertContextProvider layout={layout} view={view} size={size} actionsLayout={actionsLayout}>
             {theme === 'clear' ? (
-                <div {...commonProps}>{content}</div>
+                <div {...commonProps} data-qa={qa}>
+                    {content}
+                </div>
             ) : (
-                <Card {...commonProps} theme={theme} view={view}>
+                <Card {...commonProps} qa={qa} theme={theme} view={view}>
                     {content}
                 </Card>
             )}

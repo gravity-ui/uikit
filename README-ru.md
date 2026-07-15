@@ -21,8 +21,6 @@ UIKit — базовый пакет дизайн-системы [Gravity UI](htt
 - **70+ компонентов** — поля ввода, оверлеи, отображение данных, layout-примитивы, обратная связь и многое другое
 - **Встроенная темизация** — светлая, тёмная и высококонтрастные темы, плюс интерактивный инструмент [Themer](https://gravity-ui.com/themer) для настройки токенов
 - **Поддержка RTL** — полноценная раскладка справа налево
-- **Готовность к SSR** — без «мигания» темы при первом рендере
-- **React 16–19** — широкая совместимость версий
 
 Полный каталог компонентов — в [Storybook](https://preview.gravity-ui.com/uikit/) и в [документации](https://gravity-ui.com/components/uikit/alert).
 
@@ -64,51 +62,13 @@ import '@gravity-ui/uikit/styles/styles.css';
 
 Также доступен SCSS-файл с полезными [миксинами](styles/mixins.scss) для использования в ваших собственных стилях.
 
-### Темизация
+### Руководства
 
-Оберните приложение в `ThemeProvider`, чтобы включить темизацию. Поддерживаемые темы: `light`, `dark`, `light-contrast`, `dark-contrast`.
+Подробнее:
 
-```jsx
-import {createRoot} from 'react-dom/client';
-import {ThemeProvider} from '@gravity-ui/uikit';
-
-const root = createRoot(document.getElementById('root'));
-root.render(
-  <ThemeProvider theme="light">
-    <App />
-  </ThemeProvider>,
-);
-```
-
-### Серверный рендеринг (SSR)
-
-Чтобы избежать «мигания» темы при первой загрузке страницы, сгенерируйте корневой CSS-класс на этапе SSR:
-
-```js
-import {getRootClassName} from '@gravity-ui/uikit/server';
-
-const theme = 'dark';
-const rootClassName = getRootClassName({theme});
-
-const html = `
-<html>
-  <body>
-    <div id="root" class="${rootClassName}"></div>
-  </body>
-</html>
-`;
-```
-
-### Интернационализация (I18N)
-
-Некоторые компоненты содержат встроенные текстовые токены. Язык по умолчанию — английский (`en`); также поддерживается русский (`ru`). Задайте язык один раз при старте приложения:
-
-```js
-// index.js
-import {configure} from '@gravity-ui/uikit';
-
-configure({lang: 'ru'});
-```
+- [Темизация](docs/theming-ru.md) — светлая, тёмная и высококонтрастные темы
+- [Серверный рендеринг (SSR)](docs/server-side-rendering-ru.md) — генерация корневого CSS-класса на сервере
+- [Интернационализация (I18N)](docs/i18n-ru.md) — язык встроенных текстов компонентов
 
 ## Разработка
 

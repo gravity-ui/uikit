@@ -21,8 +21,6 @@ Key features:
 - **70+ components** — inputs, overlays, data display, layout primitives, feedback, and more
 - **Built-in theming** — light, dark, and high-contrast variants with a live [Themer](https://gravity-ui.com/themer) tool to customize tokens
 - **RTL support** — full right-to-left layout direction
-- **SSR-ready** — avoids theme flash on first render
-- **React 16–19** — broad version compatibility
 
 Browse the full component catalog in [Storybook](https://preview.gravity-ui.com/uikit/) or the [documentation](https://gravity-ui.com/components/uikit/alert).
 
@@ -64,51 +62,13 @@ import '@gravity-ui/uikit/styles/styles.css';
 
 A SCSS [mixins](styles/mixins.scss) file with useful helpers is also available for use in your own stylesheets.
 
-### Theming
+### Guides
 
-Wrap your app in `ThemeProvider` to enable theming. Supported themes: `light`, `dark`, `light-contrast`, `dark-contrast`.
+Read more:
 
-```jsx
-import {createRoot} from 'react-dom/client';
-import {ThemeProvider} from '@gravity-ui/uikit';
-
-const root = createRoot(document.getElementById('root'));
-root.render(
-  <ThemeProvider theme="light">
-    <App />
-  </ThemeProvider>,
-);
-```
-
-### Server-Side Rendering
-
-To prevent a theme flash on the initial page load, generate the root CSS class during SSR:
-
-```js
-import {getRootClassName} from '@gravity-ui/uikit/server';
-
-const theme = 'dark';
-const rootClassName = getRootClassName({theme});
-
-const html = `
-<html>
-  <body>
-    <div id="root" class="${rootClassName}"></div>
-  </body>
-</html>
-`;
-```
-
-### I18N
-
-Some components contain built-in text tokens. The default language is English (`en`); Russian (`ru`) is also supported. Set the language once at startup:
-
-```js
-// index.js
-import {configure} from '@gravity-ui/uikit';
-
-configure({lang: 'ru'});
-```
+- [Theming](docs/theming.md) — enable light, dark, and high-contrast themes
+- [Server-side rendering](docs/server-side-rendering.md) — generate the root CSS class on the server
+- [Internationalization](docs/i18n.md) — set the built-in component language
 
 ## Development
 

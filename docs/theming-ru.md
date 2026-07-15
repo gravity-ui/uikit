@@ -2,7 +2,7 @@
 
 [English](theming.md) | [Русский](theming-ru.md)
 
-Оберните приложение в `ThemeProvider`, чтобы включить темизацию. Поддерживаемые темы: `light`, `dark`, `light-contrast`, `dark-contrast`.
+Оберните приложение в `ThemeProvider`, чтобы включить темизацию. Поддерживаемые темы: `light`, `dark`, `light-hc`, `dark-hc`.
 
 ```jsx
 import {createRoot} from 'react-dom/client';

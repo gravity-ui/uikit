@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+`Link` is a part of text that, when clicked, takes the user to another part of the page, another page within the service, or an external website page.
+
 ```tsx
 import {Link} from '@gravity-ui/uikit';
 ```
-
-`Link` is a part of text that, when clicked, takes the user to another part of the page, another page within the service, or an external website page.
 
 Its main difference from [Button](../Button) is the navigation function. Most often, a `Link` leads to another page or opens a new browser tab.
 

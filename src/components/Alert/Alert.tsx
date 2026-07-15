@@ -49,7 +49,6 @@ export const Alert = (rawProps: AlertProps) => {
     const commonProps = {
         style,
         className: bAlert({corners, size, align: align}, className),
-        qa,
     };
 
     const {t} = i18n.useTranslation();
@@ -75,9 +74,13 @@ export const Alert = (rawProps: AlertProps) => {
                     ) : (
                         props.title
                     )}
-                    <div className={bAlert('message', {'with-top-margin': Boolean(props.title)})}>
-                        {message}
-                    </div>
+                    {message ? (
+                        <div
+                            className={bAlert('message', {'with-top-margin': Boolean(props.title)})}
+                        >
+                            {message}
+                        </div>
+                    ) : null}
                 </div>
                 {Array.isArray(props.actions) ? (
                     <Alert.Actions items={props.actions} />
@@ -106,9 +109,11 @@ export const Alert = (rawProps: AlertProps) => {
     return (
         <AlertContextProvider layout={layout} view={view} size={size} actionsLayout={actionsLayout}>
             {theme === 'clear' ? (
-                <div {...commonProps}>{content}</div>
+                <div {...commonProps} data-qa={qa}>
+                    {content}
+                </div>
             ) : (
-                <Card {...commonProps} theme={theme} view={view}>
+                <Card {...commonProps} qa={qa} theme={theme} view={view}>
                     {content}
                 </Card>
             )}

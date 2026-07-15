@@ -1,5 +1,70 @@
 # Changelog
 
+## [7.46.0](https://github.com/gravity-ui/uikit/compare/v7.45.1...v7.46.0) (2026-07-15)
+
+
+### Features
+
+* improve agent docs ([#2749](https://github.com/gravity-ui/uikit/issues/2749)) ([aa94add](https://github.com/gravity-ui/uikit/commit/aa94add94946bbb7ed1d74ebfe34292f7ebe2996))
+
+
+### Bug Fixes
+
+* **Alert:** pass `qa` attribute for `theme=clear` ([#2744](https://github.com/gravity-ui/uikit/issues/2744)) ([20de982](https://github.com/gravity-ui/uikit/commit/20de9821b714387af6176ff1621aee04a7e95c39))
+
+## [7.45.1](https://github.com/gravity-ui/uikit/compare/v7.45.0...v7.45.1) (2026-07-14)
+
+
+### Bug Fixes
+
+* **ColorPicker:** set a tabIndex so that Safari allows focusing buttons ([#2746](https://github.com/gravity-ui/uikit/issues/2746)) ([5dd821f](https://github.com/gravity-ui/uikit/commit/5dd821f6a88b9f13424417c218d45323c471ca4f))
+
+## [7.45.0](https://github.com/gravity-ui/uikit/compare/v7.44.2...v7.45.0) (2026-07-13)
+
+
+### Features
+
+* **List:** add `itemKey` property ([#2739](https://github.com/gravity-ui/uikit/issues/2739)) ([24ba33d](https://github.com/gravity-ui/uikit/commit/24ba33ded73ad4e4a3e3b4587c69b2c8ac33e9f3))
+* **Pagination:** use custom component in pagination ([#2701](https://github.com/gravity-ui/uikit/issues/2701)) ([878b19e](https://github.com/gravity-ui/uikit/commit/878b19e5f9a20b872914ec5735cec8e38e1ca796))
+* ship component docs inside the npm tarball ([#2740](https://github.com/gravity-ui/uikit/issues/2740)) ([f348b10](https://github.com/gravity-ui/uikit/commit/f348b10a1561879a65193269631af4df3bce9da2))
+
+
+### Bug Fixes
+
+* **Accordion:** defaultExpanded=false open ([#2736](https://github.com/gravity-ui/uikit/issues/2736)) ([6377bf1](https://github.com/gravity-ui/uikit/commit/6377bf18a29dadca0a0288396ede274602f0cd9a))
+* use variables for button and label components ([#2694](https://github.com/gravity-ui/uikit/issues/2694)) ([7e7aee8](https://github.com/gravity-ui/uikit/commit/7e7aee8d642e46cc978e6754a6e882c5c91147f9))
+
+## [7.44.2](https://github.com/gravity-ui/uikit/compare/v7.44.1...v7.44.2) (2026-07-07)
+
+
+### Bug Fixes
+
+* **Alert:** fix actions block positioning in horizontal mode ([#2733](https://github.com/gravity-ui/uikit/issues/2733)) ([afa7133](https://github.com/gravity-ui/uikit/commit/afa713343e5672119bccebe40d351935ee3bdd94))
+
+## [7.44.1](https://github.com/gravity-ui/uikit/compare/v7.44.0...v7.44.1) (2026-07-07)
+
+
+### Bug Fixes
+
+* **Alert:** fix alert align styles ([#2730](https://github.com/gravity-ui/uikit/issues/2730)) ([1e414d3](https://github.com/gravity-ui/uikit/commit/1e414d35c3990282d720c09dfb8a2e4eb1818636))
+
+## [7.44.0](https://github.com/gravity-ui/uikit/compare/v7.43.0...v7.44.0) (2026-07-06)
+
+
+### Features
+
+* **Dialog:** introduce responsive size props ([#2721](https://github.com/gravity-ui/uikit/issues/2721)) ([2682904](https://github.com/gravity-ui/uikit/commit/2682904afb5ea96bc2066a5c412cd732f4e6d583))
+* **Progress:** add custom color to colorStop ([#2713](https://github.com/gravity-ui/uikit/issues/2713)) ([57f071b](https://github.com/gravity-ui/uikit/commit/57f071b73b56a547b8612ae992b24c3045fcb9df))
+
+
+### Bug Fixes
+
+* **Alert:** do not render message div when message is empty ([#2729](https://github.com/gravity-ui/uikit/issues/2729)) ([754551d](https://github.com/gravity-ui/uikit/commit/754551d4e51ec7e30fe3b22e0867fdc541c55ec7))
+* **CopyToClipboard:** correctly use fallback ([#2432](https://github.com/gravity-ui/uikit/issues/2432)) ([50b0612](https://github.com/gravity-ui/uikit/commit/50b0612f8b077dbe050fe71c7d0b0d706a50b697))
+* **Label:** type copy + onClick ([#2725](https://github.com/gravity-ui/uikit/issues/2725)) ([0fa2b24](https://github.com/gravity-ui/uikit/commit/0fa2b248b4bbcea74fa2c73a0d233bfbc087911b))
+* **NumberInput:** fix NumericArrows generic type ([#2728](https://github.com/gravity-ui/uikit/issues/2728)) ([02894f7](https://github.com/gravity-ui/uikit/commit/02894f7fa851530d498776cb22b68ea2235a50dc))
+* **Popup:** keep status as 'initial' until positioned to avoid open flash ([#2714](https://github.com/gravity-ui/uikit/issues/2714)) ([0974f1f](https://github.com/gravity-ui/uikit/commit/0974f1f9d37ca3e6f74daa0cae503596493f3246))
+
 ## [7.43.0](https://github.com/gravity-ui/uikit/compare/v7.42.0...v7.43.0) (2026-06-24)
 
 

@@ -4,13 +4,13 @@
 
 <!--/GITHUB_BLOCK-->
 
-```tsx
-import {Label} from '@gravity-ui/uikit';
-```
-
 You can use `Label`s for highlighting certain information. A `Label` with the `Close` or `Copy` button may be useful for various simple actions.
 
 `Label`s are most suitable for displaying one-line text information with different color codes that show its importance.
+
+```tsx
+import {Label} from '@gravity-ui/uikit';
+```
 
 ## Appearance
 

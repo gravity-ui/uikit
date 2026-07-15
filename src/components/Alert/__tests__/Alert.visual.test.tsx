@@ -31,6 +31,12 @@ test.describe('Alert', {tag: '@Alert'}, () => {
         await expectScreenshot();
     });
 
+    test('render story: <TitleOnly>', async ({mount, expectScreenshot}) => {
+        await mount(<AlertStories.TitleOnly />);
+
+        await expectScreenshot();
+    });
+
     test('render story: <Theme>', async ({mount, expectScreenshot}) => {
         await mount(<AlertStories.Theme />);
 

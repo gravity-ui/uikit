@@ -1,14 +1,14 @@
 <!--GITHUB_BLOCK-->
 
-## Table
+# Table
 
 <!--/GITHUB_BLOCK-->
+
+A `Table` allows selecting and sorting rows, as well as performing actions on a row.
 
 ```jsx
 import {Table} from '@gravity-ui/uikit';
 ```
-
-A `Table` allows selecting and sorting rows, as well as performing actions on a row.
 
 <!--GITHUB_BLOCK-->
 

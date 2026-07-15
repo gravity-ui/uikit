@@ -17,6 +17,7 @@ export interface Location {
 
 export interface MobileContextProps {
     mobile: boolean;
+    __experimentalMobileModals?: boolean;
     platform: Platform;
     useHistory: () => History;
     useLocation: () => Location;

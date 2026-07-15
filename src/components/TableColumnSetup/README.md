@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+The `TableColumnSetup` component provides a user interface for configuring table column visibility and order. It displays a button that opens a popup with a list of available columns, allowing users to show/hide columns and optionally reorder them via drag and drop.
+
 ```tsx
 import {TableColumnSetup} from '@gravity-ui/uikit';
 ```
-
-The `TableColumnSetup` component provides a user interface for configuring table column visibility and order. It displays a button that opens a popup with a list of available columns, allowing users to show/hide columns and optionally reorder them via drag and drop.
 
 <!--SANDBOX
 import {TableColumnSetup} from '@gravity-ui/uikit';

@@ -9,6 +9,7 @@ import {Flex} from '../../layout';
 import {Tab} from '../Tab';
 import {TabContent} from '../TabContent';
 import {bTabListCollapseItem} from '../constants';
+import i18n from '../i18n';
 import type {TabListCollapseItemProps, TabProps} from '../types';
 import {getTabNodePropsFromReactNode} from '../utils';
 
@@ -22,9 +23,10 @@ const CHEVRON_SIZE: Record<NonNullable<TabListCollapseItemProps['size']>, number
 
 export const TabListCollapseItem = React.forwardRef<HTMLButtonElement, TabListCollapseItemProps>(
     (
-        {children, triggerChild, moreLabel = 'More', size = 'm'}: TabListCollapseItemProps,
+        {children, triggerChild, moreLabel, size = 'm'}: TabListCollapseItemProps,
         ref: React.ForwardedRef<HTMLButtonElement>,
     ) => {
+        const {t} = i18n.useTranslation();
         const childrenCount = React.Children.count(children);
 
         if (!childrenCount && !triggerChild) {
@@ -52,7 +54,7 @@ export const TabListCollapseItem = React.forwardRef<HTMLButtonElement, TabListCo
                     <TabContent {...triggerChildTabProps} />
                 ) : (
                     <Text variant="inherit" className={bTabListCollapseItem('text')}>
-                        {moreLabel}
+                        {moreLabel === undefined ? t('label_more') : moreLabel}
                     </Text>
                 )}
                 <Text variant="inherit" className={bTabListCollapseItem('count')}>

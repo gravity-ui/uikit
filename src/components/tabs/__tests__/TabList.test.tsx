@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import {Tab, TabList} from '..';
 import {act, render, screen} from '../../../../test-utils/utils';
 import {KeyCode} from '../../../constants';
+import {ThemeProvider} from '../../theme';
 import type {TabSize} from '../types';
 
 const qaId = 'tabs-list';
@@ -306,7 +307,7 @@ function mockNarrowContainer() {
     });
 }
 
-test('contentOverflow collapse: shows More button when some tabs overflow', () => {
+test('contentOverflow collapse: shows localized More button when some tabs overflow', () => {
     // Container 280px: More(80) + Tab1(100) + Tab2(100) = 280 fits, Tab3(100) would exceed
     const spy = jest.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(function (
         this: Element,
@@ -328,9 +329,10 @@ test('contentOverflow collapse: shows More button when some tabs overflow', () =
                 {tab3.title}
             </Tab>
         </TabList>,
+        {wrapper: ({children}) => <ThemeProvider lang="ru">{children}</ThemeProvider>},
     );
 
-    const trigger = screen.getByRole('button', {name: /more/i});
+    const trigger = screen.getByRole('button', {name: /ещё/i});
     expect(trigger).toHaveClass('g-tab-list-collapse-item');
     expect(screen.getByTestId(tab1.qa)).toBeVisible();
     expect(screen.getByTestId(tab2.qa)).toBeVisible();

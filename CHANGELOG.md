@@ -1,5 +1,17 @@
 # Changelog
 
+## [7.46.0](https://github.com/gravity-ui/uikit/compare/v7.45.1...v7.46.0) (2026-07-15)
+
+
+### Features
+
+* improve agent docs ([#2749](https://github.com/gravity-ui/uikit/issues/2749)) ([aa94add](https://github.com/gravity-ui/uikit/commit/aa94add94946bbb7ed1d74ebfe34292f7ebe2996))
+
+
+### Bug Fixes
+
+* **Alert:** pass `qa` attribute for `theme=clear` ([#2744](https://github.com/gravity-ui/uikit/issues/2744)) ([20de982](https://github.com/gravity-ui/uikit/commit/20de9821b714387af6176ff1621aee04a7e95c39))
+
 ## [7.45.1](https://github.com/gravity-ui/uikit/compare/v7.45.0...v7.45.1) (2026-07-14)
 
 

@@ -142,3 +142,7 @@ The base React component and design-token library for Gravity UI apps — contro
 - [Layout components and spacings](./docs/layout.md)
 - [Theming, Colors & Branding](./docs/theming.md)
 - [Typography](./docs/typography.md)
+
+## Documentation for AI agents
+
+Agent-readable documentation for the installed version is located in `node_modules/@gravity-ui/uikit/build/docs/INDEX.md`.

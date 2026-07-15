@@ -1,5 +1,7 @@
 # Theming, Colors & Branding
 
+[English](theming.md) | [Русский](theming-ru.md)
+
 We use and recommend CSS variables for theming.
 
 Everything is driven by CSS custom properties prefixed with `--g-*`. There is no runtime styling API you need to call — you set variables and components pick them up.

@@ -73,13 +73,16 @@ const WithWidthControl = ({
 
 export const Default: Story = {
     render: (args) => (
-        <WithWidthControl>
-            {(width) => (
-                <div style={{width}}>
-                    <Ellipsis {...args} style={{width: '100%'}} />
-                </div>
-            )}
-        </WithWidthControl>
+        <div
+            style={{
+                resize: 'horizontal',
+                overflow: 'auto',
+                width: DEFAULT_WIDTH,
+                paddingInline: 12,
+            }}
+        >
+            <Ellipsis {...args} style={{width: '100%'}} />
+        </div>
     ),
 };
 

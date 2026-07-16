@@ -98,6 +98,7 @@ export const Custom = CustomTemplate.bind({});
 const CollapsedDetailsTemplate: StoryFn<DisclosureProps> = (args) => {
     return (
         <div className="disclosure-stories">
+            <div style={{borderBottom: '2px solid black'}}>Other content before Disclosure</div>
             <Disclosure {...args} summary="Expand to see the full details">
                 <Disclosure.CollapsedDetails>
                     <Label theme="info">Short preview shown while collapsed</Label>
@@ -105,6 +106,7 @@ const CollapsedDetailsTemplate: StoryFn<DisclosureProps> = (args) => {
                 <div>Full details revealed once expanded.</div>
                 <div>More details here.</div>
             </Disclosure>
+            <div style={{borderTop: '2px solid black'}}>Other content under Disclosure</div>
         </div>
     );
 };

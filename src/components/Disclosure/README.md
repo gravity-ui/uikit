@@ -207,9 +207,10 @@ SANDBOX-->
 ## Collapsed details
 
 Use the `Disclosure.CollapsedDetails` component to render content that is only shown while the
-disclosure is collapsed (`expanded === false`) and smoothly fades out once it is expanded. It is
-rendered as an absolutely positioned overlay above the details area, so it does not add to the
-height of the collapsed disclosure and the content does not jump while toggling.
+disclosure is collapsed (`expanded === false`) and smoothly fades out once it is expanded. At rest
+it takes part in the normal flow and occupies its height; only the disappearing content is briefly
+positioned absolutely on top of the appearing one during the cross-fade, so the layout does not
+jump while toggling.
 
 <!--SANDBOX
 import {Disclosure} from '@gravity-ui/uikit';

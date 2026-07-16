@@ -48,6 +48,15 @@ export {
 } from './components/lab/Menu';
 
 export {
+    List as unstable_List,
+    type ListProps as unstable_ListProps,
+    type ListItemContext as unstable_ListItemContext,
+    type ListItemHelpers as unstable_ListItemHelpers,
+    type ListItemGetters as unstable_ListItemGetters,
+    type ListSize as unstable_ListSize,
+} from './components/lab/List';
+
+export {
     ColorPicker as unstable_ColorPicker,
     type ColorPickerProps as unstable_ColorPickerProps,
 } from './components/lab/ColorPicker';

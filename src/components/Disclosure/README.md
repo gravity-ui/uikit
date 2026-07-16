@@ -204,6 +204,37 @@ SANDBOX-->
 
 <!--/GITHUB_BLOCK-->
 
+## Collapsed details
+
+Use the `Disclosure.CollapsedDetails` component to render content that is only shown while the
+disclosure is collapsed (`expanded === false`) and smoothly fades out once it is expanded. It is
+rendered as an absolutely positioned overlay above the details area, so it does not add to the
+height of the collapsed disclosure and the content does not jump while toggling.
+
+<!--SANDBOX
+import {Disclosure} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <Disclosure summary="Summary">
+            <Disclosure.CollapsedDetails>Preview shown while collapsed</Disclosure.CollapsedDetails>
+            Content shown while expanded
+        </Disclosure>
+    );
+}
+SANDBOX-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<Disclosure summary="Summary">
+  <Disclosure.CollapsedDetails>Preview shown while collapsed</Disclosure.CollapsedDetails>
+  Content shown while expanded
+</Disclosure>
+```
+
+<!--/GITHUB_BLOCK-->
+
 ## Disabled state
 
 `Disclosure` can be disabled using the `disabled` property.
@@ -262,6 +293,15 @@ SANDBOX-->
 | :------- | :-------------- | :---------------- | :------------------- |
 | children | Content         | `React.ReactNode` |                      |
 | qa       | Test identifier | `string`          | `disclosure-details` |
+
+### Disclosure.CollapsedDetails
+
+Content shown only while the disclosure is collapsed.
+
+| Name     | Description     | Type              | Default                        |
+| :------- | :-------------- | :---------------- | :----------------------------- |
+| children | Content         | `React.ReactNode` |                                |
+| qa       | Test identifier | `string`          | `disclosure-collapsed-details` |
 
 ## CSS API
 

@@ -11,14 +11,14 @@ const b = block('ellipsis');
 
 export type EllipsisPosition = 'start' | 'center' | 'end';
 
-interface CenterEllipsisProps {
+interface EllipsisContentProps {
     startOffset: string;
     endOffset: string;
     children: string;
 }
 
 const CenterEllipsis = React.memo(
-    React.forwardRef<HTMLSpanElement, CenterEllipsisProps>(function CenterEllipsis(
+    React.forwardRef<HTMLSpanElement, EllipsisContentProps>(function CenterEllipsis(
         {children: text, startOffset, endOffset},
         ellipsisContentRef,
     ) {
@@ -41,6 +41,28 @@ const CenterEllipsis = React.memo(
 
 const FSI = '\u2068';
 const PDI = '\u2069';
+const EdgeEllipsis = React.memo(function EdgeEllipsis({
+    position,
+    startOffset,
+    endOffset,
+    children: collapsibleText,
+}: EllipsisContentProps & {position: Exclude<EllipsisPosition, 'center'>}) {
+    return (
+        <React.Fragment>
+            {startOffset && <span aria-hidden>{startOffset}</span>}
+            <span
+                className={b('ellipsis', {
+                    [position]: true,
+                })}
+                aria-hidden
+            >
+                {/* The extra characters are needed to prevent text shuffling due to direction: rtl with position: 'start' */}
+                <span className={b('ellipsis-content')}>{`${FSI}${collapsibleText}${PDI}`}</span>
+            </span>
+            {endOffset && <span aria-hidden>{endOffset}</span>}
+        </React.Fragment>
+    );
+});
 
 export interface EllipsisProps extends DOMProps, QAProps {
     position?: EllipsisPosition;
@@ -49,6 +71,57 @@ export interface EllipsisProps extends DOMProps, QAProps {
     separator?: string | string[];
     children: string;
 }
+
+type TextParts = [startOffset: string, collapsibleText: string, endOffset: string];
+
+const getPartsWithoutSeparator = (
+    text: string,
+    offsetStart: number,
+    offsetEnd: number,
+): TextParts => {
+    const textLength = text.length;
+    const offsetEndLocal = -offsetEnd || textLength;
+
+    return [
+        text.slice(0, offsetStart),
+        text.slice(offsetStart, offsetEndLocal),
+        text.slice(offsetEndLocal),
+    ];
+};
+
+const getPartsWithSeparator = (
+    text: string,
+    separator: string | string[],
+    offsetStart: number,
+    offsetEnd: number,
+): TextParts => {
+    const textLength = text.length;
+    const separatorCharacters = Array.from(separator);
+
+    let startPartsLeft = offsetStart;
+    let startOffsetEnd = 0;
+    let endPartsLeft = offsetEnd;
+    let endOffsetStart = textLength;
+    for (let i = 0; i < textLength && (startPartsLeft || endPartsLeft); i++) {
+        const charStart = text[i];
+        const charEnd = text[textLength - i - 1];
+
+        if (startPartsLeft && separatorCharacters.includes(charStart)) {
+            startPartsLeft--;
+            startOffsetEnd = i;
+        }
+        if (endPartsLeft && separatorCharacters.includes(charEnd)) {
+            endPartsLeft--;
+            endOffsetStart = textLength - i;
+        }
+    }
+
+    return [
+        text.slice(0, startOffsetEnd),
+        text.slice(startOffsetEnd, endOffsetStart),
+        text.slice(endOffsetStart),
+    ];
+};
 
 export const Ellipsis = React.forwardRef<HTMLSpanElement, EllipsisProps>(function Ellipsis(
     {
@@ -67,44 +140,13 @@ export const Ellipsis = React.forwardRef<HTMLSpanElement, EllipsisProps>(functio
 
     const isCenterPosition = position === 'center';
 
-    const [startOffset, ellipsis, endOffset] = React.useMemo<[string, string, string]>(() => {
-        const textLength = text.length;
-        if (!separator) {
-            const offsetEndLocal = -offsetEnd || textLength;
-
-            return [
-                text.slice(0, offsetStart),
-                text.slice(offsetStart, offsetEndLocal),
-                text.slice(offsetEndLocal),
-            ];
-        }
-
-        const separatorCharacters = Array.from(separator);
-
-        let startPartsLeft = offsetStart;
-        let startOffsetEnd = 0;
-        let endPartsLeft = offsetEnd;
-        let endOffsetStart = textLength;
-        for (let i = 0; i < textLength && (startPartsLeft || endPartsLeft); i++) {
-            const charStart = text[i];
-            const charEnd = text[textLength - i - 1];
-
-            if (startPartsLeft && separatorCharacters.includes(charStart)) {
-                startPartsLeft--;
-                startOffsetEnd = i;
-            }
-            if (endPartsLeft && separatorCharacters.includes(charEnd)) {
-                endPartsLeft--;
-                endOffsetStart = textLength - i;
-            }
-        }
-
-        return [
-            text.slice(0, startOffsetEnd),
-            text.slice(startOffsetEnd, endOffsetStart),
-            text.slice(endOffsetStart),
-        ];
-    }, [text, separator, offsetStart, offsetEnd]);
+    const [startOffset, collapsibleText, endOffset] = React.useMemo<[string, string, string]>(
+        () =>
+            separator.length
+                ? getPartsWithSeparator(text, separator, offsetStart, offsetEnd)
+                : getPartsWithoutSeparator(text, offsetStart, offsetEnd),
+        [text, separator, offsetStart, offsetEnd],
+    );
 
     const handleCopy = React.useCallback(
         (e: React.ClipboardEvent<HTMLSpanElement>) => {
@@ -134,32 +176,17 @@ export const Ellipsis = React.forwardRef<HTMLSpanElement, EllipsisProps>(functio
             data-qa={qa}
         >
             {isCenterPosition ? (
-                <React.Fragment>
-                    {/* Spans around the center ellipsis to give it a proper baseline */}
-                    <span aria-hidden />
-                    <CenterEllipsis
-                        startOffset={startOffset}
-                        endOffset={endOffset}
-                        ref={ellipsisContentRef}
-                    >
-                        {text}
-                    </CenterEllipsis>
-                    <span aria-hidden />
-                </React.Fragment>
+                <CenterEllipsis
+                    startOffset={startOffset}
+                    endOffset={endOffset}
+                    ref={ellipsisContentRef}
+                >
+                    {text}
+                </CenterEllipsis>
             ) : (
-                <React.Fragment>
-                    <span aria-hidden>{startOffset}</span>
-                    <span
-                        className={b('ellipsis', {
-                            [position]: true,
-                        })}
-                        aria-hidden
-                    >
-                        {/* The extra characters are needed to prevent text shuffling due to direction: rtl with position: 'start' */}
-                        <span className={b('ellipsis-content')}>{`${FSI}${ellipsis}${PDI}`}</span>
-                    </span>
-                    <span aria-hidden>{endOffset}</span>
-                </React.Fragment>
+                <EdgeEllipsis startOffset={startOffset} endOffset={endOffset} position={position}>
+                    {collapsibleText}
+                </EdgeEllipsis>
             )}
         </span>
     );

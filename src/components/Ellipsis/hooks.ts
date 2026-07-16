@@ -12,6 +12,8 @@ const ELLIPSIS_CHAR = '\u2026';
 
 let observer: ResizeObserver | null = null;
 const resizeParamsMap: Map<HTMLSpanElement, ResizeParams> = new Map();
+const measureToContainerMap: Map<Element, HTMLSpanElement> = new Map();
+const containerToMeasureMap: Map<HTMLSpanElement, Element> = new Map();
 
 const handleResize = (container: HTMLSpanElement | null) => {
     if (!container) {
@@ -66,19 +68,23 @@ const handleResize = (container: HTMLSpanElement | null) => {
         }
     }
 
+    // Measure is observed only for font changes, so we keep the text the same
+    measure.textContent = text;
     setVisibleText(result);
 };
 
-let callId = 0;
 const observerCallback = async (entries: ResizeObserverEntry[]) => {
-    callId++;
-    const currentCallId = callId;
-    for (const {target} of entries) {
-        handleResize(target as HTMLSpanElement);
+    const handledContainers = new Set<HTMLSpanElement>();
 
-        if (currentCallId !== callId) {
-            return;
+    for (const {target} of entries) {
+        const container = measureToContainerMap.get(target) ?? (target as HTMLSpanElement);
+        if (handledContainers.has(container)) {
+            continue;
         }
+
+        handledContainers.add(container);
+
+        handleResize(container);
     }
 };
 
@@ -107,7 +113,16 @@ const subscribeResize = (container: HTMLSpanElement | null) => {
         observer = new ResizeObserver(observerCallback);
     }
 
+    // Observe container to detect size and content changes
     observer.observe(container);
+
+    // Observe measure as well to detect font changes
+    const measure = resizeParamsMap.get(container)?.measure;
+    if (measure) {
+        observer.observe(measure);
+        measureToContainerMap.set(measure, container);
+        containerToMeasureMap.set(container, measure);
+    }
 };
 
 const unsubscribeResize = (container: HTMLSpanElement | null) => {
@@ -115,6 +130,14 @@ const unsubscribeResize = (container: HTMLSpanElement | null) => {
         return;
     }
 
+    const measure = containerToMeasureMap.get(container);
+
+    if (measure) {
+        observer?.unobserve(measure);
+        measureToContainerMap.delete(measure);
+    }
+
+    containerToMeasureMap.delete(container);
     observer?.unobserve(container);
 
     if (resizeParamsMap.size === 0) {

@@ -257,6 +257,12 @@ $block: '.#{variables.$ns}lab-list-item-view';
         }
     }
 
+    // Disabled-строки навигабельны с клавиатуры (APG discoverability, lab/List):
+    // индикация активности не должна подавляться disabled-фоном
+    &_disabled#{$block}_active {
+        --_--background-color: var(--_--background-color-hover);
+    }
+
     &__arrow {
         &_direction {
             &_bottom {

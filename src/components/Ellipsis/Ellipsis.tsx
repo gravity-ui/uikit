@@ -43,7 +43,7 @@ const FSI = '\u2068';
 const PDI = '\u2069';
 
 export interface EllipsisProps extends DOMProps {
-    position: EllipsisPosition;
+    position?: EllipsisPosition;
     offsetStart?: number;
     offsetEnd?: number;
     separator?: string | string[];

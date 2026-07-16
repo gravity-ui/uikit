@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import type {DOMProps} from '../types';
+import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 
 import {useCenterEllipsis} from './hooks';
@@ -42,7 +42,7 @@ const CenterEllipsis = React.memo(
 const FSI = '\u2068';
 const PDI = '\u2069';
 
-export interface EllipsisProps extends DOMProps {
+export interface EllipsisProps extends DOMProps, QAProps {
     position?: EllipsisPosition;
     offsetStart?: number;
     offsetEnd?: number;
@@ -59,6 +59,7 @@ export const Ellipsis = React.forwardRef<HTMLSpanElement, EllipsisProps>(functio
         offsetEnd = 0,
         separator = '',
         children: text,
+        qa,
     },
     ref,
 ) {
@@ -130,15 +131,21 @@ export const Ellipsis = React.forwardRef<HTMLSpanElement, EllipsisProps>(functio
             ref={ref}
             onCopy={handleCopy}
             aria-label={text}
+            data-qa={qa}
         >
             {isCenterPosition ? (
-                <CenterEllipsis
-                    startOffset={startOffset}
-                    endOffset={endOffset}
-                    ref={ellipsisContentRef}
-                >
-                    {text}
-                </CenterEllipsis>
+                <React.Fragment>
+                    {/* Spans around the center ellipsis to give it a proper baseline */}
+                    <span aria-hidden />
+                    <CenterEllipsis
+                        startOffset={startOffset}
+                        endOffset={endOffset}
+                        ref={ellipsisContentRef}
+                    >
+                        {text}
+                    </CenterEllipsis>
+                    <span aria-hidden />
+                </React.Fragment>
             ) : (
                 <React.Fragment>
                     <span aria-hidden>{startOffset}</span>

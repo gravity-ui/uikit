@@ -1,0 +1,9 @@
+import {Meta, Markdown} from '@storybook/addon-docs';
+
+import * as Stories from './Ellipsis.stories';
+
+import Readme from '../README.md?raw';
+
+<Meta of={Stories} />
+
+<Markdown>{Readme}</Markdown>

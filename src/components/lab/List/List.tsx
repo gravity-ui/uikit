@@ -14,8 +14,13 @@ import './List.scss';
 const b = block('list-v2');
 
 function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivElement>) {
-    const {size = 'm', className, style, qa, renderItem} = props;
+    const {size = 'm', className, style, qa, renderItem, selectionMode} = props;
     const list = useList(props);
+
+    // Маппинг слоя выделения на индикацию вьюхи — как в существующем Select:
+    // multiple — галочка (выделение не конкурирует с подсветкой активного),
+    // single — подсветка строки
+    const selectionStyle = selectionMode === 'multiple' ? 'check' : 'highlight';
 
     const defaultRenderItem = (ctx: ListItemContext<T>, helpers: ListItemHelpers) =>
         ctx.kind === 'section' ? (
@@ -47,6 +52,12 @@ function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
                         size,
                         active: ctx.state.active,
                         disabled: ctx.state.disabled,
+                        // selected/selectionStyle — только при включённом слое:
+                        // у вьюхи нет дефолта selectionStyle, без него выделение
+                        // не видно
+                        ...(ctx.state.selected === undefined
+                            ? undefined
+                            : {selected: ctx.state.selected, selectionStyle}),
                     }),
                 };
                 return <React.Fragment key={id}>{renderRow(ctx, helpers)}</React.Fragment>;

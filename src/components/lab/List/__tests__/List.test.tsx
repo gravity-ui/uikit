@@ -701,6 +701,398 @@ describe('lab List', () => {
         });
     });
 
+    describe('selection layer: ARIA', () => {
+        test('selectionMode="single" adds aria-selected to every option, without aria-multiselectable', () => {
+            render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    selectionMode="single"
+                    defaultSelectedIds={['Banana']}
+                />,
+            );
+
+            expect(screen.getByRole('listbox')).not.toHaveAttribute('aria-multiselectable');
+            const options = screen.getAllByRole('option');
+            // «не выбран» ≠ «не выбирается»: атрибут есть на каждой опции
+            expect(options.map((option) => option.getAttribute('aria-selected'))).toEqual([
+                'false',
+                'true',
+                'false',
+                'false',
+            ]);
+            expect(options[1]).toHaveAttribute('data-selected');
+            expect(options[0]).not.toHaveAttribute('data-selected');
+        });
+
+        test('selectionMode="multiple" adds aria-multiselectable to the container', () => {
+            render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    selectionMode="multiple"
+                    defaultSelectedIds={['Apple', 'Cherry']}
+                />,
+            );
+
+            expect(screen.getByRole('listbox')).toHaveAttribute('aria-multiselectable', 'true');
+            expect(
+                screen.getAllByRole('option').map((option) => option.getAttribute('aria-selected')),
+            ).toEqual(['true', 'false', 'true', 'false']);
+        });
+
+        test('section headers do not get aria-selected', () => {
+            render(
+                <List
+                    aria-label="Groups"
+                    items={GROUPS}
+                    getItemContent={(item) => item.label}
+                    selectionMode="multiple"
+                />,
+            );
+
+            expect(screen.getByText('Recent')).not.toHaveAttribute('aria-selected');
+        });
+
+        test('disabled options are selectable semantically but not by gesture', async () => {
+            const user = userEvent.setup();
+            const onSelectedUpdate = jest.fn();
+            render(
+                <List
+                    aria-label="Projects"
+                    items={PROJECTS}
+                    getItemContent={(project) => project.name}
+                    selectionMode="multiple"
+                    onSelectedUpdate={onSelectedUpdate}
+                    defaultActiveItemId="p2"
+                />,
+            );
+
+            const disabledOption = screen.getAllByRole('option')[1];
+            expect(disabledOption).toHaveAttribute('aria-selected', 'false');
+
+            await user.click(disabledOption);
+            expect(onSelectedUpdate).not.toHaveBeenCalled();
+
+            disabledOption.focus();
+            await user.keyboard(' ');
+            expect(onSelectedUpdate).not.toHaveBeenCalled();
+
+            await user.keyboard('{Enter}');
+            expect(onSelectedUpdate).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('selection layer: gestures', () => {
+        test('single: click, Enter and Space replace the selection', async () => {
+            const user = userEvent.setup();
+            const onSelectedUpdate = jest.fn();
+            render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    selectionMode="single"
+                    onSelectedUpdate={onSelectedUpdate}
+                />,
+            );
+            const options = screen.getAllByRole('option');
+
+            await user.click(options[0]);
+            expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Apple']);
+            expect(options[0]).toHaveAttribute('aria-selected', 'true');
+
+            await user.keyboard('{ArrowDown}{Enter}');
+            expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Banana']);
+            expect(options[0]).toHaveAttribute('aria-selected', 'false');
+            expect(options[1]).toHaveAttribute('aria-selected', 'true');
+
+            await user.keyboard('{ArrowDown} ');
+            expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Cherry']);
+            expect(options.map((option) => option.getAttribute('aria-selected'))).toEqual([
+                'false',
+                'false',
+                'true',
+                'false',
+            ]);
+        });
+
+        test('single: repeating the gesture on the selected option does not deselect it but still fires onItemAction', async () => {
+            const user = userEvent.setup();
+            const onSelectedUpdate = jest.fn();
+            const onItemAction = jest.fn();
+            render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    selectionMode="single"
+                    defaultSelectedIds={['Apple']}
+                    onSelectedUpdate={onSelectedUpdate}
+                    onItemAction={onItemAction}
+                />,
+            );
+            const options = screen.getAllByRole('option');
+
+            await user.click(options[0]);
+            await user.keyboard('{Enter} ');
+
+            expect(options[0]).toHaveAttribute('aria-selected', 'true');
+            expect(onSelectedUpdate).not.toHaveBeenCalled();
+            // «применение» не гейтуется изменением выделения: жест по уже
+            // выбранной строке всё равно применяет её (Select: клик по
+            // выбранному закрывает попап)
+            expect(onItemAction).toHaveBeenCalledTimes(3);
+            expect(onItemAction).toHaveBeenLastCalledWith('Apple', 'Apple');
+        });
+
+        test('multiple: click, Enter and Space toggle the selection', async () => {
+            const user = userEvent.setup();
+            const onSelectedUpdate = jest.fn();
+            render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    selectionMode="multiple"
+                    onSelectedUpdate={onSelectedUpdate}
+                />,
+            );
+            const options = screen.getAllByRole('option');
+
+            await user.click(options[0]);
+            expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Apple']);
+
+            await user.keyboard('{ArrowDown}{Enter}');
+            expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Apple', 'Banana']);
+
+            await user.keyboard('{ArrowDown} ');
+            expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Apple', 'Banana', 'Cherry']);
+            expect(options.map((option) => option.getAttribute('aria-selected'))).toEqual([
+                'true',
+                'true',
+                'true',
+                'false',
+            ]);
+
+            // повторный жест по выбранной строке снимает выделение
+            await user.click(options[1]);
+            expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Apple', 'Cherry']);
+            expect(options[1]).toHaveAttribute('aria-selected', 'false');
+        });
+
+        test('Space selects only with the layer on, and typeahead keeps priority over it', async () => {
+            const user = userEvent.setup();
+            const onSelectedUpdate = jest.fn();
+            render(
+                <List
+                    aria-label="Colors"
+                    items={['Blue whale', 'Blueberry']}
+                    selectionMode="multiple"
+                    onSelectedUpdate={onSelectedUpdate}
+                />,
+            );
+            const options = screen.getAllByRole('option');
+
+            await user.tab();
+            await user.keyboard('blue');
+            expect(options[1]).toHaveFocus();
+
+            // буфер непуст — пробел уходит в поиск, а не в выделение
+            await user.keyboard(' ');
+            expect(options[0]).toHaveFocus();
+            expect(onSelectedUpdate).not.toHaveBeenCalled();
+        });
+
+        test('onItemAction fires on the same gesture, after the selection update', async () => {
+            const user = userEvent.setup();
+            const calls: string[] = [];
+            render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    selectionMode="multiple"
+                    onSelectedUpdate={(ids) => calls.push(`selected:${ids.join(',')}`)}
+                    onItemAction={(id) => calls.push(`action:${id}`)}
+                />,
+            );
+            const options = screen.getAllByRole('option');
+
+            await user.click(options[0]);
+            await user.keyboard('{ArrowDown}{Enter}');
+            await user.keyboard('{ArrowDown} ');
+
+            expect(calls).toEqual([
+                'selected:Apple',
+                'action:Apple',
+                'selected:Apple,Banana',
+                'action:Banana',
+                'selected:Apple,Banana,Cherry',
+                'action:Cherry',
+            ]);
+        });
+    });
+
+    describe('selection layer: controlled and uncontrolled', () => {
+        test('defaultSelectedIds sets the initial selection, updates are internal', async () => {
+            const user = userEvent.setup();
+            render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    selectionMode="single"
+                    defaultSelectedIds={['Cherry']}
+                />,
+            );
+            const options = screen.getAllByRole('option');
+            expect(options[2]).toHaveAttribute('aria-selected', 'true');
+
+            await user.click(options[0]);
+
+            expect(options[0]).toHaveAttribute('aria-selected', 'true');
+            expect(options[2]).toHaveAttribute('aria-selected', 'false');
+        });
+
+        test('controlled selectedIds does not move without an update', async () => {
+            const user = userEvent.setup();
+            const onSelectedUpdate = jest.fn();
+            render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    selectionMode="single"
+                    selectedIds={['Banana']}
+                    onSelectedUpdate={onSelectedUpdate}
+                />,
+            );
+            const options = screen.getAllByRole('option');
+
+            await user.click(options[0]);
+
+            expect(onSelectedUpdate).toHaveBeenCalledTimes(1);
+            expect(onSelectedUpdate).toHaveBeenCalledWith(['Apple']);
+            expect(options[1]).toHaveAttribute('aria-selected', 'true');
+            expect(options[0]).toHaveAttribute('aria-selected', 'false');
+        });
+
+        test('controlled parent applying updates: selection follows the gesture', async () => {
+            const user = userEvent.setup();
+
+            function ControlledList() {
+                const [selected, setSelected] = React.useState<string[]>([]);
+                return (
+                    <List
+                        aria-label="Fruits"
+                        items={FRUITS}
+                        selectionMode="multiple"
+                        selectedIds={selected}
+                        onSelectedUpdate={setSelected}
+                    />
+                );
+            }
+
+            render(<ControlledList />);
+            const options = screen.getAllByRole('option');
+
+            await user.click(options[0]);
+            await user.click(options[2]);
+
+            expect(options.map((option) => option.getAttribute('aria-selected'))).toEqual([
+                'true',
+                'false',
+                'true',
+                'false',
+            ]);
+
+            await user.click(options[0]);
+            expect(options[0]).toHaveAttribute('aria-selected', 'false');
+        });
+    });
+
+    describe('selection layer: rendering', () => {
+        test('default renderItem shows the selection: check for multiple, highlight for single', () => {
+            const {rerender} = render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    selectionMode="single"
+                    defaultSelectedIds={['Banana']}
+                />,
+            );
+
+            expect(screen.getAllByRole('option')[1]).toHaveClass('g-lab-list-item-view_selected');
+
+            rerender(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    selectionMode="multiple"
+                    defaultSelectedIds={['Banana']}
+                />,
+            );
+
+            const options = screen.getAllByRole('option');
+            // multiple — галочка вместо подсветки: выделение не конкурирует
+            // с индикацией активной строки
+            expect(options[1]).not.toHaveClass('g-lab-list-item-view_selected');
+            // Слот галочки — деталь вьюхи: у Testing Library нет API для такого ассерта
+            // eslint-disable-next-line testing-library/no-node-access
+            const checkSlot = options[1].querySelector('.g-lab-list-item-view__slot_name_checked');
+            expect(checkSlot).toBeTruthy();
+        });
+
+        test('ctx.state.selected and getItemViewProps carry the selection into a custom renderItem', () => {
+            const seen: Array<boolean | undefined> = [];
+            render(
+                <List
+                    aria-label="Projects"
+                    items={PROJECTS}
+                    getItemTextValue={(project) => project.name}
+                    selectionMode="multiple"
+                    defaultSelectedIds={['p3']}
+                    renderItem={(ctx, {getItemProps, getItemViewProps}) => {
+                        seen.push(ctx.state.selected);
+                        const viewProps = getItemViewProps();
+                        return (
+                            <List.ItemView
+                                {...getItemProps()}
+                                {...viewProps}
+                                data-selection-style={viewProps.selectionStyle}
+                            >
+                                {ctx.item.name}
+                            </List.ItemView>
+                        );
+                    }}
+                />,
+            );
+
+            expect(seen).toEqual([false, false, true]);
+            expect(screen.getAllByRole('option')[0]).toHaveAttribute(
+                'data-selection-style',
+                'check',
+            );
+        });
+
+        test('without the layer ctx.state.selected is absent and getItemViewProps has no selection props', () => {
+            const contexts: object[] = [];
+            const viewProps: object[] = [];
+            render(
+                <List
+                    aria-label="Fruits"
+                    items={['Apple']}
+                    renderItem={(ctx, helpers) => {
+                        contexts.push(ctx.state);
+                        viewProps.push(helpers.getItemViewProps());
+                        return (
+                            <List.ItemView {...helpers.getItemProps()}>{ctx.content}</List.ItemView>
+                        );
+                    }}
+                />,
+            );
+
+            expect(contexts[0]).not.toHaveProperty('selected');
+            expect(viewProps[0]).not.toHaveProperty('selected');
+            expect(viewProps[0]).not.toHaveProperty('selectionStyle');
+        });
+    });
+
     describe('getItemProps pass-through into List.ItemView', () => {
         test('DOM/a11y props reach the DOM node of the view', async () => {
             const user = userEvent.setup();
@@ -769,6 +1161,37 @@ describe('lab List', () => {
 
             expect(consoleErrorSpy).toHaveBeenCalledWith(
                 expect.stringContaining('"rich-content-item" has non-string content'),
+            );
+        });
+
+        test('warns on selection props without selectionMode', () => {
+            render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    selectedIds={['Apple']}
+                    onSelectedUpdate={jest.fn()}
+                />,
+            );
+
+            expect(consoleErrorSpy).toHaveBeenCalledWith(
+                expect.stringContaining('have no effect without `selectionMode`'),
+            );
+        });
+
+        test('warns on selectionMode="single" with several selected ids', () => {
+            render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    selectionMode="single"
+                    selectedIds={['Apple', 'Banana']}
+                    onSelectedUpdate={jest.fn()}
+                />,
+            );
+
+            expect(consoleErrorSpy).toHaveBeenCalledWith(
+                expect.stringContaining('expects at most one selected id'),
             );
         });
     });

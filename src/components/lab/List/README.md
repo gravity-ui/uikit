@@ -10,8 +10,8 @@ import {unstable_List as List} from '@gravity-ui/uikit/unstable';
 
 Навигируемый список (`role="listbox"`): клавиатурная навигация (roving tabindex,
 `↑`/`↓` с зацикливанием, `Home`/`End`, typeahead), активация по наведению,
-секции из данных. Слои выделения, виртуализации и drag-and-drop подключаются
-отдельно и появятся в следующих итерациях.
+секции из данных, опциональный слой выделения. Слои виртуализации и
+drag-and-drop подключаются отдельно и появятся в следующих итерациях.
 
 ## Использование
 
@@ -62,6 +62,42 @@ const items = [
 />
 ```
 
+## Выделение
+
+Слой выделения включает `selectionMode` — пока он не передан, выделения нет:
+ни `aria-selected` на опциях, ни `aria-multiselectable` на контейнере, ни
+`ctx.state.selected`, ни реакции на `Space` («не выбран» ≠ «не выбирается» для
+скринридера).
+
+```tsx
+<List
+  aria-label="Projects"
+  items={projects}
+  getItemContent={(p) => p.name}
+  selectionMode="single"
+  selectedIds={sel}
+  onSelectedUpdate={setSel}
+/>
+```
+
+`selectedIds`/`defaultSelectedIds`/`onSelectedUpdate` работают с массивом id
+(controlled/uncontrolled — как и активность).
+
+Жесты при включённом слое — клик, `Enter` и `Space` (в `Space` уходит поиск,
+если typeahead-буфер не пуст):
+
+- `single` — жест заменяет выделение; повторный жест по выбранной строке её
+  не снимает (радио-семантика) и не дёргает `onSelectedUpdate`;
+- `multiple` — жест переключает выделение строки.
+
+Если передан `onItemAction`, он вызывается тем же жестом — после обновления
+выделения. Заголовки секций и `disabled`-опции не выбираются.
+
+Индикация выделения в дефолтном рендере — как в `Select`: `single` подсвечивает
+строку, `multiple` показывает галочку (`selectionStyle` вьюхи — `'highlight'`
+и `'check'` соответственно). Кастомный `renderItem` получает то же самое из
+`getItemViewProps()`.
+
 ## Кастомный рендер строки
 
 Три ступени контента:
@@ -105,7 +141,11 @@ props: `on*`-обработчики вызываются цепочкой (пе�
 | activeItemId        | Активный (подсвеченный) айтем, controlled    |                 `string`                 |                        |
 | defaultActiveItemId | Активный айтем, uncontrolled                 |                 `string`                 |                        |
 | onActiveItemUpdate  | Колбэк смены активности                      |   `(id: string \| undefined) => void`    |                        |
-| onItemAction        | «Применение» айтема: Enter или клик          |     `(id: string, item: T) => void`      |                        |
+| onItemAction        | «Применение»: клик/Enter (+Space со слоем)   |     `(id: string, item: T) => void`      |                        |
+| selectionMode       | Включает слой выделения                      |         `'single' \| 'multiple'`         |                        |
+| selectedIds         | Выделенные айтемы, controlled                |           `readonly string[]`            |                        |
+| defaultSelectedIds  | Выделенные айтемы, uncontrolled              |           `readonly string[]`            |                        |
+| onSelectedUpdate    | Колбэк смены выделения                       |        `(ids: string[]) => void`         |                        |
 | activateOnHover     | Активация наведением                         |                `boolean`                 |         `true`         |
 | renderItem          | Кастомный рендер строки                      |         `(ctx, helpers) => node`         |                        |
 | id                  | База id строк + цель внешних `aria-controls` |                 `string`                 |        авто-id         |

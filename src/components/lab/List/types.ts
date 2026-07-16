@@ -119,5 +119,19 @@ export interface ListCoreProps<T> extends ListItemGetters<T>, QAProps {
     style?: React.CSSProperties;
 }
 
-/** Слои (выделение — §6, dnd — §8 плана) добавятся аддитивно в следующих фазах */
-export type ListProps<T> = ListCoreProps<T>;
+/**
+ * Слой выделения (§6 плана). Пока `selectionMode` не передан, слоя нет:
+ *  ни `aria-selected`/`aria-multiselectable`, ни `ctx.state.selected`,
+ *  ни выделения по Space («не выбран» ≠ «не выбирается» для SR)
+ */
+export interface ListSelectionProps {
+    /** Включает слой. Отдельного `'none'` нет — его выражает отсутствие пропа */
+    selectionMode?: 'single' | 'multiple';
+    /** Наружу массив (сериализуемо), внутри Set */
+    selectedIds?: readonly string[];
+    defaultSelectedIds?: readonly string[];
+    onSelectedUpdate?: (ids: string[]) => void;
+}
+
+/** Слой dnd (§8 плана) добавится аддитивно в следующей фазе */
+export interface ListProps<T> extends ListCoreProps<T>, ListSelectionProps {}

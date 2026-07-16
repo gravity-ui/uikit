@@ -1,8 +1,11 @@
+import * as React from 'react';
+
 import {faker} from '@faker-js/faker/locale/en';
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 import {action} from 'storybook/actions';
 
 import {Avatar} from '../../../Avatar';
+import {Label} from '../../../Label';
 import {Flex} from '../../../layout';
 import {List} from '../List';
 
@@ -108,6 +111,7 @@ export const Actions: Story = {
 const users = Array.from({length: 5}, (_, index) => ({
     id: `user-${index}`,
     name: faker.person.fullName(),
+    email: faker.internet.email(),
     role: faker.person.jobTitle(),
     avatar: faker.image.urlLoremFlickr({category: 'people', width: 64, height: 64}),
 }));
@@ -137,4 +141,50 @@ export const CustomMarkup: Story = {
             )}
         />
     ),
+};
+
+// К5. Одиночный выбор
+export const SingleSelection: Story = {
+    render: function SingleSelectionStory() {
+        const [sel, setSel] = React.useState<string[]>(['p1']);
+        return (
+            <List
+                aria-label="Projects"
+                items={projects}
+                getItemContent={(p) => p.name}
+                selectionMode="single"
+                selectedIds={sel}
+                onSelectedUpdate={setSel}
+            />
+        );
+    },
+};
+
+// К6. Множественный выбор, свои слоты
+export const MultipleSelection: Story = {
+    render: function MultipleSelectionStory() {
+        const [sel, setSel] = React.useState<string[]>([]);
+        return (
+            <List
+                aria-label="Users"
+                items={users}
+                getItemTextValue={(u) => u.name}
+                selectionMode="multiple"
+                selectedIds={sel}
+                onSelectedUpdate={setSel}
+                renderItem={(ctx, {getItemProps, getItemViewProps}) => (
+                    // getItemViewProps: active/selected/disabled/selectionStyle разом —
+                    // забыть disabled невозможно
+                    <List.ItemView
+                        {...getItemProps()}
+                        {...getItemViewProps()}
+                        description={ctx.item.email}
+                        endContent={<Label>{ctx.item.role}</Label>}
+                    >
+                        {ctx.item.name}
+                    </List.ItemView>
+                )}
+            />
+        );
+    },
 };

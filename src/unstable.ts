@@ -50,6 +50,7 @@ export {
 export {
     List as unstable_List,
     type ListProps as unstable_ListProps,
+    type ListSelectionProps as unstable_ListSelectionProps,
     type ListItemContext as unstable_ListItemContext,
     type ListItemHelpers as unstable_ListItemHelpers,
     type ListItemGetters as unstable_ListItemGetters,

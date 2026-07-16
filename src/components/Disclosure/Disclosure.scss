@@ -37,6 +37,12 @@ $gap: 8px;
     &__trigger_arrow_end {
         flex-direction: row-reverse;
     }
+    &__trigger_width_max {
+        width: 100%;
+    }
+    &__trigger_justify-content_space-between {
+        justify-content: space-between;
+    }
     &__trigger_disabled {
         color: var(--g-disclosure-text-color-disabled, var(--_--text-color-disabled));
         cursor: auto;

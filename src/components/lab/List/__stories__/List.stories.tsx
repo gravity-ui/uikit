@@ -7,6 +7,7 @@ import {action} from 'storybook/actions';
 import {Avatar} from '../../../Avatar';
 import {Label} from '../../../Label';
 import {Flex} from '../../../layout';
+import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
 
 import './ListStories.scss';
@@ -185,6 +186,54 @@ export const MultipleSelection: Story = {
                     </List.ItemView>
                 )}
             />
+        );
+    },
+};
+
+// К7. Десятки тысяч строк: слой виртуализации + слой выделения (независимы).
+// ListVirtualizer пока не экспортируется из пакета (обкатка в лабе);
+// наружу слой уедет отдельным энтрипоинтом
+interface LogRecord {
+    id: string;
+    message: string;
+    description?: string;
+}
+
+const logRecords: LogRecord[] = Array.from({length: 10_000}, (_, index) => ({
+    id: `log-${index}`,
+    message: `${String(index).padStart(5, '0')} · ${faker.hacker.phrase()}`,
+    // строки переменной высоты: у каждой пятой — description
+    description: index % 5 === 0 ? faker.hacker.ingverb() : undefined,
+}));
+
+export const Virtualized: Story = {
+    render: function VirtualizedStory() {
+        const [sel, setSel] = React.useState<string[]>([]);
+        return (
+            <ListVirtualizer<LogRecord>
+                estimateItemSize={(ctx) => (ctx.item.description ? 56 : 36)}
+                measure
+            >
+                {/* корень List — скролл-контейнер: потребитель ОБЯЗАН ограничить высоту */}
+                <List
+                    aria-label="Logs"
+                    style={{height: 480, width: 500}}
+                    items={logRecords}
+                    getItemTextValue={(record) => record.message}
+                    selectionMode="single"
+                    selectedIds={sel}
+                    onSelectedUpdate={setSel}
+                    renderItem={(ctx, {getItemProps, getItemViewProps}) => (
+                        <List.ItemView
+                            {...getItemProps()}
+                            {...getItemViewProps()}
+                            description={ctx.item.description}
+                        >
+                            {ctx.item.message}
+                        </List.ItemView>
+                    )}
+                />
+            </ListVirtualizer>
         );
     },
 };

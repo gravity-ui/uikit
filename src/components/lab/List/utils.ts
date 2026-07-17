@@ -15,12 +15,19 @@ export interface ListRow<T> {
     disabled: boolean;
     content?: React.ReactNode;
     textValue: string;
+    /**
+     * Позиция среди опций, с 1 (заголовки секций не считаются) — источник
+     * aria-posinset при виртуализации; у секций отсутствует
+     */
+    posInSet?: number;
 }
 
 export interface FlattenResult<T> {
     rows: ListRow<T>[];
     rowById: Map<string, ListRow<T>>;
     domIdToId: Map<string, string>;
+    /** Число опций (без заголовков секций) — источник aria-setsize */
+    optionsCount: number;
 }
 
 /** Кодирование инъективное: `"a b"` и `"a_b"` не должны схлопнуться */
@@ -57,6 +64,7 @@ export function flattenItems<T>(
     const rows: ListRow<T>[] = [];
     const rowById = new Map<string, ListRow<T>>();
     const domIdToId = new Map<string, string>();
+    let optionsCount = 0;
 
     const pushRow = (item: T, kind: 'item' | 'section') => {
         const rawId = getItemId ? getItemId(item) : defaultGetItemId(item);
@@ -84,6 +92,9 @@ export function flattenItems<T>(
             );
         }
 
+        if (kind === 'item') {
+            optionsCount += 1;
+        }
         const row: ListRow<T> = {
             id,
             domId: getItemDomId(listId, id),
@@ -95,6 +106,7 @@ export function flattenItems<T>(
                 (getItemDisabled ? Boolean(getItemDisabled(item)) : defaultGetItemDisabled(item)),
             content,
             textValue,
+            ...(kind === 'item' ? {posInSet: optionsCount} : undefined),
         };
         rows.push(row);
         rowById.set(id, row);
@@ -122,7 +134,7 @@ export function flattenItems<T>(
         }
     }
 
-    return {rows, rowById, domIdToId};
+    return {rows, rowById, domIdToId, optionsCount};
 }
 
 export type ListNavigationCommand = 'next' | 'prev' | 'first' | 'last';

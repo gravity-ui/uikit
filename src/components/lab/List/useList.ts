@@ -3,6 +3,7 @@ import * as React from 'react';
 import {mergeRefs, useControlledState, useLayoutEffect, useUniqId} from '../../../hooks';
 import {warnOnce} from '../../utils/warn';
 
+import {ListVirtualizationContext} from './VirtualizationContext';
 import {composeItemProps} from './composeItemProps';
 import type {ListItemContext, ListItemDOMProps, ListProps, ListPropsOverrides} from './types';
 import {TYPEAHEAD_TIMEOUT, findTypeaheadMatch, flattenItems, getNextActiveId} from './utils';
@@ -23,6 +24,12 @@ export interface ListInstance<T> {
     visibleIds: string[];
     getItemContext(id: string): ListItemContext<T>;
     getItemProps(id: string, overrides?: ListPropsOverrides): ListItemDOMProps;
+    /**
+     * Индекс строки с roving tab-stop в visibleIds (активной, а без активной —
+     * первой навигабельной); −1, если опций нет. Рендерер виртуализации (§7)
+     * держит её смонтированной всегда
+     */
+    pinnedRowIndex: number;
 }
 
 const NAVIGATION_COMMANDS: Record<string, ListNavigationCommand> = {
@@ -54,6 +61,10 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
 
     const fallbackId = useUniqId();
     const listId = props.id ?? fallbackId;
+
+    // Слой виртуализации (§7): ядро знает только о факте его включения —
+    // aria-setsize/posinset появляются лишь когда в DOM лежит окно строк
+    const virtualized = React.useContext(ListVirtualizationContext) !== null;
 
     // У перегрузок useControlledState нет варианта «value и defaultValue могут
     // быть undefined одновременно», хотя реализация с ним корректна; для
@@ -121,7 +132,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         onItemAction?.(row.id, row.item);
     };
 
-    const {rows, rowById, domIdToId} = React.useMemo(
+    const {rows, rowById, domIdToId, optionsCount} = React.useMemo(
         () =>
             flattenItems(listId, items, {
                 getItemId,
@@ -150,6 +161,12 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         () => rows.find((row) => row.kind === 'item')?.id,
         [rows],
     );
+
+    // Строка с roving tab-stop — зеркало логики tabIndex в getItemProps.
+    // Слой виртуализации пинит её в окне: выгрузка сфокусированной строки
+    // роняет фокус на body, выгрузка tab-stop теряет список из Tab-порядка
+    const pinnedRowId = effectiveActiveId ?? firstNavigableId;
+    const pinnedRowIndex = pinnedRowId === undefined ? -1 : (rowById.get(pinnedRowId)?.index ?? -1);
 
     const containerRef = React.useRef<HTMLDivElement>(null);
     const elementsRef = React.useRef(new Map<string, HTMLElement>());
@@ -200,10 +217,19 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         return forked;
     };
 
-    // Шаг «б» клавиатурной машины — синхронизация фокуса с активностью (§5)
+    // Шаг «б» клавиатурной машины — синхронизация фокуса с активностью (§5).
+    // Прокруткой управляем сами: нативный скролл focus() у Chromium
+    // ЦЕНТРИРУЕТ полностью невидимый элемент (а на границе вьюпорта
+    // следующая строка всегда полностью невидима — при обходе стрелками
+    // это скачки на полэкрана); scrollIntoView с block: 'nearest'
+    // доскролливает ровно недостающую высоту (в jsdom метода нет)
     const syncFocusToActive = React.useCallback((id: string) => {
         if (FOCUS_STRATEGY === 'roving') {
-            elementsRef.current.get(id)?.focus();
+            const element = elementsRef.current.get(id);
+            if (element) {
+                element.focus({preventScroll: true});
+                element.scrollIntoView?.({block: 'nearest'});
+            }
         }
     }, []);
 
@@ -355,6 +381,11 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             // «не выбран» ≠ «не выбирается»: со слоем выделения aria-selected
             // есть на каждой опции, без слоя — ни на одной
             'aria-selected': selected,
+            // При виртуализации в DOM лежит только окно строк — без явной
+            // нумерации SR объявит «3 из 12» на списке из тысяч опций.
+            // Нумерация по опциям: заголовки секций не считаются (§7)
+            'aria-setsize': virtualized ? optionsCount : undefined,
+            'aria-posinset': virtualized ? row.posInSet : undefined,
             'data-active': active ? '' : undefined,
             'data-disabled': row.disabled ? '' : undefined,
             'data-selected': selected ? '' : undefined,
@@ -408,5 +439,5 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
 
     const visibleIds = React.useMemo(() => rows.map((row) => row.id), [rows]);
 
-    return {getContainerProps, visibleIds, getItemContext, getItemProps};
+    return {getContainerProps, visibleIds, getItemContext, getItemProps, pinnedRowIndex};
 }

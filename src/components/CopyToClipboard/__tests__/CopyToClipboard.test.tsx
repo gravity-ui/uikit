@@ -81,26 +81,9 @@ describe('CopyToClipboard', () => {
         });
     });
 
-    test('handles navigator.clipboard.writeText failure', async () => {
+    test('should handle copy via fallback on missing Clipboard API', async () => {
         const onCopy = jest.fn();
-        const error = new Error('Copy failed');
-        (navigator.clipboard.writeText as jest.Mock).mockRejectedValue(error);
-
-        render(
-            <CopyToClipboard text="text" onCopy={onCopy}>
-                <button>Copy</button>
-            </CopyToClipboard>,
-        );
-
-        fireEvent.click(screen.getByText('Copy'));
-
-        await waitFor(() => {
-            expect(onCopy).toHaveBeenCalledWith('text', false);
-        });
-    });
-
-    test('should handle copy via fallback', async () => {
-        const onCopy = jest.fn();
+        const originalClipboardDescriptor = Object.getOwnPropertyDescriptor(navigator, 'clipboard');
         Object.defineProperty(navigator, 'clipboard', {
             value: undefined,
             configurable: true,
@@ -117,5 +100,29 @@ describe('CopyToClipboard', () => {
         await waitFor(() => {
             expect(onCopy).toHaveBeenCalledWith('text', true);
         });
+
+        if (originalClipboardDescriptor) {
+            Object.defineProperty(navigator, 'clipboard', originalClipboardDescriptor);
+        }
+    });
+
+    test('should handle copy via fallback on Clipboard API failure', async () => {
+        const onCopy = jest.fn();
+        const error = new Error('Copy failed');
+        (navigator.clipboard.writeText as jest.Mock).mockRejectedValue(error);
+
+        render(
+            <CopyToClipboard text="text" onCopy={onCopy}>
+                <button>Copy</button>
+            </CopyToClipboard>,
+        );
+
+        fireEvent.click(screen.getByText('Copy'));
+
+        await waitFor(() => {
+            expect(onCopy).toHaveBeenCalledWith('text', true);
+        });
+
+        (navigator.clipboard.writeText as jest.Mock).mockRestore();
     });
 });

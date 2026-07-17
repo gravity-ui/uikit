@@ -4,12 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+`Icon` renders an SVG glyph at a given size and color, taking the SVG as a React component or an imported asset. It serves as a single proxy for using SVGs across the codebase, which can be loaded through a React component or Webpack loaders such as [`SVGR`](https://react-svgr.com/docs/webpack/), [`svg-react-loader`](https://github.com/jhamlet/svg-react-loader), [`svg-inline-loader`](https://github.com/webpack-contrib/svg-inline-loader), or [`svg-sprite-loader`](https://github.com/JetBrains/svg-sprite-loader).
+
 ```tsx
 import {Icon} from '@gravity-ui/uikit';
 ```
-
-The `Icon` component is a wrapper for SVG icon. SVGs can be loaded in different ways, such as though a React component or various Webpack loaders: [`SVGR`](https://react-svgr.com/docs/webpack/), [`svg-react-loader`](https://github.com/jhamlet/svg-react-loader), [`svg-inline-loader`](https://github.com/webpack-contrib/svg-inline-loader), or [`svg-sprite-loader`](https://github.com/JetBrains/svg-sprite-loader).
-The `Icon` component serves as a proxy to use through the codebase.
 
 ### React component
 

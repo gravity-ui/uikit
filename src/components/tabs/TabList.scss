@@ -3,6 +3,7 @@
 
 $block: '.#{variables.$ns}tab-list';
 $tabBlock: '.#{variables.$ns}tab';
+$tabListCollapseItemBlock: '.#{variables.$ns}tab-list-collapse-item';
 
 #{$block} {
     display: flex;
@@ -18,7 +19,8 @@ $tabBlock: '.#{variables.$ns}tab';
             --_--item-border-width: 2px;
 
             #{$tabBlock}__title,
-            #{$tabBlock}__counter {
+            #{$tabBlock}__counter,
+            #{$tabListCollapseItemBlock} {
                 @include mixins.text-body-1();
             }
         }
@@ -29,7 +31,8 @@ $tabBlock: '.#{variables.$ns}tab';
             --_--item-border-width: 2px;
 
             #{$tabBlock}__title,
-            #{$tabBlock}__counter {
+            #{$tabBlock}__counter,
+            #{$tabListCollapseItemBlock} {
                 @include mixins.text-body-2();
             }
         }
@@ -40,10 +43,20 @@ $tabBlock: '.#{variables.$ns}tab';
             --_--item-border-width: 3px;
 
             #{$tabBlock}__title,
-            #{$tabBlock}__counter {
+            #{$tabBlock}__counter,
+            #{$tabListCollapseItemBlock} {
                 @include mixins.text-subheader-3();
             }
         }
+    }
+
+    &_overflow_collapse {
+        flex-wrap: nowrap;
+    }
+
+    &_overflow_scroll {
+        flex-wrap: nowrap;
+        overflow-x: auto;
     }
 
     #{$tabBlock}:not(:last-child) {

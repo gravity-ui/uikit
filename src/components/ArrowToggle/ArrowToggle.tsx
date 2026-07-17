@@ -1,6 +1,7 @@
 import {ChevronDown} from '@gravity-ui/icons';
 
 import {Icon} from '../Icon';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
@@ -14,7 +15,13 @@ export interface ArrowToggleProps extends QAProps {
 
 const b = block('arrow-toggle');
 
-export function ArrowToggle({size = 16, direction = 'bottom', className, qa}: ArrowToggleProps) {
+export function ArrowToggle(rawProps: ArrowToggleProps) {
+    const {
+        size = 16,
+        direction = 'bottom',
+        className,
+        qa,
+    } = useDefaultProps('ArrowToggle', rawProps);
     return (
         <span
             style={{width: size, height: size}}

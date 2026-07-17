@@ -5,9 +5,10 @@ import {
     CloudArrowUpIn as DefaultIcon,
 } from '@gravity-ui/icons';
 
-import {Icon} from '../../../';
+import {Icon} from '../../..';
 import {useFileZoneContext} from '../FileDropZone.Provider';
 import {cnFileDropZone} from '../FileDropZone.classname';
+import {FileDropZoneQa} from '../constants';
 
 type FileDropZoneIconProps = {
     className?: string;
@@ -38,6 +39,10 @@ export const FileDropZoneIcon = ({className}: FileDropZoneIconProps) => {
     }
 
     return (
-        <Icon className={cnFileDropZone('icon', {error: isError}, className)} data={DisplayIcon} />
+        <Icon
+            className={cnFileDropZone('icon', {error: isError}, className)}
+            data={DisplayIcon}
+            qa={FileDropZoneQa.ICON}
+        />
     );
 };

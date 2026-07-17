@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+The `Drawer` component is a versatile interface element used in web applications to provide a sliding panel that emerges from the edge of the screen. This panel can house navigations, tools, or additional content. The component is implemented using React and CSS transitions for smooth animations.
+
 ```tsx
 import {Drawer} from '@gravity-ui/uikit';
 ```
-
-The `Drawer` component is a versatile interface element used in web applications to provide a sliding panel that emerges from the edge of the screen. This panel can house navigations, tools, or additional content. The component is implemented using React and CSS transitions for smooth animations.
 
 ## Usage
 
@@ -49,6 +49,16 @@ To control the placement of the `Drawer`, you can pass the `placement` prop. The
   <p>Content of the drawer</p>
 </Drawer>
 <Drawer onOpenChange={setVisible} open={isVisible} placement="bottom">
+  <p>Content of the drawer</p>
+</Drawer>
+```
+
+## Animation
+
+By default, the `Drawer` slides in and out with a transition. To show or hide it instantly, pass the `disableTransition` prop.
+
+```tsx
+<Drawer onOpenChange={setVisible} open={isVisible} disableTransition>
   <p>Content of the drawer</p>
 </Drawer>
 ```
@@ -94,6 +104,7 @@ const [size, setSize] = useState(500);
 | disableBodyScrollLock   | Disables locking scroll while open                                                                                                      |             `boolean`              |     `false`     |
 | disableEscapeKeyDown    | Disables triggering close on `Esc`                                                                                                      |             `boolean`              |     `false`     |
 | disableOutsideClick     | Disables triggering close on outside clicks                                                                                             |             `boolean`              |     `false`     |
+| disableTransition       | Disables the drawer's animation                                                                                                         |             `boolean`              |     `false`     |
 | disablePortal           | Disables using `Portal`                                                                                                                 |             `boolean`              |     `false`     |
 | keepMounted             | `Drawer` will not be removed from the DOM upon hiding                                                                                   |             `boolean`              |     `false`     |
 | resizable               | Enables resizing of the drawer via pointer                                                                                              |             `boolean`              |     `false`     |

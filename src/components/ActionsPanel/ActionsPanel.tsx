@@ -5,6 +5,7 @@ import {Xmark} from '@gravity-ui/icons';
 import {Button} from '../Button';
 import {Icon} from '../Icon';
 import {Text} from '../Text';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import {block} from '../utils/cn';
 
 import {CollapseActions} from './components/CollapseActions';
@@ -15,15 +16,9 @@ import './ActionsPanel.scss';
 
 const b = block('actions-panel');
 
-export const ActionsPanel = ({
-    className,
-    actions,
-    onClose,
-    renderNote,
-    noteClassName,
-    qa,
-    maxRowActions,
-}: ActionsPanelProps) => {
+export const ActionsPanel = (rawProps: ActionsPanelProps) => {
+    const {className, actions, onClose, renderNote, noteClassName, qa, maxRowActions} =
+        useDefaultProps('ActionsPanel', rawProps);
     const {t} = i18n.useTranslation();
     return (
         <div className={b(null, className)} data-qa={qa}>

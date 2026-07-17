@@ -14,25 +14,25 @@ import {PasswordInput} from '@gravity-ui/uikit';
 
 This button allows users to easily copy the input value to their clipboard. You can hide this button with `hideCopyButton` boolean prop.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={` <PasswordInput hideCopyButton={true} /> `}
->
-  <UIKit.PasswordInput hideCopyButton={true}  />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {PasswordInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return <PasswordInput hideCopyButton />;
+}
+SANDBOX-->
 
 ### Reveal button
 
 The `hideRevealButton` prop allows users to toggle the visibility of the password.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={` <PasswordInput hideRevealButton={true} /> `}
->
-  <UIKit.PasswordInput hideRevealButton={true}  />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {PasswordInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return <PasswordInput hideRevealButton />;
+}
+SANDBOX-->
 
 ### Properties
 

@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+`Sheet` is a component designed for using in the mobile context as an information or interactive element. You can place content of any size in it, since the internal scrolling and dynamic resizing are supported.
+
 ```tsx
 import {Sheet} from '@gravity-ui/uikit';
 ```
-
-`Sheet` is a component designed for using in the mobile context as an information or interactive element. You can place content of any size in it, since the internal scrolling and dynamic resizing are supported.
 
 On mobile devices, you can move a `Sheet` by pulling its main part or the swipe area. To close it, swipe down or tap the area outside the `Sheet`.
 
@@ -52,7 +52,7 @@ const SheetExample = () => {
 
 ## CSS API
 
-| Name                         | Description      |
-| :--------------------------- | :--------------- |
-| `--g-sheet-content-padding`  | Content padding  |
-| `--g-sheet-background-color` | Background color |
+| Name                         | Description                                                                                                                                                            |
+| :--------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--g-sheet-content-padding`  | Content padding. The default value automatically includes `env(safe-area-inset-bottom)` for the bottom and `max(10px, env(safe-area-inset-left/right))` for the sides. |
+| `--g-sheet-background-color` | Background color                                                                                                                                                       |

@@ -101,7 +101,7 @@ const semanticLight = [
     },
     {
         name: 'base-warning-light',
-        title: 'Warning Light.',
+        title: 'Warning Light',
         description: 'Warning semantic background.',
     },
     {

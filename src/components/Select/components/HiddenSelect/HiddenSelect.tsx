@@ -3,17 +3,18 @@
 import * as React from 'react';
 
 import {useFormResetHandler} from '../../../../hooks/private';
+import {getOptionValueKey, serializeOptionValue} from '../../utils';
 
-interface HiddenSelectProps {
+interface HiddenSelectProps<V> {
     name?: string;
-    value: string[];
+    value: V[];
     disabled?: boolean;
     form?: string;
-    onReset: (value: string[]) => void;
+    onReset: (value: V[]) => void;
 }
 //FIXME: current implementation is not accessible to screen readers and does not support browser autofill and
 // form validation
-export function HiddenSelect(props: HiddenSelectProps) {
+export function HiddenSelect<V>(props: HiddenSelectProps<V>) {
     const {name, value, disabled, form, onReset} = props;
 
     const ref = useFormResetHandler({onReset, initialValue: value});
@@ -24,14 +25,7 @@ export function HiddenSelect(props: HiddenSelectProps) {
 
     if (value.length === 0) {
         return (
-            <input
-                ref={ref}
-                type="hidden"
-                name={name}
-                value={value}
-                form={form}
-                disabled={disabled}
-            />
+            <input ref={ref} type="hidden" name={name} value="" form={form} disabled={disabled} />
         );
     }
 
@@ -39,9 +33,9 @@ export function HiddenSelect(props: HiddenSelectProps) {
         <React.Fragment>
             {value.map((v, i) => (
                 <input
-                    key={v}
+                    key={getOptionValueKey(v)}
                     ref={i === 0 ? ref : undefined}
-                    value={v}
+                    value={serializeOptionValue(v)}
                     type="hidden"
                     name={name}
                     form={form}

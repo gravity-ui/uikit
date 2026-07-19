@@ -103,6 +103,55 @@ export const WithActionButtons = {
     render: (args) => <WithActionButtonsShowcase {...args} />,
 } satisfies Story;
 
+type User = {id: number; name: string};
+
+const USERS: User[] = [
+    {id: 1, name: 'Alice'},
+    {id: 2, name: 'Bob'},
+    {id: 3, name: 'Charlie'},
+];
+
+export const WithGenericValues: Story = {
+    render: () => {
+        const [numberValue, setNumberValue] = React.useState<number[]>([]);
+        const [objectValue, setObjectValue] = React.useState<User[]>([]);
+
+        return (
+            <Flex direction="column" gap={4}>
+                <Flex direction="column" gap={2} alignItems="start">
+                    <Text variant="subheader-2">Number values</Text>
+                    <Select
+                        options={[
+                            {value: 1, content: 'One'},
+                            {value: 2, content: 'Two'},
+                            {value: 3, content: 'Three'},
+                        ]}
+                        value={numberValue}
+                        onUpdate={setNumberValue}
+                        placeholder="Select a number"
+                    />
+                    <Text variant="body-1">
+                        Selected: {numberValue.length ? numberValue[0] : 'none'}
+                    </Text>
+                </Flex>
+
+                <Flex direction="column" gap={2} alignItems="start">
+                    <Text variant="subheader-2">Object values (compared by reference)</Text>
+                    <Select
+                        options={USERS.map((u) => ({value: u, content: u.name}))}
+                        value={objectValue}
+                        onUpdate={setObjectValue}
+                        placeholder="Select a user"
+                    />
+                    <Text variant="body-1">
+                        Selected: {objectValue.length ? JSON.stringify(objectValue[0]) : 'none'}
+                    </Text>
+                </Flex>
+            </Flex>
+        );
+    },
+};
+
 const WithTitle: Decorator<StoryArgs> = (Story, context) => {
     return (
         <React.Fragment>

@@ -18,10 +18,16 @@ import type {
     SelectSize,
 } from './types';
 
+// Internal views of the public types with the value/data generics erased
+type ErasedOption = SelectOption<unknown, unknown>;
+type ErasedOptionGroup = SelectOptionGroup<unknown, unknown>;
+type ErasedOptions = SelectOptions<unknown, unknown>;
+type ErasedProps = SelectProps<unknown, unknown>;
+
 // "disable" property needs to deactivate group title item in List
 export type GroupTitleItem<T = any> = {label: string; disabled: true; data?: T};
 
-export type FlattenOption = SelectOption | GroupTitleItem;
+export type FlattenOption = SelectOption<any, any> | GroupTitleItem;
 
 export type FlattenOptions = FlattenOption[] & {
     [FLATTEN_KEY]: {
@@ -30,12 +36,12 @@ export type FlattenOptions = FlattenOption[] & {
 };
 
 export const isSelectGroupTitle = (
-    option?: SelectOption | SelectOptionGroup,
+    option?: ErasedOption | ErasedOptionGroup,
 ): option is GroupTitleItem => {
     return Boolean(option && 'label' in option);
 };
 
-export const getFlattenOptions = (options: SelectOptions): FlattenOptions => {
+export const getFlattenOptions = (options: ErasedOptions): FlattenOptions => {
     const flatten = options.reduce<FlattenOption[]>((acc, option) => {
         if ('label' in option) {
             acc.push({label: option.label, disabled: true, data: option.data});
@@ -91,7 +97,40 @@ export const getOptionsHeight = (args: {
     }, 0);
 };
 
-const getOptionText = (option: SelectOption): string => {
+export const serializeOptionValue = (value: unknown): string => {
+    switch (typeof value) {
+        case 'string':
+            return value;
+        case 'object':
+            try {
+                return JSON.stringify(value) ?? String(value);
+            } catch {
+                return String(value); // circular structure
+            }
+        default:
+            return String(value);
+    }
+};
+
+export const getOptionValueKey = (() => {
+    const keys = new WeakMap<object, string>();
+    let nextKey = 0;
+
+    // selection works by reference for object values, so React keys follow identity too
+    return (value: unknown): string => {
+        if (typeof value === 'object' && value !== null) {
+            let key = keys.get(value);
+            if (key === undefined) {
+                key = `obj-${nextKey++}`;
+                keys.set(value, key);
+            }
+            return key;
+        }
+        return serializeOptionValue(value);
+    };
+})();
+
+const getOptionText = (option: ErasedOption): string => {
     if (typeof option.content === 'string') {
         return option.content;
     }
@@ -104,23 +143,24 @@ const getOptionText = (option: SelectOption): string => {
         return option.text;
     }
 
-    return option.value;
+    return serializeOptionValue(option.value);
 };
 
 export const getSelectedOptionsContent = (
-    options: SelectOptions,
-    value: string[],
-    renderSelectedOption?: SelectProps['renderSelectedOption'],
+    options: ErasedOptions,
+    value: unknown[],
+    renderSelectedOption?: ErasedProps['renderSelectedOption'],
 ): React.ReactNode => {
     if (value.length === 0) {
         return null;
     }
 
-    const flattenSimpleOptions = options.filter(
-        (opt) => !isSelectGroupTitle(opt),
-    ) as SelectOption[];
+    const flattenSimpleOptions = options.filter((opt) => !isSelectGroupTitle(opt)) as SelectOption<
+        unknown,
+        unknown
+    >[];
 
-    const optionsMap = new Map<string, SelectOption>(
+    const optionsMap = new Map<unknown, ErasedOption>(
         flattenSimpleOptions.map((opt) => [opt.value, opt]),
     );
 
@@ -131,7 +171,7 @@ export const getSelectedOptionsContent = (
     if (renderSelectedOption) {
         return selectedOptions.map((option, index) => {
             return (
-                <React.Fragment key={option.value}>
+                <React.Fragment key={getOptionValueKey(option.value)}>
                     {renderSelectedOption(option, index)}
                 </React.Fragment>
             );
@@ -145,26 +185,26 @@ export const getSelectedOptionsContent = (
     }
 };
 
-const getTypedChildrenArray = (children: SelectProps['children']) => {
+const getTypedChildrenArray = (children: ErasedProps['children']) => {
     return React.Children.toArray(children) as (
-        | React.ReactElement<SelectOption, typeof Option>
-        | React.ReactElement<SelectOptionGroup, typeof OptionGroup>
+        | React.ReactElement<ErasedOption, typeof Option>
+        | React.ReactElement<ErasedOptionGroup, typeof OptionGroup>
     )[];
 };
 
-const getOptionsFromOptgroupChildren = (children: SelectOptionGroup['children']) => {
+const getOptionsFromOptgroupChildren = (children: ErasedOptionGroup['children']) => {
     return (
-        React.Children.toArray(children) as React.ReactElement<SelectOption, typeof Option>[]
+        React.Children.toArray(children) as React.ReactElement<ErasedOption, typeof Option>[]
     ).reduce((acc, {props}) => {
         if ('value' in props) {
             acc.push(props);
         }
 
         return acc;
-    }, [] as SelectOption[]);
+    }, [] as ErasedOption[]);
 };
 
-export const getOptionsFromChildren = (children: SelectProps['children']) => {
+export const getOptionsFromChildren = (children: ErasedProps['children']) => {
     return getTypedChildrenArray(children).reduce(
         (acc, {props}) => {
             if ('label' in props) {
@@ -181,7 +221,7 @@ export const getOptionsFromChildren = (children: SelectProps['children']) => {
 
             return acc;
         },
-        [] as (SelectOption | SelectOptionGroup)[],
+        [] as (ErasedOption | ErasedOptionGroup)[],
     );
 };
 
@@ -238,7 +278,7 @@ export const getActiveItem = (listRef: React.RefObject<List<FlattenOption> | nul
     return typeof activeItemIndex === 'number' ? items[activeItemIndex] : undefined;
 };
 
-const isOptionMatchedByFilter = (option: SelectOption, filter: string) => {
+const isOptionMatchedByFilter = (option: ErasedOption, filter: string) => {
     const lowerOptionText = getOptionText(option).toLocaleLowerCase();
     const lowerFilter = filter.toLocaleLowerCase();
 
@@ -248,7 +288,7 @@ const isOptionMatchedByFilter = (option: SelectOption, filter: string) => {
 export const getFilteredFlattenOptions = (args: {
     options: FlattenOption[];
     filter: string;
-    filterOption?: SelectProps['filterOption'];
+    filterOption?: SelectProps<any, any>['filterOption'];
 }) => {
     const {options, filter, filterOption} = args;
     const filteredOptions = options.filter((option) => {

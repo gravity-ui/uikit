@@ -23,6 +23,9 @@ export const useTabListCollapsedChildren = (
     tabListValue: string | undefined,
     containerRef: React.RefObject<HTMLElement>,
     enabled: boolean,
+    // In `sortable` mode the visible set is a strict prefix (the active tab is NOT force-kept
+    // visible), so a consumer can wrap exactly `slice(0, visibleItemCount)` tabs for drag-and-drop.
+    sortable = false,
 ): UseTabListCollapsedChildrenResult => {
     const collapseItemRef = React.useRef<HTMLButtonElement>(null);
 
@@ -92,7 +95,7 @@ export const useTabListCollapsedChildren = (
         };
     }
 
-    if (visibleChildrenCount === 0) {
+    if (!sortable && visibleChildrenCount === 0) {
         const selectedChild =
             childrenList.find((child) => !isReactNodeCollapsible(child)) ?? childrenList[0];
         const otherChildren = childrenList.filter((c) => c !== selectedChild);
@@ -127,7 +130,9 @@ export const useTabListCollapsedChildren = (
         };
     }
 
-    const notCollapsibleChildren = childrenList.filter((child) => !isReactNodeCollapsible(child));
+    const notCollapsibleChildren = sortable
+        ? []
+        : childrenList.filter((child) => !isReactNodeCollapsible(child));
 
     const shownChildren: typeof childrenList = [];
     const collapsedChildren: typeof childrenList = [];
@@ -135,7 +140,7 @@ export const useTabListCollapsedChildren = (
     let reservedToShowChildrenCount = notCollapsibleChildren.length;
 
     childrenList.forEach((child) => {
-        if (!isReactNodeCollapsible(child)) {
+        if (!sortable && !isReactNodeCollapsible(child)) {
             shownChildren.push(child);
             reservedToShowChildrenCount--;
             return;

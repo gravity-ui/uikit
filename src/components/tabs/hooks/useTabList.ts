@@ -120,6 +120,8 @@ export function useTabList(
         qa: _qa,
         contentOverflow,
         moreLabel: _moreLabel,
+        renderTabs: _renderTabs,
+        onCollapseUpdate: _onCollapseUpdate,
         ...htmlProps
     } = tabListProps;
 

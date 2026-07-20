@@ -3,7 +3,7 @@ import * as React from 'react';
 import {useLayoutEffect} from '../../../hooks/useLayoutEffect';
 import {useResizeObserver} from '../../../hooks/useResizeObserver';
 
-function getTabListGapFromContainer(container: HTMLElement, childSelector: string): number {
+function getTabListGapFromContainer(container: HTMLElement, childSelector: string): number | null {
     const directChildren = Array.from(
         container.querySelectorAll<HTMLElement>(`:scope > :where(${childSelector})`),
     );
@@ -16,7 +16,7 @@ function getTabListGapFromContainer(container: HTMLElement, childSelector: strin
         return parseFloat(getComputedStyle(child).marginInlineEnd) || 0;
     }
 
-    return 0;
+    return null;
 }
 
 /**
@@ -41,7 +41,7 @@ export function useTabListGapFromContainer(
 
         setGap((prev) => {
             const next = getTabListGapFromContainer(el, childSelector);
-            return next === prev ? prev : next;
+            return next === null ? prev : next;
         });
     }, [containerRef, childSelector]);
 

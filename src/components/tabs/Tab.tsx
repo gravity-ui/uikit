@@ -4,18 +4,27 @@ import * as React from 'react';
 
 import {MenuItem} from '../lab/Menu';
 import {useDefaultProps} from '../theme/useDefaultProps';
+import {getLinkRelWithFallback} from '../utils/getLinkRelWithFallback';
 
 import {TabContent} from './TabContent';
+import type {TabElementProps} from './hooks/useTab';
 import {useTab} from './hooks/useTab';
-import type {TabComponentElementType, TabProps} from './types';
+import type {
+    TabButtonProps,
+    TabComponentElementType,
+    TabComponentProps,
+    TabLinkProps,
+    TabProps,
+} from './types';
 import {isTabComponentProps, isTabLinkProps} from './utils';
 
 import './Tab.scss';
 
-export const Tab = React.forwardRef<HTMLAnchorElement | HTMLButtonElement, TabProps>(function Tab<
-    T extends TabComponentElementType,
->(
-    rawProps: TabProps<T>,
+export const TabInner = React.forwardRef<
+    HTMLAnchorElement | HTMLButtonElement,
+    TabProps & {isMenuItem?: boolean}
+>(function TabInner<T extends TabComponentElementType>(
+    rawProps: TabProps<T> & {isMenuItem?: boolean},
     ref:
         | React.Ref<HTMLButtonElement>
         | React.Ref<HTMLAnchorElement>
@@ -36,15 +45,29 @@ export const Tab = React.forwardRef<HTMLAnchorElement | HTMLButtonElement, TabPr
     );
 
     if (isTabComponentProps(props)) {
-        return React.createElement(props.component, {
-            ...tabProps,
-            ref,
-            isMenuItem: props.isMenuItem || false,
-        });
+        if (props.isMenuItem) {
+            const MenuItemComponent = MenuItem as unknown as React.ForwardRefExoticComponent<
+                TabElementProps & {component: Exclude<T, undefined>} & React.RefAttributes<
+                        T extends string ? React.ComponentRef<T> : T
+                    >
+            >;
+
+            return (
+                <MenuItemComponent
+                    {...tabProps}
+                    ref={ref as React.Ref<T extends string ? React.ComponentRef<T> : T>}
+                    component={props.component}
+                >
+                    {content}
+                </MenuItemComponent>
+            );
+        }
+
+        return React.createElement(props.component, {...tabProps, ref}, content);
     }
 
     if (isTabLinkProps(props)) {
-        const rel = props.target === '_blank' && !props.rel ? 'noopener noreferrer' : props.rel;
+        const rel = getLinkRelWithFallback(props);
 
         if (props.isMenuItem) {
             return (
@@ -89,5 +112,21 @@ export const Tab = React.forwardRef<HTMLAnchorElement | HTMLButtonElement, TabPr
         </button>
     );
 });
+
+TabInner.displayName = 'TabInner';
+
+export const Tab = React.forwardRef<HTMLAnchorElement | HTMLButtonElement, TabProps>(
+    function Tab(rawProps, ref) {
+        return <TabInner ref={ref} {...rawProps} />;
+    },
+) as (<T extends TabComponentElementType, P extends TabProps<T>>(
+    props: P extends {component: Exclude<T, undefined>}
+        ? TabComponentProps<Exclude<T, undefined>> & {
+              ref?: React.Ref<T extends string ? React.ComponentRef<T> : T>;
+          }
+        : P extends {href: string}
+          ? TabLinkProps & {ref?: React.Ref<HTMLAnchorElement>}
+          : TabButtonProps & {ref?: React.Ref<HTMLButtonElement>},
+) => React.ReactElement) & {displayName: string};
 
 Tab.displayName = 'Tab';

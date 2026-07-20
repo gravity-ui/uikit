@@ -35,8 +35,6 @@ interface TabCommonProps extends QAProps, DOMProps {
     };
     disabled?: boolean;
     children?: React.ReactNode;
-    /** Tab was collapsed and rendered in `Menu` */
-    isMenuItem?: boolean;
 }
 
 export interface TabButtonProps

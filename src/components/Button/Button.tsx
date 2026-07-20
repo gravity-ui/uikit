@@ -7,6 +7,7 @@ import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {isIcon, isSvg} from '../utils/common';
 import {eventBroker} from '../utils/event-broker';
+import {getLinkRelWithFallback} from '../utils/getLinkRelWithFallback';
 import {isOfType} from '../utils/isOfType';
 
 import {ButtonIcon, getIconSide} from './ButtonIcon';
@@ -179,7 +180,7 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
                 {...(extraProps as (typeof props)['extraProps'])}
                 {...commonProps}
                 ref={ref as React.Ref<HTMLAnchorElement>}
-                rel={props.target === '_blank' && !rest.rel ? 'noopener noreferrer' : rest.rel}
+                rel={getLinkRelWithFallback(props)}
                 aria-disabled={disabled ?? undefined}
             >
                 {prepareChildren(children)}

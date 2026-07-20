@@ -9,6 +9,7 @@ import {BUTTON_ICON_SIZE_MAP} from '../../Button/constants';
 import {Icon} from '../../Icon';
 import {useDirection} from '../../theme';
 import {block} from '../../utils/cn';
+import {getLinkRelWithFallback} from '../../utils/getLinkRelWithFallback';
 import {mergeProps} from '../../utils/mergeProps';
 import {ListItemView} from '../ListItemView/ListItemView';
 import type {ListItemViewProps} from '../ListItemView/ListItemView';
@@ -58,6 +59,7 @@ export const MenuItem = React.forwardRef(
             children,
             className,
             qa,
+            component: _component,
             ...restComponentProps
         } = props;
         const [submenuOpen, setSubmenuOpen] = React.useState(false);
@@ -137,7 +139,8 @@ export const MenuItem = React.forwardRef(
 
         let component: React.ElementType;
         let componentProps: React.ComponentProps<typeof component>;
-        const commonComponentProps = {
+        const commonComponentProps = menuContext.getItemProps({
+            ...restComponentProps,
             role: 'menuitem',
             tabIndex,
             className: b(
@@ -148,14 +151,11 @@ export const MenuItem = React.forwardRef(
                 className,
             ),
             'data-qa': qa,
-            ...menuContext.getItemProps({
-                ...restComponentProps,
-                onClick: handleClick,
-                onFocus: handleFocus,
-                onPointerEnter: handlePointerEnter,
-                onPointerLeave: handlePointerLeave,
-            }),
-        };
+            onClick: handleClick,
+            onFocus: handleFocus,
+            onPointerEnter: handlePointerEnter,
+            onPointerLeave: handlePointerLeave,
+        } as React.HTMLProps<HTMLElement>);
 
         if (isMenuItemComponentProps(props)) {
             component = props.component;
@@ -167,7 +167,7 @@ export const MenuItem = React.forwardRef(
             component = 'a';
             componentProps = {
                 ...commonComponentProps,
-                rel: props.target === '_blank' && !props.rel ? 'noopener noreferrer' : props.rel,
+                rel: getLinkRelWithFallback(props),
                 'aria-disabled': disabled ?? undefined,
             } satisfies React.ComponentProps<'a'>;
         } else {

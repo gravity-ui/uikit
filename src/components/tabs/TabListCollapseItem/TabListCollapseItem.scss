@@ -15,6 +15,7 @@ $block: '.#{variables.$ns}tab-list-collapse-item';
     --_--text-color: var(--g-color-text-secondary);
     --_--count-color: var(--g-color-text-hint);
 
+    &[aria-expanded='true'],
     &:hover,
     &:focus-visible {
         --_--text-color: var(--g-color-text-primary);
@@ -35,20 +36,13 @@ $block: '.#{variables.$ns}tab-list-collapse-item';
     }
 
     &_lone {
+        @include mixins.overflow-ellipsis();
+
         flex-grow: 1;
         border-block-end-color: var(--g-color-line-brand);
 
         #{$block}__count {
             margin-inline-start: auto;
-        }
-    }
-
-    &__menu-item {
-        padding: 0;
-
-        & > * {
-            width: 100%;
-            padding: var(--_--padding-block) var(--_--padding-inline);
         }
     }
 }

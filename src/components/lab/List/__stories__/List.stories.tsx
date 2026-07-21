@@ -10,6 +10,22 @@ import {Flex} from '../../../layout';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
 
+import {ReorderDndKitExample} from './ReorderDndKitExample';
+import reorderDndKitCode from './ReorderDndKitExample?raw';
+import {ReorderDndKitVirtualizedExample} from './ReorderDndKitVirtualizedExample';
+import reorderDndKitVirtualizedCode from './ReorderDndKitVirtualizedExample?raw';
+import {ReorderHelloPangeaExample} from './ReorderHelloPangeaExample';
+import reorderHelloPangeaCode from './ReorderHelloPangeaExample?raw';
+import {ReorderHelloPangeaVirtualizedExample} from './ReorderHelloPangeaVirtualizedExample';
+import reorderHelloPangeaVirtualizedCode from './ReorderHelloPangeaVirtualizedExample?raw';
+import {ReorderPragmaticExample} from './ReorderPragmaticExample';
+import reorderPragmaticCode from './ReorderPragmaticExample?raw';
+import {ReorderPragmaticVirtualizedExample} from './ReorderPragmaticVirtualizedExample';
+import reorderPragmaticVirtualizedCode from './ReorderPragmaticVirtualizedExample?raw';
+import useDndKitListDndCode from './useDndKitListDnd?raw';
+import useHelloPangeaListDndCode from './useHelloPangeaListDnd?raw';
+import usePragmaticListDndCode from './usePragmaticListDnd?raw';
+
 import './ListStories.scss';
 
 const meta: Meta = {
@@ -205,6 +221,116 @@ const logRecords: LogRecord[] = Array.from({length: 10_000}, (_, index) => ({
     // строки переменной высоты: у каждой пятой — description
     description: index % 5 === 0 ? faker.hacker.ingverb() : undefined,
 }));
+
+// Полный исходник примера для панели Code: по умолчанию сторибук показывает
+// только тело render — примеры вынесены в самодостаточные файлы-компоненты,
+// и Code собирается из их сырцов (компонент + адаптер-хук), копируется как есть
+const exampleSource = (files: Array<[name: string, code: string]>) =>
+    files.map(([name, code]) => `// ─────────── ${name} ───────────\n\n${code}`).join('\n');
+
+// К8. Реордер (dnd-либа потребителя). Референс №1 — pragmatic-drag-and-drop:
+// «полная» форма адаптера §8 (props через ref-регистрацию строк + состояние
+// одним пропом dnd)
+export const Reorder: Story = {
+    render: () => <ReorderPragmaticExample />,
+    parameters: {
+        docs: {
+            source: {
+                language: 'tsx',
+                code: exampleSource([
+                    ['ReorderPragmaticExample.tsx', reorderPragmaticCode],
+                    ['usePragmaticListDnd.ts', usePragmaticListDndCode],
+                ]),
+            },
+        },
+    },
+};
+
+// Референс №2 — dnd-kit: «state-only» адаптер + per-item хук useSortable
+// в компоненте строки потребителя через renderItem
+export const ReorderDndKit: Story = {
+    render: () => <ReorderDndKitExample />,
+    parameters: {
+        docs: {
+            source: {
+                language: 'tsx',
+                code: exampleSource([
+                    ['ReorderDndKitExample.tsx', reorderDndKitCode],
+                    ['useDndKitListDnd.ts', useDndKitListDndCode],
+                ]),
+            },
+        },
+    },
+};
+
+// dnd-kit × виртуализация — штатный рецепт dnd-kit для virtual-списков:
+// DragOverlay летит за курсором, оригинал на время drag прячется (соседи
+// закрывают его слот превью-сдвигом) и переживает выгрузку из окна
+// (детали — в шапке примера)
+export const ReorderDndKitVirtualized: Story = {
+    render: () => <ReorderDndKitVirtualizedExample />,
+    parameters: {
+        docs: {
+            source: {
+                language: 'tsx',
+                code: exampleSource([
+                    ['ReorderDndKitVirtualizedExample.tsx', reorderDndKitVirtualizedCode],
+                    ['useDndKitListDnd.ts', useDndKitListDndCode],
+                ]),
+            },
+        },
+    },
+};
+
+// Целевой кейс миграции со старого List — @hello-pangea/dnd: композиционная
+// интеграция по образцу старого List (детали и цена — в шапке примера)
+export const ReorderHelloPangea: Story = {
+    render: () => <ReorderHelloPangeaExample />,
+    parameters: {
+        docs: {
+            source: {
+                language: 'tsx',
+                code: exampleSource([
+                    ['ReorderHelloPangeaExample.tsx', reorderHelloPangeaCode],
+                    ['useHelloPangeaListDnd.ts', useHelloPangeaListDndCode],
+                ]),
+            },
+        },
+    },
+};
+
+// hello-pangea × виртуализация — модель virtual-режима старого List
+// (mode="virtual" + renderClone; детали — в шапке примера)
+export const ReorderHelloPangeaVirtualized: Story = {
+    render: () => <ReorderHelloPangeaVirtualizedExample />,
+    parameters: {
+        docs: {
+            source: {
+                language: 'tsx',
+                code: exampleSource([
+                    ['ReorderHelloPangeaVirtualizedExample.tsx', reorderHelloPangeaVirtualizedCode],
+                    ['useHelloPangeaListDnd.ts', useHelloPangeaListDndCode],
+                ]),
+            },
+        },
+    },
+};
+
+// pragmatic × виртуализация: та же интеграция одним пропом dnd поверх окна строк
+export const ReorderVirtualized: Story = {
+    render: () => <ReorderPragmaticVirtualizedExample />,
+    parameters: {
+        docs: {
+            source: {
+                language: 'tsx',
+                code: exampleSource([
+                    ['ReorderPragmaticVirtualizedExample.tsx', reorderPragmaticVirtualizedCode],
+                    ['usePragmaticListDnd.ts', usePragmaticListDndCode],
+                ]),
+            },
+        },
+    },
+};
 
 export const Virtualized: Story = {
     render: function VirtualizedStory() {

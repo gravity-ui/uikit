@@ -8,4 +8,46 @@ $block: '.#{variables.$ns}list-v2';
 
     margin: 0;
     padding: 0;
+
+    /* Слой dnd (§8): индикатор вставки лист рисует сам — по data-атрибутам
+       строки из getItemProps, поэтому он есть и в дефолтном, и в кастомном
+       renderItem (достаточно спреда getItemProps). Псевдоэлемент живёт на
+       самой строке — одинаково работает в плоском рендере и внутри
+       absolute+top обёрток виртуализатора. Атрибуты существуют только при
+       включённом слое: вне dnd селекторы ни на что не матчатся.
+       Пара «роль + атрибут» отсекает чужие узлы: строки листа всегда несут
+       role="option" из getItemProps, а собственный data-dragging во
+       вложенном маркапе ступени 3 (или строки вложенного списка) не должен
+       подхватывать стили этого листа */
+    [role='option'][data-dragging] {
+        opacity: 0.5;
+    }
+
+    [role='option'][data-drop-target] {
+        /* База для индикатора; z-index поднимает строку над соседями,
+           чтобы линию на границе не перекрывал фон следующей строки */
+        position: relative;
+        z-index: 1;
+
+        &::after {
+            content: '';
+            position: absolute;
+            inset-inline: 0;
+            height: 2px;
+            border-radius: 1px;
+            background: var(--g-color-line-brand);
+            pointer-events: none;
+        }
+    }
+
+    /* Линия лежит ВНУТРИ строки, а не по её внешней границе: под
+       виртуализацией корень листа — скролл-контейнер, и вынесенный наружу
+       пиксель обрезался бы у самой верхней (и нижней) строки окна */
+    [role='option'][data-drop-target='before']::after {
+        inset-block-start: 0;
+    }
+
+    [role='option'][data-drop-target='after']::after {
+        inset-block-end: 0;
+    }
 }

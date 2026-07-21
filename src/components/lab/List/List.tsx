@@ -7,7 +7,14 @@ import {ListItemView} from '../ListItemView/ListItemView';
 
 import {ListSectionHeader} from './SectionHeader';
 import {ListVirtualizationContext} from './VirtualizationContext';
-import type {ListItemContext, ListItemHelpers, ListProps, ListSize} from './types';
+import type {
+    ListItemContext,
+    ListItemDOMProps,
+    ListItemHelpers,
+    ListProps,
+    ListPropsOverrides,
+    ListSize,
+} from './types';
 import {useList} from './useList';
 
 import './List.scss';
@@ -19,10 +26,114 @@ const b = block('list-v2');
 // высот закрывает measure
 const ESTIMATED_ITEM_SIZE: Record<ListSize, number> = {s: 24, m: 28, l: 32, xl: 36};
 
+/**
+ * Стабильный диспетчер геттеров ядра для мемоизированных строк: сам объект
+ * живёт один на маунт листа и дёргает АКТУАЛЬНЫЙ инстанс ядра через ref —
+ * строка, пропустившая ре-рендер, не остаётся с устаревшим замыканием
+ */
+interface ListRowCore {
+    getItemProps: (id: string, overrides?: ListPropsOverrides) => ListItemDOMProps;
+}
+
+interface ListRowProps<T> {
+    ctx: ListItemContext<T>;
+    /**
+     * Инвалидатор мемо для выходов getItemProps, не выраженных в ctx (DOM id,
+     * roving tab-stop без активной, aria-нумерация при виртуализации) —
+     * значения считает ядро, строка ключ не интерпретирует
+     */
+    memoKey: string;
+    size: ListSize;
+    selectionStyle: 'check' | 'highlight';
+    /** Идёт перетаскивание (dnd-слой): вьюхе гасится CSS-hover */
+    dragActive: boolean;
+    renderItem: ListProps<T>['renderItem'];
+    core: ListRowCore;
+}
+
+function ListRowComponent<T>({
+    ctx,
+    size,
+    selectionStyle,
+    dragActive,
+    renderItem,
+    core,
+}: ListRowProps<T>) {
+    const helpers: ListItemHelpers = {
+        getItemProps: (overrides) => core.getItemProps(ctx.id, overrides),
+        getItemViewProps: () => ({
+            size,
+            active: ctx.state.active,
+            disabled: ctx.state.disabled,
+            // selected/selectionStyle — только при включённом слое:
+            // у вьюхи нет дефолта selectionStyle, без него выделение
+            // не видно
+            ...(ctx.state.selected === undefined
+                ? undefined
+                : {selected: ctx.state.selected, selectionStyle}),
+            // Во время перетаскивания hover-индикация вьюхи гасится
+            // (симметрично приостановке hover-активации в ядре): у либ
+            // с синтетическим драгом браузер продолжает вешать :hover
+            // на строку под курсором
+            ...(dragActive ? {hovered: false} : undefined),
+        }),
+    };
+
+    if (renderItem) {
+        return <React.Fragment>{renderItem(ctx, helpers)}</React.Fragment>;
+    }
+
+    return ctx.kind === 'section' ? (
+        <ListSectionHeader {...helpers.getItemProps()} size={size}>
+            {ctx.content}
+        </ListSectionHeader>
+    ) : (
+        <ListItemView {...helpers.getItemProps()} {...helpers.getItemViewProps()}>
+            {ctx.content}
+        </ListItemView>
+    );
+}
+
+function areListRowPropsEqual<T>(prev: ListRowProps<T>, next: ListRowProps<T>): boolean {
+    const a = prev.ctx;
+    const c = next.ctx;
+    return (
+        prev.memoKey === next.memoKey &&
+        prev.size === next.size &&
+        prev.selectionStyle === next.selectionStyle &&
+        prev.dragActive === next.dragActive &&
+        prev.renderItem === next.renderItem &&
+        prev.core === next.core &&
+        a.id === c.id &&
+        a.item === c.item &&
+        a.index === c.index &&
+        a.kind === c.kind &&
+        a.content === c.content &&
+        a.state.active === c.state.active &&
+        a.state.disabled === c.state.disabled &&
+        a.state.selected === c.state.selected &&
+        a.state.dragging === c.state.dragging &&
+        a.state.dropTarget === c.state.dropTarget
+    );
+}
+
+// Мемоизация строк по ctx-срезу (перф-обязательство §8): обновление
+// dropTarget на dragover приходит новым объектом адаптера — пере-рендерятся
+// только строки, чей срез изменился, а не весь список. Ctx сравнивается по
+// значениям полей (объект пересобирается каждый рендер), поэтому мемо
+// работает при стабильных identity items/геттеров/renderItem
+const ListRow = React.memo(ListRowComponent, areListRowPropsEqual) as typeof ListRowComponent;
+
 function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivElement>) {
     const {size = 'm', className, style, qa, renderItem, selectionMode} = props;
     const virtualization = React.useContext(ListVirtualizationContext);
     const list = useList(props);
+
+    const listRef = React.useRef(list);
+    listRef.current = list;
+    const [core] = React.useState<ListRowCore>(() => ({
+        getItemProps: (id, overrides) => listRef.current.getItemProps(id, overrides),
+    }));
 
     // Кэш контекстов для оценки высоты строк слоем виртуализации (см. ниже);
     // объявлен безусловно (правила хуков), используется только при активном слое
@@ -36,37 +147,22 @@ function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
     // single — подсветка строки
     const selectionStyle = selectionMode === 'multiple' ? 'check' : 'highlight';
 
-    const defaultRenderItem = (ctx: ListItemContext<T>, helpers: ListItemHelpers) =>
-        ctx.kind === 'section' ? (
-            <ListSectionHeader {...helpers.getItemProps()} size={size}>
-                {ctx.content}
-            </ListSectionHeader>
-        ) : (
-            <ListItemView {...helpers.getItemProps()} {...helpers.getItemViewProps()}>
-                {ctx.content}
-            </ListItemView>
-        );
+    // Смена (старт/финиш drag) стоит одного ре-рендера всех строк окна —
+    // в отличие от dropTarget, это происходит не на каждый dragover
+    const dragActive = (props.dnd?.draggingId ?? null) !== null;
 
-    const renderRowContent = renderItem ?? defaultRenderItem;
-
-    const renderRow = (id: string) => {
-        const ctx = list.getItemContext(id);
-        const helpers: ListItemHelpers = {
-            getItemProps: (overrides) => list.getItemProps(id, overrides),
-            getItemViewProps: () => ({
-                size,
-                active: ctx.state.active,
-                disabled: ctx.state.disabled,
-                // selected/selectionStyle — только при включённом слое:
-                // у вьюхи нет дефолта selectionStyle, без него выделение
-                // не видно
-                ...(ctx.state.selected === undefined
-                    ? undefined
-                    : {selected: ctx.state.selected, selectionStyle}),
-            }),
-        };
-        return <React.Fragment key={id}>{renderRowContent(ctx, helpers)}</React.Fragment>;
-    };
+    const renderRow = (id: string) => (
+        <ListRow<T>
+            key={id}
+            ctx={list.getItemContext(id)}
+            memoKey={list.getItemMemoKey(id)}
+            size={size}
+            selectionStyle={selectionStyle}
+            dragActive={dragActive}
+            renderItem={renderItem}
+            core={core}
+        />
+    );
 
     const containerProps = list.getContainerProps({
         ref: ref ?? undefined,

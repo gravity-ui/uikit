@@ -11,6 +11,8 @@ import {useDirection} from '../../theme';
 import {block} from '../../utils/cn';
 import {getLinkRelWithFallback} from '../../utils/getLinkRelWithFallback';
 import {mergeProps} from '../../utils/mergeProps';
+import type {PolymorphicOverloadProps} from '../../utils/polymorphic';
+import {isPolymorphicComponentProps, isPolymorphicLinkProps} from '../../utils/polymorphic';
 import {ListItemView} from '../ListItemView/ListItemView';
 import type {ListItemViewProps} from '../ListItemView/ListItemView';
 
@@ -31,13 +33,16 @@ import './MenuItem.scss';
 function isMenuItemComponentProps<T extends MenuItemComponentElementType>(
     p: MenuItemProps<T>,
 ): p is MenuItemComponentProps<Exclude<T, undefined>> {
-    return p.component !== undefined;
+    return isPolymorphicComponentProps<
+        MenuItemProps<T>,
+        MenuItemComponentProps<Exclude<T, undefined>>
+    >(p);
 }
 
 function isMenuItemLinkProps<T extends MenuItemComponentElementType>(
     p: MenuItemProps<T>,
 ): p is MenuItemLinkProps {
-    return p.href !== undefined;
+    return isPolymorphicLinkProps<MenuItemProps<T>, MenuItemLinkProps>(p);
 }
 
 const b = block('lab-menu-item');
@@ -138,8 +143,9 @@ export const MenuItem = React.forwardRef(
         };
 
         let component: React.ElementType;
-        let componentProps: React.ComponentProps<typeof component>;
+        let componentProps: React.ComponentPropsWithoutRef<typeof component>;
         const commonComponentProps = menuContext.getItemProps({
+            'data-qa': qa,
             ...restComponentProps,
             role: 'menuitem',
             tabIndex,
@@ -150,7 +156,6 @@ export const MenuItem = React.forwardRef(
                 },
                 className,
             ),
-            'data-qa': qa,
             onClick: handleClick,
             onFocus: handleFocus,
             onPointerEnter: handlePointerEnter,
@@ -233,13 +238,13 @@ export const MenuItem = React.forwardRef(
         return content;
     },
 ) as (<T extends MenuItemComponentElementType, P extends MenuItemProps<T>>(
-    props: P extends {component: Exclude<T, undefined>}
-        ? MenuItemComponentProps<Exclude<T, undefined>> & {
-              ref?: React.Ref<T extends string ? React.ComponentRef<T> : T>;
-          }
-        : P extends {href: string}
-          ? MenuItemLinkProps & {ref?: React.Ref<HTMLAnchorElement>}
-          : MenuItemButtonProps & {ref?: React.Ref<HTMLButtonElement>},
+    props: PolymorphicOverloadProps<
+        T,
+        P,
+        MenuItemComponentProps<Exclude<T, undefined>>,
+        MenuItemLinkProps,
+        MenuItemButtonProps
+    >,
 ) => React.ReactElement) & {displayName?: string};
 
 MenuItem.displayName = 'Menu.Item';

@@ -9,6 +9,12 @@ import {isIcon, isSvg} from '../utils/common';
 import {eventBroker} from '../utils/event-broker';
 import {getLinkRelWithFallback} from '../utils/getLinkRelWithFallback';
 import {isOfType} from '../utils/isOfType';
+import type {
+    PolymorphicComponentProps,
+    PolymorphicCustomElementType,
+    PolymorphicOverloadProps,
+} from '../utils/polymorphic';
+import {isPolymorphicComponentProps} from '../utils/polymorphic';
 
 import {ButtonIcon, getIconSide} from './ButtonIcon';
 import type {BUTTON_VIEWS} from './constants';
@@ -71,22 +77,22 @@ export interface ButtonLinkProps
 }
 
 export type ButtonComponentProps<T extends Exclude<ButtonCustomElementType, undefined>> =
-    ButtonCommonProps &
-        React.ComponentPropsWithoutRef<T> & {
-            component: T;
-            /**
-             * @deprecated Use additional props at the root
-             */
-            extraProps?: React.ComponentPropsWithoutRef<T>;
-        };
+    PolymorphicComponentProps<ButtonCommonProps, T> & {
+        /**
+         * @deprecated Use additional props at the root
+         */
+        extraProps?: React.ComponentPropsWithoutRef<T>;
+    };
 
 function isButtonComponentProps<T extends ButtonCustomElementType>(
     p: ButtonProps<T>,
 ): p is ButtonComponentProps<Exclude<T, undefined>> {
-    return p.component !== undefined;
+    return isPolymorphicComponentProps<ButtonProps<T>, ButtonComponentProps<Exclude<T, undefined>>>(
+        p,
+    );
 }
 
-export type ButtonCustomElementType = Exclude<React.ElementType, 'a' | 'button'> | undefined;
+export type ButtonCustomElementType = PolymorphicCustomElementType;
 
 export type ButtonProps<T extends ButtonCustomElementType = undefined> =
     | ButtonLinkProps
@@ -202,13 +208,13 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
         </button>
     );
 }) as <T extends ButtonCustomElementType, P extends ButtonProps<T>>(
-    props: P extends {component: Exclude<T, undefined>}
-        ? ButtonComponentProps<Exclude<T, undefined>> & {
-              ref?: React.Ref<T extends string ? React.ComponentRef<T> : T>;
-          }
-        : P extends {href: string}
-          ? ButtonLinkProps & {ref?: React.Ref<HTMLAnchorElement>}
-          : ButtonButtonProps & {ref?: React.Ref<HTMLButtonElement>},
+    props: PolymorphicOverloadProps<
+        T,
+        P,
+        ButtonComponentProps<Exclude<T, undefined>>,
+        ButtonLinkProps,
+        ButtonButtonProps
+    >,
 ) => React.ReactElement;
 
 export const Button = Object.assign(_Button, {Icon: ButtonIcon});

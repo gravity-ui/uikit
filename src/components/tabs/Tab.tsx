@@ -5,6 +5,7 @@ import * as React from 'react';
 import {MenuItem} from '../lab/Menu';
 import {useDefaultProps} from '../theme/useDefaultProps';
 import {getLinkRelWithFallback} from '../utils/getLinkRelWithFallback';
+import type {PolymorphicOverloadProps} from '../utils/polymorphic';
 
 import {TabContent} from './TabContent';
 import type {TabElementProps} from './hooks/useTab';
@@ -120,13 +121,13 @@ export const Tab = React.forwardRef<HTMLAnchorElement | HTMLButtonElement, TabPr
         return <TabInner ref={ref} {...rawProps} />;
     },
 ) as (<T extends TabComponentElementType, P extends TabProps<T>>(
-    props: P extends {component: Exclude<T, undefined>}
-        ? TabComponentProps<Exclude<T, undefined>> & {
-              ref?: React.Ref<T extends string ? React.ComponentRef<T> : T>;
-          }
-        : P extends {href: string}
-          ? TabLinkProps & {ref?: React.Ref<HTMLAnchorElement>}
-          : TabButtonProps & {ref?: React.Ref<HTMLButtonElement>},
+    props: PolymorphicOverloadProps<
+        T,
+        P,
+        TabComponentProps<Exclude<T, undefined>>,
+        TabLinkProps,
+        TabButtonProps
+    >,
 ) => React.ReactElement) & {displayName: string};
 
 Tab.displayName = 'Tab';

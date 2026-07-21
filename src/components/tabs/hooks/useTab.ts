@@ -79,7 +79,7 @@ export function useTab<T extends TabComponentElementType>(
 
     return {
         ...htmlRest,
-        ...(tabProps.isMenuItem ? {} : {...tabRoleProps}),
+        ...(tabProps.isMenuItem ? {} : tabRoleProps),
         'aria-selected': isSelected,
         'aria-disabled': isDisabled,
         'aria-controls': panelId,

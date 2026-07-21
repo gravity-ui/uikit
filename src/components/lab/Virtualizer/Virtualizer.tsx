@@ -136,6 +136,20 @@ export function Virtualizer({
             const {key, index} = (element as HTMLElement).dataset;
             if (key !== undefined && index !== undefined) {
                 const correction = estimateCorrectionRef.current;
+                // A row that has been measured before and now measures 0 has no
+                // content to measure right now (a dnd library hides the original
+                // row while its clone/overlay is dragged) — it is not a 0px tall
+                // row. Recording the zero would collapse the slot and visibly
+                // shift every row below, so report the previous measurement:
+                // tanstack sees no delta and leaves its cache untouched, while
+                // the wrapper stays observed and re-measures itself once the
+                // content comes back. Rows that never measured non-zero fall
+                // through — those can legitimately be empty (a custom renderItem
+                // returning null), and collapsing them is correct.
+                const lastMeasured = correction.sizes.get(key);
+                if (size === 0 && lastMeasured !== undefined) {
+                    return lastMeasured;
+                }
                 // A stable dataset can hold at most `count` distinct keys; more
                 // than that means the data shrank or got replaced and the cache
                 // now carries orphaned keys — their sizes skew the ratio and

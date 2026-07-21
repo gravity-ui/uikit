@@ -52,18 +52,21 @@ export interface ListItemContext<T> {
  * Переопределения, вливаемые в props строки/контейнера. Композиция:
  *  on*-обработчики цепочкой (переданный — после базового), className —
  *  конкатенация, ref — форк, style — shallow-merge; ключи со значением
- *  `undefined` игнорируются
+ *  `undefined` игнорируются.
+ *
+ * `draggable` исключён (решение фазы 4): нативный атрибут не проходит через
+ *  props-контракт вовсе — ref-based dnd-либы ставят его на элементе сами
+ *  (pragmatic-dnd), остальным он не нужен. Ядро ключ никогда не эмитит,
+ *  поэтому одноимённый слотовый проп вьюхи (рендерит drag-handle) не
+ *  конфликтует со спредом getItemProps
  */
-export type ListPropsOverrides = React.HTMLAttributes<HTMLElement> & {
+export type ListPropsOverrides = Omit<React.HTMLAttributes<HTMLElement>, 'draggable'> & {
     ref?: React.Ref<HTMLElement>;
 } & {
     [key: `data-${string}`]: string | undefined;
 };
 
-/**
- * `draggable` исключён: у вьюхи одноимённый слотовый проп, семантику
- *  их стыка определит фаза 4 (dnd); ядро атрибут не ставит
- */
+/** `draggable` исключён — см. ListPropsOverrides */
 export type ListItemDOMProps = Omit<React.HTMLAttributes<HTMLElement>, 'draggable'> &
     React.AriaAttributes & {role: string; ref: React.RefCallback<HTMLElement>} & {
         [key: `data-${string}`]: string | undefined;
@@ -75,6 +78,11 @@ export interface ListItemViewStateProps {
     disabled: boolean;
     selected?: boolean;
     selectionStyle?: 'check' | 'highlight' | 'none';
+    /**
+     * На время перетаскивания (dnd-слой, §8) ядро отдаёт `false` — гасит
+     *  CSS-:hover вьюхи: курсор позиционирует вставку, а не выбирает строку
+     */
+    hovered?: boolean;
 }
 
 export interface ListItemHelpers {
@@ -133,5 +141,80 @@ export interface ListSelectionProps {
     onSelectedUpdate?: (ids: string[]) => void;
 }
 
-/** Слой dnd (§8 плана) добавится аддитивно в следующей фазе */
-export interface ListProps<T> extends ListCoreProps<T>, ListSelectionProps {}
+/** Цель вставки: строка и грань, у которой рисуется индикатор */
+export interface ListDropTarget {
+    id: string;
+    position: 'before' | 'after';
+}
+
+/**
+ * Props, которые отдаёт dnd-адаптер. Сверх общих ограничений
+ *  `ListPropsOverrides` исключены `role`, `id` и `tabIndex`: ими владеет
+ *  ядро (ARIA-модель listbox, DOM id строки, roving tab-stop), а композиция
+ *  для не-`on*` ключей работает по правилу «последний побеждает» — адаптер
+ *  затёр бы их молча. Практический случай — объект `attributes` из
+ *  `useSortable` (dnd-kit): `{role: 'button', tabIndex: 0, ...}`; его нужно
+ *  спредить не через адаптер, а самому — и только там, где это осознанно
+ */
+export type ListDndProps = Omit<ListPropsOverrides, 'role' | 'id' | 'tabIndex'>;
+
+/**
+ * Слой dnd (§8 плана): контракт без привязки к dnd-либе — потребитель
+ *  приносит свою, адаптер транслирует её в props и состояние; данные двигает
+ *  потребитель (`moveItem`), ядро только отражает состояние и мёржит props.
+ *  Скоуп — ref/props-based либы (референсы: pragmatic-drag-and-drop и
+ *  dnd-kit); либы с компонентами-обёртками и обязательными слотами внутри
+ *  контейнера (hello-pangea) контрактом невыразимы — итог спайка фазы 4.
+ *
+ * Оба геттера опциональны: «state-only адаптер» легален (паттерн dnd-kit —
+ *  props-половину закрывает потребитель per-item хуком в своём компоненте
+ *  строки через renderItem, адаптер несёт только draggingId/dropTarget).
+ *
+ * Обязательства адаптера:
+ *  - ref'ы в ОБОИХ геттерах стабильны (per id — в getItemDndProps):
+ *    композиция ядра кеширует форки по identity, поэтому новый callback
+ *    на каждый рендер дёргал бы перерегистрацию элемента в либе — а во
+ *    время перетаскивания лист ре-рендерится на каждое обновление
+ *    dropTarget;
+ *  - props из геттеров НЕ ЗАМЫКАЮТ рендер-стейт: строки мемоизируются по
+ *    своему ctx-срезу (перф-обязательство §8) и могут не перечитать геттер
+ *    после ре-рендера листа. Обработчику, которому нужны свежие данные
+ *    (`items`, `draggingId` в момент drop), читать их через ref, а не из
+ *    замыкания рендера;
+ *  - обновления dropTarget дедуплицируются до setState (иначе re-render
+ *    на каждый пиксель dragover);
+ *  - state-половина (draggingId, а с индикаторной моделью и dropTarget)
+ *    заполняется ДАЖЕ при чисто композиционной интеграции, когда props идут
+ *    мимо адаптера (обёртки/хуки в renderItem): без draggingId ядро не
+ *    приостановит активацию по наведению и не погасит hover-индикацию вьюхи
+ *    на время перетаскивания.
+ */
+export interface ListDndAdapter {
+    /**
+     * Props на корень листа (зона сброса). ref — для либ, регистрирующих
+     *  элемент (pragmatic-dnd не отдаёт props вовсе)
+     */
+    getContainerDndProps?(): ListDndProps;
+    /**
+     * Props на строку; вливаются в getItemProps контрактом композиции
+     *  (после базовых props ядра, до overrides потребителя) — только в опции,
+     *  заголовки секций не участвуют в dnd
+     */
+    getItemDndProps?(id: string): ListDndProps;
+    /** Кто перетаскивается — источник ctx.state.dragging и data-dragging */
+    draggingId?: string | null;
+    /**
+     * Цель вставки — источник ctx.state.dropTarget и data-drop-target;
+     *  индикатор вставки лист рисует сам. Декларативно: либа обновляет
+     *  state → новый объект адаптера (императивного setDropTarget нет)
+     */
+    dropTarget?: ListDropTarget | null;
+}
+
+export interface ListProps<T> extends ListCoreProps<T>, ListSelectionProps {
+    /**
+     * Слой dnd (§8 плана). Пока проп не передан, слоя не существует:
+     *  ни полей dragging/dropTarget в ctx.state, ни data-атрибутов
+     */
+    dnd?: ListDndAdapter;
+}

@@ -30,6 +30,13 @@ export interface ListInstance<T> {
      * держит её смонтированной всегда
      */
     pinnedRowIndex: number;
+    /**
+     * Ключ мемоизации строки (§8): меняется, когда у строки меняется что-то,
+     * НЕ выраженное в её ctx-срезе — DOM id, roving tab-stop без активной,
+     * aria-нумерация при виртуализации. Внутренний канал мемоизации List,
+     * не часть контракта renderItem
+     */
+    getItemMemoKey(id: string): string;
 }
 
 const NAVIGATION_COMMANDS: Record<string, ListNavigationCommand> = {
@@ -45,6 +52,25 @@ const NAVIGATION_COMMANDS: Record<string, ListNavigationCommand> = {
 const FOCUS_STRATEGY: 'roving' = 'roving';
 
 const EMPTY_SELECTION: readonly string[] = [];
+
+// Ключи, которыми владеет ядро: ARIA-модель listbox, DOM id строки и roving
+// tab-stop. Типы dnd-адаптера их уже исключают (ListDndProps), но каст в
+// адаптере потребителя обойдёт типы молча — а затирание role/id ломает
+// клавиатурную машину целиком (она гейтуется на DOM id строки)
+const CORE_OWNED_PROPS = ['role', 'id', 'tabIndex'] as const;
+
+function warnOnDndPropsCollision<P extends object>(dndProps: P): P {
+    for (const key of CORE_OWNED_PROPS) {
+        if (key in dndProps && (dndProps as Record<string, unknown>)[key] !== undefined) {
+            warnOnce(
+                `[List] The dnd adapter returned \`${key}\`, which is owned by the list itself (ARIA role, DOM id and roving tabindex). The value is ignored: spread such props yourself in \`renderItem\` if you really need them.`,
+            );
+            const {[key]: _ignored, ...rest} = dndProps as Record<string, unknown>;
+            return warnOnDndPropsCollision(rest) as P;
+        }
+    }
+    return dndProps;
+}
 
 export function useList<T>(props: ListProps<T>): ListInstance<T> {
     const {
@@ -65,6 +91,14 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     // Слой виртуализации (§7): ядро знает только о факте его включения —
     // aria-setsize/posinset появляются лишь когда в DOM лежит окно строк
     const virtualized = React.useContext(ListVirtualizationContext) !== null;
+
+    // Слой dnd (§8): пока проп не передан, слоя не существует — ни полей
+    // dragging/dropTarget в ctx.state, ни data-атрибутов, ни мёржа props.
+    // Ядро не импортирует ни одну dnd-либу: адаптер приносит потребитель,
+    // ядро только отражает его состояние и компонует его props
+    const dnd = props.dnd ?? null;
+    const draggingId = dnd ? (dnd.draggingId ?? null) : null;
+    const dropTarget = dnd ? (dnd.dropTarget ?? null) : null;
 
     // У перегрузок useControlledState нет варианта «value и defaultValue могут
     // быть undefined одновременно», хотя реализация с ним корректна; для
@@ -151,6 +185,24 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             getItemTextValue,
         ],
     );
+
+    // «Свежее» окружение обработчиков строк: сами обработчики замыкают только
+    // id строки и этот ref, поэтому строка, пропустившая ре-рендер по
+    // мемоизации (§8), не держит устаревших rowById/selectedIds — состояние
+    // читается в момент события, а не в момент последнего рендера строки.
+    // dragActive — состояние dnd-слоя: во время перетаскивания hover-активация
+    // приостанавливается (см. onPointerEnter). Цель вставки тоже означает
+    // «идёт перетаскивание»: адаптер, заполняющий только dropTarget, всё
+    // равно получает приостановку
+    const dragActive = draggingId !== null || dropTarget !== null;
+    const latestRef = React.useRef({
+        rowById,
+        applyRow,
+        setActiveItemId,
+        activateOnHover,
+        dragActive,
+    });
+    latestRef.current = {rowById, applyRow, setActiveItemId, activateOnHover, dragActive};
 
     // Активный есть, только если такая опция существует в items:
     // controlled activeItemId с несуществующим id => активного нет
@@ -341,10 +393,22 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             'aria-labelledby': props['aria-labelledby'],
             // Только со слоем выделения и только для multiple
             'aria-multiselectable': selectionMode === 'multiple' || undefined,
+            // Идёт перетаскивание (dnd-слой): CSS-хук для кастомного маркапа —
+            // погасить свои hover-стили на время drag (дефолтной вьюхе ядро
+            // гасит их пропом hovered={false} через getItemViewProps)
+            'data-drag-active': dragActive ? '' : undefined,
             onKeyDown: handleKeyDown,
             ref: containerRef,
         };
-        return composeItemProps(baseProps, overrides, {
+        // Props dnd-адаптера (зона сброса) — между базовыми и overrides:
+        // обработчики цепочкой после наших, ref — форк, а overrides
+        // потребителя компонуются последними, как и без слоя
+        const withDnd = dnd?.getContainerDndProps
+            ? composeItemProps(baseProps, warnOnDndPropsCollision(dnd.getContainerDndProps()), {
+                  forkRef: forkRefCached,
+              })
+            : baseProps;
+        return composeItemProps(withDnd, overrides, {
             forkRef: forkRefCached,
         }) as ListContainerDOMProps;
     };
@@ -371,6 +435,11 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
 
         const active = row.id === effectiveActiveId;
         const selected = selectionMode ? selectedSet.has(row.id) : undefined;
+        const dragging = dnd ? row.id === draggingId : undefined;
+        let rowDropTarget: 'before' | 'after' | null | undefined;
+        if (dnd) {
+            rowDropTarget = dropTarget?.id === row.id ? dropTarget.position : null;
+        }
         const baseProps = {
             id: row.domId,
             role: 'option',
@@ -389,28 +458,58 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             'data-active': active ? '' : undefined,
             'data-disabled': row.disabled ? '' : undefined,
             'data-selected': selected ? '' : undefined,
+            // Слой dnd: присутствием, но у data-drop-target — со значением
+            // грани: индикатору (и CSS потребителя) нужно различать before/after
+            'data-dragging': dragging ? '' : undefined,
+            'data-drop-target': rowDropTarget ?? undefined,
             ref: getItemRefCallback(id),
+            // Обработчики читают состояние через latestRef в момент события:
+            // мемоизированная строка (§8) может пропустить ре-рендер и остаться
+            // со старым замыканием — оно не должно быть устаревшим
             onClick: (event: React.MouseEvent) => {
-                if (row.disabled || event.defaultPrevented) {
+                const latest = latestRef.current;
+                const currentRow = latest.rowById.get(id);
+                if (!currentRow || currentRow.disabled || event.defaultPrevented) {
                     return;
                 }
-                setActiveItemId(row.id);
-                applyRow(row);
+                latest.setActiveItemId(currentRow.id);
+                latest.applyRow(currentRow);
             },
             onFocus: () => {
-                setActiveItemId(row.id);
+                latestRef.current.setActiveItemId(id);
             },
-            onPointerEnter:
-                activateOnHover && !row.disabled
-                    ? () => {
-                          // Hover меняет активность и roving tabIndex, но не переносит
-                          // DOM-фокус; фокус догонит активность при первом клавиатурном
-                          // взаимодействии
-                          setActiveItemId(row.id);
-                      }
-                    : undefined,
+            onPointerEnter: () => {
+                // Hover меняет активность и roving tabIndex, но не переносит
+                // DOM-фокус; фокус догонит активность при первом клавиатурном
+                // взаимодействии. Disabled-строки hover не активирует.
+                // Во время перетаскивания (dnd-слой, draggingId != null)
+                // hover-активация приостановлена: курсор позиционирует вставку,
+                // а не выбирает строку — иначе синтетические драги (dnd-kit,
+                // hello-pangea; у нативного HTML5 dnd pointer-события подавляет
+                // браузер) таскали бы подсветку за перетаскиваемым элементом.
+                // Прецедент — флаг sorting в onItemActivate старого List
+                const latest = latestRef.current;
+                const currentRow = latest.rowById.get(id);
+                if (
+                    !latest.activateOnHover ||
+                    latest.dragActive ||
+                    !currentRow ||
+                    currentRow.disabled
+                ) {
+                    return;
+                }
+                latest.setActiveItemId(currentRow.id);
+            },
         };
-        return composeItemProps(baseProps, overrides, {
+        // Props dnd-адаптера — между базовыми и overrides потребителя; только
+        // в опции (заголовки секций в dnd не участвуют). Ref адаптера обязан
+        // быть стабильным per id (§8) — форк кешируется по identity пары
+        const withDnd = dnd?.getItemDndProps
+            ? composeItemProps(baseProps, warnOnDndPropsCollision(dnd.getItemDndProps(row.id)), {
+                  forkRef: forkRefCached,
+              })
+            : baseProps;
+        return composeItemProps(withDnd, overrides, {
             forkRef: forkRefCached,
         }) as unknown as ListItemDOMProps;
     };
@@ -429,15 +528,42 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             state: {
                 active: row.id === effectiveActiveId,
                 disabled: row.disabled,
-                // Слоевое поле: без слоя ключа нет вовсе (§4.2)
+                // Слоевые поля: без слоя ключей нет вовсе (§4.2)
                 ...(selectionMode && row.kind === 'item'
                     ? {selected: selectedSet.has(row.id)}
+                    : undefined),
+                ...(dnd && row.kind === 'item'
+                    ? {
+                          dragging: row.id === draggingId,
+                          dropTarget: dropTarget?.id === row.id ? dropTarget.position : null,
+                      }
                     : undefined),
             },
         };
     };
 
+    const getItemMemoKey = (id: string): string => {
+        const row = rowById.get(id);
+        if (!row) {
+            return '';
+        }
+        // Всё, что влияет на выход getItemProps, но не выражено в ctx-срезе:
+        // DOM id (меняется с props.id листа), roving tab-stop без активной
+        // строки, aria-нумерация при виртуализации
+        const tabStop = row.index === pinnedRowIndex;
+        const numbering =
+            virtualized && row.kind === 'item' ? `${row.posInSet}/${optionsCount}` : '';
+        return `${row.domId}|${tabStop ? 1 : 0}|${numbering}`;
+    };
+
     const visibleIds = React.useMemo(() => rows.map((row) => row.id), [rows]);
 
-    return {getContainerProps, visibleIds, getItemContext, getItemProps, pinnedRowIndex};
+    return {
+        getContainerProps,
+        visibleIds,
+        getItemContext,
+        getItemProps,
+        pinnedRowIndex,
+        getItemMemoKey,
+    };
 }

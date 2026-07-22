@@ -85,6 +85,18 @@ export interface ListItemContext<T> {
  *  конкатенация, ref — форк, style — shallow-merge; ключи со значением
  *  `undefined` игнорируются.
  *
+ * Обработчики из overrides вызываются и на disabled-строках: цепочка
+ *  композиции не гейтуется состоянием (базовый обработчик ядра выходит из
+ *  себя сам, но переданный после него вызывается всегда). Если это важно —
+ *  проверяйте `ctx.state.disabled` в своём обработчике.
+ *
+ * `role`/`id`/`tabIndex` принадлежат ядру (ARIA-модель, DOM id строки,
+ *  roving tab-stop). В overrides они применяются как переданы — это
+ *  осознанный эскейп-хэтч (например, своя роль строки до официальной
+ *  параметризации ролей), но затирание молча ломает клавиатурную машину,
+ *  поэтому в dev будет предупреждение. Props dnd-адаптера, в отличие от
+ *  overrides, эти ключи не проносят вовсе (`ListDndProps`).
+ *
  * `draggable` исключён (решение фазы 4): нативный атрибут не проходит через
  *  props-контракт вовсе — ref-based dnd-либы ставят его на элементе сами
  *  (pragmatic-dnd), остальным он не нужен. Ядро ключ никогда не эмитит,
@@ -191,11 +203,12 @@ export interface ListCoreProps<T> extends ListItemGetters<T>, QAProps {
 
     /**
      * Активный (подсвеченный) айтем — controlled/uncontrolled.
-     *  Это навигация (roving-фокус), не выделение — есть всегда
+     *  Это навигация (roving-фокус), не выделение — есть всегда.
+     *  `null` — controlled-«нет активного»; `undefined` — uncontrolled
      */
-    activeItemId?: string;
+    activeItemId?: string | null;
     defaultActiveItemId?: string;
-    onActiveItemUpdate?: (id: string | undefined) => void;
+    onActiveItemUpdate?: (id: string | null) => void;
 
     /** «Применение» айтема: Enter или клик */
     onItemAction?: (id: string, item: T) => void;

@@ -47,7 +47,10 @@ function defaultGetItemDisabled(item: unknown): boolean {
 }
 
 function defaultGetItemChildren<T>(item: T): readonly T[] | undefined {
-    return (item as {children?: readonly T[]} | null | undefined)?.children;
+    // Только настоящий массив: children-строка (чужие данные) без гарда
+    // перебиралась бы флаттенингом посимвольно
+    const children = (item as {children?: unknown} | null | undefined)?.children;
+    return Array.isArray(children) ? (children as readonly T[]) : undefined;
 }
 
 function defaultGetItemContent(item: unknown): React.ReactNode {

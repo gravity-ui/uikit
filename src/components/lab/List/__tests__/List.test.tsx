@@ -569,7 +569,7 @@ describe('lab List', () => {
             const onActiveItemUpdate = jest.fn();
 
             function ControlledList() {
-                const [active, setActive] = React.useState<string | undefined>('Apple');
+                const [active, setActive] = React.useState<string | null>('Apple');
                 return (
                     <List
                         aria-label="Fruits"
@@ -619,6 +619,36 @@ describe('lab List', () => {
             await user.keyboard('{ArrowDown}');
 
             expect(onActiveItemUpdate).toHaveBeenLastCalledWith('Apple');
+        });
+
+        test('controlled activeItemId={null}: no active option, stays controlled', async () => {
+            const user = userEvent.setup();
+            const onActiveItemUpdate = jest.fn();
+            render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    activeItemId={null}
+                    onActiveItemUpdate={onActiveItemUpdate}
+                />,
+            );
+            const options = screen.getAllByRole('option');
+
+            for (const option of options) {
+                expect(option).not.toHaveAttribute('data-active');
+            }
+            expect(options[0]).toHaveAttribute('tabindex', '0');
+
+            options[0].focus();
+            onActiveItemUpdate.mockClear();
+            await user.keyboard('{ArrowDown}');
+
+            // null — controlled-«нет активного»: навигация стартует с первой
+            // навигабельной строки, а не переходит в uncontrolled
+            expect(onActiveItemUpdate).toHaveBeenLastCalledWith('Apple');
+            for (const option of options) {
+                expect(option).not.toHaveAttribute('data-active');
+            }
         });
     });
 

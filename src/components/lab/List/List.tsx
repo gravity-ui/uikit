@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import {block} from '../../utils/cn';
+import {warnOnce} from '../../utils/warn';
 import {ListItemView} from '../ListItemView/ListItemView';
 
 import {ListSectionHeader} from './SectionHeader';
@@ -88,6 +89,14 @@ function ListRowComponent<T>({
 
     if (renderItem) {
         return <React.Fragment>{renderItem(ctx, helpers)}</React.Fragment>;
+    }
+
+    if (ctx.content === undefined) {
+        // Дефолтный getItemContent отдаёт контент только string-айтемам —
+        // объектный айтем без геттера рендерится пустой строкой
+        warnOnce(
+            '[List] Rows render empty: the default content getter only renders string items. Pass `getItemContent` (or `renderItem`) for object items.',
+        );
     }
 
     return ctx.kind === 'section' ? (

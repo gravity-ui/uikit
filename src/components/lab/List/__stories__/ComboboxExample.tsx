@@ -53,9 +53,8 @@ export function ComboboxExample() {
     const [query, setQuery] = React.useState('');
     const [open, setOpen] = React.useState(false);
     const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
-    // Активность controlled с первого рендера: `undefined` для
-    // useControlledState — это uncontrolled, а не «нет активного»
-    const [activeItemId, setActiveItemId] = React.useState(frameworks[0].id);
+    // Активность controlled: null — «нет активного» (undefined был бы uncontrolled)
+    const [activeItemId, setActiveItemId] = React.useState<string | null>(frameworks[0].id);
     const focusOwner = useListFocusOwner();
 
     const items = React.useMemo(() => filterFrameworks(query), [query]);
@@ -64,8 +63,9 @@ export function ComboboxExample() {
         setQuery(value);
         setOpen(true);
         // Печать — это фильтр, а не typeahead: активность переезжает на
-        // первое совпадение, чтобы Enter всегда применял видимое
-        setActiveItemId((prev) => filterFrameworks(value)[0]?.id ?? prev);
+        // первое совпадение (или сбрасывается — Enter в пустом фильтре
+        // ничего не применит), чтобы Enter всегда применял видимое
+        setActiveItemId(filterFrameworks(value)[0]?.id ?? null);
     };
 
     const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -124,9 +124,7 @@ export function ComboboxExample() {
                         selectedIds={selectedIds}
                         onSelectedUpdate={setSelectedIds}
                         activeItemId={activeItemId}
-                        // `undefined` из колбэка не пишем: для
-                        // useControlledState это переход в uncontrolled
-                        onActiveItemUpdate={(id) => setActiveItemId((prev) => id ?? prev)}
+                        onActiveItemUpdate={setActiveItemId}
                         onItemAction={(_id, item) => {
                             setQuery(item.name);
                             setOpen(false);

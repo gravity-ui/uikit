@@ -105,6 +105,7 @@
     "test:watch": "jest --watchAll",
     "clean": "gulp clean",
     "build": "gulp",
+    "generate:theme": "tsx scripts/generate-theme-scss.mjs",
     "start": "storybook dev -p 7007",
     "build-storybook": "storybook build -c .storybook -o storybook-static",
     "test-storybook": "test-storybook",
@@ -215,6 +216,7 @@
     "stylelint": "^16.25.0",
     "stylelint-use-logical": "^2.1.2",
     "ts-jest": "^29.4.5",
+    "tsx": "^4.23.1",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {

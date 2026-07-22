@@ -21,5 +21,6 @@
         "src/**/*.tsx",
         "test-utils/*",
         ".storybook/**/*",
+        "styles/themes/theme-data/**/*.ts",
     ]
 }

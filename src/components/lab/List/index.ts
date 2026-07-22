@@ -1,5 +1,6 @@
 export {List} from './List';
 export {moveItem} from './moveItem';
+export {useListFocusOwner} from './useListFocusOwner';
 export type {
     ListProps,
     ListSelectionProps,
@@ -8,5 +9,7 @@ export type {
     ListItemContext,
     ListItemHelpers,
     ListItemGetters,
+    ListFocusOwner,
+    ListRole,
     ListSize,
 } from './types';

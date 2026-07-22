@@ -57,6 +57,7 @@ export {
     type ListItemContext as unstable_ListItemContext,
     type ListItemHelpers as unstable_ListItemHelpers,
     type ListItemGetters as unstable_ListItemGetters,
+    type ListRole as unstable_ListRole,
     type ListSize as unstable_ListSize,
 } from './components/lab/List';
 

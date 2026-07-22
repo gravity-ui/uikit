@@ -111,13 +111,13 @@ export interface IsMediaActive {
 
 export interface LayoutProps {
     /** When used in a flex layout, specifies how the element will grow or shrink to fit the space available. */
-    flex?: AdaptiveProp<React.CSSProperties['flex']>;
+    flex?: AdaptiveProp<React.CSSProperties['flex'] | true>;
     /** When used in a flex layout, specifies how the element will grow to fit the space available. */
-    flexGrow?: AdaptiveProp<React.CSSProperties['flexGrow']>;
+    flexGrow?: AdaptiveProp<React.CSSProperties['flexGrow'] | true>;
     /** When used in a flex layout, specifies the initial main size of the element. */
     flexBasis?: AdaptiveProp<React.CSSProperties['flexBasis']>;
     /** When used in a flex layout, specifies how the element will shrink to fit the space available. */
-    flexShrink?: AdaptiveProp<React.CSSProperties['flexShrink']>;
+    flexShrink?: AdaptiveProp<React.CSSProperties['flexShrink'] | true>;
     /** Specifies how the element is aligned inside a flex or grid container. */
     alignSelf?: AdaptiveProp<React.CSSProperties['alignSelf']>;
     /** Specifies how the element is justified inside a flex or grid container. */
@@ -180,29 +180,75 @@ export type SpacingValue =
 
 export interface SpacingProps {
     /** The margin for all four sides of the element. */
-    margin?: AdaptiveProp<React.CSSProperties['margin'] | SpacingValue>;
+    margin?: AdaptiveProp<
+        | React.CSSProperties['margin']
+        | SpacingValue
+        | [
+              React.CSSProperties['margin'] | SpacingValue,
+              (React.CSSProperties['margin'] | SpacingValue)?,
+              (React.CSSProperties['margin'] | SpacingValue)?,
+              (React.CSSProperties['margin'] | SpacingValue)?,
+          ]
+    >;
     /** The margin for both the left and right sides of the element. */
-    marginInline?: AdaptiveProp<React.CSSProperties['marginInline'] | SpacingValue>;
+    marginInline?: AdaptiveProp<
+        | React.CSSProperties['marginInline']
+        | SpacingValue
+        | [
+              React.CSSProperties['marginInline'] | SpacingValue,
+              (React.CSSProperties['marginInline'] | SpacingValue)?,
+          ]
+    >;
     /** The margin for the logical start side of the element. */
     marginInlineStart?: AdaptiveProp<React.CSSProperties['marginInlineStart'] | SpacingValue>;
     /** The margin for the logical end side of the element. */
     marginInlineEnd?: AdaptiveProp<React.CSSProperties['marginInlineEnd'] | SpacingValue>;
     /** The margin for both the top and bottom sides of the element. */
-    marginBlock?: AdaptiveProp<React.CSSProperties['marginBlock'] | SpacingValue>;
+    marginBlock?: AdaptiveProp<
+        | React.CSSProperties['marginBlock']
+        | SpacingValue
+        | [
+              React.CSSProperties['marginBlock'] | SpacingValue,
+              (React.CSSProperties['marginBlock'] | SpacingValue)?,
+          ]
+    >;
     /** The margin for the logical top side of the element. */
     marginBlockStart?: AdaptiveProp<React.CSSProperties['marginBlockStart'] | SpacingValue>;
     /** The margin for for the logical bottom side of the element. */
     marginBlockEnd?: AdaptiveProp<React.CSSProperties['marginBlockEnd'] | SpacingValue>;
     /** The padding for all four sides of the element. */
-    padding?: AdaptiveProp<React.CSSProperties['padding'] | SpacingValue>;
+    padding?: AdaptiveProp<
+        | React.CSSProperties['padding']
+        | SpacingValue
+        | [
+              React.CSSProperties['padding'] | SpacingValue,
+              (React.CSSProperties['padding'] | SpacingValue)?,
+              (React.CSSProperties['padding'] | SpacingValue)?,
+              (React.CSSProperties['padding'] | SpacingValue)?,
+          ]
+    >;
     /** The padding for both the left and right sides of the element. */
-    paddingInline?: AdaptiveProp<React.CSSProperties['paddingInline'] | SpacingValue>;
+    paddingInline?: AdaptiveProp<
+        | React.CSSProperties['paddingInline']
+        | SpacingValue
+        | [
+              React.CSSProperties['paddingInline'] | SpacingValue,
+              (React.CSSProperties['paddingInline'] | SpacingValue)?,
+          ]
+    >;
     /** The padding for the logical start side of the element. */
     paddingInlineStart?: AdaptiveProp<React.CSSProperties['paddingInlineStart'] | SpacingValue>;
     /** The padding for the logical end side of the element. */
     paddingInlineEnd?: AdaptiveProp<React.CSSProperties['paddingInlineEnd'] | SpacingValue>;
     /** The padding for both the top and bottom sides of the element. */
-    paddingBlock?: AdaptiveProp<React.CSSProperties['paddingBlock'] | SpacingValue>;
+    paddingBlock?: AdaptiveProp<
+        | React.CSSProperties['paddingBlock']
+        | SpacingValue
+        | [
+              React.CSSProperties['paddingBlock'] | SpacingValue,
+              (React.CSSProperties['paddingBlock'] | SpacingValue)?,
+          ]
+    >;
     /** The padding for the logical top side of the element. */
     paddingBlockStart?: AdaptiveProp<React.CSSProperties['paddingBlockStart'] | SpacingValue>;
     /** The padding for for the logical bottom side of the element. */
@@ -213,15 +259,38 @@ export interface PositioningProps {
     /** Specifies how the element is positioned. */
     position?: AdaptiveProp<React.CSSProperties['position']>;
     /** The position for all four sides of the element. */
-    inset?: AdaptiveProp<React.CSSProperties['inset'] | SpacingValue>;
+    inset?: AdaptiveProp<
+        | React.CSSProperties['inset']
+        | SpacingValue
+        | [
+              React.CSSProperties['inset'] | SpacingValue,
+              (React.CSSProperties['inset'] | SpacingValue)?,
+              (React.CSSProperties['inset'] | SpacingValue)?,
+              (React.CSSProperties['inset'] | SpacingValue)?,
+          ]
+    >;
     /** The logical vertical position for the element. */
-    insetBlock?: AdaptiveProp<React.CSSProperties['insetBlock'] | SpacingValue>;
+    insetBlock?: AdaptiveProp<
+        | React.CSSProperties['insetBlock']
+        | SpacingValue
+        | [
+              React.CSSProperties['insetBlock'] | SpacingValue,
+              (React.CSSProperties['insetBlock'] | SpacingValue)?,
+          ]
+    >;
     /** The top position for the element. */
     insetBlockStart?: AdaptiveProp<React.CSSProperties['insetBlockStart'] | SpacingValue>;
     /** The bottom position for the element. */
     insetBlockEnd?: AdaptiveProp<React.CSSProperties['insetBlockEnd'] | SpacingValue>;
     /** The logical horizontal position for the element. */
-    insetInline?: AdaptiveProp<React.CSSProperties['insetInline'] | SpacingValue>;
+    insetInline?: AdaptiveProp<
+        | React.CSSProperties['insetInline']
+        | SpacingValue
+        | [
+              React.CSSProperties['insetInline'] | SpacingValue,
+              (React.CSSProperties['insetInline'] | SpacingValue)?,
+          ]
+    >;
     /** The logical start position for the element. */
     insetInlineStart?: AdaptiveProp<React.CSSProperties['insetInlineStart'] | SpacingValue>;
     /** The logical end position for the element. */
@@ -244,7 +313,11 @@ export interface BoxAlignmentStyleProps {
     /** Allows to align items along both the block and inline directions at once */
     placeItems?: AdaptiveProp<React.CSSProperties['placeItems']>;
     /** The space to display between both rows and columns. */
-    gap?: AdaptiveProp<React.CSSProperties['gap'] | SpacingValue>;
+    gap?: AdaptiveProp<
+        | React.CSSProperties['gap']
+        | SpacingValue
+        | [React.CSSProperties['gap'] | SpacingValue, (React.CSSProperties['gap'] | SpacingValue)?]
+    >;
     /** The space to display between columns. */
     columnGap?: AdaptiveProp<React.CSSProperties['columnGap'] | SpacingValue>;
     /** The space to display between rows. */

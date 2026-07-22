@@ -1,0 +1,53 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}ellipsis';
+
+#{$block} {
+    display: inline-flex;
+    min-width: 0;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow-wrap: break-word;
+    word-break: break-all;
+
+    &__ellipsis {
+        display: inline-flex;
+        min-width: 0;
+        overflow: hidden;
+
+        &-content {
+            max-width: fit-content;
+        }
+
+        $ellipsis: &;
+
+        &_start {
+            #{$ellipsis}-content {
+                direction: var(--g-flow-opposite);
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+
+        &_end {
+            #{$ellipsis}-content {
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+
+        &_center {
+            position: relative;
+            flex-grow: 1;
+
+            #{$ellipsis}-measure {
+                position: absolute;
+                inset-block-start: 0;
+                inset-inline-start: 0;
+                visibility: hidden;
+                pointer-events: none;
+                white-space: nowrap;
+            }
+        }
+    }
+}

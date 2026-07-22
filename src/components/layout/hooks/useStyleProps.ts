@@ -27,9 +27,9 @@ export interface BaseStyleProps
 
 export const baseStyleHandlers: StyleHandlers<keyof BaseStyleProps> = {
     flex: ['flex', getFlexValue],
-    flexGrow: ['flexGrow'],
+    flexGrow: ['flexGrow', getFlexValue],
     flexBasis: ['flexBasis'],
-    flexShrink: ['flexShrink'],
+    flexShrink: ['flexShrink', getFlexValue],
     alignSelf: ['alignSelf'],
     justifySelf: ['justifySelf'],
     placeSelf: ['placeSelf'],
@@ -142,7 +142,7 @@ export function convertStyleProps<T extends DOMProps, S extends StyleHandlers>(
     for (const [key, value] of Object.entries(borderStyleProps)) {
         if (style[key as keyof typeof borderStyleProps]) {
             style[value] = 'solid';
-            style.boxSizing = 'border-box';
+            // style.boxSizing = 'border-box';
         }
     }
 
@@ -197,7 +197,11 @@ function getRadiusValue(value: unknown) {
 }
 
 const spacingRe = /^spacing-(\d+|half)$/;
-export function getSpacingValue(value: unknown) {
+export function getSpacingValue(value: unknown): string {
+    if (Array.isArray(value)) {
+        return value.map(getSpacingValue).join(' ');
+    }
+
     if (typeof value === 'string' && spacingRe.test(value)) {
         const v = value.slice('spacing-'.length);
         const n = v === 'half' ? 0.5 : Number(v);

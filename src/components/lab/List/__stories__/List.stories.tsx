@@ -1,15 +1,20 @@
 import * as React from 'react';
 
 import {faker} from '@faker-js/faker/locale/en';
+import {TrashBin} from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 import {action} from 'storybook/actions';
 
 import {Avatar} from '../../../Avatar';
+import {Button} from '../../../Button';
+import {Icon} from '../../../Icon';
 import {Label} from '../../../Label';
 import {Flex} from '../../../layout';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
 
+import {ComboboxExample} from './ComboboxExample';
+import comboboxCode from './ComboboxExample?raw';
 import {ReorderDndKitExample} from './ReorderDndKitExample';
 import reorderDndKitCode from './ReorderDndKitExample?raw';
 import {ReorderDndKitVirtualizedExample} from './ReorderDndKitVirtualizedExample';
@@ -327,6 +332,68 @@ export const ReorderVirtualized: Story = {
                     ['ReorderPragmaticVirtualizedExample.tsx', reorderPragmaticVirtualizedCode],
                     ['usePragmaticListDnd.ts', usePragmaticListDndCode],
                 ]),
+            },
+        },
+    },
+};
+
+// Ось роль-модели (§15 плана): в строках есть интерактив — список
+// переключается на grid-роли, где кнопка внутри строки валидна и достижима
+// с клавиатуры (`←`/`→` — вход в интерактив ячейки и возврат на строку)
+export const InteractiveRows: Story = {
+    render: function InteractiveRowsStory() {
+        const [tasks, setTasks] = React.useState(commands);
+        return (
+            <List
+                role="grid"
+                aria-label="Tasks"
+                items={tasks}
+                style={{width: 280}}
+                getItemContent={(task) => task.title}
+                renderItem={(ctx, {getItemProps, getItemViewProps, getCellProps}) => (
+                    <List.ItemView
+                        {...getItemProps()}
+                        {...getItemViewProps()}
+                        endContent={
+                            // Интерактив живёт в ячейке: role="row" обязан
+                            // владеть ячейками, а внутри gridcell кнопка
+                            // валидна (в role="option" — нет)
+                            <span {...getCellProps()}>
+                                <Button
+                                    view="flat"
+                                    size="s"
+                                    // Grid — один tab-stop: кнопка ячейки
+                                    // достижима ←/→, а не Tab'ом
+                                    tabIndex={-1}
+                                    aria-label={`Delete ${ctx.item.title}`}
+                                    onClick={() =>
+                                        setTasks((prev) =>
+                                            prev.filter((task) => task.id !== ctx.id),
+                                        )
+                                    }
+                                >
+                                    <Icon data={TrashBin} size={14} />
+                                </Button>
+                            </span>
+                        }
+                    >
+                        <span {...getCellProps()}>{ctx.content}</span>
+                    </List.ItemView>
+                )}
+            />
+        );
+    },
+};
+
+// Ось стратегии фокуса (§15 плана): DOM-фокус остаётся в инпуте, активную
+// строку показывает aria-activedescendant (детали — в шапке примера)
+export const Combobox: Story = {
+    render: () => <ComboboxExample />,
+    parameters: {
+        docs: {
+            source: {
+                language: 'tsx',
+                code: exampleSource([['ComboboxExample.tsx', comboboxCode]]),
             },
         },
     },

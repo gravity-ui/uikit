@@ -15,7 +15,11 @@
  *   во всех примерах;
  * - строки переменной высоты работают через measure (движок игнорирует
  *   транзиентно опустевшую обёртку оригинала), но замеры не должны МЕНЯТЬСЯ
- *   во время drag — rbd снапшотит геометрию на lift.
+ *   во время drag — rbd снапшотит геометрию на lift;
+ * - `role="grid"`: ручка rbd — настоящая кнопка, а интерактив внутри
+ *   строки валиден только в grid-модели ролей (§15 плана). Роли
+ *   grid/row/gridcell переживают absolute+top обёртки виртуализатора так же,
+ *   как listbox/option, а нумерация окна едет в aria-rowcount/aria-rowindex.
  *
  * В приложении импорты листа — из пакета:
  * `import {unstable_List as List, unstable_moveItem as moveItem} from '@gravity-ui/uikit/unstable'`
@@ -54,9 +58,16 @@ const getTrackContent = (record: TrackRecord) => record.title;
 
 function PangeaGrip(props: Partial<DraggableProvidedDragHandleProps>) {
     // rbd делает ручку клавиатурно-перетаскиваемой кнопкой (role="button",
-    // tabIndex=0) — ей нужно доступное имя, иначе axe aria-command-name
+    // tabIndex=0) — ей нужно доступное имя, иначе axe aria-command-name.
+    // tabIndex={-1} — контракт grid: список остаётся одним tab-stop'ом,
+    // ручка достижима ←/→ (rbd ищет её по своему data-атрибуту)
     return (
-        <span {...props} aria-label="Drag to reorder" style={{display: 'flex', cursor: 'grab'}}>
+        <span
+            {...props}
+            tabIndex={-1}
+            aria-label="Drag to reorder"
+            style={{display: 'flex', cursor: 'grab'}}
+        >
             <Icon data={Grip} size={12} />
         </span>
     );
@@ -82,10 +93,16 @@ function PangeaVirtualRow({
                     })}
                     {...helpers.getItemViewProps()}
                     // dragHandleProps — на отдельной ручке: на строке они
-                    // затёрли бы role="option" и перехватили Space листа
-                    startContent={<PangeaGrip {...(dragProvided.dragHandleProps ?? undefined)} />}
+                    // затёрли бы role строки и перехватили Space листа.
+                    // Ячейка вокруг ручки — требование grid-модели: только
+                    // внутри gridcell интерактив валиден
+                    startContent={
+                        <span {...helpers.getCellProps()}>
+                            <PangeaGrip {...(dragProvided.dragHandleProps ?? undefined)} />
+                        </span>
+                    }
                 >
-                    {ctx.item.title}
+                    <span {...helpers.getCellProps()}>{ctx.item.title}</span>
                 </List.ItemView>
             )}
         </Draggable>
@@ -130,6 +147,7 @@ export function ReorderHelloPangeaVirtualizedExample() {
                             {/* корень List — скролл-контейнер и одновременно
                                 droppable-элемент rbd (innerRef через адаптер) */}
                             <List
+                                role="grid"
                                 aria-label="Vinyl archive"
                                 style={{height: 480, width: 400}}
                                 items={items}

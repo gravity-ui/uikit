@@ -5,11 +5,17 @@
  *
  * - state-половина адаптера (`draggingId`) едет через проп `dnd` — без неё
  *   ядро не даст ни data-dragging, ни приостановки hover-активации;
+ * - `role="grid"`: ручка rbd — настоящая кнопка (role="button", tabIndex=0),
+ *   а интерактивные потомки валидны только в grid-модели ролей (§15 плана).
+ *   Строки становятся `role="row"`, ручка и контент лежат в своих
+ *   `getCellProps()`-ячейках, и `←`/`→` водят фокус между ними — ручка
+ *   достижима с клавиатуры, а не только валидна;
  * - `dragHandleProps` — на ОТДЕЛЬНОЙ ручке в startContent (как в старом
- *   List): на самой строке role="button"/tabIndex=0 затёрли бы
- *   role="option", а Space-lift клавиатурного сенсора rbd перехватывал бы
- *   Space листа. С ручки клавиатурный dnd либы работает, не мешая
- *   клавиатуре листа; цена — вложенный tab-stop внутри option;
+ *   List): на самой строке role="button"/tabIndex=0 затёрли бы role строки,
+ *   а Space-lift клавиатурного сенсора rbd перехватывал бы Space листа.
+ *   `tabIndex={-1}` поверх них — контракт grid (один tab-stop на список):
+ *   ручка достижима ←/→, rbd это безразлично (она ищет ручку по своему
+ *   data-атрибуту и фокусит программно);
  * - `provided.placeholder` обязан быть последним ребёнком droppable-элемента
  *   (корня листа) — канала в контракте нет, протаскивается через renderItem
  *   последней строки (работает только в плоском режиме);
@@ -67,19 +73,29 @@ function PangeaRow({
                         })}
                         {...helpers.getItemViewProps()}
                         startContent={
-                            // rbd делает ручку клавиатурно-перетаскиваемой кнопкой
-                            // (role="button", tabIndex=0), поэтому ей нужно
-                            // доступное имя — иначе axe aria-command-name
-                            <span
-                                {...(dragProvided.dragHandleProps ?? undefined)}
-                                aria-label="Drag to reorder"
-                                style={{display: 'flex', cursor: 'grab'}}
-                            >
-                                <Icon data={Grip} size={12} />
+                            // Ячейка с интерактивом: кнопка-ручка валидна
+                            // внутри gridcell (в role="option" — нет)
+                            <span {...helpers.getCellProps()}>
+                                {/* rbd делает ручку клавиатурно-перетаскиваемой
+                                    кнопкой (role="button", tabIndex=0), поэтому
+                                    ей нужно доступное имя — иначе axe
+                                    aria-command-name */}
+                                <span
+                                    {...(dragProvided.dragHandleProps ?? undefined)}
+                                    // Grid — ОДИН tab-stop: интерактив ячейки
+                                    // достижим ←/→, а tabIndex=0 из
+                                    // dragHandleProps сделал бы ручку каждой
+                                    // строки отдельной остановкой Tab
+                                    tabIndex={-1}
+                                    aria-label="Drag to reorder"
+                                    style={{display: 'flex', cursor: 'grab'}}
+                                >
+                                    <Icon data={Grip} size={12} />
+                                </span>
                             </span>
                         }
                     >
-                        {ctx.item.title}
+                        <span {...helpers.getCellProps()}>{ctx.item.title}</span>
                     </List.ItemView>
                 )}
             </Draggable>
@@ -102,6 +118,7 @@ export function ReorderHelloPangeaExample() {
             <Droppable droppableId="playlist">
                 {(provided) => (
                     <List
+                        role="grid"
                         aria-label="Vinyl"
                         items={items}
                         style={{width: 320}}

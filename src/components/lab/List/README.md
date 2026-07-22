@@ -13,6 +13,12 @@ import {unstable_List as List} from '@gravity-ui/uikit/unstable';
 секции из данных, опциональные слои выделения, виртуализации и drag-and-drop.
 Каждый слой подключается отдельно и не протекает в остальные.
 
+Две дополнительные оси меняют не поведение, а семантику и владельца фокуса:
+[роль](#интерактив-внутри-строки-grid-роли) (`role="grid"`, если в строках есть
+интерактив) и [стратегия фокуса](#внешний-владелец-фокуса-комбобокс)
+(`focusOwner` — фокус остаётся во внешнем инпуте). По умолчанию — `listbox`
+и roving-фокус.
+
 ## Использование
 
 Массив строк — ноль конфигурации:
@@ -126,6 +132,128 @@ const items = [
 Переопределения, переданные в `getItemProps(overrides)`, компонуются с базовыми
 props: `on*`-обработчики вызываются цепочкой (переданный — после базового),
 `className` конкатенируется, `ref` форкается, `style` мёржится по ключам.
+
+## Интерактив внутри строки: grid-роли
+
+`role="option"` — листовая роль ARIA: интерактивные потомки (кнопка-ручка
+drag-and-drop, чекбокс, row-action) внутри неё невалидны. `role="grid"`
+переводит список на grid-модель ролей, где они валидны:
+
+```tsx
+<List
+  role="grid"
+  aria-label="Tasks"
+  items={tasks}
+  getItemContent={(task) => task.title}
+  renderItem={(ctx, {getItemProps, getItemViewProps, getCellProps}) => (
+    <List.ItemView
+      {...getItemProps()}
+      {...getItemViewProps()}
+      endContent={
+        <span {...getCellProps()}>
+          {/* tabIndex={-1}: grid — один tab-stop, кнопка достижима ←/→ */}
+          <Button
+            tabIndex={-1}
+            aria-label={`Delete ${ctx.item.title}`}
+            onClick={() => remove(ctx.id)}
+          >
+            <Icon data={TrashBin} />
+          </Button>
+        </span>
+      }
+    >
+      <span {...getCellProps()}>{ctx.content}</span>
+    </List.ItemView>
+  )}
+/>
+```
+
+Что меняется:
+
+- контейнер — `role="grid"`, строка — `role="row"`, `aria-selected` живёт на
+  строке; при виртуализации вместо `aria-setsize`/`aria-posinset` появляются
+  `aria-rowcount` на контейнере и `aria-rowindex` на строках (нумерация та же —
+  по строкам данных, заголовки секций не считаются);
+- контент обязан лежать в ячейке: `role="row"` без `gridcell` невалиден.
+  Дефолтный рендер оборачивает контент сам; в своём `renderItem` ячейки
+  расставляете вы — `getCellProps()` (в listbox-режиме тот же геттер отдаёт
+  пустой объект, поэтому один `renderItem` работает в обеих роль-моделях);
+- клавиатура: `←`/`→` (в RTL — зеркально) входят в интерактив ячейки и
+  возвращают фокус на строку. `↑`/`↓` из интерактива ядро не перехватывает —
+  они принадлежат вложенному виджету (например, клавиатурному drag-and-drop
+  ручки);
+- **grid остаётся ОДНИМ tab-stop** (как и listbox): `Tab` входит на активную
+  строку и уходит из списка. Поэтому интерактиву внутри ячеек нужен
+  `tabIndex={-1}` — его ставите вы, список чужой markup не переписывает.
+  Забытый `tabIndex` ловит dev-warning: без него каждая кнопка становится
+  отдельной остановкой `Tab` (практический случай — `dragHandleProps` из
+  `@hello-pangea/dnd` со своим `tabIndex: 0`; библиотеке `-1` безразличен —
+  она находит ручку по своему data-атрибуту и фокусит её программно);
+- заголовки секций остаются `role="presentation"` + `aria-hidden` — модель
+  списка плоская в обеих роль-моделях.
+
+Роль задаётся явно, а не выводится из фактического содержимого строк: узнать
+про интерактив можно только сканом DOM после монтирования, и роль контейнера
+успела бы уехать в скринридер как `listbox`.
+
+## Внешний владелец фокуса: комбобокс
+
+Инпут-фильтр с попапом опций (модель `Select`) требует, чтобы DOM-фокус
+оставался в инпуте, а активную строку показывал `aria-activedescendant`.
+Это стратегия фокуса, а не роль: включает её `useListFocusOwner()` — канал
+между инпутом и списком.
+
+```tsx
+function Combobox() {
+  const focusOwner = useListFocusOwner();
+  const {onKeyDown, ...inputProps} = focusOwner.getInputProps({'aria-label': 'Framework'});
+
+  return (
+    <div>
+      <TextInput
+        value={query}
+        onUpdate={handleQuery}
+        controlProps={inputProps}
+        // TextInput ставит свой onKeyDown после спреда controlProps —
+        // клавиатуру списка отдаём ему отдельным пропом
+        onKeyDown={onKeyDown}
+      />
+      {open ? (
+        <List
+          focusOwner={focusOwner}
+          aria-label="Frameworks"
+          items={filtered}
+          activeItemId={activeItemId}
+          onActiveItemUpdate={setActiveItemId}
+          onItemAction={apply}
+        />
+      ) : null}
+    </div>
+  );
+}
+```
+
+`getInputProps()` отдаёт `role="combobox"`, `aria-expanded`, `aria-controls`,
+`aria-activedescendant` и `onKeyDown` — клавиатурную машину списка;
+переопределения компонуются так же, как в `getItemProps` (свой `onKeyDown`
+вызывается после машины). `aria-expanded` считается по факту подключения:
+пока `<List>` с этим владельцем не смонтирован, попап закрыт.
+
+Что меняется в списке:
+
+- `↑`/`↓`/`Home`/`End`/`Enter` работают из инпута и двигают активную строку;
+  DOM-фокус к ней не переезжает, список только доскролливает её в вид;
+- строки уходят из Tab-порядка целиком (roving tab-stop нет) — таб-стоп один,
+  это инпут;
+- символьные клавиши (включая пробел) уходят владельцу: печать — это фильтр,
+  а typeahead и выделение по `Space` в этом режиме не работают;
+- активность лучше держать controlled и переставлять на первое совпадение при
+  фильтрации, чтобы `Enter` всегда применял видимое.
+
+Оси ортогональны и комбинируются, но **полная клавиатурная достижимость
+интерактива ячейки гарантируется только в roving**: при внешнем владельце
+фокуса `←`/`→` принадлежат каретке инпута, а `aria-activedescendant` указывает
+на один элемент. Grid + внешний фокус — валидные роли без входа в ячейку.
 
 ## Виртуализация
 
@@ -292,11 +420,14 @@ no-op (позиция не изменилась) возвращает исход
 
 **@hello-pangea/dnd** контрактом невыразима (её `dragHandleProps` — неделимый
 пакет с `role`/`tabIndex`, а `placeholder` обязан рендериться внутри корня):
-её пример существует как миграционный мост со старого `List` и ценой несёт
-вложенный интерактив внутри `role="option"`. Клавиатурный drag-and-drop
-(grab-режим) в этом срезе отсутствует — это осознанный регресс против старого
-`List`; вместе с ним появится grid-роль, в которой интерактивная ручка
-становится валидной.
+её пример существует как миграционный мост со старого `List`. Ручка этой
+библиотеки — настоящая кнопка, поэтому её примеры включают
+[grid-роли](#интерактив-внутри-строки-grid-роли) (`role="grid"`): там
+интерактив внутри строки валиден, а `←`/`→` делают ручку достижимой с
+клавиатуры — при условии `tabIndex={-1}` поверх `dragHandleProps` (иначе
+каждая ручка станет остановкой `Tab`). Клавиатурный drag-and-drop самого
+списка (grab-режим) в этом срезе отсутствует — осознанный регресс против
+старого `List`.
 
 Под виртуализацией слой работает без изменений; рабочие рецепты для каждой
 библиотеки — в сторибуке (`Lab/List` → `Reorder*`), там же полные исходники
@@ -304,28 +435,30 @@ no-op (позиция не изменилась) возвращает исход
 
 ## Свойства
 
-| Имя                 | Описание                                     |                   Тип                    | Значение по умолчанию  |
-| :------------------ | :------------------------------------------- | :--------------------------------------: | :--------------------: |
-| items               | Данные списка (строки или объекты)           |              `readonly T[]`              |                        |
-| aria-label          | Имя списка для SR (или `aria-labelledby`)    |                 `string`                 |                        |
-| getItemId           | Уникальный id айтема                         |          `(item: T) => string`           |     `(i) => i.id`      |
-| getItemDisabled     | Недоступность айтема                         |          `(item: T) => boolean`          | `(i) => !!i.disabled`  |
-| getItemChildren     | Дети секции                                  | `(item: T) => readonly T[] \| undefined` |  `(i) => i.children`   |
-| getItemContent      | Контент строки                               |      `(item: T) => React.ReactNode`      |                        |
-| getItemTextValue    | Текст для typeahead                          |          `(item: T) => string`           | `content`, если строка |
-| activeItemId        | Активный (подсвеченный) айтем, controlled    |                 `string`                 |                        |
-| defaultActiveItemId | Активный айтем, uncontrolled                 |                 `string`                 |                        |
-| onActiveItemUpdate  | Колбэк смены активности                      |   `(id: string \| undefined) => void`    |                        |
-| onItemAction        | «Применение»: клик/Enter (+Space со слоем)   |     `(id: string, item: T) => void`      |                        |
-| selectionMode       | Включает слой выделения                      |         `'single' \| 'multiple'`         |                        |
-| selectedIds         | Выделенные айтемы, controlled                |           `readonly string[]`            |                        |
-| defaultSelectedIds  | Выделенные айтемы, uncontrolled              |           `readonly string[]`            |                        |
-| onSelectedUpdate    | Колбэк смены выделения                       |        `(ids: string[]) => void`         |                        |
-| dnd                 | Включает слой drag-and-drop (адаптер)        |             `ListDndAdapter`             |                        |
-| activateOnHover     | Активация наведением                         |                `boolean`                 |         `true`         |
-| renderItem          | Кастомный рендер строки                      |         `(ctx, helpers) => node`         |                        |
-| id                  | База id строк + цель внешних `aria-controls` |                 `string`                 |        авто-id         |
-| size                | Размер строк                                 |       `'s' \| 'm' \| 'l' \| 'xl'`        |         `'m'`          |
-| className           | Класс корневого элемента                     |                 `string`                 |                        |
-| style               | Стили корневого элемента                     |          `React.CSSProperties`           |                        |
-| qa                  | Атрибут `data-qa` (тесты)                    |                 `string`                 |                        |
+| Имя                 | Описание                                             |                   Тип                    | Значение по умолчанию  |
+| :------------------ | :--------------------------------------------------- | :--------------------------------------: | :--------------------: |
+| items               | Данные списка (строки или объекты)                   |              `readonly T[]`              |                        |
+| aria-label          | Имя списка для SR (или `aria-labelledby`)            |                 `string`                 |                        |
+| getItemId           | Уникальный id айтема                                 |          `(item: T) => string`           |     `(i) => i.id`      |
+| getItemDisabled     | Недоступность айтема                                 |          `(item: T) => boolean`          | `(i) => !!i.disabled`  |
+| getItemChildren     | Дети секции                                          | `(item: T) => readonly T[] \| undefined` |  `(i) => i.children`   |
+| getItemContent      | Контент строки                                       |      `(item: T) => React.ReactNode`      |                        |
+| getItemTextValue    | Текст для typeahead                                  |          `(item: T) => string`           | `content`, если строка |
+| activeItemId        | Активный (подсвеченный) айтем, controlled            |                 `string`                 |                        |
+| defaultActiveItemId | Активный айтем, uncontrolled                         |                 `string`                 |                        |
+| onActiveItemUpdate  | Колбэк смены активности                              |   `(id: string \| undefined) => void`    |                        |
+| onItemAction        | «Применение»: клик/Enter (+Space со слоем)           |     `(id: string, item: T) => void`      |                        |
+| selectionMode       | Включает слой выделения                              |         `'single' \| 'multiple'`         |                        |
+| selectedIds         | Выделенные айтемы, controlled                        |           `readonly string[]`            |                        |
+| defaultSelectedIds  | Выделенные айтемы, uncontrolled                      |           `readonly string[]`            |                        |
+| onSelectedUpdate    | Колбэк смены выделения                               |        `(ids: string[]) => void`         |                        |
+| dnd                 | Включает слой drag-and-drop (адаптер)                |             `ListDndAdapter`             |                        |
+| role                | ARIA-роль списка: `grid` — если в строках интерактив |          `'listbox' \| 'grid'`           |      `'listbox'`       |
+| focusOwner          | Внешний владелец фокуса (`useListFocusOwner`)        |             `ListFocusOwner`             |                        |
+| activateOnHover     | Активация наведением                                 |                `boolean`                 |         `true`         |
+| renderItem          | Кастомный рендер строки                              |         `(ctx, helpers) => node`         |                        |
+| id                  | База id строк + цель внешних `aria-controls`         |                 `string`                 |        авто-id         |
+| size                | Размер строк                                         |       `'s' \| 'm' \| 'l' \| 'xl'`        |         `'m'`          |
+| className           | Класс корневого элемента                             |                 `string`                 |                        |
+| style               | Стили корневого элемента                             |          `React.CSSProperties`           |                        |
+| qa                  | Атрибут `data-qa` (тесты)                            |                 `string`                 |                        |

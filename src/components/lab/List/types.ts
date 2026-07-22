@@ -2,6 +2,8 @@ import type * as React from 'react';
 
 import type {QAProps} from '../../types';
 
+import type {LIST_FOCUS_OWNER_CHANNEL, ListFocusOwnerChannel} from './focusOwnerChannel';
+
 export type ListSize = 's' | 'm' | 'l' | 'xl';
 
 /**
@@ -159,19 +161,6 @@ export interface ListItemHelpers {
     getCellProps(overrides?: ListPropsOverrides): ListCellDOMProps;
 }
 
-/**
- * Связка, которую ядро публикует внешнему владельцу фокуса (ось B, §15 плана).
- *  Каналом владеет `useListFocusOwner`, ядро только публикует в него
- */
-export interface ListFocusOwnerConnection {
-    /** DOM id корня списка — цель `aria-controls` владельца */
-    listId: string;
-    /** DOM id активной строки — значение `aria-activedescendant` владельца */
-    activeDomId?: string;
-    /** Клавиатурная машина списка (шаг «а»): владелец отдаёт ей свой onKeyDown */
-    onKeyDown(event: React.KeyboardEvent): void;
-}
-
 /** Props внешнего владельца фокуса — инпута комбобокса (§15 плана) */
 export type ListFocusOwnerInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
     role: string;
@@ -180,20 +169,31 @@ export type ListFocusOwnerInputProps = React.InputHTMLAttributes<HTMLInputElemen
 /**
  * Внешний владелец DOM-фокуса списка (ось B, §15 плана) — объект из
  *  `useListFocusOwner()`. Пока проп `focusOwner` не передан, список живёт в
- *  roving-стратегии: DOM-фокус переезжает на строки
+ *  roving-стратегии: DOM-фокус переезжает на строки.
+ *
+ * Канал рассчитан на mount/unmount-модель попапа: `aria-expanded` считается
+ *  по факту монтирования списка, клавиатурная машина отключается вместе с
+ *  ним. Держать закрытый попап смонтированным (keepMounted) не поддержано:
+ *  у скрытого списка стрелки продолжали бы двигать активность, а
+ *  `aria-expanded` остался бы `true`
  */
 export interface ListFocusOwner {
-    /** @internal канал ядра: публикация связки владельцу */
-    connect(connection: ListFocusOwnerConnection): void;
-    /** @internal канал ядра: список размонтирован — попап закрыт */
-    disconnect(): void;
     /**
      * Props инпута: `role="combobox"`, `aria-expanded`, `aria-controls`,
-     *  `aria-activedescendant`, `onKeyDown` (клавиатурная машина списка)
+     *  `aria-activedescendant`, `onKeyDown` (клавиатурная машина списка).
+     *  Переопределения компонуются по общему контракту (свой `onKeyDown` —
+     *  после машины); `role` и `aria-expanded` можно переопределить —
+     *  эскейп-хэтч для не-попап паттернов (постоянно видимый фильтруемый
+     *  список)
      */
     getInputProps(
         overrides?: React.InputHTMLAttributes<HTMLInputElement>,
     ): ListFocusOwnerInputProps;
+    /**
+     * Канал ядра — доступен только по module-private символу
+     * @internal
+     */
+    readonly [LIST_FOCUS_OWNER_CHANNEL]: ListFocusOwnerChannel;
 }
 
 export interface ListCoreProps<T> extends ListItemGetters<T>, QAProps {

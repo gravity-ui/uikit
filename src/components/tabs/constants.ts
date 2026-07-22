@@ -2,6 +2,7 @@ import {block} from '../utils/cn';
 
 export const bTabList = block('tab-list');
 export const bTab = block('tab');
+export const bTabMenuItem = block('tab-menu-item');
 export const bTabPanel = block('tab-panel');
 export const bTabListCollapseItem = block('tab-list-collapse-item');
 

@@ -6,7 +6,7 @@ import {Icon} from '../../Icon';
 import {Text} from '../../Text';
 import {Menu} from '../../lab/Menu';
 import {Flex} from '../../layout';
-import {Tab} from '../Tab';
+import {TabInner} from '../Tab';
 import {TabContent} from '../TabContent';
 import {bTabListCollapseItem} from '../constants';
 import i18n from '../i18n';
@@ -75,30 +75,13 @@ export const TabListCollapseItem = React.forwardRef<HTMLButtonElement, TabListCo
                         return null;
                     }
 
-                    const key = child.key ?? index;
-                    const isMenuItem = true;
-                    const className = [bTabListCollapseItem('menu-item'), child.props.className]
-                        .filter(Boolean)
-                        .join(' ');
-
-                    if (child.type === Tab) {
-                        return React.cloneElement(child, {key, isMenuItem, className});
-                    }
-
                     const tabProps = getTabNodePropsFromReactNode(child);
 
                     if (!tabProps) {
                         return null;
                     }
 
-                    return (
-                        <Tab
-                            {...tabProps}
-                            key={key}
-                            isMenuItem={isMenuItem}
-                            className={className}
-                        />
-                    );
+                    return <TabInner key={child.key ?? index} isMenuItem {...tabProps} />;
                 })}
             </Menu>
         );

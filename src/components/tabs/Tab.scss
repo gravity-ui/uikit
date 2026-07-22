@@ -2,6 +2,7 @@
 @use '../../../styles/mixins';
 
 $block: '.#{variables.$ns}tab';
+$blockMenuItem: '.#{variables.$ns}tab-menu-item';
 
 #{$block} {
     cursor: pointer;
@@ -47,16 +48,16 @@ $block: '.#{variables.$ns}tab';
         display: block;
     }
 
+    &__icon,
+    &__counter {
+        color: var(--g-color-text-hint);
+    }
+
     &:focus-visible {
         #{$block}__content {
             @include mixins.focus-outline();
             outline-offset: -2px;
         }
-    }
-
-    &__icon,
-    &__counter {
-        color: var(--g-color-text-hint);
     }
 
     &_active,
@@ -81,6 +82,26 @@ $block: '.#{variables.$ns}tab';
     &_disabled {
         pointer-events: none;
 
+        #{$block}__title {
+            color: var(--g-color-text-hint);
+        }
+    }
+}
+
+#{$blockMenuItem} {
+    &:hover,
+    &:focus-visible {
+        #{$block}__title {
+            color: var(--g-color-text-primary);
+        }
+
+        #{$block}__icon,
+        #{$block}__counter {
+            color: var(--g-color-text-secondary);
+        }
+    }
+
+    &_disabled {
         #{$block}__title {
             color: var(--g-color-text-hint);
         }

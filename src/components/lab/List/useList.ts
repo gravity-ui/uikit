@@ -8,6 +8,7 @@ import {warnOnce} from '../../utils/warn';
 
 import {ListVirtualizationContext} from './VirtualizationContext';
 import {composeItemProps} from './composeItemProps';
+import {LIST_FOCUS_OWNER_CHANNEL} from './focusOwnerChannel';
 import type {
     ListCellDOMProps,
     ListFocusStrategy,
@@ -127,6 +128,9 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     // наличия внешнего владельца. Дефолт (listbox + roving) — поведение
     // фаз 1–4
     const focusOwner = props.focusOwner ?? null;
+    // Внутренний протокол канала (connect/disconnect) живёт под
+    // module-private символом — в публичном типе владельца его нет
+    const focusOwnerChannel = focusOwner ? focusOwner[LIST_FOCUS_OWNER_CHANNEL] : null;
     const focusStrategy: ListFocusStrategy = focusOwner ? 'activedescendant' : 'roving';
     // Вход в интерактив ячейки и возврат — только в roving: в
     // activedescendant стрелки принадлежат каретке инпута, а
@@ -576,9 +580,9 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     const activeDomId =
         effectiveActiveId === undefined ? undefined : rowById.get(effectiveActiveId)?.domId;
     useLayoutEffect(() => {
-        focusOwner?.connect({listId, activeDomId, onKeyDown: handleFocusOwnerKeyDown});
+        focusOwnerChannel?.connect({listId, activeDomId, onKeyDown: handleFocusOwnerKeyDown});
     });
-    useLayoutEffect(() => () => focusOwner?.disconnect(), [focusOwner]);
+    useLayoutEffect(() => () => focusOwnerChannel?.disconnect(), [focusOwnerChannel]);
 
     const getContainerProps = (overrides?: ListPropsOverrides): ListContainerDOMProps => {
         const baseProps = {

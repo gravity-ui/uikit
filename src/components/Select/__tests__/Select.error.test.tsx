@@ -1,3 +1,5 @@
+import userEvent from '@testing-library/user-event';
+
 import {render, screen} from '../../../../test-utils/utils';
 import {CONTROL_ERROR_MESSAGE_QA} from '../../controls/utils';
 import {Select} from '../Select';
@@ -81,5 +83,24 @@ describe('Select error', () => {
         render(<Select errorMessage={''} errorPlacement="inside" />);
 
         expect(screen.queryByLabelText('Show popup with error info')).not.toBeInTheDocument();
+    });
+
+    test('opens inside error popover on hover', async () => {
+        const ERROR_MESSAGE = 'Test error message';
+
+        const {findByText, getByRole} = setup();
+        render(
+            <Select
+                validationState="invalid"
+                errorMessage={ERROR_MESSAGE}
+                errorPlacement="inside"
+            />,
+        );
+
+        await userEvent.hover(getByRole('button', {name: 'Show popup with error info'}));
+
+        const popoverElement = await findByText(ERROR_MESSAGE);
+
+        await expect(popoverElement).toBeInTheDocument();
     });
 });

@@ -1,5 +1,20 @@
 # Changelog
 
+## [7.47.0](https://github.com/gravity-ui/uikit/compare/v7.46.0...v7.47.0) (2026-07-22)
+
+
+### Features
+
+* readme refactoring ([#2705](https://github.com/gravity-ui/uikit/issues/2705)) ([09069a5](https://github.com/gravity-ui/uikit/commit/09069a5f12dd07ae1eacde80c2c2b61a5ccce719))
+
+
+### Bug Fixes
+
+* add `@types/react` to `peerDependencies` ([#2753](https://github.com/gravity-ui/uikit/issues/2753)) ([e5e5911](https://github.com/gravity-ui/uikit/commit/e5e59116fd1ac34ae4987a850065db5a6960884a))
+* **Select:** fix availability of error popover with placement inside ([#2760](https://github.com/gravity-ui/uikit/issues/2760)) ([573bbe6](https://github.com/gravity-ui/uikit/commit/573bbe6e909300b32335efa4de6ff6afeff5e5c8))
+* **Tabs:** correctly render custom components + migration guide ([#2757](https://github.com/gravity-ui/uikit/issues/2757)) ([4b2bc7d](https://github.com/gravity-ui/uikit/commit/4b2bc7d67bcc64601c82d54aa3e494bb819b8c5d))
+* **Tabs:** localize overflow label ([#2751](https://github.com/gravity-ui/uikit/issues/2751)) ([643b600](https://github.com/gravity-ui/uikit/commit/643b6006bb9c56a7ec740062d61d01467fe9738a))
+
 ## [7.46.0](https://github.com/gravity-ui/uikit/compare/v7.45.1...v7.46.0) (2026-07-15)
 
 

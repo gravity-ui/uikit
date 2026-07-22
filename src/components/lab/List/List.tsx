@@ -8,11 +8,13 @@ import {ListItemView} from '../ListItemView/ListItemView';
 import {ListSectionHeader} from './SectionHeader';
 import {ListVirtualizationContext} from './VirtualizationContext';
 import type {
+    ListCellDOMProps,
     ListItemContext,
     ListItemDOMProps,
     ListItemHelpers,
     ListProps,
     ListPropsOverrides,
+    ListRole,
     ListSize,
 } from './types';
 import {useList} from './useList';
@@ -33,6 +35,7 @@ const ESTIMATED_ITEM_SIZE: Record<ListSize, number> = {s: 24, m: 28, l: 32, xl: 
  */
 interface ListRowCore {
     getItemProps: (id: string, overrides?: ListPropsOverrides) => ListItemDOMProps;
+    getCellProps: (overrides?: ListPropsOverrides) => ListCellDOMProps;
 }
 
 interface ListRowProps<T> {
@@ -47,6 +50,8 @@ interface ListRowProps<T> {
     selectionStyle: 'check' | 'highlight';
     /** Идёт перетаскивание (dnd-слой): вьюхе гасится CSS-hover */
     dragActive: boolean;
+    /** ARIA-роль списка (ось A, §15): в grid дефолтный рендер кладёт контент в ячейку */
+    role: ListRole;
     renderItem: ListProps<T>['renderItem'];
     core: ListRowCore;
 }
@@ -56,11 +61,13 @@ function ListRowComponent<T>({
     size,
     selectionStyle,
     dragActive,
+    role,
     renderItem,
     core,
 }: ListRowProps<T>) {
     const helpers: ListItemHelpers = {
         getItemProps: (overrides) => core.getItemProps(ctx.id, overrides),
+        getCellProps: (overrides) => core.getCellProps(overrides),
         getItemViewProps: () => ({
             size,
             active: ctx.state.active,
@@ -84,12 +91,22 @@ function ListRowComponent<T>({
     }
 
     return ctx.kind === 'section' ? (
+        // Заголовки секций остаются presentation + aria-hidden в обеих
+        // роль-моделях: плоская модель §9 сохраняется, в grid-навигации
+        // они не участвуют
         <ListSectionHeader {...helpers.getItemProps()} size={size}>
             {ctx.content}
         </ListSectionHeader>
     ) : (
         <ListItemView {...helpers.getItemProps()} {...helpers.getItemViewProps()}>
-            {ctx.content}
+            {role === 'grid' ? (
+                // В grid контент обязан лежать в ячейке: role="row" требует
+                // владеть хотя бы одним gridcell. В listbox обёртки нет вовсе —
+                // маркап дефолтного рендера остаётся прежним
+                <div {...helpers.getCellProps()}>{ctx.content}</div>
+            ) : (
+                ctx.content
+            )}
         </ListItemView>
     );
 }
@@ -102,6 +119,7 @@ function areListRowPropsEqual<T>(prev: ListRowProps<T>, next: ListRowProps<T>): 
         prev.size === next.size &&
         prev.selectionStyle === next.selectionStyle &&
         prev.dragActive === next.dragActive &&
+        prev.role === next.role &&
         prev.renderItem === next.renderItem &&
         prev.core === next.core &&
         a.id === c.id &&
@@ -133,6 +151,7 @@ function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
     listRef.current = list;
     const [core] = React.useState<ListRowCore>(() => ({
         getItemProps: (id, overrides) => listRef.current.getItemProps(id, overrides),
+        getCellProps: (overrides) => listRef.current.getCellProps(overrides),
     }));
 
     // Кэш контекстов для оценки высоты строк слоем виртуализации (см. ниже);
@@ -159,6 +178,7 @@ function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
             size={size}
             selectionStyle={selectionStyle}
             dragActive={dragActive}
+            role={list.role}
             renderItem={renderItem}
             core={core}
         />

@@ -1,11 +1,22 @@
 import * as React from 'react';
 
+import {focusable, tabbable} from 'tabbable';
+
 import {mergeRefs, useControlledState, useLayoutEffect, useUniqId} from '../../../hooks';
+import {useDirection} from '../../theme';
 import {warnOnce} from '../../utils/warn';
 
 import {ListVirtualizationContext} from './VirtualizationContext';
 import {composeItemProps} from './composeItemProps';
-import type {ListItemContext, ListItemDOMProps, ListProps, ListPropsOverrides} from './types';
+import type {
+    ListCellDOMProps,
+    ListFocusStrategy,
+    ListItemContext,
+    ListItemDOMProps,
+    ListProps,
+    ListPropsOverrides,
+    ListRole,
+} from './types';
 import {TYPEAHEAD_TIMEOUT, findTypeaheadMatch, flattenItems, getNextActiveId} from './utils';
 import type {ListNavigationCommand, ListRow} from './utils';
 
@@ -24,6 +35,10 @@ export interface ListInstance<T> {
     visibleIds: string[];
     getItemContext(id: string): ListItemContext<T>;
     getItemProps(id: string, overrides?: ListPropsOverrides): ListItemDOMProps;
+    /** Props ячейки строки: role="gridcell" в grid-режиме, пусто в listbox */
+    getCellProps(overrides?: ListPropsOverrides): ListCellDOMProps;
+    /** ARIA-роль списка (ось A, §15): значение пропа `role`, дефолт listbox */
+    role: ListRole;
     /**
      * Индекс строки с roving tab-stop в visibleIds (активной, а без активной —
      * первой навигабельной); −1, если опций нет. Рендерер виртуализации (§7)
@@ -46,15 +61,11 @@ const NAVIGATION_COMMANDS: Record<string, ListNavigationCommand> = {
     End: 'last',
 };
 
-// Внутренняя стратегия синхронизации фокуса (§5 плана): сейчас — только
-// roving tabindex; virtual focus для Select добавится новой стратегией,
-// не трогая машину переходов
-const FOCUS_STRATEGY: 'roving' = 'roving';
-
 const EMPTY_SELECTION: readonly string[] = [];
 
-// Ключи, которыми владеет ядро: ARIA-модель listbox, DOM id строки и roving
-// tab-stop. Типы dnd-адаптера их уже исключают (ListDndProps), но каст в
+// Ключи, которыми владеет ядро: ARIA-роль строки (option либо row, §15),
+// DOM id строки и roving tab-stop.
+// Типы dnd-адаптера их уже исключают (ListDndProps), но каст в
 // адаптере потребителя обойдёт типы молча — а затирание role/id ломает
 // клавиатурную машину целиком (она гейтуется на DOM id строки)
 const CORE_OWNED_PROPS = ['role', 'id', 'tabIndex'] as const;
@@ -83,10 +94,24 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         onItemAction,
         activateOnHover = true,
         selectionMode,
+        // Ось роль-модели (§15): роль задаётся явно, роли строки и ячейки
+        // следуют за ней
+        role = 'listbox',
     } = props;
 
     const fallbackId = useUniqId();
     const listId = props.id ?? fallbackId;
+
+    // Вторая ось §15 — стратегия синхронизации фокуса: её включает факт
+    // наличия внешнего владельца. Дефолт (listbox + roving) — поведение
+    // фаз 1–4
+    const focusOwner = props.focusOwner ?? null;
+    const focusStrategy: ListFocusStrategy = focusOwner ? 'activedescendant' : 'roving';
+    // Вход в интерактив ячейки и возврат — только в roving: в
+    // activedescendant стрелки принадлежат каретке инпута, а
+    // aria-activedescendant указывает на ОДИН элемент (§15, трудный угол)
+    const cellNavigation = role === 'grid' && focusStrategy === 'roving';
+    const direction = useDirection();
 
     // Слой виртуализации (§7): ядро знает только о факте его включения —
     // aria-setsize/posinset появляются лишь когда в DOM лежит окно строк
@@ -270,20 +295,29 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     };
 
     // Шаг «б» клавиатурной машины — синхронизация фокуса с активностью (§5).
+    // Единственное, что различает две стратегии оси B (§15): шаг «а»
+    // (вычисление перехода активности) у них общий.
     // Прокруткой управляем сами: нативный скролл focus() у Chromium
     // ЦЕНТРИРУЕТ полностью невидимый элемент (а на границе вьюпорта
     // следующая строка всегда полностью невидима — при обходе стрелками
     // это скачки на полэкрана); scrollIntoView с block: 'nearest'
     // доскролливает ровно недостающую высоту (в jsdom метода нет)
-    const syncFocusToActive = React.useCallback((id: string) => {
-        if (FOCUS_STRATEGY === 'roving') {
+    const syncFocusToActive = React.useCallback(
+        (id: string) => {
             const element = elementsRef.current.get(id);
-            if (element) {
-                element.focus({preventScroll: true});
-                element.scrollIntoView?.({block: 'nearest'});
+            if (!element) {
+                return;
             }
-        }
-    }, []);
+            if (focusStrategy === 'roving') {
+                element.focus({preventScroll: true});
+            }
+            // В activedescendant DOM-фокус не двигается вовсе: строку
+            // «подсвечивает» aria-activedescendant владельца, а доскролл
+            // остаётся за списком
+            element.scrollIntoView?.({block: 'nearest'});
+        },
+        [focusStrategy],
+    );
 
     // Фокус переезжает эффектом от ФАКТИЧЕСКОЙ активности, а не от запрошенной:
     // controlled-родитель мог отклонить обновление — тогда фокус остаётся на
@@ -330,17 +364,42 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     const getActiveRow = () =>
         effectiveActiveId === undefined ? undefined : rowById.get(effectiveActiveId);
 
-    const handleKeyDown = (event: React.KeyboardEvent) => {
-        // Реагируем только на клавиатуру с самих строк: вложенные интерактивные
-        // элементы (кнопки в endContent и т.п.) машина не перехватывает
-        if (
-            !(event.target instanceof HTMLElement) ||
-            !domIdToId.has(event.target.id) ||
-            event.defaultPrevented
-        ) {
-            return;
+    /**
+     * Вход в интерактив ячейки и возврат на строку — клавиатура grid (§15).
+     * Именно это делает кнопку внутри строки (ручка dnd, row-action)
+     * достижимой с клавиатуры, а не только валидной по ролям.
+     * Возвращает true, если событие обработано
+     */
+    const handleCellNavigation = (
+        event: React.KeyboardEvent,
+        rowElement: HTMLElement,
+        fromCell: boolean,
+    ): boolean => {
+        const forwardKey = direction === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
+        const backwardKey = direction === 'rtl' ? 'ArrowRight' : 'ArrowLeft';
+        if (event.key !== forwardKey && event.key !== backwardKey) {
+            return false;
         }
+        const targets = focusable(rowElement);
+        const currentIndex = fromCell ? targets.indexOf(event.target as HTMLElement) : -1;
+        const nextTarget =
+            event.key === forwardKey
+                ? targets[currentIndex + 1]
+                : (targets[currentIndex - 1] ?? (fromCell ? rowElement : undefined));
+        if (!nextTarget) {
+            return false;
+        }
+        event.preventDefault();
+        nextTarget.focus();
+        return true;
+    };
 
+    /**
+     * Шаг «а» клавиатурной машины (§5): переходы активности. Одинаков в обеих
+     * стратегиях фокуса — источник события у них разный (строка в roving,
+     * инпут владельца в activedescendant), сами переходы те же
+     */
+    const handleNavigationKeys = (event: React.KeyboardEvent) => {
         const command = NAVIGATION_COMMANDS[event.key];
         if (command) {
             event.preventDefault();
@@ -361,6 +420,12 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             if (event.ctrlKey || event.metaKey || event.altKey) {
                 return;
             }
+            // Символьные клавиши (пробел — тоже символ) в activedescendant
+            // уходят владельцу фокуса: он печатает в инпут, а фильтр
+            // заменяет typeahead (§15)
+            if (focusStrategy === 'activedescendant') {
+                return;
+            }
             // Приоритет Space (APG): при непустом typeahead-буфере пробел — часть
             // поиска; иначе Space работает только в слое выделения (§6). Дефолтный
             // скролл страницы гасим в обоих случаях
@@ -379,25 +444,106 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             return;
         }
 
-        if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+        if (
+            focusStrategy === 'roving' &&
+            event.key.length === 1 &&
+            !event.ctrlKey &&
+            !event.metaKey &&
+            !event.altKey
+        ) {
             event.preventDefault();
             handleTypeaheadChar(event.key);
         }
     };
 
+    /**
+     * Клавиатура корня списка (roving): машина слушает только сами строки —
+     * вложенные интерактивные элементы (кнопки в endContent и т.п.) она не
+     * перехватывает. Исключение — grid: из ячейки ядру принадлежат ровно ←/→
+     * (возврат на строку), остальные клавиши остаются вложенному виджету
+     * (↑/↓ у ручки rbd — это её клавиатурный drag-and-drop)
+     */
+    const handleContainerKeyDown = (event: React.KeyboardEvent) => {
+        if (!(event.target instanceof HTMLElement) || event.defaultPrevented) {
+            return;
+        }
+        if (!domIdToId.has(event.target.id)) {
+            if (cellNavigation) {
+                const rowElement = event.target.closest<HTMLElement>('[role="row"]');
+                if (rowElement && domIdToId.has(rowElement.id)) {
+                    handleCellNavigation(event, rowElement, true);
+                }
+            }
+            return;
+        }
+        if (cellNavigation && handleCellNavigation(event, event.target, false)) {
+            return;
+        }
+        handleNavigationKeys(event);
+    };
+
+    /**
+     * Клавиатура внешнего владельца фокуса (activedescendant): гейта на
+     * строку-цель нет — события приходят из инпута, который живёт снаружи
+     * корня списка
+     */
+    const handleFocusOwnerKeyDown = (event: React.KeyboardEvent) => {
+        if (event.defaultPrevented) {
+            return;
+        }
+        handleNavigationKeys(event);
+    };
+
+    // Контракт grid: список — ОДИН tab-stop (APG). Интерактив ячейки
+    // достижим ←/→, а в Tab-порядке его быть не должно — иначе список
+    // разворачивается в N+1 tab-stop (практический случай — dragHandleProps
+    // из rbd со своим tabIndex=0). Ядро чужой маркап не переписывает
+    // (потребитель мог сделать элемент tabbable намеренно, а либа вернёт
+    // свой tabIndex на следующем же рендере) — вместо этого предупреждаем.
+    // Проверка только в dev и только на смену набора строк
+    useLayoutEffect(() => {
+        if (process.env.NODE_ENV === 'production' || !cellNavigation) {
+            return;
+        }
+        for (const element of elementsRef.current.values()) {
+            if (tabbable(element).length > 0) {
+                warnOnce(
+                    '[List] `role="grid"`: a row contains a tabbable descendant. A grid is a single tab stop — give interactive cell content `tabIndex={-1}`, it stays reachable with Left/Right arrows.',
+                );
+                return;
+            }
+        }
+    }, [cellNavigation, rows]);
+
+    // Публикация связки владельцу фокуса (§15): id списка для aria-controls,
+    // DOM id активной строки для aria-activedescendant и сама машина.
+    // Эффект без зависимостей — обработчик пересоздаётся каждый рендер, а
+    // связка на стороне владельца дедуплицируется по значениям
+    const activeDomId =
+        effectiveActiveId === undefined ? undefined : rowById.get(effectiveActiveId)?.domId;
+    useLayoutEffect(() => {
+        focusOwner?.connect({listId, activeDomId, onKeyDown: handleFocusOwnerKeyDown});
+    });
+    useLayoutEffect(() => () => focusOwner?.disconnect(), [focusOwner]);
+
     const getContainerProps = (overrides?: ListPropsOverrides): ListContainerDOMProps => {
         const baseProps = {
-            role: 'listbox',
+            // Ось роль-модели (§15): grid — когда в строках есть интерактив
+            role,
             id: listId,
             'aria-label': props['aria-label'],
             'aria-labelledby': props['aria-labelledby'],
             // Только со слоем выделения и только для multiple
             'aria-multiselectable': selectionMode === 'multiple' || undefined,
+            // Аналог aria-setsize listbox-режима: при виртуализации в DOM
+            // лежит только окно строк. Нумерация — по строкам данных,
+            // заголовки секций не считаются
+            'aria-rowcount': role === 'grid' && virtualized ? optionsCount : undefined,
             // Идёт перетаскивание (dnd-слой): CSS-хук для кастомного маркапа —
             // погасить свои hover-стили на время drag (дефолтной вьюхе ядро
             // гасит их пропом hovered={false} через getItemViewProps)
             'data-drag-active': dragActive ? '' : undefined,
-            onKeyDown: handleKeyDown,
+            onKeyDown: handleContainerKeyDown,
             ref: containerRef,
         };
         // Props dnd-адаптера (зона сброса) — между базовыми и overrides:
@@ -440,21 +586,33 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         if (dnd) {
             rowDropTarget = dropTarget?.id === row.id ? dropTarget.position : null;
         }
+        const isGrid = role === 'grid';
         const baseProps = {
             id: row.domId,
-            role: 'option',
-            // Roving: один tab-stop на список; без активного — первая навигабельная
+            // Ось роль-модели (§15): в grid строка — row, а её контент
+            // лежит в gridcell (getCellProps)
+            role: isGrid ? 'row' : 'option',
+            // Roving: один tab-stop на список; без активного — первая
+            // навигабельная. В activedescendant строки из Tab-порядка уходят
+            // вовсе: DOM-фокус живёт у внешнего владельца
             tabIndex:
-                active || (effectiveActiveId === undefined && row.id === firstNavigableId) ? 0 : -1,
+                focusStrategy === 'roving'
+                    ? active || (effectiveActiveId === undefined && row.id === firstNavigableId)
+                        ? 0
+                        : -1
+                    : undefined,
             'aria-disabled': row.disabled || undefined,
             // «не выбран» ≠ «не выбирается»: со слоем выделения aria-selected
-            // есть на каждой опции, без слоя — ни на одной
+            // есть на каждой строке, без слоя — ни на одной. В grid атрибут
+            // живёт на строке (role="row"), а не на ячейке
             'aria-selected': selected,
             // При виртуализации в DOM лежит только окно строк — без явной
             // нумерации SR объявит «3 из 12» на списке из тысяч опций.
-            // Нумерация по опциям: заголовки секций не считаются (§7)
-            'aria-setsize': virtualized ? optionsCount : undefined,
-            'aria-posinset': virtualized ? row.posInSet : undefined,
+            // Нумерация по строкам данных: заголовки секций не считаются (§7)
+            'aria-setsize': virtualized && !isGrid ? optionsCount : undefined,
+            'aria-posinset': virtualized && !isGrid ? row.posInSet : undefined,
+            // Grid-эквивалент posinset; тотал — aria-rowcount на контейнере
+            'aria-rowindex': virtualized && isGrid ? row.posInSet : undefined,
             'data-active': active ? '' : undefined,
             'data-disabled': row.disabled ? '' : undefined,
             'data-selected': selected ? '' : undefined,
@@ -514,6 +672,16 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         }) as unknown as ListItemDOMProps;
     };
 
+    // Ячейка строки (§15): в grid контент обязан лежать в gridcell — только
+    // там интерактивные потомки валидны. В listbox ячеек нет, и геттер отдаёт
+    // пустой объект: один и тот же renderItem работает в обеих роль-моделях
+    const getCellProps = (overrides?: ListPropsOverrides): ListCellDOMProps => {
+        const baseProps = role === 'grid' ? {role: 'gridcell'} : {};
+        return composeItemProps(baseProps, overrides, {
+            forkRef: forkRefCached,
+        }) as ListCellDOMProps;
+    };
+
     const getItemContext = (id: string): ListItemContext<T> => {
         const row = rowById.get(id);
         if (!row) {
@@ -549,11 +717,12 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         }
         // Всё, что влияет на выход getItemProps, но не выражено в ctx-срезе:
         // DOM id (меняется с props.id листа), roving tab-stop без активной
-        // строки, aria-нумерация при виртуализации
+        // строки, aria-нумерация при виртуализации, обе оси §15 (роли строки
+        // и наличие tabIndex)
         const tabStop = row.index === pinnedRowIndex;
         const numbering =
             virtualized && row.kind === 'item' ? `${row.posInSet}/${optionsCount}` : '';
-        return `${row.domId}|${tabStop ? 1 : 0}|${numbering}`;
+        return `${row.domId}|${tabStop ? 1 : 0}|${numbering}|${role}|${focusStrategy}`;
     };
 
     const visibleIds = React.useMemo(() => rows.map((row) => row.id), [rows]);
@@ -563,6 +732,8 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         visibleIds,
         getItemContext,
         getItemProps,
+        getCellProps,
+        role,
         pinnedRowIndex,
         getItemMemoKey,
     };

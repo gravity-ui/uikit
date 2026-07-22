@@ -4,6 +4,37 @@ import type {QAProps} from '../../types';
 
 export type ListSize = 's' | 'm' | 'l' | 'xl';
 
+/**
+ * ARIA-роль списка — она же роль-модель строк и ячеек (ось A, §15 плана).
+ *  Выбирается по содержимому строк: интерактивные потомки валидны только
+ *  в grid-модели
+ */
+export type ListRole =
+    /**
+     * Список опций: контейнер — `listbox`, строка — `option`.
+     *  `option` — ЛИСТОВАЯ роль ARIA: интерактивные потомки (кнопка, чекбокс,
+     *  ссылка) внутри неё невалидны, ячеек нет — `getCellProps()` пустой.
+     *  Клавиатура: `↑`/`↓`/`Home`/`End`/typeahead, при виртуализации —
+     *  `aria-setsize`/`aria-posinset`
+     */
+    | 'listbox'
+    /**
+     * Строки с интерактивом: контейнер — `grid`, строка — `row`, контент —
+     *  `gridcell` (`getCellProps()`). Ячейка ЛЕГИТИМНО содержит интерактив
+     *  (ручка dnd, чекбокс, row-action), `aria-selected` живёт на строке.
+     *  Клавиатура: к навигации по строкам добавляются `←`/`→` — вход
+     *  в интерактив ячейки и возврат на строку; при виртуализации —
+     *  `aria-rowcount`/`aria-rowindex`
+     */
+    | 'grid';
+
+/**
+ * Стратегия синхронизации фокуса с активностью — шаг «б» клавиатурной машины
+ *  (ось B, §5/§15 плана). Наружу не торчит: `activedescendant` включает проп
+ *  `focusOwner` — DOM-фокус остаётся у внешнего владельца (инпута)
+ */
+export type ListFocusStrategy = 'roving' | 'activedescendant';
+
 export interface ListItemGetters<T> {
     /** Уникальный id айтема. default: `(i) => i.id`; для string-айтема — сама строка */
     getItemId?: (item: T) => string;
@@ -72,6 +103,16 @@ export type ListItemDOMProps = Omit<React.HTMLAttributes<HTMLElement>, 'draggabl
         [key: `data-${string}`]: string | undefined;
     };
 
+/**
+ * Props ячейки строки. В listbox-режиме `role` отсутствует (ячеек нет), в
+ *  grid-режиме — `role="gridcell"`: один и тот же `renderItem` работает в обеих
+ *  роль-моделях
+ */
+export type ListCellDOMProps = Omit<React.HTMLAttributes<HTMLElement>, 'draggable'> &
+    React.AriaAttributes & {role?: string; ref?: React.RefCallback<HTMLElement>} & {
+        [key: `data-${string}`]: string | undefined;
+    };
+
 export interface ListItemViewStateProps {
     size?: ListSize;
     active: boolean;
@@ -96,6 +137,51 @@ export interface ListItemHelpers {
      *  не перевязывал active/selected/disabled руками
      */
     getItemViewProps(): ListItemViewStateProps;
+    /**
+     * DOM/a11y-props ЯЧЕЙКИ строки (ось роль-модели, §15 плана). При
+     *  `role="grid"` — `role="gridcell"`: интерактив (ручка dnd,
+     *  чекбокс, row-action) валиден только внутри ячейки. В listbox-режиме
+     *  геттер отдаёт пустой объект, поэтому одна и та же обёртка ячейки
+     *  в `renderItem` работает в обеих роль-моделях
+     */
+    getCellProps(overrides?: ListPropsOverrides): ListCellDOMProps;
+}
+
+/**
+ * Связка, которую ядро публикует внешнему владельцу фокуса (ось B, §15 плана).
+ *  Каналом владеет `useListFocusOwner`, ядро только публикует в него
+ */
+export interface ListFocusOwnerConnection {
+    /** DOM id корня списка — цель `aria-controls` владельца */
+    listId: string;
+    /** DOM id активной строки — значение `aria-activedescendant` владельца */
+    activeDomId?: string;
+    /** Клавиатурная машина списка (шаг «а»): владелец отдаёт ей свой onKeyDown */
+    onKeyDown(event: React.KeyboardEvent): void;
+}
+
+/** Props внешнего владельца фокуса — инпута комбобокса (§15 плана) */
+export type ListFocusOwnerInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+    role: string;
+};
+
+/**
+ * Внешний владелец DOM-фокуса списка (ось B, §15 плана) — объект из
+ *  `useListFocusOwner()`. Пока проп `focusOwner` не передан, список живёт в
+ *  roving-стратегии: DOM-фокус переезжает на строки
+ */
+export interface ListFocusOwner {
+    /** @internal канал ядра: публикация связки владельцу */
+    connect(connection: ListFocusOwnerConnection): void;
+    /** @internal канал ядра: список размонтирован — попап закрыт */
+    disconnect(): void;
+    /**
+     * Props инпута: `role="combobox"`, `aria-expanded`, `aria-controls`,
+     *  `aria-activedescendant`, `onKeyDown` (клавиатурная машина списка)
+     */
+    getInputProps(
+        overrides?: React.InputHTMLAttributes<HTMLInputElement>,
+    ): ListFocusOwnerInputProps;
 }
 
 export interface ListCoreProps<T> extends ListItemGetters<T>, QAProps {
@@ -116,6 +202,28 @@ export interface ListCoreProps<T> extends ListItemGetters<T>, QAProps {
 
     /** Активация наведением. default: true */
     activateOnHover?: boolean;
+
+    /**
+     * ARIA-роль списка (ось роль-модели, §15 плана). default: `'listbox'`;
+     *  `'grid'` — когда в строках есть интерактив (кнопка-ручка dnd, чекбокс,
+     *  row-action): внутри `option` он невалиден, внутри `gridcell` — валиден.
+     *  Описание каждой роли — в JSDoc `ListRole`.
+     *
+     * Роль задаётся явно, а не выводится из содержимого строк: узнать про
+     *  интерактив можно только сканом DOM ПОСЛЕ монтирования — роль
+     *  контейнера успела бы уехать в скринридер как `listbox` и смениться
+     *  на лету
+     */
+    role?: ListRole;
+
+    /**
+     * Внешний владелец DOM-фокуса — объект из `useListFocusOwner()`
+     *  (ось B, §15 плана). Включает стратегию `aria-activedescendant`: фокус
+     *  остаётся в инпуте владельца, список только подсвечивает активную строку
+     *  и доскролливает к ней. Символьные клавиши в этом режиме уходят
+     *  владельцу (фильтрация вместо typeahead)
+     */
+    focusOwner?: ListFocusOwner;
 
     /** Кастомный рендер строки; дефолт — List.ItemView / List.SectionHeader */
     renderItem?: (ctx: ListItemContext<T>, helpers: ListItemHelpers) => React.ReactNode;

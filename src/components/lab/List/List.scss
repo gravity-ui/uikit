@@ -16,14 +16,14 @@ $block: '.#{variables.$ns}list-v2';
        absolute+top обёрток виртуализатора. Атрибуты существуют только при
        включённом слое: вне dnd селекторы ни на что не матчатся.
        Пара «роль + атрибут» отсекает чужие узлы: строки листа всегда несут
-       role="option" из getItemProps, а собственный data-dragging во
-       вложенном маркапе ступени 3 (или строки вложенного списка) не должен
-       подхватывать стили этого листа */
-    [role='option'][data-dragging] {
+       role="option" (listbox) либо role="row" (grid, §15) из getItemProps,
+       а собственный data-dragging во вложенном маркапе ступени 3 (или
+       строки вложенного списка) не должен подхватывать стили этого листа */
+    :is([role='option'], [role='row'])[data-dragging] {
         opacity: 0.5;
     }
 
-    [role='option'][data-drop-target] {
+    :is([role='option'], [role='row'])[data-drop-target] {
         /* База для индикатора; z-index поднимает строку над соседями,
            чтобы линию на границе не перекрывал фон следующей строки */
         position: relative;
@@ -43,11 +43,11 @@ $block: '.#{variables.$ns}list-v2';
     /* Линия лежит ВНУТРИ строки, а не по её внешней границе: под
        виртуализацией корень листа — скролл-контейнер, и вынесенный наружу
        пиксель обрезался бы у самой верхней (и нижней) строки окна */
-    [role='option'][data-drop-target='before']::after {
+    :is([role='option'], [role='row'])[data-drop-target='before']::after {
         inset-block-start: 0;
     }
 
-    [role='option'][data-drop-target='after']::after {
+    :is([role='option'], [role='row'])[data-drop-target='after']::after {
         inset-block-end: 0;
     }
 }

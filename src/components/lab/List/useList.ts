@@ -70,6 +70,27 @@ const EMPTY_SELECTION: readonly string[] = [];
 // клавиатурную машину целиком (она гейтуется на DOM id строки)
 const CORE_OWNED_PROPS = ['role', 'id', 'tabIndex'] as const;
 
+// Ключ контейнера в dev-трекере стабильности ref dnd-адаптера: NUL не
+// встречается в потребительских id строк
+const DND_CONTAINER_REF_KEY = '\u0000container';
+
+// В overrides ПОТРЕБИТЕЛЯ ключи ядра не отбрасываются — в отличие от props
+// адаптера это осознанный эскейп-хэтч (например, своя роль строки до
+// официальной параметризации ролей), но затирание молча ломает клавиатурную
+// машину — предупреждаем
+function warnOnOverridesCollision(overrides: ListPropsOverrides | undefined, getterName: string) {
+    if (process.env.NODE_ENV === 'production' || !overrides) {
+        return;
+    }
+    for (const key of CORE_OWNED_PROPS) {
+        if (key in overrides && (overrides as Record<string, unknown>)[key] !== undefined) {
+            warnOnce(
+                `[List] \`${getterName}\` overrides contain \`${key}\`, which is owned by the list itself (ARIA role, DOM id and roving tabindex). Unlike dnd adapter props, the value is applied as passed — but overriding \`${key}\` can break keyboard navigation and the ARIA model, make sure it is intentional.`,
+            );
+        }
+    }
+}
+
 function warnOnDndPropsCollision<P extends object>(dndProps: P): P {
     for (const key of CORE_OWNED_PROPS) {
         if (key in dndProps && (dndProps as Record<string, unknown>)[key] !== undefined) {
@@ -125,17 +146,16 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     const draggingId = dnd ? (dnd.draggingId ?? null) : null;
     const dropTarget = dnd ? (dnd.dropTarget ?? null) : null;
 
-    // У перегрузок useControlledState нет варианта «value и defaultValue могут
-    // быть undefined одновременно», хотя реализация с ним корректна; для
-    // активности «нет активного» — легитимное состояние, кастуем к сигнатуре
-    // реализации локально
-    const [activeItemId, setActiveItemId] = (
-        useControlledState as (
-            value: string | undefined,
-            defaultValue: string | undefined,
-            onChange?: (value: string | undefined) => void,
-        ) => [string | undefined, (value: string | undefined) => void]
-    )(props.activeItemId, props.defaultActiveItemId, props.onActiveItemUpdate);
+    // «Нет активного» — легитимное состояние: controlled выражает его null
+    // (undefined — uncontrolled, как selectedKey у react-aria). null же
+    // закрывает и дырку перегрузок useControlledState «value и defaultValue
+    // undefined одновременно»: с дефолтом `?? null` вызов подходит под
+    // перегрузку «uncontrolled с дефолтом» без каста
+    const [activeItemId, setActiveItemId] = useControlledState<string | null>(
+        props.activeItemId,
+        props.defaultActiveItemId ?? null,
+        props.onActiveItemUpdate,
+    );
 
     // Слой выделения (§6): наружу массив, внутри Set. Пока selectionMode не
     // передан, состояние существует, но ни во что не превращается — ни в aria,
@@ -230,8 +250,8 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     latestRef.current = {rowById, applyRow, setActiveItemId, activateOnHover, dragActive};
 
     // Активный есть, только если такая опция существует в items:
-    // controlled activeItemId с несуществующим id => активного нет
-    const activeRow = activeItemId === undefined ? undefined : rowById.get(activeItemId);
+    // controlled activeItemId с несуществующим id (или null) => активного нет
+    const activeRow = activeItemId === null ? undefined : rowById.get(activeItemId);
     const effectiveActiveId = activeRow?.kind === 'item' ? activeRow.id : undefined;
 
     const firstNavigableId = React.useMemo(
@@ -263,10 +283,44 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         return refCallback;
     };
 
+    // Dev-детекция нарушения обязательства §8 «ref в геттерах адаптера
+    // стабилен (per id — в getItemDndProps)»: нестабильный callback молча
+    // промахивается мимо кеша форков — React отцепляет/прицепляет ref, и
+    // dnd-либа перерегистрирует элемент на каждый рендер, а во время
+    // перетаскивания лист ре-рендерится на каждое обновление dropTarget.
+    // Порог 2: одна легитимная смена (потребитель пересоздал адаптер/либу)
+    // допускается; систематическая нестабильность даёт вторую смену сразу
+    const dndRefHistoryRef = React.useRef(new Map<string, {ref: unknown; changes: number}>());
+    const trackDndRefStability = (key: string, ref: unknown, getterName: string) => {
+        if (ref === null || ref === undefined) {
+            return;
+        }
+        const history = dndRefHistoryRef.current;
+        const entry = history.get(key);
+        if (!entry) {
+            history.set(key, {ref, changes: 0});
+            return;
+        }
+        if (entry.ref !== ref) {
+            entry.ref = ref;
+            entry.changes += 1;
+            if (entry.changes >= 2) {
+                warnOnce(
+                    `[List] The dnd adapter returns a new \`ref\` identity from \`${getterName}\` on every render. Refs must be stable${getterName === 'getItemDndProps' ? ' per item id' : ''}: an unstable ref re-registers the element in the dnd library on each render — and while dragging the list re-renders on every dropTarget update.`,
+                );
+            }
+        }
+    };
+
     React.useEffect(() => {
         for (const id of refCallbacksRef.current.keys()) {
             if (!rowById.has(id)) {
                 refCallbacksRef.current.delete(id);
+            }
+        }
+        for (const key of dndRefHistoryRef.current.keys()) {
+            if (key !== DND_CONTAINER_REF_KEY && !rowById.has(key)) {
+                dndRefHistoryRef.current.delete(key);
             }
         }
     }, [rowById]);
@@ -546,22 +600,33 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             onKeyDown: handleContainerKeyDown,
             ref: containerRef,
         };
+        warnOnOverridesCollision(overrides, 'getContainerProps');
         // Props dnd-адаптера (зона сброса) — между базовыми и overrides:
         // обработчики цепочкой после наших, ref — форк, а overrides
         // потребителя компонуются последними, как и без слоя
-        const withDnd = dnd?.getContainerDndProps
-            ? composeItemProps(baseProps, warnOnDndPropsCollision(dnd.getContainerDndProps()), {
-                  forkRef: forkRefCached,
-              })
-            : baseProps;
+        let withDnd = baseProps;
+        if (dnd?.getContainerDndProps) {
+            const dndProps = warnOnDndPropsCollision(dnd.getContainerDndProps());
+            if (process.env.NODE_ENV !== 'production') {
+                trackDndRefStability(DND_CONTAINER_REF_KEY, dndProps.ref, 'getContainerDndProps');
+            }
+            withDnd = composeItemProps(baseProps, dndProps, {forkRef: forkRefCached});
+        }
         return composeItemProps(withDnd, overrides, {
             forkRef: forkRefCached,
         }) as ListContainerDOMProps;
     };
 
     const getItemProps = (id: string, overrides?: ListPropsOverrides): ListItemDOMProps => {
+        warnOnOverridesCollision(overrides, 'getItemProps');
         const row = rowById.get(id);
         if (!row) {
+            // getItemContext на неизвестный id кидает; здесь мягче (геттер
+            // может пережить строку на кадр), но молчать нельзя — спред
+            // без props ядра тихо убивает роль/id/клавиатуру этой строки
+            warnOnce(
+                `[List] \`getItemProps\` was called with an unknown item id "${id}" — it is not in \`items\`, so only the passed overrides were returned.`,
+            );
             return (overrides ?? {}) as ListItemDOMProps;
         }
 
@@ -662,11 +727,14 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         // Props dnd-адаптера — между базовыми и overrides потребителя; только
         // в опции (заголовки секций в dnd не участвуют). Ref адаптера обязан
         // быть стабильным per id (§8) — форк кешируется по identity пары
-        const withDnd = dnd?.getItemDndProps
-            ? composeItemProps(baseProps, warnOnDndPropsCollision(dnd.getItemDndProps(row.id)), {
-                  forkRef: forkRefCached,
-              })
-            : baseProps;
+        let withDnd = baseProps;
+        if (dnd?.getItemDndProps) {
+            const dndProps = warnOnDndPropsCollision(dnd.getItemDndProps(row.id));
+            if (process.env.NODE_ENV !== 'production') {
+                trackDndRefStability(row.id, dndProps.ref, 'getItemDndProps');
+            }
+            withDnd = composeItemProps(baseProps, dndProps, {forkRef: forkRefCached});
+        }
         return composeItemProps(withDnd, overrides, {
             forkRef: forkRefCached,
         }) as unknown as ListItemDOMProps;

@@ -62,14 +62,27 @@ function PangeaRow({
     return (
         <React.Fragment>
             <Draggable draggableId={ctx.id} index={ctx.index} isDragDisabled={ctx.state.disabled}>
-                {(dragProvided) => (
+                {(dragProvided, dragSnapshot) => (
                     <List.ItemView
                         {...dragProvided.draggableProps}
                         {...helpers.getItemProps({
                             ref: dragProvided.innerRef,
                             // per-frame стили сдвига обязана применять строка —
-                            // через контракт композиции (shallow-merge style)
-                            style: dragProvided.draggableProps.style as React.CSSProperties,
+                            // через контракт композиции (shallow-merge style).
+                            // На время АКТИВНОГО drag гасим инлайновый
+                            // `transition: opacity ...` rbd (он для combine,
+                            // которого здесь нет): иначе ghost-стили листа
+                            // ([data-dragging]: фон + opacity) применялись бы
+                            // вразнобой — фон мгновенно, opacity через
+                            // transition — и строка мигала тёмным на старте.
+                            // Drop-анимацию не трогаем (штатный приём
+                            // кастомизации rbd: патчить style по snapshot)
+                            style: {
+                                ...(dragProvided.draggableProps.style as React.CSSProperties),
+                                ...(dragSnapshot.isDragging && !dragSnapshot.isDropAnimating
+                                    ? {transition: 'none'}
+                                    : undefined),
+                            },
                         })}
                         {...helpers.getItemViewProps()}
                         startContent={

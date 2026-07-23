@@ -3,9 +3,10 @@ import * as React from 'react';
 import userEvent from '@testing-library/user-event';
 import * as tabbable from 'tabbable';
 
-import {render, screen} from '../../../../../test-utils/utils';
+import {fireEvent, render, screen} from '../../../../../test-utils/utils';
 import {Label} from '../../../Label';
 import {List} from '../List';
+import type {ListActivationModality, ListItemViewStateProps, ListProps} from '../types';
 
 // В jsdom нет layout: displayCheck по умолчанию считает все элементы
 // скрытыми, и focusable() внутри List.ItemView возвращает пустой список.
@@ -211,7 +212,10 @@ describe('lab List', () => {
             expect(options[0]).toHaveFocus();
         });
 
-        test('navigation skips section headers but includes disabled options', async () => {
+        // Модель React Spectrum (решение 2026-07-23, отменяет развилку фазы 1
+        // «клавиатура включает disabled»): disabled-строки не получают
+        // активность и фокус ни с клавиатуры, ни с мыши
+        test('navigation skips section headers and disabled options', async () => {
             const user = userEvent.setup();
             render(
                 <List
@@ -237,10 +241,53 @@ describe('lab List', () => {
             expect(options[0]).toHaveFocus();
 
             await user.keyboard('{ArrowDown}');
-            expect(options[1]).toHaveFocus();
-
-            await user.keyboard('{ArrowDown}');
             expect(options[2]).toHaveFocus();
+            expect(options[1]).not.toHaveAttribute('data-active');
+
+            await user.keyboard('{ArrowUp}');
+            expect(options[0]).toHaveFocus();
+        });
+
+        test('typeahead skips disabled options', async () => {
+            const user = userEvent.setup();
+            render(
+                <List
+                    aria-label="Projects"
+                    items={[
+                        {id: 'p1', name: 'Alpha'},
+                        {id: 'p2', name: 'Beta', disabled: true},
+                        {id: 'p3', name: 'Bravo'},
+                    ]}
+                    getItemContent={(project) => project.name}
+                />,
+            );
+            const options = screen.getAllByRole('option');
+
+            await user.tab();
+            await user.keyboard('b');
+
+            expect(options[2]).toHaveFocus();
+            expect(options[1]).not.toHaveAttribute('data-active');
+        });
+
+        test('tab stop skips a disabled first option', async () => {
+            const user = userEvent.setup();
+            render(
+                <List
+                    aria-label="Projects"
+                    items={[
+                        {id: 'p1', name: 'Alpha', disabled: true},
+                        {id: 'p2', name: 'Beta'},
+                    ]}
+                    getItemContent={(project) => project.name}
+                />,
+            );
+            const options = screen.getAllByRole('option');
+            expect(options[0]).toHaveAttribute('tabindex', '-1');
+            expect(options[1]).toHaveAttribute('tabindex', '0');
+
+            await user.tab();
+            expect(options[1]).toHaveFocus();
         });
 
         test('keyboard from nested interactive elements is not intercepted', async () => {
@@ -424,6 +471,299 @@ describe('lab List', () => {
             await user.hover(options[1]);
 
             expect(options[1]).not.toHaveAttribute('data-active');
+        });
+    });
+
+    // Модальность взаимодействия и проводка getItemViewProps (модель
+    // isFocusVisible react-aria): тёмный active-цвет — только у курсора в
+    // keyboard-модальности; наведение/клик переводят лист в pointer (светлую
+    // подсветку под мышью даёт CSS :hover, ядро её не эмулирует), любая
+    // клавиша — в том числе нажатая вне листа — возвращает keyboard. Сами
+    // цвета — не предмет юнитов (скриншотные тесты владельца); здесь
+    // фиксируется, ЧТО отдаёт getItemViewProps
+    describe('activation modality: getItemViewProps wiring', () => {
+        const createTracker = () => {
+            const view = new Map<string, ListItemViewStateProps>();
+            const modality = new Map<string, ListActivationModality | undefined>();
+            const renderItem: ListProps<string>['renderItem'] = (ctx, helpers) => {
+                view.set(ctx.id, helpers.getItemViewProps());
+                modality.set(ctx.id, ctx.state.activationModality);
+                return (
+                    <List.ItemView {...helpers.getItemProps()} {...helpers.getItemViewProps()}>
+                        {ctx.content}
+                    </List.ItemView>
+                );
+            };
+            return {view, modality, renderItem};
+        };
+
+        test('tab-in and arrows: dark cursor in the keyboard modality', async () => {
+            const user = userEvent.setup();
+            const {view, modality, renderItem} = createTracker();
+            render(<List aria-label="Fruits" items={FRUITS} renderItem={renderItem} />);
+
+            await user.tab();
+            expect(view.get('Apple')).toMatchObject({active: true});
+            expect(view.get('Apple')).not.toHaveProperty('hovered');
+            expect(modality.get('Apple')).toBe('keyboard');
+
+            await user.keyboard('{ArrowDown}');
+            expect(view.get('Banana')).toMatchObject({active: true});
+            expect(view.get('Apple')).toMatchObject({active: false});
+            // Модальность — только у активной строки
+            expect(modality.get('Banana')).toBe('keyboard');
+            expect(modality.get('Apple')).toBeUndefined();
+        });
+
+        test('hover: pointer modality, no dark style; ctx.state.active and data-active unchanged', async () => {
+            const user = userEvent.setup();
+            const {view, modality, renderItem} = createTracker();
+            render(<List aria-label="Fruits" items={FRUITS} renderItem={renderItem} />);
+            const options = screen.getAllByRole('option');
+
+            await user.hover(options[2]);
+
+            // Светлую подсветку под мышью даёт CSS :hover — ядро её не эмулирует
+            expect(view.get('Cherry')).toMatchObject({active: false});
+            expect(view.get('Cherry')).not.toHaveProperty('hovered');
+            expect(modality.get('Cherry')).toBe('pointer');
+            // Развилка презентационного слоя: семантика активности не меняется
+            expect(options[2]).toHaveAttribute('data-active');
+        });
+
+        test('the dark cursor does not follow the mouse and returns on the next key press', async () => {
+            const user = userEvent.setup();
+            const {view, renderItem} = createTracker();
+            render(<List aria-label="Fruits" items={FRUITS} renderItem={renderItem} />);
+            const options = screen.getAllByRole('option');
+
+            await user.tab();
+            expect(view.get('Apple')).toMatchObject({active: true});
+
+            // Мышь на клавиатурно-активной строке гасит тёмный стиль...
+            await user.hover(options[0]);
+            expect(view.get('Apple')).toMatchObject({active: false});
+
+            // ...и уход мыши его НЕ возвращает (react-aria/Spectrum: пока
+            // пользователь работает мышью, клавиатурная индикация не нужна)
+            await user.unhover(options[0]);
+            expect(view.get('Apple')).toMatchObject({active: false});
+            expect(options[0]).toHaveAttribute('data-active');
+
+            // Возвращает следующая клавиша; 'x' не матчится typeahead'ом —
+            // активность не двигается, меняется только модальность
+            await user.keyboard('x');
+            expect(view.get('Apple')).toMatchObject({active: true});
+        });
+
+        test('click activates in the pointer modality; a key outside the list returns the dark cursor', async () => {
+            const user = userEvent.setup();
+            const {view, modality, renderItem} = createTracker();
+            render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    activateOnHover={false}
+                    renderItem={renderItem}
+                />,
+            );
+            const options = screen.getAllByRole('option');
+
+            await user.click(options[1]);
+            expect(view.get('Banana')).toMatchObject({active: false});
+            expect(modality.get('Banana')).toBe('pointer');
+
+            // Строка держит DOM-фокус после клика, но «застрявшего ховера»
+            // нет: фолбэк :focus у вьюхи удалён, а тёмный active в
+            // pointer-модальности не передаётся
+            await user.unhover(options[1]);
+            expect(options[1]).toHaveFocus();
+            expect(view.get('Banana')).toMatchObject({active: false});
+
+            // Любая клавиша возвращает keyboard-модальность — документный
+            // слушатель ловит и нажатия вне листа
+            fireEvent.keyDown(document.body, {key: 'a'});
+            expect(view.get('Banana')).toMatchObject({active: true});
+        });
+
+        test('mouse over rows dims the cursor even with activateOnHover={false}', async () => {
+            const user = userEvent.setup();
+            const {view, renderItem} = createTracker();
+            render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    activateOnHover={false}
+                    renderItem={renderItem}
+                />,
+            );
+            const options = screen.getAllByRole('option');
+
+            await user.tab();
+            await user.keyboard('{ArrowDown}');
+            expect(view.get('Banana')).toMatchObject({active: true});
+
+            // Активность не двигается (activateOnHover=false), но модальность
+            // становится pointer — тёмный курсор гаснет, пока работает мышь
+            await user.hover(options[2]);
+            expect(options[2]).not.toHaveAttribute('data-active');
+            expect(view.get('Banana')).toMatchObject({active: false});
+
+            await user.keyboard('x');
+            expect(view.get('Banana')).toMatchObject({active: true});
+        });
+
+        test('programmatic activation renders dark: the initial modality is keyboard', () => {
+            const {view, modality, renderItem} = createTracker();
+            render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    defaultActiveItemId="Banana"
+                    renderItem={renderItem}
+                />,
+            );
+
+            expect(view.get('Banana')).toMatchObject({active: true});
+            expect(view.get('Banana')).not.toHaveProperty('hovered');
+            expect(modality.get('Banana')).toBe('keyboard');
+        });
+
+        test('controlled activity follows the modality like any other', async () => {
+            const user = userEvent.setup();
+            const {view, renderItem} = createTracker();
+            const {rerender} = render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    activeItemId="Apple"
+                    renderItem={renderItem}
+                />,
+            );
+            const options = screen.getAllByRole('option');
+
+            // Ховер (запрос активации отклонён controlled-родителем) всё
+            // равно переводит модальность в pointer — тёмный курсор гаснет
+            await user.hover(options[1]);
+            expect(view.get('Apple')).toMatchObject({active: false});
+
+            rerender(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    activeItemId="Cherry"
+                    renderItem={renderItem}
+                />,
+            );
+            expect(view.get('Cherry')).toMatchObject({active: false});
+
+            fireEvent.keyDown(document.body, {key: 'a'});
+            expect(view.get('Cherry')).toMatchObject({active: true});
+        });
+
+        test('selected row: plain selection in the pointer modality, active pair in keyboard', async () => {
+            const user = userEvent.setup();
+            const {view, renderItem} = createTracker();
+            render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    selectionMode="single"
+                    defaultSelectedIds={['Banana']}
+                    renderItem={renderItem}
+                />,
+            );
+            const options = screen.getAllByRole('option');
+
+            await user.hover(options[1]);
+            expect(view.get('Banana')).toMatchObject({
+                selected: true,
+                selectionStyle: 'highlight',
+                active: false,
+            });
+
+            await user.unhover(options[1]);
+            expect(view.get('Banana')).toMatchObject({selected: true, active: false});
+
+            // Клавиша возвращает keyboard — «курсор» на выбранной строке
+            // показывается парой selected+active (selection-hover в каскаде
+            // вьюхи, правило _selected._active)
+            fireEvent.keyDown(document.body, {key: 'a'});
+            expect(view.get('Banana')).toMatchObject({selected: true, active: true});
+        });
+
+        test('drag: hover indication is suppressed, the pointer-modality cursor shows nothing', async () => {
+            const user = userEvent.setup();
+            const {view, renderItem} = createTracker();
+            const {rerender} = render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    dnd={{draggingId: null}}
+                    renderItem={renderItem}
+                />,
+            );
+            const options = screen.getAllByRole('option');
+
+            await user.hover(options[2]);
+            expect(view.get('Cherry')).toMatchObject({active: false});
+
+            rerender(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    dnd={{draggingId: 'Apple'}}
+                    renderItem={renderItem}
+                />,
+            );
+            expect(view.get('Cherry')).toMatchObject({active: false, hovered: false});
+            expect(view.get('Apple')).toMatchObject({hovered: false});
+
+            // Hover-активация приостановлена: подсветка не таскается за
+            // перетаскиванием, модальность заморожена
+            await user.hover(options[3]);
+            expect(options[3]).not.toHaveAttribute('data-active');
+            expect(view.get('Melon')).toMatchObject({active: false, hovered: false});
+            expect(options[2]).toHaveAttribute('data-active');
+
+            rerender(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    dnd={{draggingId: null}}
+                    renderItem={renderItem}
+                />,
+            );
+            expect(view.get('Cherry')).toMatchObject({active: false});
+            expect(view.get('Cherry')).not.toHaveProperty('hovered');
+        });
+
+        test('drag: the keyboard-modality cursor keeps a static dark style', async () => {
+            const user = userEvent.setup();
+            const {view, renderItem} = createTracker();
+            const {rerender} = render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    dnd={{draggingId: null}}
+                    renderItem={renderItem}
+                />,
+            );
+
+            await user.tab();
+            await user.keyboard('{ArrowDown}{ArrowDown}');
+            expect(view.get('Cherry')).toMatchObject({active: true});
+
+            rerender(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    dnd={{draggingId: 'Apple'}}
+                    renderItem={renderItem}
+                />,
+            );
+            // Тёмный курсор статичен (активность заморожена), CSS-hover погашен
+            expect(view.get('Cherry')).toMatchObject({active: true, hovered: false});
         });
     });
 

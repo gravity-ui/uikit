@@ -61,6 +61,22 @@ describe('lab ListItemView', () => {
         });
     });
 
+    describe('state modifiers', () => {
+        // Каскадный фикс пары selected+active: у элемента с обоими
+        // модификаторами фон должен резолвиться в selection-hover
+        // (фолбэк :focus удалён — индикацией владеют состояния)
+        test('selected + active render both modifiers on the root node', () => {
+            render(
+                <ListItemView role="option" selected selectionStyle="highlight" active>
+                    Item
+                </ListItemView>,
+            );
+            const item = screen.getByRole('option');
+            expect(item).toHaveClass('g-lab-list-item-view_selected');
+            expect(item).toHaveClass('g-lab-list-item-view_active');
+        });
+    });
+
     describe('click composition', () => {
         test('calls onClick on a click by the row', async () => {
             const user = userEvent.setup();

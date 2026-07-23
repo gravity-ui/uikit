@@ -60,6 +60,18 @@ export interface ListItemGetters<T> {
     getItemTextValue?: (item: T) => string;
 }
 
+/**
+ * Модальность последнего взаимодействия со списком — «чем пользователь
+ *  работает сейчас», а не свойство конкретной активации (модель
+ *  isFocusVisible react-aria). Наведение и клик переводят в `'pointer'`,
+ *  любая клавиша — включая нажатую вне листа (Tab перед tab-in) — возвращает
+ *  `'keyboard'`. Активность одна на обе модальности; различается только
+ *  индикация: тёмный active-цвет курсора дефолтный рендер показывает лишь в
+ *  keyboard-модальности, в pointer-модальности активную строку подсвечивает
+ *  обычный CSS `:hover`, пока мышь на ней, — тёмный след за мышью не ходит
+ */
+export type ListActivationModality = 'keyboard' | 'pointer';
+
 export interface ListItemContext<T> {
     id: string;
     item: T;
@@ -72,6 +84,13 @@ export interface ListItemContext<T> {
         /** Подсвечен клавиатурой/наведением */
         active: boolean;
         disabled: boolean;
+        /**
+         * Модальность взаимодействия — только у активной строки (смена
+         *  модальности не ре-рендерит остальные). Начальная — `'keyboard'`:
+         *  программная активация (controlled/defaultActiveItemId)
+         *  показывается тёмным курсором
+         */
+        activationModality?: ListActivationModality;
         /** Заполняется только при активном слое выделения */
         selected?: boolean;
         /** Заполняется только при активном слое dnd */
@@ -129,6 +148,12 @@ export type ListCellDOMProps = Omit<React.HTMLAttributes<HTMLElement>, 'draggabl
 
 export interface ListItemViewStateProps {
     size?: ListSize;
+    /**
+     * Тёмная индикация «курсора» (active-цвет вьюхи): активная строка в
+     *  keyboard-модальности. В pointer-модальности активную строку красит
+     *  обычный CSS `:hover`, пока мышь на ней, — тёмный след за мышью не
+     *  ходит (модель react-aria)
+     */
     active: boolean;
     disabled: boolean;
     selected?: boolean;

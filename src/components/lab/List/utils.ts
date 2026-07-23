@@ -153,16 +153,19 @@ export type ListNavigationCommand = 'next' | 'prev' | 'first' | 'last';
 
 /**
  * Чистое вычисление перехода активности (шаг «а» клавиатурной машины, §5 плана).
- * Навигируемы только опции (kind === 'item'), включая disabled (APG:
- * discoverability); заголовки секций — нет. next/prev зациклены; при
- * отсутствии активного навигация стартует с первой навигабельной строки.
+ * Навигируемы только НЕ disabled опции (kind === 'item'): disabled-строки не
+ * получают активность и фокус ни с клавиатуры, ни с мыши (модель react-aria /
+ * React Spectrum; решение пользователя 2026-07-23, отменяет развилку фазы 1
+ * «клавиатура включает disabled»); заголовки секций — нет. next/prev
+ * зациклены; при отсутствии активного навигация стартует с первой
+ * навигабельной строки.
  */
 export function getNextActiveId<T>(
     command: ListNavigationCommand,
     rows: readonly ListRow<T>[],
     activeId: string | undefined,
 ): string | undefined {
-    const navigable = rows.filter((row) => row.kind === 'item');
+    const navigable = rows.filter((row) => row.kind === 'item' && !row.disabled);
     if (navigable.length === 0) {
         return undefined;
     }
@@ -193,13 +196,15 @@ export function getNextActiveId<T>(
  * повторов одного символа ищут со следующей строки (повторное нажатие
  * перебирает совпадения по этому символу, как в APG), растущий префикс —
  * с текущей (активная строка не теряется, пока совпадает).
+ * Disabled-опции не участвуют — typeahead двигает активность, а активность
+ * на disabled не наводится (см. getNextActiveId).
  */
 export function findTypeaheadMatch<T>(
     rows: readonly ListRow<T>[],
     activeId: string | undefined,
     query: string,
 ): string | undefined {
-    const navigable = rows.filter((row) => row.kind === 'item');
+    const navigable = rows.filter((row) => row.kind === 'item' && !row.disabled);
     if (navigable.length === 0 || query.length === 0) {
         return undefined;
     }

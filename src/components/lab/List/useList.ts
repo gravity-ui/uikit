@@ -15,6 +15,7 @@ import {
 } from './contractChecks';
 import {LIST_FOCUS_OWNER_CHANNEL} from './focusOwnerChannel';
 import type {
+    ListActivationModality,
     ListCellDOMProps,
     ListFocusStrategy,
     ListItemContext,
@@ -135,6 +136,39 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         props.onActiveItemUpdate,
     );
 
+    // Модальность последнего взаимодействия (ctx.state.activationModality,
+    // модель isFocusVisible react-aria): одно состояние «чем пользователь
+    // работает сейчас» вместо метки источника на строке. Наведение/клик
+    // переводят в pointer, любая клавиша возвращает keyboard; начальное
+    // keyboard — программная активация показывается тёмным курсором
+    const [activationModality, setActivationModality] =
+        React.useState<ListActivationModality>('keyboard');
+
+    // Возврат keyboard-модальности от любой клавиши, в том числе нажатой вне
+    // листа (Tab на соседнем элементе перед tab-in) — документный
+    // capture-слушатель, как у react-aria. Голые модификаторы вводом не
+    // считаются (isValidKey react-aria; сочетания с Shift — считаются, это
+    // Shift+Tab); повторные нажатия бесплатны: setState в то же значение
+    // не рендерит
+    React.useEffect(() => {
+        const handleDocumentKeyDown = (event: KeyboardEvent) => {
+            if (event.metaKey || event.ctrlKey || event.altKey) {
+                return;
+            }
+            if (
+                event.key === 'Shift' ||
+                event.key === 'Control' ||
+                event.key === 'Alt' ||
+                event.key === 'Meta'
+            ) {
+                return;
+            }
+            setActivationModality('keyboard');
+        };
+        document.addEventListener('keydown', handleDocumentKeyDown, true);
+        return () => document.removeEventListener('keydown', handleDocumentKeyDown, true);
+    }, []);
+
     // Слой выделения (§6): состояние (controlled/uncontrolled) и жест — в
     // useListSelection; в aria, ctx.state и жесты они превращаются только
     // здесь и только при переданном selectionMode
@@ -181,6 +215,12 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     // «идёт перетаскивание»: адаптер, заполняющий только dropTarget, всё
     // равно получает приостановку
     const dragActive = draggingId !== null || dropTarget !== null;
+
+    // Активный есть, только если такая опция существует в items:
+    // controlled activeItemId с несуществующим id (или null) => активного нет
+    const activeRow = activeItemId === null ? undefined : rowById.get(activeItemId);
+    const effectiveActiveId = activeRow?.kind === 'item' ? activeRow.id : undefined;
+
     const latestRef = React.useRef({
         rowById,
         applyRow,
@@ -190,13 +230,10 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     });
     latestRef.current = {rowById, applyRow, setActiveItemId, activateOnHover, dragActive};
 
-    // Активный есть, только если такая опция существует в items:
-    // controlled activeItemId с несуществующим id (или null) => активного нет
-    const activeRow = activeItemId === null ? undefined : rowById.get(activeItemId);
-    const effectiveActiveId = activeRow?.kind === 'item' ? activeRow.id : undefined;
-
+    // Disabled-строки не навигабельны вовсе (модель React Spectrum): tab-stop
+    // без активной строки — первая НЕ disabled опция
     const firstNavigableId = React.useMemo(
-        () => rows.find((row) => row.kind === 'item')?.id,
+        () => rows.find((row) => row.kind === 'item' && !row.disabled)?.id,
         [rows],
     );
 
@@ -271,6 +308,10 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             return;
         }
         pendingFocusIdRef.current = id;
+        // Все вызовы commitActive — клавиатурные жесты; дублирует документный
+        // слушатель на случай событий, не дошедших до document (портал в
+        // другой документ)
+        setActivationModality('keyboard');
         setActiveItemId(id);
     };
 
@@ -519,11 +560,26 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 if (!currentRow || currentRow.disabled || event.defaultPrevented) {
                     return;
                 }
+                // Клик — pointer-жест (setActivationModality стабилен —
+                // прямой вызов безопасен и в устаревшем замыкании
+                // мемоизированной строки)
+                setActivationModality('pointer');
                 latest.setActiveItemId(currentRow.id);
                 latest.applyRow(currentRow);
             },
             onFocus: () => {
-                latestRef.current.setActiveItemId(id);
+                const latest = latestRef.current;
+                const currentRow = latest.rowById.get(id);
+                // Disabled-строки не принимают активность и через фокус
+                // (модель React Spectrum: не фокусятся ни мышью, ни
+                // клавиатурой; жестами ядро фокус туда и не приводит)
+                if (!currentRow || currentRow.disabled) {
+                    return;
+                }
+                // Модальность фокус не трогает: tab-in покрыт документным
+                // слушателем (Tab — keydown), а фокус от mousedown перед
+                // кликом остаётся pointer-модальностью
+                latest.setActiveItemId(id);
             },
             onPointerEnter: () => {
                 // Hover меняет активность и roving tabIndex, но не переносит
@@ -537,12 +593,16 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 // Прецедент — флаг sorting в onItemActivate старого List
                 const latest = latestRef.current;
                 const currentRow = latest.rowById.get(id);
-                if (
-                    !latest.activateOnHover ||
-                    latest.dragActive ||
-                    !currentRow ||
-                    currentRow.disabled
-                ) {
+                if (latest.dragActive || !currentRow || currentRow.disabled) {
+                    return;
+                }
+                // Вход мыши в строку — pointer-модальность независимо от
+                // activateOnHover: тёмный курсор гаснет, пока пользователь
+                // работает мышью (аналог глобального pointermove-слушателя
+                // react-aria, сведённый к строкам листа). Уход мыши событием
+                // не является: keyboard-модальность вернёт следующая клавиша
+                setActivationModality('pointer');
+                if (!latest.activateOnHover) {
                     return;
                 }
                 latest.setActiveItemId(currentRow.id);
@@ -587,6 +647,10 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             content: row.content,
             state: {
                 active: row.id === effectiveActiveId,
+                // Модальность — только у активной строки: её смена не
+                // ре-рендерит остальные (аддитивный сигнал, data-атрибуты
+                // ядра не меняются)
+                ...(row.id === effectiveActiveId ? {activationModality} : undefined),
                 disabled: row.disabled,
                 // Слоевые поля: без слоя ключей нет вовсе (§4.2)
                 ...(selectionMode && row.kind === 'item'

@@ -23,7 +23,6 @@ $blockMenuItem: '.#{variables.$ns}tab-menu-item';
         display: flex;
         align-items: center;
         gap: var(--g-spacing-2);
-        border-radius: var(--g-focus-border-radius);
         min-width: 0;
         height: 100%;
     }

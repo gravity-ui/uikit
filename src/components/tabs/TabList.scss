@@ -3,6 +3,7 @@
 
 $block: '.#{variables.$ns}tab-list';
 $tabBlock: '.#{variables.$ns}tab';
+$tabMoreBlock: '.#{variables.$ns}tab-more';
 
 #{$block} {
     display: flex;
@@ -18,7 +19,8 @@ $tabBlock: '.#{variables.$ns}tab';
             --_--item-border-width: 2px;
 
             #{$tabBlock}__title,
-            #{$tabBlock}__counter {
+            #{$tabBlock}__counter,
+            #{$tabMoreBlock}__count {
                 @include mixins.text-body-1();
             }
         }
@@ -29,7 +31,8 @@ $tabBlock: '.#{variables.$ns}tab';
             --_--item-border-width: 2px;
 
             #{$tabBlock}__title,
-            #{$tabBlock}__counter {
+            #{$tabBlock}__counter,
+            #{$tabMoreBlock}__count {
                 @include mixins.text-body-2();
             }
         }
@@ -40,7 +43,8 @@ $tabBlock: '.#{variables.$ns}tab';
             --_--item-border-width: 3px;
 
             #{$tabBlock}__title,
-            #{$tabBlock}__counter {
+            #{$tabBlock}__counter,
+            #{$tabMoreBlock}__count {
                 @include mixins.text-subheader-3();
             }
         }

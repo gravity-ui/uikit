@@ -5,11 +5,10 @@ $block: '.#{variables.$ns}tab';
 $blockMenuItem: '.#{variables.$ns}tab-menu-item';
 
 #{$block} {
-    cursor: pointer;
+    @include mixins.button-reset();
+
     user-select: none;
-    outline: none;
     color: var(--g-color-text-secondary);
-    background: transparent;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -17,8 +16,6 @@ $blockMenuItem: '.#{variables.$ns}tab-menu-item';
     box-sizing: border-box;
     height: var(--g-tabs-item-height, var(--_--item-height));
     max-width: 100%;
-    border: none;
-    padding: 0;
     border-block-end: var(--g-tabs-item-border-width, var(--_--item-border-width)) solid transparent;
     padding-block-start: var(--_--item-border-width);
 

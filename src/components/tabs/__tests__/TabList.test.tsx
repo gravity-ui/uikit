@@ -302,7 +302,7 @@ function mockNarrowContainer() {
         this: Element,
     ) {
         if (this.classList.contains('g-tab-list')) return makeDOMRect(50);
-        if (this.classList.contains('g-tab-list-collapse-item')) return makeDOMRect(80);
+        if (this.classList.contains('g-tab-more')) return makeDOMRect(80);
         return makeDOMRect(100); // tabs
     });
 }
@@ -313,7 +313,7 @@ test('contentOverflow collapse: shows localized More button when some tabs overf
         this: Element,
     ) {
         if (this.classList.contains('g-tab-list')) return makeDOMRect(280);
-        if (this.classList.contains('g-tab-list-collapse-item')) return makeDOMRect(80);
+        if (this.classList.contains('g-tab-more')) return makeDOMRect(80);
         return makeDOMRect(100);
     });
 
@@ -333,7 +333,7 @@ test('contentOverflow collapse: shows localized More button when some tabs overf
     );
 
     const trigger = screen.getByRole('button', {name: /ещё/i});
-    expect(trigger).toHaveClass('g-tab-list-collapse-item');
+    expect(trigger).toHaveClass('g-tab-more');
     expect(screen.getByTestId(tab1.qa)).toBeVisible();
     expect(screen.getByTestId(tab2.qa)).toBeVisible();
     // tab3 is collapsed into the closed menu — not mounted
@@ -347,7 +347,7 @@ test('contentOverflow collapse: supports custom moreLabel', () => {
         this: Element,
     ) {
         if (this.classList.contains('g-tab-list')) return makeDOMRect(280);
-        if (this.classList.contains('g-tab-list-collapse-item')) return makeDOMRect(80);
+        if (this.classList.contains('g-tab-more')) return makeDOMRect(80);
         return makeDOMRect(100);
     });
 
@@ -385,7 +385,7 @@ test('contentOverflow collapse: with narrow container shows selected tab as trig
     );
 
     const trigger = screen.getByRole('button', {name: new RegExp(tab1.title)});
-    expect(trigger).toHaveClass('g-tab-list-collapse-item');
+    expect(trigger).toHaveClass('g-tab-more');
     expect(trigger).not.toHaveTextContent('More');
     expect(trigger).toHaveTextContent(tab1.title);
 

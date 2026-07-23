@@ -2,28 +2,27 @@ import * as React from 'react';
 
 import {ChevronDown} from '@gravity-ui/icons';
 
-import {Icon} from '../../Icon';
-import {Text} from '../../Text';
-import {Menu} from '../../lab/Menu';
-import {Flex} from '../../layout';
-import {TabInner} from '../Tab';
-import {TabContent} from '../TabContent';
-import {bTabListCollapseItem} from '../constants';
-import i18n from '../i18n';
-import type {TabListCollapseItemProps, TabProps} from '../types';
-import {getTabNodePropsFromReactNode} from '../utils';
+import {Icon} from '../Icon';
+import {Menu} from '../lab/Menu';
 
-import './TabListCollapseItem.scss';
+import {TabInner} from './Tab';
+import {TabContent} from './TabContent';
+import {bTab, bTabMore} from './constants';
+import i18n from './i18n';
+import type {TabMoreProps, TabProps} from './types';
+import {getTabNodePropsFromReactNode} from './utils';
 
-const CHEVRON_SIZE: Record<NonNullable<TabListCollapseItemProps['size']>, number> = {
+import './TabMore.scss';
+
+const CHEVRON_SIZE: Record<NonNullable<TabMoreProps['size']>, number> = {
     m: 16,
     l: 16,
     xl: 20,
 };
 
-export const TabListCollapseItem = React.forwardRef<HTMLButtonElement, TabListCollapseItemProps>(
+export const TabMore = React.forwardRef<HTMLButtonElement, TabMoreProps>(
     (
-        {children, triggerChild, moreLabel, size = 'm'}: TabListCollapseItemProps,
+        {children, triggerChild, moreLabel, size = 'm'}: TabMoreProps,
         ref: React.ForwardedRef<HTMLButtonElement>,
     ) => {
         const {t} = i18n.useTranslation();
@@ -38,34 +37,28 @@ export const TabListCollapseItem = React.forwardRef<HTMLButtonElement, TabListCo
             : undefined;
 
         const trigger = (
-            <Flex
+            <button
                 ref={ref}
-                as="button"
-                alignItems="center"
-                gap="2"
-                className={[
-                    bTabListCollapseItem({lone: Boolean(triggerChildTabProps)}),
-                    triggerChildTabProps ? 'g-tab_active' : undefined,
-                ]
-                    .filter(Boolean)
-                    .join(' ')}
+                type="button"
+                className={bTab(
+                    {active: Boolean(triggerChildTabProps)},
+                    bTabMore({lone: Boolean(triggerChildTabProps)}),
+                )}
             >
                 {triggerChildTabProps ? (
                     <TabContent {...triggerChildTabProps} />
                 ) : (
-                    <Text variant="inherit" className={bTabListCollapseItem('text')}>
+                    <TabContent value="">
                         {moreLabel === undefined ? t('label_more') : moreLabel}
-                    </Text>
+                    </TabContent>
                 )}
-                <Text variant="inherit" className={bTabListCollapseItem('count')}>
-                    {childrenCount}
-                </Text>
+                <span className={bTabMore('count')}>{childrenCount}</span>
                 <Icon
                     data={ChevronDown}
                     size={CHEVRON_SIZE[size]}
-                    className={bTabListCollapseItem('chevron')}
+                    className={bTabMore('chevron')}
                 />
-            </Flex>
+            </button>
         );
 
         return (
@@ -88,4 +81,4 @@ export const TabListCollapseItem = React.forwardRef<HTMLButtonElement, TabListCo
     },
 );
 
-TabListCollapseItem.displayName = 'TabListCollapseItem';
+TabMore.displayName = 'TabMore';

@@ -234,7 +234,7 @@ function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
             <virtualization.Root
                 containerProps={containerProps}
                 rowIds={list.visibleIds}
-                pinnedIndex={list.pinnedRowIndex}
+                persistedIndexes={list.persistedRowIndexes}
                 renderRow={renderRow}
                 getItemSize={getItemSize}
                 measure={virtualization.measure}

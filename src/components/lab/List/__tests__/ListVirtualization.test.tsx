@@ -239,6 +239,42 @@ describe('lab List: virtualization layer', () => {
             expect(option).toHaveAttribute('aria-posinset', '1');
         });
 
+        test('section headers stay mounted outside the window: aria-describedby of visible options resolves', () => {
+            const bigGroups = [
+                {
+                    id: 'logs',
+                    label: 'Logs',
+                    children: Array.from({length: 200}, (_, index) => ({
+                        id: `log-${index + 1}`,
+                        label: `Log ${index + 1}`,
+                    })),
+                },
+            ];
+            render(
+                <ListVirtualizer estimateItemSize={ROW_HEIGHT}>
+                    <List
+                        aria-label="Logs"
+                        items={bigGroups}
+                        getItemContent={(item) => item.label}
+                        style={{maxHeight: VIEWPORT_HEIGHT}}
+                    />
+                </ListVirtualizer>,
+            );
+            const listbox = screen.getByRole('listbox');
+
+            // окно уезжает глубоко в секцию — её заголовок вне окна
+            scrollTo(listbox, ROW_HEIGHT * 150);
+
+            // заголовок запиннен: ссылка aria-describedby видимых опций
+            // не повисает, SR продолжает объявлять контекст секции
+            const header = screen.getByText('Logs');
+            const option = screen.getByRole('option', {name: 'Log 151'});
+            expect(option).toHaveAttribute('aria-describedby', header.id);
+            expect(option).toHaveAccessibleDescription('Logs');
+            // при этом виртуализация работает: начало секции выгружено
+            expect(screen.queryByRole('option', {name: 'Log 2'})).not.toBeInTheDocument();
+        });
+
         test('section headers stay presentational inside the virtualized window', () => {
             render(
                 <ListVirtualizer estimateItemSize={ROW_HEIGHT}>

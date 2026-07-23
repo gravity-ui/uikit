@@ -27,7 +27,7 @@ const DEFAULT_OVERSCAN = 5;
 function VirtualizedListRoot({
     containerProps,
     rowIds,
-    pinnedIndex,
+    persistedIndexes: persistedRowIndexes,
     renderRow,
     getItemSize,
     measure,
@@ -35,11 +35,16 @@ function VirtualizedListRoot({
 }: ListVirtualizedRootProps) {
     const {ref, ...restContainerProps} = containerProps;
 
-    // Строка с roving tab-stop всегда в окне: её выгрузка роняет фокус на
-    // body (клавиатура умирает) либо выкидывает список из Tab-порядка
+    // Строка с roving tab-stop и заголовки секций всегда в окне: выгрузка
+    // tab-stop роняет фокус на body (клавиатура умирает) либо выкидывает
+    // список из Tab-порядка, а выгрузка заголовка подвешивает
+    // aria-describedby видимых опций его секции
     const persistedIndexes = React.useMemo(
-        () => (pinnedIndex >= 0 ? [[pinnedIndex]] : undefined),
-        [pinnedIndex],
+        () =>
+            persistedRowIndexes.length > 0
+                ? persistedRowIndexes.map((index) => [index])
+                : undefined,
+        [persistedRowIndexes],
     );
 
     return (

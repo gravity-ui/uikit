@@ -14,6 +14,7 @@ import {
     warnOnOverridesCollision,
 } from './contractChecks';
 import {LIST_FOCUS_OWNER_CHANNEL} from './focusOwnerChannel';
+import {disableTextSelection, restoreTextSelection} from './textSelection';
 import type {
     ListActivationModality,
     ListCellDOMProps,
@@ -551,6 +552,24 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             'data-dragging': dragging ? '' : undefined,
             'data-drop-target': rowDropTarget ?? undefined,
             ref: registry.getItemRefCallback(id),
+            // Подавление выделения текста на время нажатия (модель react-aria,
+            // textSelection.ts): протяжка мышью, shift+click в selection-режиме
+            // и старт drag не создают текстового выделения, а в покое строки
+            // остаются частью выделения страницы. Отпускание может случиться
+            // где угодно — restore слушает документ и сам себя снимает.
+            // Замыкание не использует рендер-стейт — стейл-безопасно для
+            // мемоизированных строк (§8)
+            onPointerDown: (event: React.PointerEvent) => {
+                const element = event.currentTarget as HTMLElement;
+                disableTextSelection(element);
+                const restore = () => {
+                    document.removeEventListener('pointerup', restore, true);
+                    document.removeEventListener('pointercancel', restore, true);
+                    restoreTextSelection(element);
+                };
+                document.addEventListener('pointerup', restore, true);
+                document.addEventListener('pointercancel', restore, true);
+            },
             // Обработчики читают состояние через latestRef в момент события:
             // мемоизированная строка (§8) может пропустить ре-рендер и остаться
             // со старым замыканием — оно не должно быть устаревшим

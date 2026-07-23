@@ -21,6 +21,16 @@ $block: '.#{variables.$ns}list-v2';
        строки вложенного списка) не должен подхватывать стили этого листа */
     :is([role='option'], [role='row'])[data-dragging] {
         opacity: 0.5;
+
+        /* Летающему оригиналу нужен собственный фон: подсветка состояний на
+           время drag погашена (pointer-модальность + hovered: false), и
+           прозрачная строка поверх соседних читалась бы как «пропавший фон»
+           (раньше фон был случайным следствием старой проводки — схваченная
+           строка держала тёмный _active весь drag). Тот же active-цвет, что
+           у ручных клонов-ghost'ов (renderClone rbd, DragOverlay dnd-kit).
+           Публичная переменная вьюхи, а не background: кастомный маркап
+           ступени 3 переменную не читает — его фон остаётся его заботой */
+        --g-list-item-view-background-color: var(--g-color-base-generic-medium);
     }
 
     :is([role='option'], [role='row'])[data-drop-target] {

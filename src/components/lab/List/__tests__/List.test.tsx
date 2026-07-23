@@ -767,6 +767,37 @@ describe('lab List', () => {
         });
     });
 
+    // Модель react-aria (textSelection): не CSS навсегда, а инлайновое
+    // подавление на нажатой строке от pointerdown до отпускания — жесты не
+    // создают текстового выделения, но в покое строки остаются частью
+    // выделения страницы
+    describe('text selection suppression on press', () => {
+        test('press puts user-select: none on the row and release restores it', () => {
+            render(<List aria-label="Fruits" items={FRUITS} />);
+            const options = screen.getAllByRole('option');
+
+            fireEvent.pointerDown(options[1]);
+            expect(options[1].style.userSelect).toBe('none');
+            // Подавление точечное: соседние строки не тронуты
+            expect(options[0].style.userSelect).toBe('');
+
+            // Отпустить могут где угодно — restore слушает документ
+            fireEvent.pointerUp(document);
+            expect(options[1].style.userSelect).toBe('');
+        });
+
+        test('pointercancel also restores text selection', () => {
+            render(<List aria-label="Fruits" items={FRUITS} />);
+            const option = screen.getAllByRole('option')[2];
+
+            fireEvent.pointerDown(option);
+            expect(option.style.userSelect).toBe('none');
+
+            fireEvent.pointerCancel(document);
+            expect(option.style.userSelect).toBe('');
+        });
+    });
+
     describe('typeahead', () => {
         test('single character moves to the next match from the active option', async () => {
             jest.useFakeTimers();

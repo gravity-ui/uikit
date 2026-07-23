@@ -74,6 +74,36 @@ describe('lab List', () => {
             expect(header).not.toHaveAttribute('tabindex');
         });
 
+        test('options reference their section header via aria-describedby', () => {
+            render(
+                <List aria-label="Groups" items={GROUPS} getItemContent={(item) => item.label} />,
+            );
+
+            const option = screen.getByRole('option', {name: 'First'});
+            expect(option).toHaveAttribute('aria-describedby', screen.getByText('Recent').id);
+            // Скрытый заголовок легально участвует в вычислении описания по
+            // явной ссылке — SR объявляет опцию вместе с именем её секции
+            expect(option).toHaveAccessibleDescription('Recent');
+        });
+
+        test('options outside of sections carry no aria-describedby', () => {
+            render(<List aria-label="Fruits" items={FRUITS} />);
+
+            for (const option of screen.getAllByRole('option')) {
+                expect(option).not.toHaveAttribute('aria-describedby');
+            }
+        });
+
+        test('warns in dev when the list has no accessible name', () => {
+            const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+            render(<List items={FRUITS} />);
+
+            expect(consoleErrorSpy).toHaveBeenCalledWith(
+                expect.stringContaining('accessible name'),
+            );
+            consoleErrorSpy.mockRestore();
+        });
+
         test('does not create selection semantics without the selection layer', () => {
             render(<List aria-label="Fruits" items={FRUITS} defaultActiveItemId="Apple" />);
 

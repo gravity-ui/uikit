@@ -20,6 +20,13 @@ export interface ListRow<T> {
      * aria-posinset при виртуализации; у секций отсутствует
      */
     posInSet?: number;
+    /**
+     * DOM id заголовка секции, в которой лежит опция, — цель aria-describedby:
+     * сам заголовок скрыт из дерева (presentation + aria-hidden), но явная
+     * ссылка легально включает его в вычисление описания — SR объявляет опцию
+     * вместе с именем её секции. У секций и опций верхнего уровня отсутствует
+     */
+    sectionDomId?: string;
 }
 
 export interface FlattenResult<T> {
@@ -69,7 +76,7 @@ export function flattenItems<T>(
     const domIdToId = new Map<string, string>();
     let optionsCount = 0;
 
-    const pushRow = (item: T, kind: 'item' | 'section') => {
+    const pushRow = (item: T, kind: 'item' | 'section', sectionDomId?: string): ListRow<T> => {
         const rawId = getItemId ? getItemId(item) : defaultGetItemId(item);
         if (rawId === undefined || rawId === null) {
             // Позиционных фолбэков нет — скрытая нестабильность хуже явной ошибки
@@ -110,16 +117,18 @@ export function flattenItems<T>(
             content,
             textValue,
             ...(kind === 'item' ? {posInSet: optionsCount} : undefined),
+            ...(sectionDomId === undefined ? undefined : {sectionDomId}),
         };
         rows.push(row);
         rowById.set(id, row);
         domIdToId.set(row.domId, id);
+        return row;
     };
 
     for (const item of items) {
         const children = getItemChildren ? getItemChildren(item) : defaultGetItemChildren(item);
         if (children) {
-            pushRow(item, 'section');
+            const sectionRow = pushRow(item, 'section');
             for (const child of children) {
                 const nested = getItemChildren
                     ? getItemChildren(child)
@@ -130,7 +139,7 @@ export function flattenItems<T>(
                         '[List] Nested sections are not supported: children of a section item are rendered as plain options.',
                     );
                 }
-                pushRow(child, 'item');
+                pushRow(child, 'item', sectionRow.domId);
             }
         } else {
             pushRow(item, 'item');

@@ -188,6 +188,11 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             '[List] `selectionMode="single"` expects at most one selected id, but `selectedIds` contains several.',
         );
     }
+    if (!props['aria-label'] && !props['aria-labelledby']) {
+        // Опции получают имя из контента, а контейнеру взять его неоткуда:
+        // безымянный listbox/grid — нарушение ARIA
+        warnOnce('[List] The list has no accessible name. Pass `aria-label` or `aria-labelledby`.');
+    }
 
     const toggleSelection = (row: ListRow<T>) => {
         if (!selectionMode || row.kind !== 'item' || row.disabled) {
@@ -675,6 +680,11 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             // есть на каждой строке, без слоя — ни на одной. В grid атрибут
             // живёт на строке (role="row"), а не на ячейке
             'aria-selected': selected,
+            // Контекст группы (§9): сам заголовок секции скрыт из дерева
+            // (presentation + aria-hidden), но явная ссылка легально включает
+            // его в вычисление описания — SR объявляет опцию вместе с именем
+            // её секции, а плоская модель списка сохраняется
+            'aria-describedby': row.sectionDomId,
             // При виртуализации в DOM лежит только окно строк — без явной
             // нумерации SR объявит «3 из 12» на списке из тысяч опций.
             // Нумерация по строкам данных: заголовки секций не считаются (§7)
@@ -790,11 +800,11 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         // Всё, что влияет на выход getItemProps, но не выражено в ctx-срезе:
         // DOM id (меняется с props.id листа), roving tab-stop без активной
         // строки, aria-нумерация при виртуализации, обе оси §15 (роли строки
-        // и наличие tabIndex)
+        // и наличие tabIndex), ссылка на заголовок секции (aria-describedby)
         const tabStop = row.index === pinnedRowIndex;
         const numbering =
             virtualized && row.kind === 'item' ? `${row.posInSet}/${optionsCount}` : '';
-        return `${row.domId}|${tabStop ? 1 : 0}|${numbering}|${role}|${focusStrategy}`;
+        return `${row.domId}|${tabStop ? 1 : 0}|${numbering}|${role}|${focusStrategy}|${row.sectionDomId ?? ''}`;
     };
 
     const visibleIds = React.useMemo(() => rows.map((row) => row.id), [rows]);

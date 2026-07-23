@@ -491,6 +491,11 @@ describe('lab List: role model x focus strategy', () => {
             expect(header).toHaveAttribute('role', 'presentation');
             expect(header).toHaveAttribute('aria-hidden', 'true');
             expect(header).not.toHaveAttribute('tabindex');
+            // Контекст группы едет через aria-describedby и в grid-модели
+            expect(screen.getByRole('row', {name: 'First'})).toHaveAttribute(
+                'aria-describedby',
+                header.id,
+            );
         });
     });
 });

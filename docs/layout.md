@@ -37,16 +37,31 @@ entire spacing system proportionally (see [Customization](#customization)).
 
 There are three ways to consume the scale — pick by context:
 
-**1. Component props** — spacing **between** children of `Flex`/`Box`, via the `gap` prop:
+**1. Component props** — the layout primitives expose two distinct spacing props:
 
-```tsx
-import {Flex} from '@gravity-ui/uikit';
+- **`gap` / `gapRow`** (`Flex` only) — spacing **between** its children:
 
-<Flex gap={5}>
-  <Button />
-  <Button />
-</Flex>; // 20px between children
-```
+  ```tsx
+  import {Flex} from '@gravity-ui/uikit';
+
+  <Flex gap={5}>
+    <Button />
+    <Button />
+  </Flex>; // 20px between children
+  ```
+
+- **`spacing`** (`Box`, and inherited by `Flex` since it extends `Box`) — the element's **own**
+  margins/paddings. It takes the same shortcut keys as the `spacing()` utility below, each value a
+  scale step:
+
+  ```tsx
+  import {Box} from '@gravity-ui/uikit';
+
+  <Box spacing={{mr: 3, pb: 2}}>...</Box>; // margin-right: 12px, padding-bottom: 8px
+  ```
+
+  See the [key table](#the-spacing-utility) under the `spacing()` utility for the full list of
+  supported keys.
 
 **2. CSS custom properties** — the same steps as `--g-spacing-{step}` variables, for use in your
 own styles (e.g. `--g-spacing-half` for the `0.5` step):
@@ -60,6 +75,8 @@ own styles (e.g. `--g-spacing-half` for the `0.5` step):
 
 **3. The `spacing()` utility** — for one-off margins/paddings on any element without hand-writing
 class names. It returns a generated class name string:
+
+##### The `spacing` utility
 
 ```tsx
 import {spacing} from '@gravity-ui/uikit';
@@ -87,9 +104,9 @@ Supported keys (each takes a scale step):
 
 You can pass a second argument to merge extra class names: `spacing({mr: 5}, myClassName)`.
 
-> **Rule of thumb:** `gap` for spacing between siblings in a `Flex`/`Box`; the `spacing()`/`sp()`
-> utility for one-off offsets on an element; raw `--g-spacing-*` variables inside your own CSS.
-> Always use scale steps, never hard-coded pixels.
+> **Rule of thumb:** `gap` for spacing **between** siblings inside a `Flex`; the `spacing` prop
+> (or the `spacing()`/`sp()` utility) for an element's **own** margins/paddings; raw
+> `--g-spacing-*` variables inside your own CSS. Always use scale steps, never hard-coded pixels.
 
 ### Customization
 
@@ -164,6 +181,28 @@ The `Box` component is a developer friend and basic block to build other compone
 
 Use it to declaratively describe elements with a fixed height/width. It also has built-in support for the most commonly used properties, such as `overflow`.
 It is mainly used as a base unit for other components such as `Flex` and `Card`.
+
+**Props**
+
+- `as` — render as a different element/Component (e.g. `as="section"`, `as={Link}`);
+- `spacing` — the element's **own** margins/paddings as scale steps (see
+  [`SpacingProps`](#the-spacing-utility)). This is `Box`'s counterpart to `Flex`'s `gap`: `gap`
+  handles spacing **between** children, `spacing` handles the **element itself**;
+- `overflow` — `'hidden' | 'x' | 'y' | 'auto'`;
+- `width`, `height`, `minWidth`, `maxWidth`, `minHeight`, `maxHeight`, `position` — picked from
+  `React.CSSProperties`, passed through as inline styles.
+
+> `Box` has **no** `gap` prop (it is not a flex container) — for spacing between siblings wrap them
+> in a `Flex` and use `gap`. Since `Flex` extends `Box`, `Flex` also accepts `spacing`.
+
+```tsx
+import {Box} from '@gravity-ui/uikit';
+
+// `spacing` applies to the Box itself — here 16px bottom margin, 8px horizontal padding
+<Box spacing={{mb: 4, px: 2}} width={300} height={200}>
+  some content
+</Box>;
+```
 
 It is also well suited for use as a base for data loading containers, for example:
 

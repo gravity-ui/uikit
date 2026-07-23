@@ -56,6 +56,74 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+// К0. Дефолтная стори-песочница: основные пропсы и сами опции (массив items,
+// включая disabled и секции через children) редактируются в панели Controls
+interface PlaygroundItem {
+    id: string;
+    title: string;
+    disabled?: boolean;
+    children?: PlaygroundItem[];
+}
+
+const playgroundItems: PlaygroundItem[] = [
+    {id: 'cloud', title: 'Cloud'},
+    {id: 'tracker', title: 'Tracker'},
+    {id: 'wiki', title: 'Wiki', disabled: true},
+    {id: 'forms', title: 'Forms'},
+    {id: 'disk', title: 'Disk'},
+];
+
+interface PlaygroundArgs {
+    items: PlaygroundItem[];
+    size: 's' | 'm' | 'l' | 'xl';
+    activateOnHover: boolean;
+    selectionMode: 'none' | 'single' | 'multiple';
+    role: 'listbox' | 'grid';
+    defaultActiveItemId: string;
+    'aria-label': string;
+}
+
+export const Default: StoryObj<PlaygroundArgs> = {
+    render: function DefaultStory(args) {
+        const {items, selectionMode, defaultActiveItemId, ...rest} = args;
+        return (
+            <List
+                // Ремоунт на смену uncontrolled-настроек: слой выделения и
+                // defaultActiveItemId читаются один раз при маунте
+                key={`${selectionMode}|${defaultActiveItemId}`}
+                {...rest}
+                // 'none' выражается отсутствием пропа — иначе включился бы слой
+                {...(selectionMode === 'none' ? undefined : {selectionMode})}
+                defaultActiveItemId={defaultActiveItemId || undefined}
+                items={items}
+                getItemContent={(item) => item.title}
+                onItemAction={action('onItemAction')}
+                onActiveItemUpdate={action('onActiveItemUpdate')}
+            />
+        );
+    },
+    args: {
+        items: playgroundItems,
+        size: 'm',
+        activateOnHover: true,
+        selectionMode: 'none',
+        role: 'listbox',
+        defaultActiveItemId: '',
+        'aria-label': 'Projects',
+    },
+    argTypes: {
+        items: {control: 'object'},
+        size: {control: 'select', options: ['s', 'm', 'l', 'xl']},
+        activateOnHover: {control: 'boolean'},
+        selectionMode: {control: 'radio', options: ['none', 'single', 'multiple']},
+        role: {control: 'radio', options: ['listbox', 'grid']},
+        defaultActiveItemId: {
+            control: 'text',
+            description: 'Программная активация: тёмный курсор (keyboard-модальность)',
+        },
+    },
+};
+
 // К1. Минимальный список
 const projects = [
     {id: 'p1', name: 'Cloud'},

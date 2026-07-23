@@ -71,7 +71,11 @@ function ListRowComponent<T>({
         getCellProps: (overrides) => core.getCellProps(overrides),
         getItemViewProps: () => ({
             size,
-            active: ctx.state.active,
+            // Тёмный active-цвет — только у курсора в keyboard-модальности
+            // (модель react-aria): в pointer-модальности активную строку
+            // подсвечивает обычный CSS :hover, пока мышь на ней, а после
+            // ухода мыши тёмного следа нет — он вернётся со следующей клавишей
+            active: ctx.state.active && ctx.state.activationModality !== 'pointer',
             disabled: ctx.state.disabled,
             // selected/selectionStyle — только при включённом слое:
             // у вьюхи нет дефолта selectionStyle, без него выделение
@@ -137,6 +141,7 @@ function areListRowPropsEqual<T>(prev: ListRowProps<T>, next: ListRowProps<T>): 
         a.kind === c.kind &&
         a.content === c.content &&
         a.state.active === c.state.active &&
+        a.state.activationModality === c.state.activationModality &&
         a.state.disabled === c.state.disabled &&
         a.state.selected === c.state.selected &&
         a.state.dragging === c.state.dragging &&

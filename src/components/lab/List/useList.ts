@@ -50,10 +50,19 @@ export interface ListInstance<T> {
     role: ListRole;
     /**
      * Индекс строки с roving tab-stop в visibleIds (активной, а без активной —
-     * первой навигабельной); −1, если опций нет. Рендерер виртуализации (§7)
-     * держит её смонтированной всегда
+     * первой навигабельной); −1, если опций нет. Входит в persistedRowIndexes:
+     * выгрузка сфокусированной строки роняет фокус на body, выгрузка tab-stop
+     * теряет список из Tab-порядка
      */
     pinnedRowIndex: number;
+    /**
+     * Индексы строк в visibleIds, которые рендерер виртуализации (§7) обязан
+     * держать смонтированными всегда: строка с tab-stop (pinnedRowIndex) и
+     * заголовки секций — цели aria-describedby опций: выгруженный заголовок
+     * превратил бы ссылку в повисший IDREF, и SR терял бы контекст секции
+     * ровно на длинных секциях, где он нужнее всего
+     */
+    persistedRowIndexes: readonly number[];
     /**
      * Ключ мемоизации строки (§8): меняется, когда у строки меняется что-то,
      * НЕ выраженное в её ctx-срезе — DOM id, roving tab-stop без активной,
@@ -196,6 +205,18 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     // роняет фокус на body, выгрузка tab-stop теряет список из Tab-порядка
     const pinnedRowId = effectiveActiveId ?? firstNavigableId;
     const pinnedRowIndex = pinnedRowId === undefined ? -1 : (rowById.get(pinnedRowId)?.index ?? -1);
+
+    // Строки, обязанные пережить выгрузку из окна виртуализации (§7): строка
+    // с tab-stop (фокус и Tab-порядок) и заголовки секций — цели
+    // aria-describedby опций. Секций единицы-десятки, цена пина — несколько
+    // лишних DOM-узлов; tab-stop — опция и с заголовком не пересекается
+    const persistedRowIndexes = React.useMemo(() => {
+        const indexes = rows.filter((row) => row.kind === 'section').map((row) => row.index);
+        if (pinnedRowIndex >= 0) {
+            indexes.push(pinnedRowIndex);
+        }
+        return indexes;
+    }, [rows, pinnedRowIndex]);
 
     const containerRef = React.useRef<HTMLDivElement>(null);
     // Реестр DOM-элементов строк и кеши ref-композиции — механика
@@ -606,6 +627,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         getCellProps,
         role,
         pinnedRowIndex,
+        persistedRowIndexes,
         getItemMemoKey,
     };
 }

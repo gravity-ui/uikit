@@ -1,13 +1,18 @@
 import * as React from 'react';
 
-import {focusable, tabbable} from 'tabbable';
-
-import {mergeRefs, useControlledState, useLayoutEffect, useUniqId} from '../../../hooks';
+import {useControlledState, useLayoutEffect, useUniqId} from '../../../hooks';
 import {useDirection} from '../../theme';
 import {warnOnce} from '../../utils/warn';
 
 import {ListVirtualizationContext} from './VirtualizationContext';
+import {navigateCells} from './cellNavigation';
 import {composeItemProps} from './composeItemProps';
+import {
+    sanitizeDndProps,
+    useDndRefStabilityTracker,
+    useGridTabStopDevCheck,
+    warnOnOverridesCollision,
+} from './contractChecks';
 import {LIST_FOCUS_OWNER_CHANNEL} from './focusOwnerChannel';
 import type {
     ListCellDOMProps,
@@ -18,7 +23,10 @@ import type {
     ListPropsOverrides,
     ListRole,
 } from './types';
-import {TYPEAHEAD_TIMEOUT, findTypeaheadMatch, flattenItems, getNextActiveId} from './utils';
+import {useItemElementRegistry} from './useItemElementRegistry';
+import {useListSelection} from './useListSelection';
+import {useListTypeahead} from './useListTypeahead';
+import {flattenItems, getNextActiveId} from './utils';
 import type {ListNavigationCommand, ListRow} from './utils';
 
 export type ListContainerDOMProps = React.HTMLAttributes<HTMLElement> & {
@@ -61,49 +69,6 @@ const NAVIGATION_COMMANDS: Record<string, ListNavigationCommand> = {
     Home: 'first',
     End: 'last',
 };
-
-const EMPTY_SELECTION: readonly string[] = [];
-
-// Ключи, которыми владеет ядро: ARIA-роль строки (option либо row, §15),
-// DOM id строки и roving tab-stop.
-// Типы dnd-адаптера их уже исключают (ListDndProps), но каст в
-// адаптере потребителя обойдёт типы молча — а затирание role/id ломает
-// клавиатурную машину целиком (она гейтуется на DOM id строки)
-const CORE_OWNED_PROPS = ['role', 'id', 'tabIndex'] as const;
-
-// Ключ контейнера в dev-трекере стабильности ref dnd-адаптера: NUL не
-// встречается в потребительских id строк
-const DND_CONTAINER_REF_KEY = '\u0000container';
-
-// В overrides ПОТРЕБИТЕЛЯ ключи ядра не отбрасываются — в отличие от props
-// адаптера это осознанный эскейп-хэтч (например, своя роль строки до
-// официальной параметризации ролей), но затирание молча ломает клавиатурную
-// машину — предупреждаем
-function warnOnOverridesCollision(overrides: ListPropsOverrides | undefined, getterName: string) {
-    if (process.env.NODE_ENV === 'production' || !overrides) {
-        return;
-    }
-    for (const key of CORE_OWNED_PROPS) {
-        if (key in overrides && (overrides as Record<string, unknown>)[key] !== undefined) {
-            warnOnce(
-                `[List] \`${getterName}\` overrides contain \`${key}\`, which is owned by the list itself (ARIA role, DOM id and roving tabindex). Unlike dnd adapter props, the value is applied as passed — but overriding \`${key}\` can break keyboard navigation and the ARIA model, make sure it is intentional.`,
-            );
-        }
-    }
-}
-
-function warnOnDndPropsCollision<P extends object>(dndProps: P): P {
-    for (const key of CORE_OWNED_PROPS) {
-        if (key in dndProps && (dndProps as Record<string, unknown>)[key] !== undefined) {
-            warnOnce(
-                `[List] The dnd adapter returned \`${key}\`, which is owned by the list itself (ARIA role, DOM id and roving tabindex). The value is ignored: spread such props yourself in \`renderItem\` if you really need them.`,
-            );
-            const {[key]: _ignored, ...rest} = dndProps as Record<string, unknown>;
-            return warnOnDndPropsCollision(rest) as P;
-        }
-    }
-    return dndProps;
-}
 
 export function useList<T>(props: ListProps<T>): ListInstance<T> {
     const {
@@ -161,58 +126,16 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         props.onActiveItemUpdate,
     );
 
-    // Слой выделения (§6): наружу массив, внутри Set. Пока selectionMode не
-    // передан, состояние существует, но ни во что не превращается — ни в aria,
-    // ни в ctx.state, ни в жесты
-    const [selectedIds, setSelectedIds] = useControlledState<readonly string[], string[]>(
-        props.selectedIds,
-        props.defaultSelectedIds ?? EMPTY_SELECTION,
-        props.onSelectedUpdate,
-    );
-    const selectedSet = React.useMemo(() => new Set(selectedIds), [selectedIds]);
+    // Слой выделения (§6): состояние (controlled/uncontrolled) и жест — в
+    // useListSelection; в aria, ctx.state и жесты они превращаются только
+    // здесь и только при переданном selectionMode
+    const {selectedSet, toggleSelection} = useListSelection<T>(props);
 
-    if (
-        !selectionMode &&
-        (props.selectedIds !== undefined ||
-            props.defaultSelectedIds !== undefined ||
-            props.onSelectedUpdate !== undefined)
-    ) {
-        warnOnce(
-            '[List] `selectedIds`, `defaultSelectedIds` and `onSelectedUpdate` have no effect without `selectionMode`.',
-        );
-    }
-    if (selectionMode === 'single' && selectedIds.length > 1) {
-        // Несколько aria-selected="true" в listbox без aria-multiselectable —
-        // невалидная ARIA
-        warnOnce(
-            '[List] `selectionMode="single"` expects at most one selected id, but `selectedIds` contains several.',
-        );
-    }
     if (!props['aria-label'] && !props['aria-labelledby']) {
         // Опции получают имя из контента, а контейнеру взять его неоткуда:
         // безымянный listbox/grid — нарушение ARIA
         warnOnce('[List] The list has no accessible name. Pass `aria-label` or `aria-labelledby`.');
     }
-
-    const toggleSelection = (row: ListRow<T>) => {
-        if (!selectionMode || row.kind !== 'item' || row.disabled) {
-            return;
-        }
-        if (selectionMode === 'single') {
-            // Повторный жест по выбранной строке не снимает выделение
-            // (радио-семантика) и не дёргает колбэк
-            if (selectedIds.length === 1 && selectedIds[0] === row.id) {
-                return;
-            }
-            setSelectedIds([row.id]);
-            return;
-        }
-        const next = selectedIds.filter((id) => id !== row.id);
-        if (next.length === selectedIds.length) {
-            next.push(row.id);
-        }
-        setSelectedIds(next);
-    };
 
     /** Жест «применения» строки: сначала выделение, затем onItemAction (§6) */
     const applyRow = (row: ListRow<T>) => {
@@ -275,87 +198,11 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     const pinnedRowIndex = pinnedRowId === undefined ? -1 : (rowById.get(pinnedRowId)?.index ?? -1);
 
     const containerRef = React.useRef<HTMLDivElement>(null);
-    const elementsRef = React.useRef(new Map<string, HTMLElement>());
-    const refCallbacksRef = React.useRef(new Map<string, React.RefCallback<HTMLElement>>());
-    const getItemRefCallback = (id: string) => {
-        let refCallback = refCallbacksRef.current.get(id);
-        if (!refCallback) {
-            refCallback = (element) => {
-                if (element) {
-                    elementsRef.current.set(id, element);
-                } else {
-                    elementsRef.current.delete(id);
-                }
-            };
-            refCallbacksRef.current.set(id, refCallback);
-        }
-        return refCallback;
-    };
-
-    // Dev-детекция нарушения обязательства §8 «ref в геттерах адаптера
-    // стабилен (per id — в getItemDndProps)»: нестабильный callback молча
-    // промахивается мимо кеша форков — React отцепляет/прицепляет ref, и
-    // dnd-либа перерегистрирует элемент на каждый рендер, а во время
-    // перетаскивания лист ре-рендерится на каждое обновление dropTarget.
-    // Порог 2: одна легитимная смена (потребитель пересоздал адаптер/либу)
-    // допускается; систематическая нестабильность даёт вторую смену сразу
-    const dndRefHistoryRef = React.useRef(new Map<string, {ref: unknown; changes: number}>());
-    const trackDndRefStability = (key: string, ref: unknown, getterName: string) => {
-        if (ref === null || ref === undefined) {
-            return;
-        }
-        const history = dndRefHistoryRef.current;
-        const entry = history.get(key);
-        if (!entry) {
-            history.set(key, {ref, changes: 0});
-            return;
-        }
-        if (entry.ref !== ref) {
-            entry.ref = ref;
-            entry.changes += 1;
-            if (entry.changes >= 2) {
-                warnOnce(
-                    `[List] The dnd adapter returns a new \`ref\` identity from \`${getterName}\` on every render. Refs must be stable${getterName === 'getItemDndProps' ? ' per item id' : ''}: an unstable ref re-registers the element in the dnd library on each render — and while dragging the list re-renders on every dropTarget update.`,
-                );
-            }
-        }
-    };
-
-    React.useEffect(() => {
-        for (const id of refCallbacksRef.current.keys()) {
-            if (!rowById.has(id)) {
-                refCallbacksRef.current.delete(id);
-            }
-        }
-        for (const key of dndRefHistoryRef.current.keys()) {
-            if (key !== DND_CONTAINER_REF_KEY && !rowById.has(key)) {
-                dndRefHistoryRef.current.delete(key);
-            }
-        }
-    }, [rowById]);
-
-    // Кэш форкнутых ref: без него композиция создавала бы новый callback на
-    // каждый рендер, и React дёргал бы ref потребителя null/узел на каждое
-    // движение активности
-    const forkedRefsRef = React.useRef(
-        new WeakMap<object, WeakMap<object, React.RefCallback<HTMLElement>>>(),
-    );
-    const forkRefCached = (
-        base: React.Ref<HTMLElement>,
-        override: React.Ref<HTMLElement>,
-    ): React.RefCallback<HTMLElement> => {
-        let byOverride = forkedRefsRef.current.get(base as object);
-        if (!byOverride) {
-            byOverride = new WeakMap();
-            forkedRefsRef.current.set(base as object, byOverride);
-        }
-        let forked = byOverride.get(override as object);
-        if (!forked) {
-            forked = mergeRefs(base, override);
-            byOverride.set(override as object, forked);
-        }
-        return forked;
-    };
+    // Реестр DOM-элементов строк и кеши ref-композиции — механика
+    // «id ↔ элемент, стабильные ref»
+    const registry = useItemElementRegistry({rowById});
+    // Dev-трекер обязательства §8 «ref в геттерах dnd-адаптера стабилен»
+    const dndRefTracker = useDndRefStabilityTracker({rowById});
 
     // Шаг «б» клавиатурной машины — синхронизация фокуса с активностью (§5).
     // Единственное, что различает две стратегии оси B (§15): шаг «а»
@@ -367,7 +214,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     // доскролливает ровно недостающую высоту (в jsdom метода нет)
     const syncFocusToActive = React.useCallback(
         (id: string) => {
-            const element = elementsRef.current.get(id);
+            const element = registry.getElement(id);
             if (!element) {
                 return;
             }
@@ -379,7 +226,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             // остаётся за списком
             element.scrollIntoView?.({block: 'nearest'});
         },
-        [focusStrategy],
+        [focusStrategy, registry],
     );
 
     // Фокус переезжает эффектом от ФАКТИЧЕСКОЙ активности, а не от запрошенной:
@@ -406,56 +253,16 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         setActiveItemId(id);
     };
 
-    const typeaheadRef = React.useRef<{query: string; timer?: number}>({query: ''});
-    React.useEffect(
-        () => () => {
-            window.clearTimeout(typeaheadRef.current.timer);
-        },
-        [],
-    );
-    const handleTypeaheadChar = (char: string) => {
-        const typeahead = typeaheadRef.current;
-        window.clearTimeout(typeahead.timer);
-        typeahead.query += char;
-        typeahead.timer = window.setTimeout(() => {
-            typeahead.query = '';
-        }, TYPEAHEAD_TIMEOUT);
-
-        commitActive(findTypeaheadMatch(rows, effectiveActiveId, typeahead.query));
-    };
+    // Машина typeahead (§5): буфер с таймером — в useListTypeahead, сам
+    // поиск — чистый findTypeaheadMatch
+    const typeahead = useListTypeahead<T>({
+        rows,
+        activeId: effectiveActiveId,
+        onMatch: commitActive,
+    });
 
     const getActiveRow = () =>
         effectiveActiveId === undefined ? undefined : rowById.get(effectiveActiveId);
-
-    /**
-     * Вход в интерактив ячейки и возврат на строку — клавиатура grid (§15).
-     * Именно это делает кнопку внутри строки (ручка dnd, row-action)
-     * достижимой с клавиатуры, а не только валидной по ролям.
-     * Возвращает true, если событие обработано
-     */
-    const handleCellNavigation = (
-        event: React.KeyboardEvent,
-        rowElement: HTMLElement,
-        fromCell: boolean,
-    ): boolean => {
-        const forwardKey = direction === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
-        const backwardKey = direction === 'rtl' ? 'ArrowRight' : 'ArrowLeft';
-        if (event.key !== forwardKey && event.key !== backwardKey) {
-            return false;
-        }
-        const targets = focusable(rowElement);
-        const currentIndex = fromCell ? targets.indexOf(event.target as HTMLElement) : -1;
-        const nextTarget =
-            event.key === forwardKey
-                ? targets[currentIndex + 1]
-                : (targets[currentIndex - 1] ?? (fromCell ? rowElement : undefined));
-        if (!nextTarget) {
-            return false;
-        }
-        event.preventDefault();
-        nextTarget.focus();
-        return true;
-    };
 
     /**
      * Шаг «а» клавиатурной машины (§5): переходы активности. Одинаков в обеих
@@ -493,8 +300,8 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             // поиска; иначе Space работает только в слое выделения (§6). Дефолтный
             // скролл страницы гасим в обоих случаях
             event.preventDefault();
-            if (typeaheadRef.current.query) {
-                handleTypeaheadChar(' ');
+            if (typeahead.hasQuery()) {
+                typeahead.handleChar(' ');
                 return;
             }
             if (!selectionMode) {
@@ -515,7 +322,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             !event.altKey
         ) {
             event.preventDefault();
-            handleTypeaheadChar(event.key);
+            typeahead.handleChar(event.key);
         }
     };
 
@@ -534,12 +341,12 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             if (cellNavigation) {
                 const rowElement = event.target.closest<HTMLElement>('[role="row"]');
                 if (rowElement && domIdToId.has(rowElement.id)) {
-                    handleCellNavigation(event, rowElement, true);
+                    navigateCells(event, rowElement, true, direction);
                 }
             }
             return;
         }
-        if (cellNavigation && handleCellNavigation(event, event.target, false)) {
+        if (cellNavigation && navigateCells(event, event.target, false, direction)) {
             return;
         }
         handleNavigationKeys(event);
@@ -557,26 +364,8 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         handleNavigationKeys(event);
     };
 
-    // Контракт grid: список — ОДИН tab-stop (APG). Интерактив ячейки
-    // достижим ←/→, а в Tab-порядке его быть не должно — иначе список
-    // разворачивается в N+1 tab-stop (практический случай — dragHandleProps
-    // из rbd со своим tabIndex=0). Ядро чужой маркап не переписывает
-    // (потребитель мог сделать элемент tabbable намеренно, а либа вернёт
-    // свой tabIndex на следующем же рендере) — вместо этого предупреждаем.
-    // Проверка только в dev и только на смену набора строк
-    useLayoutEffect(() => {
-        if (process.env.NODE_ENV === 'production' || !cellNavigation) {
-            return;
-        }
-        for (const element of elementsRef.current.values()) {
-            if (tabbable(element).length > 0) {
-                warnOnce(
-                    '[List] `role="grid"`: a row contains a tabbable descendant. A grid is a single tab stop — give interactive cell content `tabIndex={-1}`, it stays reachable with Left/Right arrows.',
-                );
-                return;
-            }
-        }
-    }, [cellNavigation, rows]);
+    // Контракт grid «список — один tab-stop»: dev-проверка в contractChecks
+    useGridTabStopDevCheck({enabled: cellNavigation, rows, getElements: registry.elements});
 
     // Публикация связки владельцу фокуса (§15): id списка для aria-controls,
     // DOM id активной строки для aria-activedescendant и сама машина.
@@ -615,14 +404,14 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         // потребителя компонуются последними, как и без слоя
         let withDnd = baseProps;
         if (dnd?.getContainerDndProps) {
-            const dndProps = warnOnDndPropsCollision(dnd.getContainerDndProps());
+            const dndProps = sanitizeDndProps(dnd.getContainerDndProps());
             if (process.env.NODE_ENV !== 'production') {
-                trackDndRefStability(DND_CONTAINER_REF_KEY, dndProps.ref, 'getContainerDndProps');
+                dndRefTracker.trackContainerRef(dndProps.ref);
             }
-            withDnd = composeItemProps(baseProps, dndProps, {forkRef: forkRefCached});
+            withDnd = composeItemProps(baseProps, dndProps, {forkRef: registry.forkRefCached});
         }
         return composeItemProps(withDnd, overrides, {
-            forkRef: forkRefCached,
+            forkRef: registry.forkRefCached,
         }) as ListContainerDOMProps;
     };
 
@@ -646,10 +435,10 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 id: row.domId,
                 role: 'presentation',
                 'aria-hidden': true,
-                ref: getItemRefCallback(id),
+                ref: registry.getItemRefCallback(id),
             };
             return composeItemProps(baseProps, overrides, {
-                forkRef: forkRefCached,
+                forkRef: registry.forkRefCached,
             }) as ListItemDOMProps;
         }
 
@@ -699,7 +488,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             // грани: индикатору (и CSS потребителя) нужно различать before/after
             'data-dragging': dragging ? '' : undefined,
             'data-drop-target': rowDropTarget ?? undefined,
-            ref: getItemRefCallback(id),
+            ref: registry.getItemRefCallback(id),
             // Обработчики читают состояние через latestRef в момент события:
             // мемоизированная строка (§8) может пропустить ре-рендер и остаться
             // со старым замыканием — оно не должно быть устаревшим
@@ -743,14 +532,14 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         // быть стабильным per id (§8) — форк кешируется по identity пары
         let withDnd = baseProps;
         if (dnd?.getItemDndProps) {
-            const dndProps = warnOnDndPropsCollision(dnd.getItemDndProps(row.id));
+            const dndProps = sanitizeDndProps(dnd.getItemDndProps(row.id));
             if (process.env.NODE_ENV !== 'production') {
-                trackDndRefStability(row.id, dndProps.ref, 'getItemDndProps');
+                dndRefTracker.trackItemRef(row.id, dndProps.ref);
             }
-            withDnd = composeItemProps(baseProps, dndProps, {forkRef: forkRefCached});
+            withDnd = composeItemProps(baseProps, dndProps, {forkRef: registry.forkRefCached});
         }
         return composeItemProps(withDnd, overrides, {
-            forkRef: forkRefCached,
+            forkRef: registry.forkRefCached,
         }) as unknown as ListItemDOMProps;
     };
 
@@ -760,7 +549,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     const getCellProps = (overrides?: ListPropsOverrides): ListCellDOMProps => {
         const baseProps = role === 'grid' ? {role: 'gridcell'} : {};
         return composeItemProps(baseProps, overrides, {
-            forkRef: forkRefCached,
+            forkRef: registry.forkRefCached,
         }) as ListCellDOMProps;
     };
 

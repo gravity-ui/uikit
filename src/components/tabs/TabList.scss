@@ -3,14 +3,14 @@
 
 $block: '.#{variables.$ns}tab-list';
 $tabBlock: '.#{variables.$ns}tab';
-$tabListCollapseItemBlock: '.#{variables.$ns}tab-list-collapse-item';
+$tabMoreBlock: '.#{variables.$ns}tab-more';
 
 #{$block} {
     display: flex;
     align-items: flex-end;
     flex-wrap: wrap;
+    gap: 0 var(--g-tabs-item-gap, var(--_--item-gap));
     box-shadow: inset 0 calc(var(--g-tabs-border-width, 1px) * -1) 0 0 var(--g-color-line-generic);
-    overflow: hidden;
 
     &_size {
         &_m {
@@ -20,7 +20,7 @@ $tabListCollapseItemBlock: '.#{variables.$ns}tab-list-collapse-item';
 
             #{$tabBlock}__title,
             #{$tabBlock}__counter,
-            #{$tabListCollapseItemBlock} {
+            #{$tabMoreBlock}__count {
                 @include mixins.text-body-1();
             }
         }
@@ -32,7 +32,7 @@ $tabListCollapseItemBlock: '.#{variables.$ns}tab-list-collapse-item';
 
             #{$tabBlock}__title,
             #{$tabBlock}__counter,
-            #{$tabListCollapseItemBlock} {
+            #{$tabMoreBlock}__count {
                 @include mixins.text-body-2();
             }
         }
@@ -44,7 +44,7 @@ $tabListCollapseItemBlock: '.#{variables.$ns}tab-list-collapse-item';
 
             #{$tabBlock}__title,
             #{$tabBlock}__counter,
-            #{$tabListCollapseItemBlock} {
+            #{$tabMoreBlock}__count {
                 @include mixins.text-subheader-3();
             }
         }
@@ -57,9 +57,5 @@ $tabListCollapseItemBlock: '.#{variables.$ns}tab-list-collapse-item';
     &_overflow_scroll {
         flex-wrap: nowrap;
         overflow-x: auto;
-    }
-
-    #{$tabBlock}:not(:last-child) {
-        margin-inline-end: var(--g-tabs-item-gap, var(--_--item-gap));
     }
 }

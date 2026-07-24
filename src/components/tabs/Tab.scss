@@ -5,43 +5,32 @@ $block: '.#{variables.$ns}tab';
 $blockMenuItem: '.#{variables.$ns}tab-menu-item';
 
 #{$block} {
-    cursor: pointer;
+    @include mixins.button-reset();
+
     user-select: none;
-    outline: none;
-    color: inherit;
-    background: transparent;
+    color: var(--g-color-text-secondary);
     text-decoration: none;
     display: flex;
     align-items: center;
+    gap: var(--g-spacing-2);
     box-sizing: border-box;
     height: var(--g-tabs-item-height, var(--_--item-height));
-    border: none;
-    padding: 0;
+    max-width: 100%;
     border-block-end: var(--g-tabs-item-border-width, var(--_--item-border-width)) solid transparent;
     padding-block-start: var(--_--item-border-width);
 
     &__content {
         display: flex;
         align-items: center;
-        border-radius: var(--g-focus-border-radius);
+        gap: var(--g-spacing-2);
         min-width: 0;
         height: 100%;
-    }
-
-    &__icon {
-        margin-inline-end: 8px;
     }
 
     &__title {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        color: var(--g-color-text-secondary);
-    }
-
-    &__counter,
-    &__label {
-        margin-inline-start: 8px;
     }
 
     &__icon > svg {
@@ -54,18 +43,15 @@ $blockMenuItem: '.#{variables.$ns}tab-menu-item';
     }
 
     &:focus-visible {
-        #{$block}__content {
-            @include mixins.focus-outline();
-            outline-offset: -2px;
-        }
+        @include mixins.focus-outline();
+        outline-offset: -2px;
     }
 
+    &[aria-expanded='true'],
     &_active,
     &:hover,
     &:focus-visible {
-        #{$block}__title {
-            color: var(--g-color-text-primary);
-        }
+        color: var(--g-color-text-primary);
 
         #{$block}__icon,
         #{$block}__counter {
@@ -89,11 +75,11 @@ $blockMenuItem: '.#{variables.$ns}tab-menu-item';
 }
 
 #{$blockMenuItem} {
+    color: var(--g-color-text-secondary);
+
     &:hover,
     &:focus-visible {
-        #{$block}__title {
-            color: var(--g-color-text-primary);
-        }
+        color: var(--g-color-text-primary);
 
         #{$block}__icon,
         #{$block}__counter {
@@ -102,8 +88,6 @@ $blockMenuItem: '.#{variables.$ns}tab-menu-item';
     }
 
     &_disabled {
-        #{$block}__title {
-            color: var(--g-color-text-hint);
-        }
+        color: var(--g-color-text-hint);
     }
 }

@@ -70,7 +70,7 @@ export interface TabPanelProps
     children?: React.ReactNode;
 }
 
-export interface TabListCollapseItemProps {
+export interface TabMoreProps {
     children: React.ReactNode;
     triggerChild?: React.ReactNode;
     moreLabel?: React.ReactNode;

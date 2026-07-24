@@ -1,0 +1,32 @@
+@use '../../../styles/mixins';
+@use '../variables';
+
+$block: '.#{variables.$ns}tab-more';
+
+#{$block} {
+    --_--count-color: var(--g-color-text-hint);
+    --_--chevron-color: var(--g-color-text-secondary);
+
+    &[aria-expanded='true'],
+    &:hover,
+    &:focus-visible {
+        --_--count-color: var(--g-color-text-secondary);
+        --_--chevron-color: var(--g-color-text-primary);
+    }
+
+    &__count {
+        color: var(--_--count-color);
+    }
+
+    &__chevron {
+        color: var(--_--chevron-color);
+    }
+
+    &_lone {
+        flex-grow: 1;
+
+        #{$block}__count {
+            margin-inline-start: auto;
+        }
+    }
+}

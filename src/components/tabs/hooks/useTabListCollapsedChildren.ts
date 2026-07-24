@@ -3,12 +3,12 @@ import * as React from 'react';
 import {useCollapseChildren} from '../../../hooks/useCollapseChildren';
 import {useResizeObserver} from '../../../hooks/useResizeObserver';
 import {getReactNodeHash} from '../../Breadcrumbs/utils';
-import {bTab, bTabListCollapseItem} from '../constants';
+import {bTab} from '../constants';
 import {getTabNodePropsFromReactNode} from '../utils';
 
 import {useTabListGapFromContainer} from './useTabListGapFromContainer';
 
-const TAB_LIST_COLLAPSE_CHILD_SELECTOR = `.${bTab()},.${bTabListCollapseItem()}`;
+const TAB_LIST_CHILD_SELECTOR = `.${bTab()}`;
 
 export type UseTabListCollapsedChildrenResult = {
     shownChildren: React.ReactElement[];
@@ -30,7 +30,7 @@ export const useTabListCollapsedChildren = (
     const listGap = useTabListGapFromContainer(containerRef, {
         enabled,
         childrenHash,
-        childSelector: TAB_LIST_COLLAPSE_CHILD_SELECTOR,
+        childSelector: TAB_LIST_CHILD_SELECTOR,
     });
 
     const {recalculate, visibleCount: visibleChildrenCount} = useCollapseChildren({
@@ -40,7 +40,7 @@ export const useTabListCollapsedChildren = (
         direction: 'end',
         minCount: 0,
         gap: listGap,
-        childSelector: TAB_LIST_COLLAPSE_CHILD_SELECTOR,
+        childSelector: TAB_LIST_CHILD_SELECTOR,
     });
 
     React.useEffect(() => {

@@ -8,12 +8,8 @@ function getTabListGapFromContainer(container: HTMLElement, childSelector: strin
         container.querySelectorAll<HTMLElement>(`:scope > :where(${childSelector})`),
     );
 
-    for (const child of directChildren) {
-        if (child === container.lastElementChild) {
-            continue;
-        }
-
-        return parseFloat(getComputedStyle(child).marginInlineEnd) || 0;
+    if (directChildren.length > 1) {
+        return parseFloat(getComputedStyle(container).columnGap) || 0;
     }
 
     return null;

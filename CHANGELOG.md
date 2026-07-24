@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.47.1](https://github.com/gravity-ui/uikit/compare/v7.47.0...v7.47.1) (2026-07-24)
+
+
+### Bug Fixes
+
+* **Tabs:** optimize styles and internal markup ([#2761](https://github.com/gravity-ui/uikit/issues/2761)) ([ab25744](https://github.com/gravity-ui/uikit/commit/ab257448dc1703187737d62ca259ea41a3a106da))
+
 ## [7.47.0](https://github.com/gravity-ui/uikit/compare/v7.46.0...v7.47.0) (2026-07-22)
 
 

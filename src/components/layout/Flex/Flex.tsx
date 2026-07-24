@@ -5,96 +5,52 @@ import * as React from 'react';
 import {block} from '../../utils/cn';
 import {Box} from '../Box/Box';
 import type {BoxProps} from '../Box/Box';
-import {useLayoutContext} from '../hooks/useLayoutContext';
-import type {AdaptiveProp, MediaPartial, Space} from '../types';
-import {makeCssMod} from '../utils';
+import {getSpacingValue, useStyleProps} from '../hooks/useStyleProps';
+import type {StyleHandlers} from '../hooks/useStyleProps';
+import type {AdaptiveProp, BoxAlignmentStyleProps, LayoutComponentProps} from '../types';
 
 import './Flex.scss';
 
 const b = block('flex');
 
-export interface FlexProps<T extends React.ElementType = 'div'> extends BoxProps<T> {
-    /**
-     * `flex-direction` property
-     */
-    direction?: AdaptiveProp<'flexDirection'>;
-    /**
-     * `flex-grow` property
-     */
-    grow?: true | React.CSSProperties['flexGrow'];
-    /**
-     * `flex-basis` property
-     */
-    basis?: React.CSSProperties['flexBasis'];
-    /**
-     * `flex-shrink` property
-     */
-    shrink?: React.CSSProperties['flexShrink'];
-    /**
-     * `align-` properties
-     */
-    alignContent?: AdaptiveProp<'justifyContent'>;
-    alignItems?: AdaptiveProp<'alignItems'>;
-    alignSelf?: AdaptiveProp<'alignSelf'>;
-    /**
-     * `justify-` properties
-     */
-    justifyContent?: AdaptiveProp<'justifyContent'>;
-    justifyItems?: AdaptiveProp<'justifyItems'>;
-    justifySelf?: AdaptiveProp<'justifySelf'>;
-    /**
-     * Shortcut for:
-     *
-     * ```css
-     *  justify-content: center;
-        align-items: center;
-     * ```
-     */
-    centerContent?: true;
-    /**
-     * `flex-wrap` property
-     *
-     * If value equals `true`, add css property `flex-wrap: wrap`;
-     */
-    wrap?: true | React.CSSProperties['flexWrap'];
+type AlignPropsNotSupportedByFlex = 'justifyItems' | 'placeItems';
+
+export interface FlexStyleProps extends Omit<BoxAlignmentStyleProps, AlignPropsNotSupportedByFlex> {
+    /** The direction in which to layout children. */
+    direction?: AdaptiveProp<React.CSSProperties['flexDirection']>;
+    /** Whether to wrap items onto multiple lines. */
+    wrap?: AdaptiveProp<boolean | React.CSSProperties['flexWrap']>;
+}
+
+export interface FlexProps<T extends React.ElementType = 'div'>
+    extends BoxProps<T>,
+        Omit<BoxAlignmentStyleProps, AlignPropsNotSupportedByFlex>,
+        FlexStyleProps {
     /**
      * display: inline-flex;
      */
     inline?: boolean;
-    gap?: Space | MediaPartial<Space>;
-    gapRow?: Space | MediaPartial<Space>;
-    /**
-     * @deprecated - use native gap property
-     * Space between children. Works like gap but supports in old browsers. Under the hoods uses negative margins. Vertical and horizontal directions are also supported
-     *
-     * ---
-     * instead of ~imperfection of the world~ browser compatibility for margins between layout components used negative margins there is passible issues with `background-color` css property and others that depends of current block position. Use in this situations wrappers. In future version this issues will be avoided during flex `gap` properties
-     *
-     * ```tsx
-     * // wrong
-     * <Flex>
-     *   <SomeComponentWithBackground />
-     *   <SomeComponentWithBackground />
-     * </Flex>
-     *
-     * // right
-     * <Flex>
-     *   <div>
-     *     <SomeComponentWithBackground />
-     *   </div>
-     *   <div>
-     *     <SomeComponentWithBackground />
-     *   </div>
-     * </Flex>
-     * ```
-     */
-    space?: Space | MediaPartial<Space>;
 }
 
-type FlexRef<C extends React.ElementType> = React.ComponentPropsWithRef<C>['ref'];
-
-type FlexPropsWithTypedAttrs<T extends React.ElementType> = FlexProps<T> &
-    Omit<React.ComponentPropsWithoutRef<T>, keyof FlexProps<T>>;
+export const flexStyleHandlers: StyleHandlers<keyof FlexStyleProps> = {
+    direction: ['flexDirection'],
+    wrap: [
+        'flexWrap',
+        (v) => {
+            if (typeof v === 'boolean') {
+                return v ? 'wrap' : 'nowrap';
+            }
+            return `${v}`;
+        },
+    ],
+    justifyContent: ['justifyContent'],
+    alignItems: ['alignItems', flexAlignValue],
+    alignContent: ['alignContent', flexAlignValue],
+    placeContent: ['placeContent', (v) => `${v}`.trim().split(/\s+/).map(flexAlignValue).join(' ')],
+    gap: ['gap', getSpacingValue],
+    columnGap: ['columnGap', getSpacingValue],
+    rowGap: ['rowGap', getSpacingValue],
+};
 
 /**
  * Flexbox model utility component.
@@ -130,104 +86,28 @@ type FlexPropsWithTypedAttrs<T extends React.ElementType> = FlexProps<T> &
  * ---
  * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#flex
  */
-export const Flex = React.forwardRef(function Flex<T extends React.ElementType = 'div'>(
-    props: FlexProps<T>,
-    ref: FlexRef<T>,
-) {
-    const {
-        as: propsAs,
-        direction,
-        grow,
-        basis,
-        children,
-        style,
-        alignContent,
-        alignItems,
-        alignSelf,
-        justifyContent,
-        justifyItems,
-        justifySelf,
-        shrink,
-        wrap,
-        inline,
-        gap,
-        gapRow,
-        className,
-        space,
-        centerContent,
-        ...restProps
-    } = props;
+export const Flex = React.forwardRef<HTMLDivElement, FlexProps>(function Flex(props, ref) {
+    const {style, ...otherProps} = useStyleProps(props, flexStyleHandlers);
 
-    const as: React.ElementType = propsAs || 'div';
-
-    const {
-        getClosestMediaProps,
-        theme: {spaceBaseSize},
-    } = useLayoutContext();
-
-    const applyMediaProps = <P,>(
-        property?: P | MediaPartial<P extends MediaPartial<infer V> ? V : P>,
-    ): P | (P extends MediaPartial<infer V> ? V : P) | undefined =>
-        typeof property === 'object' && property !== null
-            ? getClosestMediaProps(property)
-            : property;
-
-    const gapSpaceSize = applyMediaProps(gap);
-    const columnGap =
-        typeof gapSpaceSize === 'undefined' ? undefined : spaceBaseSize * Number(gapSpaceSize);
-
-    const gapRowSpaceSize = applyMediaProps(gapRow) || gapSpaceSize;
-    const rowGap =
-        typeof gapRowSpaceSize === 'undefined'
-            ? undefined
-            : spaceBaseSize * Number(gapRowSpaceSize);
-
-    const spaceSize = applyMediaProps(space);
-    const s =
-        typeof gap === 'undefined' &&
-        typeof gapRow === 'undefined' &&
-        typeof spaceSize !== 'undefined'
-            ? makeCssMod(spaceSize)
-            : undefined;
+    const {children, inline, className, ...restProps} = otherProps;
 
     return (
-        <Box
-            as={as}
-            className={b(
-                {
-                    'center-content': centerContent,
-                    inline,
-                    s,
-                },
-                className,
-            )}
-            ref={ref}
-            style={{
-                flexDirection: applyMediaProps(direction),
-                flexGrow: grow === true ? 1 : grow,
-                flexWrap: wrap === true ? 'wrap' : wrap,
-                flexBasis: basis,
-                flexShrink: shrink,
-                columnGap,
-                rowGap,
-                alignContent: applyMediaProps(alignContent),
-                alignItems: applyMediaProps(alignItems),
-                alignSelf: applyMediaProps(alignSelf),
-                justifyContent: applyMediaProps(justifyContent),
-                justifyItems: applyMediaProps(justifyItems),
-                justifySelf: applyMediaProps(justifySelf),
-                ...style,
-            }}
-            {...restProps}
-        >
-            {space
-                ? React.Children.map(children, (child) =>
-                      // `space` uses negative margins under the hood. This is hack to prevent wrong background position appearance.
-                      child ? <div className={b('wr')}>{child}</div> : child,
-                  )
-                : children}
+        <Box {...restProps} className={b({inline}, className)} style={style} ref={ref}>
+            {children}
         </Box>
     );
 }) as (<C extends React.ElementType = 'div'>(
-    props: FlexPropsWithTypedAttrs<C> & {ref?: FlexRef<C>},
+    props: LayoutComponentProps<C, FlexProps<C>>,
 ) => React.ReactElement) & {displayName: string};
+
+function flexAlignValue(value: unknown) {
+    if (value === 'start') {
+        return 'flex-start';
+    }
+
+    if (value === 'end') {
+        return 'flex-end';
+    }
+
+    return `${value}`;
+}

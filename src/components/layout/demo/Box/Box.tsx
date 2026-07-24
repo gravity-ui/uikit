@@ -27,12 +27,12 @@ export function Box({
     return (
         <Flex
             {...props}
+            inlineSize={w}
+            blockSize={h}
+            minBlockSize={minHeight}
+            padding={5}
             style={{
-                padding: 5,
                 boxSizing: 'border-box',
-                width: w,
-                height: h,
-                minHeight,
                 border: `2px dashed ${bc}`,
                 backgroundColor: bgc,
             }}

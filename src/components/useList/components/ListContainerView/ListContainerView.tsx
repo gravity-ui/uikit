@@ -22,7 +22,7 @@ export interface ListContainerViewProps extends QAProps {
      */
     fixedHeight?: boolean;
     children: React.ReactNode;
-    extraProps?: React.HTMLAttributes<'div'>;
+    extraProps?: React.HTMLAttributes<HTMLDivElement>;
 }
 
 export const ListContainerView = React.forwardRef<HTMLDivElement, ListContainerViewProps>(

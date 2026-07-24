@@ -71,8 +71,8 @@ Hue families: `black`, `white`, `blue`, `green`, `yellow`, `orange`, `red`, `pur
 
 Two flavors per step:
 
-- `--g-color-private-black-50` — translucent (`rgba(0, 0, 0, 0.05)`), blends with what's behind it.
-- `--g-color-private-black-50-solid` — opaque (`rgb(242, 242, 242)`), the pre-flattened equivalent.
+- `--g-color-private-black-50` — translucent (`rgb(0 0 0 / 0.05)`), blends with what's behind it.
+- `--g-color-private-black-50-solid` — opaque (`rgb(242 242 242)`), the pre-flattened equivalent.
 
 Use `-solid` variants when a translucent color would let an underlying element bleed through
 (e.g. overlapping elements, shadows).
@@ -211,26 +211,31 @@ respects any brand overrides — no conditional theme logic in your components.
 
 ## Creating a custom theme
 
-Define a theme from scratch, or extend one of the built-ins with the SCSS mixins:
+A theme is just a set of `--g-*` values on a `.g-root_theme_{name}` class. To add one, generate a
+complete token set (see below) and scope it to your theme's class:
 
-```scss
-@use '@gravity-ui/uikit/styles/themes';
-
-// Start from the light theme, then override
+```css
+/* my-theme.css — imported after styles.css */
 .g-root_theme_custom {
-  @include themes.g-theme-light;
-
-  // your overrides
   --g-color-base-brand: rgb(117, 155, 255);
+  /* …the full token set… */
 }
 ```
 
-Available mixins: `themes.g-theme-light`, `themes.g-theme-dark`, `themes.g-theme-light-hc`,
-`themes.g-theme-dark-hc`. Then pass your theme name to the provider:
+Then pass your theme name to the provider:
 
 ```tsx
 <ThemeProvider theme="custom">{...}</ThemeProvider>
 ```
+
+If you only need to retint one of the built-in themes, don't declare a new theme at all — just
+override the brand tokens on the built-in theme class (`.g-root_theme_light` /
+`.g-root_theme_dark`), as shown in [Branding](#branding) above.
+
+> **Generate the full token set — don't hand-write it.** Use the
+> [Themer web tool](https://gravity-ui.com/themer) or
+> [`@gravity-ui/uikit-themer`](https://github.com/gravity-ui/uikit-themer) (see below); overriding
+> just a few tokens leaves selection, focus, links and `*-contrast` colors on the default accent.
 
 ### Rebranding: do it completely
 

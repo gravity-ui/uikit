@@ -21,6 +21,9 @@ function warnAboutPhysicalValues() {
     );
 }
 
+export type DisclosureSummaryWidth = 'auto' | 'max';
+export type DisclosureSummaryJustifyContent = 'initial' | 'space-between';
+
 export interface DisclosureSummaryRenderFunctionProps extends QAProps {
     onClick: (e: React.SyntheticEvent) => void;
     ariaControls: string;
@@ -29,6 +32,8 @@ export interface DisclosureSummaryRenderFunctionProps extends QAProps {
     onKeyDown?: (e: React.KeyboardEvent<HTMLButtonElement>) => void;
     disabled?: boolean;
     className?: string;
+    width?: DisclosureSummaryWidth;
+    justifyContent?: DisclosureSummaryJustifyContent;
 }
 
 export interface DisclosureSummaryProps extends QAProps {
@@ -56,7 +61,18 @@ export const DefaultDisclosureSummary = React.forwardRef<
     HTMLButtonElement,
     DisclosureSummaryRenderFunctionProps
 >(function DefaultDisclosureSummary(
-    {onClick, ariaControls, id, expanded, disabled, qa, onKeyDown, className},
+    {
+        onClick,
+        ariaControls,
+        id,
+        expanded,
+        disabled,
+        qa,
+        onKeyDown,
+        className,
+        width,
+        justifyContent,
+    },
     ref,
 ) {
     const {size, summary, arrowPosition} = useDisclosureAttributes();
@@ -75,7 +91,11 @@ export const DefaultDisclosureSummary = React.forwardRef<
         <button
             type="button"
             aria-expanded={expanded}
-            className={b('trigger', {disabled, arrow: arrowMod}, className)}
+            className={b(
+                'trigger',
+                {disabled, arrow: arrowMod, width, 'justify-content': justifyContent},
+                className,
+            )}
             aria-controls={ariaControls}
             id={id}
             onClick={onClick}
@@ -93,4 +113,5 @@ export const DefaultDisclosureSummary = React.forwardRef<
     );
 });
 
+DisclosureSummary.Default = DefaultDisclosureSummary;
 DisclosureSummary.displayName = 'DisclosureSummary';

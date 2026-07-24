@@ -251,10 +251,12 @@ SANDBOX-->
 
 ### Disclosure.Summary
 
-| Name     | Description     | Type                                            | Default              |
-| :------- | :-------------- | :---------------------------------------------- | :------------------- |
-| children | Render function | `(props, defaultSummary) => React.ReactElement` |                      |
-| qa       | Test identifier | `string`                                        | `disclosure-summary` |
+| Name           | Description                           | Type                                            | Default              |
+| :------------- | :------------------------------------ | :---------------------------------------------- | :------------------- |
+| children       | Render function                       | `(props, defaultSummary) => React.ReactElement` |                      |
+| width          | Summary width                         | `"auto"` `"max"`                                | `"auto"`             |
+| justifyContent | Content justification along main axis | `"start"` `"space-between"`                     | `"start"`            |
+| qa             | Test identifier                       | `string`                                        | `disclosure-summary` |
 
 ### Disclosure.Details
 

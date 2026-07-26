@@ -83,35 +83,26 @@ export function DisclosureDetails({children, qa, className}: DisclosureDetailsPr
 }
 
 function waitForTransition(element: HTMLElement | null, done: () => void) {
-    if (!element || !hasTransition(element)) {
+    if (!element || typeof element.getAnimations !== 'function') {
         window.setTimeout(done, 0);
         return;
     }
 
-    const handleTransitionComplete = (event: TransitionEvent) => {
-        if (event.target !== element) {
-            return;
-        }
-        if (event.type === 'transitioncancel' && hasTransition(element)) {
-            return;
-        }
+    const transitions = element
+        .getAnimations()
+        .filter(
+            (animation) =>
+                'transitionProperty' in animation &&
+                (animation.transitionProperty === 'height' ||
+                    animation.transitionProperty === 'opacity'),
+        );
 
-        element.removeEventListener('transitionend', handleTransitionComplete);
-        element.removeEventListener('transitioncancel', handleTransitionComplete);
-        done();
-    };
+    if (transitions.length === 0) {
+        window.setTimeout(done, 0);
+        return;
+    }
 
-    element.addEventListener('transitionend', handleTransitionComplete);
-    element.addEventListener('transitioncancel', handleTransitionComplete);
-}
-
-function hasTransition(element: HTMLElement) {
-    const style = window.getComputedStyle(element);
-
-    return (
-        style.transitionProperty !== 'none' &&
-        style.transitionDuration.split(',').some((duration) => Number.parseFloat(duration) > 0)
-    );
+    Promise.allSettled(transitions.map((transition) => transition.finished)).then(() => done());
 }
 
 DisclosureDetails.displayName = 'DisclosureDetails';

@@ -2,7 +2,9 @@
 
 import * as React from 'react';
 
-import {useResizeObserver} from '../../../hooks';
+import {Transition} from 'react-transition-group';
+
+import {useMatchMedia} from '../../../hooks/private/useMatchMedia';
 import type {QAProps} from '../../types';
 import {useDisclosureAttributes} from '../DisclosureContext';
 import {DisclosureQa, b} from '../constants';
@@ -12,100 +14,103 @@ export interface DisclosureDetailsProps extends QAProps {
     className?: string;
 }
 
-type Visibility = 'hidden' | 'entering' | 'visible' | 'exiting';
-
 export function DisclosureDetails({children, qa, className}: DisclosureDetailsProps) {
     const {ariaControls, ariaLabelledby, keepMounted, expanded} = useDisclosureAttributes();
+    const rootRef = React.useRef<HTMLDivElement>(null);
     const innerRef = React.useRef<HTMLDivElement>(null);
-    const [height, setHeight] = React.useState<number | null>(null);
+    const prefersReducedMotion = useMatchMedia({media: '(prefers-reduced-motion: reduce)'});
 
-    const [visibility, setVisibility] = React.useState<Visibility>(expanded ? 'visible' : 'hidden');
-
-    React.useEffect(() => {
-        setVisibility((prev) => {
-            if (expanded) {
-                if (prev === 'visible') {
-                    return 'visible';
-                }
-
-                return keepMounted ? 'visible' : 'entering';
-            }
-
-            if (keepMounted) {
-                return prev === 'hidden' ? 'hidden' : 'exiting';
-            }
-
-            return prev === 'hidden' ? 'hidden' : 'exiting';
-        });
-    }, [expanded, keepMounted]);
-
-    React.useEffect(() => {
-        if (expanded && !keepMounted && visibility === 'entering') {
-            setVisibility('visible');
+    const setHeight = (height: number | null) => {
+        if (rootRef.current) {
+            rootRef.current.style.height = height === null ? '' : `${height}px`;
         }
-    }, [expanded, keepMounted, visibility]);
-
-    const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
-        if (e.target !== e.currentTarget) {
-            return;
-        }
-
-        setVisibility((prev) => {
-            if (prev === 'entering') {
-                return 'visible';
-            }
-
-            if (prev === 'exiting') {
-                return 'hidden';
-            }
-
-            return prev;
-        });
     };
 
-    const shouldRender = keepMounted || visibility !== 'hidden';
+    const getContentHeight = () => innerRef.current?.offsetHeight || 0;
+    const setMeasuredHeight = () => {
+        setHeight(getContentHeight());
+    };
+    const startCollapse = () => {
+        rootRef.current?.getBoundingClientRect();
+        setHeight(0);
+    };
+    const finishTransition = () => {
+        setHeight(null);
+    };
 
-    const updateHeight = React.useCallback(() => {
-        const element = innerRef.current;
-        if (!element) {
+    return (
+        <Transition
+            key={keepMounted ? 'persistent' : 'temporary'}
+            nodeRef={rootRef}
+            in={expanded}
+            addEndListener={(done) => waitForTransition(rootRef.current, done)}
+            enter={!prefersReducedMotion}
+            exit={!prefersReducedMotion}
+            mountOnEnter={!keepMounted}
+            unmountOnExit={!keepMounted}
+            onEnter={() => setHeight(0)}
+            onEntering={setMeasuredHeight}
+            onEntered={finishTransition}
+            onExit={setMeasuredHeight}
+            onExiting={startCollapse}
+            onExited={finishTransition}
+        >
+            {(transitionState) => {
+                const visible = transitionState === 'entering' || transitionState === 'entered';
+                const transitioning =
+                    transitionState === 'entering' || transitionState === 'exiting';
+                const hiddenAttributes = expanded ? {} : {inert: ''};
+
+                return (
+                    <div
+                        ref={rootRef}
+                        {...hiddenAttributes}
+                        aria-hidden={expanded ? undefined : true}
+                        id={ariaControls}
+                        role="region"
+                        aria-labelledby={ariaLabelledby}
+                        className={b('content', {visible, transitioning}, className)}
+                        data-qa={qa || DisclosureQa.DETAILS}
+                    >
+                        <div ref={innerRef} className={b('content-wrapper')}>
+                            <div className={b('content-inner')}>{children}</div>
+                        </div>
+                    </div>
+                );
+            }}
+        </Transition>
+    );
+}
+
+function waitForTransition(element: HTMLElement | null, done: () => void) {
+    if (!element || !hasTransition(element)) {
+        window.setTimeout(done, 0);
+        return;
+    }
+
+    const handleTransitionComplete = (event: TransitionEvent) => {
+        if (event.target !== element) {
+            return;
+        }
+        if (event.type === 'transitioncancel' && hasTransition(element)) {
             return;
         }
 
-        setHeight(element.offsetHeight);
-    }, []);
+        element.removeEventListener('transitionend', handleTransitionComplete);
+        element.removeEventListener('transitioncancel', handleTransitionComplete);
+        done();
+    };
 
-    React.useEffect(() => {
-        if (shouldRender) {
-            updateHeight();
-        }
-    }, [shouldRender, updateHeight]);
+    element.addEventListener('transitionend', handleTransitionComplete);
+    element.addEventListener('transitioncancel', handleTransitionComplete);
+}
 
-    useResizeObserver({ref: shouldRender ? innerRef : undefined, onResize: updateHeight});
-
-    if (!shouldRender) {
-        return null;
-    }
-
-    const visible = visibility === 'visible';
-    const style = height ? {'--_--disclosure-content-height': `${height}px`} : undefined;
-    const hiddenAttributes = expanded ? {} : {inert: ''};
+function hasTransition(element: HTMLElement) {
+    const style = window.getComputedStyle(element);
 
     return (
-        <div
-            {...hiddenAttributes}
-            aria-hidden={expanded ? undefined : true}
-            id={ariaControls}
-            role="region"
-            aria-labelledby={ariaLabelledby}
-            className={b('content', {visible})}
-            data-qa={qa || DisclosureQa.DETAILS}
-            style={style as React.CSSProperties}
-            onTransitionEnd={handleTransitionEnd}
-        >
-            <div ref={innerRef} className={className}>
-                {children}
-            </div>
-        </div>
+        style.transitionProperty !== 'none' &&
+        style.transitionDuration.split(',').some((duration) => Number.parseFloat(duration) > 0)
     );
 }
 

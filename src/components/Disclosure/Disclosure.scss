@@ -46,18 +46,38 @@ $transition-easing: linear;
 
     &__content {
         display: block;
-        max-height: 0;
+        height: 0;
         overflow: hidden;
         contain: inline-size;
         transition:
-            max-height $transition-duration $transition-easing,
+            height $transition-duration $transition-easing,
             opacity $transition-duration $transition-easing;
         opacity: 0;
     }
 
     &__content_visible {
-        max-height: var(--_--disclosure-content-height, 99999px);
+        height: auto;
         contain: none;
+        overflow: visible;
         opacity: 1;
+    }
+
+    &__content_transitioning {
+        overflow: hidden;
+    }
+
+    &__content-wrapper {
+        display: flex;
+        width: 100%;
+    }
+
+    &__content-inner {
+        width: 100%;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        &__content {
+            transition: none;
+        }
     }
 }

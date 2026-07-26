@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event';
 
-import {fireEvent, render, screen} from '../../../../test-utils/utils';
+import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
 import {Disclosure} from '../Disclosure';
 import type {DisclosureSize} from '../Disclosure';
 import {DisclosureQa} from '../constants';
@@ -155,6 +155,22 @@ describe('Disclosure', () => {
         expect(screen.getByRole('button', {name: 'Visible action'})).toBeVisible();
     });
 
+    test('explicit Details is reused as the region element', () => {
+        render(
+            <Disclosure summary="Summary" expanded={true}>
+                <Disclosure.Details qa="custom-details" className="custom-details">
+                    Content
+                </Disclosure.Details>
+            </Disclosure>,
+        );
+
+        const details = screen.getByTestId('custom-details');
+
+        expect(details).toHaveClass('custom-details');
+        expect(details).toHaveAttribute('role', 'region');
+        expect(screen.getAllByRole('region')).toHaveLength(1);
+    });
+
     test('content is not visible when not expanded', () => {
         const content = 'Some content';
         render(<Disclosure expanded={false}>{content}</Disclosure>);
@@ -180,28 +196,35 @@ describe('Disclosure', () => {
         ).toBeInTheDocument();
     });
 
-    test('content is hidden from accessibility tree while collapsing before unmount', async () => {
-        const user = userEvent.setup();
+    test('content is hidden from accessibility tree while collapsing before unmount', () => {
+        jest.useFakeTimers();
 
-        render(
-            <Disclosure summary="Summary" defaultExpanded={true} keepMounted={false}>
-                <button type="button">Collapsing action</button>
-            </Disclosure>,
-        );
+        try {
+            render(
+                <Disclosure summary="Summary" defaultExpanded={true} keepMounted={false}>
+                    <button type="button">Collapsing action</button>
+                </Disclosure>,
+            );
 
-        await user.click(screen.getByRole('button', {name: 'Summary'}));
+            fireEvent.click(screen.getByRole('button', {name: 'Summary'}));
 
-        const details = screen.getByTestId(DisclosureQa.DETAILS);
+            const details = screen.getByTestId(DisclosureQa.DETAILS);
 
-        expect(details).toHaveAttribute('aria-hidden', 'true');
-        expect(details).toHaveAttribute('inert');
-        expect(screen.queryByRole('button', {name: 'Collapsing action'})).not.toBeInTheDocument();
+            expect(details).toHaveAttribute('aria-hidden', 'true');
+            expect(details).toHaveAttribute('inert');
+            expect(
+                screen.queryByRole('button', {name: 'Collapsing action'}),
+            ).not.toBeInTheDocument();
 
-        fireEvent.transitionEnd(details);
+            act(() => jest.advanceTimersByTime(0));
 
-        expect(
-            screen.queryByRole('button', {name: 'Collapsing action', hidden: true}),
-        ).not.toBeInTheDocument();
+            expect(screen.queryByTestId(DisclosureQa.DETAILS)).not.toBeInTheDocument();
+            expect(
+                screen.queryByRole('button', {name: 'Collapsing action', hidden: true}),
+            ).not.toBeInTheDocument();
+        } finally {
+            jest.useRealTimers();
+        }
     });
 
     test('content visibility toggles when clicked', async () => {

@@ -236,7 +236,7 @@ describe('Accordion', () => {
             </Accordion>,
         );
 
-        const content = screen.getByText('Content');
+        const content = screen.getByTestId('item-details');
         const summary = screen.getByTestId('item-summary');
 
         expect(content.className).not.toContain('g-disclosure__content_visible');
@@ -260,8 +260,8 @@ describe('Accordion', () => {
             </Accordion>,
         );
 
-        const content1 = screen.getByText('Content 1');
-        const content2 = screen.getByText('Content 2');
+        const content1 = screen.getByTestId('item-1-details');
+        const content2 = screen.getByTestId('item-2-details');
         const summary1 = screen.getByTestId('item-1-summary');
         const summary2 = screen.getByTestId('item-2-summary');
 

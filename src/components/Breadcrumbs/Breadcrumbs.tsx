@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import {useCollapseChildren, useForkRef, useResizeObserver} from '../../hooks';
 import type {PopupPlacement} from '../Popup';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, DOMProps, Key, QAProps} from '../types';
 import {filterDOMProps} from '../utils/filterDOMProps';
 
@@ -30,9 +31,10 @@ export interface BreadcrumbsProps extends DOMProps, AriaLabelingProps, QAProps {
 }
 
 export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
-    props: BreadcrumbsProps,
+    rawProps: BreadcrumbsProps,
     ref: React.Ref<HTMLOListElement>,
 ) {
+    const props = useDefaultProps('Breadcrumbs', rawProps);
     const listRef = React.useRef<HTMLOListElement>(null);
     const containerRef = useForkRef(ref, listRef);
     const menuRef = React.useRef<HTMLLIElement>(null);

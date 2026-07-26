@@ -11,6 +11,7 @@ import type {TableColumnConfig} from '../Table/Table';
 import type {TableColumnSetupItem as NewTableColumnSetupItem} from '../Table/hoc/withTableSettings/TableColumnSetup/TableColumnSetup';
 import {TableColumnSetup as NewTableColumnSetup} from '../Table/hoc/withTableSettings/TableColumnSetup/TableColumnSetup';
 import type {TableSetting} from '../Table/hoc/withTableSettings/withTableSettings';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import {block} from '../utils/cn';
 
 import i18n from './i18n';
@@ -55,7 +56,8 @@ export interface TableColumnSetupProps {
     className?: string;
 }
 
-export const TableColumnSetup = (props: TableColumnSetupProps) => {
+export const TableColumnSetup = (rawProps: TableColumnSetupProps) => {
+    const props = useDefaultProps('TableColumnSetup', rawProps);
     const {
         switcher,
         renderSwitcher: renderSwitcherProps,

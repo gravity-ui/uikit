@@ -12,20 +12,19 @@ import {Text} from '@gravity-ui/uikit';
 
 Шрифты по умолчанию, которые могут быть переопределены в рамках проекта. Список всех доступных шрифтов можно найти [здесь](https://preview.gravity-ui.com/uikit/?path=/story/typography--variants).
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Text} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Text variant="body-1">some text</Text>
-<Text variant="caption-2">some text</Text>
-<Text variant="display-3">some text</Text>
-`}>
-    <UIKit.Text variant="body-1">some text</UIKit.Text>
-    <UIKit.Text variant="caption-2">some text</UIKit.Text>
-    <UIKit.Text variant="display-3">some text</UIKit.Text>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <Text variant="body-1">some text</Text>
+            <Text variant="caption-2">some text</Text>
+            <Text variant="display-3">some text</Text>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -45,18 +44,26 @@ LANDING_BLOCK-->
 
 `true` — скрытый переполняющий текст будет заменен на многоточие (`…`).
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Text} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Text ellipsis={false}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates asperiores accusamus est, ab rerum harum hic delectus fuga veniam! Hic, atque, quia sunt consectetur eius corrupti, expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam!</Text>
-<Text ellipsis={true}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates asperiores accusamus est, ab rerum harum hic delectus fuga veniam! Hic, atque, quia sunt consectetur eius corrupti, expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam!</Text>
-`}>
-    <UIKit.Text ellipsis={false}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates asperiores accusamus est, ab rerum harum hic delectus fuga veniam! Hic, atque, quia sunt consectetur eius corrupti, expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam!</UIKit.Text>
-    <UIKit.Text ellipsis={true}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates asperiores accusamus est, ab rerum harum hic delectus fuga veniam! Hic, atque, quia sunt consectetur eius corrupti, expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam!</UIKit.Text>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <Text ellipsis={false}>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates asperiores accusamus
+                est, ab rerum harum hic delectus fuga veniam! Hic, atque, quia sunt consectetur eius
+                corrupti, expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam!
+            </Text>
+            <Text ellipsis>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates asperiores accusamus
+                est, ab rerum harum hic delectus fuga veniam! Hic, atque, quia sunt consectetur eius
+                corrupti, expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam!
+            </Text>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -75,20 +82,19 @@ LANDING_BLOCK-->
 
 Соответствует CSS-свойству `white-space`. Может принимать значения `nowrap` или `break-spaces`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Text} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Text>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</Text>
-<Text whiteSpace={"nowrap"}>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</Text>
-<Text whiteSpace={"break-spaces"}>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</Text>
-`}>
-    <UIKit.Text>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</UIKit.Text>
-    <UIKit.Text whiteSpace={"nowrap"}>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</UIKit.Text>
-    <UIKit.Text whiteSpace={"break-spaces"}>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</UIKit.Text>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <Text>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</Text>
+            <Text whiteSpace="nowrap">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</Text>
+            <Text whiteSpace="break-spaces">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</Text>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -104,18 +110,26 @@ LANDING_BLOCK-->
 
 Соответствует CSS-свойству `word-break`. Единственное значение — `break-all`. | `break-word`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Text} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Text>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates asperiores accusamus est, ab rerum harum hic delectus fuga veniam! Hic, atque, quia sunt consectetur eius corrupti, expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam!</Text>
-<Text wordBreak="break-all">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates asperiores accusamus est, ab rerum harum hic delectus fuga veniam! Hic, atque, quia sunt consectetur eius corrupti, expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam!</Text>
-`}>
-    <UIKit.Text>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates asperiores accusamus est, ab rerum harum hic delectus fuga veniam! Hic, atque, quia sunt consectetur eius corrupti, expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam!</UIKit.Text>
-    <UIKit.Text wordBreak="break-all">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates asperiores accusamus est, ab rerum harum hic delectus fuga veniam! Hic, atque, quia sunt consectetur eius corrupti, expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam!</UIKit.Text>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <Text>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates asperiores accusamus
+                est, ab rerum harum hic delectus fuga veniam! Hic, atque, quia sunt consectetur eius
+                corrupti, expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam!
+            </Text>
+            <Text wordBreak="break-all">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates asperiores accusamus
+                est, ab rerum harum hic delectus fuga veniam! Hic, atque, quia sunt consectetur eius
+                corrupti, expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam!
+            </Text>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -135,20 +149,19 @@ LANDING_BLOCK-->
 Задает цвет текста. Доступные цвета:
 `primary`, `complementary`, `secondary`, `hint`, `info`, `info-heavy`, `positive`, `positive-heavy`, `warning`, `warning-heavy`, `danger`, `danger-heavy`, `utility`, `utility-heavy`, `misc`, `misc-heavy`, `brand`, `link`, `link-hover`, `link-visited`, `link-visited-hover`, `dark-primary`, `dark-complementary`, `dark-secondary`, `light-primary`, `light-complementary`, `light-secondary`, `light-hint`, `inverted-primary`, `inverted-complementary`, `inverted-secondary` и `inverted-hint`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Text} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Text color="info">some text</Text>
-<Text color="positive">some text</Text>
-<Text color="warning">some text</Text>
-`}>
-    <UIKit.Text color="info">some text</UIKit.Text>
-    <UIKit.Text color="positive">some text</UIKit.Text>
-    <UIKit.Text color="warning">some text</UIKit.Text>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <Text color="info">some text</Text>
+            <Text color="positive">some text</Text>
+            <Text color="warning">some text</Text>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

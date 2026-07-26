@@ -1,9 +1,11 @@
 import {DatabaseFill, FolderOpenFill, HeartCrack} from '@gravity-ui/icons';
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
-import {Text} from '../../../';
+import {Text} from '../../..';
 import {FileDropZone} from '../FileDropZone';
-import type {FileDropZoneProps} from '../FileDropZone';
+import type {FileDropZoneProps} from '../types';
+
+import {FILE_DROP_ZONE_STORY_QA} from './constants';
 
 export default {
     title: 'Components/Inputs/FileDropZone',
@@ -14,15 +16,23 @@ export default {
     },
 } as Meta;
 
-const handleUpdate = (files: File[]) => {
+const handleUpdateAccepted: FileDropZoneProps['onUpdateAccepted'] = (files) => {
     const msg = `Files: ${files.map(({name}) => name).join(', ')}`;
 
     alert(msg);
 };
 
-const BASE_ARGS = {
+const handleUpdateRejected: FileDropZoneProps['onUpdateRejected'] = (files) => {
+    const msg = `Files: ${files.map(({file, reasons}) => `${file.name} rejected, reasons: ${reasons.join(', ')}`).join('. ')}`;
+
+    alert(msg);
+};
+
+const BASE_ARGS: Partial<FileDropZoneProps> = {
     accept: ['image/*'],
-    onUpdate: handleUpdate,
+    onUpdateAccepted: handleUpdateAccepted,
+    onUpdateRejected: handleUpdateRejected,
+    qa: FILE_DROP_ZONE_STORY_QA,
 };
 
 const DefaultTemplate: StoryFn<typeof FileDropZone> = (args) => {

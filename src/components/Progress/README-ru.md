@@ -14,36 +14,31 @@ import {Progress} from '@gravity-ui/uikit';
 
 С помощью свойства `theme` можно настроить цвет всего прогресса или его составной части:
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Box, Progress} from '@gravity-ui/uikit';
 
-<ExampleBlock
-  code={`
-<Progress text="default" value={50} />
-<Progress text="warning" theme="warning" value={50} />
-<Progress text="info" theme="info" value={50} />
-<Progress text="success" theme="success" value={50} />
-<Progress text="danger" theme="danger" value={50} />
-<Progress text="misc" theme="misc" value={50} />
-`}
->
-  <div style={{width: '30%'}}>
-    <UIKit.Progress text="default" value={50} />
-    <div style={{height: '15px'}} />
-    <UIKit.Progress text="success" theme="success" value={50} />
-  </div>
-  <div style={{width: '30%'}}>
-    <UIKit.Progress text="warning" theme="warning" value={50} />
-    <div style={{height: '15px'}} />
-    <UIKit.Progress text="danger" theme="danger" value={50} />
-  </div>
-  <div style={{width: '30%'}}>
-    <UIKit.Progress text="info" theme="info "value={50} />
-    <div style={{height: '15px'}} />
-    <UIKit.Progress text="misc" theme="misc" value={50} />
-  </div>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <Box width={'30%'}>
+                <Progress text="default" value={50} />
+                <Box height={4} />
+                <Progress text="success" theme="success" value={50} />
+            </Box>
+            <Box width={'30%'}>
+                <Progress text="warning" theme="warning" value={50} />
+                <Box height={4} />
+                <Progress text="danger" theme="danger" value={50} />
+            </Box>
+            <Box width={'30%'}>
+                <Progress text="info" theme="info" value={50} />
+                <Box height={4} />
+                <Progress text="misc" theme="misc" value={50} />
+            </Box>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -60,19 +55,17 @@ LANDING_BLOCK-->
 
 ## Состояния
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Box, Progress} from '@gravity-ui/uikit';
 
-<ExampleBlock
-  code={`
-<Progress text="Loading" theme="misc" value={60} loading={true} />
-`}
->
-  <div style={{width: '30%'}}>
-    <UIKit.Progress text="Loading" theme="misc" value={60} loading={true} />
-  </div>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Box width={'30%'}>
+            <Progress text="Loading" theme="misc" value={60} loading />
+        </Box>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -86,21 +79,25 @@ LANDING_BLOCK-->
 
 Размер `Progress` можно настроить с помощью свойства `size`. Возможные значения: `"xs"`, `"s"` и `"m"`. Свойство `text` поддерживает только размер `"m"`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Box, Progress} from '@gravity-ui/uikit';
 
-<ExampleBlock
-  code={`
-<Progress theme="success" value={60} size="xs" />
-<Progress theme="warning" value={70} size="s" />
-<Progress theme="danger" value={80} size="m" />
-`}
->
-  <div style={{width: '30%'}}><UIKit.Progress theme="success" value={60} size="xs" /></div>
-  <div style={{width: '30%'}}><UIKit.Progress theme="warning" value={70} size="s" /></div>
-  <div style={{width: '30%'}}><UIKit.Progress theme="danger" value={80} size="m" /></div>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <Box width={'30%'}>
+                <Progress theme="success" value={60} size="xs" />
+            </Box>
+            <Box width={'30%'}>
+                <Progress theme="warning" value={70} size="s" />
+            </Box>
+            <Box width={'30%'}>
+                <Progress theme="danger" value={80} size="m" />
+            </Box>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -116,45 +113,31 @@ LANDING_BLOCK-->
 
 Для установки брейкпоинтов в компоненте `Progress` используется свойство `colorStops`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Box, Progress} from '@gravity-ui/uikit';
 
-<ExampleBlock
-  code={`
-<Progress
-  value={10}
-  colorStops={[{theme: 'danger', stop: 20}, {theme: 'warning', stop: 50}, {theme: 'success', stop: 100}]}
-/>
-<Progress
-  value={40}
-  colorStops={[{theme: 'danger', stop: 20}, {theme: 'warning', stop: 50}, {theme: 'success', stop: 100}]}
-/>
-<Progress
-  value={60}
-  colorStops={[{theme: 'danger', stop: 20}, {theme: 'warning', stop: 50}, {theme: 'success', stop: 100}]}
-/>
-`}
->
-  <div style={{width: '30%'}}>
-    <UIKit.Progress
-      value={10}
-      colorStops={[{theme: 'danger', stop: 20}, {theme: 'warning', stop: 50}, {theme: 'success', stop: 100}]}
-    />
-  </div>
-  <div style={{width: '30%'}}>
-    <UIKit.Progress
-      value={40}
-      colorStops={[{theme: 'danger', stop: 20}, {theme: 'warning', stop: 50}, {theme: 'success', stop: 100}]}
-    />
-  </div>
-  <div style={{width: '30%'}}>
-    <UIKit.Progress
-      value={60}
-      colorStops={[{theme: 'danger', stop: 20}, {theme: 'warning', stop: 50}, {theme: 'success', stop: 100}]}
-    />
-  </div>
-</ExampleBlock>
+const colorStops = [
+    {theme: 'danger', stop: 20},
+    {theme: 'warning', stop: 50},
+    {theme: 'success', stop: 100},
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <Box width={'30%'}>
+                <Progress value={10} colorStops={colorStops} />
+            </Box>
+            <Box width={'30%'}>
+                <Progress value={40} colorStops={colorStops} />
+            </Box>
+            <Box width={'30%'}>
+                <Progress value={60} colorStops={colorStops} />
+            </Box>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -166,51 +149,76 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
+Используйте необязательное свойство `color`, чтобы переопределить цвет темы:
+
+<!--SANDBOX
+import {Box, Progress} from '@gravity-ui/uikit';
+
+const colorStops = [
+    {theme: 'danger', stop: 20, color: '#ff4444'},
+    {theme: 'warning', stop: 50, color: '#ffaa00'},
+    {theme: 'success', stop: 100, color: '#44ff44'},
+];
+
+export default function () {
+    return (
+        <>
+            <Box width={'30%'}>
+                <Progress value={10} colorStops={colorStops} />
+            </Box>
+            <Box width={'30%'}>
+                <Progress value={40} colorStops={colorStops} />
+            </Box>
+            <Box width={'30%'}>
+                <Progress value={60} colorStops={colorStops} />
+            </Box>
+        </>
+    );
+}
+SANDBOX-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<Progress value={10} colorStops={[{theme: 'danger', stop: 20, color: '#ff4444'}, {theme: 'warning', stop: 50, color: '#ffaa00'}, {theme: 'success', stop: 100, color: '#44ff44'}]} />
+<Progress value={40} colorStops={[{theme: 'danger', stop: 20, color: '#ff4444'}, {theme: 'warning', stop: 50, color: '#ffaa00'}, {theme: 'success', stop: 100, color: '#44ff44'}]} />
+<Progress value={60} colorStops={[{theme: 'danger', stop: 20, color: '#ff4444'}, {theme: 'warning', stop: 50, color: '#ffaa00'}, {theme: 'success', stop: 100, color: '#44ff44'}]} />
+```
+
+<!--/GITHUB_BLOCK-->
+
 ## Стек
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {Stack} from '@gravity-ui/uikit';
+import {Box, Progress} from '@gravity-ui/uikit';
 
-<ExampleBlock
-  code={`
-<Progress
-  stack={[
+const defaultStack: Stack[] = [
     {theme: 'default', content: 'First', value: 25},
     {theme: 'success', content: 'Second', value: 25},
     {theme: 'warning', content: 'Third', value: 25},
     {theme: 'danger', content: 'Fourth', value: 25},
-  ]}
-/>
-<Progress text="Progress with custom colors"
-  stack={[
+];
+
+const customColorStack: Stack[] = [
     {color: '#6e5d8c', value: 33.333333333333336},
     {color: '#5b785b', value: 33.333333333333336},
     {color: '#956069', value: 33.333333333333336},
-  ]}
-/>
-`}
->
-<div style={{width: '30%'}}>
-  <UIKit.Progress
-    stack={[
-      {theme: 'default', content: 'First', value: 25},
-      {theme: 'success', content: 'Second', value: 25},
-      {theme: 'warning', content: 'Third', value: 25},
-      {theme: 'danger', content: 'Fourth', value: 25},
-    ]}
-  />
-</div>
-<div style={{width: '30%'}}>
-  <UIKit.Progress text="Progress with custom colors"
-    stack={[
-      {color: '#6e5d8c', value: 33.333333333333336},
-      {color: '#5b785b', value: 33.333333333333336},
-      {color: '#956069', value: 33.333333333333336},
-    ]}
-  />
-</div>
-</ExampleBlock>
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <Box width={'30%'}>
+                <Progress stack={defaultStack} />
+            </Box>
+            <Box width={'30%'}>
+                <Progress text="Progress with custom colors" stack={customColorStack} />
+            </Box>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -232,18 +240,18 @@ LANDING_BLOCK-->
 
 ## Свойства
 
-| Имя             | Описание                                                                                                                                       |                   Тип                    | Значение по умолчанию |
-| :-------------- | :--------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------: | :-------------------: |
-| className       | HTML-атрибут `class`.                                                                                                                          |                 `string`                 |                       |
-| colorStops      | Задает брейкпоинты с темами.                                                                                                                   | ` Array<{theme: string; stop: number;}>` |                       |
-| colorStopsValue | Устанавливает значение для выбора текущей точки остановки цвета или альтернативное значение для `colorStops`. Диапазон значений — от 0 до 100. |                 `number`                 |                       |
-| loading         | Включает или отключает состояние `loading`.                                                                                                    |                `boolean`                 |        `false`        |
-| size            | Задает размер прогресс-бара. Отображение текста доступно только при размере `"m"`.                                                             |                 `string`                 |         `"m"`         |
-| stack           | Конфигурация составного прогресс-бара. Необязательное свойство, если указано `value`.                                                          |             ` Array<Stack>`              |                       |
-| stackClassName  | HTML-атрибут `name` для стека.                                                                                                                 |                 `string`                 |                       |
-| text            | Текст внутри прогресс-бара.                                                                                                                    |                 `string`                 |                       |
-| theme           | Задает цвет прогресса.                                                                                                                         |                 `string`                 |      `"default"`      |
-| value           | Текущее значение прогресса. Диапазон значений — от 0 до 100. Свойство `stack` является необязательным и используется как `maxValue`.           |                 `number`                 |                       |
+| Имя             | Описание                                                                                                                                       |                           Тип                           | Значение по умолчанию |
+| :-------------- | :--------------------------------------------------------------------------------------------------------------------------------------------- | :-----------------------------------------------------: | :-------------------: |
+| className       | HTML-атрибут `class`.                                                                                                                          |                        `string`                         |                       |
+| colorStops      | Задает брейкпоинты с темами.                                                                                                                   | ` Array<{theme: string; stop: number; color?: string}>` |                       |
+| colorStopsValue | Устанавливает значение для выбора текущей точки остановки цвета или альтернативное значение для `colorStops`. Диапазон значений — от 0 до 100. |                        `number`                         |                       |
+| loading         | Включает или отключает состояние `loading`.                                                                                                    |                        `boolean`                        |        `false`        |
+| size            | Задает размер прогресс-бара. Отображение текста доступно только при размере `"m"`.                                                             |                        `string`                         |         `"m"`         |
+| stack           | Конфигурация составного прогресс-бара. Необязательное свойство, если указано `value`.                                                          |                     ` Array<Stack>`                     |                       |
+| stackClassName  | HTML-атрибут `name` для стека.                                                                                                                 |                        `string`                         |                       |
+| text            | Текст внутри прогресс-бара.                                                                                                                    |                        `string`                         |                       |
+| theme           | Задает цвет прогресса.                                                                                                                         |                        `string`                         |      `"default"`      |
+| value           | Текущее значение прогресса. Диапазон значений — от 0 до 100. Свойство `stack` является необязательным и используется как `maxValue`.           |                        `number`                         |                       |
 
 ### `Stack`
 

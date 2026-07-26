@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import {useDefaultProps} from '../theme/useDefaultProps';
 import {filterDOMProps} from '../utils/filterDOMProps';
 
 import {AvatarIcon} from './AvatarIcon';
@@ -10,7 +11,8 @@ import type {AvatarProps} from './types/main';
 
 import './Avatar.scss';
 
-export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
+export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((rawProps, ref) => {
+    const props = useDefaultProps('Avatar', rawProps);
     const {
         size = DEFAULT_AVATAR_SIZE,
         theme = 'normal',

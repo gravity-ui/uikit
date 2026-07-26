@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 
@@ -13,7 +14,8 @@ export interface SpinProps extends DOMProps, QAProps {
     size?: SpinSize;
 }
 
-export const Spin = React.forwardRef<HTMLDivElement, SpinProps>(function Spin(props, ref) {
+export const Spin = React.forwardRef<HTMLDivElement, SpinProps>(function Spin(rawProps, ref) {
+    const props = useDefaultProps('Spin', rawProps);
     const {size = 'm', style, className, qa} = props;
 
     return (

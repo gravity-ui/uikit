@@ -12,19 +12,20 @@ import './ButtonClose.scss';
 const b = block('dialog-btn-close');
 
 export interface ButtonCloseProps {
+    mobile?: boolean;
     onClose: (
         event: React.MouseEvent<HTMLElement, MouseEvent>,
         opts: {isOutsideClick: boolean},
     ) => void;
 }
 
-export function ButtonClose({onClose}: ButtonCloseProps) {
+export function ButtonClose({mobile, onClose}: ButtonCloseProps) {
     const {t} = i18n.useTranslation();
     return (
-        <div className={b()}>
+        <div className={b({mobile})}>
             <Button
                 view="flat"
-                size="l"
+                size={mobile ? 'xl' : 'l'}
                 className={b('btn')}
                 onClick={(event) => onClose(event, {isOutsideClick: false})}
                 aria-label={t('close')}

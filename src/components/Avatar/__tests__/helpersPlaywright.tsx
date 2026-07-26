@@ -1,7 +1,6 @@
 import {FaceRobot} from '@gravity-ui/icons';
 
-import type {DistributiveOmit} from 'src/utils/types';
-
+import type {DistributiveOmit} from '../../../utils/types';
 import {Avatar} from '../Avatar';
 import type {AvatarProps} from '../types/main';
 

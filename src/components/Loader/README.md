@@ -4,27 +4,27 @@
 
 <!--/GITHUB_BLOCK-->
 
+The `Loader` component displays the loading progress as flashing bars. Unlike `Spin`, this component is used in global scenarios, e.g., for an entire page or `Dialog`.
+
 ```tsx
 import {Loader} from '@gravity-ui/uikit';
 ```
 
-The `Loader` component displays the loading progress as flashing bars. Unlike `Spin`, this component is used in global scenarios, e.g., for an entire page or `Dialog`.
-
 ### Size
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Loader size="s" />
-<Loader size="m" />
-<Loader size="l" />
-`}
->
-    <UIKit.Loader size="s" />
-    <UIKit.Loader size="m" />
-    <UIKit.Loader size="l" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Loader} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <Loader size="s" />
+            <Loader size="m" />
+            <Loader size="l" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

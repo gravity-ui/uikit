@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import {RadioGroupContext, useRadioGroup} from '../../hooks/private';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {ControlGroupOption, ControlGroupProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 
@@ -34,9 +35,10 @@ type SegmentedRadioGroupComponentType = (<T extends string>(
 };
 
 export const SegmentedRadioGroup = React.forwardRef(function SegmentedRadioGroup<T extends string>(
-    props: SegmentedRadioGroupProps<T>,
+    rawProps: SegmentedRadioGroupProps<T>,
     ref: React.ForwardedRef<HTMLDivElement>,
 ) {
+    const props = useDefaultProps('SegmentedRadioGroup', rawProps);
     const {size = 'm', width, style, className, qa, children} = props;
     const options = props.options;
 

@@ -14,6 +14,6 @@ The `useIntersection` hook works with the [Intersection Observer API](https://de
 
 | Name        | Description                                   |            Type            | Default |
 | :---------- | :-------------------------------------------- | :------------------------: | :-----: |
-| element     | The observed element                          |     `React.RefObject`      |         |
+| element     | The observed element                          |     `Element \| null`      |         |
 | options     | Intersection observer options                 | `IntersectionObserverInit` |         |
 | onIntersect | Callback when observed element is intersected |        `() => void`        |         |

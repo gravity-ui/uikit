@@ -118,6 +118,8 @@ export function useTabList(
         size: _size,
         activateOnFocus: _activateOnFocus,
         qa: _qa,
+        contentOverflow,
+        moreLabel: _moreLabel,
         ...htmlProps
     } = tabListProps;
 
@@ -126,7 +128,13 @@ export function useTabList(
         role: 'tablist',
         'aria-orientation': 'horizontal' as const,
         onKeyDown,
-        className: bTabList({size: tabListProps.size ?? 'm'}, tabListProps.className),
+        className: bTabList(
+            {
+                size: tabListProps.size ?? 'm',
+                overflow: contentOverflow,
+            },
+            tabListProps.className,
+        ),
         'data-qa': tabListProps.qa,
     };
 }

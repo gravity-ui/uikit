@@ -9,9 +9,10 @@ import {List} from '../List';
 import type {ListItemContext, ListItemHelpers, ListProps} from '../types';
 import {useListFocusOwner} from '../useListFocusOwner';
 
-// В jsdom нет layout: displayCheck по умолчанию считает все элементы
-// скрытыми, и focusable() (им ходит клавиатура ячеек) возвращает пустой
-// список. jest.mock не подходит: модуль уже закеширован сетапом тестов
+// jsdom has no layout: by default displayCheck considers every element hidden,
+// and focusable() (the keyboard of the cells walks through it) returns an empty
+// list. jest.mock does not fit here: the module is already cached by the test
+// setup
 const realFocusable = tabbable.focusable;
 let focusableSpy: jest.SpyInstance;
 
@@ -51,9 +52,9 @@ const GROUPS = [
 ];
 
 /**
- * Строка с двумя интерактивными элементами: ручка в начале и кнопка в конце.
- * `tabIndex={-1}` — контракт grid: список остаётся одним tab-stop'ом,
- * интерактив ячейки достижим ←/→
+ * A row with two interactive elements: a handle at the start and a button at
+ * the end. `tabIndex={-1}` is the grid contract: the list stays a single tab
+ * stop, and the interactive content of a cell is reached with ←/→
  */
 function renderRowWithControls(ctx: ListItemContext<string>, helpers: ListItemHelpers) {
     return (
@@ -76,7 +77,7 @@ function renderRowWithControls(ctx: ListItemContext<string>, helpers: ListItemHe
     );
 }
 
-/** Внешний владелец фокуса: инпут снаружи корня списка (мини-комбобокс) */
+/** An external focus owner: an input outside the list root (a mini combobox) */
 function ComboboxHarness({
     open = true,
     ...listProps
@@ -136,11 +137,11 @@ describe('lab List: role model x focus strategy', () => {
             expect(rows).toHaveLength(3);
             expect(rows[0]).toHaveAttribute('tabindex', '0');
             expect(rows[1]).toHaveAttribute('tabindex', '-1');
-            // aria-selected переезжает на строку, а не на ячейку
+            // aria-selected moves to the row rather than to the cell
             expect(rows[0]).toHaveAttribute('aria-selected', 'true');
 
-            // Дефолтный рендер кладёт контент в ячейку: role="row" обязан
-            // владеть хотя бы одним gridcell
+            // The default render puts the content into a cell: role="row" must
+            // own at least one gridcell
             const cells = screen.getAllByRole('gridcell');
             expect(cells).toHaveLength(3);
             expect(cells[0]).toHaveTextContent('Apple');
@@ -160,7 +161,8 @@ describe('lab List: role model x focus strategy', () => {
                 expect(option).not.toHaveAttribute('tabindex');
             }
 
-            // Список выпадает из Tab-порядка целиком: tab-stop — инпут
+            // The list drops out of the Tab order entirely: the tab stop is the
+            // input
             await user.tab();
             expect(input).toHaveFocus();
             await user.tab();
@@ -211,7 +213,7 @@ describe('lab List: role model x focus strategy', () => {
             await user.keyboard('{ArrowRight}');
             expect(screen.getByRole('button', {name: 'Delete Apple'})).toHaveFocus();
 
-            // Дальше вправо идти некуда — фокус остаётся на последнем
+            // There is nowhere further to the right — focus stays on the last one
             await user.keyboard('{ArrowRight}');
             expect(screen.getByRole('button', {name: 'Delete Apple'})).toHaveFocus();
 
@@ -258,8 +260,9 @@ describe('lab List: role model x focus strategy', () => {
 
             await user.keyboard('{ArrowDown}');
 
-            // Клавиатурный dnd вложенной ручки живёт ровно на этих клавишах:
-            // активность списка не двигается, фокус остаётся на ручке
+            // The keyboard dnd of a nested handle lives on exactly these keys:
+            // the activity of the list does not move and focus stays on the
+            // handle
             expect(handle).toHaveFocus();
             expect(onKeyDown).toHaveBeenCalled();
             expect(screen.getAllByRole('row')[1]).not.toHaveAttribute('data-active');
@@ -282,8 +285,9 @@ describe('lab List: role model x focus strategy', () => {
             await user.tab();
             expect(screen.getAllByRole('row')[0]).toHaveFocus();
 
-            // Ни строки, ни интерактив ячеек в Tab-порядке не задерживают:
-            // содержимое ячеек достижимо ←/→, а Tab выходит из виджета
+            // Neither the rows nor the interactive content of the cells hold
+            // the Tab order: the cell content is reached with ←/→, while Tab
+            // leaves the widget
             await user.tab();
             expect(screen.getByRole('button', {name: 'After'})).toHaveFocus();
         });
@@ -299,7 +303,7 @@ describe('lab List: role model x focus strategy', () => {
                         <List.ItemView
                             {...helpers.getItemProps()}
                             {...helpers.getItemViewProps()}
-                            // tabIndex по умолчанию 0 — лишний tab-stop
+                            // A button defaults to tabIndex 0 — an extra tab stop
                             startContent={
                                 <span {...helpers.getCellProps()}>
                                     <button type="button" aria-label={`Drag ${ctx.item}`} />
@@ -337,8 +341,8 @@ describe('lab List: role model x focus strategy', () => {
             await user.click(input);
             await user.keyboard('{ArrowDown}{ArrowRight}');
 
-            // Полная клавиатурная достижимость интерактива ячейки
-            // гарантируется только в roving (§15, трудный угол)
+            // Full keyboard reachability of the interactive content of a cell
+            // is guaranteed in the roving strategy only
             expect(input).toHaveFocus();
         });
     });
@@ -393,8 +397,8 @@ describe('lab List: role model x focus strategy', () => {
 
             await user.keyboard('c er');
 
-            // Ни typeahead (перешёл бы на Cherry), ни выделение по Space:
-            // символы напечатались в инпуте
+            // Neither typeahead (it would have moved to Cherry) nor selection
+            // by Space: the characters were typed into the input
             expect(input).toHaveValue('c er');
             expect(input).toHaveAttribute('aria-activedescendant', firstOptionId);
         });
@@ -491,7 +495,8 @@ describe('lab List: role model x focus strategy', () => {
             expect(header).toHaveAttribute('role', 'presentation');
             expect(header).toHaveAttribute('aria-hidden', 'true');
             expect(header).not.toHaveAttribute('tabindex');
-            // Контекст группы едет через aria-describedby и в grid-модели
+            // The group context travels through aria-describedby in the grid
+            // model as well
             expect(screen.getByRole('row', {name: 'First'})).toHaveAttribute(
                 'aria-describedby',
                 header.id,
@@ -575,13 +580,14 @@ describe('lab List: grid role model under virtualization', () => {
             items: GROUPS,
             getItemContent: (item) => item.label,
         };
-        // Дерево ролей: контейнер, строки и их ячейки в порядке отображения.
-        // Узлы role="presentation" прозрачны для a11y-дерева — под ними
-        // ходят и обёртки виртуализатора (спейсер и absolute+top обёртка
-        // строки), и заголовки секций (§9), поэтому в сравнении их нет
+        // The role tree: the container, the rows and their cells in display
+        // order. role="presentation" nodes are transparent for the a11y tree —
+        // both the wrappers of the virtualizer (the spacer and the absolute+top
+        // wrapper of a row) and the section headers hide under that role, which
+        // is why they are left out of the comparison
         const roleTree = (root: HTMLElement) =>
-            // Сравниваем именно СТРУКТУРУ дерева ролей — обхода по ролям
-            // у Testing Library для этого нет
+            // What is compared here is exactly the STRUCTURE of the role tree —
+            // Testing Library has no traversal by role for that
             // eslint-disable-next-line testing-library/no-node-access
             [root, ...Array.from(root.querySelectorAll('[role]'))]
                 .map((node) => node.getAttribute('role'))

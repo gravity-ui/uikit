@@ -107,9 +107,9 @@ export function Virtualizer({
     });
     const estimateSize = React.useCallback((index: number) => {
         const correction = estimateCorrectionRef.current;
-        // Уже замеренная строка оценивается своим фактическим размером:
-        // tanstack не кеширует замер, совпавший с текущей оценкой, и без
-        // этого её размер «уезжал» бы вслед за коэффициентом
+        // A row that has already been measured is estimated with its actual
+        // size: tanstack does not cache a measurement that matched the current
+        // estimation, so without this its size would drift along with the ratio
         const measuredSize = correction.sizes.get(String(getItemKeyRef.current(index)));
         if (measuredSize !== undefined) {
             return measuredSize;
@@ -266,11 +266,11 @@ function renderRows({
                           height: totalHeight,
                           width: '100%',
                           position: 'relative',
-                          // Скролл-контейнер может оказаться флексом (корень
-                          // List — flex column): без запрета сжатия спейсер
-                          // схлопывается (его min-content = 0 — строки
-                          // позиционированы абсолютно) и полная высота
-                          // скролла теряется
+                          // The scroll container may turn out to be a flex one
+                          // (the List root is a flex column): without
+                          // forbidding the shrink, the spacer collapses (its
+                          // min-content is 0 — the rows are positioned
+                          // absolutely) and the full scroll height is lost
                           flex: 'none',
                       }
             }

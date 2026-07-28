@@ -17,15 +17,15 @@ interface OwnerState {
 const DISCONNECTED: OwnerState = {};
 
 /**
- * Канал внешнего владельца DOM-фокуса списка (ось B, §15 плана).
+ * The channel of the external owner of the list DOM focus.
  *
- * Клавиатурная машина списка (шаг «а») одна и та же в обеих стратегиях —
- * меняется только шаг «б»: в `activedescendant` ядро не двигает DOM-фокус, а
- * выставляет владельцу `aria-activedescendant` и доскролливает к активной
- * строке. Владелец фокуса (инпут комбобокса) живёт СНАРУЖИ корня списка,
- * поэтому связка едет к нему не через `getItemProps`, а через этот канал:
- * хук отдаёт `getInputProps()` инпуту, а сам объект — списку пропом
- * `focusOwner`.
+ * The keyboard machinery of the list (step "a") is one and the same in both
+ * strategies — only step "b" changes: in `activedescendant` the core does not
+ * move DOM focus but sets `aria-activedescendant` on the owner and scrolls the
+ * active row into view. The focus owner (the combobox input) lives OUTSIDE the
+ * list root, so the connection travels to it through this channel rather than
+ * through `getItemProps`: the hook returns `getInputProps()` for the input,
+ * and the object itself goes to the list as the `focusOwner` prop.
  *
  * ```tsx
  * const focusOwner = useListFocusOwner();
@@ -33,34 +33,34 @@ const DISCONNECTED: OwnerState = {};
  * {open ? <List focusOwner={focusOwner} items={filtered} /> : null}
  * ```
  *
- * `aria-expanded` считается по факту подключения списка: пока `<List>` с этим
- * владельцем не смонтирован, попап закрыт. Канал рассчитан на mount/unmount-
- * модель попапа — список, оставленный смонтированным и спрятанный стилями,
- * каналу неотличим от открытого: стрелки продолжат двигать активность в
- * невидимом попапе, а `aria-expanded` останется `true` (keepMounted не
- * поддержан). Для не-попап паттернов (постоянно видимый фильтруемый список)
- * `role`/`aria-expanded` переопределяются через overrides `getInputProps` —
- * по контракту композиции последнее значение побеждает.
+ * `aria-expanded` is derived from the list being connected: while no `<List>`
+ * with this owner is mounted, the popup is closed. The channel is designed for
+ * the mount/unmount model of a popup — a list left mounted and hidden with
+ * styles is indistinguishable from an open one for the channel: the arrows
+ * would keep moving the activity in an invisible popup and `aria-expanded`
+ * would stay `true` (keepMounted is not supported). For non-popup patterns (a
+ * permanently visible filterable list) `role`/`aria-expanded` are overridden
+ * through the overrides of `getInputProps` — by the composition contract the
+ * last value wins.
  *
- * Один владелец — один список: на два одновременно смонтированных списка
- * нужно два объекта.
+ * One owner — one list: two lists mounted at the same time need two objects.
  */
 export function useListFocusOwner(): ListFocusOwner {
     const [state, setState] = React.useState<OwnerState>(DISCONNECTED);
-    // getInputProps читает связку в рендере владельца, а обновляет её ядро
-    // из своего layout-эффекта — ref держит значение, актуальное и до
-    // ре-рендера владельца
+    // getInputProps reads the connection during the owner's render, while the
+    // core updates it from its own layout effect — the ref holds a value that
+    // is current even before the owner re-renders
     const stateRef = React.useRef(state);
     stateRef.current = state;
-    // Обработчик пересоздаётся ядром каждый рендер: если бы он лежал в
-    // state, публикация зацикливалась бы на собственном ре-рендере
+    // The handler is recreated by the core on every render: were it kept in
+    // state, publishing it would loop on its own re-render
     const keyDownRef = React.useRef<ListFocusOwnerConnection['onKeyDown'] | null>(null);
-    // Синхронный след подключённого списка (state отстаёт на коммит) —
-    // только для dev-предупреждения о двух списках на одном владельце
+    // A synchronous trace of the connected list (state lags by a commit) —
+    // for the dev warning about two lists sharing one owner only
     const connectedListIdRef = React.useRef<string | undefined>(undefined);
 
-    // Идентичность владельца стабильна: она входит в зависимости эффекта
-    // публикации на стороне ядра
+    // The identity of the owner is stable: it is a dependency of the
+    // publishing effect on the core's side
     const [owner] = React.useState<ListFocusOwner>(() => ({
         getInputProps(overrides) {
             const {listId, activeDomId} = stateRef.current;

@@ -1,27 +1,30 @@
 /**
- * Реордер с @hello-pangea/dnd поверх виртуализации — модель virtual-режима
- * старого List:
+ * Reordering with @hello-pangea/dnd on top of virtualization — the model of
+ * the virtual mode of the old List:
  *
- * - `mode="virtual"`: placeholder не нужен (хак последней строки из плоского
- *   примера уходит), но обязателен `renderClone` — во время drag оригинальный
- *   Draggable рендерит null, строку рисует клон вне дерева листа (переживает
- *   выгрузку оригинала из окна);
- * - `getContainerForClone`: дефолтный document.body лежит вне .g-root —
- *   CSS-переменные темы в клоне не резолвятся (маргины/паддинги/цвета
- *   схлопнутся). Корень листа тоже не годится: contain виртуализатора
- *   делает его containing block'ом для position: fixed;
- * - ghost клона (opacity) — вручную: `[data-dragging]`-стиль листа до
- *   портала не дотягивается, а перетаскиваемое должно выглядеть одинаково
- *   во всех примерах;
- * - строки переменной высоты работают через measure (движок игнорирует
- *   транзиентно опустевшую обёртку оригинала), но замеры не должны МЕНЯТЬСЯ
- *   во время drag — rbd снапшотит геометрию на lift;
- * - `role="grid"`: ручка rbd — настоящая кнопка, а интерактив внутри
- *   строки валиден только в grid-модели ролей (§15 плана). Роли
- *   grid/row/gridcell переживают absolute+top обёртки виртуализатора так же,
- *   как listbox/option, а нумерация окна едет в aria-rowcount/aria-rowindex.
+ * - `mode="virtual"`: the placeholder is not needed (the last-row hack of the
+ *   flat example goes away), but `renderClone` is mandatory — while dragging,
+ *   the original Draggable renders null and the row is drawn by a clone
+ *   outside the tree of the list (it survives the original being unmounted
+ *   from the window);
+ * - `getContainerForClone`: the default document.body lies outside .g-root —
+ *   the CSS variables of the theme do not resolve inside the clone (margins,
+ *   paddings and colors would collapse). The list root does not fit either:
+ *   the contain of the virtualizer makes it a containing block for
+ *   position: fixed;
+ * - the ghost of the clone (opacity) is applied by hand: the
+ *   `[data-dragging]` style of the list does not reach through the portal, and
+ *   the dragged item has to look the same across all the examples;
+ * - rows of variable height work through measure (the engine ignores the
+ *   transiently emptied wrapper of the original), but the measurements must
+ *   not CHANGE while dragging — rbd snapshots the geometry on lift;
+ * - `role="grid"`: the handle of rbd is a real button, and interactive content
+ *   inside a row is valid in the grid role model only. The grid/row/gridcell
+ *   roles survive the absolute+top wrappers of the virtualizer just as
+ *   listbox/option do, and the numbering of the window travels through
+ *   aria-rowcount/aria-rowindex.
  *
- * В приложении импорты листа — из пакета:
+ * In an application the list is imported from the package:
  * `import {unstable_List as List, unstable_moveItem as moveItem} from '@gravity-ui/uikit/unstable'`
  */
 import * as React from 'react';
@@ -48,7 +51,7 @@ const ROW_ESTIMATE = 28;
 
 const vinylArchive: TrackRecord[] = Array.from({length: 1000}, (_, index) => ({
     id: `vinyl-${index + 1}`,
-    // каждая четвёртая — длинное название с переносом: строки переменной высоты
+    // Every fourth title is long enough to wrap: rows of variable height
     title: `${String(index + 1).padStart(4, '0')} · ${faker.music.songName()}${
         index % 4 === 0 ? ` (${faker.music.genre()} remaster — ${faker.company.catchPhrase()})` : ''
     }`,
@@ -57,10 +60,11 @@ const vinylArchive: TrackRecord[] = Array.from({length: 1000}, (_, index) => ({
 const getTrackContent = (record: TrackRecord) => record.title;
 
 function PangeaGrip(props: Partial<DraggableProvidedDragHandleProps>) {
-    // rbd делает ручку клавиатурно-перетаскиваемой кнопкой (role="button",
-    // tabIndex=0) — ей нужно доступное имя, иначе axe aria-command-name.
-    // tabIndex={-1} — контракт grid: список остаётся одним tab-stop'ом,
-    // ручка достижима ←/→ (rbd ищет её по своему data-атрибуту)
+    // rbd turns the handle into a keyboard-draggable button (role="button",
+    // tabIndex=0) — it needs an accessible name, otherwise axe reports
+    // aria-command-name.
+    // tabIndex={-1} is the grid contract: the list stays a single tab stop and
+    // the handle is reached with ←/→ (rbd looks it up by its own data attribute)
     return (
         <span
             {...props}
@@ -87,15 +91,17 @@ function PangeaVirtualRow({
                     {...dragProvided.draggableProps}
                     {...helpers.getItemProps({
                         ref: dragProvided.innerRef,
-                        // per-frame стили сдвига обязана применять строка —
-                        // через контракт композиции (shallow-merge style)
+                        // The per-frame shift styles have to be applied by the
+                        // row itself, through the composition contract (a
+                        // shallow merge of style)
                         style: dragProvided.draggableProps.style as React.CSSProperties,
                     })}
                     {...helpers.getItemViewProps()}
-                    // dragHandleProps — на отдельной ручке: на строке они
-                    // затёрли бы role строки и перехватили Space листа.
-                    // Ячейка вокруг ручки — требование grid-модели: только
-                    // внутри gridcell интерактив валиден
+                    // dragHandleProps go to a separate handle: on the row they
+                    // would overwrite the role of the row and intercept the
+                    // Space of the list. The cell around the handle is a
+                    // requirement of the grid model: interactive content is
+                    // valid inside a gridcell only
                     startContent={
                         <span {...helpers.getCellProps()}>
                             <PangeaGrip {...(dragProvided.dragHandleProps ?? undefined)} />
@@ -125,9 +131,10 @@ export function ReorderHelloPangeaVirtualizedExample() {
                     mode="virtual"
                     getContainerForClone={() => cloneContainerRef.current ?? document.body}
                     renderClone={(cloneProvided, _snapshot, rubric) => (
-                        // Клон — чисто визуальная копия строки вне дерева листа:
-                        // getItemProps здесь нет и не нужен (role/id/обработчики
-                        // остаются на оригинале)
+                        // The clone is a purely visual copy of the row outside
+                        // the tree of the list: getItemProps is neither present
+                        // nor needed here (the role, the id and the handlers
+                        // stay on the original)
                         <List.ItemView
                             {...cloneProvided.draggableProps}
                             ref={cloneProvided.innerRef}
@@ -144,8 +151,9 @@ export function ReorderHelloPangeaVirtualizedExample() {
                 >
                     {(provided) => (
                         <ListVirtualizer<TrackRecord> estimateItemSize={ROW_ESTIMATE}>
-                            {/* корень List — скролл-контейнер и одновременно
-                                droppable-элемент rbd (innerRef через адаптер) */}
+                            {/* The List root is the scroll container and the
+                                droppable element of rbd at the same time
+                                (innerRef travels through the adapter) */}
                             <List
                                 role="grid"
                                 aria-label="Vinyl archive"

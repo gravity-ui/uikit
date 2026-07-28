@@ -1,19 +1,23 @@
 /**
- * Реордер с dnd-kit поверх виртуализации — штатный для dnd-kit рецепт
- * virtual-списков: DragOverlay.
+ * Reordering with dnd-kit on top of virtualization — the recipe dnd-kit
+ * prescribes for virtual lists: DragOverlay.
  *
- * - Перетаскиваемое рисует ОВЕРЛЕЙ (летит за курсором), а оригинал на время
- *   drag прячется (opacity 0, слот сохраняется): сдвиговая стратегия — это
- *   превью результата, соседи закрывают исходный слот, и видимый оригинал
- *   перекрывался бы ими. Выгрузка спрятанного оригинала из окна при скролле
- *   безвредна (аналог renderClone у hello-pangea);
- * - соседи в окне сдвигаются трансформами sortable (сдвиговая модель, как
- *   в плоском примере) — dropTarget адаптер не заполняет;
- * - DragOverlay рендерится по месту объявления (портала в body нет) —
- *   держим его внутри темизированного дерева, CSS-переменные доступны;
- * - drag — только за Grip-ручку (listeners + setActivatorNodeRef на ней).
+ * - The dragged item is drawn by an OVERLAY (it flies with the cursor), while
+ *   the original is hidden for the duration of the drag (opacity 0, the slot
+ *   is preserved): the shift strategy is a preview of the result, the
+ *   neighbours cover the original slot, and a visible original would be
+ *   overlapped by them. Unmounting the hidden original while scrolling is
+ *   harmless (the counterpart of renderClone in hello-pangea);
+ * - the neighbours inside the window are shifted by the transforms of sortable
+ *   (the shift model, as in the flat example) — the adapter does not fill
+ *   dropTarget in;
+ * - DragOverlay renders where it is declared (there is no portal into the
+ *   body) — keep it inside the themed tree so that the CSS variables are
+ *   available;
+ * - a drag starts from the Grip handle only (the listeners and
+ *   setActivatorNodeRef live on it).
  *
- * В приложении импорты листа — из пакета:
+ * In an application the list is imported from the package:
  * `import {unstable_List as List, unstable_moveItem as moveItem} from '@gravity-ui/uikit/unstable'`
  */
 import * as React from 'react';
@@ -57,11 +61,13 @@ function SortableVirtualRow({
         <List.ItemView
             {...helpers.getItemProps({
                 ref: setNodeRef,
-                // За курсором летит DragOverlay, а оригинал на время drag
-                // ПРЯЧЕТСЯ (opacity 0, слот сохраняется): сдвиговая стратегия —
-                // это превью результата, соседи закрывают исходный слот,
-                // и видимый оригинал перекрывался бы ими. Курсорный transform
-                // к оригиналу не применяется; выгрузка его из окна безвредна
+                // The DragOverlay flies with the cursor while the original is
+                // HIDDEN for the duration of the drag (opacity 0, the slot is
+                // preserved): the shift strategy is a preview of the result,
+                // the neighbours cover the original slot, and a visible
+                // original would be overlapped by them. The cursor transform is
+                // not applied to the original; unmounting it from the window is
+                // harmless
                 style: isDragging
                     ? {opacity: 0}
                     : {transform: CSS.Transform.toString(transform), transition},
@@ -96,7 +102,7 @@ export function ReorderDndKitVirtualizedExample() {
         <DndContext {...contextProps}>
             <SortableContext items={ids} strategy={verticalListSortingStrategy}>
                 <ListVirtualizer estimateItemSize={28}>
-                    {/* корень List — скролл-контейнер: потребитель ОБЯЗАН ограничить высоту */}
+                    {/* The List root is the scroll container: the consumer MUST limit its height */}
                     <List
                         aria-label="Big sortable queue"
                         style={{height: 480, width: 400}}
@@ -109,8 +115,9 @@ export function ReorderDndKitVirtualizedExample() {
                     />
                 </ListVirtualizer>
             </SortableContext>
-            {/* Оверлей — визуальная копия строки вне листа (ghost, как клон
-                у hello-pangea); getItemProps здесь нет и не нужен */}
+            {/* The overlay is a visual copy of the row outside the list (a
+                ghost, like the clone in hello-pangea); getItemProps is neither
+                present nor needed here */}
             <DragOverlay>
                 {draggingItem ? (
                     <List.ItemView

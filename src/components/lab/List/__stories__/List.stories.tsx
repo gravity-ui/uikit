@@ -66,8 +66,9 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-// К0. Дефолтная стори-песочница: основные пропсы и сами опции (массив items,
-// включая disabled и секции через children) редактируются в панели Controls
+// A sandbox: the main props and the options themselves (the items array,
+// disabled rows and sections through children included) are editable in the
+// Controls panel
 interface PlaygroundItem {
     id: string;
     title: string;
@@ -98,11 +99,12 @@ export const Default: StoryObj<PlaygroundArgs> = {
         const {items, selectionMode, defaultActiveItemId, ...rest} = args;
         return (
             <List
-                // Ремоунт на смену uncontrolled-настроек: слой выделения и
-                // defaultActiveItemId читаются один раз при маунте
+                // Remount when the uncontrolled settings change: the selection
+                // layer and defaultActiveItemId are read once, on mount
                 key={`${selectionMode}|${defaultActiveItemId}`}
                 {...rest}
-                // 'none' выражается отсутствием пропа — иначе включился бы слой
+                // 'none' is expressed by the absence of the prop — otherwise
+                // the layer would be turned on
                 {...(selectionMode === 'none' ? undefined : {selectionMode})}
                 defaultActiveItemId={defaultActiveItemId || undefined}
                 items={items}
@@ -134,7 +136,6 @@ export const Default: StoryObj<PlaygroundArgs> = {
     },
 };
 
-// К1. Минимальный список
 const projects = [
     {id: 'p1', name: 'Cloud'},
     {id: 'p2', name: 'Tracker'},
@@ -151,7 +152,7 @@ export const Minimal: Story = {
     ),
 };
 
-// К2. Секции — структура из данных
+// Sections: the structure comes from the data
 interface GroupedItem {
     id: string;
     label?: string;
@@ -185,7 +186,7 @@ export const Sections: Story = {
     ),
 };
 
-// К3. Список действий (ядро, без выделения)
+// A list of actions (the core, no selection layer)
 const commands = [
     {id: 'copy', title: 'Copy'},
     {id: 'paste', title: 'Paste'},
@@ -197,7 +198,8 @@ const runCommand = action('runCommand');
 
 export const Actions: Story = {
     render: () => (
-        // семантика — listbox (SR объявит «option»); role="menu" — с переездом Menu
+        // The semantics are listbox (a screen reader announces "option");
+        // role="menu" will come with the migration of Menu
         <List
             aria-label="Actions"
             items={commands}
@@ -207,7 +209,7 @@ export const Actions: Story = {
     ),
 };
 
-// К4. Полностью свой маркап
+// Fully custom markup
 const users = Array.from({length: 5}, (_, index) => ({
     id: `user-${index}`,
     name: faker.person.fullName(),
@@ -243,7 +245,6 @@ export const CustomMarkup: Story = {
     ),
 };
 
-// К5. Одиночный выбор
 export const SingleSelection: Story = {
     render: function SingleSelectionStory() {
         const [sel, setSel] = React.useState<string[]>(['p1']);
@@ -260,7 +261,7 @@ export const SingleSelection: Story = {
     },
 };
 
-// К6. Множественный выбор, свои слоты
+// Multiple selection with custom slots
 export const MultipleSelection: Story = {
     render: function MultipleSelectionStory() {
         const [sel, setSel] = React.useState<string[]>([]);
@@ -273,8 +274,8 @@ export const MultipleSelection: Story = {
                 selectedIds={sel}
                 onSelectedUpdate={setSel}
                 renderItem={(ctx, {getItemProps, getItemViewProps}) => (
-                    // getItemViewProps: active/selected/disabled/selectionStyle разом —
-                    // забыть disabled невозможно
+                    // getItemViewProps gives active/selected/disabled/
+                    // selectionStyle at once — forgetting disabled is impossible
                     <List.ItemView
                         {...getItemProps()}
                         {...getItemViewProps()}
@@ -289,12 +290,12 @@ export const MultipleSelection: Story = {
     },
 };
 
-// Фаза 7: диапазонное выделение (файл-менеджер). Shift+клик и Shift+↑/↓
-// заменяют диапазон от якоря — цели последнего обычного жеста выделения
-// (клик/Space пере-якоряют), Shift+Space выбирает диапазон от якоря до
-// активной строки, Ctrl/Cmd+A — все опции. Диапазон считается по данным:
-// заголовки секций пропускаются, disabled-строки не выбираются; в single
-// Shift игнорируется
+// Range selection (a file manager). Shift+click and Shift+↑/↓ replace the
+// range starting at the anchor — the target of the last plain selection
+// gesture (a click or Space re-anchors), Shift+Space selects the range from
+// the anchor to the active row, and Ctrl/Cmd+A selects every option. The range
+// is computed over the data: section headers are skipped and disabled rows are
+// not selected; in single mode Shift is ignored
 interface FileEntry {
     id: string;
     name: string;
@@ -386,9 +387,9 @@ export const RangeSelection: Story = {
     },
 };
 
-// К7. Десятки тысяч строк: слой виртуализации + слой выделения (независимы).
-// ListVirtualizer пока не экспортируется из пакета (обкатка в лабе);
-// наружу слой уедет отдельным энтрипоинтом
+// Tens of thousands of rows: the virtualization layer plus the selection layer
+// (they are independent). ListVirtualizer is not exported from the package
+// yet — the layer will be published through a separate entry point
 interface LogRecord {
     id: string;
     message: string;
@@ -398,19 +399,20 @@ interface LogRecord {
 const logRecords: LogRecord[] = Array.from({length: 10_000}, (_, index) => ({
     id: `log-${index}`,
     message: `${String(index).padStart(5, '0')} · ${faker.hacker.phrase()}`,
-    // строки переменной высоты: у каждой пятой — description
+    // Rows of variable height: every fifth one has a description
     description: index % 5 === 0 ? faker.hacker.ingverb() : undefined,
 }));
 
-// Полный исходник примера для панели Code: по умолчанию сторибук показывает
-// только тело render — примеры вынесены в самодостаточные файлы-компоненты,
-// и Code собирается из их сырцов (компонент + адаптер-хук), копируется как есть
+// The complete source of an example for the Code panel: by default Storybook
+// shows the body of render only — the examples are extracted into
+// self-contained component files, and Code is assembled from their sources
+// (the component plus its adapter hook) and can be copied as is
 const exampleSource = (files: Array<[name: string, code: string]>) =>
     files.map(([name, code]) => `// ─────────── ${name} ───────────\n\n${code}`).join('\n');
 
-// К8. Реордер (dnd-либа потребителя). Референс №1 — pragmatic-drag-and-drop:
-// «полная» форма адаптера §8 (props через ref-регистрацию строк + состояние
-// одним пропом dnd)
+// Reordering with the consumer's dnd library. Reference #1 —
+// pragmatic-drag-and-drop: the "full" form of the adapter (props through
+// ref registration of the rows plus the state, all in a single dnd prop)
 export const Reorder: Story = {
     render: () => <ReorderPragmaticExample />,
     parameters: {
@@ -426,8 +428,8 @@ export const Reorder: Story = {
     },
 };
 
-// Референс №2 — dnd-kit: «state-only» адаптер + per-item хук useSortable
-// в компоненте строки потребителя через renderItem
+// Reference #2 — dnd-kit: a "state-only" adapter plus the per-item useSortable
+// hook in the consumer's own row component through renderItem
 export const ReorderDndKit: Story = {
     render: () => <ReorderDndKitExample />,
     parameters: {
@@ -443,10 +445,11 @@ export const ReorderDndKit: Story = {
     },
 };
 
-// dnd-kit × виртуализация — штатный рецепт dnd-kit для virtual-списков:
-// DragOverlay летит за курсором, оригинал на время drag прячется (соседи
-// закрывают его слот превью-сдвигом) и переживает выгрузку из окна
-// (детали — в шапке примера)
+// dnd-kit × virtualization — the recipe dnd-kit prescribes for virtual lists:
+// a DragOverlay flies with the cursor while the original is hidden for the
+// duration of the drag (its slot is covered by the preview shift of the
+// neighbours) and survives being unmounted from the window (see the header of
+// the example for the details)
 export const ReorderDndKitVirtualized: Story = {
     render: () => <ReorderDndKitVirtualizedExample />,
     parameters: {
@@ -462,8 +465,9 @@ export const ReorderDndKitVirtualized: Story = {
     },
 };
 
-// Целевой кейс миграции со старого List — @hello-pangea/dnd: композиционная
-// интеграция по образцу старого List (детали и цена — в шапке примера)
+// The target case for migrating off the old List — @hello-pangea/dnd: a
+// compositional integration modelled on the old List (see the header of the
+// example for the details and the price)
 export const ReorderHelloPangea: Story = {
     render: () => <ReorderHelloPangeaExample />,
     parameters: {
@@ -479,8 +483,9 @@ export const ReorderHelloPangea: Story = {
     },
 };
 
-// hello-pangea × виртуализация — модель virtual-режима старого List
-// (mode="virtual" + renderClone; детали — в шапке примера)
+// hello-pangea × virtualization — the model of the virtual mode of the old
+// List (mode="virtual" plus renderClone; see the header of the example for the
+// details)
 export const ReorderHelloPangeaVirtualized: Story = {
     render: () => <ReorderHelloPangeaVirtualizedExample />,
     parameters: {
@@ -496,7 +501,8 @@ export const ReorderHelloPangeaVirtualized: Story = {
     },
 };
 
-// pragmatic × виртуализация: та же интеграция одним пропом dnd поверх окна строк
+// pragmatic × virtualization: the same single-prop dnd integration on top of a
+// window of rows
 export const ReorderVirtualized: Story = {
     render: () => <ReorderPragmaticVirtualizedExample />,
     parameters: {
@@ -512,9 +518,10 @@ export const ReorderVirtualized: Story = {
     },
 };
 
-// Ось роль-модели (§15 плана): в строках есть интерактив — список
-// переключается на grid-роли, где кнопка внутри строки валидна и достижима
-// с клавиатуры (`←`/`→` — вход в интерактив ячейки и возврат на строку)
+// The role model axis: the rows contain interactive content, so the list
+// switches to the grid roles, where a button inside a row is valid and
+// reachable with the keyboard (`←`/`→` enter the interactive content of a cell
+// and return to the row)
 export const InteractiveRows: Story = {
     render: function InteractiveRowsStory() {
         const [tasks, setTasks] = React.useState(commands);
@@ -530,15 +537,15 @@ export const InteractiveRows: Story = {
                         {...getItemProps()}
                         {...getItemViewProps()}
                         endContent={
-                            // Интерактив живёт в ячейке: role="row" обязан
-                            // владеть ячейками, а внутри gridcell кнопка
-                            // валидна (в role="option" — нет)
+                            // Interactive content lives in a cell: role="row"
+                            // must own cells, and inside a gridcell a button
+                            // is valid (inside role="option" it is not)
                             <span {...getCellProps()}>
                                 <Button
                                     view="flat"
                                     size="s"
-                                    // Grid — один tab-stop: кнопка ячейки
-                                    // достижима ←/→, а не Tab'ом
+                                    // A grid is a single tab stop: the button
+                                    // of a cell is reached with ←/→, not Tab
                                     tabIndex={-1}
                                     aria-label={`Delete ${ctx.item.title}`}
                                     onClick={() =>
@@ -560,8 +567,9 @@ export const InteractiveRows: Story = {
     },
 };
 
-// Ось стратегии фокуса (§15 плана): DOM-фокус остаётся в инпуте, активную
-// строку показывает aria-activedescendant (детали — в шапке примера)
+// The focus strategy axis: DOM focus stays in the input, and the active row is
+// exposed through aria-activedescendant (see the header of the example for the
+// details)
 export const Combobox: Story = {
     render: () => <ComboboxExample />,
     parameters: {
@@ -582,7 +590,7 @@ export const Virtualized: Story = {
                 estimateItemSize={(ctx) => (ctx.item.description ? 56 : 36)}
                 measure
             >
-                {/* корень List — скролл-контейнер: потребитель ОБЯЗАН ограничить высоту */}
+                {/* The List root is the scroll container: the consumer MUST limit its height */}
                 <List
                     aria-label="Logs"
                     style={{height: 480, width: 500}}

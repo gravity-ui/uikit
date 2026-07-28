@@ -4,19 +4,19 @@ import {mergeRefs} from '../../../hooks';
 
 export interface ItemElementRegistry {
     /**
-     * Ref-callback строки с кешированной (per id) identity: новый callback
-     *  на каждый рендер заставлял бы React отцеплять/прицеплять ref строки
-     *  на каждое движение активности
+     * The ref callback of a row, with an identity cached per id: a new
+     *  callback on every render would make React detach and re-attach the ref
+     *  of the row on every move of the activity
      */
     getItemRefCallback(id: string): React.RefCallback<HTMLElement>;
-    /** Живой DOM-элемент строки; undefined, пока строка не смонтирована */
+    /** The live DOM element of a row; undefined while the row is not mounted */
     getElement(id: string): HTMLElement | undefined;
-    /** Смонтированные элементы строк — для dev-проверок */
+    /** The mounted row elements — for dev checks */
     elements(): Iterable<HTMLElement>;
     /**
-     * Кэш форкнутых ref: без него композиция создавала бы новый callback на
-     *  каждый рендер, и React дёргал бы ref потребителя null/узел на каждое
-     *  движение активности
+     * The cache of forked refs: without it the composition would create a new
+     *  callback on every render, and React would call the consumer's ref with
+     *  null and then with the node on every move of the activity
      */
     forkRefCached(
         base: React.Ref<HTMLElement>,
@@ -25,10 +25,11 @@ export interface ItemElementRegistry {
 }
 
 /**
- * Реестр DOM-элементов строк и кеши ref-композиции — механика «id ↔ элемент,
- *  стабильные ref», о слоях листа не знающая. Кеш ref-callback'ов чистится
- *  по уходу id из набора строк; сам реестр элементов чистит React, дёргая
- *  callback с null на размонтировании строки
+ * The registry of row DOM elements and the caches of ref composition — the
+ *  "id ↔ element, stable refs" machinery, which knows nothing about the layers
+ *  of the list. The cache of ref callbacks is cleaned up when an id leaves the
+ *  set of rows; the element registry itself is cleaned up by React, which
+ *  calls the callback with null when a row unmounts
  */
 export function useItemElementRegistry({
     rowById,

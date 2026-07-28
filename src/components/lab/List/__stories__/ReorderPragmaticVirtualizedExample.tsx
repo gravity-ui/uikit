@@ -1,14 +1,14 @@
 /**
- * Реордер с @atlaskit/pragmatic-drag-and-drop поверх виртуализации.
- * Интеграция та же, что и в плоском примере, — один проп `dnd`, drag только
- * за Grip-ручку; окно строк прозрачно для адаптера (регистрация строк идёт
- * по факту их маунта).
+ * Reordering with @atlaskit/pragmatic-drag-and-drop on top of virtualization.
+ * The integration is the same as in the flat example — a single `dnd` prop and
+ * a drag from the Grip handle only; the window of rows is transparent for the
+ * adapter (rows are registered as they mount).
  *
- * Стабильные identity геттеров и renderItem (useCallback) — условие
- * мемоизации строк (§8): dragover пере-рендеривает только цель вставки,
- * а не всё окно.
+ * Stable identities of the getters and of renderItem (useCallback) are the
+ * condition for memoizing the rows: dragover then re-renders the insertion
+ * target only rather than the whole window.
  *
- * В приложении импорты листа — из пакета:
+ * In an application the list is imported from the package:
  * `import {unstable_List as List, unstable_moveItem as moveItem} from '@gravity-ui/uikit/unstable'`
  */
 import * as React from 'react';
@@ -60,7 +60,7 @@ export function ReorderPragmaticVirtualizedExample() {
     );
     return (
         <ListVirtualizer estimateItemSize={28}>
-            {/* корень List — скролл-контейнер: потребитель ОБЯЗАН ограничить высоту */}
+            {/* The List root is the scroll container: the consumer MUST limit its height */}
             <List
                 aria-label="Big queue"
                 style={{height: 480, width: 400}}

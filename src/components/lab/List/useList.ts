@@ -36,40 +36,43 @@ export type ListContainerDOMProps = React.HTMLAttributes<HTMLElement> & {
 };
 
 /**
- * Внутреннее ядро листа (§5 плана). Не экспортируется из пакета; форма
- * зафиксирована, чтобы позже открыть аддитивно.
+ * The internal core of the list. It is not exported from the package; the
+ * shape is fixed so that it can be opened up additively later.
  */
 export interface ListInstance<T> {
-    /** Props контейнера: role="listbox", onKeyDown (одна машина на список), id, ref */
+    /** Container props: role="listbox", onKeyDown (one machine per list), id, ref */
     getContainerProps(overrides?: ListPropsOverrides): ListContainerDOMProps;
-    /** Срез рендера: id в порядке отображения (опции + заголовки секций) */
+    /** The render slice: ids in display order (options and section headers) */
     visibleIds: string[];
     getItemContext(id: string): ListItemContext<T>;
     getItemProps(id: string, overrides?: ListPropsOverrides): ListItemDOMProps;
-    /** Props ячейки строки: role="gridcell" в grid-режиме, пусто в listbox */
+    /** Props of a row cell: role="gridcell" in the grid mode, empty in listbox */
     getCellProps(overrides?: ListPropsOverrides): ListCellDOMProps;
-    /** ARIA-роль списка (ось A, §15): значение пропа `role`, дефолт listbox */
+    /** The ARIA role of the list: the value of the `role` prop, listbox by default */
     role: ListRole;
     /**
-     * Индекс строки с roving tab-stop в visibleIds (активной, а без активной —
-     * первой навигабельной); −1, если опций нет. Входит в persistedRowIndexes:
-     * выгрузка сфокусированной строки роняет фокус на body, выгрузка tab-stop
-     * теряет список из Tab-порядка
+     * The index in visibleIds of the row that holds the roving tab stop (the
+     * active one, or the first navigable one when there is none); −1 when
+     * there are no options. It is part of persistedRowIndexes: unmounting the
+     * focused row drops focus to the body, and unmounting the tab stop takes
+     * the list out of the Tab order
      */
     pinnedRowIndex: number;
     /**
-     * Индексы строк в visibleIds, которые рендерер виртуализации (§7) обязан
-     * держать смонтированными всегда: строка с tab-stop (pinnedRowIndex) и
-     * заголовки секций — цели aria-describedby опций: выгруженный заголовок
-     * превратил бы ссылку в повисший IDREF, и SR терял бы контекст секции
-     * ровно на длинных секциях, где он нужнее всего
+     * Indexes of the rows in visibleIds that the virtualization renderer must
+     * always keep mounted: the row with the tab stop (pinnedRowIndex) and the
+     * section headers — the targets of the options' aria-describedby: an
+     * unmounted header would turn the reference into a dangling IDREF, and a
+     * screen reader would lose the section context exactly on long sections,
+     * where it matters most
      */
     persistedRowIndexes: readonly number[];
     /**
-     * Ключ мемоизации строки (§8): меняется, когда у строки меняется что-то,
-     * НЕ выраженное в её ctx-срезе — DOM id, roving tab-stop без активной,
-     * aria-нумерация при виртуализации. Внутренний канал мемоизации List,
-     * не часть контракта renderItem
+     * The memoization key of a row: it changes when something that is NOT
+     * expressed in the row's ctx slice changes — the DOM id, the roving tab
+     * stop without an active row, the aria numbering under virtualization.
+     * An internal memoization channel of List, not a part of the renderItem
+     * contract
      */
     getItemMemoKey(id: string): string;
 }
@@ -92,65 +95,46 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         onItemAction,
         activateOnHover = true,
         selectionMode,
-        // Ось роль-модели (§15): роль задаётся явно, роли строки и ячейки
-        // следуют за ней
         role = 'listbox',
     } = props;
 
     const fallbackId = useUniqId();
     const listId = props.id ?? fallbackId;
 
-    // Вторая ось §15 — стратегия синхронизации фокуса: её включает факт
-    // наличия внешнего владельца. Дефолт (listbox + roving) — поведение
-    // фаз 1–4
     const focusOwner = props.focusOwner ?? null;
-    // Внутренний протокол канала (connect/disconnect) живёт под
-    // module-private символом — в публичном типе владельца его нет
     const focusOwnerChannel = focusOwner ? focusOwner[LIST_FOCUS_OWNER_CHANNEL] : null;
     const focusStrategy: ListFocusStrategy = focusOwner ? 'activedescendant' : 'roving';
-    // Вход в интерактив ячейки и возврат — только в roving: в
-    // activedescendant стрелки принадлежат каретке инпута, а
-    // aria-activedescendant указывает на ОДИН элемент (§15, трудный угол)
+    // Entering the interactive content of a cell and returning from it is
+    // available in the roving strategy only: in activedescendant the arrows
+    // belong to the input caret, and aria-activedescendant points at ONE
+    // element
     const cellNavigation = role === 'grid' && focusStrategy === 'roving';
     const direction = useDirection();
 
-    // Слой виртуализации (§7): ядро знает только о факте его включения —
-    // aria-setsize/posinset появляются лишь когда в DOM лежит окно строк
     const virtualized = React.useContext(ListVirtualizationContext) !== null;
 
-    // Слой dnd (§8): пока проп не передан, слоя не существует — ни полей
-    // dragging/dropTarget в ctx.state, ни data-атрибутов, ни мёржа props.
-    // Ядро не импортирует ни одну dnd-либу: адаптер приносит потребитель,
-    // ядро только отражает его состояние и компонует его props
     const dnd = props.dnd ?? null;
     const draggingId = dnd ? (dnd.draggingId ?? null) : null;
     const dropTarget = dnd ? (dnd.dropTarget ?? null) : null;
 
-    // «Нет активного» — легитимное состояние: controlled выражает его null
-    // (undefined — uncontrolled, как selectedKey у react-aria). null же
-    // закрывает и дырку перегрузок useControlledState «value и defaultValue
-    // undefined одновременно»: с дефолтом `?? null` вызов подходит под
-    // перегрузку «uncontrolled с дефолтом» без каста
+    // The `?? null` default also closes the useControlledState overload hole
+    // "value and defaultValue are both undefined": with it the call matches
+    // the "uncontrolled with a default" overload without a cast
     const [activeItemId, setActiveItemId] = useControlledState<string | null>(
         props.activeItemId,
         props.defaultActiveItemId ?? null,
         props.onActiveItemUpdate,
     );
 
-    // Модальность последнего взаимодействия (ctx.state.activationModality,
-    // модель isFocusVisible react-aria): одно состояние «чем пользователь
-    // работает сейчас» вместо метки источника на строке. Наведение/клик
-    // переводят в pointer, любая клавиша возвращает keyboard; начальное
-    // keyboard — программная активация показывается тёмным курсором
     const [activationModality, setActivationModality] =
         React.useState<ListActivationModality>('keyboard');
 
-    // Возврат keyboard-модальности от любой клавиши, в том числе нажатой вне
-    // листа (Tab на соседнем элементе перед tab-in) — документный
-    // capture-слушатель, как у react-aria. Голые модификаторы вводом не
-    // считаются (isValidKey react-aria; сочетания с Shift — считаются, это
-    // Shift+Tab); повторные нажатия бесплатны: setState в то же значение
-    // не рендерит
+    // The keyboard modality has to come back from any key, including one
+    // pressed outside the list (Tab on a neighbouring element before tab-in),
+    // hence a document capture listener, as in react-aria. Bare modifiers do
+    // not count as input (isValidKey of react-aria; combinations with Shift do
+    // — that is Shift+Tab); repeated presses are free: setState with the same
+    // value does not render
     React.useEffect(() => {
         const handleDocumentKeyDown = (event: KeyboardEvent) => {
             if (event.metaKey || event.ctrlKey || event.altKey) {
@@ -171,8 +155,8 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     }, []);
 
     if (!props['aria-label'] && !props['aria-labelledby']) {
-        // Опции получают имя из контента, а контейнеру взять его неоткуда:
-        // безымянный listbox/grid — нарушение ARIA
+        // Options take their name from the content, but the container has
+        // nowhere to take one from: an unnamed listbox/grid violates ARIA
         warnOnce('[List] The list has no accessible name. Pass `aria-label` or `aria-labelledby`.');
     }
 
@@ -196,20 +180,15 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         ],
     );
 
-    // Слой выделения (§6): состояние (controlled/uncontrolled), жесты и якорь
-    // диапазона (фаза 7) — в useListSelection; в aria, ctx.state и жесты они
-    // превращаются только здесь и только при переданном selectionMode.
-    // Диапазоны считаются по данным (rows), не по DOM — под виртуализацией
-    // строки диапазона за окном тоже выбираются
     const {selectedSet, toggleSelection, extendSelection, selectAllOptions} = useListSelection<T>(
         props,
         {rows, rowById},
     );
 
     /**
-     * Жест «применения» строки: сначала выделение — обычное или диапазонное
-     * (Shift-жесты фазы 7), — затем onItemAction (§6): Shift+клик/Shift+Space
-     * применяют строку так же, как обычный жест
+     * The "apply" gesture of a row: the selection first — plain or by range,
+     * — and onItemAction after it, so that Shift+click and Shift+Space apply
+     * the row just like a plain gesture
      */
     const applyRow = (row: ListRow<T>, options?: {range?: boolean}) => {
         if (options?.range) {
@@ -220,18 +199,15 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         onItemAction?.(row.id, row.item);
     };
 
-    // «Свежее» окружение обработчиков строк: сами обработчики замыкают только
-    // id строки и этот ref, поэтому строка, пропустившая ре-рендер по
-    // мемоизации (§8), не держит устаревших rowById/selectedIds — состояние
-    // читается в момент события, а не в момент последнего рендера строки.
-    // dragActive — состояние dnd-слоя: во время перетаскивания hover-активация
-    // приостанавливается (см. onPointerEnter). Цель вставки тоже означает
-    // «идёт перетаскивание»: адаптер, заполняющий только dropTarget, всё
-    // равно получает приостановку
+    // A "fresh" environment for the row handlers: the handlers themselves
+    // close over the row id and this ref only, so a row that skipped a
+    // re-render because of memoization does not hold a stale rowById or
+    // selectedIds — the state is read at the moment of the event rather than
+    // at the moment of the row's last render. An insertion target means "a
+    // drag is in progress" as well: an adapter that fills in dropTarget only
+    // still gets activation on hover suspended
     const dragActive = draggingId !== null || dropTarget !== null;
 
-    // Активный есть, только если такая опция существует в items:
-    // controlled activeItemId с несуществующим id (или null) => активного нет
     const activeRow = activeItemId === null ? undefined : rowById.get(activeItemId);
     const effectiveActiveId = activeRow?.kind === 'item' ? activeRow.id : undefined;
 
@@ -244,23 +220,19 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     });
     latestRef.current = {rowById, applyRow, setActiveItemId, activateOnHover, dragActive};
 
-    // Disabled-строки не навигабельны вовсе (модель React Spectrum): tab-stop
-    // без активной строки — первая НЕ disabled опция
     const firstNavigableId = React.useMemo(
         () => rows.find((row) => row.kind === 'item' && !row.disabled)?.id,
         [rows],
     );
 
-    // Строка с roving tab-stop — зеркало логики tabIndex в getItemProps.
-    // Слой виртуализации пинит её в окне: выгрузка сфокусированной строки
-    // роняет фокус на body, выгрузка tab-stop теряет список из Tab-порядка
+    // The row holding the roving tab stop — a mirror of the tabIndex logic in
+    // getItemProps
     const pinnedRowId = effectiveActiveId ?? firstNavigableId;
     const pinnedRowIndex = pinnedRowId === undefined ? -1 : (rowById.get(pinnedRowId)?.index ?? -1);
 
-    // Строки, обязанные пережить выгрузку из окна виртуализации (§7): строка
-    // с tab-stop (фокус и Tab-порядок) и заголовки секций — цели
-    // aria-describedby опций. Секций единицы-десятки, цена пина — несколько
-    // лишних DOM-узлов; tab-stop — опция и с заголовком не пересекается
+    // Section headers are a handful at most, so the price of pinning them is a
+    // few extra DOM nodes; the tab stop is an option and never coincides with
+    // a header
     const persistedRowIndexes = React.useMemo(() => {
         const indexes = rows.filter((row) => row.kind === 'section').map((row) => row.index);
         if (pinnedRowIndex >= 0) {
@@ -270,20 +242,14 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     }, [rows, pinnedRowIndex]);
 
     const containerRef = React.useRef<HTMLDivElement>(null);
-    // Реестр DOM-элементов строк и кеши ref-композиции — механика
-    // «id ↔ элемент, стабильные ref»
     const registry = useItemElementRegistry({rowById});
-    // Dev-трекер обязательства §8 «ref в геттерах dnd-адаптера стабилен»
     const dndRefTracker = useDndRefStabilityTracker({rowById});
 
-    // Шаг «б» клавиатурной машины — синхронизация фокуса с активностью (§5).
-    // Единственное, что различает две стратегии оси B (§15): шаг «а»
-    // (вычисление перехода активности) у них общий.
-    // Прокруткой управляем сами: нативный скролл focus() у Chromium
-    // ЦЕНТРИРУЕТ полностью невидимый элемент (а на границе вьюпорта
-    // следующая строка всегда полностью невидима — при обходе стрелками
-    // это скачки на полэкрана); scrollIntoView с block: 'nearest'
-    // доскролливает ровно недостающую высоту (в jsdom метода нет)
+    // Scrolling is done by hand: the native scrolling of focus() in Chromium
+    // CENTERS an element that is fully invisible (and at the viewport edge the
+    // next row always is), which turns walking the list with the arrows into
+    // half-screen jumps; scrollIntoView with block: 'nearest' scrolls by
+    // exactly the missing height (jsdom has no such method)
     const syncFocusToActive = React.useCallback(
         (id: string) => {
             const element = registry.getElement(id);
@@ -293,17 +259,18 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             if (focusStrategy === 'roving') {
                 element.focus({preventScroll: true});
             }
-            // В activedescendant DOM-фокус не двигается вовсе: строку
-            // «подсвечивает» aria-activedescendant владельца, а доскролл
-            // остаётся за списком
+            // In activedescendant DOM focus does not move at all: the row is
+            // "highlighted" by the owner's aria-activedescendant, while
+            // scrolling stays with the list
             element.scrollIntoView?.({block: 'nearest'});
         },
         [focusStrategy, registry],
     );
 
-    // Фокус переезжает эффектом от ФАКТИЧЕСКОЙ активности, а не от запрошенной:
-    // controlled-родитель мог отклонить обновление — тогда фокус остаётся на
-    // месте, а onFocus сфокусированной строки не даёт второго onActiveItemUpdate
+    // Focus moves in an effect driven by the ACTUAL activity rather than by
+    // the requested one: a controlled parent may have rejected the update —
+    // then focus stays where it is, and onFocus of the focused row does not
+    // produce a second onActiveItemUpdate
     const pendingFocusIdRef = React.useRef<string | null>(null);
     useLayoutEffect(() => {
         if (pendingFocusIdRef.current !== null && pendingFocusIdRef.current === effectiveActiveId) {
@@ -312,8 +279,8 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         }
     }, [effectiveActiveId, syncFocusToActive]);
     useLayoutEffect(() => {
-        // Запрос фокуса живёт один коммит: активность не применилась сразу —
-        // фокус не переезжает вовсе
+        // A focus request lives for a single commit: if the activity did not
+        // apply right away, focus does not move at all
         pendingFocusIdRef.current = null;
     });
 
@@ -322,15 +289,13 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             return;
         }
         pendingFocusIdRef.current = id;
-        // Все вызовы commitActive — клавиатурные жесты; дублирует документный
-        // слушатель на случай событий, не дошедших до document (портал в
-        // другой документ)
+        // Every commitActive call is a keyboard gesture; this duplicates the
+        // document listener in case the event never reaches the document (a
+        // portal into another document)
         setActivationModality('keyboard');
         setActiveItemId(id);
     };
 
-    // Машина typeahead (§5): буфер с таймером — в useListTypeahead, сам
-    // поиск — чистый findTypeaheadMatch
     const typeahead = useListTypeahead<T>({
         rows,
         activeId: effectiveActiveId,
@@ -341,22 +306,22 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         effectiveActiveId === undefined ? undefined : rowById.get(effectiveActiveId);
 
     /**
-     * Шаг «а» клавиатурной машины (§5): переходы активности. Одинаков в обеих
-     * стратегиях фокуса — источник события у них разный (строка в roving,
-     * инпут владельца в activedescendant), сами переходы те же
+     * Step "a" of the keyboard machinery: the activity transitions. It is the
+     * same in both focus strategies — only the source of the event differs (a
+     * row in roving, the owner's input in activedescendant), the transitions
+     * themselves are identical
      */
     const handleNavigationKeys = (event: React.KeyboardEvent) => {
         const command = NAVIGATION_COMMANDS[event.key];
         if (command) {
             event.preventDefault();
-            // Shift+↑/↓ (фаза 7): граница диапазона двигается ВМЕСТЕ с
-            // активностью (react-aria: setFocusedKey + extendSelection), но
-            // без зацикливания — заворот «через край» перекидывал бы диапазон
-            // на другой конец списка (у react-aria дефолт вообще без
-            // зацикливания; обычные стрелки без Shift остаются зацикленными).
-            // Только multiple: в single и без слоя Shift+стрелка — обычная
-            // навигация. Shift+Home/End диапазон не расширяют (react-aria
-            // расширяет только по Ctrl+Shift — вне скоупа фазы)
+            // With Shift+↑/↓ the range boundary moves TOGETHER with the
+            // activity (react-aria: setFocusedKey + extendSelection), but
+            // without cycling — wrapping around the edge would throw the range
+            // to the other end of the list (react-aria does not cycle at all by
+            // default; our plain arrows do). Multiple only: in single and
+            // without the layer Shift+arrow is plain navigation. Shift+Home/End
+            // do not extend the range (react-aria extends on Ctrl+Shift only)
             const extendRange =
                 event.shiftKey &&
                 selectionMode === 'multiple' &&
@@ -374,12 +339,12 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             return;
         }
 
-        // Ctrl/Cmd+A (фаза 7): выделить все не-disabled опции — только
-        // multiple ('Mod+A' у react-aria) и только в roving: в
-        // activedescendant Ctrl+A принадлежит инпуту владельца (выделение
-        // набранного текста). Матч по key с фолбэком на физический код для
-        // нелатинских раскладок (Ctrl+ф на ЙЦУКЕН; react-aria матчит только
-        // 'a'); вне multiple клавиша не перехватывается — остаётся браузеру
+        // Ctrl/Cmd+A selects all non-disabled options — multiple only ('Mod+A'
+        // in react-aria) and in the roving strategy only: in activedescendant
+        // Ctrl+A belongs to the owner's input (selecting the typed text). The
+        // match is by key with a fallback to the physical code for non-Latin
+        // layouts (Ctrl+ф on a ЙЦУКЕН keyboard; react-aria matches 'a' only);
+        // outside multiple the key is not intercepted and stays with the browser
         if (
             selectionMode === 'multiple' &&
             focusStrategy === 'roving' &&
@@ -407,15 +372,16 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             if (event.ctrlKey || event.metaKey || event.altKey) {
                 return;
             }
-            // Символьные клавиши (пробел — тоже символ) в activedescendant
-            // уходят владельцу фокуса: он печатает в инпут, а фильтр
-            // заменяет typeahead (§15)
+            // Character keys (a space is a character too) go to the focus
+            // owner in activedescendant: they are typed into the input, and
+            // filtering replaces typeahead
             if (focusStrategy === 'activedescendant') {
                 return;
             }
-            // Приоритет Space (APG): при непустом typeahead-буфере пробел — часть
-            // поиска; иначе Space работает только в слое выделения (§6). Дефолтный
-            // скролл страницы гасим в обоих случаях
+            // Space priority (APG): while the typeahead buffer is not empty a
+            // space is part of the search; otherwise Space works in the
+            // selection layer only. The default page scroll is suppressed in
+            // both cases
             event.preventDefault();
             if (typeahead.hasQuery()) {
                 typeahead.handleChar(' ');
@@ -426,9 +392,6 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             }
             const row = getActiveRow();
             if (row && !row.disabled) {
-                // Shift+Space (фаза 7) — диапазон от якоря до активной строки
-                // (react-aria: extendSelection в onSelect при shiftKey);
-                // жест был зарезервирован фазой 2. В single Shift игнорируется
                 applyRow(row, {range: event.shiftKey});
             }
             return;
@@ -447,11 +410,12 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     };
 
     /**
-     * Клавиатура корня списка (roving): машина слушает только сами строки —
-     * вложенные интерактивные элементы (кнопки в endContent и т.п.) она не
-     * перехватывает. Исключение — grid: из ячейки ядру принадлежат ровно ←/→
-     * (возврат на строку), остальные клавиши остаются вложенному виджету
-     * (↑/↓ у ручки rbd — это её клавиатурный drag-and-drop)
+     * The keyboard of the list root (roving): the machinery listens to the
+     * rows themselves only — it does not intercept nested interactive elements
+     * (buttons in endContent and the like). The exception is grid: from a cell
+     * the core owns exactly ←/→ (returning to the row), while the other keys
+     * stay with the nested widget (↑/↓ on an rbd drag handle are its own
+     * keyboard drag and drop)
      */
     const handleContainerKeyDown = (event: React.KeyboardEvent) => {
         if (!(event.target instanceof HTMLElement) || event.defaultPrevented) {
@@ -473,9 +437,9 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     };
 
     /**
-     * Клавиатура внешнего владельца фокуса (activedescendant): гейта на
-     * строку-цель нет — события приходят из инпута, который живёт снаружи
-     * корня списка
+     * The keyboard of the external focus owner (activedescendant): there is no
+     * gate on the target row — the events come from the input, which lives
+     * outside the list root
      */
     const handleFocusOwnerKeyDown = (event: React.KeyboardEvent) => {
         if (event.defaultPrevented) {
@@ -484,13 +448,13 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         handleNavigationKeys(event);
     };
 
-    // Контракт grid «список — один tab-stop»: dev-проверка в contractChecks
     useGridTabStopDevCheck({enabled: cellNavigation, rows, getElements: registry.elements});
 
-    // Публикация связки владельцу фокуса (§15): id списка для aria-controls,
-    // DOM id активной строки для aria-activedescendant и сама машина.
-    // Эффект без зависимостей — обработчик пересоздаётся каждый рендер, а
-    // связка на стороне владельца дедуплицируется по значениям
+    // Publishing the connection to the focus owner: the list id for
+    // aria-controls, the DOM id of the active row for aria-activedescendant
+    // and the machinery itself. The effect has no dependencies — the handler
+    // is recreated on every render, while the connection is deduplicated by
+    // value on the owner's side
     const activeDomId =
         effectiveActiveId === undefined ? undefined : rowById.get(effectiveActiveId)?.domId;
     useLayoutEffect(() => {
@@ -500,28 +464,23 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
 
     const getContainerProps = (overrides?: ListPropsOverrides): ListContainerDOMProps => {
         const baseProps = {
-            // Ось роль-модели (§15): grid — когда в строках есть интерактив
             role,
             id: listId,
             'aria-label': props['aria-label'],
             'aria-labelledby': props['aria-labelledby'],
-            // Только со слоем выделения и только для multiple
             'aria-multiselectable': selectionMode === 'multiple' || undefined,
-            // Аналог aria-setsize listbox-режима: при виртуализации в DOM
-            // лежит только окно строк. Нумерация — по строкам данных,
-            // заголовки секций не считаются
+            // The grid counterpart of aria-setsize: under virtualization only
+            // a window of rows is present in the DOM. The numbering follows
+            // the data rows, section headers do not count
             'aria-rowcount': role === 'grid' && virtualized ? optionsCount : undefined,
-            // Идёт перетаскивание (dnd-слой): CSS-хук для кастомного маркапа —
-            // погасить свои hover-стили на время drag (дефолтной вьюхе ядро
-            // гасит их пропом hovered={false} через getItemViewProps)
+            // A CSS hook for custom markup: suppress your own hover styles
+            // while dragging (the core suppresses them for the default view
+            // with the hovered={false} prop of getItemViewProps)
             'data-drag-active': dragActive ? '' : undefined,
             onKeyDown: handleContainerKeyDown,
             ref: containerRef,
         };
         warnOnOverridesCollision(overrides, 'getContainerProps');
-        // Props dnd-адаптера (зона сброса) — между базовыми и overrides:
-        // обработчики цепочкой после наших, ref — форк, а overrides
-        // потребителя компонуются последними, как и без слоя
         let withDnd = baseProps;
         if (dnd?.getContainerDndProps) {
             const dndProps = sanitizeDndProps(dnd.getContainerDndProps());
@@ -539,9 +498,10 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         warnOnOverridesCollision(overrides, 'getItemProps');
         const row = rowById.get(id);
         if (!row) {
-            // getItemContext на неизвестный id кидает; здесь мягче (геттер
-            // может пережить строку на кадр), но молчать нельзя — спред
-            // без props ядра тихо убивает роль/id/клавиатуру этой строки
+            // getItemContext throws on an unknown id; here the reaction is
+            // softer (a getter may outlive its row by a frame), but staying
+            // silent is not an option — a spread without the core props
+            // quietly kills the role, the id and the keyboard for that row
             warnOnce(
                 `[List] \`getItemProps\` was called with an unknown item id "${id}" — it is not in \`items\`, so only the passed overrides were returned.`,
             );
@@ -549,8 +509,9 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         }
 
         if (row.kind === 'section') {
-            // Одна presentation снимает роль, но не прячет текст узла —
-            // без aria-hidden listbox получил бы голые текст-ноды между опциями
+            // presentation alone removes the role but does not hide the text
+            // of the node — without aria-hidden the listbox would get bare
+            // text nodes between its options
             const baseProps = {
                 id: row.domId,
                 role: 'presentation',
@@ -572,12 +533,10 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         const isGrid = role === 'grid';
         const baseProps = {
             id: row.domId,
-            // Ось роль-модели (§15): в grid строка — row, а её контент
-            // лежит в gridcell (getCellProps)
             role: isGrid ? 'row' : 'option',
-            // Roving: один tab-stop на список; без активного — первая
-            // навигабельная. В activedescendant строки из Tab-порядка уходят
-            // вовсе: DOM-фокус живёт у внешнего владельца
+            // Roving: one tab stop per list; with no active row it is the
+            // first navigable one. In activedescendant the rows leave the Tab
+            // order entirely: DOM focus lives with the external owner
             tabIndex:
                 focusStrategy === 'roving'
                     ? active || (effectiveActiveId === undefined && row.id === firstNavigableId)
@@ -585,37 +544,41 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                         : -1
                     : undefined,
             'aria-disabled': row.disabled || undefined,
-            // «не выбран» ≠ «не выбирается»: со слоем выделения aria-selected
-            // есть на каждой строке, без слоя — ни на одной. В grid атрибут
-            // живёт на строке (role="row"), а не на ячейке
+            // "Not selected" ≠ "not selectable": with the selection layer on
+            // aria-selected is present on every row, without the layer it is
+            // on none of them. In grid the attribute lives on the row
+            // (role="row"), not on the cell
             'aria-selected': selected,
-            // Контекст группы (§9): сам заголовок секции скрыт из дерева
-            // (presentation + aria-hidden), но явная ссылка легально включает
-            // его в вычисление описания — SR объявляет опцию вместе с именем
-            // её секции, а плоская модель списка сохраняется
+            // The section header itself is hidden from the tree (presentation
+            // + aria-hidden), but an explicit reference legitimately brings it
+            // into the description computation — a screen reader announces the
+            // option together with the name of its section, and the flat model
+            // of the list is preserved
             'aria-describedby': row.sectionDomId,
-            // При виртуализации в DOM лежит только окно строк — без явной
-            // нумерации SR объявит «3 из 12» на списке из тысяч опций.
-            // Нумерация по строкам данных: заголовки секций не считаются (§7)
+            // Under virtualization only a window of rows is present in the DOM
+            // — without explicit numbering a screen reader would announce "3
+            // of 12" for a list of thousands of options. The numbering follows
+            // the data rows: section headers do not count
             'aria-setsize': virtualized && !isGrid ? optionsCount : undefined,
             'aria-posinset': virtualized && !isGrid ? row.posInSet : undefined,
-            // Grid-эквивалент posinset; тотал — aria-rowcount на контейнере
+            // The grid counterpart of posinset; the total is aria-rowcount on
+            // the container
             'aria-rowindex': virtualized && isGrid ? row.posInSet : undefined,
             'data-active': active ? '' : undefined,
             'data-disabled': row.disabled ? '' : undefined,
             'data-selected': selected ? '' : undefined,
-            // Слой dnd: присутствием, но у data-drop-target — со значением
-            // грани: индикатору (и CSS потребителя) нужно различать before/after
             'data-dragging': dragging ? '' : undefined,
+            // data-drop-target carries the edge as its value: the indicator
+            // (and the consumer's CSS) has to tell before from after
             'data-drop-target': rowDropTarget ?? undefined,
             ref: registry.getItemRefCallback(id),
-            // Подавление выделения текста на время нажатия (модель react-aria,
-            // textSelection.ts): протяжка мышью, shift+click в selection-режиме
-            // и старт drag не создают текстового выделения, а в покое строки
-            // остаются частью выделения страницы. Отпускание может случиться
-            // где угодно — restore слушает документ и сам себя снимает.
-            // Замыкание не использует рендер-стейт — стейл-безопасно для
-            // мемоизированных строк (§8)
+            // Text selection is suppressed for the duration of a press (the
+            // react-aria model, textSelection.ts): dragging with the mouse,
+            // shift+click in the selection mode and starting a drag create no
+            // text selection, while at rest the rows stay a part of the page
+            // selection. The release may happen anywhere — restore listens on
+            // the document and removes itself. The closure uses no render
+            // state, which makes it stale-safe for memoized rows
             onPointerDown: (event: React.PointerEvent) => {
                 const element = event.currentTarget as HTMLElement;
                 disableTextSelection(element);
@@ -627,58 +590,53 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 document.addEventListener('pointerup', restore, true);
                 document.addEventListener('pointercancel', restore, true);
             },
-            // Обработчики читают состояние через latestRef в момент события:
-            // мемоизированная строка (§8) может пропустить ре-рендер и остаться
-            // со старым замыканием — оно не должно быть устаревшим
             onClick: (event: React.MouseEvent) => {
                 const latest = latestRef.current;
                 const currentRow = latest.rowById.get(id);
                 if (!currentRow || currentRow.disabled || event.defaultPrevented) {
                     return;
                 }
-                // Клик — pointer-жест (setActivationModality стабилен —
-                // прямой вызов безопасен и в устаревшем замыкании
-                // мемоизированной строки)
+                // setActivationModality is stable, so calling it directly is
+                // safe even from the stale closure of a memoized row
                 setActivationModality('pointer');
                 latest.setActiveItemId(currentRow.id);
-                // Shift+клик (фаза 7) — диапазонный жест слоя выделения;
-                // в single и без слоя Shift игнорируется (обычное применение)
                 latest.applyRow(currentRow, {range: event.shiftKey});
             },
             onFocus: () => {
                 const latest = latestRef.current;
                 const currentRow = latest.rowById.get(id);
-                // Disabled-строки не принимают активность и через фокус
-                // (модель React Spectrum: не фокусятся ни мышью, ни
-                // клавиатурой; жестами ядро фокус туда и не приводит)
+                // Disabled rows do not take the activity through focus either
+                // (the React Spectrum model: they are focusable neither by
+                // mouse nor by keyboard)
                 if (!currentRow || currentRow.disabled) {
                     return;
                 }
-                // Модальность фокус не трогает: tab-in покрыт документным
-                // слушателем (Tab — keydown), а фокус от mousedown перед
-                // кликом остаётся pointer-модальностью
+                // Focus does not touch the modality: tab-in is covered by the
+                // document listener (Tab is a keydown), and focus coming from
+                // the mousedown before a click stays in the pointer modality
                 latest.setActiveItemId(id);
             },
             onPointerEnter: () => {
-                // Hover меняет активность и roving tabIndex, но не переносит
-                // DOM-фокус; фокус догонит активность при первом клавиатурном
-                // взаимодействии. Disabled-строки hover не активирует.
-                // Во время перетаскивания (dnd-слой, draggingId != null)
-                // hover-активация приостановлена: курсор позиционирует вставку,
-                // а не выбирает строку — иначе синтетические драги (dnd-kit,
-                // hello-pangea; у нативного HTML5 dnd pointer-события подавляет
-                // браузер) таскали бы подсветку за перетаскиваемым элементом.
-                // Прецедент — флаг sorting в onItemActivate старого List
+                // Hover changes the activity and the roving tabIndex, but does
+                // not move DOM focus; focus catches up with the activity on
+                // the first keyboard interaction.
+                // While a drag is in progress activation on hover is
+                // suspended: the cursor positions the insertion point instead
+                // of choosing a row — otherwise libraries with a synthetic
+                // drag (dnd-kit, hello-pangea; with the native HTML5 dnd the
+                // browser suppresses pointer events itself) would drag the
+                // highlight along with the dragged element
                 const latest = latestRef.current;
                 const currentRow = latest.rowById.get(id);
                 if (latest.dragActive || !currentRow || currentRow.disabled) {
                     return;
                 }
-                // Вход мыши в строку — pointer-модальность независимо от
-                // activateOnHover: тёмный курсор гаснет, пока пользователь
-                // работает мышью (аналог глобального pointermove-слушателя
-                // react-aria, сведённый к строкам листа). Уход мыши событием
-                // не является: keyboard-модальность вернёт следующая клавиша
+                // The mouse entering a row means the pointer modality
+                // regardless of activateOnHover: the dark cursor goes out
+                // while the user works with the mouse (the analogue of the
+                // global pointermove listener of react-aria, reduced to the
+                // rows of the list). The mouse leaving is not an event: the
+                // keyboard modality is brought back by the next key
                 setActivationModality('pointer');
                 if (!latest.activateOnHover) {
                     return;
@@ -686,9 +644,8 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 latest.setActiveItemId(currentRow.id);
             },
         };
-        // Props dnd-адаптера — между базовыми и overrides потребителя; только
-        // в опции (заголовки секций в dnd не участвуют). Ref адаптера обязан
-        // быть стабильным per id (§8) — форк кешируется по identity пары
+        // The adapter ref must be stable per id — the fork is cached by the
+        // identity of the pair
         let withDnd = baseProps;
         if (dnd?.getItemDndProps) {
             const dndProps = sanitizeDndProps(dnd.getItemDndProps(row.id));
@@ -702,9 +659,6 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         }) as unknown as ListItemDOMProps;
     };
 
-    // Ячейка строки (§15): в grid контент обязан лежать в gridcell — только
-    // там интерактивные потомки валидны. В listbox ячеек нет, и геттер отдаёт
-    // пустой объект: один и тот же renderItem работает в обеих роль-моделях
     const getCellProps = (overrides?: ListPropsOverrides): ListCellDOMProps => {
         const baseProps = role === 'grid' ? {role: 'gridcell'} : {};
         return composeItemProps(baseProps, overrides, {
@@ -725,12 +679,10 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             content: row.content,
             state: {
                 active: row.id === effectiveActiveId,
-                // Модальность — только у активной строки: её смена не
-                // ре-рендерит остальные (аддитивный сигнал, data-атрибуты
-                // ядра не меняются)
+                // The modality is exposed on the active row only, so that
+                // changing it does not re-render the others
                 ...(row.id === effectiveActiveId ? {activationModality} : undefined),
                 disabled: row.disabled,
-                // Слоевые поля: без слоя ключей нет вовсе (§4.2)
                 ...(selectionMode && row.kind === 'item'
                     ? {selected: selectedSet.has(row.id)}
                     : undefined),
@@ -749,10 +701,12 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         if (!row) {
             return '';
         }
-        // Всё, что влияет на выход getItemProps, но не выражено в ctx-срезе:
-        // DOM id (меняется с props.id листа), roving tab-stop без активной
-        // строки, aria-нумерация при виртуализации, обе оси §15 (роли строки
-        // и наличие tabIndex), ссылка на заголовок секции (aria-describedby)
+        // Everything that affects the output of getItemProps but is not
+        // expressed in the ctx slice: the DOM id (it changes with the list's
+        // props.id), the roving tab stop without an active row, the aria
+        // numbering under virtualization, both axes of the role model and of
+        // the focus strategy, and the reference to the section header
+        // (aria-describedby)
         const tabStop = row.index === pinnedRowIndex;
         const numbering =
             virtualized && row.kind === 'item' ? `${row.posInSet}/${optionsCount}` : '';

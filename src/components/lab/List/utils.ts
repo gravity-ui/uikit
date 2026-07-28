@@ -16,15 +16,18 @@ export interface ListRow<T> {
     content?: React.ReactNode;
     textValue: string;
     /**
-     * Позиция среди опций, с 1 (заголовки секций не считаются) — источник
-     * aria-posinset при виртуализации; у секций отсутствует
+     * The position among the options, starting at 1 (section headers do not
+     * count) — the source of aria-posinset under virtualization; absent on
+     * sections
      */
     posInSet?: number;
     /**
-     * DOM id заголовка секции, в которой лежит опция, — цель aria-describedby:
-     * сам заголовок скрыт из дерева (presentation + aria-hidden), но явная
-     * ссылка легально включает его в вычисление описания — SR объявляет опцию
-     * вместе с именем её секции. У секций и опций верхнего уровня отсутствует
+     * The DOM id of the header of the section the option belongs to — the
+     * target of aria-describedby: the header itself is hidden from the tree
+     * (presentation + aria-hidden), but an explicit reference legitimately
+     * brings it into the description computation, so a screen reader announces
+     * the option together with the name of its section. Absent on sections and
+     * on top-level options
      */
     sectionDomId?: string;
 }
@@ -33,11 +36,11 @@ export interface FlattenResult<T> {
     rows: ListRow<T>[];
     rowById: Map<string, ListRow<T>>;
     domIdToId: Map<string, string>;
-    /** Число опций (без заголовков секций) — источник aria-setsize */
+    /** The number of options (section headers excluded) — the source of aria-setsize */
     optionsCount: number;
 }
 
-/** Кодирование инъективное: `"a b"` и `"a_b"` не должны схлопнуться */
+/** The encoding is injective: `"a b"` and `"a_b"` must not collapse into one id */
 export function getItemDomId(listId: string, itemId: string) {
     return `${listId}-item-${encodeURIComponent(itemId)}`;
 }
@@ -54,8 +57,8 @@ function defaultGetItemDisabled(item: unknown): boolean {
 }
 
 function defaultGetItemChildren<T>(item: T): readonly T[] | undefined {
-    // Только настоящий массив: children-строка (чужие данные) без гарда
-    // перебиралась бы флаттенингом посимвольно
+    // A real array only: without the guard, a children string (foreign data)
+    // would be flattened character by character
     const children = (item as {children?: unknown} | null | undefined)?.children;
     return Array.isArray(children) ? (children as readonly T[]) : undefined;
 }
@@ -79,7 +82,8 @@ export function flattenItems<T>(
     const pushRow = (item: T, kind: 'item' | 'section', sectionDomId?: string): ListRow<T> => {
         const rawId = getItemId ? getItemId(item) : defaultGetItemId(item);
         if (rawId === undefined || rawId === null) {
-            // Позиционных фолбэков нет — скрытая нестабильность хуже явной ошибки
+            // There are no positional fallbacks — hidden instability is worse
+            // than an explicit error
             warnOnce(
                 `[List] Item at position ${rows.length} has no id. Provide \`getItemId\` or an \`id\` field on the item.`,
             );
@@ -134,7 +138,6 @@ export function flattenItems<T>(
                     ? getItemChildren(child)
                     : defaultGetItemChildren(child);
                 if (nested) {
-                    // Глубина секций ровно одна; вложенные группы появятся с TreeList
                     warnOnce(
                         '[List] Nested sections are not supported: children of a section item are rendered as plain options.',
                     );
@@ -152,17 +155,16 @@ export function flattenItems<T>(
 export type ListNavigationCommand = 'next' | 'prev' | 'first' | 'last';
 
 /**
- * Чистое вычисление перехода активности (шаг «а» клавиатурной машины, §5 плана).
- * Навигируемы только НЕ disabled опции (kind === 'item'): disabled-строки не
- * получают активность и фокус ни с клавиатуры, ни с мыши (модель react-aria /
- * React Spectrum; решение пользователя 2026-07-23, отменяет развилку фазы 1
- * «клавиатура включает disabled»); заголовки секций — нет. next/prev
- * зациклены; при отсутствии активного навигация стартует с первой
- * навигабельной строки.
+ * The pure computation of an activity transition (step "a" of the keyboard
+ * machinery). Only non-disabled options (kind === 'item') are navigable:
+ * disabled rows take neither the activity nor focus, from the keyboard or from
+ * the mouse (the react-aria / React Spectrum model); section headers are not
+ * navigable either. next/prev cycle; with no active row navigation starts from
+ * the first navigable one.
  *
- * `wrap: false` выключает зацикливание next/prev (на краю — undefined):
- * Shift+стрелки диапазонного выделения (фаза 7) не заворачивают — заворот
- * «через край» перекидывал бы диапазон на другой конец списка.
+ * `wrap: false` turns the cycling of next/prev off (at the edge the result is
+ * undefined): the Shift+arrow gestures of range selection do not wrap —
+ * wrapping around the edge would throw the range to the other end of the list.
  */
 export function getNextActiveId<T>(
     command: ListNavigationCommand,
@@ -205,12 +207,13 @@ export function getNextActiveId<T>(
 }
 
 /**
- * Поиск по префиксу от активного, по кругу. Первый символ и буфер из
- * повторов одного символа ищут со следующей строки (повторное нажатие
- * перебирает совпадения по этому символу, как в APG), растущий префикс —
- * с текущей (активная строка не теряется, пока совпадает).
- * Disabled-опции не участвуют — typeahead двигает активность, а активность
- * на disabled не наводится (см. getNextActiveId).
+ * A prefix search starting from the active row and wrapping around. A single
+ * character, as well as a buffer made of repetitions of one character, search
+ * from the next row (repeating a key cycles through the matches for that
+ * character, as in APG), while a growing prefix searches from the current one
+ * (the active row is not lost while it still matches).
+ * Disabled options do not take part — typeahead moves the activity, and the
+ * activity never lands on a disabled row (see getNextActiveId).
  */
 export function findTypeaheadMatch<T>(
     rows: readonly ListRow<T>[],

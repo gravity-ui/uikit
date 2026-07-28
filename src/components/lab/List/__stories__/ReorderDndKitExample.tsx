@@ -1,16 +1,18 @@
 /**
- * Реордер с dnd-kit — «state-only» форма адаптера §8: адаптер несёт только
- * draggingId, а props-половину закрывает сам потребитель per-item хуком
- * `useSortable` в СВОЁМ компоненте строки через renderItem (хук нельзя
- * вызвать из метода адаптера — rules of hooks).
+ * Reordering with dnd-kit — the "state-only" form of an adapter: the adapter
+ * carries draggingId only, and the props half is covered by the consumer with
+ * the per-item `useSortable` hook in THEIR OWN row component through
+ * renderItem (the hook cannot be called from a method of the adapter — rules
+ * of hooks).
  *
- * Визуально пример живёт в СДВИГОВОЙ модели (родной для sortable):
- * трансформы dnd-kit применяются ко всем строкам — соседи плавно
- * раздвигаются, показывая место вставки гэпом, а `dropTarget` адаптер
- * не заполняет (индикатор вставки листа не рисуется — иначе двойная
- * индикация). Индикаторную модель показывает референс pragmatic.
+ * Visually the example lives in the SHIFT model (the native one for sortable):
+ * the transforms of dnd-kit are applied to every row — the neighbours smoothly
+ * move apart and show the insertion point as a gap, while the adapter does not
+ * fill `dropTarget` in (the insertion indicator of the list is not drawn —
+ * otherwise the indication would be doubled). The indicator model is shown by
+ * the pragmatic reference.
  *
- * В приложении импорты листа — из пакета:
+ * In an application the list is imported from the package:
  * `import {unstable_List as List, unstable_moveItem as moveItem} from '@gravity-ui/uikit/unstable'`
  */
 import * as React from 'react';
@@ -51,9 +53,10 @@ function SortableRow({
         <List.ItemView
             {...helpers.getItemProps({
                 ref: setNodeRef,
-                // Сдвиговая модель: трансформы применяются ко ВСЕМ строкам —
-                // перетаскиваемая следует за курсором, соседи плавно (transition)
-                // раздвигаются, показывая место вставки гэпом
+                // The shift model: the transforms are applied to EVERY row —
+                // the dragged one follows the cursor while the neighbours
+                // smoothly (transition) move apart, showing the insertion
+                // point as a gap
                 style: {
                     transform: CSS.Transform.toString(transform),
                     transition,
@@ -62,11 +65,12 @@ function SortableRow({
             })}
             {...helpers.getItemViewProps()}
             startContent={
-                // Drag только за ручку: listeners + activator ref живут на ней,
-                // а не на строке (паттерн ручки — как в примере hello-pangea).
-                // attributes из useSortable (role="button", tabIndex=0) не
-                // спредятся и сюда: они нужны только клавиатурному dnd,
-                // который вне слоя (§13 плана)
+                // A drag starts from the handle only: the listeners and the
+                // activator ref live on it rather than on the row (the same
+                // handle pattern as in the hello-pangea example). The
+                // attributes of useSortable (role="button", tabIndex=0) are
+                // not spread here either: they are needed by the keyboard dnd
+                // only, which is outside the layer
                 <span
                     ref={setActivatorNodeRef}
                     {...(listeners as React.DOMAttributes<HTMLElement>)}

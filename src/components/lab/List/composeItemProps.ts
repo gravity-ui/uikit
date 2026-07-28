@@ -9,8 +9,8 @@ interface ComposableProps extends React.HTMLAttributes<HTMLElement> {
 
 interface ComposeItemPropsOptions {
     /**
-     * Замена дефолтного mergeRefs — например, мемоизированный форк,
-     *  чтобы не пересоздавать ref-callback на каждый рендер
+     * A replacement for the default mergeRefs — a memoized fork, for example,
+     *  so that a ref callback is not recreated on every render
      */
     forkRef?: (
         base: React.Ref<HTMLElement>,
@@ -19,15 +19,16 @@ interface ComposeItemPropsOptions {
 }
 
 /**
- * Контракт композиции props ядра листа с переопределениями (§2.6 плана):
- * - `on*`-обработчики — цепочкой, переданный вызывается после базового;
- * - `className` — конкатенация;
- * - `ref` — форк (оба ref'а получают узел);
- * - `style` — shallow-merge (ключи переопределения побеждают поштучно);
- * - ключи со значением `undefined` игнорируются (не затирают базу);
- * - остальные ключи — «последний побеждает».
+ * The contract for composing the props of the list core with overrides:
+ * - `on*` handlers are chained, the passed one runs after the base one;
+ * - `className` is concatenated;
+ * - `ref` is forked (both refs get the node);
+ * - `style` is shallow-merged (override keys win one by one);
+ * - keys whose value is `undefined` are ignored (they do not erase the base);
+ * - the remaining keys follow "last one wins".
  *
- * На этот контракт опираются слои виртуализации (style/ref) и dnd (props/ref).
+ * The virtualization (style/ref) and dnd (props/ref) layers rely on this
+ * contract.
  */
 export function composeItemProps<P extends ComposableProps>(
     base: P,

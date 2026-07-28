@@ -1,28 +1,32 @@
 /**
- * Реордер с @hello-pangea/dnd — целевой кейс миграции со старого List
- * (он собран на этой либе). Props-контрактом §8 либа невыразима (итог
- * спайка фазы 4) — интеграция композиционная, по образцу старого List:
+ * Reordering with @hello-pangea/dnd — the target case for migrating off the
+ * old List (which is built on this library). The library cannot be expressed
+ * by the props contract, so the integration is compositional, modelled on the
+ * old List:
  *
- * - state-половина адаптера (`draggingId`) едет через проп `dnd` — без неё
- *   ядро не даст ни data-dragging, ни приостановки hover-активации;
- * - `role="grid"`: ручка rbd — настоящая кнопка (role="button", tabIndex=0),
- *   а интерактивные потомки валидны только в grid-модели ролей (§15 плана).
- *   Строки становятся `role="row"`, ручка и контент лежат в своих
- *   `getCellProps()`-ячейках, и `←`/`→` водят фокус между ними — ручка
- *   достижима с клавиатуры, а не только валидна;
- * - `dragHandleProps` — на ОТДЕЛЬНОЙ ручке в startContent (как в старом
- *   List): на самой строке role="button"/tabIndex=0 затёрли бы role строки,
- *   а Space-lift клавиатурного сенсора rbd перехватывал бы Space листа.
- *   `tabIndex={-1}` поверх них — контракт grid (один tab-stop на список):
- *   ручка достижима ←/→, rbd это безразлично (она ищет ручку по своему
- *   data-атрибуту и фокусит программно);
- * - `provided.placeholder` обязан быть последним ребёнком droppable-элемента
- *   (корня листа) — канала в контракте нет, протаскивается через renderItem
- *   последней строки (работает только в плоском режиме);
- * - dropTarget не заполняется: модель либы — сдвиг строк, индикатор листа
- *   не нужен.
+ * - the state half of the adapter (`draggingId`) travels through the `dnd`
+ *   prop — without it the core provides neither data-dragging nor the
+ *   suspension of activation on hover;
+ * - `role="grid"`: the handle of rbd is a real button (role="button",
+ *   tabIndex=0), and interactive descendants are valid in the grid role model
+ *   only. The rows become `role="row"`, the handle and the content live in
+ *   their own `getCellProps()` cells, and `←`/`→` move focus between them —
+ *   the handle is reachable with the keyboard rather than merely valid;
+ * - `dragHandleProps` go to a SEPARATE handle in startContent (as in the old
+ *   List): on the row itself role="button"/tabIndex=0 would overwrite the role
+ *   of the row, and the Space lift of the keyboard sensor of rbd would
+ *   intercept the Space of the list. The `tabIndex={-1}` on top of them is the
+ *   grid contract (one tab stop per list): the handle is reached with ←/→, and
+ *   rbd does not care (it looks the handle up by its own data attribute and
+ *   focuses it programmatically);
+ * - `provided.placeholder` must be the last child of the droppable element
+ *   (the list root) — there is no channel for that in the contract, so it is
+ *   smuggled through the renderItem of the last row (this works in the flat
+ *   mode only);
+ * - dropTarget is not filled in: the model of the library is shifting the
+ *   rows, and the indicator of the list is not needed.
  *
- * В приложении импорты листа — из пакета:
+ * In an application the list is imported from the package:
  * `import {unstable_List as List, unstable_moveItem as moveItem} from '@gravity-ui/uikit/unstable'`
  */
 import * as React from 'react';
@@ -67,16 +71,20 @@ function PangeaRow({
                         {...dragProvided.draggableProps}
                         {...helpers.getItemProps({
                             ref: dragProvided.innerRef,
-                            // per-frame стили сдвига обязана применять строка —
-                            // через контракт композиции (shallow-merge style).
-                            // На время АКТИВНОГО drag гасим инлайновый
-                            // `transition: opacity ...` rbd (он для combine,
-                            // которого здесь нет): иначе ghost-стили листа
-                            // ([data-dragging]: фон + opacity) применялись бы
-                            // вразнобой — фон мгновенно, opacity через
-                            // transition — и строка мигала тёмным на старте.
-                            // Drop-анимацию не трогаем (штатный приём
-                            // кастомизации rbd: патчить style по snapshot)
+                            // The per-frame shift styles have to be applied by
+                            // the row itself, through the composition contract
+                            // (a shallow merge of style).
+                            // For the duration of an ACTIVE drag the inline
+                            // `transition: opacity ...` of rbd is suppressed
+                            // (it is meant for combine, which is not used
+                            // here): otherwise the ghost styles of the list
+                            // ([data-dragging]: the background plus opacity)
+                            // would be applied out of sync — the background
+                            // instantly, the opacity through the transition —
+                            // and the row would flash dark at the start.
+                            // The drop animation is left alone (patching style
+                            // by the snapshot is the regular way to customize
+                            // rbd)
                             style: {
                                 ...(dragProvided.draggableProps.style as React.CSSProperties),
                                 ...(dragSnapshot.isDragging && !dragSnapshot.isDropAnimating
@@ -86,19 +94,22 @@ function PangeaRow({
                         })}
                         {...helpers.getItemViewProps()}
                         startContent={
-                            // Ячейка с интерактивом: кнопка-ручка валидна
-                            // внутри gridcell (в role="option" — нет)
+                            // A cell with interactive content: the handle
+                            // button is valid inside a gridcell (inside
+                            // role="option" it is not)
                             <span {...helpers.getCellProps()}>
-                                {/* rbd делает ручку клавиатурно-перетаскиваемой
-                                    кнопкой (role="button", tabIndex=0), поэтому
-                                    ей нужно доступное имя — иначе axe
+                                {/* rbd turns the handle into a keyboard-
+                                    draggable button (role="button",
+                                    tabIndex=0), so it needs an accessible
+                                    name — otherwise axe reports
                                     aria-command-name */}
                                 <span
                                     {...(dragProvided.dragHandleProps ?? undefined)}
-                                    // Grid — ОДИН tab-stop: интерактив ячейки
-                                    // достижим ←/→, а tabIndex=0 из
-                                    // dragHandleProps сделал бы ручку каждой
-                                    // строки отдельной остановкой Tab
+                                    // A grid is ONE tab stop: the interactive
+                                    // content of a cell is reached with ←/→,
+                                    // while the tabIndex=0 of dragHandleProps
+                                    // would make the handle of every row a
+                                    // separate Tab stop
                                     tabIndex={-1}
                                     aria-label="Drag to reorder"
                                     style={{display: 'flex', cursor: 'grab'}}
@@ -112,8 +123,9 @@ function PangeaRow({
                     </List.ItemView>
                 )}
             </Draggable>
-            {/* placeholder обязан быть последним ребёнком droppable-элемента
-                (корня листа) — протаскиваем через renderItem последней строки */}
+            {/* The placeholder must be the last child of the droppable element
+                (the list root) — it is smuggled through the renderItem of the
+                last row */}
             {isLast ? placeholder : null}
         </React.Fragment>
     );

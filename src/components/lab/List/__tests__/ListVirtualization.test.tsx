@@ -6,10 +6,11 @@ import {fireEvent, render, screen} from '../../../../../test-utils/utils';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
 
-// В jsdom нет layout — размеры мокаются по образцу других тестов репо.
-// tanstack читает размеры вьюпорта и строк через offsetWidth/offsetHeight
-// (в jsdom всегда 0). Virtualizer меряет строку через свою обёртку
-// (div c data-index) — её высота отвечает вложенной строке
+// jsdom has no layout — the sizes are mocked the way other tests of the repo
+// do it. tanstack reads the sizes of the viewport and of the rows through
+// offsetWidth/offsetHeight (always 0 in jsdom). The Virtualizer measures a row
+// through its own wrapper (a div with data-index), so the height of the wrapper
+// answers for the row nested in it
 const VIEWPORT_HEIGHT = 400;
 const ROW_HEIGHT = 36;
 const SECTION_HEIGHT = 20;
@@ -25,9 +26,10 @@ beforeEach(() => {
                 return VIEWPORT_HEIGHT;
             }
             if (this.hasAttribute('data-index')) {
-                // Обёртка строки: заголовок секции ниже опции — покрывает
-                // measure строк переменной высоты. Это мок layout'а, а не
-                // поиск ноды в ассерте — прямой доступ здесь неизбежен
+                // The wrapper of a row: a section header is shorter than an
+                // option, which covers measure for rows of variable height.
+                // This is a layout mock rather than a node lookup in an
+                // assertion — direct access is unavoidable here
                 // eslint-disable-next-line testing-library/no-node-access
                 const inner = this.firstElementChild;
                 const isSection = inner?.getAttribute('role') === 'presentation';
@@ -43,7 +45,8 @@ afterEach(() => {
     offsetWidthSpy.mockRestore();
 });
 
-// jsdom не реализует скролл: scrollTop задаётся напрямую, событие — вручную
+// jsdom does not implement scrolling: scrollTop is set directly and the event
+// is fired by hand
 function scrollTo(element: HTMLElement, top: number) {
     Object.defineProperty(element, 'scrollTop', {configurable: true, writable: true, value: top});
     fireEvent.scroll(element);
@@ -103,7 +106,7 @@ describe('lab List: virtualization layer', () => {
             const listbox = screen.getByRole('listbox');
 
             expect(listbox).toHaveStyle({overflow: 'auto', maxHeight: `${VIEWPORT_HEIGHT}px`});
-            // полная высота скролла задаётся внутренним контейнером
+            // The full scroll height is set by the inner container
             // eslint-disable-next-line testing-library/no-node-access
             const sizer = listbox.firstElementChild as HTMLElement;
             expect(sizer).toHaveStyle({height: `${ITEMS.length * ROW_HEIGHT}px`});
@@ -116,9 +119,10 @@ describe('lab List: virtualization layer', () => {
                 </ListVirtualizer>,
             );
 
-            // оценка занижена втрое (12 против 36) — замер первого окна
-            // масштабирует оценку хвоста, и суммарная высота скролла сразу
-            // отвечает фактическим строкам, а не «растёт» по мере скролла
+            // The estimate is three times too small (12 against 36) — measuring
+            // the first window scales the estimate of the tail, and the total
+            // scroll height matches the actual rows right away instead of
+            // "growing" as the user scrolls
             const listbox = screen.getByRole('listbox');
             // eslint-disable-next-line testing-library/no-node-access
             const sizer = listbox.firstElementChild as HTMLElement;
@@ -147,25 +151,26 @@ describe('lab List: virtualization layer', () => {
             await user.keyboard('{ArrowDown}');
             expect(screen.getByRole('option', {name: 'Item 2'})).toHaveFocus();
 
-            // окно уезжает далеко от активной строки
+            // The window travels far away from the active row
             scrollTo(listbox, ROW_HEIGHT * 150);
 
-            // активная строка запиннена и не потеряла DOM-фокус...
+            // The active row is pinned and has not lost DOM focus...
             const active = screen.getByRole('option', {name: 'Item 2'});
             expect(active).toHaveFocus();
             expect(active).toHaveAttribute('tabindex', '0');
-            // ...при этом её соседи выгружены — виртуализация работает
+            // ...while its neighbours are unmounted — virtualization works
             expect(screen.queryByRole('option', {name: 'Item 3'})).not.toBeInTheDocument();
 
-            // клавиатура жива: следующий переход двигает активность и фокус
+            // The keyboard is alive: the next transition moves both the
+            // activity and focus
             await user.keyboard('{ArrowDown}');
             expect(screen.getByRole('option', {name: 'Item 3'})).toHaveFocus();
         });
 
         test('keyboard navigation scrolls the active row into view minimally, hover does not scroll', async () => {
-            // jsdom не реализует scrollIntoView — определяем мок, чтобы
-            // зафиксировать и параметры вызова (block: nearest — доскролл
-            // ровно недостающей высоты, а не центрирование Chromium)
+            // jsdom does not implement scrollIntoView — the mock is defined to
+            // pin down the call arguments as well (block: nearest scrolls by
+            // exactly the missing height instead of the centering of Chromium)
             const scrollIntoViewMock = jest.fn();
             HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
             try {
@@ -179,7 +184,7 @@ describe('lab List: virtualization layer', () => {
                 expect(screen.getByRole('option', {name: 'Item 2'})).toHaveFocus();
                 expect(scrollIntoViewMock).toHaveBeenCalledWith({block: 'nearest'});
 
-                // hover активирует строку, но не двигает ни фокус, ни скролл
+                // Hover activates the row but moves neither focus nor the scroll
                 scrollIntoViewMock.mockClear();
                 await user.hover(screen.getByRole('option', {name: 'Item 5'}));
 
@@ -262,16 +267,17 @@ describe('lab List: virtualization layer', () => {
             );
             const listbox = screen.getByRole('listbox');
 
-            // окно уезжает глубоко в секцию — её заголовок вне окна
+            // The window travels deep into the section — its header is outside
             scrollTo(listbox, ROW_HEIGHT * 150);
 
-            // заголовок запиннен: ссылка aria-describedby видимых опций
-            // не повисает, SR продолжает объявлять контекст секции
+            // The header is pinned: the aria-describedby reference of the
+            // visible options does not dangle, and a screen reader keeps
+            // announcing the context of the section
             const header = screen.getByText('Logs');
             const option = screen.getByRole('option', {name: 'Log 151'});
             expect(option).toHaveAttribute('aria-describedby', header.id);
             expect(option).toHaveAccessibleDescription('Logs');
-            // при этом виртуализация работает: начало секции выгружено
+            // Virtualization still works: the start of the section is unmounted
             expect(screen.queryByRole('option', {name: 'Log 2'})).not.toBeInTheDocument();
         });
 
@@ -287,8 +293,9 @@ describe('lab List: virtualization layer', () => {
                 </ListVirtualizer>,
             );
 
-            // a11y-дерево остаётся плоским: обёртки виртуализатора прозрачны
-            // (role="presentation"), между listbox и опциями нет других ролей
+            // The a11y tree stays flat: the wrappers of the virtualizer are
+            // transparent (role="presentation"), and there are no other roles
+            // between the listbox and its options
             expect(screen.getAllByRole('option')).toHaveLength(3);
             const header = screen.getByText('Recent');
             expect(header).toHaveAttribute('role', 'presentation');
@@ -309,7 +316,7 @@ describe('lab List: virtualization layer', () => {
                 </ListVirtualizer>,
             );
 
-            // строки: header(20) + option(36) + header(20) + option(36) + option(36)
+            // The rows: header(20) + option(36) + header(20) + option(36) + option(36)
             // eslint-disable-next-line testing-library/no-node-access
             const firstOptionWrapper = screen.getByRole('option', {name: 'First'}).parentElement;
             expect(firstOptionWrapper).toHaveStyle({top: `${SECTION_HEIGHT}px`});
@@ -330,7 +337,8 @@ describe('lab List: virtualization layer', () => {
                 </ListVirtualizer>,
             );
 
-            // фактическая высота заголовка (20) игнорируется — позиции по оценке
+            // The actual height of the header (20) is ignored — the positions
+            // come from the estimate
             // eslint-disable-next-line testing-library/no-node-access
             const firstOptionWrapper = screen.getByRole('option', {name: 'First'}).parentElement;
             expect(firstOptionWrapper).toHaveStyle({top: `${ROW_HEIGHT}px`});
@@ -353,8 +361,8 @@ describe('lab List: virtualization layer', () => {
                 </ListVirtualizer>,
             );
 
-            // measure выключен — позиции целиком из оценки потребителя,
-            // которой доступен контекст строки (kind, item)
+            // measure is off — the positions come entirely from the consumer's
+            // estimate, which has access to the row context (kind, item)
             // eslint-disable-next-line testing-library/no-node-access
             const firstOptionWrapper = screen.getByRole('option', {name: 'First'}).parentElement;
             expect(firstOptionWrapper).toHaveStyle({top: `${SECTION_HEIGHT}px`});
@@ -399,9 +407,10 @@ describe('lab List: virtualization layer', () => {
             expect(option).toHaveAttribute('tabindex', '0');
             expect(option).toHaveAttribute('aria-setsize', '2');
             expect(option).toHaveAttribute('aria-posinset', '1');
-            // переопределения потребителя компонуются как без виртуализации
+            // The consumer's overrides are composed as they are without
+            // virtualization
             expect(option).toHaveStyle({color: 'red'});
-            // позиционирует строку обёртка виртуализатора
+            // The row is positioned by the wrapper of the virtualizer
             // eslint-disable-next-line testing-library/no-node-access
             expect(option.parentElement).toHaveStyle({position: 'absolute', top: '0px'});
 
@@ -432,7 +441,7 @@ describe('lab List: virtualization layer', () => {
             const listbox = screen.getByRole('listbox');
             const options = screen.getAllByRole('option');
             expect(options).toHaveLength(ITEMS.length);
-            // строки — прямые дети listbox: ни спейсера, ни обёрток
+            // The rows are direct children of the listbox: no spacer, no wrappers
             // eslint-disable-next-line testing-library/no-node-access
             expect(listbox.children).toHaveLength(ITEMS.length);
             expect(options[0]).not.toHaveAttribute('aria-setsize');

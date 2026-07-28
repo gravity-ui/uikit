@@ -131,7 +131,7 @@ export const Default: StoryObj<PlaygroundArgs> = {
         role: {control: 'radio', options: ['listbox', 'grid']},
         defaultActiveItemId: {
             control: 'text',
-            description: 'Программная активация: тёмный курсор (keyboard-модальность)',
+            description: 'Programmatic activation: the dark cursor (keyboard modality)',
         },
     },
 };

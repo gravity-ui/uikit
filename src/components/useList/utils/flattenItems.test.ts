@@ -1,4 +1,5 @@
-import type {ParsedFlattenState} from './../types';
+import type {ParsedFlattenState} from '../types';
+
 import {flattenItems} from './flattenItems';
 
 const data = [

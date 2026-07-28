@@ -12,6 +12,7 @@ import type {
     CopyToClipboardStatus,
     OnCopyHandler,
 } from '../CopyToClipboard/types';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import {block} from '../utils/cn';
 
 import i18n from './i18n';
@@ -80,7 +81,8 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
     );
 };
 
-export function ClipboardButton(props: ClipboardButtonProps) {
+export function ClipboardButton(rawProps: ClipboardButtonProps) {
+    const props = useDefaultProps('ClipboardButton', rawProps);
     const {
         text,
         timeout = DEFAULT_TIMEOUT,

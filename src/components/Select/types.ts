@@ -20,6 +20,7 @@ export type SelectRenderTriggerProps = AriaLabelingProps &
         | 'aria-controls'
         | 'aria-haspopup'
         | 'aria-expanded'
+        | 'aria-invalid'
         | 'aria-activedescendant'
         | 'onClick'
         | 'onKeyDown'

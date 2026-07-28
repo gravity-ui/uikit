@@ -10,6 +10,7 @@ import type {ButtonProps} from '../Button';
 import {Icon} from '../Icon';
 import type {MenuProps} from '../Menu';
 import type {PopupProps} from '../Popup';
+import {useDefaultProps} from '../theme/useDefaultProps';
 
 import {cnDropdownMenu} from './DropdownMenu.classname';
 import {DropdownMenuContext} from './DropdownMenuContext';
@@ -97,25 +98,26 @@ export type ControlledDropdownMenuProps<T> = DropdownMenuProps<T> & {
     onOpenToggle: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const DropdownMenu = <T,>({
-    items = [],
-    size = 'm',
-    icon = <Icon data={Ellipsis} />,
-    open,
-    onOpenToggle,
-    hideOnScroll = true,
-    data,
-    disabled,
-    switcher,
-    renderSwitcher,
-    switcherWrapperClassName,
-    defaultSwitcherProps,
-    defaultSwitcherClassName,
-    onSwitcherClick,
-    menuProps,
-    popupProps,
-    children,
-}: DropdownMenuProps<T> | ControlledDropdownMenuProps<T>) => {
+const DropdownMenu = <T,>(rawProps: DropdownMenuProps<T> | ControlledDropdownMenuProps<T>) => {
+    const {
+        items = [],
+        size = 'm',
+        icon = <Icon data={Ellipsis} />,
+        open,
+        onOpenToggle,
+        hideOnScroll = true,
+        data,
+        disabled,
+        switcher,
+        renderSwitcher,
+        switcherWrapperClassName,
+        defaultSwitcherProps,
+        defaultSwitcherClassName,
+        onSwitcherClick,
+        menuProps,
+        popupProps,
+        children,
+    } = useDefaultProps('DropdownMenu', rawProps);
     const anchorRef = React.useRef<HTMLDivElement | null>(null);
 
     const {isPopupShown, togglePopup, closePopup} = usePopupVisibility(

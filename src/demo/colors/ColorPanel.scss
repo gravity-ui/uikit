@@ -2,112 +2,136 @@
 
 .color-panel {
     position: relative;
-    width: 700px;
+    width: min(100%, 1040px);
+    box-sizing: border-box;
     border: 1px solid var(--g-color-line-generic);
-    border-radius: 6px;
-    padding: 15px 20px;
+    border-radius: var(--g-border-radius-l);
+    padding: var(--g-spacing-5);
+    background-color: var(--g-color-base-background);
     transition: 0.15s linear;
     transition-property: color, background-color;
 
     &_bg {
         &_brand,
         &_dark {
+            border-color: var(--g-color-line-light);
+
             .color-panel__title,
-            .color-panel__colors {
+            .color-panel__description,
+            .color-panel__item-title,
+            .color-panel__item-description {
                 color: var(--g-color-text-light-primary);
             }
 
-            .color-panel__description {
-                color: var(--g-color-text-light-complementary);
-            }
-
-            .color-panel__card-var {
-                color: var(--g-color-text-light-secondary);
+            .g-label {
+                --_--bg-color: var(--g-color-base-light-simple-hover);
+                --_--text-color: var(--g-color-text-light-primary);
             }
         }
 
         &_brand {
-            background: var(--g-color-base-brand);
+            background-color: var(--g-color-base-brand);
         }
 
         &_dark {
-            background: #444;
+            background-color: #444;
         }
     }
 
+    &__header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: var(--g-spacing-3);
+        padding-block-end: var(--g-spacing-3);
+        border-block-end: 1px solid var(--g-color-line-generic);
+    }
+
+    &__header-content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--g-spacing-3);
+    }
+
     &__bg-switcher {
-        position: absolute;
-        inset-block-start: 15px;
-        inset-inline-end: 15px;
+        flex-shrink: 0;
     }
 
     &__title {
         @include mixins.text-header-1();
+
+        color: var(--g-color-text-primary);
     }
 
     &__description {
-        @include mixins.text-body-2();
-        color: var(--g-color-text-complementary);
-        margin-block-start: 3px;
+        @include mixins.text-body-1();
+
+        color: var(--g-color-text-primary);
     }
 
     &:not(:first-of-type) {
-        margin-block-start: 25px;
+        margin-block-start: var(--g-spacing-6);
     }
 
     &__colors {
-        margin-block-start: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: var(--g-spacing-3);
+        margin-block-start: var(--g-spacing-3);
     }
 
-    &__card {
+    &__item-content {
         display: flex;
-        &:not(:first-of-type) {
-            margin-block-start: 15px;
-        }
+        align-items: center;
+        min-width: 0;
+        gap: var(--g-spacing-3);
+    }
 
-        &-box {
-            flex-shrink: 0;
-            margin: 5px 15px 0 0;
-            width: 40px;
-            height: 40px;
-            border-radius: 6px;
-            cursor: pointer;
+    &__swatch {
+        flex-shrink: 0;
+        width: 48px;
+        height: 48px;
+        border-radius: var(--g-border-radius-l);
+        background-clip: padding-box;
 
-            &_bordered {
-                border: 2px solid var(--g-color-line-generic);
-            }
+        &_bordered {
+            box-shadow: inset 0 0 0 1px var(--g-color-line-generic);
         }
+    }
 
-        &-texts {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            max-width: 600px;
-        }
+    &__item-texts {
+        display: flex;
+        min-width: 0;
+        flex-direction: column;
+        justify-content: center;
+        gap: var(--g-spacing-1);
+    }
 
-        &-headline {
-            display: flex;
-            align-items: center;
-        }
+    &__item-title-row {
+        display: flex;
+        align-items: center;
+        min-width: 0;
+        flex-wrap: nowrap;
+        gap: var(--g-spacing-2);
+        overflow: hidden;
 
-        &-title {
-            @include mixins.text-body-3();
+        .g-label {
+            flex: 0 1 auto;
+            min-width: 0;
+            overflow: hidden;
         }
+    }
 
-        &-var {
-            @include mixins.text-code-1();
-            color: var(--g-color-text-secondary);
-            margin-inline-start: 10px;
-            white-space: nowrap;
-        }
+    &__item-title {
+        @include mixins.text-subheader-3();
 
-        &-description {
-            @include mixins.text-body-2();
-        }
+        flex-shrink: 0;
+        color: var(--g-color-text-primary);
+    }
 
-        &-box,
-        &-var {
-            cursor: copy;
-        }
+    &__item-description {
+        @include mixins.text-body-2();
+
+        color: var(--g-color-text-primary);
     }
 }

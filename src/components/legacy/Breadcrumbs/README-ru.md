@@ -12,67 +12,31 @@ import {Breadcrumbs} from '@gravity-ui/uikit';
 
 ## Внешний вид
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {
+    Breadcrumbs,
+    FirstDisplayedItemsCount,
+    LastDisplayedItemsCount,
+} from '@gravity-ui/uikit/legacy';
 
-<ExampleBlock
-    code={`
-<Breadcrumbs
-    items={[
-        {
-            text: 'Region',
-            action: () => {},
-        },
-        {
-            text: 'Country',
-            action: () => {},
-        },
-        {
-            text: 'City',
-            action: () => {},
-        },
-        {
-            text: 'District',
-            action: () => {},
-        },
-        {
-            text: 'Street',
-            action: () => {},
-        },
-    ]}
-    firstDisplayedItemsCount={FirstDisplayedItemsCount.One}
-    lastDisplayedItemsCount={LastDisplayedItemsCount.One}
-/>
-`}
->
-    <UIKit.Breadcrumbs
-        items={[
-            {
-                text: 'Region',
-                action: () => {},
-            },
-            {
-                text: 'Country',
-                action: () => {},
-            },
-            {
-                text: 'City',
-                action: () => {},
-            },
-            {
-                text: 'District',
-                action: () => {},
-            },
-            {
-                text: 'Street',
-                action: () => {},
-            },
-        ]}
-        firstDisplayedItemsCount={1}
-        lastDisplayedItemsCount={1}
-    />
-</ExampleBlock>
+const items = [
+    {text: 'Region', action: () => {}},
+    {text: 'Country', action: () => {}},
+    {text: 'City', action: () => {}},
+    {text: 'District', action: () => {}},
+    {text: 'Street', action: () => {}},
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Breadcrumbs
+            items={items}
+            firstDisplayedItemsCount={FirstDisplayedItemsCount.One}
+            lastDisplayedItemsCount={LastDisplayedItemsCount.One}
+        />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -113,69 +77,32 @@ return (
 
 ### Пользовательский разделитель
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {
+    Breadcrumbs,
+    FirstDisplayedItemsCount,
+    LastDisplayedItemsCount,
+} from '@gravity-ui/uikit/legacy';
 
-<ExampleBlock
-    code={`
-<Breadcrumbs
-    items={[
-        {
-            text: 'Region',
-            action: () => {},
-        },
-        {
-            text: 'Country',
-            action: () => {},
-        },
-        {
-            text: 'City',
-            action: () => {},
-        },
-        {
-            text: 'District',
-            action: () => {},
-        },
-        {
-            text: 'Street',
-            action: () => {},
-        },
-    ]}
-    renderItemDivider={() => '>'}
-    firstDisplayedItemsCount={FirstDisplayedItemsCount.One}
-    lastDisplayedItemsCount={LastDisplayedItemsCount.One}
-/>
-`}
->
-    <UIKit.Breadcrumbs
-        items={[
-            {
-                text: 'Region',
-                action: () => {},
-            },
-            {
-                text: 'Country',
-                action: () => {},
-            },
-            {
-                text: 'City',
-                action: () => {},
-            },
-            {
-                text: 'District',
-                action: () => {},
-            },
-            {
-                text: 'Street',
-                action: () => {},
-            },
-        ]}
-        renderItemDivider={() => '>'}
-        firstDisplayedItemsCount={1}
-        lastDisplayedItemsCount={1}
-    />
-</ExampleBlock>
+const items = [
+    {text: 'Region', action: () => {}},
+    {text: 'Country', action: () => {}},
+    {text: 'City', action: () => {}},
+    {text: 'District', action: () => {}},
+    {text: 'Street', action: () => {}},
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Breadcrumbs
+            items={items}
+            renderItemDivider={() => '>'}
+            firstDisplayedItemsCount={FirstDisplayedItemsCount.One}
+            lastDisplayedItemsCount={LastDisplayedItemsCount.One}
+        />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -217,77 +144,31 @@ return (
 
 ### Пользовательский заголовок
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {
+    Breadcrumbs,
+    FirstDisplayedItemsCount,
+    LastDisplayedItemsCount,
+} from '@gravity-ui/uikit/legacy';
 
-<ExampleBlock
-    code={`
-<Breadcrumbs
-    items={[
-        {
-            text: 'Region',
-            title: 'Custom title for Region',
-            action: () => {},
-        },
-        {
-            text: 'Country',
-            title: 'Custom title for Country',
-            action: () => {},
-        },
-        {
-            text: 'City',
-            title: 'Custom title for City',
-            action: () => {},
-        },
-        {
-            text: 'District',
-            title: 'Custom title for District',
-            action: () => {},
-        },
-        {
-            text: 'Street',
-            title: 'Custom title for Street',
-            action: () => {},
-        },
-    ]}
-    firstDisplayedItemsCount={FirstDisplayedItemsCount.One}
-    lastDisplayedItemsCount={LastDisplayedItemsCount.One}
-/>
-`}
->
-    <UIKit.Breadcrumbs
-        items={[
-            {
-                text: 'Region',
-                title: 'Custom title for Region',
-                action: () => {},
-            },
-            {
-                text: 'Country',
-                title: 'Custom title for Country',
-                action: () => {},
-            },
-            {
-                text: 'City',
-                title: 'Custom title for City',
-                action: () => {},
-            },
-            {
-                text: 'District',
-                title: 'Custom title for District',
-                action: () => {},
-            },
-            {
-                text: 'Street',
-                title: 'Custom title for Street',
-                action: () => {},
-            },
-        ]}
-        firstDisplayedItemsCount={1}
-        lastDisplayedItemsCount={1}
-    />
-</ExampleBlock>
+const items = [
+    {text: 'Region', title: 'Custom title for Region', action: () => {}},
+    {text: 'Country', title: 'Custom title for Country', action: () => {}},
+    {text: 'City', title: 'Custom title for City', action: () => {}},
+    {text: 'District', title: 'Custom title for District', action: () => {}},
+    {text: 'Street', title: 'Custom title for Street', action: () => {}},
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Breadcrumbs
+            items={items}
+            firstDisplayedItemsCount={FirstDisplayedItemsCount.One}
+            lastDisplayedItemsCount={LastDisplayedItemsCount.One}
+        />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

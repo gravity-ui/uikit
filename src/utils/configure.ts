@@ -1,4 +1,4 @@
-import type {StringWithSuggest} from '../utils/types';
+import type {StringWithSuggest} from './types';
 
 export enum Lang {
     Ru = 'ru',

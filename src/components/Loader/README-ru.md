@@ -12,19 +12,19 @@ import {Loader} from '@gravity-ui/uikit';
 
 ### Размер
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Loader size="s" />
-<Loader size="m" />
-<Loader size="l" />
-`}
->
-    <UIKit.Loader size="s" />
-    <UIKit.Loader size="m" />
-    <UIKit.Loader size="l" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Loader} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <Loader size="s" />
+            <Loader size="m" />
+            <Loader size="l" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

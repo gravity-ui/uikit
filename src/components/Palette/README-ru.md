@@ -14,36 +14,26 @@ import {Palette} from '@gravity-ui/uikit';
 
 Можно отключить опции с помощью свойства `disabled`. Если нужно отключить только некоторые опции, измените значение свойства `disabled` у нужных опций (`PaletteOption[]`).
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {PaletteOption} from '@gravity-ui/uikit';
+import {Palette} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
 const options: PaletteOption[] = [
     {content: '😎', value: 'ID-cool'},
     {content: '🥴', value: 'ID-woozy'},
 ];
-// disable the first item
-<Palette options={[{ ...options[0], disabled: true }, options[1]]} disabled={true} />
-// or disable all of them
-<Palette options={options} disabled={true} />
-`}
->
-    <UIKit.Palette
-        options={[
-            {content: '😎', value: 'ID-cool', disabled: true},
-            {content: '🥴', value: 'ID-woozy'},
-        ]}
-    />
-    <UIKit.Palette
-        options={[
-            {content: '😎', value: 'ID-cool'},
-            {content: '🥴', value: 'ID-woozy'},
-        ]}
-        disabled={true}
-    />
-</ExampleBlock>
 
-LANDING_BLOCK-->
+const disabledOptions: PaletteOption[] = [{...options[0], disabled: true}, options[1]];
+
+export default function () {
+    return (
+        <>
+            <Palette options={disabledOptions} />
+            <Palette options={options} disabled />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -63,59 +53,27 @@ const options: PaletteOption[] = [
 
 Размер `Palette` можно настроить с помощью свойства `size`. Размер по умолчанию — `s`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {PaletteOption} from '@gravity-ui/uikit';
+import {Palette} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
 const options: PaletteOption[] = [
     {content: '😎', value: 'ID-cool'},
     {content: '🥴', value: 'ID-woozy'},
 ];
-<Palette options={options} size={"xs"} />
-<Palette options={options} size={"s"} />
-<Palette options={options} size={"m"} />
-<Palette options={options} size={"l"} />
-<Palette options={options} size={"xl"} />
-`}
->
-    <UIKit.Palette
-        options={[
-            {content: '😎', value: 'ID-cool'},
-            {content: '🥴', value: 'ID-woozy'},
-        ]}
-        size="xs"
-    />
-    <UIKit.Palette
-        options={[
-            {content: '😎', value: 'ID-cool'},
-            {content: '🥴', value: 'ID-woozy'},
-        ]}
-        size="s"
-    />
-    <UIKit.Palette
-        options={[
-            {content: '😎', value: 'ID-cool'},
-            {content: '🥴', value: 'ID-woozy'},
-        ]}
-        size="m"
-    />
-    <UIKit.Palette
-        options={[
-            {content: '😎', value: 'ID-cool'},
-            {content: '🥴', value: 'ID-woozy'},
-        ]}
-        size="l"
-    />
-    <UIKit.Palette
-        options={[
-            {content: '😎', value: 'ID-cool'},
-            {content: '🥴', value: 'ID-woozy'},
-        ]}
-        size="xl"
-    />
-</ExampleBlock>
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <Palette options={options} size="xs" />
+            <Palette options={options} size="s" />
+            <Palette options={options} size="m" />
+            <Palette options={options} size="l" />
+            <Palette options={options} size="xl" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -137,27 +95,19 @@ const options: PaletteOption[] = [
 
 Количество столбцов в сетке можно изменить через свойство `columns` (по умолчанию — `6`).
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {PaletteOption} from '@gravity-ui/uikit';
+import {Palette} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
 const options: PaletteOption[] = [
     {content: '😎', value: 'ID-cool'},
     {content: '🥴', value: 'ID-woozy'},
 ];
-<Palette options={options} columns={1} />
-`}
->
-    <UIKit.Palette
-        options={[
-            {content: '😎', value: 'ID-cool'},
-            {content: '🥴', value: 'ID-woozy'},
-        ]}
-        columns={1}
-    />
-</ExampleBlock>
 
-LANDING_BLOCK-->
+export default function () {
+    return <Palette options={options} columns={1} />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -175,27 +125,19 @@ const options: PaletteOption[] = [
 
 По умолчанию можно выбирать и снимать выбор с нескольких опций. Если нужно разрешить выбор только одной опции, отключите свойство `multiple`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {PaletteOption} from '@gravity-ui/uikit';
+import {Palette} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
 const options: PaletteOption[] = [
     {content: '😎', value: 'ID-cool'},
     {content: '🥴', value: 'ID-woozy'},
 ];
-<Palette options={options} multiple={false} />
-`}
->
-    <UIKit.Palette
-        options={[
-            {content: '😎', value: 'ID-cool'},
-            {content: '🥴', value: 'ID-woozy'},
-        ]}
-        multiple={false}
-    />
-</ExampleBlock>
 
-LANDING_BLOCK-->
+export default function () {
+    return <Palette options={options} multiple={false} />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

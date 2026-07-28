@@ -9,6 +9,7 @@ import type {TextInputProps, TextInputSize} from '../controls';
 import {TextInput} from '../controls';
 import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
 import {useDirection} from '../theme';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, DOMProps, FocusEventHandlers, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
@@ -59,7 +60,8 @@ const validate = (type: PinInputType, newValue: string) => {
     }
 };
 
-export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>((props, ref) => {
+export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>((rawProps, ref) => {
+    const props = useDefaultProps('PinInput', rawProps);
     const {
         value,
         defaultValue,

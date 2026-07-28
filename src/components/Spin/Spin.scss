@@ -16,7 +16,7 @@ $block: '.#{variables.$ns}spin';
         height: 100%;
         width: 50%;
         margin-inline-start: 50%;
-        border: 2px solid var(--g-color-line-brand);
+        border: 2px solid var(--g-spin-color, var(--g-color-base-brand));
         border-inline-start: none;
         border-start-end-radius: 25px;
         border-end-end-radius: 25px;

@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+This component is used for a stack of images with overlap over one another and, optionally, a control. It usually refers to user avatars.
+
 ```ts
 import {AvatarStack} from '@gravity-ui/uikit';
 ```
-
-This component is used for a stack of images with overlap over one another and, optionally, a control. It usually refers to user avatars.
 
 ## Usage
 

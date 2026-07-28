@@ -6,7 +6,11 @@ export const WithMobile: Decorator = (Story, context) => {
     const platform = context.globals.platform;
 
     return (
-        <MobileProvider mobile={platform === 'mobile'} platform={platform}>
+        <MobileProvider
+            mobile={platform === 'mobile'}
+            platform={platform}
+            __experimentalMobileModals
+        >
             <Story key={platform} {...context} />
         </MobileProvider>
     );

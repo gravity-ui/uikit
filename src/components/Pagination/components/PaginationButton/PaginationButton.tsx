@@ -9,17 +9,20 @@ import type {ButtonView} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {PaginationQa} from '../../constants';
 import i18n from '../../i18n';
-import type {ButtonItem, PaginationProps, PaginationSize} from '../../types';
+import type {ActionName, ButtonItem, PaginationProps, PaginationSize} from '../../types';
+import {buildComponentProps} from '../../utils';
 
 type Props = {
     item: ButtonItem;
     size: PaginationSize;
-    page: NonNullable<PaginationProps['page']>;
-    pageSize: NonNullable<PaginationProps['pageSize']>;
-    onUpdate: NonNullable<PaginationProps['onUpdate']>;
+    page: PaginationProps['page'];
+    pageSize: PaginationProps['pageSize'];
+    onUpdate: PaginationProps['onUpdate'];
     compact: NonNullable<PaginationProps['compact']>;
     className?: string;
     view: ButtonView;
+    pageComponent?: PaginationProps['pageComponent'];
+    getPageProps?: PaginationProps['getPageProps'];
 };
 
 export const PaginationButton = ({
@@ -31,19 +34,30 @@ export const PaginationButton = ({
     onUpdate,
     compact,
     view,
+    pageComponent,
+    getPageProps,
 }: Props) => {
     let button: React.ReactNode = null;
     const {disabled} = item;
     const {t} = i18n.useTranslation();
+    const nextPage = getPageNumber(page, item.action);
+    const componentProps = buildComponentProps({
+        component: pageComponent,
+        item,
+        getPageProps,
+        page: nextPage,
+        pageSize,
+        onUpdate,
+    });
 
     switch (item.action) {
         case 'first':
             button = (
                 <Button
+                    {...componentProps}
                     size={size}
                     view={view}
                     className={className}
-                    onClick={() => onUpdate(1, pageSize)}
                     title={compact ? t('button_first') : undefined}
                     disabled={disabled}
                     qa={PaginationQa.PaginationButtonFirst}
@@ -56,10 +70,10 @@ export const PaginationButton = ({
         case 'previous':
             button = (
                 <Button
+                    {...componentProps}
                     size={size}
                     view={view}
                     className={className}
-                    onClick={() => onUpdate(page - 1, pageSize)}
                     title={compact ? t('button_previous') : undefined}
                     disabled={disabled}
                     qa={PaginationQa.PaginationButtonPrevious}
@@ -72,10 +86,10 @@ export const PaginationButton = ({
         case 'next':
             button = (
                 <Button
+                    {...componentProps}
                     size={size}
                     view={view}
                     className={className}
-                    onClick={() => onUpdate(page + 1, pageSize)}
                     title={compact ? t('button_next') : undefined}
                     disabled={disabled}
                     qa={PaginationQa.PaginationButtonNext}
@@ -89,3 +103,14 @@ export const PaginationButton = ({
 
     return button;
 };
+
+function getPageNumber(page: number, action: ActionName) {
+    switch (action) {
+        case 'next':
+            return page + 1;
+        case 'previous':
+            return page - 1;
+        default:
+            return 1;
+    }
+}

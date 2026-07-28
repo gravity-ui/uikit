@@ -318,7 +318,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
 
         return (
             <ListItem
-                key={index}
+                key={this.getItemKey(item, index)}
                 style={style}
                 height={height}
                 itemIndex={index}
@@ -346,8 +346,11 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         index: number;
         style?: React.CSSProperties;
     }) => {
+        const item = this.getItemsWithLoading()[index];
+        const itemKey = this.getItemKey(item, index);
+
         return (
-            <Draggable draggableId={String(index)} index={index} key={`item-key-${index}`}>
+            <Draggable draggableId={itemKey} index={index} key={itemKey}>
                 {(provided: DraggableProvided) => this.renderItem({index, style, provided})}
             </Draggable>
         );
@@ -422,12 +425,13 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                                 role={role}
                                 id={this.props.id ?? this.uniqId}
                             >
-                                {items.map((_item, index) => {
+                                {items.map((item, index) => {
+                                    const itemKey = this.getItemKey(item, index);
                                     return (
                                         <Draggable
-                                            draggableId={String(index)}
+                                            draggableId={itemKey}
                                             index={index}
-                                            key={`item-key-${index}`}
+                                            key={itemKey}
                                         >
                                             {(
                                                 provided: DraggableProvided,
@@ -498,6 +502,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                                         height={height}
                                         itemSize={this.getVirtualizedItemHeight}
                                         itemData={items}
+                                        itemKey={(index) => this.getItemKey(items[index], index)}
                                         itemCount={items.length}
                                         overscanCount={10}
                                         onItemsRendered={this.onItemsRendered}
@@ -527,6 +532,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                         height={height}
                         itemSize={this.getVirtualizedItemHeight}
                         itemData={items}
+                        itemKey={(index) => this.getItemKey(items[index], index)}
                         itemCount={items.length}
                         overscanCount={10}
                         onItemsRendered={this.onItemsRendered}
@@ -700,5 +706,13 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
 
     private getVirtualizedItemHeight = (index: number) => {
         return this.getItemHeight(index) || DEFAULT_ITEM_HEIGHT;
+    };
+
+    private getItemKey = (item: ListItemData<T>, index: number) => {
+        if (item === this.loadingItem) {
+            return String(index);
+        }
+
+        return this.props.itemKey?.(item) ?? String(index);
     };
 }

@@ -6,6 +6,7 @@ import {Hotkey} from '../Hotkey';
 import type {HotkeyProps} from '../Hotkey';
 import {Tooltip} from '../Tooltip';
 import type {TooltipProps} from '../Tooltip';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 
@@ -27,15 +28,16 @@ const b = block('action-tooltip');
 const DEFAULT_OPEN_DELAY = 500;
 const DEFAULT_CLOSE_DELAY = 0;
 
-export function ActionTooltip({
-    title,
-    description,
-    hotkey,
-    openDelay = DEFAULT_OPEN_DELAY,
-    closeDelay = DEFAULT_CLOSE_DELAY,
-    className,
-    ...restProps
-}: ActionTooltipProps) {
+export function ActionTooltip(rawProps: ActionTooltipProps) {
+    const {
+        title,
+        description,
+        hotkey,
+        openDelay = DEFAULT_OPEN_DELAY,
+        closeDelay = DEFAULT_CLOSE_DELAY,
+        className,
+        ...restProps
+    } = useDefaultProps('ActionTooltip', rawProps);
     const content = React.useMemo(
         () => (
             <React.Fragment>

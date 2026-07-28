@@ -8,6 +8,7 @@ import type {List} from '../List';
 import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
 import {errorPropsMapper} from '../controls/utils';
 import {useMobile} from '../mobile';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {CnMods} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
 
@@ -51,9 +52,10 @@ export const DEFAULT_RENDER_POPUP: SelectRenderPopup = ({renderFilter, renderLis
 };
 
 export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function Select<T = any>(
-    props: SelectProps<T>,
+    rawProps: SelectProps<T>,
     ref: React.Ref<HTMLButtonElement>,
 ) {
+    const props = useDefaultProps('Select', rawProps);
     const {
         onUpdate,
         onOpenChange,

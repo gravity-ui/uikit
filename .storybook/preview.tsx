@@ -42,7 +42,7 @@ const preview: Preview = {
     },
     globalTypes: {
         theme: {
-            name: 'Theme',
+            description: 'Theme',
             toolbar: {
                 title: 'Theme',
                 icon: 'mirror',
@@ -56,7 +56,7 @@ const preview: Preview = {
             },
         },
         lang: {
-            name: 'Language',
+            description: 'Language',
             toolbar: {
                 title: 'Language',
                 icon: 'globe',
@@ -68,7 +68,7 @@ const preview: Preview = {
             },
         },
         direction: {
-            name: 'Direction',
+            description: 'Direction',
             toolbar: {
                 title: 'Direction',
                 icon: 'menu',
@@ -80,7 +80,7 @@ const preview: Preview = {
             },
         },
         platform: {
-            name: 'Platform',
+            description: 'Platform',
             toolbar: {
                 title: 'Platform',
                 items: [

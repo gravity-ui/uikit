@@ -159,11 +159,16 @@ export type ListNavigationCommand = 'next' | 'prev' | 'first' | 'last';
  * «клавиатура включает disabled»); заголовки секций — нет. next/prev
  * зациклены; при отсутствии активного навигация стартует с первой
  * навигабельной строки.
+ *
+ * `wrap: false` выключает зацикливание next/prev (на краю — undefined):
+ * Shift+стрелки диапазонного выделения (фаза 7) не заворачивают — заворот
+ * «через край» перекидывал бы диапазон на другой конец списка.
  */
 export function getNextActiveId<T>(
     command: ListNavigationCommand,
     rows: readonly ListRow<T>[],
     activeId: string | undefined,
+    {wrap = true}: {wrap?: boolean} = {},
 ): string | undefined {
     const navigable = rows.filter((row) => row.kind === 'item' && !row.disabled);
     if (navigable.length === 0) {
@@ -179,13 +184,21 @@ export function getNextActiveId<T>(
         case 'last':
             return navigable[navigable.length - 1].id;
         case 'next':
-            return currentIndex === -1
-                ? navigable[0].id
-                : navigable[(currentIndex + 1) % navigable.length].id;
+            if (currentIndex === -1) {
+                return navigable[0].id;
+            }
+            if (!wrap && currentIndex === navigable.length - 1) {
+                return undefined;
+            }
+            return navigable[(currentIndex + 1) % navigable.length].id;
         case 'prev':
-            return currentIndex === -1
-                ? navigable[0].id
-                : navigable[(currentIndex - 1 + navigable.length) % navigable.length].id;
+            if (currentIndex === -1) {
+                return navigable[0].id;
+            }
+            if (!wrap && currentIndex === 0) {
+                return undefined;
+            }
+            return navigable[(currentIndex - 1 + navigable.length) % navigable.length].id;
         default:
             return undefined;
     }

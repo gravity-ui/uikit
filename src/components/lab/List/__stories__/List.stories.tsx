@@ -1,14 +1,24 @@
 import * as React from 'react';
 
 import {faker} from '@faker-js/faker/locale/en';
-import {TrashBin} from '@gravity-ui/icons';
+import {
+    Camera,
+    FileText,
+    FileZipper,
+    Folder,
+    MusicNote,
+    Picture,
+    TrashBin,
+} from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 import {action} from 'storybook/actions';
 
 import {Avatar} from '../../../Avatar';
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
+import type {IconData} from '../../../Icon';
 import {Label} from '../../../Label';
+import {Text} from '../../../Text';
 import {Flex} from '../../../layout';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
@@ -275,6 +285,103 @@ export const MultipleSelection: Story = {
                     </List.ItemView>
                 )}
             />
+        );
+    },
+};
+
+// Фаза 7: диапазонное выделение (файл-менеджер). Shift+клик и Shift+↑/↓
+// заменяют диапазон от якоря — цели последнего обычного жеста выделения
+// (клик/Space пере-якоряют), Shift+Space выбирает диапазон от якоря до
+// активной строки, Ctrl/Cmd+A — все опции. Диапазон считается по данным:
+// заголовки секций пропускаются, disabled-строки не выбираются; в single
+// Shift игнорируется
+interface FileEntry {
+    id: string;
+    name: string;
+    description?: string;
+    icon?: IconData;
+    disabled?: boolean;
+    children?: FileEntry[];
+}
+
+const fileEntries: FileEntry[] = [
+    {
+        id: 'folders',
+        name: 'Folders',
+        children: [
+            {id: 'docs', name: 'Documents', description: '128 items', icon: Folder},
+            {id: 'music', name: 'Music', description: '52 items', icon: Folder},
+            {
+                id: 'trash',
+                name: 'Trash',
+                description: 'System folder',
+                icon: TrashBin,
+                disabled: true,
+            },
+        ],
+    },
+    {
+        id: 'files',
+        name: 'Files',
+        children: [
+            {
+                id: 'annual-report',
+                name: 'annual-report.pdf',
+                description: '2.4 MB · Jul 21',
+                icon: FileText,
+            },
+            {id: 'archive', name: 'assets.zip', description: '58 MB · Jul 18', icon: FileZipper},
+            {id: 'cover', name: 'cover.png', description: '1.2 MB · Jul 12', icon: Picture},
+            {id: 'demo', name: 'demo-track.mp3', description: '6.8 MB · Jul 27', icon: MusicNote},
+            {id: 'photo', name: 'photo-2026.jpg', description: '3.1 MB · Jul 05', icon: Camera},
+            {
+                id: 'presentation',
+                name: 'presentation.pdf',
+                description: '9.7 MB · Jun 30',
+                icon: FileText,
+            },
+        ],
+    },
+];
+
+export const RangeSelection: Story = {
+    render: function RangeSelectionStory() {
+        const [sel, setSel] = React.useState<string[]>([]);
+        return (
+            <Flex direction="column" gap={2}>
+                <Text color="secondary" qa="range-selection-count">
+                    {sel.length} selected
+                </Text>
+                <List
+                    aria-label="Files"
+                    items={fileEntries}
+                    style={{width: 320}}
+                    getItemContent={(entry) => entry.name}
+                    selectionMode="multiple"
+                    selectedIds={sel}
+                    onSelectedUpdate={setSel}
+                    renderItem={(ctx, {getItemProps, getItemViewProps}) =>
+                        ctx.kind === 'section' ? (
+                            <List.SectionHeader {...getItemProps()}>
+                                {ctx.item.name}
+                            </List.SectionHeader>
+                        ) : (
+                            <List.ItemView
+                                {...getItemProps()}
+                                {...getItemViewProps()}
+                                startContent={
+                                    ctx.item.icon ? (
+                                        <Icon data={ctx.item.icon} size={16} />
+                                    ) : undefined
+                                }
+                                description={ctx.item.description}
+                            >
+                                {ctx.item.name}
+                            </List.ItemView>
+                        )
+                    }
+                />
+            </Flex>
         );
     },
 };

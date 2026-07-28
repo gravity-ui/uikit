@@ -14,7 +14,7 @@ addons.register(ADDON_ID, (api) => {
         type: types.TOOL,
         title: 'Theme',
         render: () => {
-            return React.createElement(Tool, {api});
+            return <Tool api={api} />;
         },
     });
 });

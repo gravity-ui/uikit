@@ -12,6 +12,28 @@ const config: StorybookConfig = {
         defaultName: 'Docs',
     },
     addons: [
+        {
+            name: '@storybook/addon-styling-webpack',
+            options: {
+                rules: [
+                    {
+                        test: /\.(css|scss)$/i,
+                        use: [
+                            'style-loader',
+                            'css-loader',
+                            {
+                                loader: 'sass-loader',
+                                options: {
+                                    sassOptions: {
+                                        functions: sassFunctions,
+                                    },
+                                },
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
         './theme-addon/register.tsx',
         '@storybook/addon-a11y',
         '@storybook/addon-webpack5-compiler-babel',
@@ -22,24 +44,6 @@ const config: StorybookConfig = {
         reactDocgen: 'react-docgen-typescript',
     },
     webpackFinal: (webpackConfig, {configType}) => {
-        webpackConfig.module = webpackConfig.module ?? {rules: []};
-        webpackConfig.module.rules = webpackConfig.module.rules ?? [];
-        webpackConfig.module.rules.push({
-            test: /\.(css|scss)$/i,
-            use: [
-                'style-loader',
-                'css-loader',
-                {
-                    loader: 'sass-loader',
-                    options: {
-                        sassOptions: {
-                            functions: sassFunctions,
-                        },
-                    },
-                },
-            ],
-        });
-
         if (configType === 'DEVELOPMENT') {
             webpackConfig.devtool = 'source-map';
         }

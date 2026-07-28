@@ -170,22 +170,11 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         return () => document.removeEventListener('keydown', handleDocumentKeyDown, true);
     }, []);
 
-    // Слой выделения (§6): состояние (controlled/uncontrolled) и жест — в
-    // useListSelection; в aria, ctx.state и жесты они превращаются только
-    // здесь и только при переданном selectionMode
-    const {selectedSet, toggleSelection} = useListSelection<T>(props);
-
     if (!props['aria-label'] && !props['aria-labelledby']) {
         // Опции получают имя из контента, а контейнеру взять его неоткуда:
         // безымянный listbox/grid — нарушение ARIA
         warnOnce('[List] The list has no accessible name. Pass `aria-label` or `aria-labelledby`.');
     }
-
-    /** Жест «применения» строки: сначала выделение, затем onItemAction (§6) */
-    const applyRow = (row: ListRow<T>) => {
-        toggleSelection(row);
-        onItemAction?.(row.id, row.item);
-    };
 
     const {rows, rowById, domIdToId, optionsCount} = React.useMemo(
         () =>
@@ -206,6 +195,30 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             getItemTextValue,
         ],
     );
+
+    // Слой выделения (§6): состояние (controlled/uncontrolled), жесты и якорь
+    // диапазона (фаза 7) — в useListSelection; в aria, ctx.state и жесты они
+    // превращаются только здесь и только при переданном selectionMode.
+    // Диапазоны считаются по данным (rows), не по DOM — под виртуализацией
+    // строки диапазона за окном тоже выбираются
+    const {selectedSet, toggleSelection, extendSelection, selectAllOptions} = useListSelection<T>(
+        props,
+        {rows, rowById},
+    );
+
+    /**
+     * Жест «применения» строки: сначала выделение — обычное или диапазонное
+     * (Shift-жесты фазы 7), — затем onItemAction (§6): Shift+клик/Shift+Space
+     * применяют строку так же, как обычный жест
+     */
+    const applyRow = (row: ListRow<T>, options?: {range?: boolean}) => {
+        if (options?.range) {
+            extendSelection(row);
+        } else {
+            toggleSelection(row);
+        }
+        onItemAction?.(row.id, row.item);
+    };
 
     // «Свежее» окружение обработчиков строк: сами обработчики замыкают только
     // id строки и этот ref, поэтому строка, пропустившая ре-рендер по
@@ -336,7 +349,48 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         const command = NAVIGATION_COMMANDS[event.key];
         if (command) {
             event.preventDefault();
-            commitActive(getNextActiveId(command, rows, effectiveActiveId));
+            // Shift+↑/↓ (фаза 7): граница диапазона двигается ВМЕСТЕ с
+            // активностью (react-aria: setFocusedKey + extendSelection), но
+            // без зацикливания — заворот «через край» перекидывал бы диапазон
+            // на другой конец списка (у react-aria дефолт вообще без
+            // зацикливания; обычные стрелки без Shift остаются зацикленными).
+            // Только multiple: в single и без слоя Shift+стрелка — обычная
+            // навигация. Shift+Home/End диапазон не расширяют (react-aria
+            // расширяет только по Ctrl+Shift — вне скоупа фазы)
+            const extendRange =
+                event.shiftKey &&
+                selectionMode === 'multiple' &&
+                (command === 'next' || command === 'prev');
+            const nextId = getNextActiveId(command, rows, effectiveActiveId, {
+                wrap: !extendRange,
+            });
+            commitActive(nextId);
+            if (extendRange && nextId !== undefined) {
+                const nextRow = rowById.get(nextId);
+                if (nextRow) {
+                    extendSelection(nextRow);
+                }
+            }
+            return;
+        }
+
+        // Ctrl/Cmd+A (фаза 7): выделить все не-disabled опции — только
+        // multiple ('Mod+A' у react-aria) и только в roving: в
+        // activedescendant Ctrl+A принадлежит инпуту владельца (выделение
+        // набранного текста). Матч по key с фолбэком на физический код для
+        // нелатинских раскладок (Ctrl+ф на ЙЦУКЕН; react-aria матчит только
+        // 'a'); вне multiple клавиша не перехватывается — остаётся браузеру
+        if (
+            selectionMode === 'multiple' &&
+            focusStrategy === 'roving' &&
+            (event.ctrlKey || event.metaKey) &&
+            !event.altKey &&
+            !event.shiftKey &&
+            (event.key.toLowerCase() === 'a' ||
+                (event.code === 'KeyA' && !/^[a-z]$/i.test(event.key)))
+        ) {
+            event.preventDefault();
+            selectAllOptions();
             return;
         }
 
@@ -372,7 +426,10 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             }
             const row = getActiveRow();
             if (row && !row.disabled) {
-                applyRow(row);
+                // Shift+Space (фаза 7) — диапазон от якоря до активной строки
+                // (react-aria: extendSelection в onSelect при shiftKey);
+                // жест был зарезервирован фазой 2. В single Shift игнорируется
+                applyRow(row, {range: event.shiftKey});
             }
             return;
         }
@@ -584,7 +641,9 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 // мемоизированной строки)
                 setActivationModality('pointer');
                 latest.setActiveItemId(currentRow.id);
-                latest.applyRow(currentRow);
+                // Shift+клик (фаза 7) — диапазонный жест слоя выделения;
+                // в single и без слоя Shift игнорируется (обычное применение)
+                latest.applyRow(currentRow, {range: event.shiftKey});
             },
             onFocus: () => {
                 const latest = latestRef.current;

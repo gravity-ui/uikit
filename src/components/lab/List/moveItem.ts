@@ -8,20 +8,20 @@ function defaultGetId(item: unknown): string | undefined {
 }
 
 /**
- * Утилита реордера для dnd-слоя (§8 плана): чистая функция над данными —
- * переносит айтем `fromId` к грани `position` айтема `toId`. Работает по
- * верхнему уровню `items` (плоский список; перенос между секциями и деревья —
- * вне скоупа, появятся с `moveTreeNode`/TreeList).
+ * The reorder utility of the dnd layer: a pure function over the data — it
+ * moves the item `fromId` to the `position` edge of the item `toId`. It works
+ * over the top level of `items` (a flat list; moving between sections and
+ * trees is out of scope and will come with `moveTreeNode`/TreeList).
  *
- * No-op (айтем не найден, `fromId === toId`, позиция не меняется) возвращает
- * ИСХОДНЫЙ массив по ссылке: `setItems(moveItem(...))` в этом случае не
- * вызывает лишнего рендера. Обратная сторона — результат нельзя мутировать
- * на месте (он может БЫТЬ входным массивом); обращайтесь с ним как с
- * иммутабельным, ровно как с самим состоянием.
+ * A no-op (the item was not found, `fromId === toId`, the position does not
+ * change) returns the ORIGINAL array by reference, so `setItems(moveItem(...))`
+ * does not cause an extra render in that case. The flip side is that the
+ * result must not be mutated in place (it may BE the input array); treat it as
+ * immutable, exactly like the state itself.
  *
- * При дублирующихся id переносится ПЕРВОЕ совпадение (ядро листа на дубли
- * ругается dev-warning'ом — §9; утилита их не проверяет, чтобы не сканировать
- * массив второй раз).
+ * With duplicate ids the FIRST match is moved (the list core warns about
+ * duplicates in dev; the utility does not check for them so as not to scan the
+ * array a second time).
  */
 export function moveItem<T>(
     items: readonly T[],
@@ -44,7 +44,7 @@ export function moveItem<T>(
         return items as T[];
     }
 
-    // Индекс цели в массиве без переносимого айтема
+    // The index of the target in the array without the moved item
     const targetIndex = toIndex - (fromIndex < toIndex ? 1 : 0);
     const insertIndex = targetIndex + (position === 'after' ? 1 : 0);
     if (insertIndex === fromIndex) {

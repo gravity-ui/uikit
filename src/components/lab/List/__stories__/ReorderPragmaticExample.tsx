@@ -1,11 +1,12 @@
 /**
- * К8: реордер с @atlaskit/pragmatic-drag-and-drop — «полная» форма адаптера
- * §8: и props (ref-регистрация строк), и состояние приходят одним пропом
- * `dnd`. Drag — только за Grip-ручку (`dragHandle` либы, ref ручки отдаёт
- * метод адаптера `getHandleRef`); место вставки показывает индикатор,
- * который лист рисует сам по ctx.state.dropTarget.
+ * Reordering with @atlaskit/pragmatic-drag-and-drop — the "full" form of an
+ * adapter: both the props (ref registration of the rows) and the state arrive
+ * through the single `dnd` prop. A drag starts from the Grip handle only (the
+ * `dragHandle` of the library; the ref of the handle is provided by the
+ * `getHandleRef` method of the adapter); the insertion point is shown by the
+ * indicator the list draws itself from ctx.state.dropTarget.
  *
- * В приложении импорты листа — из пакета:
+ * In an application the list is imported from the package:
  * `import {unstable_List as List, unstable_moveItem as moveItem} from '@gravity-ui/uikit/unstable'`
  */
 import * as React from 'react';
@@ -31,7 +32,7 @@ const tracks: TrackRecord[] = Array.from({length: 8}, (_, index) => ({
 
 export function ReorderPragmaticExample() {
     const [items, setItems] = React.useState(tracks);
-    // useMyDndAdapter из К8 — обёртка потребителя над его dnd-либой
+    // The consumer's own wrapper around their dnd library
     const dnd = usePragmaticListDnd({
         onDrop: (fromId, toId, position) => setItems(moveItem(items, fromId, toId, position)),
     });
@@ -43,8 +44,9 @@ export function ReorderPragmaticExample() {
             style={{width: 320}}
             getItemContent={(record) => record.title}
             renderItem={(ctx, {getItemProps, getItemViewProps}) => (
-                // стиль перетаскиваемой строки — data-dragging из getItemProps;
-                // индикатор вставки лист рисует сам по ctx.state.dropTarget
+                // The style of the dragged row comes from the data-dragging of
+                // getItemProps; the insertion indicator is drawn by the list
+                // itself from ctx.state.dropTarget
                 <List.ItemView
                     {...getItemProps()}
                     {...getItemViewProps()}

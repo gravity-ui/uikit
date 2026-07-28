@@ -3,10 +3,10 @@ import type * as React from 'react';
 import {focusable} from 'tabbable';
 
 /**
- * Вход в интерактив ячейки и возврат на строку — клавиатура grid (§15).
- * Именно это делает кнопку внутри строки (ручка dnd, row-action)
- * достижимой с клавиатуры, а не только валидной по ролям.
- * Возвращает true, если событие обработано
+ * Entering the interactive content of a cell and returning to the row — the
+ * keyboard of a grid. This is what makes a button inside a row (a drag handle,
+ * a row action) reachable with the keyboard rather than merely valid by role.
+ * Returns true when the event has been handled
  */
 export function navigateCells(
     event: React.KeyboardEvent,

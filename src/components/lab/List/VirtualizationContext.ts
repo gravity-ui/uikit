@@ -5,52 +5,56 @@ import type {ListItemContext} from './types';
 import type {ListContainerDOMProps} from './useList';
 
 /**
- * Оценка высоты строки ДО рендера: константа или функция от контекста строки
- * (потребитель знает форму своего айтема; заголовки секций приходят с
- * `ctx.kind === 'section'`). Разброс фактических высот закрывает `measure`.
+ * The estimated height of a row BEFORE it is rendered: either a constant or a
+ * function of the row context (the consumer knows the shape of their item;
+ * section headers arrive with `ctx.kind === 'section'`). The spread of the
+ * actual heights is covered by `measure`.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ListEstimateItemSize<T = any> = number | ((ctx: ListItemContext<T>) => number);
 
 /**
- * Props, которые ядро листа передаёт корневому рендереру слоя виртуализации
- * (§7 плана + развилка «поверх lab/Virtualizer»): виртуализатор рендерит
- * скролл-контейнер сам, поэтому контекст несёт рендерер КОРНЯ листа,
- * а не рендерер строк. Ядро не знает, чем рендерер реализован, — оно лишь
- * отдаёт props контейнера, данные и функцию рендера строки.
+ * The props the list core passes to the root renderer of the virtualization
+ * layer: the virtualizer renders the scroll container itself, so the context
+ * carries the renderer of the list ROOT rather than a renderer of rows. The
+ * core does not know how the renderer is implemented — it only hands over the
+ * container props, the data and the row render function.
  */
 export interface ListVirtualizedRootProps {
     /**
-     * Props корня листа из getContainerProps (role="listbox", id, onKeyDown,
-     * aria-*, className, style, ref) — рендерер обязан донести их до своего
-     * скролл-контейнера: корень листа И скролл-контейнер — один элемент
+     * The props of the list root from getContainerProps (role="listbox", id,
+     * onKeyDown, aria-*, className, style, ref) — the renderer must deliver
+     * them to its scroll container: the list root AND the scroll container are
+     * one and the same element
      */
     containerProps: ListContainerDOMProps;
-    /** id строк в порядке отображения (опции + заголовки секций) */
+    /** The row ids in display order (options and section headers) */
     rowIds: string[];
     /**
-     * Индексы строк в `rowIds`, которые рендерер обязан держать
-     * смонтированными всегда: строка с roving tab-stop (выгрузка
-     * сфокусированной строки роняет фокус на body, выгрузка tab-stop делает
-     * список недостижимым по Tab) и заголовки секций (цели aria-describedby
-     * опций — выгруженный заголовок превратил бы ссылку в повисший IDREF)
+     * The indexes of the rows in `rowIds` that the renderer must always keep
+     * mounted: the row with the roving tab stop (unmounting the focused row
+     * drops focus to the body, and unmounting the tab stop makes the list
+     * unreachable with Tab) and the section headers (the targets of the
+     * options' aria-describedby — an unmounted header would turn the reference
+     * into a dangling IDREF)
      */
     persistedIndexes: readonly number[];
-    /** Рендер строки по id (результат уже с key) */
+    /** Renders a row by its id (the result already has a key) */
     renderRow: (id: string) => React.ReactNode;
     /**
-     * Оценка высоты строки по её индексу в `rowIds` — ядро уже разрешило
-     * константу/функцию потребителя и дефолт по `size`
+     * The estimated height of a row by its index in `rowIds` — the core has
+     * already resolved the consumer's constant/function and the default based
+     * on `size`
      */
     getItemSize: (index: number) => number;
-    /** Мерить фактические высоты строк после маунта */
+    /** Measure the actual row heights after mount */
     measure: boolean;
-    /** Буфер строк за окном */
+    /** The buffer of rows outside the window */
     overscan: number;
 }
 
 export interface ListVirtualizationContextValue {
-    /** Корневой рендерер листа из слоя виртуализации */
+    /** The list root renderer coming from the virtualization layer */
     Root: React.ComponentType<ListVirtualizedRootProps>;
     estimateItemSize?: ListEstimateItemSize;
     measure: boolean;
@@ -58,12 +62,13 @@ export interface ListVirtualizationContextValue {
 }
 
 /**
- * Контекст слоя виртуализации (§7 плана). Определение живёт в ядре и не
- * импортирует tanstack; провайдер и корневой рендерер — в
- * `lab/Virtualizer/ListVirtualizer` (ядром не импортируется; наружу уедет
- * отдельным энтрипоинтом). Ядро по наличию контекста выбирает плоский рендер
- * (дефолт, ноль зависимостей) либо Root из контекста — граница компонента
- * легализует хуки виртуализатора.
+ * The context of the virtualization layer. The definition lives in the core
+ * and does not import tanstack; the provider and the root renderer live in
+ * `lab/Virtualizer/ListVirtualizer` (not imported by the core; it will be
+ * published through a separate entry point). By the presence of the context
+ * the core picks either the flat render (the default, zero dependencies) or
+ * the Root from the context — the component boundary legalizes the hooks of
+ * the virtualizer.
  */
 export const ListVirtualizationContext = React.createContext<ListVirtualizationContextValue | null>(
     null,

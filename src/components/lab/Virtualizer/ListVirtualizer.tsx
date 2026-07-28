@@ -14,15 +14,16 @@ import {Virtualizer} from './Virtualizer';
 const DEFAULT_OVERSCAN = 5;
 
 /**
- * Корневой рендерер листа при активной виртуализации (§7 плана + развилка
- * «поверх lab/Virtualizer»). Ядро листа tanstack не импортирует — его тянет
- * только этот модуль; граница компонента легализует хуки виртуализатора.
+ * The root renderer of the list while virtualization is on. The list core does
+ * not import tanstack — it is pulled in by this module only; the component
+ * boundary legalizes the hooks of the virtualizer.
  *
- * Скролл-контейнер — корневой div самого Virtualizer, на него доезжают все
- * props корня листа (role="listbox", клавиатурная машина, className/style
- * потребителя), т.е. корень листа и скролл-контейнер — один элемент.
- * Строку Virtualizer оборачивает в свой позиционируемый div
- * (role="presentation" — прозрачен для a11y-дерева) и меряет её через него.
+ * The scroll container is the root div of the Virtualizer itself, and all the
+ * props of the list root reach it (role="listbox", the keyboard machinery, the
+ * consumer's className/style), i.e. the list root and the scroll container are
+ * one and the same element. A row is wrapped by the Virtualizer into its own
+ * positioned div (role="presentation" — transparent for the a11y tree) and is
+ * measured through it.
  */
 function VirtualizedListRoot({
     containerProps,
@@ -35,10 +36,11 @@ function VirtualizedListRoot({
 }: ListVirtualizedRootProps) {
     const {ref, ...restContainerProps} = containerProps;
 
-    // Строка с roving tab-stop и заголовки секций всегда в окне: выгрузка
-    // tab-stop роняет фокус на body (клавиатура умирает) либо выкидывает
-    // список из Tab-порядка, а выгрузка заголовка подвешивает
-    // aria-describedby видимых опций его секции
+    // The row with the roving tab stop and the section headers always stay in
+    // the window: unmounting the tab stop either drops focus to the body (the
+    // keyboard dies) or throws the list out of the Tab order, and unmounting a
+    // header leaves the aria-describedby of the visible options of its section
+    // dangling
     const persistedIndexes = React.useMemo(
         () =>
             persistedRowIndexes.length > 0
@@ -64,38 +66,41 @@ function VirtualizedListRoot({
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface ListVirtualizerProps<T = any> {
-    /** `<List>` внутри (контекст листа проходит сквозь обёртку) */
+    /** The `<List>` inside (the list context passes through the wrapper) */
     children: React.ReactNode;
     /**
-     * Оценка высоты строки ДО рендера: константа или функция от контекста
-     * строки — `(ctx) => (ctx.item.description ? 56 : 36)`; заголовки секций
-     * приходят с `ctx.kind === 'section'`. Разброс фактических высот
-     * закрывает `measure`. default — по `size` листа
+     * The estimated height of a row BEFORE it is rendered: either a constant
+     * or a function of the row context — `(ctx) => (ctx.item.description ? 56
+     * : 36)`; section headers arrive with `ctx.kind === 'section'`. The spread
+     * of the actual heights is covered by `measure`. default — based on the
+     * `size` of the list
      */
     estimateItemSize?: ListEstimateItemSize<T>;
     /**
-     * Мерить фактические высоты строк после маунта (ResizeObserver).
-     * default: true — строки переменной высоты (секция ≠ опция) работают
-     * из коробки; выключение — оптимизация для заведомо одинаковых строк
+     * Measure the actual row heights after mount (ResizeObserver).
+     * default: true — rows of variable height (a section is not an option)
+     * work out of the box; turning it off is an optimization for rows that are
+     * known to be identical
      */
     measure?: boolean;
-    /** Буфер строк за окном. default 5 */
+    /** The buffer of rows outside the window. default 5 */
     overscan?: number;
 }
 
 /**
- * Слой виртуализации List (§7 плана): оборачивает `<List>`, список рендерит
- * только видимое окно строк. Скролл-контейнер — корень самого List
- * (`overflow: auto` он получает автоматически); ограничить высоту
- * (height/max-height) обязан потребитель — иначе окно вырождается в полный
- * список.
+ * The virtualization layer of List: it wraps a `<List>`, and the list renders
+ * only the visible window of rows. The scroll container is the root of the
+ * List itself (it gets `overflow: auto` automatically); limiting the height
+ * (height/max-height) is up to the consumer — otherwise the window degenerates
+ * into the full list.
  *
- * Пока НЕ экспортируется из пакета (обкатка в лабе): наружу слой уедет
- * отдельным энтрипоинтом, чтобы tanstack не попадал в общий граф модулей.
+ * It is NOT exported from the package yet: the layer will be published through
+ * a separate entry point so that tanstack does not land in the shared module
+ * graph.
  *
- * SSR: виртуализатор на сервере не знает размеров вьюпорта и отдаёт пустое
- * окно — в HTML не попадает ни одной строки, содержимое появляется после
- * гидрации (возможен флик).
+ * SSR: on the server the virtualizer does not know the viewport size and
+ * produces an empty window — not a single row makes it into the HTML, and the
+ * content appears after hydration (a flicker is possible).
  *
  * ```tsx
  * <ListVirtualizer estimateItemSize={(ctx) => (ctx.item.description ? 56 : 36)}>

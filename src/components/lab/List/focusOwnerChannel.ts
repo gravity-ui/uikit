@@ -1,32 +1,32 @@
 import type * as React from 'react';
 
 /**
- * Module-private ключ канала между `<List>` и `useListFocusOwner()` (ось B,
- * §15 плана). Символ не экспортируется из пакета: в публичном типе
- * `ListFocusOwner` наружу торчит только `getInputProps`, а внутренний
- * протокол connect/disconnect доступен одному лишь ядру
+ * The module-private key of the channel between `<List>` and
+ * `useListFocusOwner()`. The symbol is not exported from the package: the
+ * public `ListFocusOwner` type exposes `getInputProps` only, while the
+ * internal connect/disconnect protocol is available to the core alone
  */
 export const LIST_FOCUS_OWNER_CHANNEL: unique symbol = Symbol('gravity-ui/list-focus-owner');
 
 /**
- * Связка, которую ядро публикует внешнему владельцу фокуса.
- *  Каналом владеет `useListFocusOwner`, ядро только публикует в него
+ * The connection the core publishes to the external focus owner.
+ *  The channel is owned by `useListFocusOwner`, the core only publishes into it
  */
 export interface ListFocusOwnerConnection {
-    /** DOM id корня списка — цель `aria-controls` владельца */
+    /** The DOM id of the list root — the target of the owner's `aria-controls` */
     listId: string;
-    /** DOM id активной строки — значение `aria-activedescendant` владельца */
+    /** The DOM id of the active row — the value of the owner's `aria-activedescendant` */
     activeDomId?: string;
-    /** Клавиатурная машина списка (шаг «а»): владелец отдаёт ей свой onKeyDown */
+    /** The keyboard machinery of the list (step "a"): the owner hands its onKeyDown over to it */
     onKeyDown(event: React.KeyboardEvent): void;
 }
 
 /**
- * Канал ядра: публикация связки и отключение при размонтировании
+ * The core channel: publishing the connection and disconnecting on unmount
  * @internal
  */
 export interface ListFocusOwnerChannel {
     connect(connection: ListFocusOwnerConnection): void;
-    /** Список размонтирован — попап закрыт */
+    /** The list has unmounted — the popup is closed */
     disconnect(): void;
 }

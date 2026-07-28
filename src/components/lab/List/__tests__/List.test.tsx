@@ -8,9 +8,9 @@ import {Label} from '../../../Label';
 import {List} from '../List';
 import type {ListActivationModality, ListItemViewStateProps, ListProps} from '../types';
 
-// В jsdom нет layout: displayCheck по умолчанию считает все элементы
-// скрытыми, и focusable() внутри List.ItemView возвращает пустой список.
-// jest.mock не подходит: модуль уже закеширован сетапом тестов
+// jsdom has no layout: by default displayCheck considers every element hidden,
+// and focusable() inside List.ItemView returns an empty list.
+// jest.mock does not fit here: the module is already cached by the test setup
 const realFocusable = tabbable.focusable;
 let focusableSpy: jest.SpyInstance;
 
@@ -68,7 +68,6 @@ describe('lab List', () => {
                 <List aria-label="Groups" items={GROUPS} getItemContent={(item) => item.label} />,
             );
 
-            // Заголовки секций — не опции: role="presentation" + aria-hidden
             expect(screen.getAllByRole('option')).toHaveLength(3);
             const header = screen.getByText('Recent');
             expect(header).toHaveAttribute('aria-hidden', 'true');
@@ -82,8 +81,9 @@ describe('lab List', () => {
 
             const option = screen.getByRole('option', {name: 'First'});
             expect(option).toHaveAttribute('aria-describedby', screen.getByText('Recent').id);
-            // Скрытый заголовок легально участвует в вычислении описания по
-            // явной ссылке — SR объявляет опцию вместе с именем её секции
+            // A hidden header legitimately takes part in the description
+            // computation through an explicit reference — a screen reader
+            // announces the option together with the name of its section
             expect(option).toHaveAccessibleDescription('Recent');
         });
 
@@ -125,8 +125,9 @@ describe('lab List', () => {
             );
 
             const listbox = screen.getByRole('listbox');
-            // Проверяем именно плоскость дерева (строки — прямые дети listbox,
-            // без обёрток): у Testing Library нет API для такого ассерта
+            // The flatness of the tree is exactly what is checked here (rows
+            // are direct children of the listbox, with no wrappers): Testing
+            // Library has no API for such an assertion
             // eslint-disable-next-line testing-library/no-node-access
             const rows = Array.from(listbox.children);
             expect(rows).toHaveLength(2);
@@ -212,9 +213,6 @@ describe('lab List', () => {
             expect(options[0]).toHaveFocus();
         });
 
-        // Модель React Spectrum (решение 2026-07-23, отменяет развилку фазы 1
-        // «клавиатура включает disabled»): disabled-строки не получают
-        // активность и фокус ни с клавиатуры, ни с мыши
         test('navigation skips section headers and disabled options', async () => {
             const user = userEvent.setup();
             render(
@@ -474,13 +472,9 @@ describe('lab List', () => {
         });
     });
 
-    // Модальность взаимодействия и проводка getItemViewProps (модель
-    // isFocusVisible react-aria): тёмный active-цвет — только у курсора в
-    // keyboard-модальности; наведение/клик переводят лист в pointer (светлую
-    // подсветку под мышью даёт CSS :hover, ядро её не эмулирует), любая
-    // клавиша — в том числе нажатая вне листа — возвращает keyboard. Сами
-    // цвета — не предмет юнитов (скриншотные тесты владельца); здесь
-    // фиксируется, ЧТО отдаёт getItemViewProps
+    // The colors themselves are not a matter for unit tests (they belong to
+    // the screenshot tests of the view); what is pinned down here is WHAT
+    // getItemViewProps returns
     describe('activation modality: getItemViewProps wiring', () => {
         const createTracker = () => {
             const view = new Map<string, ListItemViewStateProps>();
@@ -510,7 +504,6 @@ describe('lab List', () => {
             await user.keyboard('{ArrowDown}');
             expect(view.get('Banana')).toMatchObject({active: true});
             expect(view.get('Apple')).toMatchObject({active: false});
-            // Модальность — только у активной строки
             expect(modality.get('Banana')).toBe('keyboard');
             expect(modality.get('Apple')).toBeUndefined();
         });
@@ -523,11 +516,13 @@ describe('lab List', () => {
 
             await user.hover(options[2]);
 
-            // Светлую подсветку под мышью даёт CSS :hover — ядро её не эмулирует
+            // The light highlight under the mouse comes from the CSS :hover —
+            // the core does not emulate it
             expect(view.get('Cherry')).toMatchObject({active: false});
             expect(view.get('Cherry')).not.toHaveProperty('hovered');
             expect(modality.get('Cherry')).toBe('pointer');
-            // Развилка презентационного слоя: семантика активности не меняется
+            // Only the presentation differs — the semantics of the activity
+            // stay the same
             expect(options[2]).toHaveAttribute('data-active');
         });
 
@@ -540,18 +535,19 @@ describe('lab List', () => {
             await user.tab();
             expect(view.get('Apple')).toMatchObject({active: true});
 
-            // Мышь на клавиатурно-активной строке гасит тёмный стиль...
+            // The mouse over the keyboard-active row puts the dark style out...
             await user.hover(options[0]);
             expect(view.get('Apple')).toMatchObject({active: false});
 
-            // ...и уход мыши его НЕ возвращает (react-aria/Spectrum: пока
-            // пользователь работает мышью, клавиатурная индикация не нужна)
+            // ...and the mouse leaving does NOT bring it back
+            // (react-aria/Spectrum: while the user works with the mouse, the
+            // keyboard indication is not needed)
             await user.unhover(options[0]);
             expect(view.get('Apple')).toMatchObject({active: false});
             expect(options[0]).toHaveAttribute('data-active');
 
-            // Возвращает следующая клавиша; 'x' не матчится typeahead'ом —
-            // активность не двигается, меняется только модальность
+            // The next key brings it back; 'x' matches nothing in typeahead, so
+            // the activity does not move and only the modality changes
             await user.keyboard('x');
             expect(view.get('Apple')).toMatchObject({active: true});
         });
@@ -573,15 +569,15 @@ describe('lab List', () => {
             expect(view.get('Banana')).toMatchObject({active: false});
             expect(modality.get('Banana')).toBe('pointer');
 
-            // Строка держит DOM-фокус после клика, но «застрявшего ховера»
-            // нет: фолбэк :focus у вьюхи удалён, а тёмный active в
-            // pointer-модальности не передаётся
+            // The row keeps DOM focus after the click, but there is no "stuck
+            // hover": the :focus fallback of the view has been removed, and
+            // the dark active is not passed in the pointer modality
             await user.unhover(options[1]);
             expect(options[1]).toHaveFocus();
             expect(view.get('Banana')).toMatchObject({active: false});
 
-            // Любая клавиша возвращает keyboard-модальность — документный
-            // слушатель ловит и нажатия вне листа
+            // Any key brings the keyboard modality back — the document
+            // listener catches presses outside the list as well
             fireEvent.keyDown(document.body, {key: 'a'});
             expect(view.get('Banana')).toMatchObject({active: true});
         });
@@ -603,8 +599,9 @@ describe('lab List', () => {
             await user.keyboard('{ArrowDown}');
             expect(view.get('Banana')).toMatchObject({active: true});
 
-            // Активность не двигается (activateOnHover=false), но модальность
-            // становится pointer — тёмный курсор гаснет, пока работает мышь
+            // The activity does not move (activateOnHover=false), but the
+            // modality becomes pointer — the dark cursor goes out while the
+            // mouse is in use
             await user.hover(options[2]);
             expect(options[2]).not.toHaveAttribute('data-active');
             expect(view.get('Banana')).toMatchObject({active: false});
@@ -642,8 +639,9 @@ describe('lab List', () => {
             );
             const options = screen.getAllByRole('option');
 
-            // Ховер (запрос активации отклонён controlled-родителем) всё
-            // равно переводит модальность в pointer — тёмный курсор гаснет
+            // Hovering (the activation request is rejected by the controlled
+            // parent) still switches the modality to pointer — the dark cursor
+            // goes out
             await user.hover(options[1]);
             expect(view.get('Apple')).toMatchObject({active: false});
 
@@ -685,9 +683,9 @@ describe('lab List', () => {
             await user.unhover(options[1]);
             expect(view.get('Banana')).toMatchObject({selected: true, active: false});
 
-            // Клавиша возвращает keyboard — «курсор» на выбранной строке
-            // показывается парой selected+active (selection-hover в каскаде
-            // вьюхи, правило _selected._active)
+            // A key brings the keyboard modality back — the "cursor" on a
+            // selected row is shown by the selected+active pair (the
+            // selection-hover rule _selected._active in the cascade of the view)
             fireEvent.keyDown(document.body, {key: 'a'});
             expect(view.get('Banana')).toMatchObject({selected: true, active: true});
         });
@@ -719,8 +717,8 @@ describe('lab List', () => {
             expect(view.get('Cherry')).toMatchObject({active: false, hovered: false});
             expect(view.get('Apple')).toMatchObject({hovered: false});
 
-            // Hover-активация приостановлена: подсветка не таскается за
-            // перетаскиванием, модальность заморожена
+            // Activation on hover is suspended: the highlight is not dragged
+            // along, and the modality is frozen
             await user.hover(options[3]);
             expect(options[3]).not.toHaveAttribute('data-active');
             expect(view.get('Melon')).toMatchObject({active: false, hovered: false});
@@ -762,15 +760,16 @@ describe('lab List', () => {
                     renderItem={renderItem}
                 />,
             );
-            // Тёмный курсор статичен (активность заморожена), CSS-hover погашен
+            // The dark cursor stays static (the activity is frozen) and the CSS
+            // hover is suppressed
             expect(view.get('Cherry')).toMatchObject({active: true, hovered: false});
         });
     });
 
-    // Модель react-aria (textSelection): не CSS навсегда, а инлайновое
-    // подавление на нажатой строке от pointerdown до отпускания — жесты не
-    // создают текстового выделения, но в покое строки остаются частью
-    // выделения страницы
+    // The react-aria model (textSelection): not CSS forever, but an inline
+    // suppression on the pressed row from pointerdown until release — gestures
+    // create no text selection, while at rest the rows stay a part of the page
+    // selection
     describe('text selection suppression on press', () => {
         test('press puts user-select: none on the row and release restores it', () => {
             render(<List aria-label="Fruits" items={FRUITS} />);
@@ -778,10 +777,10 @@ describe('lab List', () => {
 
             fireEvent.pointerDown(options[1]);
             expect(options[1].style.userSelect).toBe('none');
-            // Подавление точечное: соседние строки не тронуты
+            // The suppression is pinpoint: the neighbouring rows are untouched
             expect(options[0].style.userSelect).toBe('');
 
-            // Отпустить могут где угодно — restore слушает документ
+            // The release may happen anywhere — restore listens on the document
             fireEvent.pointerUp(document);
             expect(options[1].style.userSelect).toBe('');
         });
@@ -854,11 +853,11 @@ describe('lab List', () => {
 
             await user.tab();
             await user.keyboard('blue');
-            // без пробела запросу «blue» соответствует Blueberry…
+            // Without a space the query "blue" matches Blueberry...
             expect(options[1]).toHaveFocus();
 
             await user.keyboard(' ');
-            // …а «blue » (с пробелом в буфере) — только Blue whale
+            // ...while "blue " (with the space in the buffer) matches Blue whale only
             expect(options[0]).toHaveFocus();
             expect(onItemAction).not.toHaveBeenCalled();
         });
@@ -904,7 +903,8 @@ describe('lab List', () => {
                 jest.advanceTimersByTime(600);
                 await user.keyboard('a');
 
-                // Новый буфер «a», а не «ba»: поиск от активного по кругу
+                // The buffer is the new "a" rather than "ba": the search starts
+                // from the active row and wraps around
                 expect(options[0]).toHaveFocus();
             } finally {
                 jest.useRealTimers();
@@ -961,7 +961,8 @@ describe('lab List', () => {
             expect(onActiveItemUpdate).toHaveBeenLastCalledWith('Cherry');
             expect(options[1]).toHaveAttribute('data-active');
             expect(options[2]).not.toHaveAttribute('data-active');
-            // родитель не применил обновление — фокус остаётся на фактически активной строке
+            // The parent did not apply the update — focus stays on the row that
+            // is actually active
             expect(options[1]).toHaveFocus();
         });
 
@@ -1044,8 +1045,9 @@ describe('lab List', () => {
             onActiveItemUpdate.mockClear();
             await user.keyboard('{ArrowDown}');
 
-            // null — controlled-«нет активного»: навигация стартует с первой
-            // навигабельной строки, а не переходит в uncontrolled
+            // null is the controlled "nothing is active": navigation starts
+            // from the first navigable row instead of falling back to
+            // uncontrolled
             expect(onActiveItemUpdate).toHaveBeenLastCalledWith('Apple');
             for (const option of options) {
                 expect(option).not.toHaveAttribute('data-active');
@@ -1093,7 +1095,6 @@ describe('lab List', () => {
             const options = screen.getAllByRole('option');
             expect(options[0]).toHaveAttribute('data-active');
             expect(options[0]).toHaveClass('g-lab-list-item-view');
-            // getItemViewProps перевязывает состояние без ручных биндингов
             expect(options[1]).toHaveClass('g-lab-list-item-view_disabled');
             expect(screen.getByText('id: p1')).toBeInTheDocument();
         });
@@ -1145,7 +1146,7 @@ describe('lab List', () => {
 
             expect(screen.getByRole('listbox')).not.toHaveAttribute('aria-multiselectable');
             const options = screen.getAllByRole('option');
-            // «не выбран» ≠ «не выбирается»: атрибут есть на каждой опции
+            // "Not selected" ≠ "not selectable": the attribute is on every option
             expect(options.map((option) => option.getAttribute('aria-selected'))).toEqual([
                 'false',
                 'true',
@@ -1268,9 +1269,9 @@ describe('lab List', () => {
 
             expect(options[0]).toHaveAttribute('aria-selected', 'true');
             expect(onSelectedUpdate).not.toHaveBeenCalled();
-            // «применение» не гейтуется изменением выделения: жест по уже
-            // выбранной строке всё равно применяет её (Select: клик по
-            // выбранному закрывает попап)
+            // "Applying" is not gated by the selection changing: a gesture on
+            // an already selected row still applies it (in Select a click on
+            // the selected option closes the popup)
             expect(onItemAction).toHaveBeenCalledTimes(3);
             expect(onItemAction).toHaveBeenLastCalledWith('Apple', 'Apple');
         });
@@ -1303,7 +1304,6 @@ describe('lab List', () => {
                 'false',
             ]);
 
-            // повторный жест по выбранной строке снимает выделение
             await user.click(options[1]);
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Apple', 'Cherry']);
             expect(options[1]).toHaveAttribute('aria-selected', 'false');
@@ -1326,7 +1326,8 @@ describe('lab List', () => {
             await user.keyboard('blue');
             expect(options[1]).toHaveFocus();
 
-            // буфер непуст — пробел уходит в поиск, а не в выделение
+            // The buffer is not empty — the space goes into the search rather
+            // than into the selection
             await user.keyboard(' ');
             expect(options[0]).toHaveFocus();
             expect(onSelectedUpdate).not.toHaveBeenCalled();
@@ -1460,10 +1461,11 @@ describe('lab List', () => {
             );
 
             const options = screen.getAllByRole('option');
-            // multiple — галочка вместо подсветки: выделение не конкурирует
-            // с индикацией активной строки
+            // multiple gets a check mark instead of the highlight: the
+            // selection does not compete with the indication of the active row
             expect(options[1]).not.toHaveClass('g-lab-list-item-view_selected');
-            // Слот галочки — деталь вьюхи: у Testing Library нет API для такого ассерта
+            // The check slot is a detail of the view: Testing Library has no
+            // API for such an assertion
             // eslint-disable-next-line testing-library/no-node-access
             const checkSlot = options[1].querySelector('.g-lab-list-item-view__slot_name_checked');
             expect(checkSlot).toBeTruthy();
@@ -1537,14 +1539,15 @@ describe('lab List', () => {
             );
 
             const options = screen.getAllByRole('option');
-            // role уже доехал (getAllByRole), корень опции — сама вьюха
+            // The role has already arrived (getAllByRole), and the root of an
+            // option is the view itself
             expect(options[0]).toHaveClass('g-lab-list-item-view');
             expect(options[0]).toHaveAttribute('id', 'spread-list-item-p1');
             expect(options[0]).toHaveAttribute('tabindex', '0');
             expect(options[1]).toHaveAttribute('aria-disabled', 'true');
             expect(options[1]).toHaveAttribute('data-disabled');
 
-            // pointer-обработчики тоже доезжают
+            // The pointer handlers arrive as well
             await user.hover(options[2]);
             expect(options[2]).toHaveAttribute('data-active');
         });

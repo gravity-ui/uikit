@@ -1,24 +1,28 @@
 /**
- * Референсный dnd-адаптер §8 поверх @atlaskit/pragmatic-drag-and-drop —
- * «полная» форма контракта: и props (ref-регистрация строк), и состояние.
+ * A reference dnd adapter on top of @atlaskit/pragmatic-drag-and-drop — the
+ * "full" form of the contract: both the props (ref registration of the rows)
+ * and the state.
  *
- * Модель либы: регистрация DOM-элементов (`draggable`/`dropTargetForElements`)
- * + глобальный `monitorForElements`; props она не отдаёт вовсе, нативный
- * атрибут `draggable="true"` ставит на элементе сама. Грань before/after
- * считает closest-edge из hitbox-аддона.
+ * The model of the library: registration of DOM elements
+ * (`draggable`/`dropTargetForElements`) plus a global `monitorForElements`; it
+ * returns no props at all and sets the native `draggable="true"` attribute on
+ * the element itself. The before/after edge is computed by closest-edge from
+ * the hitbox add-on.
  *
- * Drag — только за ручку: `dragHandle` либы. Ручка приходит вторым per-id
- * ref'ом (`getHandleRef`) — метод живёт на объекте адаптера, контракту листа
- * не мешает (лишние поля `dnd`-пропа ядро игнорирует); строка
- * перерегистрируется, когда оба узла известны. Без ручки drag стартовал бы
- * за любое место строки.
+ * A drag starts from the handle only: the `dragHandle` of the library. The
+ * handle arrives as a second per-id ref (`getHandleRef`) — the method lives on
+ * the adapter object and does not interfere with the contract of the list (the
+ * core ignores extra fields of the `dnd` prop); a row is re-registered once
+ * both nodes are known. Without a handle a drag would start from anywhere in
+ * the row.
  *
- * Обязательства адаптера из §8 здесь видны буквально:
- * - per-id ref-callbacks стабильны (кеши в rowRefsRef/handleRefsRef) — иначе
- *   композиция ядра пересоздавала бы форк и дёргала перерегистрацию либы
- *   на каждый рендер;
- * - dropTarget дедуплицируется до setState — dragover сыпет событиями
- *   на каждый пиксель.
+ * The obligations of an adapter are visible here literally:
+ * - the per-id ref callbacks are stable (the caches in
+ *   rowRefsRef/handleRefsRef) — otherwise the composition of the core would
+ *   recreate the fork and trigger a re-registration in the library on every
+ *   render;
+ * - dropTarget is deduplicated before setState — dragover fires an event on
+ *   every pixel.
  */
 import * as React from 'react';
 
@@ -40,7 +44,7 @@ export interface UsePragmaticListDndOptions {
 }
 
 export interface PragmaticListDnd extends ListDndAdapter {
-    /** Ref ручки строки: drag стартует только с неё (`dragHandle` либы) */
+    /** The ref of the row handle: a drag starts from it only (the `dragHandle` of the library) */
     getHandleRef: (id: string) => React.RefCallback<HTMLElement>;
 }
 
@@ -65,9 +69,9 @@ export function usePragmaticListDnd({onDrop}: UsePragmaticListDndOptions): Pragm
     const handleRefsRef = React.useRef(new Map<string, React.RefCallback<HTMLElement>>());
     const cleanupsRef = React.useRef(new Map<string, () => void>());
 
-    // (Пере)регистрация строки: вызывается на каждое изменение её узлов —
-    // ручка (потомок) монтируется раньше строки, так что к моменту
-    // регистрации она уже известна
+    // (Re-)registration of a row: it is called on every change of its nodes —
+    // the handle (a descendant) mounts before the row, so by the time of the
+    // registration it is already known
     const register = React.useCallback((id: string) => {
         cleanupsRef.current.get(id)?.();
         cleanupsRef.current.delete(id);
@@ -171,8 +175,8 @@ export function usePragmaticListDnd({onDrop}: UsePragmaticListDndOptions): Pragm
         [],
     );
 
-    // Декларативный контракт: каждое изменение состояния — новый объект
-    // адаптера; ядро мемоизирует строки по ctx-срезу, поэтому это дёшево
+    // The contract is declarative: every state change produces a new adapter
+    // object; the core memoizes the rows by their ctx slice, so this is cheap
     return React.useMemo<PragmaticListDnd>(
         () => ({
             getItemDndProps: (id) => ({ref: getItemRef(id)}),

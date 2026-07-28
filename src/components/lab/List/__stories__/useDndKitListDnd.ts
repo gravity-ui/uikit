@@ -1,21 +1,24 @@
 /**
- * Референсный dnd-адаптер §8 поверх dnd-kit — «state-only» форма контракта:
- * адаптер несёт только draggingId, props-половину закрывает сам потребитель
- * per-item хуком `useSortable` в СВОЁМ компоненте строки через renderItem
- * (per-item хук невозможно вызвать из метода адаптера — rules of hooks;
- * итог спайка фазы 4).
+ * A reference dnd adapter on top of dnd-kit — the "state-only" form of the
+ * contract: the adapter carries draggingId only, and the props half is covered
+ * by the consumer with the per-item `useSortable` hook in THEIR OWN row
+ * component through renderItem (a per-item hook cannot be called from a method
+ * of the adapter — rules of hooks).
  *
- * Пример живёт в СДВИГОВОЙ модели (родной для sortable): соседи плавно
- * раздвигаются трансформами dnd-kit, место вставки показывает гэп — поэтому
- * `dropTarget` адаптер НЕ заполняет. Правило слоя — одно из двух:
- * заполняешь dropTarget → лист рисует индикатор вставки; применяешь
- * трансформы соседей → сдвиг; вместе — двойная индикация. Индикаторную
- * модель показывает референс pragmatic-drag-and-drop.
+ * The example lives in the SHIFT model (the native one for sortable): the
+ * neighbours smoothly move apart with the transforms of dnd-kit and the
+ * insertion point is shown by the gap — that is why the adapter does NOT fill
+ * `dropTarget` in. The rule of the layer is one of the two: either you fill
+ * dropTarget in and the list draws the insertion indicator, or you apply
+ * transforms to the neighbours and get the shift; together they produce a
+ * double indication. The indicator model is shown by the
+ * pragmatic-drag-and-drop reference.
  *
- * Обёртки DndContext/SortableContext рендерит потребитель вокруг листа,
- * спредя на них `contextProps` этого хука. Реордер в onDragEnd переводится
- * в {toId, position} для moveItem сравнением индексов: перенос вниз — after,
- * вверх — before (как у arrayMove).
+ * The DndContext/SortableContext wrappers are rendered by the consumer around
+ * the list, with the `contextProps` of this hook spread onto them. In
+ * onDragEnd the reorder is translated into the {toId, position} of moveItem by
+ * comparing indexes: moving down is after, moving up is before (as in
+ * arrayMove).
  */
 import * as React from 'react';
 
@@ -25,20 +28,20 @@ import {PointerSensor, closestCenter, useSensor, useSensors} from '@dnd-kit/core
 import type {ListDndAdapter} from '../types';
 
 export interface UseDndKitListDndOptions {
-    /** Порядок id опций — по нему считается before/after для onDrop */
+    /** The order of the option ids — before/after for onDrop is computed from it */
     ids: readonly string[];
     onDrop: (fromId: string, toId: string, position: 'before' | 'after') => void;
 }
 
 export function useDndKitListDnd({ids, onDrop}: UseDndKitListDndOptions): {
     adapter: ListDndAdapter;
-    /** Спред на DndContext, которым потребитель оборачивает лист */
+    /** To be spread onto the DndContext the consumer wraps the list into */
     contextProps: DndContextProps;
 } {
     const [draggingId, setDraggingId] = React.useState<string | null>(null);
 
-    // distance-констрейнт: клик по строке остаётся кликом (активация,
-    // выделение), drag начинается только после смещения указателя
+    // The distance constraint keeps a click on a row a click (activation,
+    // selection): a drag starts only after the pointer has moved
     const sensors = useSensors(useSensor(PointerSensor, {activationConstraint: {distance: 4}}));
 
     const getPosition = (fromId: string, toId: string): 'before' | 'after' =>

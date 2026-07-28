@@ -14,7 +14,7 @@ export interface ListSectionHeaderProps extends React.HTMLAttributes<HTMLDivElem
     children?: React.ReactNode;
 }
 
-/** Чисто презентационный заголовок секции листа */
+/** A purely presentational section header of the list */
 export const ListSectionHeader = React.forwardRef<HTMLDivElement, ListSectionHeaderProps>(
     function ListSectionHeader({size = 'm', className, qa, children, ...restProps}, ref) {
         return (

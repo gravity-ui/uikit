@@ -9,22 +9,23 @@ import type {ListRow} from './utils';
 const EMPTY_SELECTION: readonly string[] = [];
 
 export interface ListSelection<T> {
-    /** Выделенные id: наружу массив (сериализуемо), внутри Set */
+    /** The selected ids: an array on the outside (serializable), a Set inside */
     selectedSet: ReadonlySet<string>;
     /**
-     * Жест выделения строки; вне слоя, на секциях и disabled-строках — no-op.
-     *  Пере-якоряет диапазон: якорь = цель последней не-Shift операции
-     *  выделения (фаза 7)
+     * The selection gesture of a row; outside the layer, on sections and on
+     *  disabled rows it is a no-op. It re-anchors the range: the anchor is the
+     *  target of the last non-Shift selection operation
      */
     toggleSelection(row: ListRow<T>): void;
     /**
-     * Shift-жест (фаза 7, модель SelectionManager react-aria): заменяет
-     *  «диапазонную часть» выделения — [якорь..цель предыдущего Shift-жеста] —
-     *  диапазоном [якорь..цель] по данным. В single ведёт себя как обычный
-     *  жест (Shift игнорируется), вне слоя — no-op
+     * The Shift gesture (the SelectionManager model of react-aria): it
+     *  replaces the "range part" of the selection — [anchor..target of the
+     *  previous Shift gesture] — with the range [anchor..target] computed over
+     *  the data. In single mode it behaves like a plain gesture (Shift is
+     *  ignored), outside the layer it is a no-op
      */
     extendSelection(row: ListRow<T>): void;
-    /** Ctrl/Cmd+A (фаза 7): выделить все не-disabled опции; только multiple */
+    /** Ctrl/Cmd+A: select all non-disabled options; multiple only */
     selectAllOptions(): void;
 }
 
@@ -34,12 +35,12 @@ interface ListSelectionData<T> {
 }
 
 /**
- * Опции данных в диапазоне [fromId..toId] включительно, в порядке rows —
- *  top-down независимо от направления жеста (react-aria: getKeyRange всегда
- *  итерирует от меньшего индекса). Диапазон считается ПО ДАННЫМ, не по DOM:
- *  под виртуализацией строки за окном тоже попадают. Пусто, если какой-то из
- *  концов в данных не найден (react-aria: getKeyRange по отсутствующему
- *  ключу пуст)
+ * The option rows in the range [fromId..toId] inclusive, in the order of rows
+ *  — top-down regardless of the direction of the gesture (react-aria:
+ *  getKeyRange always iterates from the smaller index). The range is computed
+ *  OVER THE DATA, not over the DOM: under virtualization the rows outside the
+ *  window are included as well. Empty when either end is not found in the data
+ *  (react-aria: getKeyRange for a missing key is empty)
  */
 function getRangeRows<T>(
     {rows, rowById}: ListSelectionData<T>,
@@ -61,10 +62,10 @@ function sameIds(a: readonly string[], b: readonly string[]): boolean {
 }
 
 /**
- * Слой выделения (§6): состояние (controlled/uncontrolled), жесты и якорь
- *  диапазона (фаза 7). Пока selectionMode не передан, состояние существует,
- *  но ни во что не превращается — ни в aria, ни в ctx.state, ни в жесты:
- *  этим занимается ядро, гейтуя на selectionMode
+ * The selection layer: the state (controlled/uncontrolled), the gestures and
+ *  the range anchor. Until selectionMode is passed the state exists but turns
+ *  into nothing — neither into aria, nor into ctx.state, nor into gestures:
+ *  that is done by the core, and it is gated on selectionMode
  */
 export function useListSelection<T>(
     props: ListSelectionProps,
@@ -79,11 +80,12 @@ export function useListSelection<T>(
     );
     const selectedSet = React.useMemo(() => new Set(selectedIds), [selectedIds]);
 
-    // Якорь диапазона (фаза 7, модель SelectionManager react-aria): anchorId —
-    // цель последней не-Shift операции выделения, rangeEndId — цель последнего
-    // Shift-жеста (граница «диапазонной части», которую следующий Shift-жест
-    // заменит). Ref, а не state: якорь не влияет на рендер и читается только
-    // в момент жеста
+    // The range anchor (the SelectionManager model of react-aria): anchorId is
+    // the target of the last non-Shift selection operation, rangeEndId is the
+    // target of the last Shift gesture (the boundary of the "range part" that
+    // the next Shift gesture will replace). A ref rather than state: the
+    // anchor does not affect the render and is read at the moment of a gesture
+    // only
     const anchorRef = React.useRef<{anchorId: string | null; rangeEndId: string | null}>({
         anchorId: null,
         rangeEndId: null,
@@ -100,8 +102,8 @@ export function useListSelection<T>(
         );
     }
     if (selectionMode === 'single' && selectedIds.length > 1) {
-        // Несколько aria-selected="true" в listbox без aria-multiselectable —
-        // невалидная ARIA
+        // Several aria-selected="true" in a listbox without
+        // aria-multiselectable is invalid ARIA
         warnOnce(
             '[List] `selectionMode="single"` expects at most one selected id, but `selectedIds` contains several.',
         );
@@ -111,14 +113,15 @@ export function useListSelection<T>(
         if (!selectionMode || row.kind !== 'item' || row.disabled) {
             return;
         }
-        // Обычный жест пере-якоряет — и при снятии выделения тоже: «якорь =
-        // цель последней не-Shift операции выделения» (спека фазы 7).
-        // Отступление от react-aria: их toggleSelection при снятии якорь не
-        // двигает, но с TODO в исходнике — выбор не осознанный
+        // A plain gesture re-anchors, deselection included: the anchor is the
+        // target of the last non-Shift selection operation. A deviation from
+        // react-aria: their toggleSelection leaves the anchor in place on
+        // deselection, but with a TODO in the source — the choice is not a
+        // deliberate one
         anchorRef.current = {anchorId: row.id, rangeEndId: row.id};
         if (selectionMode === 'single') {
-            // Повторный жест по выбранной строке не снимает выделение
-            // (радио-семантика) и не дёргает колбэк
+            // Repeating the gesture on the selected row neither deselects it
+            // (radio semantics) nor fires the callback
             if (selectedIds.length === 1 && selectedIds[0] === row.id) {
                 return;
             }
@@ -137,23 +140,24 @@ export function useListSelection<T>(
             return;
         }
         if (selectionMode === 'single') {
-            // single Shift игнорирует: жест ведёт себя как обычный
-            // (react-aria: extendSelection в single — replaceSelection)
+            // Single ignores Shift: the gesture behaves like a plain one
+            // (react-aria: extendSelection in single is replaceSelection)
             toggleSelection(row);
             return;
         }
         const stored = anchorRef.current;
         const anchorRow = stored.anchorId === null ? undefined : data.rowById.get(stored.anchorId);
         const anchorAlive = anchorRow !== undefined && anchorRow.kind === 'item';
-        // Якорь исчез (смена items/фильтрация) или его ещё не было — цель
-        // жеста и есть якорь: диапазон из одной строки. Отступление от
-        // react-aria: они хранят стухший якорь, и жест молча не меняет
-        // выделение вовсе
+        // The anchor is gone (items changed, filtering) or there has not been
+        // one yet — then the target of the gesture is the anchor: a range of a
+        // single row. A deviation from react-aria: they keep the stale anchor,
+        // and the gesture silently does not change the selection at all
         const anchorId = anchorAlive ? anchorRow.id : row.id;
-        // Старая «диапазонная часть» вычитается целиком по данным — включая
-        // controlled-выбранные disabled внутри неё (react-aria удаляет старый
-        // диапазон без проверки canSelectItem); выделенное вне диапазона не
-        // трогается. Исчезнувшая граница прошлого жеста → вычитать нечего
+        // The old "range part" is subtracted whole, over the data — including
+        // controlled-selected disabled rows inside it (react-aria removes the
+        // old range without a canSelectItem check); what is selected outside
+        // the range is left alone. If the boundary of the previous gesture is
+        // gone there is nothing to subtract
         const oldRangeIds =
             anchorAlive && stored.rangeEndId !== null
                 ? getRangeRows(data, anchorId, stored.rangeEndId).map((rangeRow) => rangeRow.id)
@@ -161,17 +165,18 @@ export function useListSelection<T>(
         const removeSet = new Set(oldRangeIds);
         const kept = selectedIds.filter((id) => !removeSet.has(id));
         const keptSet = new Set(kept);
-        // Новая пачка — в конец, в порядке данных независимо от направления
-        // жеста; disabled жестами не выбираются (фаза 2); уже выбранное вне
-        // старого диапазона остаётся на своих местах (Set-семантика react-aria)
+        // The new batch goes to the end, in data order regardless of the
+        // direction of the gesture; disabled rows are not selected by gestures;
+        // what was already selected outside the old range keeps its place (the
+        // Set semantics of react-aria)
         const added = getRangeRows(data, anchorId, row.id)
             .filter((rangeRow) => !rangeRow.disabled && !keptSet.has(rangeRow.id))
             .map((rangeRow) => rangeRow.id);
         const next = [...kept, ...added];
         anchorRef.current = {anchorId, rangeEndId: row.id};
-        // Жест, не изменивший выделение, не дёргает колбэк (прецедент фазы 2:
-        // useControlledState сравнивает массивы по ссылке и выстрелил бы
-        // на каждый повтор жеста)
+        // A gesture that did not change the selection does not fire the
+        // callback: useControlledState compares arrays by reference and would
+        // fire on every repetition of the gesture
         if (!sameIds(next, selectedIds)) {
             setSelectedIds(next);
         }
@@ -181,9 +186,10 @@ export function useListSelection<T>(
         if (selectionMode !== 'multiple') {
             return;
         }
-        // Все не-disabled опции в порядке данных — материализованный аналог
-        // сентинела 'all' react-aria (наружу у нас массив id, §6). Якорь не
-        // двигается: следующий Shift-жест продолжит от прежнего якоря
+        // All non-disabled options in data order — a materialized counterpart
+        // of the 'all' sentinel of react-aria (on the outside we expose an
+        // array of ids). The anchor does not move: the next Shift gesture
+        // continues from the previous anchor
         const next = data.rows
             .filter((row) => row.kind === 'item' && !row.disabled)
             .map((row) => row.id);

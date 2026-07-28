@@ -7,122 +7,128 @@ import type {LIST_FOCUS_OWNER_CHANNEL, ListFocusOwnerChannel} from './focusOwner
 export type ListSize = 's' | 'm' | 'l' | 'xl';
 
 /**
- * ARIA-роль списка — она же роль-модель строк и ячеек (ось A, §15 плана).
- *  Выбирается по содержимому строк: интерактивные потомки валидны только
- *  в grid-модели
+ * ARIA role of the list — and at the same time the role model of its rows and
+ *  cells. It is chosen by the row content: interactive descendants are valid
+ *  in the grid model only
  */
 export type ListRole =
     /**
-     * Список опций: контейнер — `listbox`, строка — `option`.
-     *  `option` — ЛИСТОВАЯ роль ARIA: интерактивные потомки (кнопка, чекбокс,
-     *  ссылка) внутри неё невалидны, ячеек нет — `getCellProps()` пустой.
-     *  Клавиатура: `↑`/`↓`/`Home`/`End`/typeahead, при виртуализации —
-     *  `aria-setsize`/`aria-posinset`
+     * A list of options: the container is `listbox`, a row is `option`.
+     *  `option` is a LEAF ARIA role: interactive descendants (a button, a
+     *  checkbox, a link) inside it are invalid, and there are no cells —
+     *  `getCellProps()` is empty.
+     *  Keyboard: `↑`/`↓`/`Home`/`End`/typeahead, plus
+     *  `aria-setsize`/`aria-posinset` under virtualization
      */
     | 'listbox'
     /**
-     * Строки с интерактивом: контейнер — `grid`, строка — `row`, контент —
-     *  `gridcell` (`getCellProps()`). Ячейка ЛЕГИТИМНО содержит интерактив
-     *  (ручка dnd, чекбокс, row-action), `aria-selected` живёт на строке.
-     *  Клавиатура: к навигации по строкам добавляются `←`/`→` — вход
-     *  в интерактив ячейки и возврат на строку; при виртуализации —
-     *  `aria-rowcount`/`aria-rowindex`
+     * Rows with interactive content: the container is `grid`, a row is `row`,
+     *  its content is a `gridcell` (`getCellProps()`). A cell LEGITIMATELY
+     *  contains interactive elements (a drag handle, a checkbox, a row
+     *  action), while `aria-selected` lives on the row.
+     *  Keyboard: `←`/`→` are added to row navigation — entering the
+     *  interactive content of a cell and returning to the row; under
+     *  virtualization — `aria-rowcount`/`aria-rowindex`
      */
     | 'grid';
 
 /**
- * Стратегия синхронизации фокуса с активностью — шаг «б» клавиатурной машины
- *  (ось B, §5/§15 плана). Наружу не торчит: `activedescendant` включает проп
- *  `focusOwner` — DOM-фокус остаётся у внешнего владельца (инпута)
+ * The strategy that keeps focus in sync with the active row — step "b" of the
+ *  keyboard machinery. It is not exposed as a prop: `activedescendant` is
+ *  turned on by the `focusOwner` prop — DOM focus then stays with the
+ *  external owner (an input)
  */
 export type ListFocusStrategy = 'roving' | 'activedescendant';
 
 export interface ListItemGetters<T> {
-    /** Уникальный id айтема. default: `(i) => i.id`; для string-айтема — сама строка */
+    /** Unique item id. default: `(i) => i.id`; for a string item — the string itself */
     getItemId?: (item: T) => string;
     /** default: `(i) => Boolean(i.disabled)` */
     getItemDisabled?: (item: T) => boolean;
     /**
-     * Секции: узел с children рендерится как заголовок + опции.
+     * Sections: a node with children renders as a header plus its options.
      *  default: `(i) => i.children`
      */
     getItemChildren?: (item: T) => readonly T[] | undefined;
     /**
-     * ЧТО показать: children строки. string-айтем — сам собой.
-     *  Структуру (description/слоты) даёт renderItem, не этот геттер.
+     * WHAT to show: the children of a row. A string item is its own content.
+     *  The structure (description, slots) comes from renderItem, not from
+     *  this getter.
      */
     getItemContent?: (item: T) => React.ReactNode;
     /**
-     * Текст для typeahead. default: content, если он строка.
-     *  Accessible name опции этот геттер НЕ задаёт: нестроковому контенту
-     *  всё равно нужен собственный текст или aria-label
+     * Text for typeahead. default: the content, if it is a string.
+     *  This getter does NOT define the accessible name of an option:
+     *  non-string content still needs its own text or an aria-label
      */
     getItemTextValue?: (item: T) => string;
 }
 
 /**
- * Модальность последнего взаимодействия со списком — «чем пользователь
- *  работает сейчас», а не свойство конкретной активации (модель
- *  isFocusVisible react-aria). Наведение и клик переводят в `'pointer'`,
- *  любая клавиша — включая нажатую вне листа (Tab перед tab-in) — возвращает
- *  `'keyboard'`. Активность одна на обе модальности; различается только
- *  индикация: тёмный active-цвет курсора дефолтный рендер показывает лишь в
- *  keyboard-модальности, в pointer-модальности активную строку подсвечивает
- *  обычный CSS `:hover`, пока мышь на ней, — тёмный след за мышью не ходит
+ * The modality of the last interaction with the list — "what the user is
+ *  working with right now" rather than a property of a particular activation
+ *  (the isFocusVisible model of react-aria). Hover and click switch it to
+ *  `'pointer'`, any key — including one pressed outside the list (Tab before
+ *  tab-in) — returns `'keyboard'`. The active row is one and the same for
+ *  both modalities; only the indication differs: the default render shows the
+ *  dark active color of the cursor in the keyboard modality only, while in
+ *  the pointer modality the active row is highlighted by the plain CSS
+ *  `:hover` as long as the mouse is over it — the dark trail does not follow
+ *  the mouse
  */
 export type ListActivationModality = 'keyboard' | 'pointer';
 
 export interface ListItemContext<T> {
     id: string;
     item: T;
-    /** Позиция в visibleIds, включая заголовки секций */
+    /** Position in visibleIds, section headers included */
     index: number;
     kind: 'item' | 'section';
-    /** Результат getItemContent */
+    /** The result of getItemContent */
     content?: React.ReactNode;
     state: {
-        /** Подсвечен клавиатурой/наведением */
+        /** Highlighted by the keyboard or by hover */
         active: boolean;
         disabled: boolean;
         /**
-         * Модальность взаимодействия — только у активной строки (смена
-         *  модальности не ре-рендерит остальные). Начальная — `'keyboard'`:
-         *  программная активация (controlled/defaultActiveItemId)
-         *  показывается тёмным курсором
+         * The interaction modality — present on the active row only (a
+         *  modality change does not re-render the others). The initial one is
+         *  `'keyboard'`: programmatic activation
+         *  (controlled/defaultActiveItemId) is shown with the dark cursor
          */
         activationModality?: ListActivationModality;
-        /** Заполняется только при активном слое выделения */
+        /** Filled in only while the selection layer is on */
         selected?: boolean;
-        /** Заполняется только при активном слое dnd */
+        /** Filled in only while the dnd layer is on */
         dragging?: boolean;
-        /** Заполняется только при активном слое dnd */
+        /** Filled in only while the dnd layer is on */
         dropTarget?: 'before' | 'after' | null;
     };
 }
 
 /**
- * Переопределения, вливаемые в props строки/контейнера. Композиция:
- *  on*-обработчики цепочкой (переданный — после базового), className —
- *  конкатенация, ref — форк, style — shallow-merge; ключи со значением
- *  `undefined` игнорируются.
+ * Overrides merged into the props of a row or of the container. Composition:
+ *  `on*` handlers are chained (the passed one runs after the base one),
+ *  className is concatenated, ref is forked, style is shallow-merged; keys
+ *  whose value is `undefined` are ignored.
  *
- * Обработчики из overrides вызываются и на disabled-строках: цепочка
- *  композиции не гейтуется состоянием (базовый обработчик ядра выходит из
- *  себя сам, но переданный после него вызывается всегда). Если это важно —
- *  проверяйте `ctx.state.disabled` в своём обработчике.
+ * Handlers from overrides are called on disabled rows as well: the
+ *  composition chain is not gated by state (the base core handler bails out
+ *  on its own, but the one passed after it is always called). Check
+ *  `ctx.state.disabled` in your handler if that matters.
  *
- * `role`/`id`/`tabIndex` принадлежат ядру (ARIA-модель, DOM id строки,
- *  roving tab-stop). В overrides они применяются как переданы — это
- *  осознанный эскейп-хэтч (например, своя роль строки до официальной
- *  параметризации ролей), но затирание молча ломает клавиатурную машину,
- *  поэтому в dev будет предупреждение. Props dnd-адаптера, в отличие от
- *  overrides, эти ключи не проносят вовсе (`ListDndProps`).
+ * `role`/`id`/`tabIndex` belong to the core (the ARIA model, the DOM id of a
+ *  row, the roving tab stop). In overrides they are applied as passed — a
+ *  deliberate escape hatch (a custom row role before roles are officially
+ *  parameterized, for example), but overwriting them silently breaks the
+ *  keyboard machinery, so a dev warning is logged. Unlike overrides, dnd
+ *  adapter props do not carry these keys through at all (`ListDndProps`).
  *
- * `draggable` исключён (решение фазы 4): нативный атрибут не проходит через
- *  props-контракт вовсе — ref-based dnd-либы ставят его на элементе сами
- *  (pragmatic-dnd), остальным он не нужен. Ядро ключ никогда не эмитит,
- *  поэтому одноимённый слотовый проп вьюхи (рендерит drag-handle) не
- *  конфликтует со спредом getItemProps
+ * `draggable` is excluded: the native attribute does not go through the props
+ *  contract at all — ref-based dnd libraries set it on the element themselves
+ *  (pragmatic-dnd), and the others do not need it. The core never emits the
+ *  key, so the view's slot prop of the same name (it renders a drag handle)
+ *  does not conflict with the getItemProps spread
  */
 export type ListPropsOverrides = Omit<React.HTMLAttributes<HTMLElement>, 'draggable'> & {
     ref?: React.Ref<HTMLElement>;
@@ -130,16 +136,16 @@ export type ListPropsOverrides = Omit<React.HTMLAttributes<HTMLElement>, 'dragga
     [key: `data-${string}`]: string | undefined;
 };
 
-/** `draggable` исключён — см. ListPropsOverrides */
+/** `draggable` is excluded — see ListPropsOverrides */
 export type ListItemDOMProps = Omit<React.HTMLAttributes<HTMLElement>, 'draggable'> &
     React.AriaAttributes & {role: string; ref: React.RefCallback<HTMLElement>} & {
         [key: `data-${string}`]: string | undefined;
     };
 
 /**
- * Props ячейки строки. В listbox-режиме `role` отсутствует (ячеек нет), в
- *  grid-режиме — `role="gridcell"`: один и тот же `renderItem` работает в обеих
- *  роль-моделях
+ * Props of a row cell. In the listbox mode `role` is absent (there are no
+ *  cells), in the grid mode it is `role="gridcell"`: one and the same
+ *  `renderItem` works in both role models
  */
 export type ListCellDOMProps = Omit<React.HTMLAttributes<HTMLElement>, 'draggable'> &
     React.AriaAttributes & {role?: string; ref?: React.RefCallback<HTMLElement>} & {
@@ -149,73 +155,75 @@ export type ListCellDOMProps = Omit<React.HTMLAttributes<HTMLElement>, 'draggabl
 export interface ListItemViewStateProps {
     size?: ListSize;
     /**
-     * Тёмная индикация «курсора» (active-цвет вьюхи): активная строка в
-     *  keyboard-модальности. В pointer-модальности активную строку красит
-     *  обычный CSS `:hover`, пока мышь на ней, — тёмный след за мышью не
-     *  ходит (модель react-aria)
+     * The dark "cursor" indication (the active color of the view): the active
+     *  row in the keyboard modality. In the pointer modality the active row
+     *  is painted by the plain CSS `:hover` as long as the mouse is over it —
+     *  the dark trail does not follow the mouse (the react-aria model)
      */
     active: boolean;
     disabled: boolean;
     selected?: boolean;
     selectionStyle?: 'check' | 'highlight' | 'none';
     /**
-     * На время перетаскивания (dnd-слой, §8) ядро отдаёт `false` — гасит
-     *  CSS-:hover вьюхи: курсор позиционирует вставку, а не выбирает строку
+     * While a drag is in progress (the dnd layer) the core passes `false` —
+     *  it suppresses the CSS `:hover` of the view: the cursor positions the
+     *  insertion point instead of choosing a row
      */
     hovered?: boolean;
 }
 
 export interface ListItemHelpers {
     /**
-     * DOM/a11y-props строки с уже привязанным id. Поведением владеет ядро:
-     *  вьюха и кастомный маркап не добавляют своей логики поверх
+     * DOM/a11y props of the row with its id already bound. The behavior
+     *  belongs to the core: neither the view nor custom markup adds logic of
+     *  its own on top
      */
     getItemProps(overrides?: ListPropsOverrides): ListItemDOMProps;
     /**
-     * ctx.state в терминах пропсов вьюхи — чтобы кастомный renderItem
-     *  не перевязывал active/selected/disabled руками
+     * ctx.state in terms of the props of the view — so that a custom
+     *  renderItem does not have to re-bind active/selected/disabled by hand
      */
     getItemViewProps(): ListItemViewStateProps;
     /**
-     * DOM/a11y-props ЯЧЕЙКИ строки (ось роль-модели, §15 плана). При
-     *  `role="grid"` — `role="gridcell"`: интерактив (ручка dnd,
-     *  чекбокс, row-action) валиден только внутри ячейки. В listbox-режиме
-     *  геттер отдаёт пустой объект, поэтому одна и та же обёртка ячейки
-     *  в `renderItem` работает в обеих роль-моделях
+     * DOM/a11y props of a row CELL (the role model axis). With `role="grid"`
+     *  it is `role="gridcell"`: interactive content (a drag handle, a
+     *  checkbox, a row action) is valid inside a cell only. In the listbox
+     *  mode the getter returns an empty object, so one and the same cell
+     *  wrapper in `renderItem` works in both role models
      */
     getCellProps(overrides?: ListPropsOverrides): ListCellDOMProps;
 }
 
-/** Props внешнего владельца фокуса — инпута комбобокса (§15 плана) */
+/** Props of the external focus owner — the combobox input */
 export type ListFocusOwnerInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
     role: string;
 };
 
 /**
- * Внешний владелец DOM-фокуса списка (ось B, §15 плана) — объект из
- *  `useListFocusOwner()`. Пока проп `focusOwner` не передан, список живёт в
- *  roving-стратегии: DOM-фокус переезжает на строки.
+ * The external owner of the list DOM focus — the object returned by
+ *  `useListFocusOwner()`. Until the `focusOwner` prop is passed, the list
+ *  lives in the roving strategy: DOM focus travels to the rows.
  *
- * Канал рассчитан на mount/unmount-модель попапа: `aria-expanded` считается
- *  по факту монтирования списка, клавиатурная машина отключается вместе с
- *  ним. Держать закрытый попап смонтированным (keepMounted) не поддержано:
- *  у скрытого списка стрелки продолжали бы двигать активность, а
- *  `aria-expanded` остался бы `true`
+ * The channel is designed for the mount/unmount model of a popup:
+ *  `aria-expanded` is derived from the list being mounted, and the keyboard
+ *  machinery goes away together with it. Keeping a closed popup mounted
+ *  (keepMounted) is not supported: in a hidden list the arrows would keep
+ *  moving the active row while `aria-expanded` stayed `true`
  */
 export interface ListFocusOwner {
     /**
-     * Props инпута: `role="combobox"`, `aria-expanded`, `aria-controls`,
-     *  `aria-activedescendant`, `onKeyDown` (клавиатурная машина списка).
-     *  Переопределения компонуются по общему контракту (свой `onKeyDown` —
-     *  после машины); `role` и `aria-expanded` можно переопределить —
-     *  эскейп-хэтч для не-попап паттернов (постоянно видимый фильтруемый
-     *  список)
+     * Props of the input: `role="combobox"`, `aria-expanded`,
+     *  `aria-controls`, `aria-activedescendant`, `onKeyDown` (the keyboard
+     *  machinery of the list). Overrides are composed by the common contract
+     *  (a custom `onKeyDown` runs after the machinery); `role` and
+     *  `aria-expanded` can be overridden — an escape hatch for non-popup
+     *  patterns (a permanently visible filterable list)
      */
     getInputProps(
         overrides?: React.InputHTMLAttributes<HTMLInputElement>,
     ): ListFocusOwnerInputProps;
     /**
-     * Канал ядра — доступен только по module-private символу
+     * The core channel — reachable through a module-private symbol only
      * @internal
      */
     readonly [LIST_FOCUS_OWNER_CHANNEL]: ListFocusOwnerChannel;
@@ -227,46 +235,48 @@ export interface ListCoreProps<T> extends ListItemGetters<T>, QAProps {
     'aria-labelledby'?: string;
 
     /**
-     * Активный (подсвеченный) айтем — controlled/uncontrolled.
-     *  Это навигация (roving-фокус), не выделение — есть всегда.
-     *  `null` — controlled-«нет активного»; `undefined` — uncontrolled
+     * The active (highlighted) item — controlled/uncontrolled.
+     *  This is navigation (roving focus), not selection — it always exists.
+     *  `null` is the controlled "nothing is active"; `undefined` is
+     *  uncontrolled
      */
     activeItemId?: string | null;
     defaultActiveItemId?: string;
     onActiveItemUpdate?: (id: string | null) => void;
 
-    /** «Применение» айтема: Enter или клик */
+    /** "Applying" an item: Enter or a click */
     onItemAction?: (id: string, item: T) => void;
 
-    /** Активация наведением. default: true */
+    /** Activation on hover. default: true */
     activateOnHover?: boolean;
 
     /**
-     * ARIA-роль списка (ось роль-модели, §15 плана). default: `'listbox'`;
-     *  `'grid'` — когда в строках есть интерактив (кнопка-ручка dnd, чекбокс,
-     *  row-action): внутри `option` он невалиден, внутри `gridcell` — валиден.
-     *  Описание каждой роли — в JSDoc `ListRole`.
+     * The ARIA role of the list (the role model axis). default: `'listbox'`;
+     *  `'grid'` — when the rows contain interactive content (a drag handle
+     *  button, a checkbox, a row action): inside `option` it is invalid,
+     *  inside `gridcell` it is valid. Each role is described in the JSDoc of
+     *  `ListRole`.
      *
-     * Роль задаётся явно, а не выводится из содержимого строк: узнать про
-     *  интерактив можно только сканом DOM ПОСЛЕ монтирования — роль
-     *  контейнера успела бы уехать в скринридер как `listbox` и смениться
-     *  на лету
+     * The role is set explicitly instead of being inferred from the row
+     *  content: interactive content can only be discovered by scanning the
+     *  DOM AFTER mount — the container role would have already reached the
+     *  screen reader as `listbox` and would then change on the fly
      */
     role?: ListRole;
 
     /**
-     * Внешний владелец DOM-фокуса — объект из `useListFocusOwner()`
-     *  (ось B, §15 плана). Включает стратегию `aria-activedescendant`: фокус
-     *  остаётся в инпуте владельца, список только подсвечивает активную строку
-     *  и доскролливает к ней. Символьные клавиши в этом режиме уходят
-     *  владельцу (фильтрация вместо typeahead)
+     * The external owner of the DOM focus — the object returned by
+     *  `useListFocusOwner()`. It turns on the `aria-activedescendant`
+     *  strategy: focus stays in the owner's input, and the list only
+     *  highlights the active row and scrolls it into view. Character keys go
+     *  to the owner in this mode (filtering instead of typeahead)
      */
     focusOwner?: ListFocusOwner;
 
-    /** Кастомный рендер строки; дефолт — List.ItemView / List.SectionHeader */
+    /** Custom row render; the default is List.ItemView / List.SectionHeader */
     renderItem?: (ctx: ListItemContext<T>, helpers: ListItemHelpers) => React.ReactNode;
 
-    /** База id строк + цель внешних aria-controls; default — авто-id */
+    /** The base of row ids and the target of an external aria-controls; default — an auto id */
     id?: string;
     size?: ListSize;
     className?: string;
@@ -274,93 +284,96 @@ export interface ListCoreProps<T> extends ListItemGetters<T>, QAProps {
 }
 
 /**
- * Слой выделения (§6 плана). Пока `selectionMode` не передан, слоя нет:
- *  ни `aria-selected`/`aria-multiselectable`, ни `ctx.state.selected`,
- *  ни выделения по Space («не выбран» ≠ «не выбирается» для SR)
+ * The selection layer. Until `selectionMode` is passed there is no layer:
+ *  no `aria-selected`/`aria-multiselectable`, no `ctx.state.selected`, no
+ *  selection by Space ("not selected" ≠ "not selectable" for a screen reader)
  */
 export interface ListSelectionProps {
-    /** Включает слой. Отдельного `'none'` нет — его выражает отсутствие пропа */
+    /** Turns the layer on. There is no separate `'none'` — the absence of the prop expresses it */
     selectionMode?: 'single' | 'multiple';
-    /** Наружу массив (сериализуемо), внутри Set */
+    /** An array on the outside (serializable), a Set inside */
     selectedIds?: readonly string[];
     defaultSelectedIds?: readonly string[];
     onSelectedUpdate?: (ids: string[]) => void;
 }
 
-/** Цель вставки: строка и грань, у которой рисуется индикатор */
+/** The insertion target: the row and the edge the indicator is drawn at */
 export interface ListDropTarget {
     id: string;
     position: 'before' | 'after';
 }
 
 /**
- * Props, которые отдаёт dnd-адаптер. Сверх общих ограничений
- *  `ListPropsOverrides` исключены `role`, `id` и `tabIndex`: ими владеет
- *  ядро (ARIA-модель listbox, DOM id строки, roving tab-stop), а композиция
- *  для не-`on*` ключей работает по правилу «последний побеждает» — адаптер
- *  затёр бы их молча. Практический случай — объект `attributes` из
- *  `useSortable` (dnd-kit): `{role: 'button', tabIndex: 0, ...}`; его нужно
- *  спредить не через адаптер, а самому — и только там, где это осознанно
+ * Props returned by a dnd adapter. On top of the common `ListPropsOverrides`
+ *  restrictions, `role`, `id` and `tabIndex` are excluded: they belong to the
+ *  core (the listbox ARIA model, the DOM id of a row, the roving tab stop),
+ *  while composition of non-`on*` keys follows the "last one wins" rule — an
+ *  adapter would overwrite them silently. The practical case is the
+ *  `attributes` object of `useSortable` (dnd-kit): `{role: 'button',
+ *  tabIndex: 0, ...}`; spread it yourself instead of passing it through the
+ *  adapter — and only where that is deliberate
  */
 export type ListDndProps = Omit<ListPropsOverrides, 'role' | 'id' | 'tabIndex'>;
 
 /**
- * Слой dnd (§8 плана): контракт без привязки к dnd-либе — потребитель
- *  приносит свою, адаптер транслирует её в props и состояние; данные двигает
- *  потребитель (`moveItem`), ядро только отражает состояние и мёржит props.
- *  Скоуп — ref/props-based либы (референсы: pragmatic-drag-and-drop и
- *  dnd-kit); либы с компонентами-обёртками и обязательными слотами внутри
- *  контейнера (hello-pangea) контрактом невыразимы — итог спайка фазы 4.
+ * The dnd layer: a contract that is not tied to a dnd library — the consumer
+ *  brings their own, the adapter translates it into props and state; the data
+ *  is moved by the consumer (`moveItem`), the core only reflects the state
+ *  and merges the props. The scope is ref/props-based libraries (references:
+ *  pragmatic-drag-and-drop and dnd-kit); libraries built around wrapper
+ *  components with mandatory slots inside the container (hello-pangea) cannot
+ *  be expressed by the contract.
  *
- * Оба геттера опциональны: «state-only адаптер» легален (паттерн dnd-kit —
- *  props-половину закрывает потребитель per-item хуком в своём компоненте
- *  строки через renderItem, адаптер несёт только draggingId/dropTarget).
+ * Both getters are optional: a "state-only adapter" is legal (the dnd-kit
+ *  pattern — the props half is covered by the consumer with a per-item hook
+ *  in their own row component through renderItem, and the adapter carries
+ *  draggingId/dropTarget only).
  *
- * Обязательства адаптера:
- *  - ref'ы в ОБОИХ геттерах стабильны (per id — в getItemDndProps):
- *    композиция ядра кеширует форки по identity, поэтому новый callback
- *    на каждый рендер дёргал бы перерегистрацию элемента в либе — а во
- *    время перетаскивания лист ре-рендерится на каждое обновление
- *    dropTarget;
- *  - props из геттеров НЕ ЗАМЫКАЮТ рендер-стейт: строки мемоизируются по
- *    своему ctx-срезу (перф-обязательство §8) и могут не перечитать геттер
- *    после ре-рендера листа. Обработчику, которому нужны свежие данные
- *    (`items`, `draggingId` в момент drop), читать их через ref, а не из
- *    замыкания рендера;
- *  - обновления dropTarget дедуплицируются до setState (иначе re-render
- *    на каждый пиксель dragover);
- *  - state-половина (draggingId, а с индикаторной моделью и dropTarget)
- *    заполняется ДАЖЕ при чисто композиционной интеграции, когда props идут
- *    мимо адаптера (обёртки/хуки в renderItem): без draggingId ядро не
- *    приостановит активацию по наведению и не погасит hover-индикацию вьюхи
- *    на время перетаскивания.
+ * What an adapter must guarantee:
+ *  - the refs of BOTH getters are stable (per id in getItemDndProps): the
+ *    core composition caches forks by identity, so a new callback on every
+ *    render would re-register the element in the library — and while
+ *    dragging the list re-renders on every dropTarget update;
+ *  - props from the getters DO NOT CLOSE OVER render state: rows are memoized
+ *    by their ctx slice (a performance obligation of the layer) and may not
+ *    read the getter again after the list re-renders. A handler that needs
+ *    fresh data (`items`, `draggingId` at the moment of the drop) has to read
+ *    it through a ref rather than from the render closure;
+ *  - dropTarget updates are deduplicated before setState (otherwise every
+ *    dragover pixel causes a re-render);
+ *  - the state half (draggingId, and dropTarget as well with the indicator
+ *    model) is filled in EVEN for a purely compositional integration where
+ *    the props bypass the adapter (wrappers/hooks in renderItem): without
+ *    draggingId the core will neither suspend activation on hover nor
+ *    suppress the hover indication of the view while dragging.
  */
 export interface ListDndAdapter {
     /**
-     * Props на корень листа (зона сброса). ref — для либ, регистрирующих
-     *  элемент (pragmatic-dnd не отдаёт props вовсе)
+     * Props for the list root (the drop zone). ref — for libraries that
+     *  register the element (pragmatic-dnd returns no props at all)
      */
     getContainerDndProps?(): ListDndProps;
     /**
-     * Props на строку; вливаются в getItemProps контрактом композиции
-     *  (после базовых props ядра, до overrides потребителя) — только в опции,
-     *  заголовки секций не участвуют в dnd
+     * Props for a row; they are merged into getItemProps by the composition
+     *  contract (after the base core props, before the consumer overrides) —
+     *  options only, section headers do not take part in dnd
      */
     getItemDndProps?(id: string): ListDndProps;
-    /** Кто перетаскивается — источник ctx.state.dragging и data-dragging */
+    /** Who is being dragged — the source of ctx.state.dragging and data-dragging */
     draggingId?: string | null;
     /**
-     * Цель вставки — источник ctx.state.dropTarget и data-drop-target;
-     *  индикатор вставки лист рисует сам. Декларативно: либа обновляет
-     *  state → новый объект адаптера (императивного setDropTarget нет)
+     * The insertion target — the source of ctx.state.dropTarget and
+     *  data-drop-target; the list draws the insertion indicator itself.
+     *  Declarative: the library updates its state → a new adapter object
+     *  (there is no imperative setDropTarget)
      */
     dropTarget?: ListDropTarget | null;
 }
 
 export interface ListProps<T> extends ListCoreProps<T>, ListSelectionProps {
     /**
-     * Слой dnd (§8 плана). Пока проп не передан, слоя не существует:
-     *  ни полей dragging/dropTarget в ctx.state, ни data-атрибутов
+     * The dnd layer. Until the prop is passed the layer does not exist:
+     *  neither dragging/dropTarget fields in ctx.state nor data attributes
      */
     dnd?: ListDndAdapter;
 }

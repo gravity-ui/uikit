@@ -7,21 +7,22 @@ import {warnOnce} from '../../utils/warn';
 
 import type {ListPropsOverrides} from './types';
 
-// Ключи, которыми владеет ядро: ARIA-роль строки (option либо row, §15),
-// DOM id строки и roving tab-stop.
-// Типы dnd-адаптера их уже исключают (ListDndProps), но каст в
-// адаптере потребителя обойдёт типы молча — а затирание role/id ломает
-// клавиатурную машину целиком (она гейтуется на DOM id строки)
+// The keys owned by the core: the ARIA role of a row (option or row), the DOM
+// id of a row and the roving tab stop.
+// The dnd adapter types exclude them already (ListDndProps), but a cast inside
+// a consumer's adapter goes around the types silently — and overwriting
+// role/id breaks the keyboard machinery completely (it is gated on the DOM id
+// of a row)
 const CORE_OWNED_PROPS = ['role', 'id', 'tabIndex'] as const;
 
-// Ключ контейнера в dev-трекере стабильности ref dnd-адаптера: NUL не
-// встречается в потребительских id строк
+// The container key in the dev tracker of dnd adapter ref stability: NUL never
+// occurs in consumer row ids
 const DND_CONTAINER_REF_KEY = '\u0000container';
 
-// В overrides ПОТРЕБИТЕЛЯ ключи ядра не отбрасываются — в отличие от props
-// адаптера это осознанный эскейп-хэтч (например, своя роль строки до
-// официальной параметризации ролей), но затирание молча ломает клавиатурную
-// машину — предупреждаем
+// In the CONSUMER's overrides the core keys are not dropped — unlike adapter
+// props, this is a deliberate escape hatch (a custom row role before roles are
+// officially parameterized, for example), but overwriting them silently breaks
+// the keyboard machinery, hence the warning
 export function warnOnOverridesCollision(
     overrides: ListPropsOverrides | undefined,
     getterName: string,
@@ -39,9 +40,9 @@ export function warnOnOverridesCollision(
 }
 
 /**
- * Санитайзер props dnd-адаптера: ключи ядра ВЫРЕЗАЮТСЯ — и в проде, это
- * поведение контракта («такие ключи игнорируются»), а не диагностика;
- * warning — только в dev
+ * The sanitizer of dnd adapter props: the core keys are CUT OUT, in production
+ * as well — that is contract behavior ("such keys are ignored") rather than
+ * diagnostics; the warning is dev-only
  */
 export function sanitizeDndProps<P extends object>(dndProps: P): P {
     for (const key of CORE_OWNED_PROPS) {
@@ -57,20 +58,21 @@ export function sanitizeDndProps<P extends object>(dndProps: P): P {
 }
 
 export interface DndRefStabilityTracker {
-    /** ref из getContainerDndProps */
+    /** The ref from getContainerDndProps */
     trackContainerRef(ref: unknown): void;
-    /** ref из getItemDndProps(id) */
+    /** The ref from getItemDndProps(id) */
     trackItemRef(id: string, ref: unknown): void;
 }
 
 /**
- * Dev-детекция нарушения обязательства §8 «ref в геттерах адаптера
- * стабилен (per id — в getItemDndProps)»: нестабильный callback молча
- * промахивается мимо кеша форков — React отцепляет/прицепляет ref, и
- * dnd-либа перерегистрирует элемент на каждый рендер, а во время
- * перетаскивания лист ре-рендерится на каждое обновление dropTarget.
- * Порог 2: одна легитимная смена (потребитель пересоздал адаптер/либу)
- * допускается; систематическая нестабильность даёт вторую смену сразу
+ * Dev-time detection of a violated adapter obligation — "the ref of an adapter
+ * getter is stable (per id in getItemDndProps)": an unstable callback silently
+ * misses the cache of forks, React detaches and re-attaches the ref, and the
+ * dnd library re-registers the element on every render — while dragging, the
+ * list re-renders on every dropTarget update.
+ * The threshold is 2: one legitimate change (the consumer recreated the
+ * adapter or the library) is allowed; systematic instability produces the
+ * second change immediately
  */
 export function useDndRefStabilityTracker({
     rowById,
@@ -118,13 +120,13 @@ export function useDndRefStabilityTracker({
 }
 
 /**
- * Контракт grid: список — ОДИН tab-stop (APG). Интерактив ячейки
- * достижим ←/→, а в Tab-порядке его быть не должно — иначе список
- * разворачивается в N+1 tab-stop (практический случай — dragHandleProps
- * из rbd со своим tabIndex=0). Ядро чужой маркап не переписывает
- * (потребитель мог сделать элемент tabbable намеренно, а либа вернёт
- * свой tabIndex на следующем же рендере) — вместо этого предупреждаем.
- * Проверка только в dev и только на смену набора строк
+ * The grid contract: a list is ONE tab stop (APG). The interactive content of
+ * a cell is reachable with ←/→ and must not be in the Tab order — otherwise
+ * the list unfolds into N+1 tab stops (the practical case is dragHandleProps
+ * from rbd with a tabIndex=0 of its own). The core does not rewrite foreign
+ * markup (the consumer may have made the element tabbable on purpose, and the
+ * library would put its tabIndex back on the very next render) — it warns
+ * instead. Dev only, and only when the set of rows changes
  */
 export function useGridTabStopDevCheck({
     enabled,
@@ -132,7 +134,7 @@ export function useGridTabStopDevCheck({
     getElements,
 }: {
     enabled: boolean;
-    /** Только сигнал пересканирования — смена набора строк */
+    /** A re-scan signal only — the set of rows has changed */
     rows: readonly unknown[];
     getElements: () => Iterable<HTMLElement>;
 }) {

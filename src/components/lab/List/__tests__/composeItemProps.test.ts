@@ -4,8 +4,8 @@ import {composeItemProps} from '../composeItemProps';
 
 type Props = React.HTMLAttributes<HTMLElement> & {ref?: React.Ref<HTMLElement>};
 
-// Контракт композиции props из getItemProps (§4.4 плана): на него опираются
-// слои виртуализации (style/ref) и dnd (props/ref) — менять только аддитивно
+// The contract for composing the props of getItemProps: the virtualization
+// (style/ref) and dnd (props/ref) layers rely on it — change it additively only
 describe('composeItemProps', () => {
     it('returns base props untouched without overrides', () => {
         const base: Props = {role: 'option', tabIndex: 0};

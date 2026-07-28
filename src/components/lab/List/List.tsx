@@ -24,15 +24,16 @@ import './List.scss';
 
 const b = block('list-v2');
 
-// Оценка высоты строки до рендера для слоя виртуализации (§7): min-height
-// дефолтной вьюхи (border-box, однострочный контент); разброс фактических
-// высот закрывает measure
+// The row height estimation used before the first render by the
+// virtualization layer: the min-height of the default view (border-box,
+// single-line content); the spread of the actual heights is covered by measure
 const ESTIMATED_ITEM_SIZE: Record<ListSize, number> = {s: 24, m: 28, l: 32, xl: 36};
 
 /**
- * Стабильный диспетчер геттеров ядра для мемоизированных строк: сам объект
- * живёт один на маунт листа и дёргает АКТУАЛЬНЫЙ инстанс ядра через ref —
- * строка, пропустившая ре-рендер, не остаётся с устаревшим замыканием
+ * A stable dispatcher of the core getters for memoized rows: the object itself
+ * lives for as long as the list is mounted and calls into the CURRENT core
+ * instance through a ref — a row that skipped a re-render is not left with a
+ * stale closure
  */
 interface ListRowCore {
     getItemProps: (id: string, overrides?: ListPropsOverrides) => ListItemDOMProps;
@@ -42,16 +43,17 @@ interface ListRowCore {
 interface ListRowProps<T> {
     ctx: ListItemContext<T>;
     /**
-     * Инвалидатор мемо для выходов getItemProps, не выраженных в ctx (DOM id,
-     * roving tab-stop без активной, aria-нумерация при виртуализации) —
-     * значения считает ядро, строка ключ не интерпретирует
+     * The memo invalidator for the outputs of getItemProps that are not
+     * expressed in ctx (the DOM id, the roving tab stop without an active row,
+     * the aria numbering under virtualization) — the values are computed by
+     * the core, the row does not interpret the key
      */
     memoKey: string;
     size: ListSize;
     selectionStyle: 'check' | 'highlight';
-    /** Идёт перетаскивание (dnd-слой): вьюхе гасится CSS-hover */
+    /** A drag is in progress: the CSS hover of the view is suppressed */
     dragActive: boolean;
-    /** ARIA-роль списка (ось A, §15): в grid дефолтный рендер кладёт контент в ячейку */
+    /** The ARIA role of the list: in grid the default render puts the content into a cell */
     role: ListRole;
     renderItem: ListProps<T>['renderItem'];
     core: ListRowCore;
@@ -71,22 +73,23 @@ function ListRowComponent<T>({
         getCellProps: (overrides) => core.getCellProps(overrides),
         getItemViewProps: () => ({
             size,
-            // Тёмный active-цвет — только у курсора в keyboard-модальности
-            // (модель react-aria): в pointer-модальности активную строку
-            // подсвечивает обычный CSS :hover, пока мышь на ней, а после
-            // ухода мыши тёмного следа нет — он вернётся со следующей клавишей
+            // The dark active color belongs to the cursor in the keyboard
+            // modality only (the react-aria model): in the pointer modality
+            // the active row is highlighted by the plain CSS :hover as long as
+            // the mouse is over it, and once the mouse leaves there is no dark
+            // trail — it comes back with the next key
             active: ctx.state.active && ctx.state.activationModality !== 'pointer',
             disabled: ctx.state.disabled,
-            // selected/selectionStyle — только при включённом слое:
-            // у вьюхи нет дефолта selectionStyle, без него выделение
-            // не видно
+            // selected and selectionStyle travel together: the view has no
+            // default selectionStyle, and without one the selection is
+            // invisible
             ...(ctx.state.selected === undefined
                 ? undefined
                 : {selected: ctx.state.selected, selectionStyle}),
-            // Во время перетаскивания hover-индикация вьюхи гасится
-            // (симметрично приостановке hover-активации в ядре): у либ
-            // с синтетическим драгом браузер продолжает вешать :hover
-            // на строку под курсором
+            // While dragging, the hover indication of the view is suppressed
+            // (symmetrically to suspending activation on hover in the core):
+            // with libraries that use a synthetic drag the browser keeps
+            // applying :hover to the row under the cursor
             ...(dragActive ? {hovered: false} : undefined),
         }),
     };
@@ -96,26 +99,22 @@ function ListRowComponent<T>({
     }
 
     if (ctx.content === undefined) {
-        // Дефолтный getItemContent отдаёт контент только string-айтемам —
-        // объектный айтем без геттера рендерится пустой строкой
         warnOnce(
             '[List] Rows render empty: the default content getter only renders string items. Pass `getItemContent` (or `renderItem`) for object items.',
         );
     }
 
     return ctx.kind === 'section' ? (
-        // Заголовки секций остаются presentation + aria-hidden в обеих
-        // роль-моделях: плоская модель §9 сохраняется, в grid-навигации
-        // они не участвуют
         <ListSectionHeader {...helpers.getItemProps()} size={size}>
             {ctx.content}
         </ListSectionHeader>
     ) : (
         <ListItemView {...helpers.getItemProps()} {...helpers.getItemViewProps()}>
             {role === 'grid' ? (
-                // В grid контент обязан лежать в ячейке: role="row" требует
-                // владеть хотя бы одним gridcell. В listbox обёртки нет вовсе —
-                // маркап дефолтного рендера остаётся прежним
+                // In grid the content has to live inside a cell: role="row" is
+                // required to own at least one gridcell. In listbox there is
+                // no wrapper at all — the markup of the default render stays
+                // as it was
                 <div {...helpers.getCellProps()}>{ctx.content}</div>
             ) : (
                 ctx.content
@@ -149,11 +148,11 @@ function areListRowPropsEqual<T>(prev: ListRowProps<T>, next: ListRowProps<T>): 
     );
 }
 
-// Мемоизация строк по ctx-срезу (перф-обязательство §8): обновление
-// dropTarget на dragover приходит новым объектом адаптера — пере-рендерятся
-// только строки, чей срез изменился, а не весь список. Ctx сравнивается по
-// значениям полей (объект пересобирается каждый рендер), поэтому мемо
-// работает при стабильных identity items/геттеров/renderItem
+// Rows are memoized by their ctx slice: a dropTarget update on dragover
+// arrives as a new adapter object, and only the rows whose slice changed are
+// re-rendered instead of the whole list. Ctx is compared field by field (the
+// object is rebuilt on every render), so the memoization pays off as long as
+// items, the getters and renderItem keep a stable identity
 const ListRow = React.memo(ListRowComponent, areListRowPropsEqual) as typeof ListRowComponent;
 
 function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivElement>) {
@@ -168,20 +167,22 @@ function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
         getCellProps: (overrides) => listRef.current.getCellProps(overrides),
     }));
 
-    // Кэш контекстов для оценки высоты строк слоем виртуализации (см. ниже);
-    // объявлен безусловно (правила хуков), используется только при активном слое
+    // The cache of contexts used to estimate row heights (see below); declared
+    // unconditionally (rules of hooks), used only while the layer is on
     const sizingContextsRef = React.useRef<{
         ids: string[];
         byId: Map<string, ListItemContext<T>>;
     }>({ids: list.visibleIds, byId: new Map()});
 
-    // Маппинг слоя выделения на индикацию вьюхи — как в существующем Select:
-    // multiple — галочка (выделение не конкурирует с подсветкой активного),
-    // single — подсветка строки
+    // The selection layer is mapped onto the indication of the view the same
+    // way as in the existing Select: multiple gets a check mark (so that the
+    // selection does not compete with the highlight of the active row), single
+    // gets the row highlight
     const selectionStyle = selectionMode === 'multiple' ? 'check' : 'highlight';
 
-    // Смена (старт/финиш drag) стоит одного ре-рендера всех строк окна —
-    // в отличие от dropTarget, это происходит не на каждый dragover
+    // A change here (a drag starting or finishing) costs one re-render of
+    // every row in the window — unlike dropTarget, it does not happen on every
+    // dragover
     const dragActive = (props.dnd?.draggingId ?? null) !== null;
 
     const renderRow = (id: string) => (
@@ -205,18 +206,18 @@ function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
         'data-qa': qa,
     });
 
-    // Слой виртуализации (§7): при активном контексте корень рендерит
-    // виртуализатор из слоя (он же скролл-контейнер, overflow ставит сам);
-    // высоту (height/max-height) обязан ограничить потребитель
+    // With the virtualization context active the root is rendered by the
+    // virtualizer of that layer (it is the scroll container as well and sets
+    // overflow itself); limiting the height (height/max-height) is up to the
+    // consumer
     if (virtualization) {
-        // Оценка потребителя: константа или функция от контекста строки;
-        // дефолт — по size листа
         const estimate = virtualization.estimateItemSize ?? ESTIMATED_ITEM_SIZE[size];
-        // Кэш контекстов оценки: при скролле tanstack вызывает estimateItemSize
-        // для всего незамеренного хвоста на каждом проходе измерений — сборка
-        // нового контекста каждый раз расточительна. Контексты идут только
-        // в estimateItemSize (не в рендер), поэтому неактуальный active/selected
-        // для высоты безвреден; кэш сбрасывается при смене набора строк
+        // While scrolling, tanstack calls estimateItemSize for the whole
+        // not-yet-measured tail on every measurement pass — building a new
+        // context every time would be wasteful. The contexts only go into
+        // estimateItemSize (never into the render), so a stale active/selected
+        // is harmless for the height; the cache is dropped when the set of
+        // rows changes
         const cache = sizingContextsRef.current;
         if (cache.ids !== list.visibleIds) {
             cache.ids = list.visibleIds;
@@ -252,9 +253,9 @@ function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
 }
 
 /**
- * Навигируемый listbox: массив строк — ноль конфигурации, объекты — один
- * геттер. Слои выделения/виртуализации/dnd подключаются отдельно и не
- * протекают в ядро.
+ * A navigable listbox: an array of strings needs zero configuration, objects
+ * need a single getter. The selection, virtualization and dnd layers are
+ * plugged in separately and do not leak into the core.
  */
 export const List = Object.assign(
     React.forwardRef(ListComponent) as unknown as (<T>(

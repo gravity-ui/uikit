@@ -1,19 +1,20 @@
 /**
- * Подавление выделения текста на время нажатия — модель react-aria
- * (interactions/textSelection.ts), а не запечённый в CSS `user-select: none`
- * старого List: жесты, начатые НА строке (протяжка, shift+click в
- * selection-режиме, старт drag), выделение не создают, но в покое строки
- * остаются частью выделения страницы (Ctrl+A, протяжка со страницы).
+ * Suppressing text selection for the duration of a press — the react-aria
+ * model (interactions/textSelection.ts) rather than the `user-select: none`
+ * baked into the CSS of the old List: gestures started ON a row (dragging with
+ * the mouse, shift+click in the selection mode, starting a drag) create no
+ * selection, while at rest the rows stay a part of the page selection (Ctrl+A,
+ * dragging from the page).
  *
- * Десктоп: инлайновый `user-select: none` на сам нажатый элемент — якорь
- * выделения не создаётся, поэтому протяжка не выделяет и соседние строки;
- * страницу не трогаем (перф, прецедент react-spectrum#1609). Прежнее
- * значение — в WeakMap, восстанавливается по отпусканию.
+ * Desktop: an inline `user-select: none` on the pressed element itself — no
+ * selection anchor is created, so dragging does not select the neighbouring
+ * rows either; the page is left alone (performance, react-spectrum#1609). The
+ * previous value is kept in a WeakMap and restored on release.
  *
- * iOS WebKit: `user-select: none` на documentElement — long-press там
- * выделяет соседей даже при подавлении на цели; восстановление отложено
- * (выделение может случиться и после pointerup), состояния защищают от
- * гонок пересекающихся нажатий.
+ * iOS WebKit: `user-select: none` on the documentElement — a long press there
+ * selects the neighbours even when selection is suppressed on the target; the
+ * restore is deferred (the selection may happen after pointerup as well), and
+ * the states guard against races between overlapping presses.
  */
 
 const modifiedElements = new WeakMap<HTMLElement, string>();
@@ -22,8 +23,8 @@ type IOSRestoreState = 'default' | 'disabled' | 'restoring';
 let iosState: IOSRestoreState = 'default';
 let savedDocumentUserSelect = '';
 
-// На iOS все браузеры — WebKit, отдельная проверка движка не нужна;
-// iPadOS маскируется под MacIntel и отличим только по touch-точкам
+// On iOS every browser is WebKit, so a separate engine check is not needed;
+// iPadOS masquerades as MacIntel and can only be told apart by its touch points
 function isIOS(): boolean {
     if (typeof navigator === 'undefined') {
         return false;
@@ -57,8 +58,8 @@ export function restoreTextSelection(target: HTMLElement): void {
         }
         iosState = 'restoring';
         window.setTimeout(() => {
-            // Новое нажатие за время задержки вернуло 'disabled' — его
-            // restore поставит свой таймер
+            // A new press during the delay has switched the state back to
+            // 'disabled' — its own restore will set its own timer
             if (iosState !== 'restoring') {
                 return;
             }

@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.47.2](https://github.com/gravity-ui/uikit/compare/v7.47.1...v7.47.2) (2026-08-02)
+
+
+### Bug Fixes
+
+* **Button:** export icon size map ([#2766](https://github.com/gravity-ui/uikit/issues/2766)) ([9d4fc42](https://github.com/gravity-ui/uikit/commit/9d4fc4287cf1f63da1bd90aa07e8dd289487c108))
+* **useFocusWithin:** call a current version of the blur handler ([#2768](https://github.com/gravity-ui/uikit/issues/2768)) ([bd0f62c](https://github.com/gravity-ui/uikit/commit/bd0f62cc3039c6fc4a3cff8200a351d815dea301))
+
 ## [7.47.1](https://github.com/gravity-ui/uikit/compare/v7.47.0...v7.47.1) (2026-07-24)
 
 

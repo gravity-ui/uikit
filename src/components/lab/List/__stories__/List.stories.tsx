@@ -2,13 +2,13 @@ import * as React from 'react';
 
 import {faker} from '@faker-js/faker/locale/en';
 import {
-    Camera,
-    FileText,
-    FileZipper,
-    Folder,
-    MusicNote,
-    Picture,
+    ArrowUpRightFromSquare,
+    CircleCheck,
+    Clock,
+    Envelope,
+    Star,
     TrashBin,
+    TriangleExclamation,
 } from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 import {action} from 'storybook/actions';
@@ -16,15 +16,14 @@ import {action} from 'storybook/actions';
 import {Avatar} from '../../../Avatar';
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
-import type {IconData} from '../../../Icon';
 import {Label} from '../../../Label';
 import {Text} from '../../../Text';
+import {TextInput} from '../../../controls';
 import {Flex} from '../../../layout';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
+import {useListFocusOwner} from '../useListFocusOwner';
 
-import {ComboboxExample} from './ComboboxExample';
-import comboboxCode from './ComboboxExample?raw';
 import {ReorderDndKitExample} from './ReorderDndKitExample';
 import reorderDndKitCode from './ReorderDndKitExample?raw';
 import {ReorderDndKitVirtualizedExample} from './ReorderDndKitVirtualizedExample';
@@ -40,8 +39,6 @@ import reorderPragmaticVirtualizedCode from './ReorderPragmaticVirtualizedExampl
 import useDndKitListDndCode from './useDndKitListDnd?raw';
 import useHelloPangeaListDndCode from './useHelloPangeaListDnd?raw';
 import usePragmaticListDndCode from './usePragmaticListDnd?raw';
-
-import './ListStories.scss';
 
 const meta: Meta = {
     title: 'Lab/List',
@@ -66,29 +63,17 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-// A sandbox: the main props and the options themselves (the items array,
-// disabled rows and sections through children included) are editable in the
-// Controls panel
-interface PlaygroundItem {
-    id: string;
-    title: string;
-    disabled?: boolean;
-    children?: PlaygroundItem[];
-}
-
-const playgroundItems: PlaygroundItem[] = [
-    {id: 'cloud', title: 'Cloud'},
-    {id: 'tracker', title: 'Tracker'},
-    {id: 'wiki', title: 'Wiki', disabled: true},
-    {id: 'forms', title: 'Forms'},
-    {id: 'disk', title: 'Disk'},
-];
+// A sandbox: the main props and the items themselves are editable in the
+// Controls panel. String items need no configuration at all — the content and
+// the id of such an item are the string itself
+const languages = ['TypeScript', 'JavaScript', 'Python', 'Go', 'Rust', 'Kotlin'];
 
 interface PlaygroundArgs {
-    items: PlaygroundItem[];
+    items: string[];
     size: 's' | 'm' | 'l' | 'xl';
     activateOnHover: boolean;
     selectionMode: 'none' | 'single' | 'multiple';
+    defaultSelectedIds: string[];
     role: 'listbox' | 'grid';
     defaultActiveItemId: string;
     'aria-label': string;
@@ -96,312 +81,455 @@ interface PlaygroundArgs {
 
 export const Default: StoryObj<PlaygroundArgs> = {
     render: function DefaultStory(args) {
-        const {items, selectionMode, defaultActiveItemId, ...rest} = args;
+        const {items, selectionMode, defaultSelectedIds, defaultActiveItemId, ...rest} = args;
         return (
             <List
                 // Remount when the uncontrolled settings change: the selection
-                // layer and defaultActiveItemId are read once, on mount
-                key={`${selectionMode}|${defaultActiveItemId}`}
+                // layer, defaultSelectedIds and defaultActiveItemId are read
+                // once, on mount
+                key={`${selectionMode}|${defaultActiveItemId}|${defaultSelectedIds.join()}`}
                 {...rest}
                 // 'none' is expressed by the absence of the prop — otherwise
-                // the layer would be turned on
-                {...(selectionMode === 'none' ? undefined : {selectionMode})}
+                // the layer would be turned on. The selection props travel
+                // together with it: alone they would be silently ignored (and
+                // warned about in dev)
+                {...(selectionMode === 'none' ? undefined : {selectionMode, defaultSelectedIds})}
                 defaultActiveItemId={defaultActiveItemId || undefined}
                 items={items}
-                getItemContent={(item) => item.title}
                 onItemAction={action('onItemAction')}
                 onActiveItemUpdate={action('onActiveItemUpdate')}
             />
         );
     },
     args: {
-        items: playgroundItems,
+        items: languages,
         size: 'm',
         activateOnHover: true,
         selectionMode: 'none',
+        defaultSelectedIds: [],
         role: 'listbox',
         defaultActiveItemId: '',
-        'aria-label': 'Projects',
+        'aria-label': 'Languages',
     },
     argTypes: {
-        items: {control: 'object'},
-        size: {control: 'select', options: ['s', 'm', 'l', 'xl']},
-        activateOnHover: {control: 'boolean'},
-        selectionMode: {control: 'radio', options: ['none', 'single', 'multiple']},
-        role: {control: 'radio', options: ['listbox', 'grid']},
+        items: {
+            control: 'object',
+            description: 'The data of the list — strings here, so no getters are needed',
+        },
+        size: {
+            control: 'select',
+            options: ['s', 'm', 'l', 'xl'],
+            description: 'The row size (the density of the list)',
+        },
+        activateOnHover: {
+            control: 'boolean',
+            description: 'Whether hovering a row makes it active',
+        },
+        selectionMode: {
+            control: 'radio',
+            options: ['none', 'single', 'multiple'],
+            description: 'The selection layer: `none` means the prop is not passed at all',
+        },
+        defaultSelectedIds: {
+            control: 'object',
+            description: 'The initially selected ids (requires a selection mode)',
+        },
+        role: {
+            control: 'radio',
+            options: ['listbox', 'grid'],
+            description: 'The ARIA role model: `grid` is for rows with interactive content',
+        },
         defaultActiveItemId: {
             control: 'text',
             description: 'Programmatic activation: the dark cursor (keyboard modality)',
         },
+        'aria-label': {
+            control: 'text',
+            description: 'The accessible name of the list (or use `aria-labelledby`)',
+        },
     },
 };
 
-const projects = [
-    {id: 'p1', name: 'Cloud'},
-    {id: 'p2', name: 'Tracker'},
-    {id: 'p3', name: 'Wiki', disabled: true},
-    {id: 'p4', name: 'Forms'},
-];
+// The four row sizes. The size is passed to the row view (its height, paddings
+// and typography) and is the source of the default height estimate of the
+// virtualization layer
+const sizes = ['s', 'm', 'l', 'xl'] as const;
 
-export const Minimal: Story = {
+export const Sizes: Story = {
     render: () => (
-        <Flex gap={10}>
-            <List aria-label="Fruits" items={['Apple', 'Pear', 'Plum']} />
-            <List aria-label="Projects" items={projects} getItemContent={(p) => p.name} />
+        <Flex gap={8}>
+            {sizes.map((size) => (
+                <Flex key={size} direction="column" gap={2}>
+                    <Text color="secondary" variant="caption-2">
+                        {size}
+                    </Text>
+                    <List aria-label={`Languages, size ${size}`} size={size} items={languages} />
+                </Flex>
+            ))}
         </Flex>
     ),
 };
 
-// Sections: the structure comes from the data
-interface GroupedItem {
-    id: string;
-    label?: string;
-    name?: string;
-    children?: GroupedItem[];
-}
+// A list of actions (the core, no selection layer). The semantics are listbox
+// (a screen reader announces "option"); role="menu" will come with the
+// migration of Menu
+const commands = [
+    {id: 'copy', title: 'Copy'},
+    {id: 'paste', title: 'Paste'},
+    {id: 'duplicate', title: 'Duplicate'},
+    {id: 'delete', title: 'Delete'},
+];
 
-const groupedItems: GroupedItem[] = [
+export const Actions: Story = {
+    render: function ActionsStory() {
+        const [currentId, setCurrentId] = React.useState<string>();
+        return (
+            <Flex direction="column" gap={2} style={{width: 240}}>
+                <List
+                    aria-label="Actions"
+                    items={commands}
+                    getItemContent={(command) => command.title}
+                    onItemAction={setCurrentId}
+                />
+                <Text color="secondary" qa="applied-item-id">
+                    You applied item ID: {currentId}
+                </Text>
+            </Flex>
+        );
+    },
+};
+
+// Sections come from the data: an item that has children is rendered as a
+// header followed by its options
+const documents = [
     {
         id: 'recent',
-        label: 'Recent',
+        name: 'Recent',
         children: [
-            {id: 'r1', name: 'Annual report'},
-            {id: 'r2', name: 'Marketing plan'},
+            {id: 'report', name: 'Annual report'},
+            {id: 'plan', name: 'Marketing plan'},
         ],
     },
     {
         id: 'all',
-        label: 'All',
+        name: 'All',
         children: [
-            {id: 'a1', name: 'Backlog'},
-            {id: 'a2', name: 'Design review'},
-            {id: 'a3', name: 'Team sync'},
+            {id: 'backlog', name: 'Backlog'},
+            {id: 'sync', name: 'Team sync'},
         ],
     },
 ];
 
 export const Sections: Story = {
     render: () => (
-        <List aria-label="Groups" items={groupedItems} getItemContent={(i) => i.label ?? i.name} />
-    ),
-};
-
-// A list of actions (the core, no selection layer)
-const commands = [
-    {id: 'copy', title: 'Copy'},
-    {id: 'paste', title: 'Paste'},
-    {id: 'duplicate', title: 'Duplicate'},
-    {id: 'delete', title: 'Delete', disabled: true},
-];
-
-const runCommand = action('runCommand');
-
-export const Actions: Story = {
-    render: () => (
-        // The semantics are listbox (a screen reader announces "option");
-        // role="menu" will come with the migration of Menu
         <List
-            aria-label="Actions"
-            items={commands}
-            getItemContent={(c) => c.title}
-            onItemAction={(_id, command) => runCommand(command)}
+            aria-label="Documents"
+            items={documents}
+            style={{width: 240}}
+            getItemContent={(item) => item.name}
         />
     ),
 };
 
-// Fully custom markup
-const users = Array.from({length: 5}, (_, index) => ({
-    id: `user-${index}`,
-    name: faker.person.fullName(),
-    email: faker.internet.email(),
-    role: faker.person.jobTitle(),
-    avatar: faker.image.urlLoremFlickr({category: 'people', width: 64, height: 64}),
-}));
+// The content of a row is a node, not only text — but whatever the getter
+// returns lands in the children of the row, and a non-string content leaves
+// typeahead without a query, so it comes with getItemTextValue
+const services = [
+    {id: 'api', name: 'API gateway', healthy: true},
+    {id: 'database', name: 'Database', healthy: false},
+    {id: 'cdn', name: 'CDN', healthy: true},
+];
 
-const card = ({active}: {active: boolean}) =>
-    ['list-stories-card', active ? 'list-stories-card_active' : ''].filter(Boolean).join(' ');
-
-const track = action('track');
-
-export const CustomMarkup: Story = {
+export const ItemContent: Story = {
     render: () => (
         <List
-            aria-label="Cards"
-            items={users}
-            getItemTextValue={(u) => u.name}
-            renderItem={(ctx, {getItemProps}) => (
-                <div
-                    {...getItemProps({onClick: () => track(ctx.id)})}
-                    className={card({active: ctx.state.active})}
+            aria-label="Services"
+            items={services}
+            style={{width: 240}}
+            getItemContent={(service) => (
+                <Flex gap={2} alignItems="center">
+                    <Icon
+                        data={service.healthy ? CircleCheck : TriangleExclamation}
+                        size={14}
+                        style={{
+                            color: service.healthy
+                                ? 'var(--g-color-text-positive)'
+                                : 'var(--g-color-text-warning)',
+                        }}
+                    />
+                    {service.name}
+                </Flex>
+            )}
+            getItemTextValue={(service) => service.name}
+        />
+    ),
+};
+
+// Level 2 of the content: the slots of the row view. `renderItem` plus
+// `List.ItemView` gives the standard anatomy of a row (a leading icon, a
+// description, trailing content) without writing any markup — the DOM and a11y
+// props still come from `getItemProps`, and the state of the row from
+// `getItemViewProps`
+const mailboxes = [
+    {id: 'inbox', name: 'Inbox', description: 'Unread first', icon: Envelope, count: 24},
+    {id: 'starred', name: 'Starred', description: 'Flagged by you', icon: Star, count: 3},
+    {id: 'snoozed', name: 'Snoozed', description: 'Back later today', icon: Clock, count: 1},
+    {id: 'trash', name: 'Trash', description: 'Cleared every 30 days', icon: TrashBin, count: 0},
+];
+
+export const ItemSlots: Story = {
+    render: () => (
+        <List
+            aria-label="Mailboxes"
+            items={mailboxes}
+            style={{width: 300}}
+            getItemTextValue={(box) => box.name}
+            renderItem={(ctx, {getItemProps, getItemViewProps}) => (
+                <List.ItemView
+                    {...getItemProps()}
+                    {...getItemViewProps()}
+                    startContent={<Icon data={ctx.item.icon} size={16} />}
+                    description={ctx.item.description}
+                    endContent={<Label theme="normal">{ctx.item.count}</Label>}
                 >
-                    <Avatar imgUrl={ctx.item.avatar} size="l" />
-                    <div>
-                        {ctx.item.name}
-                        <span>{ctx.item.role}</span>
-                    </div>
-                </div>
+                    {ctx.item.name}
+                </List.ItemView>
             )}
         />
     ),
 };
 
-export const SingleSelection: Story = {
-    render: function SingleSelectionStory() {
-        const [sel, setSel] = React.useState<string[]>(['p1']);
-        return (
-            <List
-                aria-label="Projects"
-                items={projects}
-                getItemContent={(p) => p.name}
-                selectionMode="single"
-                selectedIds={sel}
-                onSelectedUpdate={setSel}
-            />
-        );
-    },
-};
+// Level 3 of the content: markup of your own. Nothing of the row view is
+// inherited — the row looks the way you draw it, and the states of the row are
+// yours to show as well: here the active one is an outline rather than a
+// background
+const users = [
+    {id: 'ada', name: 'Ada Lovelace', email: 'ada@example.com', role: 'Engineer'},
+    {id: 'alan', name: 'Alan Turing', email: 'alan@example.com', role: 'Researcher'},
+    {id: 'grace', name: 'Grace Hopper', email: 'grace@example.com', role: 'Manager'},
+];
 
-// Multiple selection with custom slots
-export const MultipleSelection: Story = {
-    render: function MultipleSelectionStory() {
-        const [sel, setSel] = React.useState<string[]>([]);
+export const CustomMarkup: Story = {
+    render: function CustomMarkupStory() {
+        const [hoveredId, setHoveredId] = React.useState<string | null>(null);
         return (
             <List
-                aria-label="Users"
+                aria-label="Teammates"
                 items={users}
-                getItemTextValue={(u) => u.name}
-                selectionMode="multiple"
-                selectedIds={sel}
-                onSelectedUpdate={setSel}
-                renderItem={(ctx, {getItemProps, getItemViewProps}) => (
-                    // getItemViewProps gives active/selected/disabled/
-                    // selectionStyle at once — forgetting disabled is impossible
-                    <List.ItemView
-                        {...getItemProps()}
-                        {...getItemViewProps()}
-                        description={ctx.item.email}
-                        endContent={<Label>{ctx.item.role}</Label>}
+                style={{gap: 8, width: 260}}
+                getItemTextValue={(user) => user.name}
+                renderItem={(ctx, {getItemProps}) => (
+                    <div
+                        {...getItemProps({
+                            onPointerEnter: () => setHoveredId(ctx.id),
+                            onPointerLeave: () => setHoveredId(null),
+                        })}
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 12,
+                            padding: 12,
+                            borderRadius: 12,
+                            cursor: 'pointer',
+                            // The keyboard cursor follows the modality of the
+                            // interaction, exactly as the default row does:
+                            // under the mouse the outline does not stay behind
+                            outline: `2px solid var(${
+                                ctx.state.active && ctx.state.activationModality === 'keyboard'
+                                    ? '--g-color-line-brand'
+                                    : '--g-color-line-generic'
+                            })`,
+                            // The hover of your own markup is yours: an app
+                            // usually leaves it to the CSS `:hover`
+                            backgroundColor:
+                                hoveredId === ctx.id
+                                    ? 'var(--g-color-base-simple-hover)'
+                                    : undefined,
+                        }}
                     >
-                        {ctx.item.name}
-                    </List.ItemView>
+                        <Avatar text={ctx.item.name} size="l" />
+                        <Flex direction="column">
+                            <Text variant="subheader-1">{ctx.item.name}</Text>
+                            <Text color="secondary" variant="caption-2">
+                                {ctx.item.role}
+                            </Text>
+                        </Flex>
+                    </div>
                 )}
             />
         );
     },
 };
 
-// Range selection (a file manager). Shift+click and Shift+↑/↓ replace the
-// range starting at the anchor — the target of the last plain selection
-// gesture (a click or Space re-anchors), Shift+Space selects the range from
-// the anchor to the active row, and Ctrl/Cmd+A selects every option. The range
-// is computed over the data: section headers are skipped and disabled rows are
-// not selected; in single mode Shift is ignored
-interface FileEntry {
-    id: string;
-    name: string;
-    description?: string;
-    icon?: IconData;
-    disabled?: boolean;
-    children?: FileEntry[];
-}
-
-const fileEntries: FileEntry[] = [
+// Rows as links: the row itself is the anchor, which is what gives the browser
+// affordances — the URL in the status bar, "Open in new tab" in the context
+// menu, a middle click. Activation stays with the list: Enter is intercepted by
+// the keyboard machinery, so navigation lives in `onItemAction` — the same
+// place a router `navigate()` would go.
+//
+// A screen reader announces such a row as an option, not as a link:
+// `role="option"` overrides the role of the anchor. Everything the user has to
+// know therefore belongs to the accessible name of the row — here it carries
+// the warning that the link opens a new tab, which the icon only shows visually
+const specs = [
     {
-        id: 'folders',
-        name: 'Folders',
-        children: [
-            {id: 'docs', name: 'Documents', description: '128 items', icon: Folder},
-            {id: 'music', name: 'Music', description: '52 items', icon: Folder},
-            {
-                id: 'trash',
-                name: 'Trash',
-                description: 'System folder',
-                icon: TrashBin,
-                disabled: true,
-            },
-        ],
+        id: 'listbox',
+        name: 'ARIA listbox pattern',
+        description: 'w3.org',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/listbox/',
     },
     {
-        id: 'files',
-        name: 'Files',
-        children: [
-            {
-                id: 'annual-report',
-                name: 'annual-report.pdf',
-                description: '2.4 MB · Jul 21',
-                icon: FileText,
-            },
-            {id: 'archive', name: 'assets.zip', description: '58 MB · Jul 18', icon: FileZipper},
-            {id: 'cover', name: 'cover.png', description: '1.2 MB · Jul 12', icon: Picture},
-            {id: 'demo', name: 'demo-track.mp3', description: '6.8 MB · Jul 27', icon: MusicNote},
-            {id: 'photo', name: 'photo-2026.jpg', description: '3.1 MB · Jul 05', icon: Camera},
-            {
-                id: 'presentation',
-                name: 'presentation.pdf',
-                description: '9.7 MB · Jun 30',
-                icon: FileText,
-            },
-        ],
+        id: 'grid',
+        name: 'ARIA grid pattern',
+        description: 'w3.org',
+        href: 'https://www.w3.org/WAI/ARIA/apg/patterns/grid/',
+    },
+    {
+        id: 'components',
+        name: 'Gravity UI components',
+        description: 'gravity-ui.com',
+        href: 'https://gravity-ui.com/components',
     },
 ];
 
-export const RangeSelection: Story = {
-    render: function RangeSelectionStory() {
-        const [sel, setSel] = React.useState<string[]>([]);
+export const Links: Story = {
+    render: () => (
+        <List
+            aria-label="Specifications"
+            items={specs}
+            style={{width: 300}}
+            getItemTextValue={(spec) => spec.name}
+            onItemAction={(_id, spec) => window.open(spec.href, '_blank', 'noopener,noreferrer')}
+            renderItem={(ctx, {getItemProps, getItemViewProps}) => (
+                <List.ItemView
+                    component="a"
+                    href={ctx.item.href}
+                    // The anchor says the same thing the callback does — every
+                    // route out of the row (a click, Enter, the context menu, a
+                    // middle click) opens the same new tab
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    {...getItemProps({
+                        'aria-label': `${ctx.item.name}, opens in a new tab`,
+                        // The native navigation is suppressed: a click already
+                        // runs onItemAction, and without this the row would
+                        // navigate twice
+                        onClick: (event) => event.preventDefault(),
+                    })}
+                    {...getItemViewProps()}
+                    description={ctx.item.description}
+                    endContent={<Icon data={ArrowUpRightFromSquare} size={14} />}
+                >
+                    {ctx.item.name}
+                </List.ItemView>
+            )}
+        />
+    ),
+};
+
+// Controlled activation: the active row is state of the consumer. `null` means
+// "no active row" (`undefined` would mean uncontrolled), and programmatic
+// activation is shown as the dark keyboard cursor — the modality of a fresh
+// list is keyboard
+export const ControlledActivation: Story = {
+    render: function ControlledActivationStory() {
+        const [activeItemId, setActiveItemId] = React.useState<string | null>(languages[1]);
         return (
-            <Flex direction="column" gap={2}>
-                <Text color="secondary" qa="range-selection-count">
-                    {sel.length} selected
+            <Flex direction="column" gap={2} style={{width: 240}}>
+                <Flex gap={2}>
+                    <Button onClick={() => setActiveItemId(languages[0])}>First</Button>
+                    <Button onClick={() => setActiveItemId(languages[languages.length - 1])}>
+                        Last
+                    </Button>
+                    <Button onClick={() => setActiveItemId(null)}>None</Button>
+                </Flex>
+                <Text color="secondary" qa="controlled-active-id">
+                    activeItemId: {String(activeItemId)}
                 </Text>
                 <List
-                    aria-label="Files"
-                    items={fileEntries}
-                    style={{width: 320}}
-                    getItemContent={(entry) => entry.name}
-                    selectionMode="multiple"
-                    selectedIds={sel}
-                    onSelectedUpdate={setSel}
-                    renderItem={(ctx, {getItemProps, getItemViewProps}) =>
-                        ctx.kind === 'section' ? (
-                            <List.SectionHeader {...getItemProps()}>
-                                {ctx.item.name}
-                            </List.SectionHeader>
-                        ) : (
-                            <List.ItemView
-                                {...getItemProps()}
-                                {...getItemViewProps()}
-                                startContent={
-                                    ctx.item.icon ? (
-                                        <Icon data={ctx.item.icon} size={16} />
-                                    ) : undefined
-                                }
-                                description={ctx.item.description}
-                            >
-                                {ctx.item.name}
-                            </List.ItemView>
-                        )
-                    }
+                    aria-label="Languages"
+                    items={languages}
+                    activeItemId={activeItemId}
+                    // Every gesture asks the consumer for the update instead of
+                    // applying it: the list draws the value that came back, so
+                    // a rejected update leaves the cursor where it was
+                    onActiveItemUpdate={setActiveItemId}
                 />
             </Flex>
         );
     },
 };
 
-// Tens of thousands of rows: the virtualization layer plus the selection layer
-// (they are independent). ListVirtualizer is not exported from the package
-// yet — the layer will be published through a separate entry point
-interface LogRecord {
+// The selection layer: `single` replaces the selection, `multiple` toggles the
+// item and adds the range gestures (Shift+click, Shift+arrows, Ctrl/Cmd+A)
+export const SingleSelection: Story = {
+    render: function SingleSelectionStory() {
+        const [selectedIds, setSelectedIds] = React.useState<string[]>([languages[0]]);
+        return (
+            <List
+                aria-label="Languages"
+                items={languages}
+                selectionMode="single"
+                selectedIds={selectedIds}
+                onSelectedUpdate={setSelectedIds}
+            />
+        );
+    },
+};
+
+export const MultipleSelection: Story = {
+    render: function MultipleSelectionStory() {
+        const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
+        return (
+            <Flex direction="column" gap={2} style={{width: 240}}>
+                <List
+                    aria-label="Languages"
+                    items={languages}
+                    selectionMode="multiple"
+                    selectedIds={selectedIds}
+                    onSelectedUpdate={setSelectedIds}
+                />
+                {/* The range gestures are easier to follow with the value in
+                    sight: Shift+click, Shift+↑/↓ and Ctrl/Cmd+A change it in
+                    bulk */}
+                <Text color="secondary" qa="selected-ids">
+                    Selected: {selectedIds.join(', ') || 'nothing'}
+                </Text>
+            </Flex>
+        );
+    },
+};
+
+// Tens of thousands of rows. The rows are the ones the dnd examples use — every
+// fourth title is long enough to wrap, so the window holds rows of different
+// heights and the estimate is corrected by the measurement
+interface TrackRecord {
     id: string;
-    message: string;
-    description?: string;
+    title: string;
 }
 
-const logRecords: LogRecord[] = Array.from({length: 10_000}, (_, index) => ({
-    id: `log-${index}`,
-    message: `${String(index).padStart(5, '0')} · ${faker.hacker.phrase()}`,
-    // Rows of variable height: every fifth one has a description
-    description: index % 5 === 0 ? faker.hacker.ingverb() : undefined,
+const archive: TrackRecord[] = Array.from({length: 10_000}, (_, index) => ({
+    id: `track-${index + 1}`,
+    title: `${String(index + 1).padStart(5, '0')} · ${faker.music.songName()}${
+        index % 4 === 0 ? ` (${faker.music.genre()} remaster — ${faker.company.catchPhrase()})` : ''
+    }`,
 }));
+
+const getTrackContent = (record: TrackRecord) => record.title;
+
+export const Virtualized: Story = {
+    render: () => (
+        <ListVirtualizer estimateItemSize={28}>
+            {/* The List root is the scroll container: the consumer MUST limit its height */}
+            <List
+                aria-label="Archive"
+                style={{height: 480, width: 400}}
+                items={archive}
+                getItemContent={getTrackContent}
+            />
+        </ListVirtualizer>
+    ),
+};
 
 // The complete source of an example for the Code panel: by default Storybook
 // shows the body of render only — the examples are extracted into
@@ -421,6 +549,23 @@ export const Reorder: Story = {
                 language: 'tsx',
                 code: exampleSource([
                     ['ReorderPragmaticExample.tsx', reorderPragmaticCode],
+                    ['usePragmaticListDnd.ts', usePragmaticListDndCode],
+                ]),
+            },
+        },
+    },
+};
+
+// pragmatic × virtualization: the same single-prop dnd integration on top of a
+// window of rows
+export const ReorderVirtualized: Story = {
+    render: () => <ReorderPragmaticVirtualizedExample />,
+    parameters: {
+        docs: {
+            source: {
+                language: 'tsx',
+                code: exampleSource([
+                    ['ReorderPragmaticVirtualizedExample.tsx', reorderPragmaticVirtualizedCode],
                     ['usePragmaticListDnd.ts', usePragmaticListDndCode],
                 ]),
             },
@@ -501,23 +646,6 @@ export const ReorderHelloPangeaVirtualized: Story = {
     },
 };
 
-// pragmatic × virtualization: the same single-prop dnd integration on top of a
-// window of rows
-export const ReorderVirtualized: Story = {
-    render: () => <ReorderPragmaticVirtualizedExample />,
-    parameters: {
-        docs: {
-            source: {
-                language: 'tsx',
-                code: exampleSource([
-                    ['ReorderPragmaticVirtualizedExample.tsx', reorderPragmaticVirtualizedCode],
-                    ['usePragmaticListDnd.ts', usePragmaticListDndCode],
-                ]),
-            },
-        },
-    },
-};
-
 // The role model axis: the rows contain interactive content, so the list
 // switches to the grid roles, where a button inside a row is valid and
 // reachable with the keyboard (`←`/`→` enter the interactive content of a cell
@@ -567,49 +695,54 @@ export const InteractiveRows: Story = {
     },
 };
 
-// The focus strategy axis: DOM focus stays in the input, and the active row is
-// exposed through aria-activedescendant (see the header of the example for the
-// details)
-export const Combobox: Story = {
-    render: () => <ComboboxExample />,
-    parameters: {
-        docs: {
-            source: {
-                language: 'tsx',
-                code: exampleSource([['ComboboxExample.tsx', comboboxCode]]),
-            },
-        },
-    },
+// The smallest example of `useListFocusOwner()`: the input owns the focus and
+// the list below is driven from it — the arrows move the active row, Enter
+// applies it, and typing filters the items. DOM focus never leaves the input;
+// the active row is exposed through `aria-activedescendant`
+const frameworks = ['React', 'Vue', 'Svelte', 'Solid', 'Angular', 'Qwik', 'Preact'];
+
+const filterFrameworks = (query: string) => {
+    const normalized = query.trim().toLowerCase();
+    return frameworks.filter((name) => name.toLowerCase().includes(normalized));
 };
 
-export const Virtualized: Story = {
-    render: function VirtualizedStory() {
-        const [sel, setSel] = React.useState<string[]>([]);
+export const FocusOwner: Story = {
+    render: function FocusOwnerStory() {
+        const [query, setQuery] = React.useState('');
+        // The activity is controlled: null means "nothing is active"
+        const [activeItemId, setActiveItemId] = React.useState<string | null>(null);
+        const focusOwner = useListFocusOwner();
+        const {onKeyDown, ...inputProps} = focusOwner.getInputProps({'aria-label': 'Framework'});
+
+        const handleQueryUpdate = (value: string) => {
+            setQuery(value);
+            // Typing is filtering rather than typeahead: the activity moves to
+            // the first match, so Enter always applies what is visible
+            setActiveItemId(filterFrameworks(value)[0] ?? null);
+        };
+
         return (
-            <ListVirtualizer<LogRecord>
-                estimateItemSize={(ctx) => (ctx.item.description ? 56 : 36)}
-                measure
-            >
-                {/* The List root is the scroll container: the consumer MUST limit its height */}
-                <List
-                    aria-label="Logs"
-                    style={{height: 480, width: 500}}
-                    items={logRecords}
-                    getItemTextValue={(record) => record.message}
-                    selectionMode="single"
-                    selectedIds={sel}
-                    onSelectedUpdate={setSel}
-                    renderItem={(ctx, {getItemProps, getItemViewProps}) => (
-                        <List.ItemView
-                            {...getItemProps()}
-                            {...getItemViewProps()}
-                            description={ctx.item.description}
-                        >
-                            {ctx.item.message}
-                        </List.ItemView>
-                    )}
+            <Flex direction="column" gap={2} style={{width: 240}}>
+                <TextInput
+                    value={query}
+                    onUpdate={handleQueryUpdate}
+                    placeholder="Filter the frameworks"
+                    controlProps={inputProps}
+                    // TextInput sets its own onKeyDown AFTER spreading
+                    // controlProps (it would overwrite the handler of the list
+                    // with undefined) — so the keyboard is handed to it through
+                    // a separate prop
+                    onKeyDown={onKeyDown}
                 />
-            </ListVirtualizer>
+                <List
+                    focusOwner={focusOwner}
+                    aria-label="Frameworks"
+                    items={filterFrameworks(query)}
+                    activeItemId={activeItemId}
+                    onActiveItemUpdate={setActiveItemId}
+                    onItemAction={(id) => setQuery(id)}
+                />
+            </Flex>
         );
     },
 };

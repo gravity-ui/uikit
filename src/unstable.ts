@@ -50,6 +50,8 @@ export {
 export {
     List as unstable_List,
     moveItem as unstable_moveItem,
+    useListFocusOwner as unstable_useListFocusOwner,
+    type ListFocusOwner as unstable_ListFocusOwner,
     type ListProps as unstable_ListProps,
     type ListSelectionProps as unstable_ListSelectionProps,
     type ListDndAdapter as unstable_ListDndAdapter,

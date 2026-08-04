@@ -15,6 +15,7 @@ import {useForkRef} from '../../../hooks';
 import {useFloatingTransition} from '../../../hooks/private/useFloatingTransition';
 import type {ModalProps} from '../../Modal';
 import {Portal} from '../../Portal';
+import {useDefaultProps} from '../../theme/useDefaultProps';
 import {block} from '../../utils/cn';
 import {filterDOMProps} from '../../utils/filterDOMProps';
 import {DRAWER_ANIMATION_DURATION_MS} from '../constants';
@@ -84,40 +85,41 @@ export interface DrawerProps
     disableTransition?: boolean;
 }
 
-export const Drawer = ({
-    open,
-    onOpenChange,
-    placement = 'left',
-    children,
-    contentClassName,
-    resizable = false,
-    size,
-    minSize,
-    maxSize,
-    onResizeStart,
-    onResizeEnd,
-    onResize,
-    className,
-    style,
-    qa,
-    disableEscapeKeyDown,
-    initialFocus,
-    returnFocus,
-    disableBodyScrollLock = false,
-    contentOverflow = 'visible',
-    disableVisuallyHiddenDismiss,
-    onTransitionIn,
-    onTransitionInComplete,
-    onTransitionOut,
-    onTransitionOutComplete,
-    floatingRef,
-    disablePortal,
-    keepMounted = false,
-    container,
-    hideVeil = false,
-    disableTransition = false,
-    ...restProps
-}: DrawerProps) => {
+export const Drawer = (rawProps: DrawerProps) => {
+    const {
+        open,
+        onOpenChange,
+        placement = 'left',
+        children,
+        contentClassName,
+        resizable = false,
+        size,
+        minSize,
+        maxSize,
+        onResizeStart,
+        onResizeEnd,
+        onResize,
+        className,
+        style,
+        qa,
+        disableEscapeKeyDown,
+        initialFocus,
+        returnFocus,
+        disableBodyScrollLock = false,
+        contentOverflow = 'visible',
+        disableVisuallyHiddenDismiss,
+        onTransitionIn,
+        onTransitionInComplete,
+        onTransitionOut,
+        onTransitionOutComplete,
+        floatingRef,
+        disablePortal,
+        keepMounted = false,
+        container,
+        hideVeil = false,
+        disableTransition = false,
+        ...restProps
+    } = useDefaultProps('Drawer', rawProps);
     const floatingNodeId = useFloatingNodeId();
     const disableOutsideClick = hideVeil || restProps.disableOutsideClick;
 

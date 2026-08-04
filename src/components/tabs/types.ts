@@ -2,6 +2,7 @@ import type * as React from 'react';
 
 import type {LabelProps} from '../Label';
 import type {DOMProps, QAProps} from '../types';
+import type {PolymorphicComponentProps, PolymorphicCustomElementType} from '../utils/polymorphic';
 
 export type TabSize = 'm' | 'l' | 'xl';
 
@@ -35,8 +36,6 @@ interface TabCommonProps extends QAProps, DOMProps {
     };
     disabled?: boolean;
     children?: React.ReactNode;
-    /** Tab was collapsed and rendered in `Menu` */
-    isMenuItem?: boolean;
 }
 
 export interface TabButtonProps
@@ -53,13 +52,10 @@ export interface TabLinkProps
     href: string;
 }
 
-export type TabComponentElementType = Exclude<React.ElementType, 'a' | 'button'> | undefined;
+export type TabComponentElementType = PolymorphicCustomElementType;
 
 export type TabComponentProps<T extends Exclude<TabComponentElementType, undefined>> =
-    TabCommonProps &
-        React.ComponentPropsWithoutRef<T> & {
-            component: T;
-        };
+    PolymorphicComponentProps<TabCommonProps, T>;
 
 export type TabProps<T extends TabComponentElementType = undefined> =
     | TabButtonProps
@@ -74,7 +70,7 @@ export interface TabPanelProps
     children?: React.ReactNode;
 }
 
-export interface TabListCollapseItemProps {
+export interface TabMoreProps {
     children: React.ReactNode;
     triggerChild?: React.ReactNode;
     moreLabel?: React.ReactNode;

@@ -1,6 +1,6 @@
 # UserLabel
 
-The `UserLabel` component can be used to display users or user-related information.
+`UserLabel` is a compact chip with a user's avatar and name or email, suited for inline mentions and lists (use `User` for a larger profile block and `Avatar` for the picture alone).
 
 ## Type
 

@@ -3,8 +3,9 @@
 import * as React from 'react';
 
 import {useFocusWithin, useForkRef, useUniqId} from '../../hooks';
+import {useDefaultProps} from '../theme/useDefaultProps';
 
-import {TabListCollapseItem} from './TabListCollapseItem/TabListCollapseItem';
+import {TabMore} from './TabMore';
 import {TabContext} from './contexts/TabContext';
 import {useTabList} from './hooks/useTabList';
 import {useTabListCollapsedChildren} from './hooks/useTabListCollapsedChildren';
@@ -12,7 +13,8 @@ import type {TabListProps} from './types';
 
 import './TabList.scss';
 
-export const TabList = React.forwardRef<HTMLDivElement, TabListProps>((props, ref) => {
+export const TabList = React.forwardRef<HTMLDivElement, TabListProps>((rawProps, ref) => {
+    const props = useDefaultProps('TabList', rawProps);
     const tabContext = React.useContext(TabContext);
     const id = useUniqId();
 
@@ -55,14 +57,14 @@ export const TabList = React.forwardRef<HTMLDivElement, TabListProps>((props, re
                 {collapseEnabled ? (
                     <React.Fragment>
                         {collapsedChildrenResults.shownChildren}
-                        <TabListCollapseItem
+                        <TabMore
                             ref={collapsedChildrenResults.collapseItemRef}
                             triggerChild={collapsedChildrenResults.triggerChild}
                             moreLabel={props.moreLabel}
                             size={props.size}
                         >
                             {collapsedChildrenResults.collapsedChildren}
-                        </TabListCollapseItem>
+                        </TabMore>
                     </React.Fragment>
                 ) : (
                     props.children

@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+`NumberInput` is a text field for entering numeric values, with optional stepper controls, min/max bounds, and value formatting.
+
 ```tsx
 import {NumberInput} from '@gravity-ui/uikit';
 ```
-
-NumberInput allow users to enter numbers into a UI.
 
 ## Appearance
 

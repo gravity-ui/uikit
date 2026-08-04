@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+The component to display definition list with term and definition separated by dots.
+
 ```tsx
 import {DefinitionList} from '@gravity-ui/uikit';
 ```
-
-The component to display definition list with term and definition separated by dots.
 
 ## Examples
 

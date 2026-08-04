@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import {useDefaultProps} from '../theme/useDefaultProps';
+
 import {ProgressWithStack} from './ProgressWithStack';
 import {ProgressWithValue} from './ProgressWithValue';
 import {progressBlock} from './constants';
@@ -9,7 +11,8 @@ import {isProgressWithStack} from './types';
 import './Progress.scss';
 
 export const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
-    function Progress(props, ref) {
+    function Progress(rawProps, ref) {
+        const props = useDefaultProps('Progress', rawProps);
         const {text = '', theme = 'default', size = 'm', loading = false, className, qa} = props;
         const resolvedProps: ProgressProps = {...props, text, theme, size, loading};
 

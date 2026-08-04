@@ -1,43 +1,45 @@
 import * as React from 'react';
 
-import type {IconData} from '../..';
-import type {UseDropZoneAccept} from '../../../hooks/lab/useDropZone';
-import type {BaseInputControlProps} from '../../controls/types';
-
 import {FileDropZoneProvider, useFileZoneContext} from './FileDropZone.Provider';
 import {cnFileDropZone} from './FileDropZone.classname';
+import {FileDropZoneQa} from './constants';
 import {FileDropZoneButton} from './parts/FileDropZone.Button';
 import {FileDropZoneDescription} from './parts/FileDropZone.Description';
 import {FileDropZoneIcon} from './parts/FileDropZone.Icon';
 import {FileDropZoneTitle} from './parts/FileDropZone.Title';
+import type {FileDropZoneContainerProps, FileDropZoneProps} from './types';
 
 import './FileDropZone.scss';
 
-export interface FileDropZoneProps extends Pick<BaseInputControlProps, 'validationState'> {
-    accept: UseDropZoneAccept;
-    onUpdate: (files: File[]) => void;
-    title?: string;
-    description?: string;
-    buttonText?: string;
-    icon?: IconData | null;
-    errorIcon?: IconData | null;
-    className?: string;
-    multiple?: boolean;
-    disabled?: boolean;
-    errorMessage?: string;
-    children?: React.ReactNode;
-}
-
-interface FileDropZoneContainerProps {
-    className?: string;
-    children: React.ReactNode;
-}
-
-const FileDropZoneContent = ({className, children}: FileDropZoneContainerProps) => {
-    const {isDraggingOver, disabled, errorMessage, validationState, getDroppableProps, onKeyDown} =
-        useFileZoneContext();
+const FileDropZoneContent = ({className, children, qa}: FileDropZoneContainerProps) => {
+    const {
+        isDraggingOver,
+        isInvalidDrag,
+        disabled,
+        errorMessage,
+        validationState,
+        getDroppableProps,
+        triggerProps,
+        controlProps,
+        accept,
+        multiple,
+        onKeyDown,
+    } = useFileZoneContext();
 
     const hasError = Boolean(errorMessage);
+
+    const handleClick = React.useCallback(
+        (event: React.MouseEvent<HTMLDivElement>) => {
+            if (!disabled && !event.defaultPrevented) {
+                triggerProps.onClick();
+            }
+        },
+        [disabled, triggerProps],
+    );
+
+    const handleInputClick = React.useCallback((event: React.MouseEvent<HTMLInputElement>) => {
+        event.stopPropagation();
+    }, []);
 
     const content = React.useMemo(() => {
         if (typeof children !== 'undefined') {
@@ -58,10 +60,15 @@ const FileDropZoneContent = ({className, children}: FileDropZoneContainerProps) 
     return (
         <div
             {...getDroppableProps()}
+            data-qa={qa}
+            aria-disabled={disabled || undefined}
+            tabIndex={disabled ? -1 : 0}
+            onClick={handleClick}
             onKeyDown={onKeyDown}
             className={cnFileDropZone(
                 {
                     'drag-hover': isDraggingOver,
+                    'invalid-drag': isInvalidDrag,
                     disabled: disabled,
                     error: hasError || validationState === 'invalid',
                     'default-layout': typeof children === 'undefined',
@@ -70,16 +77,25 @@ const FileDropZoneContent = ({className, children}: FileDropZoneContainerProps) 
             )}
         >
             {content}
+            <input
+                {...controlProps}
+                multiple={multiple}
+                accept={accept.length > 0 ? accept.join(',') : undefined}
+                data-qa={FileDropZoneQa.FILE_INPUT}
+                onClick={handleInputClick}
+            />
         </div>
     );
     /* eslint-enable jsx-a11y/no-static-element-interactions */
 };
 
 const BaseFileDropZone = React.memo<FileDropZoneProps>(
-    ({children, className, ...restProps}: FileDropZoneProps) => {
+    ({children, className, qa, ...restProps}: FileDropZoneProps) => {
         return (
             <FileDropZoneProvider {...restProps}>
-                <FileDropZoneContent className={className}>{children}</FileDropZoneContent>
+                <FileDropZoneContent className={className} qa={qa}>
+                    {children}
+                </FileDropZoneContent>
             </FileDropZoneProvider>
         );
     },

@@ -4,6 +4,10 @@ import type {VirtualElement} from '@floating-ui/react';
 
 import type {PopupProps} from '../../Popup';
 import type {DOMProps, QAProps} from '../../types';
+import type {
+    PolymorphicComponentProps,
+    PolymorphicCustomElementType,
+} from '../../utils/polymorphic';
 
 export type MenuSize = 's' | 'm' | 'l' | 'xl';
 
@@ -48,13 +52,10 @@ export interface MenuItemLinkProps
     href: string;
 }
 
-export type MenuItemComponentProps<T extends Exclude<MenuItemComponentElementType, undefined>> =
-    MenuItemCommonProps &
-        React.ComponentPropsWithoutRef<T> & {
-            component: T;
-        };
+export type MenuItemComponentElementType = PolymorphicCustomElementType;
 
-export type MenuItemComponentElementType = Exclude<React.ElementType, 'a' | 'button'> | undefined;
+export type MenuItemComponentProps<T extends Exclude<MenuItemComponentElementType, undefined>> =
+    PolymorphicComponentProps<MenuItemCommonProps, T>;
 
 export type MenuItemProps<T extends MenuItemComponentElementType = undefined> =
     | MenuItemLinkProps

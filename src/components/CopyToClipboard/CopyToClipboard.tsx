@@ -2,12 +2,15 @@
 
 import * as React from 'react';
 
+import {useDefaultProps} from '../theme/useDefaultProps';
+
 import {copyText} from './copyText';
 import type {CopyToClipboardProps, CopyToClipboardStatus} from './types';
 
 const INITIAL_STATUS: CopyToClipboardStatus = 'pending';
 
-export function CopyToClipboard(props: CopyToClipboardProps) {
+export function CopyToClipboard(rawProps: CopyToClipboardProps) {
+    const props = useDefaultProps('CopyToClipboard', rawProps);
     const {children, text, timeout, onCopy} = props;
 
     const textRef = React.useRef('');

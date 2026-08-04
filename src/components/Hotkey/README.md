@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+You can use the `Hotkey` component to display keyboard shortcuts for both Mac and PC.
+
 ```tsx
 import {Hotkey} from '@gravity-ui/uikit';
 ```
-
-You can use the `Hotkey` component to display keyboard shortcuts for both Mac and PC.
 
 ### Value
 

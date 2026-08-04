@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+`ClipboardIcon` is an animated copy icon that reflects the copy state (idle or success); it is meant to sit inside `CopyToClipboard` or `ClipboardButton` rather than be used on its own.
+
 ```tsx
 import {ClipboardIcon} from '@gravity-ui/uikit';
 ```
-
-This component is mainly used along with `CopyToClipboard` as a wrap component.
 
 ### Status
 

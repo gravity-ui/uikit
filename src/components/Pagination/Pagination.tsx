@@ -1,6 +1,7 @@
 'use client';
 
 import {useMobile} from '../mobile';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import {block} from '../utils/cn';
 
 import {
@@ -19,20 +20,23 @@ import './Pagination.scss';
 
 const b = block('pagination');
 
-export const Pagination = ({
-    page,
-    pageSize,
-    total,
-    size: propSize,
-    onUpdate,
-    compact: propCompact = true,
-    pageSizeOptions,
-    showPages = true,
-    showInput = false,
-    view: propView = 'outlined',
-    className,
-    qa,
-}: PaginationProps) => {
+export const Pagination = (rawProps: PaginationProps) => {
+    const {
+        page,
+        pageSize,
+        total,
+        size: propSize,
+        onUpdate,
+        compact: propCompact = true,
+        pageSizeOptions,
+        showPages = true,
+        showInput = false,
+        view: propView = 'outlined',
+        className,
+        qa,
+        pageComponent,
+        getPageProps,
+    } = useDefaultProps('Pagination', rawProps);
     const mobile = useMobile();
 
     const size = getSize({propSize, mobile});
@@ -67,6 +71,8 @@ export const Pagination = ({
                                 item={item}
                                 onUpdate={onUpdate}
                                 className={b('pagination-item')}
+                                pageComponent={pageComponent}
+                                getPageProps={getPageProps}
                             />
                         )
                     );
@@ -102,6 +108,8 @@ export const Pagination = ({
                             compact={compact}
                             className={b('pagination-item')}
                             view={buttonView}
+                            pageComponent={pageComponent}
+                            getPageProps={getPageProps}
                         />
                     );
                 default:

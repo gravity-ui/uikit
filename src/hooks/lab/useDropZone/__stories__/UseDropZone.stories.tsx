@@ -3,15 +3,12 @@ import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
 import {Icon, Text} from '../../../../components';
 import {useDropZone} from '../useDropZone';
-import type {UseDropZoneParams} from '../useDropZone';
 
 export default {title: 'Hooks/useDropZone'} as Meta;
 
-const ACCEPT = ['text/plain', 'image/*'];
-
 const DefaultTemplate: StoryFn = () => {
-    const handleDrop: UseDropZoneParams['onDrop'] = (items) => {
-        for (const item of items) {
+    const handleDrop = (event: DragEvent) => {
+        for (const item of Array.from(event.dataTransfer?.items || [])) {
             if (item.kind === 'string') {
                 item.getAsString((text) => {
                     alert(`String: ${text}`);
@@ -26,11 +23,12 @@ const DefaultTemplate: StoryFn = () => {
         }
     };
 
-    const {isDraggingOver, getDroppableProps} = useDropZone({
-        accept: ACCEPT,
-        onDrop: handleDrop,
-    });
-
+    const {isDraggingOver, getDroppableProps} = useDropZone({onDrop: handleDrop});
+    const getBorder = () => {
+        return isDraggingOver
+            ? '4px dashed var(--g-color-line-info)'
+            : '4px dashed var(--g-color-line-misc)';
+    };
     return (
         <div
             style={{
@@ -41,9 +39,7 @@ const DefaultTemplate: StoryFn = () => {
                 alignItems: 'center',
                 flexDirection: 'column',
                 gap: '16px',
-                border: isDraggingOver
-                    ? '4px dashed var(--g-color-line-info)'
-                    : '4px dashed var(--g-color-line-misc)',
+                border: getBorder(),
             }}
             {...getDroppableProps()}
         >

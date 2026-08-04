@@ -19,6 +19,7 @@ export interface Stack {
 export interface ProgressColorStops {
     theme: ProgressTheme;
     stop: number;
+    color?: string;
 }
 
 interface ProgressGeneralProps extends QAProps {

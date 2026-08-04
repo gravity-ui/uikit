@@ -5,6 +5,7 @@ import * as React from 'react';
 import {useActionHandlers} from '../../hooks';
 import type {BoxProps} from '../layout';
 import {Box} from '../layout';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import {block} from '../utils/cn';
 
 import './Card.scss';
@@ -43,7 +44,8 @@ const roles = {
     container: undefined,
 };
 
-export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(props, ref) {
+export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(rawProps, ref) {
+    const props = useDefaultProps('Card', rawProps);
     const {
         type = 'container',
         theme,

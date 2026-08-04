@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+The `Radio` component allows the users to select a single option from a list of choices.
+
 ```tsx
 import {Radio} from '@gravity-ui/uikit';
 ```
-
-The `Radio` component allows the users to select a single option from a list of choices.
 
 ## States
 

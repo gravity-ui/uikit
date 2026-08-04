@@ -201,12 +201,14 @@ export const RenderTexts = () => (
             description="Texts over special backgrounds (blue, red, etc.)."
             colors={alwaysLight}
             boxBorders={true}
+            defaultBackground="dark"
         />
         <ColorPanel
             title="Main inversion"
             description="Use with backgrounds that flip contrast (from low to high and vice versa)."
             colors={inverted}
             boxBorders={true}
+            defaultBackground="dark"
         />
     </Showcase>
 );

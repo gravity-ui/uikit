@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+This component is intended for rendering avatars. It has three basic avatar types: image, icon, and text (name initials). All these types have special properties to configure the behavior and appearance.
+
 ```tsx
 import {Avatar} from '@gravity-ui/uikit';
 ```
-
-This component is intended for rendering avatars. It has three basic avatar types: image, icon, and text (name initials). All these types have special properties to configure the behavior and appearance.
 
 ## Types
 

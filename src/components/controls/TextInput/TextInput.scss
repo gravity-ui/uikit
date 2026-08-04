@@ -148,6 +148,14 @@ $block: '.#{variables.$ns}text-input';
             var(--_--error-icon-padding-inline-end);
     }
 
+    &__error-popover {
+        max-width: 300px;
+    }
+
+    &__error-popover-content {
+        padding: var(--g-spacing-5) var(--g-spacing-4);
+    }
+
     &__additional-content {
         display: flex;
         align-items: center;

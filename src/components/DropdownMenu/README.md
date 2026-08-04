@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+The dropdown menu component provides item grouping, submenus, and a customizable toggle. The dropdown menu items are configured with the `items` property. By default, the menu toggle is a button with the ellipsis icon (**⋯**), which can be overridden with the `renderSwitcher` property.
+
 ```tsx
 import {DropdownMenu} from '@gravity-ui/uikit';
 ```
-
-The dropdown menu component provides item grouping, submenus, and a customizable toggle. The dropdown menu items are configured with the `items` property. By default, the menu toggle is a button with the ellipsis icon (**⋯**), which can be overridden with the `renderSwitcher` property.
 
 <!--SANDBOX
 import type {DropdownMenuItem} from '@gravity-ui/uikit';

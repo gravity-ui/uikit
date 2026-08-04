@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+The `RadioGroup` component is used to create a group where users can select a single option from multiple choices.
+
 ```tsx
 import {RadioGroup} from '@gravity-ui/uikit';
 ```
-
-The `RadioGroup` component is used to create a group where users can select a single option from multiple choices.
 
 ### Disabled state
 
@@ -130,7 +130,7 @@ SANDBOX-->
 
 <!--/GITHUB_BLOCK-->
 
-### Properties
+## Properties
 
 | Name            | Description                                                                                       |           Type            |    Default     |
 | :-------------- | :------------------------------------------------------------------------------------------------ | :-----------------------: | :------------: |

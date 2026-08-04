@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+The `Switch` component is used to toggle between two states: typically, between **on** and **off**, or **enabled** and **disabled**.
+
 ```tsx
 import {Switch} from '@gravity-ui/uikit';
 ```
-
-The `Switch` component is used to toggle between two states: typically, between **on** and **off**, or **enabled** and **disabled**.
 
 ## States
 

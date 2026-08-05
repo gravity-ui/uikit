@@ -80,7 +80,7 @@ const CustomTemplate: StoryFn<DisclosureProps> = (args) => {
             <Disclosure {...args}>
                 <Disclosure.Summary>
                     {(_props, defaultButton) => (
-                        <Flex gap={4}>
+                        <Flex gap="spacing-4">
                             {defaultButton}
                             <Icon data={Check} size={14} />
                         </Flex>

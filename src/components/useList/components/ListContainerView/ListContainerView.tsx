@@ -36,7 +36,7 @@ export const ListContainerView = React.forwardRef<HTMLDivElement, ListContainerV
                 as={as}
                 direction="column"
                 ref={ref}
-                grow
+                flexGrow
                 tabIndex={-1}
                 id={id}
                 role={role}

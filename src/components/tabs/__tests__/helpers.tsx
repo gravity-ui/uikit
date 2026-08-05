@@ -55,7 +55,7 @@ export const TestTabListScroll = () => {
     const [value, setValue] = React.useState('active');
 
     return (
-        <Flex direction="column" gap="3" width={800} spacing={{py: 10}}>
+        <Flex direction="column" gap="spacing-3" width={800} paddingBlock="spacing-10">
             <h4>contentOverflow scroll</h4>
             <Box style={{width: 450}}>
                 <TestTabList value={value} onUpdate={setValue} contentOverflow="scroll" />
@@ -68,7 +68,7 @@ export const TestTabListCollapse = () => {
     const [value, setValue] = React.useState('active');
 
     return (
-        <Flex direction="column" gap="3" width={800} spacing={{py: 10}}>
+        <Flex direction="column" gap="spacing-3" width={800} paddingBlock="spacing-10">
             <h4>contentOverflow collapse</h4>
             <Box style={{width: 450}}>
                 <TestTabList value={value} onUpdate={setValue} contentOverflow="collapse" />
@@ -81,7 +81,7 @@ export const TestTabListCollapseSelectedAsTrigger = () => {
     const [value, setValue] = React.useState('active');
 
     return (
-        <Flex direction="column" gap="3" width={800} spacing={{py: 10}}>
+        <Flex direction="column" gap="spacing-3" width={800} paddingBlock="spacing-10">
             <h4>contentOverflow collapse — selected tab as trigger</h4>
             {/* Width is too narrow for even 1 tab + More button */}
             <Box style={{width: 120}}>
@@ -97,7 +97,7 @@ export const TestTabListContentOverflow = ({
     ...props
 }: Partial<TabListProps> & {title: string; listToOpenQa: string}) => {
     return (
-        <Flex direction="column" gap="3" width={800} spacing={{py: 10}}>
+        <Flex direction="column" gap="spacing-3" width={800} paddingBlock="spacing-10">
             <h4>{title}</h4>
 
             <Box style={{width: 500}}>

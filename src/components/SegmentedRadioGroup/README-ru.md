@@ -53,7 +53,7 @@ const options = [
 
 export default function () {
     return (
-        <Flex direction="column" alignItems="center" gap={2}>
+        <Flex direction="column" alignItems="center" gap="spacing-2">
             <SegmentedRadioGroup name="group1" defaultValue="Value 1" size="s">{options}</SegmentedRadioGroup>
             <SegmentedRadioGroup name="group2" defaultValue="Value 1" size="m">{options}</SegmentedRadioGroup>
             <SegmentedRadioGroup name="group3" defaultValue="Value 1" size="l">{options}</SegmentedRadioGroup>
@@ -90,7 +90,7 @@ import {Box, Flex, SegmentedRadioGroup} from '@gravity-ui/uikit';
 export default function () {
     return (
         <Box width={140} style={{border: '2px dashed gray'}}>
-            <Flex direction="column" gap={2}>
+            <Flex direction="column" gap="spacing-2">
                 <SegmentedRadioGroup>
                     <SegmentedRadioGroup.Option value="1" content="none" />
                     <SegmentedRadioGroup.Option value="2" content="none********" />

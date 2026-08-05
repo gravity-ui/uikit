@@ -58,10 +58,7 @@ export const flexStyleHandlers: StyleHandlers<keyof FlexStyleProps> = {
  * ```tsx
  * import {Flex, Button} from '@gravity-ui/uikit';
  *
- * <Flex
- *  // take value from theme depends of current media query
- *  space
- * >
+ * <Flex gap="spacing-2">
  *  <Button>
  *      Button 1
  *  </Button>
@@ -75,10 +72,10 @@ export const flexStyleHandlers: StyleHandlers<keyof FlexStyleProps> = {
  *
  * ```tsx
  * <Flex
- *  // space dynamically changes instead of current media query
- *  space={{s: '1', m: '5'}}
- *  // `flex-direction: column` will be applied to `l`, 'xl', 'xxl' and `xxxl` media queries
- *  direction={{'s': 'column', 'm': 'row'}}
+ *  // gap dynamically changes based on the current media query
+ *  gap={{s: 'spacing-1', m: 'spacing-5'}}
+ *  // `flex-direction: row` will be applied to `m`, 'l', 'xl', 'xxl' and `xxxl`
+ *  direction={{s: 'column', m: 'row'}}
  * >
  *  {...}
  * </Flex>

@@ -10,7 +10,6 @@ interface BoxProps extends FlexProps<'div'> {
     minHeight?: number;
     w?: number | string;
     h?: number | string;
-    grow?: true;
     bc?: React.CSSProperties['borderColor'];
     bgc?: React.CSSProperties['backgroundColor'];
 }

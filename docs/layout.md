@@ -37,12 +37,12 @@ entire spacing system proportionally (see [Customization](#customization)).
 
 There are three ways to consume the scale — pick by context:
 
-**1. Component props** — spacing **between** children of `Flex`/`Box`, via the `gap` prop:
+**1. Component props** — spacing **between** children of `Flex`/`Grid`, via the `gap` prop:
 
 ```tsx
 import {Flex} from '@gravity-ui/uikit';
 
-<Flex gap={5}>
+<Flex gap="spacing-5">
   <Button />
   <Button />
 </Flex>; // 20px between children
@@ -87,7 +87,7 @@ Supported keys (each takes a scale step):
 
 You can pass a second argument to merge extra class names: `spacing({mr: 5}, myClassName)`.
 
-> **Rule of thumb:** `gap` for spacing between siblings in a `Flex`/`Box`; the `spacing()`/`sp()`
+> **Rule of thumb:** `gap` for spacing between siblings in a `Flex`/`Grid`; the `spacing()`/`sp()`
 > utility for one-off offsets on an element; raw `--g-spacing-*` variables inside your own CSS.
 > Always use scale steps, never hard-coded pixels.
 
@@ -172,7 +172,7 @@ import React, {Suspense} from 'react';
 import {Flex, Loader} from '@gravity-ui/uikit';
 
 // `Flex` extended from `Box` component and enriched flexbox model properties
-<Flex centerContent width="100%" height="100%">
+<Flex justifyContent="center" alignItems="center" width="100%" height="100%">
   <Suspense fallback={<Loader size="m" />}>
     <LazyLoadedComponent />
   </Suspense>
@@ -245,8 +245,8 @@ Center you content. Almost always it should be one per page. Manage max width co
 
 ## Flex
 
-CSS `Flexbox` model representation in `jsx` world. Has built-in `spacing` to manage space between children. All flex properties are available in props.
-For most used properties it supports object syntax config to override behavior in different screen sizes.
+CSS `Flexbox` model representation in `jsx` world. Use `gap`, `columnGap`, and `rowGap` to manage space between children. All flex properties are available as props.
+The most commonly used properties support object syntax to override behavior at different screen sizes.
 
 #### Examples
 
@@ -255,7 +255,7 @@ _Space between children components in row direction_
 ```jsx
 import {Flex, TextInput, Button} from '@gravity-ui/uikit';
 
-<Flex space="5">
+<Flex gap="spacing-5">
   <TextInput />
   <Button />
 </Flex>;
@@ -266,8 +266,8 @@ _Nested `Flex` example_
 ```jsx
 import {Flex, TextInput, Button, Table} from '@gravity-ui/uikit';
 
-<Flex direction="column" space="5">
-  <Flex space="5">
+<Flex direction="column" gap="spacing-5">
+  <Flex gap="spacing-5">
     <TextInput />
     <Button />
   </Flex>
@@ -283,7 +283,7 @@ import {Flex, TextInput, Button} from '@gravity-ui/uikit';
 <Flex
   // direction: column will be applied to l, xl, xxl, xxxl screen sizes here
   direction={{l: 'column'}}
-  space={{s: '5', m: '3'}}
+  gap={{s: 'spacing-5', m: 'spacing-3'}}
 >
   <TextInput />
   <Button />

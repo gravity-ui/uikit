@@ -45,7 +45,7 @@
 ```tsx
 import {Flex} from '@gravity-ui/uikit';
 
-<Flex gap={5}>
+<Flex gap="spacing-5">
   <Button />
   <Button />
 </Flex>; // 20px between children
@@ -186,7 +186,7 @@ import React, {Suspense} from 'react';
 import {Flex, Loader} from '@gravity-ui/uikit';
 
 // `Flex` extended from `Box` component and enriched flexbox model properties
-<Flex centerContent width="100%" height="100%">
+<Flex justifyContent="center" alignItems="center" width="100%" height="100%">
   <Suspense fallback={<Loader size="m" />}>
     <LazyLoadedComponent />
   </Suspense>
@@ -268,14 +268,14 @@ import {Row, Col} from '@gravity-ui/uikit';
 элементами. Все flex-свойства доступны как props. Для наиболее частых свойств поддерживается
 объектная конфигурация, позволяющая менять поведение на разных размерах экрана.
 
-#### Примеры
+### Примеры
 
 _Расстояние между дочерними компонентами в строке_
 
 ```jsx
 import {Flex, TextInput, Button} from '@gravity-ui/uikit';
 
-<Flex space="5">
+<Flex gap="spacing-5">
   <TextInput />
   <Button />
 </Flex>;
@@ -286,8 +286,8 @@ _Вложенный `Flex`_
 ```jsx
 import {Flex, TextInput, Button, Table} from '@gravity-ui/uikit';
 
-<Flex direction="column" space="5">
-  <Flex space="5">
+<Flex direction="column" gap="spacing-5">
+  <Flex gap="spacing-5">
     <TextInput />
     <Button />
   </Flex>
@@ -303,7 +303,7 @@ import {Flex, TextInput, Button} from '@gravity-ui/uikit';
 <Flex
   // direction: column will be applied to l, xl, 2xl, 3xl screen sizes here
   direction={{l: 'column'}}
-  space={{s: '5', m: '3'}}
+  gap={{s: 'spacing-5', m: 'spacing-3'}}
 >
   <TextInput />
   <Button />

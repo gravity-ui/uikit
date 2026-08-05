@@ -40,11 +40,11 @@ const options = [
 export default function () {
     return (
         <>
-            <Flex gap={1} alignItems="center">
+            <Flex gap="spacing-1" alignItems="center">
                 Array of objects
                 <Select placeholder="value" options={options} />
             </Flex>
-            <Flex gap={1} alignItems="center">
+            <Flex gap="spacing-1" alignItems="center">
                 Child nodes
                 <Select placeholder="value">
                     <Select.Option value="val_1">Value 1</Select.Option>
@@ -96,7 +96,7 @@ import {Flex, Icon, Select, getSelectOptionText} from '@gravity-ui/uikit';
 <Select
   options={cities}
   renderOption={(option) => (
-    <Flex gap={1}>
+    <Flex gap="spacing-1">
       <Icon data={option.data.icon} />
       {option.data.name}
     </Flex>
@@ -150,11 +150,11 @@ const groupedOptions = [
 export default function () {
     return (
         <>
-            <Flex gap={1} alignItems="center">
+            <Flex gap="spacing-1" alignItems="center">
                 Array of objects
                 <Select placeholder="value" options={groupedOptions} />
             </Flex>
-            <Flex gap={1} alignItems="center">
+            <Flex gap="spacing-1" alignItems="center">
                 Child nodes
                 <Select placeholder="value">
                     <Select.OptionGroup label="Group 1">
@@ -525,28 +525,28 @@ export default function () {
         <>
             <div style={containerStyle}>
                 <h4>Default</h4>
-                <Box spacing={{my: 3}}>
+                <Box marginBlock="spacing-3">
                     <ShortValueSelect />
                 </Box>
-                <Box spacing={{my: 3}}>
+                <Box marginBlock="spacing-3">
                     <LongValueSelect />
                 </Box>
             </div>
             <div style={containerStyle}>
                 <h4>Fit</h4>
-                <Box spacing={{my: 3}}>
+                <Box marginBlock="spacing-3">
                     <ShortValueSelect popupWidth="fit" />
                 </Box>
-                <Box spacing={{my: 3}}>
+                <Box marginBlock="spacing-3">
                     <LongValueSelect popupWidth="fit" />
                 </Box>
             </div>
             <div style={containerStyle}>
                 <h4>In pixels</h4>
-                <Box spacing={{my: 3}}>
+                <Box marginBlock="spacing-3">
                     <ShortValueSelect popupWidth={80} />
                 </Box>
-                <Box spacing={{my: 3}}>
+                <Box marginBlock="spacing-3">
                     <LongValueSelect popupWidth={80} />
                 </Box>
             </div>
@@ -610,12 +610,12 @@ export default function () {
         <>
             <div style={containerStyle}>
                 <h4>Default</h4>
-                <Box spacing={{my: 3}}>
+                <Box marginBlock="spacing-3">
                     <ListVirtualizer>
                         <Select placeholder="Short value" options={shortOptions} />
                     </ListVirtualizer>
                 </Box>
-                <Box spacing={{my: 3}}>
+                <Box marginBlock="spacing-3">
                     <ListVirtualizer>
                         <Select placeholder="Long value" options={longOptions} />
                     </ListVirtualizer>
@@ -623,12 +623,12 @@ export default function () {
             </div>
             <div style={containerStyle}>
                 <h4>In pixels</h4>
-                <Box spacing={{my: 3}}>
+                <Box marginBlock="spacing-3">
                     <ListVirtualizer>
                         <Select placeholder="Short value" popupWidth={80} options={shortOptions} />
                     </ListVirtualizer>
                 </Box>
-                <Box spacing={{my: 3}}>
+                <Box marginBlock="spacing-3">
                     <ListVirtualizer>
                         <Select placeholder="Long value" popupWidth={80} options={longOptions} />
                     </ListVirtualizer>
@@ -714,7 +714,7 @@ const renderFilter: SelectProps['renderFilter'] = ({ref, style, inputProps}) => 
     const {value, placeholder, onChange, onKeyDown, ...controlProps} = inputProps;
 
     return (
-        <Flex direction="column" gap={1} style={style}>
+        <Flex direction="column" gap="spacing-1" style={style}>
             <TextInput
                 controlRef={ref}
                 controlProps={controlProps}

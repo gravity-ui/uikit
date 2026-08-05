@@ -52,18 +52,18 @@ export const UsingTextUtilities: StoryObj<{}> = {
 
 export const Ellipsis: Story = {
     render: (args) => (
-        <Flex gap={5} direction="column">
-            <Flex gap={5} width={200} direction="column">
+        <Flex gap="spacing-5" direction="column">
+            <Flex gap="spacing-5" width={200} direction="column">
                 <Text variant="header-1">With fixed container size (ellipsis=true)</Text>
                 <Text {...args} ellipsis />
             </Flex>
-            <Flex gap={5} width={200} direction="column">
+            <Flex gap="spacing-5" width={200} direction="column">
                 <Text variant="header-1">
                     With text utility and fixed container size (ellipsis=true)
                 </Text>
                 <span className={text({ellipsis: true})}>{args.children}</span>
             </Flex>
-            <Flex gap={5} direction="column">
+            <Flex gap="spacing-5" direction="column">
                 <Text variant="header-1">
                     With text utility (ellipsisLines=true, style: WebkitLineClamp: 3)
                 </Text>
@@ -71,7 +71,7 @@ export const Ellipsis: Story = {
                     {args.children}
                 </span>
             </Flex>
-            <Flex gap={5} direction="column">
+            <Flex gap="spacing-5" direction="column">
                 <Text variant="header-1">With line clamp property (ellipsisLines={3})</Text>
                 <Text {...args} ellipsisLines={3} />
             </Flex>
@@ -109,7 +109,7 @@ const LabelWithControlledFocusStory = () => {
     const id = 'some-id';
 
     return (
-        <Flex gap="5">
+        <Flex gap="spacing-5">
             <Text as="label" htmlFor={id} ref={ref}>
                 Click on label to control text input
             </Text>
@@ -126,7 +126,7 @@ export const LabelWithControlledFocus: Story = {
 
 const WithCustomElementRenderStory = () => {
     return (
-        <Flex direction={'column'} gap="5">
+        <Flex direction={'column'} gap="spacing-5">
             <Text as="code">
                 {
                     '<Text as={Button} size={\'m\'} view="action" color="danger-heavy" variant="header-1">Hello World!</Text>'

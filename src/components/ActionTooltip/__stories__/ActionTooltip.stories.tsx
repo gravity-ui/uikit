@@ -72,7 +72,7 @@ const TOOLBAR_ACTIONS = [
 
 export const Toolbar: Story = {
     render: (args) => (
-        <Flex gap={1}>
+        <Flex gap="spacing-1">
             {TOOLBAR_ACTIONS.map(({title, hotkey, icon}) => (
                 <ActionTooltip {...args} key={title} title={title} hotkey={hotkey}>
                     <Button view="flat">

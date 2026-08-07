@@ -78,6 +78,12 @@ export const FullWidthSummary: StoryFn<DisclosureProps> = (args) => (
     </div>
 );
 
+FullWidthSummary.args = {
+    arrowPosition: 'end',
+    summary:
+        'A long disclosure summary demonstrates that the end-positioned arrow stays aligned to the far edge of the full-width trigger',
+};
+
 const CustomTemplate: StoryFn<DisclosureProps> = (args) => {
     return (
         <div className="disclosure-stories">

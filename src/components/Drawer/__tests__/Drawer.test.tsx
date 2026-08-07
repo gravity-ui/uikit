@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import userEvent from '@testing-library/user-event';
+
 import {render, screen} from '../../../../test-utils/utils';
 import {block} from '../../utils/cn';
 import {Drawer} from '../components/Drawer';
@@ -31,16 +33,40 @@ describe('Drawer', () => {
         expect(screen.getByTestId(qa)).toBeInTheDocument();
     });
 
-    test('should keep surrounding content accessible when modal is false', () => {
+    const renderDrawer = (modal?: boolean) => (
+        <React.Fragment>
+            <button type="button">Page action</button>
+            <Drawer open modal={modal}>
+                <div>{PLACEHOLDER_TEXT}</div>
+            </Drawer>
+        </React.Fragment>
+    );
+
+    test('should allow interacting with surrounding content when modal is false', async () => {
+        const handlePageActionClick = jest.fn();
+
         render(
             <React.Fragment>
-                <button type="button">Page action</button>
-                <Drawer open modal={false}>
+                <button type="button" onClick={handlePageActionClick}>
+                    Page action
+                </button>
+                <Drawer open modal={false} hideVeil>
                     <div>{PLACEHOLDER_TEXT}</div>
                 </Drawer>
             </React.Fragment>,
         );
 
-        expect(screen.getByRole('button', {name: 'Page action'})).toBeVisible();
+        const pageAction = screen.getByRole('button', {name: 'Page action'});
+        const user = userEvent.setup();
+
+        await user.click(pageAction);
+
+        expect(handlePageActionClick).toHaveBeenCalledTimes(1);
+    });
+
+    test('should make surrounding content inaccessible by default', () => {
+        render(renderDrawer());
+
+        expect(screen.queryByRole('button', {name: 'Page action'})).not.toBeInTheDocument();
     });
 });

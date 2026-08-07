@@ -1,5 +1,35 @@
 # Changelog
 
+## [7.47.2](https://github.com/gravity-ui/uikit/compare/v7.47.1...v7.47.2) (2026-08-02)
+
+
+### Bug Fixes
+
+* **Button:** export icon size map ([#2766](https://github.com/gravity-ui/uikit/issues/2766)) ([9d4fc42](https://github.com/gravity-ui/uikit/commit/9d4fc4287cf1f63da1bd90aa07e8dd289487c108))
+* **useFocusWithin:** call a current version of the blur handler ([#2768](https://github.com/gravity-ui/uikit/issues/2768)) ([bd0f62c](https://github.com/gravity-ui/uikit/commit/bd0f62cc3039c6fc4a3cff8200a351d815dea301))
+
+## [7.47.1](https://github.com/gravity-ui/uikit/compare/v7.47.0...v7.47.1) (2026-07-24)
+
+
+### Bug Fixes
+
+* **Tabs:** optimize styles and internal markup ([#2761](https://github.com/gravity-ui/uikit/issues/2761)) ([ab25744](https://github.com/gravity-ui/uikit/commit/ab257448dc1703187737d62ca259ea41a3a106da))
+
+## [7.47.0](https://github.com/gravity-ui/uikit/compare/v7.46.0...v7.47.0) (2026-07-22)
+
+
+### Features
+
+* readme refactoring ([#2705](https://github.com/gravity-ui/uikit/issues/2705)) ([09069a5](https://github.com/gravity-ui/uikit/commit/09069a5f12dd07ae1eacde80c2c2b61a5ccce719))
+
+
+### Bug Fixes
+
+* add `@types/react` to `peerDependencies` ([#2753](https://github.com/gravity-ui/uikit/issues/2753)) ([e5e5911](https://github.com/gravity-ui/uikit/commit/e5e59116fd1ac34ae4987a850065db5a6960884a))
+* **Select:** fix availability of error popover with placement inside ([#2760](https://github.com/gravity-ui/uikit/issues/2760)) ([573bbe6](https://github.com/gravity-ui/uikit/commit/573bbe6e909300b32335efa4de6ff6afeff5e5c8))
+* **Tabs:** correctly render custom components + migration guide ([#2757](https://github.com/gravity-ui/uikit/issues/2757)) ([4b2bc7d](https://github.com/gravity-ui/uikit/commit/4b2bc7d67bcc64601c82d54aa3e494bb819b8c5d))
+* **Tabs:** localize overflow label ([#2751](https://github.com/gravity-ui/uikit/issues/2751)) ([643b600](https://github.com/gravity-ui/uikit/commit/643b6006bb9c56a7ec740062d61d01467fe9738a))
+
 ## [7.46.0](https://github.com/gravity-ui/uikit/compare/v7.45.1...v7.46.0) (2026-07-15)
 
 

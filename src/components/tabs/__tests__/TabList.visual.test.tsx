@@ -123,7 +123,7 @@ test.describe('TabList', {tag: '@TabList'}, () => {
                 themes: ['light'],
             });
 
-            await page.locator('button.g-tab-list-collapse-item').click();
+            await page.locator('button.g-tab-more').click();
 
             await expect(page.locator('div[role="menu"]')).toBeVisible();
 
@@ -148,7 +148,7 @@ test.describe('TabList', {tag: '@TabList'}, () => {
             await mount(<TestTabListCollapseSelectedAsTrigger />);
 
             // The collapse item should show active tab content as trigger (not "More")
-            const collapseItem = page.locator('button.g-tab-list-collapse-item');
+            const collapseItem = page.locator('button.g-tab-more');
             await expect(collapseItem).toBeVisible();
             await expect(collapseItem).not.toContainText('More');
 
@@ -169,7 +169,7 @@ test.describe('TabList', {tag: '@TabList'}, () => {
             // Other tab should be selected and rendered as trigger (not "More")
             await page.getByRole('menuitem', {name: 'First Tab'}).click();
 
-            const newCollapseItem = page.locator('button.g-tab-list-collapse-item');
+            const newCollapseItem = page.locator('button.g-tab-more');
             await expect(newCollapseItem).toBeVisible();
             await expect(newCollapseItem).not.toContainText('More');
 
@@ -199,7 +199,7 @@ test.describe('TabList', {tag: '@TabList'}, () => {
                 <TestTabListContentOverflow title={title} listToOpenQa={listToOpenQa} {...props} />,
             );
 
-            await root.getByTestId(listToOpenQa).locator('button.g-tab-list-collapse-item').click();
+            await root.getByTestId(listToOpenQa).locator('button.g-tab-more').click();
 
             await expect(page.locator(`div[role="menu"]`)).toBeVisible();
 

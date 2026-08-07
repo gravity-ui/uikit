@@ -5,7 +5,7 @@ import * as React from 'react';
 import {useFocusWithin, useForkRef, useUniqId} from '../../hooks';
 import {useDefaultProps} from '../theme/useDefaultProps';
 
-import {TabListCollapseItem} from './TabListCollapseItem/TabListCollapseItem';
+import {TabMore} from './TabMore';
 import {TabContext} from './contexts/TabContext';
 import {useTabList} from './hooks/useTabList';
 import {useTabListCollapsedChildren} from './hooks/useTabListCollapsedChildren';
@@ -57,14 +57,14 @@ export const TabList = React.forwardRef<HTMLDivElement, TabListProps>((rawProps,
                 {collapseEnabled ? (
                     <React.Fragment>
                         {collapsedChildrenResults.shownChildren}
-                        <TabListCollapseItem
+                        <TabMore
                             ref={collapsedChildrenResults.collapseItemRef}
                             triggerChild={collapsedChildrenResults.triggerChild}
                             moreLabel={props.moreLabel}
                             size={props.size}
                         >
                             {collapsedChildrenResults.collapsedChildren}
-                        </TabListCollapseItem>
+                        </TabMore>
                     </React.Fragment>
                 ) : (
                     props.children

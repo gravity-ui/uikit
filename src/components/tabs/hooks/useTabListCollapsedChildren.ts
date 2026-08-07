@@ -3,18 +3,17 @@ import * as React from 'react';
 import {useCollapseChildren} from '../../../hooks/useCollapseChildren';
 import {useResizeObserver} from '../../../hooks/useResizeObserver';
 import {getReactNodeHash} from '../../Breadcrumbs/utils';
-import {Tab} from '../Tab';
-import {bTab, bTabListCollapseItem} from '../constants';
+import {bTab} from '../constants';
 import {getTabNodePropsFromReactNode} from '../utils';
 
 import {useTabListGapFromContainer} from './useTabListGapFromContainer';
 
-const TAB_LIST_COLLAPSE_CHILD_SELECTOR = `.${bTab()},.${bTabListCollapseItem()}`;
+const TAB_LIST_CHILD_SELECTOR = `.${bTab()}`;
 
 export type UseTabListCollapsedChildrenResult = {
     shownChildren: React.ReactElement[];
     collapsedChildren: React.ReactElement[];
-    triggerChild: React.ReactNode;
+    triggerChild: React.ReactElement | null;
     collapseItemRef: React.RefObject<HTMLButtonElement>;
 };
 
@@ -31,7 +30,7 @@ export const useTabListCollapsedChildren = (
     const listGap = useTabListGapFromContainer(containerRef, {
         enabled,
         childrenHash,
-        childSelector: TAB_LIST_COLLAPSE_CHILD_SELECTOR,
+        childSelector: TAB_LIST_CHILD_SELECTOR,
     });
 
     const {recalculate, visibleCount: visibleChildrenCount} = useCollapseChildren({
@@ -41,7 +40,7 @@ export const useTabListCollapsedChildren = (
         direction: 'end',
         minCount: 0,
         gap: listGap,
-        childSelector: TAB_LIST_COLLAPSE_CHILD_SELECTOR,
+        childSelector: TAB_LIST_CHILD_SELECTOR,
     });
 
     React.useEffect(() => {
@@ -88,7 +87,7 @@ export const useTabListCollapsedChildren = (
             shownChildren: childrenList,
             collapsedChildren: [],
             collapseItemRef,
-            triggerChild: undefined,
+            triggerChild: null,
         };
     }
 
@@ -103,24 +102,12 @@ export const useTabListCollapsedChildren = (
                 shownChildren: selectedChild ? [selectedChild] : [],
                 collapsedChildren: [],
                 collapseItemRef,
-                triggerChild: undefined,
+                triggerChild: null,
             };
         }
 
-        // Keep a hidden Tab in DOM so useCollapseChildren can measure its width.
-        const selectedTabProps = getTabNodePropsFromReactNode(selectedChild);
-        const hiddenSelectedChild = selectedTabProps
-            ? React.createElement(Tab, {
-                  ...selectedTabProps,
-                  key: selectedTabProps.value,
-                  style: {visibility: 'hidden', pointerEvents: 'none', position: 'absolute'},
-                  'aria-hidden': true,
-                  tabIndex: -1,
-              })
-            : undefined;
-
         return {
-            shownChildren: hiddenSelectedChild ? [hiddenSelectedChild] : [],
+            shownChildren: [],
             collapsedChildren: otherChildren,
             collapseItemRef,
             triggerChild: selectedChild,
@@ -148,5 +135,5 @@ export const useTabListCollapsedChildren = (
         }
     });
 
-    return {shownChildren, collapsedChildren, triggerChild: undefined, collapseItemRef};
+    return {shownChildren, collapsedChildren, triggerChild: null, collapseItemRef};
 };

@@ -22,7 +22,7 @@ function warnAboutPhysicalValues() {
 }
 
 export type DisclosureSummaryWidth = 'auto' | 'max';
-export type DisclosureSummaryJustifyContent = 'initial' | 'space-between';
+export type DisclosureSummaryJustifyContent = 'start' | 'space-between';
 
 export interface DisclosureSummaryRenderFunctionProps extends QAProps {
     onClick: (e: React.SyntheticEvent) => void;
@@ -52,7 +52,15 @@ export function DisclosureSummary({children: renderFunction, qa}: DisclosureSumm
         disabled,
         onSummaryKeyDown: onKeyDown,
     } = useDisclosureAttributes();
-    const props = {onClick: handleToggle, ariaControls, id, expanded, disabled, qa, onKeyDown};
+    const props = {
+        onClick: handleToggle,
+        ariaControls,
+        id,
+        expanded,
+        disabled,
+        qa,
+        onKeyDown,
+    };
 
     return renderFunction(props, <DefaultDisclosureSummary {...props} />);
 }

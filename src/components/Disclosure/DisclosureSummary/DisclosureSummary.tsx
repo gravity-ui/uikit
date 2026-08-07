@@ -5,7 +5,7 @@ import * as React from 'react';
 import {ArrowToggle} from '../../ArrowToggle';
 import type {QAProps} from '../../types';
 import {warnOnce} from '../../utils/warn';
-import type {DisclosureSize} from '../Disclosure';
+import type {DisclosureArrowPosition, DisclosureSize} from '../Disclosure';
 import {useDisclosureAttributes, useToggleDisclosure} from '../DisclosureContext';
 import {DisclosureQa, b} from '../constants';
 
@@ -34,16 +34,32 @@ export interface DisclosureSummaryRenderFunctionProps extends QAProps {
     className?: string;
     width?: DisclosureSummaryWidth;
     justifyContent?: DisclosureSummaryJustifyContent;
+    size?: DisclosureSize;
+    summary?: React.ReactNode;
+    arrowPosition?: DisclosureArrowPosition;
 }
 
 export interface DisclosureSummaryProps extends QAProps {
-    children: (
+    width?: DisclosureSummaryWidth;
+    justifyContent?: DisclosureSummaryJustifyContent;
+    size?: DisclosureSize;
+    summary?: React.ReactNode;
+    arrowPosition?: DisclosureArrowPosition;
+    children?: (
         props: DisclosureSummaryRenderFunctionProps,
         defaultSummary: React.ReactElement,
     ) => React.ReactElement;
 }
 
-export function DisclosureSummary({children: renderFunction, qa}: DisclosureSummaryProps) {
+export function DisclosureSummary({
+    children: renderFunction,
+    qa,
+    justifyContent = 'start',
+    width = 'auto',
+    size,
+    summary,
+    arrowPosition,
+}: DisclosureSummaryProps) {
     const handleToggle = useToggleDisclosure();
     const {
         ariaControls,
@@ -51,8 +67,11 @@ export function DisclosureSummary({children: renderFunction, qa}: DisclosureSumm
         expanded,
         disabled,
         onSummaryKeyDown: onKeyDown,
+        size: disclosureSize,
+        summary: disclosureSummary,
+        arrowPosition: disclosureArrowPosition,
     } = useDisclosureAttributes();
-    const props = {
+    const props: DisclosureSummaryRenderFunctionProps = {
         onClick: handleToggle,
         ariaControls,
         id,
@@ -60,9 +79,20 @@ export function DisclosureSummary({children: renderFunction, qa}: DisclosureSumm
         disabled,
         qa,
         onKeyDown,
+        justifyContent,
+        width,
+        size: size ?? disclosureSize,
+        summary: summary === undefined ? disclosureSummary : summary,
+        arrowPosition: arrowPosition ?? disclosureArrowPosition,
     };
 
-    return renderFunction(props, <DefaultDisclosureSummary {...props} />);
+    const defaultDisclosureSummaryJsx = <DefaultDisclosureSummary {...props} />;
+
+    if (renderFunction) {
+        return renderFunction(props, defaultDisclosureSummaryJsx);
+    }
+
+    return defaultDisclosureSummaryJsx;
 }
 
 export const DefaultDisclosureSummary = React.forwardRef<
@@ -80,11 +110,16 @@ export const DefaultDisclosureSummary = React.forwardRef<
         className,
         width,
         justifyContent,
+        size: sizeProp,
+        summary: summaryProp,
+        arrowPosition: arrowPositionProp,
     },
     ref,
 ) {
     const {size, summary, arrowPosition} = useDisclosureAttributes();
-    let arrowMod = arrowPosition;
+    const mergedSize = sizeProp ?? size;
+    const mergedSummary = summaryProp === undefined ? summary : summaryProp;
+    let arrowMod = arrowPositionProp ?? arrowPosition;
 
     if (arrowMod === 'left') {
         warnAboutPhysicalValues();
@@ -113,10 +148,10 @@ export const DefaultDisclosureSummary = React.forwardRef<
             ref={ref}
         >
             <ArrowToggle
-                size={ComponentSizeToIconSizeMap[size]}
+                size={ComponentSizeToIconSizeMap[mergedSize]}
                 direction={expanded ? 'top' : 'bottom'}
             />
-            {summary}
+            {mergedSummary}
         </button>
     );
 });

@@ -56,6 +56,28 @@ const ArrowPositionTemplate: StoryFn<DisclosureProps> = (args) => {
 
 export const ArrowPosition = ArrowPositionTemplate.bind({});
 
+export const FullWidthSummary: StoryFn<DisclosureProps> = (args) => (
+    <div className="disclosure-stories__full-width">
+        <Disclosure
+            {...args}
+            summary={undefined}
+            size={undefined}
+            arrowPosition={undefined}
+            qa={undefined}
+        >
+            {args.children}
+            <Disclosure.Summary
+                summary={args.summary}
+                size={args.size}
+                arrowPosition={args.arrowPosition}
+                qa={args.qa}
+                width="max"
+                justifyContent="space-between"
+            />
+        </Disclosure>
+    </div>
+);
+
 const CustomTemplate: StoryFn<DisclosureProps> = (args) => {
     return (
         <div className="disclosure-stories">

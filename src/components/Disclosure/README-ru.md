@@ -132,7 +132,7 @@ SANDBOX-->
 
 ## Пользовательский контент
 
-Используйте компонент `Disclosure.Summary` для создания пользовательского заголовка и компонент `Disclosure.Details` для заполнения пользовательского контента.
+Используйте `Disclosure.Summary`, чтобы настроить стандартный заголовок отдельно от `Disclosure`. Свойства `summary`, `size` и `arrowPosition` переопределяют соответствующие свойства `Disclosure` для этого заголовка. Используйте render-функцию `children`, чтобы создать полностью пользовательский заголовок, а `Disclosure.Details` — чтобы задать пользовательский контент.
 
 <!--SANDBOX
 import {Check} from '@gravity-ui/icons';
@@ -141,6 +141,15 @@ import {Button, Disclosure, Flex, Icon} from '@gravity-ui/uikit';
 export default function () {
     return (
         <Flex gap={4} alignItems="center">
+            <Disclosure>
+                <Disclosure.Summary
+                    summary="Full-width summary"
+                    width="max"
+                    justifyContent="space-between"
+                    arrowPosition="end"
+                />
+                <Disclosure.Details>Details</Disclosure.Details>
+            </Disclosure>
             <Disclosure>
                 <Disclosure.Summary>
                     {(props) => (
@@ -171,6 +180,18 @@ export default function () {
 SANDBOX-->
 
 <!--GITHUB_BLOCK-->
+
+```tsx
+<Disclosure>
+  <Disclosure.Summary
+    summary="Full-width summary"
+    width="max"
+    justifyContent="space-between"
+    arrowPosition="end"
+  />
+  <Disclosure.Details>Details</Disclosure.Details>
+</Disclosure>
+```
 
 ```tsx
 <Disclosure>
@@ -251,12 +272,15 @@ SANDBOX-->
 
 ### Disclosure.Summary
 
-| Имя            | Описание                             | Тип                                             | Значение по умолчанию |
-| :------------- | :----------------------------------- | :---------------------------------------------- | :-------------------- |
-| children       | Функция рендеринга                   | `(props, defaultSummary) => React.ReactElement` |                       |
-| width          | Ширина заголовка                     | `"auto"` `"max"`                                | `"auto"`              |
-| justifyContent | Выравнивание контента по главной оси | `"start"` `"space-between"`                     | `"start"`             |
-| qa             | Идентификатор для тестирования       | `string`                                        | `disclosure-summary`  |
+| Имя            | Описание                                                      | Тип                                             | Значение по умолчанию      |
+| :------------- | :------------------------------------------------------------ | :---------------------------------------------- | :------------------------- |
+| children       | Необязательная функция рендеринга пользовательского заголовка | `(props, defaultSummary) => React.ReactElement` |                            |
+| width          | Ширина заголовка                                              | `"auto"` `"max"`                                | `"auto"`                   |
+| justifyContent | Выравнивание контента по главной оси                          | `"start"` `"space-between"`                     | `"start"`                  |
+| size           | Размер заголовка; переопределяет `Disclosure.size`            | `"m"` `"l"` `"xl"`                              | `Disclosure.size`          |
+| summary        | Контент заголовка; переопределяет `Disclosure.summary`        | `React.ReactNode`                               | `Disclosure.summary`       |
+| arrowPosition  | Положение контрола; переопределяет `Disclosure.arrowPosition` | `"start"` `"end"`                               | `Disclosure.arrowPosition` |
+| qa             | Идентификатор для тестирования                                | `string`                                        | `disclosure-summary`       |
 
 ### Disclosure.Details
 

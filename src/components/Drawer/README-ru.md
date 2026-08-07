@@ -105,6 +105,7 @@ const [size, setSize] = useState(500);
 | disableEscapeKeyDown    | Отключает закрытие по клавише `Esc`                                                                           |             `boolean`              |        `false`        |
 | disableOutsideClick     | Отключает закрытие при клике снаружи                                                                          |             `boolean`              |        `false`        |
 | disableTransition       | Отключает анимацию компонента                                                                                 |             `boolean`              |        `false`        |
+| modal                   | Включает модальное управление фокусом                                                                          |             `boolean`              |        `true`         |
 | disablePortal           | Отключает использование `Portal`                                                                              |             `boolean`              |        `false`        |
 | keepMounted             | Не удаляет компонент из DOM при скрытии                                                                       |             `boolean`              |        `false`        |
 | resizable               | Включает возможность изменения размера через курсор                                                           |             `boolean`              |        `false`        |

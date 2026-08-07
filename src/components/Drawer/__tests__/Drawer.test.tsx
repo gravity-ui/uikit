@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import {render, screen} from '../../../../test-utils/utils';
 import {block} from '../../utils/cn';
 import {Drawer} from '../components/Drawer';
@@ -27,5 +29,18 @@ describe('Drawer', () => {
         );
 
         expect(screen.getByTestId(qa)).toBeInTheDocument();
+    });
+
+    test('should keep surrounding content accessible when modal is false', () => {
+        render(
+            <React.Fragment>
+                <button type="button">Page action</button>
+                <Drawer open modal={false}>
+                    <div>{PLACEHOLDER_TEXT}</div>
+                </Drawer>
+            </React.Fragment>,
+        );
+
+        expect(screen.getByRole('button', {name: 'Page action'})).toBeVisible();
     });
 });

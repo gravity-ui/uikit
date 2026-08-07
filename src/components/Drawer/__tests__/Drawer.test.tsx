@@ -33,10 +33,12 @@ describe('Drawer', () => {
         expect(screen.getByTestId(qa)).toBeInTheDocument();
     });
 
-    const renderDrawer = (modal?: boolean) => (
+    const renderDrawer = (modal?: boolean, onPageActionClick?: () => void) => (
         <React.Fragment>
-            <button type="button">Page action</button>
-            <Drawer open modal={modal}>
+            <button type="button" onClick={onPageActionClick}>
+                Page action
+            </button>
+            <Drawer open hideVeil={modal === false} modal={modal}>
                 <div>{PLACEHOLDER_TEXT}</div>
             </Drawer>
         </React.Fragment>
@@ -45,16 +47,7 @@ describe('Drawer', () => {
     test('should allow interacting with surrounding content when modal is false', async () => {
         const handlePageActionClick = jest.fn();
 
-        render(
-            <React.Fragment>
-                <button type="button" onClick={handlePageActionClick}>
-                    Page action
-                </button>
-                <Drawer open modal={false} hideVeil>
-                    <div>{PLACEHOLDER_TEXT}</div>
-                </Drawer>
-            </React.Fragment>,
-        );
+        render(renderDrawer(false, handlePageActionClick));
 
         const pageAction = screen.getByRole('button', {name: 'Page action'});
         const user = userEvent.setup();
@@ -64,7 +57,7 @@ describe('Drawer', () => {
         expect(handlePageActionClick).toHaveBeenCalledTimes(1);
     });
 
-    test('should make surrounding content inaccessible by default', () => {
+    test('should hide surrounding content from assistive technologies by default', () => {
         render(renderDrawer());
 
         expect(screen.queryByRole('button', {name: 'Page action'})).not.toBeInTheDocument();

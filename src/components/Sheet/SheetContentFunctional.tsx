@@ -6,8 +6,8 @@ import {MobileContext, Platform} from '../mobile';
 import type {History, Location} from '../mobile';
 import {warnOnce} from '../utils/warn';
 
-import {SheetContentArea, SheetSwipeArea} from './components';
-import {SheetQa, sheetBlock} from './constants';
+import {SheetContentArea, SheetSwipeArea, SheetVeil} from './components';
+import {sheetBlock} from './constants';
 import {useContentScroll} from './hooks/useContentScroll';
 import {useSwipe} from './hooks/useSwipe';
 import type {Status} from './types';
@@ -119,8 +119,6 @@ export function SheetContent(props: SheetContentProps) {
     latestRef.current = latest;
 
     // --- Getters ---
-    const getVeilOpacity = React.useCallback(() => veilRef.current?.style.opacity || 0, []);
-
     const getSheetTopHeight = React.useCallback(
         () => sheetTopRef.current?.getBoundingClientRect().height || 0,
         [],
@@ -258,6 +256,8 @@ export function SheetContent(props: SheetContentProps) {
         }
     }, []);
 
+    const hideSheetStable = React.useCallback(() => latestRef.current.hideSheet(), []);
+
     const show = React.useCallback(() => {
         isAnimatingRef.current = true;
         setStyles({status: 'showing'});
@@ -285,7 +285,7 @@ export function SheetContent(props: SheetContentProps) {
         getSheetHeight,
         show,
         hide,
-        hideSheet: React.useCallback(() => latestRef.current.hideSheet(), []),
+        hideSheet: hideSheetStable,
     });
 
     const resetScrollTransition = React.useCallback(() => {
@@ -351,29 +351,6 @@ export function SheetContent(props: SheetContentProps) {
             onResize();
         }, WINDOW_RESIZE_TIMEOUT);
     }, [onResize]);
-
-    const onVeilClick = React.useCallback(() => {
-        if (isAnimatingRef.current) {
-            return;
-        }
-
-        setVeilTouched(true);
-        hide();
-    }, [hide]);
-
-    const onVeilTransitionEnd = React.useCallback(() => {
-        isAnimatingRef.current = false;
-
-        if (getVeilOpacity() === '0') {
-            latestRef.current.hideSheet();
-            return;
-        }
-
-        if (delayedResizeRef.current) {
-            onResizeWindow();
-            delayedResizeRef.current = false;
-        }
-    }, [getVeilOpacity, onResizeWindow]);
 
     const shouldClose = React.useCallback((prevLocation: Location) => {
         const {
@@ -455,13 +432,15 @@ export function SheetContent(props: SheetContentProps) {
 
     return (
         <React.Fragment>
-            <div
-                ref={veilRef}
-                className={sheetBlock('veil', veilTransitionMod)}
-                onClick={onVeilClick}
-                onTransitionEnd={onVeilTransitionEnd}
-                role="presentation"
-                data-qa={SheetQa.VEIL}
+            <SheetVeil
+                veilRef={veilRef}
+                withTransition={veilTransitionMod['with-transition']}
+                isAnimatingRef={isAnimatingRef}
+                delayedResizeRef={delayedResizeRef}
+                setVeilTouched={setVeilTouched}
+                hide={hide}
+                hideSheet={hideSheetStable}
+                onResizeWindow={onResizeWindow}
             />
             <div
                 ref={sheetRef}

@@ -1,2 +1,1 @@
 export * from './SheetContentArea';
-export * from './SheetSwipeArea';

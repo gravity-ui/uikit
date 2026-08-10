@@ -6,8 +6,9 @@ import {MobileContext, Platform} from '../mobile';
 import type {History, Location} from '../mobile';
 import {warnOnce} from '../utils/warn';
 
-import {SheetSwipeArea} from './components';
+import {SheetContentArea, SheetSwipeArea} from './components';
 import {SheetQa, sheetBlock} from './constants';
+import {useContentScroll} from './hooks/useContentScroll';
 import {useSwipe} from './hooks/useSwipe';
 import type {Status} from './types';
 
@@ -91,11 +92,9 @@ export function SheetContent(props: SheetContentProps) {
     const resizeWindowTimerRef = React.useRef<number | null>(null);
 
     // --- Render-affecting state ---
-    const [contentTouched, setContentTouched] = React.useState(false);
     const [veilTouched, setVeilTouched] = React.useState(false);
 
     // --- Service state kept out of render ---
-    const startScrollTopRef = React.useRef(0);
     const prevSheetHeightRef = React.useRef(0);
     const isAnimatingRef = React.useRef(false);
     const inWindowResizeScopeRef = React.useRef(false);
@@ -289,6 +288,28 @@ export function SheetContent(props: SheetContentProps) {
         hideSheet: React.useCallback(() => latestRef.current.hideSheet(), []),
     });
 
+    const resetScrollTransition = React.useCallback(() => {
+        if (sheetScrollContainerRef.current) {
+            sheetScrollContainerRef.current.style.transition = 'none';
+        }
+    }, []);
+
+    const {contentTouched, contentAreaHandlers} = useContentScroll({
+        velocityTrackerRef,
+        startYRef,
+        deltaYRef,
+        swipeAreaTouchedRef,
+        setDeltaY,
+        onTouchEndAction,
+        getAllowHideOnContentScroll: React.useCallback(
+            () => latestRef.current.allowHideOnContentScroll,
+            [],
+        ),
+        getSheetScrollTop,
+        setStyles,
+        resetScrollTransition,
+    });
+
     const onResize = React.useCallback(() => {
         if (!sheetRef.current || !sheetScrollContainerRef.current) {
             return;
@@ -331,72 +352,6 @@ export function SheetContent(props: SheetContentProps) {
         }, WINDOW_RESIZE_TIMEOUT);
     }, [onResize]);
 
-    const onContentTouchStart = React.useCallback(
-        (e: React.TouchEvent<HTMLDivElement>) => {
-            if (!latestRef.current.allowHideOnContentScroll || swipeAreaTouchedRef.current) {
-                return;
-            }
-
-            velocityTrackerRef.current.clear();
-
-            startYRef.current = e.nativeEvent.touches[0].clientY;
-            startScrollTopRef.current = getSheetScrollTop();
-            setContentTouched(true);
-        },
-        [getSheetScrollTop],
-    );
-
-    const onContentTouchMove = React.useCallback(
-        (e: React.TouchEvent<HTMLDivElement>) => {
-            if (!latestRef.current.allowHideOnContentScroll) {
-                return;
-            }
-
-            if (!startYRef.current) {
-                onContentTouchStart(e);
-                return;
-            }
-
-            if (
-                swipeAreaTouchedRef.current ||
-                getSheetScrollTop() > 0 ||
-                (startScrollTopRef.current > 0 && startScrollTopRef.current !== getSheetScrollTop())
-            ) {
-                return;
-            }
-
-            const delta = e.nativeEvent.touches[0].clientY - startYRef.current;
-
-            velocityTrackerRef.current.addMovement({
-                x: e.nativeEvent.touches[0].clientX,
-                y: e.nativeEvent.touches[0].clientY,
-            });
-
-            // if allowHideOnContentScroll is true and delta <= 0, it's a content scroll
-            // animation is not needed
-            if (delta <= 0) {
-                setDeltaY(0);
-                return;
-            }
-
-            setDeltaY(delta);
-            setStyles({status: 'showing', deltaHeight: delta});
-        },
-        [onContentTouchStart, getSheetScrollTop, setDeltaY, setStyles],
-    );
-
-    const onContentTouchEnd = React.useCallback(() => {
-        if (!latestRef.current.allowHideOnContentScroll || swipeAreaTouchedRef.current) {
-            return;
-        }
-
-        onTouchEndAction(deltaYRef.current);
-
-        startYRef.current = 0;
-        setDeltaY(0);
-        setContentTouched(false);
-    }, [onTouchEndAction, setDeltaY]);
-
     const onVeilClick = React.useCallback(() => {
         if (isAnimatingRef.current) {
             return;
@@ -419,14 +374,6 @@ export function SheetContent(props: SheetContentProps) {
             delayedResizeRef.current = false;
         }
     }, [getVeilOpacity, onResizeWindow]);
-
-    const onContentTransitionEnd = React.useCallback((e: React.TransitionEvent<HTMLDivElement>) => {
-        if (e.propertyName === 'height') {
-            if (sheetScrollContainerRef.current) {
-                sheetScrollContainerRef.current.style.transition = 'none';
-            }
-        }
-    }, []);
 
     const shouldClose = React.useCallback((prevLocation: Location) => {
         const {
@@ -504,13 +451,7 @@ export function SheetContent(props: SheetContentProps) {
         'with-transition': veilTransitionMod['with-transition'],
     };
 
-    const contentMod = {
-        'without-scroll': (deltaY > 0 && contentTouched) || swipeAreaTouched,
-    };
-
-    const marginBoxMod = {
-        'always-full-height': alwaysFullHeight,
-    };
+    const contentWithoutScroll = (deltaY > 0 && contentTouched) || swipeAreaTouched;
 
     return (
         <React.Fragment>
@@ -535,29 +476,17 @@ export function SheetContent(props: SheetContentProps) {
                     </div>
                 )}
                 <SheetSwipeArea className={swipeAreaClassName} {...swipeAreaHandlers} />
-                {/* TODO: extract to external component ContentArea */}
-                <div
-                    ref={sheetScrollContainerRef}
-                    className={sheetBlock('sheet-scroll-container', contentMod)}
-                    onTouchStart={onContentTouchStart}
-                    onTouchMove={onContentTouchMove}
-                    onTouchEnd={onContentTouchEnd}
-                    onTransitionEnd={onContentTransitionEnd}
+                <SheetContentArea
+                    scrollContainerRef={sheetScrollContainerRef}
+                    marginBoxRef={sheetMarginBoxRef}
+                    contentClassName={contentClassName}
+                    title={title}
+                    withoutScroll={contentWithoutScroll}
+                    alwaysFullHeight={alwaysFullHeight}
+                    {...contentAreaHandlers}
                 >
-                    <div
-                        ref={sheetMarginBoxRef}
-                        className={sheetBlock('sheet-margin-box', marginBoxMod)}
-                    >
-                        <div className={sheetBlock('sheet-margin-box-border-compensation')}>
-                            <div className={sheetBlock('sheet-content', contentClassName)}>
-                                {title && (
-                                    <div className={sheetBlock('sheet-content-title')}>{title}</div>
-                                )}
-                                {content}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    {content}
+                </SheetContentArea>
             </div>
         </React.Fragment>
     );

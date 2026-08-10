@@ -1,6 +1,8 @@
 import {fireEvent, render} from '../../../../test-utils/utils';
+import {block} from '../../utils/cn';
 import {Sheet} from '../Sheet';
-import {sheetBlock} from '../constants';
+
+const contentAreaBlock = block('sheet-content-area');
 
 describe('Sheet content scroll', () => {
     const SHEET_HEIGHT = 300;
@@ -29,9 +31,7 @@ describe('Sheet content scroll', () => {
         );
 
         // eslint-disable-next-line testing-library/no-container
-        const scrollContainer = container.querySelector(
-            `.${sheetBlock('sheet-scroll-container')}`,
-        ) as HTMLElement;
+        const scrollContainer = container.querySelector(`.${contentAreaBlock()}`) as HTMLElement;
 
         swipeDownOnContent(scrollContainer, {from: 100, to: 100 + SHEET_HEIGHT + 50});
         expect(onClose).toHaveBeenCalledTimes(1);
@@ -46,9 +46,7 @@ describe('Sheet content scroll', () => {
         );
 
         // eslint-disable-next-line testing-library/no-container
-        const scrollContainer = container.querySelector(
-            `.${sheetBlock('sheet-scroll-container')}`,
-        ) as HTMLElement;
+        const scrollContainer = container.querySelector(`.${contentAreaBlock()}`) as HTMLElement;
 
         Object.defineProperty(scrollContainer, 'scrollTop', {value: 100, configurable: true});
         swipeDownOnContent(scrollContainer, {from: 100, to: 100 + SHEET_HEIGHT + 50});

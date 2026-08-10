@@ -1,6 +1,10 @@
 import {fireEvent, render, screen} from '../../../../test-utils/utils';
+import {block} from '../../utils/cn';
 import {Sheet} from '../Sheet';
 import {sheetBlock} from '../constants';
+
+const contentAreaBlock = block('sheet-content-area');
+const swipeAreaBlock = block('sheet-swipe-area');
 
 describe('Sheet', () => {
     test('Renders content when visible', () => {
@@ -38,12 +42,10 @@ describe('Sheet', () => {
         );
 
         expect(document.querySelector(`.${sheetBlock()}`)).toHaveClass('custom-sheet');
-        expect(document.querySelector(`.${sheetBlock('sheet-content')}`)).toHaveClass(
+        expect(document.querySelector(`.${contentAreaBlock('content')}`)).toHaveClass(
             'custom-content',
         );
-        expect(document.querySelector(`.${sheetBlock('sheet-swipe-area')}`)).toHaveClass(
-            'custom-swipe-area',
-        );
+        expect(document.querySelector(`.${swipeAreaBlock()}`)).toHaveClass('custom-swipe-area');
     });
 });
 
@@ -78,9 +80,7 @@ describe('Sheet allowHideOnContentScroll', () => {
         );
 
         // eslint-disable-next-line testing-library/no-container
-        const scrollContainer = container.querySelector(
-            `.${sheetBlock('sheet-scroll-container')}`,
-        ) as HTMLElement;
+        const scrollContainer = container.querySelector(`.${contentAreaBlock()}`) as HTMLElement;
 
         // scrollTop === 0 by default in jsdom
         swipeDownOnContent(scrollContainer, {from: 100, to: 100 + SHEET_HEIGHT + 50});
@@ -96,9 +96,7 @@ describe('Sheet allowHideOnContentScroll', () => {
             </Sheet>,
         );
 
-        const scrollContainer = document.querySelector(
-            `.${sheetBlock('sheet-scroll-container')}`,
-        ) as HTMLElement;
+        const scrollContainer = document.querySelector(`.${contentAreaBlock()}`) as HTMLElement;
 
         Object.defineProperty(scrollContainer, 'scrollTop', {value: 100, configurable: true});
 

@@ -1,0 +1,203 @@
+{
+  "schemaVersion": 1,
+  "fileKey": "LlrQIz4F2Y06FJRdB4iE9U",
+  "components": [
+    {
+      "component": "Avatar",
+      "nodeId": "53348:563633",
+      "template": "src/components/Avatar/Avatar.figma.ts",
+      "properties": [
+        {
+          "rawKey": "Custom border#60413:26",
+          "name": "Custom border",
+          "type": "BOOLEAN",
+          "defaultValue": false,
+          "enumOptions": []
+        },
+        {
+          "rawKey": "Icon#58291:411",
+          "name": "Icon",
+          "type": "INSTANCE_SWAP",
+          "defaultValue": "53348:563454",
+          "enumOptions": []
+        },
+        {
+          "rawKey": "Size",
+          "name": "Size",
+          "type": "VARIANT",
+          "defaultValue": "M",
+          "enumOptions": ["3XS", "2XS", "XS", "S", "M", "L", "XL"]
+        },
+        {
+          "rawKey": "Theme",
+          "name": "Theme",
+          "type": "VARIANT",
+          "defaultValue": "Brand",
+          "enumOptions": ["Brand", "Normal"]
+        },
+        {
+          "rawKey": "Type",
+          "name": "Type",
+          "type": "VARIANT",
+          "defaultValue": "Icon",
+          "enumOptions": ["Image", "Icon", "Text"]
+        },
+        {
+          "rawKey": "View",
+          "name": "View",
+          "type": "VARIANT",
+          "defaultValue": "Filled",
+          "enumOptions": ["Filled", "Outlined"]
+        },
+        {
+          "rawKey": "↳ Content text#58319:0",
+          "name": "↳ Content text",
+          "type": "TEXT",
+          "defaultValue": "AB",
+          "enumOptions": []
+        }
+      ]
+    },
+    {
+      "component": "Button",
+      "nodeId": "53098:497062",
+      "template": "src/components/Button/Button.figma.ts",
+      "properties": [
+        {
+          "rawKey": " ↳ End icon#2:843",
+          "name": "↳ End icon",
+          "type": "INSTANCE_SWAP",
+          "defaultValue": "45081:496944",
+          "enumOptions": []
+        },
+        {
+          "rawKey": " ↳ Start icon#2:0",
+          "name": "↳ Start icon",
+          "type": "INSTANCE_SWAP",
+          "defaultValue": "48132:444831",
+          "enumOptions": []
+        },
+        {
+          "rawKey": "Content#2:1405",
+          "name": "Content",
+          "type": "TEXT",
+          "defaultValue": "Content",
+          "enumOptions": []
+        },
+        {
+          "rawKey": "End icon#2:562",
+          "name": "End icon",
+          "type": "BOOLEAN",
+          "defaultValue": false,
+          "enumOptions": []
+        },
+        {
+          "rawKey": "Icon only",
+          "name": "Icon only",
+          "type": "VARIANT",
+          "defaultValue": "Off",
+          "enumOptions": ["Off", "On"]
+        },
+        {
+          "rawKey": "Size",
+          "name": "Size",
+          "type": "VARIANT",
+          "defaultValue": "M",
+          "enumOptions": ["XS", "S", "M", "L", "XL"]
+        },
+        {
+          "rawKey": "Start icon#2:281",
+          "name": "Start icon",
+          "type": "BOOLEAN",
+          "defaultValue": true,
+          "enumOptions": []
+        },
+        {
+          "rawKey": "State",
+          "name": "State",
+          "type": "VARIANT",
+          "defaultValue": "Default",
+          "enumOptions": ["Default", "Hover", "Disabled", "Loading", "Selected"]
+        },
+        {
+          "rawKey": "View",
+          "name": "View",
+          "type": "VARIANT",
+          "defaultValue": "Normal",
+          "enumOptions": [
+            "Normal",
+            "Action",
+            "Outline",
+            "Outline-info",
+            "Outlined-success",
+            "Outlined-warning",
+            "Outline-danger",
+            "Outline-utility",
+            "Outlined-action",
+            "Flat",
+            "Flat-info",
+            "Flat-success",
+            "Flat-warning",
+            "Flat-danger",
+            "Flat-utility",
+            "Flat-action",
+            "Flat-secondary",
+            "Raised",
+            "Normal-contrast",
+            "Outline-contrast",
+            "Flat-contrast"
+          ]
+        }
+      ]
+    },
+    {
+      "component": "Checkbox",
+      "nodeId": "53103:9376",
+      "template": "src/components/Checkbox/Checkbox.figma.ts",
+      "properties": [
+        {
+          "rawKey": "Checked",
+          "name": "Checked",
+          "type": "VARIANT",
+          "defaultValue": "Off",
+          "enumOptions": ["Off", "On"]
+        },
+        {
+          "rawKey": "Content#48571:38",
+          "name": "Content",
+          "type": "BOOLEAN",
+          "defaultValue": true,
+          "enumOptions": []
+        },
+        {
+          "rawKey": "Indeterminate",
+          "name": "Indeterminate",
+          "type": "VARIANT",
+          "defaultValue": "Off",
+          "enumOptions": ["On", "Off"]
+        },
+        {
+          "rawKey": "Size",
+          "name": "Size",
+          "type": "VARIANT",
+          "defaultValue": "M",
+          "enumOptions": ["M", "L", "XL"]
+        },
+        {
+          "rawKey": "State",
+          "name": "State",
+          "type": "VARIANT",
+          "defaultValue": "Default",
+          "enumOptions": ["Default", "Hover", "Disabled"]
+        },
+        {
+          "rawKey": "↳ Content text#45013:38",
+          "name": "↳ Content text",
+          "type": "TEXT",
+          "defaultValue": "Content",
+          "enumOptions": []
+        }
+      ]
+    }
+  ]
+}

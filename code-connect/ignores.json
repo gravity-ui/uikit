@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "ignores": [
+    {
+      "component": "Avatar",
+      "nodeId": "53348:563633",
+      "rawKey": "Custom border#60413:26",
+      "reason": "The Figma boolean does not encode the public borderColor value; visual tokens and styles are outside this contract."
+    },
+    {
+      "component": "Avatar",
+      "nodeId": "53348:563633",
+      "rawKey": "Icon#58291:411",
+      "reason": "Instance-swap mapping requires the separate @gravity-ui/icons Code Connect batch."
+    },
+    {
+      "component": "Button",
+      "nodeId": "53098:497062",
+      "rawKey": " ↳ End icon#2:843",
+      "reason": "Instance-swap mapping requires the separate @gravity-ui/icons Code Connect batch."
+    },
+    {
+      "component": "Button",
+      "nodeId": "53098:497062",
+      "rawKey": " ↳ Start icon#2:0",
+      "reason": "Instance-swap mapping requires the separate @gravity-ui/icons Code Connect batch."
+    }
+  ]
+}

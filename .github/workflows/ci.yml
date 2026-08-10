@@ -25,6 +25,14 @@ jobs:
         run: npm run typecheck
       - name: Test Code Connect validator
         run: npm run code-connect:test
+      - name: Typecheck Code Connect templates
+        run: npx tsc -p tsconfig.figma.json --noEmit
+      - name: Parse Code Connect templates
+        run: >-
+          npx figma connect parse
+          --config figma.config.json
+          --skip-update-check
+          --exit-on-unreadable-files
 
   unit_tests:
     name: Unit Tests

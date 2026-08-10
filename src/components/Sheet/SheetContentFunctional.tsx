@@ -6,15 +6,14 @@ import {MobileContext, Platform} from '../mobile';
 import type {History, Location} from '../mobile';
 import {warnOnce} from '../utils/warn';
 
+import {SheetSwipeArea} from './components';
 import {SheetQa, sheetBlock} from './constants';
-import {VelocityTracker} from './utils';
+import {useSwipe} from './hooks/useSwipe';
+import type {Status} from './types';
 
 import './Sheet.scss';
 
 const TRANSITION_DURATION = '0.3s';
-const HIDE_THRESHOLD = 50;
-const ACCELERATION_Y_MAX = 0.08;
-const ACCELERATION_Y_MIN = -0.02;
 const DEFAULT_MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT = 0.9;
 const WINDOW_RESIZE_TIMEOUT = 50;
 
@@ -25,8 +24,6 @@ function warnAboutOutOfRange() {
         '[Sheet] The value of the "maxContentHeightCoefficient" property must be between 0 and 1',
     );
 }
-
-type Status = 'showing' | 'hiding';
 
 interface SheetContentBaseProps {
     hideSheet: () => void;
@@ -90,25 +87,14 @@ export function SheetContent(props: SheetContentProps) {
     const sheetScrollContainerRef = React.useRef<HTMLDivElement>(null);
 
     // --- Non-state mutable fields ---
-    const velocityTrackerRef = React.useRef<VelocityTracker>(null as unknown as VelocityTracker);
-    if (!velocityTrackerRef.current) {
-        velocityTrackerRef.current = new VelocityTracker();
-    }
     const observerRef = React.useRef<ResizeObserver | null>(null);
     const resizeWindowTimerRef = React.useRef<number | null>(null);
 
     // --- Render-affecting state ---
-    const [deltaY, setDeltaYState] = React.useState(0);
-    const [swipeAreaTouched, setSwipeAreaTouchedState] = React.useState(false);
     const [contentTouched, setContentTouched] = React.useState(false);
     const [veilTouched, setVeilTouched] = React.useState(false);
 
-    // --- Mirrors for values that are read synchronously inside handlers ---
-    const deltaYRef = React.useRef(0);
-    const swipeAreaTouchedRef = React.useRef(false);
-
     // --- Service state kept out of render ---
-    const startYRef = React.useRef(0);
     const startScrollTopRef = React.useRef(0);
     const prevSheetHeightRef = React.useRef(0);
     const isAnimatingRef = React.useRef(false);
@@ -132,16 +118,6 @@ export function SheetContent(props: SheetContentProps) {
     };
     const latestRef = React.useRef<SheetContentLatest>(latest);
     latestRef.current = latest;
-
-    const setDeltaY = React.useCallback((value: number) => {
-        deltaYRef.current = value;
-        setDeltaYState(value);
-    }, []);
-
-    const setSwipeAreaTouched = React.useCallback((value: boolean) => {
-        swipeAreaTouchedRef.current = value;
-        setSwipeAreaTouchedState(value);
-    }, []);
 
     // --- Getters ---
     const getVeilOpacity = React.useCallback(() => veilRef.current?.style.opacity || 0, []);
@@ -295,6 +271,24 @@ export function SheetContent(props: SheetContentProps) {
         removeHash();
     }, [setStyles, removeHash]);
 
+    const {
+        deltaY,
+        swipeAreaTouched,
+        velocityTrackerRef,
+        startYRef,
+        deltaYRef,
+        swipeAreaTouchedRef,
+        setDeltaY,
+        onTouchEndAction,
+        swipeAreaHandlers,
+    } = useSwipe({
+        setStyles,
+        getSheetHeight,
+        show,
+        hide,
+        hideSheet: React.useCallback(() => latestRef.current.hideSheet(), []),
+    });
+
     const onResize = React.useCallback(() => {
         if (!sheetRef.current || !sheetScrollContainerRef.current) {
             return;
@@ -337,36 +331,6 @@ export function SheetContent(props: SheetContentProps) {
         }, WINDOW_RESIZE_TIMEOUT);
     }, [onResize]);
 
-    const onTouchEndAction = React.useCallback(
-        (currentDeltaY: number) => {
-            const accelerationY = velocityTrackerRef.current.getYAcceleration();
-
-            if (getSheetHeight() <= currentDeltaY) {
-                latestRef.current.hideSheet();
-            } else if (
-                (currentDeltaY > HIDE_THRESHOLD &&
-                    accelerationY <= ACCELERATION_Y_MAX &&
-                    accelerationY >= ACCELERATION_Y_MIN) ||
-                accelerationY > ACCELERATION_Y_MAX
-            ) {
-                hide();
-            } else if (currentDeltaY !== 0) {
-                show();
-            }
-        },
-        [getSheetHeight, hide, show],
-    );
-
-    const onSwipeAreaTouchStart = React.useCallback(
-        (e: React.TouchEvent<HTMLDivElement>) => {
-            velocityTrackerRef.current.clear();
-
-            startYRef.current = e.nativeEvent.touches[0].clientY;
-            setSwipeAreaTouched(true);
-        },
-        [setSwipeAreaTouched],
-    );
-
     const onContentTouchStart = React.useCallback(
         (e: React.TouchEvent<HTMLDivElement>) => {
             if (!latestRef.current.allowHideOnContentScroll || swipeAreaTouchedRef.current) {
@@ -380,26 +344,6 @@ export function SheetContent(props: SheetContentProps) {
             setContentTouched(true);
         },
         [getSheetScrollTop],
-    );
-
-    const onSwipeAriaTouchMove = React.useCallback(
-        (e: React.TouchEvent<HTMLDivElement>) => {
-            const delta = e.nativeEvent.touches[0].clientY - startYRef.current;
-
-            velocityTrackerRef.current.addMovement({
-                x: e.nativeEvent.touches[0].clientX,
-                y: e.nativeEvent.touches[0].clientY,
-            });
-
-            setDeltaY(delta);
-
-            if (delta <= 0) {
-                return;
-            }
-
-            setStyles({status: 'showing', deltaHeight: delta});
-        },
-        [setDeltaY, setStyles],
     );
 
     const onContentTouchMove = React.useCallback(
@@ -440,14 +384,6 @@ export function SheetContent(props: SheetContentProps) {
         },
         [onContentTouchStart, getSheetScrollTop, setDeltaY, setStyles],
     );
-
-    const onSwipeAriaTouchEnd = React.useCallback(() => {
-        onTouchEndAction(deltaYRef.current);
-
-        startYRef.current = 0;
-        setDeltaY(0);
-        setSwipeAreaTouched(false);
-    }, [onTouchEndAction, setDeltaY, setSwipeAreaTouched]);
 
     const onContentTouchEnd = React.useCallback(() => {
         if (!latestRef.current.allowHideOnContentScroll || swipeAreaTouchedRef.current) {
@@ -598,13 +534,7 @@ export function SheetContent(props: SheetContentProps) {
                         <div className={sheetBlock('sheet-top-resizer')} />
                     </div>
                 )}
-                {/* TODO: extract to external component SwipeArea */}
-                <div
-                    className={sheetBlock('sheet-swipe-area', swipeAreaClassName)}
-                    onTouchStart={onSwipeAreaTouchStart}
-                    onTouchMove={onSwipeAriaTouchMove}
-                    onTouchEnd={onSwipeAriaTouchEnd}
-                />
+                <SheetSwipeArea className={swipeAreaClassName} {...swipeAreaHandlers} />
                 {/* TODO: extract to external component ContentArea */}
                 <div
                     ref={sheetScrollContainerRef}

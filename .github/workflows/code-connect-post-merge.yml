@@ -1,0 +1,56 @@
+name: Code Connect Post-merge
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Trusted Code Connect operation
+        required: true
+        type: choice
+        options:
+          - preview-unique
+          - preview-all
+          - publish
+
+permissions:
+  contents: read
+
+jobs:
+  code-connect:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: figma-code-connect
+    steps:
+      - name: Checkout merged main
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20.19
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+      - name: Preview unique examples
+        if: inputs.mode == 'preview-unique'
+        env:
+          CODE_CONNECT_PREVIEW_TRUSTED: '1'
+          FIGMA_ACCESS_TOKEN: ${{ secrets.FIGMA_CODE_CONNECT_CLI_TOKEN }}
+        run: npm run code-connect:preview -- --unique
+      - name: Preview all examples
+        if: inputs.mode == 'preview-all'
+        env:
+          CODE_CONNECT_PREVIEW_TRUSTED: '1'
+          FIGMA_ACCESS_TOKEN: ${{ secrets.FIGMA_CODE_CONNECT_CLI_TOKEN }}
+        run: npm run code-connect:preview -- --all
+      - name: Publish Code Connect
+        if: inputs.mode == 'publish'
+        env:
+          FIGMA_ACCESS_TOKEN: ${{ secrets.FIGMA_CODE_CONNECT_CLI_TOKEN }}
+        run: >-
+          npx figma connect publish
+          --config figma.config.json
+          --skip-update-check
+          --exit-on-unreadable-files

@@ -23,6 +23,8 @@ jobs:
         run: npm run lint
       - name: Typecheck
         run: npm run typecheck
+      - name: Test Code Connect validator
+        run: npm run code-connect:test
 
   unit_tests:
     name: Unit Tests

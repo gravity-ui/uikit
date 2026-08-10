@@ -1,0 +1,43 @@
+name: Code Connect Contract
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: Pull request number to validate
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: code-connect-contract-${{ github.event.pull_request.number || inputs.pr_number }}
+  cancel-in-progress: true
+
+jobs:
+  contract:
+    name: Code Connect Contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout trusted base
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20.19
+          cache: npm
+      - name: Install trusted dependencies
+        run: npm ci --ignore-scripts
+      - name: Validate exact PR head as data
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
+          GITHUB_TOKEN: ${{ github.token }}
+          FIGMA_PLAN_ACCESS_TOKEN: ${{ secrets.FIGMA_PLAN_ACCESS_TOKEN }}
+        run: node scripts/code-connect/trusted-check.mjs

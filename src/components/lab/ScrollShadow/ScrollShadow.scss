@@ -1,0 +1,49 @@
+@use '../../variables';
+@use '../../../../styles/mixins';
+
+$block: '.#{variables.$ns}scroll-shadow';
+
+#{$block} {
+    --_--size: var(--g-scroll-shadow-size, 24px);
+    --_--color: var(--g-scroll-shadow-color, var(--g-color-sfx-shadow));
+    --_--top-color: transparent;
+    --_--right-color: transparent;
+    --_--bottom-color: transparent;
+    --_--left-color: transparent;
+
+    overflow: auto;
+    box-shadow:
+        inset 0 var(--_--size) var(--_--size) calc(var(--_--size) * -1) var(--_--top-color),
+        inset calc(var(--_--size) * -1) 0 var(--_--size) calc(var(--_--size) * -1)
+            var(--_--right-color),
+        inset 0 calc(var(--_--size) * -1) var(--_--size) calc(var(--_--size) * -1)
+            var(--_--bottom-color),
+        inset var(--_--size) 0 var(--_--size) calc(var(--_--size) * -1) var(--_--left-color);
+    transition: box-shadow 0.15s ease-out;
+
+    &:focus-visible {
+        @include mixins.focus-outline();
+    }
+
+    &[data-scroll-shadow-top] {
+        --_--top-color: var(--_--color);
+    }
+
+    &[data-scroll-shadow-right] {
+        --_--right-color: var(--_--color);
+    }
+
+    &[data-scroll-shadow-bottom] {
+        --_--bottom-color: var(--_--color);
+    }
+
+    &[data-scroll-shadow-left] {
+        --_--left-color: var(--_--color);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #{$block} {
+        transition: none;
+    }
+}

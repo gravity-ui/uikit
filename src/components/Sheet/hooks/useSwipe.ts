@@ -54,16 +54,13 @@ export function useSwipe({
         velocityTrackerRef.current = new VelocityTracker();
     }
 
-    // --- Render-affecting state ---
     const [deltaY, setDeltaYState] = React.useState(0);
     const [swipeAreaTouched, setSwipeAreaTouchedState] = React.useState(false);
 
-    // --- Mirrors for values that are read synchronously inside handlers ---
     const startYRef = React.useRef(0);
     const deltaYRef = React.useRef(0);
     const swipeAreaTouchedRef = React.useRef(false);
 
-    // --- Latest callbacks for stable handlers (avoids stale closures) ---
     const latestRef = React.useRef({setStyles, getSheetHeight, show, hide, hideSheet});
     latestRef.current = {setStyles, getSheetHeight, show, hide, hideSheet};
 

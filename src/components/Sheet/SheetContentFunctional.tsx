@@ -2,13 +2,13 @@
 
 import * as React from 'react';
 
-import {MobileContext, Platform} from '../mobile';
-import type {History, Location} from '../mobile';
+import {MobileContext} from '../mobile';
 import {warnOnce} from '../utils/warn';
 
 import {SheetContentArea, SheetSwipeArea, SheetVeil} from './components';
 import {sheetBlock} from './constants';
 import {useContentScroll} from './hooks/useContentScroll';
+import {useSheetHash} from './hooks/useSheetHash';
 import {useSwipe} from './hooks/useSwipe';
 import type {Status} from './types';
 
@@ -17,8 +17,6 @@ import './Sheet.scss';
 const TRANSITION_DURATION = '0.3s';
 const DEFAULT_MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT = 0.9;
 const WINDOW_RESIZE_TIMEOUT = 50;
-
-let hashHistory: string[] = [];
 
 function warnAboutOutOfRange() {
     warnOnce(
@@ -46,19 +44,11 @@ interface SheetContentDefaultProps {
 
 type SheetContentProps = SheetContentBaseProps & Partial<SheetContentDefaultProps>;
 
-/**
- * Snapshot of resolved props plus values from the mobile context. Stored in a ref
- * and read inside stable callbacks/listeners to avoid stale closures.
- */
 interface SheetContentLatest {
     hideSheet: () => void;
-    id: string;
     allowHideOnContentScroll: boolean;
     maxContentHeightCoefficient?: number;
     alwaysFullHeight?: boolean;
-    platform: Platform;
-    history: History;
-    location: Location;
 }
 
 export function SheetContent(props: SheetContentProps) {
@@ -80,43 +70,40 @@ export function SheetContent(props: SheetContentProps) {
     const history = useHistory();
     const location = useLocation();
 
-    // --- DOM refs ---
     const veilRef = React.useRef<HTMLDivElement>(null);
     const sheetRef = React.useRef<HTMLDivElement>(null);
     const sheetTopRef = React.useRef<HTMLDivElement>(null);
     const sheetMarginBoxRef = React.useRef<HTMLDivElement>(null);
     const sheetScrollContainerRef = React.useRef<HTMLDivElement>(null);
 
-    // --- Non-state mutable fields ---
     const observerRef = React.useRef<ResizeObserver | null>(null);
     const resizeWindowTimerRef = React.useRef<number | null>(null);
 
-    // --- Render-affecting state ---
     const [veilTouched, setVeilTouched] = React.useState(false);
 
-    // --- Service state kept out of render ---
     const prevSheetHeightRef = React.useRef(0);
     const isAnimatingRef = React.useRef(false);
     const inWindowResizeScopeRef = React.useRef(false);
     const delayedResizeRef = React.useRef(false);
 
-    // --- Previous props snapshots for componentDidUpdate emulation ---
     const prevVisibleRef = React.useRef(visible);
     const prevLocationRef = React.useRef(location);
 
-    // --- Latest resolved props / context for stable callbacks ---
     const latest: SheetContentLatest = {
         hideSheet,
-        id,
         allowHideOnContentScroll,
         maxContentHeightCoefficient,
         alwaysFullHeight,
-        platform,
-        history,
-        location,
     };
     const latestRef = React.useRef<SheetContentLatest>(latest);
     latestRef.current = latest;
+
+    const {setHash, removeHash, shouldClose, resetHashHistory} = useSheetHash({
+        id,
+        platform,
+        history,
+        location,
+    });
 
     // --- Getters ---
     const getSheetTopHeight = React.useCallback(
@@ -206,55 +193,6 @@ export function SheetContent(props: SheetContentProps) {
         },
         [getSheetTopHeight],
     );
-
-    const setHash = React.useCallback(() => {
-        const {
-            id: currentId,
-            platform: currentPlatform,
-            history: currentHistory,
-            location: currentLocation,
-        } = latestRef.current;
-
-        if (currentPlatform === Platform.BROWSER) {
-            return;
-        }
-
-        const newLocation = {...currentLocation, hash: currentId};
-
-        switch (currentPlatform) {
-            case Platform.IOS:
-                if (currentLocation.hash) {
-                    hashHistory.push(currentLocation.hash);
-                }
-                currentHistory.replace(newLocation);
-                break;
-            case Platform.ANDROID:
-                currentHistory.push(newLocation);
-                break;
-        }
-    }, []);
-
-    const removeHash = React.useCallback(() => {
-        const {
-            id: currentId,
-            platform: currentPlatform,
-            history: currentHistory,
-            location: currentLocation,
-        } = latestRef.current;
-
-        if (currentPlatform === Platform.BROWSER || currentLocation.hash !== `#${currentId}`) {
-            return;
-        }
-
-        switch (currentPlatform) {
-            case Platform.IOS:
-                currentHistory.replace({...currentLocation, hash: hashHistory.pop() ?? ''});
-                break;
-            case Platform.ANDROID:
-                currentHistory.goBack();
-                break;
-        }
-    }, []);
 
     const hideSheetStable = React.useCallback(() => latestRef.current.hideSheet(), []);
 
@@ -352,22 +290,6 @@ export function SheetContent(props: SheetContentProps) {
         }, WINDOW_RESIZE_TIMEOUT);
     }, [onResize]);
 
-    const shouldClose = React.useCallback((prevLocation: Location) => {
-        const {
-            id: currentId,
-            platform: currentPlatform,
-            history: currentHistory,
-            location: currentLocation,
-        } = latestRef.current;
-
-        return (
-            currentPlatform !== Platform.BROWSER &&
-            currentHistory.action === 'POP' &&
-            prevLocation.hash !== currentLocation.hash &&
-            currentLocation.hash !== `#${currentId}`
-        );
-    }, []);
-
     // --- componentDidMount / componentWillUnmount ---
     React.useEffect(() => {
         window.addEventListener('resize', onResizeWindow);
@@ -413,7 +335,7 @@ export function SheetContent(props: SheetContentProps) {
         }
 
         if (prevLocation.pathname !== location.pathname) {
-            hashHistory = [];
+            resetHashHistory();
         }
 
         prevVisibleRef.current = visible;

@@ -9,7 +9,7 @@ import type {PortalProps} from '../Portal/Portal';
 import {useDefaultProps} from '../theme/useDefaultProps';
 import type {QAProps} from '../types';
 
-import {SheetContentContainer} from './SheetContent';
+import {SheetContentContainer} from './SheetContentFunctional';
 import {sheetBlock} from './constants';
 
 import './Sheet.scss';

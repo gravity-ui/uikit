@@ -43,6 +43,7 @@ import type {PortalProps} from '../Portal';
 import type {ProgressProps} from '../Progress';
 import type {RadioProps} from '../Radio';
 import type {RadioGroupProps} from '../RadioGroup';
+import type {RangeInputProps} from '../RangeInput';
 import type {SegmentedRadioGroupProps} from '../SegmentedRadioGroup';
 import type {SelectProps} from '../Select';
 import type {SheetProps} from '../Sheet';
@@ -103,6 +104,7 @@ export interface ComponentDefaultPropsMap {
     Progress?: Partial<ProgressProps>;
     Radio?: Partial<RadioProps>;
     RadioGroup?: Partial<RadioGroupProps>;
+    RangeInput?: Partial<RangeInputProps>;
     SegmentedRadioGroup?: Partial<SegmentedRadioGroupProps<any>>;
     Select?: Partial<SelectProps<any>>;
     Sheet?: Partial<SheetProps>;

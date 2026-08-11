@@ -44,6 +44,7 @@ export * from './Portal';
 export * from './Progress';
 export * from './Radio';
 export * from './RadioGroup';
+export * from './RangeInput';
 export * from './SegmentedRadioGroup';
 export * from './Select';
 export * from './Sheet';

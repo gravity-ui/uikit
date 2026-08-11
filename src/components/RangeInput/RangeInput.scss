@@ -1,0 +1,77 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}range-input';
+$text-input: '.#{variables.$ns}text-input';
+
+#{$block} {
+    --_--range-input-handle-size: 11px;
+    --_--range-input-mark-space: 14.5px;
+
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+
+    &_size {
+        &_s {
+            --_--range-input-handle-size: 9px;
+            --_--range-input-mark-space: 15.5px;
+        }
+
+        &_m {
+            --_--range-input-handle-size: 11px;
+            --_--range-input-mark-space: 14.5px;
+        }
+
+        &_l {
+            --_--range-input-handle-size: 12px;
+            --_--range-input-mark-space: 14px;
+        }
+
+        &_xl {
+            --_--range-input-handle-size: 12px;
+            --_--range-input-mark-space: 20px;
+        }
+    }
+
+    &:hover:not(#{$block}_disabled) #{$text-input}__content,
+    &:focus-within:not(#{$block}_disabled) #{$text-input}__content {
+        border-color: var(--g-color-line-generic-active);
+    }
+
+    &:focus-within #{$text-input}__content {
+        outline: none;
+    }
+
+    &_invalid &__slider {
+        --g-slider-track-color: var(--g-color-line-danger);
+        --g-slider-dot-color: var(--g-color-line-danger);
+    }
+
+    &__input {
+        position: relative;
+        z-index: 0;
+    }
+
+    &__slider {
+        --g-slider-handle-size: var(--_--range-input-handle-size);
+        --g-slider-edge-offset: calc(var(--_--range-input-handle-size) / 2);
+        --g-slider-rail-size: 1px;
+        --g-slider-dot-size: 2px;
+        --g-slider-mark-space: var(--_--range-input-mark-space);
+        --g-slider-rail-color: transparent;
+        --g-slider-track-color: var(--g-color-base-brand);
+        --g-slider-dot-color: var(--g-color-base-brand);
+        --g-slider-handle-background-color: var(--g-color-base-brand);
+        --g-slider-handle-border-color: var(--g-color-base-brand);
+        --g-slider-handle-border-width: 0px;
+        --g-slider-handle-focus-color: transparent;
+        --g-slider-handle-focus-error-color: transparent;
+        --g-slider-handle-disabled-background-color: var(--g-color-text-hint);
+        --g-slider-handle-error-background-color: var(--g-color-line-danger);
+
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        margin-block-start: calc(var(--_--range-input-handle-size) / -2);
+    }
+}

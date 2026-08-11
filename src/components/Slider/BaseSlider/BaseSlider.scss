@@ -9,11 +9,17 @@ $mark: '.#{$original-class}-mark';
 $mark-text: '#{$mark}-text';
 $dot: '.#{$original-class}-dot';
 
-$rail-color: var(--g-color-base-selection);
-$rail-disabled-color: var(--g-color-base-generic-accent-disabled);
+$rail-color: var(--g-slider-rail-color, var(--g-color-base-selection));
+$rail-disabled-color: var(
+    --g-slider-rail-disabled-color,
+    var(--g-color-base-generic-accent-disabled)
+);
 
-$handle-focus-color: var(--g-color-base-selection-hover);
-$handle-focus-error-color: var(--g-color-base-danger-light-hover);
+$handle-focus-color: var(--g-slider-handle-focus-color, var(--g-color-base-selection-hover));
+$handle-focus-error-color: var(
+    --g-slider-handle-focus-error-color,
+    var(--g-color-base-danger-light-hover)
+);
 
 $handle-s-size: 15px;
 $handle-m-size: 18px;
@@ -30,26 +36,26 @@ $track-border-radius: 4px;
 @mixin input-control($size) {
     position: absolute;
     content: '';
-    background-color: #{slider-variables.$slider-color};
+    background-color: var(--g-slider-track-color, #{slider-variables.$slider-color});
     $width: null;
     border-start-start-radius: $track-border-radius;
     border-end-start-radius: $track-border-radius;
 
     @if $size == 's' {
-        $width: math.floor(calc($handle-s-size / 2));
-        height: $rail-s-size;
+        $width: var(--g-slider-edge-offset, #{math.floor(calc($handle-s-size / 2))});
+        height: var(--g-slider-rail-size, #{$rail-s-size});
     }
     @if $size == 'm' {
-        $width: math.floor(calc($handle-m-size / 2));
-        height: $rail-m-size;
+        $width: var(--g-slider-edge-offset, #{math.floor(calc($handle-m-size / 2))});
+        height: var(--g-slider-rail-size, #{$rail-m-size});
     }
     @if $size == 'l' {
-        $width: math.floor(calc($handle-l-size / 2));
-        height: $rail-l-size;
+        $width: var(--g-slider-edge-offset, #{math.floor(calc($handle-l-size / 2))});
+        height: var(--g-slider-rail-size, #{$rail-l-size});
     }
     @if $size == 'xl' {
-        $width: math.floor(calc($handle-xl-size / 2));
-        height: $rail-xl-size;
+        $width: var(--g-slider-edge-offset, #{math.floor(calc($handle-xl-size / 2))});
+        height: var(--g-slider-rail-size, #{$rail-xl-size});
     }
 
     width: $width;
@@ -58,65 +64,117 @@ $track-border-radius: 4px;
 
 @mixin slider-outer-style($size) {
     @if $size == 's' {
-        $common-padding: calc(($handle-s-size - $rail-s-size) / 2);
-        $bottom-margin: var(--g-text-body-1-line-height);
+        $handle-size: var(--g-slider-handle-size, #{$handle-s-size});
+        $rail-size: var(--g-slider-rail-size, #{$rail-s-size});
+        $common-padding: calc(($handle-size - $rail-size) / 2);
+        $bottom-margin: var(--g-slider-mark-space, var(--g-text-body-1-line-height));
         padding: $common-padding 0 $common-padding;
 
-        height: calc($common-padding + $rail-s-size + $common-padding);
+        height: $handle-size;
         //add left and right offsets for edge position of the handler
-        margin: 0 calc($handle-s-size / 2) $bottom-margin;
+        margin: 0 calc($handle-size / 2) $bottom-margin;
     }
     @if $size == 'm' {
-        $common-padding: calc(($handle-m-size - $rail-m-size) / 2);
-        $bottom-margin: var(--g-text-body-1-line-height);
+        $handle-size: var(--g-slider-handle-size, #{$handle-m-size});
+        $rail-size: var(--g-slider-rail-size, #{$rail-m-size});
+        $common-padding: calc(($handle-size - $rail-size) / 2);
+        $bottom-margin: var(--g-slider-mark-space, var(--g-text-body-1-line-height));
         padding: $common-padding 0 $common-padding;
 
-        height: calc($common-padding + $rail-m-size + $common-padding);
+        height: $handle-size;
         //add left and right offsets for edge position of the handler
-        margin: 0 calc($handle-m-size / 2) $bottom-margin;
+        margin: 0 calc($handle-size / 2) $bottom-margin;
     }
     @if $size == 'l' {
-        $common-padding: calc(($handle-l-size - $rail-l-size) / 2);
-        $bottom-margin: var(--g-text-body-1-line-height);
+        $handle-size: var(--g-slider-handle-size, #{$handle-l-size});
+        $rail-size: var(--g-slider-rail-size, #{$rail-l-size});
+        $common-padding: calc(($handle-size - $rail-size) / 2);
+        $bottom-margin: var(--g-slider-mark-space, var(--g-text-body-1-line-height));
         padding: $common-padding 0 $common-padding;
 
-        height: calc($common-padding + $rail-l-size + $common-padding);
+        height: $handle-size;
         //add left and right offsets for edge position of the handler
-        margin: 0 calc($handle-l-size / 2) $bottom-margin;
+        margin: 0 calc($handle-size / 2) $bottom-margin;
     }
     @if $size == 'xl' {
-        $common-padding: calc(($handle-xl-size - $rail-xl-size) / 2);
-        $bottom-margin: var(--g-text-body-2-line-height);
+        $handle-size: var(--g-slider-handle-size, #{$handle-xl-size});
+        $rail-size: var(--g-slider-rail-size, #{$rail-xl-size});
+        $common-padding: calc(($handle-size - $rail-size) / 2);
+        $bottom-margin: var(--g-slider-mark-space, var(--g-text-body-2-line-height));
         padding: $common-padding 0 $common-padding;
 
-        height: calc($common-padding + $rail-xl-size + $common-padding);
+        height: $handle-size;
         //add left and right offsets for edge position of the handler
-        margin: 0 calc($handle-xl-size / 2) $bottom-margin;
+        margin: 0 calc($handle-size / 2) $bottom-margin;
     }
 }
 
 @mixin dot-style($size) {
     @if $size == 's' {
-        inset-block-start: calc((($handle-s-size - $rail-s-size) / 2) + 1px);
-        $dot-size: calc($rail-s-size - 2px);
+        inset-block-start: calc(
+            (
+                    (
+                            var(--g-slider-handle-size, #{$handle-s-size}) - var(
+                                    --g-slider-rail-size,
+                                    #{$rail-s-size}
+                                )
+                        ) /
+                        2
+                ) +
+                1px
+        );
+        $dot-size: var(--g-slider-dot-size, calc(#{$rail-s-size} - 2px));
         height: $dot-size;
         width: $dot-size;
     }
     @if $size == 'm' {
-        inset-block-start: calc((($handle-m-size - $rail-m-size) / 2) + 1px);
-        $dot-size: calc($rail-m-size - 2px);
+        inset-block-start: calc(
+            (
+                    (
+                            var(--g-slider-handle-size, #{$handle-m-size}) - var(
+                                    --g-slider-rail-size,
+                                    #{$rail-m-size}
+                                )
+                        ) /
+                        2
+                ) +
+                1px
+        );
+        $dot-size: var(--g-slider-dot-size, calc(#{$rail-m-size} - 2px));
         height: $dot-size;
         width: $dot-size;
     }
     @if $size == 'l' {
-        inset-block-start: calc((($handle-l-size - $rail-l-size) / 2) + 1px);
-        $dot-size: calc($rail-l-size - 2px);
+        inset-block-start: calc(
+            (
+                    (
+                            var(--g-slider-handle-size, #{$handle-l-size}) - var(
+                                    --g-slider-rail-size,
+                                    #{$rail-l-size}
+                                )
+                        ) /
+                        2
+                ) +
+                1px
+        );
+        $dot-size: var(--g-slider-dot-size, calc(#{$rail-l-size} - 2px));
         height: $dot-size;
         width: $dot-size;
     }
     @if $size == 'xl' {
-        inset-block-start: calc((($handle-xl-size - $rail-xl-size) / 2) + 1px);
-        $dot-size: calc($rail-xl-size - 2px);
+        inset-block-start: calc(
+            (
+                    (
+                            var(--g-slider-handle-size, #{$handle-xl-size}) - var(
+                                    --g-slider-rail-size,
+                                    #{$rail-xl-size}
+                                )
+                        ) /
+                        2
+                ) +
+                1px
+        );
+        $dot-size: var(--g-slider-dot-size, calc(#{$rail-xl-size} - 2px));
         height: $dot-size;
         width: $dot-size;
     }
@@ -124,24 +182,28 @@ $track-border-radius: 4px;
 
 @mixin rail-size-style($size) {
     @if $size == 's' {
-        $offset: math.floor(calc($handle-s-size / 2)) * -1;
-        height: $rail-s-size;
-        inset-inline: $offset;
+        height: var(--g-slider-rail-size, #{$rail-s-size});
+        inset-inline: calc(
+            var(--g-slider-edge-offset, #{math.floor(calc($handle-s-size / 2))}) * -1
+        );
     }
     @if $size == 'm' {
-        $offset: math.floor(calc($handle-m-size / 2)) * -1;
-        height: $rail-m-size;
-        inset-inline: $offset;
+        height: var(--g-slider-rail-size, #{$rail-m-size});
+        inset-inline: calc(
+            var(--g-slider-edge-offset, #{math.floor(calc($handle-m-size / 2))}) * -1
+        );
     }
     @if $size == 'l' {
-        $offset: math.floor(calc($handle-l-size / 2)) * -1;
-        height: $rail-l-size;
-        inset-inline: $offset;
+        height: var(--g-slider-rail-size, #{$rail-l-size});
+        inset-inline: calc(
+            var(--g-slider-edge-offset, #{math.floor(calc($handle-l-size / 2))}) * -1
+        );
     }
     @if $size == 'xl' {
-        $offset: math.floor(calc($handle-xl-size / 2)) * -1;
-        height: $rail-xl-size;
-        inset-inline: $offset;
+        height: var(--g-slider-rail-size, #{$rail-xl-size});
+        inset-inline: calc(
+            var(--g-slider-edge-offset, #{math.floor(calc($handle-xl-size / 2))}) * -1
+        );
     }
 }
 
@@ -163,7 +225,7 @@ $track-border-radius: 4px;
 
             #{$mark} {
                 @include mixins.text-body-1;
-                $edge-mark-offset: calc($handle-s-size / -2);
+                $edge-mark-offset: calc(var(--g-slider-handle-size, #{$handle-s-size}) / -2);
 
                 //we override last of type style in the situation when we have only one mark
                 //so we should have this style sequence
@@ -187,7 +249,7 @@ $track-border-radius: 4px;
 
             #{$mark} {
                 @include mixins.text-body-1;
-                $edge-mark-offset: calc($handle-m-size / -2);
+                $edge-mark-offset: calc(var(--g-slider-handle-size, #{$handle-m-size}) / -2);
 
                 &-text:last-of-type {
                     inset-inline-end: $edge-mark-offset;
@@ -209,7 +271,7 @@ $track-border-radius: 4px;
 
             #{$mark} {
                 @include mixins.text-body-1;
-                $edge-mark-offset: calc($handle-l-size / -2);
+                $edge-mark-offset: calc(var(--g-slider-handle-size, #{$handle-l-size}) / -2);
 
                 &-text:last-of-type {
                     inset-inline-end: $edge-mark-offset;
@@ -231,7 +293,7 @@ $track-border-radius: 4px;
 
             #{$mark} {
                 @include mixins.text-body-2;
-                $edge-mark-offset: calc($handle-xl-size / -2);
+                $edge-mark-offset: calc(var(--g-slider-handle-size, #{$handle-xl-size}) / -2);
 
                 &-text:last-of-type {
                     inset-inline-end: $edge-mark-offset;
@@ -287,32 +349,32 @@ $track-border-radius: 4px;
 
     &__track {
         position: absolute;
-        background-color: #{slider-variables.$slider-color};
+        background-color: var(--g-slider-track-color, #{slider-variables.$slider-color});
 
         &_size {
             &_s {
-                height: $rail-s-size;
+                height: var(--g-slider-rail-size, #{$rail-s-size});
                 &::before {
                     @include input-control(s);
                 }
             }
 
             &_m {
-                height: $rail-m-size;
+                height: var(--g-slider-rail-size, #{$rail-m-size});
                 &::before {
                     @include input-control(m);
                 }
             }
 
             &_l {
-                height: $rail-l-size;
+                height: var(--g-slider-rail-size, #{$rail-l-size});
                 &::before {
                     @include input-control(l);
                 }
             }
 
             &_xl {
-                height: $rail-xl-size;
+                height: var(--g-slider-rail-size, #{$rail-xl-size});
                 &::before {
                     @include input-control(xl);
                 }
@@ -345,35 +407,38 @@ $track-border-radius: 4px;
         z-index: 1;
         cursor: grab;
         touch-action: pan-x;
-        background-color: #{slider-variables.$handle-center-color};
+        background-color: var(
+            --g-slider-handle-background-color,
+            #{slider-variables.$handle-center-color}
+        );
         border-radius: 50%;
         border-style: solid;
-        border-color: #{slider-variables.$slider-color};
+        border-color: var(--g-slider-handle-border-color, #{slider-variables.$slider-color});
         inset-block-start: 0;
 
         &_size {
             &_s {
-                height: $handle-s-size;
-                width: $handle-s-size;
-                border-width: $rail-s-size;
+                height: var(--g-slider-handle-size, #{$handle-s-size});
+                width: var(--g-slider-handle-size, #{$handle-s-size});
+                border-width: var(--g-slider-handle-border-width, #{$rail-s-size});
             }
 
             &_m {
-                height: $handle-m-size;
-                width: $handle-m-size;
-                border-width: $rail-m-size;
+                height: var(--g-slider-handle-size, #{$handle-m-size});
+                width: var(--g-slider-handle-size, #{$handle-m-size});
+                border-width: var(--g-slider-handle-border-width, #{$rail-m-size});
             }
 
             &_l {
-                height: $handle-l-size;
-                width: $handle-l-size;
-                border-width: $rail-l-size;
+                height: var(--g-slider-handle-size, #{$handle-l-size});
+                width: var(--g-slider-handle-size, #{$handle-l-size});
+                border-width: var(--g-slider-handle-border-width, #{$rail-l-size});
             }
 
             &_xl {
-                height: $handle-xl-size;
-                width: $handle-xl-size;
-                border-width: $rail-xl-size;
+                height: var(--g-slider-handle-size, #{$handle-xl-size});
+                width: var(--g-slider-handle-size, #{$handle-xl-size});
+                border-width: var(--g-slider-handle-border-width, #{$rail-xl-size});
             }
         }
 
@@ -389,6 +454,10 @@ $track-border-radius: 4px;
         &_disabled {
             cursor: not-allowed;
             border-color: #{slider-variables.$slider-disabled-color};
+            background-color: var(
+                --g-slider-handle-disabled-background-color,
+                #{slider-variables.$handle-center-color}
+            );
 
             &:active,
             &:focus {
@@ -399,6 +468,10 @@ $track-border-radius: 4px;
 
         &_error {
             border-color: #{slider-variables.$slider-error-color};
+            background-color: var(
+                --g-slider-handle-error-background-color,
+                #{slider-variables.$handle-center-color}
+            );
             &:focus {
                 box-shadow: 0 0 0 3px $handle-focus-error-color;
             }
@@ -415,19 +488,19 @@ $track-border-radius: 4px;
 
         &_size {
             &_s {
-                height: $rail-s-size;
+                height: var(--g-slider-rail-size, #{$rail-s-size});
             }
 
             &_m {
-                height: $rail-m-size;
+                height: var(--g-slider-rail-size, #{$rail-m-size});
             }
 
             &_l {
-                height: $rail-l-size;
+                height: var(--g-slider-rail-size, #{$rail-l-size});
             }
 
             &_xl {
-                height: $rail-xl-size;
+                height: var(--g-slider-rail-size, #{$rail-xl-size});
             }
         }
     }
@@ -456,7 +529,7 @@ $track-border-radius: 4px;
     #{$dot} {
         position: absolute;
         border-radius: 50%;
-        background-color: #{slider-variables.$slider-color};
+        background-color: var(--g-slider-dot-color, #{slider-variables.$slider-color});
 
         &:first-of-type,
         &:last-of-type {

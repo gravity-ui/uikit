@@ -173,31 +173,54 @@ function yTicks(yMax) {
     return [0, step, step * 2, step * 3, yMax];
 }
 
+// Label granularity for short ranges, coarse to fine. Evenly spaced ticks are not
+// calendar-aligned, so a history spanning a single month would otherwise print
+// that month five times over. Escalate the format until every label is distinct.
+const X_LABEL_FORMATS = [
+    {month: 'short'},
+    {month: 'short', year: '2-digit'},
+    {month: 'short', day: 'numeric'},
+    {month: 'short', day: 'numeric', year: '2-digit'},
+];
+
 // Year boundaries for long ranges, otherwise several evenly spaced dates.
 function xTicks(minTime, maxTime) {
     const spanDays = (maxTime - minTime) / 86400000;
-    const ticks = [];
     if (spanDays > 3 * 365) {
         const firstYear = new Date(minTime).getUTCFullYear() + 1;
         const lastYear = new Date(maxTime).getUTCFullYear();
+        const ticks = [];
         for (let year = firstYear; year <= lastYear; year++) {
             ticks.push({time: Date.UTC(year, 0, 1), label: String(year)});
         }
-    } else {
-        const format = new Intl.DateTimeFormat('en', {
-            month: 'short',
-            year: spanDays > 300 ? '2-digit' : undefined,
-            timeZone: 'UTC',
-        });
-        for (let i = 0; i <= 4; i++) {
-            const time = minTime + ((maxTime - minTime) * i) / 4;
-            ticks.push({time, label: format.format(new Date(time))});
-        }
+        return ticks;
     }
-    return ticks;
+
+    const times = [];
+    for (let i = 0; i <= 4; i++) {
+        times.push(minTime + ((maxTime - minTime) * i) / 4);
+    }
+    let ticks = [];
+    for (const options of X_LABEL_FORMATS.slice(spanDays > 300 ? 1 : 0)) {
+        const format = new Intl.DateTimeFormat('en', {...options, timeZone: 'UTC'});
+        ticks = times.map((time) => ({time, label: format.format(new Date(time))}));
+        if (new Set(ticks.map((tick) => tick.label)).size === ticks.length) break;
+    }
+    // A span shorter than the finest granularity repeats no matter the format;
+    // drop the repeats instead of stacking identical labels on the axis.
+    return ticks.filter((tick, i) => i === 0 || tick.label !== ticks[i - 1].label);
 }
 
 const formatCount = (n) => new Intl.NumberFormat('en-US').format(n);
+
+// Y-axis labels switch to compact notation past six figures: "1,200,000" runs off
+// the left edge of the canvas, "1.2M" fits.
+const formatTick = (value, yMax) =>
+    yMax >= 1e6
+        ? new Intl.NumberFormat('en-US', {notation: 'compact', maximumFractionDigits: 1}).format(
+              value,
+          )
+        : formatCount(value);
 
 // Turns the series into plot geometry: scales, path coordinates and the end-point anchor.
 function preparePlot({series, total, updatedAt}) {
@@ -214,7 +237,12 @@ function preparePlot({series, total, updatedAt}) {
 
     const minTime = points.length ? points[0][0] : updatedTime - 86400000;
     const maxTime = points.length ? points[points.length - 1][0] : updatedTime;
-    const yMax = niceCeil(Math.max(total, 4));
+    // The scale has to cover what is actually drawn. stargazerCount and the fetched
+    // timestamps can disagree — an unstar between two pagination requests leaves the
+    // series one ahead of the count — and taking the ceiling from the count alone
+    // lets the line escape the plot area and overdraw the header.
+    const seriesMax = points.reduce((max, [, count]) => Math.max(max, count), 0);
+    const yMax = niceCeil(Math.max(total, seriesMax, 4));
 
     const x = (time) => MARGIN.left + ((time - minTime) / Math.max(maxTime - minTime, 1)) * plotW;
     const y = (count) => baselineY - (count / yMax) * plotH;
@@ -248,7 +276,7 @@ function renderGrid({yMax, y, plotW}, theme) {
             const ty = y(tick).toFixed(1);
             return (
                 `<line x1="${MARGIN.left}" y1="${ty}" x2="${MARGIN.left + plotW}" y2="${ty}" stroke="${theme.grid}"/>` +
-                `<text x="${MARGIN.left - 8}" y="${ty}" dy="4" text-anchor="end" class="tick">${formatCount(tick)}</text>`
+                `<text x="${MARGIN.left - 8}" y="${ty}" dy="4" text-anchor="end" class="tick">${formatTick(tick, yMax)}</text>`
             );
         })
         .join('\n    ');

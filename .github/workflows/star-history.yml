@@ -20,7 +20,7 @@ jobs:
       - name: Generate charts
         run: node .github/scripts/star-history.mjs --out star-history-out
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
       # The charts live in an orphan single-commit branch so the main history
       # stays clean; README references them via raw.githubusercontent.com.
       - name: Publish to star-history-data branch
@@ -33,4 +33,4 @@ jobs:
               commit -qm "chore: update star history chart"
           git push -qf "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" star-history-data
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}

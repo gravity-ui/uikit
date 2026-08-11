@@ -96,6 +96,7 @@ async function fetchStarDates(repo, token) {
             headers: {
                 Authorization: `bearer ${token}`,
                 'Content-Type': 'application/json',
+                'User-Agent': 'gravity-ui-star-history',
             },
             body: JSON.stringify({query, variables: {owner, name, cursor}}),
         });
@@ -198,8 +199,8 @@ function xTicks(minTime, maxTime) {
 
 const formatCount = (n) => new Intl.NumberFormat('en-US').format(n);
 
-function renderSvg({repo, series, total, updatedAt, theme}) {
-    const t = THEMES[theme];
+/** Turns the series into plot geometry: scales, path coordinates and the end-point anchor. */
+function preparePlot({series, total, updatedAt}) {
     const plotW = WIDTH - MARGIN.left - MARGIN.right;
     const plotH = HEIGHT - MARGIN.top - MARGIN.bottom;
     const baselineY = MARGIN.top + plotH;
@@ -224,30 +225,55 @@ function renderSvg({repo, series, total, updatedAt, theme}) {
         ? `${linePath}L${x(maxTime).toFixed(1)},${baselineY}L${x(minTime).toFixed(1)},${baselineY}Z`
         : '';
 
-    const gridLines = yTicks(yMax)
+    return {
+        plotW,
+        baselineY,
+        minTime,
+        maxTime,
+        yMax,
+        x,
+        y,
+        linePath,
+        areaPath,
+        updatedTime,
+        endX: coords.length ? x(maxTime) : MARGIN.left,
+        endY: coords.length ? y(total) : baselineY,
+    };
+}
+
+function renderGrid({yMax, y, plotW}, theme) {
+    return yTicks(yMax)
         .slice(1)
         .map((tick) => {
             const ty = y(tick).toFixed(1);
             return (
-                `<line x1="${MARGIN.left}" y1="${ty}" x2="${MARGIN.left + plotW}" y2="${ty}" stroke="${t.grid}"/>` +
+                `<line x1="${MARGIN.left}" y1="${ty}" x2="${MARGIN.left + plotW}" y2="${ty}" stroke="${theme.grid}"/>` +
                 `<text x="${MARGIN.left - 8}" y="${ty}" dy="4" text-anchor="end" class="tick">${formatCount(tick)}</text>`
             );
         })
         .join('\n    ');
+}
 
-    const xLabels = xTicks(minTime, maxTime)
+function renderXLabels({minTime, maxTime, x, baselineY}) {
+    return xTicks(minTime, maxTime)
         .map(
             (tick) =>
                 `<text x="${x(tick.time).toFixed(1)}" y="${baselineY + 24}" text-anchor="middle" class="tick">${tick.label}</text>`,
         )
         .join('\n    ');
+}
 
-    const endX = coords.length ? x(maxTime).toFixed(1) : MARGIN.left;
-    const endY = coords.length ? y(total).toFixed(1) : baselineY;
+function renderSvg({repo, series, total, updatedAt, theme}) {
+    const t = THEMES[theme];
+    const plot = preparePlot({series, total, updatedAt});
+    const {plotW, baselineY, linePath, areaPath, endX, endY} = plot;
+
+    const gridLines = renderGrid(plot, t);
+    const xLabels = renderXLabels(plot);
     const updatedLabel = new Intl.DateTimeFormat('en', {
         dateStyle: 'medium',
         timeZone: 'UTC',
-    }).format(new Date(updatedTime));
+    }).format(new Date(plot.updatedTime));
 
     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${WIDTH} ${HEIGHT}" width="${WIDTH}" height="${HEIGHT}" role="img" aria-label="Star history of ${repo}: ${formatCount(total)} stars">
   <style>
@@ -275,9 +301,9 @@ function renderSvg({repo, series, total, updatedAt, theme}) {
   </g>
   <path d="${areaPath}" fill="url(#area)"/>
   <path d="${linePath}" fill="none" stroke="${t.line}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-  <circle cx="${endX}" cy="${endY}" r="4" fill="${t.line}"/>
-  <text x="${Number(endX) + 12}" y="${endY}" dy="2" class="end-count">${formatCount(total)}</text>
-  <text x="${Number(endX) + 12}" y="${Number(endY) + 18}" class="end-caption">stars ★</text>
+  <circle cx="${endX.toFixed(1)}" cy="${endY.toFixed(1)}" r="4" fill="${t.line}"/>
+  <text x="${(endX + 12).toFixed(1)}" y="${endY.toFixed(1)}" dy="2" class="end-count">${formatCount(total)}</text>
+  <text x="${(endX + 12).toFixed(1)}" y="${(endY + 18).toFixed(1)}" class="end-caption">stars ★</text>
 </svg>
 `;
 }
@@ -315,6 +341,6 @@ async function main() {
 }
 
 main().catch((error) => {
-    console.error(error.message);
+    console.error(error?.stack ?? error);
     process.exit(1);
 });

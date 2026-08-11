@@ -83,6 +83,11 @@ export interface DrawerProps
      * @default false
      */
     disableTransition?: boolean;
+    /**
+     * Disables modal focus management.
+     * @default false
+     */
+    disableModal?: boolean;
 }
 
 export const Drawer = (rawProps: DrawerProps) => {
@@ -118,6 +123,7 @@ export const Drawer = (rawProps: DrawerProps) => {
         container,
         hideVeil = false,
         disableTransition = false,
+        disableModal = false,
         ...restProps
     } = useDefaultProps('Drawer', rawProps);
     const floatingNodeId = useFloatingNodeId();
@@ -202,7 +208,7 @@ export const Drawer = (rawProps: DrawerProps) => {
                     <FloatingFocusManager
                         context={context}
                         disabled={!isMounted}
-                        modal={isMounted}
+                        modal={isMounted && !disableModal}
                         initialFocus={refs.floating}
                         returnFocus={returnFocus}
                         visuallyHiddenDismiss={disableVisuallyHiddenDismiss ? false : i18n('close')}

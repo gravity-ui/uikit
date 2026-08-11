@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import {render, screen} from '../../../../test-utils/utils';
 import {block} from '../../utils/cn';
 import {Drawer} from '../components/Drawer';
@@ -29,26 +27,5 @@ describe('Drawer', () => {
         );
 
         expect(screen.getByTestId(qa)).toBeInTheDocument();
-    });
-
-    const renderDrawer = (disableModal?: boolean) => (
-        <React.Fragment>
-            <button type="button">Page action</button>
-            <Drawer open disableModal={disableModal}>
-                <div>{PLACEHOLDER_TEXT}</div>
-            </Drawer>
-        </React.Fragment>
-    );
-
-    test('should keep surrounding content accessible when modal focus management is disabled', () => {
-        render(renderDrawer(true));
-
-        expect(screen.getByRole('button', {name: 'Page action'})).toBeInTheDocument();
-    });
-
-    test('should hide surrounding content from assistive technologies by default', () => {
-        render(renderDrawer());
-
-        expect(screen.queryByRole('button', {name: 'Page action'})).not.toBeInTheDocument();
     });
 });

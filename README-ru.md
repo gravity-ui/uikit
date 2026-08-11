@@ -129,9 +129,9 @@ npm run playwright    # визуальные регрессионные тест
 
 <div align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=gravity-ui/uikit&type=Timeline&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=gravity-ui/uikit&type=Timeline" />
-    <img alt="Star History Chart" width="600" src="https://api.star-history.com/svg?repos=gravity-ui/uikit&type=Timeline" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/gravity-ui/uikit/star-history-data/star-history-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/gravity-ui/uikit/star-history-data/star-history-light.svg" />
+    <img alt="Star History Chart" width="600" src="https://raw.githubusercontent.com/gravity-ui/uikit/star-history-data/star-history-light.svg" />
   </picture>
 </div>
 

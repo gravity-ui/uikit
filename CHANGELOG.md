@@ -1,5 +1,18 @@
 # Changelog
 
+## [7.48.0](https://github.com/gravity-ui/uikit/compare/v7.47.2...v7.48.0) (2026-08-11)
+
+
+### Features
+
+* **ColorPicker:** replaced open state with shared useOpenState ([#2772](https://github.com/gravity-ui/uikit/issues/2772)) ([a788085](https://github.com/gravity-ui/uikit/commit/a788085e4d8feb7cfa2bfc129405f8efa3083f91))
+* **Drawer:** add `disableModal` property ([#2775](https://github.com/gravity-ui/uikit/issues/2775)) ([6963bc7](https://github.com/gravity-ui/uikit/commit/6963bc7085d8f5721eb13056b714d6f5cb2c4e40))
+
+
+### Bug Fixes
+
+* **SegmentedRadioGroup:** changed option-text display type ([#2765](https://github.com/gravity-ui/uikit/issues/2765)) ([a6bb0f4](https://github.com/gravity-ui/uikit/commit/a6bb0f429db390d507c7744840a3901b4b8903b6))
+
 ## [7.47.2](https://github.com/gravity-ui/uikit/compare/v7.47.1...v7.47.2) (2026-08-02)
 
 

@@ -133,7 +133,7 @@ async function fetchStarDates(repo, token) {
     return {stargazerCount, dates};
 }
 
-/** Collapses raw ISO timestamps into a per-day cumulative series: [isoDay, total][]. */
+// Collapses raw ISO timestamps into a per-day cumulative series: [isoDay, total][].
 function toDailyCumulative(dates) {
     const perDay = new Map();
     for (const iso of dates) {
@@ -173,7 +173,7 @@ function yTicks(yMax) {
     return [0, step, step * 2, step * 3, yMax];
 }
 
-/** Year boundaries for long ranges, otherwise several evenly spaced dates. */
+// Year boundaries for long ranges, otherwise several evenly spaced dates.
 function xTicks(minTime, maxTime) {
     const spanDays = (maxTime - minTime) / 86400000;
     const ticks = [];
@@ -199,7 +199,7 @@ function xTicks(minTime, maxTime) {
 
 const formatCount = (n) => new Intl.NumberFormat('en-US').format(n);
 
-/** Turns the series into plot geometry: scales, path coordinates and the end-point anchor. */
+// Turns the series into plot geometry: scales, path coordinates and the end-point anchor.
 function preparePlot({series, total, updatedAt}) {
     const plotW = WIDTH - MARGIN.left - MARGIN.right;
     const plotH = HEIGHT - MARGIN.top - MARGIN.bottom;
@@ -319,9 +319,9 @@ async function main() {
         if (!token) {
             throw new Error('GITHUB_TOKEN environment variable is required');
         }
-        console.log(`Fetching star history for ${args.repo}...`);
+        console.info(`Fetching star history for ${args.repo}...`);
         const {stargazerCount, dates} = await fetchStarDates(args.repo, token);
-        console.log(`Fetched ${dates.length} star timestamps (stargazerCount: ${stargazerCount})`);
+        console.info(`Fetched ${dates.length} star timestamps (stargazerCount: ${stargazerCount})`);
         data = {
             repo: args.repo,
             updatedAt: new Date().toISOString(),
@@ -336,7 +336,7 @@ async function main() {
         const svg = renderSvg({...data, theme});
         const file = path.join(args.out, `star-history-${theme}.svg`);
         fs.writeFileSync(file, svg);
-        console.log(`Wrote ${file}`);
+        console.info(`Wrote ${file}`);
     }
 }
 

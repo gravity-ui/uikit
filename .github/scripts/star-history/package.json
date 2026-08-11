@@ -1,0 +1,18 @@
+{
+  "name": "star-history-chart",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Renders the README star history chart with @gravity-ui/charts in headless Chromium. Kept out of the root manifest so the published package and every contributor's install stay untouched.",
+  "scripts": {
+    "start": "node index.mjs"
+  },
+  "dependencies": {
+    "@gravity-ui/charts": "^1.57.2",
+    "@gravity-ui/uikit": "^7.47.2",
+    "esbuild": "^0.25.5",
+    "playwright": "^1.56.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}

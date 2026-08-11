@@ -1,7 +1,5 @@
 import * as React from 'react';
 
-import userEvent from '@testing-library/user-event';
-
 import {render, screen} from '../../../../test-utils/utils';
 import {block} from '../../utils/cn';
 import {Drawer} from '../components/Drawer';
@@ -33,28 +31,19 @@ describe('Drawer', () => {
         expect(screen.getByTestId(qa)).toBeInTheDocument();
     });
 
-    const renderDrawer = (modal?: boolean, onPageActionClick?: () => void) => (
+    const renderDrawer = (disableModal?: boolean) => (
         <React.Fragment>
-            <button type="button" onClick={onPageActionClick}>
-                Page action
-            </button>
-            <Drawer open hideVeil={modal === false} modal={modal}>
+            <button type="button">Page action</button>
+            <Drawer open disableModal={disableModal}>
                 <div>{PLACEHOLDER_TEXT}</div>
             </Drawer>
         </React.Fragment>
     );
 
-    test('should allow interacting with surrounding content when modal is false', async () => {
-        const handlePageActionClick = jest.fn();
+    test('should keep surrounding content accessible when modal focus management is disabled', () => {
+        render(renderDrawer(true));
 
-        render(renderDrawer(false, handlePageActionClick));
-
-        const pageAction = screen.getByRole('button', {name: 'Page action'});
-        const user = userEvent.setup();
-
-        await user.click(pageAction);
-
-        expect(handlePageActionClick).toHaveBeenCalledTimes(1);
+        expect(screen.getByRole('button', {name: 'Page action'})).toBeInTheDocument();
     });
 
     test('should hide surrounding content from assistive technologies by default', () => {

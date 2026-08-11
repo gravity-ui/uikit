@@ -82,6 +82,8 @@ async function waitForStableChart(page) {
     throw new Error('Chart did not settle within 10 seconds');
 }
 
+// Runs inside the page, so it has to be self-contained: page.evaluate serialises
+// the function and it cannot reach anything in this module's scope.
 function extractSvg({props, label, width, height}) {
     const root = document.querySelector('#root svg');
     if (!root) throw new Error('No SVG produced');
@@ -91,13 +93,19 @@ function extractSvg({props, label, width, height}) {
     const isDefinition = (element) =>
         element.closest('defs, clipPath, linearGradient, radialGradient, pattern, mask, marker');
 
-    for (const element of [...root.querySelectorAll('*')]) {
-        if (isDefinition(element)) continue;
-        const style = getComputedStyle(element);
-        if (style.display === 'none' || style.visibility === 'hidden') element.remove();
-    }
+    const prune = () => {
+        for (const element of [...root.querySelectorAll('*')]) {
+            if (isDefinition(element)) continue;
+            const style = getComputedStyle(element);
+            if (style.display === 'none' || style.visibility === 'hidden') element.remove();
+        }
+    };
 
-    const walk = (element, inherited) => {
+    // Only what differs from the inherited value is written out. Repeating the
+    // whole whitelist on every element makes the file 3.4 times bigger, and
+    // getComputedStyle().cssText is empty by specification, so there is no
+    // shortcut through it.
+    const inlineStyles = (element, inherited) => {
         const style = getComputedStyle(element);
         const own = [];
         const next = {...inherited};
@@ -110,16 +118,21 @@ function extractSvg({props, label, width, height}) {
         if (own.length) element.setAttribute('style', own.join(';'));
         else element.removeAttribute('style');
         element.removeAttribute('class');
-        for (const child of element.children) walk(child, next);
+        for (const child of element.children) inlineStyles(child, next);
     };
-    walk(root, {});
 
-    root.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-    root.setAttribute('width', String(width));
-    root.setAttribute('height', String(height));
-    root.setAttribute('viewBox', `0 0 ${width} ${height}`);
-    root.setAttribute('role', 'img');
-    root.setAttribute('aria-label', label);
+    const finalise = () => {
+        root.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+        root.setAttribute('width', String(width));
+        root.setAttribute('height', String(height));
+        root.setAttribute('viewBox', `0 0 ${width} ${height}`);
+        root.setAttribute('role', 'img');
+        root.setAttribute('aria-label', label);
+    };
+
+    prune();
+    inlineStyles(root, {});
+    finalise();
 
     return new XMLSerializer().serializeToString(root);
 }

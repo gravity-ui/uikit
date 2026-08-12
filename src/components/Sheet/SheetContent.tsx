@@ -85,6 +85,7 @@ export function SheetContent(props: SheetContentProps) {
     const isAnimatingRef = React.useRef(false);
     const inWindowResizeScopeRef = React.useRef(false);
     const delayedResizeRef = React.useRef(false);
+    const hashSetRef = React.useRef(false);
 
     const prevVisibleRef = React.useRef(visible);
     const prevLocationRef = React.useRef(location);
@@ -199,13 +200,21 @@ export function SheetContent(props: SheetContentProps) {
     const show = React.useCallback(() => {
         isAnimatingRef.current = true;
         setStyles({status: 'showing'});
-        setHash();
+
+        if (!hashSetRef.current) {
+            hashSetRef.current = true;
+            setHash();
+        }
     }, [setStyles, setHash]);
 
     const hide = React.useCallback(() => {
         isAnimatingRef.current = true;
         setStyles({status: 'hiding'});
-        removeHash();
+
+        if (hashSetRef.current) {
+            hashSetRef.current = false;
+            removeHash();
+        }
     }, [setStyles, removeHash]);
 
     const {

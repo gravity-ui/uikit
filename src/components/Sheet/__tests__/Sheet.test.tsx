@@ -24,18 +24,20 @@ describe('Sheet', () => {
     });
 
     test('Applies className, contentClassName and swipeAreaClassName to the corresponding elements', () => {
+        const qaId = 'custom-sheet-qa';
         render(
             <Sheet
                 visible
                 className="custom-sheet"
                 contentClassName="custom-content"
                 swipeAreaClassName="custom-swipe-area"
+                qa={qaId}
             >
                 Content
             </Sheet>,
         );
 
-        expect(screen.getByTestId(SheetQa.ROOT)).toHaveClass('custom-sheet');
+        expect(screen.getByTestId(qaId)).toHaveClass('custom-sheet');
         expect(screen.getByTestId(SheetQa.CONTENT)).toHaveClass('custom-content');
         expect(screen.getByTestId(SheetQa.SWIPE_AREA)).toHaveClass('custom-swipe-area');
     });

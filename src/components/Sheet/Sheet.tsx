@@ -8,7 +8,7 @@ import {Portal} from '../Portal/Portal';
 import type {PortalProps} from '../Portal/Portal';
 import {useDefaultProps} from '../theme/useDefaultProps';
 
-import {SheetContentContainer} from './SheetContentFunctional';
+import {SheetContentContainer} from './SheetContent';
 import {SheetQa, sheetBlock} from './constants';
 
 import './Sheet.scss';

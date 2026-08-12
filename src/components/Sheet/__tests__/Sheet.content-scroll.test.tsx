@@ -49,6 +49,7 @@ describe('Sheet content scroll', () => {
 
         swipeDownOnContent(scrollContainer, {from: TOUCH_START_POINT, to: TOUCH_END_POINT});
         expect(onClose).not.toHaveBeenCalled();
+        expect(screen.getByText('Content')).toBeInTheDocument();
     });
 
     test('does not close the sheet on a swipe down when the content is scrolled', () => {

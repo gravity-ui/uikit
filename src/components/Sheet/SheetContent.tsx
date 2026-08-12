@@ -10,6 +10,7 @@ import {SheetQa, sheetBlock} from './constants';
 import {useContentScroll} from './hooks/useContentScroll';
 import {useSheetHash} from './hooks/useSheetHash';
 import {useSwipe} from './hooks/useSwipe';
+import {useVeil} from './hooks/useVeil';
 import type {Status} from './types';
 
 import './Sheet.scss';
@@ -299,6 +300,16 @@ export function SheetContent(props: SheetContentProps) {
         }, WINDOW_RESIZE_TIMEOUT);
     }, [onResize]);
 
+    const {veilHandlers} = useVeil({
+        veilRef,
+        isAnimatingRef,
+        delayedResizeRef,
+        setVeilTouched,
+        hide,
+        hideSheet: hideSheetStable,
+        onResizeWindow,
+    });
+
     // --- componentDidMount / componentWillUnmount ---
     React.useEffect(() => {
         window.addEventListener('resize', onResizeWindow);
@@ -366,12 +377,7 @@ export function SheetContent(props: SheetContentProps) {
             <SheetVeil
                 veilRef={veilRef}
                 withTransition={veilTransitionMod['with-transition']}
-                isAnimatingRef={isAnimatingRef}
-                delayedResizeRef={delayedResizeRef}
-                setVeilTouched={setVeilTouched}
-                hide={hide}
-                hideSheet={hideSheetStable}
-                onResizeWindow={onResizeWindow}
+                {...veilHandlers}
             />
             <div
                 ref={sheetRef}

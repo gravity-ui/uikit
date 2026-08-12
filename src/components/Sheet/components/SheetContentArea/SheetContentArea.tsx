@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import {block} from '../../../utils/cn';
+import {SheetQa} from '../../constants';
 import type {ContentAreaHandlers} from '../../hooks/useContentScroll';
 
 import './SheetContentArea.scss';
@@ -47,14 +48,19 @@ export function SheetContentArea({
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
             onTransitionEnd={onTransitionEnd}
+            data-qa={SheetQa.CONTENT_AREA}
         >
             <div
                 ref={marginBoxRef}
                 className={b('margin-box', {'always-full-height': alwaysFullHeight})}
             >
                 <div className={b('margin-box-border-compensation')}>
-                    <div className={b('content', null, contentClassName)}>
-                        {title && <div className={b('content-title')}>{title}</div>}
+                    <div className={b('content', null, contentClassName)} data-qa={SheetQa.CONTENT}>
+                        {title && (
+                            <div className={b('content-title')} data-qa={SheetQa.TITLE}>
+                                {title}
+                            </div>
+                        )}
                         {children}
                     </div>
                 </div>

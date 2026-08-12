@@ -1,6 +1,7 @@
 'use client';
 
 import {block} from '../../../utils/cn';
+import {SheetQa} from '../../constants';
 import type {SwipeAreaHandlers} from '../../hooks/useSwipe';
 
 import './SheetSwipeArea.scss';
@@ -23,6 +24,7 @@ export function SheetSwipeArea({
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
+            data-qa={SheetQa.SWIPE_AREA}
         />
     );
 }

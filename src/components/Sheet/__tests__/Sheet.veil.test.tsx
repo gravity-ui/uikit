@@ -13,16 +13,18 @@ describe('Sheet veil', () => {
 
         const veil = screen.getByTestId(SheetQa.VEIL);
 
-        // finish the initial "showing" animation so the sheet is no longer animating
+        expect(screen.getByText('Content')).toBeInTheDocument();
+
         fireEvent.transitionEnd(veil);
         expect(onClose).not.toHaveBeenCalled();
 
-        // click starts the "hiding" animation, onClose fires only after it finishes
         fireEvent.click(veil);
         expect(onClose).not.toHaveBeenCalled();
 
         fireEvent.transitionEnd(veil);
         expect(onClose).toHaveBeenCalledTimes(1);
+
+        expect(screen.queryByText('Content')).not.toBeInTheDocument();
     });
 
     test('ignores the veil click while the sheet is still animating', () => {
@@ -39,23 +41,5 @@ describe('Sheet veil', () => {
         fireEvent.transitionEnd(veil);
 
         expect(onClose).not.toHaveBeenCalled();
-    });
-
-    test('calls onClose exactly once per closing cycle', () => {
-        const onClose = jest.fn();
-        render(
-            <Sheet visible onClose={onClose}>
-                Content
-            </Sheet>,
-        );
-
-        const veil = screen.getByTestId(SheetQa.VEIL);
-
-        fireEvent.transitionEnd(veil);
-        fireEvent.click(veil);
-        fireEvent.transitionEnd(veil);
-
-        expect(onClose).toHaveBeenCalledTimes(1);
-        expect(screen.queryByText('Content')).not.toBeInTheDocument();
     });
 });

@@ -1,11 +1,12 @@
-import {fireEvent, render} from '../../../../test-utils/utils';
-import {block} from '../../utils/cn';
+import {fireEvent, render, screen} from '../../../../test-utils/utils';
 import {Sheet} from '../Sheet';
-
-const contentAreaBlock = block('sheet-content-area');
+import {SheetQa} from '../constants';
 
 describe('Sheet content scroll', () => {
     const SHEET_HEIGHT = 300;
+    const TOUCH_START_POINT = 100;
+    const TOUCH_END_POINT = TOUCH_START_POINT + SHEET_HEIGHT;
+
     let getBoundingClientRectSpy: jest.SpyInstance;
     beforeEach(() => {
         getBoundingClientRectSpy = jest
@@ -24,32 +25,44 @@ describe('Sheet content scroll', () => {
 
     test('closes the sheet on a swipe down when the content is scrolled to the top', () => {
         const onClose = jest.fn();
-        const {container} = render(
+        render(
             <Sheet visible onClose={onClose}>
                 Content
             </Sheet>,
         );
 
-        // eslint-disable-next-line testing-library/no-container
-        const scrollContainer = container.querySelector(`.${contentAreaBlock()}`) as HTMLElement;
+        const scrollContainer = screen.getByTestId(SheetQa.CONTENT_AREA);
 
-        swipeDownOnContent(scrollContainer, {from: 100, to: 100 + SHEET_HEIGHT + 50});
+        swipeDownOnContent(scrollContainer, {from: TOUCH_START_POINT, to: TOUCH_END_POINT});
         expect(onClose).toHaveBeenCalledTimes(1);
+    });
+
+    test('does not close the sheet on a swipe down when allowHideOnContentScroll set to false', () => {
+        const onClose = jest.fn();
+        render(
+            <Sheet visible onClose={onClose} allowHideOnContentScroll={false}>
+                Content
+            </Sheet>,
+        );
+
+        const scrollContainer = screen.getByTestId(SheetQa.CONTENT_AREA);
+
+        swipeDownOnContent(scrollContainer, {from: TOUCH_START_POINT, to: TOUCH_END_POINT});
+        expect(onClose).not.toHaveBeenCalled();
     });
 
     test('does not close the sheet on a swipe down when the content is scrolled', () => {
         const onClose = jest.fn();
-        const {container} = render(
+        render(
             <Sheet visible onClose={onClose}>
                 Content
             </Sheet>,
         );
 
-        // eslint-disable-next-line testing-library/no-container
-        const scrollContainer = container.querySelector(`.${contentAreaBlock()}`) as HTMLElement;
+        const scrollContainer = screen.getByTestId(SheetQa.CONTENT_AREA);
 
         Object.defineProperty(scrollContainer, 'scrollTop', {value: 100, configurable: true});
-        swipeDownOnContent(scrollContainer, {from: 100, to: 100 + SHEET_HEIGHT + 50});
+        swipeDownOnContent(scrollContainer, {from: TOUCH_START_POINT, to: TOUCH_END_POINT});
         expect(onClose).not.toHaveBeenCalled();
     });
 });

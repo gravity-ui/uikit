@@ -5,7 +5,6 @@ afterEach(() => {
 });
 
 describe('VelocityTracker', () => {
-    // 9.1
     test('keeps a fixed-size buffer and drops the oldest points', () => {
         const tracker = new VelocityTracker(3);
 
@@ -22,7 +21,6 @@ describe('VelocityTracker', () => {
         expect(tracker.points.map((point) => point.y)).toEqual([5, 4, 3]);
     });
 
-    // 9.2
     test('clear() resets stored points', () => {
         const tracker = new VelocityTracker(3);
 
@@ -36,7 +34,6 @@ describe('VelocityTracker', () => {
         expect(tracker.getYAcceleration()).toBe(0);
     });
 
-    // 9.3
     test('getYAcceleration() returns 0 when there are not enough points', () => {
         const tracker = new VelocityTracker();
 
@@ -48,7 +45,6 @@ describe('VelocityTracker', () => {
         expect(tracker.getYAcceleration()).toBe(0);
     });
 
-    // 9.4
     test('getYAcceleration() computes acceleration by the delta-y / delta-t^2 formula', () => {
         const nowSpy = jest.spyOn(Date, 'now');
         nowSpy.mockReturnValueOnce(1000).mockReturnValueOnce(1100);
@@ -63,7 +59,6 @@ describe('VelocityTracker', () => {
         expect(tracker.getYAcceleration()).toBeCloseTo(0.005);
     });
 
-    // 9.5
     test('getYAcceleration() sign reflects the movement direction', () => {
         const nowSpy = jest.spyOn(Date, 'now');
         nowSpy

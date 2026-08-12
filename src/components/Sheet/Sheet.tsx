@@ -7,14 +7,13 @@ import {FloatingOverlay} from '@floating-ui/react';
 import {Portal} from '../Portal/Portal';
 import type {PortalProps} from '../Portal/Portal';
 import {useDefaultProps} from '../theme/useDefaultProps';
-import type {QAProps} from '../types';
 
 import {SheetContentContainer} from './SheetContentFunctional';
-import {sheetBlock} from './constants';
+import {SheetQa, sheetBlock} from './constants';
 
 import './Sheet.scss';
 
-export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePortal'>, QAProps {
+export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePortal'> {
     children?: React.ReactNode;
     onClose?: () => void;
     /** Show/hide sheet */
@@ -55,7 +54,6 @@ export const Sheet = (rawProps: SheetProps) => {
         alwaysFullHeight,
         container,
         disablePortal,
-        qa,
     } = useDefaultProps('Sheet', rawProps);
     const [open, setOpen] = React.useState(visible);
     const [prevVisible, setPrevVisible] = React.useState(visible);
@@ -82,7 +80,7 @@ export const Sheet = (rawProps: SheetProps) => {
     return (
         <Portal container={container} disablePortal={disablePortal}>
             <FloatingOverlay
-                data-qa={qa}
+                data-qa={SheetQa.ROOT}
                 className={sheetBlock({'without-top-bar': hideTopBar}, className)}
                 lockScroll={open}
                 style={{overflow: undefined}}

@@ -6,7 +6,7 @@ import {MobileContext} from '../mobile';
 import {warnOnce} from '../utils/warn';
 
 import {SheetContentArea, SheetSwipeArea, SheetVeil} from './components';
-import {sheetBlock} from './constants';
+import {SheetQa, sheetBlock} from './constants';
 import {useContentScroll} from './hooks/useContentScroll';
 import {useSheetHash} from './hooks/useSheetHash';
 import {useSwipe} from './hooks/useSwipe';
@@ -372,7 +372,11 @@ export function SheetContent(props: SheetContentProps) {
                 aria-label={title}
             >
                 {!hideTopBar && (
-                    <div ref={sheetTopRef} className={sheetBlock('sheet-top')}>
+                    <div
+                        ref={sheetTopRef}
+                        className={sheetBlock('sheet-top')}
+                        data-qa={SheetQa.TOP}
+                    >
                         <div className={sheetBlock('sheet-top-resizer')} />
                     </div>
                 )}

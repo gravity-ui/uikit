@@ -2,6 +2,8 @@
 
 $block: '.#{variables.$ns}range-input';
 $text-input: '.#{variables.$ns}text-input';
+$base-slider: '.#{variables.$ns}base-slider';
+$base-slider-track: '#{$base-slider}__track';
 $slider-mark: '.rc-slider-mark';
 $slider-mark-text: '#{$slider-mark}-text';
 
@@ -11,6 +13,10 @@ $slider-mark-text: '#{$slider-mark}-text';
     --_--range-input-marks-area: 20px;
     --_--range-input-mark-gap: 4px;
     --_--range-input-mark-line-height: var(--g-text-body-short-line-height);
+    --_--range-input-track-start-inset: 4px;
+    --_--range-input-track-start-offset: calc(
+        var(--_--range-input-track-start-inset) - var(--_--range-input-handle-size) / 2
+    );
     --_--range-input-mark-space: calc(
         var(--_--range-input-marks-area) +
             var(--_--range-input-slider-overlap) - var(--_--range-input-handle-size) / 2
@@ -28,6 +34,7 @@ $slider-mark-text: '#{$slider-mark}-text';
         &_s {
             --_--range-input-handle-size: 9px;
             --_--range-input-slider-overlap: 0.5px;
+            --_--range-input-track-start-inset: 3.5px;
         }
 
         &_m {
@@ -36,6 +43,7 @@ $slider-mark-text: '#{$slider-mark}-text';
 
         &_l {
             --_--range-input-handle-size: 12px;
+            --_--range-input-track-start-inset: 6px;
         }
 
         &_xl {
@@ -43,6 +51,7 @@ $slider-mark-text: '#{$slider-mark}-text';
             --_--range-input-marks-area: 26px;
             --_--range-input-mark-gap: 6px;
             --_--range-input-mark-line-height: var(--g-text-body-2-line-height);
+            --_--range-input-track-start-inset: 7px;
         }
     }
 
@@ -88,6 +97,15 @@ $slider-mark-text: '#{$slider-mark}-text';
         margin-block-start: calc(
             var(--_--range-input-handle-size) / -2 - var(--_--range-input-slider-overlap)
         );
+
+        #{$base-slider-track} {
+            background-color: transparent;
+
+            &::before {
+                width: auto;
+                inset-inline: var(--_--range-input-track-start-offset) 0;
+            }
+        }
 
         #{$slider-mark} {
             inset-block-end: var(--_--range-input-mark-offset);

@@ -2,6 +2,7 @@ import {expect} from '@playwright/experimental-ct-react';
 
 import {test} from '~playwright/core';
 
+import {Slider} from '../../Slider';
 import {ThemeProvider} from '../../theme';
 import {RangeInput} from '../RangeInput';
 import type {RangeInputSize} from '../RangeInput';
@@ -66,6 +67,11 @@ const geometryCases: Array<{
         markBottom: 70,
         trackStartInset: 7,
     },
+];
+
+const focusCases: Array<{name: string; validationState?: 'invalid'}> = [
+    {name: 'default'},
+    {name: 'invalid', validationState: 'invalid'},
 ];
 
 test.describe('RangeInput', {tag: '@RangeInput'}, () => {
@@ -240,4 +246,44 @@ test.describe('RangeInput', {tag: '@RangeInput'}, () => {
             ),
         );
     });
+
+    for (const {name, validationState} of focusCases) {
+        test(`uses the Slider ${name} handle shadow on keyboard focus`, async ({mount, page}) => {
+            const component = await mount(
+                <div style={{display: 'grid', gap: 32, width: 340}}>
+                    <RangeInput
+                        defaultValue={50}
+                        validationState={validationState}
+                        aria-label={`RangeInput ${name}`}
+                    />
+                    <Slider
+                        value={50}
+                        validationState={validationState}
+                        aria-label={`Slider ${name}`}
+                    />
+                </div>,
+            );
+            const input = component.getByRole('spinbutton', {name: `RangeInput ${name}`});
+            const rangeInputHandle = component.getByRole('slider', {
+                name: `RangeInput ${name}`,
+            });
+            const sliderHandle = component.getByRole('slider', {name: `Slider ${name}`});
+
+            await input.focus();
+            await page.keyboard.press('Tab');
+            await expect(rangeInputHandle).toBeFocused();
+
+            const rangeInputShadow = await rangeInputHandle.evaluate(
+                (element) => getComputedStyle(element).boxShadow,
+            );
+            await sliderHandle.focus();
+            const sliderShadow = await sliderHandle.evaluate(
+                (element) => getComputedStyle(element).boxShadow,
+            );
+
+            expect(rangeInputShadow).toBe(sliderShadow);
+            expect(rangeInputShadow).toMatch(/0px 0px 0px 3px$/);
+            expect(rangeInputShadow).not.toContain('rgba(0, 0, 0, 0)');
+        });
+    }
 });

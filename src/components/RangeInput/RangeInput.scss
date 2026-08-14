@@ -6,9 +6,11 @@ $base-slider: '.#{variables.$ns}base-slider';
 $base-slider-track: '#{$base-slider}__track';
 $slider-mark: '.rc-slider-mark';
 $slider-mark-text: '#{$slider-mark}-text';
+$slider-dot: '.rc-slider-dot';
 
 #{$block} {
     --_--range-input-handle-size: 11px;
+    --_--range-input-track-size: 3px;
     --_--range-input-slider-overlap: 1px;
     --_--range-input-marks-area: 20px;
     --_--range-input-mark-gap: 4px;
@@ -33,6 +35,7 @@ $slider-mark-text: '#{$slider-mark}-text';
     &_size {
         &_s {
             --_--range-input-handle-size: 9px;
+            --_--range-input-track-size: 2px;
             --_--range-input-slider-overlap: 0.5px;
             --_--range-input-track-start-inset: 3.5px;
         }
@@ -43,11 +46,13 @@ $slider-mark-text: '#{$slider-mark}-text';
 
         &_l {
             --_--range-input-handle-size: 12px;
+            --_--range-input-track-size: 4px;
             --_--range-input-track-start-inset: 6px;
         }
 
         &_xl {
             --_--range-input-handle-size: 12px;
+            --_--range-input-track-size: 4px;
             --_--range-input-marks-area: 26px;
             --_--range-input-mark-gap: 6px;
             --_--range-input-mark-line-height: var(--g-text-body-2-line-height);
@@ -77,7 +82,7 @@ $slider-mark-text: '#{$slider-mark}-text';
     &__slider {
         --g-slider-handle-size: var(--_--range-input-handle-size);
         --g-slider-edge-offset: calc(var(--_--range-input-handle-size) / 2);
-        --g-slider-rail-size: 1px;
+        --g-slider-rail-size: var(--_--range-input-track-size);
         --g-slider-dot-size: 2px;
         --g-slider-mark-space: var(--_--range-input-mark-space);
         --g-slider-rail-color: transparent;
@@ -113,6 +118,12 @@ $slider-mark-text: '#{$slider-mark}-text';
 
         #{$slider-mark-text} {
             line-height: var(--_--range-input-mark-line-height);
+        }
+
+        #{$slider-dot} {
+            inset-block-start: calc(
+                (var(--_--range-input-handle-size) - var(--g-slider-dot-size)) / 2
+            );
         }
     }
 }

@@ -13,6 +13,7 @@ const geometryCases: Array<{
     railCenter: number;
     handleTop: number;
     handleSize: number;
+    trackSize: number;
     markTop: number;
     markBottom: number;
     trackStartInset: number;
@@ -24,6 +25,7 @@ const geometryCases: Array<{
         railCenter: 23.5,
         handleTop: 19,
         handleSize: 9,
+        trackSize: 2,
         markTop: 28,
         markBottom: 44,
         trackStartInset: 3.5,
@@ -35,6 +37,7 @@ const geometryCases: Array<{
         railCenter: 27,
         handleTop: 21.5,
         handleSize: 11,
+        trackSize: 3,
         markTop: 32,
         markBottom: 48,
         trackStartInset: 4,
@@ -46,6 +49,7 @@ const geometryCases: Array<{
         railCenter: 35,
         handleTop: 29,
         handleSize: 12,
+        trackSize: 4,
         markTop: 40,
         markBottom: 56,
         trackStartInset: 6,
@@ -57,6 +61,7 @@ const geometryCases: Array<{
         railCenter: 43,
         handleTop: 37,
         handleSize: 12,
+        trackSize: 4,
         markTop: 50,
         markBottom: 70,
         trackStartInset: 7,
@@ -73,7 +78,7 @@ test.describe('RangeInput', {tag: '@RangeInput'}, () => {
                             qa={`range-input-${size}`}
                             size={size}
                             value={50}
-                            marks={[0, 100]}
+                            marks={[0, 25, 50, 75, 100]}
                             aria-label={`${size} range input`}
                         />
                     </div>
@@ -85,27 +90,58 @@ test.describe('RangeInput', {tag: '@RangeInput'}, () => {
             const root = component.getByTestId(`range-input-${expected.size}`);
             const input = root.locator('.g-text-input__content');
             const rail = root.locator('.g-base-slider__rail');
+            const track = root.locator('.g-base-slider__track');
+            const intermediateDot = root.locator('.rc-slider-dot').nth(1);
             const handle = root.locator('.g-base-slider__handle');
             const firstMark = root.locator('.rc-slider-mark-text').first();
             const lastMark = root.locator('.rc-slider-mark-text').last();
 
-            const [rootBox, inputBox, railBox, handleBox, firstMarkBox, lastMarkBox] =
-                await Promise.all([
-                    root.boundingBox(),
-                    input.boundingBox(),
-                    rail.boundingBox(),
-                    handle.boundingBox(),
-                    firstMark.boundingBox(),
-                    lastMark.boundingBox(),
-                ]);
+            const [
+                rootBox,
+                inputBox,
+                railBox,
+                trackBox,
+                trackPaintSize,
+                intermediateDotBox,
+                handleBox,
+                firstMarkBox,
+                lastMarkBox,
+            ] = await Promise.all([
+                root.boundingBox(),
+                input.boundingBox(),
+                rail.boundingBox(),
+                track.boundingBox(),
+                track.evaluate((element) =>
+                    Number.parseFloat(getComputedStyle(element, '::before').height),
+                ),
+                intermediateDot.boundingBox(),
+                handle.boundingBox(),
+                firstMark.boundingBox(),
+                lastMark.boundingBox(),
+            ]);
 
-            if (!rootBox || !inputBox || !railBox || !handleBox || !firstMarkBox || !lastMarkBox) {
+            if (
+                !rootBox ||
+                !inputBox ||
+                !railBox ||
+                !trackBox ||
+                !intermediateDotBox ||
+                !handleBox ||
+                !firstMarkBox ||
+                !lastMarkBox
+            ) {
                 throw new Error(`Failed to measure RangeInput size ${expected.size}`);
             }
 
             expect(rootBox.height).toBe(expected.rootHeight);
             expect(inputBox.height).toBe(expected.inputHeight);
             expect(railBox.y + railBox.height / 2 - rootBox.y).toBe(expected.railCenter);
+            expect(railBox.height).toBe(expected.trackSize);
+            expect(trackBox.height).toBe(expected.trackSize);
+            expect(trackPaintSize).toBe(expected.trackSize);
+            expect(intermediateDotBox.y + intermediateDotBox.height / 2 - rootBox.y).toBe(
+                expected.railCenter,
+            );
             expect(handleBox.y - rootBox.y).toBe(expected.handleTop);
             expect(handleBox.width).toBe(expected.handleSize);
             expect(handleBox.height).toBe(expected.handleSize);

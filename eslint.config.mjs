@@ -43,6 +43,10 @@ export default defineConfig([
                         "MemberExpression[object.name='React'][property.name='useLayoutEffect']",
                     message: "Please use 'src/hooks/useLayoutEffect' instead.",
                 },
+                {
+                    selector: 'TSEnumDeclaration',
+                    message: 'Don\'t use enums. Use union types or "as const" objects instead.',
+                },
             ],
             'jsx-a11y/no-autofocus': 'off',
             'import/no-extraneous-dependencies': 'off',
@@ -54,6 +58,7 @@ export default defineConfig([
     {
         files: ['**/*.ts', '**/*.tsx'],
         rules: {
+            '@typescript-eslint/no-redeclare': 'off',
             '@typescript-eslint/prefer-ts-expect-error': 'error',
             '@typescript-eslint/consistent-type-imports': [
                 'error',

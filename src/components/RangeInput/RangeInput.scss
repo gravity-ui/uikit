@@ -2,10 +2,23 @@
 
 $block: '.#{variables.$ns}range-input';
 $text-input: '.#{variables.$ns}text-input';
+$slider-mark: '.rc-slider-mark';
+$slider-mark-text: '#{$slider-mark}-text';
 
 #{$block} {
     --_--range-input-handle-size: 11px;
-    --_--range-input-mark-space: 14.5px;
+    --_--range-input-slider-overlap: 1px;
+    --_--range-input-marks-area: 20px;
+    --_--range-input-mark-gap: 4px;
+    --_--range-input-mark-line-height: var(--g-text-body-short-line-height);
+    --_--range-input-mark-space: calc(
+        var(--_--range-input-marks-area) +
+            var(--_--range-input-slider-overlap) - var(--_--range-input-handle-size) / 2
+    );
+    --_--range-input-mark-offset: calc(
+        var(--_--range-input-handle-size) /
+            2 - var(--_--range-input-slider-overlap) - var(--_--range-input-mark-gap)
+    );
 
     display: inline-flex;
     flex-direction: column;
@@ -14,22 +27,22 @@ $text-input: '.#{variables.$ns}text-input';
     &_size {
         &_s {
             --_--range-input-handle-size: 9px;
-            --_--range-input-mark-space: 15.5px;
+            --_--range-input-slider-overlap: 0.5px;
         }
 
         &_m {
             --_--range-input-handle-size: 11px;
-            --_--range-input-mark-space: 14.5px;
         }
 
         &_l {
             --_--range-input-handle-size: 12px;
-            --_--range-input-mark-space: 14px;
         }
 
         &_xl {
             --_--range-input-handle-size: 12px;
-            --_--range-input-mark-space: 20px;
+            --_--range-input-marks-area: 26px;
+            --_--range-input-mark-gap: 6px;
+            --_--range-input-mark-line-height: var(--g-text-body-2-line-height);
         }
     }
 
@@ -72,6 +85,16 @@ $text-input: '.#{variables.$ns}text-input';
         position: relative;
         z-index: 1;
         width: 100%;
-        margin-block-start: calc(var(--_--range-input-handle-size) / -2);
+        margin-block-start: calc(
+            var(--_--range-input-handle-size) / -2 - var(--_--range-input-slider-overlap)
+        );
+
+        #{$slider-mark} {
+            inset-block-end: var(--_--range-input-mark-offset);
+        }
+
+        #{$slider-mark-text} {
+            line-height: var(--_--range-input-mark-line-height);
+        }
     }
 }

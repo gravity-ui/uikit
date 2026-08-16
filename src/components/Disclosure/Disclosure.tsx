@@ -8,6 +8,7 @@ import {isOfType} from '../utils/isOfType';
 
 import {DisclosureProvider} from './DisclosureContext';
 import {DisclosureDetails} from './DisclosureDetails/DisclosureDetails';
+import type {DisclosureDetailsProps} from './DisclosureDetails/DisclosureDetails';
 import {DefaultDisclosureSummary, DisclosureSummary} from './DisclosureSummary/DisclosureSummary';
 import {b} from './constants';
 
@@ -47,6 +48,7 @@ export interface DisclosureProps extends QAProps {
 }
 
 const isDisclosureSummaryComponent = isOfType(DisclosureSummary);
+const isDisclosureDetailsComponent = isOfType(DisclosureDetails);
 
 // @ts-expect-error this ts-error is appears when forwarding ref. It complains that DisclosureComposition props is not provided initially
 export const Disclosure: React.FunctionComponent<DisclosureProps> & DisclosureComposition =
@@ -99,8 +101,9 @@ function prepareChildren(children: React.ReactNode, {disclosureQa}: PrepareParam
     const items = React.Children.toArray(children);
 
     let summary, details;
+    let detailsElement: React.ReactElement<DisclosureDetailsProps> | undefined;
 
-    const content = [];
+    const content: React.ReactNode[] = [];
 
     for (const item of items) {
         const isDisclosureSummary = isDisclosureSummaryComponent(item);
@@ -111,14 +114,29 @@ function prepareChildren(children: React.ReactNode, {disclosureQa}: PrepareParam
             summary = item;
             continue;
         }
+
+        if (isDisclosureDetailsComponent(item)) {
+            if (detailsElement) {
+                throw new Error('Only one <Disclosure.Details> component is allowed');
+            }
+
+            detailsElement = item;
+            content.push(item.props.children);
+            continue;
+        }
+
         content.push(item);
     }
-    if (content.length > 0) {
-        details = (
-            <DisclosureDetails qa={disclosureQa && `${disclosureQa}-details`}>
-                {content}
-            </DisclosureDetails>
+
+    const detailsQa = disclosureQa && `${disclosureQa}-details`;
+    if (detailsElement) {
+        details = React.cloneElement(
+            detailsElement,
+            {qa: detailsElement.props.qa ?? detailsQa},
+            content,
         );
+    } else if (content.length > 0) {
+        details = <DisclosureDetails qa={detailsQa}>{content}</DisclosureDetails>;
     }
     if (!summary) {
         summary = (

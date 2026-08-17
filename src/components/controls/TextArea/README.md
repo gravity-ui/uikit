@@ -98,7 +98,8 @@ SANDBOX-->
 ### Error
 
 The state of the `TextArea` where you want to show incorrect user input. To change the appearance of the `TextArea`, use the `validationState` property with the "invalid" value.
-An optional message text can be added via the `errorMessage` property.
+An optional message text can be added via the `errorMessage` property. By default, message text is rendered outside the component.
+This behaviour can be changed with the `errorPlacement` property.
 
 <!--SANDBOX
 import {TextArea} from '@gravity-ui/uikit';
@@ -112,8 +113,8 @@ export default function () {
                 validationState="invalid"
             />
             <TextArea
-                view="clear"
                 placeholder="Placeholder"
+                errorPlacement="inside"
                 errorMessage="Error message"
                 validationState="invalid"
             />
@@ -126,6 +127,7 @@ SANDBOX-->
 
 ```tsx
 <TextArea errorMessage="Error message" validationState="invalid" />
+<TextArea errorPlacement="inside" errorMessage="Error message" validationState="invalid" />
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -237,6 +239,7 @@ SANDBOX-->
 | defaultValue    | The control's default value. Used when the component is not controlled                                                            |                      `string`                       |                 |
 | disabled        | Indicates that the user cannot interact with the control                                                                          |                      `boolean`                      |     `false`     |
 | errorMessage    | Error text                                                                                                                        |                      `string`                       |                 |
+| errorPlacement  | Error placement                                                                                                                   |                 `outside` `inside`                  |    `outside`    |
 | hasClear        | Shows the icon for clearing the control's value                                                                                   |                      `boolean`                      |     `false`     |
 | id              | The control's `id` attribute                                                                                                      |                      `string`                       |                 |
 | maxRows         | The maximum number of visible text lines for the control. Ignored if `rows` is specified                                          |                      `number`                       |                 |

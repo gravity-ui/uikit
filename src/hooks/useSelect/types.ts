@@ -1,4 +1,4 @@
-export type UseSelectOption<T = unknown> = T & {value: string};
+export type UseSelectOption<T = unknown, V = string> = T & {value: V};
 
 export type UseOpenProps = {
     defaultOpen?: boolean;
@@ -7,21 +7,21 @@ export type UseOpenProps = {
     onOpenChange?: (open: boolean) => void;
 };
 
-export type UseSelectProps = {
-    value?: string[];
-    defaultValue?: string[];
+export type UseSelectProps<V = string> = {
+    value?: V[];
+    defaultValue?: V[];
     multiple?: boolean;
-    onUpdate?: (value: string[]) => void;
+    onUpdate?: (value: V[]) => void;
     disabled?: boolean;
 } & UseOpenProps;
 
-export type UseSelectResult<T> = {
+export type UseSelectResult<T, V = string> = {
     open: boolean;
-    value: string[];
+    value: V[];
     activeIndex: number | undefined;
-    handleSelection: (option: UseSelectOption<T>) => void;
+    handleSelection: (option: UseSelectOption<T, V>) => void;
     handleClearValue: () => void;
-    setValue: (value: string[]) => void;
+    setValue: (value: V[]) => void;
     toggleOpen: (val?: boolean | undefined) => void;
     setActiveIndex: React.Dispatch<React.SetStateAction<number | undefined>>;
 };

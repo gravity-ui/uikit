@@ -4,18 +4,18 @@ import {Check} from '@gravity-ui/icons';
 
 import {Icon} from '../../../Icon';
 import {block} from '../../../utils/cn';
-import type {SelectOption, SelectProps} from '../../types';
+import type {SelectOption} from '../../types';
 
 const b = block('select-list');
 
 type DefaultOptionProps = {
-    option: SelectOption;
+    option: SelectOption<any, any>;
 };
 
 type OptionWrapProps = {
-    renderOption?: (option: SelectOption) => React.ReactElement;
-    value: NonNullable<SelectProps['value']>;
-    option: SelectOption;
+    renderOption?: (option: SelectOption<any, any>) => React.ReactElement;
+    value: unknown[];
+    option: SelectOption<any, any>;
     multiple?: boolean;
 };
 
@@ -30,7 +30,7 @@ const DefaultOption = ({option}: DefaultOptionProps) => {
 
 export const OptionWrap = (props: OptionWrapProps) => {
     const {renderOption, value, option, multiple} = props;
-    const selected = value.indexOf(option.value) !== -1;
+    const selected = value.includes(option.value);
     const optionContent = renderOption ? renderOption(option) : <DefaultOption option={option} />;
 
     return (

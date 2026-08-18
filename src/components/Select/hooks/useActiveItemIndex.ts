@@ -9,7 +9,7 @@ export function useActiveItemIndex({
 }: {
     options: FlattenOption[];
     open: boolean;
-    value: string[];
+    value: unknown[];
 }) {
     const [activeIndex, setActiveIndex] = React.useState<number | undefined>(() => {
         if (open) {
@@ -37,7 +37,7 @@ export function useActiveItemIndex({
     return [activeIndexFinal, setActiveIndex] as const;
 }
 
-function getInitialActiveItemIndex(options: FlattenOption[], value: string[]) {
+function getInitialActiveItemIndex(options: FlattenOption[], value: unknown[]) {
     let itemIndex = -1;
     if (value.length > 0) {
         itemIndex = options.findIndex(

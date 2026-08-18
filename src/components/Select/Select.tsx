@@ -38,9 +38,15 @@ import {
 import './Select.scss';
 
 //https://stackoverflow.com/a/58473012
-type SelectComponent = (<T = any>(
-    p: SelectProps<T> & {ref?: React.Ref<HTMLButtonElement>},
-) => React.ReactElement) & {Option: typeof Option} & {OptionGroup: typeof OptionGroup};
+type SelectComponent = {
+    <T = any, V = string>(
+        p: SelectProps<T, V> & {ref?: React.Ref<HTMLButtonElement>},
+    ): React.ReactElement;
+    // React.ComponentProps and Storybook Meta ignore the V = string default; they resolve to the last signature.
+    (p: SelectProps & {ref?: React.Ref<HTMLButtonElement>}): React.ReactElement;
+    Option: typeof Option;
+    OptionGroup: typeof OptionGroup;
+};
 
 export const DEFAULT_RENDER_POPUP: SelectRenderPopup = ({renderFilter, renderList}) => {
     return (
@@ -51,8 +57,11 @@ export const DEFAULT_RENDER_POPUP: SelectRenderPopup = ({renderFilter, renderLis
     );
 };
 
-export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function Select<T = any>(
-    rawProps: SelectProps<T>,
+// Internal view of the public props with the value/data generics erased
+type ErasedSelectProps = SelectProps<unknown, unknown>;
+
+export const Select = React.forwardRef<HTMLButtonElement, ErasedSelectProps>(function Select(
+    rawProps: ErasedSelectProps,
     ref: React.Ref<HTMLButtonElement>,
 ) {
     const props = useDefaultProps('Select', rawProps);

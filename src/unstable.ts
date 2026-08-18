@@ -59,6 +59,11 @@ export {
 } from './components/lab/FileDropZone';
 
 export {
+    Suggest as unstable_Suggest,
+    type SuggestProps as unstable_SuggestProps,
+} from './components/lab/Suggest';
+
+export {
     type UseDropZoneEventHandler,
     type UseDropZoneParams,
     type UseDropZoneDroppableProps,

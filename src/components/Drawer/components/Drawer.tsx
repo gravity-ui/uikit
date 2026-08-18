@@ -75,6 +75,7 @@ export interface DrawerProps
     onResizeEnd?: OnResizeHandler;
     /**
      * Removes the drawer's veil.
+     * Outside click handling is controlled separately by `disableOutsideClick`.
      * @default false
      */
     hideVeil?: boolean;
@@ -108,6 +109,7 @@ export const Drawer = (rawProps: DrawerProps) => {
         style,
         qa,
         disableEscapeKeyDown,
+        disableOutsideClick = false,
         initialFocus,
         returnFocus,
         disableBodyScrollLock = false,
@@ -127,7 +129,6 @@ export const Drawer = (rawProps: DrawerProps) => {
         ...restProps
     } = useDefaultProps('Drawer', rawProps);
     const floatingNodeId = useFloatingNodeId();
-    const disableOutsideClick = hideVeil || restProps.disableOutsideClick;
 
     const {refs, context} = useFloating({
         nodeId: floatingNodeId,
@@ -152,6 +153,10 @@ export const Drawer = (rawProps: DrawerProps) => {
         outsidePress: (event) => {
             if (disableOutsideClick) {
                 return false;
+            }
+
+            if (hideVeil) {
+                return true;
             }
 
             const isOwnOutsideClick =

@@ -1,0 +1,24 @@
+@use '../../variables';
+@use '../../../../styles/mixins';
+
+$block: '.#{variables.$ns}list-v2-section-header';
+
+#{$block} {
+    display: flex;
+    align-items: flex-end;
+
+    padding: var(--g-spacing-1) var(--g-spacing-2);
+
+    color: var(--g-color-text-secondary);
+
+    @include mixins.text-caption-2;
+
+    &_size_l,
+    &_size_xl {
+        @include mixins.text-caption-1;
+    }
+
+    &:not(:first-child) {
+        margin-block-start: var(--g-spacing-1);
+    }
+}

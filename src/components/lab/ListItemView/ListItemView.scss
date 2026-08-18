@@ -225,10 +225,6 @@ $block: '.#{variables.$ns}lab-list-item-view';
         --_--padding-block: 0;
     }
 
-    &:focus {
-        --_--background-color: var(--_--background-color-hover);
-    }
-
     &:not(&_hovered_no):hover,
     &_hovered_yes {
         --_--background-color: var(--_--background-color-hover);
@@ -244,6 +240,17 @@ $block: '.#{variables.$ns}lab-list-item-view';
         --_--background-color-hover: var(--_--background-color-selected-hover);
     }
 
+    // «Курсор» на выбранной строке — пара selection/selection-hover: правила
+    // выше поодиночке конфликтуют (_selected ниже по файлу и перебивает фон
+    // _active). Раньше эту работу делал фолбэк `&:focus { background: hover }`,
+    // но он требовал DOM-фокуса на строке (в activedescendant-режиме lab/List
+    // курсор на выбранной строке терялся) и рисовал «застрявший ховер» на
+    // любой строке, держащей фокус после клика, — фолбэк удалён, индикацией
+    // владеют состояния active/hovered/selected
+    &_selected#{$block}_active {
+        --_--background-color: var(--_--background-color-hover);
+    }
+
     &_disabled {
         pointer-events: none;
 
@@ -255,6 +262,12 @@ $block: '.#{variables.$ns}lab-list-item-view';
             --_--description-color: var(--_--text-color-disabled);
             outline: none;
         }
+    }
+
+    // Disabled-строки навигабельны с клавиатуры (APG discoverability, lab/List):
+    // индикация активности не должна подавляться disabled-фоном
+    &_disabled#{$block}_active {
+        --_--background-color: var(--_--background-color-hover);
     }
 
     &__arrow {

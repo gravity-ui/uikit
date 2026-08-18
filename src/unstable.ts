@@ -48,6 +48,23 @@ export {
 } from './components/lab/Menu';
 
 export {
+    List as unstable_List,
+    moveItem as unstable_moveItem,
+    useListFocusOwner as unstable_useListFocusOwner,
+    type ListFocusOwner as unstable_ListFocusOwner,
+    type ListProps as unstable_ListProps,
+    type ListSelectionProps as unstable_ListSelectionProps,
+    type ListDndAdapter as unstable_ListDndAdapter,
+    type ListDropTarget as unstable_ListDropTarget,
+    type ListItemContext as unstable_ListItemContext,
+    type ListActivationModality as unstable_ListActivationModality,
+    type ListItemHelpers as unstable_ListItemHelpers,
+    type ListItemGetters as unstable_ListItemGetters,
+    type ListRole as unstable_ListRole,
+    type ListSize as unstable_ListSize,
+} from './components/lab/List';
+
+export {
     ColorPicker as unstable_ColorPicker,
     type ColorPickerProps as unstable_ColorPickerProps,
 } from './components/lab/ColorPicker';

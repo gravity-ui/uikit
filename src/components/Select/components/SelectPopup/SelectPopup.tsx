@@ -33,6 +33,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             virtualized,
             mobile,
             id,
+            modal,
         },
         ref,
     ) =>
@@ -59,6 +60,8 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
                 id={id}
                 onTransitionIn={onAfterOpen}
                 onTransitionOutComplete={onAfterClose}
+                modal={modal}
+                initialFocus={modal ? 0 : undefined}
             >
                 {children}
             </Popup>

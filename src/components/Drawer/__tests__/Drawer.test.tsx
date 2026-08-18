@@ -49,6 +49,7 @@ describe('Drawer', () => {
         await user.click(screen.getByText('Outside action'));
 
         expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'outside-press');
+        expect(onOpenChange).toHaveBeenCalledTimes(1);
         expect(onOutsideClick).toHaveBeenCalledTimes(1);
     });
 

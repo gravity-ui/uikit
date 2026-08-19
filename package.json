@@ -105,6 +105,7 @@
     "test:watch": "jest --watchAll",
     "clean": "gulp clean",
     "build": "gulp",
+    "generate:theme": "tsx scripts/generate-theme-scss.mjs",
     "start": "storybook dev -p 7007",
     "build-storybook": "storybook build -c .storybook -o storybook-static",
     "test-storybook": "test-storybook",
@@ -156,6 +157,7 @@
     "@gravity-ui/prettier-config": "^1.1.0",
     "@gravity-ui/stylelint-config": "^5.0.0",
     "@gravity-ui/tsconfig": "^1.0.0",
+    "@gravity-ui/uikit-themer": "^1.8.1",
     "@playwright/experimental-ct-react": "^1.56.0",
     "@playwright/test": "^1.56.0",
     "@storybook/addon-a11y": "^9.0.5",
@@ -208,6 +210,7 @@
     "stylelint": "^16.25.0",
     "stylelint-use-logical": "^2.1.2",
     "ts-jest": "^29.4.5",
+    "tsx": "^4.23.1",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {

@@ -51,10 +51,10 @@ function getLogicalAxisState(
     offset: number,
     scrollSize: number,
     clientSize: number,
-    reverse: boolean,
+    hasNegativeOffset: boolean,
 ) {
     const maxOffset = Math.max(scrollSize - clientSize, 0);
-    const normalizedOffset = reverse ? Math.abs(offset) : offset;
+    const normalizedOffset = Math.min(maxOffset, Math.max(0, hasNegativeOffset ? -offset : offset));
 
     return {
         start: normalizedOffset > SCROLL_THRESHOLD,
@@ -212,7 +212,18 @@ export const ScrollShadow = React.forwardRef<HTMLDivElement, ScrollShadowProps>(
                     ? undefined
                     : new ResizeObserver(() => updateEdgeVisibility());
             const observedChildren = new Set<Element>();
+            let animationFrameId: number | undefined;
             const handleWindowResize = () => updateEdgeVisibility();
+            const scheduleUpdateEdgeVisibility = () => {
+                if (animationFrameId !== undefined) {
+                    return;
+                }
+
+                animationFrameId = requestAnimationFrame(() => {
+                    animationFrameId = undefined;
+                    updateEdgeVisibility();
+                });
+            };
             const observeChildren = () => {
                 const currentChildren = new Set(Array.from(element.children));
 
@@ -236,9 +247,15 @@ export const ScrollShadow = React.forwardRef<HTMLDivElement, ScrollShadowProps>(
                 window.addEventListener('resize', handleWindowResize);
             }
 
-            const mutationObserver = new MutationObserver(() => {
-                observeChildren();
-                updateEdgeVisibility();
+            const mutationObserver = new MutationObserver((mutations) => {
+                if (
+                    mutations.some(
+                        (mutation) => mutation.type === 'childList' && mutation.target === element,
+                    )
+                ) {
+                    observeChildren();
+                }
+                scheduleUpdateEdgeVisibility();
             });
             mutationObserver.observe(element, {
                 childList: true,
@@ -247,6 +264,9 @@ export const ScrollShadow = React.forwardRef<HTMLDivElement, ScrollShadowProps>(
             });
 
             return () => {
+                if (animationFrameId !== undefined) {
+                    cancelAnimationFrame(animationFrameId);
+                }
                 resizeObserver?.disconnect();
                 mutationObserver.disconnect();
                 window.removeEventListener('resize', handleWindowResize);

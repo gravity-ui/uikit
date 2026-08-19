@@ -36,7 +36,7 @@ The API uses logical directions. The default `axis="block"` works for vertically
 
 ## CSS API
 
-The shadow size and color are customized with CSS variables:
+The shadow depth and edge fade color are customized with CSS variables:
 
 ```css
 .custom-scroll-shadow {
@@ -45,10 +45,10 @@ The shadow size and color are customized with CSS variables:
 }
 ```
 
-| Variable                  | Description  | Default                |
-| :------------------------ | :----------- | :--------------------- |
-| `--g-scroll-shadow-size`  | Shadow depth | `24px`                 |
-| `--g-scroll-shadow-color` | Shadow color | `--g-color-sfx-shadow` |
+| Variable                  | Description     | Default                                                            |
+| :------------------------ | :-------------- | :----------------------------------------------------------------- |
+| `--g-scroll-shadow-size`  | Shadow depth    | `24px`                                                             |
+| `--g-scroll-shadow-color` | Edge fade color | `--g-color-sfx-shadow` (light), `--g-color-base-background` (dark) |
 
 ## Properties
 

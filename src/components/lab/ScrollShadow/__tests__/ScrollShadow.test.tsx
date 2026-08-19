@@ -169,7 +169,19 @@ describe('ScrollShadow', () => {
         expect(element).toHaveAttribute('data-scroll-shadow-left', 'true');
         expect(element).not.toHaveAttribute('data-scroll-shadow-right');
 
-        setScrollMetrics(element, {scrollLeft: -200});
+        setScrollMetrics(element, {scrollLeft: 5});
+        fireEvent.scroll(element);
+
+        expect(element).toHaveAttribute('data-scroll-shadow-left', 'true');
+        expect(element).not.toHaveAttribute('data-scroll-shadow-right');
+
+        setScrollMetrics(element, {scrollLeft: -80});
+        fireEvent.scroll(element);
+
+        expect(element).toHaveAttribute('data-scroll-shadow-left', 'true');
+        expect(element).toHaveAttribute('data-scroll-shadow-right', 'true');
+
+        setScrollMetrics(element, {scrollLeft: -205});
         fireEvent.scroll(element);
 
         expect(element).not.toHaveAttribute('data-scroll-shadow-left');

@@ -2,10 +2,24 @@
 @use '../../../../styles/mixins';
 
 $block: '.#{variables.$ns}scroll-shadow';
+$root: '.#{variables.$ns}root';
+
+#{$root}_theme_light,
+#{$root}_theme_light-hc {
+    --_--scroll-shadow-default-color: var(--g-color-sfx-shadow);
+}
+
+#{$root}_theme_dark,
+#{$root}_theme_dark-hc {
+    --_--scroll-shadow-default-color: var(--g-color-base-background);
+}
 
 #{$block} {
     --_--size: var(--g-scroll-shadow-size, 24px);
-    --_--color: var(--g-scroll-shadow-color, var(--g-color-sfx-shadow));
+    --_--color: var(
+        --g-scroll-shadow-color,
+        var(--_--scroll-shadow-default-color, var(--g-color-sfx-shadow))
+    );
     --_--top-color: transparent;
     --_--right-color: transparent;
     --_--bottom-color: transparent;

@@ -323,12 +323,12 @@ export function SheetContent(props: SheetContentProps) {
             observerRef.current.observe(sheetMarginBoxRef.current);
         }
 
-        show();
-
         const initialHeight = getAvailableContentHeight(getSheetContentHeight());
 
         setInitialStyles(initialHeight);
         prevSheetHeightRef.current = initialHeight;
+
+        show();
 
         return () => {
             window.removeEventListener('resize', onResizeWindow);

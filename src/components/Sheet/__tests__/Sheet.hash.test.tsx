@@ -4,6 +4,11 @@ import {fireEvent, render, screen} from '../../../../test-utils/utils';
 import type {History, Location} from '../../mobile';
 import {MobileProvider, Platform} from '../../mobile';
 import {Sheet} from '../Sheet';
+import {SheetQa} from '../constants';
+
+const SHEET_HEIGHT = 300;
+const TOUCH_START_POINT = 100;
+const SHORT_SWIPE_DISTANCE = 30;
 
 function normalizeHash(hash: string) {
     if (!hash) {
@@ -79,7 +84,29 @@ function HashedSheets({onHashChange}: HashedSheetsProps) {
     );
 }
 
+function shortSwipe(area: Element) {
+    fireEvent.touchStart(area, {touches: [{clientX: 0, clientY: TOUCH_START_POINT}]});
+    fireEvent.touchMove(area, {
+        touches: [{clientX: 0, clientY: TOUCH_START_POINT + SHORT_SWIPE_DISTANCE}],
+    });
+    fireEvent.touchEnd(area, {
+        touches: [{clientX: 0, clientY: TOUCH_START_POINT + SHORT_SWIPE_DISTANCE}],
+    });
+}
+
 describe('Sheet hash', () => {
+    let getBoundingClientRectSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+        getBoundingClientRectSpy = jest
+            .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+            .mockReturnValue({height: SHEET_HEIGHT, width: 0, top: 0, left: 0} as DOMRect);
+    });
+
+    afterEach(() => {
+        getBoundingClientRectSpy.mockRestore();
+    });
+
     test('restores hashes correctly when multiple sheets are closed', () => {
         let currentHash = '';
         const onHashChange = (hash: string) => {
@@ -92,19 +119,20 @@ describe('Sheet hash', () => {
         fireEvent.click(screen.getByText('Open A'));
         expect(currentHash).toBe('#sheetA');
 
-        // Open Sheet B on top of Sheet A — the previous hash is remembered.
+        // Open Sheet B on top of Sheet A — the previous hash (Sheet A) is remembered on the stack.
         fireEvent.click(screen.getByText('Open B'));
         expect(currentHash).toBe('#sheetB');
 
-        // Open Sheet B again — the previous hash is remembered.
-        fireEvent.click(screen.getByText('Open B'));
+        // A short swipe keeps Sheet B open and re-runs show().
+        const swipeArea = screen.getAllByTestId(SheetQa.SWIPE_AREA).at(-1) as Element;
+        shortSwipe(swipeArea);
         expect(currentHash).toBe('#sheetB');
 
-        // Close Sheet B — the previous hash (Sheet A) is restored.
+        // Close Sheet B — the previous hash (Sheet A) is restored exactly once.
         fireEvent.click(screen.getByText('Close B'));
         expect(currentHash).toBe('#sheetA');
 
-        // Close Sheet A — the hash is cleared.
+        // Close Sheet A — the hash is cleared, proving the stack held a single '#sheetA' entry.
         fireEvent.click(screen.getByText('Close A'));
         expect(currentHash).toBe('');
     });

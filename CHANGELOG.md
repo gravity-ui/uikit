@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.48.1](https://github.com/gravity-ui/uikit/compare/v7.48.0...v7.48.1) (2026-08-21)
+
+
+### Bug Fixes
+
+* **Drawer:** support outside clicks without veil ([#2787](https://github.com/gravity-ui/uikit/issues/2787)) ([2e01da5](https://github.com/gravity-ui/uikit/commit/2e01da592246c1a6d2d274d68adb1631cbb6459e))
+* **Modal:** constrain scrollable content to overlay ([#2789](https://github.com/gravity-ui/uikit/issues/2789)) ([ff06988](https://github.com/gravity-ui/uikit/commit/ff069886ec73490999d8e124b414cf61aecbe8da))
+
 ## [7.48.0](https://github.com/gravity-ui/uikit/compare/v7.47.2...v7.48.0) (2026-08-11)
 
 

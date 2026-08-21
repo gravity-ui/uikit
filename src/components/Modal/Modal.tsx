@@ -144,6 +144,7 @@ function ModalComponent(rawProps: ModalProps) {
     useLayer({open, type: 'modal'});
     const mobileModals = React.useContext(MobileContext).__experimentalMobileModals ?? false;
     const mobile = useMobile() && mobileModals;
+    const hasScroll = mobile || contentOverflow === 'auto';
 
     const overlayRef = React.useRef<HTMLDivElement>(null);
     const [isVisible, setIsVisible] = React.useState(false);
@@ -298,12 +299,12 @@ function ModalComponent(rawProps: ModalProps) {
                             }
                             restoreFocus={true}
                         >
-                            <div className={b('content-aligner')}>
+                            <div className={b('content-aligner', {'has-scroll': hasScroll})}>
                                 <div
                                     {...filterDOMProps(restProps, {labelable: true})}
                                     className={b(
                                         'content',
-                                        {'has-scroll': mobile ? true : contentOverflow === 'auto'},
+                                        {'has-scroll': hasScroll},
                                         contentClassName,
                                     )}
                                     ref={handleFloatingRef}

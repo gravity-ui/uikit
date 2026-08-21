@@ -6,6 +6,7 @@ import {MobileProvider} from '../../mobile';
 import {Modal} from '../Modal';
 
 import {ModalQa} from './constants';
+import {getModalLayoutMetrics} from './helpers';
 
 test.describe('Modal', {tag: '@Modal'}, () => {
     test('smoke', {tag: ['@smoke']}, async ({mount, page, expectScreenshot}) => {
@@ -28,6 +29,8 @@ test.describe('Modal', {tag: '@Modal'}, () => {
     });
 
     test('constrains horizontally overflowing content to the overlay', async ({mount, page}) => {
+        const modalMargin = 24;
+
         await page.setViewportSize({width: 400, height: 500});
 
         await mount(
@@ -35,7 +38,7 @@ test.describe('Modal', {tag: '@Modal'}, () => {
                 open
                 contentOverflow="auto"
                 qa={ModalQa.content}
-                style={{'--g-modal-margin': '24px'} as React.CSSProperties}
+                style={{'--g-modal-margin': `${modalMargin}px`} as React.CSSProperties}
             >
                 <div style={{width: 600}}>Wide modal content</div>
             </Modal>,
@@ -48,27 +51,19 @@ test.describe('Modal', {tag: '@Modal'}, () => {
         await expect(overlay).toHaveAttribute('data-floating-ui-status', 'open');
         await expect(aligner).toHaveClass(/g-modal__content-aligner_has-scroll/);
 
-        const metrics = await overlay.evaluate((overlayElement) => {
-            const alignerElement = overlayElement.querySelector<HTMLElement>(
-                '.g-modal__content-aligner',
-            );
-            const contentElement = overlayElement.querySelector<HTMLElement>('.g-modal__content');
-
-            if (!alignerElement || !contentElement) {
-                throw new Error('Modal layout elements are missing');
-            }
-
-            return {
-                overlayClientWidth: overlayElement.clientWidth,
-                overlayScrollWidth: overlayElement.scrollWidth,
-                alignerClientWidth: alignerElement.clientWidth,
-                contentClientWidth: contentElement.clientWidth,
-                contentScrollWidth: contentElement.scrollWidth,
-            };
-        });
+        const metrics = await getModalLayoutMetrics(overlay);
 
         expect(metrics.alignerClientWidth).toBe(metrics.overlayClientWidth);
-        expect(metrics.contentClientWidth).toBe(352);
+        expect(metrics.contentMarginInlineStart).toBe(modalMargin);
+        expect(metrics.contentMarginInlineEnd).toBe(modalMargin);
+        expect(
+            Math.abs(
+                metrics.contentClientWidth +
+                    metrics.contentMarginInlineStart +
+                    metrics.contentMarginInlineEnd -
+                    metrics.alignerClientWidth,
+            ),
+        ).toBeLessThanOrEqual(1);
         expect(metrics.contentScrollWidth).toBeGreaterThan(metrics.contentClientWidth);
         expect(metrics.overlayScrollWidth - metrics.overlayClientWidth).toBeLessThanOrEqual(1);
 
@@ -96,20 +91,7 @@ test.describe('Modal', {tag: '@Modal'}, () => {
         await expect(overlay).toHaveAttribute('data-floating-ui-status', 'open');
         await expect(aligner).not.toHaveClass(/g-modal__content-aligner_has-scroll/);
 
-        const metrics = await overlay.evaluate((overlayElement) => {
-            const alignerElement = overlayElement.querySelector<HTMLElement>(
-                '.g-modal__content-aligner',
-            );
-
-            if (!alignerElement) {
-                throw new Error('Modal content aligner is missing');
-            }
-
-            return {
-                overlayClientWidth: overlayElement.clientWidth,
-                alignerClientWidth: alignerElement.clientWidth,
-            };
-        });
+        const metrics = await getModalLayoutMetrics(overlay);
 
         expect(metrics.alignerClientWidth).toBeGreaterThan(metrics.overlayClientWidth);
     });
@@ -131,22 +113,7 @@ test.describe('Modal', {tag: '@Modal'}, () => {
         await expect(overlay).toHaveAttribute('data-floating-ui-status', 'open');
         await expect(aligner).toHaveClass(/g-modal__content-aligner_has-scroll/);
 
-        const metrics = await overlay.evaluate((overlayElement) => {
-            const alignerElement = overlayElement.querySelector<HTMLElement>(
-                '.g-modal__content-aligner',
-            );
-            const contentElement = overlayElement.querySelector<HTMLElement>('.g-modal__content');
-
-            if (!alignerElement || !contentElement) {
-                throw new Error('Modal layout elements are missing');
-            }
-
-            return {
-                overlayClientWidth: overlayElement.clientWidth,
-                alignerClientWidth: alignerElement.clientWidth,
-                contentClientWidth: contentElement.clientWidth,
-            };
-        });
+        const metrics = await getModalLayoutMetrics(overlay);
 
         expect(metrics.alignerClientWidth).toBe(metrics.overlayClientWidth);
         expect(metrics.contentClientWidth).toBe(metrics.overlayClientWidth);

@@ -2,6 +2,7 @@ import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests
 
 import {expect, test} from '~playwright/core';
 
+import {getModalLayoutMetrics} from '../../Modal/__tests__/helpers';
 import {Dialog} from '../Dialog';
 import type {DialogProps} from '../Dialog';
 import type {DialogBodyProps} from '../DialogBody/DialogBody';
@@ -54,34 +55,24 @@ test.describe('Dialog', {tag: '@Dialog'}, () => {
 
         await expect(overlay).toHaveAttribute('data-floating-ui-status', 'open');
 
-        const getMetrics = () =>
-            overlay.evaluate((overlayElement) => {
-                const alignerElement = overlayElement.querySelector<HTMLElement>(
-                    '.g-modal__content-aligner',
-                );
-                const contentElement =
-                    overlayElement.querySelector<HTMLElement>('.g-modal__content');
+        const wideMetrics = await getModalLayoutMetrics(overlay);
 
-                if (!alignerElement || !contentElement) {
-                    throw new Error('Dialog modal layout elements are missing');
-                }
-
-                return {
-                    overlayClientWidth: overlayElement.clientWidth,
-                    overlayScrollWidth: overlayElement.scrollWidth,
-                    alignerClientWidth: alignerElement.clientWidth,
-                    contentClientWidth: contentElement.clientWidth,
-                };
-            });
-
-        expect((await getMetrics()).contentClientWidth).toBe(720);
+        expect(wideMetrics.contentMaxWidth).toBeGreaterThan(0);
+        expect(wideMetrics.contentClientWidth).toBe(wideMetrics.contentMaxWidth);
 
         await page.setViewportSize({width: 400, height: 600});
 
-        const narrowMetrics = await getMetrics();
+        const narrowMetrics = await getModalLayoutMetrics(overlay);
 
         expect(narrowMetrics.alignerClientWidth).toBe(narrowMetrics.overlayClientWidth);
-        expect(narrowMetrics.contentClientWidth).toBe(360);
+        expect(
+            Math.abs(
+                narrowMetrics.contentClientWidth +
+                    narrowMetrics.contentMarginInlineStart +
+                    narrowMetrics.contentMarginInlineEnd -
+                    narrowMetrics.alignerClientWidth,
+            ),
+        ).toBeLessThanOrEqual(1);
         expect(
             narrowMetrics.overlayScrollWidth - narrowMetrics.overlayClientWidth,
         ).toBeLessThanOrEqual(1);
@@ -114,7 +105,9 @@ test.describe('Dialog', {tag: '@Dialog'}, () => {
 
         await page.setViewportSize({width: 1000, height: 600});
 
-        expect((await getMetrics()).contentClientWidth).toBe(720);
+        expect((await getModalLayoutMetrics(overlay)).contentClientWidth).toBe(
+            wideMetrics.contentClientWidth,
+        );
         await expect(content).toBeVisible();
     });
 

@@ -23,9 +23,8 @@ const preview: Preview = {
             codePanel: true,
         },
         jsx: {showFunctions: true}, // To show functions in sources
-        backgrounds: {disable: true},
         viewport: {
-            viewports: MINIMAL_VIEWPORTS,
+            options: MINIMAL_VIEWPORTS,
         },
         options: {
             storySort: {
@@ -43,6 +42,7 @@ const preview: Preview = {
     },
     globalTypes: {
         theme: {
+            description: 'Theme',
             toolbar: {
                 title: 'Theme',
                 icon: 'mirror',
@@ -56,6 +56,7 @@ const preview: Preview = {
             },
         },
         lang: {
+            description: 'Language',
             toolbar: {
                 title: 'Language',
                 icon: 'globe',
@@ -67,6 +68,7 @@ const preview: Preview = {
             },
         },
         direction: {
+            description: 'Direction',
             toolbar: {
                 title: 'Direction',
                 icon: 'menu',
@@ -78,6 +80,7 @@ const preview: Preview = {
             },
         },
         platform: {
+            description: 'Platform',
             toolbar: {
                 title: 'Platform',
                 items: [

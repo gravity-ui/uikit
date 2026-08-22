@@ -33,7 +33,7 @@ export const Default: Story = {
 
 export const Delay: Story = {
     render: (args) => (
-        <Flex gap={3} justifyContent="center" wrap>
+        <Flex gap="spacing-3" justifyContent="center" wrap>
             <Tooltip {...args} openDelay={500}>
                 <Button>Open Delay: 500ms</Button>
             </Tooltip>

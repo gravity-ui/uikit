@@ -121,7 +121,7 @@ const noClickableTemplateActions = [
 
 const NoClickableTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> = () => {
     return (
-        <Flex gap={4}>
+        <Flex gap="spacing-4">
             <FilePreview file={{name: 'No clickable', type: 'text/docs'} as File} />
             <FilePreview
                 file={{name: 'No clickable with actions', type: 'text/docs'} as File}
@@ -188,7 +188,7 @@ const withoutActionTooltipTemplateActions = [
 
 const WithoutActionTooltipTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> = () => {
     return (
-        <Flex gap={4}>
+        <Flex gap="spacing-4">
             <FilePreview
                 file={{name: 'Clicable without tooltip', type: 'text/docs'} as File}
                 onClick={() => action('onClick')}

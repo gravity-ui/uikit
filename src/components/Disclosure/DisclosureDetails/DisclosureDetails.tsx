@@ -16,22 +16,24 @@ export interface DisclosureDetailsProps extends QAProps {
 
 export function DisclosureDetails({children, qa, className}: DisclosureDetailsProps) {
     const {ariaControls, ariaLabelledby, keepMounted, expanded} = useDisclosureAttributes();
-    const rootRef = React.useRef<HTMLDivElement>(null);
+    const containerRef = React.useRef<HTMLDivElement>(null);
     const innerRef = React.useRef<HTMLDivElement>(null);
+    const expandedRef = React.useRef(expanded);
     const prefersReducedMotion = useMatchMedia({media: '(prefers-reduced-motion: reduce)'});
 
+    expandedRef.current = expanded;
+
     const setHeight = (height: number | null) => {
-        if (rootRef.current) {
-            rootRef.current.style.height = height === null ? '' : `${height}px`;
+        if (containerRef.current) {
+            containerRef.current.style.height = height === null ? '' : `${height}px`;
         }
     };
 
-    const getContentHeight = () => innerRef.current?.offsetHeight || 0;
     const setMeasuredHeight = () => {
-        setHeight(getContentHeight());
+        setHeight(innerRef.current?.offsetHeight ?? 0);
     };
     const startCollapse = () => {
-        rootRef.current?.getBoundingClientRect();
+        containerRef.current?.getBoundingClientRect();
         setHeight(0);
     };
     const finishTransition = () => {
@@ -41,9 +43,17 @@ export function DisclosureDetails({children, qa, className}: DisclosureDetailsPr
     return (
         <Transition
             key={keepMounted ? 'persistent' : 'temporary'}
-            nodeRef={rootRef}
+            nodeRef={containerRef}
             in={expanded}
-            addEndListener={(done) => waitForTransition(rootRef.current, done)}
+            addEndListener={(done) =>
+                waitForStableTransition(
+                    containerRef.current,
+                    innerRef.current,
+                    expanded,
+                    () => expandedRef.current,
+                    done,
+                )
+            }
             enter={!prefersReducedMotion}
             exit={!prefersReducedMotion}
             mountOnEnter={!keepMounted}
@@ -63,17 +73,21 @@ export function DisclosureDetails({children, qa, className}: DisclosureDetailsPr
 
                 return (
                     <div
-                        ref={rootRef}
-                        {...hiddenAttributes}
-                        aria-hidden={expanded ? undefined : true}
-                        id={ariaControls}
-                        role="region"
-                        aria-labelledby={ariaLabelledby}
-                        className={b('content', {visible, transitioning}, className)}
-                        data-qa={qa || DisclosureQa.DETAILS}
+                        ref={containerRef}
+                        className={b('content-container', {visible, transitioning})}
                     >
                         <div ref={innerRef} className={b('content-wrapper')}>
-                            <div className={b('content-inner')}>{children}</div>
+                            <div
+                                {...hiddenAttributes}
+                                aria-hidden={expanded ? undefined : true}
+                                id={ariaControls}
+                                role="region"
+                                aria-labelledby={ariaLabelledby}
+                                className={b('content', {visible, transitioning}, className)}
+                                data-qa={qa || DisclosureQa.DETAILS}
+                            >
+                                {children}
+                            </div>
                         </div>
                     </div>
                 );
@@ -92,6 +106,8 @@ function waitForTransition(element: HTMLElement | null, done: () => void) {
         .getAnimations()
         .filter(
             (animation) =>
+                animation.playState !== 'finished' &&
+                animation.playState !== 'idle' &&
                 'transitionProperty' in animation &&
                 (animation.transitionProperty === 'height' ||
                     animation.transitionProperty === 'opacity'),
@@ -103,6 +119,33 @@ function waitForTransition(element: HTMLElement | null, done: () => void) {
     }
 
     Promise.allSettled(transitions.map((transition) => transition.finished)).then(() => done());
+}
+
+function waitForStableTransition(
+    container: HTMLElement | null,
+    content: HTMLElement | null,
+    entering: boolean,
+    isExpanded: () => boolean,
+    done: () => void,
+) {
+    waitForTransition(container, () => {
+        if (!entering || !isExpanded() || !container || !content) {
+            done();
+            return;
+        }
+
+        const nextHeight = content.offsetHeight;
+        if (container.offsetHeight === nextHeight) {
+            done();
+            return;
+        }
+
+        const containerElement = container;
+        containerElement.style.height = `${nextHeight}px`;
+        window.requestAnimationFrame(() => {
+            waitForStableTransition(containerElement, content, entering, isExpanded, done);
+        });
+    });
 }
 
 DisclosureDetails.displayName = 'DisclosureDetails';

@@ -44,7 +44,7 @@ $transition-easing: linear;
         cursor: auto;
     }
 
-    &__content {
+    &__content-container {
         display: block;
         height: 0;
         overflow: hidden;
@@ -55,28 +55,25 @@ $transition-easing: linear;
         opacity: 0;
     }
 
-    &__content_visible {
+    &__content-container_visible {
         height: auto;
         contain: none;
         overflow: visible;
         opacity: 1;
     }
 
-    &__content_transitioning {
+    &__content-container_transitioning {
         overflow: hidden;
     }
 
     &__content-wrapper {
         display: flex;
-        width: 100%;
-    }
-
-    &__content-inner {
+        flex-direction: column;
         width: 100%;
     }
 
     @media (prefers-reduced-motion: reduce) {
-        &__content {
+        &__content-container {
             transition: none;
         }
     }

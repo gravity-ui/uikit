@@ -82,9 +82,7 @@ export const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps
                 )}
             >
                 {preparedSummary}
-                <Disclosure.Details>
-                    <div className={accordionDetailsBlock}>{details}</div>
-                </Disclosure.Details>
+                <Disclosure.Details className={accordionDetailsBlock}>{details}</Disclosure.Details>
             </Disclosure>
         );
     },

@@ -25,6 +25,10 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
         display: inline-flex;
         align-items: center;
         justify-content: center;
+
+        &_has-scroll {
+            width: 100%;
+        }
     }
 
     &__content {
@@ -42,6 +46,7 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
         transition: $modal-height-transition;
 
         &_has-scroll {
+            min-width: 0;
             overflow: auto;
             max-width: var(
                 --g-modal-max-width,

@@ -1,7 +1,8 @@
 import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {test} from '~playwright/core';
+import {expect, test} from '~playwright/core';
 
+import {getModalLayoutMetrics} from '../../Modal/__tests__/helpers';
 import {Dialog} from '../Dialog';
 import type {DialogProps} from '../Dialog';
 import type {DialogBodyProps} from '../DialogBody/DialogBody';
@@ -40,6 +41,76 @@ interface AllDialogProps {
 }
 
 test.describe('Dialog', {tag: '@Dialog'}, () => {
+    test('keeps full-width dialog inside the overlay on viewport resize', async ({mount, page}) => {
+        await page.setViewportSize({width: 1000, height: 600});
+
+        await mount(
+            <Dialog contentOverflow="auto" fullWidth maxWidth="m" onClose={() => {}} open>
+                <div style={{width: 600}}>Wide dialog content</div>
+            </Dialog>,
+        );
+
+        const overlay = page.locator('.g-modal');
+        const content = overlay.locator('.g-modal__content');
+
+        await expect(overlay).toHaveAttribute('data-floating-ui-status', 'open');
+
+        const wideMetrics = await getModalLayoutMetrics(overlay);
+
+        expect(wideMetrics.contentMaxWidth).toBeGreaterThan(0);
+        expect(wideMetrics.contentClientWidth).toBe(wideMetrics.contentMaxWidth);
+
+        await page.setViewportSize({width: 400, height: 600});
+
+        const narrowMetrics = await getModalLayoutMetrics(overlay);
+
+        expect(narrowMetrics.alignerClientWidth).toBe(narrowMetrics.overlayClientWidth);
+        expect(
+            Math.abs(
+                narrowMetrics.contentClientWidth +
+                    narrowMetrics.contentMarginInlineStart +
+                    narrowMetrics.contentMarginInlineEnd -
+                    narrowMetrics.alignerClientWidth,
+            ),
+        ).toBeLessThanOrEqual(1);
+        expect(
+            narrowMetrics.overlayScrollWidth - narrowMetrics.overlayClientWidth,
+        ).toBeLessThanOrEqual(1);
+
+        const scrollOwner = await page
+            .locator('.g-modal__content, .g-dialog')
+            .evaluateAll((items) => {
+                const element = items.find((item) => {
+                    const style = getComputedStyle(item);
+                    return (
+                        item.scrollWidth > item.clientWidth &&
+                        (style.overflowX === 'auto' || style.overflowX === 'scroll')
+                    );
+                });
+
+                if (!element) {
+                    return null;
+                }
+
+                element.scrollLeft = element.scrollWidth;
+
+                return {
+                    className: element.className,
+                    scrollLeft: element.scrollLeft,
+                };
+            });
+
+        expect(scrollOwner).not.toBeNull();
+        expect(scrollOwner?.scrollLeft).toBeGreaterThan(0);
+
+        await page.setViewportSize({width: 1000, height: 600});
+
+        expect((await getModalLayoutMetrics(overlay)).contentClientWidth).toBe(
+            wideMetrics.contentClientWidth,
+        );
+        await expect(content).toBeVisible();
+    });
+
     createSmokeScenarios(
         {
             size: 's',

@@ -349,11 +349,12 @@ This HOC enables column sorting.
 
 ### Properties
 
-| Name              | Description                                         |                 Type                  |
-| :---------------- | :-------------------------------------------------- | :-----------------------------------: |
-| defaultSortState  | Default sorting state for an uncontrolled component |           `TableSortState`            |
-| sortState         | Sorting state                                       |           `TableSortState`            |
-| onSortStateChange | Sorting state change handle                         | `(sortState: TableSortState) => void` |
+| Name               | Description                                                                                |                 Type                  |
+| :----------------- | :----------------------------------------------------------------------------------------- | :-----------------------------------: |
+| defaultSortState   | Default sorting state for an uncontrolled component                                        |           `TableSortState`            |
+| sortState          | Sorting state                                                                              |           `TableSortState`            |
+| onSortStateChange  | Sorting state change handle                                                                | `(sortState: TableSortState) => void` |
+| disableDataSorting | Disables data sorting. Default is `true` if `sortState` and `onSortStateChange` are passed |               `boolean`               |
 
 If the `sortState` and `onSortStateChange` properties are missing, the sorting state is stored in the component itself.
 

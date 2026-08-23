@@ -45,7 +45,10 @@ test.describe('Disclosure', {tag: '@Disclosure'}, () => {
         await expect(details).toHaveCount(0);
     });
 
-    test('height transition adapts when content grows while entering', async ({mount, page}) => {
+    test('height transition switches to auto when content grows while entering', async ({
+        mount,
+        page,
+    }) => {
         await page.emulateMedia({reducedMotion: 'no-preference'});
         await page.addStyleTag({
             content: `
@@ -74,38 +77,19 @@ test.describe('Disclosure', {tag: '@Disclosure'}, () => {
             .evaluate((element) => (element as HTMLElement).offsetHeight);
 
         expect(resizedHeight).toBeGreaterThan(initialTargetHeight);
+        await expect
+            .poll(() => container.evaluate((element) => Number.parseFloat(element.style.height)))
+            .toBe(initialTargetHeight);
 
         await container.evaluate((element) => {
             element.getAnimations().forEach((animation) => animation.finish());
         });
 
-        await expect
-            .poll(() => container.evaluate((element) => Number.parseFloat(element.style.height)))
-            .toBe(resizedHeight);
-        await expect
-            .poll(() =>
-                container.evaluate((element) =>
-                    element
-                        .getAnimations()
-                        .some(
-                            (animation) =>
-                                animation.playState !== 'finished' &&
-                                animation.playState !== 'idle' &&
-                                'transitionProperty' in animation &&
-                                animation.transitionProperty === 'height',
-                        ),
-                ),
-            )
-            .toBe(true);
-
-        await container.evaluate((element) => {
-            element.getAnimations().forEach((animation) => {
-                if (animation.playState !== 'idle' && animation.playState !== 'finished') {
-                    animation.finish();
-                }
-            });
-        });
         await expect.poll(() => container.evaluate((element) => element.style.height)).toBe('');
+        await expect
+            .poll(() => container.evaluate((element) => (element as HTMLElement).offsetHeight))
+            .toBe(resizedHeight);
+        await expect(container).not.toHaveClass(/g-disclosure__content-container_transitioning/);
     });
 
     test('collapses the complete public details box when kept mounted', async ({mount, page}) => {

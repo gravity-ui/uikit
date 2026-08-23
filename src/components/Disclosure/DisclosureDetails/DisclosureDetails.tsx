@@ -18,10 +18,7 @@ export function DisclosureDetails({children, qa, className}: DisclosureDetailsPr
     const {ariaControls, ariaLabelledby, keepMounted, expanded} = useDisclosureAttributes();
     const containerRef = React.useRef<HTMLDivElement>(null);
     const innerRef = React.useRef<HTMLDivElement>(null);
-    const expandedRef = React.useRef(expanded);
     const prefersReducedMotion = useMatchMedia({media: '(prefers-reduced-motion: reduce)'});
-
-    expandedRef.current = expanded;
 
     const setHeight = (height: number | null) => {
         if (containerRef.current) {
@@ -42,22 +39,11 @@ export function DisclosureDetails({children, qa, className}: DisclosureDetailsPr
 
     return (
         <Transition
-            key={keepMounted ? 'persistent' : 'temporary'}
             nodeRef={containerRef}
             in={expanded}
-            addEndListener={(done) =>
-                waitForStableTransition(
-                    containerRef.current,
-                    innerRef.current,
-                    expanded,
-                    () => expandedRef.current,
-                    done,
-                )
-            }
+            addEndListener={(done) => waitForTransition(containerRef.current, done)}
             enter={!prefersReducedMotion}
             exit={!prefersReducedMotion}
-            mountOnEnter={!keepMounted}
-            unmountOnExit={!keepMounted}
             onEnter={() => setHeight(0)}
             onEntering={setMeasuredHeight}
             onEntered={finishTransition}
@@ -69,6 +55,7 @@ export function DisclosureDetails({children, qa, className}: DisclosureDetailsPr
                 const visible = transitionState === 'entering' || transitionState === 'entered';
                 const transitioning =
                     transitionState === 'entering' || transitionState === 'exiting';
+                const shouldRenderContent = keepMounted || transitionState !== 'exited';
                 const hiddenAttributes = expanded ? {} : {inert: ''};
 
                 return (
@@ -76,19 +63,21 @@ export function DisclosureDetails({children, qa, className}: DisclosureDetailsPr
                         ref={containerRef}
                         className={b('content-container', {visible, transitioning})}
                     >
-                        <div ref={innerRef} className={b('content-wrapper')}>
-                            <div
-                                {...hiddenAttributes}
-                                aria-hidden={expanded ? undefined : true}
-                                id={ariaControls}
-                                role="region"
-                                aria-labelledby={ariaLabelledby}
-                                className={b('content', {visible, transitioning}, className)}
-                                data-qa={qa || DisclosureQa.DETAILS}
-                            >
-                                {children}
+                        {shouldRenderContent && (
+                            <div ref={innerRef} className={b('content-wrapper')}>
+                                <div
+                                    {...hiddenAttributes}
+                                    aria-hidden={expanded ? undefined : true}
+                                    id={ariaControls}
+                                    role="region"
+                                    aria-labelledby={ariaLabelledby}
+                                    className={b('content', {visible, transitioning}, className)}
+                                    data-qa={qa || DisclosureQa.DETAILS}
+                                >
+                                    {children}
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </div>
                 );
             }}
@@ -119,33 +108,6 @@ function waitForTransition(element: HTMLElement | null, done: () => void) {
     }
 
     Promise.allSettled(transitions.map((transition) => transition.finished)).then(() => done());
-}
-
-function waitForStableTransition(
-    container: HTMLElement | null,
-    content: HTMLElement | null,
-    entering: boolean,
-    isExpanded: () => boolean,
-    done: () => void,
-) {
-    waitForTransition(container, () => {
-        if (!entering || !isExpanded() || !container || !content) {
-            done();
-            return;
-        }
-
-        const nextHeight = content.offsetHeight;
-        if (container.offsetHeight === nextHeight) {
-            done();
-            return;
-        }
-
-        const containerElement = container;
-        containerElement.style.height = `${nextHeight}px`;
-        window.requestAnimationFrame(() => {
-            waitForStableTransition(containerElement, content, entering, isExpanded, done);
-        });
-    });
 }
 
 DisclosureDetails.displayName = 'DisclosureDetails';

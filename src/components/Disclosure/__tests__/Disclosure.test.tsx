@@ -264,6 +264,55 @@ describe('Disclosure', () => {
         expect(text).toBeInTheDocument();
     });
 
+    test('changing keepMounted while expanded preserves content state and focus', async () => {
+        const user = userEvent.setup();
+        const {rerender} = render(
+            <Disclosure expanded={true} keepMounted={true}>
+                <input aria-label="Stateful content" />
+            </Disclosure>,
+        );
+        const input = screen.getByRole('textbox', {name: 'Stateful content'});
+
+        await user.type(input, 'Preserved value');
+
+        rerender(
+            <Disclosure expanded={true} keepMounted={false}>
+                <input aria-label="Stateful content" />
+            </Disclosure>,
+        );
+
+        expect(screen.getByRole('textbox', {name: 'Stateful content'})).toBe(input);
+        expect(input).toHaveValue('Preserved value');
+        expect(input).toHaveFocus();
+    });
+
+    test('changing keepMounted while collapsed updates content mounting', () => {
+        const content = 'Dynamic keepMounted content';
+        const {rerender} = render(
+            <Disclosure expanded={false} keepMounted={false}>
+                {content}
+            </Disclosure>,
+        );
+
+        expect(screen.queryByText(content)).not.toBeInTheDocument();
+
+        rerender(
+            <Disclosure expanded={false} keepMounted={true}>
+                {content}
+            </Disclosure>,
+        );
+
+        expect(screen.getByText(content)).toBeInTheDocument();
+
+        rerender(
+            <Disclosure expanded={false} keepMounted={false}>
+                {content}
+            </Disclosure>,
+        );
+
+        expect(screen.queryByText(content)).not.toBeInTheDocument();
+    });
+
     test('arrow on the start position by default', () => {
         render(<Disclosure />);
         const disclosure = screen.getByRole('button');

@@ -75,6 +75,7 @@ export interface DrawerProps
     onResizeEnd?: OnResizeHandler;
     /**
      * Removes the drawer's veil.
+     * Outside click handling is controlled separately by `disableOutsideClick`.
      * @default false
      */
     hideVeil?: boolean;
@@ -83,6 +84,11 @@ export interface DrawerProps
      * @default false
      */
     disableTransition?: boolean;
+    /**
+     * Disables modal focus management.
+     * @default false
+     */
+    disableModal?: boolean;
 }
 
 export const Drawer = (rawProps: DrawerProps) => {
@@ -103,6 +109,7 @@ export const Drawer = (rawProps: DrawerProps) => {
         style,
         qa,
         disableEscapeKeyDown,
+        disableOutsideClick = false,
         initialFocus,
         returnFocus,
         disableBodyScrollLock = false,
@@ -118,10 +125,10 @@ export const Drawer = (rawProps: DrawerProps) => {
         container,
         hideVeil = false,
         disableTransition = false,
+        disableModal = false,
         ...restProps
     } = useDefaultProps('Drawer', rawProps);
     const floatingNodeId = useFloatingNodeId();
-    const disableOutsideClick = hideVeil || restProps.disableOutsideClick;
 
     const {refs, context} = useFloating({
         nodeId: floatingNodeId,
@@ -146,6 +153,10 @@ export const Drawer = (rawProps: DrawerProps) => {
         outsidePress: (event) => {
             if (disableOutsideClick) {
                 return false;
+            }
+
+            if (hideVeil) {
+                return true;
             }
 
             const isOwnOutsideClick =
@@ -202,7 +213,7 @@ export const Drawer = (rawProps: DrawerProps) => {
                     <FloatingFocusManager
                         context={context}
                         disabled={!isMounted}
-                        modal={isMounted}
+                        modal={isMounted && !disableModal}
                         initialFocus={refs.floating}
                         returnFocus={returnFocus}
                         visuallyHiddenDismiss={disableVisuallyHiddenDismiss ? false : i18n('close')}

@@ -1,5 +1,10 @@
 import type {ProgressTheme, ProgressWithValueProps, Stack} from './types';
 
+type ThemeWithCustomColor = {
+    theme: ProgressTheme;
+    color?: string;
+};
+
 export function getOffset(value: number): number {
     return value < 100 ? value - 100 : 0;
 }
@@ -8,7 +13,7 @@ export function getValueFromStack(stack: Stack[]): number {
     return stack.reduce((sum, {value}) => sum + value, 0);
 }
 
-export function getTheme(props: ProgressWithValueProps): ProgressTheme {
+export function getTheme(props: ProgressWithValueProps): ThemeWithCustomColor {
     const {theme, colorStops, colorStopsValue, value} = props;
 
     if (colorStops) {
@@ -20,8 +25,15 @@ export function getTheme(props: ProgressWithValueProps): ProgressTheme {
             return currentValue >= minValue && currentValue <= maxValue;
         });
 
-        return matchingColorStopItem ? matchingColorStopItem.theme : (theme as ProgressTheme);
+        return matchingColorStopItem
+            ? {
+                  theme: matchingColorStopItem.theme,
+                  color: matchingColorStopItem.color,
+              }
+            : {theme: theme as ProgressTheme};
     }
 
-    return theme as ProgressTheme;
+    return {
+        theme: theme as ProgressTheme,
+    };
 }

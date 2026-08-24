@@ -32,6 +32,6 @@ const misc = [
 
 export const RenderEffects = () => (
     <Showcase title="Effects" description="Shadows, blackouts, etc.">
-        <ColorPanel title="Other" description="" colors={misc} boxBorders={true} />
+        <ColorPanel title="Other" colors={misc} boxBorders={true} />
     </Showcase>
 );

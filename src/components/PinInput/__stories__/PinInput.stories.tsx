@@ -5,6 +5,7 @@ import {action} from 'storybook/actions';
 
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
+import {useUniqId} from '../../../hooks';
 import {Flex} from '../../layout';
 import type {PinInputApi, PinInputProps} from '../PinInput';
 import {PinInput} from '../PinInput';
@@ -140,7 +141,7 @@ export const Responsive: Story = {
 export const WithLabel = {
     render: function WithLabel(args) {
         const id = args.id ?? 'pin-input';
-        const labelId = React.useId();
+        const labelId = useUniqId();
         const refApi = React.useRef<PinInputApi>(null);
         /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */
         return (

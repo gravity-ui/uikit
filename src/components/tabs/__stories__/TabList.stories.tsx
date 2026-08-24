@@ -2,11 +2,14 @@ import * as React from 'react';
 
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
+import {Showcase} from '../../../demo/Showcase';
+import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {Tooltip} from '../../Tooltip';
 import {Tab} from '../Tab';
 import {TabList} from '../TabList';
 import {TabPanel} from '../TabPanel';
 import {TabProvider} from '../TabProvider';
+import type {TabListProps} from '../types';
 
 import {getTabsMock} from './getTabsMock';
 
@@ -40,11 +43,13 @@ export default {
 
 type Story = StoryObj<typeof TabList>;
 
+const DefaultRender = (args: TabListProps) => {
+    const [tab, setTab] = React.useState(getTabsMock({})[0].value);
+    return <TabList {...args} value={tab} onUpdate={setTab} />;
+};
+
 export const Default: Story = {
-    render: (args) => {
-        const [tab, setTab] = React.useState(getTabsMock({})[0].value);
-        return <TabList {...args} value={tab} onUpdate={setTab} />;
-    },
+    render: DefaultRender,
     args: {
         children: getTabsMock({})?.map((props, i) => <Tab key={i} {...props} />),
     },
@@ -123,6 +128,29 @@ export const TooltipWrap: Story = {
     },
 };
 
+const contentOverflowValues: Array<TabListProps['contentOverflow']> = [
+    'wrap',
+    'collapse',
+    'scroll',
+];
+
+export const ContentOverflow: Story = {
+    ...Default,
+    render: (args) => (
+        <div style={{width: 600, paddingBottom: 20, resize: 'horizontal', overflow: 'hidden'}}>
+            <Showcase direction="column">
+                {contentOverflowValues.map((value) => (
+                    <div key={value} style={{width: '100%'}}>
+                        <ShowcaseItem title={`Content Overflow: ${value}`}>
+                            <DefaultRender {...args} contentOverflow={value} />
+                        </ShowcaseItem>
+                    </div>
+                ))}
+            </Showcase>
+        </div>
+    ),
+};
+
 export const Panels: Story = {
     render: (args) => {
         const tabs = getTabsMock({});
@@ -138,6 +166,7 @@ export const Panels: Story = {
                         >{`Content of ${props.value} tab panel`}</div>
                     </TabPanel>
                 )),
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             [],
         );
 
@@ -151,5 +180,19 @@ export const Panels: Story = {
                 <div>{panels}</div>
             </TabProvider>
         );
+    },
+};
+
+const MyTab = React.forwardRef<HTMLDivElement, {to: string}>(function MyTab({to, ...rest}, ref) {
+    return <div ref={ref} data-to={to} {...rest} />;
+});
+
+export const CustomComponent: Story = {
+    ...Default,
+    args: {
+        ...Default.args,
+        children: getTabsMock({})?.map((props, i) => (
+            <Tab key={i} component={MyTab} to={String(i)} {...props} />
+        )),
     },
 };

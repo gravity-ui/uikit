@@ -21,6 +21,7 @@ export const AvatarStackMoreButton = React.forwardRef<
             count,
             'aria-label': ariaLabel,
             borderColor,
+            variant,
         },
         ref,
     ) => {
@@ -37,6 +38,7 @@ export const AvatarStackMoreButton = React.forwardRef<
                     count={count}
                     aria-label={ariaLabel}
                     borderColor={borderColor}
+                    variant={variant}
                 />
             </button>
         );

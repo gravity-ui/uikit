@@ -1,6 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
-import {ActionsPanel} from '../../ActionsPanel';
+import {ActionsPanel} from '..';
 
 import {actions, actionsGroups, actionsSubmenu, actionsWithIcons, actionsWithNote} from './actions';
 

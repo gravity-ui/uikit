@@ -1,4 +1,4 @@
-import {ChevronDown, Globe} from '@gravity-ui/icons';
+import {ChevronDown, Diamond, Globe} from '@gravity-ui/icons';
 import {composeStories} from '@storybook/react-webpack5';
 
 import {Button} from '..';
@@ -34,6 +34,24 @@ export const CustomIconSizeButton = () => (
             <Icon size={24} data={Globe} />
             Both bigger icons
             <Icon size={24} data={ChevronDown} />
+        </Button>
+    </Showcase>
+);
+
+export const ShrinkIconButton = () => (
+    <Showcase>
+        <Button width="max">
+            <Icon size={16} data={Diamond} />
+            Lorem ipsum dolor sit amet
+        </Button>
+        <Button width="max">
+            Lorem ipsum dolor sit amet
+            <Icon size={16} data={Diamond} />
+        </Button>
+        <Button width="max">
+            <Icon size={16} data={Diamond} />
+            Lorem ipsum dolor sit amet
+            <Icon size={16} data={Diamond} />
         </Button>
     </Showcase>
 );

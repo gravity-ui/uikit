@@ -1,8 +1,7 @@
-@use '../variables';
+@use '../variables' as globalVariables;
+@use './variables';
 
-$block: '.#{variables.$ns}dialog';
-
-#{$block} {
+#{variables.$block} {
     --_--side-padding: 32px;
     --_--close-button-space: 0px;
 
@@ -11,10 +10,35 @@ $block: '.#{variables.$ns}dialog';
     flex-direction: column;
     width: var(--g-dialog-width, var(--_--width));
 
+    &__modal {
+        &:has(#{variables.$block}_max-width_s) {
+            --g-modal-max-width: 480px;
+        }
+
+        &:has(#{variables.$block}_max-width_m) {
+            --g-modal-max-width: 720px;
+        }
+
+        &:has(#{variables.$block}_max-width_l) {
+            --g-modal-max-width: 900px;
+        }
+
+        &:has(#{variables.$block}_full-width) {
+            --g-modal-width: 100%;
+        }
+    }
+
+    &_max-width_s,
+    &_max-width_m,
+    &_max-width_l,
+    &_full-width {
+        width: auto;
+    }
+
     &_has-scroll {
         overflow-y: auto;
         max-height: calc(
-            100vh - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2)
+            100vh - calc(var(--g-modal-margin, #{globalVariables.$modal-default-margin}) * 2)
         );
     }
 
@@ -34,5 +58,10 @@ $block: '.#{variables.$ns}dialog';
 
     &_has-close {
         --_--close-button-space: 24px;
+    }
+
+    &_mobile {
+        --_--side-padding: 20px;
+        height: 100%;
     }
 }

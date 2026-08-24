@@ -2,10 +2,16 @@
 
 import * as React from 'react';
 
+import {useLayoutEffect} from '../../hooks';
 import {PrivateLayoutProvider} from '../layout/LayoutProvider/LayoutProvider';
 import type {PrivateLayoutProviderProps} from '../layout/LayoutProvider/LayoutProvider';
 import {block} from '../utils/cn';
 
+import type {ComponentDefaultPropsMap} from './PrivateDefaultPropsProvider';
+import {
+    PrivateDefaultPropsContext,
+    PrivateDefaultPropsProvider,
+} from './PrivateDefaultPropsProvider';
 import {ThemeContext} from './ThemeContext';
 import {ThemeSettingsContext} from './ThemeSettingsContext';
 import type {ThemeSettings} from './ThemeSettingsContext';
@@ -32,6 +38,7 @@ export interface ThemeProviderProps extends React.PropsWithChildren<{}>, Partial
     scoped?: boolean;
     rootClassName?: string;
     layout?: Omit<PrivateLayoutProviderProps, 'children'>;
+    defaultProps?: ComponentDefaultPropsMap;
 }
 
 export function ThemeProvider({
@@ -45,10 +52,12 @@ export function ThemeProvider({
     layout,
     lang,
     fallbackLang,
+    defaultProps,
 }: ThemeProviderProps) {
     const parentThemeState = React.useContext(ThemeContext);
     const systemThemeState = React.useContext(ThemeSettingsContext);
     const langOptionsState = React.useContext(LangContext);
+    const parentDefaultProps = React.useContext(PrivateDefaultPropsContext);
 
     const hasParentProvider = parentThemeState !== undefined;
     const scoped = hasParentProvider || scopedProp;
@@ -66,7 +75,7 @@ export function ThemeProvider({
 
     const prevRootClassName = React.useRef('');
 
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         if (!scoped) {
             updateBodyClassName({
                 theme: themeValue,
@@ -94,6 +103,20 @@ export function ThemeProvider({
         [systemLightTheme, systemDarkTheme],
     );
 
+    const mergedDefaultProps = React.useMemo(() => {
+        if (!defaultProps) {
+            return parentDefaultProps;
+        }
+
+        return [parentDefaultProps, defaultProps].reduce((acc: ComponentDefaultPropsMap, props) => {
+            for (const [key, value] of Object.entries(props)) {
+                acc[key as keyof ComponentDefaultPropsMap] = value;
+            }
+
+            return acc;
+        }, {});
+    }, [parentDefaultProps, defaultProps]);
+
     const langOptionsFinal =
         lang || fallbackLang
             ? {
@@ -105,19 +128,24 @@ export function ThemeProvider({
             : langOptionsState;
     return (
         <PrivateLayoutProvider {...layout}>
-            <ThemeContext.Provider value={contextValue}>
-                <ThemeSettingsContext.Provider value={themeSettingsContext}>
-                    <LangContext.Provider value={langOptionsFinal}>
-                        {scoped ? (
-                            <div className={b({theme: themeValue}, rootClassName)} dir={direction}>
-                                {children}
-                            </div>
-                        ) : (
-                            children
-                        )}
-                    </LangContext.Provider>
-                </ThemeSettingsContext.Provider>
-            </ThemeContext.Provider>
+            <PrivateDefaultPropsProvider value={mergedDefaultProps}>
+                <ThemeContext.Provider value={contextValue}>
+                    <ThemeSettingsContext.Provider value={themeSettingsContext}>
+                        <LangContext.Provider value={langOptionsFinal}>
+                            {scoped ? (
+                                <div
+                                    className={b({theme: themeValue}, rootClassName)}
+                                    dir={direction}
+                                >
+                                    {children}
+                                </div>
+                            ) : (
+                                children
+                            )}
+                        </LangContext.Provider>
+                    </ThemeSettingsContext.Provider>
+                </ThemeContext.Provider>
+            </PrivateDefaultPropsProvider>
         </PrivateLayoutProvider>
     );
 }

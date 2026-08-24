@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import {useLayoutEffect} from '../../../../hooks';
 import {Button} from '../../../Button';
 import {Popup} from '../../../Popup';
 import {Flex} from '../../../layout';
@@ -40,7 +41,7 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
     );
 
     // restoring focus when popup opens
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         if (open) {
             containerRef.current?.focus();
             list.state.setActiveItemId(selectedId ?? list.structure.visibleFlattenIds[0]);

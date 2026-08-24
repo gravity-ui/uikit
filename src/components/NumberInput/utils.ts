@@ -158,7 +158,7 @@ export function clampToNearestStepValue({
 }
 
 export function updateCursorPosition(
-    inputRef: React.RefObject<HTMLInputElement>,
+    inputRef: React.RefObject<HTMLInputElement | null>,
     eventRawValue: string | undefined = '',
     computedEventValue: string | undefined = '',
 ) {

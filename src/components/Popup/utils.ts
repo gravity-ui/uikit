@@ -81,3 +81,18 @@ export const arrowStylesMiddleware = (): Middleware => ({
         };
     },
 });
+
+function roundByDPR(value: number) {
+    const dpr = typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1;
+    return Math.round(value * dpr) / dpr;
+}
+
+export const roundByDPRMiddleware = (): Middleware => ({
+    name: 'roundByDPR',
+    fn({x, y}) {
+        return {
+            x: roundByDPR(x),
+            y: roundByDPR(y),
+        };
+    },
+});

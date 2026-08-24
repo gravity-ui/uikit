@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import {useCheckbox} from '../../hooks/private';
 import {ControlLabel} from '../ControlLabel';
-import type {ControlLabelSize} from '../ControlLabel';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {ControlProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 
@@ -13,7 +13,7 @@ import {CheckboxTickIcon} from './CheckboxTickIcon';
 
 import './Checkbox.scss';
 
-export type CheckboxSize = ControlLabelSize;
+export type CheckboxSize = 'm' | 'l' | 'xl';
 
 export interface CheckboxProps extends ControlProps, DOMProps, QAProps {
     size?: CheckboxSize;
@@ -25,7 +25,8 @@ export interface CheckboxProps extends ControlProps, DOMProps, QAProps {
 const b = block('checkbox');
 
 export const Checkbox = React.forwardRef<HTMLLabelElement, CheckboxProps>(
-    function Checkbox(props, ref) {
+    function Checkbox(rawProps, ref) {
+        const props = useDefaultProps('Checkbox', rawProps);
         const {
             size = 'm',
             indeterminate,

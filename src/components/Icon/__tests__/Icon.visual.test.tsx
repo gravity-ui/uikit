@@ -1,17 +1,20 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {IconProps} from '../Icon';
 
-import {sizeCases} from './cases';
+import {colorCases, sizeCases, styleCases} from './cases';
 import {TestIcon} from './helpersPlaywright';
 
 test.describe('Icon', {tag: '@Icon'}, () => {
-    smokeTest('smoke', async ({mount, expectScreenshot}) => {
+    test('smoke smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<Omit<IconProps, 'data'>>(
             {},
             {
                 size: sizeCases,
+                color: colorCases,
+                style: styleCases,
             },
         );
 

@@ -42,7 +42,7 @@ export interface TreeListProps<T, P extends {} = {}> extends QAProps {
     /**
      * Control outside list container dom element. For example for keyboard
      */
-    containerRef?: React.RefObject<HTMLDivElement>;
+    containerRef?: React.RefObject<HTMLDivElement | null>;
     list: UseListResult<T>;
     id?: string | undefined;
     className?: string;

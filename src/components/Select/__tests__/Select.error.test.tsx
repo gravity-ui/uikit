@@ -1,3 +1,5 @@
+import userEvent from '@testing-library/user-event';
+
 import {render, screen} from '../../../../test-utils/utils';
 import {CONTROL_ERROR_MESSAGE_QA} from '../../controls/utils';
 import {Select} from '../Select';
@@ -5,6 +7,20 @@ import {Select} from '../Select';
 import {SELECT_CONTROL_BUTTON_ERROR_CLASS, TEST_QA, setup} from './utils';
 
 describe('Select error', () => {
+    test('sets aria-invalid on the combobox when validationState is invalid', () => {
+        const {getByTestId} = setup({validationState: 'invalid'});
+        const selectControl = getByTestId(TEST_QA);
+
+        expect(selectControl).toHaveAttribute('aria-invalid', 'true');
+    });
+
+    test('does not set aria-invalid when validationState is not invalid', () => {
+        const {getByTestId} = setup({});
+        const selectControl = getByTestId(TEST_QA);
+
+        expect(selectControl).not.toHaveAttribute('aria-invalid');
+    });
+
     test('render error appearance with invalid state and without errorMessage', () => {
         const {getByTestId} = setup({validationState: 'invalid'});
         const selectControl = getByTestId(TEST_QA);
@@ -67,5 +83,24 @@ describe('Select error', () => {
         render(<Select errorMessage={''} errorPlacement="inside" />);
 
         expect(screen.queryByLabelText('Show popup with error info')).not.toBeInTheDocument();
+    });
+
+    test('opens inside error popover on hover', async () => {
+        const ERROR_MESSAGE = 'Test error message';
+
+        const {findByText, getByRole} = setup();
+        render(
+            <Select
+                validationState="invalid"
+                errorMessage={ERROR_MESSAGE}
+                errorPlacement="inside"
+            />,
+        );
+
+        await userEvent.hover(getByRole('button', {name: 'Show popup with error info'}));
+
+        const popoverElement = await findByText(ERROR_MESSAGE);
+
+        await expect(popoverElement).toBeInTheDocument();
     });
 });

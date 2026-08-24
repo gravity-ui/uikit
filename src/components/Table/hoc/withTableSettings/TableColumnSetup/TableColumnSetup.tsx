@@ -11,7 +11,7 @@ import type {
     OnDragEndResponder,
 } from '@hello-pangea/dnd';
 
-import {useUniqId} from '../../../../../hooks';
+import {useControlledState, useUniqId} from '../../../../../hooks';
 import {createOnKeyDownHandler} from '../../../../../hooks/useActionHandlers/useActionHandlers';
 import {Button} from '../../../../Button';
 import {Icon} from '../../../../Icon';
@@ -154,7 +154,14 @@ const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContaine
 
         return (
             <React.Fragment>
-                <ListContainerView ref={containerRef} id={id} className={className}>
+                <ListContainerView
+                    /*
+                     *  TODO: Remove casting in React 19 (https://github.com/gravity-ui/uikit/issues/2537)
+                     */
+                    ref={containerRef as React.Ref<HTMLDivElement>}
+                    id={id}
+                    className={className}
+                >
                     {stickyStartItemList}
                     <DragDropContext onDragEnd={onDragEnd}>
                         <Droppable droppableId={uniqId} renderClone={renderDndActiveItem}>
@@ -273,6 +280,7 @@ export interface TableColumnSetupProps {
 
     items: TableColumnSetupItem[];
     sortable?: boolean;
+    hideApplyButton?: boolean;
 
     onUpdate: (newSettings: TableSetting[]) => void;
     popupWidth?: TreeSelectProps<unknown>['popupWidth'];
@@ -310,6 +318,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         filterPlaceholder,
         filterEmptyMessage,
         filterSettings = defaultFilterSettingsFn,
+        hideApplyButton,
     } = props;
 
     const [open, setOpen] = React.useState(false);
@@ -320,12 +329,19 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         setSortingEnabled(sortable);
     }
 
-    const [items, setItems] = React.useState(propsItems);
+    const [items, setItems] = useControlledState<TableColumnSetupItem[]>(
+        hideApplyButton ? propsItems : undefined,
+        propsItems,
+        hideApplyButton ? propsOnUpdate : undefined,
+    );
+
+    // Track changes to propsItems in manual mode
     const [prevPropsItems, setPrevPropsItems] = React.useState(propsItems);
     if (propsItems !== prevPropsItems) {
         setPrevPropsItems(propsItems);
-
-        setItems(propsItems);
+        if (!hideApplyButton) {
+            setItems(propsItems);
+        }
     }
 
     const {t} = i18n.useTranslation();
@@ -346,9 +362,8 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     const onDragEnd: OnDragEndResponder = ({destination, source}) => {
         if (destination?.index !== undefined && destination?.index !== source.index) {
-            setItems((prevItems) => {
-                return reorderArray(prevItems, source.index, destination.index);
-            });
+            const reorderedItems = reorderArray(items, source.index, destination.index);
+            setItems(reorderedItems);
         }
     };
 
@@ -367,6 +382,9 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
                     {showResetButton && (
                         <Button
                             onClick={() => {
+                                if (hideApplyButton) {
+                                    propsOnUpdate(defaultItems);
+                                }
                                 setItems(defaultItems);
                             }}
                             width="max"
@@ -374,7 +392,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
                             {t('button_reset')}
                         </Button>
                     )}
-                    <DefaultApplyButton />
+                    {!hideApplyButton && <DefaultApplyButton />}
                 </Flex>
             ),
     });
@@ -404,12 +422,12 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
     };
 
     const onUpdate = (selectedItemsIds: string[]) => {
-        setItems((prevItems) => {
-            return prevItems.map((item) => ({
-                ...item,
-                isSelected: item.isRequired || selectedItemsIds.includes(item.id),
-            }));
-        });
+        const newItems = items.map((item) => ({
+            ...item,
+            isSelected: item.isRequired || selectedItemsIds.includes(item.id),
+        }));
+
+        setItems(newItems);
     };
 
     const value = React.useMemo(() => prepareValue(items), [items]);

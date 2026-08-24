@@ -1,4 +1,5 @@
-import type {Cases, CasesWithName} from '../../../stories/tests-factory/models';
+import type {Cases, CasesWithName} from '@gravity-ui/playwright-tools/component-tests';
+
 import {Alert} from '../Alert';
 import type {AlertProps} from '../types';
 
@@ -11,6 +12,8 @@ export const themeCases: Array<NonNullable<AlertProps['theme']>> = [
     'utility',
     'clear',
 ];
+
+export const sizeCases: Array<NonNullable<AlertProps['size']>> = ['s', 'm', 'l'];
 
 export const viewCases: Cases<AlertProps['view']> = ['filled', 'outlined'];
 

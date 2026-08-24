@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
-import {Popover, PopoverBehavior} from '../';
-import type {PopoverProps} from '../';
+import {Popover, PopoverBehavior} from '..';
+import type {PopoverProps} from '..';
 import {Button} from '../../../Button';
 
 import {cnPopoverDemo} from './PopoverDemo.classname';

@@ -1,11 +1,13 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {SegmentedRadioGroupProps} from '../SegmentedRadioGroup';
 import {SegmentedRadioGroup} from '../SegmentedRadioGroup';
 import type {SegmentedRadioGroupOptionProps} from '../SegmentedRadioGroupOption';
 
 import {sizeCases, widthCases} from './cases';
+import {IconOptionsGroup} from './helpersPlaywright';
 
 test.describe('SegmentedRadioGroup', {tag: '@SegmentedRadioGroup'}, () => {
     const options: SegmentedRadioGroupOptionProps[] = [
@@ -19,7 +21,7 @@ test.describe('SegmentedRadioGroup', {tag: '@SegmentedRadioGroup'}, () => {
         options,
     };
 
-    smokeTest('', async ({mount, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(defaultProps, {
             size: sizeCases,
             width: widthCases,
@@ -41,7 +43,7 @@ test.describe('SegmentedRadioGroup', {tag: '@SegmentedRadioGroup'}, () => {
         await expectScreenshot({});
     });
 
-    smokeTest('disabled', async ({mount, expectScreenshot}) => {
+    test('smoke disabled', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(
             {
                 ...defaultProps,
@@ -58,6 +60,21 @@ test.describe('SegmentedRadioGroup', {tag: '@SegmentedRadioGroup'}, () => {
                         <div>
                             <SegmentedRadioGroup {...props} />
                         </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({});
+    });
+
+    test('option icon stays still on auto/max widths', async ({mount, expectScreenshot}) => {
+        await mount(
+            <div>
+                {widthCases.map((width) => (
+                    <div key={width}>
+                        <h4>{`width: ${width}`}</h4>
+                        <IconOptionsGroup width={width} />
                     </div>
                 ))}
             </div>,

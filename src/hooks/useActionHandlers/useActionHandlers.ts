@@ -25,7 +25,7 @@ export function createOnKeyDownHandler<T>(callback?: AnyFunction) {
 /**
  * Emulates behaviour of system controls, that respond to Enter and Spacebar
  * @param callback
- * @return {onKeyDown}
+ * @returns {onKeyDown}
  */
 export function useActionHandlers<T>(
     callback?: UseActionHandlersProps,

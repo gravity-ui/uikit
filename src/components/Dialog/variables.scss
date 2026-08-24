@@ -1,0 +1,8 @@
+@use '../variables' as globalVariables;
+
+$block: '.#{globalVariables.$ns}dialog';
+$headerBlock: '.#{globalVariables.$ns}dialog-header';
+$bodyBlock: '.#{globalVariables.$ns}dialog-body';
+$footerBlock: '.#{globalVariables.$ns}dialog-footer';
+$dividerBlock: '.#{globalVariables.$ns}dialog-divider';
+$closeBtnBlock: '.#{globalVariables.$ns}dialog-btn-close';

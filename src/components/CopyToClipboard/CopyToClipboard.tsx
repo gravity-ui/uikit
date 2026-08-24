@@ -2,12 +2,15 @@
 
 import * as React from 'react';
 
+import {useDefaultProps} from '../theme/useDefaultProps';
+
 import {copyText} from './copyText';
 import type {CopyToClipboardProps, CopyToClipboardStatus} from './types';
 
 const INITIAL_STATUS: CopyToClipboardStatus = 'pending';
 
-export function CopyToClipboard(props: CopyToClipboardProps) {
+export function CopyToClipboard(rawProps: CopyToClipboardProps) {
+    const props = useDefaultProps('CopyToClipboard', rawProps);
     const {children, text, timeout, onCopy} = props;
 
     const textRef = React.useRef('');
@@ -17,6 +20,7 @@ export function CopyToClipboard(props: CopyToClipboardProps) {
 
     const content: React.ReactElement<React.HTMLAttributes<HTMLElement>> =
         typeof children === 'function' ? children(status) : children;
+    const contentOnClick = content.props?.onClick;
 
     const handleCopy = React.useCallback(
         (copyText: string, result: boolean) => {
@@ -30,14 +34,14 @@ export function CopyToClipboard(props: CopyToClipboardProps) {
 
     const onClickWithCopy: React.MouseEventHandler<HTMLElement> = React.useCallback(
         (event) => {
+            contentOnClick?.(event);
+
             const currentText = typeof text === 'function' ? text() : text;
             textRef.current = currentText;
 
             function copy(result: boolean) {
                 if (currentText === textRef.current) {
                     handleCopy(currentText, result);
-
-                    content.props?.onClick?.(event);
                 }
             }
 
@@ -50,7 +54,7 @@ export function CopyToClipboard(props: CopyToClipboardProps) {
                 },
             );
         },
-        [content.props, handleCopy, text],
+        [contentOnClick, handleCopy, text],
     );
 
     React.useEffect(() => () => window.clearTimeout(timerIdRef.current), []);

@@ -37,6 +37,7 @@ export const SelectQa = {
     SHEET: 'select-sheet',
     CLEAR: 'select-clear',
     FILTER_INPUT: 'select-filter-input',
+    COUNTER: 'select-counter',
 };
 
 export const FLATTEN_KEY = Symbol('flatten');

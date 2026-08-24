@@ -1,5 +1,6 @@
 import type * as React from 'react';
 
+import {useDefaultProps} from '../theme/useDefaultProps';
 import {block} from '../utils/cn';
 
 import './Overlay.scss';
@@ -15,7 +16,13 @@ export interface OverlayProps {
     children?: React.ReactNode;
 }
 
-export function Overlay({className, background = 'base', visible = false, children}: OverlayProps) {
+export function Overlay(rawProps: OverlayProps) {
+    const {
+        className,
+        background = 'base',
+        visible = false,
+        children,
+    } = useDefaultProps('Overlay', rawProps);
     return (
         <div className={b({visible}, className)}>
             <div className={b('background', {style: background})} />

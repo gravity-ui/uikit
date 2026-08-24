@@ -1,13 +1,14 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {HotkeyProps} from '../Hotkey';
 import {Hotkey} from '../Hotkey';
 
 import {platformCases, valueCases} from './cases';
 
 test.describe('Hotkey', {tag: '@Hotkey'}, () => {
-    smokeTest('smoke, light view', async ({mount, expectScreenshot}) => {
+    test('smoke smoke, light view', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const defaultProps: HotkeyProps = {
             value: 'mod+a',
             view: 'light',
@@ -36,7 +37,7 @@ test.describe('Hotkey', {tag: '@Hotkey'}, () => {
         });
     });
 
-    smokeTest('smoke, dark view', async ({mount, expectScreenshot}) => {
+    test('smoke smoke, dark view', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const defaultProps: HotkeyProps = {
             value: 'mod+a',
             view: 'dark',

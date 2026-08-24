@@ -239,7 +239,7 @@ $block: '.#{variables.$ns}segmented-radio-group';
             overflow: hidden;
 
             &-text {
-                display: block;
+                display: inline-flex;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }

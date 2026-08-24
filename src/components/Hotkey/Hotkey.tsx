@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
@@ -33,7 +34,8 @@ export interface HotkeyProps extends AriaLabelingProps, DOMProps, QAProps {
     platform?: Platform;
 }
 
-export const Hotkey = React.forwardRef<HTMLElement, HotkeyProps>(function Hotkey(props, ref) {
+export const Hotkey = React.forwardRef<HTMLElement, HotkeyProps>(function Hotkey(rawProps, ref) {
+    const props = useDefaultProps('Hotkey', rawProps);
     const {value, platform, view = 'light', qa, style, className, ...restProps} = props;
 
     const groups = parseHotkeys(value, {platform});

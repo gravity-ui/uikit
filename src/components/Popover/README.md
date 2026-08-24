@@ -4,13 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+`Popover` shows floating, optionally interactive content (text, links, or buttons) anchored to a child element and opened on hover or click. It wraps [`Popup`](../Popup/README.md) with built-in trigger interactivity, using the `ReactElement` passed via the `children` property as the trigger.
+
 ```tsx
 import {Popover} from '@gravity-ui/uikit';
 ```
-
-The `Popover` component is technically the [`Popup`](../Popup/README.md) with some trigger interactivity built-in. The `Popover` uses passed `ReactElement`
-from `children` property as a trigger, and opens whenever trigger is hovered or clicked. Content of the `Popover` might contain
-interactive elements like links or buttons.
 
 ## Usage
 
@@ -50,6 +48,8 @@ import {Button, Popover} from '@gravity-ui/uikit';
 | open                 | Manually control the `open` state                                                                             |                              `boolean`                              |                 |
 | placement            | `Floating UI` placement                                                                                       | `Placement` `Array<Placement>` `"auto"` `"auto-start"` `"auto-end"` |     `"top"`     |
 | qa                   | Test attribute (`data-qa`)                                                                                    |                              `string`                               |                 |
+| rest                 | How much time in ms the cursor must be rest before open.                                                      |                              `number`                               |       `0`       |
 | strategy             | `Floating UI` positioning strategy                                                                            |                       `"absolute"` `"fixed"`                        |  `"absolute"`   |
 | style                | HTML `style` attribute for root node                                                                          |                              `string`                               |                 |
-| trigger              | Which event should open the `Popover`. By default, `click` and `hover` both do                                |                              `"click"`                              |                 |
+| toggle               | Whether to toggle the `open` state with repeated clicks                                                       |                              `boolean`                              |     `true`      |
+| trigger              | Which event should open the `Popover`. Default `all` value refers to both `hover` and `click`                 |                          `"all"` `"click"`                          |     `"all"`     |

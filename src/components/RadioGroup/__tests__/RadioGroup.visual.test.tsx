@@ -1,6 +1,7 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {RadioGroupOption, RadioGroupProps} from '../RadioGroup';
 import {RadioGroup} from '../RadioGroup';
 
@@ -18,7 +19,7 @@ test.describe('RadioGroup', {tag: '@RadioGroup'}, () => {
         options,
     };
 
-    smokeTest('', async ({mount, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<RadioGroupProps>(defaultProps, {
             size: sizeCases,
             direction: directionCases,
@@ -40,7 +41,7 @@ test.describe('RadioGroup', {tag: '@RadioGroup'}, () => {
         await expectScreenshot({});
     });
 
-    smokeTest('disabled', async ({mount, expectScreenshot}) => {
+    test('smoke disabled', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<RadioGroupProps>(
             {
                 ...defaultProps,

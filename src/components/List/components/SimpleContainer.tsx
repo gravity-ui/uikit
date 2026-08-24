@@ -10,9 +10,11 @@ export type SimpleContainerProps = React.PropsWithChildren<{
     itemCount: number;
     provided?: DroppableProvided;
     onScrollToItem?: (node: HTMLElement) => boolean;
+    role: React.AriaRole;
+    id: string;
 }>;
 
-type RefsList = Record<number, React.RefObject<ListItem>>;
+type RefsList = Record<number, React.RefObject<ListItem | null>>;
 
 export type SimpleContainerState = {
     refsList: RefsList;
@@ -54,7 +56,11 @@ export class SimpleContainer extends React.Component<SimpleContainerProps, Simpl
             React.cloneElement(child as React.ReactElement, {ref: this.state.refsList[index]}),
         );
 
-        return <div ref={this.setRef}>{children}</div>;
+        return (
+            <div ref={this.setRef} role={this.props.role} id={this.props.id}>
+                {children}
+            </div>
+        );
     }
 
     scrollToItem(index: number) {

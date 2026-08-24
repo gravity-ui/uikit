@@ -8,6 +8,8 @@ import {action} from 'storybook/actions';
 import {BUTTON_ICON_SIZE_MAP} from '../../../Button/constants';
 import {Icon} from '../../../Icon';
 import {Label} from '../../../Label';
+import {Modal} from '../../../Modal';
+import {Popup} from '../../../Popup';
 import {Sheet} from '../../../Sheet';
 import {Menu} from '../Menu';
 import {MenuItem} from '../MenuItem';
@@ -200,6 +202,37 @@ export const Links = {
                     Telegram
                 </Menu.Item>
             </Menu>
+        );
+    },
+} satisfies Story;
+
+export const InsidePopup = {
+    ...Default,
+    render: (args) => {
+        const [popupAnchor, setPopupAnchor] = React.useState<HTMLDivElement | null>(null);
+
+        return (
+            <React.Fragment>
+                <div ref={setPopupAnchor}>&nbsp;</div>
+                <Popup anchorElement={popupAnchor} open>
+                    <div style={{padding: 10}}>
+                        <Menu {...args}>{getSimpleMenuItems(args)}</Menu>
+                    </div>
+                </Popup>
+            </React.Fragment>
+        );
+    },
+} satisfies Story;
+
+export const InsideModal = {
+    ...Default,
+    render: (args) => {
+        return (
+            <Modal open>
+                <div style={{padding: 10}}>
+                    <Menu {...args}>{getSimpleMenuItems(args)}</Menu>
+                </div>
+            </Modal>
         );
     },
 } satisfies Story;

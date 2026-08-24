@@ -10,41 +10,26 @@ import {DropdownMenu} from '@gravity-ui/uikit';
 
 Компонент `DropdownMenu` (выпадающее меню) позволяет организовывать элементы в группы, создавать подменю и настраивать переключатель. Элементы выпадающего меню настраиваются через свойство `items`. По умолчанию переключатель меню — кнопка с иконкой многоточия (**⋯**), которую можно переопределить с помощью свойства `renderSwitcher`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {DropdownMenuItem} from '@gravity-ui/uikit';
+import {DropdownMenu} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<DropdownMenu
-    items={[
-        {
-            action: () => console.log('Rename'),
-            text: 'Rename',
-        },
-        {
-            action: () => console.log('Delete'),
-            text: 'Delete',
-            theme: 'danger',
-        },
-    ]}
-/>
-`}
->
-    <UIKit.DropdownMenu
-        items={[
-            {
-                action: () => console.log('Rename'),
-                text: 'Rename',
-            },
-            {
-                action: () => console.log('Delete'),
-                text: 'Delete',
-                theme: 'danger',
-            },
-        ]}
-    />
-</ExampleBlock>
+const items: DropdownMenuItem[] = [
+    {
+        action: () => console.log('Rename'),
+        text: 'Rename',
+    },
+    {
+        action: () => console.log('Delete'),
+        text: 'Delete',
+        theme: 'danger',
+    },
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return <DropdownMenu items={items} />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -70,61 +55,36 @@ LANDING_BLOCK-->
 
 Элементы компонента`DropdownMenu` можно группировать и визуально отделять от остальных с помощью массивов элементов меню, вложенных в массив `items`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {DropdownMenuItemMixed} from '@gravity-ui/uikit';
+import {DropdownMenu} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<DropdownMenu
-    items={[
-        [
-            {
-                action: () => console.log('Call'),
-                text: 'Call',
-            },
-            {
-                action: () => console.log('Send email'),
-                text: 'Send email',
-            },
-        ],
+const items: DropdownMenuItemMixed[] = [
+    [
         {
-            action: () => console.log('Rename'),
-            text: 'Rename',
+            action: () => console.log('Call'),
+            text: 'Call',
         },
         {
-            action: () => console.log('Delete'),
-            text: 'Delete',
-            theme: 'danger',
+            action: () => console.log('Send email'),
+            text: 'Send email',
         },
-    ]}
-/>
-`}
->
-    <UIKit.DropdownMenu
-        items={[
-            [
-                {
-                    action: () => console.log('Call'),
-                    text: 'Call',
-                },
-                {
-                    action: () => console.log('Send email'),
-                    text: 'Send email',
-                },
-            ],
-            {
-                action: () => console.log('Rename'),
-                text: 'Rename',
-            },
-            {
-                action: () => console.log('Delete'),
-                text: 'Delete',
-                theme: 'danger',
-            },
-        ]}
-    />
-</ExampleBlock>
+    ],
+    {
+        action: () => console.log('Rename'),
+        text: 'Rename',
+    },
+    {
+        action: () => console.log('Delete'),
+        text: 'Delete',
+        theme: 'danger',
+    },
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return <DropdownMenu items={items} />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -165,113 +125,62 @@ LANDING_BLOCK-->
 - `.g-dropdown-menu__menu-item_with-submenu`— для элементов меню с более чем одним вложенным подэлементом;
 - `.g-dropdown-menu__menu-item_active-parent`— для элемента, подменю которого в данный момент открыто.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {DropdownMenuItem} from '@gravity-ui/uikit';
+import {DropdownMenu} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<DropdownMenu
-    items={[
-        {
-            action: () => console.log('Rename'),
-            text: 'Rename',
-        },
-        {
-            action: () => console.log('Delete'),
-            text: 'Delete',
-            theme: 'danger',
-        },
-        {
-            text: 'More',
-            items: [
-                {
-                    action: () => console.log('Mark as'),
-                    text: 'Mark as',
-                    items: [
-                        {
-                            action: () => console.log('Important'),
-                            text: 'Important',
-                        },
-                        {
-                            action: () => console.log('Favorite'),
-                            text: 'Favorite',
-                        },
-                    ],
-                },
-                {
-                    action: () => console.log('Copy'),
-                    text: 'Copy',
-                },
-                {
-                    text: 'Move to',
-                    items: [
-                        {
-                            action: () => console.log('Location #1'),
-                            text: 'Location #1',
-                        },
-                        {
-                            action: () => console.log('Location #2'),
-                            text: 'Location #2',
-                        },
-                    ],
-                },
-            ],
-        },
-    ]}
-/>
-`}
->
-    <UIKit.DropdownMenu
-        items={[
+const items: DropdownMenuItem[] = [
+    {
+        action: () => console.log('Rename'),
+        text: 'Rename',
+    },
+    {
+        action: () => console.log('Delete'),
+        text: 'Delete',
+        theme: 'danger',
+    },
+    {
+        text: 'More',
+        items: [
             {
-                action: () => console.log('Rename'),
-                text: 'Rename',
-            },
-            {
-                action: () => console.log('Delete'),
-                text: 'Delete',
-                theme: 'danger',
-            },
-            {
-                text: 'More',
+                action: () => console.log('Mark as'),
+                text: 'Mark as',
                 items: [
                     {
-                        action: () => console.log('Mark as'),
-                        text: 'Mark as',
-                        items: [
-                            {
-                                action: () => console.log('Important'),
-                                text: 'Important',
-                            },
-                            {
-                                action: () => console.log('Favorite'),
-                                text: 'Favorite',
-                            },
-                        ],
+                        action: () => console.log('Important'),
+                        text: 'Important',
                     },
                     {
-                        action: () => console.log('Copy'),
-                        text: 'Copy',
-                    },
-                    {
-                        text: 'Move to',
-                        items: [
-                            {
-                                action: () => console.log('Location #1'),
-                                text: 'Location #1',
-                            },
-                            {
-                                action: () => console.log('Location #2'),
-                                text: 'Location #2',
-                            },
-                        ],
+                        action: () => console.log('Favorite'),
+                        text: 'Favorite',
                     },
                 ],
             },
-        ]}
-    />
-</ExampleBlock>
+            {
+                action: () => console.log('Copy'),
+                text: 'Copy',
+            },
+            {
+                text: 'Move to',
+                items: [
+                    {
+                        action: () => console.log('Location #1'),
+                        text: 'Location #1',
+                    },
+                    {
+                        action: () => console.log('Location #2'),
+                        text: 'Location #2',
+                    },
+                ],
+            },
+        ],
+    },
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return <DropdownMenu items={items} />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -333,47 +242,35 @@ LANDING_BLOCK-->
 
 Для настройки переключателя меню используйте свойство `renderSwitcher`. Это может быть любая функция, возвращающая React-компонент (или `(props: SwitcherProps) => React.ReactNode` в контексте TypeScript; см. [`SwitcherProps`](#switcherprops) ниже). По умолчанию переключатель меню — кнопка с иконкой многоточия (**⋯**).
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {DropdownMenuItem} from '@gravity-ui/uikit';
+import {DropdownMenu} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<DropdownMenu
-    renderSwitcher={(props) => (
-        <div {...props} style={{cursor: 'pointer', borderBottom: '1px dotted'}}>John Doe</div>
-    )}
-    items={[
-        {
-            action: () => console.log('Rename'),
-            text: 'Rename',
-        },
-        {
-            action: () => console.log('Delete'),
-            text: 'Delete',
-            theme: 'danger',
-        },
-    ]}
-/>
-`}
->
-    <UIKit.DropdownMenu
-        renderSwitcher={(props) => (
-            <div {...props} style={{cursor: 'pointer', borderBottom: '1px dotted'}}>John Doe</div>
-        )}
-        items={[
-            {
-                action: () => console.log('Rename'),
-                text: 'Rename',
-            },
-            {
-                action: () => console.log('Delete'),
-                text: 'Delete',
-                theme: 'danger',
-            },
-        ]}
-    />
-</ExampleBlock>
+const items: DropdownMenuItem[] = [
+    {
+        action: () => console.log('Rename'),
+        text: 'Rename',
+    },
+    {
+        action: () => console.log('Delete'),
+        text: 'Delete',
+        theme: 'danger',
+    },
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <DropdownMenu
+            renderSwitcher={(props) => (
+                <div {...props} style={{cursor: 'pointer', borderBottom: '1px dotted'}}>
+                    John Doe
+                </div>
+            )}
+            items={items}
+        />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -408,74 +305,38 @@ LANDING_BLOCK-->
 
 Чтобы изменить иконку переключателя меню, используйте свойства `renderSwitcher` компонента`DropdownMenu` По умолчанию переключатель меню — кнопка с иконкой многоточия (**⋯**).
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Bars, Pencil, TrashBin} from '@gravity-ui/icons';
+import type {DropdownMenuItem} from '@gravity-ui/uikit';
+import {Button, DropdownMenu, Icon} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<DropdownMenu
-    renderSwitcher={(props) => (
-        <Button {...props} view="flat">
-            <Icon size={16} data={Bars} />
-        </Button>
-    )}
-    items={[
-        {
-            iconStart: <Icon size={16} data={Pencil} />,
-            action: () => console.log('Rename'),
-            text: 'Rename',
-        },
-        {
-            iconStart: <Icon size={16} data={TrashBin} />,
-            action: () => console.log('Delete'),
-            text: 'Delete',
-            theme: 'danger',
-        },
-    ]}
-/>
-`}
->
-    <UIKit.DropdownMenu
-        renderSwitcher={(props) => (
-            <UIKit.Button {...props} view="flat">
-                <UIKit.Icon
-                    data={() => (
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" d="M1.25 3.25A.75.75 0 0 1 2 2.5h12A.75.75 0 0 1 14 4H2a.75.75 0 0 1-.75-.75Zm0 4.75A.75.75 0 0 1 2 7.25h12a.75.75 0 0 1 0 1.5H2A.75.75 0 0 1 1.25 8ZM2 12a.75.75 0 0 0 0 1.5h12a.75.75 0 0 0 0-1.5H2Z" clip-rule="evenodd"></path></svg>
-                    )}
-                    size={16}
-                />
-            </UIKit.Button>
-        )}
-        items={[
-            {
-                iconStart: (
-                    <UIKit.Icon
-                        data={() => (
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" d="M11.423 1A3.577 3.577 0 0 1 15 4.577c0 .27-.108.53-.3.722l-.528.529-1.971 1.971-5.059 5.059a3 3 0 0 1-1.533.82l-2.638.528a1 1 0 0 1-1.177-1.177l.528-2.638a3 3 0 0 1 .82-1.533l5.059-5.059 2.5-2.5c.191-.191.451-.299.722-.299Zm-2.31 4.009-4.91 4.91a1.5 1.5 0 0 0-.41.766l-.38 1.903 1.902-.38a1.5 1.5 0 0 0 .767-.41l4.91-4.91a2.077 2.077 0 0 0-1.88-1.88Zm3.098.658a3.59 3.59 0 0 0-1.878-1.879l1.28-1.28c.995.09 1.788.884 1.878 1.88l-1.28 1.28Z" clip-rule="evenodd"></path></svg>
-                        )}
-                        size={16}
-                    />
-                ),
-                action: () => console.log('Rename'),
-                text: 'Rename',
-            },
-            {
-                iconStart: (
-                    <UIKit.Icon
-                        data={() => (
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" d="M9 2H7a.5.5 0 0 0-.5.5V3h3v-.5A.5.5 0 0 0 9 2Zm2 1v-.5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2V3H2.251a.75.75 0 0 0 0 1.5h.312l.317 7.625A3 3 0 0 0 5.878 15h4.245a3 3 0 0 0 2.997-2.875l.318-7.625h.312a.75.75 0 0 0 0-1.5H11Zm.936 1.5H4.064l.315 7.562A1.5 1.5 0 0 0 5.878 13.5h4.245a1.5 1.5 0 0 0 1.498-1.438l.315-7.562Zm-6.186 2v5a.75.75 0 0 0 1.5 0v-5a.75.75 0 0 0-1.5 0Zm3.75-.75a.75.75 0 0 1 .75.75v5a.75.75 0 0 1-1.5 0v-5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd"></path></svg>
-                        )}
-                        size={16}
-                    />
-                ),
-                action: () => console.log('Delete'),
-                text: 'Delete',
-                theme: 'danger',
-            },
-        ]}
-    />
-</ExampleBlock>
+const items: DropdownMenuItem[] = [
+    {
+        iconStart: <Icon size={16} data={Pencil} />,
+        action: () => console.log('Rename'),
+        text: 'Rename',
+    },
+    {
+        iconStart: <Icon size={16} data={TrashBin} />,
+        action: () => console.log('Delete'),
+        text: 'Delete',
+        theme: 'danger',
+    },
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <DropdownMenu
+            renderSwitcher={(props) => (
+                <Button {...props} view="flat">
+                    <Icon size={16} data={Bars} />
+                </Button>
+            )}
+            items={items}
+        />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

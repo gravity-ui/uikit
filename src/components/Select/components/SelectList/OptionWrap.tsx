@@ -34,10 +34,7 @@ export const OptionWrap = (props: OptionWrapProps) => {
     const optionContent = renderOption ? renderOption(option) : <DefaultOption option={option} />;
 
     return (
-        <div
-            data-qa={option.qa}
-            className={b('option', {colored: selected && !multiple, disabled: option.disabled})}
-        >
+        <div data-qa={option.qa} className={b('option', {disabled: option.disabled})}>
             {multiple && (
                 <Icon className={b('tick-icon', {shown: selected && multiple})} data={Check} />
             )}

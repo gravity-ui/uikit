@@ -1,8 +1,8 @@
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 import {expect} from '@playwright/experimental-ct-react';
 
-import {smokeTest, test} from '~playwright/core';
+import {test} from '~playwright/core';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {HelpMarkProps} from '../HelpMark';
 import {HelpMark} from '../HelpMark';
 
@@ -30,7 +30,7 @@ test.describe('HelpMark', {tag: '@HelpMark'}, () => {
             placement: placementCases,
         },
     ).forEach(([title, popoverProps]) => {
-        smokeTest(title, async ({mount, page, expectScreenshot}) => {
+        test(`smoke ${title}`, {tag: ['@smoke']}, async ({mount, page, expectScreenshot}) => {
             const root = await mount(
                 <div>
                     <h4>{title}</h4>

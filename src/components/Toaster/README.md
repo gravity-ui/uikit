@@ -81,6 +81,16 @@ class FoobarComponent extends Component {
 const FoobarWithToaster = withToaster()(FoobarComponent);
 ```
 
+## Properties
+
+These are the props of the `ToasterComponent` component.
+
+| Name      | Description                                         |   Type    | Default |
+| :-------- | :-------------------------------------------------- | :-------: | :-----: |
+| className | Custom class name to add to the component container | `string`  |         |
+| mobile    | Configuration that manages mobile/desktop views     | `boolean` |         |
+| hasPortal | Renders the toaster inside a `Portal` when enabled  | `boolean` | `true`  |
+
 ## Constructor arguments
 
 | Parameter | Type      | Default     | Description                                         |
@@ -111,7 +121,7 @@ It accepts the `toastOptions` argument with the ongoing notification details:
 | content    | `node`                                  |          | `undefined` | Notification content. This may be [anything that can be rendered: numbers, strings, elements, or an array](https://reactjs.org/docs/typechecking-with-proptypes.html#proptypes)                                                                          |
 | theme      | `string`                                |          | `"normal"`  | Notification theme. The possible values are `"normal"`, `"info"`, `"success"`, `"warning"`, `danger`, and `"utility"`. If `theme` is set to anything but `"normal"`, the icon will be added into the notification title. _By default, there is no icon_. |
 | isClosable | `boolean`                               |          | `true`      | Configuration that manages the visibility of the X icon, which allows the user to close the notification                                                                                                                                                 |
-| actions    | `ToastAction[]`                         |          | `undefined` | Array of [actions](./types.ts#L9) that are displayed after `content`                                                                                                                                                                                     |
+| actions    | `ToastAction[] \| () => ReactElement`   |          | `undefined` | Array of [actions](./types.ts#L9) that are displayed after `content`, or callback, that returned required actions                                                                                                                                        |
 | renderIcon | `(toastProps: ToastProps) => ReactNode` |          | `undefined` | Used to customize the toast icon. Type-based behavior is used by default                                                                                                                                                                                 |
 
 Every `action` is an object with following parameters:

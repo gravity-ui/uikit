@@ -2,7 +2,6 @@ export {List} from './List';
 export {moveItem} from './moveItem';
 export {useListFocusOwner} from './useListFocusOwner';
 export type {
-    ListActivationModality,
     ListProps,
     ListSelectionProps,
     ListDndAdapter,

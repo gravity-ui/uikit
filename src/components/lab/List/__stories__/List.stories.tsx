@@ -331,11 +331,12 @@ export const CustomMarkup: Story = {
                             padding: 12,
                             borderRadius: 12,
                             cursor: 'pointer',
-                            // The keyboard cursor follows the modality of the
-                            // interaction, exactly as the default row does:
-                            // under the mouse the outline does not stay behind
+                            // The keyboard cursor is drawn the way the
+                            // default row draws it: under the mouse, and once
+                            // the list has lost the focus, the outline does
+                            // not stay behind
                             outline: `2px solid var(${
-                                ctx.state.active && ctx.state.activationModality === 'keyboard'
+                                ctx.state.active && ctx.state.cursorVisible
                                     ? '--g-color-line-brand'
                                     : '--g-color-line-generic'
                             })`,

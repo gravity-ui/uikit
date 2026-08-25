@@ -310,9 +310,10 @@ function MailboxList() {
 but nothing of the row view is inherited: the looks of the row, and the way it shows its states,
 become yours.
 
-Show the keyboard cursor by `ctx.state.activationModality`, the way the default row does: the state
-`active` also belongs to the row the mouse last hovered, so an indication tied to it alone stays
-behind after the pointer has left. The hover itself is yours — usually a plain CSS `:hover`.
+Show the keyboard cursor by `ctx.state.cursorVisible`, the way the default row does: the state
+`active` also belongs to the row the mouse last hovered, and it survives the list losing the focus,
+so an indication tied to it alone stays behind. The hover itself is yours — usually a plain CSS
+`:hover`.
 
 ```tsx
 import {Avatar, Flex, Text} from '@gravity-ui/uikit';
@@ -337,7 +338,7 @@ function TeammateList({users}) {
             borderRadius: 12,
             cursor: 'pointer',
             outline: `2px solid var(${
-              ctx.state.active && ctx.state.activationModality === 'keyboard'
+              ctx.state.active && ctx.state.cursorVisible
                 ? '--g-color-line-brand'
                 : '--g-color-line-generic'
             })`,
@@ -439,10 +440,16 @@ One item at a time is active — the one the keyboard acts on. It follows the po
 is working with the mouse (turn that off with `activateOnHover`) and the arrows while they are
 working with the keyboard, and the highlight matches the input in use.
 
+The dark cursor is drawn by the list the user is driving: working with the mouse puts it out (the
+row under the pointer is highlighted by the CSS `:hover` instead), and so does the focus leaving the
+list — a key pressed in a neighbouring list lights up that list alone. A key pressed in this one, or
+the focus coming back to it, brings the cursor in.
+
 The active item can be controlled with `activeItemId` and `onActiveItemUpdate`, where `null` means
 that nothing is active. An id that comes from your own code moves the highlight and the tab stop,
 but neither DOM focus nor the scroll: only the gestures of the list itself scroll the active row
-into view.
+into view. Such an activation always shows the cursor — the list did not ask for it, so the UI that
+did (a button beside the list) has something to show for it.
 
 ```tsx
 import {Button, Flex} from '@gravity-ui/uikit';
@@ -922,19 +929,19 @@ exported next to the list — `unstable_moveItem`.
 
 The first argument of `renderItem` — the row as data.
 
-| Name                     | Description                                                                   |                    Type                    |
-| :----------------------- | :---------------------------------------------------------------------------- | :----------------------------------------: |
-| id                       | The id of the item, the one the list speaks in                                |                  `string`                  |
-| item                     | Your item, untouched                                                          |                    `T`                     |
-| index                    | The position among the rendered rows, section headers included                |                  `number`                  |
-| kind                     | Whether the row is an option or a section header                              |           `'item' \| 'section'`            |
-| content                  | The result of `getItemContent`                                                |       `React.ReactNode \| undefined`       |
-| state.active             | Whether the row is the active one                                             |                 `boolean`                  |
-| state.activationModality | What the active row was activated with; present on the active row only        |   `'keyboard' \| 'pointer' \| undefined`   |
-| state.disabled           | The result of `getItemDisabled`                                               |                 `boolean`                  |
-| state.selected           | Present only while a selection mode is on                                     |           `boolean \| undefined`           |
-| state.dragging           | Whether this row is the one being dragged; present only while `dnd` is passed |           `boolean \| undefined`           |
-| state.dropTarget         | The edge the drop will land on; present only while `dnd` is passed            | `'before' \| 'after' \| null \| undefined` |
+| Name                | Description                                                                      |                    Type                    |
+| :------------------ | :------------------------------------------------------------------------------- | :----------------------------------------: |
+| id                  | The id of the item, the one the list speaks in                                   |                  `string`                  |
+| item                | Your item, untouched                                                             |                    `T`                     |
+| index               | The position among the rendered rows, section headers included                   |                  `number`                  |
+| kind                | Whether the row is an option or a section header                                 |           `'item' \| 'section'`            |
+| content             | The result of `getItemContent`                                                   |       `React.ReactNode \| undefined`       |
+| state.active        | Whether the row is the active one                                                |                 `boolean`                  |
+| state.cursorVisible | Whether the active row shows the keyboard cursor; present on the active row only |           `boolean \| undefined`           |
+| state.disabled      | The result of `getItemDisabled`                                                  |                 `boolean`                  |
+| state.selected      | Present only while a selection mode is on                                        |           `boolean \| undefined`           |
+| state.dragging      | Whether this row is the one being dragged; present only while `dnd` is passed    |           `boolean \| undefined`           |
+| state.dropTarget    | The edge the drop will land on; present only while `dnd` is passed               | `'before' \| 'after' \| null \| undefined` |
 
 ### ListItemHelpers
 

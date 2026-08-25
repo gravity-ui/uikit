@@ -3,10 +3,10 @@ import * as React from 'react';
 import userEvent from '@testing-library/user-event';
 import * as tabbable from 'tabbable';
 
-import {fireEvent, render, screen} from '../../../../../test-utils/utils';
+import {act, fireEvent, render, screen} from '../../../../../test-utils/utils';
 import {Label} from '../../../Label';
 import {List} from '../List';
-import type {ListActivationModality, ListItemViewStateProps, ListProps} from '../types';
+import type {ListItemViewStateProps, ListProps} from '../types';
 
 // jsdom has no layout: by default displayCheck considers every element hidden,
 // and focusable() inside List.ItemView returns an empty list.
@@ -309,7 +309,7 @@ describe('lab List', () => {
                 />,
             );
 
-            screen.getByRole('button', {name: 'Inner'}).focus();
+            act(() => screen.getByRole('button', {name: 'Inner'}).focus());
             onActiveItemUpdate.mockClear();
             await user.keyboard('{ArrowDown}x');
 
@@ -475,42 +475,42 @@ describe('lab List', () => {
     // The colors themselves are not a matter for unit tests (they belong to
     // the screenshot tests of the view); what is pinned down here is WHAT
     // getItemViewProps returns
-    describe('activation modality: getItemViewProps wiring', () => {
+    describe('the keyboard cursor: getItemViewProps wiring', () => {
         const createTracker = () => {
             const view = new Map<string, ListItemViewStateProps>();
-            const modality = new Map<string, ListActivationModality | undefined>();
+            const cursor = new Map<string, boolean | undefined>();
             const renderItem: ListProps<string>['renderItem'] = (ctx, helpers) => {
                 view.set(ctx.id, helpers.getItemViewProps());
-                modality.set(ctx.id, ctx.state.activationModality);
+                cursor.set(ctx.id, ctx.state.cursorVisible);
                 return (
                     <List.ItemView {...helpers.getItemProps()} {...helpers.getItemViewProps()}>
                         {ctx.content}
                     </List.ItemView>
                 );
             };
-            return {view, modality, renderItem};
+            return {view, cursor, renderItem};
         };
 
-        test('tab-in and arrows: dark cursor in the keyboard modality', async () => {
+        test('tab-in and arrows: the dark cursor of the keyboard', async () => {
             const user = userEvent.setup();
-            const {view, modality, renderItem} = createTracker();
+            const {view, cursor, renderItem} = createTracker();
             render(<List aria-label="Fruits" items={FRUITS} renderItem={renderItem} />);
 
             await user.tab();
             expect(view.get('Apple')).toMatchObject({active: true});
             expect(view.get('Apple')).not.toHaveProperty('hovered');
-            expect(modality.get('Apple')).toBe('keyboard');
+            expect(cursor.get('Apple')).toBe(true);
 
             await user.keyboard('{ArrowDown}');
             expect(view.get('Banana')).toMatchObject({active: true});
             expect(view.get('Apple')).toMatchObject({active: false});
-            expect(modality.get('Banana')).toBe('keyboard');
-            expect(modality.get('Apple')).toBeUndefined();
+            expect(cursor.get('Banana')).toBe(true);
+            expect(cursor.get('Apple')).toBeUndefined();
         });
 
-        test('hover: pointer modality, no dark style; ctx.state.active and data-active unchanged', async () => {
+        test('hover: the cursor goes out; ctx.state.active and data-active unchanged', async () => {
             const user = userEvent.setup();
-            const {view, modality, renderItem} = createTracker();
+            const {view, cursor, renderItem} = createTracker();
             render(<List aria-label="Fruits" items={FRUITS} renderItem={renderItem} />);
             const options = screen.getAllByRole('option');
 
@@ -520,7 +520,7 @@ describe('lab List', () => {
             // the core does not emulate it
             expect(view.get('Cherry')).toMatchObject({active: false});
             expect(view.get('Cherry')).not.toHaveProperty('hovered');
-            expect(modality.get('Cherry')).toBe('pointer');
+            expect(cursor.get('Cherry')).toBe(false);
             // Only the presentation differs — the semantics of the activity
             // stay the same
             expect(options[2]).toHaveAttribute('data-active');
@@ -547,14 +547,14 @@ describe('lab List', () => {
             expect(options[0]).toHaveAttribute('data-active');
 
             // The next key brings it back; 'x' matches nothing in typeahead, so
-            // the activity does not move and only the modality changes
+            // the activity does not move and only the cursor comes back
             await user.keyboard('x');
             expect(view.get('Apple')).toMatchObject({active: true});
         });
 
-        test('click activates in the pointer modality; a key outside the list returns the dark cursor', async () => {
+        test('click activates without the cursor; a key in the focused list brings it back', async () => {
             const user = userEvent.setup();
-            const {view, modality, renderItem} = createTracker();
+            const {view, cursor, renderItem} = createTracker();
             render(
                 <List
                     aria-label="Fruits"
@@ -567,17 +567,19 @@ describe('lab List', () => {
 
             await user.click(options[1]);
             expect(view.get('Banana')).toMatchObject({active: false});
-            expect(modality.get('Banana')).toBe('pointer');
+            expect(cursor.get('Banana')).toBe(false);
 
             // The row keeps DOM focus after the click, but there is no "stuck
             // hover": the :focus fallback of the view has been removed, and
-            // the dark active is not passed in the pointer modality
+            // the dark active is not passed while the mouse is in use
             await user.unhover(options[1]);
             expect(options[1]).toHaveFocus();
             expect(view.get('Banana')).toMatchObject({active: false});
 
-            // Any key brings the keyboard modality back — the document
-            // listener catches presses outside the list as well
+            // Any key brings the cursor back while the list holds DOM focus
+            // — the document listener catches the presses the machinery does
+            // not handle as well (the gate is the focus, not the target of the
+            // event)
             fireEvent.keyDown(document.body, {key: 'a'});
             expect(view.get('Banana')).toMatchObject({active: true});
         });
@@ -600,8 +602,7 @@ describe('lab List', () => {
             expect(view.get('Banana')).toMatchObject({active: true});
 
             // The activity does not move (activateOnHover=false), but the
-            // modality becomes pointer — the dark cursor goes out while the
-            // mouse is in use
+            // dark cursor goes out anyway while the mouse is in use
             await user.hover(options[2]);
             expect(options[2]).not.toHaveAttribute('data-active');
             expect(view.get('Banana')).toMatchObject({active: false});
@@ -610,8 +611,8 @@ describe('lab List', () => {
             expect(view.get('Banana')).toMatchObject({active: true});
         });
 
-        test('programmatic activation renders dark: the initial modality is keyboard', () => {
-            const {view, modality, renderItem} = createTracker();
+        test('programmatic activation renders dark: the cursor starts out visible', () => {
+            const {view, cursor, renderItem} = createTracker();
             render(
                 <List
                     aria-label="Fruits"
@@ -623,12 +624,73 @@ describe('lab List', () => {
 
             expect(view.get('Banana')).toMatchObject({active: true});
             expect(view.get('Banana')).not.toHaveProperty('hovered');
-            expect(modality.get('Banana')).toBe('keyboard');
+            expect(cursor.get('Banana')).toBe(true);
         });
 
-        test('controlled activity follows the modality like any other', async () => {
+        test('the cursor goes out when the focus leaves the list and comes back with it', async () => {
             const user = userEvent.setup();
             const {view, renderItem} = createTracker();
+            render(
+                <React.Fragment>
+                    <List aria-label="Fruits" items={FRUITS} renderItem={renderItem} />
+                    <button type="button">Outside</button>
+                </React.Fragment>,
+            );
+
+            await user.tab();
+            await user.keyboard('{ArrowDown}');
+            expect(view.get('Banana')).toMatchObject({active: true});
+
+            // A click outside takes DOM focus away: the activity stays, its
+            // indication does not
+            await user.click(screen.getByRole('button', {name: 'Outside'}));
+            expect(view.get('Banana')).toMatchObject({active: false});
+            expect(screen.getAllByRole('option')[1]).toHaveAttribute('data-active');
+
+            // ...and a key pressed while the list holds no focus does not
+            // bring the cursor back
+            fireEvent.keyDown(document.body, {key: 'a'});
+            expect(view.get('Banana')).toMatchObject({active: false});
+
+            // Coming back to the list does
+            await user.tab({shift: true});
+            expect(screen.getAllByRole('option')[1]).toHaveFocus();
+            expect(view.get('Banana')).toMatchObject({active: true});
+        });
+
+        test('two lists: a key brings the cursor back only in the focused one', async () => {
+            const user = userEvent.setup();
+            const berries = ['Currant', 'Raspberry'];
+            const first = createTracker();
+            const second = createTracker();
+            render(
+                <React.Fragment>
+                    <List aria-label="Fruits" items={FRUITS} renderItem={first.renderItem} />
+                    <List aria-label="Berries" items={berries} renderItem={second.renderItem} />
+                </React.Fragment>,
+            );
+
+            await user.tab();
+            expect(first.view.get('Apple')).toMatchObject({active: true});
+
+            // The focus moving on to the second list puts the cursor of the
+            // first one out — its activity stays where it was
+            await user.tab();
+            expect(first.view.get('Apple')).toMatchObject({active: false});
+            expect(screen.getAllByRole('option')[0]).toHaveAttribute('data-active');
+            expect(second.view.get('Currant')).toMatchObject({active: true});
+
+            // The key belongs to the focused list alone: the document listener
+            // of every mounted list sees it, but the DOM focus gate lets it
+            // through in one of them
+            await user.keyboard('{ArrowDown}');
+            expect(second.view.get('Raspberry')).toMatchObject({active: true});
+            expect(first.view.get('Apple')).toMatchObject({active: false});
+        });
+
+        test('an activity that came from the outside shows the cursor after the mouse', async () => {
+            const user = userEvent.setup();
+            const {view, cursor, renderItem} = createTracker();
             const {rerender} = render(
                 <List
                     aria-label="Fruits"
@@ -640,11 +702,14 @@ describe('lab List', () => {
             const options = screen.getAllByRole('option');
 
             // Hovering (the activation request is rejected by the controlled
-            // parent) still switches the modality to pointer — the dark cursor
-            // goes out
+            // parent) puts the dark cursor out
             await user.hover(options[1]);
             expect(view.get('Apple')).toMatchObject({active: false});
 
+            // The parent moves the activity on its own — the list did not ask
+            // for this id, so the cursor comes back even though the user is
+            // holding the mouse: the UI that moved it (a button beside the
+            // list) would look broken otherwise
             rerender(
                 <List
                     aria-label="Fruits"
@@ -653,13 +718,36 @@ describe('lab List', () => {
                     renderItem={renderItem}
                 />,
             );
-            expect(view.get('Cherry')).toMatchObject({active: false});
-
-            fireEvent.keyDown(document.body, {key: 'a'});
             expect(view.get('Cherry')).toMatchObject({active: true});
+            expect(cursor.get('Cherry')).toBe(true);
         });
 
-        test('selected row: plain selection in the pointer modality, active pair in keyboard', async () => {
+        test('a controlled parent echoing a hover does not bring the cursor back', async () => {
+            const user = userEvent.setup();
+            const {view, renderItem} = createTracker();
+            function EchoHarness() {
+                const [activeItemId, setActiveItemId] = React.useState<string | null>(null);
+                return (
+                    <List
+                        aria-label="Fruits"
+                        items={FRUITS}
+                        activeItemId={activeItemId}
+                        onActiveItemUpdate={setActiveItemId}
+                        renderItem={renderItem}
+                    />
+                );
+            }
+            render(<EchoHarness />);
+            const options = screen.getAllByRole('option');
+
+            // The activity did arrive from the parent — but this list is the
+            // one that asked for it, so the gesture keeps owning the cursor
+            await user.hover(options[1]);
+            expect(options[1]).toHaveAttribute('data-active');
+            expect(view.get('Banana')).toMatchObject({active: false});
+        });
+
+        test('selected row: plain selection under the mouse, the active pair with the cursor', async () => {
             const user = userEvent.setup();
             const {view, renderItem} = createTracker();
             render(
@@ -673,6 +761,10 @@ describe('lab List', () => {
             );
             const options = screen.getAllByRole('option');
 
+            // The list is given DOM focus first: the cursor is a fact about
+            // the focused list, and a key changes nothing in a list that holds
+            // no focus
+            await user.tab();
             await user.hover(options[1]);
             expect(view.get('Banana')).toMatchObject({
                 selected: true,
@@ -683,14 +775,14 @@ describe('lab List', () => {
             await user.unhover(options[1]);
             expect(view.get('Banana')).toMatchObject({selected: true, active: false});
 
-            // A key brings the keyboard modality back — the "cursor" on a
-            // selected row is shown by the selected+active pair (the
-            // selection-hover rule _selected._active in the cascade of the view)
+            // A key brings the cursor back — on a selected row it is shown
+            // by the selected+active pair (the selection-hover rule
+            // _selected._active in the cascade of the view)
             fireEvent.keyDown(document.body, {key: 'a'});
             expect(view.get('Banana')).toMatchObject({selected: true, active: true});
         });
 
-        test('drag: hover indication is suppressed, the pointer-modality cursor shows nothing', async () => {
+        test('drag: hover indication is suppressed, the cursor of the mouse shows nothing', async () => {
             const user = userEvent.setup();
             const {view, renderItem} = createTracker();
             const {rerender} = render(
@@ -718,7 +810,7 @@ describe('lab List', () => {
             expect(view.get('Apple')).toMatchObject({hovered: false});
 
             // Activation on hover is suspended: the highlight is not dragged
-            // along, and the modality is frozen
+            // along, and the cursor is frozen
             await user.hover(options[3]);
             expect(options[3]).not.toHaveAttribute('data-active');
             expect(view.get('Melon')).toMatchObject({active: false, hovered: false});
@@ -736,7 +828,7 @@ describe('lab List', () => {
             expect(view.get('Cherry')).not.toHaveProperty('hovered');
         });
 
-        test('drag: the keyboard-modality cursor keeps a static dark style', async () => {
+        test('drag: the keyboard cursor keeps a static dark style', async () => {
             const user = userEvent.setup();
             const {view, renderItem} = createTracker();
             const {rerender} = render(
@@ -1016,7 +1108,7 @@ describe('lab List', () => {
             }
             expect(options[0]).toHaveAttribute('tabindex', '0');
 
-            options[0].focus();
+            act(() => options[0].focus());
             onActiveItemUpdate.mockClear();
             await user.keyboard('{ArrowDown}');
 
@@ -1041,7 +1133,7 @@ describe('lab List', () => {
             }
             expect(options[0]).toHaveAttribute('tabindex', '0');
 
-            options[0].focus();
+            act(() => options[0].focus());
             onActiveItemUpdate.mockClear();
             await user.keyboard('{ArrowDown}');
 
@@ -1206,7 +1298,7 @@ describe('lab List', () => {
             await user.click(disabledOption);
             expect(onSelectedUpdate).not.toHaveBeenCalled();
 
-            disabledOption.focus();
+            act(() => disabledOption.focus());
             await user.keyboard(' ');
             expect(onSelectedUpdate).not.toHaveBeenCalled();
 

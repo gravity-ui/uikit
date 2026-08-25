@@ -73,12 +73,12 @@ function ListRowComponent<T>({
         getCellProps: (overrides) => core.getCellProps(overrides),
         getItemViewProps: () => ({
             size,
-            // The dark active color belongs to the cursor in the keyboard
-            // modality only (the react-aria model): in the pointer modality
-            // the active row is highlighted by the plain CSS :hover as long as
-            // the mouse is over it, and once the mouse leaves there is no dark
-            // trail — it comes back with the next key
-            active: ctx.state.active && ctx.state.activationModality !== 'pointer',
+            // The dark active color is the keyboard cursor, and the cursor
+            // belongs to the list the user is driving: while the mouse is in
+            // use, or while the list holds no DOM focus, the active row is
+            // highlighted by the plain CSS :hover as long as the mouse is over
+            // it, and no dark trail stays behind
+            active: Boolean(ctx.state.active && ctx.state.cursorVisible),
             disabled: ctx.state.disabled,
             // selected and selectionStyle travel together: the view has no
             // default selectionStyle, and without one the selection is
@@ -140,7 +140,7 @@ function areListRowPropsEqual<T>(prev: ListRowProps<T>, next: ListRowProps<T>): 
         a.kind === c.kind &&
         a.content === c.content &&
         a.state.active === c.state.active &&
-        a.state.activationModality === c.state.activationModality &&
+        a.state.cursorVisible === c.state.cursorVisible &&
         a.state.disabled === c.state.disabled &&
         a.state.selected === c.state.selected &&
         a.state.dragging === c.state.dragging &&

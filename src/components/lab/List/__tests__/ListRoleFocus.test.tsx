@@ -6,7 +6,7 @@ import * as tabbable from 'tabbable';
 import {render, screen} from '../../../../../test-utils/utils';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
-import type {ListItemContext, ListItemHelpers, ListProps} from '../types';
+import type {ListItemContext, ListItemHelpers, ListItemViewStateProps, ListProps} from '../types';
 import {useListFocusOwner} from '../useListFocusOwner';
 
 // jsdom has no layout: by default displayCheck considers every element hidden,
@@ -401,6 +401,34 @@ describe('lab List: role model x focus strategy', () => {
             // by Space: the characters were typed into the input
             expect(input).toHaveValue('c er');
             expect(input).toHaveAttribute('aria-activedescendant', firstOptionId);
+        });
+
+        test('the cursor follows the keys of the owner: the list root never holds the focus', async () => {
+            const user = userEvent.setup();
+            const view = new Map<string, ListItemViewStateProps>();
+            const renderItem: ListProps<string>['renderItem'] = (ctx, helpers) => {
+                view.set(ctx.id, helpers.getItemViewProps());
+                return (
+                    <List.ItemView {...helpers.getItemProps()} {...helpers.getItemViewProps()}>
+                        {ctx.content}
+                    </List.ItemView>
+                );
+            };
+            render(<ComboboxHarness renderItem={renderItem} />);
+
+            await user.click(screen.getByRole('combobox'));
+            await user.keyboard('{ArrowDown}');
+            expect(view.get('Apple')).toMatchObject({active: true});
+
+            // The mouse over a row puts the cursor out here as well
+            await user.hover(screen.getAllByRole('option')[1]);
+            expect(view.get('Banana')).toMatchObject({active: false});
+
+            // DOM focus lives with the input outside the list root, so the
+            // focus gate of the document listener never opens: what brings the
+            // cursor back is the key routed through the channel of the owner
+            await user.keyboard('{ArrowDown}');
+            expect(view.get('Cherry')).toMatchObject({active: true});
         });
 
         test('a closed popup disconnects the owner: no aria-expanded, controls or activedescendant', () => {

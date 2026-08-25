@@ -64,20 +64,6 @@ export interface ListItemGetters<T> {
     getItemTextValue?: (item: T) => string;
 }
 
-/**
- * The modality of the last interaction with the list — "what the user is
- *  working with right now" rather than a property of a particular activation
- *  (the isFocusVisible model of react-aria). Hover and click switch it to
- *  `'pointer'`, any key — including one pressed outside the list (Tab before
- *  tab-in) — returns `'keyboard'`. The active row is one and the same for
- *  both modalities; only the indication differs: the default render shows the
- *  dark active color of the cursor in the keyboard modality only, while in
- *  the pointer modality the active row is highlighted by the plain CSS
- *  `:hover` as long as the mouse is over it — the dark trail does not follow
- *  the mouse
- */
-export type ListActivationModality = 'keyboard' | 'pointer';
-
 export interface ListItemContext<T> {
     id: string;
     item: T;
@@ -91,12 +77,19 @@ export interface ListItemContext<T> {
         active: boolean;
         disabled: boolean;
         /**
-         * The interaction modality — present on the active row only (a
-         *  modality change does not re-render the others). The initial one is
-         *  `'keyboard'`: programmatic activation
-         *  (controlled/defaultActiveItemId) is shown with the dark cursor
+         * Whether the active row shows the keyboard cursor — the dark active
+         *  color of the default render. Present on the active row only (a
+         *  change does not re-render the others). It is a fact about THIS
+         *  list rather than about the input modality of the page: working
+         *  with the pointer inside the list and losing DOM focus put the
+         *  cursor out, while a key pressed in the list, the focus coming
+         *  back and an activation that arrived from the outside (controlled
+         *  `activeItemId`, `defaultActiveItemId`) bring it back. The activity
+         *  itself is the same either way — only the indication differs: with
+         *  the cursor out, the row under the mouse is highlighted by the
+         *  plain CSS `:hover`, so the dark trail does not follow the mouse
          */
-        activationModality?: ListActivationModality;
+        cursorVisible?: boolean;
         /** Filled in only while the selection layer is on */
         selected?: boolean;
         /** Filled in only while the dnd layer is on */

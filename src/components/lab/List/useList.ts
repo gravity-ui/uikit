@@ -16,7 +16,6 @@ import {
 import {LIST_FOCUS_OWNER_CHANNEL} from './focusOwnerChannel';
 import {disableTextSelection, restoreTextSelection} from './textSelection';
 import type {
-    ListActivationModality,
     ListCellDOMProps,
     ListFocusStrategy,
     ListItemContext,
@@ -126,15 +125,41 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         props.onActiveItemUpdate,
     );
 
-    const [activationModality, setActivationModality] =
-        React.useState<ListActivationModality>('keyboard');
+    // Whether the active row shows the keyboard cursor (the dark active
+    // color). It is a fact about THIS list rather than about the input
+    // modality of the page: the cursor belongs to the list the user is
+    // driving, so a key pressed in a neighbouring list must not light this one
+    // up. It starts out visible — a programmatic activation
+    // (defaultActiveItemId) is shown dark
+    const [cursorVisible, setCursorVisible] = React.useState(true);
 
-    // The keyboard modality has to come back from any key, including one
-    // pressed outside the list (Tab on a neighbouring element before tab-in),
-    // hence a document capture listener, as in react-aria. Bare modifiers do
+    const containerRef = React.useRef<HTMLDivElement>(null);
+
+    // DOM focus is the gate of every "the keyboard is in use" signal. The
+    // check is synchronous rather than a focus-within flag on purpose: the
+    // focused row may be removed from the DOM (filtering, a dnd library hiding
+    // the original), and removal fires no focusout — a flag would stay stale,
+    // document.activeElement never does
+    const hasDomFocus = () =>
+        containerRef.current !== null && containerRef.current.contains(document.activeElement);
+
+    // A pointer press on a row is held from pointerdown to pointerup (see
+    // onPointerDown below): DOM focus that lands inside the list within that
+    // window came from the mouse, any other focus came from the keyboard or
+    // from code. react-aria answers the same question with a global modality
+    // tracker; the list needs no such thing — it only has to classify the
+    // focus that arrives at ITSELF
+    const pointerPressedRef = React.useRef(false);
+
+    // Any key pressed while this list holds DOM focus brings the cursor back
+    // — including the ones the machinery does not handle (Escape, Tab). A
+    // document capture listener rather than the onKeyDown of the root: a
+    // nested widget may stop the propagation of its keys. Bare modifiers do
     // not count as input (isValidKey of react-aria; combinations with Shift do
     // — that is Shift+Tab); repeated presses are free: setState with the same
-    // value does not render
+    // value does not render. In activedescendant DOM focus lives with the
+    // owner outside the root — there the cursor is brought back by the keys
+    // the owner routes into the machinery
     React.useEffect(() => {
         const handleDocumentKeyDown = (event: KeyboardEvent) => {
             if (event.metaKey || event.ctrlKey || event.altKey) {
@@ -148,7 +173,9 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             ) {
                 return;
             }
-            setActivationModality('keyboard');
+            if (hasDomFocus()) {
+                setCursorVisible(true);
+            }
         };
         document.addEventListener('keydown', handleDocumentKeyDown, true);
         return () => document.removeEventListener('keydown', handleDocumentKeyDown, true);
@@ -241,7 +268,6 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         return indexes;
     }, [rows, pinnedRowIndex]);
 
-    const containerRef = React.useRef<HTMLDivElement>(null);
     const registry = useItemElementRegistry({rowById});
     const dndRefTracker = useDndRefStabilityTracker({rowById});
 
@@ -284,15 +310,40 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         pendingFocusIdRef.current = null;
     });
 
+    // The last id this list ASKED for, by any gesture. Unlike the focus
+    // request it is not reset per commit: a controlled parent may echo the
+    // update asynchronously, and the echo still has to read as "this list did
+    // it". Everything else is an activity that came from the outside
+    const requestedActiveIdRef = React.useRef<string | null>(null);
+    const previousActiveIdRef = React.useRef(effectiveActiveId);
+    useLayoutEffect(() => {
+        const previousActiveId = previousActiveIdRef.current;
+        previousActiveIdRef.current = effectiveActiveId;
+        if (
+            effectiveActiveId === undefined ||
+            effectiveActiveId === previousActiveId ||
+            effectiveActiveId === requestedActiveIdRef.current
+        ) {
+            return;
+        }
+        // The activity was moved by the consumer (a controlled activeItemId),
+        // not by a gesture of this list — the cursor has to show even though
+        // the user may be holding the mouse: the UI that moves the activity
+        // (a button next to the list) would look broken otherwise
+        setCursorVisible(true);
+    }, [effectiveActiveId]);
+
     const commitActive = (id: string | undefined) => {
         if (id === undefined) {
             return;
         }
         pendingFocusIdRef.current = id;
-        // Every commitActive call is a keyboard gesture; this duplicates the
-        // document listener in case the event never reaches the document (a
-        // portal into another document)
-        setActivationModality('keyboard');
+        requestedActiveIdRef.current = id;
+        // Every commitActive call is a keyboard gesture of THIS list: the
+        // cursor comes back even when the document listener misses the event
+        // (a portal into another document) or the keys arrive from the
+        // external focus owner, which the list root never sees
+        setCursorVisible(true);
         setActiveItemId(id);
     };
 
@@ -445,6 +496,12 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         if (event.defaultPrevented) {
             return;
         }
+        // DOM focus lives with the owner outside the root, so the document
+        // listener never sees this list as focused: a key routed through the
+        // channel is what brings the cursor back — including the ones the
+        // machinery leaves to the input (filtering types into it and moves the
+        // activity from the outside)
+        setCursorVisible(true);
         handleNavigationKeys(event);
     };
 
@@ -478,6 +535,28 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             // with the hovered={false} prop of getItemViewProps)
             'data-drag-active': dragActive ? '' : undefined,
             onKeyDown: handleContainerKeyDown,
+            // The cursor belongs to the list that holds DOM focus: a click
+            // outside takes the focus away and puts the cursor out, coming
+            // back brings it in. Focus moving between the rows of this list
+            // (or into the interactive content of a cell) is not a departure —
+            // relatedTarget stays inside
+            onFocus: (event: React.FocusEvent<HTMLElement>) => {
+                if (event.currentTarget.contains(event.relatedTarget)) {
+                    return;
+                }
+                // Focus that arrives while a row is being pressed came from
+                // the mouse — there the cursor is owned by the pointer
+                // handlers below
+                if (!pointerPressedRef.current) {
+                    setCursorVisible(true);
+                }
+            },
+            onBlur: (event: React.FocusEvent<HTMLElement>) => {
+                if (event.currentTarget.contains(event.relatedTarget)) {
+                    return;
+                }
+                setCursorVisible(false);
+            },
             ref: containerRef,
         };
         warnOnOverridesCollision(overrides, 'getContainerProps');
@@ -582,9 +661,14 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             onPointerDown: (event: React.PointerEvent) => {
                 const element = event.currentTarget as HTMLElement;
                 disableTextSelection(element);
+                // The same window classifies the DOM focus that lands on the
+                // row: the browser focuses it as the default action of
+                // mousedown, that is between pointerdown and pointerup
+                pointerPressedRef.current = true;
                 const restore = () => {
                     document.removeEventListener('pointerup', restore, true);
                     document.removeEventListener('pointercancel', restore, true);
+                    pointerPressedRef.current = false;
                     restoreTextSelection(element);
                 };
                 document.addEventListener('pointerup', restore, true);
@@ -596,9 +680,10 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 if (!currentRow || currentRow.disabled || event.defaultPrevented) {
                     return;
                 }
-                // setActivationModality is stable, so calling it directly is
-                // safe even from the stale closure of a memoized row
-                setActivationModality('pointer');
+                // setCursorVisible is stable, so calling it directly is safe
+                // even from the stale closure of a memoized row
+                setCursorVisible(false);
+                requestedActiveIdRef.current = currentRow.id;
                 latest.setActiveItemId(currentRow.id);
                 latest.applyRow(currentRow, {range: event.shiftKey});
             },
@@ -611,9 +696,10 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 if (!currentRow || currentRow.disabled) {
                     return;
                 }
-                // Focus does not touch the modality: tab-in is covered by the
-                // document listener (Tab is a keydown), and focus coming from
-                // the mousedown before a click stays in the pointer modality
+                // Focus itself does not touch the cursor — that is decided by
+                // the onFocus of the container, which knows whether the focus
+                // arrived from the keyboard or from a press
+                requestedActiveIdRef.current = id;
                 latest.setActiveItemId(id);
             },
             onPointerEnter: () => {
@@ -631,16 +717,17 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 if (latest.dragActive || !currentRow || currentRow.disabled) {
                     return;
                 }
-                // The mouse entering a row means the pointer modality
-                // regardless of activateOnHover: the dark cursor goes out
-                // while the user works with the mouse (the analogue of the
-                // global pointermove listener of react-aria, reduced to the
-                // rows of the list). The mouse leaving is not an event: the
-                // keyboard modality is brought back by the next key
-                setActivationModality('pointer');
+                // The mouse entering a row puts the cursor out regardless of
+                // activateOnHover: the dark indication is not needed while the
+                // user works with the mouse (the analogue of the global
+                // pointermove listener of react-aria, reduced to the rows of
+                // the list). The mouse leaving is not an event: the cursor is
+                // brought back by the next key pressed in the list
+                setCursorVisible(false);
                 if (!latest.activateOnHover) {
                     return;
                 }
+                requestedActiveIdRef.current = currentRow.id;
                 latest.setActiveItemId(currentRow.id);
             },
         };
@@ -679,9 +766,9 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             content: row.content,
             state: {
                 active: row.id === effectiveActiveId,
-                // The modality is exposed on the active row only, so that
-                // changing it does not re-render the others
-                ...(row.id === effectiveActiveId ? {activationModality} : undefined),
+                // Exposed on the active row only, so that a change of the
+                // cursor does not re-render the others
+                ...(row.id === effectiveActiveId ? {cursorVisible} : undefined),
                 disabled: row.disabled,
                 ...(selectionMode && row.kind === 'item'
                     ? {selected: selectedSet.has(row.id)}

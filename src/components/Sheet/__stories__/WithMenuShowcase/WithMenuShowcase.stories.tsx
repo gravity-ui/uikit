@@ -30,7 +30,7 @@ export const WithMenuShowcase: StoryFn<SheetProps> = (args: SheetProps) => {
             <Button className={b('show-btn')} onClick={() => setVisible(true)}>
                 Show modal
             </Button>
-            <Sheet {...args} visible={visible} onClose={() => setVisible(false)}>
+            <Sheet {...args} visible={visible} onOpenChange={setVisible}>
                 <Menu className={b('menu')}>
                     <Menu.Group>
                         <Menu.Item>menu item 1.1</Menu.Item>

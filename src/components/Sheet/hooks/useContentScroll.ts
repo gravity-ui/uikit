@@ -11,7 +11,7 @@ export interface UseContentScrollSwipeState {
     deltaYRef: React.MutableRefObject<number>;
     swipeAreaTouchedRef: React.MutableRefObject<boolean>;
     setDeltaY: (value: number) => void;
-    onTouchEndAction: (deltaY: number) => void;
+    onTouchEndAction: (deltaY: number, event: React.TouchEvent<HTMLDivElement>) => void;
 }
 
 export interface UseContentScrollProps extends UseContentScrollSwipeState {
@@ -136,17 +136,20 @@ export function useContentScroll({
         ],
     );
 
-    const onTouchEnd = React.useCallback(() => {
-        if (!latestRef.current.getAllowHideOnContentScroll() || swipeAreaTouchedRef.current) {
-            return;
-        }
+    const onTouchEnd = React.useCallback(
+        (event: React.TouchEvent<HTMLDivElement>) => {
+            if (!latestRef.current.getAllowHideOnContentScroll() || swipeAreaTouchedRef.current) {
+                return;
+            }
 
-        onTouchEndAction(deltaYRef.current);
+            onTouchEndAction(deltaYRef.current, event);
 
-        startYRef.current = 0;
-        setDeltaY(0);
-        setContentTouched(false);
-    }, [onTouchEndAction, setDeltaY, startYRef, swipeAreaTouchedRef, deltaYRef]);
+            startYRef.current = 0;
+            setDeltaY(0);
+            setContentTouched(false);
+        },
+        [onTouchEndAction, setDeltaY, startYRef, swipeAreaTouchedRef, deltaYRef],
+    );
 
     const onTransitionEnd = React.useCallback((event: React.TransitionEvent<HTMLDivElement>) => {
         if (event.propertyName === 'height') {

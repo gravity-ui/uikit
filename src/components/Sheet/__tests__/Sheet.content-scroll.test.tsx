@@ -25,8 +25,9 @@ describe('Sheet content scroll', () => {
 
     test('closes the sheet on a swipe down when the content is scrolled to the top', () => {
         const onClose = jest.fn();
+        const onOpenChange = jest.fn();
         render(
-            <Sheet visible onClose={onClose}>
+            <Sheet visible onClose={onClose} onOpenChange={onOpenChange}>
                 Content
             </Sheet>,
         );
@@ -35,6 +36,8 @@ describe('Sheet content scroll', () => {
 
         swipeDownOnContent(scrollContainer, {from: TOUCH_START_POINT, to: TOUCH_END_POINT});
         expect(onClose).toHaveBeenCalledTimes(1);
+        expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'swipe');
+        expect(onOpenChange).toHaveBeenCalledTimes(1);
     });
 
     test('does not close the sheet on a swipe down when allowHideOnContentScroll set to false', () => {

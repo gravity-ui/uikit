@@ -25,8 +25,9 @@ describe('Sheet swipe area', () => {
 
     test('closes the sheet only when the swipe-area movement exceeds the threshold', () => {
         const onClose = jest.fn();
+        const onOpenChange = jest.fn();
         render(
-            <Sheet visible onClose={onClose}>
+            <Sheet visible onClose={onClose} onOpenChange={onOpenChange}>
                 Content
             </Sheet>,
         );
@@ -42,6 +43,7 @@ describe('Sheet swipe area', () => {
         });
 
         expect(onClose).not.toHaveBeenCalled();
+        expect(onOpenChange).not.toHaveBeenCalled();
 
         // show() restores the fully opened state: full veil opacity and shifted-up transform.
         expect(veil.style.opacity).toBe('1');
@@ -58,6 +60,8 @@ describe('Sheet swipe area', () => {
         expect(veil.style.opacity).toBe('0');
         // onClose fires only after the hiding transition finishes.
         expect(onClose).not.toHaveBeenCalled();
+        expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'swipe');
+        expect(onOpenChange).toHaveBeenCalledTimes(1);
 
         fireEvent.transitionEnd(veil);
         expect(onClose).toHaveBeenCalledTimes(1);

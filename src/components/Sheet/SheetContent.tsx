@@ -2,9 +2,13 @@
 
 import * as React from 'react';
 
+import type {UseInteractionsReturn} from '@floating-ui/react';
+
+import {useForkRef} from '../../hooks';
 import {MobileContext} from '../mobile';
 import {warnOnce} from '../utils/warn';
 
+import type {SheetProps} from './Sheet';
 import {SheetContentArea, SheetSwipeArea, SheetVeil} from './components';
 import {SheetQa, sheetBlock} from './constants';
 import {useContentScroll} from './hooks/useContentScroll';
@@ -27,6 +31,11 @@ function warnAboutOutOfRange() {
 
 interface SheetContentBaseProps {
     hideSheet: () => void;
+    onOpenChange: NonNullable<SheetProps['onOpenChange']>;
+    veilRef: React.RefObject<HTMLDivElement>;
+    isAnimatingRef: React.MutableRefObject<boolean>;
+    floatingRef: React.Ref<HTMLDivElement>;
+    getFloatingProps: UseInteractionsReturn['getFloatingProps'];
     content: React.ReactNode;
     visible: boolean;
     id?: string;
@@ -61,6 +70,11 @@ export function SheetContent(props: SheetContentProps) {
         title,
         visible,
         hideSheet,
+        onOpenChange,
+        veilRef,
+        isAnimatingRef,
+        floatingRef,
+        getFloatingProps,
         maxContentHeightCoefficient,
         alwaysFullHeight,
         id = 'sheet',
@@ -71,11 +85,11 @@ export function SheetContent(props: SheetContentProps) {
     const history = useHistory();
     const location = useLocation();
 
-    const veilRef = React.useRef<HTMLDivElement>(null);
     const sheetRef = React.useRef<HTMLDivElement>(null);
     const sheetTopRef = React.useRef<HTMLDivElement>(null);
     const sheetMarginBoxRef = React.useRef<HTMLDivElement>(null);
     const sheetScrollContainerRef = React.useRef<HTMLDivElement>(null);
+    const handleSheetRef = useForkRef(sheetRef, floatingRef);
 
     const observerRef = React.useRef<ResizeObserver | null>(null);
     const resizeWindowTimerRef = React.useRef<number | null>(null);
@@ -83,7 +97,6 @@ export function SheetContent(props: SheetContentProps) {
     const [veilTouched, setVeilTouched] = React.useState(false);
 
     const prevSheetHeightRef = React.useRef(0);
-    const isAnimatingRef = React.useRef(false);
     const inWindowResizeScopeRef = React.useRef(false);
     const delayedResizeRef = React.useRef(false);
     const hashSetRef = React.useRef(false);
@@ -166,7 +179,7 @@ export function SheetContent(props: SheetContentProps) {
                 sheetRef.current.style.transform = `translate3d(0, -${visibleHeight}px, 0)`;
             }
         },
-        [getSheetHeight, getIsPrefersReducedMotion],
+        [getSheetHeight, getIsPrefersReducedMotion, veilRef],
     );
 
     const getAvailableContentHeight = React.useCallback(
@@ -206,7 +219,7 @@ export function SheetContent(props: SheetContentProps) {
             hashSetRef.current = true;
             setHash();
         }
-    }, [setStyles, setHash]);
+    }, [isAnimatingRef, setStyles, setHash]);
 
     const hide = React.useCallback(() => {
         isAnimatingRef.current = true;
@@ -216,7 +229,7 @@ export function SheetContent(props: SheetContentProps) {
             hashSetRef.current = false;
             removeHash();
         }
-    }, [setStyles, removeHash]);
+    }, [isAnimatingRef, setStyles, removeHash]);
 
     const {
         deltaY,
@@ -234,6 +247,7 @@ export function SheetContent(props: SheetContentProps) {
         show,
         hide,
         hideSheet: hideSheetStable,
+        onOpenChange,
     });
 
     const resetScrollTransition = React.useCallback(() => {
@@ -298,7 +312,7 @@ export function SheetContent(props: SheetContentProps) {
         resizeWindowTimerRef.current = window.setTimeout(() => {
             onResize();
         }, WINDOW_RESIZE_TIMEOUT);
-    }, [onResize]);
+    }, [isAnimatingRef, onResize]);
 
     const {veilHandlers} = useVeil({
         veilRef,
@@ -350,7 +364,13 @@ export function SheetContent(props: SheetContentProps) {
             show();
         }
 
-        if ((prevVisible && !visible) || shouldClose(prevLocation)) {
+        const shouldCloseOnNavigation = hashSetRef.current && shouldClose(prevLocation);
+
+        if (shouldCloseOnNavigation) {
+            onOpenChange(false, undefined, 'navigation');
+        }
+
+        if ((prevVisible && !visible) || shouldCloseOnNavigation) {
             hide();
         }
 
@@ -380,11 +400,12 @@ export function SheetContent(props: SheetContentProps) {
                 {...veilHandlers}
             />
             <div
-                ref={sheetRef}
+                ref={handleSheetRef}
                 className={sheetBlock('sheet', sheetTransitionMod)}
                 role="dialog"
                 aria-modal="true"
                 aria-label={title}
+                {...getFloatingProps()}
             >
                 {!hideTopBar && (
                     <div

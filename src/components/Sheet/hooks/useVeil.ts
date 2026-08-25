@@ -20,7 +20,7 @@ export interface UseVeilProps {
 }
 
 export interface VeilHandlers {
-    onClick: () => void;
+    onClick: React.MouseEventHandler<HTMLDivElement>;
     onTransitionEnd: () => void;
 }
 

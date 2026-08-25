@@ -24,7 +24,7 @@ const SheetExample = () => {
   return (
     <React.Fragment>
       <Button onClick={() => setVisible(true)}>Open Sheet</Button>
-      <Sheet visible={visible} onClose={() => setVisible(false)} title="Content Sheet">
+      <Sheet visible={visible} onOpenChange={setVisible} title="Content Sheet">
         Content
       </Sheet>
     </React.Fragment>
@@ -35,7 +35,7 @@ const SheetExample = () => {
 ## Properties
 
 | Name                        | Description                                                                                                                                                      |     Type      |     Default     |
-| :-------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-----------: | :-------------: |
+| :-------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-----------: | :-------------: | --- | ---------- | ----------- |
 | allowHideOnContentScroll    | Enables the behavior of closing the sheet window by swiping down if the content is scrolled to its top (`content Node.scrollTop === 0`) or has no scroll at all. |   `boolean`   |     `true`      |
 | alwaysFullHeight            | `Sheet` height will always have the maximum value                                                                                                                |   `boolean`   |   `undefined`   |
 | className                   | `class` HTML attribute                                                                                                                                           |   `string`    |   `undefined`   |
@@ -44,8 +44,8 @@ const SheetExample = () => {
 | disablePortal               | Disables using `Portal`                                                                                                                                          |   `boolean`   |     `false`     |
 | hideTopBar                  | Hides the top bar with the resize handle.                                                                                                                        |   `boolean`   |                 |
 | id                          | Sheet ID used as hash in a URL. Make sure to specify multiple `id` values if there can be more than one sheet on a page.                                         |   `string`    |     `modal`     |
-| maxContentHeightCoefficient | Coefficient that determines the maximum height of the `Sheet` relative to the height of the viewport (range 0-1)                                                 |   `number`    |      `0.9`      |
-| onClose                     | Handler for close event.                                                                                                                                         |  `function`   |   `undefined`   |
+| maxContentHeightCoefficient | Coefficient that determines the maximum height of the `Sheet` relative to the height of the viewport (range 0-1)                                                 |   `number`    |      `0.9`      |     | `function` | `undefined` |
+| onOpenChange                | Handler for open state change requests.                                                                                                                          |  `function`   |   `undefined`   |
 | swipeAreaClassName          | `class` HTML attribute for the swipe area.                                                                                                                       |   `string`    |   `undefined`   |
 | title                       | Sheet window title.                                                                                                                                              |   `string`    |   `undefined`   |
 | visible                     | Manages `Sheet` visibility                                                                                                                                       |   `boolean`   |     `false`     |

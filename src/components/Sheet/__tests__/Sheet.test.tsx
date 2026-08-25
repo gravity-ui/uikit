@@ -1,3 +1,5 @@
+import userEvent from '@testing-library/user-event';
+
 import {render, screen} from '../../../../test-utils/utils';
 import {Sheet} from '../Sheet';
 import {SheetQa} from '../constants';
@@ -40,5 +42,37 @@ describe('Sheet', () => {
         expect(screen.getByTestId(qaId)).toHaveClass('custom-sheet');
         expect(screen.getByTestId(SheetQa.CONTENT)).toHaveClass('custom-content');
         expect(screen.getByTestId(SheetQa.SWIPE_AREA)).toHaveClass('custom-swipe-area');
+    });
+
+    test('requests closing when Escape is pressed', async () => {
+        const user = userEvent.setup();
+        const onOpenChange = jest.fn();
+        render(
+            <Sheet visible onOpenChange={onOpenChange}>
+                Content
+            </Sheet>,
+        );
+
+        await user.keyboard('{Escape}');
+
+        expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'escape-key');
+        expect(onOpenChange).toHaveBeenCalledTimes(1);
+    });
+
+    test('does not echo an external visible change through onOpenChange', () => {
+        const onOpenChange = jest.fn();
+        const {rerender} = render(
+            <Sheet visible onOpenChange={onOpenChange}>
+                Content
+            </Sheet>,
+        );
+
+        rerender(
+            <Sheet visible={false} onOpenChange={onOpenChange}>
+                Content
+            </Sheet>,
+        );
+
+        expect(onOpenChange).not.toHaveBeenCalled();
     });
 });

@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import type {SheetProps} from '../Sheet';
 import type {Status} from '../types';
 import {VelocityTracker} from '../utils';
 
@@ -20,6 +21,8 @@ export interface UseSwipeProps {
     hide: () => void;
     /** Immediately unmounts the sheet. */
     hideSheet: () => void;
+    /** Requests a change of the controlled open state. */
+    onOpenChange: NonNullable<SheetProps['onOpenChange']>;
 }
 
 export interface SwipeAreaHandlers {
@@ -38,7 +41,7 @@ export interface UseSwipeResult {
     swipeAreaTouchedRef: React.MutableRefObject<boolean>;
     setDeltaY: (value: number) => void;
     setSwipeAreaTouched: (value: boolean) => void;
-    onTouchEndAction: (deltaY: number) => void;
+    onTouchEndAction: (deltaY: number, event: React.TouchEvent<HTMLDivElement>) => void;
     swipeAreaHandlers: SwipeAreaHandlers;
 }
 
@@ -48,6 +51,7 @@ export function useSwipe({
     show,
     hide,
     hideSheet,
+    onOpenChange,
 }: UseSwipeProps): UseSwipeResult {
     const velocityTrackerRef = React.useRef<VelocityTracker>(null as unknown as VelocityTracker);
     if (!velocityTrackerRef.current) {
@@ -61,8 +65,15 @@ export function useSwipe({
     const deltaYRef = React.useRef(0);
     const swipeAreaTouchedRef = React.useRef(false);
 
-    const latestRef = React.useRef({setStyles, getSheetHeight, show, hide, hideSheet});
-    latestRef.current = {setStyles, getSheetHeight, show, hide, hideSheet};
+    const latestRef = React.useRef({
+        setStyles,
+        getSheetHeight,
+        show,
+        hide,
+        hideSheet,
+        onOpenChange,
+    });
+    latestRef.current = {setStyles, getSheetHeight, show, hide, hideSheet, onOpenChange};
 
     const setDeltaY = React.useCallback((value: number) => {
         deltaYRef.current = value;
@@ -74,28 +85,34 @@ export function useSwipe({
         setSwipeAreaTouchedState(value);
     }, []);
 
-    const onTouchEndAction = React.useCallback((currentDeltaY: number) => {
-        const {
-            getSheetHeight: getHeight,
-            hide: hideFn,
-            show: showFn,
-            hideSheet: hideSheetFn,
-        } = latestRef.current;
-        const accelerationY = velocityTrackerRef.current.getYAcceleration();
+    const onTouchEndAction = React.useCallback(
+        (currentDeltaY: number, event: React.TouchEvent<HTMLDivElement>) => {
+            const {
+                getSheetHeight: getHeight,
+                hide: hideFn,
+                show: showFn,
+                hideSheet: hideSheetFn,
+                onOpenChange: requestOpenChange,
+            } = latestRef.current;
+            const accelerationY = velocityTrackerRef.current.getYAcceleration();
 
-        if (getHeight() <= currentDeltaY) {
-            hideSheetFn();
-        } else if (
-            (currentDeltaY > HIDE_THRESHOLD &&
-                accelerationY <= ACCELERATION_Y_MAX &&
-                accelerationY >= ACCELERATION_Y_MIN) ||
-            accelerationY > ACCELERATION_Y_MAX
-        ) {
-            hideFn();
-        } else if (currentDeltaY !== 0) {
-            showFn();
-        }
-    }, []);
+            if (getHeight() <= currentDeltaY) {
+                requestOpenChange(false, event.nativeEvent, 'swipe');
+                hideSheetFn();
+            } else if (
+                (currentDeltaY > HIDE_THRESHOLD &&
+                    accelerationY <= ACCELERATION_Y_MAX &&
+                    accelerationY >= ACCELERATION_Y_MIN) ||
+                accelerationY > ACCELERATION_Y_MAX
+            ) {
+                requestOpenChange(false, event.nativeEvent, 'swipe');
+                hideFn();
+            } else if (currentDeltaY !== 0) {
+                showFn();
+            }
+        },
+        [],
+    );
 
     const onTouchStart = React.useCallback(
         (event: React.TouchEvent<HTMLDivElement>) => {
@@ -127,13 +144,16 @@ export function useSwipe({
         [setDeltaY],
     );
 
-    const onTouchEnd = React.useCallback(() => {
-        onTouchEndAction(deltaYRef.current);
+    const onTouchEnd = React.useCallback(
+        (event: React.TouchEvent<HTMLDivElement>) => {
+            onTouchEndAction(deltaYRef.current, event);
 
-        startYRef.current = 0;
-        setDeltaY(0);
-        setSwipeAreaTouched(false);
-    }, [onTouchEndAction, setDeltaY, setSwipeAreaTouched]);
+            startYRef.current = 0;
+            setDeltaY(0);
+            setSwipeAreaTouched(false);
+        },
+        [onTouchEndAction, setDeltaY, setSwipeAreaTouched],
+    );
 
     return {
         deltaY,

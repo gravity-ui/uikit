@@ -5,8 +5,9 @@ import {SheetQa} from '../constants';
 describe('Sheet veil', () => {
     test('calls onClose after the veil click and the hiding transition end', () => {
         const onClose = jest.fn();
+        const onOpenChange = jest.fn();
         render(
-            <Sheet visible onClose={onClose}>
+            <Sheet visible onClose={onClose} onOpenChange={onOpenChange}>
                 Content
             </Sheet>,
         );
@@ -20,6 +21,8 @@ describe('Sheet veil', () => {
 
         fireEvent.click(veil);
         expect(onClose).not.toHaveBeenCalled();
+        expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'outside-press');
+        expect(onOpenChange).toHaveBeenCalledTimes(1);
 
         fireEvent.transitionEnd(veil);
         expect(onClose).toHaveBeenCalledTimes(1);

@@ -4,6 +4,7 @@ import {fireEvent, render, screen} from '../../../../test-utils/utils';
 import type {History, Location} from '../../mobile';
 import {MobileProvider, Platform} from '../../mobile';
 import {Sheet} from '../Sheet';
+import type {SheetProps} from '../Sheet';
 import {SheetQa} from '../constants';
 
 const SHEET_HEIGHT = 300;
@@ -20,9 +21,11 @@ function normalizeHash(hash: string) {
 
 interface HashedSheetsProps {
     onHashChange: (hash: string) => void;
+    onOpenChange?: SheetProps['onOpenChange'];
+    platform?: Platform;
 }
 
-function HashedSheets({onHashChange}: HashedSheetsProps) {
+function HashedSheets({onHashChange, onOpenChange, platform = Platform.IOS}: HashedSheetsProps) {
     const [location, setLocation] = React.useState<Location>({
         pathname: '/',
         search: '',
@@ -58,6 +61,7 @@ function HashedSheets({onHashChange}: HashedSheetsProps) {
             },
             goBack() {
                 actionRef.current = 'POP';
+                setLocation((prev) => ({...prev, hash: ''}));
             },
         }),
         [],
@@ -66,7 +70,7 @@ function HashedSheets({onHashChange}: HashedSheetsProps) {
     return (
         <MobileProvider
             mobile
-            platform={Platform.IOS}
+            platform={platform}
             useHistory={() => history}
             useLocation={() => location}
         >
@@ -74,7 +78,23 @@ function HashedSheets({onHashChange}: HashedSheetsProps) {
             <button onClick={() => setSheetBVisible(true)}>Open B</button>
             <button onClick={() => setSheetAVisible(false)}>Close A</button>
             <button onClick={() => setSheetBVisible(false)}>Close B</button>
-            <Sheet id="sheetA" visible={sheetAVisible} onClose={() => setSheetAVisible(false)}>
+            <button
+                onClick={() => {
+                    actionRef.current = 'POP';
+                    setLocation((prev) => ({...prev, hash: ''}));
+                }}
+            >
+                Navigate back
+            </button>
+            <Sheet
+                id="sheetA"
+                visible={sheetAVisible}
+                onClose={() => setSheetAVisible(false)}
+                onOpenChange={(open, event, reason) => {
+                    setSheetAVisible(open);
+                    onOpenChange?.(open, event, reason);
+                }}
+            >
                 Content A
             </Sheet>
             <Sheet id="sheetB" visible={sheetBVisible} onClose={() => setSheetBVisible(false)}>
@@ -135,5 +155,38 @@ describe('Sheet hash', () => {
         // Close Sheet A — the hash is cleared, proving the stack held a single '#sheetA' entry.
         fireEvent.click(screen.getByText('Close A'));
         expect(currentHash).toBe('');
+    });
+
+    test('requests closing when hash navigation moves away from the sheet', () => {
+        const onOpenChange = jest.fn();
+
+        render(<HashedSheets onHashChange={() => {}} onOpenChange={onOpenChange} />);
+
+        fireEvent.click(screen.getByText('Open A'));
+        fireEvent.click(screen.getByText('Navigate back'));
+
+        expect(onOpenChange).toHaveBeenCalledWith(false, undefined, 'navigation');
+        expect(onOpenChange).toHaveBeenCalledTimes(1);
+    });
+
+    test('does not report Android hash cleanup as a second navigation close', () => {
+        const onOpenChange = jest.fn();
+
+        render(
+            <HashedSheets
+                platform={Platform.ANDROID}
+                onHashChange={() => {}}
+                onOpenChange={onOpenChange}
+            />,
+        );
+
+        fireEvent.click(screen.getByText('Open A'));
+
+        const veil = screen.getByTestId(SheetQa.VEIL);
+        fireEvent.transitionEnd(veil);
+        fireEvent.click(veil);
+
+        expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'outside-press');
+        expect(onOpenChange).toHaveBeenCalledTimes(1);
     });
 });

@@ -1,0 +1,12 @@
+@use '../../../variables';
+
+$block: '.#{variables.$ns}sheet-swipe-area';
+
+#{$block} {
+    position: absolute;
+    inset-block-start: -20px;
+    inset-inline-start: 0;
+    width: 100%;
+    height: 40px;
+    z-index: 1;
+}

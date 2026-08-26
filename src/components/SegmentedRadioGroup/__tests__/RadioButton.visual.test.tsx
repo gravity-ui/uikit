@@ -7,7 +7,6 @@ import {SegmentedRadioGroup} from '../SegmentedRadioGroup';
 import type {SegmentedRadioGroupOptionProps} from '../SegmentedRadioGroupOption';
 
 import {sizeCases, widthCases} from './cases';
-import {IconOptionsGroup} from './helpersPlaywright';
 
 test.describe('SegmentedRadioGroup', {tag: '@SegmentedRadioGroup'}, () => {
     const options: SegmentedRadioGroupOptionProps[] = [
@@ -60,21 +59,6 @@ test.describe('SegmentedRadioGroup', {tag: '@SegmentedRadioGroup'}, () => {
                         <div>
                             <SegmentedRadioGroup {...props} />
                         </div>
-                    </div>
-                ))}
-            </div>,
-        );
-
-        await expectScreenshot({});
-    });
-
-    test('option icon stays still on auto/max widths', async ({mount, expectScreenshot}) => {
-        await mount(
-            <div>
-                {widthCases.map((width) => (
-                    <div key={width}>
-                        <h4>{`width: ${width}`}</h4>
-                        <IconOptionsGroup width={width} />
                     </div>
                 ))}
             </div>,

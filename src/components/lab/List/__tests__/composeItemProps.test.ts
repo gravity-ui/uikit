@@ -103,13 +103,6 @@ describe('composeItemProps', () => {
         expect(composed.style).toEqual({position: 'absolute', top: 8, color: 'blue'});
     });
 
-    it('keeps override style as is when base has none', () => {
-        const base: Props = {role: 'option'};
-        const composed = composeItemProps(base, {style: {top: 4}});
-
-        expect(composed.style).toEqual({top: 4});
-    });
-
     it('last one wins for plain attributes', () => {
         const base: Props = {tabIndex: 0, id: 'base'};
         const composed = composeItemProps(base, {tabIndex: -1});

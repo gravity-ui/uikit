@@ -533,7 +533,7 @@ describe('lab List: role model x focus strategy', () => {
     });
 });
 
-describe('lab List: grid role model under virtualization', () => {
+describe('lab List: role models under virtualization', () => {
     const VIEWPORT_HEIGHT = 200;
     const ROW_HEIGHT = 36;
     let offsetHeightSpy: jest.SpyInstance;
@@ -543,7 +543,8 @@ describe('lab List: grid role model under virtualization', () => {
         offsetHeightSpy = jest
             .spyOn(HTMLElement.prototype, 'offsetHeight', 'get')
             .mockImplementation(function (this: HTMLElement) {
-                return this.getAttribute('role') === 'grid' ? VIEWPORT_HEIGHT : ROW_HEIGHT;
+                const role = this.getAttribute('role');
+                return role === 'grid' || role === 'listbox' ? VIEWPORT_HEIGHT : ROW_HEIGHT;
             });
         offsetWidthSpy = jest
             .spyOn(HTMLElement.prototype, 'offsetWidth', 'get')
@@ -601,37 +602,40 @@ describe('lab List: grid role model under virtualization', () => {
         ]);
     });
 
-    test('the ARIA tree is the same with and without virtualization', () => {
-        const listProps: ListProps<(typeof GROUPS)[number]> = {
-            role: 'grid',
-            'aria-label': 'Groups',
-            items: GROUPS,
-            getItemContent: (item) => item.label,
-        };
-        // The role tree: the container, the rows and their cells in display
-        // order. role="presentation" nodes are transparent for the a11y tree —
-        // both the wrappers of the virtualizer (the spacer and the absolute+top
-        // wrapper of a row) and the section headers hide under that role, which
-        // is why they are left out of the comparison
-        const roleTree = (root: HTMLElement) =>
-            // What is compared here is exactly the STRUCTURE of the role tree —
-            // Testing Library has no traversal by role for that
-            // eslint-disable-next-line testing-library/no-node-access
-            [root, ...Array.from(root.querySelectorAll('[role]'))]
-                .map((node) => node.getAttribute('role'))
-                .filter((role) => role !== 'presentation')
-                .join('>');
+    test.each(['listbox', 'grid'] as const)(
+        'the ARIA tree of a %s is the same with and without virtualization',
+        (role) => {
+            const listProps: ListProps<(typeof GROUPS)[number]> = {
+                role,
+                'aria-label': 'Groups',
+                items: GROUPS,
+                getItemContent: (item) => item.label,
+            };
+            // The role tree: the container, the rows and their cells in display
+            // order. role="presentation" nodes are transparent for the a11y
+            // tree — both the wrappers of the virtualizer (the spacer and the
+            // absolute+top wrapper of a row) and the section headers hide under
+            // that role, which is why they are left out of the comparison
+            const roleTree = (root: HTMLElement) =>
+                // What is compared here is exactly the STRUCTURE of the role
+                // tree — Testing Library has no traversal by role for that
+                // eslint-disable-next-line testing-library/no-node-access
+                [root, ...Array.from(root.querySelectorAll('[role]'))]
+                    .map((node) => node.getAttribute('role'))
+                    .filter((nodeRole) => nodeRole !== 'presentation')
+                    .join('>');
 
-        const view = render(<List {...listProps} />);
-        const flatTree = roleTree(screen.getByRole('grid'));
-        view.unmount();
+            const view = render(<List {...listProps} />);
+            const flatTree = roleTree(screen.getByRole(role));
+            view.unmount();
 
-        render(
-            <ListVirtualizer estimateItemSize={ROW_HEIGHT}>
-                <List {...listProps} style={{maxHeight: VIEWPORT_HEIGHT}} />
-            </ListVirtualizer>,
-        );
+            render(
+                <ListVirtualizer estimateItemSize={ROW_HEIGHT}>
+                    <List {...listProps} style={{maxHeight: VIEWPORT_HEIGHT}} />
+                </ListVirtualizer>,
+            );
 
-        expect(roleTree(screen.getByRole('grid'))).toBe(flatTree);
-    });
+            expect(roleTree(screen.getByRole(role))).toBe(flatTree);
+        },
+    );
 });

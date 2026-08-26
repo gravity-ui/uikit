@@ -281,26 +281,10 @@ describe('lab List: virtualization layer', () => {
             expect(screen.queryByRole('option', {name: 'Log 2'})).not.toBeInTheDocument();
         });
 
-        test('section headers stay presentational inside the virtualized window', () => {
-            render(
-                <ListVirtualizer estimateItemSize={ROW_HEIGHT}>
-                    <List
-                        aria-label="Groups"
-                        items={GROUPS}
-                        getItemContent={(item) => item.label}
-                        style={{maxHeight: VIEWPORT_HEIGHT}}
-                    />
-                </ListVirtualizer>,
-            );
-
-            // The a11y tree stays flat: the wrappers of the virtualizer are
-            // transparent (role="presentation"), and there are no other roles
-            // between the listbox and its options
-            expect(screen.getAllByRole('option')).toHaveLength(3);
-            const header = screen.getByText('Recent');
-            expect(header).toHaveAttribute('role', 'presentation');
-            expect(header).not.toHaveAttribute('tabindex');
-        });
+        // The flatness of the a11y tree under virtualization (the wrappers are
+        // transparent, no roles between the container and its rows) is pinned
+        // by the role-tree comparison in ListRoleFocus.test.tsx for both role
+        // models
     });
 
     describe('measure', () => {

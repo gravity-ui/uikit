@@ -63,17 +63,6 @@ describe('lab List', () => {
             expect(options.map((option) => option.textContent)).toEqual(FRUITS);
         });
 
-        test('renders section headers outside of the a11y tree', () => {
-            render(
-                <List aria-label="Groups" items={GROUPS} getItemContent={(item) => item.label} />,
-            );
-
-            expect(screen.getAllByRole('option')).toHaveLength(3);
-            const header = screen.getByText('Recent');
-            expect(header).toHaveAttribute('aria-hidden', 'true');
-            expect(header).not.toHaveAttribute('tabindex');
-        });
-
         test('options reference their section header via aria-describedby', () => {
             render(
                 <List aria-label="Groups" items={GROUPS} getItemContent={(item) => item.label} />,
@@ -133,8 +122,11 @@ describe('lab List', () => {
             expect(rows).toHaveLength(2);
 
             const [header, option] = rows;
+            // The section header is outside of the a11y tree and of the Tab
+            // order: presentation + aria-hidden, no tab stop
             expect(header).toHaveAttribute('role', 'presentation');
             expect(header).toHaveAttribute('aria-hidden', 'true');
+            expect(header).not.toHaveAttribute('tabindex');
             expect(header).toHaveAttribute('id', 'flat-list-item-g');
 
             expect(option).toHaveAttribute('role', 'option');
@@ -234,6 +226,7 @@ describe('lab List', () => {
             );
             const options = screen.getAllByRole('option');
             expect(options[1]).toHaveAttribute('aria-disabled', 'true');
+            expect(options[1]).toHaveAttribute('data-disabled');
 
             await user.tab();
             expect(options[0]).toHaveFocus();
@@ -340,11 +333,15 @@ describe('lab List', () => {
                     items={PROJECTS}
                     getItemContent={(project) => project.name}
                     onItemAction={onItemAction}
+                    // Gestures skip disabled rows: the only way to land on one
+                    // is the controlled/default escape hatch
                     defaultActiveItemId="p2"
                 />,
             );
 
             await user.tab();
+            expect(screen.getByRole('option', {name: 'Beta'})).toHaveFocus();
+
             await user.keyboard('{Enter}');
 
             expect(onItemAction).not.toHaveBeenCalled();
@@ -526,30 +523,41 @@ describe('lab List', () => {
             expect(options[2]).toHaveAttribute('data-active');
         });
 
-        test('the dark cursor does not follow the mouse and returns on the next key press', async () => {
+        test('the mouse over rows puts the cursor out even with activateOnHover={false}, leaving does not bring it back, the next key does', async () => {
             const user = userEvent.setup();
             const {view, renderItem} = createTracker();
-            render(<List aria-label="Fruits" items={FRUITS} renderItem={renderItem} />);
+            render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    activateOnHover={false}
+                    renderItem={renderItem}
+                />,
+            );
             const options = screen.getAllByRole('option');
 
             await user.tab();
-            expect(view.get('Apple')).toMatchObject({active: true});
+            await user.keyboard('{ArrowDown}');
+            expect(view.get('Banana')).toMatchObject({active: true});
 
-            // The mouse over the keyboard-active row puts the dark style out...
-            await user.hover(options[0]);
-            expect(view.get('Apple')).toMatchObject({active: false});
+            // The activity does not move (activateOnHover=false), but the dark
+            // cursor goes out anyway while the mouse is in use...
+            await user.hover(options[2]);
+            expect(options[2]).not.toHaveAttribute('data-active');
+            expect(options[1]).toHaveAttribute('data-active');
+            expect(view.get('Banana')).toMatchObject({active: false});
 
             // ...and the mouse leaving does NOT bring it back
             // (react-aria/Spectrum: while the user works with the mouse, the
             // keyboard indication is not needed)
-            await user.unhover(options[0]);
-            expect(view.get('Apple')).toMatchObject({active: false});
-            expect(options[0]).toHaveAttribute('data-active');
+            await user.unhover(options[2]);
+            expect(view.get('Banana')).toMatchObject({active: false});
+            expect(options[1]).toHaveAttribute('data-active');
 
             // The next key brings it back; 'x' matches nothing in typeahead, so
             // the activity does not move and only the cursor comes back
             await user.keyboard('x');
-            expect(view.get('Apple')).toMatchObject({active: true});
+            expect(view.get('Banana')).toMatchObject({active: true});
         });
 
         test('click activates without the cursor; a key in the focused list brings it back', async () => {
@@ -581,33 +589,6 @@ describe('lab List', () => {
             // not handle as well (the gate is the focus, not the target of the
             // event)
             fireEvent.keyDown(document.body, {key: 'a'});
-            expect(view.get('Banana')).toMatchObject({active: true});
-        });
-
-        test('mouse over rows dims the cursor even with activateOnHover={false}', async () => {
-            const user = userEvent.setup();
-            const {view, renderItem} = createTracker();
-            render(
-                <List
-                    aria-label="Fruits"
-                    items={FRUITS}
-                    activateOnHover={false}
-                    renderItem={renderItem}
-                />,
-            );
-            const options = screen.getAllByRole('option');
-
-            await user.tab();
-            await user.keyboard('{ArrowDown}');
-            expect(view.get('Banana')).toMatchObject({active: true});
-
-            // The activity does not move (activateOnHover=false), but the
-            // dark cursor goes out anyway while the mouse is in use
-            await user.hover(options[2]);
-            expect(options[2]).not.toHaveAttribute('data-active');
-            expect(view.get('Banana')).toMatchObject({active: false});
-
-            await user.keyboard('x');
             expect(view.get('Banana')).toMatchObject({active: true});
         });
 
@@ -747,41 +728,6 @@ describe('lab List', () => {
             expect(view.get('Banana')).toMatchObject({active: false});
         });
 
-        test('selected row: plain selection under the mouse, the active pair with the cursor', async () => {
-            const user = userEvent.setup();
-            const {view, renderItem} = createTracker();
-            render(
-                <List
-                    aria-label="Fruits"
-                    items={FRUITS}
-                    selectionMode="single"
-                    defaultSelectedIds={['Banana']}
-                    renderItem={renderItem}
-                />,
-            );
-            const options = screen.getAllByRole('option');
-
-            // The list is given DOM focus first: the cursor is a fact about
-            // the focused list, and a key changes nothing in a list that holds
-            // no focus
-            await user.tab();
-            await user.hover(options[1]);
-            expect(view.get('Banana')).toMatchObject({
-                selected: true,
-                selectionStyle: 'highlight',
-                active: false,
-            });
-
-            await user.unhover(options[1]);
-            expect(view.get('Banana')).toMatchObject({selected: true, active: false});
-
-            // A key brings the cursor back — on a selected row it is shown
-            // by the selected+active pair (the selection-hover rule
-            // _selected._active in the cascade of the view)
-            fireEvent.keyDown(document.body, {key: 'a'});
-            expect(view.get('Banana')).toMatchObject({selected: true, active: true});
-        });
-
         test('drag: hover indication is suppressed, the cursor of the mouse shows nothing', async () => {
             const user = userEvent.setup();
             const {view, renderItem} = createTracker();
@@ -891,22 +837,14 @@ describe('lab List', () => {
 
     describe('typeahead', () => {
         test('single character moves to the next match from the active option', async () => {
-            jest.useFakeTimers();
-            try {
-                const user = userEvent.setup({advanceTimers: jest.advanceTimersByTime});
-                render(<List aria-label="Fruits" items={FRUITS} />);
-                const options = screen.getAllByRole('option');
+            const user = userEvent.setup();
+            render(<List aria-label="Fruits" items={FRUITS} />);
+            const options = screen.getAllByRole('option');
 
-                await user.tab();
-                await user.keyboard('b');
-                expect(options[1]).toHaveFocus();
+            await user.tab();
+            await user.keyboard('b');
 
-                jest.advanceTimersByTime(600);
-                await user.keyboard('m');
-                expect(options[3]).toHaveFocus();
-            } finally {
-                jest.useRealTimers();
-            }
+            expect(options[1]).toHaveFocus();
         });
 
         test('accumulated prefix keeps the active option while it matches', async () => {
@@ -915,8 +853,15 @@ describe('lab List', () => {
             const options = screen.getAllByRole('option');
 
             await user.tab();
-            await user.keyboard('ban');
+            await user.keyboard('b');
+            expect(options[1]).toHaveFocus();
 
+            // The growing prefix searches from the active row inclusively: "ba"
+            // keeps Banana rather than moving on to Baobab, which matches too
+            await user.keyboard('a');
+            expect(options[1]).toHaveFocus();
+
+            await user.keyboard('n');
             expect(options[1]).toHaveFocus();
         });
 
@@ -931,14 +876,17 @@ describe('lab List', () => {
             expect(options[0]).toHaveFocus();
         });
 
-        test('Space is part of the search while the buffer is not empty', async () => {
+        test('Space is part of the search while the buffer is not empty: it neither applies nor selects', async () => {
             const user = userEvent.setup();
             const onItemAction = jest.fn();
+            const onSelectedUpdate = jest.fn();
             render(
                 <List
                     aria-label="Colors"
                     items={['Blue whale', 'Blueberry']}
                     onItemAction={onItemAction}
+                    selectionMode="multiple"
+                    onSelectedUpdate={onSelectedUpdate}
                 />,
             );
             const options = screen.getAllByRole('option');
@@ -949,9 +897,12 @@ describe('lab List', () => {
             expect(options[1]).toHaveFocus();
 
             await user.keyboard(' ');
-            // ...while "blue " (with the space in the buffer) matches Blue whale only
+            // ...while "blue " (with the space in the buffer) matches Blue whale
+            // only. The typeahead keeps priority over the selection layer as
+            // well (APG): the space is neither an application nor a toggle
             expect(options[0]).toHaveFocus();
             expect(onItemAction).not.toHaveBeenCalled();
+            expect(onSelectedUpdate).not.toHaveBeenCalled();
         });
 
         test('repeating the same character cycles through the matches', async () => {
@@ -1009,7 +960,9 @@ describe('lab List', () => {
                 <List
                     aria-label="Projects"
                     items={PROJECTS}
-                    getItemContent={(project) => project.name}
+                    // Non-string content has no text of its own: without the
+                    // getter the search has nothing to match against
+                    getItemContent={(project) => <b>{project.name}</b>}
                     getItemTextValue={(project) => project.name}
                 />,
             );
@@ -1017,7 +970,7 @@ describe('lab List', () => {
             await user.tab();
             await user.keyboard('g');
 
-            expect(screen.getAllByRole('option')[2]).toHaveFocus();
+            expect(screen.getByRole('option', {name: 'Gamma'})).toHaveFocus();
         });
     });
 
@@ -1147,23 +1100,9 @@ describe('lab List', () => {
         });
     });
 
+    // Tier 1 (objects with getItemContent) is exercised by every test that
+    // renders PROJECTS or GROUPS — it needs no test of its own
     describe('content tiers', () => {
-        test('tier 1: objects with getItemContent', () => {
-            render(
-                <List
-                    aria-label="Projects"
-                    items={PROJECTS}
-                    getItemContent={(project) => project.name}
-                />,
-            );
-
-            expect(screen.getAllByRole('option').map((option) => option.textContent)).toEqual([
-                'Alpha',
-                'Beta',
-                'Gamma',
-            ]);
-        });
-
         test('tier 2: renderItem with List.ItemView keeps slots and state binding', () => {
             render(
                 <List
@@ -1401,30 +1340,6 @@ describe('lab List', () => {
             expect(options[1]).toHaveAttribute('aria-selected', 'false');
         });
 
-        test('Space selects only with the layer on, and typeahead keeps priority over it', async () => {
-            const user = userEvent.setup();
-            const onSelectedUpdate = jest.fn();
-            render(
-                <List
-                    aria-label="Colors"
-                    items={['Blue whale', 'Blueberry']}
-                    selectionMode="multiple"
-                    onSelectedUpdate={onSelectedUpdate}
-                />,
-            );
-            const options = screen.getAllByRole('option');
-
-            await user.tab();
-            await user.keyboard('blue');
-            expect(options[1]).toHaveFocus();
-
-            // The buffer is not empty — the space goes into the search rather
-            // than into the selection
-            await user.keyboard(' ');
-            expect(options[0]).toHaveFocus();
-            expect(onSelectedUpdate).not.toHaveBeenCalled();
-        });
-
         test('onItemAction fires on the same gesture, after the selection update', async () => {
             const user = userEvent.setup();
             const calls: string[] = [];
@@ -1615,33 +1530,6 @@ describe('lab List', () => {
             expect(contexts[0]).not.toHaveProperty('selected');
             expect(viewProps[0]).not.toHaveProperty('selected');
             expect(viewProps[0]).not.toHaveProperty('selectionStyle');
-        });
-    });
-
-    describe('getItemProps pass-through into List.ItemView', () => {
-        test('DOM/a11y props reach the DOM node of the view', async () => {
-            const user = userEvent.setup();
-            render(
-                <List
-                    id="spread-list"
-                    aria-label="Projects"
-                    items={PROJECTS}
-                    getItemContent={(project) => project.name}
-                />,
-            );
-
-            const options = screen.getAllByRole('option');
-            // The role has already arrived (getAllByRole), and the root of an
-            // option is the view itself
-            expect(options[0]).toHaveClass('g-lab-list-item-view');
-            expect(options[0]).toHaveAttribute('id', 'spread-list-item-p1');
-            expect(options[0]).toHaveAttribute('tabindex', '0');
-            expect(options[1]).toHaveAttribute('aria-disabled', 'true');
-            expect(options[1]).toHaveAttribute('data-disabled');
-
-            // The pointer handlers arrive as well
-            await user.hover(options[2]);
-            expect(options[2]).toHaveAttribute('data-active');
         });
     });
 

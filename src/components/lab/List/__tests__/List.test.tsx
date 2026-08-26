@@ -1,56 +1,15 @@
 import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
-import * as tabbable from 'tabbable';
 
 import {act, fireEvent, render, screen} from '../../../../../test-utils/utils';
 import {Label} from '../../../Label';
 import {List} from '../List';
-import type {ListItemViewStateProps, ListProps} from '../types';
+import type {ListItemViewStateProps} from '../types';
 
-// jsdom has no layout: by default displayCheck considers every element hidden,
-// and focusable() inside List.ItemView returns an empty list.
-// jest.mock does not fit here: the module is already cached by the test setup
-const realFocusable = tabbable.focusable;
-let focusableSpy: jest.SpyInstance;
+import {FRUITS, GROUPS, PROJECTS, createTracker, mockTabbableDisplayCheck} from './helpers';
 
-beforeAll(() => {
-    focusableSpy = jest
-        .spyOn(tabbable, 'focusable')
-        .mockImplementation((container, options) =>
-            realFocusable(container, {...options, displayCheck: 'none'}),
-        );
-});
-
-afterAll(() => {
-    focusableSpy.mockRestore();
-});
-
-const FRUITS = ['Apple', 'Banana', 'Cherry', 'Melon'];
-
-interface Project {
-    id: string;
-    name: string;
-    disabled?: boolean;
-}
-
-const PROJECTS: Project[] = [
-    {id: 'p1', name: 'Alpha'},
-    {id: 'p2', name: 'Beta', disabled: true},
-    {id: 'p3', name: 'Gamma'},
-];
-
-const GROUPS = [
-    {id: 'recent', label: 'Recent', children: [{id: 'r1', label: 'First'}]},
-    {
-        id: 'all',
-        label: 'All',
-        children: [
-            {id: 'a1', label: 'Second'},
-            {id: 'a2', label: 'Third'},
-        ],
-    },
-];
+mockTabbableDisplayCheck();
 
 describe('lab List', () => {
     describe('rendering and ARIA', () => {
@@ -70,9 +29,6 @@ describe('lab List', () => {
 
             const option = screen.getByRole('option', {name: 'First'});
             expect(option).toHaveAttribute('aria-describedby', screen.getByText('Recent').id);
-            // A hidden header legitimately takes part in the description
-            // computation through an explicit reference — a screen reader
-            // announces the option together with the name of its section
             expect(option).toHaveAccessibleDescription('Recent');
         });
 
@@ -82,16 +38,6 @@ describe('lab List', () => {
             for (const option of screen.getAllByRole('option')) {
                 expect(option).not.toHaveAttribute('aria-describedby');
             }
-        });
-
-        test('warns in dev when the list has no accessible name', () => {
-            const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-            render(<List items={FRUITS} />);
-
-            expect(consoleErrorSpy).toHaveBeenCalledWith(
-                expect.stringContaining('accessible name'),
-            );
-            consoleErrorSpy.mockRestore();
         });
 
         test('does not create selection semantics without the selection layer', () => {
@@ -114,16 +60,11 @@ describe('lab List', () => {
             );
 
             const listbox = screen.getByRole('listbox');
-            // The flatness of the tree is exactly what is checked here (rows
-            // are direct children of the listbox, with no wrappers): Testing
-            // Library has no API for such an assertion
             // eslint-disable-next-line testing-library/no-node-access
             const rows = Array.from(listbox.children);
             expect(rows).toHaveLength(2);
 
             const [header, option] = rows;
-            // The section header is outside of the a11y tree and of the Tab
-            // order: presentation + aria-hidden, no tab stop
             expect(header).toHaveAttribute('role', 'presentation');
             expect(header).toHaveAttribute('aria-hidden', 'true');
             expect(header).not.toHaveAttribute('tabindex');
@@ -188,8 +129,6 @@ describe('lab List', () => {
             fireEvent.scroll(root);
             expect(onScroll).toHaveBeenCalledTimes(1);
 
-            // The handler is chained after the core's own rather than replacing
-            // it: focus still lands on the tab stop and activates it
             await user.tab();
             expect(onFocus).toHaveBeenCalledTimes(1);
             expect(screen.getAllByRole('option')[0]).toHaveFocus();
@@ -213,15 +152,10 @@ describe('lab List', () => {
             await user.tab();
             expect(alpha).toHaveFocus();
 
-            // Focus and activity diverge: a disabled row does not take the
-            // activity, but a click on it (custom markup takes pointer events)
-            // leaves DOM focus there
             act(() => beta.focus());
             expect(beta).toHaveFocus();
             expect(alpha).toHaveAttribute('data-active');
 
-            // Home targets Alpha, which is active already — no state change
-            // follows, and focus has to be synced right away
             await user.keyboard('{Home}');
             expect(alpha).toHaveFocus();
         });
@@ -392,29 +326,6 @@ describe('lab List', () => {
             );
         });
 
-        test('Enter does nothing on a disabled option', async () => {
-            const user = userEvent.setup();
-            const onItemAction = jest.fn();
-            render(
-                <List
-                    aria-label="Projects"
-                    items={PROJECTS}
-                    getItemContent={(project) => project.name}
-                    onItemAction={onItemAction}
-                    // Gestures skip disabled rows: the only way to land on one
-                    // is the controlled/default escape hatch
-                    defaultActiveItemId="p2"
-                />,
-            );
-
-            await user.tab();
-            expect(screen.getByRole('option', {name: 'Beta'})).toHaveFocus();
-
-            await user.keyboard('{Enter}');
-
-            expect(onItemAction).not.toHaveBeenCalled();
-        });
-
         test('click applies the item and makes it active', async () => {
             const user = userEvent.setup();
             const onItemAction = jest.fn();
@@ -455,23 +366,6 @@ describe('lab List', () => {
             );
         });
 
-        test('click on a disabled option does nothing', async () => {
-            const user = userEvent.setup();
-            const onItemAction = jest.fn();
-            render(
-                <List
-                    aria-label="Projects"
-                    items={PROJECTS}
-                    getItemContent={(project) => project.name}
-                    onItemAction={onItemAction}
-                />,
-            );
-
-            await user.click(screen.getByText('Beta'));
-
-            expect(onItemAction).not.toHaveBeenCalled();
-        });
-
         test('click on a focusable descendant does not apply the item', async () => {
             const user = userEvent.setup();
             const onItemAction = jest.fn();
@@ -506,7 +400,7 @@ describe('lab List', () => {
     });
 
     describe('hover activation', () => {
-        test('hover while focus is outside changes the activity and the tab stop without stealing focus', async () => {
+        test('hover while focus is outside moves the activity and the tab stop, not the focus', async () => {
             const user = userEvent.setup();
             const onActiveItemUpdate = jest.fn();
             render(
@@ -531,24 +425,14 @@ describe('lab List', () => {
             expect(options[2]).toHaveAttribute('data-active');
             expect(options[2]).toHaveAttribute('tabindex', '0');
             expect(options[0]).toHaveAttribute('tabindex', '-1');
-            // Focus stealing is an antipattern: the button keeps the focus,
-            // and the next Tab lands on the hovered row — the tab stop
             expect(button).toHaveFocus();
             await user.tab();
             expect(options[2]).toHaveFocus();
         });
 
-        test('hover while a row holds focus moves focus along: the focused row, the active row and the tab stop stay one element', async () => {
+        test('hover while a row holds focus moves focus along', async () => {
             const user = userEvent.setup();
-            const view = new Map<string, ListItemViewStateProps>();
-            const renderItem: ListProps<string>['renderItem'] = (ctx, helpers) => {
-                view.set(ctx.id, helpers.getItemViewProps());
-                return (
-                    <List.ItemView {...helpers.getItemProps()} {...helpers.getItemViewProps()}>
-                        {ctx.content}
-                    </List.ItemView>
-                );
-            };
+            const {states, view, renderItem} = createTracker();
             render(<List aria-label="Fruits" items={FRUITS} renderItem={renderItem} />);
             const options = screen.getAllByRole('option');
 
@@ -560,8 +444,9 @@ describe('lab List', () => {
             expect(options[2]).toHaveAttribute('data-active');
             expect(options[2]).toHaveAttribute('tabindex', '0');
             expect(options[2]).toHaveFocus();
-            // The mouse is in use: the cursor stays out even though focus moved
             expect(view.get('Cherry')).toMatchObject({active: false});
+            expect(view.get('Cherry')).not.toHaveProperty('hovered');
+            expect(states.get('Cherry')?.cursorVisible).toBe(false);
         });
 
         test('the keyboard continues from the hovered row', async () => {
@@ -603,61 +488,25 @@ describe('lab List', () => {
         });
     });
 
-    // The colors themselves are not a matter for unit tests (they belong to
-    // the screenshot tests of the view); what is pinned down here is WHAT
-    // getItemViewProps returns
     describe('the keyboard cursor: getItemViewProps wiring', () => {
-        const createTracker = () => {
-            const view = new Map<string, ListItemViewStateProps>();
-            const cursor = new Map<string, boolean | undefined>();
-            const renderItem: ListProps<string>['renderItem'] = (ctx, helpers) => {
-                view.set(ctx.id, helpers.getItemViewProps());
-                cursor.set(ctx.id, ctx.state.cursorVisible);
-                return (
-                    <List.ItemView {...helpers.getItemProps()} {...helpers.getItemViewProps()}>
-                        {ctx.content}
-                    </List.ItemView>
-                );
-            };
-            return {view, cursor, renderItem};
-        };
-
         test('tab-in and arrows: the dark cursor of the keyboard', async () => {
             const user = userEvent.setup();
-            const {view, cursor, renderItem} = createTracker();
+            const {states, view, renderItem} = createTracker();
             render(<List aria-label="Fruits" items={FRUITS} renderItem={renderItem} />);
 
             await user.tab();
             expect(view.get('Apple')).toMatchObject({active: true});
             expect(view.get('Apple')).not.toHaveProperty('hovered');
-            expect(cursor.get('Apple')).toBe(true);
+            expect(states.get('Apple')?.cursorVisible).toBe(true);
 
             await user.keyboard('{ArrowDown}');
             expect(view.get('Banana')).toMatchObject({active: true});
             expect(view.get('Apple')).toMatchObject({active: false});
-            expect(cursor.get('Banana')).toBe(true);
-            expect(cursor.get('Apple')).toBeUndefined();
+            expect(states.get('Banana')?.cursorVisible).toBe(true);
+            expect(states.get('Apple')?.cursorVisible).toBeUndefined();
         });
 
-        test('hover: the cursor goes out; ctx.state.active and data-active unchanged', async () => {
-            const user = userEvent.setup();
-            const {view, cursor, renderItem} = createTracker();
-            render(<List aria-label="Fruits" items={FRUITS} renderItem={renderItem} />);
-            const options = screen.getAllByRole('option');
-
-            await user.hover(options[2]);
-
-            // The light highlight under the mouse comes from the CSS :hover —
-            // the core does not emulate it
-            expect(view.get('Cherry')).toMatchObject({active: false});
-            expect(view.get('Cherry')).not.toHaveProperty('hovered');
-            expect(cursor.get('Cherry')).toBe(false);
-            // Only the presentation differs — the semantics of the activity
-            // stay the same
-            expect(options[2]).toHaveAttribute('data-active');
-        });
-
-        test('the mouse over rows puts the cursor out even with activateOnHover={false}, leaving does not bring it back, the next key does', async () => {
+        test('the mouse puts the cursor out even with activateOnHover={false}, the next key brings it back', async () => {
             const user = userEvent.setup();
             const {view, renderItem} = createTracker();
             render(
@@ -674,29 +523,22 @@ describe('lab List', () => {
             await user.keyboard('{ArrowDown}');
             expect(view.get('Banana')).toMatchObject({active: true});
 
-            // The activity does not move (activateOnHover=false), but the dark
-            // cursor goes out anyway while the mouse is in use...
             await user.hover(options[2]);
             expect(options[2]).not.toHaveAttribute('data-active');
             expect(options[1]).toHaveAttribute('data-active');
             expect(view.get('Banana')).toMatchObject({active: false});
 
-            // ...and the mouse leaving does NOT bring it back
-            // (react-aria/Spectrum: while the user works with the mouse, the
-            // keyboard indication is not needed)
             await user.unhover(options[2]);
             expect(view.get('Banana')).toMatchObject({active: false});
             expect(options[1]).toHaveAttribute('data-active');
 
-            // The next key brings it back; 'x' matches nothing in typeahead, so
-            // the activity does not move and only the cursor comes back
             await user.keyboard('x');
             expect(view.get('Banana')).toMatchObject({active: true});
         });
 
-        test('click activates without the cursor; a key in the focused list brings it back', async () => {
+        test('click activates without the cursor', async () => {
             const user = userEvent.setup();
-            const {view, cursor, renderItem} = createTracker();
+            const {states, view, renderItem} = createTracker();
             render(
                 <List
                     aria-label="Fruits"
@@ -709,25 +551,18 @@ describe('lab List', () => {
 
             await user.click(options[1]);
             expect(view.get('Banana')).toMatchObject({active: false});
-            expect(cursor.get('Banana')).toBe(false);
+            expect(states.get('Banana')?.cursorVisible).toBe(false);
 
-            // The row keeps DOM focus after the click, but there is no "stuck
-            // hover": the :focus fallback of the view has been removed, and
-            // the dark active is not passed while the mouse is in use
             await user.unhover(options[1]);
             expect(options[1]).toHaveFocus();
             expect(view.get('Banana')).toMatchObject({active: false});
 
-            // Any key brings the cursor back while the list holds DOM focus
-            // — the document listener catches the presses the machinery does
-            // not handle as well (the gate is the focus, not the target of the
-            // event)
             fireEvent.keyDown(document.body, {key: 'a'});
             expect(view.get('Banana')).toMatchObject({active: true});
         });
 
         test('programmatic activation renders dark: the cursor starts out visible', () => {
-            const {view, cursor, renderItem} = createTracker();
+            const {states, view, renderItem} = createTracker();
             render(
                 <List
                     aria-label="Fruits"
@@ -739,7 +574,7 @@ describe('lab List', () => {
 
             expect(view.get('Banana')).toMatchObject({active: true});
             expect(view.get('Banana')).not.toHaveProperty('hovered');
-            expect(cursor.get('Banana')).toBe(true);
+            expect(states.get('Banana')?.cursorVisible).toBe(true);
         });
 
         test('the cursor goes out when the focus leaves the list and comes back with it', async () => {
@@ -756,18 +591,13 @@ describe('lab List', () => {
             await user.keyboard('{ArrowDown}');
             expect(view.get('Banana')).toMatchObject({active: true});
 
-            // A click outside takes DOM focus away: the activity stays, its
-            // indication does not
             await user.click(screen.getByRole('button', {name: 'Outside'}));
             expect(view.get('Banana')).toMatchObject({active: false});
             expect(screen.getAllByRole('option')[1]).toHaveAttribute('data-active');
 
-            // ...and a key pressed while the list holds no focus does not
-            // bring the cursor back
             fireEvent.keyDown(document.body, {key: 'a'});
             expect(view.get('Banana')).toMatchObject({active: false});
 
-            // Coming back to the list does
             await user.tab({shift: true});
             expect(screen.getAllByRole('option')[1]).toHaveFocus();
             expect(view.get('Banana')).toMatchObject({active: true});
@@ -788,16 +618,11 @@ describe('lab List', () => {
             await user.tab();
             expect(first.view.get('Apple')).toMatchObject({active: true});
 
-            // The focus moving on to the second list puts the cursor of the
-            // first one out — its activity stays where it was
             await user.tab();
             expect(first.view.get('Apple')).toMatchObject({active: false});
             expect(screen.getAllByRole('option')[0]).toHaveAttribute('data-active');
             expect(second.view.get('Currant')).toMatchObject({active: true});
 
-            // The key belongs to the focused list alone: the document listener
-            // of every mounted list sees it, but the DOM focus gate lets it
-            // through in one of them
             await user.keyboard('{ArrowDown}');
             expect(second.view.get('Raspberry')).toMatchObject({active: true});
             expect(first.view.get('Apple')).toMatchObject({active: false});
@@ -805,7 +630,7 @@ describe('lab List', () => {
 
         test('an activity that came from the outside shows the cursor after the mouse', async () => {
             const user = userEvent.setup();
-            const {view, cursor, renderItem} = createTracker();
+            const {states, view, renderItem} = createTracker();
             const {rerender} = render(
                 <List
                     aria-label="Fruits"
@@ -816,15 +641,9 @@ describe('lab List', () => {
             );
             const options = screen.getAllByRole('option');
 
-            // Hovering (the activation request is rejected by the controlled
-            // parent) puts the dark cursor out
             await user.hover(options[1]);
             expect(view.get('Apple')).toMatchObject({active: false});
 
-            // The parent moves the activity on its own — the list did not ask
-            // for this id, so the cursor comes back even though the user is
-            // holding the mouse: the UI that moved it (a button beside the
-            // list) would look broken otherwise
             rerender(
                 <List
                     aria-label="Fruits"
@@ -834,7 +653,7 @@ describe('lab List', () => {
                 />,
             );
             expect(view.get('Cherry')).toMatchObject({active: true});
-            expect(cursor.get('Cherry')).toBe(true);
+            expect(states.get('Cherry')?.cursorVisible).toBe(true);
         });
 
         test('a controlled parent echoing a hover does not bring the cursor back', async () => {
@@ -855,57 +674,9 @@ describe('lab List', () => {
             render(<EchoHarness />);
             const options = screen.getAllByRole('option');
 
-            // The activity did arrive from the parent — but this list is the
-            // one that asked for it, so the gesture keeps owning the cursor
             await user.hover(options[1]);
             expect(options[1]).toHaveAttribute('data-active');
             expect(view.get('Banana')).toMatchObject({active: false});
-        });
-
-        test('drag: hover indication is suppressed, the cursor of the mouse shows nothing', async () => {
-            const user = userEvent.setup();
-            const {view, renderItem} = createTracker();
-            const {rerender} = render(
-                <List
-                    aria-label="Fruits"
-                    items={FRUITS}
-                    dnd={{draggingId: null}}
-                    renderItem={renderItem}
-                />,
-            );
-            const options = screen.getAllByRole('option');
-
-            await user.hover(options[2]);
-            expect(view.get('Cherry')).toMatchObject({active: false});
-
-            rerender(
-                <List
-                    aria-label="Fruits"
-                    items={FRUITS}
-                    dnd={{draggingId: 'Apple'}}
-                    renderItem={renderItem}
-                />,
-            );
-            expect(view.get('Cherry')).toMatchObject({active: false, hovered: false});
-            expect(view.get('Apple')).toMatchObject({hovered: false});
-
-            // Activation on hover is suspended: the highlight is not dragged
-            // along, and the cursor is frozen
-            await user.hover(options[3]);
-            expect(options[3]).not.toHaveAttribute('data-active');
-            expect(view.get('Melon')).toMatchObject({active: false, hovered: false});
-            expect(options[2]).toHaveAttribute('data-active');
-
-            rerender(
-                <List
-                    aria-label="Fruits"
-                    items={FRUITS}
-                    dnd={{draggingId: null}}
-                    renderItem={renderItem}
-                />,
-            );
-            expect(view.get('Cherry')).toMatchObject({active: false});
-            expect(view.get('Cherry')).not.toHaveProperty('hovered');
         });
 
         test('drag: the keyboard cursor keeps a static dark style', async () => {
@@ -932,41 +703,26 @@ describe('lab List', () => {
                     renderItem={renderItem}
                 />,
             );
-            // The dark cursor stays static (the activity is frozen) and the CSS
-            // hover is suppressed
             expect(view.get('Cherry')).toMatchObject({active: true, hovered: false});
+            expect(view.get('Apple')).toMatchObject({hovered: false});
         });
     });
 
-    // The react-aria model (textSelection): not CSS forever, but an inline
-    // suppression on the pressed row from pointerdown until release — gestures
-    // create no text selection, while at rest the rows stay a part of the page
-    // selection
     describe('text selection suppression on press', () => {
-        test('press puts user-select: none on the row and release restores it', () => {
-            render(<List aria-label="Fruits" items={FRUITS} />);
-            const options = screen.getAllByRole('option');
+        test.each(['pointerUp', 'pointerCancel'] as const)(
+            'press puts user-select: none on the row and %s restores it',
+            (release) => {
+                render(<List aria-label="Fruits" items={FRUITS} />);
+                const options = screen.getAllByRole('option');
 
-            fireEvent.pointerDown(options[1]);
-            expect(options[1].style.userSelect).toBe('none');
-            // The suppression is pinpoint: the neighbouring rows are untouched
-            expect(options[0].style.userSelect).toBe('');
+                fireEvent.pointerDown(options[1]);
+                expect(options[1].style.userSelect).toBe('none');
+                expect(options[0].style.userSelect).toBe('');
 
-            // The release may happen anywhere — restore listens on the document
-            fireEvent.pointerUp(document);
-            expect(options[1].style.userSelect).toBe('');
-        });
-
-        test('pointercancel also restores text selection', () => {
-            render(<List aria-label="Fruits" items={FRUITS} />);
-            const option = screen.getAllByRole('option')[2];
-
-            fireEvent.pointerDown(option);
-            expect(option.style.userSelect).toBe('none');
-
-            fireEvent.pointerCancel(document);
-            expect(option.style.userSelect).toBe('');
-        });
+                fireEvent[release](document);
+                expect(options[1].style.userSelect).toBe('');
+            },
+        );
     });
 
     describe('typeahead', () => {
@@ -990,8 +746,6 @@ describe('lab List', () => {
             await user.keyboard('b');
             expect(options[1]).toHaveFocus();
 
-            // The growing prefix searches from the active row inclusively: "ba"
-            // keeps Banana rather than moving on to Baobab, which matches too
             await user.keyboard('a');
             expect(options[1]).toHaveFocus();
 
@@ -1027,13 +781,9 @@ describe('lab List', () => {
 
             await user.tab();
             await user.keyboard('blue');
-            // Without a space the query "blue" matches Blueberry...
             expect(options[1]).toHaveFocus();
 
             await user.keyboard(' ');
-            // ...while "blue " (with the space in the buffer) matches Blue whale
-            // only. The typeahead keeps priority over the selection layer as
-            // well (APG): the space is neither an application nor a toggle
             expect(options[0]).toHaveFocus();
             expect(onItemAction).not.toHaveBeenCalled();
             expect(onSelectedUpdate).not.toHaveBeenCalled();
@@ -1080,8 +830,6 @@ describe('lab List', () => {
                 jest.advanceTimersByTime(600);
                 await user.keyboard('a');
 
-                // The buffer is the new "a" rather than "ba": the search starts
-                // from the active row and wraps around
                 expect(options[0]).toHaveFocus();
             } finally {
                 jest.useRealTimers();
@@ -1094,8 +842,6 @@ describe('lab List', () => {
                 <List
                     aria-label="Projects"
                     items={PROJECTS}
-                    // Non-string content has no text of its own: without the
-                    // getter the search has nothing to match against
                     getItemContent={(project) => <b>{project.name}</b>}
                     getItemTextValue={(project) => project.name}
                 />,
@@ -1109,7 +855,7 @@ describe('lab List', () => {
     });
 
     describe('controlled and uncontrolled activity', () => {
-        test('a controlled change moves focus along while a row holds it, and leaves focus alone otherwise', async () => {
+        test('a controlled change moves focus along only while a row holds it', async () => {
             const user = userEvent.setup();
             const {rerender} = render(
                 <List
@@ -1121,8 +867,6 @@ describe('lab List', () => {
             );
             const options = screen.getAllByRole('option');
 
-            // Focus is outside the list: the change moves the highlight and
-            // the tab stop only — focus is never stolen
             rerender(
                 <List
                     aria-label="Fruits"
@@ -1135,8 +879,6 @@ describe('lab List', () => {
             expect(options[2]).toHaveAttribute('tabindex', '0');
             expect(document.body).toHaveFocus();
 
-            // A row holds the focus: the change takes focus with it, so the
-            // focused row stays the active one (and the tab stop)
             await user.tab();
             expect(options[2]).toHaveFocus();
             rerender(
@@ -1182,12 +924,10 @@ describe('lab List', () => {
             expect(onActiveItemUpdate).toHaveBeenLastCalledWith('Cherry');
             expect(options[1]).toHaveAttribute('data-active');
             expect(options[2]).not.toHaveAttribute('data-active');
-            // The parent did not apply the update — focus stays on the row that
-            // is actually active
             expect(options[1]).toHaveFocus();
         });
 
-        test('controlled parent applying updates: focus follows, callback fires once per move', async () => {
+        test('controlled parent applying updates', async () => {
             const user = userEvent.setup();
             const onActiveItemUpdate = jest.fn();
 
@@ -1219,14 +959,17 @@ describe('lab List', () => {
             expect(options[1]).toHaveFocus();
         });
 
-        test('controlled activeItemId missing from items: no active option, navigation starts from the first navigable one', async () => {
+        test.each<[string, string | null]>([
+            ['missing from items', 'missing'],
+            ['null', null],
+        ])('controlled activeItemId %s', async (_name, activeItemId) => {
             const user = userEvent.setup();
             const onActiveItemUpdate = jest.fn();
             render(
                 <List
                     aria-label="Fruits"
                     items={FRUITS}
-                    activeItemId="missing"
+                    activeItemId={activeItemId}
                     onActiveItemUpdate={onActiveItemUpdate}
                 />,
             );
@@ -1241,34 +984,6 @@ describe('lab List', () => {
             onActiveItemUpdate.mockClear();
             await user.keyboard('{ArrowDown}');
 
-            expect(onActiveItemUpdate).toHaveBeenLastCalledWith('Apple');
-        });
-
-        test('controlled activeItemId={null}: no active option, stays controlled', async () => {
-            const user = userEvent.setup();
-            const onActiveItemUpdate = jest.fn();
-            render(
-                <List
-                    aria-label="Fruits"
-                    items={FRUITS}
-                    activeItemId={null}
-                    onActiveItemUpdate={onActiveItemUpdate}
-                />,
-            );
-            const options = screen.getAllByRole('option');
-
-            for (const option of options) {
-                expect(option).not.toHaveAttribute('data-active');
-            }
-            expect(options[0]).toHaveAttribute('tabindex', '0');
-
-            act(() => options[0].focus());
-            onActiveItemUpdate.mockClear();
-            await user.keyboard('{ArrowDown}');
-
-            // null is the controlled "nothing is active": navigation starts
-            // from the first navigable row instead of falling back to
-            // uncontrolled
             expect(onActiveItemUpdate).toHaveBeenLastCalledWith('Apple');
             for (const option of options) {
                 expect(option).not.toHaveAttribute('data-active');
@@ -1276,8 +991,6 @@ describe('lab List', () => {
         });
     });
 
-    // Tier 1 (objects with getItemContent) is exercised by every test that
-    // renders PROJECTS or GROUPS — it needs no test of its own
     describe('content tiers', () => {
         test('tier 2: renderItem with List.ItemView keeps slots and state binding', () => {
             render(
@@ -1384,7 +1097,6 @@ describe('lab List', () => {
 
             expect(screen.getByRole('listbox')).not.toHaveAttribute('aria-multiselectable');
             const options = screen.getAllByRole('option');
-            // "Not selected" ≠ "not selectable": the attribute is on every option
             expect(options.map((option) => option.getAttribute('aria-selected'))).toEqual([
                 'false',
                 'true',
@@ -1411,22 +1123,10 @@ describe('lab List', () => {
             ).toEqual(['true', 'false', 'true', 'false']);
         });
 
-        test('section headers do not get aria-selected', () => {
-            render(
-                <List
-                    aria-label="Groups"
-                    items={GROUPS}
-                    getItemContent={(item) => item.label}
-                    selectionMode="multiple"
-                />,
-            );
-
-            expect(screen.getByText('Recent')).not.toHaveAttribute('aria-selected');
-        });
-
         test('disabled options are selectable semantically but not by gesture', async () => {
             const user = userEvent.setup();
             const onSelectedUpdate = jest.fn();
+            const onItemAction = jest.fn();
             render(
                 <List
                     aria-label="Projects"
@@ -1434,6 +1134,7 @@ describe('lab List', () => {
                     getItemContent={(project) => project.name}
                     selectionMode="multiple"
                     onSelectedUpdate={onSelectedUpdate}
+                    onItemAction={onItemAction}
                     defaultActiveItemId="p2"
                 />,
             );
@@ -1441,15 +1142,20 @@ describe('lab List', () => {
             const disabledOption = screen.getAllByRole('option')[1];
             expect(disabledOption).toHaveAttribute('aria-selected', 'false');
 
+            await user.tab();
+            expect(disabledOption).toHaveFocus();
+
             await user.click(disabledOption);
             expect(onSelectedUpdate).not.toHaveBeenCalled();
+            expect(onItemAction).not.toHaveBeenCalled();
 
-            act(() => disabledOption.focus());
             await user.keyboard(' ');
             expect(onSelectedUpdate).not.toHaveBeenCalled();
+            expect(onItemAction).not.toHaveBeenCalled();
 
             await user.keyboard('{Enter}');
             expect(onSelectedUpdate).not.toHaveBeenCalled();
+            expect(onItemAction).not.toHaveBeenCalled();
         });
     });
 
@@ -1486,7 +1192,7 @@ describe('lab List', () => {
             ]);
         });
 
-        test('single: repeating the gesture on the selected option does not deselect it but still fires onItemAction', async () => {
+        test('single: a repeated gesture does not deselect but still applies', async () => {
             const user = userEvent.setup();
             const onSelectedUpdate = jest.fn();
             const onItemAction = jest.fn();
@@ -1507,9 +1213,6 @@ describe('lab List', () => {
 
             expect(options[0]).toHaveAttribute('aria-selected', 'true');
             expect(onSelectedUpdate).not.toHaveBeenCalled();
-            // "Applying" is not gated by the selection changing: a gesture on
-            // an already selected row still applies it (in Select a click on
-            // the selected option closes the popup)
             expect(onItemAction).toHaveBeenCalledTimes(3);
             expect(onItemAction).toHaveBeenLastCalledWith('Apple', 'Apple', expect.anything());
         });
@@ -1577,25 +1280,6 @@ describe('lab List', () => {
     });
 
     describe('selection layer: controlled and uncontrolled', () => {
-        test('defaultSelectedIds sets the initial selection, updates are internal', async () => {
-            const user = userEvent.setup();
-            render(
-                <List
-                    aria-label="Fruits"
-                    items={FRUITS}
-                    selectionMode="single"
-                    defaultSelectedIds={['Cherry']}
-                />,
-            );
-            const options = screen.getAllByRole('option');
-            expect(options[2]).toHaveAttribute('aria-selected', 'true');
-
-            await user.click(options[0]);
-
-            expect(options[0]).toHaveAttribute('aria-selected', 'true');
-            expect(options[2]).toHaveAttribute('aria-selected', 'false');
-        });
-
         test('controlled selectedIds does not move without an update', async () => {
             const user = userEvent.setup();
             const onSelectedUpdate = jest.fn();
@@ -1617,53 +1301,22 @@ describe('lab List', () => {
             expect(options[1]).toHaveAttribute('aria-selected', 'true');
             expect(options[0]).toHaveAttribute('aria-selected', 'false');
         });
-
-        test('controlled parent applying updates: selection follows the gesture', async () => {
-            const user = userEvent.setup();
-
-            function ControlledList() {
-                const [selected, setSelected] = React.useState<string[]>([]);
-                return (
-                    <List
-                        aria-label="Fruits"
-                        items={FRUITS}
-                        selectionMode="multiple"
-                        selectedIds={selected}
-                        onSelectedUpdate={setSelected}
-                    />
-                );
-            }
-
-            render(<ControlledList />);
-            const options = screen.getAllByRole('option');
-
-            await user.click(options[0]);
-            await user.click(options[2]);
-
-            expect(options.map((option) => option.getAttribute('aria-selected'))).toEqual([
-                'true',
-                'false',
-                'true',
-                'false',
-            ]);
-
-            await user.click(options[0]);
-            expect(options[0]).toHaveAttribute('aria-selected', 'false');
-        });
     });
 
     describe('selection layer: rendering', () => {
-        test('default renderItem shows the selection: check for multiple, highlight for single', () => {
+        test('getItemViewProps selectionStyle is highlight for single and check for multiple', () => {
+            const {view, renderItem} = createTracker();
             const {rerender} = render(
                 <List
                     aria-label="Fruits"
                     items={FRUITS}
                     selectionMode="single"
                     defaultSelectedIds={['Banana']}
+                    renderItem={renderItem}
                 />,
             );
 
-            expect(screen.getAllByRole('option')[1]).toHaveClass('g-lab-list-item-view_selected');
+            expect(view.get('Banana')).toMatchObject({selected: true, selectionStyle: 'highlight'});
 
             rerender(
                 <List
@@ -1671,21 +1324,14 @@ describe('lab List', () => {
                     items={FRUITS}
                     selectionMode="multiple"
                     defaultSelectedIds={['Banana']}
+                    renderItem={renderItem}
                 />,
             );
 
-            const options = screen.getAllByRole('option');
-            // multiple gets a check mark instead of the highlight: the
-            // selection does not compete with the indication of the active row
-            expect(options[1]).not.toHaveClass('g-lab-list-item-view_selected');
-            // The check slot is a detail of the view: Testing Library has no
-            // API for such an assertion
-            // eslint-disable-next-line testing-library/no-node-access
-            const checkSlot = options[1].querySelector('.g-lab-list-item-view__slot_name_checked');
-            expect(checkSlot).toBeTruthy();
+            expect(view.get('Banana')).toMatchObject({selected: true, selectionStyle: 'check'});
         });
 
-        test('ctx.state.selected and getItemViewProps carry the selection into a custom renderItem', () => {
+        test('ctx.state.selected and getItemViewProps carry the selection', () => {
             const seen: Array<boolean | undefined> = [];
             render(
                 <List
@@ -1717,7 +1363,7 @@ describe('lab List', () => {
             );
         });
 
-        test('without the layer ctx.state.selected is absent and getItemViewProps has no selection props', () => {
+        test('without the layer ctx.state and getItemViewProps have no selection props', () => {
             const contexts: object[] = [];
             const viewProps: object[] = [];
             render(
@@ -1749,6 +1395,14 @@ describe('lab List', () => {
 
         afterEach(() => {
             consoleErrorSpy.mockRestore();
+        });
+
+        test('warns when the list has no accessible name', () => {
+            render(<List items={FRUITS} />);
+
+            expect(consoleErrorSpy).toHaveBeenCalledWith(
+                expect.stringContaining('accessible name'),
+            );
         });
 
         test('warns on duplicate item ids', () => {

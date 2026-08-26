@@ -11,7 +11,6 @@ const b = block('list-v2-section-header');
 
 export interface ListSectionHeaderProps extends React.HTMLAttributes<HTMLDivElement>, QAProps {
     size?: ListSize;
-    children?: React.ReactNode;
 }
 
 /** A purely presentational section header of the list */

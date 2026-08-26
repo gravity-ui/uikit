@@ -15,20 +15,9 @@ export interface ListRow<T> {
     disabled: boolean;
     content?: React.ReactNode;
     textValue: string;
-    /**
-     * The position among the options, starting at 1 (section headers do not
-     * count) — the source of aria-posinset under virtualization; absent on
-     * sections
-     */
+    /** 1-based position among options (aria-posinset) */
     posInSet?: number;
-    /**
-     * The DOM id of the header of the section the option belongs to — the
-     * target of aria-describedby: the header itself is hidden from the tree
-     * (presentation + aria-hidden), but an explicit reference legitimately
-     * brings it into the description computation, so a screen reader announces
-     * the option together with the name of its section. Absent on sections and
-     * on top-level options
-     */
+    /** DOM id of the section header — the aria-describedby target */
     sectionDomId?: string;
 }
 
@@ -40,9 +29,12 @@ export interface FlattenResult<T> {
     optionsCount: number;
 }
 
-/** The encoding is injective: `"a b"` and `"a_b"` must not collapse into one id */
 export function getItemDomId(listId: string, itemId: string) {
     return `${listId}-item-${encodeURIComponent(itemId)}`;
+}
+
+export function isNavigable<T>(row: ListRow<T>): boolean {
+    return row.kind === 'item' && !row.disabled;
 }
 
 function defaultGetItemId(item: unknown): string | undefined {
@@ -57,8 +49,6 @@ function defaultGetItemDisabled(item: unknown): boolean {
 }
 
 function defaultGetItemChildren<T>(item: T): readonly T[] | undefined {
-    // A real array only: without the guard, a children string (foreign data)
-    // would be flattened character by character
     const children = (item as {children?: unknown} | null | undefined)?.children;
     return Array.isArray(children) ? (children as readonly T[]) : undefined;
 }
@@ -72,7 +62,13 @@ export function flattenItems<T>(
     items: readonly T[],
     getters: ListItemGetters<T>,
 ): FlattenResult<T> {
-    const {getItemId, getItemDisabled, getItemChildren, getItemContent, getItemTextValue} = getters;
+    const {getItemTextValue} = getters;
+    const resolveId: (item: T) => string | undefined = getters.getItemId ?? defaultGetItemId;
+    const resolveDisabled: (item: T) => boolean = getters.getItemDisabled ?? defaultGetItemDisabled;
+    const resolveChildren: (item: T) => readonly T[] | undefined =
+        getters.getItemChildren ?? defaultGetItemChildren;
+    const resolveContent: (item: T) => React.ReactNode =
+        getters.getItemContent ?? defaultGetItemContent;
 
     const rows: ListRow<T>[] = [];
     const rowById = new Map<string, ListRow<T>>();
@@ -80,10 +76,8 @@ export function flattenItems<T>(
     let optionsCount = 0;
 
     const pushRow = (item: T, kind: 'item' | 'section', sectionDomId?: string): ListRow<T> => {
-        const rawId = getItemId ? getItemId(item) : defaultGetItemId(item);
+        const rawId = resolveId(item);
         if (rawId === undefined || rawId === null) {
-            // There are no positional fallbacks — hidden instability is worse
-            // than an explicit error
             warnOnce(
                 `[List] Item at position ${rows.length} has no id. Provide \`getItemId\` or an \`id\` field on the item.`,
             );
@@ -93,7 +87,7 @@ export function flattenItems<T>(
             warnOnce(`[List] Duplicate item id "${id}". Item ids must be unique within the list.`);
         }
 
-        const content = getItemContent ? getItemContent(item) : defaultGetItemContent(item);
+        const content = resolveContent(item);
 
         let textValue = '';
         if (getItemTextValue) {
@@ -115,9 +109,7 @@ export function flattenItems<T>(
             item,
             index: rows.length,
             kind,
-            disabled:
-                kind === 'item' &&
-                (getItemDisabled ? Boolean(getItemDisabled(item)) : defaultGetItemDisabled(item)),
+            disabled: kind === 'item' && Boolean(resolveDisabled(item)),
             content,
             textValue,
             ...(kind === 'item' ? {posInSet: optionsCount} : undefined),
@@ -130,14 +122,11 @@ export function flattenItems<T>(
     };
 
     for (const item of items) {
-        const children = getItemChildren ? getItemChildren(item) : defaultGetItemChildren(item);
+        const children = resolveChildren(item);
         if (children) {
             const sectionRow = pushRow(item, 'section');
             for (const child of children) {
-                const nested = getItemChildren
-                    ? getItemChildren(child)
-                    : defaultGetItemChildren(child);
-                if (nested) {
+                if (resolveChildren(child)) {
                     warnOnce(
                         '[List] Nested sections are not supported: children of a section item are rendered as plain options.',
                     );
@@ -155,16 +144,8 @@ export function flattenItems<T>(
 export type ListNavigationCommand = 'next' | 'prev' | 'first' | 'last';
 
 /**
- * The pure computation of an activity transition (step "a" of the keyboard
- * machinery). Only non-disabled options (kind === 'item') are navigable:
- * disabled rows take neither the activity nor focus, from the keyboard or from
- * the mouse (the react-aria / React Spectrum model); section headers are not
- * navigable either. next/prev cycle; with no active row navigation starts from
- * the first navigable one.
- *
- * `wrap: false` turns the cycling of next/prev off (at the edge the result is
- * undefined): the Shift+arrow gestures of range selection do not wrap —
- * wrapping around the edge would throw the range to the other end of the list.
+ * Navigable = non-disabled options. next/prev wrap unless `wrap: false` (Shift+arrow range
+ * gestures)
  */
 export function getNextActiveId<T>(
     command: ListNavigationCommand,
@@ -172,7 +153,7 @@ export function getNextActiveId<T>(
     activeId: string | undefined,
     {wrap = true}: {wrap?: boolean} = {},
 ): string | undefined {
-    const navigable = rows.filter((row) => row.kind === 'item' && !row.disabled);
+    const navigable = rows.filter(isNavigable);
     if (navigable.length === 0) {
         return undefined;
     }
@@ -207,20 +188,15 @@ export function getNextActiveId<T>(
 }
 
 /**
- * A prefix search starting from the active row and wrapping around. A single
- * character, as well as a buffer made of repetitions of one character, search
- * from the next row (repeating a key cycles through the matches for that
- * character, as in APG), while a growing prefix searches from the current one
- * (the active row is not lost while it still matches).
- * Disabled options do not take part — typeahead moves the activity, and the
- * activity never lands on a disabled row (see getNextActiveId).
+ * Prefix search from the active row, wrapping. A single/repeated character searches from the
+ * next row (APG cycling), a growing prefix from the current one
  */
 export function findTypeaheadMatch<T>(
     rows: readonly ListRow<T>[],
     activeId: string | undefined,
     query: string,
 ): string | undefined {
-    const navigable = rows.filter((row) => row.kind === 'item' && !row.disabled);
+    const navigable = rows.filter(isNavigable);
     if (navigable.length === 0 || query.length === 0) {
         return undefined;
     }

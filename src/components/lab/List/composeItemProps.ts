@@ -8,10 +8,7 @@ interface ComposableProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 interface ComposeItemPropsOptions {
-    /**
-     * A replacement for the default mergeRefs — a memoized fork, for example,
-     *  so that a ref callback is not recreated on every render
-     */
+    /** A replacement for mergeRefs (a memoized fork), so that a ref callback is not recreated every render */
     forkRef?: (
         base: React.Ref<HTMLElement>,
         override: React.Ref<HTMLElement>,
@@ -26,9 +23,6 @@ interface ComposeItemPropsOptions {
  * - `style` is shallow-merged (override keys win one by one);
  * - keys whose value is `undefined` are ignored (they do not erase the base);
  * - the remaining keys follow "last one wins".
- *
- * The virtualization (style/ref) and dnd (props/ref) layers rely on this
- * contract.
  */
 export function composeItemProps<P extends ComposableProps>(
     base: P,
@@ -39,12 +33,9 @@ export function composeItemProps<P extends ComposableProps>(
         return base;
     }
 
-    const definedOverrides: ComposableProps = {};
-    for (const [key, value] of Object.entries(overrides)) {
-        if (value !== undefined) {
-            (definedOverrides as Record<string, unknown>)[key] = value;
-        }
-    }
+    const definedOverrides: ComposableProps = Object.fromEntries(
+        Object.entries(overrides).filter(([, value]) => value !== undefined),
+    );
 
     const composed = mergeProps(base, definedOverrides) as P;
 

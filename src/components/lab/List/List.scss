@@ -9,33 +9,18 @@ $block: '.#{variables.$ns}list-v2';
     margin: 0;
     padding: 0;
 
-    /* The insertion indicator is drawn by the list itself, from the data
-       attributes of the row, so it works with both the default and a custom
-       renderItem (spreading getItemProps is enough). The pseudo-element lives
-       on the row itself — that way it behaves the same in the flat render and
-       inside the absolute+top wrappers of the virtualizer.
-       The "role + attribute" pair cuts off foreign nodes: the rows of the list
-       always carry role="option" (listbox) or role="row" (grid) from
-       getItemProps, while a data-dragging of its own inside custom markup (or
-       inside a row of a nested list) must not pick up the styles of this list */
+    /* Indicator on the row itself (works in flat render and inside virtualizer wrappers);
+       role + attribute keeps foreign data-* out */
     :is([role='option'], [role='row'])[data-dragging] {
         opacity: 0.5;
 
-        /* The original that flies with the cursor needs a background of its
-           own: the state highlight is suppressed while dragging (the pointer
-           modality plus hovered: false), and a transparent row on top of its
-           neighbours would read as a lost background. The color is the same
-           active one that the hand-made ghost clones use (renderClone of rbd,
-           DragOverlay of dnd-kit).
-           A public variable of the view rather than background: custom markup
-           does not read the variable — its background stays its own concern */
+        /* The dragged original needs a background of its own (the state highlight is suppressed
+           while dragging); the view variable rather than background, so custom markup keeps its own */
         --g-list-item-view-background-color: var(--g-color-base-generic-medium);
     }
 
     :is([role='option'], [role='row'])[data-drop-target] {
-        /* The base for the indicator; z-index raises the row above its
-           neighbours so that the line on the edge is not covered by the
-           background of the next row */
+        /* z-index raises the row so that the edge line is not covered by the next row */
         position: relative;
         z-index: 1;
 
@@ -50,10 +35,7 @@ $block: '.#{variables.$ns}list-v2';
         }
     }
 
-    /* The line lies INSIDE the row rather than on its outer edge: under
-       virtualization the list root is the scroll container, and a pixel placed
-       outside would be clipped for the topmost (and the bottommost) row of the
-       window */
+    /* Inside the row: under virtualization the root is the scroll container and clips a line outside */
     :is([role='option'], [role='row'])[data-drop-target='before']::after {
         inset-block-start: 0;
     }

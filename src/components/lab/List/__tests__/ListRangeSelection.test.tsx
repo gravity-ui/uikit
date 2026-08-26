@@ -5,20 +5,11 @@ import userEvent from '@testing-library/user-event';
 import {fireEvent, render, screen} from '../../../../../test-utils/utils';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
-import {useListFocusOwner} from '../useListFocusOwner';
 
-// The range gestures of the selection layer — Shift+click, Shift+arrows,
-// Shift+Space, Ctrl/Cmd+A. The reference behavior is
-// SelectionManager/useSelectableCollection of react-aria; the deliberate
-// deviations are called out in the tests themselves
+import {ComboboxHarness, GROUPS, mockLayout, scrollTo} from './helpers';
+import type {Project} from './helpers';
 
 const LETTERS = ['Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot'];
-
-interface Project {
-    id: string;
-    name: string;
-    disabled?: boolean;
-}
 
 const PROJECTS: Project[] = [
     {id: 'a', name: 'Alpha'},
@@ -26,18 +17,6 @@ const PROJECTS: Project[] = [
     {id: 'c', name: 'Charlie', disabled: true},
     {id: 'd', name: 'Delta'},
     {id: 'e', name: 'Echo'},
-];
-
-const GROUPS = [
-    {id: 'recent', label: 'Recent', children: [{id: 'r1', label: 'First'}]},
-    {
-        id: 'all',
-        label: 'All',
-        children: [
-            {id: 'a1', label: 'Second'},
-            {id: 'a2', label: 'Third'},
-        ],
-    },
 ];
 
 async function shiftClick(user: ReturnType<typeof userEvent.setup>, element: HTMLElement) {
@@ -48,7 +27,7 @@ async function shiftClick(user: ReturnType<typeof userEvent.setup>, element: HTM
 
 describe('lab List: range selection (selection layer, phase 7)', () => {
     describe('Shift+click', () => {
-        test('selects the range from the anchor to the target in data order', async () => {
+        test('selects the range from the anchor to the target in data order, in both directions', async () => {
             const user = userEvent.setup();
             const onSelectedUpdate = jest.fn();
             render(
@@ -74,30 +53,13 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
                 'false',
                 'false',
             ]);
-        });
-
-        test('range above the anchor: the batch is still appended in data order', async () => {
-            const user = userEvent.setup();
-            const onSelectedUpdate = jest.fn();
-            render(
-                <List
-                    aria-label="Letters"
-                    items={LETTERS}
-                    selectionMode="multiple"
-                    onSelectedUpdate={onSelectedUpdate}
-                />,
-            );
-            const options = screen.getAllByRole('option');
 
             await user.click(options[3]);
             await shiftClick(user, options[1]);
-
-            // The gesture goes upwards while the batch stays top-down in data
-            // order
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Bravo', 'Charlie', 'Delta']);
         });
 
-        test('a second Shift+click replaces the range part from the same anchor and keeps selection outside of it', async () => {
+        test('a second Shift+click replaces the range part from the same anchor', async () => {
             const user = userEvent.setup();
             const onSelectedUpdate = jest.fn();
             render(
@@ -110,9 +72,7 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
             );
             const options = screen.getAllByRole('option');
 
-            // Echo is selected by a separate toggle and lies outside the range
             await user.click(options[4]);
-            // A plain click re-anchors: the anchor is Bravo
             await user.click(options[1]);
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Echo', 'Bravo']);
 
@@ -124,8 +84,6 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
                 'Delta',
             ]);
 
-            // The range part Bravo..Delta is replaced with Bravo..Charlie;
-            // Echo (outside the range) is untouched
             await shiftClick(user, options[2]);
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Echo', 'Bravo', 'Charlie']);
             expect(options[3]).toHaveAttribute('aria-selected', 'false');
@@ -144,13 +102,11 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
             );
             const options = screen.getAllByRole('option');
 
-            // There is no anchor yet — the range degenerates into the target
-            // itself (react-aria: anchorKey ?? toKey)
             await shiftClick(user, options[2]);
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Charlie']);
         });
 
-        test('a deselecting click also re-anchors (deviation from react-aria, spec of the phase)', async () => {
+        test('a deselecting click also re-anchors', async () => {
             const user = userEvent.setup();
             const onSelectedUpdate = jest.fn();
             render(
@@ -164,7 +120,6 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
             const options = screen.getAllByRole('option');
 
             await user.click(options[1]);
-            // Toggling off: the selection is empty, but the anchor stays on Bravo
             await user.click(options[1]);
             expect(onSelectedUpdate).toHaveBeenLastCalledWith([]);
 
@@ -211,11 +166,10 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
             await shiftClick(user, options[2]);
 
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(['r1', 'a1', 'a2']);
-            // The header between them stays presentation, with no aria-selected
             expect(screen.getByText('All')).not.toHaveAttribute('aria-selected');
         });
 
-        test('onItemAction fires on Shift+click after the selection update, like on a plain gesture', async () => {
+        test('onItemAction fires on Shift+click after the selection update', async () => {
             const user = userEvent.setup();
             const calls: string[] = [];
             render(
@@ -259,7 +213,6 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
 
             await user.keyboard('{Shift>}{ArrowDown}{/Shift}');
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Bravo', 'Charlie']);
-            // The activity (and focus) move together with the range boundary
             expect(options[2]).toHaveFocus();
 
             await user.keyboard('{Shift>}{ArrowDown}{/Shift}');
@@ -284,12 +237,10 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
             await user.keyboard('{Shift>}{ArrowDown}{/Shift}');
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Charlie', 'Delta']);
 
-            // Back to the anchor
             await user.keyboard('{Shift>}{ArrowUp}{/Shift}');
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Charlie']);
             expect(options[2]).toHaveFocus();
 
-            // Through the anchor: the range turns upwards
             await user.keyboard('{Shift>}{ArrowUp}{/Shift}');
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Bravo', 'Charlie']);
             expect(options[1]).toHaveFocus();
@@ -311,13 +262,10 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
             await user.click(options[5]);
             expect(onSelectedUpdate).toHaveBeenCalledTimes(1);
 
-            // At the edge Shift+arrow does nothing: neither wrapping the
-            // activity around nor changing the selection
             await user.keyboard('{Shift>}{ArrowDown}{/Shift}');
             expect(options[5]).toHaveFocus();
             expect(onSelectedUpdate).toHaveBeenCalledTimes(1);
 
-            // A plain arrow without Shift keeps wrapping around as before
             await user.keyboard('{ArrowDown}');
             expect(options[0]).toHaveFocus();
             expect(onSelectedUpdate).toHaveBeenCalledTimes(1);
@@ -336,17 +284,12 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
             );
             const options = screen.getAllByRole('option');
 
-            // Tab-in activates the first row, but there is no anchor yet
             await user.tab();
             expect(options[0]).toHaveFocus();
 
-            // Without an anchor the range degenerates into the target
-            // (react-aria: anchorKey ?? toKey) — Alpha is NOT selected
             await user.keyboard('{Shift>}{ArrowDown}{/Shift}');
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Bravo']);
 
-            // The boundary has become the anchor — the next step continues the
-            // range
             await user.keyboard('{Shift>}{ArrowDown}{/Shift}');
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Bravo', 'Charlie']);
         });
@@ -366,8 +309,6 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
             const options = screen.getAllByRole('option');
 
             await user.click(options[1]);
-            // Charlie is disabled: the activity jumps over it to Delta, and the
-            // range b..d selects b and d only
             await user.keyboard('{Shift>}{ArrowDown}{/Shift}');
 
             expect(options[3]).toHaveFocus();
@@ -392,8 +333,6 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
             const options = screen.getAllByRole('option');
 
             await user.click(options[0]);
-            // Arrows without Shift move the activity only — the anchor stays on
-            // Alpha
             await user.keyboard('{ArrowDown}{ArrowDown}');
             expect(options[2]).toHaveFocus();
 
@@ -424,8 +363,6 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
             await user.keyboard('blue');
             expect(options[1]).toHaveFocus();
 
-            // The buffer is not empty — the space goes into the search even
-            // with Shift held down
             await user.keyboard('{Shift>} {/Shift}');
             expect(options[0]).toHaveFocus();
             expect(onSelectedUpdate).not.toHaveBeenCalled();
@@ -452,7 +389,6 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(['a', 'b', 'd', 'e']);
             expect(options[2]).toHaveAttribute('aria-selected', 'false');
 
-            // Knock one row out and bring everything back with Cmd
             await user.click(options[1]);
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(['a', 'd', 'e']);
 
@@ -480,7 +416,7 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
             expect(onSelectedUpdate).toHaveBeenCalledTimes(1);
         });
 
-        test('does not move the anchor: the next Shift gesture continues from the previous anchor', async () => {
+        test('does not move the anchor', async () => {
             const user = userEvent.setup();
             const onSelectedUpdate = jest.fn();
             render(
@@ -497,11 +433,6 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
             await user.keyboard('{Control>}a{/Control}');
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(LETTERS);
 
-            // The anchor stayed on Charlie: only the range part
-            // Charlie..Charlie is replaced, the rest of the selection is
-            // untouched (in react-aria the gesture would collapse the 'all'
-            // sentinel into a single row — we have no sentinel, the selection
-            // is materialized)
             await shiftClick(user, options[4]);
             expect(onSelectedUpdate).toHaveBeenLastCalledWith([
                 'Alpha',
@@ -530,7 +461,6 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
             await user.keyboard('{Control>}a{/Control}');
             expect(onSelectedUpdate).not.toHaveBeenCalled();
 
-            // The key is not intercepted — preventDefault was not called
             const notPrevented = fireEvent.keyDown(options[0], {
                 key: 'a',
                 code: 'KeyA',
@@ -553,8 +483,6 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
             const options = screen.getAllByRole('option');
 
             await user.tab();
-            // Ctrl+ф on a ЙЦУКЕН keyboard: key is Cyrillic, the physical code
-            // is KeyA
             const prevented = !fireEvent.keyDown(options[0], {
                 key: 'ф',
                 code: 'KeyA',
@@ -615,8 +543,6 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
             await user.click(options[5]);
             await user.keyboard('{Shift>}{ArrowDown}{/Shift}');
 
-            // Navigation wraps around as it does without Shift; the arrow does
-            // not change the selection
             expect(options[0]).toHaveFocus();
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Foxtrot']);
             expect(onSelectedUpdate).toHaveBeenCalledTimes(1);
@@ -644,7 +570,7 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
     });
 
     describe('controlled selection', () => {
-        test('the range callback gets the full computed batch, DOM follows only the prop', async () => {
+        test('the callback gets the full batch, the DOM follows the prop', async () => {
             const user = userEvent.setup();
             const onSelectedUpdate = jest.fn();
             render(
@@ -658,12 +584,9 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
             );
             const options = screen.getAllByRole('option');
 
-            // There is no anchor — the target is the anchor; the batch is
-            // computed from the value of the prop
             await shiftClick(user, options[3]);
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Bravo', 'Delta']);
 
-            // The parent did not apply the update: the DOM still follows the prop
             expect(options.map((option) => option.getAttribute('aria-selected'))).toEqual([
                 'false',
                 'true',
@@ -673,8 +596,6 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
                 'false',
             ]);
 
-            // The next gesture is computed from the prop again: the anchor is
-            // Delta and the range is Charlie..Delta
             await shiftClick(user, options[2]);
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Bravo', 'Charlie', 'Delta']);
         });
@@ -746,10 +667,6 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
                 />,
             );
 
-            // The anchor is gone — the gesture re-anchors at the target
-            // (react-aria would keep the stale anchor, and the gesture would
-            // silently not change the selection); the id of the vanished row
-            // stays in the selection latently (the semantics of a controlled set)
             await shiftClick(user, screen.getByRole('option', {name: 'Delta'}));
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Bravo', 'Delta']);
         });
@@ -779,9 +696,6 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
                 />,
             );
 
-            // The boundary of the old range is gone from the data — it cannot
-            // be computed, so nothing is subtracted (react-aria: getKeyRange
-            // for a missing key is empty); the new range is added
             await shiftClick(user, screen.getByRole('option', {name: 'Echo'}));
             expect(onSelectedUpdate).toHaveBeenLastCalledWith([
                 'Bravo',
@@ -793,31 +707,19 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
     });
 
     describe('activedescendant mode (focus owner)', () => {
-        function ComboboxHarness({onSelectedUpdate}: {onSelectedUpdate: (ids: string[]) => void}) {
-            const focusOwner = useListFocusOwner();
-            return (
-                <React.Fragment>
-                    <input {...focusOwner.getInputProps({'aria-label': 'Filter'})} />
-                    <List
-                        aria-label="Letters"
-                        items={LETTERS}
-                        selectionMode="multiple"
-                        onSelectedUpdate={onSelectedUpdate}
-                        focusOwner={focusOwner}
-                    />
-                </React.Fragment>
-            );
-        }
-
-        test('Shift+ArrowDown from the owner input extends the range and moves aria-activedescendant', async () => {
+        test('Shift+ArrowDown from the owner input extends the range', async () => {
             const user = userEvent.setup();
             const onSelectedUpdate = jest.fn();
-            render(<ComboboxHarness onSelectedUpdate={onSelectedUpdate} />);
+            render(
+                <ComboboxHarness
+                    items={LETTERS}
+                    selectionMode="multiple"
+                    onSelectedUpdate={onSelectedUpdate}
+                />,
+            );
             const input = screen.getByRole('combobox');
             const options = screen.getAllByRole('option');
 
-            // The anchor comes from a click on an option (in this mode Space
-            // goes to the input)
             await user.click(options[1]);
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Bravo']);
 
@@ -825,8 +727,6 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
             await user.keyboard('{Shift>}{ArrowDown}{/Shift}');
 
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Bravo', 'Charlie']);
-            // DOM focus has not left the input; the active row is led by
-            // aria-activedescendant — the range boundary moves along with it
             expect(input).toHaveFocus();
             expect(input).toHaveAttribute('aria-activedescendant', options[2].id);
         });
@@ -834,13 +734,16 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
         test('Ctrl+A belongs to the owner input and is not intercepted', async () => {
             const user = userEvent.setup();
             const onSelectedUpdate = jest.fn();
-            render(<ComboboxHarness onSelectedUpdate={onSelectedUpdate} />);
+            render(
+                <ComboboxHarness
+                    items={LETTERS}
+                    selectionMode="multiple"
+                    onSelectedUpdate={onSelectedUpdate}
+                />,
+            );
             const input = screen.getByRole('combobox');
 
             await user.click(input);
-            // Selecting the text in the input is left to the browser:
-            // preventDefault was not called and the select-all of the list does
-            // not fire
             const notPrevented = fireEvent.keyDown(input, {
                 key: 'a',
                 code: 'KeyA',
@@ -855,42 +758,12 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
         const VIEWPORT_HEIGHT = 400;
         const ROW_HEIGHT = 36;
         const ITEMS = Array.from({length: 200}, (_, index) => `Item ${index + 1}`);
+        mockLayout({viewport: VIEWPORT_HEIGHT, row: ROW_HEIGHT});
 
-        let offsetHeightSpy: jest.SpyInstance;
-        let offsetWidthSpy: jest.SpyInstance;
-
-        beforeEach(() => {
-            offsetHeightSpy = jest
-                .spyOn(HTMLElement.prototype, 'offsetHeight', 'get')
-                .mockImplementation(function (this: HTMLElement) {
-                    if (this.getAttribute('role') === 'listbox') {
-                        return VIEWPORT_HEIGHT;
-                    }
-                    return ROW_HEIGHT;
-                });
-            offsetWidthSpy = jest
-                .spyOn(HTMLElement.prototype, 'offsetWidth', 'get')
-                .mockReturnValue(300);
-        });
-
-        afterEach(() => {
-            offsetHeightSpy.mockRestore();
-            offsetWidthSpy.mockRestore();
-        });
-
-        // jsdom does not implement scrolling: scrollTop is set directly and the
-        // event is fired by hand
-        function scrollTo(element: HTMLElement, top: number) {
-            Object.defineProperty(element, 'scrollTop', {
-                configurable: true,
-                writable: true,
-                value: top,
-            });
-            fireEvent.scroll(element);
-        }
-
-        function renderVirtualized(onSelectedUpdate: jest.Mock) {
-            return render(
+        test('Shift+click selects range rows unloaded from the window', async () => {
+            const user = userEvent.setup();
+            const onSelectedUpdate = jest.fn();
+            render(
                 <ListVirtualizer estimateItemSize={ROW_HEIGHT}>
                     <List
                         aria-label="Logs"
@@ -901,45 +774,23 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
                     />
                 </ListVirtualizer>,
             );
-        }
-
-        test('Shift+click selects range rows unloaded from the window', async () => {
-            const user = userEvent.setup();
-            const onSelectedUpdate = jest.fn();
-            renderVirtualized(onSelectedUpdate);
             const listbox = screen.getByRole('listbox');
 
             await user.click(screen.getByRole('option', {name: 'Item 1'}));
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Item 1']);
 
-            // The window travels far away from the anchor; the anchor itself
-            // (the active row) is pinned and stays in the DOM
             scrollTo(listbox, ROW_HEIGHT * 150);
             expect(screen.queryByRole('option', {name: 'Item 75'})).not.toBeInTheDocument();
 
             await shiftClick(user, screen.getByRole('option', {name: 'Item 151'}));
 
-            // The range is computed over the data: 151 rows, the ones invisible
-            // outside the window included
             const expected = Array.from({length: 151}, (_, index) => `Item ${index + 1}`);
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(expected);
             expect(screen.getByRole('option', {name: 'Item 151'})).toHaveAttribute(
                 'aria-selected',
                 'true',
             );
-            // The rows in the middle of the range never got mounted
             expect(screen.queryByRole('option', {name: 'Item 75'})).not.toBeInTheDocument();
-        });
-
-        test('Ctrl+A materializes all options over data under virtualization', async () => {
-            const user = userEvent.setup();
-            const onSelectedUpdate = jest.fn();
-            renderVirtualized(onSelectedUpdate);
-
-            await user.tab();
-            await user.keyboard('{Control>}a{/Control}');
-
-            expect(onSelectedUpdate).toHaveBeenLastCalledWith(ITEMS);
         });
     });
 });

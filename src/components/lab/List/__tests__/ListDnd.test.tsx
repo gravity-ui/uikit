@@ -4,44 +4,9 @@ import userEvent from '@testing-library/user-event';
 
 import {fireEvent, render, screen} from '../../../../../test-utils/utils';
 import {List} from '../List';
-import type {
-    ListDndAdapter,
-    ListDndProps,
-    ListItemContext,
-    ListItemHelpers,
-    ListItemViewStateProps,
-    ListProps,
-} from '../types';
+import type {ListDndAdapter, ListDndProps, ListItemContext, ListItemHelpers} from '../types';
 
-const FRUITS = ['Apple', 'Banana', 'Cherry', 'Melon'];
-
-const GROUPS = [
-    {id: 'recent', label: 'Recent', children: [{id: 'r1', label: 'First'}]},
-    {
-        id: 'all',
-        label: 'All',
-        children: [
-            {id: 'a1', label: 'Second'},
-            {id: 'a2', label: 'Third'},
-        ],
-    },
-];
-
-/** Captures the ctx slice and the view props of every rendered row */
-function createTracker() {
-    const states = new Map<string, ListItemContext<string>['state']>();
-    const view = new Map<string, ListItemViewStateProps>();
-    const renderItem: ListProps<string>['renderItem'] = (ctx, helpers) => {
-        states.set(ctx.id, ctx.state);
-        view.set(ctx.id, helpers.getItemViewProps());
-        return (
-            <List.ItemView {...helpers.getItemProps()} {...helpers.getItemViewProps()}>
-                {ctx.content}
-            </List.ItemView>
-        );
-    };
-    return {states, view, renderItem};
-}
+import {FRUITS, GROUPS, createTracker} from './helpers';
 
 /** Stable per-id ref callbacks — the obligation of an adapter */
 function createStableRefs(onRef: (id: string, element: HTMLElement | null) => void) {
@@ -58,7 +23,7 @@ function createStableRefs(onRef: (id: string, element: HTMLElement | null) => vo
 
 describe('lab List: dnd layer', () => {
     describe('adapter props: composition into the rows and the root', () => {
-        test('getItemDndProps are merged into the row: the ref registers the element, className is concatenated, handlers run after the core and before the overrides', async () => {
+        test('getItemDndProps are merged into the row', async () => {
             const user = userEvent.setup();
             const order: string[] = [];
             const onRef = jest.fn();
@@ -97,7 +62,6 @@ describe('lab List: dnd layer', () => {
             expect(apple).toHaveClass('dnd-row');
             expect(apple).toHaveClass('own-row');
             expect(apple).toHaveAttribute('data-dnd-id', 'Apple');
-            // The core props survive the merge
             expect(apple).toHaveAttribute('role', 'option');
             expect(apple).toHaveAttribute('tabindex', '0');
 
@@ -105,7 +69,7 @@ describe('lab List: dnd layer', () => {
             expect(order).toEqual(['core', 'adapter', 'override']);
         });
 
-        test('getContainerDndProps reach the root: the ref (forked with the ref of the component), the handlers and the attributes', () => {
+        test('getContainerDndProps reach the root', () => {
             const containerRef = jest.fn();
             const onDragOver = jest.fn();
             const outerRef = React.createRef<HTMLDivElement>();
@@ -143,11 +107,9 @@ describe('lab List: dnd layer', () => {
             expect(screen.getByText('Recent')).not.toHaveAttribute('data-dragging');
         });
 
-        test('role, id and tabIndex from the adapter are dropped with a dev warning: the ARIA model, the DOM ids and the tab stop stay with the core', () => {
+        test('role, id and tabIndex from the adapter are dropped with a dev warning', () => {
             const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
             try {
-                // The `attributes` object of useSortable (dnd-kit) passed
-                // through a cast — the practical case of the contract
                 const attributes = {
                     role: 'button',
                     id: 'same-for-all',
@@ -176,7 +138,7 @@ describe('lab List: dnd layer', () => {
             }
         });
 
-        test('a stable adapter ref is not reported; an unstable one is reported once it changes for the second time', () => {
+        test('an unstable adapter ref is reported once it changes for the second time', () => {
             const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
             try {
                 const stableRef = createStableRefs(() => {});
@@ -184,8 +146,6 @@ describe('lab List: dnd layer', () => {
                     getItemDndProps: (id) => ({ref: stableRef(id)}),
                     draggingId,
                 });
-                // A change of draggingId re-renders every row, and the getter
-                // runs again on each of them
                 const {rerender: rerenderStable, unmount: unmountStable} = render(
                     <List aria-label="Fruits" items={FRUITS} dnd={stable(null)} />,
                 );
@@ -201,12 +161,10 @@ describe('lab List: dnd layer', () => {
                 const {rerender: rerenderUnstable} = render(
                     <List aria-label="Fruits" items={FRUITS} dnd={unstable(null)} />,
                 );
-                // The first change is allowed (the adapter may be recreated)...
                 rerenderUnstable(
                     <List aria-label="Fruits" items={FRUITS} dnd={unstable('Apple')} />,
                 );
                 expect(consoleErrorSpy).not.toHaveBeenCalled();
-                // ...the second one is systematic
                 rerenderUnstable(<List aria-label="Fruits" items={FRUITS} dnd={unstable(null)} />);
                 expect(consoleErrorSpy).toHaveBeenCalledWith(
                     expect.stringContaining('returns a new `ref` identity from `getItemDndProps`'),
@@ -230,7 +188,7 @@ describe('lab List: dnd layer', () => {
             );
         });
 
-        test('draggingId marks the dragged row: ctx.state.dragging and data-dragging by presence, data-drag-active on the root', () => {
+        test('draggingId marks the dragged row', () => {
             const {states, renderItem} = createTracker();
             const {rerender} = render(
                 <List
@@ -263,7 +221,7 @@ describe('lab List: dnd layer', () => {
             expect(screen.getByRole('listbox')).not.toHaveAttribute('data-drag-active');
         });
 
-        test('dropTarget marks the edge: ctx.state.dropTarget and data-drop-target carry before/after', () => {
+        test('dropTarget marks the edge', () => {
             const {states, renderItem} = createTracker();
             const {rerender} = render(
                 <List
@@ -303,7 +261,7 @@ describe('lab List: dnd layer', () => {
                 {dropTarget: {id: 'Banana', position: 'before'}},
             ],
         ])(
-            '%s suspends activation on hover, marks the root and suppresses the hover of the view',
+            '%s suspends hover activation and suppresses the hover of the view',
             async (_name, dnd) => {
                 const user = userEvent.setup();
                 const onActiveItemUpdate = jest.fn();
@@ -326,7 +284,6 @@ describe('lab List: dnd layer', () => {
                 expect(screen.getByRole('listbox')).toHaveAttribute('data-drag-active', '');
                 expect(view.get('Cherry')).toMatchObject({hovered: false});
 
-                // The drag is over: hover activates again, the marks are gone
                 rerender(
                     <List
                         aria-label="Fruits"
@@ -347,7 +304,7 @@ describe('lab List: dnd layer', () => {
     });
 
     describe('performance obligation: rows are memoized by their ctx slice', () => {
-        test('a dropTarget moving between rows re-renders only the rows whose slice changed', () => {
+        test('a moving dropTarget re-renders only the rows whose slice changed', () => {
             const renderItem = jest.fn((ctx: ListItemContext<string>, helpers: ListItemHelpers) => (
                 <List.ItemView {...helpers.getItemProps()} {...helpers.getItemViewProps()}>
                     {ctx.content}
@@ -363,8 +320,6 @@ describe('lab List: dnd layer', () => {
             );
             renderItem.mockClear();
 
-            // A new adapter object with the same state (a dragover that did
-            // not cross an edge): the list re-renders, the rows do not
             rerender(
                 <List
                     aria-label="Fruits"
@@ -375,8 +330,6 @@ describe('lab List: dnd layer', () => {
             );
             expect(renderItem).not.toHaveBeenCalled();
 
-            // The target moves to another row: exactly the two rows whose
-            // slice changed are re-rendered
             rerender(
                 <List
                     aria-label="Fruits"

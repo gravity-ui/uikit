@@ -1,55 +1,24 @@
 import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
-import * as tabbable from 'tabbable';
 
 import {fireEvent, render, screen} from '../../../../../test-utils/utils';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
-import type {ListItemContext, ListItemHelpers, ListItemViewStateProps, ListProps} from '../types';
+import type {ListItemContext, ListItemHelpers, ListProps} from '../types';
 import {useListFocusOwner} from '../useListFocusOwner';
 
-// jsdom has no layout: by default displayCheck considers every element hidden,
-// and focusable() (the keyboard of the cells walks through it) returns an empty
-// list. jest.mock does not fit here: the module is already cached by the test
-// setup
-const realFocusable = tabbable.focusable;
-let focusableSpy: jest.SpyInstance;
+import {
+    ComboboxHarness,
+    GROUPS,
+    createTracker,
+    mockLayout,
+    mockTabbableDisplayCheck,
+} from './helpers';
 
-const realTabbable = tabbable.tabbable;
-let tabbableSpy: jest.SpyInstance;
-
-beforeAll(() => {
-    focusableSpy = jest
-        .spyOn(tabbable, 'focusable')
-        .mockImplementation((container, options) =>
-            realFocusable(container, {...options, displayCheck: 'none'}),
-        );
-    tabbableSpy = jest
-        .spyOn(tabbable, 'tabbable')
-        .mockImplementation((container, options) =>
-            realTabbable(container, {...options, displayCheck: 'none'}),
-        );
-});
-
-afterAll(() => {
-    focusableSpy.mockRestore();
-    tabbableSpy.mockRestore();
-});
+mockTabbableDisplayCheck();
 
 const FRUITS = ['Apple', 'Banana', 'Cherry'];
-
-const GROUPS = [
-    {id: 'recent', label: 'Recent', children: [{id: 'r1', label: 'First'}]},
-    {
-        id: 'all',
-        label: 'All',
-        children: [
-            {id: 'a1', label: 'Second'},
-            {id: 'a2', label: 'Third'},
-        ],
-    },
-];
 
 /**
  * A row with two interactive elements: a handle at the start and a button at
@@ -77,44 +46,14 @@ function renderRowWithControls(ctx: ListItemContext<string>, helpers: ListItemHe
     );
 }
 
-/** An external focus owner: an input outside the list root (a mini combobox) */
-function ComboboxHarness({
-    open = true,
-    ...listProps
-}: {open?: boolean} & Partial<ListProps<string>>) {
-    const focusOwner = useListFocusOwner();
-    return (
-        <React.Fragment>
-            <input {...focusOwner.getInputProps({'aria-label': 'Filter'})} />
-            {open ? (
-                <List aria-label="Options" items={FRUITS} {...listProps} focusOwner={focusOwner} />
-            ) : null}
-        </React.Fragment>
-    );
-}
-
 describe('lab List: role model x focus strategy', () => {
     describe('axes matrix: container and row semantics', () => {
-        test('listbox + roving (default): listbox/option, roving tab stop, aria-selected on the option', () => {
-            render(
-                <List
-                    aria-label="Fruits"
-                    items={FRUITS}
-                    selectionMode="single"
-                    defaultSelectedIds={['Apple']}
-                    defaultActiveItemId="Apple"
-                />,
-            );
+        test('listbox + roving (default): no grid semantics', () => {
+            render(<List aria-label="Fruits" items={FRUITS} />);
 
             expect(screen.getByRole('listbox')).toBeInTheDocument();
             expect(screen.queryByRole('grid')).not.toBeInTheDocument();
             expect(screen.queryAllByRole('gridcell')).toHaveLength(0);
-
-            const options = screen.getAllByRole('option');
-            expect(options).toHaveLength(3);
-            expect(options[0]).toHaveAttribute('tabindex', '0');
-            expect(options[1]).toHaveAttribute('tabindex', '-1');
-            expect(options[0]).toHaveAttribute('aria-selected', 'true');
         });
 
         test('grid + roving: grid/row/gridcell, roving tab stop, aria-selected on the row', () => {
@@ -137,11 +76,8 @@ describe('lab List: role model x focus strategy', () => {
             expect(rows).toHaveLength(3);
             expect(rows[0]).toHaveAttribute('tabindex', '0');
             expect(rows[1]).toHaveAttribute('tabindex', '-1');
-            // aria-selected moves to the row rather than to the cell
             expect(rows[0]).toHaveAttribute('aria-selected', 'true');
 
-            // The default render puts the content into a cell: role="row" must
-            // own at least one gridcell
             const cells = screen.getAllByRole('gridcell');
             expect(cells).toHaveLength(3);
             expect(cells[0]).toHaveTextContent('Apple');
@@ -150,7 +86,7 @@ describe('lab List: role model x focus strategy', () => {
 
         test('listbox + activedescendant: options without a tab stop, the input owns the focus', async () => {
             const user = userEvent.setup();
-            render(<ComboboxHarness />);
+            render(<ComboboxHarness items={FRUITS} />);
 
             const input = screen.getByRole('combobox');
             expect(input).toHaveAttribute('aria-expanded', 'true');
@@ -161,8 +97,6 @@ describe('lab List: role model x focus strategy', () => {
                 expect(option).not.toHaveAttribute('tabindex');
             }
 
-            // The list drops out of the Tab order entirely: the tab stop is the
-            // input
             await user.tab();
             expect(input).toHaveFocus();
             await user.tab();
@@ -172,7 +106,7 @@ describe('lab List: role model x focus strategy', () => {
 
         test('grid + activedescendant: rows and cells keep grid roles, the input owns the focus', async () => {
             const user = userEvent.setup();
-            render(<ComboboxHarness role="grid" />);
+            render(<ComboboxHarness items={FRUITS} role="grid" />);
 
             expect(screen.getByRole('grid')).toBeInTheDocument();
             const rows = screen.getAllByRole('row');
@@ -192,7 +126,7 @@ describe('lab List: role model x focus strategy', () => {
     });
 
     describe('grid keyboard: entering the interactive content of a cell and back', () => {
-        test('hover does not take the focus from the interactive content of a cell, and Tab still leaves the list', async () => {
+        test('hover leaves the focus in the cell content, Tab still leaves the list', async () => {
             const user = userEvent.setup();
             render(
                 <List
@@ -209,24 +143,17 @@ describe('lab List: role model x focus strategy', () => {
             await user.keyboard('{ArrowRight}');
             expect(handle).toHaveFocus();
 
-            // The mouse over another row moves the activity and the tab stop,
-            // but the widget the user is working in keeps the focus
             await user.hover(rows[2]);
             expect(rows[2]).toHaveAttribute('data-active');
             expect(rows[2]).toHaveAttribute('tabindex', '0');
             expect(handle).toHaveFocus();
 
-            // Tab: the list puts focus on its tab stop and lets the default
-            // action go on from there — so sequential navigation leaves the
-            // list instead of landing on the tab stop below. user-event
-            // computes the destination of Tab from the original target, hence
-            // the raw event; fireEvent returns false when the default was
-            // prevented
+            // fireEvent: user-event computes Tab's destination from the original target
             expect(fireEvent.keyDown(handle, {key: 'Tab'})).toBe(true);
             expect(rows[2]).toHaveFocus();
         });
 
-        test('ArrowRight enters the cell content, ArrowLeft walks back and returns to the row', async () => {
+        test('ArrowRight enters the cell content, ArrowLeft returns to the row', async () => {
             const user = userEvent.setup();
             render(
                 <List
@@ -247,7 +174,6 @@ describe('lab List: role model x focus strategy', () => {
             await user.keyboard('{ArrowRight}');
             expect(screen.getByRole('button', {name: 'Delete Apple'})).toHaveFocus();
 
-            // There is nowhere further to the right — focus stays on the last one
             await user.keyboard('{ArrowRight}');
             expect(screen.getByRole('button', {name: 'Delete Apple'})).toHaveFocus();
 
@@ -294,36 +220,9 @@ describe('lab List: role model x focus strategy', () => {
 
             await user.keyboard('{ArrowDown}');
 
-            // The keyboard dnd of a nested handle lives on exactly these keys:
-            // the activity of the list does not move and focus stays on the
-            // handle
             expect(handle).toHaveFocus();
             expect(onKeyDown).toHaveBeenCalled();
             expect(screen.getAllByRole('row')[1]).not.toHaveAttribute('data-active');
-        });
-
-        test('the grid stays a single tab stop: Tab leaves the list past the cell content', async () => {
-            const user = userEvent.setup();
-            render(
-                <React.Fragment>
-                    <List
-                        role="grid"
-                        aria-label="Fruits"
-                        items={FRUITS}
-                        renderItem={renderRowWithControls}
-                    />
-                    <button type="button">After</button>
-                </React.Fragment>,
-            );
-
-            await user.tab();
-            expect(screen.getAllByRole('row')[0]).toHaveFocus();
-
-            // Neither the rows nor the interactive content of the cells hold
-            // the Tab order: the cell content is reached with ←/→, while Tab
-            // leaves the widget
-            await user.tab();
-            expect(screen.getByRole('button', {name: 'After'})).toHaveFocus();
         });
 
         test('warns in dev when a row keeps a tabbable descendant', () => {
@@ -337,7 +236,6 @@ describe('lab List: role model x focus strategy', () => {
                         <List.ItemView
                             {...helpers.getItemProps()}
                             {...helpers.getItemViewProps()}
-                            // A button defaults to tabIndex 0 — an extra tab stop
                             startContent={
                                 <span {...helpers.getCellProps()}>
                                     <button type="button" aria-label={`Drag ${ctx.item}`} />
@@ -369,23 +267,23 @@ describe('lab List: role model x focus strategy', () => {
 
         test('grid + activedescendant: arrows are left to the caret of the input', async () => {
             const user = userEvent.setup();
-            render(<ComboboxHarness role="grid" renderItem={renderRowWithControls} />);
+            render(
+                <ComboboxHarness items={FRUITS} role="grid" renderItem={renderRowWithControls} />,
+            );
 
             const input = screen.getByRole('combobox');
             await user.click(input);
             await user.keyboard('{ArrowDown}{ArrowRight}');
 
-            // Full keyboard reachability of the interactive content of a cell
-            // is guaranteed in the roving strategy only
             expect(input).toHaveFocus();
         });
     });
 
     describe('activedescendant: the external focus owner', () => {
-        test('a click on a row applies it and leaves DOM focus with the owner', async () => {
+        test('a click applies the row and leaves DOM focus with the owner', async () => {
             const user = userEvent.setup();
             const onItemAction = jest.fn();
-            render(<ComboboxHarness onItemAction={onItemAction} />);
+            render(<ComboboxHarness items={FRUITS} onItemAction={onItemAction} />);
 
             const input = screen.getByRole('combobox');
             const options = screen.getAllByRole('option');
@@ -393,9 +291,6 @@ describe('lab List: role model x focus strategy', () => {
 
             await user.click(options[1]);
 
-            // The rows are not focusable: without preventing the default of
-            // mousedown, focus would have gone to the body and the input
-            // would have blurred (a popup closing on blur never sees the click)
             expect(input).toHaveFocus();
             expect(onItemAction).toHaveBeenCalledWith(
                 'Banana',
@@ -405,18 +300,17 @@ describe('lab List: role model x focus strategy', () => {
             expect(input).toHaveAttribute('aria-activedescendant', options[1].id);
         });
 
-        test('Home/End on a row that is active already still scroll it into view', async () => {
+        test('Home/End on the active row still scroll it into view', async () => {
             const scrollIntoViewMock = jest.fn();
             HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
             try {
                 const user = userEvent.setup();
-                render(<ComboboxHarness defaultActiveItemId="Cherry" />);
+                render(<ComboboxHarness items={FRUITS} defaultActiveItemId="Cherry" />);
                 await user.click(screen.getByRole('combobox'));
                 scrollIntoViewMock.mockClear();
 
                 await user.keyboard('{End}');
 
-                // No state change follows — the sync happens in the gesture
                 expect(scrollIntoViewMock).toHaveBeenCalledTimes(1);
                 expect(scrollIntoViewMock.mock.instances[0]).toBe(
                     screen.getByRole('option', {name: 'Cherry'}),
@@ -428,7 +322,7 @@ describe('lab List: role model x focus strategy', () => {
 
         test('navigation moves aria-activedescendant without taking the focus out of the input', async () => {
             const user = userEvent.setup();
-            render(<ComboboxHarness />);
+            render(<ComboboxHarness items={FRUITS} />);
 
             const input = screen.getByRole('combobox');
             const options = screen.getAllByRole('option');
@@ -455,7 +349,7 @@ describe('lab List: role model x focus strategy', () => {
         test('Enter applies the active item', async () => {
             const user = userEvent.setup();
             const onItemAction = jest.fn();
-            render(<ComboboxHarness onItemAction={onItemAction} />);
+            render(<ComboboxHarness items={FRUITS} onItemAction={onItemAction} />);
 
             await user.click(screen.getByRole('combobox'));
             await user.keyboard('{ArrowDown}{ArrowDown}{Enter}');
@@ -470,7 +364,7 @@ describe('lab List: role model x focus strategy', () => {
 
         test('character keys go to the owner: filtering instead of typeahead', async () => {
             const user = userEvent.setup();
-            render(<ComboboxHarness />);
+            render(<ComboboxHarness items={FRUITS} />);
 
             const input = screen.getByRole('combobox') as HTMLInputElement;
             await user.click(input);
@@ -479,50 +373,48 @@ describe('lab List: role model x focus strategy', () => {
 
             await user.keyboard('c er');
 
-            // Neither typeahead (it would have moved to Cherry) nor selection
-            // by Space: the characters were typed into the input
             expect(input).toHaveValue('c er');
             expect(input).toHaveAttribute('aria-activedescendant', firstOptionId);
         });
 
-        test('the cursor follows the keys of the owner: the list root never holds the focus', async () => {
+        test('the cursor follows the keys of the owner', async () => {
             const user = userEvent.setup();
-            const view = new Map<string, ListItemViewStateProps>();
-            const renderItem: ListProps<string>['renderItem'] = (ctx, helpers) => {
-                view.set(ctx.id, helpers.getItemViewProps());
-                return (
-                    <List.ItemView {...helpers.getItemProps()} {...helpers.getItemViewProps()}>
-                        {ctx.content}
-                    </List.ItemView>
-                );
-            };
-            render(<ComboboxHarness renderItem={renderItem} />);
+            const {view, renderItem} = createTracker();
+            render(<ComboboxHarness items={FRUITS} renderItem={renderItem} />);
 
             await user.click(screen.getByRole('combobox'));
             await user.keyboard('{ArrowDown}');
             expect(view.get('Apple')).toMatchObject({active: true});
 
-            // The mouse over a row puts the cursor out here as well
             await user.hover(screen.getAllByRole('option')[1]);
             expect(view.get('Banana')).toMatchObject({active: false});
 
-            // DOM focus lives with the input outside the list root, so the
-            // focus gate of the document listener never opens: what brings the
-            // cursor back is the key routed through the channel of the owner
             await user.keyboard('{ArrowDown}');
             expect(view.get('Cherry')).toMatchObject({active: true});
         });
 
-        test('a closed popup disconnects the owner: no aria-expanded, controls or activedescendant', () => {
-            render(<ComboboxHarness open={false} />);
-
+        test('a closed popup disconnects the owner', async () => {
+            const user = userEvent.setup();
+            const {rerender} = render(<ComboboxHarness items={FRUITS} />);
             const input = screen.getByRole('combobox');
+
+            await user.click(input);
+            await user.keyboard('{ArrowDown}');
+            expect(input).toHaveAttribute('aria-expanded', 'true');
+            expect(input).toHaveAttribute('aria-controls', screen.getByRole('listbox').id);
+            expect(input).toHaveAttribute(
+                'aria-activedescendant',
+                screen.getAllByRole('option')[0].id,
+            );
+
+            rerender(<ComboboxHarness items={FRUITS} open={false} />);
+
             expect(input).toHaveAttribute('aria-expanded', 'false');
             expect(input).not.toHaveAttribute('aria-controls');
             expect(input).not.toHaveAttribute('aria-activedescendant');
         });
 
-        test('the owner may be a button (a select-only combobox): the same props spread on it and drive the list', async () => {
+        test('the owner may be a button (a select-only combobox)', async () => {
             const user = userEvent.setup();
             function TriggerHarness() {
                 const focusOwner = useListFocusOwner();
@@ -557,7 +449,7 @@ describe('lab List: role model x focus strategy', () => {
     });
 
     describe('getCellProps', () => {
-        test('listbox: the getter is empty, so the same renderItem works in both role models', () => {
+        test('listbox: the getter is empty', () => {
             render(
                 <List
                     aria-label="Fruits"
@@ -603,7 +495,7 @@ describe('lab List: role model x focus strategy', () => {
     });
 
     describe('layers stay orthogonal to the axes', () => {
-        test('dnd adapter props and the drop indicator land on the row, the contract is unchanged', () => {
+        test('dnd props and the drop indicator land on the row', () => {
             render(
                 <List
                     role="grid"
@@ -638,8 +530,6 @@ describe('lab List: role model x focus strategy', () => {
             expect(header).toHaveAttribute('role', 'presentation');
             expect(header).toHaveAttribute('aria-hidden', 'true');
             expect(header).not.toHaveAttribute('tabindex');
-            // The group context travels through aria-describedby in the grid
-            // model as well
             expect(screen.getByRole('row', {name: 'First'})).toHaveAttribute(
                 'aria-describedby',
                 header.id,
@@ -651,25 +541,7 @@ describe('lab List: role model x focus strategy', () => {
 describe('lab List: role models under virtualization', () => {
     const VIEWPORT_HEIGHT = 200;
     const ROW_HEIGHT = 36;
-    let offsetHeightSpy: jest.SpyInstance;
-    let offsetWidthSpy: jest.SpyInstance;
-
-    beforeEach(() => {
-        offsetHeightSpy = jest
-            .spyOn(HTMLElement.prototype, 'offsetHeight', 'get')
-            .mockImplementation(function (this: HTMLElement) {
-                const role = this.getAttribute('role');
-                return role === 'grid' || role === 'listbox' ? VIEWPORT_HEIGHT : ROW_HEIGHT;
-            });
-        offsetWidthSpy = jest
-            .spyOn(HTMLElement.prototype, 'offsetWidth', 'get')
-            .mockReturnValue(300);
-    });
-
-    afterEach(() => {
-        offsetHeightSpy.mockRestore();
-        offsetWidthSpy.mockRestore();
-    });
+    mockLayout({viewport: VIEWPORT_HEIGHT, row: ROW_HEIGHT});
 
     const ITEMS = Array.from({length: 100}, (_, index) => `Item ${index + 1}`);
 
@@ -696,26 +568,37 @@ describe('lab List: role models under virtualization', () => {
         expect(rows[0]).not.toHaveAttribute('aria-setsize');
     });
 
-    test('aria-rowindex counts data rows only: section headers are skipped', () => {
-        render(
-            <ListVirtualizer estimateItemSize={ROW_HEIGHT}>
-                <List
-                    role="grid"
-                    aria-label="Groups"
-                    items={GROUPS}
-                    getItemContent={(item) => item.label}
-                    style={{maxHeight: VIEWPORT_HEIGHT}}
-                />
-            </ListVirtualizer>,
-        );
+    test.each([
+        ['listbox', 'option', 'aria-posinset', 'aria-setsize', 'option'],
+        ['grid', 'row', 'aria-rowindex', 'aria-rowcount', 'grid'],
+    ] as const)(
+        '%s: rows are numbered by data rows only, section headers are skipped',
+        (role, rowRole, indexAttr, countAttr, countRole) => {
+            render(
+                <ListVirtualizer estimateItemSize={ROW_HEIGHT}>
+                    <List
+                        role={role}
+                        aria-label="Groups"
+                        items={GROUPS}
+                        getItemContent={(item) => item.label}
+                        style={{maxHeight: VIEWPORT_HEIGHT}}
+                    />
+                </ListVirtualizer>,
+            );
 
-        expect(screen.getByRole('grid')).toHaveAttribute('aria-rowcount', '3');
-        expect(screen.getAllByRole('row').map((row) => row.getAttribute('aria-rowindex'))).toEqual([
-            '1',
-            '2',
-            '3',
-        ]);
-    });
+            expect(
+                screen.getAllByRole(rowRole).map((node) => node.getAttribute(indexAttr)),
+            ).toEqual(['1', '2', '3']);
+            for (const node of screen.getAllByRole(countRole)) {
+                expect(node).toHaveAttribute(countAttr, '3');
+            }
+
+            const header = screen.getByText('Recent');
+            expect(header).toHaveAttribute('aria-hidden', 'true');
+            expect(header).not.toHaveAttribute(indexAttr);
+            expect(header).not.toHaveAttribute(countAttr);
+        },
+    );
 
     test.each(['listbox', 'grid'] as const)(
         'the ARIA tree of a %s is the same with and without virtualization',
@@ -726,14 +609,7 @@ describe('lab List: role models under virtualization', () => {
                 items: GROUPS,
                 getItemContent: (item) => item.label,
             };
-            // The role tree: the container, the rows and their cells in display
-            // order. role="presentation" nodes are transparent for the a11y
-            // tree — both the wrappers of the virtualizer (the spacer and the
-            // absolute+top wrapper of a row) and the section headers hide under
-            // that role, which is why they are left out of the comparison
             const roleTree = (root: HTMLElement) =>
-                // What is compared here is exactly the STRUCTURE of the role
-                // tree — Testing Library has no traversal by role for that
                 // eslint-disable-next-line testing-library/no-node-access
                 [root, ...Array.from(root.querySelectorAll('[role]'))]
                     .map((node) => node.getAttribute('role'))

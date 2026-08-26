@@ -3,34 +3,20 @@ import * as React from 'react';
 import {mergeRefs} from '../../../hooks';
 
 export interface ItemElementRegistry {
-    /**
-     * The ref callback of a row, with an identity cached per id: a new
-     *  callback on every render would make React detach and re-attach the ref
-     *  of the row on every move of the activity
-     */
+    /** Cached per id: a new callback would detach/attach the ref every render */
     getItemRefCallback(id: string): React.RefCallback<HTMLElement>;
     /** The live DOM element of a row; undefined while the row is not mounted */
     getElement(id: string): HTMLElement | undefined;
     /** The mounted row elements — for dev checks */
     elements(): Iterable<HTMLElement>;
-    /**
-     * The cache of forked refs: without it the composition would create a new
-     *  callback on every render, and React would call the consumer's ref with
-     *  null and then with the node on every move of the activity
-     */
+    /** Cache of forked refs: a fresh fork every render would re-run the consumer's ref with null and the node */
     forkRefCached(
         base: React.Ref<HTMLElement>,
         override: React.Ref<HTMLElement>,
     ): React.RefCallback<HTMLElement>;
 }
 
-/**
- * The registry of row DOM elements and the caches of ref composition — the
- *  "id ↔ element, stable refs" machinery, which knows nothing about the layers
- *  of the list. The cache of ref callbacks is cleaned up when an id leaves the
- *  set of rows; the element registry itself is cleaned up by React, which
- *  calls the callback with null when a row unmounts
- */
+/** id ↔ element registry and ref-composition caches */
 export function useItemElementRegistry({
     rowById,
 }: {

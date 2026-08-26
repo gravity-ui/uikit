@@ -1,8 +1,6 @@
 import {warnOnce} from '../../utils/warn';
 
-// The same reading of an id as in the list core (flattenItems): a string is
-// its own id, an object gives its `id` field — stringified, so that numeric
-// ids match the string ids the list speaks in (onDrop, dropTarget)
+// Same id reading as flattenItems; numeric ids are stringified
 function defaultGetId(item: unknown): string | undefined {
     if (typeof item === 'string') {
         return item;
@@ -12,20 +10,9 @@ function defaultGetId(item: unknown): string | undefined {
 }
 
 /**
- * The reorder utility of the dnd layer: a pure function over the data — it
- * moves the item `fromId` to the `position` edge of the item `toId`. It works
- * over the top level of `items` (a flat list; moving between sections and
- * trees is out of scope and will come with `moveTreeNode`/TreeList).
- *
- * A no-op (the item was not found, `fromId === toId`, the position does not
- * change) returns the ORIGINAL array by reference, so `setItems(moveItem(...))`
- * does not cause an extra render in that case. The flip side is that the
- * result must not be mutated in place (it may BE the input array); treat it as
- * immutable, exactly like the state itself.
- *
- * With duplicate ids the FIRST match is moved (the list core warns about
- * duplicates in dev; the utility does not check for them so as not to scan the
- * array a second time).
+ * Moves `fromId` to the `position` edge of `toId` over the top level of `items`.
+ * A no-op returns the same array by reference (do not mutate the result).
+ * With duplicate ids the first match moves.
  */
 export function moveItem<T>(
     items: readonly T[],

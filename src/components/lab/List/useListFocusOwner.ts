@@ -17,52 +17,21 @@ interface OwnerState {
 const DISCONNECTED: OwnerState = {};
 
 /**
- * The channel of the external owner of the list DOM focus.
- *
- * The keyboard machinery of the list (step "a") is one and the same in both
- * strategies — only step "b" changes: in `activedescendant` the core does not
- * move DOM focus but sets `aria-activedescendant` on the owner and scrolls the
- * active row into view. The focus owner (the input of a combobox, or the
- * trigger button of a select-only one) lives OUTSIDE the list root, so the
- * connection travels to it through this channel rather than through
- * `getItemProps`: the hook returns `getInputProps()` for the owner element —
- * the props are element-agnostic, an `<input>` and a `<button>` take the same
- * ones — and the object itself goes to the list as the `focusOwner` prop.
- *
- * ```tsx
- * const focusOwner = useListFocusOwner();
- * <TextInput controlProps={focusOwner.getInputProps({'aria-label': 'Filter'})} />
- * {open ? <List focusOwner={focusOwner} items={filtered} /> : null}
- * ```
- *
- * `aria-expanded` is derived from the list being connected: while no `<List>`
- * with this owner is mounted, the popup is closed. The channel is designed for
- * the mount/unmount model of a popup — a list left mounted and hidden with
- * styles is indistinguishable from an open one for the channel: the arrows
- * would keep moving the activity in an invisible popup and `aria-expanded`
- * would stay `true` (keepMounted is not supported). For non-popup patterns (a
- * permanently visible filterable list) `role`/`aria-expanded` are overridden
- * through the overrides of `getInputProps` — by the composition contract the
- * last value wins.
- *
- * One owner — one list: two lists mounted at the same time need two objects.
+ * External owner of the list DOM focus (a combobox input or a select-only trigger): the owner
+ * takes `getInputProps()`, the list takes the object as `focusOwner`. `aria-expanded` = a list
+ * is connected; one owner per list; a hidden-but-mounted list is not supported (see README
+ * "useListFocusOwner")
  */
 export function useListFocusOwner(): ListFocusOwner {
     const [state, setState] = React.useState<OwnerState>(DISCONNECTED);
-    // getInputProps reads the connection during the owner's render, while the
-    // core updates it from its own layout effect — the ref holds a value that
-    // is current even before the owner re-renders
+    // The owner object is created once — getInputProps sees the current state through the ref
     const stateRef = React.useRef(state);
     stateRef.current = state;
-    // The handler is recreated by the core on every render: were it kept in
-    // state, publishing it would loop on its own re-render
+    // Recreated by the core every render: kept in state, publishing it would loop
     const keyDownRef = React.useRef<ListFocusOwnerConnection['onKeyDown'] | null>(null);
-    // A synchronous trace of the connected list (state lags by a commit) —
-    // for the dev warning about two lists sharing one owner only
+    // Synchronous trace of the connected list (state lags by a commit) — for the dev warning only
     const connectedListIdRef = React.useRef<string | undefined>(undefined);
 
-    // The identity of the owner is stable: it is a dependency of the
-    // publishing effect on the core's side
     const [owner] = React.useState<ListFocusOwner>(() => ({
         getInputProps(overrides) {
             const {listId, activeDomId} = stateRef.current;

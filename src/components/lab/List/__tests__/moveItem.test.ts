@@ -37,8 +37,6 @@ describe('lab List: moveItem', () => {
 
     test('reads object ids the way the list does: the `id` field, numeric ids included', () => {
         const items = [{id: 1}, {id: 2}, {id: 3}];
-        // The list speaks in string ids (onDrop, dropTarget); a numeric field
-        // has to match them
         expect(moveItem(items, '1', '3', 'after')).toEqual([{id: 2}, {id: 3}, {id: 1}]);
     });
 

@@ -74,9 +74,6 @@ export {
     type ListSize as unstable_ListSize,
 } from './components/lab/List';
 
-// The virtualization layer of the list lives next to the engine: everything
-// that depends on @tanstack/react-virtual stays in lab/Virtualizer, the core
-// of the list does not import it
 export {
     ListVirtualizer as unstable_ListVirtualizer,
     type ListVirtualizerProps as unstable_ListVirtualizerProps,

@@ -2,12 +2,7 @@ import type * as React from 'react';
 
 import {focusable} from 'tabbable';
 
-/**
- * Entering the interactive content of a cell and returning to the row — the
- * keyboard of a grid. This is what makes a button inside a row (a drag handle,
- * a row action) reachable with the keyboard rather than merely valid by role.
- * Returns true when the event has been handled
- */
+/** ←/→ between the row and the focusable content of its cells (mirrored in RTL); true when handled */
 export function navigateCells(
     event: React.KeyboardEvent,
     rowElement: HTMLElement,

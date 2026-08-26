@@ -7,22 +7,11 @@ import {warnOnce} from '../../utils/warn';
 
 import type {ListPropsOverrides} from './types';
 
-// The keys owned by the core: the ARIA role of a row (option or row), the DOM
-// id of a row and the roving tab stop.
-// The dnd adapter types exclude them already (ListDndProps), but a cast inside
-// a consumer's adapter goes around the types silently — and overwriting
-// role/id breaks the keyboard machinery completely (it is gated on the DOM id
-// of a row)
+// Keys the core owns; a cast in an adapter goes around ListDndProps
 const CORE_OWNED_PROPS = ['role', 'id', 'tabIndex'] as const;
 
-// The container key in the dev tracker of dnd adapter ref stability: NUL never
-// occurs in consumer row ids
-const DND_CONTAINER_REF_KEY = '\u0000container';
+const DND_CONTAINER_REF_KEY = Symbol('container');
 
-// In the CONSUMER's overrides the core keys are not dropped — unlike adapter
-// props, this is a deliberate escape hatch (a custom row role before roles are
-// officially parameterized, for example), but overwriting them silently breaks
-// the keyboard machinery, hence the warning
 export function warnOnOverridesCollision(
     overrides: ListPropsOverrides | undefined,
     getterName: string,
@@ -31,7 +20,7 @@ export function warnOnOverridesCollision(
         return;
     }
     for (const key of CORE_OWNED_PROPS) {
-        if (key in overrides && (overrides as Record<string, unknown>)[key] !== undefined) {
+        if (overrides[key] !== undefined) {
             warnOnce(
                 `[List] \`${getterName}\` overrides contain \`${key}\`, which is owned by the list itself (ARIA role, DOM id and roving tabindex). Unlike dnd adapter props, the value is applied as passed — but overriding \`${key}\` can break keyboard navigation and the ARIA model, make sure it is intentional.`,
             );
@@ -39,58 +28,56 @@ export function warnOnOverridesCollision(
     }
 }
 
-/**
- * The sanitizer of dnd adapter props: the core keys are CUT OUT, in production
- * as well — that is contract behavior ("such keys are ignored") rather than
- * diagnostics; the warning is dev-only
- */
+/** Cut out in production too (contract); the warning is dev-only */
 export function sanitizeDndProps<P extends object>(dndProps: P): P {
+    let result = dndProps as Record<string, unknown>;
     for (const key of CORE_OWNED_PROPS) {
-        if (key in dndProps && (dndProps as Record<string, unknown>)[key] !== undefined) {
+        if (result[key] !== undefined) {
             warnOnce(
                 `[List] The dnd adapter returned \`${key}\`, which is owned by the list itself (ARIA role, DOM id and roving tabindex). The value is ignored: spread such props yourself in \`renderItem\` if you really need them.`,
             );
-            const {[key]: _ignored, ...rest} = dndProps as Record<string, unknown>;
-            return sanitizeDndProps(rest) as P;
+            const {[key]: _ignored, ...rest} = result;
+            result = rest;
         }
     }
-    return dndProps;
+    return result as P;
 }
 
 export interface DndRefStabilityTracker {
-    /** The ref from getContainerDndProps */
     trackContainerRef(ref: unknown): void;
-    /** The ref from getItemDndProps(id) */
     trackItemRef(id: string, ref: unknown): void;
 }
 
 /**
- * Dev-time detection of a violated adapter obligation — "the ref of an adapter
- * getter is stable (per id in getItemDndProps)": an unstable callback silently
- * misses the cache of forks, React detaches and re-attaches the ref, and the
- * dnd library re-registers the element on every render — while dragging, the
- * list re-renders on every dropTarget update.
- * The threshold is 2: one legitimate change (the consumer recreated the
- * adapter or the library) is allowed; systematic instability produces the
- * second change immediately
+ * Dev check of the "stable ref per id" obligation. Threshold 2: one recreation is
+ * legitimate
  */
 export function useDndRefStabilityTracker({
     rowById,
 }: {
     rowById: ReadonlyMap<string, unknown>;
 }): DndRefStabilityTracker {
-    const historyRef = React.useRef(new Map<string, {ref: unknown; changes: number}>());
+    const historyRef = React.useRef(
+        new Map<string | typeof DND_CONTAINER_REF_KEY, {ref: unknown; changes: number}>(),
+    );
 
     React.useEffect(() => {
         for (const key of historyRef.current.keys()) {
-            if (key !== DND_CONTAINER_REF_KEY && !rowById.has(key)) {
+            if (typeof key === 'string' && !rowById.has(key)) {
                 historyRef.current.delete(key);
             }
         }
     }, [rowById]);
 
     const [tracker] = React.useState<DndRefStabilityTracker>(() => {
-        const track = (key: string, ref: unknown, getterName: string) => {
+        if (process.env.NODE_ENV === 'production') {
+            return {trackContainerRef: () => {}, trackItemRef: () => {}};
+        }
+        const track = (
+            key: string | typeof DND_CONTAINER_REF_KEY,
+            ref: unknown,
+            getterName: string,
+        ) => {
             if (ref === null || ref === undefined) {
                 return;
             }
@@ -120,13 +107,8 @@ export function useDndRefStabilityTracker({
 }
 
 /**
- * The grid contract: a list is ONE tab stop (APG). The interactive content of
- * a cell is reachable with ←/→ and must not be in the Tab order — otherwise
- * the list unfolds into N+1 tab stops (the practical case is dragHandleProps
- * from rbd with a tabIndex=0 of its own). The core does not rewrite foreign
- * markup (the consumer may have made the element tabbable on purpose, and the
- * library would put its tabIndex back on the very next render) — it warns
- * instead. Dev only, and only when the set of rows changes
+ * Grid is one tab stop: cell content must not be tabbable (rbd dragHandleProps carry
+ * tabIndex=0). Warns, never rewrites foreign markup
  */
 export function useGridTabStopDevCheck({
     enabled,
@@ -134,7 +116,6 @@ export function useGridTabStopDevCheck({
     getElements,
 }: {
     enabled: boolean;
-    /** A re-scan signal only — the set of rows has changed */
     rows: readonly unknown[];
     getElements: () => Iterable<HTMLElement>;
 }) {

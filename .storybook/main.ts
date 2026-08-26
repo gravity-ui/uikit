@@ -3,13 +3,13 @@ import type {RuleSetRule} from 'webpack';
 
 import {sassFunctions} from '../build-utils/sass-functions';
 
-// `import src from './file.tsx?raw'` должен отдавать ИСХОДНИК файла (панель
-// Code стори показывает копируемый пример). Но babel-правило сторибука
-// матчит .tsx/.ts по пути, игнорируя query, а webpack применяет ВСЕ
-// подходящие правила — без этого `?raw` прогонялся бы через babel и в панель
-// попадал бы компилят (JSX → _jsx, типы вырезаны). Для .md?raw (README в
-// Docs.mdx) проблемы нет: .md babel-правило не матчит. Чиним точечно:
-// исключаем `?raw` из всех babel/ts-правил и отдаём такие импорты как
+// `import src from './file.tsx?raw'` must return the SOURCE of the file (the
+// Code panel of a story shows a copyable example). The babel rule of storybook
+// matches .ts/.tsx by path and ignores the query, while webpack applies EVERY
+// matching rule — so `?raw` would go through babel and the panel would get the
+// compiled output (JSX → _jsx, types stripped). `.md?raw` (the README in
+// Docs.mdx) is fine: no babel rule matches .md. The fix is local: `?raw` is
+// excluded from every babel/ts rule, and such imports are served as
 // asset/source.
 const RAW_QUERY = /raw/;
 
@@ -26,7 +26,7 @@ function excludeRawFromScriptRules(rules: LooseRule[] | undefined) {
         if (Array.isArray(rule.oneOf)) {
             excludeRawFromScriptRules(rule.oneOf);
         }
-        // Правила, компилирующие скрипты, узнаём по test на js/ts/jsx/tsx
+        // Rules that compile scripts are recognized by their test on js/ts/jsx/tsx
         const test = rule.test;
         const matchesScript =
             test instanceof RegExp &&
@@ -81,8 +81,8 @@ const config: StorybookConfig = {
         }
         const rules = (webpackConfig.module?.rules ?? []) as RuleSetRule[];
         excludeRawFromScriptRules(rules);
-        // Выделенное правило `?raw` → сырой текст модуля (после исключения
-        // выше babel такие импорты уже не трогает)
+        // A dedicated `?raw` rule → the raw text of the module (after the
+        // exclusion above babel no longer touches such imports)
         rules.unshift({resourceQuery: RAW_QUERY, type: 'asset/source'});
         return webpackConfig;
     },

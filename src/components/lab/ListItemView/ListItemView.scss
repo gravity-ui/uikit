@@ -240,13 +240,14 @@ $block: '.#{variables.$ns}lab-list-item-view';
         --_--background-color-hover: var(--_--background-color-selected-hover);
     }
 
-    // «Курсор» на выбранной строке — пара selection/selection-hover: правила
-    // выше поодиночке конфликтуют (_selected ниже по файлу и перебивает фон
-    // _active). Раньше эту работу делал фолбэк `&:focus { background: hover }`,
-    // но он требовал DOM-фокуса на строке (в activedescendant-режиме lab/List
-    // курсор на выбранной строке терялся) и рисовал «застрявший ховер» на
-    // любой строке, держащей фокус после клика, — фолбэк удалён, индикацией
-    // владеют состояния active/hovered/selected
+    // The "cursor" on a selected row is the selection/selection-hover pair: the
+    // rules above conflict on their own (_selected comes later in the file and
+    // overrides the _active background). The `&:focus { background: hover }`
+    // fallback used to do this, but it required DOM focus on the row (in the
+    // activedescendant mode of lab/List the cursor on a selected row was lost)
+    // and painted a "stuck hover" on any row holding focus after a click — the
+    // fallback is gone, the indication is owned by the active/hovered/selected
+    // states
     &_selected#{$block}_active {
         --_--background-color: var(--_--background-color-hover);
     }
@@ -264,8 +265,9 @@ $block: '.#{variables.$ns}lab-list-item-view';
         }
     }
 
-    // Disabled-строки навигабельны с клавиатуры (APG discoverability, lab/List):
-    // индикация активности не должна подавляться disabled-фоном
+    // A disabled row can still be the active one (a controlled activeItemId of
+    // lab/List pointing at it): the active indication must not be suppressed by
+    // the disabled background
     &_disabled#{$block}_active {
         --_--background-color: var(--_--background-color-hover);
     }

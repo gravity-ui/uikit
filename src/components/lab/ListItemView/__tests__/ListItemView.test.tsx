@@ -4,9 +4,9 @@ import * as tabbable from 'tabbable';
 import {render, screen} from '../../../../../test-utils/utils';
 import {ListItemView} from '../ListItemView';
 
-// В jsdom нет layout: displayCheck по умолчанию считает все элементы
-// скрытыми, и focusable() возвращает пустой список. jest.mock не подходит:
-// модуль уже закеширован сетапом тестов (баррель src грузит tabbable раньше)
+// jsdom has no layout: by default displayCheck considers every element hidden,
+// and focusable() returns an empty list. jest.mock does not fit: the module is
+// already cached by the test setup (the src barrel loads tabbable earlier)
 const realFocusable = tabbable.focusable;
 let focusableSpy: jest.SpyInstance;
 
@@ -62,9 +62,9 @@ describe('lab ListItemView', () => {
     });
 
     describe('state modifiers', () => {
-        // Каскадный фикс пары selected+active: у элемента с обоими
-        // модификаторами фон должен резолвиться в selection-hover
-        // (фолбэк :focus удалён — индикацией владеют состояния)
+        // The cascade fix of the selected+active pair: an element with both
+        // modifiers must resolve its background to selection-hover (the :focus
+        // fallback is gone — the indication is owned by the states)
         test('selected + active render both modifiers on the root node', () => {
             render(
                 <ListItemView role="option" selected selectionStyle="highlight" active>

@@ -1,9 +1,11 @@
 /**
- * Reordering with dnd-kit — the "state-only" form of an adapter: the adapter
- * carries draggingId only, and the props half is covered by the consumer with
- * the per-item `useSortable` hook in THEIR OWN row component through
- * renderItem (the hook cannot be called from a method of the adapter — rules
- * of hooks).
+ * Drag and drop with dnd-kit — an example of plugging another library into
+ * the adapter contract (the recommended library is @hello-pangea/dnd, see the
+ * DragAndDrop stories). This is the "state-only" form of an adapter: the
+ * adapter carries draggingId only, and the props half is covered by the
+ * consumer with the per-item `useSortable` hook in THEIR OWN row component
+ * through renderItem (the hook cannot be called from a method of the adapter
+ * — rules of hooks).
  *
  * Visually the example lives in the SHIFT model (the native one for sortable):
  * the transforms of dnd-kit are applied to every row — the neighbours smoothly
@@ -85,7 +87,7 @@ function SortableRow({
     );
 }
 
-export function ReorderDndKitExample() {
+export function DragAndDropDndKitExample() {
     const [items, setItems] = React.useState(tracks);
     const ids = items.map((record) => record.id);
     const {adapter, contextProps} = useDndKitListDnd({

@@ -1,6 +1,8 @@
 /**
- * Reordering with dnd-kit on top of virtualization — the recipe dnd-kit
- * prescribes for virtual lists: DragOverlay.
+ * Drag and drop with dnd-kit on top of virtualization — an example of
+ * plugging another library into the adapter contract (the recommended library
+ * is @hello-pangea/dnd, see the DragAndDrop stories). The recipe dnd-kit
+ * prescribes for virtual lists is DragOverlay:
  *
  * - The dragged item is drawn by an OVERLAY (it flies with the cursor), while
  *   the original is hidden for the duration of the drag (opacity 0, the slot
@@ -88,7 +90,7 @@ function SortableVirtualRow({
     );
 }
 
-export function ReorderDndKitVirtualizedExample() {
+export function DragAndDropDndKitVirtualizedExample() {
     const [items, setItems] = React.useState(sortableQueue);
     const ids = items.map((record) => record.id);
     const {adapter, contextProps} = useDndKitListDnd({

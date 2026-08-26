@@ -1,8 +1,7 @@
 /**
- * Reordering with @hello-pangea/dnd — the target case for migrating off the
- * old List (which is built on this library). The library cannot be expressed
- * by the props contract, so the integration is compositional, modelled on the
- * old List:
+ * Drag and drop with @hello-pangea/dnd — the recommended library (the old
+ * List is built on it). The library cannot be expressed by the props
+ * contract, so the integration is compositional, modelled on the old List:
  *
  * - the state half of the adapter (`draggingId`) travels through the `dnd`
  *   prop — without it the core provides neither data-dragging nor the
@@ -26,8 +25,9 @@
  * - dropTarget is not filled in: the model of the library is shifting the
  *   rows, and the indicator of the list is not needed.
  *
- * In an application the list is imported from the package:
- * `import {unstable_List as List, unstable_moveItem as moveItem} from '@gravity-ui/uikit/unstable'`
+ * In an application the list and the hook are imported from the package:
+ * `import {unstable_List as List, unstable_moveItem as moveItem,
+ * unstable_useListHelloPangeaDnd as useListHelloPangeaDnd} from '@gravity-ui/uikit/unstable'`
  */
 import * as React from 'react';
 
@@ -39,8 +39,7 @@ import {Icon} from '../../../Icon';
 import {List} from '../List';
 import {moveItem} from '../moveItem';
 import type {ListItemContext, ListItemHelpers} from '../types';
-
-import {useHelloPangeaListDnd} from './useHelloPangeaListDnd';
+import {useListHelloPangeaDnd} from '../useListHelloPangeaDnd';
 
 interface TrackRecord {
     id: string;
@@ -131,10 +130,10 @@ function PangeaRow({
     );
 }
 
-export function ReorderHelloPangeaExample() {
+export function DragAndDropHelloPangeaExample() {
     const [items, setItems] = React.useState(tracks);
     const ids = items.map((record) => record.id);
-    const {draggingId, onDragStart, onDragEnd} = useHelloPangeaListDnd({
+    const {draggingId, onDragStart, onDragEnd} = useListHelloPangeaDnd({
         ids,
         onDrop: (fromId, toId, position) => setItems(moveItem(items, fromId, toId, position)),
     });

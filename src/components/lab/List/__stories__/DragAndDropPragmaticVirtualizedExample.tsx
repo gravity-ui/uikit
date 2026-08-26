@@ -1,8 +1,10 @@
 /**
- * Reordering with @atlaskit/pragmatic-drag-and-drop on top of virtualization.
- * The integration is the same as in the flat example — a single `dnd` prop and
- * a drag from the Grip handle only; the window of rows is transparent for the
- * adapter (rows are registered as they mount).
+ * Drag and drop with @atlaskit/pragmatic-drag-and-drop on top of
+ * virtualization — an example of plugging another library into the adapter
+ * contract (the recommended library is @hello-pangea/dnd, see the DragAndDrop
+ * stories). The integration is the same as in the flat example — a single
+ * `dnd` prop and a drag from the Grip handle only; the window of rows is
+ * transparent for the adapter (rows are registered as they mount).
  *
  * Stable identities of the getters and of renderItem (useCallback) are the
  * condition for memoizing the rows: dragover then re-renders the insertion
@@ -36,7 +38,7 @@ const longQueue: TrackRecord[] = Array.from({length: 2000}, (_, index) => ({
 
 const getTrackContent = (record: TrackRecord) => record.title;
 
-export function ReorderPragmaticVirtualizedExample() {
+export function DragAndDropPragmaticVirtualizedExample() {
     const [items, setItems] = React.useState(longQueue);
     const dnd = usePragmaticListDnd({
         onDrop: (fromId, toId, position) => setItems(moveItem(items, fromId, toId, position)),

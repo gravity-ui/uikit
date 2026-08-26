@@ -32,16 +32,10 @@ export const ListVirtualized = () => <Canvas of={Stories.Virtualized} sourceStat
 export const ListInteractiveRows = () => <Canvas of={Stories.InteractiveRows} sourceState="none" />;
 export const ListFocusOwner = () => <Canvas of={Stories.FocusOwner} sourceState="none" />;
 
-{/* The Code panel of these examples shows the complete source of their files */}
+{/* The only drag-and-drop example of the page — @hello-pangea/dnd, the recommended library; the other libraries are linked from the README to their stories */}
+{/* The Code panel of this example shows the complete source of its file: the integration is meant to be copied as is */}
 
-export const ListReorder = () => <Canvas of={Stories.Reorder} />;
-export const ListReorderVirtualized = () => <Canvas of={Stories.ReorderVirtualized} />;
-export const ListReorderDndKit = () => <Canvas of={Stories.ReorderDndKit} />;
-export const ListReorderDndKitVirtualized = () => <Canvas of={Stories.ReorderDndKitVirtualized} />;
-export const ListReorderHelloPangea = () => <Canvas of={Stories.ReorderHelloPangea} />;
-export const ListReorderHelloPangeaVirtualized = () => (
-    <Canvas of={Stories.ReorderHelloPangeaVirtualized} />
-);
+export const ListDragAndDrop = () => <Canvas of={Stories.DragAndDrop} />;
 
 <Meta of={Stories} />
 
@@ -63,13 +57,8 @@ export const ListReorderHelloPangeaVirtualized = () => (
             ListSingleSelection,
             ListMultipleSelection,
             ListVirtualized,
-            ListReorder,
-            ListReorderVirtualized,
-            ListReorderDndKit,
-            ListReorderDndKitVirtualized,
-            ListReorderHelloPangea,
-            ListReorderHelloPangeaVirtualized,
             ListInteractiveRows,
+            ListDragAndDrop,
             ListFocusOwner,
         },
     }}

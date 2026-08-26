@@ -1,10 +1,12 @@
 /**
- * Reordering with @atlaskit/pragmatic-drag-and-drop — the "full" form of an
- * adapter: both the props (ref registration of the rows) and the state arrive
- * through the single `dnd` prop. A drag starts from the Grip handle only (the
- * `dragHandle` of the library; the ref of the handle is provided by the
- * `getHandleRef` method of the adapter); the insertion point is shown by the
- * indicator the list draws itself from ctx.state.dropTarget.
+ * Drag and drop with @atlaskit/pragmatic-drag-and-drop — an example of
+ * plugging another library into the adapter contract (the recommended library
+ * is @hello-pangea/dnd, see the DragAndDrop stories). This is the "full" form
+ * of an adapter: both the props (ref registration of the rows) and the state
+ * arrive through the single `dnd` prop. A drag starts from the Grip handle
+ * only (the `dragHandle` of the library; the ref of the handle is provided by
+ * the `getHandleRef` method of the adapter); the insertion point is shown by
+ * the indicator the list draws itself from ctx.state.dropTarget.
  *
  * In an application the list is imported from the package:
  * `import {unstable_List as List, unstable_moveItem as moveItem} from '@gravity-ui/uikit/unstable'`
@@ -30,7 +32,7 @@ const tracks: TrackRecord[] = Array.from({length: 8}, (_, index) => ({
     title: `${index + 1} · ${faker.music.songName()}`,
 }));
 
-export function ReorderPragmaticExample() {
+export function DragAndDropPragmaticExample() {
     const [items, setItems] = React.useState(tracks);
     // The consumer's own wrapper around their dnd library
     const dnd = usePragmaticListDnd({

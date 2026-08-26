@@ -24,21 +24,11 @@ import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
 import {useListFocusOwner} from '../useListFocusOwner';
 
-import {ReorderDndKitExample} from './ReorderDndKitExample';
-import reorderDndKitCode from './ReorderDndKitExample?raw';
-import {ReorderDndKitVirtualizedExample} from './ReorderDndKitVirtualizedExample';
-import reorderDndKitVirtualizedCode from './ReorderDndKitVirtualizedExample?raw';
-import {ReorderHelloPangeaExample} from './ReorderHelloPangeaExample';
-import reorderHelloPangeaCode from './ReorderHelloPangeaExample?raw';
-import {ReorderHelloPangeaVirtualizedExample} from './ReorderHelloPangeaVirtualizedExample';
-import reorderHelloPangeaVirtualizedCode from './ReorderHelloPangeaVirtualizedExample?raw';
-import {ReorderPragmaticExample} from './ReorderPragmaticExample';
-import reorderPragmaticCode from './ReorderPragmaticExample?raw';
-import {ReorderPragmaticVirtualizedExample} from './ReorderPragmaticVirtualizedExample';
-import reorderPragmaticVirtualizedCode from './ReorderPragmaticVirtualizedExample?raw';
-import useDndKitListDndCode from './useDndKitListDnd?raw';
-import useHelloPangeaListDndCode from './useHelloPangeaListDnd?raw';
-import usePragmaticListDndCode from './usePragmaticListDnd?raw';
+import {DragAndDropHelloPangeaExample} from './DragAndDropHelloPangeaExample';
+import dragAndDropHelloPangeaCode from './DragAndDropHelloPangeaExample?raw';
+import {DragAndDropHelloPangeaVirtualizedExample} from './DragAndDropHelloPangeaVirtualizedExample';
+import dragAndDropHelloPangeaVirtualizedCode from './DragAndDropHelloPangeaVirtualizedExample?raw';
+import {exampleSource} from './exampleSource';
 
 const meta: Meta = {
     title: 'Lab/List',
@@ -532,121 +522,6 @@ export const Virtualized: Story = {
     ),
 };
 
-// The complete source of an example for the Code panel: by default Storybook
-// shows the body of render only — the examples are extracted into
-// self-contained component files, and Code is assembled from their sources
-// (the component plus its adapter hook) and can be copied as is
-const exampleSource = (files: Array<[name: string, code: string]>) =>
-    files.map(([name, code]) => `// ─────────── ${name} ───────────\n\n${code}`).join('\n');
-
-// Reordering with the consumer's dnd library. Reference #1 —
-// pragmatic-drag-and-drop: the "full" form of the adapter (props through
-// ref registration of the rows plus the state, all in a single dnd prop)
-export const Reorder: Story = {
-    render: () => <ReorderPragmaticExample />,
-    parameters: {
-        docs: {
-            source: {
-                language: 'tsx',
-                code: exampleSource([
-                    ['ReorderPragmaticExample.tsx', reorderPragmaticCode],
-                    ['usePragmaticListDnd.ts', usePragmaticListDndCode],
-                ]),
-            },
-        },
-    },
-};
-
-// pragmatic × virtualization: the same single-prop dnd integration on top of a
-// window of rows
-export const ReorderVirtualized: Story = {
-    render: () => <ReorderPragmaticVirtualizedExample />,
-    parameters: {
-        docs: {
-            source: {
-                language: 'tsx',
-                code: exampleSource([
-                    ['ReorderPragmaticVirtualizedExample.tsx', reorderPragmaticVirtualizedCode],
-                    ['usePragmaticListDnd.ts', usePragmaticListDndCode],
-                ]),
-            },
-        },
-    },
-};
-
-// Reference #2 — dnd-kit: a "state-only" adapter plus the per-item useSortable
-// hook in the consumer's own row component through renderItem
-export const ReorderDndKit: Story = {
-    render: () => <ReorderDndKitExample />,
-    parameters: {
-        docs: {
-            source: {
-                language: 'tsx',
-                code: exampleSource([
-                    ['ReorderDndKitExample.tsx', reorderDndKitCode],
-                    ['useDndKitListDnd.ts', useDndKitListDndCode],
-                ]),
-            },
-        },
-    },
-};
-
-// dnd-kit × virtualization — the recipe dnd-kit prescribes for virtual lists:
-// a DragOverlay flies with the cursor while the original is hidden for the
-// duration of the drag (its slot is covered by the preview shift of the
-// neighbours) and survives being unmounted from the window (see the header of
-// the example for the details)
-export const ReorderDndKitVirtualized: Story = {
-    render: () => <ReorderDndKitVirtualizedExample />,
-    parameters: {
-        docs: {
-            source: {
-                language: 'tsx',
-                code: exampleSource([
-                    ['ReorderDndKitVirtualizedExample.tsx', reorderDndKitVirtualizedCode],
-                    ['useDndKitListDnd.ts', useDndKitListDndCode],
-                ]),
-            },
-        },
-    },
-};
-
-// The target case for migrating off the old List — @hello-pangea/dnd: a
-// compositional integration modelled on the old List (see the header of the
-// example for the details and the price)
-export const ReorderHelloPangea: Story = {
-    render: () => <ReorderHelloPangeaExample />,
-    parameters: {
-        docs: {
-            source: {
-                language: 'tsx',
-                code: exampleSource([
-                    ['ReorderHelloPangeaExample.tsx', reorderHelloPangeaCode],
-                    ['useHelloPangeaListDnd.ts', useHelloPangeaListDndCode],
-                ]),
-            },
-        },
-    },
-};
-
-// hello-pangea × virtualization — the model of the virtual mode of the old
-// List (mode="virtual" plus renderClone; see the header of the example for the
-// details)
-export const ReorderHelloPangeaVirtualized: Story = {
-    render: () => <ReorderHelloPangeaVirtualizedExample />,
-    parameters: {
-        docs: {
-            source: {
-                language: 'tsx',
-                code: exampleSource([
-                    ['ReorderHelloPangeaVirtualizedExample.tsx', reorderHelloPangeaVirtualizedCode],
-                    ['useHelloPangeaListDnd.ts', useHelloPangeaListDndCode],
-                ]),
-            },
-        },
-    },
-};
-
 // The role model axis: the rows contain interactive content, so the list
 // switches to the grid roles, where a button inside a row is valid and
 // reachable with the keyboard (`←`/`→` enter the interactive content of a cell
@@ -693,6 +568,46 @@ export const InteractiveRows: Story = {
                 )}
             />
         );
+    },
+};
+
+// Drag and drop with @hello-pangea/dnd — the recommended library: the
+// integration is compositional (DragDropContext/Droppable around the list,
+// Draggable inside renderItem), the state of the drag comes from
+// useListHelloPangeaDnd, exported next to the list. The Code panel holds the
+// complete source of the example. The same on top of other libraries lives in
+// the "Drag and drop with other libraries" stories
+export const DragAndDrop: Story = {
+    render: () => <DragAndDropHelloPangeaExample />,
+    parameters: {
+        docs: {
+            source: {
+                language: 'tsx',
+                code: exampleSource([
+                    ['DragAndDropHelloPangeaExample.tsx', dragAndDropHelloPangeaCode],
+                ]),
+            },
+        },
+    },
+};
+
+// hello-pangea × virtualization — the model of the virtual mode of the old
+// List (mode="virtual" plus renderClone; see the header of the example for the
+// details)
+export const DragAndDropVirtualized: Story = {
+    render: () => <DragAndDropHelloPangeaVirtualizedExample />,
+    parameters: {
+        docs: {
+            source: {
+                language: 'tsx',
+                code: exampleSource([
+                    [
+                        'DragAndDropHelloPangeaVirtualizedExample.tsx',
+                        dragAndDropHelloPangeaVirtualizedCode,
+                    ],
+                ]),
+            },
+        },
     },
 };
 

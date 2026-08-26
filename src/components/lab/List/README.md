@@ -40,6 +40,7 @@ optional layers: nothing of them exists until you turn them on.
   - [Data attributes](#data-attributes)
   - [ListVirtualizer](#listvirtualizer)
   - [ListDndAdapter](#listdndadapter)
+  - [useListHelloPangeaDnd](#uselisthellopangeadnd)
 
 ## Basic Usage
 
@@ -651,17 +652,25 @@ keyboard is not supported yet.
 The recommended library. Its wrappers cannot be expressed by the adapter contract, so the
 integration is compositional: `DragDropContext` and `Droppable` go around the list, the row wraps
 itself in `Draggable` inside `renderItem`, and the adapter half carries `draggingId` and the props
-of the drop zone. The drop moves your data — `moveItem(items, fromId, toId, position, getId?)`
+of the drop zone. The state comes from [`useListHelloPangeaDnd`](#uselisthellopangeadnd), exported
+next to the list: it returns `draggingId` for the adapter together with `onDragStart`/`onDragEnd`
+for the `DragDropContext`, and translates the `destination.index` of the library into the
+`{toId, position}` pair of `moveItem`. The drop moves your data —
+`moveItem(items, fromId, toId, position, getId?)`
 reorders the top level of the array and returns the original one, by reference, when nothing has
 moved — so treat the result as immutable. The ids are read the way the list reads them unless
 `getId` says otherwise.
 
 ```tsx
 import {DragDropContext, Droppable} from '@hello-pangea/dnd';
-import {unstable_List as List, unstable_moveItem as moveItem} from '@gravity-ui/uikit/unstable';
+import {
+  unstable_List as List,
+  unstable_moveItem as moveItem,
+  unstable_useListHelloPangeaDnd as useListHelloPangeaDnd,
+} from '@gravity-ui/uikit/unstable';
 
 function SortableList({items, setItems}) {
-  const {draggingId, onDragStart, onDragEnd} = useHelloPangeaListDnd({
+  const {draggingId, onDragStart, onDragEnd} = useListHelloPangeaDnd({
     ids: items.map((item) => item.id),
     onDrop: (fromId, toId, position) => setItems(moveItem(items, fromId, toId, position)),
   });
@@ -691,13 +700,16 @@ function SortableList({items, setItems}) {
 }
 ```
 
-The examples switch the list to the [grid roles](#interactive-rows): the drag handle of this
+The example switches the list to the [grid roles](#interactive-rows): the drag handle of this
 library is a real button, and interactive content is valid inside a cell rather than inside an
 option.
 
-<ListReorderHelloPangea />
+<ListDragAndDrop />
 
-<ListReorderHelloPangeaVirtualized />
+Under [virtualization](#virtualization) the integration changes its shape — `mode="virtual"` on the
+`Droppable`, `renderClone` in place of the placeholder, and a clone container inside the themed
+tree: see the [Drag and drop virtualized](?path=/story/lab-list--drag-and-drop-virtualized) story,
+its Code panel holds the complete source.
 
 ### Any other library
 
@@ -735,25 +747,18 @@ Then pick how the drop position is shown — the two ways exclude each other:
 For styles of your own the list marks the dragged row with `data-dragging` and the root with
 `data-drag-active`.
 
-The two examples below are the two shapes side by side: pragmatic-drag-and-drop as an adapter of
-props and state with the insertion line of the list, and dnd-kit as a state-only adapter with
-`useSortable` in the row component and the neighbours shifting. Each of them is shown twice, on a
-plain list and on a virtualized one, and the complete source is in its Code panel.
+The two shapes are shown side by side in the
+[Drag and drop with other libraries](?path=/story/lab-list-drag-and-drop-with-other-libraries--pragmatic-drag-and-drop)
+stories, each library on a plain list and on a virtualized one; the complete source of an example
+is in its Code panel:
 
-#### pragmatic-drag-and-drop
-
-<ListReorder />
-
-<ListReorderVirtualized />
-
-#### dnd-kit
-
-Do not spread the `attributes` of `useSortable`: they carry `role` and `tabIndex`, which belong to
-the list.
-
-<ListReorderDndKit />
-
-<ListReorderDndKitVirtualized />
+- **pragmatic-drag-and-drop** — an adapter of props and state, the insertion line is drawn by the
+  list: [plain](?path=/story/lab-list-drag-and-drop-with-other-libraries--pragmatic-drag-and-drop),
+  [virtualized](?path=/story/lab-list-drag-and-drop-with-other-libraries--pragmatic-drag-and-drop-virtualized);
+- **dnd-kit** — a state-only adapter with `useSortable` in the row component, the neighbours shift
+  (do not spread the `attributes` of `useSortable`: they carry `role` and `tabIndex`, which belong
+  to the list): [plain](?path=/story/lab-list-drag-and-drop-with-other-libraries--dnd-kit),
+  [virtualized](?path=/story/lab-list-drag-and-drop-with-other-libraries--dnd-kit-virtualized).
 
 ## useListFocusOwner
 
@@ -922,8 +927,9 @@ with the name of its section. What is left to you:
 | ref                 | The ref of the root element                                           |       `React.Ref<HTMLDivElement>`        |                                      |
 
 `List.ItemView` is the row view of the default render and `List.SectionHeader` is its section
-header; both are statics of the component and are meant for `renderItem`. The reorder helper is
-exported next to the list — `unstable_moveItem`.
+header; both are statics of the component and are meant for `renderItem`. The reorder helper and
+the hook of the recommended drag-and-drop library are exported next to the list —
+`unstable_moveItem` and [`unstable_useListHelloPangeaDnd`](#uselisthellopangeadnd).
 
 ### ListItemContext
 
@@ -991,3 +997,21 @@ The object of the `dnd` prop — the [drag-and-drop](#drag-and-drop) layer.
 | getItemDndProps?      | The props of a row; they are mixed into `getItemProps` after the base ones, before the overrides |            `(id: string) => ListDndProps`             |
 | draggingId?           | What is being dragged — the source of `ctx.state.dragging` and `data-dragging`                   |                   `string \| null`                    |
 | dropTarget?           | `{id, position}` — the source of `ctx.state.dropTarget`; the indicator is drawn by the list      | `{id: string; position: 'before' \| 'after'} \| null` |
+
+### useListHelloPangeaDnd
+
+The state half of the [@hello-pangea/dnd](#hello-pangeadnd) integration: `draggingId` for the
+adapter and the handlers of the `DragDropContext`. The options:
+
+| Name   | Description                                                                                           |                                  Type                                   |
+| :----- | :---------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------: |
+| ids    | The ids of the rows in the order of the list — `destination.index` of the library is translated by it |                           `readonly string[]`                           |
+| onDrop | The drop — pair it with `moveItem(items, fromId, toId, position)`                                     | `(fromId: string, toId: string, position: 'before' \| 'after') => void` |
+
+What it returns:
+
+| Name        | Description                                                  |              Type              |
+| :---------- | :----------------------------------------------------------- | :----------------------------: |
+| draggingId  | What is being dragged — goes into the `dnd` prop of the list |        `string \| null`        |
+| onDragStart | For the `DragDropContext`                                    |  `(start: DragStart) => void`  |
+| onDragEnd   | For the `DragDropContext`; calls `onDrop` on a real move     | `(result: DropResult) => void` |

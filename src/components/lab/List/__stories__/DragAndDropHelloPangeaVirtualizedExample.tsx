@@ -1,6 +1,6 @@
 /**
- * Reordering with @hello-pangea/dnd on top of virtualization — the model of
- * the virtual mode of the old List:
+ * Drag and drop with @hello-pangea/dnd (the recommended library) on top of
+ * virtualization — the model of the virtual mode of the old List:
  *
  * - `mode="virtual"`: the placeholder is not needed (the last-row hack of the
  *   flat example goes away), but `renderClone` is mandatory — while dragging,
@@ -24,8 +24,9 @@
  *   listbox/option do, and the numbering of the window travels through
  *   aria-rowcount/aria-rowindex.
  *
- * In an application the list is imported from the package:
- * `import {unstable_List as List, unstable_moveItem as moveItem} from '@gravity-ui/uikit/unstable'`
+ * In an application the list and the hook are imported from the package:
+ * `import {unstable_List as List, unstable_moveItem as moveItem,
+ * unstable_useListHelloPangeaDnd as useListHelloPangeaDnd} from '@gravity-ui/uikit/unstable'`
  */
 import * as React from 'react';
 
@@ -39,8 +40,7 @@ import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
 import {moveItem} from '../moveItem';
 import type {ListItemContext, ListItemHelpers} from '../types';
-
-import {useHelloPangeaListDnd} from './useHelloPangeaListDnd';
+import {useListHelloPangeaDnd} from '../useListHelloPangeaDnd';
 
 interface TrackRecord {
     id: string;
@@ -115,10 +115,10 @@ function PangeaVirtualRow({
     );
 }
 
-export function ReorderHelloPangeaVirtualizedExample() {
+export function DragAndDropHelloPangeaVirtualizedExample() {
     const [items, setItems] = React.useState(vinylArchive);
     const ids = items.map((record) => record.id);
-    const {draggingId, onDragStart, onDragEnd} = useHelloPangeaListDnd({
+    const {draggingId, onDragStart, onDragEnd} = useListHelloPangeaDnd({
         ids,
         onDrop: (fromId, toId, position) => setItems(moveItem(items, fromId, toId, position)),
     });

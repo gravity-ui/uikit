@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.48.2](https://github.com/gravity-ui/uikit/compare/v7.48.1...v7.48.2) (2026-08-26)
+
+
+### Bug Fixes
+
+* **ActionTooltip:** same height with and without hotkey ([#2410](https://github.com/gravity-ui/uikit/issues/2410)) ([48b4762](https://github.com/gravity-ui/uikit/commit/48b4762503debd5fc01d7739ffcfc02054068705))
+* **Select:** use separate classname for Sheet ([#2794](https://github.com/gravity-ui/uikit/issues/2794)) ([aaa1406](https://github.com/gravity-ui/uikit/commit/aaa14064659ba79a2dacfc8d4f1b100e42693b94))
+
 ## [7.48.1](https://github.com/gravity-ui/uikit/compare/v7.48.0...v7.48.1) (2026-08-21)
 
 

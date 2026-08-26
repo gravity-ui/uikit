@@ -390,7 +390,15 @@ export const Links: Story = {
             items={specs}
             style={{width: 300}}
             getItemTextValue={(spec) => spec.name}
-            onItemAction={(_id, spec) => window.open(spec.href, '_blank', 'noopener,noreferrer')}
+            onItemAction={(_id, spec, event) => {
+                // A click is navigated by the browser itself, the modifiers
+                // included (Ctrl/Cmd+click opens a background tab, Shift+click
+                // a window); Enter is intercepted by the list, so the keyboard
+                // navigates through the callback
+                if ('key' in event) {
+                    window.open(spec.href, '_blank', 'noopener,noreferrer');
+                }
+            }}
             renderItem={(ctx, {getItemProps, getItemViewProps}) => (
                 <List.ItemView
                     component="a"
@@ -402,10 +410,6 @@ export const Links: Story = {
                     rel="noopener noreferrer"
                     {...getItemProps({
                         'aria-label': `${ctx.item.name}, opens in a new tab`,
-                        // The native navigation is suppressed: a click already
-                        // runs onItemAction, and without this the row would
-                        // navigate twice
-                        onClick: (event) => event.preventDefault(),
                     })}
                     {...getItemViewProps()}
                     description={ctx.item.description}

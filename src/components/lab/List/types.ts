@@ -105,10 +105,14 @@ export interface ListItemContext<T> {
  *  className is concatenated, ref is forked, style is shallow-merged; keys
  *  whose value is `undefined` are ignored.
  *
- * Handlers from overrides are called on disabled rows as well: the
- *  composition chain is not gated by state (the base core handler bails out
- *  on its own, but the one passed after it is always called). Check
- *  `ctx.state.disabled` in your handler if that matters.
+ * The composition chain is not gated by state: on a disabled row the base
+ *  core handler bails out on its own, while the one passed after it is still
+ *  called — as far as the event reaches the row at all. With custom markup
+ *  that is always the case; the default view (`List.ItemView`) takes no
+ *  pointer events on a disabled row (`pointer-events: none`) and does not
+ *  call `onClick` there, so with it only the keyboard and focus handlers of
+ *  the overrides fire on a disabled row. Check `ctx.state.disabled` in your
+ *  handler if that matters.
  *
  * `role`/`id`/`tabIndex` belong to the core (the ARIA model, the DOM id of a
  *  row, the roving tab stop). In overrides they are applied as passed — a
@@ -145,6 +149,11 @@ export type ListCellDOMProps = Omit<React.HTMLAttributes<HTMLElement>, 'draggabl
         [key: `data-${string}`]: string | undefined;
     };
 
+/**
+ * ctx.state in terms of the props of the view. For a section header the
+ *  getter carries `size` only: a header has no state, and the object spreads
+ *  on `List.SectionHeader` as it is
+ */
 export interface ListItemViewStateProps {
     size?: ListSize;
     /**
@@ -153,8 +162,8 @@ export interface ListItemViewStateProps {
      *  is painted by the plain CSS `:hover` as long as the mouse is over it —
      *  the dark trail does not follow the mouse (the react-aria model)
      */
-    active: boolean;
-    disabled: boolean;
+    active?: boolean;
+    disabled?: boolean;
     selected?: boolean;
     selectionStyle?: 'check' | 'highlight' | 'none';
     /**
@@ -187,8 +196,14 @@ export interface ListItemHelpers {
     getCellProps(overrides?: ListPropsOverrides): ListCellDOMProps;
 }
 
-/** Props of the external focus owner — the combobox input */
-export type ListFocusOwnerInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+/**
+ * Props of the external focus owner — the element that holds DOM focus on
+ *  behalf of the list: the input of a combobox, or the trigger button of a
+ *  select-only one. They are element-agnostic (`HTMLAttributes` of a plain
+ *  `HTMLElement`), so one and the same getter spreads on an `<input>` and on
+ *  a `<button>`
+ */
+export type ListFocusOwnerInputProps = React.HTMLAttributes<HTMLElement> & {
     role: string;
 };
 
@@ -205,22 +220,28 @@ export type ListFocusOwnerInputProps = React.InputHTMLAttributes<HTMLInputElemen
  */
 export interface ListFocusOwner {
     /**
-     * Props of the input: `role="combobox"`, `aria-expanded`,
-     *  `aria-controls`, `aria-activedescendant`, `onKeyDown` (the keyboard
-     *  machinery of the list). Overrides are composed by the common contract
-     *  (a custom `onKeyDown` runs after the machinery); `role` and
-     *  `aria-expanded` can be overridden — an escape hatch for non-popup
-     *  patterns (a permanently visible filterable list)
+     * Props of the owner element — an input or a trigger button:
+     *  `role="combobox"`, `aria-expanded`, `aria-controls`,
+     *  `aria-activedescendant`, `onKeyDown` (the keyboard machinery of the
+     *  list). Overrides are composed by the common contract (a custom
+     *  `onKeyDown` runs after the machinery); `role` and `aria-expanded` can
+     *  be overridden — an escape hatch for non-popup patterns (a permanently
+     *  visible filterable list). The `ref` of the element is set on the
+     *  element itself
      */
-    getInputProps(
-        overrides?: React.InputHTMLAttributes<HTMLInputElement>,
-    ): ListFocusOwnerInputProps;
+    getInputProps(overrides?: Omit<ListPropsOverrides, 'ref'>): ListFocusOwnerInputProps;
     /**
      * The core channel — reachable through a module-private symbol only
      * @internal
      */
     readonly [LIST_FOCUS_OWNER_CHANNEL]: ListFocusOwnerChannel;
 }
+
+/**
+ * The event of the applying gesture: the click on a row, or the keydown of
+ *  `Enter`/`Space`. `'key' in event` tells the two apart
+ */
+export type ListItemActionEvent = React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>;
 
 export interface ListCoreProps<T> extends ListItemGetters<T>, QAProps {
     items: readonly T[];
@@ -237,8 +258,14 @@ export interface ListCoreProps<T> extends ListItemGetters<T>, QAProps {
     defaultActiveItemId?: string;
     onActiveItemUpdate?: (id: string | null) => void;
 
-    /** "Applying" an item: Enter or a click */
-    onItemAction?: (id: string, item: T) => void;
+    /**
+     * "Applying" an item: a click, Enter, and Space with the selection layer
+     *  on. The event of the gesture comes third: it tells a click from a key
+     *  (`'key' in event`), carries the modifiers of a click (on a link row a
+     *  Ctrl/Cmd/Shift+click is the browser's own "open in a new tab") and
+     *  lets the native default be suppressed
+     */
+    onItemAction?: (id: string, item: T, event: ListItemActionEvent) => void;
 
     /** Activation on hover. default: true */
     activateOnHover?: boolean;
@@ -274,6 +301,15 @@ export interface ListCoreProps<T> extends ListItemGetters<T>, QAProps {
     size?: ListSize;
     className?: string;
     style?: React.CSSProperties;
+    /**
+     * DOM props of the root element beyond the dedicated ones — `onScroll`,
+     *  `data-*`, an external `onFocus`. They are composed with the props of
+     *  the list by the contract of the getters (`ListPropsOverrides`):
+     *  handlers are chained after the ones of the core, `className` and
+     *  `style` are merged with the props of the same name. The `ref` of the
+     *  root is the `ref` of the component
+     */
+    containerProps?: Omit<ListPropsOverrides, 'ref'>;
 }
 
 /**

@@ -159,6 +159,42 @@ describe('lab List', () => {
 
             expect(ref.current).toBe(screen.getByRole('listbox'));
         });
+
+        test('containerProps reach the root and are composed with the dedicated props', async () => {
+            const user = userEvent.setup();
+            const onScroll = jest.fn();
+            const onFocus = jest.fn();
+            render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    className="own"
+                    style={{width: 200}}
+                    containerProps={{
+                        'data-testid': 'root',
+                        className: 'extra',
+                        style: {maxHeight: 100},
+                        onScroll,
+                        onFocus,
+                    }}
+                />,
+            );
+            const root = screen.getByRole('listbox');
+
+            expect(root).toHaveAttribute('data-testid', 'root');
+            expect(root).toHaveClass('own', 'extra');
+            expect(root).toHaveStyle({width: '200px', maxHeight: '100px'});
+
+            fireEvent.scroll(root);
+            expect(onScroll).toHaveBeenCalledTimes(1);
+
+            // The handler is chained after the core's own rather than replacing
+            // it: focus still lands on the tab stop and activates it
+            await user.tab();
+            expect(onFocus).toHaveBeenCalledTimes(1);
+            expect(screen.getAllByRole('option')[0]).toHaveFocus();
+            expect(screen.getAllByRole('option')[0]).toHaveAttribute('data-active');
+        });
     });
 
     describe('keyboard: roving focus', () => {
@@ -321,7 +357,11 @@ describe('lab List', () => {
             await user.keyboard('{ArrowDown}{Enter}');
 
             expect(onItemAction).toHaveBeenCalledTimes(1);
-            expect(onItemAction).toHaveBeenCalledWith('Banana', 'Banana');
+            expect(onItemAction).toHaveBeenCalledWith(
+                'Banana',
+                'Banana',
+                expect.objectContaining({type: 'keydown', key: 'Enter'}),
+            );
         });
 
         test('Enter does nothing on a disabled option', async () => {
@@ -355,8 +395,36 @@ describe('lab List', () => {
 
             await user.click(options[2]);
 
-            expect(onItemAction).toHaveBeenCalledWith('Cherry', 'Cherry');
+            expect(onItemAction).toHaveBeenCalledWith(
+                'Cherry',
+                'Cherry',
+                expect.objectContaining({type: 'click'}),
+            );
             expect(options[2]).toHaveAttribute('data-active');
+        });
+
+        test('the event of the gesture carries its modifiers: a link row tells a modified click from Enter', async () => {
+            const user = userEvent.setup();
+            const onItemAction = jest.fn();
+            render(<List aria-label="Fruits" items={FRUITS} onItemAction={onItemAction} />);
+
+            await user.keyboard('{Control>}');
+            await user.click(screen.getAllByRole('option')[1]);
+            await user.keyboard('{/Control}');
+
+            expect(onItemAction).toHaveBeenLastCalledWith(
+                'Banana',
+                'Banana',
+                expect.objectContaining({type: 'click', ctrlKey: true, defaultPrevented: false}),
+            );
+
+            await user.keyboard('{Enter}');
+
+            expect(onItemAction).toHaveBeenLastCalledWith(
+                'Banana',
+                'Banana',
+                expect.objectContaining({type: 'keydown', key: 'Enter', ctrlKey: false}),
+            );
         });
 
         test('click on a disabled option does nothing', async () => {
@@ -1162,6 +1230,37 @@ describe('lab List', () => {
 
             expect(calls).toEqual(['core', 'override:u1']);
         });
+
+        test('getItemViewProps of a section header carries the size only and spreads on List.SectionHeader', () => {
+            const view = new Map<string, ListItemViewStateProps>();
+            render(
+                <List
+                    aria-label="Groups"
+                    items={GROUPS}
+                    size="l"
+                    getItemContent={(item) => item.label}
+                    renderItem={(ctx, {getItemProps, getItemViewProps}) => {
+                        view.set(ctx.id, getItemViewProps());
+                        return ctx.kind === 'section' ? (
+                            <List.SectionHeader {...getItemProps()} {...getItemViewProps()}>
+                                {ctx.content}
+                            </List.SectionHeader>
+                        ) : (
+                            <List.ItemView {...getItemProps()} {...getItemViewProps()}>
+                                {ctx.content}
+                            </List.ItemView>
+                        );
+                    }}
+                />,
+            );
+
+            expect(view.get('recent')).toEqual({size: 'l'});
+            expect(view.get('r1')).toEqual({size: 'l', active: false, disabled: false});
+            const header = screen.getByText('Recent');
+            expect(header).toHaveClass('g-list-v2-section-header_size_l');
+            expect(header).not.toHaveAttribute('active');
+            expect(header).not.toHaveAttribute('disabled');
+        });
     });
 
     describe('selection layer: ARIA', () => {
@@ -1304,7 +1403,7 @@ describe('lab List', () => {
             // an already selected row still applies it (in Select a click on
             // the selected option closes the popup)
             expect(onItemAction).toHaveBeenCalledTimes(3);
-            expect(onItemAction).toHaveBeenLastCalledWith('Apple', 'Apple');
+            expect(onItemAction).toHaveBeenLastCalledWith('Apple', 'Apple', expect.anything());
         });
 
         test('multiple: click, Enter and Space toggle the selection', async () => {

@@ -206,7 +206,10 @@ typeahead.
 ## Item actions
 
 `onItemAction` is the applying gesture of a row — a click, `Enter`, and `Space` while a selection
-mode is on. The item comes with its id, so there is no lookup map to build.
+mode is on. The item comes with its id, so there is no lookup map to build, and the event of the
+gesture comes third: a `MouseEvent` for a click, a `KeyboardEvent` for a key (`'key' in event`
+tells them apart). It carries the modifiers of a click and lets the native default be suppressed —
+the [links](#links) recipe is built on it.
 
 ```tsx
 import {Flex, Text} from '@gravity-ui/uikit';
@@ -244,14 +247,17 @@ function CommandList() {
 content and its state, and `helpers` carry the props of the row: `getItemProps()` for the element
 of the row, `getItemViewProps()` for the row view and `getCellProps()` for the cells of a grid.
 
-It draws every row, section headers included — they arrive with `ctx.kind === 'section'`, and
-`getItemProps()` gives them the props of a header rather than of an option. Branch on the kind and
-draw the header with `List.SectionHeader`:
+It draws every row, section headers included — they arrive with `ctx.kind === 'section'`,
+`getItemProps()` gives them the props of a header rather than of an option, and
+`getItemViewProps()` carries the `size` alone (a header has no state). Branch on the kind and draw
+the header with `List.SectionHeader`:
 
 ```tsx
 renderItem={(ctx, {getItemProps, getItemViewProps}) =>
   ctx.kind === 'section' ? (
-    <List.SectionHeader {...getItemProps()}>{ctx.content}</List.SectionHeader>
+    <List.SectionHeader {...getItemProps()} {...getItemViewProps()}>
+      {ctx.content}
+    </List.SectionHeader>
   ) : (
     <List.ItemView {...getItemProps()} {...getItemViewProps()}>
       {ctx.content}
@@ -367,8 +373,9 @@ replacing them: handlers are called in a chain, `className`, `ref` and `style` a
 ### Links
 
 Rendering a row as an anchor gives it the affordances of a link — the URL in the status bar, "Open
-in new tab", a middle click. The navigation itself belongs to `onItemAction`, so suppress the
-native one to keep a click from navigating twice.
+in new tab", a middle click. A click is navigated by the browser itself, the modifiers included
+(`Ctrl`/`Cmd`+click opens a background tab, `Shift`+click a window); `Enter` is intercepted by the
+list, so the keyboard navigates through `onItemAction` — the event tells the two apart.
 
 > [!IMPORTANT]
 > A screen reader announces such a row as an option, not as a link: `role="option"` overrides the
@@ -410,17 +417,19 @@ function SpecList() {
       aria-label="Specifications"
       items={specs}
       getItemTextValue={(spec) => spec.name}
-      onItemAction={(id, spec) => window.open(spec.href, '_blank', 'noopener,noreferrer')}
+      onItemAction={(id, spec, event) => {
+        // A click is the browser's own navigation; Enter is the list's
+        if ('key' in event) {
+          window.open(spec.href, '_blank', 'noopener,noreferrer');
+        }
+      }}
       renderItem={(ctx, {getItemProps, getItemViewProps}) => (
         <List.ItemView
           component="a"
           href={ctx.item.href}
           target="_blank"
           rel="noopener noreferrer"
-          {...getItemProps({
-            'aria-label': `${ctx.item.name}, opens in a new tab`,
-            onClick: (event) => event.preventDefault(),
-          })}
+          {...getItemProps({'aria-label': `${ctx.item.name}, opens in a new tab`})}
           {...getItemViewProps()}
           description={ctx.item.description}
           endContent={<Icon data={ArrowUpRightFromSquare} size={14} />}
@@ -487,7 +496,8 @@ By default `List` doesn't allow selection, but this can be enabled using the `se
 The selected items are an array of ids, controlled with `selectedIds` and `onSelectedUpdate` or
 uncontrolled with `defaultSelectedIds`. Section headers and disabled items are never selected by a
 gesture, and an `onItemAction` passed alongside is called by the same gesture, right after the
-selection has been updated.
+selection has been updated. The indication follows the mode — a highlight in `single`, a check mark
+in `multiple` — and there is no prop to choose it yet.
 
 ### Single selection
 
@@ -773,9 +783,9 @@ while the active row is exposed to a screen reader through `aria-activedescendan
 
 The hook takes no arguments and returns the owner object:
 
-| Name          | Description                                                                                                      |                              Type                               |
-| :------------ | :--------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------: |
-| getInputProps | The props of the input that owns the focus. The overrides are composed by the same contract as in `getItemProps` | `(overrides?: InputHTMLAttributes) => ListFocusOwnerInputProps` |
+| Name          | Description                                                                                                                                                                    |                            Type                            |
+| :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------: |
+| getInputProps | The props of the element that owns the focus — an input, or the trigger button of a select-only combobox. The overrides are composed by the same contract as in `getItemProps` | `(overrides?: HTMLAttributes) => ListFocusOwnerInputProps` |
 
 The props `getInputProps()` builds:
 
@@ -803,6 +813,8 @@ What to keep in mind:
   mounted is not supported: the arrows of a hidden list would go on moving the activity and
   `aria-expanded` would stay `true`;
 - one owner serves one list — two lists mounted at the same time need two hooks;
+- the owner does not have to be an input: the trigger button of a select-only combobox takes the
+  same props — they are element-agnostic;
 - for a list that is not a popup at all (the example above) override `role` and `aria-expanded`
   through the overrides of `getInputProps` when the combobox semantics do not fit;
 - full keyboard reachability of the cells of a [grid](#interactive-rows) is guaranteed in the roving
@@ -896,35 +908,36 @@ with the name of its section. What is left to you:
 
 ### List
 
-| Name                | Description                                                           |                   Type                   |               Default                |
-| :------------------ | :-------------------------------------------------------------------- | :--------------------------------------: | :----------------------------------: |
-| items               | The data of the list (strings or objects)                             |              `readonly T[]`              |                                      |
-| aria-label          | The name of the list for a screen reader                              |                 `string`                 |                                      |
-| aria-labelledby     | The element that names the list, instead of `aria-label`              |                 `string`                 |                                      |
-| getItemId           | The unique id of an item                                              |          `(item: T) => string`           |            `(i) => i.id`             |
-| getItemDisabled     | Whether an item is disabled                                           |          `(item: T) => boolean`          |        `(i) => !!i.disabled`         |
-| getItemChildren     | The children of a section                                             | `(item: T) => readonly T[] \| undefined` | `item.children`, when it is an array |
-| getItemContent      | The content of a row                                                  |      `(item: T) => React.ReactNode`      |     the item, if it is a string      |
-| getItemTextValue    | The text for typeahead                                                |          `(item: T) => string`           |    `content` when it is a string     |
-| activeItemId        | The active item, controlled (`null` means none)                       |             `string \| null`             |                                      |
-| defaultActiveItemId | The active item, uncontrolled                                         |                 `string`                 |                                      |
-| onActiveItemUpdate  | The callback of an activity change                                    |      `(id: string \| null) => void`      |                                      |
-| onItemAction        | Applying an item: a click or Enter (plus Space with the layer)        |     `(id: string, item: T) => void`      |                                      |
-| selectionMode       | Turns the selection layer on                                          |         `'single' \| 'multiple'`         |                                      |
-| selectedIds         | The selected items, controlled                                        |           `readonly string[]`            |                                      |
-| defaultSelectedIds  | The selected items, uncontrolled                                      |           `readonly string[]`            |                                      |
-| onSelectedUpdate    | The callback of a selection change                                    |        `(ids: string[]) => void`         |                                      |
-| dnd                 | Turns the drag-and-drop layer on (an adapter)                         |             `ListDndAdapter`             |                                      |
-| role                | The ARIA role: `grid` for rows with interactive content               |          `'listbox' \| 'grid'`           |             `'listbox'`              |
-| focusOwner          | An external focus owner (`useListFocusOwner`)                         |             `ListFocusOwner`             |                                      |
-| activateOnHover     | Activation on hover                                                   |                `boolean`                 |                `true`                |
-| renderItem          | A custom render of a row                                              |         `(ctx, helpers) => node`         |                                      |
-| id                  | The base of the row ids and the target of an external `aria-controls` |                 `string`                 |         an auto-generated id         |
-| size                | The size of the rows                                                  |       `'s' \| 'm' \| 'l' \| 'xl'`        |                `'m'`                 |
-| className           | The CSS class of the root element                                     |                 `string`                 |                                      |
-| style               | The inline style of the root element                                  |          `React.CSSProperties`           |                                      |
-| qa                  | The `data-qa` attribute of the root (for tests)                       |                 `string`                 |                                      |
-| ref                 | The ref of the root element                                           |       `React.Ref<HTMLDivElement>`        |                                      |
+| Name                | Description                                                                                                                |                                Type                                 |               Default                |
+| :------------------ | :------------------------------------------------------------------------------------------------------------------------- | :-----------------------------------------------------------------: | :----------------------------------: |
+| items               | The data of the list (strings or objects)                                                                                  |                           `readonly T[]`                            |                                      |
+| aria-label          | The name of the list for a screen reader                                                                                   |                              `string`                               |                                      |
+| aria-labelledby     | The element that names the list, instead of `aria-label`                                                                   |                              `string`                               |                                      |
+| getItemId           | The unique id of an item                                                                                                   |                        `(item: T) => string`                        |            `(i) => i.id`             |
+| getItemDisabled     | Whether an item is disabled                                                                                                |                       `(item: T) => boolean`                        |        `(i) => !!i.disabled`         |
+| getItemChildren     | The children of a section                                                                                                  |              `(item: T) => readonly T[] \| undefined`               | `item.children`, when it is an array |
+| getItemContent      | The content of a row                                                                                                       |                   `(item: T) => React.ReactNode`                    |     the item, if it is a string      |
+| getItemTextValue    | The text for typeahead                                                                                                     |                        `(item: T) => string`                        |    `content` when it is a string     |
+| activeItemId        | The active item, controlled (`null` means none)                                                                            |                          `string \| null`                           |                                      |
+| defaultActiveItemId | The active item, uncontrolled                                                                                              |                              `string`                               |                                      |
+| onActiveItemUpdate  | The callback of an activity change                                                                                         |                   `(id: string \| null) => void`                    |                                      |
+| onItemAction        | Applying an item: a click or Enter (plus Space with the layer)                                                             | `(id: string, item: T, event: MouseEvent \| KeyboardEvent) => void` |                                      |
+| selectionMode       | Turns the selection layer on                                                                                               |                      `'single' \| 'multiple'`                       |                                      |
+| selectedIds         | The selected items, controlled                                                                                             |                         `readonly string[]`                         |                                      |
+| defaultSelectedIds  | The selected items, uncontrolled                                                                                           |                         `readonly string[]`                         |                                      |
+| onSelectedUpdate    | The callback of a selection change                                                                                         |                      `(ids: string[]) => void`                      |                                      |
+| dnd                 | Turns the drag-and-drop layer on (an adapter)                                                                              |                          `ListDndAdapter`                           |                                      |
+| role                | The ARIA role: `grid` for rows with interactive content                                                                    |                        `'listbox' \| 'grid'`                        |             `'listbox'`              |
+| focusOwner          | An external focus owner (`useListFocusOwner`)                                                                              |                          `ListFocusOwner`                           |                                      |
+| activateOnHover     | Activation on hover                                                                                                        |                              `boolean`                              |                `true`                |
+| renderItem          | A custom render of a row                                                                                                   |                      `(ctx, helpers) => node`                       |                                      |
+| id                  | The base of the row ids and the target of an external `aria-controls`                                                      |                              `string`                               |         an auto-generated id         |
+| size                | The size of the rows                                                                                                       |                     `'s' \| 'm' \| 'l' \| 'xl'`                     |                `'m'`                 |
+| className           | The CSS class of the root element                                                                                          |                              `string`                               |                                      |
+| style               | The inline style of the root element                                                                                       |                        `React.CSSProperties`                        |                                      |
+| containerProps      | Extra DOM props of the root (`onScroll`, `data-*`…), composed with the props of the list like the overrides of the getters |                 `ListPropsOverrides` without `ref`                  |                                      |
+| qa                  | The `data-qa` attribute of the root (for tests)                                                                            |                              `string`                               |                                      |
+| ref                 | The ref of the root element                                                                                                |                     `React.Ref<HTMLDivElement>`                     |                                      |
 
 `List.ItemView` is the row view of the default render and `List.SectionHeader` is its section
 header; both are statics of the component and are meant for `renderItem`. The reorder helper and
@@ -955,11 +968,15 @@ The second argument of `renderItem` — the props of the row. Overrides passed t
 composed with the props of the list instead of replacing them: handlers are called in a chain,
 `className`, `ref` and `style` are merged, and keys with the value `undefined` are ignored.
 
-| Name             | Description                                                                                                    |
-| :--------------- | :------------------------------------------------------------------------------------------------------------- |
-| getItemProps     | Everything the element of the row needs: the role, the DOM id, the tab stop, the handlers, the data attributes |
-| getItemViewProps | The state of the row in terms of `List.ItemView`: `size`, `active`, `disabled`, `selected`, `selectionStyle`   |
-| getCellProps     | The props of a cell in `role="grid"`; an empty object in a listbox, so one `renderItem` works in both          |
+| Name             | Description                                                                                                                                      |
+| :--------------- | :----------------------------------------------------------------------------------------------------------------------------------------------- |
+| getItemProps     | Everything the element of the row needs: the role, the DOM id, the tab stop, the handlers, the data attributes                                   |
+| getItemViewProps | The state of the row in terms of `List.ItemView`: `size`, `active`, `disabled`, `selected`, `selectionStyle`; for a section header — `size` only |
+| getCellProps     | The props of a cell in `role="grid"`; an empty object in a listbox, so one `renderItem` works in both                                            |
+
+The results and the overrides of the getters are typed as `unstable_ListItemDOMProps`,
+`unstable_ListCellDOMProps`, `unstable_ListItemViewStateProps` and `unstable_ListPropsOverrides` —
+for a wrapper over `renderItem`; the props of a dnd adapter as `unstable_ListDndProps`.
 
 ### Data attributes
 

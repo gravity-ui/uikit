@@ -631,7 +631,11 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
             const options = screen.getAllByRole('option');
 
             await shiftClick(user, options[5]);
-            expect(onItemAction).toHaveBeenLastCalledWith('Foxtrot', 'Foxtrot');
+            expect(onItemAction).toHaveBeenLastCalledWith(
+                'Foxtrot',
+                'Foxtrot',
+                expect.objectContaining({type: 'click', shiftKey: true}),
+            );
             expect(options[5]).not.toHaveAttribute('aria-selected');
 
             await user.keyboard('{Shift>}{ArrowDown}{/Shift}');

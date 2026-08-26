@@ -18,6 +18,7 @@ import {disableTextSelection, restoreTextSelection} from './textSelection';
 import type {
     ListCellDOMProps,
     ListFocusStrategy,
+    ListItemActionEvent,
     ListItemContext,
     ListItemDOMProps,
     ListProps,
@@ -215,15 +216,17 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     /**
      * The "apply" gesture of a row: the selection first — plain or by range,
      * — and onItemAction after it, so that Shift+click and Shift+Space apply
-     * the row just like a plain gesture
+     * the row just like a plain gesture. The event of the gesture travels to
+     * the consumer as it is: a link row tells a modified click from Enter by
+     * it, and the native default is theirs to suppress
      */
-    const applyRow = (row: ListRow<T>, options?: {range?: boolean}) => {
+    const applyRow = (row: ListRow<T>, event: ListItemActionEvent, options?: {range?: boolean}) => {
         if (options?.range) {
             extendSelection(row);
         } else {
             toggleSelection(row);
         }
-        onItemAction?.(row.id, row.item);
+        onItemAction?.(row.id, row.item, event);
     };
 
     // A "fresh" environment for the row handlers: the handlers themselves
@@ -362,7 +365,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
      * row in roving, the owner's input in activedescendant), the transitions
      * themselves are identical
      */
-    const handleNavigationKeys = (event: React.KeyboardEvent) => {
+    const handleNavigationKeys = (event: React.KeyboardEvent<HTMLElement>) => {
         const command = NAVIGATION_COMMANDS[event.key];
         if (command) {
             event.preventDefault();
@@ -414,7 +417,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             const row = getActiveRow();
             if (row && !row.disabled) {
                 event.preventDefault();
-                applyRow(row);
+                applyRow(row, event);
             }
             return;
         }
@@ -443,7 +446,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             }
             const row = getActiveRow();
             if (row && !row.disabled) {
-                applyRow(row, {range: event.shiftKey});
+                applyRow(row, event, {range: event.shiftKey});
             }
             return;
         }
@@ -468,7 +471,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
      * stay with the nested widget (↑/↓ on an rbd drag handle are its own
      * keyboard drag and drop)
      */
-    const handleContainerKeyDown = (event: React.KeyboardEvent) => {
+    const handleContainerKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
         if (!(event.target instanceof HTMLElement) || event.defaultPrevented) {
             return;
         }
@@ -492,7 +495,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
      * gate on the target row — the events come from the input, which lives
      * outside the list root
      */
-    const handleFocusOwnerKeyDown = (event: React.KeyboardEvent) => {
+    const handleFocusOwnerKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
         if (event.defaultPrevented) {
             return;
         }
@@ -674,7 +677,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 document.addEventListener('pointerup', restore, true);
                 document.addEventListener('pointercancel', restore, true);
             },
-            onClick: (event: React.MouseEvent) => {
+            onClick: (event: React.MouseEvent<HTMLElement>) => {
                 const latest = latestRef.current;
                 const currentRow = latest.rowById.get(id);
                 if (!currentRow || currentRow.disabled || event.defaultPrevented) {
@@ -685,7 +688,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 setCursorVisible(false);
                 requestedActiveIdRef.current = currentRow.id;
                 latest.setActiveItemId(currentRow.id);
-                latest.applyRow(currentRow, {range: event.shiftKey});
+                latest.applyRow(currentRow, event, {range: event.shiftKey});
             },
             onFocus: () => {
                 const latest = latestRef.current;

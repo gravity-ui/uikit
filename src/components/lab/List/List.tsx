@@ -5,9 +5,11 @@ import * as React from 'react';
 import {block} from '../../utils/cn';
 import {warnOnce} from '../../utils/warn';
 import {ListItemView} from '../ListItemView/ListItemView';
+import type {ListItemViewProps as LabListItemViewProps} from '../ListItemView/ListItemView';
 
 import {ListSectionHeader} from './SectionHeader';
 import {ListVirtualizationContext} from './VirtualizationContext';
+import {composeItemProps} from './composeItemProps';
 import type {
     ListCellDOMProps,
     ListItemContext,
@@ -28,6 +30,31 @@ const b = block('list-v2');
 // virtualization layer: the min-height of the default view (border-box,
 // single-line content); the spread of the actual heights is covered by measure
 const ESTIMATED_ITEM_SIZE: Record<ListSize, number> = {s: 24, m: 28, l: 32, xl: 36};
+
+/**
+ * The props of `List.ItemView` — the presentational subset of the lab row
+ * view. The rest of its props are outside the contract of the list and are
+ * cut out of the type: `collapsible`/`collapsed`/`onCollapseChange`/
+ * `nestedLevel` come back with the tree list; `isContainer` and
+ * `componentProps` bypass the composition of getItemProps (the className of
+ * componentProps silently replaces the className of the row); `draggable` is
+ * a slot of the view rather than the native attribute (see ListPropsOverrides)
+ */
+type ListItemViewProps<T extends React.ElementType = 'div'> = Omit<
+    LabListItemViewProps<T>,
+    | 'collapsible'
+    | 'collapsed'
+    | 'onCollapseChange'
+    | 'nestedLevel'
+    | 'isContainer'
+    | 'componentProps'
+    | 'draggable'
+> &
+    Omit<React.ComponentPropsWithRef<T>, keyof LabListItemViewProps<T>>;
+
+type ListItemViewComponent = <T extends React.ElementType = 'div'>(
+    props: ListItemViewProps<T>,
+) => React.ReactElement;
 
 /**
  * A stable dispatcher of the core getters for memoized rows: the object itself
@@ -71,27 +98,34 @@ function ListRowComponent<T>({
     const helpers: ListItemHelpers = {
         getItemProps: (overrides) => core.getItemProps(ctx.id, overrides),
         getCellProps: (overrides) => core.getCellProps(overrides),
-        getItemViewProps: () => ({
-            size,
-            // The dark active color is the keyboard cursor, and the cursor
-            // belongs to the list the user is driving: while the mouse is in
-            // use, or while the list holds no DOM focus, the active row is
-            // highlighted by the plain CSS :hover as long as the mouse is over
-            // it, and no dark trail stays behind
-            active: Boolean(ctx.state.active && ctx.state.cursorVisible),
-            disabled: ctx.state.disabled,
-            // selected and selectionStyle travel together: the view has no
-            // default selectionStyle, and without one the selection is
-            // invisible
-            ...(ctx.state.selected === undefined
-                ? undefined
-                : {selected: ctx.state.selected, selectionStyle}),
-            // While dragging, the hover indication of the view is suppressed
-            // (symmetrically to suspending activation on hover in the core):
-            // with libraries that use a synthetic drag the browser keeps
-            // applying :hover to the row under the cursor
-            ...(dragActive ? {hovered: false} : undefined),
-        }),
+        getItemViewProps: () => {
+            // A section header has no state: the size is all it takes, so the
+            // object spreads on List.SectionHeader without stray DOM attributes
+            if (ctx.kind === 'section') {
+                return {size};
+            }
+            return {
+                size,
+                // The dark active color is the keyboard cursor, and the cursor
+                // belongs to the list the user is driving: while the mouse is
+                // in use, or while the list holds no DOM focus, the active row
+                // is highlighted by the plain CSS :hover as long as the mouse
+                // is over it, and no dark trail stays behind
+                active: Boolean(ctx.state.active && ctx.state.cursorVisible),
+                disabled: ctx.state.disabled,
+                // selected and selectionStyle travel together: the view has no
+                // default selectionStyle, and without one the selection is
+                // invisible
+                ...(ctx.state.selected === undefined
+                    ? undefined
+                    : {selected: ctx.state.selected, selectionStyle}),
+                // While dragging, the hover indication of the view is
+                // suppressed (symmetrically to suspending activation on hover
+                // in the core): with libraries that use a synthetic drag the
+                // browser keeps applying :hover to the row under the cursor
+                ...(dragActive ? {hovered: false} : undefined),
+            };
+        },
     };
 
     if (renderItem) {
@@ -105,7 +139,7 @@ function ListRowComponent<T>({
     }
 
     return ctx.kind === 'section' ? (
-        <ListSectionHeader {...helpers.getItemProps()} size={size}>
+        <ListSectionHeader {...helpers.getItemProps()} {...helpers.getItemViewProps()}>
             {ctx.content}
         </ListSectionHeader>
     ) : (
@@ -156,7 +190,15 @@ function areListRowPropsEqual<T>(prev: ListRowProps<T>, next: ListRowProps<T>): 
 const ListRow = React.memo(ListRowComponent, areListRowPropsEqual) as typeof ListRowComponent;
 
 function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivElement>) {
-    const {size = 'm', className, style, qa, renderItem, selectionMode} = props;
+    const {
+        size = 'm',
+        className,
+        style,
+        qa,
+        renderItem,
+        selectionMode,
+        containerProps: extraContainerProps,
+    } = props;
     const virtualization = React.useContext(ListVirtualizationContext);
     const list = useList(props);
 
@@ -199,11 +241,16 @@ function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
         />
     );
 
+    // The consumer's containerProps are composed with the dedicated props of
+    // the root by the contract of the getters (className concatenated, style
+    // merged, handlers chained after the core's — in getContainerProps); the
+    // ref of the component is forked with the core's there as well
     const containerProps = list.getContainerProps({
+        ...composeItemProps(
+            {className: b({size}, className), style, 'data-qa': qa},
+            extraContainerProps,
+        ),
         ref: ref ?? undefined,
-        className: b({size}, className),
-        style,
-        'data-qa': qa,
     });
 
     // With the virtualization context active the root is rendered by the
@@ -262,7 +309,7 @@ export const List = Object.assign(
         props: ListProps<T> & {ref?: React.Ref<HTMLDivElement>},
     ) => React.ReactElement) & {displayName?: string},
     {
-        ItemView: ListItemView,
+        ItemView: ListItemView as ListItemViewComponent,
         SectionHeader: ListSectionHeader,
     },
 );

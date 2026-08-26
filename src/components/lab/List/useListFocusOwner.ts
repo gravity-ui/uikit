@@ -22,10 +22,12 @@ const DISCONNECTED: OwnerState = {};
  * The keyboard machinery of the list (step "a") is one and the same in both
  * strategies — only step "b" changes: in `activedescendant` the core does not
  * move DOM focus but sets `aria-activedescendant` on the owner and scrolls the
- * active row into view. The focus owner (the combobox input) lives OUTSIDE the
- * list root, so the connection travels to it through this channel rather than
- * through `getItemProps`: the hook returns `getInputProps()` for the input,
- * and the object itself goes to the list as the `focusOwner` prop.
+ * active row into view. The focus owner (the input of a combobox, or the
+ * trigger button of a select-only one) lives OUTSIDE the list root, so the
+ * connection travels to it through this channel rather than through
+ * `getItemProps`: the hook returns `getInputProps()` for the owner element —
+ * the props are element-agnostic, an `<input>` and a `<button>` take the same
+ * ones — and the object itself goes to the list as the `focusOwner` prop.
  *
  * ```tsx
  * const focusOwner = useListFocusOwner();
@@ -69,7 +71,7 @@ export function useListFocusOwner(): ListFocusOwner {
                 'aria-expanded': listId !== undefined,
                 'aria-controls': listId,
                 'aria-activedescendant': activeDomId,
-                onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => {
+                onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => {
                     keyDownRef.current?.(event);
                 },
             };

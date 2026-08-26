@@ -112,6 +112,18 @@ describe('lab List: virtualization layer', () => {
             expect(sizer).toHaveStyle({height: `${ITEMS.length * ROW_HEIGHT}px`});
         });
 
+        test('containerProps reach the virtualized root: onScroll fires alongside the windowing', () => {
+            const onScroll = jest.fn();
+            renderVirtualized({containerProps: {onScroll, 'data-testid': 'root'}});
+            const listbox = screen.getByRole('listbox');
+            expect(listbox).toHaveAttribute('data-testid', 'root');
+
+            scrollTo(listbox, ROW_HEIGHT * 150);
+
+            expect(onScroll).toHaveBeenCalledTimes(1);
+            expect(screen.getByRole('option', {name: 'Item 151'})).toBeInTheDocument();
+        });
+
         test('total scroll size is corrected by measured rows: an inaccurate estimate does not distort the scrollbar', () => {
             render(
                 <ListVirtualizer estimateItemSize={12}>

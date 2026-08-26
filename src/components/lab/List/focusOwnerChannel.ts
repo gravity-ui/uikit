@@ -18,7 +18,7 @@ export interface ListFocusOwnerConnection {
     /** The DOM id of the active row — the value of the owner's `aria-activedescendant` */
     activeDomId?: string;
     /** The keyboard machinery of the list (step "a"): the owner hands its onKeyDown over to it */
-    onKeyDown(event: React.KeyboardEvent): void;
+    onKeyDown(event: React.KeyboardEvent<HTMLElement>): void;
 }
 
 /**

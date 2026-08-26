@@ -383,7 +383,11 @@ describe('lab List: role model x focus strategy', () => {
             await user.keyboard('{ArrowDown}{ArrowDown}{Enter}');
 
             expect(onItemAction).toHaveBeenCalledTimes(1);
-            expect(onItemAction).toHaveBeenCalledWith('Banana', 'Banana');
+            expect(onItemAction).toHaveBeenCalledWith(
+                'Banana',
+                'Banana',
+                expect.objectContaining({type: 'keydown', key: 'Enter'}),
+            );
         });
 
         test('character keys go to the owner: filtering instead of typeahead', async () => {
@@ -438,6 +442,39 @@ describe('lab List: role model x focus strategy', () => {
             expect(input).toHaveAttribute('aria-expanded', 'false');
             expect(input).not.toHaveAttribute('aria-controls');
             expect(input).not.toHaveAttribute('aria-activedescendant');
+        });
+
+        test('the owner may be a button (a select-only combobox): the same props spread on it and drive the list', async () => {
+            const user = userEvent.setup();
+            function TriggerHarness() {
+                const focusOwner = useListFocusOwner();
+                return (
+                    <React.Fragment>
+                        <button
+                            type="button"
+                            {...focusOwner.getInputProps({'aria-label': 'Fruit'})}
+                        >
+                            Choose
+                        </button>
+                        <List aria-label="Options" items={FRUITS} focusOwner={focusOwner} />
+                    </React.Fragment>
+                );
+            }
+            render(<TriggerHarness />);
+
+            const trigger = screen.getByRole('combobox', {name: 'Fruit'});
+            expect(trigger.tagName).toBe('BUTTON');
+            expect(trigger).toHaveAttribute('aria-expanded', 'true');
+            expect(trigger).toHaveAttribute('aria-controls', screen.getByRole('listbox').id);
+
+            await user.click(trigger);
+            await user.keyboard('{ArrowDown}');
+
+            expect(trigger).toHaveFocus();
+            expect(trigger).toHaveAttribute(
+                'aria-activedescendant',
+                screen.getAllByRole('option')[0].id,
+            );
         });
     });
 

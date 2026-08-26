@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.48.3](https://github.com/gravity-ui/uikit/compare/v7.48.2...v7.48.3) (2026-08-26)
+
+
+### Bug Fixes
+
+* **SegmentedRadioGroup:** revert "changed option-text display type" ([#2795](https://github.com/gravity-ui/uikit/issues/2795)) ([576ace6](https://github.com/gravity-ui/uikit/commit/576ace6306a6bff5d0f4111d9bab0e04cf094573))
+
 ## [7.48.2](https://github.com/gravity-ui/uikit/compare/v7.48.1...v7.48.2) (2026-08-26)
 
 

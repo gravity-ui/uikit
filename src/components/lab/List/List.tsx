@@ -222,10 +222,11 @@ function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
     // gets the row highlight
     const selectionStyle = selectionMode === 'multiple' ? 'check' : 'highlight';
 
-    // A change here (a drag starting or finishing) costs one re-render of
-    // every row in the window — unlike dropTarget, it does not happen on every
-    // dragover
-    const dragActive = (props.dnd?.draggingId ?? null) !== null;
+    // The single definition of "a drag is in progress" lives in the core
+    // (draggingId or an insertion target). A change here (a drag starting or
+    // finishing) costs one re-render of every row in the window — unlike a
+    // dropTarget moving between rows, it does not happen on every dragover
+    const dragActive = list.dragActive;
 
     const renderRow = (id: string) => (
         <ListRow<T>

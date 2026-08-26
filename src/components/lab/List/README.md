@@ -450,16 +450,21 @@ One item at a time is active — the one the keyboard acts on. It follows the po
 is working with the mouse (turn that off with `activateOnHover`) and the arrows while they are
 working with the keyboard, and the highlight matches the input in use.
 
+DOM focus follows the active item as long as a row of the list holds it — under the mouse as well
+— so the focused row, the active row and the tab stop are always one and the same, and `Tab` leaves
+the list from anywhere. Focus is never taken from the outside: while it is elsewhere on the page,
+or inside the interactive content of a cell, hover moves only the highlight and the tab stop.
+
 The dark cursor is drawn by the list the user is driving: working with the mouse puts it out (the
 row under the pointer is highlighted by the CSS `:hover` instead), and so does the focus leaving the
 list — a key pressed in a neighbouring list lights up that list alone. A key pressed in this one, or
 the focus coming back to it, brings the cursor in.
 
 The active item can be controlled with `activeItemId` and `onActiveItemUpdate`, where `null` means
-that nothing is active. An id that comes from your own code moves the highlight and the tab stop,
-but neither DOM focus nor the scroll: only the gestures of the list itself scroll the active row
-into view. Such an activation always shows the cursor — the list did not ask for it, so the UI that
-did (a button beside the list) has something to show for it.
+that nothing is active. An id that comes from your own code moves the highlight and the tab stop
+(and DOM focus, while a row holds it), but not the scroll: only the gestures of the list itself
+scroll the active row into view. Such an activation always shows the cursor — the list did not ask
+for it, so the UI that did (a button beside the list) has something to show for it.
 
 ```tsx
 import {Button, Flex} from '@gravity-ui/uikit';
@@ -799,7 +804,8 @@ The props `getInputProps()` builds:
 
 What changes in the list:
 
-- the rows leave the tab order — the input is the only tab stop, and DOM focus never moves to a row;
+- the rows leave the tab order — the input is the only tab stop, and DOM focus never moves to a row:
+  a click on a row applies it and leaves the focus where it is;
 - `↑`/`↓`/`Home`/`End`/`Enter` work from the input, move the active item and scroll it into view;
 - character keys and `Space` belong to the input: typing is filtering, so typeahead is off and
   `Space` no longer selects. `Ctrl`/`Cmd`+`A` selects the text of the input rather than the items;

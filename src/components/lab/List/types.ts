@@ -210,7 +210,10 @@ export type ListFocusOwnerInputProps = React.HTMLAttributes<HTMLElement> & {
 /**
  * The external owner of the list DOM focus — the object returned by
  *  `useListFocusOwner()`. Until the `focusOwner` prop is passed, the list
- *  lives in the roving strategy: DOM focus travels to the rows.
+ *  lives in the roving strategy: DOM focus travels to the rows. With the
+ *  owner in place the rows are not focusable, and a click on a row applies
+ *  it without taking the focus away from the owner (the default action of
+ *  mousedown is prevented).
  *
  * The channel is designed for the mount/unmount model of a popup:
  *  `aria-expanded` is derived from the list being mounted, and the keyboard
@@ -267,7 +270,12 @@ export interface ListCoreProps<T> extends ListItemGetters<T>, QAProps {
      */
     onItemAction?: (id: string, item: T, event: ListItemActionEvent) => void;
 
-    /** Activation on hover. default: true */
+    /**
+     * Activation on hover. default: true. Hover moves the highlight and the
+     *  roving tab stop; DOM focus follows only while a row of the list holds
+     *  it — focus is never taken from the outside or from the interactive
+     *  content of a cell
+     */
     activateOnHover?: boolean;
 
     /**

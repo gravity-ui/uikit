@@ -154,6 +154,29 @@ describe('lab List: virtualization layer', () => {
     });
 
     describe('roving focus survives virtualization', () => {
+        test('the focused row is the pinned one after hover moved the activity', async () => {
+            const user = userEvent.setup();
+            renderVirtualized();
+            const listbox = screen.getByRole('listbox');
+
+            await user.tab();
+            await user.keyboard('{ArrowDown}');
+            expect(screen.getByRole('option', {name: 'Item 2'})).toHaveFocus();
+
+            // A row holds the focus, so hover moves it along with the activity
+            await user.hover(screen.getByRole('option', {name: 'Item 5'}));
+            expect(screen.getByRole('option', {name: 'Item 5'})).toHaveFocus();
+
+            scrollTo(listbox, ROW_HEIGHT * 150);
+
+            // The pinned row is the focused one: focus did not drop to the
+            // body, and the keyboard is alive
+            expect(screen.getByRole('option', {name: 'Item 5'})).toHaveFocus();
+            expect(screen.queryByRole('option', {name: 'Item 2'})).not.toBeInTheDocument();
+            await user.keyboard('{ArrowDown}');
+            expect(screen.getByRole('option', {name: 'Item 6'})).toHaveFocus();
+        });
+
         test('focus survives unloading of the active row from the window', async () => {
             const user = userEvent.setup();
             renderVirtualized();
@@ -196,11 +219,13 @@ describe('lab List: virtualization layer', () => {
                 expect(screen.getByRole('option', {name: 'Item 2'})).toHaveFocus();
                 expect(scrollIntoViewMock).toHaveBeenCalledWith({block: 'nearest'});
 
-                // Hover activates the row but moves neither focus nor the scroll
+                // Hover activates the row and, since a row holds the focus,
+                // moves focus along — but never the scroll
                 scrollIntoViewMock.mockClear();
                 await user.hover(screen.getByRole('option', {name: 'Item 5'}));
 
                 expect(screen.getByRole('option', {name: 'Item 5'})).toHaveAttribute('data-active');
+                expect(screen.getByRole('option', {name: 'Item 5'})).toHaveFocus();
                 expect(scrollIntoViewMock).not.toHaveBeenCalled();
             } finally {
                 delete (HTMLElement.prototype as Partial<HTMLElement>).scrollIntoView;

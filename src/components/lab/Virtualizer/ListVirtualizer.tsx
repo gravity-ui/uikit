@@ -94,9 +94,9 @@ export interface ListVirtualizerProps<T = any> {
  * (height/max-height) is up to the consumer — otherwise the window degenerates
  * into the full list.
  *
- * It is NOT exported from the package yet: the layer will be published through
- * a separate entry point so that tanstack does not land in the shared module
- * graph.
+ * It is exported from `/unstable` as `unstable_ListVirtualizer` (the core of
+ * the list itself never imports this module); a separate entry point with
+ * `@tanstack/react-virtual` as an optional peer is still ahead.
  *
  * SSR: on the server the virtualizer does not know the viewport size and
  * produces an empty window — not a single row makes it into the HTML, and the

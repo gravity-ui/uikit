@@ -75,6 +75,13 @@ export interface ListInstance<T> {
      * contract
      */
     getItemMemoKey(id: string): string;
+    /**
+     * A drag is in progress — the single definition of the dnd layer:
+     * `draggingId` OR an insertion target (an adapter with the indicator model
+     * may fill in dropTarget only). Activation on hover is suspended, the root
+     * carries data-drag-active and the view gets hovered={false}
+     */
+    dragActive: boolean;
 }
 
 const NAVIGATION_COMMANDS: Record<string, ListNavigationCommand> = {
@@ -243,12 +250,20 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
 
     const latestRef = React.useRef({
         rowById,
+        domIdToId,
         applyRow,
         setActiveItemId,
         activateOnHover,
         dragActive,
     });
-    latestRef.current = {rowById, applyRow, setActiveItemId, activateOnHover, dragActive};
+    latestRef.current = {
+        rowById,
+        domIdToId,
+        applyRow,
+        setActiveItemId,
+        activateOnHover,
+        dragActive,
+    };
 
     const firstNavigableId = React.useMemo(
         () => rows.find((row) => row.kind === 'item' && !row.disabled)?.id,
@@ -274,24 +289,58 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     const registry = useItemElementRegistry({rowById});
     const dndRefTracker = useDndRefStabilityTracker({rowById});
 
-    // Scrolling is done by hand: the native scrolling of focus() in Chromium
-    // CENTERS an element that is fully invisible (and at the viewport edge the
-    // next row always is), which turns walking the list with the arrows into
-    // half-screen jumps; scrollIntoView with block: 'nearest' scrolls by
-    // exactly the missing height (jsdom has no such method)
+    /**
+     * Step "b" of the keyboard machinery: keeping DOM focus (and the scroll)
+     * in sync with the active row. Its single rule is the one of react-aria
+     * (useSelectableItem): while a row of THIS list holds DOM focus, focus
+     * follows the active row — whatever moved it: a key, the mouse or a
+     * controlled activeItemId. When focus is outside the list (or inside the
+     * interactive content of a cell — a widget the user is working in) it is
+     * never taken: hover and programmatic changes then move only the
+     * highlight and the tab stop. The rule keeps the focused row, the active
+     * row and the roving tab stop one and the same element, so Tab leaves the
+     * list from anywhere and the pinned row of the virtualizer is the focused
+     * one.
+     *
+     * `gesture` is a keyboard transition of this list: the focus moves
+     * unconditionally (the event came from a focused row that may have been
+     * unmounted by the update) and the row is scrolled into view. Scrolling
+     * is done by hand: the native scrolling of focus() in Chromium CENTERS an
+     * element that is fully invisible (and at the viewport edge the next row
+     * always is), which turns walking the list with the arrows into
+     * half-screen jumps; scrollIntoView with block: 'nearest' scrolls by
+     * exactly the missing height (jsdom has no such method). The mouse and a
+     * controlled change never scroll
+     */
     const syncFocusToActive = React.useCallback(
-        (id: string) => {
+        (id: string, {gesture}: {gesture: boolean}) => {
             const element = registry.getElement(id);
             if (!element) {
                 return;
             }
             if (focusStrategy === 'roving') {
-                element.focus({preventScroll: true});
+                // The gate is a synchronous look at document.activeElement (it
+                // never goes stale, unlike a focus-within flag): the focused
+                // element has to be a row of this list, not a nested widget
+                const focused = document.activeElement;
+                const rowFocused =
+                    focused instanceof HTMLElement &&
+                    containerRef.current !== null &&
+                    containerRef.current.contains(focused) &&
+                    latestRef.current.domIdToId.has(focused.id);
+                if (!gesture && !rowFocused) {
+                    return;
+                }
+                if (focused !== element) {
+                    element.focus({preventScroll: true});
+                }
             }
             // In activedescendant DOM focus does not move at all: the row is
             // "highlighted" by the owner's aria-activedescendant, while
             // scrolling stays with the list
-            element.scrollIntoView?.({block: 'nearest'});
+            if (gesture) {
+                element.scrollIntoView?.({block: 'nearest'});
+            }
         },
         [focusStrategy, registry],
     );
@@ -299,18 +348,22 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     // Focus moves in an effect driven by the ACTUAL activity rather than by
     // the requested one: a controlled parent may have rejected the update —
     // then focus stays where it is, and onFocus of the focused row does not
-    // produce a second onActiveItemUpdate
-    const pendingFocusIdRef = React.useRef<string | null>(null);
+    // produce a second onActiveItemUpdate. The effect runs on every change of
+    // the activity; whether the change was a keyboard gesture of this list is
+    // told by the request below
+    const gestureRequestIdRef = React.useRef<string | null>(null);
     useLayoutEffect(() => {
-        if (pendingFocusIdRef.current !== null && pendingFocusIdRef.current === effectiveActiveId) {
-            pendingFocusIdRef.current = null;
-            syncFocusToActive(effectiveActiveId);
+        if (effectiveActiveId === undefined) {
+            return;
         }
+        const gesture = gestureRequestIdRef.current === effectiveActiveId;
+        gestureRequestIdRef.current = null;
+        syncFocusToActive(effectiveActiveId, {gesture});
     }, [effectiveActiveId, syncFocusToActive]);
     useLayoutEffect(() => {
-        // A focus request lives for a single commit: if the activity did not
-        // apply right away, focus does not move at all
-        pendingFocusIdRef.current = null;
+        // A gesture request lives for a single commit: if the activity did not
+        // apply right away, the request is dropped
+        gestureRequestIdRef.current = null;
     });
 
     // The last id this list ASKED for, by any gesture. Unlike the focus
@@ -340,13 +393,23 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         if (id === undefined) {
             return;
         }
-        pendingFocusIdRef.current = id;
         requestedActiveIdRef.current = id;
         // Every commitActive call is a keyboard gesture of THIS list: the
         // cursor comes back even when the document listener misses the event
         // (a portal into another document) or the keys arrive from the
         // external focus owner, which the list root never sees
         setCursorVisible(true);
+        if (id === effectiveActiveId) {
+            // The target is active already (Home on the first row, End on the
+            // last one, a typeahead match on the current row): no commit
+            // follows, so the effect cannot run — focus and the scroll are
+            // synced right here. Without it the gesture would be dead when
+            // focus and activity had diverged (focus on a disabled row after
+            // a click on it, the active row scrolled out of view)
+            syncFocusToActive(id, {gesture: true});
+            return;
+        }
+        gestureRequestIdRef.current = id;
         setActiveItemId(id);
     };
 
@@ -473,6 +536,23 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
      */
     const handleContainerKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
         if (!(event.target instanceof HTMLElement) || event.defaultPrevented) {
+            return;
+        }
+        if (event.key === 'Tab' && !event.ctrlKey && !event.metaKey && !event.altKey) {
+            // A list is ONE tab stop (APG), and Tab has to leave it from
+            // wherever DOM focus is. The browser continues sequential
+            // navigation from the focused element, so a focused element that
+            // is not the tab stop (the interactive content of a cell while
+            // hover moved the tab stop to another row) would land on the tab
+            // stop instead of leaving. The react-aria answer
+            // (useSelectableCollection): focus the tab stop synchronously and
+            // let the default action move on from there — every other row has
+            // tabIndex −1, so the next stop in either direction is outside
+            const tabStop =
+                pinnedRowId === undefined ? undefined : registry.getElement(pinnedRowId);
+            if (tabStop && tabStop !== event.target) {
+                tabStop.focus({preventScroll: true});
+            }
             return;
         }
         if (!domIdToId.has(event.target.id)) {
@@ -654,6 +734,23 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             // (and the consumer's CSS) has to tell before from after
             'data-drop-target': rowDropTarget ?? undefined,
             ref: registry.getItemRefCallback(id),
+            // In activedescendant the rows are not focusable, and the default
+            // action of mousedown would move DOM focus to the body — away from
+            // the owner: a popup that closes on blur would never see the
+            // click, a filter input would lose the caret. The default is
+            // prevented, as react-aria does with virtual focus
+            // (preventFocusOnPress); the exception is a row carrying the
+            // native draggable attribute — preventing mousedown there would
+            // block the native drag in some browsers
+            ...(focusStrategy === 'activedescendant'
+                ? {
+                      onMouseDown: (event: React.MouseEvent<HTMLElement>) => {
+                          if (!event.currentTarget.hasAttribute('draggable')) {
+                              event.preventDefault();
+                          }
+                      },
+                  }
+                : undefined),
             // Text selection is suppressed for the duration of a press (the
             // react-aria model, textSelection.ts): dragging with the mouse,
             // shift+click in the selection mode and starting a drag create no
@@ -706,9 +803,9 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 latest.setActiveItemId(id);
             },
             onPointerEnter: () => {
-                // Hover changes the activity and the roving tabIndex, but does
-                // not move DOM focus; focus catches up with the activity on
-                // the first keyboard interaction.
+                // Hover changes the activity and the roving tabIndex; DOM focus
+                // follows in the effect of step "b" only while a row of this
+                // list holds it (focus is never stolen from the outside).
                 // While a drag is in progress activation on hover is
                 // suspended: the cursor positions the insertion point instead
                 // of choosing a row — otherwise libraries with a synthetic
@@ -815,5 +912,6 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         pinnedRowIndex,
         persistedRowIndexes,
         getItemMemoKey,
+        dragActive,
     };
 }

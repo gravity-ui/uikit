@@ -3,7 +3,7 @@ import * as React from 'react';
 import userEvent from '@testing-library/user-event';
 import * as tabbable from 'tabbable';
 
-import {render, screen} from '../../../../../test-utils/utils';
+import {fireEvent, render, screen} from '../../../../../test-utils/utils';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
 import type {ListItemContext, ListItemHelpers, ListItemViewStateProps, ListProps} from '../types';
@@ -192,6 +192,40 @@ describe('lab List: role model x focus strategy', () => {
     });
 
     describe('grid keyboard: entering the interactive content of a cell and back', () => {
+        test('hover does not take the focus from the interactive content of a cell, and Tab still leaves the list', async () => {
+            const user = userEvent.setup();
+            render(
+                <List
+                    role="grid"
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    renderItem={renderRowWithControls}
+                />,
+            );
+            const rows = screen.getAllByRole('row');
+            const handle = screen.getByRole('button', {name: 'Drag Apple'});
+
+            await user.tab();
+            await user.keyboard('{ArrowRight}');
+            expect(handle).toHaveFocus();
+
+            // The mouse over another row moves the activity and the tab stop,
+            // but the widget the user is working in keeps the focus
+            await user.hover(rows[2]);
+            expect(rows[2]).toHaveAttribute('data-active');
+            expect(rows[2]).toHaveAttribute('tabindex', '0');
+            expect(handle).toHaveFocus();
+
+            // Tab: the list puts focus on its tab stop and lets the default
+            // action go on from there — so sequential navigation leaves the
+            // list instead of landing on the tab stop below. user-event
+            // computes the destination of Tab from the original target, hence
+            // the raw event; fireEvent returns false when the default was
+            // prevented
+            expect(fireEvent.keyDown(handle, {key: 'Tab'})).toBe(true);
+            expect(rows[2]).toHaveFocus();
+        });
+
         test('ArrowRight enters the cell content, ArrowLeft walks back and returns to the row', async () => {
             const user = userEvent.setup();
             render(
@@ -348,6 +382,50 @@ describe('lab List: role model x focus strategy', () => {
     });
 
     describe('activedescendant: the external focus owner', () => {
+        test('a click on a row applies it and leaves DOM focus with the owner', async () => {
+            const user = userEvent.setup();
+            const onItemAction = jest.fn();
+            render(<ComboboxHarness onItemAction={onItemAction} />);
+
+            const input = screen.getByRole('combobox');
+            const options = screen.getAllByRole('option');
+            await user.click(input);
+
+            await user.click(options[1]);
+
+            // The rows are not focusable: without preventing the default of
+            // mousedown, focus would have gone to the body and the input
+            // would have blurred (a popup closing on blur never sees the click)
+            expect(input).toHaveFocus();
+            expect(onItemAction).toHaveBeenCalledWith(
+                'Banana',
+                'Banana',
+                expect.objectContaining({type: 'click'}),
+            );
+            expect(input).toHaveAttribute('aria-activedescendant', options[1].id);
+        });
+
+        test('Home/End on a row that is active already still scroll it into view', async () => {
+            const scrollIntoViewMock = jest.fn();
+            HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
+            try {
+                const user = userEvent.setup();
+                render(<ComboboxHarness defaultActiveItemId="Cherry" />);
+                await user.click(screen.getByRole('combobox'));
+                scrollIntoViewMock.mockClear();
+
+                await user.keyboard('{End}');
+
+                // No state change follows — the sync happens in the gesture
+                expect(scrollIntoViewMock).toHaveBeenCalledTimes(1);
+                expect(scrollIntoViewMock.mock.instances[0]).toBe(
+                    screen.getByRole('option', {name: 'Cherry'}),
+                );
+            } finally {
+                delete (HTMLElement.prototype as Partial<HTMLElement>).scrollIntoView;
+            }
+        });
+
         test('navigation moves aria-activedescendant without taking the focus out of the input', async () => {
             const user = userEvent.setup();
             render(<ComboboxHarness />);

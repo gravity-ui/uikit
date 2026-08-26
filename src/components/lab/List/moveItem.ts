@@ -1,10 +1,14 @@
 import {warnOnce} from '../../utils/warn';
 
+// The same reading of an id as in the list core (flattenItems): a string is
+// its own id, an object gives its `id` field — stringified, so that numeric
+// ids match the string ids the list speaks in (onDrop, dropTarget)
 function defaultGetId(item: unknown): string | undefined {
     if (typeof item === 'string') {
         return item;
     }
-    return (item as {id?: string} | null | undefined)?.id;
+    const id = (item as {id?: unknown} | null | undefined)?.id;
+    return id === undefined || id === null ? undefined : String(id);
 }
 
 /**

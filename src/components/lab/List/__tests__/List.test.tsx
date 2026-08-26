@@ -198,6 +198,34 @@ describe('lab List', () => {
     });
 
     describe('keyboard: roving focus', () => {
+        test('a command whose target is active already still brings focus to it', async () => {
+            const user = userEvent.setup();
+            render(
+                <List
+                    aria-label="Projects"
+                    items={PROJECTS}
+                    getItemContent={(project) => project.name}
+                />,
+            );
+            const alpha = screen.getByRole('option', {name: 'Alpha'});
+            const beta = screen.getByRole('option', {name: 'Beta'});
+
+            await user.tab();
+            expect(alpha).toHaveFocus();
+
+            // Focus and activity diverge: a disabled row does not take the
+            // activity, but a click on it (custom markup takes pointer events)
+            // leaves DOM focus there
+            act(() => beta.focus());
+            expect(beta).toHaveFocus();
+            expect(alpha).toHaveAttribute('data-active');
+
+            // Home targets Alpha, which is active already — no state change
+            // follows, and focus has to be synced right away
+            await user.keyboard('{Home}');
+            expect(alpha).toHaveFocus();
+        });
+
         test('list is a single tab stop, first navigable option receives focus', async () => {
             const user = userEvent.setup();
             render(<List aria-label="Fruits" items={FRUITS} />);
@@ -478,16 +506,24 @@ describe('lab List', () => {
     });
 
     describe('hover activation', () => {
-        test('hover changes active state and roving tabindex without moving focus', async () => {
+        test('hover while focus is outside changes the activity and the tab stop without stealing focus', async () => {
             const user = userEvent.setup();
             const onActiveItemUpdate = jest.fn();
             render(
-                <List aria-label="Fruits" items={FRUITS} onActiveItemUpdate={onActiveItemUpdate} />,
+                <React.Fragment>
+                    <button type="button">Before</button>
+                    <List
+                        aria-label="Fruits"
+                        items={FRUITS}
+                        onActiveItemUpdate={onActiveItemUpdate}
+                    />
+                </React.Fragment>,
             );
             const options = screen.getAllByRole('option');
+            const button = screen.getByRole('button', {name: 'Before'});
 
             await user.tab();
-            expect(options[0]).toHaveFocus();
+            expect(button).toHaveFocus();
 
             await user.hover(options[2]);
 
@@ -495,10 +531,40 @@ describe('lab List', () => {
             expect(options[2]).toHaveAttribute('data-active');
             expect(options[2]).toHaveAttribute('tabindex', '0');
             expect(options[0]).toHaveAttribute('tabindex', '-1');
-            expect(options[0]).toHaveFocus();
+            // Focus stealing is an antipattern: the button keeps the focus,
+            // and the next Tab lands on the hovered row — the tab stop
+            expect(button).toHaveFocus();
+            await user.tab();
+            expect(options[2]).toHaveFocus();
         });
 
-        test('focus catches up with activity on the first keyboard interaction', async () => {
+        test('hover while a row holds focus moves focus along: the focused row, the active row and the tab stop stay one element', async () => {
+            const user = userEvent.setup();
+            const view = new Map<string, ListItemViewStateProps>();
+            const renderItem: ListProps<string>['renderItem'] = (ctx, helpers) => {
+                view.set(ctx.id, helpers.getItemViewProps());
+                return (
+                    <List.ItemView {...helpers.getItemProps()} {...helpers.getItemViewProps()}>
+                        {ctx.content}
+                    </List.ItemView>
+                );
+            };
+            render(<List aria-label="Fruits" items={FRUITS} renderItem={renderItem} />);
+            const options = screen.getAllByRole('option');
+
+            await user.tab();
+            expect(options[0]).toHaveFocus();
+
+            await user.hover(options[2]);
+
+            expect(options[2]).toHaveAttribute('data-active');
+            expect(options[2]).toHaveAttribute('tabindex', '0');
+            expect(options[2]).toHaveFocus();
+            // The mouse is in use: the cursor stays out even though focus moved
+            expect(view.get('Cherry')).toMatchObject({active: false});
+        });
+
+        test('the keyboard continues from the hovered row', async () => {
             const user = userEvent.setup();
             render(<List aria-label="Fruits" items={FRUITS} />);
             const options = screen.getAllByRole('option');
@@ -1043,6 +1109,48 @@ describe('lab List', () => {
     });
 
     describe('controlled and uncontrolled activity', () => {
+        test('a controlled change moves focus along while a row holds it, and leaves focus alone otherwise', async () => {
+            const user = userEvent.setup();
+            const {rerender} = render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    activeItemId="Apple"
+                    onActiveItemUpdate={() => {}}
+                />,
+            );
+            const options = screen.getAllByRole('option');
+
+            // Focus is outside the list: the change moves the highlight and
+            // the tab stop only — focus is never stolen
+            rerender(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    activeItemId="Cherry"
+                    onActiveItemUpdate={() => {}}
+                />,
+            );
+            expect(options[2]).toHaveAttribute('data-active');
+            expect(options[2]).toHaveAttribute('tabindex', '0');
+            expect(document.body).toHaveFocus();
+
+            // A row holds the focus: the change takes focus with it, so the
+            // focused row stays the active one (and the tab stop)
+            await user.tab();
+            expect(options[2]).toHaveFocus();
+            rerender(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    activeItemId="Melon"
+                    onActiveItemUpdate={() => {}}
+                />,
+            );
+            expect(options[3]).toHaveAttribute('data-active');
+            expect(options[3]).toHaveFocus();
+        });
+
         test('defaultActiveItemId sets the initial active option', () => {
             render(<List aria-label="Fruits" items={FRUITS} defaultActiveItemId="Cherry" />);
             const options = screen.getAllByRole('option');

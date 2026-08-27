@@ -45,3 +45,34 @@ export function HideVeilShowcase() {
         </div>
     );
 }
+
+export function ResizeOverIframeShowcase() {
+    const [size, setSize] = React.useState(300);
+    // Keep the callback stable so the resize listeners are not replaced during a drag.
+    const onResize = React.useCallback((nextSize: number) => setSize(nextSize), []);
+
+    return (
+        <div style={{position: 'relative', width: '1200px', height: '600px'}}>
+            <iframe
+                title="Resize test background"
+                srcDoc="<body style='margin:0;height:100%;background:#c00'></body>"
+                style={{position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0}}
+            />
+            <Drawer
+                open
+                aria-label="Resizable drawer"
+                hideVeil
+                disableTransition
+                placement="right"
+                resizable
+                size={size}
+                minSize={200}
+                maxSize={400}
+                onResize={onResize}
+                qa="test-drawer"
+            >
+                <div style={{height: '100%', padding: '20px'}} />
+            </Drawer>
+        </div>
+    );
+}

@@ -40,6 +40,7 @@ export function useResizeHandlers({
     const onPointerDown = React.useCallback(
         (e: React.PointerEvent) => {
             e.preventDefault();
+            e.currentTarget.setPointerCapture(e.pointerId);
             const axisPos = arrangement === 'horizontal' ? e.clientX : e.clientY;
             startRef.current = axisPos;
             onStart();

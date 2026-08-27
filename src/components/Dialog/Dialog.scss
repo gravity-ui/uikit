@@ -38,7 +38,7 @@
     &_has-scroll {
         overflow-y: auto;
         max-height: calc(
-            100vh - calc(var(--g-modal-margin, #{globalVariables.$modal-default-margin}) * 2)
+            100dvh - calc(var(--g-modal-margin, #{globalVariables.$modal-default-margin}) * 2)
         );
     }
 

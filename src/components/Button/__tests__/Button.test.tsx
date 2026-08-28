@@ -4,8 +4,10 @@ import {Gear} from '@gravity-ui/icons';
 import userEvent from '@testing-library/user-event';
 
 import {render, screen} from '../../../../test-utils/utils';
+import {Icon} from '../../Icon';
 import {Button} from '../Button';
-import type {ButtonPin, ButtonSize, ButtonView} from '../Button';
+import {BUTTON_ICON_SIZE_MAP} from '../constants';
+import type {ButtonPin, ButtonSize, ButtonView} from '../types';
 
 const qaId = 'button-component';
 
@@ -102,6 +104,76 @@ describe('Button', () => {
         expect(button).toContainElement(iconComponent);
     });
 
+    test.each(new Array<ButtonSize>('xs', 's', 'm', 'l', 'xl'))(
+        'should set icon size according to the "%s" button size',
+        (size) => {
+            const iconQaId = `icon-${size}`;
+
+            render(
+                <Button size={size}>
+                    <Icon data={Gear} qa={iconQaId} />
+                    Start
+                </Button>,
+            );
+
+            const icon = screen.getByTestId(iconQaId);
+            const expectedSize = String(BUTTON_ICON_SIZE_MAP[size]);
+
+            expect(icon).toHaveAttribute('width', expectedSize);
+            expect(icon).toHaveAttribute('height', expectedSize);
+        },
+    );
+
+    test('should update icon size when button size changes', () => {
+        const iconQaId = 'icon-qa-id';
+        const {rerender} = render(
+            <Button size="xs">
+                <Icon data={Gear} qa={iconQaId} />
+            </Button>,
+        );
+
+        rerender(
+            <Button size="xl">
+                <Icon data={Gear} qa={iconQaId} />
+            </Button>,
+        );
+
+        const icon = screen.getByTestId(iconQaId);
+
+        expect(icon).toHaveAttribute('width', String(BUTTON_ICON_SIZE_MAP.xl));
+        expect(icon).toHaveAttribute('height', String(BUTTON_ICON_SIZE_MAP.xl));
+    });
+
+    test('should preserve explicitly specified icon size', () => {
+        const iconQaId = 'icon-qa-id';
+
+        render(
+            <Button size="xl">
+                <Icon data={Gear} size={24} qa={iconQaId} />
+            </Button>,
+        );
+
+        const icon = screen.getByTestId(iconQaId);
+
+        expect(icon).toHaveAttribute('width', '24');
+        expect(icon).toHaveAttribute('height', '24');
+    });
+
+    test('should preserve explicitly specified icon width and height', () => {
+        const iconQaId = 'icon-qa-id';
+
+        render(
+            <Button size="xl">
+                <Icon data={Gear} width={24} height={28} qa={iconQaId} />
+            </Button>,
+        );
+
+        const icon = screen.getByTestId(iconQaId);
+
+        expect(icon).toHaveAttribute('width', '24');
+        expect(icon).toHaveAttribute('height', '28');
+    });
+
     test('should render custom component', () => {
         const text = 'Button with custom component';
 
@@ -144,6 +216,24 @@ describe('Button', () => {
 
         expect(iconComponent).toBeVisible();
         expect(button).toContainElement(iconComponent);
+    });
+
+    test('should set icon size inside explicit Button.Icon', () => {
+        const iconQaId = 'icon-qa-id';
+
+        render(
+            <Button size="xs">
+                <Button.Icon>
+                    <Icon data={Gear} qa={iconQaId} />
+                </Button.Icon>
+                Start
+            </Button>,
+        );
+
+        const icon = screen.getByTestId(iconQaId);
+
+        expect(icon).toHaveAttribute('width', String(BUTTON_ICON_SIZE_MAP.xs));
+        expect(icon).toHaveAttribute('height', String(BUTTON_ICON_SIZE_MAP.xs));
     });
 
     test('selected when selected=true prop is given', () => {

@@ -1,7 +1,10 @@
-import type * as React from 'react';
+import * as React from 'react';
 
 import {block} from '../utils/cn';
+import {isIcon} from '../utils/common';
 import {warnOnce} from '../utils/warn';
+
+import {ButtonIconSizeContext} from './ButtonIconSizeContext';
 
 const b = block('button');
 
@@ -17,6 +20,19 @@ function warnAboutPhysicalValues() {
 }
 
 export const ButtonIcon = ({side, className, children}: Props) => {
+    const buttonIconSize = React.useContext(ButtonIconSizeContext);
+
+    const content =
+        buttonIconSize && isIcon(children)
+            ? React.cloneElement(children, {
+                  size:
+                      children.props.size ??
+                      (children.props.width === undefined && children.props.height === undefined
+                          ? buttonIconSize
+                          : undefined),
+              })
+            : children;
+
     return (
         <span
             className={b(
@@ -27,7 +43,7 @@ export const ButtonIcon = ({side, className, children}: Props) => {
                 className,
             )}
         >
-            <span className={b('icon-inner')}>{children}</span>
+            <span className={b('icon-inner')}>{content}</span>
         </span>
     );
 };

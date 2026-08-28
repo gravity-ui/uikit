@@ -3,8 +3,8 @@ import {Gear} from '@gravity-ui/icons';
 import {Icon} from '../../Icon';
 import {cn} from '../../utils/cn';
 import {Button} from '../Button';
-import type {ButtonProps} from '../Button';
 import {BUTTON_ICON_SIZE_MAP} from '../constants';
+import type {ButtonProps} from '../types';
 
 import './ButtonViewShowcase.scss';
 

@@ -3,86 +3,26 @@
 import * as React from 'react';
 
 import {useDefaultProps} from '../theme/useDefaultProps';
-import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {isIcon, isSvg} from '../utils/common';
 import {eventBroker} from '../utils/event-broker';
 import {getLinkRelWithFallback} from '../utils/getLinkRelWithFallback';
 import {isOfType} from '../utils/isOfType';
-import type {
-    PolymorphicComponentProps,
-    PolymorphicCustomElementType,
-    PolymorphicOverloadProps,
-} from '../utils/polymorphic';
+import type {PolymorphicOverloadProps} from '../utils/polymorphic';
 import {isPolymorphicComponentProps} from '../utils/polymorphic';
 
 import {ButtonIcon, getIconSide} from './ButtonIcon';
-import type {BUTTON_VIEWS} from './constants';
+import {ButtonIconSizeContext} from './ButtonIconSizeContext';
+import {BUTTON_ICON_SIZE_MAP} from './constants';
+import type {
+    ButtonButtonProps,
+    ButtonComponentProps,
+    ButtonCustomElementType,
+    ButtonLinkProps,
+    ButtonProps,
+} from './types';
 
 import './Button.scss';
-
-export type ButtonView = (typeof BUTTON_VIEWS)[number];
-
-export type ButtonSize = 'xs' | 's' | 'm' | 'l' | 'xl';
-
-export type ButtonPin =
-    | 'round-round'
-    | 'brick-brick'
-    | 'clear-clear'
-    | 'circle-circle'
-    | 'round-brick'
-    | 'brick-round'
-    | 'round-clear'
-    | 'clear-round'
-    | 'brick-clear'
-    | 'clear-brick'
-    | 'circle-brick'
-    | 'brick-circle'
-    | 'circle-clear'
-    | 'clear-circle';
-
-export type ButtonWidth = 'auto' | 'max';
-
-export interface ButtonCommonProps extends QAProps, DOMProps {
-    view?: ButtonView;
-    size?: ButtonSize;
-    pin?: ButtonPin;
-    selected?: boolean;
-    disabled?: boolean;
-    loading?: boolean;
-    width?: ButtonWidth;
-    children?: React.ReactNode;
-}
-
-export interface ButtonButtonProps
-    extends ButtonCommonProps,
-        Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'disabled' | 'style'> {
-    component?: never;
-    href?: never;
-    /**
-     * @deprecated Use additional props at the root
-     */
-    extraProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
-}
-
-export interface ButtonLinkProps
-    extends ButtonCommonProps,
-        Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'style'> {
-    component?: never;
-    href: string;
-    /**
-     * @deprecated Use additional props at the root
-     */
-    extraProps?: React.AnchorHTMLAttributes<HTMLAnchorElement>;
-}
-
-export type ButtonComponentProps<T extends Exclude<ButtonCustomElementType, undefined>> =
-    PolymorphicComponentProps<ButtonCommonProps, T> & {
-        /**
-         * @deprecated Use additional props at the root
-         */
-        extraProps?: React.ComponentPropsWithoutRef<T>;
-    };
 
 function isButtonComponentProps<T extends ButtonCustomElementType>(
     p: ButtonProps<T>,
@@ -91,13 +31,6 @@ function isButtonComponentProps<T extends ButtonCustomElementType>(
         p,
     );
 }
-
-export type ButtonCustomElementType = PolymorphicCustomElementType;
-
-export type ButtonProps<T extends ButtonCustomElementType = undefined> =
-    | ButtonLinkProps
-    | ButtonButtonProps
-    | ButtonComponentProps<Exclude<T, undefined>>;
 
 const b = block('button');
 
@@ -175,7 +108,9 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
                 ref: ref,
                 'aria-disabled': disabled ?? undefined,
             },
-            prepareChildren(children),
+            <ButtonIconSizeContext.Provider value={BUTTON_ICON_SIZE_MAP[size]}>
+                {prepareChildren(children)}
+            </ButtonIconSizeContext.Provider>,
         );
     }
 
@@ -189,7 +124,9 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
                 rel={getLinkRelWithFallback(props)}
                 aria-disabled={disabled ?? undefined}
             >
-                {prepareChildren(children)}
+                <ButtonIconSizeContext.Provider value={BUTTON_ICON_SIZE_MAP[size]}>
+                    {prepareChildren(children)}
+                </ButtonIconSizeContext.Provider>
             </a>
         );
     }
@@ -204,7 +141,9 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
             disabled={disabled || loading}
             aria-pressed={selected}
         >
-            {prepareChildren(children)}
+            <ButtonIconSizeContext.Provider value={BUTTON_ICON_SIZE_MAP[size]}>
+                {prepareChildren(children)}
+            </ButtonIconSizeContext.Provider>
         </button>
     );
 }) as <T extends ButtonCustomElementType, P extends ButtonProps<T>>(

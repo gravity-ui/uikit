@@ -1,13 +1,13 @@
 import * as React from 'react';
 
 import {render, renderHook, screen} from '../../../../test-utils/utils';
-import {PrivateDefaultPropsProvider} from '../PrivateDefaultPropsProvider';
+import {DefaultPropsProvider} from '../DefaultPropsProvider';
 import {ThemeProvider} from '../ThemeProvider';
 import {useDefaultProps} from '../useDefaultProps';
 
-function makeWrapper(value: React.ComponentProps<typeof PrivateDefaultPropsProvider>['value']) {
+function makeWrapper(value: React.ComponentProps<typeof DefaultPropsProvider>['value']) {
     return function Wrapper({children}: {children: React.ReactNode}) {
-        return <PrivateDefaultPropsProvider value={value}>{children}</PrivateDefaultPropsProvider>;
+        return <DefaultPropsProvider value={value}>{children}</DefaultPropsProvider>;
     };
 }
 
@@ -75,6 +75,28 @@ describe('useDefaultProps', () => {
                 wrapper: makeWrapper({Button: {view: 'outlined'}}),
             });
             expect(result.current).toBe(props);
+        });
+
+        it('merges nested providers by component and replaces defaults for the same component', () => {
+            const wrapper = ({children}: {children: React.ReactNode}) => (
+                <DefaultPropsProvider
+                    value={{Button: {view: 'outlined', size: 'l'}, Checkbox: {size: 'l'}}}
+                >
+                    <DefaultPropsProvider value={{Button: {view: 'action'}}}>
+                        {children}
+                    </DefaultPropsProvider>
+                </DefaultPropsProvider>
+            );
+            const {result} = renderHook(
+                () => ({
+                    button: useDefaultProps('Button', {}),
+                    checkbox: useDefaultProps('Checkbox', {}),
+                }),
+                {wrapper},
+            );
+
+            expect(result.current.button).toEqual({view: 'action'});
+            expect(result.current.checkbox).toEqual({size: 'l'});
         });
     });
 });

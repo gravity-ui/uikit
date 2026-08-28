@@ -64,6 +64,8 @@ const [open, setOpen] = useState(false);
 | `--g-modal-margin`        | Отступ вокруг содержимого `Modal`.                     |
 | `--g-modal-border-radius` | Радиус скругления углов элемента с содержимым `Modal`. |
 | `--g-modal-width`         | Ширина контента `Modal`                                |
+| `--g-modal-min-width`     | Минимальная ширина контента `Modal`                    |
 | `--g-modal-max-width`     | Максимальная ширина контента `Modal`                   |
 | `--g-modal-height`        | Высота контента `Modal`                                |
+| `--g-modal-min-height`    | Минимальная высота контента `Modal`                    |
 | `--g-modal-max-height`    | Максимальная высота контента `Modal`                   |

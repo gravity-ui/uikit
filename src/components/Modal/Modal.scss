@@ -34,9 +34,11 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
     &__content {
         margin: var(--g-modal-margin, #{variables.$modal-default-margin});
         height: var(--g-modal-height, auto);
+        min-height: var(--g-modal-min-height, none);
         max-height: var(--g-modal-max-height, none);
         width: var(--g-modal-width, auto);
         max-width: var(--g-modal-max-width, none);
+        min-width: var(--g-modal-min-width, none);
 
         background-color: var(--g-color-base-modal);
         border-radius: var(--g-modal-border-radius, #{$modal-default-border-radius});
@@ -54,7 +56,7 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
             );
             max-height: var(
                 --g-modal-max-height,
-                calc(100vh - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2))
+                calc(100dvh - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2))
             );
         }
     }
@@ -85,7 +87,8 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
 
     &_mobile {
         --g-modal-width: 100vw;
-        --g-modal-height: 100vh;
+        --g-modal-height: 100dvh;
+        --g-modal-min-height: 100svh;
         --g-modal-margin: 0px;
         --g-modal-border-radius: 0px;
 

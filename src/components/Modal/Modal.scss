@@ -86,11 +86,16 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
     }
 
     &_mobile {
-        --g-modal-width: 100vw;
-        --g-modal-height: 100dvh;
-        --g-modal-min-height: 100svh;
-        --g-modal-margin: 0px;
-        --g-modal-border-radius: 0px;
+        #{$block}__content {
+            margin: 0;
+            height: 100dvh;
+            min-height: 100svh;
+            max-height: initial;
+            width: 100vw;
+            min-width: initial;
+            max-width: initial;
+            border-radius: 0;
+        }
 
         &[data-floating-ui-status='initial'] #{$block}__content,
         &[data-floating-ui-status='close'] #{$block}__content {

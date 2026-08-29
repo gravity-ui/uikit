@@ -66,15 +66,19 @@ const GAP_WIDTH = 4;
 
 const b = block('breadcrumbs-legacy');
 
-export enum LastDisplayedItemsCount {
-    One = 1,
-    Two = 2,
-}
+export const LastDisplayedItemsCount = {
+    One: 1,
+    Two: 2,
+} as const;
+export type LastDisplayedItemsCount =
+    (typeof LastDisplayedItemsCount)[keyof typeof LastDisplayedItemsCount];
 
-export enum FirstDisplayedItemsCount {
-    Zero = 0,
-    One = 1,
-}
+export const FirstDisplayedItemsCount = {
+    Zero: 0,
+    One: 1,
+} as const;
+export type FirstDisplayedItemsCount =
+    (typeof FirstDisplayedItemsCount)[keyof typeof FirstDisplayedItemsCount];
 
 /**
  * @deprecated

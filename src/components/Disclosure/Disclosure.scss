@@ -3,6 +3,8 @@
 
 $block: '.#{variables.$ns}disclosure';
 $gap: 8px;
+$expand-animation-duration: 0.2s;
+$collapse-animation-duration: 0.1s;
 
 #{$block} {
     --_--text-color: var(--g-color-text-primary);
@@ -50,12 +52,43 @@ $gap: 8px;
     &__content#{$block}_exit_active {
         display: block;
         animation-name: #{variables.$ns}disclosure-collapsed;
-        animation-duration: 0.1s;
+        animation-duration: $collapse-animation-duration;
         opacity: 0;
     }
     &__content#{$block}_enter_active {
         animation-name: #{variables.$ns}disclosure-expanded;
-        animation-duration: 0.2s;
+        animation-duration: $expand-animation-duration;
+    }
+    &__body {
+        position: relative;
+    }
+    &__collapsed-content {
+        display: none;
+    }
+    &__collapsed-content_visible {
+        display: block;
+    }
+    // The collapsed content is shown while the disclosure is collapsed, so it
+    // "enters" on collapse (fade in) and "exits" on expand (fade out).
+    &__collapsed-content#{$block}_enter_active {
+        display: block;
+        animation-name: #{variables.$ns}disclosure-expanded;
+        animation-duration: $expand-animation-duration;
+    }
+    &__collapsed-content#{$block}_exit_active {
+        display: block;
+        animation-name: #{variables.$ns}disclosure-collapsed;
+        animation-duration: $collapse-animation-duration;
+        opacity: 0;
+    }
+    // Inside the shared body wrapper the disappearing content is taken out of the
+    // flow and overlaid on top of the appearing one, so their heights don't briefly
+    // sum up and make the layout jump. At rest, both stay in the normal flow.
+    &__body &__content#{$block}_exit_active,
+    &__body &__collapsed-content#{$block}_exit_active {
+        position: absolute;
+        inset-block-start: 0;
+        inset-inline: 0;
     }
 }
 

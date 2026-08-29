@@ -54,8 +54,7 @@ export const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps
             value,
             onUpdate,
         });
-        const disclosureExpanded =
-            expanded !== undefined || defaultExpanded !== true ? isExpanded : undefined;
+        const disclosureExpanded = isExpanded;
 
         const [preparedSummary, details] = React.useMemo(() => {
             return prepareChildren(children, qa);
@@ -68,7 +67,6 @@ export const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps
                 keepMounted={keepMounted}
                 onUpdate={handleUpdate}
                 expanded={disclosureExpanded}
-                defaultExpanded={defaultExpanded}
                 summary={summary}
                 disabled={disabled}
                 qa={qa}
@@ -102,32 +100,53 @@ function useAccordionItemState({
     const id = useUniqId();
     const {items, updateItems} = useAccordion();
     const isControlledItem = expanded !== undefined;
-    const hasDefaultExpanded = defaultExpanded === true;
+    const itemValue = value ?? id;
+    const seededDefaultExpanded = React.useRef(false);
+
+    // Seed defaultExpanded=true into shared accordion state so the item stays
+    // in sync with exclusive open/close (Disclosure alone cannot do that).
+    React.useLayoutEffect(() => {
+        if (seededDefaultExpanded.current || isControlledItem || defaultExpanded !== true) {
+            return;
+        }
+        seededDefaultExpanded.current = true;
+        const alreadyOpen = Array.isArray(items)
+            ? items.includes(itemValue)
+            : items === itemValue;
+        if (!alreadyOpen) {
+            updateItems(itemValue);
+        }
+    }, [isControlledItem, defaultExpanded, itemValue, items, updateItems]);
 
     const isExpanded = React.useMemo(() => {
         if (isControlledItem) {
             return expanded;
         }
 
-        if (hasDefaultExpanded) {
-            return false;
-        }
-
         if (Array.isArray(items)) {
-            return items.includes(value ?? id);
+            return items.includes(itemValue);
         }
 
-        return items === (value ?? id);
-    }, [isControlledItem, expanded, hasDefaultExpanded, items, value, id]);
+        if (items === itemValue) {
+            return true;
+        }
+
+        // Honor defaultExpanded on the first paint before the seed effect runs.
+        if (defaultExpanded === true && !seededDefaultExpanded.current) {
+            return true;
+        }
+
+        return false;
+    }, [isControlledItem, expanded, items, itemValue, defaultExpanded]);
 
     const handleUpdate = React.useCallback(
         (next: boolean) => {
             onUpdate?.(next);
-            if (!isControlledItem && !hasDefaultExpanded) {
-                updateItems(value ?? id);
+            if (!isControlledItem) {
+                updateItems(itemValue);
             }
         },
-        [onUpdate, isControlledItem, hasDefaultExpanded, updateItems, value, id],
+        [onUpdate, isControlledItem, updateItems, itemValue],
     );
     return {id, isExpanded, handleUpdate};
 }

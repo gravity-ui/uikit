@@ -8,9 +8,7 @@ $discMarginXLSize: 8px;
 
 #{$block} {
     &__indicator {
-        display: inline-block;
         position: relative;
-        cursor: inherit;
 
         &::before {
             content: '';
@@ -22,14 +20,9 @@ $discMarginXLSize: 8px;
             border-radius: 50%;
             transition: background 0.1s linear;
         }
-
-        &::after {
-            content: '\00a0';
-            visibility: hidden;
-        }
     }
 
-    &__disc::before {
+    &__disc {
         content: '';
         position: absolute;
 
@@ -45,10 +38,7 @@ $discMarginXLSize: 8px;
 
     &__control {
         position: absolute;
-        inset-block-start: 0;
-        inset-inline-start: 0;
-        width: 100%;
-        height: 100%;
+        inset: 0;
         margin: 0;
         padding: 0;
         opacity: 0;
@@ -71,6 +61,7 @@ $discMarginXLSize: 8px;
 
     &__control:focus-visible + &__outline {
         @include mixins.focus-outline();
+        outline-offset: 1px;
     }
 
     &_size {
@@ -80,7 +71,7 @@ $discMarginXLSize: 8px;
                 height: 14px;
             }
 
-            #{$block}__disc::before {
+            #{$block}__disc {
                 inset: $discMarginMSize;
             }
         }
@@ -91,7 +82,7 @@ $discMarginXLSize: 8px;
                 height: 17px;
             }
 
-            #{$block}__disc::before {
+            #{$block}__disc {
                 inset: $discMarginLSize;
             }
         }
@@ -102,7 +93,7 @@ $discMarginXLSize: 8px;
                 height: 24px;
             }
 
-            #{$block}__disc::before {
+            #{$block}__disc {
                 inset: $discMarginXLSize;
             }
         }
@@ -123,7 +114,7 @@ $discMarginXLSize: 8px;
                 border: transparent;
             }
 
-            #{$block}__disc::before {
+            #{$block}__disc {
                 opacity: 1;
                 transform: scale(1);
             }
@@ -139,7 +130,7 @@ $discMarginXLSize: 8px;
         }
 
         &#{$block}_checked {
-            #{$block}__disc::before {
+            #{$block}__disc {
                 background-color: var(--g-color-text-hint);
             }
         }

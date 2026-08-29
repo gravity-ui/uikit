@@ -24,7 +24,7 @@ $block: '.#{variables.$ns}breadcrumbs';
 
         &_current {
             box-sizing: content-box;
-            font-weight: var(--g-text-accent-font-weight);
+            font-weight: var(--g-text-body-accent-font-weight);
             overflow: hidden;
             margin: -2px;
             padding: 2px;

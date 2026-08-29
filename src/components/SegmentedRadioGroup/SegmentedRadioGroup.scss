@@ -2,6 +2,20 @@
 
 $block: '.#{variables.$ns}segmented-radio-group';
 
+$option-sizes: (
+    's': 24px,
+    'm': 28px,
+    'l': 36px,
+    'xl': 44px,
+);
+
+$text-spacings: (
+    's': 10px,
+    'm': 13px,
+    'l': 18px,
+    'xl': 25px,
+);
+
 #{$block} {
     --_--border-width: 1px;
     --_--transition-time: 0.15s;
@@ -12,6 +26,32 @@ $block: '.#{variables.$ns}segmented-radio-group';
     font-family: var(--g-text-body-font-family);
     font-weight: var(--g-text-body-font-weight);
     position: relative;
+
+    &_size {
+        &_s {
+            --_--border-radius: var(--g-border-radius-s);
+        }
+
+        &_m {
+            --_--border-radius: var(--g-border-radius-m);
+        }
+
+        &_l {
+            --_--border-radius: var(--g-border-radius-l);
+        }
+
+        &_xl {
+            --_--border-radius: var(--g-border-radius-xl);
+        }
+    }
+
+    &_width_auto {
+        max-width: 100%;
+    }
+
+    &_width_max {
+        width: 100%;
+    }
 
     &__option {
         position: relative;
@@ -24,7 +64,24 @@ $block: '.#{variables.$ns}segmented-radio-group';
         transform: scale(1);
         transition: color var(--_--transition-time) linear;
 
+        #{$block}_width_auto &,
+        #{$block}_width_max & {
+            overflow: hidden;
+        }
+
+        @each $size, $height in $option-sizes {
+            #{$block}_size_#{$size} & {
+                height: $height;
+                line-height: $height;
+
+                @if $size == xl {
+                    font-size: var(--g-text-body-2-font-size);
+                }
+            }
+        }
+
         &::before {
+            z-index: -1;
             position: absolute;
             inset-inline-start: 0;
             inset-block: var(--_--border-width);
@@ -82,10 +139,6 @@ $block: '.#{variables.$ns}segmented-radio-group';
             &::after {
                 background-color: var(--g-color-base-simple-hover);
             }
-
-            #{$block}__option-text {
-                color: var(--g-color-text-primary);
-            }
         }
 
         &:has(#{&}-control:focus-visible) {
@@ -93,43 +146,9 @@ $block: '.#{variables.$ns}segmented-radio-group';
             outline-offset: calc(-1 * var(--_--border-width));
         }
 
-        &-control {
-            position: absolute;
-            inset-block-start: 0;
-            inset-inline-start: 0;
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            border: none;
-            outline: none;
-            opacity: 0;
-            cursor: inherit;
-        }
-
-        &-text {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
-            color: var(--g-color-text-complementary);
-            overflow: hidden;
-
-            &_icon {
-                height: 100%;
-                display: flex;
-                align-items: center;
-            }
-        }
-
         &_checked {
             cursor: default;
             border-color: var(--g-color-line-brand);
-
-            #{$block}__option-text {
-                color: var(--g-color-text-brand-heavy);
-            }
 
             &::after {
                 background-color: var(--g-color-base-selection);
@@ -148,10 +167,6 @@ $block: '.#{variables.$ns}segmented-radio-group';
             &::after {
                 background-color: var(--g-color-base-generic);
             }
-
-            #{$block}__option-text {
-                color: var(--g-color-text-hint);
-            }
         }
 
         &_disabled#{&}_checked {
@@ -159,89 +174,66 @@ $block: '.#{variables.$ns}segmented-radio-group';
                 background-color: var(--g-color-base-generic-accent);
                 border-color: var(--g-color-line-generic-accent);
             }
-
-            #{$block}__option-text {
-                color: var(--g-color-text-secondary);
-            }
         }
     }
 
-    &__option::before {
-        z-index: -1;
-    }
-
-    &_size {
-        &_s {
-            #{$block}__option {
-                height: 24px;
-                line-height: 24px;
-
-                &-text {
-                    margin: 0 10px;
-                }
-            }
-
-            --_--border-radius: var(--g-border-radius-s);
-        }
-
-        &_m {
-            #{$block}__option {
-                height: 28px;
-                line-height: 28px;
-
-                &-text {
-                    margin: 0 13px;
-                }
-            }
-
-            --_--border-radius: var(--g-border-radius-m);
-        }
-
-        &_l {
-            #{$block}__option {
-                height: 36px;
-                line-height: 36px;
-
-                &-text {
-                    margin: 0 18px;
-                }
-            }
-
-            --_--border-radius: var(--g-border-radius-l);
-        }
-
-        &_xl {
-            #{$block}__option {
-                height: 44px;
-                line-height: 44px;
-                font-size: var(--g-text-body-2-font-size);
-
-                &-text {
-                    margin: 0 25px;
-                }
-            }
-
-            --_--border-radius: var(--g-border-radius-xl);
-        }
-    }
-
-    &_width_auto {
-        max-width: 100%;
-    }
-
-    &_width_max {
+    &__option-control {
+        position: absolute;
+        inset-block-start: 0;
+        inset-inline-start: 0;
         width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        border: none;
+        outline: none;
+        opacity: 0;
+        cursor: inherit;
     }
 
-    &_width_auto,
-    &_width_max {
-        #{$block}__option {
-            overflow: hidden;
+    &__option-text {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+        color: var(--g-color-text-complementary);
+        overflow: hidden;
 
-            &-text {
-                display: block;
-                overflow: hidden;
-                text-overflow: ellipsis;
+        #{$block}_width_auto &,
+        #{$block}_width_max & {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #{$block}_width_auto &_icon,
+        #{$block}_width_max &_icon,
+        &_icon {
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        #{$block}__option:not(#{$block}__option_checked):not(#{$block}__option_disabled):hover & {
+            color: var(--g-color-text-primary);
+        }
+
+        #{$block}__option_checked & {
+            color: var(--g-color-text-brand-heavy);
+        }
+
+        #{$block}__option_disabled & {
+            color: var(--g-color-text-hint);
+        }
+
+        #{$block}__option_disabled#{$block}__option_checked & {
+            color: var(--g-color-text-secondary);
+        }
+
+        @each $size, $margin in $text-spacings {
+            #{$block}_size_#{$size} & {
+                margin: 0 $margin;
             }
         }
     }

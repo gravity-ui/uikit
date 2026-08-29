@@ -382,6 +382,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                           }
                         : undefined
                 }
+                modal={filterable}
             >
                 {renderPopup({renderFilter: _renderFilter, renderList: _renderList})}
             </SelectPopup>

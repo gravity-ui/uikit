@@ -76,12 +76,18 @@ function SheetComponent(rawProps: SheetProps) {
     } = useDefaultProps('Sheet', rawProps);
     const [open, setOpen] = React.useState(visible);
     const [prevVisible, setPrevVisible] = React.useState(visible);
+    const [legacyDismissed, setLegacyDismissed] = React.useState(false);
     const veilRef = React.useRef<HTMLDivElement>(null);
     const isAnimatingRef = React.useRef(false);
+    const effectiveVisible = visible && !legacyDismissed;
 
     const handleOpenChange = React.useCallback<NonNullable<SheetProps['onOpenChange']>>(
         (isOpen, event, reason) => {
-            onOpenChange?.(isOpen, event, reason);
+            if (onOpenChange) {
+                onOpenChange(isOpen, event, reason);
+            } else if (!isOpen && reason === 'escape-key') {
+                setLegacyDismissed(true);
+            }
         },
         [onOpenChange],
     );
@@ -89,7 +95,7 @@ function SheetComponent(rawProps: SheetProps) {
     const floatingNodeId = useFloatingNodeId();
     const {refs, context} = useFloating({
         nodeId: floatingNodeId,
-        open: visible,
+        open: effectiveVisible,
         onOpenChange: handleOpenChange,
     });
     const dismiss = useDismiss(context, {
@@ -101,6 +107,7 @@ function SheetComponent(rawProps: SheetProps) {
 
     if (!prevVisible && visible) {
         setOpen(true);
+        setLegacyDismissed(false);
     }
 
     if (visible !== prevVisible) {
@@ -133,7 +140,7 @@ function SheetComponent(rawProps: SheetProps) {
                         contentClassName={contentClassName}
                         swipeAreaClassName={swipeAreaClassName}
                         title={title}
-                        visible={visible}
+                        visible={effectiveVisible}
                         allowHideOnContentScroll={allowHideOnContentScroll}
                         hideTopBar={hideTopBar}
                         hideSheet={hideSheet}

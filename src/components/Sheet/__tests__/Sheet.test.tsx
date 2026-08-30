@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event';
 
-import {render, screen} from '../../../../test-utils/utils';
+import {fireEvent, render, screen} from '../../../../test-utils/utils';
 import {Sheet} from '../Sheet';
 import {SheetQa} from '../constants';
 
@@ -57,6 +57,29 @@ describe('Sheet', () => {
 
         expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'escape-key');
         expect(onOpenChange).toHaveBeenCalledTimes(1);
+    });
+
+    test('calls deprecated onClose after the hiding transition when Escape is pressed', async () => {
+        const user = userEvent.setup();
+        const onClose = jest.fn();
+        render(
+            <Sheet visible onClose={onClose}>
+                Content
+            </Sheet>,
+        );
+
+        const veil = screen.getByTestId(SheetQa.VEIL);
+
+        fireEvent.transitionEnd(veil);
+        await user.keyboard('{Escape}');
+
+        expect(veil.style.opacity).toBe('0');
+        expect(onClose).not.toHaveBeenCalled();
+
+        fireEvent.transitionEnd(veil);
+
+        expect(onClose).toHaveBeenCalledTimes(1);
+        expect(screen.queryByText('Content')).not.toBeInTheDocument();
     });
 
     test('does not echo an external visible change through onOpenChange', () => {

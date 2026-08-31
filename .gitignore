@@ -3,6 +3,7 @@
 .history
 .DS_Store
 *.log
+.agents
 
 node_modules
 

@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import userEvent from '@testing-library/user-event';
 
 import {fireEvent, render, screen} from '../../../../test-utils/utils';
@@ -57,6 +59,29 @@ describe('Sheet', () => {
 
         expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'escape-key');
         expect(onOpenChange).toHaveBeenCalledTimes(1);
+    });
+
+    test('requests closing only the topmost Sheet when Escape is pressed', async () => {
+        const user = userEvent.setup();
+        const firstOnOpenChange = jest.fn();
+        const secondOnOpenChange = jest.fn();
+
+        render(
+            <React.Fragment>
+                <Sheet visible onOpenChange={firstOnOpenChange}>
+                    First
+                </Sheet>
+                <Sheet visible onOpenChange={secondOnOpenChange}>
+                    Second
+                </Sheet>
+            </React.Fragment>,
+        );
+
+        await user.keyboard('{Escape}');
+
+        expect(firstOnOpenChange).not.toHaveBeenCalled();
+        expect(secondOnOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'escape-key');
+        expect(secondOnOpenChange).toHaveBeenCalledTimes(1);
     });
 
     test('calls deprecated onClose after the hiding transition when Escape is pressed', async () => {

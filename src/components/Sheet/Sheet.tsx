@@ -19,6 +19,7 @@ import {Portal} from '../Portal/Portal';
 import type {PortalProps} from '../Portal/Portal';
 import {useDefaultProps} from '../theme/useDefaultProps';
 import type {QAProps} from '../types';
+import {useLayer} from '../utils/layer-manager';
 
 import {SheetContentContainer} from './SheetContent';
 import {sheetBlock} from './constants';
@@ -92,6 +93,20 @@ function SheetComponent(rawProps: SheetProps) {
         [onOpenChange],
     );
 
+    const handleEscapeKeyDown = React.useCallback(
+        (event: KeyboardEvent) => {
+            handleOpenChange(false, event, 'escape-key');
+        },
+        [handleOpenChange],
+    );
+
+    useLayer({
+        open: effectiveVisible,
+        type: 'sheet',
+        disableOutsideClick: true,
+        onEscapeKeyDown: handleEscapeKeyDown,
+    });
+
     const floatingNodeId = useFloatingNodeId();
     const {refs, context} = useFloating({
         nodeId: floatingNodeId,
@@ -99,6 +114,7 @@ function SheetComponent(rawProps: SheetProps) {
         onOpenChange: handleOpenChange,
     });
     const dismiss = useDismiss(context, {
+        escapeKey: false,
         outsidePress: (event) => !isAnimatingRef.current && event.target === veilRef.current,
         outsidePressEvent: 'click',
     });

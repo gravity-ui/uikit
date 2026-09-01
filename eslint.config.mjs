@@ -99,6 +99,6 @@ export default defineConfig([
         },
     },
     {
-        ignores: ['build', 'storybook-static', 'playwright/.cache*'],
+        ignores: ['.agents', 'build', 'storybook-static', 'playwright/.cache*'],
     },
 ]);

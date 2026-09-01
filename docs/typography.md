@@ -1,5 +1,7 @@
 # Typography
 
+[English](typography.md) | [Русский](typography-ru.md)
+
 UIKit's type scale is a fixed set of **text variants**, each with predefined `font-size` and
 `line-height`. Render text with the `Text` component and a `variant` — **not** raw `<h1>`/`<p>`
 tags or inline `font-size`. This keeps sizing consistent and theme-aware across the app.

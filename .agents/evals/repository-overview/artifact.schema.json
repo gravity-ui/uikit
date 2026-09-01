@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gravity-ui.com/schemas/repository-overview-eval-result.json",
+  "title": "Repository overview eval result",
+  "type": "object",
+  "required": ["schemaVersion", "eval", "environment", "repeat", "attempts", "aggregate", "createdAt"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "eval": {
+      "type": "object",
+      "required": ["id", "version", "prompt"],
+      "properties": {
+        "id": {"type": "string"},
+        "version": {"type": "integer"},
+        "prompt": {"type": "string"}
+      }
+    },
+    "environment": {
+      "type": "object",
+      "required": ["host", "model", "cliVersion", "runnerVersion", "nodeVersion", "repo", "git"],
+      "properties": {
+        "host": {"enum": ["codex", "claude", "opencode"]},
+        "model": {"type": "string"},
+        "effort": {"type": ["string", "null"]},
+        "cliVersion": {"type": ["string", "null"]},
+        "runnerVersion": {"type": "integer", "minimum": 1},
+        "nodeVersion": {"type": "string"},
+        "repo": {"type": "string"},
+        "git": {"type": "object"}
+      }
+    },
+    "repeat": {"type": "integer", "minimum": 1},
+    "mutationDetected": {"type": "boolean"},
+    "attempts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["index", "success", "metrics", "scores", "assertions"]
+      }
+    },
+    "aggregate": {"type": "object"},
+    "createdAt": {"type": "string", "format": "date-time"}
+  }
+}

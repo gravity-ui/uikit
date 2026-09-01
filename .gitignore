@@ -14,3 +14,5 @@ node_modules
 /playwright/.cache*
 /playwright/report*
 /playwright/test-results
+
+/.agents/evals/repository-overview/.eval-artifacts/

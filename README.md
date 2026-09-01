@@ -66,7 +66,14 @@ A SCSS [mixins](styles/mixins.scss) file with useful helpers is also available f
 
 Read more:
 
+- [Repository navigation](docs/navigation.md) — find the authoritative docs, source area, and
+  validation for a task
+- [Repository architecture](docs/architecture.md) — understand package entrypoints, source
+  boundaries, build, and tests
+- [Layout components and spacings](docs/layout.md) — compose responsive pages with the shared grid
+  and spacing scale
 - [Theming](docs/theming.md) — enable light, dark, and high-contrast themes
+- [Typography](docs/typography.md) — use and customize the shared text scale
 - [Server-side rendering](docs/server-side-rendering.md) — generate the root CSS class on the server
 - [Internationalization](docs/i18n.md) — set the built-in component language
 

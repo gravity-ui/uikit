@@ -1,5 +1,7 @@
 # Layout components and spacings
 
+[English](layout.md) | [Русский](layout-ru.md)
+
 This guide covers UIKit's layout foundations: a shared **spacing** scale (`--g-spacing-*`, used
 everywhere via tokens and props) and a responsive **grid** (`Container`/`Row`/`Col`), plus the
 flexbox-based `Flex`/`Box` primitives built on top of them. Compose pages from these instead of

@@ -10,7 +10,7 @@
     flex-direction: column;
     width: var(--g-dialog-width, var(--_--width));
 
-    &__modal {
+    &__modal:not(#{variables.$block}__modal_mobile) {
         &:has(#{variables.$block}_max-width_s) {
             --g-modal-max-width: 480px;
         }

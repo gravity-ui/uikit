@@ -162,10 +162,34 @@ function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
         getCellProps: (overrides) => listRef.current.getCellProps(overrides),
     }));
 
-    const sizingContexts = React.useMemo(
-        () => ({ids: list.visibleIds, byId: new Map<string, ListItemContext<T>>()}),
-        [list.visibleIds],
-    );
+    const estimateItemSize = virtualization?.estimateItemSize;
+    // Stable while the estimate configuration is: a new identity tells the
+    // virtualizer to drop its estimate-correction cache — the accumulated
+    // measured/estimated ratio belongs to the old estimates. Contexts are
+    // cached per visibleIds and only feed the estimate (tanstack calls it for
+    // the whole unmeasured tail on every pass)
+    const getItemSize = React.useMemo(() => {
+        const estimate = estimateItemSize ?? ESTIMATED_ITEM_SIZE[size];
+        if (typeof estimate !== 'function') {
+            return () => estimate;
+        }
+        let cachedIds: string[] | null = null;
+        const contexts = new Map<string, ListItemContext<T>>();
+        return (index: number) => {
+            const current = listRef.current;
+            if (cachedIds !== current.visibleIds) {
+                cachedIds = current.visibleIds;
+                contexts.clear();
+            }
+            const id = current.visibleIds[index];
+            let ctx = contexts.get(id);
+            if (ctx === undefined) {
+                ctx = current.getItemContext(id);
+                contexts.set(id, ctx);
+            }
+            return estimate(ctx);
+        };
+    }, [estimateItemSize, size]);
 
     const selectionStyle = selectionMode === 'multiple' ? 'check' : 'highlight';
 
@@ -192,21 +216,6 @@ function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
     });
 
     if (virtualization) {
-        const estimate = virtualization.estimateItemSize ?? ESTIMATED_ITEM_SIZE[size];
-        // tanstack calls estimateItemSize for the whole unmeasured tail on every pass
-        const getSizingContext = (index: number) => {
-            const id = sizingContexts.ids[index];
-            let ctx = sizingContexts.byId.get(id);
-            if (ctx === undefined) {
-                ctx = list.getItemContext(id);
-                sizingContexts.byId.set(id, ctx);
-            }
-            return ctx;
-        };
-        const getItemSize =
-            typeof estimate === 'function'
-                ? (index: number) => estimate(getSizingContext(index))
-                : () => estimate;
         return (
             <virtualization.Root
                 containerProps={containerProps}

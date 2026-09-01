@@ -97,7 +97,6 @@ export function Virtualizer({
     // content right after the first window is measured, instead of "growing"
     // while the user scrolls through an underestimated list.
     const getItemSizeRef = React.useRef(getItemSize);
-    getItemSizeRef.current = getItemSize;
     const getItemKeyRef = React.useRef(getItemKey);
     getItemKeyRef.current = getItemKey;
     const estimateCorrectionRef = React.useRef({
@@ -105,6 +104,14 @@ export function Virtualizer({
         measuredTotal: 0,
         estimatedTotal: 0,
     });
+    // A new getItemSize identity means the estimates themselves changed (the
+    // size of the rows, the consumer's estimate function): the accumulated
+    // measured/estimated ratio belongs to the old estimates and would skew the
+    // unmeasured tail, so the correction starts over
+    if (getItemSizeRef.current !== getItemSize) {
+        estimateCorrectionRef.current = {sizes: new Map(), measuredTotal: 0, estimatedTotal: 0};
+    }
+    getItemSizeRef.current = getItemSize;
     const estimateSize = React.useCallback((index: number) => {
         const correction = estimateCorrectionRef.current;
         // A row that has already been measured is estimated with its actual

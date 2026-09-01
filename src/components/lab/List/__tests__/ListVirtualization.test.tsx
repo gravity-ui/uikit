@@ -85,6 +85,31 @@ describe('lab List: virtualization layer', () => {
             expect(sizer).toHaveStyle({height: `${ITEMS.length * ROW_HEIGHT}px`});
         });
 
+        test('changing the estimate drops the correction instead of skewing the tail by the old ratio', () => {
+            const {rerender} = render(
+                <ListVirtualizer estimateItemSize={12}>
+                    <List aria-label="Logs" items={ITEMS} style={{maxHeight: VIEWPORT_HEIGHT}} />
+                </ListVirtualizer>,
+            );
+            const listbox = screen.getByRole('listbox');
+            // eslint-disable-next-line testing-library/no-node-access
+            const sizer = listbox.firstElementChild as HTMLElement;
+            expect(sizer).toHaveStyle({height: `${ITEMS.length * ROW_HEIGHT}px`});
+
+            rerender(
+                <ListVirtualizer estimateItemSize={100}>
+                    <List aria-label="Logs" items={ITEMS} style={{maxHeight: VIEWPORT_HEIGHT}} />
+                </ListVirtualizer>,
+            );
+
+            // Measured rows keep their 36px; the unmeasured tail uses the new
+            // estimate as is. With the stale correction the tail would be
+            // scaled by the old 36/12 ratio to ~300 per row
+            const height = Number.parseInt(sizer.style.height, 10);
+            expect(height).toBeLessThanOrEqual(ITEMS.length * 100);
+            expect(height).toBeGreaterThan(ITEMS.length * ROW_HEIGHT);
+        });
+
         test('rows are positioned with absolute top, not transform', () => {
             renderVirtualized();
 

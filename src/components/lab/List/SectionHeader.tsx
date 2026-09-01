@@ -7,7 +7,7 @@ import type {ListSize} from './types';
 
 import './SectionHeader.scss';
 
-const b = block('list-v2-section-header');
+const b = block('lab-list-section-header');
 
 export interface ListSectionHeaderProps extends React.HTMLAttributes<HTMLDivElement>, QAProps {
     size?: ListSize;

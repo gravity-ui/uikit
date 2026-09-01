@@ -1078,7 +1078,7 @@ describe('lab List', () => {
             expect(view.get('recent')).toEqual({size: 'l'});
             expect(view.get('r1')).toEqual({size: 'l', active: false, disabled: false});
             const header = screen.getByText('Recent');
-            expect(header).toHaveClass('g-list-v2-section-header_size_l');
+            expect(header).toHaveClass('g-lab-list-section-header_size_l');
             expect(header).not.toHaveAttribute('active');
             expect(header).not.toHaveAttribute('disabled');
         });

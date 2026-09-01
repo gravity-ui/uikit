@@ -24,7 +24,7 @@ import {useList} from './useList';
 
 import './List.scss';
 
-const b = block('list-v2');
+const b = block('lab-list');
 
 // min-height of the default view per size
 const ESTIMATED_ITEM_SIZE: Record<ListSize, number> = {s: 24, m: 28, l: 32, xl: 36};

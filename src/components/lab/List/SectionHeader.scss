@@ -1,7 +1,7 @@
 @use '../../variables';
 @use '../../../../styles/mixins';
 
-$block: '.#{variables.$ns}list-v2-section-header';
+$block: '.#{variables.$ns}lab-list-section-header';
 
 #{$block} {
     display: flex;

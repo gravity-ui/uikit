@@ -140,6 +140,12 @@ describe('lab List: dnd layer', () => {
 
         test('an unstable adapter ref is reported once it changes for the second time', () => {
             const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+            // Only the tracker warning is asserted: on React 18 every forked
+            // ref also triggers the dev warning about a callback ref returning
+            // a cleanup function (mergeRefs supports React 19 cleanups)
+            const trackerWarning = expect.stringContaining(
+                'returns a new `ref` identity from `getItemDndProps`',
+            );
             try {
                 const stableRef = createStableRefs(() => {});
                 const stable = (draggingId: string | null): ListDndAdapter => ({
@@ -151,7 +157,7 @@ describe('lab List: dnd layer', () => {
                 );
                 rerenderStable(<List aria-label="Fruits" items={FRUITS} dnd={stable('Apple')} />);
                 rerenderStable(<List aria-label="Fruits" items={FRUITS} dnd={stable(null)} />);
-                expect(consoleErrorSpy).not.toHaveBeenCalled();
+                expect(consoleErrorSpy).not.toHaveBeenCalledWith(trackerWarning);
                 unmountStable();
 
                 const unstable = (draggingId: string | null): ListDndAdapter => ({
@@ -164,11 +170,9 @@ describe('lab List: dnd layer', () => {
                 rerenderUnstable(
                     <List aria-label="Fruits" items={FRUITS} dnd={unstable('Apple')} />,
                 );
-                expect(consoleErrorSpy).not.toHaveBeenCalled();
+                expect(consoleErrorSpy).not.toHaveBeenCalledWith(trackerWarning);
                 rerenderUnstable(<List aria-label="Fruits" items={FRUITS} dnd={unstable(null)} />);
-                expect(consoleErrorSpy).toHaveBeenCalledWith(
-                    expect.stringContaining('returns a new `ref` identity from `getItemDndProps`'),
-                );
+                expect(consoleErrorSpy).toHaveBeenCalledWith(trackerWarning);
             } finally {
                 consoleErrorSpy.mockRestore();
             }

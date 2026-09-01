@@ -133,6 +133,14 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
         };
 
         React.useEffect(() => {
+            if (!isClearControlVisible) {
+                if (hasVerticalScrollbar) {
+                    setHasVerticalScrollbar(false);
+                }
+
+                return;
+            }
+
             const control = innerControlRef.current;
 
             if (control) {
@@ -142,7 +150,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
                     setHasVerticalScrollbar(currHasVerticalScrollbar);
                 }
             }
-        }, [inputValue, hasVerticalScrollbar]);
+        }, [inputValue, isClearControlVisible, hasVerticalScrollbar]);
 
         return (
             <span
@@ -156,7 +164,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
                         state,
                         pin: view === 'clear' ? undefined : pin,
                         'has-clear': isClearControlVisible,
-                        'has-scrollbar': hasVerticalScrollbar,
+                        'has-scrollbar': isClearControlVisible && hasVerticalScrollbar,
                     },
                     className,
                 )}

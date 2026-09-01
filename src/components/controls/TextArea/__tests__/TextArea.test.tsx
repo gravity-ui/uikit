@@ -259,4 +259,140 @@ describe('TextArea', () => {
             expect(clearButton).toBeInTheDocument();
         });
     });
+
+    describe('auto resize', () => {
+        let originalResizeObserver: typeof ResizeObserver;
+        let getComputedStyleSpy: jest.SpyInstance;
+        let offsetHeightSpy: jest.SpyInstance;
+        let scrollHeightSpy: jest.SpyInstance;
+        let clientHeightSpy: jest.SpyInstance;
+        const observe = jest.fn();
+        const disconnect = jest.fn();
+
+        beforeEach(() => {
+            originalResizeObserver = global.ResizeObserver;
+            global.ResizeObserver = class implements ResizeObserver {
+                disconnect = disconnect;
+                observe = observe;
+                unobserve() {}
+            };
+            getComputedStyleSpy = jest.spyOn(window, 'getComputedStyle').mockReturnValue({
+                getPropertyValue(property: string) {
+                    return {
+                        'line-height': '20px',
+                        'padding-top': '2px',
+                        'padding-bottom': '2px',
+                    }[property];
+                },
+            } as CSSStyleDeclaration);
+            offsetHeightSpy = jest
+                .spyOn(HTMLElement.prototype, 'offsetHeight', 'get')
+                .mockReturnValue(24);
+            scrollHeightSpy = jest
+                .spyOn(HTMLTextAreaElement.prototype, 'scrollHeight', 'get')
+                .mockReturnValue(24);
+            clientHeightSpy = jest
+                .spyOn(HTMLTextAreaElement.prototype, 'clientHeight', 'get')
+                .mockReturnValue(20);
+        });
+
+        afterEach(() => {
+            global.ResizeObserver = originalResizeObserver;
+            getComputedStyleSpy.mockRestore();
+            offsetHeightSpy.mockRestore();
+            scrollHeightSpy.mockRestore();
+            clientHeightSpy.mockRestore();
+            observe.mockClear();
+            disconnect.mockClear();
+        });
+
+        test('skips measurement and resize observation for an empty value without clear control', () => {
+            const {container} = render(<TextArea minRows={3} value="" />);
+            // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+            const input = container.querySelector('textarea');
+
+            expect(input).toHaveAttribute('rows', '3');
+            expect(input?.style.height).toBe('auto');
+            expect(getComputedStyleSpy).not.toHaveBeenCalled();
+            expect(offsetHeightSpy).not.toHaveBeenCalled();
+            expect(scrollHeightSpy).not.toHaveBeenCalled();
+            expect(clientHeightSpy).not.toHaveBeenCalled();
+            expect(observe).not.toHaveBeenCalled();
+        });
+
+        test('keeps native minRows height for an uncontrolled empty value', () => {
+            const {container} = render(<TextArea minRows={3} />);
+            // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+            const input = container.querySelector('textarea');
+
+            expect(input).toHaveAttribute('rows', '3');
+            expect(input?.style.height).toBe('auto');
+            expect(getComputedStyleSpy).not.toHaveBeenCalled();
+            expect(offsetHeightSpy).not.toHaveBeenCalled();
+            expect(scrollHeightSpy).not.toHaveBeenCalled();
+            expect(clientHeightSpy).not.toHaveBeenCalled();
+            expect(observe).not.toHaveBeenCalled();
+        });
+
+        test('auto resizes a non-empty default value', () => {
+            render(<TextArea defaultValue="value" />);
+
+            expect(getComputedStyleSpy).toHaveBeenCalled();
+            expect(observe).toHaveBeenCalledWith(screen.getByRole('textbox'), {box: undefined});
+        });
+
+        test('keeps auto resize and scrollbar offset for a value with clear control', () => {
+            const {container} = render(<TextArea hasClear value="value" />);
+
+            expect(getComputedStyleSpy).toHaveBeenCalled();
+            expect(offsetHeightSpy).toHaveBeenCalled();
+            expect(scrollHeightSpy).toHaveBeenCalled();
+            expect(clientHeightSpy).toHaveBeenCalled();
+            expect(observe).toHaveBeenCalledWith(screen.getByRole('textbox'), {box: undefined});
+            // eslint-disable-next-line testing-library/no-node-access
+            expect(container.firstElementChild).toHaveClass('g-text-area_has-scrollbar');
+        });
+
+        test('clearing an auto-resized value restores native height without new measurements', () => {
+            const {container} = render(<TextArea hasClear minRows={3} defaultValue="value" />);
+            const input = screen.getByRole('textbox');
+            const clearButton = screen.getByRole('button', {name: 'Clear'});
+
+            expect(input.style.height).toBe('64px');
+            expect(getComputedStyleSpy).toHaveBeenCalled();
+            expect(observe).toHaveBeenCalledWith(input, {box: undefined});
+
+            getComputedStyleSpy.mockClear();
+            offsetHeightSpy.mockClear();
+            scrollHeightSpy.mockClear();
+            clientHeightSpy.mockClear();
+            observe.mockClear();
+            disconnect.mockClear();
+
+            fireEvent.click(clearButton);
+
+            expect(input).toHaveAttribute('rows', '3');
+            expect(input.style.height).toBe('auto');
+            // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+            expect(container.querySelector('.g-text-area__clear')).not.toBeInTheDocument();
+            expect(disconnect).toHaveBeenCalled();
+            expect(getComputedStyleSpy).not.toHaveBeenCalled();
+            expect(offsetHeightSpy).not.toHaveBeenCalled();
+            expect(scrollHeightSpy).not.toHaveBeenCalled();
+            expect(clientHeightSpy).not.toHaveBeenCalled();
+            expect(observe).not.toHaveBeenCalled();
+        });
+
+        test('does not auto resize fixed rows', () => {
+            const {container} = render(<TextArea rows={3} value="value" />);
+
+            // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+            expect(container.querySelector('textarea')).toHaveAttribute('rows', '3');
+            expect(getComputedStyleSpy).not.toHaveBeenCalled();
+            expect(offsetHeightSpy).not.toHaveBeenCalled();
+            expect(scrollHeightSpy).not.toHaveBeenCalled();
+            expect(clientHeightSpy).not.toHaveBeenCalled();
+            expect(observe).not.toHaveBeenCalled();
+        });
+    });
 });

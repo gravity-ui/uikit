@@ -56,13 +56,19 @@ export function TextAreaControl(props: Props) {
     const innerControlRef = React.useRef<HTMLTextAreaElement>(null);
     const handleRef = useForkRef(controlRef, innerControlRef);
     const textareaRows = Math.max(rows || minRows, 1);
-    const innerValue = value || innerControlRef?.current?.value;
+    const innerValue = value ?? innerControlRef.current?.value ?? defaultValue;
+    const shouldAutoResize = !rows && Boolean(innerValue);
 
     const resizeHeight = React.useCallback(() => {
         const control = innerControlRef?.current;
         const parent = control?.parentElement;
 
         if (control && parent && !rows) {
+            if (!innerValue) {
+                control.style.height = 'auto';
+                return;
+            }
+
             const controlStyles = getComputedStyle(control);
             const lineHeight = parseInt(controlStyles.getPropertyValue('line-height'), 10);
             const paddingTop = parseInt(controlStyles.getPropertyValue('padding-top'), 10);
@@ -99,7 +105,7 @@ export function TextAreaControl(props: Props) {
     }, [rows, maxRows, minRows, innerValue]);
 
     useResizeObserver({
-        ref: rows ? undefined : innerControlRef,
+        ref: shouldAutoResize ? innerControlRef : undefined,
         onResize: resizeHeight,
     });
 
@@ -113,7 +119,7 @@ export function TextAreaControl(props: Props) {
             ref={handleRef}
             style={{
                 ...controlProps.style,
-                height: rows ? 'auto' : undefined,
+                height: shouldAutoResize ? undefined : 'auto',
             }}
             className={b('control', controlProps.className)}
             name={name}

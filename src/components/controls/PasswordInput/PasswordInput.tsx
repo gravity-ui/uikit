@@ -9,6 +9,7 @@ import {ActionTooltip} from '../../ActionTooltip';
 import {Button} from '../../Button';
 import {ClipboardButton} from '../../ClipboardButton';
 import {Icon} from '../../Icon';
+import {useDefaultProps} from '../../theme/useDefaultProps';
 import {block} from '../../utils/cn';
 import {TextInput} from '../TextInput';
 import type {TextInputProps} from '../TextInput';
@@ -36,7 +37,9 @@ export type PasswordInputProps = Omit<TextInputProps, 'type'> & {
     onRevealValueUpdate?: (value: boolean) => void;
 };
 
-export const PasswordInput = (props: PasswordInputProps) => {
+export const PasswordInput = (rawProps: PasswordInputProps) => {
+    const passwordInputProps = useDefaultProps('PasswordInput', rawProps);
+    const props = useDefaultProps('TextInput', passwordInputProps);
     const {
         autoComplete,
         controlProps,
@@ -103,6 +106,7 @@ export const PasswordInput = (props: PasswordInputProps) => {
     return (
         <TextInput
             {...props}
+            size={size}
             type={revealValue ? 'text' : 'password'}
             endContent={additionalEndContent}
             autoComplete={autoComplete ? autoComplete : 'new-password'}

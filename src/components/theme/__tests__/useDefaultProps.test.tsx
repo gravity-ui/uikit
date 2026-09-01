@@ -1,14 +1,22 @@
 import * as React from 'react';
 
 import {render, renderHook, screen} from '../../../../test-utils/utils';
-import {PrivateDefaultPropsProvider} from '../PrivateDefaultPropsProvider';
+import {PasswordInput} from '../../controls/PasswordInput';
+import {PasswordInputQa} from '../../controls/PasswordInput/constants';
+import type {DefaultPropsProviderProps} from '../DefaultPropsProvider';
+import {DefaultPropsProvider} from '../DefaultPropsProvider';
 import {ThemeProvider} from '../ThemeProvider';
 import {useDefaultProps} from '../useDefaultProps';
 
-function makeWrapper(value: React.ComponentProps<typeof PrivateDefaultPropsProvider>['value']) {
+function makeWrapper(defaultProps: DefaultPropsProviderProps['defaultProps']) {
     return function Wrapper({children}: {children: React.ReactNode}) {
-        return <PrivateDefaultPropsProvider value={value}>{children}</PrivateDefaultPropsProvider>;
+        return <DefaultPropsProvider defaultProps={defaultProps}>{children}</DefaultPropsProvider>;
     };
+}
+
+function Consumer({name, props}: {name: Parameters<typeof useDefaultProps>[0]; props: object}) {
+    const merged = useDefaultProps(name, props);
+    return <output title={name}>{JSON.stringify(merged)}</output>;
 }
 
 describe('useDefaultProps', () => {
@@ -79,16 +87,93 @@ describe('useDefaultProps', () => {
     });
 });
 
-// ---------------------------------------------------------------------------
-// ThemeProvider integration
-// ---------------------------------------------------------------------------
+describe('DefaultPropsProvider', () => {
+    it('passes inherited defaults through when defaultProps is omitted', () => {
+        const wrapper = ({children}: {children: React.ReactNode}) => (
+            <DefaultPropsProvider defaultProps={{Button: {view: 'outlined'}}}>
+                <DefaultPropsProvider>{children}</DefaultPropsProvider>
+            </DefaultPropsProvider>
+        );
+        const {result} = renderHook(() => useDefaultProps('Button', {}), {wrapper});
+
+        expect(result.current).toEqual({view: 'outlined'});
+    });
+
+    it('merges nested providers by component and replaces defaults for the same component', () => {
+        const wrapper = ({children}: {children: React.ReactNode}) => (
+            <DefaultPropsProvider
+                defaultProps={{Button: {view: 'outlined', size: 'l'}, Checkbox: {size: 'l'}}}
+            >
+                <DefaultPropsProvider defaultProps={{Button: {view: 'action'}}}>
+                    {children}
+                </DefaultPropsProvider>
+            </DefaultPropsProvider>
+        );
+        const {result} = renderHook(
+            () => ({
+                button: useDefaultProps('Button', {}),
+                checkbox: useDefaultProps('Checkbox', {}),
+            }),
+            {wrapper},
+        );
+
+        expect(result.current.button).toEqual({view: 'action'});
+        expect(result.current.checkbox).toEqual({size: 'l'});
+    });
+
+    it('merges defaults when nested inside ThemeProvider', () => {
+        render(
+            <ThemeProvider
+                defaultProps={{Button: {view: 'outlined', size: 'l'}, Checkbox: {size: 'l'}}}
+            >
+                <DefaultPropsProvider defaultProps={{Button: {view: 'action'}}}>
+                    <Consumer name="Button" props={{}} />
+                    <Consumer name="Checkbox" props={{}} />
+                </DefaultPropsProvider>
+            </ThemeProvider>,
+        );
+
+        expect(JSON.parse(screen.getByTitle('Button').textContent ?? '{}')).toEqual({
+            view: 'action',
+        });
+        expect(JSON.parse(screen.getByTitle('Checkbox').textContent ?? '{}')).toEqual({
+            size: 'l',
+        });
+    });
+
+    it('merges defaults when wrapping ThemeProvider', () => {
+        render(
+            <DefaultPropsProvider
+                defaultProps={{Button: {view: 'outlined', size: 'l'}, Checkbox: {size: 'l'}}}
+            >
+                <ThemeProvider defaultProps={{Button: {view: 'action'}}}>
+                    <Consumer name="Button" props={{}} />
+                    <Consumer name="Checkbox" props={{}} />
+                </ThemeProvider>
+            </DefaultPropsProvider>,
+        );
+
+        expect(JSON.parse(screen.getByTitle('Button').textContent ?? '{}')).toEqual({
+            view: 'action',
+        });
+        expect(JSON.parse(screen.getByTitle('Checkbox').textContent ?? '{}')).toEqual({
+            size: 'l',
+        });
+    });
+
+    it('applies TextInput defaults consistently to PasswordInput and its action button', () => {
+        render(
+            <DefaultPropsProvider defaultProps={{TextInput: {size: 'l'}}}>
+                <PasswordInput qa="password-input" />
+            </DefaultPropsProvider>,
+        );
+
+        expect(screen.getByTestId('password-input')).toHaveClass('g-text-input_size_l');
+        expect(screen.getByTestId(PasswordInputQa.revealButton)).toHaveClass('g-button_size_m');
+    });
+});
 
 describe('ThemeProvider defaultProps', () => {
-    function Consumer({name, props}: {name: Parameters<typeof useDefaultProps>[0]; props: object}) {
-        const merged = useDefaultProps(name, props);
-        return <output title={name}>{JSON.stringify(merged)}</output>;
-    }
-
     it('passes defaultProps through to useDefaultProps', () => {
         render(
             <ThemeProvider defaultProps={{Button: {view: 'outlined', size: 'l'}}}>

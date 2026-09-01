@@ -57,6 +57,7 @@ import type {TocProps} from '../Toc';
 import type {TooltipProps} from '../Tooltip';
 import type {UserProps} from '../User';
 import type {UserLabelProps} from '../UserLabel';
+import type {PasswordInputProps} from '../controls/PasswordInput';
 import type {TextAreaProps} from '../controls/TextArea';
 import type {TextInputProps} from '../controls/TextInput';
 import type {TabListProps, TabPanelProps, TabProps, TabProviderProps} from '../tabs';
@@ -95,6 +96,7 @@ export interface ComponentDefaultPropsMap {
     Overlay?: Partial<OverlayProps>;
     Pagination?: Partial<PaginationProps>;
     Palette?: Partial<PaletteProps>;
+    PasswordInput?: Partial<PasswordInputProps>;
     PinInput?: Partial<PinInputProps>;
     PlaceholderContainer?: Partial<PlaceholderContainerProps>;
     Popover?: Partial<PopoverProps>;
@@ -125,20 +127,27 @@ export interface ComponentDefaultPropsMap {
     UserLabel?: Partial<UserLabelProps>;
 }
 
+export interface DefaultPropsProviderProps extends React.PropsWithChildren<{}> {
+    defaultProps?: ComponentDefaultPropsMap;
+}
+
 const EMPTY: ComponentDefaultPropsMap = {};
 
-export const PrivateDefaultPropsContext = React.createContext<ComponentDefaultPropsMap>(EMPTY);
+export const DefaultPropsContext = React.createContext<ComponentDefaultPropsMap>(EMPTY);
 
-export function PrivateDefaultPropsProvider({
-    value = EMPTY,
-    children,
-}: {
-    value?: ComponentDefaultPropsMap;
-    children: React.ReactNode;
-}) {
+export function DefaultPropsProvider({defaultProps, children}: DefaultPropsProviderProps) {
+    const parentDefaultProps = React.useContext(DefaultPropsContext);
+    const mergedDefaultProps = React.useMemo(() => {
+        if (!defaultProps) {
+            return parentDefaultProps;
+        }
+
+        return {...parentDefaultProps, ...defaultProps};
+    }, [parentDefaultProps, defaultProps]);
+
     return (
-        <PrivateDefaultPropsContext.Provider value={value}>
+        <DefaultPropsContext.Provider value={mergedDefaultProps}>
             {children}
-        </PrivateDefaultPropsContext.Provider>
+        </DefaultPropsContext.Provider>
     );
 }

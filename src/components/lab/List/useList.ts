@@ -509,6 +509,10 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 id: row.domId,
                 role: 'presentation',
                 'aria-hidden': true,
+                // The spacing above a header is driven by data rather than
+                // :first-child: under virtualization every header is the first
+                // child of its own wrapper
+                'data-first-row': row.index === 0 ? '' : undefined,
                 ref: registry.getItemRefCallback(id),
             };
             return composeItemProps(baseProps, overrides, {

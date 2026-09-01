@@ -13,6 +13,15 @@ mockTabbableDisplayCheck();
 
 describe('lab List', () => {
     describe('rendering and ARIA', () => {
+        test('only the section header that opens the list is marked with data-first-row', () => {
+            render(
+                <List aria-label="Groups" items={GROUPS} getItemContent={(item) => item.label} />,
+            );
+
+            expect(screen.getByText('Recent')).toHaveAttribute('data-first-row', '');
+            expect(screen.getByText('All')).not.toHaveAttribute('data-first-row');
+        });
+
         test('renders a listbox with options from an array of strings', () => {
             render(<List aria-label="Fruits" items={FRUITS} />);
 

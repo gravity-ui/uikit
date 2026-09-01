@@ -18,7 +18,11 @@ $block: '.#{variables.$ns}lab-list-section-header';
         @include mixins.text-caption-1;
     }
 
-    &:not(:first-child) {
-        margin-block-start: var(--g-spacing-1);
+    /* Spacing above a header that follows other rows. By data rather than
+       :first-child, and padding rather than margin: under virtualization every
+       header is the first child of its own wrapper, and a margin would not be
+       counted by the wrapper measurement */
+    &:not([data-first-row]) {
+        padding-block-start: var(--g-spacing-2);
     }
 }

@@ -997,6 +997,7 @@ attribute is present or absent rather than set to `"false"`.
 | `data-dragging`    | a row    | The row is being dragged (`dnd` is passed)                                 |
 | `data-drop-target` | a row    | The drop will land on this row; the value is the edge, `before` or `after` |
 | `data-drag-active` | the root | A drag is going on somewhere in the list                                   |
+| `data-first-row`   | a header | The section header is the first row of the list (no spacing above it)      |
 | `data-qa`          | the root | The value of the `qa` prop                                                 |
 
 ### ListVirtualizer

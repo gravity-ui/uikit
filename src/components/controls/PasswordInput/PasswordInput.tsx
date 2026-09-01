@@ -38,7 +38,8 @@ export type PasswordInputProps = Omit<TextInputProps, 'type'> & {
 };
 
 export const PasswordInput = (rawProps: PasswordInputProps) => {
-    const props = useDefaultProps('PasswordInput', rawProps);
+    const passwordInputProps = useDefaultProps('PasswordInput', rawProps);
+    const props = useDefaultProps('TextInput', passwordInputProps);
     const {
         autoComplete,
         controlProps,
@@ -105,6 +106,7 @@ export const PasswordInput = (rawProps: PasswordInputProps) => {
     return (
         <TextInput
             {...props}
+            size={size}
             type={revealValue ? 'text' : 'password'}
             endContent={additionalEndContent}
             autoComplete={autoComplete ? autoComplete : 'new-password'}

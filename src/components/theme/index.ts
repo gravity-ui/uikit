@@ -13,4 +13,4 @@ export * from './getThemeType';
 export {useLang} from './useLang';
 export type {Theme, RealTheme, ThemeType, Direction, ThemeContextProps} from './types';
 export {DefaultPropsProvider} from './DefaultPropsProvider';
-export type {ComponentDefaultPropsMap} from './DefaultPropsProvider';
+export type {ComponentDefaultPropsMap, DefaultPropsProviderProps} from './DefaultPropsProvider';

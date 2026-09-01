@@ -127,25 +127,23 @@ export interface ComponentDefaultPropsMap {
     UserLabel?: Partial<UserLabelProps>;
 }
 
+export interface DefaultPropsProviderProps extends React.PropsWithChildren<{}> {
+    defaultProps?: ComponentDefaultPropsMap;
+}
+
 const EMPTY: ComponentDefaultPropsMap = {};
 
 export const DefaultPropsContext = React.createContext<ComponentDefaultPropsMap>(EMPTY);
 
-export function DefaultPropsProvider({
-    value,
-    children,
-}: {
-    value?: ComponentDefaultPropsMap;
-    children: React.ReactNode;
-}) {
+export function DefaultPropsProvider({defaultProps, children}: DefaultPropsProviderProps) {
     const parentDefaultProps = React.useContext(DefaultPropsContext);
     const mergedDefaultProps = React.useMemo(() => {
-        if (!value) {
+        if (!defaultProps) {
             return parentDefaultProps;
         }
 
-        return {...parentDefaultProps, ...value};
-    }, [parentDefaultProps, value]);
+        return {...parentDefaultProps, ...defaultProps};
+    }, [parentDefaultProps, defaultProps]);
 
     return (
         <DefaultPropsContext.Provider value={mergedDefaultProps}>

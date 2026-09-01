@@ -55,6 +55,49 @@ The default is `"system"`, which follows the OS color-scheme preference and reso
 or `dark`. You can control what `system` resolves to with `systemLightTheme` / `systemDarkTheme`.
 Read or switch the theme at runtime with the `useTheme` / `useThemeValue` hooks.
 
+## Default component props
+
+Use `ThemeProvider.defaultProps` to set application-wide defaults for UIKit components:
+
+```tsx
+import type {ComponentDefaultPropsMap} from '@gravity-ui/uikit';
+import {Button, ThemeProvider} from '@gravity-ui/uikit';
+
+const defaultProps = {
+  Button: {size: 'l', view: 'outlined'},
+} satisfies ComponentDefaultPropsMap;
+
+<ThemeProvider defaultProps={defaultProps}>
+  <Button>Large outlined button</Button>
+</ThemeProvider>;
+```
+
+Use `DefaultPropsProvider` to override defaults for a subtree without creating another theme
+scope:
+
+```tsx
+import type {ComponentDefaultPropsMap} from '@gravity-ui/uikit';
+import {Button, DefaultPropsProvider} from '@gravity-ui/uikit';
+
+const actionButtonDefaults = {
+  Button: {view: 'action'},
+} satisfies ComponentDefaultPropsMap;
+
+<DefaultPropsProvider defaultProps={actionButtonDefaults}>
+  <Button>Action button</Button>
+</DefaultPropsProvider>;
+```
+
+Explicit component props have the highest priority. A prop set to `undefined` does not override a
+default. Nested providers inherit entries for other components, but replace the complete defaults
+object for the same component. For example, an inner `Button: {view: 'action'}` replaces both the
+`view` and `size` from an outer `Button: {view: 'outlined', size: 'l'}`. Resetting all inherited
+defaults for a subtree is not currently supported.
+
+Keep the `defaultProps` object referentially stable by defining it outside render or wrapping it in
+`React.useMemo`. Passing an inline object creates a new context value on every parent render and
+causes components that consume defaults to update.
+
 ## Color token layers
 
 Colors are organized in **two layers**. Components and app code should only ever reference the

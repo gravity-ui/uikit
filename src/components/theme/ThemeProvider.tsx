@@ -110,7 +110,7 @@ export function ThemeProvider({
             : langOptionsState;
     return (
         <PrivateLayoutProvider {...layout}>
-            <DefaultPropsProvider value={defaultProps}>
+            <DefaultPropsProvider defaultProps={defaultProps}>
                 <ThemeContext.Provider value={contextValue}>
                     <ThemeSettingsContext.Provider value={themeSettingsContext}>
                         <LangContext.Provider value={langOptionsFinal}>

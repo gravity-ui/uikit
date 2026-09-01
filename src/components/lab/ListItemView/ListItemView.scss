@@ -168,6 +168,9 @@ $block: '.#{variables.$ns}lab-list-item-view';
         }
     }
 
+    // padding-block must keep a single 18px line within min-height: the row
+    // heights ARE the size grid (24/28/32/36) — overflowing paddings would
+    // silently grow the rows past it
     &_size {
         &_s {
             --_--min-height: 24px;
@@ -197,7 +200,7 @@ $block: '.#{variables.$ns}lab-list-item-view';
             --_--min-height: 32px;
             --_--border-radius: var(--g-border-radius-l);
             --_--padding-inline: var(--g-spacing-2);
-            --_--padding-block: var(--g-spacing-2);
+            --_--padding-block: calc(var(--g-spacing-base) * 1.5);
             --_--controls-gap: var(--g-spacing-2);
             --_--controls-size: 24px;
             --_--controls-border-radius: var(--g-border-radius-m);
@@ -208,7 +211,7 @@ $block: '.#{variables.$ns}lab-list-item-view';
             --_--min-height: 36px;
             --_--border-radius: var(--g-border-radius-xl);
             --_--padding-inline: var(--g-spacing-2);
-            --_--padding-block: var(--g-spacing-3);
+            --_--padding-block: var(--g-spacing-2);
 
             --_--controls-gap: var(--g-spacing-2);
             --_--controls-size: 24px;

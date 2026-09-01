@@ -164,6 +164,9 @@ describe('Menu', () => {
 
         const items = screen.getAllByRole('menuitem');
 
+        await waitFor(() => {
+            expect(items[0]).toHaveFocus();
+        });
         expect(items[0]).toHaveClass(/active/);
         await user.keyboard('{ArrowDown}');
         expect(items[1]).toHaveClass(/active/);

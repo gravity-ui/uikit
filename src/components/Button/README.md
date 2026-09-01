@@ -170,7 +170,7 @@ SANDBOX-->
 
 ## Icons
 
-To add an icon to a `Button`, use the [`Icon`](../Icon) component, which is a special wrapper for SVGs.
+To add an icon to a `Button`, use the [`Icon`](../Icon) component, which is a special wrapper for SVGs. The icon size is selected automatically according to the `Button` size. Set the `Icon` `size`, `width`, or `height` explicitly to override it.
 
 <!--SANDBOX
 import {Gear} from '@gravity-ui/icons';
@@ -180,20 +180,20 @@ export default function () {
     return (
         <>
             <Button view="outlined" size="l">
-                <Icon data={Gear} size={18} />
+                <Icon data={Gear} />
                 Start
             </Button>
             <Button view="outlined" size="l">
                 End
-                <Icon data={Gear} size={18} />
+                <Icon data={Gear} />
             </Button>
             <Button view="outlined" size="l">
-                <Icon data={Gear} size={18} />
+                <Icon data={Gear} />
                 Both
-                <Icon data={Gear} size={18} />
+                <Icon data={Gear} />
             </Button>
             <Button view="outlined" size="l">
-                <Icon data={Gear} size={18} />
+                <Icon data={Gear} />
             </Button>
         </>
     );
@@ -204,21 +204,21 @@ SANDBOX-->
 
 ```tsx
 <Button view="outlined" size="l">
-    <Icon data={Gear} size={18} />
+    <Icon data={Gear} />
     Start
 </Button>
 <Button view="outlined" size="l">
     End
-    <Icon data={Gear} size={18} />
+    <Icon data={Gear} />
 </Button>
 <Button view="outlined" size="l">
-    <Icon data={Gear} size={18} />
+    <Icon data={Gear} />
     Both
-    <Icon data={Gear} size={18} />
+    <Icon data={Gear} />
 </Button>
 <Button view="outlined" size="l">
     No text:
-    <Icon data={Gear} size={18} />
+    <Icon data={Gear} />
 </Button>
 ```
 

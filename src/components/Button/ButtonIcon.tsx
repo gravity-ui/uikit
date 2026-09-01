@@ -1,12 +1,17 @@
+'use client';
+
 import * as React from 'react';
 
+import {Icon} from '../Icon';
 import {block} from '../utils/cn';
-import {isIcon} from '../utils/common';
+import {isSvg} from '../utils/common';
+import {isOfType} from '../utils/isOfType';
 import {warnOnce} from '../utils/warn';
 
 import {ButtonIconSizeContext} from './ButtonIconSizeContext';
 
 const b = block('button');
+const isIcon = isOfType(Icon, {matchDisplayName: false});
 
 type Props = React.PropsWithChildren<{
     className?: string;
@@ -22,16 +27,24 @@ function warnAboutPhysicalValues() {
 export const ButtonIcon = ({side, className, children}: Props) => {
     const buttonIconSize = React.useContext(ButtonIconSizeContext);
 
-    const content =
-        buttonIconSize && isIcon(children)
-            ? React.cloneElement(children, {
-                  size:
-                      children.props.size ??
-                      (children.props.width === undefined && children.props.height === undefined
-                          ? buttonIconSize
-                          : undefined),
-              })
-            : children;
+    let content = children;
+
+    if (buttonIconSize !== null) {
+        if (
+            isIcon(children) &&
+            children.props.size === undefined &&
+            (children.props.width === undefined || children.props.height === undefined)
+        ) {
+            content = React.cloneElement(children, {size: buttonIconSize});
+        } else if (isSvg(children)) {
+            const width = children.props.width ?? buttonIconSize;
+            const height = children.props.height ?? buttonIconSize;
+
+            if (width !== children.props.width || height !== children.props.height) {
+                content = React.cloneElement(children, {width, height});
+            }
+        }
+    }
 
     return (
         <span

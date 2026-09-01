@@ -96,6 +96,11 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
         // Always set a tabIndex so that Safari allows focusing native buttons
         tabIndex: rest.tabIndex ?? extraProps?.tabIndex ?? (disabled ? undefined : 0),
     };
+    const content = (
+        <ButtonIconSizeContext.Provider value={BUTTON_ICON_SIZE_MAP[size]}>
+            {prepareChildren(children)}
+        </ButtonIconSizeContext.Provider>
+    );
 
     if (isButtonComponentProps(props)) {
         return React.createElement(
@@ -108,9 +113,7 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
                 ref: ref,
                 'aria-disabled': disabled ?? undefined,
             },
-            <ButtonIconSizeContext.Provider value={BUTTON_ICON_SIZE_MAP[size]}>
-                {prepareChildren(children)}
-            </ButtonIconSizeContext.Provider>,
+            content,
         );
     }
 
@@ -124,9 +127,7 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
                 rel={getLinkRelWithFallback(props)}
                 aria-disabled={disabled ?? undefined}
             >
-                <ButtonIconSizeContext.Provider value={BUTTON_ICON_SIZE_MAP[size]}>
-                    {prepareChildren(children)}
-                </ButtonIconSizeContext.Provider>
+                {content}
             </a>
         );
     }
@@ -141,9 +142,7 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
             disabled={disabled || loading}
             aria-pressed={selected}
         >
-            <ButtonIconSizeContext.Provider value={BUTTON_ICON_SIZE_MAP[size]}>
-                {prepareChildren(children)}
-            </ButtonIconSizeContext.Provider>
+            {content}
         </button>
     );
 }) as <T extends ButtonCustomElementType, P extends ButtonProps<T>>(

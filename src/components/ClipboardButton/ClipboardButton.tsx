@@ -3,8 +3,8 @@
 import * as React from 'react';
 
 import {ActionTooltip} from '../ActionTooltip';
-import {Button} from '../Button';
-import type {ButtonButtonProps, ButtonSize} from '../Button';
+import {BUTTON_ICON_SIZE_MAP, Button} from '../Button';
+import type {ButtonButtonProps} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {CopyToClipboard} from '../CopyToClipboard';
 import type {
@@ -42,8 +42,6 @@ interface ClipboardButtonComponentProps extends Omit<ButtonButtonProps, 'onCopy'
 
 const DEFAULT_TIMEOUT = 1200;
 
-const ButtonSizeToIconSize: Record<ButtonSize, number> = {xs: 12, s: 16, m: 16, l: 16, xl: 20};
-
 const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
     const {t} = i18n.useTranslation();
     const {
@@ -62,7 +60,7 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
 
     const buttonIcon = (
         <Button.Icon className={b('icon')}>
-            {icon ?? <ClipboardIcon size={ButtonSizeToIconSize[size]} status={status} />}
+            {icon ?? <ClipboardIcon size={BUTTON_ICON_SIZE_MAP[size]} status={status} />}
         </Button.Icon>
     );
 

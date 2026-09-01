@@ -170,7 +170,7 @@ SANDBOX-->
 
 ## Иконки
 
-Чтобы добавить иконку в `Button`, используйте компонент [`Icon`](../Icon), который представляет собой обертку для SVG-файлов.
+Чтобы добавить иконку в `Button`, используйте компонент [`Icon`](../Icon), который представляет собой обертку для SVG-файлов. Размер иконки выбирается автоматически в соответствии с размером `Button`. Чтобы его переопределить, явно задайте `size`, `width` или `height` компонента `Icon`.
 
 <!--SANDBOX
 import {Gear} from '@gravity-ui/icons';
@@ -180,20 +180,20 @@ export default function () {
     return (
         <>
             <Button view="outlined" size="l">
-                <Icon data={Gear} size={18} />
+                <Icon data={Gear} />
                 Start
             </Button>
             <Button view="outlined" size="l">
                 End
-                <Icon data={Gear} size={18} />
+                <Icon data={Gear} />
             </Button>
             <Button view="outlined" size="l">
-                <Icon data={Gear} size={18} />
+                <Icon data={Gear} />
                 Both
-                <Icon data={Gear} size={18} />
+                <Icon data={Gear} />
             </Button>
             <Button view="outlined" size="l">
-                <Icon data={Gear} size={18} />
+                <Icon data={Gear} />
             </Button>
         </>
     );
@@ -204,21 +204,21 @@ SANDBOX-->
 
 ```tsx
 <Button view="outlined" size="l">
-    <Icon data={Gear} size={18} />
+    <Icon data={Gear} />
     Start
 </Button>
 <Button view="outlined" size="l">
     End
-    <Icon data={Gear} size={18} />
+    <Icon data={Gear} />
 </Button>
 <Button view="outlined" size="l">
-    <Icon data={Gear} size={18} />
+    <Icon data={Gear} />
     Both
-    <Icon data={Gear} size={18} />
+    <Icon data={Gear} />
 </Button>
 <Button view="outlined" size="l">
     No text:
-    <Icon data={Gear} size={18} />
+    <Icon data={Gear} />
 </Button>
 ```
 

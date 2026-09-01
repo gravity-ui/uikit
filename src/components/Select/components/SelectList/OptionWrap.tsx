@@ -35,7 +35,7 @@ export const OptionWrap = (props: OptionWrapProps) => {
 
     return (
         <div data-qa={option.qa} className={b('option', {disabled: option.disabled})}>
-            {multiple && (
+            {multiple && !renderOption && (
                 <Icon className={b('tick-icon', {shown: selected && multiple})} data={Check} />
             )}
             {optionContent}

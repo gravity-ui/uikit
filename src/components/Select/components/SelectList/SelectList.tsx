@@ -102,6 +102,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
                           return renderOptionGroup(optionLocal, {
                               isItemActive,
                               itemHeight: getItemHeight(optionLocal, itemIndex),
+                              selected: false,
                           });
                       }
                     : undefined;
@@ -121,6 +122,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
                       return renderOption(optionLocal, {
                           isItemActive,
                           itemHeight: getItemHeight(optionLocal, itemIndex),
+                          selected: value.includes(optionLocal.value),
                       });
                   }
                 : undefined;

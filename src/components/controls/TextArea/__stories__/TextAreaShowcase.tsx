@@ -94,6 +94,23 @@ export function TextAreaShowcase() {
                             'It happened a very very very very very very very very very very very very very very very very very very very very very long validation error'
                         }
                     />
+                    <TextArea
+                        {...textAreaProps}
+                        placeholder="inside error placement"
+                        rows={2}
+                        validationState="invalid"
+                        errorMessage="A validation error has occurred"
+                        errorPlacement="inside"
+                    />
+                    <TextArea
+                        {...textAreaProps}
+                        placeholder="inside error placement & clear"
+                        rows={2}
+                        hasClear
+                        validationState="invalid"
+                        errorMessage="A validation error has occurred"
+                        errorPlacement="inside"
+                    />
                 </div>
             </div>
         </div>

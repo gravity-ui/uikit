@@ -6,7 +6,6 @@ import {
     FloatingNode,
     FloatingOverlay,
     FloatingTree,
-    useDismiss,
     useFloating,
     useFloatingNodeId,
     useFloatingParentNodeId,
@@ -23,6 +22,7 @@ import {useLayer} from '../utils/layer-manager';
 
 import {SheetContentContainer} from './SheetContent';
 import {sheetBlock} from './constants';
+import {useSheetDismiss} from './hooks/useSheetDismiss';
 
 import './Sheet.scss';
 
@@ -75,33 +75,26 @@ function SheetComponent(rawProps: SheetProps) {
         disablePortal,
         qa,
     } = useDefaultProps('Sheet', rawProps);
-    const [open, setOpen] = React.useState(visible);
-    const [prevVisible, setPrevVisible] = React.useState(visible);
-    const [legacyDismissed, setLegacyDismissed] = React.useState(false);
+    const {requestedOpen, requestDismiss} = useSheetDismiss({visible, onOpenChange});
+    const [open, setOpen] = React.useState(requestedOpen);
     const veilRef = React.useRef<HTMLDivElement>(null);
     const isAnimatingRef = React.useRef(false);
-    const effectiveVisible = visible && !legacyDismissed;
 
-    const handleOpenChange = React.useCallback<NonNullable<SheetProps['onOpenChange']>>(
-        (isOpen, event, reason) => {
-            if (onOpenChange) {
-                onOpenChange(isOpen, event, reason);
-            } else if (!isOpen && reason === 'escape-key') {
-                setLegacyDismissed(true);
-            }
-        },
-        [onOpenChange],
-    );
+    React.useEffect(() => {
+        if (requestedOpen) {
+            setOpen(true);
+        }
+    }, [requestedOpen]);
 
     const handleEscapeKeyDown = React.useCallback(
         (event: KeyboardEvent) => {
-            handleOpenChange(false, event, 'escape-key');
+            requestDismiss({reason: 'escape-key', event});
         },
-        [handleOpenChange],
+        [requestDismiss],
     );
 
     useLayer({
-        open: effectiveVisible,
+        open: requestedOpen,
         type: 'sheet',
         disableOutsideClick: true,
         onEscapeKeyDown: handleEscapeKeyDown,
@@ -110,25 +103,10 @@ function SheetComponent(rawProps: SheetProps) {
     const floatingNodeId = useFloatingNodeId();
     const {refs, context} = useFloating({
         nodeId: floatingNodeId,
-        open: effectiveVisible,
-        onOpenChange: handleOpenChange,
-    });
-    const dismiss = useDismiss(context, {
-        escapeKey: false,
-        outsidePress: (event) => !isAnimatingRef.current && event.target === veilRef.current,
-        outsidePressEvent: 'click',
+        open: requestedOpen,
     });
     const role = useRole(context, {role: 'dialog'});
-    const {getFloatingProps} = useInteractions([dismiss, role]);
-
-    if (!prevVisible && visible) {
-        setOpen(true);
-        setLegacyDismissed(false);
-    }
-
-    if (visible !== prevVisible) {
-        setPrevVisible(visible);
-    }
+    const {getFloatingProps} = useInteractions([role]);
 
     const hideSheet = () => {
         if (onClose) {
@@ -156,11 +134,11 @@ function SheetComponent(rawProps: SheetProps) {
                         contentClassName={contentClassName}
                         swipeAreaClassName={swipeAreaClassName}
                         title={title}
-                        visible={effectiveVisible}
+                        visible={requestedOpen}
                         allowHideOnContentScroll={allowHideOnContentScroll}
                         hideTopBar={hideTopBar}
-                        hideSheet={hideSheet}
-                        onOpenChange={handleOpenChange}
+                        onExitComplete={hideSheet}
+                        requestDismiss={requestDismiss}
                         veilRef={veilRef}
                         isAnimatingRef={isAnimatingRef}
                         floatingRef={refs.setFloating}

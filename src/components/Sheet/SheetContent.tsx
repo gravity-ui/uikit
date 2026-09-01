@@ -8,10 +8,10 @@ import {useForkRef} from '../../hooks';
 import {MobileContext} from '../mobile';
 import {warnOnce} from '../utils/warn';
 
-import type {SheetProps} from './Sheet';
 import {SheetContentArea, SheetSwipeArea, SheetVeil} from './components';
 import {SheetQa, sheetBlock} from './constants';
 import {useContentScroll} from './hooks/useContentScroll';
+import type {UseSheetDismissResult} from './hooks/useSheetDismiss';
 import {useSheetHash} from './hooks/useSheetHash';
 import {useSwipe} from './hooks/useSwipe';
 import {useVeil} from './hooks/useVeil';
@@ -30,8 +30,8 @@ function warnAboutOutOfRange() {
 }
 
 interface SheetContentBaseProps {
-    hideSheet: () => void;
-    onOpenChange: NonNullable<SheetProps['onOpenChange']>;
+    onExitComplete: () => void;
+    requestDismiss: UseSheetDismissResult['requestDismiss'];
     veilRef: React.RefObject<HTMLDivElement>;
     isAnimatingRef: React.MutableRefObject<boolean>;
     floatingRef: React.Ref<HTMLDivElement>;
@@ -55,7 +55,8 @@ interface SheetContentDefaultProps {
 type SheetContentProps = SheetContentBaseProps & Partial<SheetContentDefaultProps>;
 
 interface SheetContentLatest {
-    hideSheet: () => void;
+    onExitComplete: () => void;
+    visible: boolean;
     allowHideOnContentScroll: boolean;
     maxContentHeightCoefficient?: number;
     alwaysFullHeight?: boolean;
@@ -69,8 +70,8 @@ export function SheetContent(props: SheetContentProps) {
         hideTopBar,
         title,
         visible,
-        hideSheet,
-        onOpenChange,
+        onExitComplete,
+        requestDismiss,
         veilRef,
         isAnimatingRef,
         floatingRef,
@@ -105,7 +106,8 @@ export function SheetContent(props: SheetContentProps) {
     const prevLocationRef = React.useRef(location);
 
     const latest: SheetContentLatest = {
-        hideSheet,
+        onExitComplete,
+        visible,
         allowHideOnContentScroll,
         maxContentHeightCoefficient,
         alwaysFullHeight,
@@ -209,7 +211,7 @@ export function SheetContent(props: SheetContentProps) {
         [getSheetTopHeight],
     );
 
-    const hideSheetStable = React.useCallback(() => latestRef.current.hideSheet(), []);
+    const onExitCompleteStable = React.useCallback(() => latestRef.current.onExitComplete(), []);
 
     const show = React.useCallback(() => {
         isAnimatingRef.current = true;
@@ -231,6 +233,11 @@ export function SheetContent(props: SheetContentProps) {
         }
     }, [isAnimatingRef, setStyles, removeHash]);
 
+    const getIsExitAnimating = React.useCallback(
+        () => isAnimatingRef.current && !latestRef.current.visible,
+        [isAnimatingRef],
+    );
+
     const {
         deltaY,
         swipeAreaTouched,
@@ -245,9 +252,8 @@ export function SheetContent(props: SheetContentProps) {
         setStyles,
         getSheetHeight,
         show,
-        hide,
-        hideSheet: hideSheetStable,
-        onOpenChange,
+        getIsExitAnimating,
+        requestDismiss,
     });
 
     const resetScrollTransition = React.useCallback(() => {
@@ -269,6 +275,7 @@ export function SheetContent(props: SheetContentProps) {
         ),
         getSheetScrollTop,
         setStyles,
+        getIsExitAnimating,
         resetScrollTransition,
     });
 
@@ -319,8 +326,8 @@ export function SheetContent(props: SheetContentProps) {
         isAnimatingRef,
         delayedResizeRef,
         setVeilTouched,
-        hide,
-        hideSheet: hideSheetStable,
+        requestDismiss,
+        onExitComplete: onExitCompleteStable,
         onResizeWindow,
     });
 
@@ -367,10 +374,10 @@ export function SheetContent(props: SheetContentProps) {
         const shouldCloseOnNavigation = hashSetRef.current && shouldClose(prevLocation);
 
         if (shouldCloseOnNavigation) {
-            onOpenChange(false, undefined, 'navigation');
+            requestDismiss({reason: 'navigation'});
         }
 
-        if ((prevVisible && !visible) || shouldCloseOnNavigation) {
+        if (prevVisible && !visible) {
             hide();
         }
 

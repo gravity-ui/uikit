@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import {fireEvent, render, screen} from '../../../../test-utils/utils';
 import {Sheet} from '../Sheet';
 import {SheetQa} from '../constants';
@@ -26,11 +28,25 @@ describe('Sheet swipe area', () => {
     test('closes the sheet only when the swipe-area movement exceeds the threshold', () => {
         const onClose = jest.fn();
         const onOpenChange = jest.fn();
-        render(
-            <Sheet visible onClose={onClose} onOpenChange={onOpenChange}>
-                Content
-            </Sheet>,
-        );
+
+        function AcceptingSheet() {
+            const [visible, setVisible] = React.useState(true);
+
+            return (
+                <Sheet
+                    visible={visible}
+                    onClose={onClose}
+                    onOpenChange={(open, event, reason) => {
+                        onOpenChange(open, event, reason);
+                        setVisible(open);
+                    }}
+                >
+                    Content
+                </Sheet>
+            );
+        }
+
+        render(<AcceptingSheet />);
 
         const swipeArea = screen.getByTestId(SheetQa.SWIPE_AREA);
         const sheet = screen.getByRole('dialog');
@@ -65,5 +81,30 @@ describe('Sheet swipe area', () => {
 
         fireEvent.transitionEnd(veil);
         expect(onClose).toHaveBeenCalledTimes(1);
+    });
+
+    test('keeps the sheet open after a full-height swipe when controlled dismissal is not accepted', () => {
+        const onOpenChange = jest.fn();
+        render(
+            <Sheet visible onOpenChange={onOpenChange}>
+                Content
+            </Sheet>,
+        );
+
+        const swipeArea = screen.getByTestId(SheetQa.SWIPE_AREA);
+        const sheet = screen.getByRole('dialog');
+        const veil = screen.getByTestId(SheetQa.VEIL);
+
+        fireEvent.transitionEnd(veil);
+        swipeOnArea(swipeArea, {
+            from: TOUCH_START_POINT,
+            to: TOUCH_START_POINT + SHEET_HEIGHT,
+        });
+
+        expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'swipe');
+        expect(onOpenChange).toHaveBeenCalledTimes(1);
+        expect(veil).toHaveStyle({opacity: '1'});
+        expect(sheet.style.transform).toBe(`translate3d(0, -${SHEET_HEIGHT}px, 0)`);
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
     });
 });

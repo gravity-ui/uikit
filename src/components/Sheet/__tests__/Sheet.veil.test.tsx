@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import {fireEvent, render, screen} from '../../../../test-utils/utils';
 import {Sheet} from '../Sheet';
 import {SheetQa} from '../constants';
@@ -6,11 +8,25 @@ describe('Sheet veil', () => {
     test('calls onClose after the veil click and the hiding transition end', () => {
         const onClose = jest.fn();
         const onOpenChange = jest.fn();
-        render(
-            <Sheet visible onClose={onClose} onOpenChange={onOpenChange}>
-                Content
-            </Sheet>,
-        );
+
+        function AcceptingSheet() {
+            const [visible, setVisible] = React.useState(true);
+
+            return (
+                <Sheet
+                    visible={visible}
+                    onClose={onClose}
+                    onOpenChange={(open, event, reason) => {
+                        onOpenChange(open, event, reason);
+                        setVisible(open);
+                    }}
+                >
+                    Content
+                </Sheet>
+            );
+        }
+
+        render(<AcceptingSheet />);
 
         const veil = screen.getByTestId(SheetQa.VEIL);
 

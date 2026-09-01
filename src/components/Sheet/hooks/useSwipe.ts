@@ -2,9 +2,10 @@
 
 import * as React from 'react';
 
-import type {SheetProps} from '../Sheet';
 import type {Status} from '../types';
 import {VelocityTracker} from '../utils';
+
+import type {UseSheetDismissResult} from './useSheetDismiss';
 
 const HIDE_THRESHOLD = 50;
 const ACCELERATION_Y_MAX = 0.08;
@@ -17,12 +18,10 @@ export interface UseSwipeProps {
     getSheetHeight: () => number;
     /** Animates the sheet to the shown state. */
     show: () => void;
-    /** Animates the sheet to the hidden state. */
-    hide: () => void;
-    /** Immediately unmounts the sheet. */
-    hideSheet: () => void;
-    /** Requests a change of the controlled open state. */
-    onOpenChange: NonNullable<SheetProps['onOpenChange']>;
+    /** Returns whether an accepted exit animation is running. */
+    getIsExitAnimating: () => boolean;
+    /** Sends a request to dismiss the sheet. */
+    requestDismiss: UseSheetDismissResult['requestDismiss'];
 }
 
 export interface SwipeAreaHandlers {
@@ -49,9 +48,8 @@ export function useSwipe({
     setStyles,
     getSheetHeight,
     show,
-    hide,
-    hideSheet,
-    onOpenChange,
+    getIsExitAnimating,
+    requestDismiss,
 }: UseSwipeProps): UseSwipeResult {
     const velocityTrackerRef = React.useRef<VelocityTracker>(null as unknown as VelocityTracker);
     if (!velocityTrackerRef.current) {
@@ -69,11 +67,10 @@ export function useSwipe({
         setStyles,
         getSheetHeight,
         show,
-        hide,
-        hideSheet,
-        onOpenChange,
+        getIsExitAnimating,
+        requestDismiss,
     });
-    latestRef.current = {setStyles, getSheetHeight, show, hide, hideSheet, onOpenChange};
+    latestRef.current = {setStyles, getSheetHeight, show, getIsExitAnimating, requestDismiss};
 
     const setDeltaY = React.useCallback((value: number) => {
         deltaYRef.current = value;
@@ -89,24 +86,29 @@ export function useSwipe({
         (currentDeltaY: number, event: React.TouchEvent<HTMLDivElement>) => {
             const {
                 getSheetHeight: getHeight,
-                hide: hideFn,
                 show: showFn,
-                hideSheet: hideSheetFn,
-                onOpenChange: requestOpenChange,
+                getIsExitAnimating: getIsExiting,
+                requestDismiss: requestDismissFn,
             } = latestRef.current;
+            if (getIsExiting()) {
+                return;
+            }
+
             const accelerationY = velocityTrackerRef.current.getYAcceleration();
 
-            if (getHeight() <= currentDeltaY) {
-                requestOpenChange(false, event.nativeEvent, 'swipe');
-                hideSheetFn();
-            } else if (
+            const immediate = getHeight() <= currentDeltaY;
+            const shouldDismiss =
+                immediate ||
                 (currentDeltaY > HIDE_THRESHOLD &&
                     accelerationY <= ACCELERATION_Y_MAX &&
                     accelerationY >= ACCELERATION_Y_MIN) ||
-                accelerationY > ACCELERATION_Y_MAX
-            ) {
-                requestOpenChange(false, event.nativeEvent, 'swipe');
-                hideFn();
+                accelerationY > ACCELERATION_Y_MAX;
+
+            if (shouldDismiss) {
+                requestDismissFn({reason: 'swipe', event: event.nativeEvent, immediate});
+                if (!getIsExiting()) {
+                    showFn();
+                }
             } else if (currentDeltaY !== 0) {
                 showFn();
             }
@@ -116,6 +118,10 @@ export function useSwipe({
 
     const onTouchStart = React.useCallback(
         (event: React.TouchEvent<HTMLDivElement>) => {
+            if (latestRef.current.getIsExitAnimating()) {
+                return;
+            }
+
             velocityTrackerRef.current.clear();
 
             startYRef.current = event.nativeEvent.touches[0].clientY;
@@ -126,6 +132,10 @@ export function useSwipe({
 
     const onTouchMove = React.useCallback(
         (event: React.TouchEvent<HTMLDivElement>) => {
+            if (latestRef.current.getIsExitAnimating()) {
+                return;
+            }
+
             const delta = event.nativeEvent.touches[0].clientY - startYRef.current;
 
             velocityTrackerRef.current.addMovement({

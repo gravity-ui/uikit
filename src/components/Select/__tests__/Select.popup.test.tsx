@@ -2,9 +2,10 @@ import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {render} from '../../../../test-utils/utils';
+import {fireEvent, render, screen} from '../../../../test-utils/utils';
 import {Dialog} from '../../Dialog';
 import {TRANSITION_DURATION} from '../../Popup/constants';
+import {SheetQa} from '../../Sheet/constants';
 import {Select} from '../Select';
 import {GROUP_ITEM_MARGIN_TOP, SelectQa} from '../constants';
 import type {SelectSize} from '../types';
@@ -219,6 +220,19 @@ describe('Select popup', () => {
         await timeout(TRANSITION_DURATION);
 
         expect(queryByTestId(SelectQa.POPUP)).toBeNull();
+    });
+
+    test('should close the mobile sheet on Escape key press', async () => {
+        const {getByTestId, queryByTestId} = setup({options: DEFAULT_OPTIONS}, true);
+        const user = userEvent.setup();
+
+        await user.click(getByTestId(TEST_QA));
+        fireEvent.transitionEnd(screen.getByTestId(SheetQa.VEIL));
+
+        await user.keyboard('{Escape}');
+        fireEvent.transitionEnd(screen.getByTestId(SheetQa.VEIL));
+
+        expect(queryByTestId(SelectQa.SHEET)).toBeNull();
     });
 
     test('should close select popup on Escape key press inside Dialog', async () => {

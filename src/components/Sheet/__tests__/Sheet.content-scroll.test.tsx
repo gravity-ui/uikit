@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import {fireEvent, render, screen} from '../../../../test-utils/utils';
 import {Sheet} from '../Sheet';
 import {SheetQa} from '../constants';
@@ -26,18 +28,35 @@ describe('Sheet content scroll', () => {
     test('closes the sheet on a swipe down when the content is scrolled to the top', () => {
         const onClose = jest.fn();
         const onOpenChange = jest.fn();
-        render(
-            <Sheet visible onClose={onClose} onOpenChange={onOpenChange}>
-                Content
-            </Sheet>,
-        );
+
+        function AcceptingSheet() {
+            const [visible, setVisible] = React.useState(true);
+
+            return (
+                <Sheet
+                    visible={visible}
+                    onClose={onClose}
+                    onOpenChange={(open, event, reason) => {
+                        onOpenChange(open, event, reason);
+                        setVisible(open);
+                    }}
+                >
+                    Content
+                </Sheet>
+            );
+        }
+
+        render(<AcceptingSheet />);
 
         const scrollContainer = screen.getByTestId(SheetQa.CONTENT_AREA);
 
         swipeDownOnContent(scrollContainer, {from: TOUCH_START_POINT, to: TOUCH_END_POINT});
-        expect(onClose).toHaveBeenCalledTimes(1);
         expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'swipe');
         expect(onOpenChange).toHaveBeenCalledTimes(1);
+        expect(onClose).not.toHaveBeenCalled();
+
+        fireEvent.transitionEnd(screen.getByTestId(SheetQa.VEIL));
+        expect(onClose).toHaveBeenCalledTimes(1);
     });
 
     test('does not close the sheet on a swipe down when allowHideOnContentScroll set to false', () => {

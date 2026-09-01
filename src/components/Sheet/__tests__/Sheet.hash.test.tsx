@@ -22,10 +22,18 @@ function normalizeHash(hash: string) {
 interface HashedSheetsProps {
     onHashChange: (hash: string) => void;
     onOpenChange?: SheetProps['onOpenChange'];
+    onSheetBClose?: () => void;
+    acceptDismissal?: boolean;
     platform?: Platform;
 }
 
-function HashedSheets({onHashChange, onOpenChange, platform = Platform.IOS}: HashedSheetsProps) {
+function HashedSheets({
+    onHashChange,
+    onOpenChange,
+    onSheetBClose,
+    acceptDismissal = true,
+    platform = Platform.IOS,
+}: HashedSheetsProps) {
     const [location, setLocation] = React.useState<Location>({
         pathname: '/',
         search: '',
@@ -91,13 +99,22 @@ function HashedSheets({onHashChange, onOpenChange, platform = Platform.IOS}: Has
                 visible={sheetAVisible}
                 onClose={() => setSheetAVisible(false)}
                 onOpenChange={(open, event, reason) => {
-                    setSheetAVisible(open);
                     onOpenChange?.(open, event, reason);
+                    if (acceptDismissal) {
+                        setSheetAVisible(open);
+                    }
                 }}
             >
                 Content A
             </Sheet>
-            <Sheet id="sheetB" visible={sheetBVisible} onClose={() => setSheetBVisible(false)}>
+            <Sheet
+                id="sheetB"
+                visible={sheetBVisible}
+                onClose={() => {
+                    onSheetBClose?.();
+                    setSheetBVisible(false);
+                }}
+            >
                 Content B
             </Sheet>
         </MobileProvider>
@@ -167,6 +184,58 @@ describe('Sheet hash', () => {
 
         expect(onOpenChange).toHaveBeenCalledWith(false, undefined, 'navigation');
         expect(onOpenChange).toHaveBeenCalledTimes(1);
+    });
+
+    test('keeps a controlled sheet open when navigation dismissal is not accepted', () => {
+        let currentHash = '';
+        const onOpenChange = jest.fn();
+
+        render(
+            <HashedSheets
+                acceptDismissal={false}
+                onHashChange={(hash) => {
+                    currentHash = hash;
+                }}
+                onOpenChange={onOpenChange}
+            />,
+        );
+
+        fireEvent.click(screen.getByText('Open A'));
+        const veil = screen.getByTestId(SheetQa.VEIL);
+        fireEvent.transitionEnd(veil);
+
+        fireEvent.click(screen.getByText('Navigate back'));
+
+        expect(onOpenChange).toHaveBeenCalledWith(false, undefined, 'navigation');
+        expect(onOpenChange).toHaveBeenCalledTimes(1);
+        expect(currentHash).toBe('');
+        expect(veil).toHaveStyle({opacity: '1'});
+        expect(screen.getByText('Content A')).toBeInTheDocument();
+
+        fireEvent.transitionEnd(veil);
+
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+    });
+
+    test('closes a legacy sheet when navigation moves away from its hash', () => {
+        const onSheetBClose = jest.fn();
+
+        render(<HashedSheets onHashChange={() => {}} onSheetBClose={onSheetBClose} />);
+
+        fireEvent.click(screen.getByText('Open B'));
+        const veil = screen.getByTestId(SheetQa.VEIL);
+        fireEvent.transitionEnd(veil);
+
+        fireEvent.click(screen.getByText('Navigate back'));
+
+        expect(veil).toHaveStyle({opacity: '0'});
+        expect(screen.getByText('Content B')).toBeInTheDocument();
+        expect(onSheetBClose).not.toHaveBeenCalled();
+
+        fireEvent.transitionEnd(veil);
+
+        expect(onSheetBClose).toHaveBeenCalledTimes(1);
+        expect(screen.queryByText('Content B')).not.toBeInTheDocument();
     });
 
     test('does not report Android hash cleanup as a second navigation close', () => {

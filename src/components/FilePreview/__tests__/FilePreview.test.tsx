@@ -3,7 +3,9 @@ import * as React from 'react';
 import {CircleExclamation} from '@gravity-ui/icons';
 import userEvent from '@testing-library/user-event';
 
-import {render, screen} from '../../../../test-utils/utils';
+import {fireEvent, render, screen} from '../../../../test-utils/utils';
+import {SheetQa} from '../../Sheet/constants';
+import {MobileProvider} from '../../mobile';
 import {FilePreview} from '../FilePreview';
 
 describe('FilePreview', () => {
@@ -167,5 +169,29 @@ describe('FilePreview', () => {
         }
 
         expect(mockFn).toBeCalledTimes(5);
+    });
+
+    test('closes the mobile actions menu on Escape key press', async () => {
+        const fileName = 'Some file name';
+
+        render(
+            <MobileProvider mobile>
+                <FilePreview
+                    file={{name: fileName, type: 'image/png'} as File}
+                    actions={[
+                        {icon: <CircleExclamation width={14} height={14} />, title: 'some hint'},
+                    ]}
+                />
+            </MobileProvider>,
+        );
+
+        const user = userEvent.setup();
+        await user.click(screen.getByRole('button'));
+        fireEvent.transitionEnd(screen.getByTestId(SheetQa.VEIL));
+
+        await user.keyboard('{Escape}');
+        fireEvent.transitionEnd(screen.getByTestId(SheetQa.VEIL));
+
+        expect(screen.queryByRole('dialog', {name: fileName})).not.toBeInTheDocument();
     });
 });

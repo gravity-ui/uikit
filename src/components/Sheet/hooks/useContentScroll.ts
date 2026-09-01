@@ -21,6 +21,8 @@ export interface UseContentScrollProps extends UseContentScrollSwipeState {
     getSheetScrollTop: () => number;
     /** Applies transform/opacity styles to the sheet and veil during the gesture. */
     setStyles: (args: {status: Status; deltaHeight?: number}) => void;
+    /** Returns whether an accepted exit animation is running. */
+    getIsExitAnimating: () => boolean;
     /** Resets the height transition of the content area after it finished. */
     resetScrollTransition: () => void;
 }
@@ -49,6 +51,7 @@ export function useContentScroll({
     getAllowHideOnContentScroll,
     getSheetScrollTop,
     setStyles,
+    getIsExitAnimating,
     resetScrollTransition,
 }: UseContentScrollProps): UseContentScrollResult {
     const [contentTouched, setContentTouched] = React.useState(false);
@@ -59,12 +62,14 @@ export function useContentScroll({
         getAllowHideOnContentScroll,
         getSheetScrollTop,
         setStyles,
+        getIsExitAnimating,
         resetScrollTransition,
     });
     latestRef.current = {
         getAllowHideOnContentScroll,
         getSheetScrollTop,
         setStyles,
+        getIsExitAnimating,
         resetScrollTransition,
     };
 
@@ -73,7 +78,11 @@ export function useContentScroll({
             const {getAllowHideOnContentScroll: getAllow, getSheetScrollTop: getScrollTop} =
                 latestRef.current;
 
-            if (!getAllow() || swipeAreaTouchedRef.current) {
+            if (
+                latestRef.current.getIsExitAnimating() ||
+                !getAllow() ||
+                swipeAreaTouchedRef.current
+            ) {
                 return;
             }
 
@@ -94,7 +103,7 @@ export function useContentScroll({
                 setStyles: applyStyles,
             } = latestRef.current;
 
-            if (!getAllow()) {
+            if (latestRef.current.getIsExitAnimating() || !getAllow()) {
                 return;
             }
 

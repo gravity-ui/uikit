@@ -1,26 +1,12 @@
-@use './themes';
+@use './themes/common' as common;
+@use './themes/default.generated.css';
+@use './themes/hc.generated.css';
 
 .g-root {
     background: var(--g-color-base-background);
     color: var(--g-color-text-primary);
 
-    @include themes.g-theme-common;
-
-    &_theme_light {
-        @include themes.g-theme-light;
-    }
-
-    &_theme_dark {
-        @include themes.g-theme-dark;
-    }
-
-    &_theme_light-hc {
-        @include themes.g-theme-light-hc;
-    }
-
-    &_theme_dark-hc {
-        @include themes.g-theme-dark-hc;
-    }
+    @include common.g-theme-common;
 }
 
 @keyframes g-loading-animation {

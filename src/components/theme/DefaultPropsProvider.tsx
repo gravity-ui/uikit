@@ -152,4 +152,4 @@ export function DefaultPropsProvider({defaultProps, children}: DefaultPropsProvi
     );
 }
 
- DefaultPropsProvider.displayName = 'DefaultPropsProvider';
+DefaultPropsProvider.displayName = 'DefaultPropsProvider';

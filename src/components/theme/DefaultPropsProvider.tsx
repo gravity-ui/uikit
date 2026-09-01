@@ -151,3 +151,5 @@ export function DefaultPropsProvider({defaultProps, children}: DefaultPropsProvi
         </DefaultPropsContext.Provider>
     );
 }
+
+ DefaultPropsProvider.displayName = 'DefaultPropsProvider';

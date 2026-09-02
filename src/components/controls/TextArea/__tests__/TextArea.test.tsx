@@ -266,8 +266,11 @@ describe('TextArea', () => {
         let offsetHeightSpy: jest.SpyInstance;
         let scrollHeightSpy: jest.SpyInstance;
         let clientHeightSpy: jest.SpyInstance;
+        let originalGetComputedStyle: typeof window.getComputedStyle;
         const observe = jest.fn();
         const disconnect = jest.fn();
+        const isCalledFor = (spy: jest.SpyInstance, element: Element | null) =>
+            spy.mock.calls.some(([calledElement]) => calledElement === element);
 
         beforeEach(() => {
             originalResizeObserver = global.ResizeObserver;
@@ -276,15 +279,24 @@ describe('TextArea', () => {
                 observe = observe;
                 unobserve() {}
             };
-            getComputedStyleSpy = jest.spyOn(window, 'getComputedStyle').mockReturnValue({
-                getPropertyValue(property: string) {
+            originalGetComputedStyle = window.getComputedStyle;
+            getComputedStyleSpy = jest
+                .spyOn(window, 'getComputedStyle')
+                .mockImplementation((element) => {
+                    if (!(element instanceof HTMLTextAreaElement)) {
+                        return originalGetComputedStyle(element);
+                    }
+
                     return {
-                        'line-height': '20px',
-                        'padding-top': '2px',
-                        'padding-bottom': '2px',
-                    }[property];
-                },
-            } as CSSStyleDeclaration);
+                        getPropertyValue(property: string) {
+                            return {
+                                'line-height': '20px',
+                                'padding-top': '2px',
+                                'padding-bottom': '2px',
+                            }[property];
+                        },
+                    } as CSSStyleDeclaration;
+                });
             offsetHeightSpy = jest
                 .spyOn(HTMLElement.prototype, 'offsetHeight', 'get')
                 .mockReturnValue(24);
@@ -312,12 +324,12 @@ describe('TextArea', () => {
             const input = container.querySelector('textarea');
 
             expect(input).toHaveAttribute('rows', '3');
-            expect(input?.style.height).toBe('auto');
-            expect(getComputedStyleSpy).not.toHaveBeenCalled();
+            expect(input?.style.height).toBe('');
+            expect(isCalledFor(getComputedStyleSpy, input)).toBe(false);
             expect(offsetHeightSpy).not.toHaveBeenCalled();
             expect(scrollHeightSpy).not.toHaveBeenCalled();
             expect(clientHeightSpy).not.toHaveBeenCalled();
-            expect(observe).not.toHaveBeenCalled();
+            expect(observe.mock.calls.map(([element]) => element)).not.toContain(input);
         });
 
         test('keeps native minRows height for an uncontrolled empty value', () => {
@@ -326,29 +338,31 @@ describe('TextArea', () => {
             const input = container.querySelector('textarea');
 
             expect(input).toHaveAttribute('rows', '3');
-            expect(input?.style.height).toBe('auto');
-            expect(getComputedStyleSpy).not.toHaveBeenCalled();
+            expect(input?.style.height).toBe('');
+            expect(isCalledFor(getComputedStyleSpy, input)).toBe(false);
             expect(offsetHeightSpy).not.toHaveBeenCalled();
             expect(scrollHeightSpy).not.toHaveBeenCalled();
             expect(clientHeightSpy).not.toHaveBeenCalled();
-            expect(observe).not.toHaveBeenCalled();
+            expect(observe.mock.calls.map(([element]) => element)).not.toContain(input);
         });
 
         test('auto resizes a non-empty default value', () => {
             render(<TextArea defaultValue="value" />);
+            const input = screen.getByRole('textbox');
 
-            expect(getComputedStyleSpy).toHaveBeenCalled();
-            expect(observe).toHaveBeenCalledWith(screen.getByRole('textbox'), {box: undefined});
+            expect(isCalledFor(getComputedStyleSpy, input)).toBe(true);
+            expect(observe.mock.calls.map(([element]) => element)).toContain(input);
         });
 
         test('keeps auto resize and scrollbar offset for a value with clear control', () => {
             const {container} = render(<TextArea hasClear value="value" />);
+            const input = screen.getByRole('textbox');
 
-            expect(getComputedStyleSpy).toHaveBeenCalled();
+            expect(isCalledFor(getComputedStyleSpy, input)).toBe(true);
             expect(offsetHeightSpy).toHaveBeenCalled();
             expect(scrollHeightSpy).toHaveBeenCalled();
             expect(clientHeightSpy).toHaveBeenCalled();
-            expect(observe).toHaveBeenCalledWith(screen.getByRole('textbox'), {box: undefined});
+            expect(observe.mock.calls.map(([element]) => element)).toContain(input);
             // eslint-disable-next-line testing-library/no-node-access
             expect(container.firstElementChild).toHaveClass('g-text-area_has-scrollbar');
         });
@@ -359,8 +373,8 @@ describe('TextArea', () => {
             const clearButton = screen.getByRole('button', {name: 'Clear'});
 
             expect(input.style.height).toBe('64px');
-            expect(getComputedStyleSpy).toHaveBeenCalled();
-            expect(observe).toHaveBeenCalledWith(input, {box: undefined});
+            expect(isCalledFor(getComputedStyleSpy, input)).toBe(true);
+            expect(observe.mock.calls.map(([element]) => element)).toContain(input);
 
             getComputedStyleSpy.mockClear();
             offsetHeightSpy.mockClear();
@@ -372,23 +386,65 @@ describe('TextArea', () => {
             fireEvent.click(clearButton);
 
             expect(input).toHaveAttribute('rows', '3');
-            expect(input.style.height).toBe('auto');
+            expect(input.style.height).toBe('');
             // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
             expect(container.querySelector('.g-text-area__clear')).not.toBeInTheDocument();
+            // eslint-disable-next-line testing-library/no-node-access
+            expect(container.firstElementChild).not.toHaveClass('g-text-area_has-scrollbar');
             expect(disconnect).toHaveBeenCalled();
-            expect(getComputedStyleSpy).not.toHaveBeenCalled();
+            expect(isCalledFor(getComputedStyleSpy, input)).toBe(false);
             expect(offsetHeightSpy).not.toHaveBeenCalled();
             expect(scrollHeightSpy).not.toHaveBeenCalled();
             expect(clientHeightSpy).not.toHaveBeenCalled();
-            expect(observe).not.toHaveBeenCalled();
+            expect(observe.mock.calls.map(([element]) => element)).not.toContain(input);
+        });
+
+        test('measures and observes an empty textarea with a wrapping placeholder', () => {
+            render(<TextArea placeholder="Long placeholder that wraps across multiple lines" />);
+            const input = screen.getByRole('textbox');
+
+            expect(isCalledFor(getComputedStyleSpy, input)).toBe(true);
+            expect(observe.mock.calls.map(([element]) => element)).toContain(input);
+        });
+
+        test('clamps initial rows to maxRows before first input', async () => {
+            render(<TextArea minRows={5} maxRows={3} />);
+            const input = screen.getByRole('textbox');
+
+            expect(input).toHaveAttribute('rows', '3');
+            expect(input.style.height).toBe('');
+
+            await userEvent.type(input, 'v');
+
+            expect(input.style.height).toBe('64px');
+        });
+
+        test('starts measurement and observation after first uncontrolled character', async () => {
+            const {container} = render(<TextArea />);
+            // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+            const input = container.querySelector('textarea');
+
+            if (!input) {
+                throw new Error('Textarea not found');
+            }
+
+            expect(isCalledFor(getComputedStyleSpy, input)).toBe(false);
+            expect(observe.mock.calls.map(([element]) => element)).not.toContain(input);
+
+            await userEvent.type(input, 'v');
+
+            expect(isCalledFor(getComputedStyleSpy, input)).toBe(true);
+            expect(observe.mock.calls.map(([element]) => element)).toContain(input);
         });
 
         test('does not auto resize fixed rows', () => {
             const {container} = render(<TextArea rows={3} value="value" />);
 
             // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-            expect(container.querySelector('textarea')).toHaveAttribute('rows', '3');
-            expect(getComputedStyleSpy).not.toHaveBeenCalled();
+            const input = container.querySelector('textarea');
+
+            expect(input).toHaveAttribute('rows', '3');
+            expect(isCalledFor(getComputedStyleSpy, input)).toBe(false);
             expect(offsetHeightSpy).not.toHaveBeenCalled();
             expect(scrollHeightSpy).not.toHaveBeenCalled();
             expect(clientHeightSpy).not.toHaveBeenCalled();

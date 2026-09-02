@@ -171,7 +171,12 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
                 data-qa={qa}
             >
                 <span className={b('content')}>
-                    <TextAreaControl {...props} {...commonProps} controlRef={handleRef} />
+                    <TextAreaControl
+                        {...props}
+                        {...commonProps}
+                        controlRef={handleRef}
+                        inputValue={inputValue}
+                    />
                     {isClearControlVisible && (
                         <ClearButton
                             className={b('clear', {size})}

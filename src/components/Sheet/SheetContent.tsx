@@ -55,13 +55,6 @@ interface SheetContentDefaultProps {
 
 type SheetContentProps = SheetContentBaseProps & Partial<SheetContentDefaultProps>;
 
-interface SheetContentLatest {
-    status: SheetPresenceStatus;
-    allowHideOnContentScroll: boolean;
-    maxContentHeightCoefficient?: number;
-    alwaysFullHeight?: boolean;
-}
-
 export function SheetContent(props: SheetContentProps) {
     const {
         content,
@@ -102,15 +95,6 @@ export function SheetContent(props: SheetContentProps) {
     const hashSetRef = React.useRef(false);
 
     const prevLocationRef = React.useRef(location);
-
-    const latest: SheetContentLatest = {
-        status,
-        allowHideOnContentScroll,
-        maxContentHeightCoefficient,
-        alwaysFullHeight,
-    };
-    const latestRef = React.useRef<SheetContentLatest>(latest);
-    latestRef.current = latest;
 
     const {setHash, removeHash, shouldClose, resetHashHistory} = useSheetHash({
         id,
@@ -183,20 +167,22 @@ export function SheetContent(props: SheetContentProps) {
 
     const getAvailableContentHeight = React.useCallback(
         (sheetHeight: number) => {
-            const {maxContentHeightCoefficient: coefficient, alwaysFullHeight: fullHeight} =
-                latestRef.current;
             let heightCoefficient = DEFAULT_MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT;
 
-            if (typeof coefficient === 'number' && coefficient >= 0 && coefficient <= 1) {
-                heightCoefficient = coefficient;
-            } else if (typeof coefficient === 'number') {
+            if (
+                typeof maxContentHeightCoefficient === 'number' &&
+                maxContentHeightCoefficient >= 0 &&
+                maxContentHeightCoefficient <= 1
+            ) {
+                heightCoefficient = maxContentHeightCoefficient;
+            } else if (typeof maxContentHeightCoefficient === 'number') {
                 warnAboutOutOfRange();
             }
 
             const availableViewportHeight =
                 window.innerHeight * heightCoefficient - getSheetTopHeight();
 
-            if (fullHeight) {
+            if (alwaysFullHeight) {
                 return availableViewportHeight;
             }
 
@@ -205,7 +191,7 @@ export function SheetContent(props: SheetContentProps) {
 
             return availableContentHeight;
         },
-        [getSheetTopHeight],
+        [alwaysFullHeight, getSheetTopHeight, maxContentHeightCoefficient],
     );
 
     const show = React.useCallback(() => {
@@ -229,8 +215,8 @@ export function SheetContent(props: SheetContentProps) {
     }, [isAnimatingRef, setStyles, removeHash]);
 
     const getIsExitAnimating = React.useCallback(
-        () => isAnimatingRef.current && latestRef.current.status === 'close',
-        [isAnimatingRef],
+        () => isAnimatingRef.current && status === 'close',
+        [isAnimatingRef, status],
     );
 
     const {
@@ -264,10 +250,7 @@ export function SheetContent(props: SheetContentProps) {
         swipeAreaTouchedRef,
         setDeltaY,
         onTouchEndAction,
-        getAllowHideOnContentScroll: React.useCallback(
-            () => latestRef.current.allowHideOnContentScroll,
-            [],
-        ),
+        allowHideOnContentScroll,
         getSheetScrollTop,
         setStyles,
         getIsExitAnimating,
@@ -350,9 +333,13 @@ export function SheetContent(props: SheetContentProps) {
                 observerRef.current.disconnect();
             }
         };
-        // Mount/unmount only: callbacks are stable and read fresh data via refs.
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [
+        getAvailableContentHeight,
+        getSheetContentHeight,
+        onResize,
+        onResizeWindow,
+        setInitialStyles,
+    ]);
 
     React.useEffect(() => {
         if (status === 'initial') {

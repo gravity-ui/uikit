@@ -15,8 +15,8 @@ export interface UseContentScrollSwipeState {
 }
 
 export interface UseContentScrollProps extends UseContentScrollSwipeState {
-    /** Returns whether hiding the sheet on a content swipe is allowed. */
-    getAllowHideOnContentScroll: () => boolean;
+    /** Whether hiding the sheet on a content swipe is allowed. */
+    allowHideOnContentScroll: boolean;
     /** Returns the current scroll position of the content area. */
     getSheetScrollTop: () => number;
     /** Applies transform/opacity styles to the sheet and veil during the gesture. */
@@ -48,7 +48,7 @@ export function useContentScroll({
     swipeAreaTouchedRef,
     setDeltaY,
     onTouchEndAction,
-    getAllowHideOnContentScroll,
+    allowHideOnContentScroll,
     getSheetScrollTop,
     setStyles,
     getIsExitAnimating,
@@ -58,52 +58,31 @@ export function useContentScroll({
 
     const startScrollTopRef = React.useRef(0);
 
-    const latestRef = React.useRef({
-        getAllowHideOnContentScroll,
-        getSheetScrollTop,
-        setStyles,
-        getIsExitAnimating,
-        resetScrollTransition,
-    });
-    latestRef.current = {
-        getAllowHideOnContentScroll,
-        getSheetScrollTop,
-        setStyles,
-        getIsExitAnimating,
-        resetScrollTransition,
-    };
-
     const onTouchStart = React.useCallback(
         (event: React.TouchEvent<HTMLDivElement>) => {
-            const {getAllowHideOnContentScroll: getAllow, getSheetScrollTop: getScrollTop} =
-                latestRef.current;
-
-            if (
-                latestRef.current.getIsExitAnimating() ||
-                !getAllow() ||
-                swipeAreaTouchedRef.current
-            ) {
+            if (getIsExitAnimating() || !allowHideOnContentScroll || swipeAreaTouchedRef.current) {
                 return;
             }
 
             velocityTrackerRef.current.clear();
 
             startYRef.current = event.nativeEvent.touches[0].clientY;
-            startScrollTopRef.current = getScrollTop();
+            startScrollTopRef.current = getSheetScrollTop();
             setContentTouched(true);
         },
-        [startYRef, swipeAreaTouchedRef, startScrollTopRef, velocityTrackerRef],
+        [
+            allowHideOnContentScroll,
+            getIsExitAnimating,
+            getSheetScrollTop,
+            startYRef,
+            swipeAreaTouchedRef,
+            velocityTrackerRef,
+        ],
     );
 
     const onTouchMove = React.useCallback(
         (event: React.TouchEvent<HTMLDivElement>) => {
-            const {
-                getAllowHideOnContentScroll: getAllow,
-                getSheetScrollTop: getScrollTop,
-                setStyles: applyStyles,
-            } = latestRef.current;
-
-            if (latestRef.current.getIsExitAnimating() || !getAllow()) {
+            if (getIsExitAnimating() || !allowHideOnContentScroll) {
                 return;
             }
 
@@ -114,8 +93,8 @@ export function useContentScroll({
 
             if (
                 swipeAreaTouchedRef.current ||
-                getScrollTop() > 0 ||
-                (startScrollTopRef.current > 0 && startScrollTopRef.current !== getScrollTop())
+                getSheetScrollTop() > 0 ||
+                (startScrollTopRef.current > 0 && startScrollTopRef.current !== getSheetScrollTop())
             ) {
                 return;
             }
@@ -133,21 +112,24 @@ export function useContentScroll({
             }
 
             setDeltaY(delta);
-            applyStyles({status: 'showing', deltaHeight: delta});
+            setStyles({status: 'showing', deltaHeight: delta});
         },
         [
+            allowHideOnContentScroll,
+            getIsExitAnimating,
+            getSheetScrollTop,
             onTouchStart,
             setDeltaY,
+            setStyles,
             startYRef,
             swipeAreaTouchedRef,
-            startScrollTopRef,
             velocityTrackerRef,
         ],
     );
 
     const onTouchEnd = React.useCallback(
         (event: React.TouchEvent<HTMLDivElement>) => {
-            if (!latestRef.current.getAllowHideOnContentScroll() || swipeAreaTouchedRef.current) {
+            if (!allowHideOnContentScroll || swipeAreaTouchedRef.current) {
                 return;
             }
 
@@ -157,14 +139,24 @@ export function useContentScroll({
             setDeltaY(0);
             setContentTouched(false);
         },
-        [onTouchEndAction, setDeltaY, startYRef, swipeAreaTouchedRef, deltaYRef],
+        [
+            allowHideOnContentScroll,
+            deltaYRef,
+            onTouchEndAction,
+            setDeltaY,
+            startYRef,
+            swipeAreaTouchedRef,
+        ],
     );
 
-    const onTransitionEnd = React.useCallback((event: React.TransitionEvent<HTMLDivElement>) => {
-        if (event.propertyName === 'height') {
-            latestRef.current.resetScrollTransition();
-        }
-    }, []);
+    const onTransitionEnd = React.useCallback(
+        (event: React.TransitionEvent<HTMLDivElement>) => {
+            if (event.propertyName === 'height') {
+                resetScrollTransition();
+            }
+        },
+        [resetScrollTransition],
+    );
 
     return {
         contentTouched,

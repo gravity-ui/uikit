@@ -29,83 +29,65 @@ export interface UseSheetHashResult {
     resetHashHistory: () => void;
 }
 
+function resetHashHistory() {
+    hashHistory = [];
+}
+
+const browserHashHandlers: UseSheetHashResult = {
+    setHash: () => {},
+    removeHash: () => {},
+    shouldClose: () => false,
+    resetHashHistory,
+};
+
 export function useSheetHash({
     id,
     platform,
     history,
     location,
 }: UseSheetHashProps): UseSheetHashResult {
-    const latestRef = React.useRef({id, platform, history, location});
-    latestRef.current = {id, platform, history, location};
+    const {action, replace, push, goBack} = history;
 
     const setHash = React.useCallback(() => {
-        const {
-            id: currentId,
-            platform: currentPlatform,
-            history: currentHistory,
-            location: currentLocation,
-        } = latestRef.current;
+        const newLocation = {...location, hash: id};
 
-        if (currentPlatform === Platform.BROWSER) {
-            return;
-        }
-
-        const newLocation = {...currentLocation, hash: currentId};
-
-        switch (currentPlatform) {
+        switch (platform) {
             case Platform.IOS:
-                if (currentLocation.hash) {
-                    hashHistory.push(currentLocation.hash);
+                if (location.hash) {
+                    hashHistory.push(location.hash);
                 }
-                currentHistory.replace(newLocation);
+                replace(newLocation);
                 break;
             case Platform.ANDROID:
-                currentHistory.push(newLocation);
+                push(newLocation);
                 break;
         }
-    }, []);
+    }, [id, location, platform, push, replace]);
 
     const removeHash = React.useCallback(() => {
-        const {
-            id: currentId,
-            platform: currentPlatform,
-            history: currentHistory,
-            location: currentLocation,
-        } = latestRef.current;
-
-        if (currentPlatform === Platform.BROWSER || currentLocation.hash !== `#${currentId}`) {
+        if (location.hash !== `#${id}`) {
             return;
         }
 
-        switch (currentPlatform) {
+        switch (platform) {
             case Platform.IOS:
-                currentHistory.replace({...currentLocation, hash: hashHistory.pop() ?? ''});
+                replace({...location, hash: hashHistory.pop() ?? ''});
                 break;
             case Platform.ANDROID:
-                currentHistory.goBack();
+                goBack();
                 break;
         }
-    }, []);
+    }, [goBack, id, location, platform, replace]);
 
-    const shouldClose = React.useCallback((prevLocation: Location) => {
-        const {
-            id: currentId,
-            platform: currentPlatform,
-            history: currentHistory,
-            location: currentLocation,
-        } = latestRef.current;
+    const shouldClose = React.useCallback(
+        (prevLocation: Location) =>
+            action === 'POP' && prevLocation.hash !== location.hash && location.hash !== `#${id}`,
+        [action, id, location.hash],
+    );
 
-        return (
-            currentPlatform !== Platform.BROWSER &&
-            currentHistory.action === 'POP' &&
-            prevLocation.hash !== currentLocation.hash &&
-            currentLocation.hash !== `#${currentId}`
-        );
-    }, []);
-
-    const resetHashHistory = React.useCallback(() => {
-        hashHistory = [];
-    }, []);
+    if (platform === Platform.BROWSER) {
+        return browserHashHandlers;
+    }
 
     return {setHash, removeHash, shouldClose, resetHashHistory};
 }

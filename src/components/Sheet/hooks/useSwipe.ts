@@ -63,15 +63,6 @@ export function useSwipe({
     const deltaYRef = React.useRef(0);
     const swipeAreaTouchedRef = React.useRef(false);
 
-    const latestRef = React.useRef({
-        setStyles,
-        getSheetHeight,
-        show,
-        getIsExitAnimating,
-        requestDismiss,
-    });
-    latestRef.current = {setStyles, getSheetHeight, show, getIsExitAnimating, requestDismiss};
-
     const setDeltaY = React.useCallback((value: number) => {
         deltaYRef.current = value;
         setDeltaYState(value);
@@ -84,19 +75,13 @@ export function useSwipe({
 
     const onTouchEndAction = React.useCallback(
         (currentDeltaY: number, event: React.TouchEvent<HTMLDivElement>) => {
-            const {
-                getSheetHeight: getHeight,
-                show: showFn,
-                getIsExitAnimating: getIsExiting,
-                requestDismiss: requestDismissFn,
-            } = latestRef.current;
-            if (getIsExiting()) {
+            if (getIsExitAnimating()) {
                 return;
             }
 
             const accelerationY = velocityTrackerRef.current.getYAcceleration();
 
-            const immediate = getHeight() <= currentDeltaY;
+            const immediate = getSheetHeight() <= currentDeltaY;
             const shouldDismiss =
                 immediate ||
                 (currentDeltaY > HIDE_THRESHOLD &&
@@ -105,20 +90,20 @@ export function useSwipe({
                 accelerationY > ACCELERATION_Y_MAX;
 
             if (shouldDismiss) {
-                requestDismissFn({reason: 'swipe', event: event.nativeEvent, immediate});
-                if (!getIsExiting()) {
-                    showFn();
+                requestDismiss({reason: 'swipe', event: event.nativeEvent, immediate});
+                if (!getIsExitAnimating()) {
+                    show();
                 }
             } else if (currentDeltaY !== 0) {
-                showFn();
+                show();
             }
         },
-        [],
+        [getIsExitAnimating, getSheetHeight, requestDismiss, show],
     );
 
     const onTouchStart = React.useCallback(
         (event: React.TouchEvent<HTMLDivElement>) => {
-            if (latestRef.current.getIsExitAnimating()) {
+            if (getIsExitAnimating()) {
                 return;
             }
 
@@ -127,12 +112,12 @@ export function useSwipe({
             startYRef.current = event.nativeEvent.touches[0].clientY;
             setSwipeAreaTouched(true);
         },
-        [setSwipeAreaTouched],
+        [getIsExitAnimating, setSwipeAreaTouched],
     );
 
     const onTouchMove = React.useCallback(
         (event: React.TouchEvent<HTMLDivElement>) => {
-            if (latestRef.current.getIsExitAnimating()) {
+            if (getIsExitAnimating()) {
                 return;
             }
 
@@ -149,9 +134,9 @@ export function useSwipe({
                 return;
             }
 
-            latestRef.current.setStyles({status: 'showing', deltaHeight: delta});
+            setStyles({status: 'showing', deltaHeight: delta});
         },
-        [setDeltaY],
+        [getIsExitAnimating, setDeltaY, setStyles],
     );
 
     const onTouchEnd = React.useCallback(

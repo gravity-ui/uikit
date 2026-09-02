@@ -1,5 +1,22 @@
 # Changelog
 
+## [7.49.0](https://github.com/gravity-ui/uikit/compare/v7.48.3...v7.49.0) (2026-09-02)
+
+
+### Features
+
+* **Button:** add icon size context ([#2802](https://github.com/gravity-ui/uikit/issues/2802)) ([cf62374](https://github.com/gravity-ui/uikit/commit/cf6237474611ca199f490d66471684fe8ab86cc0))
+* expose default props provider ([#2799](https://github.com/gravity-ui/uikit/issues/2799)) ([53ce6be](https://github.com/gravity-ui/uikit/commit/53ce6be20241bf556b5adfebd1dee5b4fdf5f25c))
+* **HelpMark:** add CSS API for size ([#2803](https://github.com/gravity-ui/uikit/issues/2803)) ([3b85e05](https://github.com/gravity-ui/uikit/commit/3b85e05fdab8aeb451787aca25094324feaadaad))
+* **useForkRef:** support React 19 cleanup function in ref callback ([#2804](https://github.com/gravity-ui/uikit/issues/2804)) ([4c35599](https://github.com/gravity-ui/uikit/commit/4c35599ab2ab8a2520955cde0081a9c2e3b06732))
+
+
+### Bug Fixes
+
+* **Drawer:** capture pointer while resizing ([#2793](https://github.com/gravity-ui/uikit/issues/2793)) ([a2ab4ad](https://github.com/gravity-ui/uikit/commit/a2ab4ad0c996bed0786d3b068c78fa990df5db43))
+* **Modal:** fix mobile styles ([#2800](https://github.com/gravity-ui/uikit/issues/2800)) ([2966952](https://github.com/gravity-ui/uikit/commit/2966952328836672ab5131d480908de80d232919))
+* **Modal:** use responsive viewport units ([#2798](https://github.com/gravity-ui/uikit/issues/2798)) ([7a67551](https://github.com/gravity-ui/uikit/commit/7a675516b1a72d11f625b6027b8296368754d7c6))
+
 ## [7.48.3](https://github.com/gravity-ui/uikit/compare/v7.48.2...v7.48.3) (2026-08-26)
 
 

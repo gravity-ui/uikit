@@ -60,14 +60,14 @@ export function TextAreaControl(props: Props) {
     const textareaRows = rows
         ? Math.max(rows, 1)
         : Math.max(Math.min(minRows, maxRows || Infinity), 1);
-    const shouldAutoResize = !rows && Boolean(inputValue || placeholder);
+    const shouldAutoResize = !rows && Boolean(inputValue || placeholder || textareaRows > 1);
 
     const resizeHeight = React.useCallback(() => {
         const control = innerControlRef?.current;
         const parent = control?.parentElement;
 
         if (control && parent && !rows) {
-            if (!inputValue && !placeholder) {
+            if (!inputValue && !placeholder && textareaRows === 1) {
                 control.style.height = '';
                 return;
             }
@@ -105,7 +105,7 @@ export function TextAreaControl(props: Props) {
             control.style.overflow = overflow;
             parent.style.height = parentHeight;
         }
-    }, [rows, maxRows, minRows, inputValue, placeholder]);
+    }, [rows, maxRows, minRows, inputValue, placeholder, textareaRows]);
 
     useResizeObserver({
         ref: shouldAutoResize ? innerControlRef : undefined,

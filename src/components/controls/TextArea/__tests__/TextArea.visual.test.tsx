@@ -132,6 +132,29 @@ test.describe('TextArea', {tag: '@TextArea'}, () => {
             .toBe(true);
     });
 
+    test('keeps empty minRows height without a placeholder', async ({mount, page}) => {
+        await mount(
+            <div>
+                <TextArea />
+                <TextArea minRows={3} />
+                <TextArea minRows={3} placeholder="Placeholder" />
+            </div>,
+        );
+
+        const oneRow = page.getByRole('textbox').nth(0);
+        const emptyMinRows = page.getByRole('textbox').nth(1);
+        const placeholderMinRows = page.getByRole('textbox').nth(2);
+
+        const [oneRowHeight, emptyMinRowsHeight, placeholderMinRowsHeight] = await Promise.all([
+            oneRow.evaluate((element) => element.clientHeight),
+            emptyMinRows.evaluate((element) => element.clientHeight),
+            placeholderMinRows.evaluate((element) => element.clientHeight),
+        ]);
+
+        test.expect(emptyMinRowsHeight).toBeGreaterThan(oneRowHeight);
+        test.expect(emptyMinRowsHeight).toBe(placeholderMinRowsHeight);
+    });
+
     test('clamps minRows to maxRows before first input', async ({mount, page}) => {
         await mount(<TextArea minRows={5} maxRows={3} />);
 

@@ -16,7 +16,7 @@ import type {TextInputProps} from '../TextInput';
 
 import {PasswordInputQa} from './constants';
 import {i18n} from './i18n';
-import {getActionButtonSizeAndIconSize} from './utils';
+import {getActionButtonSize} from './utils';
 
 import './PasswordInput.scss';
 
@@ -63,7 +63,7 @@ export const PasswordInput = (rawProps: PasswordInputProps) => {
         props.onRevealValueUpdate,
     );
 
-    const {actionButtonSize, iconSize} = getActionButtonSizeAndIconSize(size);
+    const actionButtonSize = getActionButtonSize(size);
 
     const {t} = i18n.useTranslation();
 
@@ -96,7 +96,7 @@ export const PasswordInput = (rawProps: PasswordInputProps) => {
                             revealValue ? t('label_hide-password') : t('label_show-password')
                         }
                     >
-                        <Icon data={revealValue ? EyeSlash : Eye} size={iconSize} />
+                        <Icon data={revealValue ? EyeSlash : Eye} />
                     </Button>
                 </ActionTooltip>
             )}

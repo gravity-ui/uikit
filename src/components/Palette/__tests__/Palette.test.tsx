@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event';
 
 import {render, screen, within} from '../../../../test-utils/utils';
-import type {ButtonSize} from '../../Button/Button';
+import type {ButtonSize} from '../../Button';
 import type {PaletteOption} from '../Palette';
 import {Palette} from '../Palette';
 

@@ -13,10 +13,15 @@ import {ButtonIconSizeContext} from './ButtonIconSizeContext';
 const b = block('button');
 const isIcon = isOfType(Icon, {matchDisplayName: false});
 
-type Props = React.PropsWithChildren<{
+export interface ButtonIconRenderProps {
+    size?: number;
+}
+
+export interface ButtonIconProps {
     className?: string;
     side?: 'left' | 'right' | 'start' | 'end';
-}>;
+    children?: React.ReactNode | ((props: ButtonIconRenderProps) => React.ReactNode);
+}
 
 function warnAboutPhysicalValues() {
     warnOnce(
@@ -24,12 +29,13 @@ function warnAboutPhysicalValues() {
     );
 }
 
-export const ButtonIcon = ({side, className, children}: Props) => {
+export const ButtonIcon = ({side, className, children}: ButtonIconProps) => {
     const buttonIconSize = React.useContext(ButtonIconSizeContext);
 
-    let content = children;
+    let content =
+        typeof children === 'function' ? children({size: buttonIconSize ?? undefined}) : children;
 
-    if (buttonIconSize !== null) {
+    if (buttonIconSize !== null && typeof children !== 'function') {
         if (
             isIcon(children) &&
             children.props.size === undefined &&

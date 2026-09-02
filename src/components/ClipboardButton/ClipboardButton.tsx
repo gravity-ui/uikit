@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import {ActionTooltip} from '../ActionTooltip';
-import {BUTTON_ICON_SIZE_MAP, Button} from '../Button';
+import {Button} from '../Button';
 import type {ButtonButtonProps} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {CopyToClipboard} from '../CopyToClipboard';
@@ -60,7 +60,7 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
 
     const buttonIcon = (
         <Button.Icon className={b('icon')}>
-            {icon ?? <ClipboardIcon size={BUTTON_ICON_SIZE_MAP[size]} status={status} />}
+            {icon ?? (({size: iconSize}) => <ClipboardIcon size={iconSize} status={status} />)}
         </Button.Icon>
     );
 

@@ -172,6 +172,15 @@ SANDBOX-->
 
 Чтобы добавить иконку в `Button`, используйте компонент [`Icon`](../Icon), который представляет собой обертку для SVG-файлов. Размер иконки выбирается автоматически в соответствии с размером `Button`. Чтобы его переопределить, явно задайте `size`, `width` или `height` компонента `Icon`.
 
+Чтобы задать размер кастомной иконки в соответствии с размером `Button`, используйте render function компонента `Button.Icon`:
+
+```tsx
+<Button size="l">
+  <Button.Icon>{({size}) => <CustomIcon size={size} />}</Button.Icon>
+  Действие
+</Button>
+```
+
 <!--SANDBOX
 import {Gear} from '@gravity-ui/icons';
 import {Button, Icon} from '@gravity-ui/uikit';

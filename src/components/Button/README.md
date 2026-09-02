@@ -172,6 +172,15 @@ SANDBOX-->
 
 To add an icon to a `Button`, use the [`Icon`](../Icon) component, which is a special wrapper for SVGs. The icon size is selected automatically according to the `Button` size. Set the `Icon` `size`, `width`, or `height` explicitly to override it.
 
+To size a custom icon according to the `Button` size, use the `Button.Icon` render function:
+
+```tsx
+<Button size="l">
+  <Button.Icon>{({size}) => <CustomIcon size={size} />}</Button.Icon>
+  Action
+</Button>
+```
+
 <!--SANDBOX
 import {Gear} from '@gravity-ui/icons';
 import {Button, Icon} from '@gravity-ui/uikit';

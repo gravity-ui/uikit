@@ -316,6 +316,35 @@ describe('Button', () => {
         expect(icon).toHaveAttribute('height', '12');
     });
 
+    test.each(buttonIconSizes)(
+        'should provide icon size to a render function for the "%s" button size',
+        (size, expectedSize) => {
+            const iconQaId = `custom-icon-${size}`;
+            const CustomIcon = ({size: iconSize}: {size?: number}) => (
+                <svg data-qa={iconQaId} width={iconSize} height={iconSize} />
+            );
+
+            render(
+                <Button size={size}>
+                    <Button.Icon>
+                        {({size: iconSize}) => <CustomIcon size={iconSize} />}
+                    </Button.Icon>
+                </Button>,
+            );
+
+            expect(screen.getByTestId(iconQaId)).toHaveAttribute('width', String(expectedSize));
+            expect(screen.getByTestId(iconQaId)).toHaveAttribute('height', String(expectedSize));
+        },
+    );
+
+    test('should provide undefined size to a standalone Button.Icon render function', () => {
+        const renderIcon = jest.fn(() => <svg />);
+
+        render(<Button.Icon>{renderIcon}</Button.Icon>);
+
+        expect(renderIcon).toHaveBeenCalledWith({size: undefined});
+    });
+
     test('should leave icon inside standalone Button.Icon untouched', () => {
         const iconQaId = 'icon-qa-id';
 

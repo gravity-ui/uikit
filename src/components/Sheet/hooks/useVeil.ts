@@ -15,8 +15,6 @@ export interface UseVeilProps {
     setVeilTouched: (touched: boolean) => void;
     /** Sends a request to dismiss the sheet. */
     requestDismiss: UseSheetDismissResult['requestDismiss'];
-    /** Completes the shared exit once the veil has fully hidden. */
-    onExitComplete: () => void;
     /** Recomputes sizes after a delayed window resize. */
     onResizeWindow: () => void;
 }
@@ -37,47 +35,37 @@ export function useVeil({
     delayedResizeRef,
     setVeilTouched,
     requestDismiss,
-    onExitComplete,
     onResizeWindow,
 }: UseVeilProps): UseVeilResult {
-    const latestRef = React.useRef({
-        setVeilTouched,
-        requestDismiss,
-        onExitComplete,
-        onResizeWindow,
-    });
-    latestRef.current = {setVeilTouched, requestDismiss, onExitComplete, onResizeWindow};
-
-    const getVeilOpacity = React.useCallback(() => veilRef.current?.style.opacity || 0, [veilRef]);
-
     const onClick = React.useCallback(
         (event: React.MouseEvent<HTMLDivElement>) => {
             if (isAnimatingRef.current) {
                 return;
             }
 
-            latestRef.current.setVeilTouched(true);
-            latestRef.current.requestDismiss({
+            setVeilTouched(true);
+            requestDismiss({
                 reason: 'outside-press',
                 event: event.nativeEvent,
             });
         },
-        [isAnimatingRef],
+        [isAnimatingRef, requestDismiss, setVeilTouched],
     );
 
     const onTransitionEnd = React.useCallback(() => {
         isAnimatingRef.current = false;
 
-        if (getVeilOpacity() === '0') {
-            latestRef.current.onExitComplete();
+        const veilOpacity = veilRef.current?.style.opacity || 0;
+
+        if (veilOpacity === '0') {
             return;
         }
 
         if (delayedResizeRef.current) {
-            latestRef.current.onResizeWindow();
+            onResizeWindow();
             delayedResizeRef.current = false;
         }
-    }, [isAnimatingRef, delayedResizeRef, getVeilOpacity]);
+    }, [delayedResizeRef, isAnimatingRef, onResizeWindow, veilRef]);
 
     return {
         veilHandlers: {

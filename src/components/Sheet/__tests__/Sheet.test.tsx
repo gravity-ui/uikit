@@ -2,11 +2,15 @@ import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {fireEvent, render, screen} from '../../../../test-utils/utils';
+import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
 import {Sheet} from '../Sheet';
-import {SheetQa} from '../constants';
+import {SHEET_TRANSITION_DURATION_MS, SheetQa} from '../constants';
 
 describe('Sheet', () => {
+    afterEach(() => {
+        jest.useRealTimers();
+    });
+
     test('Renders content when visible', () => {
         const sheetContent = 'Sheet content';
         render(<Sheet visible>{sheetContent}</Sheet>);
@@ -84,8 +88,8 @@ describe('Sheet', () => {
         expect(secondOnOpenChange).toHaveBeenCalledTimes(1);
     });
 
-    test('calls deprecated onClose after the hiding transition when Escape is pressed', async () => {
-        const user = userEvent.setup();
+    test('calls deprecated onClose after the exit transition when Escape is pressed', () => {
+        jest.useFakeTimers();
         const onClose = jest.fn();
         render(
             <Sheet visible onClose={onClose}>
@@ -96,12 +100,21 @@ describe('Sheet', () => {
         const veil = screen.getByTestId(SheetQa.VEIL);
 
         fireEvent.transitionEnd(veil);
-        await user.keyboard('{Escape}');
+        fireEvent.keyDown(document, {key: 'Escape', code: 'Escape'});
 
         expect(veil.style.opacity).toBe('0');
         expect(onClose).not.toHaveBeenCalled();
 
-        fireEvent.transitionEnd(veil);
+        act(() => {
+            jest.advanceTimersByTime(SHEET_TRANSITION_DURATION_MS - 1);
+        });
+
+        expect(onClose).not.toHaveBeenCalled();
+        expect(screen.getByText('Content')).toBeInTheDocument();
+
+        act(() => {
+            jest.advanceTimersByTime(1);
+        });
 
         expect(onClose).toHaveBeenCalledTimes(1);
         expect(screen.queryByText('Content')).not.toBeInTheDocument();

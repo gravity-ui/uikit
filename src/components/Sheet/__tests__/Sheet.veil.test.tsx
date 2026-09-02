@@ -1,11 +1,16 @@
 import * as React from 'react';
 
-import {fireEvent, render, screen} from '../../../../test-utils/utils';
+import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
 import {Sheet} from '../Sheet';
-import {SheetQa} from '../constants';
+import {SHEET_TRANSITION_DURATION_MS, SheetQa} from '../constants';
 
 describe('Sheet veil', () => {
-    test('calls onClose after the veil click and the hiding transition end', () => {
+    afterEach(() => {
+        jest.useRealTimers();
+    });
+
+    test('calls onClose after the veil dismissal and completed exit', () => {
+        jest.useFakeTimers();
         const onClose = jest.fn();
         const onOpenChange = jest.fn();
 
@@ -20,6 +25,7 @@ describe('Sheet veil', () => {
                         onOpenChange(open, event, reason);
                         setVisible(open);
                     }}
+                    qa="sheet"
                 >
                     Content
                 </Sheet>
@@ -39,8 +45,23 @@ describe('Sheet veil', () => {
         expect(onClose).not.toHaveBeenCalled();
         expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'outside-press');
         expect(onOpenChange).toHaveBeenCalledTimes(1);
+        expect(screen.getByTestId('sheet')).toHaveAttribute('data-floating-ui-status', 'close');
 
         fireEvent.transitionEnd(veil);
+
+        expect(onClose).not.toHaveBeenCalled();
+        expect(screen.getByText('Content')).toBeInTheDocument();
+
+        act(() => {
+            jest.advanceTimersByTime(SHEET_TRANSITION_DURATION_MS - 1);
+        });
+
+        expect(onClose).not.toHaveBeenCalled();
+
+        act(() => {
+            jest.advanceTimersByTime(1);
+        });
+
         expect(onClose).toHaveBeenCalledTimes(1);
 
         expect(screen.queryByText('Content')).not.toBeInTheDocument();

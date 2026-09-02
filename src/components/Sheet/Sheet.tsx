@@ -14,6 +14,7 @@ import {
 } from '@floating-ui/react';
 import type {OpenChangeReason} from '@floating-ui/react';
 
+import {useFloatingTransition} from '../../hooks/private/useFloatingTransition';
 import {Portal} from '../Portal/Portal';
 import type {PortalProps} from '../Portal/Portal';
 import {useDefaultProps} from '../theme/useDefaultProps';
@@ -21,7 +22,7 @@ import type {QAProps} from '../types';
 import {useLayer} from '../utils/layer-manager';
 
 import {SheetContentContainer} from './SheetContent';
-import {sheetBlock} from './constants';
+import {SHEET_TRANSITION_DURATION_MS, sheetBlock} from './constants';
 import {useSheetDismiss} from './hooks/useSheetDismiss';
 
 import './Sheet.scss';
@@ -76,15 +77,8 @@ function SheetComponent(rawProps: SheetProps) {
         qa,
     } = useDefaultProps('Sheet', rawProps);
     const {requestedOpen, requestDismiss} = useSheetDismiss({visible, onOpenChange});
-    const [open, setOpen] = React.useState(requestedOpen);
     const veilRef = React.useRef<HTMLDivElement>(null);
     const isAnimatingRef = React.useRef(false);
-
-    React.useEffect(() => {
-        if (requestedOpen) {
-            setOpen(true);
-        }
-    }, [requestedOpen]);
 
     const handleEscapeKeyDown = React.useCallback(
         (event: KeyboardEvent) => {
@@ -93,29 +87,31 @@ function SheetComponent(rawProps: SheetProps) {
         [requestDismiss],
     );
 
-    useLayer({
-        open: requestedOpen,
-        type: 'sheet',
-        disableOutsideClick: true,
-        onEscapeKeyDown: handleEscapeKeyDown,
-    });
-
     const floatingNodeId = useFloatingNodeId();
     const {refs, context} = useFloating({
         nodeId: floatingNodeId,
         open: requestedOpen,
     });
+    const handleExitComplete = React.useCallback(() => {
+        onClose?.();
+    }, [onClose]);
+    const {isMounted, status} = useFloatingTransition({
+        context,
+        duration: SHEET_TRANSITION_DURATION_MS,
+        onTransitionOutComplete: handleExitComplete,
+    });
+
+    useLayer({
+        open: isMounted,
+        type: 'sheet',
+        disableOutsideClick: true,
+        onEscapeKeyDown: handleEscapeKeyDown,
+    });
+
     const role = useRole(context, {role: 'dialog'});
     const {getFloatingProps} = useInteractions([role]);
 
-    const hideSheet = () => {
-        if (onClose) {
-            onClose();
-        }
-        setOpen(false);
-    };
-
-    if (!open) {
+    if (!isMounted) {
         return <FloatingNode id={floatingNodeId} />;
     }
 
@@ -124,8 +120,9 @@ function SheetComponent(rawProps: SheetProps) {
             <Portal container={container} disablePortal={disablePortal}>
                 <FloatingOverlay
                     data-qa={qa}
+                    data-floating-ui-status={status}
                     className={sheetBlock({'without-top-bar': hideTopBar}, className)}
-                    lockScroll={open}
+                    lockScroll={isMounted}
                     style={{overflow: undefined}}
                 >
                     <SheetContentContainer
@@ -134,10 +131,9 @@ function SheetComponent(rawProps: SheetProps) {
                         contentClassName={contentClassName}
                         swipeAreaClassName={swipeAreaClassName}
                         title={title}
-                        visible={requestedOpen}
+                        status={status}
                         allowHideOnContentScroll={allowHideOnContentScroll}
                         hideTopBar={hideTopBar}
-                        onExitComplete={hideSheet}
                         requestDismiss={requestDismiss}
                         veilRef={veilRef}
                         isAnimatingRef={isAnimatingRef}

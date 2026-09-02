@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {fireEvent, render, screen} from '../../../../test-utils/utils';
-import {SheetQa} from '../../Sheet/constants';
+import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
+import {SHEET_TRANSITION_DURATION_MS, SheetQa} from '../../Sheet/constants';
 import {TextInput} from '../../controls';
 import {MobileProvider} from '../../mobile';
 import {Select} from '../Select';
@@ -16,11 +16,11 @@ import {
     generateOptions,
     generateOptionsGroups,
     setup,
-    timeout,
 } from './utils';
 
 afterEach(() => {
     jest.clearAllMocks();
+    jest.useRealTimers();
 });
 
 const onUpdate = jest.fn();
@@ -200,6 +200,7 @@ describe('Select filter', () => {
     });
 
     test('should not clear filter onClose if open is true', async () => {
+        jest.useFakeTimers();
         const onClose = jest.fn();
         render(
             <MobileProvider mobile>
@@ -218,24 +219,27 @@ describe('Select filter', () => {
         );
 
         const sheetVeil = screen.getByTestId(SheetQa.VEIL);
+        const user = userEvent.setup({advanceTimers: jest.advanceTimersByTime});
 
         fireEvent.transitionEnd(sheetVeil);
 
-        await userEvent.click(screen.getByPlaceholderText('filter'));
-        await userEvent.keyboard('test');
+        await user.click(screen.getByPlaceholderText('filter'));
+        await user.keyboard('test');
 
         expect(onFilterChange).toHaveBeenCalledTimes(4);
         onFilterChange.mockClear();
 
-        await userEvent.click(sheetVeil);
-        fireEvent.transitionEnd(sheetVeil);
-        await timeout(400);
+        await user.click(sheetVeil);
+        act(() => {
+            jest.advanceTimersByTime(SHEET_TRANSITION_DURATION_MS);
+        });
 
         expect(onClose).toHaveBeenCalledTimes(1);
         expect(onFilterChange).toHaveBeenCalledTimes(0);
     });
 
     test('should clear filter onClose', async () => {
+        jest.useFakeTimers();
         const onClose = jest.fn();
         render(
             <MobileProvider mobile>
@@ -254,20 +258,28 @@ describe('Select filter', () => {
         );
 
         const sheetVeil = screen.getByTestId(SheetQa.VEIL);
+        const user = userEvent.setup({advanceTimers: jest.advanceTimersByTime});
 
         fireEvent.transitionEnd(sheetVeil);
 
-        await userEvent.click(screen.getByPlaceholderText('filter'));
-        await userEvent.keyboard('test');
+        await user.click(screen.getByPlaceholderText('filter'));
+        await user.keyboard('test');
 
         expect(onFilterChange).toHaveBeenCalledTimes(4);
         onFilterChange.mockClear();
 
-        await userEvent.click(sheetVeil);
-        fireEvent.transitionEnd(sheetVeil);
-        await timeout(400);
+        await user.click(sheetVeil);
+        act(() => {
+            jest.advanceTimersByTime(SHEET_TRANSITION_DURATION_MS);
+        });
 
         expect(onClose).toHaveBeenCalledTimes(1);
+        expect(onFilterChange).not.toHaveBeenCalled();
+
+        act(() => {
+            jest.advanceTimersByTime(SHEET_TRANSITION_DURATION_MS);
+        });
+
         expect(onFilterChange).toHaveBeenCalledTimes(1);
     });
 

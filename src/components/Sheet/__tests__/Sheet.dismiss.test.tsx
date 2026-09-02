@@ -2,15 +2,21 @@ import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {fireEvent, render, screen} from '../../../../test-utils/utils';
+import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
 import {Sheet} from '../Sheet';
-import {SheetQa} from '../constants';
+import {SHEET_TRANSITION_DURATION_MS, SheetQa} from '../constants';
 
 const SHEET_HEIGHT = 300;
 const TOUCH_START_POINT = 100;
 
 function finishTransition() {
     fireEvent.transitionEnd(screen.getByTestId(SheetQa.VEIL));
+}
+
+function finishPresenceTransition() {
+    act(() => {
+        jest.advanceTimersByTime(SHEET_TRANSITION_DURATION_MS);
+    });
 }
 
 function swipePastThreshold(area = screen.getByTestId(SheetQa.SWIPE_AREA)) {
@@ -52,6 +58,7 @@ describe('Sheet controlled dismissal', () => {
     let getBoundingClientRectSpy: jest.SpyInstance;
 
     beforeEach(() => {
+        jest.useFakeTimers();
         getBoundingClientRectSpy = jest
             .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
             .mockReturnValue({height: SHEET_HEIGHT, width: 0, top: 0, left: 0} as DOMRect);
@@ -59,6 +66,8 @@ describe('Sheet controlled dismissal', () => {
 
     afterEach(() => {
         getBoundingClientRectSpy.mockRestore();
+        jest.clearAllTimers();
+        jest.useRealTimers();
     });
 
     test('keeps the sheet open when controlled veil dismissal is not accepted', () => {
@@ -100,7 +109,7 @@ describe('Sheet controlled dismissal', () => {
     });
 
     test('keeps the sheet open when controlled Escape dismissal is not accepted', async () => {
-        const user = userEvent.setup();
+        const user = userEvent.setup({advanceTimers: jest.advanceTimersByTime});
         const onOpenChange = jest.fn();
         const onClose = jest.fn();
         render(
@@ -138,7 +147,7 @@ describe('Sheet controlled dismissal', () => {
         expect(veil).toHaveStyle({opacity: '0'});
         expect(onClose).not.toHaveBeenCalled();
 
-        fireEvent.transitionEnd(veil);
+        finishPresenceTransition();
 
         expect(onClose).toHaveBeenCalledTimes(1);
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
@@ -165,7 +174,7 @@ describe('Sheet controlled dismissal', () => {
         expect(veil).toHaveStyle({opacity: '0'});
         expect(onClose).not.toHaveBeenCalled();
 
-        fireEvent.transitionEnd(veil);
+        finishPresenceTransition();
 
         expect(onClose).toHaveBeenCalledTimes(1);
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
@@ -174,7 +183,9 @@ describe('Sheet controlled dismissal', () => {
     test.each([
         {
             dismiss: async () => {
-                await userEvent.setup().keyboard('{Escape}');
+                await userEvent
+                    .setup({advanceTimers: jest.advanceTimersByTime})
+                    .keyboard('{Escape}');
             },
             source: 'Escape',
         },
@@ -205,7 +216,7 @@ describe('Sheet controlled dismissal', () => {
         expect(veil).toHaveStyle({opacity: '0'});
         expect(onClose).not.toHaveBeenCalled();
 
-        fireEvent.transitionEnd(veil);
+        finishPresenceTransition();
 
         expect(onClose).toHaveBeenCalledTimes(1);
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
@@ -216,8 +227,7 @@ describe('Sheet controlled dismissal', () => {
 
         finishTransition();
         fireEvent.click(screen.getByTestId(SheetQa.VEIL));
-        const veil = screen.getByTestId(SheetQa.VEIL);
-        fireEvent.transitionEnd(veil);
+        finishPresenceTransition();
 
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 

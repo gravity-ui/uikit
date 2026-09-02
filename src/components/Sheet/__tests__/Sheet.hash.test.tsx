@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-import {fireEvent, render, screen} from '../../../../test-utils/utils';
+import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
 import type {History, Location} from '../../mobile';
 import {MobileProvider, Platform} from '../../mobile';
 import {Sheet} from '../Sheet';
 import type {SheetProps} from '../Sheet';
-import {SheetQa} from '../constants';
+import {SHEET_TRANSITION_DURATION_MS, SheetQa} from '../constants';
 
 const SHEET_HEIGHT = 300;
 const TOUCH_START_POINT = 100;
@@ -142,6 +142,7 @@ describe('Sheet hash', () => {
 
     afterEach(() => {
         getBoundingClientRectSpy.mockRestore();
+        jest.useRealTimers();
     });
 
     test('restores hashes correctly when multiple sheets are closed', () => {
@@ -218,6 +219,7 @@ describe('Sheet hash', () => {
     });
 
     test('closes a legacy sheet when navigation moves away from its hash', () => {
+        jest.useFakeTimers();
         const onSheetBClose = jest.fn();
 
         render(<HashedSheets onHashChange={() => {}} onSheetBClose={onSheetBClose} />);
@@ -232,7 +234,9 @@ describe('Sheet hash', () => {
         expect(screen.getByText('Content B')).toBeInTheDocument();
         expect(onSheetBClose).not.toHaveBeenCalled();
 
-        fireEvent.transitionEnd(veil);
+        act(() => {
+            jest.advanceTimersByTime(SHEET_TRANSITION_DURATION_MS);
+        });
 
         expect(onSheetBClose).toHaveBeenCalledTimes(1);
         expect(screen.queryByText('Content B')).not.toBeInTheDocument();

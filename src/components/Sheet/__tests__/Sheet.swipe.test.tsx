@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import {fireEvent, render, screen} from '../../../../test-utils/utils';
+import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
 import {Sheet} from '../Sheet';
-import {SheetQa} from '../constants';
+import {SHEET_TRANSITION_DURATION_MS, SheetQa} from '../constants';
 
 const HIDE_THRESHOLD = 50;
 const SHEET_HEIGHT = 300;
@@ -11,12 +11,15 @@ const TOUCH_START_POINT = 100;
 describe('Sheet swipe area', () => {
     let getBoundingClientRectSpy: jest.SpyInstance;
     beforeEach(() => {
+        jest.useFakeTimers();
         getBoundingClientRectSpy = jest
             .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
             .mockReturnValue({height: SHEET_HEIGHT, width: 0, top: 0, left: 0} as DOMRect);
     });
     afterEach(() => {
         getBoundingClientRectSpy.mockRestore();
+        jest.clearAllTimers();
+        jest.useRealTimers();
     });
 
     function swipeOnArea(area: Element, {from, to}: {from: number; to: number}) {
@@ -79,7 +82,9 @@ describe('Sheet swipe area', () => {
         expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'swipe');
         expect(onOpenChange).toHaveBeenCalledTimes(1);
 
-        fireEvent.transitionEnd(veil);
+        act(() => {
+            jest.advanceTimersByTime(SHEET_TRANSITION_DURATION_MS);
+        });
         expect(onClose).toHaveBeenCalledTimes(1);
     });
 

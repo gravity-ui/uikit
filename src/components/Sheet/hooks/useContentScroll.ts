@@ -7,7 +7,7 @@ import type {VelocityTracker} from '../utils';
 
 export interface UseContentScrollSwipeState {
     velocityTrackerRef: React.MutableRefObject<VelocityTracker>;
-    startYRef: React.MutableRefObject<number>;
+    startYRef: React.MutableRefObject<number | null>;
     deltaYRef: React.MutableRefObject<number>;
     swipeAreaTouchedRef: React.MutableRefObject<boolean>;
     setDeltaY: (value: number) => void;
@@ -31,14 +31,17 @@ export interface ContentAreaHandlers {
     onTouchStart: (event: React.TouchEvent<HTMLDivElement>) => void;
     onTouchMove: (event: React.TouchEvent<HTMLDivElement>) => void;
     onTouchEnd: (event: React.TouchEvent<HTMLDivElement>) => void;
+    onTouchCancel: (event: React.TouchEvent<HTMLDivElement>) => void;
     onTransitionEnd: (event: React.TransitionEvent<HTMLDivElement>) => void;
 }
 
 export interface UseContentScrollResult {
     /** Whether the content area is currently being touched. */
     contentTouched: boolean;
+    /** Clears state owned by the content touch surface. */
+    resetContentTouch: () => void;
     /** Touch/transition handlers to be spread onto the content area element. */
-    contentAreaHandlers: ContentAreaHandlers;
+    contentAreaHandlers: Omit<ContentAreaHandlers, 'onTouchCancel'>;
 }
 
 export function useContentScroll({
@@ -57,6 +60,11 @@ export function useContentScroll({
     const [contentTouched, setContentTouched] = React.useState(false);
 
     const startScrollTopRef = React.useRef(0);
+
+    const resetContentTouch = React.useCallback(() => {
+        startScrollTopRef.current = 0;
+        setContentTouched(false);
+    }, []);
 
     const onTouchStart = React.useCallback(
         (event: React.TouchEvent<HTMLDivElement>) => {
@@ -86,7 +94,9 @@ export function useContentScroll({
                 return;
             }
 
-            if (!startYRef.current) {
+            const startY = startYRef.current;
+
+            if (startY === null) {
                 onTouchStart(event);
                 return;
             }
@@ -99,7 +109,7 @@ export function useContentScroll({
                 return;
             }
 
-            const delta = event.nativeEvent.touches[0].clientY - startYRef.current;
+            const delta = event.nativeEvent.touches[0].clientY - startY;
 
             velocityTrackerRef.current.addMovement({
                 x: event.nativeEvent.touches[0].clientX,
@@ -135,14 +145,15 @@ export function useContentScroll({
 
             onTouchEndAction(deltaYRef.current, event);
 
-            startYRef.current = 0;
+            startYRef.current = null;
             setDeltaY(0);
-            setContentTouched(false);
+            resetContentTouch();
         },
         [
             allowHideOnContentScroll,
             deltaYRef,
             onTouchEndAction,
+            resetContentTouch,
             setDeltaY,
             startYRef,
             swipeAreaTouchedRef,
@@ -160,6 +171,7 @@ export function useContentScroll({
 
     return {
         contentTouched,
+        resetContentTouch,
         contentAreaHandlers: {
             onTouchStart,
             onTouchMove,

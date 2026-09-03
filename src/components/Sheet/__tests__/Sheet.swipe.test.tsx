@@ -112,4 +112,36 @@ describe('Sheet swipe area', () => {
         expect(sheet.style.transform).toBe(`translate3d(0, -${SHEET_HEIGHT}px, 0)`);
         expect(screen.getByRole('dialog')).toBeInTheDocument();
     });
+
+    test('restores open state after swipe-area touchcancel', () => {
+        const onClose = jest.fn();
+        const onOpenChange = jest.fn();
+
+        render(
+            <Sheet visible onClose={onClose} onOpenChange={onOpenChange}>
+                Content
+            </Sheet>,
+        );
+
+        const swipeArea = screen.getByTestId(SheetQa.SWIPE_AREA);
+        const contentArea = screen.getByTestId(SheetQa.CONTENT_AREA);
+        const sheet = screen.getByRole('dialog');
+        const veil = screen.getByTestId(SheetQa.VEIL);
+
+        fireEvent.touchStart(swipeArea, {touches: [{clientX: 0, clientY: 100}]});
+        fireEvent.touchMove(swipeArea, {touches: [{clientX: 0, clientY: 170}]});
+
+        expect(sheet.style.transform).toBe('translate3d(0, -230px, 0)');
+        expect(contentArea).toHaveClass('g-sheet-content-area_without-scroll');
+
+        fireEvent.touchCancel(swipeArea);
+
+        expect(sheet.style.transform).toBe(`translate3d(0, -${SHEET_HEIGHT}px, 0)`);
+        expect(veil).toHaveStyle({opacity: '1'});
+        expect(sheet).toHaveClass('g-sheet__sheet_with-transition');
+        expect(veil).toHaveClass('g-sheet-veil_with-transition');
+        expect(contentArea).not.toHaveClass('g-sheet-content-area_without-scroll');
+        expect(onOpenChange).not.toHaveBeenCalled();
+        expect(onClose).not.toHaveBeenCalled();
+    });
 });

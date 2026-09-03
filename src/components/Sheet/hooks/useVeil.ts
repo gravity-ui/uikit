@@ -11,8 +11,6 @@ export interface UseVeilProps {
     isAnimatingRef: React.MutableRefObject<boolean>;
     /** Marks that a resize should be replayed after the closing animation finished. */
     delayedResizeRef: React.MutableRefObject<boolean>;
-    /** Marks the veil as touched so transitions stay enabled during the hide. */
-    setVeilTouched: (touched: boolean) => void;
     /** Sends a request to dismiss the sheet. */
     requestDismiss: UseSheetDismissResult['requestDismiss'];
     /** Recomputes sizes after a delayed window resize. */
@@ -33,7 +31,6 @@ export function useVeil({
     veilRef,
     isAnimatingRef,
     delayedResizeRef,
-    setVeilTouched,
     requestDismiss,
     onResizeWindow,
 }: UseVeilProps): UseVeilResult {
@@ -43,13 +40,12 @@ export function useVeil({
                 return;
             }
 
-            setVeilTouched(true);
             requestDismiss({
                 reason: 'outside-press',
                 event: event.nativeEvent,
             });
         },
-        [isAnimatingRef, requestDismiss, setVeilTouched],
+        [isAnimatingRef, requestDismiss],
     );
 
     const onTransitionEnd = React.useCallback(() => {

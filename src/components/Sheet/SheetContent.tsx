@@ -14,6 +14,7 @@ import {useContentScroll} from './hooks/useContentScroll';
 import type {UseSheetDismissResult} from './hooks/useSheetDismiss';
 import {useSheetHash} from './hooks/useSheetHash';
 import {useSwipe} from './hooks/useSwipe';
+import type {CancelSwipeOptions} from './hooks/useSwipe';
 import {useVeil} from './hooks/useVeil';
 import type {Status} from './types';
 
@@ -86,8 +87,6 @@ export function SheetContent(props: SheetContentProps) {
 
     const observerRef = React.useRef<ResizeObserver | null>(null);
     const resizeWindowTimerRef = React.useRef<number | null>(null);
-
-    const [veilTouched, setVeilTouched] = React.useState(false);
 
     const prevSheetHeightRef = React.useRef(0);
     const inWindowResizeScopeRef = React.useRef(false);
@@ -214,10 +213,7 @@ export function SheetContent(props: SheetContentProps) {
         }
     }, [isAnimatingRef, setStyles, removeHash]);
 
-    const getIsExitAnimating = React.useCallback(
-        () => isAnimatingRef.current && status === 'close',
-        [isAnimatingRef, status],
-    );
+    const getIsExitAnimating = React.useCallback(() => status === 'close', [status]);
 
     const {
         deltaY,
@@ -228,6 +224,7 @@ export function SheetContent(props: SheetContentProps) {
         swipeAreaTouchedRef,
         setDeltaY,
         onTouchEndAction,
+        cancelSwipe,
         swipeAreaHandlers,
     } = useSwipe({
         setStyles,
@@ -243,7 +240,7 @@ export function SheetContent(props: SheetContentProps) {
         }
     }, []);
 
-    const {contentTouched, contentAreaHandlers} = useContentScroll({
+    const {contentTouched, resetContentTouch, contentAreaHandlers} = useContentScroll({
         velocityTrackerRef,
         startYRef,
         deltaYRef,
@@ -256,6 +253,21 @@ export function SheetContent(props: SheetContentProps) {
         getIsExitAnimating,
         resetScrollTransition,
     });
+
+    const cancelDrag = React.useCallback(
+        (options: CancelSwipeOptions) => {
+            resetContentTouch();
+            cancelSwipe(options);
+        },
+        [cancelSwipe, resetContentTouch],
+    );
+
+    const onTouchCancel = React.useCallback(() => {
+        cancelDrag({restoreOpenPosition: true});
+    }, [cancelDrag]);
+
+    const dragging = deltaY !== 0;
+    const activeGesture = dragging || swipeAreaTouched || contentTouched;
 
     const onResize = React.useCallback(() => {
         if (!sheetRef.current || !sheetScrollContainerRef.current) {
@@ -303,7 +315,6 @@ export function SheetContent(props: SheetContentProps) {
         veilRef,
         isAnimatingRef,
         delayedResizeRef,
-        setVeilTouched,
         requestDismiss,
         onResizeWindow,
     });
@@ -344,10 +355,20 @@ export function SheetContent(props: SheetContentProps) {
     React.useEffect(() => {
         if (status === 'initial') {
             show();
-        } else if (status === 'close') {
+        }
+    }, [status, show]);
+
+    React.useEffect(() => {
+        if (status === 'close') {
+            cancelDrag({restoreOpenPosition: false});
+        }
+    }, [cancelDrag, status]);
+
+    React.useEffect(() => {
+        if (status === 'close' && !activeGesture) {
             hide();
         }
-    }, [status, show, hide]);
+    }, [activeGesture, hide, status]);
 
     // --- componentDidUpdate ---
     React.useEffect(() => {
@@ -366,26 +387,16 @@ export function SheetContent(props: SheetContentProps) {
         prevLocationRef.current = location;
     });
 
-    const veilTransitionMod = {
-        'with-transition': !deltaY || veilTouched,
-    };
-
-    const sheetTransitionMod = {
-        'with-transition': veilTransitionMod['with-transition'],
-    };
+    const withTransition = status === 'close' || !dragging;
 
     const contentWithoutScroll = (deltaY > 0 && contentTouched) || swipeAreaTouched;
 
     return (
         <React.Fragment>
-            <SheetVeil
-                veilRef={veilRef}
-                withTransition={veilTransitionMod['with-transition']}
-                {...veilHandlers}
-            />
+            <SheetVeil veilRef={veilRef} withTransition={withTransition} {...veilHandlers} />
             <div
                 ref={handleSheetRef}
-                className={sheetBlock('sheet', sheetTransitionMod)}
+                className={sheetBlock('sheet', {'with-transition': withTransition})}
                 role="dialog"
                 aria-modal="true"
                 aria-label={title}
@@ -400,7 +411,11 @@ export function SheetContent(props: SheetContentProps) {
                         <div className={sheetBlock('sheet-top-resizer')} />
                     </div>
                 )}
-                <SheetSwipeArea className={swipeAreaClassName} {...swipeAreaHandlers} />
+                <SheetSwipeArea
+                    className={swipeAreaClassName}
+                    {...swipeAreaHandlers}
+                    onTouchCancel={onTouchCancel}
+                />
                 <SheetContentArea
                     scrollContainerRef={sheetScrollContainerRef}
                     marginBoxRef={sheetMarginBoxRef}
@@ -409,6 +424,7 @@ export function SheetContent(props: SheetContentProps) {
                     withoutScroll={contentWithoutScroll}
                     alwaysFullHeight={alwaysFullHeight}
                     {...contentAreaHandlers}
+                    onTouchCancel={onTouchCancel}
                 >
                     {content}
                 </SheetContentArea>

@@ -3,7 +3,7 @@ import * as React from 'react';
 import {act, cleanup, fireEvent, render, screen} from '../../../../test-utils/utils';
 import {getLayersCount} from '../../utils/layer-manager';
 import {Sheet} from '../Sheet';
-import {SHEET_TRANSITION_DURATION_MS} from '../constants';
+import {SHEET_TRANSITION_DURATION_MS, SheetQa} from '../constants';
 
 function finishPresenceTransition() {
     act(() => {
@@ -143,6 +143,43 @@ describe('Sheet lifecycle', () => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
         expect(screen.getByTestId('sheet-veil')).toHaveStyle({opacity: '1'});
         expect(onClose).not.toHaveBeenCalled();
+    });
+
+    test('completes external close started during handle drag', () => {
+        const {rerender} = render(
+            <Sheet visible qa="sheet">
+                Content
+            </Sheet>,
+        );
+
+        const sheet = screen.getByRole('dialog');
+        const veil = screen.getByTestId(SheetQa.VEIL);
+        const contentArea = screen.getByTestId(SheetQa.CONTENT_AREA);
+        const swipeArea = screen.getByTestId(SheetQa.SWIPE_AREA);
+
+        fireEvent.touchStart(swipeArea, {touches: [{clientX: 0, clientY: 100}]});
+        fireEvent.touchMove(swipeArea, {touches: [{clientX: 0, clientY: 170}]});
+
+        expect(sheet).not.toHaveClass('g-sheet__sheet_with-transition');
+        expect(veil).not.toHaveClass('g-sheet-veil_with-transition');
+        expect(contentArea).toHaveClass('g-sheet-content-area_without-scroll');
+
+        rerender(
+            <Sheet visible={false} qa="sheet">
+                Content
+            </Sheet>,
+        );
+
+        expect(screen.getByTestId('sheet')).toHaveAttribute('data-floating-ui-status', 'close');
+        expect(sheet).toHaveClass('g-sheet__sheet_with-transition');
+        expect(veil).toHaveClass('g-sheet-veil_with-transition');
+        expect(contentArea).not.toHaveClass('g-sheet-content-area_without-scroll');
+
+        finishPresenceTransition();
+
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+        expect(getLayersCount()).toBe(0);
+        expect(document.body.style.overflow).toBe('');
     });
 
     test('calls deprecated onClose once after completed exit', () => {

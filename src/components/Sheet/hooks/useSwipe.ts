@@ -28,6 +28,11 @@ export interface SwipeAreaHandlers {
     onTouchStart: (event: React.TouchEvent<HTMLDivElement>) => void;
     onTouchMove: (event: React.TouchEvent<HTMLDivElement>) => void;
     onTouchEnd: (event: React.TouchEvent<HTMLDivElement>) => void;
+    onTouchCancel: (event: React.TouchEvent<HTMLDivElement>) => void;
+}
+
+export interface CancelSwipeOptions {
+    restoreOpenPosition: boolean;
 }
 
 export interface UseSwipeResult {
@@ -35,13 +40,14 @@ export interface UseSwipeResult {
     swipeAreaTouched: boolean;
 
     velocityTrackerRef: React.MutableRefObject<VelocityTracker>;
-    startYRef: React.MutableRefObject<number>;
+    startYRef: React.MutableRefObject<number | null>;
     deltaYRef: React.MutableRefObject<number>;
     swipeAreaTouchedRef: React.MutableRefObject<boolean>;
     setDeltaY: (value: number) => void;
     setSwipeAreaTouched: (value: boolean) => void;
     onTouchEndAction: (deltaY: number, event: React.TouchEvent<HTMLDivElement>) => void;
-    swipeAreaHandlers: SwipeAreaHandlers;
+    cancelSwipe: (options: CancelSwipeOptions) => void;
+    swipeAreaHandlers: Omit<SwipeAreaHandlers, 'onTouchCancel'>;
 }
 
 export function useSwipe({
@@ -58,8 +64,9 @@ export function useSwipe({
 
     const [deltaY, setDeltaYState] = React.useState(0);
     const [swipeAreaTouched, setSwipeAreaTouchedState] = React.useState(false);
+    const [shouldRestoreOpenPosition, setShouldRestoreOpenPosition] = React.useState(false);
 
-    const startYRef = React.useRef(0);
+    const startYRef = React.useRef<number | null>(null);
     const deltaYRef = React.useRef(0);
     const swipeAreaTouchedRef = React.useRef(false);
 
@@ -72,6 +79,30 @@ export function useSwipe({
         swipeAreaTouchedRef.current = value;
         setSwipeAreaTouchedState(value);
     }, []);
+
+    const resetSwipe = React.useCallback(() => {
+        velocityTrackerRef.current.clear();
+        startYRef.current = null;
+        setDeltaY(0);
+        setSwipeAreaTouched(false);
+    }, [setDeltaY, setSwipeAreaTouched]);
+
+    const cancelSwipe = React.useCallback(
+        ({restoreOpenPosition}: CancelSwipeOptions) => {
+            resetSwipe();
+            setShouldRestoreOpenPosition(restoreOpenPosition && !getIsExitAnimating());
+        },
+        [getIsExitAnimating, resetSwipe],
+    );
+
+    React.useEffect(() => {
+        if (!shouldRestoreOpenPosition) {
+            return;
+        }
+
+        show();
+        setShouldRestoreOpenPosition(false);
+    }, [shouldRestoreOpenPosition, show]);
 
     const onTouchEndAction = React.useCallback(
         (currentDeltaY: number, event: React.TouchEvent<HTMLDivElement>) => {
@@ -121,7 +152,13 @@ export function useSwipe({
                 return;
             }
 
-            const delta = event.nativeEvent.touches[0].clientY - startYRef.current;
+            const startY = startYRef.current;
+
+            if (startY === null) {
+                return;
+            }
+
+            const delta = event.nativeEvent.touches[0].clientY - startY;
 
             velocityTrackerRef.current.addMovement({
                 x: event.nativeEvent.touches[0].clientX,
@@ -143,11 +180,9 @@ export function useSwipe({
         (event: React.TouchEvent<HTMLDivElement>) => {
             onTouchEndAction(deltaYRef.current, event);
 
-            startYRef.current = 0;
-            setDeltaY(0);
-            setSwipeAreaTouched(false);
+            resetSwipe();
         },
-        [onTouchEndAction, setDeltaY, setSwipeAreaTouched],
+        [onTouchEndAction, resetSwipe],
     );
 
     return {
@@ -160,6 +195,7 @@ export function useSwipe({
         setDeltaY,
         setSwipeAreaTouched,
         onTouchEndAction,
+        cancelSwipe,
         swipeAreaHandlers: {
             onTouchStart,
             onTouchMove,

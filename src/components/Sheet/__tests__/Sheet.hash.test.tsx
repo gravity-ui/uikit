@@ -187,6 +187,42 @@ describe('Sheet hash', () => {
         expect(onOpenChange).toHaveBeenCalledTimes(1);
     });
 
+    test('completes navigation close started during drag', () => {
+        jest.useFakeTimers();
+        const onOpenChange = jest.fn();
+
+        render(<HashedSheets onHashChange={() => {}} onOpenChange={onOpenChange} />);
+
+        fireEvent.click(screen.getByText('Open A'));
+
+        const sheet = screen.getByRole('dialog');
+        const veil = screen.getByTestId(SheetQa.VEIL);
+        const contentArea = screen.getByTestId(SheetQa.CONTENT_AREA);
+        const swipeArea = screen.getByTestId(SheetQa.SWIPE_AREA);
+
+        fireEvent.touchStart(swipeArea, {touches: [{clientX: 0, clientY: 100}]});
+        fireEvent.touchMove(swipeArea, {touches: [{clientX: 0, clientY: 170}]});
+
+        expect(sheet).not.toHaveClass('g-sheet__sheet_with-transition');
+        expect(veil).not.toHaveClass('g-sheet-veil_with-transition');
+        expect(contentArea).toHaveClass('g-sheet-content-area_without-scroll');
+
+        fireEvent.click(screen.getByText('Navigate back'));
+
+        expect(onOpenChange).toHaveBeenCalledWith(false, undefined, 'navigation');
+        expect(onOpenChange).toHaveBeenCalledTimes(1);
+        expect(sheet).toHaveClass('g-sheet__sheet_with-transition');
+        expect(veil).toHaveClass('g-sheet-veil_with-transition');
+        expect(contentArea).not.toHaveClass('g-sheet-content-area_without-scroll');
+
+        act(() => {
+            jest.advanceTimersByTime(SHEET_TRANSITION_DURATION_MS);
+        });
+
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+        expect(document.body.style.overflow).toBe('');
+    });
+
     test('keeps a controlled sheet open when navigation dismissal is not accepted', () => {
         let currentHash = '';
         const onOpenChange = jest.fn();

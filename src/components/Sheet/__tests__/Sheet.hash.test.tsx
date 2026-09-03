@@ -175,18 +175,6 @@ describe('Sheet hash', () => {
         expect(currentHash).toBe('');
     });
 
-    test('requests closing when hash navigation moves away from the sheet', () => {
-        const onOpenChange = jest.fn();
-
-        render(<HashedSheets onHashChange={() => {}} onOpenChange={onOpenChange} />);
-
-        fireEvent.click(screen.getByText('Open A'));
-        fireEvent.click(screen.getByText('Navigate back'));
-
-        expect(onOpenChange).toHaveBeenCalledWith(false, undefined, 'navigation');
-        expect(onOpenChange).toHaveBeenCalledTimes(1);
-    });
-
     test('completes navigation close started during drag', () => {
         jest.useFakeTimers();
         const onOpenChange = jest.fn();

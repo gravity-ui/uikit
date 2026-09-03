@@ -1,6 +1,6 @@
 import type {CasesWithName} from '@gravity-ui/playwright-tools/component-tests';
 
-import type {ButtonProps} from '../Button';
+import type {ButtonProps} from '../types';
 
 export const sizeCases: CasesWithName<ButtonProps['size']> = [
     ['xs', 'xs'],

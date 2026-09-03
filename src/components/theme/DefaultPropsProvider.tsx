@@ -10,7 +10,7 @@ import type {ArrowToggleProps} from '../ArrowToggle';
 import type {AvatarProps} from '../Avatar';
 import type {AvatarStackProps} from '../AvatarStack';
 import type {BreadcrumbsProps} from '../Breadcrumbs';
-import type {ButtonCommonProps} from '../Button/Button';
+import type {ButtonCommonProps} from '../Button/types';
 import type {CardProps} from '../Card';
 import type {CheckboxProps} from '../Checkbox';
 import type {ClipboardButtonProps} from '../ClipboardButton';

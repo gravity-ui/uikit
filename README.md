@@ -66,10 +66,6 @@ A SCSS [mixins](styles/mixins.scss) file with useful helpers is also available f
 
 Read more:
 
-- [Repository navigation](docs/navigation.md) — find the authoritative docs, source area, and
-  validation for a task
-- [Repository architecture](docs/architecture.md) — understand package entrypoints, source
-  boundaries, build, and tests
 - [Layout components and spacings](docs/layout.md) — compose responsive pages with the shared grid
   and spacing scale
 - [Theming](docs/theming.md) — enable light, dark, and high-contrast themes

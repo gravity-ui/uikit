@@ -1,11 +1,11 @@
 # Типографика
 
-[English](typography.md) | [Русский](typography-ru.md)
-
 Шкала типографики UIKit — фиксированный набор **вариантов текста**, для каждого из которых заданы
 `font-size` и `line-height`. Выводите текст через компонент `Text` с prop `variant`, а **не** через
 сырые теги `<h1>`/`<p>` или inline `font-size`. Так размеры остаются согласованными и учитывают тему
 во всём приложении.
+
+[English](typography.md) | [Русский](typography-ru.md)
 
 ```tsx
 import {Text} from '@gravity-ui/uikit';

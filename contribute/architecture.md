@@ -91,10 +91,12 @@ corresponding module tree, so any entrypoint change must stay symmetric across c
 
 ## Documentation and examples
 
-Human guides live in `docs/`. Component API and behavior notes live next to code in component
-READMEs. Per-component Storybook stories live in `src/components/<Component>/__stories__/`; broader
-branding, color, typography, and showcase stories live in `src/stories/`. Storybook configuration
-is in `.storybook/` and supplies interactive documentation plus accessibility checks.
+Package-facing guides live in `docs/`; repository-only contributor documentation, including this
+architecture guide, lives in `contribute/`. Component API and behavior notes live next to code in
+component READMEs. Per-component Storybook stories live in
+`src/components/<Component>/__stories__/`; broader branding, color, typography, and showcase
+stories live in `src/stories/`. Storybook configuration is in `.storybook/` and supplies
+interactive documentation plus accessibility checks.
 
 ## Tests and quality gates
 

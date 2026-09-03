@@ -5,10 +5,10 @@
 This repository builds the single publishable React package `@gravity-ui/uikit`, including its
 public JavaScript/TypeScript entrypoints and styles. Start with the human documentation:
 
-- [`docs/navigation.md`](docs/navigation.md) maps tasks to authoritative docs, source directories,
-  and validation.
-- [`docs/architecture.md`](docs/architecture.md) explains package boundaries, public entrypoints,
-  source layout, and build/test systems.
+- [`contribute/navigation.md`](contribute/navigation.md) maps tasks to authoritative docs, source
+  directories, and validation.
+- [`contribute/architecture.md`](contribute/architecture.md) explains package boundaries, public
+  entrypoints, source layout, and build/test systems.
 - Domain guides cover [theming](docs/theming.md), [layout](docs/layout.md),
   [typography](docs/typography.md), [SSR](docs/server-side-rendering.md), and
   [i18n](docs/i18n.md).
@@ -18,11 +18,11 @@ public JavaScript/TypeScript entrypoints and styles. Start with the human docume
 
 For every non-trivial repository question or change:
 
-1. Read `docs/navigation.md`.
-2. Read `docs/architecture.md`.
+1. Read `contribute/navigation.md`.
+2. Read `contribute/architecture.md`.
 3. Read the relevant domain guide and/or co-located component README.
 4. For implementation work, also follow the contributor and testing route in
-   `docs/navigation.md`.
+   `contribute/navigation.md`.
 5. Only then inspect source files. Keep exploration scoped to the paths identified by the docs.
 
 In the final response, include a `Consulted docs` line naming the documents used. A trivial lookup
@@ -48,25 +48,8 @@ may skip this gate, but the response must explicitly say why no documentation wa
 
 ## Testing and validation
 
-Use a change-aware fast loop and require every applicable check to pass:
-
-- Use the applicable npm scripts declared in `package.json` as the validation entrypoints. They
-  are the repository source of truth and keep local validation consistent with CI. Do not create
-  or run ad hoc shell, Node.js, or other one-off validators in place of repository scripts. If no
-  package script covers a desired check, report that validation gap instead of inventing a local
-  check.
-- Always run `git diff --check`.
-- Markdown: `npm run lint:prettier`.
-- TS/TSX: ESLint changed files, `npm run typecheck`, and exact co-located Jest test files. Use
-  `--findRelatedTests` only for shared code.
-- SCSS or visual behavior: `npm run lint:styles` and the targeted Playwright visual test.
-- Public exports, shared infrastructure, or package/build configuration: full lint, typecheck,
-  Jest, and `npm run build`.
-- Storybook/configuration: `npm run build-storybook`; use `test-storybook` when a target is
-  available.
-
-Never update snapshots without separate user approval. If approval is given, update only the
-relevant snapshots, rerun the targeted Playwright test, and report the changed snapshot files.
+Follow the [change-aware validation matrix](contribute/navigation.md#change-aware-validation), the
+single source of truth for required checks, dependency recovery, and snapshot handling.
 
 ## Response contract
 

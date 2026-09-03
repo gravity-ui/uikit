@@ -35,7 +35,7 @@ const SheetExample = () => {
 ## Properties
 
 | Name                        | Description                                                                                                                                                      |     Type      |     Default     |
-| :-------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-----------: | :-------------: |
+| :-------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-----------: | :-------------: | --- | ---------- | ----------- |
 | allowHideOnContentScroll    | Enables the behavior of closing the sheet window by swiping down if the content is scrolled to its top (`content Node.scrollTop === 0`) or has no scroll at all. |   `boolean`   |     `true`      |
 | alwaysFullHeight            | `Sheet` height will always have the maximum value                                                                                                                |   `boolean`   |   `undefined`   |
 | className                   | `class` HTML attribute                                                                                                                                           |   `string`    |   `undefined`   |

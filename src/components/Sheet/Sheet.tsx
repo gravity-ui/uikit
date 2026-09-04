@@ -2,21 +2,39 @@
 
 import * as React from 'react';
 
-import {FloatingOverlay} from '@floating-ui/react';
+import {
+    FloatingNode,
+    FloatingOverlay,
+    FloatingTree,
+    useFloating,
+    useFloatingNodeId,
+    useFloatingParentNodeId,
+    useInteractions,
+    useRole,
+} from '@floating-ui/react';
+import type {OpenChangeReason} from '@floating-ui/react';
 
+import {useFloatingTransition} from '../../hooks/private/useFloatingTransition';
 import {Portal} from '../Portal/Portal';
 import type {PortalProps} from '../Portal/Portal';
 import {useDefaultProps} from '../theme/useDefaultProps';
 import type {QAProps} from '../types';
+import {useLayer} from '../utils/layer-manager';
 
 import {SheetContentContainer} from './SheetContent';
-import {sheetBlock} from './constants';
+import {SHEET_TRANSITION_DURATION_MS, sheetBlock} from './constants';
+import {useSheetDismiss} from './hooks/useSheetDismiss';
 
 import './Sheet.scss';
 
+export type SheetOpenChangeReason = OpenChangeReason | 'swipe' | 'navigation';
+
 export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePortal'>, QAProps {
     children?: React.ReactNode;
+    /** @deprecated Use onOpenChange instead */
     onClose?: () => void;
+    /** Callback for open state changes, when dismiss happens for example */
+    onOpenChange?: (open: boolean, event?: Event, reason?: SheetOpenChangeReason) => void;
     /** Show/hide sheet */
     visible: boolean;
     /** ID of the sheet, used as hash in URL. It's important to specify different `id` values if there can be more than one sheet on the page */
@@ -39,10 +57,11 @@ export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePort
     alwaysFullHeight?: boolean;
 }
 
-export const Sheet = (rawProps: SheetProps) => {
+function SheetComponent(rawProps: SheetProps) {
     const {
         children,
         onClose,
+        onOpenChange,
         visible,
         id,
         title,
@@ -57,50 +76,88 @@ export const Sheet = (rawProps: SheetProps) => {
         disablePortal,
         qa,
     } = useDefaultProps('Sheet', rawProps);
-    const [open, setOpen] = React.useState(visible);
-    const [prevVisible, setPrevVisible] = React.useState(visible);
+    const {requestedOpen, requestDismiss} = useSheetDismiss({visible, onOpenChange});
+    const veilRef = React.useRef<HTMLDivElement>(null);
+    const isAnimatingRef = React.useRef(false);
 
-    if (!prevVisible && visible) {
-        setOpen(true);
-    }
+    const handleEscapeKeyDown = React.useCallback(
+        (event: KeyboardEvent) => {
+            requestDismiss({reason: 'escape-key', event});
+        },
+        [requestDismiss],
+    );
 
-    if (visible !== prevVisible) {
-        setPrevVisible(visible);
-    }
+    const floatingNodeId = useFloatingNodeId();
+    const {refs, context} = useFloating({
+        nodeId: floatingNodeId,
+        open: requestedOpen,
+    });
+    const handleExitComplete = React.useCallback(() => {
+        onClose?.();
+    }, [onClose]);
+    const {isMounted, status} = useFloatingTransition({
+        context,
+        duration: SHEET_TRANSITION_DURATION_MS,
+        onTransitionOutComplete: handleExitComplete,
+    });
 
-    const hideSheet = () => {
-        if (onClose) {
-            onClose();
-        }
-        setOpen(false);
-    };
+    useLayer({
+        open: isMounted,
+        type: 'sheet',
+        disableOutsideClick: true,
+        onEscapeKeyDown: handleEscapeKeyDown,
+    });
 
-    if (!open) {
-        return null;
+    const role = useRole(context, {role: 'dialog'});
+    const {getFloatingProps} = useInteractions([role]);
+
+    if (!isMounted) {
+        return <FloatingNode id={floatingNodeId} />;
     }
 
     return (
-        <Portal container={container} disablePortal={disablePortal}>
-            <FloatingOverlay
-                data-qa={qa}
-                className={sheetBlock({'without-top-bar': hideTopBar}, className)}
-                lockScroll={open}
-                style={{overflow: undefined}}
-            >
-                <SheetContentContainer
-                    id={id}
-                    content={children}
-                    contentClassName={contentClassName}
-                    swipeAreaClassName={swipeAreaClassName}
-                    title={title}
-                    visible={visible}
-                    allowHideOnContentScroll={allowHideOnContentScroll}
-                    hideTopBar={hideTopBar}
-                    hideSheet={hideSheet}
-                    maxContentHeightCoefficient={maxContentHeightCoefficient}
-                    alwaysFullHeight={alwaysFullHeight}
-                />
-            </FloatingOverlay>
-        </Portal>
+        <FloatingNode id={floatingNodeId}>
+            <Portal container={container} disablePortal={disablePortal}>
+                <FloatingOverlay
+                    data-qa={qa}
+                    data-floating-ui-status={status}
+                    className={sheetBlock({'without-top-bar': hideTopBar}, className)}
+                    lockScroll={isMounted}
+                    style={{overflow: undefined}}
+                >
+                    <SheetContentContainer
+                        id={id}
+                        content={children}
+                        contentClassName={contentClassName}
+                        swipeAreaClassName={swipeAreaClassName}
+                        title={title}
+                        status={status}
+                        allowHideOnContentScroll={allowHideOnContentScroll}
+                        hideTopBar={hideTopBar}
+                        requestDismiss={requestDismiss}
+                        veilRef={veilRef}
+                        isAnimatingRef={isAnimatingRef}
+                        floatingRef={refs.setFloating}
+                        getFloatingProps={getFloatingProps}
+                        maxContentHeightCoefficient={maxContentHeightCoefficient}
+                        alwaysFullHeight={alwaysFullHeight}
+                    />
+                </FloatingOverlay>
+            </Portal>
+        </FloatingNode>
     );
-};
+}
+
+export function Sheet(props: SheetProps) {
+    const parentId = useFloatingParentNodeId();
+
+    if (parentId === null) {
+        return (
+            <FloatingTree>
+                <SheetComponent {...props} />
+            </FloatingTree>
+        );
+    }
+
+    return <SheetComponent {...props} />;
+}

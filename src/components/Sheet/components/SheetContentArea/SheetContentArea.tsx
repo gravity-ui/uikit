@@ -35,6 +35,7 @@ export function SheetContentArea({
     title,
     withoutScroll,
     alwaysFullHeight,
+    onTouchCancel,
     onTouchStart,
     onTouchMove,
     onTouchEnd,
@@ -47,6 +48,7 @@ export function SheetContentArea({
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
+            onTouchCancel={onTouchCancel}
             onTransitionEnd={onTransitionEnd}
             data-qa={SheetQa.CONTENT_AREA}
         >

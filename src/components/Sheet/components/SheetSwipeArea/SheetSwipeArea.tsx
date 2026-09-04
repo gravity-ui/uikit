@@ -14,6 +14,7 @@ export interface SheetSwipeAreaProps extends SwipeAreaHandlers {
 
 export function SheetSwipeArea({
     className,
+    onTouchCancel,
     onTouchEnd,
     onTouchMove,
     onTouchStart,
@@ -24,6 +25,7 @@ export function SheetSwipeArea({
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
+            onTouchCancel={onTouchCancel}
             data-qa={SheetQa.SWIPE_AREA}
         />
     );

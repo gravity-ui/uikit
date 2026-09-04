@@ -2,9 +2,10 @@ import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {render} from '../../../../test-utils/utils';
+import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
 import {Dialog} from '../../Dialog';
 import {TRANSITION_DURATION} from '../../Popup/constants';
+import {SHEET_TRANSITION_DURATION_MS, SheetQa} from '../../Sheet/constants';
 import {Select} from '../Select';
 import {GROUP_ITEM_MARGIN_TOP, SelectQa} from '../constants';
 import type {SelectSize} from '../types';
@@ -13,6 +14,9 @@ import {DEFAULT_OPTIONS, GROUPED_OPTIONS, TEST_QA, setup, timeout} from './utils
 
 const onUpdate = jest.fn();
 describe('Select popup', () => {
+    afterEach(() => {
+        jest.useRealTimers();
+    });
     test('should apply user class names to select and popup', async () => {
         const className = 'user-select-class';
         const popupClassName = 'user-popup-class';
@@ -219,6 +223,22 @@ describe('Select popup', () => {
         await timeout(TRANSITION_DURATION);
 
         expect(queryByTestId(SelectQa.POPUP)).toBeNull();
+    });
+
+    test('should close the mobile sheet on Escape key press', async () => {
+        jest.useFakeTimers();
+        const {getByTestId, queryByTestId} = setup({options: DEFAULT_OPTIONS}, true);
+        const user = userEvent.setup({advanceTimers: jest.advanceTimersByTime});
+
+        await user.click(getByTestId(TEST_QA));
+        fireEvent.transitionEnd(screen.getByTestId(SheetQa.VEIL));
+
+        await user.keyboard('{Escape}');
+        act(() => {
+            jest.advanceTimersByTime(SHEET_TRANSITION_DURATION_MS);
+        });
+
+        expect(queryByTestId(SelectQa.SHEET)).toBeNull();
     });
 
     test('should close select popup on Escape key press inside Dialog', async () => {

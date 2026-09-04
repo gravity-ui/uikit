@@ -1,9 +1,12 @@
 import type {StorybookConfig} from '@storybook/react-webpack5';
 
-import {sassFunctions} from '../build-utils/sass-functions';
+import {sassFunctions} from '../build-utils/sass-functions.js';
 
 const config: StorybookConfig = {
     framework: '@storybook/react-webpack5',
+    features: {
+        backgrounds: false,
+    },
     stories: ['../src/**/*.mdx', '../src/**/*.stories.@(ts|tsx)'],
     docs: {
         defaultName: 'Docs',

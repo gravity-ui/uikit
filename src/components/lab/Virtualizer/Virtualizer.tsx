@@ -8,7 +8,11 @@ import type {
     VirtualItem,
     Virtualizer as VirtualizerInstance,
 } from '@tanstack/react-virtual';
-import {defaultRangeExtractor, useVirtualizer} from '@tanstack/react-virtual';
+import {
+    defaultRangeExtractor,
+    measureElement as measureElementDefault,
+    useVirtualizer,
+} from '@tanstack/react-virtual';
 
 import {useForkRef} from '../../../hooks';
 import type {Key} from '../../types';
@@ -40,6 +44,13 @@ interface VirtualizerProps extends Loadable, React.HTMLAttributes<HTMLDivElement
     getItemKey: (index: number, parentKey?: Key) => Key;
     /** Disables virtualization of the list. This might be useful for small lists. */
     disableVirtualization?: boolean;
+    /** The number of items to render above and below the visible area. */
+    overscan?: number;
+    /**
+     * Whether to measure rendered rows and use their actual sizes instead of
+     * the `getItemSize` estimation. Only top-level rows are measured.
+     */
+    measure?: boolean;
     /** Renders the row of the list. */
     renderRow: (
         /**
@@ -68,6 +79,8 @@ export function Virtualizer({
     getItemSize,
     getItemKey,
     disableVirtualization,
+    overscan = 0,
+    measure = true,
     renderRow,
     loading,
     onLoadMore,
@@ -77,15 +90,96 @@ export function Virtualizer({
     const scrollContainerRef = React.useRef<HTMLDivElement>(null);
     const ref = useForkRef(containerRef, scrollContainerRef);
 
+    // The total scroll size is only as honest as the estimation: until a row
+    // is measured its height is `getItemSize`. Scaling the estimation of the
+    // not-yet-measured rows by the measured/estimated ratio of the already
+    // measured ones makes the total size (and the scrollbar) match the real
+    // content right after the first window is measured, instead of "growing"
+    // while the user scrolls through an underestimated list.
+    const getItemSizeRef = React.useRef(getItemSize);
+    const getItemKeyRef = React.useRef(getItemKey);
+    getItemKeyRef.current = getItemKey;
+    const estimateCorrectionRef = React.useRef({
+        sizes: new Map<string, number>(),
+        measuredTotal: 0,
+        estimatedTotal: 0,
+    });
+    // A new getItemSize identity means the estimates themselves changed (the
+    // size of the rows, the consumer's estimate function): the accumulated
+    // measured/estimated ratio belongs to the old estimates and would skew the
+    // unmeasured tail, so the correction starts over
+    if (getItemSizeRef.current !== getItemSize) {
+        estimateCorrectionRef.current = {sizes: new Map(), measuredTotal: 0, estimatedTotal: 0};
+    }
+    getItemSizeRef.current = getItemSize;
+    const estimateSize = React.useCallback((index: number) => {
+        const correction = estimateCorrectionRef.current;
+        // A row that has already been measured is estimated with its actual
+        // size: tanstack does not cache a measurement that matched the current
+        // estimation, so without this its size would drift along with the ratio
+        const measuredSize = correction.sizes.get(String(getItemKeyRef.current(index)));
+        if (measuredSize !== undefined) {
+            return measuredSize;
+        }
+        const estimate = getItemSizeRef.current(index);
+        return correction.estimatedTotal > 0
+            ? Math.round((estimate * correction.measuredTotal) / correction.estimatedTotal)
+            : estimate;
+    }, []);
+
     const {rangeExtractor, persistedChildren} =
         getRangeExtractorAndChildrenIndexes(persistedIndexes);
     const virtualizer = useVirtualizer({
         count,
         getScrollElement: () => scrollContainerRef.current,
         getItemKey,
-        estimateSize: getItemSize,
+        estimateSize,
         rangeExtractor,
-        overscan: disableVirtualization ? count : 0,
+        overscan: disableVirtualization ? count : overscan,
+        measureElement: (element, entry, instance) => {
+            const size = measureElementDefault(element, entry, instance);
+            // Rows are identified by the data-key/data-index attributes set
+            // by renderRows on the measured wrappers
+            const {key, index} = (element as HTMLElement).dataset;
+            if (key !== undefined && index !== undefined) {
+                const correction = estimateCorrectionRef.current;
+                // A row that has been measured before and now measures 0 has no
+                // content to measure right now (a dnd library hides the original
+                // row while its clone/overlay is dragged) — it is not a 0px tall
+                // row. Recording the zero would collapse the slot and visibly
+                // shift every row below, so report the previous measurement:
+                // tanstack sees no delta and leaves its cache untouched, while
+                // the wrapper stays observed and re-measures itself once the
+                // content comes back. Rows that never measured non-zero fall
+                // through — those can legitimately be empty (a custom renderItem
+                // returning null), and collapsing them is correct.
+                const lastMeasured = correction.sizes.get(key);
+                if (size === 0 && lastMeasured !== undefined) {
+                    return lastMeasured;
+                }
+                // A stable dataset can hold at most `count` distinct keys; more
+                // than that means the data shrank or got replaced and the cache
+                // now carries orphaned keys — their sizes skew the ratio and
+                // leak memory, so drop the whole cache and rebuild it from the
+                // current window. Append-only growth (infinite scroll) keeps
+                // size <= count and is preserved.
+                if (correction.sizes.size > count) {
+                    correction.sizes.clear();
+                    correction.measuredTotal = 0;
+                    correction.estimatedTotal = 0;
+                }
+                const prevSize = correction.sizes.get(key);
+                if (prevSize === undefined) {
+                    correction.estimatedTotal += getItemSizeRef.current(Number(index));
+                    correction.measuredTotal += size;
+                    correction.sizes.set(key, size);
+                } else if (prevSize !== size) {
+                    correction.measuredTotal += size - prevSize;
+                    correction.sizes.set(key, size);
+                }
+            }
+            return size;
+        },
     });
 
     React.useImperativeHandle(
@@ -118,7 +212,9 @@ export function Virtualizer({
             style={{
                 ...props.style,
                 overflow: 'auto',
-                contain: disableVirtualization ? undefined : 'strict',
+                // 'content' instead of 'strict': size containment collapses
+                // containers whose height is bounded only by max-height
+                contain: disableVirtualization ? undefined : 'content',
             }}
         >
             {renderRows({
@@ -132,7 +228,7 @@ export function Virtualizer({
                 getItemKey,
                 disableVirtualization,
                 persistedChildren,
-                measureElement: virtualizer.measureElement,
+                measureElement: measure ? virtualizer.measureElement : undefined,
             })}
         </div>
     );
@@ -177,6 +273,12 @@ function renderRows({
                           height: totalHeight,
                           width: '100%',
                           position: 'relative',
+                          // The scroll container may turn out to be a flex one
+                          // (the List root is a flex column): without
+                          // forbidding the shrink, the spacer collapses (its
+                          // min-content is 0 — the rows are positioned
+                          // absolutely) and the full scroll height is lost
+                          flex: 'none',
                       }
             }
         >

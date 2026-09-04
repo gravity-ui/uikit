@@ -48,6 +48,38 @@ export {
 } from './components/lab/Menu';
 
 export {
+    List as unstable_List,
+    moveItem as unstable_moveItem,
+    useListFocusOwner as unstable_useListFocusOwner,
+    useListHelloPangeaDnd as unstable_useListHelloPangeaDnd,
+    type UseListHelloPangeaDndOptions as unstable_UseListHelloPangeaDndOptions,
+    type UseListHelloPangeaDndResult as unstable_UseListHelloPangeaDndResult,
+    type ListFocusOwner as unstable_ListFocusOwner,
+    type ListFocusOwnerInputProps as unstable_ListFocusOwnerInputProps,
+    type ListProps as unstable_ListProps,
+    type ListSelectionProps as unstable_ListSelectionProps,
+    type ListDndAdapter as unstable_ListDndAdapter,
+    type ListDndProps as unstable_ListDndProps,
+    type ListDropTarget as unstable_ListDropTarget,
+    type ListItemContext as unstable_ListItemContext,
+    type ListItemHelpers as unstable_ListItemHelpers,
+    type ListItemGetters as unstable_ListItemGetters,
+    type ListItemActionEvent as unstable_ListItemActionEvent,
+    type ListPropsOverrides as unstable_ListPropsOverrides,
+    type ListItemDOMProps as unstable_ListItemDOMProps,
+    type ListCellDOMProps as unstable_ListCellDOMProps,
+    type ListItemViewStateProps as unstable_ListItemViewStateProps,
+    type ListSectionHeaderProps as unstable_ListSectionHeaderProps,
+    type ListRole as unstable_ListRole,
+    type ListSize as unstable_ListSize,
+} from './components/lab/List';
+
+export {
+    ListVirtualizer as unstable_ListVirtualizer,
+    type ListVirtualizerProps as unstable_ListVirtualizerProps,
+} from './components/lab/Virtualizer/ListVirtualizer';
+
+export {
     ColorPicker as unstable_ColorPicker,
     type ColorPickerProps as unstable_ColorPickerProps,
 } from './components/lab/ColorPicker';

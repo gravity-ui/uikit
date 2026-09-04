@@ -239,3 +239,28 @@ export const MutableContent = {
         );
     },
 } satisfies Story;
+
+export const FalseCollapseOnContentWidth = {
+    render: (args) => (
+        <Flex direction="column" gap={3} style={{width: 600}}>
+            <Text color="secondary">
+                {'The row is 600px wide and the breadcrumbs do not overflow, yet the list still ' +
+                    'collapses into the “…” menu. It happens whenever the <ol> is sized to its ' +
+                    'content — e.g. Breadcrumbs placed in a flex row without `flex: 1`, a common ' +
+                    'page-header layout.'}
+            </Text>
+            <Flex
+                alignItems="center"
+                style={{border: '1px dashed var(--g-color-line-generic)', padding: 8}}
+            >
+                <Breadcrumbs {...args}>
+                    <Breadcrumbs.Item>Region</Breadcrumbs.Item>
+                    <Breadcrumbs.Item>Country</Breadcrumbs.Item>
+                    <Breadcrumbs.Item>City</Breadcrumbs.Item>
+                    <Breadcrumbs.Item>District</Breadcrumbs.Item>
+                    <Breadcrumbs.Item>Street</Breadcrumbs.Item>
+                </Breadcrumbs>
+            </Flex>
+        </Flex>
+    ),
+} satisfies Story;

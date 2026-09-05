@@ -70,8 +70,13 @@ export const ListItemViewContent = ({
     ) : null;
 
     return (
-        <Flex alignItems="center" justifyContent="space-between" gap="4" className={b('content')}>
-            <Flex gap="2" alignItems="center" grow>
+        <Flex
+            alignItems="center"
+            justifyContent="space-between"
+            gap="spacing-4"
+            className={b('content')}
+        >
+            <Flex gap="spacing-2" alignItems="center" flexGrow>
                 {hasSelectionIcon && (
                     <ListItemViewSlot // reserve space
                     >
@@ -109,7 +114,7 @@ export const ListItemViewContent = ({
                 </div>
             </Flex>
 
-            <Flex gap="2">
+            <Flex gap="spacing-2">
                 {expandIconPlacement === 'end' && expandIconNode}
                 {endSlot}
             </Flex>

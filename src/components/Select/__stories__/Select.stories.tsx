@@ -53,7 +53,7 @@ type StoryArgs = Exclude<Story['args'], undefined>;
 
 export const Default = {
     render: (args) => (
-        <Flex gap={2}>
+        <Flex gap="spacing-2">
             <Select {...args} title="Select sample">
                 <Select.Option value="val1" content="Value1" />
                 <Select.Option value="val2" content="Value2" />

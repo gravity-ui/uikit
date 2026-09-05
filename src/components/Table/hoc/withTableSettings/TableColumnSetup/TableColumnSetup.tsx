@@ -378,7 +378,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
             renderControls ? (
                 renderControls({DefaultApplyButton, onApply})
             ) : (
-                <Flex gapRow={1} direction="column" className={controlsCn}>
+                <Flex rowGap="spacing-1" direction="column" className={controlsCn}>
                     {showResetButton && (
                         <Button
                             onClick={() => {

@@ -53,7 +53,7 @@ import type {StepperProps} from '../Stepper';
 import type {SwitchProps} from '../Switch';
 import type {TextProps} from '../Text';
 import type {TocProps} from '../Toc';
-import type {TooltipProps} from '../Tooltip';
+import type {TooltipDelayGroupProps, TooltipProps} from '../Tooltip';
 import type {UserProps} from '../User';
 import type {UserLabelProps} from '../UserLabel';
 import type {PasswordInputProps} from '../controls/PasswordInput';
@@ -121,6 +121,7 @@ export interface ComponentDefaultPropsMap {
     TextInput?: Partial<TextInputProps>;
     Toc?: Partial<TocProps>;
     Tooltip?: Partial<TooltipProps>;
+    TooltipDelayGroup?: Partial<TooltipDelayGroupProps>;
     User?: Partial<UserProps>;
     UserLabel?: Partial<UserLabelProps>;
 }

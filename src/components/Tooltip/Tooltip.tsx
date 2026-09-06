@@ -16,7 +16,7 @@ import {
 } from '@floating-ui/react';
 import type {OpenChangeReason, Strategy} from '@floating-ui/react';
 
-import {useControlledState, useForkRef} from '../../hooks';
+import {useControlledState, useForkRef, useLayoutEffect} from '../../hooks';
 import type {PopupOffset, PopupPlacement} from '../Popup';
 import {OVERFLOW_PADDING} from '../Popup/constants';
 import {getPlacementOptions} from '../Popup/utils';
@@ -27,6 +27,8 @@ import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
 import {getElementRef} from '../utils/getElementRef';
+
+import {TooltipDelayGroupContext} from './TooltipDelayGroupContext';
 
 import './Tooltip.scss';
 
@@ -118,10 +120,32 @@ export function Tooltip(rawProps: TooltipProps) {
         },
     });
 
+    const delayGroup = React.useContext(TooltipDelayGroupContext);
+    // Disabled tooltip is never shown, so it should not warm its group up
+    const group = disabled ? null : delayGroup;
+    const isGroupWarm = group?.warm ?? false;
+    const registerInGroup = group?.register;
+
+    const onOpenChangeRef = React.useRef(context.onOpenChange);
+    useLayoutEffect(() => {
+        onOpenChangeRef.current = context.onOpenChange;
+    });
+
+    useLayoutEffect(() => {
+        if (!registerInGroup || !isOpen) {
+            return undefined;
+        }
+
+        // Notify Floating UI interactions so pending hover timers are cleared.
+        return registerInGroup(() => onOpenChangeRef.current(false));
+    }, [registerInGroup, isOpen]);
+
     const hover = useHover(context, {
         enabled: trigger === 'all',
-        delay: {open: openDelay, close: closeDelay},
-        restMs: rest,
+        delay: isGroupWarm
+            ? {open: 0, close: group?.closeDelay ?? closeDelay}
+            : {open: openDelay, close: closeDelay},
+        restMs: isGroupWarm ? 0 : rest,
         move: false,
     });
     const focus = useFocus(context);

@@ -82,7 +82,7 @@ test('should keep a tooltip reopened by focus visible after the previous hover c
     expect(screen.getByText('second tooltip')).toBeVisible();
     expect(screen.queryByText('first tooltip')).not.toBeInTheDocument();
 
-    // Reopen the first tooltip before its previous hover close timer would fire.
+    // Focus before the previous hover close timer would fire.
     await user.tab();
     expect(first).toHaveFocus();
     expect(screen.getByText('first tooltip')).toBeVisible();
@@ -162,7 +162,6 @@ test('should keep asking a controlled tooltip to close while it stays open', asy
     const second = screen.getByRole('button', {name: 'second'});
     expect(screen.getByText('controlled tooltip')).toBeVisible();
 
-    // The group is warm because of the open controlled tooltip
     await user.hover(second);
     expect(screen.getByText('second tooltip')).toBeVisible();
     expect(onOpenChange).toHaveBeenCalledTimes(1);
@@ -172,7 +171,7 @@ test('should keep asking a controlled tooltip to close while it stays open', asy
     advanceTime(WARM_CLOSE_DELAY);
     advanceTime(SKIP_DELAY);
 
-    // The controlled tooltip is still open, so the group must not cool down
+    // The open controlled tooltip keeps the group warm.
     await user.hover(second);
     expect(screen.getByText('second tooltip')).toBeVisible();
     expect(onOpenChange).toHaveBeenCalledTimes(2);

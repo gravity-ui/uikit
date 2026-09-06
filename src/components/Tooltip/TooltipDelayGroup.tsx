@@ -10,9 +10,9 @@ import type {TooltipDelayGroupContextProps} from './TooltipDelayGroupContext';
 export interface TooltipDelayGroupProps {
     /** Tooltips sharing the open delay */
     children?: React.ReactNode;
-    /** How much time in ms after the last tooltip is closed the group stays warm */
+    /** Milliseconds to stay warm after the last tooltip closes */
     skipDelay?: number;
-    /** Delay in ms before close for the tooltips of a warm group */
+    /** Close delay in milliseconds while the group is warm */
     closeDelay?: number;
 }
 
@@ -42,8 +42,7 @@ export function TooltipDelayGroup(rawProps: TooltipDelayGroupProps) {
 
         for (const closeOther of openTooltips) {
             if (closeOther !== close) {
-                // A controlled tooltip may ignore the request, so it stays registered
-                // until it is actually closed
+                // Keep controlled tooltips registered until they actually close.
                 closeOther();
             }
         }

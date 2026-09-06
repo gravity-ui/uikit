@@ -121,7 +121,6 @@ export function Tooltip(rawProps: TooltipProps) {
     });
 
     const delayGroup = React.useContext(TooltipDelayGroupContext);
-    // Disabled tooltip is never shown, so it should not warm its group up
     const group = disabled ? null : delayGroup;
     const isGroupWarm = group?.warm ?? false;
     const registerInGroup = group?.register;
@@ -136,7 +135,7 @@ export function Tooltip(rawProps: TooltipProps) {
             return undefined;
         }
 
-        // Notify Floating UI interactions so pending hover timers are cleared.
+        // Clear pending hover timers through Floating UI.
         return registerInGroup(() => onOpenChangeRef.current(false));
     }, [registerInGroup, isOpen]);
 

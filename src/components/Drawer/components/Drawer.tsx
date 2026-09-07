@@ -18,6 +18,7 @@ import {Portal} from '../../Portal';
 import {useDefaultProps} from '../../theme/useDefaultProps';
 import {block} from '../../utils/cn';
 import {filterDOMProps} from '../../utils/filterDOMProps';
+import {useLayer} from '../../utils/layer-manager';
 import {DRAWER_ANIMATION_DURATION_MS} from '../constants';
 import {useInitialFocus} from '../hooks/useInitialFocus';
 import type {DrawerPlacement, OnResizeHandler} from '../hooks/useResizeHandlers';
@@ -89,6 +90,11 @@ export interface DrawerProps
      * @default false
      */
     disableModal?: boolean;
+    /**
+     * Disables registering the drawer in the layer manager.
+     * @default true
+     */
+    disableLayer?: boolean;
 }
 
 export const Drawer = (rawProps: DrawerProps) => {
@@ -126,8 +132,10 @@ export const Drawer = (rawProps: DrawerProps) => {
         hideVeil = false,
         disableTransition = false,
         disableModal = false,
+        disableLayer = true,
         ...restProps
     } = useDefaultProps('Drawer', rawProps);
+    useLayer({open, type: 'drawer', enabled: !disableLayer});
     const floatingNodeId = useFloatingNodeId();
 
     const {refs, context} = useFloating({

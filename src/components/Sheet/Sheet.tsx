@@ -12,7 +12,6 @@ import {
     useInteractions,
     useRole,
 } from '@floating-ui/react';
-import type {OpenChangeReason} from '@floating-ui/react';
 
 import {useFloatingTransition} from '../../hooks/private/useFloatingTransition';
 import {Portal} from '../Portal/Portal';
@@ -27,7 +26,7 @@ import {useSheetDismiss} from './hooks/useSheetDismiss';
 
 import './Sheet.scss';
 
-export type SheetOpenChangeReason = OpenChangeReason | 'swipe' | 'navigation';
+export type SheetOpenChangeReason = 'escape-key' | 'outside-press' | 'swipe' | 'navigation';
 
 export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePortal'>, QAProps {
     children?: React.ReactNode;

@@ -1,11 +1,9 @@
 import * as React from 'react';
 
-import type {SheetProps} from '../Sheet';
-
-export type SheetDismissReason = 'escape-key' | 'outside-press' | 'swipe' | 'navigation';
+import type {SheetOpenChangeReason, SheetProps} from '../Sheet';
 
 export interface SheetDismissRequest {
-    reason: SheetDismissReason;
+    reason: SheetOpenChangeReason;
     event?: Event;
     immediate?: boolean;
 }

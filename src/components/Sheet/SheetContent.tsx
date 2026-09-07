@@ -3,8 +3,8 @@
 import * as React from 'react';
 
 import type {UseInteractionsReturn} from '@floating-ui/react';
+import {useMergeRefs} from '@floating-ui/react';
 
-import {useForkRef} from '../../hooks';
 import {MobileContext} from '../mobile';
 import {warnOnce} from '../utils/warn';
 
@@ -83,7 +83,7 @@ export function SheetContent(props: SheetContentProps) {
     const sheetTopRef = React.useRef<HTMLDivElement>(null);
     const sheetMarginBoxRef = React.useRef<HTMLDivElement>(null);
     const sheetScrollContainerRef = React.useRef<HTMLDivElement>(null);
-    const handleSheetRef = useForkRef(sheetRef, floatingRef);
+    const handleSheetRef = useMergeRefs([sheetRef, floatingRef]);
 
     const observerRef = React.useRef<ResizeObserver | null>(null);
     const resizeWindowTimerRef = React.useRef<number | null>(null);

@@ -2,8 +2,8 @@ import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests
 
 import {test} from '~playwright/core';
 
-import type {ButtonProps} from '../Button';
 import {Button} from '../Button';
+import type {ButtonProps} from '../types';
 
 import {
     disabledCases,

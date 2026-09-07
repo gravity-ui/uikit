@@ -11,6 +11,7 @@ type Props = Omit<TextAreaProps, 'autoComplete' | 'onChange' | 'controlProps'> &
     onChange: NonNullable<TextAreaProps['onChange']>;
     autoComplete?: React.TextareaHTMLAttributes<HTMLTextAreaElement>['autoComplete'];
     controlProps: NonNullable<TextAreaProps['controlProps']>;
+    inputValue: string;
 };
 
 const b = block('text-area');
@@ -52,22 +53,30 @@ export function TextAreaControl(props: Props) {
         onKeyDown,
         onKeyUp,
         onKeyPress,
+        inputValue,
     } = props;
     const innerControlRef = React.useRef<HTMLTextAreaElement>(null);
     const handleRef = useForkRef(controlRef, innerControlRef);
-    const textareaRows = Math.max(rows || minRows, 1);
-    const innerValue = value || innerControlRef?.current?.value;
+    const textareaRows = rows
+        ? Math.max(rows, 1)
+        : Math.max(Math.min(minRows, maxRows || Infinity), 1);
+    const shouldAutoResize = !rows && Boolean(inputValue || placeholder || textareaRows > 1);
 
     const resizeHeight = React.useCallback(() => {
         const control = innerControlRef?.current;
         const parent = control?.parentElement;
 
         if (control && parent && !rows) {
+            if (!inputValue && !placeholder && textareaRows === 1) {
+                control.style.height = '';
+                return;
+            }
+
             const controlStyles = getComputedStyle(control);
             const lineHeight = parseInt(controlStyles.getPropertyValue('line-height'), 10);
             const paddingTop = parseInt(controlStyles.getPropertyValue('padding-top'), 10);
             const paddingBottom = parseInt(controlStyles.getPropertyValue('padding-bottom'), 10);
-            const linesWithCarriageReturn = (innerValue?.match(/\n/g) || []).length + 1;
+            const linesWithCarriageReturn = (inputValue.match(/\n/g) || []).length + 1;
 
             const parentHeight = parent.style.height;
             parent.style.height = `${parent.offsetHeight}px`;
@@ -96,10 +105,10 @@ export function TextAreaControl(props: Props) {
             control.style.overflow = overflow;
             parent.style.height = parentHeight;
         }
-    }, [rows, maxRows, minRows, innerValue]);
+    }, [rows, maxRows, minRows, inputValue, placeholder, textareaRows]);
 
     useResizeObserver({
-        ref: rows ? undefined : innerControlRef,
+        ref: shouldAutoResize ? innerControlRef : undefined,
         onResize: resizeHeight,
     });
 

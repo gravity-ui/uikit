@@ -11,18 +11,10 @@ import {action} from 'storybook/actions';
 
 import {Showcase} from '../../../demo/Showcase';
 import {Icon as IconComponent} from '../../Icon/Icon';
-import type {IconProps} from '../../Icon/Icon';
 import {Button} from '../Button';
-import type {ButtonButtonProps, ButtonLinkProps, ButtonSize} from '../Button';
-import {BUTTON_ICON_SIZE_MAP} from '../constants';
+import type {ButtonButtonProps, ButtonLinkProps} from '../types';
 
 import {ButtonViewShowcase} from './ButtonViewShowcase';
-
-function IconWithSize({data, size = 'm'}: Omit<IconProps, 'size'> & {size?: ButtonSize}) {
-    return <IconComponent data={data} size={BUTTON_ICON_SIZE_MAP[size]} />;
-}
-
-IconWithSize.displayName = 'Icon';
 
 export default {
     title: 'Components/Inputs/Button',
@@ -91,20 +83,20 @@ export const Icon: Story = {
         <Showcase>
             <Button {...args}>No icon</Button>
             <Button {...args}>
-                <IconWithSize data={Heart} size={args.size} />
+                <IconComponent data={Heart} />
                 Start
             </Button>
             <Button {...args}>
                 End
-                <IconWithSize data={CircleChevronRight} size={args.size} />
+                <IconComponent data={CircleChevronRight} />
             </Button>
             <Button {...args}>
-                <IconWithSize data={Globe} size={args.size} />
+                <IconComponent data={Globe} />
                 Both
-                <IconWithSize data={ChevronDown} size={args.size} />
+                <IconComponent data={ChevronDown} />
             </Button>
             <Button {...args} title="Copy">
-                <IconWithSize data={Copy} size={args.size} />
+                <IconComponent data={Copy} />
             </Button>
         </Showcase>
     ),
@@ -179,7 +171,7 @@ export const Link: Story = {
     render: (args) => (
         <Button {...args}>
             Link Button
-            <IconWithSize data={ArrowUpRightFromSquare} size={args.size} />
+            <IconComponent data={ArrowUpRightFromSquare} />
         </Button>
     ),
     args: {
@@ -203,7 +195,7 @@ export const InsideText: Story = {
                 <br />
                 sit{' '}
                 <Button {...args} aria-label="Icon button inside text">
-                    <IconWithSize data={Globe} size={args.size} />
+                    <IconComponent data={Globe} />
                 </Button>{' '}
                 amet
             </div>

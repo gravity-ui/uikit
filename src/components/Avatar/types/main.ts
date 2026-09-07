@@ -18,6 +18,7 @@ interface AvatarBaseProps extends AriaLabelingProps, DOMProps, QAProps {
     backgroundColor?: string;
     borderColor?: string;
     title?: string;
+    children?: React.ReactNode;
 }
 
 export type AvatarProps = AvatarBaseProps &

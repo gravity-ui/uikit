@@ -12,6 +12,7 @@ import {
     useInteractions,
     useRole,
 } from '@floating-ui/react';
+import type {FloatingFocusManagerProps} from '@floating-ui/react';
 
 import {useFloatingTransition} from '../../hooks/private/useFloatingTransition';
 import {Portal} from '../Portal/Portal';
@@ -26,7 +27,12 @@ import {useSheetDismiss} from './hooks/useSheetDismiss';
 
 import './Sheet.scss';
 
-export type SheetOpenChangeReason = 'escape-key' | 'outside-press' | 'swipe' | 'navigation';
+export type SheetOpenChangeReason =
+    | 'escape-key'
+    | 'outside-press'
+    | 'swipe'
+    | 'navigation'
+    | 'dismiss';
 
 export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePortal'>, QAProps {
     children?: React.ReactNode;
@@ -36,6 +42,12 @@ export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePort
     onOpenChange?: (open: boolean, event?: Event, reason?: SheetOpenChangeReason) => void;
     /** Show/hide sheet */
     visible: boolean;
+    /** Move and trap focus inside the sheet. Disable for sheets that must not take focus. */
+    modal?: boolean;
+    /** Initially focused element or tabbable element index. Defaults to the first control. */
+    initialFocus?: FloatingFocusManagerProps['initialFocus'];
+    /** Element to focus after closing. Defaults to the element that opened the sheet. */
+    returnFocus?: FloatingFocusManagerProps['returnFocus'];
     /** ID of the sheet, used as hash in URL. It's important to specify different `id` values if there can be more than one sheet on the page */
     id?: string;
     /** Title of the sheet window */
@@ -62,6 +74,9 @@ function SheetComponent(rawProps: SheetProps) {
         onClose,
         onOpenChange,
         visible,
+        modal = true,
+        initialFocus,
+        returnFocus,
         id,
         title,
         className,
@@ -90,6 +105,11 @@ function SheetComponent(rawProps: SheetProps) {
     const {refs, context} = useFloating({
         nodeId: floatingNodeId,
         open: requestedOpen,
+        onOpenChange: (open, event) => {
+            if (!open) {
+                requestDismiss({reason: 'dismiss', event});
+            }
+        },
     });
     const handleExitComplete = React.useCallback(() => {
         onClose?.();
@@ -101,7 +121,7 @@ function SheetComponent(rawProps: SheetProps) {
     });
 
     useLayer({
-        open: isMounted,
+        open: isMounted && modal,
         type: 'sheet',
         disableOutsideClick: true,
         onEscapeKeyDown: handleEscapeKeyDown,
@@ -131,6 +151,10 @@ function SheetComponent(rawProps: SheetProps) {
                         swipeAreaClassName={swipeAreaClassName}
                         title={title}
                         status={status}
+                        floatingContext={context}
+                        modal={modal}
+                        initialFocus={initialFocus}
+                        returnFocus={returnFocus}
                         allowHideOnContentScroll={allowHideOnContentScroll}
                         hideTopBar={hideTopBar}
                         requestDismiss={requestDismiss}

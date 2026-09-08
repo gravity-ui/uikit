@@ -2,12 +2,13 @@
 
 import * as React from 'react';
 
-import type {UseInteractionsReturn} from '@floating-ui/react';
-import {useMergeRefs} from '@floating-ui/react';
+import type {FloatingContext, UseInteractionsReturn} from '@floating-ui/react';
+import {FloatingFocusManager, useMergeRefs} from '@floating-ui/react';
 
 import {MobileContext} from '../mobile';
 import {warnOnce} from '../utils/warn';
 
+import type {SheetProps} from './Sheet';
 import {SheetContentArea, SheetSwipeArea, SheetVeil} from './components';
 import {SheetQa, sheetBlock} from './constants';
 import {useContentScroll} from './hooks/useContentScroll';
@@ -16,6 +17,7 @@ import {useSheetHash} from './hooks/useSheetHash';
 import {useSwipe} from './hooks/useSwipe';
 import type {CancelSwipeOptions} from './hooks/useSwipe';
 import {useVeil} from './hooks/useVeil';
+import i18n from './i18n';
 import type {Status} from './types';
 
 import './Sheet.scss';
@@ -32,7 +34,8 @@ function warnAboutOutOfRange() {
     );
 }
 
-interface SheetContentBaseProps {
+interface SheetContentBaseProps extends Pick<SheetProps, 'modal' | 'initialFocus' | 'returnFocus'> {
+    floatingContext: FloatingContext;
     requestDismiss: UseSheetDismissResult['requestDismiss'];
     veilRef: React.RefObject<HTMLDivElement>;
     isAnimatingRef: React.MutableRefObject<boolean>;
@@ -64,6 +67,10 @@ export function SheetContent(props: SheetContentProps) {
         hideTopBar,
         title,
         status,
+        floatingContext,
+        modal = true,
+        initialFocus = 0,
+        returnFocus,
         requestDismiss,
         veilRef,
         isAnimatingRef,
@@ -75,6 +82,7 @@ export function SheetContent(props: SheetContentProps) {
         allowHideOnContentScroll = true,
     } = props;
 
+    const {t} = i18n.useTranslation();
     const {platform, useHistory, useLocation} = React.useContext(MobileContext);
     const history = useHistory();
     const location = useLocation();
@@ -394,41 +402,50 @@ export function SheetContent(props: SheetContentProps) {
     return (
         <React.Fragment>
             <SheetVeil veilRef={veilRef} withTransition={withTransition} {...veilHandlers} />
-            <div
-                ref={handleSheetRef}
-                className={sheetBlock('sheet', {'with-transition': withTransition})}
-                role="dialog"
-                aria-modal="true"
-                aria-label={title}
-                {...getFloatingProps()}
+            <FloatingFocusManager
+                context={floatingContext}
+                disabled={!modal}
+                initialFocus={initialFocus}
+                returnFocus={returnFocus}
+                restoreFocus
+                visuallyHiddenDismiss={t('close')}
             >
-                {!hideTopBar && (
-                    <div
-                        ref={sheetTopRef}
-                        className={sheetBlock('sheet-top')}
-                        data-qa={SheetQa.TOP}
-                    >
-                        <div className={sheetBlock('sheet-top-resizer')} />
-                    </div>
-                )}
-                <SheetSwipeArea
-                    className={swipeAreaClassName}
-                    {...swipeAreaHandlers}
-                    onTouchCancel={onTouchCancel}
-                />
-                <SheetContentArea
-                    scrollContainerRef={sheetScrollContainerRef}
-                    marginBoxRef={sheetMarginBoxRef}
-                    contentClassName={contentClassName}
-                    title={title}
-                    withoutScroll={contentWithoutScroll}
-                    alwaysFullHeight={alwaysFullHeight}
-                    {...contentAreaHandlers}
-                    onTouchCancel={onTouchCancel}
+                <div
+                    ref={handleSheetRef}
+                    className={sheetBlock('sheet', {'with-transition': withTransition})}
+                    role="dialog"
+                    aria-modal={modal || undefined}
+                    aria-label={title}
+                    {...getFloatingProps()}
                 >
-                    {content}
-                </SheetContentArea>
-            </div>
+                    {!hideTopBar && (
+                        <div
+                            ref={sheetTopRef}
+                            className={sheetBlock('sheet-top')}
+                            data-qa={SheetQa.TOP}
+                        >
+                            <div className={sheetBlock('sheet-top-resizer')} />
+                        </div>
+                    )}
+                    <SheetSwipeArea
+                        className={swipeAreaClassName}
+                        {...swipeAreaHandlers}
+                        onTouchCancel={onTouchCancel}
+                    />
+                    <SheetContentArea
+                        scrollContainerRef={sheetScrollContainerRef}
+                        marginBoxRef={sheetMarginBoxRef}
+                        contentClassName={contentClassName}
+                        title={title}
+                        withoutScroll={contentWithoutScroll}
+                        alwaysFullHeight={alwaysFullHeight}
+                        {...contentAreaHandlers}
+                        onTouchCancel={onTouchCancel}
+                    >
+                        {content}
+                    </SheetContentArea>
+                </div>
+            </FloatingFocusManager>
         </React.Fragment>
     );
 }

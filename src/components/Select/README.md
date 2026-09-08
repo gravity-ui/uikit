@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+`Select` is a control that provides a list of options that a user can select.
+
 ```tsx
 import {Select} from '@gravity-ui/uikit';
 ```
-
-`Select` is a control that provides a list of options that a user can select.
 
 ## Options
 
@@ -1025,6 +1025,7 @@ SANDBOX-->
 | popupClassName                                            | Popup with the option list `className`                                                                                           | `string`                                 |                                                          |
 | popupPlacement                                            | Popup placement                                                                                                                  | `PopupPlacement` `Array<PopupPlacement>` | `['bottom-start', 'bottom-end', 'top-start', 'top-end']` |
 | [popupWidth](#popup-width)                                | Popup width                                                                                                                      | `number \| 'fit' \| 'outfit'`            | `'outfit'`                                               |
+| sheetClassName                                            | Sheet's `className`                                                                                                              | `string`                                 |                                                          |
 | qa                                                        | Test id attribute (`data-qa`)                                                                                                    | `string`                                 |                                                          |
 | [renderControl](#render-custom-control)                   | Used to render user control                                                                                                      | `function`                               |                                                          |
 | [renderCounter](#rendering-custom-counter)                | Used to render user counter. Works only with [hasCounter](#counter).                                                             | `function`                               |                                                          |

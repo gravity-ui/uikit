@@ -4,12 +4,12 @@
 
 <!--/GITHUB_BLOCK-->
 
+The `Overlay` component renders an overlay over the parent element with the relative position, i.e., the parent element must have `position` set to `relative`.
+For example, it can be used to preserve the desired layout while loading data.
+
 ```tsx
 import {Overlay} from '@gravity-ui/uikit';
 ```
-
-The `Overlay` component renders an overlay over the parent element with the relative position, i.e., the parent element must have `position` set to `relative`.
-For example, it can be used to preserve the desired layout while loading data.
 
 ```jsx
 import {Box, Overlay, Loader} from '@gravity-ui/uikit';

@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+The `Progress` component shows current operation progress. It can also be divided into sections.
+
 ```tsx
 import {Progress} from '@gravity-ui/uikit';
 ```
-
-The `Progress` component shows current operation progress. It can also be divided into sections.
 
 ## Theme
 

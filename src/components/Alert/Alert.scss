@@ -83,11 +83,8 @@ $block: '.#{variables.$ns}alert';
 
         &_layout_horizontal {
             flex-direction: row;
+            justify-content: space-between;
             align-items: var(--_--align);
-
-            #{$block}__actions {
-                margin-inline-start: auto;
-            }
         }
     }
 

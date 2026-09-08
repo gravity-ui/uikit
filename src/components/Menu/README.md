@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+The `Menu` component enables easily creating views for action lists.
+
 ```tsx
 import {Menu} from '@gravity-ui/uikit';
 ```
-
-The `Menu` component enables easily creating views for action lists.
 
 It has dedicated components for items (`Menu.Item`) and groups (`Menu.Group`). You can combine them to create more complex menus.
 

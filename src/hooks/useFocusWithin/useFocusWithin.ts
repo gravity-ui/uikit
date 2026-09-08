@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import {useLayoutEffect} from '../useLayoutEffect';
+
 import {SyntheticFocusEvent} from './SyntheticFocusEvent';
 import {useSyntheticBlurEvent} from './useSyntheticBlurEvent';
 
@@ -134,23 +136,25 @@ function useFocusEvents<T extends Element = Element>({
 }) {
     const capturedRef = React.useRef(false);
 
-    const onBlurHandler = React.useCallback(
-        (event: React.FocusEvent<T>) => {
-            if (event.currentTarget.contains(event.relatedTarget)) {
-                return;
+    const onBlurRef = React.useRef(onBlur);
+    useLayoutEffect(() => {
+        onBlurRef.current = onBlur;
+    });
+
+    const onBlurHandler = React.useCallback((event: React.FocusEvent<T>) => {
+        if (event.currentTarget.contains(event.relatedTarget)) {
+            return;
+        }
+        capturedRef.current = false;
+        const newEvent = new SyntheticFocusEvent<T>('blur', event.nativeEvent, {
+            currentTarget: event.currentTarget,
+        });
+        setTimeout(() => {
+            if (!capturedRef.current) {
+                onBlurRef.current(newEvent);
             }
-            capturedRef.current = false;
-            const newEvent = new SyntheticFocusEvent<T>('blur', event.nativeEvent, {
-                currentTarget: event.currentTarget,
-            });
-            setTimeout(() => {
-                if (!capturedRef.current) {
-                    onBlur(newEvent);
-                }
-            }, 0);
-        },
-        [onBlur],
-    );
+        }, 0);
+    }, []);
 
     const onSyntheticFocus = useSyntheticBlurEvent(onBlur);
 

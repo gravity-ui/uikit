@@ -1,0 +1,60 @@
+@use '../../../variables';
+
+$block: '.#{variables.$ns}sheet-content-area';
+$transition-duration: 0.3s;
+
+#{$block} {
+    box-sizing: border-box;
+    max-height: calc(100% - var(--_--top-height));
+    overflow: hidden auto;
+    overscroll-behavior-y: contain;
+
+    transition: height $transition-duration ease;
+
+    &_without-scroll {
+        overflow: hidden;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        transition-duration: 1ms;
+    }
+
+    &__margin-box {
+        // prevents margin escape from container
+        border: 1px solid transparent;
+
+        &_always-full-height {
+            box-sizing: border-box;
+            height: 100%;
+
+            #{$block}__margin-box-border-compensation {
+                height: 100%;
+            }
+        }
+    }
+
+    &__margin-box-border-compensation {
+        // compensate for border of margin box
+        margin: -1px;
+    }
+
+    &__content {
+        box-sizing: border-box;
+        width: 100%;
+        padding: var(
+            --g-sheet-content-padding,
+            0 max(10px, env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0px)
+                max(10px, env(safe-area-inset-left, 0px))
+        );
+    }
+
+    &__content-title {
+        padding-block-end: 8px;
+        font-size: var(--g-text-body-2-font-size);
+        line-height: 28px;
+        text-align: center;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+}

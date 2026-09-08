@@ -1,0 +1,69 @@
+import {fireEvent, render, screen} from '../../../../test-utils/utils';
+import {Sheet} from '../Sheet';
+import {SheetQa} from '../constants';
+
+describe('Sheet content scroll', () => {
+    const SHEET_HEIGHT = 300;
+    const TOUCH_START_POINT = 100;
+    const TOUCH_END_POINT = TOUCH_START_POINT + SHEET_HEIGHT;
+
+    let getBoundingClientRectSpy: jest.SpyInstance;
+    beforeEach(() => {
+        getBoundingClientRectSpy = jest
+            .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+            .mockReturnValue({height: SHEET_HEIGHT, width: 0, top: 0, left: 0} as DOMRect);
+    });
+    afterEach(() => {
+        getBoundingClientRectSpy.mockRestore();
+    });
+
+    function swipeDownOnContent(content: Element, {from, to}: {from: number; to: number}) {
+        fireEvent.touchStart(content, {touches: [{clientX: 0, clientY: from}]});
+        fireEvent.touchMove(content, {touches: [{clientX: 0, clientY: to}]});
+        fireEvent.touchEnd(content, {touches: [{clientX: 0, clientY: to}]});
+    }
+
+    test('closes the sheet on a swipe down when the content is scrolled to the top', () => {
+        const onClose = jest.fn();
+        render(
+            <Sheet visible onClose={onClose}>
+                Content
+            </Sheet>,
+        );
+
+        const scrollContainer = screen.getByTestId(SheetQa.CONTENT_AREA);
+
+        swipeDownOnContent(scrollContainer, {from: TOUCH_START_POINT, to: TOUCH_END_POINT});
+        expect(onClose).toHaveBeenCalledTimes(1);
+    });
+
+    test('does not close the sheet on a swipe down when allowHideOnContentScroll set to false', () => {
+        const onClose = jest.fn();
+        render(
+            <Sheet visible onClose={onClose} allowHideOnContentScroll={false}>
+                Content
+            </Sheet>,
+        );
+
+        const scrollContainer = screen.getByTestId(SheetQa.CONTENT_AREA);
+
+        swipeDownOnContent(scrollContainer, {from: TOUCH_START_POINT, to: TOUCH_END_POINT});
+        expect(onClose).not.toHaveBeenCalled();
+        expect(screen.getByText('Content')).toBeInTheDocument();
+    });
+
+    test('does not close the sheet on a swipe down when the content is scrolled', () => {
+        const onClose = jest.fn();
+        render(
+            <Sheet visible onClose={onClose}>
+                Content
+            </Sheet>,
+        );
+
+        const scrollContainer = screen.getByTestId(SheetQa.CONTENT_AREA);
+
+        Object.defineProperty(scrollContainer, 'scrollTop', {value: 100, configurable: true});
+        swipeDownOnContent(scrollContainer, {from: TOUCH_START_POINT, to: TOUCH_END_POINT});
+        expect(onClose).not.toHaveBeenCalled();
+    });
+});

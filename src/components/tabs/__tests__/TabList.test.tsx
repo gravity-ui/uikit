@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import {Tab, TabList} from '..';
 import {act, render, screen} from '../../../../test-utils/utils';
 import {KeyCode} from '../../../constants';
+import {ThemeProvider} from '../../theme';
 import type {TabSize} from '../types';
 
 const qaId = 'tabs-list';
@@ -301,18 +302,18 @@ function mockNarrowContainer() {
         this: Element,
     ) {
         if (this.classList.contains('g-tab-list')) return makeDOMRect(50);
-        if (this.classList.contains('g-tab-list-collapse-item')) return makeDOMRect(80);
+        if (this.classList.contains('g-tab-more')) return makeDOMRect(80);
         return makeDOMRect(100); // tabs
     });
 }
 
-test('contentOverflow collapse: shows More button when some tabs overflow', () => {
+test('contentOverflow collapse: shows localized More button when some tabs overflow', () => {
     // Container 280px: More(80) + Tab1(100) + Tab2(100) = 280 fits, Tab3(100) would exceed
     const spy = jest.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(function (
         this: Element,
     ) {
         if (this.classList.contains('g-tab-list')) return makeDOMRect(280);
-        if (this.classList.contains('g-tab-list-collapse-item')) return makeDOMRect(80);
+        if (this.classList.contains('g-tab-more')) return makeDOMRect(80);
         return makeDOMRect(100);
     });
 
@@ -328,10 +329,11 @@ test('contentOverflow collapse: shows More button when some tabs overflow', () =
                 {tab3.title}
             </Tab>
         </TabList>,
+        {wrapper: ({children}) => <ThemeProvider lang="ru">{children}</ThemeProvider>},
     );
 
-    const trigger = screen.getByRole('button', {name: /more/i});
-    expect(trigger).toHaveClass('g-tab-list-collapse-item');
+    const trigger = screen.getByRole('button', {name: /ещё/i});
+    expect(trigger).toHaveClass('g-tab-more');
     expect(screen.getByTestId(tab1.qa)).toBeVisible();
     expect(screen.getByTestId(tab2.qa)).toBeVisible();
     // tab3 is collapsed into the closed menu — not mounted
@@ -345,7 +347,7 @@ test('contentOverflow collapse: supports custom moreLabel', () => {
         this: Element,
     ) {
         if (this.classList.contains('g-tab-list')) return makeDOMRect(280);
-        if (this.classList.contains('g-tab-list-collapse-item')) return makeDOMRect(80);
+        if (this.classList.contains('g-tab-more')) return makeDOMRect(80);
         return makeDOMRect(100);
     });
 
@@ -383,7 +385,7 @@ test('contentOverflow collapse: with narrow container shows selected tab as trig
     );
 
     const trigger = screen.getByRole('button', {name: new RegExp(tab1.title)});
-    expect(trigger).toHaveClass('g-tab-list-collapse-item');
+    expect(trigger).toHaveClass('g-tab-more');
     expect(trigger).not.toHaveTextContent('More');
     expect(trigger).toHaveTextContent(tab1.title);
 

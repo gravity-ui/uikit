@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+`Stepper` guides users through a sequence of numbered steps, showing progress in a wizard-like, multi-step workflow.
+
 ```tsx
 import {Stepper} from '@gravity-ui/uikit';
 ```
-
-`Stepper` convey progress through numbered steps. It provides a wizard-like workflow.Steppers display progress through a sequence of logical and numbered steps.
 
 ## Example
 

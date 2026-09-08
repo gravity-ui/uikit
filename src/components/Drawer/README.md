@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+The `Drawer` component is a versatile interface element used in web applications to provide a sliding panel that emerges from the edge of the screen. This panel can house navigations, tools, or additional content. The component is implemented using React and CSS transitions for smooth animations.
+
 ```tsx
 import {Drawer} from '@gravity-ui/uikit';
 ```
-
-The `Drawer` component is a versatile interface element used in web applications to provide a sliding panel that emerges from the edge of the screen. This panel can house navigations, tools, or additional content. The component is implemented using React and CSS transitions for smooth animations.
 
 ## Usage
 
@@ -105,11 +105,13 @@ const [size, setSize] = useState(500);
 | disableEscapeKeyDown    | Disables triggering close on `Esc`                                                                                                      |             `boolean`              |     `false`     |
 | disableOutsideClick     | Disables triggering close on outside clicks                                                                                             |             `boolean`              |     `false`     |
 | disableTransition       | Disables the drawer's animation                                                                                                         |             `boolean`              |     `false`     |
+| disableModal            | Disables modal focus management                                                                                                         |             `boolean`              |     `false`     |
+| disableLayer            | Disables registering the `Drawer` in the layer manager                                                                                  |             `boolean`              |     `true`      |
 | disablePortal           | Disables using `Portal`                                                                                                                 |             `boolean`              |     `false`     |
 | keepMounted             | `Drawer` will not be removed from the DOM upon hiding                                                                                   |             `boolean`              |     `false`     |
 | resizable               | Enables resizing of the drawer via pointer                                                                                              |             `boolean`              |     `false`     |
 | open                    | Manages `Drawer` visibility                                                                                                             |             `boolean`              |     `false`     |
-| hideVeil                | Removes the `Drawer`'s veil                                                                                                             |             `boolean`              |     `false`     |
+| hideVeil                | Removes the `Drawer`'s veil without changing outside click handling                                                                     |             `boolean`              |     `false`     |
 | onOpenChange            | Callback called at the moment of open state change                                                                                      |             `Function`             |                 |
 | onTransitionIn          | The callback fired on transition "in" start                                                                                             |             `Function`             |                 |
 | onTransitionInComplete  | The callback fired on transition "in" complete                                                                                          |             `Function`             |                 |

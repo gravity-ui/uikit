@@ -1,18 +1,20 @@
 import * as React from 'react';
 
+import {isPolymorphicComponentProps, isPolymorphicLinkProps} from '../utils/polymorphic';
+
 import {Tab} from './Tab';
 import type {TabComponentElementType, TabComponentProps, TabLinkProps, TabProps} from './types';
 
 export function isTabComponentProps<T extends TabComponentElementType>(
     p: TabProps<T>,
 ): p is TabComponentProps<Exclude<T, undefined>> {
-    return p.component !== undefined;
+    return isPolymorphicComponentProps<TabProps<T>, TabComponentProps<Exclude<T, undefined>>>(p);
 }
 
 export function isTabLinkProps<T extends TabComponentElementType>(
     p: TabProps<T>,
 ): p is TabLinkProps {
-    return p.href !== undefined;
+    return isPolymorphicLinkProps<TabProps<T>, TabLinkProps>(p);
 }
 
 /**

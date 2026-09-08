@@ -137,13 +137,17 @@ const contentOverflowValues: Array<TabListProps['contentOverflow']> = [
 export const ContentOverflow: Story = {
     ...Default,
     render: (args) => (
-        <Showcase direction="column">
-            {contentOverflowValues.map((value) => (
-                <ShowcaseItem key={value} title={`Content Overflow: ${value}`}>
-                    <DefaultRender style={{maxWidth: 600}} {...args} contentOverflow={value} />
-                </ShowcaseItem>
-            ))}
-        </Showcase>
+        <div style={{width: 600, paddingBottom: 20, resize: 'horizontal', overflow: 'hidden'}}>
+            <Showcase direction="column">
+                {contentOverflowValues.map((value) => (
+                    <div key={value} style={{width: '100%'}}>
+                        <ShowcaseItem title={`Content Overflow: ${value}`}>
+                            <DefaultRender {...args} contentOverflow={value} />
+                        </ShowcaseItem>
+                    </div>
+                ))}
+            </Showcase>
+        </div>
     ),
 };
 
@@ -176,5 +180,19 @@ export const Panels: Story = {
                 <div>{panels}</div>
             </TabProvider>
         );
+    },
+};
+
+const MyTab = React.forwardRef<HTMLDivElement, {to: string}>(function MyTab({to, ...rest}, ref) {
+    return <div ref={ref} data-to={to} {...rest} />;
+});
+
+export const CustomComponent: Story = {
+    ...Default,
+    args: {
+        ...Default.args,
+        children: getTabsMock({})?.map((props, i) => (
+            <Tab key={i} component={MyTab} to={String(i)} {...props} />
+        )),
     },
 };

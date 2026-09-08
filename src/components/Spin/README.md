@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+The `Spin` component displays the loading state (a rotating semicircle) in inline scenarios. Unlike `Loader`, this component is used to display the loading state in inline scenarios, e.g., in a `Button` or `Label`.
+
 ```tsx
 import {Spin} from '@gravity-ui/uikit';
 ```
-
-The `Spin` component displays the loading state (a rotating semicircle) in inline scenarios. Unlike `Loader`, this component is used to display the loading state in inline scenarios, e.g., in a `Button` or `Label`.
 
 ### Size
 

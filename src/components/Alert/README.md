@@ -4,6 +4,8 @@
 
 <!--/GITHUB_BLOCK-->
 
+The `Alert` component displays a prominent message to draw the user's attention to important information.
+
 ```tsx
 import {Alert} from '@gravity-ui/uikit';
 ```

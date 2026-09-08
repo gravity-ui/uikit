@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+`Disclosure` is a collapsible component that allows to display and hide its nested content.
+
 ```tsx
 import {Disclosure} from '@gravity-ui/uikit';
 ```
-
-`Disclosure` is a collapsible component that allows to display and hide its nested content.
 
 <!--GITHUB_BLOCK-->
 

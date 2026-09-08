@@ -1,16 +1,12 @@
 import type {ButtonSize} from '../../Button';
 import type {InputControlSize} from '../types';
 
-export const getActionButtonSizeAndIconSize = (
-    textInputSize: InputControlSize,
-): {actionButtonSize: ButtonSize; iconSize: number} => {
+export const getActionButtonSize = (textInputSize: InputControlSize): ButtonSize => {
     let actionButtonSize: ButtonSize = 's';
-    let iconSize = 16;
 
     switch (textInputSize) {
         case 's': {
             actionButtonSize = 'xs';
-            iconSize = 12;
             break;
         }
         case 'l': {
@@ -22,5 +18,5 @@ export const getActionButtonSizeAndIconSize = (
         }
     }
 
-    return {actionButtonSize, iconSize};
+    return actionButtonSize;
 };

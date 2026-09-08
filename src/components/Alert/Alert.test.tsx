@@ -85,4 +85,10 @@ describe('Alert', () => {
 
         expect(await screen.findByText(customIconText)).toBeInTheDocument();
     });
+
+    test('pass `qa` attribute correctly w/ theme="clear"', async () => {
+        render(<Alert theme="clear" qa="test" message="Test message" />);
+
+        expect(screen.getByTestId('test')).toHaveTextContent('Test message');
+    });
 });

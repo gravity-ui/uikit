@@ -4,13 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+`Card` is a reusable React component that basically is a card-like container with customizable styles and features. It is used to display information or content in a visually appealing and well-organized manner.
+
 ```tsx
 import {Card} from '@gravity-ui/uikit';
 ```
-
-## Description
-
-`Card` is a reusable React component that basically is a card-like container with customizable styles and features. It is used to display information or content in a visually appealing and well-organized manner.
 
 ## Appearance
 

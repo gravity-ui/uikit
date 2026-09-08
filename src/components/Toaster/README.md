@@ -81,6 +81,16 @@ class FoobarComponent extends Component {
 const FoobarWithToaster = withToaster()(FoobarComponent);
 ```
 
+## Properties
+
+These are the props of the `ToasterComponent` component.
+
+| Name      | Description                                         |   Type    | Default |
+| :-------- | :-------------------------------------------------- | :-------: | :-----: |
+| className | Custom class name to add to the component container | `string`  |         |
+| mobile    | Configuration that manages mobile/desktop views     | `boolean` |         |
+| hasPortal | Renders the toaster inside a `Portal` when enabled  | `boolean` | `true`  |
+
 ## Constructor arguments
 
 | Parameter | Type      | Default     | Description                                         |

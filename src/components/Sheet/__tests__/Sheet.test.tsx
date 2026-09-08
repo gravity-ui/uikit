@@ -1,25 +1,44 @@
 import {render, screen} from '../../../../test-utils/utils';
 import {Sheet} from '../Sheet';
-import {sheetBlock} from '../constants';
+import {SheetQa} from '../constants';
 
-test('Renders content when visible', () => {
-    const sheetContent = 'Sheet content';
-    render(<Sheet visible>{sheetContent}</Sheet>);
+describe('Sheet', () => {
+    test('Renders content when visible', () => {
+        const sheetContent = 'Sheet content';
+        render(<Sheet visible>{sheetContent}</Sheet>);
 
-    expect(screen.getByText(sheetContent)).toBeInTheDocument();
-});
+        expect(screen.getByText(sheetContent)).toBeInTheDocument();
+    });
 
-test('Do not renders content when invisible', () => {
-    const sheetContent = 'Sheet content';
-    render(<Sheet visible={false}>${sheetContent}</Sheet>);
+    test('Do not renders content when invisible', () => {
+        const sheetContent = 'Sheet content';
+        render(<Sheet visible={false}>{sheetContent}</Sheet>);
 
-    expect(screen.queryByText(sheetContent)).not.toBeInTheDocument();
-});
+        expect(screen.queryByText(sheetContent)).not.toBeInTheDocument();
+    });
 
-test('Do not renders top bar when hideTopBar property is set', () => {
-    const {container} = render(<Sheet visible hideTopBar></Sheet>);
+    test('Do not renders top bar when hideTopBar property is set', () => {
+        render(<Sheet visible hideTopBar></Sheet>);
 
-    // Element is accessible only by selector
-    // eslint-disable-next-line testing-library/no-container
-    expect(container.querySelector(sheetBlock('sheet-top'))).not.toBeInTheDocument();
+        expect(screen.queryByTestId(SheetQa.TOP)).not.toBeInTheDocument();
+    });
+
+    test('Applies className, contentClassName and swipeAreaClassName to the corresponding elements', () => {
+        const qaId = 'custom-sheet-qa';
+        render(
+            <Sheet
+                visible
+                className="custom-sheet"
+                contentClassName="custom-content"
+                swipeAreaClassName="custom-swipe-area"
+                qa={qaId}
+            >
+                Content
+            </Sheet>,
+        );
+
+        expect(screen.getByTestId(qaId)).toHaveClass('custom-sheet');
+        expect(screen.getByTestId(SheetQa.CONTENT)).toHaveClass('custom-content');
+        expect(screen.getByTestId(SheetQa.SWIPE_AREA)).toHaveClass('custom-swipe-area');
+    });
 });

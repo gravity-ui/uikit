@@ -9,7 +9,10 @@ import {BUTTON_ICON_SIZE_MAP} from '../../Button/constants';
 import {Icon} from '../../Icon';
 import {useDirection} from '../../theme';
 import {block} from '../../utils/cn';
+import {getLinkRelWithFallback} from '../../utils/getLinkRelWithFallback';
 import {mergeProps} from '../../utils/mergeProps';
+import type {PolymorphicOverloadProps} from '../../utils/polymorphic';
+import {isPolymorphicComponentProps, isPolymorphicLinkProps} from '../../utils/polymorphic';
 import {ListItemView} from '../ListItemView/ListItemView';
 import type {ListItemViewProps} from '../ListItemView/ListItemView';
 
@@ -30,13 +33,16 @@ import './MenuItem.scss';
 function isMenuItemComponentProps<T extends MenuItemComponentElementType>(
     p: MenuItemProps<T>,
 ): p is MenuItemComponentProps<Exclude<T, undefined>> {
-    return p.component !== undefined;
+    return isPolymorphicComponentProps<
+        MenuItemProps<T>,
+        MenuItemComponentProps<Exclude<T, undefined>>
+    >(p);
 }
 
 function isMenuItemLinkProps<T extends MenuItemComponentElementType>(
     p: MenuItemProps<T>,
 ): p is MenuItemLinkProps {
-    return p.href !== undefined;
+    return isPolymorphicLinkProps<MenuItemProps<T>, MenuItemLinkProps>(p);
 }
 
 const b = block('lab-menu-item');
@@ -58,6 +64,7 @@ export const MenuItem = React.forwardRef(
             children,
             className,
             qa,
+            component: _component,
             ...restComponentProps
         } = props;
         const [submenuOpen, setSubmenuOpen] = React.useState(false);
@@ -136,8 +143,10 @@ export const MenuItem = React.forwardRef(
         };
 
         let component: React.ElementType;
-        let componentProps: React.ComponentProps<typeof component>;
-        const commonComponentProps = {
+        let componentProps: React.ComponentPropsWithoutRef<typeof component>;
+        const commonComponentProps = menuContext.getItemProps({
+            'data-qa': qa,
+            ...restComponentProps,
             role: 'menuitem',
             tabIndex,
             className: b(
@@ -147,15 +156,11 @@ export const MenuItem = React.forwardRef(
                 },
                 className,
             ),
-            'data-qa': qa,
-            ...menuContext.getItemProps({
-                ...restComponentProps,
-                onClick: handleClick,
-                onFocus: handleFocus,
-                onPointerEnter: handlePointerEnter,
-                onPointerLeave: handlePointerLeave,
-            }),
-        };
+            onClick: handleClick,
+            onFocus: handleFocus,
+            onPointerEnter: handlePointerEnter,
+            onPointerLeave: handlePointerLeave,
+        } as React.HTMLProps<HTMLElement>);
 
         if (isMenuItemComponentProps(props)) {
             component = props.component;
@@ -167,7 +172,7 @@ export const MenuItem = React.forwardRef(
             component = 'a';
             componentProps = {
                 ...commonComponentProps,
-                rel: props.target === '_blank' && !props.rel ? 'noopener noreferrer' : props.rel,
+                rel: getLinkRelWithFallback(props),
                 'aria-disabled': disabled ?? undefined,
             } satisfies React.ComponentProps<'a'>;
         } else {
@@ -233,13 +238,13 @@ export const MenuItem = React.forwardRef(
         return content;
     },
 ) as (<T extends MenuItemComponentElementType, P extends MenuItemProps<T>>(
-    props: P extends {component: Exclude<T, undefined>}
-        ? MenuItemComponentProps<Exclude<T, undefined>> & {
-              ref?: React.Ref<T extends string ? React.ComponentRef<T> : T>;
-          }
-        : P extends {href: string}
-          ? MenuItemLinkProps & {ref?: React.Ref<HTMLAnchorElement>}
-          : MenuItemButtonProps & {ref?: React.Ref<HTMLButtonElement>},
+    props: PolymorphicOverloadProps<
+        T,
+        P,
+        MenuItemComponentProps<Exclude<T, undefined>>,
+        MenuItemLinkProps,
+        MenuItemButtonProps
+    >,
 ) => React.ReactElement) & {displayName?: string};
 
 MenuItem.displayName = 'Menu.Item';

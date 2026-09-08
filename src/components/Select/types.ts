@@ -119,6 +119,7 @@ export type SelectProps<T = any> = AriaLabelingProps &
         controlClassName?: string;
         popupClassName?: string;
         popupPlacement?: PopupPlacement;
+        sheetClassName?: string;
         label?: string;
         placeholder?: React.ReactNode;
         filterPlaceholder?: string;

@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {KeyCode} from '../../../constants';
-import {TAB_DATA_ATTRIBUTE, bTab} from '../constants';
+import {TAB_DATA_ATTRIBUTE, bTab, bTabMenuItem} from '../constants';
 import {TabContext} from '../contexts/TabContext';
 import type {TabComponentElementType, TabProps} from '../types';
 
@@ -9,7 +9,9 @@ export type TabElementProps = React.HTMLAttributes<HTMLElement> & {
     [key: `data-${string}`]: string | undefined;
 };
 
-export function useTab<T extends TabComponentElementType>(tabProps: TabProps<T>): TabElementProps {
+export function useTab<T extends TabComponentElementType>(
+    tabProps: TabProps<T> & {isMenuItem?: boolean},
+): TabElementProps {
     const tabContext = React.useContext(TabContext);
 
     if (!tabContext) {
@@ -84,7 +86,9 @@ export function useTab<T extends TabComponentElementType>(tabProps: TabProps<T>)
         id: tabId,
         onClick,
         onKeyDown,
-        className: bTab({active: isSelected, disabled: isDisabled}, tabProps.className),
+        className: tabProps.isMenuItem
+            ? bTabMenuItem({disabled: isDisabled}, tabProps.className)
+            : bTab({active: isSelected, disabled: isDisabled}, tabProps.className),
         'data-qa': tabProps.qa,
         [TAB_DATA_ATTRIBUTE]: tabProps.value,
     };

@@ -1,14 +1,14 @@
 <!--GITHUB_BLOCK-->
 
-## FilePreview
+# FilePreview
 
 <!--/GITHUB_BLOCK-->
+
+`FilePreview` is a compact preview card for a single file, showing a thumbnail or file-type icon with the file name and optional actions.
 
 ```tsx
 import {FilePreview} from '@gravity-ui/uikit';
 ```
-
-A component for displaying the file.
 
 <!--GITHUB_BLOCK-->
 
@@ -65,7 +65,7 @@ SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
-### Properties
+## Properties
 
 | Name                | Description                                                                                                      | Type                  | Required | Default   |
 | :------------------ | :--------------------------------------------------------------------------------------------------------------- | :-------------------- | :------: | :-------- |

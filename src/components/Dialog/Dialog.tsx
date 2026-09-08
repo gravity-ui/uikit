@@ -153,7 +153,7 @@ export function Dialog(rawProps: DialogProps) {
             onTransitionInComplete={onTransitionInComplete}
             onTransitionOut={onTransitionOut}
             onTransitionOutComplete={onTransitionOutComplete}
-            className={b('modal', modalClassName)}
+            className={b('modal', {mobile}, modalClassName)}
             container={container}
             qa={qa}
             disableHeightTransition

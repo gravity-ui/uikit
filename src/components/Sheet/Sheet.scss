@@ -17,21 +17,6 @@ $block: '.#{variables.$ns}sheet';
         --_--top-height: 0;
     }
 
-    &__veil {
-        position: absolute;
-        inset-block-start: 0;
-        inset-inline-start: 0;
-        height: 100%;
-        width: 100%;
-        background-color: var(--g-color-sfx-veil);
-        opacity: 0;
-        will-change: opacity;
-
-        &_with-transition {
-            transition: opacity $transition-duration ease;
-        }
-    }
-
     &__sheet {
         position: absolute;
         inset-block-start: 100%;
@@ -59,15 +44,6 @@ $block: '.#{variables.$ns}sheet';
         }
     }
 
-    &__sheet-swipe-area {
-        position: absolute;
-        inset-block-start: -20px;
-        inset-inline-start: 0;
-        width: 100%;
-        height: 40px;
-        z-index: 1;
-    }
-
     &__sheet-top {
         position: relative;
         height: var(--_--top-height);
@@ -83,61 +59,5 @@ $block: '.#{variables.$ns}sheet';
         height: 4px;
         border-radius: 4px;
         background-color: var(--g-color-line-generic);
-    }
-
-    &__sheet-scroll-container {
-        box-sizing: border-box;
-        max-height: calc(100% - var(--_--top-height));
-        overflow: hidden auto;
-        overscroll-behavior-y: contain;
-
-        transition: height $transition-duration ease;
-
-        &_without-scroll {
-            overflow: hidden;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            transition-duration: 1ms;
-        }
-    }
-
-    &__sheet-margin-box {
-        // prevents margin escape from container
-        border: 1px solid transparent;
-
-        &_always-full-height {
-            box-sizing: border-box;
-            height: 100%;
-
-            #{$block}__sheet-margin-box-border-compensation {
-                height: 100%;
-            }
-        }
-    }
-
-    &__sheet-margin-box-border-compensation {
-        // compensate for border of margin box
-        margin: -1px;
-    }
-
-    &__sheet-content {
-        box-sizing: border-box;
-        width: 100%;
-        padding: var(
-            --g-sheet-content-padding,
-            0 max(10px, env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0px)
-                max(10px, env(safe-area-inset-left, 0px))
-        );
-    }
-
-    &__sheet-content-title {
-        padding-block-end: 8px;
-        font-size: var(--g-text-body-2-font-size);
-        line-height: 28px;
-        text-align: center;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
     }
 }

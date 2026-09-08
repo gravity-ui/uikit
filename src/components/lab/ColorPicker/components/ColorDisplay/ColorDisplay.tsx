@@ -41,6 +41,8 @@ export const ColorDisplay = React.forwardRef<HTMLDivElement, ColorDisplayProps>(
             <button
                 type="button"
                 disabled={disabled}
+                // Always set a tabIndex so that Safari allows focusing native buttons
+                tabIndex={disabled ? undefined : 0}
                 className={b('color-swatch', {size, disabled})}
                 onClick={onClick}
                 style={{backgroundColor: hsvaToRgbaString(hsva)}}

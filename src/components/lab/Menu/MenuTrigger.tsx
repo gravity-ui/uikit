@@ -4,7 +4,6 @@ import {Ellipsis, EllipsisVertical} from '@gravity-ui/icons';
 
 import {Button} from '../../Button';
 import type {ButtonButtonProps} from '../../Button';
-import {BUTTON_ICON_SIZE_MAP} from '../../Button/constants';
 import {Icon} from '../../Icon';
 
 export interface MenuTriggerProps extends ButtonButtonProps {
@@ -18,10 +17,7 @@ export const MenuTrigger = React.forwardRef<HTMLButtonElement, MenuTriggerProps>
                 {children ? (
                     children
                 ) : (
-                    <Icon
-                        data={icon === 'vertical' ? EllipsisVertical : Ellipsis}
-                        size={BUTTON_ICON_SIZE_MAP[size]}
-                    />
+                    <Icon data={icon === 'vertical' ? EllipsisVertical : Ellipsis} />
                 )}
             </Button>
         );

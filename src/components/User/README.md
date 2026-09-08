@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+This is a general component for displaying a user avatar with an info block. It uses the [Avatar](../Avatar/README.md) component to render the avatar. It can also accept a custom React node as an avatar.
+
 ```tsx
 import {User} from '@gravity-ui/uikit';
 ```
-
-This is a general component for displaying a user avatar with an info block. It uses the [Avatar](../Avatar/README.md) component to render the avatar. It can also accept a custom React node as an avatar.
 
 ## Name and description
 

@@ -2,31 +2,28 @@
 
 import * as React from 'react';
 
-import {Platform, withMobile} from '../mobile';
-import type {History, Location, MobileContextProps} from '../mobile';
+import {MobileContext} from '../mobile';
 import {warnOnce} from '../utils/warn';
 
+import {SheetContentArea, SheetSwipeArea, SheetVeil} from './components';
 import {SheetQa, sheetBlock} from './constants';
-import {VelocityTracker} from './utils';
+import {useContentScroll} from './hooks/useContentScroll';
+import {useSheetHash} from './hooks/useSheetHash';
+import {useSwipe} from './hooks/useSwipe';
+import {useVeil} from './hooks/useVeil';
+import type {Status} from './types';
 
 import './Sheet.scss';
 
 const TRANSITION_DURATION = '0.3s';
-const HIDE_THRESHOLD = 50;
-const ACCELERATION_Y_MAX = 0.08;
-const ACCELERATION_Y_MIN = -0.02;
 const DEFAULT_MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT = 0.9;
 const WINDOW_RESIZE_TIMEOUT = 50;
-
-let hashHistory: string[] = [];
 
 function warnAboutOutOfRange() {
     warnOnce(
         '[Sheet] The value of the "maxContentHeightCoefficient" property must be between 0 and 1',
     );
 }
-
-type Status = 'showing' | 'hiding';
 
 interface SheetContentBaseProps {
     hideSheet: () => void;
@@ -48,538 +45,371 @@ interface SheetContentDefaultProps {
 
 type SheetContentProps = SheetContentBaseProps & Partial<SheetContentDefaultProps>;
 
-interface RouteComponentProps {
-    history: History;
-    location: Location;
+interface SheetContentLatest {
+    hideSheet: () => void;
+    allowHideOnContentScroll: boolean;
+    maxContentHeightCoefficient?: number;
+    alwaysFullHeight?: boolean;
 }
 
-type SheetContentInnerProps = SheetContentProps &
-    RouteComponentProps &
-    Omit<MobileContextProps, 'useHistory' | 'useLocation'>;
+export function SheetContent(props: SheetContentProps) {
+    const {
+        content,
+        contentClassName,
+        swipeAreaClassName,
+        hideTopBar,
+        title,
+        visible,
+        hideSheet,
+        maxContentHeightCoefficient,
+        alwaysFullHeight,
+        id = 'sheet',
+        allowHideOnContentScroll = true,
+    } = props;
 
-interface SheetContentState {
-    startScrollTop: number;
-    startY: number;
-    deltaY: number;
-    prevSheetHeight: number;
-    swipeAreaTouched: boolean;
-    contentTouched: boolean;
-    veilTouched: boolean;
-    isAnimating: boolean;
-    inWindowResizeScope: boolean;
-    delayedResize: boolean;
-}
+    const {platform, useHistory, useLocation} = React.useContext(MobileContext);
+    const history = useHistory();
+    const location = useLocation();
 
-class SheetContent extends React.Component<SheetContentInnerProps, SheetContentState> {
-    static defaultProps: SheetContentDefaultProps = {
-        id: 'sheet',
-        allowHideOnContentScroll: true,
+    const veilRef = React.useRef<HTMLDivElement>(null);
+    const sheetRef = React.useRef<HTMLDivElement>(null);
+    const sheetTopRef = React.useRef<HTMLDivElement>(null);
+    const sheetMarginBoxRef = React.useRef<HTMLDivElement>(null);
+    const sheetScrollContainerRef = React.useRef<HTMLDivElement>(null);
+
+    const observerRef = React.useRef<ResizeObserver | null>(null);
+    const resizeWindowTimerRef = React.useRef<number | null>(null);
+
+    const [veilTouched, setVeilTouched] = React.useState(false);
+
+    const prevSheetHeightRef = React.useRef(0);
+    const isAnimatingRef = React.useRef(false);
+    const inWindowResizeScopeRef = React.useRef(false);
+    const delayedResizeRef = React.useRef(false);
+    const hashSetRef = React.useRef(false);
+
+    const prevVisibleRef = React.useRef(visible);
+    const prevLocationRef = React.useRef(location);
+
+    const latest: SheetContentLatest = {
+        hideSheet,
+        allowHideOnContentScroll,
+        maxContentHeightCoefficient,
+        alwaysFullHeight,
     };
+    const latestRef = React.useRef<SheetContentLatest>(latest);
+    latestRef.current = latest;
 
-    veilRef = React.createRef<HTMLDivElement>();
-    sheetRef = React.createRef<HTMLDivElement>();
-    sheetTopRef = React.createRef<HTMLDivElement>();
-    sheetMarginBoxRef = React.createRef<HTMLDivElement>();
-    sheetScrollContainerRef = React.createRef<HTMLDivElement>();
-    velocityTracker = new VelocityTracker();
-    observer: ResizeObserver | null = null;
-    resizeWindowTimer: number | null = null;
+    const {setHash, removeHash, shouldClose, resetHashHistory} = useSheetHash({
+        id,
+        platform,
+        history,
+        location,
+    });
 
-    state: SheetContentState = {
-        startScrollTop: 0,
-        startY: 0,
-        deltaY: 0,
-        prevSheetHeight: 0,
-        swipeAreaTouched: false,
-        contentTouched: false,
-        veilTouched: false,
-        isAnimating: false,
-        inWindowResizeScope: false,
-        delayedResize: false,
-    };
+    // --- Getters ---
+    const getSheetTopHeight = React.useCallback(
+        () => sheetTopRef.current?.getBoundingClientRect().height || 0,
+        [],
+    );
 
-    componentDidMount() {
-        this.addListeners();
-        this.show();
+    const getSheetHeight = React.useCallback(
+        () => sheetRef.current?.getBoundingClientRect().height || 0,
+        [],
+    );
 
-        const initialHeight = this.getAvailableContentHeight(this.sheetContentHeight);
+    const getSheetScrollTop = React.useCallback(
+        () => sheetScrollContainerRef.current?.scrollTop || 0,
+        [],
+    );
 
-        this.setInitialStyles(initialHeight);
-        this.setState({
-            prevSheetHeight: initialHeight,
-        });
-    }
+    const getSheetContentHeight = React.useCallback(
+        () => sheetMarginBoxRef.current?.getBoundingClientRect().height || 0,
+        [],
+    );
 
-    componentDidUpdate(prevProps: SheetContentInnerProps) {
-        const {visible, location} = this.props;
+    const getIsPrefersReducedMotion = React.useCallback(
+        () => Boolean(window?.matchMedia('(prefers-reduced-motion: reduce)').matches),
+        [],
+    );
 
-        if (!prevProps.visible && visible) {
-            this.show();
+    const setInitialStyles = React.useCallback((initialHeight: number) => {
+        if (sheetScrollContainerRef.current && sheetMarginBoxRef.current) {
+            sheetScrollContainerRef.current.style.height = `${initialHeight}px`;
         }
+    }, []);
 
-        if ((prevProps.visible && !visible) || this.shouldClose(prevProps)) {
-            this.hide();
-        }
-
-        if (prevProps.location.pathname !== location.pathname) {
-            hashHistory = [];
-        }
-    }
-
-    componentWillUnmount() {
-        this.removeListeners();
-    }
-
-    render() {
-        const {content, contentClassName, swipeAreaClassName, hideTopBar, title} = this.props;
-
-        const {deltaY, swipeAreaTouched, contentTouched, veilTouched} = this.state;
-
-        const veilTransitionMod = {
-            'with-transition': !deltaY || veilTouched,
-        };
-
-        const sheetTransitionMod = {
-            'with-transition': veilTransitionMod['with-transition'],
-        };
-
-        const contentMod = {
-            'without-scroll': (deltaY > 0 && contentTouched) || swipeAreaTouched,
-        };
-
-        const marginBoxMod = {
-            'always-full-height': this.props.alwaysFullHeight,
-        };
-
-        return (
-            <React.Fragment>
-                <div
-                    ref={this.veilRef}
-                    className={sheetBlock('veil', veilTransitionMod)}
-                    onClick={this.onVeilClick}
-                    onTransitionEnd={this.onVeilTransitionEnd}
-                    role="presentation"
-                    data-qa={SheetQa.VEIL}
-                />
-                <div
-                    ref={this.sheetRef}
-                    className={sheetBlock('sheet', sheetTransitionMod)}
-                    role="dialog"
-                    aria-modal="true"
-                    aria-label={title}
-                >
-                    {!hideTopBar && (
-                        <div ref={this.sheetTopRef} className={sheetBlock('sheet-top')}>
-                            <div className={sheetBlock('sheet-top-resizer')} />
-                        </div>
-                    )}
-                    {/* TODO: extract to external component SwipeArea */}
-                    <div
-                        className={sheetBlock('sheet-swipe-area', swipeAreaClassName)}
-                        onTouchStart={this.onSwipeAreaTouchStart}
-                        onTouchMove={this.onSwipeAriaTouchMove}
-                        onTouchEnd={this.onSwipeAriaTouchEnd}
-                    />
-                    {/* TODO: extract to external component ContentArea */}
-                    <div
-                        ref={this.sheetScrollContainerRef}
-                        className={sheetBlock('sheet-scroll-container', contentMod)}
-                        onTouchStart={this.onContentTouchStart}
-                        onTouchMove={this.onContentTouchMove}
-                        onTouchEnd={this.onContentTouchEnd}
-                        onTransitionEnd={this.onContentTransitionEnd}
-                    >
-                        <div
-                            ref={this.sheetMarginBoxRef}
-                            className={sheetBlock('sheet-margin-box', marginBoxMod)}
-                        >
-                            <div className={sheetBlock('sheet-margin-box-border-compensation')}>
-                                <div className={sheetBlock('sheet-content', contentClassName)}>
-                                    {title && (
-                                        <div className={sheetBlock('sheet-content-title')}>
-                                            {title}
-                                        </div>
-                                    )}
-                                    {content}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </React.Fragment>
-        );
-    }
-
-    private get veilOpacity() {
-        return this.veilRef.current?.style.opacity || 0;
-    }
-
-    private get sheetTopHeight() {
-        return this.sheetTopRef.current?.getBoundingClientRect().height || 0;
-    }
-
-    private get sheetHeight() {
-        return this.sheetRef.current?.getBoundingClientRect().height || 0;
-    }
-
-    private get sheetScrollTop() {
-        return this.sheetScrollContainerRef.current?.scrollTop || 0;
-    }
-
-    private get sheetContentHeight() {
-        return this.sheetMarginBoxRef.current?.getBoundingClientRect().height || 0;
-    }
-
-    private setInitialStyles(initialHeight: number) {
-        if (this.sheetScrollContainerRef.current && this.sheetMarginBoxRef.current) {
-            this.sheetScrollContainerRef.current.style.height = `${initialHeight}px`;
-        }
-    }
-
-    private setStyles = ({status, deltaHeight = 0}: {status: Status; deltaHeight?: number}) => {
-        if (!this.sheetRef.current || !this.veilRef.current) {
-            return;
-        }
-
-        const visibleHeight = this.sheetHeight - deltaHeight;
-        const translate =
-            status === 'showing'
-                ? `translate3d(0, -${visibleHeight}px, 0)`
-                : 'translate3d(0, 0, 0)';
-        let opacity = 0;
-
-        if (status === 'showing') {
-            opacity = deltaHeight === 0 ? 1 : visibleHeight / this.sheetHeight;
-        }
-
-        this.veilRef.current.style.opacity = String(opacity);
-
-        this.sheetRef.current.style.transform = translate;
-
-        if (this.isPrefersReducedMotion) {
-            this.sheetRef.current.style.opacity = String(opacity);
-            this.sheetRef.current.style.transform = `translate3d(0, -${visibleHeight}px, 0)`;
-        }
-    };
-
-    private getAvailableContentHeight = (sheetHeight: number) => {
-        let heightCoefficient = DEFAULT_MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT;
-
-        if (
-            typeof this.props.maxContentHeightCoefficient === 'number' &&
-            this.props.maxContentHeightCoefficient >= 0 &&
-            this.props.maxContentHeightCoefficient <= 1
-        ) {
-            heightCoefficient = this.props.maxContentHeightCoefficient;
-        } else if (typeof this.props.maxContentHeightCoefficient === 'number') {
-            warnAboutOutOfRange();
-        }
-
-        const availableViewportHeight =
-            window.innerHeight * heightCoefficient - this.sheetTopHeight;
-
-        if (this.props.alwaysFullHeight) {
-            return availableViewportHeight;
-        }
-
-        const availableContentHeight =
-            sheetHeight >= availableViewportHeight ? availableViewportHeight : sheetHeight;
-
-        return availableContentHeight;
-    };
-
-    private show = () => {
-        this.setState({isAnimating: true}, () => {
-            this.setStyles({status: 'showing'});
-            this.setHash();
-        });
-    };
-
-    private hide = () => {
-        this.setState({isAnimating: true}, () => {
-            this.setStyles({status: 'hiding'});
-            this.removeHash();
-        });
-    };
-
-    private onSwipeAreaTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-        this.velocityTracker.clear();
-
-        this.setState({
-            startY: e.nativeEvent.touches[0].clientY,
-            swipeAreaTouched: true,
-        });
-    };
-
-    private onContentTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-        if (!this.props.allowHideOnContentScroll || this.state.swipeAreaTouched) {
-            return;
-        }
-
-        this.velocityTracker.clear();
-
-        this.setState({
-            startY: e.nativeEvent.touches[0].clientY,
-            startScrollTop: this.sheetScrollTop,
-            contentTouched: true,
-        });
-    };
-
-    private onSwipeAriaTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-        const delta = e.nativeEvent.touches[0].clientY - this.state.startY;
-
-        this.velocityTracker.addMovement({
-            x: e.nativeEvent.touches[0].clientX,
-            y: e.nativeEvent.touches[0].clientY,
-        });
-
-        this.setState({deltaY: delta});
-
-        if (delta <= 0) {
-            return;
-        }
-
-        this.setStyles({status: 'showing', deltaHeight: delta});
-    };
-
-    private onContentTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-        if (!this.props.allowHideOnContentScroll) {
-            return;
-        }
-
-        if (!this.state.startY) {
-            this.onContentTouchStart(e);
-            return;
-        }
-
-        const {startScrollTop, swipeAreaTouched} = this.state;
-
-        if (
-            swipeAreaTouched ||
-            this.sheetScrollTop > 0 ||
-            (startScrollTop > 0 && startScrollTop !== this.sheetScrollTop)
-        ) {
-            return;
-        }
-
-        const delta = e.nativeEvent.touches[0].clientY - this.state.startY;
-
-        this.velocityTracker.addMovement({
-            x: e.nativeEvent.touches[0].clientX,
-            y: e.nativeEvent.touches[0].clientY,
-        });
-
-        // if allowHideOnContentScroll is true and delta <= 0, it's a content scroll
-        // animation is not needed
-        if (delta <= 0) {
-            this.setState({deltaY: 0});
-            return;
-        }
-
-        this.setState({deltaY: delta});
-        this.setStyles({status: 'showing', deltaHeight: delta});
-    };
-
-    private onTouchEndAction = (deltaY: number) => {
-        const accelerationY = this.velocityTracker.getYAcceleration();
-
-        if (this.sheetHeight <= deltaY) {
-            this.props.hideSheet();
-        } else if (
-            (deltaY > HIDE_THRESHOLD &&
-                accelerationY <= ACCELERATION_Y_MAX &&
-                accelerationY >= ACCELERATION_Y_MIN) ||
-            accelerationY > ACCELERATION_Y_MAX
-        ) {
-            this.hide();
-        } else if (deltaY !== 0) {
-            this.show();
-        }
-    };
-
-    private onSwipeAriaTouchEnd = () => {
-        const {deltaY} = this.state;
-
-        this.onTouchEndAction(deltaY);
-
-        this.setState({
-            startY: 0,
-            deltaY: 0,
-            swipeAreaTouched: false,
-        });
-    };
-
-    private onContentTouchEnd = () => {
-        const {deltaY, swipeAreaTouched} = this.state;
-
-        if (!this.props.allowHideOnContentScroll || swipeAreaTouched) {
-            return;
-        }
-
-        this.onTouchEndAction(deltaY);
-
-        this.setState({
-            startY: 0,
-            deltaY: 0,
-            contentTouched: false,
-        });
-    };
-
-    private onVeilClick = () => {
-        if (this.state.isAnimating) {
-            return;
-        }
-
-        this.setState({veilTouched: true});
-        this.hide();
-    };
-
-    private onVeilTransitionEnd = () => {
-        this.setState({isAnimating: false});
-
-        if (this.veilOpacity === '0') {
-            this.props.hideSheet();
-            return;
-        }
-
-        if (this.state.delayedResize) {
-            this.onResizeWindow();
-            this.setState({delayedResize: false});
-        }
-    };
-
-    private onContentTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
-        if (e.propertyName === 'height') {
-            if (this.sheetScrollContainerRef.current) {
-                this.sheetScrollContainerRef.current.style.transition = 'none';
+    const setStyles = React.useCallback(
+        ({status, deltaHeight = 0}: {status: Status; deltaHeight?: number}) => {
+            if (!sheetRef.current || !veilRef.current) {
+                return;
             }
-        }
-    };
 
-    private onResizeWindow = () => {
-        if (this.state.isAnimating) {
-            this.setState({delayedResize: true});
+            const sheetHeight = getSheetHeight();
+            const visibleHeight = sheetHeight - deltaHeight;
+            const translate =
+                status === 'showing'
+                    ? `translate3d(0, -${visibleHeight}px, 0)`
+                    : 'translate3d(0, 0, 0)';
+            let opacity = 0;
+
+            if (status === 'showing') {
+                opacity = deltaHeight === 0 ? 1 : visibleHeight / sheetHeight;
+            }
+
+            veilRef.current.style.opacity = String(opacity);
+
+            sheetRef.current.style.transform = translate;
+
+            if (getIsPrefersReducedMotion()) {
+                sheetRef.current.style.opacity = String(opacity);
+                sheetRef.current.style.transform = `translate3d(0, -${visibleHeight}px, 0)`;
+            }
+        },
+        [getSheetHeight, getIsPrefersReducedMotion],
+    );
+
+    const getAvailableContentHeight = React.useCallback(
+        (sheetHeight: number) => {
+            const {maxContentHeightCoefficient: coefficient, alwaysFullHeight: fullHeight} =
+                latestRef.current;
+            let heightCoefficient = DEFAULT_MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT;
+
+            if (typeof coefficient === 'number' && coefficient >= 0 && coefficient <= 1) {
+                heightCoefficient = coefficient;
+            } else if (typeof coefficient === 'number') {
+                warnAboutOutOfRange();
+            }
+
+            const availableViewportHeight =
+                window.innerHeight * heightCoefficient - getSheetTopHeight();
+
+            if (fullHeight) {
+                return availableViewportHeight;
+            }
+
+            const availableContentHeight =
+                sheetHeight >= availableViewportHeight ? availableViewportHeight : sheetHeight;
+
+            return availableContentHeight;
+        },
+        [getSheetTopHeight],
+    );
+
+    const hideSheetStable = React.useCallback(() => latestRef.current.hideSheet(), []);
+
+    const show = React.useCallback(() => {
+        isAnimatingRef.current = true;
+        setStyles({status: 'showing'});
+
+        if (!hashSetRef.current) {
+            hashSetRef.current = true;
+            setHash();
+        }
+    }, [setStyles, setHash]);
+
+    const hide = React.useCallback(() => {
+        isAnimatingRef.current = true;
+        setStyles({status: 'hiding'});
+
+        if (hashSetRef.current) {
+            hashSetRef.current = false;
+            removeHash();
+        }
+    }, [setStyles, removeHash]);
+
+    const {
+        deltaY,
+        swipeAreaTouched,
+        velocityTrackerRef,
+        startYRef,
+        deltaYRef,
+        swipeAreaTouchedRef,
+        setDeltaY,
+        onTouchEndAction,
+        swipeAreaHandlers,
+    } = useSwipe({
+        setStyles,
+        getSheetHeight,
+        show,
+        hide,
+        hideSheet: hideSheetStable,
+    });
+
+    const resetScrollTransition = React.useCallback(() => {
+        if (sheetScrollContainerRef.current) {
+            sheetScrollContainerRef.current.style.transition = 'none';
+        }
+    }, []);
+
+    const {contentTouched, contentAreaHandlers} = useContentScroll({
+        velocityTrackerRef,
+        startYRef,
+        deltaYRef,
+        swipeAreaTouchedRef,
+        setDeltaY,
+        onTouchEndAction,
+        getAllowHideOnContentScroll: React.useCallback(
+            () => latestRef.current.allowHideOnContentScroll,
+            [],
+        ),
+        getSheetScrollTop,
+        setStyles,
+        resetScrollTransition,
+    });
+
+    const onResize = React.useCallback(() => {
+        if (!sheetRef.current || !sheetScrollContainerRef.current) {
             return;
         }
 
-        this.setState({inWindowResizeScope: true});
+        const sheetContentHeight = getSheetContentHeight();
 
-        if (this.resizeWindowTimer) {
-            window.clearTimeout(this.resizeWindowTimer);
-        }
-
-        this.resizeWindowTimer = window.setTimeout(() => {
-            this.onResize();
-        }, WINDOW_RESIZE_TIMEOUT);
-    };
-
-    private onResize = () => {
-        if (!this.sheetRef.current || !this.sheetScrollContainerRef.current) {
+        if (sheetContentHeight === prevSheetHeightRef.current && !inWindowResizeScopeRef.current) {
             return;
         }
 
-        const sheetContentHeight = this.sheetContentHeight;
+        const availableContentHeight = getAvailableContentHeight(sheetContentHeight);
 
-        if (sheetContentHeight === this.state.prevSheetHeight && !this.state.inWindowResizeScope) {
-            return;
-        }
-
-        const availableContentHeight = this.getAvailableContentHeight(sheetContentHeight);
-
-        this.sheetScrollContainerRef.current.style.transition =
-            this.state.prevSheetHeight > sheetContentHeight
+        sheetScrollContainerRef.current.style.transition =
+            prevSheetHeightRef.current > sheetContentHeight
                 ? `height 0s ease ${TRANSITION_DURATION}`
                 : 'none';
 
-        this.sheetScrollContainerRef.current.style.height = `${availableContentHeight}px`;
-        this.sheetRef.current.style.transform = `translate3d(0, -${availableContentHeight + this.sheetTopHeight}px, 0)`;
-        this.setState({prevSheetHeight: sheetContentHeight, inWindowResizeScope: false});
-    };
+        sheetScrollContainerRef.current.style.height = `${availableContentHeight}px`;
+        sheetRef.current.style.transform = `translate3d(0, -${availableContentHeight + getSheetTopHeight()}px, 0)`;
 
-    private addListeners() {
-        window.addEventListener('resize', this.onResizeWindow);
+        prevSheetHeightRef.current = sheetContentHeight;
+        inWindowResizeScopeRef.current = false;
+    }, [getSheetContentHeight, getAvailableContentHeight, getSheetTopHeight]);
 
-        if (this.sheetMarginBoxRef.current) {
-            this.observer = new ResizeObserver(() => {
-                if (!this.state.inWindowResizeScope) {
-                    this.onResize();
+    const onResizeWindow = React.useCallback(() => {
+        if (isAnimatingRef.current) {
+            delayedResizeRef.current = true;
+            return;
+        }
+
+        inWindowResizeScopeRef.current = true;
+
+        if (resizeWindowTimerRef.current) {
+            window.clearTimeout(resizeWindowTimerRef.current);
+        }
+
+        resizeWindowTimerRef.current = window.setTimeout(() => {
+            onResize();
+        }, WINDOW_RESIZE_TIMEOUT);
+    }, [onResize]);
+
+    const {veilHandlers} = useVeil({
+        veilRef,
+        isAnimatingRef,
+        delayedResizeRef,
+        setVeilTouched,
+        hide,
+        hideSheet: hideSheetStable,
+        onResizeWindow,
+    });
+
+    // --- componentDidMount / componentWillUnmount ---
+    React.useEffect(() => {
+        window.addEventListener('resize', onResizeWindow);
+
+        if (sheetMarginBoxRef.current) {
+            observerRef.current = new ResizeObserver(() => {
+                if (!inWindowResizeScopeRef.current) {
+                    onResize();
                 }
             });
-            this.observer.observe(this.sheetMarginBoxRef.current);
-        }
-    }
-
-    private removeListeners() {
-        window.removeEventListener('resize', this.onResizeWindow);
-
-        if (this.observer) {
-            this.observer.disconnect();
-        }
-    }
-
-    private setHash() {
-        const {id, platform, location, history} = this.props;
-
-        if (platform === Platform.BROWSER) {
-            return;
+            observerRef.current.observe(sheetMarginBoxRef.current);
         }
 
-        const newLocation = {...location, hash: id};
+        const initialHeight = getAvailableContentHeight(getSheetContentHeight());
 
-        switch (platform) {
-            case Platform.IOS:
-                if (location.hash) {
-                    hashHistory.push(location.hash);
-                }
-                history.replace(newLocation);
-                break;
-            case Platform.ANDROID:
-                history.push(newLocation);
-                break;
+        setInitialStyles(initialHeight);
+        prevSheetHeightRef.current = initialHeight;
+
+        show();
+
+        return () => {
+            window.removeEventListener('resize', onResizeWindow);
+
+            if (observerRef.current) {
+                observerRef.current.disconnect();
+            }
+        };
+        // Mount/unmount only: callbacks are stable and read fresh data via refs.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // --- componentDidUpdate ---
+    React.useEffect(() => {
+        const prevVisible = prevVisibleRef.current;
+        const prevLocation = prevLocationRef.current;
+
+        if (!prevVisible && visible) {
+            show();
         }
-    }
 
-    private removeHash() {
-        const {id, platform, location, history} = this.props;
-
-        if (platform === Platform.BROWSER || location.hash !== `#${id}`) {
-            return;
+        if ((prevVisible && !visible) || shouldClose(prevLocation)) {
+            hide();
         }
 
-        switch (platform) {
-            case Platform.IOS:
-                history.replace({...location, hash: hashHistory.pop() ?? ''});
-                break;
-            case Platform.ANDROID:
-                history.goBack();
-                break;
+        if (prevLocation.pathname !== location.pathname) {
+            resetHashHistory();
         }
-    }
 
-    private shouldClose(prevProps: SheetContentInnerProps) {
-        const {id, platform, location, history} = this.props;
+        prevVisibleRef.current = visible;
+        prevLocationRef.current = location;
+    });
 
-        return (
-            platform !== Platform.BROWSER &&
-            history.action === 'POP' &&
-            prevProps.location.hash !== location.hash &&
-            location.hash !== `#${id}`
-        );
-    }
-
-    private get isPrefersReducedMotion() {
-        return Boolean(window?.matchMedia('(prefers-reduced-motion: reduce)').matches);
-    }
-}
-
-function withRouterWrapper(Component: React.ComponentType<SheetContentInnerProps>) {
-    const ComponentWithRouter = (props: MobileContextProps & SheetContentProps) => {
-        const {useHistory, useLocation, ...remainingProps} = props;
-        return <Component {...remainingProps} history={useHistory()} location={useLocation()} />;
+    const veilTransitionMod = {
+        'with-transition': !deltaY || veilTouched,
     };
-    const componentName = Component.displayName || Component.name || 'Component';
 
-    ComponentWithRouter.displayName = `withRouterWrapper(${componentName})`;
-    return ComponentWithRouter;
+    const sheetTransitionMod = {
+        'with-transition': veilTransitionMod['with-transition'],
+    };
+
+    const contentWithoutScroll = (deltaY > 0 && contentTouched) || swipeAreaTouched;
+
+    return (
+        <React.Fragment>
+            <SheetVeil
+                veilRef={veilRef}
+                withTransition={veilTransitionMod['with-transition']}
+                {...veilHandlers}
+            />
+            <div
+                ref={sheetRef}
+                className={sheetBlock('sheet', sheetTransitionMod)}
+                role="dialog"
+                aria-modal="true"
+                aria-label={title}
+            >
+                {!hideTopBar && (
+                    <div
+                        ref={sheetTopRef}
+                        className={sheetBlock('sheet-top')}
+                        data-qa={SheetQa.TOP}
+                    >
+                        <div className={sheetBlock('sheet-top-resizer')} />
+                    </div>
+                )}
+                <SheetSwipeArea className={swipeAreaClassName} {...swipeAreaHandlers} />
+                <SheetContentArea
+                    scrollContainerRef={sheetScrollContainerRef}
+                    marginBoxRef={sheetMarginBoxRef}
+                    contentClassName={contentClassName}
+                    title={title}
+                    withoutScroll={contentWithoutScroll}
+                    alwaysFullHeight={alwaysFullHeight}
+                    {...contentAreaHandlers}
+                >
+                    {content}
+                </SheetContentArea>
+            </div>
+        </React.Fragment>
+    );
 }
-export const SheetContentContainer = withMobile(withRouterWrapper(SheetContent));
+
+export const SheetContentContainer = SheetContent;

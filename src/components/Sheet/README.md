@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+`Sheet` is a component designed for using in the mobile context as an information or interactive element. You can place content of any size in it, since the internal scrolling and dynamic resizing are supported.
+
 ```tsx
 import {Sheet} from '@gravity-ui/uikit';
 ```
-
-`Sheet` is a component designed for using in the mobile context as an information or interactive element. You can place content of any size in it, since the internal scrolling and dynamic resizing are supported.
 
 On mobile devices, you can move a `Sheet` by pulling its main part or the swipe area. To close it, swipe down or tap the area outside the `Sheet`.
 

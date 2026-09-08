@@ -30,6 +30,7 @@ export type ListProps<T = unknown> = QAProps & {
     activeItemIndex?: number;
     selectedItemIndex?: number | number[];
     itemHeight?: number | ((item: ListItemData<T>, itemIndex: number) => number);
+    itemKey?: (item: ListItemData<T>) => string;
     itemsHeight?: number | ((items: T[]) => number);
     virtualized?: boolean;
     filterable?: boolean;

@@ -4,13 +4,13 @@
 
 <!--/GITHUB_BLOCK-->
 
-```tsx
-import {PinInput} from '@gravity-ui/uikit';
-```
-
 `PinInput` is a group of inputs to enter sequence of numeric or alphanumeric values quickly. Its most common use case is entering OTP or confirmation codes received through text messages (SMS), emails, or authenticator apps.
 
 Each input collects one character at a time. When a value is accepted, the focus is moved to the next input, until all fields are filled.
+
+```tsx
+import {PinInput} from '@gravity-ui/uikit';
+```
 
 ## Type
 

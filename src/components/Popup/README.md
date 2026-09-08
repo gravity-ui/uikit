@@ -4,12 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+`Popup` positions floating content above the page, anchored to a reference element — the low-level primitive behind tooltips, popovers, and menus, built on [Floating UI](https://floating-ui.com). Its visibility is controlled with the `open` property; its children render inside the [`Portal`](../Portal) component unless you set the `disablePortal` property.
+
 ```tsx
 import {Popup} from '@gravity-ui/uikit';
 ```
-
-You can use a `Popup` to display floating content above the page. Technically, it is a wrapper around [Floating UI](https://floating-ui.com) with some default values. To manage `Popup` visibility, use the `open` property.
-The `Popup` child components are rendered inside the [`Portal`](../Portal) component. To disable this behavior, use the `disablePortal` property.
 
 ## Anchor
 

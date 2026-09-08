@@ -151,3 +151,42 @@ test('should render link', async () => {
     expect(component.tagName).toBe('A');
     expect(component).toHaveAttribute('href', 'https://example.com/foo/bar');
 });
+
+test('should render custom component with icon, label and counter', async () => {
+    const iconQaId = 'icon-qa-id';
+    const labelQaId = 'label-qa-id';
+    const counter = 3;
+
+    const icon = <Flame data-qa={iconQaId} width={18} height={18} />;
+    const label = {
+        theme: 'normal' as const,
+        content: <span data-qa={labelQaId}>label content</span>,
+    };
+
+    render(
+        <TabList>
+            <Tab
+                component="div"
+                value={tab1.value}
+                title={tab1.title}
+                icon={icon}
+                label={label}
+                counter={counter}
+            >
+                {tab1.title}
+            </Tab>
+        </TabList>,
+    );
+
+    const component = screen.getByRole('tab');
+    const iconComponent = screen.getByTestId(iconQaId);
+    const labelComponent = screen.getByTestId(labelQaId);
+    const counterComponent = screen.getByText(counter);
+
+    expect(iconComponent).toBeVisible();
+    expect(component).toContainElement(iconComponent);
+    expect(labelComponent).toBeVisible();
+    expect(component).toContainElement(labelComponent);
+    expect(counterComponent).toBeVisible();
+    expect(component).toContainElement(counterComponent);
+});

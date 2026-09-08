@@ -72,7 +72,7 @@ import {Container, Divider, Flex, Label} from '@gravity-ui/uikit';
 export default function () {
     return (
         <Container>
-            <Flex gap={3}>
+            <Flex gap="spacing-3">
                 <Label>Label</Label>
                 <Divider orientation="vertical" />
                 <Label>Label</Label>
@@ -92,7 +92,7 @@ SANDBOX-->
 import {Flex, Label, Divider} from '@gravity-ui/uikit';
 
 <Container>
-  <Flex gap={3}>
+  <Flex gap="spacing-3">
     <Label>Label</Label>
     <Divider orientation="vertical" />
     <Label>Label</Label>
@@ -114,7 +114,7 @@ import {Container, Divider, Flex} from '@gravity-ui/uikit';
 export default function () {
     return (
         <Container>
-            <Flex gap={3}>
+            <Flex gap="spacing-3">
                 <Divider>Custom content</Divider>
                 <Divider align="center">
                     <span>OK</span>
@@ -132,7 +132,7 @@ import {Divider, Flex, Container, Icon} from '@gravity-ui/uikit';
 import {CheckIcon} from '@gravity-ui/icons';
 
 <Container>
-  <Flex gap={3}>
+  <Flex gap="spacing-3">
     <Divider>Custom content</Divider>
     <Divider>
       <Icon data={CheckIcon} size={16} />
@@ -151,7 +151,7 @@ import {Container, Divider, Flex} from '@gravity-ui/uikit';
 export default function () {
     return (
         <Container>
-            <Flex gap={3}>
+            <Flex gap="spacing-3">
                 <Divider align="start">Start content</Divider>
                 <Divider align="center">Center content</Divider>
                 <Divider align="end">End content</Divider>
@@ -167,7 +167,7 @@ SANDBOX-->
 import {Divider, Flex, Container} from '@gravity-ui/uikit';
 
 <Container>
-  <Flex gap={3}>
+  <Flex gap="spacing-3">
     <Divider align="start">Start content</Divider>
     <Divider align="center">Center content</Divider>
     <Divider align="end">End content</Divider>

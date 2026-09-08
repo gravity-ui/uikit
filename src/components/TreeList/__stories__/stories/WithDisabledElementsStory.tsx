@@ -35,8 +35,8 @@ export const WithDisabledElementsStory = ({...storyProps}: WithDisabledElementsS
     const containerRef = React.useRef<HTMLDivElement>(null);
 
     return (
-        <Flex width="500" gap="5" direction="column" alignItems="flex-start">
-            <Flex alignItems="center" gap="1">
+        <Flex width="500" gap="spacing-5" direction="column" alignItems="flex-start">
+            <Flex alignItems="center" gap="spacing-1">
                 <Button
                     onClick={() => {
                         containerRef.current?.focus();

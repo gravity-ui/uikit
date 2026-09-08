@@ -35,8 +35,8 @@ const persons = [
 function SkeletonListShowcase() {
     const [listVisible, setListVisible] = React.useState(false);
     return (
-        <Flex direction="column" gap={3}>
-            <Flex direction="column" gap={2}>
+        <Flex direction="column" gap="spacing-3">
+            <Flex direction="column" gap="spacing-2">
                 {listVisible ? (
                     persons.map((props, index) => <PersonCard {...props} key={index} />)
                 ) : (

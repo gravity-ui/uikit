@@ -86,7 +86,7 @@ export default function () {
     return (
         <div>
             <Switch content="Content" size="l" />
-            <Box spacing={{mt: 2}}>
+            <Box marginBlockStart="spacing-2">
                 <Switch size="l">
                     <span>Content as children</span>
                 </Switch>

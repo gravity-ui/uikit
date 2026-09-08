@@ -235,19 +235,19 @@ export default function () {
         <Box width="100%">
             <Breadcrumbs>
                 <Breadcrumbs.Item>
-                    <Flex alignItems="center" gap={1}>
+                    <Flex alignItems="center" gap="spacing-1">
                         <Icon data={House} size={16} />
                         uikit
                     </Flex>
                 </Breadcrumbs.Item>
                 <Breadcrumbs.Item>
-                    <Flex alignItems="center" gap={1}>
+                    <Flex alignItems="center" gap="spacing-1">
                         <Icon data={Flame} size={16} />
                         components
                     </Flex>
                 </Breadcrumbs.Item>
                 <Breadcrumbs.Item>
-                    <Flex alignItems="center" gap={1}>
+                    <Flex alignItems="center" gap="spacing-1">
                         <Icon data={Rocket} size={16} style={{minWidth: 16}} />
                         <Text ellipsis variant="inherit">
                             Breadcrumbs
@@ -265,17 +265,17 @@ SANDBOX-->
 ```jsx
 <Breadcrumbs>
   <Breadcrumbs.Item>
-    <Flex alignItems="center" gap={1}>
+    <Flex alignItems="center" gap="spacing-1">
       <House /> uikit
     </Flex>
   </Breadcrumbs.Item>
   <Breadcrumbs.Item>
-    <Flex alignItems="center" gap={1}>
+    <Flex alignItems="center" gap="spacing-1">
       <Flame /> components
     </Flex>
   </Breadcrumbs.Item>
   <Breadcrumbs.Item>
-    <Flex alignItems="center" gap={1}>
+    <Flex alignItems="center" gap="spacing-1">
       <Rocket style={{minWidth: 16}} />
       <Text ellipsis variant="inherit">
         Breadcrumbs
@@ -479,7 +479,7 @@ SANDBOX-->
 ```jsx
 <Breadcrumbs
   endContent={
-    <Flex gap={1} spacing={{pl: 1}}>
+    <Flex gap="spacing-1" paddingInlineStart="spacing-1">
       <Button>Test1</Button>
       <Button>Test2</Button>
     </Flex>

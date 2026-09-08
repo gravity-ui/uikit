@@ -39,7 +39,7 @@ export const RecursiveList = ({size, itemsCount, 'aria-label': ariaLabel}: Recur
     });
 
     return (
-        <Flex direction="column" gap="5">
+        <Flex direction="column" gap="spacing-5">
             <TextInput
                 autoComplete="off"
                 value={filterState.filter}

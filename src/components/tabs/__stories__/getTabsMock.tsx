@@ -88,7 +88,7 @@ export function getTabsMock(args: StoryParams): TabProps[] {
 const RenderWithWrap = (props: {title: string | React.ReactNode}) => {
     const {title} = props;
     return (
-        <Flex alignItems="center" gap={1}>
+        <Flex alignItems="center" gap="spacing-1">
             <Icon data={SquarePlus} size={16} />
 
             <span

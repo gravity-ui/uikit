@@ -30,7 +30,12 @@ export const WithFiltrationAndControlsStory = ({
         const containerRenderer = (props: TreeListContainerProps<Entity>) => {
             if (props.list.structure.items.length === 0 && baseItems.length > 0) {
                 return (
-                    <Flex centerContent className={spacing({p: 2})} height="300px">
+                    <Flex
+                        justifyContent="center"
+                        alignItems="center"
+                        className={spacing({p: 2})}
+                        height="300px"
+                    >
                         <Text variant="subheader-1">Nothing found</Text>
                     </Flex>
                 );
@@ -47,7 +52,7 @@ export const WithFiltrationAndControlsStory = ({
     const list = useList({items: filterState.items});
 
     return (
-        <Flex direction="column" gap="3">
+        <Flex direction="column" gap="spacing-3">
             <TextInput
                 hasClear
                 placeholder="Type for search..."
@@ -64,7 +69,7 @@ export const WithFiltrationAndControlsStory = ({
                 mapItemDataToContentProps={(x) => x}
                 renderContainer={renderContainer}
             />
-            <Flex gap="2" className={spacing({px: 2, py: 1})}>
+            <Flex gap="spacing-2" className={spacing({px: 2, py: 1})}>
                 <Button
                     width="max"
                     onClick={() => {

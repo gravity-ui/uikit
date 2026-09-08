@@ -2,20 +2,13 @@ import * as React from 'react';
 
 import {Palette} from '@gravity-ui/icons';
 import {decompressFromEncodedURIComponent} from 'lz-string';
-import {
-    AddonPanel,
-    Form,
-    IconButton,
-    TooltipLinkList,
-    WithTooltip,
-} from 'storybook/internal/components';
+import {Form, IconButton, Modal, TooltipLinkList, WithTooltip} from 'storybook/internal/components';
 import {addons, types} from 'storybook/manager-api';
 import {styled} from 'storybook/theming';
 
 import {
     ADDON_ID,
     APPLY_THEME_EVENT,
-    PANEL_ID,
     RESET_THEME_EVENT,
     SET_THEME_SOURCE_EVENT,
     TOOL_ID,
@@ -29,13 +22,26 @@ const APPLY_THEME_DEBOUNCE = 500;
 const THEME_ERROR_ID = `${ADDON_ID}/parser-error`;
 const THEME_QUERY_PARAM = 'theme';
 
-const AddonPanelContainer = styled.div({
-    height: '100%',
-    minHeight: 0,
-    '& > div': {
-        height: '100%',
-        minHeight: 0,
+const ThemeModal = styled(Modal)({
+    display: 'flex',
+    flexDirection: 'column',
+});
+
+const ThemeModalPortal = styled.div({
+    position: 'absolute',
+    width: 0,
+    height: 0,
+    '& > div:first-of-type': {
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        backdropFilter: 'blur(4px)',
     },
+});
+
+const ThemeModalContent = styled(Modal.Content)({
+    flex: 1,
+    minHeight: 0,
+    margin: 0,
+    padding: 16,
 });
 
 const ThemeTextarea = styled(Form.Textarea)(({theme}) => ({
@@ -63,11 +69,6 @@ const ThemeError = styled.div(({theme}) => ({
 addons.register(ADDON_ID, () => {
     applyThemeFromUrl();
 
-    addons.add(PANEL_ID, {
-        type: types.PANEL,
-        title: 'Import theme',
-        render: ({active}) => <ThemeImportPanel active={Boolean(active)} />,
-    });
     addons.add(TOOL_ID, {
         type: types.TOOL,
         title: 'Theme',
@@ -77,7 +78,9 @@ addons.register(ADDON_ID, () => {
 
 function ThemeImportTool() {
     const inputRef = React.useRef<HTMLInputElement>(null);
+    const modalPortalRef = React.useRef<HTMLDivElement>(null);
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+    const [isEditorOpen, setIsEditorOpen] = React.useState(false);
 
     const selectThemeFile = React.useCallback(() => {
         if (inputRef.current) {
@@ -94,7 +97,8 @@ function ThemeImportTool() {
                 return;
             }
 
-            addons.getChannel().emit(SET_THEME_SOURCE_EVENT, await file.text());
+            addons.getChannel().emit(SET_THEME_SOURCE_EVENT, formatThemeSource(await file.text()));
+            setIsEditorOpen(true);
         },
         [],
     );
@@ -118,6 +122,14 @@ function ThemeImportTool() {
                                 onClick: () => {
                                     onHide();
                                     selectThemeFile();
+                                },
+                            },
+                            {
+                                id: 'edit',
+                                title: 'Edit theme',
+                                onClick: () => {
+                                    onHide();
+                                    setIsEditorOpen(true);
                                 },
                             },
                             {
@@ -145,20 +157,25 @@ function ThemeImportTool() {
                 style={{display: 'none'}}
                 onChange={importThemeFile}
             />
+            <ThemeEditorModal
+                open={isEditorOpen}
+                onOpenChange={setIsEditorOpen}
+                container={modalPortalRef.current ?? undefined}
+            />
+            <ThemeModalPortal ref={modalPortalRef} />
         </React.Fragment>
     );
 }
 
-const styles = {
-    panel: {
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-        minHeight: 0,
-    },
-} satisfies Record<string, React.CSSProperties>;
-
-function ThemeImportPanel({active}: {active: boolean}) {
+function ThemeEditorModal({
+    open,
+    onOpenChange,
+    container,
+}: {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    container?: HTMLElement;
+}) {
     const [source, setSource] = React.useState(() => getStoredThemeSource() ?? '');
     const [parserError, setParserError] = React.useState<string | null>(null);
     const previousSourceRef = React.useRef(source);
@@ -213,30 +230,40 @@ function ThemeImportPanel({active}: {active: boolean}) {
     }, [source]);
 
     return (
-        <AddonPanelContainer>
-            <AddonPanel active={active}>
-                <div style={styles.panel}>
-                    <ThemeTextarea
-                        aria-label="Theme CSS or JSON"
-                        value={source}
-                        placeholder="Paste an exported theme here"
-                        size="flex"
-                        valid={parserError ? 'error' : undefined}
-                        aria-invalid={parserError ? true : undefined}
-                        aria-describedby={parserError ? THEME_ERROR_ID : undefined}
-                        onChange={(event) => {
-                            setSource(event.currentTarget.value);
-                            setParserError(null);
-                        }}
-                    />
-                    {parserError ? (
-                        <ThemeError id={THEME_ERROR_ID} role="alert">
-                            {parserError}
-                        </ThemeError>
-                    ) : null}
-                </div>
-            </AddonPanel>
-        </AddonPanelContainer>
+        <ThemeModal
+            open={open}
+            onOpenChange={onOpenChange}
+            width={800}
+            height={600}
+            container={container}
+        >
+            <ThemeModalContent>
+                <Modal.Header>
+                    <Modal.Title>Edit theme</Modal.Title>
+                    <Modal.Description>
+                        Paste or edit an exported CSS or JSON theme.
+                    </Modal.Description>
+                </Modal.Header>
+                <ThemeTextarea
+                    aria-label="Theme CSS or JSON"
+                    value={source}
+                    placeholder="Paste an exported theme here"
+                    size="flex"
+                    valid={parserError ? 'error' : undefined}
+                    aria-invalid={parserError ? true : undefined}
+                    aria-describedby={parserError ? THEME_ERROR_ID : undefined}
+                    onChange={(event) => {
+                        setSource(event.currentTarget.value);
+                        setParserError(null);
+                    }}
+                />
+                {parserError ? (
+                    <ThemeError id={THEME_ERROR_ID} role="alert">
+                        {parserError}
+                    </ThemeError>
+                ) : null}
+            </ThemeModalContent>
+        </ThemeModal>
     );
 }
 

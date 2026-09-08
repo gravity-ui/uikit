@@ -2,7 +2,6 @@ import {generateCSS, parseCSS, parseJSON} from '@gravity-ui/uikit-themer';
 import type {JsonTheme} from '@gravity-ui/uikit-themer';
 
 export const ADDON_ID = 'gravity-ui/theme-import';
-export const PANEL_ID = `${ADDON_ID}/panel`;
 export const TOOL_ID = `${ADDON_ID}/tool`;
 export const APPLY_THEME_EVENT = `${ADDON_ID}/apply`;
 export const RESET_THEME_EVENT = `${ADDON_ID}/reset`;

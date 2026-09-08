@@ -227,6 +227,9 @@
       "optional": true
     }
   },
+  "overrides": {
+    "ignore": "^7.0.8"
+  },
   "nano-staged": {
     "*.{scss}": [
       "stylelint --fix --quiet"

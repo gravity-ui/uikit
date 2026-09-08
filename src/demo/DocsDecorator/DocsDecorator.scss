@@ -93,4 +93,18 @@ $root: '.docs-decorator';
     .docs-example {
         margin: $offset-m 0;
     }
+
+    /* Storybook wraps every docs example into its zoom element, and that one
+       always carries a `transform: scale(...)` — even at the 1:1 scale the
+       docs are always rendered at (the zoom buttons live in the toolbar of the
+       canvas, which the docs blocks do not render). A transform other than
+       `none` makes the element the containing block of its `position: fixed`
+       descendants, so anything positioned in viewport coordinates lands at the
+       coordinates of the example instead: dnd libraries that fly a `fixed`
+       ghost with the cursor (@hello-pangea/dnd, the DragOverlay of dnd-kit)
+       throw it out of the visible area of the long docs page.
+       Undoing the no-op transform gives those descendants the viewport back */
+    .docs-story div:has(> .innerZoomElementWrapper) {
+        transform: none;
+    }
 }

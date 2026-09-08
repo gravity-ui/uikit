@@ -3,6 +3,7 @@ import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests
 import {expect, test} from '~playwright/core';
 
 import {getModalLayoutMetrics} from '../../Modal/__tests__/helpers';
+import {MobileProvider} from '../../mobile';
 import {Dialog} from '../Dialog';
 import type {DialogProps} from '../Dialog';
 import type {DialogBodyProps} from '../DialogBody/DialogBody';
@@ -41,6 +42,53 @@ interface AllDialogProps {
 }
 
 test.describe('Dialog', {tag: '@Dialog'}, () => {
+    test('fills the mobile viewport regardless of desktop width constraints', async ({
+        mount,
+        page,
+        expectScreenshot,
+    }) => {
+        await page.setViewportSize({width: 600, height: 900});
+
+        await mount(
+            <MobileProvider mobile __experimentalMobileModals>
+                <Dialog maxWidth="s" fullWidth onClose={() => {}} open>
+                    <Dialog.Header caption="Mobile dialog" />
+                    <Dialog.Body>Dialog content</Dialog.Body>
+                    <Dialog.Footer textButtonApply="Apply" textButtonCancel="Cancel" />
+                </Dialog>
+            </MobileProvider>,
+        );
+
+        const overlay = page.locator('.g-modal');
+
+        await expect(overlay).toHaveAttribute('data-floating-ui-status', 'open');
+
+        const layout = await overlay.evaluate((overlayElement) => {
+            const contentElement = overlayElement.querySelector<HTMLElement>('.g-modal__content');
+            const dialogElement = overlayElement.querySelector<HTMLElement>('.g-dialog');
+
+            if (!contentElement || !dialogElement) {
+                throw new Error('Dialog layout elements are missing');
+            }
+
+            return {
+                overlayClientWidth: overlayElement.clientWidth,
+                overlayClientHeight: overlayElement.clientHeight,
+                contentClientWidth: contentElement.clientWidth,
+                contentClientHeight: contentElement.clientHeight,
+                contentClipPath: getComputedStyle(contentElement).clipPath,
+                dialogClientHeight: dialogElement.clientHeight,
+            };
+        });
+
+        expect(layout.contentClientWidth).toBe(layout.overlayClientWidth);
+        expect(layout.contentClientHeight).toBe(layout.overlayClientHeight);
+        expect(layout.dialogClientHeight).toBe(layout.overlayClientHeight);
+        expect(layout.contentClipPath).toBe('inset(0px)');
+
+        await expectScreenshot({locator: page, themes: ['light']});
+    });
+
     test('keeps full-width dialog inside the overlay on viewport resize', async ({mount, page}) => {
         await page.setViewportSize({width: 1000, height: 600});
 

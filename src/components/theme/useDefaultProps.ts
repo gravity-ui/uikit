@@ -1,13 +1,13 @@
 import * as React from 'react';
 
-import type {ComponentDefaultPropsMap} from './PrivateDefaultPropsProvider';
-import {PrivateDefaultPropsContext} from './PrivateDefaultPropsProvider';
+import type {ComponentDefaultPropsMap} from './DefaultPropsProvider';
+import {DefaultPropsContext} from './DefaultPropsProvider';
 
 export function useDefaultProps<K extends keyof ComponentDefaultPropsMap, T extends object>(
     componentName: K,
     componentProps: T,
 ): T {
-    const ctx = React.useContext(PrivateDefaultPropsContext);
+    const ctx = React.useContext(DefaultPropsContext);
     const defaultProps = ctx[componentName];
 
     if (!defaultProps) {

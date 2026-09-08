@@ -1,0 +1,46 @@
+@use '../../variables';
+
+$block: '.#{variables.$ns}lab-list';
+
+#{$block} {
+    display: flex;
+    flex-direction: column;
+
+    margin: 0;
+    padding: 0;
+
+    /* Indicator on the row itself (works in flat render and inside virtualizer wrappers);
+       role + attribute keeps foreign data-* out */
+    :is([role='option'], [role='row'])[data-dragging] {
+        opacity: 0.5;
+
+        /* The dragged original needs a background of its own (the state highlight is suppressed
+           while dragging); the view variable rather than background, so custom markup keeps its own */
+        --g-list-item-view-background-color: var(--g-color-base-generic-medium);
+    }
+
+    :is([role='option'], [role='row'])[data-drop-target] {
+        /* z-index raises the row so that the edge line is not covered by the next row */
+        position: relative;
+        z-index: 1;
+
+        &::after {
+            content: '';
+            position: absolute;
+            inset-inline: 0;
+            height: 2px;
+            border-radius: 1px;
+            background: var(--g-color-line-brand);
+            pointer-events: none;
+        }
+    }
+
+    /* Inside the row: under virtualization the root is the scroll container and clips a line outside */
+    :is([role='option'], [role='row'])[data-drop-target='before']::after {
+        inset-block-start: 0;
+    }
+
+    :is([role='option'], [role='row'])[data-drop-target='after']::after {
+        inset-block-end: 0;
+    }
+}

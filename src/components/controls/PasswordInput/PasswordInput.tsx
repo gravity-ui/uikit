@@ -9,13 +9,14 @@ import {ActionTooltip} from '../../ActionTooltip';
 import {Button} from '../../Button';
 import {ClipboardButton} from '../../ClipboardButton';
 import {Icon} from '../../Icon';
+import {useDefaultProps} from '../../theme/useDefaultProps';
 import {block} from '../../utils/cn';
 import {TextInput} from '../TextInput';
 import type {TextInputProps} from '../TextInput';
 
 import {PasswordInputQa} from './constants';
 import {i18n} from './i18n';
-import {getActionButtonSizeAndIconSize} from './utils';
+import {getActionButtonSize} from './utils';
 
 import './PasswordInput.scss';
 
@@ -36,7 +37,9 @@ export type PasswordInputProps = Omit<TextInputProps, 'type'> & {
     onRevealValueUpdate?: (value: boolean) => void;
 };
 
-export const PasswordInput = (props: PasswordInputProps) => {
+export const PasswordInput = (rawProps: PasswordInputProps) => {
+    const passwordInputProps = useDefaultProps('PasswordInput', rawProps);
+    const props = useDefaultProps('TextInput', passwordInputProps);
     const {
         autoComplete,
         controlProps,
@@ -60,7 +63,7 @@ export const PasswordInput = (props: PasswordInputProps) => {
         props.onRevealValueUpdate,
     );
 
-    const {actionButtonSize, iconSize} = getActionButtonSizeAndIconSize(size);
+    const actionButtonSize = getActionButtonSize(size);
 
     const {t} = i18n.useTranslation();
 
@@ -93,7 +96,7 @@ export const PasswordInput = (props: PasswordInputProps) => {
                             revealValue ? t('label_hide-password') : t('label_show-password')
                         }
                     >
-                        <Icon data={revealValue ? EyeSlash : Eye} size={iconSize} />
+                        <Icon data={revealValue ? EyeSlash : Eye} />
                     </Button>
                 </ActionTooltip>
             )}
@@ -103,6 +106,7 @@ export const PasswordInput = (props: PasswordInputProps) => {
     return (
         <TextInput
             {...props}
+            size={size}
             type={revealValue ? 'text' : 'password'}
             endContent={additionalEndContent}
             autoComplete={autoComplete ? autoComplete : 'new-password'}

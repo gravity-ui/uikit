@@ -3,8 +3,7 @@ import {Gear} from '@gravity-ui/icons';
 import {Icon} from '../../Icon';
 import {cn} from '../../utils/cn';
 import {Button} from '../Button';
-import type {ButtonProps} from '../Button';
-import {BUTTON_ICON_SIZE_MAP} from '../constants';
+import type {ButtonProps} from '../types';
 
 import './ButtonViewShowcase.scss';
 
@@ -89,11 +88,7 @@ export function ButtonViewShowcase(args: ButtonProps) {
                         className={b('grid-cell')}
                     >
                         <Button {...props}>
-                            <Icon
-                                key="icon"
-                                data={Gear}
-                                size={BUTTON_ICON_SIZE_MAP[args.size || 'm']}
-                            />
+                            <Icon data={Gear} />
                             Button
                         </Button>
                     </div>,

@@ -8,8 +8,8 @@ $block: '.#{variables.$ns}help-mark';
 
     display: inline-block;
     position: relative;
-    width: var(--_--size);
-    height: var(--_--size);
+    width: var(--g-help-mark-size, var(--_--size));
+    height: var(--g-help-mark-size, var(--_--size));
     color: var(--g-color-text-hint);
     line-height: 0;
 
@@ -30,6 +30,8 @@ $block: '.#{variables.$ns}help-mark';
     &__icon {
         position: absolute;
         inset: 0;
+        width: var(--g-help-mark-size);
+        height: var(--g-help-mark-size);
     }
 
     &_size {

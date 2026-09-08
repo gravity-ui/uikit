@@ -20,7 +20,7 @@ import {
 
 const APPLY_THEME_DEBOUNCE = 500;
 const THEME_ERROR_ID = `${ADDON_ID}/parser-error`;
-const THEME_QUERY_PARAM = 'theme';
+const THEME_URL_PARAM = 'theme';
 
 const ThemeModal = styled(Modal)({
     display: 'flex',
@@ -308,7 +308,10 @@ function resetPublishedTheme() {
 }
 
 function applyThemeFromUrl() {
-    const compressedTheme = new URL(window.location.href).searchParams.get(THEME_QUERY_PARAM);
+    const url = new URL(window.location.href);
+    const compressedTheme =
+        url.searchParams.get(THEME_URL_PARAM) ??
+        new URLSearchParams(url.hash.slice(1)).get(THEME_URL_PARAM);
 
     if (!compressedTheme) {
         return;
@@ -338,11 +341,14 @@ function formatThemeSource(source: string) {
 
 function removeThemeFromUrl() {
     const url = new URL(window.location.href);
+    const hashParams = new URLSearchParams(url.hash.slice(1));
 
-    if (!url.searchParams.has(THEME_QUERY_PARAM)) {
+    if (!url.searchParams.has(THEME_URL_PARAM) && !hashParams.has(THEME_URL_PARAM)) {
         return;
     }
 
-    url.searchParams.delete(THEME_QUERY_PARAM);
+    url.searchParams.delete(THEME_URL_PARAM);
+    hashParams.delete(THEME_URL_PARAM);
+    url.hash = hashParams.toString();
     window.history.replaceState(window.history.state, '', url);
 }

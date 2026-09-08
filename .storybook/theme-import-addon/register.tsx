@@ -81,6 +81,23 @@ function ThemeImportTool() {
     const modalPortalRef = React.useRef<HTMLDivElement>(null);
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const [isEditorOpen, setIsEditorOpen] = React.useState(false);
+    const [isThemeApplied, setIsThemeApplied] = React.useState(() =>
+        Boolean(getStoredThemeSource()?.trim()),
+    );
+
+    React.useEffect(() => {
+        const channel = addons.getChannel();
+        const handleThemeApplied = () => setIsThemeApplied(true);
+        const handleThemeReset = () => setIsThemeApplied(false);
+
+        channel.on(APPLY_THEME_EVENT, handleThemeApplied);
+        channel.on(RESET_THEME_EVENT, handleThemeReset);
+
+        return () => {
+            channel.off(APPLY_THEME_EVENT, handleThemeApplied);
+            channel.off(RESET_THEME_EVENT, handleThemeReset);
+        };
+    }, []);
 
     const selectThemeFile = React.useCallback(() => {
         if (inputRef.current) {
@@ -144,7 +161,11 @@ function ThemeImportTool() {
                     />
                 )}
             >
-                <IconButton active={isMenuOpen} aria-label="Theme actions" title="Theme actions">
+                <IconButton
+                    active={isMenuOpen || isThemeApplied}
+                    aria-label="Theme actions"
+                    title="Theme actions"
+                >
                     <Palette width={14} height={14} aria-hidden="true" />
                 </IconButton>
             </WithTooltip>

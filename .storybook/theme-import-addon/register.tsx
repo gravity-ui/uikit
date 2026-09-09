@@ -309,9 +309,7 @@ function resetPublishedTheme() {
 
 function applyThemeFromUrl() {
     const url = new URL(window.location.href);
-    const compressedTheme =
-        url.searchParams.get(THEME_URL_PARAM) ??
-        new URLSearchParams(url.hash.slice(1)).get(THEME_URL_PARAM);
+    const compressedTheme = new URLSearchParams(url.hash.slice(1)).get(THEME_URL_PARAM);
 
     if (!compressedTheme) {
         return;
@@ -343,11 +341,10 @@ function removeThemeFromUrl() {
     const url = new URL(window.location.href);
     const hashParams = new URLSearchParams(url.hash.slice(1));
 
-    if (!url.searchParams.has(THEME_URL_PARAM) && !hashParams.has(THEME_URL_PARAM)) {
+    if (!hashParams.has(THEME_URL_PARAM)) {
         return;
     }
 
-    url.searchParams.delete(THEME_URL_PARAM);
     hashParams.delete(THEME_URL_PARAM);
     url.hash = hashParams.toString();
     window.history.replaceState(window.history.state, '', url);

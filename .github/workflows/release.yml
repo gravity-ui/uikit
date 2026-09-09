@@ -25,8 +25,8 @@ jobs:
           private-key: ${{ secrets.GRAVITY_UI_APP_PRIVATE_KEY }}
       - name: Release from ${{ github.ref_name }}
         id: release_action
-        # Pin to the merge commit of the release-action PR before merging this workflow.
-        uses: gravity-ui/release-action@REPLACE_WITH_MERGE_COMMIT_SHA
+        # The v3 tag must exist in gravity-ui/release-action before merging this UIKit PR.
+        uses: gravity-ui/release-action@v3
         with:
           github-token: ${{ steps.generate-token.outputs.token }}
           publish: 'false'
@@ -39,8 +39,8 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    # Pin to the merge commit of the release-action PR before merging this workflow.
-    uses: gravity-ui/release-action/.github/workflows/npm-publish.yml@REPLACE_WITH_MERGE_COMMIT_SHA
+    # The v3 tag must exist in gravity-ui/release-action before merging this UIKit PR.
+    uses: gravity-ui/release-action/.github/workflows/npm-publish.yml@v3
     with:
       release-sha: ${{ needs.release.outputs.sha }}
       environment-name: npm-publish

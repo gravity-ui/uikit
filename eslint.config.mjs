@@ -8,6 +8,12 @@ import storybookPlugin from 'eslint-plugin-storybook';
 import testingLibraryPlugin from 'eslint-plugin-testing-library';
 import globals from 'globals';
 
+const TANSTACK_MESSAGE =
+    'Belongs to the @gravity-ui/uikit/virtualizer entry point. Every other import needs an eslint-disable with a reason.';
+
+const DND_MESSAGE =
+    'Belongs to the @gravity-ui/uikit/hello-pangea-dnd entry point. Every other import needs an eslint-disable with a reason.';
+
 export default defineConfig([
     ...baseConfig,
     ...clientConfig,
@@ -96,6 +102,27 @@ export default defineConfig([
                 ...globals.node,
                 ...globals.jest,
             },
+        },
+    },
+    // The packages of the dedicated entry points are restricted everywhere: an import outside of
+    // them is an explicit eslint-disable, so the places that carry one are easy to list.
+    // `paths` matches the exact specifier, `patterns` the deep imports of the same package.
+    {
+        files: ['src/**/*.{ts,tsx}'],
+        rules: {
+            'no-restricted-imports': [
+                'error',
+                {
+                    paths: [
+                        {name: '@tanstack/react-virtual', message: TANSTACK_MESSAGE},
+                        {name: '@hello-pangea/dnd', message: DND_MESSAGE},
+                    ],
+                    patterns: [
+                        {group: ['@tanstack/react-virtual/*'], message: TANSTACK_MESSAGE},
+                        {group: ['@hello-pangea/dnd/*'], message: DND_MESSAGE},
+                    ],
+                },
+            ],
         },
     },
     {

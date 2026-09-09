@@ -34,7 +34,7 @@ export interface ListVirtualizationContextValue {
 }
 
 /**
- * Defined in the core, provided by lab/Virtualizer/ListVirtualizer: the core never imports tanstack
+ * Defined in the core, provided by Virtualizer/ListVirtualizer: the core never imports tanstack
  */
 export const ListVirtualizationContext = React.createContext<ListVirtualizationContextValue | null>(
     null,

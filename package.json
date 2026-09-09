@@ -85,6 +85,26 @@
         "default": "./build/cjs/server.js"
       }
     },
+    "./virtualizer": {
+      "import": {
+        "types": "./build/esm/virtualizer.d.ts",
+        "default": "./build/esm/virtualizer.js"
+      },
+      "require": {
+        "types": "./build/cjs/virtualizer.d.ts",
+        "default": "./build/cjs/virtualizer.js"
+      }
+    },
+    "./hello-pangea-dnd": {
+      "import": {
+        "types": "./build/esm/hello-pangea-dnd.d.ts",
+        "default": "./build/esm/hello-pangea-dnd.js"
+      },
+      "require": {
+        "types": "./build/cjs/hello-pangea-dnd.d.ts",
+        "default": "./build/cjs/hello-pangea-dnd.js"
+      }
+    },
     "./styles/*": "./styles/*"
   },
   "main": "./build/cjs/index.js",
@@ -131,7 +151,6 @@
     "@gravity-ui/i18n": "^1.8.0",
     "@gravity-ui/icons": "^2.16.0",
     "@hello-pangea/dnd": "^18.0.1",
-    "@tanstack/react-virtual": "^3.13.12",
     "@uiw/react-color": "^2.9.2",
     "blueimp-md5": "^2.19.0",
     "lodash": "^4.17.21",
@@ -171,6 +190,7 @@
     "@storybook/cli": "^9.0.5",
     "@storybook/react-webpack5": "^9.0.5",
     "@storybook/test-runner": "^0.23.0",
+    "@tanstack/react-virtual": "^3.13.12",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
@@ -218,11 +238,15 @@
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
+    "@tanstack/react-virtual": "^3",
     "@types/react": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
     "react": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-dom": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "peerDependenciesMeta": {
+    "@tanstack/react-virtual": {
+      "optional": true
+    },
     "@types/react": {
       "optional": true
     }

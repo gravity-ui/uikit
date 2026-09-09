@@ -73,6 +73,25 @@ import '@gravity-ui/uikit/styles/styles.css';
 - [Серверный рендеринг (SSR)](docs/server-side-rendering-ru.md) — генерация корневого CSS-класса на сервере
 - [Интернационализация (I18N)](docs/i18n-ru.md) — язык встроенных текстов компонентов
 
+### Точки входа
+
+| Точка входа                           | Что там                                     | Когда брать                                                                          |
+| :------------------------------------ | :------------------------------------------ | :----------------------------------------------------------------------------------- |
+| `@gravity-ui/uikit`                   | Компоненты, хуки и утилиты                  | Всегда — это и есть пакет                                                            |
+| `@gravity-ui/uikit/styles/*`          | Глобальные CSS и SCSS-миксины               | Один раз в точке входа приложения, см. [Стили](#стили)                               |
+| `@gravity-ui/uikit/i18n`              | `addLanguageKeysets`, `addComponentKeysets` | Добавить или переопределить встроенные тексты компонентов                            |
+| `@gravity-ui/uikit/server`            | `getRootClassName`                          | Сгенерировать корневой класс на сервере, см. [SSR](docs/server-side-rendering-ru.md) |
+| `@gravity-ui/uikit/toaster-singleton` | Готовый инстанс `Toaster`                   | Показывать тосты вне дерева React                                                    |
+| `@gravity-ui/uikit/virtualizer`       | `Virtualizer`, `ListVirtualizer`            | Рендерить только видимое окно длинного списка                                        |
+| `@gravity-ui/uikit/hello-pangea-dnd`  | `useListHelloPangeaDnd`                     | Переупорядочивать строки списка через `@hello-pangea/dnd`                            |
+| `@gravity-ui/uikit/unstable`          | Компоненты, чей API ещё меняется            | На свой риск — они ломаются и вне мажорных релизов                                   |
+| `@gravity-ui/uikit/legacy`            | Компоненты, которые больше не развиваются   | Только пока мигрируете с них                                                         |
+
+`@tanstack/react-virtual` — опциональная peer-зависимость точки входа `/virtualizer`: поставьте её
+рядом с пакетом, если импортируете оттуда. Всё остальное этим точкам входа приносит сам пакет.
+`ListVirtualizer` и `useListHelloPangeaDnd` работают с `unstable_List` и наследуют его
+стабильность; отдельно стоящий `Virtualizer` — нет.
+
 ## Разработка
 
 ```shell

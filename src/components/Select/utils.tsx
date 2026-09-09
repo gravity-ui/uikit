@@ -6,8 +6,8 @@ import type {List, ListItemData} from '../List';
 import {
     FLATTEN_KEY,
     GROUP_ITEM_MARGIN_TOP,
-    MOBILE_ITEM_HEIGHT,
     SIZE_TO_ITEM_HEIGHT,
+    SIZE_TO_MOBILE_ITEM_HEIGHT,
 } from './constants';
 import type {Option, OptionGroup} from './tech-components';
 import type {
@@ -63,7 +63,9 @@ export const getPopupItemHeight = (args: {
 }) => {
     const {getOptionHeight, getOptionGroupHeight, size, option, index, mobile} = args;
 
-    let itemHeight = mobile ? MOBILE_ITEM_HEIGHT : SIZE_TO_ITEM_HEIGHT[size];
+    let itemHeight = mobile
+        ? SIZE_TO_MOBILE_ITEM_HEIGHT[size as Exclude<SelectSize, 'l' | 'xl'>]
+        : SIZE_TO_ITEM_HEIGHT[size];
 
     if (isSelectGroupTitle(option)) {
         const marginTop = index === 0 ? 0 : GROUP_ITEM_MARGIN_TOP;

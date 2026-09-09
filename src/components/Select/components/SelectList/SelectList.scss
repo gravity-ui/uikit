@@ -26,6 +26,10 @@ $xl-right-padding: '12px';
         max-height: 100%;
     }
 
+    #{$listBlock}__item {
+        padding: var(--g-select-list-item-padding, var(--g-list-item-padding, 0));
+    }
+
     &_multiple#{$listBlock} {
         #{$listBlock}__item_selected {
             background: none;
@@ -106,7 +110,7 @@ $xl-right-padding: '12px';
         cursor: pointer;
 
         #{$block}_size_s & {
-            padding: 0 #{select-css-variables.$s-hor-padding};
+            padding: var(--g-select-list-option-padding, 0 #{select-css-variables.$s-hor-padding});
 
             & #{$block}__option-default-label {
                 height: #{variables.$s-height};
@@ -117,8 +121,10 @@ $xl-right-padding: '12px';
         }
 
         #{$block}_size_m & {
-            padding: 0 #{select-css-variables.$m-hor-padding} 0
-                #{select-css-variables.$m-hor-padding};
+            padding: var(
+                --g-select-list-option-padding,
+                0 #{select-css-variables.$m-hor-padding} 0 #{select-css-variables.$m-hor-padding}
+            );
 
             & #{$block}__option-default-label {
                 height: #{variables.$m-height};
@@ -129,8 +135,10 @@ $xl-right-padding: '12px';
         }
 
         #{$block}_size_l & {
-            padding: 0 #{select-css-variables.$l-hor-padding} 0
-                #{select-css-variables.$l-hor-padding};
+            padding: var(
+                --g-select-list-option-padding,
+                0 #{select-css-variables.$l-hor-padding} 0 #{select-css-variables.$l-hor-padding}
+            );
 
             & #{$block}__option-default-label {
                 height: #{variables.$l-height};
@@ -141,7 +149,7 @@ $xl-right-padding: '12px';
         }
 
         #{$block}_size_xl & {
-            padding: 0 #{select-css-variables.$xl-hor-padding};
+            padding: var(--g-select-list-option-padding, 0 #{select-css-variables.$xl-hor-padding});
 
             & #{$block}__option-default-label {
                 height: #{variables.$xl-height};
@@ -153,8 +161,10 @@ $xl-right-padding: '12px';
         }
 
         #{$block}_mobile & {
-            padding: 0 #{select-css-variables.$l-hor-padding} 0
-                #{select-css-variables.$l-hor-padding};
+            padding: var(
+                --g-select-list-option-padding,
+                0 #{select-css-variables.$l-hor-padding} 0 #{select-css-variables.$l-hor-padding}
+            );
 
             & #{$block}__option-default-label {
                 height: #{variables.$l-height};

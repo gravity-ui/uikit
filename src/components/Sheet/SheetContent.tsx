@@ -263,8 +263,8 @@ export function SheetContent(props: SheetContentProps) {
     );
 
     const onTouchCancel = React.useCallback(() => {
-        cancelDrag({restoreOpenPosition: true});
-    }, [cancelDrag]);
+        cancelDrag({restoreOpenPosition: veilRef.current?.style.opacity !== '1'});
+    }, [cancelDrag, veilRef]);
 
     const dragging = deltaY !== 0;
     const activeGesture = dragging || swipeAreaTouched || contentTouched;

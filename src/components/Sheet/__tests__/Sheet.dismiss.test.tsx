@@ -340,6 +340,46 @@ describe('Sheet dismissal', () => {
         test.each([
             {getArea: () => screen.getByTestId(SheetQa.SWIPE_AREA), surface: 'handle'},
             {getArea: () => screen.getByTestId(SheetQa.CONTENT_AREA), surface: 'content'},
+        ])(
+            'dismisses through the veil after $surface touchcancel without movement',
+            ({getArea}) => {
+                const onRequest = jest.fn();
+                const onClose = jest.fn();
+                render(<AcceptingSheet onRequest={onRequest} onClose={onClose} />);
+
+                finishTransition();
+                const touchArea = getArea();
+                const veil = screen.getByTestId(SheetQa.VEIL);
+
+                fireEvent.touchStart(touchArea, {
+                    touches: [{clientX: 0, clientY: TOUCH_START_POINT}],
+                });
+                fireEvent.touchCancel(touchArea);
+
+                expect(onRequest).not.toHaveBeenCalled();
+                expect(screen.getByRole('dialog')).toBeInTheDocument();
+                expect(screen.getByTestId(SheetQa.CONTENT_AREA)).not.toHaveClass(
+                    'g-sheet-content-area_without-scroll',
+                );
+
+                // No styles changed, so there is no restoration transition to finish.
+                fireEvent.click(veil);
+
+                expect(onRequest).toHaveBeenCalledWith(false, expect.any(Event), 'outside-press');
+                expect(onRequest).toHaveBeenCalledTimes(1);
+                expect(veil).toHaveStyle({opacity: '0'});
+                expect(onClose).not.toHaveBeenCalled();
+
+                finishPresenceTransition();
+
+                expect(onClose).toHaveBeenCalledTimes(1);
+                expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+            },
+        );
+
+        test.each([
+            {getArea: () => screen.getByTestId(SheetQa.SWIPE_AREA), surface: 'handle'},
+            {getArea: () => screen.getByTestId(SheetQa.CONTENT_AREA), surface: 'content'},
         ])('restores open state after $surface touchcancel', ({getArea}) => {
             const onClose = jest.fn();
             const onOpenChange = jest.fn();

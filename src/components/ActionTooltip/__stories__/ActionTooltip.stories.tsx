@@ -1,8 +1,10 @@
-import {FloppyDisk} from '@gravity-ui/icons';
+import {Bold, FloppyDisk, Italic, Link, Strikethrough, Underline} from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
+import {TooltipDelayGroup} from '../../Tooltip';
+import {Flex} from '../../layout';
 import {ActionTooltip} from '../ActionTooltip';
 
 const meta: Meta<typeof ActionTooltip> = {
@@ -58,5 +60,32 @@ export const Description: Story = {
         ...Default.args,
         description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+    },
+};
+
+const TOOLBAR_ACTIONS = [
+    {title: 'Bold', hotkey: 'mod+b', icon: Bold},
+    {title: 'Italic', hotkey: 'mod+i', icon: Italic},
+    {title: 'Underline', hotkey: 'mod+u', icon: Underline},
+    {title: 'Strikethrough', hotkey: 'mod+shift+x', icon: Strikethrough},
+    {title: 'Link', hotkey: 'mod+k', icon: Link},
+];
+
+export const DelayGroup: Story = {
+    render: (args) => (
+        <TooltipDelayGroup>
+            <Flex gap={1}>
+                {TOOLBAR_ACTIONS.map(({title, hotkey, icon}) => (
+                    <ActionTooltip {...args} key={title} title={title} hotkey={hotkey}>
+                        <Button view="flat">
+                            <Icon data={icon} size={16} />
+                        </Button>
+                    </ActionTooltip>
+                ))}
+            </Flex>
+        </TooltipDelayGroup>
+    ),
+    args: {
+        title: 'Action',
     },
 };

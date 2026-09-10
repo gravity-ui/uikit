@@ -7,6 +7,7 @@ import {
     limitShift,
     offset,
     shift,
+    useDelayGroup,
     useDismiss,
     useFloating,
     useFocus,
@@ -27,8 +28,6 @@ import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
 import {getElementRef} from '../utils/getElementRef';
-
-import {TooltipDelayGroupContext} from './TooltipDelayGroupContext';
 
 import './Tooltip.scss';
 
@@ -120,30 +119,23 @@ export function Tooltip(rawProps: TooltipProps) {
         },
     });
 
-    const delayGroup = React.useContext(TooltipDelayGroupContext);
-    const group = disabled ? null : delayGroup;
-    const isGroupWarm = group?.warm ?? false;
-    const registerInGroup = group?.register;
-
-    const onOpenChangeRef = React.useRef(context.onOpenChange);
-    useLayoutEffect(() => {
-        onOpenChangeRef.current = context.onOpenChange;
-    });
+    const {
+        delay: groupDelay,
+        currentId,
+        setCurrentId,
+    } = useDelayGroup(context, {enabled: !disabled});
+    const isGroupWarm = !disabled && currentId !== null;
 
     useLayoutEffect(() => {
-        if (!registerInGroup || !isOpen) {
-            return undefined;
+        // An open controlled tooltip keeps the group warm after a neighbour closes.
+        if (!disabled && isOpen && currentId === null) {
+            setCurrentId(context.floatingId);
         }
-
-        // Clear pending hover timers through Floating UI.
-        return registerInGroup(() => onOpenChangeRef.current(false));
-    }, [registerInGroup, isOpen]);
+    }, [disabled, isOpen, currentId, setCurrentId, context.floatingId]);
 
     const hover = useHover(context, {
         enabled: trigger === 'all',
-        delay: isGroupWarm
-            ? {open: 0, close: group?.closeDelay ?? closeDelay}
-            : {open: openDelay, close: closeDelay},
+        delay: isGroupWarm ? groupDelay : {open: openDelay, close: closeDelay},
         restMs: isGroupWarm ? 0 : rest,
         move: false,
     });

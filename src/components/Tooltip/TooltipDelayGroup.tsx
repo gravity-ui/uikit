@@ -2,10 +2,9 @@
 
 import * as React from 'react';
 
-import {useDefaultProps} from '../theme/useDefaultProps';
+import {FloatingDelayGroup} from '@floating-ui/react';
 
-import {TooltipDelayGroupContext} from './TooltipDelayGroupContext';
-import type {TooltipDelayGroupContextProps} from './TooltipDelayGroupContext';
+import {useDefaultProps} from '../theme/useDefaultProps';
 
 export interface TooltipDelayGroupProps {
     /** Tooltips sharing the open delay */
@@ -26,52 +25,10 @@ export function TooltipDelayGroup(rawProps: TooltipDelayGroupProps) {
         closeDelay = DEFAULT_CLOSE_DELAY,
     } = useDefaultProps('TooltipDelayGroup', rawProps);
 
-    const [warm, setWarm] = React.useState(false);
-    const openTooltipsRef = React.useRef(new Set<() => void>());
-    const cooldownTimerRef = React.useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-    const skipDelayRef = React.useRef(skipDelay);
-
-    React.useEffect(() => {
-        skipDelayRef.current = skipDelay;
-    }, [skipDelay]);
-
-    React.useEffect(() => () => clearTimeout(cooldownTimerRef.current), []);
-
-    const register = React.useCallback<TooltipDelayGroupContextProps['register']>((close) => {
-        const openTooltips = openTooltipsRef.current;
-
-        for (const closeOther of openTooltips) {
-            if (closeOther !== close) {
-                // Keep controlled tooltips registered until they actually close.
-                closeOther();
-            }
-        }
-
-        openTooltips.add(close);
-        clearTimeout(cooldownTimerRef.current);
-        setWarm(true);
-
-        return () => {
-            openTooltips.delete(close);
-
-            if (openTooltips.size > 0) {
-                return;
-            }
-
-            clearTimeout(cooldownTimerRef.current);
-            cooldownTimerRef.current = setTimeout(() => setWarm(false), skipDelayRef.current);
-        };
-    }, []);
-
-    const context = React.useMemo<TooltipDelayGroupContextProps>(
-        () => ({warm, closeDelay, register}),
-        [warm, closeDelay, register],
-    );
-
     return (
-        <TooltipDelayGroupContext.Provider value={context}>
+        <FloatingDelayGroup delay={{open: 0, close: closeDelay}} timeoutMs={skipDelay}>
             {children}
-        </TooltipDelayGroupContext.Provider>
+        </FloatingDelayGroup>
     );
 }
 

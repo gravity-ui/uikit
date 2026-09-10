@@ -73,6 +73,25 @@ Read more:
 - [Server-side rendering](docs/server-side-rendering.md) — generate the root CSS class on the server
 - [Internationalization](docs/i18n.md) — set the built-in component language
 
+### Entry points
+
+| Entry point                           | What is there                               | When to use                                                                       |
+| :------------------------------------ | :------------------------------------------ | :-------------------------------------------------------------------------------- |
+| `@gravity-ui/uikit`                   | Components, hooks and utilities             | Always — this is the package                                                      |
+| `@gravity-ui/uikit/styles/*`          | The global CSS and the SCSS mixins          | Once at the entry point of the app, see [Styles](#styles)                         |
+| `@gravity-ui/uikit/i18n`              | `addLanguageKeysets`, `addComponentKeysets` | Adding or overriding the built-in component strings                               |
+| `@gravity-ui/uikit/server`            | `getRootClassName`                          | Generating the root class on the server, see [SSR](docs/server-side-rendering.md) |
+| `@gravity-ui/uikit/toaster-singleton` | A ready-made `Toaster` instance             | Showing toasts outside of the React tree                                          |
+| `@gravity-ui/uikit/virtualizer`       | `Virtualizer`, `ListVirtualizer`            | Rendering only the visible window of a long list                                  |
+| `@gravity-ui/uikit/hello-pangea-dnd`  | `useListHelloPangeaDnd`                     | Reordering the rows of a list with `@hello-pangea/dnd`                            |
+| `@gravity-ui/uikit/unstable`          | Components whose API is still moving        | At your own risk — these break outside of major releases                          |
+| `@gravity-ui/uikit/legacy`            | Components that are no longer developed     | Only while migrating away from them                                               |
+
+`@tanstack/react-virtual` is an optional peer dependency of the `/virtualizer` entry point:
+install it next to the package when you import from there. Everything else these entry points
+need comes with the package itself. `ListVirtualizer` and `useListHelloPangeaDnd` work with the
+`unstable_List` and follow its stability; the standalone `Virtualizer` does not.
+
 ## Development
 
 ```shell

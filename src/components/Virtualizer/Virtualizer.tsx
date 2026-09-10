@@ -2,25 +2,27 @@
 
 import * as React from 'react';
 
+// eslint-disable-next-line no-restricted-imports
 import type {
     Range,
     Rect,
     VirtualItem,
     Virtualizer as VirtualizerInstance,
 } from '@tanstack/react-virtual';
+// eslint-disable-next-line no-restricted-imports
 import {
     defaultRangeExtractor,
     measureElement as measureElementDefault,
     useVirtualizer,
 } from '@tanstack/react-virtual';
 
-import {useForkRef} from '../../../hooks';
-import type {Key} from '../../types';
+import {useForkRef} from '../../hooks/useForkRef';
+import type {Key} from '../types';
 
-import {useLoadMore} from './useLoadMore';
 import type {Loadable} from './useLoadMore';
+import {useLoadMore} from './useLoadMore';
 
-type Item = {index: number; key: Key};
+export type VirtualizerItem = {index: number; key: Key};
 
 export type ScrollAlignment = 'start' | 'center' | 'end' | 'auto';
 
@@ -31,7 +33,7 @@ export interface VirtualizerApi {
     scrollRect: Rect | null;
 }
 
-interface VirtualizerProps extends Loadable, React.HTMLAttributes<HTMLDivElement> {
+export interface VirtualizerProps extends Loadable, React.HTMLAttributes<HTMLDivElement> {
     /** The ref of the virtualizer api. */
     apiRef?: React.Ref<VirtualizerApi>;
     /** The ref of the scroll container element. */
@@ -58,7 +60,7 @@ interface VirtualizerProps extends Loadable, React.HTMLAttributes<HTMLDivElement
          * @param item.index The index of the item in current level.
          * @param item.key The key of the item in the list.
          */
-        item: Item,
+        item: VirtualizerItem,
         /** The key of the parent item in the list. */
         parentKey: Key | undefined,
         /**
@@ -253,7 +255,7 @@ function renderRows({
     getItemSize: (index: number, key?: Key) => number;
     getItemKey: (index: number, key?: Key) => Key;
     renderRow: (
-        item: Item,
+        item: VirtualizerItem,
         parentKey: Key | undefined,
         renderChildren: (options: {count: number; height: number}) => React.ReactNode,
     ) => React.ReactNode;
@@ -300,7 +302,7 @@ function renderRows({
                               }
                     }
                 >
-                    {renderRow(virtualRow as Item, parentKey, ({height, count}) => (
+                    {renderRow(virtualRow as VirtualizerItem, parentKey, ({height, count}) => (
                         <ChildrenVirtualizer
                             key={virtualRow.key}
                             count={count}
@@ -328,7 +330,7 @@ function ChildrenVirtualizer(props: {
     getItemKey: (index: number, key?: Key) => Key;
     parentKey: Key;
     renderRow: (
-        item: Item,
+        item: VirtualizerItem,
         parentKey: Key | undefined,
         renderChildren: (options: {count: number; height: number}) => React.ReactNode,
     ) => React.ReactNode;

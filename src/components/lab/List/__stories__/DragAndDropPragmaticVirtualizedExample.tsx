@@ -10,8 +10,9 @@
  * condition for memoizing the rows: dragover then re-renders the insertion
  * target only rather than the whole window.
  *
- * In an application the list is imported from the package:
+ * In an application:
  * `import {unstable_List as List, unstable_moveItem as moveItem} from '@gravity-ui/uikit/unstable'`
+ * `import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer'`
  */
 import * as React from 'react';
 
@@ -19,7 +20,7 @@ import {faker} from '@faker-js/faker/locale/en';
 import {Grip} from '@gravity-ui/icons';
 
 import {Icon} from '../../../Icon';
-import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
+import {ListVirtualizer} from '../../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
 import {moveItem} from '../moveItem';
 import type {ListItemContext, ListItemHelpers} from '../types';

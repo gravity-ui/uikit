@@ -2,9 +2,10 @@
 
 import * as React from 'react';
 
+// eslint-disable-next-line no-restricted-imports
 import type {DragStart, DropResult} from '@hello-pangea/dnd';
 
-export interface UseListHelloPangeaDndOptions {
+export interface UseListHelloPangeaDndProps {
     /** Row ids in list order — `destination.index` is translated into `{toId, position}` by it */
     ids: readonly string[];
     /** The drop — pair it with `moveItem(items, fromId, toId, position)` */
@@ -31,7 +32,7 @@ export interface UseListHelloPangeaDndResult {
 export function useListHelloPangeaDnd({
     ids,
     onDrop,
-}: UseListHelloPangeaDndOptions): UseListHelloPangeaDndResult {
+}: UseListHelloPangeaDndProps): UseListHelloPangeaDndResult {
     const [draggingId, setDraggingId] = React.useState<string | null>(null);
 
     const idsRef = React.useRef(ids);

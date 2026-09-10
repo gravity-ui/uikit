@@ -1,7 +1,9 @@
 import * as React from 'react';
 
 import {Grip} from '@gravity-ui/icons';
+// eslint-disable-next-line no-restricted-imports
 import {DragDropContext, Draggable, Droppable} from '@hello-pangea/dnd';
+// eslint-disable-next-line no-restricted-imports
 import type {DraggableProvided, DraggableStateSnapshot, DroppableProvided} from '@hello-pangea/dnd';
 
 import {Icon} from '../../../Icon';

@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+// eslint-disable-next-line no-restricted-imports
 import type {DroppableProvided} from '@hello-pangea/dnd';
 
 import type {ListItem} from './ListItem';

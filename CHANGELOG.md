@@ -1,5 +1,19 @@
 # Changelog
 
+## [7.50.0](https://github.com/gravity-ui/uikit/compare/v7.49.0...v7.50.0) (2026-09-10)
+
+
+### Features
+
+* add new List ([#2769](https://github.com/gravity-ui/uikit/issues/2769)) ([4baf952](https://github.com/gravity-ui/uikit/commit/4baf9526424169d7224e9868d8f62bf14865e641))
+* **Drawer:** add layer registration ([#2819](https://github.com/gravity-ui/uikit/issues/2819)) ([0b8925c](https://github.com/gravity-ui/uikit/commit/0b8925cf7e280e17f8f971cede466e960d879e9b))
+
+
+### Bug Fixes
+
+* **Breadcrumbs:** remove negative margins ([#2818](https://github.com/gravity-ui/uikit/issues/2818)) ([ee6535d](https://github.com/gravity-ui/uikit/commit/ee6535dcb33e8a3a14d3669977a05530d187fd14))
+* **TextArea:** skip empty auto-resize measurements ([#2812](https://github.com/gravity-ui/uikit/issues/2812)) ([bfc4e67](https://github.com/gravity-ui/uikit/commit/bfc4e6778f727c955f55fb8a34e58a1b45ad9e28))
+
 ## [7.49.0](https://github.com/gravity-ui/uikit/compare/v7.48.3...v7.49.0) (2026-09-02)
 
 

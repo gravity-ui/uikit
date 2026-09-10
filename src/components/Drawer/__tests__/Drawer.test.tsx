@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import {render, screen} from '../../../../test-utils/utils';
 import {Portal} from '../../Portal';
 import {block} from '../../utils/cn';
+import {layerManager} from '../../utils/layer-manager';
 import {Drawer} from '../components/Drawer';
 
 const b = block('custom-drawer');
@@ -11,6 +12,42 @@ const qa = 'drawer';
 const PLACEHOLDER_TEXT = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
 
 describe('Drawer', () => {
+    test('should not register a layer by default', () => {
+        const layersBeforeRender = layerManager.getLayers();
+
+        render(<Drawer open>{PLACEHOLDER_TEXT}</Drawer>);
+
+        expect(layerManager.getLayers()).toEqual(layersBeforeRender);
+    });
+
+    test('should register an enabled layer while open', () => {
+        const layersBeforeRender = layerManager.getLayers();
+        const {rerender, unmount} = render(
+            <Drawer open disableLayer={false}>
+                {PLACEHOLDER_TEXT}
+            </Drawer>,
+        );
+
+        expect(layerManager.getLayers()).toEqual([...layersBeforeRender, {type: 'drawer'}]);
+
+        rerender(
+            <Drawer open={false} disableLayer={false}>
+                {PLACEHOLDER_TEXT}
+            </Drawer>,
+        );
+        expect(layerManager.getLayers()).toEqual(layersBeforeRender);
+
+        rerender(
+            <Drawer open disableLayer={false}>
+                {PLACEHOLDER_TEXT}
+            </Drawer>,
+        );
+        expect(layerManager.getLayers()).toEqual([...layersBeforeRender, {type: 'drawer'}]);
+
+        unmount();
+        expect(layerManager.getLayers()).toEqual(layersBeforeRender);
+    });
+
     test('should pass classname', () => {
         render(
             <Drawer qa={qa} className={b()} open>

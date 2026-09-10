@@ -67,6 +67,7 @@ const config: StorybookConfig = {
             },
         },
         './theme-addon/register.tsx',
+        './theme-import-addon/register.tsx',
         '@storybook/addon-a11y',
         '@storybook/addon-webpack5-compiler-babel',
         '@storybook/addon-docs',

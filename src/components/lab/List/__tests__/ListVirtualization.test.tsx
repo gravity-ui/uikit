@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event';
 
 import {render, screen} from '../../../../../test-utils/utils';
-import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
+import {ListVirtualizer} from '../../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
 import type {ListProps} from '../types';
 

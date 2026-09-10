@@ -25,21 +25,22 @@
  * - dropTarget is not filled in: the model of the library is shifting the
  *   rows, and the indicator of the list is not needed.
  *
- * In an application the list and the hook are imported from the package:
- * `import {unstable_List as List, unstable_moveItem as moveItem,
- * unstable_useListHelloPangeaDnd as useListHelloPangeaDnd} from '@gravity-ui/uikit/unstable'`
+ * In an application:
+ * `import {unstable_List as List, unstable_moveItem as moveItem} from '@gravity-ui/uikit/unstable'`
+ * `import {useListHelloPangeaDnd} from '@gravity-ui/uikit/hello-pangea-dnd'`
  */
 import * as React from 'react';
 
 import {faker} from '@faker-js/faker/locale/en';
 import {Grip} from '@gravity-ui/icons';
+// eslint-disable-next-line no-restricted-imports
 import {DragDropContext, Draggable, Droppable} from '@hello-pangea/dnd';
 
+import {useListHelloPangeaDnd} from '../../../HelloPangeaDnd';
 import {Icon} from '../../../Icon';
 import {List} from '../List';
 import {moveItem} from '../moveItem';
 import type {ListItemContext, ListItemHelpers} from '../types';
-import {useListHelloPangeaDnd} from '../useListHelloPangeaDnd';
 
 interface TrackRecord {
     id: string;

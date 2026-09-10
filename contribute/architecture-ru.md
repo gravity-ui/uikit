@@ -18,6 +18,8 @@ UIKit — единый публикуемый пакет `@gravity-ui/uikit`. В
 | `@gravity-ui/uikit/toaster-singleton` | `src/toaster-singleton.ts` | Интеграция синглтона тостера                                                    |
 | `@gravity-ui/uikit/i18n`              | `src/i18n/index.ts`        | I18n-утилиты и ресурсы                                                          |
 | `@gravity-ui/uikit/server`            | `src/server.ts`            | Безопасные для сервера утилиты, сейчас — генератор корневого класса темы        |
+| `@gravity-ui/uikit/virtualizer`       | `src/virtualizer.ts`       | Виртуализация рендеринга; нужен опциональный peer `@tanstack/react-virtual`     |
+| `@gravity-ui/uikit/hello-pangea-dnd`  | `src/hello-pangea-dnd.ts`  | Интеграция списка с `@hello-pangea/dnd`                                         |
 | `@gravity-ui/uikit/legacy`            | `src/legacy.ts`            | Поверхность совместимости со старыми компонентами; не использовать в новом коде |
 | `@gravity-ui/uikit/unstable`          | `src/unstable.ts`          | Экспериментальная поверхность без гарантий стабильной точки входа               |
 | `@gravity-ui/uikit/styles/*`          | `styles/*`                 | Глобальные CSS/SCSS, шрифты, миксины и темы                                     |

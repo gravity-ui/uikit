@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import {Grip} from '@gravity-ui/icons';
+// eslint-disable-next-line no-restricted-imports
 import type {DraggableProvided} from '@hello-pangea/dnd';
 
 import {Icon} from '../../Icon';

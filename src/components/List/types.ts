@@ -1,5 +1,6 @@
 import type * as React from 'react';
 
+// eslint-disable-next-line no-restricted-imports
 import type {DraggableProvided} from '@hello-pangea/dnd';
 
 import type {TextInputSize} from '../controls';

@@ -583,10 +583,8 @@ estimate. The rest of the props are in [ListVirtualizer](#listvirtualizer).
 > the markup itself.
 
 ```tsx
-import {
-  unstable_List as List,
-  unstable_ListVirtualizer as ListVirtualizer,
-} from '@gravity-ui/uikit/unstable';
+import {unstable_List as List} from '@gravity-ui/uikit/unstable';
+import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 
 function TrackList({tracks}) {
   return (
@@ -667,8 +665,8 @@ keyboard is not supported yet.
 The recommended library. Its wrappers cannot be expressed by the adapter contract, so the
 integration is compositional: `DragDropContext` and `Droppable` go around the list, the row wraps
 itself in `Draggable` inside `renderItem`, and the adapter half carries `draggingId` and the props
-of the drop zone. The state comes from [`useListHelloPangeaDnd`](#uselisthellopangeadnd), exported
-next to the list: it returns `draggingId` for the adapter together with `onDragStart`/`onDragEnd`
+of the drop zone. The state comes from [`useListHelloPangeaDnd`](#uselisthellopangeadnd) of the
+`@gravity-ui/uikit/hello-pangea-dnd` entry point: it returns `draggingId` for the adapter together with `onDragStart`/`onDragEnd`
 for the `DragDropContext`, and translates the `destination.index` of the library into the
 `{toId, position}` pair of `moveItem`. The drop moves your data —
 `moveItem(items, fromId, toId, position, getId?)`
@@ -678,11 +676,8 @@ moved — so treat the result as immutable. The ids are read the way the list re
 
 ```tsx
 import {DragDropContext, Droppable} from '@hello-pangea/dnd';
-import {
-  unstable_List as List,
-  unstable_moveItem as moveItem,
-  unstable_useListHelloPangeaDnd as useListHelloPangeaDnd,
-} from '@gravity-ui/uikit/unstable';
+import {useListHelloPangeaDnd} from '@gravity-ui/uikit/hello-pangea-dnd';
+import {unstable_List as List, unstable_moveItem as moveItem} from '@gravity-ui/uikit/unstable';
 
 function SortableList({items, setItems}) {
   const {draggingId, onDragStart, onDragEnd} = useListHelloPangeaDnd({
@@ -946,9 +941,10 @@ with the name of its section. What is left to you:
 | ref                 | The ref of the root element                                                                                                |                     `React.Ref<HTMLDivElement>`                     |                                      |
 
 `List.ItemView` is the row view of the default render and `List.SectionHeader` is its section
-header; both are statics of the component and are meant for `renderItem`. The reorder helper and
-the hook of the recommended drag-and-drop library are exported next to the list —
-`unstable_moveItem` and [`unstable_useListHelloPangeaDnd`](#uselisthellopangeadnd).
+header; both are statics of the component and are meant for `renderItem`. The reorder helper is
+exported next to the list as `unstable_moveItem`, and the hook of the recommended drag-and-drop
+library — [`useListHelloPangeaDnd`](#uselisthellopangeadnd) — comes from its own entry point,
+`@gravity-ui/uikit/hello-pangea-dnd`.
 
 ### ListItemContext
 
@@ -1002,7 +998,8 @@ attribute is present or absent rather than set to `"false"`.
 
 ### ListVirtualizer
 
-The wrapper of the [virtualization](#virtualization) layer.
+The wrapper of the [virtualization](#virtualization) layer, imported from
+`@gravity-ui/uikit/virtualizer` (it needs `@tanstack/react-virtual` as an optional peer dependency).
 
 | Name             | Description                                                                                      |            Type             |          Default          |
 | :--------------- | :----------------------------------------------------------------------------------------------- | :-------------------------: | :-----------------------: |
@@ -1025,7 +1022,9 @@ The object of the `dnd` prop — the [drag-and-drop](#drag-and-drop) layer.
 ### useListHelloPangeaDnd
 
 The state half of the [@hello-pangea/dnd](#hello-pangeadnd) integration: `draggingId` for the
-adapter and the handlers of the `DragDropContext`. The options:
+adapter and the handlers of the `DragDropContext`. Imported from
+`@gravity-ui/uikit/hello-pangea-dnd` (`@hello-pangea/dnd` comes with the package).
+The props:
 
 | Name   | Description                                                                                           |                                  Type                                   |
 | :----- | :---------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------: |

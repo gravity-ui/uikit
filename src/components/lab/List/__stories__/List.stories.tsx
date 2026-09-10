@@ -18,9 +18,9 @@ import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Label} from '../../../Label';
 import {Text} from '../../../Text';
+import {ListVirtualizer} from '../../../Virtualizer/ListVirtualizer';
 import {TextInput} from '../../../controls';
 import {Flex} from '../../../layout';
-import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
 import {useListFocusOwner} from '../useListFocusOwner';
 
@@ -578,9 +578,10 @@ export const InteractiveRows: Story = {
 // Drag and drop with @hello-pangea/dnd — the recommended library: the
 // integration is compositional (DragDropContext/Droppable around the list,
 // Draggable inside renderItem), the state of the drag comes from
-// useListHelloPangeaDnd, exported next to the list. The Code panel holds the
-// complete source of the example. The same on top of other libraries lives in
-// the "Drag and drop with other libraries" stories
+// useListHelloPangeaDnd of the @gravity-ui/uikit/hello-pangea-dnd entry
+// point. The Code panel holds the complete source of the example. The same
+// on top of other libraries lives in the "Drag and drop with other
+// libraries" stories
 export const DragAndDrop: Story = {
     render: () => <DragAndDropHelloPangeaExample />,
     parameters: {

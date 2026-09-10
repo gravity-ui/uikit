@@ -18,6 +18,8 @@ ESM and CommonJS builds with matching TypeScript declarations.
 | `@gravity-ui/uikit/toaster-singleton` | `src/toaster-singleton.ts` | Toaster singleton integration                                                |
 | `@gravity-ui/uikit/i18n`              | `src/i18n/index.ts`        | I18n helpers and resources                                                   |
 | `@gravity-ui/uikit/server`            | `src/server.ts`            | Server-safe helpers, currently the root theme class generator                |
+| `@gravity-ui/uikit/virtualizer`       | `src/virtualizer.ts`       | Virtualized rendering; needs the optional peer `@tanstack/react-virtual`     |
+| `@gravity-ui/uikit/hello-pangea-dnd`  | `src/hello-pangea-dnd.ts`  | List integration with `@hello-pangea/dnd`                                    |
 | `@gravity-ui/uikit/legacy`            | `src/legacy.ts`            | Compatibility surface for legacy components; avoid for new work              |
 | `@gravity-ui/uikit/unstable`          | `src/unstable.ts`          | Experimental surface without the stability guarantees of the root entrypoint |
 | `@gravity-ui/uikit/styles/*`          | `styles/*`                 | Global CSS/SCSS, fonts, mixins, and themes                                   |

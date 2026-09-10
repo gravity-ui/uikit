@@ -1,7 +1,8 @@
+// eslint-disable-next-line no-restricted-imports
 import type {DragStart, DropResult} from '@hello-pangea/dnd';
 
-import {act, renderHook} from '../../../../../test-utils/utils';
-import {moveItem} from '../moveItem';
+import {act, renderHook} from '../../../../test-utils/utils';
+import {moveItem} from '../../lab/List/moveItem';
 import {useListHelloPangeaDnd} from '../useListHelloPangeaDnd';
 
 const ids = ['a', 'b', 'c', 'd', 'e'];

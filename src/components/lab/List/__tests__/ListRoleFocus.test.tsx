@@ -3,7 +3,7 @@ import * as React from 'react';
 import userEvent from '@testing-library/user-event';
 
 import {fireEvent, render, screen} from '../../../../../test-utils/utils';
-import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
+import {ListVirtualizer} from '../../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
 import type {ListItemContext, ListItemHelpers, ListProps} from '../types';
 import {useListFocusOwner} from '../useListFocusOwner';

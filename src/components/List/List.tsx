@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+// eslint-disable-next-line no-restricted-imports
 import type {
     DraggableProvided,
     DraggableRubric,
@@ -9,6 +10,7 @@ import type {
     DropResult,
     DroppableProvided,
 } from '@hello-pangea/dnd';
+// eslint-disable-next-line no-restricted-imports
 import {DragDropContext, Draggable, Droppable} from '@hello-pangea/dnd';
 import isEqual from 'lodash/isEqual';
 import isObject from 'lodash/isObject';

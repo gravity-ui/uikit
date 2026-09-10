@@ -51,9 +51,6 @@ export {
     List as unstable_List,
     moveItem as unstable_moveItem,
     useListFocusOwner as unstable_useListFocusOwner,
-    useListHelloPangeaDnd as unstable_useListHelloPangeaDnd,
-    type UseListHelloPangeaDndOptions as unstable_UseListHelloPangeaDndOptions,
-    type UseListHelloPangeaDndResult as unstable_UseListHelloPangeaDndResult,
     type ListFocusOwner as unstable_ListFocusOwner,
     type ListFocusOwnerInputProps as unstable_ListFocusOwnerInputProps,
     type ListProps as unstable_ListProps,
@@ -73,11 +70,6 @@ export {
     type ListRole as unstable_ListRole,
     type ListSize as unstable_ListSize,
 } from './components/lab/List';
-
-export {
-    ListVirtualizer as unstable_ListVirtualizer,
-    type ListVirtualizerProps as unstable_ListVirtualizerProps,
-} from './components/lab/Virtualizer/ListVirtualizer';
 
 export {
     ColorPicker as unstable_ColorPicker,

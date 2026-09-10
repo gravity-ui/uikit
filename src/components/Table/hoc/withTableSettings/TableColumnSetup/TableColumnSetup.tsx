@@ -3,7 +3,9 @@
 import * as React from 'react';
 
 import {Gear, Grip, Lock} from '@gravity-ui/icons';
+// eslint-disable-next-line no-restricted-imports
 import {DragDropContext, Draggable, Droppable} from '@hello-pangea/dnd';
+// eslint-disable-next-line no-restricted-imports
 import type {
     DraggableChildrenFn,
     DraggableProvided,

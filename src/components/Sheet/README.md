@@ -32,30 +32,47 @@ const SheetExample = () => {
 };
 ```
 
+## Focus and keyboard access
+
+By default, opening a sheet focuses its first tabbable control, traps keyboard focus inside the
+sheet, and hides the background from assistive technology. If there are no tabbable controls, the
+sheet itself receives focus. Focus returns to the opening element after the sheet closes.
+
+Use `initialFocus` to choose another control and `returnFocus` to customize or disable focus
+restoration. Set `modal={false}` for sheets that must not move or trap focus. This also disables
+Escape handling and removes `aria-modal`; swipe and veil behavior stay unchanged.
+
+Visually hidden dismiss controls are available to assistive technology. Activating one requests
+`onOpenChange(false, event, 'dismiss')`. As with other dismissal reasons, controlled sheets stay
+open until the parent updates `visible`.
+
 ## Properties
 
-| Name                        | Description                                                                                                                                                      |     Type      |     Default     |
-| :-------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-----------: | :-------------: |
-| allowHideOnContentScroll    | Enables the behavior of closing the sheet window by swiping down if the content is scrolled to its top (`content Node.scrollTop === 0`) or has no scroll at all. |   `boolean`   |     `true`      |
-| alwaysFullHeight            | `Sheet` height will always have the maximum value                                                                                                                |   `boolean`   |   `undefined`   |
-| className                   | `class` HTML attribute                                                                                                                                           |   `string`    |   `undefined`   |
-| container                   | DOM element to which component is mounted via `Portal`                                                                                                           | `HTMLElement` | `document.body` |
-| contentClassName            | `class` HTML attribute for the sheet content.                                                                                                                    |   `string`    |   `undefined`   |
-| disablePortal               | Disables using `Portal`                                                                                                                                          |   `boolean`   |     `false`     |
-| hideTopBar                  | Hides the top bar with the resize handle.                                                                                                                        |   `boolean`   |                 |
-| id                          | Sheet ID used as hash in a URL. Make sure to specify multiple `id` values if there can be more than one sheet on a page.                                         |   `string`    |     `modal`     |
-| maxContentHeightCoefficient | Coefficient that determines the maximum height of the `Sheet` relative to the height of the viewport (range 0-1)                                                 |   `number`    |      `0.9`      |
-| container                   | DOM element to which component is mounted via `Portal`                                                                                                           | `HTMLElement` | `document.body` |
-| contentClassName            | `class` HTML attribute for the sheet content.                                                                                                                    |   `string`    |   `undefined`   |
-| disablePortal               | Disables using `Portal`                                                                                                                                          |   `boolean`   |     `false`     |
-| hideTopBar                  | Hides the top bar with the resize handle.                                                                                                                        |   `boolean`   |                 |
-| id                          | Sheet ID used as hash in a URL. Make sure to specify multiple `id` values if there can be more than one sheet on a page.                                         |   `string`    |     `modal`     |
-| maxContentHeightCoefficient | Coefficient that determines the maximum height of the `Sheet` relative to the height of the viewport (range 0-1)                                                 |   `number`    |      `0.9`      |
-| onClose                     | **Deprecated.** Callback invoked after the sheet closing animation completes. Use `onOpenChange` instead.                                                        |  `function`   |   `undefined`   |
-| onOpenChange                | Handler for open state change requests.                                                                                                                          |  `function`   |   `undefined`   |
-| swipeAreaClassName          | `class` HTML attribute for the swipe area.                                                                                                                       |   `string`    |   `undefined`   |
-| title                       | Sheet window title.                                                                                                                                              |   `string`    |   `undefined`   |
-| visible                     | Manages `Sheet` visibility                                                                                                                                       |   `boolean`   |     `false`     |
+| Name                        | Description                                                                                                                                                      |                           Type                           |     Default     |
+| :-------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------: | :-------------: |
+| allowHideOnContentScroll    | Enables the behavior of closing the sheet window by swiping down if the content is scrolled to its top (`content Node.scrollTop === 0`) or has no scroll at all. |                        `boolean`                         |     `true`      |
+| alwaysFullHeight            | `Sheet` height will always have the maximum value                                                                                                                |                        `boolean`                         |   `undefined`   |
+| className                   | `class` HTML attribute                                                                                                                                           |                         `string`                         |   `undefined`   |
+| container                   | DOM element to which component is mounted via `Portal`                                                                                                           |                      `HTMLElement`                       | `document.body` |
+| contentClassName            | `class` HTML attribute for the sheet content.                                                                                                                    |                         `string`                         |   `undefined`   |
+| disablePortal               | Disables using `Portal`                                                                                                                                          |                        `boolean`                         |     `false`     |
+| hideTopBar                  | Hides the top bar with the resize handle.                                                                                                                        |                        `boolean`                         |                 |
+| id                          | Sheet ID used as hash in a URL. Make sure to specify multiple `id` values if there can be more than one sheet on a page.                                         |                         `string`                         |     `modal`     |
+| maxContentHeightCoefficient | Coefficient that determines the maximum height of the `Sheet` relative to the height of the viewport (range 0-1)                                                 |                         `number`                         |      `0.9`      |
+| container                   | DOM element to which component is mounted via `Portal`                                                                                                           |                      `HTMLElement`                       | `document.body` |
+| contentClassName            | `class` HTML attribute for the sheet content.                                                                                                                    |                         `string`                         |   `undefined`   |
+| disablePortal               | Disables using `Portal`                                                                                                                                          |                        `boolean`                         |     `false`     |
+| hideTopBar                  | Hides the top bar with the resize handle.                                                                                                                        |                        `boolean`                         |                 |
+| id                          | Sheet ID used as hash in a URL. Make sure to specify multiple `id` values if there can be more than one sheet on a page.                                         |                         `string`                         |     `modal`     |
+| maxContentHeightCoefficient | Coefficient that determines the maximum height of the `Sheet` relative to the height of the viewport (range 0-1)                                                 |                         `number`                         |      `0.9`      |
+| modal                       | Enables focus management, accessible dismissal and modal semantics                                                                                               |                        `boolean`                         |     `true`      |
+| initialFocus                | Tabbable element index or element ref to focus on opening                                                                                                        | `number \| React.MutableRefObject<HTMLElement \| null>`  |       `0`       |
+| returnFocus                 | Whether to restore focus, or the element ref to restore it to                                                                                                    | `boolean \| React.MutableRefObject<HTMLElement \| null>` |     `true`      |
+| onClose                     | **Deprecated.** Callback invoked after the sheet closing animation completes. Use `onOpenChange` instead.                                                        |                        `function`                        |   `undefined`   |
+| onOpenChange                | Handler for open state change requests.                                                                                                                          |                        `function`                        |   `undefined`   |
+| swipeAreaClassName          | `class` HTML attribute for the swipe area.                                                                                                                       |                         `string`                         |   `undefined`   |
+| title                       | Sheet window title.                                                                                                                                              |                         `string`                         |   `undefined`   |
+| visible                     | Manages `Sheet` visibility                                                                                                                                       |                        `boolean`                         |     `false`     |
 
 ## CSS API
 

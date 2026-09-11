@@ -4,18 +4,20 @@ import userEvent from '@testing-library/user-event';
 
 import {SelectQa} from '..';
 import {act, render, screen} from '../../../../test-utils/utils';
-import {ListQa} from '../../List';
-import {DEFAULT_VIRTUALIZATION_THRESHOLD, QUICK_SEARCH_TIMEOUT} from '../constants';
+import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
+import {mockLayout} from '../../lab/List/__tests__/helpers';
+import {TYPEAHEAD_TIMEOUT} from '../../lab/List/utils';
+import {MobileProvider} from '../../mobile';
 
 import {
     ControlledSelect,
     DEFAULT_OPTIONS,
     GROUPED_OPTIONS,
-    GROUPED_QUICK_SEARCH_OPTIONS,
-    QUICK_SEARCH_OPTIONS,
+    GROUPED_TYPEAHEAD_OPTIONS,
     SELECT_CONTROL_BUTTON_OPEN_CLASS,
     SELECT_LIST_VIRTUALIZED_CLASS,
     TEST_QA,
+    TYPEAHEAD_OPTIONS,
     generateOptions,
     setup,
     timeout,
@@ -162,7 +164,7 @@ describe('Select base actions', () => {
             await user.click(selectControl);
 
             for await (const content of optionLabels) {
-                const selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
+                const selectedItem = getByTestId(SelectQa.ACTIVE_ITEM);
                 expect(selectedItem.textContent).toBe(content);
                 await user.keyboard('[ArrowDown]');
             }
@@ -180,7 +182,7 @@ describe('Select base actions', () => {
             await user.click(selectControl);
 
             for await (const content of optionLabels) {
-                const selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
+                const selectedItem = getByTestId(SelectQa.ACTIVE_ITEM);
                 expect(selectedItem.textContent).toBe(content);
                 await user.keyboard('[ArrowUp]');
             }
@@ -207,7 +209,7 @@ describe('Select base actions', () => {
             await user.click(selectControl);
 
             for await (const content of optionLabels) {
-                const selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
+                const selectedItem = getByTestId(SelectQa.ACTIVE_ITEM);
                 expect(selectedItem.textContent).toBe(content);
                 await user.keyboard('[ArrowDown]');
             }
@@ -233,130 +235,93 @@ describe('Select base actions', () => {
             await user.click(selectControl);
 
             for await (const content of optionLabels) {
-                const selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
+                const selectedItem = getByTestId(SelectQa.ACTIVE_ITEM);
                 expect(selectedItem.textContent).toBe(content);
                 await user.keyboard('[ArrowUp]');
             }
         });
     });
 
-    describe('find elements in flat list by "quick search"', () => {
-        test('with instant input', async () => {
-            const {getByTestId} = setup({options: QUICK_SEARCH_OPTIONS});
+    // The search by the first letters belongs to the List: a prefix, a buffer of 500 ms and the
+    // APG cycling over the matches of a repeated character
+    describe('typeahead', () => {
+        test('a prefix moves the activity, and the buffer resets after a pause', async () => {
+            const {getByTestId} = setup({options: TYPEAHEAD_OPTIONS});
             const user = userEvent.setup();
-            const selectControl = getByTestId(TEST_QA);
-            await user.click(selectControl);
+            await user.click(getByTestId(TEST_QA));
 
-            await user.keyboard('3');
-            let selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
-            expect(selectedItem.textContent).toBe('Value 3');
+            await user.keyboard('ru');
+            expect(getByTestId(SelectQa.ACTIVE_ITEM)).toHaveTextContent('Ruby');
 
-            await user.keyboard('5');
-            selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
-            expect(selectedItem.textContent).toBe('Value 35');
+            await timeout(TYPEAHEAD_TIMEOUT);
 
-            await user.keyboard('[Backspace]');
-            selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
-            expect(selectedItem.textContent).toBe('Value 3');
+            await user.keyboard('rus');
+            expect(getByTestId(SelectQa.ACTIVE_ITEM)).toHaveTextContent('Rust');
         });
 
-        test('with delayed input', async () => {
-            const {getByTestId} = setup({options: QUICK_SEARCH_OPTIONS});
+        test('a repeated character cycles through the options starting with it', async () => {
+            const {getByTestId} = setup({options: TYPEAHEAD_OPTIONS});
             const user = userEvent.setup();
-            const selectControl = getByTestId(TEST_QA);
-            await user.click(selectControl);
+            await user.click(getByTestId(TEST_QA));
 
-            await user.keyboard('3');
-            let selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
-            expect(selectedItem.textContent).toBe('Value 3');
+            await user.keyboard('r');
+            expect(getByTestId(SelectQa.ACTIVE_ITEM)).toHaveTextContent('Ruby');
 
-            await timeout(QUICK_SEARCH_TIMEOUT);
-
-            await user.keyboard('5');
-            selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
-            expect(selectedItem.textContent).toBe('Value 5');
-        });
-    });
-
-    describe('find elements in grouped list by "quick search"', () => {
-        test('with instant input', async () => {
-            const {getByTestId} = setup({options: GROUPED_QUICK_SEARCH_OPTIONS});
-            const user = userEvent.setup();
-            const selectControl = getByTestId(TEST_QA);
-            await user.click(selectControl);
-
-            await user.keyboard('3');
-            let selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
-            expect(selectedItem.textContent).toBe('Value 3');
-
-            await user.keyboard('5');
-            selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
-            expect(selectedItem.textContent).toBe('Value 35');
-
-            await user.keyboard('[Backspace]');
-            selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
-            expect(selectedItem.textContent).toBe('Value 3');
+            await user.keyboard('r');
+            expect(getByTestId(SelectQa.ACTIVE_ITEM)).toHaveTextContent('Rust');
         });
 
-        test('with delayed input', async () => {
-            const {getByTestId} = setup({options: GROUPED_QUICK_SEARCH_OPTIONS});
+        test('the search walks a grouped list, headers aside', async () => {
+            const {getByTestId} = setup({options: GROUPED_TYPEAHEAD_OPTIONS});
             const user = userEvent.setup();
-            const selectControl = getByTestId(TEST_QA);
-            await user.click(selectControl);
+            await user.click(getByTestId(TEST_QA));
+
+            await user.keyboard('py');
+
+            expect(getByTestId(SelectQa.ACTIVE_ITEM)).toHaveTextContent('Python');
+        });
+
+        test('with a filter the characters go to the input instead', async () => {
+            const {getByTestId} = setup({options: generateOptions(40), filterable: true});
+            const user = userEvent.setup();
+            await user.click(getByTestId(TEST_QA));
 
             await user.keyboard('3');
-            let selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
-            expect(selectedItem.textContent).toBe('Value 3');
 
-            await timeout(QUICK_SEARCH_TIMEOUT);
-
-            await user.keyboard('5');
-            selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
-            expect(selectedItem.textContent).toBe('Value 5');
+            // The list is filtered and the activity falls back to the first option left
+            expect(getByTestId(SelectQa.ACTIVE_ITEM)).toHaveTextContent('Value 3');
         });
     });
 
-    test('"quick search" don`t work in case of filterable', async () => {
-        const {getByTestId} = setup({options: QUICK_SEARCH_OPTIONS, filterable: true});
-        const user = userEvent.setup();
-        const selectControl = getByTestId(TEST_QA);
-        await user.click(selectControl);
-        await user.keyboard('3');
-        const selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
-        // active item didn`t changed
-        expect(selectedItem.textContent).toBe('Value 3');
-    });
+    // There is no option count threshold any more: virtualization is opt-in from the outside
+    describe('virtualization', () => {
+        const OPTIONS_COUNT = 60;
+        mockLayout({viewport: 100, row: 28});
 
-    test.each<[number, number | undefined]>([
-        [DEFAULT_VIRTUALIZATION_THRESHOLD - 1, undefined],
-        [DEFAULT_VIRTUALIZATION_THRESHOLD, DEFAULT_VIRTUALIZATION_THRESHOLD + 1],
-    ])(
-        'select list shouldn`t have virtualization',
-        async (optionsCount, virtualizationThreshold) => {
-            const {getByTestId} = setup({
-                options: generateOptions(optionsCount),
-                virtualizationThreshold,
+        test('every option is a DOM row without the wrapper', async () => {
+            const {getByTestId, getAllByRole} = setup({
+                options: generateOptions(OPTIONS_COUNT),
             });
             const user = userEvent.setup();
-            const selectControl = getByTestId(TEST_QA);
-            await user.click(selectControl);
-            const selectList = getByTestId(SelectQa.LIST);
-            expect(selectList).not.toHaveClass(SELECT_LIST_VIRTUALIZED_CLASS);
-        },
-    );
+            await user.click(getByTestId(TEST_QA));
 
-    test.each<[number, number | undefined]>([
-        [DEFAULT_VIRTUALIZATION_THRESHOLD, undefined],
-        [DEFAULT_VIRTUALIZATION_THRESHOLD - 1, DEFAULT_VIRTUALIZATION_THRESHOLD - 2],
-    ])('select list should have virtualization', async (optionsCount, virtualizationThreshold) => {
-        const {getByTestId} = setup({
-            options: generateOptions(optionsCount),
-            virtualizationThreshold,
+            expect(getByTestId(SelectQa.LIST)).not.toHaveClass(SELECT_LIST_VIRTUALIZED_CLASS);
+            expect(getAllByRole('option')).toHaveLength(OPTIONS_COUNT);
         });
-        const user = userEvent.setup();
-        const selectControl = getByTestId(TEST_QA);
-        await user.click(selectControl);
-        const selectList = getByTestId(SelectQa.LIST);
-        expect(selectList).toHaveClass(SELECT_LIST_VIRTUALIZED_CLASS);
+
+        test('inside ListVirtualizer only the visible window is rendered', async () => {
+            const {getByTestId, getAllByRole} = render(
+                <MobileProvider mobile={false}>
+                    <ListVirtualizer>
+                        <ControlledSelect options={generateOptions(OPTIONS_COUNT)} />
+                    </ListVirtualizer>
+                </MobileProvider>,
+            );
+            const user = userEvent.setup();
+            await user.click(getByTestId(TEST_QA));
+
+            expect(getByTestId(SelectQa.LIST)).toHaveClass(SELECT_LIST_VIRTUALIZED_CLASS);
+            expect(getAllByRole('option').length).toBeLessThan(OPTIONS_COUNT);
+        });
     });
 });

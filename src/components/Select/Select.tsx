@@ -4,13 +4,15 @@ import * as React from 'react';
 
 import {KeyCode} from '../../constants';
 import {useControlledState, useFocusWithin, useForkRef, useSelect, useUniqId} from '../../hooks';
-import type {List} from '../List';
 import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
 import {errorPropsMapper} from '../controls/utils';
+import {useListFocusOwner} from '../lab/List';
+import {ListVirtualizationContext} from '../lab/List/VirtualizationContext';
 import {useMobile} from '../mobile';
 import {useDefaultProps} from '../theme/useDefaultProps';
 import type {CnMods} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
+import {warnOnce} from '../utils/warn';
 
 import {
     EmptyOptions,
@@ -20,20 +22,14 @@ import {
     SelectList,
     SelectPopup,
 } from './components';
-import {DEFAULT_VIRTUALIZATION_THRESHOLD, selectBlock} from './constants';
-import {useActiveItemIndex, useQuickSearch} from './hooks';
+import {VIRTUALIZATION_HINT_OPTIONS_COUNT, selectBlock} from './constants';
+import {useActiveItemId} from './hooks';
 import {getSelectFilteredOptions, useSelectOptions} from './hooks-public';
 import {Option, OptionGroup} from './tech-components';
-import type {SelectProps, SelectRenderPopup} from './types';
+import type {SelectOption, SelectProps, SelectRenderPopup} from './types';
 import type {SelectFilterRef} from './types-misc';
 import type {FlattenOption} from './utils';
-import {
-    findItemIndexByQuickSearch,
-    getActiveItem,
-    getListItems,
-    getOptionsFromChildren,
-    getSelectedOptionsContent,
-} from './utils';
+import {getOptionsFromChildren, getSelectedOptionsContent, isSelectGroupTitle} from './utils';
 
 import './Select.scss';
 
@@ -67,6 +63,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         renderSelectedOption,
         renderEmptyOptions,
         renderPopup = DEFAULT_RENDER_POPUP,
+        getOptionText,
         getOptionHeight,
         getOptionGroupHeight,
         filterOption,
@@ -88,7 +85,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         popupWidth,
         popupPlacement,
         error,
-        virtualizationThreshold = DEFAULT_VIRTUALIZATION_THRESHOLD,
         view = 'normal',
         size = 'm',
         pin = 'round-round',
@@ -111,8 +107,15 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const controlWrapRef = React.useRef<HTMLDivElement>(null);
     const controlRef = React.useRef<HTMLElement>(null);
     const filterRef = React.useRef<SelectFilterRef>(null);
-    const listRef = React.useRef<List<FlattenOption>>(null);
     const handleControlRef = useForkRef(ref, controlRef);
+
+    // One owner for two elements: the trigger and the filter input. The list is mounted only while
+    // the popup is open, so the owner is connected exactly then
+    const focusOwner = useListFocusOwner();
+    // Virtualization is opt-in from the outside: <ListVirtualizer> around the Select. The context
+    // reaches the list through the portal of the popup; the Select needs to know about it for the
+    // width of the popup and for the modifier of the list
+    const virtualized = React.useContext(ListVirtualizationContext) !== null;
 
     const {value, open, toggleOpen, setValue, handleSelection, handleClearValue} = useSelect({
         onUpdate,
@@ -141,12 +144,18 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         filter,
         filterable,
         filterOption,
+        getOptionText,
     });
     const filteredOptions = getSelectFilteredOptions(options) as FlattenOption[];
     const selectedOptionsContent = React.useMemo(() => {
-        return getSelectedOptionsContent(options, value, renderSelectedOption);
-    }, [options, value, renderSelectedOption]);
-    const virtualized = filteredOptions.length >= virtualizationThreshold;
+        return getSelectedOptionsContent(options, value, renderSelectedOption, getOptionText);
+    }, [options, value, renderSelectedOption, getOptionText]);
+
+    if (!virtualized && filteredOptions.length > VIRTUALIZATION_HINT_OPTIONS_COUNT) {
+        warnOnce(
+            `[Select] The list renders ${VIRTUALIZATION_HINT_OPTIONS_COUNT}+ options as DOM rows at once. Wrap the Select in <ListVirtualizer> from '@gravity-ui/uikit/virtualizer' to render only the visible ones.`,
+        );
+    }
 
     const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
         error,
@@ -163,79 +172,15 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         isErrorStateVisible && Boolean(errorMessage) && errorPlacement === 'inside';
 
     const handleOptionClick = React.useCallback(
-        (option?: FlattenOption) => {
-            if (!option || option?.disabled || 'label' in option) {
+        (option?: SelectOption) => {
+            if (!option || option.disabled) {
                 return;
-            }
-
-            if (multiple) {
-                const activeItemIndex = listRef?.current?.getActiveItem();
-
-                if (!mobile) {
-                    filterRef.current?.focus();
-                }
-
-                if (typeof activeItemIndex === 'number') {
-                    // prevent item deactivation in case of multiple selection
-                    // https://github.com/gravity-ui/uikit/blob/main/src/components/List/List.tsx#L369
-                    // Will fixed after https://github.com/gravity-ui/uikit/issues/385
-                    setTimeout(() => {
-                        listRef?.current?.activateItem(activeItemIndex, true);
-                    }, 50);
-                }
             }
 
             handleSelection(option);
         },
-        [handleSelection, mobile, multiple],
+        [handleSelection],
     );
-
-    const handleControlKeyDown = React.useCallback(
-        (e: React.KeyboardEvent<HTMLElement>) => {
-            // prevent dialog closing in case of item selection by Enter/Spacebar keydown
-            if ([KeyCode.ENTER, KeyCode.SPACEBAR].includes(e.key) && open) {
-                e.preventDefault();
-
-                if (e.key === KeyCode.SPACEBAR) {
-                    handleOptionClick(getActiveItem(listRef));
-                }
-            }
-            if ([KeyCode.ARROW_DOWN, KeyCode.ARROW_UP].includes(e.key) && !open) {
-                e.preventDefault();
-                toggleOpen();
-            }
-            if (e.key === KeyCode.ESCAPE && open) {
-                toggleOpen(false);
-            }
-
-            listRef?.current?.onKeyDown(e);
-        },
-        [handleOptionClick, open, toggleOpen],
-    );
-
-    const handleFilterKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLElement>) => {
-        listRef?.current?.onKeyDown(e);
-
-        if (e.key === KeyCode.ENTER) {
-            e.preventDefault();
-        }
-    }, []);
-
-    const handleQuickSearchChange = React.useCallback((search: string) => {
-        if (search) {
-            const itemIndex = findItemIndexByQuickSearch(search, getListItems(listRef));
-
-            if (typeof itemIndex === 'number' && itemIndex !== -1) {
-                listRef?.current?.activateItem(itemIndex, true);
-            }
-        }
-    }, []);
-
-    useQuickSearch({
-        onChange: handleQuickSearchChange,
-        open,
-        disabled: filterable,
-    });
 
     const mods: CnMods = {
         ...(width === 'max' && {width}),
@@ -266,11 +211,64 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const selectId = id ?? uniqId;
     const popupId = `select-popup-${selectId}`;
 
-    const [activeIndex, setActiveIndex] = useActiveItemIndex({
+    const [activeItemId, setActiveItemId] = useActiveItemId({
         options: filteredOptions,
         open,
         value,
     });
+
+    const optionByValue = React.useMemo(() => {
+        const map = new Map<string, SelectOption>();
+
+        for (const option of filteredOptions) {
+            if (!isSelectGroupTitle(option)) {
+                map.set(option.value, option);
+            }
+        }
+
+        return map;
+    }, [filteredOptions]);
+
+    const activeOption = activeItemId === undefined ? undefined : optionByValue.get(activeItemId);
+
+    const handleActiveItemUpdate = React.useCallback(
+        (id: string | null) => {
+            setActiveItemId(id ?? undefined);
+        },
+        [setActiveItemId],
+    );
+
+    const handleControlKeyDown = React.useCallback(
+        (e: React.KeyboardEvent<HTMLElement>) => {
+            // prevent dialog closing in case of item selection by Enter/Spacebar keydown
+            if ([KeyCode.ENTER, KeyCode.SPACEBAR].includes(e.key) && open) {
+                // Enter is applied by the core, and so is a Space that continues a search by the
+                // first letters (the core marks it as handled) — the rest of the spaces are the
+                // gesture of the Select
+                const handledByList = e.defaultPrevented;
+
+                e.preventDefault();
+
+                if (e.key === KeyCode.SPACEBAR && !handledByList) {
+                    handleOptionClick(activeOption);
+                }
+            }
+            if ([KeyCode.ARROW_DOWN, KeyCode.ARROW_UP].includes(e.key) && !open) {
+                e.preventDefault();
+                toggleOpen();
+            }
+            if (e.key === KeyCode.ESCAPE && open) {
+                toggleOpen(false);
+            }
+        },
+        [activeOption, handleOptionClick, open, toggleOpen],
+    );
+
+    const handleFilterKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLElement>) => {
+        if (e.key === KeyCode.ENTER) {
+            e.preventDefault();
+        }
+    }, []);
 
     const _renderFilter = () => {
         if (filterable) {
@@ -283,8 +281,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                     onChange={setFilter}
                     onKeyDown={handleFilterKeyDown}
                     renderFilter={renderFilter}
-                    popupId={popupId}
-                    activeIndex={activeIndex}
+                    focusOwner={focusOwner}
+                    open={open}
                 />
             );
         }
@@ -296,7 +294,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         if (filteredOptions.length || props.loading) {
             return (
                 <SelectList
-                    ref={listRef}
                     size={size}
                     value={value}
                     mobile={mobile}
@@ -306,13 +303,18 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                     onOptionClick={handleOptionClick}
                     renderOption={renderOption}
                     renderOptionGroup={renderOptionGroup}
+                    getOptionText={getOptionText}
                     getOptionHeight={getOptionHeight}
                     getOptionGroupHeight={getOptionGroupHeight}
                     loading={props.loading}
                     onLoadMore={props.onLoadMore}
                     id={popupId}
-                    activeIndex={activeIndex}
-                    onChangeActive={setActiveIndex}
+                    labelledBy={selectId}
+                    // The Sheet and the Popup keep the list mounted while they animate out: a list
+                    // the Select has already closed must not keep the keyboard of the trigger
+                    focusOwner={open ? focusOwner : undefined}
+                    activeItemId={activeItemId}
+                    onActiveItemUpdate={handleActiveItemUpdate}
                 />
             );
         }
@@ -351,7 +353,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 value={value}
                 popupId={popupId}
                 selectId={selectId}
-                activeIndex={activeIndex}
+                focusOwner={focusOwner}
                 hasCounter={multiple && hasCounter}
                 renderCounter={renderCounter}
                 title={title}

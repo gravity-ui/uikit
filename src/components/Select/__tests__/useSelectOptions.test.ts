@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import {renderHook} from '../../../../test-utils/utils';
 import {getSelectFilteredOptions, useSelectOptions} from '../hooks-public';
 
@@ -32,6 +34,30 @@ describe('Select useSelectOptions hook', function () {
         const filteredOptions2 = getSelectFilteredOptions(r2.current);
         expect(filteredOptions2.map((o) => 'value' in o && o.value)).toEqual(['1']);
     });
+    it('should filter by the text of getOptionText', () => {
+        // The default text of an option is its content, and a node has none — outside the component
+        // the filter has to be given the same getter the Select itself is given
+        const options = [
+            {
+                value: '1',
+                content: React.createElement('span', null, 'Alpha'),
+                data: {name: 'Alpha'},
+            },
+            {value: '2', content: React.createElement('span', null, 'Beta'), data: {name: 'Beta'}},
+        ];
+        const {result} = renderHook(() => {
+            return useSelectOptions({
+                options,
+                filterable: true,
+                filter: 'bet',
+                getOptionText: (option) => option.data?.name ?? option.value,
+            });
+        });
+
+        const filtered = getSelectFilteredOptions(result.current);
+        expect(filtered.map((o) => 'value' in o && o.value)).toEqual(['2']);
+    });
+
     it('getSelectFilteredOptions should emit an error in case of using unprepared options', () => {
         expect(() => getSelectFilteredOptions([{value: '1'}])).toThrow();
     });

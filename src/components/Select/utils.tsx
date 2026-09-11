@@ -1,12 +1,13 @@
 import * as React from 'react';
 
-import {KeyCode} from '../../constants';
-import type {List, ListItemData} from '../List';
+import {warnOnce} from '../utils/warn';
 
 import {
     FLATTEN_KEY,
     GROUP_ITEM_MARGIN_TOP,
-    MOBILE_ITEM_HEIGHT,
+    GROUP_SEPARATOR_HEIGHT,
+    MOBILE_SIZE,
+    SIZE_TO_GROUP_HEIGHT,
     SIZE_TO_ITEM_HEIGHT,
 } from './constants';
 import type {Option, OptionGroup} from './tech-components';
@@ -22,6 +23,23 @@ import type {
 export type GroupTitleItem<T = any> = {label: string; disabled: true; data?: T};
 
 export type FlattenOption = SelectOption | GroupTitleItem;
+
+/**
+ * A group of the list: the header row plus its options — a section of the List core. The shape of
+ * a `SelectOptionGroup` is kept (`label`, `data`, `options`): the node is what `renderOptionGroup`
+ * and `getOptionGroupHeight` receive
+ */
+export type SelectGroupNode<T = any> = GroupTitleItem<T> & {
+    id: string;
+    options: SelectOption<T>[];
+};
+
+/** A row of the list as the List core sees it: an option or a section */
+export type SelectListNode<T = any> = SelectOption<T> | SelectGroupNode<T>;
+
+export const LOADING_OPTION_VALUE = '__SELECT_LIST_ITEM_LOADING__';
+
+export const LOADING_OPTION: SelectOption = {value: LOADING_OPTION_VALUE, disabled: true};
 
 export type FlattenOptions = FlattenOption[] & {
     [FLATTEN_KEY]: {
@@ -53,6 +71,97 @@ export const getFlattenOptions = (options: SelectOptions): FlattenOptions => {
     return flatten as FlattenOptions;
 };
 
+/** A string and a number are the text of the option as they are; a node is not */
+const asText = (content: React.ReactNode): string | undefined => {
+    if (typeof content === 'string') {
+        return content;
+    }
+
+    return typeof content === 'number' ? String(content) : undefined;
+};
+
+/**
+ * The default text of an option: its content when that is a string, otherwise its value. Call it
+ * from a `getOptionText` of your own to fall back to the default for the rest of the options
+ */
+export const getSelectOptionText = (option: SelectOption): string => {
+    const text = asText(option.content) ?? asText(option.children);
+
+    if (text !== undefined) {
+        return text;
+    }
+
+    if (option.content !== undefined || option.children !== undefined) {
+        warnOnce(
+            '[Select] An option whose content is not a string is searched and named by its `value`. Pass `getOptionText` to give such options a text of their own.',
+        );
+    }
+
+    return option.value;
+};
+
+/** The text of an option: the one the consumer defines, otherwise the default */
+export const resolveOptionText = (
+    option: SelectOption,
+    getOptionText?: SelectProps['getOptionText'],
+): string => {
+    return getOptionText ? getOptionText(option) : getSelectOptionText(option);
+};
+
+export const isSelectGroupNode = (node: SelectListNode): node is SelectGroupNode => {
+    return 'label' in node;
+};
+
+/**
+ * The flat list of options becomes the tree the core expects: a group title starts a section and
+ * collects the options that follow it. The order of the rows is the order of `flattenOptions`, so
+ * the index of a row in the list matches the index the height getters are called with; the loading
+ * row is the last one, outside of any section.
+ */
+export const buildSelectListNodes = (
+    flattenOptions: FlattenOption[],
+    loading?: boolean,
+): SelectListNode[] => {
+    const nodes: SelectListNode[] = [];
+    let currentGroup: SelectGroupNode | undefined;
+
+    flattenOptions.forEach((option, index) => {
+        if (isSelectGroupTitle(option)) {
+            currentGroup = {...option, id: `__group_${index}`, options: []};
+            nodes.push(currentGroup);
+            return;
+        }
+
+        if (currentGroup) {
+            currentGroup.options.push(option);
+        } else {
+            nodes.push(option);
+        }
+    });
+
+    if (loading) {
+        nodes.push(LOADING_OPTION);
+    }
+
+    return nodes;
+};
+
+export const getSelectListNodeText = (
+    node: SelectListNode,
+    getOptionText?: SelectProps['getOptionText'],
+): string => {
+    return isSelectGroupNode(node) ? node.label : resolveOptionText(node, getOptionText);
+};
+
+/** The size of the row view: on mobile every row is a row of size `l` */
+export const getItemViewSize = (size: SelectSize, mobile: boolean): SelectSize =>
+    mobile ? MOBILE_SIZE : size;
+
+/**
+ * The height of a row: the one the consumer asked for, or the one the row view comes out as. Only
+ * a height of the first kind is put on the row inline — the rest of the time the view sizes itself
+ * (and a row can never be shorter than the minimum of its size)
+ */
 export const getPopupItemHeight = (args: {
     getOptionHeight?: SelectProps['getOptionHeight'];
     getOptionGroupHeight?: SelectProps['getOptionGroupHeight'];
@@ -62,55 +171,29 @@ export const getPopupItemHeight = (args: {
     mobile: boolean;
 }) => {
     const {getOptionHeight, getOptionGroupHeight, size, option, index, mobile} = args;
-
-    let itemHeight = mobile ? MOBILE_ITEM_HEIGHT : SIZE_TO_ITEM_HEIGHT[size];
+    const viewSize = getItemViewSize(size, mobile);
 
     if (isSelectGroupTitle(option)) {
-        const marginTop = index === 0 ? 0 : GROUP_ITEM_MARGIN_TOP;
-        itemHeight = option.label === '' ? 0 : itemHeight;
+        if (getOptionGroupHeight) {
+            return getOptionGroupHeight(option, index);
+        }
 
-        return getOptionGroupHeight ? getOptionGroupHeight(option, index) : itemHeight + marginTop;
+        // An empty label is a separator rather than a header
+        if (option.label === '') {
+            return index === 0 ? 0 : GROUP_SEPARATOR_HEIGHT;
+        }
+
+        return SIZE_TO_GROUP_HEIGHT[viewSize] + (index === 0 ? 0 : GROUP_ITEM_MARGIN_TOP);
     }
 
-    return getOptionHeight ? getOptionHeight(option, index) : itemHeight;
-};
-
-export const getOptionsHeight = (args: {
-    getOptionHeight?: SelectProps['getOptionHeight'];
-    getOptionGroupHeight?: SelectProps['getOptionGroupHeight'];
-    size: NonNullable<SelectProps['size']>;
-    options: FlattenOption[];
-    mobile: boolean;
-}) => {
-    const {getOptionHeight, getOptionGroupHeight, size, options, mobile} = args;
-    return options.reduce((height, option, index) => {
-        return (
-            height +
-            getPopupItemHeight({getOptionHeight, getOptionGroupHeight, size, option, index, mobile})
-        );
-    }, 0);
-};
-
-const getOptionText = (option: SelectOption): string => {
-    if (typeof option.content === 'string') {
-        return option.content;
-    }
-
-    if (typeof option.children === 'string') {
-        return option.children;
-    }
-
-    if (option.text) {
-        return option.text;
-    }
-
-    return option.value;
+    return getOptionHeight ? getOptionHeight(option, index) : SIZE_TO_ITEM_HEIGHT[viewSize];
 };
 
 export const getSelectedOptionsContent = (
     options: SelectOptions,
     value: string[],
     renderSelectedOption?: SelectProps['renderSelectedOption'],
+    getOptionText?: SelectProps['getOptionText'],
 ): React.ReactNode => {
     if (value.length === 0) {
         return null;
@@ -139,7 +222,7 @@ export const getSelectedOptionsContent = (
     } else {
         return selectedOptions
             .map((option) => {
-                return getOptionText(option);
+                return resolveOptionText(option, getOptionText);
             })
             .join(', ');
     }
@@ -185,61 +268,12 @@ export const getOptionsFromChildren = (children: SelectProps['children']) => {
     );
 };
 
-export const getNextQuickSearch = (keyCode: string, quickSearch: string) => {
-    // https://www.w3.org/TR/uievents-code/#key-alphanumeric-writing-system
-    const writingSystemKeyPressed = keyCode.length === 1;
-    const backspacePressed = keyCode === KeyCode.BACKSPACE;
-    let nextQuickSearch = '';
-
-    if (backspacePressed && quickSearch.length) {
-        nextQuickSearch = quickSearch.slice(0, quickSearch.length - 1);
-    } else if (writingSystemKeyPressed) {
-        nextQuickSearch = (quickSearch + keyCode).trim();
-    }
-
-    return nextQuickSearch;
-};
-
-const getEscapedRegExp = (string: string) => {
-    return new RegExp(string.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&'), 'i');
-};
-
-export const findItemIndexByQuickSearch = (
-    quickSearch: string,
-    items?: ListItemData<FlattenOption>[],
+const isOptionMatchedByFilter = (
+    option: SelectOption,
+    filter: string,
+    getOptionText?: SelectProps['getOptionText'],
 ) => {
-    if (!items) {
-        return -1;
-    }
-
-    return items.findIndex((item) => {
-        if (isSelectGroupTitle(item)) {
-            return false;
-        }
-
-        if (item.disabled) {
-            return false;
-        }
-
-        const optionText = getOptionText(item);
-
-        return getEscapedRegExp(quickSearch).test(optionText);
-    });
-};
-
-export const getListItems = (listRef: React.RefObject<List<FlattenOption> | null>) => {
-    return listRef?.current?.getItems() || [];
-};
-
-export const getActiveItem = (listRef: React.RefObject<List<FlattenOption> | null>) => {
-    const items = getListItems(listRef);
-    const activeItemIndex = listRef?.current?.getActiveItem();
-
-    return typeof activeItemIndex === 'number' ? items[activeItemIndex] : undefined;
-};
-
-const isOptionMatchedByFilter = (option: SelectOption, filter: string) => {
-    const lowerOptionText = getOptionText(option).toLocaleLowerCase();
+    const lowerOptionText = resolveOptionText(option, getOptionText).toLocaleLowerCase();
     const lowerFilter = filter.toLocaleLowerCase();
 
     return lowerOptionText.indexOf(lowerFilter) !== -1;
@@ -249,8 +283,9 @@ export const getFilteredFlattenOptions = (args: {
     options: FlattenOption[];
     filter: string;
     filterOption?: SelectProps['filterOption'];
+    getOptionText?: SelectProps['getOptionText'];
 }) => {
-    const {options, filter, filterOption} = args;
+    const {options, filter, filterOption, getOptionText} = args;
     const filteredOptions = options.filter((option) => {
         if (isSelectGroupTitle(option)) {
             return true;
@@ -258,7 +293,7 @@ export const getFilteredFlattenOptions = (args: {
 
         return filterOption
             ? filterOption(option, filter)
-            : isOptionMatchedByFilter(option, filter);
+            : isOptionMatchedByFilter(option, filter, getOptionText);
     });
 
     return filteredOptions.reduce((acc, option, index) => {
@@ -278,21 +313,37 @@ export const getFilteredFlattenOptions = (args: {
     }, [] as FlattenOption[]);
 };
 
-export function scrollToItem(node: HTMLElement) {
-    const container = node.offsetParent;
-    if (container instanceof HTMLElement) {
-        const height = container.offsetHeight;
-        const scrollTop = container.scrollTop;
+/**
+ * Scrolls the row into view inside the list root and nowhere else — unlike `scrollIntoView`, a popup
+ * hanging off the viewport edge never drags the page along. Under virtualization the row sits in an
+ * absolutely positioned wrapper, so its offset inside the root is the sum along the `offsetParent`
+ * chain rather than a single `offsetTop`.
+ */
+export function scrollToItem(container: HTMLElement, node: HTMLElement) {
+    const height = container.offsetHeight;
+    const scrollTop = container.scrollTop;
 
-        const top = node.offsetTop;
-        const bottom = top + node.offsetHeight;
-
-        if (bottom >= scrollTop + height) {
-            container.scrollTo({top: top - height + node.offsetHeight});
-        } else if (top <= scrollTop) {
-            container.scrollTo({top});
-        }
+    let top = 0;
+    let element: HTMLElement | null = node;
+    while (element && element !== container && container.contains(element)) {
+        top += element.offsetTop;
+        const offsetParent: Element | null = element.offsetParent;
+        element = offsetParent instanceof HTMLElement ? offsetParent : null;
     }
 
-    return true;
+    const bottom = top + node.offsetHeight;
+
+    let nextScrollTop: number | undefined;
+
+    if (bottom >= scrollTop + height) {
+        nextScrollTop = bottom - height;
+    } else if (top <= scrollTop) {
+        nextScrollTop = top;
+    }
+
+    if (nextScrollTop !== undefined) {
+        // scrollTop rather than scrollTo: the same instant scroll, and jsdom implements it
+        // eslint-disable-next-line no-param-reassign
+        container.scrollTop = nextScrollTop;
+    }
 }

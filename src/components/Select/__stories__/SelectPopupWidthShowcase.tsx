@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import {Text} from '../../Text/Text';
+import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {Flex} from '../../layout/Flex/Flex';
 import {Select} from '../Select';
 
@@ -135,23 +136,27 @@ export const SelectPopupWidthShowcase = (args: any) => {
                     Extra long values. DEFAULT.
                     <Text color="danger-heavy"> Not works for virtualized.</Text>
                     <div>
-                        <Select
-                            {...args}
-                            className="select-width-300"
-                            options={extralongVirtualized}
-                            title="Sample select"
-                        />
+                        <ListVirtualizer>
+                            <Select
+                                {...args}
+                                className="select-width-300"
+                                options={extralongVirtualized}
+                                title="Sample select"
+                            />
+                        </ListVirtualizer>
                     </div>
                 </div>
                 <div>
                     Short values. DEFAULT. Virtualized (use predefined width: 100px)
                     <div>
-                        <Select
-                            {...args}
-                            className="select-width-50"
-                            options={shortVirtualized}
-                            title="Sample select"
-                        />
+                        <ListVirtualizer>
+                            <Select
+                                {...args}
+                                className="select-width-50"
+                                options={shortVirtualized}
+                                title="Sample select"
+                            />
+                        </ListVirtualizer>
                     </div>
                 </div>
             </Flex>
@@ -160,26 +165,30 @@ export const SelectPopupWidthShowcase = (args: any) => {
                 <div>
                     Extra long values. FIT. Virtualized
                     <div>
-                        <Select
-                            {...args}
-                            className="select-width-300"
-                            options={extralongVirtualized}
-                            popupWidth="fit"
-                            title="Sample select"
-                        />
+                        <ListVirtualizer>
+                            <Select
+                                {...args}
+                                className="select-width-300"
+                                options={extralongVirtualized}
+                                popupWidth="fit"
+                                title="Sample select"
+                            />
+                        </ListVirtualizer>
                     </div>
                 </div>
 
                 <div>
                     Short values. FIT. Virtualized
                     <div>
-                        <Select
-                            {...args}
-                            className="select-width-50"
-                            options={shortVirtualized}
-                            popupWidth="fit"
-                            title="Sample select"
-                        />
+                        <ListVirtualizer>
+                            <Select
+                                {...args}
+                                className="select-width-50"
+                                options={shortVirtualized}
+                                popupWidth="fit"
+                                title="Sample select"
+                            />
+                        </ListVirtualizer>
                     </div>
                 </div>
             </Flex>

@@ -4,12 +4,24 @@ import userEvent from '@testing-library/user-event';
 
 import {act, fireEvent, render, screen} from '../../../../../test-utils/utils';
 import {Label} from '../../../Label';
+import {eventBroker} from '../../../utils/event-broker';
 import {List} from '../List';
 import type {ListItemViewStateProps} from '../types';
+import {TYPEAHEAD_TIMEOUT} from '../utils';
 
-import {FRUITS, GROUPS, PROJECTS, createTracker, mockTabbableDisplayCheck} from './helpers';
+import {
+    FRUITS,
+    GROUPS,
+    PROJECTS,
+    createTracker,
+    getSectionHeader,
+    mockTabbableDisplayCheck,
+} from './helpers';
 
 mockTabbableDisplayCheck();
+
+/** Longer than the page step of PageUp/PageDown */
+const MANY = Array.from({length: 25}, (_, index) => `Item ${index + 1}`);
 
 describe('lab List', () => {
     describe('rendering and ARIA', () => {
@@ -18,8 +30,8 @@ describe('lab List', () => {
                 <List aria-label="Groups" items={GROUPS} getItemContent={(item) => item.label} />,
             );
 
-            expect(screen.getByText('Recent')).toHaveAttribute('data-first-row', '');
-            expect(screen.getByText('All')).not.toHaveAttribute('data-first-row');
+            expect(getSectionHeader('Recent')).toHaveAttribute('data-first-row', '');
+            expect(getSectionHeader('All')).not.toHaveAttribute('data-first-row');
         });
 
         test('renders a listbox with options from an array of strings', () => {
@@ -37,7 +49,7 @@ describe('lab List', () => {
             );
 
             const option = screen.getByRole('option', {name: 'First'});
-            expect(option).toHaveAttribute('aria-describedby', screen.getByText('Recent').id);
+            expect(option).toHaveAttribute('aria-describedby', getSectionHeader('Recent').id);
             expect(option).toHaveAccessibleDescription('Recent');
         });
 
@@ -210,6 +222,54 @@ describe('lab List', () => {
 
             await user.keyboard('{Home}');
             expect(options[0]).toHaveFocus();
+        });
+
+        test('PageDown and PageUp step over ten options and stop at the edges', async () => {
+            const user = userEvent.setup();
+            render(<List aria-label="Items" items={MANY} />);
+            const options = screen.getAllByRole('option');
+
+            await user.tab();
+            expect(options[0]).toHaveFocus();
+
+            await user.keyboard('{PageDown}');
+            expect(options[10]).toHaveFocus();
+
+            await user.keyboard('{PageDown}');
+            expect(options[20]).toHaveFocus();
+
+            // The page keys do not cycle: the last option is where they stop
+            await user.keyboard('{PageDown}');
+            expect(options[24]).toHaveFocus();
+
+            await user.keyboard('{PageUp}');
+            expect(options[14]).toHaveFocus();
+
+            await user.keyboard('{PageUp}');
+            await user.keyboard('{PageUp}');
+            expect(options[0]).toHaveFocus();
+        });
+
+        test('the page step counts navigable options, not rows', async () => {
+            const user = userEvent.setup();
+            render(
+                <List
+                    aria-label="Items"
+                    items={MANY.map((name, index) => ({
+                        id: name,
+                        name,
+                        disabled: index === 5,
+                    }))}
+                    getItemContent={(item) => item.name}
+                />,
+            );
+            const options = screen.getAllByRole('option');
+
+            await user.tab();
+            await user.keyboard('{PageDown}');
+
+            // The disabled row is out of the count, so the tenth navigable option is the eleventh row
+            expect(options[11]).toHaveFocus();
         });
 
         test('navigation skips section headers and disabled options', async () => {
@@ -405,6 +465,40 @@ describe('lab List', () => {
 
             expect(onInnerClick).toHaveBeenCalledTimes(1);
             expect(onItemAction).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('eventBroker', () => {
+        test('publishes a mouse click on an option, but not on a disabled one and not Enter', async () => {
+            const user = userEvent.setup();
+            const subscription = jest.fn();
+            eventBroker.subscribe(subscription);
+
+            try {
+                render(
+                    <List
+                        aria-label="Projects"
+                        items={PROJECTS}
+                        getItemContent={(project) => project.name}
+                    />,
+                );
+
+                await user.click(screen.getByText('Alpha'));
+
+                expect(subscription).toHaveBeenCalledTimes(1);
+                expect(subscription).toHaveBeenCalledWith(
+                    expect.objectContaining({componentId: 'g-List', eventId: 'click'}),
+                );
+
+                // Disabled rows are silent, and so is the keyboard: the old ListItem published
+                // from the click handler of the row only
+                await user.click(screen.getByText('Beta'));
+                await user.keyboard('{Enter}');
+
+                expect(subscription).toHaveBeenCalledTimes(1);
+            } finally {
+                eventBroker.unsubscribe(subscription);
+            }
         });
     });
 
@@ -836,13 +930,35 @@ describe('lab List', () => {
                 await user.keyboard('b');
                 expect(options[1]).toHaveFocus();
 
-                jest.advanceTimersByTime(600);
+                jest.advanceTimersByTime(TYPEAHEAD_TIMEOUT + 100);
                 await user.keyboard('a');
 
                 expect(options[0]).toHaveFocus();
             } finally {
                 jest.useRealTimers();
             }
+        });
+
+        test('a character taken for the search does not reach the hotkeys around the list', async () => {
+            const user = userEvent.setup();
+            const hotkey = jest.fn();
+            render(
+                // The hotkeys of the app around the list, in their simplest form
+                // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+                <div onKeyDown={hotkey}>
+                    <List aria-label="Fruits" items={FRUITS} />
+                </div>,
+            );
+
+            await user.tab();
+            await user.keyboard('b');
+
+            expect(screen.getByRole('option', {name: 'Banana'})).toHaveAttribute('data-active');
+            expect(hotkey).not.toHaveBeenCalled();
+
+            // A key the list does not take travels on
+            await user.keyboard('{Escape}');
+            expect(hotkey).toHaveBeenCalled();
         });
 
         test('uses getItemTextValue for search', async () => {
@@ -1086,7 +1202,7 @@ describe('lab List', () => {
 
             expect(view.get('recent')).toEqual({size: 'l'});
             expect(view.get('r1')).toEqual({size: 'l', active: false, disabled: false});
-            const header = screen.getByText('Recent');
+            const header = getSectionHeader('Recent');
             expect(header).toHaveClass('g-lab-list-section-header_size_l');
             expect(header).not.toHaveAttribute('active');
             expect(header).not.toHaveAttribute('disabled');

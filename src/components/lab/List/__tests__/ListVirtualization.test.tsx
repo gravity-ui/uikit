@@ -5,7 +5,7 @@ import {ListVirtualizer} from '../../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
 import type {ListProps} from '../types';
 
-import {GROUPS, mockLayout, scrollTo} from './helpers';
+import {GROUPS, getSectionHeader, mockLayout, scrollTo} from './helpers';
 
 const VIEWPORT_HEIGHT = 400;
 const ROW_HEIGHT = 36;
@@ -216,7 +216,7 @@ describe('lab List: virtualization layer', () => {
 
             scrollTo(listbox, ROW_HEIGHT * 150);
 
-            const header = screen.getByText('Logs');
+            const header = getSectionHeader('Logs');
             const option = screen.getByRole('option', {name: 'Log 151'});
             expect(option).toHaveAttribute('aria-describedby', header.id);
             expect(option).toHaveAccessibleDescription('Logs');
@@ -241,7 +241,7 @@ describe('lab List: virtualization layer', () => {
             const firstOptionWrapper = screen.getByRole('option', {name: 'First'}).parentElement;
             expect(firstOptionWrapper).toHaveStyle({top: `${SECTION_HEIGHT}px`});
             // eslint-disable-next-line testing-library/no-node-access
-            const secondHeaderWrapper = screen.getByText('All').parentElement;
+            const secondHeaderWrapper = getSectionHeader('All').parentElement;
             expect(secondHeaderWrapper).toHaveStyle({top: `${SECTION_HEIGHT + ROW_HEIGHT}px`});
         });
 
@@ -283,7 +283,7 @@ describe('lab List: virtualization layer', () => {
             const firstOptionWrapper = screen.getByRole('option', {name: 'First'}).parentElement;
             expect(firstOptionWrapper).toHaveStyle({top: `${SECTION_HEIGHT}px`});
             // eslint-disable-next-line testing-library/no-node-access
-            const secondHeaderWrapper = screen.getByText('All').parentElement;
+            const secondHeaderWrapper = getSectionHeader('All').parentElement;
             expect(secondHeaderWrapper).toHaveStyle({top: `${SECTION_HEIGHT + ROW_HEIGHT}px`});
         });
     });

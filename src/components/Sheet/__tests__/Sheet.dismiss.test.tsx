@@ -3,6 +3,7 @@ import * as React from 'react';
 import userEvent from '@testing-library/user-event';
 
 import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
+import {getLayersCount} from '../../utils/layer-manager';
 import {Sheet} from '../Sheet';
 import {SHEET_TRANSITION_DURATION_MS, SheetQa} from '../constants';
 
@@ -117,6 +118,54 @@ describe('Sheet dismissal', () => {
     });
 
     describe('exit lifecycle', () => {
+        test.each([
+            {getArea: () => screen.getByTestId(SheetQa.SWIPE_AREA), surface: 'handle'},
+            {getArea: () => screen.getByTestId(SheetQa.CONTENT_AREA), surface: 'content'},
+        ])('finishes a legacy full-height $surface swipe immediately', ({getArea}) => {
+            const onClose = jest.fn();
+            render(
+                <Sheet visible onClose={onClose}>
+                    Content
+                </Sheet>,
+            );
+
+            finishTransition();
+            expect(document.body.style.overflow).toBe('hidden');
+            expect(getLayersCount()).toBe(1);
+
+            swipe(getArea(), {
+                from: TOUCH_START_POINT,
+                to: TOUCH_START_POINT + SHEET_HEIGHT,
+            });
+
+            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+            expect(document.body.style.overflow).toBe('');
+            expect(getLayersCount()).toBe(0);
+
+            finishPresenceTransition();
+
+            expect(onClose).toHaveBeenCalledTimes(1);
+        });
+
+        test('finishes an accepted full-height swipe immediately', () => {
+            const onRequest = jest.fn();
+            const onClose = jest.fn();
+            render(<AcceptingSheet onRequest={onRequest} onClose={onClose} />);
+
+            finishTransition();
+            swipe(screen.getByTestId(SheetQa.SWIPE_AREA), {
+                from: TOUCH_START_POINT,
+                to: TOUCH_START_POINT + SHEET_HEIGHT,
+            });
+
+            expect(onRequest).toHaveBeenCalledWith(false, expect.any(Event), 'swipe');
+            expect(onRequest).toHaveBeenCalledTimes(1);
+            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+            expect(document.body.style.overflow).toBe('');
+        });
+
         test('runs the shared exit after the parent accepts a veil dismissal', () => {
             const onRequest = jest.fn();
             const onClose = jest.fn();
@@ -273,7 +322,7 @@ describe('Sheet dismissal', () => {
         });
 
         describe('content scroll', () => {
-            test('dismisses when swiping down from the top', () => {
+            test('dismisses immediately when swiping down the full height from the top', () => {
                 const onClose = jest.fn();
                 const onRequest = jest.fn();
                 render(<AcceptingSheet onRequest={onRequest} onClose={onClose} />);
@@ -284,10 +333,11 @@ describe('Sheet dismissal', () => {
                     to: TOUCH_START_POINT + SHEET_HEIGHT,
                 });
 
-                expect(screen.getByTestId(SheetQa.VEIL)).toHaveStyle({opacity: '0'});
                 expect(onRequest).toHaveBeenCalledWith(false, expect.any(Event), 'swipe');
                 expect(onRequest).toHaveBeenCalledTimes(1);
-                expect(onClose).not.toHaveBeenCalled();
+                expect(onClose).toHaveBeenCalledTimes(1);
+                expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+                expect(document.body.style.overflow).toBe('');
 
                 finishPresenceTransition();
 

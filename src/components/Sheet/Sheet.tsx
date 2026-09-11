@@ -75,7 +75,7 @@ function SheetComponent(rawProps: SheetProps) {
         disablePortal,
         qa,
     } = useDefaultProps('Sheet', rawProps);
-    const {requestedOpen, requestDismiss} = useSheetDismiss({visible, onOpenChange});
+    const {requestedOpen, immediate, requestDismiss} = useSheetDismiss({visible, onOpenChange});
     const veilRef = React.useRef<HTMLDivElement>(null);
     const isAnimatingRef = React.useRef(false);
 
@@ -97,6 +97,7 @@ function SheetComponent(rawProps: SheetProps) {
     const {isMounted, status} = useFloatingTransition({
         context,
         duration: SHEET_TRANSITION_DURATION_MS,
+        skipTransitionOut: immediate,
         onTransitionOutComplete: handleExitComplete,
     });
 

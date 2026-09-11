@@ -10,6 +10,7 @@ export interface SheetDismissRequest {
 
 export interface UseSheetDismissResult {
     requestedOpen: boolean;
+    immediate: boolean;
     requestDismiss: (request: SheetDismissRequest) => void;
 }
 
@@ -21,6 +22,7 @@ export function useSheetDismiss({
     onOpenChange?: SheetProps['onOpenChange'];
 }): UseSheetDismissResult {
     const [legacyDismissed, setLegacyDismissed] = React.useState(false);
+    const [immediate, setImmediate] = React.useState(false);
     const isControlled = Boolean(onOpenChange);
     const requestedOpen = isControlled ? visible : visible && !legacyDismissed;
 
@@ -30,11 +32,19 @@ export function useSheetDismiss({
         }
     }, [visible]);
 
+    React.useEffect(() => {
+        if (requestedOpen) {
+            setImmediate(false);
+        }
+    }, [immediate, requestedOpen]);
+
     const requestDismiss = React.useCallback(
         (request: SheetDismissRequest) => {
             if (!requestedOpen) {
                 return;
             }
+
+            setImmediate(Boolean(request.immediate));
 
             if (onOpenChange) {
                 onOpenChange(false, request.event, request.reason);
@@ -45,5 +55,5 @@ export function useSheetDismiss({
         [onOpenChange, requestedOpen],
     );
 
-    return {requestedOpen, requestDismiss};
+    return {requestedOpen, immediate, requestDismiss};
 }

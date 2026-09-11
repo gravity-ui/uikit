@@ -211,6 +211,42 @@ describe('Sheet hash', () => {
         expect(document.body.style.overflow).toBe('');
     });
 
+    test.each([Platform.IOS, Platform.ANDROID])(
+        'clears the hash during an immediate legacy exit on %s',
+        (platform) => {
+            jest.useFakeTimers();
+            let currentHash = '';
+            const onSheetBClose = jest.fn();
+            render(
+                <HashedSheets
+                    platform={platform}
+                    onHashChange={(hash) => {
+                        currentHash = hash;
+                    }}
+                    onSheetBClose={onSheetBClose}
+                />,
+            );
+
+            fireEvent.click(screen.getByText('Open B'));
+            fireEvent.transitionEnd(screen.getByTestId(SheetQa.VEIL));
+            expect(currentHash).toBe('#sheetB');
+
+            const swipeArea = screen.getByTestId(SheetQa.SWIPE_AREA);
+            fireEvent.touchStart(swipeArea, {
+                touches: [{clientX: 0, clientY: TOUCH_START_POINT}],
+            });
+            fireEvent.touchMove(swipeArea, {
+                touches: [{clientX: 0, clientY: TOUCH_START_POINT + SHEET_HEIGHT}],
+            });
+            fireEvent.touchEnd(swipeArea);
+
+            expect(currentHash).toBe('');
+            expect(onSheetBClose).toHaveBeenCalledTimes(1);
+            expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+            expect(document.body.style.overflow).toBe('');
+        },
+    );
+
     test('keeps a controlled sheet open when navigation dismissal is not accepted', () => {
         let currentHash = '';
         const onOpenChange = jest.fn();

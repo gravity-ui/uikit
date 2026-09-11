@@ -47,7 +47,7 @@ export type SelectRenderControl<T extends HTMLElement = HTMLElement> = (
 
 export type SelectRenderOptionViewParams = {
     itemHeight: number;
-    isItemActive?: boolean; // FIXME: make this field required in the next major
+    isItemActive: boolean;
 };
 
 export type SelectRenderOption<T> = (
@@ -71,9 +71,12 @@ export type SelectFilterInputProps = {value: string} & Pick<
     | 'onKeyDown'
     | 'onChange'
     | 'size'
+    | 'role'
     | 'aria-label'
     | 'aria-controls'
     | 'aria-activedescendant'
+    | 'aria-expanded'
+    | 'aria-autocomplete'
 >;
 export type SelectRenderFilter = (props: {
     /** @deprecated use inputProps instead */
@@ -106,6 +109,12 @@ export type SelectProps<T = any> = AriaLabelingProps &
         renderEmptyOptions?: ({filter}: {filter: string}) => React.ReactElement;
         renderPopup?: SelectRenderPopup;
         renderCounter?: SelectRenderCounter;
+        /**
+         * The text of an option: the trigger shows it for a selected option, the filter matches it
+         * and the search by the first letters looks it up. Defaults to the content of the option
+         * when that is a string, otherwise to its value — `getSelectOptionText` is that default
+         */
+        getOptionText?: (option: SelectOption<T>) => string;
         getOptionHeight?: (option: SelectOption<T>, index: number) => number;
         getOptionGroupHeight?: (option: SelectOptionGroup<T>, index: number) => number;
         filterOption?: (option: SelectOption<T>, filter: string) => boolean;
@@ -114,7 +123,6 @@ export type SelectProps<T = any> = AriaLabelingProps &
         pin?: InputControlPin;
         width?: 'auto' | 'max' | number;
         popupWidth?: 'fit' | number;
-        virtualizationThreshold?: number;
         className?: string;
         controlClassName?: string;
         popupClassName?: string;
@@ -162,14 +170,14 @@ export type SelectProps<T = any> = AriaLabelingProps &
 
 export type SelectOption<T = any> = QAProps &
     ControlGroupOption & {
-        text?: string;
         data?: T;
     };
 
 export type SelectOptionGroup<T = any> = {
     /**
      * Label is a string which displayed above the options group.
-     * If label is empty string, group item height will be 0 and only border will be displayed
+     * An empty label makes the group a separator: a line between the options instead of a header
+     * (nothing at all when the group opens the list)
      */
     label: string;
     data?: T;

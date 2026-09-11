@@ -5,24 +5,42 @@ $block: '.#{variables.$ns}lab-list-section-header';
 
 #{$block} {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
 
     padding: var(--g-spacing-1) var(--g-spacing-2);
+    color: var(--g-color-text-primary);
 
-    color: var(--g-color-text-secondary);
+    @include mixins.text-body-1;
+    @include mixins.text-accent;
 
-    @include mixins.text-caption-2;
-
-    &_size_l,
-    &_size_xl {
-        @include mixins.text-caption-1;
+    &__text {
+        /* A flex item does not shrink below its content on its own, and there is nothing to clip
+           without that */
+        min-width: 0;
     }
 
-    /* Spacing above a header that follows other rows. By data rather than
+    &_size_xl {
+        @include mixins.text-body-2;
+        @include mixins.text-accent;
+    }
+
+    /* Spacing and the separating line above a header that follows other rows. By data rather than
        :first-child, and padding rather than margin: under virtualization every
        header is the first child of its own wrapper, and a margin would not be
-       counted by the wrapper measurement */
+       counted by the wrapper measurement. The line is drawn inside that padding,
+       so it costs the row no height of its own */
     &:not([data-first-row]) {
-        padding-block-start: var(--g-spacing-2);
+        position: relative;
+        /* The line sits close to the row above it, the text of the header — well below the line */
+        padding-block-start: var(--g-spacing-3);
+
+        &::before {
+            content: '';
+            position: absolute;
+            inset-block-start: var(--g-spacing-half);
+            inset-inline: 0;
+            height: 1px;
+            background: var(--g-color-line-generic);
+        }
     }
 }

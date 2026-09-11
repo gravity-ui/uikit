@@ -211,6 +211,11 @@ gesture comes third: a `MouseEvent` for a click, a `KeyboardEvent` for a key (`'
 tells them apart). It carries the modifiers of a click and lets the native default be suppressed —
 the [links](#links) recipe is built on it.
 
+A click of the mouse on an option is also published to the `eventBroker` of the kit (subscribers see
+`componentId: 'g-List'` — the broker prefixes the id of a component — and `eventId: 'click'`), the
+way the rest of the analytics of the library is collected. Keys are not published, and neither are
+clicks on a disabled row or on a section header.
+
 ```tsx
 import {Flex, Text} from '@gravity-ui/uikit';
 import {unstable_List as List} from '@gravity-ui/uikit/unstable';
@@ -801,9 +806,16 @@ What changes in the list:
 
 - the rows leave the tab order — the input is the only tab stop, and DOM focus never moves to a row:
   a click on a row applies it and leaves the focus where it is;
-- `↑`/`↓`/`Home`/`End`/`Enter` work from the input, move the active item and scroll it into view;
-- character keys and `Space` belong to the input: typing is filtering, so typeahead is off and
-  `Space` no longer selects. `Ctrl`/`Cmd`+`A` selects the text of the input rather than the items;
+- `↑`/`↓`/`PageUp`/`PageDown`/`Enter` work from the input, move the active item and scroll it into
+  view; `Home`/`End` do too, unless the owner holds a caret — an `input`, a `textarea` or a
+  `contenteditable`. The rule is one: **a key that moves the caret in a text field stays with the
+  field, the rest go to the list**. `Home`/`End` move the caret, so the APG combobox pattern leaves
+  them to an editable combobox (and makes the arrows of the list cycle to compensate); `PageUp`/
+  `PageDown` have no caret meaning in a single-line field, so the list keeps them;
+- `Space` belongs to the owner and no longer selects, and `Ctrl`/`Cmd`+`A` selects the text of the
+  input rather than the items;
+- character keys go to a text owner — typing there is filtering, so typeahead stays off. An owner
+  that holds no caret (the trigger button of a select-only combobox) keeps the typeahead of the list;
 - `Shift`+`↑`/`↓` still extends the range when a multiple selection is on.
 
 What to keep in mind:
@@ -892,18 +904,19 @@ with the name of its section. What is left to you:
 
 ### Keyboard
 
-| Key                                | Action                                                                                                                                                                                                              |
-| :--------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `↑` / `↓`                          | Move to the previous/next item, cycling at the edges                                                                                                                                                                |
-| `Home` / `End`                     | Move to the first/last item                                                                                                                                                                                         |
-| Character keys                     | Jump to the item whose text starts with what was typed; the buffer resets after a pause, and repeating one character cycles through the items starting with it. With a focus owner the keys go to the input instead |
-| `Enter`                            | Apply the active item (`onItemAction`)                                                                                                                                                                              |
-| `Space`                            | Select the active item (with a selection mode on); part of the typeahead query while it is being typed                                                                                                              |
-| `Shift` + click, `Shift` + `↑`/`↓` | Select a range (`multiple` only); unlike the plain arrows, a `Shift`+arrow stops at the edges instead of cycling                                                                                                    |
-| `Shift` + `Space`                  | Select the range up to the active item (`multiple` only)                                                                                                                                                            |
-| `Ctrl`/`Cmd` + `A`                 | Select every item (`multiple` only; with a focus owner the key belongs to the input)                                                                                                                                |
-| `←` / `→`                          | Step into the interactive content of a cell and back (`role="grid"` only, mirrored in RTL)                                                                                                                          |
-| `Tab`                              | Leave the list: it is a single tab stop                                                                                                                                                                             |
+| Key                                | Action                                                                                                                                                                                                                                                                                                                                         |
+| :--------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `↑` / `↓`                          | Move to the previous/next item, cycling at the edges                                                                                                                                                                                                                                                                                           |
+| `PageUp` / `PageDown`              | Move ten items up/down; unlike the arrows they do not cycle and stop at the first/last item. With no active item yet, `PageDown` enters the list from the top and `PageUp` from the bottom                                                                                                                                                     |
+| `Home` / `End`                     | Move to the first/last item. With a focus owner that holds a caret (`input`, `textarea`, `contenteditable`) the keys are left to the caret, as the APG combobox pattern prescribes for an editable combobox                                                                                                                                    |
+| Character keys                     | Jump to the item whose text starts with what was typed; the buffer resets a second after the last key, and repeating one character cycles through the items starting with it. A character the list took for its search does not reach the hotkeys of the app around it. With a focus owner that holds a caret the keys go to the field instead |
+| `Enter`                            | Apply the active item (`onItemAction`)                                                                                                                                                                                                                                                                                                         |
+| `Space`                            | Select the active item (with a selection mode on); part of the typeahead query while it is being typed — that also holds with a focus owner that has no caret                                                                                                                                                                                  |
+| `Shift` + click, `Shift` + `↑`/`↓` | Select a range (`multiple` only); unlike the plain arrows, a `Shift`+arrow stops at the edges instead of cycling                                                                                                                                                                                                                               |
+| `Shift` + `Space`                  | Select the range up to the active item (`multiple` only)                                                                                                                                                                                                                                                                                       |
+| `Ctrl`/`Cmd` + `A`                 | Select every item (`multiple` only; with a focus owner the key belongs to the input)                                                                                                                                                                                                                                                           |
+| `←` / `→`                          | Step into the interactive content of a cell and back (`role="grid"` only, mirrored in RTL)                                                                                                                                                                                                                                                     |
+| `Tab`                              | Leave the list: it is a single tab stop                                                                                                                                                                                                                                                                                                        |
 
 ## Properties
 
@@ -941,7 +954,8 @@ with the name of its section. What is left to you:
 | ref                 | The ref of the root element                                                                                                |                     `React.Ref<HTMLDivElement>`                     |                                      |
 
 `List.ItemView` is the row view of the default render and `List.SectionHeader` is its section
-header; both are statics of the component and are meant for `renderItem`. The reorder helper is
+header; both are statics of the component and are meant for `renderItem`. The header keeps its
+label on one line and clips what does not fit with an ellipsis. The reorder helper is
 exported next to the list as `unstable_moveItem`, and the hook of the recommended drag-and-drop
 library — [`useListHelloPangeaDnd`](#uselisthellopangeadnd) — comes from its own entry point,
 `@gravity-ui/uikit/hello-pangea-dnd`.
@@ -985,16 +999,16 @@ for a wrapper over `renderItem`; the props of a dnd adapter as `unstable_ListDnd
 The list marks the rows and the root, so custom markup can be styled with CSS alone. A state
 attribute is present or absent rather than set to `"false"`.
 
-| Attribute          | Where    | When                                                                       |
-| :----------------- | :------- | :------------------------------------------------------------------------- |
-| `data-active`      | a row    | The row is the active one                                                  |
-| `data-disabled`    | a row    | The item is disabled                                                       |
-| `data-selected`    | a row    | The row is selected (a selection mode is on)                               |
-| `data-dragging`    | a row    | The row is being dragged (`dnd` is passed)                                 |
-| `data-drop-target` | a row    | The drop will land on this row; the value is the edge, `before` or `after` |
-| `data-drag-active` | the root | A drag is going on somewhere in the list                                   |
-| `data-first-row`   | a header | The section header is the first row of the list (no spacing above it)      |
-| `data-qa`          | the root | The value of the `qa` prop                                                 |
+| Attribute          | Where    | When                                                                                         |
+| :----------------- | :------- | :------------------------------------------------------------------------------------------- |
+| `data-active`      | a row    | The row is the active one                                                                    |
+| `data-disabled`    | a row    | The item is disabled                                                                         |
+| `data-selected`    | a row    | The row is selected (a selection mode is on)                                                 |
+| `data-dragging`    | a row    | The row is being dragged (`dnd` is passed)                                                   |
+| `data-drop-target` | a row    | The drop will land on this row; the value is the edge, `before` or `after`                   |
+| `data-drag-active` | the root | A drag is going on somewhere in the list                                                     |
+| `data-first-row`   | a header | The section header is the first row of the list (no spacing and no separating line above it) |
+| `data-qa`          | the root | The value of the `qa` prop                                                                   |
 
 ### ListVirtualizer
 

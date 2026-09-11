@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import {TextInput} from '../../../controls';
+import type {ListFocusOwner} from '../../../lab/List';
 import {block} from '../../../utils/cn';
 import {SelectQa} from '../../constants';
 import i18n from '../../i18n';
@@ -20,8 +21,9 @@ type SelectFilterProps = {
     size: NonNullable<SelectProps['size']>;
     value: string;
     placeholder?: string;
-    popupId: string;
-    activeIndex?: number;
+    /** The same owner the trigger takes its props from: the input is where the focus lives while the popup is open */
+    focusOwner: ListFocusOwner;
+    open: boolean;
 };
 
 const style = {
@@ -29,8 +31,7 @@ const style = {
 };
 
 export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>((props, ref) => {
-    const {onChange, onKeyDown, renderFilter, size, value, placeholder, popupId, activeIndex} =
-        props;
+    const {onChange, onKeyDown, renderFilter, size, value, placeholder, focusOwner, open} = props;
     const inputRef = React.useRef<HTMLInputElement>(null);
 
     React.useImperativeHandle(
@@ -43,22 +44,37 @@ export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>
 
     const {t} = i18n.useTranslation();
 
+    const ownerProps = focusOwner.getInputProps({
+        onKeyDown,
+        'aria-label': t('label_filter'),
+        'aria-autocomplete': 'list',
+    });
+
+    // `value`, `placeholder`, `size` and `onChange` are props of an input rather than of any
+    // element, so they go past the owner. `aria-expanded` too: the owner reports whether a list is
+    // connected, and a filter that matches nothing unmounts the list while the popup stays open
     const inputProps: SelectFilterInputProps = {
+        ...ownerProps,
+        'aria-expanded': open,
         value,
         placeholder,
         size: 1,
-        onKeyDown,
         onChange: (e) => {
             onChange(e.target.value);
         },
-        'aria-label': t('label_filter'),
-        'aria-controls': popupId,
-        'aria-activedescendant':
-            activeIndex === undefined ? undefined : `${popupId}-item-${activeIndex}`,
     };
 
     if (renderFilter) {
-        return renderFilter({onChange, onKeyDown, value, ref: inputRef, style, inputProps});
+        return renderFilter({
+            onChange,
+            // The deprecated argument keeps the keyboard of the list: a custom filter that has not
+            // moved to `inputProps` still navigates the options
+            onKeyDown: ownerProps.onKeyDown ?? onKeyDown,
+            value,
+            ref: inputRef,
+            style,
+            inputProps,
+        });
     }
 
     return (
@@ -68,15 +84,18 @@ export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>
                 controlProps={{
                     className: b('input'),
                     size: 1,
+                    role: inputProps.role,
                     'aria-label': inputProps['aria-label'],
                     'aria-controls': inputProps['aria-controls'],
                     'aria-activedescendant': inputProps['aria-activedescendant'],
+                    'aria-expanded': inputProps['aria-expanded'],
+                    'aria-autocomplete': inputProps['aria-autocomplete'],
                 }}
                 size={size}
                 value={value}
                 placeholder={placeholder}
                 onUpdate={onChange}
-                onKeyDown={onKeyDown}
+                onKeyDown={inputProps.onKeyDown}
                 qa={SelectQa.FILTER_INPUT}
             />
         </div>

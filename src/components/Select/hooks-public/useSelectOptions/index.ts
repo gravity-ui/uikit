@@ -14,6 +14,8 @@ export interface UseSelectOptionsProps<T = any> {
     filterable?: boolean;
     /** Used to compare option with filter. Used with `filterable: true` only. */
     filterOption?: SelectProps['filterOption'];
+    /** The text of an option the default filter matches. Same as the `getOptionText` of `Select` */
+    getOptionText?: SelectProps['getOptionText'];
 }
 
 function isFlattenOptions(options: UseSelectOptionsProps['options']): options is FlattenOptions {
@@ -44,15 +46,17 @@ export function getSelectFilteredOptions<T>(options: SelectOptions<T>): SelectOp
 }
 
 export function useSelectOptions<T extends any>(props: UseSelectOptionsProps<T>): SelectOptions<T> {
-    const {filter = '', filterable, filterOption} = props;
+    const {filter = '', filterable, filterOption, getOptionText} = props;
     const options = React.useMemo(() => {
         return isFlattenOptions(props.options)
             ? props.options
             : (getFlattenOptions(props.options) as FlattenOptions);
     }, [props.options]);
     const filteredOptions = React.useMemo(() => {
-        return filterable ? getFilteredFlattenOptions({options, filter, filterOption}) : options;
-    }, [filter, filterable, filterOption, options]);
+        return filterable
+            ? getFilteredFlattenOptions({options, filter, filterOption, getOptionText})
+            : options;
+    }, [filter, filterable, filterOption, getOptionText, options]);
     options[FLATTEN_KEY]['filteredOptions'] = filteredOptions;
 
     return options;

@@ -80,7 +80,7 @@ export const Default: StoryFn<SheetProps> = ({
                 {...args}
                 allowHideOnContentScroll={allowHideOnContentScroll}
                 visible={visible}
-                onClose={() => setVisible(false)}
+                onOpenChange={setVisible}
                 title={withTitle ? 'Sheet title' : undefined}
                 qa={DEFAULT_SHEET_QA}
             >

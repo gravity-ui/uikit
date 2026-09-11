@@ -25,7 +25,7 @@ export const MultipleSheets: StoryFn<SheetProps> = (args: SheetProps) => {
             <Button className={b('show-btn')} onClick={() => setVisible(true)}>
                 Show modal
             </Button>
-            <Sheet {...args} visible={visible} id="main" onClose={() => setVisible(false)}>
+            <Sheet {...args} visible={visible} id="main" onOpenChange={setVisible}>
                 <img
                     src="https://avatars.githubusercontent.com/u/107542106"
                     width="100%"
@@ -44,7 +44,7 @@ export const MultipleSheets: StoryFn<SheetProps> = (args: SheetProps) => {
                 {...args}
                 id="more-content"
                 visible={moreContentVisible}
-                onClose={() => setMoreContentVisible(false)}
+                onOpenChange={setMoreContentVisible}
             >
                 <div className={b('text')}>
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam consequatur

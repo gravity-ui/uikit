@@ -5,6 +5,8 @@ import * as React from 'react';
 import type {Status} from '../types';
 import {VelocityTracker} from '../utils';
 
+import type {UseSheetDismissResult} from './useSheetDismiss';
+
 const HIDE_THRESHOLD = 50;
 const ACCELERATION_Y_MAX = 0.08;
 const ACCELERATION_Y_MIN = -0.02;
@@ -16,16 +18,21 @@ export interface UseSwipeProps {
     getSheetHeight: () => number;
     /** Animates the sheet to the shown state. */
     show: () => void;
-    /** Animates the sheet to the hidden state. */
-    hide: () => void;
-    /** Immediately unmounts the sheet. */
-    hideSheet: () => void;
+    /** Returns whether an accepted exit animation is running. */
+    getIsExitAnimating: () => boolean;
+    /** Sends a request to dismiss the sheet. */
+    requestDismiss: UseSheetDismissResult['requestDismiss'];
 }
 
 export interface SwipeAreaHandlers {
     onTouchStart: (event: React.TouchEvent<HTMLDivElement>) => void;
     onTouchMove: (event: React.TouchEvent<HTMLDivElement>) => void;
     onTouchEnd: (event: React.TouchEvent<HTMLDivElement>) => void;
+    onTouchCancel: (event: React.TouchEvent<HTMLDivElement>) => void;
+}
+
+export interface CancelSwipeOptions {
+    restoreOpenPosition: boolean;
 }
 
 export interface UseSwipeResult {
@@ -33,21 +40,22 @@ export interface UseSwipeResult {
     swipeAreaTouched: boolean;
 
     velocityTrackerRef: React.MutableRefObject<VelocityTracker>;
-    startYRef: React.MutableRefObject<number>;
+    startYRef: React.MutableRefObject<number | null>;
     deltaYRef: React.MutableRefObject<number>;
     swipeAreaTouchedRef: React.MutableRefObject<boolean>;
     setDeltaY: (value: number) => void;
     setSwipeAreaTouched: (value: boolean) => void;
-    onTouchEndAction: (deltaY: number) => void;
-    swipeAreaHandlers: SwipeAreaHandlers;
+    onTouchEndAction: (deltaY: number, event: React.TouchEvent<HTMLDivElement>) => void;
+    cancelSwipe: (options: CancelSwipeOptions) => void;
+    swipeAreaHandlers: Omit<SwipeAreaHandlers, 'onTouchCancel'>;
 }
 
 export function useSwipe({
     setStyles,
     getSheetHeight,
     show,
-    hide,
-    hideSheet,
+    getIsExitAnimating,
+    requestDismiss,
 }: UseSwipeProps): UseSwipeResult {
     const velocityTrackerRef = React.useRef<VelocityTracker>(null as unknown as VelocityTracker);
     if (!velocityTrackerRef.current) {
@@ -56,13 +64,11 @@ export function useSwipe({
 
     const [deltaY, setDeltaYState] = React.useState(0);
     const [swipeAreaTouched, setSwipeAreaTouchedState] = React.useState(false);
+    const [shouldRestoreOpenPosition, setShouldRestoreOpenPosition] = React.useState(false);
 
-    const startYRef = React.useRef(0);
+    const startYRef = React.useRef<number | null>(null);
     const deltaYRef = React.useRef(0);
     const swipeAreaTouchedRef = React.useRef(false);
-
-    const latestRef = React.useRef({setStyles, getSheetHeight, show, hide, hideSheet});
-    latestRef.current = {setStyles, getSheetHeight, show, hide, hideSheet};
 
     const setDeltaY = React.useCallback((value: number) => {
         deltaYRef.current = value;
@@ -74,42 +80,85 @@ export function useSwipe({
         setSwipeAreaTouchedState(value);
     }, []);
 
-    const onTouchEndAction = React.useCallback((currentDeltaY: number) => {
-        const {
-            getSheetHeight: getHeight,
-            hide: hideFn,
-            show: showFn,
-            hideSheet: hideSheetFn,
-        } = latestRef.current;
-        const accelerationY = velocityTrackerRef.current.getYAcceleration();
+    const resetSwipe = React.useCallback(() => {
+        velocityTrackerRef.current.clear();
+        startYRef.current = null;
+        setDeltaY(0);
+        setSwipeAreaTouched(false);
+    }, [setDeltaY, setSwipeAreaTouched]);
 
-        if (getHeight() <= currentDeltaY) {
-            hideSheetFn();
-        } else if (
-            (currentDeltaY > HIDE_THRESHOLD &&
-                accelerationY <= ACCELERATION_Y_MAX &&
-                accelerationY >= ACCELERATION_Y_MIN) ||
-            accelerationY > ACCELERATION_Y_MAX
-        ) {
-            hideFn();
-        } else if (currentDeltaY !== 0) {
-            showFn();
+    const cancelSwipe = React.useCallback(
+        ({restoreOpenPosition}: CancelSwipeOptions) => {
+            resetSwipe();
+            setShouldRestoreOpenPosition(restoreOpenPosition && !getIsExitAnimating());
+        },
+        [getIsExitAnimating, resetSwipe],
+    );
+
+    React.useEffect(() => {
+        if (!shouldRestoreOpenPosition) {
+            return;
         }
-    }, []);
+
+        show();
+        setShouldRestoreOpenPosition(false);
+    }, [shouldRestoreOpenPosition, show]);
+
+    const onTouchEndAction = React.useCallback(
+        (currentDeltaY: number, event: React.TouchEvent<HTMLDivElement>) => {
+            if (getIsExitAnimating()) {
+                return;
+            }
+
+            const accelerationY = velocityTrackerRef.current.getYAcceleration();
+
+            const immediate = getSheetHeight() <= currentDeltaY;
+            const shouldDismiss =
+                immediate ||
+                (currentDeltaY > HIDE_THRESHOLD &&
+                    accelerationY <= ACCELERATION_Y_MAX &&
+                    accelerationY >= ACCELERATION_Y_MIN) ||
+                accelerationY > ACCELERATION_Y_MAX;
+
+            if (shouldDismiss) {
+                requestDismiss({reason: 'swipe', event: event.nativeEvent, immediate});
+                if (!getIsExitAnimating()) {
+                    show();
+                }
+            } else if (currentDeltaY !== 0) {
+                show();
+            }
+        },
+        [getIsExitAnimating, getSheetHeight, requestDismiss, show],
+    );
 
     const onTouchStart = React.useCallback(
         (event: React.TouchEvent<HTMLDivElement>) => {
+            if (getIsExitAnimating()) {
+                return;
+            }
+
             velocityTrackerRef.current.clear();
 
             startYRef.current = event.nativeEvent.touches[0].clientY;
             setSwipeAreaTouched(true);
         },
-        [setSwipeAreaTouched],
+        [getIsExitAnimating, setSwipeAreaTouched],
     );
 
     const onTouchMove = React.useCallback(
         (event: React.TouchEvent<HTMLDivElement>) => {
-            const delta = event.nativeEvent.touches[0].clientY - startYRef.current;
+            if (getIsExitAnimating()) {
+                return;
+            }
+
+            const startY = startYRef.current;
+
+            if (startY === null) {
+                return;
+            }
+
+            const delta = event.nativeEvent.touches[0].clientY - startY;
 
             velocityTrackerRef.current.addMovement({
                 x: event.nativeEvent.touches[0].clientX,
@@ -122,18 +171,19 @@ export function useSwipe({
                 return;
             }
 
-            latestRef.current.setStyles({status: 'showing', deltaHeight: delta});
+            setStyles({status: 'showing', deltaHeight: delta});
         },
-        [setDeltaY],
+        [getIsExitAnimating, setDeltaY, setStyles],
     );
 
-    const onTouchEnd = React.useCallback(() => {
-        onTouchEndAction(deltaYRef.current);
+    const onTouchEnd = React.useCallback(
+        (event: React.TouchEvent<HTMLDivElement>) => {
+            onTouchEndAction(deltaYRef.current, event);
 
-        startYRef.current = 0;
-        setDeltaY(0);
-        setSwipeAreaTouched(false);
-    }, [onTouchEndAction, setDeltaY, setSwipeAreaTouched]);
+            resetSwipe();
+        },
+        [onTouchEndAction, resetSwipe],
+    );
 
     return {
         deltaY,
@@ -145,6 +195,7 @@ export function useSwipe({
         setDeltaY,
         setSwipeAreaTouched,
         onTouchEndAction,
+        cancelSwipe,
         swipeAreaHandlers: {
             onTouchStart,
             onTouchMove,

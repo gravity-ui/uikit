@@ -24,7 +24,7 @@ const SheetExample = () => {
   return (
     <React.Fragment>
       <Button onClick={() => setVisible(true)}>Open Sheet</Button>
-      <Sheet visible={visible} onClose={() => setVisible(false)} title="Content Sheet">
+      <Sheet visible={visible} onOpenChange={setVisible} title="Content Sheet">
         Content
       </Sheet>
     </React.Fragment>
@@ -45,7 +45,8 @@ const SheetExample = () => {
 | hideTopBar                  | Скрывает верхнюю панель с элементом для изменения размера.                                                                             |   `boolean`   |                       |
 | id                          | Идентификатор `Sheet`, используемый как хеш в URL. Необходимо задать разные значения `id`, если на странице несколько `Sheet`.         |   `string`    |        `modal`        |
 | maxContentHeightCoefficient | Коэффициент, определающий максимальную высоту шторки относительно высоты окна (диапазон 0-1)                                           |   `number`    |         `0.9`         |
-| onClose                     | Обработчик события закрытия.                                                                                                           |  `function`   |      `undefined`      |
+| onClose                     | **Deprecated.** Обработчик, вызываемый после завершения анимации закрытия шторки. Используйте `onOpenChange`.                          |  `function`   |      `undefined`      |
+| onOpenChange                | Обработчик запросов на изменение состояния открытия.                                                                                   |  `function`   |      `undefined`      |
 | swipeAreaClassName          | HTML-атрибут `class` для области свайпа.                                                                                               |   `string`    |      `undefined`      |
 | title                       | Заголовок окна `Sheet`.                                                                                                                |   `string`    |      `undefined`      |
 | visible                     | Управляет видимостью `Sheet`.                                                                                                          |   `boolean`   |        `false`        |

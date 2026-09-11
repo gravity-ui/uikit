@@ -2,6 +2,8 @@ import {block} from '../utils/cn';
 
 export const sheetBlock = block('sheet');
 
+export const SHEET_TRANSITION_DURATION_MS = 300;
+
 export const SheetQa = {
     VEIL: 'sheet-veil',
     CONTENT: 'sheet-content',

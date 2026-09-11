@@ -24,7 +24,7 @@ const SheetExample = () => {
   return (
     <React.Fragment>
       <Button onClick={() => setVisible(true)}>Open Sheet</Button>
-      <Sheet visible={visible} onClose={() => setVisible(false)} title="Content Sheet">
+      <Sheet visible={visible} onOpenChange={setVisible} title="Content Sheet">
         Content
       </Sheet>
     </React.Fragment>
@@ -45,7 +45,8 @@ const SheetExample = () => {
 | hideTopBar                  | Hides the top bar with the resize handle.                                                                                                                        |   `boolean`   |                 |
 | id                          | Sheet ID used as hash in a URL. Make sure to specify multiple `id` values if there can be more than one sheet on a page.                                         |   `string`    |     `modal`     |
 | maxContentHeightCoefficient | Coefficient that determines the maximum height of the `Sheet` relative to the height of the viewport (range 0-1)                                                 |   `number`    |      `0.9`      |
-| onClose                     | Handler for close event.                                                                                                                                         |  `function`   |   `undefined`   |
+| onClose                     | **Deprecated.** Callback invoked after the sheet closing animation completes. Use `onOpenChange` instead.                                                        |  `function`   |   `undefined`   |
+| onOpenChange                | Handler for open state change requests.                                                                                                                          |  `function`   |   `undefined`   |
 | swipeAreaClassName          | `class` HTML attribute for the swipe area.                                                                                                                       |   `string`    |   `undefined`   |
 | title                       | Sheet window title.                                                                                                                                              |   `string`    |   `undefined`   |
 | visible                     | Manages `Sheet` visibility                                                                                                                                       |   `boolean`   |     `false`     |

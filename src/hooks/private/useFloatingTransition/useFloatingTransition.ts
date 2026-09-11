@@ -8,6 +8,8 @@ import {usePrevious} from '../usePrevious';
 export interface UseFloatingTransitionProps {
     context: FloatingContext;
     duration: NonNullable<UseTransitionStatusProps['duration']>;
+    /** Completes the close phase without waiting for the transition duration. */
+    skipTransitionOut?: boolean;
     onTransitionIn?: () => void;
     onTransitionInComplete?: () => void;
     onTransitionOut?: () => void;
@@ -22,17 +24,30 @@ export interface UseFloatingTransitionResult {
 export function useFloatingTransition({
     context,
     duration,
+    skipTransitionOut = false,
     onTransitionIn,
     onTransitionInComplete,
     onTransitionOut,
     onTransitionOutComplete,
 }: UseFloatingTransitionProps): UseFloatingTransitionResult {
-    const {isMounted, status} = useTransitionStatus(context, {
+    const transition = useTransitionStatus(context, {
         duration,
     });
+    const [exitComplete, setExitComplete] = React.useState(false);
+    const isMounted = transition.isMounted && (context.open || !exitComplete);
+    const status = isMounted ? transition.status : 'unmounted';
     const previousStatus = usePrevious(status);
     const openDuration = (typeof duration === 'number' ? duration : duration.open) ?? 0;
     const timerIdRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    // Keep the close phase mounted so consumers can finish their exit cleanup.
+    React.useEffect(() => {
+        if (context.open) {
+            setExitComplete(false);
+        } else if (skipTransitionOut && transition.status === 'close') {
+            setExitComplete(true);
+        }
+    }, [context.open, skipTransitionOut, transition.status]);
 
     React.useEffect(() => {
         if (status === 'open' && previousStatus === 'initial') {

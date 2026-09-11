@@ -4,7 +4,48 @@ import {warnOnce} from '../../utils/warn';
 
 import type {ListItemGetters} from './types';
 
-export const TYPEAHEAD_TIMEOUT = 500;
+/** How long the typed query lives after the last key (APG: "the buffer resets after a pause") */
+export const TYPEAHEAD_TIMEOUT = 1000;
+
+/** How many navigable rows PageUp/PageDown step over (APG recommends "about 10") */
+export const PAGE_STEP = 10;
+
+const NON_TEXT_INPUT_TYPES = new Set([
+    'button',
+    'checkbox',
+    'color',
+    'file',
+    'hidden',
+    'image',
+    'radio',
+    'range',
+    'reset',
+    'submit',
+]);
+
+/**
+ * Whether the event target holds a text caret: such a target keeps the keys that move the caret
+ * (APG editable combobox — there Home/End belong to the text, not to the activity of the list)
+ */
+export function isTextInputTarget(target: EventTarget | null): boolean {
+    if (target instanceof HTMLTextAreaElement) {
+        return true;
+    }
+    if (target instanceof HTMLInputElement) {
+        return !NON_TEXT_INPUT_TYPES.has(target.type);
+    }
+    // A rich text field is a caret as much as an input is
+    return target instanceof HTMLElement && target.isContentEditable;
+}
+
+/**
+ * Whether a press lands inside a native drag source: such a press keeps the default of the browser,
+ * since a drag starts from `mousedown` (a `draggable="false"` handle of a drag-and-drop library
+ * counts too — its sensor drops a press whose default was prevented)
+ */
+export function isDragTarget(target: EventTarget | null): boolean {
+    return target instanceof HTMLElement && target.closest('[draggable]') !== null;
+}
 
 export interface ListRow<T> {
     id: string;
@@ -141,11 +182,11 @@ export function flattenItems<T>(
     return {rows, rowById, domIdToId, optionsCount};
 }
 
-export type ListNavigationCommand = 'next' | 'prev' | 'first' | 'last';
+export type ListNavigationCommand = 'next' | 'prev' | 'first' | 'last' | 'pageNext' | 'pagePrev';
 
 /**
  * Navigable = non-disabled options. next/prev wrap unless `wrap: false` (Shift+arrow range
- * gestures)
+ * gestures); the page commands never wrap and stop at the edges
  */
 export function getNextActiveId<T>(
     command: ListNavigationCommand,
@@ -166,6 +207,17 @@ export function getNextActiveId<T>(
             return navigable[0].id;
         case 'last':
             return navigable[navigable.length - 1].id;
+        case 'pageNext':
+            if (currentIndex === -1) {
+                return navigable[0].id;
+            }
+            return navigable[Math.min(currentIndex + PAGE_STEP, navigable.length - 1)].id;
+        case 'pagePrev':
+            if (currentIndex === -1) {
+                // A page up from nowhere enters the list from its end, the way ArrowUp does
+                return navigable[navigable.length - 1].id;
+            }
+            return navigable[Math.max(currentIndex - PAGE_STEP, 0)].id;
         case 'next':
             if (currentIndex === -1) {
                 return navigable[0].id;

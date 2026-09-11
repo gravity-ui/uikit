@@ -78,8 +78,9 @@ describe('Select popup', () => {
         expect(popup).not.toBeNull();
     });
 
+    // The row view sizes itself; the heights are what it comes out as (on mobile it is size `l`)
     test.each([
-        ['s', {mobile: false, size: 's', height: 28}],
+        ['s', {mobile: false, size: 's', height: 24}],
         ['m', {mobile: false, size: 'm', height: 28}],
         ['l', {mobile: false, size: 'l', height: 32}],
         ['xl', {mobile: false, size: 'xl', height: 36}],
@@ -106,12 +107,13 @@ describe('Select popup', () => {
         },
     );
 
+    // A section header is a line of the row typography plus its own vertical padding
     test.each([
-        ['s', {mobile: false, size: 's', height: 28}],
-        ['m', {mobile: false, size: 'm', height: 28}],
-        ['l', {mobile: false, size: 'l', height: 32}],
-        ['xl', {mobile: false, size: 'xl', height: 36}],
-        ['mobile', {mobile: true, size: undefined, height: 32}],
+        ['s', {mobile: false, size: 's', height: 26}],
+        ['m', {mobile: false, size: 'm', height: 26}],
+        ['l', {mobile: false, size: 'l', height: 26}],
+        ['xl', {mobile: false, size: 'xl', height: 28}],
+        ['mobile', {mobile: true, size: undefined, height: 26}],
     ])(
         'should return correct height for option group depends on size (%s)',
         async (_type, {size, height, mobile}) => {

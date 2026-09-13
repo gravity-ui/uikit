@@ -9,6 +9,7 @@ const LIST_ID = 'list';
 const CONTAINER_QA = 'container';
 const ROW = 20;
 const VIEWPORT = 100;
+const getItemHeight = () => ROW;
 const ROWS: SelectOption[] = Array.from({length: 20}, (_, index) => ({
     value: `v${index}`,
     content: `Value ${index}`,
@@ -18,24 +19,33 @@ const ROWS: SelectOption[] = Array.from({length: 20}, (_, index) => ({
 function Harness({
     activeItemId,
     renderedCount = ROWS.length,
+    offset = 0,
 }: {
     activeItemId?: string;
     renderedCount?: number;
+    /** Rows that appeared above push the rest down, exactly as they do in a list */
+    offset?: number;
 }) {
     const containerRef = React.useRef<HTMLDivElement>(null);
+    // A new array on every offset: the rows of the list changed, the active option did not
+    const rows = React.useMemo(() => [...ROWS], [offset]);
 
     useAlignActiveOption({
         listId: LIST_ID,
         containerRef,
         activeItemId,
-        rows: ROWS,
-        getItemHeight: () => ROW,
+        rows,
+        getItemHeight,
     });
 
     return (
         <div ref={containerRef} data-qa={CONTAINER_QA}>
             {ROWS.slice(0, renderedCount).map((row, index) => (
-                <div key={row.value} id={getItemDomId(LIST_ID, row.value)} data-top={index * ROW} />
+                <div
+                    key={row.value}
+                    id={getItemDomId(LIST_ID, row.value)}
+                    data-top={offset + index * ROW}
+                />
             ))}
         </div>
     );
@@ -138,6 +148,16 @@ describe('Select: useAlignActiveOption', () => {
         row.dataset.top = String(9 * ROW + 40);
 
         runFrame();
+
+        expect(container().scrollTop).toBe(140);
+    });
+
+    test('rows that moved start the watch again', () => {
+        const {rerender} = render(<Harness activeItemId="v9" />);
+        expect(container().scrollTop).toBe(100);
+
+        // Rows appeared above the active one: it is 40px lower now, and its id did not change
+        rerender(<Harness activeItemId="v9" offset={40} />);
 
         expect(container().scrollTop).toBe(140);
     });

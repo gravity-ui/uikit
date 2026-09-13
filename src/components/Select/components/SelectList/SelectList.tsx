@@ -38,6 +38,8 @@ type SelectListProps = {
     size: NonNullable<SelectProps['size']>;
     value: NonNullable<SelectProps['value']>;
     flattenOptions: FlattenOption[];
+    /** The group an option came from — the flat list of options no longer says it by itself */
+    groupOfOption?: Map<SelectOption, GroupTitleItem>;
     multiple?: boolean;
     virtualized?: boolean;
     loading?: boolean;
@@ -71,6 +73,7 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
             getOptionGroupHeight,
             size,
             flattenOptions,
+            groupOfOption,
             value,
             multiple,
             virtualized,
@@ -90,8 +93,8 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
         );
 
         const nodes = React.useMemo(
-            () => buildSelectListNodes(flattenOptions, loading),
-            [flattenOptions, loading],
+            () => buildSelectListNodes(flattenOptions, loading, groupOfOption),
+            [flattenOptions, loading, groupOfOption],
         );
 
         const rootRef = React.useRef<HTMLDivElement | null>(null);

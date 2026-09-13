@@ -6,6 +6,7 @@ import {TextInput} from '../../controls';
 import {getSectionHeader, mockLayout} from '../../lab/List/__tests__/helpers';
 import {MobileProvider} from '../../mobile';
 import {SelectQa, VIRTUALIZATION_HINT_OPTIONS_COUNT} from '../constants';
+import type {SelectOption} from '../types';
 
 import {
     ControlledSelect,
@@ -115,6 +116,38 @@ describe('Select on the List core', () => {
             expect(separator).not.toBeNull();
             expect(separator).toBeEmptyDOMElement();
             expect(screen.getByText('Group')).toBeInTheDocument();
+        });
+    });
+
+    describe('groups the consumer can build', () => {
+        test('an option that merely follows a group stays outside of it', async () => {
+            await openSelect({
+                options: [
+                    {label: 'Group 1', options: [{value: 'js', content: 'JavaScript'}]},
+                    {value: 'ruby', content: 'Ruby'},
+                ],
+            });
+
+            const inGroup = screen.getByRole('option', {name: 'JavaScript'});
+            const standalone = screen.getByRole('option', {name: 'Ruby'});
+
+            expect(inGroup).toHaveAttribute('aria-describedby', getSectionHeader('Group 1').id);
+            expect(standalone).not.toHaveAttribute('aria-describedby');
+        });
+
+        test('an option whose value looks like the id of a section keeps its own row', async () => {
+            await openSelect({
+                options: [
+                    {label: 'Group 1', options: [{value: 'js', content: 'JavaScript'}]},
+                    {value: '__group_0', content: 'Tricky value'},
+                ],
+            });
+
+            // The header is still there, and neither row has taken the place of the other
+            expect(getSectionHeader('Group 1')).toBeInTheDocument();
+            expect(screen.getAllByRole('option')).toHaveLength(2);
+            expect(screen.getByRole('option', {name: 'Tricky value'})).toBeInTheDocument();
+            expect(screen.getByRole('option', {name: 'JavaScript'})).toBeInTheDocument();
         });
     });
 
@@ -389,6 +422,29 @@ describe('Select on the List core', () => {
             expect(onLoadMore).toHaveBeenCalled();
         });
 
+        test('the loading row does not reach getOptionText', async () => {
+            // A getter written for the options of the consumer knows nothing of our technical row
+            const getOptionText = jest.fn((option: SelectOption) => {
+                if (!option.data) {
+                    throw new Error(`No data on ${option.value}`);
+                }
+
+                return option.data.name;
+            });
+
+            await openSelect({
+                options: [{value: 'js', content: 'JavaScript', data: {name: 'JavaScript'}}],
+                loading: true,
+                onLoadMore: jest.fn(),
+                getOptionText,
+            });
+
+            expect(screen.getByRole('option', {name: 'JavaScript'})).toBeInTheDocument();
+            expect(getOptionText).not.toHaveBeenCalledWith(
+                expect.objectContaining({value: expect.stringContaining('LOADING')}),
+            );
+        });
+
         test('the indicator of the loading row is really watched', async () => {
             // The row renders once and is memoized after that: an element caught by a ref would
             // never reach the observer, and the paging would be dead without a single test failing
@@ -514,6 +570,26 @@ describe('Select on the List core', () => {
             });
 
             expect(consoleErrorSpy).toHaveBeenCalledWith(
+                expect.stringContaining('<ListVirtualizer>'),
+            );
+        });
+
+        test('the group headers do not count towards the hint', async () => {
+            // Two groups of the size that fits: the flat list is longer by their headers
+            const half = Math.floor(VIRTUALIZATION_HINT_OPTIONS_COUNT / 2);
+            await openSelect({
+                options: [
+                    {label: 'Group 1', options: generateOptions(half)},
+                    {
+                        label: 'Group 2',
+                        options: generateOptions(VIRTUALIZATION_HINT_OPTIONS_COUNT - half).map(
+                            (option) => ({...option, value: `second-${option.value}`}),
+                        ),
+                    },
+                ],
+            });
+
+            expect(consoleErrorSpy).not.toHaveBeenCalledWith(
                 expect.stringContaining('<ListVirtualizer>'),
             );
         });

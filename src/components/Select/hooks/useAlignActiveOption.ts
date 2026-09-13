@@ -119,5 +119,7 @@ export function useAlignActiveOption({
         tick();
 
         return () => cancelAnimationFrame(request);
-    }, [activeItemId, alignActiveRow]);
+        // The rows are a dependency of their own: inserted or resized rows move the active one
+        // without changing its id, and the watch has to start again to bring it back into view
+    }, [activeItemId, alignActiveRow, rows, getItemHeight]);
 }

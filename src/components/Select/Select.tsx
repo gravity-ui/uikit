@@ -29,7 +29,12 @@ import {Option, OptionGroup} from './tech-components';
 import type {SelectOption, SelectProps, SelectRenderPopup} from './types';
 import type {SelectFilterRef} from './types-misc';
 import type {FlattenOption} from './utils';
-import {getOptionsFromChildren, getSelectedOptionsContent, isSelectGroupTitle} from './utils';
+import {
+    getGroupOfOption,
+    getOptionsFromChildren,
+    getSelectedOptionsContent,
+    isSelectGroupTitle,
+} from './utils';
 
 import './Select.scss';
 
@@ -147,11 +152,23 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         getOptionText,
     });
     const filteredOptions = getSelectFilteredOptions(options) as FlattenOption[];
+    // Which group an option came from: flattening loses the boundary, filtering keeps the objects
+    const groupOfOption = React.useMemo(() => getGroupOfOption(options), [options]);
     const selectedOptionsContent = React.useMemo(() => {
         return getSelectedOptionsContent(options, value, renderSelectedOption, getOptionText);
     }, [options, value, renderSelectedOption, getOptionText]);
 
-    if (!virtualized && filteredOptions.length > VIRTUALIZATION_HINT_OPTIONS_COUNT) {
+    // Group headers are rows of the list but not options — the hint is about the options
+    const optionsCount = React.useMemo(
+        () =>
+            filteredOptions.reduce(
+                (count, option) => count + (isSelectGroupTitle(option) ? 0 : 1),
+                0,
+            ),
+        [filteredOptions],
+    );
+
+    if (!virtualized && optionsCount > VIRTUALIZATION_HINT_OPTIONS_COUNT) {
         warnOnce(
             `[Select] The list renders ${VIRTUALIZATION_HINT_OPTIONS_COUNT}+ options as DOM rows at once. Wrap the Select in <ListVirtualizer> from '@gravity-ui/uikit/virtualizer' to render only the visible ones.`,
         );
@@ -298,6 +315,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                     value={value}
                     mobile={mobile}
                     flattenOptions={filteredOptions}
+                    groupOfOption={groupOfOption}
                     multiple={multiple}
                     virtualized={virtualized}
                     onOptionClick={handleOptionClick}

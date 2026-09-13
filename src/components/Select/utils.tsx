@@ -44,7 +44,20 @@ export const LOADING_OPTION: SelectOption = {value: LOADING_OPTION_VALUE, disabl
 export type FlattenOptions = FlattenOption[] & {
     [FLATTEN_KEY]: {
         filteredOptions: FlattenOption[];
+        /**
+         * The group an option came from. Flattening loses the boundaries of a group — an option
+         * that follows one is not a member of it — so membership is written down while it is still
+         * known, and filtering keeps it: the options are the same objects
+         */
+        groupOfOption?: Map<SelectOption, GroupTitleItem>;
     };
+};
+
+/** The groups of the options, as far as the flatten array knows them */
+export const getGroupOfOption = (
+    options: SelectOptions | FlattenOption[],
+): Map<SelectOption, GroupTitleItem> | undefined => {
+    return (options as Partial<FlattenOptions>)[FLATTEN_KEY]?.groupOfOption;
 };
 
 export const isSelectGroupTitle = (
@@ -54,10 +67,15 @@ export const isSelectGroupTitle = (
 };
 
 export const getFlattenOptions = (options: SelectOptions): FlattenOptions => {
+    const groupOfOption = new Map<SelectOption, GroupTitleItem>();
     const flatten = options.reduce<FlattenOption[]>((acc, option) => {
         if ('label' in option) {
-            acc.push({label: option.label, disabled: true, data: option.data});
-            acc.push(...(option.options || []));
+            const title: GroupTitleItem = {label: option.label, disabled: true, data: option.data};
+            acc.push(title);
+            for (const groupOption of option.options || []) {
+                groupOfOption.set(groupOption, title);
+                acc.push(groupOption);
+            }
         } else {
             acc.push(option);
         }
@@ -66,7 +84,7 @@ export const getFlattenOptions = (options: SelectOptions): FlattenOptions => {
     }, []);
     Object.defineProperty(flatten, FLATTEN_KEY, {
         enumerable: false,
-        value: {},
+        value: {groupOfOption},
     });
     return flatten as FlattenOptions;
 };
@@ -112,28 +130,61 @@ export const isSelectGroupNode = (node: SelectListNode): node is SelectGroupNode
     return 'label' in node;
 };
 
+const SECTION_ID_PREFIX = '__group_';
+
 /**
- * The flat list of options becomes the tree the core expects: a group title starts a section and
- * collects the options that follow it. The order of the rows is the order of `flattenOptions`, so
- * the index of a row in the list matches the index the height getters are called with; the loading
- * row is the last one, outside of any section.
+ * A prefix no value of an option starts with: the id of a section shares the space of ids with the
+ * values, and a collision would cost the list a row
+ */
+const getSectionIdPrefix = (flattenOptions: FlattenOption[]): string => {
+    const startsWithPrefix = (prefix: string) =>
+        flattenOptions.some(
+            (option) => !isSelectGroupTitle(option) && option.value.startsWith(prefix),
+        );
+
+    let prefix = SECTION_ID_PREFIX;
+
+    while (startsWithPrefix(prefix)) {
+        prefix = `_${prefix}`;
+    }
+
+    return prefix;
+};
+
+/**
+ * The flat list of options becomes the tree the core expects: a group title starts a section, and
+ * the options of that group become its rows. Which options those are is told by the flatten array
+ * (`groupOfOption`) rather than by their position — an option that merely follows a group is not a
+ * member of it. The order of the rows is the order of `flattenOptions`, so the index of a row in
+ * the list matches the index the height getters are called with; the loading row is the last one,
+ * outside of any section.
  */
 export const buildSelectListNodes = (
     flattenOptions: FlattenOption[],
     loading?: boolean,
+    groupOfOption?: Map<SelectOption, GroupTitleItem>,
 ): SelectListNode[] => {
     const nodes: SelectListNode[] = [];
-    let currentGroup: SelectGroupNode | undefined;
+    const sectionOfTitle = new Map<GroupTitleItem, SelectGroupNode>();
+    const prefix = getSectionIdPrefix(flattenOptions);
+    let previousTitle: GroupTitleItem | undefined;
 
     flattenOptions.forEach((option, index) => {
         if (isSelectGroupTitle(option)) {
-            currentGroup = {...option, id: `__group_${index}`, options: []};
-            nodes.push(currentGroup);
+            const section: SelectGroupNode = {...option, id: `${prefix}${index}`, options: []};
+            sectionOfTitle.set(option, section);
+            previousTitle = option;
+            nodes.push(section);
             return;
         }
 
-        if (currentGroup) {
-            currentGroup.options.push(option);
+        // Without the map — options prepared by hand rather than by `getFlattenOptions` — the
+        // boundary is the one the old flat list knew: everything up to the next title
+        const title = groupOfOption ? groupOfOption.get(option) : previousTitle;
+        const section = title && sectionOfTitle.get(title);
+
+        if (section) {
+            section.options.push(option);
         } else {
             nodes.push(option);
         }
@@ -150,7 +201,17 @@ export const getSelectListNodeText = (
     node: SelectListNode,
     getOptionText?: SelectProps['getOptionText'],
 ): string => {
-    return isSelectGroupNode(node) ? node.label : resolveOptionText(node, getOptionText);
+    if (isSelectGroupNode(node)) {
+        return node.label;
+    }
+
+    // The loading row belongs to the Select, not to the consumer: it has no text of its own and
+    // must not reach a getter written for the options of the consumer
+    if (node.value === LOADING_OPTION_VALUE) {
+        return '';
+    }
+
+    return resolveOptionText(node, getOptionText);
 };
 
 /** The size of the row view: on mobile every row is a row of size `l` */

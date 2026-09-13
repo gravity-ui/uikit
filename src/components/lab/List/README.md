@@ -582,6 +582,10 @@ height the row turned out to have. That is why rows of variable height need no c
 why turning the measurement off pays only when every row is exactly as tall as an explicit
 estimate. The rest of the props are in [ListVirtualizer](#listvirtualizer).
 
+The wrapper covers one list: a list rendered inside a row of a virtualized list renders every row of
+its own, in flow. The same holds for a component with a list inside it — a `Select`, say — whatever
+row it is placed in.
+
 > [!NOTE]
 > A virtualized list is empty in server-rendered HTML: there is no viewport to measure against, so
 > the rows appear only after hydration. Leave the list unvirtualized when its content has to be in

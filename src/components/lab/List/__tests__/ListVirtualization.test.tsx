@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event';
 
-import {render, screen} from '../../../../../test-utils/utils';
+import {render, screen, within} from '../../../../../test-utils/utils';
 import {ListVirtualizer} from '../../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
 import type {ListProps} from '../types';
@@ -329,6 +329,43 @@ describe('lab List: virtualization layer', () => {
 
             await user.click(option);
             expect(calls).toEqual(['core', 'override:u1']);
+        });
+    });
+
+    describe('the wrapper covers one list only', () => {
+        test('a list inside a row does not inherit the virtualization of the outer one', () => {
+            const INNER = ['Inner 1', 'Inner 2', 'Inner 3'];
+
+            render(
+                <ListVirtualizer>
+                    <List
+                        aria-label="Logs"
+                        items={ITEMS}
+                        style={{maxHeight: VIEWPORT_HEIGHT}}
+                        renderItem={(ctx, {getItemProps}) => (
+                            <div {...getItemProps()}>
+                                {ctx.id === ITEMS[0] ? (
+                                    <List aria-label="Inner" items={INNER} />
+                                ) : (
+                                    ctx.content
+                                )}
+                            </div>
+                        )}
+                    />
+                </ListVirtualizer>,
+            );
+
+            // The outer list is virtualized — its rows are positioned and numbered
+            const outer = screen.getByRole('listbox', {name: 'Logs'});
+            expect(outer.style.overflow).toBe('auto');
+
+            // The inner one renders as it would without a wrapper at all: every row, in flow
+            const inner = screen.getByRole('listbox', {name: 'Inner'});
+            const innerOptions = within(inner).getAllByRole('option');
+            expect(innerOptions).toHaveLength(INNER.length);
+            expect(innerOptions[0]).not.toHaveAttribute('aria-setsize');
+            expect(innerOptions[0].style.position).not.toBe('absolute');
+            expect(inner.style.overflow).toBe('');
         });
     });
 

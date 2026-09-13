@@ -7,6 +7,10 @@ $block: '.#{variables.$ns}lab-list-section-header';
     display: flex;
     align-items: center;
 
+    /* As in the row view: a height the consumer fixes on the row is the height of the row, the
+       padding included — the virtualizer is given the same number */
+    box-sizing: border-box;
+
     padding: var(--g-spacing-1) var(--g-spacing-2);
     color: var(--g-color-text-primary);
 

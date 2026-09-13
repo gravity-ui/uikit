@@ -11,6 +11,7 @@ import type {TreeListRenderItem} from '../TreeList/types';
 import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
 import {errorPropsMapper} from '../controls/utils';
 import {useMobile} from '../mobile';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import {ListItemView, getListItemClickHandler, useList} from '../useList';
 import type {ListOnItemClick} from '../useList';
 import {block} from '../utils/cn';
@@ -18,6 +19,7 @@ import type {CnMods} from '../utils/cn';
 
 import {useControlledValue} from './hooks/useControlledValue';
 import type {TreeSelectProps, TreeSelectRenderControlProps} from './types';
+import {getSelectedOptionsContent} from './utils';
 
 import './TreeSelect.scss';
 
@@ -28,7 +30,12 @@ const defaultItemRenderer: TreeListRenderItem<unknown> = (renderState) => {
 };
 
 export const TreeSelect = React.forwardRef(function TreeSelect<T, P extends {} = {}>(
-    {
+    rawProps: TreeSelectProps<T, P>,
+    ref: React.Ref<HTMLButtonElement>,
+) {
+    const props = useDefaultProps('TreeSelect', rawProps);
+
+    const {
         id,
         qa,
         title,
@@ -63,14 +70,14 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T, P extends {} =
         renderControl,
         renderItem = defaultItemRenderer as TreeListRenderItem<T, P>,
         renderContainer,
+        renderSelectedOption,
         mapItemDataToContentProps,
         onFocus,
         onBlur,
         getItemId,
         onItemClick,
-    }: TreeSelectProps<T, P>,
-    ref: React.Ref<HTMLButtonElement>,
-) {
+    } = props;
+
     const mobile = useMobile();
     const uniqId = useUniqId();
     const treeSelectId = id ?? uniqId;
@@ -191,18 +198,21 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T, P extends {} =
         isErrorVisible: isErrorStateVisible,
     };
 
+    const selectedOptionsContent = React.useMemo(() => {
+        return getSelectedOptionsContent(
+            list.structure.itemsById,
+            value,
+            mapItemDataToContentProps,
+            renderSelectedOption,
+        );
+    }, [list.structure.itemsById, value, mapItemDataToContentProps, renderSelectedOption]);
+
     const togglerNode = renderControl ? (
         renderControl(controlProps)
     ) : (
         <SelectControl
             {...controlProps}
-            selectedOptionsContent={React.Children.toArray(
-                value.map((itemId) =>
-                    itemId in list.structure.itemsById
-                        ? mapItemDataToContentProps(list.structure.itemsById[itemId]).title
-                        : '',
-                ),
-            ).join(', ')}
+            selectedOptionsContent={selectedOptionsContent}
             view="normal"
             pin="round-round"
             popupId={popupId}

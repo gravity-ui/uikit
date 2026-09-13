@@ -22,6 +22,8 @@ import {WithGroupSelectionControlledStateAndCustomIconExample} from './component
 import type {WithGroupSelectionControlledStateAndCustomIconExampleProps} from './components/WithGroupSelectionControlledStateAndCustomIcon';
 import {WithItemLinksAndActionsExample} from './components/WithItemLinksAndActionsExample';
 import type {WithItemLinksAndActionsExampleProps} from './components/WithItemLinksAndActionsExample';
+import {WithSelectedOptionsContentExample} from './components/WithSelectedOptionsContentExample';
+import type {WithSelectedOptionsContentExampleProps} from './components/WithSelectedOptionsContentExample';
 
 export default {
     title: 'Lab/TreeSelect',
@@ -126,6 +128,17 @@ const ErrorStateTemplate: StoryFn<ErrorStateExampleProps> = (props) => {
 export const ErrorState = ErrorStateTemplate.bind({});
 
 ErrorState.args = {
+    size: 'l',
+};
+
+const WithSelectedOptionsContentTemplate: StoryFn<WithSelectedOptionsContentExampleProps> = (
+    props,
+) => {
+    return <WithSelectedOptionsContentExample {...props} />;
+};
+export const WithSelectedOptionsContent = WithSelectedOptionsContentTemplate.bind({});
+
+WithSelectedOptionsContent.args = {
     size: 'l',
 };
 

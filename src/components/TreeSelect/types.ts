@@ -45,6 +45,20 @@ export type TreeSelectRenderItem<T, P extends {} = {}> = TreeListRenderItem<T, P
 export type TreeSelectRenderContainerProps<T> = TreeListContainerProps<T>;
 export type TreeSelectRenderContainer<T> = TreeListRenderContainer<T>;
 
+export type TreeSelectRenderSelectedOptionProps<T> = {
+    id: ListItemId;
+    /**
+     * `undefined` if there is no item with such id in the list
+     */
+
+    data?: T;
+};
+
+export type TreeSelectRenderSelectedOption<T> = (
+    props: TreeSelectRenderSelectedOptionProps<T>,
+    index: number,
+) => React.ReactNode;
+
 interface TreeSelectBehavioralProps<T> extends UseListParsedStateProps<T> {
     withExpandedState?: boolean;
     multiple?: boolean;
@@ -88,6 +102,12 @@ export interface TreeSelectProps<T, P extends {} = {}>
      */
     renderControl?(props: TreeSelectRenderControlProps<T>): React.JSX.Element;
     renderContainer?: TreeSelectRenderContainer<T>;
+    /**
+     * Ability to override the content of every selected option in the default control.
+     * Separators between options are not added, so the render prop is fully responsible for them.
+     * Ignored if `renderControl` is passed
+     */
+    renderSelectedOption?: TreeSelectRenderSelectedOption<T>;
     onFocus?: (e: React.FocusEvent) => void;
     onBlur?: (e: React.FocusEvent) => void;
 }

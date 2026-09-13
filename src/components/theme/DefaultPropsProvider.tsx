@@ -55,6 +55,7 @@ import type {TableColumnSetupProps} from '../TableColumnSetup';
 import type {TextProps} from '../Text';
 import type {TocProps} from '../Toc';
 import type {TooltipProps} from '../Tooltip';
+import type {TreeSelectProps} from '../TreeSelect';
 import type {UserProps} from '../User';
 import type {UserLabelProps} from '../UserLabel';
 import type {PasswordInputProps} from '../controls/PasswordInput';
@@ -121,6 +122,7 @@ export interface ComponentDefaultPropsMap {
     Text?: Partial<TextProps<any>>;
     TextArea?: Partial<TextAreaProps>;
     TextInput?: Partial<TextInputProps>;
+    TreeSelect?: Partial<TreeSelectProps<any>>;
     Toc?: Partial<TocProps>;
     Tooltip?: Partial<TooltipProps>;
     User?: Partial<UserProps>;

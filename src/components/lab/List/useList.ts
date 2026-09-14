@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import {useControlledState, useLayoutEffect, useUniqId} from '../../../hooks';
 import {useDirection} from '../../theme';
+import {eventBroker} from '../../utils/event-broker';
 import {warnOnce} from '../../utils/warn';
 
 import {ListVirtualizationContext} from './VirtualizationContext';
@@ -28,7 +29,7 @@ import type {
 import {useItemElementRegistry} from './useItemElementRegistry';
 import {useListSelection} from './useListSelection';
 import {useListTypeahead} from './useListTypeahead';
-import {flattenItems, getNextActiveId, isNavigable} from './utils';
+import {flattenItems, getNextActiveId, isDragTarget, isNavigable, isTextInputTarget} from './utils';
 import type {ListNavigationCommand, ListRow} from './utils';
 
 export type ListContainerDOMProps = React.HTMLAttributes<HTMLElement> & {
@@ -62,7 +63,11 @@ const NAVIGATION_COMMANDS: Record<string, ListNavigationCommand> = {
     ArrowUp: 'prev',
     Home: 'first',
     End: 'last',
+    PageDown: 'pageNext',
+    PageUp: 'pagePrev',
 };
+
+const publishClick = eventBroker.withEventPublisher('List');
 
 export function useList<T>(props: ListProps<T>): ListInstance<T> {
     const {
@@ -352,15 +357,19 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             if (event.ctrlKey || event.metaKey || event.altKey) {
                 return;
             }
-            if (focusStrategy === 'activedescendant') {
-                return;
-            }
-            // APG: a space is part of the typeahead query while the buffer is not empty
-            event.preventDefault();
+            // APG: a space is part of the typeahead query while the buffer is not empty — otherwise
+            // the search would stop at the first space of a label. A text owner never gets here:
+            // characters go into the text instead of the search, so its query is always empty
             if (typeahead.hasQuery()) {
+                event.preventDefault();
+                event.stopPropagation();
                 typeahead.handleChar(' ');
                 return;
             }
+            if (focusStrategy === 'activedescendant') {
+                return;
+            }
+            event.preventDefault();
             if (!selectionMode) {
                 return;
             }
@@ -370,14 +379,19 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             return;
         }
 
+        // Typeahead runs unless the characters belong to a caret: a text owner is a filtering
+        // combobox, while a select-only trigger has nothing to type into and searches the list
         if (
-            focusStrategy === 'roving' &&
+            !isTextInputTarget(event.target) &&
             event.key.length === 1 &&
             !event.ctrlKey &&
             !event.metaKey &&
             !event.altKey
         ) {
             event.preventDefault();
+            // A character the list took for its search must not reach the hotkeys of the app
+            // around it: while the list is open, typing belongs to the list
+            event.stopPropagation();
             typeahead.handleChar(event.key);
         }
     };
@@ -414,6 +428,10 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
 
     const handleFocusOwnerKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
         if (event.defaultPrevented) {
+            return;
+        }
+        // APG editable combobox: in a text field Home/End belong to the caret, not to the list
+        if ((event.key === 'Home' || event.key === 'End') && isTextInputTarget(event.target)) {
             return;
         }
         setCursorVisible(true);
@@ -458,6 +476,19 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             'aria-multiselectable': selectionMode === 'multiple' || undefined,
             'aria-rowcount': role === 'grid' && virtualized ? optionsCount : undefined,
             'data-drag-active': dragActive ? '' : undefined,
+            // A press anywhere in the list — a section header, the padding of the root, the
+            // wrapper of a virtualized row — keeps the focus with the owner, the same way a press
+            // on a row does. Without it a click beside a row takes the keyboard away from the
+            // input and the list stops answering the arrows
+            ...(focusStrategy === 'activedescendant'
+                ? {
+                      onMouseDown: (event: React.MouseEvent<HTMLElement>) => {
+                          if (!isDragTarget(event.target)) {
+                              event.preventDefault();
+                          }
+                      },
+                  }
+                : undefined),
             onKeyDown: handleContainerKeyDown,
             // Cursor is owned by the list holding DOM focus; moves within the root are not a departure
             onFocus: (event: React.FocusEvent<HTMLElement>) => {
@@ -550,7 +581,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             ...(focusStrategy === 'activedescendant'
                 ? {
                       onMouseDown: (event: React.MouseEvent<HTMLElement>) => {
-                          if (!event.currentTarget.hasAttribute('draggable')) {
+                          if (!isDragTarget(event.target)) {
                               event.preventDefault();
                           }
                       },
@@ -570,6 +601,15 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 };
                 document.addEventListener('pointerup', restore, true);
                 document.addEventListener('pointercancel', restore, true);
+            },
+            // Capture, so that the event reaches the subscribers even if a handler of the row
+            // content stops the propagation later; a click of a key is not published
+            onClickCapture: (event: React.MouseEvent<HTMLElement>) => {
+                const currentRow = latestRef.current.rowById.get(id);
+                if (!currentRow || currentRow.disabled) {
+                    return;
+                }
+                publishClick({domEvent: event, eventId: 'click'});
             },
             onClick: (event: React.MouseEvent<HTMLElement>) => {
                 const latest = latestRef.current;

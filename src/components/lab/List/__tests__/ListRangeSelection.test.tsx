@@ -6,7 +6,7 @@ import {fireEvent, render, screen} from '../../../../../test-utils/utils';
 import {ListVirtualizer} from '../../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
 
-import {ComboboxHarness, GROUPS, mockLayout, scrollTo} from './helpers';
+import {ComboboxHarness, GROUPS, getSectionHeader, mockLayout, scrollTo} from './helpers';
 import type {Project} from './helpers';
 
 const LETTERS = ['Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot'];
@@ -166,7 +166,7 @@ describe('lab List: range selection (selection layer, phase 7)', () => {
             await shiftClick(user, options[2]);
 
             expect(onSelectedUpdate).toHaveBeenLastCalledWith(['r1', 'a1', 'a2']);
-            expect(screen.getByText('All')).not.toHaveAttribute('aria-selected');
+            expect(getSectionHeader('All')).not.toHaveAttribute('aria-selected');
         });
 
         test('onItemAction fires on Shift+click after the selection update', async () => {

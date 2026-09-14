@@ -12,6 +12,7 @@ import {
     ComboboxHarness,
     GROUPS,
     createTracker,
+    getSectionHeader,
     mockLayout,
     mockTabbableDisplayCheck,
 } from './helpers';
@@ -43,6 +44,22 @@ function renderRowWithControls(ctx: ListItemContext<string>, helpers: ListItemHe
         >
             <span {...helpers.getCellProps()}>{ctx.content}</span>
         </List.ItemView>
+    );
+}
+
+/** An owner without a caret: the trigger of a select-only combobox */
+function TriggerHarness({
+    label = 'Fruit',
+    ...listProps
+}: {label?: string; items: readonly string[]} & Partial<ListProps<string>>) {
+    const focusOwner = useListFocusOwner();
+    return (
+        <React.Fragment>
+            <button type="button" {...focusOwner.getInputProps({'aria-label': label})}>
+                Choose
+            </button>
+            <List aria-label="Options" {...listProps} focusOwner={focusOwner} />
+        </React.Fragment>
     );
 }
 
@@ -300,17 +317,46 @@ describe('lab List: role model x focus strategy', () => {
             expect(input).toHaveAttribute('aria-activedescendant', options[1].id);
         });
 
-        test('Home/End on the active row still scroll it into view', async () => {
+        test('a click on a section header or beside a row leaves the focus with the owner', async () => {
+            const user = userEvent.setup();
+            render(
+                <ComboboxHarness
+                    items={GROUPS as unknown as string[]}
+                    getItemContent={(item: unknown) => (item as {label: string}).label}
+                />,
+            );
+            const input = screen.getByRole('combobox');
+            await user.click(input);
+
+            await user.click(screen.getByText('All'));
+            expect(input).toHaveFocus();
+
+            await user.click(screen.getByRole('listbox'));
+            expect(input).toHaveFocus();
+
+            // And the keyboard still answers
+            await user.keyboard('{ArrowDown}');
+            expect(input).toHaveAttribute(
+                'aria-activedescendant',
+                screen.getAllByRole('option')[0].id,
+            );
+        });
+
+        test('Home/End of an owner without a caret move the activity and scroll the row into view', async () => {
             const scrollIntoViewMock = jest.fn();
             HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
             try {
                 const user = userEvent.setup();
-                render(<ComboboxHarness items={FRUITS} defaultActiveItemId="Cherry" />);
+                render(<TriggerHarness items={FRUITS} defaultActiveItemId="Apple" />);
                 await user.click(screen.getByRole('combobox'));
                 scrollIntoViewMock.mockClear();
 
                 await user.keyboard('{End}');
 
+                expect(screen.getByRole('combobox')).toHaveAttribute(
+                    'aria-activedescendant',
+                    screen.getByRole('option', {name: 'Cherry'}).id,
+                );
                 expect(scrollIntoViewMock).toHaveBeenCalledTimes(1);
                 expect(scrollIntoViewMock.mock.instances[0]).toBe(
                     screen.getByRole('option', {name: 'Cherry'}),
@@ -318,6 +364,106 @@ describe('lab List: role model x focus strategy', () => {
             } finally {
                 delete (HTMLElement.prototype as Partial<HTMLElement>).scrollIntoView;
             }
+        });
+
+        test('Home/End in a text owner belong to the caret: the activity stays put', () => {
+            render(<ComboboxHarness items={FRUITS} defaultActiveItemId="Banana" />);
+            const input = screen.getByRole('combobox');
+            const bananaId = screen.getByRole('option', {name: 'Banana'}).id;
+
+            // fireEvent returns false once a handler has called preventDefault
+            expect(fireEvent.keyDown(input, {key: 'End'})).toBe(true);
+            expect(input).toHaveAttribute('aria-activedescendant', bananaId);
+
+            expect(fireEvent.keyDown(input, {key: 'Home'})).toBe(true);
+            expect(input).toHaveAttribute('aria-activedescendant', bananaId);
+        });
+
+        test('an owner without a caret searches the list with the character keys', async () => {
+            const user = userEvent.setup();
+            render(<TriggerHarness items={FRUITS} />);
+            const trigger = screen.getByRole('combobox');
+            await user.click(trigger);
+
+            await user.keyboard('b');
+
+            expect(trigger).toHaveAttribute(
+                'aria-activedescendant',
+                screen.getByRole('option', {name: 'Banana'}).id,
+            );
+        });
+
+        test('a space continues the search of an owner without a caret', async () => {
+            const user = userEvent.setup();
+            const onItemAction = jest.fn();
+            render(
+                <TriggerHarness items={['Blueberry', 'Blue whale']} onItemAction={onItemAction} />,
+            );
+            const trigger = screen.getByRole('combobox');
+            await user.click(trigger);
+
+            await user.keyboard('blue');
+            expect(trigger).toHaveAttribute(
+                'aria-activedescendant',
+                screen.getByRole('option', {name: 'Blueberry'}).id,
+            );
+
+            // The space belongs to the query while it is being typed, so it applies nothing and
+            // the search reaches the label with a space in it
+            await user.keyboard(' w');
+            expect(onItemAction).not.toHaveBeenCalled();
+            expect(trigger).toHaveAttribute(
+                'aria-activedescendant',
+                screen.getByRole('option', {name: 'Blue whale'}).id,
+            );
+        });
+
+        test('a text owner types the space instead of searching with it', async () => {
+            const user = userEvent.setup();
+            const onItemAction = jest.fn();
+            render(<ComboboxHarness items={FRUITS} onItemAction={onItemAction} />);
+            const input = screen.getByRole('combobox');
+            await user.click(input);
+
+            await user.keyboard('a b');
+
+            expect(input).toHaveValue('a b');
+            expect(onItemAction).not.toHaveBeenCalled();
+        });
+
+        test('PageUp with no active option enters the list from its end', async () => {
+            const user = userEvent.setup();
+            render(<TriggerHarness items={FRUITS} />);
+            const trigger = screen.getByRole('combobox');
+            await user.click(trigger);
+
+            await user.keyboard('{PageUp}');
+
+            const options = screen.getAllByRole('option');
+            expect(trigger).toHaveAttribute(
+                'aria-activedescendant',
+                options[options.length - 1].id,
+            );
+        });
+
+        test('PageDown/PageUp move the activity of the owner by ten options', async () => {
+            const user = userEvent.setup();
+            const many = Array.from({length: 25}, (_, index) => `Item ${index + 1}`);
+            render(<ComboboxHarness items={many} defaultActiveItemId="Item 1" />);
+            const input = screen.getByRole('combobox');
+            await user.click(input);
+
+            await user.keyboard('{PageDown}');
+            expect(input).toHaveAttribute(
+                'aria-activedescendant',
+                screen.getByRole('option', {name: 'Item 11'}).id,
+            );
+
+            await user.keyboard('{PageUp}');
+            expect(input).toHaveAttribute(
+                'aria-activedescendant',
+                screen.getByRole('option', {name: 'Item 1'}).id,
+            );
         });
 
         test('navigation moves aria-activedescendant without taking the focus out of the input', async () => {
@@ -341,7 +487,8 @@ describe('lab List: role model x focus strategy', () => {
             expect(options[0]).not.toHaveAttribute('data-active');
             expect(input).toHaveFocus();
 
-            await user.keyboard('{End}');
+            // End is left to the caret of a text owner (see the tests above); the arrows cycle
+            await user.keyboard('{ArrowDown}');
             expect(input).toHaveAttribute('aria-activedescendant', options[2].id);
             expect(input).toHaveFocus();
         });
@@ -416,21 +563,7 @@ describe('lab List: role model x focus strategy', () => {
 
         test('the owner may be a button (a select-only combobox)', async () => {
             const user = userEvent.setup();
-            function TriggerHarness() {
-                const focusOwner = useListFocusOwner();
-                return (
-                    <React.Fragment>
-                        <button
-                            type="button"
-                            {...focusOwner.getInputProps({'aria-label': 'Fruit'})}
-                        >
-                            Choose
-                        </button>
-                        <List aria-label="Options" items={FRUITS} focusOwner={focusOwner} />
-                    </React.Fragment>
-                );
-            }
-            render(<TriggerHarness />);
+            render(<TriggerHarness items={FRUITS} />);
 
             const trigger = screen.getByRole('combobox', {name: 'Fruit'});
             expect(trigger.tagName).toBe('BUTTON');
@@ -526,7 +659,7 @@ describe('lab List: role model x focus strategy', () => {
             );
 
             expect(screen.getAllByRole('row')).toHaveLength(3);
-            const header = screen.getByText('Recent');
+            const header = getSectionHeader('Recent');
             expect(header).toHaveAttribute('role', 'presentation');
             expect(header).toHaveAttribute('aria-hidden', 'true');
             expect(header).not.toHaveAttribute('tabindex');
@@ -593,7 +726,7 @@ describe('lab List: role models under virtualization', () => {
                 expect(node).toHaveAttribute(countAttr, '3');
             }
 
-            const header = screen.getByText('Recent');
+            const header = getSectionHeader('Recent');
             expect(header).toHaveAttribute('aria-hidden', 'true');
             expect(header).not.toHaveAttribute(indexAttr);
             expect(header).not.toHaveAttribute(countAttr);

@@ -215,21 +215,28 @@ function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
         ref: ref ?? undefined,
     });
 
-    if (virtualization) {
-        return (
-            <virtualization.Root
-                containerProps={containerProps}
-                rowIds={list.visibleIds}
-                persistedIndexes={list.persistedRowIndexes}
-                renderRow={renderRow}
-                getItemSize={getItemSize}
-                measure={virtualization.measure}
-                overscan={virtualization.overscan}
-            />
-        );
-    }
+    const content = virtualization ? (
+        <virtualization.Root
+            containerProps={containerProps}
+            rowIds={list.visibleIds}
+            persistedIndexes={list.persistedRowIndexes}
+            renderRow={renderRow}
+            getItemSize={getItemSize}
+            measure={virtualization.measure}
+            overscan={virtualization.overscan}
+        />
+    ) : (
+        <div {...containerProps}>{list.visibleIds.map((id) => renderRow(id))}</div>
+    );
 
-    return <div {...containerProps}>{list.visibleIds.map((id) => renderRow(id))}</div>;
+    // The virtualization of this list is its own: a list (or a Select) rendered inside a row must
+    // not inherit it — the wrapper of the outer list knows nothing of the rows of the inner one.
+    // The root above has the value of the context already, it is taken in this very render
+    return (
+        <ListVirtualizationContext.Provider value={null}>
+            {content}
+        </ListVirtualizationContext.Provider>
+    );
 }
 
 /** A navigable listbox: strings need zero configuration, objects a single getter */

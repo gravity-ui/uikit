@@ -12,6 +12,10 @@ Thank you for your interest in `@gravity-ui/uikit`! We welcome contributions fro
 
 Before you start contributing, please read our contribution guidelines:
 
+- [Repository Navigation](navigation.md) - Find the authoritative documentation, source area, and
+  validation for a task
+- [Repository Architecture](architecture.md) - Understand package entrypoints, source boundaries,
+  build, and tests
 - [Pull Request Guide](pull-request.md) - How to create and format pull requests
 - [Development Setup](../README.md#development) - How to set up the development environment
 - [Testing Guide](../playwright/README.md) - How to write and run e2e tests

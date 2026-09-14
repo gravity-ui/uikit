@@ -25,9 +25,6 @@ $block: '.#{variables.$ns}breadcrumbs';
         &_current {
             box-sizing: content-box;
             font-weight: var(--g-text-accent-font-weight);
-            overflow: hidden;
-            margin: -2px;
-            padding: 2px;
             min-width: 25px;
 
             #{$block}__link {
@@ -36,7 +33,7 @@ $block: '.#{variables.$ns}breadcrumbs';
         }
 
         &_calculating {
-            overflow: visible;
+            min-width: auto;
 
             #{$block}__link {
                 overflow: visible;
@@ -105,25 +102,5 @@ $block: '.#{variables.$ns}breadcrumbs';
 
     &__item:first-child &__menu {
         margin-inline-start: 0;
-    }
-
-    &__measurer {
-        position: absolute;
-        inset-block-start: 0;
-        inset-inline-start: 0;
-        width: 0;
-        height: 0;
-        z-index: -1;
-        opacity: 0;
-        visibility: hidden;
-        overflow: hidden;
-
-        #{$block}__list {
-            display: inline-flex;
-        }
-
-        #{$block}__item {
-            flex-shrink: 0;
-        }
     }
 }

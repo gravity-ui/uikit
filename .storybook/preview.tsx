@@ -13,6 +13,9 @@ import {WithMobile} from './decorators/withMobile';
 import {WithStrictMode} from './decorators/withStrictMode';
 import {WithTheme} from './decorators/withTheme';
 import {themes} from './theme';
+import {initializeThemeImport} from './theme-import-addon/preview';
+
+initializeThemeImport();
 
 const preview: Preview = {
     decorators: [WithLang, WithMobile, WithTheme, WithStrictMode],

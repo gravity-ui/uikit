@@ -9,7 +9,6 @@ import {Button} from '../../Button';
 import {Icon} from '../../Icon';
 import type {DOMProps} from '../../types';
 import {block} from '../../utils/cn';
-import {filterDOMProps} from '../../utils/filterDOMProps';
 
 import './ListItemView.scss';
 
@@ -22,7 +21,7 @@ export interface ListItemViewProps<T extends React.ElementType = 'div'> extends 
     selected?: boolean;
     active?: boolean;
     hovered?: boolean;
-    onClick?: (e: React.MouseEvent) => void;
+    onClick?: React.MouseEventHandler<HTMLElement>;
     disabled?: boolean;
     selectionStyle?: 'check' | 'highlight' | 'none';
     collapsible?: boolean;
@@ -70,6 +69,7 @@ export function ListItemViewComponent(
         startContent: _startContent,
         endContent: _endContent,
         nestedLevel: _nestedLevel,
+        ...restProps
     } = props;
     const containerRef = React.useRef(null);
     const componentRef = useForkRef(containerRef, ref);
@@ -77,7 +77,7 @@ export function ListItemViewComponent(
         <Component
             ref={componentRef}
             {...componentProps}
-            {...filterDOMProps(props)}
+            {...restProps}
             className={b(
                 {
                     size,

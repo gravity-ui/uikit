@@ -9,6 +9,13 @@ $block: '.#{variables.$ns}lab-list';
     margin: 0;
     padding: 0;
 
+    /* The root is a flex column that may have to scroll: a row keeps its own height instead of
+       being squeezed into the viewport (the sizer of the virtualizer forbids the shrink for itself
+       the same way) */
+    > * {
+        flex-shrink: 0;
+    }
+
     /* Indicator on the row itself (works in flat render and inside virtualizer wrappers);
        role + attribute keeps foreign data-* out */
     :is([role='option'], [role='row'])[data-dragging] {

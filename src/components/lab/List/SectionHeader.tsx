@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import {Text} from '../../Text';
 import type {QAProps} from '../../types';
 import {block} from '../../utils/cn';
 
@@ -18,7 +19,11 @@ export const ListSectionHeader = React.forwardRef<HTMLDivElement, ListSectionHea
     function ListSectionHeader({size = 'm', className, qa, children, ...restProps}, ref) {
         return (
             <div ref={ref} {...restProps} data-qa={qa} className={b({size}, className)}>
-                {children}
+                {/* The typography stays on the header itself — the text only clips what does not
+                    fit, the way the label of a group did before */}
+                <Text className={b('text')} variant="inherit" ellipsis>
+                    {children}
+                </Text>
             </div>
         );
     },

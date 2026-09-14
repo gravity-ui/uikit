@@ -31,6 +31,7 @@ import type {SelectFilterRef} from './types-misc';
 import type {FlattenOption} from './utils';
 import {
     getGroupOfOption,
+    getGroupsWithOptions,
     getOptionsFromChildren,
     getSelectedOptionsContent,
     isSelectGroupTitle,
@@ -153,7 +154,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     });
     const filteredOptions = getSelectFilteredOptions(options) as FlattenOption[];
     // Which group an option came from: flattening loses the boundary, filtering keeps the objects
-    const groupOfOption = React.useMemo(() => getGroupOfOption(options), [options]);
+    const groupOfOption = getGroupOfOption(options);
+    const groupsWithOptions = getGroupsWithOptions(options);
     const selectedOptionsContent = React.useMemo(() => {
         return getSelectedOptionsContent(options, value, renderSelectedOption, getOptionText);
     }, [options, value, renderSelectedOption, getOptionText]);
@@ -162,6 +164,10 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     // one value were never two choices — clicking either applied the same value — but the message
     // about it should come from the component the consumer is holding
     const duplicateValue = React.useMemo(() => {
+        if (process.env.NODE_ENV === 'production') {
+            return undefined;
+        }
+
         const seen = new Set<string>();
 
         for (const option of options as FlattenOption[]) {
@@ -181,17 +187,19 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
     if (duplicateValue !== undefined) {
         warnOnce(
-            `[Select] More than one option has the value "${duplicateValue}". The value identifies the row of an option, so the list renders one row per value — make the values unique.`,
+            `[Select] More than one option has the value "${duplicateValue}". The value identifies the row of an option: such rows share one DOM id and all of them show the content of the last option — make the values unique.`,
         );
     }
 
     // Group headers are rows of the list but not options — the hint is about the options
     const optionsCount = React.useMemo(
         () =>
-            filteredOptions.reduce(
-                (count, option) => count + (isSelectGroupTitle(option) ? 0 : 1),
-                0,
-            ),
+            process.env.NODE_ENV === 'production'
+                ? 0
+                : filteredOptions.reduce(
+                      (count, option) => count + (isSelectGroupTitle(option) ? 0 : 1),
+                      0,
+                  ),
         [filteredOptions],
     );
 
@@ -343,6 +351,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                     mobile={mobile}
                     flattenOptions={filteredOptions}
                     groupOfOption={groupOfOption}
+                    groupsWithOptions={groupsWithOptions}
                     multiple={multiple}
                     virtualized={virtualized}
                     onOptionClick={handleOptionClick}

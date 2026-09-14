@@ -46,6 +46,13 @@ export function useAlignActiveOption({
     const rowsRef = React.useRef(rows);
     rowsRef.current = rows;
 
+    /** The offset the watch left behind: anything else means the reader has taken the scroll over */
+    const alignedScrollTopRef = React.useRef<number | undefined>(undefined);
+    /** The pointer is over the list: the activity follows it, and the rows must stay where they are */
+    const pointerInsideRef = React.useRef(false);
+    const startedRef = React.useRef(false);
+    const previousActiveItemIdRef = React.useRef<string | undefined>(undefined);
+
     /**
      * Returns whether the row has settled: the virtualizer keeps correcting the total size while it
      * measures the rows it has rendered, and the row drifts along with it — until it does, the
@@ -73,6 +80,7 @@ export function useAlignActiveOption({
 
                 if (!isSelectGroupTitle(row) && row.value === activeId) {
                     container.scrollTop = Math.max(0, offset + rowHeight - container.offsetHeight);
+                    alignedScrollTopRef.current = container.scrollTop;
                     break;
                 }
 
@@ -83,6 +91,7 @@ export function useAlignActiveOption({
         }
 
         scrollToItem(container, node);
+        alignedScrollTopRef.current = container.scrollTop;
 
         const nodeRect = node.getBoundingClientRect();
         const containerRect = container.getBoundingClientRect();
@@ -93,9 +102,58 @@ export function useAlignActiveOption({
         );
     }, [containerRef, listId]);
 
+    // A press or a move of the mouse makes a row active as much as a key does, and the list must
+    // not move under the cursor — the core scrolls the row into view on a key of its own anyway
+    React.useEffect(() => {
+        const container = containerRef.current;
+
+        if (!container) {
+            return undefined;
+        }
+
+        const onEnter = () => {
+            pointerInsideRef.current = true;
+        };
+        const onLeave = () => {
+            pointerInsideRef.current = false;
+        };
+
+        container.addEventListener('pointerenter', onEnter);
+        container.addEventListener('pointerleave', onLeave);
+
+        return () => {
+            container.removeEventListener('pointerenter', onEnter);
+            container.removeEventListener('pointerleave', onLeave);
+        };
+    }, [containerRef, activeItemId === undefined]);
+
     useLayoutEffect(() => {
         if (activeItemId === undefined) {
+            startedRef.current = false;
+            previousActiveItemIdRef.current = undefined;
+            alignedScrollTopRef.current = undefined;
             return undefined;
+        }
+
+        const activeItemChanged = previousActiveItemIdRef.current !== activeItemId;
+        previousActiveItemIdRef.current = activeItemId;
+        const opening = !startedRef.current;
+        startedRef.current = true;
+
+        if (!opening) {
+            // The rows changed under an option that stayed active. Bringing it back is right only
+            // while the list stands where the watch left it: once the reader has scrolled — to the
+            // loader at the bottom, say — the rows that arrive must not throw them back
+            if (
+                !activeItemChanged &&
+                containerRef.current?.scrollTop !== alignedScrollTopRef.current
+            ) {
+                return undefined;
+            }
+
+            if (activeItemChanged && pointerInsideRef.current) {
+                return undefined;
+            }
         }
 
         let frame = 0;

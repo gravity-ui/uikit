@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {act, render, screen} from '../../../../test-utils/utils';
+import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
 import {getItemDomId} from '../../lab/List/utils';
 import {useAlignActiveOption} from '../hooks';
 import type {SelectOption} from '../types';
@@ -75,7 +75,11 @@ describe('Select: useAlignActiveOption', () => {
         frames = [];
         rafSpy = jest
             .spyOn(window, 'requestAnimationFrame')
-            .mockImplementation((callback: FrameRequestCallback) => frames.push(callback));
+            .mockImplementation((callback: FrameRequestCallback) => {
+                frames.push(callback);
+                // A handle of its own, so that a test about cancelling means something
+                return 1000 + frames.length;
+            });
         cafSpy = jest.spyOn(window, 'cancelAnimationFrame').mockImplementation(() => {});
 
         // jsdom has no layout: the container is the viewport, a row sits where its `data-top` says
@@ -160,6 +164,34 @@ describe('Select: useAlignActiveOption', () => {
         rerender(<Harness activeItemId="v9" offset={40} />);
 
         expect(container().scrollTop).toBe(140);
+    });
+
+    test('rows that arrive while the reader is scrolling are left alone', () => {
+        const {rerender} = render(<Harness activeItemId="v9" />);
+        expect(container().scrollTop).toBe(100);
+
+        // The reader scrolled somewhere of their own — to the loader at the bottom, say — and then
+        // the next page arrived: the rows are new, the active option is the same
+        container().scrollTop = 0;
+        rerender(<Harness activeItemId="v9" offset={40} />);
+
+        expect(container().scrollTop).toBe(0);
+    });
+
+    test('an option made active by the pointer does not move the list', () => {
+        // v3 is inside the viewport, so nothing is scrolled to begin with
+        const {rerender} = render(<Harness activeItemId="v3" />);
+        expect(container().scrollTop).toBe(0);
+
+        // The pointer is over the list: a row it makes active must not pull the rows under it
+        fireEvent.pointerEnter(container());
+        rerender(<Harness activeItemId="v9" />);
+        expect(container().scrollTop).toBe(0);
+
+        // With the pointer gone the activity moves the list again
+        fireEvent.pointerLeave(container());
+        rerender(<Harness activeItemId="v12" />);
+        expect(container().scrollTop).toBe(13 * ROW - VIEWPORT);
     });
 
     test('the watch ends after three quiet frames', () => {

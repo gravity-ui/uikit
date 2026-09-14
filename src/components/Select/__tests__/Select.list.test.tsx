@@ -153,6 +153,19 @@ describe('Select on the List core', () => {
             expect(standalone).not.toHaveAttribute('aria-describedby');
         });
 
+        test('a group declared without options keeps its header', async () => {
+            // `options` of a group is optional in the public type: such a group is a bare caption,
+            // and the options that follow it are their own rows
+            await openSelect({
+                options: [{label: 'Group 1'}, {value: 'js', content: 'JavaScript'}],
+            });
+
+            expect(getSectionHeader('Group 1')).toBeInTheDocument();
+            expect(screen.getByRole('option', {name: 'JavaScript'})).not.toHaveAttribute(
+                'aria-describedby',
+            );
+        });
+
         test('a group left without options by the filter loses its header', async () => {
             const {user} = await openSelect({
                 options: [
@@ -477,6 +490,25 @@ describe('Select on the List core', () => {
             expect(getOptionText).not.toHaveBeenCalledWith(
                 expect.objectContaining({value: expect.stringContaining('LOADING')}),
             );
+        });
+
+        test('the loading row does not reach getOptionHeight', async () => {
+            const getOptionHeight = jest.fn((option: SelectOption) => {
+                if (!option.data) {
+                    throw new Error(`No data on ${option.value}`);
+                }
+
+                return option.data.height;
+            });
+
+            await openSelect({
+                options: [{value: 'js', content: 'JavaScript', data: {height: 40}}],
+                loading: true,
+                onLoadMore: jest.fn(),
+                getOptionHeight,
+            });
+
+            expect(screen.getByRole('option', {name: 'JavaScript'})).toBeInTheDocument();
         });
 
         test('an option that took the value of the loading row is still an option', async () => {

@@ -289,7 +289,10 @@ describe('Select base actions', () => {
 
             await user.keyboard('3');
 
-            // The list is filtered and the activity falls back to the first option left
+            // The character went into the input, and the list is filtered by it: of forty options
+            // thirteen carry a "3" in their name. A typeahead would have left all forty in place
+            expect(screen.getAllByRole('option')).toHaveLength(13);
+            // The activity falls back to the first option left
             expect(getByTestId(SelectQa.ACTIVE_ITEM)).toHaveTextContent('Value 3');
         });
     });
@@ -322,7 +325,12 @@ describe('Select base actions', () => {
             await user.click(getByTestId(TEST_QA));
 
             expect(getByTestId(SelectQa.LIST)).toHaveClass(SELECT_LIST_VIRTUALIZED_CLASS);
-            expect(getAllByRole('option').length).toBeLessThan(OPTIONS_COUNT);
+
+            // A window rather than the whole list, and a window rather than a single row: the
+            // viewport of the popup holds several of them
+            const rendered = getAllByRole('option').length;
+            expect(rendered).toBeLessThan(OPTIONS_COUNT);
+            expect(rendered).toBeGreaterThan(1);
         });
     });
 });

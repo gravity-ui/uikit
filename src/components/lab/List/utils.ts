@@ -70,8 +70,20 @@ export interface FlattenResult<T> {
     optionsCount: number;
 }
 
+const UNSAFE_DOM_ID_CHAR = /[^A-Za-z0-9-]/g;
+
+/**
+ * The id of an item is the id of the consumer — any string at all — and it has to become a part of
+ * a DOM id. The escaping is total and one-to-one: every character outside the safe set becomes its
+ * code unit between underscores, and the underscore is escaped along with the rest, so two ids
+ * cannot meet in one DOM id. `encodeURIComponent` is neither: a lone surrogate makes it throw
+ */
+function escapeDomId(itemId: string) {
+    return itemId.replace(UNSAFE_DOM_ID_CHAR, (char) => `_${char.charCodeAt(0).toString(16)}_`);
+}
+
 export function getItemDomId(listId: string, itemId: string) {
-    return `${listId}-item-${encodeURIComponent(itemId)}`;
+    return `${listId}-item-${escapeDomId(itemId)}`;
 }
 
 export function isNavigable<T>(row: ListRow<T>): boolean {

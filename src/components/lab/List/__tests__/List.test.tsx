@@ -101,7 +101,22 @@ describe('lab List', () => {
 
             const ids = screen.getAllByRole('option').map((option) => option.id);
             expect(new Set(ids).size).toBe(2);
-            expect(ids).toEqual(['enc-list-item-a%20b', 'enc-list-item-a_b']);
+            expect(ids).toEqual(['enc-list-item-a_20_b', 'enc-list-item-a_5f_b']);
+        });
+
+        test('an id of any string at all still makes a DOM id', () => {
+            // A lone surrogate is a valid string and a valid id of an item; the escaping has to
+            // survive it, and every escaping built on encodeURIComponent does not
+            const items = [String.fromCharCode(0xd800), String.fromCharCode(0xdc00), 'плюс'];
+            render(<List id="enc-list" aria-label="Items" items={items} />);
+
+            const ids = screen.getAllByRole('option').map((option) => option.id);
+            expect(new Set(ids).size).toBe(items.length);
+            expect(ids).toEqual([
+                'enc-list-item-_d800_',
+                'enc-list-item-_dc00_',
+                'enc-list-item-_43f__43b__44e__441_',
+            ]);
         });
 
         test('empty items render a container without a tab stop', async () => {

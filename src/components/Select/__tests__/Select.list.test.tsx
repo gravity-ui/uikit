@@ -654,6 +654,20 @@ describe('Select on the List core', () => {
             );
         });
 
+        test('options that share a value are named in a warning of their own', async () => {
+            await openSelect({
+                options: [
+                    {value: 'js', content: 'JavaScript'},
+                    {value: 'js', content: 'JavaScript again'},
+                ],
+            });
+
+            // The core warns about an id of a list; the consumer is holding a Select
+            expect(consoleErrorSpy).toHaveBeenCalledWith(
+                expect.stringContaining('[Select] More than one option has the value "js"'),
+            );
+        });
+
         test('the group headers do not count towards the hint', async () => {
             // Two groups of the size that fits: the flat list is longer by their headers
             const half = Math.floor(VIRTUALIZATION_HINT_OPTIONS_COUNT / 2);

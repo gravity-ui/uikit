@@ -158,6 +158,33 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         return getSelectedOptionsContent(options, value, renderSelectedOption, getOptionText);
     }, [options, value, renderSelectedOption, getOptionText]);
 
+    // A value identifies the row of an option, and the list keeps one row per id. Two options with
+    // one value were never two choices — clicking either applied the same value — but the message
+    // about it should come from the component the consumer is holding
+    const duplicateValue = React.useMemo(() => {
+        const seen = new Set<string>();
+
+        for (const option of options as FlattenOption[]) {
+            if (isSelectGroupTitle(option)) {
+                continue;
+            }
+
+            if (seen.has(option.value)) {
+                return option.value;
+            }
+
+            seen.add(option.value);
+        }
+
+        return undefined;
+    }, [options]);
+
+    if (duplicateValue !== undefined) {
+        warnOnce(
+            `[Select] More than one option has the value "${duplicateValue}". The value identifies the row of an option, so the list renders one row per value — make the values unique.`,
+        );
+    }
+
     // Group headers are rows of the list but not options — the hint is about the options
     const optionsCount = React.useMemo(
         () =>

@@ -12,8 +12,8 @@ import {SelectQa, selectListBlock} from '../../constants';
 import {useAlignActiveOption} from '../../hooks';
 import type {SelectOption, SelectProps} from '../../types';
 import {
-    LOADING_OPTION,
     buildSelectListNodes,
+    flattenSelectListNodes,
     getItemViewSize,
     getPopupItemHeight,
     getSelectListNodeText,
@@ -256,11 +256,9 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
             ],
         );
 
-        // The rows in the order the core lays them out; the loading row closes the list
-        const rows = React.useMemo(
-            () => (loading ? [...flattenOptions, LOADING_OPTION] : flattenOptions),
-            [flattenOptions, loading],
-        );
+        // The rows in the order the core lays them out — the nodes it is given, flattened back,
+        // so that a section the filter left empty is not counted where the list does not draw it
+        const rows = React.useMemo(() => flattenSelectListNodes(nodes), [nodes]);
 
         useAlignActiveOption({
             listId: id,

@@ -112,7 +112,8 @@ export type SelectProps<T = any> = AriaLabelingProps &
         /**
          * The text of an option: the trigger shows it for a selected option, the filter matches it
          * and the search by the first letters looks it up. Defaults to the content of the option
-         * when that is a string, otherwise to its value — `getSelectOptionText` is that default
+         * when that is a string or a number, otherwise to its value — `getSelectOptionText` is
+         * that default
          */
         getOptionText?: (option: SelectOption<T>) => string;
         getOptionHeight?: (option: SelectOption<T>, index: number) => number;

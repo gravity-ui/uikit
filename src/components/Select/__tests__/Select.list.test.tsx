@@ -587,6 +587,33 @@ describe('Select on the List core', () => {
             expect(list.scrollTop).toBe(40 * ROW_HEIGHT - VIEWPORT);
         });
 
+        test('a group the filter emptied does not shift the scroll', async () => {
+            // The header of such a group is not drawn, so it must not be counted either: under
+            // virtualization the offset is summed from the rows before the active one
+            render(
+                <MobileProvider mobile={false}>
+                    <ListVirtualizer>
+                        <ControlledSelect
+                            id={SELECT_ID}
+                            options={[
+                                {label: 'Empty group', options: [{value: 'gone', content: 'Gone'}]},
+                                ...OPTIONS,
+                            ]}
+                            value={['val40']}
+                            filterable
+                            filterPlaceholder={FILTER_PLACEHOLDER}
+                            filter="Value"
+                        />
+                    </ListVirtualizer>
+                </MobileProvider>,
+            );
+            const user = userEvent.setup();
+            await user.click(screen.getByTestId(TEST_QA));
+
+            expect(screen.queryByText('Empty group')).not.toBeInTheDocument();
+            expect(screen.getByTestId(SelectQa.LIST).scrollTop).toBe(40 * ROW_HEIGHT - VIEWPORT);
+        });
+
         test('under virtualization the scroll waits for the rows of the first window', async () => {
             render(
                 <MobileProvider mobile={false}>

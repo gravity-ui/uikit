@@ -111,8 +111,9 @@ const asText = (content: React.ReactNode): string | undefined => {
 };
 
 /**
- * The default text of an option: its content when that is a string, otherwise its value. Call it
- * from a `getOptionText` of your own to fall back to the default for the rest of the options
+ * The default text of an option: its content when that is a string or a number, otherwise its
+ * value. Call it from a `getOptionText` of your own to fall back to the default for the rest of
+ * the options
  */
 export const getSelectOptionText = (option: SelectOption): string => {
     const text = asText(option.content) ?? asText(option.children);
@@ -211,6 +212,26 @@ export const buildSelectListNodes = (
     return nodes.filter(
         (node) => !isSelectGroupNode(node) || node.label === '' || node.options.length > 0,
     );
+};
+
+/**
+ * The rows of the list in the order it lays them out: a section takes a row of its own and its
+ * options follow it. The heights are counted against these rows, so they have to be the very rows
+ * the list renders — a section the filter left empty is not among them
+ */
+export const flattenSelectListNodes = (nodes: SelectListNode[]): FlattenOption[] => {
+    const rows: FlattenOption[] = [];
+
+    for (const node of nodes) {
+        if (isSelectGroupNode(node)) {
+            rows.push(node);
+            rows.push(...node.options);
+        } else {
+            rows.push(node);
+        }
+    }
+
+    return rows;
 };
 
 export const getSelectListNodeText = (

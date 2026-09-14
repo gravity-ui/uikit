@@ -18,7 +18,8 @@ describe('getSelectOptionText', () => {
     });
 
     test('a number is text as it is, without a warning', () => {
-        expect(getSelectOptionText({value: '10', content: 10})).toBe('10');
+        // The value differs from the content on purpose: the content is what the option reads as
+        expect(getSelectOptionText({value: 'ten', content: 10})).toBe('10');
         expect(warn).not.toHaveBeenCalled();
     });
 

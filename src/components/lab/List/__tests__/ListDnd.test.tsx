@@ -6,7 +6,7 @@ import {fireEvent, render, screen} from '../../../../../test-utils/utils';
 import {List} from '../List';
 import type {ListDndAdapter, ListDndProps, ListItemContext, ListItemHelpers} from '../types';
 
-import {FRUITS, GROUPS, createTracker} from './helpers';
+import {FRUITS, GROUPS, createTracker, getSectionHeader} from './helpers';
 
 /** Stable per-id ref callbacks — the obligation of an adapter */
 function createStableRefs(onRef: (id: string, element: HTMLElement | null) => void) {
@@ -104,7 +104,7 @@ describe('lab List: dnd layer', () => {
             expect(ids).toEqual(expect.arrayContaining(['r1', 'a1', 'a2']));
             expect(ids).not.toContain('recent');
             expect(ids).not.toContain('all');
-            expect(screen.getByText('Recent')).not.toHaveAttribute('data-dragging');
+            expect(getSectionHeader('Recent')).not.toHaveAttribute('data-dragging');
         });
 
         test('role, id and tabIndex from the adapter are dropped with a dev warning', () => {

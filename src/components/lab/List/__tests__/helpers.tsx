@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import * as tabbable from 'tabbable';
 
-import {fireEvent} from '../../../../../test-utils/utils';
+import {fireEvent, screen} from '../../../../../test-utils/utils';
 import {List} from '../List';
 import type {ListItemContext, ListItemViewStateProps, ListProps} from '../types';
 import {useListFocusOwner} from '../useListFocusOwner';
@@ -93,6 +93,21 @@ export function mockLayout({
         offsetHeightSpy.mockRestore();
         offsetWidthSpy.mockRestore();
     });
+}
+
+/**
+ * The header row of a section: the label itself lives in an element of its own inside the row (the
+ * one that clips a label too long for the popup), so the text node is not the row
+ */
+export function getSectionHeader(label: string): HTMLElement {
+    const text = screen.getByText(label);
+    const header = text.closest('[role="presentation"]');
+
+    if (!(header instanceof HTMLElement)) {
+        throw new Error(`No section header around the text "${label}"`);
+    }
+
+    return header;
 }
 
 /** jsdom does not scroll: scrollTop is set directly and the event is fired by hand */

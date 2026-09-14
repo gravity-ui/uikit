@@ -46,8 +46,17 @@ $popupBlock: '.#{variables.$ns}popup';
     /* A group with an empty label: a line instead of a header. As the first row it has nothing to
        separate and takes no space */
     &__item_separator:not([data-first-row]) {
-        margin-block: var(--g-spacing-1);
-        border-block-start: 1px solid var(--g-color-line-generic);
+        /* The line lives inside the box of the row: the height the row costs the list is the one
+           the list was given, whether it came from the default or from getOptionGroupHeight */
+        box-sizing: border-box;
+        padding-block: var(--g-spacing-1);
+
+        &::before {
+            content: '';
+            display: block;
+            block-size: 1px;
+            background: var(--g-color-line-generic);
+        }
     }
 
     &__item_loading {

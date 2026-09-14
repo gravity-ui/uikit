@@ -242,8 +242,9 @@ describe('Select base actions', () => {
         });
     });
 
-    // The search by the first letters belongs to the List: a prefix, a buffer of 500 ms and the
-    // APG cycling over the matches of a repeated character
+    // The search by the first letters belongs to the List: a prefix, a buffer that lives
+    // `TYPEAHEAD_TIMEOUT` after the last key, and the APG cycling over the matches of a repeated
+    // character
     describe('typeahead', () => {
         test('a prefix moves the activity, and the buffer resets after a pause', async () => {
             const {getByTestId} = setup({options: TYPEAHEAD_OPTIONS});

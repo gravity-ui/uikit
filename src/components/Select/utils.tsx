@@ -39,7 +39,19 @@ export type SelectListNode<T = any> = SelectOption<T> | SelectGroupNode<T>;
 
 export const LOADING_OPTION_VALUE = '__SELECT_LIST_ITEM_LOADING__';
 
-export const LOADING_OPTION: SelectOption = {value: LOADING_OPTION_VALUE, disabled: true};
+/** The mark of the row the Select adds itself: a value is not enough, a consumer may use any */
+const LOADING_ROW = Symbol('select-loading-row');
+
+export const LOADING_OPTION: SelectOption = {
+    value: LOADING_OPTION_VALUE,
+    disabled: true,
+    [LOADING_ROW]: true,
+} as SelectOption;
+
+/** The row of the loader — ours, never an option of the consumer */
+export const isSelectLoadingNode = (node: SelectListNode): boolean => {
+    return Boolean((node as {[LOADING_ROW]?: boolean})[LOADING_ROW]);
+};
 
 export type FlattenOptions = FlattenOption[] & {
     [FLATTEN_KEY]: {
@@ -191,10 +203,14 @@ export const buildSelectListNodes = (
     });
 
     if (loading) {
-        nodes.push(LOADING_OPTION);
+        nodes.push({...LOADING_OPTION, value: `${prefix}loading`});
     }
 
-    return nodes;
+    // A section whose options the filter took away has nothing left to head. A group with an empty
+    // label is a separator rather than a header, and heads nothing to begin with — it stays
+    return nodes.filter(
+        (node) => !isSelectGroupNode(node) || node.label === '' || node.options.length > 0,
+    );
 };
 
 export const getSelectListNodeText = (
@@ -207,7 +223,7 @@ export const getSelectListNodeText = (
 
     // The loading row belongs to the Select, not to the consumer: it has no text of its own and
     // must not reach a getter written for the options of the consumer
-    if (node.value === LOADING_OPTION_VALUE) {
+    if (isSelectLoadingNode(node)) {
         return '';
     }
 
@@ -268,25 +284,22 @@ export const getSelectedOptionsContent = (
         flattenSimpleOptions.map((opt) => [opt.value, opt]),
     );
 
-    const selectedOptions = value.map((val) => {
-        return optionsMap.get(val) || {value: val};
-    });
-
     if (renderSelectedOption) {
-        return selectedOptions.map((option, index) => {
-            return (
-                <React.Fragment key={option.value}>
-                    {renderSelectedOption(option, index)}
-                </React.Fragment>
-            );
+        return value.map((val, index) => {
+            const option = optionsMap.get(val) ?? {value: val};
+            return <React.Fragment key={val}>{renderSelectedOption(option, index)}</React.Fragment>;
         });
-    } else {
-        return selectedOptions
-            .map((option) => {
-                return resolveOptionText(option, getOptionText);
-            })
-            .join(', ');
     }
+
+    return value
+        .map((val) => {
+            const option = optionsMap.get(val);
+
+            // A value the options do not hold yet — they are still loading, say — is not an option:
+            // the getter of the consumer is written for its own options and would not survive one
+            return option ? resolveOptionText(option, getOptionText) : val;
+        })
+        .join(', ');
 };
 
 const getTypedChildrenArray = (children: SelectProps['children']) => {

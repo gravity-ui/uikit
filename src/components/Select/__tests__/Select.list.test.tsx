@@ -119,6 +119,24 @@ describe('Select on the List core', () => {
         });
     });
 
+    describe('a selected value the options do not hold', () => {
+        test('the trigger shows the value and getOptionText is not asked about it', async () => {
+            // The options are still loading, and the getter of the consumer knows only its own
+            const getOptionText = jest.fn((option: SelectOption) => {
+                if (!option.data) {
+                    throw new Error(`No data on ${option.value}`);
+                }
+
+                return option.data.name;
+            });
+
+            setup({id: SELECT_ID, options: [], value: ['ruby'], getOptionText});
+
+            expect(screen.getByTestId(TEST_QA)).toHaveTextContent('ruby');
+            expect(getOptionText).not.toHaveBeenCalled();
+        });
+    });
+
     describe('groups the consumer can build', () => {
         test('an option that merely follows a group stays outside of it', async () => {
             await openSelect({
@@ -133,6 +151,22 @@ describe('Select on the List core', () => {
 
             expect(inGroup).toHaveAttribute('aria-describedby', getSectionHeader('Group 1').id);
             expect(standalone).not.toHaveAttribute('aria-describedby');
+        });
+
+        test('a group left without options by the filter loses its header', async () => {
+            const {user} = await openSelect({
+                options: [
+                    {label: 'Group 1', options: [{value: 'alpha', content: 'Alpha'}]},
+                    {value: 'beta', content: 'Beta'},
+                ],
+                filterable: true,
+                filterPlaceholder: FILTER_PLACEHOLDER,
+            });
+
+            await user.type(screen.getByPlaceholderText(FILTER_PLACEHOLDER), 'Beta');
+
+            expect(screen.getByRole('option', {name: 'Beta'})).toBeInTheDocument();
+            expect(screen.queryByText('Group 1')).not.toBeInTheDocument();
         });
 
         test('an option whose value looks like the id of a section keeps its own row', async () => {
@@ -443,6 +477,25 @@ describe('Select on the List core', () => {
             expect(getOptionText).not.toHaveBeenCalledWith(
                 expect.objectContaining({value: expect.stringContaining('LOADING')}),
             );
+        });
+
+        test('an option that took the value of the loading row is still an option', async () => {
+            const onUpdate = jest.fn();
+            const {user} = await openSelect({
+                options: [
+                    {value: '__SELECT_LIST_ITEM_LOADING__', content: 'Not a loader'},
+                    {value: 'js', content: 'JavaScript'},
+                ],
+                loading: true,
+                onLoadMore: jest.fn(),
+                onUpdate,
+            });
+
+            const tricky = screen.getByRole('option', {name: 'Not a loader'});
+            expect(tricky).toBeInTheDocument();
+
+            await user.click(tricky);
+            expect(onUpdate).toHaveBeenCalledWith(['__SELECT_LIST_ITEM_LOADING__']);
         });
 
         test('the indicator of the loading row is really watched', async () => {

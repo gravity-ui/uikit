@@ -13,12 +13,12 @@ import {useAlignActiveOption} from '../../hooks';
 import type {SelectOption, SelectProps} from '../../types';
 import {
     LOADING_OPTION,
-    LOADING_OPTION_VALUE,
     buildSelectListNodes,
     getItemViewSize,
     getPopupItemHeight,
     getSelectListNodeText,
     isSelectGroupNode,
+    isSelectLoadingNode,
 } from '../../utils';
 import type {FlattenOption, GroupTitleItem, SelectGroupNode, SelectListNode} from '../../utils';
 
@@ -140,7 +140,7 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
 
         const handleItemAction = React.useCallback(
             (_id: string, node: SelectListNode) => {
-                if (isSelectGroupNode(node) || node.value === LOADING_OPTION_VALUE) {
+                if (isSelectGroupNode(node) || isSelectLoadingNode(node)) {
                     return;
                 }
 
@@ -212,7 +212,7 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
 
                 const option = ctx.item as SelectOption;
 
-                if (option.value === LOADING_OPTION_VALUE) {
+                if (isSelectLoadingNode(option)) {
                     return (
                         <div
                             {...getItemProps({

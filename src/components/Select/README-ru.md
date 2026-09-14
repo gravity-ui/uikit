@@ -10,6 +10,10 @@ import {Select} from '@gravity-ui/uikit';
 
 Компонент `Select` — это контрол, который предоставляет список опций для выбора.
 
+> [!NOTE]
+> В v8 опции рисует новый список. Что изменилось для потребителя, собрано в
+> [миграционном гайде](./migration-guide.md) (на английском).
+
 ## `Options`
 
 Опции для выбора.
@@ -74,7 +78,51 @@ SANDBOX-->
 
 <!--/GITHUB_BLOCK-->
 
+#### Текст опции
+
+Текст опции — это то, что триггер показывает для выбранной опции, то, с чем сравнивает фильтр, и то,
+по чему идёт поиск по первым буквам. По умолчанию это содержимое опции, если оно строка или число, её дети, если
+строка или число — они, и `value` в остальных случаях — поэтому опции, которые рендерят что-то кроме простой строки, нужен
+`getOptionText`, иначе её будут искать и подписывать по значению.
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+import {Flex, Icon, Select, getSelectOptionText} from '@gravity-ui/uikit';
+
+<Select
+  options={cities}
+  renderOption={(option) => (
+    <Flex gap={1}>
+      <Icon data={option.data.icon} />
+      {option.data.name}
+    </Flex>
+  )}
+  // опции списка не всегда одной формы: `getSelectOptionText` — это дефолт,
+  // так что опции без `data` сохраняют прежний текст
+  getOptionText={(option) => option.data?.name ?? getSelectOptionText(option)}
+/>;
+```
+
+<!--/GITHUB_BLOCK-->
+
+`useSelectOptions` принимает то же свойство: передайте его и туда, если фильтруете опции снаружи
+компонента. Объявляйте функцию вне компонента или мемоизируйте её — она участвует в мемоизации
+списка, и новая функция на каждый рендер пересобирает строки.
+
+`getOptionText` заменяет свойство `text` у опции, которого больше нет: текст опции теперь
+запрашивают, а не хранят, и одна функция закрывает все опции вместо поля, повторённого в каждой.
+
+`value` опции — идентификатор её строки, поэтому значения должны быть уникальными в пределах всего
+списка, включая группы. Из него же выводится DOM-`id` строки, и именно на этот id указывает
+`aria-activedescendant` триггера — берите его оттуда, а не собирайте руками: экранирование значения
+принадлежит списку и контрактом не является.
+
 #### Группированный список
+
+Заголовок группы — это подпись, а не опция: у него `role="presentation"`, он не участвует в обходе
+с клавиатуры и не попадает в число строк с `role="option"`, а опции под ним называет через
+`aria-describedby`. Группа с пустым `label` рисует разделительную линию вместо заголовка.
 
 <!--SANDBOX
 import {Flex, Select} from '@gravity-ui/uikit';
@@ -258,6 +306,17 @@ SANDBOX-->
 
 <!--/GITHUB_BLOCK-->
 
+### Поиск по первым буквам
+
+Пока попап открыт и фильтр не перехватывает клавиши, символы ищут опцию: список переводит
+активность на первую опцию, текст которой **начинается** с набранного, буфер сбрасывается через
+секунду после последнего нажатия, а повторение одного символа перебирает опции, начинающиеся с
+него. Пробел входит в набираемый запрос, поэтому подпись с пробелом достижима — и ничего не
+выбирает, пока буфер не опустеет. Символ, который список забрал под поиск, не доходит до горячих
+клавиш приложения вокруг.
+
+В `filterable`-режиме клавиши уходят в фильтр: набор там — это фильтрация.
+
 ## Размер
 
 Чтобы задать дефолтный размер контролов и опций, используйте свойство `size`. Размер по умолчанию — `m`.
@@ -363,7 +422,7 @@ SANDBOX-->
 
 Особенности поведения по умолчанию:
 
-- Ширина списка опций соответствует ширине самой широкой опции, но не превышает `90vw`. Это не применимо, если используется [виртуализация](#virtualized-list).
+- Ширина списка опций соответствует ширине самой широкой опции, но не превышает `90vw`. Это не применимо, если используется [виртуализация](#виртуализированный-список).
 
 - Узкие опции растягиваются до ширины контрола.
 
@@ -436,16 +495,34 @@ SANDBOX-->
 
 ### Виртуализированный список
 
-Для оптимального отображения большого количества опций в компоненте `Select`предусмотрен встроенный инструмент виртуализации списка. Виртуализация включается, когда количество опций превышает пороговое значение (по умолчанию `50`). Пороговое значение можно изменить с помощью свойства `virtualizationThreshold`.
+Длинный список опций по умолчанию рендерится целиком: каждая опция — строка в DOM. Чтобы рендерились только видимые, оберните `Select` в `ListVirtualizer` из энтри-поинта `@gravity-ui/uikit/virtualizer` — обёртке не нужны настройки, а попап продолжает работать через портал. Оборачивать имеет смысл начиная с пары сотен опций; выше 150 `Select` говорит об этом предупреждением в разработке.
 
-При включении виртуализации к элементу списка опций применяются определенные ограничения:
+```tsx
+import {Select} from '@gravity-ui/uikit';
+import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
+
+<ListVirtualizer>
+  <Select options={thousandsOfOptions} />
+</ListVirtualizer>;
+```
+
+Что стоит учитывать:
 
 - Ширина списка опций больше не изменяется в зависимости от длины самой длинной опции.
 
 - Минимальная ширина списка опций равна ширине контрола или `100px`, если ширина контрола меньше `100px`.
 
+- Высота строки до её рендера берётся из [getOptionHeight](#отображение-опций-с-разной-высотой) и размера (`size`) `Select`; проп `estimateItemSize` обёртки не используется, так как тип строки-опции наружу не выходит. Пропы `measure` и `overscan` работают так, как [описано](https://github.com/gravity-ui/uikit/blob/main/src/components/lab/List/README.md#virtualization) для `List`.
+
+- На сервере виртуализатор не знает размер вьюпорта и отдаёт пустое окно: опции появляются после гидратации.
+
+- Обёртка покрывает список этого `Select` — в том числе тот, который рендерит собственный [renderPopup](#отображение-списка-опций). Список внутри его строки или `Select`, помещённый в такую строку, рендерятся целиком: виртуализация списка не достаёт до того, что рисуют его строки.
+
+- Объявляйте `getOptionHeight` и `renderOption` вне компонента или мемоизируйте их: новая функция на каждый рендер заставляет виртуализатор заново набирать измерения, а строки — перерисовываться.
+
 <!--SANDBOX
 import {Box, Select} from '@gravity-ui/uikit';
+import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 import {type CSSProperties} from 'react';
 
 const containerStyle: CSSProperties = {
@@ -470,19 +547,27 @@ export default function () {
             <div style={containerStyle}>
                 <h4>Default</h4>
                 <Box spacing={{my: 3}}>
-                    <Select placeholder="Short value" options={shortOptions} />
+                    <ListVirtualizer>
+                        <Select placeholder="Short value" options={shortOptions} />
+                    </ListVirtualizer>
                 </Box>
                 <Box spacing={{my: 3}}>
-                    <Select placeholder="Long value" options={longOptions} />
+                    <ListVirtualizer>
+                        <Select placeholder="Long value" options={longOptions} />
+                    </ListVirtualizer>
                 </Box>
             </div>
             <div style={containerStyle}>
                 <h4>In pixels</h4>
                 <Box spacing={{my: 3}}>
-                    <Select placeholder="Short value" popupWidth={80} options={shortOptions} />
+                    <ListVirtualizer>
+                        <Select placeholder="Short value" popupWidth={80} options={shortOptions} />
+                    </ListVirtualizer>
                 </Box>
                 <Box spacing={{my: 3}}>
-                    <Select placeholder="Long value" popupWidth={80} options={longOptions} />
+                    <ListVirtualizer>
+                        <Select placeholder="Long value" popupWidth={80} options={longOptions} />
+                    </ListVirtualizer>
                 </Box>
             </div>
         </>
@@ -549,23 +634,33 @@ const MyComponent = () => {
 ### Отображение секции пользовательской фильтрации
 
 Для отображения секции пользовательской фильтрации используйте свойство `renderFilter` и установите `filterable` в значение `true`.
-Обратите внимание, что для правильной работы фильтра необходимо передать все аргументы в узел (как при использовании стандартной конфигурации).
+
+`inputProps` несёт всё, что нужно инпуту комбобокса: значение, обработчики и ARIA-обвязку (`role`, `aria-controls`, `aria-activedescendant`, `aria-expanded`), без которой фильтр перестаёт называть активную опцию для скринридера. Разверните его на обычном `input` вместе с `ref`. Компоненту, который не принимает разворачивание пропсов, — например `TextInput`, — части нужно передать поимённо, включая `onKeyDown`: в нём вся клавиатура списка.
 
 <!--SANDBOX
 import type {SelectProps} from '@gravity-ui/uikit';
 import {Button, Flex, Select, TextInput} from '@gravity-ui/uikit';
 
 const renderFilter: SelectProps['renderFilter'] = (props) => {
-    const {value, ref, onChange, onKeyDown} = props;
+    const {ref, inputProps, value, onChange} = props;
 
     return (
         <Flex direction="column" gap={1}>
             <TextInput
                 controlRef={ref}
-                controlProps={{size: 1}}
+                // `controlProps` reaches the input itself; `TextInput` owns the value, the
+                // placeholder and the handlers, so those are given to it directly
+                controlProps={{
+                    role: inputProps.role,
+                    'aria-controls': inputProps['aria-controls'],
+                    'aria-activedescendant': inputProps['aria-activedescendant'],
+                    'aria-expanded': inputProps['aria-expanded'],
+                    'aria-autocomplete': inputProps['aria-autocomplete'],
+                }}
                 value={value}
+                placeholder={inputProps.placeholder}
                 onUpdate={onChange}
-                onKeyDown={onKeyDown}
+                onKeyDown={inputProps.onKeyDown}
             />
             <Button size="xs">Do smth</Button>
         </Flex>
@@ -587,22 +682,17 @@ SANDBOX-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-import {Button, TextInput} from '@gravity-ui/uikit';
+import {Button} from '@gravity-ui/uikit';
 import type {SelectProps} from '@gravity-ui/uikit';
 
 const MyComponent = () => {
   const renderFilter: SelectProps['renderFilter'] = (props) => {
-    const {value, ref, onChange, onKeyDown} = props;
+    // `inputProps` несёт значение, обработчики и обвязку комбобокса
+    const {ref, inputProps} = props;
 
     return (
       <div>
-        <TextInput
-          controlRef={ref}
-          controlProps={{size: 1}}
-          value={value}
-          onUpdate={onChange}
-          onKeyDown={onKeyDown}
-        />
+        <input ref={ref} {...inputProps} />
         <Button>Do smth</Button>
       </div>
     );
@@ -746,7 +836,7 @@ const MyComponent = () => {
 
 ### Отображение опций с разной высотой
 
-Опции имеют фиксированную высоту, в соответсвии с заданным свойством `size`. Если нужно отобразить опции с разной высотой, используйте свойство `option.data`, которое будет содержать информацию о требуемой высоте опции, а также `getOptionHeight` для установки этого значения.
+Высота строки определяется её содержимым и не может быть меньше минимума для своего размера (`size`): 24, 28, 32 и 36 пикселей — если только вы не задали высоту сами. Если нужно отобразить опции с разной высотой, используйте свойство `option.data`, которое будет содержать информацию о требуемой высоте опции, а также `getOptionHeight` для установки этого значения: возвращённое число становится высотой строки и оценкой, по которой [виртуализатор](#виртуализированный-список) расставляет строки.
 
 <!--SANDBOX
 import type {SelectProps} from '@gravity-ui/uikit';
@@ -994,56 +1084,66 @@ SANDBOX-->
 
 ## Свойства
 
-| Имя                                                       | Описание                                                                                                                                  | Тип                                      | Значение по умолчанию                                    |
-| :-------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------- | :------------------------------------------------------- |
-| className                                                 | Имя класса контрола.                                                                                                                      | `string`                                 |                                                          |
-| defaultValue                                              | Значения по умолчанию для выбранных опций в случае использования неуправляемого состояния.                                                | `string[]`                               |                                                          |
-| disabled                                                  | Указывает на то, что пользователь не может взаимодействовать с контролом.                                                                 | `boolean`                                | `false`                                                  |
-| [filterable](#filtering-options)                          | Указывает на то, что список опций содержит секцию фильтрации.                                                                             | `boolean`                                | `false`                                                  |
-| filterOption                                              | Используется для сравнения опции со значением фильтра.                                                                                    | `function`                               |                                                          |
-| filterPlaceholder                                         | Текст-заглушка по умолчанию для поля ввода фильтра.                                                                                       | `string`                                 |                                                          |
-| [getOptionHeight](#render-options-with-different-heights) | Используется для задания высоты опций.                                                                                                    | `function`                               |                                                          |
-| getOptionGroupHeight                                      | Используется для задания высоты заголовка группы опций.                                                                                   | `function`                               |                                                          |
-| hasClear                                                  | Позволяет отображать иконку для очистки выбранных опций.                                                                                  | `boolean`                                | `false`                                                  |
-| id                                                        | HTML-атрибут `id`.                                                                                                                        | `string`                                 |                                                          |
-| label                                                     | Лейбл контрола.                                                                                                                           | `string`                                 |                                                          |
-| loading                                                   | Добавляет элемент загрузки в конец списка опций. Работает как постоянный индикатор загрузки, пока список опций пуст.                      | `boolean`                                |                                                          |
-| [multiple](#selecting-multiple-options)                   | Включает множественный выбор опций.                                                                                                       | `boolean`                                | `false`                                                  |
-| name                                                      | Имя контрола.                                                                                                                             | `string`                                 |                                                          |
-| onBlur                                                    | Обработчик, который вызывается, когда элемент теряет фокус.                                                                               | `function`                               |                                                          |
-| filter                                                    | Контролируемое значение фильтра.                                                                                                          | `string`                                 | `''`                                                     |
-| onFilterChange                                            | Срабатывает при каждом изменении фильтра.                                                                                                 | `function`                               |                                                          |
-| onFocus                                                   | Обработчик, который вызывается, когда элемент получает фокус.                                                                             | `function`                               |                                                          |
-| onLoadMore                                                | Срабатывает, когда индикатор загрузки становится видимым.                                                                                 | `function`                               |                                                          |
-| onOpenChange                                              | Срабатывает при каждом изменении видимости списка опций.                                                                                  | `function`                               |                                                          |
-| onUpdate                                                  | Срабатывает, когда пользователь подтверждает изменение значения `Select`.                                                                 | `function`                               |                                                          |
-| [options](#options)                                       | Конфигурация опций.                                                                                                                       | `(SelectOption \| SelectOptionGroup)[]`  |                                                          |
-| pin                                                       | Вид границ контрола.                                                                                                                      | `string`                                 | `'round-round'`                                          |
-| placeholder                                               | Текст-заглушка.                                                                                                                           | `string`                                 |                                                          |
-| popupClassName                                            | Имя класса (`className`) для списка опций в попапе.                                                                                       | `string`                                 |                                                          |
-| popupPlacement                                            | Размещение списка опций относительно контрола.                                                                                            | `PopupPlacement` `Array<PopupPlacement>` | `['bottom-start', 'bottom-end', 'top-start', 'top-end']` |
-| [popupWidth](#popup-width)                                | Ширина списка опций.                                                                                                                      | `number \| 'fit' \| 'outfit'`            | `'outfit'`                                               |
-| sheetClassName                                            | Имя класса (`className`) для списка опций в шторке.                                                                                       | `string`                                 |                                                          |
-| qa                                                        | Атрибут идентификатора для тестирования (`data-qa`).                                                                                      | `string`                                 |                                                          |
-| [renderControl](#render-custom-control)                   | Используется для рендеринга пользовательского контрола.                                                                                   | `function`                               |                                                          |
-| [renderCounter](#render-custom-counter)                   | Используется для рендеринга пользовательского счетчика. Работает только с [hasCounter](#counter).                                         | `function`                               |                                                          |
-| renderEmptyOptions                                        | Используется для рендеринга узла для пустого списка опций.                                                                                | `function`                               |                                                          |
-| [renderFilter](#render-custom-filter-section)             | Используется для рендеринга секции пользовательской фильтрации.                                                                           | `function`                               |                                                          |
-| [renderOption](#render-custom-options)                    | Используется для рендеринга пользовательских опций.                                                                                       | `function`                               |                                                          |
-| renderOptionGroup                                         | Используется для рендеринга заголовков групп опций.                                                                                       | `function`                               |                                                          |
-| [renderSelectedOption](#render-custom-selected-options)   | Используется для рендеринга выбранных опций.                                                                                              | `function`                               |                                                          |
-| [renderPopup](#render-custom-popup)                       | Используется для рендеринга содержимого списка опций.                                                                                     | `function`                               |                                                          |
-| [size](#size)                                             | Размер контрола и опций.                                                                                                                  | `string`                                 | `'m'`                                                    |
-| value                                                     | Значения для выбранных опций, которые передаются в обработчик `onUpdate`.                                                                 | `string[]`                               |                                                          |
-| view                                                      | Вид контрола.                                                                                                                             | `string`                                 | `'normal'`                                               |
-| [virtualizationThreshold](#virtualized-list)              | Порог количества опций, после которого включается виртуализация.                                                                          | `number`                                 | `50`                                                     |
-| [width](#control-width)                                   | Ширина контрола                                                                                                                           | `string \| number`                       | `undefined`                                              |
-| errorMessage                                              | Текст ошибки.                                                                                                                             | `string`                                 |                                                          |
-| errorPlacement                                            | Положение отображения ошибки.                                                                                                             | `outside` `inside`                       | `outside`                                                |
-| validationState                                           | Состояние валидации.                                                                                                                      | `"invalid"`                              |                                                          |
-| [hasCounter](#counter)                                    | Показывает количество выбранных опций. Счетчик появляется только тогда, когда включен [множественный](#selecting-multiple-options) выбор. | `boolean`                                |                                                          |
+| Имя                                                                   | Описание                                                                                                                              | Тип                                      | Значение по умолчанию                                    |
+| :-------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------ | :--------------------------------------- | :------------------------------------------------------- |
+| className                                                             | Имя класса контрола.                                                                                                                  | `string`                                 |                                                          |
+| defaultValue                                                          | Значения по умолчанию для выбранных опций в случае использования неуправляемого состояния.                                            | `string[]`                               |                                                          |
+| disabled                                                              | Указывает на то, что пользователь не может взаимодействовать с контролом.                                                             | `boolean`                                | `false`                                                  |
+| [filterable](#фильтрация-опций)                                       | Указывает на то, что список опций содержит секцию фильтрации.                                                                         | `boolean`                                | `false`                                                  |
+| filterOption                                                          | Используется для сравнения опции со значением фильтра.                                                                                | `function`                               |                                                          |
+| filterPlaceholder                                                     | Текст-заглушка по умолчанию для поля ввода фильтра.                                                                                   | `string`                                 |                                                          |
+| [getOptionText](#текст-опции)                                         | Текст опции: его показывает триггер, с ним сравнивает фильтр и по нему идёт поиск по первым буквам.                                   | `function`                               | строковое содержимое, иначе значение                     |
+| [getOptionHeight](#отображение-опций-с-разной-высотой)                | Используется для задания высоты опций.                                                                                                | `function`                               |                                                          |
+| getOptionGroupHeight                                                  | Используется для задания высоты заголовка группы опций.                                                                               | `function`                               |                                                          |
+| hasClear                                                              | Позволяет отображать иконку для очистки выбранных опций.                                                                              | `boolean`                                | `false`                                                  |
+| id                                                                    | HTML-атрибут `id`.                                                                                                                    | `string`                                 |                                                          |
+| label                                                                 | Лейбл контрола.                                                                                                                       | `string`                                 |                                                          |
+| loading                                                               | Добавляет элемент загрузки в конец списка опций. Работает как постоянный индикатор загрузки, пока список опций пуст.                  | `boolean`                                |                                                          |
+| [multiple](#выбор-нескольких-опций)                                   | Включает множественный выбор опций.                                                                                                   | `boolean`                                | `false`                                                  |
+| name                                                                  | Имя контрола.                                                                                                                         | `string`                                 |                                                          |
+| onBlur                                                                | Обработчик, который вызывается, когда элемент теряет фокус.                                                                           | `function`                               |                                                          |
+| filter                                                                | Контролируемое значение фильтра.                                                                                                      | `string`                                 | `''`                                                     |
+| onFilterChange                                                        | Срабатывает при каждом изменении фильтра.                                                                                             | `function`                               |                                                          |
+| onFocus                                                               | Обработчик, который вызывается, когда элемент получает фокус.                                                                         | `function`                               |                                                          |
+| onLoadMore                                                            | Срабатывает, когда индикатор загрузки становится видимым.                                                                             | `function`                               |                                                          |
+| onOpenChange                                                          | Срабатывает при каждом изменении видимости списка опций.                                                                              | `function`                               |                                                          |
+| onUpdate                                                              | Срабатывает, когда пользователь подтверждает изменение значения `Select`.                                                             | `function`                               |                                                          |
+| [options](#options)                                                   | Конфигурация опций.                                                                                                                   | `(SelectOption \| SelectOptionGroup)[]`  |                                                          |
+| pin                                                                   | Вид границ контрола.                                                                                                                  | `string`                                 | `'round-round'`                                          |
+| placeholder                                                           | Текст-заглушка.                                                                                                                       | `string`                                 |                                                          |
+| popupClassName                                                        | Имя класса (`className`) для списка опций в попапе.                                                                                   | `string`                                 |                                                          |
+| popupPlacement                                                        | Размещение списка опций относительно контрола.                                                                                        | `PopupPlacement` `Array<PopupPlacement>` | `['bottom-start', 'bottom-end', 'top-start', 'top-end']` |
+| [popupWidth](#ширина-списка-опций)                                    | Ширина списка опций.                                                                                                                  | `number \| 'fit'`                        |                                                          |
+| sheetClassName                                                        | Имя класса (`className`) для списка опций в шторке.                                                                                   | `string`                                 |                                                          |
+| qa                                                                    | Атрибут идентификатора для тестирования (`data-qa`).                                                                                  | `string`                                 |                                                          |
+| [renderControl](#рендеринг-пользовательского-контрола)                | Используется для рендеринга пользовательского контрола.                                                                               | `function`                               |                                                          |
+| [renderCounter](#отображение-пользовательского-счетчика-опций)        | Используется для рендеринга пользовательского счетчика. Работает только с [hasCounter](#счетчик).                                     | `function`                               |                                                          |
+| renderEmptyOptions                                                    | Используется для рендеринга узла для пустого списка опций.                                                                            | `function`                               |                                                          |
+| [renderFilter](#отображение-секции-пользовательской-фильтрации)       | Используется для рендеринга секции пользовательской фильтрации.                                                                       | `function`                               |                                                          |
+| [renderOption](#отображение-пользовательских-опций)                   | Используется для рендеринга пользовательских опций.                                                                                   | `function`                               |                                                          |
+| renderOptionGroup                                                     | Используется для рендеринга заголовков групп опций.                                                                                   | `function`                               |                                                          |
+| [renderSelectedOption](#отображение-выбранных-пользовательских-опций) | Используется для рендеринга выбранных опций.                                                                                          | `function`                               |                                                          |
+| [renderPopup](#отображение-списка-опций)                              | Используется для рендеринга содержимого списка опций.                                                                                 | `function`                               |                                                          |
+| [size](#размер)                                                       | Размер контрола и опций.                                                                                                              | `string`                                 | `'m'`                                                    |
+| value                                                                 | Значения для выбранных опций, которые передаются в обработчик `onUpdate`.                                                             | `string[]`                               |                                                          |
+| view                                                                  | Вид контрола.                                                                                                                         | `string`                                 | `'normal'`                                               |
+| [width](#ширина-контрола)                                             | Ширина контрола                                                                                                                       | `string \| number`                       | `undefined`                                              |
+| errorMessage                                                          | Текст ошибки.                                                                                                                         | `string`                                 |                                                          |
+| errorPlacement                                                        | Положение отображения ошибки.                                                                                                         | `outside` `inside`                       | `outside`                                                |
+| validationState                                                       | Состояние валидации.                                                                                                                  | `"invalid"`                              |                                                          |
+| [hasCounter](#счетчик)                                                | Показывает количество выбранных опций. Счетчик появляется только тогда, когда включен [множественный](#выбор-нескольких-опций) выбор. | `boolean`                                |                                                          |
 
 ## API CSS
+
+Имена классов в разметке не являются публичным контрактом — строки попапа рисует список и его вьюха
+строки, и их разметка меняется вместе с китом. Поддерживается следующее:
+
+- переменные ниже;
+- цвета строки — переменные вьюхи строки `--g-list-item-view-background-color`,
+  `--g-list-item-view-background-color-hover`, `--g-list-item-view-text-color` и
+  `--g-list-item-view-description-color`. Геометрия строки — высота, отступы, радиус — следует
+  размеру ([size](#размер)) `Select` и не переопределяется;
+- содержимое строки — `renderOption`, `renderOptionGroup` и `renderSelectedOption`.
 
 | Имя                              | Описание                                                        |
 | :------------------------------- | :-------------------------------------------------------------- |

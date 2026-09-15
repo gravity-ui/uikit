@@ -4,11 +4,11 @@ import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Slider} from '../../Slider';
 import {Flex} from '../../layout';
-import {Ellipsis} from '../Ellipsis';
+import {EllipsisText} from '../EllipsisText';
 
-const meta: Meta<typeof Ellipsis> = {
-    title: 'Components/Data Display/Ellipsis',
-    component: Ellipsis,
+const meta: Meta<typeof EllipsisText> = {
+    title: 'Components/Data Display/EllipsisText',
+    component: EllipsisText,
     args: {
         children: 'a-very-long-long-text-that-should-be-truncated-in-somewhere.tar.gz',
         position: 'end',
@@ -30,7 +30,7 @@ const meta: Meta<typeof Ellipsis> = {
 
 export default meta;
 
-type Story = StoryObj<typeof Ellipsis>;
+type Story = StoryObj<typeof EllipsisText>;
 
 const MIN_WIDTH = 0;
 const MAX_WIDTH = 500;
@@ -75,13 +75,14 @@ export const Default: Story = {
     render: (args) => (
         <div
             style={{
+                display: 'grid',
                 resize: 'horizontal',
                 overflow: 'auto',
                 width: DEFAULT_WIDTH,
                 paddingInline: 12,
             }}
         >
-            <Ellipsis {...args} style={{width: '100%'}} />
+            <EllipsisText {...args} />
         </div>
     ),
 };
@@ -96,8 +97,8 @@ export const Positions: Story = {
                             <span style={{color: 'var(--g-color-text-secondary)'}}>
                                 position=&quot;{position}&quot;
                             </span>
-                            <div style={{width}}>
-                                <Ellipsis {...args} position={position} style={{width: '100%'}} />
+                            <div style={{width, display: 'grid'}}>
+                                <EllipsisText {...args} position={position} />
                             </div>
                         </Flex>
                     ))}
@@ -118,8 +119,8 @@ export const WithSeparator: Story = {
     render: (args) => (
         <WithWidthControl>
             {(width) => (
-                <div style={{width}}>
-                    <Ellipsis {...args} style={{width: '100%'}} />
+                <div style={{width, display: 'grid'}}>
+                    <EllipsisText {...args} />
                 </div>
             )}
         </WithWidthControl>
@@ -128,7 +129,7 @@ export const WithSeparator: Story = {
 
 export const WithMultipleSeparators: Story = {
     args: {
-        children: 'src.components.Ellipsis/Ellipsis-tsx',
+        children: 'src.components.EllipsisText/EllipsisText-tsx',
         separator: ['.', '/', '-'],
         offsetStart: 1,
         offsetEnd: 1,
@@ -137,8 +138,8 @@ export const WithMultipleSeparators: Story = {
     render: (args) => (
         <WithWidthControl>
             {(width) => (
-                <div style={{width}}>
-                    <Ellipsis {...args} style={{width: '100%'}} />
+                <div style={{width, display: 'grid'}}>
+                    <EllipsisText {...args} />
                 </div>
             )}
         </WithWidthControl>

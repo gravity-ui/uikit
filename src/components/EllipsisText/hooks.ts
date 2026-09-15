@@ -1,6 +1,8 @@
 import * as React from 'react';
 
-import {useResizeObserver} from '../../hooks';
+import {useLayoutEffect, useResizeObserver} from '../../hooks';
+
+import {splitText} from './utils';
 
 interface ResizeParams {
     text: string;
@@ -28,7 +30,7 @@ const calculateCollapsedText = (
     const collapsibleStartIndex = startOffset.length;
     const collapsibleEndIndex = -endOffset.length || text.length;
 
-    const collapsibleText = text.slice(collapsibleStartIndex, collapsibleEndIndex);
+    const collapsibleText = splitText(text.slice(collapsibleStartIndex, collapsibleEndIndex));
 
     let minCharacters = 0;
     let maxCharacters = collapsibleText.length;
@@ -41,8 +43,10 @@ const calculateCollapsedText = (
     while (minCharacters <= maxCharacters) {
         currentLength = Math.floor((minCharacters + maxCharacters) * 0.5);
 
-        start = collapsibleText.slice(0, Math.ceil(currentLength * 0.5));
-        end = collapsibleText.slice(collapsibleText.length - Math.floor(currentLength * 0.5));
+        start = collapsibleText.slice(0, Math.ceil(currentLength * 0.5)).join('');
+        end = collapsibleText
+            .slice(collapsibleText.length - Math.floor(currentLength * 0.5))
+            .join('');
 
         currentResult = startOffset + start + ELLIPSIS_CHAR + end + endOffset;
 
@@ -75,8 +79,11 @@ const handleResize = (params: ResizeParams) => {
         return;
     }
 
-    measure.textContent ||= text;
-    if (getElementWidth(measure) <= availableSpace) {
+    measure.textContent = text;
+    if (
+        params.startOffset.length + params.endOffset.length >= text.length ||
+        getElementWidth(measure) <= availableSpace
+    ) {
         setVisibleText(text);
         return;
     }
@@ -94,17 +101,17 @@ const makeOnResize = (params: ResizeParams) => () => {
     handleResize(params);
 };
 
-export interface CenterEllipsisProps {
+export interface CenterEllipsisTextProps {
     text: string;
     startOffset?: string;
     endOffset?: string;
 }
 
-export const useCenterEllipsis = ({
+export const useCenterEllipsisText = ({
     text,
     startOffset = '',
     endOffset = '',
-}: CenterEllipsisProps) => {
+}: CenterEllipsisTextProps) => {
     const containerRef = React.useRef<HTMLSpanElement | null>(null);
     const measureRef = React.useRef<HTMLSpanElement>(null);
 
@@ -123,24 +130,11 @@ export const useCenterEllipsis = ({
         [text, startOffset, endOffset, setVisibleText],
     );
 
-    // Does the same as useLayoutEffect, but does not trigger warnings with SSR
-    const containerRefCallback = React.useCallback<React.RefCallback<HTMLSpanElement>>(
-        (node) => {
-            if (!node) {
-                return;
-            }
+    useLayoutEffect(onResize, [onResize]);
 
-            containerRef.current = node;
-            onResize();
-        },
-        [onResize],
-    );
+    useResizeObserver({ref: containerRef, onResize});
+    // The measurement element also resizes when fonts change.
+    useResizeObserver({ref: measureRef, onResize});
 
-    useResizeObserver({
-        // Observing container for resize and measure for font changes
-        ref: React.useMemo(() => [containerRef, measureRef], [containerRef, measureRef]),
-        onResize,
-    });
-
-    return {visibleText, containerRef: containerRefCallback, measureRef};
+    return {visibleText, containerRef, measureRef};
 };

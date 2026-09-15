@@ -1,10 +1,7 @@
 import * as React from 'react';
 
 interface UseResizeObserverProps<T> {
-    ref:
-        | React.RefObject<T | null | undefined>
-        | undefined
-        | (React.RefObject<T | null | undefined> | undefined)[];
+    ref: React.RefObject<T | null | undefined> | undefined;
     onResize: (info: ResizeInfo) => void;
     box?: ResizeObserverBoxOptions;
 }
@@ -19,11 +16,8 @@ export function useResizeObserver<T extends Element>({
     box,
 }: UseResizeObserverProps<T>) {
     React.useEffect(() => {
-        const elements = (Array.isArray(ref) ? ref : [ref])
-            .map((elementRef) => elementRef?.current)
-            .filter((element): element is T => Boolean(element));
-
-        if (!elements.length) {
+        const element = ref?.current;
+        if (!element) {
             return undefined;
         }
 
@@ -45,7 +39,7 @@ export function useResizeObserver<T extends Element>({
             onResize({observer});
         });
 
-        elements.forEach((element) => observer.observe(element, {box}));
+        observer.observe(element, {box});
         return () => {
             observer.disconnect();
         };

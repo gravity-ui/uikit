@@ -17,9 +17,13 @@ export interface UseSheetDismissResult {
 export function useSheetDismiss({
     visible,
     onOpenChange,
+    disableEscapeKeyDown = false,
+    disableOutsideClick = false,
 }: {
     visible: boolean;
     onOpenChange?: SheetProps['onOpenChange'];
+    disableEscapeKeyDown?: boolean;
+    disableOutsideClick?: boolean;
 }): UseSheetDismissResult {
     const [legacyDismissed, setLegacyDismissed] = React.useState(false);
     const [immediate, setImmediate] = React.useState(false);
@@ -40,7 +44,11 @@ export function useSheetDismiss({
 
     const requestDismiss = React.useCallback(
         (request: SheetDismissRequest) => {
-            if (!requestedOpen) {
+            if (
+                !requestedOpen ||
+                (disableEscapeKeyDown && request.reason === 'escape-key') ||
+                (disableOutsideClick && request.reason === 'outside-press')
+            ) {
                 return;
             }
 
@@ -52,7 +60,7 @@ export function useSheetDismiss({
                 setLegacyDismissed(true);
             }
         },
-        [onOpenChange, requestedOpen],
+        [disableEscapeKeyDown, disableOutsideClick, onOpenChange, requestedOpen],
     );
 
     return {requestedOpen, immediate, requestDismiss};

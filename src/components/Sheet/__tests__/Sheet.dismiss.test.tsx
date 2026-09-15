@@ -117,6 +117,114 @@ describe('Sheet dismissal', () => {
         );
     });
 
+    describe.each([
+        {
+            prop: 'disableOutsideClick',
+            options: {disableOutsideClick: true},
+            reason: 'outside-press',
+            dismiss: () => fireEvent.click(screen.getByTestId(SheetQa.VEIL)),
+            otherDismiss: () => fireEvent.keyDown(document, {key: 'Escape', code: 'Escape'}),
+        },
+        {
+            prop: 'disableEscapeKeyDown',
+            options: {disableEscapeKeyDown: true},
+            reason: 'escape-key',
+            dismiss: () => fireEvent.keyDown(document, {key: 'Escape', code: 'Escape'}),
+            otherDismiss: () => fireEvent.click(screen.getByTestId(SheetQa.VEIL)),
+        },
+    ])('$prop', ({prop, options, reason, dismiss, otherDismiss}) => {
+        test.each(['legacy', 'controlled'])(
+            'blocks %s dismissal until the option is disabled',
+            (mode) => {
+                const onOpenChange = jest.fn();
+                const onClose = jest.fn();
+                const onRequest = mode === 'controlled' ? onOpenChange : undefined;
+                const {rerender} = render(
+                    <Sheet {...options} visible onOpenChange={onRequest} onClose={onClose}>
+                        Content
+                    </Sheet>,
+                );
+
+                finishTransition();
+                dismiss();
+                finishPresenceTransition();
+
+                expect(onOpenChange).not.toHaveBeenCalled();
+                expect(onClose).not.toHaveBeenCalled();
+                expect(screen.getByRole('dialog')).toBeInTheDocument();
+                expect(document.body.style.overflow).toBe('hidden');
+
+                rerender(
+                    <Sheet
+                        {...{...options, [prop]: false}}
+                        visible
+                        onOpenChange={onRequest}
+                        onClose={onClose}
+                    >
+                        Content
+                    </Sheet>,
+                );
+                dismiss();
+
+                if (mode === 'controlled') {
+                    expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), reason);
+                    expect(onOpenChange).toHaveBeenCalledTimes(1);
+                } else {
+                    finishPresenceTransition();
+
+                    expect(onClose).toHaveBeenCalledTimes(1);
+                    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+                    expect(document.body.style.overflow).toBe('');
+                }
+            },
+        );
+
+        test('keeps the other dismissal source enabled', () => {
+            const onClose = jest.fn();
+            render(
+                <Sheet {...options} visible onClose={onClose}>
+                    Content
+                </Sheet>,
+            );
+
+            finishTransition();
+            otherDismiss();
+            finishPresenceTransition();
+
+            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+        });
+    });
+
+    test.each(['swipe', 'external visible change'])(
+        'allows %s dismissal when Escape and outside clicks are disabled',
+        (source) => {
+            const options = {disableEscapeKeyDown: true, disableOutsideClick: true};
+            const onClose = jest.fn();
+            const {rerender} = render(
+                <Sheet {...options} visible onClose={onClose}>
+                    Content
+                </Sheet>,
+            );
+
+            finishTransition();
+            if (source === 'swipe') {
+                swipePastThreshold();
+            } else {
+                rerender(
+                    <Sheet {...options} visible={false} onClose={onClose}>
+                        Content
+                    </Sheet>,
+                );
+            }
+            finishPresenceTransition();
+
+            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+            expect(document.body.style.overflow).toBe('');
+        },
+    );
+
     describe('exit lifecycle', () => {
         test.each([
             {getArea: () => screen.getByTestId(SheetQa.SWIPE_AREA), surface: 'handle'},

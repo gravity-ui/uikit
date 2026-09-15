@@ -36,6 +36,10 @@ export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePort
     onOpenChange?: (open: boolean, event?: Event, reason?: SheetOpenChangeReason) => void;
     /** Show/hide sheet */
     visible: boolean;
+    /** Disables closing the sheet on Escape */
+    disableEscapeKeyDown?: boolean;
+    /** Disables closing the sheet by clicking the veil */
+    disableOutsideClick?: boolean;
     /** ID of the sheet, used as hash in URL. It's important to specify different `id` values if there can be more than one sheet on the page */
     id?: string;
     /** Title of the sheet window */
@@ -62,6 +66,8 @@ function SheetComponent(rawProps: SheetProps) {
         onClose,
         onOpenChange,
         visible,
+        disableEscapeKeyDown,
+        disableOutsideClick,
         id,
         title,
         className,
@@ -75,7 +81,12 @@ function SheetComponent(rawProps: SheetProps) {
         disablePortal,
         qa,
     } = useDefaultProps('Sheet', rawProps);
-    const {requestedOpen, immediate, requestDismiss} = useSheetDismiss({visible, onOpenChange});
+    const {requestedOpen, immediate, requestDismiss} = useSheetDismiss({
+        visible,
+        onOpenChange,
+        disableEscapeKeyDown,
+        disableOutsideClick,
+    });
     const veilRef = React.useRef<HTMLDivElement>(null);
     const isAnimatingRef = React.useRef(false);
 

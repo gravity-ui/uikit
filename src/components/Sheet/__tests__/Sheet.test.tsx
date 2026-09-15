@@ -214,6 +214,36 @@ describe('Sheet', () => {
             expect(lowerOnOpenChange).toHaveBeenCalledTimes(1);
         });
 
+        test('blocks Escape for lower sheets when the top sheet disables it', () => {
+            const options = {disableEscapeKeyDown: true};
+            const lowerOnOpenChange = jest.fn();
+            const upperOnOpenChange = jest.fn();
+            render(
+                <React.Fragment>
+                    <Sheet visible onOpenChange={lowerOnOpenChange} title="Lower sheet">
+                        Lower content
+                    </Sheet>
+                    <Sheet
+                        {...options}
+                        visible
+                        onOpenChange={upperOnOpenChange}
+                        title="Upper sheet"
+                    >
+                        Upper content
+                    </Sheet>
+                </React.Fragment>,
+            );
+
+            pressEscape();
+            finishPresenceTransition();
+
+            expect(upperOnOpenChange).not.toHaveBeenCalled();
+            expect(lowerOnOpenChange).not.toHaveBeenCalled();
+            expect(screen.getByRole('dialog', {name: 'Upper sheet'})).toBeInTheDocument();
+            expect(screen.getByRole('dialog', {name: 'Lower sheet'})).toBeInTheDocument();
+            expect(getLayersCount()).toBe(2);
+        });
+
         test('releases the layer only after a legacy dismissal finishes its exit', () => {
             const onClose = jest.fn();
 

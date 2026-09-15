@@ -41,6 +41,8 @@ const SheetExample = () => {
 | className                   | HTML-атрибут `class`.                                                                                                                  |   `string`    |      `undefined`      |
 | container                   | DOM-элемент, в который монтируется компонент через `Portal`.                                                                           | `HTMLElement` |    `document.body`    |
 | contentClassName            | HTML-атрибут `class` для контента шторки.                                                                                              |   `string`    |      `undefined`      |
+| disableEscapeKeyDown        | Отключает закрытие шторки по нажатию Escape.                                                                                           |   `boolean`   |        `false`        |
+| disableOutsideClick         | Отключает закрытие шторки по клику на подложку.                                                                                        |   `boolean`   |        `false`        |
 | disablePortal               | Отключает использование `Portal`                                                                                                       |   `boolean`   |        `false`        |
 | hideTopBar                  | Скрывает верхнюю панель с элементом для изменения размера.                                                                             |   `boolean`   |                       |
 | id                          | Идентификатор `Sheet`, используемый как хеш в URL. Необходимо задать разные значения `id`, если на странице несколько `Sheet`.         |   `string`    |        `modal`        |

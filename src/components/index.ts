@@ -22,7 +22,7 @@ export * from './Disclosure';
 export * from './Divider';
 export * from './Drawer';
 export * from './DropdownMenu';
-export * from './Ellipsis';
+export * from './EllipsisText';
 export * from './FilePreview';
 export * from './HelpMark';
 export * from './Hotkey';

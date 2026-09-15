@@ -1,14 +1,16 @@
 <!--GITHUB_BLOCK-->
 
-# Ellipsis
+# EllipsisText
 
 <!--/GITHUB_BLOCK-->
 
-The `Ellipsis` component truncates a single line of text that is too long to fit its container, replacing the hidden part with an ellipsis character (`…`). Unlike a plain CSS `text-overflow: ellipsis`, it lets you choose where the text is cut off — at the `start`, `center`, or `end` — and keeps the full text available for screen readers (via `aria-label`) and for copying.
+The `EllipsisText` component truncates a single line of text that is too long to fit its container, replacing the hidden part with an ellipsis character (`…`). Unlike a plain CSS `text-overflow: ellipsis`, it lets you choose where the text is cut off — at the `start`, `center`, or `end` — and keeps the full text available for screen readers (via visually hidden text) and for copying.
 
 ```tsx
-import {Ellipsis} from '@gravity-ui/uikit';
+import {EllipsisText} from '@gravity-ui/uikit';
 ```
+
+As with CSS ellipsis, truncation requires a definite width somewhere in the layout.
 
 ## Position
 
@@ -17,14 +19,14 @@ Use the `position` property to control where the text is truncated. The default 
 The `start` and `end` positions are rendered with pure CSS, while `center` measures the text and rebuilds it to keep both ends visible.
 
 <!--SANDBOX
-import {Ellipsis} from '@gravity-ui/uikit';
+import {EllipsisText} from '@gravity-ui/uikit';
 
 export default function () {
     return (
         <div style={{width: 200, display: 'grid', gap: 8}}>
-            <Ellipsis position="start">a-very-long-long-text-that-should-be-truncated-in-somewhere.tar.gz</Ellipsis>
-            <Ellipsis position="center">a-very-long-long-text-that-should-be-truncated-in-somewhere.tar.gz</Ellipsis>
-            <Ellipsis position="end">a-very-long-long-text-that-should-be-truncated-in-somewhere.tar.gz</Ellipsis>
+            <EllipsisText position="start">a-very-long-long-text-that-should-be-truncated-in-somewhere.tar.gz</EllipsisText>
+            <EllipsisText position="center">a-very-long-long-text-that-should-be-truncated-in-somewhere.tar.gz</EllipsisText>
+            <EllipsisText position="end">a-very-long-long-text-that-should-be-truncated-in-somewhere.tar.gz</EllipsisText>
         </div>
     );
 }
@@ -35,14 +37,14 @@ SANDBOX-->
 Use the `offsetStart` and `offsetEnd` properties to keep a fixed number of characters (or separator-delimited parts, see below) at the beginning and end of the text untruncated. This is useful for preserving meaningful edges such as a file extension.
 
 <!--SANDBOX
-import {Ellipsis} from '@gravity-ui/uikit';
+import {EllipsisText} from '@gravity-ui/uikit';
 
 export default function () {
     return (
-        <div style={{width: 200}}>
-            <Ellipsis position="center" offsetEnd={7}>
+        <div style={{width: 200, display: 'grid'}}>
+            <EllipsisText position="center" offsetEnd={7}>
                 a-very-long-long-text-that-should-be-truncated-in-somewhere.tar.gz
-            </Ellipsis>
+            </EllipsisText>
         </div>
     );
 }
@@ -50,17 +52,19 @@ SANDBOX-->
 
 ## Separator
 
-By default, `offsetStart` and `offsetEnd` count characters. Provide a `separator` (a single string or an array of strings) to count separator-delimited parts instead, so the text is only ever cut on separator boundaries. This is handy for paths, package names, or dotted identifiers.
+By default, offsets count user-perceived characters (grapheme clusters), keeping emoji and combining marks together. Environments without `Intl.Segmenter` fall back to Unicode code points, which still preserve surrogate pairs. With `separator`, they count parts as with `split(separator)`; an array supplies alternative separator tokens. The first `offsetStart` and last `offsetEnd` parts are kept with their original separators between them. The remaining text can be truncated within a part.
+
+No match means one part. Offsets covering all parts preserve the whole string without duplication. Multi-character tokens are supported; matching proceeds left to right, preferring the longest match. Empty tokens are ignored; if none remain, offsets count characters.
 
 <!--SANDBOX
-import {Ellipsis} from '@gravity-ui/uikit';
+import {EllipsisText} from '@gravity-ui/uikit';
 
 export default function () {
     return (
-        <div style={{width: 240}}>
-            <Ellipsis position="center" separator="/" offsetStart={1} offsetEnd={1}>
+        <div style={{width: 240, display: 'grid'}}>
+            <EllipsisText position="center" separator="/" offsetStart={1} offsetEnd={1}>
                 path/to/some/deeply/nested/folder/file-name.tsx
-            </Ellipsis>
+            </EllipsisText>
         </div>
     );
 }

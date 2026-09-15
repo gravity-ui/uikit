@@ -1,6 +1,7 @@
 @use '../variables';
+@use '../../../styles/mixins';
 
-$block: '.#{variables.$ns}ellipsis';
+$block: '.#{variables.$ns}ellipsis-text';
 
 #{$block} {
     display: inline-flex;
@@ -9,6 +10,15 @@ $block: '.#{variables.$ns}ellipsis';
     white-space: nowrap;
     overflow-wrap: break-word;
     word-break: break-all;
+
+    &__accessible-text {
+        position: absolute;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        user-select: none;
+    }
 
     &__ellipsis {
         display: inline-flex;
@@ -23,16 +33,20 @@ $block: '.#{variables.$ns}ellipsis';
 
         &_start {
             #{$ellipsis}-content {
-                direction: var(--g-flow-opposite);
-                overflow: hidden;
-                text-overflow: ellipsis;
+                @include mixins.overflow-ellipsis();
+
+                // Flip the inherited HTML direction to truncate at the inline start.
+                direction: rtl;
+
+                &:dir(rtl) {
+                    direction: ltr;
+                }
             }
         }
 
         &_end {
             #{$ellipsis}-content {
-                overflow: hidden;
-                text-overflow: ellipsis;
+                @include mixins.overflow-ellipsis();
             }
         }
 

@@ -99,8 +99,6 @@ function SheetComponent(rawProps: SheetProps) {
         disableEscapeKeyDown,
         disableOutsideClick,
     });
-    const veilRef = React.useRef<HTMLDivElement>(null);
-    const isAnimatingRef = React.useRef(false);
 
     const handleEscapeKeyDown = React.useCallback(
         (event: KeyboardEvent) => {
@@ -167,8 +165,6 @@ function SheetComponent(rawProps: SheetProps) {
                         allowHideOnContentScroll={allowHideOnContentScroll}
                         hideTopBar={hideTopBar}
                         requestDismiss={requestDismiss}
-                        veilRef={veilRef}
-                        isAnimatingRef={isAnimatingRef}
                         floatingRef={refs.setFloating}
                         getFloatingProps={getFloatingProps}
                         maxContentHeightCoefficient={maxContentHeightCoefficient}

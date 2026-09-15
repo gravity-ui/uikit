@@ -33,8 +33,6 @@ function warnAboutOutOfRange() {
 
 interface SheetContentBaseProps {
     requestDismiss: UseSheetDismissResult['requestDismiss'];
-    veilRef: React.RefObject<HTMLDivElement>;
-    isAnimatingRef: React.MutableRefObject<boolean>;
     floatingRef: React.Ref<HTMLDivElement>;
     getFloatingProps: UseInteractionsReturn['getFloatingProps'];
     content: React.ReactNode;
@@ -64,8 +62,6 @@ export function SheetContent(props: SheetContentProps) {
         title,
         status,
         requestDismiss,
-        veilRef,
-        isAnimatingRef,
         floatingRef,
         getFloatingProps,
         maxContentHeightCoefficient,
@@ -79,6 +75,8 @@ export function SheetContent(props: SheetContentProps) {
     const location = useLocation();
 
     const sheetRef = React.useRef<HTMLDivElement>(null);
+    const veilRef = React.useRef<HTMLDivElement>(null);
+    const isAnimatingRef = React.useRef(false);
     const sheetTopRef = React.useRef<HTMLDivElement>(null);
     const sheetMarginBoxRef = React.useRef<HTMLDivElement>(null);
     const sheetScrollContainerRef = React.useRef<HTMLDivElement>(null);
@@ -160,7 +158,7 @@ export function SheetContent(props: SheetContentProps) {
                 sheetRef.current.style.transform = `translate3d(0, -${visibleHeight}px, 0)`;
             }
         },
-        [getSheetHeight, getIsPrefersReducedMotion, veilRef],
+        [getSheetHeight, getIsPrefersReducedMotion],
     );
 
     const getAvailableContentHeight = React.useCallback(
@@ -200,7 +198,7 @@ export function SheetContent(props: SheetContentProps) {
             hashSetRef.current = true;
             setHash();
         }
-    }, [isAnimatingRef, setStyles, setHash]);
+    }, [setStyles, setHash]);
 
     const hide = React.useCallback(() => {
         isAnimatingRef.current = true;
@@ -210,7 +208,7 @@ export function SheetContent(props: SheetContentProps) {
             hashSetRef.current = false;
             removeHash();
         }
-    }, [isAnimatingRef, setStyles, removeHash]);
+    }, [setStyles, removeHash]);
 
     const getIsExitAnimating = React.useCallback(() => status === 'close', [status]);
 
@@ -263,7 +261,7 @@ export function SheetContent(props: SheetContentProps) {
 
     const onTouchCancel = React.useCallback(() => {
         cancelDrag({restoreOpenPosition: veilRef.current?.style.opacity !== '1'});
-    }, [cancelDrag, veilRef]);
+    }, [cancelDrag]);
 
     const dragging = deltaY !== 0;
     const activeGesture = dragging || swipeAreaTouched || contentTouched;
@@ -308,7 +306,7 @@ export function SheetContent(props: SheetContentProps) {
         resizeWindowTimerRef.current = window.setTimeout(() => {
             onResize();
         }, WINDOW_RESIZE_TIMEOUT);
-    }, [isAnimatingRef, onResize]);
+    }, [onResize]);
 
     const {veilHandlers} = useVeil({
         veilRef,

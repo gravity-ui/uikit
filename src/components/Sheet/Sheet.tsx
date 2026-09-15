@@ -136,42 +136,40 @@ function SheetComponent(rawProps: SheetProps) {
     const role = useRole(context, {role: 'dialog'});
     const {getFloatingProps} = useInteractions([role]);
 
-    if (!isMounted) {
-        return <FloatingNode id={floatingNodeId} />;
-    }
-
     return (
         <FloatingNode id={floatingNodeId}>
-            <Portal container={container} disablePortal={disablePortal}>
-                <FloatingOverlay
-                    data-qa={qa}
-                    data-floating-ui-status={status}
-                    className={sheetBlock({'without-top-bar': hideTopBar}, className)}
-                    lockScroll={isMounted}
-                    style={
-                        {
-                            overflow: undefined,
-                            '--_--transition-duration': `${SHEET_TRANSITION_DURATION_MS}ms`,
-                        } as React.CSSProperties
-                    }
-                >
-                    <SheetContentContainer
-                        id={id}
-                        content={children}
-                        contentClassName={contentClassName}
-                        swipeAreaClassName={swipeAreaClassName}
-                        title={title}
-                        status={status}
-                        allowHideOnContentScroll={allowHideOnContentScroll}
-                        hideTopBar={hideTopBar}
-                        requestDismiss={requestDismiss}
-                        floatingRef={refs.setFloating}
-                        getFloatingProps={getFloatingProps}
-                        maxContentHeightCoefficient={maxContentHeightCoefficient}
-                        alwaysFullHeight={alwaysFullHeight}
-                    />
-                </FloatingOverlay>
-            </Portal>
+            {isMounted ? (
+                <Portal container={container} disablePortal={disablePortal}>
+                    <FloatingOverlay
+                        data-qa={qa}
+                        data-floating-ui-status={status}
+                        className={sheetBlock({'without-top-bar': hideTopBar}, className)}
+                        lockScroll={isMounted}
+                        style={
+                            {
+                                overflow: undefined,
+                                '--_--transition-duration': `${SHEET_TRANSITION_DURATION_MS}ms`,
+                            } as React.CSSProperties
+                        }
+                    >
+                        <SheetContentContainer
+                            id={id}
+                            content={children}
+                            contentClassName={contentClassName}
+                            swipeAreaClassName={swipeAreaClassName}
+                            title={title}
+                            status={status}
+                            allowHideOnContentScroll={allowHideOnContentScroll}
+                            hideTopBar={hideTopBar}
+                            requestDismiss={requestDismiss}
+                            floatingRef={refs.setFloating}
+                            getFloatingProps={getFloatingProps}
+                            maxContentHeightCoefficient={maxContentHeightCoefficient}
+                            alwaysFullHeight={alwaysFullHeight}
+                        />
+                    </FloatingOverlay>
+                </Portal>
+            ) : null}
         </FloatingNode>
     );
 }

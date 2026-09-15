@@ -24,8 +24,8 @@ export const SIZE_TO_ITEM_HEIGHT: Record<SelectSize, number> = {
     xl: 36,
 };
 
-/** A row on mobile is a row of size `l` */
-export const MOBILE_SIZE: SelectSize = 'l';
+/** A row on mobile is a row of size `xl`: 36px of height and the bigger text, as it was before */
+export const MOBILE_SIZE: SelectSize = 'xl';
 
 /**
  * The heights of a section header (ListSectionHeader): the vertical padding of `--g-spacing-1`

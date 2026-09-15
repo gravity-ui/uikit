@@ -150,7 +150,12 @@ function SheetComponent(rawProps: SheetProps) {
                     data-floating-ui-status={status}
                     className={sheetBlock({'without-top-bar': hideTopBar}, className)}
                     lockScroll={isMounted}
-                    style={{overflow: undefined}}
+                    style={
+                        {
+                            overflow: undefined,
+                            '--_--transition-duration': `${SHEET_TRANSITION_DURATION_MS}ms`,
+                        } as React.CSSProperties
+                    }
                 >
                     <SheetContentContainer
                         id={id}

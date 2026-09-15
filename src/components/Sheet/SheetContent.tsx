@@ -20,7 +20,6 @@ import type {Status} from './types';
 
 import './Sheet.scss';
 
-const TRANSITION_DURATION = '0.3s';
 const DEFAULT_MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT = 0.9;
 const WINDOW_RESIZE_TIMEOUT = 50;
 
@@ -284,7 +283,7 @@ export function SheetContent(props: SheetContentProps) {
 
         sheetScrollContainerRef.current.style.transition =
             prevSheetHeightRef.current > sheetContentHeight
-                ? `height 0s ease ${TRANSITION_DURATION}`
+                ? 'height 0s ease var(--_--transition-duration)'
                 : 'none';
 
         sheetScrollContainerRef.current.style.height = `${availableContentHeight}px`;

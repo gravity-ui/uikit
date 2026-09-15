@@ -2,16 +2,13 @@
 
 import * as React from 'react';
 
-import {Icon} from '../Icon';
 import {block} from '../utils/cn';
-import {isSvg} from '../utils/common';
-import {isOfType} from '../utils/isOfType';
+import {prepareIcon} from '../utils/prepareIcon';
 import {warnOnce} from '../utils/warn';
 
 import {ButtonIconSizeContext} from './ButtonIconSizeContext';
 
 const b = block('button');
-const isIcon = isOfType(Icon, {matchDisplayName: false});
 
 export interface ButtonIconRenderProps {
     size?: number;
@@ -35,21 +32,8 @@ export const ButtonIcon = ({side, className, children}: ButtonIconProps) => {
     let content =
         typeof children === 'function' ? children({size: buttonIconSize ?? undefined}) : children;
 
-    if (buttonIconSize !== null && typeof children !== 'function') {
-        if (
-            isIcon(children) &&
-            children.props.size === undefined &&
-            (children.props.width === undefined || children.props.height === undefined)
-        ) {
-            content = React.cloneElement(children, {size: buttonIconSize});
-        } else if (isSvg(children)) {
-            const width = children.props.width ?? buttonIconSize;
-            const height = children.props.height ?? buttonIconSize;
-
-            if (width !== children.props.width || height !== children.props.height) {
-                content = React.cloneElement(children, {width, height});
-            }
-        }
+    if (typeof children !== 'function') {
+        content = prepareIcon(children, buttonIconSize);
     }
 
     return (

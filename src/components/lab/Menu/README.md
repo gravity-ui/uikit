@@ -112,6 +112,10 @@ By default `unstable_Menu` is rendered inside the `Popup`. But you can render it
 
 `unstable_MenuItem` accepts any valid `button` or `a` element props in addition to these:
 
+When an `Icon` without an explicit size is passed to the `icon` property, its size is selected
+automatically according to the `unstable_Menu` size. Set the `Icon` `size`, `width`, or `height`
+explicitly to override it.
+
 | Name      | Description                         |                                Type                                |  Default   |
 | :-------- | :---------------------------------- | :----------------------------------------------------------------: | :--------: |
 | qa        | Test ID (`data-qa` attribute)       |                              `string`                              |            |

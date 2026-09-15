@@ -144,7 +144,7 @@ function SheetComponent(rawProps: SheetProps) {
                         data-qa={qa}
                         data-floating-ui-status={status}
                         className={sheetBlock({'without-top-bar': hideTopBar}, className)}
-                        lockScroll={isMounted}
+                        lockScroll
                         style={
                             {
                                 overflow: undefined,
@@ -158,7 +158,7 @@ function SheetComponent(rawProps: SheetProps) {
                             contentClassName={contentClassName}
                             swipeAreaClassName={swipeAreaClassName}
                             title={title}
-                            status={status}
+                            presenceStatus={status}
                             allowHideOnContentScroll={allowHideOnContentScroll}
                             hideTopBar={hideTopBar}
                             requestDismiss={requestDismiss}

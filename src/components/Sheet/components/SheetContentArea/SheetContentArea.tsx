@@ -11,6 +11,7 @@ import './SheetContentArea.scss';
 const b = block('sheet-content-area');
 
 export interface SheetContentAreaProps extends ContentAreaHandlers {
+    onTouchCancel: React.TouchEventHandler<HTMLDivElement>;
     /** Ref to the scrollable container (owned by the parent for resize logic). */
     scrollContainerRef: React.Ref<HTMLDivElement>;
     /** Ref to the margin box (owned by the parent for the ResizeObserver). */

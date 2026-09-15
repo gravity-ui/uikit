@@ -36,6 +36,8 @@ export function useSheetDismiss({
         }
     }, [visible]);
 
+    // Depend on immediate to reset a refused full-height swipe even when requestedOpen stays true.
+    // Otherwise a later external close could incorrectly skip its transition.
     React.useEffect(() => {
         if (requestedOpen) {
             setImmediate(false);

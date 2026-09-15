@@ -5,6 +5,7 @@ import * as React from 'react';
 import type {UseInteractionsReturn} from '@floating-ui/react';
 import {useMergeRefs} from '@floating-ui/react';
 
+import type {UseFloatingTransitionResult} from '../../hooks/private/useFloatingTransition';
 import {MobileContext} from '../mobile';
 import {warnOnce} from '../utils/warn';
 
@@ -23,7 +24,7 @@ import './Sheet.scss';
 const DEFAULT_MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT = 0.9;
 const WINDOW_RESIZE_TIMEOUT = 50;
 
-export type SheetPresenceStatus = 'unmounted' | 'initial' | 'open' | 'close';
+export type SheetPresenceStatus = UseFloatingTransitionResult['status'];
 
 function warnAboutOutOfRange() {
     warnOnce(
@@ -36,7 +37,7 @@ interface SheetContentBaseProps {
     floatingRef: React.Ref<HTMLDivElement>;
     getFloatingProps: UseInteractionsReturn['getFloatingProps'];
     content: React.ReactNode;
-    status: SheetPresenceStatus;
+    presenceStatus: SheetPresenceStatus;
     id?: string;
     title?: string;
     contentClassName?: string;
@@ -60,7 +61,7 @@ export function SheetContent(props: SheetContentProps) {
         swipeAreaClassName,
         hideTopBar,
         title,
-        status,
+        presenceStatus,
         requestDismiss,
         floatingRef,
         getFloatingProps,
@@ -132,7 +133,7 @@ export function SheetContent(props: SheetContentProps) {
     }, []);
 
     const setStyles = React.useCallback(
-        ({status: nextStatus, deltaHeight = 0}: {status: Status; deltaHeight?: number}) => {
+        ({status, deltaHeight = 0}: {status: Status; deltaHeight?: number}) => {
             if (!sheetRef.current || !veilRef.current) {
                 return;
             }
@@ -140,12 +141,12 @@ export function SheetContent(props: SheetContentProps) {
             const sheetHeight = getSheetHeight();
             const visibleHeight = sheetHeight - deltaHeight;
             const translate =
-                nextStatus === 'showing'
+                status === 'showing'
                     ? `translate3d(0, -${visibleHeight}px, 0)`
                     : 'translate3d(0, 0, 0)';
             let opacity = 0;
 
-            if (nextStatus === 'showing') {
+            if (status === 'showing') {
                 opacity = deltaHeight === 0 ? 1 : visibleHeight / sheetHeight;
             }
 
@@ -210,7 +211,10 @@ export function SheetContent(props: SheetContentProps) {
         }
     }, [setStyles, removeHash]);
 
-    const getIsExitAnimating = React.useCallback(() => status === 'close', [status]);
+    const getIsExitAnimating = React.useCallback(
+        () => presenceStatus === 'close',
+        [presenceStatus],
+    );
 
     const {
         deltaY,
@@ -350,22 +354,22 @@ export function SheetContent(props: SheetContentProps) {
     ]);
 
     React.useEffect(() => {
-        if (status === 'initial') {
+        if (presenceStatus === 'initial') {
             show();
         }
-    }, [status, show]);
+    }, [presenceStatus, show]);
 
     React.useEffect(() => {
-        if (status === 'close') {
+        if (presenceStatus === 'close') {
             cancelDrag({restoreOpenPosition: false});
         }
-    }, [cancelDrag, status]);
+    }, [cancelDrag, presenceStatus]);
 
     React.useEffect(() => {
-        if (status === 'close' && !activeGesture) {
+        if (presenceStatus === 'close' && !activeGesture) {
             hide();
         }
-    }, [activeGesture, hide, status]);
+    }, [activeGesture, hide, presenceStatus]);
 
     // --- componentDidUpdate ---
     React.useEffect(() => {
@@ -384,7 +388,7 @@ export function SheetContent(props: SheetContentProps) {
         prevLocationRef.current = location;
     });
 
-    const withTransition = status === 'close' || !dragging;
+    const withTransition = presenceStatus === 'close' || !dragging;
 
     const contentWithoutScroll = (deltaY > 0 && contentTouched) || swipeAreaTouched;
 
@@ -394,10 +398,8 @@ export function SheetContent(props: SheetContentProps) {
             <div
                 ref={handleSheetRef}
                 className={sheetBlock('sheet', {'with-transition': withTransition})}
-                role="dialog"
                 aria-modal="true"
-                aria-label={title}
-                {...getFloatingProps()}
+                {...getFloatingProps({'aria-label': title})}
             >
                 {!hideTopBar && (
                     <div

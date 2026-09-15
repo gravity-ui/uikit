@@ -31,7 +31,6 @@ export interface ContentAreaHandlers {
     onTouchStart: (event: React.TouchEvent<HTMLDivElement>) => void;
     onTouchMove: (event: React.TouchEvent<HTMLDivElement>) => void;
     onTouchEnd: (event: React.TouchEvent<HTMLDivElement>) => void;
-    onTouchCancel: (event: React.TouchEvent<HTMLDivElement>) => void;
     onTransitionEnd: (event: React.TransitionEvent<HTMLDivElement>) => void;
 }
 
@@ -41,7 +40,7 @@ export interface UseContentScrollResult {
     /** Clears state owned by the content touch surface. */
     resetContentTouch: () => void;
     /** Touch/transition handlers to be spread onto the content area element. */
-    contentAreaHandlers: Omit<ContentAreaHandlers, 'onTouchCancel'>;
+    contentAreaHandlers: ContentAreaHandlers;
 }
 
 export function useContentScroll({

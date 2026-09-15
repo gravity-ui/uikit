@@ -28,7 +28,6 @@ export interface SwipeAreaHandlers {
     onTouchStart: (event: React.TouchEvent<HTMLDivElement>) => void;
     onTouchMove: (event: React.TouchEvent<HTMLDivElement>) => void;
     onTouchEnd: (event: React.TouchEvent<HTMLDivElement>) => void;
-    onTouchCancel: (event: React.TouchEvent<HTMLDivElement>) => void;
 }
 
 export interface CancelSwipeOptions {
@@ -44,10 +43,9 @@ export interface UseSwipeResult {
     deltaYRef: React.MutableRefObject<number>;
     swipeAreaTouchedRef: React.MutableRefObject<boolean>;
     setDeltaY: (value: number) => void;
-    setSwipeAreaTouched: (value: boolean) => void;
     onTouchEndAction: (deltaY: number, event: React.TouchEvent<HTMLDivElement>) => void;
     cancelSwipe: (options: CancelSwipeOptions) => void;
-    swipeAreaHandlers: Omit<SwipeAreaHandlers, 'onTouchCancel'>;
+    swipeAreaHandlers: SwipeAreaHandlers;
 }
 
 export function useSwipe({
@@ -193,7 +191,6 @@ export function useSwipe({
         deltaYRef,
         swipeAreaTouchedRef,
         setDeltaY,
-        setSwipeAreaTouched,
         onTouchEndAction,
         cancelSwipe,
         swipeAreaHandlers: {

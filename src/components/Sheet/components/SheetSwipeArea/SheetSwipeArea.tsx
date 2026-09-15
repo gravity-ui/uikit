@@ -1,5 +1,7 @@
 'use client';
 
+import * as React from 'react';
+
 import {block} from '../../../utils/cn';
 import {SheetQa} from '../../constants';
 import type {SwipeAreaHandlers} from '../../hooks/useSwipe';
@@ -10,6 +12,7 @@ const b = block('sheet-swipe-area');
 
 export interface SheetSwipeAreaProps extends SwipeAreaHandlers {
     className?: string;
+    onTouchCancel: React.TouchEventHandler<HTMLDivElement>;
 }
 
 export function SheetSwipeArea({

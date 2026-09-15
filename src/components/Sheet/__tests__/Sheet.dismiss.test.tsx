@@ -77,6 +77,33 @@ describe('Sheet dismissal', () => {
     });
 
     describe('dismissal requests', () => {
+        test('ignores veil clicks until the opening animation finishes', () => {
+            const onRequest = jest.fn();
+            const onClose = jest.fn();
+            render(<AcceptingSheet onRequest={onRequest} onClose={onClose} />);
+
+            const veil = screen.getByTestId(SheetQa.VEIL);
+            fireEvent.click(veil);
+            finishPresenceTransition();
+
+            expect(onRequest).not.toHaveBeenCalled();
+            expect(onClose).not.toHaveBeenCalled();
+            expect(screen.getByRole('dialog')).toBeInTheDocument();
+            expect(veil).toHaveStyle({opacity: '1'});
+
+            finishTransition();
+            fireEvent.click(veil);
+
+            expect(onRequest).toHaveBeenCalledWith(false, expect.any(Event), 'outside-press');
+            expect(onRequest).toHaveBeenCalledTimes(1);
+            expect(onClose).not.toHaveBeenCalled();
+
+            finishPresenceTransition();
+
+            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+        });
+
         test.each([
             {source: 'veil', reason: 'outside-press'},
             {source: 'swipe', reason: 'swipe'},
@@ -226,6 +253,36 @@ describe('Sheet dismissal', () => {
     );
 
     describe('exit lifecycle', () => {
+        test('calls legacy onClose once after a veil dismissal finishes', () => {
+            const onClose = jest.fn();
+            render(
+                <Sheet visible onClose={onClose}>
+                    Content
+                </Sheet>,
+            );
+
+            finishTransition();
+            fireEvent.click(screen.getByTestId(SheetQa.VEIL));
+
+            act(() => {
+                jest.advanceTimersByTime(SHEET_TRANSITION_DURATION_MS - 1);
+            });
+
+            expect(onClose).not.toHaveBeenCalled();
+            expect(screen.getByRole('dialog')).toBeInTheDocument();
+
+            act(() => {
+                jest.advanceTimersByTime(1);
+            });
+
+            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+
+            finishPresenceTransition();
+
+            expect(onClose).toHaveBeenCalledTimes(1);
+        });
+
         test.each([
             {getArea: () => screen.getByTestId(SheetQa.SWIPE_AREA), surface: 'handle'},
             {getArea: () => screen.getByTestId(SheetQa.CONTENT_AREA), surface: 'content'},

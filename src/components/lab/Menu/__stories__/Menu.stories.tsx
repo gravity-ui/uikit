@@ -5,7 +5,6 @@ import {Envelope, LayoutColumns3, LayoutRows3, LogoTelegram, Smartphone} from '@
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 import {action} from 'storybook/actions';
 
-import {BUTTON_ICON_SIZE_MAP} from '../../../Button/constants';
 import {Icon} from '../../../Icon';
 import {Label} from '../../../Label';
 import {Modal} from '../../../Modal';
@@ -42,7 +41,7 @@ type Story = StoryObj<typeof Menu>;
 
 export const Default = {
     render: (args) => {
-        return <Menu {...args}>{getSimpleMenuItems(args)}</Menu>;
+        return <Menu {...args}>{getSimpleMenuItems()}</Menu>;
     },
     args: {
         trigger: <MenuTrigger aria-label="Actions" />,
@@ -56,7 +55,7 @@ export const IconStory = {
     render: (args) => {
         return (
             <Menu {...args} trigger={<MenuTrigger aria-label="Actions" />}>
-                {getSimpleMenuItems(args, true)}
+                {getSimpleMenuItems(true)}
             </Menu>
         );
     },
@@ -67,7 +66,7 @@ export const FullFeatured = {
     render: (args) => {
         return (
             <Menu {...args} trigger={<MenuTrigger aria-label="Actions" />}>
-                {getFullFeaturedMenuItems(args)}
+                {getFullFeaturedMenuItems()}
             </Menu>
         );
     },
@@ -113,7 +112,7 @@ export const Context = {
                     Right click in the area to open the menu
                 </div>
                 <Menu {...args} trigger={anchor}>
-                    {getFullFeaturedMenuItems(args)}
+                    {getFullFeaturedMenuItems()}
                 </Menu>
             </React.Fragment>
         );
@@ -125,7 +124,7 @@ export const InsideSheet = {
     render: (args) => {
         return (
             <Sheet visible>
-                <Menu {...args}>{getFullFeaturedMenuItems(args, true)}</Menu>
+                <Menu {...args}>{getFullFeaturedMenuItems(true)}</Menu>
             </Sheet>
         );
     },
@@ -142,12 +141,12 @@ export const Selection = {
             {
                 value: 'row',
                 title: 'Row',
-                icon: <Icon data={LayoutRows3} size={BUTTON_ICON_SIZE_MAP[args.size ?? 'm']} />,
+                icon: <Icon data={LayoutRows3} />,
             },
             {
                 value: 'column',
                 title: 'Column',
-                icon: <Icon data={LayoutColumns3} size={BUTTON_ICON_SIZE_MAP[args.size ?? 'm']} />,
+                icon: <Icon data={LayoutColumns3} />,
             },
         ];
 
@@ -180,25 +179,13 @@ export const Links = {
     render: (args) => {
         return (
             <Menu {...args}>
-                <Menu.Item
-                    href="#mail"
-                    icon={<Icon data={Envelope} size={BUTTON_ICON_SIZE_MAP[args.size ?? 'm']} />}
-                >
+                <Menu.Item href="#mail" icon={<Icon data={Envelope} />}>
                     Mail
                 </Menu.Item>
-                <Menu.Item
-                    href="#sms"
-                    icon={<Icon data={Smartphone} size={BUTTON_ICON_SIZE_MAP[args.size ?? 'm']} />}
-                    disabled
-                >
+                <Menu.Item href="#sms" icon={<Icon data={Smartphone} />} disabled>
                     SMS
                 </Menu.Item>
-                <Menu.Item
-                    href="#telegram"
-                    icon={
-                        <Icon data={LogoTelegram} size={BUTTON_ICON_SIZE_MAP[args.size ?? 'm']} />
-                    }
-                >
+                <Menu.Item href="#telegram" icon={<Icon data={LogoTelegram} />}>
                     Telegram
                 </Menu.Item>
             </Menu>
@@ -216,7 +203,7 @@ export const InsidePopup = {
                 <div ref={setPopupAnchor}>&nbsp;</div>
                 <Popup anchorElement={popupAnchor} open>
                     <div style={{padding: 10}}>
-                        <Menu {...args}>{getSimpleMenuItems(args)}</Menu>
+                        <Menu {...args}>{getSimpleMenuItems()}</Menu>
                     </div>
                 </Popup>
             </React.Fragment>
@@ -230,7 +217,7 @@ export const InsideModal = {
         return (
             <Modal open>
                 <div style={{padding: 10}}>
-                    <Menu {...args}>{getSimpleMenuItems(args)}</Menu>
+                    <Menu {...args}>{getSimpleMenuItems()}</Menu>
                 </div>
             </Modal>
         );

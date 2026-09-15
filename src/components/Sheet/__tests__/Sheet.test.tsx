@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import {act, cleanup, fireEvent, render, screen} from '../../../../test-utils/utils';
+import {eventBroker} from '../../utils/event-broker';
 import {getLayersCount} from '../../utils/layer-manager';
 import {Sheet} from '../Sheet';
 import {SHEET_TRANSITION_DURATION_MS, SheetQa} from '../constants';
@@ -222,8 +223,10 @@ describe('Sheet', () => {
             expect(callbacks.onTransitionOut).not.toHaveBeenCalled();
             expect(callbacks.onTransitionOutComplete).not.toHaveBeenCalled();
             expect(screen.getByRole('dialog')).toBeInTheDocument();
+            expect(getLayersCount()).toBe(1);
 
             rerender(<Sheet visible={false} {...callbacks} />);
+            expect(getLayersCount()).toBe(0);
             finishPresenceTransition();
 
             expect(callbacks.onTransitionOut).toHaveBeenCalledTimes(1);
@@ -247,16 +250,24 @@ describe('Sheet', () => {
             expect(onOpenChange).not.toHaveBeenCalled();
         });
 
-        test('keeps the exiting top sheet above lower layers until unmount', () => {
+        test('routes the next Escape to the lower sheet while the top sheet is exiting', () => {
             const lowerOnOpenChange = jest.fn();
             const upperOnOpenChange = jest.fn();
 
             function LayeredSheets() {
+                const [lowerVisible, setLowerVisible] = React.useState(true);
                 const [upperVisible, setUpperVisible] = React.useState(true);
 
                 return (
                     <React.Fragment>
-                        <Sheet visible onOpenChange={lowerOnOpenChange} qa="lower-sheet">
+                        <Sheet
+                            visible={lowerVisible}
+                            onOpenChange={(open, event, reason) => {
+                                lowerOnOpenChange(open, event, reason);
+                                setLowerVisible(open);
+                            }}
+                            qa="lower-sheet"
+                        >
                             Lower sheet
                         </Sheet>
                         <Sheet
@@ -279,12 +290,22 @@ describe('Sheet', () => {
 
             expect(upperOnOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'escape-key');
             expect(upperOnOpenChange).toHaveBeenCalledTimes(1);
+            expect(lowerOnOpenChange).not.toHaveBeenCalled();
             expect(screen.getByText('Upper sheet')).toBeInTheDocument();
+            expect(getLayersCount()).toBe(1);
 
             pressEscape();
 
-            expect(lowerOnOpenChange).not.toHaveBeenCalled();
+            expect(lowerOnOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'escape-key');
+            expect(lowerOnOpenChange).toHaveBeenCalledTimes(1);
+            expect(upperOnOpenChange).toHaveBeenCalledTimes(1);
+            expect(getLayersCount()).toBe(0);
+            expect(document.body.style.overflow).toBe('hidden');
             expect(screen.getByTestId('upper-sheet')).toHaveAttribute(
+                'data-floating-ui-status',
+                'close',
+            );
+            expect(screen.getByTestId('lower-sheet')).toHaveAttribute(
                 'data-floating-ui-status',
                 'close',
             );
@@ -292,11 +313,8 @@ describe('Sheet', () => {
             finishPresenceTransition();
 
             expect(screen.queryByText('Upper sheet')).not.toBeInTheDocument();
-
-            pressEscape();
-
-            expect(lowerOnOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'escape-key');
-            expect(lowerOnOpenChange).toHaveBeenCalledTimes(1);
+            expect(screen.queryByText('Lower sheet')).not.toBeInTheDocument();
+            expect(document.body.style.overflow).toBe('');
         });
 
         test('blocks Escape for lower sheets when the top sheet disables it', () => {
@@ -329,7 +347,7 @@ describe('Sheet', () => {
             expect(getLayersCount()).toBe(2);
         });
 
-        test('releases the layer only after a legacy dismissal finishes its exit', () => {
+        test('releases the layer when a legacy dismissal starts and unlocks scrolling after exit', () => {
             const onClose = jest.fn();
 
             render(
@@ -344,7 +362,7 @@ describe('Sheet', () => {
             pressEscape();
 
             expect(screen.getByRole('dialog')).toBeInTheDocument();
-            expect(getLayersCount()).toBe(1);
+            expect(getLayersCount()).toBe(0);
             expect(document.body.style.overflow).toBe('hidden');
             expect(onClose).not.toHaveBeenCalled();
 
@@ -354,6 +372,32 @@ describe('Sheet', () => {
             expect(getLayersCount()).toBe(0);
             expect(document.body.style.overflow).toBe('');
             expect(onClose).toHaveBeenCalledTimes(1);
+        });
+
+        test('publishes layerschange at the start of an external close, not at unmount', () => {
+            const onLayersChange = jest.fn();
+            const {rerender} = render(<Sheet visible />);
+            eventBroker.subscribe(onLayersChange);
+
+            try {
+                rerender(<Sheet visible={false} />);
+
+                expect(onLayersChange).toHaveBeenCalledTimes(1);
+                expect(onLayersChange).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        eventId: 'layerschange',
+                        meta: {layersCount: 0, layers: []},
+                    }),
+                );
+                expect(screen.getByRole('dialog')).toBeInTheDocument();
+
+                finishPresenceTransition();
+
+                expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+                expect(onLayersChange).toHaveBeenCalledTimes(1);
+            } finally {
+                eventBroker.unsubscribe(onLayersChange);
+            }
         });
 
         test('reopens when visible becomes true during an unfinished exit', () => {
@@ -387,6 +431,7 @@ describe('Sheet', () => {
             expect(screen.getByTestId('sheet')).toHaveAttribute('data-floating-ui-status', 'close');
             expect(screen.getByRole('dialog')).toBeInTheDocument();
             expect(onClose).not.toHaveBeenCalled();
+            expect(getLayersCount()).toBe(0);
 
             act(() => {
                 jest.advanceTimersByTime(SHEET_TRANSITION_DURATION_MS / 2);
@@ -404,6 +449,7 @@ describe('Sheet', () => {
                 </Sheet>,
             );
 
+            expect(getLayersCount()).toBe(1);
             finishPresenceTransition();
 
             expect(screen.getByTestId('sheet')).toHaveAttribute('data-floating-ui-status', 'open');
@@ -411,6 +457,12 @@ describe('Sheet', () => {
             expect(screen.getByTestId('sheet-veil')).toHaveStyle({opacity: '1'});
             expect(onClose).not.toHaveBeenCalled();
             expect(callbacks.onTransitionOutComplete).not.toHaveBeenCalled();
+
+            pressEscape();
+
+            expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'escape-key');
+            expect(onOpenChange).toHaveBeenCalledTimes(1);
+            expect(getLayersCount()).toBe(1);
 
             rerender(<Sheet {...callbacks} visible={false} onClose={onClose} />);
             finishPresenceTransition();

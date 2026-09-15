@@ -129,7 +129,7 @@ function SheetComponent(rawProps: SheetProps) {
     });
 
     useLayer({
-        open: isMounted,
+        open: requestedOpen,
         type: 'sheet',
         disableOutsideClick: true,
         onEscapeKeyDown: handleEscapeKeyDown,

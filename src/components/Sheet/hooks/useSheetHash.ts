@@ -47,14 +47,15 @@ export function useSheetHash({
     location,
 }: UseSheetHashProps): UseSheetHashResult {
     const {action, replace, push, goBack} = history;
+    const {hash, pathname, search} = location;
 
     const setHash = React.useCallback(() => {
-        const newLocation = {...location, hash: id};
+        const newLocation = {pathname, search, hash: id};
 
         switch (platform) {
             case Platform.IOS:
-                if (location.hash) {
-                    hashHistory.push(location.hash);
+                if (hash) {
+                    hashHistory.push(hash);
                 }
                 replace(newLocation);
                 break;
@@ -62,27 +63,27 @@ export function useSheetHash({
                 push(newLocation);
                 break;
         }
-    }, [id, location, platform, push, replace]);
+    }, [hash, id, pathname, platform, push, replace, search]);
 
     const removeHash = React.useCallback(() => {
-        if (location.hash !== `#${id}`) {
+        if (hash !== `#${id}`) {
             return;
         }
 
         switch (platform) {
             case Platform.IOS:
-                replace({...location, hash: hashHistory.pop() ?? ''});
+                replace({pathname, search, hash: hashHistory.pop() ?? ''});
                 break;
             case Platform.ANDROID:
                 goBack();
                 break;
         }
-    }, [goBack, id, location, platform, replace]);
+    }, [goBack, hash, id, pathname, platform, replace, search]);
 
     const shouldClose = React.useCallback(
         (prevLocation: Location) =>
-            action === 'POP' && prevLocation.hash !== location.hash && location.hash !== `#${id}`,
-        [action, id, location.hash],
+            action === 'POP' && prevLocation.hash !== hash && hash !== `#${id}`,
+        [action, hash, id],
     );
 
     if (platform === Platform.BROWSER) {

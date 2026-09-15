@@ -30,10 +30,18 @@ export type SheetOpenChangeReason = 'escape-key' | 'outside-press' | 'swipe' | '
 
 export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePortal'>, QAProps {
     children?: React.ReactNode;
-    /** @deprecated Use onOpenChange instead */
+    /** @deprecated Use onOpenChange for dismissal requests or onTransitionOutComplete for exit cleanup */
     onClose?: () => void;
     /** Callback for open state changes, when dismiss happens for example */
     onOpenChange?: (open: boolean, event?: Event, reason?: SheetOpenChangeReason) => void;
+    /** Called when the opening transition starts */
+    onTransitionIn?: () => void;
+    /** Called when the opening transition completes */
+    onTransitionInComplete?: () => void;
+    /** Called when the closing transition starts */
+    onTransitionOut?: () => void;
+    /** Called when the closing transition completes */
+    onTransitionOutComplete?: () => void;
     /** Show/hide sheet */
     visible: boolean;
     /** Disables closing the sheet on Escape */
@@ -65,6 +73,10 @@ function SheetComponent(rawProps: SheetProps) {
         children,
         onClose,
         onOpenChange,
+        onTransitionIn,
+        onTransitionInComplete,
+        onTransitionOut,
+        onTransitionOutComplete,
         visible,
         disableEscapeKeyDown,
         disableOutsideClick,
@@ -104,11 +116,15 @@ function SheetComponent(rawProps: SheetProps) {
     });
     const handleExitComplete = React.useCallback(() => {
         onClose?.();
-    }, [onClose]);
+        onTransitionOutComplete?.();
+    }, [onClose, onTransitionOutComplete]);
     const {isMounted, status} = useFloatingTransition({
         context,
         duration: SHEET_TRANSITION_DURATION_MS,
         skipTransitionOut: immediate,
+        onTransitionIn,
+        onTransitionInComplete,
+        onTransitionOut,
         onTransitionOutComplete: handleExitComplete,
     });
 

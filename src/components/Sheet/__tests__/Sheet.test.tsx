@@ -145,6 +145,91 @@ describe('Sheet', () => {
             expect(document.body.style.overflow).toBe('');
         });
 
+        test('calls transition callbacks at the start and completion of each transition', () => {
+            const callbacks = {
+                onTransitionIn: jest.fn(),
+                onTransitionInComplete: jest.fn(),
+                onTransitionOut: jest.fn(),
+                onTransitionOutComplete: jest.fn(),
+                onClose: jest.fn(),
+            };
+            const {rerender} = render(<Sheet visible={false} {...callbacks} />);
+
+            expect(callbacks.onTransitionIn).not.toHaveBeenCalled();
+            expect(callbacks.onTransitionOutComplete).not.toHaveBeenCalled();
+
+            rerender(<Sheet visible {...callbacks} />);
+            act(() => jest.advanceTimersToNextTimer());
+
+            expect(callbacks.onTransitionIn).toHaveBeenCalledTimes(1);
+            expect(callbacks.onTransitionInComplete).not.toHaveBeenCalled();
+
+            finishPresenceTransition();
+
+            expect(callbacks.onTransitionInComplete).toHaveBeenCalledTimes(1);
+            expect(callbacks.onTransitionOut).not.toHaveBeenCalled();
+
+            rerender(<Sheet visible={false} {...callbacks} />);
+
+            expect(callbacks.onTransitionOut).toHaveBeenCalledTimes(1);
+            expect(callbacks.onTransitionOutComplete).not.toHaveBeenCalled();
+            expect(callbacks.onClose).not.toHaveBeenCalled();
+            expect(screen.getByRole('dialog')).toBeInTheDocument();
+
+            finishPresenceTransition();
+
+            expect(callbacks.onTransitionOutComplete).toHaveBeenCalledTimes(1);
+            expect(callbacks.onClose).toHaveBeenCalledTimes(1);
+            expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+
+            finishPresenceTransition();
+
+            expect(callbacks.onTransitionOutComplete).toHaveBeenCalledTimes(1);
+            expect(callbacks.onClose).toHaveBeenCalledTimes(1);
+        });
+
+        test('does not complete an opening transition interrupted by closing', () => {
+            const callbacks = {
+                onTransitionIn: jest.fn(),
+                onTransitionInComplete: jest.fn(),
+                onTransitionOutComplete: jest.fn(),
+            };
+            const {rerender} = render(<Sheet visible {...callbacks} />);
+            act(() => jest.advanceTimersToNextTimer());
+
+            expect(callbacks.onTransitionIn).toHaveBeenCalledTimes(1);
+
+            rerender(<Sheet visible={false} {...callbacks} />);
+            finishPresenceTransition();
+
+            expect(callbacks.onTransitionInComplete).not.toHaveBeenCalled();
+            expect(callbacks.onTransitionOutComplete).toHaveBeenCalledTimes(1);
+        });
+
+        test('does not start an exit until the parent accepts dismissal', () => {
+            const callbacks = {
+                onOpenChange: jest.fn(),
+                onTransitionOut: jest.fn(),
+                onTransitionOutComplete: jest.fn(),
+            };
+            const {rerender} = render(<Sheet visible {...callbacks} />);
+            finishPresenceTransition();
+
+            pressEscape();
+            finishPresenceTransition();
+
+            expect(callbacks.onOpenChange).toHaveBeenCalledTimes(1);
+            expect(callbacks.onTransitionOut).not.toHaveBeenCalled();
+            expect(callbacks.onTransitionOutComplete).not.toHaveBeenCalled();
+            expect(screen.getByRole('dialog')).toBeInTheDocument();
+
+            rerender(<Sheet visible={false} {...callbacks} />);
+            finishPresenceTransition();
+
+            expect(callbacks.onTransitionOut).toHaveBeenCalledTimes(1);
+            expect(callbacks.onTransitionOutComplete).toHaveBeenCalledTimes(1);
+        });
+
         test('does not echo an external visible change through onOpenChange', () => {
             const onOpenChange = jest.fn();
             const {rerender} = render(
@@ -274,14 +359,27 @@ describe('Sheet', () => {
         test('reopens when visible becomes true during an unfinished exit', () => {
             const onClose = jest.fn();
             const onOpenChange = jest.fn();
+            const callbacks = {onTransitionOutComplete: jest.fn()};
             const {rerender} = render(
-                <Sheet visible onClose={onClose} onOpenChange={onOpenChange} qa="sheet">
+                <Sheet
+                    {...callbacks}
+                    visible
+                    onClose={onClose}
+                    onOpenChange={onOpenChange}
+                    qa="sheet"
+                >
                     Content
                 </Sheet>,
             );
 
             rerender(
-                <Sheet visible={false} onClose={onClose} onOpenChange={onOpenChange} qa="sheet">
+                <Sheet
+                    {...callbacks}
+                    visible={false}
+                    onClose={onClose}
+                    onOpenChange={onOpenChange}
+                    qa="sheet"
+                >
                     Content
                 </Sheet>,
             );
@@ -295,7 +393,13 @@ describe('Sheet', () => {
             });
 
             rerender(
-                <Sheet visible onClose={onClose} onOpenChange={onOpenChange} qa="sheet">
+                <Sheet
+                    {...callbacks}
+                    visible
+                    onClose={onClose}
+                    onOpenChange={onOpenChange}
+                    qa="sheet"
+                >
                     Content
                 </Sheet>,
             );
@@ -306,6 +410,13 @@ describe('Sheet', () => {
             expect(screen.getByRole('dialog')).toBeInTheDocument();
             expect(screen.getByTestId('sheet-veil')).toHaveStyle({opacity: '1'});
             expect(onClose).not.toHaveBeenCalled();
+            expect(callbacks.onTransitionOutComplete).not.toHaveBeenCalled();
+
+            rerender(<Sheet {...callbacks} visible={false} onClose={onClose} />);
+            finishPresenceTransition();
+
+            expect(callbacks.onTransitionOutComplete).toHaveBeenCalledTimes(1);
+            expect(onClose).toHaveBeenCalledTimes(1);
         });
 
         test.each([

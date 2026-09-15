@@ -231,8 +231,9 @@ describe('Sheet dismissal', () => {
             {getArea: () => screen.getByTestId(SheetQa.CONTENT_AREA), surface: 'content'},
         ])('finishes a legacy full-height $surface swipe immediately', ({getArea}) => {
             const onClose = jest.fn();
+            const callbacks = {onTransitionOutComplete: jest.fn()};
             render(
-                <Sheet visible onClose={onClose}>
+                <Sheet {...callbacks} visible onClose={onClose}>
                     Content
                 </Sheet>,
             );
@@ -247,6 +248,7 @@ describe('Sheet dismissal', () => {
             });
 
             expect(onClose).toHaveBeenCalledTimes(1);
+            expect(callbacks.onTransitionOutComplete).toHaveBeenCalledTimes(1);
             expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
             expect(document.body.style.overflow).toBe('');
             expect(getLayersCount()).toBe(0);
@@ -254,6 +256,7 @@ describe('Sheet dismissal', () => {
             finishPresenceTransition();
 
             expect(onClose).toHaveBeenCalledTimes(1);
+            expect(callbacks.onTransitionOutComplete).toHaveBeenCalledTimes(1);
         });
 
         test('finishes an accepted full-height swipe immediately', () => {

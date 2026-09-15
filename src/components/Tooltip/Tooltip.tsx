@@ -7,6 +7,7 @@ import {
     limitShift,
     offset,
     shift,
+    useDelayGroup,
     useDismiss,
     useFloating,
     useFocus,
@@ -16,7 +17,7 @@ import {
 } from '@floating-ui/react';
 import type {OpenChangeReason, Strategy} from '@floating-ui/react';
 
-import {useControlledState, useForkRef} from '../../hooks';
+import {useControlledState, useForkRef, useLayoutEffect} from '../../hooks';
 import type {PopupOffset, PopupPlacement} from '../Popup';
 import {OVERFLOW_PADDING} from '../Popup/constants';
 import {getPlacementOptions} from '../Popup/utils';
@@ -118,10 +119,24 @@ export function Tooltip(rawProps: TooltipProps) {
         },
     });
 
+    const {
+        delay: groupDelay,
+        currentId,
+        setCurrentId,
+    } = useDelayGroup(context, {enabled: !disabled});
+    const isGroupWarm = !disabled && currentId !== null;
+
+    useLayoutEffect(() => {
+        // An open controlled tooltip keeps the group warm after a neighbour closes.
+        if (!disabled && isOpen && currentId === null) {
+            setCurrentId(context.floatingId);
+        }
+    }, [disabled, isOpen, currentId, setCurrentId, context.floatingId]);
+
     const hover = useHover(context, {
         enabled: trigger === 'all',
-        delay: {open: openDelay, close: closeDelay},
-        restMs: rest,
+        delay: isGroupWarm ? groupDelay : {open: openDelay, close: closeDelay},
+        restMs: isGroupWarm ? 0 : rest,
         move: false,
     });
     const focus = useFocus(context);

@@ -13,6 +13,7 @@ import {getLinkRelWithFallback} from '../../utils/getLinkRelWithFallback';
 import {mergeProps} from '../../utils/mergeProps';
 import type {PolymorphicOverloadProps} from '../../utils/polymorphic';
 import {isPolymorphicComponentProps, isPolymorphicLinkProps} from '../../utils/polymorphic';
+import {prepareIcon} from '../../utils/prepareIcon';
 import {ListItemView} from '../ListItemView/ListItemView';
 import type {ListItemViewProps} from '../ListItemView/ListItemView';
 
@@ -82,6 +83,7 @@ export const MenuItem = React.forwardRef(
 
         const item = useListItem();
         const tree = useFloatingTree();
+        const iconSize = BUTTON_ICON_SIZE_MAP[menuContext.size];
         const isActive = item.index === menuContext.activeIndex;
         const tabIndex = (menuContext.inline && item.index === 0) || isActive ? 0 : -1;
 
@@ -91,7 +93,7 @@ export const MenuItem = React.forwardRef(
         if (icon) {
             preparedChildren.push(
                 <div key="icon" className={b('icon')} aria-hidden>
-                    {icon}
+                    {prepareIcon(icon, iconSize)}
                 </div>,
             );
         }
@@ -107,14 +109,9 @@ export const MenuItem = React.forwardRef(
         if (arrow || submenu) {
             preparedChildren.push(
                 <div key="arrow" className={b('arrow')} aria-hidden>
-                    {arrow ? (
-                        arrow
-                    ) : (
-                        <Icon
-                            data={isRTL ? ChevronLeft : ChevronRight}
-                            size={BUTTON_ICON_SIZE_MAP[menuContext.size]}
-                        />
-                    )}
+                    {arrow
+                        ? arrow
+                        : prepareIcon(<Icon data={isRTL ? ChevronLeft : ChevronRight} />, iconSize)}
                 </div>,
             );
         }

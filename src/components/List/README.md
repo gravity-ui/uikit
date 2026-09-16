@@ -206,6 +206,10 @@ SANDBOX-->
 
 <!--/GITHUB_BLOCK-->
 
+### Drag preview
+
+`dragPreviewStyle` accepts `React.CSSProperties` and applies to the drag preview, including the drop animation. When sorting inside a `Sheet` or another overlay, set `dragPreviewStyle={{zIndex: 100001}}` to place the preview above it. Avoid overriding positioning styles managed by the drag-and-drop library.
+
 ### Virtualization
 
 To enable virtualization, make sure one of these two conditions is met:
@@ -242,6 +246,7 @@ The `filter` property provides the filter value used with external sorting.
 | emptyPlaceholder  | Placeholder for an empty list.                                                                                                                                                                                      | `React.ReactNode` |            |
 | sortable          | Flag that enables list sorting.                                                                                                                                                                                     | `Boolean`         |            |
 | sortHandleAlign   | Sorting indicator alignment (left or right).                                                                                                                                                                        | `left` `right`    |            |
+| dragPreviewStyle  | Styles applied only to the drag preview.                                                                                                                                                                            | `Object`          |            |
 | onSortEnd         | Sorting event handler: `({oldIndex: number, newIndex: number}) => void`.                                                                                                                                            | `Function`        |            |
 | virtualized       | Flag that enables virtualization. If inactive, all items are rendered at once.                                                                                                                                      | `Boolean`         | true       |
 | onItemClick       | Item click handler: `(item: any, index: number, fromKeyboard?: bool) => void`.                                                                                                                                      | `Function`        |            |

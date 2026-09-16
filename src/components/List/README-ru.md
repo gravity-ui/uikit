@@ -204,6 +204,10 @@ SANDBOX-->
 
 <!--/GITHUB_BLOCK-->
 
+### Перетаскиваемый элемент
+
+`dragPreviewStyle` принимает `React.CSSProperties` и применяется к перетаскиваемому элементу, включая анимацию drop. При сортировке внутри `Sheet` задайте `dragPreviewStyle={{zIndex: 100001}}`, чтобы preview был над шторкой. Не переопределяйте стили позиционирования, которыми управляет библиотека drag-and-drop.
+
 ### Виртуализация
 
 Чтобы виртуализация работала, нужно выполнить одно из двух условий:
@@ -240,6 +244,7 @@ SANDBOX-->
 | emptyPlaceholder  | Заглушка для пустого списка.                                                                                                                                                                                      | `React.ReactNode` |                       |
 | sortable          | Флаг, включающий сортировку списка.                                                                                                                                                                               | `Boolean`         |                       |
 | sortHandleAlign   | Выравнивание индикатора сортировки (слева или справа).                                                                                                                                                            | `left` `right`    |                       |
+| dragPreviewStyle  | Стили только для перетаскиваемого элемента.                                                                                                                                                                       | `Object`          |                       |
 | onSortEnd         | Обработчик события сортировки — `({oldIndex: number, newIndex: number}) => void`.                                                                                                                                 | `Function`        |                       |
 | virtualized       | Флаг, включающий виртуализацию. При выключенном флаге будут отрисованы все элементы сразу.                                                                                                                        | `Boolean`         | true                  |
 | onItemClick       | Обработчик клика по элементу — `(item: any, index: number, fromKeyboard?: bool) => void`.                                                                                                                         | `Function`        |                       |

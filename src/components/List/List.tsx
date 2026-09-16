@@ -411,6 +411,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                         ) => {
                             return this.renderItem({
                                 index: rubric.source.index,
+                                style: this.props.dragPreviewStyle,
                                 provided,
                                 isDragging: snapshot.isDragging,
                             });
@@ -487,6 +488,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                         ) => {
                             return this.renderItem({
                                 index: rubric.source.index,
+                                style: this.props.dragPreviewStyle,
                                 provided,
                                 isDragging: snapshot.isDragging,
                             });

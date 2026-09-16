@@ -37,6 +37,7 @@ export type ListProps<T = unknown> = QAProps & {
     sortable?: boolean;
     deactivateOnLeave?: boolean;
     sortHandleAlign?: ListSortHandleAlign;
+    dragPreviewStyle?: React.CSSProperties;
     size?: TextInputSize;
     renderItem?: (
         item: ListItemData<T>,

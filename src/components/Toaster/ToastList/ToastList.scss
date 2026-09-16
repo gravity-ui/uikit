@@ -9,7 +9,7 @@ $block: '.#{variables.$ns}toaster';
     inset-block-end: 0;
     inset-inline-end: 10px;
     width: var(--g-toaster-width, var(--_--width));
-    z-index: 100000;
+    z-index: var(--g-layer-toaster);
     display: flex;
     flex-direction: column;
     align-items: flex-end;

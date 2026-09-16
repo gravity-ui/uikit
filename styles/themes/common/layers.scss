@@ -1,0 +1,14 @@
+@mixin variables {
+    // Preserve existing overlay levels for applications that position content around them.
+    --g-layer-modal: 1000;
+    --g-layer-drawer: calc(var(--g-layer-modal) - 10);
+    --g-layer-popup: var(--g-layer-modal);
+    --g-layer-sheet: 100000;
+    --g-layer-toaster: var(--g-layer-sheet);
+
+    // Drag previews must clear both sheets and notifications; tooltips clear every overlay.
+    --g-layer-drag: calc(max(var(--g-layer-sheet), var(--g-layer-toaster)) + 1);
+    --g-layer-tooltip: calc(
+        max(var(--g-layer-modal), var(--g-layer-popup), var(--g-layer-drag)) + 1
+    );
+}

@@ -1,10 +1,31 @@
 import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {test} from '~playwright/core';
+import {expect, test} from '~playwright/core';
 
+import {DefinitionList} from '../DefinitionList';
 import type {DefinitionListProps} from '../types';
 
 import {DefinitionListStories} from './stories';
+
+test.describe('DefinitionList touch interactions', {tag: '@DefinitionList'}, () => {
+    test.use({hasTouch: true, isMobile: true});
+
+    test('shows the copy button without hover or focus', async ({mount, page}) => {
+        const component = await mount(
+            <DefinitionList>
+                <DefinitionList.Item name="Name" copyText="Value">
+                    Value
+                </DefinitionList.Item>
+            </DefinitionList>,
+        );
+
+        expect(await page.evaluate(() => window.matchMedia('(hover: none)').matches)).toBe(true);
+
+        const copyButton = component.getByRole('button');
+        await expect(copyButton).not.toBeFocused();
+        await expect(copyButton).toHaveCSS('opacity', '1');
+    });
+});
 
 // Test is flaky. Screenshot height randomly changes by 6px.
 test.describe.skip('DefinitionList', {tag: '@DefinitionList'}, () => {

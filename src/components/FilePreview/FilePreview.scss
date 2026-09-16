@@ -15,13 +15,29 @@ $block: '.#{variables.$ns}file-preview';
 
     width: file-preview-css-variables.$cardWidth;
 
-    &:not(#{$block}_mobile):focus-within,
-    &:not(#{$block}_mobile):hover {
+    &:not(#{$block}_mobile):focus-within {
         --_-color-base-background: var(--g-color-base-simple-hover);
     }
 
-    &:hover,
     &:focus-within {
+        #{$block}__actions-panel {
+            opacity: 1;
+        }
+    }
+
+    @media (hover: hover) {
+        &:not(#{$block}_mobile):hover {
+            --_-color-base-background: var(--g-color-base-simple-hover);
+        }
+
+        &:hover {
+            #{$block}__actions-panel {
+                opacity: 1;
+            }
+        }
+    }
+
+    @media (hover: none) {
         #{$block}__actions-panel {
             opacity: 1;
         }
@@ -56,8 +72,10 @@ $block: '.#{variables.$ns}file-preview';
             border-radius: var(--_-border-radius);
             pointer-events: none;
         }
-        &:hover {
-            --_-box-shadow: 0px 3px 10px var(--g-color-sfx-shadow);
+        @media (hover: hover) {
+            &:hover {
+                --_-box-shadow: 0px 3px 10px var(--g-color-sfx-shadow);
+            }
         }
         &:focus::after {
             content: '';

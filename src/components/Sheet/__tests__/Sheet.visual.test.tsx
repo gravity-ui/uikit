@@ -38,24 +38,29 @@ test.describe('Sheet', {tag: '@Sheet'}, () => {
 
         // Set real env(safe-area-inset-*) via experimental CDP method
         const cdpSession = await page.context().newCDPSession(page);
-        await cdpSession.send('Emulation.setSafeAreaInsetsOverride', {
-            insets: NOTCH_DEVICE_SAFE_AREA_INSETS,
-        });
+        try {
+            await cdpSession.send('Emulation.setSafeAreaInsetsOverride', {
+                insets: NOTCH_DEVICE_SAFE_AREA_INSETS,
+            });
 
-        const root = await mount(<TestSheet />, {
-            rootStyle: {
-                padding: 0,
-                width: '100%',
-                minHeight: '844px',
-            },
-        });
+            const root = await mount(<TestSheet />, {
+                rootStyle: {
+                    padding: 0,
+                    width: '100%',
+                    minHeight: '844px',
+                },
+            });
 
-        await root.locator('button').click();
-        await expect(page.locator(`[data-qa='${QASheet.content}']`)).toBeVisible();
+            await root.locator('button').click();
+            await expect(page.locator(`[data-qa='${QASheet.content}']`)).toBeVisible();
 
-        await expectScreenshot({
-            themes: ['light'],
-        });
+            await expectScreenshot({
+                themes: ['light'],
+            });
+        } finally {
+            await cdpSession.send('Emulation.setSafeAreaInsetsOverride', {insets: {}});
+            await cdpSession.detach();
+        }
     });
 
     createSmokeScenarios<Partial<Omit<SheetProps, 'visible' | 'onClose'>>>(

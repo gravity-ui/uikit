@@ -6,7 +6,7 @@ $drawer-resizer-width: 8px;
 #{$block} {
     outline: none;
 
-    z-index: 990;
+    z-index: var(--g-layer-drawer);
     inset: 0;
 
     background-color: var(--g-color-sfx-veil);

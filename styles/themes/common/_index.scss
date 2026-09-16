@@ -1,9 +1,11 @@
 @use './typography';
 @use './spacing';
+@use './layers';
 
 @mixin g-theme-common {
     @include typography.variables;
     @include spacing.variables;
+    @include layers.variables;
 
     --g-scrollbar-width: 12px;
 

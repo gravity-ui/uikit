@@ -357,9 +357,11 @@
         background: var(--g-color-scroll-handle);
     }
 
-    &::-webkit-scrollbar-thumb:hover,
-    *::-webkit-scrollbar-thumb:hover {
-        background: var(--g-color-scroll-handle-hover);
+    @media (hover: hover) {
+        &::-webkit-scrollbar-thumb:hover,
+        *::-webkit-scrollbar-thumb:hover {
+            background: var(--g-color-scroll-handle-hover);
+        }
     }
 }
 

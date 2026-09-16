@@ -72,8 +72,10 @@ $root: '.docs-decorator';
 
         color: var(--g-color-text-link);
 
-        &:hover {
-            color: var(--g-color-text-link-hover);
+        @media (hover: hover) {
+            &:hover {
+                color: var(--g-color-text-link-hover);
+            }
         }
     }
 

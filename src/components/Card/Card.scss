@@ -75,8 +75,10 @@ $block: '.#{variables.$ns}card';
             cursor: pointer;
             position: relative;
 
-            &:hover {
-                --_--box-shadow: 0px 3px 10px var(--g-color-sfx-shadow);
+            @media (hover: hover) {
+                &:hover {
+                    --_--box-shadow: 0px 3px 10px var(--g-color-sfx-shadow);
+                }
             }
 
             &:focus-visible::after {
@@ -108,17 +110,19 @@ $block: '.#{variables.$ns}card';
         &#{$block}_clickable {
             cursor: pointer;
 
-            &:hover {
-                --_--border-color: transparent;
+            @media (hover: hover) {
+                &:hover {
+                    --_--border-color: transparent;
 
-                &:not(#{$block}_selected)::before {
-                    content: '';
-                    border: 2px solid var(--g-color-line-brand);
-                    opacity: 0.5;
-                }
+                    &:not(#{$block}_selected)::before {
+                        content: '';
+                        border: 2px solid var(--g-color-line-brand);
+                        opacity: 0.5;
+                    }
 
-                &:focus-visible::before {
-                    border-color: transparent;
+                    &:focus-visible::before {
+                        border-color: transparent;
+                    }
                 }
             }
 

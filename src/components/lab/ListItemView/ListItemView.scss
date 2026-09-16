@@ -228,7 +228,12 @@ $block: '.#{variables.$ns}lab-list-item-view';
         --_--padding-block: 0;
     }
 
-    &:not(&_hovered_no):hover,
+    @media (hover: hover) {
+        &:not(&_hovered_no):hover {
+            --_--background-color: var(--_--background-color-hover);
+        }
+    }
+
     &_hovered_yes {
         --_--background-color: var(--_--background-color-hover);
     }
@@ -259,12 +264,20 @@ $block: '.#{variables.$ns}lab-list-item-view';
         pointer-events: none;
 
         &,
-        &:hover,
         &:focus {
             --_--background-color: var(--_--background-color-disabled);
             --_--text-color: var(--_--text-color-disabled);
             --_--description-color: var(--_--text-color-disabled);
             outline: none;
+        }
+
+        @media (hover: hover) {
+            &:hover {
+                --_--background-color: var(--_--background-color-disabled);
+                --_--text-color: var(--_--text-color-disabled);
+                --_--description-color: var(--_--text-color-disabled);
+                outline: none;
+            }
         }
     }
 

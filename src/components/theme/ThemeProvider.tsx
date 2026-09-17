@@ -7,7 +7,7 @@ import {PrivateLayoutProvider} from '../layout/LayoutProvider/LayoutProvider';
 import type {PrivateLayoutProviderProps} from '../layout/LayoutProvider/LayoutProvider';
 import {block} from '../utils/cn';
 
-import type {ComponentDefaultPropsMap} from './DefaultPropsProvider';
+import type {DefaultPropsMap} from './DefaultPropsProvider';
 import {DefaultPropsProvider} from './DefaultPropsProvider';
 import {ThemeContext} from './ThemeContext';
 import {ThemeSettingsContext} from './ThemeSettingsContext';
@@ -35,7 +35,7 @@ export interface ThemeProviderProps extends React.PropsWithChildren<{}>, Partial
     scoped?: boolean;
     rootClassName?: string;
     layout?: Omit<PrivateLayoutProviderProps, 'children'>;
-    defaultProps?: ComponentDefaultPropsMap;
+    defaultProps?: DefaultPropsMap;
 }
 
 export function ThemeProvider({

@@ -37,6 +37,25 @@ By default `ActionTooltip` opens and hides by hovering the anchor. You can chang
 Pass your state to the `open` prop and change it from `onOpenChange` callback.
 `onOpenChange` callback has the following signature: `(open: boolean, event?: Event, reason: 'hover' | 'focus') => void`.
 
+## Delay Group
+
+A row of action buttons is the main case for
+[`TooltipDelayGroup`](../Tooltip/README.md#delay-group): the first tooltip of the group pays its `openDelay`,
+its neighbours open instantly while the group is warm.
+
+```tsx
+import {ActionTooltip, TooltipDelayGroup} from '@gravity-ui/uikit';
+
+<TooltipDelayGroup>
+  <ActionTooltip title="Bold" hotkey="mod+b">
+    <Button view="flat">{/* ... */}</Button>
+  </ActionTooltip>
+  <ActionTooltip title="Italic" hotkey="mod+i">
+    <Button view="flat">{/* ... */}</Button>
+  </ActionTooltip>
+</TooltipDelayGroup>;
+```
+
 ## Properties
 
 | Name          | Description                                                                                     |                       Type                       |     Default     |

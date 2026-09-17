@@ -43,6 +43,39 @@ Pass your state to the `open` prop and change it from `onOpenChange` callback.
 `Tooltip` accepts the `role` property which changes how it should act it terms of accessibility.
 `tooltip` role should be used when anchor has its own text and `label` role otherwise (e.g. in icon button).
 
+## Delay Group
+
+Wrap a set of tooltips into `TooltipDelayGroup` to make them share the open delay. The first tooltip of a group
+pays its own `openDelay`, so an accidental mouse move still opens nothing. While the group is warm — a tooltip
+is open or has been closed less than `skipDelay` ago — its neighbours open instantly, and no more than one
+tooltip of the group is open at a time. This suits toolbars and rows of icon buttons, where waiting for the delay
+on every button feels slow.
+
+```tsx
+import {ActionTooltip, TooltipDelayGroup} from '@gravity-ui/uikit';
+
+<TooltipDelayGroup>
+  <ActionTooltip title="Bold" hotkey="mod+b">
+    <Button view="flat">{/* ... */}</Button>
+  </ActionTooltip>
+  <ActionTooltip title="Italic" hotkey="mod+i">
+    <Button view="flat">{/* ... */}</Button>
+  </ActionTooltip>
+</TooltipDelayGroup>;
+```
+
+`Tooltip` and `ActionTooltip` join the closest group automatically, keeping their own `openDelay` for the cold
+start. Tooltips outside of a group behave exactly as before. Opening by focus is instant with or without a group,
+so the keyboard is not affected.
+
+### TooltipDelayGroup properties
+
+| Name       | Description                                                                                          |       Type        | Default |
+| :--------- | ---------------------------------------------------------------------------------------------------- | :---------------: | :-----: |
+| children   | Tooltips sharing the open delay                                                                      | `React.ReactNode` |         |
+| closeDelay | Number of ms to delay hiding a tooltip of a warm group, overrides `closeDelay` of the group tooltips |     `number`      |  `200`  |
+| skipDelay  | Number of ms the group stays warm after its last tooltip is closed                                   |     `number`      |  `300`  |
+
 ## Properties
 
 | Name          | Description                                                                                     |                       Type                       |     Default     |

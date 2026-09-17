@@ -2,8 +2,10 @@ import type {Meta, StoryObj} from '@storybook/react-webpack5';
 import {action} from 'storybook/actions';
 
 import {Button} from '../../Button';
+import {Text} from '../../Text';
 import {Flex} from '../../layout';
 import {Tooltip} from '../Tooltip';
+import {TooltipDelayGroup} from '../TooltipDelayGroup';
 
 const meta: Meta<typeof Tooltip> = {
     title: 'Components/Overlays/Tooltip',
@@ -40,6 +42,42 @@ export const Delay: Story = {
             <Tooltip {...args} closeDelay={500}>
                 <Button>Close Delay: 500ms</Button>
             </Tooltip>
+        </Flex>
+    ),
+    args: {
+        ...Default.args,
+    },
+};
+
+const ROW_ACTIONS = ['Edit', 'Duplicate', 'Preview', 'Delete'];
+
+export const DelayGroup: Story = {
+    render: (args) => (
+        <Flex direction="column" gap={6}>
+            <Flex direction="column" gap={2}>
+                <Text variant="subheader-1">Without group: every button waits for the delay</Text>
+                <Flex gap={2}>
+                    {ROW_ACTIONS.map((title) => (
+                        <Tooltip {...args} key={title} content={title}>
+                            <Button view="outlined">{title}</Button>
+                        </Tooltip>
+                    ))}
+                </Flex>
+            </Flex>
+            <Flex direction="column" gap={2}>
+                <Text variant="subheader-1">
+                    With group: only the first button waits for the delay
+                </Text>
+                <TooltipDelayGroup>
+                    <Flex gap={2}>
+                        {ROW_ACTIONS.map((title) => (
+                            <Tooltip {...args} key={title} content={title}>
+                                <Button view="outlined">{title}</Button>
+                            </Tooltip>
+                        ))}
+                    </Flex>
+                </TooltipDelayGroup>
+            </Flex>
         </Flex>
     ),
     args: {

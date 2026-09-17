@@ -24,6 +24,7 @@ import type {VirtualElement} from '@floating-ui/react';
 import {useControlledState, useForkRef} from '../../../hooks';
 import {Popup} from '../../Popup';
 import {useDirection} from '../../theme';
+import {useDefaultProps} from '../../theme/useDefaultProps';
 import {block} from '../../utils/cn';
 import {getElementRef} from '../../utils/getElementRef';
 
@@ -97,20 +98,21 @@ function MenuPopupContent({
     );
 }
 
-export function Menu({
-    trigger,
-    inline = false,
-    defaultOpen,
-    open,
-    onOpenChange,
-    placement = 'bottom-start',
-    disabled,
-    children,
-    size = 'm',
-    className,
-    style,
-    qa,
-}: MenuProps) {
+export function Menu(rawProps: MenuProps) {
+    const {
+        trigger,
+        inline = false,
+        defaultOpen,
+        open,
+        onOpenChange,
+        placement = 'bottom-start',
+        disabled,
+        children,
+        size = 'm',
+        className,
+        style,
+        qa,
+    } = useDefaultProps('unstable_Menu', rawProps);
     const [anchorElement, setAnchorElement] = React.useState<HTMLElement | null>(null);
     const [floatingElement, setFloatingElement] = React.useState<HTMLDivElement | null>(null);
     const [isOpen, setIsOpen] = useControlledState(open, defaultOpen ?? false, onOpenChange);

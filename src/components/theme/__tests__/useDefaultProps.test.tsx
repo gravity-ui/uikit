@@ -1,12 +1,28 @@
 import * as React from 'react';
 
 import {render, renderHook, screen} from '../../../../test-utils/utils';
+import type {ComponentDefaultPropsMap, DefaultPropsMap} from '../../../index';
 import {PasswordInput} from '../../controls/PasswordInput';
 import {PasswordInputQa} from '../../controls/PasswordInput/constants';
 import type {DefaultPropsProviderProps} from '../DefaultPropsProvider';
 import {DefaultPropsProvider} from '../DefaultPropsProvider';
 import {ThemeProvider} from '../ThemeProvider';
 import {useDefaultProps} from '../useDefaultProps';
+
+interface ExternalComponentProps {
+    label?: string;
+    size?: 's' | 'l';
+}
+
+declare module '../../../index' {
+    interface DefaultPropsMap {
+        '@example/components/ExternalComponent'?: Partial<ExternalComponentProps>;
+    }
+}
+
+const externalDefaultProps = {
+    '@example/components/ExternalComponent': {label: 'Default label', size: 'l'},
+} satisfies DefaultPropsMap;
 
 function makeWrapper(defaultProps: DefaultPropsProviderProps['defaultProps']) {
     return function Wrapper({children}: {children: React.ReactNode}) {
@@ -25,6 +41,15 @@ describe('useDefaultProps', () => {
             const props = {view: 'normal' as const, size: 'm' as const};
             const {result} = renderHook(() => useDefaultProps('Button', props));
             expect(result.current).toBe(props);
+        });
+
+        it('rejects props that do not match the registered component', () => {
+            const {result} = renderHook(() =>
+                // @ts-expect-error props do not match Button
+                useDefaultProps('Button', {totally: 'unrelated'}),
+            );
+
+            expect(result.current).toEqual({totally: 'unrelated'});
         });
     });
 
@@ -174,6 +199,36 @@ describe('DefaultPropsProvider', () => {
 });
 
 describe('ThemeProvider defaultProps', () => {
+    it('keeps the deprecated map alias type-compatible', () => {
+        const deprecatedExternalDefaultProps: ComponentDefaultPropsMap = externalDefaultProps;
+        const invalidExternalDefaultProps: DefaultPropsMap = {
+            '@example/components/ExternalComponent': {
+                // @ts-expect-error unknown external component prop
+                unknown: true,
+            },
+        };
+
+        expect(deprecatedExternalDefaultProps).toBe(externalDefaultProps);
+        expect(invalidExternalDefaultProps).toBeDefined();
+    });
+
+    it('supports defaults registered by an external library', () => {
+        const {result} = renderHook(
+            () =>
+                useDefaultProps('@example/components/ExternalComponent', {
+                    label: 'Explicit label',
+                    size: undefined,
+                }),
+            {
+                wrapper: ({children}) => (
+                    <ThemeProvider defaultProps={externalDefaultProps}>{children}</ThemeProvider>
+                ),
+            },
+        );
+
+        expect(result.current).toEqual({label: 'Explicit label', size: 'l'});
+    });
+
     it('passes defaultProps through to useDefaultProps', () => {
         render(
             <ThemeProvider defaultProps={{Button: {view: 'outlined', size: 'l'}}}>

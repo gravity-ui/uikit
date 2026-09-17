@@ -641,7 +641,7 @@ const MyComponent = () => {
 
 To render a custom filter section, use the `renderFilter` property and set the `filterable` property to `true`.
 
-`inputProps` carries everything the input of a combobox needs: the value, the handlers, the placeholder and the ARIA wiring — `role`, `aria-label`, `aria-controls`, `aria-activedescendant`, `aria-expanded`, `aria-autocomplete`. Without them the filter has no accessible name and names no active option for a screen reader. Spread it onto a plain `input` together with `ref`. A component that does not take a spread — `TextInput`, say — needs the parts handed over one by one, `onKeyDown` included: it carries the whole keyboard of the list.
+`inputProps` carries everything the input of a combobox needs: the value, the handlers, the placeholder and the ARIA wiring — `role`, `aria-label`, `aria-controls`, `aria-activedescendant`, `aria-expanded`, `aria-autocomplete`. Without them the filter has no accessible name and names no active option for a screen reader. Spread it onto a plain `input` together with `ref`. A component that does not take a spread — `TextInput`, say — needs the parts handed over one by one, `onKeyDown` included: it carries the whole keyboard of the list. Such a component usually hands over a value rather than an event, and the `onChange` of the callback is exactly that shape.
 
 <!--SANDBOX
 import type {SelectProps} from '@gravity-ui/uikit';
@@ -668,7 +668,7 @@ const renderFilter: SelectProps['renderFilter'] = (props) => {
                 value={inputProps.value}
                 placeholder={inputProps.placeholder}
                 // `onChange` of `inputProps` is an event handler; `TextInput` gives a string, and
-                // the argument of the same name is exactly that shape
+                // the argument of the same name is the one of that shape
                 onUpdate={onChange}
                 onKeyDown={inputProps.onKeyDown}
             />

@@ -37,12 +37,7 @@ export const UseSelectOptionsShowcase = () => {
     });
     const filteredOptions = getSelectFilteredOptions(options);
 
-    const renderFilter: SelectProps['renderFilter'] = ({
-        value: filterValue,
-        ref,
-        onChange,
-        onKeyDown,
-    }) => {
+    const renderFilter: SelectProps['renderFilter'] = ({ref, onChange, inputProps}) => {
         const optionsWithoutGroupLabels = options.filter(
             (option) => !isSelectGroupTitle(option),
         ) as SelectOption[];
@@ -85,10 +80,18 @@ export const UseSelectOptionsShowcase = () => {
             >
                 <TextInput
                     controlRef={ref}
-                    controlProps={{size: 1}}
-                    value={filterValue}
+                    controlProps={{
+                        size: 1,
+                        role: inputProps.role,
+                        'aria-label': inputProps['aria-label'],
+                        'aria-controls': inputProps['aria-controls'],
+                        'aria-activedescendant': inputProps['aria-activedescendant'],
+                        'aria-expanded': inputProps['aria-expanded'],
+                        'aria-autocomplete': inputProps['aria-autocomplete'],
+                    }}
+                    value={inputProps.value}
                     onUpdate={onChange}
-                    onKeyDown={onKeyDown}
+                    onKeyDown={inputProps.onKeyDown}
                 />
                 <Button
                     disabled={!filteredOptionsWithoutGroupLabels.length}

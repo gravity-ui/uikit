@@ -65,16 +65,7 @@ export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>
     };
 
     if (renderFilter) {
-        return renderFilter({
-            onChange,
-            // The deprecated argument keeps the keyboard of the list: a custom filter that has not
-            // moved to `inputProps` still navigates the options
-            onKeyDown: ownerProps.onKeyDown ?? onKeyDown,
-            value,
-            ref: inputRef,
-            style,
-            inputProps,
-        });
+        return renderFilter({onChange, ref: inputRef, style, inputProps});
     }
 
     return (

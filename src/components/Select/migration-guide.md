@@ -6,12 +6,24 @@ to the section of the [README](./README.md) that describes the new state of thin
 
 ## Props
 
-| Was                                          | Now                                                                                                                                                                                 |
-| :------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `virtualizationThreshold`                    | Gone. Virtualization is asked for explicitly: wrap the `Select` in `ListVirtualizer` from `@gravity-ui/uikit/virtualizer` — [Virtualized list](./README.md#virtualized-list)        |
-| `SelectOption.text`                          | Gone. The text of an option comes from `getOptionText` — [The text of an option](./README.md#the-text-of-an-option)                                                                 |
-| `renderOption(option, props)`                | `props.isItemActive` is no longer optional — it is always passed, and `props.itemHeight` carries the new heights — [Rendering custom options](./README.md#rendering-custom-options) |
-| `renderFilter({value, onChange, onKeyDown})` | Deprecated in favour of `inputProps`, which also carries the combobox ARIA wiring — [Rendering custom filter section](./README.md#rendering-custom-filter-section)                  |
+| Was                                | Now                                                                                                                                                                                                                                            |
+| :--------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `virtualizationThreshold`          | Gone. Virtualization is asked for explicitly: wrap the `Select` in `ListVirtualizer` from `@gravity-ui/uikit/virtualizer` — [Virtualized list](./README.md#virtualized-list)                                                                   |
+| `SelectOption.text`                | Gone. The text of an option comes from `getOptionText` — [The text of an option](./README.md#the-text-of-an-option)                                                                                                                            |
+| `renderOption(option, props)`      | `props.isItemActive` is no longer optional — it is always passed, and `props.itemHeight` carries the new heights — [Rendering custom options](./README.md#rendering-custom-options)                                                            |
+| `renderFilter({value, onKeyDown})` | Gone: both live in `inputProps`, which also carries the ARIA of the combobox. `onChange` stays — it is the string-shaped counterpart of `inputProps.onChange` — [Rendering custom filter section](./README.md#rendering-custom-filter-section) |
+
+```diff
+  const renderFilter = ({ref, onChange, inputProps}) => (
+-     <TextInput controlRef={ref} value={value} onUpdate={onChange} onKeyDown={onKeyDown} />
++     <TextInput
++         controlRef={ref}
++         value={inputProps.value}
++         onUpdate={onChange}
++         onKeyDown={inputProps.onKeyDown}
++     />
+  );
+```
 
 ```diff
 - <Select options={options} virtualizationThreshold={50} />

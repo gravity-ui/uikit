@@ -79,14 +79,17 @@ export type SelectFilterInputProps = {value: string} & Pick<
     | 'aria-autocomplete'
 >;
 export type SelectRenderFilter = (props: {
-    /** @deprecated use inputProps instead */
+    /**
+     * The filter changed, as a string rather than as an event: the counterpart of
+     * `inputProps.onChange` for an input that hands over a value instead of an event
+     */
     onChange: (filter: string) => void;
-    /** @deprecated use inputProps instead */
-    onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
-    /** @deprecated use inputProps instead */
-    value: string;
     ref: React.Ref<HTMLInputElement>;
     style: React.CSSProperties;
+    /**
+     * Everything the input of a combobox needs: the value, the handlers, the placeholder and the
+     * ARIA of the combobox. Spread it onto a plain input, or hand the parts over one by one
+     */
     inputProps: SelectFilterInputProps;
 }) => React.ReactElement;
 

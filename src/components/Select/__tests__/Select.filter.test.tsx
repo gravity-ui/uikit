@@ -29,15 +29,15 @@ const FILTER_PLACEHOLDER = 'Filter placeholder';
 const EMPTY_OPTIONS_QA = 'empty-options';
 
 const RENDER_CUSTOM_FILTER: SelectProps['renderFilter'] = (props) => {
-    const {value, ref, onChange, onKeyDown} = props;
+    const {ref, onChange, inputProps} = props;
 
     return (
         <TextInput
             controlRef={ref}
             placeholder={FILTER_PLACEHOLDER}
-            value={value}
+            value={inputProps.value}
             onUpdate={onChange}
-            onKeyDown={onKeyDown}
+            onKeyDown={inputProps.onKeyDown}
         />
     );
 };

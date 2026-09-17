@@ -67,7 +67,7 @@ import type {
 } from '../lab/Menu';
 import type {TabListProps, TabPanelProps, TabProps, TabProviderProps} from '../tabs';
 
-export interface ComponentDefaultPropsMap {
+export interface DefaultPropsMap {
     Accordion?: Partial<AccordionProps<any>>;
     ActionsPanel?: Partial<ActionsPanelProps>;
     ActionTooltip?: Partial<ActionTooltipProps>;
@@ -135,13 +135,16 @@ export interface ComponentDefaultPropsMap {
     unstable_MenuTrigger?: Partial<LabMenuTriggerProps>;
 }
 
+/** @deprecated Use `DefaultPropsMap` instead. */
+export type ComponentDefaultPropsMap = DefaultPropsMap;
+
 export interface DefaultPropsProviderProps extends React.PropsWithChildren<{}> {
-    defaultProps?: ComponentDefaultPropsMap;
+    defaultProps?: DefaultPropsMap;
 }
 
-const EMPTY: ComponentDefaultPropsMap = {};
+const EMPTY: DefaultPropsMap = {};
 
-export const DefaultPropsContext = React.createContext<ComponentDefaultPropsMap>(EMPTY);
+export const DefaultPropsContext = React.createContext<DefaultPropsMap>(EMPTY);
 
 export function DefaultPropsProvider({defaultProps, children}: DefaultPropsProviderProps) {
     const parentDefaultProps = React.useContext(DefaultPropsContext);

@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import type {ComponentDefaultPropsMap} from './DefaultPropsProvider';
+import type {DefaultPropsMap} from './DefaultPropsProvider';
 import {DefaultPropsContext} from './DefaultPropsProvider';
 
-export function useDefaultProps<K extends keyof ComponentDefaultPropsMap, T extends object>(
+export function useDefaultProps<K extends keyof DefaultPropsMap, T extends object>(
     componentName: K,
     componentProps: T,
 ): T {

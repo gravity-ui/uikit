@@ -47,7 +47,7 @@ wider than it used to — `popupWidth="fit"` pins it to the control as before.
   is 24px instead of 28, an option on mobile is 36px instead of 32 (there every row is of size `xl`,
   whatever the `size` of the `Select`), the header of a group is 26px (28 in `xl`) plus 8px above it
   when it follows other rows, and a group with an empty label — a separating line — takes 9px instead
-  of 5. The `itemHeight` handed to `renderOption` and `renderOptionGroup` carries those numbers, and
+  of 5 when it follows another row, and nothing at all as the first row of the list, as before. The `itemHeight` handed to `renderOption` and `renderOptionGroup` carries those numbers, and
   so does the estimate the virtualizer is given.
 
 ## The DOM and the styles

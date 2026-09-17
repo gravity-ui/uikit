@@ -60,6 +60,11 @@ import type {UserLabelProps} from '../UserLabel';
 import type {PasswordInputProps} from '../controls/PasswordInput';
 import type {TextAreaProps} from '../controls/TextArea';
 import type {TextInputProps} from '../controls/TextInput';
+import type {
+    MenuItemProps as LabMenuItemProps,
+    MenuProps as LabMenuProps,
+    MenuTriggerProps as LabMenuTriggerProps,
+} from '../lab/Menu';
 import type {TabListProps, TabPanelProps, TabProps, TabProviderProps} from '../tabs';
 
 export interface ComponentDefaultPropsMap {
@@ -125,6 +130,9 @@ export interface ComponentDefaultPropsMap {
     Tooltip?: Partial<TooltipProps>;
     User?: Partial<UserProps>;
     UserLabel?: Partial<UserLabelProps>;
+    unstable_Menu?: Partial<LabMenuProps>;
+    unstable_MenuItem?: Partial<LabMenuItemProps>;
+    unstable_MenuTrigger?: Partial<LabMenuTriggerProps>;
 }
 
 export interface DefaultPropsProviderProps extends React.PropsWithChildren<{}> {

@@ -7,6 +7,7 @@ import {ChevronDown, TriangleExclamation} from '@gravity-ui/icons';
 import {Alert} from '../../../Alert';
 import {Icon} from '../../../Icon';
 import {Popover} from '../../../Popover';
+import type {ListFocusOwner} from '../../../lab/List';
 import {useDirection} from '../../../theme';
 import type {AriaLabelingProps} from '../../../types';
 import type {CnMods} from '../../../utils/cn';
@@ -49,7 +50,12 @@ type ControlProps = {
     open: boolean;
     popupId: string;
     selectId: string;
-    activeIndex?: number;
+    /**
+     * The focus owner of the list (`useListFocusOwner`): the trigger is one of its two elements,
+     * the filter input is the other. Optional — without it the trigger keeps the combobox props of
+     * its own, but there is no `aria-activedescendant`
+     */
+    focusOwner?: ListFocusOwner;
 } & AriaLabelingProps;
 
 export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((props, ref) => {
@@ -74,7 +80,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         hasClear,
         popupId,
         selectId,
-        activeIndex,
+        focusOwner,
         renderCounter,
         hasCounter,
         title,
@@ -159,7 +165,9 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         );
     };
 
-    const triggerProps: SelectRenderTriggerProps = {
+    // `aria-expanded` and `aria-controls` are the state of the Select rather than the state of the
+    // list: on mobile the Sheet keeps the list mounted for the whole closing animation
+    const ownProps = {
         ...filterDOMProps(props, {labelable: true}),
         id: selectId,
         role: 'combobox',
@@ -167,10 +175,16 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         'aria-haspopup': 'listbox',
         'aria-expanded': open,
         'aria-invalid': isErrorVisible || undefined,
-        'aria-activedescendant':
-            activeIndex === undefined ? undefined : `${popupId}-item-${activeIndex}`,
         onClick: handleControlClick,
         onKeyDown,
+    } as const;
+
+    // `disabled` is not a DOM prop of every element, and `aria-controls` has to be written after
+    // the composition rather than through it: an `undefined` override never erases the value of
+    // the owner, and the list outlives the Select while the popup animates out
+    const triggerProps: SelectRenderTriggerProps = {
+        ...(focusOwner ? focusOwner.getInputProps(ownProps) : ownProps),
+        'aria-controls': open ? popupId : undefined,
         disabled,
     };
 

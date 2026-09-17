@@ -25,9 +25,11 @@ of the package, so it has to be installed alongside it. A `Select` without the w
 option as a row, and above 150 of them says so in a development warning.
 
 The width of the popup follows from the same place. A list that virtualized itself by the old
-threshold was as wide as the control; a list that is not virtualized is as wide as its widest option
-(see [Popup width](./README.md#popup-width)). So a long list left without the wrapper can come out
-wider than it used to — `popupWidth="fit"` pins it to the control as before.
+threshold was as wide as the control, and never narrower than 100px; a list that is not virtualized
+is as wide as its widest option (see [Popup width](./README.md#popup-width)). So a long list left
+without the wrapper can come out wider than it used to. Wrapping it in `ListVirtualizer` brings the
+old rule back as it was; `popupWidth="fit"` also pins the popup to the control, but it drops the
+100px floor along with it, which shows on a control narrower than that.
 
 ```diff
 - <Select options={[{value: 'msk', content: <City id="msk" />, text: 'Moscow'}]} />
@@ -47,7 +49,8 @@ wider than it used to — `popupWidth="fit"` pins it to the control as before.
   is 24px instead of 28, an option on mobile is 36px instead of 32 (there every row is of size `xl`,
   whatever the `size` of the `Select`), the header of a group is 26px (28 in `xl`) plus 8px above it
   when it follows other rows, and a group with an empty label — a separating line — takes 9px instead
-  of 5 when it follows another row, and nothing at all as the first row of the list, as before. The `itemHeight` handed to `renderOption` and `renderOptionGroup` carries those numbers, and
+  of 5 when it follows another row, and nothing at all as the first row of the list, as before — that
+  zero is the default one, and `getOptionGroupHeight` overrides it like any other. The `itemHeight` handed to `renderOption` and `renderOptionGroup` carries those numbers, and
   so does the estimate the virtualizer is given.
 
 ## The DOM and the styles

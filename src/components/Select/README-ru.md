@@ -122,7 +122,7 @@ import {Flex, Icon, Select, getSelectOptionText} from '@gravity-ui/uikit';
 
 Заголовок группы — это подпись, а не опция: у него `role="presentation"`, он не участвует в обходе
 с клавиатуры и не попадает в число строк с `role="option"`, а опции под ним описывает через
-`aria-describedby`. Группа с пустым `label` рисует разделительную линию вместо заголовка — первой строкой списка ей нечего разделять, и места она не занимает вовсе.
+`aria-describedby`. Группа с пустым `label` рисует разделительную линию вместо заголовка — первой строкой списка ей нечего разделять, и места она не занимает вовсе. Так группа рисуется по умолчанию: `renderOptionGroup` и `getOptionGroupHeight` спрашивают раньше и рисуют и меряют что угодно, с пустым `label` или без.
 
 <!--SANDBOX
 import {Flex, Select} from '@gravity-ui/uikit';
@@ -585,7 +585,7 @@ SANDBOX-->
 
 Для создания пользовательского контрола используйте свойство `renderControl`.
 
-Передайте своему элементу `ref` и разверните на нём `triggerProps`: они открывают и закрывают попап, несут клавиатуру списка и ARIA комбобокса (`role`, `aria-expanded`, `aria-controls`, `aria-activedescendant`). Контрол, который оставит их себе, не будет ни открываться, ни навигироваться.
+Передайте своему элементу `ref` и разверните на нём `triggerProps`: они открывают и закрывают попап, несут клавиатуру списка и ARIA комбобокса (`role`, `aria-expanded`, `aria-controls`, `aria-activedescendant`). Контрол, который оставит их себе, не будет ни открываться, ни навигироваться. Рядом приходит `disabled` — его передавайте своему компоненту напрямую: обёртка обычно пишет собственный на элемент поверх всего, что на него развернули.
 
 <!--SANDBOX
 import {Button, Select} from '@gravity-ui/uikit';
@@ -593,8 +593,8 @@ import {Button, Select} from '@gravity-ui/uikit';
 export default function () {
     return (
         <Select
-            renderControl={({ref, triggerProps}) => (
-                <Button ref={ref} extraProps={triggerProps}>
+            renderControl={({ref, triggerProps, disabled}) => (
+                <Button ref={ref} disabled={disabled} extraProps={triggerProps}>
                     Custom control
                 </Button>
             )}
@@ -614,11 +614,12 @@ SANDBOX-->
 import {Button} from '@gravity-ui/uikit';
 
 const MyComponent = () => {
-  const renderControl: SelectProps['renderControl'] = ({ref, triggerProps}) => {
+  const renderControl: SelectProps['renderControl'] = ({ref, triggerProps, disabled}) => {
     // `triggerProps` opens and closes the popup and carries the keyboard of the list along with
-    // the ARIA of the combobox — it has to reach the element itself
+    // the ARIA of the combobox — it has to reach the element itself. `disabled` goes to `Button`
+    // rather than through `extraProps`: the component writes its own to the element last
     return (
-      <Button ref={ref} extraProps={triggerProps}>
+      <Button ref={ref} disabled={disabled} extraProps={triggerProps}>
         Your control
       </Button>
     );

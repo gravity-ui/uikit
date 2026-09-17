@@ -1,10 +1,7 @@
 import type * as React from 'react';
 
-import {Check} from '@gravity-ui/icons';
-
-import {Icon} from '../../../Icon';
 import {block} from '../../../utils/cn';
-import type {SelectOption, SelectProps} from '../../types';
+import type {SelectOption} from '../../types';
 
 const b = block('select-list');
 
@@ -14,31 +11,28 @@ type DefaultOptionProps = {
 
 type OptionWrapProps = {
     renderOption?: (option: SelectOption) => React.ReactElement;
-    value: NonNullable<SelectProps['value']>;
     option: SelectOption;
-    multiple?: boolean;
 };
 
 const DefaultOption = ({option}: DefaultOptionProps) => {
-    const {content, children, disabled, title} = option;
+    const {content, children, title} = option;
     return (
-        <span title={title} className={b('option-default-label', {disabled})}>
+        <span title={title} className={b('option-default-label')}>
             {content || children}
         </span>
     );
 };
 
+/**
+ * The content of a row: the check mark of a multiple selection and the states of the row belong to
+ * the view of the List, this is the `qa` of the option and its text
+ */
 export const OptionWrap = (props: OptionWrapProps) => {
-    const {renderOption, value, option, multiple} = props;
-    const selected = value.indexOf(option.value) !== -1;
-    const optionContent = renderOption ? renderOption(option) : <DefaultOption option={option} />;
+    const {renderOption, option} = props;
 
     return (
-        <div data-qa={option.qa} className={b('option', {disabled: option.disabled})}>
-            {multiple && (
-                <Icon className={b('tick-icon', {shown: selected && multiple})} data={Check} />
-            )}
-            {optionContent}
+        <div data-qa={option.qa} className={b('option')}>
+            {renderOption ? renderOption(option) : <DefaultOption option={option} />}
         </div>
     );
 };

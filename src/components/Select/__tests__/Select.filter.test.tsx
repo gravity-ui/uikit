@@ -193,8 +193,8 @@ describe('Select filter', () => {
         const user = userEvent.setup();
         const selectControl = getByTestId(TEST_QA);
         await user.click(selectControl);
-        // 4 group labels + 1 option in each group
-        expect(queryAllByRole('option').length).toBe(8);
+        // The group headers are no longer options: 4 groups with one option each
+        expect(queryAllByRole('option').length).toBe(4);
         await user.keyboard('definitely not option');
         expect(queryAllByRole('option').length).toBe(0);
     });

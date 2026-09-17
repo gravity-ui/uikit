@@ -1,2 +1,2 @@
-export {useQuickSearch} from './useQuickSearch';
-export {useActiveItemIndex} from './useActiveItemIndex';
+export {useActiveItemId} from './useActiveItemId';
+export {useAlignActiveOption} from './useAlignActiveOption';

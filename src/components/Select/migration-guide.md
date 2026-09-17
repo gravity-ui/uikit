@@ -6,12 +6,12 @@ to the section of the [README](./README.md) that describes the new state of thin
 
 ## Props
 
-| Was                                          | Now                                                                                                                                                                          |
-| :------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `virtualizationThreshold`                    | Gone. Virtualization is asked for explicitly: wrap the `Select` in `ListVirtualizer` from `@gravity-ui/uikit/virtualizer` — [Virtualized list](./README.md#virtualized-list) |
-| `SelectOption.text`                          | Gone. The text of an option comes from `getOptionText` — [The text of an option](./README.md#the-text-of-an-option)                                                          |
-| `renderOption(option, props)`                | `props.isItemActive` is no longer optional — it is always passed                                                                                                             |
-| `renderFilter({value, onChange, onKeyDown})` | Deprecated in favour of `inputProps`, which also carries the combobox ARIA wiring — [Rendering custom filter section](./README.md#rendering-custom-filter-section)           |
+| Was                                          | Now                                                                                                                                                                                 |
+| :------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `virtualizationThreshold`                    | Gone. Virtualization is asked for explicitly: wrap the `Select` in `ListVirtualizer` from `@gravity-ui/uikit/virtualizer` — [Virtualized list](./README.md#virtualized-list)        |
+| `SelectOption.text`                          | Gone. The text of an option comes from `getOptionText` — [The text of an option](./README.md#the-text-of-an-option)                                                                 |
+| `renderOption(option, props)`                | `props.isItemActive` is no longer optional — it is always passed, and `props.itemHeight` carries the new heights — [Rendering custom options](./README.md#rendering-custom-options) |
+| `renderFilter({value, onChange, onKeyDown})` | Deprecated in favour of `inputProps`, which also carries the combobox ARIA wiring — [Rendering custom filter section](./README.md#rendering-custom-filter-section)                  |
 
 ```diff
 - <Select options={options} virtualizationThreshold={50} />
@@ -23,6 +23,11 @@ to the section of the [README](./README.md) that describes the new state of thin
 `@gravity-ui/uikit/virtualizer` needs `@tanstack/react-virtual` — it is an optional peer dependency
 of the package, so it has to be installed alongside it. A `Select` without the wrapper renders every
 option as a row, and above 150 of them says so in a development warning.
+
+The width of the popup follows from the same place. A list that virtualized itself by the old
+threshold was as wide as the control; a list that is not virtualized is as wide as its widest option
+(see [Popup width](./README.md#popup-width)). So a long list left without the wrapper can come out
+wider than it used to — `popupWidth="fit"` pins it to the control as before.
 
 ```diff
 - <Select options={[{value: 'msk', content: <City id="msk" />, text: 'Moscow'}]} />
@@ -39,19 +44,22 @@ option as a row, and above 150 of them says so in a development warning.
   one; the `Select` says so in a development warning. The old list kept rows by position and drew
   both.
 - **The rows are the rows of the new design, and they are of other heights**: an option of `size="s"`
-  is 24px instead of 28, the header of a group is 26px (28 in `xl`) plus 8px above it when it follows
-  other rows, and a group with an empty label — a separating line — takes 9px instead of nothing. The
-  `itemHeight` handed to `renderOption` and `renderOptionGroup` carries those numbers.
+  is 24px instead of 28, an option on mobile is 36px instead of 32 (there every row is of size `xl`,
+  whatever the `size` of the `Select`), the header of a group is 26px (28 in `xl`) plus 8px above it
+  when it follows other rows, and a group with an empty label — a separating line — takes 9px instead
+  of 5. The `itemHeight` handed to `renderOption` and `renderOptionGroup` carries those numbers, and
+  so does the estimate the virtualizer is given.
 
 ## The DOM and the styles
 
-- **The class names of the rows are gone**, and the ones that remain are not a public contract:
+- **These class names are gone**, and styles hooked on them stop applying:
   `.g-select-list__group-label`, `.g-select-list__group-label-content`,
   `.g-select-list__group-label-custom`, `.g-select-list__tick-icon`,
-  `.g-select-list__option_disabled`, `.g-select-list__option-default-label_disabled`, and the
-  `.g-list__item` of the old list. Styles hooked on them stop applying. What is supported instead is
-  described in [CSS API](./README.md#css-api): the CSS variables of the row view, and the render
-  props for the content of a row.
+  `.g-select-list__option_disabled`, `.g-select-list__option-default-label_disabled` and the
+  `.g-list__item` of the old list. The names that remain are not a public contract either — the rows
+  are drawn by the list and its row view. What is supported instead is described in
+  [CSS API](./README.md#css-api): the colour variables of the row view, and the render props for the
+  content of a row.
 - **The DOM `id` of a row is derived from the value of the option** instead of its index. Selectors
   and accessibility assertions keyed on the old id have to be rewritten — read the id from
   `aria-activedescendant` of the trigger rather than building it by hand: how a value is escaped

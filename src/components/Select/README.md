@@ -123,9 +123,9 @@ hand: the escaping of a value belongs to the list and is not a contract.
 #### Grouped list
 
 A group header is a caption rather than an option: it carries `role="presentation"`, stays out of
-the keyboard walk and out of the count of `role="option"` rows, and names the options under it
+the keyboard walk and out of the count of `role="option"` rows, and describes the options under it
 through `aria-describedby`. A group whose `label` is empty draws a separating line instead of a
-header.
+header — as the first row of the list it has nothing to separate and takes no space at all.
 
 <!--SANDBOX
 import {Flex, Select} from '@gravity-ui/uikit';
@@ -310,7 +310,7 @@ SANDBOX-->
 
 <!--/GITHUB_BLOCK-->
 
-### The search by the first letters
+## The search by the first letters
 
 With the popup open and no filter in the way, the character keys look up an option: the list moves
 the activity to the first option whose text **starts with** what was typed, the buffer resets a
@@ -497,9 +497,11 @@ export default function () {
 }
 SANDBOX-->
 
-### Virtualized list
+## Virtualized list
 
 A long list of options is rendered row by row unless you ask for otherwise: every option is a DOM row. To render only the visible ones, wrap the `Select` in `ListVirtualizer` from the `@gravity-ui/uikit/virtualizer` entry point — the wrapper needs no configuration, and the popup keeps working through the portal. A couple of hundred options is where it starts to pay off; above 150 the `Select` says so in a development warning.
+
+The entry point needs `@tanstack/react-virtual`: it is an optional peer dependency of the package and has to be installed alongside it.
 
 ```tsx
 import {Select} from '@gravity-ui/uikit';
@@ -516,11 +518,11 @@ Things to keep in mind:
 
 - The minimum width of the popup is equal to the width of the control, or `100px` if the control is shorter.
 
-- The height of a row before it is rendered is taken from [getOptionHeight](#rendering-options-with-different-heights) and the `size` of the `Select`; the `estimateItemSize` of the wrapper is not used, since the type of an option row does not leave the `Select`. The `measure` and `overscan` properties of the wrapper work as [described](https://github.com/gravity-ui/uikit/blob/main/src/components/lab/List/README.md#virtualization) for the `List`.
+- The height of a row before it is rendered is taken from [getOptionHeight](#rendering-options-with-different-heights) and the `size` of the `Select`; the `estimateItemSize` of the wrapper is not used, since the type of an option row does not leave the `Select` — passing it writes a warning in development. The `measure` and `overscan` properties of the wrapper work as [described](https://github.com/gravity-ui/uikit/blob/main/src/components/lab/List/README.md#virtualization) for the `List`.
 
 - On the server the virtualizer does not know the size of the viewport and produces an empty window: the options appear after hydration.
 
-- The wrapper covers the list of this `Select` — the one a custom [renderPopup](#rendering-options-list) renders of its own included. A list inside a row of it, or a `Select` placed in such a row, renders every row of its own instead: the virtualization of a list does not reach what its rows draw.
+- The wrapper covers the list of this `Select`, the one [renderPopup](#rendering-options-list) puts on the page included. A list inside a row of it, or a `Select` placed in such a row, renders every row of its own instead: the virtualization of a list does not reach what its rows draw.
 
 - Define `getOptionHeight` and `renderOption` outside the component or memoize them: a new function on every render makes the virtualizer start its measurements over and the rows re-render.
 
@@ -586,7 +588,8 @@ There are many ways to customize your `Select`.
 ### Rendering custom control
 
 To render a custom control, use the `renderControl` property.
-Note: You should forward all arguments to your node in order to enable consistent behavior, just as when using the default control.
+
+Hand `ref` to your element and spread `triggerProps` onto it: they open and close the popup, carry the keyboard of the list and the ARIA of the combobox (`role`, `aria-expanded`, `aria-controls`, `aria-activedescendant`). A control that keeps them to itself neither opens nor navigates.
 
 <!--SANDBOX
 import {Button, Select} from '@gravity-ui/uikit';
@@ -594,8 +597,8 @@ import {Button, Select} from '@gravity-ui/uikit';
 export default function () {
     return (
         <Select
-            renderControl={({onClick, onKeyDown, ref}) => (
-                <Button ref={ref} onClick={onClick} extraProps={{onKeyDown}}>
+            renderControl={({ref, triggerProps}) => (
+                <Button ref={ref} extraProps={triggerProps}>
                     Custom control
                 </Button>
             )}
@@ -615,15 +618,11 @@ SANDBOX-->
 import {Button} from '@gravity-ui/uikit';
 
 const MyComponent = () => {
-  const renderControl: SelectProps['renderControl'] = ({onClick, onKeyDown, ref}) => {
+  const renderControl: SelectProps['renderControl'] = ({ref, triggerProps}) => {
+    // `triggerProps` opens and closes the popup and carries the keyboard of the list along with
+    // the ARIA of the combobox — it has to reach the element itself
     return (
-      <Button
-        ref={ref}
-        onClick={onClick}
-        extraProps={{
-          onKeyDown,
-        }}
-      >
+      <Button ref={ref} extraProps={triggerProps}>
         Your control
       </Button>
     );
@@ -639,14 +638,14 @@ const MyComponent = () => {
 
 To render a custom filter section, use the `renderFilter` property and set the `filterable` property to `true`.
 
-`inputProps` carries everything the input of a combobox needs: the value, the handlers and the ARIA wiring (`role`, `aria-controls`, `aria-activedescendant`, `aria-expanded`), without which the filter stops naming the active option for a screen reader. Spread it onto a plain `input` together with `ref`. A component that does not take a spread — `TextInput`, say — needs the parts handed over one by one, `onKeyDown` included: it carries the whole keyboard of the list.
+`inputProps` carries everything the input of a combobox needs: the value, the handlers, the placeholder and the ARIA wiring — `role`, `aria-label`, `aria-controls`, `aria-activedescendant`, `aria-expanded`, `aria-autocomplete`. Without them the filter has no accessible name and names no active option for a screen reader. Spread it onto a plain `input` together with `ref`. A component that does not take a spread — `TextInput`, say — needs the parts handed over one by one, `onKeyDown` included: it carries the whole keyboard of the list.
 
 <!--SANDBOX
 import type {SelectProps} from '@gravity-ui/uikit';
 import {Button, Flex, Select, TextInput} from '@gravity-ui/uikit';
 
 const renderFilter: SelectProps['renderFilter'] = (props) => {
-    const {ref, inputProps, value, onChange} = props;
+    const {ref, inputProps, onChange} = props;
 
     return (
         <Flex direction="column" gap={1}>
@@ -655,14 +654,18 @@ const renderFilter: SelectProps['renderFilter'] = (props) => {
                 // `controlProps` reaches the input itself; `TextInput` owns the value, the
                 // placeholder and the handlers, so those are given to it directly
                 controlProps={{
+                    size: 1,
                     role: inputProps.role,
+                    'aria-label': inputProps['aria-label'],
                     'aria-controls': inputProps['aria-controls'],
                     'aria-activedescendant': inputProps['aria-activedescendant'],
                     'aria-expanded': inputProps['aria-expanded'],
                     'aria-autocomplete': inputProps['aria-autocomplete'],
                 }}
-                value={value}
+                value={inputProps.value}
                 placeholder={inputProps.placeholder}
+                // `onChange` of `inputProps` is an event handler; `TextInput` gives a string, and
+                // the argument of the same name is exactly that shape
                 onUpdate={onChange}
                 onKeyDown={inputProps.onKeyDown}
             />
@@ -714,7 +717,14 @@ const MyComponent = () => {
 
 ### Rendering custom options
 
-To render custom options, use the `renderOption` property:
+To render custom options, use the `renderOption` property. It is called with the option and with the
+state of its row: `isItemActive` — whether the row is the active one, the one `Enter` applies — and
+`itemHeight`, the height the row comes out as, which is the one
+[getOptionHeight](#rendering-options-with-different-heights) returned or the minimum of the
+[size](#size). The check mark of a selected option in a [multiple](#selecting-multiple-options)
+`Select` is drawn by the row itself, beside whatever this renders.
+
+`renderOptionGroup` is the same for the header of a group: the group and `{isItemActive, itemHeight}`.
 
 <!--SANDBOX
 import type {SelectProps} from '@gravity-ui/uikit';
@@ -840,7 +850,7 @@ const MyComponent = () => {
 
 ### Rendering options with different heights
 
-A row is as tall as its content, and no shorter than the minimum of its `size` (24, 28, 32 and 36 pixels) — unless you set the height yourself. If you need to render options with different heights, you can use the `option.data` property. It will store information about what height you need to set for the options, as well as the `getOptionHeight` property to set this value: the number it returns becomes the height of the row and the estimate the [virtualizer](#virtualized-list) positions the rows with.
+A row is as tall as its content, and no shorter than the minimum of its `size` (24, 28, 32 and 36 pixels; on mobile every row takes the 36 of `xl`) — unless you set the height yourself. If you need to render options with different heights, you can use the `option.data` property. It will store information about what height you need to set for the options, as well as the `getOptionHeight` property to set this value: the number it returns becomes the height of the row and the estimate the [virtualizer](#virtualized-list) positions the rows with.
 
 <!--SANDBOX
 import type {SelectProps} from '@gravity-ui/uikit';

@@ -121,8 +121,8 @@ import {Flex, Icon, Select, getSelectOptionText} from '@gravity-ui/uikit';
 #### Группированный список
 
 Заголовок группы — это подпись, а не опция: у него `role="presentation"`, он не участвует в обходе
-с клавиатуры и не попадает в число строк с `role="option"`, а опции под ним называет через
-`aria-describedby`. Группа с пустым `label` рисует разделительную линию вместо заголовка.
+с клавиатуры и не попадает в число строк с `role="option"`, а опции под ним описывает через
+`aria-describedby`. Группа с пустым `label` рисует разделительную линию вместо заголовка — первой строкой списка ей нечего разделять, и места она не занимает вовсе.
 
 <!--SANDBOX
 import {Flex, Select} from '@gravity-ui/uikit';
@@ -306,7 +306,7 @@ SANDBOX-->
 
 <!--/GITHUB_BLOCK-->
 
-### Поиск по первым буквам
+## Поиск по первым буквам
 
 Пока попап открыт и фильтр не перехватывает клавиши, символы ищут опцию: список переводит
 активность на первую опцию, текст которой **начинается** с набранного, буфер сбрасывается через
@@ -493,9 +493,11 @@ export default function () {
 }
 SANDBOX-->
 
-### Виртуализированный список
+## Виртуализированный список
 
 Длинный список опций по умолчанию рендерится целиком: каждая опция — строка в DOM. Чтобы рендерились только видимые, оберните `Select` в `ListVirtualizer` из энтри-поинта `@gravity-ui/uikit/virtualizer` — обёртке не нужны настройки, а попап продолжает работать через портал. Оборачивать имеет смысл начиная с пары сотен опций; выше 150 `Select` говорит об этом предупреждением в разработке.
+
+Энтри-поинту нужен `@tanstack/react-virtual`: это опциональная peer-зависимость пакета, её нужно установить рядом.
 
 ```tsx
 import {Select} from '@gravity-ui/uikit';
@@ -512,11 +514,11 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 
 - Минимальная ширина списка опций равна ширине контрола или `100px`, если ширина контрола меньше `100px`.
 
-- Высота строки до её рендера берётся из [getOptionHeight](#отображение-опций-с-разной-высотой) и размера (`size`) `Select`; проп `estimateItemSize` обёртки не используется, так как тип строки-опции наружу не выходит. Пропы `measure` и `overscan` работают так, как [описано](https://github.com/gravity-ui/uikit/blob/main/src/components/lab/List/README.md#virtualization) для `List`.
+- Высота строки до её рендера берётся из [getOptionHeight](#отображение-опций-с-разной-высотой) и размера (`size`) `Select`; проп `estimateItemSize` обёртки не используется, так как тип строки-опции наружу не выходит — при его передаче в разработке пишется предупреждение. Пропы `measure` и `overscan` работают так, как [описано](https://github.com/gravity-ui/uikit/blob/main/src/components/lab/List/README.md#virtualization) для `List`.
 
 - На сервере виртуализатор не знает размер вьюпорта и отдаёт пустое окно: опции появляются после гидратации.
 
-- Обёртка покрывает список этого `Select` — в том числе тот, который рендерит собственный [renderPopup](#отображение-списка-опций). Список внутри его строки или `Select`, помещённый в такую строку, рендерятся целиком: виртуализация списка не достаёт до того, что рисуют его строки.
+- Обёртка покрывает список этого `Select`, в том числе тот, который выводит на страницу [renderPopup](#отображение-списка-опций). Список внутри его строки или `Select`, помещённый в такую строку, рендерятся целиком: виртуализация списка не достаёт до того, что рисуют его строки.
 
 - Объявляйте `getOptionHeight` и `renderOption` вне компонента или мемоизируйте их: новая функция на каждый рендер заставляет виртуализатор заново набирать измерения, а строки — перерисовываться.
 
@@ -582,7 +584,8 @@ SANDBOX-->
 ### Рендеринг пользовательского контрола
 
 Для создания пользовательского контрола используйте свойство `renderControl`.
-Обратите внимание, что для правильной работы контрола необходимо передать все аргументы в узел (как при использовании стандартной конфигурации).
+
+Передайте своему элементу `ref` и разверните на нём `triggerProps`: они открывают и закрывают попап, несут клавиатуру списка и ARIA комбобокса (`role`, `aria-expanded`, `aria-controls`, `aria-activedescendant`). Контрол, который оставит их себе, не будет ни открываться, ни навигироваться.
 
 <!--SANDBOX
 import {Button, Select} from '@gravity-ui/uikit';
@@ -590,8 +593,8 @@ import {Button, Select} from '@gravity-ui/uikit';
 export default function () {
     return (
         <Select
-            renderControl={({onClick, onKeyDown, ref}) => (
-                <Button ref={ref} onClick={onClick} extraProps={{onKeyDown}}>
+            renderControl={({ref, triggerProps}) => (
+                <Button ref={ref} extraProps={triggerProps}>
                     Custom control
                 </Button>
             )}
@@ -611,15 +614,11 @@ SANDBOX-->
 import {Button} from '@gravity-ui/uikit';
 
 const MyComponent = () => {
-  const renderControl: SelectProps['renderControl'] = ({onClick, onKeyDown, ref}) => {
+  const renderControl: SelectProps['renderControl'] = ({ref, triggerProps}) => {
+    // `triggerProps` opens and closes the popup and carries the keyboard of the list along with
+    // the ARIA of the combobox — it has to reach the element itself
     return (
-      <Button
-        ref={ref}
-        onClick={onClick}
-        extraProps={{
-          onKeyDown,
-        }}
-      >
+      <Button ref={ref} extraProps={triggerProps}>
         Your control
       </Button>
     );
@@ -635,30 +634,34 @@ const MyComponent = () => {
 
 Для отображения секции пользовательской фильтрации используйте свойство `renderFilter` и установите `filterable` в значение `true`.
 
-`inputProps` несёт всё, что нужно инпуту комбобокса: значение, обработчики и ARIA-обвязку (`role`, `aria-controls`, `aria-activedescendant`, `aria-expanded`), без которой фильтр перестаёт называть активную опцию для скринридера. Разверните его на обычном `input` вместе с `ref`. Компоненту, который не принимает разворачивание пропсов, — например `TextInput`, — части нужно передать поимённо, включая `onKeyDown`: в нём вся клавиатура списка.
+`inputProps` несёт всё, что нужно инпуту комбобокса: значение, обработчики, плейсхолдер и ARIA-обвязку — `role`, `aria-label`, `aria-controls`, `aria-activedescendant`, `aria-expanded`, `aria-autocomplete`. Без них у фильтра нет доступного имени и он не называет активную опцию для скринридера. Разверните его на обычном `input` вместе с `ref`. Компоненту, который не принимает разворачивание пропсов, — например `TextInput`, — части нужно передать поимённо, включая `onKeyDown`: в нём вся клавиатура списка.
 
 <!--SANDBOX
 import type {SelectProps} from '@gravity-ui/uikit';
 import {Button, Flex, Select, TextInput} from '@gravity-ui/uikit';
 
 const renderFilter: SelectProps['renderFilter'] = (props) => {
-    const {ref, inputProps, value, onChange} = props;
+    const {ref, inputProps, onChange} = props;
 
     return (
         <Flex direction="column" gap={1}>
             <TextInput
                 controlRef={ref}
-                // `controlProps` reaches the input itself; `TextInput` owns the value, the
-                // placeholder and the handlers, so those are given to it directly
+                // `controlProps` доходит до самого инпута; значением, плейсхолдером и
+                // обработчиками владеет `TextInput`, поэтому они передаются ему напрямую
                 controlProps={{
+                    size: 1,
                     role: inputProps.role,
+                    'aria-label': inputProps['aria-label'],
                     'aria-controls': inputProps['aria-controls'],
                     'aria-activedescendant': inputProps['aria-activedescendant'],
                     'aria-expanded': inputProps['aria-expanded'],
                     'aria-autocomplete': inputProps['aria-autocomplete'],
                 }}
-                value={value}
+                value={inputProps.value}
                 placeholder={inputProps.placeholder}
+                // `onChange` из `inputProps` — обработчик события; `TextInput` отдаёт строку,
+                // а аргумент с тем же именем как раз такой формы
                 onUpdate={onChange}
                 onKeyDown={inputProps.onKeyDown}
             />
@@ -710,7 +713,14 @@ const MyComponent = () => {
 
 ### Отображение пользовательских опций
 
-Для отображения пользовательских опций используйте свойство `renderOption`:
+Для отображения пользовательских опций используйте свойство `renderOption`. Он вызывается с опцией и
+состоянием её строки: `isItemActive` — активна ли строка, та самая, которую применит `Enter`, — и
+`itemHeight`, высота, которой строка получилась: либо та, что вернул
+[getOptionHeight](#отображение-опций-с-разной-высотой), либо минимум для
+[размера](#размер). Галочку выбранной опции в `Select` с [множественным выбором](#выбор-нескольких-опций)
+рисует сама строка, рядом с тем, что отрисует этот проп.
+
+`renderOptionGroup` — то же самое для заголовка группы: группа и `{isItemActive, itemHeight}`.
 
 <!--SANDBOX
 import type {SelectProps} from '@gravity-ui/uikit';
@@ -836,7 +846,7 @@ const MyComponent = () => {
 
 ### Отображение опций с разной высотой
 
-Высота строки определяется её содержимым и не может быть меньше минимума для своего размера (`size`): 24, 28, 32 и 36 пикселей — если только вы не задали высоту сами. Если нужно отобразить опции с разной высотой, используйте свойство `option.data`, которое будет содержать информацию о требуемой высоте опции, а также `getOptionHeight` для установки этого значения: возвращённое число становится высотой строки и оценкой, по которой [виртуализатор](#виртуализированный-список) расставляет строки.
+Высота строки определяется её содержимым и не может быть меньше минимума для своего размера (`size`): 24, 28, 32 и 36 пикселей, а на мобильном каждая строка берёт 36 от `xl` — если только вы не задали высоту сами. Если нужно отобразить опции с разной высотой, используйте свойство `option.data`, которое будет содержать информацию о требуемой высоте опции, а также `getOptionHeight` для установки этого значения: возвращённое число становится высотой строки и оценкой, по которой [виртуализатор](#виртуализированный-список) расставляет строки.
 
 <!--SANDBOX
 import type {SelectProps} from '@gravity-ui/uikit';

@@ -160,7 +160,7 @@ export function Tooltip(rawProps: TooltipProps) {
                             position: 'absolute',
                             top: 0,
                             left: 0,
-                            zIndex: 10000,
+                            zIndex: 'var(--g-layer-tooltip)',
                             width: 'max-content',
                             ...floatingStyles,
                         }}

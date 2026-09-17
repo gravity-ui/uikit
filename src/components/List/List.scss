@@ -59,7 +59,7 @@ $block: '.#{variables.$ns}list';
 
         &_dragging {
             background: var(--g-color-base-simple-hover-solid);
-            z-index: 100001;
+            z-index: var(--g-layer-drag);
         }
     }
 

@@ -5,11 +5,12 @@ import type {Decorator, Meta, StoryObj} from '@storybook/react-webpack5';
 import escapeRegExp from 'lodash/escapeRegExp';
 import {useArgs} from 'storybook/preview-api';
 
-import {Select} from '..';
+import {Select, getSelectOptionText} from '..';
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
 import {Text} from '../../Text';
 import {Tooltip} from '../../Tooltip';
+import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {TextInput} from '../../controls';
 import {Flex} from '../../layout';
 import {block} from '../../utils/cn';
@@ -370,19 +371,24 @@ export const WithVirtualizedList: Story = {
     render: (args) => {
         const [{value}, setArgs] = useArgs<typeof args>();
 
+        // Virtualization is opt-in: the wrapper comes from '@gravity-ui/uikit/virtualizer'
         return (
-            <Select
-                {...args}
-                value={value}
-                onUpdate={(values) => setArgs({value: values})}
-                popupWidth={args.multiple ? 120 : undefined}
-            >
-                {Array.from(new Array(100)).map((_, index) => (
-                    <Select.Option key={index} value={`val${index + 1}`}>
-                        Value {index + 1}
-                    </Select.Option>
-                ))}
-            </Select>
+            <ListVirtualizer>
+                <Select
+                    {...args}
+                    value={value}
+                    onUpdate={(values) => setArgs({value: values})}
+                    popupWidth={args.multiple ? 120 : undefined}
+                >
+                    {Array.from(new Array(100)).map((_, index) => (
+                        <Select.Option
+                            key={index}
+                            value={`val${index + 1}`}
+                            content={`Value ${index + 1}`}
+                        />
+                    ))}
+                </Select>
+            </ListVirtualizer>
         );
     },
 };
@@ -410,9 +416,14 @@ export const WithCustomRendererAndTooltipAtDisabledItem: Story = {
                         <span>{option.content}</span>
                     );
                 }}
+                // The disabled option draws something else than its content: the trigger, the
+                // filter and the search by the first letters take the text from here
+                getOptionText={(option) =>
+                    option.disabled ? 'Hover here' : getSelectOptionText(option)
+                }
             >
                 <Select.Option value="1" content="1" />
-                <Select.Option value="2" content="2" text="Hover here" disabled />
+                <Select.Option value="2" content="2" disabled />
             </Select>
         );
     },

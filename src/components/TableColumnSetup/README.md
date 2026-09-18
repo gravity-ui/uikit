@@ -216,3 +216,10 @@ SANDBOX-->
 | :-------- | :------------------------------------- | :---------------------------------------: |
 | onClick   | Click event handler for the switcher   |  `React.MouseEventHandler<HTMLElement>`   |
 | onKeyDown | KeyDown event handler for the switcher | `React.KeyboardEventHandler<HTMLElement>` |
+
+## CSS API
+
+| Name                                       | Description                                                                  |
+| :----------------------------------------- | :--------------------------------------------------------------------------- |
+| `--g-table-sticky-column-background`       | Background color for sticky columns (should be an opaque color)              |
+| `--g-table-sticky-column-hover-background` | Background color for sticky columns on row hover (should be an opaque color) |

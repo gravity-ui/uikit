@@ -1,6 +1,6 @@
 @use '../../../variables';
 
-$block: '.#{variables.$ns}list-item-view';
+$block: '.#{variables.$ns}lab-list-item-view';
 
 #{$block} {
     flex-shrink: 0;

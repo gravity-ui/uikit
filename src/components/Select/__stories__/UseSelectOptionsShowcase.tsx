@@ -81,7 +81,7 @@ export const UseSelectOptionsShowcase = () => {
                 <TextInput
                     controlRef={ref}
                     controlProps={{
-                        size: 1,
+                        size: inputProps.size,
                         role: inputProps.role,
                         'aria-label': inputProps['aria-label'],
                         'aria-controls': inputProps['aria-controls'],

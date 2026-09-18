@@ -28,12 +28,22 @@ const onFilterChange = jest.fn();
 const FILTER_PLACEHOLDER = 'Filter placeholder';
 const EMPTY_OPTIONS_QA = 'empty-options';
 
+// The filter the documentation prescribes: the ARIA of the combobox reaches the input itself
 const RENDER_CUSTOM_FILTER: SelectProps['renderFilter'] = (props) => {
     const {ref, onChange, inputProps} = props;
 
     return (
         <TextInput
             controlRef={ref}
+            controlProps={{
+                size: inputProps.size,
+                role: inputProps.role,
+                'aria-label': inputProps['aria-label'],
+                'aria-controls': inputProps['aria-controls'],
+                'aria-activedescendant': inputProps['aria-activedescendant'],
+                'aria-expanded': inputProps['aria-expanded'],
+                'aria-autocomplete': inputProps['aria-autocomplete'],
+            }}
             placeholder={FILTER_PLACEHOLDER}
             value={inputProps.value}
             onUpdate={onChange}
@@ -51,7 +61,46 @@ const RENDER_POPUP: SelectRenderPopup = ({renderList, renderFilter}) => {
     );
 };
 
+const ARIA_OF_THE_INPUT = [
+    'role',
+    'aria-label',
+    'aria-controls',
+    'aria-expanded',
+    'aria-autocomplete',
+    'size',
+];
+
+const wiringOf = (input: HTMLElement) =>
+    Object.fromEntries(
+        [...ARIA_OF_THE_INPUT, 'aria-activedescendant'].map((name) => [
+            name,
+            input.getAttribute(name),
+        ]),
+    );
+
+// eslint-disable-next-line testing-library/no-node-access
+const filterInput = () => document.querySelector('input[role="combobox"]') as HTMLElement;
+
 describe('Select filter', () => {
+    test('a custom filter built on inputProps is wired as the default one', async () => {
+        // The documented way of writing a filter has to end up with the input of a combobox: the
+        // same ARIA, the same name, the same active option under the arrows
+        const user = userEvent.setup();
+
+        // The same id in both renders: the popup id is a part of the wiring under test
+        const {unmount} = setup({id: 'parity', filterable: true});
+        await user.click(screen.getByTestId(TEST_QA));
+        await user.keyboard('{ArrowDown}');
+        const byDefault = wiringOf(filterInput());
+        unmount();
+
+        setup({id: 'parity', filterable: true, renderFilter: RENDER_CUSTOM_FILTER});
+        await user.click(screen.getByTestId(TEST_QA));
+        await user.keyboard('{ArrowDown}');
+
+        expect(wiringOf(filterInput())).toEqual(byDefault);
+    });
+
     test.each([
         ['default', undefined, undefined],
         ['custom', RENDER_CUSTOM_FILTER, RENDER_POPUP],

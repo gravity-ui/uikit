@@ -641,23 +641,23 @@ const MyComponent = () => {
 
 To render a custom filter section, use the `renderFilter` property and set the `filterable` property to `true`.
 
-`inputProps` carries everything the input of a combobox needs: the value, the handlers, the placeholder and the ARIA wiring — `role`, `aria-label`, `aria-controls`, `aria-activedescendant`, `aria-expanded`, `aria-autocomplete`. Without them the filter has no accessible name and names no active option for a screen reader. Spread it onto a plain `input` together with `ref`. A component that does not take a spread — `TextInput`, say — needs the parts handed over one by one, `onKeyDown` included: it carries the whole keyboard of the list. Such a component usually hands over a value rather than an event, and the `onChange` of the callback is exactly that shape.
+`inputProps` carries everything the input of a combobox needs: the value, the handlers, the placeholder and the ARIA wiring — `role`, `aria-label`, `aria-controls`, `aria-activedescendant`, `aria-expanded`, `aria-autocomplete`. It also carries `size: 1`, a width hint rather than ARIA: it lets the input shrink to the popup instead of keeping the twenty characters an `input` asks for by default. Without them the filter has no accessible name and names no active option for a screen reader. Spread it onto a plain `input` together with `ref`. A component that does not take a spread — `TextInput`, say — needs the parts handed over one by one, `onKeyDown` included: it carries the whole keyboard of the list.
 
 <!--SANDBOX
 import type {SelectProps} from '@gravity-ui/uikit';
 import {Button, Flex, Select, TextInput} from '@gravity-ui/uikit';
 
 const renderFilter: SelectProps['renderFilter'] = (props) => {
-    const {ref, inputProps, onChange} = props;
+    const {ref, inputProps, onChange, style} = props;
 
     return (
-        <Flex direction="column" gap={1}>
+        <Flex direction="column" gap={1} style={style}>
             <TextInput
                 controlRef={ref}
                 // `controlProps` reaches the input itself; `TextInput` owns the value, the
                 // placeholder and the handlers, so those are given to it directly
                 controlProps={{
-                    size: 1,
+                    size: inputProps.size,
                     role: inputProps.role,
                     'aria-label': inputProps['aria-label'],
                     'aria-controls': inputProps['aria-controls'],
@@ -667,8 +667,9 @@ const renderFilter: SelectProps['renderFilter'] = (props) => {
                 }}
                 value={inputProps.value}
                 placeholder={inputProps.placeholder}
-                // `onChange` of `inputProps` is an event handler; `TextInput` gives a string, and
-                // the argument of the same name is the one of that shape
+                // `inputProps.onChange` takes a native event and fits `TextInput` as well; the
+                // `onChange` argument is the same thing shaped as a value, for an input that has
+                // no event to give
                 onUpdate={onChange}
                 onKeyDown={inputProps.onKeyDown}
             />

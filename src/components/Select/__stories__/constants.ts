@@ -248,15 +248,23 @@ const getFilterOption = (): SelectProps['filterOption'] | undefined => {
     return undefined;
 };
 
-const renderFilter: SelectProps['renderFilter'] = ({value, ref, onChange, onKeyDown}) => {
+const renderFilter: SelectProps['renderFilter'] = ({ref, onChange, inputProps}) => {
     return (
         <div style={{display: 'flex', flexDirection: 'column', rowGap: 4}}>
             <TextInput
                 controlRef={ref}
-                controlProps={{size: 1}}
-                value={value}
+                controlProps={{
+                    size: inputProps.size,
+                    role: inputProps.role,
+                    'aria-label': inputProps['aria-label'],
+                    'aria-controls': inputProps['aria-controls'],
+                    'aria-activedescendant': inputProps['aria-activedescendant'],
+                    'aria-expanded': inputProps['aria-expanded'],
+                    'aria-autocomplete': inputProps['aria-autocomplete'],
+                }}
+                value={inputProps.value}
                 onUpdate={onChange}
-                onKeyDown={onKeyDown}
+                onKeyDown={inputProps.onKeyDown}
             />
             <div style={{display: 'flex', columnGap: 2}}>
                 <Button selected={matchCase} onClick={() => setMatchCase(!matchCase)}>

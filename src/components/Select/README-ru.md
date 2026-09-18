@@ -635,23 +635,23 @@ const MyComponent = () => {
 
 Для отображения секции пользовательской фильтрации используйте свойство `renderFilter` и установите `filterable` в значение `true`.
 
-`inputProps` несёт всё, что нужно инпуту комбобокса: значение, обработчики, плейсхолдер и ARIA-обвязку — `role`, `aria-label`, `aria-controls`, `aria-activedescendant`, `aria-expanded`, `aria-autocomplete`. Без них у фильтра нет доступного имени и он не называет активную опцию для скринридера. Разверните его на обычном `input` вместе с `ref`. Компоненту, который не принимает разворачивание пропсов, — например `TextInput`, — части нужно передать поимённо, включая `onKeyDown`: в нём вся клавиатура списка. Такой компонент обычно отдаёт значение, а не событие, и аргумент `onChange` как раз такой формы.
+`inputProps` несёт всё, что нужно инпуту комбобокса: значение, обработчики, плейсхолдер и ARIA-обвязку — `role`, `aria-label`, `aria-controls`, `aria-activedescendant`, `aria-expanded`, `aria-autocomplete`. Ещё там лежит `size: 1` — это подсказка про ширину, а не ARIA: она позволяет инпуту сжиматься до попапа вместо двадцати символов, которые `input` просит по умолчанию. Без них у фильтра нет доступного имени и он не называет активную опцию для скринридера. Разверните его на обычном `input` вместе с `ref`. Компоненту, который не принимает разворачивание пропсов, — например `TextInput`, — части нужно передать поимённо, включая `onKeyDown`: в нём вся клавиатура списка.
 
 <!--SANDBOX
 import type {SelectProps} from '@gravity-ui/uikit';
 import {Button, Flex, Select, TextInput} from '@gravity-ui/uikit';
 
 const renderFilter: SelectProps['renderFilter'] = (props) => {
-    const {ref, inputProps, onChange} = props;
+    const {ref, inputProps, onChange, style} = props;
 
     return (
-        <Flex direction="column" gap={1}>
+        <Flex direction="column" gap={1} style={style}>
             <TextInput
                 controlRef={ref}
                 // `controlProps` доходит до самого инпута; значением, плейсхолдером и
                 // обработчиками владеет `TextInput`, поэтому они передаются ему напрямую
                 controlProps={{
-                    size: 1,
+                    size: inputProps.size,
                     role: inputProps.role,
                     'aria-label': inputProps['aria-label'],
                     'aria-controls': inputProps['aria-controls'],
@@ -661,8 +661,9 @@ const renderFilter: SelectProps['renderFilter'] = (props) => {
                 }}
                 value={inputProps.value}
                 placeholder={inputProps.placeholder}
-                // `onChange` из `inputProps` — обработчик события; `TextInput` отдаёт строку,
-                // а аргумент с тем же именем как раз такой формы
+                // `inputProps.onChange` принимает нативное событие и подходит и `TextInput`;
+                // аргумент `onChange` — то же самое в форме значения, для инпута, которому
+                // события взять неоткуда
                 onUpdate={onChange}
                 onKeyDown={inputProps.onKeyDown}
             />

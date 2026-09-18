@@ -68,27 +68,28 @@ export type SelectRenderPopup = (popupItems: {
 export type SelectFilterInputProps = {value: string} & Pick<
     React.InputHTMLAttributes<HTMLInputElement>,
     | 'placeholder'
-    | 'onKeyDown'
-    | 'onChange'
     | 'size'
-    | 'role'
     | 'aria-label'
     | 'aria-controls'
     | 'aria-activedescendant'
     | 'aria-expanded'
     | 'aria-autocomplete'
->;
+> &
+    // The Select always gives these, and an input that requires them should not have to say so
+    Required<Pick<React.InputHTMLAttributes<HTMLInputElement>, 'onKeyDown' | 'onChange' | 'role'>>;
 export type SelectRenderFilter = (props: {
     /**
-     * The filter changed, as a string rather than as an event: the counterpart of
-     * `inputProps.onChange` for an input that hands over a value instead of an event
+     * The filter changed, as a string rather than as an event. `inputProps.onChange` is the usual
+     * way — it fits any input that takes a native handler, `TextInput` included — and this one is
+     * for an input that only ever hands over a value of its own
      */
     onChange: (filter: string) => void;
     ref: React.Ref<HTMLInputElement>;
     style: React.CSSProperties;
     /**
-     * Everything the input of a combobox needs: the value, the handlers, the placeholder and the
-     * ARIA of the combobox. Spread it onto a plain input, or hand the parts over one by one
+     * Everything the input of a combobox needs: the value, the handlers, the placeholder, the size
+     * that lets it shrink inside the popup and the ARIA of the combobox. Spread it onto a plain
+     * input, or hand the parts over one by one
      */
     inputProps: SelectFilterInputProps;
 }) => React.ReactElement;

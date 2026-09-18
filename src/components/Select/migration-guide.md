@@ -6,24 +6,12 @@ to the section of the [README](./README.md) that describes the new state of thin
 
 ## Props
 
-| Was                                | Now                                                                                                                                                                                                                                            |
-| :--------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `virtualizationThreshold`          | Gone. Virtualization is asked for explicitly: wrap the `Select` in `ListVirtualizer` from `@gravity-ui/uikit/virtualizer` — [Virtualized list](./README.md#virtualized-list)                                                                   |
-| `SelectOption.text`                | Gone. The text of an option comes from `getOptionText` — [The text of an option](./README.md#the-text-of-an-option)                                                                                                                            |
-| `renderOption(option, props)`      | `props.isItemActive` is no longer optional — it is always passed, and `props.itemHeight` carries the new heights — [Rendering custom options](./README.md#rendering-custom-options)                                                            |
-| `renderFilter({value, onKeyDown})` | Gone: both live in `inputProps`, which also carries the ARIA of the combobox. `onChange` stays — it is the string-shaped counterpart of `inputProps.onChange` — [Rendering custom filter section](./README.md#rendering-custom-filter-section) |
-
-```diff
-  const renderFilter = ({ref, onChange, inputProps}) => (
--     <TextInput controlRef={ref} value={value} onUpdate={onChange} onKeyDown={onKeyDown} />
-+     <TextInput
-+         controlRef={ref}
-+         value={inputProps.value}
-+         onUpdate={onChange}
-+         onKeyDown={inputProps.onKeyDown}
-+     />
-  );
-```
+| Was                                          | Now                                                                                                                                                                                                                                                                                                    |
+| :------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `virtualizationThreshold`                    | Gone. Virtualization is asked for explicitly: wrap the `Select` in `ListVirtualizer` from `@gravity-ui/uikit/virtualizer` — [Virtualized list](./README.md#virtualized-list)                                                                                                                           |
+| `SelectOption.text`                          | Gone. The text of an option comes from `getOptionText` — [The text of an option](./README.md#the-text-of-an-option)                                                                                                                                                                                    |
+| `renderOption(option, props)`                | `props.isItemActive` is no longer optional — it is always passed, and `props.itemHeight` carries the new heights — [Rendering custom options](./README.md#rendering-custom-options)                                                                                                                    |
+| `renderFilter({value, onChange, onKeyDown})` | `value` and `onKeyDown` are gone: both live in `inputProps`, which also carries the ARIA of the combobox. `onChange` stays and is no longer deprecated — it is the string-shaped counterpart of `inputProps.onChange` — [Rendering custom filter section](./README.md#rendering-custom-filter-section) |
 
 ```diff
 - <Select options={options} virtualizationThreshold={50} />
@@ -50,6 +38,29 @@ old rule back as it was; `popupWidth="fit"` also pins the popup to the control, 
 +     getOptionText={(option) => option.data?.name ?? getSelectOptionText(option)}
 + />
 ```
+
+```diff
+- const renderFilter = ({value, ref, onChange, onKeyDown}) => (
+-     <TextInput controlRef={ref} value={value} onUpdate={onChange} onKeyDown={onKeyDown} />
++ const renderFilter = ({ref, onChange, inputProps}) => (
++     <TextInput
++         controlRef={ref}
++         value={inputProps.value}
++         onUpdate={onChange}
++         onKeyDown={inputProps.onKeyDown}
++     />
+  );
+```
+
+The ARIA of `inputProps` — `role`, `aria-label`, `aria-controls`, `aria-activedescendant`,
+`aria-expanded`, `aria-autocomplete` — has to reach the input as well, or the filter ends up a
+nameless field that tells a screen reader nothing about the list. On a plain `input` that is one
+spread; the [README example](./README.md#rendering-custom-filter-section) shows the same for a
+`TextInput`.
+
+`inputProps.size` is a width hint rather than ARIA: it is `1`, so that the input can shrink to the
+popup instead of keeping the twenty characters an `input` asks for by default. An input of your own
+that sizes itself with CSS does not need it.
 
 ## The data
 

@@ -125,10 +125,12 @@ $block: '.#{variables.$ns}checkbox';
         }
     }
 
-    &:hover {
-        #{$block}__indicator {
-            &::before {
-                border-color: var(--g-color-line-generic-accent-hover);
+    @media (hover: hover) {
+        &:hover {
+            #{$block}__indicator {
+                &::before {
+                    border-color: var(--g-color-line-generic-accent-hover);
+                }
             }
         }
     }
@@ -148,10 +150,12 @@ $block: '.#{variables.$ns}checkbox';
             transform: translateX(0);
         }
 
-        &:hover {
-            #{$block}__indicator {
-                &::before {
-                    background-color: var(--g-color-base-brand-hover);
+        @media (hover: hover) {
+            &:hover {
+                #{$block}__indicator {
+                    &::before {
+                        background-color: var(--g-color-base-brand-hover);
+                    }
                 }
             }
         }

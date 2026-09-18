@@ -108,10 +108,12 @@ $discMarginXLSize: 8px;
         }
     }
 
-    &:hover {
-        #{$block}__indicator {
-            &::before {
-                border-color: var(--g-color-line-generic-accent-hover);
+    @media (hover: hover) {
+        &:hover {
+            #{$block}__indicator {
+                &::before {
+                    border-color: var(--g-color-line-generic-accent-hover);
+                }
             }
         }
     }

@@ -48,9 +48,14 @@ $block: '.#{variables.$ns}menu';
         &_interactive {
             cursor: pointer;
 
-            &:hover,
             &:focus-visible {
                 background-color: var(--g-color-base-simple-hover);
+            }
+
+            @media (hover: hover) {
+                &:hover {
+                    background-color: var(--g-color-base-simple-hover);
+                }
             }
         }
 
@@ -63,8 +68,10 @@ $block: '.#{variables.$ns}menu';
             cursor: default;
             pointer-events: none;
 
-            &:hover {
-                background-color: transparent;
+            @media (hover: hover) {
+                &:hover {
+                    background-color: transparent;
+                }
             }
         }
 
@@ -72,9 +79,14 @@ $block: '.#{variables.$ns}menu';
             cursor: default;
             background-color: var(--g-color-base-selection);
 
-            &:hover,
             &:focus-visible {
                 background-color: var(--g-color-base-selection-hover);
+            }
+
+            @media (hover: hover) {
+                &:hover {
+                    background-color: var(--g-color-base-selection-hover);
+                }
             }
         }
 

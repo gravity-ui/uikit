@@ -2,7 +2,7 @@ import {moveItem} from '../moveItem';
 
 const LETTERS = ['a', 'b', 'c', 'd'];
 
-describe('lab List: moveItem', () => {
+describe('List: moveItem', () => {
     test('moves an item down: before and after the target', () => {
         expect(moveItem(LETTERS, 'a', 'c', 'before')).toEqual(['b', 'a', 'c', 'd']);
         expect(moveItem(LETTERS, 'a', 'c', 'after')).toEqual(['b', 'c', 'a', 'd']);

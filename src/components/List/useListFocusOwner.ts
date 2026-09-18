@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import {warnOnce} from '../../utils/warn';
+import {warnOnce} from '../utils/warn';
 
 import {composeItemProps} from './composeItemProps';
 import type {ListFocusOwnerConnection} from './focusOwnerChannel';

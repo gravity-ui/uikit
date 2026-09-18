@@ -1,14 +1,14 @@
 import * as React from 'react';
 
-import {Text} from '../../Text';
-import type {QAProps} from '../../types';
-import {block} from '../../utils/cn';
+import {Text} from '../Text';
+import type {QAProps} from '../types';
+import {block} from '../utils/cn';
 
 import type {ListSize} from './types';
 
 import './SectionHeader.scss';
 
-const b = block('lab-list-section-header');
+const b = block('list-section-header');
 
 export interface ListSectionHeaderProps extends React.HTMLAttributes<HTMLDivElement>, QAProps {
     size?: ListSize;

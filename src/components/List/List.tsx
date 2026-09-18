@@ -2,10 +2,10 @@
 
 import * as React from 'react';
 
-import {block} from '../../utils/cn';
-import {warnOnce} from '../../utils/warn';
 import {ListItemView} from '../ListItemView/ListItemView';
-import type {ListItemViewProps as LabListItemViewProps} from '../ListItemView/ListItemView';
+import type {ListItemViewProps as FullListItemViewProps} from '../ListItemView/ListItemView';
+import {block} from '../utils/cn';
+import {warnOnce} from '../utils/warn';
 
 import {ListSectionHeader} from './SectionHeader';
 import {ListVirtualizationContext} from './VirtualizationContext';
@@ -24,17 +24,17 @@ import {useList} from './useList';
 
 import './List.scss';
 
-const b = block('lab-list');
+const b = block('list');
 
 // min-height of the default view per size
 const ESTIMATED_ITEM_SIZE: Record<ListSize, number> = {s: 24, m: 28, l: 32, xl: 36};
 
 /**
- * Presentational subset of the lab row view: tree, container, componentProps and the
+ * Presentational subset of the row view: tree, container, componentProps and the
  * draggable slot are outside the contract
  */
 type ListItemViewProps<T extends React.ElementType = 'div'> = Omit<
-    LabListItemViewProps<T>,
+    FullListItemViewProps<T>,
     | 'collapsible'
     | 'collapsed'
     | 'onCollapseChange'
@@ -43,7 +43,7 @@ type ListItemViewProps<T extends React.ElementType = 'div'> = Omit<
     | 'componentProps'
     | 'draggable'
 > &
-    Omit<React.ComponentPropsWithRef<T>, keyof LabListItemViewProps<T>>;
+    Omit<React.ComponentPropsWithRef<T>, keyof FullListItemViewProps<T>>;
 
 type ListItemViewComponent = <T extends React.ElementType = 'div'>(
     props: ListItemViewProps<T>,

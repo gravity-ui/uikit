@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {mergeRefs} from '../../../hooks';
+import {mergeRefs} from '../../hooks';
 
 export interface ItemElementRegistry {
     /** Cached per id: a new callback would detach/attach the ref every render */

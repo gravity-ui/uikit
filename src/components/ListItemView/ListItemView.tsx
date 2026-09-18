@@ -3,16 +3,16 @@ import * as React from 'react';
 import {Check} from '@gravity-ui/icons';
 import {focusable} from 'tabbable';
 
-import {useForkRef} from '../../../hooks';
-import {ArrowToggle} from '../../ArrowToggle';
-import {Button} from '../../Button';
-import {Icon} from '../../Icon';
-import type {DOMProps} from '../../types';
-import {block} from '../../utils/cn';
+import {useForkRef} from '../../hooks';
+import {ArrowToggle} from '../ArrowToggle';
+import {Button} from '../Button';
+import {Icon} from '../Icon';
+import type {DOMProps} from '../types';
+import {block} from '../utils/cn';
 
 import './ListItemView.scss';
 
-const b = block('lab-list-item-view');
+const b = block('list-item-view');
 
 export interface ListItemViewProps<T extends React.ElementType = 'div'> extends DOMProps {
     id?: string;

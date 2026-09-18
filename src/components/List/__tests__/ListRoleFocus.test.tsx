@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {fireEvent, render, screen} from '../../../../../test-utils/utils';
-import {ListVirtualizer} from '../../../Virtualizer/ListVirtualizer';
+import {fireEvent, render, screen} from '../../../../test-utils/utils';
+import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
 import type {ListItemContext, ListItemHelpers, ListProps} from '../types';
 import {useListFocusOwner} from '../useListFocusOwner';
@@ -63,7 +63,7 @@ function TriggerHarness({
     );
 }
 
-describe('lab List: role model x focus strategy', () => {
+describe('List: role model x focus strategy', () => {
     describe('axes matrix: container and row semantics', () => {
         test('listbox + roving (default): no grid semantics', () => {
             render(<List aria-label="Fruits" items={FRUITS} />);
@@ -671,7 +671,7 @@ describe('lab List: role model x focus strategy', () => {
     });
 });
 
-describe('lab List: role models under virtualization', () => {
+describe('List: role models under virtualization', () => {
     const VIEWPORT_HEIGHT = 200;
     const ROW_HEIGHT = 36;
     mockLayout({viewport: VIEWPORT_HEIGHT, row: ROW_HEIGHT});

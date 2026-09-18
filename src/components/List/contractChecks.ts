@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import {tabbable} from 'tabbable';
 
-import {useLayoutEffect} from '../../../hooks';
-import {warnOnce} from '../../utils/warn';
+import {useLayoutEffect} from '../../hooks';
+import {warnOnce} from '../utils/warn';
 
 import type {ListPropsOverrides} from './types';
 

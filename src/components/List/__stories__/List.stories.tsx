@@ -13,14 +13,14 @@ import {
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 import {action} from 'storybook/actions';
 
-import {Avatar} from '../../../Avatar';
-import {Button} from '../../../Button';
-import {Icon} from '../../../Icon';
-import {Label} from '../../../Label';
-import {Text} from '../../../Text';
-import {ListVirtualizer} from '../../../Virtualizer/ListVirtualizer';
-import {TextInput} from '../../../controls';
-import {Flex} from '../../../layout';
+import {Avatar} from '../../Avatar';
+import {Button} from '../../Button';
+import {Icon} from '../../Icon';
+import {Label} from '../../Label';
+import {Text} from '../../Text';
+import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
+import {TextInput} from '../../controls';
+import {Flex} from '../../layout';
 import {List} from '../List';
 import {useListFocusOwner} from '../useListFocusOwner';
 
@@ -31,7 +31,7 @@ import dragAndDropHelloPangeaVirtualizedCode from './DragAndDropHelloPangeaVirtu
 import {exampleSource} from './exampleSource';
 
 const meta: Meta = {
-    title: 'Lab/List',
+    title: 'Components/Data Display/List',
     component: List,
     parameters: {
         layout: 'centered',

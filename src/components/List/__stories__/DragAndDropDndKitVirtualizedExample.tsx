@@ -31,8 +31,8 @@ import {CSS} from '@dnd-kit/utilities';
 import {faker} from '@faker-js/faker/locale/en';
 import {Grip} from '@gravity-ui/icons';
 
-import {Icon} from '../../../Icon';
-import {ListVirtualizer} from '../../../Virtualizer/ListVirtualizer';
+import {Icon} from '../../Icon';
+import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
 import {moveItem} from '../moveItem';
 import type {ListItemContext, ListItemHelpers} from '../types';

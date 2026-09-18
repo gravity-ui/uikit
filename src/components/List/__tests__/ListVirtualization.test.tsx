@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event';
 
-import {render, screen, within} from '../../../../../test-utils/utils';
-import {ListVirtualizer} from '../../../Virtualizer/ListVirtualizer';
+import {render, screen, within} from '../../../../test-utils/utils';
+import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
 import type {ListProps} from '../types';
 
@@ -28,7 +28,7 @@ function renderVirtualized(listProps?: Partial<ListProps<string>>) {
     );
 }
 
-describe('lab List: virtualization layer', () => {
+describe('List: virtualization layer', () => {
     describe('windowing', () => {
         test('renders a window of rows instead of the whole list', () => {
             renderVirtualized();

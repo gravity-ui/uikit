@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import * as tabbable from 'tabbable';
 
-import {fireEvent, screen} from '../../../../../test-utils/utils';
+import {fireEvent, screen} from '../../../../test-utils/utils';
 import {List} from '../List';
 import type {ListItemContext, ListItemViewStateProps, ListProps} from '../types';
 import {useListFocusOwner} from '../useListFocusOwner';

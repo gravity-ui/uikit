@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event';
 import * as tabbable from 'tabbable';
 
-import {render, screen} from '../../../../../test-utils/utils';
+import {render, screen} from '../../../../test-utils/utils';
 import {ListItemView} from '../ListItemView';
 
 // jsdom has no layout: by default displayCheck considers every element hidden,
@@ -22,7 +22,7 @@ afterAll(() => {
     focusableSpy.mockRestore();
 });
 
-describe('lab ListItemView', () => {
+describe('ListItemView', () => {
     describe('DOM props pass-through', () => {
         test('passes role, tabIndex, aria-*, id and data-* to the root node', () => {
             render(
@@ -72,8 +72,8 @@ describe('lab ListItemView', () => {
                 </ListItemView>,
             );
             const item = screen.getByRole('option');
-            expect(item).toHaveClass('g-lab-list-item-view_selected');
-            expect(item).toHaveClass('g-lab-list-item-view_active');
+            expect(item).toHaveClass('g-list-item-view_selected');
+            expect(item).toHaveClass('g-list-item-view_active');
         });
     });
 

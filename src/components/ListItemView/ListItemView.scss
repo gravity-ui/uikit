@@ -1,7 +1,7 @@
-@use '../../variables';
-@use '../../../../styles/mixins';
+@use '../variables';
+@use '../../../styles/mixins';
 
-$block: '.#{variables.$ns}lab-list-item-view';
+$block: '.#{variables.$ns}list-item-view';
 
 /* ListItemView CSS API
     --g-list-item-view-min-height
@@ -247,7 +247,7 @@ $block: '.#{variables.$ns}lab-list-item-view';
     // rules above conflict on their own (_selected comes later in the file and
     // overrides the _active background). The `&:focus { background: hover }`
     // fallback used to do this, but it required DOM focus on the row (in the
-    // activedescendant mode of lab/List the cursor on a selected row was lost)
+    // activedescendant mode of the List the cursor on a selected row was lost)
     // and painted a "stuck hover" on any row holding focus after a click — the
     // fallback is gone, the indication is owned by the active/hovered/selected
     // states
@@ -269,7 +269,7 @@ $block: '.#{variables.$ns}lab-list-item-view';
     }
 
     // A disabled row can still be the active one (a controlled activeItemId of
-    // lab/List pointing at it): the active indication must not be suppressed by
+    // the List pointing at it): the active indication must not be suppressed by
     // the disabled background
     &_disabled#{$block}_active {
         --_--background-color: var(--_--background-color-hover);

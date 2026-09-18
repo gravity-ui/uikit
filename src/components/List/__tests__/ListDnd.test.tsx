@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {fireEvent, render, screen} from '../../../../../test-utils/utils';
+import {fireEvent, render, screen} from '../../../../test-utils/utils';
 import {List} from '../List';
 import type {ListDndAdapter, ListDndProps, ListItemContext, ListItemHelpers} from '../types';
 
@@ -21,7 +21,7 @@ function createStableRefs(onRef: (id: string, element: HTMLElement | null) => vo
     };
 }
 
-describe('lab List: dnd layer', () => {
+describe('List: dnd layer', () => {
     describe('adapter props: composition into the rows and the root', () => {
         test('getItemDndProps are merged into the row', async () => {
             const user = userEvent.setup();

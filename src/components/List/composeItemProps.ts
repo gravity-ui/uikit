@@ -1,7 +1,7 @@
 import type * as React from 'react';
 
-import {mergeRefs} from '../../../hooks';
-import {mergeProps} from '../../utils/mergeProps';
+import {mergeRefs} from '../../hooks';
+import {mergeProps} from '../utils/mergeProps';
 
 interface ComposableProps extends React.HTMLAttributes<HTMLElement> {
     ref?: React.Ref<HTMLElement>;

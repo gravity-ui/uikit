@@ -2,9 +2,9 @@ import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {act, fireEvent, render, screen} from '../../../../../test-utils/utils';
-import {Label} from '../../../Label';
-import {eventBroker} from '../../../utils/event-broker';
+import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
+import {Label} from '../../Label';
+import {eventBroker} from '../../utils/event-broker';
 import {List} from '../List';
 import type {ListItemViewStateProps} from '../types';
 import {TYPEAHEAD_TIMEOUT} from '../utils';
@@ -23,7 +23,7 @@ mockTabbableDisplayCheck();
 /** Longer than the page step of PageUp/PageDown */
 const MANY = Array.from({length: 25}, (_, index) => `Item ${index + 1}`);
 
-describe('lab List', () => {
+describe('List', () => {
     describe('rendering and ARIA', () => {
         test('only the section header that opens the list is marked with data-first-row', () => {
             render(
@@ -1154,8 +1154,8 @@ describe('lab List', () => {
 
             const options = screen.getAllByRole('option');
             expect(options[0]).toHaveAttribute('data-active');
-            expect(options[0]).toHaveClass('g-lab-list-item-view');
-            expect(options[1]).toHaveClass('g-lab-list-item-view_disabled');
+            expect(options[0]).toHaveClass('g-list-item-view');
+            expect(options[1]).toHaveClass('g-list-item-view_disabled');
             expect(screen.getByText('id: p1')).toBeInTheDocument();
         });
 
@@ -1218,7 +1218,7 @@ describe('lab List', () => {
             expect(view.get('recent')).toEqual({size: 'l'});
             expect(view.get('r1')).toEqual({size: 'l', active: false, disabled: false});
             const header = getSectionHeader('Recent');
-            expect(header).toHaveClass('g-lab-list-section-header_size_l');
+            expect(header).toHaveClass('g-list-section-header_size_l');
             expect(header).not.toHaveAttribute('active');
             expect(header).not.toHaveAttribute('disabled');
         });

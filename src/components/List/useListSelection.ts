@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import {useControlledState} from '../../../hooks';
-import {warnOnce} from '../../utils/warn';
+import {useControlledState} from '../../hooks';
+import {warnOnce} from '../utils/warn';
 
 import type {ListSelectionProps} from './types';
 import {isNavigable} from './utils';

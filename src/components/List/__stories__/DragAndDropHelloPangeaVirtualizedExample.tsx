@@ -38,9 +38,9 @@ import {DragDropContext, Draggable, Droppable} from '@hello-pangea/dnd';
 // eslint-disable-next-line no-restricted-imports
 import type {DraggableProvidedDragHandleProps} from '@hello-pangea/dnd';
 
-import {useListHelloPangeaDnd} from '../../../HelloPangeaDnd';
-import {Icon} from '../../../Icon';
-import {ListVirtualizer} from '../../../Virtualizer/ListVirtualizer';
+import {useListHelloPangeaDnd} from '../../HelloPangeaDnd';
+import {Icon} from '../../Icon';
+import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
 import {moveItem} from '../moveItem';
 import type {ListItemContext, ListItemHelpers} from '../types';

@@ -36,8 +36,8 @@ import {Grip} from '@gravity-ui/icons';
 // eslint-disable-next-line no-restricted-imports
 import {DragDropContext, Draggable, Droppable} from '@hello-pangea/dnd';
 
-import {useListHelloPangeaDnd} from '../../../HelloPangeaDnd';
-import {Icon} from '../../../Icon';
+import {useListHelloPangeaDnd} from '../../HelloPangeaDnd';
+import {Icon} from '../../Icon';
 import {List} from '../List';
 import {moveItem} from '../moveItem';
 import type {ListItemContext, ListItemHelpers} from '../types';

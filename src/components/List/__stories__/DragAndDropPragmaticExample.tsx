@@ -16,7 +16,7 @@ import * as React from 'react';
 import {faker} from '@faker-js/faker/locale/en';
 import {Grip} from '@gravity-ui/icons';
 
-import {Icon} from '../../../Icon';
+import {Icon} from '../../Icon';
 import {List} from '../List';
 import {moveItem} from '../moveItem';
 

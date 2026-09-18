@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {fireEvent, render, screen} from '../../../../../test-utils/utils';
-import {ListVirtualizer} from '../../../Virtualizer/ListVirtualizer';
+import {fireEvent, render, screen} from '../../../../test-utils/utils';
+import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
 
 import {ComboboxHarness, GROUPS, getSectionHeader, mockLayout, scrollTo} from './helpers';
@@ -25,7 +25,7 @@ async function shiftClick(user: ReturnType<typeof userEvent.setup>, element: HTM
     await user.keyboard('{/Shift}');
 }
 
-describe('lab List: range selection (selection layer, phase 7)', () => {
+describe('List: range selection (selection layer, phase 7)', () => {
     describe('Shift+click', () => {
         test('selects the range from the anchor to the target in data order, in both directions', async () => {
             const user = userEvent.setup();

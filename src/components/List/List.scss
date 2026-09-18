@@ -1,6 +1,6 @@
-@use '../../variables';
+@use '../variables';
 
-$block: '.#{variables.$ns}lab-list';
+$block: '.#{variables.$ns}list';
 
 #{$block} {
     display: flex;

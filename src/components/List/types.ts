@@ -1,6 +1,6 @@
 import type * as React from 'react';
 
-import type {QAProps} from '../../types';
+import type {QAProps} from '../types';
 
 import type {LIST_FOCUS_OWNER_CHANNEL, ListFocusOwnerChannel} from './focusOwnerChannel';
 

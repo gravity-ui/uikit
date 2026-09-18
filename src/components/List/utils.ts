@@ -1,6 +1,6 @@
 import type * as React from 'react';
 
-import {warnOnce} from '../../utils/warn';
+import {warnOnce} from '../utils/warn';
 
 import type {ListItemGetters} from './types';
 

@@ -1,4 +1,4 @@
-import {warnOnce} from '../../utils/warn';
+import {warnOnce} from '../utils/warn';
 
 // Same id reading as flattenItems; numeric ids are stringified
 function defaultGetId(item: unknown): string | undefined {

@@ -126,6 +126,8 @@ function SheetComponent(rawProps: SheetProps) {
         onTransitionOutComplete: handleExitComplete,
     });
 
+    // LayerManager routes Escape to the topmost layer across independent FloatingTrees;
+    // useDismiss only coordinates within one tree. Release the layer when closing starts.
     useLayer({
         open: requestedOpen,
         type: 'sheet',

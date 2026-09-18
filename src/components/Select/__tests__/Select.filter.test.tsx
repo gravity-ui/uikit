@@ -28,26 +28,18 @@ const onFilterChange = jest.fn();
 const FILTER_PLACEHOLDER = 'Filter placeholder';
 const EMPTY_OPTIONS_QA = 'empty-options';
 
-// The filter the documentation prescribes: the ARIA of the combobox reaches the input itself
-const RENDER_CUSTOM_FILTER: SelectProps['renderFilter'] = (props) => {
-    const {ref, onChange, inputProps} = props;
+// The filter the documentation prescribes: what belongs to the input goes to the input
+const RENDER_CUSTOM_FILTER: SelectProps['renderFilter'] = ({ref, inputProps}) => {
+    const {value, onChange, onKeyDown, ...controlProps} = inputProps;
 
     return (
         <TextInput
             controlRef={ref}
-            controlProps={{
-                size: inputProps.size,
-                role: inputProps.role,
-                'aria-label': inputProps['aria-label'],
-                'aria-controls': inputProps['aria-controls'],
-                'aria-activedescendant': inputProps['aria-activedescendant'],
-                'aria-expanded': inputProps['aria-expanded'],
-                'aria-autocomplete': inputProps['aria-autocomplete'],
-            }}
+            controlProps={controlProps}
             placeholder={FILTER_PLACEHOLDER}
-            value={inputProps.value}
-            onUpdate={onChange}
-            onKeyDown={inputProps.onKeyDown}
+            value={value}
+            onChange={onChange}
+            onKeyDown={onKeyDown}
         />
     );
 };

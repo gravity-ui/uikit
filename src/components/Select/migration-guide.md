@@ -42,21 +42,26 @@ old rule back as it was; `popupWidth="fit"` also pins the popup to the control, 
 ```diff
 - const renderFilter = ({value, ref, onChange, onKeyDown}) => (
 -     <TextInput controlRef={ref} value={value} onUpdate={onChange} onKeyDown={onKeyDown} />
-+ const renderFilter = ({ref, onChange, inputProps}) => (
-+     <TextInput
-+         controlRef={ref}
-+         value={inputProps.value}
-+         onUpdate={onChange}
-+         onKeyDown={inputProps.onKeyDown}
-+     />
-  );
+- );
++ const renderFilter = ({ref, inputProps}) => {
++     const {value, onChange, onKeyDown, ...controlProps} = inputProps;
++
++     return (
++         <TextInput
++             controlRef={ref}
++             controlProps={controlProps}
++             value={value}
++             onChange={onChange}
++             onKeyDown={onKeyDown}
++         />
++     );
++ };
 ```
 
-The ARIA of `inputProps` — `role`, `aria-label`, `aria-controls`, `aria-activedescendant`,
-`aria-expanded`, `aria-autocomplete` — has to reach the input as well, or the filter ends up a
-nameless field that tells a screen reader nothing about the list. On a plain `input` that is one
-spread; the [README example](./README.md#rendering-custom-filter-section) shows the same for a
-`TextInput`.
+The rest of `inputProps` has to reach the input as well, or the filter ends up a nameless field that
+tells a screen reader nothing about the list. On a plain `input` that is one spread; on a component
+with an API of its own it is the `...controlProps` above — everything the component does not own
+belongs to the element.
 
 `inputProps.size` is a width hint rather than ARIA: it is `1`, so that the input can shrink to the
 popup instead of keeping the twenty characters an `input` asks for by default. An input of your own

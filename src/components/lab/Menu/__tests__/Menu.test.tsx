@@ -5,6 +5,7 @@ import {act, getAllByRole, render, screen, waitFor} from '../../../../../test-ut
 import {Icon} from '../../../Icon';
 import {Modal} from '../../../Modal';
 import {Popup} from '../../../Popup';
+import {DefaultPropsProvider} from '../../../theme';
 import {Menu} from '../Menu';
 import type {MenuSize} from '../types';
 
@@ -47,6 +48,32 @@ function ComplexMenu() {
 }
 
 describe('Menu', () => {
+    test('should use default props and let explicit props override them', () => {
+        render(
+            <DefaultPropsProvider
+                defaultProps={{
+                    unstable_Menu: {size: 'xl', className: 'default-menu'},
+                    unstable_MenuItem: {theme: 'danger', disabled: true, selected: true},
+                    unstable_MenuTrigger: {size: 's', view: 'action'},
+                }}
+            >
+                <Menu inline size="s" qa={MENU_QA}>
+                    <Menu.Item disabled={false}>Item</Menu.Item>
+                </Menu>
+                <Menu.Trigger view="normal" qa={TRIGGER_QA} />
+            </DefaultPropsProvider>,
+        );
+
+        const item = screen.getByRole('menuitem');
+        const trigger = screen.getByTestId(TRIGGER_QA);
+
+        expect(screen.getByTestId(MENU_QA)).toHaveClass('default-menu');
+        expect(item).toHaveClass('g-lab-menu-item_size_s', 'g-lab-menu-item_theme_danger');
+        expect(item).toHaveAttribute('aria-pressed', 'true');
+        expect(item).not.toBeDisabled();
+        expect(trigger).toHaveClass('g-button_size_s', 'g-button_view_normal');
+    });
+
     test.each(menuIconSizes)(
         'should set item icon size according to the "%s" menu size',
         (size, expectedSize) => {

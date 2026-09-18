@@ -8,6 +8,7 @@ import {mergeRefs, useForkRef} from '../../../hooks';
 import {BUTTON_ICON_SIZE_MAP} from '../../Button/constants';
 import {Icon} from '../../Icon';
 import {useDirection} from '../../theme';
+import {useDefaultProps} from '../../theme/useDefaultProps';
 import {block} from '../../utils/cn';
 import {getLinkRelWithFallback} from '../../utils/getLinkRelWithFallback';
 import {mergeProps} from '../../utils/mergeProps';
@@ -50,12 +51,13 @@ const b = block('lab-menu-item');
 
 export const MenuItem = React.forwardRef(
     <T extends MenuItemComponentElementType>(
-        props: MenuItemProps<T>,
+        rawProps: MenuItemProps<T>,
         ref:
             | React.Ref<HTMLButtonElement>
             | React.Ref<HTMLAnchorElement>
             | React.Ref<T extends string ? React.ComponentRef<T> : T>,
     ) => {
+        const props = useDefaultProps('unstable_MenuItem', rawProps);
         const {
             theme,
             selected,

@@ -248,14 +248,16 @@ const getFilterOption = (): SelectProps['filterOption'] | undefined => {
     return undefined;
 };
 
-const renderFilter: SelectProps['renderFilter'] = ({value, ref, onChange, onKeyDown}) => {
+const renderFilter: SelectProps['renderFilter'] = ({ref, inputProps}) => {
+    const {value, onChange, onKeyDown, ...controlProps} = inputProps;
+
     return (
         <div style={{display: 'flex', flexDirection: 'column', rowGap: 4}}>
             <TextInput
                 controlRef={ref}
-                controlProps={{size: 1}}
+                controlProps={controlProps}
                 value={value}
-                onUpdate={onChange}
+                onChange={onChange}
                 onKeyDown={onKeyDown}
             />
             <div style={{display: 'flex', columnGap: 2}}>

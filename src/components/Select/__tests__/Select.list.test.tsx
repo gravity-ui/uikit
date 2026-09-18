@@ -333,17 +333,17 @@ describe('Select on the List core', () => {
             expect(onUpdate).toHaveBeenCalledWith(['ruby']);
         });
 
-        test('a custom filter on the deprecated onKeyDown still navigates the options', async () => {
+        test('a custom filter carries the keyboard of the list through inputProps', async () => {
             const onUpdate = jest.fn();
             const {user} = await openFilterable({
                 onUpdate,
-                renderFilter: ({value, ref, onChange, onKeyDown}) => (
+                renderFilter: ({ref, onChange, inputProps}) => (
                     <TextInput
                         controlRef={ref}
                         placeholder={FILTER_PLACEHOLDER}
-                        value={value}
+                        value={inputProps.value}
                         onUpdate={onChange}
-                        onKeyDown={onKeyDown}
+                        onKeyDown={inputProps.onKeyDown}
                     />
                 ),
             });

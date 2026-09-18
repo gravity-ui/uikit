@@ -37,12 +37,13 @@ export const UseSelectOptionsShowcase = () => {
     });
     const filteredOptions = getSelectFilteredOptions(options);
 
-    const renderFilter: SelectProps['renderFilter'] = ({
-        value: filterValue,
-        ref,
-        onChange,
-        onKeyDown,
-    }) => {
+    const renderFilter: SelectProps['renderFilter'] = ({ref, inputProps}) => {
+        const {
+            value: filterValue,
+            onChange: onFilterInputChange,
+            onKeyDown,
+            ...controlProps
+        } = inputProps;
         const optionsWithoutGroupLabels = options.filter(
             (option) => !isSelectGroupTitle(option),
         ) as SelectOption[];
@@ -85,9 +86,9 @@ export const UseSelectOptionsShowcase = () => {
             >
                 <TextInput
                     controlRef={ref}
-                    controlProps={{size: 1}}
+                    controlProps={controlProps}
                     value={filterValue}
-                    onUpdate={onChange}
+                    onChange={onFilterInputChange}
                     onKeyDown={onKeyDown}
                 />
                 <Button

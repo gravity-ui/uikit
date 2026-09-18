@@ -56,6 +56,10 @@ export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>
     const inputProps: SelectFilterInputProps = {
         ...ownerProps,
         'aria-expanded': open,
+        // The owner hands the keys over only while a list is connected; the Select keeps its own
+        // handler for the rest of the time, so the input always has one
+        onKeyDown: ownerProps.onKeyDown ?? onKeyDown,
+        role: ownerProps.role ?? 'combobox',
         value,
         placeholder,
         size: 1,
@@ -65,16 +69,7 @@ export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>
     };
 
     if (renderFilter) {
-        return renderFilter({
-            onChange,
-            // The deprecated argument keeps the keyboard of the list: a custom filter that has not
-            // moved to `inputProps` still navigates the options
-            onKeyDown: ownerProps.onKeyDown ?? onKeyDown,
-            value,
-            ref: inputRef,
-            style,
-            inputProps,
-        });
+        return renderFilter({onChange, ref: inputRef, style, inputProps});
     }
 
     return (

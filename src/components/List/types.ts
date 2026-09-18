@@ -72,7 +72,7 @@ type ListDOMAttributes = Omit<React.HTMLAttributes<HTMLElement>, 'draggable'> & 
  *  fire — but the default view has `pointer-events: none` there, so only keyboard/focus
  *  handlers do. `role`/`id`/`tabIndex` are applied as passed with a dev warning; dnd props
  *  drop them (`ListDndProps`). `draggable` is excluded: the native attribute is set by
- *  ref-based libraries, and the view has a slot prop of that name
+ *  ref-based libraries
  */
 export type ListPropsOverrides = ListDOMAttributes & {ref?: React.Ref<HTMLElement>};
 

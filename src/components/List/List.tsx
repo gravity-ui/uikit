@@ -30,8 +30,8 @@ const b = block('list');
 const ESTIMATED_ITEM_SIZE: Record<ListSize, number> = {s: 24, m: 28, l: 32, xl: 36};
 
 /**
- * Presentational subset of the row view: tree, container, componentProps and the
- * draggable slot are outside the contract
+ * Presentational subset of the row view: tree, container and componentProps are outside the
+ * contract
  */
 type ListItemViewProps<T extends React.ElementType = 'div'> = Omit<
     FullListItemViewProps<T>,
@@ -41,7 +41,6 @@ type ListItemViewProps<T extends React.ElementType = 'div'> = Omit<
     | 'nestedLevel'
     | 'isContainer'
     | 'componentProps'
-    | 'draggable'
 > &
     Omit<React.ComponentPropsWithRef<T>, keyof FullListItemViewProps<T>>;
 

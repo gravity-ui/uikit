@@ -27,7 +27,11 @@ export interface ListItemViewProps<T extends React.ElementType = 'div'> extends 
     collapsible?: boolean;
     collapsed?: boolean;
     onCollapseChange?: (collapsed: boolean) => void;
-    draggable?: boolean;
+    /**
+     * The drag handle of the row: rendered in the outermost slot at the start of the row, before
+     * the nesting spacer, the collapse toggle and the check mark
+     */
+    dragHandle?: React.ReactNode;
     nestedLevel?: number;
     startContent?: React.ReactNode;
     description?: React.ReactNode;
@@ -65,7 +69,7 @@ export function ListItemViewComponent(
         componentProps,
         collapsible: _collapsible,
         description,
-        draggable: _draggable,
+        dragHandle: _dragHandle,
         startContent: _startContent,
         endContent: _endContent,
         nestedLevel: _nestedLevel,
@@ -129,7 +133,7 @@ function ListItemViewContent({
     selected,
     disabled,
     selectionStyle,
-    draggable,
+    dragHandle,
     nestedLevel,
     collapsible,
     collapsed,
@@ -141,7 +145,7 @@ function ListItemViewContent({
 }: ListItemViewProps) {
     return (
         <React.Fragment>
-            {draggable ? <Slot name="drag-handle" /> : null}
+            {dragHandle ? <Slot name="drag-handle">{dragHandle}</Slot> : null}
             {nestedLevel ? <Slot name="spacer" style={{'--_--nested-level': nestedLevel}} /> : null}
             {collapsible ? (
                 <Slot name="collapsed-toggle">

@@ -77,6 +77,41 @@ describe('ListItemView', () => {
         });
     });
 
+    describe('drag handle slot', () => {
+        test('renders the handle first, before the nesting spacer and the check mark', () => {
+            render(
+                <ListItemView
+                    role="option"
+                    nestedLevel={1}
+                    selectionStyle="check"
+                    startContent={<span>Start</span>}
+                    dragHandle={<span data-qa="handle" />}
+                >
+                    Item
+                </ListItemView>,
+            );
+
+            // The order of the slots is what is tested
+            // eslint-disable-next-line testing-library/no-node-access
+            const firstSlot = screen.getByRole('option').firstElementChild;
+            expect(firstSlot).toHaveClass('g-list-item-view__slot_name_drag-handle');
+            expect(firstSlot).toContainElement(screen.getByTestId('handle'));
+        });
+
+        test('renders no slot without a handle and passes the native draggable through', () => {
+            render(
+                <ListItemView role="option" draggable>
+                    Item
+                </ListItemView>,
+            );
+
+            const item = screen.getByRole('option');
+            expect(item).toHaveAttribute('draggable', 'true');
+            // eslint-disable-next-line testing-library/no-node-access
+            expect(item.firstElementChild).toHaveClass('g-list-item-view__slot_name_content');
+        });
+    });
+
     describe('click composition', () => {
         test('calls onClick on a click by the row', async () => {
             const user = userEvent.setup();

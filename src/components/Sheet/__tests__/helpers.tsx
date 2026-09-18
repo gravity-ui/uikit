@@ -5,18 +5,13 @@ import {Sheet} from '../Sheet';
 
 import {QASheet} from './constants';
 
-export const TestSheet = (props: Partial<Omit<SheetProps, 'visible' | 'onClose'>>) => {
+export const TestSheet = (props: Partial<Omit<SheetProps, 'visible' | 'onOpenChange'>>) => {
     const [visible, setVisible] = React.useState(false);
 
     return (
         <div>
             <button onClick={() => setVisible(true)}>Show modal</button>
-            <Sheet
-                {...props}
-                visible={visible}
-                onClose={() => setVisible(false)}
-                qa={QASheet.content}
-            >
+            <Sheet {...props} visible={visible} onOpenChange={setVisible} qa={QASheet.content}>
                 <div
                     style={{
                         minHeight: 100,

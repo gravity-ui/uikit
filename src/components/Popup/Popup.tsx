@@ -14,7 +14,7 @@ import {
     useDismiss,
     useFloating,
     useFloatingNodeId,
-    useFloatingParentNodeId,
+    useFloatingTree,
     useInteractions,
     useRole,
 } from '@floating-ui/react';
@@ -385,9 +385,9 @@ function PopupComponent(rawProps: PopupProps) {
 }
 
 export function Popup(props: PopupProps) {
-    const parentId = useFloatingParentNodeId();
+    const tree = useFloatingTree();
 
-    if (parentId === null) {
+    if (tree === null) {
         return (
             <FloatingTree>
                 <PopupComponent {...props} />

@@ -641,36 +641,26 @@ const MyComponent = () => {
 
 To render a custom filter section, use the `renderFilter` property and set the `filterable` property to `true`.
 
-`inputProps` carries everything the input of a combobox needs: the value, the handlers, the placeholder and the ARIA wiring — `role`, `aria-label`, `aria-controls`, `aria-activedescendant`, `aria-expanded`, `aria-autocomplete`. Without them the filter has no accessible name and names no active option for a screen reader. Spread it onto a plain `input` together with `ref`. A component that does not take a spread — `TextInput`, say — needs the parts handed over one by one, `onKeyDown` included: it carries the whole keyboard of the list.
+`inputProps` carries everything the input of a combobox needs: the value, the handlers, the placeholder and the ARIA wiring — `role`, `aria-label`, `aria-controls`, `aria-activedescendant`, `aria-expanded`, `aria-autocomplete`. It also carries `size: 1`, a width hint rather than ARIA: it lets the input shrink to the popup instead of keeping the twenty characters an `input` asks for by default. Without them the filter has no accessible name and names no active option for a screen reader. Spread it onto a plain `input` together with `ref`. A component with an API of its own — `TextInput`, say — takes the props it owns (`value`, `placeholder`, `onChange`, `onKeyDown`) and hands the rest to the element through `controlProps`, which one line of destructuring does; `onKeyDown` must be among them, it carries the whole keyboard of the list.
 
 <!--SANDBOX
 import type {SelectProps} from '@gravity-ui/uikit';
 import {Button, Flex, Select, TextInput} from '@gravity-ui/uikit';
 
-const renderFilter: SelectProps['renderFilter'] = (props) => {
-    const {ref, inputProps, onChange} = props;
+const renderFilter: SelectProps['renderFilter'] = ({ref, style, inputProps}) => {
+    // `TextInput` owns the value, the placeholder and the handlers; everything else belongs to the
+    // input element itself and goes through `controlProps` as it is
+    const {value, placeholder, onChange, onKeyDown, ...controlProps} = inputProps;
 
     return (
-        <Flex direction="column" gap={1}>
+        <Flex direction="column" gap={1} style={style}>
             <TextInput
                 controlRef={ref}
-                // `controlProps` reaches the input itself; `TextInput` owns the value, the
-                // placeholder and the handlers, so those are given to it directly
-                controlProps={{
-                    size: 1,
-                    role: inputProps.role,
-                    'aria-label': inputProps['aria-label'],
-                    'aria-controls': inputProps['aria-controls'],
-                    'aria-activedescendant': inputProps['aria-activedescendant'],
-                    'aria-expanded': inputProps['aria-expanded'],
-                    'aria-autocomplete': inputProps['aria-autocomplete'],
-                }}
-                value={inputProps.value}
-                placeholder={inputProps.placeholder}
-                // `onChange` of `inputProps` is an event handler; `TextInput` gives a string, and
-                // the argument of the same name is exactly that shape
-                onUpdate={onChange}
-                onKeyDown={inputProps.onKeyDown}
+                controlProps={controlProps}
+                value={value}
+                placeholder={placeholder}
+                onChange={onChange}
+                onKeyDown={onKeyDown}
             />
             <Button size="xs">Do smth</Button>
         </Flex>

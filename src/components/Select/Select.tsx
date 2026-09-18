@@ -75,6 +75,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         className,
         controlClassName,
         popupClassName,
+        sheetClassName,
         qa,
         value: propsValue,
         defaultValue,
@@ -358,6 +359,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             <SelectPopup
                 ref={controlWrapRef}
                 className={popupClassName}
+                sheetClassName={sheetClassName}
                 controlRef={controlRef}
                 width={popupWidth}
                 open={open}

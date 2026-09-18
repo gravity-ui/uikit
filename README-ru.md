@@ -66,7 +66,10 @@ import '@gravity-ui/uikit/styles/styles.css';
 
 Подробнее:
 
+- [Layout-компоненты и отступы](docs/layout-ru.md) — собирать адаптивные страницы на общей сетке и
+  шкале отступов
 - [Темизация](docs/theming-ru.md) — светлая, тёмная и высококонтрастные темы
+- [Типографика](docs/typography-ru.md) — использовать и настраивать общую шкалу текста
 - [Серверный рендеринг (SSR)](docs/server-side-rendering-ru.md) — генерация корневого CSS-класса на сервере
 - [Интернационализация (I18N)](docs/i18n-ru.md) — язык встроенных текстов компонентов
 
@@ -129,9 +132,9 @@ npm run playwright    # визуальные регрессионные тест
 
 <div align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=gravity-ui/uikit&type=Timeline&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=gravity-ui/uikit&type=Timeline" />
-    <img alt="Star History Chart" width="600" src="https://api.star-history.com/svg?repos=gravity-ui/uikit&type=Timeline" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://star-history.dera.page/svg?repos=gravity-ui/uikit&type=Timeline&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://star-history.dera.page/svg?repos=gravity-ui/uikit&type=Timeline" />
+    <img alt="Star History Chart" width="600" src="https://star-history.dera.page/svg?repos=gravity-ui/uikit&type=Timeline" />
   </picture>
 </div>
 

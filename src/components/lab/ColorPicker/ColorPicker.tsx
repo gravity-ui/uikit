@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce';
 
 import {useControlledState} from '../../../hooks/useControlledState';
 import {Popup} from '../../Popup';
-import type {PopupPlacement} from '../../Popup';
+import type {PopupPlacement, PopupProps} from '../../Popup';
 import {Select} from '../../Select';
 
 import {ColorDisplay, ColorPointer, HexInput, RgbInputs} from './components';
@@ -51,7 +51,7 @@ export interface ColorPickerProps {
     /*
      * Open popup handler
      */
-    onOpenChange?: (open: boolean) => void;
+    onOpenChange?: PopupProps['onOpenChange'];
     /*
      * Enables alpha channel support for HEXA/RGBA mode and transparency slider.
      */

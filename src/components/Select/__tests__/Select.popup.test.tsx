@@ -13,6 +13,42 @@ import {DEFAULT_OPTIONS, GROUPED_OPTIONS, TEST_QA, setup, timeout} from './utils
 
 const onUpdate = jest.fn();
 describe('Select popup', () => {
+    test('should apply user class names to select and popup', async () => {
+        const className = 'user-select-class';
+        const popupClassName = 'user-popup-class';
+        const {container, getByTestId} = setup({
+            options: DEFAULT_OPTIONS,
+            onUpdate,
+            className,
+            popupClassName,
+        });
+
+        // eslint-disable-next-line testing-library/no-node-access
+        expect(container.firstChild).toHaveClass(className);
+
+        const user = userEvent.setup();
+        await user.click(getByTestId(TEST_QA));
+
+        expect(getByTestId(SelectQa.POPUP)).toHaveClass(popupClassName);
+    });
+
+    test('should apply user class name to sheet', async () => {
+        const sheetClassName = 'user-sheet-class';
+        const {getByTestId} = setup(
+            {
+                options: DEFAULT_OPTIONS,
+                onUpdate,
+                sheetClassName,
+            },
+            true,
+        );
+
+        const user = userEvent.setup();
+        await user.click(getByTestId(TEST_QA));
+
+        expect(getByTestId(SelectQa.SHEET)).toHaveClass(sheetClassName);
+    });
+
     test.each([
         {
             attribute: SelectQa.SHEET,

@@ -2,9 +2,18 @@ import type * as React from 'react';
 
 export function setRef<T>(ref: React.Ref<T | null> | undefined, value: T | null) {
     if (typeof ref === 'function') {
-        ref(value);
+        const cleanup = ref(value);
+        return typeof cleanup === 'function'
+            ? cleanup
+            : () => {
+                  ref(null);
+              };
     } else if (ref) {
-        //@ts-expect-error
-        ref.current = value;
+        const mutableRef = ref as {current: T | null};
+        mutableRef.current = value;
+        return () => {
+            mutableRef.current = null;
+        };
     }
+    return undefined;
 }

@@ -1,3 +1,5 @@
+import type * as React from 'react';
+
 import {Icon} from '../Icon';
 
 import {NAMESPACE} from './cn';
@@ -9,5 +11,5 @@ export function getUniqId() {
     return `${NAMESPACE}uniq-${nextUniqueId++}`;
 }
 
-export const isSvg = isOfType('svg');
+export const isSvg = isOfType<React.SVGProps<SVGSVGElement>>('svg');
 export const isIcon = isOfType(Icon);

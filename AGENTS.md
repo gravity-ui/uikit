@@ -1,15 +1,60 @@
-## How should the AI use the Gravity UI design system?
+# UIKit repository guide
 
-- **Repository and paths**: This repo implements `@gravity-ui/uikit`. When you see `uikit/src/...`, it refers to this repo’s `src/` directory.
-- **Components**: Design system components are in `uikit/src/components/`, each in its own folder `uikit/src/components/<ComponentName>/` with implementation (`<ComponentName>.tsx`) and styles (`<ComponentName>.scss`).
-- **Stories**: Per‑component Storybook files are in `uikit/src/components/<ComponentName>/__stories__/`, and higher‑level stories (branding, colors, typography) are in `uikit/src/stories/`.
-- **Hooks and utilities**: Shared hooks live in `uikit/src/hooks/`, and utilities in `uikit/src/utils/` and `uikit/src/components/utils/`.
-- **Styles and tokens**: Design tokens and themes are in `uikit/styles/` (including `uikit/styles/themes/...`); component SCSS is co‑located with each component.
-- **Usage in other repos**: In applications, import from `@gravity-ui/uikit` (and documented sub‑entries like `@gravity-ui/uikit/server`), not from `uikit/src/...`, and use the existing component patterns and props instead of re‑implementing them.
-- **Naming across repos**: You can refer to this and other design system repositories by their folder names (for example, `uikit/src/components/` or `design-system/src/stories/`) when describing code locations.
+## Repository purpose and documentation map
 
-### Example prompts for AI tools (Builder.io, Cursor, etc.)
+This repository builds the single publishable React package `@gravity-ui/uikit`, including its
+public JavaScript/TypeScript entrypoints and styles. Start with the human documentation:
 
-- **Create a new screen using UIKit**: “Build a responsive Billing Settings page using `@gravity-ui/uikit` components only. Use layout primitives (`Container`, `Row`, `Col`, `Flex`) plus `Card`, `Text`, `TextInput`, `Button`, and `Table` where appropriate. Import components only from `@gravity-ui/uikit`.”
-- **Refactor existing UI to use UIKit**: “Refactor this component to use `@gravity-ui/uikit` instead of raw HTML and inline styles. Replace buttons, text, inputs, and layout with UIKit components while keeping behavior and data flow the same.”
-- **Generate design‑system‑compliant variants**: “Generate three layout variants of this section using `@gravity-ui/uikit` only. Use existing layout components (`Container`, `Row`, `Col`, `Flex`) and typography/buttons from UIKit, and explain which components you chose and why.”
+- [`contribute/navigation.md`](contribute/navigation.md) maps tasks to authoritative docs, source
+  directories, and validation.
+- [`contribute/architecture.md`](contribute/architecture.md) explains package boundaries, public
+  entrypoints, source layout, and build/test systems.
+- Domain guides cover [theming](docs/theming.md), [layout](docs/layout.md),
+  [typography](docs/typography.md), [SSR](docs/server-side-rendering.md), and
+  [i18n](docs/i18n.md).
+- Component-specific behavior belongs in `src/components/<Component>/README.md`.
+
+## Pre-response gate (READ FIRST)
+
+For every non-trivial repository question or change:
+
+1. Read `contribute/navigation.md`.
+2. Read `contribute/architecture.md`.
+3. Read the relevant domain guide and/or co-located component README.
+4. For implementation work, also follow the contributor and testing route in
+   `contribute/navigation.md`.
+5. Only then inspect source files. Keep exploration scoped to the paths identified by the docs.
+
+In the final response, include a `Consulted docs` line naming the documents used. A trivial lookup
+may skip this gate, but the response must explicitly say why no documentation was needed.
+
+## Repository invariants
+
+- Consumer code imports from `@gravity-ui/uikit` or a documented subpath in `package.json`; never
+  from this repository's `src/` tree.
+- Treat the root entrypoint as stable, `@gravity-ui/uikit/legacy` as compatibility-only, and
+  `@gravity-ui/uikit/unstable` as non-stable. SSR-only utilities belong in
+  `@gravity-ui/uikit/server`.
+- Keep component implementation, SCSS, tests, stories, i18n resources, and README co-located in
+  `src/components/<Component>/`. Public exports flow through the nearest `index.ts` barrel and
+  ultimately the package entrypoint.
+- Use semantic `--g-color-*` tokens in component and application styles; private palette tokens are
+  implementation details. Prefer spacing, typography, and radius tokens over hard-coded values.
+- Preserve RTL and i18n behavior: use logical CSS properties where direction matters and the
+  existing configuration/i18n patterns for built-in text.
+- Use npm only. The supported local baseline is Node.js 20.19+ and npm 9+; restore dependencies
+  with `npm ci` when required checks cannot run because the installation is incomplete.
+- Do not change public exports or TypeScript API shape unless the task explicitly requires it.
+
+## Testing and validation
+
+Follow the [change-aware validation matrix](contribute/navigation.md#change-aware-validation), the
+single source of truth for required checks, dependency recovery, and snapshot handling.
+
+## Response contract
+
+Every completed change report must include:
+
+- `Consulted docs`: the docs read before source exploration;
+- validation commands and their results;
+- snapshot status, including that no snapshots changed when applicable.

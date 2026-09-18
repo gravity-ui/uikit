@@ -66,7 +66,10 @@ A SCSS [mixins](styles/mixins.scss) file with useful helpers is also available f
 
 Read more:
 
+- [Layout components and spacings](docs/layout.md) — compose responsive pages with the shared grid
+  and spacing scale
 - [Theming](docs/theming.md) — enable light, dark, and high-contrast themes
+- [Typography](docs/typography.md) — use and customize the shared text scale
 - [Server-side rendering](docs/server-side-rendering.md) — generate the root CSS class on the server
 - [Internationalization](docs/i18n.md) — set the built-in component language
 
@@ -164,9 +167,9 @@ Agent-readable documentation for the installed version is located in `node_modul
 
 <div align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=gravity-ui/uikit&type=Timeline&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=gravity-ui/uikit&type=Timeline" />
-    <img alt="Star History Chart" width="600" src="https://api.star-history.com/svg?repos=gravity-ui/uikit&type=Timeline" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://star-history.dera.page/svg?repos=gravity-ui/uikit&type=Timeline&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://star-history.dera.page/svg?repos=gravity-ui/uikit&type=Timeline" />
+    <img alt="Star History Chart" width="600" src="https://star-history.dera.page/svg?repos=gravity-ui/uikit&type=Timeline" />
   </picture>
 </div>
 

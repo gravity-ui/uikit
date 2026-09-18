@@ -33,6 +33,19 @@ describe('isOfType', () => {
         );
         expect(screen.getByText('correct')).toBeVisible();
     });
+    test('should not match displayName when matchDisplayName is false', () => {
+        const Component = () => null;
+        Component.displayName = 'comp1';
+        const Component2 = () => null;
+        Component2.displayName = 'comp1';
+
+        render(
+            <Test matcher={isOfType(Component, {matchDisplayName: false})}>
+                <Component2 />
+            </Test>,
+        );
+        expect(screen.getByText('wrong')).toBeVisible();
+    });
     test('should not match if type and displayName do not match', () => {
         const Component = () => null;
         Component.displayName = 'comp1';

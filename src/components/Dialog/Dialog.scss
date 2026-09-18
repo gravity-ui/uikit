@@ -10,7 +10,7 @@
     flex-direction: column;
     width: var(--g-dialog-width, var(--_--width));
 
-    &__modal {
+    &__modal:not(#{variables.$block}__modal_mobile) {
         &:has(#{variables.$block}_max-width_s) {
             --g-modal-max-width: 480px;
         }
@@ -38,7 +38,7 @@
     &_has-scroll {
         overflow-y: auto;
         max-height: calc(
-            100vh - calc(var(--g-modal-margin, #{globalVariables.$modal-default-margin}) * 2)
+            100dvh - calc(var(--g-modal-margin, #{globalVariables.$modal-default-margin}) * 2)
         );
     }
 

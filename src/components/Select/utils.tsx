@@ -264,7 +264,7 @@ export const getSelectListNodeText = (
     return resolveOptionText(node, getOptionText);
 };
 
-/** The size of the row view: on mobile every row is a row of size `l` */
+/** The size of the row view: on mobile every row is a row of size `xl`, whatever the Select is */
 export const getItemViewSize = (size: SelectSize, mobile: boolean): SelectSize =>
     mobile ? MOBILE_SIZE : size;
 

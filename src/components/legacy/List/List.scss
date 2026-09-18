@@ -1,6 +1,6 @@
-@use '../variables';
+@use '../../variables';
 
-$block: '.#{variables.$ns}list';
+$block: '.#{variables.$ns}list-legacy';
 
 #{$block} {
     --_--item-padding: var(--g-list-item-padding, 0);

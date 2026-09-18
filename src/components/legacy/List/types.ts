@@ -3,8 +3,8 @@ import type * as React from 'react';
 // eslint-disable-next-line no-restricted-imports
 import type {DraggableProvided} from '@hello-pangea/dnd';
 
-import type {TextInputSize} from '../controls';
-import type {QAProps} from '../types';
+import type {TextInputSize} from '../../controls';
+import type {QAProps} from '../../types';
 
 export type ListSortHandleAlign = 'left' | 'right';
 

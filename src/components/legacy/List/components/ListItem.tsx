@@ -6,14 +6,14 @@ import {Grip} from '@gravity-ui/icons';
 // eslint-disable-next-line no-restricted-imports
 import type {DraggableProvided} from '@hello-pangea/dnd';
 
-import {Icon} from '../../Icon';
-import {block} from '../../utils/cn';
-import {eventBroker} from '../../utils/event-broker';
+import {Icon} from '../../../Icon';
+import {block} from '../../../utils/cn';
+import {eventBroker} from '../../../utils/event-broker';
 import {ListQa} from '../constants';
 import type {ListItemProps} from '../types';
 import {getElementId} from '../utils';
 
-const b = block('list');
+const b = block('list-legacy');
 
 const ROLES_WITH_ARIA_SELECTED = new Set(['option', 'gridcell', 'row', 'tab']);
 
@@ -30,6 +30,9 @@ function getStyle(provided?: DraggableProvided, style?: React.CSSProperties) {
     };
 }
 
+/**
+ * @deprecated Use the `List` of `@gravity-ui/uikit` and its `List.ItemView`
+ */
 export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
     private static publishEvent = eventBroker.withEventPublisher('List');
 

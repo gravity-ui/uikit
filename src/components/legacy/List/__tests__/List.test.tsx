@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import {setupIntersectionObserverMock} from '../../../../test-utils/setupIntersectionObserverMock';
-import {cleanup, fireEvent, render, screen} from '../../../../test-utils/utils';
+import {setupIntersectionObserverMock} from '../../../../../test-utils/setupIntersectionObserverMock';
+import {cleanup, fireEvent, render, screen} from '../../../../../test-utils/utils';
 import {List} from '../List';
 import type {ListProps} from '../types';
 

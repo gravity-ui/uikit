@@ -7,8 +7,12 @@
 The `List` component renders a filterable, sortable, and virtualized list of items with support for custom rendering and keyboard navigation.
 
 ```tsx
-import {List} from '@gravity-ui/uikit';
+import {List} from '@gravity-ui/uikit/legacy';
 ```
+
+This is the legacy `List`: the `List` of `@gravity-ui/uikit` replaces it. The rows of the component are
+rendered with `react-window` and `react-virtualized-auto-sizer`, optional peer dependencies of the package —
+install them next to it when you import the legacy `List`.
 
 ### ItemsHeight
 
@@ -19,7 +23,7 @@ Determines the item list height (or a function that returns the height value for
 Provides an array of items for a list:
 
 <!--SANDBOX
-import {List} from '@gravity-ui/uikit';
+import {List} from '@gravity-ui/uikit/legacy';
 
 export default function () {
     return (
@@ -46,8 +50,8 @@ The render and height customization provides plenty of room for experimenting.
 For example, the code below allows you to emulate groups:
 
 <!--SANDBOX
-import type {ListProps} from '@gravity-ui/uikit';
-import {List} from '@gravity-ui/uikit';
+import type {ListProps} from '@gravity-ui/uikit/legacy';
+import {List} from '@gravity-ui/uikit/legacy';
 
 type Item = {
     title: string;
@@ -151,7 +155,7 @@ SANDBOX-->
 The `filterable` property disables the input to search for an item if its value is `false`. Its default value is `true`.
 
 <!--SANDBOX
-import {List} from '@gravity-ui/uikit';
+import {List} from '@gravity-ui/uikit/legacy';
 
 export default function () {
     return (
@@ -181,7 +185,7 @@ SANDBOX-->
 The `sortable` property enables swapping list items if its value is `true`. Its default value is `false`.
 
 <!--SANDBOX
-import {List} from '@gravity-ui/uikit';
+import {List} from '@gravity-ui/uikit/legacy';
 
 export default function () {
     return (

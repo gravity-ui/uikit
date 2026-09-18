@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import {Button} from '../../Button';
-import {TextInput} from '../../controls';
-import {cn} from '../../utils/cn';
+import {Button} from '../../../Button';
+import {TextInput} from '../../../controls';
+import {cn} from '../../../utils/cn';
 import {List} from '../List';
 
 import './ListShowcase.scss';

@@ -5,8 +5,12 @@
 <!--/GITHUB_BLOCK-->
 
 ```tsx
-import {List} from '@gravity-ui/uikit';
+import {List} from '@gravity-ui/uikit/legacy';
 ```
+
+Это устаревший `List`: ему на смену пришёл `List` из `@gravity-ui/uikit`. Строки компонента рендерятся через
+`react-window` и `react-virtualized-auto-sizer` — необязательные peer-зависимости пакета: установите их рядом
+с ним, если импортируете устаревший `List`.
 
 ### ItemsHeight
 
@@ -17,7 +21,7 @@ import {List} from '@gravity-ui/uikit';
 Передает массив элементов для списка:
 
 <!--SANDBOX
-import {List} from '@gravity-ui/uikit';
+import {List} from '@gravity-ui/uikit/legacy';
 
 export default function () {
     return (
@@ -44,8 +48,8 @@ SANDBOX-->
 Например, код ниже позволяет эмулировать группы:
 
 <!--SANDBOX
-import type {ListProps} from '@gravity-ui/uikit';
-import {List} from '@gravity-ui/uikit';
+import type {ListProps} from '@gravity-ui/uikit/legacy';
+import {List} from '@gravity-ui/uikit/legacy';
 
 type Item = {
     title: string;
@@ -149,7 +153,7 @@ SANDBOX-->
 Свойство `filterable` отключает возможность ввода для поиска элемента, если его значение — `false`. Значение по умолчанию — `true`.
 
 <!--SANDBOX
-import {List} from '@gravity-ui/uikit';
+import {List} from '@gravity-ui/uikit/legacy';
 
 export default function () {
     return (
@@ -179,7 +183,7 @@ SANDBOX-->
 Свойство `sortable` позволяет менять местами элементы списка, если его значение — `true`. Значение по умолчанию — `false`.
 
 <!--SANDBOX
-import {List} from '@gravity-ui/uikit';
+import {List} from '@gravity-ui/uikit/legacy';
 
 export default function () {
     return (

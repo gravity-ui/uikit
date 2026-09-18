@@ -13,7 +13,7 @@ const demoWrapperStyles: React.CSSProperties = {
 };
 
 export default {
-    title: 'Components/Data Display/List/Item',
+    title: 'Legacy/List/Item',
     component: ListItem,
     args: {
         item: 'Item Content',
@@ -46,12 +46,12 @@ export default {
                     {
                         id: 'aria-allowed-attr',
                         enabled: false,
-                        selector: '.g-list__item', // https://github.com/gravity-ui/uikit/issues/1336
+                        selector: '.g-list-legacy__item', // https://github.com/gravity-ui/uikit/issues/1336
                     },
                     {
                         id: 'aria-required-children',
                         enabled: false,
-                        selector: '.g-list-items', // https://github.com/gravity-ui/uikit/issues/1338
+                        selector: '.g-list-legacy-items', // https://github.com/gravity-ui/uikit/issues/1338
                     },
                     {
                         id: 'aria-required-parent',
@@ -60,7 +60,7 @@ export default {
                     {
                         id: 'scrollable-region-focusable',
                         enabled: false,
-                        selector: '.g-list', // scrollable content is accessible via arrows
+                        selector: '.g-list-legacy', // scrollable content is accessible via arrows
                     },
                     {
                         id: 'label',

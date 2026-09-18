@@ -12,7 +12,7 @@ import {
 } from './cases';
 import {TestList, TestListWithCustomRender} from './helpersPlaywright';
 
-test.describe('List', {tag: '@List'}, () => {
+test.describe('List', {tag: '@ListLegacy'}, () => {
     const defaultProps: ListProps<string> = {
         itemsHeight: 200,
         items: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'],

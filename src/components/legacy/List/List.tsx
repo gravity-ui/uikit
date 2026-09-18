@@ -19,12 +19,12 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import type {VariableSizeListProps} from 'react-window';
 import {VariableSizeList} from 'react-window';
 
-import {KeyCode} from '../../constants';
-import {TextInput} from '../controls';
-import {MobileContext} from '../mobile';
-import {useDirection} from '../theme';
-import {block} from '../utils/cn';
-import {getUniqId} from '../utils/common';
+import {KeyCode} from '../../../constants';
+import {TextInput} from '../../controls';
+import {MobileContext} from '../../mobile';
+import {useDirection} from '../../theme';
+import {block} from '../../utils/cn';
+import {getUniqId} from '../../utils/common';
 
 import {ListLoadingIndicator} from './ListLoadingIndicator';
 import type {VariableSizeListElementTypeProps} from './components';
@@ -40,7 +40,7 @@ import {getElementId} from './utils';
 
 import './List.scss';
 
-const b = block('list');
+const b = block('list-legacy');
 const DEFAULT_ITEM_HEIGHT = 28;
 const DEFAULT_PAGE_SIZE = 10;
 
@@ -91,6 +91,9 @@ const ListContainer = React.forwardRef<
 });
 ListContainer.displayName = 'ListContainer';
 
+/**
+ * @deprecated Use the `List` of `@gravity-ui/uikit`
+ */
 export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T>> {
     static defaultProps: Partial<ListProps<ListItemData<unknown>>> = listDefaultProps;
 

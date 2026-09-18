@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {cn} from '../../utils/cn';
+import {cn} from '../../../utils/cn';
 import {List} from '../List';
 import type {ListProps} from '../types';
 

@@ -1,6 +1,6 @@
 import type * as React from 'react';
 
-import {render, screen} from '../../../../test-utils/utils';
+import {render, screen} from '../../../../../test-utils/utils';
 import {ListItem} from '../components';
 import type {ListItemData, ListItemProps} from '../types';
 

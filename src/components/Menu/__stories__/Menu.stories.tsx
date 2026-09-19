@@ -3,6 +3,7 @@ import type {Meta, StoryFn} from '@storybook/react-webpack5';
 import {action} from 'storybook/actions';
 
 import {Icon} from '../../Icon';
+import {Link} from '../../Link';
 import {Menu} from '../Menu';
 import type {MenuProps} from '../Menu';
 
@@ -120,6 +121,23 @@ export const ItemLink: StoryFn<MenuProps> = (args) => (
         </Menu.Item>
         <Menu.Item href="https://gravity-ui.com" target="_blank" disabled>
             disabled gravity-ui.com
+        </Menu.Item>
+    </Menu>
+);
+
+export const CustomRenderLink: StoryFn<MenuProps> = (args) => (
+    <Menu {...args}>
+        <Menu.Item href="https://gravity-ui.com" target="_blank">
+            gravity-ui.com
+        </Menu.Item>
+        <Menu.Item
+            render={({className, children}) => (
+                <Link href="https://gravity-ui.com" target="_blank" className={className}>
+                    {children}
+                </Link>
+            )}
+        >
+            custom rendered gravity-ui.com
         </Menu.Item>
     </Menu>
 );

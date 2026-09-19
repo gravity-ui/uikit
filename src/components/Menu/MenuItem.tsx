@@ -3,13 +3,16 @@
 import * as React from 'react';
 
 import {useActionHandlers} from '../../hooks';
-import type {DOMProps, QAProps} from '../types';
+import type {ComponentCommonProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {eventBroker} from '../utils/event-broker';
 
 const b = block('menu');
 
-export interface MenuItemProps extends DOMProps, QAProps {
+export interface MenuItemProps
+    extends ComponentCommonProps<React.ComponentProps<'div'>>,
+        DOMProps,
+        QAProps {
     iconStart?: React.ReactNode;
     iconEnd?: React.ReactNode;
     title?: string;
@@ -47,6 +50,7 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
         extraProps,
         children,
         qa,
+        render,
     },
     ref,
 ) {
@@ -73,7 +77,13 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
         tabIndex: disabled ? -1 : 0,
         className: b(
             'item',
-            {disabled, active, selected, theme, interactive: Boolean(onClick) || Boolean(href)},
+            {
+                disabled,
+                active,
+                selected,
+                theme,
+                interactive: Boolean(onClick) || Boolean(href) || Boolean(render),
+            },
             className,
         ),
         'data-qa': qa,
@@ -93,9 +103,16 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
             </div>
         ),
     ];
+
     let item;
 
-    if (href) {
+    if (typeof render === 'function') {
+        item = render({
+            ...defaultProps,
+            ...commonProps,
+            children: content,
+        });
+    } else if (href) {
         item = (
             <a
                 {...defaultProps}

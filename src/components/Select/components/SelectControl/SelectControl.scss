@@ -11,25 +11,29 @@ $blockButton: '.#{variables.$ns}select-control__button';
         --_--text-right-padding: #{select-css-variables.$s-hor-padding};
         --_--border-radius: var(--g-border-radius-s);
         height: #{variables.$s-height};
-        padding: 4px calc(var(--_--text-right-padding) + 1px); // plus border-width
+        padding-inline: calc(var(--_--text-right-padding) + 1px); // plus border-width
+        padding-block: 4px;
     }
     @if $size == 'm' {
         --_--text-right-padding: #{select-css-variables.$m-hor-padding};
         --_--border-radius: var(--g-border-radius-m);
         height: #{variables.$m-height};
-        padding: 6px calc(var(--_--text-right-padding) + 1px); // plus border-width
+        padding-inline: calc(var(--_--text-right-padding) + 1px); // plus border-width
+        padding-block: 6px;
     }
     @if $size == 'l' {
         --_--text-right-padding: #{select-css-variables.$l-hor-padding};
         --_--border-radius: var(--g-border-radius-l);
         height: #{variables.$l-height};
-        padding: 10px calc(var(--_--text-right-padding) + 1px); // plus border-width
+        padding-inline: calc(var(--_--text-right-padding) + 1px); // plus border-width
+        padding-block: 10px;
     }
     @if $size == 'xl' {
         --_--text-right-padding: #{select-css-variables.$xl-hor-padding};
         --_--border-radius: var(--g-border-radius-xl);
         height: #{variables.$xl-height};
-        padding: 12px calc(var(--_--text-right-padding) + 1px); // plus border-width
+        padding-inline: calc(var(--_--text-right-padding) + 1px); // plus border-width
+        padding-block: 12px;
     }
 }
 
@@ -144,18 +148,26 @@ $blockButton: '.#{variables.$ns}select-control__button';
 
         &_size_s {
             @include block_button_style(s);
+
+            padding-block: 4px;
         }
 
         &_size_m {
             @include block_button_style(m);
+
+            padding-block: 6px;
         }
 
         &_size_l {
             @include block_button_style(l);
+
+            padding-block: 10px;
         }
 
         &_size_xl {
             @include block_button_style(xl);
+
+            padding-block: 12px;
         }
 
         &_error::before {

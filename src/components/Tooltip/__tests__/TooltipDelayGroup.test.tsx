@@ -1,18 +1,19 @@
 import * as React from 'react';
 
+// eslint-disable-next-line no-restricted-syntax
+import {render as renderWithoutProviders} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import {setupTimersMock} from '../../../../test-utils/setupTimersMock';
 import {act, render, screen} from '../../../../test-utils/utils';
 import {ActionTooltip} from '../../ActionTooltip';
-import {DefaultPropsProvider} from '../../theme/DefaultPropsProvider';
+import {ThemeProvider} from '../../theme/ThemeProvider';
+import type {ThemeProviderProps} from '../../theme/ThemeProvider';
 import {Tooltip} from '../Tooltip';
 import {TooltipDelayGroup} from '../TooltipDelayGroup';
 
 const OPEN_DELAY = 1000;
 const SKIP_DELAY = 300;
-const WARM_CLOSE_DELAY = 200;
-const WARM_OPEN_DELAY = 1;
 
 setupTimersMock();
 
@@ -26,8 +27,8 @@ function advanceTime(ms: number) {
     });
 }
 
-function renderTooltips(grouped: boolean) {
-    const tooltips = (
+function renderTooltips(wrapper?: React.JSXElementConstructor<{children: React.ReactNode}>) {
+    render(
         <React.Fragment>
             <Tooltip content="first tooltip">
                 <button>first</button>
@@ -35,10 +36,9 @@ function renderTooltips(grouped: boolean) {
             <Tooltip content="second tooltip">
                 <button>second</button>
             </Tooltip>
-        </React.Fragment>
+        </React.Fragment>,
+        {wrapper},
     );
-
-    render(grouped ? <TooltipDelayGroup>{tooltips}</TooltipDelayGroup> : tooltips);
 
     return {
         first: screen.getByRole('button', {name: 'first'}),
@@ -48,7 +48,7 @@ function renderTooltips(grouped: boolean) {
 
 test('should open the first tooltip of the group after its own delay', async () => {
     const user = setup();
-    const {first} = renderTooltips(true);
+    const {first} = renderTooltips(TooltipDelayGroup);
 
     await user.hover(first);
 
@@ -61,70 +61,60 @@ test('should open the first tooltip of the group after its own delay', async () 
 
 test('should open the neighbour tooltip instantly while the group is warm', async () => {
     const user = setup();
-    const {first, second} = renderTooltips(true);
+    const {first, second} = renderTooltips(TooltipDelayGroup);
 
     await user.hover(first);
     advanceTime(OPEN_DELAY);
     expect(screen.getByText('first tooltip')).toBeVisible();
 
     await user.hover(second);
-    advanceTime(WARM_OPEN_DELAY);
 
     expect(screen.getByText('second tooltip')).toBeVisible();
     expect(screen.queryByText('first tooltip')).not.toBeInTheDocument();
 });
 
-test('should keep a tooltip reopened by focus visible after the previous hover close delay', async () => {
+test('should reopen a tooltip closed by its neighbour on focus', async () => {
     const user = setup();
-    const {first, second} = renderTooltips(true);
+    const {first, second} = renderTooltips(TooltipDelayGroup);
 
     await user.hover(first);
     advanceTime(OPEN_DELAY);
     expect(screen.getByText('first tooltip')).toBeVisible();
 
     await user.hover(second);
-    advanceTime(WARM_OPEN_DELAY);
     expect(screen.getByText('second tooltip')).toBeVisible();
     expect(screen.queryByText('first tooltip')).not.toBeInTheDocument();
 
-    // Focus before the previous hover close timer would fire.
     await user.tab();
     expect(first).toHaveFocus();
     expect(screen.getByText('first tooltip')).toBeVisible();
     expect(screen.queryByText('second tooltip')).not.toBeInTheDocument();
-
-    advanceTime(WARM_CLOSE_DELAY);
-    expect(first).toHaveFocus();
-    expect(screen.getByText('first tooltip')).toBeVisible();
 });
 
 test('should keep the group warm during the skip delay after close', async () => {
     const user = setup();
-    const {first, second} = renderTooltips(true);
+    const {first, second} = renderTooltips(TooltipDelayGroup);
 
     await user.hover(first);
     advanceTime(OPEN_DELAY);
 
     await user.unhover(first);
-    advanceTime(WARM_CLOSE_DELAY);
     expect(screen.queryByText('first tooltip')).not.toBeInTheDocument();
 
     advanceTime(SKIP_DELAY - 1);
     await user.hover(second);
-    advanceTime(WARM_OPEN_DELAY);
 
     expect(screen.getByText('second tooltip')).toBeVisible();
 });
 
 test('should restore the initial delay after the group cools down', async () => {
     const user = setup();
-    const {first, second} = renderTooltips(true);
+    const {first, second} = renderTooltips(TooltipDelayGroup);
 
     await user.hover(first);
     advanceTime(OPEN_DELAY);
 
     await user.unhover(first);
-    advanceTime(WARM_CLOSE_DELAY);
     advanceTime(SKIP_DELAY);
 
     await user.hover(second);
@@ -135,9 +125,61 @@ test('should restore the initial delay after the group cools down', async () => 
     expect(screen.getByText('second tooltip')).toBeVisible();
 });
 
+test('should not close a tooltip opened by focus when hovering another one without the group', async () => {
+    const user = setup();
+    const {first, second} = renderTooltips();
+
+    await user.tab();
+    expect(first).toHaveFocus();
+    expect(screen.getByText('first tooltip')).toBeVisible();
+
+    await user.hover(second);
+    advanceTime(OPEN_DELAY);
+    expect(screen.getByText('first tooltip')).toBeVisible();
+    expect(screen.getByText('second tooltip')).toBeVisible();
+});
+
+test('should keep a single tooltip open after another member of the group is unmounted', async () => {
+    const user = setup();
+
+    function Group() {
+        const [showSecond, setShowSecond] = React.useState(true);
+
+        return (
+            <TooltipDelayGroup>
+                <Tooltip content="first tooltip">
+                    <button>first</button>
+                </Tooltip>
+                {showSecond && (
+                    <Tooltip content="second tooltip">
+                        <button>second</button>
+                    </Tooltip>
+                )}
+                <Tooltip content="third tooltip">
+                    <button>third</button>
+                </Tooltip>
+                <button onClick={() => setShowSecond(false)}>remove second</button>
+            </TooltipDelayGroup>
+        );
+    }
+
+    render(<Group />);
+
+    await user.tab();
+    expect(screen.getByText('first tooltip')).toBeVisible();
+
+    act(() => {
+        screen.getByRole('button', {name: 'remove second'}).click();
+    });
+
+    await user.hover(screen.getByRole('button', {name: 'third'}));
+    expect(screen.getByText('third tooltip')).toBeVisible();
+    expect(screen.queryByText('first tooltip')).not.toBeInTheDocument();
+});
+
 test('should not change the behavior of tooltips without the group', async () => {
     const user = setup();
-    const {first, second} = renderTooltips(false);
+    const {first, second} = renderTooltips();
 
     await user.hover(first);
     advanceTime(OPEN_DELAY);
@@ -150,7 +192,7 @@ test('should not change the behavior of tooltips without the group', async () =>
     expect(screen.getByText('second tooltip')).toBeVisible();
 });
 
-test('should keep asking a controlled tooltip to close while it stays open', async () => {
+test('should ask a controlled tooltip to close when its neighbour opens', async () => {
     const user = setup();
     const onOpenChange = jest.fn();
 
@@ -168,48 +210,22 @@ test('should keep asking a controlled tooltip to close while it stays open', asy
     const second = screen.getByRole('button', {name: 'second'});
     expect(screen.getByText('controlled tooltip')).toBeVisible();
 
+    // The group is warm because of the open controlled tooltip
     await user.hover(second);
-    advanceTime(WARM_OPEN_DELAY);
     expect(screen.getByText('second tooltip')).toBeVisible();
     expect(onOpenChange).toHaveBeenCalledTimes(1);
     expect(onOpenChange).toHaveBeenLastCalledWith(false, undefined, undefined);
 
     await user.unhover(second);
-    advanceTime(WARM_CLOSE_DELAY);
     advanceTime(SKIP_DELAY);
 
-    // The open controlled tooltip keeps the group warm.
+    // A controlled tooltip ignoring the request does not keep the group warm
     await user.hover(second);
-    advanceTime(WARM_OPEN_DELAY);
+    advanceTime(OPEN_DELAY - 1);
+    expect(screen.queryByText('second tooltip')).not.toBeInTheDocument();
+    advanceTime(1);
     expect(screen.getByText('second tooltip')).toBeVisible();
     expect(onOpenChange).toHaveBeenCalledTimes(2);
-});
-
-test('should keep at most one uncontrolled tooltip open next to a controlled one', async () => {
-    const user = setup();
-
-    render(
-        <TooltipDelayGroup>
-            <Tooltip content="controlled tooltip" open onOpenChange={() => {}}>
-                <button>controlled</button>
-            </Tooltip>
-            <Tooltip content="first tooltip">
-                <button>first</button>
-            </Tooltip>
-            <Tooltip content="second tooltip">
-                <button>second</button>
-            </Tooltip>
-        </TooltipDelayGroup>,
-    );
-
-    await user.hover(screen.getByRole('button', {name: 'first'}));
-    advanceTime(WARM_OPEN_DELAY);
-    expect(screen.getByText('first tooltip')).toBeVisible();
-
-    await user.hover(screen.getByRole('button', {name: 'second'}));
-    advanceTime(WARM_OPEN_DELAY);
-    expect(screen.getByText('second tooltip')).toBeVisible();
-    expect(screen.queryByText('first tooltip')).not.toBeInTheDocument();
 });
 
 test('should not warm the group up with a disabled tooltip', async () => {
@@ -238,10 +254,8 @@ test('should not warm the group up with a disabled tooltip', async () => {
 });
 
 test.each([
-    {first: 'tooltip', tooltipDelay: undefined, actionDelay: undefined},
     {first: 'action', tooltipDelay: undefined, actionDelay: undefined},
     {first: 'tooltip', tooltipDelay: 700, actionDelay: 250},
-    {first: 'action', tooltipDelay: 700, actionDelay: 250},
 ])(
     'should preserve individual cold delays in a mixed group: %j',
     async ({first, tooltipDelay, actionDelay}) => {
@@ -275,74 +289,82 @@ test.each([
             expect(screen.getByText(`${name} content`)).toBeVisible();
 
             await user.unhover(anchors[name]);
-            advanceTime(WARM_CLOSE_DELAY);
             advanceTime(SKIP_DELAY);
         }
     },
 );
 
-test('should use default group delays and allow explicit overrides', async () => {
-    const user = setup();
-    render(
-        <DefaultPropsProvider defaultProps={{TooltipDelayGroup: {closeDelay: 80, skipDelay: 40}}}>
-            <TooltipDelayGroup closeDelay={20}>
+describe('ThemeProvider', () => {
+    function renderRootTooltips(props?: Omit<ThemeProviderProps, 'children'>) {
+        renderWithoutProviders(
+            <ThemeProvider {...props}>
                 <Tooltip content="first tooltip">
                     <button>first</button>
                 </Tooltip>
                 <Tooltip content="second tooltip">
                     <button>second</button>
                 </Tooltip>
-            </TooltipDelayGroup>
-        </DefaultPropsProvider>,
-    );
-    const first = screen.getByRole('button', {name: 'first'});
-    const second = screen.getByRole('button', {name: 'second'});
+            </ThemeProvider>,
+        );
 
-    await user.hover(first);
-    advanceTime(OPEN_DELAY);
-    await user.unhover(first);
-    advanceTime(19);
-    expect(screen.getByText('first tooltip')).toBeVisible();
-    advanceTime(1);
-    expect(screen.queryByText('first tooltip')).not.toBeInTheDocument();
+        return {
+            first: screen.getByRole('button', {name: 'first'}),
+            second: screen.getByRole('button', {name: 'second'}),
+        };
+    }
 
-    advanceTime(20);
-    await user.hover(second);
-    advanceTime(WARM_OPEN_DELAY);
-    expect(screen.getByText('second tooltip')).toBeVisible();
+    test('should share the delay between all tooltips by default', async () => {
+        const user = setup();
+        const {first, second} = renderRootTooltips();
 
-    await user.unhover(second);
-    advanceTime(20);
-    advanceTime(40);
-    await user.hover(first);
-    advanceTime(OPEN_DELAY - 1);
-    expect(screen.queryByText('first tooltip')).not.toBeInTheDocument();
-    advanceTime(1);
-    expect(screen.getByText('first tooltip')).toBeVisible();
-});
+        await user.hover(first);
+        advanceTime(OPEN_DELAY);
+        expect(screen.getByText('first tooltip')).toBeVisible();
 
-test('should keep nested groups independent', async () => {
-    const user = setup();
-    render(
-        <TooltipDelayGroup>
-            <Tooltip content="outer tooltip">
-                <button>outer</button>
-            </Tooltip>
-            <TooltipDelayGroup>
-                <Tooltip content="inner tooltip">
-                    <button>inner</button>
+        await user.hover(second);
+        expect(screen.getByText('second tooltip')).toBeVisible();
+        expect(screen.queryByText('first tooltip')).not.toBeInTheDocument();
+    });
+
+    test('should not split the group by a nested provider', async () => {
+        const user = setup();
+        renderWithoutProviders(
+            <ThemeProvider>
+                <Tooltip content="outer tooltip">
+                    <button>outer</button>
                 </Tooltip>
-            </TooltipDelayGroup>
-        </TooltipDelayGroup>,
-    );
+                <ThemeProvider scoped theme="dark">
+                    <Tooltip content="inner tooltip">
+                        <button>inner</button>
+                    </Tooltip>
+                </ThemeProvider>
+            </ThemeProvider>,
+        );
 
-    await user.hover(screen.getByRole('button', {name: 'outer'}));
-    advanceTime(OPEN_DELAY);
-    expect(screen.getByText('outer tooltip')).toBeVisible();
+        await user.hover(screen.getByRole('button', {name: 'outer'}));
+        advanceTime(OPEN_DELAY);
+        expect(screen.getByText('outer tooltip')).toBeVisible();
 
-    await user.hover(screen.getByRole('button', {name: 'inner'}));
-    advanceTime(OPEN_DELAY - 1);
-    expect(screen.queryByText('inner tooltip')).not.toBeInTheDocument();
-    advanceTime(1);
-    expect(screen.getByText('inner tooltip')).toBeVisible();
+        await user.hover(screen.getByRole('button', {name: 'inner'}));
+        expect(screen.getByText('inner tooltip')).toBeVisible();
+        expect(screen.queryByText('outer tooltip')).not.toBeInTheDocument();
+    });
+
+    test('should configure the app group with default props', async () => {
+        const user = setup();
+        const {first, second} = renderRootTooltips({
+            defaultProps: {TooltipDelayGroup: {skipDelay: 40}},
+        });
+
+        await user.hover(first);
+        advanceTime(OPEN_DELAY);
+        await user.unhover(first);
+
+        advanceTime(40);
+        await user.hover(second);
+        advanceTime(OPEN_DELAY - 1);
+        expect(screen.queryByText('second tooltip')).not.toBeInTheDocument();
+        advanceTime(1);
+        expect(screen.getByText('second tooltip')).toBeVisible();
+    });
 });

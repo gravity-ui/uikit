@@ -39,22 +39,9 @@ Pass your state to the `open` prop and change it from `onOpenChange` callback.
 
 ## Delay Group
 
-A row of action buttons is the main case for
-[`TooltipDelayGroup`](../Tooltip/README.md#delay-group): the first tooltip of the group pays its `openDelay`,
-its neighbours open instantly while the group is warm.
-
-```tsx
-import {ActionTooltip, TooltipDelayGroup} from '@gravity-ui/uikit';
-
-<TooltipDelayGroup>
-  <ActionTooltip title="Bold" hotkey="mod+b">
-    <Button view="flat">{/* ... */}</Button>
-  </ActionTooltip>
-  <ActionTooltip title="Italic" hotkey="mod+i">
-    <Button view="flat">{/* ... */}</Button>
-  </ActionTooltip>
-</TooltipDelayGroup>;
-```
+Like `Tooltip`, `ActionTooltip` shares the open delay with the other tooltips of the app: the first tooltip of
+a toolbar pays its `openDelay`, its neighbours open instantly while the group is warm. See the
+[Delay Group](../Tooltip/README.md#delay-group) section of `Tooltip` for the details.
 
 ## Properties
 

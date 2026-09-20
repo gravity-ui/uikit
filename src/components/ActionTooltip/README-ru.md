@@ -18,22 +18,9 @@ import {ActionTooltip} from '@gravity-ui/uikit';
 
 ## Группа задержки
 
-Ряд кнопок с действиями — основной случай для
-[`TooltipDelayGroup`](../Tooltip/README-ru.md#группа-задержки): первый тултип группы ждет свой `openDelay`,
-соседние открываются мгновенно, пока группа теплая.
-
-```tsx
-import {ActionTooltip, TooltipDelayGroup} from '@gravity-ui/uikit';
-
-<TooltipDelayGroup>
-  <ActionTooltip title="Полужирный" hotkey="mod+b">
-    <Button view="flat">{/* ... */}</Button>
-  </ActionTooltip>
-  <ActionTooltip title="Курсив" hotkey="mod+i">
-    <Button view="flat">{/* ... */}</Button>
-  </ActionTooltip>
-</TooltipDelayGroup>;
-```
+Как и `Tooltip`, `ActionTooltip` делит задержку открытия с остальными тултипами приложения: первый тултип
+тулбара ждет свой `openDelay`, соседние открываются мгновенно, пока группа теплая. Подробнее — в разделе
+[Группа задержки](../Tooltip/README-ru.md#группа-задержки) у `Tooltip`.
 
 ## Свойства
 

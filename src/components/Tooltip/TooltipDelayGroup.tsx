@@ -9,24 +9,21 @@ import {useDefaultProps} from '../theme/useDefaultProps';
 export interface TooltipDelayGroupProps {
     /** Tooltips sharing the open delay */
     children?: React.ReactNode;
-    /** Milliseconds to stay warm after the last tooltip closes */
+    /** How much time in ms after the last tooltip is closed the group stays warm */
     skipDelay?: number;
-    /** Close delay in milliseconds while the group is warm */
-    closeDelay?: number;
 }
 
 const DEFAULT_SKIP_DELAY = 300;
-const DEFAULT_CLOSE_DELAY = 200;
 
 export function TooltipDelayGroup(rawProps: TooltipDelayGroupProps) {
-    const {
-        children,
-        skipDelay = DEFAULT_SKIP_DELAY,
-        closeDelay = DEFAULT_CLOSE_DELAY,
-    } = useDefaultProps('TooltipDelayGroup', rawProps);
+    const {children, skipDelay = DEFAULT_SKIP_DELAY} = useDefaultProps(
+        'TooltipDelayGroup',
+        rawProps,
+    );
 
+    // Every tooltip keeps its own delays, the group only tracks the warm phase
     return (
-        <FloatingDelayGroup delay={{open: 0, close: closeDelay}} timeoutMs={skipDelay}>
+        <FloatingDelayGroup delay={0} timeoutMs={skipDelay}>
             {children}
         </FloatingDelayGroup>
     );

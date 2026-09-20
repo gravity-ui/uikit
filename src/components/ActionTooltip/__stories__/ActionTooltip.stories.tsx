@@ -3,7 +3,6 @@ import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
-import {TooltipDelayGroup} from '../../Tooltip';
 import {Flex} from '../../layout';
 import {ActionTooltip} from '../ActionTooltip';
 
@@ -71,19 +70,17 @@ const TOOLBAR_ACTIONS = [
     {title: 'Link', hotkey: 'mod+k', icon: Link},
 ];
 
-export const DelayGroup: Story = {
+export const Toolbar: Story = {
     render: (args) => (
-        <TooltipDelayGroup>
-            <Flex gap={1}>
-                {TOOLBAR_ACTIONS.map(({title, hotkey, icon}) => (
-                    <ActionTooltip {...args} key={title} title={title} hotkey={hotkey}>
-                        <Button view="flat">
-                            <Icon data={icon} size={16} />
-                        </Button>
-                    </ActionTooltip>
-                ))}
-            </Flex>
-        </TooltipDelayGroup>
+        <Flex gap={1}>
+            {TOOLBAR_ACTIONS.map(({title, hotkey, icon}) => (
+                <ActionTooltip {...args} key={title} title={title} hotkey={hotkey}>
+                    <Button view="flat">
+                        <Icon data={icon} size={16} />
+                    </Button>
+                </ActionTooltip>
+            ))}
+        </Flex>
     ),
     args: {
         title: 'Action',

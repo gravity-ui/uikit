@@ -2,8 +2,12 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 /**
- * The packages of the dedicated entry points must not leak into the other ones: a consumer that
- * installs @gravity-ui/uikit alone does not have @tanstack/react-virtual on disk.
+ * The optional packages must not leak into the main entry: a consumer that installs
+ * @gravity-ui/uikit alone has neither @tanstack/react-virtual nor react-window on disk, and the
+ * main entry is what they get by importing the package.
+ *
+ * The other entry points are not guarded: each of them is imported on purpose, together with the
+ * packages its components need (the legacy List needs react-window, the virtualizer needs tanstack).
  *
  * Two graphs are walked separately. The runtime one skips `import type`/`export type` (they are
  * erased from the emit), the type one keeps them: without the package installed, the .d.ts of a
@@ -13,12 +17,16 @@ import * as path from 'path';
 const SRC = path.resolve(__dirname, '..');
 
 /**
- * Packages that must stay out of the main entry.
+ * Packages that must stay out of the main entry — the optional peer dependencies of the package.
  *
  * `@hello-pangea/dnd` is not on the list: it is a plain dependency of the package, imported by the
- * `List` and the `TableColumnSetup` of the main entry.
+ * `TableColumnSetup` of the main entry.
  */
-const FORBIDDEN_IN_MAIN = ['@tanstack/react-virtual'];
+const FORBIDDEN_IN_MAIN = [
+    '@tanstack/react-virtual',
+    'react-window',
+    'react-virtualized-auto-sizer',
+];
 
 const ENTRY_ONLY_DIRS = [
     path.join(SRC, 'components', 'Virtualizer'),
@@ -124,51 +132,28 @@ const GRAPHS = [
     ['types', {types: true}],
 ] as const;
 
-/** Every JavaScript entry point except the two dedicated ones (see the exports of package.json) */
-const SHARED_ENTRIES = [
-    'index.ts',
-    'unstable.ts',
-    'legacy.ts',
-    'server.ts',
-    'toaster-singleton.ts',
-    path.join('i18n', 'index.ts'),
-];
+const MAIN_ENTRY = path.join(SRC, 'index.ts');
 
-describe('entry point isolation', () => {
+describe('main entry isolation', () => {
     describe.each(GRAPHS)('%s graph', (_name, options) => {
-        test.each(SHARED_ENTRIES)('%s does not reach the entry-only packages', (entry) => {
-            const {packages} = walk(path.join(SRC, entry), options);
+        test('does not reach the optional packages', () => {
+            const {packages} = walk(MAIN_ENTRY, options);
 
             expect([...packages].filter((name) => FORBIDDEN_IN_MAIN.includes(name))).toEqual([]);
         });
 
-        test.each(SHARED_ENTRIES)(
-            '%s does not reach the directories of the dedicated entry points',
-            (entry) => {
-                const {files} = walk(path.join(SRC, entry), options);
+        test('does not reach the directories of the dedicated entry points', () => {
+            const {files} = walk(MAIN_ENTRY, options);
 
-                const leaked = [...files].filter((file) =>
-                    ENTRY_ONLY_DIRS.some((dir) => file.startsWith(`${dir}${path.sep}`)),
-                );
-                expect(leaked).toEqual([]);
-            },
-        );
-
-        test('the virtualizer entry reaches @tanstack/react-virtual', () => {
-            const {packages} = walk(path.join(SRC, 'virtualizer.ts'), options);
-
-            expect(packages).toContain('@tanstack/react-virtual');
-        });
-
-        test('the hello-pangea-dnd entry does not reach @tanstack/react-virtual', () => {
-            const {packages} = walk(path.join(SRC, 'hello-pangea-dnd.ts'), options);
-
-            expect(packages).not.toContain('@tanstack/react-virtual');
+            const leaked = [...files].filter((file) =>
+                ENTRY_ONLY_DIRS.some((dir) => file.startsWith(`${dir}${path.sep}`)),
+            );
+            expect(leaked).toEqual([]);
         });
 
         // Without this the whole suite would pass on a parser that silently finds nothing
-        test('the walk of the main entry is not empty', () => {
-            const {packages, files} = walk(path.join(SRC, 'index.ts'), options);
+        test('the walk is not empty', () => {
+            const {packages, files} = walk(MAIN_ENTRY, options);
 
             expect(packages).toContain('react');
             expect(files.size).toBeGreaterThan(100);

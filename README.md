@@ -87,10 +87,10 @@ Read more:
 | `@gravity-ui/uikit/unstable`          | Components whose API is still moving        | At your own risk — these break outside of major releases                          |
 | `@gravity-ui/uikit/legacy`            | Components that are no longer developed     | Only while migrating away from them                                               |
 
-`@tanstack/react-virtual` is an optional peer dependency of the `/virtualizer` entry point:
-install it next to the package when you import from there. Everything else these entry points
-need comes with the package itself. `ListVirtualizer` and `useListHelloPangeaDnd` work with the
-`unstable_List` and follow its stability; the standalone `Virtualizer` does not.
+Two entry points need an optional peer dependency of their own, installed next to the package:
+`@tanstack/react-virtual` for `/virtualizer`, and `react-window` with
+`react-virtualized-auto-sizer` for the `List` of `/legacy`. Everything else these entry points
+need comes with the package itself.
 
 ## Development
 

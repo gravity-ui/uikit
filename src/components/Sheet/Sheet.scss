@@ -11,7 +11,6 @@ $block: '.#{variables.$ns}sheet';
     z-index: 100000;
 
     --_--top-height: 20px;
-    $transition-duration: 0.3s;
 
     &_without-top-bar {
         --_--top-height: 0;
@@ -32,14 +31,14 @@ $block: '.#{variables.$ns}sheet';
         }
 
         &_with-transition {
-            transition: transform $transition-duration ease;
+            transition: transform var(--_--transition-duration) ease;
         }
 
         @media (prefers-reduced-motion: reduce) {
             opacity: 0;
 
             &_with-transition {
-                transition: opacity $transition-duration ease;
+                transition: opacity var(--_--transition-duration) ease;
             }
         }
     }

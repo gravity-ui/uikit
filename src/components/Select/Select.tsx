@@ -203,6 +203,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             if ([KeyCode.ARROW_DOWN, KeyCode.ARROW_UP].includes(e.key) && !open) {
                 e.preventDefault();
                 toggleOpen();
+                return;
             }
             if (e.key === KeyCode.ESCAPE && open) {
                 toggleOpen(false);

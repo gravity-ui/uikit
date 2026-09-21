@@ -88,7 +88,7 @@ describe('Select base actions', () => {
         });
     });
 
-    describe('reopen by arrow key', () => {
+    describe('keyboard input during closing transition', () => {
         beforeEach(() => {
             jest.useFakeTimers();
         });
@@ -99,56 +99,74 @@ describe('Select base actions', () => {
             jest.useRealTimers();
         });
 
-        describe.each([false, true])('after closing transition completes: %s', (finishClosing) => {
-            test.each([
-                {key: 'ArrowDown', value: [], initialIndex: 0, nextIndex: 1},
-                {key: 'ArrowUp', value: [], initialIndex: 0, nextIndex: 2},
-                {key: 'ArrowDown', value: ['python'], initialIndex: 1, nextIndex: 2},
-                {key: 'ArrowUp', value: ['python'], initialIndex: 1, nextIndex: 0},
-            ])('$key with value $value', async ({key, value, initialIndex, nextIndex}) => {
+        test.each([
+            {key: 'ArrowUp', value: [], initialIndex: 0, nextIndex: 2},
+            {key: 'ArrowDown', value: ['python'], initialIndex: 1, nextIndex: 2},
+            {key: 'ArrowUp', value: ['python'], initialIndex: 1, nextIndex: 0},
+        ])('reopen by $key with value $value', async ({key, value, initialIndex, nextIndex}) => {
+            const onUpdate = jest.fn();
+            setup({value, onUpdate});
+            const user = userEvent.setup({advanceTimers: jest.advanceTimersByTime});
+            const selectControl = screen.getByTestId(TEST_QA);
+
+            await user.tab();
+            await user.keyboard(`[${key}]`);
+            expect(screen.getByTestId(ListQa.ACTIVE_ITEM)).toHaveTextContent(
+                DEFAULT_OPTIONS[initialIndex].content as string,
+            );
+
+            await user.keyboard(`[${key}]`);
+            expect(screen.getByTestId(ListQa.ACTIVE_ITEM)).toHaveTextContent(
+                DEFAULT_OPTIONS[nextIndex].content as string,
+            );
+
+            const list = screen.getByTestId(SelectQa.LIST);
+            await user.keyboard('[Escape]');
+            expect(selectControl).toHaveAttribute('aria-expanded', 'false');
+            // The closing popup still contains the previous List instance.
+            expect(list).toBeInTheDocument();
+
+            await user.keyboard(`[${key}]`);
+            expect(selectControl).toHaveAttribute('aria-expanded', 'true');
+            expect(screen.getByTestId(ListQa.ACTIVE_ITEM)).toHaveTextContent(
+                DEFAULT_OPTIONS[initialIndex].content as string,
+            );
+            expect(onUpdate).not.toHaveBeenCalled();
+
+            await user.keyboard(`[${key}]`);
+            expect(screen.getByTestId(ListQa.ACTIVE_ITEM)).toHaveTextContent(
+                DEFAULT_OPTIONS[nextIndex].content as string,
+            );
+            await user.keyboard('[Enter]');
+            expect(onUpdate).toHaveBeenCalledTimes(1);
+            expect(onUpdate).toHaveBeenCalledWith([DEFAULT_OPTIONS[nextIndex].value]);
+        });
+
+        test.each(['End', 'Home', 'PageDown'])(
+            'should not select an option with %s followed by Enter while closed',
+            async (key) => {
                 const onUpdate = jest.fn();
-                setup({value, onUpdate});
+                setup({onUpdate});
                 const user = userEvent.setup({advanceTimers: jest.advanceTimersByTime});
                 const selectControl = screen.getByTestId(TEST_QA);
 
-                await user.tab();
-                await user.keyboard(`[${key}]`);
-                expect(screen.getByTestId(ListQa.ACTIVE_ITEM)).toHaveTextContent(
-                    DEFAULT_OPTIONS[initialIndex].content as string,
-                );
-
-                await user.keyboard(`[${key}]`);
-                expect(screen.getByTestId(ListQa.ACTIVE_ITEM)).toHaveTextContent(
-                    DEFAULT_OPTIONS[nextIndex].content as string,
-                );
-
+                await user.click(selectControl);
                 const list = screen.getByTestId(SelectQa.LIST);
                 await user.keyboard('[Escape]');
                 expect(selectControl).toHaveAttribute('aria-expanded', 'false');
-                // The closing popup still contains the previous List instance.
                 expect(list).toBeInTheDocument();
 
-                if (finishClosing) {
-                    act(() => jest.runOnlyPendingTimers());
-                    expect(list).not.toBeInTheDocument();
-                }
-
                 await user.keyboard(`[${key}]`);
+                expect(selectControl).toHaveAttribute('aria-expanded', 'false');
+                await user.keyboard('[Enter]');
+
+                expect(onUpdate).not.toHaveBeenCalled();
                 expect(selectControl).toHaveAttribute('aria-expanded', 'true');
                 expect(screen.getByTestId(ListQa.ACTIVE_ITEM)).toHaveTextContent(
-                    DEFAULT_OPTIONS[initialIndex].content as string,
+                    DEFAULT_OPTIONS[0].content as string,
                 );
-                expect(onUpdate).not.toHaveBeenCalled();
-
-                await user.keyboard(`[${key}]`);
-                expect(screen.getByTestId(ListQa.ACTIVE_ITEM)).toHaveTextContent(
-                    DEFAULT_OPTIONS[nextIndex].content as string,
-                );
-                await user.keyboard('[Enter]');
-                expect(onUpdate).toHaveBeenCalledTimes(1);
-                expect(onUpdate).toHaveBeenCalledWith([DEFAULT_OPTIONS[nextIndex].value]);
-            });
-        });
+            },
+        );
     });
 
     describe('open', () => {

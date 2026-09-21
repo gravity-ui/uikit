@@ -25,7 +25,7 @@
  *   aria-rowcount/aria-rowindex.
  *
  * In an application:
- * `import {unstable_List as List, unstable_moveItem as moveItem} from '@gravity-ui/uikit/unstable'`
+ * `import {List, moveItem} from '@gravity-ui/uikit'`
  * `import {useListHelloPangeaDnd} from '@gravity-ui/uikit/hello-pangea-dnd'`
  * `import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer'`
  */

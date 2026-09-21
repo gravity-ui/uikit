@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# List (unstable)
+# List
 
 <!--/GITHUB_BLOCK-->
 
@@ -45,7 +45,7 @@ optional layers: nothing of them exists until you turn them on.
 ## Basic Usage
 
 ```tsx
-import {unstable_List as List} from '@gravity-ui/uikit/unstable';
+import {List} from '@gravity-ui/uikit';
 
 const languages = ['TypeScript', 'JavaScript', 'Python', 'Go', 'Rust', 'Kotlin'];
 
@@ -101,7 +101,7 @@ together with the name of its section.
 > development and rendered as plain options.
 
 ```tsx
-import {unstable_List as List} from '@gravity-ui/uikit/unstable';
+import {List} from '@gravity-ui/uikit';
 
 const documents = [
   {
@@ -144,7 +144,7 @@ set in [`renderItem`](#listitemview) — as is the markup of the row itself.
 ```tsx
 import {CircleCheck, TriangleExclamation} from '@gravity-ui/icons';
 import {Flex, Icon} from '@gravity-ui/uikit';
-import {unstable_List as List} from '@gravity-ui/uikit/unstable';
+import {List} from '@gravity-ui/uikit';
 
 const services = [
   {id: 'api', name: 'API gateway', healthy: true},
@@ -218,7 +218,7 @@ clicks on a disabled row or on a section header.
 
 ```tsx
 import {Flex, Text} from '@gravity-ui/uikit';
-import {unstable_List as List} from '@gravity-ui/uikit/unstable';
+import {List} from '@gravity-ui/uikit';
 
 const commands = [
   {id: 'copy', title: 'Copy'},
@@ -284,7 +284,7 @@ trailing content without any markup of your own.
 ```tsx
 import {Clock, Envelope, Star} from '@gravity-ui/icons';
 import {Icon, Label} from '@gravity-ui/uikit';
-import {unstable_List as List} from '@gravity-ui/uikit/unstable';
+import {List} from '@gravity-ui/uikit';
 
 const mailboxes = [
   {id: 'inbox', name: 'Inbox', description: 'Unread first', icon: Envelope, count: 24},
@@ -329,7 +329,7 @@ so an indication tied to it alone stays behind. The hover itself is yours — us
 
 ```tsx
 import {Avatar, Flex, Text} from '@gravity-ui/uikit';
-import {unstable_List as List} from '@gravity-ui/uikit/unstable';
+import {List} from '@gravity-ui/uikit';
 
 function TeammateList({users}) {
   return (
@@ -393,7 +393,7 @@ list, so the keyboard navigates through `onItemAction` — the event tells the t
 ```tsx
 import {ArrowUpRightFromSquare} from '@gravity-ui/icons';
 import {Icon} from '@gravity-ui/uikit';
-import {unstable_List as List} from '@gravity-ui/uikit/unstable';
+import {List} from '@gravity-ui/uikit';
 
 const specs = [
   {
@@ -473,7 +473,7 @@ for it, so the UI that did (a button beside the list) has something to show for 
 
 ```tsx
 import {Button, Flex} from '@gravity-ui/uikit';
-import {unstable_List as List} from '@gravity-ui/uikit/unstable';
+import {List} from '@gravity-ui/uikit';
 
 const languages = ['TypeScript', 'JavaScript', 'Python', 'Go', 'Rust', 'Kotlin'];
 
@@ -515,7 +515,7 @@ Only one item can be selected at a time: picking another one moves the selection
 clicking the already selected item does not clear it. The selected row is highlighted.
 
 ```tsx
-import {unstable_List as List} from '@gravity-ui/uikit/unstable';
+import {List} from '@gravity-ui/uikit';
 
 const languages = ['TypeScript', 'JavaScript', 'Python', 'Go', 'Rust', 'Kotlin'];
 
@@ -546,7 +546,7 @@ over the DOM, so it covers the rows outside of the virtualization window as well
 
 ```tsx
 import {Flex, Text} from '@gravity-ui/uikit';
-import {unstable_List as List} from '@gravity-ui/uikit/unstable';
+import {List} from '@gravity-ui/uikit';
 
 const languages = ['TypeScript', 'JavaScript', 'Python', 'Go', 'Rust', 'Kotlin'];
 
@@ -592,7 +592,7 @@ row it is placed in.
 > the markup itself.
 
 ```tsx
-import {unstable_List as List} from '@gravity-ui/uikit/unstable';
+import {List} from '@gravity-ui/uikit';
 import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 
 function TrackList({tracks}) {
@@ -621,7 +621,7 @@ the row.
 ```tsx
 import {TrashBin} from '@gravity-ui/icons';
 import {Button, Icon} from '@gravity-ui/uikit';
-import {unstable_List as List} from '@gravity-ui/uikit/unstable';
+import {List} from '@gravity-ui/uikit';
 
 function TaskList({tasks, removeTask}) {
   return (
@@ -685,8 +685,8 @@ moved — so treat the result as immutable. The ids are read the way the list re
 
 ```tsx
 import {DragDropContext, Droppable} from '@hello-pangea/dnd';
+import {List, moveItem} from '@gravity-ui/uikit';
 import {useListHelloPangeaDnd} from '@gravity-ui/uikit/hello-pangea-dnd';
-import {unstable_List as List, unstable_moveItem as moveItem} from '@gravity-ui/uikit/unstable';
 
 function SortableList({items, setItems}) {
   const {draggingId, onDragStart, onDragEnd} = useListHelloPangeaDnd({
@@ -727,7 +727,7 @@ option.
 
 Under [virtualization](#virtualization) the integration changes its shape — `mode="virtual"` on the
 `Droppable`, `renderClone` in place of the placeholder, and a clone container inside the themed
-tree: see the [Drag and drop virtualized](?path=/story/lab-list--drag-and-drop-virtualized) story,
+tree: see the [Drag and drop virtualized](?path=/story/components-data-display-list--drag-and-drop-virtualized) story,
 its Code panel holds the complete source.
 
 ### Any other library
@@ -767,17 +767,17 @@ For styles of your own the list marks the dragged row with `data-dragging` and t
 `data-drag-active`.
 
 The two shapes are shown side by side in the
-[Drag and drop with other libraries](?path=/story/lab-list-drag-and-drop-with-other-libraries--pragmatic-drag-and-drop)
+[Drag and drop with other libraries](?path=/story/components-data-display-list-drag-and-drop-with-other-libraries--pragmatic-drag-and-drop)
 stories, each library on a plain list and on a virtualized one; the complete source of an example
 is in its Code panel:
 
 - **pragmatic-drag-and-drop** — an adapter of props and state, the insertion line is drawn by the
-  list: [plain](?path=/story/lab-list-drag-and-drop-with-other-libraries--pragmatic-drag-and-drop),
-  [virtualized](?path=/story/lab-list-drag-and-drop-with-other-libraries--pragmatic-drag-and-drop-virtualized);
+  list: [plain](?path=/story/components-data-display-list-drag-and-drop-with-other-libraries--pragmatic-drag-and-drop),
+  [virtualized](?path=/story/components-data-display-list-drag-and-drop-with-other-libraries--pragmatic-drag-and-drop-virtualized);
 - **dnd-kit** — a state-only adapter with `useSortable` in the row component, the neighbours shift
   (do not spread the `attributes` of `useSortable`: they carry `role` and `tabIndex`, which belong
-  to the list): [plain](?path=/story/lab-list-drag-and-drop-with-other-libraries--dnd-kit),
-  [virtualized](?path=/story/lab-list-drag-and-drop-with-other-libraries--dnd-kit-virtualized).
+  to the list): [plain](?path=/story/components-data-display-list-drag-and-drop-with-other-libraries--dnd-kit),
+  [virtualized](?path=/story/components-data-display-list-drag-and-drop-with-other-libraries--dnd-kit-virtualized).
 
 ## useListFocusOwner
 
@@ -838,11 +838,7 @@ What to keep in mind:
   strategy only: with an external owner `←`/`→` belong to the caret of the input.
 
 ```tsx
-import {Flex, TextInput} from '@gravity-ui/uikit';
-import {
-  unstable_List as List,
-  unstable_useListFocusOwner as useListFocusOwner,
-} from '@gravity-ui/uikit/unstable';
+import {Flex, List, TextInput, useListFocusOwner} from '@gravity-ui/uikit';
 
 const frameworks = ['React', 'Vue', 'Svelte', 'Solid', 'Angular', 'Qwik', 'Preact'];
 
@@ -960,7 +956,7 @@ with the name of its section. What is left to you:
 `List.ItemView` is the row view of the default render and `List.SectionHeader` is its section
 header; both are statics of the component and are meant for `renderItem`. The header keeps its
 label on one line and clips what does not fit with an ellipsis. The reorder helper is
-exported next to the list as `unstable_moveItem`, and the hook of the recommended drag-and-drop
+exported next to the list as `moveItem`, and the hook of the recommended drag-and-drop
 library — [`useListHelloPangeaDnd`](#uselisthellopangeadnd) — comes from its own entry point,
 `@gravity-ui/uikit/hello-pangea-dnd`.
 
@@ -994,9 +990,9 @@ composed with the props of the list instead of replacing them: handlers are call
 | getItemViewProps | The state of the row in terms of `List.ItemView`: `size`, `active`, `disabled`, `selected`, `selectionStyle`; for a section header — `size` only |
 | getCellProps     | The props of a cell in `role="grid"`; an empty object in a listbox, so one `renderItem` works in both                                            |
 
-The results and the overrides of the getters are typed as `unstable_ListItemDOMProps`,
-`unstable_ListCellDOMProps`, `unstable_ListItemViewStateProps` and `unstable_ListPropsOverrides` —
-for a wrapper over `renderItem`; the props of a dnd adapter as `unstable_ListDndProps`.
+The results and the overrides of the getters are typed as `ListItemDOMProps`, `ListCellDOMProps`,
+`ListItemViewStateProps` and `ListPropsOverrides` — for a wrapper over `renderItem`; the props of a
+dnd adapter as `ListDndProps`.
 
 ### Data attributes
 

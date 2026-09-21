@@ -9,7 +9,7 @@
  * the indicator the list draws itself from ctx.state.dropTarget.
  *
  * In an application the list is imported from the package:
- * `import {unstable_List as List, unstable_moveItem as moveItem} from '@gravity-ui/uikit/unstable'`
+ * `import {List, moveItem} from '@gravity-ui/uikit'`
  */
 import * as React from 'react';
 

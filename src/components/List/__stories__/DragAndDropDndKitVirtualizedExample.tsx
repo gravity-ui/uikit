@@ -20,7 +20,7 @@
  *   setActivatorNodeRef live on it).
  *
  * In an application:
- * `import {unstable_List as List, unstable_moveItem as moveItem} from '@gravity-ui/uikit/unstable'`
+ * `import {List, moveItem} from '@gravity-ui/uikit'`
  * `import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer'`
  */
 import * as React from 'react';

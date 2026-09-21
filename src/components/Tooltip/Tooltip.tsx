@@ -119,8 +119,26 @@ export function Tooltip(rawProps: TooltipProps) {
         },
     });
 
-    const {currentId: delayGroupCurrentId} = useDelayGroup(context, {enabled: !disabled});
+    const {currentId: delayGroupCurrentId, setCurrentId: setDelayGroupCurrentId} = useDelayGroup(
+        context,
+        {enabled: !disabled},
+    );
     const isDelayGroupWarm = delayGroupCurrentId !== null;
+
+    const isDelayGroupCurrentRef = React.useRef(false);
+    React.useEffect(() => {
+        isDelayGroupCurrentRef.current = delayGroupCurrentId === context.floatingId;
+    }, [delayGroupCurrentId, context.floatingId]);
+    React.useEffect(
+        () => () => {
+            // The group cools down only when its tooltip closes,
+            // so an unmounted open tooltip would keep it warm forever
+            if (isDelayGroupCurrentRef.current) {
+                setDelayGroupCurrentId(null);
+            }
+        },
+        [setDelayGroupCurrentId],
+    );
 
     const hover = useHover(context, {
         enabled: trigger === 'all',

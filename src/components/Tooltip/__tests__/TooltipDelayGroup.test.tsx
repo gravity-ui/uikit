@@ -59,20 +59,6 @@ test('should open the first tooltip of the group after its own delay', async () 
     expect(screen.getByText('first tooltip')).toBeVisible();
 });
 
-test('should open the neighbour tooltip instantly while the group is warm', async () => {
-    const user = setup();
-    const {first, second} = renderTooltips(TooltipDelayGroup);
-
-    await user.hover(first);
-    advanceTime(OPEN_DELAY);
-    expect(screen.getByText('first tooltip')).toBeVisible();
-
-    await user.hover(second);
-
-    expect(screen.getByText('second tooltip')).toBeVisible();
-    expect(screen.queryByText('first tooltip')).not.toBeInTheDocument();
-});
-
 test('should reopen a tooltip closed by its neighbour on focus', async () => {
     const user = setup();
     const {first, second} = renderTooltips(TooltipDelayGroup);
@@ -177,6 +163,44 @@ test('should keep a single tooltip open after another member of the group is unm
     expect(screen.queryByText('first tooltip')).not.toBeInTheDocument();
 });
 
+test('should cool the group down after the open tooltip is unmounted', async () => {
+    const user = setup();
+
+    function Group() {
+        const [showFirst, setShowFirst] = React.useState(true);
+
+        return (
+            <TooltipDelayGroup>
+                {showFirst && (
+                    <Tooltip content="first tooltip">
+                        <button onClick={() => setShowFirst(false)}>first</button>
+                    </Tooltip>
+                )}
+                <Tooltip content="second tooltip">
+                    <button>second</button>
+                </Tooltip>
+            </TooltipDelayGroup>
+        );
+    }
+
+    render(<Group />);
+
+    const first = screen.getByRole('button', {name: 'first'});
+    await user.hover(first);
+    advanceTime(OPEN_DELAY);
+    expect(screen.getByText('first tooltip')).toBeVisible();
+
+    await user.click(first);
+    expect(first).not.toBeInTheDocument();
+    advanceTime(SKIP_DELAY);
+
+    await user.hover(screen.getByRole('button', {name: 'second'}));
+    advanceTime(OPEN_DELAY - 1);
+    expect(screen.queryByText('second tooltip')).not.toBeInTheDocument();
+    advanceTime(1);
+    expect(screen.getByText('second tooltip')).toBeVisible();
+});
+
 test('should not change the behavior of tooltips without the group', async () => {
     const user = setup();
     const {first, second} = renderTooltips();
@@ -210,7 +234,6 @@ test('should ask a controlled tooltip to close when its neighbour opens', async 
     const second = screen.getByRole('button', {name: 'second'});
     expect(screen.getByText('controlled tooltip')).toBeVisible();
 
-    // The group is warm because of the open controlled tooltip
     await user.hover(second);
     expect(screen.getByText('second tooltip')).toBeVisible();
     expect(onOpenChange).toHaveBeenCalledTimes(1);

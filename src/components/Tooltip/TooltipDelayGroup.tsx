@@ -7,7 +7,6 @@ import {FloatingDelayGroup} from '@floating-ui/react';
 import {useDefaultProps} from '../theme/useDefaultProps';
 
 export interface TooltipDelayGroupProps {
-    /** Tooltips sharing the open delay */
     children?: React.ReactNode;
     /** How much time in ms after the last tooltip is closed the group stays warm */
     skipDelay?: number;

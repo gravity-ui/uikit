@@ -3,7 +3,7 @@ import type * as React from 'react';
 import userEvent from '@testing-library/user-event';
 
 import {SelectQa} from '..';
-import {act, render, screen} from '../../../../test-utils/utils';
+import {act, cleanup, render, screen} from '../../../../test-utils/utils';
 import {ListQa} from '../../List';
 import {DEFAULT_VIRTUALIZATION_THRESHOLD, QUICK_SEARCH_TIMEOUT} from '../constants';
 
@@ -86,6 +86,87 @@ describe('Select base actions', () => {
             const selectControl = screen.getByTestId(TEST_QA);
             expect(selectControl).toHaveAttribute('type', 'button');
         });
+    });
+
+    describe('keyboard input during closing transition', () => {
+        beforeEach(() => {
+            jest.useFakeTimers();
+        });
+
+        afterEach(() => {
+            cleanup();
+            jest.runOnlyPendingTimers();
+            jest.useRealTimers();
+        });
+
+        test.each([
+            {key: 'ArrowUp', value: [], initialIndex: 0, nextIndex: 2},
+            {key: 'ArrowDown', value: ['python'], initialIndex: 1, nextIndex: 2},
+            {key: 'ArrowUp', value: ['python'], initialIndex: 1, nextIndex: 0},
+        ])('reopen by $key with value $value', async ({key, value, initialIndex, nextIndex}) => {
+            const onUpdate = jest.fn();
+            setup({value, onUpdate});
+            const user = userEvent.setup({advanceTimers: jest.advanceTimersByTime});
+            const selectControl = screen.getByTestId(TEST_QA);
+
+            await user.tab();
+            await user.keyboard(`[${key}]`);
+            expect(screen.getByTestId(ListQa.ACTIVE_ITEM)).toHaveTextContent(
+                DEFAULT_OPTIONS[initialIndex].content as string,
+            );
+
+            await user.keyboard(`[${key}]`);
+            expect(screen.getByTestId(ListQa.ACTIVE_ITEM)).toHaveTextContent(
+                DEFAULT_OPTIONS[nextIndex].content as string,
+            );
+
+            const list = screen.getByTestId(SelectQa.LIST);
+            await user.keyboard('[Escape]');
+            expect(selectControl).toHaveAttribute('aria-expanded', 'false');
+            // The closing popup still contains the previous List instance.
+            expect(list).toBeInTheDocument();
+
+            await user.keyboard(`[${key}]`);
+            expect(selectControl).toHaveAttribute('aria-expanded', 'true');
+            expect(screen.getByTestId(ListQa.ACTIVE_ITEM)).toHaveTextContent(
+                DEFAULT_OPTIONS[initialIndex].content as string,
+            );
+            expect(onUpdate).not.toHaveBeenCalled();
+
+            await user.keyboard(`[${key}]`);
+            expect(screen.getByTestId(ListQa.ACTIVE_ITEM)).toHaveTextContent(
+                DEFAULT_OPTIONS[nextIndex].content as string,
+            );
+            await user.keyboard('[Enter]');
+            expect(onUpdate).toHaveBeenCalledTimes(1);
+            expect(onUpdate).toHaveBeenCalledWith([DEFAULT_OPTIONS[nextIndex].value]);
+        });
+
+        test.each(['End', 'Home', 'PageDown'])(
+            'should not select an option with %s followed by Enter while closed',
+            async (key) => {
+                const onUpdate = jest.fn();
+                setup({onUpdate});
+                const user = userEvent.setup({advanceTimers: jest.advanceTimersByTime});
+                const selectControl = screen.getByTestId(TEST_QA);
+
+                await user.click(selectControl);
+                const list = screen.getByTestId(SelectQa.LIST);
+                await user.keyboard('[Escape]');
+                expect(selectControl).toHaveAttribute('aria-expanded', 'false');
+                expect(list).toBeInTheDocument();
+
+                await user.keyboard(`[${key}]`);
+                expect(selectControl).toHaveAttribute('aria-expanded', 'false');
+                await user.keyboard('[Enter]');
+
+                expect(onUpdate).not.toHaveBeenCalled();
+                expect(selectControl).toHaveAttribute('aria-expanded', 'true');
+                expect(screen.getByTestId(ListQa.ACTIVE_ITEM)).toHaveTextContent(
+                    DEFAULT_OPTIONS[0].content as string,
+                );
+            },
+        );
     });
 
     describe('open', () => {

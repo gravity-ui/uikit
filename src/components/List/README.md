@@ -279,7 +279,9 @@ renderItem={(ctx, {getItemProps, getItemViewProps}) =>
 ### List.ItemView
 
 `List.ItemView` is the row of the default render: it gives a row a leading icon, a description and
-trailing content without any markup of your own.
+trailing content without any markup of your own. The same view is exported on its own as
+[`ListItemView`](../ListItemView/README.md) — with the props of a tree row on top, for rows built
+outside of a list.
 
 ```tsx
 import {Clock, Envelope, Star} from '@gravity-ui/icons';

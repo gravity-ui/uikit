@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {Card} from '../../Card';
-import {ListItem} from '../../List';
+import {ListItemView} from '../../ListItemView';
 import {Flex} from '../../layout';
 import type {DividerProps} from '../Divider';
 import {Divider} from '../Divider';
@@ -14,13 +14,7 @@ export const ListWithDivider = (props: DividerProps) => {
             <Flex direction={props.orientation === 'vertical' ? 'row' : 'column'}>
                 {listItems.map((value, index) => (
                     <React.Fragment key={index}>
-                        <ListItem
-                            item={value}
-                            itemIndex={index}
-                            active={false}
-                            selected={false}
-                            onActivate={() => {}}
-                        />
+                        <ListItemView size="m">{value}</ListItemView>
 
                         {index < listItems.length - 1 && <Divider {...props} />}
                     </React.Fragment>

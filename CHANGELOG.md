@@ -1,5 +1,24 @@
 # Changelog
 
+## [7.50.0](https://github.com/gravity-ui/uikit/compare/v7.49.0...v7.50.0) (2026-09-22)
+
+
+### Features
+
+* add new List ([#2769](https://github.com/gravity-ui/uikit/issues/2769)) ([4baf952](https://github.com/gravity-ui/uikit/commit/4baf9526424169d7224e9868d8f62bf14865e641))
+* **Drawer:** add layer registration ([#2819](https://github.com/gravity-ui/uikit/issues/2819)) ([0b8925c](https://github.com/gravity-ui/uikit/commit/0b8925cf7e280e17f8f971cede466e960d879e9b))
+* **Sheet:** migrate to useFloating ([#2791](https://github.com/gravity-ui/uikit/issues/2791)) ([9cd658f](https://github.com/gravity-ui/uikit/commit/9cd658f64dd360622da693fc085442a3b67e6c80))
+* **unstable_Menu:** set icon size automatically ([#2831](https://github.com/gravity-ui/uikit/issues/2831)) ([b96bc47](https://github.com/gravity-ui/uikit/commit/b96bc474593dc8ed27d721b424eab8d823405979))
+* **unstable_Menu:** support default props ([#2838](https://github.com/gravity-ui/uikit/issues/2838)) ([a898e7d](https://github.com/gravity-ui/uikit/commit/a898e7d9b51113771a6ecc60d1963c30975393a4))
+
+
+### Bug Fixes
+
+* **Alert:** prevent content from shrinking ([#2847](https://github.com/gravity-ui/uikit/issues/2847)) ([fcdd8ab](https://github.com/gravity-ui/uikit/commit/fcdd8ab674404cb21c0b2686f58e0b79e469dd8a))
+* **Breadcrumbs:** remove negative margins ([#2818](https://github.com/gravity-ui/uikit/issues/2818)) ([ee6535d](https://github.com/gravity-ui/uikit/commit/ee6535dcb33e8a3a14d3669977a05530d187fd14))
+* **Select:** stop forwarding opening arrow key events to the closing list ([#2845](https://github.com/gravity-ui/uikit/issues/2845)) ([dc4253f](https://github.com/gravity-ui/uikit/commit/dc4253f93266f77bb364b3fc850fefdd0ded4952))
+* **TextArea:** skip empty auto-resize measurements ([#2812](https://github.com/gravity-ui/uikit/issues/2812)) ([bfc4e67](https://github.com/gravity-ui/uikit/commit/bfc4e6778f727c955f55fb8a34e58a1b45ad9e28))
+
 ## [7.49.0](https://github.com/gravity-ui/uikit/compare/v7.48.3...v7.49.0) (2026-09-02)
 
 

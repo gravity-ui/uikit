@@ -32,9 +32,6 @@ $actionsGap: 2px;
         }
     }
 
-    /* The rows are the rows of the List: the geometry of the sheet menu is kept as it was — a
-       taller touch target, the inset of the sheet and edge-to-edge rows. The size modifiers of the
-       row view set its geometry directly, so the selector needs two classes to win over them */
     &__sheet &__list-item {
         min-height: 44px;
         padding-inline: var(--g-spacing-4);

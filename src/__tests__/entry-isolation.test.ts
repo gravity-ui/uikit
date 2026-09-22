@@ -2,9 +2,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 /**
- * The optional packages must not leak into the main entry: a consumer that installs
- * @gravity-ui/uikit alone has neither @tanstack/react-virtual nor react-window on disk, and the
- * main entry is what they get by importing the package.
+ * The optional packages must not leak into the main entry: a consumer who installs the package
+ * alone has neither `@tanstack/react-virtual` nor `react-window` on disk, and the main entry is
+ * what an import of the package gives them.
  *
  * The other entry points are not guarded: each of them is imported on purpose, together with the
  * packages its components need (the legacy List needs react-window, the virtualizer needs tanstack).

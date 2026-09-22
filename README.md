@@ -87,10 +87,14 @@ Read more:
 | `@gravity-ui/uikit/unstable`          | Components whose API is still moving        | At your own risk — these break outside of major releases                          |
 | `@gravity-ui/uikit/legacy`            | Components that are no longer developed     | Only while migrating away from them                                               |
 
-Two entry points need an optional peer dependency of their own, installed next to the package:
-`@tanstack/react-virtual` for `/virtualizer`, and `react-window` with
-`react-virtualized-auto-sizer` for the `List` of `/legacy`. Everything else these entry points
-need comes with the package itself.
+Some entry points need packages of their own, declared as optional peer dependencies: install them
+next to `@gravity-ui/uikit` when you import from there. Everything else comes with the package
+itself.
+
+| Entry point                         | What to install                                |
+| :---------------------------------- | :--------------------------------------------- |
+| `@gravity-ui/uikit/virtualizer`     | `@tanstack/react-virtual`                      |
+| `@gravity-ui/uikit/legacy` (`List`) | `react-window`, `react-virtualized-auto-sizer` |
 
 ## Development
 

@@ -87,9 +87,13 @@ import '@gravity-ui/uikit/styles/styles.css';
 | `@gravity-ui/uikit/unstable`          | Компоненты, чей API ещё меняется            | На свой риск — они ломаются и вне мажорных релизов                                   |
 | `@gravity-ui/uikit/legacy`            | Компоненты, которые больше не развиваются   | Только пока мигрируете с них                                                         |
 
-Двум точкам входа нужны свои опциональные peer-зависимости, которые ставятся рядом с пакетом:
-`@tanstack/react-virtual` для `/virtualizer` и `react-window` с `react-virtualized-auto-sizer`
-для `List` из `/legacy`. Всё остальное этим точкам входа приносит сам пакет.
+Некоторым точкам входа нужны свои пакеты — они объявлены необязательными peer-зависимостями:
+поставьте их рядом с `@gravity-ui/uikit`, если импортируете оттуда. Всё остальное приносит сам пакет.
+
+| Точка входа                         | Что поставить                                  |
+| :---------------------------------- | :--------------------------------------------- |
+| `@gravity-ui/uikit/virtualizer`     | `@tanstack/react-virtual`                      |
+| `@gravity-ui/uikit/legacy` (`List`) | `react-window`, `react-virtualized-auto-sizer` |
 
 ## Разработка
 

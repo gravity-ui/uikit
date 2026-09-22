@@ -10,9 +10,9 @@ The `List` component renders a filterable, sortable, and virtualized list of ite
 import {List} from '@gravity-ui/uikit/legacy';
 ```
 
-This is the legacy `List`: the `List` of `@gravity-ui/uikit` replaces it. The rows of the component are
-rendered with `react-window` and `react-virtualized-auto-sizer`, optional peer dependencies of the package —
-install them next to it when you import the legacy `List`.
+The `List` of `@gravity-ui/uikit` replaces this component. Its rows are rendered with `react-window` and
+`react-virtualized-auto-sizer`, optional peer dependencies of the package — install them next to it when you
+import from here.
 
 ### ItemsHeight
 

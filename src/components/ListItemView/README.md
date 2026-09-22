@@ -4,8 +4,8 @@
 
 <!--/GITHUB_BLOCK-->
 
-`ListItemView` is the view of a list row: it lays out the content of a row, its icon, description
-and trailing content, and shows the states a list gives it.
+`ListItemView` is the view of a list row: it lays out the content of a row — the icon, the
+description, the trailing content — and draws the states its owner passes in.
 
 ```tsx
 import {ListItemView} from '@gravity-ui/uikit';

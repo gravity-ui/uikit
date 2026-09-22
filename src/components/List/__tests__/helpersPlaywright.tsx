@@ -2,12 +2,11 @@ import {Envelope, Star} from '@gravity-ui/icons';
 
 import {Icon} from '../../Icon';
 import {Label} from '../../Label';
-import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
 import type {ListProps} from '../types';
 
 import type {Mailbox} from './cases';
-import {mailboxes, sections, virtualizedItems} from './cases';
+import {mailboxes, sections} from './cases';
 
 /**
  * The hover of the pointer is not part of a screenshot: the states are set by the props, and a
@@ -20,7 +19,14 @@ const commonProps = {
 } satisfies Partial<ListProps<Mailbox>>;
 
 export const TestList = (props: Partial<ListProps<Mailbox>>) => (
-    <List items={mailboxes} defaultActiveItemId="starred" {...commonProps} {...props} />
+    <List
+        items={mailboxes}
+        defaultActiveItemId="starred"
+        selectionMode="single"
+        defaultSelectedIds={['inbox']}
+        {...commonProps}
+        {...props}
+    />
 );
 
 export const TestListWithSections = (props: Partial<ListProps<Mailbox>>) => (
@@ -45,14 +51,4 @@ export const TestListWithItemView = (props: Partial<ListProps<Mailbox>>) => (
         )}
         {...props}
     />
-);
-
-/**
- * The whole case lives in the helper: a function prop does not survive the serialization of
- * `mount` — in the browser it becomes a callback into the test and renders nothing
- */
-export const TestVirtualizedList = () => (
-    <ListVirtualizer estimateItemSize={28}>
-        <List {...commonProps} items={virtualizedItems} style={{height: 200}} />
-    </ListVirtualizer>
 );

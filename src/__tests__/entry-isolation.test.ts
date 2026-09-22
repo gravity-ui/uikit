@@ -158,5 +158,18 @@ describe('main entry isolation', () => {
             expect(packages).toContain('react');
             expect(files.size).toBeGreaterThan(100);
         });
+
+        // The checks above are all negative: a typo in FORBIDDEN_IN_MAIN would keep them green
+        // while guarding nothing. Every forbidden name is a package that some other entry point
+        // reaches on purpose — the legacy List is built on two of them, the virtualizer on the
+        // third — so the walk itself says whether the names are spelled the way it sees them.
+        test('the forbidden names are the ones the walk produces', () => {
+            const reachable = new Set([
+                ...walk(path.join(SRC, 'legacy.ts'), options).packages,
+                ...walk(path.join(SRC, 'virtualizer.ts'), options).packages,
+            ]);
+
+            expect(FORBIDDEN_IN_MAIN.filter((name) => !reachable.has(name))).toEqual([]);
+        });
     });
 });

@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {useLayoutEffect} from '../../../hooks';
-import {getItemDomId} from '../../lab/List/utils';
+import {getItemDomId} from '../../List/utils';
 import type {FlattenOption} from '../utils';
 import {isSelectGroupTitle, scrollToItem} from '../utils';
 

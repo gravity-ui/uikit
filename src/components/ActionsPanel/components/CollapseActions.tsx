@@ -30,7 +30,11 @@ export const CollapseActions = ({actions, maxRowActions}: Props) => {
 
     return (
         <div className={b()}>
-            <div className={b('container')} ref={parentRef}>
+            <div
+                className={b('container')}
+                ref={parentRef}
+                style={offset ? ({'--_--offset': `${offset}px`} as React.CSSProperties) : undefined}
+            >
                 {buttonActions.map((action) => {
                     const {id} = action;
                     const attr = {[OBSERVER_TARGET_ATTR]: id};
@@ -61,25 +65,22 @@ export const CollapseActions = ({actions, maxRowActions}: Props) => {
                 })}
             </div>
             {showDropdown && (
-                <React.Fragment>
-                    <div className={b('menu-placeholder')} />
-                    <div className={b('menu-wrapper')} style={{insetInlineStart: offset}}>
-                        <DropdownMenu
-                            size="s"
-                            items={dropdownItems}
-                            renderSwitcher={({onClick}) => (
-                                <Button
-                                    view="flat-contrast"
-                                    size="m"
-                                    aria-label={t('label_more')}
-                                    onClick={onClick}
-                                >
-                                    <Icon data={Ellipsis} />
-                                </Button>
-                            )}
-                        />
-                    </div>
-                </React.Fragment>
+                <div className={b('menu-wrapper')}>
+                    <DropdownMenu
+                        size="s"
+                        items={dropdownItems}
+                        renderSwitcher={({onClick}) => (
+                            <Button
+                                view="flat-contrast"
+                                size="m"
+                                aria-label={t('label_more')}
+                                onClick={onClick}
+                            >
+                                <Icon data={Ellipsis} />
+                            </Button>
+                        )}
+                    />
+                </div>
             )}
         </div>
     );

@@ -60,8 +60,7 @@ export interface ListItemContext<T> {
     };
 }
 
-/** `draggable` is excluded — see ListPropsOverrides */
-type ListDOMAttributes = Omit<React.HTMLAttributes<HTMLElement>, 'draggable'> & {
+type ListDOMAttributes = React.HTMLAttributes<HTMLElement> & {
     [key: `data-${string}`]: string | undefined;
 };
 
@@ -71,8 +70,8 @@ type ListDOMAttributes = Omit<React.HTMLAttributes<HTMLElement>, 'draggable'> & 
  *  `undefined` values are ignored. Not gated by state: on a disabled row overrides still
  *  fire — but the default view has `pointer-events: none` there, so only keyboard/focus
  *  handlers do. `role`/`id`/`tabIndex` are applied as passed with a dev warning; dnd props
- *  drop them (`ListDndProps`). `draggable` is excluded: the native attribute is set by
- *  ref-based libraries
+ *  drop them (`ListDndProps`). The native `draggable` goes through: a row that carries it starts
+ *  a drag of its own, and the core keeps the default of `mousedown` for it
  */
 export type ListPropsOverrides = ListDOMAttributes & {ref?: React.Ref<HTMLElement>};
 

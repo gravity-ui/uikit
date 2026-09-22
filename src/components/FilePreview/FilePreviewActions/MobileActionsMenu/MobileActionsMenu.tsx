@@ -21,8 +21,6 @@ export interface MobileActionsMenuProps {
     isCustomImage?: boolean;
 }
 
-const getActionId = (action: FilePreviewAction) => action.id ?? action.title;
-
 const getActionTextValue = (action: FilePreviewAction) => action.title;
 
 const renderAction = (
@@ -42,6 +40,13 @@ const renderAction = (
 
 export const MobileActionsMenu = ({actions, fileName, isCustomImage}: MobileActionsMenuProps) => {
     const [showMobileMenu, setShowMobileMenu] = React.useState(false);
+
+    // The id of an action is optional, and two actions may share a title: the rows of the list
+    // need ids of their own anyway
+    const items = React.useMemo(
+        () => actions.map((action, index) => ({...action, id: action.id ?? `action-${index}`})),
+        [actions],
+    );
 
     const handleMobileMenuClose = React.useCallback(() => {
         setShowMobileMenu(false);
@@ -79,8 +84,7 @@ export const MobileActionsMenu = ({actions, fileName, isCustomImage}: MobileActi
             >
                 <List
                     aria-label={fileName}
-                    items={actions}
-                    getItemId={getActionId}
+                    items={items}
                     getItemTextValue={getActionTextValue}
                     renderItem={renderAction}
                     onItemAction={handleItemAction}

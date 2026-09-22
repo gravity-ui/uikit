@@ -20,7 +20,7 @@ const SRC = path.resolve(__dirname, '..');
  * Packages that must stay out of the main entry — the optional peer dependencies of the package.
  *
  * `@hello-pangea/dnd` is not on the list: it is a plain dependency of the package, imported by the
- * `TableColumnSetup` of the main entry.
+ * `TableColumnSetup` and the `TreeList` of the main entry.
  */
 const FORBIDDEN_IN_MAIN = [
     '@tanstack/react-virtual',

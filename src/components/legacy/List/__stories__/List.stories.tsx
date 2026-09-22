@@ -29,7 +29,7 @@ export default {
                     {
                         id: 'aria-required-children',
                         enabled: false,
-                        selector: '.g-list-legacy-items', // https://github.com/gravity-ui/uikit/issues/1338
+                        selector: '.g-list-legacy__items', // https://github.com/gravity-ui/uikit/issues/1338
                     },
                     {
                         id: 'scrollable-region-focusable',

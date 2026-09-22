@@ -74,6 +74,7 @@ $block: '.#{variables.$ns}alert';
 
     &__main {
         flex-grow: 1;
+        min-width: 0;
         display: flex;
         gap: var(--g-alert-actions-margin, var(--_--content-gap));
 
@@ -86,6 +87,11 @@ $block: '.#{variables.$ns}alert';
             justify-content: space-between;
             align-items: var(--_--align);
         }
+    }
+
+    &__content {
+        flex-grow: 1;
+        min-width: 0;
     }
 
     &__title {

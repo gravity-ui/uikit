@@ -1,10 +1,14 @@
+import * as React from 'react';
+
 import {Gear} from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 import {action} from 'storybook/actions';
 
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
+import {Button} from '../../Button';
 import {Icon as IconComponent} from '../../Icon';
+import {TextArea} from '../../controls/TextArea';
 import {Alert} from '../Alert';
 import {
     alignCases,
@@ -126,6 +130,36 @@ export const Layout: Story = {
     args: {
         ...Default.args,
         actions: [{text: 'First action'}, {text: 'Second action'}],
+    },
+};
+
+export const ContentWidth: Story = {
+    render: (args) => (
+        <div style={{width: 860}}>
+            <Alert
+                {...args}
+                message={
+                    <React.Fragment>
+                        <TextArea
+                            placeholder="Edit draft description"
+                            rows={3}
+                            controlProps={{'aria-label': 'Edit draft description'}}
+                        />
+                        <div style={{display: 'flex', gap: 16, marginTop: 8}}>
+                            <Button view="normal">Save</Button>
+                            <Button view="flat">Cancel</Button>
+                        </div>
+                    </React.Fragment>
+                }
+            />
+        </div>
+    ),
+    args: {
+        ...Default.args,
+        theme: 'info',
+        layout: 'horizontal',
+        title: 'Version 1 is not published yet',
+        onClose: undefined,
     },
 };
 

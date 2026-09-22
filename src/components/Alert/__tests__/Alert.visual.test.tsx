@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {test} from '~playwright/core';
+import {expect, test} from '~playwright/core';
 
 import {block} from '../../utils/cn';
 import {Alert} from '../Alert';
@@ -77,6 +77,14 @@ test.describe('Alert', {tag: '@Alert'}, () => {
         await mount(<AlertStories.Layout />);
 
         await expectScreenshot();
+    });
+
+    test('content takes available width', async ({mount, page}) => {
+        await mount(<AlertStories.ContentWidth />);
+
+        const textAreaBox = await page.locator('.g-text-area').boundingBox();
+
+        expect(textAreaBox?.width).toBeGreaterThan(700);
     });
 
     test('render story: <ActionsLayout>', async ({mount, expectScreenshot}) => {

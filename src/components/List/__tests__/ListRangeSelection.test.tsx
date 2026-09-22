@@ -25,7 +25,7 @@ async function shiftClick(user: ReturnType<typeof userEvent.setup>, element: HTM
     await user.keyboard('{/Shift}');
 }
 
-describe('List: range selection (selection layer, phase 7)', () => {
+describe('List: range selection (selection layer)', () => {
     describe('Shift+click', () => {
         test('selects the range from the anchor to the target in data order, in both directions', async () => {
             const user = userEvent.setup();

@@ -143,8 +143,7 @@ set in [`renderItem`](#listitemview) — as is the markup of the row itself.
 
 ```tsx
 import {CircleCheck, TriangleExclamation} from '@gravity-ui/icons';
-import {Flex, Icon} from '@gravity-ui/uikit';
-import {List} from '@gravity-ui/uikit';
+import {Flex, Icon, List} from '@gravity-ui/uikit';
 
 const services = [
   {id: 'api', name: 'API gateway', healthy: true},
@@ -217,8 +216,7 @@ way the rest of the analytics of the library is collected. Keys are not publishe
 clicks on a disabled row or on a section header.
 
 ```tsx
-import {Flex, Text} from '@gravity-ui/uikit';
-import {List} from '@gravity-ui/uikit';
+import {Flex, List, Text} from '@gravity-ui/uikit';
 
 const commands = [
   {id: 'copy', title: 'Copy'},
@@ -285,8 +283,7 @@ outside of a list.
 
 ```tsx
 import {Clock, Envelope, Star} from '@gravity-ui/icons';
-import {Icon, Label} from '@gravity-ui/uikit';
-import {List} from '@gravity-ui/uikit';
+import {Icon, Label, List} from '@gravity-ui/uikit';
 
 const mailboxes = [
   {id: 'inbox', name: 'Inbox', description: 'Unread first', icon: Envelope, count: 24},
@@ -330,8 +327,7 @@ so an indication tied to it alone stays behind. The hover itself is yours — us
 `:hover`.
 
 ```tsx
-import {Avatar, Flex, Text} from '@gravity-ui/uikit';
-import {List} from '@gravity-ui/uikit';
+import {Avatar, Flex, List, Text} from '@gravity-ui/uikit';
 
 function TeammateList({users}) {
   return (
@@ -394,8 +390,7 @@ list, so the keyboard navigates through `onItemAction` — the event tells the t
 
 ```tsx
 import {ArrowUpRightFromSquare} from '@gravity-ui/icons';
-import {Icon} from '@gravity-ui/uikit';
-import {List} from '@gravity-ui/uikit';
+import {Icon, List} from '@gravity-ui/uikit';
 
 const specs = [
   {
@@ -474,8 +469,7 @@ scroll the active row into view. Such an activation always shows the cursor — 
 for it, so the UI that did (a button beside the list) has something to show for it.
 
 ```tsx
-import {Button, Flex} from '@gravity-ui/uikit';
-import {List} from '@gravity-ui/uikit';
+import {Button, Flex, List} from '@gravity-ui/uikit';
 
 const languages = ['TypeScript', 'JavaScript', 'Python', 'Go', 'Rust', 'Kotlin'];
 
@@ -547,8 +541,7 @@ all of them are in the [keyboard table](#keyboard). A range is computed over the
 over the DOM, so it covers the rows outside of the virtualization window as well.
 
 ```tsx
-import {Flex, Text} from '@gravity-ui/uikit';
-import {List} from '@gravity-ui/uikit';
+import {Flex, List, Text} from '@gravity-ui/uikit';
 
 const languages = ['TypeScript', 'JavaScript', 'Python', 'Go', 'Rust', 'Kotlin'];
 
@@ -622,8 +615,7 @@ the row.
 
 ```tsx
 import {TrashBin} from '@gravity-ui/icons';
-import {Button, Icon} from '@gravity-ui/uikit';
-import {List} from '@gravity-ui/uikit';
+import {Button, Icon, List} from '@gravity-ui/uikit';
 
 function TaskList({tasks, removeTask}) {
   return (
@@ -670,6 +662,11 @@ pass the adapter as the `dnd` prop. From there the roles are split — the libra
 pointer, your code moves the data, and the list shows what is going on: it marks the dragged row,
 draws the insertion line and stops the activation from following the cursor. Dragging with the
 keyboard is not supported yet.
+
+A row of the default render has a place for the handle of its own: the `dragHandle` slot of
+`List.ItemView` is the outermost cell of a row, in front of the check mark and the nesting indent.
+The examples below put the handle into `startContent` — either place works, the slot keeps the
+handle at the edge of the row whatever else the row shows.
 
 ### @hello-pangea/dnd
 

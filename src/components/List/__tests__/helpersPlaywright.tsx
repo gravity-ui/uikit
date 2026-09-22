@@ -8,13 +8,9 @@ import type {ListProps} from '../types';
 import type {Mailbox} from './cases';
 import {mailboxes, sections} from './cases';
 
-/**
- * The hover of the pointer is not part of a screenshot: the states are set by the props, and a
- * row is activated by `defaultActiveItemId` instead of by the mouse
- */
+/** Every state of a screenshot comes from the props: the pointer is never moved by the tests */
 const commonProps = {
     'aria-label': 'Mailboxes',
-    activateOnHover: false,
     getItemContent: (mailbox: Mailbox) => mailbox.name,
 } satisfies Partial<ListProps<Mailbox>>;
 
@@ -49,6 +45,19 @@ export const TestListWithItemView = (props: Partial<ListProps<Mailbox>>) => (
                 {ctx.item.name}
             </List.ItemView>
         )}
+        {...props}
+    />
+);
+
+/**
+ * The indication of a drag is the only thing the list draws itself: the ghost of the dragged row
+ * and the insertion line of the drop target, both from the state half of the adapter
+ */
+export const TestListWithDnd = (props: Partial<ListProps<Mailbox>>) => (
+    <List
+        items={mailboxes}
+        dnd={{draggingId: 'inbox', dropTarget: {id: 'sent', position: 'before'}}}
+        {...commonProps}
         {...props}
     />
 );

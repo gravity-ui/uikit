@@ -45,15 +45,18 @@ function Mailbox() {
 }
 ```
 
+<ListItemViewExample />
+
 The view has no ARIA role of its own: a row gets its role from the list it belongs to (`option` in a
 listbox, `row` in a grid), and `role` together with the rest of the DOM props reaches the root
 element as it is passed. Inside a `<List>` the props come ready from `getItemProps()`.
 
 ## Sizes
 
-The `size` prop sets the density of a row — `s`, `m` (the default), `l` or `xl`. It drives the
-minimum height, the paddings, the corner radius and the size of the controls of the row; `xl` also
-switches the text to `body-2`.
+The `size` prop sets the density of a row — `s`, `m`, `l` or `xl`. It drives the minimum height,
+the paddings, the corner radius and the size of the controls of the row; `xl` also switches the
+text to `body-2`. A row without `size` keeps the base geometry of the view, which is close to `m`
+but not the same; inside a `<List>` every row gets the size of the list.
 
 <ListItemViewSizes />
 
@@ -90,9 +93,11 @@ A row shows four states, and each of them is a prop — the view keeps no state 
 
 ## Selection
 
-`selectionStyle` says how a selected row is shown: `highlight` (the default) tints the row,
-`check` keeps a slot for a check mark in front of the content, `none` shows the selection by
-nothing — for a row that says it in its own content.
+`selectionStyle` says how a selected row is shown: `highlight` tints the row, `check` keeps a slot
+for a check mark in front of the content, `none` shows the selection by nothing — for a row that
+says it in its own content. The prop has no default: a `selected` row without it looks like any
+other. Inside a `<List>` the list picks the style itself — `check` for a multiple selection,
+`highlight` for a single one.
 
 <ListItemViewSelection />
 
@@ -104,6 +109,9 @@ jump as the selection changes.
 `nestedLevel` indents a row by the depth of a tree, and `collapsible` gives a row the toggle of its
 branch: `collapsed` is its state and `onCollapseChange` its handler. A click on the row itself
 toggles the branch too, unless the row has an `onClick` of its own.
+
+The toggle is decoration: it carries `aria-hidden` and is out of the tab order, so the row itself
+is the only way to the branch. The `aria-expanded` of the row is yours to set.
 
 <ListItemViewNesting />
 
@@ -155,16 +163,19 @@ and leaves the markup of the row to you, keeping the states and the element.
 | `--g-list-item-view-text-color`             | The colour of the content            |
 | `--g-list-item-view-description-color`      | The colour of the description        |
 
-The colour variables, `--g-list-item-view-line-height` and `--g-list-item-view-spacer-size` apply to
-a row of any size. The geometry ones are the values of a row without `size`: a size sets the
-geometry itself, so a row that has one is retuned by a class of your own.
+The colour variables, `--g-list-item-view-line-height` and `--g-list-item-view-spacer-size` apply
+to a row of any size. The eight geometry variables — the minimum height, the radius, the paddings
+and the four of the controls — are the values of a row **without** `size`: a size modifier assigns
+that geometry itself and the variables are not read at all. A row that has a size is retuned by
+setting the properties themselves in a class of your own (the mobile menu of the `FilePreview` does
+exactly that).
 
 ## Properties
 
 | Name             | Description                                                                                 |                  Type                  | Default |
 | :--------------- | :------------------------------------------------------------------------------------------ | :------------------------------------: | :-----: |
 | children         | The content of the row                                                                      |           `React.ReactNode`            |         |
-| size             | The density of the row                                                                      |        `'s'` `'m'` `'l'` `'xl'`        |  `'m'`  |
+| size             | The density of the row                                                                      |        `'s'` `'m'` `'l'` `'xl'`        |         |
 | startContent     | The leading content: an icon, an avatar                                                     |           `React.ReactNode`            |         |
 | description      | The second line of the row                                                                  |           `React.ReactNode`            |         |
 | endContent       | The trailing content: a label, a shortcut, an action                                        |           `React.ReactNode`            |         |

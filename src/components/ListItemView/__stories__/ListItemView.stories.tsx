@@ -193,7 +193,6 @@ export const Default: StoryObj<PlaygroundArgs> = {
         selectionStyle: 'highlight',
         selected: false,
         active: false,
-        hovered: false,
         disabled: false,
         withStartContent: true,
         withEndContent: false,
@@ -213,7 +212,11 @@ export const Default: StoryObj<PlaygroundArgs> = {
         },
         selected: {control: 'boolean', description: 'Whether the row is selected'},
         active: {control: 'boolean', description: 'The keyboard cursor on the row'},
-        hovered: {control: 'boolean', description: 'The hover highlight, forced by the props'},
+        hovered: {
+            control: 'boolean',
+            description:
+                'The hover highlight, forced by the props: `false` suppresses the CSS `:hover` of the row',
+        },
         disabled: {control: 'boolean', description: 'Whether the row is disabled'},
         withStartContent: {control: 'boolean', description: 'An icon in `startContent`'},
         withEndContent: {control: 'boolean', description: 'A label in `endContent`'},

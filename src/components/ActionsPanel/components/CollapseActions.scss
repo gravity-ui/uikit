@@ -5,7 +5,10 @@ $block: '.#{variables.$ns}actions-panel-collapse';
 #{$block} {
     $minSize: 32px;
 
-    flex-shrink: 2;
+    // Take all free space and give it up first, so that actions are collapsed
+    // into the dropdown before the note gets truncated and no empty space
+    // is left between the dropdown button and the close button.
+    flex: 1 1 0;
     min-width: $minSize;
     overflow: hidden;
     position: relative;

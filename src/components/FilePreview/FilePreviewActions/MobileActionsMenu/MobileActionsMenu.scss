@@ -32,12 +32,11 @@ $actionsGap: 2px;
         }
     }
 
-    /* Two classes on purpose: a single one would tie with the base rule of the row view, and the
-       geometry would depend on the order the stylesheets land in */
+    /* The rows keep the taller touch target of the menu; the rest of their geometry is the
+       geometry of the row view. Two classes on purpose: a single one would tie with the base rule
+       of the view, and the height would depend on the order the stylesheets land in */
     &__sheet &__list-item {
         min-height: 44px;
-        padding-inline: var(--g-spacing-4);
-        border-radius: 0;
     }
 
     &__list-item-icon > svg {
@@ -47,6 +46,7 @@ $actionsGap: 2px;
 
     &__sheet {
         --_-mobile-icon-size: 18px;
-        --g-sheet-content-padding: var(--g-spacing-1) 0;
+        /* The rounded rows are inset from the edges of the sheet, as in the Menu and the Select */
+        --g-sheet-content-padding: var(--g-spacing-1);
     }
 }

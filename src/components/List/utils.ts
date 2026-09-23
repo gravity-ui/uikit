@@ -90,7 +90,7 @@ export function isNavigable<T>(row: ListRow<T>): boolean {
     return row.kind === 'item' && !row.disabled;
 }
 
-function defaultGetItemId(item: unknown): string | undefined {
+export function defaultGetItemId(item: unknown): string | undefined {
     if (typeof item === 'string') {
         return item;
     }

@@ -1,0 +1,25 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}hello-pangea-dnd';
+
+#{$block} {
+    &__handle {
+        display: flex;
+        cursor: grab;
+
+        [data-drag-active] & {
+            cursor: grabbing;
+        }
+
+        // The handle of a row that cannot be dragged
+        &[aria-hidden='true'] {
+            cursor: default;
+        }
+    }
+
+    // The clone of the dragged row is portaled here: inside the themed tree, so the CSS variables
+    // of the theme resolve, and out of the layout (the clone is position: fixed)
+    &__clone-container {
+        display: contents;
+    }
+}

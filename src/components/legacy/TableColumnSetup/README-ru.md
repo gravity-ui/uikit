@@ -5,13 +5,18 @@
 <!--/GITHUB_BLOCK-->
 
 ```tsx
-import {TableColumnSetup} from '@gravity-ui/uikit';
+import {TableColumnSetup} from '@gravity-ui/uikit/legacy';
 ```
+
+Компонент устарел: новые возможности появляются в [`@gravity-ui/table`](https://github.com/gravity-ui/table), см.
+[руководство по миграции на v8](../../../../docs/migration-to-v8-ru.md#table-и-tablecolumnsetup). Попап
+построен на `@hello-pangea/dnd` — это необязательная peer-зависимость пакета, установите её рядом с пакетом, если
+используете компонент.
 
 Компонент `TableColumnSetup` предоставляет пользовательский интерфейс для настройки видимости и порядка колонок таблицы. Он отображает кнопку, которая открывает всплывающее окно со списком доступных колонок, позволяя пользователям показывать/скрывать колонки и при необходимости изменять их порядок с помощью перетаскивания.
 
 <!--SANDBOX
-import {TableColumnSetup} from '@gravity-ui/uikit';
+import {TableColumnSetup} from '@gravity-ui/uikit/legacy';
 
 const items = [
     {id: 'name', title: 'Имя', selected: true, required: true},
@@ -43,7 +48,7 @@ const items = [
 Включите функциональность перетаскивания, чтобы позволить пользователям изменять порядок колонок, установив свойство `sortable` в `true`.
 
 <!--SANDBOX
-import {TableColumnSetup} from '@gravity-ui/uikit';
+import {TableColumnSetup} from '@gravity-ui/uikit/legacy';
 
 const items = [
     {id: 'name', title: 'Имя', selected: true, required: true},
@@ -78,7 +83,7 @@ SANDBOX-->
 - `false` - Изменения применяются только при нажатии кнопки "Применить"
 
 <!--SANDBOX
-import {TableColumnSetup} from '@gravity-ui/uikit';
+import {TableColumnSetup} from '@gravity-ui/uikit/legacy';
 
 const items = [
     {id: 'name', title: 'Имя', selected: true, required: true},
@@ -114,7 +119,7 @@ SANDBOX-->
 Показывайте количество выбранных колонок в кнопке переключения, включив свойство `showStatus`.
 
 <!--SANDBOX
-import {TableColumnSetup} from '@gravity-ui/uikit';
+import {TableColumnSetup} from '@gravity-ui/uikit/legacy';
 
 const items = [
     {id: 'name', title: 'Имя', selected: true, required: true},
@@ -144,7 +149,8 @@ SANDBOX-->
 Настройте кнопку-триггер, используя свойство `renderSwitcher`.
 
 <!--SANDBOX
-import {Button, TableColumnSetup} from '@gravity-ui/uikit';
+import {Button} from '@gravity-ui/uikit';
+import {TableColumnSetup} from '@gravity-ui/uikit/legacy';
 
 const items = [
     {id: 'name', title: 'Имя', selected: true, required: true},

@@ -7,8 +7,13 @@
 A `Table` allows selecting and sorting rows, as well as performing actions on a row.
 
 ```jsx
-import {Table} from '@gravity-ui/uikit';
+import {Table} from '@gravity-ui/uikit/legacy';
 ```
+
+This component is legacy: new features go to [`@gravity-ui/table`](https://github.com/gravity-ui/table), see the
+[migration guide to v8](../../../../docs/migration-to-v8.md#table-and-tablecolumnsetup). `withTableSettings` builds its
+popup on `@hello-pangea/dnd`, an optional peer dependency of the package — install it next to the package when you
+use the HOC.
 
 <!--GITHUB_BLOCK-->
 
@@ -114,7 +119,7 @@ type TableActionConfig = TableAction | TableActionGroup;
 ### Example
 
 ```jsx
-import {Table, withTableActions} from '@gravity-ui/uikit';
+import {Table, withTableActions} from '@gravity-ui/uikit/legacy';
 
 const MyTable = withTableActions(Table);
 const data = [
@@ -140,7 +145,7 @@ const table = <MyTable data={data} columns={columns} getRowActions={getRowAction
 ```
 
 ```jsx
-import {Table, withTableActions, RenderRowActionsProps} from '@gravity-ui/uikit';
+import {Table, withTableActions, RenderRowActionsProps} from '@gravity-ui/uikit/legacy';
 
 const MyTable = withTableActions(Table);
 type Item = {id: number; text: string};
@@ -177,7 +182,7 @@ This HOC enables copying the contents of a cell or any other text.
 ### Example
 
 ```jsx
-import {Table, withTableCopy} from '@gravity-ui/uikit';
+import {Table, withTableCopy} from '@gravity-ui/uikit/legacy';
 
 const MyTable = withTableCopy(Table);
 const data = [
@@ -206,7 +211,7 @@ This HOC enables selecting table rows.
 ### Example
 
 ```jsx
-import {Table, withTableSelection} from '@gravity-ui/uikit';
+import {Table, withTableSelection} from '@gravity-ui/uikit/legacy';
 
 const MyTable = withTableSelection(Table);
 const data = [
@@ -236,7 +241,7 @@ function SelectionTable() {
 This HOC enables features for table column settings. You can use it in two ways:
 
 ```jsx
-import {Table, withTableSettings} from './withTableSettings';
+import {Table, withTableSettings} from '@gravity-ui/uikit/legacy';
 
 // No options passed
 const MyTable1 = withTableSettings(Table);
@@ -292,7 +297,7 @@ type RenderControls = (params: {
 ### Example
 
 ```jsx
-import {Table, withTableSettings} from '@gravity-ui/uikit';
+import {Table, withTableSettings} from '@gravity-ui/uikit/legacy';
 
 const MyTable = withTableSettings({width: 100, sortable: false})(Table);
 const data = [
@@ -370,7 +375,7 @@ type TableSortState = Array<{
 ### Example
 
 ```jsx
-import {Table, withTableSorting} from '@gravity-ui/uikit';
+import {Table, withTableSorting} from '@gravity-ui/uikit/legacy';
 
 const MyTable = withTableSorting(Table);
 const data = [

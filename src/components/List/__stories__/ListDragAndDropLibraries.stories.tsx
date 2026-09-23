@@ -8,20 +8,24 @@ import {DragAndDropPragmaticExample} from './DragAndDropPragmaticExample';
 import dragAndDropPragmaticCode from './DragAndDropPragmaticExample?raw';
 import {DragAndDropPragmaticVirtualizedExample} from './DragAndDropPragmaticVirtualizedExample';
 import dragAndDropPragmaticVirtualizedCode from './DragAndDropPragmaticVirtualizedExample?raw';
+import {HelloPangeaManualExample} from './HelloPangeaManualExample';
+import helloPangeaManualCode from './HelloPangeaManualExample?raw';
+import {HelloPangeaManualVirtualizedExample} from './HelloPangeaManualVirtualizedExample';
+import helloPangeaManualVirtualizedCode from './HelloPangeaManualVirtualizedExample?raw';
 import {exampleSource} from './exampleSource';
 import useDndKitListDndCode from './useDndKitListDnd?raw';
 import usePragmaticListDndCode from './usePragmaticListDnd?raw';
 
-// Drag and drop on top of libraries other than the recommended
-// @hello-pangea/dnd (the DragAndDrop stories of the List). These are examples
-// of plugging a library into the adapter contract of the `dnd` prop, in its
-// two shapes: an adapter of props and state (pragmatic-drag-and-drop — the
-// insertion line is drawn by the list) and a state-only adapter (dnd-kit — the
-// neighbours shift). Each library is shown on a plain list and on a
-// virtualized one; the Code panel of a story holds the complete source of the
-// example together with its adapter hook
+// Drag and drop integrations: how a library plugs into the adapter contract of
+// the `dnd` prop. @hello-pangea/dnd under the hood — the wiring the kit of the
+// DragAndDrop stories of the List does for you, written by hand; and two other
+// libraries in the two shapes of the adapter: props and state
+// (pragmatic-drag-and-drop — the insertion line is drawn by the list) and
+// state only (dnd-kit — the neighbours shift). Each is shown on a plain list and
+// on a virtualized one; the Code panel of a story holds the complete source of
+// the example together with its adapter hook
 const meta: Meta = {
-    title: 'Components/Data Display/List/Drag and drop with other libraries',
+    title: 'Components/Data Display/List/Drag and drop integrations',
     parameters: {
         layout: 'centered',
         a11y: {
@@ -41,6 +45,36 @@ const meta: Meta = {
 export default meta;
 
 type Story = StoryObj<typeof meta>;
+
+// @hello-pangea/dnd by hand: DragDropContext, Droppable and Draggable of your
+// own, the state from useListHelloPangeaDnd, the placeholder through the adapter
+export const HelloPangeaUnderTheHood: Story = {
+    render: () => <HelloPangeaManualExample />,
+    parameters: {
+        docs: {
+            source: {
+                language: 'tsx',
+                code: exampleSource([['HelloPangeaManualExample.tsx', helloPangeaManualCode]]),
+            },
+        },
+    },
+};
+
+// @hello-pangea/dnd by hand under virtualization: mode="virtual", renderClone
+// and the container of the clone inside the themed tree
+export const HelloPangeaUnderTheHoodVirtualized: Story = {
+    render: () => <HelloPangeaManualVirtualizedExample />,
+    parameters: {
+        docs: {
+            source: {
+                language: 'tsx',
+                code: exampleSource([
+                    ['HelloPangeaManualVirtualizedExample.tsx', helloPangeaManualVirtualizedCode],
+                ]),
+            },
+        },
+    },
+};
 
 // pragmatic-drag-and-drop: the "full" form of the adapter (props through ref
 // registration of the rows plus the state, all in a single dnd prop)

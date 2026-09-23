@@ -1,46 +1,23 @@
-import type * as React from 'react';
-
 import {Check} from '@gravity-ui/icons';
 
-import {Icon} from '../../../Icon';
-import {Text, colorText} from '../../../Text';
-import {Flex} from '../../../layout';
-import type {FlexProps} from '../../../layout';
-import type {ListItemViewContentType} from '../../types';
-import {ListItemExpandIcon} from '../ListItemExpandIcon/ListItemExpandIcon';
+import {Icon} from '../../../../../../Icon';
+import {Text, colorText} from '../../../../../../Text';
+import {Flex} from '../../../../../../layout';
+import type {FlexProps} from '../../../../../../layout';
+import type {ListItemViewContentType} from '../types';
 
 import {b} from './styles';
 
-export const isListItemContentPropsGuard = (
-    props: ListItemViewContentType | React.ReactNode,
-): props is ListItemViewContentType => {
-    return typeof props === 'object' && props !== null && 'title' in props;
-};
-
-interface SlotProps extends FlexProps {
-    indentation?: number;
-}
-
-const ListItemViewSlot = ({children, indentation = 1, className, ...props}: SlotProps) => {
+const ListItemViewSlot = ({children, className, ...props}: FlexProps) => {
     return (
-        <Flex width={indentation * 16} className={b('slot', className)} {...props}>
+        <Flex width={16} className={b('slot', className)} {...props}>
             {children}
         </Flex>
     );
 };
 
-const renderSafeIndentation = (indentation?: number) => {
-    if (indentation && indentation >= 1) {
-        return (
-            <ListItemViewSlot indentation={Math.floor(indentation) as SlotProps['indentation']} />
-        );
-    }
-    return null;
-};
-
 interface ListItemViewContentProps extends ListItemViewContentType {
     selected?: boolean;
-    disabled?: boolean;
     /**
      * Show selected icon if selected and reserve space for this icon
      */
@@ -49,26 +26,11 @@ interface ListItemViewContentProps extends ListItemViewContentType {
 
 export const ListItemViewContent = ({
     startSlot,
-    subtitle,
     endSlot,
-    disabled,
     hasSelectionIcon,
-    isGroup,
-    indentation,
-    expanded,
     selected,
     title,
-    expandIconPlacement = 'start',
-    renderExpandIcon: RenderExpandIcon = ListItemExpandIcon,
 }: ListItemViewContentProps) => {
-    const expandIconNode = isGroup ? (
-        <RenderExpandIcon
-            behavior={expandIconPlacement === 'start' ? 'state' : 'action'}
-            expanded={expanded}
-            disabled={disabled}
-        />
-    ) : null;
-
     return (
         <Flex alignItems="center" justifyContent="space-between" gap="4" className={b('content')}>
             <Flex gap="2" alignItems="center" grow>
@@ -81,38 +43,14 @@ export const ListItemViewContent = ({
                     </ListItemViewSlot>
                 )}
 
-                {renderSafeIndentation(indentation)}
-
-                {expandIconPlacement === 'start' && expandIconNode}
-
                 {startSlot}
 
                 <div className={b('main-content')}>
-                    {typeof title === 'string' ? (
-                        <Text
-                            ellipsis
-                            color={disabled ? 'hint' : undefined}
-                            variant={isGroup ? 'subheader-1' : undefined}
-                        >
-                            {title}
-                        </Text>
-                    ) : (
-                        title
-                    )}
-                    {typeof subtitle === 'string' ? (
-                        <Text ellipsis color={disabled ? 'hint' : 'secondary'}>
-                            {subtitle}
-                        </Text>
-                    ) : (
-                        subtitle
-                    )}
+                    {typeof title === 'string' ? <Text ellipsis>{title}</Text> : title}
                 </div>
             </Flex>
 
-            <Flex gap="2">
-                {expandIconPlacement === 'end' && expandIconNode}
-                {endSlot}
-            </Flex>
+            <Flex gap="2">{endSlot}</Flex>
         </Flex>
     );
 };

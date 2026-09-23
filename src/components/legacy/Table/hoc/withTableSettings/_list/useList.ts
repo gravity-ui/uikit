@@ -1,89 +1,39 @@
 import * as React from 'react';
 
-import type {InitialListParsedState, ListState, UseListResult} from '../types';
+import type {ListItemId, ListState, UseListResult} from './types';
 
-import {useFlattenListItems} from './useFlattenListItems';
-import {useListParsedState} from './useListParsedState';
-import type {UseListParsedStateProps} from './useListParsedState';
-import {useListState} from './useListState';
-import type {UseListStateProps} from './useListState';
-
-interface UseListProps<T>
-    extends UseListParsedStateProps<T>,
-        Omit<UseListStateProps, 'initialState'> {
-    initialState?: Partial<InitialListParsedState>;
-    controlledState?: Partial<ListState>;
+interface UseListProps<T> {
+    items: T[];
+    selectedById: ListState['selectedById'];
+    setSelected: ListState['setSelected'];
 }
 
 /**
- * Take array of items as a argument with params described what type of list initial data represents.
+ * A flat list with a controlled selection: the ids of the items in their order and the active item
  */
-export const useList = <T>({
+export const useList = <T extends {id: ListItemId}>({
     items,
-    getItemId,
-    defaultExpandedState = 'expanded',
-    withExpandedState = true,
-    initialState: initialValues,
-    controlledState,
+    selectedById,
+    setSelected,
 }: UseListProps<T>): UseListResult<T> => {
-    const {itemsById, groupsState, itemsState, initialState} = useListParsedState({
-        items,
-        getItemId,
-        defaultExpandedState,
-    });
+    const [activeItemId, setActiveItemId] = React.useState<ListItemId>();
 
-    const initValues: InitialListParsedState = React.useMemo(() => {
-        return {
-            expandedById: {...initialState.expandedById, ...initialValues?.expandedById},
-            selectedById: {...initialState.selectedById, ...initialValues?.selectedById},
-            disabledById: {...initialState.disabledById, ...initialValues?.disabledById},
-            activeItemId: initialValues?.activeItemId,
-        };
-    }, [
-        initialState.disabledById,
-        initialState.expandedById,
-        initialState.selectedById,
-        initialValues?.activeItemId,
-        initialValues?.disabledById,
-        initialValues?.expandedById,
-        initialValues?.selectedById,
-    ]);
+    const structure = React.useMemo(() => {
+        const itemsById: Record<ListItemId, T> = {};
+        const visibleFlattenIds: ListItemId[] = [];
 
-    const innerState = useListState({
-        initialState: initValues,
-        withExpandedState,
-    });
+        items.forEach((item, index) => {
+            const id = item.id || String(index);
 
-    const realState = React.useMemo(() => {
-        if (controlledState) {
-            return {
-                ...innerState,
-                ...controlledState,
-            };
-        }
+            itemsById[id] = item;
+            visibleFlattenIds.push(id);
+        });
 
-        return innerState;
-    }, [controlledState, innerState]);
-
-    const {visibleFlattenIds, idToFlattenIndex, rootIds} = useFlattenListItems({
-        items,
-        /**
-         * By default controlled from list items declaration state
-         */
-        expandedById: realState.expandedById,
-        getItemId,
-    });
+        return {itemsById, visibleFlattenIds};
+    }, [items]);
 
     return {
-        state: realState,
-        structure: {
-            rootIds,
-            items,
-            visibleFlattenIds,
-            idToFlattenIndex,
-            itemsById,
-            groupsState,
-            itemsState,
-        },
+        state: {selectedById, setSelected, activeItemId, setActiveItemId},
+        structure,
     };
 };

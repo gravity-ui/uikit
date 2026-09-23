@@ -8,7 +8,7 @@ import {action} from 'storybook/actions';
 
 import type {TableAction, TableSettingsData} from '..';
 import {Icon} from '../../../Icon';
-import {TreeSelect} from '../../../TreeSelect/TreeSelect';
+import {Select} from '../../../Select';
 import {Table} from '../Table';
 import type {TableProps} from '../Table';
 
@@ -183,16 +183,12 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
                         return null;
                     }
 
-                    const items = ['action 1', 'action 2', 'action 3'];
+                    const options = ['action 1', 'action 2', 'action 3'].map((value) => ({
+                        value,
+                        content: value,
+                    }));
 
-                    return (
-                        <TreeSelect
-                            items={items}
-                            size="s"
-                            mapItemDataToContentProps={(title) => ({title})}
-                            title="Actions select example"
-                        />
-                    );
+                    return <Select options={options} size="s" title="Actions select example" />;
                 }}
             />
             <br />

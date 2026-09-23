@@ -1,35 +1,16 @@
-@use '../variables';
+@use '../../../../../../variables';
 
-$block: '.#{variables.$ns}tree-select';
+$block: '.#{variables.$ns}tree-select-legacy';
 
 #{$block} {
     display: inline-block;
 
     max-width: 100%;
 
-    &_width_max {
-        width: 100%;
-    }
-
     &__popup {
         padding: 4px 0;
         overflow: hidden;
-
-        &_size_s {
-            border-radius: var(--g-list-container-border-radius, 5px);
-        }
-
-        &_size_m {
-            border-radius: var(--g-list-container-border-radius, 6px);
-        }
-
-        &_size_l {
-            border-radius: var(--g-list-container-border-radius, 8px);
-        }
-
-        &_size_xl {
-            border-radius: var(--g-list-container-border-radius, 10px);
-        }
+        border-radius: var(--g-list-container-border-radius, 8px);
     }
 
     &__list {

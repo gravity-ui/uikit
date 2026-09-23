@@ -2,69 +2,29 @@ import * as React from 'react';
 
 import debounce from 'lodash/debounce';
 
-import type {ListItemType} from '../types';
-import {defaultFilterItems} from '../utils/defaultFilterItems';
-
-function defaultFilterFn<T>(value: string | undefined, item: T): boolean {
-    return item && typeof item === 'object' && 'title' in item && typeof item.title === 'string'
-        ? item.title.toLowerCase().includes((value || '').toLowerCase())
-        : true;
-}
-
 interface UseListFilterProps<T> {
-    items: ListItemType<T>[];
-    /**
-     * Override default filtration logic
-     */
-    filterItems?(value: string, items: ListItemType<T>[]): ListItemType<T>[];
-    /**
-     * Override only logic with item filtration
-     */
-    filterItem?(value: string, item: T): boolean;
-    onFilterChange?(value: string): void;
-    debounceTimeout?: number;
-    initialFilterValue?: string;
+    items: T[];
+    filterItem(value: string, item: T): boolean;
 }
 
 /**
- * Ready-to-use logic for filtering tree-like data structures
- *
- * ```tsx
- * const {item: filteredItems,...listFiltration} = useListFIlter({items});
- * const list = useList({items: filteredItems});
- *
- * <TextInput {...listFiltration} />
- * ```
+ * The filter value and the items that match it. The items are filtered a tick later than the value
+ * changes
  */
-export function useListFilter<T>({
-    items: externalItems,
-    initialFilterValue = '',
-    filterItem,
-    onFilterChange,
-    filterItems,
-    debounceTimeout = 300,
-}: UseListFilterProps<T>) {
-    const filterRef = React.useRef<HTMLInputElement>(null);
-    const [filter, setFilter] = React.useState(initialFilterValue);
+export function useListFilter<T>({items: externalItems, filterItem}: UseListFilterProps<T>) {
+    const [filter, setFilter] = React.useState('');
     const [prevItems, setPrevItems] = React.useState(externalItems);
     const [filteredItems, setFilteredItems] = React.useState(externalItems);
 
     const filterItemsFn = React.useCallback(
-        (nextFilterValue: string, items: ListItemType<T>[]) => {
-            if (filterItems) {
-                return () => filterItems(nextFilterValue, items);
-            }
-
+        (nextFilterValue: string, items: T[]) => {
             if (nextFilterValue) {
-                const filterItemFn = filterItem || defaultFilterFn;
-
-                return () =>
-                    defaultFilterItems(items, (item) => filterItemFn(nextFilterValue, item));
+                return () => items.filter((item) => filterItem(nextFilterValue, item));
             }
 
             return () => items;
         },
-        [filterItem, filterItems],
+        [filterItem],
     );
 
     if (externalItems !== prevItems) {
@@ -73,27 +33,24 @@ export function useListFilter<T>({
     }
 
     const debouncedFn = React.useCallback(
-        debounce((value) => setFilteredItems(filterItemsFn(value, externalItems)), debounceTimeout),
-        [setFilteredItems, filterItemsFn, externalItems, debounceTimeout],
+        debounce((value) => setFilteredItems(filterItemsFn(value, externalItems)), 0),
+        [setFilteredItems, filterItemsFn, externalItems],
     );
 
     const {onFilterUpdate, reset} = React.useMemo(() => {
         return {
             reset: () => {
-                setFilter(initialFilterValue);
-                onFilterChange?.(initialFilterValue);
-                debouncedFn(initialFilterValue);
+                setFilter('');
+                debouncedFn('');
             },
             onFilterUpdate: (nextFilterValue: string) => {
                 setFilter(nextFilterValue);
-                onFilterChange?.(nextFilterValue);
                 debouncedFn(nextFilterValue);
             },
         };
-    }, [debouncedFn, initialFilterValue, onFilterChange]);
+    }, [debouncedFn]);
 
     return {
-        filterRef,
         filter,
         reset,
         items: filteredItems,

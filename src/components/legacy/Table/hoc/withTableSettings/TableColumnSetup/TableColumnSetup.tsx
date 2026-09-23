@@ -19,18 +19,21 @@ import {Button} from '../../../../../Button';
 import {Icon} from '../../../../../Icon';
 import type {PopupPlacement} from '../../../../../Popup';
 import {Text} from '../../../../../Text';
-import {TreeSelect} from '../../../../../TreeSelect/TreeSelect';
+import {TextInput} from '../../../../../controls/TextInput';
+import {Flex} from '../../../../../layout/Flex/Flex';
+import {block} from '../../../../../utils/cn';
+import type {TableColumnConfig} from '../../../Table';
+import {ListContainerView} from '../_list/ListContainerView/ListContainerView';
+import {ListItemView} from '../_list/ListItemView/ListItemView';
+import type {ListItemViewProps} from '../_list/ListItemView/ListItemView';
+import {TreeSelect} from '../_list/TreeSelect/TreeSelect';
 import type {
     TreeSelectProps,
     TreeSelectRenderContainer,
     TreeSelectRenderItem,
-} from '../../../../../TreeSelect/types';
-import {TextInput} from '../../../../../controls/TextInput';
-import {Flex} from '../../../../../layout/Flex/Flex';
-import type {ListItemViewContentType, ListItemViewProps} from '../../../../../useList';
-import {ListContainerView, ListItemView, useListFilter} from '../../../../../useList';
-import {block} from '../../../../../utils/cn';
-import type {TableColumnConfig} from '../../../Table';
+} from '../_list/TreeSelect/types';
+import type {ListItemViewContentType} from '../_list/types';
+import {useListFilter} from '../_list/useListFilter';
 import type {TableSetting} from '../withTableSettings';
 
 import i18n from './i18n';
@@ -285,7 +288,7 @@ export interface TableColumnSetupProps {
     hideApplyButton?: boolean;
 
     onUpdate: (newSettings: TableSetting[]) => void;
-    popupWidth?: TreeSelectProps<unknown>['popupWidth'];
+    popupWidth?: TreeSelectProps<TableColumnSetupItem>['popupWidth'];
     popupPlacement?: PopupPlacement;
 
     /**
@@ -348,7 +351,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     const {t} = i18n.useTranslation();
 
-    const filterState = useListFilter({items, filterItem: filterSettings, debounceTimeout: 0});
+    const filterState = useListFilter({items, filterItem: filterSettings});
 
     const onApply = () => {
         const newSettings = items.map<TableSetting>(({id, isSelected}) => ({id, isSelected}));
@@ -401,7 +404,9 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     const dndRenderItem = useDndRenderItem(sortingEnabled);
 
-    const renderControl: TreeSelectProps<unknown>['renderControl'] = ({toggleOpen}) => {
+    const renderControl: TreeSelectProps<TableColumnSetupItem>['renderControl'] = ({
+        toggleOpen,
+    }) => {
         const onKeyDown = createOnKeyDownHandler(toggleOpen);
 
         return (
@@ -460,8 +465,6 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         <TreeSelect
             className={b(null, className)}
             mapItemDataToContentProps={mapItemDataToContentProps}
-            multiple
-            size="l"
             open={open}
             value={value}
             items={filterState.filter ? filterState.items : items}

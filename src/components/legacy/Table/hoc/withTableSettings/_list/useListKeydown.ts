@@ -1,31 +1,29 @@
 import * as React from 'react';
 
-import {KeyCode} from '../../../constants';
-import {useLayoutEffect} from '../../../hooks';
-import type {ListOnItemClick, UseListResult} from '../types';
-import {findNextIndex} from '../utils/findNextIndex';
-import {scrollToListItem} from '../utils/scrollToListItem';
+import {KeyCode} from '../../../../../../constants';
+import {useLayoutEffect} from '../../../../../../hooks';
+
+import {LIST_ITEM_DATA_ATR} from './constants';
+import type {ListOnItemClick, UseListResult} from './types';
 
 interface UseListKeydownProps<T = unknown> {
-    onItemClick?: ListOnItemClick;
-    containerRef?: React.RefObject<HTMLDivElement | null>;
-    enabled?: boolean;
+    onItemClick: ListOnItemClick;
+    containerRef: React.RefObject<HTMLDivElement | null>;
     list: UseListResult<T>;
 }
 
-// Use this hook if you need keyboard support for tree structure lists
-export const useListKeydown = ({containerRef, onItemClick, enabled, list}: UseListKeydownProps) => {
+// Arrows move the active item around, Enter and Space click it
+export const useListKeydown = ({containerRef, onItemClick, list}: UseListKeydownProps) => {
     const activateItem = React.useCallback(
-        (index?: number, scrollTo = true) => {
-            if (typeof index === 'number' && list.structure.visibleFlattenIds[index]) {
-                if (scrollTo) {
-                    scrollToListItem(
-                        list.structure.visibleFlattenIds[index],
-                        containerRef?.current,
-                    );
-                }
+        (index: number) => {
+            const id = list.structure.visibleFlattenIds[index];
 
-                list.state.setActiveItemId?.(list.structure.visibleFlattenIds[index]);
+            if (id) {
+                containerRef.current
+                    ?.querySelector(`[${LIST_ITEM_DATA_ATR}="${id}"]`)
+                    ?.scrollIntoView?.({block: 'nearest'});
+
+                list.state.setActiveItemId(id);
             }
         },
         [list.structure.visibleFlattenIds, list.state, containerRef],
@@ -35,34 +33,24 @@ export const useListKeydown = ({containerRef, onItemClick, enabled, list}: UseLi
         (event: KeyboardEvent, step: number, defaultItemIndex = 0) => {
             event.preventDefault();
 
-            const maybeIndex =
+            const ids = list.structure.visibleFlattenIds;
+            const activeIndex =
                 typeof list.state.activeItemId === 'string'
-                    ? list.structure.visibleFlattenIds.findIndex(
-                          (i) => i === list.state.activeItemId,
-                      )
+                    ? ids.findIndex((id) => id === list.state.activeItemId)
                     : -1;
+            const index = (activeIndex > -1 ? activeIndex : defaultItemIndex) + step;
 
-            const nextIndex = findNextIndex({
-                list: list.structure.visibleFlattenIds,
-                index: (maybeIndex > -1 ? maybeIndex : defaultItemIndex) + step,
-                step: Math.sign(step),
-                disabledItemsById: list.state.disabledById,
-            });
-
-            activateItem(nextIndex);
+            if (ids.length) {
+                activateItem((index + ids.length) % ids.length);
+            }
         },
-        [
-            activateItem,
-            list.state.activeItemId,
-            list.state.disabledById,
-            list.structure.visibleFlattenIds,
-        ],
+        [activateItem, list.state.activeItemId, list.structure.visibleFlattenIds],
     );
 
     useLayoutEffect(() => {
-        const anchor = containerRef?.current;
+        const anchor = containerRef.current;
 
-        if (enabled || !anchor) {
+        if (!anchor) {
             return undefined;
         }
 
@@ -78,13 +66,10 @@ export const useListKeydown = ({containerRef, onItemClick, enabled, list}: UseLi
                 }
                 case KeyCode.SPACEBAR:
                 case KeyCode.ENTER: {
-                    if (
-                        list.state.activeItemId &&
-                        !list.state.disabledById[list.state.activeItemId]
-                    ) {
+                    if (list.state.activeItemId) {
                         event.preventDefault();
 
-                        onItemClick?.({id: list.state.activeItemId});
+                        onItemClick({id: list.state.activeItemId});
                     }
                     break;
                 }
@@ -98,12 +83,5 @@ export const useListKeydown = ({containerRef, onItemClick, enabled, list}: UseLi
         return () => {
             anchor.removeEventListener('keydown', handleKeyDown);
         };
-    }, [
-        containerRef,
-        enabled,
-        handleKeyMove,
-        list.state.activeItemId,
-        list.state.disabledById,
-        onItemClick,
-    ]);
+    }, [containerRef, handleKeyMove, list.state.activeItemId, onItemClick]);
 };

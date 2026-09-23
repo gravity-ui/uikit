@@ -52,7 +52,7 @@ export function DragAndDropPragmaticExample() {
                 <List.ItemView
                     {...getItemProps()}
                     {...getItemViewProps()}
-                    startContent={
+                    dragHandle={
                         <span
                             ref={dnd.getHandleRef(ctx.id)}
                             style={{display: 'flex', cursor: 'grab'}}

@@ -24,6 +24,8 @@ import {Flex} from '../../layout';
 import {List} from '../List';
 import {useListFocusOwner} from '../useListFocusOwner';
 
+import {DragAndDropHelloPangeaCustomRowExample} from './DragAndDropHelloPangeaCustomRowExample';
+import dragAndDropHelloPangeaCustomRowCode from './DragAndDropHelloPangeaCustomRowExample?raw';
 import {DragAndDropHelloPangeaExample} from './DragAndDropHelloPangeaExample';
 import dragAndDropHelloPangeaCode from './DragAndDropHelloPangeaExample?raw';
 import {DragAndDropHelloPangeaVirtualizedExample} from './DragAndDropHelloPangeaVirtualizedExample';
@@ -575,13 +577,11 @@ export const InteractiveRows: Story = {
     },
 };
 
-// Drag and drop with @hello-pangea/dnd — the recommended library: the
-// integration is compositional (DragDropContext/Droppable around the list,
-// Draggable inside renderItem), the state of the drag comes from
-// useListHelloPangeaDnd of the @gravity-ui/uikit/hello-pangea-dnd entry
-// point. The Code panel holds the complete source of the example. The same
-// on top of other libraries lives in the "Drag and drop with other
-// libraries" stories
+// Drag and drop with @hello-pangea/dnd — the recommended library — through the
+// kit of the @gravity-ui/uikit/hello-pangea-dnd entry point: ListHelloPangeaDnd
+// around the list, role="grid" on it, nothing else. The Code panel holds the
+// complete source of the example. The wiring by hand and the other libraries
+// live in the "Drag and drop integrations" stories
 export const DragAndDrop: Story = {
     render: () => <DragAndDropHelloPangeaExample />,
     parameters: {
@@ -596,9 +596,8 @@ export const DragAndDrop: Story = {
     },
 };
 
-// hello-pangea × virtualization — the model of the virtual mode of the old
-// List (mode="virtual" plus renderClone; see the header of the example for the
-// details)
+// hello-pangea × virtualization: the same kit with ListVirtualizer outside —
+// the wrapper switches to the virtual mode and draws the clone of the row
 export const DragAndDropVirtualized: Story = {
     render: () => <DragAndDropHelloPangeaVirtualizedExample />,
     parameters: {
@@ -609,6 +608,25 @@ export const DragAndDropVirtualized: Story = {
                     [
                         'DragAndDropHelloPangeaVirtualizedExample.tsx',
                         dragAndDropHelloPangeaVirtualizedCode,
+                    ],
+                ]),
+            },
+        },
+    },
+};
+
+// hello-pangea with rows of your own markup: Draggable written by hand, the
+// wiring from getHelloPangeaRowProps
+export const DragAndDropCustomRow: Story = {
+    render: () => <DragAndDropHelloPangeaCustomRowExample />,
+    parameters: {
+        docs: {
+            source: {
+                language: 'tsx',
+                code: exampleSource([
+                    [
+                        'DragAndDropHelloPangeaCustomRowExample.tsx',
+                        dragAndDropHelloPangeaCustomRowCode,
                     ],
                 ]),
             },

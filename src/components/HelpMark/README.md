@@ -4,7 +4,7 @@
 
 <!--/GITHUB_BLOCK-->
 
-A help icon that reveals contextual information in a popover on hover or click. Ideal for showing tips, explanations, or supporting content without taking up extra space in the interface.
+A help icon that reveals contextual information in a popover on desktop and in a sheet on mobile. Ideal for showing tips, explanations, or supporting content without taking up extra space in the interface.
 
 ```tsx
 import {HelpMark} from '@gravity-ui/uikit';
@@ -48,11 +48,12 @@ SANDBOX-->
 
 `HelpMark` accepts any valid `button` element props in addition to these:
 
-| Name         | Description                          |           Type           | Default |
-| :----------- | :----------------------------------- | :----------------------: | :-----: |
-| iconSize     | Sets icon size                       | `"s"` `"m"` `"l"` `"xl"` |  `"m"`  |
-| popoverProps | Override `Popover` props             |      `PopoverProps`      |         |
-| children     | Content displayed inside the popover |    `React.ReactNode`     |         |
+| Name         | Description                                   |           Type           | Default |
+| :----------- | :-------------------------------------------- | :----------------------: | :-----: |
+| iconSize     | Sets icon size                                | `"s"` `"m"` `"l"` `"xl"` |  `"m"`  |
+| popoverProps | Override desktop `Popover` props              |      `PopoverProps`      |         |
+| sheetProps   | Override mobile `Sheet` props                 |       `SheetProps`       |         |
+| children     | Content displayed inside the popover or sheet |    `React.ReactNode`     |         |
 
 ## CSS API
 

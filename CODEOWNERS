@@ -56,7 +56,7 @@
 /src/components/Spin @ogonkov
 /src/components/Stories @DarkGenius
 /src/components/Switch @zamkovskaya
-/src/components/Table @Raubzeug
+/src/components/legacy/Table @Raubzeug
 /src/components/tabs @sofiushko
 /src/components/Text @IsaevAlexandr
 /src/components/TreeList @IsaevAlexandr

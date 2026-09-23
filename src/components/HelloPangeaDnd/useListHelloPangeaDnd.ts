@@ -27,7 +27,9 @@ export interface UseListHelloPangeaDndResult {
  * for the `dnd` prop and translates `destination.index` into `{toId, position}` for `moveItem`.
  * `dropTarget` stays empty (the library shifts the rows). Put `dragHandleProps` on a separate
  * handle inside a cell, not on the row (role/tabIndex, Space lift). `ids`/`onDrop` are read
- * through refs — the callbacks are stable.
+ * through refs — the callbacks are stable. Several lists may share one `DragDropContext`: the
+ * handlers of every hook can be called for every drag — a hook takes the drags of its own ids and
+ * the drops inside the same droppable only; a transfer between lists is the consumer's.
  */
 export function useListHelloPangeaDnd({
     ids,
@@ -40,14 +42,17 @@ export function useListHelloPangeaDnd({
     const onDropRef = React.useRef(onDrop);
     onDropRef.current = onDrop;
 
+    // Under a DragDropContext shared by several lists every hook hears every drag: a row of
+    // another list is not this list's dragging row
     const onDragStart = React.useCallback((start: DragStart) => {
-        setDraggingId(start.draggableId);
+        setDraggingId(idsRef.current.includes(start.draggableId) ? start.draggableId : null);
     }, []);
 
     const onDragEnd = React.useCallback((result: DropResult) => {
         setDraggingId(null);
         const destination = result.destination;
-        if (!destination) {
+        // A move into another droppable is a transfer between the lists — not a reorder of this one
+        if (!destination || destination.droppableId !== result.source.droppableId) {
             return;
         }
         const currentIds = idsRef.current;

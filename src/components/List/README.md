@@ -40,7 +40,6 @@ optional layers: nothing of them exists until you turn them on.
   - [Data attributes](#data-attributes)
   - [ListVirtualizer](#listvirtualizer)
   - [ListDndAdapter](#listdndadapter)
-  - [useListHelloPangeaDnd](#uselisthellopangeadnd)
 
 ## Basic Usage
 
@@ -660,79 +659,64 @@ both cases. Give the interactive content `tabIndex={-1}`: the whole list is a si
 Reordering is a layer of its own: you bring a drag-and-drop library, wrap it into an adapter and
 pass the adapter as the `dnd` prop. From there the roles are split — the library follows the
 pointer, your code moves the data, and the list shows what is going on: it marks the dragged row,
-draws the insertion line and stops the activation from following the cursor. Dragging with the
-keyboard is not supported yet.
+draws the insertion line and stops the activation from following the cursor. The list has no
+keyboard dragging of its own: it comes with the library (`@hello-pangea/dnd` has one).
 
 A row of the default render has a place for the handle of its own: the `dragHandle` slot of
-`List.ItemView` is the outermost cell of a row, in front of the check mark and the nesting indent.
-The examples below put the handle into `startContent` — either place works, the slot keeps the
-handle at the edge of the row whatever else the row shows.
+`List.ItemView` is the outermost cell of a row, in front of the check mark and the nesting indent,
+so the handle stays at the edge of the row whatever else the row shows.
 
 ### @hello-pangea/dnd
 
-The recommended library. Its wrappers cannot be expressed by the adapter contract, so the
-integration is compositional: `DragDropContext` and `Droppable` go around the list, the row wraps
-itself in `Draggable` inside `renderItem`, and the adapter half carries `draggingId` and the props
-of the drop zone. The state comes from [`useListHelloPangeaDnd`](#uselisthellopangeadnd) of the
-`@gravity-ui/uikit/hello-pangea-dnd` entry point: it returns `draggingId` for the adapter together with `onDragStart`/`onDragEnd`
-for the `DragDropContext`, and translates the `destination.index` of the library into the
-`{toId, position}` pair of `moveItem`. The drop moves your data —
-`moveItem(items, fromId, toId, position, getId?)`
-reorders the top level of the array and returns the original one, by reference, when nothing has
-moved — so treat the result as immutable. The ids are read the way the list reads them unless
-`getId` says otherwise.
+The recommended library, with a kit of its own in the `@gravity-ui/uikit/hello-pangea-dnd` entry
+point (install `@hello-pangea/dnd` next to the package). The wrapper owns the `DragDropContext` and
+the `Droppable` of the library and hands the adapter and the draggable rows to the list inside, so
+a reorderable list is the wrapper plus `role="grid"`:
 
 ```tsx
-import {DragDropContext, Droppable} from '@hello-pangea/dnd';
-import {List, moveItem} from '@gravity-ui/uikit';
-import {useListHelloPangeaDnd} from '@gravity-ui/uikit/hello-pangea-dnd';
+import {List} from '@gravity-ui/uikit';
+import {ListHelloPangeaDnd} from '@gravity-ui/uikit/hello-pangea-dnd';
 
-function SortableList({items, setItems}) {
-  const {draggingId, onDragStart, onDragEnd} = useListHelloPangeaDnd({
-    ids: items.map((item) => item.id),
-    onDrop: (fromId, toId, position) => setItems(moveItem(items, fromId, toId, position)),
-  });
+function Playlist() {
+  const [tracks, setTracks] = React.useState(initialTracks);
 
   return (
-    <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
-      <Droppable droppableId="order">
-        {(provided) => (
-          <List
-            // the drag handle of the library is a real button: it is valid in a cell of a grid
-            role="grid"
-            aria-label="Order"
-            items={items}
-            dnd={{
-              getContainerDndProps: () => ({...provided.droppableProps, ref: provided.innerRef}),
-              draggingId,
-            }}
-            getItemContent={(item) => item.title}
-            // the row wraps itself in Draggable and puts dragHandleProps into a
-            // cell — the complete source is in the Code panel below
-            renderItem={(ctx, helpers) => <SortableRow ctx={ctx} helpers={helpers} />}
-          />
-        )}
-      </Droppable>
-    </DragDropContext>
+    <ListHelloPangeaDnd items={tracks} onItemsChange={setTracks}>
+      <List role="grid" aria-label="Playlist" items={tracks} getItemContent={(t) => t.title} />
+    </ListHelloPangeaDnd>
   );
 }
 ```
 
 The example switches the list to the [grid roles](#interactive-rows): the drag handle of this
 library is a real button, and interactive content is valid inside a cell rather than inside an
-option.
+option. `←`/`→` reach the handle, `Space` lifts the row, `↑`/`↓` move it and `Space` drops it.
 
 <ListDragAndDrop />
 
-Under [virtualization](#virtualization) the integration changes its shape — `mode="virtual"` on the
-`Droppable`, `renderClone` in place of the placeholder, and a clone container inside the themed
-tree: see the [Drag and drop virtualized](?path=/story/components-data-display-list--drag-and-drop-virtualized) story,
-its Code panel holds the complete source.
+The drop moves your data: `onItemsChange` gets the result of
+`moveItem(items, fromId, toId, position, getId?)` — it reorders the top level of the array and
+returns the original one, by reference, when nothing has moved, so treat the result as immutable.
+
+Every piece of the wiring stays replaceable: `ListHelloPangeaDnd.Row` fills the slots of the view,
+`getHelloPangeaRowProps` wires rows of your own markup, under
+[virtualization](#virtualization) the wrapper switches to the virtual mode of the library, and
+several lists share one `DragDropContext` through the `state` prop. See the
+[HelloPangeaDnd](../HelloPangeaDnd/README.md) documentation, the
+[Drag and drop virtualized](?path=/story/components-data-display-list--drag-and-drop-virtualized)
+story and rows of custom markup:
+
+<ListDragAndDropCustomRow />
+
+The kit covers flat lists. The wiring it does, written by hand, is in the
+[Hello Pangea under the hood](?path=/story/components-data-display-list-drag-and-drop-integrations--hello-pangea-under-the-hood)
+stories — the starting point for sections and anything else outside the kit.
 
 ### Any other library
 
-An adapter is a plain object of four optional fields (see [ListDndAdapter](#listdndadapter)): two
-getters of props and the state of the drag. Which of them you fill in depends on how the library
+An adapter is a plain object of optional fields (see [ListDndAdapter](#listdndadapter)): two
+getters of props and the state of the drag, plus the placeholder and the default row render for the
+libraries that need them. Which of them you fill in depends on how the library
 reaches the rows:
 
 - **props and state** — the adapter registers the rows and the drop zone itself through
@@ -765,18 +749,23 @@ Then pick how the drop position is shown — the two ways exclude each other:
 For styles of your own the list marks the dragged row with `data-dragging` and the root with
 `data-drag-active`.
 
+A wrapper that owns the library cannot reach the `dnd` prop of a list passed to it as children:
+it provides the adapter through `ListDndContext` of the main entry point instead, the way
+`ListHelloPangeaDnd` does. The prop wins over the context (a dev warning when both are present), and
+a list does not pass the context on to the lists rendered inside its rows.
+
 The two shapes are shown side by side in the
-[Drag and drop with other libraries](?path=/story/components-data-display-list-drag-and-drop-with-other-libraries--pragmatic-drag-and-drop)
+[Drag and drop integrations](?path=/story/components-data-display-list-drag-and-drop-integrations--pragmatic-drag-and-drop)
 stories, each library on a plain list and on a virtualized one; the complete source of an example
 is in its Code panel:
 
 - **pragmatic-drag-and-drop** — an adapter of props and state, the insertion line is drawn by the
-  list: [plain](?path=/story/components-data-display-list-drag-and-drop-with-other-libraries--pragmatic-drag-and-drop),
-  [virtualized](?path=/story/components-data-display-list-drag-and-drop-with-other-libraries--pragmatic-drag-and-drop-virtualized);
+  list: [plain](?path=/story/components-data-display-list-drag-and-drop-integrations--pragmatic-drag-and-drop),
+  [virtualized](?path=/story/components-data-display-list-drag-and-drop-integrations--pragmatic-drag-and-drop-virtualized);
 - **dnd-kit** — a state-only adapter with `useSortable` in the row component, the neighbours shift
   (do not spread the `attributes` of `useSortable`: they carry `role` and `tabIndex`, which belong
-  to the list): [plain](?path=/story/components-data-display-list-drag-and-drop-with-other-libraries--dnd-kit),
-  [virtualized](?path=/story/components-data-display-list-drag-and-drop-with-other-libraries--dnd-kit-virtualized).
+  to the list): [plain](?path=/story/components-data-display-list-drag-and-drop-integrations--dnd-kit),
+  [virtualized](?path=/story/components-data-display-list-drag-and-drop-integrations--dnd-kit-virtualized).
 
 ## useListFocusOwner
 
@@ -939,7 +928,7 @@ with the name of its section. What is left to you:
 | selectedIds         | The selected items, controlled                                                                                             |                         `readonly string[]`                         |                                      |
 | defaultSelectedIds  | The selected items, uncontrolled                                                                                           |                         `readonly string[]`                         |                                      |
 | onSelectedUpdate    | The callback of a selection change                                                                                         |                      `(ids: string[]) => void`                      |                                      |
-| dnd                 | Turns the drag-and-drop layer on (an adapter)                                                                              |                          `ListDndAdapter`                           |                                      |
+| dnd                 | Turns the drag-and-drop layer on (an adapter); wins over `ListDndContext`                                                  |                          `ListDndAdapter`                           |                                      |
 | role                | The ARIA role: `grid` for rows with interactive content                                                                    |                        `'listbox' \| 'grid'`                        |             `'listbox'`              |
 | focusOwner          | An external focus owner (`useListFocusOwner`)                                                                              |                          `ListFocusOwner`                           |                                      |
 | activateOnHover     | Activation on hover                                                                                                        |                              `boolean`                              |                `true`                |
@@ -955,9 +944,9 @@ with the name of its section. What is left to you:
 `List.ItemView` is the row view of the default render and `List.SectionHeader` is its section
 header; both are statics of the component and are meant for `renderItem`. The header keeps its
 label on one line and clips what does not fit with an ellipsis. The reorder helper is
-exported next to the list as `moveItem`, and the hook of the recommended drag-and-drop
-library — [`useListHelloPangeaDnd`](#uselisthellopangeadnd) — comes from its own entry point,
-`@gravity-ui/uikit/hello-pangea-dnd`.
+exported next to the list as `moveItem`, together with `ListDndContext` — the channel of an adapter
+from a wrapper. The kit of the recommended drag-and-drop library comes from its own entry point,
+`@gravity-ui/uikit/hello-pangea-dnd` — see [HelloPangeaDnd](../HelloPangeaDnd/README.md).
 
 ### ListItemContext
 
@@ -1031,23 +1020,5 @@ The object of the `dnd` prop — the [drag-and-drop](#drag-and-drop) layer.
 | getItemDndProps?      | The props of a row; they are mixed into `getItemProps` after the base ones, before the overrides |            `(id: string) => ListDndProps`             |
 | draggingId?           | What is being dragged — the source of `ctx.state.dragging` and `data-dragging`                   |                   `string \| null`                    |
 | dropTarget?           | `{id, position}` — the source of `ctx.state.dropTarget`; the indicator is drawn by the list      | `{id: string; position: 'before' \| 'after'} \| null` |
-
-### useListHelloPangeaDnd
-
-The state half of the [@hello-pangea/dnd](#hello-pangeadnd) integration: `draggingId` for the
-adapter and the handlers of the `DragDropContext`. Imported from
-`@gravity-ui/uikit/hello-pangea-dnd` (`@hello-pangea/dnd` comes with the package).
-The props:
-
-| Name   | Description                                                                                           |                                  Type                                   |
-| :----- | :---------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------: |
-| ids    | The ids of the rows in the order of the list — `destination.index` of the library is translated by it |                           `readonly string[]`                           |
-| onDrop | The drop — pair it with `moveItem(items, fromId, toId, position)`                                     | `(fromId: string, toId: string, position: 'before' \| 'after') => void` |
-
-What it returns:
-
-| Name        | Description                                                  |              Type              |
-| :---------- | :----------------------------------------------------------- | :----------------------------: |
-| draggingId  | What is being dragged — goes into the `dnd` prop of the list |        `string \| null`        |
-| onDragStart | For the `DragDropContext`                                    |  `(start: DragStart) => void`  |
-| onDragEnd   | For the `DragDropContext`; calls `onDrop` on a real move     | `(result: DropResult) => void` |
+| placeholder?          | The last child of the list root (the gap of `@hello-pangea/dnd`); ignored under virtualization   |                      `ReactNode`                      |
+| renderItem?           | The row render while the list has no `renderItem` of its own; keep it stable                     |               `(ctx, helpers) => node`                |

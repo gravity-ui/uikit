@@ -32,10 +32,11 @@ export const ListVirtualized = () => <Canvas of={Stories.Virtualized} sourceStat
 export const ListInteractiveRows = () => <Canvas of={Stories.InteractiveRows} sourceState="none" />;
 export const ListFocusOwner = () => <Canvas of={Stories.FocusOwner} sourceState="none" />;
 
-{/* The only drag-and-drop example of the page — @hello-pangea/dnd, the recommended library; the other libraries are linked from the README to their stories */}
-{/* The Code panel of this example shows the complete source of its file: the integration is meant to be copied as is */}
+{/* The drag-and-drop examples of the page — the kit of @hello-pangea/dnd, the recommended library; the wiring by hand and the other libraries are linked from the README to their stories */}
+{/* The Code panel of these examples shows the complete source of the file: an integration is meant to be copied as is */}
 
 export const ListDragAndDrop = () => <Canvas of={Stories.DragAndDrop} />;
+export const ListDragAndDropCustomRow = () => <Canvas of={Stories.DragAndDropCustomRow} />;
 
 <Meta of={Stories} />
 
@@ -59,6 +60,7 @@ export const ListDragAndDrop = () => <Canvas of={Stories.DragAndDrop} />;
             ListVirtualized,
             ListInteractiveRows,
             ListDragAndDrop,
+            ListDragAndDropCustomRow,
             ListFocusOwner,
         },
     }}

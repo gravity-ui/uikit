@@ -98,6 +98,43 @@ Keep the `defaultProps` object referentially stable by defining it outside rende
 `React.useMemo`. Passing an inline object creates a new context value on every parent render and
 causes components that consume defaults to update.
 
+## Overlay layers
+
+Global overlay levels use a shared `--g-layer-*` scale, defined on `.g-root` by
+`styles/styles.css`. Both component styles and React positioning wrappers use these tokens.
+The existing modal, sheet, and toaster levels are preserved for compatibility with application
+overlays; higher levels are derived from them.
+
+| Token               | Used by                         | Default calculation           | Default value |
+| ------------------- | ------------------------------- | ----------------------------- | ------------- |
+| `--g-layer-drawer`  | `Drawer`                        | `modal - 10`                  | `990`         |
+| `--g-layer-modal`   | `Modal`, including `Dialog`     | Base level                    | `1000`        |
+| `--g-layer-popup`   | `Popup` and components using it | `modal`                       | `1000`        |
+| `--g-layer-sheet`   | `Sheet`                         | Base level                    | `100000`      |
+| `--g-layer-toaster` | `ToasterComponent`              | `sheet`                       | `100000`      |
+| `--g-layer-drag`    | Dragged list items              | `max(sheet, toaster) + 1`     | `100001`      |
+| `--g-layer-tooltip` | `Tooltip` and `ActionTooltip`   | `max(modal, popup, drag) + 1` | `100002`      |
+
+To customize the scale, override tokens on `.g-root` after importing UIKit styles:
+
+```css
+.g-root {
+  --g-layer-modal: 2000;
+  --g-layer-sheet: 200000;
+}
+```
+
+Derived levels follow these changes automatically. Explicit `Popup.zIndex` and
+`Popup.floatingStyles.zIndex` overrides still take precedence over its token.
+Local stacking values inside components, such as a button's background or a table's sticky cells,
+are independent of this global scale.
+
+Portals inherit tokens from their DOM container. Apply global overrides to `.g-root` so they also
+cover scoped theme roots created inside portals; an override on an arbitrary ancestor of the anchor
+does not follow a portal into `document.body`. Keep the intended order when overriding individual
+levels. The scale does not escape ancestor stacking contexts, overflow clipping, or the browser's
+top layer.
+
 ## Color token layers
 
 Colors are organized in **two layers**. Components and app code should only ever reference the

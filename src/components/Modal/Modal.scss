@@ -10,7 +10,7 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
 #{$block} {
     position: fixed;
     inset: 0;
-    z-index: 1000;
+    z-index: var(--g-layer-modal);
     outline: none;
 
     background-color: var(--g-color-sfx-veil);

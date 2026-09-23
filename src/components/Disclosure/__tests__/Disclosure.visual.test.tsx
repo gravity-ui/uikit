@@ -45,10 +45,7 @@ test.describe('Disclosure', {tag: '@Disclosure'}, () => {
         await expect(details).toHaveCount(0);
     });
 
-    test('height transition switches to auto when content grows while entering', async ({
-        mount,
-        page,
-    }) => {
+    test('height transition adapts when content grows while entering', async ({mount, page}) => {
         await page.emulateMedia({reducedMotion: 'no-preference'});
         await page.addStyleTag({
             content: `
@@ -79,7 +76,23 @@ test.describe('Disclosure', {tag: '@Disclosure'}, () => {
         expect(resizedHeight).toBeGreaterThan(initialTargetHeight);
         await expect
             .poll(() => container.evaluate((element) => Number.parseFloat(element.style.height)))
-            .toBe(initialTargetHeight);
+            .toBe(resizedHeight);
+        await expect(container).toHaveClass(/g-disclosure__content-container_transitioning/);
+
+        await container.evaluate(async (element) => {
+            element.getAnimations().forEach((animation) => {
+                if (
+                    'transitionProperty' in animation &&
+                    animation.transitionProperty === 'opacity'
+                ) {
+                    animation.finish();
+                } else {
+                    animation.pause();
+                }
+            });
+            await new Promise(requestAnimationFrame);
+        });
+        await expect(container).toHaveClass(/g-disclosure__content-container_transitioning/);
 
         await container.evaluate((element) => {
             element.getAnimations().forEach((animation) => animation.finish());
@@ -168,6 +181,31 @@ test.describe('Disclosure', {tag: '@Disclosure'}, () => {
             .toBe(0);
         await expect(details).toHaveAttribute('aria-hidden', 'true');
         await expect(details).toHaveAttribute('inert');
+    });
+
+    test('kept mounted content is skipped by Tab only while collapsed', async ({mount, page}) => {
+        await mount(
+            <div>
+                <Disclosure summary="Toggle" keepMounted={true}>
+                    <button type="button">Inside</button>
+                </Disclosure>
+                <button type="button">After</button>
+            </div>,
+        );
+        const summary = page.getByRole('button', {name: 'Toggle'});
+        const after = page.getByRole('button', {name: 'After', exact: true});
+
+        await summary.focus();
+        await page.keyboard.press('Tab');
+        await expect(after).toBeFocused();
+
+        await summary.click();
+        await page.keyboard.press('Tab');
+        await expect(page.getByRole('button', {name: 'Inside'})).toBeFocused();
+
+        await summary.click();
+        await page.keyboard.press('Tab');
+        await expect(after).toBeFocused();
     });
 
     test('reduced motion unmounts without a transition event', async ({mount, page}) => {

@@ -5,6 +5,7 @@ import * as React from 'react';
 import {Transition} from 'react-transition-group';
 
 import {useMatchMedia} from '../../../hooks/private/useMatchMedia';
+import {useResizeObserver} from '../../../hooks/useResizeObserver';
 import type {QAProps} from '../../types';
 import {useDisclosureAttributes} from '../DisclosureContext';
 import {DisclosureQa, b} from '../constants';
@@ -37,6 +38,15 @@ export function DisclosureDetails({children, qa, className}: DisclosureDetailsPr
         setHeight(null);
     };
 
+    useResizeObserver({
+        ref: innerRef,
+        onResize: () => {
+            if (expanded && containerRef.current?.style.height) {
+                setMeasuredHeight();
+            }
+        },
+    });
+
     return (
         <Transition
             nodeRef={containerRef}
@@ -56,15 +66,15 @@ export function DisclosureDetails({children, qa, className}: DisclosureDetailsPr
                 const transitioning =
                     transitionState === 'entering' || transitionState === 'exiting';
                 const shouldRenderContent = keepMounted || transitionState !== 'exited';
-                const hiddenAttributes = expanded ? {} : {inert: ''};
+                const hiddenAttributes = expanded ? {} : {inert: 'inert'};
 
                 return (
                     <div
                         ref={containerRef}
                         className={b('content-container', {visible, transitioning})}
                     >
-                        {shouldRenderContent && (
-                            <div ref={innerRef} className={b('content-wrapper')}>
+                        <div ref={innerRef} className={b('content-wrapper')}>
+                            {shouldRenderContent && (
                                 <div
                                     {...hiddenAttributes}
                                     aria-hidden={expanded ? undefined : true}
@@ -76,8 +86,8 @@ export function DisclosureDetails({children, qa, className}: DisclosureDetailsPr
                                 >
                                     {children}
                                 </div>
-                            </div>
-                        )}
+                            )}
+                        </div>
                     </div>
                 );
             }}
@@ -107,7 +117,9 @@ function waitForTransition(element: HTMLElement | null, done: () => void) {
         return;
     }
 
-    Promise.allSettled(transitions.map((transition) => transition.finished)).then(() => done());
+    Promise.allSettled(transitions.map((transition) => transition.finished)).then(() =>
+        waitForTransition(element, done),
+    );
 }
 
 DisclosureDetails.displayName = 'DisclosureDetails';

@@ -3,6 +3,8 @@
 
 $block: '.#{variables.$ns}disclosure';
 $gap: 8px;
+$transition-duration: 0.15s;
+$transition-easing: linear;
 
 #{$block} {
     --_--text-color: var(--g-color-text-primary);
@@ -41,38 +43,38 @@ $gap: 8px;
         color: var(--g-disclosure-text-color-disabled, var(--_--text-color-disabled));
         cursor: auto;
     }
-    &__content {
-        display: none;
-    }
-    &__content_visible {
+
+    &__content-container {
         display: block;
-    }
-    &__content#{$block}_exit_active {
-        display: block;
-        animation-name: #{variables.$ns}disclosure-collapsed;
-        animation-duration: 0.1s;
+        height: 0;
+        overflow: hidden;
+        contain: inline-size;
+        transition:
+            height $transition-duration $transition-easing,
+            opacity $transition-duration $transition-easing;
         opacity: 0;
     }
-    &__content#{$block}_enter_active {
-        animation-name: #{variables.$ns}disclosure-expanded;
-        animation-duration: 0.2s;
-    }
-}
 
-@keyframes #{variables.$ns}disclosure-expanded {
-    0% {
-        opacity: 0.4;
-    }
-    100% {
+    &__content-container_visible {
+        height: auto;
+        contain: none;
+        overflow: visible;
         opacity: 1;
     }
-}
 
-@keyframes #{variables.$ns}disclosure-collapsed {
-    0% {
-        opacity: 1;
+    &__content-container_transitioning {
+        overflow: hidden;
     }
-    100% {
-        opacity: 0;
+
+    &__content-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        &__content-container {
+            transition: none;
+        }
     }
 }

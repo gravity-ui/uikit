@@ -4,12 +4,12 @@ import * as React from 'react';
 
 import {Gear} from '@gravity-ui/icons';
 
-import {Button} from '../../../Button';
-import {Icon} from '../../../Icon';
-import type {PopupPlacement} from '../../../Popup';
-import type {TreeSelectProps} from '../../../TreeSelect';
-import {block} from '../../../utils/cn';
-import {getComponentName} from '../../../utils/getComponentName';
+import {Button} from '../../../../Button';
+import {Icon} from '../../../../Icon';
+import type {PopupPlacement} from '../../../../Popup';
+import type {TreeSelectProps} from '../../../../TreeSelect';
+import {block} from '../../../../utils/cn';
+import {getComponentName} from '../../../../utils/getComponentName';
 import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
 import {actionsColumnId, enhanceSystemColumn} from '../withTableActions/withTableActions';
 import {selectionColumnId} from '../withTableSelection/withTableSelection';
@@ -157,9 +157,15 @@ const b = block('table');
 
 const POPUP_PLACEMENT: PopupPlacement = ['bottom-end', 'bottom', 'top-end', 'top'];
 
+/**
+ * @deprecated Legacy component. For new code use `@gravity-ui/table`
+ */
 export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
     Component: React.ComponentType<TableProps<I> & E>,
 ): React.ComponentType<TableProps<I> & WithTableSettingsProps & E>;
+/**
+ * @deprecated Legacy component. For new code use `@gravity-ui/table`
+ */
 export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
     options?: WithTableSettingsOptions,
 ): (

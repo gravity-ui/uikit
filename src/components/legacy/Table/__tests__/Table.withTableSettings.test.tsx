@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event';
 
-import {fireEvent, render, screen, waitFor} from '../../../../test-utils/utils';
-import {Button} from '../../Button';
+import {fireEvent, render, screen, waitFor} from '../../../../../test-utils/utils';
+import {Button} from '../../../Button';
 import {Table} from '../Table';
 import type {TableColumnConfig, TableProps} from '../Table';
 import {enhanceSystemColumn} from '../hoc/withTableActions/withTableActions';

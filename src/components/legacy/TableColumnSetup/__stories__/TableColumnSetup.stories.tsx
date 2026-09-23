@@ -4,15 +4,15 @@ import {Gear} from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 import {action} from 'storybook/actions';
 
-import {Showcase} from '../../../demo/Showcase';
-import {ShowcaseItem} from '../../../demo/ShowcaseItem';
-import {Button} from '../../Button';
-import {Icon} from '../../Icon';
+import {Showcase} from '../../../../demo/Showcase';
+import {ShowcaseItem} from '../../../../demo/ShowcaseItem';
+import {Button} from '../../../Button';
+import {Icon} from '../../../Icon';
 import type {TableColumnSetupItem, TableColumnSetupProps} from '../TableColumnSetup';
 import {TableColumnSetup} from '../TableColumnSetup';
 
 export default {
-    title: 'Components/Data Display/TableColumnSetup',
+    title: 'Legacy/TableColumnSetup',
     component: TableColumnSetup,
     parameters: {
         docs: {

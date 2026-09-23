@@ -4,10 +4,10 @@ import * as React from 'react';
 
 import {get, has} from 'es-toolkit/compat';
 
-import type {AriaLabelingProps, QAProps} from '../types';
-import {block} from '../utils/cn';
-import {filterDOMProps} from '../utils/filterDOMProps';
-import {warnOnce} from '../utils/warn';
+import type {AriaLabelingProps, QAProps} from '../../types';
+import {block} from '../../utils/cn';
+import {filterDOMProps} from '../../utils/filterDOMProps';
+import {warnOnce} from '../../utils/warn';
 
 import i18n from './i18n';
 
@@ -177,6 +177,9 @@ const b = block('table');
 
 const EMPTY_VALUES = [undefined, null, ''];
 
+/**
+ * @deprecated Legacy component. For new code use `@gravity-ui/table`
+ */
 export class Table<I extends TableDataItem = Record<string, string>> extends React.Component<
     TableProps<I>,
     TableState

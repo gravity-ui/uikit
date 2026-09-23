@@ -154,9 +154,11 @@ $block: '.#{variables.$ns}switch';
         }
     }
 
-    &:hover {
-        #{$block}__indicator::before {
-            background-color: var(--g-color-base-generic-medium-hover);
+    @media (hover: hover) {
+        &:hover {
+            #{$block}__indicator::before {
+                background-color: var(--g-color-base-generic-medium-hover);
+            }
         }
     }
 
@@ -174,10 +176,17 @@ $block: '.#{variables.$ns}switch';
         }
     }
 
-    &_checked,
-    &_checked:hover {
+    &_checked {
         #{$block}__indicator::before {
             background-color: var(--g-color-base-brand);
+        }
+    }
+
+    @media (hover: hover) {
+        &_checked:hover {
+            #{$block}__indicator::before {
+                background-color: var(--g-color-base-brand);
+            }
         }
     }
 

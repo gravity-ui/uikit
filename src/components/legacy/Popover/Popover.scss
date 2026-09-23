@@ -94,8 +94,10 @@ $block: '.#{variables.$ns}popover-legacy';
                         text-decoration: none;
                         color: var(--g-color-text-link);
 
-                        &:hover {
-                            color: var(--g-color-text-link-hover);
+                        @media (hover: hover) {
+                            &:hover {
+                                color: var(--g-color-text-link-hover);
+                            }
                         }
                     }
                 }
@@ -115,16 +117,20 @@ $block: '.#{variables.$ns}popover-legacy';
                     @include mixins.text-accent;
                     color: var(--g-color-text-light-primary);
 
-                    &:hover {
-                        color: var(--g-color-text-light-secondary);
+                    @media (hover: hover) {
+                        &:hover {
+                            color: var(--g-color-text-light-secondary);
+                        }
                     }
                 }
 
                 .g-link {
                     color: var(--g-color-text-light-primary);
 
-                    &:hover {
-                        color: var(--g-color-text-light-secondary);
+                    @media (hover: hover) {
+                        &:hover {
+                            color: var(--g-color-text-light-secondary);
+                        }
                     }
                 }
             }

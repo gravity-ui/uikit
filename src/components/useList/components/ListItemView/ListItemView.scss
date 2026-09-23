@@ -19,7 +19,12 @@ $block: '.#{variables.$ns}list-item-view';
         gap: var(--g-spacing-half, 2px);
     }
 
-    &:hover#{$block}_activeOnHover,
+    @media (hover: hover) {
+        &:hover#{$block}_activeOnHover {
+            background: var(--g-color-base-simple-hover);
+        }
+    }
+
     &_active {
         background: var(--g-color-base-simple-hover);
     }
@@ -29,9 +34,15 @@ $block: '.#{variables.$ns}list-item-view';
     }
 
     &_selected,
-    &_selected#{$block}_active, // if active and selected selected bgc more priority
-    &_selected:hover#{$block}_activeOnHover {
+    &_selected#{$block}_active {
+        // if active and selected selected bgc more priority
         background: var(--g-color-base-selection);
+    }
+
+    @media (hover: hover) {
+        &_selected:hover#{$block}_activeOnHover {
+            background: var(--g-color-base-selection);
+        }
     }
 
     &_dragging,

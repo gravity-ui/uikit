@@ -29,8 +29,10 @@ $block: '.#{variables.$ns}toc-item';
             border-inline-start: 2px solid transparent;
             text-decoration: none;
 
-            &:hover {
-                color: var(--g-color-text-complementary);
+            @media (hover: hover) {
+                &:hover {
+                    color: var(--g-color-text-complementary);
+                }
             }
         }
 

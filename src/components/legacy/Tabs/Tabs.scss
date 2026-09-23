@@ -118,7 +118,6 @@ $block: '.#{variables.$ns}tabs-legacy';
             }
 
             &_active,
-            &:hover,
             &:focus-visible {
                 #{$block}__item-title {
                     color: var(--g-color-text-primary);
@@ -130,10 +129,28 @@ $block: '.#{variables.$ns}tabs-legacy';
                 }
             }
 
+            @media (hover: hover) {
+                &:hover {
+                    #{$block}__item-title {
+                        color: var(--g-color-text-primary);
+                    }
+
+                    #{$block}__item-icon,
+                    #{$block}__item-counter {
+                        color: var(--g-color-text-secondary);
+                    }
+                }
+            }
+
             &_active,
-            &_active:hover,
             &_active:focus-visible {
                 border-color: var(--g-color-line-brand);
+            }
+
+            @media (hover: hover) {
+                &_active:hover {
+                    border-color: var(--g-color-line-brand);
+                }
             }
 
             &_disabled {
@@ -172,18 +189,28 @@ $block: '.#{variables.$ns}tabs-legacy';
                 color: var(--g-color-text-secondary);
             }
 
-            &:hover,
             &:focus-visible {
                 background-color: var(--g-color-base-generic-hover);
+            }
+
+            @media (hover: hover) {
+                &:hover {
+                    background-color: var(--g-color-base-generic-hover);
+                }
             }
 
             &_active {
                 background-color: var(--g-color-base-selection);
             }
 
-            &_active:hover,
             &_active:focus-visible {
                 background-color: var(--g-color-base-selection-hover);
+            }
+
+            @media (hover: hover) {
+                &_active:hover {
+                    background-color: var(--g-color-base-selection-hover);
+                }
             }
 
             &_disabled {

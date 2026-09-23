@@ -10,7 +10,7 @@ import {
     useDismiss,
     useFloating,
     useFloatingNodeId,
-    useFloatingParentNodeId,
+    useFloatingTree,
     useInteractions,
     useRole,
 } from '@floating-ui/react';
@@ -324,9 +324,9 @@ function ModalComponent(rawProps: ModalProps) {
 }
 
 export function Modal(props: ModalProps) {
-    const parentId = useFloatingParentNodeId();
+    const tree = useFloatingTree();
 
-    if (parentId === null) {
+    if (tree === null) {
         return (
             <FloatingTree>
                 <ModalComponent {...props} />

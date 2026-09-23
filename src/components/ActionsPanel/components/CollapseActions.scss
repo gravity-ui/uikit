@@ -5,20 +5,23 @@ $block: '.#{variables.$ns}actions-panel-collapse';
 #{$block} {
     $minSize: 32px;
 
-    flex-shrink: 2;
+    flex: 1 1 0;
     min-width: $minSize;
     overflow: hidden;
-    position: relative;
     display: flex;
     align-items: center;
     height: 100%;
     padding-inline-end: 8px;
 
     &__container {
+        --_--offset: 100%; // end of the visible actions, no shift until measured
+
         display: flex;
         align-items: center;
         overflow: hidden;
         height: 100%;
+        // Align the end of the visible actions with the dropdown button.
+        transform: translateX(calc((100% - var(--_--offset)) * var(--g-flow-direction, 1)));
     }
 
     &__button-action-wrapper {
@@ -30,14 +33,9 @@ $block: '.#{variables.$ns}actions-panel-collapse';
         }
     }
 
-    &__menu-placeholder {
-        flex-shrink: 0;
-        width: $minSize;
-        height: $minSize;
-    }
-
     &__menu-wrapper {
-        position: absolute;
+        position: relative;
+        flex-shrink: 0;
         width: $minSize;
         height: $minSize;
         display: flex;

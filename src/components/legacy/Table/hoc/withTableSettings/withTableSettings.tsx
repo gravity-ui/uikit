@@ -7,7 +7,6 @@ import {Gear} from '@gravity-ui/icons';
 import {Button} from '../../../../Button';
 import {Icon} from '../../../../Icon';
 import type {PopupPlacement} from '../../../../Popup';
-import type {TreeSelectProps} from '../../../../TreeSelect';
 import {block} from '../../../../utils/cn';
 import {getComponentName} from '../../../../utils/getComponentName';
 import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
@@ -15,7 +14,11 @@ import {actionsColumnId, enhanceSystemColumn} from '../withTableActions/withTabl
 import {selectionColumnId} from '../withTableSelection/withTableSelection';
 
 import {TableColumnSetup} from './TableColumnSetup/TableColumnSetup';
-import type {RenderControls, TableColumnSetupItem} from './TableColumnSetup/TableColumnSetup';
+import type {
+    RenderControls,
+    TableColumnSetupItem,
+    TableColumnSetupProps,
+} from './TableColumnSetup/TableColumnSetup';
 import i18n from './i18n';
 
 import './withTableSettings.scss';
@@ -107,7 +110,7 @@ export function getActualItems<I>(
 }
 
 export interface WithTableSettingsOptions {
-    width?: TreeSelectProps<any>['popupWidth'];
+    width?: TableColumnSetupProps['popupWidth'];
     sortable?: boolean;
     filterable?: boolean;
 }
@@ -116,7 +119,7 @@ interface WithTableSettingsBaseProps {
     /**
      * @deprecated Use factory notation: "withTableSettings({width: <value>})(Table)"
      */
-    settingsPopupWidth?: TreeSelectProps<any>['popupWidth'];
+    settingsPopupWidth?: TableColumnSetupProps['popupWidth'];
 
     settings: TableSettingsData;
     updateSettings: (data: TableSettingsData) => void;

@@ -1,4 +1,4 @@
-@use '../../../variables';
+@use '../../../../../../variables';
 
 $block: '.#{variables.$ns}list-item-view-legacy';
 
@@ -7,6 +7,8 @@ $block: '.#{variables.$ns}list-item-view-legacy';
     display: flex;
     flex-grow: 1;
     align-items: center;
+
+    border-radius: var(--g-list-item-border-radius, 6px);
 
     &__content {
         width: 100%;
@@ -41,19 +43,6 @@ $block: '.#{variables.$ns}list-item-view-legacy';
         // more than `Sheet` z-index (100000) if `ListItemView` used in this component
         /* stylelint-disable-next-line declaration-no-important */
         z-index: 100001 !important;
-    }
-
-    &_radius_s {
-        border-radius: var(--g-list-item-border-radius, 3px);
-    }
-    &_radius_m {
-        border-radius: var(--g-list-item-border-radius, 5px);
-    }
-    &_radius_l {
-        border-radius: var(--g-list-item-border-radius, 6px);
-    }
-    &_radius_xl {
-        border-radius: var(--g-list-item-border-radius, 8px);
     }
 
     &__slot {

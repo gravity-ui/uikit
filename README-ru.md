@@ -90,10 +90,12 @@ import '@gravity-ui/uikit/styles/styles.css';
 Некоторым точкам входа нужны свои пакеты — они объявлены необязательными peer-зависимостями:
 поставьте их рядом с `@gravity-ui/uikit`, если импортируете оттуда. Всё остальное приносит сам пакет.
 
-| Точка входа                         | Что поставить                                  |
-| :---------------------------------- | :--------------------------------------------- |
-| `@gravity-ui/uikit/virtualizer`     | `@tanstack/react-virtual`                      |
-| `@gravity-ui/uikit/legacy` (`List`) | `react-window`, `react-virtualized-auto-sizer` |
+| Точка входа                                                                    | Что поставить                                  |
+| :----------------------------------------------------------------------------- | :--------------------------------------------- |
+| `@gravity-ui/uikit/virtualizer`                                                | `@tanstack/react-virtual`                      |
+| `@gravity-ui/uikit/hello-pangea-dnd`                                           | `@hello-pangea/dnd`                            |
+| `@gravity-ui/uikit/legacy` (`List`)                                            | `react-window`, `react-virtualized-auto-sizer` |
+| `@gravity-ui/uikit/legacy` (`Table` с `withTableSettings`, `TableColumnSetup`) | `@hello-pangea/dnd`                            |
 
 ## Разработка
 

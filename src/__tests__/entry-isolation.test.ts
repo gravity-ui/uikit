@@ -3,11 +3,12 @@ import * as path from 'path';
 
 /**
  * The optional packages must not leak into the main entry: a consumer who installs the package
- * alone has neither `@tanstack/react-virtual` nor `react-window` on disk, and the main entry is
- * what an import of the package gives them.
+ * alone has neither `@tanstack/react-virtual` nor `react-window` nor `@hello-pangea/dnd` on disk,
+ * and the main entry is what an import of the package gives them.
  *
  * The other entry points are not guarded: each of them is imported on purpose, together with the
- * packages its components need (the legacy List needs react-window, the virtualizer needs tanstack).
+ * packages its components need (the legacy List needs react-window, the legacy Table needs
+ * hello-pangea, the virtualizer needs tanstack).
  *
  * Two graphs are walked separately. The runtime one skips `import type`/`export type` (they are
  * erased from the emit), the type one keeps them: without the package installed, the .d.ts of a
@@ -18,14 +19,12 @@ const SRC = path.resolve(__dirname, '..');
 
 /**
  * Packages that must stay out of the main entry — the optional peer dependencies of the package.
- *
- * `@hello-pangea/dnd` is not on the list: it is a plain dependency of the package, imported by the
- * `TableColumnSetup` and the `TreeList` of the main entry.
  */
 const FORBIDDEN_IN_MAIN = [
     '@tanstack/react-virtual',
     'react-window',
     'react-virtualized-auto-sizer',
+    '@hello-pangea/dnd',
 ];
 
 const ENTRY_ONLY_DIRS = [
@@ -161,8 +160,9 @@ describe('main entry isolation', () => {
 
         // The checks above are all negative: a typo in FORBIDDEN_IN_MAIN would keep them green
         // while guarding nothing. Every forbidden name is a package that some other entry point
-        // reaches on purpose — the legacy List is built on two of them, the virtualizer on the
-        // third — so the walk itself says whether the names are spelled the way it sees them.
+        // reaches on purpose — the legacy List and Table are built on three of them, the
+        // virtualizer on the fourth — so the walk itself says whether the names are spelled the
+        // way it sees them.
         test('the forbidden names are the ones the walk produces', () => {
             const reachable = new Set([
                 ...walk(path.join(SRC, 'legacy.ts'), options).packages,

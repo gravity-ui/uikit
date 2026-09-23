@@ -5,16 +5,16 @@ import * as React from 'react';
 import {Ellipsis} from '@gravity-ui/icons';
 import memoize from 'lodash/memoize';
 
-import {useUniqId} from '../../../../hooks';
-import {useBoolean} from '../../../../hooks/private';
-import {Button} from '../../../Button';
-import {Icon} from '../../../Icon';
-import {Menu} from '../../../Menu';
-import type {MenuItemProps} from '../../../Menu';
-import {Popup} from '../../../Popup';
-import type {PopupPlacement} from '../../../Popup';
-import {block} from '../../../utils/cn';
-import {getComponentName} from '../../../utils/getComponentName';
+import {useUniqId} from '../../../../../hooks';
+import {useBoolean} from '../../../../../hooks/private';
+import {Button} from '../../../../Button';
+import {Icon} from '../../../../Icon';
+import {Menu} from '../../../../Menu';
+import type {MenuItemProps} from '../../../../Menu';
+import {Popup} from '../../../../Popup';
+import type {PopupPlacement} from '../../../../Popup';
+import {block} from '../../../../utils/cn';
+import {getComponentName} from '../../../../utils/getComponentName';
 import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
 import i18n from '../../i18n';
 
@@ -200,6 +200,9 @@ const DefaultRowActions = <I extends TableDataItem>({
     );
 };
 
+/**
+ * @deprecated Legacy component. For new code use `@gravity-ui/table`
+ */
 export function withTableActions<I extends TableDataItem, E extends {} = {}>(
     TableComponent: React.ComponentType<TableProps<I> & E>,
 ): React.ComponentType<TableProps<I> & WithTableActionsProps<I> & E> {

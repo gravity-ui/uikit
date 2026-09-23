@@ -1,6 +1,6 @@
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
-import {Table} from '../../Table';
+import {Table} from '../../legacy/Table';
 import {Hotkey} from '../Hotkey';
 import type {HotkeyProps} from '../Hotkey';
 

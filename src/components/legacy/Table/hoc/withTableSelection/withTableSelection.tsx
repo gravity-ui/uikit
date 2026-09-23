@@ -7,9 +7,9 @@ import memoize from 'lodash/memoize';
 import union from 'lodash/union';
 import without from 'lodash/without';
 
-import {Checkbox} from '../../../Checkbox';
-import {block} from '../../../utils/cn';
-import {getComponentName} from '../../../utils/getComponentName';
+import {Checkbox} from '../../../../Checkbox';
+import {block} from '../../../../utils/cn';
+import {getComponentName} from '../../../../utils/getComponentName';
 import {Table} from '../../Table';
 import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
 import i18n from '../../i18n';
@@ -26,6 +26,9 @@ export interface WithTableSelectionProps<I> {
     isRowSelectionDisabled?: (item: I, index: number) => boolean;
 }
 
+/**
+ * @deprecated Legacy component. For new code use `@gravity-ui/table`
+ */
 export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
     TableComponent: React.ComponentType<TableProps<I> & E>,
 ): React.ComponentType<TableProps<I> & WithTableSelectionProps<I> & E> {

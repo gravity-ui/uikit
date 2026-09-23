@@ -5,9 +5,9 @@ import * as React from 'react';
 import get from 'lodash/get';
 import memoize from 'lodash/memoize';
 
-import {createOnKeyDownHandler} from '../../../../hooks/useActionHandlers/useActionHandlers';
-import {block} from '../../../utils/cn';
-import {getComponentName} from '../../../utils/getComponentName';
+import {createOnKeyDownHandler} from '../../../../../hooks/useActionHandlers/useActionHandlers';
+import {block} from '../../../../utils/cn';
+import {getComponentName} from '../../../../utils/getComponentName';
 import {Table} from '../../Table';
 import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
 
@@ -41,6 +41,9 @@ interface WithTableSortingState {
 
 const b = block('table');
 
+/**
+ * @deprecated Legacy component. For new code use `@gravity-ui/table`
+ */
 export function withTableSorting<I extends TableDataItem, E extends {} = {}>(
     TableComponent: React.ComponentType<TableProps<I> & E>,
 ): React.ComponentType<TableProps<I> & WithTableSortingProps & E> {

@@ -3,10 +3,10 @@ import * as React from 'react';
 import {ArrowRotateLeft} from '@gravity-ui/icons';
 import isEqual from 'lodash/isEqual';
 
-import {Button} from '../../../Button';
-import type {ButtonButtonProps} from '../../../Button';
-import {Icon} from '../../../Icon';
-import {Flex} from '../../../layout';
+import {Button} from '../../../../Button';
+import type {ButtonButtonProps} from '../../../../Button';
+import {Icon} from '../../../../Icon';
+import {Flex} from '../../../../layout';
 import type {TableProps} from '../../Table';
 import type {TableSettingsData} from '../../hoc/withTableSettings/withTableSettings';
 import type {DataItem} from '../utils';

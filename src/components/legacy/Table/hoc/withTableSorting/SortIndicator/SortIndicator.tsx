@@ -1,6 +1,6 @@
 import {ArrowDown, ArrowUp, ArrowUpArrowDown} from '@gravity-ui/icons';
 
-import {Icon} from '../../../../Icon';
+import {Icon} from '../../../../../Icon';
 
 export interface SortIndicatorProps {
     order?: 'asc' | 'desc';

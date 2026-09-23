@@ -7,8 +7,8 @@ import isEqual from 'lodash/isEqual';
 import {action} from 'storybook/actions';
 
 import type {TableAction, TableSettingsData} from '..';
-import {Icon} from '../../Icon';
-import {TreeSelect} from '../../TreeSelect/TreeSelect';
+import {Icon} from '../../../Icon';
+import {TreeSelect} from '../../../TreeSelect/TreeSelect';
 import {Table} from '../Table';
 import type {TableProps} from '../Table';
 
@@ -27,7 +27,7 @@ import {
 import type {DataItem} from './utils';
 
 export default {
-    title: 'Components/Data Display/Table',
+    title: 'Legacy/Table',
     component: Table,
     args: {
         columns,

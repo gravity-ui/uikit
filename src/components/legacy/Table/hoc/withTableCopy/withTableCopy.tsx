@@ -4,9 +4,9 @@ import * as React from 'react';
 
 import memoize from 'lodash/memoize';
 
-import {ClipboardButton} from '../../../ClipboardButton';
-import {block} from '../../../utils/cn';
-import {getComponentName} from '../../../utils/getComponentName';
+import {ClipboardButton} from '../../../../ClipboardButton';
+import {block} from '../../../../utils/cn';
+import {getComponentName} from '../../../../utils/getComponentName';
 import {Table} from '../../Table';
 import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
 
@@ -16,6 +16,9 @@ export interface WithTableCopyProps {}
 
 const b = block('table');
 
+/**
+ * @deprecated Legacy component. For new code use `@gravity-ui/table`
+ */
 export function withTableCopy<I extends TableDataItem, E extends {} = {}>(
     TableComponent: React.ComponentType<TableProps<I> & E>,
 ): React.ComponentType<TableProps<I> & E & WithTableCopyProps> {

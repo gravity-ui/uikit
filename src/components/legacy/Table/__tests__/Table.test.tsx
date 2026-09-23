@@ -2,7 +2,7 @@ import type * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {render, screen, within} from '../../../../test-utils/utils';
+import {render, screen, within} from '../../../../../test-utils/utils';
 import type {TableColumnConfig, TableProps, TableWidth} from '../Table';
 import {Table} from '../Table';
 

@@ -26,17 +26,34 @@ SANDBOX-->
 
 <!--/GITHUB_BLOCK-->
 
+## Тултип
+
+Используйте `tooltipProps` для настройки вложенного [`ActionTooltip`](../ActionTooltip/README-ru.md),
+например его положения или отрисовки через портал:
+
+```tsx
+<ClipboardButton
+  text="Текст для копирования"
+  tooltipProps={{placement: 'top', disablePortal: true}}
+/>
+```
+
+Свойствами `children`, `title`, `disabled` и `closeDelay` управляет `ClipboardButton`: их нельзя
+переопределить через `tooltipProps`. Для настройки обратной связи при копировании используйте
+`tooltipInitialText`, `tooltipSuccessText`, `hasTooltip` и `timeout`.
+
 ## Свойства
 
 `ClipboardButton` наследует [свойства](../Button/README-ru.md#свойства) от `Button`.
 
-| Имя                | Описание                                                                    |               Тип               | Значение по умолчанию |
-| :----------------- | :-------------------------------------------------------------------------- | :-----------------------------: | :-------------------: |
-| hasTooltip         | Включает или отключает отображение тултипа.                                 |            `boolean`            |        `true`         |
-| onCopy             | Обратный вызов после копирования:`(text: string, result: boolean) => void`. |           `Function`            |                       |
-| text               | Копируемый текст (может быть строкой или функцией, возвращающей строку).    |    `string \| () => string`     |                       |
-| timeout            | Время до возврата состояния в норму после клика по кнопке.                  |            `number`             |        `1000`         |
-| tooltipInitialText | Текст, отображаемый перед копированием.                                     |            `string`             |       `"Copy"`        |
-| tooltipSuccessText | Текст, отображаемый после копирования.                                      |            `string`             |      `"Copied!"`      |
-| icon               | Пользовательская иконка.                                                    |        `React.ReactNode`        |                       |
-| iconPosition       | Расположение иконки.                                                        | `start          \|         end` |        `start`        |
+| Имя                | Описание                                                                               |                                       Тип                                       | Значение по умолчанию |
+| :----------------- | :------------------------------------------------------------------------------------- | :-----------------------------------------------------------------------------: | :-------------------: |
+| hasTooltip         | Включает или отключает отображение тултипа.                                            |                                    `boolean`                                    |        `true`         |
+| onCopy             | Обратный вызов после копирования:`(text: string, result: boolean) => void`.            |                                   `Function`                                    |                       |
+| text               | Копируемый текст (может быть строкой или функцией, возвращающей строку).               |                            `string \| () => string`                             |                       |
+| timeout            | Время до возврата состояния в норму после клика по кнопке.                             |                                    `number`                                     |        `1000`         |
+| tooltipInitialText | Текст, отображаемый перед копированием.                                                |                                    `string`                                     |       `"Copy"`        |
+| tooltipSuccessText | Текст, отображаемый после копирования.                                                 |                                    `string`                                     |      `"Copied!"`      |
+| tooltipProps       | Дополнительные настройки тултипа, кроме свойств, которыми управляет `ClipboardButton`. | `Omit<ActionTooltipProps, 'children' \| 'title' \| 'disabled' \| 'closeDelay'>` |                       |
+| icon               | Пользовательская иконка.                                                               |                                `React.ReactNode`                                |                       |
+| iconPosition       | Расположение иконки.                                                                   |                         `start          \|         end`                         |        `start`        |

@@ -26,17 +26,31 @@ SANDBOX-->
 
 <!--/GITHUB_BLOCK-->
 
+## Tooltip
+
+Use `tooltipProps` to configure the underlying [`ActionTooltip`](../ActionTooltip/README.md),
+for example its placement or portal behavior:
+
+```tsx
+<ClipboardButton text="Some text to copy" tooltipProps={{placement: 'top', disablePortal: true}} />
+```
+
+`children`, `title`, `disabled`, and `closeDelay` are managed by `ClipboardButton` and cannot be
+overridden through `tooltipProps`. Use `tooltipInitialText`, `tooltipSuccessText`, `hasTooltip`,
+and `timeout` to configure copy feedback.
+
 ## Properties
 
 The `ClipboardButton` properties are inherited from the `Button` [properties](../Button/README.md#properties).
 
-| Name               | Description                                                               |            Type            |   Default   |
-| :----------------- | :------------------------------------------------------------------------ | :------------------------: | :---------: |
-| hasTooltip         | Toggles displaying the tooltip                                            |         `boolean`          |   `true`    |
-| onCopy             | Callback after copying `(text: string, result: boolean) => void`          |         `Function`         |             |
-| text               | Text to copy (can be a string or a function that returns a string)        |  `string \| () => string`  |             |
-| timeout            | Time before the state switches back to normal after the button is clicked |          `number`          |   `1000`    |
-| tooltipInitialText | Text shown before copying                                                 |          `string`          |  `"Copy"`   |
-| tooltipSuccessText | Text shown after copying                                                  |          `string`          | `"Copied!"` |
-| icon               | Custom icon                                                               |     `React.ReactNode`      |             |
-| iconPosition       | Position of icon                                                          | `start          \|    end` |   `start`   |
+| Name               | Description                                                                    |                                      Type                                       |   Default   |
+| :----------------- | :----------------------------------------------------------------------------- | :-----------------------------------------------------------------------------: | :---------: |
+| hasTooltip         | Toggles displaying the tooltip                                                 |                                    `boolean`                                    |   `true`    |
+| onCopy             | Callback after copying `(text: string, result: boolean) => void`               |                                   `Function`                                    |             |
+| text               | Text to copy (can be a string or a function that returns a string)             |                            `string \| () => string`                             |             |
+| timeout            | Time before the state switches back to normal after the button is clicked      |                                    `number`                                     |   `1000`    |
+| tooltipInitialText | Text shown before copying                                                      |                                    `string`                                     |  `"Copy"`   |
+| tooltipSuccessText | Text shown after copying                                                       |                                    `string`                                     | `"Copied!"` |
+| tooltipProps       | Additional tooltip configuration, excluding props managed by `ClipboardButton` | `Omit<ActionTooltipProps, 'children' \| 'title' \| 'disabled' \| 'closeDelay'>` |             |
+| icon               | Custom icon                                                                    |                                `React.ReactNode`                                |             |
+| iconPosition       | Position of icon                                                               |                           `start          \|    end`                            |   `start`   |

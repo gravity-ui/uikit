@@ -11,37 +11,21 @@ permissions: {}
 jobs:
   release:
     runs-on: ubuntu-latest
+    environment: npm-publish
     permissions:
       contents: read
-    outputs:
-      created: ${{ steps.release_action.outputs['release-created'] }}
-      sha: ${{ steps.release_action.outputs['release-sha'] }}
+      id-token: write
     steps:
       - name: Generate token
         id: generate-token
-        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+        uses: actions/create-github-app-token@v2
         with:
           app-id: ${{ secrets.GRAVITY_UI_APP_ID }}
           private-key: ${{ secrets.GRAVITY_UI_APP_PRIVATE_KEY }}
       - name: Release from ${{ github.ref_name }}
-        id: release_action
-        # The v3 tag must exist in gravity-ui/release-action before merging this UIKit PR.
-        uses: gravity-ui/release-action@v3
+        uses: gravity-ui/release-action@v2
         with:
           github-token: ${{ steps.generate-token.outputs.token }}
-          publish: 'false'
-          node-version: '20'
+          node-version: '24'
           default-branch: ${{ github.ref_name != 'main' && github.ref_name || null }}
-
-  publish:
-    needs: release
-    if: ${{ needs.release.outputs.created == 'true' }}
-    permissions:
-      contents: read
-      id-token: write
-    # The v3 tag must exist in gravity-ui/release-action before merging this UIKit PR.
-    uses: gravity-ui/release-action/.github/workflows/npm-publish.yml@v3
-    with:
-      release-sha: ${{ needs.release.outputs.sha }}
-      environment-name: npm-publish
-      npm-dist-tag: ${{ github.ref_name == 'main' && 'latest' || 'untagged' }}
+          npm-dist-tag: ${{ github.ref_name != 'main' && 'untagged' || 'latest' }}

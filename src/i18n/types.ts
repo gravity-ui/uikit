@@ -4,6 +4,7 @@ import type {default as AvatarStackKeyset} from '../components/AvatarStack/i18n'
 import type {default as BreadcrumbsKeyset} from '../components/Breadcrumbs/i18n';
 import type {default as ClipboardButtonKeyset} from '../components/ClipboardButton/i18n';
 import type {default as DialogKeyset} from '../components/Dialog/i18n';
+import type {default as HelloPangeaDndKeyset} from '../components/HelloPangeaDnd/i18n';
 import type {default as PaginationKeyset} from '../components/Pagination/i18n';
 import type {default as PinInputKeyset} from '../components/PinInput/i18n';
 import type {default as SelectKeyset} from '../components/Select/i18n';
@@ -24,6 +25,7 @@ export type Keysets = typeof ActionsPanelKeyset.keysetData &
     typeof BreadcrumbsKeyset.keysetData &
     typeof ClipboardButtonKeyset.keysetData &
     typeof DialogKeyset.keysetData &
+    typeof HelloPangeaDndKeyset.keysetData &
     typeof PaginationKeyset.keysetData &
     typeof PinInputKeyset.keysetData &
     typeof WithTableSettingsTableColumnSetupKeyset.keysetData &

@@ -1,4 +1,5 @@
 export {List} from './List';
+export {ListDndContext} from './DndContext';
 export {moveItem} from './moveItem';
 export type {ListSectionHeaderProps} from './SectionHeader';
 export {useListFocusOwner} from './useListFocusOwner';

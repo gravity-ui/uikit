@@ -211,7 +211,8 @@ export type ListDndProps = Omit<ListPropsOverrides, 'role' | 'id' | 'tabIndex'>;
  *  stable refs per id, no render-state closures, deduplicated dropTarget, state filled in even
  *  when the props bypass the adapter — see README "Any other library"
  */
-export interface ListDndAdapter {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface ListDndAdapter<T = any> {
     /** Props for the list root (the drop zone); ref — for libraries that register the element */
     getContainerDndProps?(): ListDndProps;
     /** Props for a row, merged after the core props and before the overrides; options only */
@@ -220,9 +221,22 @@ export interface ListDndAdapter {
     draggingId?: string | null;
     /** The insertion target — the source of ctx.state.dropTarget and data-drop-target; declarative */
     dropTarget?: ListDropTarget | null;
+    /**
+     * Rendered as the last child of the list root — the place libraries such as
+     *  `@hello-pangea/dnd` reserve for the gap of the dragged row. Ignored under virtualization
+     */
+    placeholder?: React.ReactNode;
+    /**
+     * The row render while the List has no `renderItem` of its own. Keep it stable: rows are
+     *  memoized by its identity
+     */
+    renderItem?: (ctx: ListItemContext<T>, helpers: ListItemHelpers) => React.ReactNode;
 }
 
 export interface ListProps<T> extends ListCoreProps<T>, ListSelectionProps {
-    /** The dnd layer; absent until passed: no dragging/dropTarget in ctx.state, no data attributes */
-    dnd?: ListDndAdapter;
+    /**
+     * The dnd layer; absent until passed (here or through `ListDndContext`): no dragging/dropTarget
+     *  in ctx.state, no data attributes. The prop wins over the context
+     */
+    dnd?: ListDndAdapter<T>;
 }

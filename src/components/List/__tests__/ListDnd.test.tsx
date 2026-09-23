@@ -3,10 +3,12 @@ import * as React from 'react';
 import userEvent from '@testing-library/user-event';
 
 import {fireEvent, render, screen} from '../../../../test-utils/utils';
+import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
+import {ListDndContext} from '../DndContext';
 import {List} from '../List';
 import type {ListDndAdapter, ListDndProps, ListItemContext, ListItemHelpers} from '../types';
 
-import {FRUITS, GROUPS, createTracker, getSectionHeader} from './helpers';
+import {FRUITS, GROUPS, createTracker, getSectionHeader, mockLayout} from './helpers';
 
 /** Stable per-id ref callbacks — the obligation of an adapter */
 function createStableRefs(onRef: (id: string, element: HTMLElement | null) => void) {
@@ -344,6 +346,189 @@ describe('List: dnd layer', () => {
             );
             const rendered = renderItem.mock.calls.map(([ctx]) => ctx.id).sort();
             expect(rendered).toEqual(['Banana', 'Cherry']);
+        });
+    });
+
+    describe('ListDndContext: the adapter of a wrapper that owns the library', () => {
+        test('without the prop the adapter comes from the context', () => {
+            render(
+                <ListDndContext.Provider
+                    value={{
+                        draggingId: 'Banana',
+                        getContainerDndProps: () => ({'data-zone': 'fruits'}),
+                    }}
+                >
+                    <List aria-label="Fruits" items={FRUITS} />
+                </ListDndContext.Provider>,
+            );
+            expect(screen.getByRole('listbox')).toHaveAttribute('data-zone', 'fruits');
+            expect(screen.getByRole('listbox')).toHaveAttribute('data-drag-active');
+            expect(screen.getByRole('option', {name: 'Banana'})).toHaveAttribute('data-dragging');
+        });
+
+        test('the prop wins over the context, with a dev warning', () => {
+            const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+            try {
+                render(
+                    <ListDndContext.Provider value={{draggingId: 'Banana'}}>
+                        <List aria-label="Fruits" items={FRUITS} dnd={{draggingId: 'Cherry'}} />
+                    </ListDndContext.Provider>,
+                );
+                expect(screen.getByRole('option', {name: 'Cherry'})).toHaveAttribute(
+                    'data-dragging',
+                );
+                expect(screen.getByRole('option', {name: 'Banana'})).not.toHaveAttribute(
+                    'data-dragging',
+                );
+                expect(consoleErrorSpy).toHaveBeenCalledWith(
+                    expect.stringContaining('Both the `dnd` prop and a ListDndContext'),
+                );
+            } finally {
+                consoleErrorSpy.mockRestore();
+            }
+        });
+
+        test('a list inside a row does not inherit the adapter', () => {
+            render(
+                <ListDndContext.Provider
+                    value={{
+                        draggingId: 'Apple',
+                        getContainerDndProps: () => ({'data-zone': 'outer'}),
+                    }}
+                >
+                    <List
+                        aria-label="Outer"
+                        role="grid"
+                        items={['Apple']}
+                        renderItem={(_ctx, helpers) => (
+                            <List.ItemView
+                                {...helpers.getItemProps()}
+                                {...helpers.getItemViewProps()}
+                            >
+                                <div {...helpers.getCellProps()}>
+                                    <List aria-label="Inner" items={['Apple', 'Kiwi']} />
+                                </div>
+                            </List.ItemView>
+                        )}
+                    />
+                </ListDndContext.Provider>,
+            );
+            const inner = screen.getByRole('listbox', {name: 'Inner'});
+            expect(inner).not.toHaveAttribute('data-zone');
+            expect(inner).not.toHaveAttribute('data-drag-active');
+            expect(screen.getByRole('grid', {name: 'Outer'})).toHaveAttribute('data-zone', 'outer');
+        });
+    });
+
+    describe('placeholder: the last child of the root', () => {
+        test('rendered after the rows', () => {
+            render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    dnd={{placeholder: <div data-qa="gap" />}}
+                />,
+            );
+            // The position among the children of the root is the contract itself
+            // eslint-disable-next-line testing-library/no-node-access
+            const children = Array.from(screen.getByRole('listbox').children);
+            expect(children).toHaveLength(FRUITS.length + 1);
+            expect(children[FRUITS.length]).toBe(screen.getByTestId('gap'));
+        });
+
+        test('rendered after the rows of the last section', () => {
+            render(
+                <List
+                    aria-label="Groups"
+                    items={GROUPS}
+                    dnd={{placeholder: <div data-qa="gap" />}}
+                />,
+            );
+            // eslint-disable-next-line testing-library/no-node-access
+            const last = screen.getByRole('listbox').lastElementChild;
+            expect(last).toBe(screen.getByTestId('gap'));
+        });
+
+        describe('under virtualization', () => {
+            mockLayout({viewport: 120, row: 24});
+
+            test('ignored', () => {
+                render(
+                    <ListVirtualizer estimateItemSize={24}>
+                        <List
+                            aria-label="Fruits"
+                            items={FRUITS}
+                            dnd={{placeholder: <div data-qa="gap" />}}
+                        />
+                    </ListVirtualizer>,
+                );
+                expect(screen.getAllByRole('option')).toHaveLength(FRUITS.length);
+                expect(screen.queryByTestId('gap')).not.toBeInTheDocument();
+            });
+        });
+    });
+
+    describe('renderItem of the adapter', () => {
+        const renderAdapterRow = (ctx: ListItemContext<string>, helpers: ListItemHelpers) => (
+            <List.ItemView
+                {...helpers.getItemProps({'data-row': 'adapter'})}
+                {...helpers.getItemViewProps()}
+            >
+                {ctx.content}
+            </List.ItemView>
+        );
+
+        test('renders the rows while the List has no renderItem of its own', () => {
+            render(
+                <List aria-label="Fruits" items={FRUITS} dnd={{renderItem: renderAdapterRow}} />,
+            );
+            for (const option of screen.getAllByRole('option')) {
+                expect(option).toHaveAttribute('data-row', 'adapter');
+            }
+        });
+
+        test('the renderItem of the List wins', () => {
+            render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    dnd={{renderItem: renderAdapterRow}}
+                    renderItem={(ctx, helpers) => (
+                        <List.ItemView
+                            {...helpers.getItemProps({'data-row': 'own'})}
+                            {...helpers.getItemViewProps()}
+                        >
+                            {ctx.content}
+                        </List.ItemView>
+                    )}
+                />,
+            );
+            for (const option of screen.getAllByRole('option')) {
+                expect(option).toHaveAttribute('data-row', 'own');
+            }
+        });
+
+        test('a stable renderItem keeps the rows memoized across new adapter objects', () => {
+            const renderItem = jest.fn(renderAdapterRow);
+            const {rerender} = render(
+                <List aria-label="Fruits" items={FRUITS} dnd={{renderItem, draggingId: null}} />,
+            );
+            renderItem.mockClear();
+
+            rerender(
+                <List aria-label="Fruits" items={FRUITS} dnd={{renderItem, draggingId: null}} />,
+            );
+            expect(renderItem).not.toHaveBeenCalled();
+
+            rerender(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    dnd={{renderItem, draggingId: 'Cherry'}}
+                />,
+            );
+            const rendered = renderItem.mock.calls.map(([ctx]) => ctx.id).sort();
+            expect(rendered).toEqual(['Apple', 'Banana', 'Cherry', 'Melon']);
         });
     });
 });

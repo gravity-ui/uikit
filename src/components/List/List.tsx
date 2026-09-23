@@ -7,6 +7,7 @@ import type {ListItemViewProps as FullListItemViewProps} from '../ListItemView/L
 import {block} from '../utils/cn';
 import {warnOnce} from '../utils/warn';
 
+import {ListDndContext} from './DndContext';
 import {ListSectionHeader} from './SectionHeader';
 import {ListVirtualizationContext} from './VirtualizationContext';
 import {composeItemProps} from './composeItemProps';
@@ -147,12 +148,12 @@ function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
         className,
         style,
         qa,
-        renderItem,
         selectionMode,
         containerProps: extraContainerProps,
     } = props;
     const virtualization = React.useContext(ListVirtualizationContext);
     const list = useList(props);
+    const renderItem = props.renderItem ?? list.dnd?.renderItem;
 
     const listRef = React.useRef(list);
     listRef.current = list;
@@ -225,15 +226,19 @@ function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
             overscan={virtualization.overscan}
         />
     ) : (
-        <div {...containerProps}>{list.visibleIds.map((id) => renderRow(id))}</div>
+        <div {...containerProps}>
+            {list.visibleIds.map((id) => renderRow(id))}
+            {list.dnd?.placeholder}
+        </div>
     );
 
-    // The virtualization of this list is its own: a list (or a Select) rendered inside a row must
-    // not inherit it — the wrapper of the outer list knows nothing of the rows of the inner one.
-    // The root above has the value of the context already, it is taken in this very render
+    // The virtualization and the dnd adapter of this list are its own: a list (or a Select)
+    // rendered inside a row must not inherit them — the wrapper of the outer list knows nothing of
+    // the rows of the inner one, and a second drop zone would take over the ref of the first.
+    // The root above has the values of the contexts already, they are taken in this very render
     return (
         <ListVirtualizationContext.Provider value={null}>
-            {content}
+            <ListDndContext.Provider value={null}>{content}</ListDndContext.Provider>
         </ListVirtualizationContext.Provider>
     );
 }

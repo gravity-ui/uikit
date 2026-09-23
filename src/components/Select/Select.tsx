@@ -4,10 +4,10 @@ import * as React from 'react';
 
 import {KeyCode} from '../../constants';
 import {useControlledState, useFocusWithin, useForkRef, useSelect, useUniqId} from '../../hooks';
+import {useListFocusOwner} from '../List';
+import {ListVirtualizationContext} from '../List/VirtualizationContext';
 import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
 import {errorPropsMapper} from '../controls/utils';
-import {useListFocusOwner} from '../lab/List';
-import {ListVirtualizationContext} from '../lab/List/VirtualizationContext';
 import {useMobile} from '../mobile';
 import {useDefaultProps} from '../theme/useDefaultProps';
 import type {CnMods} from '../utils/cn';

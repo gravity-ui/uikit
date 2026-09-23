@@ -514,7 +514,7 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 
 - Минимальная ширина списка опций равна ширине контрола или `100px`, если ширина контрола меньше `100px`.
 
-- Высота строки до её рендера берётся из [getOptionHeight](#отображение-опций-с-разной-высотой) и размера (`size`) `Select`; проп `estimateItemSize` обёртки не используется, так как тип строки-опции наружу не выходит — при его передаче в разработке пишется предупреждение. Пропы `measure` и `overscan` работают так, как [описано](https://github.com/gravity-ui/uikit/blob/main/src/components/lab/List/README.md#virtualization) для `List`.
+- Высота строки до её рендера берётся из [getOptionHeight](#отображение-опций-с-разной-высотой) и размера (`size`) `Select`; проп `estimateItemSize` обёртки не используется, так как тип строки-опции наружу не выходит — при его передаче в разработке пишется предупреждение. Пропы `measure` и `overscan` работают так, как [описано](https://github.com/gravity-ui/uikit/blob/main/src/components/List/README.md#virtualization) для `List`.
 
 - На сервере виртуализатор не знает размер вьюпорта и отдаёт пустое окно: опции появляются после гидратации.
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.50.1](https://github.com/gravity-ui/uikit/compare/v7.50.0...v7.50.1) (2026-09-23)
+
+
+### Bug Fixes
+
+* **ActionsPanel:** collapse actions before truncating the note ([#2848](https://github.com/gravity-ui/uikit/issues/2848)) ([bf767ee](https://github.com/gravity-ui/uikit/commit/bf767ee28944805ceb60b532b60c62be53b0ceda))
+* **Popover:** handle nested popup interactions ([#2844](https://github.com/gravity-ui/uikit/issues/2844)) ([947560f](https://github.com/gravity-ui/uikit/commit/947560f22e16fb032b3001407d06031424a29b13))
+
 ## [7.50.0](https://github.com/gravity-ui/uikit/compare/v7.49.0...v7.50.0) (2026-09-22)
 
 

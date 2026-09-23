@@ -4,9 +4,9 @@ import userEvent from '@testing-library/user-event';
 
 import {SelectQa} from '..';
 import {act, render, screen} from '../../../../test-utils/utils';
+import {mockLayout} from '../../List/__tests__/helpers';
+import {TYPEAHEAD_TIMEOUT} from '../../List/utils';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
-import {mockLayout} from '../../lab/List/__tests__/helpers';
-import {TYPEAHEAD_TIMEOUT} from '../../lab/List/utils';
 import {MobileProvider} from '../../mobile';
 
 import {

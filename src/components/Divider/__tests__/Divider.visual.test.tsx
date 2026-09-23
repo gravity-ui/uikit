@@ -5,7 +5,7 @@ import {test} from '~playwright/core';
 import type {DividerProps} from '../Divider';
 
 import {orientationCases} from './cases';
-import {ListWithDivider} from './helpers';
+import {ContentWithDivider} from './helpers';
 
 test.describe('Divider', {tag: '@Divider'}, () => {
     test('smoke smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
@@ -21,7 +21,7 @@ test.describe('Divider', {tag: '@Divider'}, () => {
                     <div key={title}>
                         <h4>{title}</h4>
                         <div>
-                            <ListWithDivider {...props} />
+                            <ContentWithDivider {...props} />
                         </div>
                     </div>
                 ))}

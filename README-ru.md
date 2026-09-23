@@ -87,10 +87,15 @@ import '@gravity-ui/uikit/styles/styles.css';
 | `@gravity-ui/uikit/unstable`          | Компоненты, чей API ещё меняется            | На свой риск — они ломаются и вне мажорных релизов                                   |
 | `@gravity-ui/uikit/legacy`            | Компоненты, которые больше не развиваются   | Только пока мигрируете с них                                                         |
 
-`@tanstack/react-virtual` — опциональная peer-зависимость точки входа `/virtualizer`: поставьте её
-рядом с пакетом, если импортируете оттуда. Всё остальное этим точкам входа приносит сам пакет.
-`ListVirtualizer` и `useListHelloPangeaDnd` работают с `unstable_List` и наследуют его
-стабильность; отдельно стоящий `Virtualizer` — нет.
+Некоторым точкам входа нужны свои пакеты — они объявлены необязательными peer-зависимостями:
+поставьте их рядом с `@gravity-ui/uikit`, если импортируете оттуда. Всё остальное приносит сам пакет.
+
+| Точка входа                                                                    | Что поставить                                  |
+| :----------------------------------------------------------------------------- | :--------------------------------------------- |
+| `@gravity-ui/uikit/virtualizer`                                                | `@tanstack/react-virtual`                      |
+| `@gravity-ui/uikit/hello-pangea-dnd`                                           | `@hello-pangea/dnd`                            |
+| `@gravity-ui/uikit/legacy` (`List`)                                            | `react-window`, `react-virtualized-auto-sizer` |
+| `@gravity-ui/uikit/legacy` (`Table` с `withTableSettings`, `TableColumnSetup`) | `@hello-pangea/dnd`                            |
 
 ## Разработка
 

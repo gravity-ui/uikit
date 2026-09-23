@@ -87,10 +87,16 @@ Read more:
 | `@gravity-ui/uikit/unstable`          | Components whose API is still moving        | At your own risk — these break outside of major releases                          |
 | `@gravity-ui/uikit/legacy`            | Components that are no longer developed     | Only while migrating away from them                                               |
 
-`@tanstack/react-virtual` is an optional peer dependency of the `/virtualizer` entry point:
-install it next to the package when you import from there. Everything else these entry points
-need comes with the package itself. `ListVirtualizer` and `useListHelloPangeaDnd` work with the
-`unstable_List` and follow its stability; the standalone `Virtualizer` does not.
+Some entry points need packages of their own, declared as optional peer dependencies: install them
+next to `@gravity-ui/uikit` when you import from there. Everything else comes with the package
+itself.
+
+| Entry point                                                                       | What to install                                |
+| :-------------------------------------------------------------------------------- | :--------------------------------------------- |
+| `@gravity-ui/uikit/virtualizer`                                                   | `@tanstack/react-virtual`                      |
+| `@gravity-ui/uikit/hello-pangea-dnd`                                              | `@hello-pangea/dnd`                            |
+| `@gravity-ui/uikit/legacy` (`List`)                                               | `react-window`, `react-virtualized-auto-sizer` |
+| `@gravity-ui/uikit/legacy` (`Table` with `withTableSettings`, `TableColumnSetup`) | `@hello-pangea/dnd`                            |
 
 ## Development
 
@@ -155,11 +161,10 @@ The base React component and design-token library for Gravity UI apps — contro
 
 - Standard application UI: buttons, form controls, modals and popups, menus, tabs, labels, typography, and layout primitives.
 - The theming foundation of a Gravity UI app: `ThemeProvider`, design tokens, and CSS variables the rest of the `@gravity-ui/*` ecosystem expects to be present.
-- Simple tabular data via the built-in `Table` component (selection, sorting, row actions).
 
 ### When not to use
 
-- Feature-rich data grids (virtualization, column resizing, grouping, reordering) — use [`@gravity-ui/table`](https://github.com/gravity-ui/table), a separate headless package. It is **not** the same as uikit's `Table` component.
+- Tables and data grids (selection, sorting, virtualization, column resizing, grouping, reordering) — use [`@gravity-ui/table`](https://github.com/gravity-ui/table), a separate headless package. The `Table` component of uikit lives in `@gravity-ui/uikit/legacy` since v8 and is kept only for existing code.
 - Charts and data visualization — use [`@gravity-ui/charts`](https://github.com/gravity-ui/charts) (`@gravity-ui/chartkit` is the legacy wrapper).
 - Application navigation shells (aside header, footer, logo) — use [`@gravity-ui/navigation`](https://github.com/gravity-ui/navigation).
 - Date pickers, calendars, and range controls — use [`@gravity-ui/date-components`](https://github.com/gravity-ui/date-components).

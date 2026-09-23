@@ -151,14 +151,11 @@
     "@floating-ui/react": "^0.27.16",
     "@gravity-ui/i18n": "^1.8.0",
     "@gravity-ui/icons": "^2.16.0",
-    "@hello-pangea/dnd": "^18.0.1",
     "@uiw/react-color": "^2.9.2",
     "blueimp-md5": "^2.19.0",
     "lodash": "^4.17.21",
     "rc-slider": "^11.1.9",
     "react-transition-group": "^4.4.5",
-    "react-virtualized-auto-sizer": "^1.0.26",
-    "react-window": "^1.8.11",
     "tabbable": "^6.2.0",
     "tslib": "^2.8.1",
     "use-sync-external-store": "^1.6.0"
@@ -182,6 +179,7 @@
     "@gravity-ui/stylelint-config": "^5.0.0",
     "@gravity-ui/tsconfig": "^1.0.0",
     "@gravity-ui/uikit-themer": "^1.8.1",
+    "@hello-pangea/dnd": "^18.0.1",
     "@playwright/experimental-ct-react": "^1.56.0",
     "@playwright/test": "^1.56.0",
     "@storybook/addon-a11y": "^9.0.5",
@@ -229,6 +227,8 @@
     "react": "^18.3.1",
     "react-docgen-typescript": "^2.4.0",
     "react-dom": "^18.3.1",
+    "react-virtualized-auto-sizer": "^1.0.26",
+    "react-window": "^1.8.11",
     "rimraf": "^6.0.1",
     "sass": "^1.93.2",
     "sass-loader": "^16.0.5",
@@ -240,16 +240,28 @@
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
+    "@hello-pangea/dnd": "^18",
     "@tanstack/react-virtual": "^3",
     "@types/react": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
     "react": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
-    "react-dom": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
+    "react-dom": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-virtualized-auto-sizer": "^1",
+    "react-window": "^1"
   },
   "peerDependenciesMeta": {
+    "@hello-pangea/dnd": {
+      "optional": true
+    },
     "@tanstack/react-virtual": {
       "optional": true
     },
     "@types/react": {
+      "optional": true
+    },
+    "react-virtualized-auto-sizer": {
+      "optional": true
+    },
+    "react-window": {
       "optional": true
     }
   },

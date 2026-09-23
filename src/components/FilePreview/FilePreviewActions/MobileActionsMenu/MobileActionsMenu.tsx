@@ -5,7 +5,7 @@ import {EllipsisVertical} from '@gravity-ui/icons';
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {List} from '../../../List';
-import type {ListProps} from '../../../List';
+import type {ListItemContext, ListItemHelpers, ListProps} from '../../../List';
 import {Sheet} from '../../../Sheet';
 import {Text} from '../../../Text';
 import {block} from '../../../utils/cn';
@@ -21,31 +21,42 @@ export interface MobileActionsMenuProps {
     isCustomImage?: boolean;
 }
 
-const renderListItem = (item: FilePreviewAction) => {
-    return (
-        <div className={cn('list-item')}>
-            {item.icon}
-            <Text variant="body-2" title={item.title} ellipsis>
-                {item.title}
-            </Text>
-        </div>
-    );
-};
+const getActionTextValue = (action: FilePreviewAction) => action.title;
+
+const renderAction = (
+    {item}: ListItemContext<FilePreviewAction>,
+    {getItemProps, getItemViewProps}: ListItemHelpers,
+) => (
+    <List.ItemView
+        {...getItemProps({className: cn('list-item')})}
+        {...getItemViewProps()}
+        startContent={<span className={cn('list-item-icon')}>{item.icon}</span>}
+    >
+        <Text variant="body-2" title={item.title} ellipsis>
+            {item.title}
+        </Text>
+    </List.ItemView>
+);
 
 export const MobileActionsMenu = ({actions, fileName, isCustomImage}: MobileActionsMenuProps) => {
     const [showMobileMenu, setShowMobileMenu] = React.useState(false);
+
+    // The id of an action is optional, and two actions may share a title: the rows of the list
+    // need ids of their own anyway
+    const items = React.useMemo(
+        () => actions.map((action, index) => ({...action, id: action.id ?? `action-${index}`})),
+        [actions],
+    );
 
     const handleMobileMenuClose = React.useCallback(() => {
         setShowMobileMenu(false);
     }, []);
 
-    const handleItemClick = React.useCallback<
-        NonNullable<ListProps<FilePreviewAction>['onItemClick']>
-    >((item, _, __, event) => {
-        if (event) {
-            // function can be called only on a mobile device
-            item.onClick?.(event as React.MouseEvent<HTMLDivElement, MouseEvent>);
-        }
+    const handleItemAction = React.useCallback<
+        NonNullable<ListProps<FilePreviewAction>['onItemAction']>
+    >((_id, action, event) => {
+        // function can be called only on a mobile device
+        action.onClick?.(event as React.MouseEvent<HTMLElement>);
         setShowMobileMenu(false);
     }, []);
 
@@ -72,12 +83,11 @@ export const MobileActionsMenu = ({actions, fileName, isCustomImage}: MobileActi
                 title={fileName}
             >
                 <List
-                    items={actions}
-                    filterable={false}
-                    renderItem={renderListItem}
-                    itemHeight={44}
-                    virtualized={false}
-                    onItemClick={handleItemClick}
+                    aria-label={fileName}
+                    items={items}
+                    getItemTextValue={getActionTextValue}
+                    renderItem={renderAction}
+                    onItemAction={handleItemAction}
                 />
             </Sheet>
         </React.Fragment>

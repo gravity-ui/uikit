@@ -2,7 +2,7 @@
 import type {DragStart, DropResult} from '@hello-pangea/dnd';
 
 import {act, renderHook} from '../../../../test-utils/utils';
-import {moveItem} from '../../lab/List/moveItem';
+import {moveItem} from '../../List/moveItem';
 import {useListHelloPangeaDnd} from '../useListHelloPangeaDnd';
 
 const ids = ['a', 'b', 'c', 'd', 'e'];
@@ -18,9 +18,10 @@ const dropResult = (
     draggableId: string,
     index: number | null,
     order: readonly string[] = ids,
+    destinationDroppableId = 'list',
 ): DropResult => ({
     ...dragStart(draggableId, order),
-    destination: index === null ? null : {droppableId: 'list', index},
+    destination: index === null ? null : {droppableId: destinationDroppableId, index},
     reason: 'DROP',
     combine: null,
 });
@@ -93,5 +94,25 @@ describe('useListHelloPangeaDnd', () => {
         act(() => onDragEnd(dropResult('e', reversed.length - 1, reversed)));
         expect(onDropFirst).not.toHaveBeenCalled();
         expect(onDropSecond).toHaveBeenCalledWith('e', 'a', 'after');
+    });
+
+    describe('several lists under one DragDropContext', () => {
+        test('a drag of a row of another list does not mark this one', () => {
+            const {result} = renderHook(() => useListHelloPangeaDnd({ids, onDrop: jest.fn()}));
+
+            act(() => result.current.onDragStart(dragStart('x', ['x'])));
+            expect(result.current.draggingId).toBeNull();
+        });
+
+        test('a move into another droppable does not reorder this list', () => {
+            const onDrop = jest.fn();
+            const {result} = renderHook(() => useListHelloPangeaDnd({ids, onDrop}));
+
+            act(() => result.current.onDragStart(dragStart('b')));
+            act(() => result.current.onDragEnd(dropResult('b', 3, ids, 'other')));
+
+            expect(onDrop).not.toHaveBeenCalled();
+            expect(result.current.draggingId).toBeNull();
+        });
     });
 });

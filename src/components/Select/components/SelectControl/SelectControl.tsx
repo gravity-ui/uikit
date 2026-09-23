@@ -6,8 +6,8 @@ import {ChevronDown, TriangleExclamation} from '@gravity-ui/icons';
 
 import {Alert} from '../../../Alert';
 import {Icon} from '../../../Icon';
+import type {ListFocusOwner} from '../../../List';
 import {Popover} from '../../../Popover';
-import type {ListFocusOwner} from '../../../lab/List';
 import {useDirection} from '../../../theme';
 import type {AriaLabelingProps} from '../../../types';
 import type {CnMods} from '../../../utils/cn';

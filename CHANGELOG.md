@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.51.0](https://github.com/gravity-ui/uikit/compare/v7.50.1...v7.51.0) (2026-09-25)
+
+
+### Features
+
+* **HelpMark:** use Sheet on mobile ([#2850](https://github.com/gravity-ui/uikit/issues/2850)) ([9af7139](https://github.com/gravity-ui/uikit/commit/9af71390e6cb96e3d9775ab6df507ecbdefccba2))
+* **theme:** support external default props ([#2841](https://github.com/gravity-ui/uikit/issues/2841)) ([a36619a](https://github.com/gravity-ui/uikit/commit/a36619aaf378b8f6e91ce8ad952a85ab81f03525))
+
 ## [7.50.1](https://github.com/gravity-ui/uikit/compare/v7.50.0...v7.50.1) (2026-09-23)
 
 

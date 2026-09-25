@@ -204,6 +204,30 @@ describe('Disclosure', () => {
         expect(disclosure).toHaveClass('g-disclosure__trigger_arrow_end');
     });
 
+    test('apply full-width summary layout modifiers', () => {
+        render(
+            <Disclosure>
+                <Disclosure.Summary width="max" justifyContent="space-between" />
+            </Disclosure>,
+        );
+        const disclosure = screen.getByRole('button');
+
+        expect(disclosure).toHaveClass(
+            'g-disclosure__trigger_width_max',
+            'g-disclosure__trigger_justify-content_space-between',
+        );
+    });
+
+    test('preserve default summary layout modifiers when props are omitted', () => {
+        render(<Disclosure />);
+        const disclosure = screen.getByRole('button');
+
+        expect(disclosure).toHaveClass(
+            'g-disclosure__trigger_width_auto',
+            'g-disclosure__trigger_justify-content_start',
+        );
+    });
+
     test('custom qa', () => {
         render(
             <Disclosure qa="test-custom-qa">

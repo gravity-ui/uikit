@@ -63,12 +63,12 @@ UIKit поставляет четыре встроенные темы:
 Используйте `ThemeProvider.defaultProps`, чтобы задать общие значения свойств компонентов UIKit:
 
 ```tsx
-import type {ComponentDefaultPropsMap} from '@gravity-ui/uikit';
+import type {DefaultPropsMap} from '@gravity-ui/uikit';
 import {Button, ThemeProvider} from '@gravity-ui/uikit';
 
 const defaultProps = {
   Button: {size: 'l', view: 'outlined'},
-} satisfies ComponentDefaultPropsMap;
+} satisfies DefaultPropsMap;
 
 <ThemeProvider defaultProps={defaultProps}>
   <Button>Большая контурная кнопка</Button>
@@ -79,12 +79,12 @@ const defaultProps = {
 области темы:
 
 ```tsx
-import type {ComponentDefaultPropsMap} from '@gravity-ui/uikit';
+import type {DefaultPropsMap} from '@gravity-ui/uikit';
 import {Button, DefaultPropsProvider} from '@gravity-ui/uikit';
 
 const actionButtonDefaults = {
   Button: {view: 'action'},
-} satisfies ComponentDefaultPropsMap;
+} satisfies DefaultPropsMap;
 
 <DefaultPropsProvider defaultProps={actionButtonDefaults}>
   <Button>Акцентная кнопка</Button>
@@ -101,6 +101,39 @@ const actionButtonDefaults = {
 Ссылка на объект `defaultProps` должна оставаться стабильной: объявите его вне render или
 используйте `React.useMemo`. Inline-объект создаёт новое значение контекста при каждом render
 родителя и обновляет все компоненты, использующие значения по умолчанию.
+
+### Defaults для компонентов из других библиотек
+
+Библиотеки на основе UIKit могут использовать тот же провайдер для своих компонентов. Библиотеке
+следует держать `@gravity-ui/uikit` в `peerDependencies`, расширить `DefaultPropsMap` в публичных
+декларациях типов и применять defaults через `useDefaultProps`:
+
+```tsx
+import {useDefaultProps} from '@gravity-ui/uikit';
+
+import type {DatePickerProps} from './DatePicker';
+
+declare module '@gravity-ui/uikit' {
+  interface DefaultPropsMap {
+    '@gravity-ui/date-components/DatePicker'?: Partial<DatePickerProps>;
+  }
+}
+
+export function DatePicker(rawProps: DatePickerProps) {
+  const props = useDefaultProps('@gravity-ui/date-components/DatePicker', rawProps);
+  // ...
+}
+```
+
+Используйте имена компонентов с пакетом, чтобы избежать коллизий с другими библиотеками. После
+импорта типов библиотеки потребитель может настроить её компоненты вместе с компонентами UIKit:
+
+```tsx
+const defaultProps = {
+  Button: {size: 'l'},
+  '@gravity-ui/date-components/DatePicker': {size: 'l'},
+} satisfies DefaultPropsMap;
+```
 
 ## Слои цветовых токенов
 

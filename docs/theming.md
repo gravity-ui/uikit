@@ -60,12 +60,12 @@ Read or switch the theme at runtime with the `useTheme` / `useThemeValue` hooks.
 Use `ThemeProvider.defaultProps` to set application-wide defaults for UIKit components:
 
 ```tsx
-import type {ComponentDefaultPropsMap} from '@gravity-ui/uikit';
+import type {DefaultPropsMap} from '@gravity-ui/uikit';
 import {Button, ThemeProvider} from '@gravity-ui/uikit';
 
 const defaultProps = {
   Button: {size: 'l', view: 'outlined'},
-} satisfies ComponentDefaultPropsMap;
+} satisfies DefaultPropsMap;
 
 <ThemeProvider defaultProps={defaultProps}>
   <Button>Large outlined button</Button>
@@ -76,12 +76,12 @@ Use `DefaultPropsProvider` to override defaults for a subtree without creating a
 scope:
 
 ```tsx
-import type {ComponentDefaultPropsMap} from '@gravity-ui/uikit';
+import type {DefaultPropsMap} from '@gravity-ui/uikit';
 import {Button, DefaultPropsProvider} from '@gravity-ui/uikit';
 
 const actionButtonDefaults = {
   Button: {view: 'action'},
-} satisfies ComponentDefaultPropsMap;
+} satisfies DefaultPropsMap;
 
 <DefaultPropsProvider defaultProps={actionButtonDefaults}>
   <Button>Action button</Button>
@@ -97,6 +97,39 @@ defaults for a subtree is not currently supported.
 Keep the `defaultProps` object referentially stable by defining it outside render or wrapping it in
 `React.useMemo`. Passing an inline object creates a new context value on every parent render and
 causes components that consume defaults to update.
+
+### Defaults for components from other libraries
+
+Libraries built on top of UIKit can use the same provider for their own components. The library
+should keep `@gravity-ui/uikit` in `peerDependencies`, augment `DefaultPropsMap` from its public
+type declarations, and apply defaults with `useDefaultProps`:
+
+```tsx
+import {useDefaultProps} from '@gravity-ui/uikit';
+
+import type {DatePickerProps} from './DatePicker';
+
+declare module '@gravity-ui/uikit' {
+  interface DefaultPropsMap {
+    '@gravity-ui/date-components/DatePicker'?: Partial<DatePickerProps>;
+  }
+}
+
+export function DatePicker(rawProps: DatePickerProps) {
+  const props = useDefaultProps('@gravity-ui/date-components/DatePicker', rawProps);
+  // ...
+}
+```
+
+Use package-qualified component names to avoid collisions with other libraries. Once the library's
+types are imported, consumers can configure its components alongside UIKit components:
+
+```tsx
+const defaultProps = {
+  Button: {size: 'l'},
+  '@gravity-ui/date-components/DatePicker': {size: 'l'},
+} satisfies DefaultPropsMap;
+```
 
 ## Color token layers
 

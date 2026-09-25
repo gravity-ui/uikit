@@ -47,6 +47,23 @@ export const Delay: Story = {
     },
 };
 
+const ROW_ACTIONS = ['Edit', 'Duplicate', 'Preview', 'Delete'];
+
+export const DelayGroup: Story = {
+    render: (args) => (
+        <Flex gap={2}>
+            {ROW_ACTIONS.map((title) => (
+                <Tooltip {...args} key={title} content={title}>
+                    <Button view="outlined">{title}</Button>
+                </Tooltip>
+            ))}
+        </Flex>
+    ),
+    args: {
+        ...Default.args,
+    },
+};
+
 export const OnlyFocus: Story = {
     ...Default,
     args: {

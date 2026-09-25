@@ -7,6 +7,7 @@ import {
     limitShift,
     offset,
     shift,
+    useDelayGroup,
     useDismiss,
     useFloating,
     useFocus,
@@ -118,10 +119,31 @@ export function Tooltip(rawProps: TooltipProps) {
         },
     });
 
+    const {currentId: delayGroupCurrentId, setCurrentId: setDelayGroupCurrentId} = useDelayGroup(
+        context,
+        {enabled: !disabled},
+    );
+    const isDelayGroupWarm = delayGroupCurrentId !== null;
+
+    const isDelayGroupCurrentRef = React.useRef(false);
+    React.useEffect(() => {
+        isDelayGroupCurrentRef.current = delayGroupCurrentId === context.floatingId;
+    }, [delayGroupCurrentId, context.floatingId]);
+    React.useEffect(
+        () => () => {
+            // The group cools down only when its tooltip closes,
+            // so an unmounted open tooltip would keep it warm forever
+            if (isDelayGroupCurrentRef.current) {
+                setDelayGroupCurrentId(null);
+            }
+        },
+        [setDelayGroupCurrentId],
+    );
+
     const hover = useHover(context, {
         enabled: trigger === 'all',
-        delay: {open: openDelay, close: closeDelay},
-        restMs: rest,
+        delay: {open: isDelayGroupWarm ? 0 : openDelay, close: closeDelay},
+        restMs: isDelayGroupWarm ? 0 : rest,
         move: false,
     });
     const focus = useFocus(context);
@@ -139,15 +161,17 @@ export function Tooltip(rawProps: TooltipProps) {
         setAnchorElement,
         React.isValidElement(children) ? getElementRef(children) : undefined,
     );
-    const anchorProps = React.isValidElement<any>(children)
-        ? getReferenceProps(children.props)
-        : getReferenceProps();
-    const anchorNode = React.isValidElement<any>(children)
-        ? React.cloneElement(children, {
-              ...anchorProps,
-              ref: anchorRef,
-          })
-        : children(anchorProps, anchorRef);
+    // Memoized so that the delay group state changes do not re-render the anchor
+    const anchorNode = React.useMemo(() => {
+        if (React.isValidElement<any>(children)) {
+            return React.cloneElement(children, {
+                ...getReferenceProps(children.props),
+                ref: anchorRef,
+            });
+        }
+
+        return children(getReferenceProps(), anchorRef);
+    }, [children, getReferenceProps, anchorRef]);
 
     return (
         <React.Fragment>

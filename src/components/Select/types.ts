@@ -48,6 +48,7 @@ export type SelectRenderControl<T extends HTMLElement = HTMLElement> = (
 export type SelectRenderOptionViewParams = {
     itemHeight: number;
     isItemActive?: boolean; // FIXME: make this field required in the next major
+    selected: boolean;
 };
 
 export type SelectRenderOption<T> = (
@@ -63,6 +64,7 @@ export type SelectRenderOptionGroup<T> = (
 export type SelectRenderPopup = (popupItems: {
     renderFilter: () => React.JSX.Element | null;
     renderList: () => React.JSX.Element;
+    renderLabel: () => React.JSX.Element | null;
 }) => React.ReactElement;
 
 export type SelectFilterInputProps = {value: string} & Pick<

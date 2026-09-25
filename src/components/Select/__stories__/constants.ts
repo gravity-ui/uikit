@@ -295,9 +295,10 @@ export const EXAMPLE_CUSTOM_POPUP = `const [value, setValue] = React.useState<st
     placeholder="Values",
     onUpdate={(nextValue) => setValue(nextValue)}
     filterable: true,
-    renderPopup: ({renderFilter, renderList}) => {
+    renderPopup: ({renderFilter, renderList, renderLabel}) => {
         return (
             <React.Fragment>
+                {renderLabel()}
                 <div>{'---- Before Filter ----'}</div>
                 {renderFilter()}
                 <div>{'---- After Filter, Before List ----'}</div>

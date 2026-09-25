@@ -19,7 +19,10 @@ export const SIZE_TO_ITEM_HEIGHT: Record<SelectSize, number> = {
     xl: 36,
 };
 
-export const MOBILE_ITEM_HEIGHT = 32;
+export const SIZE_TO_MOBILE_ITEM_HEIGHT: Record<Exclude<SelectSize, 'l' | 'xl'>, number> = {
+    s: 32,
+    m: 48,
+};
 
 export const GROUP_ITEM_MARGIN_TOP = 5;
 
@@ -35,6 +38,7 @@ export const SelectQa = {
     LIST: 'select-list',
     POPUP: 'select-popup',
     SHEET: 'select-sheet',
+    SHEET_LABEL: 'select-sheet-label',
     CLEAR: 'select-clear',
     FILTER_INPUT: 'select-filter-input',
     COUNTER: 'select-counter',

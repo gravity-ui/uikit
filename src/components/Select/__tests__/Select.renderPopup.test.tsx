@@ -13,9 +13,10 @@ describe('Select renderPopup', () => {
         const {getByTestId} = setup({
             options: DEFAULT_OPTIONS,
             filterable: true,
-            renderPopup: ({renderFilter, renderList}) => {
+            renderPopup: ({renderFilter, renderList, renderLabel}) => {
                 return (
                     <React.Fragment>
+                        {renderLabel()}
                         {renderFilter()}
                         <div data-qa={QA} />
                         {renderList()}
@@ -53,5 +54,21 @@ describe('Select renderPopup', () => {
 
         const emptyContent = getByTestId(QA);
         expect(emptyContent).toBeVisible();
+    });
+
+    test('default renderLabel shows sheet label on mobile when label is set', async () => {
+        const sheetLabel = 'Sheet caption';
+        const {getByTestId} = setup(
+            {
+                options: DEFAULT_OPTIONS,
+                label: sheetLabel,
+            },
+            true,
+        );
+
+        const user = userEvent.setup();
+        await user.click(getByTestId(TEST_QA));
+
+        expect(getByTestId(SelectQa.SHEET_LABEL)).toHaveTextContent(sheetLabel);
     });
 });

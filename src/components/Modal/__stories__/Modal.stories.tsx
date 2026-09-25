@@ -14,6 +14,14 @@ import type {ModalProps} from '../Modal';
 export default {
     title: 'Components/Overlays/Modal',
     component: Modal,
+    argTypes: {
+        disableAnimation: {
+            control: 'select',
+            options: [false, true, 'open', 'close'],
+            description:
+                'Skip both animations, or only opening or closing. Height transitions are unchanged.',
+        },
+    },
     parameters: {
         layout: 'centered',
     },
@@ -199,3 +207,23 @@ function ModalWithDynamicContent(props: ModalProps) {
         </Modal>
     );
 }
+
+export const Animation: StoryFn<ModalProps> = (args) => {
+    const [open, setOpen] = React.useState(false);
+
+    return (
+        <React.Fragment>
+            <Button onClick={() => setOpen(true)}>Show modal</Button>
+            <Modal {...args} open={open} onOpenChange={setOpen}>
+                <Flex direction="column" gap={4} style={{padding: 24}}>
+                    Use the disableAnimation control to compare opening and closing animations.
+                    <Button onClick={() => setOpen(false)}>Close modal</Button>
+                </Flex>
+            </Modal>
+        </React.Fragment>
+    );
+};
+
+Animation.args = {
+    disableAnimation: false,
+};

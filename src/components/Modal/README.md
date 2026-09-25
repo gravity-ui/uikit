@@ -28,34 +28,35 @@ const [open, setOpen] = useState(false);
 
 ## Properties
 
-| Name                  | Description                                                                                  |       Type        |     Default     |
-| :-------------------- | :------------------------------------------------------------------------------------------- | :---------------: | :-------------: |
-| autoFocus             | While open, the focus will be set to the first interactive element in the content            |     `boolean`     |     `true`      |
-| children              | Any React content                                                                            | `React.ReactNode` |                 |
-| className             | `class` HTML attribute for the root node                                                     |     `string`      |                 |
-| container             | DOM element to which component is mounted via `Portal`                                       |   `HTMLElement`   | `document.body` |
-| contentClassName      | `class` HTML attribute for the content node                                                  |     `string`      |                 |
-| disableBodyScrollLock | Disables locking scroll while open                                                           |     `boolean`     |     `false`     |
-| disableEscapeKeyDown  | Disables triggering close on `Esc`                                                           |     `boolean`     |     `false`     |
-| disableOutsideClick   | Disables triggering close on outside clicks                                                  |     `boolean`     |     `false`     |
-| disablePortal         | Disables using `Portal`                                                                      |     `boolean`     |     `false`     |
-| focusTrap             | Enables focus trapping behavior                                                              |     `boolean`     |     `true`      |
-| keepMounted           | `Modal` will not be removed from the DOM upon hiding                                         |     `boolean`     |     `false`     |
-| onClose               | Handles `Modal` close event                                                                  |    `Function`     |                 |
-| onEnterKeyDown        | `Enter` press event handler                                                                  |    `Function`     |                 |
-| onEscapeKeyDown       | `Esc` press event handler                                                                    |    `Function`     |                 |
-| onTransitionEnter     | Open transition start event handler                                                          |    `Function`     |                 |
-| onTransitionExit      | Close transition start event handler                                                         |    `Function`     |                 |
-| onTransitionEntered   | Open transition end event handler                                                            |    `Function`     |                 |
-| onTransitionExited    | Close transition end event handler                                                           |    `Function`     |                 |
-| onOutsideClick        | Outside click event handler                                                                  |    `Function`     |                 |
-| open                  | Manages `Modal` visibility                                                                   |     `boolean`     |     `false`     |
-| qa                    | Test attribute (`data-qa`)                                                                   |     `string`      |                 |
-| restoreFocusRef       | Element the focus will be restored to                                                        | `React.RefObject` |                 |
-| style                 | `style` HTML attribute for the root node                                                     |     `string`      |                 |
-| aria-label            | `aria-label` HTML attribute to describe `Modal`                                              |     `string`      |                 |
-| aria-labelledby       | ID of the visible `Modal` caption element                                                    |     `string`      |                 |
-| contentOverflow       | Determines whether the `Modal` has a scroll indicator inside or gets larger with the content | `visible` `auto`  |    `visible`    |
+| Name                  | Description                                                                                                                                      |              Type              |     Default     |
+| :-------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------: | :-------------: |
+| autoFocus             | While open, the focus will be set to the first interactive element in the content                                                                |           `boolean`            |     `true`      |
+| children              | Any React content                                                                                                                                |       `React.ReactNode`        |                 |
+| className             | `class` HTML attribute for the root node                                                                                                         |            `string`            |                 |
+| container             | DOM element to which component is mounted via `Portal`                                                                                           |         `HTMLElement`          | `document.body` |
+| contentClassName      | `class` HTML attribute for the content node                                                                                                      |            `string`            |                 |
+| disableAnimation      | Skips both opening and closing animations when `true`, or only the specified phase with `"open"` or `"close"`. Height transitions are unchanged. | `boolean \| "open" \| "close"` |     `false`     |
+| disableBodyScrollLock | Disables locking scroll while open                                                                                                               |           `boolean`            |     `false`     |
+| disableEscapeKeyDown  | Disables triggering close on `Esc`                                                                                                               |           `boolean`            |     `false`     |
+| disableOutsideClick   | Disables triggering close on outside clicks                                                                                                      |           `boolean`            |     `false`     |
+| disablePortal         | Disables using `Portal`                                                                                                                          |           `boolean`            |     `false`     |
+| focusTrap             | Enables focus trapping behavior                                                                                                                  |           `boolean`            |     `true`      |
+| keepMounted           | `Modal` will not be removed from the DOM upon hiding                                                                                             |           `boolean`            |     `false`     |
+| onClose               | Handles `Modal` close event                                                                                                                      |           `Function`           |                 |
+| onEnterKeyDown        | `Enter` press event handler                                                                                                                      |           `Function`           |                 |
+| onEscapeKeyDown       | `Esc` press event handler                                                                                                                        |           `Function`           |                 |
+| onTransitionEnter     | Open transition start event handler                                                                                                              |           `Function`           |                 |
+| onTransitionExit      | Close transition start event handler                                                                                                             |           `Function`           |                 |
+| onTransitionEntered   | Open transition end event handler                                                                                                                |           `Function`           |                 |
+| onTransitionExited    | Close transition end event handler                                                                                                               |           `Function`           |                 |
+| onOutsideClick        | Outside click event handler                                                                                                                      |           `Function`           |                 |
+| open                  | Manages `Modal` visibility                                                                                                                       |           `boolean`            |     `false`     |
+| qa                    | Test attribute (`data-qa`)                                                                                                                       |            `string`            |                 |
+| restoreFocusRef       | Element the focus will be restored to                                                                                                            |       `React.RefObject`        |                 |
+| style                 | `style` HTML attribute for the root node                                                                                                         |            `string`            |                 |
+| aria-label            | `aria-label` HTML attribute to describe `Modal`                                                                                                  |            `string`            |                 |
+| aria-labelledby       | ID of the visible `Modal` caption element                                                                                                        |            `string`            |                 |
+| contentOverflow       | Determines whether the `Modal` has a scroll indicator inside or gets larger with the content                                                     |        `visible` `auto`        |    `visible`    |
 
 ## CSS API
 

@@ -119,3 +119,69 @@ test.describe('Modal', {tag: '@Modal'}, () => {
         expect(metrics.contentClientWidth).toBe(metrics.overlayClientWidth);
     });
 });
+
+test.describe('independent modal animations', () => {
+    test.use({contextOptions: {reducedMotion: 'no-preference'}});
+
+    for (const mobile of [false, true]) {
+        for (const disableAnimation of [undefined, false, true, 'open', 'close'] as const) {
+            const disableOpenAnimation = disableAnimation === true || disableAnimation === 'open';
+            test(`opening with disableAnimation=${disableAnimation}, mobile=${mobile}`, async ({
+                mount,
+                page,
+            }) => {
+                await mount(
+                    <MobileProvider mobile={mobile} __experimentalMobileModals>
+                        <Modal open disableAnimation={disableAnimation} qa={ModalQa.content}>
+                            Modal content
+                        </Modal>
+                    </MobileProvider>,
+                );
+                const overlay = page.getByTestId(ModalQa.content);
+                await expect(overlay).toHaveAttribute('data-floating-ui-status', 'open');
+                await expect(overlay).toHaveCSS(
+                    'transition-duration',
+                    disableOpenAnimation ? '0s' : '0.15s',
+                );
+                await expect(overlay.locator('.g-modal__content')).toHaveCSS(
+                    'transition-property',
+                    disableOpenAnimation ? 'height' : 'height, transform',
+                );
+            });
+        }
+
+        test(`closing without animation unmounts and can reopen, mobile=${mobile}`, async ({
+            mount,
+            page,
+        }) => {
+            const component = await mount(
+                <MobileProvider mobile={mobile} __experimentalMobileModals>
+                    <Modal open keepMounted disableAnimation="close" qa={ModalQa.content}>
+                        Modal content
+                    </Modal>
+                </MobileProvider>,
+            );
+            const overlay = page.getByTestId(ModalQa.content);
+            await expect(overlay).toHaveAttribute('data-floating-ui-status', 'open');
+            await expect(overlay).toHaveCSS('transition-duration', '0.15s');
+            await component.update(
+                <MobileProvider mobile={mobile} __experimentalMobileModals>
+                    <Modal open={false} keepMounted disableAnimation="close" qa={ModalQa.content}>
+                        Modal content
+                    </Modal>
+                </MobileProvider>,
+            );
+            await expect(overlay).toHaveAttribute('data-floating-ui-status', 'unmounted');
+            await expect(overlay).toBeHidden();
+            await component.update(
+                <MobileProvider mobile={mobile} __experimentalMobileModals>
+                    <Modal open keepMounted disableAnimation="close" qa={ModalQa.content}>
+                        Modal content
+                    </Modal>
+                </MobileProvider>,
+            );
+            await expect(overlay).toBeVisible();
+            await expect(overlay).toHaveAttribute('data-floating-ui-status', 'open');
+        });
+    }
+});

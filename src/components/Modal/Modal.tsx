@@ -104,6 +104,8 @@ export interface ModalProps
     contentOverflow?: 'visible' | 'auto';
     floatingRef?: React.RefObject<HTMLDivElement | null>;
     disableHeightTransition?: boolean;
+    /** Skip both animations with true, or only the specified phase. Height transitions are unchanged. */
+    disableAnimation?: boolean | 'open' | 'close';
 }
 
 const b = block('modal');
@@ -139,8 +141,11 @@ function ModalComponent(rawProps: ModalProps) {
         qa,
         floatingRef,
         disableHeightTransition = false,
+        disableAnimation = false,
         ...restProps
     } = useDefaultProps('Modal', rawProps);
+    const disableOpenAnimation = disableAnimation === true || disableAnimation === 'open';
+    const disableCloseAnimation = disableAnimation === true || disableAnimation === 'close';
     useLayer({open, type: 'modal'});
     const mobileModals = React.useContext(MobileContext).__experimentalMobileModals ?? false;
     const mobile = useMobile() && mobileModals;
@@ -228,7 +233,11 @@ function ModalComponent(rawProps: ModalProps) {
 
     const {isMounted, status} = useFloatingTransition({
         context,
-        duration: TRANSITION_DURATION,
+        duration: {
+            open: disableOpenAnimation ? 0 : TRANSITION_DURATION,
+            close: TRANSITION_DURATION,
+        },
+        skipTransitionOut: disableCloseAnimation,
         onTransitionIn,
         onTransitionInComplete: handleTransitionInComplete,
         onTransitionOut,
@@ -283,7 +292,15 @@ function ModalComponent(rawProps: ModalProps) {
                     <FloatingOverlay
                         ref={overlayRef}
                         style={{...style, ...(mobile ? {overflow: 'hidden'} : {})}}
-                        className={b({open, mobile}, className)}
+                        className={b(
+                            {
+                                open,
+                                mobile,
+                                'disable-open-animation': disableOpenAnimation,
+                                'disable-close-animation': disableCloseAnimation,
+                            },
+                            className,
+                        )}
                         data-qa={qa}
                         data-floating-ui-status={status}
                         lockScroll={!disableBodyScrollLock}

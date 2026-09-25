@@ -101,6 +101,32 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
         }
     }
 
+    &_disable-open-animation {
+        &[data-floating-ui-status='initial'] {
+            opacity: 1;
+
+            #{$block}__content {
+                transform: none;
+            }
+        }
+
+        &[data-floating-ui-status='open'] {
+            transition: none;
+
+            #{$block}__content {
+                transition: $modal-height-transition;
+            }
+        }
+    }
+
+    &_disable-close-animation[data-floating-ui-status='close'] {
+        transition: none;
+
+        #{$block}__content {
+            transition: $modal-height-transition;
+        }
+    }
+
     @media (prefers-reduced-motion: reduce) {
         &[data-floating-ui-status] #{$block}__content {
             transition: none;

@@ -63,7 +63,7 @@ import {Disclosure, Flex} from '@gravity-ui/uikit';
 
 export default function () {
     return (
-        <Flex gap={4} alignItems="center">
+        <Flex gap="spacing-4" alignItems="center">
             <Disclosure summary="Middle size" size="m">
                 Content
             </Disclosure>
@@ -105,7 +105,7 @@ import {Disclosure, Flex} from '@gravity-ui/uikit';
 
 export default function () {
     return (
-        <Flex gap={4} alignItems="center">
+        <Flex gap="spacing-4" alignItems="center">
             <Disclosure summary="Summary with start arrow" arrowPosition="start">
                 Content
             </Disclosure>
@@ -140,7 +140,7 @@ import {Button, Disclosure, Flex, Icon} from '@gravity-ui/uikit';
 
 export default function () {
     return (
-        <Flex gap={4} alignItems="center">
+        <Flex gap="spacing-4" alignItems="center">
             <Disclosure>
                 <Disclosure.Summary>
                     {(props) => (
@@ -157,7 +157,7 @@ export default function () {
             <Disclosure summary="Summary">
                 <Disclosure.Summary>
                     {(_props, defaultButton) => (
-                        <Flex gap={4}>
+                        <Flex gap="spacing-4">
                             {defaultButton}
                             <Icon data={Check} size={14} />
                         </Flex>
@@ -192,7 +192,7 @@ SANDBOX-->
 <Disclosure>
   <Disclosure.Summary>
     {(_props, defaultButton) => (
-      <Flex gap={4}>
+      <Flex gap="spacing-4">
         {defaultButton}
         <Icon data={Check} size={14} />
       </Flex>

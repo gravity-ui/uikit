@@ -50,7 +50,7 @@ export const actionsWithIcons: ActionsPanelProps['actions'] = [
             item: {
                 action: () => console.log('Edit'),
                 text: (
-                    <Flex alignItems="center" gap={1}>
+                    <Flex alignItems="center" gap="spacing-1">
                         <Icon data={PencilToSquare} />
                         Edit
                     </Flex>
@@ -70,7 +70,7 @@ export const actionsWithIcons: ActionsPanelProps['actions'] = [
             item: {
                 action: () => console.log('Copy'),
                 text: (
-                    <Flex alignItems="center" gap={1}>
+                    <Flex alignItems="center" gap="spacing-1">
                         <Icon data={Files} />
                         Copy
                     </Flex>
@@ -91,7 +91,7 @@ export const actionsWithIcons: ActionsPanelProps['actions'] = [
             item: {
                 action: () => console.log('Delete'),
                 text: (
-                    <Flex alignItems="center" gap={1}>
+                    <Flex alignItems="center" gap="spacing-1">
                         <Icon data={TrashBin} />
                         Delete
                     </Flex>

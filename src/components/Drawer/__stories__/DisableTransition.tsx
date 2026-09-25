@@ -37,7 +37,7 @@ export function DisableTransitionShowcase() {
                     disableTransition={disableTransition}
                 >
                     <div className={b('item-content')}>
-                        <Flex direction="column" gap={4}>
+                        <Flex direction="column" gap="spacing-4">
                             <div>{mockText}</div>
                         </Flex>
                     </div>

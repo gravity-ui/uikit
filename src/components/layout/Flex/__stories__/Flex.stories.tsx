@@ -56,7 +56,7 @@ export const Default = {
         alignItems: 'center',
         justifyContent: 'center',
         direction: {xs: 'column', m: 'row'},
-        gap: {xs: 1, m: 4},
+        gap: {xs: 'spacing-1', m: 'spacing-4'},
     },
 } satisfies Story;
 
@@ -73,7 +73,7 @@ export const FlexGap = {
     decorators: defaultDecorators,
     args: {
         wrap: 'wrap',
-        gap: {xs: 1, m: 6},
+        gap: {xs: 'spacing-1', m: 'spacing-6'},
     },
 } satisfies Story;
 
@@ -90,8 +90,8 @@ export const GapAndRowGap = {
     decorators: defaultDecorators,
     args: {
         wrap: 'wrap',
-        gap: {xs: 1, m: 6},
-        gapRow: {xs: 6, m: 1},
+        gap: {xs: 'spacing-1', m: 'spacing-6'},
+        rowGap: {xs: 'spacing-6', m: 'spacing-1'},
     },
 } satisfies Story;
 
@@ -105,7 +105,7 @@ export const ChildrenWithBgColor = {
     decorators: defaultDecorators,
     args: {
         wrap: 'wrap',
-        gap: 5,
+        gap: 'spacing-5',
     },
 } satisfies Story;
 
@@ -129,6 +129,6 @@ export const WithNullChildren = {
     ],
     args: {
         direction: 'column',
-        gap: 5,
+        gap: 'spacing-5',
     },
 } satisfies Story;

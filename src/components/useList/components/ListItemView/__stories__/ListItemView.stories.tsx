@@ -39,7 +39,7 @@ const title = 'title';
 const subtitle = 'subtitle';
 
 const StartSlot = ({selfStart}: {selfStart?: boolean}) => (
-    <Flex shrink="0" alignSelf={selfStart ? 'flex-start' : undefined}>
+    <Flex flexShrink="0" alignSelf={selfStart ? 'flex-start' : undefined}>
         <Avatar
             imgUrl="https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50"
             alt="A random image"
@@ -49,7 +49,7 @@ const StartSlot = ({selfStart}: {selfStart?: boolean}) => (
 );
 
 const EndSlot = ({selfStart}: {selfStart?: boolean}) => (
-    <Flex shrink="0" alignSelf={selfStart ? 'flex-start' : undefined}>
+    <Flex flexShrink="0" alignSelf={selfStart ? 'flex-start' : undefined}>
         <DropdownMenu
             onSwitcherClick={(e) => {
                 e.stopPropagation();
@@ -226,7 +226,7 @@ const stories: ListItemViewProps[] = [
         id: '12',
         size: 'l',
         content: (
-            <Flex gap="2" alignItems="center">
+            <Flex gap="spacing-2" alignItems="center">
                 <StartSlot />
                 <Text>Override list item context with react node</Text>
             </Flex>

@@ -108,9 +108,9 @@ export const WithItemLinksAndActionsExample = (storyProps: WithItemLinksAndActio
                                         <Flex
                                             width={28}
                                             justifyContent="center"
-                                            spacing={
+                                            marginInlineStart={
                                                 (props.content.indentation ?? 0) > 0
-                                                    ? {ml: 1}
+                                                    ? 'spacing-1'
                                                     : undefined
                                             }
                                         >

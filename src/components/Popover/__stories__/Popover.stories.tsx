@@ -32,7 +32,7 @@ export const Default: Story = {
 
 export const Delay: Story = {
     render: (args) => (
-        <Flex gap={3} justifyContent="center" wrap>
+        <Flex gap="spacing-3" justifyContent="center" wrap>
             <Popover {...args} openDelay={1000}>
                 <Button>Open Delay: 1000ms</Button>
             </Popover>
@@ -75,7 +75,7 @@ export const SafePolygon: Story = {
 
 export const FocusManagement: Story = {
     render: (args) => (
-        <Flex gap={3} justifyContent="center" wrap>
+        <Flex gap="spacing-3" justifyContent="center" wrap>
             <Popover {...args}>
                 <Button>Default</Button>
             </Popover>

@@ -54,7 +54,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
             />
 
             <h2>Modes default/fit</h2>
-            <Flex gap={10}>
+            <Flex gap="spacing-10">
                 <div>
                     Extra long values. DEFAULT (apply max-width: 90vw)
                     <div>
@@ -88,7 +88,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
             <Flex justifyContent="center" style={{marginTop: '20px'}}>
                 Enclosed with 100px margin container
             </Flex>
-            <Flex gap={10} style={{margin: '0 100px', backgroundColor: 'lightgray'}}>
+            <Flex gap="spacing-10" style={{margin: '0 100px', backgroundColor: 'lightgray'}}>
                 <div>
                     Extra long values. FIT
                     <div>
@@ -130,7 +130,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
 
             <h2>Virtualized</h2>
 
-            <Flex gap={10}>
+            <Flex gap="spacing-10">
                 <div>
                     Extra long values. DEFAULT.
                     <Text color="danger-heavy"> Not works for virtualized.</Text>
@@ -156,7 +156,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
                 </div>
             </Flex>
 
-            <Flex gap={10}>
+            <Flex gap="spacing-10">
                 <div>
                     Extra long values. FIT. Virtualized
                     <div>

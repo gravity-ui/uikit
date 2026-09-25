@@ -117,17 +117,17 @@ export const WithIcons = {
     render: (args) => (
         <Breadcrumbs {...args}>
             <Breadcrumbs.Item>
-                <Flex alignItems="center" gap={1}>
+                <Flex alignItems="center" gap="spacing-1">
                     <House /> uikit
                 </Flex>
             </Breadcrumbs.Item>
             <Breadcrumbs.Item>
-                <Flex alignItems="center" gap={1}>
+                <Flex alignItems="center" gap="spacing-1">
                     <Flame /> components
                 </Flex>
             </Breadcrumbs.Item>
             <Breadcrumbs.Item>
-                <Flex alignItems="center" gap={1}>
+                <Flex alignItems="center" gap="spacing-1">
                     <Rocket style={{minWidth: 16}} />
                     <Text ellipsis variant="inherit">
                         Breadcrumbs
@@ -163,7 +163,7 @@ export const EndContent = {
         return Default.render({
             ...args,
             endContent: (
-                <Flex gap={1} spacing={{pl: 1}}>
+                <Flex gap="spacing-1" paddingInlineStart="spacing-1">
                     <Button>Test1</Button>
                     <Button>Test2</Button>
                 </Flex>

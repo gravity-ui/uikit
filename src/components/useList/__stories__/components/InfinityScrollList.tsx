@@ -53,7 +53,7 @@ export const InfinityScrollList = ({size}: InfinityScrollListProps) => {
 
     return (
         <React.StrictMode>
-            <Flex direction="column" gap="3" style={{height: 500}}>
+            <Flex direction="column" gap="spacing-3" style={{height: 500}}>
                 {data.length > 0 && (
                     <React.Fragment>
                         <TextInput
@@ -98,14 +98,14 @@ export const InfinityScrollList = ({size}: InfinityScrollListProps) => {
                 )}
 
                 {isLoading && (
-                    <Flex justifyContent="center" alignItems="center" grow>
+                    <Flex justifyContent="center" alignItems="center" flexGrow>
                         <Loader
                             // @ts-expect-error loader doesn't support `xl` type
                             size={size}
                         />
                     </Flex>
                 )}
-                <Flex gap="2">
+                <Flex gap="spacing-2">
                     <Button onClick={handleReset} width="max" size={size}>
                         Reset
                     </Button>

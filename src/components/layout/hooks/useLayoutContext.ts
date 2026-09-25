@@ -3,6 +3,7 @@ import * as React from 'react';
 import {LayoutContext} from '../contexts/LayoutContext';
 import type {LayoutTheme, MediaType} from '../types';
 import {getClosestMediaPropsFactory, isMediaActiveFactory} from '../utils';
+import type {GetClosestMediaProps} from '../utils';
 
 interface ComputedMediaContext {
     theme: LayoutTheme;
@@ -64,7 +65,7 @@ interface ComputedMediaContext {
      * };
      * ```
      */
-    getClosestMediaProps: ReturnType<typeof getClosestMediaPropsFactory>;
+    getClosestMediaProps: GetClosestMediaProps;
 }
 
 /**

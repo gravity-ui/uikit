@@ -58,7 +58,7 @@ export const WithGroupSelectionAndCustomIconStory = ({
     };
 
     return (
-        <Flex direction="column" gap="3">
+        <Flex direction="column" gap="spacing-3">
             <TreeList
                 {...props}
                 list={list}

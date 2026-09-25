@@ -34,7 +34,7 @@ export const Default: StoryFn<ModalProps> = (props) => {
     );
 
     return (
-        <Flex gap={5} direction="column" wrap>
+        <Flex gap="spacing-5" direction="column" wrap>
             <Modal {...props} open={openSmall} onOpenChange={setOpenSmall}>
                 <div style={{padding: 10}}>Modal content</div>
             </Modal>

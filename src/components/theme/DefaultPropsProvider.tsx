@@ -22,6 +22,7 @@ import type {DisclosureProps} from '../Disclosure';
 import type {DividerProps} from '../Divider';
 import type {DrawerProps} from '../Drawer';
 import type {DropdownMenuProps} from '../DropdownMenu';
+import type {EllipsisTextProps} from '../EllipsisText';
 import type {FilePreviewProps} from '../FilePreview';
 import type {HelpMarkProps} from '../HelpMark';
 import type {HotkeyProps} from '../Hotkey';
@@ -88,6 +89,7 @@ export interface ComponentDefaultPropsMap {
     Divider?: Partial<DividerProps>;
     Drawer?: Partial<DrawerProps>;
     DropdownMenu?: Partial<DropdownMenuProps<any>>;
+    EllipsisText?: Partial<EllipsisTextProps>;
     FilePreview?: Partial<FilePreviewProps>;
     HelpMark?: Partial<HelpMarkProps>;
     Hotkey?: Partial<HotkeyProps>;

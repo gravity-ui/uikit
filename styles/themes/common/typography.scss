@@ -1,4 +1,11 @@
 @mixin variables {
+    --g-text-body-accent-font-weight: 600;
+    --g-text-caption-accent-font-weight: 600;
+    --g-text-header-accent-font-weight: 600;
+    --g-text-subheader-accent-font-weight: 600;
+    --g-text-display-accent-font-weight: 600;
+    --g-text-code-accent-font-weight: 600;
+    // deprecated
     --g-text-accent-font-weight: 600;
 
     --g-text-body-1-font: var(--g-text-body-font-weight) var(--g-text-body-1-font-size) /

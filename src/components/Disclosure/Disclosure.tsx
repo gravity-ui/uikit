@@ -6,6 +6,7 @@ import {useDefaultProps} from '../theme/useDefaultProps';
 import type {QAProps} from '../types';
 import {isOfType} from '../utils/isOfType';
 
+import {DisclosureCollapsedDetails} from './DisclosureCollapsedDetails/DisclosureCollapsedDetails';
 import {DisclosureProvider} from './DisclosureContext';
 import {DisclosureDetails} from './DisclosureDetails/DisclosureDetails';
 import {DefaultDisclosureSummary, DisclosureSummary} from './DisclosureSummary/DisclosureSummary';
@@ -19,6 +20,7 @@ export type DisclosureArrowPosition = 'left' | 'right' | 'start' | 'end';
 export interface DisclosureComposition {
     Summary: typeof DisclosureSummary;
     Details: typeof DisclosureDetails;
+    CollapsedDetails: typeof DisclosureCollapsedDetails;
 }
 
 export interface DisclosureProps extends QAProps {
@@ -47,6 +49,7 @@ export interface DisclosureProps extends QAProps {
 }
 
 const isDisclosureSummaryComponent = isOfType(DisclosureSummary);
+const isDisclosureCollapsedDetailsComponent = isOfType(DisclosureCollapsedDetails);
 
 // @ts-expect-error this ts-error is appears when forwarding ref. It complains that DisclosureComposition props is not provided initially
 export const Disclosure: React.FunctionComponent<DisclosureProps> & DisclosureComposition =
@@ -67,9 +70,12 @@ export const Disclosure: React.FunctionComponent<DisclosureProps> & DisclosureCo
             qa,
         } = props;
 
-        const [summaryContent, detailsContent] = prepareChildren(children, {
-            disclosureQa: qa,
-        });
+        const [summaryContent, detailsContent, collapsedDetailsContent] = prepareChildren(
+            children,
+            {
+                disclosureQa: qa,
+            },
+        );
 
         return (
             <DisclosureProvider
@@ -85,7 +91,14 @@ export const Disclosure: React.FunctionComponent<DisclosureProps> & DisclosureCo
             >
                 <section ref={ref} className={b({size}, className)} data-qa={qa}>
                     {summaryContent}
-                    {detailsContent}
+                    {collapsedDetailsContent ? (
+                        <div className={b('body')}>
+                            {detailsContent}
+                            {collapsedDetailsContent}
+                        </div>
+                    ) : (
+                        detailsContent
+                    )}
                 </section>
             </DisclosureProvider>
         );
@@ -98,7 +111,7 @@ interface PrepareParams {
 function prepareChildren(children: React.ReactNode, {disclosureQa}: PrepareParams) {
     const items = React.Children.toArray(children);
 
-    let summary, details;
+    let summary, details, collapsedDetails;
 
     const content = [];
 
@@ -109,6 +122,14 @@ function prepareChildren(children: React.ReactNode, {disclosureQa}: PrepareParam
                 throw new Error('Only one <Disclosure.Summary> component is allowed');
             }
             summary = item;
+            continue;
+        }
+        const isDisclosureCollapsedDetails = isDisclosureCollapsedDetailsComponent(item);
+        if (isDisclosureCollapsedDetails) {
+            if (collapsedDetails) {
+                throw new Error('Only one <Disclosure.CollapsedDetails> component is allowed');
+            }
+            collapsedDetails = item;
             continue;
         }
         content.push(item);
@@ -128,9 +149,10 @@ function prepareChildren(children: React.ReactNode, {disclosureQa}: PrepareParam
         );
     }
 
-    return [summary, details];
+    return [summary, details, collapsedDetails];
 }
 
 Disclosure.Summary = DisclosureSummary;
 Disclosure.Details = DisclosureDetails;
+Disclosure.CollapsedDetails = DisclosureCollapsedDetails;
 Disclosure.displayName = 'Disclosure';

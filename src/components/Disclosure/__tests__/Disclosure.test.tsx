@@ -204,6 +204,88 @@ describe('Disclosure', () => {
         expect(disclosure).toHaveClass('g-disclosure__trigger_arrow_end');
     });
 
+    test('collapsed details are visible when not expanded', () => {
+        const collapsed = 'Collapsed content';
+        const details = 'Details content';
+        render(
+            <Disclosure expanded={false}>
+                <Disclosure.CollapsedDetails>{collapsed}</Disclosure.CollapsedDetails>
+                {details}
+            </Disclosure>,
+        );
+
+        expect(screen.getByText(collapsed)).toHaveClass('g-disclosure__collapsed-content_visible');
+        expect(screen.getByText(details)).not.toHaveClass('g-disclosure__content_visible');
+    });
+
+    test('collapsed details are hidden when expanded', () => {
+        const collapsed = 'Collapsed content';
+        const details = 'Details content';
+        render(
+            <Disclosure expanded={true}>
+                <Disclosure.CollapsedDetails>{collapsed}</Disclosure.CollapsedDetails>
+                {details}
+            </Disclosure>,
+        );
+
+        expect(screen.getByText(collapsed)).not.toHaveClass(
+            'g-disclosure__collapsed-content_visible',
+        );
+        expect(screen.getByText(details)).toHaveClass('g-disclosure__content_visible');
+    });
+
+    test('collapsed details visibility toggles when clicked', async () => {
+        const user = userEvent.setup();
+        const collapsed = 'Collapsed content';
+        render(
+            <Disclosure>
+                <Disclosure.CollapsedDetails>{collapsed}</Disclosure.CollapsedDetails>
+            </Disclosure>,
+        );
+        const disclosure = screen.getByRole('button');
+        const component = screen.getByText(collapsed);
+
+        expect(component).toHaveClass('g-disclosure__collapsed-content_visible');
+        await user.click(disclosure);
+        expect(component).not.toHaveClass('g-disclosure__collapsed-content_visible');
+    });
+
+    test('collapsed details not in dom if not keepMounted and expanded', () => {
+        const collapsed = 'Collapsed content';
+        render(
+            <Disclosure expanded={true} keepMounted={false}>
+                <Disclosure.CollapsedDetails>{collapsed}</Disclosure.CollapsedDetails>
+            </Disclosure>,
+        );
+
+        expect(screen.queryByText(collapsed)).not.toBeInTheDocument();
+    });
+
+    test('collapsed details in dom if keepMounted and expanded', () => {
+        const collapsed = 'Collapsed content';
+        render(
+            <Disclosure expanded={true} keepMounted={true}>
+                <Disclosure.CollapsedDetails>{collapsed}</Disclosure.CollapsedDetails>
+            </Disclosure>,
+        );
+
+        const text = screen.queryByText(collapsed);
+        expect(text).toBeInTheDocument();
+    });
+
+    test('throws when more than one collapsed details is provided', () => {
+        const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        expect(() =>
+            render(
+                <Disclosure>
+                    <Disclosure.CollapsedDetails>First</Disclosure.CollapsedDetails>
+                    <Disclosure.CollapsedDetails>Second</Disclosure.CollapsedDetails>
+                </Disclosure>,
+            ),
+        ).toThrow('Only one <Disclosure.CollapsedDetails> component is allowed');
+        spy.mockRestore();
+    });
+
     test('custom qa', () => {
         render(
             <Disclosure qa="test-custom-qa">

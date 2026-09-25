@@ -7,28 +7,31 @@ import {DisclosureContent} from '../DisclosureContent/DisclosureContent';
 import {useDisclosureAttributes} from '../DisclosureContext';
 import {DisclosureQa} from '../constants';
 
-export interface DisclosureDetailsProps extends QAProps {
+export interface DisclosureCollapsedDetailsProps extends QAProps {
     children: React.ReactNode;
     className?: string;
 }
 
-export function DisclosureDetails({children, qa, className}: DisclosureDetailsProps) {
-    const {ariaControls, ariaLabelledby, keepMounted, expanded} = useDisclosureAttributes();
+export function DisclosureCollapsedDetails({
+    children,
+    qa,
+    className,
+}: DisclosureCollapsedDetailsProps) {
+    const {expanded, keepMounted} = useDisclosureAttributes();
+    const visible = !expanded;
 
     return (
         <DisclosureContent
-            name="content"
-            visible={expanded}
+            name="collapsed-content"
+            visible={visible}
             keepMounted={keepMounted}
             className={className}
-            id={ariaControls}
-            role="region"
-            aria-labelledby={ariaLabelledby}
-            data-qa={qa || DisclosureQa.DETAILS}
+            aria-hidden={!visible}
+            data-qa={qa || DisclosureQa.COLLAPSED_DETAILS}
         >
             {children}
         </DisclosureContent>
     );
 }
 
-DisclosureDetails.displayName = 'DisclosureDetails';
+DisclosureCollapsedDetails.displayName = 'DisclosureCollapsedDetails';

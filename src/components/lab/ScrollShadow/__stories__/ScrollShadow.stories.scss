@@ -1,0 +1,67 @@
+.scroll-shadow-stories {
+    &__vertical,
+    &__horizontal,
+    &__both {
+        border: 1px solid var(--g-color-line-generic);
+        border-radius: 8px;
+        background: var(--g-color-base-background);
+    }
+
+    &__vertical {
+        inline-size: 320px;
+        max-block-size: 240px;
+    }
+
+    &__list {
+        padding: 8px;
+    }
+
+    &__item {
+        padding: 10px 12px;
+        border-block-end: 1px solid var(--g-color-line-generic);
+    }
+
+    &__horizontal {
+        inline-size: 420px;
+        padding: 12px;
+    }
+
+    &__row {
+        display: flex;
+        inline-size: max-content;
+        gap: 8px;
+    }
+
+    &__card {
+        display: grid;
+        flex: 0 0 100px;
+        block-size: 80px;
+        place-items: center;
+        border-radius: 6px;
+        background: var(--g-color-base-generic);
+    }
+
+    &__both {
+        inline-size: 360px;
+        max-block-size: 240px;
+    }
+
+    &__grid {
+        display: grid;
+        inline-size: max-content;
+        grid-template-columns: repeat(8, 80px);
+    }
+
+    &__cell {
+        display: grid;
+        block-size: 52px;
+        place-items: center;
+        border-inline-end: 1px solid var(--g-color-line-generic);
+        border-block-end: 1px solid var(--g-color-line-generic);
+    }
+
+    &__custom {
+        --g-scroll-shadow-size: 40px;
+        --g-scroll-shadow-color: var(--g-color-line-brand);
+    }
+}

@@ -26,15 +26,15 @@ describe('independent dialog animations', () => {
         ['open', true, false],
         ['close', false, true],
     ] as const)(
-        'disableAnimation=%s',
-        async (disableAnimation, disableOpenAnimation, disableCloseAnimation) => {
+        'disableTransition=%s',
+        async (disableTransition, disableOpenTransition, disableCloseTransition) => {
             const onTransitionIn = jest.fn();
             const onTransitionInComplete = jest.fn();
             const onTransitionOut = jest.fn();
             const onTransitionOutComplete = jest.fn();
             const props = {
                 onClose: jest.fn(),
-                disableAnimation,
+                disableTransition,
                 onTransitionIn,
                 onTransitionInComplete,
                 onTransitionOut,
@@ -50,7 +50,7 @@ describe('independent dialog animations', () => {
             await act(async () => jest.advanceTimersByTime(32));
             await act(async () => jest.advanceTimersByTime(1));
             expect(onTransitionIn).toHaveBeenCalledTimes(1);
-            expect(onTransitionInComplete).toHaveBeenCalledTimes(disableOpenAnimation ? 1 : 0);
+            expect(onTransitionInComplete).toHaveBeenCalledTimes(disableOpenTransition ? 1 : 0);
 
             await act(async () => jest.advanceTimersByTime(150));
             expect(onTransitionInComplete).toHaveBeenCalledTimes(1);
@@ -62,8 +62,8 @@ describe('independent dialog animations', () => {
                 </Dialog>,
             );
             expect(onTransitionOut).toHaveBeenCalledTimes(1);
-            expect(onTransitionOutComplete).toHaveBeenCalledTimes(disableCloseAnimation ? 1 : 0);
-            if (disableCloseAnimation) {
+            expect(onTransitionOutComplete).toHaveBeenCalledTimes(disableCloseTransition ? 1 : 0);
+            if (disableCloseTransition) {
                 expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
             } else {
                 expect(screen.getByRole('dialog')).toBeInTheDocument();

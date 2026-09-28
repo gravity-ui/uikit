@@ -124,15 +124,16 @@ test.describe('independent modal animations', () => {
     test.use({contextOptions: {reducedMotion: 'no-preference'}});
 
     for (const mobile of [false, true]) {
-        for (const disableAnimation of [undefined, false, true, 'open', 'close'] as const) {
-            const disableOpenAnimation = disableAnimation === true || disableAnimation === 'open';
-            test(`opening with disableAnimation=${disableAnimation}, mobile=${mobile}`, async ({
+        for (const disableTransition of [undefined, false, true, 'open', 'close'] as const) {
+            const disableOpenTransition =
+                disableTransition === true || disableTransition === 'open';
+            test(`opening with disableTransition=${disableTransition}, mobile=${mobile}`, async ({
                 mount,
                 page,
             }) => {
                 await mount(
                     <MobileProvider mobile={mobile} __experimentalMobileModals>
-                        <Modal open disableAnimation={disableAnimation} qa={ModalQa.content}>
+                        <Modal open disableTransition={disableTransition} qa={ModalQa.content}>
                             Modal content
                         </Modal>
                     </MobileProvider>,
@@ -141,11 +142,11 @@ test.describe('independent modal animations', () => {
                 await expect(overlay).toHaveAttribute('data-floating-ui-status', 'open');
                 await expect(overlay).toHaveCSS(
                     'transition-duration',
-                    disableOpenAnimation ? '0s' : '0.15s',
+                    disableOpenTransition ? '0s' : '0.15s',
                 );
                 await expect(overlay.locator('.g-modal__content')).toHaveCSS(
                     'transition-property',
-                    disableOpenAnimation ? 'height' : 'height, transform',
+                    disableOpenTransition ? 'height' : 'height, transform',
                 );
             });
         }
@@ -156,7 +157,7 @@ test.describe('independent modal animations', () => {
         }) => {
             const component = await mount(
                 <MobileProvider mobile={mobile} __experimentalMobileModals>
-                    <Modal open keepMounted disableAnimation="close" qa={ModalQa.content}>
+                    <Modal open keepMounted disableTransition="close" qa={ModalQa.content}>
                         Modal content
                     </Modal>
                 </MobileProvider>,
@@ -166,7 +167,7 @@ test.describe('independent modal animations', () => {
             await expect(overlay).toHaveCSS('transition-duration', '0.15s');
             await component.update(
                 <MobileProvider mobile={mobile} __experimentalMobileModals>
-                    <Modal open={false} keepMounted disableAnimation="close" qa={ModalQa.content}>
+                    <Modal open={false} keepMounted disableTransition="close" qa={ModalQa.content}>
                         Modal content
                     </Modal>
                 </MobileProvider>,
@@ -175,7 +176,7 @@ test.describe('independent modal animations', () => {
             await expect(overlay).toBeHidden();
             await component.update(
                 <MobileProvider mobile={mobile} __experimentalMobileModals>
-                    <Modal open keepMounted disableAnimation="close" qa={ModalQa.content}>
+                    <Modal open keepMounted disableTransition="close" qa={ModalQa.content}>
                         Modal content
                     </Modal>
                 </MobileProvider>,

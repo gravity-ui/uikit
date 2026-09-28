@@ -18,12 +18,6 @@ export default {
         layout: 'centered',
     },
     argTypes: {
-        disableAnimation: {
-            control: 'select',
-            options: [false, true, 'open', 'close'],
-            description:
-                'Skip both animations, or only opening or closing. Height transitions are unchanged.',
-        },
         showError: {
             type: 'boolean',
         },
@@ -103,16 +97,3 @@ export const Default: StoryFn<DialogProps & {showError: boolean}> = (args) => {
 
 const ShowcaseTemplate: StoryFn = () => <DialogShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});
-
-export const Animation: StoryFn<DialogProps> = (args) => (
-    <DialogComponent
-        {...args}
-        buttonText="Show dialog"
-        content="Use the disableAnimation control to compare opening and closing animations."
-        showError={false}
-    />
-);
-
-Animation.args = {
-    disableAnimation: false,
-};

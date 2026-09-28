@@ -3,9 +3,11 @@ import * as React from 'react';
 import {faker} from '@faker-js/faker/locale/en';
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
+import {useUniqId} from '../../../hooks';
 import {Button} from '../../Button';
 import {Loader} from '../../Loader';
 import {Popup} from '../../Popup';
+import {Text} from '../../Text';
 import {Toaster, ToasterComponent, ToasterProvider, useToaster} from '../../Toaster';
 import {Flex} from '../../layout';
 import {Modal} from '../Modal';
@@ -14,14 +16,6 @@ import type {ModalProps} from '../Modal';
 export default {
     title: 'Components/Overlays/Modal',
     component: Modal,
-    argTypes: {
-        disableAnimation: {
-            control: 'select',
-            options: [false, true, 'open', 'close'],
-            description:
-                'Skip both animations, or only opening or closing. Height transitions are unchanged.',
-        },
-    },
     parameters: {
         layout: 'centered',
     },
@@ -30,6 +24,8 @@ export default {
 const toaster = new Toaster();
 
 export const Default: StoryFn<ModalProps> = (props) => {
+    const titleId = useUniqId();
+    const [openWithoutTransition, setOpenWithoutTransition] = React.useState(false);
     const [openSmall, setOpenSmall] = React.useState(false);
     const [openLarge, setOpenLarge] = React.useState(false);
     const [openWithToast, setOpenWithToast] = React.useState(false);
@@ -42,7 +38,7 @@ export const Default: StoryFn<ModalProps> = (props) => {
     );
 
     return (
-        <Flex gap={5} direction="column" wrap>
+        <Flex gap={3} direction="column" alignItems="center">
             <Modal {...props} open={openSmall} onOpenChange={setOpenSmall}>
                 <div style={{padding: 10}}>Modal content</div>
             </Modal>
@@ -65,6 +61,29 @@ export const Default: StoryFn<ModalProps> = (props) => {
                 onOpenChange={setOpenWithDynamicContent}
             />
 
+            <Modal
+                {...props}
+                open={openWithoutTransition}
+                onOpenChange={setOpenWithoutTransition}
+                disableTransition
+                aria-labelledby={titleId}
+            >
+                <Flex direction="column" gap="6" spacing={{p: 6}} maxWidth="420px">
+                    <Text variant="subheader-3" id={titleId}>
+                        Modal without transition
+                    </Text>
+                    <Text>
+                        This modal opens and closes immediately. It contains a title, body text, and
+                        a close button.
+                    </Text>
+                    <Flex justifyContent="flex-end">
+                        <Button size="l" onClick={() => setOpenWithoutTransition(false)}>
+                            Close
+                        </Button>
+                    </Flex>
+                </Flex>
+            </Modal>
+
             <Button onClick={() => setOpenSmall(true)}>Show small modal</Button>
             <Button onClick={() => setOpenLarge(true)}>Show large modal</Button>
             <Button onClick={() => setOpenWithToast(true)}>Show modal with toast</Button>
@@ -73,6 +92,7 @@ export const Default: StoryFn<ModalProps> = (props) => {
             <Button onClick={() => setOpenWithDynamicContent(true)}>
                 Show modal with dynamic content
             </Button>
+            <Button onClick={() => setOpenWithoutTransition(true)}>without transition</Button>
         </Flex>
     );
 };
@@ -207,23 +227,3 @@ function ModalWithDynamicContent(props: ModalProps) {
         </Modal>
     );
 }
-
-export const Animation: StoryFn<ModalProps> = (args) => {
-    const [open, setOpen] = React.useState(false);
-
-    return (
-        <React.Fragment>
-            <Button onClick={() => setOpen(true)}>Show modal</Button>
-            <Modal {...args} open={open} onOpenChange={setOpen}>
-                <Flex direction="column" gap={4} style={{padding: 24}}>
-                    Use the disableAnimation control to compare opening and closing animations.
-                    <Button onClick={() => setOpen(false)}>Close modal</Button>
-                </Flex>
-            </Modal>
-        </React.Fragment>
-    );
-};
-
-Animation.args = {
-    disableAnimation: false,
-};

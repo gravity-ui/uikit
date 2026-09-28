@@ -101,7 +101,7 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
         }
     }
 
-    &_disable-open-animation {
+    &_disable-open-transition {
         &[data-floating-ui-status='initial'] {
             opacity: 1;
 
@@ -119,7 +119,7 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
         }
     }
 
-    &_disable-close-animation[data-floating-ui-status='close'] {
+    &_disable-close-transition[data-floating-ui-status='close'] {
         transition: none;
 
         #{$block}__content {

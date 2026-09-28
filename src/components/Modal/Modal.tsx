@@ -105,7 +105,7 @@ export interface ModalProps
     floatingRef?: React.RefObject<HTMLDivElement | null>;
     disableHeightTransition?: boolean;
     /** Skip both animations with true, or only the specified phase. Height transitions are unchanged. */
-    disableAnimation?: boolean | 'open' | 'close';
+    disableTransition?: boolean | 'open' | 'close';
 }
 
 const b = block('modal');
@@ -141,11 +141,11 @@ function ModalComponent(rawProps: ModalProps) {
         qa,
         floatingRef,
         disableHeightTransition = false,
-        disableAnimation = false,
+        disableTransition = false,
         ...restProps
     } = useDefaultProps('Modal', rawProps);
-    const disableOpenAnimation = disableAnimation === true || disableAnimation === 'open';
-    const disableCloseAnimation = disableAnimation === true || disableAnimation === 'close';
+    const disableOpenTransition = disableTransition === true || disableTransition === 'open';
+    const disableCloseTransition = disableTransition === true || disableTransition === 'close';
     useLayer({open, type: 'modal'});
     const mobileModals = React.useContext(MobileContext).__experimentalMobileModals ?? false;
     const mobile = useMobile() && mobileModals;
@@ -234,10 +234,10 @@ function ModalComponent(rawProps: ModalProps) {
     const {isMounted, status} = useFloatingTransition({
         context,
         duration: {
-            open: disableOpenAnimation ? 0 : TRANSITION_DURATION,
+            open: disableOpenTransition ? 0 : TRANSITION_DURATION,
             close: TRANSITION_DURATION,
         },
-        skipTransitionOut: disableCloseAnimation,
+        skipTransitionOut: disableCloseTransition,
         onTransitionIn,
         onTransitionInComplete: handleTransitionInComplete,
         onTransitionOut,
@@ -296,8 +296,8 @@ function ModalComponent(rawProps: ModalProps) {
                             {
                                 open,
                                 mobile,
-                                'disable-open-animation': disableOpenAnimation,
-                                'disable-close-animation': disableCloseAnimation,
+                                'disable-open-transition': disableOpenTransition,
+                                'disable-close-transition': disableCloseTransition,
                             },
                             className,
                         )}

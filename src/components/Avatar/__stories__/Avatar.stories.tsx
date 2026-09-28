@@ -54,7 +54,6 @@ const randomAvatars = faker.helpers
 
 const imageProps = {
     imgUrl,
-    alt: 'Sample image',
 };
 
 const iconProps = {
@@ -83,7 +82,6 @@ export const Image: Story = {
     args: {
         imgUrl,
         'aria-label': 'Sample avatar',
-        alt: 'Generated avatar',
     },
 };
 
@@ -102,7 +100,6 @@ export const ImageSrcSet: StoryFunc = (args) => {
 ImageSrcSet.args = {
     imgUrl: faker.image.urlLoremFlickr({category: 'cats'}),
     size: 'xl',
-    alt: 'Image with srcset',
     'aria-label': 'Random avatar',
 };
 
@@ -110,7 +107,6 @@ export const ImageFallback: Story = {
     args: {
         imgUrl: 'random_link',
         fallbackImgUrl: imgUrl,
-        alt: 'Fallbacked image',
         'aria-label': 'Fallback demonstration',
     },
 };

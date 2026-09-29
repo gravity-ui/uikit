@@ -14,10 +14,11 @@ import './Tabs.scss';
 
 const b = block('tabs-legacy');
 
-export enum TabsDirection {
-    Horizontal = 'horizontal',
-    Vertical = 'vertical',
-}
+export const TabsDirection = {
+    Horizontal: 'horizontal',
+    Vertical: 'vertical',
+} as const;
+export type TabsDirection = (typeof TabsDirection)[keyof typeof TabsDirection];
 
 export type TabsSize = 'm' | 'l' | 'xl';
 

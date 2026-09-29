@@ -92,7 +92,9 @@ export const Default: StoryFn<ModalProps> = (props) => {
             <Button onClick={() => setOpenWithDynamicContent(true)}>
                 Show modal with dynamic content
             </Button>
-            <Button onClick={() => setOpenWithoutTransition(true)}>without transition</Button>
+            <Button onClick={() => setOpenWithoutTransition(true)}>
+                Show modal without transition
+            </Button>
         </Flex>
     );
 };

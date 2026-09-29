@@ -221,7 +221,7 @@ function WithoutTransitionDialog() {
     return (
         <div>
             <Button view="outlined" size="l" onClick={() => setOpen(true)}>
-                without transition
+                dialog without transition
             </Button>
             <Dialog
                 open={open}

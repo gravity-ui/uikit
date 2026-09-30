@@ -101,7 +101,7 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
         }
     }
 
-    &_disable-open-transition {
+    &_disable-transition {
         &[data-floating-ui-status='initial'] {
             opacity: 1;
 
@@ -110,20 +110,13 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
             }
         }
 
-        &[data-floating-ui-status='open'] {
+        &[data-floating-ui-status='open'],
+        &[data-floating-ui-status='close'] {
             transition: none;
 
             #{$block}__content {
                 transition: $modal-height-transition;
             }
-        }
-    }
-
-    &_disable-close-transition[data-floating-ui-status='close'] {
-        transition: none;
-
-        #{$block}__content {
-            transition: $modal-height-transition;
         }
     }
 

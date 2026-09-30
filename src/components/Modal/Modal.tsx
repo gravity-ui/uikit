@@ -104,8 +104,8 @@ export interface ModalProps
     contentOverflow?: 'visible' | 'auto';
     floatingRef?: React.RefObject<HTMLDivElement | null>;
     disableHeightTransition?: boolean;
-    /** Skip both animations with true, or only the specified phase. Height transitions are unchanged. */
-    disableTransition?: boolean | 'open' | 'close';
+    /** Skip opening and closing animations. Height transitions are unchanged. */
+    disableTransition?: boolean;
 }
 
 const b = block('modal');
@@ -144,8 +144,6 @@ function ModalComponent(rawProps: ModalProps) {
         disableTransition = false,
         ...restProps
     } = useDefaultProps('Modal', rawProps);
-    const disableOpenTransition = disableTransition === true || disableTransition === 'open';
-    const disableCloseTransition = disableTransition === true || disableTransition === 'close';
     useLayer({open, type: 'modal'});
     const mobileModals = React.useContext(MobileContext).__experimentalMobileModals ?? false;
     const mobile = useMobile() && mobileModals;
@@ -234,10 +232,10 @@ function ModalComponent(rawProps: ModalProps) {
     const {isMounted, status} = useFloatingTransition({
         context,
         duration: {
-            open: disableOpenTransition ? 0 : TRANSITION_DURATION,
+            open: disableTransition ? 0 : TRANSITION_DURATION,
             close: TRANSITION_DURATION,
         },
-        skipTransitionOut: disableCloseTransition,
+        skipTransitionOut: disableTransition,
         onTransitionIn,
         onTransitionInComplete: handleTransitionInComplete,
         onTransitionOut,
@@ -296,8 +294,7 @@ function ModalComponent(rawProps: ModalProps) {
                             {
                                 open,
                                 mobile,
-                                'disable-open-transition': disableOpenTransition,
-                                'disable-close-transition': disableCloseTransition,
+                                'disable-transition': disableTransition,
                             },
                             className,
                         )}

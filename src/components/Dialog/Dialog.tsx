@@ -55,8 +55,8 @@ export interface DialogProps extends AriaLabelingProps, QAProps {
     keepMounted?: boolean;
     hasCloseButton?: boolean;
     disableHeightTransition?: boolean;
-    /** Skip both animations with true, or only the specified phase. Height transitions are unchanged. */
-    disableTransition?: ModalProps['disableTransition'];
+    /** Skip opening and closing animations. Height transitions are unchanged. */
+    disableTransition?: boolean;
 }
 
 export function Dialog(rawProps: DialogProps) {

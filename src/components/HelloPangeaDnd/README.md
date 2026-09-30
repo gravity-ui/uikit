@@ -117,6 +117,8 @@ Under [virtualization](#virtualization) the dragged row is drawn by a clone, and
 </ListHelloPangeaDnd>
 ```
 
+Spread `handleProps` rather than the `dragHandleProps` of the library: besides the grid contract they keep a touch drag alive under virtualization.
+
 `HelloPangeaDragHandle` is the grip with an accessible name, out of the tab order; its children replace the icon. On a row that cannot be dragged the handle is decorative: the library gives it no props, it is hidden from assistive technology and `←`/`→` skip it.
 
 ### Virtualization
@@ -139,7 +141,7 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 </ListVirtualizer>;
 ```
 
-In the virtual mode the virtualizer keeps the space of the dragged row, and the library draws the row by a clone — the dragged row may even leave the window meanwhile. The clone is a copy of the last render of the `Row` at half opacity, rendered inside the wrapper, so the theme, the styles of the ancestors and the focus scope of a dialog reach it. Touch cannot drag a virtualized list: the original with the touched handle is unmounted for the clone, and the touch events stop reaching the library — a limitation of `@hello-pangea/dnd`. The heights of the rows must not change while a row is dragged: the library measures them on lift.
+In the virtual mode the virtualizer keeps the space of the dragged row, and the library draws the row by a clone — the dragged row may even leave the window meanwhile. The clone is a copy of the last render of the `Row` at half opacity, rendered inside the wrapper, so the theme, the styles of the ancestors and the focus scope of a dialog reach it. The original is unmounted meanwhile, the handle under the finger included, so touch events stop reaching the library; the handle props of the kit forward them, and a touch drag goes on. The heights of the rows must not change while a row is dragged: the library measures them on lift.
 
 ### Several lists
 

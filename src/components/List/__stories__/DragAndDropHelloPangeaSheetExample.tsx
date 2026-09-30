@@ -5,9 +5,7 @@
  * `position: fixed` in the coordinates of the viewport. The kit takes the
  * offset of such an ancestor out, so nothing changes for the list: the same
  * wrapper as anywhere else, plain and virtualized, with the mouse, the keyboard
- * and touch (touch drags a plain list only: the virtual mode of the library
- * draws the dragged row by a clone, and touch events do not survive the
- * original being unmounted).
+ * and touch. A touch that starts on a handle does not swipe the sheet.
  *
  * In an application:
  * `import {Button, List, Sheet} from '@gravity-ui/uikit'`

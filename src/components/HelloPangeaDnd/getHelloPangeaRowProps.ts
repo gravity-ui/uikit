@@ -16,6 +16,7 @@ import type {
 import {warnOnce} from '../utils/warn';
 
 import {toContainingBlock, trackElement} from './fixedPosition';
+import {forwardDetachedTouches} from './forwardDetachedTouches';
 import i18n from './i18n';
 
 /**
@@ -24,6 +25,8 @@ import i18n from './i18n';
  *  not focusable (←/→ would otherwise move the focus into a hidden element)
  */
 export type HelloPangeaHandleProps = Partial<DraggableProvidedDragHandleProps> & {
+    /** Keeps a touch drag alive when the library unmounts the handle for a clone */
+    onTouchStart?: (event: React.TouchEvent<HTMLElement>) => void;
     tabIndex?: -1;
     'aria-label'?: string;
     'aria-hidden'?: true;
@@ -95,6 +98,7 @@ export function getHelloPangeaRowProps<T>({
         handleProps: provided.dragHandleProps
             ? {
                   ...provided.dragHandleProps,
+                  onTouchStart: forwardDetachedTouches,
                   tabIndex: -1,
                   'aria-label': handleLabel ?? i18n('label_drag-handle'),
               }

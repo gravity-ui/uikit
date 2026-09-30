@@ -74,6 +74,8 @@ async function dragWithMouse(page: Page) {
 /** The touch sensor of the library: a long press, then the move */
 async function dragWithTouch(page: Page) {
     const {x, y} = await getSettledCenter(page.locator('.g-hello-pangea-dnd__handle').nth(1));
+    const sheet = page.locator('.g-sheet__sheet');
+    const sheetBefore = await sheet.boundingBox();
     const client = await page.context().newCDPSession(page);
     const touch = (type: 'touchStart' | 'touchMove' | 'touchEnd', touchY: number) =>
         client.send('Input.dispatchTouchEvent', {
@@ -86,12 +88,14 @@ async function dragWithTouch(page: Page) {
         await touch('touchMove', y + step * 4);
     }
     const result = await readDragged(page, x, y + 32);
+    // The swipe of the sheet leaves a touch on a drag handle to the library
+    const sheetStayed = (await sheet.boundingBox())?.y === sheetBefore?.y;
     await touch('touchEnd', y + 32);
     const dragEnded = await expect
         .poll(() => page.locator('[data-drag-active]').count())
         .toBe(0)
         .then(() => true);
-    return {...result, dragEnded};
+    return {...result, sheetStayed, dragEnded};
 }
 
 test.describe('ListHelloPangeaDnd', {tag: '@HelloPangeaDnd'}, () => {
@@ -122,6 +126,20 @@ test.describe('ListHelloPangeaDnd', {tag: '@HelloPangeaDnd'}, () => {
             expect(await dragWithTouch(page)).toEqual({
                 underPointer: true,
                 onTop: true,
+                sheetStayed: true,
+                dragEnded: true,
+            });
+        });
+
+        test('inside a Sheet, virtualized: the clone follows the finger and the drag ends', async ({
+            mount,
+            page,
+        }) => {
+            await mount(<SheetKitVirtual />);
+            expect(await dragWithTouch(page)).toEqual({
+                underPointer: true,
+                onTop: true,
+                sheetStayed: true,
                 dragEnded: true,
             });
         });

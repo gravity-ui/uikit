@@ -1,15 +1,7 @@
 /**
- * Drag and drop with @hello-pangea/dnd — the recommended library — through the
- * kit of the @gravity-ui/uikit/hello-pangea-dnd entry point: the wrapper owns
- * the DragDropContext and the Droppable and hands the draggable rows to the
- * List inside. The List only needs `role="grid"`: the drag handle is a button,
- * and interactive content inside a row is valid in the grid role model only.
- *
- * The keyboard: `←`/`→` reach the handle, Space lifts the row, `↑`/`↓` move it,
- * Space drops it (Escape cancels).
- *
- * The wiring the kit does is in "Drag and drop integrations / Hello Pangea
- * under the hood".
+ * Drag and drop with @hello-pangea/dnd through the kit: ListHelloPangeaDnd
+ * around the List, `role="grid"` on it. The wiring by hand is in
+ * "Drag and drop integrations / Hello Pangea under the hood".
  *
  * In an application:
  * `import {List} from '@gravity-ui/uikit'`

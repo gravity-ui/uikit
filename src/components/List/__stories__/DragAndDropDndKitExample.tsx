@@ -69,7 +69,7 @@ function SortableRow({
             dragHandle={
                 // A drag starts from the handle only: the listeners and the
                 // activator ref live on it rather than on the row (the same
-                // handle pattern as in the hello-pangea example). The
+                // handle pattern as in Hello Pangea under the hood). The
                 // attributes of useSortable (role="button", tabIndex=0) are
                 // not spread here either: they are needed by the keyboard dnd
                 // only, which is outside the layer

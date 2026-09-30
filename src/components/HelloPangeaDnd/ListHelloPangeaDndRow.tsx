@@ -18,7 +18,7 @@ import {warnOnce} from '../utils/warn';
 import {HelloPangeaDragHandle} from './HelloPangeaDragHandle';
 import {HelloPangeaKitContext} from './context';
 import type {HelloPangeaRowSnapshot} from './context';
-import {getHelloPangeaRowProps} from './getHelloPangeaRowProps';
+import {FLAT_LISTS_ONLY, getHelloPangeaRowProps} from './getHelloPangeaRowProps';
 
 export interface ListHelloPangeaDndRowProps<T> extends QAProps {
     ctx: ListItemContext<T>;
@@ -101,9 +101,7 @@ export function ListHelloPangeaDndRow<T>({
     const own = {className, style, 'data-qa': qa};
     const index = ctx.kind === 'item' ? kit.getIndex(ctx.id) : undefined;
     if (index === undefined) {
-        warnOnce(
-            '[ListHelloPangeaDnd] Flat lists only: a section header cannot be dragged, and the indexes of the library are counted over the top level of `items`.',
-        );
+        warnOnce(FLAT_LISTS_ONLY);
         return ctx.kind === 'section' ? (
             <ListSectionHeader {...helpers.getItemProps()} {...viewState}>
                 {content}

@@ -1,19 +1,8 @@
 /**
- * Drag and drop with @hello-pangea/dnd and rows of your own markup: the row is
- * not `List.ItemView`, so `ListHelloPangeaDnd.Row` does not fit. Write the
- * `Draggable` yourself and take the wiring from `getHelloPangeaRowProps`:
- *
- * - `rowProps` — the core props of the row with the draggable props and the
- *   ref of the library composed in (and the transition fix of an active drag);
- * - `handleProps` — the drag handle props in the grid contract (out of the tab
- *   order, with an accessible name), for `HelloPangeaDragHandle` or an element
- *   of your own;
- * - `cellProps` — the cell props: the handle and the content get a cell each.
- *
- * The index of `Draggable` is the position in `items`. Under virtualization a
- * custom row needs `renderClone` on the wrapper as well: the library draws the
- * dragged row by a clone there, and the default clone is a copy of
- * `ListHelloPangeaDnd.Row`.
+ * Drag and drop with @hello-pangea/dnd and rows of your own markup: `Draggable`
+ * by hand, the wiring from `getHelloPangeaRowProps`. The index of `Draggable`
+ * is the position in `items`; under virtualization pass `renderClone` to the
+ * wrapper as well.
  *
  * In an application:
  * `import {List} from '@gravity-ui/uikit'`

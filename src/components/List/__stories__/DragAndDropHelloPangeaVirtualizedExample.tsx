@@ -1,18 +1,8 @@
 /**
- * Drag and drop with @hello-pangea/dnd on top of virtualization: the same kit
- * as in the DragAndDrop story, with `ListVirtualizer` OUTSIDE the wrapper — the
- * wrapper reads the virtualization of the list below it and switches the
- * Droppable to the virtual mode: the virtualizer keeps the space of the
- * dragged row, and the library draws the row itself by a clone — the kit
- * copies the last render of the Row for it. The original, the handle under the
- * finger included, is unmounted meanwhile: the handle of the kit keeps a touch
- * drag alive anyway.
- *
- * Rows of variable height work through measure, but the measurements must not
- * CHANGE while dragging — the library snapshots the geometry on lift.
- *
- * The wiring the kit does is in "Drag and drop integrations / Hello Pangea
- * under the hood virtualized".
+ * Drag and drop with @hello-pangea/dnd on top of virtualization: the same kit,
+ * with `ListVirtualizer` OUTSIDE the wrapper — the wrapper reads the
+ * virtualization of the list below it. Row heights must not CHANGE while
+ * dragging: the library snapshots the geometry on lift.
  *
  * In an application:
  * `import {List} from '@gravity-ui/uikit'`

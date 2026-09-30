@@ -421,32 +421,20 @@ describe('List: dnd layer', () => {
     });
 
     describe('placeholder: the last child of the root', () => {
-        test('rendered after the rows', () => {
+        test.each([
+            ['flat', FRUITS],
+            ['with sections', GROUPS],
+        ])('%s: rendered after the rows', (_name, items) => {
             render(
                 <List
-                    aria-label="Fruits"
-                    items={FRUITS}
+                    aria-label="Items"
+                    items={items as string[]}
                     dnd={{placeholder: <div data-qa="gap" />}}
                 />,
             );
             // The position among the children of the root is the contract itself
             // eslint-disable-next-line testing-library/no-node-access
-            const children = Array.from(screen.getByRole('listbox').children);
-            expect(children).toHaveLength(FRUITS.length + 1);
-            expect(children[FRUITS.length]).toBe(screen.getByTestId('gap'));
-        });
-
-        test('rendered after the rows of the last section', () => {
-            render(
-                <List
-                    aria-label="Groups"
-                    items={GROUPS}
-                    dnd={{placeholder: <div data-qa="gap" />}}
-                />,
-            );
-            // eslint-disable-next-line testing-library/no-node-access
-            const last = screen.getByRole('listbox').lastElementChild;
-            expect(last).toBe(screen.getByTestId('gap'));
+            expect(screen.getByRole('listbox').lastElementChild).toBe(screen.getByTestId('gap'));
         });
 
         describe('under virtualization', () => {
@@ -469,38 +457,33 @@ describe('List: dnd layer', () => {
     });
 
     describe('renderItem of the adapter', () => {
-        const renderAdapterRow = (ctx: ListItemContext<string>, helpers: ListItemHelpers) => (
-            <List.ItemView
-                {...helpers.getItemProps({'data-row': 'adapter'})}
-                {...helpers.getItemViewProps()}
-            >
-                {ctx.content}
-            </List.ItemView>
-        );
+        const makeRow = (tag: string) =>
+            function renderRow(ctx: ListItemContext<string>, helpers: ListItemHelpers) {
+                return (
+                    <List.ItemView
+                        {...helpers.getItemProps({'data-row': tag})}
+                        {...helpers.getItemViewProps()}
+                    >
+                        {ctx.content}
+                    </List.ItemView>
+                );
+            };
+        const renderAdapterRow = makeRow('adapter');
 
-        test('renders the rows while the List has no renderItem of its own', () => {
-            render(
+        test('renders the rows while the List has no renderItem of its own; the one of the List wins', () => {
+            const {rerender} = render(
                 <List aria-label="Fruits" items={FRUITS} dnd={{renderItem: renderAdapterRow}} />,
             );
             for (const option of screen.getAllByRole('option')) {
                 expect(option).toHaveAttribute('data-row', 'adapter');
             }
-        });
 
-        test('the renderItem of the List wins', () => {
-            render(
+            rerender(
                 <List
                     aria-label="Fruits"
                     items={FRUITS}
                     dnd={{renderItem: renderAdapterRow}}
-                    renderItem={(ctx, helpers) => (
-                        <List.ItemView
-                            {...helpers.getItemProps({'data-row': 'own'})}
-                            {...helpers.getItemViewProps()}
-                        >
-                            {ctx.content}
-                        </List.ItemView>
-                    )}
+                    renderItem={makeRow('own')}
                 />,
             );
             for (const option of screen.getAllByRole('option')) {

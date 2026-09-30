@@ -5,8 +5,9 @@
  *
  * - `mode="virtual"`: the placeholder is not needed, but `renderClone` is
  *   mandatory — while dragging, the original Draggable renders null and the
- *   row is drawn by a clone outside the tree of the list (it survives the original being unmounted
- *   from the window);
+ *   row is drawn by a clone (it survives the original leaving the window). A
+ *   touch drag freezes then: the handle under the finger is unmounted — the
+ *   `handleProps` of `getHelloPangeaRowProps` keep it alive;
  * - `getContainerForClone`: the default document.body lies outside .g-root —
  *   the CSS variables of the theme do not resolve inside the clone (margins,
  *   paddings and colors would collapse). The list root does not fit either:
@@ -17,12 +18,7 @@
  *   the dragged item has to look the same across all the examples;
  * - rows of variable height work through measure (the engine ignores the
  *   transiently emptied wrapper of the original), but the measurements must
- *   not CHANGE while dragging — rbd snapshots the geometry on lift;
- * - `role="grid"`: the handle of rbd is a real button, and interactive content
- *   inside a row is valid in the grid role model only. The grid/row/gridcell
- *   roles survive the absolute+top wrappers of the virtualizer just as
- *   listbox/option do, and the numbering of the window travels through
- *   aria-rowcount/aria-rowindex.
+ *   not CHANGE while dragging — rbd snapshots the geometry on lift.
  *
  * In an application:
  * `import {List, moveItem} from '@gravity-ui/uikit'`

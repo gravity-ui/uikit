@@ -7,37 +7,19 @@ import {ListHelloPangeaDnd} from '../ListHelloPangeaDnd';
 
 const ITEMS = ['Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo'];
 
-/** The page under the Sheet: the sheet opens lower than the top of the viewport */
-function Page() {
-    return <div style={{height: 300}}>Page</div>;
-}
-
-/** A reorderable list inside a Sheet: an ancestor with `will-change: transform` */
-export function SheetKitFlat() {
+/** A reorderable list inside a Sheet (`will-change: transform`) that opens below a page */
+export function SheetKit({virtual}: {virtual?: boolean}) {
     const [items, setItems] = React.useState(ITEMS);
-    return (
-        <React.Fragment>
-            <Page />
-            <Sheet visible onClose={() => {}}>
-                <ListHelloPangeaDnd items={items} onItemsChange={setItems}>
-                    <List role="grid" aria-label="Probe" items={items} />
-                </ListHelloPangeaDnd>
-            </Sheet>
-        </React.Fragment>
+    const kit = (
+        <ListHelloPangeaDnd items={items} onItemsChange={setItems}>
+            <List role="grid" aria-label="Probe" items={items} style={{height: 200}} />
+        </ListHelloPangeaDnd>
     );
-}
-
-export function SheetKitVirtual() {
-    const [items, setItems] = React.useState(ITEMS);
     return (
         <React.Fragment>
-            <Page />
+            <div style={{height: 300}}>Page</div>
             <Sheet visible onClose={() => {}}>
-                <ListVirtualizer estimateItemSize={28}>
-                    <ListHelloPangeaDnd items={items} onItemsChange={setItems}>
-                        <List role="grid" aria-label="Probe" items={items} style={{height: 200}} />
-                    </ListHelloPangeaDnd>
-                </ListVirtualizer>
+                {virtual ? <ListVirtualizer estimateItemSize={28}>{kit}</ListVirtualizer> : kit}
             </Sheet>
         </React.Fragment>
     );

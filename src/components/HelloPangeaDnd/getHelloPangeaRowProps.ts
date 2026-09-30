@@ -19,6 +19,9 @@ import {toContainingBlock, trackElement} from './fixedPosition';
 import {forwardDetachedTouches} from './forwardDetachedTouches';
 import i18n from './i18n';
 
+/** The row is a section header or an option of a section: the kit covers flat lists only */
+export const FLAT_LISTS_ONLY = '[ListHelloPangeaDnd] Flat lists only: sections are not draggable.';
+
 /**
  * `dragHandleProps` of the library in the grid contract. While the row cannot be dragged the
  *  library gives none: the handle is decorative then — `aria-hidden`, no accessible name, and
@@ -64,14 +67,12 @@ export function getHelloPangeaRowProps<T>({
     handleLabel,
 }: GetHelloPangeaRowPropsOptions<T>): HelloPangeaRowProps {
     if (ctx.kind === 'section') {
-        warnOnce(
-            '[ListHelloPangeaDnd] Flat lists only: a section header cannot be dragged, and the indexes of the library are counted over the top level of `items`.',
-        );
+        warnOnce(FLAT_LISTS_ONLY);
     }
     const cellProps = helpers.getCellProps();
     if (cellProps.role === undefined) {
         warnOnce(
-            '[ListHelloPangeaDnd] Pass `role="grid"` to the List: the drag handle is a button, and interactive content inside a row is valid in the grid role model only.',
+            '[ListHelloPangeaDnd] Pass `role="grid"` to the List: the drag handle is interactive, valid in a grid only.',
         );
     }
     const {style, ...draggableProps} = provided.draggableProps;

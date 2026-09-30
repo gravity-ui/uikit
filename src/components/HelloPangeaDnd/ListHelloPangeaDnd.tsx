@@ -61,15 +61,13 @@ export interface ListHelloPangeaDndProps<T> {
         snapshot: DraggableStateSnapshot,
     ) => React.ReactNode;
     /**
-     * The result of `useListHelloPangeaDnd` when the `DragDropContext` is yours (several lists,
-     *  moves between them): the wrapper renders no context of its own then, and the drop goes to
-     *  the `onDrop` of that hook — `onItemsChange`/`onDrop` of the wrapper are not called
+     * `useListHelloPangeaDnd` state for your own `DragDropContext`: no context is rendered, the
+     *  drop goes to the `onDrop` of that hook
      */
     state?: UseListHelloPangeaDndResult;
     /**
-     * The virtual mode of `Droppable`. default: on under `ListVirtualizer`. Force it for a
-     *  virtualizer the wrapper cannot see (inside it); a list without a virtualizer does not
-     *  support the mode — nothing keeps the space of the dragged row
+     * The virtual mode of `Droppable`. default: on under `ListVirtualizer`; force it for a
+     *  virtualizer the wrapper cannot see (it needs one: the virtualizer keeps the gap)
      */
     virtual?: boolean;
     /** Passed to `Droppable` */
@@ -173,7 +171,7 @@ function ListHelloPangeaDndComponent<T>({
     }
     if (externalState && (onItemsChange || onDrop)) {
         warnOnce(
-            '[ListHelloPangeaDnd] With `state` the drop goes to the `onDrop` of your useListHelloPangeaDnd: `onItemsChange` and `onDrop` of the wrapper are not called.',
+            '[ListHelloPangeaDnd] With `state`, `onItemsChange` and `onDrop` of the wrapper are not called: the drop goes to the `onDrop` of your hook.',
         );
     }
     // Called unconditionally (the rules of hooks); ignored under an external context
@@ -216,7 +214,7 @@ function ListHelloPangeaDndComponent<T>({
         const rowSnapshot = registry.get(ids[index]);
         if (!rowSnapshot) {
             warnOnce(
-                '[ListHelloPangeaDnd] The dragged row was not rendered by ListHelloPangeaDnd.Row: pass `renderClone` for custom rows under virtualization.',
+                '[ListHelloPangeaDnd] Pass `renderClone` for custom rows under virtualization.',
             );
             return (
                 <div

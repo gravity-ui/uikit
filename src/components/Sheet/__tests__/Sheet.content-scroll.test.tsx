@@ -67,16 +67,13 @@ describe('Sheet content scroll', () => {
         expect(onClose).not.toHaveBeenCalled();
     });
 
-    test.each([
-        ['false', 'a library that suppresses the native drag'],
-        ['true', 'the native drag'],
-    ])(
-        'does not move the sheet on a touch that starts on a drag handle (draggable="%s", %s)',
+    test.each([false, true])(
+        'does not move the sheet on a touch that starts on a drag handle (draggable=%s)',
         (draggable) => {
             const onClose = jest.fn();
             render(
                 <Sheet visible onClose={onClose}>
-                    <span draggable={draggable === 'true'} data-qa="handle">
+                    <span draggable={draggable} data-qa="handle">
                         Handle
                     </span>
                     Content

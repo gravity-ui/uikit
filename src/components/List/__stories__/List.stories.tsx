@@ -639,8 +639,7 @@ export const DragAndDropCustomRow: Story = {
     },
 };
 
-// hello-pangea inside a Sheet: the kit takes the offset of the transformed
-// sheet out of the position of the dragged row, so it stays under the pointer
+// hello-pangea inside a Sheet
 export const DragAndDropInSheet: Story = {
     render: () => <DragAndDropHelloPangeaSheetExample />,
     parameters: {
@@ -655,7 +654,7 @@ export const DragAndDropInSheet: Story = {
     },
 };
 
-// The same inside a Sheet under virtualization: the dragged row is a clone
+// The same under virtualization
 export const DragAndDropInSheetVirtualized: Story = {
     render: () => <DragAndDropHelloPangeaSheetVirtualizedExample />,
     parameters: {

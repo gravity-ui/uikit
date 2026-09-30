@@ -668,10 +668,8 @@ so the handle stays at the edge of the row whatever else the row shows.
 
 ### @hello-pangea/dnd
 
-The recommended library, with a kit of its own in the `@gravity-ui/uikit/hello-pangea-dnd` entry
-point (install `@hello-pangea/dnd` next to the package). The wrapper owns the `DragDropContext` and
-the `Droppable` of the library and hands the adapter and the draggable rows to the list inside, so
-a reorderable list is the wrapper plus `role="grid"`:
+The recommended library, with a kit in `@gravity-ui/uikit/hello-pangea-dnd`: the wrapper plus
+`role="grid"`:
 
 ```tsx
 import {List} from '@gravity-ui/uikit';
@@ -690,8 +688,7 @@ function Playlist() {
 
 The example switches the list to the [grid roles](#interactive-rows): the drag handle of this
 library is a real button, and interactive content is valid inside a cell rather than inside an
-option. `←`/`→` reach the handle, `Space` lifts the row, `↑`/`↓` move it and `Space` drops it. A list inside
-a `Sheet` or a `Dialog` drags the same way.
+option.
 
 <ListDragAndDrop />
 
@@ -699,13 +696,9 @@ The drop moves your data: `onItemsChange` gets the result of
 `moveItem(items, fromId, toId, position, getId?)` — it reorders the top level of the array and
 returns the original one, by reference, when nothing has moved, so treat the result as immutable.
 
-Every piece of the wiring stays replaceable: `ListHelloPangeaDnd.Row` fills the slots of the view,
-`getHelloPangeaRowProps` wires rows of your own markup, under
-[virtualization](#virtualization) the wrapper switches to the virtual mode of the library, and
-several lists share one `DragDropContext` through the `state` prop. See the
-[HelloPangeaDnd](../HelloPangeaDnd/README.md) documentation, the
-[Drag and drop virtualized](?path=/story/components-data-display-list--drag-and-drop-virtualized)
-story and rows of custom markup:
+Custom rows, virtualization and several lists: see [HelloPangeaDnd](../HelloPangeaDnd/README.md)
+and the [Drag and drop virtualized](?path=/story/components-data-display-list--drag-and-drop-virtualized)
+story. Rows of custom markup:
 
 <ListDragAndDropCustomRow />
 

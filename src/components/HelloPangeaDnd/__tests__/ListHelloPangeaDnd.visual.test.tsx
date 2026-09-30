@@ -3,7 +3,7 @@ import type {Locator, Page} from '@playwright/test';
 
 import {test} from '~playwright/core';
 
-import {SheetKitFlat, SheetKitVirtual} from './helpersPlaywright';
+import {SheetKit} from './helpersPlaywright';
 
 /** The sheet slides in: wait until the handle stops moving */
 async function getSettledCenter(handle: Locator) {
@@ -98,50 +98,38 @@ async function dragWithTouch(page: Page) {
     return {...result, sheetStayed, dragEnded};
 }
 
-test.describe('ListHelloPangeaDnd', {tag: '@HelloPangeaDnd'}, () => {
-    test('inside a Sheet the dragged row follows the mouse above the sheet', async ({
-        mount,
-        page,
-    }) => {
-        await mount(<SheetKitFlat />);
-        expect(await dragWithMouse(page)).toEqual({underPointer: true, onTop: true});
-    });
+const MODES = [
+    ['plain', false],
+    ['virtualized', true],
+] as const;
 
-    test('inside a Sheet, virtualized: the clone follows the mouse above the sheet', async ({
-        mount,
-        page,
-    }) => {
-        await mount(<SheetKitVirtual />);
-        expect(await dragWithMouse(page)).toEqual({underPointer: true, onTop: true});
-    });
+test.describe('ListHelloPangeaDnd inside a Sheet', {tag: '@HelloPangeaDnd'}, () => {
+    for (const [mode, virtual] of MODES) {
+        test(`${mode}: the dragged row follows the mouse above the sheet`, async ({
+            mount,
+            page,
+        }) => {
+            await mount(<SheetKit virtual={virtual} />);
+            expect(await dragWithMouse(page)).toEqual({underPointer: true, onTop: true});
+        });
+    }
 
     test.describe('touch', () => {
         test.use({hasTouch: true});
 
-        test('inside a Sheet the dragged row follows the finger and the drag ends', async ({
-            mount,
-            page,
-        }) => {
-            await mount(<SheetKitFlat />);
-            expect(await dragWithTouch(page)).toEqual({
-                underPointer: true,
-                onTop: true,
-                sheetStayed: true,
-                dragEnded: true,
+        for (const [mode, virtual] of MODES) {
+            test(`${mode}: the dragged row follows the finger, the sheet stays`, async ({
+                mount,
+                page,
+            }) => {
+                await mount(<SheetKit virtual={virtual} />);
+                expect(await dragWithTouch(page)).toEqual({
+                    underPointer: true,
+                    onTop: true,
+                    sheetStayed: true,
+                    dragEnded: true,
+                });
             });
-        });
-
-        test('inside a Sheet, virtualized: the clone follows the finger and the drag ends', async ({
-            mount,
-            page,
-        }) => {
-            await mount(<SheetKitVirtual />);
-            expect(await dragWithTouch(page)).toEqual({
-                underPointer: true,
-                onTop: true,
-                sheetStayed: true,
-                dragEnded: true,
-            });
-        });
+        }
     });
 });

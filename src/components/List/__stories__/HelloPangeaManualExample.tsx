@@ -12,10 +12,9 @@
  *   `getCellProps()` cells, and `←`/`→` move focus between them;
  * - `dragHandleProps` go to a SEPARATE handle in the `dragHandle` slot of the
  *   view: on the row itself role="button"/tabIndex=0 would overwrite the role
- *   of the row, and the Space lift of the keyboard sensor of rbd would
- *   intercept the Space of the list. The `tabIndex={-1}` on top of them is the
- *   grid contract (one tab stop per list): rbd looks the handle up by its own
- *   data attribute and focuses it programmatically;
+ *   of the row, and the Space lift of rbd would intercept the Space of the
+ *   list. HelloPangeaDragHandle adds `tabIndex={-1}` (grid contract) and the
+ *   name;
  * - `provided.placeholder` must be the last child of the droppable element
  *   (the list root) — the `placeholder` field of the adapter puts it there;
  * - the index of `Draggable` is the position in `items`: `ctx.index` counts
@@ -64,16 +63,9 @@ function PangeaRow({
                     {...helpers.getItemProps({
                         ...dragProvided.draggableProps,
                         ref: dragProvided.innerRef,
-                        // The per-frame shift styles have to be applied by the
-                        // row itself, through the composition contract (a
-                        // shallow merge of style).
-                        // For the duration of an ACTIVE drag the inline
-                        // `transition: opacity ...` of rbd is suppressed (it is
-                        // meant for combine, which is not used here): otherwise
-                        // the ghost styles of the list ([data-dragging]: the
-                        // background plus opacity) would be applied out of sync
-                        // and the row would flash dark at the start. The drop
-                        // animation is left alone
+                        // During an active drag the inline `transition:
+                        // opacity` of rbd (meant for combine) would desync the
+                        // ghost styles of the list; the drop animation keeps it
                         style: {
                             ...(dragProvided.draggableProps.style as React.CSSProperties),
                             ...(dragSnapshot.isDragging && !dragSnapshot.isDropAnimating
@@ -83,10 +75,6 @@ function PangeaRow({
                     })}
                     {...helpers.getItemViewProps()}
                     dragHandle={
-                        // A cell with interactive content: the handle button is
-                        // valid inside a gridcell (inside role="option" it is
-                        // not). HelloPangeaDragHandle adds tabIndex={-1} and the
-                        // accessible name (axe: aria-command-name)
                         <span {...helpers.getCellProps()}>
                             <HelloPangeaDragHandle
                                 {...(dragProvided.dragHandleProps ?? undefined)}

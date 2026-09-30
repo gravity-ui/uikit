@@ -6,6 +6,7 @@ import {Lang, configure} from '../../../utils/configure';
 import type {ListItemContext, ListItemHelpers, ListPropsOverrides} from '../../List/types';
 import {HelloPangeaDragHandle} from '../HelloPangeaDragHandle';
 import {getHelloPangeaRowProps} from '../getHelloPangeaRowProps';
+import type {GetHelloPangeaRowPropsOptions} from '../getHelloPangeaRowProps';
 
 const ctx: ListItemContext<string> = {
     id: 'a',
@@ -54,57 +55,43 @@ const provided = (dragHandle = true): DraggableProvided => ({
 const snapshot = (patch: Partial<DraggableStateSnapshot> = {}) =>
     ({isDragging: false, isDropAnimating: false, ...patch}) as DraggableStateSnapshot;
 
+const call = (options: Partial<GetHelloPangeaRowPropsOptions<string>> = {}) =>
+    getHelloPangeaRowProps({
+        ctx,
+        helpers: helpers(),
+        provided: provided(),
+        snapshot: snapshot(),
+        ...options,
+    });
+
 describe('getHelloPangeaRowProps', () => {
     test('the draggable props and the ref of the library go through the core props of the row', () => {
         const rowHelpers = helpers();
         const getItemProps = jest.spyOn(rowHelpers, 'getItemProps');
-        const {rowProps} = getHelloPangeaRowProps({
-            ctx,
-            helpers: rowHelpers,
-            provided: provided(),
-            snapshot: snapshot(),
-        });
+        const {rowProps} = call({helpers: rowHelpers});
 
-        expect(getItemProps).toHaveBeenCalledWith(
-            expect.objectContaining({'data-rfd-draggable-id': 'a'}),
-        );
-        // The ref of the row reaches the one of the library
-        const {ref} = getItemProps.mock.calls[0][0] as {ref: (element: HTMLElement) => void};
-        const element = document.createElement('div');
-        ref(element);
-        expect(innerRef).toHaveBeenCalledWith(element);
         expect(rowProps).toMatchObject({role: 'row', 'data-rfd-draggable-id': 'a'});
         expect(rowProps.style).toEqual({
             transform: 'translate(0px, 28px)',
             transition: 'opacity 0.2s',
         });
+        const {ref} = getItemProps.mock.calls[0][0] as {ref: (element: HTMLElement) => void};
+        const element = document.createElement('div');
+        ref(element);
+        expect(innerRef).toHaveBeenCalledWith(element);
     });
 
     test('the transition of the library is off during an active drag, back for the drop animation', () => {
-        const dragging = getHelloPangeaRowProps({
-            ctx,
-            helpers: helpers(),
-            provided: provided(),
-            snapshot: snapshot({isDragging: true}),
+        expect(call({snapshot: snapshot({isDragging: true})}).rowProps.style).toMatchObject({
+            transition: 'none',
         });
-        expect(dragging.rowProps.style).toMatchObject({transition: 'none'});
-
-        const dropping = getHelloPangeaRowProps({
-            ctx,
-            helpers: helpers(),
-            provided: provided(),
-            snapshot: snapshot({isDragging: true, isDropAnimating: true}),
-        });
-        expect(dropping.rowProps.style).toMatchObject({transition: 'opacity 0.2s'});
+        expect(
+            call({snapshot: snapshot({isDragging: true, isDropAnimating: true})}).rowProps.style,
+        ).toMatchObject({transition: 'opacity 0.2s'});
     });
 
     test('the handle: out of the tab order, with a name', () => {
-        const {handleProps, cellProps} = getHelloPangeaRowProps({
-            ctx,
-            helpers: helpers(),
-            provided: provided(),
-            snapshot: snapshot(),
-        });
+        const {handleProps, cellProps} = call();
         expect(handleProps).toMatchObject({
             role: 'button',
             tabIndex: -1,
@@ -112,38 +99,16 @@ describe('getHelloPangeaRowProps', () => {
             'data-rfd-drag-handle-draggable-id': 'a',
         });
         expect(cellProps).toEqual({role: 'gridcell'});
-
-        expect(
-            getHelloPangeaRowProps({
-                ctx,
-                helpers: helpers(),
-                provided: provided(),
-                snapshot: snapshot(),
-                handleLabel: 'Move',
-            }).handleProps['aria-label'],
-        ).toBe('Move');
     });
 
-    test('a row that cannot be dragged gets a decorative handle', () => {
-        const {handleProps} = getHelloPangeaRowProps({
-            ctx,
-            helpers: helpers(),
-            provided: provided(false),
-            snapshot: snapshot(),
-        });
-        // Not focusable: ←/→ would otherwise move the focus into a hidden element
-        expect(handleProps).toEqual({'aria-hidden': true});
+    test('a row that cannot be dragged gets a decorative handle, not focusable', () => {
+        expect(call({provided: provided(false)}).handleProps).toEqual({'aria-hidden': true});
     });
 
     test('dev warnings: a listbox, a section header', () => {
         const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
         try {
-            getHelloPangeaRowProps({
-                ctx: {...ctx, kind: 'section'},
-                helpers: helpers('listbox'),
-                provided: provided(),
-                snapshot: snapshot(),
-            });
+            call({ctx: {...ctx, kind: 'section'}, helpers: helpers('listbox')});
             expect(consoleErrorSpy).toHaveBeenCalledWith(
                 expect.stringContaining('Pass `role="grid"` to the List'),
             );

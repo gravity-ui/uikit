@@ -1,11 +1,6 @@
 /**
- * Drag and drop with @hello-pangea/dnd inside a Sheet. The sheet has
- * `will-change: transform`, which makes it the containing block of every
- * `position: fixed` descendant, while the library places a dragged row with
- * `position: fixed` in the coordinates of the viewport. The kit takes the
- * offset of such an ancestor out, so nothing changes for the list: the same
- * wrapper as anywhere else, plain and virtualized, with the mouse, the keyboard
- * and touch. A touch that starts on a handle does not swipe the sheet.
+ * Drag and drop with @hello-pangea/dnd inside a Sheet: the kit compensates for
+ * the transform of the sheet, and a touch on a handle does not swipe the sheet.
  *
  * In an application:
  * `import {Button, List, Sheet} from '@gravity-ui/uikit'`

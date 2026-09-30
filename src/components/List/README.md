@@ -690,7 +690,8 @@ function Playlist() {
 
 The example switches the list to the [grid roles](#interactive-rows): the drag handle of this
 library is a real button, and interactive content is valid inside a cell rather than inside an
-option. `←`/`→` reach the handle, `Space` lifts the row, `↑`/`↓` move it and `Space` drops it.
+option. `←`/`→` reach the handle, `Space` lifts the row, `↑`/`↓` move it and `Space` drops it. The dragged
+row is drawn as a clone above the page, so a list inside a `Sheet` or a `Dialog` drags the same way.
 
 <ListDragAndDrop />
 

@@ -2,9 +2,9 @@
  * Drag and drop with @hello-pangea/dnd on top of virtualization: the same kit
  * as in the DragAndDrop story, with `ListVirtualizer` OUTSIDE the wrapper — the
  * wrapper reads the virtualization of the list below it and switches the
- * Droppable to the virtual mode. There, while a row is dragged, the library
- * draws a clone of it outside the list: the kit renders the clone from the
- * last render of the Row, inside the themed tree.
+ * Droppable to the virtual mode: the virtualizer keeps the space of the
+ * dragged row. The row itself is drawn as a clone above the page, as in the
+ * plain list.
  *
  * Rows of variable height work through measure, but the measurements must not
  * CHANGE while dragging — the library snapshots the geometry on lift.

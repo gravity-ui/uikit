@@ -19,6 +19,7 @@ import {ListVirtualizationContext} from '../List/VirtualizationContext';
 import {moveItem} from '../List/moveItem';
 import type {ListDndAdapter, ListItemContext, ListItemHelpers} from '../List/types';
 import {defaultGetItemId} from '../List/utils';
+import {Portal} from '../Portal';
 import {block} from '../utils/cn';
 import {warnOnce} from '../utils/warn';
 
@@ -51,8 +52,8 @@ export interface ListHelloPangeaDndProps<T> {
     /** Rows that cannot be dragged, in addition to the disabled ones. Keep it stable */
     isDragDisabled?: (item: T) => boolean;
     /**
-     * Virtual mode: the visual copy of the dragged row. default — a copy of the `Row`; a custom
-     *  row without `Row` must pass its own
+     * The visual copy of the dragged row, drawn above the page while the original renders
+     *  nothing. default — a copy of the `Row`; a custom row without `Row` must pass its own
      */
     renderClone?: (
         item: T,
@@ -204,7 +205,7 @@ function ListHelloPangeaDndComponent<T>({
         const rowSnapshot = registry.get(ids[index]);
         if (!rowSnapshot) {
             warnOnce(
-                '[ListHelloPangeaDnd] The dragged row was not rendered by ListHelloPangeaDnd.Row: pass `renderClone` for custom rows under virtualization.',
+                '[ListHelloPangeaDnd] The dragged row was not rendered by ListHelloPangeaDnd.Row: pass `renderClone` for custom rows.',
             );
             return (
                 <div
@@ -222,7 +223,10 @@ function ListHelloPangeaDndComponent<T>({
             {...droppableProps}
             droppableId={droppableId ?? autoId}
             mode={virtual ? 'virtual' : 'standard'}
-            renderClone={virtual ? renderCloneOfRow : undefined}
+            // Always a clone, portaled out of the list: a dragged row is position: fixed, and an
+            // ancestor with a transform (a Sheet, an animated popup) would become its containing
+            // block — the row would fly away from the pointer
+            renderClone={renderCloneOfRow}
             getContainerForClone={() => cloneContainerRef.current ?? document.body}
         >
             {(provided) => (
@@ -242,7 +246,9 @@ function ListHelloPangeaDndComponent<T>({
     const content = (
         <React.Fragment>
             {droppable}
-            {virtual ? <div ref={cloneContainerRef} className={b('clone-container')} /> : null}
+            <Portal>
+                <div ref={cloneContainerRef} className={b('clone-container')} />
+            </Portal>
         </React.Fragment>
     );
 

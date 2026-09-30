@@ -91,8 +91,8 @@ export function ListHelloPangeaDndRow<T>({
         handleLabel,
         handlePlacement,
     };
-    // Under virtualization the original may be unmounted while it is dragged: the clone is drawn
-    // from the last snapshot of the row
+    // The clone of a dragged row is drawn from the last snapshot of the row: the original renders
+    // nothing while it is dragged, and under virtualization it may be unmounted altogether
     useLayoutEffect(() => {
         registry.set(ctx.id, snapshot);
     });

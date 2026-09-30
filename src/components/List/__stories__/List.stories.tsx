@@ -597,7 +597,7 @@ export const DragAndDrop: Story = {
 };
 
 // hello-pangea × virtualization: the same kit with ListVirtualizer outside —
-// the wrapper switches to the virtual mode and draws the clone of the row
+// the wrapper switches the library to the virtual mode
 export const DragAndDropVirtualized: Story = {
     render: () => <DragAndDropHelloPangeaVirtualizedExample />,
     parameters: {

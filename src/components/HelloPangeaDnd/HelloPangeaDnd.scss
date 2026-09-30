@@ -17,9 +17,13 @@ $block: '.#{variables.$ns}hello-pangea-dnd';
         }
     }
 
-    // The clone of the dragged row is portaled here: inside the themed tree, so the CSS variables
-    // of the theme resolve, and out of the layout (the clone is position: fixed)
+    // The clone of the dragged row is portaled here, next to the overlays: the Portal keeps the
+    // theme, no transformed ancestor shifts the position: fixed of the clone, and the stacking
+    // context of the container puts the clone above the overlays (a Sheet is 100000)
     &__clone-container {
-        display: contents;
+        position: fixed;
+        inset: 0;
+        z-index: 100001;
+        pointer-events: none;
     }
 }

@@ -52,15 +52,23 @@ const getHandle = (title: string) =>
 const flush = () => act(() => Promise.resolve());
 
 /** The keyboard sensor of the library: lift, move, drop */
+/** The clone of the dragged row, portaled next to the overlays */
+const getCloneContainer = () =>
+    document.querySelector('.g-hello-pangea-dnd__clone-container') as HTMLElement;
+
+/** After the lift the original renders nothing: the keys go to the handle of the clone */
+
+const focused = () => (document.activeElement as HTMLElement | null) ?? document.body;
+
 async function dragWithKeyboard(handle: HTMLElement, key: 'ArrowDown' | 'ArrowUp', times = 1) {
     act(() => handle.focus());
     fireEvent.keyDown(handle, {key: ' ', code: 'Space', keyCode: 32});
     await flush();
     for (let i = 0; i < times; i++) {
-        fireEvent.keyDown(handle, {key, code: key, keyCode: key === 'ArrowDown' ? 40 : 38});
+        fireEvent.keyDown(focused(), {key, code: key, keyCode: key === 'ArrowDown' ? 40 : 38});
         await flush();
     }
-    fireEvent.keyDown(handle, {key: ' ', code: 'Space', keyCode: 32});
+    fireEvent.keyDown(focused(), {key: ' ', code: 'Space', keyCode: 32});
     // The drop animation of the keyboard sensor is skipped, the drop lands in a timeout
     await act(() => new Promise((resolve) => setTimeout(resolve, 0)));
 }
@@ -131,17 +139,20 @@ describe('ListHelloPangeaDnd', () => {
             expect(rowTitles()).toEqual(['Bravo', 'Charlie', 'Alpha']);
         });
 
-        test('while dragging the core marks the row and the list', async () => {
+        test('while dragging the clone is above the page and the core marks the list', async () => {
             render(<Playlist />);
             const handle = getHandle('Bravo');
             act(() => handle.focus());
             fireEvent.keyDown(handle, {key: ' ', code: 'Space', keyCode: 32});
             await flush();
 
-            expect(screen.getByRole('row', {name: /Bravo/})).toHaveAttribute('data-dragging');
+            // The original renders nothing, the clone is portaled out of the list
+            expect(screen.queryByRole('row', {name: /Bravo/})).not.toBeInTheDocument();
+            expect(getCloneContainer()).toHaveTextContent('Bravo');
+            expect(screen.getByRole('grid')).not.toContainElement(getCloneContainer());
             expect(screen.getByRole('grid')).toHaveAttribute('data-drag-active');
 
-            fireEvent.keyDown(handle, {key: 'Escape', code: 'Escape', keyCode: 27});
+            fireEvent.keyDown(focused(), {key: 'Escape', code: 'Escape', keyCode: 27});
             await act(() => new Promise((resolve) => setTimeout(resolve, 0)));
             expect(screen.getByRole('grid')).not.toHaveAttribute('data-drag-active');
         });
@@ -438,7 +449,7 @@ describe('ListHelloPangeaDnd', () => {
         mockLayout({viewport: 120, row: 24});
 
         test('under ListVirtualizer: the clone container is in place, no placeholder', () => {
-            const {container} = render(
+            render(
                 <ListVirtualizer estimateItemSize={24}>
                     <ListHelloPangeaDnd items={TRACKS} onItemsChange={jest.fn()}>
                         <List
@@ -451,13 +462,12 @@ describe('ListHelloPangeaDnd', () => {
                 </ListVirtualizer>,
             );
             expect(screen.getAllByRole('row')).toHaveLength(TRACKS.length);
-            // eslint-disable-next-line testing-library/no-container
-            expect(container.querySelector('.g-hello-pangea-dnd__clone-container')).not.toBeNull();
+            expect(getCloneContainer()).not.toBeNull();
         });
 
         test('a keyboard drag draws the clone from the Row and reorders the items', async () => {
             const onItemsChange = jest.fn();
-            const {container} = render(
+            render(
                 <ListVirtualizer estimateItemSize={24}>
                     <ListHelloPangeaDnd items={TRACKS} onItemsChange={onItemsChange}>
                         <List
@@ -474,8 +484,7 @@ describe('ListHelloPangeaDnd', () => {
             fireEvent.keyDown(handle, {key: ' ', code: 'Space', keyCode: 32});
             await flush();
 
-            // eslint-disable-next-line testing-library/no-container
-            const cloneContainer = container.querySelector('.g-hello-pangea-dnd__clone-container');
+            const cloneContainer = getCloneContainer();
             expect(cloneContainer).toHaveTextContent('Alpha');
 
             const cloneHandle = within(cloneContainer as HTMLElement).getByRole('button', {
@@ -494,7 +503,7 @@ describe('ListHelloPangeaDnd', () => {
         });
 
         test('the virtual prop turns the mode on without the virtualizer in sight', () => {
-            const {container} = render(
+            render(
                 <ListHelloPangeaDnd items={TRACKS} onItemsChange={jest.fn()} virtual>
                     <List
                         role="grid"
@@ -504,8 +513,7 @@ describe('ListHelloPangeaDnd', () => {
                     />
                 </ListHelloPangeaDnd>,
             );
-            // eslint-disable-next-line testing-library/no-container
-            expect(container.querySelector('.g-hello-pangea-dnd__clone-container')).not.toBeNull();
+            expect(getCloneContainer()).not.toBeNull();
         });
     });
 });

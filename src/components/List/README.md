@@ -702,9 +702,8 @@ story. Rows of custom markup:
 
 <ListDragAndDropCustomRow />
 
-The kit covers flat lists. The wiring it does, written by hand, is in the
-[Hello Pangea under the hood](?path=/story/components-data-display-list-drag-and-drop-integrations--hello-pangea-under-the-hood)
-stories — the starting point for anything the kit does not cover.
+The kit covers flat lists. For anything it does not cover, wire the library through the adapter of
+the `dnd` prop by hand, see [Any other library](#any-other-library).
 
 ### Any other library
 

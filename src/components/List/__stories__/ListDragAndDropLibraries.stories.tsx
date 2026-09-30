@@ -8,19 +8,15 @@ import {DragAndDropPragmaticExample} from './DragAndDropPragmaticExample';
 import dragAndDropPragmaticCode from './DragAndDropPragmaticExample?raw';
 import {DragAndDropPragmaticVirtualizedExample} from './DragAndDropPragmaticVirtualizedExample';
 import dragAndDropPragmaticVirtualizedCode from './DragAndDropPragmaticVirtualizedExample?raw';
-import {HelloPangeaManualExample} from './HelloPangeaManualExample';
-import helloPangeaManualCode from './HelloPangeaManualExample?raw';
-import {HelloPangeaManualVirtualizedExample} from './HelloPangeaManualVirtualizedExample';
-import helloPangeaManualVirtualizedCode from './HelloPangeaManualVirtualizedExample?raw';
 import {exampleSource} from './exampleSource';
 import useDndKitListDndCode from './useDndKitListDnd?raw';
 import usePragmaticListDndCode from './usePragmaticListDnd?raw';
 
-// Drag and drop integrations: how a library plugs into the adapter contract of
-// the `dnd` prop. @hello-pangea/dnd under the hood — the wiring of the kit,
-// written by hand; pragmatic-drag-and-drop — props and state, the insertion line
-// is drawn by the list; dnd-kit — state only, the neighbours shift. The Code
-// panel of a story holds the complete source of the example and its hook
+// Drag and drop integrations: how a library other than @hello-pangea/dnd plugs
+// into the adapter contract of the `dnd` prop. pragmatic-drag-and-drop — props
+// and state, the insertion line is drawn by the list; dnd-kit — state only, the
+// neighbours shift. The Code panel of a story holds the complete source of the
+// example and its hook
 const meta: Meta = {
     title: 'Components/Data Display/List/Drag and drop integrations',
     parameters: {
@@ -42,36 +38,6 @@ const meta: Meta = {
 export default meta;
 
 type Story = StoryObj<typeof meta>;
-
-// @hello-pangea/dnd by hand: DragDropContext, Droppable and Draggable of your
-// own, the state from useListHelloPangeaDnd, the placeholder through the adapter
-export const HelloPangeaUnderTheHood: Story = {
-    render: () => <HelloPangeaManualExample />,
-    parameters: {
-        docs: {
-            source: {
-                language: 'tsx',
-                code: exampleSource([['HelloPangeaManualExample.tsx', helloPangeaManualCode]]),
-            },
-        },
-    },
-};
-
-// @hello-pangea/dnd by hand under virtualization: mode="virtual", renderClone
-// and the container of the clone inside the themed tree
-export const HelloPangeaUnderTheHoodVirtualized: Story = {
-    render: () => <HelloPangeaManualVirtualizedExample />,
-    parameters: {
-        docs: {
-            source: {
-                language: 'tsx',
-                code: exampleSource([
-                    ['HelloPangeaManualVirtualizedExample.tsx', helloPangeaManualVirtualizedCode],
-                ]),
-            },
-        },
-    },
-};
 
 // pragmatic-drag-and-drop: the "full" form of the adapter (props through ref
 // registration of the rows plus the state, all in a single dnd prop)

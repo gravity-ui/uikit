@@ -1,7 +1,6 @@
 /**
  * Drag and drop with @hello-pangea/dnd through the kit: ListHelloPangeaDnd
- * around the List, `role="grid"` on it. The wiring by hand is in
- * "Drag and drop integrations / Hello Pangea under the hood".
+ * around the List, `role="grid"` on it.
  *
  * In an application:
  * `import {List} from '@gravity-ui/uikit'`

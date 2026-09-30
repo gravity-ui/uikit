@@ -163,7 +163,7 @@ Without `state` every wrapper renders a `DragDropContext` of its own, and nested
 
 ### Under the hood
 
-The wiring by hand, for what the kit does not cover, is in the "Hello Pangea under the hood" stories of the List; the adapter contract is in [Drag and drop](../List/README.md#drag-and-drop).
+The kit hands its adapter to the List through `ListDndContext`. For what the kit does not cover, wire the library through the adapter of the `dnd` prop by hand: the contract is in [Drag and drop](../List/README.md#drag-and-drop).
 
 ## Properties
 

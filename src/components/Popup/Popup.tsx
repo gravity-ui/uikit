@@ -244,12 +244,10 @@ function PopupComponent(rawProps: PopupProps) {
 
     const {
         refs,
-        elements,
         floatingStyles,
         placement: finalPlacement,
         middlewareData,
         context,
-        update,
         isPositioned,
     } = useFloating({
         rootContext: floatingContext,
@@ -271,6 +269,7 @@ function PopupComponent(rawProps: PopupProps) {
             hasArrow && arrowStylesMiddleware(),
             roundByDPRMiddleware(),
         ],
+        whileElementsMounted: autoUpdate,
     });
 
     React.useEffect(() => {
@@ -301,17 +300,10 @@ function PopupComponent(rawProps: PopupProps) {
         onTransitionOutComplete,
     });
 
-    React.useEffect(() => {
-        if (isMounted && elements.reference && elements.floating) {
-            return autoUpdate(elements.reference, elements.floating, update);
-        }
-        return undefined;
-    }, [isMounted, elements, update]);
-
     const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
 
     let initialFocus = initialFocusProp;
-    if (typeof initialFocus === 'undefined') {
+    if (initialFocus === undefined) {
         if (modal) {
             initialFocus = refs.floating;
         } else {

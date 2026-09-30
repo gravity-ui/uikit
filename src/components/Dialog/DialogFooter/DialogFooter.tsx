@@ -91,6 +91,7 @@ export function DialogFooter(props: DialogFooterProps) {
                 onClick={onClickButtonCancel}
                 disabled={loading}
                 {...propsButtonCancel}
+                width={mobile ? 'max' : propsButtonCancel?.width}
             >
                 {textButtonCancel}
             </Button>
@@ -117,6 +118,7 @@ export function DialogFooter(props: DialogFooterProps) {
                 loading={loading}
                 className={b('button-apply', {preset})}
                 {...propsButtonApply}
+                width={mobile ? 'max' : propsButtonApply?.width}
             >
                 {textButtonApply}
             </Button>

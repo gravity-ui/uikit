@@ -10,7 +10,7 @@ The entry point that makes a [List](../List/README.md) reorderable with `@hello-
 import {ListHelloPangeaDnd} from '@gravity-ui/uikit/hello-pangea-dnd';
 ```
 
-This entry point needs `@hello-pangea/dnd`: install it next to `@gravity-ui/uikit`.
+This entry point needs `@hello-pangea/dnd` and React 18 or later: install the library next to `@gravity-ui/uikit`, one copy of it — `Draggable` and `DragDropContext` of your code have to come from the same copy as the kit.
 
 ## Usage
 
@@ -31,7 +31,7 @@ function Playlist() {
 }
 ```
 
-Each row gets a handle at its outermost edge. The mouse drags a row by the handle; the keyboard reaches the handle with `←`/`→`, lifts the row with `Space`, moves it with `↑`/`↓` and drops it with `Space` (`Escape` cancels). Rows the list disables are not draggable, and `isDragDisabled` pins more of them. The name of the handle and the instructions the library gives to screen readers follow the language set with `configure` (under a `DragDropContext` of your own, pass its `dragHandleUsageInstructions` yourself).
+Each row gets a handle at its outermost edge. The mouse drags a row by the handle; the keyboard reaches the handle with `←`/`→`, lifts the row with `Space`, moves it with `↑`/`↓` and drops it with `Space` (`Escape` cancels). Rows the list disables are not draggable, and `getItemDragDisabled` pins more of them. The name of the handle and the instructions the library gives to screen readers follow the language set with `configure` (under a `DragDropContext` of your own, pass its `dragHandleUsageInstructions` yourself).
 
 A list inside a `Sheet`, a `Dialog` or an animated popup drags the same way: the kit compensates for a transformed ancestor. For data that is not an array in memory, use `onDrop` instead of `onItemsUpdate`.
 
@@ -120,7 +120,7 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 </ListVirtualizer>;
 ```
 
-The dragged row is drawn by a clone — a copy of the `Row` — so a custom row needs `renderClone`: it gets the item and the `provided` and `snapshot` of the clone. Row heights must not change during a drag: the library measures them on lift.
+The dragged row is drawn by a clone — a copy of the `Row` — so a custom row needs `renderClone`: it gets `{item, provided, snapshot}` of the clone. Row heights must not change during a drag: the library measures them on lift.
 
 ### Several lists
 
@@ -165,18 +165,18 @@ Without `state` every wrapper renders a `DragDropContext` of its own, and nested
 
 ### ListHelloPangeaDnd
 
-| Name           | Description                                                                                        |                                      Type                                       |        Default        |
-| :------------- | :------------------------------------------------------------------------------------------------- | :-----------------------------------------------------------------------------: | :-------------------: |
-| items          | The items of the list inside, in the same order                                                    |                                 `readonly T[]`                                  |                       |
-| getItemId      | The id of an item                                                                                  |                              `(item: T) => string`                              | the one of the `List` |
-| onItemsUpdate  | The reordered array, `moveItem` already applied                                                    |                             `(items: T[]) => void`                              |                       |
-| onDrop         | The drop as ids and an edge                                                                        |     `(fromId: string, toId: string, position: 'before' \| 'after') => void`     |                       |
-| droppableId    | The id of the `Droppable`                                                                          |                                    `string`                                     |      an auto id       |
-| isDragDisabled | Rows that cannot be dragged, in addition to the disabled ones                                      |                             `(item: T) => boolean`                              |                       |
-| renderClone    | Virtual mode: the copy of a dragged row, required for custom rows                                  |               `(item: T, provided, snapshot) => React.ReactNode`                |  a copy of the `Row`  |
-| state          | `useListHelloPangeaDnd` state for your own `DragDropContext` — see [Several lists](#several-lists) |                          `UseListHelloPangeaDndResult`                          |                       |
-| droppableProps | Passed to the `Droppable`                                                                          | `Pick<DroppableProps, 'isDropDisabled' \| 'ignoreContainerClipping' \| 'type'>` |                       |
-| children       | The `List`, with `role="grid"`                                                                     |                                   `ReactNode`                                   |                       |
+| Name                | Description                                                                                        |                                      Type                                       |        Default        |
+| :------------------ | :------------------------------------------------------------------------------------------------- | :-----------------------------------------------------------------------------: | :-------------------: |
+| items               | The items of the list inside, in the same order                                                    |                                 `readonly T[]`                                  |                       |
+| getItemId           | The id of an item; keep it equal to the `getItemId` of the List                                    |                              `(item: T) => string`                              | the one of the `List` |
+| onItemsUpdate       | The reordered array, `moveItem` already applied                                                    |                             `(items: T[]) => void`                              |                       |
+| onDrop              | The drop as ids and an edge                                                                        |     `(fromId: string, toId: string, position: 'before' \| 'after') => void`     |                       |
+| droppableId         | The id of the `Droppable`                                                                          |                                    `string`                                     |      an auto id       |
+| getItemDragDisabled | Rows that cannot be dragged, in addition to the disabled ones                                      |                             `(item: T) => boolean`                              |                       |
+| renderClone         | Virtual mode: the copy of a dragged row, required for custom rows                                  |                `({item, provided, snapshot}) => React.ReactNode`                |  a copy of the `Row`  |
+| state               | `useListHelloPangeaDnd` state for your own `DragDropContext` — see [Several lists](#several-lists) |                          `UseListHelloPangeaDndResult`                          |                       |
+| droppableProps      | Passed to the `Droppable`                                                                          | `Pick<DroppableProps, 'isDropDisabled' \| 'ignoreContainerClipping' \| 'type'>` |                       |
+| children            | The `List`, with `role="grid"`                                                                     |                                   `ReactNode`                                   |                       |
 
 ### ListHelloPangeaDnd.Row
 
@@ -198,20 +198,21 @@ Without `state` every wrapper renders a `DragDropContext` of its own, and nested
 
 Takes `{ctx, helpers, provided, snapshot, handleLabel?}` — the arguments of `renderItem` and of the render function of `Draggable` — and returns:
 
-| Name        | Description                                                                                        |           Type           |
-| :---------- | :------------------------------------------------------------------------------------------------- | :----------------------: |
-| rowProps    | The props of the row: the ones of the list with the draggable props and the ref of the library     |    `ListItemDOMProps`    |
-| handleProps | The props of the handle: `dragHandleProps`, `tabIndex={-1}` and the name; decorative when disabled | `HelloPangeaHandleProps` |
-| cellProps   | The props of a cell                                                                                |    `ListCellDOMProps`    |
+| Name        | Description                                                                                        |            Type             |
+| :---------- | :------------------------------------------------------------------------------------------------- | :-------------------------: |
+| rowProps    | The props of the row: the ones of the list with the draggable props and the ref of the library     |     `ListItemDOMProps`      |
+| handleProps | The props of the handle: `dragHandleProps`, `tabIndex={-1}` and the name; decorative when disabled | `HelloPangeaHandleDOMProps` |
+| cellProps   | The props of a cell                                                                                |     `ListCellDOMProps`      |
 
 ### HelloPangeaDragHandle
 
-Takes the props of a `span` and:
+Takes the props of a `span` except `tabIndex`, and:
 
-| Name     | Description                       |    Type     |      Default      |
-| :------- | :-------------------------------- | :---------: | :---------------: |
-| label    | The accessible name of the handle |  `string`   | "Drag to reorder" |
-| children | The content instead of the grip   | `ReactNode` |   the grip icon   |
+| Name       | Description                       |    Type     |      Default      |
+| :--------- | :-------------------------------- | :---------: | :---------------: |
+| aria-label | The accessible name of the handle |  `string`   | "Drag to reorder" |
+| qa         | The `data-qa` attribute           |  `string`   |                   |
+| children   | The content instead of the grip   | `ReactNode` |   the grip icon   |
 
 ### useListHelloPangeaDnd
 

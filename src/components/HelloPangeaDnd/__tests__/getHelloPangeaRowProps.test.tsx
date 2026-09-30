@@ -124,16 +124,23 @@ describe('getHelloPangeaRowProps', () => {
 describe('HelloPangeaDragHandle', () => {
     afterEach(() => configure({lang: Lang.En}));
 
-    test('the name: label, then aria-label, then the built-in text of the language', () => {
-        const {rerender} = render(<HelloPangeaDragHandle label="Move" aria-label="ignored" />);
-        expect(screen.getByLabelText('Move')).toHaveAttribute('tabindex', '-1');
-
-        rerender(<HelloPangeaDragHandle aria-label="Reorder" />);
-        expect(screen.getByLabelText('Reorder')).toBeInTheDocument();
+    test('the name: aria-label, then the built-in text of the language', () => {
+        const {rerender} = render(<HelloPangeaDragHandle aria-label="Reorder" qa="handle" />);
+        expect(screen.getByLabelText('Reorder')).toHaveAttribute('tabindex', '-1');
+        expect(screen.getByTestId('handle')).toBe(screen.getByLabelText('Reorder'));
 
         configure({lang: Lang.Ru});
         rerender(<HelloPangeaDragHandle />);
         expect(screen.getByLabelText('Перетащите, чтобы изменить порядок')).toBeInTheDocument();
+    });
+
+    test('aria-hidden makes the handle decorative: no name, not focusable', () => {
+        const {rerender} = render(<HelloPangeaDragHandle aria-hidden qa="handle" />);
+        expect(screen.getByTestId('handle')).not.toHaveAttribute('aria-label');
+        expect(screen.getByTestId('handle')).not.toHaveAttribute('tabindex');
+
+        rerender(<HelloPangeaDragHandle aria-hidden="false" qa="handle" />);
+        expect(screen.getByTestId('handle')).toHaveAttribute('tabindex', '-1');
     });
 
     test('children replace the grip', () => {

@@ -10,7 +10,7 @@ export type {
     ListHelloPangeaDndProps,
     ListHelloPangeaDndRowProps,
     GetHelloPangeaRowPropsOptions,
-    HelloPangeaHandleProps,
-    HelloPangeaRowProps,
+    HelloPangeaHandleDOMProps,
+    GetHelloPangeaRowPropsResult,
     HelloPangeaDragHandleProps,
 } from './components/HelloPangeaDnd';

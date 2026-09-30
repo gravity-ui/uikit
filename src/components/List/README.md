@@ -921,7 +921,7 @@ with the name of its section. What is left to you:
 | selectedIds         | The selected items, controlled                                                                                             |                         `readonly string[]`                         |                                      |
 | defaultSelectedIds  | The selected items, uncontrolled                                                                                           |                         `readonly string[]`                         |                                      |
 | onSelectedUpdate    | The callback of a selection change                                                                                         |                      `(ids: string[]) => void`                      |                                      |
-| dnd                 | Turns the drag-and-drop layer on (an adapter); wins over `ListDndContext`                                                  |                          `ListDndAdapter`                           |                                      |
+| dnd                 | Turns the drag-and-drop layer on (an adapter); wins over `ListDndContext`                                                  |                         `ListDndAdapter<T>`                         |                                      |
 | role                | The ARIA role: `grid` for rows with interactive content                                                                    |                        `'listbox' \| 'grid'`                        |             `'listbox'`              |
 | focusOwner          | An external focus owner (`useListFocusOwner`)                                                                              |                          `ListFocusOwner`                           |                                      |
 | activateOnHover     | Activation on hover                                                                                                        |                              `boolean`                              |                `true`                |
@@ -1005,7 +1005,7 @@ The wrapper of the [virtualization](#virtualization) layer, imported from
 
 ### ListDndAdapter
 
-The object of the `dnd` prop — the [drag-and-drop](#drag-and-drop) layer.
+The object of the `dnd` prop — the [drag-and-drop](#drag-and-drop) layer; `ListDndAdapter<T>`, where `T` is the item type of the list.
 
 | Name                  | Description                                                                                      |                         Type                          |
 | :-------------------- | :----------------------------------------------------------------------------------------------- | :---------------------------------------------------: |
@@ -1014,4 +1014,4 @@ The object of the `dnd` prop — the [drag-and-drop](#drag-and-drop) layer.
 | draggingId?           | What is being dragged — the source of `ctx.state.dragging` and `data-dragging`                   |                   `string \| null`                    |
 | dropTarget?           | `{id, position}` — the source of `ctx.state.dropTarget`; the indicator is drawn by the list      | `{id: string; position: 'before' \| 'after'} \| null` |
 | placeholder?          | The last child of the list root (the gap of `@hello-pangea/dnd`); ignored under virtualization   |                      `ReactNode`                      |
-| renderItem?           | The row render while the list has no `renderItem` of its own; keep it stable                     |               `(ctx, helpers) => node`                |
+| renderItem?           | The row render while the list has no `renderItem` of its own; keep it stable                     |     `(ctx: ListItemContext<T>, helpers) => node`      |

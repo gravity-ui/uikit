@@ -211,8 +211,7 @@ export type ListDndProps = Omit<ListPropsOverrides, 'role' | 'id' | 'tabIndex'>;
  *  stable refs per id, no render-state closures, deduplicated dropTarget, state filled in even
  *  when the props bypass the adapter — see README "Any other library"
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface ListDndAdapter<T = any> {
+export interface ListDndAdapter<T = unknown> {
     /** Props for the list root (the drop zone); ref — for libraries that register the element */
     getContainerDndProps?(): ListDndProps;
     /** Props for a row, merged after the core props and before the overrides; options only */

@@ -111,12 +111,14 @@ async function dragWithKeyboard(handle: HTMLElement, key: 'ArrowDown' | 'ArrowUp
     await settle();
 }
 
-function Playlist(props: Pick<ListHelloPangeaDndProps<Track>, 'onItemsUpdate' | 'isDragDisabled'>) {
+function Playlist(
+    props: Pick<ListHelloPangeaDndProps<Track>, 'onItemsUpdate' | 'getItemDragDisabled'>,
+) {
     const [items, setItems] = React.useState(TRACKS);
     return (
         <ListHelloPangeaDnd
             items={items}
-            isDragDisabled={props.isDragDisabled}
+            getItemDragDisabled={props.getItemDragDisabled}
             onItemsUpdate={(next) => {
                 setItems(next);
                 props.onItemsUpdate?.(next);
@@ -180,8 +182,8 @@ describe('ListHelloPangeaDnd', () => {
             expect(grid).not.toHaveAttribute('data-drag-active');
         });
 
-        test('isDragDisabled leaves a decorative handle that ←/→ skip', () => {
-            render(<Playlist isDragDisabled={(track) => track.id === 'c'} />);
+        test('getItemDragDisabled leaves a decorative handle that ←/→ skip', () => {
+            render(<Playlist getItemDragDisabled={(track) => track.id === 'c'} />);
 
             const alpha = screen.getByRole('row', {name: /Alpha/});
             act(() => alpha.focus());

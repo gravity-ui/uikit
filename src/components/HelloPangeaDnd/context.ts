@@ -23,7 +23,7 @@ export interface HelloPangeaKitContextValue {
     /** The index of Draggable: the position in `items`, section headers are not counted */
     getIndex(id: string): number | undefined;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    isDragDisabled?: (item: any) => boolean;
+    getItemDragDisabled?: (item: any) => boolean;
     registry: HelloPangeaRowRegistry;
 }
 

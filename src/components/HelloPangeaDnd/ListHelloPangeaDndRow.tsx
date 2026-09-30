@@ -123,7 +123,7 @@ export function ListHelloPangeaDndRow<T>({
         <Draggable
             draggableId={ctx.id}
             index={index}
-            isDragDisabled={ctx.state.disabled || Boolean(kit.isDragDisabled?.(ctx.item))}
+            isDragDisabled={ctx.state.disabled || Boolean(kit.getItemDragDisabled?.(ctx.item))}
         >
             {(provided, dragSnapshot) => {
                 const {rowProps, handleProps, cellProps} = getHelloPangeaRowProps({
@@ -164,7 +164,10 @@ export function HelloPangeaRowClone({
 }) {
     const {viewProps, children, handleLabel, handlePlacement} = snapshot;
     const handle = (
-        <HelloPangeaDragHandle {...(provided.dragHandleProps ?? undefined)} label={handleLabel} />
+        <HelloPangeaDragHandle
+            {...(provided.dragHandleProps ?? undefined)}
+            aria-label={handleLabel}
+        />
     );
     return (
         <ListItemView

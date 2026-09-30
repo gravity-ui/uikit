@@ -45,21 +45,21 @@ export interface ListHelloPangeaDndProps<T> {
     getItemId?: (item: T) => string;
     /** The reordered array — `moveItem` already applied */
     onItemsUpdate?: (items: T[]) => void;
-    /** The drop as `{fromId, toId, position}` — for data that is not an array in memory */
+    /** The drop as `(fromId, toId, position)` — for data that is not an array in memory */
     onDrop?: (fromId: string, toId: string, position: 'before' | 'after') => void;
     /** default: an auto id */
     droppableId?: string;
     /** Rows that cannot be dragged, in addition to the disabled ones. Keep it stable */
-    isDragDisabled?: (item: T) => boolean;
+    getItemDragDisabled?: (item: T) => boolean;
     /**
      * Virtual mode: the visual copy of the dragged row. default — a copy of the `Row`; a custom
      *  row without `Row` must pass its own
      */
-    renderClone?: (
-        item: T,
-        provided: DraggableProvided,
-        snapshot: DraggableStateSnapshot,
-    ) => React.ReactNode;
+    renderClone?: (clone: {
+        item: T;
+        provided: DraggableProvided;
+        snapshot: DraggableStateSnapshot;
+    }) => React.ReactNode;
     /**
      * `useListHelloPangeaDnd` state for your own `DragDropContext`: no context is rendered, the
      *  drop goes to the `onDrop` of that hook
@@ -143,7 +143,7 @@ function ListHelloPangeaDndComponent<T>({
     onItemsUpdate,
     onDrop,
     droppableId,
-    isDragDisabled,
+    getItemDragDisabled,
     renderClone,
     state: externalState,
     droppableProps,
@@ -185,8 +185,8 @@ function ListHelloPangeaDndComponent<T>({
 
     const kit = React.useMemo<HelloPangeaKitContextValue>(() => {
         const indexes = new Map(ids.map((id, index) => [id, index]));
-        return {getIndex: (id) => indexes.get(id), isDragDisabled, registry};
-    }, [ids, isDragDisabled, registry]);
+        return {getIndex: (id) => indexes.get(id), getItemDragDisabled, registry};
+    }, [ids, getItemDragDisabled, registry]);
 
     const cloneContainerRef = React.useRef<HTMLDivElement>(null);
     const renderCloneOfRow: DraggableChildrenFn = (rawProvided, snapshot, rubric) => {
@@ -203,7 +203,7 @@ function ListHelloPangeaDndComponent<T>({
             },
         };
         if (renderClone) {
-            return renderClone(items[index], provided, snapshot);
+            return renderClone({item: items[index], provided, snapshot});
         }
         const rowSnapshot = registry.get(ids[index]);
         if (!rowSnapshot) {

@@ -8,4 +8,4 @@ import type {ListDndAdapter} from './types';
  *  the `dnd` prop of a List passed to it as children). The `dnd` prop wins; a List does not pass
  *  the context on to the lists rendered inside its rows
  */
-export const ListDndContext = React.createContext<ListDndAdapter | null>(null);
+export const ListDndContext = React.createContext<ListDndAdapter<unknown> | null>(null);

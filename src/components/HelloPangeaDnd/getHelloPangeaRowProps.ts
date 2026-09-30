@@ -27,7 +27,7 @@ export const FLAT_LISTS_ONLY = '[ListHelloPangeaDnd] Flat lists only: sections a
  *  library gives none: the handle is decorative then — `aria-hidden`, no accessible name, and
  *  not focusable (←/→ would otherwise move the focus into a hidden element)
  */
-export type HelloPangeaHandleProps = Partial<DraggableProvidedDragHandleProps> & {
+export type HelloPangeaHandleDOMProps = Partial<DraggableProvidedDragHandleProps> & {
     /** Keeps a touch drag alive when the library unmounts the handle for a clone */
     onTouchStart?: (event: React.TouchEvent<HTMLElement>) => void;
     tabIndex?: -1;
@@ -35,11 +35,11 @@ export type HelloPangeaHandleProps = Partial<DraggableProvidedDragHandleProps> &
     'aria-hidden'?: true;
 };
 
-export interface HelloPangeaRowProps {
+export interface GetHelloPangeaRowPropsResult {
     /** The props of the row element: the core props with the draggable props of the library composed in */
     rowProps: ListItemDOMProps;
     /** The props of the drag handle — for `HelloPangeaDragHandle` or an element of your own */
-    handleProps: HelloPangeaHandleProps;
+    handleProps: HelloPangeaHandleDOMProps;
     /** The props of a cell: wrap the handle and the content in a cell each (grid) */
     cellProps: ListCellDOMProps;
 }
@@ -65,7 +65,7 @@ export function getHelloPangeaRowProps<T>({
     provided,
     snapshot,
     handleLabel,
-}: GetHelloPangeaRowPropsOptions<T>): HelloPangeaRowProps {
+}: GetHelloPangeaRowPropsOptions<T>): GetHelloPangeaRowPropsResult {
     if (ctx.kind === 'section') {
         warnOnce(FLAT_LISTS_ONLY);
     }

@@ -4,8 +4,9 @@ import * as React from 'react';
 import {DragDropContext} from '@hello-pangea/dnd';
 
 import {act, fireEvent, render, screen, within} from '../../../../test-utils/utils';
+import {Lang, configure} from '../../../utils/configure';
 import {List} from '../../List';
-import {mockLayout} from '../../List/__tests__/helpers';
+import {mockLayout, mockTabbableDisplayCheck} from '../../List/__tests__/helpers';
 import type {ListItemContext, ListItemHelpers} from '../../List/types';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {ListHelloPangeaDnd} from '../ListHelloPangeaDnd';
@@ -23,6 +24,8 @@ const TRACKS: Track[] = [
 ];
 
 const getTitle = (track: Track) => track.title;
+
+mockTabbableDisplayCheck();
 
 // Keeps the console readable: the ref cleanups of mergeRefs are a React 19 feature, React 18 of
 // the tests warns about every forked ref
@@ -169,6 +172,87 @@ describe('ListHelloPangeaDnd', () => {
             );
             await dragWithKeyboard(getHandle('Charlie'), 'ArrowUp');
             expect(onDrop).toHaveBeenCalledWith('c', 'b', 'before');
+        });
+    });
+
+    describe('review cases', () => {
+        test('numeric ids are read the way the List reads them', async () => {
+            const numbered = [
+                {id: 1, title: 'One'},
+                {id: 2, title: 'Two'},
+            ];
+            const onItemsChange = jest.fn();
+            render(
+                <ListHelloPangeaDnd items={numbered} onItemsChange={onItemsChange}>
+                    <List
+                        role="grid"
+                        aria-label="Numbers"
+                        items={numbered}
+                        getItemContent={(item) => item.title}
+                    />
+                </ListHelloPangeaDnd>,
+            );
+            expect(
+                screen.getAllByRole('row').map((row) => row.getAttribute('data-rfd-draggable-id')),
+            ).toEqual(['1', '2']);
+
+            await dragWithKeyboard(getHandle('One'), 'ArrowDown');
+            expect(onItemsChange.mock.calls[0][0].map((item: {id: number}) => item.id)).toEqual([
+                2, 1,
+            ]);
+        });
+
+        test('←/→ reach the handle of a draggable row and skip the decorative one', () => {
+            render(<Playlist isDragDisabled={(track) => track.id === 'c'} />);
+            const alpha = screen.getByRole('row', {name: /Alpha/});
+            act(() => alpha.focus());
+            fireEvent.keyDown(alpha, {key: 'ArrowRight'});
+            expect(getHandle('Alpha')).toHaveFocus();
+
+            const charlie = screen.getByRole('row', {name: /Charlie/});
+            act(() => charlie.focus());
+            fireEvent.keyDown(charlie, {key: 'ArrowRight'});
+
+            expect(document.activeElement?.getAttribute('aria-hidden')).not.toBe('true');
+        });
+
+        test('the screen reader instructions of the handle follow the language', () => {
+            configure({lang: Lang.Ru});
+            try {
+                render(<Playlist />);
+                const handle = within(screen.getAllByRole('row')[0]).getByRole('button');
+                const hintId = handle.getAttribute('aria-describedby') ?? '';
+
+                expect(document.getElementById(hintId)).toHaveTextContent(
+                    /Нажмите пробел, чтобы начать перетаскивание/,
+                );
+            } finally {
+                configure({lang: Lang.En});
+            }
+        });
+
+        test('with state, the callbacks of the wrapper are reported as unused', () => {
+            function External() {
+                const state = useListHelloPangeaDnd({ids: ['a', 'b', 'c'], onDrop: jest.fn()});
+                return (
+                    <DragDropContext onDragStart={state.onDragStart} onDragEnd={state.onDragEnd}>
+                        <ListHelloPangeaDnd items={TRACKS} state={state} onItemsChange={jest.fn()}>
+                            <List
+                                role="grid"
+                                aria-label="Playlist"
+                                items={TRACKS}
+                                getItemContent={getTitle}
+                            />
+                        </ListHelloPangeaDnd>
+                    </DragDropContext>
+                );
+            }
+            render(<External />);
+            expect(consoleErrorSpy).toHaveBeenCalledWith(
+                expect.stringContaining(
+                    '`onItemsChange` and `onDrop` of the wrapper are not called',
+                ),
+            );
         });
     });
 
@@ -409,7 +493,7 @@ describe('ListHelloPangeaDnd', () => {
             ]);
         });
 
-        test('the virtual prop turns the mode on without the virtualizer', () => {
+        test('the virtual prop turns the mode on without the virtualizer in sight', () => {
             const {container} = render(
                 <ListHelloPangeaDnd items={TRACKS} onItemsChange={jest.fn()} virtual>
                     <List

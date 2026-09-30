@@ -83,8 +83,10 @@ export function ListHelloPangeaDndRow<T>({
     const content = children === undefined ? ctx.content : children;
     const viewState = helpers.getItemViewProps();
 
+    // The clone shows the state of the row (selection); the cursor and the hover are its own
+    const {active: _active, hovered: _hovered, ...cloneState} = viewState;
     const snapshot: HelloPangeaRowSnapshot = {
-        viewProps: {size: viewState.size, startContent, description, endContent, className, style},
+        viewProps: {...cloneState, startContent, description, endContent, className, style},
         children: content,
         handleLabel,
         handlePlacement,

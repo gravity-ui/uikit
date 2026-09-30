@@ -33,11 +33,13 @@ function Playlist() {
 }
 ```
 
-Each row gets a handle at its outermost edge. The mouse drags a row by the handle; the keyboard reaches the handle with `←`/`→`, lifts the row with `Space`, moves it with `↑`/`↓` and drops it with `Space` (`Escape` cancels). Rows the list disables are not draggable, and `isDragDisabled` pins more of them.
+Each row gets a handle at its outermost edge. The mouse drags a row by the handle; the keyboard reaches the handle with `←`/`→`, lifts the row with `Space`, moves it with `↑`/`↓` and drops it with `Space` (`Escape` cancels). Rows the list disables are not draggable, and `isDragDisabled` pins more of them. The name of the handle and the instructions the library gives to screen readers follow the language set with `configure` (under a `DragDropContext` of your own, pass its `dragHandleUsageInstructions` yourself).
 
 `onItemsChange` gets the array with `moveItem` already applied. For data that is not an array in memory, `onDrop` gets the drop itself — `(fromId, toId, position)`: the row that moved and the edge of the row it landed at.
 
-The kit covers flat lists: the library needs contiguous indexes, and they are counted over `items`. Sections are outside the contract (a dev warning) — integrate them by hand, see [Under the hood](#under-the-hood).
+The kit covers flat lists: the library needs contiguous indexes, and they are counted over `items`. Sections are outside the contract (a dev warning): the kit does not make their options draggable.
+
+The children of the wrapper are the list and nothing else: the adapter goes to the nearest List below, so a Select or a Menu placed next to the list would take it. `getItemId` and `isDragDisabled` should be stable — an inline function re-renders every row on each render of the parent.
 
 ### The slots of a row
 
@@ -96,11 +98,11 @@ import {HelloPangeaDragHandle, getHelloPangeaRowProps} from '@gravity-ui/uikit/h
 />;
 ```
 
-`HelloPangeaDragHandle` is the grip with an accessible name, out of the tab order; its children replace the icon. On a row that cannot be dragged the handle is decorative: the library gives it no props, and it is hidden from assistive technology.
+`HelloPangeaDragHandle` is the grip with an accessible name, out of the tab order; its children replace the icon. On a row that cannot be dragged the handle is decorative: the library gives it no props, it is hidden from assistive technology and `←`/`→` skip it.
 
 ### Virtualization
 
-Put `ListVirtualizer` **outside** the wrapper: the wrapper reads the virtualization of the list and switches the `Droppable` to the virtual mode. The `virtual` prop turns the mode on or off explicitly.
+Put `ListVirtualizer` **outside** the wrapper: the wrapper reads the virtualization of the list and switches the `Droppable` to the virtual mode. The `virtual` prop forces the mode for a virtualizer the wrapper cannot see; a list without a virtualizer does not support it — in the virtual mode the library leaves the space of the dragged row to the virtualizer.
 
 ```tsx
 import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
@@ -122,7 +124,7 @@ In the virtual mode the dragged row may leave the window, so the library draws a
 
 ### Several lists
 
-Under a `DragDropContext` of your own — several lists, moves between them — the wrapper renders no context. Give each list the state of `useListHelloPangeaDnd` and a `droppableId`, and call the handlers of every state from the context. A state reorders its own list only; a move from one list into another is yours to handle in `onDragEnd`.
+Under a `DragDropContext` of your own — several lists, moves between them — the wrapper renders no context. Give each list the state of `useListHelloPangeaDnd` and a `droppableId`, and call the handlers of every state from the context. The drop then goes to the `onDrop` of the hook: `onItemsChange` and `onDrop` of the wrapper are not called (a dev warning). A state reorders its own list only; a move from one list into another is yours to handle in `onDragEnd`.
 
 ```tsx
 import {DragDropContext} from '@hello-pangea/dnd';
@@ -161,25 +163,25 @@ Without `state` every wrapper renders a `DragDropContext` of its own, and nested
 
 ### Under the hood
 
-The wrapper passes its adapter to the list through `ListDndContext` of the main entry point: `draggingId` from `useListHelloPangeaDnd`, the props of the drop zone, `provided.placeholder` as the last child of the list root, and `ListHelloPangeaDnd.Row` as the default `renderItem`. The same wiring by hand — for sections or anything else outside the kit — is in the "Drag and drop integrations" stories of the List, and the adapter contract is described in [Drag and drop](../List/README.md#drag-and-drop).
+The wrapper passes its adapter to the list through `ListDndContext` of the main entry point: `draggingId` from `useListHelloPangeaDnd`, the props of the drop zone, `provided.placeholder` as the last child of the list root, and `ListHelloPangeaDnd.Row` as the default `renderItem`. The same wiring by hand — for anything the kit does not cover — is in the "Drag and drop integrations" stories of the List, and the adapter contract is described in [Drag and drop](../List/README.md#drag-and-drop).
 
 ## Properties
 
 ### ListHelloPangeaDnd
 
-| Name           | Description                                                                                         |                                      Type                                       |          Default           |
-| :------------- | :-------------------------------------------------------------------------------------------------- | :-----------------------------------------------------------------------------: | :------------------------: |
-| items          | The items of the list inside, in the same order                                                     |                                 `readonly T[]`                                  |                            |
-| getItemId      | The id of an item                                                                                   |                              `(item: T) => string`                              |   the one of the `List`    |
-| onItemsChange  | The reordered array, `moveItem` already applied                                                     |                             `(items: T[]) => void`                              |                            |
-| onDrop         | The drop as ids and an edge                                                                         |     `(fromId: string, toId: string, position: 'before' \| 'after') => void`     |                            |
-| droppableId    | The id of the `Droppable`                                                                           |                                    `string`                                     |         an auto id         |
-| isDragDisabled | Rows that cannot be dragged, in addition to the disabled ones                                       |                             `(item: T) => boolean`                              |                            |
-| renderClone    | The copy of a dragged row in the virtual mode                                                       |               `(item: T, provided, snapshot) => React.ReactNode`                |    a copy of the `Row`     |
-| state          | The result of `useListHelloPangeaDnd` under a `DragDropContext` of your own; no context is rendered |                          `UseListHelloPangeaDndResult`                          |                            |
-| virtual        | The virtual mode of the `Droppable`                                                                 |                                    `boolean`                                    | on under `ListVirtualizer` |
-| droppableProps | Passed to the `Droppable`                                                                           | `Pick<DroppableProps, 'isDropDisabled' \| 'ignoreContainerClipping' \| 'type'>` |                            |
-| children       | The `List`, with `role="grid"`                                                                      |                                   `ReactNode`                                   |                            |
+| Name           | Description                                                                                                                                         |                                      Type                                       |          Default           |
+| :------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------- | :-----------------------------------------------------------------------------: | :------------------------: |
+| items          | The items of the list inside, in the same order                                                                                                     |                                 `readonly T[]`                                  |                            |
+| getItemId      | The id of an item                                                                                                                                   |                              `(item: T) => string`                              |   the one of the `List`    |
+| onItemsChange  | The reordered array, `moveItem` already applied                                                                                                     |                             `(items: T[]) => void`                              |                            |
+| onDrop         | The drop as ids and an edge                                                                                                                         |     `(fromId: string, toId: string, position: 'before' \| 'after') => void`     |                            |
+| droppableId    | The id of the `Droppable`                                                                                                                           |                                    `string`                                     |         an auto id         |
+| isDragDisabled | Rows that cannot be dragged, in addition to the disabled ones                                                                                       |                             `(item: T) => boolean`                              |                            |
+| renderClone    | The copy of a dragged row in the virtual mode                                                                                                       |               `(item: T, provided, snapshot) => React.ReactNode`                |    a copy of the `Row`     |
+| state          | The result of `useListHelloPangeaDnd` under a `DragDropContext` of your own: no context is rendered, and the drop goes to the `onDrop` of that hook |                          `UseListHelloPangeaDndResult`                          |                            |
+| virtual        | The virtual mode of the `Droppable`                                                                                                                 |                                    `boolean`                                    | on under `ListVirtualizer` |
+| droppableProps | Passed to the `Droppable`                                                                                                                           | `Pick<DroppableProps, 'isDropDisabled' \| 'ignoreContainerClipping' \| 'type'>` |                            |
+| children       | The `List`, with `role="grid"`                                                                                                                      |                                   `ReactNode`                                   |                            |
 
 ### ListHelloPangeaDnd.Row
 

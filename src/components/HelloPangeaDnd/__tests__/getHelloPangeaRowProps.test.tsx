@@ -126,7 +126,8 @@ describe('getHelloPangeaRowProps', () => {
             provided: provided(false),
             snapshot: snapshot(),
         });
-        expect(handleProps).toEqual({tabIndex: -1, 'aria-hidden': true});
+        // Not focusable: ←/→ would otherwise move the focus into a hidden element
+        expect(handleProps).toEqual({'aria-hidden': true});
     });
 
     test('dev warnings: a listbox, a section header', () => {

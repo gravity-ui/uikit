@@ -26,17 +26,19 @@ export interface HelloPangeaDragHandleProps extends React.HTMLAttributes<HTMLEle
 /**
  * The drag handle of a row: spread `dragHandleProps` (or the `handleProps` of
  *  `getHelloPangeaRowProps`) on it. `tabIndex={-1}` is the grid contract — the list stays one tab
- *  stop and the handle is reached with ←/→; the library focuses it by its own data attribute
+ *  stop and the handle is reached with ←/→; the library focuses it by its own data attribute. A
+ *  decorative handle (`aria-hidden`) is not focusable at all
  */
 export const HelloPangeaDragHandle = React.forwardRef<HTMLSpanElement, HelloPangeaDragHandleProps>(
     function HelloPangeaDragHandle({label, className, children, ...props}, ref) {
+        const decorative = Boolean(props['aria-hidden']);
         return (
             <span
                 {...props}
                 ref={ref}
-                tabIndex={-1}
+                tabIndex={decorative ? undefined : -1}
                 aria-label={
-                    props['aria-hidden']
+                    decorative
                         ? undefined
                         : (label ?? props['aria-label'] ?? i18n('label_drag-handle'))
                 }

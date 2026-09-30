@@ -710,7 +710,7 @@ story and rows of custom markup:
 
 The kit covers flat lists. The wiring it does, written by hand, is in the
 [Hello Pangea under the hood](?path=/story/components-data-display-list-drag-and-drop-integrations--hello-pangea-under-the-hood)
-stories — the starting point for sections and anything else outside the kit.
+stories — the starting point for anything the kit does not cover.
 
 ### Any other library
 

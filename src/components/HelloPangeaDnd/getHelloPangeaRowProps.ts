@@ -19,10 +19,11 @@ import i18n from './i18n';
 
 /**
  * `dragHandleProps` of the library in the grid contract. While the row cannot be dragged the
- *  library gives none: the handle is decorative then — `aria-hidden`, no accessible name
+ *  library gives none: the handle is decorative then — `aria-hidden`, no accessible name, and
+ *  not focusable (←/→ would otherwise move the focus into a hidden element)
  */
 export type HelloPangeaHandleProps = Partial<DraggableProvidedDragHandleProps> & {
-    tabIndex: -1;
+    tabIndex?: -1;
     'aria-label'?: string;
     'aria-hidden'?: true;
 };
@@ -92,7 +93,7 @@ export function getHelloPangeaRowProps<T>({
                   tabIndex: -1,
                   'aria-label': handleLabel ?? i18n('label_drag-handle'),
               }
-            : {tabIndex: -1, 'aria-hidden': true},
+            : {'aria-hidden': true},
         cellProps,
     };
 }

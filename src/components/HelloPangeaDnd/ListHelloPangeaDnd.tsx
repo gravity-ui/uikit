@@ -29,6 +29,7 @@ import type {
     HelloPangeaRowRegistry,
     HelloPangeaRowSnapshot,
 } from './context';
+import i18n from './i18n';
 import {useListHelloPangeaDnd} from './useListHelloPangeaDnd';
 import type {UseListHelloPangeaDndResult} from './useListHelloPangeaDnd';
 
@@ -39,7 +40,7 @@ const b = block('hello-pangea-dnd');
 export interface ListHelloPangeaDndProps<T> {
     /** The items of the List inside, in the same order */
     items: readonly T[];
-    /** The same default as the List: `item.id`, a string item is its own id */
+    /** The same default as the List: `item.id`, a string item is its own id. Keep it stable */
     getItemId?: (item: T) => string;
     /** The reordered array — `moveItem` already applied */
     onItemsChange?: (items: T[]) => void;
@@ -60,14 +61,19 @@ export interface ListHelloPangeaDndProps<T> {
     ) => React.ReactNode;
     /**
      * The result of `useListHelloPangeaDnd` when the `DragDropContext` is yours (several lists,
-     *  moves between them): the wrapper renders no context of its own then
+     *  moves between them): the wrapper renders no context of its own then, and the drop goes to
+     *  the `onDrop` of that hook — `onItemsChange`/`onDrop` of the wrapper are not called
      */
     state?: UseListHelloPangeaDndResult;
-    /** The virtual mode of `Droppable`. default: on under `ListVirtualizer` */
+    /**
+     * The virtual mode of `Droppable`. default: on under `ListVirtualizer`. Force it for a
+     *  virtualizer the wrapper cannot see (inside it); a list without a virtualizer does not
+     *  support the mode — nothing keeps the space of the dragged row
+     */
     virtual?: boolean;
     /** Passed to `Droppable` */
     droppableProps?: Pick<DroppableProps, 'isDropDisabled' | 'ignoreContainerClipping' | 'type'>;
-    /** The List (`role="grid"`) */
+    /** The List (`role="grid"`) and nothing else: any List-based component here takes the adapter */
     children: React.ReactNode;
 }
 
@@ -89,7 +95,8 @@ function AdapterProvider({provided, draggingId, virtual, children}: AdapterProvi
         () => ({
             getContainerDndProps: () => ({...droppableProps, ref: innerRef}),
             draggingId,
-            // The library needs no placeholder in the virtual mode
+            // The virtual mode of the library forbids a placeholder: the space of the dragged row
+            // (its original renders nothing while the clone is dragged) is kept by the virtualizer
             placeholder: virtual ? undefined : placeholder,
             renderItem: renderDefaultRow,
         }),
@@ -152,7 +159,8 @@ function ListHelloPangeaDndComponent<T>({
     const ids = React.useMemo(
         () =>
             items.map((item) =>
-                getItemId ? getItemId(item) : (defaultGetItemId(item) ?? String(item)),
+                // Stringified the way the List reads ids: a numeric id is a string in ctx.id
+                String(getItemId ? getItemId(item) : (defaultGetItemId(item) ?? item)),
             ),
         [items, getItemId],
     );
@@ -160,6 +168,11 @@ function ListHelloPangeaDndComponent<T>({
     if (!externalState && !onItemsChange && !onDrop) {
         warnOnce(
             '[ListHelloPangeaDnd] Pass `onItemsChange` or `onDrop`: without them a drop changes nothing.',
+        );
+    }
+    if (externalState && (onItemsChange || onDrop)) {
+        warnOnce(
+            '[ListHelloPangeaDnd] With `state` the drop goes to the `onDrop` of your useListHelloPangeaDnd: `onItemsChange` and `onDrop` of the wrapper are not called.',
         );
     }
     // Called unconditionally (the rules of hooks); ignored under an external context
@@ -236,7 +249,11 @@ function ListHelloPangeaDndComponent<T>({
     return externalState ? (
         content
     ) : (
-        <DragDropContext onDragStart={state.onDragStart} onDragEnd={state.onDragEnd}>
+        <DragDropContext
+            onDragStart={state.onDragStart}
+            onDragEnd={state.onDragEnd}
+            dragHandleUsageInstructions={i18n('label_drag-handle-instructions')}
+        >
             {content}
         </DragDropContext>
     );

@@ -1,8 +1,7 @@
 /**
  * Drag and drop with @hello-pangea/dnd under virtualization, under the hood:
  * the wiring `ListHelloPangeaDnd` does for you under `ListVirtualizer` (the
- * DragAndDropVirtualized story of the List), written by hand — the model of
- * the virtual mode of the old List:
+ * DragAndDropVirtualized story of the List), written by hand:
  *
  * - `mode="virtual"`: the placeholder is not needed, but `renderClone` is
  *   mandatory — while dragging, the original Draggable renders null and the
@@ -62,12 +61,15 @@ const getTrackContent = (record: TrackRecord) => record.title;
 function PangeaVirtualRow({
     ctx,
     helpers,
+    index,
 }: {
     ctx: ListItemContext<TrackRecord>;
     helpers: ListItemHelpers;
+    index: number;
 }) {
     return (
-        <Draggable draggableId={ctx.id} index={ctx.index} isDragDisabled={ctx.state.disabled}>
+        // The index of Draggable is the position in `items`, see the flat example
+        <Draggable draggableId={ctx.id} index={index} isDragDisabled={ctx.state.disabled}>
             {(dragProvided) => (
                 <List.ItemView
                     {...dragProvided.draggableProps}
@@ -154,7 +156,11 @@ export function HelloPangeaManualVirtualizedExample() {
                                 }}
                                 getItemContent={getTrackContent}
                                 renderItem={(ctx, helpers) => (
-                                    <PangeaVirtualRow ctx={ctx} helpers={helpers} />
+                                    <PangeaVirtualRow
+                                        ctx={ctx}
+                                        helpers={helpers}
+                                        index={ids.indexOf(ctx.id)}
+                                    />
                                 )}
                             />
                         </ListVirtualizer>

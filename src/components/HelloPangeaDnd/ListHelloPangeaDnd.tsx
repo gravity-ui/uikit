@@ -44,7 +44,7 @@ export interface ListHelloPangeaDndProps<T> {
     /** The same default as the List: `item.id`, a string item is its own id. Keep it stable */
     getItemId?: (item: T) => string;
     /** The reordered array — `moveItem` already applied */
-    onItemsChange?: (items: T[]) => void;
+    onItemsUpdate?: (items: T[]) => void;
     /** The drop as `{fromId, toId, position}` — for data that is not an array in memory */
     onDrop?: (fromId: string, toId: string, position: 'before' | 'after') => void;
     /** default: an auto id */
@@ -140,7 +140,7 @@ function useRowRegistry(draggingId: string | null): HelloPangeaRowRegistry {
 function ListHelloPangeaDndComponent<T>({
     items,
     getItemId,
-    onItemsChange,
+    onItemsUpdate,
     onDrop,
     droppableId,
     isDragDisabled,
@@ -158,14 +158,14 @@ function ListHelloPangeaDndComponent<T>({
         [items, getItemId],
     );
 
-    if (!externalState && !onItemsChange && !onDrop) {
+    if (!externalState && !onItemsUpdate && !onDrop) {
         warnOnce(
-            '[ListHelloPangeaDnd] Pass `onItemsChange` or `onDrop`: without them a drop changes nothing.',
+            '[ListHelloPangeaDnd] Pass `onItemsUpdate` or `onDrop`: without them a drop changes nothing.',
         );
     }
-    if (externalState && (onItemsChange || onDrop)) {
+    if (externalState && (onItemsUpdate || onDrop)) {
         warnOnce(
-            '[ListHelloPangeaDnd] With `state`, `onItemsChange` and `onDrop` of the wrapper are not called: the drop goes to the `onDrop` of your hook.',
+            '[ListHelloPangeaDnd] With `state`, `onItemsUpdate` and `onDrop` of the wrapper are not called: the drop goes to the `onDrop` of your hook.',
         );
     }
     // Called unconditionally (the rules of hooks); ignored under an external context
@@ -173,7 +173,7 @@ function ListHelloPangeaDndComponent<T>({
         ids,
         onDrop: (fromId, toId, position) => {
             onDrop?.(fromId, toId, position);
-            onItemsChange?.(moveItem(items, fromId, toId, position, getItemId));
+            onItemsUpdate?.(moveItem(items, fromId, toId, position, getItemId));
         },
     });
     const state = externalState ?? ownState;

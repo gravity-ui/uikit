@@ -40,7 +40,7 @@ export function DragAndDropHelloPangeaSheetExample() {
         <React.Fragment>
             <Button onClick={() => setOpen(true)}>Open the sheet</Button>
             <Sheet visible={open} onClose={() => setOpen(false)} title="Playlist">
-                <ListHelloPangeaDnd items={items} onItemsChange={setItems}>
+                <ListHelloPangeaDnd items={items} onItemsUpdate={setItems}>
                     <List
                         role="grid"
                         aria-label="Playlist"
@@ -61,7 +61,7 @@ export function DragAndDropHelloPangeaSheetVirtualizedExample() {
             <Button onClick={() => setOpen(true)}>Open the sheet</Button>
             <Sheet visible={open} onClose={() => setOpen(false)} title="Archive">
                 <ListVirtualizer<TrackRecord> estimateItemSize={28}>
-                    <ListHelloPangeaDnd items={items} onItemsChange={setItems}>
+                    <ListHelloPangeaDnd items={items} onItemsUpdate={setItems}>
                         <List
                             role="grid"
                             aria-label="Archive"

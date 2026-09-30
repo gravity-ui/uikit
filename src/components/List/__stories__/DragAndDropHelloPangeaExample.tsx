@@ -26,7 +26,7 @@ const tracks: TrackRecord[] = Array.from({length: 8}, (_, index) => ({
 export function DragAndDropHelloPangeaExample() {
     const [items, setItems] = React.useState(tracks);
     return (
-        <ListHelloPangeaDnd items={items} onItemsChange={setItems}>
+        <ListHelloPangeaDnd items={items} onItemsUpdate={setItems}>
             <List
                 role="grid"
                 aria-label="Vinyl"

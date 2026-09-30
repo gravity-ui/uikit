@@ -24,7 +24,7 @@ function Playlist() {
   const [tracks, setTracks] = React.useState(initialTracks);
 
   return (
-    <ListHelloPangeaDnd items={tracks} onItemsChange={setTracks}>
+    <ListHelloPangeaDnd items={tracks} onItemsUpdate={setTracks}>
       <List role="grid" aria-label="Playlist" items={tracks} getItemContent={(t) => t.title} />
     </ListHelloPangeaDnd>
   );
@@ -33,7 +33,7 @@ function Playlist() {
 
 Each row gets a handle at its outermost edge. The mouse drags a row by the handle; the keyboard reaches the handle with `←`/`→`, lifts the row with `Space`, moves it with `↑`/`↓` and drops it with `Space` (`Escape` cancels). Rows the list disables are not draggable, and `isDragDisabled` pins more of them. The name of the handle and the instructions the library gives to screen readers follow the language set with `configure` (under a `DragDropContext` of your own, pass its `dragHandleUsageInstructions` yourself).
 
-A list inside a `Sheet`, a `Dialog` or an animated popup drags the same way: the kit compensates for a transformed ancestor. For data that is not an array in memory, use `onDrop` instead of `onItemsChange`.
+A list inside a `Sheet`, a `Dialog` or an animated popup drags the same way: the kit compensates for a transformed ancestor. For data that is not an array in memory, use `onDrop` instead of `onItemsUpdate`.
 
 The kit covers flat lists: the library needs contiguous indexes, and they are counted over `items`. Sections are not draggable.
 
@@ -108,7 +108,7 @@ Put `ListVirtualizer` **outside** the wrapper: the wrapper reads the virtualizat
 import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 
 <ListVirtualizer estimateItemSize={28}>
-  <ListHelloPangeaDnd items={tracks} onItemsChange={setTracks}>
+  <ListHelloPangeaDnd items={tracks} onItemsUpdate={setTracks}>
     <List
       role="grid"
       aria-label="Archive"
@@ -169,7 +169,7 @@ Without `state` every wrapper renders a `DragDropContext` of its own, and nested
 | :------------- | :------------------------------------------------------------------------------------------------- | :-----------------------------------------------------------------------------: | :-------------------: |
 | items          | The items of the list inside, in the same order                                                    |                                 `readonly T[]`                                  |                       |
 | getItemId      | The id of an item                                                                                  |                              `(item: T) => string`                              | the one of the `List` |
-| onItemsChange  | The reordered array, `moveItem` already applied                                                    |                             `(items: T[]) => void`                              |                       |
+| onItemsUpdate  | The reordered array, `moveItem` already applied                                                    |                             `(items: T[]) => void`                              |                       |
 | onDrop         | The drop as ids and an edge                                                                        |     `(fromId: string, toId: string, position: 'before' \| 'after') => void`     |                       |
 | droppableId    | The id of the `Droppable`                                                                          |                                    `string`                                     |      an auto id       |
 | isDragDisabled | Rows that cannot be dragged, in addition to the disabled ones                                      |                             `(item: T) => boolean`                              |                       |

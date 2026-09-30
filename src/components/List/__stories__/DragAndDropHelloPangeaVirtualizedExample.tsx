@@ -36,7 +36,7 @@ export function DragAndDropHelloPangeaVirtualizedExample() {
     const [items, setItems] = React.useState(vinylArchive);
     return (
         <ListVirtualizer<TrackRecord> estimateItemSize={28}>
-            <ListHelloPangeaDnd items={items} onItemsChange={setItems}>
+            <ListHelloPangeaDnd items={items} onItemsUpdate={setItems}>
                 <List
                     role="grid"
                     aria-label="Vinyl archive"

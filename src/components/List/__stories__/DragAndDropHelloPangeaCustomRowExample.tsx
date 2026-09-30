@@ -66,7 +66,7 @@ export function DragAndDropHelloPangeaCustomRowExample() {
     const [items, setItems] = React.useState(people);
     const ids = items.map((person) => person.id);
     return (
-        <ListHelloPangeaDnd items={items} onItemsChange={setItems}>
+        <ListHelloPangeaDnd items={items} onItemsUpdate={setItems}>
             <List
                 role="grid"
                 aria-label="Speakers"

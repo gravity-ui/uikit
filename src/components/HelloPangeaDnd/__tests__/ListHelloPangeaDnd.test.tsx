@@ -44,7 +44,7 @@ afterEach(() => consoleErrorSpy.mockRestore());
 
 /** The wrapper around a grid of TRACKS; `wrap` puts it into a Modal or a ListVirtualizer */
 function renderKit(
-    props: Partial<ListHelloPangeaDndProps<Track>> = {onItemsChange: jest.fn()},
+    props: Partial<ListHelloPangeaDndProps<Track>> = {onItemsUpdate: jest.fn()},
     {
         wrap = (kit) => kit,
         list,
@@ -111,15 +111,15 @@ async function dragWithKeyboard(handle: HTMLElement, key: 'ArrowDown' | 'ArrowUp
     await settle();
 }
 
-function Playlist(props: Pick<ListHelloPangeaDndProps<Track>, 'onItemsChange' | 'isDragDisabled'>) {
+function Playlist(props: Pick<ListHelloPangeaDndProps<Track>, 'onItemsUpdate' | 'isDragDisabled'>) {
     const [items, setItems] = React.useState(TRACKS);
     return (
         <ListHelloPangeaDnd
             items={items}
             isDragDisabled={props.isDragDisabled}
-            onItemsChange={(next) => {
+            onItemsUpdate={(next) => {
                 setItems(next);
-                props.onItemsChange?.(next);
+                props.onItemsUpdate?.(next);
             }}
         >
             <List role="grid" aria-label="Playlist" items={items} getItemContent={getTitle} />
@@ -154,12 +154,12 @@ describe('ListHelloPangeaDnd', () => {
         });
 
         test('a keyboard drag reorders the items and gives the focus back', async () => {
-            const onItemsChange = jest.fn();
-            render(<Playlist onItemsChange={onItemsChange} />);
+            const onItemsUpdate = jest.fn();
+            render(<Playlist onItemsUpdate={onItemsUpdate} />);
 
             await dragWithKeyboard(getHandle('Alpha'), 'ArrowDown', 2);
 
-            expect(onItemsChange).toHaveBeenCalledTimes(1);
+            expect(onItemsUpdate).toHaveBeenCalledTimes(1);
             expect(rowTitles()).toEqual(['Bravo', 'Charlie', 'Alpha']);
             expect(getHandle('Alpha')).toHaveFocus();
         });
@@ -207,9 +207,9 @@ describe('ListHelloPangeaDnd', () => {
                 {id: 1, title: 'One'},
                 {id: 2, title: 'Two'},
             ];
-            const onItemsChange = jest.fn();
+            const onItemsUpdate = jest.fn();
             render(
-                <ListHelloPangeaDnd items={numbered} onItemsChange={onItemsChange}>
+                <ListHelloPangeaDnd items={numbered} onItemsUpdate={onItemsUpdate}>
                     <List
                         role="grid"
                         aria-label="Numbers"
@@ -223,7 +223,7 @@ describe('ListHelloPangeaDnd', () => {
             ).toEqual(['1', '2']);
 
             await dragWithKeyboard(getHandle('One'), 'ArrowDown');
-            expect(onItemsChange.mock.calls[0][0].map((item: {id: number}) => item.id)).toEqual([
+            expect(onItemsUpdate.mock.calls[0][0].map((item: {id: number}) => item.id)).toEqual([
                 2, 1,
             ]);
         });
@@ -313,7 +313,7 @@ describe('ListHelloPangeaDnd', () => {
             const state = useListHelloPangeaDnd({ids: ['a', 'b', 'c'], onDrop: jest.fn()});
             return (
                 <DragDropContext onDragStart={state.onDragStart} onDragEnd={state.onDragEnd}>
-                    <ListHelloPangeaDnd items={TRACKS} state={state} onItemsChange={jest.fn()}>
+                    <ListHelloPangeaDnd items={TRACKS} state={state} onItemsUpdate={jest.fn()}>
                         <List
                             role="grid"
                             aria-label="Playlist"
@@ -332,9 +332,9 @@ describe('ListHelloPangeaDnd', () => {
                 'Pass `role="grid"` to the List',
             ],
             [
-                'neither onItemsChange nor onDrop',
+                'neither onItemsUpdate nor onDrop',
                 () => renderKit({}),
-                'Pass `onItemsChange` or `onDrop`',
+                'Pass `onItemsUpdate` or `onDrop`',
             ],
             [
                 'state with the callbacks of the wrapper',
@@ -349,7 +349,7 @@ describe('ListHelloPangeaDnd', () => {
         test('sections are out of the contract: the header renders, the options stay put', () => {
             const groups = [{id: 'g', title: 'Group', children: TRACKS}];
             render(
-                <ListHelloPangeaDnd items={groups} onItemsChange={jest.fn()}>
+                <ListHelloPangeaDnd items={groups} onItemsUpdate={jest.fn()}>
                     <List
                         role="grid"
                         aria-label="Playlist"
@@ -428,8 +428,8 @@ describe('ListHelloPangeaDnd', () => {
         mockLayout({viewport: 120, row: 24});
 
         test('a keyboard drag draws the clone from the Row, without a placeholder', async () => {
-            const onItemsChange = jest.fn();
-            renderKit({onItemsChange}, {wrap: inVirtualizer});
+            const onItemsUpdate = jest.fn();
+            renderKit({onItemsUpdate}, {wrap: inVirtualizer});
             await lift(getHandle('Alpha'));
 
             expect(getCloneContainer()).toHaveTextContent('Alpha');
@@ -442,7 +442,7 @@ describe('ListHelloPangeaDnd', () => {
             press(' ', 32);
             await settle();
 
-            expect(onItemsChange.mock.calls[0][0].map((track: Track) => track.id)).toEqual([
+            expect(onItemsUpdate.mock.calls[0][0].map((track: Track) => track.id)).toEqual([
                 'b',
                 'a',
                 'c',

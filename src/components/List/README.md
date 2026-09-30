@@ -679,7 +679,7 @@ function Playlist() {
   const [tracks, setTracks] = React.useState(initialTracks);
 
   return (
-    <ListHelloPangeaDnd items={tracks} onItemsChange={setTracks}>
+    <ListHelloPangeaDnd items={tracks} onItemsUpdate={setTracks}>
       <List role="grid" aria-label="Playlist" items={tracks} getItemContent={(t) => t.title} />
     </ListHelloPangeaDnd>
   );
@@ -692,7 +692,7 @@ option.
 
 <ListDragAndDrop />
 
-The drop moves your data: `onItemsChange` gets the result of
+The drop moves your data: `onItemsUpdate` gets the result of
 `moveItem(items, fromId, toId, position, getId?)` — it reorders the top level of the array and
 returns the original one, by reference, when nothing has moved, so treat the result as immutable.
 

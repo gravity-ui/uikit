@@ -11,7 +11,7 @@ const ITEMS = ['Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo'];
 export function SheetKit({virtual}: {virtual?: boolean}) {
     const [items, setItems] = React.useState(ITEMS);
     const kit = (
-        <ListHelloPangeaDnd items={items} onItemsChange={setItems}>
+        <ListHelloPangeaDnd items={items} onItemsUpdate={setItems}>
             <List role="grid" aria-label="Probe" items={items} style={{height: 200}} />
         </ListHelloPangeaDnd>
     );

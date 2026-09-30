@@ -3,10 +3,10 @@
 import * as React from 'react';
 
 import {useForkRef} from '../../../../hooks';
-import {List} from '../../../lab/List';
-import type {ListFocusOwner, ListItemContext, ListItemHelpers} from '../../../lab/List';
-import {ListVirtualizationContext} from '../../../lab/List/VirtualizationContext';
-import type {ListVirtualizationContextValue} from '../../../lab/List/VirtualizationContext';
+import {List} from '../../../List';
+import type {ListFocusOwner, ListItemContext, ListItemHelpers} from '../../../List';
+import {ListVirtualizationContext} from '../../../List/VirtualizationContext';
+import type {ListVirtualizationContextValue} from '../../../List/VirtualizationContext';
 import {warnOnce} from '../../../utils/warn';
 import {SelectQa, selectListBlock} from '../../constants';
 import {useAlignActiveOption} from '../../hooks';

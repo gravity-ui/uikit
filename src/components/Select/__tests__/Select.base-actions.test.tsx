@@ -4,9 +4,9 @@ import userEvent from '@testing-library/user-event';
 
 import {SelectQa} from '..';
 import {act, cleanup, render, screen} from '../../../../test-utils/utils';
+import {mockLayout} from '../../List/__tests__/helpers';
+import {TYPEAHEAD_TIMEOUT} from '../../List/utils';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
-import {mockLayout} from '../../lab/List/__tests__/helpers';
-import {TYPEAHEAD_TIMEOUT} from '../../lab/List/utils';
 import {MobileProvider} from '../../mobile';
 
 import {
@@ -113,12 +113,12 @@ describe('Select base actions', () => {
 
             await user.tab();
             await user.keyboard(`[${key}]`);
-            expect(screen.getByTestId(ListQa.ACTIVE_ITEM)).toHaveTextContent(
+            expect(screen.getByTestId(SelectQa.ACTIVE_ITEM)).toHaveTextContent(
                 DEFAULT_OPTIONS[initialIndex].content as string,
             );
 
             await user.keyboard(`[${key}]`);
-            expect(screen.getByTestId(ListQa.ACTIVE_ITEM)).toHaveTextContent(
+            expect(screen.getByTestId(SelectQa.ACTIVE_ITEM)).toHaveTextContent(
                 DEFAULT_OPTIONS[nextIndex].content as string,
             );
 
@@ -130,13 +130,13 @@ describe('Select base actions', () => {
 
             await user.keyboard(`[${key}]`);
             expect(selectControl).toHaveAttribute('aria-expanded', 'true');
-            expect(screen.getByTestId(ListQa.ACTIVE_ITEM)).toHaveTextContent(
+            expect(screen.getByTestId(SelectQa.ACTIVE_ITEM)).toHaveTextContent(
                 DEFAULT_OPTIONS[initialIndex].content as string,
             );
             expect(onUpdate).not.toHaveBeenCalled();
 
             await user.keyboard(`[${key}]`);
-            expect(screen.getByTestId(ListQa.ACTIVE_ITEM)).toHaveTextContent(
+            expect(screen.getByTestId(SelectQa.ACTIVE_ITEM)).toHaveTextContent(
                 DEFAULT_OPTIONS[nextIndex].content as string,
             );
             await user.keyboard('[Enter]');
@@ -164,7 +164,7 @@ describe('Select base actions', () => {
 
                 expect(onUpdate).not.toHaveBeenCalled();
                 expect(selectControl).toHaveAttribute('aria-expanded', 'true');
-                expect(screen.getByTestId(ListQa.ACTIVE_ITEM)).toHaveTextContent(
+                expect(screen.getByTestId(SelectQa.ACTIVE_ITEM)).toHaveTextContent(
                     DEFAULT_OPTIONS[0].content as string,
                 );
             },

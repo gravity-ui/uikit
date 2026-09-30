@@ -1,9 +1,9 @@
 import userEvent from '@testing-library/user-event';
 
 import {render, screen} from '../../../../test-utils/utils';
+import {getSectionHeader, mockLayout} from '../../List/__tests__/helpers';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {TextInput} from '../../controls';
-import {getSectionHeader, mockLayout} from '../../lab/List/__tests__/helpers';
 import {MobileProvider} from '../../mobile';
 import {SelectQa, VIRTUALIZATION_HINT_OPTIONS_COUNT} from '../constants';
 import type {SelectOption} from '../types';

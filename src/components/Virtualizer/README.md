@@ -12,7 +12,7 @@ import {ListVirtualizer, Virtualizer} from '@gravity-ui/uikit/virtualizer';
 
 This entry point needs `@tanstack/react-virtual`: it is an optional peer dependency, so install it next to `@gravity-ui/uikit`.
 
-Two things live here. `Virtualizer` is the engine — a scroll container that positions and measures rows you render yourself. `ListVirtualizer` is the virtualization layer of the [List](../lab/List/README.md): it wraps a `<List>`, and the list renders through the engine without any other change.
+Two things live here. `Virtualizer` is the engine — a scroll container that positions and measures rows you render yourself. `ListVirtualizer` is the virtualization layer of the [List](../List/README.md): it wraps a `<List>`, and the list renders through the engine without any other change.
 
 ## Virtualizer
 
@@ -41,7 +41,7 @@ function Log({records}) {
 The wrapper is the only thing that changes — the list inside stays as it was. All of its configuration props are optional: without `estimateItemSize` the row heights come from the `size` of the list.
 
 ```tsx
-import {unstable_List as List} from '@gravity-ui/uikit/unstable';
+import {List} from '@gravity-ui/uikit';
 import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 
 function TrackList({tracks}) {
@@ -58,7 +58,7 @@ function TrackList({tracks}) {
 }
 ```
 
-The root of the `List` becomes the scroll container, so limiting its height is up to you — otherwise the window degenerates into the full list. The details of the layer are in the [Virtualization](../lab/List/README.md#virtualization) section of the List.
+The root of the `List` becomes the scroll container, so limiting its height is up to you — otherwise the window degenerates into the full list. The details of the layer are in the [Virtualization](../List/README.md#virtualization) section of the List.
 
 > [!NOTE]
 > A virtualized list is empty in server-rendered HTML: there is no viewport to measure against, so the rows appear only after hydration. Leave a list unvirtualized when its content has to be in the markup itself.

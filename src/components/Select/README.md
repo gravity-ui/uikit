@@ -520,7 +520,7 @@ Things to keep in mind:
 
 - The minimum width of the popup is equal to the width of the control, or `100px` if the control is shorter.
 
-- The height of a row before it is rendered is taken from [getOptionHeight](#rendering-options-with-different-heights) and the `size` of the `Select`; the `estimateItemSize` of the wrapper is not used, since the type of an option row does not leave the `Select` — passing it writes a warning in development. The `measure` and `overscan` properties of the wrapper work as [described](https://github.com/gravity-ui/uikit/blob/main/src/components/lab/List/README.md#virtualization) for the `List`.
+- The height of a row before it is rendered is taken from [getOptionHeight](#rendering-options-with-different-heights) and the `size` of the `Select`; the `estimateItemSize` of the wrapper is not used, since the type of an option row does not leave the `Select` — passing it writes a warning in development. The `measure` and `overscan` properties of the wrapper work as [described](https://github.com/gravity-ui/uikit/blob/main/src/components/List/README.md#virtualization) for the `List`.
 
 - On the server the virtualizer does not know the size of the viewport and produces an empty window: the options appear after hydration.
 

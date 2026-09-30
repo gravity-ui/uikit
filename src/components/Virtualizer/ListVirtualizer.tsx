@@ -2,12 +2,12 @@
 
 import * as React from 'react';
 
-import {ListVirtualizationContext} from '../lab/List/VirtualizationContext';
+import {ListVirtualizationContext} from '../List/VirtualizationContext';
 import type {
     ListEstimateItemSize,
     ListVirtualizationContextValue,
     ListVirtualizedRootProps,
-} from '../lab/List/VirtualizationContext';
+} from '../List/VirtualizationContext';
 
 import {Virtualizer} from './Virtualizer';
 

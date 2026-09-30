@@ -448,10 +448,5 @@ describe('ListHelloPangeaDnd', () => {
                 'c',
             ]);
         });
-
-        test('the virtual prop turns the mode on without the virtualizer in sight', () => {
-            renderKit({onItemsChange: jest.fn(), virtual: true});
-            expect(getCloneContainer()).not.toBeNull();
-        });
     });
 });

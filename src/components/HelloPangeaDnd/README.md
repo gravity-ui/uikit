@@ -165,19 +165,18 @@ Without `state` every wrapper renders a `DragDropContext` of its own, and nested
 
 ### ListHelloPangeaDnd
 
-| Name           | Description                                                                                        |                                      Type                                       |          Default           |
-| :------------- | :------------------------------------------------------------------------------------------------- | :-----------------------------------------------------------------------------: | :------------------------: |
-| items          | The items of the list inside, in the same order                                                    |                                 `readonly T[]`                                  |                            |
-| getItemId      | The id of an item                                                                                  |                              `(item: T) => string`                              |   the one of the `List`    |
-| onItemsChange  | The reordered array, `moveItem` already applied                                                    |                             `(items: T[]) => void`                              |                            |
-| onDrop         | The drop as ids and an edge                                                                        |     `(fromId: string, toId: string, position: 'before' \| 'after') => void`     |                            |
-| droppableId    | The id of the `Droppable`                                                                          |                                    `string`                                     |         an auto id         |
-| isDragDisabled | Rows that cannot be dragged, in addition to the disabled ones                                      |                             `(item: T) => boolean`                              |                            |
-| renderClone    | Virtual mode: the copy of a dragged row, required for custom rows                                  |               `(item: T, provided, snapshot) => React.ReactNode`                |    a copy of the `Row`     |
-| state          | `useListHelloPangeaDnd` state for your own `DragDropContext` — see [Several lists](#several-lists) |                          `UseListHelloPangeaDndResult`                          |                            |
-| virtual        | The virtual mode of the `Droppable`; force it for a virtualizer the wrapper cannot see             |                                    `boolean`                                    | on under `ListVirtualizer` |
-| droppableProps | Passed to the `Droppable`                                                                          | `Pick<DroppableProps, 'isDropDisabled' \| 'ignoreContainerClipping' \| 'type'>` |                            |
-| children       | The `List`, with `role="grid"`                                                                     |                                   `ReactNode`                                   |                            |
+| Name           | Description                                                                                        |                                      Type                                       |        Default        |
+| :------------- | :------------------------------------------------------------------------------------------------- | :-----------------------------------------------------------------------------: | :-------------------: |
+| items          | The items of the list inside, in the same order                                                    |                                 `readonly T[]`                                  |                       |
+| getItemId      | The id of an item                                                                                  |                              `(item: T) => string`                              | the one of the `List` |
+| onItemsChange  | The reordered array, `moveItem` already applied                                                    |                             `(items: T[]) => void`                              |                       |
+| onDrop         | The drop as ids and an edge                                                                        |     `(fromId: string, toId: string, position: 'before' \| 'after') => void`     |                       |
+| droppableId    | The id of the `Droppable`                                                                          |                                    `string`                                     |      an auto id       |
+| isDragDisabled | Rows that cannot be dragged, in addition to the disabled ones                                      |                             `(item: T) => boolean`                              |                       |
+| renderClone    | Virtual mode: the copy of a dragged row, required for custom rows                                  |               `(item: T, provided, snapshot) => React.ReactNode`                |  a copy of the `Row`  |
+| state          | `useListHelloPangeaDnd` state for your own `DragDropContext` — see [Several lists](#several-lists) |                          `UseListHelloPangeaDndResult`                          |                       |
+| droppableProps | Passed to the `Droppable`                                                                          | `Pick<DroppableProps, 'isDropDisabled' \| 'ignoreContainerClipping' \| 'type'>` |                       |
+| children       | The `List`, with `role="grid"`                                                                     |                                   `ReactNode`                                   |                       |
 
 ### ListHelloPangeaDnd.Row
 

@@ -65,11 +65,6 @@ export interface ListHelloPangeaDndProps<T> {
      *  drop goes to the `onDrop` of that hook
      */
     state?: UseListHelloPangeaDndResult;
-    /**
-     * The virtual mode of `Droppable`. default: on under `ListVirtualizer`; force it for a
-     *  virtualizer the wrapper cannot see (it needs one: the virtualizer keeps the gap)
-     */
-    virtual?: boolean;
     /** Passed to `Droppable` */
     droppableProps?: Pick<DroppableProps, 'isDropDisabled' | 'ignoreContainerClipping' | 'type'>;
     /** The List (`role="grid"`) and nothing else: any List-based component here takes the adapter */
@@ -151,7 +146,6 @@ function ListHelloPangeaDndComponent<T>({
     isDragDisabled,
     renderClone,
     state: externalState,
-    virtual: virtualProp,
     droppableProps,
     children,
 }: ListHelloPangeaDndProps<T>) {
@@ -185,8 +179,8 @@ function ListHelloPangeaDndComponent<T>({
     const state = externalState ?? ownState;
 
     const autoId = useUniqId();
-    const virtualization = React.useContext(ListVirtualizationContext);
-    const virtual = virtualProp ?? virtualization !== null;
+    // The virtual mode follows ListVirtualizer: it has to stand outside the wrapper
+    const virtual = React.useContext(ListVirtualizationContext) !== null;
     const registry = useRowRegistry(state.draggingId);
 
     const kit = React.useMemo<HelloPangeaKitContextValue>(() => {

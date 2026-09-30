@@ -161,10 +161,6 @@ const done = useListHelloPangeaDnd({
 
 Without `state` every wrapper renders a `DragDropContext` of its own, and nested contexts duplicate the sensors of the library.
 
-### Under the hood
-
-The kit hands its adapter to the List through `ListDndContext`. For what the kit does not cover, wire the library through the adapter of the `dnd` prop by hand: the contract is in [Drag and drop](../List/README.md#drag-and-drop).
-
 ## Properties
 
 ### ListHelloPangeaDnd

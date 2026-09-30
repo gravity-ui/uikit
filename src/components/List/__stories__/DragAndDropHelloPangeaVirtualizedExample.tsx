@@ -3,8 +3,9 @@
  * as in the DragAndDrop story, with `ListVirtualizer` OUTSIDE the wrapper — the
  * wrapper reads the virtualization of the list below it and switches the
  * Droppable to the virtual mode: the virtualizer keeps the space of the
- * dragged row. The row itself is drawn as a clone above the page, as in the
- * plain list.
+ * dragged row, and the library draws the row itself by a clone — the kit
+ * copies the last render of the Row for it. Touch cannot drag in this mode:
+ * the original with the touched handle is unmounted for the clone.
  *
  * Rows of variable height work through measure, but the measurements must not
  * CHANGE while dragging — the library snapshots the geometry on lift.

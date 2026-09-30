@@ -35,7 +35,7 @@ function Playlist() {
 
 Each row gets a handle at its outermost edge. The mouse drags a row by the handle; the keyboard reaches the handle with `←`/`→`, lifts the row with `Space`, moves it with `↑`/`↓` and drops it with `Space` (`Escape` cancels). Rows the list disables are not draggable, and `isDragDisabled` pins more of them. The name of the handle and the instructions the library gives to screen readers follow the language set with `configure` (under a `DragDropContext` of your own, pass its `dragHandleUsageInstructions` yourself).
 
-While a row is dragged, the library draws a copy of it — the clone — above the page, and the original renders nothing. The clone is portaled next to the overlays of the page, so a list inside a `Sheet`, a `Dialog` or an animated popup drags the same way: an ancestor with a transform would otherwise shift the dragged row away from the pointer. The default clone is a copy of the `Row` at half opacity; the `data-dragging` mark of the list has no original to mark meanwhile.
+A list inside a `Sheet`, a `Dialog` or an animated popup drags the same way. The library places a dragged row with `position: fixed` in the coordinates of the viewport, and an ancestor with a transform becomes the containing block of such a row instead of the viewport; the kit takes the offset of that ancestor out, so the row stays under the pointer.
 
 `onItemsChange` gets the array with `moveItem` already applied. For data that is not an array in memory, `onDrop` gets the drop itself — `(fromId, toId, position)`: the row that moved and the edge of the row it landed at.
 
@@ -100,7 +100,7 @@ import {HelloPangeaDragHandle, getHelloPangeaRowProps} from '@gravity-ui/uikit/h
 />;
 ```
 
-A custom row has no `Row` to copy for the clone, so pass `renderClone` to the wrapper: it gets the item and the `provided` and `snapshot` of the clone (a dev warning reminds of it).
+Under [virtualization](#virtualization) the dragged row is drawn by a clone, and a custom row has no `Row` to copy for it: pass `renderClone` to the wrapper. It gets the item and the `provided` and `snapshot` of the clone (a dev warning reminds of it).
 
 ```tsx
 <ListHelloPangeaDnd
@@ -139,7 +139,7 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 </ListVirtualizer>;
 ```
 
-In the virtual mode the virtualizer keeps the space of the dragged row, and the row may even leave the window meanwhile — the clone is drawn from the last render of the `Row`. The heights of the rows must not change while a row is dragged: the library measures them on lift.
+In the virtual mode the virtualizer keeps the space of the dragged row, and the library draws the row by a clone — the dragged row may even leave the window meanwhile. The clone is a copy of the last render of the `Row` at half opacity, rendered inside the wrapper, so the theme, the styles of the ancestors and the focus scope of a dialog reach it. Touch cannot drag a virtualized list: the original with the touched handle is unmounted for the clone, and the touch events stop reaching the library — a limitation of `@hello-pangea/dnd`. The heights of the rows must not change while a row is dragged: the library measures them on lift.
 
 ### Several lists
 
@@ -182,7 +182,7 @@ Without `state` every wrapper renders a `DragDropContext` of its own, and nested
 
 ### Under the hood
 
-The wrapper passes its adapter to the list through `ListDndContext` of the main entry point: `draggingId` from `useListHelloPangeaDnd`, the props of the drop zone, `provided.placeholder` as the last child of the list root, and `ListHelloPangeaDnd.Row` as the default `renderItem`. The same wiring by hand — for anything the kit does not cover — is in the "Drag and drop integrations" stories of the List, and the adapter contract is described in [Drag and drop](../List/README.md#drag-and-drop).
+The wrapper passes its adapter to the list through `ListDndContext` of the main entry point: `draggingId` from `useListHelloPangeaDnd`, the props of the drop zone, `provided.placeholder` as the last child of the list root outside virtualization, and `ListHelloPangeaDnd.Row` as the default `renderItem`. The same wiring by hand — for anything the kit does not cover — is in the "Drag and drop integrations" stories of the List, and the adapter contract is described in [Drag and drop](../List/README.md#drag-and-drop).
 
 ## Properties
 
@@ -196,7 +196,7 @@ The wrapper passes its adapter to the list through `ListDndContext` of the main 
 | onDrop         | The drop as ids and an edge                                                                                                                         |     `(fromId: string, toId: string, position: 'before' \| 'after') => void`     |                            |
 | droppableId    | The id of the `Droppable`                                                                                                                           |                                    `string`                                     |         an auto id         |
 | isDragDisabled | Rows that cannot be dragged, in addition to the disabled ones                                                                                       |                             `(item: T) => boolean`                              |                            |
-| renderClone    | The copy of a dragged row, required for custom rows                                                                                                 |               `(item: T, provided, snapshot) => React.ReactNode`                |    a copy of the `Row`     |
+| renderClone    | Virtual mode: the copy of a dragged row, required for custom rows                                                                                   |               `(item: T, provided, snapshot) => React.ReactNode`                |    a copy of the `Row`     |
 | state          | The result of `useListHelloPangeaDnd` under a `DragDropContext` of your own: no context is rendered, and the drop goes to the `onDrop` of that hook |                          `UseListHelloPangeaDndResult`                          |                            |
 | virtual        | The virtual mode of the `Droppable`                                                                                                                 |                                    `boolean`                                    | on under `ListVirtualizer` |
 | droppableProps | Passed to the `Droppable`                                                                                                                           | `Pick<DroppableProps, 'isDropDisabled' \| 'ignoreContainerClipping' \| 'type'>` |                            |

@@ -10,11 +10,10 @@
  *   of your own;
  * - `cellProps` — the cell props: the handle and the content get a cell each.
  *
- * The index of `Draggable` is the position in `items`. A custom row needs
- * `renderClone` on the wrapper as well: while a row is dragged, the library
- * draws a copy of it above the page, and the default copy is the one of
- * `ListHelloPangeaDnd.Row`. The copy spreads the draggable and the handle props
- * of the clone; the handle is out of the tab order there too.
+ * The index of `Draggable` is the position in `items`. Under virtualization a
+ * custom row needs `renderClone` on the wrapper as well: the library draws the
+ * dragged row by a clone there, and the default clone is a copy of
+ * `ListHelloPangeaDnd.Row`.
  *
  * In an application:
  * `import {List} from '@gravity-ui/uikit'`
@@ -59,7 +58,7 @@ const cardStyle: React.CSSProperties = {
     background: 'var(--g-color-base-float)',
 };
 
-/** The content of a card: shared by the row and by the clone of a dragged row */
+/** The content of a card */
 function PersonCard({person}: {person: Person}) {
     return (
         <React.Fragment>
@@ -78,27 +77,7 @@ export function DragAndDropHelloPangeaCustomRowExample() {
     const [items, setItems] = React.useState(people);
     const ids = items.map((person) => person.id);
     return (
-        <ListHelloPangeaDnd
-            items={items}
-            onItemsChange={setItems}
-            renderClone={(person, provided) => (
-                <div
-                    {...provided.draggableProps}
-                    ref={provided.innerRef}
-                    style={{
-                        ...cardStyle,
-                        ...provided.draggableProps.style,
-                        opacity: 0.5,
-                        outline: '2px solid var(--g-color-line-generic)',
-                    }}
-                >
-                    <HelloPangeaDragHandle {...(provided.dragHandleProps ?? undefined)} />
-                    <span style={{display: 'flex', alignItems: 'center', gap: 8}}>
-                        <PersonCard person={person} />
-                    </span>
-                </div>
-            )}
-        >
+        <ListHelloPangeaDnd items={items} onItemsChange={setItems}>
             <List
                 role="grid"
                 aria-label="Speakers"

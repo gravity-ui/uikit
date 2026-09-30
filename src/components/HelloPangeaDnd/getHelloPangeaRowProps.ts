@@ -15,6 +15,7 @@ import type {
 } from '../List/types';
 import {warnOnce} from '../utils/warn';
 
+import {toContainingBlock, trackElement} from './fixedPosition';
 import i18n from './i18n';
 
 /**
@@ -71,11 +72,15 @@ export function getHelloPangeaRowProps<T>({
         );
     }
     const {style, ...draggableProps} = provided.draggableProps;
+    const tracked = trackElement(provided.innerRef);
     const rowProps = helpers.getItemProps({
         ...draggableProps,
-        ref: provided.innerRef,
+        ref: tracked.ref,
         style: {
-            ...(style as React.CSSProperties | undefined),
+            ...toContainingBlock(
+                style as React.CSSProperties | undefined,
+                tracked.element?.parentElement,
+            ),
             // The inline `transition: opacity` of the library is meant for combining, which is
             // not used: during an active drag it would apply the ghost styles of the list out of
             // sync (the background at once, the opacity through the transition). The drop

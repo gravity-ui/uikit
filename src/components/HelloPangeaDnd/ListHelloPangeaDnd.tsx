@@ -19,7 +19,6 @@ import {ListVirtualizationContext} from '../List/VirtualizationContext';
 import {moveItem} from '../List/moveItem';
 import type {ListDndAdapter, ListItemContext, ListItemHelpers} from '../List/types';
 import {defaultGetItemId} from '../List/utils';
-import {Portal} from '../Portal';
 import {block} from '../utils/cn';
 import {warnOnce} from '../utils/warn';
 
@@ -30,6 +29,7 @@ import type {
     HelloPangeaRowRegistry,
     HelloPangeaRowSnapshot,
 } from './context';
+import {toContainingBlock} from './fixedPosition';
 import i18n from './i18n';
 import {useListHelloPangeaDnd} from './useListHelloPangeaDnd';
 import type {UseListHelloPangeaDndResult} from './useListHelloPangeaDnd';
@@ -52,8 +52,8 @@ export interface ListHelloPangeaDndProps<T> {
     /** Rows that cannot be dragged, in addition to the disabled ones. Keep it stable */
     isDragDisabled?: (item: T) => boolean;
     /**
-     * The visual copy of the dragged row, drawn above the page while the original renders
-     *  nothing. default — a copy of the `Row`; a custom row without `Row` must pass its own
+     * Virtual mode: the visual copy of the dragged row. default — a copy of the `Row`; a custom
+     *  row without `Row` must pass its own
      */
     renderClone?: (
         item: T,
@@ -197,15 +197,26 @@ function ListHelloPangeaDndComponent<T>({
     }, [ids, isDragDisabled, registry]);
 
     const cloneContainerRef = React.useRef<HTMLDivElement>(null);
-    const renderCloneOfRow: DraggableChildrenFn = (provided, snapshot, rubric) => {
+    const renderCloneOfRow: DraggableChildrenFn = (rawProvided, snapshot, rubric) => {
         const index = rubric.source.index;
+        // The clone is position: fixed as well: out of the offset of a transformed ancestor
+        const provided = {
+            ...rawProvided,
+            draggableProps: {
+                ...rawProvided.draggableProps,
+                style: toContainingBlock(
+                    rawProvided.draggableProps.style as React.CSSProperties | undefined,
+                    cloneContainerRef.current,
+                ) as typeof rawProvided.draggableProps.style,
+            },
+        };
         if (renderClone) {
             return renderClone(items[index], provided, snapshot);
         }
         const rowSnapshot = registry.get(ids[index]);
         if (!rowSnapshot) {
             warnOnce(
-                '[ListHelloPangeaDnd] The dragged row was not rendered by ListHelloPangeaDnd.Row: pass `renderClone` for custom rows.',
+                '[ListHelloPangeaDnd] The dragged row was not rendered by ListHelloPangeaDnd.Row: pass `renderClone` for custom rows under virtualization.',
             );
             return (
                 <div
@@ -223,10 +234,10 @@ function ListHelloPangeaDndComponent<T>({
             {...droppableProps}
             droppableId={droppableId ?? autoId}
             mode={virtual ? 'virtual' : 'standard'}
-            // Always a clone, portaled out of the list: a dragged row is position: fixed, and an
-            // ancestor with a transform (a Sheet, an animated popup) would become its containing
-            // block — the row would fly away from the pointer
-            renderClone={renderCloneOfRow}
+            // The virtual mode needs a clone: the original of the dragged row may leave the window.
+            // A plain list drags the original itself — a clone would unmount the touched handle,
+            // and the touch events of the library would stop reaching it
+            renderClone={virtual ? renderCloneOfRow : undefined}
             getContainerForClone={() => cloneContainerRef.current ?? document.body}
         >
             {(provided) => (
@@ -246,9 +257,7 @@ function ListHelloPangeaDndComponent<T>({
     const content = (
         <React.Fragment>
             {droppable}
-            <Portal>
-                <div ref={cloneContainerRef} className={b('clone-container')} />
-            </Portal>
+            {virtual ? <div ref={cloneContainerRef} className={b('clone-container')} /> : null}
         </React.Fragment>
     );
 

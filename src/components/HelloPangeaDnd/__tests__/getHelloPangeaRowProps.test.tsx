@@ -66,8 +66,13 @@ describe('getHelloPangeaRowProps', () => {
         });
 
         expect(getItemProps).toHaveBeenCalledWith(
-            expect.objectContaining({ref: innerRef, 'data-rfd-draggable-id': 'a'}),
+            expect.objectContaining({'data-rfd-draggable-id': 'a'}),
         );
+        // The ref of the row reaches the one of the library
+        const {ref} = getItemProps.mock.calls[0][0] as {ref: (element: HTMLElement) => void};
+        const element = document.createElement('div');
+        ref(element);
+        expect(innerRef).toHaveBeenCalledWith(element);
         expect(rowProps).toMatchObject({role: 'row', 'data-rfd-draggable-id': 'a'});
         expect(rowProps.style).toEqual({
             transform: 'translate(0px, 28px)',

@@ -17,13 +17,10 @@ $block: '.#{variables.$ns}hello-pangea-dnd';
         }
     }
 
-    // The clone of the dragged row is portaled here, next to the overlays: the Portal keeps the
-    // theme, no transformed ancestor shifts the position: fixed of the clone, and the stacking
-    // context of the container puts the clone above the overlays (a Sheet is 100000)
+    // The clone of the dragged row is portaled here: inside the tree of the list, so the theme, the
+    // styles of the ancestors and the focus scope of a modal reach it, and out of the layout (the
+    // clone is position: fixed)
     &__clone-container {
-        position: fixed;
-        inset: 0;
-        z-index: 100001;
-        pointer-events: none;
+        display: contents;
     }
 }

@@ -28,6 +28,11 @@ import {DragAndDropHelloPangeaCustomRowExample} from './DragAndDropHelloPangeaCu
 import dragAndDropHelloPangeaCustomRowCode from './DragAndDropHelloPangeaCustomRowExample?raw';
 import {DragAndDropHelloPangeaExample} from './DragAndDropHelloPangeaExample';
 import dragAndDropHelloPangeaCode from './DragAndDropHelloPangeaExample?raw';
+import {
+    DragAndDropHelloPangeaSheetExample,
+    DragAndDropHelloPangeaSheetVirtualizedExample,
+} from './DragAndDropHelloPangeaSheetExample';
+import dragAndDropHelloPangeaSheetCode from './DragAndDropHelloPangeaSheetExample?raw';
 import {DragAndDropHelloPangeaVirtualizedExample} from './DragAndDropHelloPangeaVirtualizedExample';
 import dragAndDropHelloPangeaVirtualizedCode from './DragAndDropHelloPangeaVirtualizedExample?raw';
 import {exampleSource} from './exampleSource';
@@ -628,6 +633,37 @@ export const DragAndDropCustomRow: Story = {
                         'DragAndDropHelloPangeaCustomRowExample.tsx',
                         dragAndDropHelloPangeaCustomRowCode,
                     ],
+                ]),
+            },
+        },
+    },
+};
+
+// hello-pangea inside a Sheet: the kit takes the offset of the transformed
+// sheet out of the position of the dragged row, so it stays under the pointer
+export const DragAndDropInSheet: Story = {
+    render: () => <DragAndDropHelloPangeaSheetExample />,
+    parameters: {
+        docs: {
+            source: {
+                language: 'tsx',
+                code: exampleSource([
+                    ['DragAndDropHelloPangeaSheetExample.tsx', dragAndDropHelloPangeaSheetCode],
+                ]),
+            },
+        },
+    },
+};
+
+// The same inside a Sheet under virtualization: the dragged row is a clone
+export const DragAndDropInSheetVirtualized: Story = {
+    render: () => <DragAndDropHelloPangeaSheetVirtualizedExample />,
+    parameters: {
+        docs: {
+            source: {
+                language: 'tsx',
+                code: exampleSource([
+                    ['DragAndDropHelloPangeaSheetExample.tsx', dragAndDropHelloPangeaSheetCode],
                 ]),
             },
         },

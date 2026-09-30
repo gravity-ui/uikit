@@ -8,6 +8,7 @@ import {Lang, configure} from '../../../utils/configure';
 import {List} from '../../List';
 import {mockLayout, mockTabbableDisplayCheck} from '../../List/__tests__/helpers';
 import type {ListItemContext, ListItemHelpers} from '../../List/types';
+import {Modal} from '../../Modal';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {ListHelloPangeaDnd} from '../ListHelloPangeaDnd';
 import {useListHelloPangeaDnd} from '../useListHelloPangeaDnd';
@@ -51,15 +52,15 @@ const getHandle = (title: string) =>
 /** Lets the library commit a keyboard step */
 const flush = () => act(() => Promise.resolve());
 
-/** The keyboard sensor of the library: lift, move, drop */
-/** The clone of the dragged row, portaled next to the overlays */
+/** The container of the clone of a dragged row (the virtual mode only) */
 const getCloneContainer = () =>
-    document.querySelector('.g-hello-pangea-dnd__clone-container') as HTMLElement;
+    document.querySelector<HTMLElement>('.g-hello-pangea-dnd__clone-container');
 
-/** After the lift the original renders nothing: the keys go to the handle of the clone */
+/** Under virtualization the original renders nothing after the lift: the keys go to the clone */
 
 const focused = () => (document.activeElement as HTMLElement | null) ?? document.body;
 
+/** The keyboard sensor of the library: lift, move, drop */
 async function dragWithKeyboard(handle: HTMLElement, key: 'ArrowDown' | 'ArrowUp', times = 1) {
     act(() => handle.focus());
     fireEvent.keyDown(handle, {key: ' ', code: 'Space', keyCode: 32});
@@ -137,20 +138,25 @@ describe('ListHelloPangeaDnd', () => {
                 'a',
             ]);
             expect(rowTitles()).toEqual(['Bravo', 'Charlie', 'Alpha']);
+            // The focus is back on the handle of the moved row
+            expect(getHandle('Alpha')).toHaveFocus();
         });
 
-        test('while dragging the clone is above the page and the core marks the list', async () => {
+        test('while dragging the core marks the row and the list, the placeholder keeps the gap', async () => {
             render(<Playlist />);
+            expect(getCloneContainer()).toBeNull();
             const handle = getHandle('Bravo');
             act(() => handle.focus());
             fireEvent.keyDown(handle, {key: ' ', code: 'Space', keyCode: 32});
             await flush();
 
-            // The original renders nothing, the clone is portaled out of the list
-            expect(screen.queryByRole('row', {name: /Bravo/})).not.toBeInTheDocument();
-            expect(getCloneContainer()).toHaveTextContent('Bravo');
-            expect(screen.getByRole('grid')).not.toContainElement(getCloneContainer());
+            // A plain list drags the original itself: no clone
+            expect(screen.getByRole('row', {name: /Bravo/})).toHaveAttribute('data-dragging');
             expect(screen.getByRole('grid')).toHaveAttribute('data-drag-active');
+
+            expect(screen.getByRole('grid').lastElementChild).toHaveAttribute(
+                'data-rfd-placeholder-context-id',
+            );
 
             fireEvent.keyDown(focused(), {key: 'Escape', code: 'Escape', keyCode: 27});
             await act(() => new Promise((resolve) => setTimeout(resolve, 0)));
@@ -223,8 +229,7 @@ describe('ListHelloPangeaDnd', () => {
             const charlie = screen.getByRole('row', {name: /Charlie/});
             act(() => charlie.focus());
             fireEvent.keyDown(charlie, {key: 'ArrowRight'});
-
-            expect(document.activeElement?.getAttribute('aria-hidden')).not.toBe('true');
+            expect(charlie).toHaveFocus();
         });
 
         test('the screen reader instructions of the handle follow the language', () => {
@@ -264,6 +269,47 @@ describe('ListHelloPangeaDnd', () => {
                     '`onItemsChange` and `onDrop` of the wrapper are not called',
                 ),
             );
+        });
+    });
+
+    describe('inside a modal', () => {
+        mockLayout({viewport: 120, row: 24});
+
+        test.each([
+            ['plain', false],
+            ['virtualized', true],
+        ])('%s: the lifted row stays in the focus scope of the modal', async (_name, virtual) => {
+            const list = (
+                <ListHelloPangeaDnd items={TRACKS} onItemsChange={jest.fn()}>
+                    <List
+                        role="grid"
+                        aria-label="Playlist"
+                        items={TRACKS}
+                        getItemContent={getTitle}
+                    />
+                </ListHelloPangeaDnd>
+            );
+            render(
+                <Modal open>
+                    {virtual ? (
+                        <ListVirtualizer estimateItemSize={24}>{list}</ListVirtualizer>
+                    ) : (
+                        list
+                    )}
+                </Modal>,
+            );
+            const handle = getHandle('Alpha');
+            act(() => handle.focus());
+            fireEvent.keyDown(handle, {key: ' ', code: 'Space', keyCode: 32});
+            await flush();
+
+            // The modal hides everything outside of it from assistive technology
+            expect(focused()).toHaveAttribute('data-rfd-drag-handle-draggable-id', 'a');
+
+            expect(focused().closest('[aria-hidden="true"]')).toBeNull();
+
+            fireEvent.keyDown(focused(), {key: 'Escape', code: 'Escape', keyCode: 27});
+            await act(() => new Promise((resolve) => setTimeout(resolve, 0)));
         });
     });
 
@@ -486,6 +532,10 @@ describe('ListHelloPangeaDnd', () => {
 
             const cloneContainer = getCloneContainer();
             expect(cloneContainer).toHaveTextContent('Alpha');
+            // The virtual mode of the library takes no placeholder: the virtualizer keeps the gap
+            const grid = screen.getByRole('grid');
+
+            expect(grid.querySelector('[data-rfd-placeholder-context-id]')).toBeNull();
 
             const cloneHandle = within(cloneContainer as HTMLElement).getByRole('button', {
                 name: 'Drag to reorder',

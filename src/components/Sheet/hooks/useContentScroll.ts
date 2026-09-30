@@ -32,6 +32,15 @@ export interface ContentAreaHandlers {
     onTransitionEnd: (event: React.TransitionEvent<HTMLDivElement>) => void;
 }
 
+/**
+ * A touch that starts on a drag handle belongs to the drag-and-drop library, not to the swipe of
+ * the sheet. Handles carry a `draggable` attribute of either value: `true` for the native drag,
+ * `false` for libraries that suppress it (`@hello-pangea/dnd`)
+ */
+function isDragHandleTarget(target: EventTarget | null) {
+    return target instanceof Element && target.closest('[draggable]') !== null;
+}
+
 export interface UseContentScrollResult {
     /** Whether the content area is currently being touched. */
     contentTouched: boolean;
@@ -54,6 +63,7 @@ export function useContentScroll({
     const [contentTouched, setContentTouched] = React.useState(false);
 
     const startScrollTopRef = React.useRef(0);
+    const dragGestureRef = React.useRef(false);
 
     const latestRef = React.useRef({
         getAllowHideOnContentScroll,
@@ -77,6 +87,11 @@ export function useContentScroll({
                 return;
             }
 
+            if (isDragHandleTarget(event.target)) {
+                dragGestureRef.current = true;
+                return;
+            }
+
             velocityTrackerRef.current.clear();
 
             startYRef.current = event.nativeEvent.touches[0].clientY;
@@ -94,7 +109,7 @@ export function useContentScroll({
                 setStyles: applyStyles,
             } = latestRef.current;
 
-            if (!getAllow()) {
+            if (!getAllow() || dragGestureRef.current) {
                 return;
             }
 
@@ -137,6 +152,11 @@ export function useContentScroll({
     );
 
     const onTouchEnd = React.useCallback(() => {
+        if (dragGestureRef.current) {
+            dragGestureRef.current = false;
+            return;
+        }
+
         if (!latestRef.current.getAllowHideOnContentScroll() || swipeAreaTouchedRef.current) {
             return;
         }

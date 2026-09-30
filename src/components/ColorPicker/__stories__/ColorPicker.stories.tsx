@@ -5,7 +5,7 @@ import type {Meta, StoryObj} from '@storybook/react-webpack5';
 import {ColorPicker} from '../ColorPicker';
 
 const meta: Meta<typeof ColorPicker> = {
-    title: 'Lab/ColorPicker',
+    title: 'Components/Inputs/ColorPicker',
     component: ColorPicker,
 };
 

@@ -7,14 +7,14 @@ import {ChevronLeft, ChevronRight} from '@gravity-ui/icons';
 import {mergeRefs, useForkRef} from '../../../hooks';
 import {BUTTON_ICON_SIZE_MAP} from '../../Button/constants';
 import {Icon} from '../../Icon';
+import {ListItemView} from '../../ListItemView';
+import type {ListItemViewProps} from '../../ListItemView';
 import {useDirection} from '../../theme';
 import {block} from '../../utils/cn';
 import {getLinkRelWithFallback} from '../../utils/getLinkRelWithFallback';
 import {mergeProps} from '../../utils/mergeProps';
 import type {PolymorphicOverloadProps} from '../../utils/polymorphic';
 import {isPolymorphicComponentProps, isPolymorphicLinkProps} from '../../utils/polymorphic';
-import {ListItemView} from '../ListItemView/ListItemView';
-import type {ListItemViewProps} from '../ListItemView/ListItemView';
 
 import {MenuContext} from './MenuContext';
 import {MenuItemContext} from './MenuItemContext';

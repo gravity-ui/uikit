@@ -4,7 +4,7 @@
 
 <!--/GITHUB_BLOCK-->
 
-The entry point that integrates the [List](../lab/List/README.md) with `@hello-pangea/dnd`, the recommended drag-and-drop library.
+The entry point that integrates the [List](../List/README.md) with `@hello-pangea/dnd`, the recommended drag-and-drop library.
 
 ```tsx
 import {useListHelloPangeaDnd} from '@gravity-ui/uikit/hello-pangea-dnd';
@@ -16,7 +16,7 @@ The wrappers of the library cannot be expressed by the adapter contract of the l
 
 ```tsx
 import {DragDropContext, Droppable} from '@hello-pangea/dnd';
-import {unstable_List as List, unstable_moveItem as moveItem} from '@gravity-ui/uikit/unstable';
+import {List, moveItem} from '@gravity-ui/uikit';
 import {useListHelloPangeaDnd} from '@gravity-ui/uikit/hello-pangea-dnd';
 
 function SortableList({items, setItems}) {
@@ -52,7 +52,7 @@ function SortableList({items, setItems}) {
 }
 ```
 
-The complete example, including `renderItem` and the placement of the drag handle, is in the [Drag and drop](../lab/List/README.md#drag-and-drop) section of the List.
+The complete example, including `renderItem` and the placement of the drag handle, is in the [Drag and drop](../List/README.md#drag-and-drop) section of the List.
 
 ## Properties
 

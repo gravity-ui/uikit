@@ -3,7 +3,9 @@ import * as React from 'react';
 import {CircleExclamation} from '@gravity-ui/icons';
 import userEvent from '@testing-library/user-event';
 
-import {render, screen} from '../../../../test-utils/utils';
+import {fireEvent, render, screen, within} from '../../../../test-utils/utils';
+import {SheetQa} from '../../Sheet/constants';
+import {MobileProvider} from '../../mobile';
 import {FilePreview} from '../FilePreview';
 
 describe('FilePreview', () => {
@@ -167,5 +169,47 @@ describe('FilePreview', () => {
         }
 
         expect(mockFn).toBeCalledTimes(5);
+    });
+
+    test('Calls the action of the mobile menu and closes the sheet', async () => {
+        const fileName = 'Some file name';
+        const actionClickHandler = jest.fn();
+
+        render(
+            <MobileProvider mobile>
+                <FilePreview
+                    file={{name: fileName, type: 'image/png'} as File}
+                    actions={[
+                        {
+                            icon: <CircleExclamation width={14} height={14} />,
+                            title: 'some hint',
+                            onClick: actionClickHandler,
+                        },
+                        {
+                            icon: <CircleExclamation width={14} height={14} />,
+                            title: 'disabled hint',
+                            disabled: true,
+                            onClick: jest.fn(),
+                        },
+                    ]}
+                />
+            </MobileProvider>,
+        );
+
+        const user = userEvent.setup();
+        await user.click(screen.getByRole('button'));
+
+        const menu = screen.getByRole('listbox', {name: fileName});
+        expect(within(menu).getByRole('option', {name: 'disabled hint'})).toHaveAttribute(
+            'aria-disabled',
+            'true',
+        );
+
+        await user.click(within(menu).getByRole('option', {name: 'some hint'}));
+
+        expect(actionClickHandler).toBeCalledTimes(1);
+        // The sheet unmounts once its hiding transition is over
+        fireEvent.transitionEnd(screen.getByTestId(SheetQa.VEIL));
+        expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
     });
 });

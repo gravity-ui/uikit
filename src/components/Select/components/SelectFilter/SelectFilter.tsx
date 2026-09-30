@@ -2,8 +2,8 @@
 
 import * as React from 'react';
 
+import type {ListFocusOwner} from '../../../List';
 import {TextInput} from '../../../controls';
-import type {ListFocusOwner} from '../../../lab/List';
 import {block} from '../../../utils/cn';
 import {SelectQa} from '../../constants';
 import i18n from '../../i18n';

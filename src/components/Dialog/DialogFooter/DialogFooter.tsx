@@ -88,10 +88,10 @@ export function DialogFooter(props: DialogFooterProps) {
                 ref={cancelBtnRef}
                 view={textButtonApply ? 'flat' : 'normal'}
                 size={mobile ? 'xl' : 'l'}
-                width="max"
                 onClick={onClickButtonCancel}
                 disabled={loading}
                 {...propsButtonCancel}
+                width={mobile ? 'max' : propsButtonCancel?.width}
             >
                 {textButtonCancel}
             </Button>
@@ -114,11 +114,11 @@ export function DialogFooter(props: DialogFooterProps) {
                 type="submit"
                 view={getButtonView(preset)}
                 size={mobile ? 'xl' : 'l'}
-                width="max"
                 onClick={onClickButtonApply}
                 loading={loading}
                 className={b('button-apply', {preset})}
                 {...propsButtonApply}
+                width={mobile ? 'max' : propsButtonApply?.width}
             >
                 {textButtonApply}
             </Button>

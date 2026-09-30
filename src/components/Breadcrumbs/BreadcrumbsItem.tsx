@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import {KeyCode} from '../../constants';
-import {ListItemView} from '../lab/ListItemView/ListItemView';
+import {ListItemView} from '../ListItemView';
 import {filterDOMProps} from '../utils/filterDOMProps';
 import {getLinkRelWithFallback} from '../utils/getLinkRelWithFallback';
 

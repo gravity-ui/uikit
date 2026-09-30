@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
-import {getItemDomId} from '../../lab/List/utils';
+import {getItemDomId} from '../../List/utils';
 import {useAlignActiveOption} from '../hooks';
 import type {SelectOption} from '../types';
 

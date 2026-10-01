@@ -34,6 +34,17 @@ export interface ContentAreaHandlers {
     onTransitionEnd: (event: React.TransitionEvent<HTMLDivElement>) => void;
 }
 
+/**
+ * A touch that starts on a drag handle belongs to the drag-and-drop library, not to the swipe of
+ * the sheet: a native drag source, or a handle of `@hello-pangea/dnd` (it sets `draggable="false"`,
+ * which an image that only opts out of the native drag carries as well)
+ */
+const DRAG_HANDLE_SELECTOR = '[draggable="true"], [data-rfd-drag-handle-draggable-id]';
+
+function isDragHandleTarget(target: EventTarget | null) {
+    return target instanceof Element && target.closest(DRAG_HANDLE_SELECTOR) !== null;
+}
+
 export interface UseContentScrollResult {
     /** Whether the content area is currently being touched. */
     contentTouched: boolean;
@@ -59,15 +70,25 @@ export function useContentScroll({
     const [contentTouched, setContentTouched] = React.useState(false);
 
     const startScrollTopRef = React.useRef(0);
+    const dragGestureRef = React.useRef(false);
 
     const resetContentTouch = React.useCallback(() => {
         startScrollTopRef.current = 0;
+        dragGestureRef.current = false;
         setContentTouched(false);
     }, []);
 
     const onTouchStart = React.useCallback(
         (event: React.TouchEvent<HTMLDivElement>) => {
-            if (getIsExitAnimating() || !allowHideOnContentScroll || swipeAreaTouchedRef.current) {
+            // Decided anew on every touch: the end of a drag may never reach the content area
+            // (the library unmounts the handle under the finger for a clone)
+            dragGestureRef.current = isDragHandleTarget(event.target);
+            if (
+                getIsExitAnimating() ||
+                !allowHideOnContentScroll ||
+                swipeAreaTouchedRef.current ||
+                dragGestureRef.current
+            ) {
                 return;
             }
 
@@ -89,7 +110,7 @@ export function useContentScroll({
 
     const onTouchMove = React.useCallback(
         (event: React.TouchEvent<HTMLDivElement>) => {
-            if (getIsExitAnimating() || !allowHideOnContentScroll) {
+            if (getIsExitAnimating() || !allowHideOnContentScroll || dragGestureRef.current) {
                 return;
             }
 
@@ -138,6 +159,11 @@ export function useContentScroll({
 
     const onTouchEnd = React.useCallback(
         (event: React.TouchEvent<HTMLDivElement>) => {
+            if (dragGestureRef.current) {
+                dragGestureRef.current = false;
+                return;
+            }
+
             if (!allowHideOnContentScroll || swipeAreaTouchedRef.current) {
                 return;
             }

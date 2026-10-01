@@ -36,10 +36,10 @@ export function SheetContentArea({
     title,
     withoutScroll,
     alwaysFullHeight,
-    onTouchCancel,
     onTouchStart,
     onTouchMove,
     onTouchEnd,
+    onTouchCancel,
     onTransitionEnd,
 }: SheetContentAreaProps) {
     return (

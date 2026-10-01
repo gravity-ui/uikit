@@ -553,6 +553,75 @@ describe('Sheet dismissal', () => {
                 expect(screen.getByRole('dialog')).toBeInTheDocument();
                 expect(screen.getByTestId(SheetQa.VEIL)).toHaveStyle({opacity: '1'});
             });
+
+            test.each([
+                ['a native drag source', {draggable: true}],
+                ['a handle of @hello-pangea/dnd', {'data-rfd-drag-handle-draggable-id': 'a'}],
+            ])('does not move the sheet on a touch that starts on %s', (_name, attributes) => {
+                const onOpenChange = jest.fn();
+                render(
+                    <Sheet visible onOpenChange={onOpenChange}>
+                        <span {...attributes} data-qa="handle">
+                            Handle
+                        </span>
+                        Content
+                    </Sheet>,
+                );
+
+                const handle = screen.getByTestId('handle');
+                const sheet = screen.getByRole('dialog');
+                const restingTransform = sheet.style.transform;
+                fireEvent.touchStart(handle, {touches: [{clientX: 0, clientY: TOUCH_START_POINT}]});
+                fireEvent.touchMove(handle, {
+                    touches: [{clientX: 0, clientY: TOUCH_START_POINT + 70}],
+                });
+                // The sheet does not follow the finger
+                expect(sheet.style.transform).toBe(restingTransform);
+                fireEvent.touchEnd(handle, {
+                    touches: [{clientX: 0, clientY: TOUCH_START_POINT + 70}],
+                });
+                expect(onOpenChange).not.toHaveBeenCalled();
+
+                // The next swipe on the content works again
+                swipePastThreshold(screen.getByTestId(SheetQa.CONTENT_AREA));
+                expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'swipe');
+                expect(onOpenChange).toHaveBeenCalledTimes(1);
+            });
+
+            test('a drag whose end never reaches the content leaves the next swipe working', () => {
+                const onOpenChange = jest.fn();
+                render(
+                    <Sheet visible onOpenChange={onOpenChange}>
+                        <span data-rfd-drag-handle-draggable-id="a" data-qa="handle">
+                            Handle
+                        </span>
+                        Content
+                    </Sheet>,
+                );
+
+                // The handle is unmounted mid-drag: neither touchend nor touchcancel bubbles up
+                fireEvent.touchStart(screen.getByTestId('handle'), {
+                    touches: [{clientX: 0, clientY: TOUCH_START_POINT}],
+                });
+                swipePastThreshold(screen.getByTestId(SheetQa.CONTENT_AREA));
+                expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'swipe');
+                expect(onOpenChange).toHaveBeenCalledTimes(1);
+            });
+
+            test('a touch on an element that only opts out of the native drag swipes the sheet', () => {
+                const onOpenChange = jest.fn();
+                render(
+                    <Sheet visible onOpenChange={onOpenChange}>
+                        <span draggable={false} data-qa="image">
+                            Image
+                        </span>
+                    </Sheet>,
+                );
+
+                swipePastThreshold(screen.getByTestId('image'));
+                expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'swipe');
+                expect(onOpenChange).toHaveBeenCalledTimes(1);
+            });
         });
 
         test.each([

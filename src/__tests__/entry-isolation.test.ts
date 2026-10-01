@@ -33,6 +33,15 @@ const ENTRY_ONLY_DIRS = [
     path.join(SRC, 'components', 'HelloPangeaDnd'),
 ];
 
+/**
+ * Parts of those directories the main entry reaches on purpose. The keysets of every component are
+ * registered in `src/i18n/types.ts`, and the type graph of the main entry reaches it: a keyset
+ * carries nothing but its texts — checked below, so an exception cannot become a way in.
+ */
+const ENTRY_ONLY_EXCEPTIONS = [path.join(SRC, 'components', 'HelloPangeaDnd', 'i18n')];
+
+const isInside = (file: string, dir: string) => file.startsWith(`${dir}${path.sep}`);
+
 interface Specifier {
     source: string;
     typeOnly: boolean;
@@ -145,8 +154,10 @@ describe('main entry isolation', () => {
         test('does not reach the directories of the dedicated entry points', () => {
             const {files} = walk(MAIN_ENTRY, options);
 
-            const leaked = [...files].filter((file) =>
-                ENTRY_ONLY_DIRS.some((dir) => file.startsWith(`${dir}${path.sep}`)),
+            const leaked = [...files].filter(
+                (file) =>
+                    ENTRY_ONLY_DIRS.some((dir) => isInside(file, dir)) &&
+                    !ENTRY_ONLY_EXCEPTIONS.some((dir) => isInside(file, dir)),
             );
             expect(leaked).toEqual([]);
         });
@@ -171,5 +182,28 @@ describe('main entry isolation', () => {
 
             expect(FORBIDDEN_IN_MAIN.filter((name) => !reachable.has(name))).toEqual([]);
         });
+    });
+
+    test('the exceptions import nothing but the i18n helpers and their own texts', () => {
+        const i18nDir = path.join(SRC, 'i18n');
+        for (const dir of ENTRY_ONLY_EXCEPTIONS) {
+            const sources = fs
+                .readdirSync(dir)
+                .filter((name) => /\.tsx?$/.test(name))
+                .flatMap((name) =>
+                    parseSpecifiers(fs.readFileSync(path.join(dir, name), 'utf8')).map(({source}) =>
+                        path.resolve(dir, source),
+                    ),
+                );
+
+            expect(sources.length).toBeGreaterThan(0);
+            expect(
+                sources.filter(
+                    (source) =>
+                        source !== i18nDir &&
+                        !(path.dirname(source) === dir && source.endsWith('.json')),
+                ),
+            ).toEqual([]);
+        }
     });
 });

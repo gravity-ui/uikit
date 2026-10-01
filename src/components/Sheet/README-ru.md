@@ -57,6 +57,8 @@ const SheetExample = () => {
 | title                       | Заголовок окна `Sheet`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |   `string`    |      `undefined`      |
 | visible                     | Управляет видимостью `Sheet`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |   `boolean`   |        `false`        |
 
+Касание, начатое на ручке перетаскивания — элементе с `draggable="true"` или ручке `@hello-pangea/dnd`, — остаётся перетаскиванию и не свайпает шторку.
+
 ## API CSS
 
 | Имя                          | Описание                                                                                                                                                                                 |

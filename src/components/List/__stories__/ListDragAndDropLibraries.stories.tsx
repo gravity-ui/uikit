@@ -12,16 +12,13 @@ import {exampleSource} from './exampleSource';
 import useDndKitListDndCode from './useDndKitListDnd?raw';
 import usePragmaticListDndCode from './usePragmaticListDnd?raw';
 
-// Drag and drop on top of libraries other than the recommended
-// @hello-pangea/dnd (the DragAndDrop stories of the List). These are examples
-// of plugging a library into the adapter contract of the `dnd` prop, in its
-// two shapes: an adapter of props and state (pragmatic-drag-and-drop — the
-// insertion line is drawn by the list) and a state-only adapter (dnd-kit — the
-// neighbours shift). Each library is shown on a plain list and on a
-// virtualized one; the Code panel of a story holds the complete source of the
-// example together with its adapter hook
+// Drag and drop integrations: how a library other than @hello-pangea/dnd plugs
+// into the adapter contract of the `dnd` prop. pragmatic-drag-and-drop — props
+// and state, the insertion line is drawn by the list; dnd-kit — state only, the
+// neighbours shift. The Code panel of a story holds the complete source of the
+// example and its hook
 const meta: Meta = {
-    title: 'Components/Data Display/List/Drag and drop with other libraries',
+    title: 'Components/Data Display/List/Drag and drop integrations',
     parameters: {
         layout: 'centered',
         a11y: {

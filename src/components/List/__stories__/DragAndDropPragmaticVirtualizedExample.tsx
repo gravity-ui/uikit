@@ -50,7 +50,7 @@ export function DragAndDropPragmaticVirtualizedExample() {
             <List.ItemView
                 {...getItemProps()}
                 {...getItemViewProps()}
-                startContent={
+                dragHandle={
                     <span ref={getHandleRef(ctx.id)} style={{display: 'flex', cursor: 'grab'}}>
                         <Icon data={Grip} size={12} />
                     </span>

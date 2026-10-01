@@ -42,20 +42,27 @@ test.describe('Sheet', {tag: '@Sheet'}, () => {
             insets: NOTCH_DEVICE_SAFE_AREA_INSETS,
         });
 
-        const root = await mount(<TestSheet />, {
-            rootStyle: {
-                padding: 0,
-                width: '100%',
-                minHeight: '844px',
-            },
-        });
+        try {
+            const root = await mount(<TestSheet />, {
+                rootStyle: {
+                    padding: 0,
+                    width: '100%',
+                    minHeight: '844px',
+                },
+            });
 
-        await root.locator('button').click();
-        await expect(page.locator(`[data-qa='${QASheet.content}']`)).toBeVisible();
+            await root.locator('button').click();
+            await expect(page.locator(`[data-qa='${QASheet.content}']`)).toBeVisible();
 
-        await expectScreenshot({
-            themes: ['light'],
-        });
+            await expectScreenshot({
+                themes: ['light'],
+            });
+        } finally {
+            // The override survives page teardown and can affect the next test in this worker.
+            await cdpSession.send('Emulation.setSafeAreaInsetsOverride', {
+                insets: {top: 0, left: 0, right: 0, bottom: 0},
+            });
+        }
     });
 
     createSmokeScenarios<Partial<Omit<SheetProps, 'visible' | 'onClose'>>>(

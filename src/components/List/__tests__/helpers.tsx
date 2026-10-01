@@ -96,6 +96,37 @@ export function mockLayout({
 }
 
 /**
+ * jsdom has no layout: a row is as far from the top as its position among its siblings says, and a
+ * row of a virtualized list — as far as the inline `top` of its wrapper
+ */
+export function mockOffsets({row}: {row: number}) {
+    let offsetTopSpy: jest.SpyInstance;
+    let offsetParentSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+        offsetTopSpy = jest
+            .spyOn(HTMLElement.prototype, 'offsetTop', 'get')
+            .mockImplementation(function (this: HTMLElement) {
+                if (this.style.top) {
+                    return Number.parseInt(this.style.top, 10);
+                }
+                const parent = this.parentElement;
+                return parent ? Array.prototype.indexOf.call(parent.children, this) * row : 0;
+            });
+        offsetParentSpy = jest
+            .spyOn(HTMLElement.prototype, 'offsetParent', 'get')
+            .mockImplementation(function (this: HTMLElement) {
+                return this.parentElement;
+            });
+    });
+
+    afterEach(() => {
+        offsetTopSpy.mockRestore();
+        offsetParentSpy.mockRestore();
+    });
+}
+
+/**
  * The header row of a section: the label itself lives in an element of its own inside the row (the
  * one that clips a label too long for the popup), so the text node is not the row
  */

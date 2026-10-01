@@ -29,6 +29,7 @@ export interface ContentAreaHandlers {
     onTouchStart: (event: React.TouchEvent<HTMLDivElement>) => void;
     onTouchMove: (event: React.TouchEvent<HTMLDivElement>) => void;
     onTouchEnd: (event: React.TouchEvent<HTMLDivElement>) => void;
+    onTouchCancel: (event: React.TouchEvent<HTMLDivElement>) => void;
     onTransitionEnd: (event: React.TransitionEvent<HTMLDivElement>) => void;
 }
 
@@ -85,12 +86,10 @@ export function useContentScroll({
             const {getAllowHideOnContentScroll: getAllow, getSheetScrollTop: getScrollTop} =
                 latestRef.current;
 
-            if (!getAllow() || swipeAreaTouchedRef.current) {
-                return;
-            }
-
-            if (isDragHandleTarget(event.target)) {
-                dragGestureRef.current = true;
+            // Decided anew on every touch: the end of a drag may never reach the content area
+            // (the library unmounts the handle under the finger for a clone)
+            dragGestureRef.current = isDragHandleTarget(event.target);
+            if (!getAllow() || swipeAreaTouchedRef.current || dragGestureRef.current) {
                 return;
             }
 
@@ -170,6 +169,10 @@ export function useContentScroll({
         setContentTouched(false);
     }, [onTouchEndAction, setDeltaY, startYRef, swipeAreaTouchedRef, deltaYRef]);
 
+    const onTouchCancel = React.useCallback(() => {
+        dragGestureRef.current = false;
+    }, []);
+
     const onTransitionEnd = React.useCallback((event: React.TransitionEvent<HTMLDivElement>) => {
         if (event.propertyName === 'height') {
             latestRef.current.resetScrollTransition();
@@ -182,6 +185,7 @@ export function useContentScroll({
             onTouchStart,
             onTouchMove,
             onTouchEnd,
+            onTouchCancel,
             onTransitionEnd,
         },
     };

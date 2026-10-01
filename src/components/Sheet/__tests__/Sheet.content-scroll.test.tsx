@@ -99,6 +99,28 @@ describe('Sheet content scroll', () => {
         expect(onClose).toHaveBeenCalledTimes(1);
     });
 
+    test('a drag whose end never reaches the content leaves the next swipe working', () => {
+        const onClose = jest.fn();
+        render(
+            <Sheet visible onClose={onClose}>
+                <span data-rfd-drag-handle-draggable-id="a" data-qa="handle">
+                    Handle
+                </span>
+                Content
+            </Sheet>,
+        );
+
+        // The handle is unmounted mid-drag: neither touchend nor touchcancel bubbles up
+        fireEvent.touchStart(screen.getByTestId('handle'), {
+            touches: [{clientX: 0, clientY: TOUCH_START_POINT}],
+        });
+        swipeDownOnContent(screen.getByTestId(SheetQa.CONTENT_AREA), {
+            from: TOUCH_START_POINT,
+            to: TOUCH_END_POINT,
+        });
+        expect(onClose).toHaveBeenCalledTimes(1);
+    });
+
     test('a touch on an element that only opts out of the native drag swipes the sheet', () => {
         const onClose = jest.fn();
         render(

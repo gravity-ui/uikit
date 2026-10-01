@@ -51,7 +51,6 @@ import type {SliderProps} from '../Slider';
 import type {SpinProps} from '../Spin';
 import type {StepperProps} from '../Stepper';
 import type {SwitchProps} from '../Switch';
-import type {TableColumnSetupProps} from '../TableColumnSetup';
 import type {TextProps} from '../Text';
 import type {TocProps} from '../Toc';
 import type {TooltipProps} from '../Tooltip';
@@ -113,7 +112,6 @@ export interface ComponentDefaultPropsMap {
     Spin?: Partial<SpinProps>;
     Stepper?: Partial<StepperProps>;
     Switch?: Partial<SwitchProps>;
-    TableColumnSetup?: Partial<TableColumnSetupProps>;
     Tab?: Partial<TabProps>;
     TabList?: Partial<TabListProps>;
     TabPanel?: Partial<TabPanelProps>;

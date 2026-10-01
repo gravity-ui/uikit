@@ -19,6 +19,7 @@ import {
 import {useForkRef} from '../../hooks/useForkRef';
 import {useLayoutEffect} from '../../hooks/useLayoutEffect';
 import type {Key} from '../types';
+import {getNearestEdgeScrollOffset, getOffsetTopWithin} from '../utils/scrollIntoContainer';
 
 import type {Loadable} from './useLoadMore';
 import {useLoadMore} from './useLoadMore';
@@ -26,8 +27,8 @@ import {useLoadMore} from './useLoadMore';
 export type VirtualizerItem = {index: number; key: Key};
 
 /** How many quiet frames end the watch of `scrollToIndex`, and how many frames it lasts at most */
-const SETTLED_FRAMES = 3;
-const MAX_FRAMES = 20;
+const SCROLL_SETTLED_FRAMES = 3;
+const SCROLL_MAX_FRAMES = 20;
 
 export type ScrollAlignment = 'start' | 'center' | 'end' | 'auto';
 
@@ -145,11 +146,7 @@ export function Virtualizer({
         const container = scrollContainerRef.current;
         const sizer = sizerRef.current;
         if (container && sizer) {
-            setScrollMargin(
-                sizer.offsetParent === container
-                    ? sizer.offsetTop
-                    : sizer.offsetTop - container.offsetTop - container.clientTop,
-            );
+            setScrollMargin(getOffsetTopWithin(container, sizer));
         }
     });
 
@@ -252,7 +249,7 @@ export function Virtualizer({
                         virtualizer.scrollToOffset(offset);
                     }
                     frames += 1;
-                    if (settledFrames < SETTLED_FRAMES && frames <= MAX_FRAMES) {
+                    if (settledFrames < SCROLL_SETTLED_FRAMES && frames <= SCROLL_MAX_FRAMES) {
                         scrollFrameRef.current = requestAnimationFrame(tick);
                     }
                 };
@@ -325,19 +322,12 @@ function getOffsetToRow(
     if (!item) {
         return undefined;
     }
-    const height = container.offsetHeight;
-    // A pixel of slack: the scroll offset may be fractional
-    const above = item.start < scrollTop - 1;
-    const below = item.end > scrollTop + height + 1;
-    // A row taller than the container shows its start when it comes from below, its end from above
-    const fits = item.size <= height;
-    if (above && !below) {
-        return fits ? item.start : item.end - height;
-    }
-    if (below && !above) {
-        return fits ? item.end - height : item.start;
-    }
-    return undefined;
+    return getNearestEdgeScrollOffset({
+        start: item.start,
+        end: item.end,
+        scrollOffset: scrollTop,
+        viewportSize: container.offsetHeight,
+    });
 }
 
 function renderRows({

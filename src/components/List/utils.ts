@@ -1,5 +1,6 @@
 import type * as React from 'react';
 
+import {getNearestEdgeScrollOffset, getOffsetTopWithin} from '../utils/scrollIntoContainer';
 import {warnOnce} from '../utils/warn';
 
 import type {ListItemGetters} from './types';
@@ -48,36 +49,6 @@ export function isDragTarget(target: EventTarget | null): boolean {
 }
 
 /**
- * The distance from the top of the scrollable content of the root to the top of the row. It is
- * summed along the `offsetParent` chain: under virtualization the row sits in an absolutely
- * positioned wrapper, so a single `offsetTop` is not the whole way. A root that is not positioned
- * is not a link of that chain — the chain steps over it, and the offset of the root itself is
- * taken off instead. Offsets rather than rects: a popup that scales in while it opens would skew
- * the latter
- */
-function getRowOffsetTop(container: HTMLElement, element: HTMLElement): number {
-    let top = 0;
-    let current: HTMLElement | null = element;
-    while (current && current !== container) {
-        top += current.offsetTop;
-        const offsetParent: Element | null = current.offsetParent;
-        if (offsetParent === container) {
-            break;
-        }
-        if (!(offsetParent instanceof HTMLElement)) {
-            break;
-        }
-        if (offsetParent.contains(container)) {
-            top -= container.offsetTop + container.clientTop;
-            break;
-        }
-        top += offsetParent.clientTop;
-        current = offsetParent;
-    }
-    return top;
-}
-
-/**
  * Whether the root clips and scrolls its rows. A root that does not — a list laid out on the page
  * at its full height — has nothing to scroll, and the row is out of view only as far as the page is
  */
@@ -86,50 +57,33 @@ export function isScrollContainer(container: HTMLElement): boolean {
     return overflowY === 'auto' || overflowY === 'scroll' || overflowY === 'hidden';
 }
 
+/** The scroll offset of the root that brings the row into view by the nearest edge, if it is not there */
+function getScrollTopToRow(container: HTMLElement, element: HTMLElement): number | undefined {
+    const start = getOffsetTopWithin(container, element);
+    return getNearestEdgeScrollOffset({
+        start,
+        end: start + element.offsetHeight,
+        scrollOffset: container.scrollTop,
+        viewportSize: container.offsetHeight,
+    });
+}
+
 /**
  * Scrolls the row into view inside the list root and nowhere else, by the nearest edge — unlike
  * `scrollIntoView`, a list hanging off the viewport edge never drags the page along
  */
 export function scrollRowIntoView(container: HTMLElement, element: HTMLElement) {
-    const height = container.offsetHeight;
-    const scrollTop = container.scrollTop;
-    const top = getRowOffsetTop(container, element);
-    const bottom = top + element.offsetHeight;
-
-    const above = top < scrollTop;
-    const below = bottom > scrollTop + height;
-    // A row taller than the root shows its start when it comes from below, its end from above
-    const fits = bottom - top <= height;
-
-    let nextScrollTop: number | undefined;
-    if (above && !below) {
-        nextScrollTop = fits ? top : bottom - height;
-    } else if (below && !above) {
-        nextScrollTop = fits ? bottom - height : top;
-    }
-
-    if (nextScrollTop !== undefined) {
+    const scrollTop = getScrollTopToRow(container, element);
+    if (scrollTop !== undefined) {
         // scrollTop rather than scrollTo: the same instant scroll, and jsdom implements it
         // eslint-disable-next-line no-param-reassign
-        container.scrollTop = nextScrollTop;
+        container.scrollTop = scrollTop;
     }
 }
 
-/**
- * Whether the row is in view inside the list root. A pixel of slack: the scroll offset may be
- * fractional, the offsets of the rows never are. A row taller than the root is in view once it
- * covers the root
- */
+/** Whether the row is in view inside the list root */
 export function isRowInView(container: HTMLElement, element: HTMLElement): boolean {
-    const viewportTop = container.scrollTop;
-    const viewportBottom = viewportTop + container.offsetHeight;
-    const top = getRowOffsetTop(container, element);
-    const bottom = top + element.offsetHeight;
-
-    return (
-        (top >= viewportTop - 1 && bottom <= viewportBottom + 1) ||
-        (top <= viewportTop + 1 && bottom >= viewportBottom - 1)
-    );
+    return getScrollTopToRow(container, element) === undefined;
 }
 
 export interface ListRow<T> {

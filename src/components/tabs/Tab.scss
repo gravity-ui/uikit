@@ -7,7 +7,6 @@ $blockMenuItem: '.#{variables.$ns}tab-menu-item';
 #{$block} {
     @include mixins.button-reset();
 
-    user-select: none;
     color: var(--g-color-text-secondary);
     text-decoration: none;
     display: flex;

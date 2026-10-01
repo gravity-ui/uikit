@@ -9,6 +9,7 @@ import type {default as HelloPangeaDndKeyset} from '../components/HelloPangeaDnd
 import type {default as PaginationKeyset} from '../components/Pagination/i18n';
 import type {default as PinInputKeyset} from '../components/PinInput/i18n';
 import type {default as SelectKeyset} from '../components/Select/i18n';
+import type {default as SheetKeyset} from '../components/Sheet/i18n';
 import type {default as ToasterKeyset} from '../components/Toaster/i18n';
 import type {default as UserLabelKeyset} from '../components/UserLabel/i18n';
 import type {default as ClearButtonKeyset} from '../components/controls/common/ClearButton/i18n';
@@ -35,6 +36,7 @@ export type Keysets = typeof ActionsPanelKeyset.keysetData &
     typeof TabsKeyset.keysetData &
     typeof ClearButtonKeyset.keysetData &
     typeof SelectKeyset.keysetData &
+    typeof SheetKeyset.keysetData &
     typeof TableKeyset.keysetData &
     typeof ToasterKeyset.keysetData &
     typeof UserLabelKeyset.keysetData;

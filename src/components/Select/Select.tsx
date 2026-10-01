@@ -323,6 +323,20 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
         [open, toggleOpen],
     );
 
+    // The sheet hides the control, so its focused content repeats the combobox semantics
+    const {onKeyDown: handleSheetContentKeyDown, ...sheetContentProps} = focusOwner.getInputProps({
+        'aria-labelledby': selectId,
+        'aria-haspopup': 'listbox',
+        onKeyDown: handleControlKeyDown,
+    });
+
+    const handleSheetKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        // Keys from the filter reach the list through its own props, and the sheet handles Escape
+        if (e.target === e.currentTarget && e.key !== KeyCode.ESCAPE) {
+            handleSheetContentKeyDown?.(e);
+        }
+    };
+
     const handleFilterKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLElement>) => {
         if (e.key === KeyCode.ENTER) {
             e.preventDefault();
@@ -437,6 +451,7 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
                 virtualized={virtualized}
                 mobile={mobile}
                 placement={popupPlacement}
+                sheetContentProps={{...sheetContentProps, onKeyDown: handleSheetKeyDown}}
                 onAfterOpen={
                     filterable
                         ? () => {

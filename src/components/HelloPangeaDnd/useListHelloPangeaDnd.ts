@@ -5,11 +5,23 @@ import * as React from 'react';
 // eslint-disable-next-line no-restricted-imports
 import type {DragStart, DropResult} from '@hello-pangea/dnd';
 
+import {LIST_HELLO_PANGEA_DND_STATE_CHANNEL} from './stateChannel';
+import type {
+    ListHelloPangeaDndStateChannel,
+    ListHelloPangeaDndStateConnection,
+} from './stateChannel';
+
 export interface UseListHelloPangeaDndProps {
-    /** Row ids in list order — `destination.index` is translated into `{toId, position}` by it */
-    ids: readonly string[];
-    /** The drop — pair it with `moveItem(items, fromId, toId, position)` */
-    onDrop: (fromId: string, toId: string, position: 'before' | 'after') => void;
+    /**
+     * Row ids in list order — `destination.index` is translated into `{toId, position}` by it.
+     *  default: the ids of the ListHelloPangeaDnd given this state
+     */
+    ids?: readonly string[];
+    /**
+     * The drop — pair it with `moveItem(items, fromId, toId, position)`. The ListHelloPangeaDnd
+     *  given this state calls its own `onItemsUpdate`/`onDrop` as well
+     */
+    onDrop?: (fromId: string, toId: string, position: 'before' | 'after') => void;
 }
 
 export interface UseListHelloPangeaDndResult {
@@ -19,6 +31,11 @@ export interface UseListHelloPangeaDndResult {
     onDragStart: (start: DragStart) => void;
     /** For the `DragDropContext` of the consumer; calls `onDrop` on a real move */
     onDragEnd: (result: DropResult) => void;
+    /**
+     * The channel of the ListHelloPangeaDnd given this state
+     * @internal
+     */
+    readonly [LIST_HELLO_PANGEA_DND_STATE_CHANNEL]: ListHelloPangeaDndStateChannel;
 }
 
 /**
@@ -33,16 +50,33 @@ export interface UseListHelloPangeaDndResult {
 export function useListHelloPangeaDnd({
     ids,
     onDrop,
-}: UseListHelloPangeaDndProps): UseListHelloPangeaDndResult {
+}: UseListHelloPangeaDndProps = {}): UseListHelloPangeaDndResult {
     const [draggingId, setDraggingId] = React.useState<string | null>(null);
 
-    const idsRef = React.useRef(ids);
-    idsRef.current = ids;
-    const onDropRef = React.useRef(onDrop);
-    onDropRef.current = onDrop;
+    const latestRef = React.useRef({ids, onDrop});
+    latestRef.current = {ids, onDrop};
+    const connectionRef = React.useRef<ListHelloPangeaDndStateConnection | null>(null);
+    const [channel] = React.useState<ListHelloPangeaDndStateChannel>(() => ({
+        connect: (connection) => {
+            connectionRef.current = connection;
+        },
+        disconnect: () => {
+            connectionRef.current = null;
+        },
+    }));
+
+    const getIds = () => latestRef.current.ids ?? connectionRef.current?.ids ?? [];
+    const drop = (fromId: string, toId: string, position: 'before' | 'after') => {
+        latestRef.current.onDrop?.(fromId, toId, position);
+        connectionRef.current?.onDrop(fromId, toId, position);
+    };
+    const getIdsRef = React.useRef(getIds);
+    getIdsRef.current = getIds;
+    const dropRef = React.useRef(drop);
+    dropRef.current = drop;
 
     const onDragStart = React.useCallback((start: DragStart) => {
-        setDraggingId(idsRef.current.includes(start.draggableId) ? start.draggableId : null);
+        setDraggingId(getIdsRef.current().includes(start.draggableId) ? start.draggableId : null);
     }, []);
 
     const onDragEnd = React.useCallback((result: DropResult) => {
@@ -52,18 +86,18 @@ export function useListHelloPangeaDnd({
         if (!destination || destination.droppableId !== result.source.droppableId) {
             return;
         }
-        const currentIds = idsRef.current;
+        const currentIds = getIdsRef.current();
         const fromIndex = currentIds.indexOf(result.draggableId);
         if (fromIndex === -1 || destination.index === fromIndex) {
             return;
         }
         const withoutFrom = currentIds.filter((id) => id !== result.draggableId);
         if (destination.index >= withoutFrom.length) {
-            onDropRef.current(result.draggableId, withoutFrom[withoutFrom.length - 1], 'after');
+            dropRef.current(result.draggableId, withoutFrom[withoutFrom.length - 1], 'after');
         } else {
-            onDropRef.current(result.draggableId, withoutFrom[destination.index], 'before');
+            dropRef.current(result.draggableId, withoutFrom[destination.index], 'before');
         }
     }, []);
 
-    return {draggingId, onDragStart, onDragEnd};
+    return {draggingId, onDragStart, onDragEnd, [LIST_HELLO_PANGEA_DND_STATE_CHANNEL]: channel};
 }

@@ -124,21 +124,15 @@ The dragged row is drawn by a clone — a copy of the `Row` — so a custom row 
 
 ### Several lists
 
-Under a `DragDropContext` of your own — several lists, moves between them — the wrapper renders no context. Give each list the state of `useListHelloPangeaDnd` and a `droppableId`, and call the handlers of every state from the context; the drop goes to the `onDrop` of the hook. A state reorders its own list only; a move from one list into another is yours to handle in `onDragEnd`.
+Under a `DragDropContext` of your own — several lists, moves between them — the wrapper renders no context. Give each list a state of `useListHelloPangeaDnd` and a `droppableId`, and call the handlers of every state from the context; `onItemsUpdate` and `onDrop` of the wrapper work as usual. A state reorders its own list only; a move from one list into another is yours to handle in `onDragEnd`.
 
 ```tsx
 import {DragDropContext} from '@hello-pangea/dnd';
-import {List, moveItem} from '@gravity-ui/uikit';
+import {List} from '@gravity-ui/uikit';
 import {ListHelloPangeaDnd, useListHelloPangeaDnd} from '@gravity-ui/uikit/hello-pangea-dnd';
 
-const todo = useListHelloPangeaDnd({
-  ids: todoItems.map((item) => item.id),
-  onDrop: (fromId, toId, position) => setTodoItems(moveItem(todoItems, fromId, toId, position)),
-});
-const done = useListHelloPangeaDnd({
-  ids: doneItems.map((item) => item.id),
-  onDrop: (fromId, toId, position) => setDoneItems(moveItem(doneItems, fromId, toId, position)),
-});
+const todo = useListHelloPangeaDnd();
+const done = useListHelloPangeaDnd();
 
 <DragDropContext
   onDragStart={(start) => {
@@ -150,10 +144,20 @@ const done = useListHelloPangeaDnd({
     done.onDragEnd(result);
   }}
 >
-  <ListHelloPangeaDnd items={todoItems} state={todo} droppableId="todo">
+  <ListHelloPangeaDnd
+    items={todoItems}
+    onItemsUpdate={setTodoItems}
+    state={todo}
+    droppableId="todo"
+  >
     <List role="grid" aria-label="To do" items={todoItems} getItemContent={(i) => i.title} />
   </ListHelloPangeaDnd>
-  <ListHelloPangeaDnd items={doneItems} state={done} droppableId="done">
+  <ListHelloPangeaDnd
+    items={doneItems}
+    onItemsUpdate={setDoneItems}
+    state={done}
+    droppableId="done"
+  >
     <List role="grid" aria-label="Done" items={doneItems} getItemContent={(i) => i.title} />
   </ListHelloPangeaDnd>
 </DragDropContext>;
@@ -216,12 +220,12 @@ Takes the props of a `span` except `tabIndex`, and:
 
 ### useListHelloPangeaDnd
 
-The state of the drag for a `DragDropContext` of your own — the `state` of the wrapper, or the `dnd` prop of a list wired by hand. The props:
+The state of the drag for a `DragDropContext` of your own — the `state` of the wrapper (no props needed), or the `dnd` prop of a list wired by hand. The props, all optional:
 
-| Name   | Description                                                                                           |                                  Type                                   |
-| :----- | :---------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------: |
-| ids    | The ids of the rows in the order of the list — `destination.index` of the library is translated by it |                           `readonly string[]`                           |
-| onDrop | The drop — pair it with `moveItem(items, fromId, toId, position)`                                     | `(fromId: string, toId: string, position: 'before' \| 'after') => void` |
+| Name   | Description                                                                                               |                                  Type                                   |
+| :----- | :-------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------: |
+| ids    | The ids of the rows in the order of the list; default — those of the `ListHelloPangeaDnd` given the state |                           `readonly string[]`                           |
+| onDrop | The drop — pair it with `moveItem(items, fromId, toId, position)`; optional under a `ListHelloPangeaDnd`  | `(fromId: string, toId: string, position: 'before' \| 'after') => void` |
 
 What it returns:
 

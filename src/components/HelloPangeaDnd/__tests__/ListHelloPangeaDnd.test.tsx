@@ -311,22 +311,6 @@ describe('ListHelloPangeaDnd', () => {
     });
 
     describe('dev warnings', () => {
-        function WithState() {
-            const state = useListHelloPangeaDnd({ids: ['a', 'b', 'c'], onDrop: jest.fn()});
-            return (
-                <DragDropContext onDragStart={state.onDragStart} onDragEnd={state.onDragEnd}>
-                    <ListHelloPangeaDnd items={TRACKS} state={state} onItemsUpdate={jest.fn()}>
-                        <List
-                            role="grid"
-                            aria-label="Playlist"
-                            items={TRACKS}
-                            getItemContent={getTitle}
-                        />
-                    </ListHelloPangeaDnd>
-                </DragDropContext>
-            );
-        }
-
         test.each<[string, () => void, string]>([
             [
                 'a listbox',
@@ -337,11 +321,6 @@ describe('ListHelloPangeaDnd', () => {
                 'neither onItemsUpdate nor onDrop',
                 () => renderKit({}),
                 'Pass `onItemsUpdate` or `onDrop`',
-            ],
-            [
-                'state with the callbacks of the wrapper',
-                () => render(<WithState />),
-                'are not called',
             ],
         ])('%s', (_name, run, message) => {
             run();
@@ -369,16 +348,16 @@ describe('ListHelloPangeaDnd', () => {
     });
 
     describe('under an external DragDropContext: the state prop', () => {
-        test('each list is a droppable of the shared context and reorders itself only', async () => {
-            const firstDrop = jest.fn();
-            const secondDrop = jest.fn();
+        test('each list is a droppable of the shared context and gets its own drops', async () => {
+            const onFirst = jest.fn();
+            const onSecond = jest.fn();
             const second = [
                 {id: 'x', title: 'X-ray'},
                 {id: 'y', title: 'Yankee'},
             ];
             function TwoLists() {
-                const first = useListHelloPangeaDnd({ids: ['a', 'b', 'c'], onDrop: firstDrop});
-                const other = useListHelloPangeaDnd({ids: ['x', 'y'], onDrop: secondDrop});
+                const first = useListHelloPangeaDnd();
+                const other = useListHelloPangeaDnd();
                 return (
                     <DragDropContext
                         onDragStart={(start) => {
@@ -390,7 +369,12 @@ describe('ListHelloPangeaDnd', () => {
                             other.onDragEnd(result);
                         }}
                     >
-                        <ListHelloPangeaDnd items={TRACKS} state={first} droppableId="first">
+                        <ListHelloPangeaDnd
+                            items={TRACKS}
+                            state={first}
+                            droppableId="first"
+                            onItemsUpdate={onFirst}
+                        >
                             <List
                                 role="grid"
                                 aria-label="First"
@@ -398,7 +382,12 @@ describe('ListHelloPangeaDnd', () => {
                                 getItemContent={getTitle}
                             />
                         </ListHelloPangeaDnd>
-                        <ListHelloPangeaDnd items={second} state={other} droppableId="second">
+                        <ListHelloPangeaDnd
+                            items={second}
+                            state={other}
+                            droppableId="second"
+                            onItemsUpdate={onSecond}
+                        >
                             <List
                                 role="grid"
                                 aria-label="Second"
@@ -421,8 +410,8 @@ describe('ListHelloPangeaDnd', () => {
             );
 
             await dragWithKeyboard(getHandle('Yankee'), 'ArrowUp');
-            expect(secondDrop).toHaveBeenCalledWith('y', 'x', 'before');
-            expect(firstDrop).not.toHaveBeenCalled();
+            expect(onSecond.mock.calls[0][0].map((track: Track) => track.id)).toEqual(['y', 'x']);
+            expect(onFirst).not.toHaveBeenCalled();
         });
     });
 

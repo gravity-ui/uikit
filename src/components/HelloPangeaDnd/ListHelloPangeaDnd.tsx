@@ -13,6 +13,7 @@ import type {
     DroppableProvided,
 } from '@hello-pangea/dnd';
 
+import {useLayoutEffect} from '../../hooks/useLayoutEffect';
 import {useUniqId} from '../../hooks/useUniqId';
 import {ListDndContext} from '../List/DndContext';
 import {ListVirtualizationContext} from '../List/VirtualizationContext';
@@ -31,6 +32,7 @@ import type {
 } from './context';
 import {toContainingBlock} from './fixedPosition';
 import i18n from './i18n';
+import {LIST_HELLO_PANGEA_DND_STATE_CHANNEL} from './stateChannel';
 import {useListHelloPangeaDnd} from './useListHelloPangeaDnd';
 import type {UseListHelloPangeaDndResult} from './useListHelloPangeaDnd';
 
@@ -62,7 +64,7 @@ export interface ListHelloPangeaDndProps<T> {
     }) => React.ReactNode;
     /**
      * `useListHelloPangeaDnd` state for your own `DragDropContext`: no context is rendered, the
-     *  drop goes to the `onDrop` of that hook
+     *  wrapper hands its ids and handlers to that state
      */
     state?: UseListHelloPangeaDndResult;
     /** Passed to `Droppable` */
@@ -163,20 +165,24 @@ function ListHelloPangeaDndComponent<T>({
             '[ListHelloPangeaDnd] Pass `onItemsUpdate` or `onDrop`: without them a drop changes nothing.',
         );
     }
-    if (externalState && (onItemsUpdate || onDrop)) {
-        warnOnce(
-            '[ListHelloPangeaDnd] With `state`, `onItemsUpdate` and `onDrop` of the wrapper are not called: the drop goes to the `onDrop` of your hook.',
-        );
-    }
+    const handleDrop = (fromId: string, toId: string, position: 'before' | 'after') => {
+        onDrop?.(fromId, toId, position);
+        onItemsUpdate?.(moveItem(items, fromId, toId, position, getItemId));
+    };
     // Called unconditionally (the rules of hooks); ignored under an external context
-    const ownState = useListHelloPangeaDnd({
-        ids,
-        onDrop: (fromId, toId, position) => {
-            onDrop?.(fromId, toId, position);
-            onItemsUpdate?.(moveItem(items, fromId, toId, position, getItemId));
-        },
-    });
+    const ownState = useListHelloPangeaDnd({ids, onDrop: handleDrop});
     const state = externalState ?? ownState;
+
+    // Under an external context the drop reaches the state of the consumer: the wrapper hands it
+    // its ids and its handlers
+    useLayoutEffect(() => {
+        if (!externalState) {
+            return undefined;
+        }
+        const channel = externalState[LIST_HELLO_PANGEA_DND_STATE_CHANNEL];
+        channel.connect({ids, onDrop: handleDrop});
+        return () => channel.disconnect();
+    });
 
     const autoId = useUniqId();
     // The virtual mode follows ListVirtualizer: it has to stand outside the wrapper

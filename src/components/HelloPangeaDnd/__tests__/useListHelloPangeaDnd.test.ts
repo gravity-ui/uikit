@@ -3,6 +3,7 @@ import type {DragStart, DropResult} from '@hello-pangea/dnd';
 
 import {act, renderHook} from '../../../../test-utils/utils';
 import {moveItem} from '../../List/moveItem';
+import {LIST_HELLO_PANGEA_DND_STATE_CHANNEL} from '../stateChannel';
 import {useListHelloPangeaDnd} from '../useListHelloPangeaDnd';
 
 const ids = ['a', 'b', 'c', 'd', 'e'];
@@ -114,5 +115,24 @@ describe('useListHelloPangeaDnd', () => {
             expect(onDrop).not.toHaveBeenCalled();
             expect(result.current.draggingId).toBeNull();
         });
+    });
+
+    test('without ids and onDrop it takes those of the connected wrapper', () => {
+        const onDrop = jest.fn();
+        const {result} = renderHook(() => useListHelloPangeaDnd());
+
+        act(() => result.current.onDragEnd(dropResult('b', 3)));
+        expect(onDrop).not.toHaveBeenCalled();
+
+        act(() => result.current[LIST_HELLO_PANGEA_DND_STATE_CHANNEL].connect({ids, onDrop}));
+        act(() => result.current.onDragStart(dragStart('b')));
+        expect(result.current.draggingId).toBe('b');
+        act(() => result.current.onDragEnd(dropResult('b', 3)));
+        expect(onDrop).toHaveBeenCalledWith('b', 'e', 'before');
+
+        onDrop.mockClear();
+        act(() => result.current[LIST_HELLO_PANGEA_DND_STATE_CHANNEL].disconnect());
+        act(() => result.current.onDragEnd(dropResult('b', 3)));
+        expect(onDrop).not.toHaveBeenCalled();
     });
 });

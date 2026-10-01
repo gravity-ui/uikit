@@ -463,9 +463,18 @@ the focus coming back to it, brings the cursor in.
 
 The active item can be controlled with `activeItemId` and `onActiveItemUpdate`, where `null` means
 that nothing is active. An id that comes from your own code moves the highlight and the tab stop
-(and DOM focus, while a row holds it), but not the scroll: only the gestures of the list itself
-scroll the active row into view. Such an activation always shows the cursor — the list did not ask
-for it, so the UI that did (a button beside the list) has something to show for it.
+(and DOM focus, while a row holds it). Such an activation always shows the cursor — the list did
+not ask for it, so the UI that did (a button beside the list) has something to show for it.
+
+The list keeps the active row in view by scrolling its own root, so the root has to be the scroll
+container: limit its height and let it scroll (`overflow: auto`). The row is brought in by the
+nearest edge whenever the activity changes for any reason but the pointer — when the list mounts
+with an active item, on a key or typeahead, on an id that comes from your code — and when rows are
+inserted or resized around an active row that was in view. The pointer never scrolls: neither hover
+nor a click moves the rows under the cursor, and while the pointer is over the list an id from your
+code does not move them either. The page is left alone throughout; only a key pressed in a list
+whose root does not scroll falls back to `scrollIntoView`, since the page is all there is to show
+the row with.
 
 ```tsx
 import {Button, Flex, List} from '@gravity-ui/uikit';
@@ -575,6 +584,11 @@ guess used before the row is rendered, and `measure` — on by default — repla
 height the row turned out to have. That is why rows of variable height need no configuration, and
 why turning the measurement off pays only when every row is exactly as tall as an explicit
 estimate. The rest of the props are in [ListVirtualizer](#listvirtualizer).
+
+The list keeps [the active row in view](#the-active-item) here as well: a row outside the window is
+scrolled to by its index. To scroll to a row yourself, take the API of the engine from the `apiRef`
+of the wrapper — `apiRef.current.scrollToIndex(index)`, where the index is the position of the row
+in the list as it is displayed, section headers included.
 
 The wrapper covers one list: a list rendered inside a row of a virtualized list renders every row of
 its own, in flow. The same holds for a component with a list inside it — a `Select`, say — whatever
@@ -996,12 +1010,13 @@ attribute is present or absent rather than set to `"false"`.
 The wrapper of the [virtualization](#virtualization) layer, imported from
 `@gravity-ui/uikit/virtualizer` (it needs `@tanstack/react-virtual` as an optional peer dependency).
 
-| Name             | Description                                                                                      |            Type             |          Default          |
-| :--------------- | :----------------------------------------------------------------------------------------------- | :-------------------------: | :-----------------------: |
-| children         | The `<List>` inside                                                                              |         `ReactNode`         |                           |
-| estimateItemSize | The height estimate of a row before it is rendered — a constant or a function of the row context | `number \| (ctx) => number` | by the `size` of the list |
-| measure          | Measure the actual heights of the rows after mount (rows of variable height out of the box)      |          `boolean`          |          `true`           |
-| overscan         | The buffer of rows outside of the visible window                                                 |          `number`           |            `5`            |
+| Name             | Description                                                                                              |            Type             |          Default          |
+| :--------------- | :------------------------------------------------------------------------------------------------------- | :-------------------------: | :-----------------------: |
+| children         | The `<List>` inside                                                                                      |         `ReactNode`         |                           |
+| estimateItemSize | The height estimate of a row before it is rendered — a constant or a function of the row context         | `number \| (ctx) => number` | by the `size` of the list |
+| measure          | Measure the actual heights of the rows after mount (rows of variable height out of the box)              |          `boolean`          |          `true`           |
+| overscan         | The buffer of rows outside of the visible window                                                         |          `number`           |            `5`            |
+| apiRef           | Ref to the imperative API of the engine: `scrollToIndex`, `scrollToOffset`, `scrollOffset`, `scrollRect` | `React.Ref<VirtualizerApi>` |                           |
 
 ### ListDndAdapter
 

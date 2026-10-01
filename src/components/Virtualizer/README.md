@@ -18,6 +18,8 @@ Two things live here. `Virtualizer` is the engine — a scroll container that po
 
 The element the component renders is the scroll container itself, so its height has to be limited. `getItemSize` is the estimate used before a row is rendered; unless `measure` is off, the measured height of a top-level row replaces it after mount, which is why rows of variable height need no configuration.
 
+`apiRef` gives the imperative API. `scrollToIndex(index, align)` brings a row into view — by the nearest edge unless `align` says otherwise — and keeps correcting the scroll for a few frames while the rows it has just rendered are measured, so a row far away is reached even when the estimates are off.
+
 ```tsx
 import {Virtualizer} from '@gravity-ui/uikit/virtualizer';
 
@@ -60,6 +62,32 @@ function TrackList({tracks}) {
 
 The root of the `List` becomes the scroll container, so limiting its height is up to you — otherwise the window degenerates into the full list. The details of the layer are in the [Virtualization](../List/README.md#virtualization) section of the List.
 
+The list scrolls to its active row by itself. To scroll to any other row, take the API of the engine from `apiRef` of the wrapper. An index is the position of a row in the list as it is displayed: section headers are rows as well.
+
+```tsx
+import {Button, List} from '@gravity-ui/uikit';
+import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
+import type {VirtualizerApi} from '@gravity-ui/uikit/virtualizer';
+
+function TrackList({tracks}) {
+  const apiRef = React.useRef<VirtualizerApi>(null);
+
+  return (
+    <React.Fragment>
+      <Button onClick={() => apiRef.current?.scrollToIndex(tracks.length - 1)}>To the end</Button>
+      <ListVirtualizer apiRef={apiRef}>
+        <List
+          aria-label="Archive"
+          style={{maxHeight: 480}}
+          items={tracks}
+          getItemContent={(track) => track.title}
+        />
+      </ListVirtualizer>
+    </React.Fragment>
+  );
+}
+```
+
 > [!NOTE]
 > A virtualized list is empty in server-rendered HTML: there is no viewport to measure against, so the rows appear only after hydration. Leave a list unvirtualized when its content has to be in the markup itself.
 
@@ -86,9 +114,10 @@ The rest of the props go to the scroll container element.
 
 ### ListVirtualizer
 
-| Name             | Description                                                                                      |            Type             |          Default          |
-| :--------------- | :----------------------------------------------------------------------------------------------- | :-------------------------: | :-----------------------: |
-| children         | The `<List>` inside                                                                              |         `ReactNode`         |                           |
-| estimateItemSize | The height estimate of a row before it is rendered — a constant or a function of the row context | `number \| (ctx) => number` | by the `size` of the list |
-| measure          | Measure the actual heights of the rows after mount (rows of variable height out of the box)      |          `boolean`          |          `true`           |
-| overscan         | The buffer of rows outside of the visible window                                                 |          `number`           |            `5`            |
+| Name             | Description                                                                                              |            Type             |          Default          |
+| :--------------- | :------------------------------------------------------------------------------------------------------- | :-------------------------: | :-----------------------: |
+| children         | The `<List>` inside                                                                                      |         `ReactNode`         |                           |
+| estimateItemSize | The height estimate of a row before it is rendered — a constant or a function of the row context         | `number \| (ctx) => number` | by the `size` of the list |
+| measure          | Measure the actual heights of the rows after mount (rows of variable height out of the box)              |          `boolean`          |          `true`           |
+| overscan         | The buffer of rows outside of the visible window                                                         |          `number`           |            `5`            |
+| apiRef           | Ref to the imperative API of the engine: `scrollToIndex`, `scrollToOffset`, `scrollOffset`, `scrollRect` | `React.Ref<VirtualizerApi>` |                           |

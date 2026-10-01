@@ -3,9 +3,9 @@ import * as React from 'react';
 import {EditableInputRGBA} from '@uiw/react-color';
 import type {HsvaColor} from '@uiw/react-color';
 
-import {Text} from '../../../../Text';
-import {TextInput} from '../../../../controls';
-import type {InputControlPin} from '../../../../controls';
+import {Text} from '../../../Text';
+import {TextInput} from '../../../controls';
+import type {InputControlPin} from '../../../controls';
 import {b} from '../../constants';
 
 type RgbInputsProps = {

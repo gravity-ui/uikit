@@ -12,6 +12,7 @@
 /src/components/Checkbox @zamkovskaya
 /src/components/ClipboardButton @Raubzeug
 /src/components/ClipboardIcon @Raubzeug
+/src/components/ColorPicker @Estasie
 /src/components/ControlLabel @korvin89
 /src/components/CopyToClipboard @ogonkov
 /src/components/DefinitionList @Raubzeug
@@ -64,7 +65,6 @@
 /src/components/Tooltip @amje
 /src/components/layout @IsaevAlexandr
 
-/src/components/lab/ColorPicker @Estasie
 /src/components/lab/FileDropZone @dvortsovs
 
 /src/hooks/useActionHandlers @ogonkov

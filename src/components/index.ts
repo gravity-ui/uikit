@@ -53,8 +53,6 @@ export * from './Slider';
 export * from './Stepper';
 export * from './Spin';
 export * from './Switch';
-export * from './Table';
-export * from './TableColumnSetup';
 export * from './tabs';
 export * from './Text';
 export * from './Toaster';

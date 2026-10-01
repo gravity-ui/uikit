@@ -1,0 +1,157 @@
+@use '../../../../styles/mixins';
+@use './variables';
+
+#{variables.$block} {
+    overflow: auto;
+    position: relative;
+
+    &__scroll-container {
+        overflow: auto;
+        position: relative;
+
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    &__horizontal-scroll-bar {
+        overflow-x: auto;
+        margin-block-start: -1px;
+
+        &-inner {
+            height: 1px;
+            position: relative;
+
+            // Safari 13 does not support transparent elements
+            &::before {
+                content: '';
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                inset-block-start: 0;
+                inset-inline-start: 0;
+                background-color: rgba(255, 255, 255, 0.01);
+            }
+        }
+
+        &_sticky-horizontal-scroll {
+            position: sticky;
+            z-index: 3;
+        }
+    }
+
+    &__table {
+        border-spacing: 0;
+        // fix border disappear in Firefox:
+        border-collapse: separate;
+
+        &_width_max {
+            width: 100%;
+        }
+    }
+
+    &__cell {
+        box-sizing: content-box;
+        padding: 11px var(--g-spacing-2) 10px;
+        border-block-end: 1px solid var(--g-color-line-generic);
+
+        line-height: variables.$tableLineHeight;
+        text-align: start;
+        overflow-wrap: break-word;
+
+        &:first-child {
+            padding-inline-start: 0;
+        }
+
+        &:last-child {
+            padding-inline-end: 0;
+        }
+
+        &:not(&_word-wrap) {
+            @include mixins.overflow-ellipsis();
+        }
+
+        &_align_center {
+            text-align: center;
+        }
+
+        &_align_end {
+            text-align: end;
+        }
+
+        #{variables.$block} &_sticky_start,
+        #{variables.$block} &_sticky_end {
+            position: sticky;
+            z-index: 2;
+
+            background: var(--g-color-base-background);
+        }
+
+        &_border_right {
+            border-inline-end: 1px solid var(--g-color-line-generic);
+        }
+
+        &_edge-padding {
+            &:first-child {
+                padding-inline-start: var(--g-spacing-3);
+            }
+
+            &:last-child {
+                padding-inline-end: var(--g-spacing-3);
+            }
+        }
+    }
+
+    &__row {
+        &_vertical-align_top {
+            vertical-align: top;
+        }
+
+        &_vertical-align_middle {
+            vertical-align: middle;
+        }
+    }
+
+    &__row_empty &__cell {
+        text-align: center;
+    }
+
+    &__body &__row:last-child &__cell {
+        border-block-end-color: transparent;
+    }
+
+    &__head &__cell {
+        @include mixins.text-accent;
+    }
+
+    &__body &__row_interactive:hover {
+        background-color: var(--g-color-base-simple-hover-solid);
+        cursor: pointer;
+
+        #{variables.$block}__cell_sticky_start,
+        #{variables.$block}__cell_sticky_end {
+            background: var(--g-color-base-simple-hover-solid);
+        }
+    }
+
+    &__body &__row_disabled {
+        opacity: 0.3;
+    }
+
+    &_with-primary &__body &__cell {
+        color: var(--g-color-text-secondary);
+
+        &_primary {
+            color: var(--g-color-text-primary);
+        }
+    }
+
+    // forcing overflow:visible so we are not breaking sticky scroll
+    // (because sticky scroll relates to closest parent with overflow)
+    &_with-sticky-scroll {
+        overflow: visible;
+    }
+}

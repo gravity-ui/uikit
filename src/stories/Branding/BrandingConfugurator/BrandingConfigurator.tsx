@@ -16,9 +16,8 @@ import {
     Switch,
     Tab,
     TabList,
-    Table,
-    withTableSelection,
 } from '../../../components';
+import {Table, withTableSelection} from '../../../components/legacy/Table';
 import {cn} from '../../../components/utils/cn';
 
 import './BrandingConfigurator.scss';

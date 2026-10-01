@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import debounce from 'lodash/debounce';
+import {debounce} from 'es-toolkit';
 
 import type {ListItemType} from '../types';
 import {defaultFilterItems} from '../utils/defaultFilterItems';

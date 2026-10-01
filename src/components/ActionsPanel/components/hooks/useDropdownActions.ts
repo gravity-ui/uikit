@@ -1,6 +1,6 @@
 'use client';
 
-import groupBy from 'lodash/groupBy';
+import {groupBy} from 'es-toolkit/compat';
 
 import type {DropdownMenuItem} from '../../../DropdownMenu';
 import type {ActionsPanelItem} from '../../types';

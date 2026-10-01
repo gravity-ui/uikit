@@ -1,7 +1,6 @@
 import * as React from 'react';
 
-import round from 'lodash/round';
-import throttle from 'lodash/throttle';
+import {round, throttle} from 'es-toolkit';
 
 import {useLayoutEffect} from '../..';
 

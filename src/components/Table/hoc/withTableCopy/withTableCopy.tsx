@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import memoize from 'lodash/memoize';
+import {memoize} from 'es-toolkit';
 
 import {ClipboardButton} from '../../../ClipboardButton';
 import {block} from '../../../utils/cn';

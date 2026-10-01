@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import {useForkRef} from '../../hooks/useForkRef';
 import {ListVirtualizationContext} from '../List/VirtualizationContext';
 import type {
     ListEstimateItemSize,
@@ -10,8 +11,17 @@ import type {
 } from '../List/VirtualizationContext';
 
 import {Virtualizer} from './Virtualizer';
+import type {VirtualizerApi} from './Virtualizer';
 
 const DEFAULT_OVERSCAN = 5;
+
+/**
+ * The `apiRef` of the wrapper on its way to the root the list renders. A context of the layer
+ * itself: the context of the core cannot carry a type of the engine
+ */
+const ListVirtualizerApiRefContext = React.createContext<React.Ref<VirtualizerApi> | undefined>(
+    undefined,
+);
 
 /**
  * The root renderer of the list under virtualization: tanstack is pulled in here only. The list
@@ -26,8 +36,18 @@ function VirtualizedListRoot({
     getItemSize,
     measure,
     overscan,
+    scrollToIndexRef,
 }: ListVirtualizedRootProps) {
     const {ref, ...restContainerProps} = containerProps;
+
+    const setScrollToIndex = React.useCallback(
+        (api: VirtualizerApi | null) => {
+            // eslint-disable-next-line no-param-reassign
+            scrollToIndexRef.current = api ? api.scrollToIndex : null;
+        },
+        [scrollToIndexRef],
+    );
+    const apiRef = useForkRef(setScrollToIndex, React.useContext(ListVirtualizerApiRefContext));
 
     const persistedIndexes = React.useMemo(
         () => persistedRowIndexes.map((index) => [index]),
@@ -37,6 +57,7 @@ function VirtualizedListRoot({
     return (
         <Virtualizer
             {...restContainerProps}
+            apiRef={apiRef}
             containerRef={ref}
             count={rowIds.length}
             getItemKey={(index) => rowIds[index]}
@@ -66,6 +87,12 @@ export interface ListVirtualizerProps<T = any> {
     measure?: boolean;
     /** The buffer of rows outside the window. default 5 */
     overscan?: number;
+    /**
+     * Ref to the imperative API of the engine: `scrollToIndex`, `scrollToOffset`, `scrollOffset`,
+     * `scrollRect`. An index is the position of a row in the list as it is displayed — section
+     * headers are rows as well
+     */
+    apiRef?: React.Ref<VirtualizerApi>;
 }
 
 /**
@@ -91,14 +118,17 @@ export function ListVirtualizer<T = any>({
     estimateItemSize,
     measure = true,
     overscan = DEFAULT_OVERSCAN,
+    apiRef,
 }: ListVirtualizerProps<T>) {
     const value = React.useMemo<ListVirtualizationContextValue>(
         () => ({Root: VirtualizedListRoot, estimateItemSize, measure, overscan}),
         [estimateItemSize, measure, overscan],
     );
     return (
-        <ListVirtualizationContext.Provider value={value}>
-            {children}
-        </ListVirtualizationContext.Provider>
+        <ListVirtualizerApiRefContext.Provider value={apiRef}>
+            <ListVirtualizationContext.Provider value={value}>
+                {children}
+            </ListVirtualizationContext.Provider>
+        </ListVirtualizerApiRefContext.Provider>
     );
 }

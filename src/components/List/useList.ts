@@ -7,6 +7,7 @@ import {warnOnce} from '../utils/warn';
 
 import {ListDndContext} from './DndContext';
 import {ListVirtualizationContext} from './VirtualizationContext';
+import type {ListScrollToIndex} from './VirtualizationContext';
 import {navigateCells} from './cellNavigation';
 import {composeItemProps} from './composeItemProps';
 import {
@@ -72,6 +73,8 @@ export interface ListInstance<T> {
     dragActive: boolean;
     /** The dnd adapter in effect: the `dnd` prop or, without it, the one of ListDndContext */
     dnd: ListDndAdapter<T> | null;
+    /** For the root of the virtualization layer to fill, see ListVirtualizedRootProps */
+    scrollToIndexRef: React.MutableRefObject<ListScrollToIndex | null>;
 }
 
 const NAVIGATION_COMMANDS: Record<string, ListNavigationCommand> = {
@@ -262,11 +265,14 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
      */
     const activeInViewRef = React.useRef(false);
 
+    const scrollToIndexRef = React.useRef<ListScrollToIndex | null>(null);
+
     /**
      * Brings the row into view by scrolling the root of the list, never the page: a popup hanging
      * off the viewport edge must not drag it along. A root that does not scroll at all has only the
      * page to show the row with, and only a keyboard gesture of the list itself is a reason to
-     * move it
+     * move it. Under virtualization the scroll belongs to the layer: it knows where a row that
+     * is not measured yet will end up
      */
     const scrollToRow = React.useCallback(
         (id: string, {gesture}: {gesture: boolean}) => {
@@ -275,7 +281,10 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 return;
             }
             const element = registry.getElement(id);
-            if (element) {
+            const row = latestRef.current.rowById.get(id);
+            if (scrollToIndexRef.current && row) {
+                scrollToIndexRef.current(row.index, 'auto');
+            } else if (element) {
                 scrollRowIntoView(container, element);
                 if (gesture && !isScrollContainer(container)) {
                     element.scrollIntoView?.({block: 'nearest'});
@@ -812,5 +821,6 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         getItemMemoKey,
         dragActive,
         dnd,
+        scrollToIndexRef,
     };
 }

@@ -17,12 +17,17 @@ import {
 } from '@tanstack/react-virtual';
 
 import {useForkRef} from '../../hooks/useForkRef';
+import {useLayoutEffect} from '../../hooks/useLayoutEffect';
 import type {Key} from '../types';
 
 import type {Loadable} from './useLoadMore';
 import {useLoadMore} from './useLoadMore';
 
 export type VirtualizerItem = {index: number; key: Key};
+
+/** How many quiet frames end the watch of `scrollToIndex`, and how many frames it lasts at most */
+const SETTLED_FRAMES = 3;
+const MAX_FRAMES = 20;
 
 export type ScrollAlignment = 'start' | 'center' | 'end' | 'auto';
 
@@ -129,6 +134,25 @@ export function Virtualizer({
             : estimate;
     }, []);
 
+    // The rows do not start where the scroll does: the padding of the container comes first. The
+    // engine has to be told, or a row it scrolls to the bottom edge ends up cut by that padding.
+    // Measured after every render — the padding may change with any of them, and an offset that
+    // stayed the same does not render again
+    const sizerRef = React.useRef<HTMLDivElement>(null);
+    const [scrollMargin, setScrollMargin] = React.useState(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useLayoutEffect(() => {
+        const container = scrollContainerRef.current;
+        const sizer = sizerRef.current;
+        if (container && sizer) {
+            setScrollMargin(
+                sizer.offsetParent === container
+                    ? sizer.offsetTop
+                    : sizer.offsetTop - container.offsetTop - container.clientTop,
+            );
+        }
+    });
+
     const {rangeExtractor, persistedChildren} =
         getRangeExtractorAndChildrenIndexes(persistedIndexes);
     const virtualizer = useVirtualizer({
@@ -136,6 +160,15 @@ export function Virtualizer({
         getScrollElement: () => scrollContainerRef.current,
         getItemKey,
         estimateSize,
+        scrollMargin,
+        // scrollTop rather than the scrollTo the engine calls by default: the same instant scroll,
+        // and jsdom implements it
+        scrollToFn: (offset, {adjustments = 0}, instance) => {
+            if (instance.scrollElement) {
+                // eslint-disable-next-line no-param-reassign
+                instance.scrollElement.scrollTop = offset + adjustments;
+            }
+        },
         rangeExtractor,
         overscan: disableVirtualization ? count : overscan,
         measureElement: (element, entry, instance) => {
@@ -184,14 +217,46 @@ export function Virtualizer({
         },
     });
 
+    const scrollFrameRef = React.useRef(0);
+    React.useEffect(() => () => cancelAnimationFrame(scrollFrameRef.current), []);
+
     React.useImperativeHandle(
         apiRef,
         () => ({
             scrollToOffset: (offset: number, align: ScrollAlignment = 'auto') => {
                 virtualizer.scrollToOffset(virtualizer.getOffsetForAlignment(offset, align));
             },
+            /**
+             * Where a row is, is known for certain only once the rows above it are measured, and
+             * they are measured only once the scroll gets near them: the first scroll lands by the
+             * estimates, the measurements move the row, and the scroll is repeated until the row
+             * stays in place for a few frames. The watch is a single one — a new call ends the
+             * previous: the retry loop of `scrollToIndex` of tanstack cannot be cancelled, and
+             * calls that come faster than it settles (a key held down) leave the list at a row of
+             * an earlier call
+             */
             scrollToIndex: (index: number, align: ScrollAlignment = 'auto') => {
-                virtualizer.scrollToIndex(index, {align});
+                cancelAnimationFrame(scrollFrameRef.current);
+                let frames = 0;
+                let settledFrames = 0;
+                const tick = () => {
+                    const container = scrollContainerRef.current;
+                    if (!container) {
+                        return;
+                    }
+                    const offset = getOffsetToRow(virtualizer, container, index, align);
+                    if (offset === undefined) {
+                        settledFrames += 1;
+                    } else {
+                        settledFrames = 0;
+                        virtualizer.scrollToOffset(offset);
+                    }
+                    frames += 1;
+                    if (settledFrames < SETTLED_FRAMES && frames <= MAX_FRAMES) {
+                        scrollFrameRef.current = requestAnimationFrame(tick);
+                    }
+                };
+                tick();
             },
             get scrollOffset() {
                 return virtualizer.scrollOffset;
@@ -220,8 +285,9 @@ export function Virtualizer({
             }}
         >
             {renderRows({
+                sizerRef,
                 totalHeight: virtualizer.getTotalSize(),
-                start: 0,
+                start: scrollMargin,
                 items: visibleItems,
                 scrollContainer: virtualizer.scrollElement,
                 parentKey: undefined,
@@ -236,7 +302,46 @@ export function Virtualizer({
     );
 }
 
+/**
+ * The offset that brings the row where `align` wants it, `undefined` once it is there. `auto` is
+ * the nearest edge, and a row in view stays where it is. It is decided by the scroll offset the
+ * container has right now: the one the engine holds lags behind by a scroll event
+ */
+function getOffsetToRow(
+    virtualizer: VirtualizerInstance<HTMLDivElement, Element>,
+    container: HTMLElement,
+    index: number,
+    align: ScrollAlignment,
+): number | undefined {
+    const scrollTop = container.scrollTop;
+
+    if (align !== 'auto') {
+        const offset = virtualizer.getOffsetForIndex(index, align)?.[0];
+        return offset === undefined || Math.abs(offset - scrollTop) <= 1 ? undefined : offset;
+    }
+
+    const item =
+        virtualizer.measurementsCache[Math.max(0, Math.min(index, virtualizer.options.count - 1))];
+    if (!item) {
+        return undefined;
+    }
+    const height = container.offsetHeight;
+    // A pixel of slack: the scroll offset may be fractional
+    const above = item.start < scrollTop - 1;
+    const below = item.end > scrollTop + height + 1;
+    // A row taller than the container shows its start when it comes from below, its end from above
+    const fits = item.size <= height;
+    if (above && !below) {
+        return fits ? item.start : item.end - height;
+    }
+    if (below && !above) {
+        return fits ? item.end - height : item.start;
+    }
+    return undefined;
+}
+
 function renderRows({
+    sizerRef,
     totalHeight,
     start,
     parentKey,
@@ -249,6 +354,7 @@ function renderRows({
     persistedChildren,
     measureElement,
 }: {
+    sizerRef?: React.Ref<HTMLDivElement>;
     totalHeight: number;
     start: number;
     parentKey?: Key;
@@ -267,6 +373,7 @@ function renderRows({
 }) {
     return (
         <div
+            ref={sizerRef}
             role="presentation"
             style={
                 disableVirtualization

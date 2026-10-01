@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {EditableInput} from '@uiw/react-color';
 
-import {TextInput} from '../../../../controls';
+import {TextInput} from '../../../controls';
 import {b} from '../../constants';
 
 type HexInputProps = {

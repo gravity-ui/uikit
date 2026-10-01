@@ -7,12 +7,18 @@ $block: '.#{variables.$ns}switch';
     position: relative;
 
     &__control {
+        position: absolute;
+        inset: 0;
+        margin: 0;
+        padding: 0;
         opacity: 0;
-        cursor: pointer;
+        background: none;
+        border: none;
+        outline: none;
+        cursor: inherit;
     }
 
     &__indicator {
-        display: inline-block;
         position: relative;
 
         &::before {
@@ -22,11 +28,6 @@ $block: '.#{variables.$ns}switch';
 
             background-color: var(--g-color-base-generic-medium);
             transition: background 0.1s linear;
-        }
-
-        &::after {
-            content: '\00a0';
-            visibility: hidden;
         }
     }
 
@@ -50,6 +51,7 @@ $block: '.#{variables.$ns}switch';
 
     &__control:focus-visible + &__outline {
         @include mixins.focus-outline();
+        outline-offset: 1px;
     }
 
     &_loading {
@@ -120,10 +122,6 @@ $block: '.#{variables.$ns}switch';
                     border-width: 2px;
                 }
             }
-
-            #{$block}__text {
-                margin-block-start: 3px;
-            }
         }
 
         &_l {
@@ -146,10 +144,6 @@ $block: '.#{variables.$ns}switch';
                     height: 14px;
                     border-width: 2px;
                 }
-            }
-
-            #{$block}__text {
-                margin-block-start: 4px;
             }
         }
     }

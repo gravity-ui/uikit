@@ -432,9 +432,12 @@ describe('List: dnd layer', () => {
                     dnd={{placeholder: <div data-qa="gap" />}}
                 />,
             );
-            // The position among the children of the root is the contract itself
+            // The position among the children of the root is the contract itself: the rows, then
+            // the placeholder, once
             // eslint-disable-next-line testing-library/no-node-access
-            expect(screen.getByRole('listbox').lastElementChild).toBe(screen.getByTestId('gap'));
+            const children = Array.from(screen.getByRole('listbox').children);
+            expect(children.filter((child) => !child.id)).toEqual([screen.getByTestId('gap')]);
+            expect(children[children.length - 1]).toBe(screen.getByTestId('gap'));
         });
 
         describe('under virtualization', () => {

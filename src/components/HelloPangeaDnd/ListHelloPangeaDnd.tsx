@@ -160,7 +160,11 @@ function ListHelloPangeaDndComponent<T>({
         [items, getItemId],
     );
 
-    if (!externalState && !onItemsUpdate && !onDrop) {
+    if (
+        !onItemsUpdate &&
+        !onDrop &&
+        !externalState?.[LIST_HELLO_PANGEA_DND_STATE_CHANNEL].hasOwnDrop()
+    ) {
         warnOnce(
             '[ListHelloPangeaDnd] Pass `onItemsUpdate` or `onDrop`: without them a drop changes nothing.',
         );
@@ -175,13 +179,14 @@ function ListHelloPangeaDndComponent<T>({
 
     // Under an external context the drop reaches the state of the consumer: the wrapper hands it
     // its ids and its handlers
+    const [owner] = React.useState(() => ({}));
     useLayoutEffect(() => {
         if (!externalState) {
             return undefined;
         }
         const channel = externalState[LIST_HELLO_PANGEA_DND_STATE_CHANNEL];
-        channel.connect({ids, onDrop: handleDrop});
-        return () => channel.disconnect();
+        channel.connect(owner, {ids, onDrop: handleDrop});
+        return () => channel.disconnect(owner);
     });
 
     const autoId = useUniqId();

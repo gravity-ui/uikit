@@ -11,6 +11,10 @@ export interface ListHelloPangeaDndStateConnection {
 
 /** @internal */
 export interface ListHelloPangeaDndStateChannel {
-    connect(connection: ListHelloPangeaDndStateConnection): void;
-    disconnect(): void;
+    /** The wrapper connected before is replaced, and told about it in dev */
+    connect(owner: object, connection: ListHelloPangeaDndStateConnection): void;
+    /** Only the connection of this owner is dropped */
+    disconnect(owner: object): void;
+    /** Whether the hook got an `onDrop` of its own */
+    hasOwnDrop(): boolean;
 }

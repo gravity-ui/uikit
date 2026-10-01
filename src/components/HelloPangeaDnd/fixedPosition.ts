@@ -9,11 +9,17 @@ function containsFixed(style: CSSStyleDeclaration) {
         Boolean(value) && value !== 'none' && value !== 'normal';
     return (
         isSet(style.transform) ||
+        isSet(style.translate) ||
+        isSet(style.rotate) ||
+        isSet(style.scale) ||
         isSet(style.perspective) ||
         isSet(style.filter) ||
         isSet(style.backdropFilter) ||
         isSet(style.containerType) ||
-        /\b(transform|perspective|filter)\b/.test(style.willChange) ||
+        style.getPropertyValue('content-visibility') === 'auto' ||
+        /\b(transform|translate|rotate|scale|perspective|filter|contain)\b/.test(
+            style.willChange,
+        ) ||
         /\b(paint|layout|strict|content)\b/.test(style.contain)
     );
 }

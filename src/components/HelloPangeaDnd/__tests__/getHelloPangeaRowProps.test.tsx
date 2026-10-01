@@ -5,6 +5,7 @@ import {render, screen} from '../../../../test-utils/utils';
 import {Lang, configure} from '../../../utils/configure';
 import type {ListItemContext, ListItemHelpers, ListPropsOverrides} from '../../List/types';
 import {HelloPangeaDragHandle} from '../HelloPangeaDragHandle';
+import {forwardDetachedTouches} from '../forwardDetachedTouches';
 import {getHelloPangeaRowProps} from '../getHelloPangeaRowProps';
 import type {GetHelloPangeaRowPropsOptions} from '../getHelloPangeaRowProps';
 
@@ -92,11 +93,12 @@ describe('getHelloPangeaRowProps', () => {
 
     test('the handle: out of the tab order, with a name', () => {
         const {handleProps, cellProps} = call();
-        expect(handleProps).toMatchObject({
-            role: 'button',
+        expect(handleProps).toEqual({
+            ...provided().dragHandleProps,
+            onDragStart: expect.any(Function),
+            onTouchStart: forwardDetachedTouches,
             tabIndex: -1,
             'aria-label': 'Drag to reorder',
-            'data-rfd-drag-handle-draggable-id': 'a',
         });
         expect(cellProps).toEqual({role: 'gridcell'});
     });

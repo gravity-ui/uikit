@@ -37,7 +37,7 @@ A list inside a `Sheet`, a `Dialog` or an animated popup drags the same way: the
 
 The kit covers flat lists: the library needs contiguous indexes, and they are counted over `items`. Sections are not draggable.
 
-The children of the wrapper are the list and nothing else: the adapter goes to the nearest List below, so a Select or a Menu placed next to the list would take it. `getItemId` and `isDragDisabled` should be stable — an inline function re-renders every row on each render of the parent.
+The children of the wrapper are the list and nothing else: the adapter goes to the nearest List below, so a Select or a Menu placed next to the list would take it. `getItemId` and `getItemDragDisabled` should be stable — an inline function re-renders every row on each render of the parent.
 
 ### The slots of a row
 

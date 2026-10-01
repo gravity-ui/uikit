@@ -5,6 +5,8 @@ import * as React from 'react';
 // eslint-disable-next-line no-restricted-imports
 import type {DragStart, DropResult} from '@hello-pangea/dnd';
 
+import {warnOnce} from '../utils/warn';
+
 import {LIST_HELLO_PANGEA_DND_STATE_CHANNEL} from './stateChannel';
 import type {
     ListHelloPangeaDndStateChannel,
@@ -55,20 +57,31 @@ export function useListHelloPangeaDnd({
 
     const latestRef = React.useRef({ids, onDrop});
     latestRef.current = {ids, onDrop};
-    const connectionRef = React.useRef<ListHelloPangeaDndStateConnection | null>(null);
+    const connectionRef = React.useRef<{
+        owner: object;
+        connection: ListHelloPangeaDndStateConnection;
+    } | null>(null);
     const [channel] = React.useState<ListHelloPangeaDndStateChannel>(() => ({
-        connect: (connection) => {
-            connectionRef.current = connection;
+        connect: (owner, connection) => {
+            if (connectionRef.current && connectionRef.current.owner !== owner) {
+                warnOnce(
+                    '[useListHelloPangeaDnd] One state is given to several ListHelloPangeaDnd: create a state per list.',
+                );
+            }
+            connectionRef.current = {owner, connection};
         },
-        disconnect: () => {
-            connectionRef.current = null;
+        disconnect: (owner) => {
+            if (connectionRef.current?.owner === owner) {
+                connectionRef.current = null;
+            }
         },
+        hasOwnDrop: () => latestRef.current.onDrop !== undefined,
     }));
 
-    const getIds = () => latestRef.current.ids ?? connectionRef.current?.ids ?? [];
+    const getIds = () => latestRef.current.ids ?? connectionRef.current?.connection.ids ?? [];
     const drop = (fromId: string, toId: string, position: 'before' | 'after') => {
         latestRef.current.onDrop?.(fromId, toId, position);
-        connectionRef.current?.onDrop(fromId, toId, position);
+        connectionRef.current?.connection.onDrop(fromId, toId, position);
     };
     const getIdsRef = React.useRef(getIds);
     getIdsRef.current = getIds;

@@ -8,7 +8,15 @@ import type {VirtualizerApi} from '../../Virtualizer/Virtualizer';
 import {List} from '../List';
 import type {ListProps} from '../types';
 
-import {GROUPS, getSectionHeader, mockLayout, mockOffsets, scrollTo} from './helpers';
+import {
+    EARLIER,
+    GROUPS,
+    getSectionHeader,
+    mockLayout,
+    mockOffsets,
+    mockScrollIntoView,
+    scrollTo,
+} from './helpers';
 
 const VIEWPORT_HEIGHT = 400;
 const ROW_HEIGHT = 36;
@@ -18,17 +26,24 @@ mockLayout({viewport: VIEWPORT_HEIGHT, row: ROW_HEIGHT, section: SECTION_HEIGHT}
 
 const ITEMS = Array.from({length: 200}, (_, index) => `Item ${index + 1}`);
 
-function renderVirtualized(listProps?: Partial<ListProps<string>>) {
-    return render(
-        <ListVirtualizer estimateItemSize={ROW_HEIGHT}>
+function VirtualizedList({
+    apiRef,
+    ...listProps
+}: Partial<ListProps<string>> & {apiRef?: React.Ref<VirtualizerApi>}) {
+    return (
+        <ListVirtualizer estimateItemSize={ROW_HEIGHT} apiRef={apiRef}>
             <List
                 aria-label="Logs"
                 items={ITEMS}
                 style={{maxHeight: VIEWPORT_HEIGHT}}
                 {...listProps}
             />
-        </ListVirtualizer>,
+        </ListVirtualizer>
     );
+}
+
+function renderVirtualized(listProps?: Partial<ListProps<string>>) {
+    return render(<VirtualizedList {...listProps} />);
 }
 
 describe('List: virtualization layer', () => {
@@ -162,8 +177,7 @@ describe('List: virtualization layer', () => {
 
     describe('the active row is kept in view', () => {
         mockOffsets({row: ROW_HEIGHT});
-
-        const EARLIER = Array.from({length: 10}, (_, index) => `Earlier ${index + 1}`);
+        const scrollIntoViewMock = mockScrollIntoView();
 
         /** The offset that leaves the row with this number (from 1) at the bottom edge of the root */
         const bottomAligned = (position: number) => position * ROW_HEIGHT - VIEWPORT_HEIGHT;
@@ -214,36 +228,21 @@ describe('List: virtualization layer', () => {
             const listbox = screen.getByRole('listbox');
             expect(listbox.scrollTop).toBe(0);
 
-            rerender(
-                <ListVirtualizer estimateItemSize={ROW_HEIGHT}>
-                    <List
-                        aria-label="Logs"
-                        items={ITEMS}
-                        style={{maxHeight: VIEWPORT_HEIGHT}}
-                        activeItemId="Item 150"
-                    />
-                </ListVirtualizer>,
-            );
+            rerender(<VirtualizedList activeItemId="Item 150" />);
 
             expect(listbox.scrollTop).toBe(bottomAligned(150));
         });
 
         test('the keyboard scrolls the root and leaves the page alone', async () => {
-            const scrollIntoViewMock = jest.fn();
-            HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
-            try {
-                const user = userEvent.setup();
-                renderVirtualized();
+            const user = userEvent.setup();
+            renderVirtualized();
 
-                await user.tab();
-                await user.keyboard('{End}');
+            await user.tab();
+            await user.keyboard('{End}');
 
-                expect(screen.getByRole('option', {name: 'Item 200'})).toHaveFocus();
-                expect(screen.getByRole('listbox').scrollTop).toBe(bottomAligned(200));
-                expect(scrollIntoViewMock).not.toHaveBeenCalled();
-            } finally {
-                delete (HTMLElement.prototype as Partial<HTMLElement>).scrollIntoView;
-            }
+            expect(screen.getByRole('option', {name: 'Item 200'})).toHaveFocus();
+            expect(screen.getByRole('listbox').scrollTop).toBe(bottomAligned(200));
+            expect(scrollIntoViewMock).not.toHaveBeenCalled();
         });
 
         test('a row activated by hover stays where it is', async () => {
@@ -265,14 +264,7 @@ describe('List: virtualization layer', () => {
             expect(listbox.scrollTop).toBe(bottomAligned(150));
 
             rerender(
-                <ListVirtualizer estimateItemSize={ROW_HEIGHT}>
-                    <List
-                        aria-label="Logs"
-                        items={[...EARLIER, ...ITEMS]}
-                        style={{maxHeight: VIEWPORT_HEIGHT}}
-                        defaultActiveItemId="Item 150"
-                    />
-                </ListVirtualizer>,
+                <VirtualizedList items={[...EARLIER, ...ITEMS]} defaultActiveItemId="Item 150" />,
             );
 
             expect(listbox.scrollTop).toBe(bottomAligned(150 + EARLIER.length));
@@ -284,14 +276,7 @@ describe('List: virtualization layer', () => {
 
             scrollTo(listbox, 0);
             rerender(
-                <ListVirtualizer estimateItemSize={ROW_HEIGHT}>
-                    <List
-                        aria-label="Logs"
-                        items={[...EARLIER, ...ITEMS]}
-                        style={{maxHeight: VIEWPORT_HEIGHT}}
-                        defaultActiveItemId="Item 150"
-                    />
-                </ListVirtualizer>,
+                <VirtualizedList items={[...EARLIER, ...ITEMS]} defaultActiveItemId="Item 150" />,
             );
 
             expect(listbox.scrollTop).toBe(0);
@@ -301,11 +286,7 @@ describe('List: virtualization layer', () => {
     describe('apiRef', () => {
         test('the wrapper hands out the API of the engine', () => {
             const apiRef = React.createRef<VirtualizerApi>();
-            const {unmount} = render(
-                <ListVirtualizer estimateItemSize={ROW_HEIGHT} apiRef={apiRef}>
-                    <List aria-label="Logs" items={ITEMS} style={{maxHeight: VIEWPORT_HEIGHT}} />
-                </ListVirtualizer>,
-            );
+            const {unmount} = render(<VirtualizedList apiRef={apiRef} />);
             const listbox = screen.getByRole('listbox');
 
             expect(apiRef.current).toEqual(
@@ -347,15 +328,7 @@ describe('List: virtualization layer', () => {
             };
             try {
                 const apiRef = React.createRef<VirtualizerApi>();
-                render(
-                    <ListVirtualizer estimateItemSize={ROW_HEIGHT} apiRef={apiRef}>
-                        <List
-                            aria-label="Logs"
-                            items={ITEMS}
-                            style={{maxHeight: VIEWPORT_HEIGHT}}
-                        />
-                    </ListVirtualizer>,
-                );
+                render(<VirtualizedList apiRef={apiRef} />);
                 const listbox = screen.getByRole('listbox');
                 frames.clear();
 
@@ -373,42 +346,22 @@ describe('List: virtualization layer', () => {
             }
         });
 
-        test('a row scrolled to the bottom edge is not cut by the padding of the root', () => {
+        describe('a root with padding', () => {
             const PADDING = 4;
+
             // The sizer — the only child of the root — starts below the padding of the root
-            const offsetTopSpy = jest
-                .spyOn(HTMLElement.prototype, 'offsetTop', 'get')
-                .mockImplementation(function (this: HTMLElement) {
-                    // eslint-disable-next-line testing-library/no-node-access
-                    return this.parentElement?.getAttribute('role') === 'listbox' ? PADDING : 0;
-                });
-            const offsetParentSpy = jest
-                .spyOn(HTMLElement.prototype, 'offsetParent', 'get')
-                .mockImplementation(function (this: HTMLElement) {
-                    // eslint-disable-next-line testing-library/no-node-access
-                    return this.parentElement;
-                });
-            try {
+            mockOffsets({row: ROW_HEIGHT, padding: PADDING});
+
+            test('a row scrolled to the bottom edge is not cut by the padding', () => {
                 const apiRef = React.createRef<VirtualizerApi>();
-                render(
-                    <ListVirtualizer estimateItemSize={ROW_HEIGHT} apiRef={apiRef}>
-                        <List
-                            aria-label="Logs"
-                            items={ITEMS}
-                            style={{maxHeight: VIEWPORT_HEIGHT, padding: PADDING}}
-                        />
-                    </ListVirtualizer>,
-                );
+                render(<VirtualizedList apiRef={apiRef} />);
 
                 apiRef.current?.scrollToIndex(149);
 
                 expect(screen.getByRole('listbox').scrollTop).toBe(
                     PADDING + 150 * ROW_HEIGHT - VIEWPORT_HEIGHT,
                 );
-            } finally {
-                offsetTopSpy.mockRestore();
-                offsetParentSpy.mockRestore();
-            }
+            });
         });
     });
 

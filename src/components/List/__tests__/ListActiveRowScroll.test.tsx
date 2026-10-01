@@ -1,10 +1,17 @@
 import userEvent from '@testing-library/user-event';
 
-import {fireEvent, render, screen} from '../../../../test-utils/utils';
+import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
 import {List} from '../List';
 import type {ListProps} from '../types';
 
-import {mockLayout, mockOffsets, mockTabbableDisplayCheck, scrollTo} from './helpers';
+import {
+    EARLIER,
+    mockLayout,
+    mockOffsets,
+    mockScrollIntoView,
+    mockTabbableDisplayCheck,
+    scrollTo,
+} from './helpers';
 
 const VIEWPORT = 100;
 const ROW = 20;
@@ -12,9 +19,9 @@ const ROW = 20;
 mockTabbableDisplayCheck();
 mockLayout({viewport: VIEWPORT, row: ROW});
 mockOffsets({row: ROW});
+const scrollIntoViewMock = mockScrollIntoView();
 
 const ITEMS = Array.from({length: 50}, (_, index) => `Item ${index + 1}`);
-const EARLIER = Array.from({length: 10}, (_, index) => `Earlier ${index + 1}`);
 
 /** The offset that leaves the row with this number (from 1) at the bottom edge of the root */
 const bottomAligned = (position: number) => position * ROW - VIEWPORT;
@@ -63,21 +70,15 @@ describe('List: the active row is kept in view', () => {
         });
 
         test('the keyboard scrolls the root and leaves the page alone', async () => {
-            const scrollIntoViewMock = jest.fn();
-            HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
-            try {
-                const user = userEvent.setup();
-                render(<ScrollingList />);
+            const user = userEvent.setup();
+            render(<ScrollingList />);
 
-                await user.tab();
-                await user.keyboard('{End}');
+            await user.tab();
+            await user.keyboard('{End}');
 
-                expect(screen.getByRole('option', {name: 'Item 50'})).toHaveFocus();
-                expect(screen.getByRole('listbox').scrollTop).toBe(bottomAligned(50));
-                expect(scrollIntoViewMock).not.toHaveBeenCalled();
-            } finally {
-                delete (HTMLElement.prototype as Partial<HTMLElement>).scrollIntoView;
-            }
+            expect(screen.getByRole('option', {name: 'Item 50'})).toHaveFocus();
+            expect(screen.getByRole('listbox').scrollTop).toBe(bottomAligned(50));
+            expect(scrollIntoViewMock).not.toHaveBeenCalled();
         });
 
         test('typeahead scrolls the root', async () => {
@@ -92,7 +93,7 @@ describe('List: the active row is kept in view', () => {
         });
     });
 
-    describe('the pointer does not scroll', () => {
+    describe('a row that asked for the activity itself does not scroll', () => {
         test('a row activated by hover stays where it is', async () => {
             const user = userEvent.setup();
             render(<ScrollingList />);
@@ -114,6 +115,21 @@ describe('List: the active row is kept in view', () => {
             expect(screen.getByRole('listbox').scrollTop).toBe(0);
         });
 
+        test('a row that received focus stays where it is', () => {
+            render(<ScrollingList />);
+
+            // A press on a row focuses it before the click arrives, and on a touch screen the
+            // pointer has left the list by then: the row is where the finger is
+            act(() => {
+                screen.getByRole('option', {name: 'Item 40'}).focus();
+            });
+
+            expect(screen.getByRole('option', {name: 'Item 40'})).toHaveAttribute('data-active');
+            expect(screen.getByRole('listbox').scrollTop).toBe(0);
+        });
+    });
+
+    describe('the pointer over the list', () => {
         test('a controlled change does not move the rows under the pointer', async () => {
             const user = userEvent.setup();
             const {rerender} = render(
@@ -129,6 +145,20 @@ describe('List: the active row is kept in view', () => {
             await user.unhover(screen.getByRole('option', {name: 'Item 2'}));
             rerender(<ScrollingList activeItemId="Item 45" activateOnHover={false} />);
             expect(listbox.scrollTop).toBe(bottomAligned(45));
+        });
+
+        test('an activity that appears where there was none scrolls to its row', async () => {
+            const user = userEvent.setup();
+            const {rerender} = render(
+                <ScrollingList activeItemId={null} activateOnHover={false} />,
+            );
+
+            // Nothing is active, so there is no row under the pointer to hold on to: the row is
+            // shown the way it is on mount — a list that got its options after it was opened
+            await user.hover(screen.getByRole('option', {name: 'Item 2'}));
+            rerender(<ScrollingList activeItemId="Item 40" activateOnHover={false} />);
+
+            expect(screen.getByRole('listbox').scrollTop).toBe(bottomAligned(40));
         });
 
         test('a key pressed while the pointer is over the list scrolls it all the same', async () => {
@@ -198,17 +228,6 @@ describe('List: the active row is kept in view', () => {
     });
 
     describe('a root that does not scroll', () => {
-        let scrollIntoViewMock: jest.Mock;
-
-        beforeEach(() => {
-            scrollIntoViewMock = jest.fn();
-            HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
-        });
-
-        afterEach(() => {
-            delete (HTMLElement.prototype as Partial<HTMLElement>).scrollIntoView;
-        });
-
         test('the keyboard shows the row with the page', async () => {
             const user = userEvent.setup();
             render(<List aria-label="Items" items={ITEMS} />);

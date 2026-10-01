@@ -468,13 +468,16 @@ not ask for it, so the UI that did (a button beside the list) has something to s
 
 The list keeps the active row in view by scrolling its own root, so the root has to be the scroll
 container: limit its height and let it scroll (`overflow: auto`). The row is brought in by the
-nearest edge whenever the activity changes for any reason but the pointer — when the list mounts
-with an active item, on a key or typeahead, on an id that comes from your code — and when rows are
-inserted or resized around an active row that was in view. The pointer never scrolls: neither hover
-nor a click moves the rows under the cursor, and while the pointer is over the list an id from your
-code does not move them either. The page is left alone throughout; only a key pressed in a list
-whose root does not scroll falls back to `scrollIntoView`, since the page is all there is to show
-the row with.
+nearest edge when the list mounts with an active item, on a key or typeahead, and on an id that
+comes from your code. When the rows of the list change around the same active row — rows inserted
+above it, say — it is brought back as well, as long as it was in view: a reader who scrolled away
+from it is not thrown back.
+
+A row that asked for the activity itself does not scroll: neither hover, nor a click, nor the focus
+a row receives moves the rows under the cursor. While the pointer is over the list an id from your
+code does not move them either, unless nothing was active before. The page is left alone
+throughout; only a key pressed in a list whose root does not scroll falls back to `scrollIntoView`,
+since the page is all there is to show the row with.
 
 ```tsx
 import {Button, Flex, List} from '@gravity-ui/uikit';

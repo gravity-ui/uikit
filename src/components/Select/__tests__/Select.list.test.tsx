@@ -1,5 +1,6 @@
 import userEvent from '@testing-library/user-event';
 
+import {setupIntersectionObserverMock} from '../../../../test-utils/setupIntersectionObserverMock';
 import {render, screen} from '../../../../test-utils/utils';
 import {getSectionHeader, mockLayout} from '../../List/__tests__/helpers';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
@@ -617,6 +618,36 @@ describe('Select on the List core', () => {
 
             // The 40th row of 50: the bottom of the row at the bottom of the viewport
             expect(list.scrollTop).toBe(40 * ROW_HEIGHT - VIEWPORT);
+        });
+
+        test('options that arrive while the pointer is over the list are scrolled to the selected one', async () => {
+            // The row of the loader watches for its own intersection
+            setupIntersectionObserverMock();
+            try {
+                // The list opened empty — asynchronous options — and the pointer rests where the
+                // popup landed. There was no active option to keep under the pointer, so the
+                // selected one is shown the way it is when the list opens with its options in place
+                const {rerender} = render(
+                    <MobileProvider mobile={false}>
+                        <ControlledSelect id={SELECT_ID} options={[]} value={['val40']} loading />
+                    </MobileProvider>,
+                );
+                const user = userEvent.setup();
+                await user.click(screen.getByTestId(TEST_QA));
+                await user.hover(screen.getByTestId(SelectQa.LIST));
+
+                rerender(
+                    <MobileProvider mobile={false}>
+                        <ControlledSelect id={SELECT_ID} options={OPTIONS} value={['val40']} />
+                    </MobileProvider>,
+                );
+
+                expect(screen.getByTestId(SelectQa.LIST).scrollTop).toBe(
+                    40 * ROW_HEIGHT - VIEWPORT,
+                );
+            } finally {
+                delete (window as {IntersectionObserver?: unknown}).IntersectionObserver;
+            }
         });
 
         test('a group the filter emptied does not shift the scroll', async () => {

@@ -21,6 +21,9 @@ export const PROJECTS: Project[] = [
     {id: 'p3', name: 'Gamma'},
 ];
 
+/** Rows that arrive above the rows a test already has */
+export const EARLIER = Array.from({length: 10}, (_, index) => `Earlier ${index + 1}`);
+
 export const GROUPS = [
     {id: 'recent', label: 'Recent', children: [{id: 'r1', label: 'First'}]},
     {
@@ -97,9 +100,10 @@ export function mockLayout({
 
 /**
  * jsdom has no layout: a row is as far from the top as its position among its siblings says, and a
- * row of a virtualized list — as far as the inline `top` of its wrapper
+ * row of a virtualized list — as far as the inline `top` of its wrapper. `padding` is the padding
+ * of the list root: its children start below it
  */
-export function mockOffsets({row}: {row: number}) {
+export function mockOffsets({row, padding = 0}: {row: number; padding?: number}) {
     let offsetTopSpy: jest.SpyInstance;
     let offsetParentSpy: jest.SpyInstance;
 
@@ -111,7 +115,14 @@ export function mockOffsets({row}: {row: number}) {
                     return Number.parseInt(this.style.top, 10);
                 }
                 const parent = this.parentElement;
-                return parent ? Array.prototype.indexOf.call(parent.children, this) * row : 0;
+                if (!parent) {
+                    return 0;
+                }
+                const role = parent.getAttribute('role');
+                return (
+                    (role === 'listbox' || role === 'grid' ? padding : 0) +
+                    Array.prototype.indexOf.call(parent.children, this) * row
+                );
             });
         offsetParentSpy = jest
             .spyOn(HTMLElement.prototype, 'offsetParent', 'get')
@@ -124,6 +135,22 @@ export function mockOffsets({row}: {row: number}) {
         offsetTopSpy.mockRestore();
         offsetParentSpy.mockRestore();
     });
+}
+
+/** jsdom has no `scrollIntoView`: a mock of it for the tests of a block, clean before every test */
+export function mockScrollIntoView() {
+    const scrollIntoViewMock = jest.fn();
+
+    beforeEach(() => {
+        scrollIntoViewMock.mockClear();
+        HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
+    });
+
+    afterEach(() => {
+        delete (HTMLElement.prototype as Partial<HTMLElement>).scrollIntoView;
+    });
+
+    return scrollIntoViewMock;
 }
 
 /**

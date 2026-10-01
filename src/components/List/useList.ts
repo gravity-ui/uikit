@@ -51,8 +51,12 @@ export type ListContainerDOMProps = React.HTMLAttributes<HTMLElement> & {
 /** Not a prop: `activedescendant` is turned on by `focusOwner` */
 type ListFocusStrategy = 'roving' | 'activedescendant';
 
-/** What made a row of the list ask for the activity: the pointer over it or the focus it received */
-type ListActivationOrigin = 'pointer' | 'focus';
+/**
+ * What in the list itself asked for the activity: a key, the pointer over a row or the focus a row
+ * received. An activity nobody in the list asked for comes from the outside — the initial or a
+ * controlled one
+ */
+type ListActivationOrigin = 'keyboard' | 'pointer' | 'focus';
 
 /** The list core (internal) */
 export interface ListInstance<T> {
@@ -138,7 +142,8 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     // Set between pointerdown/pointerup on a row: focus arriving then came from the mouse
     const pointerPressedRef = React.useRef(false);
 
-    // The pointer is over the list: the rows must stay where they are under it
+    // The pointer is over the list: an activity that changes from the outside must not move the
+    // rows under it
     const pointerInsideRef = React.useRef(false);
 
     // Any key pressed while the list holds DOM focus brings the cursor back (capture: nested
@@ -214,11 +219,14 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
 
     // The last requested id; not reset per commit: a controlled parent may echo asynchronously
     const requestedActiveIdRef = React.useRef<string | null>(null);
-    // The id the pointer asked for; lives for a single commit, the way a gesture request does
-    const pointerActiveIdRef = React.useRef<string | null>(null);
+    // The same request with what made it; lives for a single commit — the activity that arrives
+    // later is not an answer to it
+    const activationRequestRef = React.useRef<{id: string; origin: ListActivationOrigin} | null>(
+        null,
+    );
     const requestActive = (id: string, origin: ListActivationOrigin) => {
         requestedActiveIdRef.current = id;
-        pointerActiveIdRef.current = origin === 'pointer' ? id : null;
+        activationRequestRef.current = {id, origin};
         setActiveItemId(id);
     };
 
@@ -295,16 +303,23 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         [registry],
     );
 
+    // The active row the list has synced to last; nothing while no row is active
+    const syncedActiveIdRef = React.useRef<string | undefined>(undefined);
+
     /**
      * Focus follows the active row only while a row of THIS list holds DOM focus (react-aria
-     * useSelectableItem): hover/controlled changes never steal it, a keyboard gesture focuses
-     * unconditionally. The scroll follows every change of the activity but the one the pointer
-     * made: the list must not move under the cursor, so neither a row the pointer activated nor
-     * a change that arrives while the pointer is over the list scrolls it
+     * useSelectableItem): hover/controlled changes never steal it, a key focuses unconditionally.
+     *
+     * The scroll follows a key and every activity that comes from the outside. A row that asked
+     * for the activity itself — under the pointer, or by receiving focus — is where the user put
+     * it, and the list does not move under them. For the same reason an activity from the outside
+     * does not scroll while the pointer is over the list, unless there was no active row at all:
+     * then there is nothing under the pointer to hold on to, and the row is shown as it is on mount
      */
     const syncToActive = React.useCallback(
-        (id: string, {gesture, origin}: {gesture: boolean; origin?: ListActivationOrigin}) => {
+        (id: string, origin?: ListActivationOrigin) => {
             const element = registry.getElement(id);
+            const keyboard = origin === 'keyboard';
             if (element && focusStrategy === 'roving') {
                 const focused = document.activeElement;
                 const rowFocused =
@@ -313,12 +328,14 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                     containerRef.current.contains(focused) &&
                     latestRef.current.domIdToId.has(focused.id);
                 // preventScroll: focus() would center the row in Chromium
-                if ((gesture || rowFocused) && focused !== element) {
+                if ((keyboard || rowFocused) && focused !== element) {
                     element.focus({preventScroll: true});
                 }
             }
-            if (gesture || (origin !== 'pointer' && !pointerInsideRef.current)) {
-                scrollToRow(id, {gesture});
+            const appeared = syncedActiveIdRef.current === undefined;
+            syncedActiveIdRef.current = id;
+            if (keyboard || (origin === undefined && (appeared || !pointerInsideRef.current))) {
+                scrollToRow(id, {gesture: keyboard});
             } else {
                 activeInViewRef.current =
                     element !== undefined &&
@@ -330,27 +347,29 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     );
 
     // Driven by the ACTUAL activity: a controlled parent may reject the request
-    const gestureRequestIdRef = React.useRef<string | null>(null);
     useLayoutEffect(() => {
         if (effectiveActiveId === undefined) {
+            syncedActiveIdRef.current = undefined;
             activeInViewRef.current = false;
             return;
         }
-        const gesture = gestureRequestIdRef.current === effectiveActiveId;
-        const origin = pointerActiveIdRef.current === effectiveActiveId ? 'pointer' : undefined;
-        syncToActive(effectiveActiveId, {gesture, origin});
+        const request = activationRequestRef.current;
+        syncToActive(
+            effectiveActiveId,
+            request?.id === effectiveActiveId ? request.origin : undefined,
+        );
     }, [effectiveActiveId, syncToActive]);
 
-    // Rows inserted or resized move the active row without changing its id: it is brought back,
-    // unless the reader has scrolled away from it since
-    const alignedRef = React.useRef({rows, activeId: effectiveActiveId});
+    // Rows that change move the active row without changing its id: it is brought back, unless
+    // the reader has scrolled away from it since
+    const previousRowsRef = React.useRef({rows, activeId: effectiveActiveId});
     useLayoutEffect(() => {
-        const aligned = alignedRef.current;
-        alignedRef.current = {rows, activeId: effectiveActiveId};
+        const previous = previousRowsRef.current;
+        previousRowsRef.current = {rows, activeId: effectiveActiveId};
         if (
             effectiveActiveId === undefined ||
-            aligned.activeId !== effectiveActiveId ||
-            aligned.rows === rows ||
+            previous.activeId !== effectiveActiveId ||
+            previous.rows === rows ||
             !activeInViewRef.current
         ) {
             return;
@@ -367,9 +386,8 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     }, [rows, effectiveActiveId, registry, scrollToRow]);
 
     useLayoutEffect(() => {
-        // A request of a gesture or of the pointer lives for a single commit
-        gestureRequestIdRef.current = null;
-        pointerActiveIdRef.current = null;
+        // A request for the activity lives for a single commit
+        activationRequestRef.current = null;
     });
 
     const previousActiveIdRef = React.useRef(effectiveActiveId);
@@ -390,15 +408,14 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         if (id === undefined) {
             return;
         }
-        requestedActiveIdRef.current = id;
         setCursorVisible(true);
         if (id === effectiveActiveId) {
             // Already active: no commit follows, sync focus/scroll here
-            syncToActive(id, {gesture: true});
+            requestedActiveIdRef.current = id;
+            syncToActive(id, 'keyboard');
             return;
         }
-        gestureRequestIdRef.current = id;
-        setActiveItemId(id);
+        requestActive(id, 'keyboard');
     };
 
     const typeahead = useListTypeahead<T>({

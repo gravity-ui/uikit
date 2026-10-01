@@ -34,11 +34,13 @@ export interface ContentAreaHandlers {
 
 /**
  * A touch that starts on a drag handle belongs to the drag-and-drop library, not to the swipe of
- * the sheet. Handles carry a `draggable` attribute of either value: `true` for the native drag,
- * `false` for libraries that suppress it (`@hello-pangea/dnd`)
+ * the sheet: a native drag source, or a handle of `@hello-pangea/dnd` (it sets `draggable="false"`,
+ * which an image that only opts out of the native drag carries as well)
  */
+const DRAG_HANDLE_SELECTOR = '[draggable="true"], [data-rfd-drag-handle-draggable-id]';
+
 function isDragHandleTarget(target: EventTarget | null) {
-    return target instanceof Element && target.closest('[draggable]') !== null;
+    return target instanceof Element && target.closest(DRAG_HANDLE_SELECTOR) !== null;
 }
 
 export interface UseContentScrollResult {

@@ -67,35 +67,52 @@ describe('Sheet content scroll', () => {
         expect(onClose).not.toHaveBeenCalled();
     });
 
-    test.each([false, true])(
-        'does not move the sheet on a touch that starts on a drag handle (draggable=%s)',
-        (draggable) => {
-            const onClose = jest.fn();
-            render(
-                <Sheet visible onClose={onClose}>
-                    <span draggable={draggable} data-qa="handle">
-                        Handle
-                    </span>
-                    Content
-                </Sheet>,
-            );
+    test.each([
+        ['a native drag source', {draggable: true}],
+        ['a handle of @hello-pangea/dnd', {'data-rfd-drag-handle-draggable-id': 'a'}],
+    ])('does not move the sheet on a touch that starts on %s', (_name, attributes) => {
+        const onClose = jest.fn();
+        render(
+            <Sheet visible onClose={onClose}>
+                <span {...attributes} data-qa="handle">
+                    Handle
+                </span>
+                Content
+            </Sheet>,
+        );
 
-            const handle = screen.getByTestId('handle');
-            const sheet = screen.getByRole('dialog');
-            const restingTransform = sheet.style.transform;
-            fireEvent.touchStart(handle, {touches: [{clientX: 0, clientY: TOUCH_START_POINT}]});
-            fireEvent.touchMove(handle, {touches: [{clientX: 0, clientY: TOUCH_END_POINT}]});
-            // The sheet does not follow the finger
-            expect(sheet.style.transform).toBe(restingTransform);
-            fireEvent.touchEnd(handle, {touches: [{clientX: 0, clientY: TOUCH_END_POINT}]});
-            expect(onClose).not.toHaveBeenCalled();
+        const handle = screen.getByTestId('handle');
+        const sheet = screen.getByRole('dialog');
+        const restingTransform = sheet.style.transform;
+        fireEvent.touchStart(handle, {touches: [{clientX: 0, clientY: TOUCH_START_POINT}]});
+        fireEvent.touchMove(handle, {touches: [{clientX: 0, clientY: TOUCH_END_POINT}]});
+        // The sheet does not follow the finger
+        expect(sheet.style.transform).toBe(restingTransform);
+        fireEvent.touchEnd(handle, {touches: [{clientX: 0, clientY: TOUCH_END_POINT}]});
+        expect(onClose).not.toHaveBeenCalled();
 
-            // The next swipe on the content works again
-            swipeDownOnContent(screen.getByTestId(SheetQa.CONTENT_AREA), {
-                from: TOUCH_START_POINT,
-                to: TOUCH_END_POINT,
-            });
-            expect(onClose).toHaveBeenCalledTimes(1);
-        },
-    );
+        // The next swipe on the content works again
+        swipeDownOnContent(screen.getByTestId(SheetQa.CONTENT_AREA), {
+            from: TOUCH_START_POINT,
+            to: TOUCH_END_POINT,
+        });
+        expect(onClose).toHaveBeenCalledTimes(1);
+    });
+
+    test('a touch on an element that only opts out of the native drag swipes the sheet', () => {
+        const onClose = jest.fn();
+        render(
+            <Sheet visible onClose={onClose}>
+                <span draggable={false} data-qa="image">
+                    Image
+                </span>
+            </Sheet>,
+        );
+
+        swipeDownOnContent(screen.getByTestId('image'), {
+            from: TOUCH_START_POINT,
+            to: TOUCH_END_POINT,
+        });
+        expect(onClose).toHaveBeenCalledTimes(1);
+    });
 });

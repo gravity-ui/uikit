@@ -5,6 +5,7 @@ import {useDirection} from '../theme';
 import {eventBroker} from '../utils/event-broker';
 import {warnOnce} from '../utils/warn';
 
+import {ListDndContext} from './DndContext';
 import {ListVirtualizationContext} from './VirtualizationContext';
 import {navigateCells} from './cellNavigation';
 import {composeItemProps} from './composeItemProps';
@@ -18,6 +19,7 @@ import {LIST_FOCUS_OWNER_CHANNEL} from './focusOwnerChannel';
 import {disableTextSelection, restoreTextSelection} from './textSelection';
 import type {
     ListCellDOMProps,
+    ListDndAdapter,
     ListDndProps,
     ListItemActionEvent,
     ListItemContext,
@@ -56,6 +58,8 @@ export interface ListInstance<T> {
     getItemMemoKey(id: string): string;
     /** draggingId or dropTarget present */
     dragActive: boolean;
+    /** The dnd adapter in effect: the `dnd` prop or, without it, the one of ListDndContext */
+    dnd: ListDndAdapter<T> | null;
 }
 
 const NAVIGATION_COMMANDS: Record<string, ListNavigationCommand> = {
@@ -95,7 +99,13 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
 
     const virtualized = React.useContext(ListVirtualizationContext) !== null;
 
-    const dnd = props.dnd ?? null;
+    const dndFromContext = React.useContext(ListDndContext);
+    if (props.dnd && dndFromContext && props.dnd !== dndFromContext) {
+        warnOnce(
+            '[List] Both the `dnd` prop and a ListDndContext above are present: the prop wins, the adapter of the context is ignored.',
+        );
+    }
+    const dnd: ListDndAdapter<T> | null = props.dnd ?? dndFromContext ?? null;
     const draggingId = dnd ? (dnd.draggingId ?? null) : null;
     const dropTarget = dnd ? (dnd.dropTarget ?? null) : null;
 
@@ -709,5 +719,6 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         persistedRowIndexes,
         getItemMemoKey,
         dragActive,
+        dnd,
     };
 }

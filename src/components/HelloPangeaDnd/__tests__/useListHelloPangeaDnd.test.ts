@@ -3,6 +3,7 @@ import type {DragStart, DropResult} from '@hello-pangea/dnd';
 
 import {act, renderHook} from '../../../../test-utils/utils';
 import {moveItem} from '../../List/moveItem';
+import {LIST_HELLO_PANGEA_DND_STATE_CHANNEL} from '../stateChannel';
 import {useListHelloPangeaDnd} from '../useListHelloPangeaDnd';
 
 const ids = ['a', 'b', 'c', 'd', 'e'];
@@ -18,9 +19,10 @@ const dropResult = (
     draggableId: string,
     index: number | null,
     order: readonly string[] = ids,
+    destinationDroppableId = 'list',
 ): DropResult => ({
     ...dragStart(draggableId, order),
-    destination: index === null ? null : {droppableId: 'list', index},
+    destination: index === null ? null : {droppableId: destinationDroppableId, index},
     reason: 'DROP',
     combine: null,
 });
@@ -93,5 +95,70 @@ describe('useListHelloPangeaDnd', () => {
         act(() => onDragEnd(dropResult('e', reversed.length - 1, reversed)));
         expect(onDropFirst).not.toHaveBeenCalled();
         expect(onDropSecond).toHaveBeenCalledWith('e', 'a', 'after');
+    });
+
+    describe('several lists under one DragDropContext', () => {
+        test('a drag of a row of another list does not mark this one', () => {
+            const {result} = renderHook(() => useListHelloPangeaDnd({ids, onDrop: jest.fn()}));
+
+            act(() => result.current.onDragStart(dragStart('x', ['x'])));
+            expect(result.current.draggingId).toBeNull();
+        });
+
+        test('a move into another droppable does not reorder this list', () => {
+            const onDrop = jest.fn();
+            const {result} = renderHook(() => useListHelloPangeaDnd({ids, onDrop}));
+
+            act(() => result.current.onDragStart(dragStart('b')));
+            act(() => result.current.onDragEnd(dropResult('b', 3, ids, 'other')));
+
+            expect(onDrop).not.toHaveBeenCalled();
+            expect(result.current.draggingId).toBeNull();
+        });
+    });
+
+    test('without ids and onDrop it takes those of the connected wrapper', () => {
+        const onDrop = jest.fn();
+        const owner = {};
+        const {result} = renderHook(() => useListHelloPangeaDnd());
+
+        act(() => result.current.onDragEnd(dropResult('b', 3)));
+        expect(onDrop).not.toHaveBeenCalled();
+
+        act(() =>
+            result.current[LIST_HELLO_PANGEA_DND_STATE_CHANNEL].connect(owner, {ids, onDrop}),
+        );
+        act(() => result.current.onDragStart(dragStart('b')));
+        expect(result.current.draggingId).toBe('b');
+        act(() => result.current.onDragEnd(dropResult('b', 3)));
+        expect(onDrop).toHaveBeenCalledWith('b', 'e', 'before');
+
+        onDrop.mockClear();
+        act(() => result.current[LIST_HELLO_PANGEA_DND_STATE_CHANNEL].disconnect(owner));
+        act(() => result.current.onDragEnd(dropResult('b', 3)));
+        expect(onDrop).not.toHaveBeenCalled();
+    });
+
+    test('the wrapper that leaves drops its own connection only', () => {
+        const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        try {
+            const first = {};
+            const second = {};
+            const onDrop = jest.fn();
+            const {result} = renderHook(() => useListHelloPangeaDnd());
+            const channel = result.current[LIST_HELLO_PANGEA_DND_STATE_CHANNEL];
+
+            act(() => channel.connect(first, {ids, onDrop: jest.fn()}));
+            act(() => channel.connect(second, {ids, onDrop}));
+            expect(consoleErrorSpy).toHaveBeenCalledWith(
+                expect.stringContaining('One state is given to several ListHelloPangeaDnd'),
+            );
+
+            act(() => channel.disconnect(first));
+            act(() => result.current.onDragEnd(dropResult('b', 3)));
+            expect(onDrop).toHaveBeenCalledTimes(1);
+        } finally {
+            consoleErrorSpy.mockRestore();
+        }
     });
 });

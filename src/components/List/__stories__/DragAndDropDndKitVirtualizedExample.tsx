@@ -76,7 +76,7 @@ function SortableVirtualRow({
                     : {transform: CSS.Transform.toString(transform), transition},
             })}
             {...helpers.getItemViewProps()}
-            startContent={
+            dragHandle={
                 <span
                     ref={setActivatorNodeRef}
                     {...(listeners as React.DOMAttributes<HTMLElement>)}
@@ -127,7 +127,7 @@ export function DragAndDropDndKitVirtualizedExample() {
                         size="m"
                         active
                         style={{opacity: 0.5}}
-                        startContent={
+                        dragHandle={
                             <span style={{display: 'flex', cursor: 'grabbing'}}>
                                 <Icon data={Grip} size={12} />
                             </span>

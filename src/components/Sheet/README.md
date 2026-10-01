@@ -57,6 +57,8 @@ const SheetExample = () => {
 | title                       | Sheet window title.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |   `string`    |   `undefined`   |
 | visible                     | Manages `Sheet` visibility                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |   `boolean`   |     `false`     |
 
+A touch that starts on a drag handle — an element with `draggable="true"` or a handle of `@hello-pangea/dnd` — is left to the drag and does not swipe the sheet.
+
 ## CSS API
 
 | Name                         | Description                                                                                                                                                            |

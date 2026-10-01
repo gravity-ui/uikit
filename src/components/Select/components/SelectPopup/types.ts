@@ -18,4 +18,6 @@ export type SelectPopupProps = {
     id?: string;
     onAfterOpen?: () => void;
     onAfterClose?: () => void;
+    /** Props of the mobile sheet content, which takes focus while the control is hidden */
+    sheetContentProps?: React.HTMLAttributes<HTMLDivElement>;
 };

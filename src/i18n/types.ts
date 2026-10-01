@@ -7,6 +7,7 @@ import type {default as DialogKeyset} from '../components/Dialog/i18n';
 import type {default as PaginationKeyset} from '../components/Pagination/i18n';
 import type {default as PinInputKeyset} from '../components/PinInput/i18n';
 import type {default as SelectKeyset} from '../components/Select/i18n';
+import type {default as SheetKeyset} from '../components/Sheet/i18n';
 import type {default as WithTableSettingsTableColumnSetupKeyset} from '../components/Table/hoc/withTableSettings/TableColumnSetup/i18n';
 import type {default as WithTableSettingsKeyset} from '../components/Table/hoc/withTableSettings/i18n';
 import type {default as TableKeyset} from '../components/Table/i18n';
@@ -33,6 +34,7 @@ export type Keysets = typeof ActionsPanelKeyset.keysetData &
     typeof ClearButtonKeyset.keysetData &
     typeof LegacyBreadcrumbsKeyset.keysetData &
     typeof SelectKeyset.keysetData &
+    typeof SheetKeyset.keysetData &
     typeof TableKeyset.keysetData &
     typeof ToasterKeyset.keysetData &
     typeof UserLabelKeyset.keysetData;

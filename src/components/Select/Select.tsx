@@ -217,6 +217,16 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         [handleOptionClick, open, toggleOpen],
     );
 
+    const handleSheetKeyDown = React.useCallback(
+        (e: React.KeyboardEvent<HTMLElement>) => {
+            // Keys from the filter reach the list through handleFilterKeyDown, and the sheet handles Escape
+            if (e.target === e.currentTarget && e.key !== KeyCode.ESCAPE) {
+                handleControlKeyDown(e);
+            }
+        },
+        [handleControlKeyDown],
+    );
+
     const handleFilterKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLElement>) => {
         listRef?.current?.onKeyDown(e);
 
@@ -372,6 +382,17 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 virtualized={virtualized}
                 mobile={mobile}
                 placement={popupPlacement}
+                sheetContentProps={{
+                    // The sheet hides the control, so its focused content repeats the combobox semantics
+                    role: 'combobox',
+                    'aria-labelledby': selectId,
+                    'aria-controls': popupId,
+                    'aria-haspopup': 'listbox',
+                    'aria-expanded': open,
+                    'aria-activedescendant':
+                        activeIndex === undefined ? undefined : `${popupId}-item-${activeIndex}`,
+                    onKeyDown: handleSheetKeyDown,
+                }}
                 onAfterOpen={
                     filterable
                         ? () => {

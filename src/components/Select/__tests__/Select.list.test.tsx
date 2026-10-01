@@ -609,8 +609,8 @@ describe('Select on the List core', () => {
             offsetParentSpy.mockRestore();
         });
 
-        // The keyboard scroll belongs to the core (scrollIntoView on its own gesture); the Select
-        // scrolls when the popup opens, and it scrolls the list rather than the page
+        // The scroll belongs to the core: the list mounts with the selected option active, and it
+        // scrolls its own root rather than the page
         test('opening scrolls the selected option into view', async () => {
             await openSelect({options: OPTIONS, value: ['val40']});
             const list = screen.getByTestId(SelectQa.LIST);

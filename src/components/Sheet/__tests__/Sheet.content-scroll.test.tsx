@@ -66,4 +66,75 @@ describe('Sheet content scroll', () => {
         swipeDownOnContent(scrollContainer, {from: TOUCH_START_POINT, to: TOUCH_END_POINT});
         expect(onClose).not.toHaveBeenCalled();
     });
+
+    test.each([
+        ['a native drag source', {draggable: true}],
+        ['a handle of @hello-pangea/dnd', {'data-rfd-drag-handle-draggable-id': 'a'}],
+    ])('does not move the sheet on a touch that starts on %s', (_name, attributes) => {
+        const onClose = jest.fn();
+        render(
+            <Sheet visible onClose={onClose}>
+                <span {...attributes} data-qa="handle">
+                    Handle
+                </span>
+                Content
+            </Sheet>,
+        );
+
+        const handle = screen.getByTestId('handle');
+        const sheet = screen.getByRole('dialog');
+        const restingTransform = sheet.style.transform;
+        fireEvent.touchStart(handle, {touches: [{clientX: 0, clientY: TOUCH_START_POINT}]});
+        fireEvent.touchMove(handle, {touches: [{clientX: 0, clientY: TOUCH_END_POINT}]});
+        // The sheet does not follow the finger
+        expect(sheet.style.transform).toBe(restingTransform);
+        fireEvent.touchEnd(handle, {touches: [{clientX: 0, clientY: TOUCH_END_POINT}]});
+        expect(onClose).not.toHaveBeenCalled();
+
+        // The next swipe on the content works again
+        swipeDownOnContent(screen.getByTestId(SheetQa.CONTENT_AREA), {
+            from: TOUCH_START_POINT,
+            to: TOUCH_END_POINT,
+        });
+        expect(onClose).toHaveBeenCalledTimes(1);
+    });
+
+    test('a drag whose end never reaches the content leaves the next swipe working', () => {
+        const onClose = jest.fn();
+        render(
+            <Sheet visible onClose={onClose}>
+                <span data-rfd-drag-handle-draggable-id="a" data-qa="handle">
+                    Handle
+                </span>
+                Content
+            </Sheet>,
+        );
+
+        // The handle is unmounted mid-drag: neither touchend nor touchcancel bubbles up
+        fireEvent.touchStart(screen.getByTestId('handle'), {
+            touches: [{clientX: 0, clientY: TOUCH_START_POINT}],
+        });
+        swipeDownOnContent(screen.getByTestId(SheetQa.CONTENT_AREA), {
+            from: TOUCH_START_POINT,
+            to: TOUCH_END_POINT,
+        });
+        expect(onClose).toHaveBeenCalledTimes(1);
+    });
+
+    test('a touch on an element that only opts out of the native drag swipes the sheet', () => {
+        const onClose = jest.fn();
+        render(
+            <Sheet visible onClose={onClose}>
+                <span draggable={false} data-qa="image">
+                    Image
+                </span>
+            </Sheet>,
+        );
+
+        swipeDownOnContent(screen.getByTestId('image'), {
+            from: TOUCH_START_POINT,
+            to: TOUCH_END_POINT,
+        });
+        expect(onClose).toHaveBeenCalledTimes(1);
+    });
 });

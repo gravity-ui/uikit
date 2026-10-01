@@ -29,7 +29,19 @@ export interface ContentAreaHandlers {
     onTouchStart: (event: React.TouchEvent<HTMLDivElement>) => void;
     onTouchMove: (event: React.TouchEvent<HTMLDivElement>) => void;
     onTouchEnd: (event: React.TouchEvent<HTMLDivElement>) => void;
+    onTouchCancel: (event: React.TouchEvent<HTMLDivElement>) => void;
     onTransitionEnd: (event: React.TransitionEvent<HTMLDivElement>) => void;
+}
+
+/**
+ * A touch that starts on a drag handle belongs to the drag-and-drop library, not to the swipe of
+ * the sheet: a native drag source, or a handle of `@hello-pangea/dnd` (it sets `draggable="false"`,
+ * which an image that only opts out of the native drag carries as well)
+ */
+const DRAG_HANDLE_SELECTOR = '[draggable="true"], [data-rfd-drag-handle-draggable-id]';
+
+function isDragHandleTarget(target: EventTarget | null) {
+    return target instanceof Element && target.closest(DRAG_HANDLE_SELECTOR) !== null;
 }
 
 export interface UseContentScrollResult {
@@ -54,6 +66,7 @@ export function useContentScroll({
     const [contentTouched, setContentTouched] = React.useState(false);
 
     const startScrollTopRef = React.useRef(0);
+    const dragGestureRef = React.useRef(false);
 
     const latestRef = React.useRef({
         getAllowHideOnContentScroll,
@@ -73,7 +86,10 @@ export function useContentScroll({
             const {getAllowHideOnContentScroll: getAllow, getSheetScrollTop: getScrollTop} =
                 latestRef.current;
 
-            if (!getAllow() || swipeAreaTouchedRef.current) {
+            // Decided anew on every touch: the end of a drag may never reach the content area
+            // (the library unmounts the handle under the finger for a clone)
+            dragGestureRef.current = isDragHandleTarget(event.target);
+            if (!getAllow() || swipeAreaTouchedRef.current || dragGestureRef.current) {
                 return;
             }
 
@@ -94,7 +110,7 @@ export function useContentScroll({
                 setStyles: applyStyles,
             } = latestRef.current;
 
-            if (!getAllow()) {
+            if (!getAllow() || dragGestureRef.current) {
                 return;
             }
 
@@ -137,6 +153,11 @@ export function useContentScroll({
     );
 
     const onTouchEnd = React.useCallback(() => {
+        if (dragGestureRef.current) {
+            dragGestureRef.current = false;
+            return;
+        }
+
         if (!latestRef.current.getAllowHideOnContentScroll() || swipeAreaTouchedRef.current) {
             return;
         }
@@ -147,6 +168,10 @@ export function useContentScroll({
         setDeltaY(0);
         setContentTouched(false);
     }, [onTouchEndAction, setDeltaY, startYRef, swipeAreaTouchedRef, deltaYRef]);
+
+    const onTouchCancel = React.useCallback(() => {
+        dragGestureRef.current = false;
+    }, []);
 
     const onTransitionEnd = React.useCallback((event: React.TransitionEvent<HTMLDivElement>) => {
         if (event.propertyName === 'height') {
@@ -160,6 +185,7 @@ export function useContentScroll({
             onTouchStart,
             onTouchMove,
             onTouchEnd,
+            onTouchCancel,
             onTransitionEnd,
         },
     };

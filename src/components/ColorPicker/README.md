@@ -1,9 +1,6 @@
-# unstable_ColorPicker
+# ColorPicker
 
-> The `unstable_ColorPicker` component is an experimental color selection component. The component is unstable,
-> so it means breaking changes can occur during minor or patch releases. Be aware of that.
-
-The `unstable_ColorPicker` component allows users to select colors using an interactive color picker interface with HEX/RGB input modes and optional alpha channel support.
+The `ColorPicker` component allows users to select colors using an interactive color picker interface with HEX/RGB input modes and optional alpha channel support.
 
 The picker displays a color swatch that opens a popup with:
 
@@ -15,7 +12,7 @@ The picker displays a color swatch that opens a popup with:
 ## Basic usage
 
 ```jsx
-import {unstable_ColorPicker as ColorPicker} from '@gravity-ui/uikit/unstable';
+import {ColorPicker} from '@gravity-ui/uikit';
 
 function BasicColorPicker() {
   const [color, setColor] = React.useState('#ff0000');
@@ -29,7 +26,7 @@ function BasicColorPicker() {
 The ColorPicker supports alpha transparency when `withAlpha` is enabled. This adds a transparency slider and switches to HEXA/RGBA color formats:
 
 ```jsx
-import {unstable_ColorPicker as ColorPicker} from '@gravity-ui/uikit/unstable';
+import {ColorPicker} from '@gravity-ui/uikit';
 
 function ColorPickerWithAlpha() {
   const [color, setColor] = React.useState('#ff0000ff');
@@ -43,7 +40,7 @@ function ColorPickerWithAlpha() {
 For space-constrained layouts, you can render only the color swatch without displaying the color value text:
 
 ```jsx
-import {unstable_ColorPicker as ColorPicker} from '@gravity-ui/uikit/unstable';
+import {ColorPicker} from '@gravity-ui/uikit';
 
 function CompactColorPicker() {
   return (
@@ -85,7 +82,7 @@ You can also control the open state of the picker popup:
 
 | Name           | Description                                                              |           Type            |                                      Default                                       |
 | :------------- | :----------------------------------------------------------------------- | :-----------------------: | :--------------------------------------------------------------------------------: |
-| size           | The `unstable_ColorPicker` size                                          | `"s"` `"m"` `"l"` `"xl"`  |                                       `"m"`                                        |
+| size           | The `ColorPicker` size                                                   | `"s"` `"m"` `"l"` `"xl"`  |                                       `"m"`                                        |
 | value          | Color value for controlled state (HEX or HEXA string)                    |         `string`          |                                                                                    |
 | defaultValue   | Default color value for uncontrolled state                               |         `string`          |                                    `"#000000"`                                     |
 | onUpdate       | Callback when user updates the color. Receives a HEX(A) string.          | `(value: string) => void` |                                                                                    |

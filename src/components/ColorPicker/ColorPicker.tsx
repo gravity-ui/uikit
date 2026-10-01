@@ -4,10 +4,10 @@ import type {HsvaColor} from '@uiw/react-color';
 import {Alpha, Hue, Saturation, hsvaToHex, hsvaToHexa} from '@uiw/react-color';
 import {debounce} from 'es-toolkit';
 
-import {useControlledState} from '../../../hooks/useControlledState';
-import {Popup} from '../../Popup';
-import type {PopupPlacement, PopupProps} from '../../Popup';
-import {Select} from '../../Select';
+import {useControlledState} from '../../hooks/useControlledState';
+import {Popup} from '../Popup';
+import type {PopupPlacement, PopupProps} from '../Popup';
+import {Select} from '../Select';
 
 import {ColorDisplay, ColorPointer, HexInput, RgbInputs} from './components';
 import {DEFAULT_COLOR, UPDATE_COLOR_DEBOUNCE_TIME, b} from './constants';

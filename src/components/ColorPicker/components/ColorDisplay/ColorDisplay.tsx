@@ -3,7 +3,7 @@ import * as React from 'react';
 import {hsvaToRgbaString} from '@uiw/react-color';
 import type {HsvaColor} from '@uiw/react-color';
 
-import {TextInput} from '../../../../controls';
+import {TextInput} from '../../../controls';
 import {b} from '../../constants';
 import {Modes} from '../../types';
 import {getTextValueByMode, normalizeInputColorForMode} from '../../utils';

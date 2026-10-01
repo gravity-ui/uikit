@@ -16,11 +16,6 @@ export {
 } from './components/lab/Menu';
 
 export {
-    ColorPicker as unstable_ColorPicker,
-    type ColorPickerProps as unstable_ColorPickerProps,
-} from './components/lab/ColorPicker';
-
-export {
     FileDropZone as unstable_FileDropZone,
     type DropZoneFileRejection,
     type FileDropZoneProps,

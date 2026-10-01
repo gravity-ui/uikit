@@ -15,6 +15,7 @@ export * from './Card';
 export * from './Checkbox';
 export * from './ClipboardButton';
 export * from './ClipboardIcon';
+export * from './ColorPicker';
 export * from './CopyToClipboard';
 export * from './DefinitionList';
 export * from './Dialog';

@@ -1,6 +1,7 @@
 import {flip, offset as floatingOffset, limitShift, shift, size} from '@floating-ui/react';
 import type {Middleware} from '@floating-ui/react';
 
+import {FLOATING_OFFSET} from '../../../Popup/constants';
 import {BORDER_WIDTH, POPUP_MIN_WIDTH_IN_VIRTUALIZE_CASE} from '../../constants';
 
 import type {SelectPopupProps} from './types';
@@ -74,7 +75,7 @@ export function getMiddlewares(
     args: Pick<SelectPopupProps, 'width' | 'disablePortal' | 'virtualized'>,
 ): Middleware[] {
     return [
-        floatingOffset({mainAxis: BORDER_WIDTH, crossAxis: BORDER_WIDTH}),
+        floatingOffset({mainAxis: FLOATING_OFFSET, crossAxis: BORDER_WIDTH}),
         flip({altBoundary: args.disablePortal}),
         shift({
             limiter: limitShift(),

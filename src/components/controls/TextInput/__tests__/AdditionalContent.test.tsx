@@ -22,11 +22,11 @@ describe('TextInput additional content', () => {
     test('TextInput should not be focused', async () => {
         render(<TextInputWithButtonAndSheet />);
         const user = userEvent.setup();
+        const input = screen.getByRole('textbox');
         const button = await screen.findByText('Open');
         await user.click(button);
         const sheetContent = await screen.findByText('Sheet content');
         await user.click(sheetContent);
-        const input = screen.getByRole('textbox');
         expect(input).not.toHaveFocus();
     });
 });

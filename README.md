@@ -91,12 +91,11 @@ Some entry points need packages of their own, declared as optional peer dependen
 next to `@gravity-ui/uikit` when you import from there. Everything else comes with the package
 itself.
 
-| Entry point                                                                       | What to install                                |
-| :-------------------------------------------------------------------------------- | :--------------------------------------------- |
-| `@gravity-ui/uikit/virtualizer`                                                   | `@tanstack/react-virtual`                      |
-| `@gravity-ui/uikit/hello-pangea-dnd`                                              | `@hello-pangea/dnd`                            |
-| `@gravity-ui/uikit/legacy` (`List`)                                               | `react-window`, `react-virtualized-auto-sizer` |
-| `@gravity-ui/uikit/legacy` (`Table` with `withTableSettings`, `TableColumnSetup`) | `@hello-pangea/dnd`                            |
+| Entry point                          | What to install                                                     |
+| :----------------------------------- | :------------------------------------------------------------------ |
+| `@gravity-ui/uikit/virtualizer`      | `@tanstack/react-virtual`                                           |
+| `@gravity-ui/uikit/hello-pangea-dnd` | `@hello-pangea/dnd`                                                 |
+| `@gravity-ui/uikit/legacy`           | `@hello-pangea/dnd`, `react-window`, `react-virtualized-auto-sizer` |
 
 ## Development
 

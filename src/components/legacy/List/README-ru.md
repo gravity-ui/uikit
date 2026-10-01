@@ -8,9 +8,9 @@
 import {List} from '@gravity-ui/uikit/legacy';
 ```
 
-Этому компоненту на смену пришёл `List` из `@gravity-ui/uikit`. Строки он рендерит через `react-window` и
-`react-virtualized-auto-sizer` — необязательные peer-зависимости пакета: установите их рядом с ним, если
-импортируете его отсюда.
+Этому компоненту на смену пришёл `List` из `@gravity-ui/uikit`. Как и всему в `@gravity-ui/uikit/legacy`, ему нужны необязательные peer-зависимости `@hello-pangea/dnd`,
+`react-window` и `react-virtualized-auto-sizer` — установите их рядом с пакетом: точка входа загружает их все, что бы
+из неё ни импортировалось.
 
 ### ItemsHeight
 

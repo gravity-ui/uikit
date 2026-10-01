@@ -13,8 +13,9 @@
 ## Table и TableColumnSetup
 
 `Table`, его HOC (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`, `withTableSorting`) и
-`TableColumnSetup` переехали из корневой точки входа в `@gravity-ui/uikit/legacy`. Их API, разметка и CSS-классы
-(`g-table`, `g-table-column-setup`, …) не изменились. Новые возможности таблиц появляются в
+`TableColumnSetup` переехали из корневой точки входа в `@gravity-ui/uikit/legacy`. Их API и разметка
+не изменились, CSS-блоки таблицы (`g-table`, `g-table-column-setup`, …) сохранили имена; поменялись только классы
+внутри попапа настроек колонок, см. ниже. Новые возможности таблиц появляются в
 [`@gravity-ui/table`](https://github.com/gravity-ui/table).
 
 ### Если мигрировать сейчас нельзя
@@ -28,9 +29,15 @@
 
 То же касается типов (`TableProps`, `TableColumnConfig`, `TableSettingsData`, `TableColumnSetupProps`, …).
 
-- **`@hello-pangea/dnd` теперь необязательная peer-зависимость.** На нём построен попап `withTableSettings` и
-  `TableColumnSetup`: установите пакет рядом с `@gravity-ui/uikit`, если используете любой из них. `Table` и остальным
-  HOC он не нужен.
+- **`@gravity-ui/uikit/legacy` нужны три необязательные peer-зависимости.** `@hello-pangea/dnd` (на нём построен попап
+  настроек колонок), `react-window` и `react-virtualized-auto-sizer` (legacy `List`) больше не ставятся вместе с пакетом,
+  а legacy-точка входа загружает их все, что бы из неё ни импортировалось: установите все три рядом с `@gravity-ui/uikit`.
+- **Классы внутри попапа настроек колонок.** `g-tree-select` → `g-tree-select-legacy`, `g-tree-list` →
+  `g-tree-list-legacy`, `g-list-container-view` → `g-list-container-view-legacy`, `g-list-item-view` →
+  `g-list-item-view-legacy`; модификаторы размера (`g-tree-select__popup_size_*`, `_size_*` и `_radius_*` у строк)
+  удалены. Попап выглядит так же; перепишите переопределения, нацеленные на эти классы.
+- **`@deprecated`.** `Table`, его HOC и `TableColumnSetup` помечены `@deprecated` в типах: линтеры с правилом
+  `no-deprecated` начнут сообщать об их использовании.
 - **`DefaultPropsProvider` больше не принимает ключ `TableColumnSetup`.** Legacy-компоненты не читают пропсы по
   умолчанию: передавайте их в `TableColumnSetup` явно.
 - **Переводы.** Имена кейсетов (`Table`, `withTableSettings`, `TableColumnSetupInner`, `TableColumnSetup`) не

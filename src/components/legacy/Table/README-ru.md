@@ -9,9 +9,9 @@ import {Table} from '@gravity-ui/uikit/legacy';
 ```
 
 Компонент устарел: новые возможности появляются в [`@gravity-ui/table`](https://github.com/gravity-ui/table), см.
-[руководство по миграции на v8](../../../../docs/migration-to-v8-ru.md#table-и-tablecolumnsetup). `withTableSettings` строит
-свой попап на `@hello-pangea/dnd` — это необязательная peer-зависимость пакета, установите её рядом с пакетом, если
-используете HOC.
+[руководство по миграции на v8](../../../../docs/migration-to-v8-ru.md#table-и-tablecolumnsetup). Как и всему в `@gravity-ui/uikit/legacy`, ему нужны необязательные peer-зависимости `@hello-pangea/dnd`,
+`react-window` и `react-virtualized-auto-sizer` — установите их рядом с пакетом: точка входа загружает их все, что бы
+из неё ни импортировалось.
 
 Компонент `Table` позволяет выбирать и сортировать строки, а также выполнять действия с выбранной строкой.
 

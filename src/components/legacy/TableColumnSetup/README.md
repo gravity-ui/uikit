@@ -11,9 +11,9 @@ import {TableColumnSetup} from '@gravity-ui/uikit/legacy';
 ```
 
 This component is legacy: new features go to [`@gravity-ui/table`](https://github.com/gravity-ui/table), see the
-[migration guide to v8](../../../../docs/migration-to-v8.md#table-and-tablecolumnsetup). The popup is
-built on `@hello-pangea/dnd`, an optional peer dependency of the package — install it next to the package when you
-use the component.
+[migration guide to v8](../../../../docs/migration-to-v8.md#table-and-tablecolumnsetup). Like everything in `@gravity-ui/uikit/legacy`, it needs the optional peer dependencies
+`@hello-pangea/dnd`, `react-window` and `react-virtualized-auto-sizer` installed next to the package: the entry point
+loads all of them, whatever you import from it.
 
 <!--SANDBOX
 import {TableColumnSetup} from '@gravity-ui/uikit/legacy';

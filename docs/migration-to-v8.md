@@ -13,8 +13,9 @@ there, but no removal date for `/legacy` is promised: plan the migration away fr
 ## Table and TableColumnSetup
 
 `Table`, its HOCs (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`,
-`withTableSorting`) and `TableColumnSetup` moved from the root entry point to `@gravity-ui/uikit/legacy`. Their API,
-markup and CSS classes (`g-table`, `g-table-column-setup`, …) did not change. New table features go to
+`withTableSorting`) and `TableColumnSetup` moved from the root entry point to `@gravity-ui/uikit/legacy`. Their API and
+markup did not change, the CSS blocks of the table (`g-table`, `g-table-column-setup`, …) keep their names; only the
+classes inside the column settings popup changed, see below. New table features go to
 [`@gravity-ui/table`](https://github.com/gravity-ui/table).
 
 ### If you cannot migrate now
@@ -28,9 +29,16 @@ Change the import, the rest of the code stays the same:
 
 The same applies to the types (`TableProps`, `TableColumnConfig`, `TableSettingsData`, `TableColumnSetupProps`, …).
 
-- **`@hello-pangea/dnd` is an optional peer dependency now.** The popup of `withTableSettings` and
-  `TableColumnSetup` is built on it: install it next to `@gravity-ui/uikit` if you use either of them.
-  `Table` and the other HOCs do not need it.
+- **`@gravity-ui/uikit/legacy` needs three optional peer dependencies.** `@hello-pangea/dnd` (the column settings
+  popup is built on it), `react-window` and `react-virtualized-auto-sizer` (the legacy `List`) are no longer installed
+  with the package, and the legacy entry point loads all of them whatever you import from it: install the three next to
+  `@gravity-ui/uikit`.
+- **The classes inside the column settings popup.** `g-tree-select` → `g-tree-select-legacy`, `g-tree-list` →
+  `g-tree-list-legacy`, `g-list-container-view` → `g-list-container-view-legacy`, `g-list-item-view` →
+  `g-list-item-view-legacy`; the size modifiers (`g-tree-select__popup_size_*`, `_size_*` and `_radius_*` of the rows)
+  are gone. The popup looks the same; rewrite the overrides that targeted these classes.
+- **`@deprecated`.** `Table`, its HOCs and `TableColumnSetup` are marked `@deprecated` in their types: linters with a
+  `no-deprecated` rule start reporting their usages.
 - **`DefaultPropsProvider` no longer accepts the `TableColumnSetup` key.** Legacy components do not read the default
   props: pass them to `TableColumnSetup` explicitly.
 - **Translations.** The keyset names (`Table`, `withTableSettings`, `TableColumnSetupInner`, `TableColumnSetup`) are
@@ -39,7 +47,7 @@ The same applies to the types (`TableProps`, `TableColumnConfig`, `TableSettings
 ### Moving to `@gravity-ui/table`
 
 `@gravity-ui/table` has a
-[step-by-step guide from the uikit `Table`](https://github.com/gravity-ui/table/tree/main/docs/migration-from-uikit-table):
+[step-by-step guide from the uikit `Table`](https://github.com/gravity-ui/table/blob/main/docs/migration-from-uikit-table/migration-from-uikit-table.md):
 props, every HOC, and `TableColumnSetup` (section 4.1). Its "Stay with the old table if…" list is a fair criterion: a
 small interaction-free table without performance requirements can stay on the legacy one.
 

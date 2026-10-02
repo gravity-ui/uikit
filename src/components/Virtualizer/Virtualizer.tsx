@@ -29,6 +29,8 @@ export type VirtualizerItem = {index: number; key: Key};
 /** How many quiet frames end the watch of `scrollToIndex`, and how many frames it lasts at most */
 const SCROLL_SETTLED_FRAMES = 3;
 const SCROLL_MAX_FRAMES = 20;
+/** The reader has taken the scroll over: the watch of `scrollToIndex` must not pull the list back */
+const USER_SCROLL_EVENTS = ['wheel', 'touchmove', 'pointerdown'] as const;
 
 export type ScrollAlignment = 'start' | 'center' | 'end' | 'auto';
 
@@ -223,8 +225,8 @@ export function Virtualizer({
         },
     });
 
-    const scrollFrameRef = React.useRef(0);
-    React.useEffect(() => () => cancelAnimationFrame(scrollFrameRef.current), []);
+    const stopScrollWatchRef = React.useRef<(() => void) | null>(null);
+    React.useEffect(() => () => stopScrollWatchRef.current?.(), []);
 
     React.useImperativeHandle(
         apiRef,
@@ -239,17 +241,24 @@ export function Virtualizer({
              * stays in place for a few frames. The watch is a single one — a new call ends the
              * previous: the retry loop of `scrollToIndex` of tanstack cannot be cancelled, and
              * calls that come faster than it settles (a key held down) leave the list at a row of
-             * an earlier call
+             * an earlier call. A reader who scrolls ends the watch as well: it must not pull the
+             * list back from under them
              */
             scrollToIndex: (index: number, align: ScrollAlignment = 'auto') => {
-                cancelAnimationFrame(scrollFrameRef.current);
+                stopScrollWatchRef.current?.();
+                const container = scrollContainerRef.current;
+                if (!container) {
+                    return;
+                }
+                let frame = 0;
                 let frames = 0;
                 let settledFrames = 0;
+                const stop = () => {
+                    cancelAnimationFrame(frame);
+                    USER_SCROLL_EVENTS.forEach((type) => container.removeEventListener(type, stop));
+                    stopScrollWatchRef.current = null;
+                };
                 const tick = () => {
-                    const container = scrollContainerRef.current;
-                    if (!container) {
-                        return;
-                    }
                     const offset = getOffsetToRow(virtualizer, container, index, align);
                     if (offset === undefined) {
                         settledFrames += 1;
@@ -259,9 +268,15 @@ export function Virtualizer({
                     }
                     frames += 1;
                     if (settledFrames < SCROLL_SETTLED_FRAMES && frames <= SCROLL_MAX_FRAMES) {
-                        scrollFrameRef.current = requestAnimationFrame(tick);
+                        frame = requestAnimationFrame(tick);
+                    } else {
+                        stop();
                     }
                 };
+                USER_SCROLL_EVENTS.forEach((type) =>
+                    container.addEventListener(type, stop, {passive: true}),
+                );
+                stopScrollWatchRef.current = stop;
                 tick();
             },
             get scrollOffset() {

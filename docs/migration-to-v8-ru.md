@@ -10,6 +10,24 @@
 Компоненты, которые больше не развиваются, переезжают в точку входа `@gravity-ui/uikit/legacy`. Там их API сохраняется,
 но дата удаления `/legacy` не обещается: запланируйте уход с них.
 
+## Устаревшие API Modal и Dialog
+
+У `Modal` и `Dialog` удалены пропсы `onClose`, `onEscapeKeyDown`, `onOutsideClick` и `onEnterKeyDown`. Также удалён тип `ModalCloseReason`. Для закрытия используйте `onOpenChange`: колбэк получает новое состояние, событие и причину (`escape-key` или `outside-press`). Вместо `onEnterKeyDown` обрабатывайте отправку формы или назначьте `initialFocus` кнопке подтверждения.
+
+```diff
+- <Modal open={open} onClose={() => setOpen(false)}>
++ <Modal open={open} onOpenChange={setOpen}>
+```
+
+У `Dialog` удалён проп `size`. Для прежней фиксированной ширины передайте `maxWidth` с тем же значением и `fullWidth`. Для закрытия диалога используйте `onOpenChange`:
+
+```diff
+- <Dialog size="m" open={open} onClose={handleClose}>
++ <Dialog maxWidth="m" fullWidth open={open} onOpenChange={setOpen}>
+```
+
+У `Dialog` `onOpenChange` передаёт причину `escape-key` для Escape, `outside-press` для клика вне диалога и `click` для кнопки закрытия. Вместо `onEnterKeyDown` обрабатывайте отправку формы или нажатие кнопки действия.
+
 ## Геометрия Dialog
 
 У `Dialog` уменьшились отступы заголовка и содержимого. У заголовка отступы сверху и снизу составляют 12 и 8 px,

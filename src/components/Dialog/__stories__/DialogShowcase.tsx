@@ -62,11 +62,13 @@ function OtherDialog() {
             </Button>
             <Dialog
                 open={open}
-                onClose={switchVisibility}
+                onOpenChange={(nextOpen) => {
+                    setOpen(nextOpen);
+                    if (!nextOpen) setErrorVisible(false);
+                }}
                 className="my-custom-class-for-dialog"
                 hasCloseButton
                 keepMounted
-                onEnterKeyDown={handleApply}
                 qa="darthVader"
                 onTransitionInComplete={() => {
                     selectRef?.current?.focus();
@@ -161,10 +163,12 @@ export function DialogShowcase() {
             </div>
             <Dialog
                 open={open}
-                onClose={switchVisibility}
+                onOpenChange={(nextOpen) => {
+                    setOpen(nextOpen);
+                    if (!nextOpen) setErrorVisible(false);
+                }}
                 className="my-custom-class-for-dialog"
                 hasCloseButton
-                onEnterKeyDown={handleApply}
                 initialFocus="apply"
             >
                 <Dialog.Header

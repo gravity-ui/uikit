@@ -32,6 +32,7 @@ interface MenuComponent
 }
 
 // TODO: keyboard navigation, Up/Down arrows and Enter
+/** @deprecated Legacy component. Use `Menu` from `@gravity-ui/uikit` instead. */
 export const Menu = React.forwardRef<HTMLUListElement, MenuProps>(function Menu(rawProps, ref) {
     const {
         size = 'm',

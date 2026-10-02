@@ -40,6 +40,7 @@ The old `Menu.Item` props, `Menu.Group`, and `DropdownMenu.items` array remain a
 
 As with any `/legacy` import, install its optional peer dependencies: `@hello-pangea/dnd`, `react-window`, and
 `react-virtualized-auto-sizer`.
+The legacy `Menu`, `MenuItem`, `MenuGroup`, and `DropdownMenu` components are marked `@deprecated` in their types.
 
 ## Breadcrumbs, Popover and Tabs removed from `/legacy`
 

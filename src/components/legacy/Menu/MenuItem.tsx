@@ -28,6 +28,7 @@ export interface MenuItemProps extends DOMProps, QAProps {
     children?: React.ReactNode;
 }
 
+/** @deprecated Legacy component. Use `MenuItem` from `@gravity-ui/uikit` instead. */
 export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function MenuItem(
     {
         iconStart,

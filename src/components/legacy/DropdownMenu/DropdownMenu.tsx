@@ -204,7 +204,9 @@ const DropdownMenu = <T,>(rawProps: DropdownMenuProps<T> | ControlledDropdownMen
     );
 };
 
+/** @deprecated Legacy component. Use `Menu` from `@gravity-ui/uikit` instead. */
 const DropdownMenuExport = Object.assign(DropdownMenu, {Item: DropdownMenuItemComponent});
+/** @deprecated Legacy component. Use `Menu` from `@gravity-ui/uikit` instead. */
 export {DropdownMenuExport as DropdownMenu};
 
 export type {DropdownMenuItem, DropdownMenuItemMixed, DropdownMenuItemAction};

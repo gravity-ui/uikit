@@ -40,6 +40,7 @@
 
 Как и для других импортов из `/legacy`, установите необязательные peer-зависимости: `@hello-pangea/dnd`,
 `react-window` и `react-virtualized-auto-sizer`.
+Legacy-компоненты `Menu`, `MenuItem`, `MenuGroup` и `DropdownMenu` помечены `@deprecated` в типах.
 
 ## Breadcrumbs, Popover и Tabs удалены из `/legacy`
 

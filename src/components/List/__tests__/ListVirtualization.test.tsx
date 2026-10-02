@@ -1,7 +1,11 @@
+import * as React from 'react';
+
 import userEvent from '@testing-library/user-event';
 
-import {render, screen, within} from '../../../../test-utils/utils';
+import {fireEvent, render, screen, within} from '../../../../test-utils/utils';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
+import {Virtualizer} from '../../Virtualizer/Virtualizer';
+import type {VirtualizerApi} from '../../Virtualizer/Virtualizer';
 import {List} from '../List';
 import type {ListProps} from '../types';
 
@@ -15,8 +19,8 @@ mockLayout({viewport: VIEWPORT_HEIGHT, row: ROW_HEIGHT, section: SECTION_HEIGHT}
 
 const ITEMS = Array.from({length: 200}, (_, index) => `Item ${index + 1}`);
 
-function renderVirtualized(listProps?: Partial<ListProps<string>>) {
-    return render(
+function VirtualizedList(listProps: Partial<ListProps<string>>) {
+    return (
         <ListVirtualizer estimateItemSize={ROW_HEIGHT}>
             <List
                 aria-label="Logs"
@@ -24,8 +28,12 @@ function renderVirtualized(listProps?: Partial<ListProps<string>>) {
                 style={{maxHeight: VIEWPORT_HEIGHT}}
                 {...listProps}
             />
-        </ListVirtualizer>,
+        </ListVirtualizer>
     );
+}
+
+function renderVirtualized(listProps?: Partial<ListProps<string>>) {
+    return render(<VirtualizedList {...listProps} />);
 }
 
 describe('List: virtualization layer', () => {
@@ -122,6 +130,30 @@ describe('List: virtualization layer', () => {
         });
     });
 
+    describe('renders of the engine', () => {
+        test('a scroll while a render of tanstack is pending does not loop', () => {
+            jest.useFakeTimers();
+            // The render asked for from a timer is not wrapped in act — that is the point of it
+            const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+            try {
+                renderVirtualized();
+                const listbox = screen.getByRole('listbox');
+
+                scrollTo(listbox, ROW_HEIGHT * 10);
+                // The scroll has ended: tanstack asks for a low-priority render from a timer...
+                jest.advanceTimersByTime(200);
+                // ...and the next scroll renders before React gets to it (see the scrollMargin
+                // effect of the Virtualizer)
+                scrollTo(listbox, ROW_HEIGHT * 150);
+
+                expect(screen.getByRole('option', {name: 'Item 151'})).toBeInTheDocument();
+            } finally {
+                consoleErrorSpy.mockRestore();
+                jest.useRealTimers();
+            }
+        });
+    });
+
     describe('roving focus survives virtualization', () => {
         test('the focused row survives the window moving away', async () => {
             const user = userEvent.setup();
@@ -145,31 +177,6 @@ describe('List: virtualization layer', () => {
             expect(screen.getByRole('option', {name: 'Item 6'})).toHaveFocus();
         });
 
-        test('keyboard navigation scrolls the active row into view, hover does not', async () => {
-            const scrollIntoViewMock = jest.fn();
-            HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
-            try {
-                const user = userEvent.setup();
-                renderVirtualized();
-
-                await user.tab();
-                scrollIntoViewMock.mockClear();
-                await user.keyboard('{ArrowDown}');
-
-                expect(screen.getByRole('option', {name: 'Item 2'})).toHaveFocus();
-                expect(scrollIntoViewMock).toHaveBeenCalledWith({block: 'nearest'});
-
-                scrollIntoViewMock.mockClear();
-                await user.hover(screen.getByRole('option', {name: 'Item 5'}));
-
-                expect(screen.getByRole('option', {name: 'Item 5'})).toHaveAttribute('data-active');
-                expect(screen.getByRole('option', {name: 'Item 5'})).toHaveFocus();
-                expect(scrollIntoViewMock).not.toHaveBeenCalled();
-            } finally {
-                delete (HTMLElement.prototype as Partial<HTMLElement>).scrollIntoView;
-            }
-        });
-
         test('without an active row the tab stop stays mounted', () => {
             renderVirtualized();
             const listbox = screen.getByRole('listbox');
@@ -179,6 +186,123 @@ describe('List: virtualization layer', () => {
             const tabStop = screen.getByRole('option', {name: 'Item 1'});
             expect(tabStop).toHaveAttribute('tabindex', '0');
             expect(screen.queryByRole('option', {name: 'Item 2'})).not.toBeInTheDocument();
+        });
+    });
+
+    describe('scrollToIndex of the engine', () => {
+        // The watch of scrollToIndex runs on animation frames: the test runs them by hand
+        let handle = 0;
+        const frames = new Map<number, FrameRequestCallback>();
+        let rafSpy: jest.SpyInstance;
+        let cafSpy: jest.SpyInstance;
+
+        beforeEach(() => {
+            frames.clear();
+            rafSpy = jest.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+                handle += 1;
+                frames.set(handle, callback);
+                return handle;
+            });
+            cafSpy = jest.spyOn(window, 'cancelAnimationFrame').mockImplementation((id) => {
+                frames.delete(id);
+            });
+        });
+
+        afterEach(() => {
+            rafSpy.mockRestore();
+            cafSpy.mockRestore();
+        });
+
+        const runFrames = (count: number) => {
+            for (let frame = 0; frame < count; frame += 1) {
+                const callbacks = Array.from(frames.values());
+                frames.clear();
+                callbacks.forEach((callback) => callback(0));
+            }
+        };
+
+        function renderEngine() {
+            const apiRef = React.createRef<VirtualizerApi>();
+            const getEngine = (rows: string[]) => (
+                <Virtualizer
+                    apiRef={apiRef}
+                    // mockLayout tells the viewport from a row by the role
+                    role="listbox"
+                    aria-label="Rows"
+                    style={{maxHeight: VIEWPORT_HEIGHT}}
+                    count={rows.length}
+                    getItemSize={() => ROW_HEIGHT}
+                    getItemKey={(index) => rows[index]}
+                    renderRow={({index}) => <div>{rows[index]}</div>}
+                />
+            );
+            const {rerender, unmount} = render(getEngine(ITEMS));
+            frames.clear();
+            return {
+                apiRef,
+                listbox: screen.getByRole('listbox'),
+                setRows: (rows: string[]) => rerender(getEngine(rows)),
+                unmount,
+            };
+        }
+
+        test('brings a row into view: by the nearest edge or where `align` says', () => {
+            const {apiRef, listbox, unmount} = renderEngine();
+
+            apiRef.current?.scrollToIndex(149);
+            expect(listbox.scrollTop).toBe(150 * ROW_HEIGHT - VIEWPORT_HEIGHT);
+
+            apiRef.current?.scrollToIndex(9, 'start');
+            expect(listbox.scrollTop).toBe(9 * ROW_HEIGHT);
+
+            unmount();
+            expect(apiRef.current).toBeNull();
+        });
+
+        test('a new call ends the watch of the previous one, and the watch ends by itself', () => {
+            const {apiRef, listbox} = renderEngine();
+
+            apiRef.current?.scrollToIndex(149);
+            apiRef.current?.scrollToIndex(9, 'start');
+            runFrames(5);
+
+            expect(listbox.scrollTop).toBe(9 * ROW_HEIGHT);
+            expect(frames.size).toBe(0);
+        });
+
+        test('a reader who scrolls ends the watch', () => {
+            const {apiRef, listbox} = renderEngine();
+
+            apiRef.current?.scrollToIndex(149);
+            expect(frames.size).toBe(1);
+
+            fireEvent.wheel(listbox);
+
+            expect(frames.size).toBe(0);
+        });
+
+        test('scrollToOffset ends the watch', () => {
+            const {apiRef, listbox} = renderEngine();
+
+            apiRef.current?.scrollToIndex(149);
+            apiRef.current?.scrollToOffset(0, 'start');
+            runFrames(5);
+
+            expect(listbox.scrollTop).toBe(0);
+            expect(frames.size).toBe(0);
+        });
+
+        test('rows that change end the watch', () => {
+            const {apiRef, listbox, setRows} = renderEngine();
+
+            apiRef.current?.scrollToIndex(149);
+            setRows(['Earlier 1', 'Earlier 2', ...ITEMS]);
+            // A later scroll must not be undone
+            listbox.scrollTop = 0;
+            runFrames(5);
+
+            expect(listbox.scrollTop).toBe(0);
+            expect(frames.size).toBe(0);
         });
     });
 

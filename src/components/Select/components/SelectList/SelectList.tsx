@@ -2,18 +2,15 @@
 
 import * as React from 'react';
 
-import {useForkRef} from '../../../../hooks';
 import {List} from '../../../List';
 import type {ListFocusOwner, ListItemContext, ListItemHelpers} from '../../../List';
 import {ListVirtualizationContext} from '../../../List/VirtualizationContext';
 import type {ListVirtualizationContextValue} from '../../../List/VirtualizationContext';
 import {warnOnce} from '../../../utils/warn';
 import {SelectQa, selectListBlock} from '../../constants';
-import {useAlignActiveOption} from '../../hooks';
 import type {SelectOption, SelectProps} from '../../types';
 import {
     buildSelectListNodes,
-    flattenSelectListNodes,
     getItemViewSize,
     getPopupItemHeight,
     getSelectListNodeText,
@@ -99,9 +96,6 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
             () => buildSelectListNodes(flattenOptions, loading, groupOfOption, groupsWithOptions),
             [flattenOptions, loading, groupOfOption, groupsWithOptions],
         );
-
-        const rootRef = React.useRef<HTMLDivElement | null>(null);
-        const handleRootRef = useForkRef(ref, rootRef);
 
         const getItemHeight = React.useCallback(
             (option: FlattenOption, index: number) => {
@@ -259,21 +253,9 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
             ],
         );
 
-        // The rows in the order the core lays them out — the nodes it is given, flattened back,
-        // so that a section the filter left empty is not counted where the list does not draw it
-        const rows = React.useMemo(() => flattenSelectListNodes(nodes), [nodes]);
-
-        useAlignActiveOption({
-            listId: id,
-            containerRef: rootRef,
-            activeItemId,
-            rows,
-            getItemHeight,
-        });
-
         const list = (
             <List<SelectListNode>
-                ref={handleRootRef}
+                ref={ref}
                 id={id}
                 qa={SelectQa.LIST}
                 className={selectListBlock({size, virtualized, mobile, multiple})}

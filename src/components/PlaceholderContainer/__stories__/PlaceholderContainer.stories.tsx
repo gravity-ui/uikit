@@ -61,7 +61,7 @@ const actionComponentTest = (
     <div className={b('custom-action')}>
         <Menu
             trigger={
-                <Button view="flat-secondary" onClick={(event) => event.stopPropagation()}>
+                <Button view="normal" onClick={(event) => event.stopPropagation()}>
                     Text
                     <Icon data={ChevronDown} size={16} />
                 </Button>

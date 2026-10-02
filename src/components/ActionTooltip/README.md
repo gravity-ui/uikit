@@ -37,6 +37,12 @@ By default `ActionTooltip` opens and hides by hovering the anchor. You can chang
 Pass your state to the `open` prop and change it from `onOpenChange` callback.
 `onOpenChange` callback has the following signature: `(open: boolean, event?: Event, reason: 'hover' | 'focus') => void`.
 
+## Delay Group
+
+Like `Tooltip`, `ActionTooltip` shares the open delay with the other tooltips of the app: the first tooltip of
+a toolbar pays its `openDelay`, its neighbours open instantly while the group is warm. See the
+[Delay Group](../Tooltip/README.md#delay-group) section of `Tooltip` for the details.
+
 ## Properties
 
 | Name          | Description                                                                                     |                       Type                       |     Default     |

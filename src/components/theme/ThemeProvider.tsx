@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import {useLayoutEffect} from '../../hooks';
+import {TooltipDelayGroup} from '../Tooltip/TooltipDelayGroup';
 import {PrivateLayoutProvider} from '../layout/LayoutProvider/LayoutProvider';
 import type {PrivateLayoutProviderProps} from '../layout/LayoutProvider/LayoutProvider';
 import {block} from '../utils/cn';
@@ -108,21 +109,25 @@ export function ThemeProvider({
                   ...(fallbackLang ? {fallbackLang} : undefined),
               }
             : langOptionsState;
+
+    const content = scoped ? (
+        <div className={b({theme: themeValue}, rootClassName)} dir={direction}>
+            {children}
+        </div>
+    ) : (
+        children
+    );
+
     return (
         <PrivateLayoutProvider {...layout}>
             <DefaultPropsProvider defaultProps={defaultProps}>
                 <ThemeContext.Provider value={contextValue}>
                     <ThemeSettingsContext.Provider value={themeSettingsContext}>
                         <LangContext.Provider value={langOptionsFinal}>
-                            {scoped ? (
-                                <div
-                                    className={b({theme: themeValue}, rootClassName)}
-                                    dir={direction}
-                                >
-                                    {children}
-                                </div>
+                            {hasParentProvider ? (
+                                content
                             ) : (
-                                children
+                                <TooltipDelayGroup>{content}</TooltipDelayGroup>
                             )}
                         </LangContext.Provider>
                     </ThemeSettingsContext.Provider>

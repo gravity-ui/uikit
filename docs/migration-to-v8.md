@@ -21,6 +21,18 @@ and that edge. Check custom content and CSS overrides against the new spacing.
 The root no longer has the `g-dialog_has-close` class. Update selectors that depend on it; the close button can be
 selected through `.g-dialog:has(.g-dialog-btn-close)` when needed.
 
+## HelpMark icon size
+
+The `HelpMark` prop `iconSize` was renamed to `size`. Replace the prop name in `HelpMark` usages, including
+`DefaultPropsProvider` defaults and `DefinitionList` note objects:
+
+```diff
+- <HelpMark iconSize="l" />
++ <HelpMark size="l" />
+```
+
+The values (`s`, `m`, `l`, `xl`) and the default (`m`) did not change.
+
 ## Table and TableColumnSetup
 
 `Table`, its HOCs (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`,

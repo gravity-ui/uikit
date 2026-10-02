@@ -48,16 +48,16 @@ export const Size = {
         return (
             <Showcase>
                 <ShowcaseItem title="Size s">
-                    <HelpMark {...args} iconSize="s" />
+                    <HelpMark {...args} size="s" />
                 </ShowcaseItem>
                 <ShowcaseItem title="Size m">
-                    <HelpMark {...args} iconSize="m" />
+                    <HelpMark {...args} size="m" />
                 </ShowcaseItem>
                 <ShowcaseItem title="Size l">
-                    <HelpMark {...args} iconSize="l" />
+                    <HelpMark {...args} size="l" />
                 </ShowcaseItem>
                 <ShowcaseItem title="Size xl">
-                    <HelpMark {...args} iconSize="xl" />
+                    <HelpMark {...args} size="xl" />
                 </ShowcaseItem>
             </Showcase>
         );

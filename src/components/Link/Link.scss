@@ -29,8 +29,10 @@ $block: '.#{variables.$ns}link';
     &_view_normal,
     &_view_primary,
     &_view_secondary {
-        &:hover {
-            color: var(--g-color-text-link-hover);
+        @media (hover: hover) {
+            &:hover {
+                color: var(--g-color-text-link-hover);
+            }
         }
     }
 
@@ -39,8 +41,10 @@ $block: '.#{variables.$ns}link';
             color: var(--g-color-text-link-visited);
         }
 
-        &:visited:hover {
-            color: var(--g-color-text-link-visited-hover);
+        @media (hover: hover) {
+            &:visited:hover {
+                color: var(--g-color-text-link-visited-hover);
+            }
         }
     }
 

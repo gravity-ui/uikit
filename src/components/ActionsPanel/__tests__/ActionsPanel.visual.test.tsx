@@ -6,7 +6,7 @@ import {test} from '~playwright/core';
 import {ActionsPanel} from '../ActionsPanel';
 import type {ActionsPanelProps} from '../types';
 
-import {TestActionsPanelWithNote} from './helpersPlaywright';
+import {TestActionsPanelNestedAction, TestActionsPanelWithNote} from './helpersPlaywright';
 
 test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
     const noop = () => {
@@ -250,5 +250,14 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
         await expectScreenshot({
             themes: ['light'],
         });
+    });
+
+    test('runs an action from a nested overflow menu', async ({mount, page}) => {
+        await mount(<TestActionsPanelNestedAction />);
+
+        await page.getByRole('button', {name: 'Show more'}).click();
+        await page.getByRole('menuitem', {name: 'More'}).hover();
+        await page.getByRole('menuitem', {name: 'Run'}).click();
+        await expect(page.getByTestId('menu-action-result')).toHaveText('run');
     });
 });

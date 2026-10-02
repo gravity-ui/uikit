@@ -1,4 +1,4 @@
-import type {DropdownMenuItem} from '../../../legacy/DropdownMenu';
+import type {MenuItemButtonProps} from '../../../Menu';
 import {cn} from '../../../utils/cn';
 import type {FilePreviewProps} from '../../FilePreview';
 import {FilePreview} from '../../FilePreview';
@@ -10,7 +10,7 @@ import './CompactFilePreviewWithActionsShowcase.scss';
 const b = cn('compact-file-preview-with-actions');
 
 export type CompactMenuWithActionsShowcaseProps = {
-    actions: DropdownMenuItem[];
+    actions: MenuItemButtonProps[];
 } & Omit<FilePreviewProps, 'view' | 'actions'>;
 
 export const CompactMenuWithActionsShowcase = ({

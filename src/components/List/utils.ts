@@ -1,5 +1,6 @@
 import type * as React from 'react';
 
+import {getNearestEdgeScrollOffset, getOffsetTopWithin} from '../utils/scrollIntoContainer';
 import {warnOnce} from '../utils/warn';
 
 import type {ListItemGetters} from './types';
@@ -45,6 +46,38 @@ export function isTextInputTarget(target: EventTarget | null): boolean {
  */
 export function isDragTarget(target: EventTarget | null): boolean {
     return target instanceof HTMLElement && target.closest('[draggable]') !== null;
+}
+
+/** Whether the root clips and scrolls its rows; a list at full height leaves that to the page */
+export function isScrollContainer(container: HTMLElement): boolean {
+    const {overflowY} = getComputedStyle(container);
+    return overflowY === 'auto' || overflowY === 'scroll' || overflowY === 'hidden';
+}
+
+function getScrollTopToRow(container: HTMLElement, element: HTMLElement): number | undefined {
+    const start = getOffsetTopWithin(container, element);
+    return getNearestEdgeScrollOffset({
+        start,
+        end: start + element.offsetHeight,
+        scrollOffset: container.scrollTop,
+        viewportSize: container.clientHeight,
+    });
+}
+
+/**
+ * Scrolls the row into view inside the list root and nowhere else, by the nearest edge — unlike
+ * `scrollIntoView`, a list hanging off the viewport edge never drags the page along
+ */
+export function scrollRowIntoView(container: HTMLElement, element: HTMLElement) {
+    const scrollTop = getScrollTopToRow(container, element);
+    if (scrollTop !== undefined) {
+        // eslint-disable-next-line no-param-reassign
+        container.scrollTop = scrollTop;
+    }
+}
+
+export function isRowInView(container: HTMLElement, element: HTMLElement): boolean {
+    return getScrollTopToRow(container, element) === undefined;
 }
 
 export interface ListRow<T> {

@@ -1,5 +1,6 @@
 import userEvent from '@testing-library/user-event';
 
+import {setupIntersectionObserverMock} from '../../../../test-utils/setupIntersectionObserverMock';
 import {render, screen} from '../../../../test-utils/utils';
 import {getSectionHeader, mockLayout} from '../../List/__tests__/helpers';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
@@ -609,8 +610,7 @@ describe('Select on the List core', () => {
             offsetParentSpy.mockRestore();
         });
 
-        // The keyboard scroll belongs to the core (scrollIntoView on its own gesture); the Select
-        // scrolls when the popup opens, and it scrolls the list rather than the page
+        // The scroll is the core's: the list mounts with the selected option active
         test('opening scrolls the selected option into view', async () => {
             await openSelect({options: OPTIONS, value: ['val40']});
             const list = screen.getByTestId(SelectQa.LIST);
@@ -619,9 +619,38 @@ describe('Select on the List core', () => {
             expect(list.scrollTop).toBe(40 * ROW_HEIGHT - VIEWPORT);
         });
 
+        test('options that arrive under the pointer scroll to the selected one', async () => {
+            // The row of the loader watches for its own intersection
+            setupIntersectionObserverMock();
+            try {
+                // The list opened empty and the pointer rests on the popup: there was no active
+                // option to keep under it, so the selected one is shown as on a regular open
+                const {rerender} = render(
+                    <MobileProvider mobile={false}>
+                        <ControlledSelect id={SELECT_ID} options={[]} value={['val40']} loading />
+                    </MobileProvider>,
+                );
+                const user = userEvent.setup();
+                await user.click(screen.getByTestId(TEST_QA));
+                await user.hover(screen.getByTestId(SelectQa.LIST));
+
+                rerender(
+                    <MobileProvider mobile={false}>
+                        <ControlledSelect id={SELECT_ID} options={OPTIONS} value={['val40']} />
+                    </MobileProvider>,
+                );
+
+                expect(screen.getByTestId(SelectQa.LIST).scrollTop).toBe(
+                    40 * ROW_HEIGHT - VIEWPORT,
+                );
+            } finally {
+                delete (window as {IntersectionObserver?: unknown}).IntersectionObserver;
+            }
+        });
+
         test('a group the filter emptied does not shift the scroll', async () => {
-            // The header of such a group is not drawn, so it must not be counted either: under
-            // virtualization the offset is summed from the rows before the active one
+            // The header of such a group is not a row at all: under virtualization the list scrolls
+            // by the index of the active row, and a phantom row would shift it
             render(
                 <MobileProvider mobile={false}>
                     <ListVirtualizer>
@@ -646,7 +675,7 @@ describe('Select on the List core', () => {
             expect(screen.getByTestId(SelectQa.LIST).scrollTop).toBe(40 * ROW_HEIGHT - VIEWPORT);
         });
 
-        test('under virtualization the scroll waits for the rows of the first window', async () => {
+        test('under virtualization opening scrolls to the same offset', async () => {
             render(
                 <MobileProvider mobile={false}>
                     <ListVirtualizer>
@@ -657,9 +686,8 @@ describe('Select on the List core', () => {
             const user = userEvent.setup();
             await user.click(screen.getByTestId(TEST_QA));
 
-            // The first window of the virtualizer is empty, the row arrives a commit later — and
-            // the list ends up scrolled exactly where plain rendering puts it (the test above),
-            // not merely "somewhere below zero"
+            // The first window of the virtualizer is empty: the layer scrolls by the index before
+            // the row is rendered, and to the same offset as plain rendering (the first test)
             expect(screen.getByRole('option', {name: 'Value 40'})).toBeInTheDocument();
             expect(screen.getByTestId(SelectQa.LIST).scrollTop).toBe(40 * ROW_HEIGHT - VIEWPORT);
         });

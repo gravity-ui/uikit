@@ -60,7 +60,10 @@ export function mockTabbableDisplayCheck() {
     });
 }
 
-/** jsdom has no layout: the sizes tanstack reads through offsetHeight/offsetWidth (a row wrapper answers for its row) */
+/**
+ * jsdom has no layout: the sizes tanstack reads through offsetHeight/offsetWidth (a row wrapper
+ * answers for its row), and the scrollport of the root the list reads through clientHeight
+ */
 export function mockLayout({
     viewport,
     row,
@@ -72,8 +75,15 @@ export function mockLayout({
 }) {
     let offsetHeightSpy: jest.SpyInstance;
     let offsetWidthSpy: jest.SpyInstance;
+    let clientHeightSpy: jest.SpyInstance;
 
     beforeEach(() => {
+        clientHeightSpy = jest
+            .spyOn(Element.prototype, 'clientHeight', 'get')
+            .mockImplementation(function (this: Element) {
+                const role = this.getAttribute('role');
+                return role === 'listbox' || role === 'grid' ? viewport : 0;
+            });
         offsetHeightSpy = jest
             .spyOn(HTMLElement.prototype, 'offsetHeight', 'get')
             .mockImplementation(function (this: HTMLElement) {
@@ -92,6 +102,7 @@ export function mockLayout({
     afterEach(() => {
         offsetHeightSpy.mockRestore();
         offsetWidthSpy.mockRestore();
+        clientHeightSpy.mockRestore();
     });
 }
 

@@ -227,26 +227,6 @@ export const buildSelectListNodes = (
     });
 };
 
-/**
- * The rows of the list in the order it lays them out: a section takes a row of its own and its
- * options follow it. The heights are counted against these rows, so they have to be the very rows
- * the list renders — a section the filter left empty is not among them
- */
-export const flattenSelectListNodes = (nodes: SelectListNode[]): FlattenOption[] => {
-    const rows: FlattenOption[] = [];
-
-    for (const node of nodes) {
-        if (isSelectGroupNode(node)) {
-            rows.push(node);
-            rows.push(...node.options);
-        } else {
-            rows.push(node);
-        }
-    }
-
-    return rows;
-};
-
 export const getSelectListNodeText = (
     node: SelectListNode,
     getOptionText?: SelectProps['getOptionText'],
@@ -426,38 +406,3 @@ export const getFilteredFlattenOptions = (args: {
         return acc;
     }, [] as FlattenOption[]);
 };
-
-/**
- * Scrolls the row into view inside the list root and nowhere else — unlike `scrollIntoView`, a popup
- * hanging off the viewport edge never drags the page along. Under virtualization the row sits in an
- * absolutely positioned wrapper, so its offset inside the root is the sum along the `offsetParent`
- * chain rather than a single `offsetTop`.
- */
-export function scrollToItem(container: HTMLElement, node: HTMLElement) {
-    const height = container.offsetHeight;
-    const scrollTop = container.scrollTop;
-
-    let top = 0;
-    let element: HTMLElement | null = node;
-    while (element && element !== container && container.contains(element)) {
-        top += element.offsetTop;
-        const offsetParent: Element | null = element.offsetParent;
-        element = offsetParent instanceof HTMLElement ? offsetParent : null;
-    }
-
-    const bottom = top + node.offsetHeight;
-
-    let nextScrollTop: number | undefined;
-
-    if (bottom >= scrollTop + height) {
-        nextScrollTop = bottom - height;
-    } else if (top <= scrollTop) {
-        nextScrollTop = top;
-    }
-
-    if (nextScrollTop !== undefined) {
-        // scrollTop rather than scrollTo: the same instant scroll, and jsdom implements it
-        // eslint-disable-next-line no-param-reassign
-        container.scrollTop = nextScrollTop;
-    }
-}

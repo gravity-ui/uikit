@@ -21,6 +21,18 @@
 У корневого элемента больше нет класса `g-dialog_has-close`. Обновите зависящие от него селекторы; при необходимости
 наличие кнопки закрытия можно проверить селектором `.g-dialog:has(.g-dialog-btn-close)`.
 
+## Размер иконки HelpMark
+
+Проп `HelpMark` `iconSize` переименован в `size`. Замените имя пропа во всех использованиях `HelpMark`, в том числе
+в значениях по умолчанию `DefaultPropsProvider` и объектах `note` компонента `DefinitionList`:
+
+```diff
+- <HelpMark iconSize="l" />
++ <HelpMark size="l" />
+```
+
+Значения (`s`, `m`, `l`, `xl`) и значение по умолчанию (`m`) не изменились.
+
 ## Table и TableColumnSetup
 
 `Table`, его HOC (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`, `withTableSorting`) и

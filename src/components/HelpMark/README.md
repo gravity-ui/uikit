@@ -50,7 +50,7 @@ SANDBOX-->
 
 | Name         | Description                          |           Type           | Default |
 | :----------- | :----------------------------------- | :----------------------: | :-----: |
-| iconSize     | Sets icon size                       | `"s"` `"m"` `"l"` `"xl"` |  `"m"`  |
+| size         | Sets icon size                       | `"s"` `"m"` `"l"` `"xl"` |  `"m"`  |
 | popoverProps | Override `Popover` props             |      `PopoverProps`      |         |
 | children     | Content displayed inside the popover |    `React.ReactNode`     |         |
 

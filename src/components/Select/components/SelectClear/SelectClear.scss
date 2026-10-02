@@ -43,8 +43,10 @@ $block: '.#{variables.$ns}select-clear';
     &__clear {
         color: var(--g-color-text-secondary);
 
-        #{$block}:hover & {
-            color: var(--g-color-text-primary);
+        @media (hover: hover) {
+            #{$block}:hover & {
+                color: var(--g-color-text-primary);
+            }
         }
     }
 }

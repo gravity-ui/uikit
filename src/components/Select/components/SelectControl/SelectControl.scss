@@ -164,8 +164,10 @@ $blockButton: '.#{variables.$ns}select-control__button';
             border-color: var(--g-color-line-danger);
         }
 
-        &:hover::before {
-            background-color: var(--g-color-base-simple-hover);
+        @media (hover: hover) {
+            &:hover::before {
+                background-color: var(--g-color-base-simple-hover);
+            }
         }
 
         &_disabled {
@@ -181,8 +183,10 @@ $blockButton: '.#{variables.$ns}select-control__button';
             }
         }
 
-        &:not(&_error):not(&_disabled):not(&_view_clear):hover::before {
-            border-color: var(--g-color-line-generic-hover);
+        @media (hover: hover) {
+            &:not(&_error):not(&_disabled):not(&_view_clear):hover::before {
+                border-color: var(--g-color-line-generic-hover);
+            }
         }
 
         &_open:not(&_error):not(&_view_clear)::before,

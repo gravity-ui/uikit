@@ -140,6 +140,32 @@ describe('List: virtualization layer', () => {
         });
     });
 
+    describe('renders of the engine', () => {
+        test('a render the engine is still waiting for does not turn the next one into a loop', () => {
+            jest.useFakeTimers();
+            // The render asked for from a timer is not wrapped in act — that is the point of it
+            const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+            try {
+                renderVirtualized();
+                const listbox = screen.getByRole('listbox');
+
+                scrollTo(listbox, ROW_HEIGHT * 10);
+                // The scroll has ended: the engine asks for a render from a timer, at a priority
+                // lower than the one of an event...
+                jest.advanceTimersByTime(200);
+                // ...and before React gets to it, the next scroll renders at once. The low-priority
+                // render is still pending then, and a state the engine sets on every commit would
+                // keep the pair going for ever
+                scrollTo(listbox, ROW_HEIGHT * 150);
+
+                expect(screen.getByRole('option', {name: 'Item 151'})).toBeInTheDocument();
+            } finally {
+                consoleErrorSpy.mockRestore();
+                jest.useRealTimers();
+            }
+        });
+    });
+
     describe('roving focus survives virtualization', () => {
         test('the focused row survives the window moving away', async () => {
             const user = userEvent.setup();

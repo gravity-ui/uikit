@@ -137,16 +137,25 @@ export function Virtualizer({
 
     // The rows do not start where the scroll does: the padding of the container comes first. The
     // engine has to be told, or a row it scrolls to the bottom edge ends up cut by that padding.
-    // Measured after every render — the padding may change with any of them, and an offset that
-    // stayed the same does not render again
+    // Measured after every render — the padding may change with any of them.
+    //
+    // The state is set only when the offset has changed, never "to the same value": while a
+    // low-priority render of tanstack is pending (it asks for one from a timer when a scroll
+    // ends), React cannot drop an equal update early and renders again — and tanstack's reducer
+    // returns a new object every time it is replayed, so that render commits, this effect runs
+    // again, and the pair never stops ("Maximum update depth exceeded")
     const sizerRef = React.useRef<HTMLDivElement>(null);
     const [scrollMargin, setScrollMargin] = React.useState(0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useLayoutEffect(() => {
         const container = scrollContainerRef.current;
         const sizer = sizerRef.current;
-        if (container && sizer) {
-            setScrollMargin(getOffsetTopWithin(container, sizer));
+        if (!container || !sizer) {
+            return;
+        }
+        const offset = getOffsetTopWithin(container, sizer);
+        if (offset !== scrollMargin) {
+            setScrollMargin(offset);
         }
     });
 

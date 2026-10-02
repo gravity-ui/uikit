@@ -3,7 +3,12 @@
 import * as React from 'react';
 
 // eslint-disable-next-line no-restricted-imports
-import type {Range, VirtualItem, Virtualizer as VirtualizerInstance} from '@tanstack/react-virtual';
+import type {
+    Range,
+    Rect,
+    VirtualItem,
+    Virtualizer as VirtualizerInstance,
+} from '@tanstack/react-virtual';
 // eslint-disable-next-line no-restricted-imports
 import {
     defaultRangeExtractor,
@@ -30,11 +35,14 @@ const USER_SCROLL_EVENTS = ['wheel', 'touchmove', 'pointerdown'] as const;
 export type ScrollAlignment = 'start' | 'center' | 'end' | 'auto';
 
 export interface VirtualizerApi {
+    scrollToOffset: (offset: number, align?: ScrollAlignment) => void;
     /**
      * Brings the row into view: by the nearest edge unless `align` says otherwise, and a row
      * already in view stays where it is. The scroll is instant; an index out of range is clamped
      */
     scrollToIndex: (index: number, align?: ScrollAlignment) => void;
+    scrollOffset: number | null;
+    scrollRect: Rect | null;
 }
 
 export interface VirtualizerProps extends Loadable, React.HTMLAttributes<HTMLDivElement> {
@@ -227,6 +235,11 @@ export function Virtualizer({
     React.useImperativeHandle(
         apiRef,
         () => ({
+            scrollToOffset: (offset: number, align: ScrollAlignment = 'auto') => {
+                // The watch of scrollToIndex would bring its row back
+                stopScrollWatchRef.current?.();
+                virtualizer.scrollToOffset(virtualizer.getOffsetForAlignment(offset, align));
+            },
             /**
              * Where a row is, is known for certain only once the rows above it are measured, and
              * they are measured only once the scroll gets near them: the first scroll lands by the
@@ -279,6 +292,12 @@ export function Virtualizer({
                 );
                 stopScrollWatchRef.current = stop;
                 tick();
+            },
+            get scrollOffset() {
+                return virtualizer.scrollOffset;
+            },
+            get scrollRect() {
+                return virtualizer.scrollRect;
             },
         }),
         [virtualizer],

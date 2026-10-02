@@ -286,6 +286,17 @@ describe('List: virtualization layer', () => {
             expect(frames.size).toBe(0);
         });
 
+        test('scrollToOffset ends the watch: it is not brought back to the row', () => {
+            const {apiRef, listbox} = renderEngine();
+
+            apiRef.current?.scrollToIndex(149);
+            apiRef.current?.scrollToOffset(0, 'start');
+            runFrames(5);
+
+            expect(listbox.scrollTop).toBe(0);
+            expect(frames.size).toBe(0);
+        });
+
         test('rows that change end the watch: the index is another row by then', () => {
             const {apiRef, listbox, setRows} = renderEngine();
 

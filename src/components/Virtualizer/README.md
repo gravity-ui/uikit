@@ -18,8 +18,6 @@ Two things live here. `Virtualizer` is the engine — a scroll container that po
 
 The element the component renders is the scroll container itself, so its height has to be limited. `getItemSize` is the estimate used before a row is rendered; unless `measure` is off, the measured height of a top-level row replaces it after mount, which is why rows of variable height need no configuration.
 
-`apiRef` gives `scrollToIndex(index, align)`: it brings a row into view — by the nearest edge unless `align` says otherwise — and the scroll is instant.
-
 ```tsx
 import {Virtualizer} from '@gravity-ui/uikit/virtualizer';
 
@@ -83,7 +81,7 @@ The rest of the props go to the scroll container element.
 | persistedIndexes      | Rows kept in the window even when scrolled out; each entry is a path of indexes in the hierarchy |                   `Array<number[]>`                    |         |
 | loading               | Whether more items are loading: until it turns back to `false`, `onLoadMore` is not called again |                       `boolean`                        |         |
 | onLoadMore            | Called when the scroll gets near the end                                                         |                      `() => void`                      |         |
-| apiRef                | Ref to the imperative API: `scrollToIndex`                                                       |              `React.Ref<VirtualizerApi>`               |         |
+| apiRef                | Ref to the imperative API: `scrollToIndex`, `scrollToOffset`, `scrollOffset`, `scrollRect`       |              `React.Ref<VirtualizerApi>`               |         |
 | containerRef          | Ref of the scroll container element                                                              |                `React.Ref<HTMLElement>`                |         |
 
 ### ListVirtualizer

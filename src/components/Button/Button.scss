@@ -21,14 +21,10 @@ $block: '.#{variables.$ns}button';
     height: var(--g-button-height, var(--_--height));
     line-height: var(--g-button-height, var(--_--height));
     font-size: var(--g-button-font-size, var(--_--font-size));
-    user-select: none;
     text-align: center;
     white-space: nowrap;
     text-decoration: none;
     color: var(--g-button-text-color, var(--_--text-color));
-    background: transparent;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     transition:
         variables.$button-shrink-transition,
         color 0.15s linear;
@@ -37,6 +33,7 @@ $block: '.#{variables.$ns}button';
     justify-content: center;
     padding: 0 var(--g-button-padding, var(--_--padding));
     gap: var(--g-button-icon-offset, var(--_--icon-offset));
+    outline: none;
 
     &::before {
         content: '';

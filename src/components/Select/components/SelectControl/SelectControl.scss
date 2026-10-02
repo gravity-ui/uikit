@@ -98,6 +98,7 @@ $blockButton: '.#{variables.$ns}select-control__button';
 
     &__button {
         @include mixins.button-reset();
+        outline: none;
 
         display: inline-grid;
         grid-template-columns: auto auto;

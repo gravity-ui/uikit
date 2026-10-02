@@ -11,6 +11,7 @@ $block: '.#{variables.$ns}select-clear';
     margin-inline-start: auto;
     z-index: 1;
     flex-shrink: 0;
+    outline: none;
 
     &:focus-visible {
         border: 1px solid var(--g-color-line-generic-active);

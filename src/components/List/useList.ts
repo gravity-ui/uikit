@@ -7,6 +7,7 @@ import {warnOnce} from '../utils/warn';
 
 import {ListDndContext} from './DndContext';
 import {ListVirtualizationContext} from './VirtualizationContext';
+import type {ListScrollToIndex} from './VirtualizationContext';
 import {navigateCells} from './cellNavigation';
 import {composeItemProps} from './composeItemProps';
 import {
@@ -31,7 +32,16 @@ import type {
 import {useItemElementRegistry} from './useItemElementRegistry';
 import {useListSelection} from './useListSelection';
 import {useListTypeahead} from './useListTypeahead';
-import {flattenItems, getNextActiveId, isDragTarget, isNavigable, isTextInputTarget} from './utils';
+import {
+    flattenItems,
+    getNextActiveId,
+    isDragTarget,
+    isNavigable,
+    isRowInView,
+    isScrollContainer,
+    isTextInputTarget,
+    scrollRowIntoView,
+} from './utils';
 import type {ListNavigationCommand, ListRow} from './utils';
 
 export type ListContainerDOMProps = React.HTMLAttributes<HTMLElement> & {
@@ -40,6 +50,9 @@ export type ListContainerDOMProps = React.HTMLAttributes<HTMLElement> & {
 
 /** Not a prop: `activedescendant` is turned on by `focusOwner` */
 type ListFocusStrategy = 'roving' | 'activedescendant';
+
+/** What in the list asked for the activity; none means the initial or a controlled one */
+type ListActivationOrigin = 'keyboard' | 'pointer' | 'focus';
 
 /** The list core (internal) */
 export interface ListInstance<T> {
@@ -60,6 +73,8 @@ export interface ListInstance<T> {
     dragActive: boolean;
     /** The dnd adapter in effect: the `dnd` prop or, without it, the one of ListDndContext */
     dnd: ListDndAdapter<T> | null;
+    /** For the root of the virtualization layer to fill, see ListVirtualizedRootProps */
+    scrollToIndexRef: React.MutableRefObject<ListScrollToIndex | null>;
 }
 
 const NAVIGATION_COMMANDS: Record<string, ListNavigationCommand> = {
@@ -122,6 +137,8 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
 
     // Set between pointerdown/pointerup on a row: focus arriving then came from the mouse
     const pointerPressedRef = React.useRef(false);
+
+    const pointerInsideRef = React.useRef(false);
 
     // Any key pressed while the list holds DOM focus brings the cursor back (capture: nested
     // widgets may stop propagation); bare modifiers do not count
@@ -196,8 +213,13 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
 
     // The last requested id; not reset per commit: a controlled parent may echo asynchronously
     const requestedActiveIdRef = React.useRef<string | null>(null);
-    const requestActive = (id: string) => {
+    // The same request with its origin, for one commit: a later echo counts as external
+    const activationRequestRef = React.useRef<{id: string; origin: ListActivationOrigin} | null>(
+        null,
+    );
+    const requestActive = (id: string, origin: ListActivationOrigin) => {
         requestedActiveIdRef.current = id;
+        activationRequestRef.current = {id, origin};
         setActiveItemId(id);
     };
 
@@ -209,6 +231,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         requestActive,
         activateOnHover,
         dragActive,
+        effectiveActiveId,
     });
     latestRef.current = {
         rowById,
@@ -217,6 +240,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         requestActive,
         activateOnHover,
         dragActive,
+        effectiveActiveId,
     };
 
     const firstNavigableId = React.useMemo(() => rows.find(isNavigable)?.id, [rows]);
@@ -235,52 +259,117 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     const registry = useItemElementRegistry({rowById});
     const dndRefTracker = useDndRefStabilityTracker({rowById});
 
+    // Whether the active row was in view before the rows changed: kept up on every sync and scroll
+    const activeInViewRef = React.useRef(false);
+
+    const scrollToIndexRef = React.useRef<ListScrollToIndex | null>(null);
+
     /**
-     * Focus follows the active row only while a row of THIS list holds DOM focus (react-aria
-     * useSelectableItem): hover/controlled changes never steal it. A keyboard gesture focuses
-     * unconditionally and scrolls with block: 'nearest' — focus() would center the row in
-     * Chromium
+     * A root that does not scroll has only the page to show the row with, and only a key of the
+     * list itself is a reason to move the page
      */
-    const syncFocusToActive = React.useCallback(
+    const scrollToRow = React.useCallback(
         (id: string, {gesture}: {gesture: boolean}) => {
-            const element = registry.getElement(id);
-            if (!element) {
+            const container = containerRef.current;
+            if (!container) {
                 return;
             }
-            if (focusStrategy === 'roving') {
+            const element = registry.getElement(id);
+            const row = latestRef.current.rowById.get(id);
+            if (scrollToIndexRef.current && row) {
+                scrollToIndexRef.current(row.index);
+            } else if (element) {
+                scrollRowIntoView(container, element);
+                if (gesture && !isScrollContainer(container)) {
+                    element.scrollIntoView?.({block: 'nearest'});
+                }
+            }
+            activeInViewRef.current = true;
+        },
+        [registry],
+    );
+
+    const syncedActiveIdRef = React.useRef<string | undefined>(undefined);
+
+    /**
+     * Focus follows the active row only while a row of THIS list holds DOM focus (react-aria
+     * useSelectableItem): hover/controlled changes never steal it, a key focuses unconditionally.
+     *
+     * The scroll follows a key and an activity from the outside. A row activated by the pointer or
+     * by focus is where the user put it, and the list does not move under them — nor under a
+     * pointer resting on it, unless nothing was active: then the row is shown as on mount
+     */
+    const syncToActive = React.useCallback(
+        (id: string, origin?: ListActivationOrigin) => {
+            const element = registry.getElement(id);
+            const keyboard = origin === 'keyboard';
+            if (element && focusStrategy === 'roving') {
                 const focused = document.activeElement;
                 const rowFocused =
                     focused instanceof HTMLElement &&
                     containerRef.current !== null &&
                     containerRef.current.contains(focused) &&
                     latestRef.current.domIdToId.has(focused.id);
-                if (!gesture && !rowFocused) {
-                    return;
-                }
-                if (focused !== element) {
+                // preventScroll: focus() would center the row in Chromium
+                if ((keyboard || rowFocused) && focused !== element) {
                     element.focus({preventScroll: true});
                 }
             }
-            if (gesture) {
-                element.scrollIntoView?.({block: 'nearest'});
+            const appeared = syncedActiveIdRef.current === undefined;
+            syncedActiveIdRef.current = id;
+            if (keyboard || (origin === undefined && (appeared || !pointerInsideRef.current))) {
+                scrollToRow(id, {gesture: keyboard});
+            } else {
+                activeInViewRef.current =
+                    element !== undefined &&
+                    containerRef.current !== null &&
+                    isRowInView(containerRef.current, element);
             }
         },
-        [focusStrategy, registry],
+        [focusStrategy, registry, scrollToRow],
     );
 
     // Driven by the ACTUAL activity: a controlled parent may reject the request
-    const gestureRequestIdRef = React.useRef<string | null>(null);
     useLayoutEffect(() => {
         if (effectiveActiveId === undefined) {
+            syncedActiveIdRef.current = undefined;
+            activeInViewRef.current = false;
             return;
         }
-        const gesture = gestureRequestIdRef.current === effectiveActiveId;
-        gestureRequestIdRef.current = null;
-        syncFocusToActive(effectiveActiveId, {gesture});
-    }, [effectiveActiveId, syncFocusToActive]);
+        const request = activationRequestRef.current;
+        syncToActive(
+            effectiveActiveId,
+            request?.id === effectiveActiveId ? request.origin : undefined,
+        );
+    }, [effectiveActiveId, syncToActive]);
+
+    // Rows that change move the active row without changing its id: it is brought back, unless
+    // the reader has scrolled away from it since
+    const previousRowsRef = React.useRef({rows, activeId: effectiveActiveId});
     useLayoutEffect(() => {
-        // A gesture request lives for a single commit
-        gestureRequestIdRef.current = null;
+        const previous = previousRowsRef.current;
+        previousRowsRef.current = {rows, activeId: effectiveActiveId};
+        if (
+            effectiveActiveId === undefined ||
+            previous.activeId !== effectiveActiveId ||
+            previous.rows === rows ||
+            !activeInViewRef.current
+        ) {
+            return;
+        }
+        const element = registry.getElement(effectiveActiveId);
+        if (
+            element &&
+            containerRef.current !== null &&
+            isRowInView(containerRef.current, element)
+        ) {
+            return;
+        }
+        scrollToRow(effectiveActiveId, {gesture: false});
+    }, [rows, effectiveActiveId, registry, scrollToRow]);
+
+    useLayoutEffect(() => {
+        activationRequestRef.current = null;
     });
 
     const previousActiveIdRef = React.useRef(effectiveActiveId);
@@ -301,15 +390,14 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         if (id === undefined) {
             return;
         }
-        requestedActiveIdRef.current = id;
         setCursorVisible(true);
         if (id === effectiveActiveId) {
             // Already active: no commit follows, sync focus/scroll here
-            syncFocusToActive(id, {gesture: true});
+            requestedActiveIdRef.current = id;
+            syncToActive(id, 'keyboard');
             return;
         }
-        gestureRequestIdRef.current = id;
-        setActiveItemId(id);
+        requestActive(id, 'keyboard');
     };
 
     const typeahead = useListTypeahead<T>({
@@ -515,6 +603,18 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 }
                 setCursorVisible(false);
             },
+            onPointerEnter: () => {
+                pointerInsideRef.current = true;
+            },
+            onPointerLeave: () => {
+                pointerInsideRef.current = false;
+            },
+            onScroll: (event: React.UIEvent<HTMLElement>) => {
+                const activeId = latestRef.current.effectiveActiveId;
+                const element = activeId === undefined ? undefined : registry.getElement(activeId);
+                activeInViewRef.current =
+                    element !== undefined && isRowInView(event.currentTarget, element);
+            },
             ref: containerRef,
         };
         warnOnOverridesCollision(overrides, 'getContainerProps');
@@ -628,7 +728,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                     return;
                 }
                 setCursorVisible(false);
-                latest.requestActive(currentRow.id);
+                latest.requestActive(currentRow.id, 'pointer');
                 latest.applyRow(currentRow, event, {range: event.shiftKey});
             },
             onFocus: () => {
@@ -637,7 +737,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 if (!currentRow || currentRow.disabled) {
                     return;
                 }
-                latest.requestActive(id);
+                latest.requestActive(id, 'focus');
             },
             onPointerEnter: () => {
                 // Hover moves the activity; suspended while dragging (synthetic-drag libraries
@@ -653,7 +753,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 if (!latest.activateOnHover) {
                     return;
                 }
-                latest.requestActive(currentRow.id);
+                latest.requestActive(currentRow.id, 'pointer');
             },
         };
         return composeWithDnd(
@@ -720,5 +820,6 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         getItemMemoKey,
         dragActive,
         dnd,
+        scrollToIndexRef,
     };
 }

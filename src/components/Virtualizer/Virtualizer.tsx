@@ -17,17 +17,26 @@ import {
 } from '@tanstack/react-virtual';
 
 import {useForkRef} from '../../hooks/useForkRef';
+import {useLayoutEffect} from '../../hooks/useLayoutEffect';
 import type {Key} from '../types';
+import {getNearestEdgeScrollOffset, getOffsetTopWithin} from '../utils/scrollIntoContainer';
 
 import type {Loadable} from './useLoadMore';
 import {useLoadMore} from './useLoadMore';
 
 export type VirtualizerItem = {index: number; key: Key};
 
+/** How many quiet frames end the watch of `scrollToIndex`, and how many frames it lasts at most */
+const SCROLL_SETTLED_FRAMES = 3;
+const SCROLL_MAX_FRAMES = 20;
+/** The reader has taken the scroll over: the watch of `scrollToIndex` must not pull the list back */
+const USER_SCROLL_EVENTS = ['wheel', 'touchmove', 'pointerdown'] as const;
+
 export type ScrollAlignment = 'start' | 'center' | 'end' | 'auto';
 
 export interface VirtualizerApi {
     scrollToOffset: (offset: number, align?: ScrollAlignment) => void;
+    /** Into view by the nearest edge unless `align` is given; an index out of range is clamped */
     scrollToIndex: (index: number, align?: ScrollAlignment) => void;
     scrollOffset: number | null;
     scrollRect: Rect | null;
@@ -129,6 +138,27 @@ export function Virtualizer({
             : estimate;
     }, []);
 
+    // The rows start below the padding of the container, not where the scroll does: tanstack has
+    // to be told, or its row offsets are short by that padding and a row scrolled to the bottom
+    // edge is cut. Measured after every render: the padding may change with any of them.
+    // The guard is not redundant: while a low-priority render of tanstack is pending, React does
+    // not bail out of an equal update, and this effect and that render never stop ("Maximum
+    // update depth exceeded")
+    const sizerRef = React.useRef<HTMLDivElement>(null);
+    const [scrollMargin, setScrollMargin] = React.useState(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useLayoutEffect(() => {
+        const container = scrollContainerRef.current;
+        const sizer = sizerRef.current;
+        if (!container || !sizer) {
+            return;
+        }
+        const offset = getOffsetTopWithin(container, sizer);
+        if (offset !== scrollMargin) {
+            setScrollMargin(offset);
+        }
+    });
+
     const {rangeExtractor, persistedChildren} =
         getRangeExtractorAndChildrenIndexes(persistedIndexes);
     const virtualizer = useVirtualizer({
@@ -136,6 +166,14 @@ export function Virtualizer({
         getScrollElement: () => scrollContainerRef.current,
         getItemKey,
         estimateSize,
+        scrollMargin,
+        // scrollTop rather than tanstack's default scrollTo: the same scroll, and jsdom has it
+        scrollToFn: (offset, {adjustments = 0}, instance) => {
+            if (instance.scrollElement) {
+                // eslint-disable-next-line no-param-reassign
+                instance.scrollElement.scrollTop = offset + adjustments;
+            }
+        },
         rangeExtractor,
         overscan: disableVirtualization ? count : overscan,
         measureElement: (element, entry, instance) => {
@@ -184,14 +222,65 @@ export function Virtualizer({
         },
     });
 
+    const stopScrollWatchRef = React.useRef<(() => void) | null>(null);
+    React.useEffect(() => () => stopScrollWatchRef.current?.(), []);
+
     React.useImperativeHandle(
         apiRef,
         () => ({
             scrollToOffset: (offset: number, align: ScrollAlignment = 'auto') => {
+                // The watch of scrollToIndex would bring its row back
+                stopScrollWatchRef.current?.();
                 virtualizer.scrollToOffset(virtualizer.getOffsetForAlignment(offset, align));
             },
+            /**
+             * The first scroll lands by the estimates; the rows it reveals are measured and move
+             * the target, so it is repeated until the row stays put for a few frames. One watch at
+             * a time: the retries of tanstack's own `scrollToIndex` cannot be cancelled, and calls
+             * that outrun them (a key held down) leave the list at an earlier row. Rows that change
+             * end the watch: the index may be another row by then
+             */
             scrollToIndex: (index: number, align: ScrollAlignment = 'auto') => {
-                virtualizer.scrollToIndex(index, {align});
+                stopScrollWatchRef.current?.();
+                const container = scrollContainerRef.current;
+                if (!container) {
+                    return;
+                }
+                const key = getItemKeyRef.current(index);
+                let frame = 0;
+                let frames = 0;
+                let settledFrames = 0;
+                const stop = () => {
+                    cancelAnimationFrame(frame);
+                    USER_SCROLL_EVENTS.forEach((type) => container.removeEventListener(type, stop));
+                    stopScrollWatchRef.current = null;
+                };
+                const tick = () => {
+                    if (getItemKeyRef.current(index) !== key) {
+                        stop();
+                        return;
+                    }
+                    const offset = getOffsetToRow(virtualizer, container, index, align);
+                    if (offset === undefined) {
+                        settledFrames += 1;
+                    } else {
+                        settledFrames = 0;
+                        // Not through tanstack: it would clamp the offset by its own idea of
+                        // the viewport, which is the border box
+                        container.scrollTop = offset;
+                    }
+                    frames += 1;
+                    if (settledFrames < SCROLL_SETTLED_FRAMES && frames <= SCROLL_MAX_FRAMES) {
+                        frame = requestAnimationFrame(tick);
+                    } else {
+                        stop();
+                    }
+                };
+                USER_SCROLL_EVENTS.forEach((type) =>
+                    container.addEventListener(type, stop, {passive: true}),
+                );
+                stopScrollWatchRef.current = stop;
+                tick();
             },
             get scrollOffset() {
                 return virtualizer.scrollOffset;
@@ -220,8 +309,9 @@ export function Virtualizer({
             }}
         >
             {renderRows({
+                sizerRef,
                 totalHeight: virtualizer.getTotalSize(),
-                start: 0,
+                start: scrollMargin,
                 items: visibleItems,
                 scrollContainer: virtualizer.scrollElement,
                 parentKey: undefined,
@@ -236,7 +326,38 @@ export function Virtualizer({
     );
 }
 
+/**
+ * The offset that brings the row where `align` wants it, `undefined` once it is there. Read from
+ * the container: the scroll offset tanstack holds lags behind by a scroll event
+ */
+function getOffsetToRow(
+    virtualizer: VirtualizerInstance<HTMLDivElement, Element>,
+    container: HTMLElement,
+    index: number,
+    align: ScrollAlignment,
+): number | undefined {
+    const scrollTop = container.scrollTop;
+
+    if (align !== 'auto') {
+        const offset = virtualizer.getOffsetForIndex(index, align)?.[0];
+        return offset === undefined || Math.abs(offset - scrollTop) <= 1 ? undefined : offset;
+    }
+
+    const item =
+        virtualizer.measurementsCache[Math.max(0, Math.min(index, virtualizer.options.count - 1))];
+    if (!item) {
+        return undefined;
+    }
+    return getNearestEdgeScrollOffset({
+        start: item.start,
+        end: item.end,
+        scrollOffset: scrollTop,
+        viewportSize: container.clientHeight,
+    });
+}
+
 function renderRows({
+    sizerRef,
     totalHeight,
     start,
     parentKey,
@@ -249,6 +370,7 @@ function renderRows({
     persistedChildren,
     measureElement,
 }: {
+    sizerRef?: React.Ref<HTMLDivElement>;
     totalHeight: number;
     start: number;
     parentKey?: Key;
@@ -267,6 +389,7 @@ function renderRows({
 }) {
     return (
         <div
+            ref={sizerRef}
             role="presentation"
             style={
                 disableVirtualization

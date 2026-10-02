@@ -35,6 +35,7 @@ const [open, setOpen] = useState(false);
 | className             | `class` HTML attribute for the root node                                                     |     `string`      |                 |
 | container             | DOM element to which component is mounted via `Portal`                                       |   `HTMLElement`   | `document.body` |
 | contentClassName      | `class` HTML attribute for the content node                                                  |     `string`      |                 |
+| disableTransition     | Skips opening and closing animations when `true`. Height transitions are unchanged.          |     `boolean`     |     `false`     |
 | disableBodyScrollLock | Disables locking scroll while open                                                           |     `boolean`     |     `false`     |
 | disableEscapeKeyDown  | Disables triggering close on `Esc`                                                           |     `boolean`     |     `false`     |
 | disableOutsideClick   | Disables triggering close on outside clicks                                                  |     `boolean`     |     `false`     |

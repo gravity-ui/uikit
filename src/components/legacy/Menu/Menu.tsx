@@ -14,7 +14,7 @@ import type {MenuItemProps} from './MenuItem';
 
 import './Menu.scss';
 
-const b = block('menu');
+const b = block('menu-legacy');
 
 export type MenuSize = 's' | 'm' | 'l' | 'xl';
 
@@ -41,7 +41,7 @@ export const Menu = React.forwardRef<HTMLUListElement, MenuProps>(function Menu(
         className,
         qa,
         ...restProps
-    } = useDefaultProps('Menu', rawProps);
+    } = useDefaultProps('MenuLegacy', rawProps);
     return (
         <ul
             {...filterDOMProps(restProps, {labelable: true})}

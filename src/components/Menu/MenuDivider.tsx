@@ -3,7 +3,7 @@ import {block} from '../utils/cn';
 
 import './MenuDivider.scss';
 
-const b = block('lab-menu-divider');
+const b = block('menu-divider');
 
 export function MenuDivider() {
     return <Divider className={b()} />;

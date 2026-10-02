@@ -89,7 +89,7 @@ export interface ComponentDefaultPropsMap {
     Label?: Partial<LabelProps>;
     Link?: Partial<LinkProps>;
     Loader?: Partial<LoaderProps>;
-    Menu?: Partial<MenuProps>;
+    MenuLegacy?: Partial<MenuProps>;
     Modal?: Partial<ModalProps>;
     NumberInput?: Partial<NumberInputProps>;
     Overlay?: Partial<OverlayProps>;

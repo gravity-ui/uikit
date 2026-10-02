@@ -3,6 +3,7 @@ import * as React from 'react';
 import {render, renderHook, screen} from '../../../../test-utils/utils';
 import {PasswordInput} from '../../controls/PasswordInput';
 import {PasswordInputQa} from '../../controls/PasswordInput/constants';
+import {Menu as LegacyMenu} from '../../legacy/Menu';
 import type {DefaultPropsProviderProps} from '../DefaultPropsProvider';
 import {DefaultPropsProvider} from '../DefaultPropsProvider';
 import {ThemeProvider} from '../ThemeProvider';
@@ -88,6 +89,16 @@ describe('useDefaultProps', () => {
 });
 
 describe('DefaultPropsProvider', () => {
+    it('applies MenuLegacy defaults to the legacy menu', () => {
+        render(
+            <DefaultPropsProvider defaultProps={{MenuLegacy: {size: 'l'}}}>
+                <LegacyMenu qa="legacy-menu" />
+            </DefaultPropsProvider>,
+        );
+
+        expect(screen.getByTestId('legacy-menu')).toHaveClass('g-menu-legacy_size_l');
+    });
+
     it('passes inherited defaults through when defaultProps is omitted', () => {
         const wrapper = ({children}: {children: React.ReactNode}) => (
             <DefaultPropsProvider defaultProps={{Button: {view: 'outlined'}}}>

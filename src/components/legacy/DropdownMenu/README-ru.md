@@ -122,8 +122,8 @@ SANDBOX-->
 
 Для элементов меню с подменю предусмотрены следующие дополнительные классы для стилизации:
 
-- `.g-dropdown-menu__menu-item_with-submenu`— для элементов меню с более чем одним вложенным подэлементом;
-- `.g-dropdown-menu__menu-item_active-parent`— для элемента, подменю которого в данный момент открыто.
+- `.g-dropdown-menu-legacy__menu-item_with-submenu`— для элементов меню с более чем одним вложенным подэлементом;
+- `.g-dropdown-menu-legacy__menu-item_active-parent`— для элемента, подменю которого в данный момент открыто.
 
 <!--SANDBOX
 import type {DropdownMenuItem} from '@gravity-ui/uikit/legacy';

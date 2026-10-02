@@ -1,6 +1,6 @@
 @use '../variables';
 
-$b: '.#{variables.$ns}lab-menu';
+$b: '.#{variables.$ns}menu';
 
 #{$b} {
     padding: 4px;

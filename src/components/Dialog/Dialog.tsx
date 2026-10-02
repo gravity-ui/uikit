@@ -54,8 +54,7 @@ export interface DialogProps extends AriaLabelingProps, QAProps {
     disableOutsideClick?: boolean;
     keepMounted?: boolean;
     hasCloseButton?: boolean;
-    disableHeightTransition?: boolean;
-    /** Skip opening and closing animations. Height transitions are unchanged. */
+    /** Skip opening and closing animations. */
     disableTransition?: boolean;
 }
 
@@ -77,8 +76,8 @@ export function Dialog(rawProps: DialogProps) {
         className,
         modalClassName,
         hasCloseButton = true,
-        disableHeightTransition = false,
         disableTransition,
+
         onEscapeKeyDown,
         onEnterKeyDown,
         onOpenChange,
@@ -109,7 +108,6 @@ export function Dialog(rawProps: DialogProps) {
                 onEscapeKeyDown?.(event);
                 onClose?.(event, 'escapeKeyDown');
             },
-            disableHeightTransition: disableHeightTransition || !open || mobile,
             mobile,
         };
 
@@ -119,15 +117,7 @@ export function Dialog(rawProps: DialogProps) {
         }
 
         return result;
-    }, [
-        initialFocus,
-        onEscapeKeyDown,
-        onClose,
-        onOpenChange,
-        open,
-        disableHeightTransition,
-        mobile,
-    ]);
+    }, [initialFocus, onEscapeKeyDown, onClose, onOpenChange, mobile]);
 
     let initialFocusValue: ModalProps['initialFocus'];
     if (typeof initialFocus === 'string') {
@@ -159,7 +149,6 @@ export function Dialog(rawProps: DialogProps) {
             className={b('modal', {mobile}, modalClassName)}
             container={container}
             qa={qa}
-            disableHeightTransition
             disableTransition={disableTransition}
         >
             <div

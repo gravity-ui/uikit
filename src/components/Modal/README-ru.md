@@ -35,7 +35,7 @@ const [open, setOpen] = useState(false);
 | className             | HTML-атрибут `class` для корневого узла.                                                                   |     `string`      |                       |
 | container             | DOM-элемент, в который монтируется компонент через `Portal`.                                               |   `HTMLElement`   |    `document.body`    |
 | contentClassName      | Атрибут `class` в HTML для узла с содержимым.                                                              |     `string`      |                       |
-| disableTransition     | Отключает анимации открытия и закрытия при `true`. Анимация изменения высоты сохраняется.                  |     `boolean`     |        `false`        |
+| disableTransition     | Отключает анимации открытия и закрытия при `true`.                                                         |     `boolean`     |        `false`        |
 | disableBodyScrollLock | Отключает блокировку прокрутки, пока модальное окно открыто.                                               |     `boolean`     |        `false`        |
 | disableEscapeKeyDown  | Отключает закрытие при нажатии на клавишу `Esc`.                                                           |     `boolean`     |        `false`        |
 | disableOutsideClick   | Отключает закрытие элемента по клику вне его области.                                                      |     `boolean`     |        `false`        |

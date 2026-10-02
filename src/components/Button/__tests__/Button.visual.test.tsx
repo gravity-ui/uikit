@@ -1,6 +1,8 @@
+import * as React from 'react';
+
 import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {test} from '~playwright/core';
+import {expect, test} from '~playwright/core';
 
 import {Button} from '../Button';
 import type {ButtonProps} from '../types';
@@ -146,6 +148,40 @@ test.describe('Button', {tag: '@Button'}, () => {
             await expectScreenshot({
                 themes: ['light'],
             });
+        });
+    });
+
+    test.describe('touch interactions', () => {
+        test.use({hasTouch: true, isMobile: true});
+
+        const textColor = 'rgb(10, 20, 30)';
+        const hoverTextColor = 'rgb(40, 50, 60)';
+        const style = {
+            '--g-button-text-color': textColor,
+            '--g-button-text-color-hover': hoverTextColor,
+            transition: 'none',
+        } as React.CSSProperties;
+
+        test('does not apply hover colors after a tap', async ({mount, page}) => {
+            const component = await mount(<Button style={style}>Action</Button>);
+            const button = component.getByRole('button');
+
+            expect(await page.evaluate(() => matchMedia('(hover: none)').matches)).toBe(true);
+            await expect(button).toHaveCSS('color', textColor);
+
+            await button.tap();
+
+            await expect(button).toHaveCSS('color', textColor);
+        });
+
+        test('keeps expanded menu colors available', async ({mount}) => {
+            const component = await mount(
+                <Button style={style} aria-haspopup="menu" aria-expanded="true">
+                    Menu
+                </Button>,
+            );
+
+            await expect(component.getByRole('button')).toHaveCSS('color', hoverTextColor);
         });
     });
 });

@@ -72,8 +72,10 @@ $block: '.#{variables.$ns}color-picker';
         }
 
         /* Focus and hover states */
-        &:hover {
-            border-color: var(--g-color-line-hover);
+        @media (hover: hover) {
+            &:hover {
+                border-color: var(--g-color-line-hover);
+            }
         }
 
         &:focus-visible {

@@ -63,8 +63,10 @@ $block: '.#{variables.$ns}breadcrumbs';
         &:not([aria-disabled]) {
             cursor: pointer;
 
-            &:hover {
-                color: var(--g-color-text-link-hover);
+            @media (hover: hover) {
+                &:hover {
+                    color: var(--g-color-text-link-hover);
+                }
             }
         }
 

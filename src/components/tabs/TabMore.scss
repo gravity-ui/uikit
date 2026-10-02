@@ -8,10 +8,16 @@ $block: '.#{variables.$ns}tab-more';
     --_--chevron-color: var(--g-color-text-secondary);
 
     &[aria-expanded='true'],
-    &:hover,
     &:focus-visible {
         --_--count-color: var(--g-color-text-secondary);
         --_--chevron-color: var(--g-color-text-primary);
+    }
+
+    @media (hover: hover) {
+        &:hover {
+            --_--count-color: var(--g-color-text-secondary);
+            --_--chevron-color: var(--g-color-text-primary);
+        }
     }
 
     &__count {

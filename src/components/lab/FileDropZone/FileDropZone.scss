@@ -24,8 +24,10 @@ $block: '.#{variables.$ns}file-drop-zone';
         }
     }
 
-    &:hover {
-        border-color: var(--g-color-text-info);
+    @media (hover: hover) {
+        &:hover {
+            border-color: var(--g-color-text-info);
+        }
     }
 
     &:focus {
@@ -40,16 +42,20 @@ $block: '.#{variables.$ns}file-drop-zone';
     &_invalid-drag {
         background-color: var(--g-color-base-danger-light);
         border-color: var(--g-color-text-danger);
-        &:hover {
-            border-color: var(--g-color-text-danger);
+        @media (hover: hover) {
+            &:hover {
+                border-color: var(--g-color-text-danger);
+            }
         }
     }
 
     &_error {
         border-color: var(--g-color-line-danger);
 
-        &:hover {
-            border-color: var(--g-color-line-danger);
+        @media (hover: hover) {
+            &:hover {
+                border-color: var(--g-color-line-danger);
+            }
         }
 
         #{$block}__icon {

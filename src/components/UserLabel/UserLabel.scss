@@ -107,11 +107,13 @@ $block: '.#{variables.$ns}user-label';
         }
     }
 
-    &_clickable:hover {
-        background-color: var(--g-color-base-simple-hover);
+    @media (hover: hover) {
+        &_clickable:hover {
+            background-color: var(--g-color-base-simple-hover);
 
-        &::after {
-            border-color: transparent;
+            &::after {
+                border-color: transparent;
+            }
         }
     }
 
@@ -194,8 +196,10 @@ $block: '.#{variables.$ns}user-label';
         transition-duration: $transitionDuration;
         transition-timing-function: $transitionTimingFunction;
 
-        &:hover {
-            color: var(--g-color-text-primary);
+        @media (hover: hover) {
+            &:hover {
+                color: var(--g-color-text-primary);
+            }
         }
     }
 

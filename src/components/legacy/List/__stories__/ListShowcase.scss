@@ -69,12 +69,19 @@
         padding-inline-start: 10px;
 
         #{$button} {
-            display: none;
+            display: block;
             margin-inline-start: auto;
         }
-        &:hover {
+
+        @media (hover: hover) {
             #{$button} {
-                display: block;
+                display: none;
+            }
+
+            &:hover {
+                #{$button} {
+                    display: block;
+                }
             }
         }
     }

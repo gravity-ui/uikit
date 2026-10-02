@@ -1,6 +1,6 @@
 # Migration from legacy Tabs
 
-The legacy `Tabs` (`@gravity-ui/uikit/legacy`) is a single all-in-one component: pass an `items` array or `Tabs.Item` children, plus `activeTab`/`onSelectTab`, and it renders a `role="tablist"` container with built-in active-tab-tracking logic (including "first item active by default").
+The legacy `Tabs` (available from `@gravity-ui/uikit/legacy` in v7, removed in v8) was a single all-in-one component: pass an `items` array or `Tabs.Item` children, plus `activeTab`/`onSelectTab`, and it rendered a `role="tablist"` container with built-in active-tab-tracking logic (including "first item active by default").
 
 The new tabs API (`@gravity-ui/uikit`) splits this into four composable pieces:
 

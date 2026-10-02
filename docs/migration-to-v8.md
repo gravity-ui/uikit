@@ -15,13 +15,18 @@ there keep their API, but no removal date for `/legacy` is promised: plan the mi
 The legacy `Breadcrumbs`, `Popover` and `Tabs` components, their types and related exports are no longer available
 from `@gravity-ui/uikit/legacy`. Replace them with the current components from `@gravity-ui/uikit`:
 
-| Removed legacy component | Replacement                                              | Migration notes                                                                                                                                                   |
-| :----------------------- | :------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Breadcrumbs`            | [`Breadcrumbs`](../src/components/Breadcrumbs/README.md) | Update the item shape and rendering props for the current API.                                                                                                    |
-| `Popover`                | [`Popover`](../src/components/Popover/README.md)         | The new component handles the trigger and popup; supply styled content yourself. See the [Popover migration guide](../src/components/Popover/migration-guide.md). |
-| `Tabs`                   | `TabList`, `Tab` and optionally `TabProvider`/`TabPanel` | Replace `items` and `Tabs.Item` with `Tab` children. See the [Tabs migration guide](../src/components/tabs/migration-guide.md).                                   |
+| Removed legacy component | Replacement                                                                        | Migration guide                                                                |
+| :----------------------- | :--------------------------------------------------------------------------------- | :----------------------------------------------------------------------------- |
+| `Breadcrumbs`            | [`Breadcrumbs`](../src/components/Breadcrumbs/README.md)                           | [Props, items and rendering](../src/components/Breadcrumbs/migration-guide.md) |
+| `Popover`                | [`Popover`](../src/components/Popover/README.md)                                   | [Content and behavior](../src/components/Popover/migration-guide.md)           |
+| `Tabs`                   | [`TabList`, `Tab`, `TabProvider` and `TabPanel`](../src/components/tabs/README.md) | [Items and selection](../src/components/tabs/migration-guide.md)               |
 
-Remove imports of the legacy components and their types from `/legacy`. Other legacy components remain available.
+There is no temporary import path for these components in v8. The replacements are already available from the root
+entry point in v7, so you can migrate before upgrading. Other legacy components remain available.
+
+**Translations:** The legacy `Breadcrumbs` keyset is removed. The current component now uses the `Breadcrumbs` keyset
+instead of `lab/Breadcrumbs`, so existing `Breadcrumbs.label_more` overrides keep working. Rename overrides of
+`lab/Breadcrumbs` to `Breadcrumbs`; the current keyset also contains `breadcrumbs`.
 
 ## Dialog layout
 

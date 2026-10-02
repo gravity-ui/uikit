@@ -1,6 +1,6 @@
 # Migration from legacy Popover
 
-The legacy `Popover` (`@gravity-ui/uikit/legacy`) is a fully-styled tooltip/popover: it renders its own title, content, links, action/cancel buttons, close button and colored themes.
+The legacy `Popover` (available from `@gravity-ui/uikit/legacy` in v7, removed in v8) was a fully-styled tooltip/popover: it rendered its own title, content, links, action/cancel buttons, close button and colored themes.
 
 The new `Popover` (`@gravity-ui/uikit`) is a thin, headless wrapper around [`Popup`](../Popup/README.md) — it only handles trigger interactivity (hover/click, delays, dismiss, focus) and renders whatever `content` you pass it, without any built-in title/buttons/theme styling.
 

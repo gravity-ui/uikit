@@ -291,7 +291,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             const element = registry.getElement(id);
             const row = latestRef.current.rowById.get(id);
             if (scrollToIndexRef.current && row) {
-                scrollToIndexRef.current(row.index, 'auto');
+                scrollToIndexRef.current(row.index);
             } else if (element) {
                 scrollRowIntoView(container, element);
                 if (gesture && !isScrollContainer(container)) {

@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import {fireEvent, render, screen, within} from '../../../../test-utils/utils';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
+import {Virtualizer} from '../../Virtualizer/Virtualizer';
 import type {VirtualizerApi} from '../../Virtualizer/Virtualizer';
 import {List} from '../List';
 import type {ListProps} from '../types';
@@ -18,12 +19,9 @@ mockLayout({viewport: VIEWPORT_HEIGHT, row: ROW_HEIGHT, section: SECTION_HEIGHT}
 
 const ITEMS = Array.from({length: 200}, (_, index) => `Item ${index + 1}`);
 
-function VirtualizedList({
-    apiRef,
-    ...listProps
-}: Partial<ListProps<string>> & {apiRef?: React.Ref<VirtualizerApi>}) {
+function VirtualizedList(listProps: Partial<ListProps<string>>) {
     return (
-        <ListVirtualizer estimateItemSize={ROW_HEIGHT} apiRef={apiRef}>
+        <ListVirtualizer estimateItemSize={ROW_HEIGHT}>
             <List
                 aria-label="Logs"
                 items={ITEMS}
@@ -193,18 +191,60 @@ describe('List: virtualization layer', () => {
         });
     });
 
-    describe('apiRef', () => {
-        test('the wrapper hands out the API of the engine', () => {
-            const apiRef = React.createRef<VirtualizerApi>();
-            const {unmount} = render(<VirtualizedList apiRef={apiRef} />);
-            const listbox = screen.getByRole('listbox');
+    describe('scrollToIndex of the engine', () => {
+        // The watch of scrollToIndex repeats the scroll over the next frames: the frames are run
+        // by hand
+        let handle = 0;
+        const frames = new Map<number, FrameRequestCallback>();
+        let rafSpy: jest.SpyInstance;
+        let cafSpy: jest.SpyInstance;
 
-            expect(apiRef.current).toEqual(
-                expect.objectContaining({
-                    scrollToIndex: expect.any(Function),
-                    scrollToOffset: expect.any(Function),
-                }),
+        beforeEach(() => {
+            frames.clear();
+            rafSpy = jest.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+                handle += 1;
+                frames.set(handle, callback);
+                return handle;
+            });
+            cafSpy = jest.spyOn(window, 'cancelAnimationFrame').mockImplementation((id) => {
+                frames.delete(id);
+            });
+        });
+
+        afterEach(() => {
+            rafSpy.mockRestore();
+            cafSpy.mockRestore();
+        });
+
+        const runFrames = (count: number) => {
+            for (let frame = 0; frame < count; frame += 1) {
+                const callbacks = Array.from(frames.values());
+                frames.clear();
+                callbacks.forEach((callback) => callback(0));
+            }
+        };
+
+        function renderEngine() {
+            const apiRef = React.createRef<VirtualizerApi>();
+            const {unmount} = render(
+                <Virtualizer
+                    apiRef={apiRef}
+                    // mockLayout tells the viewport from a row by the role
+                    role="listbox"
+                    aria-label="Rows"
+                    style={{maxHeight: VIEWPORT_HEIGHT}}
+                    count={ITEMS.length}
+                    getItemSize={() => ROW_HEIGHT}
+                    getItemKey={(index) => index}
+                    renderRow={({index}) => <div>{ITEMS[index]}</div>}
+                />,
             );
+            frames.clear();
+            return {apiRef, listbox: screen.getByRole('listbox'), unmount};
+        }
+
+        test('brings a row into view: by the nearest edge or where `align` says', () => {
+            const {apiRef, listbox, unmount} = renderEngine();
 
             apiRef.current?.scrollToIndex(149);
             expect(listbox.scrollTop).toBe(150 * ROW_HEIGHT - VIEWPORT_HEIGHT);
@@ -217,76 +257,27 @@ describe('List: virtualization layer', () => {
         });
 
         test('a new call ends the watch of the previous one, and the watch ends by itself', () => {
-            // The scroll is repeated over the next frames while the measurements move the row:
-            // two calls in a row must not take turns at it
-            let handle = 0;
-            const frames = new Map<number, FrameRequestCallback>();
-            const rafSpy = jest
-                .spyOn(window, 'requestAnimationFrame')
-                .mockImplementation((callback) => {
-                    handle += 1;
-                    frames.set(handle, callback);
-                    return handle;
-                });
-            const cafSpy = jest.spyOn(window, 'cancelAnimationFrame').mockImplementation((id) => {
-                frames.delete(id);
-            });
-            const runFrame = () => {
-                const callbacks = Array.from(frames.values());
-                frames.clear();
-                callbacks.forEach((callback) => callback(0));
-            };
-            try {
-                const apiRef = React.createRef<VirtualizerApi>();
-                render(<VirtualizedList apiRef={apiRef} />);
-                const listbox = screen.getByRole('listbox');
-                frames.clear();
+            const {apiRef, listbox} = renderEngine();
 
-                apiRef.current?.scrollToIndex(149);
-                apiRef.current?.scrollToIndex(9, 'start');
-                for (let frame = 0; frame < 5; frame += 1) {
-                    runFrame();
-                }
+            apiRef.current?.scrollToIndex(149);
+            apiRef.current?.scrollToIndex(9, 'start');
+            runFrames(5);
 
-                expect(listbox.scrollTop).toBe(9 * ROW_HEIGHT);
-                expect(frames.size).toBe(0);
-            } finally {
-                rafSpy.mockRestore();
-                cafSpy.mockRestore();
-            }
+            expect(listbox.scrollTop).toBe(9 * ROW_HEIGHT);
+            expect(frames.size).toBe(0);
         });
 
         test('a reader who scrolls ends the watch', () => {
             // While the watch lasts it brings the row back wherever the list goes: a wheel turned
             // right after the list has scrolled must not be undone
-            let handle = 0;
-            const frames = new Map<number, FrameRequestCallback>();
-            const rafSpy = jest
-                .spyOn(window, 'requestAnimationFrame')
-                .mockImplementation((callback) => {
-                    handle += 1;
-                    frames.set(handle, callback);
-                    return handle;
-                });
-            const cafSpy = jest.spyOn(window, 'cancelAnimationFrame').mockImplementation((id) => {
-                frames.delete(id);
-            });
-            try {
-                const apiRef = React.createRef<VirtualizerApi>();
-                render(<VirtualizedList apiRef={apiRef} />);
-                const listbox = screen.getByRole('listbox');
-                frames.clear();
+            const {apiRef, listbox} = renderEngine();
 
-                apiRef.current?.scrollToIndex(149);
-                expect(frames.size).toBe(1);
+            apiRef.current?.scrollToIndex(149);
+            expect(frames.size).toBe(1);
 
-                fireEvent.wheel(listbox);
+            fireEvent.wheel(listbox);
 
-                expect(frames.size).toBe(0);
-            } finally {
-                rafSpy.mockRestore();
-                cafSpy.mockRestore();
-            }
+            expect(frames.size).toBe(0);
         });
     });
 

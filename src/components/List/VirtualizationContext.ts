@@ -9,13 +9,11 @@ import type {ListContainerDOMProps} from './useList';
 export type ListEstimateItemSize<T = any> = number | ((ctx: ListItemContext<T>) => number);
 
 /**
- * Scrolls the row at the index in `rowIds` into view. The virtualization layer implements it: a row
- * outside the window has no place in the DOM yet, so only the layer knows where to scroll to
+ * Scrolls the row at the index in `rowIds` into view by the nearest edge. The virtualization layer
+ * implements it: a row outside the window has no place in the DOM yet, so only the layer knows
+ * where to scroll to
  */
-export type ListScrollToIndex = (
-    index: number,
-    align?: 'auto' | 'start' | 'center' | 'end',
-) => void;
+export type ListScrollToIndex = (index: number) => void;
 
 /** Props the core passes to the root renderer of the virtualization layer (it renders the list root) */
 export interface ListVirtualizedRootProps {

@@ -71,7 +71,11 @@ export function DisclosureDetails({children, qa, className}: DisclosureDetailsPr
                 return (
                     <div
                         ref={containerRef}
-                        className={b('content-container', {visible, transitioning})}
+                        className={b('content-container', {
+                            visible,
+                            transitioning,
+                            hidden: transitionState === 'exited' && !expanded,
+                        })}
                     >
                         <div ref={innerRef} className={b('content-wrapper')}>
                             {shouldRenderContent && (

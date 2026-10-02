@@ -134,6 +134,14 @@ test.describe('Disclosure', {tag: '@Disclosure'}, () => {
         const summary = host.getByRole('button', {name: 'Toggle'});
         const details = host.locator('[data-qa="styled-details"]');
         const container = host.locator('.g-disclosure__content-container');
+
+        await expect
+            .poll(() => container.evaluate((element) => element.getBoundingClientRect().height))
+            .toBe(0);
+
+        await summary.click();
+
+        // Collapsed content is display: none, so measure its full box after opening starts.
         const fullDetailsHeight = await details.evaluate((element) => {
             const detailsElement = element as HTMLElement;
             const style = window.getComputedStyle(detailsElement);
@@ -144,12 +152,6 @@ test.describe('Disclosure', {tag: '@Disclosure'}, () => {
                 Number.parseFloat(style.marginBottom)
             );
         });
-
-        await expect
-            .poll(() => container.evaluate((element) => element.getBoundingClientRect().height))
-            .toBe(0);
-
-        await summary.click();
 
         await expect
             .poll(() =>

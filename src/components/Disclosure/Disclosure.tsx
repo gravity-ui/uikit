@@ -121,7 +121,7 @@ function prepareChildren(children: React.ReactNode, {disclosureQa}: PrepareParam
             }
 
             detailsElement = item;
-            content.push(item.props.children);
+            content.push(<React.Fragment key={item.key}>{item.props.children}</React.Fragment>);
             continue;
         }
 

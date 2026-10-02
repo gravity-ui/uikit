@@ -66,6 +66,10 @@ $transition-easing: linear;
         overflow: hidden;
     }
 
+    &__content-container_hidden {
+        display: none;
+    }
+
     &__content-wrapper {
         display: flex;
         flex-direction: column;

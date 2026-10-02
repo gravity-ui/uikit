@@ -1,7 +1,7 @@
 @use '../variables';
 
 #{variables.$footerBlock} {
-    padding: 24px var(--_--side-padding) 28px;
+    padding: var(--g-spacing-6) var(--_--side-padding) var(--g-spacing-7);
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -28,7 +28,7 @@
     }
 
     &_mobile {
-        padding-block: 12px;
+        padding-block: var(--g-spacing-3);
         flex-direction: column;
         align-items: stretch;
         justify-content: flex-start;

@@ -2,12 +2,14 @@
 @use './variables';
 
 #{variables.$block} {
-    --_--side-padding: 32px;
+    --_--side-padding: var(--g-spacing-8);
     --_--close-button-space: 0px;
 
     position: relative;
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
+    padding-block: var(--g-spacing-5) var(--g-spacing-6);
     width: var(--g-dialog-width, var(--_--width));
 
     &__modal:not(#{variables.$block}__modal_mobile) {
@@ -56,20 +58,26 @@
         }
     }
 
+    // 16px inset + 36px button + 6px gap - 32px side padding.
     &:has(#{variables.$closeBtnBlock}) {
         --_--close-button-space: 26px;
     }
 
-    &:has(#{variables.$headerBlock}) {
+    &:where(:has(#{variables.$headerBlock})) {
         padding-block-start: 0;
     }
 
-    &:has(#{variables.$footerBlock}) {
+    &:where(:has(#{variables.$footerBlock})) {
         padding-block-end: 0;
     }
 
     &_mobile {
-        --_--side-padding: 20px;
+        --_--side-padding: var(--g-spacing-5);
         height: 100%;
+
+        // 12px inset + 44px button + 6px gap - 20px side padding.
+        &:has(#{variables.$closeBtnBlock}) {
+            --_--close-button-space: 42px;
+        }
     }
 }

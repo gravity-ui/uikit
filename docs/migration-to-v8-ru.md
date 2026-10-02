@@ -10,6 +10,39 @@
 Компоненты, которые больше не развиваются, переезжают в точку входа `@gravity-ui/uikit/legacy`. У компонентов,
 оставшихся в `/legacy`, API сохраняется, но дата удаления этой точки входа не обещается: запланируйте уход с них.
 
+## Menu и DropdownMenu
+
+`Menu` и `DropdownMenu` из корневой точки входа переехали в `@gravity-ui/uikit/legacy`. Чтобы сохранить прежнее
+поведение, поменяйте только импорты (включая `MenuProps`, `MenuItemProps`, `MenuGroupProps`, `DropdownMenuProps`,
+`DropdownMenuItem` и другие связанные типы):
+
+```diff
+- import {Menu, DropdownMenu} from '@gravity-ui/uikit';
++ import {Menu, DropdownMenu} from '@gravity-ui/uikit/legacy';
+```
+
+Семейство `unstable_Menu` стало стабильным и доступно из корневой точки входа. Уберите префикс `unstable_` у
+компонентов и типов:
+
+```diff
+- import {unstable_Menu as Menu, unstable_MenuItem as MenuItem} from '@gravity-ui/uikit/unstable';
++ import {Menu, MenuItem} from '@gravity-ui/uikit';
+```
+
+То же относится к `MenuTrigger`, `MenuDivider`, `MenuSize`, `MenuProps`, всем типам `MenuItem*` и
+`MenuTriggerProps`. Из `/unstable` эти имена больше не экспортируются.
+
+У нового `Menu` другой API: передавайте элементы как дочерние `MenuItem`, а триггер — через `trigger` (или используйте
+`inline`). Старые пропсы `Menu.Item`, `Menu.Group` и массив `DropdownMenu.items` доступны в `/legacy`. Примеры есть в
+[README нового Menu](../src/components/Menu/README.md). Новое меню использует CSS-классы `g-menu`, `g-menu-item` и
+`g-menu-divider`. Классы legacy-компонентов переименованы: `g-menu` → `g-menu-legacy`, `g-dropdown-menu` →
+`g-dropdown-menu-legacy`. В `DefaultPropsProvider` для старого меню используйте ключ `MenuLegacy`; ключ `DropdownMenu`
+не изменился.
+
+Как и для других импортов из `/legacy`, установите необязательные peer-зависимости: `@hello-pangea/dnd`,
+`react-window` и `react-virtualized-auto-sizer`.
+Legacy-компоненты `Menu`, `MenuItem`, `MenuGroup` и `DropdownMenu` помечены `@deprecated` в типах.
+
 ## Breadcrumbs, Popover и Tabs удалены из `/legacy`
 
 Старые компоненты `Breadcrumbs`, `Popover` и `Tabs`, их типы и связанные экспорты больше не доступны из

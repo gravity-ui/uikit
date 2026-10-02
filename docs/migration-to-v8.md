@@ -10,6 +10,39 @@ says what changed, how to keep the old behavior for now, and where to go next.
 Components that are no longer developed move to the `@gravity-ui/uikit/legacy` entry point. Components still available
 there keep their API, but no removal date for `/legacy` is promised: plan the migration away from them.
 
+## Menu and DropdownMenu
+
+`Menu` and `DropdownMenu` from the root entry point have moved to `@gravity-ui/uikit/legacy`. To keep their current
+behavior, change only the imports (including `MenuProps`, `MenuItemProps`, `MenuGroupProps`, `DropdownMenuProps`,
+`DropdownMenuItem`, and other related types):
+
+```diff
+- import {Menu, DropdownMenu} from '@gravity-ui/uikit';
++ import {Menu, DropdownMenu} from '@gravity-ui/uikit/legacy';
+```
+
+The former `unstable_Menu` family is now stable in the root entry point. Remove the `unstable_` prefix from its
+components and types, and import them from `@gravity-ui/uikit`:
+
+```diff
+- import {unstable_Menu as Menu, unstable_MenuItem as MenuItem} from '@gravity-ui/uikit/unstable';
++ import {Menu, MenuItem} from '@gravity-ui/uikit';
+```
+
+The same applies to `MenuTrigger`, `MenuDivider`, `MenuSize`, `MenuProps`, and all `MenuItem*` and `MenuTriggerProps`
+types. These names are no longer exported from `/unstable`.
+
+The new `Menu` has a different API: pass items as `MenuItem` children and a trigger via `trigger` (or use `inline`).
+The old `Menu.Item` props, `Menu.Group`, and `DropdownMenu.items` array remain available in `/legacy`. See the
+[new Menu README](../src/components/Menu/README.md) for examples. The new menu uses `g-menu`, `g-menu-item`, and
+`g-menu-divider` CSS classes. The legacy components now use `g-menu-legacy` and `g-dropdown-menu-legacy` instead of
+`g-menu` and `g-dropdown-menu`. In `DefaultPropsProvider`, use `MenuLegacy` for the legacy menu; the `DropdownMenu`
+key stays the same.
+
+As with any `/legacy` import, install its optional peer dependencies: `@hello-pangea/dnd`, `react-window`, and
+`react-virtualized-auto-sizer`.
+The legacy `Menu`, `MenuItem`, `MenuGroup`, and `DropdownMenu` components are marked `@deprecated` in their types.
+
 ## Breadcrumbs, Popover and Tabs removed from `/legacy`
 
 The legacy `Breadcrumbs`, `Popover` and `Tabs` components, their types and related exports are no longer available

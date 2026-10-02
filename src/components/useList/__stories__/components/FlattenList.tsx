@@ -40,7 +40,7 @@ export const FlattenList = ({itemsCount, size}: FlattenListProps) => {
     });
 
     return (
-        <Flex direction="column" gap="5" grow>
+        <Flex direction="column" gap="spacing-5" flexGrow>
             <TextInput
                 autoComplete="off"
                 value={filterState.filter}

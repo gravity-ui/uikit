@@ -318,7 +318,7 @@ function SelectionTable() {
         return Promise.resolve();
       }}
       renderControls={({DefaultApplyButton, onApply}) => (
-        <Flex gapRow="1" direction="column">
+        <Flex rowGap="spacing-1" direction="column">
           <Button
             view="outlined-warning"
             onClick={() => {

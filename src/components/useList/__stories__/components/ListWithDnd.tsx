@@ -47,7 +47,7 @@ export const ListWithDnd = ({size, itemsCount, 'aria-label': ariaLabel}: ListWit
     });
 
     return (
-        <Flex direction="column" gap="5">
+        <Flex direction="column" gap="spacing-5">
             <TextInput
                 autoComplete="off"
                 value={filterState.filter}

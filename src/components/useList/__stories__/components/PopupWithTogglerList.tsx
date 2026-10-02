@@ -61,7 +61,7 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
     });
 
     return (
-        <Flex direction="column" gap="5" width={COMPONENT_WIDTH} ref={controlWrapRef}>
+        <Flex direction="column" gap="spacing-5" width={COMPONENT_WIDTH} ref={controlWrapRef}>
             <Button ref={controlRef} onClick={() => setOpen((x) => !x)} width="max">
                 {selectedId ? list.structure.itemsById[selectedId]?.title : 'Select person'}
             </Button>

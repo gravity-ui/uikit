@@ -80,7 +80,7 @@ function DialogComponent({
 
 export const Default: StoryFn<DialogProps & {showError: boolean}> = (args) => {
     return (
-        <Flex gap={5} direction="column" wrap>
+        <Flex gap="spacing-5" direction="column" wrap>
             <DialogComponent buttonText="Show small dialog" content="Content" {...args} />
             <DialogComponent
                 buttonText="Show large dialog"

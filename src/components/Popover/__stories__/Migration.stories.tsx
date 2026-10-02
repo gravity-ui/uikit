@@ -23,7 +23,7 @@ type Story = StoryObj;
 
 function Column({label, children}: {label: string; children: React.ReactNode}) {
     return (
-        <Flex direction="column" alignItems="center" gap={2}>
+        <Flex direction="column" alignItems="center" gap="spacing-2">
             <div style={{fontWeight: 'bold'}}>{label}</div>
             {children}
         </Flex>
@@ -32,7 +32,7 @@ function Column({label, children}: {label: string; children: React.ReactNode}) {
 
 export const Default: Story = {
     render: () => (
-        <Flex gap={8} alignItems="center">
+        <Flex gap="spacing-8" alignItems="center">
             <Column label="Legacy">
                 <LegacyPopover title="Title" content="Some text" theme="info">
                     <Button>Hover me</Button>
@@ -61,7 +61,7 @@ export const Default: Story = {
 
 export const WithActionsAndClose: Story = {
     render: () => (
-        <Flex gap={8} alignItems="center">
+        <Flex gap="spacing-8" alignItems="center">
             <Column label="Legacy">
                 <LegacyPopover
                     title="Update available"
@@ -114,7 +114,7 @@ export const WithActionsAndClose: Story = {
 
 export const Themes: Story = {
     render: () => (
-        <Flex gap={8} wrap justifyContent="center">
+        <Flex gap="spacing-8" wrap justifyContent="center">
             <Column label="Legacy: info">
                 <LegacyPopover
                     content="Info tooltip"
@@ -263,7 +263,7 @@ export const Themes: Story = {
 
 export const ClickOnly: Story = {
     render: () => (
-        <Flex gap={8} alignItems="center">
+        <Flex gap="spacing-8" alignItems="center">
             <Column label="Legacy: openOnHover={false}">
                 <LegacyPopover content="Click-only content" openOnHover={false} theme="info">
                     <Button>Click me</Button>

@@ -141,7 +141,7 @@ SANDBOX-->
 <!--GITHUB_BLOCK-->
 
 ```jsx
-<Flex direction="column" gap={4}>
+<Flex direction="column" gap="spacing-4">
   <Stepper {...args} size="s">
     <Stepper.Item>Step 1</Stepper.Item>
     <Stepper.Item>Step 2</Stepper.Item>

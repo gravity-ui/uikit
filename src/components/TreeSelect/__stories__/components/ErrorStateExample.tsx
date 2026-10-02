@@ -17,7 +17,7 @@ export const ErrorStateExample = ({...props}: ErrorStateExampleProps) => {
     const containerRef = React.useRef<HTMLDivElement>(null);
 
     return (
-        <Flex gap="5">
+        <Flex gap="spacing-5">
             <TreeSelect
                 {...props}
                 items={items}

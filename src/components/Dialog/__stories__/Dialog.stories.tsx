@@ -55,10 +55,7 @@ function DialogComponent({
             <Dialog
                 {...args}
                 open={open}
-                onClose={() => setOpen(false)}
-                onEnterKeyDown={() => {
-                    alert('onEnterKeyDown');
-                }}
+                onOpenChange={setOpen}
                 aria-labelledby={withHeader ? headerId : undefined}
             >
                 {withHeader && <Dialog.Header caption="Header" id={headerId} />}

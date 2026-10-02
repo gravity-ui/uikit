@@ -44,20 +44,6 @@
         );
     }
 
-    &_size {
-        &_s {
-            --_--width: 480px;
-        }
-
-        &_m {
-            --_--width: 720px;
-        }
-
-        &_l {
-            --_--width: 900px;
-        }
-    }
-
     // 16px inset + 36px button + 6px gap - 32px side padding.
     &:has(#{variables.$closeBtnBlock}) {
         --_--close-button-space: 26px;

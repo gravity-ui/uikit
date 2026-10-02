@@ -10,6 +10,24 @@ says what changed, how to keep the old behavior for now, and where to go next.
 Components that are no longer developed move to the `@gravity-ui/uikit/legacy` entry point. They keep their API
 there, but no removal date for `/legacy` is promised: plan the migration away from them.
 
+## Deprecated Modal and Dialog APIs
+
+`Modal` and `Dialog` no longer accept `onClose`, `onEscapeKeyDown`, `onOutsideClick`, or `onEnterKeyDown`. The `ModalCloseReason` type has also been removed. Use `onOpenChange` for dismissal: it receives the new state, event, and reason (`escape-key` or `outside-press`). Replace `onEnterKeyDown` with a form submit handler or set `initialFocus` to the confirmation button.
+
+```diff
+- <Modal open={open} onClose={() => setOpen(false)}>
++ <Modal open={open} onOpenChange={setOpen}>
+```
+
+`Dialog.size` has been removed. To keep the previous fixed width, pass the same value to `maxWidth` and enable `fullWidth`. Use `onOpenChange` to close the dialog:
+
+```diff
+- <Dialog size="m" open={open} onClose={handleClose}>
++ <Dialog maxWidth="m" fullWidth open={open} onOpenChange={setOpen}>
+```
+
+For `Dialog`, `onOpenChange` reports `escape-key` for Escape, `outside-press` for outside clicks, and `click` for its close button. Replace `onEnterKeyDown` with a form submit handler or an action button handler.
+
 ## Dialog layout
 
 `Dialog` now uses smaller header and body paddings. The header has 12px above and 8px below its content, the body has

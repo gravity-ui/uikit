@@ -169,7 +169,6 @@ export function Dialog(rawProps: DialogProps) {
                         mobile,
                         'max-width': maxWidth,
                         'full-width': mobile ? true : fullWidth,
-                        'has-close': hasCloseButton,
                         'has-scroll': mobile ? true : contentOverflow === 'auto',
                     },
                     className,

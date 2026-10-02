@@ -10,6 +10,17 @@ says what changed, how to keep the old behavior for now, and where to go next.
 Components that are no longer developed move to the `@gravity-ui/uikit/legacy` entry point. They keep their API
 there, but no removal date for `/legacy` is promised: plan the migration away from them.
 
+## Dialog layout
+
+`Dialog` now uses smaller header and body paddings. The header has 12px above and 8px below its content, the body has
+4px of vertical padding, and the footer has 24px above and 28px below its content. A typical dialog becomes 176px tall
+instead of 190px. The close button moves to 12px from the top and 16px from the inline end on desktop; on mobile it is
+12px from both edges. If the header or footer is absent, the dialog leaves 20px or 24px, respectively, between the body
+and that edge. Check custom content and CSS overrides against the new spacing.
+
+The root no longer has the `g-dialog_has-close` class. Update selectors that depend on it; the close button can be
+selected through `.g-dialog:has(.g-dialog-btn-close)` when needed.
+
 ## Table and TableColumnSetup
 
 `Table`, its HOCs (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`,

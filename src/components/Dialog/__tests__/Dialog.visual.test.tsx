@@ -42,6 +42,99 @@ interface AllDialogProps {
 }
 
 test.describe('Dialog', {tag: '@Dialog'}, () => {
+    [
+        {name: 'without header', header: false, footer: true, close: false, empty: false},
+        {name: 'without footer', header: true, footer: false, close: true, empty: false},
+        {name: 'without close button', header: true, footer: true, close: false, empty: false},
+        {name: 'with empty body', header: true, footer: true, close: true, empty: true},
+    ].forEach(({name, header, footer, close, empty}) => {
+        test(`layout ${name}`, async ({mount, page, expectScreenshot}) => {
+            await page.setViewportSize({width: 1000, height: 600});
+            await mount(
+                <Dialog hasCloseButton={close} onClose={() => {}} open>
+                    {header && <Dialog.Header caption="Dialog title" />}
+                    <Dialog.Body>{empty ? null : 'Dialog content'}</Dialog.Body>
+                    {footer && <Dialog.Footer textButtonApply="Apply" />}
+                </Dialog>,
+            );
+
+            const dialog = page.locator('.g-dialog');
+            if (!header) {
+                await expect(dialog).toHaveCSS('padding-block-start', '20px');
+            }
+            if (!footer) {
+                await expect(dialog).toHaveCSS('padding-block-end', '24px');
+            }
+            await expectScreenshot({locator: page, themes: ['light']});
+        });
+    });
+
+    test('keeps missing-section padding inside the mobile viewport', async ({mount, page}) => {
+        await page.setViewportSize({width: 600, height: 900});
+        await mount(
+            <MobileProvider mobile __experimentalMobileModals>
+                <Dialog hasCloseButton={false} onClose={() => {}} open>
+                    <Dialog.Body>Dialog content</Dialog.Body>
+                </Dialog>
+            </MobileProvider>,
+        );
+
+        const dialog = page.locator('.g-dialog');
+        await expect(dialog).toHaveCSS('padding-block-start', '20px');
+        await expect(dialog).toHaveCSS('padding-block-end', '24px');
+        expect(await dialog.evaluate((element) => element.getBoundingClientRect().height)).toBe(
+            900,
+        );
+    });
+
+    test('lets className override missing-section padding', async ({mount, page}) => {
+        await mount(
+            <Dialog
+                className="custom-dialog-padding"
+                hasCloseButton={false}
+                onClose={() => {}}
+                open
+            >
+                <Dialog.Body>Dialog content</Dialog.Body>
+            </Dialog>,
+        );
+        await page.addStyleTag({content: '.custom-dialog-padding {padding-block: 7px 9px}'});
+
+        const dialog = page.locator('.g-dialog');
+        await expect(dialog).toHaveCSS('padding-block-start', '7px');
+        await expect(dialog).toHaveCSS('padding-block-end', '9px');
+    });
+
+    test('keeps a multiline header visible while the body scrolls', async ({
+        mount,
+        page,
+        expectScreenshot,
+    }) => {
+        await page.setViewportSize({width: 1000, height: 600});
+        await page.addStyleTag({content: '* { box-sizing: border-box }'});
+        await mount(
+            <Dialog size="s" contentOverflow="auto" onClose={() => {}} open>
+                <Dialog.Header caption="A long dialog caption that wraps across multiple lines when the body is taller than the available viewport" />
+                <Dialog.Body>
+                    <div style={{height: 900}}>Scrollable content</div>
+                </Dialog.Body>
+            </Dialog>,
+        );
+
+        const header = page.locator('.g-dialog-header');
+        const body = page.locator('.g-dialog-body');
+        await expect(header).toHaveCSS('box-sizing', 'content-box');
+        await expect(body).toHaveCSS('box-sizing', 'content-box');
+        const sizes = await header.evaluate((element) => ({
+            header: element.getBoundingClientRect().height,
+            caption: element.querySelector('.g-dialog-header__caption')?.getBoundingClientRect()
+                .height,
+        }));
+        expect(sizes.caption).toBeDefined();
+        expect(sizes.header).toBeGreaterThanOrEqual((sizes.caption ?? 0) + 20);
+        await expectScreenshot({locator: page, themes: ['light']});
+    });
+
     test('fills the mobile viewport regardless of desktop width constraints', async ({
         mount,
         page,
@@ -85,6 +178,21 @@ test.describe('Dialog', {tag: '@Dialog'}, () => {
         expect(layout.contentClientHeight).toBe(layout.overlayClientHeight);
         expect(layout.dialogClientHeight).toBe(layout.overlayClientHeight);
         expect(layout.contentClipPath).toBe('inset(0px)');
+
+        const alignment = await page.locator('.g-dialog').evaluate((dialog) => {
+            const caption = dialog.querySelector('.g-dialog-header__caption');
+            const closeButton = dialog.querySelector('.g-dialog-btn-close');
+            if (!caption || !closeButton) {
+                throw new Error('Mobile dialog header or close button is missing');
+            }
+            const captionRect = caption.getBoundingClientRect();
+            const buttonRect = closeButton.getBoundingClientRect();
+            return {
+                captionCenter: captionRect.top + captionRect.height / 2,
+                buttonCenter: buttonRect.top + buttonRect.height / 2,
+            };
+        });
+        expect(Math.abs(alignment.captionCenter - alignment.buttonCenter)).toBeLessThanOrEqual(1);
 
         await expectScreenshot({locator: page, themes: ['light']});
     });
@@ -229,6 +337,13 @@ test.describe('Dialog', {tag: '@Dialog'}, () => {
                 locator: page,
                 themes: ['light'],
             });
+
+            if (bodyHasBorder) {
+                await expect(page.locator('.g-dialog-body')).toHaveCSS(
+                    'padding-block-start',
+                    '4px',
+                );
+            }
         });
     });
 });

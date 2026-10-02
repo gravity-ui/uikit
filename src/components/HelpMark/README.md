@@ -50,7 +50,7 @@ SANDBOX-->
 
 | Name         | Description                                   |           Type           | Default |
 | :----------- | :-------------------------------------------- | :----------------------: | :-----: |
-| iconSize     | Sets icon size                                | `"s"` `"m"` `"l"` `"xl"` |  `"m"`  |
+| size         | Sets icon size                                | `"s"` `"m"` `"l"` `"xl"` |  `"m"`  |
 | popoverProps | Override desktop `Popover` props              |      `PopoverProps`      |         |
 | sheetProps   | Override mobile `Sheet` props                 |       `SheetProps`       |         |
 | children     | Content displayed inside the popover or sheet |    `React.ReactNode`     |         |

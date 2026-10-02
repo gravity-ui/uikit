@@ -1,6 +1,6 @@
 @use '../../variables';
 
-$block: '.#{variables.$ns}dropdown-menu';
+$block: '.#{variables.$ns}dropdown-menu-legacy';
 
 #{$block} {
     &__switcher-wrapper {

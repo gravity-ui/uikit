@@ -34,7 +34,7 @@ export default {
                     {
                         id: 'button-name',
                         enabled: false,
-                        selector: '.g-dropdown-menu__switcher-button',
+                        selector: '.g-dropdown-menu-legacy__switcher-button',
                     },
                 ],
             },

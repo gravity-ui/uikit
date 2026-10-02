@@ -1,6 +1,6 @@
 @use '../../variables';
 
-$block: '.#{variables.$ns}menu';
+$block: '.#{variables.$ns}menu-legacy';
 
 #{$block} {
     box-sizing: border-box;

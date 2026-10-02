@@ -34,9 +34,10 @@ types. These names are no longer exported from `/unstable`.
 
 The new `Menu` has a different API: pass items as `MenuItem` children and a trigger via `trigger` (or use `inline`).
 The old `Menu.Item` props, `Menu.Group`, and `DropdownMenu.items` array remain available in `/legacy`. See the
-[new Menu README](../src/components/Menu/README.md) for examples. Custom CSS targeting the old `g-menu` or
-`g-dropdown-menu` classes may need updating when switching to the new component (`g-lab-menu`). The `Menu` and
-`DropdownMenu` keys in `DefaultPropsProvider` still apply to the legacy components.
+[new Menu README](../src/components/Menu/README.md) for examples. The new menu uses `g-menu`, `g-menu-item`, and
+`g-menu-divider` CSS classes. The legacy components now use `g-menu-legacy` and `g-dropdown-menu-legacy` instead of
+`g-menu` and `g-dropdown-menu`. In `DefaultPropsProvider`, use `MenuLegacy` for the legacy menu; the `DropdownMenu`
+key stays the same.
 
 As with any `/legacy` import, install its optional peer dependencies: `@hello-pangea/dnd`, `react-window`, and
 `react-virtualized-auto-sizer`.

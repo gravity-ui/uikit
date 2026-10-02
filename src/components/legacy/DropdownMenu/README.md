@@ -122,8 +122,8 @@ The `items` property on an individual menu item adds nested sub-items to such it
 
 Menu items with submenus get the following additional class names to allow for extra styling:
 
-- `.g-dropdown-menu__menu-item_with-submenu`: For items with more than one nested item.
-- `.g-dropdown-menu__menu-item_active-parent`: For the item whose submenu is currently open.
+- `.g-dropdown-menu-legacy__menu-item_with-submenu`: For items with more than one nested item.
+- `.g-dropdown-menu-legacy__menu-item_active-parent`: For the item whose submenu is currently open.
 
 <!--SANDBOX
 import type {DropdownMenuItem} from '@gravity-ui/uikit/legacy';

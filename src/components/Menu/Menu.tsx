@@ -36,7 +36,7 @@ import {isComponentType} from './utils';
 
 import './Menu.scss';
 
-const b = block('lab-menu');
+const b = block('menu');
 
 // The component is needed to run submenu logic hooks.
 // We get <nodeId> of the Popup using "useFloatingParentNodeId" here

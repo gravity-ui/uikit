@@ -34,9 +34,10 @@
 
 У нового `Menu` другой API: передавайте элементы как дочерние `MenuItem`, а триггер — через `trigger` (или используйте
 `inline`). Старые пропсы `Menu.Item`, `Menu.Group` и массив `DropdownMenu.items` доступны в `/legacy`. Примеры есть в
-[README нового Menu](../src/components/Menu/README.md). При переходе на новый компонент может потребоваться
-обновить CSS-селекторы, нацеленные на старые классы `g-menu` и `g-dropdown-menu` (новый класс — `g-lab-menu`). Ключи
-`Menu` и `DropdownMenu` в `DefaultPropsProvider` по-прежнему относятся к legacy-компонентам.
+[README нового Menu](../src/components/Menu/README.md). Новое меню использует CSS-классы `g-menu`, `g-menu-item` и
+`g-menu-divider`. Классы legacy-компонентов переименованы: `g-menu` → `g-menu-legacy`, `g-dropdown-menu` →
+`g-dropdown-menu-legacy`. В `DefaultPropsProvider` для старого меню используйте ключ `MenuLegacy`; ключ `DropdownMenu`
+не изменился.
 
 Как и для других импортов из `/legacy`, установите необязательные peer-зависимости: `@hello-pangea/dnd`,
 `react-window` и `react-virtualized-auto-sizer`.

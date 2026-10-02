@@ -7,7 +7,7 @@ import type {DOMProps, QAProps} from '../../types';
 import {block} from '../../utils/cn';
 import {eventBroker} from '../../utils/event-broker';
 
-const b = block('menu');
+const b = block('menu-legacy');
 
 export interface MenuItemProps extends DOMProps, QAProps {
     iconStart?: React.ReactNode;

@@ -4,7 +4,7 @@ import {useUniqId} from '../../../hooks';
 import type {DOMProps, QAProps} from '../../types';
 import {block} from '../../utils/cn';
 
-const b = block('menu');
+const b = block('menu-legacy');
 
 export interface MenuGroupProps extends DOMProps, QAProps {
     label?: string;

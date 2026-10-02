@@ -45,7 +45,7 @@ function isMenuItemLinkProps<T extends MenuItemComponentElementType>(
     return isPolymorphicLinkProps<MenuItemProps<T>, MenuItemLinkProps>(p);
 }
 
-const b = block('lab-menu-item');
+const b = block('menu-item');
 
 export const MenuItem = React.forwardRef(
     <T extends MenuItemComponentElementType>(

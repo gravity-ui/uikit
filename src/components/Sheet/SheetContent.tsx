@@ -37,6 +37,7 @@ interface SheetContentBaseProps {
     floatingRef: React.Ref<HTMLDivElement>;
     getFloatingProps: UseInteractionsReturn['getFloatingProps'];
     content: React.ReactNode;
+    modal: boolean;
     presenceStatus: SheetPresenceStatus;
     id?: string;
     title?: string;
@@ -61,6 +62,7 @@ export function SheetContent(props: SheetContentProps) {
         swipeAreaClassName,
         hideTopBar,
         title,
+        modal,
         presenceStatus,
         requestDismiss,
         floatingRef,
@@ -398,7 +400,7 @@ export function SheetContent(props: SheetContentProps) {
             <div
                 ref={handleSheetRef}
                 className={sheetBlock('sheet', {'with-transition': withTransition})}
-                aria-modal="true"
+                aria-modal={modal || undefined}
                 {...getFloatingProps({'aria-label': title})}
             >
                 {!hideTopBar && (

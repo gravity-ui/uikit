@@ -321,19 +321,22 @@ describe('Sheet', () => {
             const options = {disableEscapeKeyDown: true};
             const lowerOnOpenChange = jest.fn();
             const upperOnOpenChange = jest.fn();
-            render(
+            const lowerSheet = (
+                <Sheet visible onOpenChange={lowerOnOpenChange} title="Lower sheet">
+                    Lower content
+                </Sheet>
+            );
+            const upperSheet = (
+                <Sheet {...options} visible onOpenChange={upperOnOpenChange} title="Upper sheet">
+                    Upper content
+                </Sheet>
+            );
+            // A modal sheet hides the portals that exist when it mounts, so the upper sheet mounts last
+            const {rerender} = render(<React.Fragment>{lowerSheet}</React.Fragment>);
+            rerender(
                 <React.Fragment>
-                    <Sheet visible onOpenChange={lowerOnOpenChange} title="Lower sheet">
-                        Lower content
-                    </Sheet>
-                    <Sheet
-                        {...options}
-                        visible
-                        onOpenChange={upperOnOpenChange}
-                        title="Upper sheet"
-                    >
-                        Upper content
-                    </Sheet>
+                    {lowerSheet}
+                    {upperSheet}
                 </React.Fragment>,
             );
 
@@ -343,7 +346,9 @@ describe('Sheet', () => {
             expect(upperOnOpenChange).not.toHaveBeenCalled();
             expect(lowerOnOpenChange).not.toHaveBeenCalled();
             expect(screen.getByRole('dialog', {name: 'Upper sheet'})).toBeInTheDocument();
-            expect(screen.getByRole('dialog', {name: 'Lower sheet'})).toBeInTheDocument();
+            expect(
+                screen.getByRole('dialog', {name: 'Lower sheet', hidden: true}),
+            ).toBeInTheDocument();
             expect(getLayersCount()).toBe(2);
         });
 

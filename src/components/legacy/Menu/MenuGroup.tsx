@@ -11,6 +11,7 @@ export interface MenuGroupProps extends DOMProps, QAProps {
     children?: React.ReactNode;
 }
 
+/** @deprecated Legacy component. Use `MenuItem` and `MenuDivider` from `@gravity-ui/uikit` instead. */
 export const MenuGroup = React.forwardRef<HTMLLIElement, MenuGroupProps>(function MenuGroup(
     {label, children, style, className, qa},
     ref,

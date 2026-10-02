@@ -7,7 +7,7 @@ import type {DialogProps} from '../Dialog';
 
 export function DynamicHeightStory(args: DialogProps) {
     const [open, setOpen] = React.useState(false);
-    const timersRef = React.useRef<number[]>([]);
+    const [run, setRun] = React.useState(0);
     const [isFirstDynamicPartOpen, setIsFirstDynamicPartOpen] = React.useState(false);
     const [isSecondDynamicPartOpen, setIsSecondDynamicPartOpen] = React.useState(false);
 
@@ -15,38 +15,25 @@ export function DynamicHeightStory(args: DialogProps) {
         setOpen((prevOpen) => !prevOpen);
     };
 
-    const play = () => {
-        if (open) {
-            timersRef.current[0] = window.setTimeout(() => {
-                setIsFirstDynamicPartOpen(true);
-            }, 2000);
-            timersRef.current[1] = window.setTimeout(() => {
-                setIsSecondDynamicPartOpen(true);
-            }, 4000);
-        }
-    };
-
-    const cleanup = () => {
-        timersRef.current.forEach((t) => {
-            window.clearTimeout(t);
-        });
-    };
-
     const reset = () => {
-        cleanup();
         setIsFirstDynamicPartOpen(false);
         setIsSecondDynamicPartOpen(false);
+        setRun((currentRun) => currentRun + 1);
     };
 
     React.useEffect(() => {
-        if (open) {
-            play();
+        if (!open) {
+            return undefined;
         }
 
+        const firstTimer = window.setTimeout(() => setIsFirstDynamicPartOpen(true), 2000);
+        const secondTimer = window.setTimeout(() => setIsSecondDynamicPartOpen(true), 4000);
+
         return () => {
-            cleanup();
+            window.clearTimeout(firstTimer);
+            window.clearTimeout(secondTimer);
         };
-    }, [open]);
+    }, [open, run]);
 
     return (
         <div>
@@ -55,13 +42,17 @@ export function DynamicHeightStory(args: DialogProps) {
                 {...args}
                 open={open}
                 onClose={switchVisibility}
+                aria-labelledby="dynamic-height-dialog-title"
                 className="my-custom-class-for-dialog"
                 hasCloseButton
                 keepMounted
                 onTransitionOutComplete={() => reset()}
                 qa="dynamicHeight"
             >
-                <Dialog.Header caption="Dialog with dynamic height"></Dialog.Header>
+                <Dialog.Header
+                    caption="Dialog with dynamic height"
+                    id="dynamic-height-dialog-title"
+                />
                 <Dialog.Body>
                     <div>
                         {isFirstDynamicPartOpen && (
@@ -104,10 +95,7 @@ export function DynamicHeightStory(args: DialogProps) {
                     preset="default"
                     textButtonApply="Repeat"
                     textButtonCancel="Exit"
-                    onClickButtonApply={() => {
-                        reset();
-                        play();
-                    }}
+                    onClickButtonApply={reset}
                     onClickButtonCancel={() => setOpen(false)}
                 />
             </Dialog>

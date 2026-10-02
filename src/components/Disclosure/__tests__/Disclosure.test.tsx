@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event';
 
-import {render, screen} from '../../../../test-utils/utils';
+import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
 import {Disclosure} from '../Disclosure';
 import type {DisclosureSize} from '../Disclosure';
 import {DisclosureQa} from '../constants';
@@ -135,21 +135,96 @@ describe('Disclosure', () => {
     test('content is visible when expanded', () => {
         const content = 'Some content';
         render(<Disclosure expanded={true}>{content}</Disclosure>);
-        const text = screen.getByText(content);
         const button = screen.getByRole('button');
 
-        expect(text).toHaveClass('g-disclosure__content_visible');
+        expect(screen.getByText(content)).toBeVisible();
         expect(button).toHaveAttribute('aria-expanded', 'true');
+    });
+
+    test('expanded content is available in accessibility tree', () => {
+        render(
+            <Disclosure summary="Summary" expanded={true}>
+                <button type="button">Visible action</button>
+            </Disclosure>,
+        );
+
+        const details = screen.getByTestId(DisclosureQa.DETAILS);
+
+        expect(details).not.toHaveAttribute('aria-hidden');
+        expect(details).not.toHaveAttribute('inert');
+        expect(screen.getByRole('button', {name: 'Visible action'})).toBeVisible();
+    });
+
+    test('explicit Details is reused as the region element', () => {
+        render(
+            <Disclosure summary="Summary" expanded={true}>
+                <Disclosure.Details qa="custom-details" className="custom-details">
+                    Content
+                </Disclosure.Details>
+            </Disclosure>,
+        );
+
+        const details = screen.getByTestId('custom-details');
+
+        expect(details).toHaveClass('custom-details');
+        expect(details).toHaveAttribute('role', 'region');
+        expect(screen.getAllByRole('region')).toHaveLength(1);
     });
 
     test('content is not visible when not expanded', () => {
         const content = 'Some content';
         render(<Disclosure expanded={false}>{content}</Disclosure>);
         const button = screen.getByRole('button');
-        const text = screen.getByText(content);
 
-        expect(text).not.toHaveClass('g-disclosure__content_visible');
         expect(button).toHaveAttribute('aria-expanded', 'false');
+    });
+
+    test('collapsed keepMounted content is hidden from accessibility tree', () => {
+        render(
+            <Disclosure summary="Summary" expanded={false} keepMounted={true}>
+                <button type="button">Hidden action</button>
+            </Disclosure>,
+        );
+
+        const details = screen.getByTestId(DisclosureQa.DETAILS);
+
+        expect(details).toHaveAttribute('aria-hidden', 'true');
+        expect(details).toHaveAttribute('inert');
+        expect(screen.queryByRole('button', {name: 'Hidden action'})).not.toBeInTheDocument();
+        expect(
+            screen.getByRole('button', {name: 'Hidden action', hidden: true}),
+        ).toBeInTheDocument();
+    });
+
+    test('content is hidden from accessibility tree while collapsing before unmount', () => {
+        jest.useFakeTimers();
+
+        try {
+            render(
+                <Disclosure summary="Summary" defaultExpanded={true} keepMounted={false}>
+                    <button type="button">Collapsing action</button>
+                </Disclosure>,
+            );
+
+            fireEvent.click(screen.getByRole('button', {name: 'Summary'}));
+
+            const details = screen.getByTestId(DisclosureQa.DETAILS);
+
+            expect(details).toHaveAttribute('aria-hidden', 'true');
+            expect(details).toHaveAttribute('inert');
+            expect(
+                screen.queryByRole('button', {name: 'Collapsing action'}),
+            ).not.toBeInTheDocument();
+
+            act(() => jest.advanceTimersByTime(0));
+
+            expect(screen.queryByTestId(DisclosureQa.DETAILS)).not.toBeInTheDocument();
+            expect(
+                screen.queryByRole('button', {name: 'Collapsing action', hidden: true}),
+            ).not.toBeInTheDocument();
+        } finally {
+            jest.useRealTimers();
+        }
     });
 
     test('content visibility toggles when clicked', async () => {
@@ -158,11 +233,10 @@ describe('Disclosure', () => {
         const content = 'Some content';
         render(<Disclosure>{content}</Disclosure>);
         const disclosure = screen.getByRole('button');
-        const component = screen.getByText(content);
 
-        expect(component).not.toHaveClass('g-disclosure__content_visible');
+        expect(disclosure).toHaveAttribute('aria-expanded', 'false');
         await user.click(disclosure);
-        expect(component).toHaveClass('g-disclosure__content_visible');
+        expect(disclosure).toHaveAttribute('aria-expanded', 'true');
     });
 
     test('content not in dom if not keepMounted and not expanded', () => {
@@ -188,6 +262,55 @@ describe('Disclosure', () => {
 
         const text = screen.queryByText(content);
         expect(text).toBeInTheDocument();
+    });
+
+    test('changing keepMounted while expanded preserves content state and focus', async () => {
+        const user = userEvent.setup();
+        const {rerender} = render(
+            <Disclosure expanded={true} keepMounted={true}>
+                <input aria-label="Stateful content" />
+            </Disclosure>,
+        );
+        const input = screen.getByRole('textbox', {name: 'Stateful content'});
+
+        await user.type(input, 'Preserved value');
+
+        rerender(
+            <Disclosure expanded={true} keepMounted={false}>
+                <input aria-label="Stateful content" />
+            </Disclosure>,
+        );
+
+        expect(screen.getByRole('textbox', {name: 'Stateful content'})).toBe(input);
+        expect(input).toHaveValue('Preserved value');
+        expect(input).toHaveFocus();
+    });
+
+    test('changing keepMounted while collapsed updates content mounting', () => {
+        const content = 'Dynamic keepMounted content';
+        const {rerender} = render(
+            <Disclosure expanded={false} keepMounted={false}>
+                {content}
+            </Disclosure>,
+        );
+
+        expect(screen.queryByText(content)).not.toBeInTheDocument();
+
+        rerender(
+            <Disclosure expanded={false} keepMounted={true}>
+                {content}
+            </Disclosure>,
+        );
+
+        expect(screen.getByText(content)).toBeInTheDocument();
+
+        rerender(
+            <Disclosure expanded={false} keepMounted={false}>
+                {content}
+            </Disclosure>,
+        );
+
+        expect(screen.queryByText(content)).not.toBeInTheDocument();
     });
 
     test('arrow on the start position by default', () => {

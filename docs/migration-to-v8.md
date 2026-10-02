@@ -10,6 +10,49 @@ says what changed, how to keep the old behavior for now, and where to go next.
 Components that are no longer developed move to the `@gravity-ui/uikit/legacy` entry point. They keep their API
 there, but no removal date for `/legacy` is promised: plan the migration away from them.
 
+## Deprecated Modal and Dialog APIs
+
+`Modal` and `Dialog` no longer accept `onClose`, `onEscapeKeyDown`, `onOutsideClick`, or `onEnterKeyDown`. Use `onOpenChange(open, event?, reason?)` for dismissal. The old `ModalCloseReason` type is replaced by the public `OpenChangeReason` type, importable from `@gravity-ui/uikit`.
+
+| Old callback/reason                         | New `onOpenChange` call           |
+| :------------------------------------------ | :-------------------------------- |
+| `onClose(event, 'escapeKeyDown')`           | `(false, event, 'escape-key')`    |
+| `onClose(event, 'outsideClick')`            | `(false, event, 'outside-press')` |
+| `Dialog.onClose(event, 'closeButtonClick')` | `(false, event, 'click')`         |
+
+The screen-reader dismiss button calls `onOpenChange(false, event)` with `reason === undefined`. Close when `open` becomes `false`; inspect `reason` only when a specific action needs it.
+
+```diff
+- <Modal open={open} onClose={() => setOpen(false)}>
++ <Modal open={open} onOpenChange={setOpen}>
+```
+
+`Dialog.size` has been removed. To keep the previous fixed width, pass the same value to `maxWidth` and enable `fullWidth`:
+
+```diff
+- <Dialog size="m" open={open} onClose={handleClose}>
++ <Dialog maxWidth="m" fullWidth open={open} onOpenChange={setOpen}>
+```
+
+Replace `onEnterKeyDown` with `initialFocus="apply"` for a confirmation without fields. For a dialog with fields, submit a form. `Dialog.Footer`'s apply button already has `type="submit"`; connect it to a form inside `Dialog.Body` with `propsButtonApply.form` so the body keeps its scrolling layout. Put the action only in `onSubmit`, not also in `onClickButtonApply`:
+
+```tsx
+<Dialog open={open} onOpenChange={setOpen}>
+  <Dialog.Body>
+    <form
+      id="dialog-form"
+      onSubmit={(event) => {
+        event.preventDefault();
+        handleApply();
+      }}
+    >
+      <TextInput />
+    </form>
+  </Dialog.Body>
+  <Dialog.Footer textButtonApply="Apply" propsButtonApply={{form: 'dialog-form'}} />
+</Dialog>
+```
+
 ## Dialog layout
 
 `Dialog` now uses smaller header and body paddings. The header has 12px above and 8px below its content, the body has

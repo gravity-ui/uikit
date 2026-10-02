@@ -25,7 +25,7 @@ import {
 } from './cases';
 
 interface AllDialogProps {
-    size?: DialogProps['size'];
+    size?: DialogProps['maxWidth'];
 
     headerCaption?: DialogHeaderProps['caption'];
     headerInsertBefore?: DialogHeaderProps['insertBefore'];
@@ -51,7 +51,7 @@ test.describe('Dialog', {tag: '@Dialog'}, () => {
         test(`layout ${name}`, async ({mount, page, expectScreenshot}) => {
             await page.setViewportSize({width: 1000, height: 600});
             await mount(
-                <Dialog hasCloseButton={close} onClose={() => {}} open>
+                <Dialog hasCloseButton={close} open>
                     {header && <Dialog.Header caption="Dialog title" />}
                     <Dialog.Body>{empty ? null : 'Dialog content'}</Dialog.Body>
                     {footer && <Dialog.Footer textButtonApply="Apply" />}
@@ -73,7 +73,7 @@ test.describe('Dialog', {tag: '@Dialog'}, () => {
         await page.setViewportSize({width: 600, height: 900});
         await mount(
             <MobileProvider mobile __experimentalMobileModals>
-                <Dialog hasCloseButton={false} onClose={() => {}} open>
+                <Dialog hasCloseButton={false} open>
                     <Dialog.Body>Dialog content</Dialog.Body>
                 </Dialog>
             </MobileProvider>,
@@ -89,12 +89,7 @@ test.describe('Dialog', {tag: '@Dialog'}, () => {
 
     test('lets className override missing-section padding', async ({mount, page}) => {
         await mount(
-            <Dialog
-                className="custom-dialog-padding"
-                hasCloseButton={false}
-                onClose={() => {}}
-                open
-            >
+            <Dialog className="custom-dialog-padding" hasCloseButton={false} open>
                 <Dialog.Body>Dialog content</Dialog.Body>
             </Dialog>,
         );
@@ -113,7 +108,7 @@ test.describe('Dialog', {tag: '@Dialog'}, () => {
         await page.setViewportSize({width: 1000, height: 600});
         await page.addStyleTag({content: '* { box-sizing: border-box }'});
         await mount(
-            <Dialog size="s" contentOverflow="auto" onClose={() => {}} open>
+            <Dialog maxWidth="s" fullWidth contentOverflow="auto" open>
                 <Dialog.Header caption="A long dialog caption that wraps across multiple lines when the body is taller than the available viewport" />
                 <Dialog.Body>
                     <div style={{height: 900}}>Scrollable content</div>
@@ -144,7 +139,7 @@ test.describe('Dialog', {tag: '@Dialog'}, () => {
 
         await mount(
             <MobileProvider mobile __experimentalMobileModals>
-                <Dialog maxWidth="s" fullWidth onClose={() => {}} open>
+                <Dialog maxWidth="s" fullWidth open>
                     <Dialog.Header caption="Mobile dialog" />
                     <Dialog.Body>Dialog content</Dialog.Body>
                     <Dialog.Footer textButtonApply="Apply" textButtonCancel="Cancel" />
@@ -201,7 +196,7 @@ test.describe('Dialog', {tag: '@Dialog'}, () => {
         await page.setViewportSize({width: 1000, height: 600});
 
         await mount(
-            <Dialog contentOverflow="auto" fullWidth maxWidth="m" onClose={() => {}} open>
+            <Dialog contentOverflow="auto" fullWidth maxWidth="m" open>
                 <div style={{width: 600}}>Wide dialog content</div>
             </Dialog>,
         );
@@ -313,7 +308,7 @@ test.describe('Dialog', {tag: '@Dialog'}, () => {
             } = props;
 
             await mount(
-                <Dialog size={size} onClose={() => {}} open onEnterKeyDown={() => {}}>
+                <Dialog maxWidth={size} fullWidth open>
                     {(headerCaption || headerInsertBefore || headerInsertAfter) && (
                         <Dialog.Header
                             caption={headerCaption}

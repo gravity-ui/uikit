@@ -127,13 +127,15 @@
         @include mixins.text-accent;
     }
 
-    &__body &__row_interactive:hover {
-        background-color: var(--g-color-base-simple-hover-solid);
-        cursor: pointer;
+    @media (hover: hover) {
+        &__body &__row_interactive:hover {
+            background-color: var(--g-color-base-simple-hover-solid);
+            cursor: pointer;
 
-        #{variables.$block}__cell_sticky_start,
-        #{variables.$block}__cell_sticky_end {
-            background: var(--g-color-base-simple-hover-solid);
+            #{variables.$block}__cell_sticky_start,
+            #{variables.$block}__cell_sticky_end {
+                background: var(--g-color-base-simple-hover-solid);
+            }
         }
     }
 

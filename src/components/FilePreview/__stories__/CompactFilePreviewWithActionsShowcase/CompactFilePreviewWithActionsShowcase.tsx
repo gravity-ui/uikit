@@ -1,4 +1,4 @@
-import type {DropdownMenuItem} from '../../../DropdownMenu';
+import type {DropdownMenuItem} from '../../../legacy/DropdownMenu';
 import {cn} from '../../../utils/cn';
 import type {FilePreviewProps} from '../../FilePreview';
 import {FilePreview} from '../../FilePreview';

@@ -5,8 +5,8 @@ import * as React from 'react';
 import {Ellipsis} from '@gravity-ui/icons';
 
 import {Button} from '../../Button';
-import {DropdownMenu} from '../../DropdownMenu';
 import {Icon} from '../../Icon';
+import {DropdownMenu} from '../../legacy/DropdownMenu';
 import {block} from '../../utils/cn';
 import i18n from '../i18n';
 import type {ActionsPanelItem} from '../types';

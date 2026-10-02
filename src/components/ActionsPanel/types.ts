@@ -1,5 +1,5 @@
 import type {ButtonProps} from '../Button';
-import type {DropdownMenuItem} from '../DropdownMenu';
+import type {DropdownMenuItem} from '../legacy/DropdownMenu';
 import type {QAProps} from '../types';
 
 export interface ActionsPanelItem {

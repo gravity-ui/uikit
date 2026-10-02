@@ -2,7 +2,8 @@ import * as React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
-import {Button, Menu} from '../../..';
+import {Button} from '../../..';
+import {Menu} from '../../../legacy/Menu';
 import {cn} from '../../../utils/cn';
 import {Sheet} from '../../Sheet';
 import type {SheetProps} from '../../Sheet';

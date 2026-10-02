@@ -1,9 +1,9 @@
 import {EllipsisVertical} from '@gravity-ui/icons';
 
 import {ActionTooltip} from '../../../../ActionTooltip';
-import type {DropdownMenuItem, DropdownMenuProps} from '../../../../DropdownMenu';
-import {DropdownMenu} from '../../../../DropdownMenu';
 import {Icon} from '../../../../Icon';
+import type {DropdownMenuItem, DropdownMenuProps} from '../../../../legacy/DropdownMenu';
+import {DropdownMenu} from '../../../../legacy/DropdownMenu';
 import {cn} from '../../../../utils/cn';
 
 import './CompactActionsMenu.scss';

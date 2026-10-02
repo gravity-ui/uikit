@@ -2,7 +2,6 @@ import {getNearestEdgeScrollOffset} from '../scrollIntoContainer';
 
 const VIEWPORT = 100;
 
-/** A row of the given span in a viewport 100 tall that is scrolled to `scrollOffset` */
 const getOffset = (start: number, end: number, scrollOffset: number) =>
     getNearestEdgeScrollOffset({start, end, scrollOffset, viewportSize: VIEWPORT});
 
@@ -27,7 +26,7 @@ describe('getNearestEdgeScrollOffset', () => {
         expect(getOffset(180, 200, 90)).toBe(100);
     });
 
-    test('a fraction of a pixel does not count: the scroll offset may be fractional', () => {
+    test('a fraction of a pixel does not count', () => {
         expect(getOffset(100, 120, 100.5)).toBeUndefined();
         expect(getOffset(180, 200, 99.5)).toBeUndefined();
     });

@@ -8,7 +8,6 @@ import {ScrollTestList} from './scrollHelpersPlaywright';
 // The scroll of the list is a matter of layout, so it is tested in the browser: no screenshots,
 // the tests read where the rows are.
 
-/** The list starts far enough down the page to hang off the edge of the viewport */
 const OFF_THE_EDGE = 560;
 
 function readView(page: Page) {
@@ -21,14 +20,12 @@ function readView(page: Page) {
             active: root.querySelector('[data-active]')?.textContent?.split(' — ')[0] ?? null,
             scrollTop: Math.round(root.scrollTop),
             pageScroll: Math.round(window.scrollY),
-            /** The active row is whole inside the root / inside the viewport of the page */
             inRoot: Boolean(
                 rowRect && rowRect.top >= rootRect.top - 1 && rowRect.bottom <= rootRect.bottom + 1,
             ),
             inViewport: Boolean(
                 rowRect && rowRect.top >= -1 && rowRect.bottom <= window.innerHeight + 1,
             ),
-            /** How far the active row is from the edges of the root */
             toTopEdge: rowRect ? Math.round(rowRect.top - rootRect.top) : null,
             toBottomEdge: rowRect ? Math.round(rootRect.bottom - rowRect.bottom) : null,
         };
@@ -203,7 +200,7 @@ test.describe('List: what does not scroll', {tag: '@List'}, () => {
         await expectActiveInView(page, 'Item 160');
     });
 
-    test('...unless nothing was active: then the row is shown as on mount', async ({
+    test('a controlled change scrolls under the pointer when nothing was active', async ({
         mount,
         page,
     }) => {

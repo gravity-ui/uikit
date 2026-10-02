@@ -1,10 +1,8 @@
 /**
- * The distance from the top of the scrollable content of the container to the top of the element.
- * It is summed along the `offsetParent` chain: a row of a virtualized list sits in an absolutely
- * positioned wrapper, so a single `offsetTop` is not the whole way. A container that is not
- * positioned is not a link of that chain — the chain steps over it, and the offset of the
- * container itself is taken off instead. Offsets rather than rects: a popup that scales in while it
- * opens would skew the latter
+ * The distance from the top of the scrollable content of the container to the top of the element,
+ * summed along the `offsetParent` chain (the wrapper of a virtualized row is positioned). The chain
+ * steps over a container that is not positioned: its own offset is taken off instead. Offsets
+ * rather than rects: a popup that scales in while it opens would skew the latter
  */
 export function getOffsetTopWithin(container: HTMLElement, element: HTMLElement): number {
     let top = 0;
@@ -44,6 +42,7 @@ export function getNearestEdgeScrollOffset({
     start: number;
     end: number;
     scrollOffset: number;
+    /** The scrollport (`clientHeight`): without the borders and the horizontal scrollbar */
     viewportSize: number;
 }): number | undefined {
     const above = start < scrollOffset - 1;

@@ -56,10 +56,7 @@ function makeSections(rows: Row[]): Row[] {
 
 const getItemContent = (row: Row) => row.label;
 
-/**
- * A list for the tests of the scroll: 200 rows, the state lives here. The root is not positioned on
- * purpose — its rows are offset from the wrapper around it
- */
+/** The root is not positioned on purpose: its rows are offset from the wrapper around it */
 export function ScrollTestList({
     virtualized = false,
     sections = false,

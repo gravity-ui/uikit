@@ -466,10 +466,10 @@ that nothing is active. An id that comes from your own code moves the highlight 
 (and DOM focus, while a row holds it). Such an activation always shows the cursor — the list did
 not ask for it, so the UI that did (a button beside the list) has something to show for it.
 
-The list keeps the active row in view by scrolling its own root: on mount, on a key or typeahead,
-and when `activeItemId` changes. For that the root has to scroll — limit its height and set
-`overflow: auto`. The pointer never scrolls the list, and the page is not moved; only a list whose
-root does not scroll falls back to `scrollIntoView`, and only on a key.
+The list keeps the active row in view by scrolling its own root rather than the page: on mount, on a
+key, when rows change around it, and when `activeItemId` changes while the pointer is off the list.
+A row the pointer activates is not scrolled to. For that the root has to scroll — limit its height
+and set `overflow: auto`; a root that does not falls back to `scrollIntoView`, and only on a key.
 
 ```tsx
 import {Button, Flex, List} from '@gravity-ui/uikit';

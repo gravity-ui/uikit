@@ -48,23 +48,18 @@ export function isDragTarget(target: EventTarget | null): boolean {
     return target instanceof HTMLElement && target.closest('[draggable]') !== null;
 }
 
-/**
- * Whether the root clips and scrolls its rows. A root that does not — a list laid out on the page
- * at its full height — has nothing to scroll, and the row is out of view only as far as the page is
- */
+/** Whether the root clips and scrolls its rows; a list at full height leaves that to the page */
 export function isScrollContainer(container: HTMLElement): boolean {
     const {overflowY} = getComputedStyle(container);
     return overflowY === 'auto' || overflowY === 'scroll' || overflowY === 'hidden';
 }
 
-/** The scroll offset of the root that brings the row into view by the nearest edge, if it is not there */
 function getScrollTopToRow(container: HTMLElement, element: HTMLElement): number | undefined {
     const start = getOffsetTopWithin(container, element);
     return getNearestEdgeScrollOffset({
         start,
         end: start + element.offsetHeight,
         scrollOffset: container.scrollTop,
-        // The scrollport: without the borders and the horizontal scrollbar
         viewportSize: container.clientHeight,
     });
 }
@@ -76,13 +71,11 @@ function getScrollTopToRow(container: HTMLElement, element: HTMLElement): number
 export function scrollRowIntoView(container: HTMLElement, element: HTMLElement) {
     const scrollTop = getScrollTopToRow(container, element);
     if (scrollTop !== undefined) {
-        // scrollTop rather than scrollTo: the same instant scroll, and jsdom implements it
         // eslint-disable-next-line no-param-reassign
         container.scrollTop = scrollTop;
     }
 }
 
-/** Whether the row is in view inside the list root */
 export function isRowInView(container: HTMLElement, element: HTMLElement): boolean {
     return getScrollTopToRow(container, element) === undefined;
 }

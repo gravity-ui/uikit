@@ -51,11 +51,7 @@ export type ListContainerDOMProps = React.HTMLAttributes<HTMLElement> & {
 /** Not a prop: `activedescendant` is turned on by `focusOwner` */
 type ListFocusStrategy = 'roving' | 'activedescendant';
 
-/**
- * What in the list itself asked for the activity: a key, the pointer over a row or the focus a row
- * received. An activity nobody in the list asked for comes from the outside — the initial or a
- * controlled one
- */
+/** What in the list asked for the activity; none means the initial or a controlled one */
 type ListActivationOrigin = 'keyboard' | 'pointer' | 'focus';
 
 /** The list core (internal) */
@@ -142,8 +138,6 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     // Set between pointerdown/pointerup on a row: focus arriving then came from the mouse
     const pointerPressedRef = React.useRef(false);
 
-    // The pointer is over the list: an activity that changes from the outside must not move the
-    // rows under it
     const pointerInsideRef = React.useRef(false);
 
     // Any key pressed while the list holds DOM focus brings the cursor back (capture: nested
@@ -219,8 +213,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
 
     // The last requested id; not reset per commit: a controlled parent may echo asynchronously
     const requestedActiveIdRef = React.useRef<string | null>(null);
-    // The same request with what made it; lives for a single commit — the activity that arrives
-    // later is not an answer to it
+    // The same request with its origin, for one commit: a later echo counts as external
     const activationRequestRef = React.useRef<{id: string; origin: ListActivationOrigin} | null>(
         null,
     );
@@ -266,21 +259,14 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     const registry = useItemElementRegistry({rowById});
     const dndRefTracker = useDndRefStabilityTracker({rowById});
 
-    /**
-     * Whether the active row was in view the last time the list looked: after the list brought it
-     * there, and after every scroll since. Rows that change under the same active row bring it
-     * back only while this holds — a reader who scrolled away from it is not thrown back
-     */
+    // Whether the active row was in view before the rows changed: kept up on every sync and scroll
     const activeInViewRef = React.useRef(false);
 
     const scrollToIndexRef = React.useRef<ListScrollToIndex | null>(null);
 
     /**
-     * Brings the row into view by scrolling the root of the list, never the page: a popup hanging
-     * off the viewport edge must not drag it along. A root that does not scroll at all has only the
-     * page to show the row with, and only a keyboard gesture of the list itself is a reason to
-     * move it. Under virtualization the scroll belongs to the layer: it knows where a row that
-     * is not measured yet will end up
+     * A root that does not scroll has only the page to show the row with, and only a key of the
+     * list itself is a reason to move the page
      */
     const scrollToRow = React.useCallback(
         (id: string, {gesture}: {gesture: boolean}) => {
@@ -303,18 +289,15 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         [registry],
     );
 
-    // The active row the list has synced to last; nothing while no row is active
     const syncedActiveIdRef = React.useRef<string | undefined>(undefined);
 
     /**
      * Focus follows the active row only while a row of THIS list holds DOM focus (react-aria
      * useSelectableItem): hover/controlled changes never steal it, a key focuses unconditionally.
      *
-     * The scroll follows a key and every activity that comes from the outside. A row that asked
-     * for the activity itself — under the pointer, or by receiving focus — is where the user put
-     * it, and the list does not move under them. For the same reason an activity from the outside
-     * does not scroll while the pointer is over the list, unless there was no active row at all:
-     * then there is nothing under the pointer to hold on to, and the row is shown as it is on mount
+     * The scroll follows a key and an activity from the outside. A row activated by the pointer or
+     * by focus is where the user put it, and the list does not move under them — nor under a
+     * pointer resting on it, unless nothing was active: then the row is shown as on mount
      */
     const syncToActive = React.useCallback(
         (id: string, origin?: ListActivationOrigin) => {
@@ -386,7 +369,6 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     }, [rows, effectiveActiveId, registry, scrollToRow]);
 
     useLayoutEffect(() => {
-        // A request for the activity lives for a single commit
         activationRequestRef.current = null;
     });
 

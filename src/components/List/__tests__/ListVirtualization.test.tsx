@@ -131,7 +131,7 @@ describe('List: virtualization layer', () => {
     });
 
     describe('renders of the engine', () => {
-        test('a render the engine is still waiting for does not turn the next one into a loop', () => {
+        test('a scroll while a render of tanstack is pending does not loop', () => {
             jest.useFakeTimers();
             // The render asked for from a timer is not wrapped in act — that is the point of it
             const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
@@ -140,12 +140,10 @@ describe('List: virtualization layer', () => {
                 const listbox = screen.getByRole('listbox');
 
                 scrollTo(listbox, ROW_HEIGHT * 10);
-                // The scroll has ended: the engine asks for a render from a timer, at a priority
-                // lower than the one of an event...
+                // The scroll has ended: tanstack asks for a low-priority render from a timer...
                 jest.advanceTimersByTime(200);
-                // ...and before React gets to it, the next scroll renders at once. The low-priority
-                // render is still pending then, and a state the engine sets on every commit would
-                // keep the pair going for ever
+                // ...and the next scroll renders before React gets to it (see the scrollMargin
+                // effect of the Virtualizer)
                 scrollTo(listbox, ROW_HEIGHT * 150);
 
                 expect(screen.getByRole('option', {name: 'Item 151'})).toBeInTheDocument();
@@ -192,8 +190,7 @@ describe('List: virtualization layer', () => {
     });
 
     describe('scrollToIndex of the engine', () => {
-        // The watch of scrollToIndex repeats the scroll over the next frames: the frames are run
-        // by hand
+        // The watch of scrollToIndex runs on animation frames: the test runs them by hand
         let handle = 0;
         const frames = new Map<number, FrameRequestCallback>();
         let rafSpy: jest.SpyInstance;
@@ -274,8 +271,6 @@ describe('List: virtualization layer', () => {
         });
 
         test('a reader who scrolls ends the watch', () => {
-            // While the watch lasts it brings the row back wherever the list goes: a wheel turned
-            // right after the list has scrolled must not be undone
             const {apiRef, listbox} = renderEngine();
 
             apiRef.current?.scrollToIndex(149);
@@ -286,7 +281,7 @@ describe('List: virtualization layer', () => {
             expect(frames.size).toBe(0);
         });
 
-        test('scrollToOffset ends the watch: it is not brought back to the row', () => {
+        test('scrollToOffset ends the watch', () => {
             const {apiRef, listbox} = renderEngine();
 
             apiRef.current?.scrollToIndex(149);
@@ -297,12 +292,12 @@ describe('List: virtualization layer', () => {
             expect(frames.size).toBe(0);
         });
 
-        test('rows that change end the watch: the index is another row by then', () => {
+        test('rows that change end the watch', () => {
             const {apiRef, listbox, setRows} = renderEngine();
 
             apiRef.current?.scrollToIndex(149);
             setRows(['Earlier 1', 'Earlier 2', ...ITEMS]);
-            // Whoever scrolls next — the list for its active row, the reader — is not undone
+            // A later scroll must not be undone
             listbox.scrollTop = 0;
             runFrames(5);
 

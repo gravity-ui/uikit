@@ -36,10 +36,7 @@ export type ScrollAlignment = 'start' | 'center' | 'end' | 'auto';
 
 export interface VirtualizerApi {
     scrollToOffset: (offset: number, align?: ScrollAlignment) => void;
-    /**
-     * Brings the row into view: by the nearest edge unless `align` says otherwise, and a row
-     * already in view stays where it is. The scroll is instant; an index out of range is clamped
-     */
+    /** Into view by the nearest edge unless `align` is given; an index out of range is clamped */
     scrollToIndex: (index: number, align?: ScrollAlignment) => void;
     scrollOffset: number | null;
     scrollRect: Rect | null;
@@ -141,15 +138,12 @@ export function Virtualizer({
             : estimate;
     }, []);
 
-    // The rows do not start where the scroll does: the padding of the container comes first. The
-    // engine has to be told, or a row it scrolls to the bottom edge ends up cut by that padding.
-    // Measured after every render — the padding may change with any of them.
-    //
-    // The state is set only when the offset has changed, never "to the same value": while a
-    // low-priority render of tanstack is pending (it asks for one from a timer when a scroll
-    // ends), React cannot drop an equal update early and renders again — and tanstack's reducer
-    // returns a new object every time it is replayed, so that render commits, this effect runs
-    // again, and the pair never stops ("Maximum update depth exceeded")
+    // The rows start below the padding of the container, not where the scroll does: tanstack has
+    // to be told, or its row offsets are short by that padding and a row scrolled to the bottom
+    // edge is cut. Measured after every render: the padding may change with any of them.
+    // The guard is not redundant: while a low-priority render of tanstack is pending, React does
+    // not bail out of an equal update, and this effect and that render never stop ("Maximum
+    // update depth exceeded")
     const sizerRef = React.useRef<HTMLDivElement>(null);
     const [scrollMargin, setScrollMargin] = React.useState(0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -173,8 +167,7 @@ export function Virtualizer({
         getItemKey,
         estimateSize,
         scrollMargin,
-        // scrollTop rather than the scrollTo the engine calls by default: the same instant scroll,
-        // and jsdom implements it
+        // scrollTop rather than tanstack's default scrollTo: the same scroll, and jsdom has it
         scrollToFn: (offset, {adjustments = 0}, instance) => {
             if (instance.scrollElement) {
                 // eslint-disable-next-line no-param-reassign
@@ -241,15 +234,11 @@ export function Virtualizer({
                 virtualizer.scrollToOffset(virtualizer.getOffsetForAlignment(offset, align));
             },
             /**
-             * Where a row is, is known for certain only once the rows above it are measured, and
-             * they are measured only once the scroll gets near them: the first scroll lands by the
-             * estimates, the measurements move the row, and the scroll is repeated until the row
-             * stays in place for a few frames. The watch is a single one — a new call ends the
-             * previous: the retry loop of `scrollToIndex` of tanstack cannot be cancelled, and
-             * calls that come faster than it settles (a key held down) leave the list at a row of
-             * an earlier call. A reader who scrolls ends the watch as well: it must not pull the
-             * list back from under them. So do rows that change: the watch is after a row, and
-             * the index may be another row by then
+             * The first scroll lands by the estimates; the rows it reveals are measured and move
+             * the target, so it is repeated until the row stays put for a few frames. One watch at
+             * a time: the retries of tanstack's own `scrollToIndex` cannot be cancelled, and calls
+             * that outrun them (a key held down) leave the list at an earlier row. Rows that change
+             * end the watch: the index may be another row by then
              */
             scrollToIndex: (index: number, align: ScrollAlignment = 'auto') => {
                 stopScrollWatchRef.current?.();
@@ -276,7 +265,7 @@ export function Virtualizer({
                         settledFrames += 1;
                     } else {
                         settledFrames = 0;
-                        // Not through the engine: it would clamp the offset by its own idea of
+                        // Not through tanstack: it would clamp the offset by its own idea of
                         // the viewport, which is the border box
                         container.scrollTop = offset;
                     }
@@ -338,9 +327,8 @@ export function Virtualizer({
 }
 
 /**
- * The offset that brings the row where `align` wants it, `undefined` once it is there. `auto` is
- * the nearest edge, and a row in view stays where it is. It is decided by the scroll offset the
- * container has right now: the one the engine holds lags behind by a scroll event
+ * The offset that brings the row where `align` wants it, `undefined` once it is there. Read from
+ * the container: the scroll offset tanstack holds lags behind by a scroll event
  */
 function getOffsetToRow(
     virtualizer: VirtualizerInstance<HTMLDivElement, Element>,
@@ -364,7 +352,6 @@ function getOffsetToRow(
         start: item.start,
         end: item.end,
         scrollOffset: scrollTop,
-        // The scrollport: without the borders and the horizontal scrollbar
         viewportSize: container.clientHeight,
     });
 }

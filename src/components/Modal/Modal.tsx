@@ -23,7 +23,6 @@ import {isTabbable} from 'tabbable';
 
 import {KeyCode} from '../../constants';
 import {useForkRef} from '../../hooks';
-import {useAnimateHeight} from '../../hooks/private';
 import {useFloatingTransition} from '../../hooks/private/useFloatingTransition';
 import {Portal} from '../Portal';
 import type {PortalProps} from '../Portal';
@@ -103,7 +102,6 @@ export interface ModalProps
     onTransitionOutComplete?: () => void;
     contentOverflow?: 'visible' | 'auto';
     floatingRef?: React.RefObject<HTMLDivElement | null>;
-    disableHeightTransition?: boolean;
 }
 
 const b = block('modal');
@@ -138,7 +136,6 @@ function ModalComponent(rawProps: ModalProps) {
         disablePortal,
         qa,
         floatingRef,
-        disableHeightTransition = false,
         ...restProps
     } = useDefaultProps('Modal', rawProps);
     useLayer({open, type: 'modal'});
@@ -233,11 +230,6 @@ function ModalComponent(rawProps: ModalProps) {
         onTransitionInComplete: handleTransitionInComplete,
         onTransitionOut,
         onTransitionOutComplete: handleTransitionOutComplete,
-    });
-
-    useAnimateHeight({
-        ref: refs.floating,
-        enabled: status === 'open' && !disableHeightTransition,
     });
 
     const handleKeyDown = React.useCallback(

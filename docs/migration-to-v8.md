@@ -7,8 +7,21 @@
 This page collects the breaking changes of `@gravity-ui/uikit` v8 and the way through each of them. Every section
 says what changed, how to keep the old behavior for now, and where to go next.
 
-Components that are no longer developed move to the `@gravity-ui/uikit/legacy` entry point. They keep their API
-there, but no removal date for `/legacy` is promised: plan the migration away from them.
+Components that are no longer developed move to the `@gravity-ui/uikit/legacy` entry point. Components still available
+there keep their API, but no removal date for `/legacy` is promised: plan the migration away from them.
+
+## Breadcrumbs, Popover and Tabs removed from `/legacy`
+
+The legacy `Breadcrumbs`, `Popover` and `Tabs` components, their types and related exports are no longer available
+from `@gravity-ui/uikit/legacy`. Replace them with the current components from `@gravity-ui/uikit`:
+
+| Removed legacy component | Replacement                                              | Migration notes                                                                                                                                                   |
+| :----------------------- | :------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Breadcrumbs`            | [`Breadcrumbs`](../src/components/Breadcrumbs/README.md) | Update the item shape and rendering props for the current API.                                                                                                    |
+| `Popover`                | [`Popover`](../src/components/Popover/README.md)         | The new component handles the trigger and popup; supply styled content yourself. See the [Popover migration guide](../src/components/Popover/migration-guide.md). |
+| `Tabs`                   | `TabList`, `Tab` and optionally `TabProvider`/`TabPanel` | Replace `items` and `Tabs.Item` with `Tab` children. See the [Tabs migration guide](../src/components/tabs/migration-guide.md).                                   |
+
+Remove imports of the legacy components and their types from `/legacy`. Other legacy components remain available.
 
 ## Dialog layout
 

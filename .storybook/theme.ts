@@ -1,7 +1,9 @@
 import {create} from 'storybook/theming';
 import type {ThemeVarsPartial} from 'storybook/theming';
 
-import pkg from '../package.json';
+import packageJson from '../package.json' with {type: 'json'};
+
+const UIKIT_VERSION = packageJson.version;
 
 function renderBrandTitle(theme: 'light' | 'dark') {
     const titleColor = theme === 'light' ? 'rgba(0, 0, 0, 0.85)' : 'rgba(255, 255, 255, 0.85)';
@@ -14,7 +16,7 @@ function renderBrandTitle(theme: 'light' | 'dark') {
     <div style="flex-shrink: 0; line-height: 0">${logo}</div>
     <div style="margin-inline-start: 8px">
         <div style="font-size: 26px; line-height: 32px; color: ${titleColor}; font-weight: 600;">Gravity&nbsp;UI</div>
-        <div style="font-size: 14px; color: ${descriptionColor}; font-weight: 400;">UIKit&nbsp;v${pkg.version}</div>
+        <div style="font-size: 14px; color: ${descriptionColor}; font-weight: 400;">UIKit&nbsp;v${UIKIT_VERSION}</div>
     </div>
 </div>
     `.trim();

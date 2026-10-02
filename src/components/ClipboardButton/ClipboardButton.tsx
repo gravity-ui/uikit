@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import {ActionTooltip} from '../ActionTooltip';
+import type {ActionTooltipProps} from '../ActionTooltip';
 import {Button} from '../Button';
 import type {ButtonButtonProps} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
@@ -13,6 +14,7 @@ import type {
     OnCopyHandler,
 } from '../CopyToClipboard/types';
 import {useDefaultProps} from '../theme/useDefaultProps';
+import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 
 import i18n from './i18n';
@@ -34,6 +36,19 @@ interface ClipboardButtonComponentProps extends Omit<ButtonButtonProps, 'onCopy'
     tooltipInitialText?: string;
     /** Text shown after copy */
     tooltipSuccessText?: string;
+    /** Additional tooltip props. Copy feedback is managed by ClipboardButton. */
+    tooltipProps?: Pick<
+        ActionTooltipProps,
+        | 'onOpenChange'
+        | 'strategy'
+        | 'placement'
+        | 'offset'
+        | 'disabled'
+        | 'container'
+        | 'disablePortal'
+    > &
+        DOMProps &
+        QAProps;
     /** Position of clipboard icon */
     iconPosition?: 'start' | 'end';
     /** Custom icon */
@@ -49,6 +64,7 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
         hasTooltip = true,
         tooltipInitialText = t('startCopy'),
         tooltipSuccessText = t('endCopy'),
+        tooltipProps,
         status,
         view = 'flat',
         children,
@@ -66,8 +82,9 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
 
     return (
         <ActionTooltip
+            {...tooltipProps}
             title={status === 'success' ? tooltipSuccessText : tooltipInitialText}
-            disabled={!hasTooltip}
+            disabled={!hasTooltip || Boolean(tooltipProps?.disabled)}
             closeDelay={closeDelay}
         >
             <Button view={view} size={size} aria-label={tooltipInitialText} {...rest}>

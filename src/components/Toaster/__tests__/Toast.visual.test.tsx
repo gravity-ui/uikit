@@ -1,10 +1,11 @@
 import type * as React from 'react';
 
-import {test} from '~playwright/core';
+import {expect, test} from '~playwright/core';
 
 import type {Toast} from '../Toast/Toast';
 import type {ToastAction} from '../types';
 
+import {ToastWithInlinePopup} from './ToastWithInlinePopup';
 import {ToastStories} from './helpersPlaywright';
 
 const wrapperOptions = {
@@ -105,6 +106,32 @@ test.describe('Toast', {tag: '@Toaster'}, () => {
             />,
             wrapperOptions,
         );
+
+        await expectScreenshot();
+    });
+
+    test('inline-popup remains visible outside the toast', async ({
+        mount,
+        page,
+        expectScreenshot,
+    }) => {
+        await mount(<ToastWithInlinePopup />);
+
+        const popup = page.locator('[data-toast]').getByTestId('inline-popup');
+        await expect(popup).toBeVisible();
+        await expect
+            .poll(() =>
+                popup.evaluate((element) => {
+                    const toast = element.closest('[data-toast]');
+                    return Boolean(
+                        toast &&
+                            element.getBoundingClientRect().top >
+                                toast.getBoundingClientRect().bottom,
+                    );
+                }),
+            )
+            .toBe(true);
+        await popup.getByRole('button', {name: 'Inline popup action'}).click({trial: true});
 
         await expectScreenshot();
     });

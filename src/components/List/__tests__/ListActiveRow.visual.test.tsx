@@ -13,7 +13,9 @@ const OFF_THE_EDGE = 560;
 
 function readView(page: Page) {
     return page.getByRole('listbox').evaluate((root) => {
-        const rootRect = root.getBoundingClientRect();
+        // The scrollport of the root: its box without the borders
+        const top = root.getBoundingClientRect().top + root.clientTop;
+        const rootRect = {top, bottom: top + root.clientHeight};
         const rowRect = root.querySelector('[data-active]')?.getBoundingClientRect();
         return {
             active: root.querySelector('[data-active]')?.textContent?.split(' — ')[0] ?? null,
@@ -66,31 +68,33 @@ async function movePointerOverList(page: Page) {
 }
 
 /**
- * Half a row down, a row is cut by the bottom edge of the root. The gesture lands on its visible
- * part and makes it active — and the list must not scroll to show the rest of it
+ * The root is scrolled so that its bottom edge cuts a row in half. The gesture lands on the visible
+ * half and makes the row active — and the list must not scroll to show the rest of it
  */
 async function expectGestureNotToScroll(
     page: Page,
     gesture: (x: number, y: number) => Promise<void>,
 ) {
-    const root = page.getByRole('listbox');
-    await root.evaluate((element) => element.scrollTo({top: 14}));
-    await expect.poll(async () => (await readView(page)).scrollTop).toBe(14);
-    const cut = await root.evaluate((element) => {
-        const bottom = element.getBoundingClientRect().bottom;
-        const rect = Array.from(element.querySelectorAll('[role="option"]'))
+    const cut = await page.getByRole('listbox').evaluate((root) => {
+        const bottom = root.getBoundingClientRect().top + root.clientTop + root.clientHeight;
+        const rect = Array.from(root.querySelectorAll('[role="option"]'))
             .map((option) => option.getBoundingClientRect())
-            .find((row) => row.top < bottom - 4 && row.bottom > bottom + 4);
-        return rect ? {x: rect.left + 40, y: (rect.top + bottom) / 2} : null;
+            .find((row) => row.bottom > bottom + 1);
+        if (!rect) {
+            throw new Error('No row below the bottom edge');
+        }
+        const middle = rect.top + rect.height / 2;
+        root.scrollTo({top: Math.round(middle - bottom)});
+        // The middle of the row is at the edge now: a quarter of a row above it is the row still
+        return {x: rect.left + 40, y: bottom - rect.height / 4, scrollTop: root.scrollTop};
     });
-    if (!cut) {
-        throw new Error('No row is cut by the bottom edge');
-    }
+    // The scroll event is dispatched with the next frame
+    await page.waitForTimeout(100);
 
     await gesture(cut.x, cut.y);
 
     await expect.poll(async () => (await readView(page)).active).not.toBeNull();
-    await expectScrollTopToStay(page, 14);
+    await expectScrollTopToStay(page, Math.round(cut.scrollTop));
 }
 
 test.beforeEach(async ({page}) => {

@@ -93,6 +93,8 @@ export function ScrollTestList({
             activateOnHover={activateOnHover}
             style={{
                 boxSizing: 'border-box',
+                // The scrollport is smaller than the box of the root
+                border: '6px solid transparent',
                 padding,
                 ...(scrolling ? {maxHeight: 280, overflowY: 'auto'} : undefined),
             }}

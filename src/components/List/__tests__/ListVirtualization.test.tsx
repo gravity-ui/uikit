@@ -226,21 +226,27 @@ describe('List: virtualization layer', () => {
 
         function renderEngine() {
             const apiRef = React.createRef<VirtualizerApi>();
-            const {unmount} = render(
+            const getEngine = (rows: string[]) => (
                 <Virtualizer
                     apiRef={apiRef}
                     // mockLayout tells the viewport from a row by the role
                     role="listbox"
                     aria-label="Rows"
                     style={{maxHeight: VIEWPORT_HEIGHT}}
-                    count={ITEMS.length}
+                    count={rows.length}
                     getItemSize={() => ROW_HEIGHT}
-                    getItemKey={(index) => index}
-                    renderRow={({index}) => <div>{ITEMS[index]}</div>}
-                />,
+                    getItemKey={(index) => rows[index]}
+                    renderRow={({index}) => <div>{rows[index]}</div>}
+                />
             );
+            const {rerender, unmount} = render(getEngine(ITEMS));
             frames.clear();
-            return {apiRef, listbox: screen.getByRole('listbox'), unmount};
+            return {
+                apiRef,
+                listbox: screen.getByRole('listbox'),
+                setRows: (rows: string[]) => rerender(getEngine(rows)),
+                unmount,
+            };
         }
 
         test('brings a row into view: by the nearest edge or where `align` says', () => {
@@ -277,6 +283,19 @@ describe('List: virtualization layer', () => {
 
             fireEvent.wheel(listbox);
 
+            expect(frames.size).toBe(0);
+        });
+
+        test('rows that change end the watch: the index is another row by then', () => {
+            const {apiRef, listbox, setRows} = renderEngine();
+
+            apiRef.current?.scrollToIndex(149);
+            setRows(['Earlier 1', 'Earlier 2', ...ITEMS]);
+            // Whoever scrolls next — the list for its active row, the reader — is not undone
+            listbox.scrollTop = 0;
+            runFrames(5);
+
+            expect(listbox.scrollTop).toBe(0);
             expect(frames.size).toBe(0);
         });
     });

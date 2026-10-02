@@ -64,7 +64,8 @@ function getScrollTopToRow(container: HTMLElement, element: HTMLElement): number
         start,
         end: start + element.offsetHeight,
         scrollOffset: container.scrollTop,
-        viewportSize: container.offsetHeight,
+        // The scrollport: without the borders and the horizontal scrollbar
+        viewportSize: container.clientHeight,
     });
 }
 

@@ -235,7 +235,8 @@ export function Virtualizer({
              * previous: the retry loop of `scrollToIndex` of tanstack cannot be cancelled, and
              * calls that come faster than it settles (a key held down) leave the list at a row of
              * an earlier call. A reader who scrolls ends the watch as well: it must not pull the
-             * list back from under them
+             * list back from under them. So do rows that change: the watch is after a row, and
+             * the index may be another row by then
              */
             scrollToIndex: (index: number, align: ScrollAlignment = 'auto') => {
                 stopScrollWatchRef.current?.();
@@ -243,6 +244,7 @@ export function Virtualizer({
                 if (!container) {
                     return;
                 }
+                const key = getItemKeyRef.current(index);
                 let frame = 0;
                 let frames = 0;
                 let settledFrames = 0;
@@ -252,12 +254,18 @@ export function Virtualizer({
                     stopScrollWatchRef.current = null;
                 };
                 const tick = () => {
+                    if (getItemKeyRef.current(index) !== key) {
+                        stop();
+                        return;
+                    }
                     const offset = getOffsetToRow(virtualizer, container, index, align);
                     if (offset === undefined) {
                         settledFrames += 1;
                     } else {
                         settledFrames = 0;
-                        virtualizer.scrollToOffset(offset);
+                        // Not through the engine: it would clamp the offset by its own idea of
+                        // the viewport, which is the border box
+                        container.scrollTop = offset;
                     }
                     frames += 1;
                     if (settledFrames < SCROLL_SETTLED_FRAMES && frames <= SCROLL_MAX_FRAMES) {
@@ -337,7 +345,8 @@ function getOffsetToRow(
         start: item.start,
         end: item.end,
         scrollOffset: scrollTop,
-        viewportSize: container.offsetHeight,
+        // The scrollport: without the borders and the horizontal scrollbar
+        viewportSize: container.clientHeight,
     });
 }
 

@@ -10,7 +10,6 @@ import {Dialog} from '../Dialog';
 import type {DialogProps} from '../Dialog';
 
 import {DialogShowcase} from './DialogShowcase';
-import {DynamicHeightStory} from './DynamicHeightStory';
 
 export default {
     title: 'Components/Overlays/Dialog',
@@ -134,10 +133,6 @@ export const Default: Story = {
             </Flex>
         );
     },
-};
-
-export const DynamicHeight: Story = {
-    render: (args) => <DynamicHeightStory {...args} />,
 };
 
 export const Showcase: Story = {

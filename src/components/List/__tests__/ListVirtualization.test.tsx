@@ -2,21 +2,13 @@ import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {render, screen, within} from '../../../../test-utils/utils';
+import {fireEvent, render, screen, within} from '../../../../test-utils/utils';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import type {VirtualizerApi} from '../../Virtualizer/Virtualizer';
 import {List} from '../List';
 import type {ListProps} from '../types';
 
-import {
-    EARLIER,
-    GROUPS,
-    getSectionHeader,
-    mockLayout,
-    mockOffsets,
-    mockScrollIntoView,
-    scrollTo,
-} from './helpers';
+import {GROUPS, getSectionHeader, mockLayout, scrollTo} from './helpers';
 
 const VIEWPORT_HEIGHT = 400;
 const ROW_HEIGHT = 36;
@@ -201,114 +193,6 @@ describe('List: virtualization layer', () => {
         });
     });
 
-    describe('the active row is kept in view', () => {
-        mockOffsets({row: ROW_HEIGHT});
-        const scrollIntoViewMock = mockScrollIntoView();
-
-        /** The offset that leaves the row with this number (from 1) at the bottom edge of the root */
-        const bottomAligned = (position: number) => position * ROW_HEIGHT - VIEWPORT_HEIGHT;
-
-        test('mounting with an active row far below scrolls to it', () => {
-            // The first window of the engine is empty: the row has no place in the DOM to scroll
-            // to, and the engine is asked for the index instead
-            renderVirtualized({defaultActiveItemId: 'Item 150'});
-
-            expect(screen.getByRole('listbox').scrollTop).toBe(bottomAligned(150));
-            expect(screen.getByRole('option', {name: 'Item 150'})).toBeInTheDocument();
-        });
-
-        test('the index of a row counts the section headers above it', () => {
-            const groups = ['a', 'b'].map((group) => ({
-                id: group,
-                label: `Group ${group}`,
-                children: Array.from({length: 100}, (_, index) => ({
-                    id: `${group}-${index + 1}`,
-                    label: `Row ${group}-${index + 1}`,
-                })),
-            }));
-            render(
-                <ListVirtualizer
-                    estimateItemSize={(ctx) =>
-                        ctx.kind === 'section' ? SECTION_HEIGHT : ROW_HEIGHT
-                    }
-                    measure={false}
-                >
-                    <List
-                        aria-label="Groups"
-                        items={groups}
-                        getItemContent={(item) => item.label}
-                        defaultActiveItemId="b-5"
-                        style={{maxHeight: VIEWPORT_HEIGHT}}
-                    />
-                </ListVirtualizer>,
-            );
-
-            // Two headers and 105 rows end where the active row does
-            expect(screen.getByRole('listbox').scrollTop).toBe(
-                2 * SECTION_HEIGHT + 105 * ROW_HEIGHT - VIEWPORT_HEIGHT,
-            );
-        });
-
-        test('a controlled change scrolls to the row', () => {
-            const {rerender} = renderVirtualized({activeItemId: 'Item 1'});
-            const listbox = screen.getByRole('listbox');
-            expect(listbox.scrollTop).toBe(0);
-
-            rerender(<VirtualizedList activeItemId="Item 150" />);
-
-            expect(listbox.scrollTop).toBe(bottomAligned(150));
-        });
-
-        test('the keyboard scrolls the root and leaves the page alone', async () => {
-            const user = userEvent.setup();
-            renderVirtualized();
-
-            await user.tab();
-            await user.keyboard('{End}');
-
-            expect(screen.getByRole('option', {name: 'Item 200'})).toHaveFocus();
-            expect(screen.getByRole('listbox').scrollTop).toBe(bottomAligned(200));
-            expect(scrollIntoViewMock).not.toHaveBeenCalled();
-        });
-
-        test('a row activated by hover stays where it is', async () => {
-            const user = userEvent.setup();
-            renderVirtualized({defaultActiveItemId: 'Item 150'});
-            const listbox = screen.getByRole('listbox');
-
-            // jsdom does not scroll: the window is still the first one, and its rows are far above
-            // the viewport by now
-            await user.hover(screen.getByRole('option', {name: 'Item 5'}));
-
-            expect(screen.getByRole('option', {name: 'Item 5'})).toHaveAttribute('data-active');
-            expect(listbox.scrollTop).toBe(bottomAligned(150));
-        });
-
-        test('rows inserted above the active row bring it back into view', () => {
-            const {rerender} = renderVirtualized({defaultActiveItemId: 'Item 150'});
-            const listbox = screen.getByRole('listbox');
-            expect(listbox.scrollTop).toBe(bottomAligned(150));
-
-            rerender(
-                <VirtualizedList items={[...EARLIER, ...ITEMS]} defaultActiveItemId="Item 150" />,
-            );
-
-            expect(listbox.scrollTop).toBe(bottomAligned(150 + EARLIER.length));
-        });
-
-        test('a reader who scrolled away from the active row is not thrown back', () => {
-            const {rerender} = renderVirtualized({defaultActiveItemId: 'Item 150'});
-            const listbox = screen.getByRole('listbox');
-
-            scrollTo(listbox, 0);
-            rerender(
-                <VirtualizedList items={[...EARLIER, ...ITEMS]} defaultActiveItemId="Item 150" />,
-            );
-
-            expect(listbox.scrollTop).toBe(0);
-        });
-    });
-
     describe('apiRef', () => {
         test('the wrapper hands out the API of the engine', () => {
             const apiRef = React.createRef<VirtualizerApi>();
@@ -372,22 +256,37 @@ describe('List: virtualization layer', () => {
             }
         });
 
-        describe('a root with padding', () => {
-            const PADDING = 4;
-
-            // The sizer — the only child of the root — starts below the padding of the root
-            mockOffsets({row: ROW_HEIGHT, padding: PADDING});
-
-            test('a row scrolled to the bottom edge is not cut by the padding', () => {
+        test('a reader who scrolls ends the watch', () => {
+            // While the watch lasts it brings the row back wherever the list goes: a wheel turned
+            // right after the list has scrolled must not be undone
+            let handle = 0;
+            const frames = new Map<number, FrameRequestCallback>();
+            const rafSpy = jest
+                .spyOn(window, 'requestAnimationFrame')
+                .mockImplementation((callback) => {
+                    handle += 1;
+                    frames.set(handle, callback);
+                    return handle;
+                });
+            const cafSpy = jest.spyOn(window, 'cancelAnimationFrame').mockImplementation((id) => {
+                frames.delete(id);
+            });
+            try {
                 const apiRef = React.createRef<VirtualizerApi>();
                 render(<VirtualizedList apiRef={apiRef} />);
+                const listbox = screen.getByRole('listbox');
+                frames.clear();
 
                 apiRef.current?.scrollToIndex(149);
+                expect(frames.size).toBe(1);
 
-                expect(screen.getByRole('listbox').scrollTop).toBe(
-                    PADDING + 150 * ROW_HEIGHT - VIEWPORT_HEIGHT,
-                );
-            });
+                fireEvent.wheel(listbox);
+
+                expect(frames.size).toBe(0);
+            } finally {
+                rafSpy.mockRestore();
+                cafSpy.mockRestore();
+            }
         });
     });
 

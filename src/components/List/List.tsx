@@ -224,6 +224,7 @@ function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
             getItemSize={getItemSize}
             measure={virtualization.measure}
             overscan={virtualization.overscan}
+            scrollToIndexRef={list.scrollToIndexRef}
         />
     ) : (
         <div {...containerProps}>

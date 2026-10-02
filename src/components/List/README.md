@@ -463,9 +463,13 @@ the focus coming back to it, brings the cursor in.
 
 The active item can be controlled with `activeItemId` and `onActiveItemUpdate`, where `null` means
 that nothing is active. An id that comes from your own code moves the highlight and the tab stop
-(and DOM focus, while a row holds it), but not the scroll: only the gestures of the list itself
-scroll the active row into view. Such an activation always shows the cursor — the list did not ask
-for it, so the UI that did (a button beside the list) has something to show for it.
+(and DOM focus, while a row holds it). Such an activation always shows the cursor — the list did
+not ask for it, so the UI that did (a button beside the list) has something to show for it.
+
+The list keeps the active row in view by scrolling its own root rather than the page: on mount, on a
+key, when rows change around it, and when `activeItemId` changes while the pointer is off the list.
+A row the pointer activates is not scrolled to. For that the root has to scroll — limit its height
+and set `overflow: auto`; a root that does not falls back to `scrollIntoView`, and only on a key.
 
 ```tsx
 import {Button, Flex, List} from '@gravity-ui/uikit';

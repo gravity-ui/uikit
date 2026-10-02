@@ -10,6 +10,7 @@ import type {
 } from '../List/VirtualizationContext';
 
 import {Virtualizer} from './Virtualizer';
+import type {VirtualizerApi} from './Virtualizer';
 
 const DEFAULT_OVERSCAN = 5;
 
@@ -26,8 +27,17 @@ function VirtualizedListRoot({
     getItemSize,
     measure,
     overscan,
+    scrollToIndexRef,
 }: ListVirtualizedRootProps) {
     const {ref, ...restContainerProps} = containerProps;
+
+    const apiRef = React.useCallback(
+        (api: VirtualizerApi | null) => {
+            // eslint-disable-next-line no-param-reassign
+            scrollToIndexRef.current = api ? (index) => api.scrollToIndex(index) : null;
+        },
+        [scrollToIndexRef],
+    );
 
     const persistedIndexes = React.useMemo(
         () => persistedRowIndexes.map((index) => [index]),
@@ -37,6 +47,7 @@ function VirtualizedListRoot({
     return (
         <Virtualizer
             {...restContainerProps}
+            apiRef={apiRef}
             containerRef={ref}
             count={rowIds.length}
             getItemKey={(index) => rowIds[index]}

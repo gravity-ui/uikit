@@ -8,6 +8,12 @@ import type {ListContainerDOMProps} from './useList';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ListEstimateItemSize<T = any> = number | ((ctx: ListItemContext<T>) => number);
 
+/**
+ * Scrolls the row at the index in `rowIds` into view by the nearest edge. Implemented by the
+ * virtualization layer: a row outside the window is not in the DOM, only the layer knows its place
+ */
+export type ListScrollToIndex = (index: number) => void;
+
 /** Props the core passes to the root renderer of the virtualization layer (it renders the list root) */
 export interface ListVirtualizedRootProps {
     /** Props of the list root from getContainerProps — the list root and the scroll container are one element */
@@ -24,6 +30,8 @@ export interface ListVirtualizedRootProps {
     measure: boolean;
     /** The buffer of rows outside the window */
     overscan: number;
+    /** Filled by the root for as long as it is mounted: the core scrolls to the active row through it */
+    scrollToIndexRef: React.MutableRefObject<ListScrollToIndex | null>;
 }
 
 export interface ListVirtualizationContextValue {

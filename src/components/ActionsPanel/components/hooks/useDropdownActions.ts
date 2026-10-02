@@ -2,7 +2,7 @@
 
 import {groupBy} from 'es-toolkit/compat';
 
-import type {DropdownMenuItem} from '../../../DropdownMenu';
+import type {DropdownMenuItem} from '../../../legacy/DropdownMenu';
 import type {ActionsPanelItem} from '../../types';
 
 import type {VisibilityMap} from './types';

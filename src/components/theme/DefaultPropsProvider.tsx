@@ -21,7 +21,6 @@ import type {DialogProps} from '../Dialog';
 import type {DisclosureProps} from '../Disclosure';
 import type {DividerProps} from '../Divider';
 import type {DrawerProps} from '../Drawer';
-import type {DropdownMenuProps} from '../DropdownMenu';
 import type {FilePreviewProps} from '../FilePreview';
 import type {HelpMarkProps} from '../HelpMark';
 import type {HotkeyProps} from '../Hotkey';
@@ -29,7 +28,6 @@ import type {IconProps} from '../Icon';
 import type {LabelProps} from '../Label';
 import type {LinkProps} from '../Link';
 import type {LoaderProps} from '../Loader';
-import type {MenuProps} from '../Menu';
 import type {ModalProps} from '../Modal';
 import type {NumberInputProps} from '../NumberInput';
 import type {OverlayProps} from '../Overlay';
@@ -60,6 +58,8 @@ import type {UserLabelProps} from '../UserLabel';
 import type {PasswordInputProps} from '../controls/PasswordInput';
 import type {TextAreaProps} from '../controls/TextArea';
 import type {TextInputProps} from '../controls/TextInput';
+import type {DropdownMenuProps} from '../legacy/DropdownMenu';
+import type {MenuProps} from '../legacy/Menu';
 import type {TabListProps, TabPanelProps, TabProps, TabProviderProps} from '../tabs';
 
 export interface ComponentDefaultPropsMap {

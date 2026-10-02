@@ -5,8 +5,8 @@ import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Showcase} from '../../../demo/Showcase';
 import {Button} from '../../Button';
-import {DropdownMenu} from '../../DropdownMenu';
 import {Icon} from '../../Icon';
+import {DropdownMenu} from '../../legacy/DropdownMenu';
 import {block} from '../../utils/cn';
 import {PlaceholderContainer} from '../PlaceholderContainer';
 import type {PlaceholderContainerActionProps} from '../types';

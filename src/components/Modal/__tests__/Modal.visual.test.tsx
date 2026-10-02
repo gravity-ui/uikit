@@ -144,7 +144,7 @@ test.describe('modal animations', () => {
                 );
                 await expect(overlay.locator('.g-modal__content')).toHaveCSS(
                     'transition-property',
-                    disableTransition ? 'height' : 'height, transform',
+                    disableTransition ? 'none' : 'transform',
                 );
             });
         }

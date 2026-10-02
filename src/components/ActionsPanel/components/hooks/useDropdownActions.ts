@@ -2,7 +2,6 @@
 
 import {groupBy} from 'es-toolkit/compat';
 
-import type {DropdownMenuItem} from '../../../legacy/DropdownMenu';
 import type {ActionsPanelItem} from '../../types';
 
 import type {VisibilityMap} from './types';
@@ -12,6 +11,8 @@ type UseDropdownActionsArg = {
     restActions: ActionsPanelItem[];
     visibilityMap: VisibilityMap;
 };
+
+type DropdownItem = ActionsPanelItem['dropdown']['item'];
 
 export const useDropdownActions = ({
     buttonActions,
@@ -25,7 +26,7 @@ export const useDropdownActions = ({
     const groups = groupBy(actions, (action) => action.dropdown.group);
 
     const usedGroups = new Set<string>();
-    const dropdownItems: (DropdownMenuItem | DropdownMenuItem[])[] = [];
+    const dropdownItems: (DropdownItem | DropdownItem[])[] = [];
 
     for (const action of actions) {
         const group = action.dropdown.group;

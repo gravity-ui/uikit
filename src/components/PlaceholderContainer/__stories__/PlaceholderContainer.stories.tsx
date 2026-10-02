@@ -6,7 +6,7 @@ import type {Meta, StoryObj} from '@storybook/react-webpack5';
 import {Showcase} from '../../../demo/Showcase';
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
-import {DropdownMenu} from '../../legacy/DropdownMenu';
+import {Menu, MenuItem} from '../../Menu';
 import {block} from '../../utils/cn';
 import {PlaceholderContainer} from '../PlaceholderContainer';
 import type {PlaceholderContainerActionProps} from '../types';
@@ -59,20 +59,17 @@ const ImageComponentTest = () => {
 
 const actionComponentTest = (
     <div className={b('custom-action')}>
-        <DropdownMenu
-            defaultSwitcherProps={{view: 'flat-secondary'}}
-            items={[
-                {text: 'text 1', action: () => {}},
-                {text: 'text 2', action: () => {}},
-            ]}
-            onSwitcherClick={(e) => e?.stopPropagation()}
-            switcher={
-                <Button>
+        <Menu
+            trigger={
+                <Button view="flat-secondary" onClick={(event) => event.stopPropagation()}>
                     Text
                     <Icon data={ChevronDown} size={16} />
                 </Button>
             }
-        />
+        >
+            <MenuItem>text 1</MenuItem>
+            <MenuItem>text 2</MenuItem>
+        </Menu>
     </div>
 );
 

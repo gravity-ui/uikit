@@ -6,6 +6,7 @@
 
 Use an `ActionsPanel` to render multiple buttons in a row.
 When there is not enough space, buttons that don't fit will be added to an overflow menu.
+The overflow uses `Menu`; the `dropdown.item` object format remains compatible with `DropdownMenuItem`.
 
 ## Example
 
@@ -98,7 +99,7 @@ const actions: ActionsPanelProps['actions'] = [
 
 ## Action icons
 
-Use `Button` or `DropdownMenu` properties to set icons.
+Use `Button` or `dropdown.item` properties to set icons.
 
 <!--SANDBOX
 import {Files, PencilToSquare, TrashBin} from '@gravity-ui/icons';
@@ -543,7 +544,7 @@ const actions: ActionsPanelProps['actions'] = [
 
 ## Action sub-menu and nested dropdown menu
 
-See `actions` example below and documentation about the `DropdownMenu` component.
+See the `actions` example below for the nested `dropdown.item` format.
 
 <!--SANDBOX
 import {ChevronDown} from '@gravity-ui/icons';

@@ -2,6 +2,12 @@
 @use './variables';
 
 #{variables.$block} {
+    --_--sticky-background: var(--g-table-sticky-column-background, var(--g-color-base-background));
+    --_--sticky-hover-background: var(
+        --g-table-sticky-column-hover-background,
+        var(--g-color-base-simple-hover-solid)
+    );
+
     overflow: auto;
     position: relative;
 
@@ -87,7 +93,7 @@
             position: sticky;
             z-index: 2;
 
-            background: var(--g-color-base-background);
+            background: var(--_--sticky-background);
         }
 
         &_border_right {
@@ -133,7 +139,7 @@
 
         #{variables.$block}__cell_sticky_start,
         #{variables.$block}__cell_sticky_end {
-            background: var(--g-color-base-simple-hover-solid);
+            background: var(--_--sticky-hover-background);
         }
     }
 

@@ -174,7 +174,7 @@ $block: '.#{variables.$ns}list-item-view';
     &_size {
         &_s {
             --_--min-height: 24px;
-            --_--border-radius: var(--g-border-radius-s);
+            --_--border-radius: var(--g-list-item-view-border-radius, var(--g-border-radius-s));
             --_--padding-inline: var(--g-spacing-2);
             --_--padding-block: var(--g-spacing-half);
 
@@ -186,7 +186,7 @@ $block: '.#{variables.$ns}list-item-view';
 
         &_m {
             --_--min-height: 28px;
-            --_--border-radius: var(--g-border-radius-m);
+            --_--border-radius: var(--g-list-item-view-border-radius, var(--g-border-radius-m));
             --_--padding-inline: var(--g-spacing-2);
             --_--padding-block: var(--g-spacing-1);
 
@@ -198,7 +198,7 @@ $block: '.#{variables.$ns}list-item-view';
 
         &_l {
             --_--min-height: 32px;
-            --_--border-radius: var(--g-border-radius-l);
+            --_--border-radius: var(--g-list-item-view-border-radius, var(--g-border-radius-l));
             --_--padding-inline: var(--g-spacing-2);
             --_--padding-block: calc(var(--g-spacing-base) * 1.5);
             --_--controls-gap: var(--g-spacing-2);
@@ -209,7 +209,7 @@ $block: '.#{variables.$ns}list-item-view';
 
         &_xl {
             --_--min-height: 36px;
-            --_--border-radius: var(--g-border-radius-xl);
+            --_--border-radius: var(--g-list-item-view-border-radius, var(--g-border-radius-xl));
             --_--padding-inline: var(--g-spacing-2);
             --_--padding-block: var(--g-spacing-2);
 

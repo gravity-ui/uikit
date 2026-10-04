@@ -2,8 +2,32 @@
 
 $block: '.#{variables.$ns}select-popup';
 
+// The control's border is inside its box, the popup's is outside. A literal, not
+// --g-popup-border-width: a unitless 0 there would make calc() invalid and the corners square
+$control-border: 1px;
+
 #{$block} {
     display: flex;
     flex-direction: column;
     max-height: 90vh;
+}
+
+@each $size in (s, m, l, xl) {
+    // The class is doubled to beat .g-popup's own border-radius in any stylesheet order
+    #{$block}#{$block}_size_#{$size} {
+        --_--corner-radius: var(
+            --g-popup-border-radius,
+            calc(var(--g-border-radius-#{$size}) - #{$control-border})
+        );
+
+        border-radius: var(--_--corner-radius);
+    }
+
+    // :where() so that --g-list-item-view-border-radius set on popupClassName wins
+    :where(#{$block}_size_#{$size}) {
+        --g-list-item-view-border-radius: max(
+            var(--g-border-radius-xs),
+            (var(--_--corner-radius) + #{$control-border}) / 2
+        );
+    }
 }

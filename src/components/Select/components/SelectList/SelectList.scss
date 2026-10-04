@@ -2,7 +2,6 @@
 @use '../../../variables';
 
 $block: '.#{variables.$ns}select-list';
-$popupBlock: '.#{variables.$ns}popup';
 
 /* The rows are the rows of the List: their look belongs to the row view, and the Select tunes it
    through the CSS API of the view (--g-list-item-view-*) rather than through its class names */
@@ -19,13 +18,10 @@ $popupBlock: '.#{variables.$ns}popup';
        comes inline */
     position: relative;
     overflow: auto;
+    /* The radius inherited from the popup does not clip the list's scrollbar; clip-path does */
+    clip-path: border-box;
     /* A flex item is allowed to shrink below its content — that is what makes the popup scroll */
     min-height: 0;
-
-    #{$popupBlock} &:first-child,
-    #{$popupBlock} &:last-child {
-        border-radius: 0;
-    }
 
     &_mobile {
         max-height: 100%;

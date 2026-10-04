@@ -88,9 +88,8 @@ that sizes itself with CSS does not need it.
   `.g-select-list__group-label-custom`, `.g-select-list__tick-icon`,
   `.g-select-list__option_disabled`, `.g-select-list__option-default-label_disabled` and the
   `.g-list__item` of the old list. The names that remain are not a public contract either — the rows
-  are drawn by the list and its row view. What is supported instead is described in
-  [CSS API](./README.md#css-api): the colour variables of the row view, and the render props for the
-  content of a row.
+  are drawn by the list and its row view. What is supported instead: the variables listed in
+  [CSS API](./README.md#css-api), and the render props for the content of a row.
 - **The DOM `id` of a row is derived from the value of the option** instead of its index. Selectors
   and accessibility assertions keyed on the old id have to be rewritten — read the id from
   `aria-activedescendant` of the trigger rather than building it by hand: how a value is escaped

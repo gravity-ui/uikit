@@ -1,10 +1,11 @@
 import type * as React from 'react';
 
 import type {PopupPlacement} from '../../../Popup';
-import type {SelectProps} from '../../types';
+import type {SelectProps, SelectSize} from '../../types';
 
 export type SelectPopupProps = {
     mobile: boolean;
+    size?: SelectSize;
     handleClose: () => void;
     width?: SelectProps['popupWidth'];
     open?: boolean;

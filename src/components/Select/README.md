@@ -1142,16 +1142,15 @@ SANDBOX-->
 
 ## CSS API
 
-The class names of the markup are not a public contract — the rows of the popup are rendered by the
-list and its row view, and their markup changes with the kit. What is supported:
-
-- the variables below;
-- the colours of a row, through the `--g-list-item-view-background-color`,
-  `--g-list-item-view-background-color-hover`, `--g-list-item-view-text-color` and
-  `--g-list-item-view-description-color` variables of the row view. The geometry of a row — its
-  height, padding and radius — follows the [size](#size) of the `Select` and is not overridable;
-- the content of a row, through `renderOption`, `renderOptionGroup` and `renderSelectedOption`.
-
 | Name                             | Description                                   |
 | :------------------------------- | :-------------------------------------------- |
 | `--g-select-focus-outline-color` | Outline color if focused (missing by default) |
+
+The options are [`ListItemView`](../ListItemView/README.md#css-api) rows that have a `size`, and
+the list opens in a [`Popup`](../Popup/README.md#css-api). Both are tuned with the variables of
+their own CSS API, set on the class passed in `popupClassName`.
+
+The corner radii are coordinated. By default, the popup is rounded like the control of the same
+[size](#size). The options and the input of the [filter](#filtering-options) take half the radius
+of the popup with its border, but not less than `--g-border-radius-xs`. So in the simple case it is
+enough to set `--g-popup-border-radius`: the options and the input of the filter follow it.

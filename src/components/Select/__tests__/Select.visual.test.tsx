@@ -1,11 +1,14 @@
 import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
+import {expect} from '@playwright/experimental-ct-react';
+import type {Page} from '@playwright/test';
 
 import type {MountFixture} from '~playwright/core';
 import {test} from '~playwright/core';
 
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {Select} from '../Select';
-import type {SelectOption, SelectProps} from '../types';
+import {SelectQa} from '../constants';
+import type {SelectOption, SelectProps, SelectSize} from '../types';
 
 import {
     baseOptions,
@@ -278,6 +281,206 @@ test.describe('Select', {tag: '@Select'}, () => {
             await expectScreenshot({themes: ['light'], locator: page});
         },
     );
+
+    // 24px is about the most the popup holds: past ~27px a 28px row no longer fits into its corner
+    test('popup with a large radius', async ({mount, page, expectScreenshot}) => {
+        await page.setViewportSize({width: 440, height: 230});
+        await page.evaluate(() => {
+            const style = document.createElement('style');
+            style.textContent = '.large-radius {--g-popup-border-radius: 24px;}';
+            document.head.append(style);
+        });
+
+        await mount(
+            <div style={{display: 'flex', gap: 20, height: 32}}>
+                <Select
+                    open
+                    width={180}
+                    placeholder="Placeholder"
+                    popupClassName="large-radius"
+                    options={baseOptions}
+                />
+                <Select
+                    open
+                    filterable
+                    width={180}
+                    placeholder="Placeholder"
+                    popupClassName="large-radius"
+                    options={baseOptions}
+                />
+            </div>,
+        );
+
+        await expectScreenshot({themes: ['light'], locator: page});
+    });
+
+    // No screenshots: the radii are read from computed styles
+    test.describe('the corners of the popup', () => {
+        const sizes: SelectSize[] = ['s', 'm', 'l', 'xl'];
+        // The popup's border is outside its box, the control's is inside
+        const POPUP_RING = 1;
+
+        const readCorners = (page: Page) =>
+            page.getByTestId(SelectQa.POPUP).evaluate((popup) => {
+                const list = popup.querySelector('[role="listbox"]');
+                const row = popup.querySelector('[role="option"]');
+                if (!list || !row) {
+                    throw new Error('The popup has no list');
+                }
+                // The border of the filter input is on one of its wrappers
+                let filter = popup.querySelector('input') as Element | null;
+                while (filter && parseFloat(getComputedStyle(filter).borderTopLeftRadius) === 0) {
+                    filter = filter.parentElement;
+                }
+                return {
+                    smallestRadius: parseFloat(
+                        getComputedStyle(popup).getPropertyValue('--g-border-radius-xs'),
+                    ),
+                    popupRadius: parseFloat(getComputedStyle(popup).borderTopLeftRadius),
+                    listRadius: parseFloat(getComputedStyle(list).borderTopLeftRadius),
+                    listClip: getComputedStyle(list).clipPath,
+                    rowRadius: parseFloat(getComputedStyle(row).borderTopLeftRadius),
+                    filterRadius: filter
+                        ? parseFloat(getComputedStyle(filter).borderTopLeftRadius)
+                        : null,
+                };
+            });
+
+        for (const size of sizes) {
+            test(`repeat the corners of the control, size ${size}`, async ({mount, page}) => {
+                await mount(
+                    <div style={{height: 120}}>
+                        <Select open size={size} options={baseOptions} />
+                    </div>,
+                );
+                await page.getByRole('option').first().waitFor();
+
+                // The control's border is on the button's ::before
+                const controlRadius = await page
+                    .getByRole('combobox')
+                    .evaluate((button) =>
+                        parseFloat(getComputedStyle(button, '::before').borderTopLeftRadius),
+                    );
+                const corners = await readCorners(page);
+
+                expect(corners.popupRadius + POPUP_RING).toBe(controlRadius);
+                expect(corners.rowRadius).toBe(Math.max(corners.smallestRadius, controlRadius / 2));
+                // The radius clips the rows at the popup's corners, clip-path clips the scrollbar
+                expect(corners.listRadius).toBe(corners.popupRadius);
+                expect(corners.listClip).toBe('border-box');
+            });
+        }
+
+        test('the filter is as round as the rows', async ({mount, page}) => {
+            await mount(
+                <div style={{height: 160}}>
+                    <Select open filterable size="l" options={baseOptions} />
+                </div>,
+            );
+            await page.getByRole('option').first().waitFor();
+
+            const corners = await readCorners(page);
+
+            expect(corners.filterRadius).toBe(corners.rowRadius);
+        });
+
+        test('take the radius set through popupClassName, the rows and the filter follow', async ({
+            mount,
+            page,
+        }) => {
+            // Prepended so that the consumer's styles cannot win by source order
+            await page.evaluate(() => {
+                const style = document.createElement('style');
+                style.textContent = '.custom-popup {--g-popup-border-radius: 15px;}';
+                document.head.prepend(style);
+            });
+
+            await mount(
+                <div style={{height: 160}}>
+                    <Select open filterable popupClassName="custom-popup" options={baseOptions} />
+                </div>,
+            );
+            await page.getByRole('option').first().waitFor();
+
+            const corners = await readCorners(page);
+
+            expect(corners.popupRadius).toBe(15);
+            expect(corners.rowRadius).toBe((15 + POPUP_RING) / 2);
+            expect(corners.filterRadius).toBe(corners.rowRadius);
+        });
+
+        test('take the radius of the rows set through popupClassName', async ({mount, page}) => {
+            // Prepended so that the consumer's styles cannot win by source order
+            await page.evaluate(() => {
+                const style = document.createElement('style');
+                style.textContent = '.custom-popup {--g-list-item-view-border-radius: 1px;}';
+                document.head.prepend(style);
+            });
+
+            await mount(
+                <div style={{height: 120}}>
+                    <Select open popupClassName="custom-popup" options={baseOptions} />
+                </div>,
+            );
+            await page.getByRole('option').first().waitFor();
+
+            const corners = await readCorners(page);
+
+            expect(corners.rowRadius).toBe(1);
+        });
+
+        test('take the radius set above for every popup, the rows follow', async ({
+            mount,
+            page,
+        }) => {
+            await page.evaluate(() => {
+                const style = document.createElement('style');
+                style.textContent = ':root {--g-popup-border-radius: 8px;}';
+                document.head.append(style);
+            });
+
+            await mount(
+                <div style={{height: 120}}>
+                    <Select open options={baseOptions} />
+                </div>,
+            );
+            await page.getByRole('option').first().waitFor();
+
+            const corners = await readCorners(page);
+
+            expect(corners.popupRadius).toBe(8);
+            expect(corners.rowRadius).toBe((8 + POPUP_RING) / 2);
+        });
+
+        test('stay round when the border of the popup is removed with a unitless zero', async ({
+            mount,
+            page,
+        }) => {
+            // A unitless 0 is not a length inside calc()
+            await page.evaluate(() => {
+                const style = document.createElement('style');
+                style.textContent = ':root {--g-popup-border-width: 0;}';
+                document.head.append(style);
+            });
+
+            await mount(
+                <div style={{height: 120}}>
+                    <Select open size="l" options={baseOptions} />
+                </div>,
+            );
+            await page.getByRole('option').first().waitFor();
+
+            const controlRadius = await page
+                .getByRole('combobox')
+                .evaluate((button) =>
+                    parseFloat(getComputedStyle(button, '::before').borderTopLeftRadius),
+                );
+            const corners = await readCorners(page);
+
+            expect(corners.popupRadius).toBe(controlRadius - POPUP_RING);
+            expect(corners.rowRadius).toBe(controlRadius / 2);
+        });
+    });
 
     test.describe('option states', () => {
         const render = (mount: MountFixture, props?: SelectProps) => {

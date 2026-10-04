@@ -163,12 +163,10 @@ and leaves the markup of the row to you, keeping the states and the element.
 | `--g-list-item-view-text-color`             | The colour of the content            |
 | `--g-list-item-view-description-color`      | The colour of the description        |
 
-The colour variables, `--g-list-item-view-line-height` and `--g-list-item-view-spacer-size` apply
-to a row of any size. The eight geometry variables — the minimum height, the radius, the paddings
-and the four of the controls — are the values of a row **without** `size`: a size modifier assigns
-that geometry itself and the variables are not read at all. A row that has a size is retuned by
-setting the properties themselves in a class of your own (the mobile menu of the `FilePreview` does
-exactly that).
+The colour variables, `--g-list-item-view-line-height`, `--g-list-item-view-spacer-size` and
+`--g-list-item-view-border-radius` apply to a row of any size. The seven other geometry variables —
+the minimum height, the paddings and the four of the controls — are the values of a row **without**
+`size`: a size modifier assigns that geometry itself and the variables are not read at all.
 
 ## Properties
 

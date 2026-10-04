@@ -8,6 +8,12 @@ A `List` displays a list of interactive items and lets the user navigate them wi
 select them, reorder them or perform an action. Selection, virtualization and drag-and-drop are
 optional layers: nothing of them exists until you turn them on.
 
+<!--GITHUB_BLOCK-->
+
+Migrating from the `List` of v7? See the [migration guide](../../../docs/migration-from-legacy-list.md).
+
+<!--/GITHUB_BLOCK-->
+
 - [Basic Usage](#basic-usage)
 - [Sizes](#sizes)
 - [Item getters](#item-getters)

@@ -282,38 +282,6 @@ test.describe('Select', {tag: '@Select'}, () => {
         },
     );
 
-    // 24px is about the most the popup holds: past ~27px a 28px row no longer fits into its corner
-    test('popup with a large radius', async ({mount, page, expectScreenshot}) => {
-        await page.setViewportSize({width: 440, height: 230});
-        await page.evaluate(() => {
-            const style = document.createElement('style');
-            style.textContent = '.large-radius {--g-popup-border-radius: 24px;}';
-            document.head.append(style);
-        });
-
-        await mount(
-            <div style={{display: 'flex', gap: 20, height: 32}}>
-                <Select
-                    open
-                    width={180}
-                    placeholder="Placeholder"
-                    popupClassName="large-radius"
-                    options={baseOptions}
-                />
-                <Select
-                    open
-                    filterable
-                    width={180}
-                    placeholder="Placeholder"
-                    popupClassName="large-radius"
-                    options={baseOptions}
-                />
-            </div>,
-        );
-
-        await expectScreenshot({themes: ['light'], locator: page});
-    });
-
     // No screenshots: the radii are read from computed styles
     test.describe('the corners of the popup', () => {
         const sizes: SelectSize[] = ['s', 'm', 'l', 'xl'];

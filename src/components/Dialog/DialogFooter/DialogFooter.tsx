@@ -75,9 +75,9 @@ export function DialogFooter(props: DialogFooterProps) {
     const {mobile, initialFocusRef, initialFocusAction, onTooltipEscapeKeyDown} =
         React.useContext(DialogPrivateContext);
 
-    const errorTooltipRef = React.useRef<HTMLButtonElement>(null);
-    const apllyBtnRef = useForkRef(
-        errorTooltipRef,
+    const [errorTooltipElement, setErrorTooltipElement] = React.useState<HTMLElement | null>(null);
+    const apllyBtnRef = useForkRef<HTMLElement | null>(
+        setErrorTooltipElement,
         initialFocusAction === 'apply' ? initialFocusRef : null,
     );
     const cancelBtnRef = useForkRef(initialFocusAction === 'cancel' ? initialFocusRef : null);
@@ -126,7 +126,7 @@ export function DialogFooter(props: DialogFooterProps) {
                 <Popup
                     open={showError}
                     onOpenChange={handleOpenChange}
-                    anchorRef={errorTooltipRef}
+                    anchorElement={errorTooltipElement}
                     placement="top"
                     disablePortal
                     hasArrow

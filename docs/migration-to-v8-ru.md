@@ -106,6 +106,30 @@ menu: {
 `lab/Breadcrumbs`, поэтому существующие переопределения `Breadcrumbs.label_more` продолжат работать. Переименуйте
 переопределения `lab/Breadcrumbs` в `Breadcrumbs`; актуальный кейсет также содержит `breadcrumbs`.
 
+## Устаревшее API Popup
+
+`Popup` больше не принимает `anchorRef`, `onClose`, `onEscapeKeyDown` и `onOutsideClick`. Передавайте DOM-элемент якоря через `anchorElement`, а закрытие обрабатывайте через `onOpenChange(open, event?, reason?)`. Типы `PopupAnchorRef` и `PopupCloseReason` тоже удалены; вместо них используйте `PopupAnchorElement` и публичный тип `OpenChangeReason`.
+
+Обновите эти пропсы также в `DropdownMenu.popupProps` из `/legacy` и в ключе `Popup` у `DefaultPropsProvider`.
+
+| Прежний колбэк или причина        | Замена через `onOpenChange`             |
+| :-------------------------------- | :-------------------------------------- |
+| `onClose(event, 'escapeKeyDown')` | `(false, event, 'escape-key')`          |
+| `onClose(event, 'outsideClick')`  | `(false, event, 'outside-press')`       |
+| `onEscapeKeyDown(event)`          | Проверяйте `reason === 'escape-key'`    |
+| `onOutsideClick(event)`           | Проверяйте `reason === 'outside-press'` |
+
+`onOpenChange` может сообщать и другие причины закрытия. Закрывайте попап при `open === false`; проверяйте `reason` только для действий, зависящих от причины. Храните якорь в состоянии, чтобы `Popup` получил его после монтирования DOM-узла:
+
+```diff
+- const anchorRef = React.useRef<HTMLButtonElement>(null);
++ const [anchorElement, setAnchorElement] = React.useState<HTMLButtonElement | null>(null);
+- <Button ref={anchorRef}>Открыть</Button>
+- <Popup anchorRef={anchorRef} open={open} onClose={() => setOpen(false)} />
++ <Button ref={setAnchorElement}>Открыть</Button>
++ <Popup anchorElement={anchorElement} open={open} onOpenChange={setOpen} />
+```
+
 ## Устаревшие API Modal и Dialog
 
 У `Modal` и `Dialog` удалены пропсы `onClose`, `onEscapeKeyDown`, `onOutsideClick` и `onEnterKeyDown`. Для закрытия используйте `onOpenChange(open, event?, reason?)`. Вместо старого типа `ModalCloseReason` доступен публичный тип `OpenChangeReason` из `@gravity-ui/uikit`.

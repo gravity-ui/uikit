@@ -51,7 +51,7 @@ Note that `hasArrow` is set explicitly above.
 
 ## Props with no equivalent
 
-- **`anchorRef`/`anchorElement`** (detached/anchor-only mode, popover with no visible trigger child) — new `Popover` always requires a `children` trigger element to attach interaction props to. For a detached anchor, use [`Popup`](../Popup/README.md) directly — it already accepts `anchorElement`/`anchorRef` and needs no trigger.
+- **`anchorRef`/`anchorElement`** (detached/anchor-only mode, popover with no visible trigger child) — new `Popover` always requires a `children` trigger element to attach interaction props to. For a detached anchor, use [`Popup`](../Popup/README.md) directly with `anchorElement`; it needs no trigger.
 - **Imperative `ref`** (`openTooltip`/`closeTooltip`, `PopoverInstanceProps`) — new `Popover` exposes no ref API. Replace with a controlled `open` + `onOpenChange` state that you toggle yourself.
 - **`autoclosable={false}`** (stays open once hovered, only closes on an explicit trigger click) — no direct equivalent. Reproduce with controlled `open` state where your `onOpenChange` ignores hover-driven close events and only reacts to explicit close actions.
 - **`offset` (`{top, left, block, inline}`)** — this shifted the _trigger wrapper_ via inline style, not the popup itself. New `Popover` has no wrapper to apply this to — wrap your trigger element yourself with the desired offset instead.

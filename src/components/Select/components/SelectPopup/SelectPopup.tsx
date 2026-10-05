@@ -36,8 +36,14 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             id,
         },
         ref,
-    ) =>
-        mobile ? (
+    ) => {
+        const [anchorElement, setAnchorElement] = React.useState<HTMLDivElement | null>(null);
+
+        React.useEffect(() => {
+            setAnchorElement(ref && typeof ref !== 'function' ? ref.current : null);
+        }, [ref]);
+
+        return mobile ? (
             <Sheet
                 qa={SelectQa.SHEET}
                 className={sheetClassName}
@@ -50,10 +56,12 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             <Popup
                 className={b(null, className)}
                 qa={SelectQa.POPUP}
-                anchorRef={ref as React.RefObject<HTMLDivElement>}
+                anchorElement={anchorElement}
                 placement={placement}
                 open={open}
-                onClose={handleClose}
+                onOpenChange={(isOpen) => {
+                    if (!isOpen) handleClose();
+                }}
                 disablePortal={disablePortal}
                 returnFocus={controlRef}
                 floatingMiddlewares={getMiddlewares({width, disablePortal, virtualized})}
@@ -63,7 +71,8 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             >
                 {children}
             </Popup>
-        ),
+        );
+    },
 );
 
 SelectPopup.displayName = 'SelectPopup';

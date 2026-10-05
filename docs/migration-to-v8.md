@@ -107,6 +107,30 @@ entry point in v7, so you can migrate before upgrading. Other legacy components 
 instead of `lab/Breadcrumbs`, so existing `Breadcrumbs.label_more` overrides keep working. Rename overrides of
 `lab/Breadcrumbs` to `Breadcrumbs`; the current keyset also contains `breadcrumbs`.
 
+## Deprecated Popup API
+
+`Popup` no longer accepts `anchorRef`, `onClose`, `onEscapeKeyDown`, or `onOutsideClick`. Pass the anchor DOM element through `anchorElement` and handle dismissal with `onOpenChange(open, event?, reason?)`. The `PopupAnchorRef` and `PopupCloseReason` types are also removed; use `PopupAnchorElement` and the public `OpenChangeReason` type instead.
+
+Update these props in legacy `DropdownMenu.popupProps` and the `Popup` key of `DefaultPropsProvider` too.
+
+| Old callback or reason            | `onOpenChange` equivalent              |
+| :-------------------------------- | :------------------------------------- |
+| `onClose(event, 'escapeKeyDown')` | `(false, event, 'escape-key')`         |
+| `onClose(event, 'outsideClick')`  | `(false, event, 'outside-press')`      |
+| `onEscapeKeyDown(event)`          | Check for `reason === 'escape-key'`    |
+| `onOutsideClick(event)`           | Check for `reason === 'outside-press'` |
+
+`onOpenChange` can also report other close reasons. Close when `open` is `false`; check `reason` only if the action depends on how the popup was dismissed. Keep the anchor in state so `Popup` receives it when the DOM node mounts:
+
+```diff
+- const anchorRef = React.useRef<HTMLButtonElement>(null);
++ const [anchorElement, setAnchorElement] = React.useState<HTMLButtonElement | null>(null);
+- <Button ref={anchorRef}>Open</Button>
+- <Popup anchorRef={anchorRef} open={open} onClose={() => setOpen(false)} />
++ <Button ref={setAnchorElement}>Open</Button>
++ <Popup anchorElement={anchorElement} open={open} onOpenChange={setOpen} />
+```
+
 ## Deprecated Modal and Dialog APIs
 
 `Modal` and `Dialog` no longer accept `onClose`, `onEscapeKeyDown`, `onOutsideClick`, or `onEnterKeyDown`. Use `onOpenChange(open, event?, reason?)` for dismissal. The old `ModalCloseReason` type is replaced by the public `OpenChangeReason` type, importable from `@gravity-ui/uikit`.

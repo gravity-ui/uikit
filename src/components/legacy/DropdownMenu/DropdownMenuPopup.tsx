@@ -41,6 +41,10 @@ export const DropdownMenuPopup = <T,>({
     popupProps,
     path = [],
 }: DropdownMenuPopupProps<T>) => {
+    const [anchorElement, setAnchorElement] = React.useState<HTMLDivElement | null>(null);
+
+    React.useEffect(() => setAnchorElement(anchorRef.current), [anchorRef]);
+
     const {toggle, data} = React.useContext(DropdownMenuContext);
 
     const {
@@ -134,10 +138,13 @@ export const DropdownMenuPopup = <T,>({
     return (
         <Popup
             open={open}
-            anchorRef={anchorRef}
-            onClose={onClose}
+            anchorElement={anchorElement}
             placement="bottom-start"
             {...popupProps}
+            onOpenChange={(isOpen, event, reason) => {
+                popupProps?.onOpenChange?.(isOpen, event, reason);
+                if (!isOpen) onClose?.();
+            }}
         >
             <div
                 onMouseEnter={handleMouseEnter}

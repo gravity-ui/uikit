@@ -145,8 +145,9 @@ describe('DropdownMenu keyboard navigation', () => {
         expect(mockSubAction).toHaveBeenCalledTimes(1);
     });
 
-    test('should close menu with Escape key', async () => {
-        render(<DropdownMenu items={menuItems} open />);
+    test('should close menu with Escape key when popupProps has onOpenChange', async () => {
+        const onOpenChange = jest.fn();
+        render(<DropdownMenu items={menuItems} open popupProps={{onOpenChange}} />);
 
         expect(screen.getByText('Item without submenu')).toBeInTheDocument();
 
@@ -156,6 +157,25 @@ describe('DropdownMenu keyboard navigation', () => {
         await waitFor(() => {
             expect(screen.queryByText('Item without submenu')).not.toBeInTheDocument();
         });
+        expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(KeyboardEvent), 'escape-key');
+    });
+
+    test('should close menu on outside click when popupProps has onOpenChange', async () => {
+        const onOpenChange = jest.fn();
+        const user = userEvent.setup();
+        render(
+            <div>
+                <button type="button">Outside</button>
+                <DropdownMenu items={menuItems} open popupProps={{onOpenChange}} />
+            </div>,
+        );
+
+        await user.click(screen.getByRole('button', {name: 'Outside'}));
+
+        await waitFor(() => {
+            expect(screen.queryByText('Item without submenu')).not.toBeInTheDocument();
+        });
+        expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(MouseEvent), 'outside-press');
     });
 
     test('should allow Tab navigation to move focus between elements', async () => {

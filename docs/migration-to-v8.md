@@ -221,3 +221,13 @@ Things to check after the switch, from the guide of the package:
 - the QA constants of the select are `NormalizedSelectQa`.
 
 The column settings of the legacy `Table` keep working: they no longer depend on the removed family.
+
+## `useColorGenerator` `theme` option
+
+`useColorGenerator` no longer accepts the deprecated `theme` option. Remove it from the call; the hook automatically
+uses the current theme from `ThemeProvider`:
+
+```diff
+- useColorGenerator({seed, theme: 'dark'})
++ useColorGenerator({seed})
+```

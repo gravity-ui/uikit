@@ -8,7 +8,7 @@ import type {ColorDetails, UseColorGeneratorProps} from './types';
 /**
  * The `useColorGenerator` hook generates a unique (but consistent) background color based on some unique attribute (e.g., name, id, email).
  * The background color remains unchanged with each update.
- * Theme is resolved automatically from context; passing `theme` in props has no effect.
+ * Theme is resolved automatically from context.
  * @param {object} props
  * @param {string} props.seed - unique attribute of the entity (e.g., name, id, email).
  * @example

@@ -219,3 +219,13 @@ menu: {
 - QA-константы селекта — `NormalizedSelectQa`.
 
 Настройки колонок legacy `Table` продолжают работать: от удалённого семейства они больше не зависят.
+
+## Опция `theme` у `useColorGenerator`
+
+`useColorGenerator` больше не принимает устаревшую опцию `theme`. Удалите её из вызова: хук автоматически использует
+текущую тему из `ThemeProvider`:
+
+```diff
+- useColorGenerator({seed, theme: 'dark'})
++ useColorGenerator({seed})
+```

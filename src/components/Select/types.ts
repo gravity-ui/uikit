@@ -48,6 +48,7 @@ export type SelectRenderControl<T extends HTMLElement = HTMLElement> = (
 export type SelectRenderOptionViewParams = {
     itemHeight: number;
     isItemActive: boolean;
+    selected: boolean;
 };
 
 export type SelectRenderOption<T> = (
@@ -57,7 +58,7 @@ export type SelectRenderOption<T> = (
 
 export type SelectRenderOptionGroup<T> = (
     option: Pick<SelectOptionGroup<T>, 'label'>,
-    options: SelectRenderOptionViewParams,
+    options: Omit<SelectRenderOptionViewParams, 'selected'>,
 ) => React.ReactElement;
 
 export type SelectRenderPopup = (popupItems: {
@@ -109,6 +110,12 @@ export type SelectProps<T = any> = AriaLabelingProps &
         renderFilter?: SelectRenderFilter;
         renderOption?: SelectRenderOption<T>;
         renderOptionGroup?: SelectRenderOptionGroup<T>;
+        /**
+         * How a row shows that its option is selected: `auto` — the check mark of a multiple
+         * `Select` and the highlight of a single one, `none` — nothing, for options that draw
+         * their own indication with `renderOption`
+         */
+        selectionStyle?: 'auto' | 'none';
         renderSelectedOption?: (option: SelectOption<T>, index: number) => React.ReactElement;
         renderEmptyOptions?: ({filter}: {filter: string}) => React.ReactElement;
         renderPopup?: SelectRenderPopup;

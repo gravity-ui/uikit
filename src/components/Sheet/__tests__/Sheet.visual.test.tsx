@@ -4,6 +4,7 @@ import {expect, test} from '~playwright/core';
 
 import type {SheetProps} from '../Sheet';
 import {DEFAULT_SHEET_QA} from '../__stories__/constants';
+import {SheetQa} from '../constants';
 
 import {hideTopBarCases, titleCases} from './cases';
 import {QASheet} from './constants';
@@ -56,6 +57,51 @@ test.describe('Sheet', {tag: '@Sheet'}, () => {
         await expectScreenshot({
             themes: ['light'],
         });
+    });
+
+    test('viewport resize: keeps the top edge and follows the new bottom at once', async ({
+        page,
+        mount,
+    }) => {
+        await page.setViewportSize({width: 390, height: 844});
+
+        const root = await mount(<TestSheet alwaysFullHeight />, {
+            rootStyle: {padding: 0, width: '100%', minHeight: '844px'},
+        });
+
+        await root.locator('button').click();
+        // Resizes are deferred until the open transition ends.
+        await page
+            .getByTestId(SheetQa.VEIL)
+            .evaluate(
+                (veil) =>
+                    new Promise((resolve) =>
+                        veil.addEventListener('transitionend', resolve, {once: true}),
+                    ),
+            );
+
+        const sheetTop = page.getByTestId(SheetQa.TOP);
+        const contentArea = page.getByTestId(SheetQa.CONTENT_AREA);
+        const getEdges = async () => {
+            const [top, content] = await Promise.all([
+                sheetTop.boundingBox(),
+                contentArea.boundingBox(),
+            ]);
+
+            return {
+                top: Math.round(top?.y ?? 0),
+                bottom: Math.round((content?.y ?? 0) + (content?.height ?? 0)),
+            };
+        };
+
+        expect(await getEdges()).toEqual({top: 84, bottom: 844});
+
+        await page.setViewportSize({width: 390, height: 464});
+        await page.evaluate(
+            () => new Promise((resolve) => requestAnimationFrame(() => setTimeout(resolve))),
+        );
+
+        expect(await getEdges()).toEqual({top: 84, bottom: 464});
     });
 
     createSmokeScenarios<Partial<Omit<SheetProps, 'visible' | 'onClose'>>>(

@@ -22,9 +22,18 @@ import type {Status} from './types';
 import './Sheet.scss';
 
 const DEFAULT_MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT = 0.9;
-const WINDOW_RESIZE_TIMEOUT = 50;
 
 export type SheetPresenceStatus = UseFloatingTransitionResult['status'];
+
+let fullViewportSize = {width: 0, height: 0};
+
+function getFullViewportHeight(width: number, height: number) {
+    if (width !== fullViewportSize.width || height > fullViewportSize.height) {
+        fullViewportSize = {width, height};
+    }
+
+    return fullViewportSize.height;
+}
 
 function warnAboutOutOfRange() {
     warnOnce(
@@ -84,7 +93,6 @@ export function SheetContent(props: SheetContentProps) {
     const handleSheetRef = useMergeRefs([sheetRef, floatingRef]);
 
     const observerRef = React.useRef<ResizeObserver | null>(null);
-    const resizeWindowTimerRef = React.useRef<number | null>(null);
 
     const prevSheetHeightRef = React.useRef(0);
     const inWindowResizeScopeRef = React.useRef(false);
@@ -176,8 +184,16 @@ export function SheetContent(props: SheetContentProps) {
                 warnAboutOutOfRange();
             }
 
+            // iOS WebViews update innerHeight a few frames before the overlay the sheet hangs from.
+            const overlay = sheetRef.current?.parentElement;
+            const viewportHeight = overlay?.clientHeight || window.innerHeight;
+            const fullViewportHeight = getFullViewportHeight(
+                overlay?.clientWidth || window.innerWidth,
+                viewportHeight,
+            );
+            // Use the keyboard-less viewport for the top gap so the keyboard keeps the top edge.
             const availableViewportHeight =
-                window.innerHeight * heightCoefficient - getSheetTopHeight();
+                viewportHeight - fullViewportHeight * (1 - heightCoefficient) - getSheetTopHeight();
 
             if (alwaysFullHeight) {
                 return availableViewportHeight;
@@ -282,14 +298,25 @@ export function SheetContent(props: SheetContentProps) {
         }
 
         const availableContentHeight = getAvailableContentHeight(sheetContentHeight);
+        const withTransition = isAnimatingRef.current;
 
         sheetScrollContainerRef.current.style.transition =
-            prevSheetHeightRef.current > sheetContentHeight
+            withTransition && prevSheetHeightRef.current > sheetContentHeight
                 ? 'height 0s ease var(--_--transition-duration)'
                 : 'none';
 
+        if (!withTransition) {
+            sheetRef.current.style.transition = 'none';
+        }
+
         sheetScrollContainerRef.current.style.height = `${availableContentHeight}px`;
         sheetRef.current.style.transform = `translate3d(0, -${availableContentHeight + getSheetTopHeight()}px, 0)`;
+
+        if (!withTransition) {
+            // Commit the position before restoring the transition.
+            sheetRef.current.getBoundingClientRect();
+            sheetRef.current.style.transition = '';
+        }
 
         prevSheetHeightRef.current = sheetContentHeight;
         inWindowResizeScopeRef.current = false;
@@ -302,14 +329,7 @@ export function SheetContent(props: SheetContentProps) {
         }
 
         inWindowResizeScopeRef.current = true;
-
-        if (resizeWindowTimerRef.current) {
-            window.clearTimeout(resizeWindowTimerRef.current);
-        }
-
-        resizeWindowTimerRef.current = window.setTimeout(() => {
-            onResize();
-        }, WINDOW_RESIZE_TIMEOUT);
+        onResize();
     }, [onResize]);
 
     const {veilHandlers} = useVeil({
@@ -322,7 +342,12 @@ export function SheetContent(props: SheetContentProps) {
 
     // --- componentDidMount / componentWillUnmount ---
     React.useEffect(() => {
-        window.addEventListener('resize', onResizeWindow);
+        const overlay = sheetRef.current?.parentElement;
+        const overlayObserver = overlay ? new ResizeObserver(() => onResizeWindow()) : null;
+
+        if (overlay && overlayObserver) {
+            overlayObserver.observe(overlay);
+        }
 
         if (sheetMarginBoxRef.current) {
             observerRef.current = new ResizeObserver(() => {
@@ -339,7 +364,7 @@ export function SheetContent(props: SheetContentProps) {
         prevSheetHeightRef.current = initialHeight;
 
         return () => {
-            window.removeEventListener('resize', onResizeWindow);
+            overlayObserver?.disconnect();
 
             if (observerRef.current) {
                 observerRef.current.disconnect();

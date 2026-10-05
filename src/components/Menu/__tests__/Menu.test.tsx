@@ -263,6 +263,9 @@ describe('Menu', () => {
         const subitems = getAllByRole(screen.getByTestId(SUBMENU_QA), 'menuitem');
         expect(items[2]).toHaveClass(/hovered/);
         expect(subitems[0]).toHaveClass(/active/);
+        await waitFor(() => {
+            expect(subitems[0]).toHaveFocus();
+        });
 
         await user.keyboard('{ArrowLeft}');
         await waitFor(() => {

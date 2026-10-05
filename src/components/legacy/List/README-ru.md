@@ -8,7 +8,8 @@
 import {List} from '@gravity-ui/uikit/legacy';
 ```
 
-Этому компоненту на смену пришёл `List` из `@gravity-ui/uikit`. Как и всему в `@gravity-ui/uikit/legacy`, ему нужны необязательные peer-зависимости `@hello-pangea/dnd`,
+Этому компоненту на смену пришёл `List` из `@gravity-ui/uikit`, см.
+[миграционный гайд](../../../../docs/migration-from-legacy-list.md) (на английском). Как и всему в `@gravity-ui/uikit/legacy`, ему нужны необязательные peer-зависимости `@hello-pangea/dnd`,
 `react-window` и `react-virtualized-auto-sizer` — установите их рядом с пакетом: точка входа загружает их все, что бы
 из неё ни импортировалось.
 

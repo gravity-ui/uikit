@@ -10,7 +10,8 @@ The `List` component renders a filterable, sortable, and virtualized list of ite
 import {List} from '@gravity-ui/uikit/legacy';
 ```
 
-The `List` of `@gravity-ui/uikit` replaces this component. Like everything in `@gravity-ui/uikit/legacy`, it needs the optional peer dependencies
+The `List` of `@gravity-ui/uikit` replaces this component, see the
+[migration guide](../../../../docs/migration-from-legacy-list.md). Like everything in `@gravity-ui/uikit/legacy`, it needs the optional peer dependencies
 `@hello-pangea/dnd`, `react-window` and `react-virtualized-auto-sizer` installed next to the package: the entry point
 loads all of them, whatever you import from it.
 

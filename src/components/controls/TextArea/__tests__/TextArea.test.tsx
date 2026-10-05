@@ -16,19 +16,13 @@ describe('TextArea', () => {
             expect(input.tagName.toLowerCase()).toBe('textarea');
         });
 
-        test('render error message with error prop', () => {
-            render(<TextArea error="Some Error" />);
-
-            expect(screen.getByText('Some Error')).toBeVisible();
-        });
-
         test('render note container with note prop', () => {
-            render(<TextArea error="Some Error" note={<div>Additional</div>} />);
+            render(<TextArea note={<div>Additional</div>} />);
 
             expect(screen.getByText('Additional')).toBeVisible();
         });
 
-        test('do not show error without error prop', () => {
+        test('do not show error without invalid state', () => {
             const {container} = render(<TextArea />);
 
             // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
@@ -88,19 +82,13 @@ describe('TextArea', () => {
     });
 
     describe('error', () => {
-        test('render error message with error prop (if it is not an empty string)', () => {
-            render(<TextArea error="Some Error" />);
-
-            expect(screen.getByText('Some Error')).toBeVisible();
-        });
-
         test('render error message with errorMessage prop (if it is not an empty string)', () => {
             render(<TextArea errorMessage="Some Error with errorMessage prop" />);
 
             expect(screen.queryByText('Some Error with errorMessage prop')).not.toBeInTheDocument();
         });
 
-        test('render error message with errorMessage prop (if it is not an empty string)', () => {
+        test('render error message with errorMessage prop and invalid state', () => {
             render(
                 <TextArea
                     errorMessage="Some Error with errorMessage prop"
@@ -111,14 +99,8 @@ describe('TextArea', () => {
             expect(screen.getByText('Some Error with errorMessage prop')).toBeVisible();
         });
 
-        test('do not show error message without error/errorMessage prop', () => {
+        test('do not show error message without errorMessage prop', () => {
             render(<TextArea />);
-
-            expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
-        });
-
-        test('do not show error message if error prop value is an empty string', () => {
-            render(<TextArea error={''} />);
 
             expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
         });

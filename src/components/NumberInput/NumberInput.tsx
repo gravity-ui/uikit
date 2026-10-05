@@ -255,6 +255,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(
                 className={b({size, view, state}, className)}
                 controlProps={{
                     ...props.controlProps,
+                    onKeyPress: props.onKeyPress ?? props.controlProps?.onKeyPress,
                     onInput: handleInput,
                     role: 'spinbutton',
                     inputMode: allowDecimal ? 'decimal' : 'numeric',

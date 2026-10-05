@@ -29,6 +29,34 @@
 + <Link href="/help" target="_blank">Помощь</Link>
 ```
 
+## Проп `error` у TextInput, TextArea и Select
+
+`TextInput`, `TextArea` и `Select` больше не принимают устаревший проп `error`. Для состояния ошибки используйте
+`validationState="invalid"`, а для текста ошибки — `errorMessage`:
+
+```diff
+- <TextInput error="Обязательное поле" />
++ <TextInput validationState="invalid" errorMessage="Обязательное поле" />
+- <TextArea error />
++ <TextArea validationState="invalid" />
+- <Select error={hasError} />
++ <Select validationState={hasError ? 'invalid' : undefined} />
+```
+
+Замена одинакова для всех трёх компонентов. Если прежнее значение `error` было `false`, не задавайте `validationState`.
+
+## Проп `onKeyPress` у TextInput
+
+`TextInput` больше не принимает устаревший проп `onKeyPress` на верхнем уровне. Используйте `onKeyDown`:
+
+```diff
+- <TextInput onKeyPress={handleKeyPress} />
++ <TextInput onKeyDown={handleKeyDown} />
+```
+
+`onKeyDown` также вызывается для клавиш без символа. Если прежний обработчик работал только с вводимыми символами,
+проверяйте `event.key`.
+
 ## Menu и DropdownMenu
 
 `Menu` и `DropdownMenu` из корневой точки входа переехали в `@gravity-ui/uikit/legacy`. Чтобы сохранить прежнее

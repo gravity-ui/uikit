@@ -17,19 +17,13 @@ describe('TextInput input', () => {
                 expect(input.tagName.toLowerCase()).toBe('input');
             });
 
-            test('render error message with error prop', () => {
-                render(<TextInput error="Some Error" />);
-
-                expect(screen.getByText('Some Error')).toBeVisible();
-            });
-
             test('render note container with note prop', () => {
                 render(<TextInput note={<div>Additional</div>} />);
 
                 expect(screen.getByText('Additional')).toBeVisible();
             });
 
-            test('do not show error without error prop', () => {
+            test('do not show error without invalid state', () => {
                 render(<TextInput />);
 
                 expect(screen.queryByTestId('control-error-message-qa')).not.toBeInTheDocument();
@@ -132,12 +126,6 @@ describe('TextInput input', () => {
         });
 
         describe('error', () => {
-            test('render error message with error prop (if it is not an empty string)', () => {
-                render(<TextInput error="Some Error" />);
-
-                expect(screen.getByText('Some Error')).toBeVisible();
-            });
-
             test('render error message with errorMessage prop (if it is not an empty string)', () => {
                 render(<TextInput errorMessage="Some Error with errorMessage prop" />);
 
@@ -169,14 +157,8 @@ describe('TextInput input', () => {
                 expect(screen.getByTestId(CONTROL_ERROR_ICON_QA)).toBeInTheDocument();
             });
 
-            test('do not show error message without error/errorMessage prop', () => {
+            test('do not show error message without errorMessage prop', () => {
                 render(<TextInput />);
-
-                expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
-            });
-
-            test('do not show error message if error prop value is an empty string', () => {
-                render(<TextInput error={''} />);
 
                 expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
             });
@@ -185,12 +167,6 @@ describe('TextInput input', () => {
                 render(<TextInput errorMessage={''} />);
 
                 expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
-            });
-
-            test('do not show error icon if error prop is an empty string', () => {
-                render(<TextInput error={''} errorPlacement="inside" />);
-
-                expect(screen.queryByTestId(CONTROL_ERROR_ICON_QA)).not.toBeInTheDocument();
             });
 
             test('do not show error icon if errorMessage prop is an empty string', () => {
@@ -239,7 +215,13 @@ describe('TextInput input', () => {
             test('render described input with error message and note', () => {
                 const errorText = 'Some error text';
                 const noteText = 'Note text';
-                const {container} = render(<TextInput error={errorText} note={noteText} />);
+                const {container} = render(
+                    <TextInput
+                        errorMessage={errorText}
+                        validationState="invalid"
+                        note={noteText}
+                    />,
+                );
 
                 const input = screen.getByRole('textbox');
                 const [noteId = '', errorMessageId = ''] = (

@@ -24,6 +24,15 @@ describe('NumberInput input', () => {
             expect(input.tagName.toLowerCase()).toBe('input');
         });
 
+        test('forwards onKeyPress to the input', () => {
+            const onKeyPress = jest.fn();
+            render(<NumberInput onKeyPress={onKeyPress} />);
+
+            fireEvent.keyPress(getInput(), {key: '1', charCode: 49});
+
+            expect(onKeyPress).toHaveBeenCalledTimes(1);
+        });
+
         it('calls onUpdate and onChange on input change', async () => {
             const handleUpdate = jest.fn();
             const handleChange = jest.fn();

@@ -29,6 +29,33 @@ Referer header is not sent.
 + <Link href="/help" target="_blank">Help</Link>
 ```
 
+## TextInput, TextArea, and Select `error`
+
+`TextInput`, `TextArea`, and `Select` no longer accept the deprecated `error` prop. Use
+`validationState="invalid"` to show the error state and `errorMessage` to show its message:
+
+```diff
+- <TextInput error="Required field" />
++ <TextInput validationState="invalid" errorMessage="Required field" />
+- <TextArea error />
++ <TextArea validationState="invalid" />
+- <Select error={hasError} />
++ <Select validationState={hasError ? 'invalid' : undefined} />
+```
+
+The same replacement applies to all three components. Omit `validationState` when the old `error` value was `false`.
+
+## TextInput `onKeyPress`
+
+`TextInput` no longer accepts the deprecated top-level `onKeyPress` prop. Use `onKeyDown` instead:
+
+```diff
+- <TextInput onKeyPress={handleKeyPress} />
++ <TextInput onKeyDown={handleKeyDown} />
+```
+
+`onKeyDown` also fires for non-character keys; check `event.key` if the old handler processed only typed characters.
+
 ## Menu and DropdownMenu
 
 `Menu` and `DropdownMenu` from the root entry point have moved to `@gravity-ui/uikit/legacy`. To keep their current

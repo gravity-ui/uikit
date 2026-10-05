@@ -17,6 +17,11 @@
 То же касается пропсов на основе `ButtonProps`, например `MenuTriggerProps`, `AlertActionProps`,
 `ActionsPanelItem.button.props` и пропсов кнопок `Dialog.Footer`.
 
+Раньше `type`, `disabled`, `className`, `onClickCapture` и `rel` внутри `extraProps` могли перезаписываться компонентом.
+После переноса на корень они могут изменить поведение: например, кнопка станет `submit` или отключится. Перенос
+`target="_blank"` на корень также добавляет `rel="noopener noreferrer"`, если `rel` не задан, поэтому заголовок Referer
+не отправляется.
+
 ```diff
 - <Button extraProps={{title: 'Сохранить', onClick: handleSave}}>Сохранить</Button>
 + <Button title="Сохранить" onClick={handleSave}>Сохранить</Button>

@@ -17,6 +17,11 @@ when `Button` renders a link or a custom component.
 The same applies to props based on `ButtonProps`, such as `MenuTriggerProps`, `AlertActionProps`,
 `ActionsPanelItem.button.props`, and `Dialog.Footer` button props.
 
+Previously, `type`, `disabled`, `className`, `onClickCapture`, and `rel` inside `extraProps` could be overridden by the
+component. At the root, these props can change behavior: for example, a button can become a submit button or become
+disabled. Moving `target="_blank"` to the root also adds `rel="noopener noreferrer"` when `rel` is not set, so the
+Referer header is not sent.
+
 ```diff
 - <Button extraProps={{title: 'Save', onClick: handleSave}}>Save</Button>
 + <Button title="Save" onClick={handleSave}>Save</Button>

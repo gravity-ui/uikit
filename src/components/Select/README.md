@@ -1155,3 +1155,7 @@ The corner radii are coordinated. By default, the popup is rounded like the cont
 of the popup with its border, but not less than `--g-border-radius-xs`. So in the simple case it is
 enough to set `--g-popup-border-radius`: the options and the input of the filter follow it. To set
 the two separately, use `--g-list-item-view-border-radius` and `--g-text-input-border-radius`.
+
+For the options and the input of the filter to follow `--g-popup-border-radius`, it has to be a
+single value with a unit: `0px` rather than `0`, and not a pair like `6px 8px`. Otherwise they are
+left without rounding.

@@ -27,7 +27,7 @@ const pagination = <Pagination page={1} pageSize={100} total={1000} onUpdate={ha
 
 You can override the root element of clickable pagination items (navigation and page buttons) using the `pageComponent` prop. Pass `pageComponent="a"` and return `href` from `getPageProps` to use regular links. For router integrations, pass a router-aware component such as `Link` and return router-specific props, for example `to`.
 
-`getPageProps` is called for each clickable item (page buttons and navigation buttons). It is **not** called for ellipsis, the "page of" indicator, the simple (current) page item in the mobile layout, or disabled navigation buttons (those always stay an inert native `<button disabled>` so they cannot be activated, including via keyboard). Pagination-managed props (`onClick`, `className`, `size`, `view`, `selected`, `disabled`, `qa`, `aria-current`, `extraProps`, `children`) take precedence over values returned by `getPageProps`.
+`getPageProps` is called for each clickable item (page buttons and navigation buttons). It is **not** called for ellipsis, the "page of" indicator, the simple (current) page item in the mobile layout, or disabled navigation buttons (those always stay an inert native `<button disabled>` so they cannot be activated, including via keyboard). Pagination-managed props (`onClick`, `className`, `size`, `view`, `selected`, `disabled`, `qa`, `aria-current`, `children`) take precedence over values returned by `getPageProps`.
 
 ### Regular links (`pageComponent="a"`)
 

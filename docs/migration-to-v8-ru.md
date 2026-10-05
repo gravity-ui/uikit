@@ -13,7 +13,9 @@
 ## `extraProps` у Button и Link
 
 `Button` и `Link` больше не принимают `extraProps`. Передавайте стандартные пропсы элемента напрямую компоненту,
-в том числе если `Button` рендерит ссылку или пользовательский компонент:
+в том числе если `Button` рендерит ссылку или пользовательский компонент.
+То же касается пропсов на основе `ButtonProps`, например `MenuTriggerProps`, `AlertActionProps`,
+`ActionsPanelItem.button.props` и пропсов кнопок `Dialog.Footer`.
 
 ```diff
 - <Button extraProps={{title: 'Сохранить', onClick: handleSave}}>Сохранить</Button>

@@ -43,6 +43,7 @@ export interface ButtonButtonProps
         Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'disabled' | 'style'> {
     component?: never;
     href?: never;
+    extraProps?: never;
 }
 
 export interface ButtonLinkProps
@@ -50,6 +51,7 @@ export interface ButtonLinkProps
         Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'style'> {
     component?: never;
     href: string;
+    extraProps?: never;
 }
 
 export type ButtonComponentProps<T extends Exclude<ButtonCustomElementType, undefined>> =

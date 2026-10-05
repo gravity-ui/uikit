@@ -13,7 +13,9 @@ there keep their API, but no removal date for `/legacy` is promised: plan the mi
 ## Button and Link `extraProps`
 
 `Button` and `Link` no longer accept `extraProps`. Pass native element props directly to the component, including
-when `Button` renders a link or a custom component:
+when `Button` renders a link or a custom component.
+The same applies to props based on `ButtonProps`, such as `MenuTriggerProps`, `AlertActionProps`,
+`ActionsPanelItem.button.props`, and `Dialog.Footer` button props.
 
 ```diff
 - <Button extraProps={{title: 'Save', onClick: handleSave}}>Save</Button>

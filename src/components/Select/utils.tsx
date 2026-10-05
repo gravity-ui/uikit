@@ -11,18 +11,45 @@ import {
     SIZE_TO_ITEM_HEIGHT,
 } from './constants';
 import type {Option, OptionGroup} from './tech-components';
-import type {
-    SelectOption,
-    SelectOptionGroup,
-    SelectOptions,
-    SelectProps,
-    SelectSize,
-} from './types';
+import type {SelectOption, SelectOptionGroup, SelectProps, SelectSize} from './types';
 
 // "disable" property needs to deactivate group title item in List
 export type GroupTitleItem<T = any> = {label: string; disabled: true; data?: T};
 
-export type FlattenOption = SelectOption | GroupTitleItem;
+/** An option inside the Select: the type of its value stays with the consumer */
+export type AnySelectOption<T = any> = SelectOption<T, unknown>;
+type AnySelectOptionGroup = SelectOptionGroup<unknown, unknown>;
+export type AnySelectOptions = (AnySelectOption | AnySelectOptionGroup)[];
+
+/** The getters of the props as the internals call them — with an option of any value */
+export type AnySelectProps = SelectProps<any, any>;
+
+export type FlattenOption = AnySelectOption | GroupTitleItem;
+
+/** The string a value is known by: see `getValueKey` */
+export type SelectValueKeyGetter = (value: unknown) => string;
+
+/** The key of a value: the one the consumer defines, otherwise the value as a string */
+export const getSelectValueKey = (
+    value: unknown,
+    getValueKey?: AnySelectProps['getValueKey'],
+): string => {
+    if (getValueKey) {
+        return getValueKey(value);
+    }
+
+    if (typeof value === 'string') {
+        return value;
+    }
+
+    if (typeof value === 'object' && value !== null) {
+        warnOnce(
+            '[Select] An option has an object as its value. The Select knows a value by a string — pass `getValueKey` to give such values one, otherwise all of them are "[object Object]".',
+        );
+    }
+
+    return String(value);
+};
 
 /**
  * A group of the list: the header row plus its options — a section of the List core. The shape of
@@ -31,21 +58,21 @@ export type FlattenOption = SelectOption | GroupTitleItem;
  */
 export type SelectGroupNode<T = any> = GroupTitleItem<T> & {
     id: string;
-    options: SelectOption<T>[];
+    options: AnySelectOption<T>[];
 };
 
 /** A row of the list as the List core sees it: an option or a section */
-export type SelectListNode<T = any> = SelectOption<T> | SelectGroupNode<T>;
+export type SelectListNode<T = any> = AnySelectOption<T> | SelectGroupNode<T>;
 
 /** The mark of the row the Select adds itself: a value is not enough, a consumer may use any */
 const LOADING_ROW = Symbol('select-loading-row');
 
-/** The row of the loader: it takes a value of its own where the rows are built */
-const LOADING_OPTION = {disabled: true, [LOADING_ROW]: true} as unknown as SelectOption;
+/** The row of the loader: it takes an id of its own where the rows are built */
+const LOADING_OPTION = {disabled: true} as AnySelectOption;
 
 /** The row of the loader — ours, never an option of the consumer */
 export const isSelectLoadingNode = (node: SelectListNode | FlattenOption): boolean => {
-    return Boolean((node as {[LOADING_ROW]?: boolean})[LOADING_ROW]);
+    return LOADING_ROW in node;
 };
 
 export type FlattenOptions = FlattenOption[] & {
@@ -56,7 +83,7 @@ export type FlattenOptions = FlattenOption[] & {
          * that follows one is not a member of it — so membership is written down while it is still
          * known, and filtering keeps it: the options are the same objects
          */
-        groupOfOption?: Map<SelectOption, GroupTitleItem>;
+        groupOfOption?: Map<AnySelectOption, GroupTitleItem>;
         /** The groups that had options of their own: only such a group can be left empty by a filter */
         groupsWithOptions?: Set<GroupTitleItem>;
     };
@@ -64,26 +91,26 @@ export type FlattenOptions = FlattenOption[] & {
 
 /** The groups of the options, as far as the flatten array knows them */
 export const getGroupOfOption = (
-    options: SelectOptions | FlattenOption[],
-): Map<SelectOption, GroupTitleItem> | undefined => {
+    options: AnySelectOptions | FlattenOption[],
+): Map<AnySelectOption, GroupTitleItem> | undefined => {
     return (options as Partial<FlattenOptions>)[FLATTEN_KEY]?.groupOfOption;
 };
 
 /** The groups that came with options of their own */
 export const getGroupsWithOptions = (
-    options: SelectOptions | FlattenOption[],
+    options: AnySelectOptions | FlattenOption[],
 ): Set<GroupTitleItem> | undefined => {
     return (options as Partial<FlattenOptions>)[FLATTEN_KEY]?.groupsWithOptions;
 };
 
 export const isSelectGroupTitle = (
-    option?: SelectOption | SelectOptionGroup,
+    option?: AnySelectOption | AnySelectOptionGroup,
 ): option is GroupTitleItem => {
     return Boolean(option && 'label' in option);
 };
 
-export const getFlattenOptions = (options: SelectOptions): FlattenOptions => {
-    const groupOfOption = new Map<SelectOption, GroupTitleItem>();
+export const getFlattenOptions = (options: AnySelectOptions): FlattenOptions => {
+    const groupOfOption = new Map<AnySelectOption, GroupTitleItem>();
     const groupsWithOptions = new Set<GroupTitleItem>();
     const flatten = options.reduce<FlattenOption[]>((acc, option) => {
         if ('label' in option) {
@@ -118,10 +145,11 @@ const asText = (content: React.ReactNode): string | undefined => {
 
 /**
  * The default text of an option: its content when that is a string or a number, otherwise its
- * value. Call it from a `getOptionText` of your own to fall back to the default for the rest of
- * the options
+ * value — as it is for a string, through `String()` for another primitive. An object value has no
+ * text of its own. Call it from a `getOptionText` of your own to fall back to the default for the
+ * rest of the options
  */
-export const getSelectOptionText = (option: SelectOption): string => {
+export const getSelectOptionText = <V,>(option: SelectOption<unknown, V>): string => {
     const text = asText(option.content) ?? asText(option.children);
 
     if (text !== undefined) {
@@ -134,13 +162,26 @@ export const getSelectOptionText = (option: SelectOption): string => {
         );
     }
 
-    return option.value;
+    const {value} = option;
+
+    if (typeof value === 'string') {
+        return value;
+    }
+
+    if (typeof value === 'object' && value !== null) {
+        warnOnce(
+            '[Select] An option whose value is an object has no text by default. Pass `getOptionText` to give such options a text, or give them a string `content`.',
+        );
+        return '';
+    }
+
+    return String(value);
 };
 
 /** The text of an option: the one the consumer defines, otherwise the default */
 export const resolveOptionText = (
-    option: SelectOption,
-    getOptionText?: SelectProps['getOptionText'],
+    option: AnySelectOption,
+    getOptionText?: AnySelectProps['getOptionText'],
 ): string => {
     return getOptionText ? getOptionText(option) : getSelectOptionText(option);
 };
@@ -149,17 +190,53 @@ export const isSelectGroupNode = (node: SelectListNode): node is SelectGroupNode
     return 'label' in node;
 };
 
+/** The id of a row: a section and the loader have their own, an option is known by its value */
+export const getSelectListNodeId = (node: SelectListNode, getKey: SelectValueKeyGetter): string => {
+    if (isSelectGroupNode(node)) {
+        return node.id;
+    }
+
+    const loadingId = (node as {[LOADING_ROW]?: string})[LOADING_ROW];
+
+    return loadingId ?? getKey(node.value);
+};
+
+/** The way back from a key to a value: the options and the selected values, with or without one */
+export const getValueByKey = (
+    options: FlattenOption[],
+    value: unknown[],
+    getKey: SelectValueKeyGetter,
+): Map<string, unknown> => {
+    const map = new Map<string, unknown>();
+
+    for (const option of options) {
+        if (!isSelectGroupTitle(option)) {
+            map.set(getKey(option.value), option.value);
+        }
+    }
+
+    // A selected value stays the very object the consumer gave
+    for (const item of value) {
+        map.set(getKey(item), item);
+    }
+
+    return map;
+};
+
 const SECTION_ID_PREFIX = '__group_';
 
 /**
  * A prefix no value of an option starts with: the id of a section shares the space of ids with the
  * values, and a collision would cost the list a row
  */
-const getSectionIdPrefix = (flattenOptions: FlattenOption[]): string => {
-    const startsWithPrefix = (prefix: string) =>
-        flattenOptions.some(
-            (option) => !isSelectGroupTitle(option) && option.value.startsWith(prefix),
-        );
+const getSectionIdPrefix = (
+    flattenOptions: FlattenOption[],
+    getKey: SelectValueKeyGetter,
+): string => {
+    const keys = flattenOptions.flatMap((option) =>
+        isSelectGroupTitle(option) ? [] : [getKey(option.value)],
+    );
+    const startsWithPrefix = (prefix: string) => keys.some((key) => key.startsWith(prefix));
 
     let prefix = SECTION_ID_PREFIX;
 
@@ -180,15 +257,16 @@ const getSectionIdPrefix = (flattenOptions: FlattenOption[]): string => {
  */
 export const buildSelectListNodes = (
     flattenOptions: FlattenOption[],
+    getKey: SelectValueKeyGetter,
     loading?: boolean,
-    groupOfOption?: Map<SelectOption, GroupTitleItem>,
+    groupOfOption?: Map<AnySelectOption, GroupTitleItem>,
     groupsWithOptions?: Set<GroupTitleItem>,
 ): SelectListNode[] => {
     const nodes: SelectListNode[] = [];
     const sectionOfTitle = new Map<GroupTitleItem, SelectGroupNode>();
     // The section is a copy of the title, so the way back has to be written down
     const titleOfSection = new Map<SelectGroupNode, GroupTitleItem>();
-    const prefix = getSectionIdPrefix(flattenOptions);
+    const prefix = getSectionIdPrefix(flattenOptions, getKey);
 
     flattenOptions.forEach((option, index) => {
         if (isSelectGroupTitle(option)) {
@@ -210,7 +288,7 @@ export const buildSelectListNodes = (
     });
 
     if (loading) {
-        nodes.push({...LOADING_OPTION, value: `${prefix}loading`});
+        nodes.push({...LOADING_OPTION, [LOADING_ROW]: `${prefix}loading`} as AnySelectOption);
     }
 
     // A section whose options the filter took away has nothing left to head. A group that came
@@ -229,7 +307,7 @@ export const buildSelectListNodes = (
 
 export const getSelectListNodeText = (
     node: SelectListNode,
-    getOptionText?: SelectProps['getOptionText'],
+    getOptionText?: AnySelectProps['getOptionText'],
 ): string => {
     if (isSelectGroupNode(node)) {
         return node.label;
@@ -254,8 +332,8 @@ export const getItemViewSize = (size: SelectSize, mobile: boolean): SelectSize =
  * (and a row can never be shorter than the minimum of its size)
  */
 export const getPopupItemHeight = (args: {
-    getOptionHeight?: SelectProps['getOptionHeight'];
-    getOptionGroupHeight?: SelectProps['getOptionGroupHeight'];
+    getOptionHeight?: AnySelectProps['getOptionHeight'];
+    getOptionGroupHeight?: AnySelectProps['getOptionGroupHeight'];
     size: SelectSize;
     option: FlattenOption;
     index: number;
@@ -287,10 +365,11 @@ export const getPopupItemHeight = (args: {
 };
 
 export const getSelectedOptionsContent = (
-    options: SelectOptions,
-    value: string[],
-    renderSelectedOption?: SelectProps['renderSelectedOption'],
-    getOptionText?: SelectProps['getOptionText'],
+    options: AnySelectOptions,
+    value: unknown[],
+    getKey: SelectValueKeyGetter,
+    renderSelectedOption?: AnySelectProps['renderSelectedOption'],
+    getOptionText?: AnySelectProps['getOptionText'],
 ): React.ReactNode => {
     if (value.length === 0) {
         return null;
@@ -298,50 +377,52 @@ export const getSelectedOptionsContent = (
 
     const flattenSimpleOptions = options.filter(
         (opt) => !isSelectGroupTitle(opt),
-    ) as SelectOption[];
+    ) as AnySelectOption[];
 
-    const optionsMap = new Map<string, SelectOption>(
-        flattenSimpleOptions.map((opt) => [opt.value, opt]),
+    const optionsMap = new Map<string, AnySelectOption>(
+        flattenSimpleOptions.map((opt) => [getKey(opt.value), opt]),
     );
 
     if (renderSelectedOption) {
         return value.map((val, index) => {
-            const option = optionsMap.get(val) ?? {value: val};
-            return <React.Fragment key={val}>{renderSelectedOption(option, index)}</React.Fragment>;
+            const key = getKey(val);
+            const option = optionsMap.get(key) ?? {value: val};
+            return <React.Fragment key={key}>{renderSelectedOption(option, index)}</React.Fragment>;
         });
     }
 
     return value
         .map((val) => {
-            const option = optionsMap.get(val);
+            const key = getKey(val);
+            const option = optionsMap.get(key);
 
             // A value the options do not hold yet — they are still loading, say — is not an option:
             // the getter of the consumer is written for its own options and would not survive one
-            return option ? resolveOptionText(option, getOptionText) : val;
+            return option ? resolveOptionText(option, getOptionText) : key;
         })
         .join(', ');
 };
 
-const getTypedChildrenArray = (children: SelectProps['children']) => {
+const getTypedChildrenArray = (children: AnySelectProps['children']) => {
     return React.Children.toArray(children) as (
-        | React.ReactElement<SelectOption, typeof Option>
-        | React.ReactElement<SelectOptionGroup, typeof OptionGroup>
+        | React.ReactElement<AnySelectOption, typeof Option>
+        | React.ReactElement<AnySelectOptionGroup, typeof OptionGroup>
     )[];
 };
 
-const getOptionsFromOptgroupChildren = (children: SelectOptionGroup['children']) => {
+const getOptionsFromOptgroupChildren = (children: AnySelectOptionGroup['children']) => {
     return (
-        React.Children.toArray(children) as React.ReactElement<SelectOption, typeof Option>[]
+        React.Children.toArray(children) as React.ReactElement<AnySelectOption, typeof Option>[]
     ).reduce((acc, {props}) => {
         if ('value' in props) {
             acc.push(props);
         }
 
         return acc;
-    }, [] as SelectOption[]);
+    }, [] as AnySelectOption[]);
 };
 
-export const getOptionsFromChildren = (children: SelectProps['children']) => {
+export const getOptionsFromChildren = (children: AnySelectProps['children']) => {
     return getTypedChildrenArray(children).reduce(
         (acc, {props}) => {
             if ('label' in props) {
@@ -358,14 +439,14 @@ export const getOptionsFromChildren = (children: SelectProps['children']) => {
 
             return acc;
         },
-        [] as (SelectOption | SelectOptionGroup)[],
+        [] as (AnySelectOption | AnySelectOptionGroup)[],
     );
 };
 
 const isOptionMatchedByFilter = (
-    option: SelectOption,
+    option: AnySelectOption,
     filter: string,
-    getOptionText?: SelectProps['getOptionText'],
+    getOptionText?: AnySelectProps['getOptionText'],
 ) => {
     const lowerOptionText = resolveOptionText(option, getOptionText).toLocaleLowerCase();
     const lowerFilter = filter.toLocaleLowerCase();
@@ -376,8 +457,8 @@ const isOptionMatchedByFilter = (
 export const getFilteredFlattenOptions = (args: {
     options: FlattenOption[];
     filter: string;
-    filterOption?: SelectProps['filterOption'];
-    getOptionText?: SelectProps['getOptionText'];
+    filterOption?: AnySelectProps['filterOption'];
+    getOptionText?: AnySelectProps['getOptionText'];
 }) => {
     const {options, filter, filterOption, getOptionText} = args;
     const filteredOptions = options.filter((option) => {

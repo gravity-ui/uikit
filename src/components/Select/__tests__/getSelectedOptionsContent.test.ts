@@ -7,24 +7,26 @@ const options = [
 
 const presenceValue = ['val1'];
 const notPresenceValue = ['val3'];
+const getKey = (value: unknown) => String(value);
 
 describe('getSelectedOptionsContent', () => {
     describe('default appearance', () => {
         test('option presence. Should return content', async () => {
-            const result = getSelectedOptionsContent(options, presenceValue);
+            const result = getSelectedOptionsContent(options, presenceValue, getKey);
 
             expect(result).toEqual('content1');
         });
         test('option NOT presence. Should return value', async () => {
-            const result = getSelectedOptionsContent(options, notPresenceValue);
+            const result = getSelectedOptionsContent(options, notPresenceValue, getKey);
 
             expect(result).toEqual('val3');
         });
         test('some of option NOT presence. Should return value', async () => {
-            const result = getSelectedOptionsContent(options, [
-                ...presenceValue,
-                ...notPresenceValue,
-            ]);
+            const result = getSelectedOptionsContent(
+                options,
+                [...presenceValue, ...notPresenceValue],
+                getKey,
+            );
 
             expect(result).toEqual('content1, val3');
         });
@@ -37,14 +39,14 @@ describe('getSelectedOptionsContent', () => {
 
         test('option presence. Should be called with option', async () => {
             renderSelectedOption.mockClear();
-            getSelectedOptionsContent(options, presenceValue, renderSelectedOption);
+            getSelectedOptionsContent(options, presenceValue, getKey, renderSelectedOption);
 
             expect(renderSelectedOption).toBeCalledTimes(1);
             expect(renderSelectedOption).toBeCalledWith(options[0], 0);
         });
         test('option NOT presence. Should be called with generated object', async () => {
             renderSelectedOption.mockClear();
-            getSelectedOptionsContent(options, notPresenceValue, renderSelectedOption);
+            getSelectedOptionsContent(options, notPresenceValue, getKey, renderSelectedOption);
 
             expect(renderSelectedOption).toBeCalledTimes(1);
             expect(renderSelectedOption).toBeCalledWith({value: notPresenceValue[0]}, 0);

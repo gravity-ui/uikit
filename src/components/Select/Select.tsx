@@ -27,23 +27,29 @@ import {VIRTUALIZATION_HINT_OPTIONS_COUNT, selectBlock} from './constants';
 import {useActiveItemId} from './hooks';
 import {getSelectFilteredOptions, useSelectOptions} from './hooks-public';
 import {Option, OptionGroup} from './tech-components';
-import type {SelectOption, SelectProps, SelectRenderPopup} from './types';
+import type {SelectProps, SelectRenderPopup} from './types';
 import type {SelectFilterRef} from './types-misc';
-import type {FlattenOption} from './utils';
+import type {AnySelectOption, FlattenOption} from './utils';
 import {
     getGroupOfOption,
     getGroupsWithOptions,
     getOptionsFromChildren,
+    getSelectValueKey,
     getSelectedOptionsContent,
+    getValueByKey,
     isSelectGroupTitle,
 } from './utils';
 
 import './Select.scss';
 
 //https://stackoverflow.com/a/58473012
-type SelectComponent = (<T = any>(
-    p: SelectProps<T> & {ref?: React.Ref<HTMLButtonElement>},
-) => React.ReactElement) & {Option: typeof Option} & {OptionGroup: typeof OptionGroup};
+// The last, non-generic signature is the one `React.ComponentProps` reads: it keeps the string value
+type SelectComponent = {
+    <T = any, V = string>(
+        p: SelectProps<T, V> & {ref?: React.Ref<HTMLButtonElement>},
+    ): React.ReactElement;
+    (p: SelectProps & {ref?: React.Ref<HTMLButtonElement>}): React.ReactElement;
+} & {Option: typeof Option} & {OptionGroup: typeof OptionGroup};
 
 export const DEFAULT_RENDER_POPUP: SelectRenderPopup = ({renderFilter, renderList}) => {
     return (
@@ -54,8 +60,11 @@ export const DEFAULT_RENDER_POPUP: SelectRenderPopup = ({renderFilter, renderLis
     );
 };
 
-export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function Select<T = any>(
-    rawProps: SelectProps<T>,
+// Inside, a value is only ever compared by its key: the type of it stays with the consumer
+type InnerSelectProps = SelectProps<any, unknown>;
+
+export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(function Select(
+    rawProps: InnerSelectProps,
     ref: React.Ref<HTMLButtonElement>,
 ) {
     const props = useDefaultProps('Select', rawProps);
@@ -71,6 +80,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         renderEmptyOptions,
         renderPopup = DEFAULT_RENDER_POPUP,
         getOptionText,
+        getValueKey,
         getOptionHeight,
         getOptionGroupHeight,
         filterOption,
@@ -125,6 +135,11 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const virtualized = React.useContext(ListVirtualizationContext) !== null;
 
     const [value, setValueState] = useControlledState(propsValue, defaultValue, onUpdate);
+    const getKey = React.useCallback(
+        (item: unknown) => getSelectValueKey(item, getValueKey),
+        [getValueKey],
+    );
+    const selectedKeys = React.useMemo(() => value.map(getKey), [value, getKey]);
     const {open, toggleOpen} = useOpenState({
         defaultOpen,
         onClose,
@@ -133,7 +148,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     });
 
     const setValue = React.useCallback(
-        (nextValue: string[]) => {
+        (nextValue: unknown[]) => {
             if (!disabled) {
                 setValueState(nextValue);
             }
@@ -164,13 +179,29 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const groupOfOption = getGroupOfOption(options);
     const groupsWithOptions = getGroupsWithOptions(options);
     const selectedOptionsContent = React.useMemo(() => {
-        return getSelectedOptionsContent(options, value, renderSelectedOption, getOptionText);
-    }, [options, value, renderSelectedOption, getOptionText]);
+        return getSelectedOptionsContent(
+            options,
+            value,
+            getKey,
+            renderSelectedOption,
+            getOptionText,
+        );
+    }, [options, value, getKey, renderSelectedOption, getOptionText]);
 
-    // A value identifies the row of an option, and the list keeps one row per id. Two options with
-    // one value were never two choices — clicking either applied the same value — but the message
-    // about it should come from the component the consumer is holding
-    const duplicateValue = React.useMemo(() => {
+    // The way back from the ids of the List: a selected value may have no option
+    const valueByKey = React.useMemo(
+        () => getValueByKey(options as FlattenOption[], value, getKey),
+        [options, value, getKey],
+    );
+    const handleSelectedUpdate = React.useCallback(
+        (keys: string[]) => setValue(keys.map((key) => valueByKey.get(key))),
+        [setValue, valueByKey],
+    );
+
+    // The key of a value identifies the row of an option, and the list keeps one row per id. Two
+    // options with one key were never two choices — clicking either applied the same value — but the
+    // message about it should come from the component the consumer is holding
+    const duplicateKey = React.useMemo(() => {
         if (process.env.NODE_ENV === 'production') {
             return undefined;
         }
@@ -182,19 +213,21 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 continue;
             }
 
-            if (seen.has(option.value)) {
-                return option.value;
+            const key = getKey(option.value);
+
+            if (seen.has(key)) {
+                return key;
             }
 
-            seen.add(option.value);
+            seen.add(key);
         }
 
         return undefined;
-    }, [options]);
+    }, [options, getKey]);
 
-    if (duplicateValue !== undefined) {
+    if (duplicateKey !== undefined) {
         warnOnce(
-            `[Select] More than one option has the value "${duplicateValue}". The value identifies the row of an option: such rows share one DOM id and all of them show the content of the last option — make the values unique.`,
+            `[Select] More than one option has the value "${duplicateKey}". The value identifies the row of an option: such rows share one DOM id and all of them show the content of the last option — make the values unique (or their \`getValueKey\`).`,
         );
     }
 
@@ -233,27 +266,30 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     // A click and Enter change the selection through the List; a Space on the trigger is the gesture
     // of the Select — the core leaves it to the owner of an active descendant
     const handleOptionSpace = React.useCallback(
-        (option?: SelectOption) => {
+        (option?: AnySelectOption) => {
             if (!option || option.disabled) {
                 return;
             }
 
+            const key = getKey(option.value);
+            const selected = selectedKeys.includes(key);
+
             if (multiple) {
                 setValue(
-                    value.includes(option.value)
-                        ? value.filter((item) => item !== option.value)
+                    selected
+                        ? value.filter((_item, index) => selectedKeys[index] !== key)
                         : [...value, option.value],
                 );
                 return;
             }
 
-            if (!value.includes(option.value)) {
+            if (!selected) {
                 setValue([option.value]);
             }
 
             toggleOpen(false);
         },
-        [multiple, setValue, toggleOpen, value],
+        [getKey, multiple, selectedKeys, setValue, toggleOpen, value],
     );
 
     const handleOptionAction = React.useCallback(() => {
@@ -295,21 +331,22 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         options: filteredOptions,
         open,
         value,
+        getKey,
     });
 
-    const optionByValue = React.useMemo(() => {
-        const map = new Map<string, SelectOption>();
+    const optionByKey = React.useMemo(() => {
+        const map = new Map<string, AnySelectOption>();
 
         for (const option of filteredOptions) {
             if (!isSelectGroupTitle(option)) {
-                map.set(option.value, option);
+                map.set(getKey(option.value), option);
             }
         }
 
         return map;
-    }, [filteredOptions]);
+    }, [filteredOptions, getKey]);
 
-    const activeOption = activeItemId === undefined ? undefined : optionByValue.get(activeItemId);
+    const activeOption = activeItemId === undefined ? undefined : optionByKey.get(activeItemId);
 
     const handleActiveItemUpdate = React.useCallback(
         (id: string | null) => {
@@ -375,14 +412,15 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             return (
                 <SelectList
                     size={size}
-                    value={value}
+                    selectedKeys={selectedKeys}
+                    getKey={getKey}
                     mobile={mobile}
                     flattenOptions={filteredOptions}
                     groupOfOption={groupOfOption}
                     groupsWithOptions={groupsWithOptions}
                     multiple={multiple}
                     virtualized={virtualized}
-                    onSelectedUpdate={setValue}
+                    onSelectedUpdate={handleSelectedUpdate}
                     onOptionAction={handleOptionAction}
                     renderOption={renderOption}
                     renderOptionGroup={renderOptionGroup}
@@ -477,6 +515,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             <HiddenSelect
                 name={name}
                 value={value}
+                getKey={getKey}
                 disabled={disabled}
                 form={form}
                 onReset={setValue}

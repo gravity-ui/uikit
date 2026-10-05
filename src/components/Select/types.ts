@@ -37,12 +37,12 @@ export type SelectRenderControlProps<T extends HTMLElement = HTMLElement> = {
     triggerProps: SelectRenderTriggerProps;
 };
 
-export type SelectRenderControlOptions = {
-    value: SelectProps['value'];
+export type SelectRenderControlOptions<V = string> = {
+    value: SelectProps<any, V>['value'];
 };
-export type SelectRenderControl<T extends HTMLElement = HTMLElement> = (
+export type SelectRenderControl<T extends HTMLElement = HTMLElement, V = string> = (
     props: SelectRenderControlProps<T>,
-    options: SelectRenderControlOptions,
+    options: SelectRenderControlOptions<V>,
 ) => React.ReactElement;
 
 export type SelectRenderOptionViewParams = {
@@ -50,8 +50,8 @@ export type SelectRenderOptionViewParams = {
     isItemActive: boolean;
 };
 
-export type SelectRenderOption<T> = (
-    option: SelectOption<T>,
+export type SelectRenderOption<T, V = string> = (
+    option: SelectOption<T, V>,
     options: SelectRenderOptionViewParams,
 ) => React.ReactElement;
 
@@ -101,15 +101,15 @@ export type SelectRenderCounter = (
     counterProps: SelectCounterProps,
 ) => React.ReactNode;
 
-export type SelectProps<T = any> = AriaLabelingProps &
+export type SelectProps<T = any, V = string> = AriaLabelingProps &
     QAProps &
     UseOpenProps & {
-        onUpdate?: (value: string[]) => void;
-        renderControl?: SelectRenderControl;
+        onUpdate?: (value: V[]) => void;
+        renderControl?: SelectRenderControl<HTMLElement, V>;
         renderFilter?: SelectRenderFilter;
-        renderOption?: SelectRenderOption<T>;
+        renderOption?: SelectRenderOption<T, V>;
         renderOptionGroup?: SelectRenderOptionGroup<T>;
-        renderSelectedOption?: (option: SelectOption<T>, index: number) => React.ReactElement;
+        renderSelectedOption?: (option: SelectOption<T, V>, index: number) => React.ReactElement;
         renderEmptyOptions?: ({filter}: {filter: string}) => React.ReactElement;
         renderPopup?: SelectRenderPopup;
         renderCounter?: SelectRenderCounter;
@@ -119,10 +119,16 @@ export type SelectProps<T = any> = AriaLabelingProps &
          * when that is a string or a number, otherwise to its value — `getSelectOptionText` is
          * that default
          */
-        getOptionText?: (option: SelectOption<T>) => string;
-        getOptionHeight?: (option: SelectOption<T>, index: number) => number;
-        getOptionGroupHeight?: (option: SelectOptionGroup<T>, index: number) => number;
-        filterOption?: (option: SelectOption<T>, filter: string) => boolean;
+        getOptionText?: (option: SelectOption<T, V>) => string;
+        /**
+         * The string a value is known by: the id of its row, the value of the hidden form field,
+         * the equality of two values. Defaults to the value itself for a string and to `String()`
+         * for another primitive; an object value needs it
+         */
+        getValueKey?: (value: V) => string;
+        getOptionHeight?: (option: SelectOption<T, V>, index: number) => number;
+        getOptionGroupHeight?: (option: SelectOptionGroup<T, V>, index: number) => number;
+        filterOption?: (option: SelectOption<T, V>, filter: string) => boolean;
         view?: InputControlView;
         size?: SelectSize;
         pin?: InputControlPin;
@@ -136,9 +142,9 @@ export type SelectProps<T = any> = AriaLabelingProps &
         label?: string;
         placeholder?: React.ReactNode;
         filterPlaceholder?: string;
-        value?: string[];
-        defaultValue?: string[];
-        options?: (SelectOption<T> | SelectOptionGroup<T>)[];
+        value?: V[];
+        defaultValue?: V[];
+        options?: (SelectOption<T, V> | SelectOptionGroup<T, V>)[];
         /**
          * @deprecated Prop `error` has a lower priority than `errorMessage`. Use `errorMessage` instead
          */
@@ -160,10 +166,10 @@ export type SelectProps<T = any> = AriaLabelingProps &
         loading?: boolean;
         onLoadMore?: () => void;
         children?:
-            | React.ReactElement<SelectOption<T>, typeof Option>
-            | React.ReactElement<SelectOption<T>, typeof Option>[]
-            | React.ReactElement<SelectOptionGroup<T>, typeof OptionGroup>
-            | React.ReactElement<SelectOptionGroup<T>, typeof OptionGroup>[];
+            | React.ReactElement<SelectOption<T, V>, typeof Option>
+            | React.ReactElement<SelectOption<T, V>, typeof Option>[]
+            | React.ReactElement<SelectOptionGroup<T, V>, typeof OptionGroup>
+            | React.ReactElement<SelectOptionGroup<T, V>, typeof OptionGroup>[];
         id?: string;
         /**Shows selected options count if multiple selection is avalable */
         hasCounter?: boolean;
@@ -173,12 +179,13 @@ export type SelectProps<T = any> = AriaLabelingProps &
         disabled?: boolean;
     };
 
-export type SelectOption<T = any> = QAProps &
-    ControlGroupOption & {
+export type SelectOption<T = any, V = string> = QAProps &
+    Omit<ControlGroupOption, 'value'> & {
+        value: V;
         data?: T;
     };
 
-export type SelectOptionGroup<T = any> = {
+export type SelectOptionGroup<T = any, V = string> = {
     /**
      * Label is a string which displayed above the options group.
      * An empty label makes the group a separator: a line between the options instead of a header
@@ -186,10 +193,10 @@ export type SelectOptionGroup<T = any> = {
      */
     label: string;
     data?: T;
-    options?: SelectOption<T>[];
+    options?: SelectOption<T, V>[];
     children?:
-        | React.ReactElement<SelectOption, typeof Option>
-        | React.ReactElement<SelectOption, typeof Option>[];
+        | React.ReactElement<SelectOption<any, V>, typeof Option>
+        | React.ReactElement<SelectOption<any, V>, typeof Option>[];
 };
 
 type SelectClearIconProps = {
@@ -218,4 +225,4 @@ export type SelectCounterProps = {
     disabled?: boolean;
 };
 
-export type SelectOptions<T = any> = NonNullable<SelectProps<T>['options']>;
+export type SelectOptions<T = any, V = string> = NonNullable<SelectProps<T, V>['options']>;

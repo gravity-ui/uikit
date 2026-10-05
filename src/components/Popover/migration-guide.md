@@ -1,6 +1,6 @@
 # Migration from legacy Popover
 
-The legacy `Popover` (`@gravity-ui/uikit/legacy`) is a fully-styled tooltip/popover: it renders its own title, content, links, action/cancel buttons, close button and colored themes.
+The legacy `Popover` (available from `@gravity-ui/uikit/legacy` in v7, removed in v8) was a fully-styled tooltip/popover: it rendered its own title, content, links, action/cancel buttons, close button and colored themes.
 
 The new `Popover` (`@gravity-ui/uikit`) is a thin, headless wrapper around [`Popup`](../Popup/README.md) — it only handles trigger interactivity (hover/click, delays, dismiss, focus) and renders whatever `content` you pass it, without any built-in title/buttons/theme styling.
 
@@ -71,13 +71,13 @@ Render `<Alert theme="clear" ... />` as `content`. `Popup` already supplies the 
 | `hasClose` + `onCloseClick`                                          | `onClose` — passing it automatically renders `Alert`'s own close button, no separate boolean needed                                                                                                                                                |
 | `size` (`'s'` \| `'l'`)                                              | `size` (`'s'` \| `'m'` \| `'l'`) — `'s'` → `'s'`, `'l'` → `'l'` is closest, but check padding: `--g-popover-padding`/`--g-popover-max-width` have no `Alert` equivalent, use `--g-alert-padding` or your own `style`/`className` for custom sizing |
 
-When a legacy tooltip had both a `title` and a `theme` other than `"announcement"`, its content was dimmed to a secondary color (`src/components/legacy/Popover/components/Content/Content.tsx`: `secondary={hasTitle ? theme !== 'announcement' : false}`, applied via `opacity: 0.7`). `Alert` doesn't dim `message` based on `title`/`theme` on its own, so wrap `message` in [`Text`](../Text/README.md) with `color="secondary"` yourself when that condition holds:
+When a legacy tooltip had both a `title` and a `theme` other than `"announcement"`, its content was dimmed to a secondary color (using reduced opacity). `Alert` doesn't dim `message` based on `title`/`theme` on its own, so wrap `message` in [`Text`](../Text/README.md) with `color="secondary"` yourself when that condition holds:
 
 ```tsx
 <Alert theme="clear" title="Title" message={<Text color="secondary">Some text</Text>} />
 ```
 
-`Alert`'s `actions` prop also accepts a plain `AlertAction[]` array of `{text, handler}` descriptors, which is simpler — but `AlertActions` only reads `text`/`handler` off each item, so there's no way to set a per-button `view` through that form. Legacy gave the action/cancel buttons a `view` that depended on `theme` (`src/components/legacy/Popover/components/Buttons/helpers/getButtonView.ts`), so reproducing the original look needs the `<Alert.Actions>`/`<Alert.Action view="...">` form with an explicit `view` per your legacy `theme`:
+`Alert`'s `actions` prop also accepts a plain `AlertAction[]` array of `{text, handler}` descriptors, which is simpler — but `AlertActions` only reads `text`/`handler` off each item, so there's no way to set a per-button `view` through that form. Legacy gave the action/cancel buttons a `view` that depended on `theme`, so reproducing the original look needs the `<Alert.Actions>`/`<Alert.Action view="...">` form with an explicit `view` per your legacy `theme`:
 
 | Legacy `theme`   | Action button `view` | Cancel button `view` |
 | ---------------- | -------------------- | -------------------- |
@@ -103,7 +103,7 @@ Legacy `theme`: `'info'` \| `'special'` \| `'announcement'`. `Alert` `theme`: `'
   >
   ```
 
-  `--g-popup-background-color`/`--g-popup-border-color` are read by `Popup` itself (`src/components/Popup/Popup.scss`), the same way legacy's `.popover-legacy__tooltip_theme_special` set them on the tooltip root (`src/components/legacy/Popover/Popover.scss`) — setting them on `Alert` instead would only paint its own content box, not the actual `Popup` surface/border behind it. The text `color` override still belongs on the content (`Alert`/`Text`), since it's about the readability of what's drawn on top of that surface, not the surface itself — `--g-color-text-brand-contrast` (a real design token) is a safer choice than a hardcoded light color, since it already resolves to whichever of light/dark text reads better against `--g-color-base-brand` per theme. Action/cancel buttons still use the `normal-contrast`/`flat-contrast` views from the [button-view table above](#content-props--alert), which are already designed to read on a colored background.
+  `--g-popup-background-color`/`--g-popup-border-color` are read by `Popup` itself (`src/components/Popup/Popup.scss`). Setting them on `Alert` instead would only paint its own content box, not the actual `Popup` surface/border behind it. The text `color` override still belongs on the content (`Alert`/`Text`), since it's about the readability of what's drawn on top of that surface, not the surface itself — `--g-color-text-brand-contrast` (a real design token) is a safer choice than a hardcoded light color, since it already resolves to whichever of light/dark text reads better against `--g-color-base-brand` per theme. Action/cancel buttons still use the `normal-contrast`/`flat-contrast` views from the [button-view table above](#content-props--alert), which are already designed to read on a colored background.
 
 - `theme="announcement"` (dark solid surface with contrast buttons) has **no exact `Alert` equivalent** — none of `Alert`'s filled themes are that dark/neutral color. Either accept the closest palette-wise `Alert` theme (`normal`), or apply the same `Popover`-level `style` approach as `special` above using `var(--g-color-base-simple-hover-solid)` (the variable legacy used for this theme's `--g-popup-background-color`/`--g-popup-border-color`).
 

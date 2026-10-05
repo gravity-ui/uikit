@@ -10,6 +10,65 @@
 Компоненты, которые больше не развиваются, переезжают в точку входа `@gravity-ui/uikit/legacy`. У компонентов,
 оставшихся в `/legacy`, API сохраняется, но дата удаления этой точки входа не обещается: запланируйте уход с них.
 
+## Menu и DropdownMenu
+
+`Menu` и `DropdownMenu` из корневой точки входа переехали в `@gravity-ui/uikit/legacy`. Чтобы сохранить прежнее
+поведение, поменяйте только импорты (включая `MenuProps`, `MenuItemProps`, `MenuGroupProps`, `DropdownMenuProps`,
+`DropdownMenuItem` и другие связанные типы):
+
+```diff
+- import {Menu, DropdownMenu} from '@gravity-ui/uikit';
++ import {Menu, DropdownMenu} from '@gravity-ui/uikit/legacy';
+```
+
+Семейство `unstable_Menu` стало стабильным и доступно из корневой точки входа. Уберите префикс `unstable_` у
+компонентов и типов:
+
+```diff
+- import {unstable_Menu as Menu, unstable_MenuItem as MenuItem} from '@gravity-ui/uikit/unstable';
++ import {Menu, MenuItem} from '@gravity-ui/uikit';
+```
+
+То же относится к `MenuTrigger`, `MenuDivider`, `MenuSize`, `MenuProps`, всем типам `MenuItem*` и
+`MenuTriggerProps`. Из `/unstable` эти имена больше не экспортируются.
+
+У нового `Menu` другой API: передавайте элементы как дочерние `MenuItem`, а триггер — через `trigger` (или используйте
+`inline`). Старые пропсы `Menu.Item`, `Menu.Group` и массив `DropdownMenu.items` доступны в `/legacy`. Примеры есть в
+[README нового Menu](../src/components/Menu/README.md). Новое меню использует CSS-классы `g-menu`, `g-menu-item` и
+`g-menu-divider` вместо прежних `g-lab-menu*`. Классы legacy-компонентов переименованы: `g-menu` → `g-menu-legacy`,
+`g-dropdown-menu` → `g-dropdown-menu-legacy`. Обновите свои селекторы, включая селекторы меню переполнения вкладок.
+В `DefaultPropsProvider` для старого меню используйте ключ `MenuLegacy`; ключ `DropdownMenu` не изменился.
+
+Как и для других импортов из `/legacy`, установите необязательные peer-зависимости: `@hello-pangea/dnd`,
+`react-window` и `react-virtualized-auto-sizer`.
+Legacy-компоненты `Menu`, `MenuItem`, `MenuGroup` и `DropdownMenu` помечены `@deprecated` в типах.
+
+### Меню переполнения ActionsPanel
+
+`ActionsPanel` теперь использует стабильный `Menu` для элементов переполнения и подменю. Переименуйте
+`ActionsPanelItem.dropdown` в `menu`. Поле `menu.item` принимает `MenuItemProps` вместо `DropdownMenuItem`:
+переименуйте `text` в `children`, а `action` в `onClick`.
+Вложенные массивы `items` замените компонентом `Menu`, переданным непосредственно в массив `children`:
+
+```tsx
+menu: {
+    item: {
+        children: [
+            'More',
+            <Menu key="submenu" size="s">
+                <MenuItem onClick={handleEdit}>Edit</MenuItem>
+            </Menu>,
+        ],
+    },
+}
+```
+
+Для явно типизированных пунктов используйте новый тип `MenuItemProps`. Замените `iconStart` на `icon`, `iconEnd` на
+`arrow` и передавайте стандартные пропсы элемента напрямую вместо `extraProps`. Скрытые пункты исключайте при
+формировании массива `actions`. Для собственных CSS и тестов замените
+селекторы `.g-dropdown-menu__*` и `li > div[role="menuitem"]` на селекторы новой разметки с `g-menu-item` и
+кнопкой/ссылкой. При прокрутке родительского элемента меню переполнения больше не закрывается автоматически.
+
 ## Breadcrumbs, Popover и Tabs удалены из `/legacy`
 
 Старые компоненты `Breadcrumbs`, `Popover` и `Tabs`, их типы и связанные экспорты больше не доступны из
@@ -55,8 +114,9 @@
 
 `Table`, его HOC (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`, `withTableSorting`) и
 `TableColumnSetup` переехали из корневой точки входа в `@gravity-ui/uikit/legacy`. Их API и разметка
-не изменились, CSS-блоки таблицы (`g-table`, `g-table-column-setup`, …) сохранили имена; поменялись только классы
-внутри попапа настроек колонок, см. ниже. Новые возможности таблиц появляются в
+не изменились, CSS-блоки таблицы (`g-table`, `g-table-column-setup`, …) сохранили имена. Меню действий строки теперь
+использует `g-menu-legacy` вместо `g-menu`; классы внутри попапа настроек колонок тоже изменились, см. ниже. Новые
+возможности таблиц появляются в
 [`@gravity-ui/table`](https://github.com/gravity-ui/table).
 
 ### Если мигрировать сейчас нельзя
@@ -79,8 +139,8 @@
   удалены. Попап выглядит так же; перепишите переопределения, нацеленные на эти классы.
 - **`@deprecated`.** `Table`, его HOC и `TableColumnSetup` помечены `@deprecated` в типах: линтеры с правилом
   `no-deprecated` начнут сообщать об их использовании.
-- **`DefaultPropsProvider` больше не принимает ключ `TableColumnSetup`.** Legacy-компоненты не читают пропсы по
-  умолчанию: передавайте их в `TableColumnSetup` явно.
+- **`DefaultPropsProvider` больше не принимает ключ `TableColumnSetup`.** Сам `TableColumnSetup` не читает пропсы
+  по умолчанию из провайдера: передавайте их компоненту явно.
 - **Переводы.** Имена кейсетов (`Table`, `withTableSettings`, `TableColumnSetupInner`, `TableColumnSetup`) не
   изменились, переопределения через `addComponentKeysets` продолжают работать.
 

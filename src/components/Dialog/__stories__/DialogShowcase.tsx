@@ -36,6 +36,7 @@ function OtherDialog() {
     const [open, setOpen] = React.useState(false);
     const [errorVisible, setErrorVisible] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
+    const formId = useUniqId();
 
     const [openSelect, setOpenSelect] = React.useState(false);
 
@@ -63,11 +64,13 @@ function OtherDialog() {
             </Button>
             <Dialog
                 open={open}
-                onClose={switchVisibility}
+                onOpenChange={(nextOpen) => {
+                    setOpen(nextOpen);
+                    if (!nextOpen) setErrorVisible(false);
+                }}
                 className="my-custom-class-for-dialog"
                 hasCloseButton
                 keepMounted
-                onEnterKeyDown={handleApply}
                 qa="darthVader"
                 onTransitionInComplete={() => {
                     selectRef?.current?.focus();
@@ -76,34 +79,45 @@ function OtherDialog() {
             >
                 <Dialog.Body>
                     <pre>{darthVader}</pre>
-                    <Flex direction="column" gap="3">
-                        <TextInput />
-                        <Flex gap="2">
-                            <Select
-                                filterable
-                                ref={selectRef}
-                                open={openSelect}
-                                onOpenChange={setOpenSelect}
-                                disablePortal
-                            >
-                                <Select.Option value="dark">Dark side</Select.Option>
-                                <Select.Option value="some">Something in the middle</Select.Option>
-                                <Select.Option value="light">Light side</Select.Option>
-                            </Select>
-                            <Select filterable>
-                                <Select.Option value="dark">Dark side</Select.Option>
-                                <Select.Option value="some">Something in the middle</Select.Option>
-                                <Select.Option value="light">Light side</Select.Option>
-                            </Select>
+                    <form
+                        id={formId}
+                        onSubmit={(event) => {
+                            event.preventDefault();
+                            handleApply();
+                        }}
+                    >
+                        <Flex direction="column" gap="3">
+                            <TextInput />
+                            <Flex gap="2">
+                                <Select
+                                    filterable
+                                    ref={selectRef}
+                                    open={openSelect}
+                                    onOpenChange={setOpenSelect}
+                                    disablePortal
+                                >
+                                    <Select.Option value="dark">Dark side</Select.Option>
+                                    <Select.Option value="some">
+                                        Something in the middle
+                                    </Select.Option>
+                                    <Select.Option value="light">Light side</Select.Option>
+                                </Select>
+                                <Select filterable>
+                                    <Select.Option value="dark">Dark side</Select.Option>
+                                    <Select.Option value="some">
+                                        Something in the middle
+                                    </Select.Option>
+                                    <Select.Option value="light">Light side</Select.Option>
+                                </Select>
+                            </Flex>
                         </Flex>
-                    </Flex>
+                    </form>
                 </Dialog.Body>
                 <Dialog.Footer
                     preset="default"
                     onClickButtonCancel={switchVisibility}
-                    onClickButtonApply={handleApply}
                     textButtonApply="attack"
-                    propsButtonApply={{className: 'my-custom-apply-btn-class'}}
+                    propsButtonApply={{className: 'my-custom-apply-btn-class', form: formId}}
                     textButtonCancel="fend off attack"
                     propsButtonCancel={{className: 'my-custom-cancel-btn-class'}}
                     loading={loading}
@@ -194,10 +208,12 @@ export function DialogShowcase() {
             </div>
             <Dialog
                 open={open}
-                onClose={switchVisibility}
+                onOpenChange={(nextOpen) => {
+                    setOpen(nextOpen);
+                    if (!nextOpen) setErrorVisible(false);
+                }}
                 className="my-custom-class-for-dialog"
                 hasCloseButton
-                onEnterKeyDown={handleApply}
                 initialFocus="apply"
             >
                 <Dialog.Header

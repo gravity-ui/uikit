@@ -247,7 +247,7 @@ describe('Select popup', () => {
         const TestComponent = () => {
             const [open, setOpen] = React.useState(true);
             return (
-                <Dialog open={open} onClose={() => setOpen(false)}>
+                <Dialog open={open} onOpenChange={setOpen}>
                     <Dialog.Body>
                         <Select options={DEFAULT_OPTIONS} onUpdate={onUpdate} qa={TEST_QA} />
                     </Dialog.Body>

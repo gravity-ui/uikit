@@ -62,7 +62,7 @@ function ScopedComponent() {
                     }}
                 >{`${t('current direction')}: ${useDirection()}`}</Button>
             </Tooltip>
-            <Dialog open={open} onClose={() => setOpen(false)}>
+            <Dialog open={open} onOpenChange={setOpen}>
                 <Dialog.Header caption={t('dialog.header')} />
                 <Dialog.Body>
                     {t('dialog.body')}

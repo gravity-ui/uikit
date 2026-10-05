@@ -19,7 +19,7 @@ export const TestActionsPanelNestedAction = () => {
                         id: 'submenu',
                         collapsed: true,
                         button: {props: {children: 'More'}},
-                        dropdown: {
+                        menu: {
                             item: {
                                 children: [
                                     'More',
@@ -47,13 +47,13 @@ export const TestActionsPanelMenuItemProps = () => {
                         id: 'selected',
                         collapsed: true,
                         button: {props: {children: 'Selected'}},
-                        dropdown: {item: {children: 'Selected', selected: true}},
+                        menu: {item: {children: 'Selected', selected: true}},
                     },
                     {
                         id: 'run',
                         collapsed: true,
                         button: {props: {children: 'Run'}},
-                        dropdown: {item: {children: 'Run', onClick: () => setResult('run')}},
+                        menu: {item: {children: 'Run', onClick: () => setResult('run')}},
                     },
                 ]}
             />

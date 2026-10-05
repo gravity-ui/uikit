@@ -14,9 +14,9 @@ export const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 1'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 1'),
+                onClick: () => console.log('click menu action 1'),
                 children: 'Action 1',
             },
         },
@@ -29,9 +29,9 @@ export const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 2'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 2'),
+                onClick: () => console.log('click menu action 2'),
                 children: 'Action 2',
             },
         },
@@ -47,7 +47,7 @@ export const actionsWithIcons: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('Edit'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
                 onClick: () => console.log('Edit'),
                 children: (
@@ -67,7 +67,7 @@ export const actionsWithIcons: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('Copy'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
                 onClick: () => console.log('Copy'),
                 children: (
@@ -88,7 +88,7 @@ export const actionsWithIcons: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('Delete'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
                 onClick: () => console.log('Delete'),
                 children: (
@@ -112,9 +112,9 @@ export const actionsWithNote: ActionsPanelProps['actions'] = [
                 view: 'normal-contrast',
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 1'),
+                onClick: () => console.log('click menu action 1'),
                 children: 'Action 1',
             },
         },
@@ -127,9 +127,9 @@ export const actionsWithNote: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 2'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 2'),
+                onClick: () => console.log('click menu action 2'),
                 children: 'Action 2',
             },
         },
@@ -142,9 +142,9 @@ export const actionsWithNote: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 3'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 3'),
+                onClick: () => console.log('click menu action 3'),
                 children: 'Action 3',
             },
         },
@@ -157,9 +157,9 @@ export const actionsWithNote: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 4'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 4'),
+                onClick: () => console.log('click menu action 4'),
                 children: 'Action 4',
             },
         },
@@ -176,9 +176,9 @@ export const actionsGroups: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 1'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 1'),
+                onClick: () => console.log('click menu action 1'),
                 children: 'Action 1',
             },
             group: '1',
@@ -193,9 +193,9 @@ export const actionsGroups: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 2'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 2'),
+                onClick: () => console.log('click menu action 2'),
                 children: 'Action 2',
             },
             group: '2',
@@ -210,9 +210,9 @@ export const actionsGroups: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 3'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 3'),
+                onClick: () => console.log('click menu action 3'),
                 children: 'Action 3',
             },
             group: '1',
@@ -229,7 +229,7 @@ export const actionsSubmenu: ActionsPanelProps['actions'] = [
                 view: 'outlined-contrast',
             },
         },
-        dropdown: {
+        menu: {
             item: {
                 children: [
                     'Sub-menu',
@@ -247,7 +247,7 @@ export const actionsSubmenu: ActionsPanelProps['actions'] = [
         id: 'nested-menu',
         collapsed: true,
         button: {props: {children: 'Nested'}},
-        dropdown: {
+        menu: {
             item: {
                 children: [
                     'Other',

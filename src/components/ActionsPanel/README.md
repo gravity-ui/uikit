@@ -6,7 +6,7 @@
 
 Use an `ActionsPanel` to render multiple buttons in a row.
 When there is not enough space, buttons that don't fit will be added to an overflow menu.
-The overflow uses `Menu`; `dropdown.item` accepts `MenuItemProps`.
+The overflow uses `Menu`; `menu.item` accepts `MenuItemProps`.
 
 ## Example
 
@@ -23,9 +23,9 @@ const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 1'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 1'),
+                onClick: () => console.log('click menu action 1'),
                 children: 'Action 1',
             },
         },
@@ -38,9 +38,9 @@ const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 2'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 2'),
+                onClick: () => console.log('click menu action 2'),
                 children: 'Action 2',
             },
         },
@@ -64,9 +64,9 @@ const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 1'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 1'),
+                onClick: () => console.log('click menu action 1'),
                 children: 'Action 1',
             },
         },
@@ -79,9 +79,9 @@ const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 2'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 2'),
+                onClick: () => console.log('click menu action 2'),
                 children: 'Action 2',
             },
         },
@@ -99,7 +99,7 @@ const actions: ActionsPanelProps['actions'] = [
 
 ## Action icons
 
-Use `Button` or `dropdown.item` properties to set icons.
+Use `Button` or `menu.item` properties to set icons.
 
 <!--SANDBOX
 import {Files, PencilToSquare, TrashBin} from '@gravity-ui/icons';
@@ -115,7 +115,7 @@ const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('Edit'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
                 onClick: () => console.log('Edit'),
                 children: (
@@ -135,7 +135,7 @@ const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('Copy'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
                 onClick: () => console.log('Copy'),
                 children: (
@@ -156,7 +156,7 @@ const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('Delete'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
                 onClick: () => console.log('Delete'),
                 children: (
@@ -187,7 +187,7 @@ const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('Edit'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
                 onClick: () => console.log('Edit'),
                 children: (
@@ -207,7 +207,7 @@ const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('Copy'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
                 onClick: () => console.log('Copy'),
                 children: (
@@ -228,7 +228,7 @@ const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('Delete'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
                 onClick: () => console.log('Delete'),
                 children: (
@@ -269,9 +269,9 @@ const actions: ActionsPanelProps['actions'] = [
                 view: 'normal-contrast',
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 1'),
+                onClick: () => console.log('click menu action 1'),
                 children: 'Action 1',
             },
         },
@@ -284,9 +284,9 @@ const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 2'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 2'),
+                onClick: () => console.log('click menu action 2'),
                 children: 'Action 2',
             },
         },
@@ -299,9 +299,9 @@ const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 3'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 3'),
+                onClick: () => console.log('click menu action 3'),
                 children: 'Action 3',
             },
         },
@@ -314,9 +314,9 @@ const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 4'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 4'),
+                onClick: () => console.log('click menu action 4'),
                 children: 'Action 4',
             },
         },
@@ -341,9 +341,9 @@ const actions: ActionsPanelProps['actions'] = [
                 view: 'normal-contrast',
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 1'),
+                onClick: () => console.log('click menu action 1'),
                 children: 'Action 1',
             },
         },
@@ -356,9 +356,9 @@ const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 2'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 2'),
+                onClick: () => console.log('click menu action 2'),
                 children: 'Action 2',
             },
         },
@@ -371,9 +371,9 @@ const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 3'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 3'),
+                onClick: () => console.log('click menu action 3'),
                 children: 'Action 3',
             },
         },
@@ -386,9 +386,9 @@ const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 4'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 4'),
+                onClick: () => console.log('click menu action 4'),
                 children: 'Action 4',
             },
         },
@@ -409,9 +409,9 @@ const actions: ActionsPanelProps['actions'] = [
 
 <!--/GITHUB_BLOCK-->
 
-## Groups in dropdown menu
+## Groups in overflow menu
 
-Use `action.dropdown.group` for groping actions in dropdown menu.
+Use `action.menu.group` to group actions in the overflow menu.
 
 <!--SANDBOX
 import type {ActionsPanelProps} from '@gravity-ui/uikit';
@@ -427,9 +427,9 @@ const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 1'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 1'),
+                onClick: () => console.log('click menu action 1'),
                 children: 'Action 1',
             },
             group: '1',
@@ -444,9 +444,9 @@ const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 2'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 2'),
+                onClick: () => console.log('click menu action 2'),
                 children: 'Action 2',
             },
             group: '2',
@@ -461,9 +461,9 @@ const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 3'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 3'),
+                onClick: () => console.log('click menu action 3'),
                 children: 'Action 3',
             },
             group: '1',
@@ -489,9 +489,9 @@ const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 1'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 1'),
+                onClick: () => console.log('click menu action 1'),
                 children: 'Action 1',
             },
             group: '1',
@@ -506,9 +506,9 @@ const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 2'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 2'),
+                onClick: () => console.log('click menu action 2'),
                 children: 'Action 2',
             },
             group: '2',
@@ -523,9 +523,9 @@ const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 3'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                onClick: () => console.log('click dropdown action 3'),
+                onClick: () => console.log('click menu action 3'),
                 children: 'Action 3',
             },
             group: '1',
@@ -542,9 +542,9 @@ const actions: ActionsPanelProps['actions'] = [
 
 <!--/GITHUB_BLOCK-->
 
-## Action sub-menu and nested dropdown menu
+## Action submenu and nested menu
 
-Pass a `Menu` as a direct child of `dropdown.item.children` to add a submenu. A visible action button uses the same submenu.
+Pass a `Menu` as a direct child of `menu.item.children` to add a submenu. A visible action button uses the same submenu.
 
 <!--SANDBOX
 import {ActionsPanel, Menu, MenuItem} from '@gravity-ui/uikit';
@@ -554,7 +554,7 @@ const actions: ActionsPanelProps['actions'] = [
     {
         id: 'button-with-sub-menu',
         button: {props: {children: 'Sub-menu'}},
-        dropdown: {
+        menu: {
             item: {
                 children: [
                     'Sub-menu',
@@ -572,7 +572,7 @@ const actions: ActionsPanelProps['actions'] = [
         id: 'nested-menu',
         collapsed: true,
         button: {props: {children: 'Nested'}},
-        dropdown: {
+        menu: {
             item: {
                 children: [
                     'Other',
@@ -604,7 +604,7 @@ const actions: ActionsPanelProps['actions'] = [
     {
         id: 'button-with-sub-menu',
         button: {props: {children: 'Sub-menu'}},
-        dropdown: {
+        menu: {
             item: {
                 children: [
                     'Sub-menu',
@@ -622,7 +622,7 @@ const actions: ActionsPanelProps['actions'] = [
         id: 'nested-menu',
         collapsed: true,
         button: {props: {children: 'Nested'}},
-        dropdown: {
+        menu: {
             item: {
                 children: [
                     'Other',
@@ -664,9 +664,9 @@ const actions: ActionsPanelProps['actions'] = [
 
 ## ActionsPanelItem:
 
-| Name      | Description                                   |                  Type                   | Default |
-| :-------- | :-------------------------------------------- | :-------------------------------------: | :-----: |
-| id        | Unique action id                              |                `string`                 |         |
-| dropdown  | Settings for dropdown action in overflow menu | `{item: MenuItemProps; group?: string}` |         |
-| button    | Settings for button action                    |         `{props: ButtonProps}`          |         |
-| collapsed | If true, then item always inside the dropdown |                `boolean`                |         |
+| Name      | Description                                        |                  Type                   | Default |
+| :-------- | :------------------------------------------------- | :-------------------------------------: | :-----: |
+| id        | Unique action id                                   |                `string`                 |         |
+| menu      | Settings for action in overflow menu               | `{item: MenuItemProps; group?: string}` |         |
+| button    | Settings for button action                         |         `{props: ButtonProps}`          |         |
+| collapsed | If true, then item always inside the overflow menu |                `boolean`                |         |

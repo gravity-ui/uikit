@@ -23,7 +23,7 @@ type Props = {
     maxRowActions?: number;
 };
 
-type DropdownItem = ActionsPanelItem['dropdown']['item'];
+type DropdownItem = ActionsPanelItem['menu']['item'];
 
 function renderMenuItems(items: (DropdownItem | DropdownItem[])[]): React.ReactNode[] {
     const nodes: React.ReactNode[] = [];
@@ -60,7 +60,7 @@ export const CollapseActions = ({actions, maxRowActions}: Props) => {
                     const attr = {[OBSERVER_TARGET_ATTR]: id};
                     const invisible = visibilityMap[id] === false;
 
-                    const submenu = React.Children.toArray(action.dropdown.item.children).find(
+                    const submenu = React.Children.toArray(action.menu.item.children).find(
                         (child) => isComponentType(child, 'Menu'),
                     );
                     const node = submenu ? (

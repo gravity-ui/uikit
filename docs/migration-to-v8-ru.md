@@ -45,12 +45,13 @@ Legacy-компоненты `Menu`, `MenuItem`, `MenuGroup` и `DropdownMenu` п
 
 ### Меню переполнения ActionsPanel
 
-`ActionsPanel` теперь использует стабильный `Menu` для элементов переполнения и подменю. Поле `dropdown.item`
-принимает `MenuItemProps` вместо `DropdownMenuItem`: переименуйте `text` в `children`, а `action` в `onClick`.
+`ActionsPanel` теперь использует стабильный `Menu` для элементов переполнения и подменю. Переименуйте
+`ActionsPanelItem.dropdown` в `menu`. Поле `menu.item` принимает `MenuItemProps` вместо `DropdownMenuItem`:
+переименуйте `text` в `children`, а `action` в `onClick`.
 Вложенные массивы `items` замените компонентом `Menu`, переданным непосредственно в массив `children`:
 
 ```tsx
-dropdown: {
+menu: {
     item: {
         children: [
             'More',

@@ -46,12 +46,13 @@ The legacy `Menu`, `MenuItem`, `MenuGroup`, and `DropdownMenu` components are ma
 
 ### ActionsPanel overflow menu
 
-`ActionsPanel` now renders the stable `Menu` for overflow items and submenus. Its `dropdown.item` accepts
-`MenuItemProps` instead of `DropdownMenuItem`: rename `text` to `children` and `action` to `onClick`.
+`ActionsPanel` now renders the stable `Menu` for overflow items and submenus. Rename `ActionsPanelItem.dropdown` to
+`menu`. Its `menu.item` accepts `MenuItemProps` instead of `DropdownMenuItem`: rename `text` to `children` and
+`action` to `onClick`.
 Replace nested `items` arrays with a `Menu` passed directly in the `children` array. For example:
 
 ```tsx
-dropdown: {
+menu: {
     item: {
         children: [
             'More',

@@ -28,7 +28,7 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                     view: 'normal-contrast',
                 },
             },
-            dropdown: {
+            menu: {
                 item: {
                     onClick: noop,
                     children: 'Action 1',
@@ -44,7 +44,7 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                     onClick: noop,
                 },
             },
-            dropdown: {
+            menu: {
                 item: {
                     onClick: noop,
                     children: 'Action 2',
@@ -60,7 +60,7 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                     onClick: noop,
                 },
             },
-            dropdown: {
+            menu: {
                 item: {
                     onClick: noop,
                     children: 'Action 3',
@@ -76,7 +76,7 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                     onClick: noop,
                 },
             },
-            dropdown: {
+            menu: {
                 item: {
                     onClick: noop,
                     children: 'Action 4',
@@ -195,7 +195,7 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                         qa: 'sub-menu-trigger',
                     },
                 },
-                dropdown: {
+                menu: {
                     item: {
                         children: [
                             'Sub-menu',
@@ -219,7 +219,7 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                         qa: 'nested-menu-trigger',
                     },
                 },
-                dropdown: {
+                menu: {
                     item: {
                         onClick: noop,
                         children: 'Action 3',

@@ -178,6 +178,38 @@ describe('Select with non-string values', () => {
             expect(onUpdate).toHaveBeenLastCalledWith([PARIS]);
         });
 
+        test('the filter, the search by the first letters and Enter work with object values', async () => {
+            const onUpdate = jest.fn();
+            const {unmount} = render(
+                <Select
+                    qa={QA}
+                    filterable
+                    options={CITY_OPTIONS}
+                    getValueKey={getCityKey}
+                    onUpdate={onUpdate}
+                />,
+            );
+            const user = userEvent.setup();
+
+            await user.click(getControl());
+            await user.keyboard('par{Enter}');
+            expect(onUpdate).toHaveBeenLastCalledWith([PARIS]);
+            unmount();
+
+            render(
+                <Select
+                    qa={QA}
+                    options={CITY_OPTIONS}
+                    getValueKey={getCityKey}
+                    onUpdate={onUpdate}
+                />,
+            );
+
+            await user.click(getControl());
+            await user.keyboard('m{Enter}');
+            expect(onUpdate).toHaveBeenLastCalledWith([MOSCOW]);
+        });
+
         test('a value without an option is shown by its key and kept', async () => {
             const onUpdate = jest.fn();
             const gone: City = {id: 9, name: 'Atlantis'};

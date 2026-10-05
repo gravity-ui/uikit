@@ -11,25 +11,25 @@ $blockButton: '.#{variables.$ns}select-control__button';
         --_--text-right-padding: #{select-css-variables.$s-hor-padding};
         --_--border-radius: var(--g-border-radius-s);
         height: #{variables.$s-height};
-        padding: 4px calc(var(--_--text-right-padding) + 1px); // plus border-width
+        padding-inline: calc(var(--_--text-right-padding) + 1px); // plus border-width
     }
     @if $size == 'm' {
         --_--text-right-padding: #{select-css-variables.$m-hor-padding};
         --_--border-radius: var(--g-border-radius-m);
         height: #{variables.$m-height};
-        padding: 6px calc(var(--_--text-right-padding) + 1px); // plus border-width
+        padding-inline: calc(var(--_--text-right-padding) + 1px); // plus border-width
     }
     @if $size == 'l' {
         --_--text-right-padding: #{select-css-variables.$l-hor-padding};
         --_--border-radius: var(--g-border-radius-l);
         height: #{variables.$l-height};
-        padding: 10px calc(var(--_--text-right-padding) + 1px); // plus border-width
+        padding-inline: calc(var(--_--text-right-padding) + 1px); // plus border-width
     }
     @if $size == 'xl' {
         --_--text-right-padding: #{select-css-variables.$xl-hor-padding};
         --_--border-radius: var(--g-border-radius-xl);
         height: #{variables.$xl-height};
-        padding: 12px calc(var(--_--text-right-padding) + 1px); // plus border-width
+        padding-inline: calc(var(--_--text-right-padding) + 1px); // plus border-width
     }
 }
 
@@ -110,6 +110,11 @@ $blockButton: '.#{variables.$ns}select-control__button';
         transition:
             color 0.15s linear,
             background-color 0.15s linear;
+
+        // The baseline of an empty button is its bottom edge: at full height it stretches the wrapper
+        &:empty {
+            height: 1lh;
+        }
 
         &::before {
             content: '';

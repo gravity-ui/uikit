@@ -6,6 +6,7 @@ import type {MountFixture} from '~playwright/core';
 import {test} from '~playwright/core';
 
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
+import {MobileProvider} from '../../mobile';
 import {Select} from '../Select';
 import {SelectQa} from '../constants';
 import type {SelectOption, SelectProps, SelectSize} from '../types';
@@ -288,8 +289,8 @@ test.describe('Select', {tag: '@Select'}, () => {
         // The popup's border is outside its box, the control's is inside
         const POPUP_RING = 1;
 
-        const readCorners = (page: Page) =>
-            page.getByTestId(SelectQa.POPUP).evaluate((popup) => {
+        const readCorners = (page: Page, qa: string = SelectQa.POPUP) =>
+            page.getByTestId(qa).evaluate((popup) => {
                 const list = popup.querySelector('[role="listbox"]');
                 const row = popup.querySelector('[role="option"]');
                 if (!list || !row) {
@@ -377,7 +378,10 @@ test.describe('Select', {tag: '@Select'}, () => {
             expect(corners.filterRadius).toBe(corners.rowRadius);
         });
 
-        test('take the radius of the rows set through popupClassName', async ({mount, page}) => {
+        test('take the radius of the rows set through popupClassName, the filter keeps its own', async ({
+            mount,
+            page,
+        }) => {
             // Prepended so that the consumer's styles cannot win by source order
             await page.evaluate(() => {
                 const style = document.createElement('style');
@@ -386,8 +390,8 @@ test.describe('Select', {tag: '@Select'}, () => {
             });
 
             await mount(
-                <div style={{height: 120}}>
-                    <Select open popupClassName="custom-popup" options={baseOptions} />
+                <div style={{height: 160}}>
+                    <Select open filterable popupClassName="custom-popup" options={baseOptions} />
                 </div>,
             );
             await page.getByRole('option').first().waitFor();
@@ -395,6 +399,47 @@ test.describe('Select', {tag: '@Select'}, () => {
             const corners = await readCorners(page);
 
             expect(corners.rowRadius).toBe(1);
+            expect(corners.filterRadius).toBe(corners.smallestRadius);
+        });
+
+        test('take the radius of the filter set through popupClassName', async ({mount, page}) => {
+            // Prepended so that the consumer's styles cannot win by source order
+            await page.evaluate(() => {
+                const style = document.createElement('style');
+                style.textContent = '.custom-popup {--g-text-input-border-radius: 9px;}';
+                document.head.prepend(style);
+            });
+
+            await mount(
+                <div style={{height: 160}}>
+                    <Select open filterable popupClassName="custom-popup" options={baseOptions} />
+                </div>,
+            );
+            await page.getByRole('option').first().waitFor();
+
+            const corners = await readCorners(page);
+
+            expect(corners.filterRadius).toBe(9);
+            expect(corners.rowRadius).toBe(corners.smallestRadius);
+        });
+
+        test('leave the filter of the mobile sheet to the TextInput', async ({mount, page}) => {
+            await page.evaluate(() => {
+                const style = document.createElement('style');
+                style.textContent = ':root {--g-text-input-border-radius: 15px;}';
+                document.head.append(style);
+            });
+
+            await mount(
+                <MobileProvider mobile>
+                    <Select open filterable options={baseOptions} />
+                </MobileProvider>,
+            );
+            await page.getByRole('option').first().waitFor();
+
+            const corners = await readCorners(page, SelectQa.SHEET);
+
+            expect(corners.filterRadius).toBe(15);
         });
 
         test('take the radius set above for every popup, the rows follow', async ({

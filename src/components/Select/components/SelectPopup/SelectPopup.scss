@@ -19,15 +19,17 @@ $control-border: 1px;
             --g-popup-border-radius,
             calc(var(--g-border-radius-#{$size}) - #{$control-border})
         );
+        --_--inner-radius: max(
+            var(--g-border-radius-xs),
+            (var(--_--corner-radius) + #{$control-border}) / 2
+        );
 
         border-radius: var(--_--corner-radius);
     }
 
-    // :where() so that --g-list-item-view-border-radius set on popupClassName wins
+    // The rows and the filter input. :where() so that either variable set on popupClassName wins
     :where(#{$block}_size_#{$size}) {
-        --g-list-item-view-border-radius: max(
-            var(--g-border-radius-xs),
-            (var(--_--corner-radius) + #{$control-border}) / 2
-        );
+        --g-list-item-view-border-radius: var(--_--inner-radius);
+        --g-text-input-border-radius: var(--_--inner-radius);
     }
 }

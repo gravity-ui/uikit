@@ -5,6 +5,4 @@ $block: '.#{variables.$ns}select-filter';
 #{$block} {
     // To prevent border blink when the focus is set frequently (in case of option click)
     --g-text-input-border-color: var(--g-color-line-generic-active);
-    // As round as the rows; unset in the mobile sheet, where the input keeps its own radius
-    --g-text-input-border-radius: var(--g-list-item-view-border-radius);
 }

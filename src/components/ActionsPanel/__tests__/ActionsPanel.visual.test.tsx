@@ -3,10 +3,15 @@ import {expect} from '@playwright/experimental-ct-react';
 
 import {test} from '~playwright/core';
 
+import {Menu, MenuItem} from '../../Menu';
 import {ActionsPanel} from '../ActionsPanel';
 import type {ActionsPanelProps} from '../types';
 
-import {TestActionsPanelWithNote} from './helpersPlaywright';
+import {
+    TestActionsPanelMenuItemProps,
+    TestActionsPanelNestedAction,
+    TestActionsPanelWithNote,
+} from './helpersPlaywright';
 
 test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
     const noop = () => {
@@ -23,10 +28,10 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                     view: 'normal-contrast',
                 },
             },
-            dropdown: {
+            menu: {
                 item: {
-                    action: noop,
-                    text: 'Action 1',
+                    onClick: noop,
+                    children: 'Action 1',
                 },
                 group: '1',
             },
@@ -39,10 +44,10 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                     onClick: noop,
                 },
             },
-            dropdown: {
+            menu: {
                 item: {
-                    action: noop,
-                    text: 'Action 2',
+                    onClick: noop,
+                    children: 'Action 2',
                 },
                 group: '1',
             },
@@ -55,10 +60,10 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                     onClick: noop,
                 },
             },
-            dropdown: {
+            menu: {
                 item: {
-                    action: noop,
-                    text: 'Action 3',
+                    onClick: noop,
+                    children: 'Action 3',
                 },
                 group: '2',
             },
@@ -71,10 +76,10 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                     onClick: noop,
                 },
             },
-            dropdown: {
+            menu: {
                 item: {
-                    action: noop,
-                    text: 'Action 4',
+                    onClick: noop,
+                    children: 'Action 4',
                 },
                 group: '2',
             },
@@ -190,19 +195,16 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                         qa: 'sub-menu-trigger',
                     },
                 },
-                dropdown: {
+                menu: {
                     item: {
-                        text: 'Sub-menu',
-                        items: [
-                            {
-                                action: noop,
-                                text: 'Edit',
-                            },
-                            {
-                                action: noop,
-                                text: 'Delete',
-                                theme: 'danger',
-                            },
+                        children: [
+                            'Sub-menu',
+                            <Menu key="submenu" size="s">
+                                <MenuItem onClick={noop}>Edit</MenuItem>
+                                <MenuItem onClick={noop} theme="danger">
+                                    Delete
+                                </MenuItem>
+                            </Menu>,
                         ],
                     },
                 },
@@ -217,10 +219,10 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                         qa: 'nested-menu-trigger',
                     },
                 },
-                dropdown: {
+                menu: {
                     item: {
-                        action: noop,
-                        text: 'Action 3',
+                        onClick: noop,
+                        children: 'Action 3',
                     },
                     group: '2',
                 },
@@ -250,5 +252,29 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
         await expectScreenshot({
             themes: ['light'],
         });
+    });
+
+    test('runs an action from a nested overflow menu', async ({mount, page}) => {
+        await mount(<TestActionsPanelNestedAction />);
+
+        await page.getByRole('button', {name: 'Show more'}).click();
+        await page.getByRole('menuitem', {name: 'More'}).hover();
+        await page.getByRole('menuitem', {name: 'Run'}).click();
+        await expect(page.getByTestId('menu-action-result')).toHaveText('run');
+    });
+
+    test('passes MenuItem props to the overflow menu', async ({mount, page}) => {
+        await mount(<TestActionsPanelMenuItemProps />);
+
+        const openMenu = async () => page.getByRole('button', {name: 'Show more'}).click();
+        const result = page.getByTestId('menu-action-result');
+
+        await openMenu();
+        await expect(page.getByRole('menuitemcheckbox', {name: 'Selected'})).toHaveAttribute(
+            'aria-checked',
+            'true',
+        );
+        await page.getByRole('menuitem', {name: 'Run'}).click();
+        await expect(result).toHaveText('run');
     });
 });

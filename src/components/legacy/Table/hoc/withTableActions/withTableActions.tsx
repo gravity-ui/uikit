@@ -9,12 +9,12 @@ import {useUniqId} from '../../../../../hooks';
 import {useBoolean} from '../../../../../hooks/private';
 import {Button} from '../../../../Button';
 import {Icon} from '../../../../Icon';
-import {Menu} from '../../../../Menu';
-import type {MenuItemProps} from '../../../../Menu';
 import {Popup} from '../../../../Popup';
 import type {PopupPlacement} from '../../../../Popup';
 import {block} from '../../../../utils/cn';
 import {getComponentName} from '../../../../utils/getComponentName';
+import type {MenuItemProps} from '../../../Menu';
+import {Menu} from '../../../Menu';
 import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
 import i18n from '../../i18n';
 

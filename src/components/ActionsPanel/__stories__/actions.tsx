@@ -2,6 +2,7 @@ import {ChevronDown, Files, PencilToSquare, TrashBin} from '@gravity-ui/icons';
 
 import type {ActionsPanelProps} from '..';
 import {Icon} from '../../Icon';
+import {Menu, MenuItem} from '../../Menu';
 import {Flex} from '../../layout';
 
 export const actions: ActionsPanelProps['actions'] = [
@@ -13,10 +14,10 @@ export const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 1'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                action: () => console.log('click dropdown action 1'),
-                text: 'Action 1',
+                onClick: () => console.log('click menu action 1'),
+                children: 'Action 1',
             },
         },
     },
@@ -28,10 +29,10 @@ export const actions: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 2'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                action: () => console.log('click dropdown action 2'),
-                text: 'Action 2',
+                onClick: () => console.log('click menu action 2'),
+                children: 'Action 2',
             },
         },
     },
@@ -46,10 +47,10 @@ export const actionsWithIcons: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('Edit'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                action: () => console.log('Edit'),
-                text: (
+                onClick: () => console.log('Edit'),
+                children: (
                     <Flex alignItems="center" gap={1}>
                         <Icon data={PencilToSquare} />
                         Edit
@@ -66,10 +67,10 @@ export const actionsWithIcons: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('Copy'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                action: () => console.log('Copy'),
-                text: (
+                onClick: () => console.log('Copy'),
+                children: (
                     <Flex alignItems="center" gap={1}>
                         <Icon data={Files} />
                         Copy
@@ -87,10 +88,10 @@ export const actionsWithIcons: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('Delete'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                action: () => console.log('Delete'),
-                text: (
+                onClick: () => console.log('Delete'),
+                children: (
                     <Flex alignItems="center" gap={1}>
                         <Icon data={TrashBin} />
                         Delete
@@ -111,10 +112,10 @@ export const actionsWithNote: ActionsPanelProps['actions'] = [
                 view: 'normal-contrast',
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                action: () => console.log('click dropdown action 1'),
-                text: 'Action 1',
+                onClick: () => console.log('click menu action 1'),
+                children: 'Action 1',
             },
         },
     },
@@ -126,10 +127,10 @@ export const actionsWithNote: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 2'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                action: () => console.log('click dropdown action 2'),
-                text: 'Action 2',
+                onClick: () => console.log('click menu action 2'),
+                children: 'Action 2',
             },
         },
     },
@@ -141,10 +142,10 @@ export const actionsWithNote: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 3'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                action: () => console.log('click dropdown action 3'),
-                text: 'Action 3',
+                onClick: () => console.log('click menu action 3'),
+                children: 'Action 3',
             },
         },
     },
@@ -156,10 +157,10 @@ export const actionsWithNote: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 4'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                action: () => console.log('click dropdown action 4'),
-                text: 'Action 4',
+                onClick: () => console.log('click menu action 4'),
+                children: 'Action 4',
             },
         },
     },
@@ -175,10 +176,10 @@ export const actionsGroups: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 1'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                action: () => console.log('click dropdown action 1'),
-                text: 'Action 1',
+                onClick: () => console.log('click menu action 1'),
+                children: 'Action 1',
             },
             group: '1',
         },
@@ -192,10 +193,10 @@ export const actionsGroups: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 2'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                action: () => console.log('click dropdown action 2'),
-                text: 'Action 2',
+                onClick: () => console.log('click menu action 2'),
+                children: 'Action 2',
             },
             group: '2',
         },
@@ -209,10 +210,10 @@ export const actionsGroups: ActionsPanelProps['actions'] = [
                 onClick: () => console.log('click button action 3'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                action: () => console.log('click dropdown action 3'),
-                text: 'Action 3',
+                onClick: () => console.log('click menu action 3'),
+                children: 'Action 3',
             },
             group: '1',
         },
@@ -226,22 +227,18 @@ export const actionsSubmenu: ActionsPanelProps['actions'] = [
             props: {
                 children: ['Sub-menu', <Icon key="icon" data={ChevronDown} />],
                 view: 'outlined-contrast',
-                onClick: () => console.log('click button action 2'),
             },
         },
-        dropdown: {
+        menu: {
             item: {
-                text: 'Sub-menu',
-                items: [
-                    {
-                        action: () => console.log('Edit'),
-                        text: 'Edit',
-                    },
-                    {
-                        action: () => console.log('Delete'),
-                        text: 'Delete',
-                        theme: 'danger',
-                    },
+                children: [
+                    'Sub-menu',
+                    <Menu key="submenu" size="s">
+                        <MenuItem onClick={() => console.log('Edit')}>Edit</MenuItem>
+                        <MenuItem onClick={() => console.log('Delete')} theme="danger">
+                            Delete
+                        </MenuItem>
+                    </Menu>,
                 ],
             },
         },
@@ -249,46 +246,32 @@ export const actionsSubmenu: ActionsPanelProps['actions'] = [
     {
         id: 'nested-menu',
         collapsed: true,
-        button: {
-            props: {
-                children: 'Nested',
-                onClick: () => console.log('click button nested'),
-            },
-        },
-        dropdown: {
+        button: {props: {children: 'Nested'}},
+        menu: {
             item: {
-                text: 'Other',
-                items: [
-                    {
-                        text: 'Select',
-                        items: [
-                            {
-                                action: () => console.log('Select One'),
-                                text: 'One',
-                            },
-                            {
-                                action: () => console.log('Select All'),
-                                text: 'All',
-                            },
-                        ],
-                    },
-                    {
-                        action: () => console.log('Copy'),
-                        text: 'Copy',
-                    },
-                    {
-                        text: 'Move to',
-                        items: [
-                            {
-                                action: () => console.log('Move to folder 1'),
-                                text: 'Folder 1',
-                            },
-                            {
-                                action: () => console.log('Move to folder 2'),
-                                text: 'Folder 2',
-                            },
-                        ],
-                    },
+                children: [
+                    'Other',
+                    <Menu key="submenu" size="s">
+                        <MenuItem>
+                            Select
+                            <Menu size="s">
+                                <MenuItem onClick={() => console.log('Select One')}>One</MenuItem>
+                                <MenuItem onClick={() => console.log('Select All')}>All</MenuItem>
+                            </Menu>
+                        </MenuItem>
+                        <MenuItem onClick={() => console.log('Copy')}>Copy</MenuItem>
+                        <MenuItem>
+                            Move to
+                            <Menu size="s">
+                                <MenuItem onClick={() => console.log('Move to folder 1')}>
+                                    Folder 1
+                                </MenuItem>
+                                <MenuItem onClick={() => console.log('Move to folder 2')}>
+                                    Folder 2
+                                </MenuItem>
+                            </Menu>
+                        </MenuItem>
+                    </Menu>,
                 ],
             },
         },

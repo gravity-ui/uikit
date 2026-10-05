@@ -233,14 +233,14 @@ export const View = ViewTemplate.bind({});
 
 const compactMenuActions = [
     {
-        iconStart: <Link width={14} height={14} />,
-        text: 'open on drive',
-        action: () => action('onLink'),
+        icon: <Link width={14} height={14} />,
+        children: 'open on drive',
+        onClick: () => action('onLink'),
     },
     {
-        iconStart: <Icon data={Xmark} width={14} height={14} />,
-        text: 'delete a file',
-        action: () => action('onClose'),
+        icon: <Icon data={Xmark} width={14} height={14} />,
+        children: 'delete a file',
+        onClick: () => action('onClose'),
     },
 ];
 

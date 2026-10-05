@@ -6,7 +6,6 @@ import {Icon} from '../Icon';
 import {block} from '../utils/cn';
 import {isSvg} from '../utils/common';
 import {isOfType} from '../utils/isOfType';
-import {warnOnce} from '../utils/warn';
 
 import {ButtonIconSizeContext} from './ButtonIconSizeContext';
 
@@ -19,14 +18,8 @@ export interface ButtonIconRenderProps {
 
 export interface ButtonIconProps {
     className?: string;
-    side?: 'left' | 'right' | 'start' | 'end';
+    side?: 'start' | 'end';
     children?: React.ReactNode | ((props: ButtonIconRenderProps) => React.ReactNode);
-}
-
-function warnAboutPhysicalValues() {
-    warnOnce(
-        '[Button.Icon] Physical values (left, right) of "side" property are deprecated. Use logical values (start, end) instead.',
-    );
 }
 
 export const ButtonIcon = ({side, className, children}: ButtonIconProps) => {
@@ -57,7 +50,7 @@ export const ButtonIcon = ({side, className, children}: ButtonIconProps) => {
             className={b(
                 'icon',
                 {
-                    side: getIconSide(side),
+                    side,
                 },
                 className,
             )}
@@ -68,18 +61,3 @@ export const ButtonIcon = ({side, className, children}: ButtonIconProps) => {
 };
 
 ButtonIcon.displayName = 'Button.Icon';
-
-export function getIconSide(side?: 'left' | 'right' | 'start' | 'end') {
-    let sideMod = side;
-
-    if (sideMod === 'left') {
-        warnAboutPhysicalValues();
-        sideMod = 'start';
-    }
-    if (sideMod === 'right') {
-        warnAboutPhysicalValues();
-        sideMod = 'end';
-    }
-
-    return sideMod;
-}

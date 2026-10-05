@@ -253,3 +253,19 @@ menu: {
 - useColorGenerator({seed, theme: 'dark'})
 + useColorGenerator({seed})
 ```
+
+## Сторона иконки Button.Icon и положение стрелки Disclosure
+
+Пропы `side` у `Button.Icon` и `arrowPosition` у `Disclosure` больше не принимают физические значения `left` и `right`.
+Используйте логические значения `start` и `end`. Они зависят от направления текста: `start` находится слева при LTR и справа при RTL.
+
+```diff
+- <Button.Icon side="left">...</Button.Icon>
++ <Button.Icon side="start">...</Button.Icon>
+- <Button.Icon side="right">...</Button.Icon>
++ <Button.Icon side="end">...</Button.Icon>
+- <Disclosure arrowPosition="left" />
++ <Disclosure arrowPosition="start" />
+- <Disclosure arrowPosition="right" />
++ <Disclosure arrowPosition="end" />
+```

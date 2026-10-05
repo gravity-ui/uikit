@@ -255,3 +255,19 @@ uses the current theme from `ThemeProvider`:
 - useColorGenerator({seed, theme: 'dark'})
 + useColorGenerator({seed})
 ```
+
+## `Button.Icon` side and `Disclosure` arrow position
+
+`Button.Icon` `side` and `Disclosure` `arrowPosition` no longer accept the physical values `left` and `right`.
+Use the logical values `start` and `end` instead. They follow the text direction: `start` is on the left in LTR and on the right in RTL.
+
+```diff
+- <Button.Icon side="left">...</Button.Icon>
++ <Button.Icon side="start">...</Button.Icon>
+- <Button.Icon side="right">...</Button.Icon>
++ <Button.Icon side="end">...</Button.Icon>
+- <Disclosure arrowPosition="left" />
++ <Disclosure arrowPosition="start" />
+- <Disclosure arrowPosition="right" />
++ <Disclosure arrowPosition="end" />
+```

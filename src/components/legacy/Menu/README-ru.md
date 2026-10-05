@@ -121,7 +121,8 @@ SANDBOX-->
 
 <!--SANDBOX
 import {Gear, TriangleExclamation} from '@gravity-ui/icons';
-import {Icon, Menu} from '@gravity-ui/uikit/legacy';
+import {Icon} from '@gravity-ui/uikit';
+import {Menu} from '@gravity-ui/uikit/legacy';
 
 export default function () {
     return (

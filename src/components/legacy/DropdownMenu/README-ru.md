@@ -308,7 +308,8 @@ SANDBOX-->
 <!--SANDBOX
 import {Bars, Pencil, TrashBin} from '@gravity-ui/icons';
 import type {DropdownMenuItem} from '@gravity-ui/uikit/legacy';
-import {Button, DropdownMenu, Icon} from '@gravity-ui/uikit/legacy';
+import {Button, Icon} from '@gravity-ui/uikit';
+import {DropdownMenu} from '@gravity-ui/uikit/legacy';
 
 const items: DropdownMenuItem[] = [
     {

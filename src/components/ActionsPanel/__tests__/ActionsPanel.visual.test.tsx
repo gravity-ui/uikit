@@ -6,7 +6,11 @@ import {test} from '~playwright/core';
 import {ActionsPanel} from '../ActionsPanel';
 import type {ActionsPanelProps} from '../types';
 
-import {TestActionsPanelNestedAction, TestActionsPanelWithNote} from './helpersPlaywright';
+import {
+    TestActionsPanelMenuCompatibility,
+    TestActionsPanelNestedAction,
+    TestActionsPanelWithNote,
+} from './helpersPlaywright';
 
 test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
     const noop = () => {
@@ -259,5 +263,32 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
         await page.getByRole('menuitem', {name: 'More'}).hover();
         await page.getByRole('menuitem', {name: 'Run'}).click();
         await expect(page.getByTestId('menu-action-result')).toHaveText('run');
+    });
+
+    test('preserves legacy item behavior in the overflow menu', async ({mount, page}) => {
+        await mount(<TestActionsPanelMenuCompatibility />);
+
+        const openMenu = async () => page.getByRole('button', {name: 'Show more'}).click();
+        const result = page.getByTestId('menu-action-result');
+
+        await openMenu();
+        await expect(page.getByRole('menuitem', {name: 'Invisible'})).toHaveCount(0);
+        await expect(page.getByTestId('custom-arrow')).toHaveCount(0);
+        await expect(page.getByRole('menuitem', {name: 'Active'})).toHaveClass(
+            /g-list-item-view_active/,
+        );
+
+        await page.getByRole('menuitem', {name: 'Empty'}).click();
+        await expect(result).toHaveText('empty');
+
+        await openMenu();
+        await page.getByRole('menuitem', {name: 'Hidden'}).click();
+        await expect(result).toHaveText('hidden');
+
+        await openMenu();
+        await page.getByRole('menuitem', {name: 'Parent'}).click();
+        await expect(result).toHaveText('hidden');
+        await page.getByRole('menuitem', {name: 'Run'}).click();
+        await expect(result).toHaveText('run');
     });
 });

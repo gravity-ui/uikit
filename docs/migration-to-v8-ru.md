@@ -35,13 +35,21 @@
 У нового `Menu` другой API: передавайте элементы как дочерние `MenuItem`, а триггер — через `trigger` (или используйте
 `inline`). Старые пропсы `Menu.Item`, `Menu.Group` и массив `DropdownMenu.items` доступны в `/legacy`. Примеры есть в
 [README нового Menu](../src/components/Menu/README.md). Новое меню использует CSS-классы `g-menu`, `g-menu-item` и
-`g-menu-divider`. Классы legacy-компонентов переименованы: `g-menu` → `g-menu-legacy`, `g-dropdown-menu` →
-`g-dropdown-menu-legacy`. В `DefaultPropsProvider` для старого меню используйте ключ `MenuLegacy`; ключ `DropdownMenu`
-не изменился.
+`g-menu-divider` вместо прежних `g-lab-menu*`. Классы legacy-компонентов переименованы: `g-menu` → `g-menu-legacy`,
+`g-dropdown-menu` → `g-dropdown-menu-legacy`. Обновите свои селекторы, включая селекторы меню переполнения вкладок.
+В `DefaultPropsProvider` для старого меню используйте ключ `MenuLegacy`; ключ `DropdownMenu` не изменился.
 
 Как и для других импортов из `/legacy`, установите необязательные peer-зависимости: `@hello-pangea/dnd`,
 `react-window` и `react-virtualized-auto-sizer`.
 Legacy-компоненты `Menu`, `MenuItem`, `MenuGroup` и `DropdownMenu` помечены `@deprecated` в типах.
+
+### Меню переполнения ActionsPanel
+
+`ActionsPanel` теперь использует стабильный `Menu` для элементов переполнения и подменю. Формат объекта
+`dropdown.item` остаётся совместимым с `DropdownMenuItem`. Если этот тип нужен явно, импортируйте его из `/legacy`
+или получите через `ActionsPanelProps['actions'][number]['dropdown']['item']`. Для собственных CSS и тестов замените
+селекторы `.g-dropdown-menu__*` и `li > div[role="menuitem"]` на селекторы новой разметки с `g-menu-item` и
+кнопкой/ссылкой. При прокрутке родительского элемента меню переполнения больше не закрывается автоматически.
 
 ## Breadcrumbs, Popover и Tabs удалены из `/legacy`
 
@@ -88,8 +96,9 @@ Legacy-компоненты `Menu`, `MenuItem`, `MenuGroup` и `DropdownMenu` п
 
 `Table`, его HOC (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`, `withTableSorting`) и
 `TableColumnSetup` переехали из корневой точки входа в `@gravity-ui/uikit/legacy`. Их API и разметка
-не изменились, CSS-блоки таблицы (`g-table`, `g-table-column-setup`, …) сохранили имена; поменялись только классы
-внутри попапа настроек колонок, см. ниже. Новые возможности таблиц появляются в
+не изменились, CSS-блоки таблицы (`g-table`, `g-table-column-setup`, …) сохранили имена. Меню действий строки теперь
+использует `g-menu-legacy` вместо `g-menu`; классы внутри попапа настроек колонок тоже изменились, см. ниже. Новые
+возможности таблиц появляются в
 [`@gravity-ui/table`](https://github.com/gravity-ui/table).
 
 ### Если мигрировать сейчас нельзя
@@ -112,8 +121,8 @@ Legacy-компоненты `Menu`, `MenuItem`, `MenuGroup` и `DropdownMenu` п
   удалены. Попап выглядит так же; перепишите переопределения, нацеленные на эти классы.
 - **`@deprecated`.** `Table`, его HOC и `TableColumnSetup` помечены `@deprecated` в типах: линтеры с правилом
   `no-deprecated` начнут сообщать об их использовании.
-- **`DefaultPropsProvider` больше не принимает ключ `TableColumnSetup`.** Legacy-компоненты не читают пропсы по
-  умолчанию: передавайте их в `TableColumnSetup` явно.
+- **`DefaultPropsProvider` больше не принимает ключ `TableColumnSetup`.** Сам `TableColumnSetup` не читает пропсы
+  по умолчанию из провайдера: передавайте их компоненту явно.
 - **Переводы.** Имена кейсетов (`Table`, `withTableSettings`, `TableColumnSetupInner`, `TableColumnSetup`) не
   изменились, переопределения через `addComponentKeysets` продолжают работать.
 

@@ -55,12 +55,16 @@ function renderMenuItems(items: (DropdownItem | DropdownItem[])[]): React.ReactN
             ) : (
                 label
             );
+            const submenuNodes = submenuItems ? renderMenuItems(submenuItems) : [];
+            const hasSubmenu = submenuNodes.length > 0;
             const menuItemProps = {
                 ...extraProps,
+                active: props.active,
                 className: props.className,
                 disabled: props.disabled,
                 icon: iconStart ? <React.Fragment>{iconStart}</React.Fragment> : undefined,
-                arrow: iconEnd ? <React.Fragment>{iconEnd}</React.Fragment> : undefined,
+                arrow:
+                    !hasSubmenu && iconEnd ? <React.Fragment>{iconEnd}</React.Fragment> : undefined,
                 qa: props.qa,
                 selected: props.selected,
                 style: props.style,
@@ -70,10 +74,12 @@ function renderMenuItems(items: (DropdownItem | DropdownItem[])[]): React.ReactN
                     extraProps?.onClick?.(
                         event as React.MouseEvent<HTMLDivElement & HTMLAnchorElement>,
                     );
-                    action?.(event);
+                    if (!hasSubmenu) {
+                        action?.(event);
+                    }
                 },
             };
-            const submenu = submenuItems && <Menu size="s">{renderMenuItems(submenuItems)}</Menu>;
+            const submenu = hasSubmenu ? <Menu size="s">{submenuNodes}</Menu> : null;
             const key = `${index}-${itemIndex}`;
             nodes.push(
                 typeof props.href === 'string' ? (

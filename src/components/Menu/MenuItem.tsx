@@ -57,6 +57,7 @@ export const MenuItem = React.forwardRef(
     ) => {
         const {
             theme,
+            active,
             selected,
             disabled,
             icon,
@@ -147,7 +148,8 @@ export const MenuItem = React.forwardRef(
         const commonComponentProps = menuContext.getItemProps({
             'data-qa': qa,
             ...restComponentProps,
-            role: 'menuitem',
+            role: selected === undefined ? 'menuitem' : 'menuitemcheckbox',
+            'aria-checked': selected,
             tabIndex,
             className: b(
                 {
@@ -182,7 +184,6 @@ export const MenuItem = React.forwardRef(
                 type: 'button',
                 disabled,
                 'aria-disabled': disabled ?? undefined,
-                'aria-pressed': selected ?? undefined,
             } satisfies React.ComponentProps<'button'>;
         }
 
@@ -194,7 +195,7 @@ export const MenuItem = React.forwardRef(
                 ref={handleRef}
                 size={menuContext.size}
                 disabled={disabled}
-                active={isActive && !hasFocusInside && !isHovered}
+                active={active || (isActive && !hasFocusInside && !isHovered)}
                 hovered={hasFocusInside || (!isActive && submenuOpen) || isHovered}
                 selected={selected}
                 selectionStyle="highlight"

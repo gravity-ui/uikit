@@ -36,6 +36,37 @@ function ComplexMenu() {
 }
 
 describe('Menu', () => {
+    test('labels inline and popup menus', async () => {
+        const user = userEvent.setup();
+        render(
+            <div>
+                <Menu inline aria-label="Inline actions">
+                    <Menu.Item>Inline item</Menu.Item>
+                </Menu>
+                <Menu trigger={<Menu.Trigger qa={TRIGGER_QA} />} aria-label="Popup actions">
+                    <Menu.Item>Popup item</Menu.Item>
+                </Menu>
+            </div>,
+        );
+
+        expect(screen.getByRole('menu', {name: 'Inline actions'})).toBeVisible();
+        await user.click(screen.getByTestId(TRIGGER_QA));
+        expect(screen.getByRole('menu', {name: 'Popup actions'})).toBeVisible();
+    });
+
+    test('uses menu item checkbox semantics for selected items', () => {
+        render(
+            <Menu inline>
+                <Menu.Item selected>Selected item</Menu.Item>
+            </Menu>,
+        );
+
+        expect(screen.getByRole('menuitemcheckbox', {name: 'Selected item'})).toHaveAttribute(
+            'aria-checked',
+            'true',
+        );
+    });
+
     test('should render default trigger', () => {
         render(<SimpleMenu />);
         const trigger = screen.getByTestId(TRIGGER_QA);

@@ -81,19 +81,22 @@ By default `Menu` is rendered inside the `Popup`. But you can render it inline u
 
 ## Properties
 
-| Name         | Description                                     |                                  Type                                   | Default |
-| :----------- | :---------------------------------------------- | :---------------------------------------------------------------------: | :-----: |
-| className    | HTML `class` attribute                          |                          `React.CSSProperties`                          |         |
-| style        | HTML `style` attribute                          |                                `string`                                 |         |
-| qa           | Test ID (`data-qa` attribute)                   |                                `string`                                 |         |
-| open         | Controlled state for `open`                     |                                `boolean`                                |         |
-| defaultOpen  | Uncontrolled state for `open`                   |                                `boolean`                                |         |
-| children     | Menu related components (items, dividers, etc.) |                            `React.ReactNode`                            |         |
-| disabled     | Disabled state                                  |                                `boolean`                                | `false` |
-| inline       | Renders the menu inline                         |                                `boolean`                                | `false` |
-| trigger      | Trigger element which opens the menu            | `React.ReactElement` `(triggerProps, triggerRef) => React.ReactElement` |         |
-| onOpenChange | Callback for `open` state change                |    `(open: boolean, event: Event, reason: OpenChangeReason) => void`    |         |
-| size         | The `Menu` size                                 |                        `"s"` `"m"` `"l"` `"xl"`                         |  `"m"`  |
+| Name            | Description                                     |                                              Type                                               |     Default      |
+| :-------------- | :---------------------------------------------- | :---------------------------------------------------------------------------------------------: | :--------------: |
+| className       | HTML `class` attribute                          |                                            `string`                                             |                  |
+| style           | HTML `style` attribute                          |                                      `React.CSSProperties`                                      |                  |
+| aria-label      | Accessible name for the menu                    |                                            `string`                                             |                  |
+| aria-labelledby | ID of an element that names the menu            |                                            `string`                                             |                  |
+| qa              | Test ID (`data-qa` attribute)                   |                                            `string`                                             |                  |
+| open            | Controlled state for `open`                     |                                            `boolean`                                            |                  |
+| defaultOpen     | Uncontrolled state for `open`                   |                                            `boolean`                                            |                  |
+| children        | Menu related components (items, dividers, etc.) |                                        `React.ReactNode`                                        |                  |
+| disabled        | Disabled state                                  |                                            `boolean`                                            |     `false`      |
+| inline          | Renders the menu inline                         |                                            `boolean`                                            |     `false`      |
+| trigger         | Trigger element which opens the menu            | `React.ReactElement` `(triggerProps, triggerRef) => React.ReactElement` `VirtualElement` `null` |                  |
+| placement       | Popup placement                                 |                                        `PopupPlacement`                                         | `"bottom-start"` |
+| onOpenChange    | Callback for `open` state change                |                `(open: boolean, event: Event, reason: OpenChangeReason) => void`                |                  |
+| size            | The `Menu` size                                 |                                    `"s"` `"m"` `"l"` `"xl"`                                     |      `"m"`       |
 
 ### MenuItem
 
@@ -103,10 +106,11 @@ By default `Menu` is rendered inside the `Popup`. But you can render it inline u
 | :-------- | :---------------------------------- | :----------------------------------------------------------------: | :--------: |
 | qa        | Test ID (`data-qa` attribute)       |                              `string`                              |            |
 | theme     | The `MenuItem` theme                | `"normal"` `"info"` `"success"` `"warning"` `"danger"` `"utility"` | `"normal"` |
-| selected  | Selected state                      |                             `boolean`                              |  `false`   |
+| active    | Highlights the item                 |                             `boolean`                              |            |
+| selected  | Selected state (`menuitemcheckbox`) |                             `boolean`                              |            |
 | disabled  | Disabled state                      |                             `boolean`                              |  `false`   |
-| icon      | Render slot for an icon             |                         `React.ReactNode`                          |            |
-| arrow     | Render slot for a nested menu arrow |                         `React.ReactNode`                          |            |
+| icon      | Render slot for an icon             |                        `React.ReactElement`                        |            |
+| arrow     | Render slot for a nested menu arrow |                        `React.ReactElement`                        |            |
 | children  | Content                             |                         `React.ReactNode`                          |            |
 | component | Custom root component               |                        `React.ElementType`                         |            |
 

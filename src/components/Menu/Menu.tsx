@@ -110,6 +110,9 @@ export function Menu({
     className,
     style,
     qa,
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledby,
+    'aria-describedby': ariaDescribedby,
 }: MenuProps) {
     const [anchorElement, setAnchorElement] = React.useState<HTMLElement | null>(null);
     const [floatingElement, setFloatingElement] = React.useState<HTMLDivElement | null>(null);
@@ -159,6 +162,13 @@ export function Menu({
         shift({...detectOverflowOptions}),
     ];
     const interactions = [hover, click, dismiss, role, listNavigation];
+    const labelingProps = {
+        ...(ariaLabel === undefined ? {} : {'aria-label': ariaLabel}),
+        ...(ariaLabel === undefined && ariaLabelledby === undefined
+            ? {}
+            : {'aria-labelledby': ariaLabelledby}),
+        ...(ariaDescribedby === undefined ? {} : {'aria-describedby': ariaDescribedby}),
+    };
     const {getReferenceProps, getItemProps} = useInteractions(interactions);
 
     const anchorRef = useForkRef(
@@ -188,7 +198,7 @@ export function Menu({
 
                 const element = event.currentTarget;
                 const index = [
-                    ...(element.closest('[role="menu"]')?.querySelectorAll('[role="menuitem"]') ??
+                    ...(element.closest('[role="menu"]')?.querySelectorAll('[role^="menuitem"]') ??
                         []),
                 ].indexOf(element);
 
@@ -262,6 +272,9 @@ export function Menu({
                     render={
                         <div
                             role="menu"
+                            aria-label={ariaLabel}
+                            aria-labelledby={ariaLabelledby}
+                            aria-describedby={ariaDescribedby}
                             className={b(null, className)}
                             style={style}
                             data-qa={qa}
@@ -291,7 +304,7 @@ export function Menu({
                 floatingContext={floatingContext}
                 floatingRef={setFloatingElement}
                 floatingMiddlewares={middlewares}
-                floatingInteractions={interactions}
+                floatingInteractions={[...interactions, {floating: labelingProps}]}
             >
                 <MenuContext.Provider value={contextValue}>
                     <FloatingList elementsRef={itemsRef}>

@@ -3,7 +3,7 @@ import type * as React from 'react';
 import type {VirtualElement} from '@floating-ui/react';
 
 import type {PopupProps} from '../Popup';
-import type {DOMProps, QAProps} from '../types';
+import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import type {PolymorphicComponentProps, PolymorphicCustomElementType} from '../utils/polymorphic';
 
 export type MenuSize = 's' | 'm' | 'l' | 'xl';
@@ -13,6 +13,7 @@ export type MenuItemTheme = 'normal' | 'info' | 'success' | 'warning' | 'danger'
 export interface MenuProps
     extends Pick<PopupProps, 'open' | 'onOpenChange' | 'placement'>,
         DOMProps,
+        AriaLabelingProps,
         QAProps {
     size?: MenuSize;
     defaultOpen?: boolean;
@@ -28,6 +29,7 @@ export interface MenuProps
 
 interface MenuItemCommonProps extends QAProps {
     theme?: MenuItemTheme;
+    active?: boolean;
     selected?: boolean;
     disabled?: boolean;
     icon?: React.ReactElement;

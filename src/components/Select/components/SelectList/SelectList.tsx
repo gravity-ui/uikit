@@ -26,7 +26,9 @@ import './SelectList.scss';
 
 type SelectListProps = {
     mobile: boolean;
-    onOptionClick: (option: SelectOption) => void;
+    onSelectedUpdate: (value: string[]) => void;
+    /** An option was applied: the selection has already changed by then */
+    onOptionAction: (option: SelectOption) => void;
     renderOption?: SelectProps['renderOption'];
     renderOptionGroup?: SelectProps['renderOptionGroup'];
     getOptionText?: SelectProps['getOptionText'];
@@ -51,9 +53,6 @@ type SelectListProps = {
     onActiveItemUpdate: (id: string | null) => void;
 };
 
-/** The value is owned by useSelect and changes through onItemAction only */
-const noop = () => {};
-
 const getItemId = (node: SelectListNode) => (isSelectGroupNode(node) ? node.id : node.value);
 
 const getItemChildren = (node: SelectListNode) =>
@@ -64,7 +63,8 @@ const getItemDisabled = (node: SelectListNode) => Boolean(node.disabled);
 export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
     function SelectList(props, ref) {
         const {
-            onOptionClick,
+            onSelectedUpdate,
+            onOptionAction,
             renderOption,
             renderOptionGroup,
             getOptionText,
@@ -141,9 +141,9 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
                     return;
                 }
 
-                onOptionClick(node);
+                onOptionAction(node);
             },
-            [onOptionClick],
+            [onOptionAction],
         );
 
         const renderItem = React.useCallback(
@@ -269,7 +269,7 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
                 focusOwner={focusOwner}
                 selectionMode={multiple ? 'multiple' : 'single'}
                 selectedIds={value}
-                onSelectedUpdate={noop}
+                onSelectedUpdate={onSelectedUpdate}
                 activeItemId={activeItemId ?? null}
                 onActiveItemUpdate={onActiveItemUpdate}
                 onItemAction={handleItemAction}

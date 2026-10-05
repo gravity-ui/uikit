@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import {useSelect} from '../../hooks';
+import {useControlledState} from '../../hooks';
 import {useForkRef} from '../../hooks/useForkRef/useForkRef';
 import type {ButtonProps} from '../Button';
 import {Button} from '../Button';
@@ -111,12 +111,23 @@ export const Palette = React.forwardRef<HTMLDivElement, PaletteProps>(
         const innerRef = React.useRef<HTMLDivElement>(null);
         const handleRef = useForkRef(ref, innerRef);
 
-        const {value, handleSelection} = useSelect({
-            value: props.value,
-            defaultValue: props.defaultValue,
-            multiple,
-            onUpdate: props.onUpdate,
-        });
+        const [value, setValue] = useControlledState(
+            props.value,
+            props.defaultValue ?? [],
+            props.onUpdate,
+        );
+
+        const handleSelection = (option: PaletteOption) => {
+            if (multiple) {
+                setValue(
+                    value.includes(option.value)
+                        ? value.filter((item) => item !== option.value)
+                        : [...value, option.value],
+                );
+            } else if (!value.includes(option.value)) {
+                setValue([option.value]);
+            }
+        };
 
         const rows = React.useMemo(() => getPaletteRows(options, columns), [columns, options]);
 

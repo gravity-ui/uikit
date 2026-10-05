@@ -3,7 +3,8 @@
 import * as React from 'react';
 
 import {KeyCode} from '../../constants';
-import {useControlledState, useFocusWithin, useForkRef, useSelect, useUniqId} from '../../hooks';
+import {useControlledState, useFocusWithin, useForkRef, useUniqId} from '../../hooks';
+import {useOpenState} from '../../hooks/useSelect/useOpenState';
 import {useListFocusOwner} from '../List';
 import {ListVirtualizationContext} from '../List/VirtualizationContext';
 import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
@@ -81,7 +82,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         sheetClassName,
         qa,
         value: propsValue,
-        defaultValue,
+        defaultValue = [],
         defaultOpen,
         open: propsOpen,
         label,
@@ -123,17 +124,23 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     // width of the popup and for the modifier of the list
     const virtualized = React.useContext(ListVirtualizationContext) !== null;
 
-    const {value, open, toggleOpen, setValue, handleSelection, handleClearValue} = useSelect({
-        onUpdate,
-        value: propsValue,
-        defaultValue,
+    const [value, setValueState] = useControlledState(propsValue, defaultValue, onUpdate);
+    const {open, toggleOpen} = useOpenState({
         defaultOpen,
-        multiple,
-        open: propsOpen,
         onClose,
         onOpenChange,
-        disabled,
+        open: propsOpen,
     });
+
+    const setValue = React.useCallback(
+        (nextValue: string[]) => {
+            if (!disabled) {
+                setValueState(nextValue);
+            }
+        },
+        [disabled, setValueState],
+    );
+    const handleClearValue = React.useCallback(() => setValue([]), [setValue]);
 
     React.useEffect(() => {
         if (!open && filterable && mobile) {
@@ -223,16 +230,37 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const isErrorIconVisible =
         isErrorStateVisible && Boolean(errorMessage) && errorPlacement === 'inside';
 
-    const handleOptionClick = React.useCallback(
+    // A click and Enter change the selection through the List; a Space on the trigger is the gesture
+    // of the Select — the core leaves it to the owner of an active descendant
+    const handleOptionSpace = React.useCallback(
         (option?: SelectOption) => {
             if (!option || option.disabled) {
                 return;
             }
 
-            handleSelection(option);
+            if (multiple) {
+                setValue(
+                    value.includes(option.value)
+                        ? value.filter((item) => item !== option.value)
+                        : [...value, option.value],
+                );
+                return;
+            }
+
+            if (!value.includes(option.value)) {
+                setValue([option.value]);
+            }
+
+            toggleOpen(false);
         },
-        [handleSelection],
+        [multiple, setValue, toggleOpen, value],
     );
+
+    const handleOptionAction = React.useCallback(() => {
+        if (!multiple) {
+            toggleOpen(false);
+        }
+    }, [multiple, toggleOpen]);
 
     const mods: CnMods = {
         ...(width === 'max' && {width}),
@@ -302,7 +330,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 e.preventDefault();
 
                 if (e.key === KeyCode.SPACEBAR && !handledByList) {
-                    handleOptionClick(activeOption);
+                    handleOptionSpace(activeOption);
                 }
             }
             if ([KeyCode.ARROW_DOWN, KeyCode.ARROW_UP].includes(e.key) && !open) {
@@ -313,7 +341,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 toggleOpen(false);
             }
         },
-        [activeOption, handleOptionClick, open, toggleOpen],
+        [activeOption, handleOptionSpace, open, toggleOpen],
     );
 
     const handleFilterKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLElement>) => {
@@ -354,7 +382,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                     groupsWithOptions={groupsWithOptions}
                     multiple={multiple}
                     virtualized={virtualized}
-                    onOptionClick={handleOptionClick}
+                    onSelectedUpdate={setValue}
+                    onOptionAction={handleOptionAction}
                     renderOption={renderOption}
                     renderOptionGroup={renderOptionGroup}
                     getOptionText={getOptionText}

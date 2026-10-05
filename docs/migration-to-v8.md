@@ -7,8 +7,26 @@
 This page collects the breaking changes of `@gravity-ui/uikit` v8 and the way through each of them. Every section
 says what changed, how to keep the old behavior for now, and where to go next.
 
-Components that are no longer developed move to the `@gravity-ui/uikit/legacy` entry point. They keep their API
-there, but no removal date for `/legacy` is promised: plan the migration away from them.
+Components that are no longer developed move to the `@gravity-ui/uikit/legacy` entry point. Components still available
+there keep their API, but no removal date for `/legacy` is promised: plan the migration away from them.
+
+## Breadcrumbs, Popover and Tabs removed from `/legacy`
+
+The legacy `Breadcrumbs`, `Popover` and `Tabs` components, their types and related exports are no longer available
+from `@gravity-ui/uikit/legacy`. Replace them with the current components from `@gravity-ui/uikit`:
+
+| Removed legacy component | Replacement                                                                        | Migration guide                                                                |
+| :----------------------- | :--------------------------------------------------------------------------------- | :----------------------------------------------------------------------------- |
+| `Breadcrumbs`            | [`Breadcrumbs`](../src/components/Breadcrumbs/README.md)                           | [Props, items and rendering](../src/components/Breadcrumbs/migration-guide.md) |
+| `Popover`                | [`Popover`](../src/components/Popover/README.md)                                   | [Content and behavior](../src/components/Popover/migration-guide.md)           |
+| `Tabs`                   | [`TabList`, `Tab`, `TabProvider` and `TabPanel`](../src/components/tabs/README.md) | [Items and selection](../src/components/tabs/migration-guide.md)               |
+
+There is no temporary import path for these components in v8. The replacements are already available from the root
+entry point in v7, so you can migrate before upgrading. Other legacy components remain available.
+
+**Translations:** The legacy `Breadcrumbs` keyset is removed. The current component now uses the `Breadcrumbs` keyset
+instead of `lab/Breadcrumbs`, so existing `Breadcrumbs.label_more` overrides keep working. Rename overrides of
+`lab/Breadcrumbs` to `Breadcrumbs`; the current keyset also contains `breadcrumbs`.
 
 ## Dialog layout
 

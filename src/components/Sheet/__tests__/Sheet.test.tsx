@@ -386,7 +386,7 @@ describe('Sheet', () => {
                 expect(onLayersChange).toHaveBeenCalledWith(
                     expect.objectContaining({
                         eventId: 'layerschange',
-                        meta: {layersCount: 0, layers: []},
+                        meta: {layers: []},
                     }),
                 );
                 expect(screen.getByRole('dialog')).toBeInTheDocument();

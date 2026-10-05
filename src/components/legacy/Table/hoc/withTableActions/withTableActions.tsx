@@ -171,9 +171,11 @@ const DefaultRowActions = <I extends TableDataItem>({
         <div className={actionsCn}>
             <Popup
                 open={isPopupOpen}
-                anchorRef={anchorRef}
+                anchorElement={anchorRef.current}
                 placement={DEFAULT_PLACEMENT}
-                onOutsideClick={closePopup}
+                onOpenChange={(open, _event, reason) => {
+                    if (!open && reason === 'outside-press') closePopup();
+                }}
                 id={rowId}
                 className={bPopup()}
                 qa={tableQa && `${tableQa}-actions-popup`}

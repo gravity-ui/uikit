@@ -5,7 +5,7 @@ import type {DialogBodyProps} from '../DialogBody/DialogBody';
 import type {DialogFooterProps} from '../DialogFooter/DialogFooter';
 import type {DialogHeaderProps} from '../DialogHeader/DialogHeader';
 
-export const sizeCases: Cases<DialogProps['size']> = ['s', 'm', 'l'];
+export const sizeCases: Cases<DialogProps['maxWidth']> = ['s', 'm', 'l'];
 
 /* eslint-disable react/jsx-key */
 

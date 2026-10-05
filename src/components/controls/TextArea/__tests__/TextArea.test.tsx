@@ -16,6 +16,15 @@ describe('TextArea', () => {
             expect(input.tagName.toLowerCase()).toBe('textarea');
         });
 
+        test('forwards controlProps.onKeyPress to the textarea', () => {
+            const onKeyPress = jest.fn();
+            render(<TextArea controlProps={{onKeyPress}} />);
+
+            fireEvent.keyPress(screen.getByRole('textbox'), {key: 'a', charCode: 97});
+
+            expect(onKeyPress).toHaveBeenCalledTimes(1);
+        });
+
         test('render note container with note prop', () => {
             render(<TextArea note={<div>Additional</div>} />);
 
@@ -82,7 +91,7 @@ describe('TextArea', () => {
     });
 
     describe('error', () => {
-        test('render error message with errorMessage prop (if it is not an empty string)', () => {
+        test('do not show error message without invalid state', () => {
             render(<TextArea errorMessage="Some Error with errorMessage prop" />);
 
             expect(screen.queryByText('Some Error with errorMessage prop')).not.toBeInTheDocument();

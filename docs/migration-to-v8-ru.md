@@ -29,9 +29,9 @@
 + <Link href="/help" target="_blank">Помощь</Link>
 ```
 
-## Проп `error` у TextInput, TextArea и Select
+## Проп `error` у TextInput, PasswordInput, TextArea и Select
 
-`TextInput`, `TextArea` и `Select` больше не принимают устаревший проп `error`. Для состояния ошибки используйте
+`TextInput`, `PasswordInput`, `TextArea` и `Select` больше не принимают устаревший проп `error`. Для состояния ошибки используйте
 `validationState="invalid"`, а для текста ошибки — `errorMessage`:
 
 ```diff
@@ -41,21 +41,25 @@
 + <TextArea validationState="invalid" />
 - <Select error={hasError} />
 + <Select validationState={hasError ? 'invalid' : undefined} />
+- <TextInput error={errorText} />
++ <TextInput validationState={errorText ? 'invalid' : undefined} errorMessage={errorText} />
 ```
 
-Замена одинакова для всех трёх компонентов. Если прежнее значение `error` было `false`, не задавайте `validationState`.
+Замена одинакова для всех четырёх компонентов. Если `error` был единственным признаком ошибки, ложные значения (`false`,
+`''` и `undefined`) не включали состояние ошибки.
 
-## Проп `onKeyPress` у TextInput
+## Проп `onKeyPress` у TextInput, PasswordInput, TextArea и NumberInput
 
-`TextInput` больше не принимает устаревший проп `onKeyPress` на верхнем уровне. Используйте `onKeyDown`:
+Эти компоненты больше не принимают устаревший проп `onKeyPress` на верхнем уровне. Используйте `onKeyDown`:
 
 ```diff
 - <TextInput onKeyPress={handleKeyPress} />
 + <TextInput onKeyDown={handleKeyDown} />
 ```
 
-`onKeyDown` также вызывается для клавиш без символа. Если прежний обработчик работал только с вводимыми символами,
-проверяйте `event.key`.
+В отличие от `onKeyPress`, `onKeyDown` вызывается для клавиш без символа и при вводе через IME, а его `event.charCode`
+равен `0`. Проверяйте `event.key` и при необходимости `event.nativeEvent.isComposing`. Чтобы временно сохранить прежнее
+поведение, передайте компоненту `controlProps={{onKeyPress: handleKeyPress}}`.
 
 ## Menu и DropdownMenu
 

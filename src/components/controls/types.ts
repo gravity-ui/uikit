@@ -51,8 +51,6 @@ export type BaseInputControlProps<T = Element> = DOMProps &
         onFocus?: React.FocusEventHandler<T>;
         /** Fires when a key is pressed. Provides keyboard event as an callback's argument */
         onKeyDown?: React.KeyboardEventHandler<T>;
-        /** @deprecated use `onKeyDown` instead */
-        onKeyPress?: React.KeyboardEventHandler<T>;
         /** Fires when a key is released. Provides keyboard event as an callback's argument */
         onKeyUp?: React.KeyboardEventHandler<T>;
         /** Fires when the input’s value is changed by the user. Provides new value as an callback's argument */

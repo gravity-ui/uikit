@@ -24,9 +24,9 @@ describe('NumberInput input', () => {
             expect(input.tagName.toLowerCase()).toBe('input');
         });
 
-        test('forwards onKeyPress to the input', () => {
+        test('forwards controlProps.onKeyPress to the input', () => {
             const onKeyPress = jest.fn();
-            render(<NumberInput onKeyPress={onKeyPress} />);
+            render(<NumberInput controlProps={{onKeyPress}} />);
 
             fireEvent.keyPress(getInput(), {key: '1', charCode: 49});
 

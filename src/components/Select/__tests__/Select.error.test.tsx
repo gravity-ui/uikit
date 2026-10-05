@@ -27,7 +27,7 @@ describe('Select error', () => {
 
         expect(selectControl).toHaveClass(SELECT_CONTROL_BUTTON_ERROR_CLASS);
     });
-    test('render error message with errorMessage prop (if it is not an empty string)', () => {
+    test('do not show error message without invalid state', () => {
         render(<Select errorMessage="Some Error with errorMessage prop" />);
 
         expect(screen.queryByText('Some Error with errorMessage prop')).not.toBeInTheDocument();

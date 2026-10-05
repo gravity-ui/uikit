@@ -29,7 +29,7 @@ import './TextInput.scss';
 
 const b = block('text-input');
 
-export type TextInputProps = Omit<BaseInputControlProps<HTMLInputElement>, 'onKeyPress'> & {
+export type TextInputProps = BaseInputControlProps<HTMLInputElement> & {
     /** The control's [type](https://developer.mozilla.org/en-US/docs/Learn/Forms/HTML5_input_types) */
     type?: 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url';
     /** The control's html attributes */

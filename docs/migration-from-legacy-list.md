@@ -131,7 +131,7 @@ A selected row is highlighted in the `single` mode and marked with a check in `m
 - **The active item is not reset.** With `deactivateOnLeave` the legacy list dropped the active item when the pointer or the focus left it. Now the item stays active and only its indication goes out: the hover is the CSS `:hover` of a row, and the keyboard cursor is hidden while the mouse is in use or the focus is elsewhere. `onActiveItemUpdate` is not called with `null` on leave.
 - **The list is a tab stop.** The legacy root was out of the tab order and took the keys of its filter input. The new list is a single tab stop, and DOM focus sits on its active row — or stays in your input with `useListFocusOwner`. To move the focus into the list from your code, focus its tab stop: `listRef.current?.querySelector<HTMLElement>('[tabindex="0"]')?.focus()`.
 - **Focus is not taken from the outside.** An `activeItemId` that comes from your code moves the highlight and the tab stop, but not DOM focus.
-- **The list scrolls its own root and never the page.** The active row is brought into view on mount, on a key and when `activeItemId` changes from your code; a row activated by the pointer is not scrolled to. For that the root has to scroll, see [Quick example](#quick-example). `onScrollToItem` has no equivalent, and neither has `activateItem(index, false)`: to show a row, make it active.
+- **The list scrolls its own root rather than the page.** The active row is brought into view on mount, on a key, when rows change around it, and when `activeItemId` changes from your code while the pointer is off the list. A row activated by the pointer is not scrolled to, and the list does not move under a pointer that rests on it — unless nothing was active before. For that the root has to scroll, see [Quick example](#quick-example); a root that does not falls back to `scrollIntoView`, and only on a key. `onScrollToItem` has no equivalent, and neither has `activateItem(index, false)`: to show a row, make it active.
 
 Disabled items, the activation on hover — now switched off with `activateOnHover={false}` — and the `click` event published to the `eventBroker` under the `List` component id work as before.
 
@@ -354,18 +354,18 @@ There is no built-in filter. Render an input of your own, filter `items` before 
 
 The new `List` is a function component, and its `ref` is the root element — the scroll container. The methods and the fields of the instance are gone.
 
-| Legacy                                | New                                   | Notes                                                                                             |
-| :------------------------------------ | :------------------------------------ | :------------------------------------------------------------------------------------------------ |
-| `getItems()`, `getItemsWithLoading()` | —                                     | The list has no copy of `items`                                                                   |
-| `getActiveItem()`                     | The id passed to `onActiveItemUpdate` |                                                                                                   |
-| `activateItem(index, scrollTo)`       | A controlled `activeItemId`           | The list brings the row into view itself; there is no flag to skip that                           |
-| `onKeyDown(event)`                    | `useListFocusOwner()`                 | See [Keyboard](#keyboard)                                                                         |
-| `refFilter`                           | The ref of your input                 |                                                                                                   |
-| `refContainer`                        | `ref`                                 | It pointed at the `react-window` instance or at the inner container; now the root is what scrolls |
-| `uniqId`                              | `id`                                  | Pass an id of your own to know it                                                                 |
-| `state`, `loadingItem`, `blurTimer`   | —                                     | Internals of the class                                                                            |
-| `List.moveListElement()`              | `moveItem()`                          | See [Sorting](#sorting)                                                                           |
-| `List.findNextIndex()`                | —                                     | Navigation is internal                                                                            |
+| Legacy                                | New                                   | Notes                                                                                                                                 |
+| :------------------------------------ | :------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------ |
+| `getItems()`, `getItemsWithLoading()` | —                                     | The list has no copy of `items`                                                                                                       |
+| `getActiveItem()`                     | The id passed to `onActiveItemUpdate` |                                                                                                                                       |
+| `activateItem(index, scrollTo)`       | A controlled `activeItemId`           | The list brings the row into view itself, on the conditions of [Behavior differences](#behavior-differences); there is no flag for it |
+| `onKeyDown(event)`                    | `useListFocusOwner()`                 | See [Keyboard](#keyboard)                                                                                                             |
+| `refFilter`                           | The ref of your input                 |                                                                                                                                       |
+| `refContainer`                        | `ref`                                 | It pointed at the `react-window` instance or at the inner container; now the root is what scrolls                                     |
+| `uniqId`                              | `id`                                  | Pass an id of your own to know it                                                                                                     |
+| `state`, `loadingItem`, `blurTimer`   | —                                     | Internals of the class                                                                                                                |
+| `List.moveListElement()`              | `moveItem()`                          | See [Sorting](#sorting)                                                                                                               |
+| `List.findNextIndex()`                | —                                     | Navigation is internal                                                                                                                |
 
 ## Types
 

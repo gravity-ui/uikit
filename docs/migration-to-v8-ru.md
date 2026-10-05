@@ -153,6 +153,11 @@ menu: {
 
 Значения (`s`, `m`, `l`, `xl`) и значение по умолчанию (`m`) не изменились.
 
+## Событие `layerschange` у `LayerManager`
+
+В событии `layerschange` больше нет устаревшего поля `meta.layersCount`. Чтобы получить число слоёв, используйте
+`meta.layers.length`. Функция `getLayersCount()` остаётся доступной.
+
 ## Table и TableColumnSetup
 
 `Table`, его HOC (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`, `withTableSorting`) и

@@ -87,6 +87,49 @@ menu: {
 `lab/Breadcrumbs`, поэтому существующие переопределения `Breadcrumbs.label_more` продолжат работать. Переименуйте
 переопределения `lab/Breadcrumbs` в `Breadcrumbs`; актуальный кейсет также содержит `breadcrumbs`.
 
+## Устаревшие API Modal и Dialog
+
+У `Modal` и `Dialog` удалены пропсы `onClose`, `onEscapeKeyDown`, `onOutsideClick` и `onEnterKeyDown`. Для закрытия используйте `onOpenChange(open, event?, reason?)`. Вместо старого типа `ModalCloseReason` доступен публичный тип `OpenChangeReason` из `@gravity-ui/uikit`.
+
+| Прежний колбэк и причина                    | Новый вызов `onOpenChange`        |
+| :------------------------------------------ | :-------------------------------- |
+| `onClose(event, 'escapeKeyDown')`           | `(false, event, 'escape-key')`    |
+| `onClose(event, 'outsideClick')`            | `(false, event, 'outside-press')` |
+| `Dialog.onClose(event, 'closeButtonClick')` | `(false, event, 'click')`         |
+
+Скрытая кнопка закрытия для скринридера вызывает `onOpenChange(false, event)` с `reason === undefined`. Закрывайте окно при `open === false`; проверяйте `reason` только для действий, зависящих от причины.
+
+```diff
+- <Modal open={open} onClose={() => setOpen(false)}>
++ <Modal open={open} onOpenChange={setOpen}>
+```
+
+У `Dialog` удалён проп `size`. Для прежней фиксированной ширины передайте `maxWidth` с тем же значением и `fullWidth`:
+
+```diff
+- <Dialog size="m" open={open} onClose={handleClose}>
++ <Dialog maxWidth="m" fullWidth open={open} onOpenChange={setOpen}>
+```
+
+В диалоге подтверждения без полей замените `onEnterKeyDown` на `initialFocus="apply"`. В диалоге с полями используйте отправку формы. Кнопка применения в `Dialog.Footer` уже имеет `type="submit"`; свяжите её с формой внутри `Dialog.Body` через `propsButtonApply.form`, чтобы сохранить прокрутку содержимого. Обработчик действия должен быть только в `onSubmit`, а не одновременно в `onClickButtonApply`:
+
+```tsx
+<Dialog open={open} onOpenChange={setOpen}>
+  <Dialog.Body>
+    <form
+      id="dialog-form"
+      onSubmit={(event) => {
+        event.preventDefault();
+        handleApply();
+      }}
+    >
+      <TextInput />
+    </form>
+  </Dialog.Body>
+  <Dialog.Footer textButtonApply="Apply" propsButtonApply={{form: 'dialog-form'}} />
+</Dialog>
+```
+
 ## Геометрия Dialog
 
 У `Dialog` уменьшились отступы заголовка и содержимого. У заголовка отступы сверху и снизу составляют 12 и 8 px,

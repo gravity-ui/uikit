@@ -16,12 +16,9 @@ import {
 } from '@floating-ui/react';
 import type {
     FloatingFocusManagerProps,
-    OpenChangeReason,
-    UseFloatingOptions,
+    OpenChangeReason as FloatingOpenChangeReason,
 } from '@floating-ui/react';
-import {isTabbable} from 'tabbable';
 
-import {KeyCode} from '../../constants';
 import {useForkRef} from '../../hooks';
 import {useFloatingTransition} from '../../hooks/private/useFloatingTransition';
 import {Portal} from '../Portal';
@@ -37,7 +34,7 @@ import i18n from './i18n';
 
 import './Modal.scss';
 
-export type ModalCloseReason = 'outsideClick' | 'escapeKeyDown' | string | undefined;
+export type OpenChangeReason = FloatingOpenChangeReason;
 
 export interface ModalProps
     extends Pick<PortalProps, 'container' | 'disablePortal'>,
@@ -62,31 +59,6 @@ export interface ModalProps
     disableVisuallyHiddenDismiss?: boolean;
 
     children?: React.ReactNode;
-    /**
-     * This callback will be called when Escape key pressed on keyboard, or click outside was made
-     * This behaviour could be disabled with `disableEscapeKeyDown`
-     * and `disableOutsideClick` options
-     * @deprecated Use `onOpenChange` instead
-     */
-    onClose?: (event: MouseEvent | KeyboardEvent, reason: ModalCloseReason) => void;
-    /**
-     * This callback will be called when Escape key pressed on keyboard
-     * This behaviour could be disabled with `disableEscapeKeyDown` option
-     * @deprecated Use `onOpenChange` instead
-     */
-    onEscapeKeyDown?: (event: KeyboardEvent) => void;
-    /**
-     * This callback will be called when Enter key is pressed on keyboard
-     * @deprecated It is not recommended to use this callback.
-     * Consider using the submit event in case of a form content or using initialFocus property on the confirm button in case of non-interactive content
-     */
-    onEnterKeyDown?: (event: KeyboardEvent) => void;
-    /**
-     * This callback will be called when click is outside of elements of "top layer"
-     * This behaviour could be disabled with `disableOutsideClick` option
-     * @deprecated Use `onOpenChange` instead
-     */
-    onOutsideClick?: (event: MouseEvent) => void;
     /** Do not dismiss on escape key press */
     disableEscapeKeyDown?: boolean;
     /** Do not dismiss on outside click */
@@ -121,10 +93,6 @@ function ModalComponent(rawProps: ModalProps) {
         initialFocus,
         returnFocus,
         disableVisuallyHiddenDismiss,
-        onEscapeKeyDown,
-        onOutsideClick,
-        onClose,
-        onEnterKeyDown,
         onTransitionIn,
         onTransitionInComplete,
         onTransitionOut,
@@ -149,42 +117,12 @@ function ModalComponent(rawProps: ModalProps) {
     const overlayRef = React.useRef<HTMLDivElement>(null);
     const [isVisible, setIsVisible] = React.useState(false);
 
-    const handleOpenChange = React.useCallback<NonNullable<UseFloatingOptions['onOpenChange']>>(
-        (isOpen, event, reason) => {
-            onOpenChange?.(isOpen, event, reason);
-
-            if (isOpen || !event) {
-                return;
-            }
-
-            let closeReason;
-            if (reason === 'escape-key') {
-                closeReason = 'escapeKeyDown';
-            } else if (reason === 'outside-press') {
-                closeReason = 'outsideClick';
-            } else {
-                closeReason = reason;
-            }
-
-            if (closeReason === 'escapeKeyDown' && onEscapeKeyDown) {
-                onEscapeKeyDown(event as KeyboardEvent);
-            }
-
-            if (closeReason === 'outsideClick' && onOutsideClick) {
-                onOutsideClick(event as MouseEvent);
-            }
-
-            onClose?.(event as KeyboardEvent | MouseEvent, closeReason);
-        },
-        [onOpenChange, onEscapeKeyDown, onOutsideClick, onClose],
-    );
-
     const floatingNodeId = useFloatingNodeId();
 
-    const {refs, elements, context} = useFloating({
+    const {refs, context} = useFloating({
         nodeId: floatingNodeId,
         open,
-        onOpenChange: handleOpenChange,
+        onOpenChange,
     });
 
     const handleFloatingRef = useForkRef<HTMLDivElement>(
@@ -239,40 +177,6 @@ function ModalComponent(rawProps: ModalProps) {
         onTransitionOutComplete: handleTransitionOutComplete,
     });
 
-    const handleKeyDown = React.useCallback(
-        (event: React.KeyboardEvent) => {
-            if (!onEnterKeyDown || event.key !== KeyCode.ENTER || event.defaultPrevented) {
-                return;
-            }
-
-            const floatingElement = elements.floating;
-            if (!floatingElement) {
-                return;
-            }
-            const pathElements = event.nativeEvent.composedPath();
-            const index = pathElements.indexOf(floatingElement);
-
-            const nestedElements = index < 0 ? pathElements : pathElements.slice(0, index);
-            const nestedFloatingElementIndex = nestedElements.findIndex((el) =>
-                (el as Element)?.hasAttribute('data-floating-ui-focusable'),
-            );
-
-            if (nestedFloatingElementIndex < 0) {
-                onEnterKeyDown(event.nativeEvent);
-                return;
-            }
-
-            const hasInnerTabbableElements = nestedElements
-                .slice(0, nestedFloatingElementIndex)
-                .some((el) => isTabbable(el as Element));
-
-            if (!hasInnerTabbableElements) {
-                onEnterKeyDown(event.nativeEvent);
-            }
-        },
-        [elements.floating, onEnterKeyDown],
-    );
-
     const {t} = i18n.useTranslation();
 
     return (
@@ -314,9 +218,7 @@ function ModalComponent(rawProps: ModalProps) {
                                         contentClassName,
                                     )}
                                     ref={handleFloatingRef}
-                                    {...getFloatingProps({
-                                        onKeyDown: handleKeyDown,
-                                    })}
+                                    {...getFloatingProps()}
                                 >
                                     {children}
                                 </div>

@@ -10,6 +10,66 @@ says what changed, how to keep the old behavior for now, and where to go next.
 Components that are no longer developed move to the `@gravity-ui/uikit/legacy` entry point. Components still available
 there keep their API, but no removal date for `/legacy` is promised: plan the migration away from them.
 
+## Menu and DropdownMenu
+
+`Menu` and `DropdownMenu` from the root entry point have moved to `@gravity-ui/uikit/legacy`. To keep their current
+behavior, change only the imports (including `MenuProps`, `MenuItemProps`, `MenuGroupProps`, `DropdownMenuProps`,
+`DropdownMenuItem`, and other related types):
+
+```diff
+- import {Menu, DropdownMenu} from '@gravity-ui/uikit';
++ import {Menu, DropdownMenu} from '@gravity-ui/uikit/legacy';
+```
+
+The former `unstable_Menu` family is now stable in the root entry point. Remove the `unstable_` prefix from its
+components and types, and import them from `@gravity-ui/uikit`:
+
+```diff
+- import {unstable_Menu as Menu, unstable_MenuItem as MenuItem} from '@gravity-ui/uikit/unstable';
++ import {Menu, MenuItem} from '@gravity-ui/uikit';
+```
+
+The same applies to `MenuTrigger`, `MenuDivider`, `MenuSize`, `MenuProps`, and all `MenuItem*` and `MenuTriggerProps`
+types. These names are no longer exported from `/unstable`.
+
+The new `Menu` has a different API: pass items as `MenuItem` children and a trigger via `trigger` (or use `inline`).
+The old `Menu.Item` props, `Menu.Group`, and `DropdownMenu.items` array remain available in `/legacy`. See the
+[new Menu README](../src/components/Menu/README.md) for examples. The new menu uses `g-menu`, `g-menu-item`, and
+`g-menu-divider` CSS classes instead of the former `g-lab-menu*` classes. The legacy components now use
+`g-menu-legacy` and `g-dropdown-menu-legacy` instead of `g-menu` and `g-dropdown-menu`. Update custom selectors,
+including those for the Tabs overflow menu. In `DefaultPropsProvider`, use `MenuLegacy` for the legacy menu; the
+`DropdownMenu` key stays the same.
+
+As with any `/legacy` import, install its optional peer dependencies: `@hello-pangea/dnd`, `react-window`, and
+`react-virtualized-auto-sizer`.
+The legacy `Menu`, `MenuItem`, `MenuGroup`, and `DropdownMenu` components are marked `@deprecated` in their types.
+
+### ActionsPanel overflow menu
+
+`ActionsPanel` now renders the stable `Menu` for overflow items and submenus. Rename `ActionsPanelItem.dropdown` to
+`menu`. Its `menu.item` accepts `MenuItemProps` instead of `DropdownMenuItem`: rename `text` to `children` and
+`action` to `onClick`.
+Replace nested `items` arrays with a `Menu` passed directly in the `children` array. For example:
+
+```tsx
+menu: {
+    item: {
+        children: [
+            'More',
+            <Menu key="submenu" size="s">
+                <MenuItem onClick={handleEdit}>Edit</MenuItem>
+            </Menu>,
+        ],
+    },
+}
+```
+
+Use the new `MenuItemProps` type for explicitly typed items. Replace `iconStart` with `icon` and `iconEnd` with
+`arrow`; pass native element props directly instead of through `extraProps`. Omit hidden items when building the
+`actions` array. Custom CSS and tests targeting
+`.g-dropdown-menu__*` or `li > div[role="menuitem"]` must use the new `g-menu-item` button/link markup. The overflow menu
+no longer closes automatically when an ancestor scrolls.
+
 ## Breadcrumbs, Popover and Tabs removed from `/legacy`
 
 The legacy `Breadcrumbs`, `Popover` and `Tabs` components, their types and related exports are no longer available
@@ -55,8 +115,9 @@ The values (`s`, `m`, `l`, `xl`) and the default (`m`) did not change.
 
 `Table`, its HOCs (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`,
 `withTableSorting`) and `TableColumnSetup` moved from the root entry point to `@gravity-ui/uikit/legacy`. Their API and
-markup did not change, the CSS blocks of the table (`g-table`, `g-table-column-setup`, …) keep their names; only the
-classes inside the column settings popup changed, see below. New table features go to
+markup did not change, the CSS blocks of the table (`g-table`, `g-table-column-setup`, …) keep their names. The row
+actions menu now uses `g-menu-legacy` instead of `g-menu`; classes inside the column settings popup also changed, see
+below. New table features go to
 [`@gravity-ui/table`](https://github.com/gravity-ui/table).
 
 ### If you cannot migrate now
@@ -80,8 +141,8 @@ The same applies to the types (`TableProps`, `TableColumnConfig`, `TableSettings
   are gone. The popup looks the same; rewrite the overrides that targeted these classes.
 - **`@deprecated`.** `Table`, its HOCs and `TableColumnSetup` are marked `@deprecated` in their types: linters with a
   `no-deprecated` rule start reporting their usages.
-- **`DefaultPropsProvider` no longer accepts the `TableColumnSetup` key.** Legacy components do not read the default
-  props: pass them to `TableColumnSetup` explicitly.
+- **`DefaultPropsProvider` no longer accepts the `TableColumnSetup` key.** `TableColumnSetup` does not read defaults
+  from the provider: pass them to the component explicitly.
 - **Translations.** The keyset names (`Table`, `withTableSettings`, `TableColumnSetupInner`, `TableColumnSetup`) are
   the same, overrides through `addComponentKeysets` keep working.
 

@@ -10,6 +10,18 @@
 Компоненты, которые больше не развиваются, переезжают в точку входа `@gravity-ui/uikit/legacy`. У компонентов,
 оставшихся в `/legacy`, API сохраняется, но дата удаления этой точки входа не обещается: запланируйте уход с них.
 
+## `extraProps` у Button и Link
+
+`Button` и `Link` больше не принимают `extraProps`. Передавайте стандартные пропсы элемента напрямую компоненту,
+в том числе если `Button` рендерит ссылку или пользовательский компонент:
+
+```diff
+- <Button extraProps={{title: 'Сохранить', onClick: handleSave}}>Сохранить</Button>
++ <Button title="Сохранить" onClick={handleSave}>Сохранить</Button>
+- <Link href="/help" extraProps={{target: '_blank'}}>Помощь</Link>
++ <Link href="/help" target="_blank">Помощь</Link>
+```
+
 ## Menu и DropdownMenu
 
 `Menu` и `DropdownMenu` из корневой точки входа переехали в `@gravity-ui/uikit/legacy`. Чтобы сохранить прежнее

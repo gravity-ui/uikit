@@ -10,6 +10,18 @@ says what changed, how to keep the old behavior for now, and where to go next.
 Components that are no longer developed move to the `@gravity-ui/uikit/legacy` entry point. Components still available
 there keep their API, but no removal date for `/legacy` is promised: plan the migration away from them.
 
+## Button and Link `extraProps`
+
+`Button` and `Link` no longer accept `extraProps`. Pass native element props directly to the component, including
+when `Button` renders a link or a custom component:
+
+```diff
+- <Button extraProps={{title: 'Save', onClick: handleSave}}>Save</Button>
++ <Button title="Save" onClick={handleSave}>Save</Button>
+- <Link href="/help" extraProps={{target: '_blank'}}>Help</Link>
++ <Link href="/help" target="_blank">Help</Link>
+```
+
 ## Menu and DropdownMenu
 
 `Menu` and `DropdownMenu` from the root entry point have moved to `@gravity-ui/uikit/legacy`. To keep their current

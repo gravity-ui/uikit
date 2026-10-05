@@ -600,7 +600,7 @@ export default function () {
     return (
         <Select
             renderControl={({ref, triggerProps, disabled}) => (
-                <Button ref={ref} disabled={disabled} extraProps={triggerProps}>
+                <Button ref={ref} {...triggerProps} disabled={disabled}>
                     Custom control
                 </Button>
             )}
@@ -622,10 +622,10 @@ import {Button} from '@gravity-ui/uikit';
 const MyComponent = () => {
   const renderControl: SelectProps['renderControl'] = ({ref, triggerProps, disabled}) => {
     // `triggerProps` opens and closes the popup and carries the keyboard of the list along with
-    // the ARIA of the combobox — it has to reach the element itself. `disabled` goes to `Button`
-    // rather than through `extraProps`: the component writes its own to the element last
+    // the ARIA of the combobox — it has to reach the element itself. Keep `disabled` last
+    // so it takes precedence over any value in `triggerProps`.
     return (
-      <Button ref={ref} disabled={disabled} extraProps={triggerProps}>
+      <Button ref={ref} {...triggerProps} disabled={disabled}>
         Your control
       </Button>
     );

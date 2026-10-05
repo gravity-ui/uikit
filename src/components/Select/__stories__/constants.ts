@@ -151,9 +151,7 @@ export const EXAMPLE_USER_CONTROL = `const [value, setValue] = React.useState<st
                 view="action"
                 onClick={onClick}
                 disabled={disabled}
-                extraProps={{
-                    onKeyDown,
-                }}
+                onKeyDown={onKeyDown}
             >
                 User control
                 {renderClear?.({
@@ -183,9 +181,7 @@ export const EXAMPLE_USER_CONTROL_WITH_PLACEMENT = `const [value, setValue] = Re
                 view="action"
                 onClick={onClick}
                 disabled={disabled}
-                extraProps={{
-                    onKeyDown,
-                }}
+                onKeyDown={onKeyDown}
             >
                 <Icon data={Plus} />
             </Button>

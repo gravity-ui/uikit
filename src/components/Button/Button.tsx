@@ -51,7 +51,6 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
         loading = false,
         width,
         children,
-        extraProps,
         qa,
         onClickCapture,
         // service prop, must not be forwarded to the rendered element via `...rest`
@@ -94,7 +93,7 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
         ),
         'data-qa': qa,
         // Always set a tabIndex so that Safari allows focusing native buttons
-        tabIndex: rest.tabIndex ?? extraProps?.tabIndex ?? (disabled ? undefined : 0),
+        tabIndex: rest.tabIndex ?? (disabled ? undefined : 0),
     };
     const content = (
         <ButtonIconSizeContext.Provider value={BUTTON_ICON_SIZE_MAP[size]}>
@@ -108,7 +107,6 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
             {
                 role: 'button',
                 ...rest,
-                ...extraProps,
                 ...commonProps,
                 ref: ref,
                 'aria-disabled': disabled ?? undefined,
@@ -121,7 +119,6 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
         return (
             <a
                 {...(rest as Pick<typeof props, keyof typeof rest>)}
-                {...(extraProps as (typeof props)['extraProps'])}
                 {...commonProps}
                 ref={ref as React.Ref<HTMLAnchorElement>}
                 rel={getLinkRelWithFallback(props)}
@@ -135,7 +132,6 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
     return (
         <button
             {...(rest as Pick<typeof props, keyof typeof rest>)}
-            {...(extraProps as (typeof props)['extraProps'])}
             {...commonProps}
             ref={ref as React.Ref<HTMLButtonElement>}
             type={props.type || 'button'}

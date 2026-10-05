@@ -154,6 +154,11 @@ The `HelpMark` prop `iconSize` was renamed to `size`. Replace the prop name in `
 
 The values (`s`, `m`, `l`, `xl`) and the default (`m`) did not change.
 
+## `LayerManager` `layerschange` event
+
+The `layerschange` event no longer includes the deprecated `meta.layersCount` field. Use `meta.layers.length` to get
+the number of layers. The `getLayersCount()` function remains available.
+
 ## Table and TableColumnSetup
 
 `Table`, its HOCs (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`,

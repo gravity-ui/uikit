@@ -7,7 +7,7 @@ import {Ellipsis} from '@gravity-ui/icons';
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
 import {Menu, MenuDivider, MenuItem} from '../../Menu';
-import type {MenuItemButtonProps, MenuItemLinkProps} from '../../Menu';
+import {isComponentType} from '../../Menu/utils';
 import {block} from '../../utils/cn';
 import i18n from '../i18n';
 import type {ActionsPanelItem} from '../types';
@@ -31,75 +31,14 @@ function renderMenuItems(items: (DropdownItem | DropdownItem[])[]): React.ReactN
 
     items.forEach((entry, index) => {
         const isGroup = Array.isArray(entry);
-        const group = (isGroup ? entry : [entry]).filter((item) => !item.hidden);
-        if (group.length === 0) return;
+        const group = isGroup ? entry : [entry];
 
         if (nodes.length && (isGroup || previousWasGroup)) {
             nodes.push(<MenuDivider key={`divider-${index}`} />);
         }
 
         group.forEach((item, itemIndex) => {
-            const {
-                action,
-                contentClassName,
-                extraProps,
-                iconEnd,
-                iconStart,
-                items: submenuItems,
-                text,
-                ...props
-            } = item;
-            const label = text || ('children' in item ? (item.children as React.ReactNode) : null);
-            const content = contentClassName ? (
-                <span className={contentClassName}>{label}</span>
-            ) : (
-                label
-            );
-            const submenuNodes = submenuItems ? renderMenuItems(submenuItems) : [];
-            const hasSubmenu = submenuNodes.length > 0;
-            const menuItemProps = {
-                ...extraProps,
-                active: props.active,
-                className: props.className,
-                disabled: props.disabled,
-                icon: iconStart ? <React.Fragment>{iconStart}</React.Fragment> : undefined,
-                arrow:
-                    !hasSubmenu && iconEnd ? <React.Fragment>{iconEnd}</React.Fragment> : undefined,
-                qa: props.qa,
-                selected: props.selected,
-                style: props.style,
-                theme: props.theme,
-                title: props.title,
-                onClick: (event: React.MouseEvent<HTMLElement>) => {
-                    extraProps?.onClick?.(
-                        event as React.MouseEvent<HTMLDivElement & HTMLAnchorElement>,
-                    );
-                    if (!hasSubmenu) {
-                        action?.(event);
-                    }
-                },
-            };
-            const submenu = hasSubmenu ? <Menu size="s">{submenuNodes}</Menu> : null;
-            const key = `${index}-${itemIndex}`;
-            nodes.push(
-                typeof props.href === 'string' ? (
-                    <MenuItem
-                        key={key}
-                        {...(menuItemProps as MenuItemLinkProps)}
-                        href={props.href}
-                        target={props.target}
-                        rel={props.rel}
-                    >
-                        {content}
-                        {submenu}
-                    </MenuItem>
-                ) : (
-                    <MenuItem key={key} {...(menuItemProps as MenuItemButtonProps)}>
-                        {content}
-                        {submenu}
-                    </MenuItem>
-                ),
-            );
+            nodes.push(<MenuItem key={`${index}-${itemIndex}`} {...item} />);
         });
         previousWasGroup = isGroup;
     });
@@ -121,14 +60,17 @@ export const CollapseActions = ({actions, maxRowActions}: Props) => {
                     const attr = {[OBSERVER_TARGET_ATTR]: id};
                     const invisible = visibilityMap[id] === false;
 
-                    const node = Array.isArray(action.dropdown.item.items) ? (
+                    const submenu = React.Children.toArray(action.dropdown.item.children).find(
+                        (child) => isComponentType(child, 'Menu'),
+                    );
+                    const node = submenu ? (
                         <Menu
                             size="s"
                             trigger={
                                 <Button view="flat-contrast" size="m" {...action.button.props} />
                             }
                         >
-                            {renderMenuItems(action.dropdown.item.items)}
+                            {submenu.props.children}
                         </Menu>
                     ) : (
                         <Button view="flat-contrast" size="m" {...action.button.props} />

@@ -57,7 +57,6 @@ export const MenuItem = React.forwardRef(
     ) => {
         const {
             theme,
-            active,
             selected,
             disabled,
             icon,
@@ -195,7 +194,7 @@ export const MenuItem = React.forwardRef(
                 ref={handleRef}
                 size={menuContext.size}
                 disabled={disabled}
-                active={active || (isActive && !hasFocusInside && !isHovered)}
+                active={isActive && !hasFocusInside && !isHovered}
                 hovered={hasFocusInside || (!isActive && submenuOpen) || isHovered}
                 selected={selected}
                 selectionStyle="highlight"

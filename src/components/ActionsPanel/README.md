@@ -6,7 +6,7 @@
 
 Use an `ActionsPanel` to render multiple buttons in a row.
 When there is not enough space, buttons that don't fit will be added to an overflow menu.
-The overflow uses `Menu`; the `dropdown.item` object format remains compatible with `DropdownMenuItem`.
+The overflow uses `Menu`; `dropdown.item` accepts `MenuItemProps`.
 
 ## Example
 
@@ -25,8 +25,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('click dropdown action 1'),
-                text: 'Action 1',
+                onClick: () => console.log('click dropdown action 1'),
+                children: 'Action 1',
             },
         },
     },
@@ -40,8 +40,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('click dropdown action 2'),
-                text: 'Action 2',
+                onClick: () => console.log('click dropdown action 2'),
+                children: 'Action 2',
             },
         },
     },
@@ -66,8 +66,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('click dropdown action 1'),
-                text: 'Action 1',
+                onClick: () => console.log('click dropdown action 1'),
+                children: 'Action 1',
             },
         },
     },
@@ -81,8 +81,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('click dropdown action 2'),
-                text: 'Action 2',
+                onClick: () => console.log('click dropdown action 2'),
+                children: 'Action 2',
             },
         },
     },
@@ -117,8 +117,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('Edit'),
-                text: (
+                onClick: () => console.log('Edit'),
+                children: (
                     <Flex alignItems="center" gap={1}>
                         <Icon data={PencilToSquare} />
                         Edit
@@ -137,8 +137,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('Copy'),
-                text: (
+                onClick: () => console.log('Copy'),
+                children: (
                     <Flex alignItems="center" gap={1}>
                         <Icon data={Files} />
                         Copy
@@ -158,8 +158,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('Delete'),
-                text: (
+                onClick: () => console.log('Delete'),
+                children: (
                     <Flex alignItems="center" gap={1}>
                         <Icon data={TrashBin} />
                         Delete
@@ -189,8 +189,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('Edit'),
-                text: (
+                onClick: () => console.log('Edit'),
+                children: (
                     <Flex alignItems="center" gap={1}>
                         <Icon data={PencilToSquare} />
                         Edit
@@ -209,8 +209,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('Copy'),
-                text: (
+                onClick: () => console.log('Copy'),
+                children: (
                     <Flex alignItems="center" gap={1}>
                         <Icon data={Files} />
                         Copy
@@ -230,8 +230,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('Delete'),
-                text: (
+                onClick: () => console.log('Delete'),
+                children: (
                     <Flex alignItems="center" gap={1}>
                         <Icon data={TrashBin} />
                         Delete
@@ -271,8 +271,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('click dropdown action 1'),
-                text: 'Action 1',
+                onClick: () => console.log('click dropdown action 1'),
+                children: 'Action 1',
             },
         },
     },
@@ -286,8 +286,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('click dropdown action 2'),
-                text: 'Action 2',
+                onClick: () => console.log('click dropdown action 2'),
+                children: 'Action 2',
             },
         },
     },
@@ -301,8 +301,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('click dropdown action 3'),
-                text: 'Action 3',
+                onClick: () => console.log('click dropdown action 3'),
+                children: 'Action 3',
             },
         },
     },
@@ -316,8 +316,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('click dropdown action 4'),
-                text: 'Action 4',
+                onClick: () => console.log('click dropdown action 4'),
+                children: 'Action 4',
             },
         },
     },
@@ -343,8 +343,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('click dropdown action 1'),
-                text: 'Action 1',
+                onClick: () => console.log('click dropdown action 1'),
+                children: 'Action 1',
             },
         },
     },
@@ -358,8 +358,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('click dropdown action 2'),
-                text: 'Action 2',
+                onClick: () => console.log('click dropdown action 2'),
+                children: 'Action 2',
             },
         },
     },
@@ -373,8 +373,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('click dropdown action 3'),
-                text: 'Action 3',
+                onClick: () => console.log('click dropdown action 3'),
+                children: 'Action 3',
             },
         },
     },
@@ -388,8 +388,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('click dropdown action 4'),
-                text: 'Action 4',
+                onClick: () => console.log('click dropdown action 4'),
+                children: 'Action 4',
             },
         },
     },
@@ -429,8 +429,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('click dropdown action 1'),
-                text: 'Action 1',
+                onClick: () => console.log('click dropdown action 1'),
+                children: 'Action 1',
             },
             group: '1',
         },
@@ -446,8 +446,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('click dropdown action 2'),
-                text: 'Action 2',
+                onClick: () => console.log('click dropdown action 2'),
+                children: 'Action 2',
             },
             group: '2',
         },
@@ -463,8 +463,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('click dropdown action 3'),
-                text: 'Action 3',
+                onClick: () => console.log('click dropdown action 3'),
+                children: 'Action 3',
             },
             group: '1',
         },
@@ -491,8 +491,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('click dropdown action 1'),
-                text: 'Action 1',
+                onClick: () => console.log('click dropdown action 1'),
+                children: 'Action 1',
             },
             group: '1',
         },
@@ -508,8 +508,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('click dropdown action 2'),
-                text: 'Action 2',
+                onClick: () => console.log('click dropdown action 2'),
+                children: 'Action 2',
             },
             group: '2',
         },
@@ -525,8 +525,8 @@ const actions: ActionsPanelProps['actions'] = [
         },
         dropdown: {
             item: {
-                action: () => console.log('click dropdown action 3'),
-                text: 'Action 3',
+                onClick: () => console.log('click dropdown action 3'),
+                children: 'Action 3',
             },
             group: '1',
         },
@@ -544,36 +544,26 @@ const actions: ActionsPanelProps['actions'] = [
 
 ## Action sub-menu and nested dropdown menu
 
-See the `actions` example below for the nested `dropdown.item` format.
+Pass a `Menu` as a direct child of `dropdown.item.children` to add a submenu. A visible action button uses the same submenu.
 
 <!--SANDBOX
-import {ChevronDown} from '@gravity-ui/icons';
-import {ActionsPanel, Icon} from '@gravity-ui/uikit';
+import {ActionsPanel, Menu, MenuItem} from '@gravity-ui/uikit';
 import type {ActionsPanelProps} from '@gravity-ui/uikit';
 
 const actions: ActionsPanelProps['actions'] = [
     {
         id: 'button-with-sub-menu',
-        button: {
-            props: {
-                children: ['Sub-menu', <Icon key="icon" data={ChevronDown} />],
-                view: 'outlined-contrast',
-                onClick: () => console.log('click button action 2'),
-            },
-        },
+        button: {props: {children: 'Sub-menu'}},
         dropdown: {
             item: {
-                text: 'Sub-menu',
-                items: [
-                    {
-                        action: () => console.log('Edit'),
-                        text: 'Edit',
-                    },
-                    {
-                        action: () => console.log('Delete'),
-                        text: 'Delete',
-                        theme: 'danger',
-                    },
+                children: [
+                    'Sub-menu',
+                    <Menu key="submenu" size="s">
+                        <MenuItem onClick={() => console.log('Edit')}>Edit</MenuItem>
+                        <MenuItem onClick={() => console.log('Delete')} theme="danger">
+                            Delete
+                        </MenuItem>
+                    </Menu>,
                 ],
             },
         },
@@ -581,46 +571,21 @@ const actions: ActionsPanelProps['actions'] = [
     {
         id: 'nested-menu',
         collapsed: true,
-        button: {
-            props: {
-                children: 'Nested',
-                onClick: () => console.log('click button nested'),
-            },
-        },
+        button: {props: {children: 'Nested'}},
         dropdown: {
             item: {
-                text: 'Other',
-                items: [
-                    {
-                        text: 'Select',
-                        items: [
-                            {
-                                action: () => console.log('Select One'),
-                                text: 'One',
-                            },
-                            {
-                                action: () => console.log('Select All'),
-                                text: 'All',
-                            },
-                        ],
-                    },
-                    {
-                        action: () => console.log('Copy'),
-                        text: 'Copy',
-                    },
-                    {
-                        text: 'Move to',
-                        items: [
-                            {
-                                action: () => console.log('Move to folder 1'),
-                                text: 'Folder 1',
-                            },
-                            {
-                                action: () => console.log('Move to folder 2'),
-                                text: 'Folder 2',
-                            },
-                        ],
-                    },
+                children: [
+                    'Other',
+                    <Menu key="submenu" size="s">
+                        <MenuItem>
+                            Select
+                            <Menu size="s">
+                                <MenuItem onClick={() => console.log('Select One')}>One</MenuItem>
+                                <MenuItem onClick={() => console.log('Select All')}>All</MenuItem>
+                            </Menu>
+                        </MenuItem>
+                        <MenuItem onClick={() => console.log('Copy')}>Copy</MenuItem>
+                    </Menu>,
                 ],
             },
         },
@@ -638,26 +603,17 @@ SANDBOX-->
 const actions: ActionsPanelProps['actions'] = [
     {
         id: 'button-with-sub-menu',
-        button: {
-            props: {
-                children: ['Sub-menu', <Icon key="icon" data={ChevronDown} />],
-                view: 'outlined-contrast',
-                onClick: () => console.log('click button action 2'),
-            },
-        },
+        button: {props: {children: 'Sub-menu'}},
         dropdown: {
             item: {
-                text: 'Sub-menu',
-                items: [
-                    {
-                        action: () => console.log('Edit'),
-                        text: 'Edit',
-                    },
-                    {
-                        action: () => console.log('Delete'),
-                        text: 'Delete',
-                        theme: 'danger',
-                    },
+                children: [
+                    'Sub-menu',
+                    <Menu key="submenu" size="s">
+                        <MenuItem onClick={() => console.log('Edit')}>Edit</MenuItem>
+                        <MenuItem onClick={() => console.log('Delete')} theme="danger">
+                            Delete
+                        </MenuItem>
+                    </Menu>,
                 ],
             },
         },
@@ -665,46 +621,21 @@ const actions: ActionsPanelProps['actions'] = [
     {
         id: 'nested-menu',
         collapsed: true,
-        button: {
-            props: {
-                children: 'Nested',
-                onClick: () => console.log('click button nested'),
-            },
-        },
+        button: {props: {children: 'Nested'}},
         dropdown: {
             item: {
-                text: 'Other',
-                items: [
-                    {
-                        text: 'Select',
-                        items: [
-                            {
-                                action: () => console.log('Select One'),
-                                text: 'One',
-                            },
-                            {
-                                action: () => console.log('Select All'),
-                                text: 'All',
-                            },
-                        ],
-                    },
-                    {
-                        action: () => console.log('Copy'),
-                        text: 'Copy',
-                    },
-                    {
-                        text: 'Move to',
-                        items: [
-                            {
-                                action: () => console.log('Move to folder 1'),
-                                text: 'Folder 1',
-                            },
-                            {
-                                action: () => console.log('Move to folder 2'),
-                                text: 'Folder 2',
-                            },
-                        ],
-                    },
+                children: [
+                    'Other',
+                    <Menu key="submenu" size="s">
+                        <MenuItem>
+                            Select
+                            <Menu size="s">
+                                <MenuItem onClick={() => console.log('Select One')}>One</MenuItem>
+                                <MenuItem onClick={() => console.log('Select All')}>All</MenuItem>
+                            </Menu>
+                        </MenuItem>
+                        <MenuItem onClick={() => console.log('Copy')}>Copy</MenuItem>
+                    </Menu>,
                 ],
             },
         },
@@ -733,9 +664,9 @@ const actions: ActionsPanelProps['actions'] = [
 
 ## ActionsPanelItem:
 
-| Name      | Description                                   |                    Type                    | Default |
-| :-------- | :-------------------------------------------- | :----------------------------------------: | :-----: |
-| id        | Unique action id                              |                  `string`                  |         |
-| dropdown  | Settings for dropdown action in overflow menu | `{item: DropdownMenuItem; group?: string}` |         |
-| button    | Settings for button action                    |           `{props: ButtonProps}`           |         |
-| collapsed | If true, then item always inside the dropdown |                 `boolean`                  |         |
+| Name      | Description                                   |                  Type                   | Default |
+| :-------- | :-------------------------------------------- | :-------------------------------------: | :-----: |
+| id        | Unique action id                              |                `string`                 |         |
+| dropdown  | Settings for dropdown action in overflow menu | `{item: MenuItemProps; group?: string}` |         |
+| button    | Settings for button action                    |         `{props: ButtonProps}`          |         |
+| collapsed | If true, then item always inside the dropdown |                `boolean`                |         |

@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import {Menu, MenuItem} from '../../Menu';
 import {ActionsPanel} from '../ActionsPanel';
 import type {ActionsPanelProps} from '../types';
 
@@ -20,8 +21,12 @@ export const TestActionsPanelNestedAction = () => {
                         button: {props: {children: 'More'}},
                         dropdown: {
                             item: {
-                                text: 'More',
-                                items: [{text: 'Run', action: () => setResult('run')}],
+                                children: [
+                                    'More',
+                                    <Menu key="submenu" size="s">
+                                        <MenuItem onClick={() => setResult('run')}>Run</MenuItem>
+                                    </Menu>,
+                                ],
                             },
                         },
                     },
@@ -31,7 +36,7 @@ export const TestActionsPanelNestedAction = () => {
     );
 };
 
-export const TestActionsPanelMenuCompatibility = () => {
+export const TestActionsPanelMenuItemProps = () => {
     const [result, setResult] = React.useState('idle');
     return (
         <React.Fragment>
@@ -39,45 +44,16 @@ export const TestActionsPanelMenuCompatibility = () => {
             <ActionsPanel
                 actions={[
                     {
-                        id: 'empty',
+                        id: 'selected',
                         collapsed: true,
-                        button: {props: {children: 'Empty'}},
-                        dropdown: {
-                            item: {text: 'Empty', items: [], action: () => setResult('empty')},
-                        },
+                        button: {props: {children: 'Selected'}},
+                        dropdown: {item: {children: 'Selected', selected: true}},
                     },
                     {
-                        id: 'hidden',
+                        id: 'run',
                         collapsed: true,
-                        button: {props: {children: 'Hidden'}},
-                        dropdown: {
-                            item: {
-                                text: 'Hidden',
-                                items: [{text: 'Invisible', hidden: true, action: () => {}}],
-                                action: () => setResult('hidden'),
-                            },
-                        },
-                    },
-                    {
-                        id: 'parent',
-                        collapsed: true,
-                        button: {props: {children: 'Parent'}},
-                        dropdown: {
-                            item: {
-                                text: 'Parent',
-                                iconEnd: <span data-qa="custom-arrow" />,
-                                action: () => setResult('parent'),
-                                items: [{text: 'Run', action: () => setResult('run')}],
-                            },
-                        },
-                    },
-                    {
-                        id: 'active',
-                        collapsed: true,
-                        button: {props: {children: 'Active'}},
-                        dropdown: {
-                            item: {text: 'Active', active: true, action: () => {}},
-                        },
+                        button: {props: {children: 'Run'}},
+                        dropdown: {item: {children: 'Run', onClick: () => setResult('run')}},
                     },
                 ]}
             />

@@ -45,9 +45,26 @@ Legacy-компоненты `Menu`, `MenuItem`, `MenuGroup` и `DropdownMenu` п
 
 ### Меню переполнения ActionsPanel
 
-`ActionsPanel` теперь использует стабильный `Menu` для элементов переполнения и подменю. Формат объекта
-`dropdown.item` остаётся совместимым с `DropdownMenuItem`. Если этот тип нужен явно, импортируйте его из `/legacy`
-или получите через `ActionsPanelProps['actions'][number]['dropdown']['item']`. Для собственных CSS и тестов замените
+`ActionsPanel` теперь использует стабильный `Menu` для элементов переполнения и подменю. Поле `dropdown.item`
+принимает `MenuItemProps` вместо `DropdownMenuItem`: переименуйте `text` в `children`, а `action` в `onClick`.
+Вложенные массивы `items` замените компонентом `Menu`, переданным непосредственно в массив `children`:
+
+```tsx
+dropdown: {
+    item: {
+        children: [
+            'More',
+            <Menu key="submenu" size="s">
+                <MenuItem onClick={handleEdit}>Edit</MenuItem>
+            </Menu>,
+        ],
+    },
+}
+```
+
+Для явно типизированных пунктов используйте новый тип `MenuItemProps`. Замените `iconStart` на `icon`, `iconEnd` на
+`arrow` и передавайте стандартные пропсы элемента напрямую вместо `extraProps`. Скрытые пункты исключайте при
+формировании массива `actions`. Для собственных CSS и тестов замените
 селекторы `.g-dropdown-menu__*` и `li > div[role="menuitem"]` на селекторы новой разметки с `g-menu-item` и
 кнопкой/ссылкой. При прокрутке родительского элемента меню переполнения больше не закрывается автоматически.
 

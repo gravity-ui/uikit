@@ -106,7 +106,6 @@ By default `Menu` is rendered inside the `Popup`. But you can render it inline u
 | :-------- | :---------------------------------- | :----------------------------------------------------------------: | :--------: |
 | qa        | Test ID (`data-qa` attribute)       |                              `string`                              |            |
 | theme     | The `MenuItem` theme                | `"normal"` `"info"` `"success"` `"warning"` `"danger"` `"utility"` | `"normal"` |
-| active    | Highlights the item                 |                             `boolean`                              |            |
 | selected  | Selected state (`menuitemcheckbox`) |                             `boolean`                              |            |
 | disabled  | Disabled state                      |                             `boolean`                              |  `false`   |
 | icon      | Render slot for an icon             |                        `React.ReactElement`                        |            |

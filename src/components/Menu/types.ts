@@ -29,7 +29,6 @@ export interface MenuProps
 
 interface MenuItemCommonProps extends QAProps {
     theme?: MenuItemTheme;
-    active?: boolean;
     selected?: boolean;
     disabled?: boolean;
     icon?: React.ReactElement;

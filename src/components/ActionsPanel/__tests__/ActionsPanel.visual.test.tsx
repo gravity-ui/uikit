@@ -3,11 +3,12 @@ import {expect} from '@playwright/experimental-ct-react';
 
 import {test} from '~playwright/core';
 
+import {Menu, MenuItem} from '../../Menu';
 import {ActionsPanel} from '../ActionsPanel';
 import type {ActionsPanelProps} from '../types';
 
 import {
-    TestActionsPanelMenuCompatibility,
+    TestActionsPanelMenuItemProps,
     TestActionsPanelNestedAction,
     TestActionsPanelWithNote,
 } from './helpersPlaywright';
@@ -29,8 +30,8 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
             },
             dropdown: {
                 item: {
-                    action: noop,
-                    text: 'Action 1',
+                    onClick: noop,
+                    children: 'Action 1',
                 },
                 group: '1',
             },
@@ -45,8 +46,8 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
             },
             dropdown: {
                 item: {
-                    action: noop,
-                    text: 'Action 2',
+                    onClick: noop,
+                    children: 'Action 2',
                 },
                 group: '1',
             },
@@ -61,8 +62,8 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
             },
             dropdown: {
                 item: {
-                    action: noop,
-                    text: 'Action 3',
+                    onClick: noop,
+                    children: 'Action 3',
                 },
                 group: '2',
             },
@@ -77,8 +78,8 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
             },
             dropdown: {
                 item: {
-                    action: noop,
-                    text: 'Action 4',
+                    onClick: noop,
+                    children: 'Action 4',
                 },
                 group: '2',
             },
@@ -196,17 +197,14 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                 },
                 dropdown: {
                     item: {
-                        text: 'Sub-menu',
-                        items: [
-                            {
-                                action: noop,
-                                text: 'Edit',
-                            },
-                            {
-                                action: noop,
-                                text: 'Delete',
-                                theme: 'danger',
-                            },
+                        children: [
+                            'Sub-menu',
+                            <Menu key="submenu" size="s">
+                                <MenuItem onClick={noop}>Edit</MenuItem>
+                                <MenuItem onClick={noop} theme="danger">
+                                    Delete
+                                </MenuItem>
+                            </Menu>,
                         ],
                     },
                 },
@@ -223,8 +221,8 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                 },
                 dropdown: {
                     item: {
-                        action: noop,
-                        text: 'Action 3',
+                        onClick: noop,
+                        children: 'Action 3',
                     },
                     group: '2',
                 },
@@ -265,29 +263,17 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
         await expect(page.getByTestId('menu-action-result')).toHaveText('run');
     });
 
-    test('preserves legacy item behavior in the overflow menu', async ({mount, page}) => {
-        await mount(<TestActionsPanelMenuCompatibility />);
+    test('passes MenuItem props to the overflow menu', async ({mount, page}) => {
+        await mount(<TestActionsPanelMenuItemProps />);
 
         const openMenu = async () => page.getByRole('button', {name: 'Show more'}).click();
         const result = page.getByTestId('menu-action-result');
 
         await openMenu();
-        await expect(page.getByRole('menuitem', {name: 'Invisible'})).toHaveCount(0);
-        await expect(page.getByTestId('custom-arrow')).toHaveCount(0);
-        await expect(page.getByRole('menuitem', {name: 'Active'})).toHaveClass(
-            /g-list-item-view_active/,
+        await expect(page.getByRole('menuitemcheckbox', {name: 'Selected'})).toHaveAttribute(
+            'aria-checked',
+            'true',
         );
-
-        await page.getByRole('menuitem', {name: 'Empty'}).click();
-        await expect(result).toHaveText('empty');
-
-        await openMenu();
-        await page.getByRole('menuitem', {name: 'Hidden'}).click();
-        await expect(result).toHaveText('hidden');
-
-        await openMenu();
-        await page.getByRole('menuitem', {name: 'Parent'}).click();
-        await expect(result).toHaveText('hidden');
         await page.getByRole('menuitem', {name: 'Run'}).click();
         await expect(result).toHaveText('run');
     });

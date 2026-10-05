@@ -46,9 +46,26 @@ The legacy `Menu`, `MenuItem`, `MenuGroup`, and `DropdownMenu` components are ma
 
 ### ActionsPanel overflow menu
 
-`ActionsPanel` now renders the stable `Menu` for overflow items and submenus. The `dropdown.item` object format remains
-compatible with `DropdownMenuItem`; if you name that type explicitly, import it from `/legacy` or derive it from
-`ActionsPanelProps['actions'][number]['dropdown']['item']`. Custom CSS and tests targeting
+`ActionsPanel` now renders the stable `Menu` for overflow items and submenus. Its `dropdown.item` accepts
+`MenuItemProps` instead of `DropdownMenuItem`: rename `text` to `children` and `action` to `onClick`.
+Replace nested `items` arrays with a `Menu` passed directly in the `children` array. For example:
+
+```tsx
+dropdown: {
+    item: {
+        children: [
+            'More',
+            <Menu key="submenu" size="s">
+                <MenuItem onClick={handleEdit}>Edit</MenuItem>
+            </Menu>,
+        ],
+    },
+}
+```
+
+Use the new `MenuItemProps` type for explicitly typed items. Replace `iconStart` with `icon` and `iconEnd` with
+`arrow`; pass native element props directly instead of through `extraProps`. Omit hidden items when building the
+`actions` array. Custom CSS and tests targeting
 `.g-dropdown-menu__*` or `li > div[role="menuitem"]` must use the new `g-menu-item` button/link markup. The overflow menu
 no longer closes automatically when an ancestor scrolls.
 

@@ -1,5 +1,5 @@
 import type {ButtonProps} from '../Button';
-import type {DropdownMenuItem} from '../legacy/DropdownMenu';
+import type {MenuItemProps} from '../Menu';
 import type {QAProps} from '../types';
 
 export interface ActionsPanelItem {
@@ -9,7 +9,7 @@ export interface ActionsPanelItem {
     collapsed?: boolean;
     /** Settings for dropdown action */
     dropdown: {
-        item: DropdownMenuItem;
+        item: MenuItemProps;
         group?: string;
     };
     /** Settings for button action */

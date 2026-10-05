@@ -121,7 +121,6 @@ const PAGINATION_MANAGED_PROPS = new Set([
     'disabled',
     'qa',
     'aria-current',
-    'extraProps',
     'children',
 ]);
 

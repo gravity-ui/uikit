@@ -585,16 +585,17 @@ SANDBOX-->
 
 Для создания пользовательского контрола используйте свойство `renderControl`.
 
-Передайте своему элементу `ref` и разверните на нём `triggerProps`: они открывают и закрывают попап, несут клавиатуру списка и ARIA комбобокса (`role`, `aria-expanded`, `aria-controls`, `aria-activedescendant`). Контрол, который оставит их себе, не будет ни открываться, ни навигироваться. Рядом приходит `disabled` — его передавайте своему компоненту напрямую: обёртка обычно пишет собственный на элемент поверх всего, что на него развернули.
+Передайте своему элементу `ref` и разверните на нём `triggerProps`: они открывают и закрывают попап, несут клавиатуру списка и ARIA комбобокса (`role`, `aria-expanded`, `aria-controls`, `aria-activedescendant`). Контрол, который оставит их себе, не будет ни открываться, ни навигироваться. В `triggerProps` также есть `disabled`. Для `Button` приведите тип общего `ref` к типу ссылки на кнопку.
 
 <!--SANDBOX
 import {Button, Select} from '@gravity-ui/uikit';
+import type {Ref} from 'react';
 
 export default function () {
     return (
         <Select
-            renderControl={({ref, triggerProps, disabled}) => (
-                <Button ref={ref} disabled={disabled} extraProps={triggerProps}>
+            renderControl={({ref, triggerProps}) => (
+                <Button ref={ref as Ref<HTMLButtonElement>} {...triggerProps}>
                     Custom control
                 </Button>
             )}
@@ -611,15 +612,15 @@ SANDBOX-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-import {Button} from '@gravity-ui/uikit';
+import {Button, type SelectProps} from '@gravity-ui/uikit';
+import type {Ref} from 'react';
 
 const MyComponent = () => {
-  const renderControl: SelectProps['renderControl'] = ({ref, triggerProps, disabled}) => {
+  const renderControl: SelectProps['renderControl'] = ({ref, triggerProps}) => {
     // `triggerProps` opens and closes the popup and carries the keyboard of the list along with
-    // the ARIA of the combobox — it has to reach the element itself. `disabled` goes to `Button`
-    // rather than through `extraProps`: the component writes its own to the element last
+    // the ARIA of the combobox — it has to reach the element itself.
     return (
-      <Button ref={ref} disabled={disabled} extraProps={triggerProps}>
+      <Button ref={ref as Ref<HTMLButtonElement>} {...triggerProps}>
         Your control
       </Button>
     );

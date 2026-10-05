@@ -86,14 +86,14 @@ The legacy list wrapped whatever `renderItem` returned in a row of its own. The 
 
 `ListItem` was the row wrapper of the legacy list, exported for rows rendered outside of it. Its replacement is [`ListItemView`](../src/components/ListItemView/README.md):
 
-| `ListItem`                                              | `ListItemView`                                                    |
-| :------------------------------------------------------ | :---------------------------------------------------------------- |
-| `item`, `renderItem`                                    | `children`                                                        |
-| `active`, `selected`                                    | `active`, `selected`                                              |
-| `item.disabled`                                         | `disabled`                                                        |
-| `itemClassName`, `style`, `height`                      | `className`, `style`                                              |
-| `onActivate`, `onClick`, `role`, `listId`, `itemIndex`  | The DOM props of the row: `onMouseEnter`, `onClick`, `role`, `id` |
-| `sortable`, `sortHandleAlign`, `provided`, `isDragging` | The `dragHandle` slot, see [Sorting](#sorting)                    |
+| `ListItem`                                              | `ListItemView`                                                                                                                                                             |
+| :------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `item`, `renderItem`                                    | `children`                                                                                                                                                                 |
+| `active`, `selected`                                    | `active`, and `selected` together with `selectionStyle="highlight"`: the view paints no selection without a style. Inside `renderItem`, `getItemViewProps()` supplies both |
+| `item.disabled`                                         | `disabled`                                                                                                                                                                 |
+| `itemClassName`, `style`, `height`                      | `className`, `style`                                                                                                                                                       |
+| `onActivate`, `onClick`, `role`, `listId`, `itemIndex`  | The DOM props of the row: `onMouseEnter`, `onClick`, `role`, `id`                                                                                                          |
+| `sortable`, `sortHandleAlign`, `provided`, `isDragging` | The `dragHandle` slot, see [Sorting](#sorting)                                                                                                                             |
 
 ## Activity and selection
 
@@ -165,11 +165,11 @@ The legacy list was driven from an external element by forwarding its `onKeyDown
 
 ## Heights and virtualization
 
-| Legacy                                | New                                | Notes                                                                                                                                                                           |
-| :------------------------------------ | :--------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `itemHeight`, a number or a function  | —                                  | The height of a row follows `size`: at least 24, 28, 32 or 36 pixels, growing with the content. For a height of your own pass `getItemProps({style: {height}})` in `renderItem` |
-| `itemsHeight`, a number or a function | `style` or `className` of the root | `height` or `max-height`, plus `overflow: auto`                                                                                                                                 |
-| `virtualized`, `true` by default      | `ListVirtualizer` around the list  | Nothing is virtualized until the list is wrapped                                                                                                                                |
+| Legacy                                | New                                | Notes                                                                                                                                                                                                                                                             |
+| :------------------------------------ | :--------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `itemHeight`, a number or a function  | —                                  | The height of a row follows `size`: at least 24, 28, 32 or 36 pixels, growing with the content. For a height of your own pass `getItemProps({style: {height, minHeight: height}})` in `renderItem`: `height` alone does not go below the `min-height` of the view |
+| `itemsHeight`, a number or a function | `style` or `className` of the root | `height` or `max-height`, plus `overflow: auto`                                                                                                                                                                                                                   |
+| `virtualized`, `true` by default      | `ListVirtualizer` around the list  | Nothing is virtualized until the list is wrapped                                                                                                                                                                                                                  |
 
 ```diff
 + import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';

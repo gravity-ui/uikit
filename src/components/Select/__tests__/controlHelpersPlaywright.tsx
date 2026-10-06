@@ -27,7 +27,7 @@ export function TallSelectedOption({size}: ControlStandProps) {
                 size={size}
                 value={['tall']}
                 options={OPTIONS}
-                renderSelectedOption={() => (
+                renderSelectedOptions={() => (
                     <Label size={LABEL_SIZE[size]} qa="tall-selected-option">
                         Tall
                     </Label>

@@ -31,25 +31,41 @@ describe('getSelectedOptionsContent', () => {
             expect(result).toEqual('content1, val3');
         });
     });
-    describe('renderSelectedOption callback', () => {
-        const renderSelectedOptionPostfix = 'from callback';
-        const renderSelectedOption = jest.fn(
-            (opt) => `${opt.content || opt.value}${renderSelectedOptionPostfix}` as any,
-        );
+    describe('renderSelectedOptions callback', () => {
+        const renderSelectedOptions = jest.fn(() => 'from callback');
 
-        test('option presence. Should be called with option', async () => {
-            renderSelectedOption.mockClear();
-            getSelectedOptionsContent(options, presenceValue, getKey, renderSelectedOption);
+        beforeEach(() => renderSelectedOptions.mockClear());
 
-            expect(renderSelectedOption).toBeCalledTimes(1);
-            expect(renderSelectedOption).toBeCalledWith(options[0], 0);
+        test('single. Should be called once with an array of the option', async () => {
+            getSelectedOptionsContent(options, presenceValue, getKey, renderSelectedOptions);
+
+            expect(renderSelectedOptions).toBeCalledTimes(1);
+            expect(renderSelectedOptions).toBeCalledWith([options[0]]);
+        });
+        test('multiple. Should be called once with the options in the order of value', async () => {
+            getSelectedOptionsContent(options, ['val2', 'val1'], getKey, renderSelectedOptions);
+
+            expect(renderSelectedOptions).toBeCalledTimes(1);
+            expect(renderSelectedOptions).toBeCalledWith([options[1], options[0]]);
         });
         test('option NOT presence. Should be called with generated object', async () => {
-            renderSelectedOption.mockClear();
-            getSelectedOptionsContent(options, notPresenceValue, getKey, renderSelectedOption);
+            getSelectedOptionsContent(
+                options,
+                [...presenceValue, ...notPresenceValue],
+                getKey,
+                renderSelectedOptions,
+            );
 
-            expect(renderSelectedOption).toBeCalledTimes(1);
-            expect(renderSelectedOption).toBeCalledWith({value: notPresenceValue[0]}, 0);
+            expect(renderSelectedOptions).toBeCalledWith([
+                options[0],
+                {value: notPresenceValue[0]},
+            ]);
+        });
+        test('empty value. Should not be called', async () => {
+            const result = getSelectedOptionsContent(options, [], getKey, renderSelectedOptions);
+
+            expect(result).toBeNull();
+            expect(renderSelectedOptions).not.toBeCalled();
         });
     });
 });

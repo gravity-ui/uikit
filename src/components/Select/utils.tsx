@@ -201,6 +201,29 @@ export const getSelectListNodeId = (node: SelectListNode, getKey: SelectValueKey
     return loadingId ?? getKey(node.value);
 };
 
+/**
+ * The values that count as selected: one with an option, or one without that is not empty — `''`,
+ * `null` and `undefined` mean nothing unless an option declares them
+ */
+export const getSelectedValues = (
+    options: FlattenOption[],
+    value: unknown[],
+    getKey: SelectValueKeyGetter,
+): unknown[] => {
+    const optionKeys = new Set<string>();
+
+    for (const option of options) {
+        if (!isSelectGroupTitle(option)) {
+            optionKeys.add(getKey(option.value));
+        }
+    }
+
+    return value.filter(
+        (item) =>
+            optionKeys.has(getKey(item)) || (item !== '' && item !== null && item !== undefined),
+    );
+};
+
 /** The way back from a key to a value: the options and the selected values, with or without one */
 export const getValueByKey = (
     options: FlattenOption[],

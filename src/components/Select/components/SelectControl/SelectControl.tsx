@@ -42,6 +42,8 @@ type ControlProps = {
     errorMessage?: SelectProps['errorMessage'];
     disabled?: boolean;
     value: unknown[];
+    /** The values that count as selected: an empty one without an option does not */
+    selectedCount: number;
     clearValue: () => void;
     hasClear?: boolean;
     hasCounter?: boolean;
@@ -77,6 +79,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         open,
         disabled,
         value,
+        selectedCount,
         hasClear,
         popupId,
         selectId,
@@ -87,8 +90,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
     } = props;
     const showOptionsText = Boolean(selectedOptionsContent);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
-    // An empty string stands for no value, as `null` does; `0` and `false` are values
-    const hasValue = value.some((item) => item !== '' && item !== null && item !== undefined);
+    const hasValue = selectedCount > 0;
 
     const direction = useDirection();
 
@@ -143,7 +145,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         if (!hasCounter) {
             return null;
         }
-        const count = value.length;
+        const count = selectedCount;
         const counterComponent = <SelectCounter count={count} size={size} disabled={disabled} />;
         return renderCounter
             ? renderCounter(counterComponent, {count, size, disabled})
@@ -151,8 +153,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
     };
 
     const renderClearIcon = (args: SelectRenderClearArgs) => {
-        const valueIsEmpty = value.length === 0;
-        if (!hasClear || valueIsEmpty || disabled) {
+        if (!hasClear || !hasValue || disabled) {
             return null;
         }
         return (

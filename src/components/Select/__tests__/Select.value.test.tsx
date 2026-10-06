@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 import {Select} from '..';
 import type {SelectOption} from '..';
 import {render, screen} from '../../../../test-utils/utils';
+import {SelectQa} from '../constants';
 
 const SELECT_ID = 'value-select';
 const QA = 'value-select-qa';
@@ -27,6 +28,8 @@ const NUMBER_OPTIONS = [
 
 const getControl = () => screen.getByTestId(QA);
 const getRow = (name: string) => screen.getByRole('option', {name});
+const HAS_VALUE_CLASS = 'g-select-control_has-value';
+const queryClear = () => screen.queryByRole('button', {name: 'Clear'});
 
 describe('Select with non-string values', () => {
     describe('numbers', () => {
@@ -178,6 +181,70 @@ describe('Select with non-string values', () => {
             await user.click(getControl());
             await user.click(getRow('Moscow'));
             expect(onUpdate).toHaveBeenLastCalledWith([gone, MOSCOW]);
+        });
+    });
+
+    describe('empty values', () => {
+        test("`''` with an option is a value", async () => {
+            render(
+                <Select
+                    qa={QA}
+                    hasClear
+                    options={[
+                        {value: '', content: 'None'},
+                        {value: 'a', content: 'A'},
+                    ]}
+                    value={['']}
+                />,
+            );
+            const user = userEvent.setup();
+
+            expect(getControl()).toHaveTextContent('None');
+            expect(screen.getByRole('group')).toHaveClass(HAS_VALUE_CLASS);
+            expect(queryClear()).toBeInTheDocument();
+            await user.click(getControl());
+            expect(getRow('None')).toHaveAttribute('aria-selected', 'true');
+        });
+
+        test.each([[''], [null]])('`%p` without an option is empty', (empty) => {
+            const renderSelectedOption = jest.fn();
+            render(
+                <Select<unknown, string | null>
+                    qa={QA}
+                    hasClear
+                    placeholder="Pick"
+                    options={[{value: 'a', content: 'A'}]}
+                    value={[empty]}
+                    renderSelectedOption={renderSelectedOption}
+                />,
+            );
+
+            expect(getControl()).toHaveTextContent('Pick');
+            expect(screen.getByRole('group')).not.toHaveClass(HAS_VALUE_CLASS);
+            expect(queryClear()).not.toBeInTheDocument();
+            expect(renderSelectedOption).not.toHaveBeenCalled();
+        });
+
+        test('an empty value without an option is not counted', () => {
+            render(
+                <Select
+                    qa={QA}
+                    multiple
+                    hasCounter
+                    options={[{value: 'a', content: 'A'}]}
+                    value={['', 'a']}
+                />,
+            );
+
+            expect(getControl()).toHaveTextContent(/^A/);
+            expect(screen.getByTestId(SelectQa.COUNTER)).toHaveTextContent('1');
+        });
+
+        test.each([[0], [false]])('`%p` without an option is a value', (item) => {
+            render(<Select<unknown, number | boolean> qa={QA} options={[]} value={[item]} />);
+
+            expect(getControl()).toHaveTextContent(String(item));
+            expect(screen.getByRole('group')).toHaveClass(HAS_VALUE_CLASS);
         });
     });
 

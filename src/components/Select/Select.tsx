@@ -36,6 +36,7 @@ import {
     getOptionsFromChildren,
     getSelectValueKey,
     getSelectedOptionsContent,
+    getSelectedValues,
     getValueByKey,
     isSelectGroupTitle,
 } from './utils';
@@ -178,15 +179,19 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
     // Which group an option came from: flattening loses the boundary, filtering keeps the objects
     const groupOfOption = getGroupOfOption(options);
     const groupsWithOptions = getGroupsWithOptions(options);
+    const selectedValues = React.useMemo(
+        () => getSelectedValues(options as FlattenOption[], value, getKey),
+        [options, value, getKey],
+    );
     const selectedOptionsContent = React.useMemo(() => {
         return getSelectedOptionsContent(
             options,
-            value,
+            selectedValues,
             getKey,
             renderSelectedOption,
             getOptionText,
         );
-    }, [options, value, getKey, renderSelectedOption, getOptionText]);
+    }, [options, selectedValues, getKey, renderSelectedOption, getOptionText]);
 
     // The way back from the ids of the List: a selected value may have no option
     const valueByKey = React.useMemo(
@@ -420,6 +425,7 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
                 onKeyDown={handleControlKeyDown}
                 renderControl={renderControl}
                 value={value}
+                selectedCount={selectedValues.length}
                 popupId={popupId}
                 selectId={selectId}
                 focusOwner={focusOwner}

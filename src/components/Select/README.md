@@ -246,8 +246,9 @@ An object value has no text of its own: give the option a string `content` or pa
 A `Select.Option` child takes a string unless its type is named: `<Select.Option<unknown, number>
 value={1}>`; the Select itself takes the type from `value` or a typed `onUpdate={(value: number[]) =>
 …}`. A selected value with no option is shown by its key; keep its option in `options` or render it
-with `renderSelectedOption`. A form submits keys, not values. In a union type `1` and `"1"` share a
-key and are one value.
+with `renderSelectedOption`. `''`, `null` and `undefined` without an option count as no value; with
+an option declared they are ordinary values. A form submits keys, not values. In a union type `1`
+and `"1"` share a key and are one value.
 
 ## Selecting multiple options
 

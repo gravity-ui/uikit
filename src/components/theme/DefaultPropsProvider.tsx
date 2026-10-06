@@ -107,7 +107,7 @@ export interface DefaultPropsMap {
     Radio?: Partial<RadioProps>;
     RadioGroup?: Partial<RadioGroupProps>;
     SegmentedRadioGroup?: Partial<SegmentedRadioGroupProps<any>>;
-    Select?: Partial<SelectProps<any>>;
+    Select?: Partial<SelectProps<any, any>>;
     Sheet?: Partial<SheetProps>;
     Skeleton?: Partial<SkeletonProps>;
     Slider?: Partial<SliderProps<any>>;

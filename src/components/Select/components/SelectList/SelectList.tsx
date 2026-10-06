@@ -8,16 +8,24 @@ import {ListVirtualizationContext} from '../../../List/VirtualizationContext';
 import type {ListVirtualizationContextValue} from '../../../List/VirtualizationContext';
 import {warnOnce} from '../../../utils/warn';
 import {SelectQa, selectListBlock} from '../../constants';
-import type {SelectOption, SelectProps} from '../../types';
 import {
     buildSelectListNodes,
     getItemViewSize,
     getPopupItemHeight,
+    getSelectListNodeId,
     getSelectListNodeText,
     isSelectGroupNode,
     isSelectLoadingNode,
 } from '../../utils';
-import type {FlattenOption, GroupTitleItem, SelectGroupNode, SelectListNode} from '../../utils';
+import type {
+    AnySelectOption,
+    AnySelectProps,
+    FlattenOption,
+    GroupTitleItem,
+    SelectGroupNode,
+    SelectListNode,
+    SelectValueKeyGetter,
+} from '../../utils';
 
 import {OptionWrap} from './OptionWrap';
 import {SelectLoadingIndicator} from './SelectLoadingIndicator';
@@ -26,18 +34,22 @@ import './SelectList.scss';
 
 type SelectListProps = {
     mobile: boolean;
-    onOptionClick: (option: SelectOption) => void;
-    renderOption?: SelectProps['renderOption'];
-    renderOptionGroup?: SelectProps['renderOptionGroup'];
-    selectionStyle?: SelectProps['selectionStyle'];
-    getOptionText?: SelectProps['getOptionText'];
-    getOptionHeight?: SelectProps['getOptionHeight'];
-    getOptionGroupHeight?: SelectProps['getOptionGroupHeight'];
-    size: NonNullable<SelectProps['size']>;
-    value: NonNullable<SelectProps['value']>;
+    /** The keys of the selected values: the ids of their rows */
+    selectedKeys: string[];
+    onSelectedUpdate: (keys: string[]) => void;
+    /** An option was applied: the selection has already changed by then */
+    onOptionAction: () => void;
+    getKey: SelectValueKeyGetter;
+    renderOption?: AnySelectProps['renderOption'];
+    renderOptionGroup?: AnySelectProps['renderOptionGroup'];
+    selectionStyle?: AnySelectProps['selectionStyle'];
+    getOptionText?: AnySelectProps['getOptionText'];
+    getOptionHeight?: AnySelectProps['getOptionHeight'];
+    getOptionGroupHeight?: AnySelectProps['getOptionGroupHeight'];
+    size: NonNullable<AnySelectProps['size']>;
     flattenOptions: FlattenOption[];
     /** The group an option came from — the flat list of options no longer says it by itself */
-    groupOfOption?: Map<SelectOption, GroupTitleItem>;
+    groupOfOption?: Map<AnySelectOption, GroupTitleItem>;
     /** The groups that came with options: only such a group can be left empty by the filter */
     groupsWithOptions?: Set<GroupTitleItem>;
     multiple?: boolean;
@@ -52,11 +64,6 @@ type SelectListProps = {
     onActiveItemUpdate: (id: string | null) => void;
 };
 
-/** The value is owned by useSelect and changes through onItemAction only */
-const noop = () => {};
-
-const getItemId = (node: SelectListNode) => (isSelectGroupNode(node) ? node.id : node.value);
-
 const getItemChildren = (node: SelectListNode) =>
     isSelectGroupNode(node) ? node.options : undefined;
 
@@ -65,7 +72,8 @@ const getItemDisabled = (node: SelectListNode) => Boolean(node.disabled);
 export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
     function SelectList(props, ref) {
         const {
-            onOptionClick,
+            onSelectedUpdate,
+            onOptionAction,
             renderOption,
             renderOptionGroup,
             selectionStyle,
@@ -76,7 +84,8 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
             flattenOptions,
             groupOfOption,
             groupsWithOptions,
-            value,
+            selectedKeys,
+            getKey,
             multiple,
             virtualized,
             mobile,
@@ -94,9 +103,21 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
             [getOptionText],
         );
 
+        const getItemId = React.useCallback(
+            (node: SelectListNode) => getSelectListNodeId(node, getKey),
+            [getKey],
+        );
+
         const nodes = React.useMemo(
-            () => buildSelectListNodes(flattenOptions, loading, groupOfOption, groupsWithOptions),
-            [flattenOptions, loading, groupOfOption, groupsWithOptions],
+            () =>
+                buildSelectListNodes(
+                    flattenOptions,
+                    getKey,
+                    loading,
+                    groupOfOption,
+                    groupsWithOptions,
+                ),
+            [flattenOptions, getKey, loading, groupOfOption, groupsWithOptions],
         );
 
         const getItemHeight = React.useCallback(
@@ -143,9 +164,9 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
                     return;
                 }
 
-                onOptionClick(node);
+                onOptionAction();
             },
-            [onOptionClick],
+            [onOptionAction],
         );
 
         const renderItem = React.useCallback(
@@ -209,7 +230,7 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
                     );
                 }
 
-                const option = ctx.item as SelectOption;
+                const option = ctx.item as AnySelectOption;
 
                 if (isSelectLoadingNode(option)) {
                     return (
@@ -227,7 +248,7 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
                 }
 
                 const wrappedRenderOption = renderOption
-                    ? (optionLocal: SelectOption) => {
+                    ? (optionLocal: AnySelectOption) => {
                           return renderOption(optionLocal, {
                               isItemActive,
                               itemHeight,
@@ -276,8 +297,8 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
                 getItemTextValue={getItemTextValue}
                 focusOwner={focusOwner}
                 selectionMode={multiple ? 'multiple' : 'single'}
-                selectedIds={value}
-                onSelectedUpdate={noop}
+                selectedIds={selectedKeys}
+                onSelectedUpdate={onSelectedUpdate}
                 activeItemId={activeItemId ?? null}
                 onActiveItemUpdate={onActiveItemUpdate}
                 onItemAction={handleItemAction}

@@ -249,6 +249,16 @@ The values (`s`, `m`, `l`, `xl`) and the default (`m`) did not change.
 The `layerschange` event no longer includes the deprecated `meta.layersCount` field. Use `meta.layers.length` to get
 the number of layers. The `getLayersCount()` function remains available.
 
+## Select popup position
+
+The `Select` popup is positioned from the control instead of the whole component, so with an error message under the
+control (`errorPlacement="outside"`, the default) it opens right under the control and covers the message while open.
+The popup width did not change. There is no option to restore the old position.
+
+The control is wrapped in a new wrapper element `g-select__anchor` between the root and the control
+(`g-select-control`). Update selectors that rely on the control being a direct child of the root, such as
+`.g-select > .g-select-control`.
+
 ## Table and TableColumnSetup
 
 `Table`, its HOCs (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`,

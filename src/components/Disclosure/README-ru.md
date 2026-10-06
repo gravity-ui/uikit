@@ -204,6 +204,37 @@ SANDBOX-->
 
 <!--/GITHUB_BLOCK-->
 
+## Контент в свёрнутом состоянии
+
+Используйте компонент `Disclosure.CollapsedDetails`, чтобы отрендерить контент, который отображается
+только пока `Disclosure` свёрнут (`expanded === false`) и плавно исчезает при раскрытии. В покое он
+участвует в обычном потоке и занимает свою высоту; и только исчезающий контент на время анимации
+позиционируется абсолютно поверх появляющегося, поэтому вёрстка не «прыгает» при переключении.
+
+<!--SANDBOX
+import {Disclosure} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <Disclosure summary="Summary">
+            <Disclosure.CollapsedDetails>Превью в свёрнутом состоянии</Disclosure.CollapsedDetails>
+            Контент в раскрытом состоянии
+        </Disclosure>
+    );
+}
+SANDBOX-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<Disclosure summary="Summary">
+  <Disclosure.CollapsedDetails>Превью в свёрнутом состоянии</Disclosure.CollapsedDetails>
+  Контент в раскрытом состоянии
+</Disclosure>
+```
+
+<!--/GITHUB_BLOCK-->
+
 ## Отключенное состояние
 
 `Disclosure` может быть отключен с помощью свойства `disabled`.
@@ -262,6 +293,15 @@ SANDBOX-->
 | :------- | :----------------------------- | :---------------- | :-------------------- |
 | children | Контент                        | `React.ReactNode` |                       |
 | qa       | Идентификатор для тестирования | `string`          | `disclosure-details`  |
+
+### Disclosure.CollapsedDetails
+
+Контент, отображаемый только пока `Disclosure` свёрнут.
+
+| Имя      | Описание                       | Тип               | Значение по умолчанию          |
+| :------- | :----------------------------- | :---------------- | :----------------------------- |
+| children | Контент                        | `React.ReactNode` |                                |
+| qa       | Идентификатор для тестирования | `string`          | `disclosure-collapsed-details` |
 
 ## CSS API
 

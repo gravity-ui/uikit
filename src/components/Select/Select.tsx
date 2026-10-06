@@ -382,7 +382,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             style={inlineStyles}
             tabIndex={-1}
         >
-            <div ref={anchorRef} className={selectBlock('control')}>
+            <div ref={anchorRef} className={selectBlock('anchor')}>
                 <SelectControl
                     {...filterDOMProps(props, {labelable: true})}
                     toggleOpen={toggleOpen}

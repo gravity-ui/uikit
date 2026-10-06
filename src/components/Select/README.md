@@ -774,11 +774,16 @@ const MyComponent = () => {
 ### Rendering custom options
 
 To render custom options, use the `renderOption` property. It is called with the option and with the
-state of its row: `isItemActive` — whether the row is the active one, the one `Enter` applies — and
-`itemHeight`, the height the row comes out as, which is the one
-[getOptionHeight](#rendering-options-with-different-heights) returned or the minimum of the
-[size](#size). The check mark of a selected option in a [multiple](#selecting-multiple-options)
-`Select` is drawn by the row itself, beside whatever this renders.
+state of its row: `isItemActive`, whether the row is the active one (the one `Enter` applies);
+`selected`, whether the option is selected; and `itemHeight`, the height the row comes out as — the
+one [getOptionHeight](#rendering-options-with-different-heights) returned or the minimum of the
+[size](#size). The row itself shows the selection beside whatever this renders: a
+check mark in a [multiple](#selecting-multiple-options) `Select` and a highlight in a single one.
+An option that draws its own indication — a `Radio` or a `Checkbox` from `selected` — turns that
+off with `selectionStyle="none"`; without one of its own the selection becomes invisible. Such a
+control is decoration — the row selects the option, and an interactive element is not allowed
+inside it: wrap the control in an element with `inert` (`inert=""` before React 19) and keep the
+text of the option outside it.
 
 `renderOptionGroup` is the same for the header of a group: the group and `{isItemActive, itemHeight}`.
 
@@ -1168,7 +1173,7 @@ SANDBOX-->
 | getOptionGroupHeight                                         | Used to set height of customized user option group                                                                               | `function`                               |                                                          |
 | hasClear                                                     | Enables displaying icon for clearing selected options                                                                            | `boolean`                                | `false`                                                  |
 | id                                                           | `id` HTML attribute                                                                                                              | `string`                                 |                                                          |
-| label                                                        | Control label                                                                                                                    | `string`                                 |                                                          |
+| label                                                        | Control label; on mobile also the title of the sheet                                                                             | `string`                                 |                                                          |
 | loading                                                      | Adds the loading item to the end of the option list. Works like a persistent loading indicator while the options list is empty.  | `boolean`                                |                                                          |
 | [multiple](#selecting-multiple-options)                      | Shows whether multiple options can be selected in the list                                                                       | `boolean`                                | `false`                                                  |
 | name                                                         | Name of the control                                                                                                              | `string`                                 |                                                          |
@@ -1195,6 +1200,7 @@ SANDBOX-->
 | renderOptionGroup                                            | Used to render user option groups                                                                                                | `function`                               |                                                          |
 | [renderSelectedOption](#rendering-custom-selected-options)   | Used to render user selected options                                                                                             | `function`                               |                                                          |
 | [renderPopup](#rendering-options-list)                       | Used to render options list content                                                                                              | `function`                               |                                                          |
+| [selectionStyle](#rendering-custom-options)                  | How a row shows that its option is selected: the check mark or highlight (`auto`) or nothing (`none`)                            | `'auto' \| 'none'`                       | `'auto'`                                                 |
 | [size](#size)                                                | Control / options size                                                                                                           | `string`                                 | `'m'`                                                    |
 | value                                                        | Values that represent selected options                                                                                           | `V[]`                                    |                                                          |
 | view                                                         | Control view                                                                                                                     | `string`                                 | `'normal'`                                               |
@@ -1210,10 +1216,12 @@ The class names of the markup are not a public contract — the rows of the popu
 list and its row view, and their markup changes with the kit. What is supported:
 
 - the variables below;
-- the colours of a row, through the `--g-list-item-view-background-color`,
-  `--g-list-item-view-background-color-hover`, `--g-list-item-view-text-color` and
-  `--g-list-item-view-description-color` variables of the row view. The geometry of a row — its
-  height, padding and radius — follows the [size](#size) of the `Select` and is not overridable;
+- the look of a row, through the `--g-list-item-view-*` variables of the
+  [row view](../ListItemView/README.md#css-api): its colours, and its height, padding and radius,
+  which otherwise follow the [size](#size) of the `Select`. Set them on `popupClassName` or
+  `sheetClassName` — for example `--g-list-item-view-min-height: 48px` for taller rows on mobile.
+  The estimate of the [virtualizer](#virtualized-list) and the `itemHeight` of `renderOption` still
+  come from the size: when the exact number matters, use `getOptionHeight`;
 - the content of a row, through `renderOption`, `renderOptionGroup` and `renderSelectedOption`.
 
 | Name                             | Description                                   |

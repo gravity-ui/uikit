@@ -48,6 +48,7 @@ export type SelectRenderControl<T extends HTMLElement = HTMLElement, V = string>
 export type SelectRenderOptionViewParams = {
     itemHeight: number;
     isItemActive: boolean;
+    selected: boolean;
 };
 
 export type SelectRenderOption<T, V = string> = (
@@ -57,7 +58,7 @@ export type SelectRenderOption<T, V = string> = (
 
 export type SelectRenderOptionGroup<T> = (
     option: Pick<SelectOptionGroup<T>, 'label'>,
-    options: SelectRenderOptionViewParams,
+    options: Omit<SelectRenderOptionViewParams, 'selected'>,
 ) => React.ReactElement;
 
 export type SelectRenderPopup = (popupItems: {
@@ -109,6 +110,12 @@ export type SelectProps<T = any, V = string> = AriaLabelingProps &
         renderFilter?: SelectRenderFilter;
         renderOption?: SelectRenderOption<T, V>;
         renderOptionGroup?: SelectRenderOptionGroup<T>;
+        /**
+         * How a row shows that its option is selected: `auto` — the check mark of a multiple
+         * `Select` and the highlight of a single one, `none` — nothing, for options that draw
+         * their own indication with `renderOption`
+         */
+        selectionStyle?: 'auto' | 'none';
         renderSelectedOption?: (option: SelectOption<T, V>, index: number) => React.ReactElement;
         renderEmptyOptions?: ({filter}: {filter: string}) => React.ReactElement;
         renderPopup?: SelectRenderPopup;
@@ -145,10 +152,6 @@ export type SelectProps<T = any, V = string> = AriaLabelingProps &
         value?: V[];
         defaultValue?: V[];
         options?: (SelectOption<T, V> | SelectOptionGroup<T, V>)[];
-        /**
-         * @deprecated Prop `error` has a lower priority than `errorMessage`. Use `errorMessage` instead
-         */
-        error?: string | boolean;
         /** Determines content of the error message */
         errorMessage?: React.ReactNode;
         /** Determines whether the error message will be placed under the input field as text or in the tooltip */

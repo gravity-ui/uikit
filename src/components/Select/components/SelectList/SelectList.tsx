@@ -42,6 +42,7 @@ type SelectListProps = {
     getKey: SelectValueKeyGetter;
     renderOption?: AnySelectProps['renderOption'];
     renderOptionGroup?: AnySelectProps['renderOptionGroup'];
+    selectionStyle?: AnySelectProps['selectionStyle'];
     getOptionText?: AnySelectProps['getOptionText'];
     getOptionHeight?: AnySelectProps['getOptionHeight'];
     getOptionGroupHeight?: AnySelectProps['getOptionGroupHeight'];
@@ -75,6 +76,7 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
             onOptionAction,
             renderOption,
             renderOptionGroup,
+            selectionStyle,
             getOptionText,
             getOptionHeight,
             getOptionGroupHeight,
@@ -247,7 +249,11 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
 
                 const wrappedRenderOption = renderOption
                     ? (optionLocal: AnySelectOption) => {
-                          return renderOption(optionLocal, {isItemActive, itemHeight});
+                          return renderOption(optionLocal, {
+                              isItemActive,
+                              itemHeight,
+                              selected: Boolean(ctx.state.selected),
+                          });
                       }
                     : undefined;
 
@@ -259,6 +265,7 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
                             'data-qa': isItemActive ? SelectQa.ACTIVE_ITEM : undefined,
                         })}
                         {...getItemViewProps()}
+                        {...(selectionStyle === 'none' && {selectionStyle})}
                     >
                         <OptionWrap option={option} renderOption={wrappedRenderOption} />
                     </List.ItemView>
@@ -271,6 +278,7 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
                 onLoadMore,
                 renderOption,
                 renderOptionGroup,
+                selectionStyle,
             ],
         );
 

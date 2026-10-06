@@ -8,7 +8,6 @@ import {useOpenState} from '../../hooks/useSelect/useOpenState';
 import {useListFocusOwner} from '../List';
 import {ListVirtualizationContext} from '../List/VirtualizationContext';
 import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
-import {errorPropsMapper} from '../controls/utils';
 import {useMobile} from '../mobile';
 import {useDefaultProps} from '../theme/useDefaultProps';
 import type {CnMods} from '../utils/cn';
@@ -77,6 +76,7 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
         renderFilter,
         renderOption,
         renderOptionGroup,
+        selectionStyle,
         renderSelectedOption,
         renderEmptyOptions,
         renderPopup = DEFAULT_RENDER_POPUP,
@@ -102,7 +102,6 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
         width,
         popupWidth,
         popupPlacement,
-        error,
         view = 'normal',
         size = 'm',
         pin = 'round-round',
@@ -120,9 +119,8 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
     } = props;
     const mobile = useMobile();
     const [filter, setFilter] = useControlledState(propsFilter, '', onFilterChange);
-    // to avoid problem with incorrect popper offset calculation
-    // for example: https://github.com/radix-ui/primitives/issues/1567
-    const controlWrapRef = React.useRef<HTMLDivElement>(null);
+    // The popup is anchored to a wrapper of the trigger: the trigger shrinks while pressed
+    const anchorRef = React.useRef<HTMLDivElement>(null);
     const controlRef = React.useRef<HTMLElement>(null);
     const filterRef = React.useRef<SelectFilterRef>(null);
     const handleControlRef = useForkRef(ref, controlRef);
@@ -254,12 +252,7 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
         );
     }
 
-    const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
-        error,
-        errorMessage: props.errorMessage,
-        errorPlacement: props.errorPlacement || 'outside',
-        validationState: props.validationState,
-    });
+    const {errorMessage, validationState, errorPlacement = 'outside'} = props;
     const errorMessageId = useUniqId();
 
     const isErrorStateVisible = validationState === 'invalid';
@@ -377,6 +370,7 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
                     onOptionAction={handleOptionAction}
                     renderOption={renderOption}
                     renderOptionGroup={renderOptionGroup}
+                    selectionStyle={selectionStyle}
                     getOptionText={getOptionText}
                     getOptionHeight={getOptionHeight}
                     getOptionGroupHeight={getOptionGroupHeight}
@@ -398,45 +392,47 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
 
     return (
         <div
-            ref={controlWrapRef}
             className={selectBlock(mods, className)}
             {...focusWithinProps}
             style={inlineStyles}
             tabIndex={-1}
         >
-            <SelectControl
-                {...filterDOMProps(props, {labelable: true})}
-                toggleOpen={toggleOpen}
-                hasClear={hasClear}
-                clearValue={handleClearValue}
-                ref={handleControlRef}
-                className={controlClassName}
-                qa={qa}
-                view={view}
-                size={size}
-                pin={pin}
-                label={label}
-                placeholder={placeholder}
-                selectedOptionsContent={selectedOptionsContent}
-                isErrorVisible={isErrorStateVisible}
-                errorMessage={isErrorIconVisible ? errorMessage : undefined}
-                open={open}
-                disabled={disabled}
-                onKeyDown={handleControlKeyDown}
-                renderControl={renderControl}
-                value={value}
-                selectedCount={selectedValues.length}
-                popupId={popupId}
-                selectId={selectId}
-                focusOwner={focusOwner}
-                hasCounter={multiple && hasCounter}
-                renderCounter={renderCounter}
-                title={title}
-            />
+            <div ref={anchorRef} className={selectBlock('anchor')}>
+                <SelectControl
+                    {...filterDOMProps(props, {labelable: true})}
+                    toggleOpen={toggleOpen}
+                    hasClear={hasClear}
+                    clearValue={handleClearValue}
+                    ref={handleControlRef}
+                    className={controlClassName}
+                    qa={qa}
+                    view={view}
+                    size={size}
+                    pin={pin}
+                    label={label}
+                    placeholder={placeholder}
+                    selectedOptionsContent={selectedOptionsContent}
+                    isErrorVisible={isErrorStateVisible}
+                    errorMessage={isErrorIconVisible ? errorMessage : undefined}
+                    open={open}
+                    disabled={disabled}
+                    onKeyDown={handleControlKeyDown}
+                    renderControl={renderControl}
+                    value={value}
+                    selectedCount={selectedValues.length}
+                    popupId={popupId}
+                    selectId={selectId}
+                    focusOwner={focusOwner}
+                    hasCounter={multiple && hasCounter}
+                    renderCounter={renderCounter}
+                    title={title}
+                />
+            </div>
             <SelectPopup
-                ref={controlWrapRef}
+                ref={anchorRef}
                 className={popupClassName}
                 sheetClassName={sheetClassName}
+                sheetTitle={label}
                 controlRef={controlRef}
                 width={popupWidth}
                 open={open}

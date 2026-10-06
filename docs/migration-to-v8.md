@@ -10,6 +10,21 @@ says what changed, how to keep the old behavior for now, and where to go next.
 Components that are no longer developed move to the `@gravity-ui/uikit/legacy` entry point. Components still available
 there keep their API, but no removal date for `/legacy` is promised: plan the migration away from them.
 
+## React 18 minimum
+
+UIKit v8 requires React and React DOM 18 or 19. Upgrade both packages (and `@types/react`, if used) before installing
+v8. React 16 and 17 are no longer supported.
+
+## `configure` and `getConfig`
+
+Each call to `configure` now creates a new configuration object. A previously saved result of `getConfig()` no longer
+reflects later changes. If you need the current configuration after calling `configure`, call `getConfig()` again:
+
+```ts
+configure({lang: 'ru'});
+const {lang} = getConfig(); // 'ru'
+```
+
 ## Button and Link `extraProps`
 
 `Button` and `Link` no longer accept `extraProps`. Pass native element props directly to the component, including
@@ -28,6 +43,38 @@ Referer header is not sent.
 - <Link href="/help" extraProps={{target: '_blank'}}>Help</Link>
 + <Link href="/help" target="_blank">Help</Link>
 ```
+
+## TextInput, PasswordInput, TextArea, and Select `error`
+
+`TextInput`, `PasswordInput`, `TextArea`, and `Select` no longer accept the deprecated `error` prop. Use
+`validationState="invalid"` to show the error state and `errorMessage` to show its message:
+
+```diff
+- <TextInput error="Required field" />
++ <TextInput validationState="invalid" errorMessage="Required field" />
+- <TextArea error />
++ <TextArea validationState="invalid" />
+- <Select error={hasError} />
++ <Select validationState={hasError ? 'invalid' : undefined} />
+- <TextInput error={errorText} />
++ <TextInput validationState={errorText ? 'invalid' : undefined} errorMessage={errorText} />
+```
+
+The same replacement applies to all four components. When `error` was the only state signal, falsy values (`false`,
+`''`, or `undefined`) did not set the invalid state.
+
+## TextInput, PasswordInput, TextArea, and NumberInput `onKeyPress`
+
+These components no longer accept the deprecated top-level `onKeyPress` prop. Use `onKeyDown` instead:
+
+```diff
+- <TextInput onKeyPress={handleKeyPress} />
++ <TextInput onKeyDown={handleKeyDown} />
+```
+
+Unlike `onKeyPress`, `onKeyDown` fires for non-character keys and during IME composition, and its `event.charCode` is
+`0`. Check `event.key` and, if needed, `event.nativeEvent.isComposing`. To keep the old behavior temporarily, pass
+`controlProps={{onKeyPress: handleKeyPress}}` to the component.
 
 ## Menu and DropdownMenu
 
@@ -202,6 +249,16 @@ The values (`s`, `m`, `l`, `xl`) and the default (`m`) did not change.
 The `layerschange` event no longer includes the deprecated `meta.layersCount` field. Use `meta.layers.length` to get
 the number of layers. The `getLayersCount()` function remains available.
 
+## Select popup position
+
+The `Select` popup is positioned from the control instead of the whole component, so with an error message under the
+control (`errorPlacement="outside"`, the default) it opens right under the control and covers the message while open.
+The popup width did not change. There is no option to restore the old position.
+
+The control is wrapped in a new wrapper element `g-select__anchor` between the root and the control
+(`g-select-control`). Update selectors that rely on the control being a direct child of the root, such as
+`.g-select > .g-select-control`.
+
 ## Table and TableColumnSetup
 
 `Table`, its HOCs (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`,
@@ -278,4 +335,20 @@ uses the current theme from `ThemeProvider`:
 ```diff
 - useColorGenerator({seed, theme: 'dark'})
 + useColorGenerator({seed})
+```
+
+## `Button.Icon` side and `Disclosure` arrow position
+
+`Button.Icon` `side` and `Disclosure` `arrowPosition` no longer accept the physical values `left` and `right`.
+Use the logical values `start` and `end` instead. They follow the text direction: `start` is on the left in LTR and on the right in RTL.
+
+```diff
+- <Button.Icon side="left">...</Button.Icon>
++ <Button.Icon side="start">...</Button.Icon>
+- <Button.Icon side="right">...</Button.Icon>
++ <Button.Icon side="end">...</Button.Icon>
+- <Disclosure arrowPosition="left" />
++ <Disclosure arrowPosition="start" />
+- <Disclosure arrowPosition="right" />
++ <Disclosure arrowPosition="end" />
 ```

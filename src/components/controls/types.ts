@@ -31,11 +31,6 @@ export type BaseInputControlProps<T = Element> = DOMProps &
         defaultValue?: string;
         /** Indicates that the user cannot interact with the control */
         disabled?: boolean;
-        /**
-         * Shows error state and optional message if property identified as a string
-         * @deprecated Prop `error` has a lower priority than `errorMessage`. Use `errorMessage` instead
-         */
-        error?: string | boolean;
         /** Determines content of the error message */
         errorMessage?: React.ReactNode;
         /** Determines whether the error message will be placed under the input field as text or in the tooltip */
@@ -56,8 +51,6 @@ export type BaseInputControlProps<T = Element> = DOMProps &
         onFocus?: React.FocusEventHandler<T>;
         /** Fires when a key is pressed. Provides keyboard event as an callback's argument */
         onKeyDown?: React.KeyboardEventHandler<T>;
-        /** @deprecated use `onKeyDown` instead */
-        onKeyPress?: React.KeyboardEventHandler<T>;
         /** Fires when a key is released. Provides keyboard event as an callback's argument */
         onKeyUp?: React.KeyboardEventHandler<T>;
         /** Fires when the input’s value is changed by the user. Provides new value as an callback's argument */

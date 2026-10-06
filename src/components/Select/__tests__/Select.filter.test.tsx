@@ -7,7 +7,7 @@ import {SheetQa} from '../../Sheet/constants';
 import {TextInput} from '../../controls';
 import {MobileProvider} from '../../mobile';
 import {Select} from '../Select';
-import type {SelectOption, SelectProps, SelectRenderPopup} from '../types';
+import type {SelectOptionProps, SelectProps, SelectRenderPopup} from '../types';
 
 import {
     DEFAULT_OPTIONS,
@@ -212,7 +212,7 @@ describe('Select filter', () => {
     });
 
     test('should filter options even if filter text is empty', async () => {
-        const filterOption = jest.fn((option: SelectOption) => option.value.endsWith('0'));
+        const filterOption = jest.fn((option: SelectOptionProps) => option.value.endsWith('0'));
         const {getByTestId, queryAllByRole} = setup({
             options: generateOptions(40),
             filterable: true,

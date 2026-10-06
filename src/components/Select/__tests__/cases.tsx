@@ -1,6 +1,6 @@
 import type {Cases, CasesWithName} from '@gravity-ui/playwright-tools/component-tests';
 
-import type {SelectOption, SelectOptionGroup, SelectProps} from '../types';
+import type {SelectOptionGroupProps, SelectOptionProps, SelectProps} from '../types';
 
 export const sizeCases: Cases<SelectProps['size']> = ['s', 'm', 'l', 'xl'];
 
@@ -34,13 +34,13 @@ export const filterPlaceholderCases: Cases<SelectProps['filterPlaceholder']> = [
 
 export const validationStateCases: Cases<SelectProps['validationState']> = ['invalid'];
 
-export const baseOptions: SelectOption[] = [
+export const baseOptions: SelectOptionProps[] = [
     {value: 'value-1', content: 'First option'},
     {value: 'value-2', content: 'Second option'},
     {value: 'value-3', content: 'Third option'},
 ];
 
-const groupedOptions: SelectOptionGroup[] = [
+const groupedOptions: SelectOptionGroupProps[] = [
     {
         label: 'Group 1',
         options: [

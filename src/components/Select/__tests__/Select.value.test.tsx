@@ -3,7 +3,7 @@ import * as React from 'react';
 import userEvent from '@testing-library/user-event';
 
 import {Select} from '..';
-import type {SelectOption} from '..';
+import type {SelectOptionProps} from '..';
 import {render, screen} from '../../../../test-utils/utils';
 import {SelectQa} from '../constants';
 
@@ -14,7 +14,7 @@ type City = {id: number; name: string};
 
 const MOSCOW: City = {id: 1, name: 'Moscow'};
 const PARIS: City = {id: 2, name: 'Paris'};
-const CITY_OPTIONS: SelectOption<unknown, City>[] = [
+const CITY_OPTIONS: SelectOptionProps<unknown, City>[] = [
     {value: MOSCOW, content: MOSCOW.name},
     {value: PARIS, content: PARIS.name},
 ];

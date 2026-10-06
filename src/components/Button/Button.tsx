@@ -11,7 +11,7 @@ import {isOfType} from '../utils/isOfType';
 import type {PolymorphicOverloadProps} from '../utils/polymorphic';
 import {isPolymorphicComponentProps} from '../utils/polymorphic';
 
-import {ButtonIcon, getIconSide} from './ButtonIcon';
+import {ButtonIcon} from './ButtonIcon';
 import {ButtonIconSizeContext} from './ButtonIconSizeContext';
 import {BUTTON_ICON_SIZE_MAP} from './constants';
 import type {
@@ -203,7 +203,7 @@ function prepareChildren(children: React.ReactNode) {
                         });
                     } else {
                         startIcon = React.cloneElement(item, {
-                            className: b('icon', {side: getIconSide(side)}, item.props.className),
+                            className: b('icon', {side}, item.props.className),
                         });
                     }
                 } else if (!endIcon && content.length !== 0) {
@@ -221,7 +221,7 @@ function prepareChildren(children: React.ReactNode) {
                         });
                     } else {
                         endIcon = React.cloneElement(item, {
-                            className: b('icon', {side: getIconSide(side)}, item.props.className),
+                            className: b('icon', {side}, item.props.className),
                         });
                     }
                 }

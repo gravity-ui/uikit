@@ -32,7 +32,7 @@ export interface ColProps extends QAProps {
     /**
      * @deprecated Use "size" prop. See https://preview.gravity-ui.com/uikit/?path=/docs/components-layout--docs#col
      */
-    xxl?: MediaPartial<ColSize>['xxl'];
+    '2xl'?: MediaPartial<ColSize>['2xl'];
     size?: ColSize | [ColSize | undefined, MediaPartial<ColSize>] | MediaPartial<ColSize>;
     className?: string;
     style?: React.CSSProperties;

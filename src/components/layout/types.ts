@@ -50,8 +50,7 @@ export type Space =
     | 9
     | 10;
 
-// TODO BREAKING CHANGE: xxl -> 2xl, xxxl -> 3xl
-export type MediaType = 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl' | 'xxxl';
+export type MediaType = 'xs' | 's' | 'm' | 'l' | 'xl' | '2xl' | '3xl';
 
 export type MediaProps<T> = Record<MediaType, T>;
 

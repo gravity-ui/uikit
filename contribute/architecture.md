@@ -62,8 +62,10 @@ live in `src/utils/`; component-oriented utilities stay in `src/components/utils
 ### Styles and themes
 
 `styles/styles.scss` is the global style entrypoint and `styles/fonts.scss` defines packaged font
-setup. Theme definitions live in `styles/themes/`, with shared structural tokens under
-`styles/themes/common/` and color sets for `light`, `dark`, `light-hc`, and `dark-hc`.
+setup. Theme definitions live in `styles/themes/`: `npm run generate:theme` produces
+`default.generated.css` (light and dark, from `@gravity-ui/uikit-themer`) and `hc.generated.css`
+(high contrast, from the seed in `theme-data/`); shared structural tokens live under
+`styles/themes/common/`.
 
 Components consume CSS custom properties and co-located SCSS. Application-facing styles must use
 semantic color tokens such as `--g-color-base-*`, `--g-color-text-*`, and `--g-color-line-*`;

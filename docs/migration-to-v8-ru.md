@@ -15,12 +15,12 @@
 
 1. Обновите React и React DOM до 18 или 19, см. [Минимальная версия React 18](#минимальная-версия-react-18).
 2. Установите необязательные peer-зависимости тех точек входа, из которых импортируете, см. [Зависимости](#зависимости).
-3. Найдите импорты, которые переехали или удалены, и пройдите по соответствующим разделам ниже:
+3. Найдите импорты и пропсы, которые переехали или удалены, и пройдите по соответствующим разделам ниже:
 
    ```bash
-   grep -rn "@gravity-ui/uikit/unstable" src
-   grep -rnE "\b(List|ListItem|ListQa|Menu|DropdownMenu|Table|TableColumnSetup|withTable[A-Za-z]+)\b" src | grep "'@gravity-ui/uikit'"
-   grep -rnE "virtualizationThreshold|renderSelectedOption\b|SelectItem|xxs|xxl|extraProps|onKeyPress|iconSize|anchorRef|onClose" src
+   grep -rnE "@gravity-ui/uikit/(unstable|legacy)" src
+   grep -rlE "from ['\"]@gravity-ui/uikit['\"]" src | xargs grep -HnwE "List|ListItem|ListQa|Menu|DropdownMenu|Table|TableColumnSetup|withTable[A-Za-z]+"
+   grep -rnE "virtualizationThreshold|renderSelectedOption\b|SelectItem|xxs|xxl|extraProps|onKeyPress|iconSize|anchorRef|onEscapeKeyDown|onOutsideClick|onEnterKeyDown|disableHeightTransition|arrowPosition|layersCount" src
    ```
 
 4. Сверьте свой CSS и тесты с разделом [Остальное](#остальное).
@@ -55,7 +55,7 @@ peer-зависимости: вместе с пакетом они больше 
 
 `List` из корневой точки входа — новый компонент: выбор, виртуализация и перетаскивание — необязательные слои,
 встроенного фильтра нет. `List` из v7 вместе с `ListItem`, `ListQa` и остальными экспортами — в
-`@gravity-ui/uikit/legacy` (CSS-блок `g-list-legacy`), которой нужны [три необязательных peer](#зависимости):
+`@gravity-ui/uikit/legacy` (CSS-блок `g-list-legacy`), которой нужны [три необязательные peer-зависимости](#зависимости):
 
 ```diff
 - import {List} from '@gravity-ui/uikit';
@@ -67,19 +67,19 @@ peer-зависимости: вместе с пакетом они больше 
 
 ## Select
 
-`Select` рисует опции новым `List`. У каждого изменения ниже есть «до» и «после» в
-[гайде Select](migration-select-v8.md) (на английском).
+`Select` рисует опции новым `List`. Подробности — в [гайде Select](migration-select-v8.md) (на английском).
 
 ### Опции рисует новый List
 
 - `virtualizationThreshold` удалён: оберните `Select` в `ListVirtualizer` из `@gravity-ui/uikit/virtualizer`. Без
   обёртки рендерятся все опции.
-- `SelectOption.text` удалён: текст опции берётся из `getOptionText`.
+- Без `ListVirtualizer` попап шириной с самую широкую опцию; оберните `Select` или задайте `popupWidth="fit"`.
+- Поле `text` у опции (`SelectOptionProps`) удалено: текст опции берётся из `getOptionText`.
 - `renderFilter` больше не получает `value` и `onKeyDown`: оба — в `inputProps`.
 - `renderOption` всегда получает `isItemActive`, а `itemHeight` несёт новые высоты строк.
 - Значения опций должны быть уникальными, включая группы.
-- DOM `id` строки строится по значению опции, заголовок группы больше не `role="option"`, классов
-  `.g-select-list__group-label*`, `.g-select-list__tick-icon` и `.g-list__item` больше нет.
+- DOM `id` строки строится по значению опции, заголовок группы больше не `role="option"`, нескольких
+  классов `g-select-list__*` и `.g-list__item` больше нет.
 - `label` называет триггер, а не склеивается с его значением.
 - Поиск по первым буквам ищет по префиксу.
 
@@ -176,7 +176,8 @@ being used as a type here» — замените их на `SelectOptionProps` �
 
 ## Удалено из `/unstable`
 
-В v8 в `@gravity-ui/uikit/unstable` остались только `unstable_FileDropZone` и `unstable_useDropZone`.
+В v8 в `@gravity-ui/uikit/unstable` остались только `unstable_FileDropZone`, `unstable_useDropZone`
+и их типы.
 Всё остальное переехало:
 
 | Удалено                                                                                                           | Теперь                                                                                                                       |
@@ -495,18 +496,18 @@ const {lang} = getConfig(); // 'ru'
 
 ## Остальное
 
-| Что                                                                                    | Изменение                                                                                                                                                    |
-| :------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Select` ([#2660](https://github.com/gravity-ui/uikit/pull/2660))                      | Попап отстоит от контрола на 4px вместо 1px — тот же отступ, что у `Popup`.                                                                                  |
-| Темы ([#2745](https://github.com/gravity-ui/uikit/pull/2745))                          | Переменные темы генерируются из `@gravity-ui/uikit-themer`; ни одна переменная не переименована, но цвета немного сдвинулись — обновите эталонные скриншоты. |
-| `Avatar` ([#2376](https://github.com/gravity-ui/uikit/pull/2376))                      | Проп `alt` удалён; изображение декоративное (`alt=""`).                                                                                                      |
-| Типографика ([#2616](https://github.com/gravity-ui/uikit/pull/2616))                   | Акцентные тексты берут насыщенность из `--g-text-{group}-accent-font-weight`; `--g-text-accent-font-weight` устарела.                                        |
-| `Progress` ([#2151](https://github.com/gravity-ui/uikit/pull/2151))                    | У компонента нет внешних отступов.                                                                                                                           |
-| `Lang`, `Platform` ([#2715](https://github.com/gravity-ui/uikit/pull/2715))            | Перечисления TypeScript заменены объектами `as const` и объединениями типов; `Lang.Ru` работает.                                                             |
-| `Dialog.Footer` ([#2657](https://github.com/gravity-ui/uikit/pull/2657))               | У кнопок нет фиксированной и минимальной ширины.                                                                                                             |
-| Зависимости ([#2858](https://github.com/gravity-ui/uikit/pull/2858))                   | `lodash` заменён на `es-toolkit`.                                                                                                                            |
-| `Checkbox`, `Radio`, `Switch` ([#2342](https://github.com/gravity-ui/uikit/pull/2342)) | Размер `l` использует вариант шрифта `body-1`.                                                                                                               |
-| Стили hover ([#2832](https://github.com/gravity-ui/uikit/pull/2832))                   | Стили `:hover` применяются только на устройствах с наведением (`@media (hover: hover)`).                                                                     |
-| Миксин `button-reset` ([#2862](https://github.com/gravity-ui/uikit/pull/2862))         | Сбрасывает ещё `margin`, `appearance`, `user-select` и подсветку тапа и больше не убирает `outline`.                                                         |
-| `Modal`, `Dialog` ([#2860](https://github.com/gravity-ui/uikit/pull/2860))             | Высота больше не анимируется при смене содержимого; `disableHeightTransition` удалён.                                                                        |
-| Тип `Keysets` ([#2854](https://github.com/gravity-ui/uikit/pull/2854))                 | Включает кейсет `HelloPangeaDnd`: для `addLanguageKeysets<Keysets>` нужны два его ключа.                                                                     |
+| Что                                                                                    | Изменение                                                                                                                                                                                                                                                                                                                                                                                             |
+| :------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Select` ([#2660](https://github.com/gravity-ui/uikit/pull/2660))                      | Попап отстоит от контрола на 4px вместо 1px — тот же отступ, что у `Popup`.                                                                                                                                                                                                                                                                                                                           |
+| Темы ([#2745](https://github.com/gravity-ui/uikit/pull/2745))                          | Переменные темы генерируются из `@gravity-ui/uikit-themer`. SCSS-модуль `@gravity-ui/uikit/styles/themes` и его миксины `g-theme-*` удалены: собирайте свою тему, как в [Темизации](theming-ru.md#создание-пользовательской-темы). Ни одна переменная не переименована, но цвета немного сдвинулись, а значения записаны как `rgb(r g b / a)` — обновите эталонные скриншоты и снапшоты с литералами. |
+| `Avatar` ([#2376](https://github.com/gravity-ui/uikit/pull/2376))                      | Проп `alt` удалён; изображение декоративное (`alt=""`).                                                                                                                                                                                                                                                                                                                                               |
+| Типографика ([#2616](https://github.com/gravity-ui/uikit/pull/2616))                   | Акцентные тексты берут насыщенность из `--g-text-{group}-accent-font-weight`; `--g-text-accent-font-weight` устарела, и её переопределение больше не действует на `Breadcrumbs` и `Menu`.                                                                                                                                                                                                             |
+| `Progress` ([#2151](https://github.com/gravity-ui/uikit/pull/2151))                    | Компонент больше не центрирует себя (`margin: 0 auto` удалён).                                                                                                                                                                                                                                                                                                                                        |
+| `Lang`, `Platform` ([#2715](https://github.com/gravity-ui/uikit/pull/2715))            | Перечисления TypeScript заменены объектами `as const` и объединениями типов; `Lang.Ru` работает.                                                                                                                                                                                                                                                                                                      |
+| `Dialog.Footer` ([#2657](https://github.com/gravity-ui/uikit/pull/2657))               | На десктопе кнопки больше не растягиваются и не имеют `min-width: 128px`; передайте `width` в `propsButtonApply` и `propsButtonCancel`. На мобильных они по-прежнему растянуты.                                                                                                                                                                                                                       |
+| Зависимости ([#2858](https://github.com/gravity-ui/uikit/pull/2858))                   | `lodash` заменён на `es-toolkit` и больше не ставится вместе с пакетом: добавьте его в свои зависимости, если импортируете.                                                                                                                                                                                                                                                                           |
+| `Checkbox`, `Radio`, `Switch` ([#2342](https://github.com/gravity-ui/uikit/pull/2342)) | Размер `l` использует вариант шрифта `body-1`; обёртка `g-control-label__control-container` удалена.                                                                                                                                                                                                                                                                                                  |
+| Стили hover ([#2832](https://github.com/gravity-ui/uikit/pull/2832))                   | Стили `:hover` применяются только на устройствах с наведением (`@media (hover: hover)`).                                                                                                                                                                                                                                                                                                              |
+| Миксин `button-reset` ([#2862](https://github.com/gravity-ui/uikit/pull/2862))         | Сбрасывает ещё `margin`, `appearance`, `user-select`, `touch-action` и подсветку тапа и больше не задаёт `outline: none`: элементы с ним показывают браузерное кольцо фокуса.                                                                                                                                                                                                                         |
+| `Modal`, `Dialog` ([#2860](https://github.com/gravity-ui/uikit/pull/2860))             | Высота больше не анимируется при смене содержимого; `disableHeightTransition` удалён.                                                                                                                                                                                                                                                                                                                 |
+| Тип `Keysets` ([#2854](https://github.com/gravity-ui/uikit/pull/2854))                 | Включает кейсет `HelloPangeaDnd`: для `addLanguageKeysets<Keysets>` нужны два его ключа.                                                                                                                                                                                                                                                                                                              |

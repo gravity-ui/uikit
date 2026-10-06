@@ -62,8 +62,9 @@ UIKit — единый публикуемый пакет `@gravity-ui/uikit`. В
 ### Стили и темы
 
 `styles/styles.scss` — глобальная точка входа стилей, а `styles/fonts.scss` настраивает поставляемые
-шрифты. Определения тем находятся в `styles/themes/`: общие структурные токены — в
-`styles/themes/common/`, наборы цветов — в `light`, `dark`, `light-hc` и `dark-hc`.
+шрифты. Определения тем находятся в `styles/themes/`: `npm run generate:theme` создаёт
+`default.generated.css` (светлая и тёмная, из `@gravity-ui/uikit-themer`) и `hc.generated.css`
+(высококонтрастные, из сида в `theme-data/`); общие структурные токены — в `styles/themes/common/`.
 
 Компоненты используют CSS-переменные и SCSS рядом с реализацией. В прикладных стилях следует
 использовать семантические цветовые токены `--g-color-base-*`, `--g-color-text-*` и

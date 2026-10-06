@@ -15,6 +15,7 @@ import {TextInput} from '../../controls';
 import {Flex} from '../../layout';
 import {block} from '../../utils/cn';
 
+import {ProblemValuesShowcase} from './ProblemValuesShowcase';
 import {SelectPopupWidthShowcase} from './SelectPopupWidthShowcase';
 import {UseSelectOptionsShowcase} from './UseSelectOptionsShowcase';
 import {WithActionButtonsShowcase} from './WithActionButtonsShowcase';
@@ -642,4 +643,9 @@ export const WithCustomCounter: Story = {
             </Select>
         );
     },
+};
+
+// Temporary: a stand of the problem values for the review of #2880
+export const ProblemValues: Story = {
+    render: () => <ProblemValuesShowcase />,
 };

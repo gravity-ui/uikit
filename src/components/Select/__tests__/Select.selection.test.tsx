@@ -47,4 +47,15 @@ describe('Select: the selection of the List', () => {
         await user.keyboard('{ArrowUp}{/Shift}');
         expect(onUpdate).toHaveBeenLastCalledWith(['js', 'python']);
     });
+
+    test('multiple: Space moves the anchor of the range', async () => {
+        const onUpdate = jest.fn();
+        setup({onUpdate, multiple: true});
+        const user = userEvent.setup();
+
+        await user.click(screen.getByTestId(TEST_QA));
+        await user.click(screen.getByRole('option', {name: JS}));
+        await user.keyboard('{ArrowDown}{ArrowDown} {Shift>}{ArrowUp}{/Shift}');
+        expect(onUpdate).toHaveBeenLastCalledWith(['js', 'python', 'ruby']);
+    });
 });

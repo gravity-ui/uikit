@@ -146,12 +146,19 @@ export function createTracker() {
 /** An external focus owner: an input outside the list root (a mini combobox) */
 export function ComboboxHarness({
     open = true,
+    owner = 'input',
     ...listProps
-}: {open?: boolean; items: readonly string[]} & Partial<ListProps<string>>) {
+}: {open?: boolean; owner?: 'input' | 'button'; items: readonly string[]} & Partial<
+    ListProps<string>
+>) {
     const focusOwner = useListFocusOwner();
     return (
         <React.Fragment>
-            <input {...focusOwner.getInputProps({'aria-label': 'Filter'})} />
+            {owner === 'input' ? (
+                <input {...focusOwner.getInputProps({'aria-label': 'Filter'})} />
+            ) : (
+                <button {...focusOwner.getInputProps({'aria-label': 'Trigger'})} />
+            )}
             {open ? <List aria-label="Options" {...listProps} focusOwner={focusOwner} /> : null}
         </React.Fragment>
     );

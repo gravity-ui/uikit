@@ -120,7 +120,6 @@ describe('Select with non-string values', () => {
             expect(onUpdate.mock.lastCall?.[0][0]).toBe(selected);
             expect(onUpdate.mock.lastCall?.[0][1]).toBe(PARIS);
 
-            // Space is the gesture of the Select itself rather than of the List
             await user.keyboard('{ArrowUp}{ }');
             expect(onUpdate).toHaveBeenLastCalledWith([PARIS]);
         });

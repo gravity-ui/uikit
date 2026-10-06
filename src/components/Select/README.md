@@ -116,9 +116,10 @@ asked for rather than stored, so one function covers every option instead of a f
 each of them.
 
 The `value` of an option identifies its row, so the values have to be unique across the whole list,
-groups included (for a [non-string value](#non-string-values) — its key). The DOM `id` of the row is derived from it, and that id is what
-`aria-activedescendant` of the trigger points at — read it from there rather than building it by
-hand: the escaping of a value belongs to the list and is not a contract.
+groups included (for a [non-string value](#non-string-values) — its key). The DOM `id` of the row is
+derived from it, and that id is what `aria-activedescendant` of the trigger points at — read it from
+there rather than building it by hand: the escaping of a value belongs to the list and is not a
+contract.
 
 #### Grouped list
 
@@ -280,7 +281,8 @@ SANDBOX-->
 
 <!--/GITHUB_BLOCK-->
 
-Shift+click and Shift+↑/↓ select a range of options, from the option chosen last to the target.
+Shift+click, Shift+↑/↓ and Shift+Space select a range of options, from the option chosen last to the
+target.
 
 ### Counter
 

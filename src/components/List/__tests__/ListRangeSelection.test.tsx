@@ -731,6 +731,41 @@ describe('List: range selection (selection layer)', () => {
             expect(input).toHaveAttribute('aria-activedescendant', options[2].id);
         });
 
+        test('Space types into the owner input', async () => {
+            const user = userEvent.setup();
+            const onSelectedUpdate = jest.fn();
+            render(
+                <ComboboxHarness
+                    items={LETTERS}
+                    selectionMode="multiple"
+                    onSelectedUpdate={onSelectedUpdate}
+                />,
+            );
+            const input = screen.getByRole('combobox');
+
+            await user.click(input);
+            await user.keyboard('{ArrowDown} ');
+            expect(input).toHaveValue(' ');
+            expect(onSelectedUpdate).not.toHaveBeenCalled();
+        });
+
+        test('Space and Shift+Space select from an owner without a caret', async () => {
+            const user = userEvent.setup();
+            const onSelectedUpdate = jest.fn();
+            render(
+                <ComboboxHarness
+                    owner="button"
+                    items={LETTERS}
+                    selectionMode="multiple"
+                    onSelectedUpdate={onSelectedUpdate}
+                />,
+            );
+
+            screen.getByRole('combobox').focus();
+            await user.keyboard('{ArrowDown} {ArrowDown}{ArrowDown}{Shift>} {/Shift}');
+            expect(onSelectedUpdate).toHaveBeenLastCalledWith(['Alpha', 'Bravo', 'Charlie']);
+        });
+
         test('Ctrl+A belongs to the owner input and is not intercepted', async () => {
             const user = userEvent.setup();
             const onSelectedUpdate = jest.fn();

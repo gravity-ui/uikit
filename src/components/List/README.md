@@ -807,8 +807,9 @@ What changes in the list:
   field, the rest go to the list**. `Home`/`End` move the caret, so the APG combobox pattern leaves
   them to an editable combobox (and makes the arrows of the list cycle to compensate); `PageUp`/
   `PageDown` have no caret meaning in a single-line field, so the list keeps them;
-- `Space` belongs to the owner and no longer selects, and `Ctrl`/`Cmd`+`A` selects the text of the
-  input rather than the items;
+- `Space` types into a text owner; an owner that holds no caret (the trigger of a select-only
+  combobox) gives it to the list, so it selects as with a row in focus. `Ctrl`/`Cmd`+`A` selects
+  the text of the input rather than the items;
 - character keys go to a text owner — typing there is filtering, so typeahead stays off. An owner
   that holds no caret (the trigger button of a select-only combobox) keeps the typeahead of the list;
 - `Shift`+`↑`/`↓` still extends the range when a multiple selection is on.

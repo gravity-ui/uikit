@@ -38,7 +38,7 @@ type SelectListProps = {
     selectedKeys: string[];
     onSelectedUpdate: (keys: string[]) => void;
     /** An option was applied: the selection has already changed by then */
-    onOptionAction: (option: AnySelectOption) => void;
+    onOptionAction: () => void;
     getKey: SelectValueKeyGetter;
     renderOption?: AnySelectProps['renderOption'];
     renderOptionGroup?: AnySelectProps['renderOptionGroup'];
@@ -162,7 +162,7 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
                     return;
                 }
 
-                onOptionAction(node);
+                onOptionAction();
             },
             [onOptionAction],
         );

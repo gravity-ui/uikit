@@ -29,7 +29,7 @@ import {getSelectFilteredOptions, useSelectOptions} from './hooks-public';
 import {Option, OptionGroup} from './tech-components';
 import type {SelectProps, SelectRenderPopup} from './types';
 import type {SelectFilterRef} from './types-misc';
-import type {AnySelectOption, FlattenOption} from './utils';
+import type {FlattenOption} from './utils';
 import {
     getGroupOfOption,
     getGroupsWithOptions,
@@ -263,35 +263,6 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
     const isErrorIconVisible =
         isErrorStateVisible && Boolean(errorMessage) && errorPlacement === 'inside';
 
-    // A click and Enter change the selection through the List; a Space on the trigger is the gesture
-    // of the Select — the core leaves it to the owner of an active descendant
-    const handleOptionSpace = React.useCallback(
-        (option?: AnySelectOption) => {
-            if (!option || option.disabled) {
-                return;
-            }
-
-            const key = getKey(option.value);
-            const selected = selectedKeys.includes(key);
-
-            if (multiple) {
-                setValue(
-                    selected
-                        ? value.filter((_item, index) => selectedKeys[index] !== key)
-                        : [...value, option.value],
-                );
-                return;
-            }
-
-            if (!selected) {
-                setValue([option.value]);
-            }
-
-            toggleOpen(false);
-        },
-        [getKey, multiple, selectedKeys, setValue, toggleOpen, value],
-    );
-
     const handleOptionAction = React.useCallback(() => {
         if (!multiple) {
             toggleOpen(false);
@@ -334,20 +305,6 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
         getKey,
     });
 
-    const optionByKey = React.useMemo(() => {
-        const map = new Map<string, AnySelectOption>();
-
-        for (const option of filteredOptions) {
-            if (!isSelectGroupTitle(option)) {
-                map.set(getKey(option.value), option);
-            }
-        }
-
-        return map;
-    }, [filteredOptions, getKey]);
-
-    const activeOption = activeItemId === undefined ? undefined : optionByKey.get(activeItemId);
-
     const handleActiveItemUpdate = React.useCallback(
         (id: string | null) => {
             setActiveItemId(id ?? undefined);
@@ -359,16 +316,7 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
         (e: React.KeyboardEvent<HTMLElement>) => {
             // prevent dialog closing in case of item selection by Enter/Spacebar keydown
             if ([KeyCode.ENTER, KeyCode.SPACEBAR].includes(e.key) && open) {
-                // Enter is applied by the core, and so is a Space that continues a search by the
-                // first letters (the core marks it as handled) — the rest of the spaces are the
-                // gesture of the Select
-                const handledByList = e.defaultPrevented;
-
                 e.preventDefault();
-
-                if (e.key === KeyCode.SPACEBAR && !handledByList) {
-                    handleOptionSpace(activeOption);
-                }
             }
             if ([KeyCode.ARROW_DOWN, KeyCode.ARROW_UP].includes(e.key) && !open) {
                 e.preventDefault();
@@ -378,7 +326,7 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
                 toggleOpen(false);
             }
         },
-        [activeOption, handleOptionSpace, open, toggleOpen],
+        [open, toggleOpen],
     );
 
     const handleFilterKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLElement>) => {

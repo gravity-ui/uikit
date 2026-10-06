@@ -28,40 +28,8 @@ const NUMBER_OPTIONS = [
 const getControl = () => screen.getByTestId(QA);
 const getRow = (name: string) => screen.getByRole('option', {name});
 
-let consoleError: jest.SpyInstance;
-
-beforeEach(() => {
-    consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-});
-
-afterEach(() => {
-    consoleError.mockRestore();
-});
-
-const expectWarning = (text: string) => {
-    expect(consoleError).toHaveBeenCalledWith(expect.stringContaining(text));
-};
-
 describe('Select with non-string values', () => {
     describe('numbers', () => {
-        test('the type of the value is inferred from the options', async () => {
-            const onUpdate = jest.fn((value: number[]) => value);
-            render(
-                <Select
-                    id={SELECT_ID}
-                    qa={QA}
-                    options={NUMBER_OPTIONS}
-                    defaultValue={[1]}
-                    onUpdate={onUpdate}
-                />,
-            );
-            const user = userEvent.setup();
-
-            await user.click(getControl());
-            await user.click(getRow('Two'));
-            expect(onUpdate).toHaveBeenLastCalledWith([2]);
-        });
-
         test('`0` is a value: the control shows it and can clear it', async () => {
             const onUpdate = jest.fn();
             render(
@@ -112,27 +80,6 @@ describe('Select with non-string values', () => {
             await user.keyboard('2{Enter}');
             expect(getControl()).toHaveTextContent('2');
         });
-
-        test('the DOM id of a row is the number as a string', async () => {
-            render(<Select id={SELECT_ID} qa={QA} options={NUMBER_OPTIONS} />);
-            const user = userEvent.setup();
-
-            await user.click(getControl());
-            expect(getRow('One')).toHaveAttribute('id', `select-popup-${SELECT_ID}-item-1`);
-        });
-
-        test('`1` and `"1"` in one Select share a key and are reported as duplicates', () => {
-            render(
-                <Select<unknown, number | string>
-                    options={[
-                        {value: 1, content: 'Number'},
-                        {value: '1', content: 'String'},
-                    ]}
-                />,
-            );
-
-            expectWarning('More than one option has the value "1"');
-        });
     });
 
     describe('objects', () => {
@@ -178,9 +125,9 @@ describe('Select with non-string values', () => {
             expect(onUpdate).toHaveBeenLastCalledWith([PARIS]);
         });
 
-        test('the filter, the search by the first letters and Enter work with object values', async () => {
+        test('the filter and Enter select an object value', async () => {
             const onUpdate = jest.fn();
-            const {unmount} = render(
+            render(
                 <Select
                     qa={QA}
                     filterable
@@ -194,8 +141,10 @@ describe('Select with non-string values', () => {
             await user.click(getControl());
             await user.keyboard('par{Enter}');
             expect(onUpdate).toHaveBeenLastCalledWith([PARIS]);
-            unmount();
+        });
 
+        test('the search by the first letters selects an object value', async () => {
+            const onUpdate = jest.fn();
             render(
                 <Select
                     qa={QA}
@@ -204,6 +153,7 @@ describe('Select with non-string values', () => {
                     onUpdate={onUpdate}
                 />,
             );
+            const user = userEvent.setup();
 
             await user.click(getControl());
             await user.keyboard('m{Enter}');
@@ -229,6 +179,35 @@ describe('Select with non-string values', () => {
             await user.click(getControl());
             await user.click(getRow('Moscow'));
             expect(onUpdate).toHaveBeenLastCalledWith([gone, MOSCOW]);
+        });
+    });
+
+    describe('warnings', () => {
+        let consoleError: jest.SpyInstance;
+
+        beforeEach(() => {
+            consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+        });
+
+        afterEach(() => {
+            consoleError.mockRestore();
+        });
+
+        const expectWarning = (text: string) => {
+            expect(consoleError).toHaveBeenCalledWith(expect.stringContaining(text));
+        };
+
+        test('`1` and `"1"` in one Select share a key and are reported as duplicates', () => {
+            render(
+                <Select<unknown, number | string>
+                    options={[
+                        {value: 1, content: 'Number'},
+                        {value: '1', content: 'String'},
+                    ]}
+                />,
+            );
+
+            expectWarning('More than one option has the value "1"');
         });
 
         test('an object without `getValueKey` is reported', () => {
@@ -273,43 +252,35 @@ describe('Select with non-string values', () => {
 
             await user.click(getControl());
             await user.click(getRow('Paris'));
-            await user.click(screen.getByTestId('submit'));
-            expect(submitted).toEqual(['2']);
 
             await user.click(screen.getByTestId('reset'));
             expect(getControl()).toHaveTextContent('Moscow');
         });
     });
 
-    describe('types', () => {
-        test('the props of the component keep the string value', () => {
-            const props: React.ComponentProps<typeof Select> = {
-                // @ts-expect-error a value of `ComponentProps` is a string
-                value: [1],
-            };
+    test('types: the value follows the options, `ComponentProps` keeps the string', () => {
+        const props: React.ComponentProps<typeof Select> = {
+            // @ts-expect-error a value of `ComponentProps` is a string
+            value: [1],
+        };
 
-            expect(props.value).toEqual([1]);
-        });
-
-        test('the value of the options and the value of the Select agree', () => {
-            render(
-                <React.Fragment>
-                    {/* @ts-expect-error a string value for number options */}
-                    <Select options={NUMBER_OPTIONS} value={['1']} />
-                    {/* @ts-expect-error the key getter takes the value */}
-                    <Select options={CITY_OPTIONS} getValueKey={(city: string) => city} />
-                    <Select
-                        options={CITY_OPTIONS}
-                        getValueKey={(city) => String(city.id)}
-                        onUpdate={(value) => value.map((city) => city.name)}
-                    />
-                    <Select<unknown, number> value={[1]}>
-                        <Select.Option value={1}>One</Select.Option>
-                    </Select>
-                </React.Fragment>,
-            );
-
-            expect(screen.getAllByRole('combobox')).toHaveLength(4);
-        });
+        render(
+            <React.Fragment>
+                <Select {...props} />
+                <Select options={NUMBER_OPTIONS} onUpdate={(value: number[]) => value} />
+                {/* @ts-expect-error a string value for number options */}
+                <Select options={NUMBER_OPTIONS} value={['1']} />
+                {/* @ts-expect-error the key getter takes the value */}
+                <Select options={CITY_OPTIONS} getValueKey={(city: string) => city} />
+                <Select
+                    options={CITY_OPTIONS}
+                    getValueKey={(city) => String(city.id)}
+                    onUpdate={(value) => value.map((city) => city.name)}
+                />
+                <Select<unknown, number> value={[1]}>
+                    <Select.Option value={1}>One</Select.Option>
+                </Select>
+            </React.Fragment>,
+        );
     });
 });

@@ -5,7 +5,7 @@ $block: '.#{variables.$ns}list-section-header';
 
 #{$block} {
     /* Paddings as in the row view */
-    --_--min-height: var(--g-list-item-view-min-height, #{variables.$m-height});
+    --_--min-height: var(--g-list-item-view-min-height, #{variables.$height-m});
     --_--line-height: 18px;
     --_--padding-block: calc((var(--_--min-height) - var(--_--line-height)) / 2);
 
@@ -31,15 +31,15 @@ $block: '.#{variables.$ns}list-section-header';
     }
 
     &_size_s {
-        --_--min-height: var(--g-list-item-view-min-height, #{variables.$s-height});
+        --_--min-height: var(--g-list-item-view-min-height, #{variables.$height-s});
     }
 
     &_size_l {
-        --_--min-height: var(--g-list-item-view-min-height, #{variables.$l-height});
+        --_--min-height: var(--g-list-item-view-min-height, #{variables.$height-l});
     }
 
     &_size_xl {
-        --_--min-height: var(--g-list-item-view-min-height, #{variables.$xl-height});
+        --_--min-height: var(--g-list-item-view-min-height, #{variables.$height-xl});
         --_--line-height: 20px;
 
         @include mixins.text-body-2;

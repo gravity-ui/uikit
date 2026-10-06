@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import {ChevronDown, TriangleExclamation} from '@gravity-ui/icons';
 
+import {useUniqId} from '../../../../hooks';
 import {Alert} from '../../../Alert';
 import {Icon} from '../../../Icon';
 import type {ListFocusOwner} from '../../../List';
@@ -93,6 +94,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
     const showPlaceholder = Boolean(placeholder && !hasValue);
 
     const direction = useDirection();
+    const labelId = useUniqId();
 
     const [isDisabledButtonAnimation, setIsDisabledButtonAnimation] = React.useState(false);
 
@@ -190,6 +192,13 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         disabled,
     };
 
+    // `aria-labelledby` overrides `aria-label`, so the trigger references itself to keep it in the name
+    const labelledBy = label
+        ? [triggerProps['aria-label'] && selectId, triggerProps['aria-labelledby'], labelId]
+              .filter(Boolean)
+              .join(' ')
+        : triggerProps['aria-labelledby'];
+
     const {t} = i18n.useTranslation();
 
     if (renderControl) {
@@ -218,8 +227,18 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                     title={title}
                     tabIndex={0}
                     {...triggerProps}
+                    aria-labelledby={labelledBy}
                 >
-                    {label && <span className={selectControlBlock('label')}>{label}</span>}
+                    {/* hidden from the content so that it names the combobox instead of joining its value */}
+                    {label && (
+                        <span
+                            id={labelId}
+                            className={selectControlBlock('label')}
+                            aria-hidden="true"
+                        >
+                            {label}
+                        </span>
+                    )}
                     {showPlaceholder && (
                         <span className={selectControlBlock('placeholder')}>{placeholder}</span>
                     )}

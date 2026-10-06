@@ -338,7 +338,7 @@ import {useLayoutContext} from '@gravity-ui/uikit';
 const mapOfPropsByScreen = {
   s: "i'm will be shown on 's' and 'n' screen size",
   l: "i'm will be shown on 'l' and 'xl' screen size",
-  2xl: "i'm will be shown on '2xl' and '3xl' screen size",
+  '2xl': "i'm will be shown on '2xl' and '3xl' screen size",
 };
 
 const Component = () => {

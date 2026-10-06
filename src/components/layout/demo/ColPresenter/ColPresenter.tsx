@@ -16,7 +16,7 @@ const renderTitle = (size: ColProps['size']) => {
         defaultSize = size;
     }
 
-    let title = defaultSize || 'auto';
+    let title = String(defaultSize ?? 12);
 
     if (mediaConfig) {
         const mediaPart = Object.entries(mediaConfig)

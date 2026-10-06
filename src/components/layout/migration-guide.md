@@ -1,6 +1,6 @@
 # Migration to the new layout API
 
-The layout update turns `Box` into a responsive style-prop primitive, rebuilds `Flex` on top of the same props, and adds `Grid`. Most existing `Box` and `Flex` usages continue to render, but the spacing API and several `Flex` shortcuts are breaking changes.
+The layout update gives `Box`, `Flex`, `Container`, `Row`, and `Col` responsive style props and adds `Grid`. The spacing API, box sizing, grid gutters, and several `Flex` shortcuts are breaking changes.
 
 ## Migration checklist
 
@@ -8,7 +8,10 @@ The layout update turns `Box` into a responsive style-prop primitive, rebuilds `
 2. Replace removed `Flex` shortcuts (`grow`, `basis`, `shrink`, `centerContent`, `gapRow`, and `space`).
 3. Convert spacing-scale values used by `Flex` to `spacing-*` tokens.
 4. Check code that depends on the wrapper elements previously created by `Flex space`.
-5. Check usages that set the same CSS property through both a layout prop and `style`.
+5. Convert `Container` gutters to spacing tokens and replace `spaceRow`, and `Row` `space` and `spaceRow`.
+6. Rename breakpoint-based `Container.maxWidth` to `size`; keep `maxWidth` for CSS lengths or pixel values.
+7. Check usages that set the same CSS property through both a layout prop and `style`.
+8. Review `Box`/`Flex` sizes that relied on `border-box`; set `box-sizing` explicitly where needed.
 
 ## Spacing values and CSS units
 
@@ -33,6 +36,21 @@ All style props accept responsive objects. Values use mobile-first fallback: a v
 ```tsx
 <Box padding={{xs: 'spacing-2', m: 'spacing-4'}} width={{xs: '100%', l: 640}} />
 ```
+
+## Box sizing
+
+Previously, `Box` enforced `box-sizing: border-box`, and `Flex` inherited that rule through `Box`. Neither component now sets `box-sizing`. For their default `div` elements, the CSS default is `content-box` unless application styles override it.
+
+With `content-box`, declared widths and heights describe the content area. Padding and borders add to the total size instead of fitting inside it. This also affects logical sizes such as `inlineSize` and `blockSize`, and their minimum and maximum constraints. For example, `width={200}` with `paddingInline="spacing-4"` now produces a 232px-wide box with the default spacing scale and no borders, rather than a 200px-wide box.
+
+Review fixed-size layouts and `width="100%"` elements with padding or borders, which can now overflow their parent. To preserve the old sizing, set `boxSizing` through `style` or `box-sizing` in an application CSS class:
+
+```tsx
+<Box width={200} paddingInline="spacing-4" style={{boxSizing: 'border-box'}} />
+<Flex width="100%" padding="spacing-2" style={{boxSizing: 'border-box'}} />
+```
+
+If your application already applies a `border-box` reset to these elements, their sizing remains unchanged. `Container` also leaves box sizing to CSS. With the default `content-box`, its width cap excludes gutters and borders.
 
 ## `Box`
 
@@ -173,3 +191,46 @@ Use `spacing-*` inside track arrays when a track should use the UIKit spacing sc
 ```
 
 After migration, run TypeScript and visual tests. The most useful search terms for locating old API usage are `spacing=`, `grow`, `basis`, `shrink`, `centerContent`, `gapRow`, and `space` on `Box`/`Flex` elements.
+
+## `Container`, `Row`, and `Col`
+
+`Row` now uses CSS Grid with 12 equal tracks and native CSS gaps instead of negative margins and generated column padding. All three components accept `Box` style props, `as`, native element props, and refs. Explicit column sizing through `size`, including responsive objects and tuples, is unchanged. Each unsized `Col` now spans all 12 tracks on its own row instead of sharing remaining space. Use explicit sizes to share a row, or use `Flex` for flexible widths. The deprecated `Col` props `s`, `m`, `l`, `xl`, and `xxl` have been removed. Move them into `size`:
+
+```diff
+- <Col s={12} m={6} l={4} />
++ <Col size={{s: 12, m: 6, l: 4}} />
+
+- <Col size={12} m={6} />
++ <Col size={[12, {m: 6}]} />
+```
+
+| Old prop                    | Replacement                     |
+| --------------------------- | ------------------------------- |
+| `Container gutters={3}`     | `Container gutters="spacing-3"` |
+| `Container gutters={false}` | `Container gutters={0}`         |
+| `Container spaceRow="2"`    | `Container rowGap="spacing-2"`  |
+| `Container maxWidth="l"`    | `Container size="l"`            |
+| `Row space="3"`             | `Row gap="spacing-3"`           |
+| `Row spaceRow="2"`          | `Row rowGap="spacing-2"`        |
+
+`Container size="l"` restores the breakpoint-based width cap under a new name. It reads the configured `l` breakpoint and caps the content width, excluding gutters and borders with the default `content-box` sizing. Leave width unset to fit narrower parents automatically; `width="100%"` plus gutters can overflow. Application CSS can override box sizing. Omit `size` for an uncapped container. `maxWidth` remains a normal responsive CSS style prop; explicit `maxWidth`, `maxInlineSize`, or `style.maxInlineSize` overrides the breakpoint cap.
+
+Use `columnGap` to override only horizontal spacing. Numbers are pixels, CSS strings pass through, and spacing-scale values require `spacing-*` tokens. `gap` also supports two-value arrays, with row spacing first and column spacing second.
+
+```diff
+- <Container gutters={3} spaceRow={4} maxWidth="l">
+-   <Row space={3} spaceRow={2}>
++ <Container gutters="spacing-3" rowGap="spacing-4" size="l">
++   <Row columnGap="spacing-3" rowGap="spacing-2">
+      <Col size={{xs: 12, m: 6}}>Content</Col>
+    </Row>
+  </Container>
+```
+
+Keep `components.container.gutters` and rename `components.container.spaceRow` to `rowGap` in layout theme configuration, including `media` overrides. Convert theme spacing steps to tokens too. Zero values now override inherited theme spacing.
+
+`gutters` keeps its name but now accepts responsive values, spacing tokens, CSS lengths, and numbers in pixels. Use `gutters={0}` instead of `gutters={false}`. The standard `paddingInline` style prop remains available and overrides theme defaults; explicit `gutters` takes precedence over `paddingInline`.
+
+`Container` is based on `Box`, not `Flex`. Its `rowGap` applies `margin-block-start` only between adjacent direct-child `Row` elements. The first row, non-row children, and nested rows receive no added spacing. Each nested container resolves its own row spacing from props or theme defaults. Flex container alignment and gap props are no longer supported; use `Flex` for spacing arbitrary children. `Col` backgrounds and borders now cover the column's content box instead of its old gutter padding. Review selectors that depend on old spacing modifier classes or on `Col` padding. CSS Grid handles gap sizing directly, so gaps defined in CSS classes also work when no inline gap overrides them.
+
+`Row` accepts Grid alignment props instead of Flex alignment props. `justifyContent` aligns the tracks rather than columns in a partially filled row. Use `justifyItems` or column `justifySelf` for alignment inside cells. Flex sizing props such as `flexGrow` no longer affect `Col` inside a `Row`.

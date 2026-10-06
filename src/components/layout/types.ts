@@ -68,15 +68,9 @@ export type MediaPartial<T> = Partial<MediaProps<T>>;
 
 export type WithMedia<T extends {}> = T & {media?: MediaPartial<Partial<T>>};
 
-export type CommonProps = Partial<{
-    space: Space;
-    spaceRow: Space;
-}>;
-
-export type ContainerConfigProps = Partial<{
-    gutters: Space;
-    spaceRow: Space;
-}>;
+export type ContainerConfigProps = {
+    gutters?: SpacingProps['paddingInline'];
+} & Pick<BoxAlignmentStyleProps, 'rowGap'>;
 
 export type RecursivePartial<T> = {
     [P in keyof T]?: RecursivePartial<T[P]>;

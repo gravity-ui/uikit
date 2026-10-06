@@ -41,8 +41,8 @@ export const Default = {
         </Row>
     ),
     args: {
-        space: {xs: 1, m: 5},
-        spaceRow: {xs: 5, m: 1},
+        gap: {xs: 'spacing-1', m: 'spacing-5'},
+        rowGap: {xs: 'spacing-5', m: 'spacing-1'},
     },
 } satisfies Story;
 
@@ -56,7 +56,21 @@ export const ZeroSpacings = {
         </Row>
     ),
     args: {
-        space: {xs: 0, m: 2},
-        spaceRow: {xs: 5, m: 0},
+        gap: {xs: 0, m: 'spacing-2'},
+        rowGap: {xs: 'spacing-5', m: 0},
+    },
+} satisfies Story;
+
+export const FullWidthColumns = {
+    render: (args) => (
+        <Row {...args}>
+            <ColPresenter size={6} />
+            <ColPresenter size={6} />
+            <ColPresenter />
+            <ColPresenter />
+        </Row>
+    ),
+    args: {
+        gap: 'spacing-3',
     },
 } satisfies Story;

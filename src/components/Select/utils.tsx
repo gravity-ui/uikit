@@ -391,7 +391,7 @@ export const getSelectedOptionsContent = (
     options: AnySelectOptions,
     value: unknown[],
     getKey: SelectValueKeyGetter,
-    renderSelectedOption?: AnySelectProps['renderSelectedOption'],
+    renderSelectedOptions?: AnySelectProps['renderSelectedOptions'],
     getOptionText?: AnySelectProps['getOptionText'],
 ): React.ReactNode => {
     if (value.length === 0) {
@@ -406,12 +406,10 @@ export const getSelectedOptionsContent = (
         flattenSimpleOptions.map((opt) => [getKey(opt.value), opt]),
     );
 
-    if (renderSelectedOption) {
-        return value.map((val, index) => {
-            const key = getKey(val);
-            const option = optionsMap.get(key) ?? {value: val};
-            return <React.Fragment key={key}>{renderSelectedOption(option, index)}</React.Fragment>;
-        });
+    if (renderSelectedOptions) {
+        const selectedOptions = value.map((val) => optionsMap.get(getKey(val)) ?? {value: val});
+        // Keys an array such as `options.map(render)`; an empty array still hides the placeholder
+        return React.Children.toArray(renderSelectedOptions(selectedOptions));
     }
 
     return value

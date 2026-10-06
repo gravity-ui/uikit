@@ -116,7 +116,8 @@ export type SelectProps<T = any, V = string> = AriaLabelingProps &
          * their own indication with `renderOption`
          */
         selectionStyle?: 'auto' | 'none';
-        renderSelectedOption?: (option: SelectOption<T, V>, index: number) => React.ReactElement;
+        /** The content of the control for the whole selection, in the order of `value`; called only with a value */
+        renderSelectedOptions?: (options: SelectOption<T, V>[]) => React.ReactNode;
         renderEmptyOptions?: ({filter}: {filter: string}) => React.ReactElement;
         renderPopup?: SelectRenderPopup;
         renderCounter?: SelectRenderCounter;

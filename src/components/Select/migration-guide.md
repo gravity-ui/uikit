@@ -12,6 +12,7 @@ to the section of the [README](./README.md) that describes the new state of thin
 | `SelectOption.text`                          | Gone. The text of an option comes from `getOptionText` — [The text of an option](./README.md#the-text-of-an-option)                                                                                                                                                                                    |
 | `renderOption(option, props)`                | `props.isItemActive` is no longer optional — it is always passed, and `props.itemHeight` carries the new heights — [Rendering custom options](./README.md#rendering-custom-options)                                                                                                                    |
 | `renderFilter({value, onChange, onKeyDown})` | `value` and `onKeyDown` are gone: both live in `inputProps`, which also carries the ARIA of the combobox. `onChange` stays and is no longer deprecated — it is the string-shaped counterpart of `inputProps.onChange` — [Rendering custom filter section](./README.md#rendering-custom-filter-section) |
+| `renderSelectedOption(option, index)`        | Gone. `renderSelectedOptions(options)` is called once with the whole selection — [Rendering custom selected options](./README.md#rendering-custom-selected-options)                                                                                                                                    |
 
 ```diff
 - <Select options={options} virtualizationThreshold={50} />
@@ -66,6 +67,14 @@ belongs to the element.
 `inputProps.size` is a width hint rather than ARIA: it is `1`, so that the input can shrink to the
 popup instead of keeping the twenty characters an `input` asks for by default. An input of your own
 that sizes itself with CSS does not need it.
+
+Map the old `renderSelectedOption` over the selection. As before, separators between the options
+are up to it, and the elements it returns need keys when they hold state:
+
+```diff
+- <Select renderSelectedOption={renderOne} />
++ <Select renderSelectedOptions={(options) => options.map(renderOne)} />
+```
 
 ## The data
 

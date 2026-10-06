@@ -231,7 +231,7 @@ describe('Select with non-string values', () => {
         });
 
         test.each([[''], [null]])('`%p` without an option is empty', (empty) => {
-            const renderSelectedOption = jest.fn();
+            const renderSelectedOptions = jest.fn();
             render(
                 <Select<unknown, string | null>
                     qa={QA}
@@ -239,14 +239,14 @@ describe('Select with non-string values', () => {
                     placeholder="Pick"
                     options={[{value: 'a', content: 'A'}]}
                     value={[empty]}
-                    renderSelectedOption={renderSelectedOption}
+                    renderSelectedOptions={renderSelectedOptions}
                 />,
             );
 
             expect(getControl()).toHaveTextContent('Pick');
             expect(screen.getByRole('group')).not.toHaveClass(HAS_VALUE_CLASS);
             expect(queryClear()).not.toBeInTheDocument();
-            expect(renderSelectedOption).not.toHaveBeenCalled();
+            expect(renderSelectedOptions).not.toHaveBeenCalled();
         });
 
         test('an empty value without an option is not counted', () => {

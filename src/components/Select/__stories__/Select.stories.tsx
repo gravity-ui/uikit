@@ -359,9 +359,10 @@ export const WithUserSelectedOptions: Story = {
                         </div>
                     );
                 }}
-                renderSelectedOption={(option) => {
-                    return (
+                renderSelectedOptions={(options) =>
+                    options.map((option) => (
                         <span
+                            key={option.value}
                             style={{
                                 color: option.data?.color,
                                 height: 22,
@@ -371,8 +372,8 @@ export const WithUserSelectedOptions: Story = {
                         >
                             {option.content}
                         </span>
-                    );
-                }}
+                    ))
+                }
                 getOptionHeight={() => 22}
             >
                 <Select.Option value="val1" content="Value1" data={{color: 'green'}} />
@@ -380,6 +381,34 @@ export const WithUserSelectedOptions: Story = {
                 <Select.Option value="val3" content="Value3" data={{color: 'pink'}} />
                 <Select.Option value="val4" content="Value4" data={{color: 'purple'}} />
             </Select>
+        );
+    },
+};
+
+export const WithSelectionSummary: Story = {
+    tags: ['!dev'],
+    decorators: [WithTitle],
+    args: {...showcaseArgs, multiple: true, placeholder: 'Ticket types'},
+    render: (args) => {
+        const [{value}, setArgs] = useArgs<typeof args>();
+        const options = [
+            {value: 'bug', content: 'Bug'},
+            {value: 'task', content: 'Task'},
+            {value: 'epic', content: 'Epic'},
+        ];
+
+        return (
+            <Select
+                {...args}
+                options={options}
+                value={value}
+                onUpdate={(values) => setArgs({value: values})}
+                renderSelectedOptions={(selected) =>
+                    selected.length === options.length
+                        ? 'All ticket types'
+                        : selected.map((option) => option.content ?? option.value).join(' and ')
+                }
+            />
         );
     },
 };

@@ -77,7 +77,7 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
         renderOption,
         renderOptionGroup,
         selectionStyle,
-        renderSelectedOption,
+        renderSelectedOptions,
         renderEmptyOptions,
         renderPopup = DEFAULT_RENDER_POPUP,
         getOptionText,
@@ -186,10 +186,10 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
             options,
             selectedValues,
             getKey,
-            renderSelectedOption,
+            renderSelectedOptions,
             getOptionText,
         );
-    }, [options, selectedValues, getKey, renderSelectedOption, getOptionText]);
+    }, [options, selectedValues, getKey, renderSelectedOptions, getOptionText]);
 
     // The way back from the ids of the List: a selected value may have no option
     const valueByKey = React.useMemo(

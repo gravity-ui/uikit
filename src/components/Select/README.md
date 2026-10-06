@@ -246,7 +246,7 @@ An object value has no text of its own: give the option a string `content` or pa
 A `Select.Option` child takes a string unless its type is named: `<Select.Option<unknown, number>
 value={1}>`; the Select itself takes the type from `value` or a typed `onUpdate={(value: number[]) =>
 …}`. A selected value with no option is shown by its key; keep its option in `options` or render it
-with `renderSelectedOption`. A form submits keys, not values. In a union type `1`
+with `renderSelectedOptions`. A form submits keys, not values. In a union type `1`
 and `"1"` share a key and are one value.
 
 ### Nullable values
@@ -848,32 +848,35 @@ const MyComponent = () => {
 
 ### Rendering custom selected options
 
-To render custom selected options, use the `renderSelectedOption` property:
+To render the selection in the control, use the `renderSelectedOptions` property. It is called with
+all the selected options in the order of `value` — an array of one in a single select — and only
+when there is a value. A value without an option comes as `{value}`, without `content`. Give the
+returned elements keys when they hold state. The label, placeholder, counter and clear button stay
+with the `Select`. Without the property the control shows the texts of the options joined with `, `.
 
 <!--SANDBOX
 import type {SelectProps} from '@gravity-ui/uikit';
 import {Select} from '@gravity-ui/uikit';
 
-const renderSelectedOption: SelectProps['renderSelectedOption'] = (option) => {
-    return <div style={{color: option.data.color}}>{option.children}</div>;
-};
+const options = [
+    {value: 'bug', content: 'Bug'},
+    {value: 'task', content: 'Task'},
+    {value: 'epic', content: 'Epic'},
+];
+
+const renderSelectedOptions: SelectProps['renderSelectedOptions'] = (selected) =>
+    selected.length === options.length
+        ? 'All ticket types'
+        : selected.map((option) => option.content ?? option.value).join(' and ');
 
 export default function () {
     return (
-        <Select placeholder="Custom selected options" renderSelectedOption={renderSelectedOption}>
-            <Select.Option value="val_1" data={{color: '#8FE1A1'}}>
-                Value 1
-            </Select.Option>
-            <Select.Option value="val_2" data={{color: '#38C0A8'}}>
-                Value 2
-            </Select.Option>
-            <Select.Option value="val_3" data={{color: '#3A7AC3'}}>
-                Value 3
-            </Select.Option>
-            <Select.Option value="val_4" data={{color: '#534581'}}>
-                Value 4
-            </Select.Option>
-        </Select>
+        <Select
+            multiple
+            placeholder="Ticket types"
+            options={options}
+            renderSelectedOptions={renderSelectedOptions}
+        />
     );
 }
 SANDBOX-->
@@ -883,28 +886,18 @@ SANDBOX-->
 ```tsx
 import type {SelectProps} from '@gravity-ui/uikit';
 
-const MyComponent = () => {
-  const renderSelectedOption: SelectProps['renderSelectedOption'] = (option) => {
-    return <div style={{color: option.data.color}}>{option.children}</div>;
-  };
+const options = [
+  {value: 'bug', content: 'Bug'},
+  {value: 'task', content: 'Task'},
+  {value: 'epic', content: 'Epic'},
+];
 
-  return (
-    <Select renderSelectedOption={renderSelectedOption}>
-      <Select.Option value="val_1" data={{color: '#8FE1A1'}}>
-        Value 1
-      </Select.Option>
-      <Select.Option value="val_2" data={{color: '#38C0A8'}}>
-        Value 2
-      </Select.Option>
-      <Select.Option value="val_3" data={{color: '#3A7AC3'}}>
-        Value 3
-      </Select.Option>
-      <Select.Option value="val_4" data={{color: '#534581'}}>
-        Value 4
-      </Select.Option>
-    </Select>
-  );
-};
+const renderSelectedOptions: SelectProps['renderSelectedOptions'] = (selected) =>
+  selected.length === options.length
+    ? 'All ticket types'
+    : selected.map((option) => option.content ?? option.value).join(' and ');
+
+<Select multiple options={options} renderSelectedOptions={renderSelectedOptions} />;
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -1198,7 +1191,7 @@ SANDBOX-->
 | [renderFilter](#rendering-custom-filter-section)             | Used to render user filter section                                                                                               | `function`                               |                                                          |
 | [renderOption](#rendering-custom-options)                    | Used to render user options                                                                                                      | `function`                               |                                                          |
 | renderOptionGroup                                            | Used to render user option groups                                                                                                | `function`                               |                                                          |
-| [renderSelectedOption](#rendering-custom-selected-options)   | Used to render user selected options                                                                                             | `function`                               |                                                          |
+| [renderSelectedOptions](#rendering-custom-selected-options)  | Used to render the selection in the control                                                                                      | `function`                               |                                                          |
 | [renderPopup](#rendering-options-list)                       | Used to render options list content                                                                                              | `function`                               |                                                          |
 | [selectionStyle](#rendering-custom-options)                  | How a row shows that its option is selected: the check mark or highlight (`auto`) or nothing (`none`)                            | `'auto' \| 'none'`                       | `'auto'`                                                 |
 | [size](#size)                                                | Control / options size                                                                                                           | `string`                                 | `'m'`                                                    |
@@ -1222,7 +1215,7 @@ list and its row view, and their markup changes with the kit. What is supported:
   `sheetClassName` — for example `--g-list-item-view-min-height: 48px` for taller rows on mobile.
   The estimate of the [virtualizer](#virtualized-list) and the `itemHeight` of `renderOption` still
   come from the size: when the exact number matters, use `getOptionHeight`;
-- the content of a row, through `renderOption`, `renderOptionGroup` and `renderSelectedOption`.
+- the content of a row, through `renderOption`, `renderOptionGroup` and `renderSelectedOptions`.
 
 | Name                             | Description                                   |
 | :------------------------------- | :-------------------------------------------- |

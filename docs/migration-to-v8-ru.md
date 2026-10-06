@@ -258,6 +258,18 @@ menu: {
 Контрол обёрнут в новую обёртку `g-select__anchor` между корнем и контролом (`g-select-control`). Обновите селекторы,
 которые рассчитывают на то, что контрол — прямой потомок корня, например `.g-select > .g-select-control`.
 
+## `renderSelectedOption` у Select
+
+`renderSelectedOption(option, index)` удалён. `renderSelectedOptions(options)` вызывается один раз со всем выбором,
+поэтому сводку вроде «All ticket types» можно отрисовать без `renderControl`. Чтобы сохранить прежний вид, примените
+старую функцию к каждой опции — разделители между опциями, как и раньше, на ней; см.
+[гайд Select](../src/components/Select/migration-guide.md):
+
+```diff
+- <Select renderSelectedOption={renderOne} />
++ <Select renderSelectedOptions={(options) => options.map(renderOne)} />
+```
+
 ## Table и TableColumnSetup
 
 `Table`, его HOC (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`, `withTableSorting`) и

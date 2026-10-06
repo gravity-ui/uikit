@@ -469,6 +469,7 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
             <HiddenSelect
                 name={name}
                 value={value}
+                selectedValues={selectedValues}
                 getKey={getKey}
                 disabled={disabled}
                 form={form}

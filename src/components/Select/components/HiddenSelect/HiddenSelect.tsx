@@ -7,6 +7,8 @@ import {useFormResetHandler} from '../../../../hooks/private';
 interface HiddenSelectProps {
     name?: string;
     value: unknown[];
+    /** The fields: an empty value without an option is not sent, the reset still restores it */
+    selectedValues: unknown[];
     /** The value of a field is the key of a value */
     getKey: (value: unknown) => string;
     disabled?: boolean;
@@ -16,7 +18,7 @@ interface HiddenSelectProps {
 //FIXME: current implementation is not accessible to screen readers and does not support browser autofill and
 // form validation
 export function HiddenSelect(props: HiddenSelectProps) {
-    const {name, value, getKey, disabled, form, onReset} = props;
+    const {name, value, selectedValues, getKey, disabled, form, onReset} = props;
 
     const ref = useFormResetHandler({onReset, initialValue: value});
 
@@ -24,7 +26,7 @@ export function HiddenSelect(props: HiddenSelectProps) {
         return null;
     }
 
-    if (value.length === 0) {
+    if (selectedValues.length === 0) {
         return (
             <input ref={ref} type="hidden" name={name} value="" form={form} disabled={disabled} />
         );
@@ -32,7 +34,7 @@ export function HiddenSelect(props: HiddenSelectProps) {
 
     return (
         <React.Fragment>
-            {value.map(getKey).map((key, i) => (
+            {selectedValues.map(getKey).map((key, i) => (
                 <input
                     key={key}
                     ref={i === 0 ? ref : undefined}

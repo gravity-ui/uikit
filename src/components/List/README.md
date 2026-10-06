@@ -808,8 +808,9 @@ What changes in the list:
   them to an editable combobox (and makes the arrows of the list cycle to compensate); `PageUp`/
   `PageDown` have no caret meaning in a single-line field, so the list keeps them;
 - `Space` types into a text owner; an owner that holds no caret (the trigger of a select-only
-  combobox) gives it to the list, so it selects as with a row in focus. `Ctrl`/`Cmd`+`A` selects
-  the text of the input rather than the items;
+  combobox) gives it to the list, so it selects as with a row in focus — without a selection mode it
+  does nothing, and the owner gets no click. `Ctrl`/`Cmd`+`A` selects the text of the input rather
+  than the items;
 - character keys go to a text owner — typing there is filtering, so typeahead stays off. An owner
   that holds no caret (the trigger button of a select-only combobox) keeps the typeahead of the list;
 - `Shift`+`↑`/`↓` still extends the range when a multiple selection is on.

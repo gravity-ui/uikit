@@ -140,6 +140,20 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
 
     const pointerInsideRef = React.useRef(false);
 
+    // A row holds focus; outlives the unmount of the row, which sends no blur
+    const rowFocusedRef = React.useRef(false);
+
+    // A press elsewhere ends the focus of a row that is gone and could send no blur
+    React.useEffect(() => {
+        const handleDocumentPointerDown = (event: PointerEvent) => {
+            if (!(event.target instanceof Node) || !containerRef.current?.contains(event.target)) {
+                rowFocusedRef.current = false;
+            }
+        };
+        document.addEventListener('pointerdown', handleDocumentPointerDown, true);
+        return () => document.removeEventListener('pointerdown', handleDocumentPointerDown, true);
+    }, []);
+
     // Any key pressed while the list holds DOM focus brings the cursor back (capture: nested
     // widgets may stop propagation); bare modifiers do not count
     React.useEffect(() => {
@@ -226,7 +240,6 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     // Read at event time by row handlers: memoized rows keep stale closures
     const latestRef = React.useRef({
         rowById,
-        domIdToId,
         applyRow,
         requestActive,
         activateOnHover,
@@ -236,7 +249,6 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     });
     latestRef.current = {
         rowById,
-        domIdToId,
         applyRow,
         requestActive,
         activateOnHover,
@@ -307,11 +319,11 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             const keyboard = origin === 'keyboard';
             if (element && focusStrategy === 'roving') {
                 const focused = document.activeElement;
+                // Focus that went on elsewhere is not taken back
                 const rowFocused =
-                    focused instanceof HTMLElement &&
-                    containerRef.current !== null &&
-                    containerRef.current.contains(focused) &&
-                    latestRef.current.domIdToId.has(focused.id);
+                    rowFocusedRef.current &&
+                    (focused === document.body ||
+                        (containerRef.current !== null && containerRef.current.contains(focused)));
                 // preventScroll: focus() would center the row in Chromium
                 if ((keyboard || rowFocused) && focused !== element) {
                     element.focus({preventScroll: true});
@@ -740,13 +752,21 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 latest.requestActive(currentRow.id, 'pointer');
                 latest.applyRow(currentRow, event, {range: event.shiftKey});
             },
-            onFocus: () => {
+            onFocus: (event: React.FocusEvent<HTMLElement>) => {
+                if (event.target === event.currentTarget) {
+                    rowFocusedRef.current = true;
+                }
                 const latest = latestRef.current;
                 const currentRow = latest.rowById.get(id);
                 if (!currentRow || currentRow.disabled) {
                     return;
                 }
                 latest.requestActive(id, 'focus');
+            },
+            onBlur: (event: React.FocusEvent<HTMLElement>) => {
+                if (event.target === event.currentTarget) {
+                    rowFocusedRef.current = false;
+                }
             },
             onPointerEnter: (event: React.PointerEvent<HTMLElement>) => {
                 // Hover moves the activity; suspended while dragging (synthetic-drag libraries

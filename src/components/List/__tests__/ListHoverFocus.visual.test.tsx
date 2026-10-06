@@ -77,3 +77,78 @@ for (const virtualized of [false, true]) {
         },
     );
 }
+
+test.describe('List: focus under virtualization', {tag: '@List'}, () => {
+    test('the focus follows a hover that unmounts the focused row', async ({mount, page}) => {
+        await mount(<ScrollTestList virtualized activeItemId="Item 1" />);
+        await getRow(page, 'Item 1').focus();
+        // The wheel takes the focused row out of the window of the virtualizer
+        await page.getByRole('listbox').evaluate((root) => root.scrollTo({top: 3000}));
+        await expect(getRow(page, 'Item 1')).toBeAttached();
+
+        const {x, y} = await getPointInList(page);
+        await page.mouse.move(x, y);
+
+        await expect.poll(() => readActive(page)).not.toBe('Item 1');
+        await expect(getRow(page, 'Item 1')).not.toBeAttached();
+        expect((await readState(page)).activeFocused).toBe(true);
+
+        // The keyboard keeps working
+        const before = await readActive(page);
+        await page.keyboard.press('ArrowDown');
+        await expect.poll(() => readActive(page)).not.toBe(before);
+        expect((await readState(page)).activeFocused).toBe(true);
+    });
+
+    for (const [name, leave] of [
+        ['Tab', (page: Page) => page.keyboard.press('Tab')],
+        ['a click outside', (page: Page) => page.mouse.click(1200, 20)],
+    ] as const) {
+        test(`the focus that left by ${name} is not brought back by hover`, async ({
+            mount,
+            page,
+        }) => {
+            await mount(<ScrollTestList virtualized activeItemId="Item 1" />);
+            await getRow(page, 'Item 1').focus();
+
+            await leave(page);
+            expect((await readState(page)).focusInside).toBe(false);
+
+            const {x, y} = await getPointInList(page);
+            await page.mouse.move(x, y);
+            await expect.poll(() => readActive(page)).not.toBe('Item 1');
+            expect((await readState(page)).focusInside).toBe(false);
+        });
+    }
+});
+
+// A row removed from the items takes the focus with it and sends no blur
+test.describe('List: focus of a removed row', {tag: '@List'}, () => {
+    for (const [name, moveOn] of [
+        ['a click outside', (page: Page) => page.mouse.click(1200, 20)],
+        [
+            'focus elsewhere',
+            (page: Page) =>
+                page.evaluate(() => {
+                    const button = document.createElement('button');
+                    document.body.append(button);
+                    // The button is far below the list: the page must not scroll to it
+                    button.focus({preventScroll: true});
+                }),
+        ],
+    ] as const) {
+        test(`hover does not take the focus back after ${name}`, async ({mount, page}) => {
+            await mount(<ScrollTestList activeItemId="Item 1" />);
+            await getRow(page, 'Item 1').focus();
+            await page.evaluate(() => window.scrollTestControls.remove('Item 1'));
+            await expect(getRow(page, 'Item 1')).not.toBeAttached();
+
+            await moveOn(page);
+
+            const {x, y} = await getPointInList(page);
+            await page.mouse.move(x, y);
+            await expect.poll(() => readActive(page)).not.toBeNull();
+            expect((await readState(page)).focusInside).toBe(false);
+        });
+    }
+});

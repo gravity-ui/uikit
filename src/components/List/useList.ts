@@ -140,12 +140,19 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
 
     const pointerInsideRef = React.useRef(false);
 
+    // The row a pointer move asked for since the activity last changed
+    const hoverRequestedIdRef = React.useRef<string | null>(null);
+
     // A row holds focus; outlives the unmount of the row, which sends no blur
     const rowFocusedRef = React.useRef(false);
 
-    // A press elsewhere ends the focus of a row that is gone and could send no blur
+    // The last input was Tab: focus that arrives now entered by it (a tap focuses after pointerup)
+    const tabPressedRef = React.useRef(false);
+
+    // A press elsewhere ends the focus of a row that is gone
     React.useEffect(() => {
         const handleDocumentPointerDown = (event: PointerEvent) => {
+            tabPressedRef.current = false;
             if (!(event.target instanceof Node) || !containerRef.current?.contains(event.target)) {
                 rowFocusedRef.current = false;
             }
@@ -155,9 +162,10 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     }, []);
 
     // Any key pressed while the list holds DOM focus brings the cursor back (capture: nested
-    // widgets may stop propagation); bare modifiers do not count
+    // widgets may stop propagation); bare modifiers do not count. Tab is noted for the entry
     React.useEffect(() => {
         const handleDocumentKeyDown = (event: KeyboardEvent) => {
+            tabPressedRef.current = event.key === 'Tab';
             if (event.metaKey || event.ctrlKey || event.altKey) {
                 return;
             }
@@ -237,6 +245,18 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         setActiveItemId(id);
     };
 
+    // Without an active row the list is entered at the selection (react-aria)
+    // Roving only: a focus owner (Select) picks its active row itself
+    const entryIds = React.useMemo(() => {
+        const navigable = rows.filter(isNavigable);
+        const selected =
+            focusStrategy === 'roving' ? navigable.filter((row) => selectedSet.has(row.id)) : [];
+        return {
+            first: (selected[0] ?? navigable[0])?.id,
+            last: (selected[selected.length - 1] ?? navigable[navigable.length - 1])?.id,
+        };
+    }, [rows, selectedSet, focusStrategy]);
+
     // Read at event time by row handlers: memoized rows keep stale closures
     const latestRef = React.useRef({
         rowById,
@@ -246,6 +266,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         dragActive,
         effectiveActiveId,
         cursorVisible,
+        entryIds,
     });
     latestRef.current = {
         rowById,
@@ -255,11 +276,10 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         dragActive,
         effectiveActiveId,
         cursorVisible,
+        entryIds,
     };
 
-    const firstNavigableId = React.useMemo(() => rows.find(isNavigable)?.id, [rows]);
-
-    const pinnedRowId = effectiveActiveId ?? firstNavigableId;
+    const pinnedRowId = effectiveActiveId ?? entryIds.first;
     const pinnedRowIndex = pinnedRowId === undefined ? -1 : (rowById.get(pinnedRowId)?.index ?? -1);
 
     const persistedRowIndexes = React.useMemo(() => {
@@ -388,6 +408,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
 
     const previousActiveIdRef = React.useRef(effectiveActiveId);
     useLayoutEffect(() => {
+        hoverRequestedIdRef.current = null;
         const previousActiveId = previousActiveIdRef.current;
         previousActiveIdRef.current = effectiveActiveId;
         if (
@@ -761,6 +782,24 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 if (!currentRow || currentRow.disabled) {
                     return;
                 }
+                const container = containerRef.current;
+                const from = event.relatedTarget;
+                if (
+                    event.target === event.currentTarget &&
+                    latest.effectiveActiveId === undefined &&
+                    tabPressedRef.current &&
+                    container !== null &&
+                    !container.contains(from)
+                ) {
+                    // Shift+Tab from below enters at the last entry (react-aria)
+                    const fromBelow =
+                        from !== null &&
+                        container.compareDocumentPosition(from) ===
+                            Node.DOCUMENT_POSITION_FOLLOWING;
+                    const entryId = fromBelow ? (latest.entryIds.last ?? id) : id;
+                    latest.requestActive(entryId, 'keyboard');
+                    return;
+                }
                 latest.requestActive(id, 'focus');
             },
             onBlur: (event: React.FocusEvent<HTMLElement>) => {
@@ -794,7 +833,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                     setCursorVisible(false);
                 }
                 const currentRow = latest.rowById.get(id);
-                // A finger moves to scroll, not to point; a row is requested once per approach
+                // A finger moves to scroll; a request the parent rejected is not repeated
                 if (
                     event.pointerType === 'touch' ||
                     !latest.activateOnHover ||
@@ -802,10 +841,11 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                     !currentRow ||
                     currentRow.disabled ||
                     currentRow.id === latest.effectiveActiveId ||
-                    currentRow.id === requestedActiveIdRef.current
+                    currentRow.id === hoverRequestedIdRef.current
                 ) {
                     return;
                 }
+                hoverRequestedIdRef.current = currentRow.id;
                 latest.requestActive(currentRow.id, 'pointer');
             },
         };

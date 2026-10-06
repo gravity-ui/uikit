@@ -604,6 +604,25 @@ describe('List', () => {
 
             expect(options[1]).not.toHaveAttribute('data-active');
         });
+
+        test('a parent that rejects the hover is asked once per approach', () => {
+            const onActiveItemUpdate = jest.fn();
+            render(
+                <List
+                    aria-label="Fruits"
+                    items={FRUITS}
+                    activeItemId="Apple"
+                    onActiveItemUpdate={onActiveItemUpdate}
+                />,
+            );
+            const options = screen.getAllByRole('option');
+
+            fireEvent.pointerMove(options[2]);
+            fireEvent.pointerMove(options[2]);
+
+            expect(onActiveItemUpdate).toHaveBeenCalledTimes(1);
+            expect(onActiveItemUpdate).toHaveBeenLastCalledWith('Cherry');
+        });
     });
 
     describe('the keyboard cursor: getItemViewProps wiring', () => {

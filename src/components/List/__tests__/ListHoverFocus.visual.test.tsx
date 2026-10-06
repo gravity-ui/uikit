@@ -122,7 +122,7 @@ test.describe('List: focus under virtualization', {tag: '@List'}, () => {
     }
 });
 
-// A row removed from the items takes the focus with it and sends no blur
+// A row removed from the items takes the focus with it
 test.describe('List: focus of a removed row', {tag: '@List'}, () => {
     for (const [name, moveOn] of [
         ['a click outside', (page: Page) => page.mouse.click(1200, 20)],
@@ -151,4 +151,20 @@ test.describe('List: focus of a removed row', {tag: '@List'}, () => {
             expect((await readState(page)).focusInside).toBe(false);
         });
     }
+});
+
+test.describe('List: hover after a change from the outside', {tag: '@List'}, () => {
+    test('a move over the hovered row takes the activity back', async ({mount, page}) => {
+        await mount(<ScrollTestList activeItemId="Item 1" />);
+        const {x, y} = await getPointInList(page);
+        await page.mouse.move(x, y);
+        const hovered = await readRowAt(page, x, y);
+        await expect.poll(() => readActive(page)).toBe(hovered);
+
+        await page.evaluate(() => window.scrollTestControls.activate('Item 1'));
+        await expect.poll(() => readActive(page)).toBe('Item 1');
+
+        await page.mouse.move(x, y + 2);
+        await expect.poll(() => readActive(page)).toBe(hovered);
+    });
 });

@@ -1,7 +1,7 @@
 import type * as React from 'react';
 
-import {DocsContainer} from '@storybook/addon-docs';
-import type {DocsContainerProps} from '@storybook/addon-docs';
+import {DocsContainer} from '@storybook/addon-docs/blocks';
+import type {DocsContainerProps} from '@storybook/addon-docs/blocks';
 
 import {MobileProvider, ThemeProvider, getThemeType} from '../..';
 import {themes} from '../../../.storybook/theme';

@@ -4,96 +4,218 @@
 
 ## Overview
 
-This page collects the breaking changes of `@gravity-ui/uikit` v8 and the way through each of them. Every section
-says what changed, how to keep the old behavior for now, and where to go next.
+This page collects the breaking changes of `@gravity-ui/uikit` v8 and the way through each of them. Every section says
+what changed, how to keep the old behavior for now, and where to go next.
 
-Components that are no longer developed move to the `@gravity-ui/uikit/legacy` entry point. Components still available
-there keep their API, but no removal date for `/legacy` is promised: plan the migration away from them.
+Components that are no longer developed move to the `@gravity-ui/uikit/legacy` entry point. In v8 these are
+`DropdownMenu`, `List`, `Menu`, `Table` and `TableColumnSetup`. Components still available there keep their API, but no
+removal date for `/legacy` is promised: plan the migration away from them.
 
-## Size names with multiple `x` characters
+## Quick checklist
 
-Size names with two or more `x` characters now use a number followed by one `x`:
+1. Upgrade React and React DOM to 18 or 19, see [React 18 minimum](#react-18-minimum).
+2. Install the optional peer dependencies of the entry points you import, see [Dependencies](#dependencies).
+3. Find the imports that moved or are gone, and go through the matching sections below:
 
-| Before | After |
-| :----- | :---- |
-| `xxs`  | `2xs` |
-| `xxl`  | `2xl` |
-| `xxxl` | `3xl` |
+   ```bash
+   grep -rn "@gravity-ui/uikit/unstable" src
+   grep -rnE "\b(List|ListItem|ListQa|Menu|DropdownMenu|Table|TableColumnSetup|withTable[A-Za-z]+)\b" src | grep "'@gravity-ui/uikit'"
+   grep -rnE "virtualizationThreshold|renderSelectedOption\b|SelectItem|xxs|xxl|extraProps|onKeyPress|iconSize|anchorRef|onClose" src
+   ```
 
-Update `Label size="xxs"` to `size="2xs"`. The corresponding CSS modifier changes from
-`.g-label_size_xxs` to `.g-label_size_2xs`; update custom selectors that target it.
-
-For layout, rename `xxl` and `xxxl` keys in `LayoutTheme.breakpoints` and responsive prop maps.
-If you use the deprecated `Col xxl` prop, move it to the `size` map as `{'2xl': value}`.
-`useLayoutContext().activeMediaQuery` now returns `2xl` or `3xl` at those widths, and
-`isMediaActive` accepts the new names. The breakpoint widths remain 1400px and 1920px.
-Single-`x` sizes such as `xs` and `xl` keep their names.
+4. Check custom CSS and tests against [Everything else](#everything-else).
 
 ## React 18 minimum
 
 UIKit v8 requires React and React DOM 18 or 19. Upgrade both packages (and `@types/react`, if used) before installing
 v8. React 16 and 17 are no longer supported.
 
-## `configure` and `getConfig`
+## Dependencies
 
-Each call to `configure` now creates a new configuration object. A previously saved result of `getConfig()` no longer
-reflects later changes. If you need the current configuration after calling `configure`, call `getConfig()` again:
+`@hello-pangea/dnd`, `react-window`, `react-virtualized-auto-sizer` and `@tanstack/react-virtual` are optional peer
+dependencies: they are no longer installed with the package. The root entry point needs none of them; install the ones
+of the entry points you import:
 
-```ts
-configure({lang: 'ru'});
-const {lang} = getConfig(); // 'ru'
-```
+| Entry point                          | What to install                                                     |
+| :----------------------------------- | :------------------------------------------------------------------ |
+| `@gravity-ui/uikit/virtualizer`      | `@tanstack/react-virtual`                                           |
+| `@gravity-ui/uikit/hello-pangea-dnd` | `@hello-pangea/dnd`                                                 |
+| `@gravity-ui/uikit/legacy`           | `@hello-pangea/dnd`, `react-window`, `react-virtualized-auto-sizer` |
 
-## Button and Link `extraProps`
+## New entry points
 
-`Button` and `Link` no longer accept `extraProps`. Pass native element props directly to the component, including
-when `Button` renders a link or a custom component.
-The same applies to props based on `ButtonProps`, such as `MenuTriggerProps`, `AlertActionProps`,
-`ActionsPanelItem.button.props`, and `Dialog.Footer` button props.
+Two entry points keep their dependencies out of the root one:
 
-Previously, `type`, `disabled`, `className`, `onClickCapture`, and `rel` inside `extraProps` could be overridden by the
-component. At the root, these props can change behavior: for example, a button can become a submit button or become
-disabled. Moving `target="_blank"` to the root also adds `rel="noopener noreferrer"` when `rel` is not set, so the
-Referer header is not sent.
+| Entry point                          | What is there                                                                                                                      |
+| :----------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- |
+| `@gravity-ui/uikit/virtualizer`      | [`Virtualizer` and `ListVirtualizer`](../src/components/Virtualizer/README.md): only the visible window of a long list is rendered |
+| `@gravity-ui/uikit/hello-pangea-dnd` | [`ListHelloPangeaDnd` and its parts](../src/components/HelloPangeaDnd/README.md): reordering `List` rows with `@hello-pangea/dnd`  |
 
-```diff
-- <Button extraProps={{title: 'Save', onClick: handleSave}}>Save</Button>
-+ <Button title="Save" onClick={handleSave}>Save</Button>
-- <Link href="/help" extraProps={{target: '_blank'}}>Help</Link>
-+ <Link href="/help" target="_blank">Help</Link>
-```
+## List
 
-## TextInput, PasswordInput, TextArea, and Select `error`
-
-`TextInput`, `PasswordInput`, `TextArea`, and `Select` no longer accept the deprecated `error` prop. Use
-`validationState="invalid"` to show the error state and `errorMessage` to show its message:
+`List` from the root entry point is a new component: selection, virtualization and drag-and-drop are optional layers,
+and there is no built-in filter. The v7 `List` with `ListItem`, `ListQa` and its other exports is in
+`@gravity-ui/uikit/legacy` (CSS block `g-list-legacy`), which needs [three optional peers](#dependencies):
 
 ```diff
-- <TextInput error="Required field" />
-+ <TextInput validationState="invalid" errorMessage="Required field" />
-- <TextArea error />
-+ <TextArea validationState="invalid" />
-- <Select error={hasError} />
-+ <Select validationState={hasError ? 'invalid' : undefined} />
-- <TextInput error={errorText} />
-+ <TextInput validationState={errorText ? 'invalid' : undefined} errorMessage={errorText} />
+- import {List} from '@gravity-ui/uikit';
++ import {List} from '@gravity-ui/uikit/legacy';
 ```
 
-The same replacement applies to all four components. When `error` was the only state signal, falsy values (`false`,
-`''`, or `undefined`) did not set the invalid state.
+To move to the new `List`, see the [List migration guide](migration-from-legacy-list.md): props, behavior differences,
+test ids and CSS, and [staying on the legacy List](migration-from-legacy-list.md#staying-on-the-legacy-list).
 
-## TextInput, PasswordInput, TextArea, and NumberInput `onKeyPress`
+## Select
 
-These components no longer accept the deprecated top-level `onKeyPress` prop. Use `onKeyDown` instead:
+`Select` draws its options with the new `List`. Each change below has a before and after in the
+[Select guide](migration-select-v8.md).
+
+### Options drawn by the new List
+
+- `virtualizationThreshold` is removed: wrap the `Select` in `ListVirtualizer` from `@gravity-ui/uikit/virtualizer`.
+  Without it every option is rendered.
+- `SelectOption.text` is removed: the text of an option comes from `getOptionText`.
+- `renderFilter` no longer receives `value` and `onKeyDown`: both are in `inputProps`.
+- `renderOption` always receives `isItemActive`, and `itemHeight` carries the new row heights.
+- Option values must be unique, groups included.
+- The DOM `id` of a row comes from the option value, a group header is no longer `role="option"`, and the
+  `.g-select-list__group-label*`, `.g-select-list__tick-icon` and `.g-list__item` classes are gone.
+- `label` names the trigger instead of joining its value.
+- The search by the first letters matches a prefix.
+
+### Select popup position
+
+The `Select` popup is positioned from the control instead of the whole component, so with an error message under the
+control (`errorPlacement="outside"`, the default) it opens right under the control and covers the message while open.
+The popup width did not change. There is no option to restore the old position.
+
+The control is wrapped in a new wrapper element `g-select__anchor` between the root and the control
+(`g-select-control`). Update selectors that rely on the control being a direct child of the root, such as
+`.g-select > .g-select-control`.
+
+### Select `renderSelectedOption`
+
+`renderSelectedOption(option, index)` is removed. `renderSelectedOptions(options)` is called once with the whole
+selection, so a summary such as "All ticket types" can be rendered without `renderControl`. Map the old function over
+the options to keep the old look — as before, separators between the options are up to it; see the
+[Select guide](migration-select-v8.md):
 
 ```diff
-- <TextInput onKeyPress={handleKeyPress} />
-+ <TextInput onKeyDown={handleKeyDown} />
+- <Select renderSelectedOption={renderOne} />
++ <Select renderSelectedOptions={(options) => options.map(renderOne)} />
 ```
 
-Unlike `onKeyPress`, `onKeyDown` fires for non-character keys and during IME composition, and its `event.charCode` is
-`0`. Check `event.key` and, if needed, `event.nativeEvent.isComposing`. To keep the old behavior temporarily, pass
-`controlProps={{onKeyPress: handleKeyPress}}` to the component.
+### Select option names
+
+The types of the options and the components for them are named after `Select.Option`, as in
+`SegmentedRadioGroup`. There are no aliases for the old names:
+
+| Before                      | After                         |
+| :-------------------------- | :---------------------------- |
+| type `SelectOption`         | type `SelectOptionProps`      |
+| type `SelectOptionGroup`    | type `SelectOptionGroupProps` |
+| component `SelectItem`      | component `SelectOption`      |
+| component `SelectItemGroup` | component `SelectOptionGroup` |
+
+```diff
+- import {SelectItem, type SelectOption} from '@gravity-ui/uikit';
++ import {SelectOption, type SelectOptionProps} from '@gravity-ui/uikit';
+```
+
+The old `SelectOption` or `SelectOptionGroup` used as a type now fails with "'SelectOption' refers to a value, but is
+being used as a type here": replace it with `SelectOptionProps` or `SelectOptionGroupProps`.
+
+## Row heights of List, Select and Menu
+
+The rows of `ListItemView`, and with it of `List`, `Select` and `Menu`, follow the heights of the controls of the same
+size: 24, 28, 36 and 44px. Rows of size `l` and `xl` are 36 and 44px instead of 32 and 36, the rows of the mobile
+`Select` are 44px instead of 32. A section header of `List` and a group header of `Select` take the height of a row of
+their size. Fewer rows fit into a popup or a list of a fixed height. To keep a height of your own, set
+`--g-list-item-view-min-height` on the class of the list: `className` of `List` and `Menu`, `popupClassName` and
+`sheetClassName` of `Select`; the paddings of `List` and `Select` and the headers follow it. The heights `Select` counts with — the
+virtualizer estimate and `itemHeight` — come from `getOptionHeight` and `getOptionGroupHeight`.
+
+## Table and TableColumnSetup
+
+`Table`, its HOCs (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`,
+`withTableSorting`) and `TableColumnSetup` moved from the root entry point to `@gravity-ui/uikit/legacy`. Their API and
+markup did not change, the CSS blocks of the table (`g-table`, `g-table-column-setup`, …) keep their names. The row
+actions menu now uses `g-menu-legacy` instead of `g-menu`; classes inside the column settings popup also changed, see
+below. New table features go to
+[`@gravity-ui/table`](https://github.com/gravity-ui/table).
+
+### If you cannot migrate now
+
+Change the import, the rest of the code stays the same:
+
+```diff
+- import {Table, withTableSettings, TableColumnSetup} from '@gravity-ui/uikit';
++ import {Table, withTableSettings, TableColumnSetup} from '@gravity-ui/uikit/legacy';
+```
+
+The same applies to the types (`TableProps`, `TableColumnConfig`, `TableSettingsData`, `TableColumnSetupProps`, …).
+
+- **`@gravity-ui/uikit/legacy` needs three optional peer dependencies.** `@hello-pangea/dnd` (the column settings
+  popup is built on it), `react-window` and `react-virtualized-auto-sizer` (the legacy `List`) are no longer installed
+  with the package, and the legacy entry point loads all of them whatever you import from it: install the three next to
+  `@gravity-ui/uikit`.
+- **The classes inside the column settings popup.** `g-tree-select` → `g-tree-select-legacy`, `g-tree-list` →
+  `g-tree-list-legacy`, `g-list-container-view` → `g-list-container-view-legacy`, `g-list-item-view` →
+  `g-list-item-view-legacy`; the size modifiers (`g-tree-select__popup_size_*`, `_size_*` and `_radius_*` of the rows)
+  are gone. The popup looks the same; rewrite the overrides that targeted these classes.
+- **`@deprecated`.** `Table`, its HOCs and `TableColumnSetup` are marked `@deprecated` in their types: linters with a
+  `no-deprecated` rule start reporting their usages.
+- **`DefaultPropsProvider` no longer accepts the `TableColumnSetup` key.** `TableColumnSetup` does not read defaults
+  from the provider: pass them to the component explicitly.
+- **Translations.** The keyset names (`Table`, `withTableSettings`, `TableColumnSetupInner`, `TableColumnSetup`) are
+  the same, overrides through `addComponentKeysets` keep working.
+
+### Moving to `@gravity-ui/table`
+
+`@gravity-ui/table` has a
+[step-by-step guide from the uikit `Table`](https://github.com/gravity-ui/table/blob/main/docs/migration-from-uikit-table/migration-from-uikit-table.md):
+props, every HOC, and `TableColumnSetup` (section 4.1). Its "Stay with the old table if…" list is a fair criterion: a
+small interaction-free table without performance requirements can stay on the legacy one.
+
+## Removed from `/unstable`
+
+In v8 `@gravity-ui/uikit/unstable` keeps only `unstable_FileDropZone` and `unstable_useDropZone`.
+Everything else has moved:
+
+| Removed                                                                                                           | Now                                                                                                                                          |
+| :---------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------- |
+| `unstable_List`, `unstable_moveItem`, `unstable_useListFocusOwner` and the `unstable_List*` types                 | the same names without the prefix from `@gravity-ui/uikit`, see [the List guide](migration-from-legacy-list.md#from-gravity-uiuikitunstable) |
+| `unstable_ListVirtualizer`, `unstable_ListVirtualizerProps`                                                       | `ListVirtualizer`, `ListVirtualizerProps` from `@gravity-ui/uikit/virtualizer`                                                               |
+| `unstable_useListHelloPangeaDnd`, `unstable_UseListHelloPangeaDndOptions`, `unstable_UseListHelloPangeaDndResult` | `useListHelloPangeaDnd`, `UseListHelloPangeaDndProps`, `UseListHelloPangeaDndResult` from `@gravity-ui/uikit/hello-pangea-dnd`               |
+| `unstable_ColorPicker`, `unstable_ColorPickerProps`                                                               | `ColorPicker`, `ColorPickerProps` from `@gravity-ui/uikit`                                                                                   |
+| `unstable_Menu` and the other `unstable_Menu*` names                                                              | see [Menu and DropdownMenu](#menu-and-dropdownmenu)                                                                                          |
+| `unstable_useList` family, `unstable_TreeList`, `unstable_TreeSelect`                                             | see [useList, TreeList and TreeSelect removed from `/unstable`](#uselist-treelist-and-treeselect-removed-from-unstable)                      |
+
+## useList, TreeList and TreeSelect removed from `/unstable`
+
+The experimental `useList` family is gone from `@gravity-ui/uikit/unstable` without a replacement in the package: it
+continues in [`@gravity-ui/normalized-list`](https://github.com/gravity-ui/normalized-list) under new names, see its
+[migration guide](https://github.com/gravity-ui/normalized-list/blob/main/MIGRATION.md). Use a version of
+`@gravity-ui/normalized-list` whose peer range includes `@gravity-ui/uikit` v8.
+
+| `@gravity-ui/uikit/unstable`                                                                                                                                                                                                             | `@gravity-ui/normalized-list`                                           |
+| :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------- |
+| `unstable_TreeSelect`, `unstable_TreeSelectProps`                                                                                                                                                                                        | `UIKitNormalizedSelect`, `UIKitNormalizedSelectProps` from `/uikit`     |
+| `unstable_TreeList`, `unstable_TreeListProps`                                                                                                                                                                                            | `UIKitNormalizedList`, `UIKitNormalizedListProps` from `/uikit`         |
+| `unstable_useList`, `unstable_UseListResult`                                                                                                                                                                                             | `useNormalizedList`, `UseNormalizedListResult`                          |
+| `unstable_ListItemView`, `unstable_ListItemViewProps`                                                                                                                                                                                    | `UIKitListItemView` from `/uikit`, `ListItemViewProps`                  |
+| `unstable_ListItemExpandIcon`, `unstable_ListItemExpandIconProps`                                                                                                                                                                        | `UIKitListItemExpandIcon`, `UIKitListItemExpandIconProps` from `/uikit` |
+| `unstable_ListContainer`, `unstable_ListContainerProps`, `unstable_ListContainerView`, `unstable_ListContainerViewProps`                                                                                                                 | the same names without the prefix                                       |
+| `unstable_ListItemType`, `unstable_ListTreeItemType`, `unstable_ListItemId`                                                                                                                                                              | the same names without the prefix                                       |
+| `unstable_useListFilter`, `unstable_useListKeydown`, `unstable_getListItemClickHandler`, `unstable_getItemRenderState`, `unstable_scrollToListItem`, `unstable_getListItemQa`, `unstable_getListParsedState`, `unstable_computeItemSize` | the same names without the prefix                                       |
+
+Things to check after the switch, from the guide of the package:
+
+- the CSS namespace is `g-nl-`: rewrite the overrides of the old classes and variables;
+- `UIKitNormalizedSelect` has no built-in mobile `Sheet`, render it through `renderPopup`;
+- the QA constants of the select are `NormalizedSelectQa`.
+
+The column settings of the legacy `Table` keep working: they no longer depend on the removed family.
 
 ## Menu and DropdownMenu
 
@@ -173,29 +295,61 @@ entry point in v7, so you can migrate before upgrading. Other legacy components 
 instead of `lab/Breadcrumbs`, so existing `Breadcrumbs.label_more` overrides keep working. Rename overrides of
 `lab/Breadcrumbs` to `Breadcrumbs`; the current keyset also contains `breadcrumbs`.
 
-## Deprecated Popup API
+## Button and Link `extraProps`
 
-`Popup` no longer accepts `anchorRef`, `onClose`, `onEscapeKeyDown`, or `onOutsideClick`. Pass the anchor DOM element through `anchorElement` and handle dismissal with `onOpenChange(open, event?, reason?)`. The `PopupAnchorRef` and `PopupCloseReason` types are also removed; use `PopupAnchorElement` and the public `OpenChangeReason` type instead.
+`Button` and `Link` no longer accept `extraProps`. Pass native element props directly to the component, including
+when `Button` renders a link or a custom component.
+The same applies to props based on `ButtonProps`, such as `MenuTriggerProps`, `AlertActionProps`,
+`ActionsPanelItem.button.props`, and `Dialog.Footer` button props.
 
-Update these props in legacy `DropdownMenu.popupProps` and the `Popup` key of `DefaultPropsProvider` too.
-
-| Old callback or reason            | `onOpenChange` equivalent              |
-| :-------------------------------- | :------------------------------------- |
-| `onClose(event, 'escapeKeyDown')` | `(false, event, 'escape-key')`         |
-| `onClose(event, 'outsideClick')`  | `(false, event, 'outside-press')`      |
-| `onEscapeKeyDown(event)`          | Check for `reason === 'escape-key'`    |
-| `onOutsideClick(event)`           | Check for `reason === 'outside-press'` |
-
-`onOpenChange` can also report other close reasons. Close when `open` is `false`; check `reason` only if the action depends on how the popup was dismissed. Keep the anchor in state so `Popup` receives it when the DOM node mounts:
+Previously, `type`, `disabled`, `className`, `onClickCapture`, and `rel` inside `extraProps` could be overridden by the
+component. At the root, these props can change behavior: for example, a button can become a submit button or become
+disabled. Moving `target="_blank"` to the root also adds `rel="noopener noreferrer"` when `rel` is not set, so the
+Referer header is not sent.
 
 ```diff
-- const anchorRef = React.useRef<HTMLButtonElement>(null);
-+ const [anchorElement, setAnchorElement] = React.useState<HTMLButtonElement | null>(null);
-- <Button ref={anchorRef}>Open</Button>
-- <Popup anchorRef={anchorRef} open={open} onClose={() => setOpen(false)} />
-+ <Button ref={setAnchorElement}>Open</Button>
-+ <Popup anchorElement={anchorElement} open={open} onOpenChange={setOpen} />
+- <Button extraProps={{title: 'Save', onClick: handleSave}}>Save</Button>
++ <Button title="Save" onClick={handleSave}>Save</Button>
+- <Link href="/help" extraProps={{target: '_blank'}}>Help</Link>
++ <Link href="/help" target="_blank">Help</Link>
 ```
+
+## `Button.Icon` side and `Disclosure` arrow position
+
+`Button.Icon` `side` and `Disclosure` `arrowPosition` no longer accept the physical values `left` and `right`.
+Use the logical values `start` and `end` instead. They follow the text direction: `start` is on the left in LTR and on the right in RTL.
+
+```diff
+- <Button.Icon side="left">...</Button.Icon>
++ <Button.Icon side="start">...</Button.Icon>
+- <Button.Icon side="right">...</Button.Icon>
++ <Button.Icon side="end">...</Button.Icon>
+- <Disclosure arrowPosition="left" />
++ <Disclosure arrowPosition="start" />
+- <Disclosure arrowPosition="right" />
++ <Disclosure arrowPosition="end" />
+```
+
+## `configure` and `getConfig`
+
+Each call to `configure` now creates a new configuration object. A previously saved result of `getConfig()` no longer
+reflects later changes. If you need the current configuration after calling `configure`, call `getConfig()` again:
+
+```ts
+configure({lang: 'ru'});
+const {lang} = getConfig(); // 'ru'
+```
+
+## Dialog layout
+
+`Dialog` now uses smaller header and body paddings. The header has 12px above and 8px below its content, the body has
+4px of vertical padding, and the footer has 24px above and 28px below its content. A typical dialog becomes 176px tall
+instead of 190px. The close button moves to 12px from the top and 16px from the inline end on desktop; on mobile it is
+12px from both edges. If the header or footer is absent, the dialog leaves 20px or 24px, respectively, between the body
+and that edge. Check custom content and CSS overrides against the new spacing.
+
+The root no longer has the `g-dialog_has-close` class. Update selectors that depend on it; the close button can be
+selected through `.g-dialog:has(.g-dialog-btn-close)` when needed.
 
 ## Deprecated Modal and Dialog APIs
 
@@ -240,17 +394,6 @@ Replace `onEnterKeyDown` with `initialFocus="apply"` for a confirmation without 
 </Dialog>
 ```
 
-## Dialog layout
-
-`Dialog` now uses smaller header and body paddings. The header has 12px above and 8px below its content, the body has
-4px of vertical padding, and the footer has 24px above and 28px below its content. A typical dialog becomes 176px tall
-instead of 190px. The close button moves to 12px from the top and 16px from the inline end on desktop; on mobile it is
-12px from both edges. If the header or footer is absent, the dialog leaves 20px or 24px, respectively, between the body
-and that edge. Check custom content and CSS overrides against the new spacing.
-
-The root no longer has the `g-dialog_has-close` class. Update selectors that depend on it; the close button can be
-selected through `.g-dialog:has(.g-dialog-btn-close)` when needed.
-
 ## HelpMark icon size
 
 The `HelpMark` prop `iconSize` was renamed to `size`. Replace the prop name in `HelpMark` usages, including
@@ -268,115 +411,80 @@ The values (`s`, `m`, `l`, `xl`) and the default (`m`) did not change.
 The `layerschange` event no longer includes the deprecated `meta.layersCount` field. Use `meta.layers.length` to get
 the number of layers. The `getLayersCount()` function remains available.
 
-## Select popup position
+## Deprecated Popup API
 
-The `Select` popup is positioned from the control instead of the whole component, so with an error message under the
-control (`errorPlacement="outside"`, the default) it opens right under the control and covers the message while open.
-The popup width did not change. There is no option to restore the old position.
+`Popup` no longer accepts `anchorRef`, `onClose`, `onEscapeKeyDown`, or `onOutsideClick`. Pass the anchor DOM element through `anchorElement` and handle dismissal with `onOpenChange(open, event?, reason?)`. The `PopupAnchorRef` and `PopupCloseReason` types are also removed; use `PopupAnchorElement` and the public `OpenChangeReason` type instead.
 
-The control is wrapped in a new wrapper element `g-select__anchor` between the root and the control
-(`g-select-control`). Update selectors that rely on the control being a direct child of the root, such as
-`.g-select > .g-select-control`.
+Update these props in legacy `DropdownMenu.popupProps` and the `Popup` key of `DefaultPropsProvider` too.
 
-## Select `renderSelectedOption`
+| Old callback or reason            | `onOpenChange` equivalent              |
+| :-------------------------------- | :------------------------------------- |
+| `onClose(event, 'escapeKeyDown')` | `(false, event, 'escape-key')`         |
+| `onClose(event, 'outsideClick')`  | `(false, event, 'outside-press')`      |
+| `onEscapeKeyDown(event)`          | Check for `reason === 'escape-key'`    |
+| `onOutsideClick(event)`           | Check for `reason === 'outside-press'` |
 
-`renderSelectedOption(option, index)` is removed. `renderSelectedOptions(options)` is called once with the whole
-selection, so a summary such as "All ticket types" can be rendered without `renderControl`. Map the old function over
-the options to keep the old look — as before, separators between the options are up to it; see the
-[Select guide](migration-select-v8.md):
+`onOpenChange` can also report other close reasons. Close when `open` is `false`; check `reason` only if the action depends on how the popup was dismissed. Keep the anchor in state so `Popup` receives it when the DOM node mounts:
 
 ```diff
-- <Select renderSelectedOption={renderOne} />
-+ <Select renderSelectedOptions={(options) => options.map(renderOne)} />
+- const anchorRef = React.useRef<HTMLButtonElement>(null);
++ const [anchorElement, setAnchorElement] = React.useState<HTMLButtonElement | null>(null);
+- <Button ref={anchorRef}>Open</Button>
+- <Popup anchorRef={anchorRef} open={open} onClose={() => setOpen(false)} />
++ <Button ref={setAnchorElement}>Open</Button>
++ <Popup anchorElement={anchorElement} open={open} onOpenChange={setOpen} />
 ```
 
-## Select option names
+## Size names with multiple `x` characters
 
-The types of the options and the components for them are named after `Select.Option`, as in
-`SegmentedRadioGroup`. There are no aliases for the old names:
+Size names with two or more `x` characters now use a number followed by one `x`:
 
-| Before                      | After                         |
-| :-------------------------- | :---------------------------- |
-| type `SelectOption`         | type `SelectOptionProps`      |
-| type `SelectOptionGroup`    | type `SelectOptionGroupProps` |
-| component `SelectItem`      | component `SelectOption`      |
-| component `SelectItemGroup` | component `SelectOptionGroup` |
+| Before | After |
+| :----- | :---- |
+| `xxs`  | `2xs` |
+| `xxl`  | `2xl` |
+| `xxxl` | `3xl` |
+
+Update `Label size="xxs"` to `size="2xs"`. The corresponding CSS modifier changes from
+`.g-label_size_xxs` to `.g-label_size_2xs`; update custom selectors that target it.
+
+For layout, rename `xxl` and `xxxl` keys in `LayoutTheme.breakpoints` and responsive prop maps.
+If you use the deprecated `Col xxl` prop, move it to the `size` map as `{'2xl': value}`.
+`useLayoutContext().activeMediaQuery` now returns `2xl` or `3xl` at those widths, and
+`isMediaActive` accepts the new names. The breakpoint widths remain 1400px and 1920px.
+Single-`x` sizes such as `xs` and `xl` keep their names.
+
+## TextInput, PasswordInput, TextArea, and Select `error`
+
+`TextInput`, `PasswordInput`, `TextArea`, and `Select` no longer accept the deprecated `error` prop. Use
+`validationState="invalid"` to show the error state and `errorMessage` to show its message:
 
 ```diff
-- import {SelectItem, type SelectOption} from '@gravity-ui/uikit';
-+ import {SelectOption, type SelectOptionProps} from '@gravity-ui/uikit';
+- <TextInput error="Required field" />
++ <TextInput validationState="invalid" errorMessage="Required field" />
+- <TextArea error />
++ <TextArea validationState="invalid" />
+- <Select error={hasError} />
++ <Select validationState={hasError ? 'invalid' : undefined} />
+- <TextInput error={errorText} />
++ <TextInput validationState={errorText ? 'invalid' : undefined} errorMessage={errorText} />
 ```
 
-The old `SelectOption` or `SelectOptionGroup` used as a type now fails with "'SelectOption' refers to a value, but is
-being used as a type here": replace it with `SelectOptionProps` or `SelectOptionGroupProps`.
+The same replacement applies to all four components. When `error` was the only state signal, falsy values (`false`,
+`''`, or `undefined`) did not set the invalid state.
 
-## Table and TableColumnSetup
+## TextInput, PasswordInput, TextArea, and NumberInput `onKeyPress`
 
-`Table`, its HOCs (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`,
-`withTableSorting`) and `TableColumnSetup` moved from the root entry point to `@gravity-ui/uikit/legacy`. Their API and
-markup did not change, the CSS blocks of the table (`g-table`, `g-table-column-setup`, …) keep their names. The row
-actions menu now uses `g-menu-legacy` instead of `g-menu`; classes inside the column settings popup also changed, see
-below. New table features go to
-[`@gravity-ui/table`](https://github.com/gravity-ui/table).
-
-### If you cannot migrate now
-
-Change the import, the rest of the code stays the same:
+These components no longer accept the deprecated top-level `onKeyPress` prop. Use `onKeyDown` instead:
 
 ```diff
-- import {Table, withTableSettings, TableColumnSetup} from '@gravity-ui/uikit';
-+ import {Table, withTableSettings, TableColumnSetup} from '@gravity-ui/uikit/legacy';
+- <TextInput onKeyPress={handleKeyPress} />
++ <TextInput onKeyDown={handleKeyDown} />
 ```
 
-The same applies to the types (`TableProps`, `TableColumnConfig`, `TableSettingsData`, `TableColumnSetupProps`, …).
-
-- **`@gravity-ui/uikit/legacy` needs three optional peer dependencies.** `@hello-pangea/dnd` (the column settings
-  popup is built on it), `react-window` and `react-virtualized-auto-sizer` (the legacy `List`) are no longer installed
-  with the package, and the legacy entry point loads all of them whatever you import from it: install the three next to
-  `@gravity-ui/uikit`.
-- **The classes inside the column settings popup.** `g-tree-select` → `g-tree-select-legacy`, `g-tree-list` →
-  `g-tree-list-legacy`, `g-list-container-view` → `g-list-container-view-legacy`, `g-list-item-view` →
-  `g-list-item-view-legacy`; the size modifiers (`g-tree-select__popup_size_*`, `_size_*` and `_radius_*` of the rows)
-  are gone. The popup looks the same; rewrite the overrides that targeted these classes.
-- **`@deprecated`.** `Table`, its HOCs and `TableColumnSetup` are marked `@deprecated` in their types: linters with a
-  `no-deprecated` rule start reporting their usages.
-- **`DefaultPropsProvider` no longer accepts the `TableColumnSetup` key.** `TableColumnSetup` does not read defaults
-  from the provider: pass them to the component explicitly.
-- **Translations.** The keyset names (`Table`, `withTableSettings`, `TableColumnSetupInner`, `TableColumnSetup`) are
-  the same, overrides through `addComponentKeysets` keep working.
-
-### Moving to `@gravity-ui/table`
-
-`@gravity-ui/table` has a
-[step-by-step guide from the uikit `Table`](https://github.com/gravity-ui/table/blob/main/docs/migration-from-uikit-table/migration-from-uikit-table.md):
-props, every HOC, and `TableColumnSetup` (section 4.1). Its "Stay with the old table if…" list is a fair criterion: a
-small interaction-free table without performance requirements can stay on the legacy one.
-
-## useList, TreeList and TreeSelect removed from `/unstable`
-
-The experimental `useList` family is gone from `@gravity-ui/uikit/unstable` without a replacement in the package: it
-continues in [`@gravity-ui/normalized-list`](https://github.com/gravity-ui/normalized-list) under new names, see its
-[migration guide](https://github.com/gravity-ui/normalized-list/blob/main/MIGRATION.md). Use a version of
-`@gravity-ui/normalized-list` whose peer range includes `@gravity-ui/uikit` v8.
-
-| `@gravity-ui/uikit/unstable`                                                                                                                                                                                                             | `@gravity-ui/normalized-list`                                           |
-| :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------- |
-| `unstable_TreeSelect`, `unstable_TreeSelectProps`                                                                                                                                                                                        | `UIKitNormalizedSelect`, `UIKitNormalizedSelectProps` from `/uikit`     |
-| `unstable_TreeList`, `unstable_TreeListProps`                                                                                                                                                                                            | `UIKitNormalizedList`, `UIKitNormalizedListProps` from `/uikit`         |
-| `unstable_useList`, `unstable_UseListResult`                                                                                                                                                                                             | `useNormalizedList`, `UseNormalizedListResult`                          |
-| `unstable_ListItemView`, `unstable_ListItemViewProps`                                                                                                                                                                                    | `UIKitListItemView` from `/uikit`, `ListItemViewProps`                  |
-| `unstable_ListItemExpandIcon`, `unstable_ListItemExpandIconProps`                                                                                                                                                                        | `UIKitListItemExpandIcon`, `UIKitListItemExpandIconProps` from `/uikit` |
-| `unstable_ListContainer`, `unstable_ListContainerProps`, `unstable_ListContainerView`, `unstable_ListContainerViewProps`                                                                                                                 | the same names without the prefix                                       |
-| `unstable_ListItemType`, `unstable_ListTreeItemType`, `unstable_ListItemId`                                                                                                                                                              | the same names without the prefix                                       |
-| `unstable_useListFilter`, `unstable_useListKeydown`, `unstable_getListItemClickHandler`, `unstable_getItemRenderState`, `unstable_scrollToListItem`, `unstable_getListItemQa`, `unstable_getListParsedState`, `unstable_computeItemSize` | the same names without the prefix                                       |
-
-Things to check after the switch, from the guide of the package:
-
-- the CSS namespace is `g-nl-`: rewrite the overrides of the old classes and variables;
-- `UIKitNormalizedSelect` has no built-in mobile `Sheet`, render it through `renderPopup`;
-- the QA constants of the select are `NormalizedSelectQa`.
-
-The column settings of the legacy `Table` keep working: they no longer depend on the removed family.
+Unlike `onKeyPress`, `onKeyDown` fires for non-character keys and during IME composition, and its `event.charCode` is
+`0`. Check `event.key` and, if needed, `event.nativeEvent.isComposing`. To keep the old behavior temporarily, pass
+`controlProps={{onKeyPress: handleKeyPress}}` to the component.
 
 ## `useColorGenerator` `theme` option
 
@@ -388,28 +496,20 @@ uses the current theme from `ThemeProvider`:
 + useColorGenerator({seed})
 ```
 
-## `Button.Icon` side and `Disclosure` arrow position
+## Everything else
 
-`Button.Icon` `side` and `Disclosure` `arrowPosition` no longer accept the physical values `left` and `right`.
-Use the logical values `start` and `end` instead. They follow the text direction: `start` is on the left in LTR and on the right in RTL.
-
-```diff
-- <Button.Icon side="left">...</Button.Icon>
-+ <Button.Icon side="start">...</Button.Icon>
-- <Button.Icon side="right">...</Button.Icon>
-+ <Button.Icon side="end">...</Button.Icon>
-- <Disclosure arrowPosition="left" />
-+ <Disclosure arrowPosition="start" />
-- <Disclosure arrowPosition="right" />
-+ <Disclosure arrowPosition="end" />
-```
-
-## Row heights of List, Select and Menu
-
-The rows of `ListItemView`, and with it of `List`, `Select` and `Menu`, follow the heights of the controls of the same
-size: 24, 28, 36 and 44px. Rows of size `l` and `xl` are 36 and 44px instead of 32 and 36, the rows of the mobile
-`Select` are 44px instead of 32. A section header of `List` and a group header of `Select` take the height of a row of
-their size. Fewer rows fit into a popup or a list of a fixed height. To keep a height of your own, set
-`--g-list-item-view-min-height` on the class of the list: `className` of `List` and `Menu`, `popupClassName` and
-`sheetClassName` of `Select`; the paddings of `List` and `Select` and the headers follow it. The heights `Select` counts with — the
-virtualizer estimate and `itemHeight` — come from `getOptionHeight` and `getOptionGroupHeight`.
+| What                                                                                   | Change                                                                                                                                              |
+| :------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Select` ([#2660](https://github.com/gravity-ui/uikit/pull/2660))                      | The popup is 4px away from the control instead of 1px, the same offset as `Popup`.                                                                  |
+| Themes ([#2745](https://github.com/gravity-ui/uikit/pull/2745))                        | The theme variables are generated from `@gravity-ui/uikit-themer`; no variable is renamed, but colors shift slightly — update screenshot baselines. |
+| `Avatar` ([#2376](https://github.com/gravity-ui/uikit/pull/2376))                      | The `alt` prop is removed; the image is decorative (`alt=""`).                                                                                      |
+| Typography ([#2616](https://github.com/gravity-ui/uikit/pull/2616))                    | Accent texts take their weight from `--g-text-{group}-accent-font-weight`; `--g-text-accent-font-weight` is deprecated.                             |
+| `Progress` ([#2151](https://github.com/gravity-ui/uikit/pull/2151))                    | The component has no outer margin.                                                                                                                  |
+| `Lang`, `Platform` ([#2715](https://github.com/gravity-ui/uikit/pull/2715))            | TypeScript enums are replaced with `as const` objects and union types; `Lang.Ru` still works.                                                       |
+| `Dialog.Footer` ([#2657](https://github.com/gravity-ui/uikit/pull/2657))               | The buttons have no fixed width or minimum width.                                                                                                   |
+| Dependencies ([#2858](https://github.com/gravity-ui/uikit/pull/2858))                  | `lodash` is replaced with `es-toolkit`.                                                                                                             |
+| `Checkbox`, `Radio`, `Switch` ([#2342](https://github.com/gravity-ui/uikit/pull/2342)) | Size `l` uses the `body-1` font variant.                                                                                                            |
+| Hover styles ([#2832](https://github.com/gravity-ui/uikit/pull/2832))                  | `:hover` styles apply only on devices that can hover (`@media (hover: hover)`).                                                                     |
+| `button-reset` mixin ([#2862](https://github.com/gravity-ui/uikit/pull/2862))          | It also resets `margin`, `appearance`, `user-select` and the tap highlight, and no longer removes `outline`.                                        |
+| `Modal`, `Dialog` ([#2860](https://github.com/gravity-ui/uikit/pull/2860))             | The height is no longer animated when the content changes; `disableHeightTransition` is removed.                                                    |
+| `Keysets` type ([#2854](https://github.com/gravity-ui/uikit/pull/2854))                | It includes the `HelloPangeaDnd` keyset: `addLanguageKeysets<Keysets>` needs its two keys.                                                          |

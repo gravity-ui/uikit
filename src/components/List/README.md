@@ -10,7 +10,7 @@ optional layers: nothing of them exists until you turn them on.
 
 <!--GITHUB_BLOCK-->
 
-Migrating from the `List` of v7? See the [migration guide](../../../docs/migration-from-legacy-list.md).
+Migrating from the `List` of v7? See the [migration guide](https://github.com/gravity-ui/uikit/blob/main/docs/migration-from-legacy-list.md).
 
 <!--/GITHUB_BLOCK-->
 

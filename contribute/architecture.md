@@ -50,6 +50,7 @@ Shared component families and maturity layers also live under `src/components/`:
 - `controls/`, `layout/`, `mobile/`, `tabs/`, and `theme/` provide grouped stable APIs;
 - `legacy/` backs the legacy entrypoint;
 - `lab/` contains APIs surfaced selectively through the unstable entrypoint;
+- `Virtualizer/` and `HelloPangeaDnd/` back their own entrypoints and are not exported from the root barrel;
 - `utils/` contains implementation shared by components.
 
 ### Hooks and utilities

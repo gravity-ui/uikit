@@ -65,6 +65,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         renderFilter,
         renderOption,
         renderOptionGroup,
+        selectionStyle,
         renderSelectedOption,
         renderEmptyOptions,
         renderPopup = DEFAULT_RENDER_POPUP,
@@ -350,6 +351,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                     onOptionClick={handleOptionClick}
                     renderOption={renderOption}
                     renderOptionGroup={renderOptionGroup}
+                    selectionStyle={selectionStyle}
                     getOptionText={getOptionText}
                     getOptionHeight={getOptionHeight}
                     getOptionGroupHeight={getOptionGroupHeight}
@@ -409,6 +411,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 ref={controlWrapRef}
                 className={popupClassName}
                 sheetClassName={sheetClassName}
+                sheetTitle={label}
                 controlRef={controlRef}
                 width={popupWidth}
                 open={open}

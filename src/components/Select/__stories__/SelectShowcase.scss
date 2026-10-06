@@ -73,6 +73,20 @@ $blockSelectClear: '.#{variables.$ns}select-clear';
             border-radius: 12px;
         }
     }
+
+    &__control-option {
+        display: flex;
+        align-items: center;
+        gap: var(--g-spacing-2);
+    }
+
+    &__control-option-indicator {
+        display: flex;
+    }
+
+    &__mobile-sheet {
+        --g-list-item-view-min-height: 48px;
+    }
 }
 
 .popup-actions {

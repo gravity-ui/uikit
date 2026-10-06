@@ -277,8 +277,10 @@ describe('Select with non-string values', () => {
                     getValueKey={(city) => String(city.id)}
                     onUpdate={(value) => value.map((city) => city.name)}
                 />
-                <Select<unknown, number> value={[1]}>
+                <Select value={[1]}>
+                    {/* @ts-expect-error the value of a child is a string unless named */}
                     <Select.Option value={1}>One</Select.Option>
+                    <Select.Option<unknown, number> value={2}>Two</Select.Option>
                 </Select>
             </React.Fragment>,
         );

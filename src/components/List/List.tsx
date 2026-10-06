@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import {ListItemView} from '../ListItemView/ListItemView';
 import type {ListItemViewProps as FullListItemViewProps} from '../ListItemView/ListItemView';
+import {LIST_ITEM_VIEW_MIN_HEIGHT} from '../ListItemView/constants';
 import {block} from '../utils/cn';
 import {warnOnce} from '../utils/warn';
 
@@ -26,9 +27,6 @@ import {useList} from './useList';
 import './List.scss';
 
 const b = block('list');
-
-// min-height of the default view per size
-const ESTIMATED_ITEM_SIZE: Record<ListSize, number> = {s: 24, m: 28, l: 32, xl: 36};
 
 /**
  * Presentational subset of the row view: tree, container and componentProps are outside the
@@ -169,7 +167,7 @@ function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
     // cached per visibleIds and only feed the estimate (tanstack calls it for
     // the whole unmeasured tail on every pass)
     const getItemSize = React.useMemo(() => {
-        const estimate = estimateItemSize ?? ESTIMATED_ITEM_SIZE[size];
+        const estimate = estimateItemSize ?? LIST_ITEM_VIEW_MIN_HEIGHT[size];
         if (typeof estimate !== 'function') {
             return () => estimate;
         }

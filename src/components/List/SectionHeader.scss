@@ -4,14 +4,20 @@
 $block: '.#{variables.$ns}list-section-header';
 
 #{$block} {
+    /* Paddings as in the row view */
+    --_--min-height: var(--g-list-item-view-min-height, #{variables.$m-height});
+    --_--line-height: 18px;
+    --_--padding-block: calc((var(--_--min-height) - var(--_--line-height)) / 2);
+
     display: flex;
     align-items: center;
+    min-height: var(--_--min-height);
 
     /* As in the row view: a height the consumer fixes on the row is the height of the row, the
        padding included — the virtualizer is given the same number */
     box-sizing: border-box;
 
-    padding: var(--g-spacing-1) var(--g-spacing-2);
+    padding: var(--_--padding-block) var(--g-spacing-2);
     color: var(--g-color-text-primary);
 
     @include mixins.text-body-1;
@@ -21,9 +27,21 @@ $block: '.#{variables.$ns}list-section-header';
         /* A flex item does not shrink below its content on its own, and there is nothing to clip
            without that */
         min-width: 0;
+        line-height: var(--_--line-height);
+    }
+
+    &_size_s {
+        --_--min-height: var(--g-list-item-view-min-height, #{variables.$s-height});
+    }
+
+    &_size_l {
+        --_--min-height: var(--g-list-item-view-min-height, #{variables.$l-height});
     }
 
     &_size_xl {
+        --_--min-height: var(--g-list-item-view-min-height, #{variables.$xl-height});
+        --_--line-height: 20px;
+
         @include mixins.text-body-2;
         @include mixins.text-accent;
     }
@@ -36,7 +54,7 @@ $block: '.#{variables.$ns}list-section-header';
     &:not([data-first-row]) {
         position: relative;
         /* The line sits close to the row above it, the text of the header — well below the line */
-        padding-block-start: var(--g-spacing-3);
+        padding-block-start: calc(var(--_--padding-block) + var(--g-spacing-2));
 
         &::before {
             content: '';

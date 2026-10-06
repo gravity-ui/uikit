@@ -21,10 +21,14 @@ $block: '.#{variables.$ns}list-item-view';
 */
 #{$block} {
     /* Sizes */
-    --_--min-height: var(--g-list-item-view-min-height, 28px);
+    --_--min-height: var(--g-list-item-view-min-height, #{variables.$m-height});
     --_--border-radius: var(--g-list-item-view-border-radius, var(--g-border-radius-m));
     --_--padding-inline: var(--g-list-item-view-padding-inline, var(--g-spacing-2));
-    --_--padding-block: var(--g-list-item-view-padding-block, var(--g-spacing-1));
+    // As in the controls: a single line fills min-height exactly, more lines grow the row by lines
+    --_--padding-block: var(
+        --g-list-item-view-padding-block,
+        calc((var(--_--min-height) - var(--_--line-height)) / 2)
+    );
     --_--line-height: var(--g-list-item-view-line-height, 18px);
 
     --_--controls-gap: var(--g-list-item-view-controls-gap, var(--g-spacing-1));
@@ -92,7 +96,7 @@ $block: '.#{variables.$ns}list-item-view';
     @include mixins.text-body-1;
 
     &_has-description {
-        --_--description-min-height: 16px;
+        --_--description-min-height: var(--_--line-height);
     }
 
     &__slot {
@@ -168,14 +172,11 @@ $block: '.#{variables.$ns}list-item-view';
         }
     }
 
-    // The defaults of the size grid (24/28/32/36): padding-block must keep a
-    // single 18px line within min-height, or the rows silently grow past it
     &_size {
         &_s {
-            --_--min-height: var(--g-list-item-view-min-height, 24px);
+            --_--min-height: var(--g-list-item-view-min-height, #{variables.$s-height});
             --_--border-radius: var(--g-list-item-view-border-radius, var(--g-border-radius-s));
             --_--padding-inline: var(--g-list-item-view-padding-inline, var(--g-spacing-2));
-            --_--padding-block: var(--g-list-item-view-padding-block, var(--g-spacing-half));
 
             --_--controls-gap: var(--g-list-item-view-controls-gap, var(--g-spacing-2));
             --_--controls-size: var(--g-list-item-view-controls-size, 20px);
@@ -187,10 +188,9 @@ $block: '.#{variables.$ns}list-item-view';
         }
 
         &_m {
-            --_--min-height: var(--g-list-item-view-min-height, 28px);
+            --_--min-height: var(--g-list-item-view-min-height, #{variables.$m-height});
             --_--border-radius: var(--g-list-item-view-border-radius, var(--g-border-radius-m));
             --_--padding-inline: var(--g-list-item-view-padding-inline, var(--g-spacing-2));
-            --_--padding-block: var(--g-list-item-view-padding-block, var(--g-spacing-1));
 
             --_--controls-gap: var(--g-list-item-view-controls-gap, var(--g-spacing-2));
             --_--controls-size: var(--g-list-item-view-controls-size, 24px);
@@ -202,13 +202,9 @@ $block: '.#{variables.$ns}list-item-view';
         }
 
         &_l {
-            --_--min-height: var(--g-list-item-view-min-height, 32px);
+            --_--min-height: var(--g-list-item-view-min-height, #{variables.$l-height});
             --_--border-radius: var(--g-list-item-view-border-radius, var(--g-border-radius-l));
             --_--padding-inline: var(--g-list-item-view-padding-inline, var(--g-spacing-2));
-            --_--padding-block: var(
-                --g-list-item-view-padding-block,
-                calc(var(--g-spacing-base) * 1.5)
-            );
             --_--controls-gap: var(--g-list-item-view-controls-gap, var(--g-spacing-2));
             --_--controls-size: var(--g-list-item-view-controls-size, 24px);
             --_--controls-border-radius: var(
@@ -219,10 +215,9 @@ $block: '.#{variables.$ns}list-item-view';
         }
 
         &_xl {
-            --_--min-height: var(--g-list-item-view-min-height, 36px);
+            --_--min-height: var(--g-list-item-view-min-height, #{variables.$xl-height});
             --_--border-radius: var(--g-list-item-view-border-radius, var(--g-border-radius-xl));
             --_--padding-inline: var(--g-list-item-view-padding-inline, var(--g-spacing-2));
-            --_--padding-block: var(--g-list-item-view-padding-block, var(--g-spacing-2));
 
             --_--controls-gap: var(--g-list-item-view-controls-gap, var(--g-spacing-2));
             --_--controls-size: var(--g-list-item-view-controls-size, 24px);
@@ -231,6 +226,7 @@ $block: '.#{variables.$ns}list-item-view';
                 var(--g-border-radius-l)
             );
             --_--controls-icon-size: var(--g-list-item-view-controls-icon-size, 16px);
+            --_--line-height: var(--g-list-item-view-line-height, 20px);
 
             @include mixins.text-body-2;
         }

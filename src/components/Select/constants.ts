@@ -1,3 +1,4 @@
+import {LIST_ITEM_VIEW_MIN_HEIGHT} from '../ListItemView/constants';
 import {block} from '../utils/cn';
 
 import type {SelectSize} from './types';
@@ -12,33 +13,13 @@ export const selectListBlock = block('select-list');
 
 export const selectClearBlock = block('select-clear');
 
-/**
- * The heights of the rows of the new List: the row view sizes itself, and these numbers are what
- * it comes out as — the estimate for the virtualizer and the `itemHeight` of `renderOption`
- * (ListItemView `--_--min-height`)
- */
-export const SIZE_TO_ITEM_HEIGHT: Record<SelectSize, number> = {
-    s: 24,
-    m: 28,
-    l: 32,
-    xl: 36,
-};
+/** The heights of the rows and group headers: the estimate and the `itemHeight` of `renderOption` */
+export const SIZE_TO_ITEM_HEIGHT: Record<SelectSize, number> = LIST_ITEM_VIEW_MIN_HEIGHT;
 
-/** A row on mobile is a row of size `xl`: 36px of height and the bigger text, as it was before */
+/** A row on mobile is a row of size `xl`: 44px of height and the bigger text */
 export const MOBILE_SIZE: SelectSize = 'xl';
 
-/**
- * The heights of a section header (ListSectionHeader): the vertical padding of `--g-spacing-1`
- * twice plus the line height of the row typography — 18px, and 20px in `xl`
- */
-export const SIZE_TO_GROUP_HEIGHT: Record<SelectSize, number> = {
-    s: 26,
-    m: 26,
-    l: 26,
-    xl: 28,
-};
-
-/** A header that follows other rows gets `--g-spacing-3` above instead of `--g-spacing-1` */
+/** A header that follows other rows gets `--g-spacing-2` more above, for the separating line */
 export const GROUP_ITEM_MARGIN_TOP = 8;
 
 /**

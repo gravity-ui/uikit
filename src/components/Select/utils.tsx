@@ -7,7 +7,6 @@ import {
     GROUP_ITEM_MARGIN_TOP,
     GROUP_SEPARATOR_HEIGHT,
     MOBILE_SIZE,
-    SIZE_TO_GROUP_HEIGHT,
     SIZE_TO_ITEM_HEIGHT,
 } from './constants';
 import type {Option, OptionGroup} from './tech-components';
@@ -381,7 +380,7 @@ export const getPopupItemHeight = (args: {
             return index === 0 ? 0 : GROUP_SEPARATOR_HEIGHT;
         }
 
-        return SIZE_TO_GROUP_HEIGHT[viewSize] + (index === 0 ? 0 : GROUP_ITEM_MARGIN_TOP);
+        return SIZE_TO_ITEM_HEIGHT[viewSize] + (index === 0 ? 0 : GROUP_ITEM_MARGIN_TOP);
     }
 
     return getOptionHeight ? getOptionHeight(option, index) : SIZE_TO_ITEM_HEIGHT[viewSize];

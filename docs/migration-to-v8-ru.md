@@ -362,3 +362,13 @@ menu: {
 - <Disclosure arrowPosition="right" />
 + <Disclosure arrowPosition="end" />
 ```
+
+## Высота строк List, Select и Menu
+
+Строки `ListItemView`, а с ним `List`, `Select` и `Menu`, выровнены по высоте контролов того же размера: 24, 28, 36 и
+44px. Строки размеров `l` и `xl` — 36 и 44px вместо 32 и 36, строки мобильного `Select` — 44px вместо 32.
+Заголовок секции `List` и заголовок группы `Select` высотой со строку своего размера. В попап или список
+фиксированной высоты помещается меньше строк. Чтобы сохранить свою высоту, задайте `--g-list-item-view-min-height`
+на классе списка: `className` у `List` и `Menu`, `popupClassName` и `sheetClassName` у `Select`; отступы
+`List` и `Select` и заголовки следуют за ней. Высоты, которыми считает `Select`, — оценка виртуализатора и `itemHeight` — задаются
+через `getOptionHeight` и `getOptionGroupHeight`.

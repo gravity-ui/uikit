@@ -386,6 +386,29 @@ describe('List: virtualization layer', () => {
             expect(firstOptionWrapper).toHaveStyle({top: `${ROW_HEIGHT}px`});
         });
 
+        test.each([
+            ['s', 24],
+            ['m', 28],
+            ['l', 36],
+            ['xl', 44],
+        ] as const)('without estimateItemSize a row is estimated by size %s', (size, height) => {
+            render(
+                <ListVirtualizer measure={false}>
+                    <List
+                        aria-label="Groups"
+                        items={GROUPS}
+                        size={size}
+                        getItemContent={(item) => item.label}
+                        style={{maxHeight: VIEWPORT_HEIGHT}}
+                    />
+                </ListVirtualizer>,
+            );
+
+            // eslint-disable-next-line testing-library/no-node-access
+            const firstOptionWrapper = screen.getByRole('option', {name: 'First'}).parentElement;
+            expect(firstOptionWrapper).toHaveStyle({top: `${height}px`});
+        });
+
         test('estimateItemSize accepts a function of the row context', () => {
             render(
                 <ListVirtualizer

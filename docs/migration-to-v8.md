@@ -364,3 +364,13 @@ Use the logical values `start` and `end` instead. They follow the text direction
 - <Disclosure arrowPosition="right" />
 + <Disclosure arrowPosition="end" />
 ```
+
+## Row heights of List, Select and Menu
+
+The rows of `ListItemView`, and with it of `List`, `Select` and `Menu`, follow the heights of the controls of the same
+size: 24, 28, 36 and 44px. Rows of size `l` and `xl` are 36 and 44px instead of 32 and 36, the rows of the mobile
+`Select` are 44px instead of 32. A section header of `List` and a group header of `Select` take the height of a row of
+their size. Fewer rows fit into a popup or a list of a fixed height. To keep a height of your own, set
+`--g-list-item-view-min-height` on the class of the list: `className` of `List` and `Menu`, `popupClassName` and
+`sheetClassName` of `Select`; the paddings of `List` and `Select` and the headers follow it. The heights `Select` counts with — the
+virtualizer estimate and `itemHeight` — come from `getOptionHeight` and `getOptionGroupHeight`.

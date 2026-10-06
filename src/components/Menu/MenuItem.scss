@@ -68,7 +68,7 @@ $b: '.#{variables.$ns}menu-item';
 
     &_size {
         &_s {
-            --_--padding-block: 2px;
+            --_--padding-block: 3px;
             --_--padding-inline: 8px;
             --_--icon-size: 14px;
             --_--icon-offset: 4px;
@@ -76,7 +76,7 @@ $b: '.#{variables.$ns}menu-item';
         }
 
         &_m {
-            --_--padding-block: 4px;
+            --_--padding-block: 5px;
             --_--padding-inline: 12px;
             --_--icon-size: 16px;
             --_--icon-offset: 6px;
@@ -84,7 +84,7 @@ $b: '.#{variables.$ns}menu-item';
         }
 
         &_l {
-            --_--padding-block: 6px;
+            --_--padding-block: 9px;
             --_--padding-inline: 12px;
             --_--icon-size: 16px;
             --_--icon-offset: 6px;
@@ -92,7 +92,7 @@ $b: '.#{variables.$ns}menu-item';
         }
 
         &_xl {
-            --_--padding-block: 8px;
+            --_--padding-block: 12px;
             --_--padding-inline: 16px;
             --_--icon-size: 20px;
             --_--icon-offset: 6px;

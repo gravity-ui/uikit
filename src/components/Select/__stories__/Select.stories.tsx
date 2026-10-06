@@ -6,7 +6,7 @@ import {escapeRegExp} from 'es-toolkit';
 import {useArgs} from 'storybook/preview-api';
 
 import {Select, getSelectOptionText} from '..';
-import type {SelectOption, SelectProps} from '..';
+import type {SelectOptionProps, SelectProps} from '..';
 import {Button} from '../../Button';
 import {Checkbox} from '../../Checkbox';
 import {Icon} from '../../Icon';
@@ -155,7 +155,7 @@ const LETTER_OPTIONS = [
 ];
 const NULLABLE_CASES: {
     title: string;
-    options: SelectOption<unknown, unknown>[];
+    options: SelectOptionProps<unknown, unknown>[];
     value: unknown[];
 }[] = [
     {

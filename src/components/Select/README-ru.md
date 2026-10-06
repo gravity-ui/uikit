@@ -22,6 +22,9 @@ import {Select} from '@gravity-ui/uikit';
 
 Опции можно определять в виде массива объектов или в качестве дочерних элементов компонента. Первый способ подходит для случаев, когда опции требуют сложной подготовки и, возможно, запоминания. Второй способ удобен, когда опций немного и их настройка не требует сложных вычислений.
 
+В React Server Component `Select.Option` и `Select.OptionGroup` недоступны — используйте именованные
+`SelectOption` и `SelectOptionGroup`. Типы их пропсов — `SelectOptionProps` и `SelectOptionGroupProps`.
+
 #### Одноуровневый список
 
 <!--SANDBOX
@@ -1171,7 +1174,7 @@ SANDBOX-->
 | onLoadMore                                                             | Срабатывает, когда индикатор загрузки становится видимым.                                                                             | `function`                               |                                                          |
 | onOpenChange                                                           | Срабатывает при каждом изменении видимости списка опций.                                                                              | `function`                               |                                                          |
 | onUpdate                                                               | Срабатывает, когда пользователь подтверждает изменение значения `Select`.                                                             | `function`                               |                                                          |
-| [options](#options)                                                    | Конфигурация опций.                                                                                                                   | `(SelectOption \| SelectOptionGroup)[]`  |                                                          |
+| [options](#options)                                                    | Конфигурация опций.                                                                                                                   | `SelectOptions`                          |                                                          |
 | pin                                                                    | Вид границ контрола.                                                                                                                  | `string`                                 | `'round-round'`                                          |
 | placeholder                                                            | Текст-заглушка.                                                                                                                       | `string`                                 |                                                          |
 | popupClassName                                                         | Имя класса (`className`) для списка опций в попапе.                                                                                   | `string`                                 |                                                          |

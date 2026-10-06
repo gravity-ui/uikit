@@ -1,7 +1,7 @@
 'use client';
 
 import {Select} from '../../../Select';
-import type {SelectOption} from '../../../Select';
+import type {SelectOptionProps} from '../../../Select';
 import type {InputControlView} from '../../../controls';
 import {PaginationQa, getPaginationPageSizeOptionQa} from '../../constants';
 import i18n from '../../i18n';
@@ -30,7 +30,7 @@ export const PaginationPageSizer = ({
     view,
 }: Props) => {
     const options = pageSizeOptions.map(
-        (pageSizeOption): SelectOption => ({
+        (pageSizeOption): SelectOptionProps => ({
             value: String(pageSizeOption),
             content: pageSizeOption,
             qa: getPaginationPageSizeOptionQa(pageSizeOption),

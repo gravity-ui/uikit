@@ -52,12 +52,12 @@ export type SelectRenderOptionViewParams = {
 };
 
 export type SelectRenderOption<T, V = string> = (
-    option: SelectOption<T, V>,
+    option: SelectOptionProps<T, V>,
     options: SelectRenderOptionViewParams,
 ) => React.ReactElement;
 
 export type SelectRenderOptionGroup<T> = (
-    option: Pick<SelectOptionGroup<T>, 'label'>,
+    option: Pick<SelectOptionGroupProps<T>, 'label'>,
     options: Omit<SelectRenderOptionViewParams, 'selected'>,
 ) => React.ReactElement;
 
@@ -117,7 +117,7 @@ export type SelectProps<T = any, V = string> = AriaLabelingProps &
          */
         selectionStyle?: 'auto' | 'none';
         /** The content of the control for the whole selection, in the order of `value`; called only with a value */
-        renderSelectedOptions?: (options: SelectOption<T, V>[]) => React.ReactNode;
+        renderSelectedOptions?: (options: SelectOptionProps<T, V>[]) => React.ReactNode;
         renderEmptyOptions?: ({filter}: {filter: string}) => React.ReactElement;
         renderPopup?: SelectRenderPopup;
         renderCounter?: SelectRenderCounter;
@@ -127,16 +127,16 @@ export type SelectProps<T = any, V = string> = AriaLabelingProps &
          * when that is a string or a number, otherwise to its value — `getSelectOptionText` is
          * that default
          */
-        getOptionText?: (option: SelectOption<T, V>) => string;
+        getOptionText?: (option: SelectOptionProps<T, V>) => string;
         /**
          * The string a value is known by: the id of its row, the value of the hidden form field,
          * the equality of two values. Defaults to the value itself for a string and to `String()`
          * for another primitive; an object value needs it
          */
         getValueKey?: (value: V) => string;
-        getOptionHeight?: (option: SelectOption<T, V>, index: number) => number;
-        getOptionGroupHeight?: (option: SelectOptionGroup<T, V>, index: number) => number;
-        filterOption?: (option: SelectOption<T, V>, filter: string) => boolean;
+        getOptionHeight?: (option: SelectOptionProps<T, V>, index: number) => number;
+        getOptionGroupHeight?: (option: SelectOptionGroupProps<T, V>, index: number) => number;
+        filterOption?: (option: SelectOptionProps<T, V>, filter: string) => boolean;
         view?: InputControlView;
         size?: SelectSize;
         pin?: InputControlPin;
@@ -152,7 +152,7 @@ export type SelectProps<T = any, V = string> = AriaLabelingProps &
         filterPlaceholder?: string;
         value?: V[];
         defaultValue?: V[];
-        options?: (SelectOption<T, V> | SelectOptionGroup<T, V>)[];
+        options?: (SelectOptionProps<T, V> | SelectOptionGroupProps<T, V>)[];
         /** Determines content of the error message */
         errorMessage?: React.ReactNode;
         /** Determines whether the error message will be placed under the input field as text or in the tooltip */
@@ -170,10 +170,10 @@ export type SelectProps<T = any, V = string> = AriaLabelingProps &
         loading?: boolean;
         onLoadMore?: () => void;
         children?:
-            | React.ReactElement<SelectOption<T, V>, typeof Option>
-            | React.ReactElement<SelectOption<T, V>, typeof Option>[]
-            | React.ReactElement<SelectOptionGroup<T, V>, typeof OptionGroup>
-            | React.ReactElement<SelectOptionGroup<T, V>, typeof OptionGroup>[];
+            | React.ReactElement<SelectOptionProps<T, V>, typeof Option>
+            | React.ReactElement<SelectOptionProps<T, V>, typeof Option>[]
+            | React.ReactElement<SelectOptionGroupProps<T, V>, typeof OptionGroup>
+            | React.ReactElement<SelectOptionGroupProps<T, V>, typeof OptionGroup>[];
         id?: string;
         /**Shows selected options count if multiple selection is avalable */
         hasCounter?: boolean;
@@ -183,13 +183,13 @@ export type SelectProps<T = any, V = string> = AriaLabelingProps &
         disabled?: boolean;
     };
 
-export type SelectOption<T = any, V = string> = QAProps &
+export type SelectOptionProps<T = any, V = string> = QAProps &
     Omit<ControlGroupOption, 'value'> & {
         value: V;
         data?: T;
     };
 
-export type SelectOptionGroup<T = any, V = string> = {
+export type SelectOptionGroupProps<T = any, V = string> = {
     /**
      * Label is a string which displayed above the options group.
      * An empty label makes the group a separator: a line between the options instead of a header
@@ -197,10 +197,10 @@ export type SelectOptionGroup<T = any, V = string> = {
      */
     label: string;
     data?: T;
-    options?: SelectOption<T, V>[];
+    options?: SelectOptionProps<T, V>[];
     children?:
-        | React.ReactElement<SelectOption<any, V>, typeof Option>
-        | React.ReactElement<SelectOption<any, V>, typeof Option>[];
+        | React.ReactElement<SelectOptionProps<any, V>, typeof Option>
+        | React.ReactElement<SelectOptionProps<any, V>, typeof Option>[];
 };
 
 type SelectClearIconProps = {

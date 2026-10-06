@@ -1,22 +1,22 @@
 'use client';
 
-import type {SelectOption, SelectOptionGroup} from './types';
+import type {SelectOptionGroupProps, SelectOptionProps} from './types';
 
 // `NoInfer` before TS 5.4: the Select does not check its children, so a non-string value is named
 type Named<V> = [V][V extends unknown ? 0 : never];
 
 type OptionComponent = {
     <T = any, V = string>(
-        props: SelectOption<T, Named<V>>,
-    ): React.ReactElement<SelectOption<T, V>> | null;
-    (props: SelectOption): React.ReactElement<SelectOption> | null;
+        props: SelectOptionProps<T, Named<V>>,
+    ): React.ReactElement<SelectOptionProps<T, V>> | null;
+    (props: SelectOptionProps): React.ReactElement<SelectOptionProps> | null;
 };
 
 type OptionGroupComponent = {
     <T = any, V = string>(
-        props: SelectOptionGroup<T, Named<V>>,
-    ): React.ReactElement<SelectOptionGroup<T, V>> | null;
-    (props: SelectOptionGroup): React.ReactElement<SelectOptionGroup> | null;
+        props: SelectOptionGroupProps<T, Named<V>>,
+    ): React.ReactElement<SelectOptionGroupProps<T, V>> | null;
+    (props: SelectOptionGroupProps): React.ReactElement<SelectOptionGroupProps> | null;
 };
 
 export const Option: OptionComponent = () => null;

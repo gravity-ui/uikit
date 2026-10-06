@@ -3,5 +3,4 @@ export * from './types';
 export {SelectQa} from './constants';
 export * from './hooks-public';
 export {isSelectGroupTitle, getSelectOptionText} from './utils';
-// FIXME: rename types SelectOption and SelectOptionGroup to SelectOptionProps and SelectOptionGroupProps respectively
-export {Option as SelectItem, OptionGroup as SelectItemGroup} from './tech-components';
+export {Option as SelectOption, OptionGroup as SelectOptionGroup} from './tech-components';

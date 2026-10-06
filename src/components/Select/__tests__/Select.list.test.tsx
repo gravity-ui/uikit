@@ -7,7 +7,7 @@ import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {TextInput} from '../../controls';
 import {MobileProvider} from '../../mobile';
 import {SelectQa, VIRTUALIZATION_HINT_OPTIONS_COUNT} from '../constants';
-import type {SelectOption} from '../types';
+import type {SelectOptionProps} from '../types';
 
 import {
     ControlledSelect,
@@ -123,7 +123,7 @@ describe('Select on the List core', () => {
     describe('a selected value the options do not hold', () => {
         test('the trigger shows the value and getOptionText is not asked about it', async () => {
             // The options are still loading, and the getter of the consumer knows only its own
-            const getOptionText = jest.fn((option: SelectOption) => {
+            const getOptionText = jest.fn((option: SelectOptionProps) => {
                 if (!option.data) {
                     throw new Error(`No data on ${option.value}`);
                 }
@@ -472,7 +472,7 @@ describe('Select on the List core', () => {
 
         test('the loading row does not reach getOptionText', async () => {
             // A getter written for the options of the consumer knows nothing of our technical row
-            const getOptionText = jest.fn((option: SelectOption) => {
+            const getOptionText = jest.fn((option: SelectOptionProps) => {
                 if (!option.data) {
                     throw new Error(`No data on ${option.value}`);
                 }
@@ -494,7 +494,7 @@ describe('Select on the List core', () => {
         });
 
         test('the loading row does not reach getOptionHeight', async () => {
-            const getOptionHeight = jest.fn((option: SelectOption) => {
+            const getOptionHeight = jest.fn((option: SelectOptionProps) => {
                 if (!option.data) {
                     throw new Error(`No data on ${option.value}`);
                 }

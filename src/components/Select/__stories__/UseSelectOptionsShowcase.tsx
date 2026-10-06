@@ -3,7 +3,7 @@ import * as React from 'react';
 import {Button} from '../../Button';
 import {TextInput} from '../../controls';
 import {Select, getSelectFilteredOptions, isSelectGroupTitle, useSelectOptions} from '../index';
-import type {SelectOption, SelectProps} from '../index';
+import type {SelectOptionProps, SelectProps} from '../index';
 
 const title = 'Select example with useSelectOptions hook';
 
@@ -46,10 +46,10 @@ export const UseSelectOptionsShowcase = () => {
         } = inputProps;
         const optionsWithoutGroupLabels = options.filter(
             (option) => !isSelectGroupTitle(option),
-        ) as SelectOption[];
+        ) as SelectOptionProps[];
         const filteredOptionsWithoutGroupLabels = filteredOptions.filter(
             (option) => !isSelectGroupTitle(option),
-        ) as SelectOption[];
+        ) as SelectOptionProps[];
         const allOptionsSelected = Boolean(
             value.length && optionsWithoutGroupLabels.length === value.length,
         );

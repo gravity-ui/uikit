@@ -22,6 +22,10 @@ Options to select.
 
 You can define options as an array of objects or as the children of a component. The first approach is useful for cases where options require complex preparation and, possibly, memorization. The second one is convenient when there are few options, and their configuration does not require complex calculations.
 
+In a React Server Component `Select.Option` and `Select.OptionGroup` are not reachable: use the named
+`SelectOption` and `SelectOptionGroup` instead. Their props types are `SelectOptionProps` and
+`SelectOptionGroupProps`.
+
 #### Flat list
 
 <!--SANDBOX
@@ -1181,7 +1185,7 @@ SANDBOX-->
 | onLoadMore                                                   | Fires when the loading indicator gets visible                                                                                    | `function`                               |                                                          |
 | onOpenChange                                                 | Fires every time after changing popup visibility                                                                                 | `function`                               |                                                          |
 | onUpdate                                                     | Fires when an alteration to the `Select` value is committed by the user                                                          | `function`                               |                                                          |
-| [options](#options)                                          | Options to select                                                                                                                | `(SelectOption \| SelectOptionGroup)[]`  |                                                          |
+| [options](#options)                                          | Options to select                                                                                                                | `SelectOptions`                          |                                                          |
 | pin                                                          | Control border view                                                                                                              | `string`                                 | `'round-round'`                                          |
 | placeholder                                                  | Placeholder text                                                                                                                 | `string`                                 |                                                          |
 | popupClassName                                               | Popup with the option list `className`                                                                                           | `string`                                 |                                                          |

@@ -82,11 +82,11 @@ are up to it, and the elements it returns need keys when they hold state:
   option. Two options with one value share a DOM id and all such rows show the content of the last
   one; the `Select` says so in a development warning. The old list kept rows by position and drew
   both.
-- **The rows are the rows of the new design, and they are of other heights**: an option of `size="s"`
-  is 24px instead of 28, an option on mobile is 36px instead of 32 (there every row is of size `xl`,
-  whatever the `size` of the `Select`), the header of a group is 26px (28 in `xl`) plus 8px above it
-  when it follows other rows, and a group with an empty label — a separating line — takes 9px instead
-  of 5 when it follows another row, and nothing at all as the first row of the list, as before — that
+- **The rows are as tall as the control**, 24/28/36/44px: an option of `size="s"` is 24px instead
+  of 28, of `l` 36 instead of 32, of `xl` 44 instead of 36, an option on mobile is 44px instead of 32
+  (there every row is of size `xl`, whatever the `size` of the `Select`); the header of a group is
+  the height of a row of its size plus 8px above it instead of 5 when it follows other rows, and a
+  group with an empty label — a separating line — takes 9px instead of 5 when it follows another row, and nothing at all as the first row of the list, as before — that
   zero is the default one, and `getOptionGroupHeight` overrides it like any other. The `itemHeight` handed to `renderOption` and `renderOptionGroup` carries those numbers, and
   so does the estimate the virtualizer is given.
 

@@ -18,26 +18,26 @@ $block: '.#{variables.$ns}select-clear';
     }
 
     &_size_s {
-        height: #{variables.$s-height};
-        width: #{variables.$s-height};
+        height: #{variables.$height-s};
+        width: #{variables.$height-s};
         border-radius: var(--g-border-radius-s);
     }
 
     &_size_m {
-        height: #{variables.$m-height};
-        width: #{variables.$m-height};
+        height: #{variables.$height-m};
+        width: #{variables.$height-m};
         border-radius: var(--g-border-radius-m);
     }
 
     &_size_l {
-        height: #{variables.$l-height};
-        width: #{variables.$l-height};
+        height: #{variables.$height-l};
+        width: #{variables.$height-l};
         border-radius: var(--g-border-radius-l);
     }
 
     &_size_xl {
-        height: #{variables.$xl-height};
-        width: #{variables.$xl-height};
+        height: #{variables.$height-xl};
+        width: #{variables.$height-xl};
         border-radius: var(--g-border-radius-xl);
     }
 

@@ -145,40 +145,6 @@ export const Simple: Story = {
     },
 };
 
-type City = {id: number; name: string};
-
-const CITIES: City[] = [
-    {id: 1, name: 'Amsterdam'},
-    {id: 2, name: 'Berlin'},
-    {id: 3, name: 'Lisbon'},
-];
-const CITY_OPTIONS = CITIES.map((city) => ({value: city, content: city.name}));
-const getCityKey = (city: City) => String(city.id);
-
-export const NonStringValues: Story = {
-    tags: ['!dev'],
-    decorators: [WithTitle],
-    args: {...showcaseArgs, multiple: true},
-    render: function NonStringValuesStory({view, size, multiple, filterable, disabled}) {
-        const [value, setValue] = React.useState<City[]>([CITIES[1]]);
-
-        return (
-            <Select
-                view={view}
-                size={size}
-                multiple={multiple}
-                filterable={filterable}
-                disabled={disabled}
-                placeholder="Cities"
-                options={CITY_OPTIONS}
-                getValueKey={getCityKey}
-                value={value}
-                onUpdate={setValue}
-            />
-        );
-    },
-};
-
 export const WithGroups: Story = {
     tags: ['!dev'],
     decorators: [WithTitle],

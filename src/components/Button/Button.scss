@@ -96,7 +96,7 @@ $block: '.#{variables.$ns}button';
 
     &_size {
         &_xs {
-            --_--height: #{variables.$xs-height};
+            --_--height: #{variables.$height-xs};
             --_--border-radius: var(--g-border-radius-xs);
             --_--padding: 6px;
             --_--icon-space: 12px;
@@ -104,7 +104,7 @@ $block: '.#{variables.$ns}button';
         }
 
         &_s {
-            --_--height: #{variables.$s-height};
+            --_--height: #{variables.$height-s};
             --_--border-radius: var(--g-border-radius-s);
             --_--padding: 8px;
             --_--icon-space: 16px;
@@ -112,7 +112,7 @@ $block: '.#{variables.$ns}button';
         }
 
         &_m {
-            --_--height: #{variables.$m-height};
+            --_--height: #{variables.$height-m};
             --_--border-radius: var(--g-border-radius-m);
             --_--padding: 12px;
             --_--icon-space: 16px;
@@ -120,7 +120,7 @@ $block: '.#{variables.$ns}button';
         }
 
         &_l {
-            --_--height: #{variables.$l-height};
+            --_--height: #{variables.$height-l};
             --_--border-radius: var(--g-border-radius-l);
             --_--padding: 16px;
             --_--icon-space: 16px;
@@ -128,7 +128,7 @@ $block: '.#{variables.$ns}button';
         }
 
         &_xl {
-            --_--height: #{variables.$xl-height};
+            --_--height: #{variables.$height-xl};
             --_--border-radius: var(--g-border-radius-xl);
             --_--padding: 24px;
             --_--icon-space: 20px;

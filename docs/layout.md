@@ -131,8 +131,8 @@ The default breakpoints are:
 - `m` - ≥ 768px;
 - `l` - ≥ 1080px;
 - `xl` - ≥ 1200px;
-- `xxl` - ≥ 1400px;
-- `xxxl` - ≥ 1920px;
+- `2xl` - ≥ 1400px;
+- `3xl` - ≥ 1920px;
 
 To override a breakpoint use the `breakpoints` property in the layout config:
 
@@ -227,7 +227,7 @@ import {Row, Col} from '@gravity-ui/uikit';
     // Will be:
     // 12 for "xs" and "s"
     // 6 for "m" and "l"
-    // 4 for "xl" and "xxl"
+    // 4 for "xl" and "2xl"
     size={[12, {m: 6, xl: 4}]}
   />
 </Row>;
@@ -283,7 +283,7 @@ _Responsible example_
 import {Flex, TextInput, Button} from '@gravity-ui/uikit';
 
 <Flex
-  // direction: column will be applied to l, xl, xxl, xxxl screen sizes here
+  // direction: column will be applied to l, xl, 2xl, 3xl screen sizes here
   direction={{l: 'column'}}
   space={{s: '5', m: '3'}}
 >
@@ -320,12 +320,12 @@ const Component = () => {
 ```tsx
 import {useLayoutContext} from '@gravity-ui/uikit';
 
-// this example will be shown on xl, xxl and xxxl screen sizes
+// this example will be shown on xl, 2xl and 3xl screen sizes
 const Component = () => {
   const {isMediaActive} = useLayoutContext();
 
   return (
-    <>{isMediaActive('xl') ? <Text>I render on "xl", "xxl" and "xxxl" screen sizes</Text> : null}</>
+    <>{isMediaActive('xl') ? <Text>I render on "xl", "2xl" and "3xl" screen sizes</Text> : null}</>
   );
 };
 ```
@@ -338,7 +338,7 @@ import {useLayoutContext} from '@gravity-ui/uikit';
 const mapOfPropsByScreen = {
   s: "i'm will be shown on 's' and 'n' screen size",
   l: "i'm will be shown on 'l' and 'xl' screen size",
-  xxl: "i'm will be shown on 'xxl' and 'xxxl' screen size",
+  2xl: "i'm will be shown on '2xl' and '3xl' screen size",
 };
 
 const Component = () => {

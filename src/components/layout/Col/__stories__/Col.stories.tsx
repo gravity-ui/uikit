@@ -33,7 +33,7 @@ const meta = {
             },
         },
         controls: {
-            exclude: ['xs', 's', 'm', 'l', 'xl', 'xxl', 'xxxl'],
+            exclude: ['xs', 's', 'm', 'l', 'xl', '2xl', '3xl'],
         },
     },
     args: {
@@ -128,6 +128,6 @@ export const AllMods = {
         </LayoutPresenter>
     ),
     args: {
-        size: [12, {s: 6, m: 4, l: 3, xl: 2, xxl: 1}],
+        size: [12, {s: 6, m: 4, l: 3, xl: 2, '2xl': 1}],
     },
 } satisfies StoryObj<ColPropsAndCustomArgs>;

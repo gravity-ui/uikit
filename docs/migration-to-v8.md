@@ -10,6 +10,25 @@ says what changed, how to keep the old behavior for now, and where to go next.
 Components that are no longer developed move to the `@gravity-ui/uikit/legacy` entry point. Components still available
 there keep their API, but no removal date for `/legacy` is promised: plan the migration away from them.
 
+## Size names with multiple `x` characters
+
+Size names with two or more `x` characters now use a number followed by one `x`:
+
+| Before | After |
+| :----- | :---- |
+| `xxs`  | `2xs` |
+| `xxl`  | `2xl` |
+| `xxxl` | `3xl` |
+
+Update `Label size="xxs"` to `size="2xs"`. The corresponding CSS modifier changes from
+`.g-label_size_xxs` to `.g-label_size_2xs`; update custom selectors that target it.
+
+For layout, rename `xxl` and `xxxl` keys in `LayoutTheme.breakpoints` and responsive prop maps.
+If you use the deprecated `Col xxl` prop, move it to the `size` map as `{'2xl': value}`.
+`useLayoutContext().activeMediaQuery` now returns `2xl` or `3xl` at those widths, and
+`isMediaActive` accepts the new names. The breakpoint widths remain 1400px and 1920px.
+Single-`x` sizes such as `xs` and `xl` keep their names.
+
 ## React 18 minimum
 
 UIKit v8 requires React and React DOM 18 or 19. Upgrade both packages (and `@types/react`, if used) before installing

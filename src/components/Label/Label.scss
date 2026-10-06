@@ -134,8 +134,8 @@ $transition-timing-function: ease-in-out;
     }
 
     &_size {
-        &_xxs {
-            --_--height: #{variables.$xxs-height};
+        &_2xs {
+            --_--height: #{variables.$height-2xs};
             --_--border-radius: var(--g-border-radius-xs);
             --_--margin-inline: 6px;
             --_--margin-addon-start: 22px;

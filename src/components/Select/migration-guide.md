@@ -95,6 +95,10 @@ that sizes itself with CSS does not need it.
   and accessibility assertions keyed on the old id have to be rewritten — read the id from
   `aria-activedescendant` of the trigger rather than building it by hand: how a value is escaped
   belongs to the list and is not a contract.
+- **`label` names the trigger** instead of joining its value: a screen reader announces
+  "Fruit:, combobox, Apple" rather than "combobox, Fruit: Apple". Tests that find the trigger by
+  its role and name, or by its text together with the label, see the new name and value —
+  [Accessible name](./README.md#accessible-name).
 - **A group header is no longer an option**: it carries `role="presentation"` and is skipped by the
   count of `role="option"` rows — [Grouped list](./README.md#grouped-list).
 - The `data-qa` hooks are unchanged: `select-list` on the list and `list-active-item` on the active

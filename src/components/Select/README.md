@@ -583,6 +583,10 @@ export default function () {
 }
 SANDBOX-->
 
+## Accessible name
+
+The trigger needs a name: `label`, `aria-label`, `aria-labelledby` or a `<label htmlFor>` pointing at the `id` of the `Select`. `label` names the trigger and stays out of its value; a placeholder is not a name. With `renderControl` the label is not drawn, so name the custom control yourself.
+
 ## Advanced usage
 
 There are many ways to customize your `Select`.

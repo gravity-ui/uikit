@@ -372,5 +372,5 @@ size: 24, 28, 36 and 44px. Rows of size `l` and `xl` are 36 and 44px instead of 
 `Select` are 44px instead of 32. A section header of `List` and a group header of `Select` take the height of a row of
 their size. Fewer rows fit into a popup or a list of a fixed height. To keep a height of your own, set
 `--g-list-item-view-min-height` on the class of the list: `className` of `List` and `Menu`, `popupClassName` and
-`sheetClassName` of `Select`; the paddings and the headers follow it. The heights `Select` counts with — the
+`sheetClassName` of `Select`; the paddings of `List` and `Select` and the headers follow it. The heights `Select` counts with — the
 virtualizer estimate and `itemHeight` — come from `getOptionHeight` and `getOptionGroupHeight`.

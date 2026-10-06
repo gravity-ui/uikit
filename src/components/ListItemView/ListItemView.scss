@@ -21,7 +21,7 @@ $block: '.#{variables.$ns}list-item-view';
 */
 #{$block} {
     /* Sizes */
-    --_--min-height: var(--g-list-item-view-min-height, #{variables.$m-height});
+    --_--min-height: var(--g-list-item-view-min-height, #{variables.$height-m});
     --_--border-radius: var(--g-list-item-view-border-radius, var(--g-border-radius-m));
     --_--padding-inline: var(--g-list-item-view-padding-inline, var(--g-spacing-2));
     // As in the controls: a single line fills min-height exactly, more lines grow the row by lines
@@ -174,7 +174,7 @@ $block: '.#{variables.$ns}list-item-view';
 
     &_size {
         &_s {
-            --_--min-height: var(--g-list-item-view-min-height, #{variables.$s-height});
+            --_--min-height: var(--g-list-item-view-min-height, #{variables.$height-s});
             --_--border-radius: var(--g-list-item-view-border-radius, var(--g-border-radius-s));
             --_--padding-inline: var(--g-list-item-view-padding-inline, var(--g-spacing-2));
 
@@ -188,7 +188,7 @@ $block: '.#{variables.$ns}list-item-view';
         }
 
         &_m {
-            --_--min-height: var(--g-list-item-view-min-height, #{variables.$m-height});
+            --_--min-height: var(--g-list-item-view-min-height, #{variables.$height-m});
             --_--border-radius: var(--g-list-item-view-border-radius, var(--g-border-radius-m));
             --_--padding-inline: var(--g-list-item-view-padding-inline, var(--g-spacing-2));
 
@@ -202,7 +202,7 @@ $block: '.#{variables.$ns}list-item-view';
         }
 
         &_l {
-            --_--min-height: var(--g-list-item-view-min-height, #{variables.$l-height});
+            --_--min-height: var(--g-list-item-view-min-height, #{variables.$height-l});
             --_--border-radius: var(--g-list-item-view-border-radius, var(--g-border-radius-l));
             --_--padding-inline: var(--g-list-item-view-padding-inline, var(--g-spacing-2));
             --_--controls-gap: var(--g-list-item-view-controls-gap, var(--g-spacing-2));
@@ -215,7 +215,7 @@ $block: '.#{variables.$ns}list-item-view';
         }
 
         &_xl {
-            --_--min-height: var(--g-list-item-view-min-height, #{variables.$xl-height});
+            --_--min-height: var(--g-list-item-view-min-height, #{variables.$height-xl});
             --_--border-radius: var(--g-list-item-view-border-radius, var(--g-border-radius-xl));
             --_--padding-inline: var(--g-list-item-view-padding-inline, var(--g-spacing-2));
 

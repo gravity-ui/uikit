@@ -232,6 +232,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         activateOnHover,
         dragActive,
         effectiveActiveId,
+        cursorVisible,
     });
     latestRef.current = {
         rowById,
@@ -241,6 +242,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         activateOnHover,
         dragActive,
         effectiveActiveId,
+        cursorVisible,
     };
 
     const firstNavigableId = React.useMemo(() => rows.find(isNavigable)?.id, [rows]);
@@ -610,6 +612,12 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             onPointerLeave: () => {
                 pointerInsideRef.current = false;
             },
+            // Only a pointer that moves puts the cursor out (react-aria useFocusVisible)
+            onPointerMove: () => {
+                if (latestRef.current.cursorVisible) {
+                    setCursorVisible(false);
+                }
+            },
             onScroll: (event: React.UIEvent<HTMLElement>) => {
                 const activeId = latestRef.current.effectiveActiveId;
                 const element = activeId === undefined ? undefined : registry.getElement(activeId);
@@ -740,7 +748,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 }
                 latest.requestActive(id, 'focus');
             },
-            onPointerEnter: () => {
+            onPointerEnter: (event: React.PointerEvent<HTMLElement>) => {
                 // Hover moves the activity; suspended while dragging (synthetic-drag libraries
                 // would drag the highlight along)
                 const latest = latestRef.current;
@@ -748,10 +756,34 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 if (latest.dragActive || !currentRow || currentRow.disabled) {
                     return;
                 }
+                // Under the keyboard cursor the row may have come under a pointer at rest (react-aria)
+                if (latest.cursorVisible && event.pointerType !== 'touch') {
+                    return;
+                }
                 // The mouse puts the cursor out regardless of activateOnHover; leaving does not
                 // bring it back
                 setCursorVisible(false);
                 if (!latest.activateOnHover) {
+                    return;
+                }
+                latest.requestActive(currentRow.id, 'pointer');
+            },
+            onPointerMove: (event: React.PointerEvent<HTMLElement>) => {
+                const latest = latestRef.current;
+                if (latest.cursorVisible) {
+                    setCursorVisible(false);
+                }
+                const currentRow = latest.rowById.get(id);
+                // A finger moves to scroll, not to point; a row is requested once per approach
+                if (
+                    event.pointerType === 'touch' ||
+                    !latest.activateOnHover ||
+                    latest.dragActive ||
+                    !currentRow ||
+                    currentRow.disabled ||
+                    currentRow.id === latest.effectiveActiveId ||
+                    currentRow.id === requestedActiveIdRef.current
+                ) {
                     return;
                 }
                 latest.requestActive(currentRow.id, 'pointer');

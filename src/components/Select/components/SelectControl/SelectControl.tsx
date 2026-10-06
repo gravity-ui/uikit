@@ -28,7 +28,7 @@ import './SelectControl.scss';
 
 type ControlProps = {
     toggleOpen: () => void;
-    renderControl?: SelectRenderControl;
+    renderControl?: SelectRenderControl<HTMLElement, any>;
     renderCounter?: SelectRenderCounter;
     view: NonNullable<SelectProps['view']>;
     size: NonNullable<SelectProps['size']>;
@@ -41,7 +41,9 @@ type ControlProps = {
     isErrorVisible?: boolean;
     errorMessage?: SelectProps['errorMessage'];
     disabled?: boolean;
-    value: NonNullable<SelectProps['value']>;
+    value: unknown[];
+    /** The values that count as selected: an empty one without an option does not */
+    selectedCount: number;
     clearValue: () => void;
     hasClear?: boolean;
     hasCounter?: boolean;
@@ -77,6 +79,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         open,
         disabled,
         value,
+        selectedCount,
         hasClear,
         popupId,
         selectId,
@@ -85,9 +88,9 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         hasCounter,
         title,
     } = props;
-    const showOptionsText = Boolean(selectedOptionsContent);
-    const showPlaceholder = Boolean(placeholder && !showOptionsText);
-    const hasValue = Array.isArray(value) && value.filter(Boolean).length > 0;
+    const hasValue = selectedCount > 0;
+    // A selected option whose text is empty is still a value: the placeholder would deny it
+    const showPlaceholder = Boolean(placeholder && !hasValue);
 
     const direction = useDirection();
 
@@ -142,7 +145,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         if (!hasCounter) {
             return null;
         }
-        const count = value.length;
+        const count = selectedCount;
         const counterComponent = <SelectCounter count={count} size={size} disabled={disabled} />;
         return renderCounter
             ? renderCounter(counterComponent, {count, size, disabled})
@@ -150,8 +153,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
     };
 
     const renderClearIcon = (args: SelectRenderClearArgs) => {
-        const valueIsEmpty = value.length === 0;
-        if (!hasClear || valueIsEmpty || disabled) {
+        if (!hasClear || !hasValue || disabled) {
             return null;
         }
         return (
@@ -221,7 +223,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                     {showPlaceholder && (
                         <span className={selectControlBlock('placeholder')}>{placeholder}</span>
                     )}
-                    {showOptionsText && (
+                    {hasValue && (
                         <span className={selectControlBlock('option-text')}>
                             {selectedOptionsContent}
                         </span>

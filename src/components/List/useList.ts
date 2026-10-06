@@ -140,10 +140,32 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
 
     const pointerInsideRef = React.useRef(false);
 
+    // The row a pointer move asked for since the activity last changed
+    const hoverRequestedIdRef = React.useRef<string | null>(null);
+
+    // A row holds focus; outlives the unmount of the row, which sends no blur
+    const rowFocusedRef = React.useRef(false);
+
+    // The last input was Tab: focus that arrives now entered by it (a tap focuses after pointerup)
+    const tabPressedRef = React.useRef(false);
+
+    // A press elsewhere ends the focus of a row that is gone
+    React.useEffect(() => {
+        const handleDocumentPointerDown = (event: PointerEvent) => {
+            tabPressedRef.current = false;
+            if (!(event.target instanceof Node) || !containerRef.current?.contains(event.target)) {
+                rowFocusedRef.current = false;
+            }
+        };
+        document.addEventListener('pointerdown', handleDocumentPointerDown, true);
+        return () => document.removeEventListener('pointerdown', handleDocumentPointerDown, true);
+    }, []);
+
     // Any key pressed while the list holds DOM focus brings the cursor back (capture: nested
-    // widgets may stop propagation); bare modifiers do not count
+    // widgets may stop propagation); bare modifiers do not count. Tab is noted for the entry
     React.useEffect(() => {
         const handleDocumentKeyDown = (event: KeyboardEvent) => {
+            tabPressedRef.current = event.key === 'Tab';
             if (event.metaKey || event.ctrlKey || event.altKey) {
                 return;
             }
@@ -223,29 +245,41 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         setActiveItemId(id);
     };
 
+    // Without an active row the list is entered at the selection (react-aria)
+    // Roving only: a focus owner (Select) picks its active row itself
+    const entryIds = React.useMemo(() => {
+        const navigable = rows.filter(isNavigable);
+        const selected =
+            focusStrategy === 'roving' ? navigable.filter((row) => selectedSet.has(row.id)) : [];
+        return {
+            first: (selected[0] ?? navigable[0])?.id,
+            last: (selected[selected.length - 1] ?? navigable[navigable.length - 1])?.id,
+        };
+    }, [rows, selectedSet, focusStrategy]);
+
     // Read at event time by row handlers: memoized rows keep stale closures
     const latestRef = React.useRef({
         rowById,
-        domIdToId,
         applyRow,
         requestActive,
         activateOnHover,
         dragActive,
         effectiveActiveId,
+        cursorVisible,
+        entryIds,
     });
     latestRef.current = {
         rowById,
-        domIdToId,
         applyRow,
         requestActive,
         activateOnHover,
         dragActive,
         effectiveActiveId,
+        cursorVisible,
+        entryIds,
     };
 
-    const firstNavigableId = React.useMemo(() => rows.find(isNavigable)?.id, [rows]);
-
-    const pinnedRowId = effectiveActiveId ?? firstNavigableId;
+    const pinnedRowId = effectiveActiveId ?? entryIds.first;
     const pinnedRowIndex = pinnedRowId === undefined ? -1 : (rowById.get(pinnedRowId)?.index ?? -1);
 
     const persistedRowIndexes = React.useMemo(() => {
@@ -305,11 +339,11 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             const keyboard = origin === 'keyboard';
             if (element && focusStrategy === 'roving') {
                 const focused = document.activeElement;
+                // Focus that went on elsewhere is not taken back
                 const rowFocused =
-                    focused instanceof HTMLElement &&
-                    containerRef.current !== null &&
-                    containerRef.current.contains(focused) &&
-                    latestRef.current.domIdToId.has(focused.id);
+                    rowFocusedRef.current &&
+                    (focused === document.body ||
+                        (containerRef.current !== null && containerRef.current.contains(focused)));
                 // preventScroll: focus() would center the row in Chromium
                 if ((keyboard || rowFocused) && focused !== element) {
                     element.focus({preventScroll: true});
@@ -374,6 +408,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
 
     const previousActiveIdRef = React.useRef(effectiveActiveId);
     useLayoutEffect(() => {
+        hoverRequestedIdRef.current = null;
         const previousActiveId = previousActiveIdRef.current;
         previousActiveIdRef.current = effectiveActiveId;
         if (
@@ -610,6 +645,12 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             onPointerLeave: () => {
                 pointerInsideRef.current = false;
             },
+            // Only a pointer that moves puts the cursor out (react-aria useFocusVisible)
+            onPointerMove: () => {
+                if (latestRef.current.cursorVisible) {
+                    setCursorVisible(false);
+                }
+            },
             onScroll: (event: React.UIEvent<HTMLElement>) => {
                 const activeId = latestRef.current.effectiveActiveId;
                 const element = activeId === undefined ? undefined : registry.getElement(activeId);
@@ -732,20 +773,50 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 latest.requestActive(currentRow.id, 'pointer');
                 latest.applyRow(currentRow, event, {range: event.shiftKey});
             },
-            onFocus: () => {
+            onFocus: (event: React.FocusEvent<HTMLElement>) => {
+                if (event.target === event.currentTarget) {
+                    rowFocusedRef.current = true;
+                }
                 const latest = latestRef.current;
                 const currentRow = latest.rowById.get(id);
                 if (!currentRow || currentRow.disabled) {
                     return;
                 }
+                const container = containerRef.current;
+                const from = event.relatedTarget;
+                if (
+                    event.target === event.currentTarget &&
+                    latest.effectiveActiveId === undefined &&
+                    tabPressedRef.current &&
+                    container !== null &&
+                    !container.contains(from)
+                ) {
+                    // Shift+Tab from below enters at the last entry (react-aria)
+                    const fromBelow =
+                        from !== null &&
+                        container.compareDocumentPosition(from) ===
+                            Node.DOCUMENT_POSITION_FOLLOWING;
+                    const entryId = fromBelow ? (latest.entryIds.last ?? id) : id;
+                    latest.requestActive(entryId, 'keyboard');
+                    return;
+                }
                 latest.requestActive(id, 'focus');
             },
-            onPointerEnter: () => {
+            onBlur: (event: React.FocusEvent<HTMLElement>) => {
+                if (event.target === event.currentTarget) {
+                    rowFocusedRef.current = false;
+                }
+            },
+            onPointerEnter: (event: React.PointerEvent<HTMLElement>) => {
                 // Hover moves the activity; suspended while dragging (synthetic-drag libraries
                 // would drag the highlight along)
                 const latest = latestRef.current;
                 const currentRow = latest.rowById.get(id);
                 if (latest.dragActive || !currentRow || currentRow.disabled) {
+                    return;
+                }
+                // Under the keyboard cursor the row may have come under a pointer at rest (react-aria)
+                if (latest.cursorVisible && event.pointerType !== 'touch') {
                     return;
                 }
                 // The mouse puts the cursor out regardless of activateOnHover; leaving does not
@@ -754,6 +825,27 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 if (!latest.activateOnHover) {
                     return;
                 }
+                latest.requestActive(currentRow.id, 'pointer');
+            },
+            onPointerMove: (event: React.PointerEvent<HTMLElement>) => {
+                const latest = latestRef.current;
+                if (latest.cursorVisible) {
+                    setCursorVisible(false);
+                }
+                const currentRow = latest.rowById.get(id);
+                // A finger moves to scroll; a request the parent rejected is not repeated
+                if (
+                    event.pointerType === 'touch' ||
+                    !latest.activateOnHover ||
+                    latest.dragActive ||
+                    !currentRow ||
+                    currentRow.disabled ||
+                    currentRow.id === latest.effectiveActiveId ||
+                    currentRow.id === hoverRequestedIdRef.current
+                ) {
+                    return;
+                }
+                hoverRequestedIdRef.current = currentRow.id;
                 latest.requestActive(currentRow.id, 'pointer');
             },
         };

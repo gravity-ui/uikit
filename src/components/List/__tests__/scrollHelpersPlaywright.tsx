@@ -13,6 +13,7 @@ interface Row {
 export interface ScrollTestControls {
     activate(id: string): void;
     insertAbove(): void;
+    remove(id: string): void;
 }
 
 declare global {
@@ -75,6 +76,7 @@ export function ScrollTestList({
             activate: setActive,
             insertAbove: () =>
                 setRows((current) => [...makeRows('Earlier', 30, false), ...current]),
+            remove: (id) => setRows((current) => current.filter((row) => row.id !== id)),
         };
     }, []);
 

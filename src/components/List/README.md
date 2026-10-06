@@ -182,7 +182,7 @@ is read.
 
 A disabled item drops out of every interaction: hover and clicks do not activate it, the arrows,
 `Home`/`End` and typeahead skip it, gestures never select it, and a list whose active item is not
-set puts its tab stop on the first enabled item instead. It stays in the list for a screen reader
+set puts its tab stop on an enabled item instead. It stays in the list for a screen reader
 (`aria-disabled`, plus `data-disabled` for your CSS), and a controlled `selectedIds` may still
 contain it.
 
@@ -459,8 +459,10 @@ working with the keyboard, and the highlight matches the input in use.
 
 DOM focus follows the active item as long as a row of the list holds it — under the mouse as well
 — so the focused row, the active row and the tab stop are always one and the same, and `Tab` leaves
-the list from anywhere. Focus is never taken from the outside: while it is elsewhere on the page,
-or inside the interactive content of a cell, hover moves only the highlight and the tab stop.
+the list from anywhere. While nothing is active, `Tab` enters the list at the first selected row
+(`Shift`+`Tab` — at the last), or at the first row (the last) when nothing is selected. Focus is
+never taken from the outside: while it is elsewhere on the page, or inside the interactive content
+of a cell, hover moves only the highlight and the tab stop.
 
 The dark cursor is drawn by the list the user is driving: working with the mouse puts it out (the
 row under the pointer is highlighted by the CSS `:hover` instead), and so does the focus leaving the
@@ -936,7 +938,7 @@ with the name of its section. What is left to you:
 | dnd                 | Turns the drag-and-drop layer on (an adapter); wins over `ListDndContext`                                                  |                         `ListDndAdapter<T>`                         |                                      |
 | role                | The ARIA role: `grid` for rows with interactive content                                                                    |                        `'listbox' \| 'grid'`                        |             `'listbox'`              |
 | focusOwner          | An external focus owner (`useListFocusOwner`)                                                                              |                          `ListFocusOwner`                           |                                      |
-| activateOnHover     | Activation on hover                                                                                                        |                              `boolean`                              |                `true`                |
+| activateOnHover     | Activation on hover: a row is activated by a pointer that moves, not by rows coming under a pointer at rest                |                              `boolean`                              |                `true`                |
 | renderItem          | A custom render of a row                                                                                                   |                      `(ctx, helpers) => node`                       |                                      |
 | id                  | The base of the row ids and the target of an external `aria-controls`                                                      |                              `string`                               |         an auto-generated id         |
 | size                | The size of the rows                                                                                                       |                     `'s' \| 'm' \| 'l' \| 'xl'`                     |                `'m'`                 |

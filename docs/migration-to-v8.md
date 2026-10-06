@@ -259,6 +259,18 @@ The control is wrapped in a new wrapper element `g-select__anchor` between the r
 (`g-select-control`). Update selectors that rely on the control being a direct child of the root, such as
 `.g-select > .g-select-control`.
 
+## Select `renderSelectedOption`
+
+`renderSelectedOption(option, index)` is removed. `renderSelectedOptions(options)` is called once with the whole
+selection, so a summary such as "All ticket types" can be rendered without `renderControl`. Map the old function over
+the options to keep the old look — as before, separators between the options are up to it; see the
+[Select guide](../src/components/Select/migration-guide.md):
+
+```diff
+- <Select renderSelectedOption={renderOne} />
++ <Select renderSelectedOptions={(options) => options.map(renderOne)} />
+```
+
 ## Table and TableColumnSetup
 
 `Table`, its HOCs (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`,

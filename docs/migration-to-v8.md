@@ -15,6 +15,16 @@ there keep their API, but no removal date for `/legacy` is promised: plan the mi
 UIKit v8 requires React and React DOM 18 or 19. Upgrade both packages (and `@types/react`, if used) before installing
 v8. React 16 and 17 are no longer supported.
 
+## `configure` and `getConfig`
+
+Each call to `configure` now creates a new configuration object. A previously saved result of `getConfig()` no longer
+reflects later changes. If you need the current configuration after calling `configure`, call `getConfig()` again:
+
+```ts
+configure({lang: 'ru'});
+const {lang} = getConfig(); // 'ru'
+```
+
 ## Button and Link `extraProps`
 
 `Button` and `Link` no longer accept `extraProps`. Pass native element props directly to the component, including

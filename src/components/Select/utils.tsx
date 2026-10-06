@@ -11,14 +11,14 @@ import {
     SIZE_TO_ITEM_HEIGHT,
 } from './constants';
 import type {Option, OptionGroup} from './tech-components';
-import type {SelectOption, SelectOptionGroup, SelectProps, SelectSize} from './types';
+import type {SelectOptionGroupProps, SelectOptionProps, SelectProps, SelectSize} from './types';
 
 // "disable" property needs to deactivate group title item in List
 export type GroupTitleItem<T = any> = {label: string; disabled: true; data?: T};
 
 /** An option inside the Select: the type of its value stays with the consumer */
-export type AnySelectOption<T = any> = SelectOption<T, unknown>;
-type AnySelectOptionGroup = SelectOptionGroup<unknown, unknown>;
+export type AnySelectOption<T = any> = SelectOptionProps<T, unknown>;
+type AnySelectOptionGroup = SelectOptionGroupProps<unknown, unknown>;
 export type AnySelectOptions = (AnySelectOption | AnySelectOptionGroup)[];
 
 /** The getters of the props as the internals call them — with an option of any value */
@@ -53,8 +53,8 @@ export const getSelectValueKey = (
 
 /**
  * A group of the list: the header row plus its options — a section of the List core. The shape of
- * a `SelectOptionGroup` is kept (`label`, `data`, `options`): the node is what `renderOptionGroup`
- * and `getOptionGroupHeight` receive
+ * a `SelectOptionGroupProps` is kept (`label`, `data`, `options`): the node is what
+ * `renderOptionGroup` and `getOptionGroupHeight` receive
  */
 export type SelectGroupNode<T = any> = GroupTitleItem<T> & {
     id: string;
@@ -149,7 +149,7 @@ const asText = (content: React.ReactNode): string | undefined => {
  * text of its own. Call it from a `getOptionText` of your own to fall back to the default for the
  * rest of the options
  */
-export const getSelectOptionText = <V,>(option: SelectOption<unknown, V>): string => {
+export const getSelectOptionText = <V,>(option: SelectOptionProps<unknown, V>): string => {
     const text = asText(option.content) ?? asText(option.children);
 
     if (text !== undefined) {

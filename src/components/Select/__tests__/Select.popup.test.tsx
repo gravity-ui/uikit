@@ -9,7 +9,7 @@ import {SheetQa} from '../../Sheet/constants';
 import {block, modsClassName} from '../../utils/cn';
 import {Select} from '../Select';
 import {GROUP_ITEM_MARGIN_TOP, SelectQa} from '../constants';
-import type {SelectOption, SelectRenderOptionViewParams, SelectSize} from '../types';
+import type {SelectOptionProps, SelectRenderOptionViewParams, SelectSize} from '../types';
 
 import {DEFAULT_OPTIONS, GROUPED_OPTIONS, TEST_QA, setup, timeout} from './utils';
 
@@ -236,7 +236,7 @@ describe('Select popup', () => {
         ],
     ])('should pass selected to renderOption (%s)', async (_type, {multiple, value, expected}) => {
         const renderOption = jest.fn(
-            (option: SelectOption, _params: SelectRenderOptionViewParams) => (
+            (option: SelectOptionProps, _params: SelectRenderOptionViewParams) => (
                 <span>{option.value}</span>
             ),
         );

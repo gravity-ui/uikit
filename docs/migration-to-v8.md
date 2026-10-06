@@ -271,6 +271,26 @@ the options to keep the old look — as before, separators between the options a
 + <Select renderSelectedOptions={(options) => options.map(renderOne)} />
 ```
 
+## Select option names
+
+The types of the options and the components for them are named after `Select.Option`, as in
+`SegmentedRadioGroup`. There are no aliases for the old names:
+
+| Before                      | After                         |
+| :-------------------------- | :---------------------------- |
+| type `SelectOption`         | type `SelectOptionProps`      |
+| type `SelectOptionGroup`    | type `SelectOptionGroupProps` |
+| component `SelectItem`      | component `SelectOption`      |
+| component `SelectItemGroup` | component `SelectOptionGroup` |
+
+```diff
+- import {SelectItem, type SelectOption} from '@gravity-ui/uikit';
++ import {SelectOption, type SelectOptionProps} from '@gravity-ui/uikit';
+```
+
+The old `SelectOption` or `SelectOptionGroup` used as a type now fails with "'SelectOption' refers to a value, but is
+being used as a type here": replace it with `SelectOptionProps` or `SelectOptionGroupProps`.
+
 ## Table and TableColumnSetup
 
 `Table`, its HOCs (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`,

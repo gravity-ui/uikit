@@ -5,7 +5,7 @@ import {test} from '~playwright/core';
 
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {Select} from '../Select';
-import type {SelectOption, SelectProps} from '../types';
+import type {SelectOptionProps, SelectProps} from '../types';
 
 import {
     baseOptions,
@@ -282,7 +282,7 @@ test.describe('Select', {tag: '@Select'}, () => {
     test.describe('option states', () => {
         const render = (mount: MountFixture, props?: SelectProps) => {
             const {options: propsOptions, ...restProps} = props || {};
-            const options = (propsOptions || baseOptions) as SelectOption[];
+            const options = (propsOptions || baseOptions) as SelectOptionProps[];
 
             return mount(
                 <div style={{height: 120}}>

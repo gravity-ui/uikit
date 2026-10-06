@@ -270,6 +270,25 @@ menu: {
 + <Select renderSelectedOptions={(options) => options.map(renderOne)} />
 ```
 
+## Имена опций Select
+
+Типы опций и компоненты для них названы по `Select.Option`, как в `SegmentedRadioGroup`. Алиасов для старых имён нет:
+
+| Было                        | Стало                         |
+| :-------------------------- | :---------------------------- |
+| тип `SelectOption`          | тип `SelectOptionProps`       |
+| тип `SelectOptionGroup`     | тип `SelectOptionGroupProps`  |
+| компонент `SelectItem`      | компонент `SelectOption`      |
+| компонент `SelectItemGroup` | компонент `SelectOptionGroup` |
+
+```diff
+- import {SelectItem, type SelectOption} from '@gravity-ui/uikit';
++ import {SelectOption, type SelectOptionProps} from '@gravity-ui/uikit';
+```
+
+Старые `SelectOption` и `SelectOptionGroup` в роли типа теперь дают ошибку «'SelectOption' refers to a value, but is
+being used as a type here» — замените их на `SelectOptionProps` и `SelectOptionGroupProps`.
+
 ## Table и TableColumnSetup
 
 `Table`, его HOC (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`, `withTableSorting`) и

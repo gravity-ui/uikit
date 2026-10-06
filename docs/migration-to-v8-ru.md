@@ -160,11 +160,11 @@ menu: {
 Старые компоненты `Breadcrumbs`, `Popover` и `Tabs`, их типы и связанные экспорты больше не доступны из
 `@gravity-ui/uikit/legacy`. Замените их актуальными компонентами из `@gravity-ui/uikit`:
 
-| Удалённый компонент | Замена                                                                           | Руководство по миграции                                                          |
-| :------------------ | :------------------------------------------------------------------------------- | :------------------------------------------------------------------------------- |
-| `Breadcrumbs`       | [`Breadcrumbs`](../src/components/Breadcrumbs/README-ru.md)                      | [Пропсы, элементы и рендеринг](../src/components/Breadcrumbs/migration-guide.md) |
-| `Popover`           | [`Popover`](../src/components/Popover/README.md)                                 | [Содержимое и поведение](../src/components/Popover/migration-guide.md)           |
-| `Tabs`              | [`TabList`, `Tab`, `TabProvider` и `TabPanel`](../src/components/tabs/README.md) | [Элементы и выбор вкладки](../src/components/tabs/migration-guide.md)            |
+| Удалённый компонент | Замена                                                                           | Руководство по миграции                                              |
+| :------------------ | :------------------------------------------------------------------------------- | :------------------------------------------------------------------- |
+| `Breadcrumbs`       | [`Breadcrumbs`](../src/components/Breadcrumbs/README-ru.md)                      | [Пропсы, элементы и рендеринг](migration-from-legacy-breadcrumbs.md) |
+| `Popover`           | [`Popover`](../src/components/Popover/README.md)                                 | [Содержимое и поведение](migration-from-legacy-popover.md)           |
+| `Tabs`              | [`TabList`, `Tab`, `TabProvider` и `TabPanel`](../src/components/tabs/README.md) | [Элементы и выбор вкладки](migration-from-legacy-tabs.md)            |
 
 В v8 для этих компонентов нет временной точки импорта. Замены уже доступны из корневой точки входа в v7, поэтому
 мигрировать можно до обновления. Остальные legacy-компоненты остаются доступными.
@@ -282,7 +282,7 @@ menu: {
 `renderSelectedOption(option, index)` удалён. `renderSelectedOptions(options)` вызывается один раз со всем выбором,
 поэтому сводку вроде «All ticket types» можно отрисовать без `renderControl`. Чтобы сохранить прежний вид, примените
 старую функцию к каждой опции — разделители между опциями, как и раньше, на ней; см.
-[гайд Select](../src/components/Select/migration-guide.md):
+[гайд Select](migration-select-v8.md):
 
 ```diff
 - <Select renderSelectedOption={renderOne} />

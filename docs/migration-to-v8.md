@@ -160,11 +160,11 @@ no longer closes automatically when an ancestor scrolls.
 The legacy `Breadcrumbs`, `Popover` and `Tabs` components, their types and related exports are no longer available
 from `@gravity-ui/uikit/legacy`. Replace them with the current components from `@gravity-ui/uikit`:
 
-| Removed legacy component | Replacement                                                                        | Migration guide                                                                |
-| :----------------------- | :--------------------------------------------------------------------------------- | :----------------------------------------------------------------------------- |
-| `Breadcrumbs`            | [`Breadcrumbs`](../src/components/Breadcrumbs/README.md)                           | [Props, items and rendering](../src/components/Breadcrumbs/migration-guide.md) |
-| `Popover`                | [`Popover`](../src/components/Popover/README.md)                                   | [Content and behavior](../src/components/Popover/migration-guide.md)           |
-| `Tabs`                   | [`TabList`, `Tab`, `TabProvider` and `TabPanel`](../src/components/tabs/README.md) | [Items and selection](../src/components/tabs/migration-guide.md)               |
+| Removed legacy component | Replacement                                                                        | Migration guide                                                    |
+| :----------------------- | :--------------------------------------------------------------------------------- | :----------------------------------------------------------------- |
+| `Breadcrumbs`            | [`Breadcrumbs`](../src/components/Breadcrumbs/README.md)                           | [Props, items and rendering](migration-from-legacy-breadcrumbs.md) |
+| `Popover`                | [`Popover`](../src/components/Popover/README.md)                                   | [Content and behavior](migration-from-legacy-popover.md)           |
+| `Tabs`                   | [`TabList`, `Tab`, `TabProvider` and `TabPanel`](../src/components/tabs/README.md) | [Items and selection](migration-from-legacy-tabs.md)               |
 
 There is no temporary import path for these components in v8. The replacements are already available from the root
 entry point in v7, so you can migrate before upgrading. Other legacy components remain available.
@@ -283,7 +283,7 @@ The control is wrapped in a new wrapper element `g-select__anchor` between the r
 `renderSelectedOption(option, index)` is removed. `renderSelectedOptions(options)` is called once with the whole
 selection, so a summary such as "All ticket types" can be rendered without `renderControl`. Map the old function over
 the options to keep the old look — as before, separators between the options are up to it; see the
-[Select guide](../src/components/Select/migration-guide.md):
+[Select guide](migration-select-v8.md):
 
 ```diff
 - <Select renderSelectedOption={renderOne} />

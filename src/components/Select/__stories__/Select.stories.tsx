@@ -6,6 +6,7 @@ import {escapeRegExp} from 'es-toolkit';
 import {useArgs} from 'storybook/preview-api';
 
 import {Select, getSelectOptionText} from '..';
+import type {SelectOption} from '..';
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
 import {Text} from '../../Text';
@@ -142,6 +143,54 @@ export const Simple: Story = {
                 <Select.Option value="val3" content="Value3" />
                 <Select.Option value="val4" content="Value4" />
             </Select>
+        );
+    },
+};
+
+const LETTER_OPTIONS = [
+    {value: 'a', content: 'A'},
+    {value: 'b', content: 'B'},
+];
+const NULLABLE_CASES: {
+    title: string;
+    options: SelectOption<unknown, unknown>[];
+    value: unknown[];
+}[] = [
+    {
+        title: "'' with an option: a value",
+        options: [{value: '', content: 'Any'}, ...LETTER_OPTIONS],
+        value: [''],
+    },
+    {title: "'' without an option: no value", options: LETTER_OPTIONS, value: ['']},
+    {title: 'null without an option: no value', options: LETTER_OPTIONS, value: [null]},
+    {title: '0 without an option: a value', options: LETTER_OPTIONS, value: [0]},
+    {title: "['', 'a']: the counter shows 1", options: LETTER_OPTIONS, value: ['', 'a']},
+];
+
+export const NullableValues: Story = {
+    tags: ['!dev'],
+    decorators: [WithTitle],
+    args: {...showcaseArgs, multiple: true, hasClear: true, hasCounter: true},
+    render: function NullableValuesStory({view, size, multiple, hasClear, hasCounter}) {
+        return (
+            <Flex direction="column" gap={2}>
+                {NULLABLE_CASES.map(({title, options, value}) => (
+                    <Flex key={title} gap={2} alignItems="center">
+                        <Select<unknown, unknown>
+                            view={view}
+                            size={size}
+                            multiple={multiple}
+                            hasClear={hasClear}
+                            hasCounter={hasCounter}
+                            width={200}
+                            placeholder="Letter"
+                            options={options}
+                            defaultValue={value}
+                        />
+                        <Text color="secondary">{title}</Text>
+                    </Flex>
+                ))}
+            </Flex>
         );
     },
 };

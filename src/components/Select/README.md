@@ -246,9 +246,34 @@ An object value has no text of its own: give the option a string `content` or pa
 A `Select.Option` child takes a string unless its type is named: `<Select.Option<unknown, number>
 value={1}>`; the Select itself takes the type from `value` or a typed `onUpdate={(value: number[]) =>
 …}`. A selected value with no option is shown by its key; keep its option in `options` or render it
-with `renderSelectedOption`. `''`, `null` and `undefined` without an option count as no value; with
-an option declared they are ordinary values. A form submits keys, not values. In a union type `1`
+with `renderSelectedOption`. A form submits keys, not values. In a union type `1`
 and `"1"` share a key and are one value.
+
+### Nullable values
+
+`''`, `null` and `undefined` mean no value unless an option declares them. Without an option such a
+value has no text, clear button, count or form field, while `value` and `onUpdate` keep it as is.
+`0` and `false` are always values.
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+// No value: the placeholder, no clear button
+<Select options={[{value: 'a', content: 'A'}]} value={['']} placeholder="Letter" hasClear />
+
+// A value: the text "Any", the clear button
+<Select
+  options={[{value: '', content: 'Any'}, {value: 'a', content: 'A'}]}
+  value={['']}
+  placeholder="Letter"
+  hasClear
+/>
+
+// The counter shows 1: '' has no option
+<Select options={[{value: 'a', content: 'A'}]} value={['', 'a']} multiple hasCounter />
+```
+
+<!--/GITHUB_BLOCK-->
 
 ## Selecting multiple options
 

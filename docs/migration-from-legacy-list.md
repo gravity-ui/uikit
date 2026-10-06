@@ -399,9 +399,9 @@ In v8 the CSS block of the legacy list is `g-list-legacy`, and `.g-list` is the 
 | `.g-list__item_selected`, `.g-list__item_inactive`, `.g-list__item_dragging`             | `data-selected`, `data-disabled`, `data-dragging` on the row                    |
 | `.g-list__item_sortable`, `.g-list__item_sort-handle-align_*`, `.g-list__item-sort-icon` | The row and the handle of [the kit](../src/components/HelloPangeaDnd/README.md) |
 | `.g-list_mobile`, `.g-list__items_virtualized`                                           | —                                                                               |
-| `--g-list-item-padding`                                                                  | `padding` in a class of your own, see below                                     |
+| `--g-list-item-padding`                                                                  | `--g-list-item-view-padding-inline` and `--g-list-item-view-padding-block`      |
 
-A `List.ItemView` row is tuned with the variables of its [CSS API](../src/components/ListItemView/README.md#css-api). The colour variables apply to a row of any size. The geometry — the paddings, the minimum height, the corner radius — is assigned by `size`, and its variables are not read by the rows of the list: set the properties themselves in a class of your own, passed with `getItemProps({className})`. The rows of the legacy list were square, and `border-radius: 0` brings that back.
+A `List.ItemView` row is tuned with the variables of its [CSS API](../src/components/ListItemView/README.md#css-api). The variables apply to a row of any size; `size` only supplies the default geometry — the paddings, the minimum height, the corner radius. The rows of the legacy list were square, and `--g-list-item-view-border-radius: 0` brings that back.
 
 ```diff
 - .playlist .g-list__item_active {
@@ -412,14 +412,10 @@ A `List.ItemView` row is tuned with the variables of its [CSS API](../src/compon
 - }
 + .playlist {
 +   --g-list-item-view-background-color-hover: var(--g-color-base-generic-hover);
-+ }
-+ .playlist .playlist__row {
-+   padding-inline: 12px;
-+   border-radius: 0;
++   --g-list-item-view-padding-inline: 12px;
++   --g-list-item-view-border-radius: 0;
 + }
 ```
-
-The selector is nested so that it wins over the class of the view in any order of the stylesheets.
 
 A row drawn with markup of your own in `renderItem` is styled by the [data attributes](../src/components/List/README.md#data-attributes) of the row. `data-active` stays on the last active row after the pointer has left, so draw the hover with `:hover` and the keyboard cursor by `ctx.state.cursorVisible`.
 

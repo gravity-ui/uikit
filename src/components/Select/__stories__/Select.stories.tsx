@@ -6,13 +6,17 @@ import {escapeRegExp} from 'es-toolkit';
 import {useArgs} from 'storybook/preview-api';
 
 import {Select, getSelectOptionText} from '..';
+import type {SelectProps} from '..';
 import {Button} from '../../Button';
+import {Checkbox} from '../../Checkbox';
 import {Icon} from '../../Icon';
+import {Radio} from '../../Radio';
 import {Text} from '../../Text';
 import {Tooltip} from '../../Tooltip';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {TextInput} from '../../controls';
 import {Flex} from '../../layout';
+import {MobileProvider} from '../../mobile';
 import {block} from '../../utils/cn';
 
 import {SelectPopupWidthShowcase} from './SelectPopupWidthShowcase';
@@ -224,6 +228,65 @@ export const WithUserOptions: Story = {
                     <Select.Option value="val6" content="Value4" data={{color: 'yellow'}} />
                 </Select.OptionGroup>
             </Select>
+        );
+    },
+};
+
+const LANGUAGES = [
+    {value: 'js', content: 'JavaScript'},
+    {value: 'python', content: 'Python'},
+    {value: 'ruby', content: 'Ruby'},
+    {value: 'rust', content: 'Rust'},
+];
+
+function renderControlOption(Control: typeof Radio | typeof Checkbox): SelectProps['renderOption'] {
+    return function renderOption(option, {selected}) {
+        return (
+            <span className={b('control-option')}>
+                {/* Decoration: out of focus and the a11y tree (React 19: `inert`) */}
+                <span {...{inert: ''}} className={b('control-option-indicator')}>
+                    <Control value={option.value} checked={selected} />
+                </span>
+                {option.content}
+            </span>
+        );
+    };
+}
+
+export const WithMobileCustomOptions: Story = {
+    tags: ['!dev'],
+    decorators: [WithTitle],
+    args: showcaseArgs,
+    render: (args) => {
+        const [single, setSingle] = React.useState<string[]>([]);
+        const [multiple, setMultiple] = React.useState<string[]>([]);
+        const props = {
+            ...args,
+            label: 'Language',
+            options: LANGUAGES,
+            selectionStyle: 'none',
+            sheetClassName: b('mobile-sheet'),
+        } satisfies SelectProps;
+
+        return (
+            <MobileProvider mobile>
+                <Flex gap={2}>
+                    <Select
+                        {...props}
+                        multiple={false}
+                        value={single}
+                        onUpdate={setSingle}
+                        renderOption={renderControlOption(Radio)}
+                    />
+                    <Select
+                        {...props}
+                        multiple
+                        value={multiple}
+                        onUpdate={setMultiple}
+                        renderOption={renderControlOption(Checkbox)}
+                    />
+                </Flex>
+            </MobileProvider>
         );
     },
 };

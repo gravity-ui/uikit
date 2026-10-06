@@ -908,7 +908,7 @@ const renderSelectedOptions: SelectProps['renderSelectedOptions'] = (selected) =
 
 ### Rendering options with different heights
 
-A row is as tall as its content, and no shorter than the minimum of its `size` (24, 28, 32 and 36 pixels; on mobile every row takes the 36 of `xl`) — unless you set the height yourself. If you need to render options with different heights, you can use the `option.data` property. It will store information about what height you need to set for the options, as well as the `getOptionHeight` property to set this value: the number it returns becomes the height of the row and the estimate the [virtualizer](#virtualized-list) positions the rows with.
+A row is as tall as its content, and no shorter than the minimum of its `size` (24, 28, 36 and 44 pixels, as the control of the same size; on mobile every row takes the 44 of `xl`) — unless you set the height yourself. If you need to render options with different heights, you can use the `option.data` property. It will store information about what height you need to set for the options, as well as the `getOptionHeight` property to set this value: the number it returns becomes the height of the row and the estimate the [virtualizer](#virtualized-list) positions the rows with.
 
 <!--SANDBOX
 import type {SelectProps} from '@gravity-ui/uikit';

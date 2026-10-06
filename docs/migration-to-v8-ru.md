@@ -10,6 +10,22 @@
 Компоненты, которые больше не развиваются, переезжают в точку входа `@gravity-ui/uikit/legacy`. У компонентов,
 оставшихся в `/legacy`, API сохраняется, но дата удаления этой точки входа не обещается: запланируйте уход с них.
 
+## Минимальная версия React 18
+
+Для UIKit v8 нужны React и React DOM версии 18 или 19. Перед установкой v8 обновите оба пакета (и `@types/react`, если
+используете его). React 16 и 17 больше не поддерживаются.
+
+## `configure` и `getConfig`
+
+Каждый вызов `configure` теперь создаёт новый объект конфигурации. Ранее сохранённый результат `getConfig()` больше не
+отражает последующие изменения. Чтобы получить актуальную конфигурацию после вызова `configure`, вызовите `getConfig()`
+ещё раз:
+
+```ts
+configure({lang: 'ru'});
+const {lang} = getConfig(); // 'ru'
+```
+
 ## `extraProps` у Button и Link
 
 `Button` и `Link` больше не принимают `extraProps`. Передавайте стандартные пропсы элемента напрямую компоненту,
@@ -28,6 +44,38 @@
 - <Link href="/help" extraProps={{target: '_blank'}}>Помощь</Link>
 + <Link href="/help" target="_blank">Помощь</Link>
 ```
+
+## Проп `error` у TextInput, PasswordInput, TextArea и Select
+
+`TextInput`, `PasswordInput`, `TextArea` и `Select` больше не принимают устаревший проп `error`. Для состояния ошибки используйте
+`validationState="invalid"`, а для текста ошибки — `errorMessage`:
+
+```diff
+- <TextInput error="Обязательное поле" />
++ <TextInput validationState="invalid" errorMessage="Обязательное поле" />
+- <TextArea error />
++ <TextArea validationState="invalid" />
+- <Select error={hasError} />
++ <Select validationState={hasError ? 'invalid' : undefined} />
+- <TextInput error={errorText} />
++ <TextInput validationState={errorText ? 'invalid' : undefined} errorMessage={errorText} />
+```
+
+Замена одинакова для всех четырёх компонентов. Если `error` был единственным признаком ошибки, ложные значения (`false`,
+`''` и `undefined`) не включали состояние ошибки.
+
+## Проп `onKeyPress` у TextInput, PasswordInput, TextArea и NumberInput
+
+Эти компоненты больше не принимают устаревший проп `onKeyPress` на верхнем уровне. Используйте `onKeyDown`:
+
+```diff
+- <TextInput onKeyPress={handleKeyPress} />
++ <TextInput onKeyDown={handleKeyDown} />
+```
+
+В отличие от `onKeyPress`, `onKeyDown` вызывается для клавиш без символа и при вводе через IME, а его `event.charCode`
+равен `0`. Проверяйте `event.key` и при необходимости `event.nativeEvent.isComposing`. Чтобы временно сохранить прежнее
+поведение, передайте компоненту `controlProps={{onKeyPress: handleKeyPress}}`.
 
 ## Menu и DropdownMenu
 

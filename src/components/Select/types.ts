@@ -146,10 +146,6 @@ export type SelectProps<T = any> = AriaLabelingProps &
         value?: string[];
         defaultValue?: string[];
         options?: (SelectOption<T> | SelectOptionGroup<T>)[];
-        /**
-         * @deprecated Prop `error` has a lower priority than `errorMessage`. Use `errorMessage` instead
-         */
-        error?: string | boolean;
         /** Determines content of the error message */
         errorMessage?: React.ReactNode;
         /** Determines whether the error message will be placed under the input field as text or in the tooltip */

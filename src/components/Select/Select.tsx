@@ -7,7 +7,6 @@ import {useControlledState, useFocusWithin, useForkRef, useSelect, useUniqId} fr
 import {useListFocusOwner} from '../List';
 import {ListVirtualizationContext} from '../List/VirtualizationContext';
 import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
-import {errorPropsMapper} from '../controls/utils';
 import {useMobile} from '../mobile';
 import {useDefaultProps} from '../theme/useDefaultProps';
 import type {CnMods} from '../utils/cn';
@@ -91,7 +90,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         width,
         popupWidth,
         popupPlacement,
-        error,
         view = 'normal',
         size = 'm',
         pin = 'round-round',
@@ -210,12 +208,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         );
     }
 
-    const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
-        error,
-        errorMessage: props.errorMessage,
-        errorPlacement: props.errorPlacement || 'outside',
-        validationState: props.validationState,
-    });
+    const {errorMessage, validationState, errorPlacement = 'outside'} = props;
     const errorMessageId = useUniqId();
 
     const isErrorStateVisible = validationState === 'invalid';

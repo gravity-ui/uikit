@@ -10,6 +10,21 @@ says what changed, how to keep the old behavior for now, and where to go next.
 Components that are no longer developed move to the `@gravity-ui/uikit/legacy` entry point. Components still available
 there keep their API, but no removal date for `/legacy` is promised: plan the migration away from them.
 
+## React 18 minimum
+
+UIKit v8 requires React and React DOM 18 or 19. Upgrade both packages (and `@types/react`, if used) before installing
+v8. React 16 and 17 are no longer supported.
+
+## `configure` and `getConfig`
+
+Each call to `configure` now creates a new configuration object. A previously saved result of `getConfig()` no longer
+reflects later changes. If you need the current configuration after calling `configure`, call `getConfig()` again:
+
+```ts
+configure({lang: 'ru'});
+const {lang} = getConfig(); // 'ru'
+```
+
 ## Button and Link `extraProps`
 
 `Button` and `Link` no longer accept `extraProps`. Pass native element props directly to the component, including
@@ -28,6 +43,38 @@ Referer header is not sent.
 - <Link href="/help" extraProps={{target: '_blank'}}>Help</Link>
 + <Link href="/help" target="_blank">Help</Link>
 ```
+
+## TextInput, PasswordInput, TextArea, and Select `error`
+
+`TextInput`, `PasswordInput`, `TextArea`, and `Select` no longer accept the deprecated `error` prop. Use
+`validationState="invalid"` to show the error state and `errorMessage` to show its message:
+
+```diff
+- <TextInput error="Required field" />
++ <TextInput validationState="invalid" errorMessage="Required field" />
+- <TextArea error />
++ <TextArea validationState="invalid" />
+- <Select error={hasError} />
++ <Select validationState={hasError ? 'invalid' : undefined} />
+- <TextInput error={errorText} />
++ <TextInput validationState={errorText ? 'invalid' : undefined} errorMessage={errorText} />
+```
+
+The same replacement applies to all four components. When `error` was the only state signal, falsy values (`false`,
+`''`, or `undefined`) did not set the invalid state.
+
+## TextInput, PasswordInput, TextArea, and NumberInput `onKeyPress`
+
+These components no longer accept the deprecated top-level `onKeyPress` prop. Use `onKeyDown` instead:
+
+```diff
+- <TextInput onKeyPress={handleKeyPress} />
++ <TextInput onKeyDown={handleKeyDown} />
+```
+
+Unlike `onKeyPress`, `onKeyDown` fires for non-character keys and during IME composition, and its `event.charCode` is
+`0`. Check `event.key` and, if needed, `event.nativeEvent.isComposing`. To keep the old behavior temporarily, pass
+`controlProps={{onKeyPress: handleKeyPress}}` to the component.
 
 ## Menu and DropdownMenu
 

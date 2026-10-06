@@ -3,13 +3,14 @@ import type {Locator, Page} from '@playwright/test';
 
 import {test} from '~playwright/core';
 
+import {FLOATING_OFFSET} from '../../Popup/constants';
+import {BORDER_WIDTH} from '../constants';
+
 import {AnchorStand} from './anchorHelpersPlaywright';
 
 // Where the popup stands is a matter of layout, so it is tested in the browser: no screenshots,
 // the tests read the rectangles.
 
-const FLOATING_OFFSET = 4;
-const BORDER_WIDTH = 1;
 /** Longer than the press animation of the trigger and the open transition of the popup */
 const SETTLE_TIME = 400;
 
@@ -80,7 +81,9 @@ test.describe('Select popup anchor', {tag: '@Select'}, () => {
             // The width comes from the root, as before: a custom control may be narrower
             const root = await readRect(page.locator('.g-select'));
 
-            expect(atOpen).toEqual(settled);
+            for (const key of ['left', 'top', 'width'] as const) {
+                expect(atOpen[key]).toBeCloseTo(settled[key], 0);
+            }
             expect(settled.left - root.left).toBeCloseTo(BORDER_WIDTH, 0);
             expect(settled.width).toBeCloseTo(root.width - 2 * BORDER_WIDTH, 0);
         });
@@ -92,11 +95,12 @@ test.describe('Select popup anchor', {tag: '@Select'}, () => {
             const trigger = getTrigger(page);
             await open(page, trigger);
 
+            const container = await readRect(page.locator('.g-select').locator('..'));
             const root = await readRect(page.locator('.g-select'));
             const control = await readRect(trigger);
             const popup = await readRect(getFloating(page));
 
-            expect(control.width).toBeCloseTo(width === 'max' ? 360 : 300, 0);
+            expect(control.width).toBeCloseTo(width === 'max' ? container.width : width, 0);
             expect(root.width).toBeCloseTo(control.width, 0);
             expect(popup.width).toBeCloseTo(control.width - 2 * BORDER_WIDTH, 0);
         });

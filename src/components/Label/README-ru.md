@@ -206,7 +206,7 @@ import {Label} from '@gravity-ui/uikit';
 export default function () {
     return (
         <>
-            <Label size="xxs">XXS size</Label>
+            <Label size="2xs">2XS size</Label>
             <Label size="xs">XS size</Label>
             <Label size="s">S size</Label>
             <Label size="m">M size</Label>
@@ -218,7 +218,7 @@ SANDBOX-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<Label size="xxs">XXS size</Label>
+<Label size="2xs">2XS size</Label>
 <Label size="xs">XS size</Label>
 <Label size="s">S size</Label>
 <Label size="m">M size</Label>
@@ -243,7 +243,7 @@ SANDBOX-->
 | onCloseClick     | Обработчик события `click` по кнопке закрытия.                                    |               `Function`                |                       |
 | onCopy           | Обработчик события `copy`.                                                        |               `Function`                |                       |
 | qa               | HTML-атрибут `data-qa`, используется для тестирования.                            |                `string`                 |                       |
-| size             | Размер лейбла.                                                                    |       `"xxs"` `"xs"` `"s"` `"m"`        |        `"xs"`         |
+| size             | Размер лейбла.                                                                    |       `"2xs"` `"xs"` `"s"` `"m"`        |        `"xs"`         |
 | theme            | Тема лейбла.                                                                      |                `string`                 |      `"normal"`       |
 | title            | HTML-атрибут `title`.                                                             |                `string`                 |                       |
 | type             | Тип лейбла.                                                                       | `"default"` `"copy"` `"close"` `"info"` |      `"default"`      |

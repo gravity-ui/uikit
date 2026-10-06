@@ -7,8 +7,8 @@ const mediaByOrder: MediaProps<number> = {
     m: 2,
     l: 3,
     xl: 4,
-    xxl: 5,
-    xxxl: 6,
+    '2xl': 5,
+    '3xl': 6,
 };
 
 export const isMediaActiveFactory =
@@ -19,7 +19,7 @@ export const isMediaActiveFactory =
             : false;
     };
 
-const mediaOrder = ['xs', 's', 'm', 'l', 'xl', 'xxl', 'xxxl'] as const;
+const mediaOrder = ['xs', 's', 'm', 'l', 'xl', '2xl', '3xl'] as const;
 
 export const getClosestMediaPropsFactory =
     (currentActive: MediaType) =>

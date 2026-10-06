@@ -10,25 +10,25 @@ $blockButton: '.#{variables.$ns}select-control__button';
     @if $size == 's' {
         --_--text-right-padding: #{select-css-variables.$s-hor-padding};
         --_--border-radius: var(--g-border-radius-s);
-        height: #{variables.$s-height};
+        height: #{variables.$height-s};
         padding-inline: calc(var(--_--text-right-padding) + 1px); // plus border-width
     }
     @if $size == 'm' {
         --_--text-right-padding: #{select-css-variables.$m-hor-padding};
         --_--border-radius: var(--g-border-radius-m);
-        height: #{variables.$m-height};
+        height: #{variables.$height-m};
         padding-inline: calc(var(--_--text-right-padding) + 1px); // plus border-width
     }
     @if $size == 'l' {
         --_--text-right-padding: #{select-css-variables.$l-hor-padding};
         --_--border-radius: var(--g-border-radius-l);
-        height: #{variables.$l-height};
+        height: #{variables.$height-l};
         padding-inline: calc(var(--_--text-right-padding) + 1px); // plus border-width
     }
     @if $size == 'xl' {
         --_--text-right-padding: #{select-css-variables.$xl-hor-padding};
         --_--border-radius: var(--g-border-radius-xl);
-        height: #{variables.$xl-height};
+        height: #{variables.$height-xl};
         padding-inline: calc(var(--_--text-right-padding) + 1px); // plus border-width
     }
 }
@@ -51,16 +51,16 @@ $blockButton: '.#{variables.$ns}select-control__button';
 @mixin block_clear_reserved_disabled_width() {
     // reserving place for clear icon to fix width changing on displaying clear for disabled select
     #{$block}_has-clear#{$block}_size_s #{$blockButton}_disabled & {
-        padding-inline-end: calc(#{variables.$s-height} + var(--_--text-right-padding));
+        padding-inline-end: calc(#{variables.$height-s} + var(--_--text-right-padding));
     }
     #{$block}_has-clear#{$block}_size_m #{$blockButton}_disabled & {
-        padding-inline-end: calc(#{variables.$m-height} + var(--_--text-right-padding));
+        padding-inline-end: calc(#{variables.$height-m} + var(--_--text-right-padding));
     }
     #{$block}_has-clear#{$block}_size_l #{$blockButton}_disabled & {
-        padding-inline-end: calc(#{variables.$l-height} + var(--_--text-right-padding));
+        padding-inline-end: calc(#{variables.$height-l} + var(--_--text-right-padding));
     }
     #{$block}_has-clear#{$block}_size_xl #{$blockButton}_disabled & {
-        padding-inline-end: calc(#{variables.$xl-height} + var(--_--text-right-padding));
+        padding-inline-end: calc(#{variables.$height-xl} + var(--_--text-right-padding));
     }
 }
 

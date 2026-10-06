@@ -29,6 +29,38 @@ Referer header is not sent.
 + <Link href="/help" target="_blank">Help</Link>
 ```
 
+## TextInput, PasswordInput, TextArea, and Select `error`
+
+`TextInput`, `PasswordInput`, `TextArea`, and `Select` no longer accept the deprecated `error` prop. Use
+`validationState="invalid"` to show the error state and `errorMessage` to show its message:
+
+```diff
+- <TextInput error="Required field" />
++ <TextInput validationState="invalid" errorMessage="Required field" />
+- <TextArea error />
++ <TextArea validationState="invalid" />
+- <Select error={hasError} />
++ <Select validationState={hasError ? 'invalid' : undefined} />
+- <TextInput error={errorText} />
++ <TextInput validationState={errorText ? 'invalid' : undefined} errorMessage={errorText} />
+```
+
+The same replacement applies to all four components. When `error` was the only state signal, falsy values (`false`,
+`''`, or `undefined`) did not set the invalid state.
+
+## TextInput, PasswordInput, TextArea, and NumberInput `onKeyPress`
+
+These components no longer accept the deprecated top-level `onKeyPress` prop. Use `onKeyDown` instead:
+
+```diff
+- <TextInput onKeyPress={handleKeyPress} />
++ <TextInput onKeyDown={handleKeyDown} />
+```
+
+Unlike `onKeyPress`, `onKeyDown` fires for non-character keys and during IME composition, and its `event.charCode` is
+`0`. Check `event.key` and, if needed, `event.nativeEvent.isComposing`. To keep the old behavior temporarily, pass
+`controlProps={{onKeyPress: handleKeyPress}}` to the component.
+
 ## Menu and DropdownMenu
 
 `Menu` and `DropdownMenu` from the root entry point have moved to `@gravity-ui/uikit/legacy`. To keep their current

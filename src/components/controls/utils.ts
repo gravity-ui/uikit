@@ -18,32 +18,3 @@ export const getInputControlState = (
 ): InputControlState | undefined => {
     return validationStateProp === 'invalid' ? 'error' : undefined;
 };
-
-export const errorPropsMapper = (
-    errorProps: Pick<
-        BaseInputControlProps,
-        'error' | 'errorMessage' | 'errorPlacement' | 'validationState'
-    >,
-) => {
-    const {
-        error: errorProp,
-        errorMessage: errorMessageProp,
-        errorPlacement,
-        validationState: validationStateProp,
-    } = errorProps;
-
-    let errorMessage: BaseInputControlProps['errorMessage'];
-    if (typeof errorProp === 'string') {
-        errorMessage = errorProp;
-    }
-    if (errorMessageProp) {
-        errorMessage = errorMessageProp;
-    }
-
-    let validationState: BaseInputControlProps['validationState'];
-    if (validationStateProp === 'invalid' || Boolean(errorProp)) {
-        validationState = 'invalid';
-    }
-
-    return {errorMessage, errorPlacement, validationState};
-};

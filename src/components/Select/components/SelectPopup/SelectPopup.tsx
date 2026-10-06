@@ -30,6 +30,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             children,
             className,
             sheetClassName,
+            sheetTitle,
             disablePortal,
             virtualized,
             mobile,
@@ -47,6 +48,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             <Sheet
                 qa={SelectQa.SHEET}
                 className={sheetClassName}
+                title={sheetTitle}
                 visible={Boolean(open)}
                 onClose={handleClose}
             >

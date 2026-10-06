@@ -2,16 +2,20 @@ import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {render} from '../../../../test-utils/utils';
+import {render, screen} from '../../../../test-utils/utils';
 import {Dialog} from '../../Dialog';
 import {TRANSITION_DURATION} from '../../Popup/constants';
+import {SheetQa} from '../../Sheet/constants';
+import {block, modsClassName} from '../../utils/cn';
 import {Select} from '../Select';
 import {GROUP_ITEM_MARGIN_TOP, SelectQa} from '../constants';
-import type {SelectSize} from '../types';
+import type {SelectOption, SelectRenderOptionViewParams, SelectSize} from '../types';
 
 import {DEFAULT_OPTIONS, GROUPED_OPTIONS, TEST_QA, setup, timeout} from './utils';
 
 const onUpdate = jest.fn();
+const listItemViewBlock = block('list-item-view');
+const SELECTED_ROW_CLASS = modsClassName(listItemViewBlock({selected: true}));
 describe('Select popup', () => {
     test('should apply user class names to select and popup', async () => {
         const className = 'user-select-class';
@@ -205,6 +209,82 @@ describe('Select popup', () => {
         expect(isItemActiveValues).toContain(true);
         expect(isItemActiveValues).toContain(false);
     });
+
+    test('should title the sheet with the label', async () => {
+        const label = 'Language';
+        const {getByTestId} = setup({options: DEFAULT_OPTIONS, onUpdate, label}, true);
+
+        const user = userEvent.setup();
+        await user.click(getByTestId(TEST_QA));
+
+        expect(getByTestId(SheetQa.TITLE)).toHaveTextContent(label);
+        expect(screen.getByRole('dialog', {name: label})).toBeInTheDocument();
+    });
+
+    test.each([
+        [
+            'single',
+            {multiple: false, value: ['python'], expected: {js: false, python: true, ruby: false}},
+        ],
+        [
+            'multiple',
+            {
+                multiple: true,
+                value: ['js', 'python'],
+                expected: {js: true, python: true, ruby: false},
+            },
+        ],
+    ])('should pass selected to renderOption (%s)', async (_type, {multiple, value, expected}) => {
+        const renderOption = jest.fn(
+            (option: SelectOption, _params: SelectRenderOptionViewParams) => (
+                <span>{option.value}</span>
+            ),
+        );
+
+        const {getByTestId} = setup({
+            renderOption,
+            onUpdate,
+            options: DEFAULT_OPTIONS,
+            multiple,
+            value,
+        });
+
+        const user = userEvent.setup();
+        await user.click(getByTestId(TEST_QA));
+
+        // The last call of every option is what its row shows
+        const selectedByValue = Object.fromEntries(
+            renderOption.mock.calls.map(([option, params]) => [option.value, params.selected]),
+        );
+        expect(selectedByValue).toEqual(expected);
+    });
+
+    test.each([
+        ['single', 'auto', {multiple: false, highlight: true, check: false}],
+        ['single', 'none', {multiple: false, highlight: false, check: false}],
+        ['multiple', 'auto', {multiple: true, highlight: false, check: true}],
+        ['multiple', 'none', {multiple: true, highlight: false, check: false}],
+    ] as const)(
+        'should indicate the selection by selectionStyle (%s, %s)',
+        async (_type, selectionStyle, {multiple, highlight, check}) => {
+            const {getByTestId} = setup({
+                onUpdate,
+                options: DEFAULT_OPTIONS,
+                multiple,
+                value: ['python'],
+                selectionStyle,
+            });
+
+            const user = userEvent.setup();
+            await user.click(getByTestId(TEST_QA));
+
+            const row = screen.getByRole('option', {name: 'Python'});
+            expect(row).toHaveAttribute('aria-selected', 'true');
+            expect(row.classList.contains(SELECTED_ROW_CLASS)).toBe(highlight);
+            // eslint-disable-next-line testing-library/no-node-access
+            expect(Boolean(row.querySelector(`.${listItemViewBlock('icon')}`))).toBe(check);
+        },
+    );
 
     test('should close select popup on Escape key press', async () => {
         const {getByTestId, queryByTestId} = setup({

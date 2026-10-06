@@ -249,6 +249,15 @@ menu: {
 В событии `layerschange` больше нет устаревшего поля `meta.layersCount`. Чтобы получить число слоёв, используйте
 `meta.layers.length`. Функция `getLayersCount()` остаётся доступной.
 
+## Позиция попапа Select
+
+Попап `Select` позиционируется от контрола, а не от всего компонента: если под контролом показан текст ошибки
+(`errorPlacement="outside"`, по умолчанию), попап открывается сразу под контролом и, пока открыт, закрывает текст
+ошибки. Ширина попапа не изменилась. Вернуть прежнее положение нельзя.
+
+Контрол обёрнут в новую обёртку `g-select__anchor` между корнем и контролом (`g-select-control`). Обновите селекторы,
+которые рассчитывают на то, что контрол — прямой потомок корня, например `.g-select > .g-select-control`.
+
 ## Table и TableColumnSetup
 
 `Table`, его HOC (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`, `withTableSorting`) и

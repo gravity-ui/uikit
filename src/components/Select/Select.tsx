@@ -107,9 +107,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     } = props;
     const mobile = useMobile();
     const [filter, setFilter] = useControlledState(propsFilter, '', onFilterChange);
-    // to avoid problem with incorrect popper offset calculation
-    // for example: https://github.com/radix-ui/primitives/issues/1567
-    const controlWrapRef = React.useRef<HTMLDivElement>(null);
+    // The popup is anchored to a wrapper of the trigger: the trigger shrinks while pressed
+    const anchorRef = React.useRef<HTMLDivElement>(null);
     const controlRef = React.useRef<HTMLElement>(null);
     const filterRef = React.useRef<SelectFilterRef>(null);
     const handleControlRef = useForkRef(ref, controlRef);
@@ -373,42 +372,43 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
     return (
         <div
-            ref={controlWrapRef}
             className={selectBlock(mods, className)}
             {...focusWithinProps}
             style={inlineStyles}
             tabIndex={-1}
         >
-            <SelectControl
-                {...filterDOMProps(props, {labelable: true})}
-                toggleOpen={toggleOpen}
-                hasClear={hasClear}
-                clearValue={handleClearValue}
-                ref={handleControlRef}
-                className={controlClassName}
-                qa={qa}
-                view={view}
-                size={size}
-                pin={pin}
-                label={label}
-                placeholder={placeholder}
-                selectedOptionsContent={selectedOptionsContent}
-                isErrorVisible={isErrorStateVisible}
-                errorMessage={isErrorIconVisible ? errorMessage : undefined}
-                open={open}
-                disabled={disabled}
-                onKeyDown={handleControlKeyDown}
-                renderControl={renderControl}
-                value={value}
-                popupId={popupId}
-                selectId={selectId}
-                focusOwner={focusOwner}
-                hasCounter={multiple && hasCounter}
-                renderCounter={renderCounter}
-                title={title}
-            />
+            <div ref={anchorRef} className={selectBlock('anchor')}>
+                <SelectControl
+                    {...filterDOMProps(props, {labelable: true})}
+                    toggleOpen={toggleOpen}
+                    hasClear={hasClear}
+                    clearValue={handleClearValue}
+                    ref={handleControlRef}
+                    className={controlClassName}
+                    qa={qa}
+                    view={view}
+                    size={size}
+                    pin={pin}
+                    label={label}
+                    placeholder={placeholder}
+                    selectedOptionsContent={selectedOptionsContent}
+                    isErrorVisible={isErrorStateVisible}
+                    errorMessage={isErrorIconVisible ? errorMessage : undefined}
+                    open={open}
+                    disabled={disabled}
+                    onKeyDown={handleControlKeyDown}
+                    renderControl={renderControl}
+                    value={value}
+                    popupId={popupId}
+                    selectId={selectId}
+                    focusOwner={focusOwner}
+                    hasCounter={multiple && hasCounter}
+                    renderCounter={renderCounter}
+                    title={title}
+                />
+            </div>
             <SelectPopup
-                ref={controlWrapRef}
+                ref={anchorRef}
                 className={popupClassName}
                 sheetClassName={sheetClassName}
                 sheetTitle={label}

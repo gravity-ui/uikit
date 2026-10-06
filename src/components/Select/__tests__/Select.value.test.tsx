@@ -206,6 +206,12 @@ describe('Select with non-string values', () => {
             expect(getRow('None')).toHaveAttribute('aria-selected', 'true');
         });
 
+        test("`''` with an option of no text hides the placeholder", () => {
+            render(<Select qa={QA} placeholder="Pick" options={[{value: ''}]} value={['']} />);
+
+            expect(getControl()).not.toHaveTextContent('Pick');
+        });
+
         test.each([[''], [null]])('`%p` without an option is empty', (empty) => {
             const renderSelectedOption = jest.fn();
             render(

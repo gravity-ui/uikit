@@ -88,9 +88,9 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         hasCounter,
         title,
     } = props;
-    const showOptionsText = Boolean(selectedOptionsContent);
-    const showPlaceholder = Boolean(placeholder && !showOptionsText);
     const hasValue = selectedCount > 0;
+    // A selected option whose text is empty is still a value: the placeholder would deny it
+    const showPlaceholder = Boolean(placeholder && !hasValue);
 
     const direction = useDirection();
 
@@ -223,7 +223,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                     {showPlaceholder && (
                         <span className={selectControlBlock('placeholder')}>{placeholder}</span>
                     )}
-                    {showOptionsText && (
+                    {hasValue && (
                         <span className={selectControlBlock('option-text')}>
                             {selectedOptionsContent}
                         </span>

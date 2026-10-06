@@ -13,8 +13,8 @@ export const DEFAULT_LAYOUT_THEME: LayoutTheme = {
         // TODO BREAKING CHANGE: Set l to 980
         l: 1080,
         xl: 1200,
-        xxl: 1400,
-        xxxl: 1920,
+        '2xl': 1400,
+        '3xl': 1920,
     },
     spaceBaseSize: 4,
     components: {

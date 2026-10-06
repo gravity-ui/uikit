@@ -121,7 +121,7 @@ type FlexPropsWithTypedAttrs<T extends React.ElementType> = FlexProps<T> &
  * <Flex
  *  // space dynamically changes instead of current media query
  *  space={{s: '1', m: '5'}}
- *  // `flex-direction: column` will be applied to `l`, 'xl', 'xxl' and `xxxl` media queries
+ *  // `flex-direction: column` will be applied to `l`, 'xl', '2xl' and `3xl` media queries
  *  direction={{'s': 'column', 'm': 'row'}}
  * >
  *  {...}

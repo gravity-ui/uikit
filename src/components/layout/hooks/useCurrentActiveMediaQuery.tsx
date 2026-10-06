@@ -21,9 +21,9 @@ export const makeCurrentActiveMediaExpressions = (
     s: `(min-width: ${mediaToValue.s}px) and (max-width: ${mediaToValue.m - 1}px)`,
     m: `(min-width: ${mediaToValue.m}px) and (max-width: ${mediaToValue.l - 1}px)`,
     l: `(min-width: ${mediaToValue.l}px) and (max-width: ${mediaToValue.xl - 1}px)`,
-    xl: `(min-width: ${mediaToValue.xl}px) and (max-width: ${mediaToValue.xxl - 1}px)`,
-    xxl: `(min-width: ${mediaToValue.xxl}px) and (max-width: ${mediaToValue.xxxl - 1}px)`,
-    xxxl: `(min-width: ${mediaToValue.xxxl}px)`,
+    xl: `(min-width: ${mediaToValue.xl}px) and (max-width: ${mediaToValue['2xl'] - 1}px)`,
+    '2xl': `(min-width: ${mediaToValue['2xl']}px) and (max-width: ${mediaToValue['3xl'] - 1}px)`,
+    '3xl': `(min-width: ${mediaToValue['3xl']}px)`,
 });
 
 const safeMatchMedia = (query: string): MediaQueryList => {
@@ -49,8 +49,8 @@ class Queries {
             ['m', safeMatchMedia(mediaToExpressionMap.m)],
             ['l', safeMatchMedia(mediaToExpressionMap.l)],
             ['xl', safeMatchMedia(mediaToExpressionMap.xl)],
-            ['xxl', safeMatchMedia(mediaToExpressionMap.xxl)],
-            ['xxxl', safeMatchMedia(mediaToExpressionMap.xxxl)],
+            ['2xl', safeMatchMedia(mediaToExpressionMap['2xl'])],
+            ['3xl', safeMatchMedia(mediaToExpressionMap['3xl'])],
         ];
     }
 

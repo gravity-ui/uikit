@@ -16,9 +16,10 @@ describe('getClosestMediaPropsFactory', () => {
         expect(getClosestMediaPropsFactory('l')()).toEqual(undefined);
     });
     test('should return right value on age cases', () => {
-        expect(getClosestMediaPropsFactory('xxxl')({s: 's'})).toEqual('s');
-        expect(getClosestMediaPropsFactory('xxxl')()).toEqual(undefined);
-        expect(getClosestMediaPropsFactory('xxxl')({xxxl: 'xxxl'})).toEqual('xxxl');
+        expect(getClosestMediaPropsFactory('3xl')({s: 's'})).toEqual('s');
+        expect(getClosestMediaPropsFactory('3xl')()).toEqual(undefined);
+        expect(getClosestMediaPropsFactory('3xl')({'3xl': '3xl'})).toEqual('3xl');
+        expect(getClosestMediaPropsFactory('3xl')({'2xl': '2xl'})).toEqual('2xl');
     });
 });
 
@@ -26,10 +27,12 @@ describe('isMediaActiveFactory', () => {
     test('should detect mobile-first medias', () => {
         expect(isMediaActiveFactory('l')('l')).toBeTruthy();
         expect(isMediaActiveFactory('l')('m')).toBeTruthy();
+        expect(isMediaActiveFactory('3xl')('2xl')).toBeTruthy();
     });
     test('should detect wrong queries', () => {
         expect(isMediaActiveFactory('s')('m')).toBeFalsy();
         expect(isMediaActiveFactory('s')('l')).toBeFalsy();
+        expect(isMediaActiveFactory('2xl')('3xl')).toBeFalsy();
     });
 });
 

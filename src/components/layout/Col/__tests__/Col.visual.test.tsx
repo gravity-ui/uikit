@@ -62,7 +62,7 @@ test.describe('Col', {tag: '@Col'}, () => {
                     }
 
                     const props = {
-                        xxl: '1',
+                        '2xl': '1',
                         xl: '2',
                         l: '4',
                         m: '6',

@@ -19,7 +19,7 @@ import './Label.scss';
 const b = block('label');
 
 const iconSizeMap: Record<NonNullable<LabelProps['size']>, number> = {
-    xxs: 12,
+    '2xs': 12,
     xs: 12,
     s: 14,
     m: 16,
@@ -55,7 +55,7 @@ export interface LabelProps extends QAProps {
     /** Label type (plain, with copy text button, with close button, or with info icon) */
     type?: 'default' | 'copy' | 'close' | 'info';
     /** Label size */
-    size?: 'xxs' | 'xs' | 's' | 'm';
+    size?: '2xs' | 'xs' | 's' | 'm';
     /** Container width behavior */
     width?: 'auto';
     /** Browser title for Label */

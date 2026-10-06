@@ -33,12 +33,12 @@ interface ComputedMediaContext {
      * ```tsx
      * import {useLayoutContext} from '@gravity-ui/uikit';
      *
-     * // this example of code will be shown on l, xl, xxl and xxxl screen sizes
+     * // this example of code will be shown on l, xl, 2xl and 3xl screen sizes
      * const Component = () => {
      * const {isMediaActive} = useLayoutContext();
      *
      *  return (
-     *      <>{isMediaActive('xl') ? <Text>i'm rendering on "l", "xl", "xxl" and "xxxl" screen sizes</Text> : null}</>;
+     *      <>{isMediaActive('xl') ? <Text>i'm rendering on "l", "xl", "2xl" and "3xl" screen sizes</Text> : null}</>;
      *  );
      * };
      * ```
@@ -54,7 +54,7 @@ interface ComputedMediaContext {
      * const mapOfPropsByScreen = {
      *  s: "i'm will be shown on 's' and 'n' screen size",
      *  l: "i'm will be shown on 'l' and 'xl' screen size",
-     *  xxl: "i'm will be shown on 'xxl' and 'xxxl' screen size",
+     *  '2xl': "i'm will be shown on '2xl' and '3xl' screen size",
      * };
      *
      * const Component = () => {

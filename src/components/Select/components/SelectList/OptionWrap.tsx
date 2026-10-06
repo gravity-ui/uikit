@@ -1,17 +1,17 @@
 import type * as React from 'react';
 
 import {block} from '../../../utils/cn';
-import type {SelectOption} from '../../types';
+import type {AnySelectOption} from '../../utils';
 
 const b = block('select-list');
 
 type DefaultOptionProps = {
-    option: SelectOption;
+    option: AnySelectOption;
 };
 
 type OptionWrapProps = {
-    renderOption?: (option: SelectOption) => React.ReactElement;
-    option: SelectOption;
+    renderOption?: (option: AnySelectOption) => React.ReactElement;
+    option: AnySelectOption;
 };
 
 const DefaultOption = ({option}: DefaultOptionProps) => {

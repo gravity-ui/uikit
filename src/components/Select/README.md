@@ -116,9 +116,10 @@ asked for rather than stored, so one function covers every option instead of a f
 each of them.
 
 The `value` of an option identifies its row, so the values have to be unique across the whole list,
-groups included. The DOM `id` of the row is derived from it, and that id is what
-`aria-activedescendant` of the trigger points at — read it from there rather than building it by
-hand: the escaping of a value belongs to the list and is not a contract.
+groups included (for a [non-string value](#non-string-values) — its key). The DOM `id` of the row is
+derived from it, and that id is what `aria-activedescendant` of the trigger points at — read it from
+there rather than building it by hand: the escaping of a value belongs to the list and is not a
+contract.
 
 #### Grouped list
 
@@ -216,6 +217,64 @@ SANDBOX-->
 
 You can define and store unique data in each option by using the `option.data` property. This can be useful when you need to enrich the data when using the `onUpdate` callback or, for example, when drawing your options with `renderOption`.
 
+### Non-string values
+
+The value of an option can be of any type: the type of `value`, `defaultValue` and `onUpdate` follows
+the options. The Select knows a value by a string key — the id of its row, the field of a form and
+the comparison of two values all use it. A string is its own key, another primitive is turned into
+one with `String()`, and an object needs `getValueKey`. Values with equal keys are one value: an
+object from a new response selects the option it matches. Define `getValueKey` outside the component
+or memoize it, as `getOptionText`.
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+type City = {id: number; name: string};
+
+const getCityKey = (city: City) => String(city.id);
+
+<Select
+  options={cities.map((city) => ({value: city, content: city.name}))}
+  getValueKey={getCityKey}
+  onUpdate={(value) => setSelected(value)} // City[]
+/>;
+```
+
+<!--/GITHUB_BLOCK-->
+
+An object value has no text of its own: give the option a string `content` or pass `getOptionText`.
+A `Select.Option` child takes a string unless its type is named: `<Select.Option<unknown, number>
+value={1}>`; the Select itself takes the type from `value` or a typed `onUpdate={(value: number[]) =>
+…}`. A selected value with no option is shown by its key; keep its option in `options` or render it
+with `renderSelectedOption`. A form submits keys, not values. In a union type `1`
+and `"1"` share a key and are one value.
+
+### Nullable values
+
+`''`, `null` and `undefined` mean no value unless an option declares them. Without an option such a
+value has no text, clear button or count, a form sends it as `''`, while `value` and `onUpdate` keep
+it as is. `0` and `false` are always values.
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+// No value: the placeholder, no clear button
+<Select options={[{value: 'a', content: 'A'}]} value={['']} placeholder="Letter" hasClear />
+
+// A value: the text "Any", the clear button
+<Select
+  options={[{value: '', content: 'Any'}, {value: 'a', content: 'A'}]}
+  value={['']}
+  placeholder="Letter"
+  hasClear
+/>
+
+// The counter shows 1: '' has no option
+<Select options={[{value: 'a', content: 'A'}]} value={['', 'a']} multiple hasCounter />
+```
+
+<!--/GITHUB_BLOCK-->
+
 ## Selecting multiple options
 
 To enable multiple selection, use the `multiple` property. Its default value is `false`.
@@ -247,6 +306,9 @@ SANDBOX-->
 ```
 
 <!--/GITHUB_BLOCK-->
+
+Shift+click, Shift+↑/↓ and Shift+Space select a range of options, from the option chosen last to the
+target.
 
 ### Counter
 
@@ -1100,12 +1162,13 @@ SANDBOX-->
 | Name                                                         | Description                                                                                                                      | Type                                     | Default                                                  |
 | :----------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------- | :------------------------------------------------------- |
 | className                                                    | Control className                                                                                                                | `string`                                 |                                                          |
-| defaultValue                                                 | Default values that represent selected options in case of using an uncontrolled state                                            | `string[]`                               |                                                          |
+| defaultValue                                                 | Default values that represent selected options in case of using an uncontrolled state                                            | `V[]`                                    |                                                          |
 | disabled                                                     | Shows that the user cannot work with the control                                                                                 | `boolean`                                | `false`                                                  |
 | [filterable](#filtering-options)                             | Shows that select popup has a filter section                                                                                     | `boolean`                                | `false`                                                  |
 | filterOption                                                 | Used to compare option with filter                                                                                               | `function`                               |                                                          |
 | filterPlaceholder                                            | Default filter input placeholder text                                                                                            | `string`                                 |                                                          |
 | [getOptionText](#the-text-of-an-option)                      | The text of an option: the trigger, the filter and the search by the first letters use it                                        | `function`                               | string content, otherwise the value                      |
+| [getValueKey](#non-string-values)                            | The string key of a value: the id of its row, the form field, the equality of values                                             | `(value: V) => string`                   | the string itself, `String()` for another primitive      |
 | [getOptionHeight](#rendering-options-with-different-heights) | Used to set height of customized user options                                                                                    | `function`                               |                                                          |
 | getOptionGroupHeight                                         | Used to set height of customized user option group                                                                               | `function`                               |                                                          |
 | hasClear                                                     | Enables displaying icon for clearing selected options                                                                            | `boolean`                                | `false`                                                  |
@@ -1139,7 +1202,7 @@ SANDBOX-->
 | [renderPopup](#rendering-options-list)                       | Used to render options list content                                                                                              | `function`                               |                                                          |
 | [selectionStyle](#rendering-custom-options)                  | How a row shows that its option is selected: the check mark or highlight (`auto`) or nothing (`none`)                            | `'auto' \| 'none'`                       | `'auto'`                                                 |
 | [size](#size)                                                | Control / options size                                                                                                           | `string`                                 | `'m'`                                                    |
-| value                                                        | Values that represent selected options                                                                                           | `string[]`                               |                                                          |
+| value                                                        | Values that represent selected options                                                                                           | `V[]`                                    |                                                          |
 | view                                                         | Control view                                                                                                                     | `string`                                 | `'normal'`                                               |
 | [width](#control-width)                                      | Control width                                                                                                                    | `string \| number`                       | `undefined`                                              |
 | errorMessage                                                 | Error text                                                                                                                       | `string`                                 |                                                          |

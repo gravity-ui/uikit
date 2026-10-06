@@ -3,7 +3,8 @@
 import * as React from 'react';
 
 import {KeyCode} from '../../constants';
-import {useControlledState, useFocusWithin, useForkRef, useSelect, useUniqId} from '../../hooks';
+import {useControlledState, useFocusWithin, useForkRef, useUniqId} from '../../hooks';
+import {useOpenState} from '../../hooks/useSelect/useOpenState';
 import {useListFocusOwner} from '../List';
 import {ListVirtualizationContext} from '../List/VirtualizationContext';
 import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
@@ -25,23 +26,30 @@ import {VIRTUALIZATION_HINT_OPTIONS_COUNT, selectBlock} from './constants';
 import {useActiveItemId} from './hooks';
 import {getSelectFilteredOptions, useSelectOptions} from './hooks-public';
 import {Option, OptionGroup} from './tech-components';
-import type {SelectOption, SelectProps, SelectRenderPopup} from './types';
+import type {SelectProps, SelectRenderPopup} from './types';
 import type {SelectFilterRef} from './types-misc';
 import type {FlattenOption} from './utils';
 import {
     getGroupOfOption,
     getGroupsWithOptions,
     getOptionsFromChildren,
+    getSelectValueKey,
     getSelectedOptionsContent,
+    getSelectedValues,
+    getValueByKey,
     isSelectGroupTitle,
 } from './utils';
 
 import './Select.scss';
 
 //https://stackoverflow.com/a/58473012
-type SelectComponent = (<T = any>(
-    p: SelectProps<T> & {ref?: React.Ref<HTMLButtonElement>},
-) => React.ReactElement) & {Option: typeof Option} & {OptionGroup: typeof OptionGroup};
+// The last, non-generic signature is the one `React.ComponentProps` reads: it keeps the string value
+type SelectComponent = {
+    <T = any, V = string>(
+        p: SelectProps<T, V> & {ref?: React.Ref<HTMLButtonElement>},
+    ): React.ReactElement;
+    (p: SelectProps & {ref?: React.Ref<HTMLButtonElement>}): React.ReactElement;
+} & {Option: typeof Option} & {OptionGroup: typeof OptionGroup};
 
 export const DEFAULT_RENDER_POPUP: SelectRenderPopup = ({renderFilter, renderList}) => {
     return (
@@ -52,8 +60,11 @@ export const DEFAULT_RENDER_POPUP: SelectRenderPopup = ({renderFilter, renderLis
     );
 };
 
-export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function Select<T = any>(
-    rawProps: SelectProps<T>,
+// Inside, a value is only ever compared by its key: the type of it stays with the consumer
+type InnerSelectProps = SelectProps<any, unknown>;
+
+export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(function Select(
+    rawProps: InnerSelectProps,
     ref: React.Ref<HTMLButtonElement>,
 ) {
     const props = useDefaultProps('Select', rawProps);
@@ -70,6 +81,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         renderEmptyOptions,
         renderPopup = DEFAULT_RENDER_POPUP,
         getOptionText,
+        getValueKey,
         getOptionHeight,
         getOptionGroupHeight,
         filterOption,
@@ -81,7 +93,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         sheetClassName,
         qa,
         value: propsValue,
-        defaultValue,
+        defaultValue = [],
         defaultOpen,
         open: propsOpen,
         label,
@@ -121,17 +133,28 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     // width of the popup and for the modifier of the list
     const virtualized = React.useContext(ListVirtualizationContext) !== null;
 
-    const {value, open, toggleOpen, setValue, handleSelection, handleClearValue} = useSelect({
-        onUpdate,
-        value: propsValue,
-        defaultValue,
+    const [value, setValueState] = useControlledState(propsValue, defaultValue, onUpdate);
+    const getKey = React.useCallback(
+        (item: unknown) => getSelectValueKey(item, getValueKey),
+        [getValueKey],
+    );
+    const selectedKeys = React.useMemo(() => value.map(getKey), [value, getKey]);
+    const {open, toggleOpen} = useOpenState({
         defaultOpen,
-        multiple,
-        open: propsOpen,
         onClose,
         onOpenChange,
-        disabled,
+        open: propsOpen,
     });
+
+    const setValue = React.useCallback(
+        (nextValue: unknown[]) => {
+            if (!disabled) {
+                setValueState(nextValue);
+            }
+        },
+        [disabled, setValueState],
+    );
+    const handleClearValue = React.useCallback(() => setValue([]), [setValue]);
 
     React.useEffect(() => {
         if (!open && filterable && mobile) {
@@ -154,14 +177,34 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     // Which group an option came from: flattening loses the boundary, filtering keeps the objects
     const groupOfOption = getGroupOfOption(options);
     const groupsWithOptions = getGroupsWithOptions(options);
+    const selectedValues = React.useMemo(
+        () => getSelectedValues(options as FlattenOption[], value, getKey),
+        [options, value, getKey],
+    );
     const selectedOptionsContent = React.useMemo(() => {
-        return getSelectedOptionsContent(options, value, renderSelectedOption, getOptionText);
-    }, [options, value, renderSelectedOption, getOptionText]);
+        return getSelectedOptionsContent(
+            options,
+            selectedValues,
+            getKey,
+            renderSelectedOption,
+            getOptionText,
+        );
+    }, [options, selectedValues, getKey, renderSelectedOption, getOptionText]);
 
-    // A value identifies the row of an option, and the list keeps one row per id. Two options with
-    // one value were never two choices — clicking either applied the same value — but the message
-    // about it should come from the component the consumer is holding
-    const duplicateValue = React.useMemo(() => {
+    // The way back from the ids of the List: a selected value may have no option
+    const valueByKey = React.useMemo(
+        () => getValueByKey(options as FlattenOption[], value, getKey),
+        [options, value, getKey],
+    );
+    const handleSelectedUpdate = React.useCallback(
+        (keys: string[]) => setValue(keys.map((key) => valueByKey.get(key))),
+        [setValue, valueByKey],
+    );
+
+    // The key of a value identifies the row of an option, and the list keeps one row per id. Two
+    // options with one key were never two choices — clicking either applied the same value — but the
+    // message about it should come from the component the consumer is holding
+    const duplicateKey = React.useMemo(() => {
         if (process.env.NODE_ENV === 'production') {
             return undefined;
         }
@@ -173,19 +216,21 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 continue;
             }
 
-            if (seen.has(option.value)) {
-                return option.value;
+            const key = getKey(option.value);
+
+            if (seen.has(key)) {
+                return key;
             }
 
-            seen.add(option.value);
+            seen.add(key);
         }
 
         return undefined;
-    }, [options]);
+    }, [options, getKey]);
 
-    if (duplicateValue !== undefined) {
+    if (duplicateKey !== undefined) {
         warnOnce(
-            `[Select] More than one option has the value "${duplicateValue}". The value identifies the row of an option: such rows share one DOM id and all of them show the content of the last option — make the values unique.`,
+            `[Select] More than one option has the value "${duplicateKey}". The value identifies the row of an option: such rows share one DOM id and all of them show the content of the last option — make the values unique (or their \`getValueKey\`).`,
         );
     }
 
@@ -216,16 +261,11 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const isErrorIconVisible =
         isErrorStateVisible && Boolean(errorMessage) && errorPlacement === 'inside';
 
-    const handleOptionClick = React.useCallback(
-        (option?: SelectOption) => {
-            if (!option || option.disabled) {
-                return;
-            }
-
-            handleSelection(option);
-        },
-        [handleSelection],
-    );
+    const handleOptionAction = React.useCallback(() => {
+        if (!multiple) {
+            toggleOpen(false);
+        }
+    }, [multiple, toggleOpen]);
 
     const mods: CnMods = {
         ...(width === 'max' && {width}),
@@ -260,21 +300,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         options: filteredOptions,
         open,
         value,
+        getKey,
     });
-
-    const optionByValue = React.useMemo(() => {
-        const map = new Map<string, SelectOption>();
-
-        for (const option of filteredOptions) {
-            if (!isSelectGroupTitle(option)) {
-                map.set(option.value, option);
-            }
-        }
-
-        return map;
-    }, [filteredOptions]);
-
-    const activeOption = activeItemId === undefined ? undefined : optionByValue.get(activeItemId);
 
     const handleActiveItemUpdate = React.useCallback(
         (id: string | null) => {
@@ -287,16 +314,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         (e: React.KeyboardEvent<HTMLElement>) => {
             // prevent dialog closing in case of item selection by Enter/Spacebar keydown
             if ([KeyCode.ENTER, KeyCode.SPACEBAR].includes(e.key) && open) {
-                // Enter is applied by the core, and so is a Space that continues a search by the
-                // first letters (the core marks it as handled) — the rest of the spaces are the
-                // gesture of the Select
-                const handledByList = e.defaultPrevented;
-
                 e.preventDefault();
-
-                if (e.key === KeyCode.SPACEBAR && !handledByList) {
-                    handleOptionClick(activeOption);
-                }
             }
             if ([KeyCode.ARROW_DOWN, KeyCode.ARROW_UP].includes(e.key) && !open) {
                 e.preventDefault();
@@ -306,7 +324,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 toggleOpen(false);
             }
         },
-        [activeOption, handleOptionClick, open, toggleOpen],
+        [open, toggleOpen],
     );
 
     const handleFilterKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLElement>) => {
@@ -340,14 +358,16 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             return (
                 <SelectList
                     size={size}
-                    value={value}
+                    selectedKeys={selectedKeys}
+                    getKey={getKey}
                     mobile={mobile}
                     flattenOptions={filteredOptions}
                     groupOfOption={groupOfOption}
                     groupsWithOptions={groupsWithOptions}
                     multiple={multiple}
                     virtualized={virtualized}
-                    onOptionClick={handleOptionClick}
+                    onSelectedUpdate={handleSelectedUpdate}
+                    onOptionAction={handleOptionAction}
                     renderOption={renderOption}
                     renderOptionGroup={renderOptionGroup}
                     selectionStyle={selectionStyle}
@@ -399,6 +419,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                     onKeyDown={handleControlKeyDown}
                     renderControl={renderControl}
                     value={value}
+                    selectedCount={selectedValues.length}
                     popupId={popupId}
                     selectId={selectId}
                     focusOwner={focusOwner}
@@ -444,6 +465,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             <HiddenSelect
                 name={name}
                 value={value}
+                selectedValues={selectedValues}
+                getKey={getKey}
                 disabled={disabled}
                 form={form}
                 onReset={setValue}

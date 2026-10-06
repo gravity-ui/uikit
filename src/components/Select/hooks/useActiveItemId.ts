@@ -1,33 +1,42 @@
 import * as React from 'react';
 
-import type {SelectOption} from '../types';
-import type {FlattenOption} from '../utils';
+import type {FlattenOption, SelectValueKeyGetter} from '../utils';
 import {isSelectGroupTitle} from '../utils';
 
-/** The value of the first navigable (non-disabled, not a group title) option the predicate accepts */
-function findOptionValue(options: FlattenOption[], predicate: (option: SelectOption) => boolean) {
+/** The key of the first navigable (non-disabled, not a group title) option the predicate accepts */
+function findOptionKey(
+    options: FlattenOption[],
+    getKey: SelectValueKeyGetter,
+    predicate: (key: string) => boolean,
+) {
     for (const option of options) {
         if (isSelectGroupTitle(option) || option.disabled) {
             continue;
         }
 
-        if (predicate(option)) {
-            return option.value;
+        const key = getKey(option.value);
+
+        if (predicate(key)) {
+            return key;
         }
     }
 
     return undefined;
 }
 
-function getInitialActiveItemId(options: FlattenOption[], value: string[]) {
+function getInitialActiveItemId(
+    options: FlattenOption[],
+    value: unknown[],
+    getKey: SelectValueKeyGetter,
+) {
     if (value.length === 0) {
-        return findOptionValue(options, () => true);
+        return findOptionKey(options, getKey, () => true);
     }
 
-    const selectedValues = new Set(value);
-    const selectedValue = findOptionValue(options, (option) => selectedValues.has(option.value));
+    const selectedKeys = new Set(value.map(getKey));
+    const selectedKey = findOptionKey(options, getKey, (key) => selectedKeys.has(key));
 
-    return selectedValue ?? findOptionValue(options, () => true);
+    return selectedKey ?? findOptionKey(options, getKey, () => true);
 }
 
 /**
@@ -40,13 +49,15 @@ export function useActiveItemId({
     options,
     value,
     open,
+    getKey,
 }: {
     options: FlattenOption[];
     open: boolean;
-    value: string[];
+    value: unknown[];
+    getKey: SelectValueKeyGetter;
 }) {
     const [activeItemId, setActiveItemId] = React.useState<string | undefined>(() =>
-        open ? getInitialActiveItemId(options, value) : undefined,
+        open ? getInitialActiveItemId(options, value, getKey) : undefined,
     );
     // Not a second copy of `open` — the popup is the only one to own it — but what the previous
     // render saw, so that this one can tell an opening from a re-render (React: adjusting state
@@ -61,7 +72,7 @@ export function useActiveItemId({
         setOpenInLastRender(open);
 
         if (open) {
-            currentId = getInitialActiveItemId(options, value);
+            currentId = getInitialActiveItemId(options, value, getKey);
             setActiveItemId(currentId);
         }
     }
@@ -73,11 +84,11 @@ export function useActiveItemId({
             // Nothing has been picked yet: the list was empty when the popup opened (asynchronous
             // options, `loading`). The rows that arrive are chosen from as an opening would — the
             // selected option first, so it is the one the popup highlights and scrolls to
-            activeItemIdFinal = getInitialActiveItemId(options, value);
+            activeItemIdFinal = getInitialActiveItemId(options, value, getKey);
         } else {
-            const stillNavigable = findOptionValue(options, (option) => option.value === currentId);
+            const stillNavigable = findOptionKey(options, getKey, (key) => key === currentId);
 
-            activeItemIdFinal = stillNavigable ?? findOptionValue(options, () => true);
+            activeItemIdFinal = stillNavigable ?? findOptionKey(options, getKey, () => true);
         }
 
         // The fallback is written back: an option the filter has taken away loses the activity for

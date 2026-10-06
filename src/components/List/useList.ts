@@ -464,7 +464,8 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 typeahead.handleChar(' ');
                 return;
             }
-            if (focusStrategy === 'activedescendant') {
+            // A space types into a caret; an owner without one (a select-only trigger) gives it to the list
+            if (isTextInputTarget(event.target)) {
                 return;
             }
             event.preventDefault();

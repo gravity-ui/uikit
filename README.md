@@ -28,7 +28,7 @@ Browse the full component catalog in [Storybook](https://preview.gravity-ui.com/
 
 ### Prerequisites
 
-React 16.14, 17, 18, or 19 must be installed in your project.
+React 18 or 19 must be installed in your project.
 
 ### Installation
 

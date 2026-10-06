@@ -20,12 +20,7 @@ import type {
     InputControlSize,
     InputControlView,
 } from '../types';
-import {
-    CONTROL_ERROR_ICON_QA,
-    errorPropsMapper,
-    getInputControlState,
-    prepareAutoComplete,
-} from '../utils';
+import {CONTROL_ERROR_ICON_QA, getInputControlState, prepareAutoComplete} from '../utils';
 
 import {AdditionalContent} from './AdditionalContent';
 import {TextInputControl} from './TextInputControl';
@@ -66,10 +61,9 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
             disabled,
             readOnly,
             hasClear = false,
-            error,
-            errorMessage: errorMessageProp,
-            errorPlacement: errorPlacementProp = 'outside',
-            validationState: validationStateProp,
+            errorMessage,
+            errorPlacement = 'outside',
+            validationState,
             autoComplete,
             id: idProp,
             tabIndex,
@@ -85,13 +79,6 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
         } = props;
 
         const direction = useDirection();
-
-        const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
-            error,
-            errorMessage: errorMessageProp,
-            errorPlacement: errorPlacementProp,
-            validationState: validationStateProp,
-        });
 
         const [inputValue, setInputValue] = useControlledState(value, defaultValue ?? '', onUpdate);
         const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);

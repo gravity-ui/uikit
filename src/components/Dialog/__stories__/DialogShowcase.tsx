@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import {useUniqId} from '../../../hooks';
 import {Button} from '../../Button';
 import {Loader} from '../../Loader';
 import {Select} from '../../Select';
@@ -213,6 +214,38 @@ function DynamicHeightDialog() {
     );
 }
 
+function WithoutTransitionDialog() {
+    const [open, setOpen] = React.useState(false);
+    const titleId = useUniqId();
+
+    return (
+        <div>
+            <Button view="outlined" size="l" onClick={() => setOpen(true)}>
+                dialog without transition
+            </Button>
+            <Dialog
+                open={open}
+                onClose={() => setOpen(false)}
+                disableTransition
+                maxWidth="s"
+                fullWidth
+                aria-labelledby={titleId}
+            >
+                <Dialog.Header caption="Dialog without transition" id={titleId} />
+                <Dialog.Body>
+                    This dialog opens and closes immediately. It contains a header, body, and
+                    footer, just like a regular dialog.
+                </Dialog.Body>
+                <Dialog.Footer
+                    preset="default"
+                    textButtonCancel="Close"
+                    onClickButtonCancel={() => setOpen(false)}
+                />
+            </Dialog>
+        </div>
+    );
+}
+
 export function DialogShowcase() {
     const buttonRef = React.useRef<HTMLButtonElement>(null);
     const [open, setOpen] = React.useState(false);
@@ -303,6 +336,9 @@ export function DialogShowcase() {
             </div>
             <div style={{marginTop: 10}}>
                 <DynamicHeightDialog />
+            </div>
+            <div style={{marginTop: 10}}>
+                <WithoutTransitionDialog />
             </div>
         </div>
     );

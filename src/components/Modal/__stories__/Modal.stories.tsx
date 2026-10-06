@@ -3,9 +3,11 @@ import * as React from 'react';
 import {faker} from '@faker-js/faker/locale/en';
 import type {Meta, StoryFn} from '@storybook/react-webpack5';
 
+import {useUniqId} from '../../../hooks';
 import {Button} from '../../Button';
 import {Loader} from '../../Loader';
 import {Popup} from '../../Popup';
+import {Text} from '../../Text';
 import {Toaster, ToasterComponent, ToasterProvider, useToaster} from '../../Toaster';
 import {Flex} from '../../layout';
 import {Modal} from '../Modal';
@@ -22,6 +24,8 @@ export default {
 const toaster = new Toaster();
 
 export const Default: StoryFn<ModalProps> = (props) => {
+    const titleId = useUniqId();
+    const [openWithoutTransition, setOpenWithoutTransition] = React.useState(false);
     const [openSmall, setOpenSmall] = React.useState(false);
     const [openLarge, setOpenLarge] = React.useState(false);
     const [openWithToast, setOpenWithToast] = React.useState(false);
@@ -34,7 +38,7 @@ export const Default: StoryFn<ModalProps> = (props) => {
     );
 
     return (
-        <Flex gap={5} direction="column" wrap>
+        <Flex gap={3} direction="column" alignItems="center">
             <Modal {...props} open={openSmall} onOpenChange={setOpenSmall}>
                 <div style={{padding: 10}}>Modal content</div>
             </Modal>
@@ -57,6 +61,29 @@ export const Default: StoryFn<ModalProps> = (props) => {
                 onOpenChange={setOpenWithDynamicContent}
             />
 
+            <Modal
+                {...props}
+                open={openWithoutTransition}
+                onOpenChange={setOpenWithoutTransition}
+                disableTransition
+                aria-labelledby={titleId}
+            >
+                <Flex direction="column" gap="6" spacing={{p: 6}} maxWidth="420px">
+                    <Text variant="subheader-3" id={titleId}>
+                        Modal without transition
+                    </Text>
+                    <Text>
+                        This modal opens and closes immediately. It contains a title, body text, and
+                        a close button.
+                    </Text>
+                    <Flex justifyContent="flex-end">
+                        <Button size="l" onClick={() => setOpenWithoutTransition(false)}>
+                            Close
+                        </Button>
+                    </Flex>
+                </Flex>
+            </Modal>
+
             <Button onClick={() => setOpenSmall(true)}>Show small modal</Button>
             <Button onClick={() => setOpenLarge(true)}>Show large modal</Button>
             <Button onClick={() => setOpenWithToast(true)}>Show modal with toast</Button>
@@ -64,6 +91,9 @@ export const Default: StoryFn<ModalProps> = (props) => {
             <Button onClick={() => setOpenWithModal(true)}>Show modal with modal</Button>
             <Button onClick={() => setOpenWithDynamicContent(true)}>
                 Show modal with dynamic content
+            </Button>
+            <Button onClick={() => setOpenWithoutTransition(true)}>
+                Show modal without transition
             </Button>
         </Flex>
     );

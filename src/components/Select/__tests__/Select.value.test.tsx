@@ -240,7 +240,7 @@ describe('Select with non-string values', () => {
             expect(screen.getByTestId(SelectQa.COUNTER)).toHaveTextContent('1');
         });
 
-        test('a form does not send an empty value without an option', async () => {
+        test('a form sends an empty value without an option as an empty string', async () => {
             let submitted: FormDataEntryValue[] = [];
             const onSubmit = jest.fn((event: React.FormEvent<HTMLFormElement>) => {
                 event.preventDefault();
@@ -260,7 +260,7 @@ describe('Select with non-string values', () => {
             const user = userEvent.setup();
 
             await user.click(screen.getByTestId('submit'));
-            expect(submitted).toEqual(['a']);
+            expect(submitted).toEqual(['', 'a']);
         });
 
         test.each([[0], [false]])('`%p` without an option is a value', (item) => {

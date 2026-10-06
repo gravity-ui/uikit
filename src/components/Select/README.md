@@ -252,8 +252,8 @@ and `"1"` share a key and are one value.
 ### Nullable values
 
 `''`, `null` and `undefined` mean no value unless an option declares them. Without an option such a
-value has no text, clear button, count or form field, while `value` and `onUpdate` keep it as is.
-`0` and `false` are always values.
+value has no text, clear button or count, a form sends it as `''`, while `value` and `onUpdate` keep
+it as is. `0` and `false` are always values.
 
 <!--GITHUB_BLOCK-->
 
